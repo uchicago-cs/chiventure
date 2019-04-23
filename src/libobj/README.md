@@ -1,8 +1,5 @@
 # libobj library
 
-To use this library, you'll need to have libyaml installed
-Follow the instructions here: https://pyyaml.org/wiki/LibYAML
-
 This library includes:
 
 1. A basic structure for objects providing:
@@ -16,6 +13,12 @@ This library includes:
 4. An example file for parsing YAML into objects
     - to make: `make examples/parse`
     - to run: `examples/parse $YAML_FILE`
+
+### Dependencies
+
+To use the parsing library, you'll need to have libyaml installed
+
+Follow the instructions here: https://pyyaml.org/wiki/LibYAML
 
 # Using Objects
 
