@@ -44,7 +44,7 @@ int obj_init(obj_t *obj, char *id) {
         return EXIT_FAILURE;
     }
 
-    strncpy(obj->id, id, MAXLEN);
+    strncpy(obj->id, id, MAXLEN_ID);
     obj->type = TYPE_NONE;
 
     return EXIT_SUCCESS;
@@ -53,7 +53,8 @@ int obj_init(obj_t *obj, char *id) {
 // Frees a string in an object if it exists
 void obj_free_str(obj_t *obj)
 {
-    if (obj == NULL || obj->type != TYPE_STR)
+    if (obj == NULL || obj->type != TYPE_STR
+            || obj->data.s == NULL)
     {
         return;
     }
@@ -116,7 +117,7 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create) {
         return NULL;
     }
 
-    if (strncmp(id, "self", MAXLEN) == 0)
+    if (strncmp(id, "self", MAXLEN_ID) == 0)
     {
         return obj;
     }
@@ -142,11 +143,14 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create) {
 
 obj_t *obj_get_attr(obj_t *obj, char *id, bool create) {
     
-    char *id_imm;
-    char *tmp = calloc(MAX_DEPTH, sizeof(char));
+    char *id_imm, *head_ptr;
+    char *tmp = calloc((MAXLEN_ID + 1) * MAX_DEPTH, sizeof(char));
     obj_t *attr;
+
+    // For freeing later
+    head_ptr = tmp;
     
-    strncpy(tmp, id, (MAXLEN + 1) * 8);
+    strncpy(tmp, id, (MAXLEN_ID + 1) * MAX_DEPTH - 1);
     id_imm = strtok(tmp, ".");
     attr = obj;
 
@@ -156,11 +160,14 @@ obj_t *obj_get_attr(obj_t *obj, char *id, bool create) {
 
         if (attr == NULL) 
         {
+            free(head_ptr);
             return NULL;
         }
 
         id_imm = strtok(NULL, ".");
     }
+
+    free(head_ptr);
 
     return attr;
 }
@@ -380,14 +387,14 @@ char *obj_get_str(obj_t *obj, char *id)
 {
     if (obj == NULL || id == NULL)
     {
-        return 0;
+        return NULL;
     }
 
     obj_t *attr = obj_get_attr(obj, id, false);
 
     if (attr == NULL || attr->type != TYPE_STR)
     {
-        return 0;
+        return NULL;
     }
 
     return attr->data.s;
@@ -407,11 +414,13 @@ int obj_set_str(obj_t *obj, char *id, char *value)
     {
         return EXIT_FAILURE;
     }
-    
-    obj_free_str(attr); // Could be optimized to overwrite old str
 
-    attr->data.s = calloc(MAXLEN + 1, sizeof(char));
-    strncpy(attr->data.s, value, MAXLEN);
+    int len = strnlen(value, MAXLEN_DATA);
+    
+    obj_free_str(attr);
+
+    attr->data.s = calloc(len + 1, sizeof(char));
+    strncpy(attr->data.s, value, len);
     attr->type = TYPE_STR;
 
     return EXIT_SUCCESS;

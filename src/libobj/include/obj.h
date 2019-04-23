@@ -1,9 +1,15 @@
 #include "uthash.h"
 #include <stdbool.h>
 
-#define MAXLEN 60
-#define MAX_DEPTH ((MAXLEN + 1) * 20)
+#define MAXLEN_DATA 1024 // strings containing data
+#define MAXLEN_ID 60 // ID strings for objects
+#define MAX_DEPTH 20 // max search depth for accessing properties
+#define MAXLEN_SEARCH ((MAXLEN_ID + 1) * MAX_DEPTH)
 
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
+// All datatypes that can be encoded in an obj
 typedef enum datatype
 {
     TYPE_ERR  = -1,
@@ -18,7 +24,7 @@ typedef enum datatype
 typedef struct obj
 {
     // The identifier of the object- must be unique for the parent object
-    char id[MAXLEN + 1];
+    char id[MAXLEN_ID + 1];
 
     // The type of the data
     datatype_t type;
