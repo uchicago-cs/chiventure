@@ -53,3 +53,27 @@ stack_t* push(char* attr_string, int isListHead, stack_t* stack);
  * - The popped stack object
  */ 
 stackobj_t* pop(stack_t* stack);
+
+/* Frees stack object and associated string
+ * 
+ * Parameters:
+ * - sobj: object to free
+ *
+ * Returns:
+ * - 0 on success, -1 if given a NULL object
+ */
+int stackobj_free(stackobj_t* sobj);
+
+/* Frees stack object and associated string
+ * 
+ * Parameters:
+ * - stack: stack to free
+ *
+ * Returns:
+ * - 0 on success, -1 if given a NULL object
+ */
+int stack_free(stack_t* stack);
+
+
+
+

@@ -1,5 +1,8 @@
 # libobj library
 
+To use this library, you'll need to have libyaml installed
+Follow the instructions here: https://pyyaml.org/wiki/LibYAML
+
 This library includes:
 
 1. A basic structure for objects providing:

@@ -208,7 +208,8 @@ int parse_game(char* filename, obj_t* docobj)
                     myPrint("top was null"); //Should happen only at the end
                     break;
                 }
-                pop(stack);
+                stackobj_t* popped = pop(stack);
+                stackobj_free(popped);
                 if ((stack -> top) == NULL){
                     myPrint("Reached end of stack");
                     break;
@@ -220,6 +221,8 @@ int parse_game(char* filename, obj_t* docobj)
                 myPrint("Got token of another type");
         }
     }
+    //free stack
+    stack_free(stack);
 
     //Delete token
     yaml_token_delete(&token);
