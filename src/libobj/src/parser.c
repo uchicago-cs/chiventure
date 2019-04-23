@@ -27,7 +27,7 @@ stack_t* begin_sequence(stack_t* stack, char* key){
     stackobj_t* stacktop = stack -> top;
     char* prefix;
     if (stacktop == NULL){
-        prefix = calloc(1,MAX_DEPTH);
+        prefix = calloc(1,MAXLEN_SEARCH + 1);
     } else{
         prefix = stacktop -> attr_string;
     }
@@ -44,7 +44,7 @@ stack_t* begin_obj(stack_t* stack, char* key){
 
     //In null case, create new attribute prefix string, else take from top
     if (stacktop == NULL){
-        prefix = calloc(1,MAX_DEPTH);
+        prefix = calloc(1,MAXLEN_SEARCH + 1);
         myPrint("stacktop was null");
     } else{
         prefix = stacktop -> attr_string;
@@ -67,7 +67,7 @@ stack_t* begin_obj(stack_t* stack, char* key){
 
 /* See parser.h */
 char* extend_prefix(char* orig_prefix, char* to_add){
-    char* prefix = calloc(1, MAX_DEPTH);
+    char* prefix = calloc(1, MAXLEN_SEARCH + 1);
 
     //If there's nothing to add, return original.
     //If the original is empty, the prefix is just to_add
@@ -87,7 +87,7 @@ char* extend_prefix(char* orig_prefix, char* to_add){
 
 /* See parser.h */
 int add_attr(stack_t* stack, char* key, char* val, obj_t* obj){
-    char* prefix = calloc(1,MAX_DEPTH);
+    char* prefix = calloc(1,MAXLEN_SEARCH + 1);
     strcpy(prefix, (stack -> top) -> attr_string);
     if (prefix == NULL){
         myPrint("in add_attr: prefix null");

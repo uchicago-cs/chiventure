@@ -11,7 +11,7 @@ stack_t* new_stack(){
 
 /* See stack.h */
 stack_t* push(char* attr_string, int isListHead, stack_t* stack){
-    char* attr_string_deep = malloc(MAX_DEPTH);
+    char* attr_string_deep = malloc(MAXLEN_SEARCH);
     if ((attr_string == NULL) || (stack == NULL)){
         fprintf(stderr, "Error: given null element\n");
         return NULL;

@@ -40,7 +40,7 @@ stack_t* begin_obj(stack_t* stack, char* key);
  *  - New prefix string of the form orig_prefix.to_add, assuming both exist
  *  - Orig_prefix if to_add is null
  *  - To_add if orig_prefix is also null
- *  - Empty string of size MAX_DEPTH if both are null
+ *  - Empty string of size MAXLEN_SEARCH if both are null
  */
 char* extend_prefix(char* orig_prefix, char* to_add);
 
