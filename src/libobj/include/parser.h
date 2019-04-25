@@ -14,7 +14,7 @@ typedef enum token_type{KEY, VALUE, BLOCK_START} tok_type;
  * Returns:
  *  - existing stack with the new sequence/list-style element on top
  */
-stack_t* begin_sequence(stack_t* stack, char* key);
+stack_t *begin_sequence(stack_t *stack, char *key);
 
 /*
  * Creates a non-sequence stack frame object
@@ -26,7 +26,7 @@ stack_t* begin_sequence(stack_t* stack, char* key);
  * Returns:
  *  - existing stack with the new element  on top
  */
-stack_t* begin_obj(stack_t* stack, char* key);
+stack_t *begin_obj(stack_t *stack, char *key);
 
 
 /*
@@ -42,7 +42,7 @@ stack_t* begin_obj(stack_t* stack, char* key);
  *  - To_add if orig_prefix is also null
  *  - Empty string of size MAXLEN_SEARCH if both are null
  */
-char* extend_prefix(char* orig_prefix, char* to_add);
+char *extend_prefix(char *orig_prefix, char *to_add);
 
 /*
  * Parses a "game" given as a YAML file into object structures
@@ -54,4 +54,4 @@ char* extend_prefix(char* orig_prefix, char* to_add);
  * Returns:
  * - 0 on success
  */
-int parse_game(char* filename, obj_t* docobj);
+int parse_game(char *filename, obj_t *docobj);

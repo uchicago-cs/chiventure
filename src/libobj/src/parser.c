@@ -15,7 +15,7 @@
 void itoa(int n, char s[]);
 
 /* Helper function: to print debugging statments only when debugging */
-int my_print(char* string)
+int my_print(char *string)
 {
     if (DEBUG)
     {
@@ -25,17 +25,17 @@ int my_print(char* string)
 }
 
 /* See parser.h */
-stack_t* begin_sequence(stack_t* stack, char* key)
+stack_t *begin_sequence(stack_t *stack, char *key)
 {
-    stackobj_t* stacktop = stack -> top;
-    char* prefix;
+    stackobj_t *stacktop = stack->top;
+    char *prefix;
     if (stacktop == NULL)
     {
         prefix = calloc(1,MAXLEN_SEARCH + 1);
     }
     else
     {
-        prefix = stacktop -> attr_string;
+        prefix = stacktop->attr_string;
     }
     prefix = extend_prefix(prefix, key);
     stack = push(prefix, 1, stack);
@@ -44,10 +44,10 @@ stack_t* begin_sequence(stack_t* stack, char* key)
 }
 
 /* See parser.h */
-stack_t* begin_obj(stack_t* stack, char* key)
+stack_t *begin_obj(stack_t *stack, char *key)
 {
-    stackobj_t* stacktop = stack -> top;
-    char* prefix;
+    stackobj_t *stacktop = stack->top;
+    char *prefix;
 
     //In null case, create new attribute prefix string, else take from top
     if (stacktop == NULL)
@@ -57,13 +57,13 @@ stack_t* begin_obj(stack_t* stack, char* key)
     }
     else
     {
-        prefix = stacktop -> attr_string;
+        prefix = stacktop->attr_string;
 
         //If this is an element in a list, add list index to prefix
-        if (stacktop -> isListHead)
+        if (stacktop->isListHead)
         {
-            char* index_string = calloc(1,100);
-            itoa((stacktop -> nextListIndex)++, index_string);
+            char *index_string = calloc(1,100);
+            itoa((stacktop->nextListIndex)++, index_string);
             my_print("index_string");
             my_print(index_string);
             prefix = extend_prefix(prefix, index_string);
@@ -77,9 +77,9 @@ stack_t* begin_obj(stack_t* stack, char* key)
 }
 
 /* See parser.h */
-char* extend_prefix(char* orig_prefix, char* to_add)
+char *extend_prefix(char *orig_prefix, char *to_add)
 {
-    char* prefix = calloc(1, MAXLEN_SEARCH + 1);
+    char *prefix = calloc(1, MAXLEN_SEARCH + 1);
 
     //If there's nothing to add, return original.
     //If the original is empty, the prefix is just to_add
@@ -103,10 +103,10 @@ char* extend_prefix(char* orig_prefix, char* to_add)
 
 
 /* See parser.h */
-int add_attr(stack_t* stack, char* key, char* val, obj_t* obj)
+int add_attr(stack_t *stack, char *key, char *val, obj_t *obj)
 {
-    char* prefix = calloc(1,MAXLEN_SEARCH + 1);
-    strcpy(prefix, (stack -> top) -> attr_string);
+    char *prefix = calloc(1,MAXLEN_SEARCH + 1);
+    strcpy(prefix, (stack->top)->attr_string);
     if (prefix == NULL)
     {
         my_print("in add_attr: prefix null");
@@ -146,12 +146,12 @@ int add_attr(stack_t* stack, char* key, char* val, obj_t* obj)
 }
 
 /* See parser.h */
-int parse_game(char* filename, obj_t* docobj)
+int parse_game(char *filename, obj_t *docobj)
 {
 
     yaml_parser_t parser; //creates a parser
     yaml_token_t token; //creating a token
-    FILE* pfile; //file to be parsed
+    FILE *pfile; //file to be parsed
     printf("Now parsing file %s \n", filename);
 
     pfile = fopen(filename,"rb"); //opens file for reading
@@ -162,8 +162,8 @@ int parse_game(char* filename, obj_t* docobj)
 
     yaml_parser_scan(&parser, &token);
     tok_type prev_token = 8; //initialized prev_token to something meaningless
-    char* key = NULL;
-    stack_t* stack = new_stack();
+    char *key = NULL;
+    stack_t *stack = new_stack();
 
     while(token.type != YAML_STREAM_END_TOKEN)
     {
@@ -236,14 +236,14 @@ int parse_game(char* filename, obj_t* docobj)
 
         case YAML_BLOCK_END_TOKEN:
             my_print("<b>End block</b>");
-            if ((stack -> top) == NULL)
+            if ((stack->top) == NULL)
             {
                 my_print("top was null"); //Should happen only at the end
                 break;
             }
-            stackobj_t* popped = pop(stack);
+            stackobj_t *popped = pop(stack);
             stackobj_free(popped);
-            if ((stack -> top) == NULL)
+            if ((stack->top) == NULL)
             {
                 my_print("Reached end of stack");
                 break;

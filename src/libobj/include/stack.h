@@ -4,7 +4,7 @@
 typedef struct stack_obj {
 
     //current attribute string (ex: ROOMS.0)
-    char* attr_string;
+    char *attr_string;
 
     //keeps track of it is the head of a YAML sequence (list)
     int isListHead;
@@ -18,7 +18,7 @@ typedef struct stack_obj {
 
 /* A very simple stack */
 typedef struct stack{
-    stackobj_t* top;
+    stackobj_t *top;
 } stack_t;
 
 /* 
@@ -29,7 +29,7 @@ typedef struct stack{
  * Returns:
  * - A newly created stack (top initialized to NULL)
  */
-stack_t* new_stack();
+stack_t *new_stack();
 
 /* 
  * Creates a new stack frame object
@@ -42,7 +42,7 @@ stack_t* new_stack();
  * Returns:
  * - The given stack, where the top is now the newly created frame object
  */
-stack_t* push(char* attr_string, int isListHead, stack_t* stack);
+stack_t *push(char *attr_string, int isListHead, stack_t *stack);
 
 /* Pops top stack object
  * 
@@ -52,7 +52,7 @@ stack_t* push(char* attr_string, int isListHead, stack_t* stack);
  * Returns:
  * - The popped stack object
  */ 
-stackobj_t* pop(stack_t* stack);
+stackobj_t *pop(stack_t *stack);
 
 /* Frees stack object and associated string
  * 
@@ -62,7 +62,7 @@ stackobj_t* pop(stack_t* stack);
  * Returns:
  * - 0 on success, -1 if given a NULL object
  */
-int stackobj_free(stackobj_t* sobj);
+int stackobj_free(stackobj_t *sobj);
 
 /* Frees stack object and associated string
  * 
@@ -72,7 +72,7 @@ int stackobj_free(stackobj_t* sobj);
  * Returns:
  * - 0 on success, -1 if given a NULL object
  */
-int stack_free(stack_t* stack);
+int stack_free(stack_t *stack);
 
 
 
