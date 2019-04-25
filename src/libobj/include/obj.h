@@ -210,7 +210,7 @@ datatype_t obj_get_type(obj_t *obj, char *id);
  */
 bool obj_get_bool(obj_t *obj, char *id);
 char obj_get_char(obj_t *obj, char *id);
-int   obj_get_int(obj_t *obj, char *id);
+int obj_get_int(obj_t *obj, char *id);
 char *obj_get_str(obj_t *obj, char *id);
 
 /*
@@ -229,7 +229,7 @@ char *obj_get_str(obj_t *obj, char *id);
  *  - Returns EXIT_SUCCESS if successfully set
  *  - Returns EXIT_FAILURE on failure
  */
-int obj_set_bool(obj_t *obj, char *id, bool  value);
-int obj_set_char(obj_t *obj, char *id, char  value);
-int  obj_set_int(obj_t *obj, char *id, int   value);
-int  obj_set_str(obj_t *obj, char *id, char *value);
+int obj_set_bool(obj_t *obj, char *id, bool value);
+int obj_set_char(obj_t *obj, char *id, char value);
+int obj_set_int(obj_t *obj, char *id, int value);
+int obj_set_str(obj_t *obj, char *id, char *value);
