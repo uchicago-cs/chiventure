@@ -15,7 +15,7 @@
 void itoa(int n, char s[]);
 
 /* Helper function: to print debugging statments only when debugging */
-int myPrint(char* string)
+int my_print(char* string)
 {
     if (DEBUG)
     {
@@ -39,7 +39,7 @@ stack_t* begin_sequence(stack_t* stack, char* key)
     }
     prefix = extend_prefix(prefix, key);
     stack = push(prefix, 1, stack);
-    myPrint(prefix);
+    my_print(prefix);
     return stack;
 }
 
@@ -53,7 +53,7 @@ stack_t* begin_obj(stack_t* stack, char* key)
     if (stacktop == NULL)
     {
         prefix = calloc(1,MAXLEN_SEARCH + 1);
-        myPrint("stacktop was null");
+        my_print("stacktop was null");
     }
     else
     {
@@ -64,14 +64,14 @@ stack_t* begin_obj(stack_t* stack, char* key)
         {
             char* index_string = calloc(1,100);
             itoa((stacktop -> nextListIndex)++, index_string);
-            myPrint("index_string");
-            myPrint(index_string);
+            my_print("index_string");
+            my_print(index_string);
             prefix = extend_prefix(prefix, index_string);
         }
     }
 
     prefix = extend_prefix(prefix, key);
-    myPrint(prefix);
+    my_print(prefix);
     stack = push(prefix, 0, stack);
     return stack;
 }
@@ -109,13 +109,13 @@ int add_attr(stack_t* stack, char* key, char* val, obj_t* obj)
     strcpy(prefix, (stack -> top) -> attr_string);
     if (prefix == NULL)
     {
-        myPrint("in add_attr: prefix null");
+        my_print("in add_attr: prefix null");
         return -1;
     }
     prefix = extend_prefix(prefix, key);
-    myPrint("in attr:");
-    myPrint(prefix);
-    myPrint(val);
+    my_print("in attr:");
+    my_print(prefix);
+    my_print(val);
 
     int maybe_int = atoi(val); //For use later to see if val is an integer
     if (!strcmp(val,"true"))
@@ -172,33 +172,33 @@ int parse_game(char* filename, obj_t* docobj)
         {
         /* Stream start/end (ignored) */
         case YAML_STREAM_START_TOKEN:
-            myPrint("STREAM START");
+            my_print("STREAM START");
             break;
         case YAML_STREAM_END_TOKEN:
-            myPrint("STREAM END");
+            my_print("STREAM END");
             break;
 
         /* Token types (read before actual strings) */
         case YAML_KEY_TOKEN:
-            myPrint("(Key token)");
+            my_print("(Key token)");
             prev_token = KEY;
             break;
         case YAML_VALUE_TOKEN:
-            myPrint("Value token");
+            my_print("Value token");
             prev_token = VALUE;
             break;
 
         /* Data */
         /* Ignored */
         case YAML_BLOCK_MAPPING_START_TOKEN:
-            myPrint("[Block mapping]");
+            my_print("[Block mapping]");
             prev_token = BLOCK_START;
             break;
 
         /* Key or Value strings */
         case YAML_SCALAR_TOKEN:
-            myPrint("scalar ");
-            myPrint((char*)token.data.scalar.value);
+            my_print("scalar ");
+            my_print((char*)token.data.scalar.value);
             switch (prev_token)
             {
             case KEY:
@@ -209,7 +209,7 @@ int parse_game(char* filename, obj_t* docobj)
                 key = NULL;
                 break;
             default:
-                myPrint("ERR: scalar immediately following non-value/key token");
+                my_print("ERR: scalar immediately following non-value/key token");
                 break;
             }
             break;
@@ -217,10 +217,10 @@ int parse_game(char* filename, obj_t* docobj)
         /* Block delimeters */
         /* If it's the start of a sequence, you're about to have a list*/
         case YAML_BLOCK_SEQUENCE_START_TOKEN:
-            myPrint("<b>Start Block (Sequence)</b>");
+            my_print("<b>Start Block (Sequence)</b>");
             if ((prev_token != VALUE)||(key == NULL))
             {
-                myPrint("ERR: odd sequence of events");
+                my_print("ERR: odd sequence of events");
                 break;
             }
             stack = begin_sequence(stack, key);
@@ -229,30 +229,30 @@ int parse_game(char* filename, obj_t* docobj)
 
         /* If it's not the start of a sequence, deal accordingly*/
         case YAML_BLOCK_ENTRY_TOKEN:
-            myPrint("<b>Start Block (Entry)</b>");
+            my_print("<b>Start Block (Entry)</b>");
             stack = begin_obj(stack, key);
             key = NULL;
             break;
 
         case YAML_BLOCK_END_TOKEN:
-            myPrint("<b>End block</b>");
+            my_print("<b>End block</b>");
             if ((stack -> top) == NULL)
             {
-                myPrint("top was null"); //Should happen only at the end
+                my_print("top was null"); //Should happen only at the end
                 break;
             }
             stackobj_t* popped = pop(stack);
             stackobj_free(popped);
             if ((stack -> top) == NULL)
             {
-                myPrint("Reached end of stack");
+                my_print("Reached end of stack");
                 break;
             }
             break;
 
         /* Others */
         default:
-            myPrint("Got token of another type");
+            my_print("Got token of another type");
         }
     }
     //free stack
