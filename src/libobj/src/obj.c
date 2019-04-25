@@ -262,7 +262,7 @@ datatype_t obj_get_type(obj_t *obj, char *id)
     {
         printf("ERROR - obj_get_type: Object/id given is NULL.\n");
 
-        return EXIT_FAILURE;
+        return TYPE_ERR;
     }
 
     obj_t *target = obj_get_attr(obj, id, false);
