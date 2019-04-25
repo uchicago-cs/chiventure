@@ -10,23 +10,27 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create);
 void obj_free_str(obj_t *obj);
 
 /* See obj.h */
-obj_t *obj_new(char *id) {
+obj_t *obj_new(char *id)
+{
     obj_t *obj = calloc(1, sizeof(obj_t));
 
-    if (obj == NULL) {
+    if (obj == NULL)
+    {
         printf("ERROR - obj_new: Couldn't allocate memory for object.\n");
 
         return NULL;
     }
 
-    if (obj->id == NULL) {
+    if (obj->id == NULL)
+    {
         printf("ERROR - obj_new: Couldn't allocate memory for object id\n");
         obj_free(obj);
 
         return NULL;
     }
 
-    if (obj_init(obj, id) != EXIT_SUCCESS) {
+    if (obj_init(obj, id) != EXIT_SUCCESS)
+    {
         printf("ERROR - obj_new: Couldn't initialize object.\n");
         obj_free(obj);
 
@@ -37,8 +41,10 @@ obj_t *obj_new(char *id) {
 }
 
 /* See obj.h */
-int obj_init(obj_t *obj, char *id) {
-    if (obj == NULL || id == NULL) {
+int obj_init(obj_t *obj, char *id)
+{
+    if (obj == NULL || id == NULL)
+    {
         printf("ERROR - obj_init: Couldn't initialize object.\n");
 
         return EXIT_FAILURE;
@@ -64,7 +70,8 @@ void obj_free_str(obj_t *obj)
 }
 
 /* See obj.h */
-int obj_free(obj_t *obj) {
+int obj_free(obj_t *obj)
+{
 
     obj_free_str(obj);
 
@@ -75,11 +82,12 @@ int obj_free(obj_t *obj) {
 
 
 /* See obj.h */
-int obj_free_all(obj_t *obj) {
+int obj_free_all(obj_t *obj)
+{
 
     obj_free_str(obj);
 
-    if (obj->attr) 
+    if (obj->attr)
     {
         obj_t *el, *tmp;
         HASH_ITER(hh, obj->attr, el, tmp)
@@ -99,19 +107,21 @@ int obj_free_all(obj_t *obj) {
  * Helper function for obj_get_attr()
  * Finds an attribute of an object
  *   - Will not recursively search
- * 
+ *
  * Parameters:
  *  - obj: The object to find the attribute of
  *  - id: The id of the attribute
  *  - create: whether or not to create a new attribute if no attribute
  *      is found
- * 
+ *
  * Returns:
  *  - Returns the object if it is found or created (create = true)
  *  - Returns NULL if error or not found (create = false)
  */
-obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create) {
-    if (obj == NULL || id == NULL) {
+obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create)
+{
+    if (obj == NULL || id == NULL)
+    {
         printf("ERROR - obj_get_attr_single: Object given is NULL.\n");
 
         return NULL;
@@ -125,7 +135,7 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create) {
     obj_t **ht_ptr = &obj->attr;
     obj_t *elt = NULL;
 
-    if (obj->attr) 
+    if (obj->attr)
     {
         HASH_FIND_STR(*ht_ptr, id, elt);
     }
@@ -133,7 +143,7 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create) {
     if (elt == NULL && create == true)
     {
         elt = obj_new(id);
-        
+
         obj_t **ht_ptr = &obj->attr;
         HASH_ADD_STR(*ht_ptr, id, elt);
     }
@@ -141,24 +151,25 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create) {
     return elt;
 }
 
-obj_t *obj_get_attr(obj_t *obj, char *id, bool create) {
-    
+obj_t *obj_get_attr(obj_t *obj, char *id, bool create)
+{
+
     char *id_imm, *head_ptr;
     char *tmp = calloc((MAXLEN_ID + 1) * MAX_DEPTH, sizeof(char));
     obj_t *attr;
 
     // For freeing later
     head_ptr = tmp;
-    
+
     strncpy(tmp, id, (MAXLEN_ID + 1) * MAX_DEPTH - 1);
     id_imm = strtok(tmp, ".");
     attr = obj;
 
-    while (id_imm != NULL) 
-    {    
+    while (id_imm != NULL)
+    {
         attr = obj_get_attr_single(attr, id_imm, create);
 
-        if (attr == NULL) 
+        if (attr == NULL)
         {
             free(head_ptr);
             return NULL;
@@ -183,7 +194,7 @@ attr_list_t *obj_list_attr(obj_t *obj)
     attr_list_t *ll = NULL;
     attr_list_t *append = NULL;
 
-    if (obj->attr) 
+    if (obj->attr)
     {
         obj_t *el, *tmp;
         HASH_ITER(hh, obj->attr, el, tmp)
@@ -199,8 +210,10 @@ attr_list_t *obj_list_attr(obj_t *obj)
 }
 
 /* See obj.h */
-int obj_add_attr(obj_t *obj, char *id, obj_t *attr) {
-    if (obj == NULL || attr == NULL) {
+int obj_add_attr(obj_t *obj, char *id, obj_t *attr)
+{
+    if (obj == NULL || attr == NULL)
+    {
         printf("ERROR - obj_add_attr: Object given is NULL.\n");
 
         return EXIT_FAILURE;
@@ -221,8 +234,10 @@ int obj_add_attr(obj_t *obj, char *id, obj_t *attr) {
 }
 
 /* See obj.h */
-int obj_remove_attr(obj_t *obj, char *id) {
-    if (obj == NULL) {
+int obj_remove_attr(obj_t *obj, char *id)
+{
+    if (obj == NULL)
+    {
         printf("ERROR - obj_remove_attr: Object given is NULL.\n");
 
         return EXIT_FAILURE;
@@ -243,7 +258,8 @@ int obj_remove_attr(obj_t *obj, char *id) {
 
 datatype_t obj_get_type(obj_t *obj, char *id)
 {
-    if (obj == NULL || id == NULL) {
+    if (obj == NULL || id == NULL)
+    {
         printf("ERROR - obj_get_type: Object/id given is NULL.\n");
 
         return EXIT_FAILURE;
@@ -332,7 +348,7 @@ int obj_set_char(obj_t *obj, char *id, char value)
     {
         return EXIT_FAILURE;
     }
-    
+
     obj_free_str(attr);
 
     attr->data.c = value;
@@ -373,7 +389,7 @@ int obj_set_int(obj_t *obj, char *id, int value)
     {
         return EXIT_FAILURE;
     }
-    
+
     obj_free_str(attr);
 
     attr->data.i = value;
@@ -416,7 +432,7 @@ int obj_set_str(obj_t *obj, char *id, char *value)
     }
 
     int len = strnlen(value, MAXLEN_DATA);
-    
+
     obj_free_str(attr);
 
     attr->data.s = calloc(len + 1, sizeof(char));

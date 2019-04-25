@@ -1,16 +1,19 @@
 #include <stdio.h>
 #include "parser.h"
 
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[])
+{
     //Makes sure there are enough arguments
-    if (argc == 1){
+    if (argc == 1)
+    {
         printf("Err: not enough arguments");
     }
 
     //Take second element of argv as filename
     //NOTE: must have a ".yaml" extension
     char* fname = argv[1];
-    if (fname == NULL){
+    if (fname == NULL)
+    {
         printf("Err: no filename provided\n");
     }
 

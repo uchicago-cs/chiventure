@@ -3,7 +3,8 @@
 #include "obj.h"
 #include "utlist.h"
 
-int main() {
+int main()
+{
 
     obj_t *room;
     attr_list_t *ll, *el, *tmp;
