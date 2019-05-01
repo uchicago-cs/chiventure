@@ -1,5 +1,5 @@
-#ifndef _ADRBOOK_H_
-#define _ADRBOOK_H_
+#ifndef _CLI_H_
+#define _CLI_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,4 +10,4 @@
 //As well as headers for different functions we want to call
 
 
-#endif /* _ADRBOOK_H_ */
+#endif /* _CLI_H_ */
