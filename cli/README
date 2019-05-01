@@ -1,0 +1,15 @@
+Version 0.0 A very simple Commandline Interface and some example Data structures
+
+Besides this README, this directory includes the following files:
+
+- a Makefile for the project
+
+- cli.h, a header file including struct definitions and
+  function prototypes for vcard and bst operations
+
+- cli.c, which runs a shell "chiventure" for an interactive experience
+
+- shell.h and shell.c, shell actions 
+
+- cmd.c and cmd.h that store and execute commands
+
