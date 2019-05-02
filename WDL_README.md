@@ -1,4 +1,4 @@
-#WDL Specification
+## WDL Specification
 May 2, 2019
 
 **QUESTIONS:
@@ -6,7 +6,7 @@ May 2, 2019
 2. Should we keep actions separate from objects?**
 
 A WDL file is a YAML file that has at least the three file objects: Game, Room, Objects.
-##Game
+## Game
 A Game must contain the following fields:
 - start: used to specify which room the game will start in
 	- ex. A, B, etc
@@ -15,7 +15,7 @@ A Game must contain the following fields:
 	- Description for player to read at the beginning of the game
 - end: a specification for how the game ends
 	- ex. inventory contains: emerald gem, number of points: 100, etc
-##Room
+## Room
 Each room has to have the following fields:
 - id : An identification name that is unique to the room
 	- Ex. A
@@ -31,7 +31,7 @@ Each room has to have the following fields:
 		- Ex. door
 	- NOTE: a valid connection has to have an ID that exists
   
-##Objects
+## Objects
 Each object contains the following fields:
 - id : a unique identifier (like object name)
 - short_desc : a first-glance description of the object
