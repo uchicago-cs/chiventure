@@ -1,4 +1,4 @@
-## WDL Specification
+# WDL Specification
 May 2, 2019
 
 **QUESTIONS:**
@@ -7,7 +7,8 @@ May 2, 2019
 
 **2. Should we keep actions separate from objects?**
 
-A WDL file is a YAML file that has at least the three file objects: Game, Room, Objects.
+## A WDL file is a YAML file that has at least the three file objects: Game, Room, Objects.
+
 ## Game
 A Game must contain the following fields:
 - start: used to specify which room the game will start in
