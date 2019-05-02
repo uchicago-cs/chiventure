@@ -1,13 +1,11 @@
+**QUESTIONS:**
+**1. Do we have a set list of actions that the user can write in the WDL file?** 
+**2. Should we keep actions separate from objects?**
+
 # WDL Specification
 May 2, 2019
 
-**QUESTIONS:**
-
-**1. Do we have a set list of actions that the user can write in the WDL file?**
-
-**2. Should we keep actions separate from objects?**
-
-## A WDL file is a YAML file that has at least the three file objects: Game, Room, Objects.
+###### A WDL file is a YAML file that has at least the three file objects: Game, Room, Objects.
 
 ## Game
 A Game must contain the following fields:
