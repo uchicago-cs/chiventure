@@ -1,16 +1,16 @@
 CC = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/
 RM = rm -f
-SRCS = game.c
+SRCS = src/game.c
 OBJS = $(SRCS:.c=.o)
 LIBS = $(SRCS:.c=.so)
 BINS = $(SRCS:.c=)
 
-.PHONY all
+.PHONY: all
 all: $(OBJS)
 
 $(OBJS): $(SRCS)
 
-.PHONY clean
+.PHONY: clean
 clean:
 	$(RM) $(LIBS) $(OBJS) $(BINS)
