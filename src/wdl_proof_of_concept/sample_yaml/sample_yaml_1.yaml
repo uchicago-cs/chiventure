@@ -1,5 +1,5 @@
 #
-## Sample proof-of-concept yaml file
+# Sample proof-of-concept yaml file
 #
 
 GAME:
@@ -19,7 +19,7 @@ ROOMS:
    short_desc: "This is room C"
    long_desc: "This is room C long"
 
-OBJECTS:
+ITEMS:
  - id: chair
    short_desc: "This is a chair"
    long_desc: "This is a chair long"
