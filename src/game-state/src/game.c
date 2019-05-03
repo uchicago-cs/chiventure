@@ -7,17 +7,30 @@
 game_t *init_game(FILE *f) {
 
 game_t *game = malloc(sizeof(game_t));
+    game->players = NULL; //helper fxn to get list of players
+    game->Rooms = NULL; 
 return game;
 }
 
 //saves game, bool if success 
 //(SHOULD be able to select new save location - depends on CLI)
-int save_game(game_t game, FILE *f);
+int save_game(game_t *game, FILE *f) {
+    int check = 0;
+
+    //helpers to take game states and save them
+    
+
+    return check;
+}
 
 //given a new room, changes the current room in game-state
 //this should only check if the room is in the list of adjacent rooms
 //expecting a legal move
-void move_room(game_t game, room_t new_room);
+void move_room(game_t *game, room_t *new_room) {
+    if(game->Rooms->curr != NULL) {
+    game->Rooms->curr = new_room;
+    }
+}
 
 //exit game
 //echo "ctrl-g"
