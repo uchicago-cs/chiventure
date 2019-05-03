@@ -35,7 +35,9 @@ void move_room(game_t *game, room_t *new_room) {
 //exit game
 //echo "ctrl-g"
 //troll post pls dont 
-void exit_game(game_t);
+void exit_game(game_t *game) {
+   printf("THIS IS NOT A TROLL");
+}
 
 
 
