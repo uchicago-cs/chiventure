@@ -24,8 +24,7 @@ typedef struct player {
 //graph struct with current room and etc (UNSURE)
 struct G_Rooms {
     room_t *curr;
-    //list of adjacent rooms
-
+    //list of all rooms (just id)
 };
 
 typedef struct game {
@@ -57,7 +56,7 @@ void move_room(game_t game, room_t new_room);
 
 //exit game
 //echo "ctrl-g"
-//troll post pls dont judge
+//troll post pls dont 
 void exit_game(game_t);
 
 
