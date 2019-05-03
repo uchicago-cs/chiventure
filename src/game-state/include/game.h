@@ -61,6 +61,5 @@ void exit_game(game_t);
 
 
 
-
-#endif GAME_H
+#endif
 

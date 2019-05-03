@@ -4,9 +4,10 @@
 /* see game.h */ 
 
 //loads game. If given file is empty start new game, else load
-game_t init_game(FILE *f) {
+game_t *init_game(FILE *f) {
 
-
+game_t *game = malloc(sizeof(game_t));
+return game;
 }
 
 //saves game, bool if success 
@@ -22,6 +23,7 @@ void move_room(game_t game, room_t new_room);
 //echo "ctrl-g"
 //troll post pls dont 
 void exit_game(game_t);
+
 
 
 //helper function to find all rooms
