@@ -18,6 +18,8 @@
  *   short and long descriptions of rooms and items and the introduction and
  *   start of the game
  */
-void print_room_item(obj_t *obj_t, char *str);
+void print_item(obj_t *obj_t, char *str);
+
+void print_room(obj_t *obj_t, char *str);
 
 void print_game(obj_t *obj_t, char *str1, char *str2);

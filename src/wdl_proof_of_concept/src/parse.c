@@ -4,7 +4,7 @@
 #include "parse.h"
 
 /* See parse.h */
-void print_room_item(obj_t *obj, char *str)
+void print_room(obj_t *obj, char *str)
 {
     // Initialize strings for fields within object struct
     char *id = ".id";
@@ -26,6 +26,38 @@ void print_room_item(obj_t *obj, char *str)
 
     // Print id, short_desc, and long_desc
     printf("%s: %c\n", id_str, obj_get_char(obj, id_str));
+    printf("%s: %s\n", short_str, obj_get_str(obj, short_str));
+    printf("%s: %s\n", long_str, obj_get_str(obj, long_str));
+
+    // Free strings
+    free(id_str);
+    free(short_str);
+    free(long_str);
+}
+
+/* See parse.h */
+void print_item(obj_t *obj, char *str)
+{
+    // Initialize strings for fields within object struct
+    char *id = ".id";
+    char *short_desc = ".short_desc";
+    char *long_desc = ".long_desc";
+
+    // Allocate memory for new strings and copy in str
+    char *id_str = (char*) malloc(sizeof(char)*30);
+    strcpy(id_str, str);
+    char *short_str = (char*) malloc(sizeof(char)*30);
+    strcpy(short_str, str);
+    char *long_str = (char*) malloc(sizeof(char)*30);
+    strcpy(long_str, str);
+
+    // Concatenate str with field strings
+    strcat(id_str, id);
+    strcat(short_str, short_desc);
+    strcat(long_str, long_desc);
+
+    // Print id, short_desc, and long_desc
+    printf("%s: %s\n", id_str, obj_get_str(obj, id_str));
     printf("%s: %s\n", short_str, obj_get_str(obj, short_str));
     printf("%s: %s\n", long_str, obj_get_str(obj, long_str));
 

@@ -40,4 +40,20 @@ int main(int argc, char* argv[])
     char *game_s = "GAME.0";
     char *game_i = "GAME.1";
     print_game(obj, game_s, game_i);
+
+    // Print room arguments
+    char *room_a = "ROOMS.0";
+    char *room_b = "ROOMS.1";
+    char *room_c = "ROOMS.2";
+    print_room(obj, room_a);
+    print_room(obj, room_b);
+    print_room(obj, room_c);
+
+    // Print item arguments
+    char *item_table = "ITEMS.0";
+    char *item_chair = "ITEMS.1";
+    char *item_candle = "ITEMS.2";
+    print_item(obj, item_table);
+    print_item(obj, item_chair);
+    print_item(obj, item_candle);
 }
