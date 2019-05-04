@@ -30,11 +30,14 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    //Create new, malloc'ed, blank "document" object
+    // Create new, malloc'ed, blank "document" object
     obj_t* obj = obj_new("document");
 
-    //Call parse_game to fill in object
+    // Call parse_game to fill in object
     parse_game(fname, obj);
 
-    
+    // Print game arguments
+    char *game_s = "GAME.0";
+    char *game_i = "GAME.1";
+    print_game(obj, game_s, game_i);
 }

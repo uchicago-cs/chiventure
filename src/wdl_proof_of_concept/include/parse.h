@@ -20,4 +20,4 @@
  */
 void print_room_item(obj_t *obj_t, char *str);
 
-void print_game(obj_t *obj_t, char *str);
+void print_game(obj_t *obj_t, char *str1, char *str2);

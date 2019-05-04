@@ -17,7 +17,7 @@ void print_room_item(obj_t *obj, char *str)
     char *short_str = (char*) malloc(sizeof(char)*30);
     strcpy(short_str, str);
     char *long_str = (char*) malloc(sizeof(char)*30);
-    strcpy(long_str, str)
+    strcpy(long_str, str);
 
     // Concatenate str with field strings
     strcat(id_str, id);
@@ -36,7 +36,7 @@ void print_room_item(obj_t *obj, char *str)
 }
 
 /* See parse.h */
-void print_game(obj_t *obj, char *str)
+void print_game(obj_t *obj, char *str1, char *str2)
 {
     // Initialize strings for fields within object struct
     char *start = ".start";
@@ -44,9 +44,9 @@ void print_game(obj_t *obj, char *str)
 
     // Allocate memory for new strings and copy in str
     char *start_str = (char*) malloc(sizeof(char)*30);
-    strcpy(start_str, str);
+    strcpy(start_str, str1);
     char *intro_str = (char*) malloc(sizeof(char)*30);
-    strcpy(intro_str, str);
+    strcpy(intro_str, str2);
 
     // Concatenate str with field strings
     strcat(start_str, start);

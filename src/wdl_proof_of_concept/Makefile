@@ -7,10 +7,11 @@ CFLAGS = -I./include/ -I../libobj/include/ -I../common/include/ -O2 -Wall -Wextr
 RM = rm -f
 # library flags
 LDFLAGS = -L../libobj/ -Wl,-rpath=../libobj/
-# library name
+# libraries
 LIB = -lobj
+LDLIBS = -lyaml
 # sources
-SRCS = src/main.c
+SRCS = src/main.c src/parse.c
 # objects
 OBJ = $(SRCS:.c=.o)
 # bin
@@ -22,7 +23,7 @@ all: $(BIN)
 main.o: $(SRCS)
 
 main: $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIB) -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIB) $(LDLIBS) -o $@
 
 .PHONY = clean
 
