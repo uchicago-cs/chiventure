@@ -2,10 +2,11 @@
 * DISCLAIMER; THIS SHELL IS BASED ON THE LAB 6 ADRBOOK SHELL 
 * FROM THE CMSC 15200 (WIN 2019) COURSE TOUGHT BY ADAM SHAW (University of Chicago)
 */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "shell.h"
 #include "cli.h"
 #include "cmd.h"
@@ -49,42 +50,39 @@ char *trim_newline(char *s)
 }
 
 int main()
-{
-  int quit=1;
-  char *cmd_string;
-  char user_input[BUFFER_SIZE];
-  memset(user_input,'\0',BUFFER_SIZE);
-  
-  /* say hello*/
-  greet();
+{   
+    int quit = 1;
+    char *cmd_string;
+    // Configure readline to auto-complete paths when the tab key is hit.
+    rl_bind_key('\t', rl_complete);
 
-  while (quit) {
-    shell_prompt();
-    //read user input
-    fgets(user_input, BUFFER_SIZE, stdin);
-    //format user input
-    cmd_string = trim_newline(user_input);
-    putchar('\n');
-    //check whether user input is empty
-    if (!strcmp(cmd_string,""))
-      continue;
-    cmd *c = cmd_from_string(cmd_string);
-    if (!c) {
-      shell_error_arg("unrecognized or malformed command: \"%s\"", cmd_string);
-      putchar('\n');
-    } else
-      do_cmd(c,&quit);
-    if (cmd_string)
-      free(cmd_string);
-    cmd_free(c);
-  }
+    while (quit) {
+        // Display prompt and read input
+        char* input = readline("chiventure (press h for help)> ");
+        
+        cmd_string = trim_newline(input);
+        putchar('\n');
+        //check whether user input is empty
+        if (!strcmp(cmd_string,""))
+            continue;
+        
+        // Add input to readline history.
+        add_history(input);
 
-  /* clean up and exit */
-  return 0;
+        cmd *c = cmd_from_string(cmd_string);
+        if (!c) {
+            shell_error_arg("unrecognized or malformed command: \"%s\"", cmd_string);
+            putchar('\n');
+        } else
+        do_cmd(c,&quit);
+        
+        if (cmd_string)
+            free(cmd_string);
+        
+        cmd_free(c);
+        free(input);    
+        }
+        
+
+    return 0;
 }
-
-/* A note to coders who have read this code with interest:
- * one typically doesn't reinvent the wheel to write a shell
- * from scratch like you see here. For more information, please
- * investigate the Command Line Editor Library (libedit). -ams
- */
