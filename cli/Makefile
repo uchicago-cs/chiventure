@@ -6,6 +6,9 @@ SRCS = cmd.c shell.c cli.c
 HDRS = cmd.h cli.h shell.h
 CFLAGS = -Wall -Wextra -g -lm 
 
+parser: parser.c parser.h 
+	$(CC) $(CFLAGS) -o parser parser.c
+
 .PHONY: clean
 
 $(BINS): $(SRCS) $(HDRS)

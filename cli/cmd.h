@@ -1,7 +1,7 @@
 #ifndef _CMD_H
 #define _CMD_H
 /*
-* DISCLAIMER; THIS CODE IS BASED ON THE LAB 6 ADRBOOK SHELL 
+* DISCLAIMER; THIS CODE IS BASED ON THE LAB 6 ADRBOOK SHELL
 * FROM THE CMSC 15200 (WIN 2019) COURSE TOUGHT BY ADAM SHAW (University of Chicago)
 */
 
@@ -13,11 +13,16 @@
 enum cmd_name {
   QUIT, HELP
 };
+enum preposition_name{
+  NONE, WITH, TO, IN
+};
 
 //Command data type
 typedef struct {
   enum cmd_name name;
-  char *arg; /* optional argument, more will be added */ 
+  char arg1[31]; /* optional argument, more may be added, NULL means the argument is unused */
+  char arg2[31]; /* Note: max argument length is 32 characters!*/
+  enum preposition_name *preposition;
 } cmd;
 
 /* === command constructors === */
@@ -46,5 +51,13 @@ void cmd_show(FILE *f, cmd *c);
  * return NULL if the parse fails
  */
 cmd *cmd_from_string(char *s);
+
+cmd *cmd_from_tokens(char **ts);
+/*
+ * Takes tokens and creates a command using them.
+ * For the purposes of this, we will store the preposition
+ * in the command, not the name.
+ * Input is a list of tokens, output is a pointer to a new command.
+ */
 
 #endif /* _CMD_H */
