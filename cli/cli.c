@@ -79,7 +79,7 @@ int main()
         if (cmd_string)
             free(cmd_string);
         
-        cmd_free(c);
+        //cmd_free(c);
         free(input);    
         }
         
