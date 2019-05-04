@@ -28,6 +28,11 @@ void shell_prompt();
 
 void greet();
 
+/*
+ *  Prints the history of commands
+ */
+void print_history();
+
 /* shell_error: this is for user errors (as opposed to bugs in code) */
 /* (gives all such errors a uniform appearance) */
 void shell_error(char *s);

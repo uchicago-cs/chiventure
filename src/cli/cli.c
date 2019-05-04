@@ -26,6 +26,7 @@ void do_cmd(cmd *c,int *quit)
   /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
   case QUIT:      *quit=0; break;
   case HELP:      help_text(); break;
+  case HIST:	  print_history(); break;
   default:
     /* this shouldn't happen, ever */
     fprintf(stderr,"BUG (do_cmd): bad tag in cmd (%d)\n",c->name);
@@ -53,8 +54,10 @@ int main()
 {   
     int quit = 1;
     char *cmd_string;
+    greet();
     // Configure readline to auto-complete paths when the tab key is hit.
     rl_bind_key('\t', rl_complete);
+    using_history();
 
     while (quit) {
         // Display prompt and read input
@@ -66,16 +69,17 @@ int main()
         if (!strcmp(cmd_string,""))
             continue;
         
-        // Add input to readline history.
-        add_history(input);
-
         cmd *c = cmd_from_string(cmd_string);
         if (!c) {
             shell_error_arg("unrecognized or malformed command: \"%s\"", cmd_string);
             putchar('\n');
-        } else
-        do_cmd(c,&quit);
-        
+        }
+	else {
+	    do_cmd(c,&quit);
+            // Add valid input to readline history.
+            add_history(input);
+	}
+
         if (cmd_string)
             free(cmd_string);
         

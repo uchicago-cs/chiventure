@@ -11,7 +11,7 @@
 
 //All suported commands
 enum cmd_name {
-  QUIT, HELP
+  QUIT, HELP, HIST
 };
 enum preposition_name{
   NONE, WITH, TO, IN

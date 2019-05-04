@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <readline/history.h>
 #include "shell.h"
 
 /* ========================= */
@@ -22,21 +23,35 @@ void help_text()
     "h        // help (duh, you just used it)\n"
     "load [PATH] (NOT IMPLEMENTED) // will load a saved game located at the specefied path relative to the folder chiventure is running in\n"
     "save [PATH] (NOT IMPLEMENTED) // will save a game at specefied path\n"
-    "q        // quit\n\n";
+    "q        // quit\n\n"
+    "H		// prints out history of commands\n";
   printf("%s",p);
 }
 
-//See shell.h
+/* See shell.h */
 void shell_prompt()
 {
   printf("***** chiventure (type 'h' for help) > ");
 }
 
-//See shell.h
+/* See shell.h */
 void greet()
 {
   printf("***** Welcome to CHIVENTURE! *****\n\n");
-  printf("NOTHING USEFULL IMPLEMENTED YET !\n");
+  printf("NOTHING USEFULL IMPLEMENTED YET !\n\n");
+}
+
+/* See shell.h */
+void print_history()
+{
+	int offset_start = history_base,
+ 	    offset_end = history_length;
+	int i, j=1;
+	for (i = offset_start; i <= offset_end; i++)
+	{
+		printf("Entry %d: %s\n", j, history_get(i)->line);
+		j++;
+	}
 }
 
 /* shell_error: this is for user errors*/

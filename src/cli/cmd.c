@@ -49,12 +49,12 @@ void cmd_free(cmd *c)
 /* === command display (for debugging, logging) === */
 
 /* cmd_name_tos: return string constant for command name */
-/* note: for debugging only; not currently used in shell */
 char *cmd_name_tos(cmd *c)
 {
   switch (c->name) {
   case QUIT:      return "QUIT";
   case HELP:      return "HELP";
+  case HIST:	  return "HIST";
   }
   /* this should never happen, ever */
   fprintf(stderr,"BUG (cmd_name_tos): unrecognized command name %d\n",c->name);
@@ -94,6 +94,7 @@ cmd *cmd_from_string(char *s)
     switch (cmdbuf[0]) {
     case 'q' : return cmd_new(QUIT);
     case 'h' : return cmd_new(HELP);
+    case 'H' : return cmd_new(HIST);
     }
   }
   /* if we get this far, we couldn't parse the command string */
@@ -103,6 +104,7 @@ cmd *cmd_from_tokens(char **ts){
   cmd * output = NULL;
   selectcommand(ts[0],QUIT)
   selectcommand(ts[0],HELP)
+  selectcommand(ts[0],HIST)
   // These are macros defined above. Essentially, just treat them as switch
   // statement cases
   // Add a new one for each new command.
