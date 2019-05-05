@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
             print_item(obj, items[i]);
         }
         else
-            printf("\nItem is invalid.\n");
+            printf("\nItem is not valid.\n");
     }
 
     return 0;
