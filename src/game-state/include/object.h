@@ -1,17 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "rooms.h"
 
-enum object_type_t {} /* need to discuss object types with action mgmt */
+typedef struct door {
+  int locked;
+  room_t *dest_room;
+} door_t;
 
+union object_union {
+  door_t dr;
+  /* will be populated with more objects */
+};
+
+enum object_type_t {DOOR} /* need to discuss object types with action mgmt */
+
+typedef struct tagged_object {
+  enum object_type_t tag;
+  union object_union t;
+} tagged_objs;
+
+/* this object struct will include a door object to be used between rooms,
+i.e. included in the room struct in its list of exits */
 typedef struct object {
   char *object_id;
   char *short_desc;
   char *long_desc;
-  enum object_type_t obj_type; /* object type: clothing, weapon, etc */
+  tagged_objs object_type; /* object type: clothing, weapon, etc */
   int can_take; /* 0 = cannot take object, 1 = can pick it up,
   2 = condition to pick it up */
   bool condition; /* reserved for future expansion */
 } object_t;
+
 
 
 object_t *object_new();
