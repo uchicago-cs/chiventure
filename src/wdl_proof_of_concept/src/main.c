@@ -36,24 +36,43 @@ int main(int argc, char* argv[])
     // Call parse_game to fill in object
     parse_game(fname, obj);
 
-    // Print game arguments
+    // Verify game and print game arguments
     char *game_s = "GAME.0";
     char *game_i = "GAME.1";
-    print_game(obj, game_s, game_i);
+    if (verify_game(obj, game_s, game_i)) {
+        printf("\nGame is valid.\n");
+        print_game(obj, game_s, game_i);
+    }
+    else 
+        printf("\nGame is not valid.\n");
 
-    // Print room arguments
+    // Verify room and print room arguments
     char *room_a = "ROOMS.0";
     char *room_b = "ROOMS.1";
     char *room_c = "ROOMS.2";
-    print_room(obj, room_a);
-    print_room(obj, room_b);
-    print_room(obj, room_c);
+    char *rooms[3] = {room_a, room_b, room_c};
+    for (int i = 0; i < 3; ++i) {
+        if (verify_room(obj, rooms[i])) {
+            printf("\nRoom is valid.\n");
+            print_room(obj, rooms[i]);
+        }
+        else
+            printf("\nRoom is not valid\n");
+    }
 
     // Print item arguments
     char *item_table = "ITEMS.0";
     char *item_chair = "ITEMS.1";
     char *item_candle = "ITEMS.2";
-    print_item(obj, item_table);
-    print_item(obj, item_chair);
-    print_item(obj, item_candle);
+    char *items[3] = {item_table, item_candle, item_chair};
+    for (int i = 0; i < 3; ++i) {
+        if (verify_item(obj, items[i])) {
+            printf("\nItem is valid.\n");
+            print_item(obj, items[i]);
+        }
+        else
+            printf("\nItem is invalid.\n");
+    }
+
+    return 0;
 }
