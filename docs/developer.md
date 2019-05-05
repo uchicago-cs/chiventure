@@ -14,7 +14,7 @@ No other top-level directories can be created without prior discussion (ideally
 by creating a GitHub issue that proposes the creation of a new top-level directory).
 
 The project is divided into multiple *components*. Each component will have a
-directory inside `src/` (e.g., `src/ui/`, `src/wdl`, etc.). Each component's
+directory inside `src/` (e.g., `src/ui/`, `src/wdl/`, etc.). Each component's
 directory *must* have the following subdirectories:
 
 - `src/`: Source code
