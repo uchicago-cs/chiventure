@@ -1,54 +1,142 @@
 #include <ncurses.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <stdbool.h>
 
-void bomb(void);
+
+/* bomb
+ * Ends the current ncurses session in the case of an error in memory allocation
+ *
+ *Inputs: N/A
+ *
+ * Returns: N/A
+ */
+void bomb(void)
+{
+  addstr("Unable to allocate memory for new window.\n");
+  refresh();
+  endwin();
+  exit(1);
+}
+
+/*create_newwin
+ * Creates a windo with the specified dimensions and location
+ * 
+ * Inputs:
+ *  - height: height of the window
+ *  - width : width of the window
+ *  - starty : initial vertical position of the window
+ *  - startx : initial horizontal position of the window
+ *  - show : indicates whether or not to draw a box around the window.
+ * 
+ * Returns: 
+ *  - A pointer to the new window
+ */
+WINDOW *create_newwin(int height, int width, int starty, int startx, int show){
+  WINDOW *local_win;
+
+  //initialize new window and throw error if allocation fails
+  if( (local_win = newwin(height, width, starty, startx)) == NULL) bomb();
+
+  //If show = true, add window border
+  if (show){
+    box(local_win, 0, 0);
+    wrefresh(local_win);
+  }
+
+  return local_win;
+}
+
+
 
 int main(int argc, char *argv[])
 {
+  //Initialize variables
   WINDOW *top_bar, *text_box, *c, *d;
   char command[100];
   int maxx, maxy, halfx, halfy;
-
+  int height_txt,height_bar;
+  int ch;
+  int score = 22000;
+  
+  //Initialize ncurses screen
   initscr();
+  noecho();
   refresh();
+
+  //Initialize colors
   start_color();
   init_pair(1, COLOR_BLACK, COLOR_BLUE);
   init_pair(2, COLOR_BLACK, COLOR_RED);
   init_pair(3, COLOR_BLACK, COLOR_GREEN);
   init_pair(4, COLOR_BLACK, COLOR_CYAN);
   init_pair(5, COLOR_GREEN, COLOR_BLACK);
-  /* calculate window sizes and locations */
+
+  /* calculate window sizes and locations
+   initialize variables that store window dimensions*/
   getmaxyx(stdscr, maxy, maxx);
   halfx = maxx >> 1;
   halfy = maxy >> 1;
+  height_txt = halfy;
+  height_bar = 2;
+  
   /* create four windows to fill the screen */
-  if( (top_bar = newwin(2, maxx, 0, 0)) == NULL) bomb();
-  if( (text_box = newwin(halfy, maxx, halfy+1, 0)) == NULL) bomb();
+  top_bar = create_newwin(2, maxx, 0, 0, 0);
+  text_box = create_newwin(halfy, halfx, halfy, 0, 1);
+
+  //Wait for key presses in text_box
+  keypad(text_box, TRUE);
+  //Prints '>' in the bottom window
+  mvprintw(text_box, line, 2, ">");
+
+  //Prints Score to top window
+  mvwprintw(top_bar, 1, 2, "Score: %i", score);
+  
+  //  if( (top_bar = newwin(2, maxx, 0, 0)) == NULL) bomb();
+  //  if( (text_box = newwin(halfy, maxx, halfy+1, 0)) == NULL) bomb();
   if( (c = newwin(halfy, halfx, halfy, 0)) == NULL) bomb();
   if( (d = newwin(halfy, halfx, halfy, halfx)) == NULL) bomb();
+
+  //Set top bar background
   wbkgd(top_bar, COLOR_PAIR(4));
   wrefresh(top_bar);
-  //box(text_box,'a','b');
-  //refresh();
-  wbkgd(text_box, COLOR_PAIR(3));
+
+  //Set text_box background & colors
+  wbkgd(text_box, COLOR_PAIR(5));
   wrefresh(text_box);
   
   /* Write to each window */
   mvwaddstr(top_bar, 0, 0, " Chiventure                   Score: 8\n");
   wrefresh(top_bar);
 
-  /* Give some input that will be printed on window 4*/
+  /* Give input that will be printed in the text box*/
   wscanw(text_box,"%s",command);
   wrefresh(text_box);
+
   //mvwaddstr(b, 0, 0, "This is window B\n");
   //wbkgd(b, COLOR_PAIR(2));
   //wrefresh(b);
-  mvwaddstr(c, 0, 0, "This is window C\n");
-  wbkgd(c, COLOR_PAIR(3));
-  wrefresh(c);
-  mvwaddstr(d, 0, 0, "This is window D\n");
-  wbkgd(d, COLOR_PAIR(4));
+  //  mvwaddstr(c, 0, 0, "This is window C\n");
+  //wbkgd(c, COLOR_PAIR(3));
+  //wrefresh(c);
+  //mvwaddstr(d, 0, 0, "This is window D\n");
+  //wbkgd(d, COLOR_PAIR(4));
 
+  //Game Loop _________________________________________________
+  while((ch = wgetch(text_box)) !=KEY_F(1)){
+    height = LINES /2;
+    width = COLS;
+
+    wclear(top_bar);
+    wresize(top_bar,2,width);
+    wresize(text_box, height, width);
+    mvwin(text_box, height, 0);
+
+
+
+  }
+  
   /* Print command string in window4*/
   wprintw(d,"%s",command);
   wrefresh(d);
@@ -57,10 +145,3 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-void bomb(void)
-{
-  addstr("Unable to allocate memory for new window.\n");
-  refresh();
-  endwin();
-  exit(1);
-}  
