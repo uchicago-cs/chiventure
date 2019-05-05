@@ -48,18 +48,38 @@ WINDOW *create_newwin(int height, int width, int starty, int startx, int show){
   return local_win;
 }
 
+int *maxx, *maxy, *halfx, *halfy;
+/*Recalculate dims
+ * When called, recalculates max height, width and half heights and widths
+ *
+ *Inputs: N/A
+ * 
+ *Returns:
+ * - (Sets maxx*, maxy*, halfx*, and halfy*)
+ */
+int recalc_dims(){
+  getmaxyx(stdscr, *maxy, *maxx);
+  *halfx = *maxx >> 1;
+  *halfy = *maxy >> 1;
+  return 1;
+}
 
 
-int main(int argc, char *argv[])
+int main()
 {
   //Initialize variables
   WINDOW *top_bar, *text_box, *c, *d;
   char command[100];
-  int maxx, maxy, halfx, halfy;
+  //  int maxx, maxy, halfx, halfy;
   int height_txt,height_bar;
-  int ch;
+  int ch,x,y;
+  int char_count = 0;
   int score = 22000;
-  
+  int line = 1;
+  maxx = malloc(sizeof(int));
+  maxy = malloc(sizeof(int));
+  halfx = malloc(sizeof(int));
+  halfy = malloc(sizeof(int));
   //Initialize ncurses screen
   initscr();
   noecho();
@@ -75,28 +95,29 @@ int main(int argc, char *argv[])
 
   /* calculate window sizes and locations
    initialize variables that store window dimensions*/
-  getmaxyx(stdscr, maxy, maxx);
-  halfx = maxx >> 1;
-  halfy = maxy >> 1;
-  height_txt = halfy;
+  //  getmaxyx(stdscr, maxy, maxx);
+  //*halfx = *maxx >> 1;
+  //*halfy = *maxy >> 1;
+  recalc_dims();
+  height_txt = *halfy;
   height_bar = 2;
   
   /* create four windows to fill the screen */
-  top_bar = create_newwin(2, maxx, 0, 0, 0);
-  text_box = create_newwin(halfy, halfx, halfy, 0, 1);
+  top_bar = create_newwin(height_bar, *maxx, 0, 0, 0);
+  text_box = create_newwin(height_txt, *maxx, *halfy, 0, 1);
 
   //Wait for key presses in text_box
   keypad(text_box, TRUE);
   //Prints '>' in the bottom window
-  mvprintw(text_box, line, 2, ">");
+  mvwprintw(text_box, line, 2, ">");
 
   //Prints Score to top window
   mvwprintw(top_bar, 1, 2, "Score: %i", score);
   
   //  if( (top_bar = newwin(2, maxx, 0, 0)) == NULL) bomb();
   //  if( (text_box = newwin(halfy, maxx, halfy+1, 0)) == NULL) bomb();
-  if( (c = newwin(halfy, halfx, halfy, 0)) == NULL) bomb();
-  if( (d = newwin(halfy, halfx, halfy, halfx)) == NULL) bomb();
+  if( (c = newwin(*halfy, *halfx, *halfy, 0)) == NULL) bomb();
+  if( (d = newwin(*halfy, *halfx, *halfy, *halfx)) == NULL) bomb();
 
   //Set top bar background
   wbkgd(top_bar, COLOR_PAIR(4));
@@ -107,12 +128,12 @@ int main(int argc, char *argv[])
   wrefresh(text_box);
   
   /* Write to each window */
-  mvwaddstr(top_bar, 0, 0, " Chiventure                   Score: 8\n");
-  wrefresh(top_bar);
+  //mvwaddstr(top_bar, 0, 0, " Chiventure                   Score: 8\n");
+  //wrefresh(top_bar);
 
   /* Give input that will be printed in the text box*/
-  wscanw(text_box,"%s",command);
-  wrefresh(text_box);
+  // wscanw(text_box,"%s",command);
+  //wrefresh(text_box);
 
   //mvwaddstr(b, 0, 0, "This is window B\n");
   //wbkgd(b, COLOR_PAIR(2));
@@ -125,14 +146,23 @@ int main(int argc, char *argv[])
 
   //Game Loop _________________________________________________
   while((ch = wgetch(text_box)) !=KEY_F(1)){
-    height = LINES /2;
-    width = COLS;
+    //height = LINES /2;
+    //width = COLS;
 
+    recalc_dims();
+    
     wclear(top_bar);
-    wresize(top_bar,2,width);
-    wresize(text_box, height, width);
-    mvwin(text_box, height, 0);
+    wresize(top_bar,2,*maxx);
+    wresize(text_box, *halfx, *maxx);
+    mvwin(text_box, *halfy, 0);
 
+    if(isalnum(ch) || ch == ' '){
+      winsch(text_box, ch);
+      char_count++;
+
+      getyx(text_box,y,x);
+      wmove(text_box,y,x+1);
+    }
 
 
   }

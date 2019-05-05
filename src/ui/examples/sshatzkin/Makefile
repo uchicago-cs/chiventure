@@ -1,6 +1,6 @@
 .PHONY:
 LDFLAGS = -lncurses
-CFLAGS = -W -Wall -Wextra
+CFLAGS = -W -Wall -Wextra -g
 CC = gcc
 SRCS = demo.c split_demo.c demo2.c
 BINS = $(SRCS:.c=)
