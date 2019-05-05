@@ -39,6 +39,15 @@ void exit_game(game_t *game) {
    printf("THIS IS NOT A TROLL");
 }
 
+void free_game(game_t *game) {
+    //assuming we have the given free fxns
+    free_player(game->players);
+    while(game->Rooms->curr != NULL) {
+        free_room(game->Rooms->curr);
+        game->Rooms->curr = game->Rooms->list->curr; 
+    }
+    free(game);
+}
 
 
 //helper function to find all rooms

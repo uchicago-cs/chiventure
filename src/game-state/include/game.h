@@ -13,6 +13,11 @@ typedef struct room {
   // room;
 } room_t;
 
+typedef struct rlist {
+    room_t *curr;
+    rlist_t *rest;
+} rlist_t;
+
 typedef struct player {
     //holds levels
     //health
@@ -25,6 +30,7 @@ typedef struct player {
 struct G_Rooms {
     room_t *curr;
     //list of all rooms (just id)
+    rlist_t *list;
 };
 
 typedef struct game {
@@ -58,6 +64,12 @@ void move_room(game_t *game, room_t *new_room);
 //echo "ctrl-g"
 //troll post pls dont hate
 void exit_game(game_t *game);
+
+//free game
+//assuming fxnalities being x-built
+void free_game(game_t *game);
+
+
 
 
 
