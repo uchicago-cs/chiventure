@@ -7,17 +7,91 @@
 #endif
 
 #include "sample.pb-c.h"
-void   game__room__init
-                     (Game__Room         *message)
+void   player__init
+                     (Player         *message)
 {
-  static Game__Room init_value = GAME__ROOM__INIT;
+  static Player init_value = PLAYER__INIT;
   *message = init_value;
 }
-void   game__player__init
-                     (Game__Player         *message)
+size_t player__get_packed_size
+                     (const Player *message)
 {
-  static Game__Player init_value = GAME__PLAYER__INIT;
+  assert(message->base.descriptor == &player__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t player__pack
+                     (const Player *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &player__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t player__pack_to_buffer
+                     (const Player *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &player__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Player *
+       player__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Player *)
+     protobuf_c_message_unpack (&player__descriptor,
+                                allocator, len, data);
+}
+void   player__free_unpacked
+                     (Player *message,
+                      ProtobufCAllocator *allocator)
+{
+  assert(message->base.descriptor == &player__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   room__init
+                     (Room         *message)
+{
+  static Room init_value = ROOM__INIT;
   *message = init_value;
+}
+size_t room__get_packed_size
+                     (const Room *message)
+{
+  assert(message->base.descriptor == &room__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t room__pack
+                     (const Room *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &room__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t room__pack_to_buffer
+                     (const Room *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &room__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Room *
+       room__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Room *)
+     protobuf_c_message_unpack (&room__descriptor,
+                                allocator, len, data);
+}
+void   room__free_unpacked
+                     (Room *message,
+                      ProtobufCAllocator *allocator)
+{
+  assert(message->base.descriptor == &room__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   game__init
                      (Game         *message)
@@ -62,143 +136,130 @@ void   game__free_unpacked
   assert(message->base.descriptor == &game__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor game__room__field_descriptors[3] =
+static const ProtobufCFieldDescriptor player__field_descriptors[1] =
 {
   {
-    "name",
+    "p_name",
     1,
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
-    offsetof(Game__Room, name),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "exit",
-    2,
-    PROTOBUF_C_LABEL_REQUIRED,
-    PROTOBUF_C_TYPE_BOOL,
-    0,   /* quantifier_offset */
-    offsetof(Game__Room, exit),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "connected_rooms",
-    3,
-    PROTOBUF_C_LABEL_OPTIONAL,
-    PROTOBUF_C_TYPE_INT32,
-    offsetof(Game__Room, has_connected_rooms),
-    offsetof(Game__Room, connected_rooms),
+    offsetof(Player, p_name),
     NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
-static const unsigned game__room__field_indices_by_name[] = {
-  2,   /* field[2] = connected_rooms */
-  1,   /* field[1] = exit */
-  0,   /* field[0] = name */
+static const unsigned player__field_indices_by_name[] = {
+  0,   /* field[0] = p_name */
 };
-static const ProtobufCIntRange game__room__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 3 }
-};
-const ProtobufCMessageDescriptor game__room__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "Game.Room",
-  "Room",
-  "Game__Room",
-  "",
-  sizeof(Game__Room),
-  3,
-  game__room__field_descriptors,
-  game__room__field_indices_by_name,
-  1,  game__room__number_ranges,
-  (ProtobufCMessageInit) game__room__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor game__player__field_descriptors[1] =
-{
-  {
-    "location",
-    1,
-    PROTOBUF_C_LABEL_REQUIRED,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Game__Player, location),
-    &game__room__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned game__player__field_indices_by_name[] = {
-  0,   /* field[0] = location */
-};
-static const ProtobufCIntRange game__player__number_ranges[1 + 1] =
+static const ProtobufCIntRange player__number_ranges[1 + 1] =
 {
   { 1, 0 },
   { 0, 1 }
 };
-const ProtobufCMessageDescriptor game__player__descriptor =
+const ProtobufCMessageDescriptor player__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "Game.Player",
   "Player",
-  "Game__Player",
+  "Player",
+  "Player",
   "",
-  sizeof(Game__Player),
+  sizeof(Player),
   1,
-  game__player__field_descriptors,
-  game__player__field_indices_by_name,
-  1,  game__player__number_ranges,
-  (ProtobufCMessageInit) game__player__init,
+  player__field_descriptors,
+  player__field_indices_by_name,
+  1,  player__number_ranges,
+  (ProtobufCMessageInit) player__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor game__field_descriptors[2] =
+static const ProtobufCFieldDescriptor room__field_descriptors[1] =
 {
   {
-    "rooms",
+    "r_name",
     1,
-    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Room, r_name),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned room__field_indices_by_name[] = {
+  0,   /* field[0] = r_name */
+};
+static const ProtobufCIntRange room__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor room__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "Room",
+  "Room",
+  "Room",
+  "",
+  sizeof(Room),
+  1,
+  room__field_descriptors,
+  room__field_indices_by_name,
+  1,  room__number_ranges,
+  (ProtobufCMessageInit) room__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor game__field_descriptors[3] =
+{
+  {
+    "player_info",
+    1,
+    PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
-    offsetof(Game, n_rooms),
-    offsetof(Game, rooms),
-    &game__room__descriptor,
+    0,   /* quantifier_offset */
+    offsetof(Game, player_info),
+    &player__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "player",
+    "location",
     2,
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(Game, player),
-    &game__player__descriptor,
+    offsetof(Game, location),
+    &room__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "discovered",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT32,
+    offsetof(Game, has_discovered),
+    offsetof(Game, discovered),
+    NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
 static const unsigned game__field_indices_by_name[] = {
-  1,   /* field[1] = player */
-  0,   /* field[0] = rooms */
+  2,   /* field[2] = discovered */
+  1,   /* field[1] = location */
+  0,   /* field[0] = player_info */
 };
 static const ProtobufCIntRange game__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 2 }
+  { 0, 3 }
 };
 const ProtobufCMessageDescriptor game__descriptor =
 {
@@ -208,7 +269,7 @@ const ProtobufCMessageDescriptor game__descriptor =
   "Game",
   "",
   sizeof(Game),
-  2,
+  3,
   game__field_descriptors,
   game__field_indices_by_name,
   1,  game__number_ranges,

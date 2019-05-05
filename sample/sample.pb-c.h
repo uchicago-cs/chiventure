@@ -15,9 +15,9 @@ PROTOBUF_C__BEGIN_DECLS
 #endif
 
 
+typedef struct _Player Player;
+typedef struct _Room Room;
 typedef struct _Game Game;
-typedef struct _Game__Room Game__Room;
-typedef struct _Game__Player Game__Player;
 
 
 /* --- enums --- */
@@ -25,47 +25,80 @@ typedef struct _Game__Player Game__Player;
 
 /* --- messages --- */
 
-struct  _Game__Room
+struct  _Player
 {
   ProtobufCMessage base;
-  char *name;
-  protobuf_c_boolean exit;
-  protobuf_c_boolean has_connected_rooms;
-  int32_t connected_rooms;
+  char *p_name;
 };
-#define GAME__ROOM__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&game__room__descriptor) \
-    , NULL, 0, 0,0 }
+#define PLAYER__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&player__descriptor) \
+    , NULL }
 
 
-struct  _Game__Player
+struct  _Room
 {
   ProtobufCMessage base;
-  Game__Room *location;
+  char *r_name;
 };
-#define GAME__PLAYER__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&game__player__descriptor) \
+#define ROOM__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&room__descriptor) \
     , NULL }
 
 
 struct  _Game
 {
   ProtobufCMessage base;
-  size_t n_rooms;
-  Game__Room **rooms;
-  Game__Player *player;
+  Player *player_info;
+  Room *location;
+  /*
+   * number of rooms found
+   */
+  protobuf_c_boolean has_discovered;
+  int32_t discovered;
 };
 #define GAME__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&game__descriptor) \
-    , 0,NULL, NULL }
+    , NULL, NULL, 0,0 }
 
 
-/* Game__Room methods */
-void   game__room__init
-                     (Game__Room         *message);
-/* Game__Player methods */
-void   game__player__init
-                     (Game__Player         *message);
+/* Player methods */
+void   player__init
+                     (Player         *message);
+size_t player__get_packed_size
+                     (const Player   *message);
+size_t player__pack
+                     (const Player   *message,
+                      uint8_t             *out);
+size_t player__pack_to_buffer
+                     (const Player   *message,
+                      ProtobufCBuffer     *buffer);
+Player *
+       player__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   player__free_unpacked
+                     (Player *message,
+                      ProtobufCAllocator *allocator);
+/* Room methods */
+void   room__init
+                     (Room         *message);
+size_t room__get_packed_size
+                     (const Room   *message);
+size_t room__pack
+                     (const Room   *message,
+                      uint8_t             *out);
+size_t room__pack_to_buffer
+                     (const Room   *message,
+                      ProtobufCBuffer     *buffer);
+Room *
+       room__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   room__free_unpacked
+                     (Room *message,
+                      ProtobufCAllocator *allocator);
 /* Game methods */
 void   game__init
                      (Game         *message);
@@ -87,11 +120,11 @@ void   game__free_unpacked
                       ProtobufCAllocator *allocator);
 /* --- per-message closures --- */
 
-typedef void (*Game__Room_Closure)
-                 (const Game__Room *message,
+typedef void (*Player_Closure)
+                 (const Player *message,
                   void *closure_data);
-typedef void (*Game__Player_Closure)
-                 (const Game__Player *message,
+typedef void (*Room_Closure)
+                 (const Room *message,
                   void *closure_data);
 typedef void (*Game_Closure)
                  (const Game *message,
@@ -102,9 +135,9 @@ typedef void (*Game_Closure)
 
 /* --- descriptors --- */
 
+extern const ProtobufCMessageDescriptor player__descriptor;
+extern const ProtobufCMessageDescriptor room__descriptor;
 extern const ProtobufCMessageDescriptor game__descriptor;
-extern const ProtobufCMessageDescriptor game__room__descriptor;
-extern const ProtobufCMessageDescriptor game__player__descriptor;
 
 PROTOBUF_C__END_DECLS
 

@@ -1,20 +1,22 @@
-//hypothetical game, like a labyrinth go though rooms until you find the exit
+// basic labyrinth kinda game where player goes from room to room
+
+syntax = "proto2";
+
+message Player {
+	required int32 p_name = 1;
+}
+
+message Room{
+	required string r_name = 1;
+}
 
 message Game {
-	message Room {
-		required string name = 1;
-		required bool exit = 2;
-		optional int32 connected_rooms = 3;
-	}
 	
-	repeated Room rooms = 1;
-
-	message Player {
-		required Room location = 1;
-	}
-
-	required Player player = 2;
+	required Player player_info = 1;	
+	required Room location = 2;
+	optional int32 discovered = 3; // number of rooms found
 }
+
 		
 		
 	
