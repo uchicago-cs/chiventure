@@ -7,31 +7,25 @@
 /* === interface actions === */
 /* ========================= */
 
-//See shell.h
+/* See shell.h */
 void help_text()
 {
   char p[] = 
     "HERE IS A BRIEF OVERVIEW OF GAME ACTIONS (NOT IMPLEMENTED)\n"
-    "look [OBJECT]  // look at specefied object\n"
-    "take [OBJECT] // take specefied object\n"
+    "LOOK [OBJECT]  // look at specefied object\n"
+    "TAKE [OBJECT] // take specefied object\n"
     "go [DIRECTION] // Move to the south, east, west or north\n"
     "inv   // prints everything you are carrying\n"
-    "give [OBJECT] to [NPC] //gives specefied object to specefied non player character\n"
+    "GIVE [OBJECT] TO [NPC] //gives specefied object to specefied non player character\n"
     
     "HERE IS A BRIEF OVERVIEW OF SYSTEM ACTIONS\n"
     
-    "h        // help (duh, you just used it)\n"
+    "HELP        // help (duh, you just used it)\n"
     "load [PATH] (NOT IMPLEMENTED) // will load a saved game located at the specefied path relative to the folder chiventure is running in\n"
     "save [PATH] (NOT IMPLEMENTED) // will save a game at specefied path\n"
-    "q        // quit\n\n"
-    "H		// prints out history of commands\n";
+    "QUIT        // quit\n\n"
+    "HIST		// prints out history of commands\n";
   printf("%s",p);
-}
-
-/* See shell.h */
-void shell_prompt()
-{
-  printf("***** chiventure (type 'h' for help) > ");
 }
 
 /* See shell.h */
@@ -54,16 +48,13 @@ void print_history()
 	}
 }
 
-/* shell_error: this is for user errors*/
-/* (gives all such errors a uniform appearance) */
+/* See shell.h */
 void shell_error(char *s)
 {
   fprintf(stderr,"===> ERROR: %s <===\n",s);
 }
 
-/* shell_error_arg: this is for user errors (as opposed to bugs)
- * - this version takes a string arg for added flexibility
- */
+/* See shell.h */
 void shell_error_arg(char *fmt, char *s)
 {
   fprintf(stderr,"===> ERROR: ");

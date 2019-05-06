@@ -29,9 +29,8 @@ char **parse(char *input) {
 
     return words;
 }
-
-//A test function
-int main() {
+// A test function
+/*int main() {
     char str[] = "GIVE talisman";
     char **words = parse(str);
 
@@ -41,4 +40,4 @@ int main() {
 
     return 0;
 }
-
+*/

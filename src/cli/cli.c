@@ -13,31 +13,6 @@
 
 #define BUFFER_SIZE 256
 
-/* =================================== */
-/* === execution of shell commands === */
-/* =================================== */
-
-/* do_cmd: execute the given command
- * note: address_book is of type bst** so it can be modified in READ
- */
-void do_cmd(cmd *c,int *quit)
-{
-  switch (c->name) {
-  /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
-  case QUIT:      *quit=0; break;
-  case HELP:      help_text(); break;
-  case HIST:	  print_history(); break;
-  default:
-    /* this shouldn't happen, ever */
-    fprintf(stderr,"BUG (do_cmd): bad tag in cmd (%d)\n",c->name);
-    exit(1);
-  }    
-}
-
-/* ===================================== */
-/* ==== run the chiventure  shell  ===== */
-/* ===================================== */
-
 /* trim_newline: duplicate the string and replace the newline 
  * at the end with '\0' if it exists. 
  */
@@ -50,20 +25,23 @@ char *trim_newline(char *s)
   return t;
 }
 
+/* ===================================== */
+/* ==== run the chiventure  shell  ===== */
+/* ===================================== */
+
 int main()
 {   
     int quit = 1;
     char *cmd_string;
     greet();
-    // Configure readline to auto-complete paths when the tab key is hit.
-    rl_bind_key('\t', rl_complete);
+    //rl_bind_key('\t', rl_complete); // Configure readline to auto-complete paths when the tab key is hit.
     using_history();
 
     while (quit) {
         // Display prompt and read input
-        char* input = readline("chiventure (press h for help)> ");
-        
-        cmd_string = trim_newline(input);
+        char* input = readline("chiventure (enter HELP for help)> ");
+    
+	cmd_string = trim_newline(input);    
         putchar('\n');
         //check whether user input is empty
         if (!strcmp(cmd_string,""))
@@ -71,7 +49,7 @@ int main()
         
         cmd *c = cmd_from_string(cmd_string);
         if (!c) {
-            shell_error_arg("unrecognized or malformed command: \"%s\"", cmd_string);
+            shell_error_arg("unrecognized or malformed command: \"%s\"", input);
             putchar('\n');
         }
 	else {
@@ -82,7 +60,6 @@ int main()
 
         if (cmd_string)
             free(cmd_string);
-        
         //cmd_free(c);
         free(input);    
         }

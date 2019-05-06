@@ -2,8 +2,8 @@
  
 CC = clang
 BINS = cli
-SRCS = cmd.c shell.c cli.c 
-HDRS = cmd.h cli.h shell.h
+SRCS = cmd.c shell.c cli.c parser.c 
+HDRS = cmd.h cli.h shell.h parser.h
 CFLAGS = -Wall -Wextra -g -lm 
 
 parser: parser.c parser.h 
