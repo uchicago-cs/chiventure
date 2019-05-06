@@ -4,7 +4,7 @@
 object_t *object_new();
 
 /* creates new object */
-int object_init(char *object_id, char *short, char *long)
+int object_init(char *object_id, char *short_desc, char *long_desc)
 {
 
   /* TO DO */

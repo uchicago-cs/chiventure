@@ -4,10 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "uthash.h"
+#include "player.h"
+#include "room.h"
+#include "game.h"
 
 typedef struct door {
   int locked;
-  room_t *dest_room;
+  int room_id;
 } door_t;
 
 union object_union {
@@ -15,7 +18,7 @@ union object_union {
   /* will be populated with more objects */
 };
 
-enum object_type_t {DOOR} /* need to discuss object types with action mgmt */
+enum object_type_t {DOOR}; /* need to discuss object types with action mgmt */
 
 typedef struct tagged_object {
   enum object_type_t tag;
@@ -39,7 +42,7 @@ typedef struct object {
 object_t *object_new();
 
 // arguments are taken from WDL
-int object_init(char *object_id, char *short, char *long);
+int object_init(char *object_id, char *short_desc, char *long_desc);
 
 //
 char *get_id(object_t obj);

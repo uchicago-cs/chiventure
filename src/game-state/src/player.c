@@ -13,7 +13,7 @@ int player_init(player_t* plyr, int health)
     plyr->xp = 0;
     //create empty llist for inventory + clothes
 
-    poly->points = malloc(INITIAL_ALLOC * sizeof(point_t));
+    plyr->points = malloc(INITIAL_ALLOC * sizeof(point_t));
 
     if(p->inventory == NULL)
     {
@@ -100,7 +100,7 @@ int get_xp(player_t* plyr)
 }
 
 /* See player.h */
-int change_xp(player_t* plyr)
+int change_xp(player_t* plyr, int points)
 {
 	//TODO
 	return -1;
@@ -121,14 +121,14 @@ int add_inventory_object(object_t* item, player_t* plyr)
 }
 
 
-llist* get_inventory(player_t* plyr)
+llist_t* get_inventory(player_t* plyr)
 {
 	//TODO
 	return NULL;
 }
 
 
-llist* get_clothes(player_t* plyr)
+llist_t* get_clothes(player_t* plyr)
 {
 	//TODO
 	return NULL;

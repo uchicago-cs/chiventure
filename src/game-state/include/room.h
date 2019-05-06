@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "game.h"
 #include "utlist.h"
 #include "uthash.h"
 #include "object.h"
@@ -16,7 +15,7 @@ typedef struct room {
     /* hh is used for hashtable, as provided in uthash.h*/
     UT_hash_handle hh;
 
-    int id;
+    int room_id;
     char *short_desc;
     char *long_desc;
     llist_t *items;

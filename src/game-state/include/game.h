@@ -8,6 +8,9 @@
 #include "object.h"
 #include "room.h"
 
+#define SUCCESS 1
+#define FAILURE 1
+
 /* The game struct is built to contain all the relevant information
 for anyone who needs to work the game
 */
@@ -21,7 +24,7 @@ for anyone who needs to work the game
 //     // room;
 // } room_t;
 
-typedef room_t* all_rooms_t;
+typedef struct room* all_rooms_t;
 
 // typedef struct player {
 //     int id;
@@ -33,7 +36,7 @@ typedef room_t* all_rooms_t;
 //     //objectives : 1 or 0 if complete
 // } player_t;
 
-typedef player_t* all_players_t;
+typedef struct player* all_players_t;
 
 typedef struct game {
     // list of players, the expected value is 1 but this can change
@@ -53,6 +56,9 @@ typedef struct game {
     //TIME STARTED
     int time_start;
 } game_t;
+
+//add the room to the hashtable in the game struct
+void add_room(game_t *game, int room_id, room_t *room);
 
 //loads game. If given file is empty start new game, else load
 game_t *init_game(FILE *f);

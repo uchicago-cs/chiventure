@@ -1,13 +1,23 @@
 #include <stdlib.h>
 #include "game.h"
 
-/* see game.h */ 
+/* see game.h */
+
+void add_room(game_t *game, int room_id, room_t *room) {
+    room_t *s;
+    HASH_FIND_INT(game->all_rooms, &room_id, s);
+    if (s != NULL) {
+        printf("room_id already used!\n");
+        exit(0);
+    }
+    HASH_ADD_INT(game->all_rooms, room_id, s);
+}
 
 //loads game. If given file is empty start new game, else load
 game_t *init_game(FILE *f) {
     game_t *game = malloc(sizeof(game_t));
     game->all_players = NULL; //helper fxn to get list of players
-    game->all_rooms = NULL; 
+    game->all_rooms = NULL;
 
 
     /* read from the file using interface from WDL team */
@@ -16,13 +26,13 @@ game_t *init_game(FILE *f) {
     return game;
 }
 
-//saves game, bool if success 
+//saves game, bool if success
 //(SHOULD be able to select new save location - depends on CLI)
 int save_game(game_t *game, FILE *f) {
     int check = 0;
 
     //helpers to take game states and save them
-    
+
 
     return check;
 }
@@ -38,7 +48,7 @@ void move_room(game_t *game, room_t *new_room) {
 
 //exit game
 //echo "ctrl-g"
-//troll post pls dont 
+//troll post pls dont
 void exit_game(game_t *game) {
     if (game != NULL) free_game(game);
     exit(0);
