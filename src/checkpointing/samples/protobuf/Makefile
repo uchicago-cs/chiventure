@@ -2,17 +2,22 @@ CC = gcc
 RM = rm -f
 LIBS = -lprotobuf-c
 
-PROTO = sample.pb-c.c
+
+PROTO = sample.proto
+COMP = sample.pb-c.c
 BINS = serialize deserialize
 
 .PHONY: all
 all: $(BINS)
 
-serialize:
-	$(CC) -o $@ save.c $(PROTO) $(LIBS)
+proto:
+	protoc-c --c_out=. $(PROTO)
+
+serialize: proto
+	$(CC) -o $@ save.c $(COMP) $(LIBS)
 
 deserialize:
-	$(CC) -o $@ load.c $(PROTO) $(LIBS)
+	$(CC) -o $@ load.c $(COMP) $(LIBS)
 
 clean:
 	${RM} ${BINS}
