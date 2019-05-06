@@ -334,3 +334,6 @@ int act_i_use_on(action_struct *a, object_struct *o,
  * - A message to stderr indicating a successful end to the game
  */ 
 int act_n_medly(action_struct *a, player_struct *p);
+
+
+#endif
