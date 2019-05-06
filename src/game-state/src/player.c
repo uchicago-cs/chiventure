@@ -3,8 +3,6 @@
 #include "player.h"
 #include "utlist.h"
 
-
-
 /* See player.h */
 int player_init(player_t* plyr, int health)
 {
@@ -66,3 +64,86 @@ int player_free(player_t* plyr)
     return SUCCESS;
 }
 
+/* See player.h */
+int get_health(player_t* plyr)
+{
+	//TODO
+	return -1;
+}
+
+/* See player.h */
+int change_health(player_t* plyr)
+{
+	//TODO
+	return -1;
+}
+
+/* See player.h */
+int get_level(player_t* plyr)
+{
+	//TODO
+	return -1;
+}
+
+/* See player.h */
+int change_level(player_t* plyr)
+{
+	//TODO
+	return -1;
+}
+
+/* See player.h */
+int get_xp(player_t* plyr)
+{
+	//TODO
+	return -1;
+}
+
+/* See player.h */
+int change_xp(player_t* plyr)
+{
+	//TODO
+	return -1;
+}
+
+/* See player.h */
+int add_clothes_object(object_t* item)
+{
+	//TODO
+	return -1;
+}
+
+/* See player.h */
+int add_inventory_object(object_t* item)
+{
+	//TODO
+	return -1;
+}
+
+/* See player.h */
+object_t* remove_inventory_object(player_t* plyr)
+{
+	//TODO
+	return NULL;
+}
+
+/* See player.h */
+object_t* remove_clothes_object(player_t* plyr)
+{
+	//TODO
+	return NULL;
+}
+
+/* See player.h */
+object_t* see_inventory_item(player_t* plyr)
+{
+	//TODO
+	return NULL;
+}
+
+/* See player.h */
+object_t* see_clothes_item(player_t* plyr)
+{
+	//TODO
+	return NULL;
+}
