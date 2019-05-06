@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
 RM = rm -f
 SRCS = src/game.c
 OBJS = $(SRCS:.c=.o)

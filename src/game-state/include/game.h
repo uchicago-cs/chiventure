@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "uthash.h"
 // #include "small_modules.h" (ONCE ACTIVE)
 
 #ifndef GAME_H
@@ -7,19 +8,22 @@
 
 /* The game struct is built to contain all the relevant information
 for anyone who needs to work the game
-
 */
+
+// This detailed implementation of this struct is in the small modules.
+// Once small_modules.h is finished, we will change the implementation to the following:
+// typedef **name_used_in_small_modules.h** room_t;
 typedef struct room {
-  // room;
+    int id;
+    UT_hash_handle hh;
+    // room;
 } room_t;
 
-//list of rooms prototype
-typedef struct rlist {
-    room_t *curr;
-    struct rlist *rest;
-} rlist_t;
+typedef room_t* all_rooms_t;
 
 typedef struct player {
+    int id;
+    UT_hash_handle hh;
     //holds levels
     //health
     //inventory
@@ -27,23 +31,22 @@ typedef struct player {
     //objectives : 1 or 0 if complete
 } player_t;
 
-//adja
-struct G_Rooms {
-    room_t *curr;
-    //list of all rooms
-    rlist_t *list;
-};
+typedef player_t* all_players_t;
 
 typedef struct game {
     // list of players, the expected value is 1 but this can change
-    player_t *players;
+    all_players_t all_players;
 
     //rooms: rooms should be a graph struct w/ directed edges
     //assuming rooms form a network/graphs we can just store the current room
     //store graph of rooms
     
     //pointer to all rooms struct (current room + list of all rooms)
-    struct G_Rooms *Rooms;
+    //use the hashtable macro provided by uthash.h
+    all_rooms_t all_rooms;
+
+    //pointer to current room struct
+    room_t *curr_room;
 
     //TIME STARTED
     int time_start;
