@@ -2,14 +2,14 @@ CC = gcc
 CFLAGS = -Wall -g
 RM = rm -f
 LDLIBS = -lmsgpackc
-BIN = write read
+BIN = save load
 
 all: $(BIN)
 
-write: write.c
+save: save.c
 	$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 
-read: read.c
+load: load.c
 	$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 
 clean:

@@ -22,6 +22,8 @@ int main(int argc, char *argv[])
 
   FILE *write = fopen("loaded.txt", "w");
   /* prints out the data from the file */
+  /* source:
+  https://stackoverflow.com/questions/43442194/how-do-i-read-and-write-with-msgpack */
   do {    
     read = fread(inbuffer, sizeof(char), buffsize - off, reading);
     off = 0;
