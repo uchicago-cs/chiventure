@@ -136,28 +136,71 @@ void   game__free_unpacked
   assert(message->base.descriptor == &game__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor player__field_descriptors[1] =
+static const ProtobufCEnumValue player__gender__enum_values_by_number[3] =
+{
+  { "MALE", "PLAYER__GENDER__MALE", 0 },
+  { "FEMALE", "PLAYER__GENDER__FEMALE", 1 },
+  { "OTHER", "PLAYER__GENDER__OTHER", 2 },
+};
+static const ProtobufCIntRange player__gender__value_ranges[] = {
+{0, 0},{0, 3}
+};
+static const ProtobufCEnumValueIndex player__gender__enum_values_by_name[3] =
+{
+  { "FEMALE", 1 },
+  { "MALE", 0 },
+  { "OTHER", 2 },
+};
+const ProtobufCEnumDescriptor player__gender__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "Player.Gender",
+  "Gender",
+  "Player__Gender",
+  "",
+  3,
+  player__gender__enum_values_by_number,
+  3,
+  player__gender__enum_values_by_name,
+  1,
+  player__gender__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCFieldDescriptor player__field_descriptors[2] =
 {
   {
-    "p_name",
+    "name",
     1,
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
-    offsetof(Player, p_name),
+    offsetof(Player, name),
     NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "gender",
+    2,
+    PROTOBUF_C_LABEL_REQUIRED,
+    PROTOBUF_C_TYPE_ENUM,
+    0,   /* quantifier_offset */
+    offsetof(Player, gender),
+    &player__gender__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
 static const unsigned player__field_indices_by_name[] = {
-  0,   /* field[0] = p_name */
+  1,   /* field[1] = gender */
+  0,   /* field[0] = name */
 };
 static const ProtobufCIntRange player__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 1 }
+  { 0, 2 }
 };
 const ProtobufCMessageDescriptor player__descriptor =
 {
@@ -167,7 +210,7 @@ const ProtobufCMessageDescriptor player__descriptor =
   "Player",
   "",
   sizeof(Player),
-  1,
+  2,
   player__field_descriptors,
   player__field_indices_by_name,
   1,  player__number_ranges,

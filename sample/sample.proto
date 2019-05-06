@@ -3,7 +3,13 @@
 syntax = "proto2";
 
 message Player {
-	required int32 p_name = 1;
+	enum Gender {
+		MALE = 0;
+		FEMALE = 1;
+		OTHER = 2;
+	}
+	required string name = 1;
+	required Gender gender = 2;
 }
 
 message Room{

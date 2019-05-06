@@ -22,17 +22,24 @@ typedef struct _Game Game;
 
 /* --- enums --- */
 
+typedef enum _Player__Gender {
+  PLAYER__GENDER__MALE = 0,
+  PLAYER__GENDER__FEMALE = 1,
+  PLAYER__GENDER__OTHER = 2
+    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(PLAYER__GENDER)
+} Player__Gender;
 
 /* --- messages --- */
 
 struct  _Player
 {
   ProtobufCMessage base;
-  char *p_name;
+  char *name;
+  Player__Gender gender;
 };
 #define PLAYER__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&player__descriptor) \
-    , NULL }
+    , NULL, 0 }
 
 
 struct  _Room
@@ -136,6 +143,7 @@ typedef void (*Game_Closure)
 /* --- descriptors --- */
 
 extern const ProtobufCMessageDescriptor player__descriptor;
+extern const ProtobufCEnumDescriptor    player__gender__descriptor;
 extern const ProtobufCMessageDescriptor room__descriptor;
 extern const ProtobufCMessageDescriptor game__descriptor;
 
