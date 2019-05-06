@@ -136,7 +136,6 @@ cmd *cmd_from_string(char *s)
 /* =================================== */
 
 /* do_cmd: execute the given command
- * note: address_book is of type bst** so it can be modified in READ
  */
 void do_cmd(cmd *c,int *quit)
 {
