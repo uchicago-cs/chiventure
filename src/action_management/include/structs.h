@@ -9,7 +9,7 @@
  */
 struct NPC_struct {
     char *dialogue; 
-}
+};
 
 /* The room struct contains a list of NPCs and objects in the room.
  * We weren't really sure what it would look like but gave a bare bones
@@ -20,8 +20,8 @@ struct NPC_struct {
  * overall_map - the map as an array ? (not sure how this would be implemented)
  */
 struct room_struct {
-	list_t *NPCs;
-	list_t *objects;
+    list_t *NPCs;
+    list_t *objects;
     int *overall_map;
 };
 
@@ -33,8 +33,8 @@ struct room_struct {
  * num_allowed_actions - keeps track of how many values are inside of the array, as is standard when dealing w arrays
  */
 struct object_struct {
-	int *allowed_actions;
-	int num_allowed_actions;
+    int *allowed_actions;
+    int num_allowed_actions;
 };
 
 /* The important thing to take away here is the fact that we have the inventory
@@ -46,6 +46,6 @@ struct object_struct {
  * inventory - array of enumerate type "items" 
  */
 struct player_struct {
-	bool alive;
-    int *inventory; // an array of enumerated type ITEMS
+    bool alive;
+    int *inventory;
 };
