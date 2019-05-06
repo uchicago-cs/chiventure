@@ -113,6 +113,32 @@ void act_inventory(action_struct *a, object_struct *o,
 
 void act_NPC(action_struct *a, object_struct *o, player_struct *p, npc_struct *n);
 
-void act_world(action_struct, object_struct *o, room_struct *r);
+void act_world(action_struct *a, object_struct *o, room_struct *r);
 
 //inventory
+
+/*
+ * A function that performs the changes necessary to the game state given an action.
+ * Parameters:
+ * - a
+ * - o:
+ * - r:
+ * - p:
+ */
+
+int act_w_open_close(action_struct *a, object_struct *o, room_struct *r);
+int act_w_push_pull(action_struct *a, object_struct *o, room_struct *r);
+int act_w_examine(action_struct *a, object_struct *o, room_struct *r);
+int act_w_turn_on_off(action_struct *a, object_struct *o, room_struct *r);
+int act_n_talk_to(action_struct *a, object_struct *o, player_struct *p, npc_struct *n);
+int act_n_give(action_struct *a, object_struct *o, player_struct *p, npc_struct *n);
+int act_w_go(action_struct *a, object_struct *o, room_struct *r);
+int act_i_take(action_struct *a, object_struct *o, 
+           room_struct *r, player_struct *p);
+int act_i_drop(action_struct *a, object_struct *o, 
+           room_struct *r, player_struct *p);
+int act_i_consume(action_struct *a, object_struct *o, 
+           room_struct *r, player_struct *p);
+int act_i_use_on(action_struct *a, object_struct *o, 
+           room_struct *r, player_struct *p);
+int act_n_medly(action_struct *a, object_struct *o, player_struct *p, npc_struct *n);
