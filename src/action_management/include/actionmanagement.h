@@ -80,7 +80,7 @@ action_t *action_new(enum actions act, enum action_type type,
  * - failure: a failure string for the action
  * 
  * Returns:
- * - 1 if success, 0 if an error occurs
+ * - 0 if success, 1 if an error occurs
  * - an error message in stderr if the action struct is not initialized
  */
 int action_init(action_t *a, enum actions act, enum action_type type,
@@ -107,12 +107,41 @@ int action_free(action_t *a);
  * - o: a pointer to an object struct given by game state
  * - r: a pointer to a room struct given by game state
  * - p: a pointer to a player struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
  */
-void act_inventory(action_struct *a, object_struct *o, 
+int act_inventory(action_struct *a, object_struct *o, 
 		   room_struct *r, player_struct *p);
 
+
+/*
+ * A function that redirects npc actions to their own action functions
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - p: a pointer to a player struct given by game state
+ * - n: a pointer to an npc struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ */
 void act_NPC(action_struct *a, object_struct *o, player_struct *p, npc_struct *n);
 
-void act_world(action_struct, object_struct *o, room_struct *r);
 
-//inventory
+/*
+ * A function that redirects world actions to their own action functions
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - r: a pointer to a room struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ */
+void act_world(action_struct *a, object_struct *o, room_struct *r);
+
+/* each individual function will check for validity before implementation */
+
