@@ -7,7 +7,7 @@
  * Parameters:
  * dialogue - a line of dialogue NPC will say when spoken to 
  */
-struct NPC_struct {
+struct npc_struct {
     char *dialogue; 
 };
 
@@ -20,7 +20,7 @@ struct NPC_struct {
  * overall_map - the map as an array ? (not sure how this would be implemented)
  */
 struct room_struct {
-    list_t *NPCs;
+    list_t *npcs;
     list_t *objects;
     int *overall_map;
 };
