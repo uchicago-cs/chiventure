@@ -106,43 +106,29 @@ int change_xp(player_t* plyr)
 	return -1;
 }
 
-/* See player.h */
-int add_clothes_object(object_t* item)
+
+int add_clothes_object(object_t* item, player_t* plyr)
 {
 	//TODO
 	return -1;
 }
 
-/* See player.h */
-int add_inventory_object(object_t* item)
+
+int add_inventory_object(object_t* item, player_t* plyr)
 {
 	//TODO
 	return -1;
 }
 
-/* See player.h */
-object_t* remove_inventory_object(player_t* plyr)
+
+llist* get_inventory(player_t* plyr)
 {
 	//TODO
 	return NULL;
 }
 
-/* See player.h */
-object_t* remove_clothes_object(player_t* plyr)
-{
-	//TODO
-	return NULL;
-}
 
-/* See player.h */
-object_t* see_inventory_item(player_t* plyr)
-{
-	//TODO
-	return NULL;
-}
-
-/* See player.h */
-object_t* see_clothes_item(player_t* plyr)
+llist* get_clothes(player_t* plyr)
 {
 	//TODO
 	return NULL;
