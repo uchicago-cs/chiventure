@@ -13,6 +13,7 @@ typedef struct room {
   // room;
 } room_t;
 
+//list of rooms prototype
 typedef struct rlist {
     room_t *curr;
     rlist_t *rest;
@@ -26,10 +27,10 @@ typedef struct player {
     //objectives : 1 or 0 if complete
 } player_t;
 
-//graph struct with current room and etc (UNSURE)
+//adja
 struct G_Rooms {
     room_t *curr;
-    //list of all rooms (just id)
+    //list of all rooms
     rlist_t *list;
 };
 
@@ -41,11 +42,11 @@ typedef struct game {
     //assuming rooms form a network/graphs we can just store the current room
     //store graph of rooms
     
-    //pointer to graph struct (undefined)
+    //pointer to all rooms struct (current room + list of all rooms)
     struct G_Rooms *Rooms;
 
     //TIME STARTED
-
+    int time_start;
 } game_t;
 
 //loads game. If given file is empty start new game, else load
