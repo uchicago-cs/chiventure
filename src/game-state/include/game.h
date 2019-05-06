@@ -16,7 +16,7 @@ typedef struct room {
 //list of rooms prototype
 typedef struct rlist {
     room_t *curr;
-    rlist_t *rest;
+    struct rlist *rest;
 } rlist_t;
 
 typedef struct player {
