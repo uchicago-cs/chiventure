@@ -127,7 +127,7 @@ int act_inventory(action_struct *a, object_struct *o,
  * Returns: 
  * - 0 if success, 1 if failure
  */
-void act_NPC(action_struct *a, object_struct *o, player_struct *p, npc_struct *n);
+int act_NPC(action_struct *a, object_struct *o, player_struct *p, npc_struct *n);
 
 
 /*
@@ -141,7 +141,196 @@ void act_NPC(action_struct *a, object_struct *o, player_struct *p, npc_struct *n
  * Returns: 
  * - 0 if success, 1 if failure
  */
-void act_world(action_struct *a, object_struct *o, room_struct *r);
+int act_world(action_struct *a, object_struct *o, room_struct *r);
+
 
 /* each individual function will check for validity before implementation */
 
+
+/*
+ * A function that alters the game state according to an open or close action
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - r: a pointer to a room struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_w_open_close(action_struct *a, object_struct *o, room_struct *r);
+
+
+/*
+ * A function that alters the game state according to a push or pull action
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - r: a pointer to a room struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_w_push_pull(action_struct *a, object_struct *o, room_struct *r);
+
+
+/*
+ * A function that gives the description associated with a given object
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr describing the object
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_w_examine(action_struct *a, object_struct *o);
+
+
+/*
+ * A function that alters the game state according to a turn on or off action
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - r: a pointer to a room struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_w_turn_on_off(action_struct *a, object_struct *o, room_struct *r);
+
+
+/*
+ * A function that gives information provided by a npc
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - n: a pointer to an npc struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - messages to stderr providing information held by the npc
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_n_talk_to(action_struct *a, object_struct *o, npc_struct *n);
+
+
+/*
+ * A function that alters the game state according to a give action
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - p: a pointer to a player struct given by game state
+ * - n: a pointer to an npc struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_n_give(action_struct *a, object_struct *o, player_struct *p, npc_struct *n);
+
+
+/*
+ * A function that alters the game state according to a go action
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct designating a direction given by game state
+ * - r: a pointer to a room struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_w_go(action_struct *a, object_struct *o, room_struct *r);
+
+
+/*
+ * A function that alters inventory and the game state according to a take action
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - r: a pointer to a room struct given by game state
+ * - p: a pointer to a player struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_i_take(action_struct *a, object_struct *o, 
+	       room_struct *r, player_struct *p);
+
+
+/*
+ * A function that alters inventory and the game state according to a drop action
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - r: a pointer to a room struct given by game state
+ * - p: a pointer to a player struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_i_drop(action_struct *a, object_struct *o, 
+	       room_struct *r, player_struct *p);
+
+
+/*
+ * A function that alters inventory and the game state according to a consume action
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - r: a pointer to a room struct given by game state
+ * - p: a pointer to a player struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_i_consume(action_struct *a, object_struct *o, 
+		  room_struct *r, player_struct *p);
+
+
+/*
+ * A function that alters inventory and the game state according to a use on action
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - o: a pointer to an object struct given by game state
+ * - r: a pointer to a room struct given by game state
+ * - p: a pointer to a player struct given by game state
+ * 
+ * Returns: 
+ * - 0 if success, 1 if failure
+ * - a message to stderr indicating whether the action was a success or failure
+ */ 
+int act_i_use_on(action_struct *a, object_struct *o, 
+		 room_struct *r, player_struct *p);
+
+
+/*
+ * An easter egg function that gives the player an instant win
+ * Consists of our Initials: M(elinda)E(lly)D(ante)L(ucy)Y(oon)
+ * 
+ * Parameters:
+ * - a: a pointer to an action struct allocated by action_new
+ * - p: a pointer to a player struct given by game state
+ * 
+ * Returns: 
+ * - A message to stderr indicating a successful end to the game
+ */ 
+int act_n_medly(action_struct *a, player_struct *p);
