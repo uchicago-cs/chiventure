@@ -1,6 +1,9 @@
+#ifndef _OBJECT_H
+#define _OBJECT_H
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "rooms.h"
+#include "uthash.h"
 
 typedef struct door {
   int locked;
@@ -48,3 +51,5 @@ char *get_long_desc(object_t obj);
 int *get_obj_type(enum object_type_t obj_t);
 
 int take_object(object_t obj);
+
+#endif

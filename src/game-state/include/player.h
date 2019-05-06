@@ -7,9 +7,14 @@
 #define INCLUDE_PLAYER_H_
 
 #include <stdbool.h>
+#include "uthash.h"
 
 /* A player in game */
 typedef struct player{
+    /* hh is used for hashtable, as provided in uthash.h*/
+    UT_hash_handle hh;
+
+    int id;
     char username[20];
     int level;
     int health;
@@ -56,7 +61,7 @@ int player_free(player_t* plyr);
  * Returns the health of a player
  *
  * Parameters:
- *  plyr: the player 
+ *  plyr: the player
  *
  * Returns:
  *  int, the player's health
@@ -67,7 +72,7 @@ int get_health(player_t* plyr);
  * Changes the health of the player
  *
  * Parameters:
- *  plyr: the player 
+ *  plyr: the player
  *
  * Returns:
  *  int, remaining health
@@ -78,7 +83,7 @@ int change_health(player_t* plyr);
  * Returns the level of the player
  *
  * Parameters:
- *  plyr: the player 
+ *  plyr: the player
  *
  * Returns:
  *  int, the player's level
@@ -89,7 +94,7 @@ int get_level(player_t* plyr);
  * Increments the level of the player by one
  *
  * Parameters:
- *  plyr: the player 
+ *  plyr: the player
  *
  * Returns:
  *  int, the new level
@@ -100,7 +105,7 @@ int change_level(player_t* plyr);
  * Returns the experience points of the player
  *
  * Parameters:
- *  plyr: the player 
+ *  plyr: the player
  *
  * Returns:
  *  int, the player's experience
@@ -111,11 +116,11 @@ int get_xp(player_t* plyr);
  * Changes the experience (xp) points of the player
  *
  * Parameters:
- *  plyr: the player 
+ *  plyr: the player
  * 	points: how much to change xp (positive or negative)
  *
  * Returns:
- *  int, the player's new xp 
+ *  int, the player's new xp
  */
 int change_xp(player_t* plyr, int points);
 
@@ -123,7 +128,7 @@ int change_xp(player_t* plyr, int points);
  * Adds an object to the player's inventory
  *
  * Parameters:
- *  plyr: the player 
+ *  plyr: the player
  * 	points: how much to change xp (positive or negative)
  *
  * Returns:
