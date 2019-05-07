@@ -35,25 +35,39 @@ typedef struct game {
 } game_t;
 
 
-//loads game. If given file is empty start new game, else load
+/* loads game from given file. 
+* If given file is empty, start a new game, else load the saved game
+*/ 
 game_t *init_game(FILE *f);
 
-//saves game, bool if success
-//(SHOULD be able to select new save location - depends on CLI)
+/* Saves game to file
+* Parameters: *game struct, file location
+* (SHOULD be able to select new save location - depends on CLI)
+* Returns: boolean if save was success
+*/
 int save_game(game_t *game, FILE *f);
 
-//given a new room, changes the current room in game-state
-//this should only check if the room is in the list of adjacent rooms
-//expecting a legal move
+/* Given a new room, changes the current room in game-state
+* Parameters: *game struct, *room that we're changing to
+* This should only check if the room is in the list of adjacent rooms
+* and is expecting a legal move
+* Returns: void
+*/
 void move_room(game_t *game, room_t *new_room);
 
-//exit game
-//echo "ctrl-g"
-//troll post pls dont hate
+/* exit game
+* Parameters: *game struct
+* Frees game and checks if freed
+* Future easter egg :) :) :)
+* pls dont hate
+* Returns: void
+*/ 
 void exit_game(game_t *game);
 
-//free game
-//assuming fxnalities being x-built
+/* Frees game struct
+* Parameters: *game struct
+* Returns: Void
+*/
 void free_game(game_t *game);
 
 

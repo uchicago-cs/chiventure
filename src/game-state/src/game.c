@@ -1,8 +1,6 @@
 #include "game.h"
 
 /* see game.h */
-
-//loads game. If given file is empty start new game, else load
 game_t *init_game(FILE *f) {
     game_t *game = malloc(sizeof(game_t));
     game->all_players = NULL; //helper fxn to get list of players
@@ -15,8 +13,7 @@ game_t *init_game(FILE *f) {
     return game;
 }
 
-//saves game, bool if success
-//(SHOULD be able to select new save location - depends on CLI)
+/* See game.h */
 int save_game(game_t *game, FILE *f) {
     int check = 0;
 
@@ -26,18 +23,14 @@ int save_game(game_t *game, FILE *f) {
     return check;
 }
 
-//given a new room, changes the current room in game-state
-//this should only check if the room is in the list of adjacent rooms
-//expecting a legal move
+/* See game.h */
 void move_room(game_t *game, room_t *new_room) {
     if(game != NULL && new_room != NULL) {
         game->curr_room = new_room;
     }
 }
 
-//exit game
-//echo "ctrl-g"
-//troll post pls dont
+/* See game.h */
 void exit_game(game_t *game) {
     if (game != NULL) free_game(game);
     exit(0);
