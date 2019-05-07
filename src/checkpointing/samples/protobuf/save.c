@@ -11,7 +11,7 @@ int main (int argc, char * argv[])
 	void *buf;
 	unsigned len;
 
-	if (argc != 4 || argc != 5){
+	if (argc != 4 && argc != 5){
 		fprintf(stderr, "usage: game player_info location [discovered]");
 		return 1;
 	}

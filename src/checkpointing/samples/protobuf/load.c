@@ -21,7 +21,7 @@ int main (int argc, const char * argv[])
 		buf[i++] = c;
 	}
 
-	file = sample__unpack(NULL, i, buf);
+	file = game__unpack(NULL, i, buf);
 	if (file == NULL){ //something failed
 		fprintf(stderr, "error unpacking incoming message\n");
 		return 1;
@@ -32,10 +32,11 @@ int main (int argc, const char * argv[])
 
 	printf("Received: \nplayer_info: name = %s, gender = %d\nlocation = %s", 
 			sub1->name, sub1->gender, sub2->r_name);
-	if (file->discovered != NULL)
+	if (file.discovered != NULL)
 		printf("\ndiscovered = %d\n", file->discovered);
 	
-	sample__free_unpacked(file,NULL);
+	game__free_unpacked(file,NULL);
+
 
 	return 0;
 }
