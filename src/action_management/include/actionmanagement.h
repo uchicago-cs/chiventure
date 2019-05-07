@@ -22,7 +22,6 @@ enum actions {
   DROP, /* inventory action */
   CONSUME, /* synonymous with "use", "drink", "eat", is an inventory action */
   USE_ON, /* requires two arguments separated by 'on', world and NPC action  */
-  MEDLY /* world action */
 };
 
 
@@ -39,15 +38,11 @@ enum action_type {
  * act: A tag corresponding to the action 
  * type: A tag describing the type of action
  * num_arg: the number of actions required for the action to be valid
- * success: a string indicating the action was a success
- * failure: a string indicating the action was a failure
 */
 struct action_struct {
   enum actions act;
   enum action_type type;
   int num_arg; 
-  char *success;
-  char *failure;
 };
 
 
@@ -57,35 +52,29 @@ typedef struct action_struct action_t;
 
 /* 
  * Allocates a new action on the heap, calling action_init
- * 
+ *
  * Parameters:
  * - act: an enumeration of the action
- * - type: an enumeration of the type of action
- * - success: a success string for the action
- * - failure: a failure string for the action
  *
  * Returns: 
  * - a pointer to a new action struct
  */
-action_t *action_new(enum actions act, enum action_type type, 
-		     char *success, char *failure);
+action_t *action_new(enum actions act);
 
 
 /* 
  * A function that initializes an action
+ * Will determine the action_type, depending on what action is given
+ * 
  * Parameters:
  * - a: a pointer to an empty action_t
  * - act: an enumeration of the action
- * - type: an enumeration of the type of action
- * - success: a success string for the action
- * - failure: a failure string for the action
  * 
  * Returns:
  * - 0 if success, 1 if an error occurs
  * - an error message in stderr if the action struct is not initialized
  */
-int action_init(action_t *a, enum actions act, enum action_type type,
-		char *success, char *failure);
+int action_init(action_t *a, enum actions act);
 
 
 /*
@@ -321,20 +310,6 @@ int act_i_consume(action_struct *a, object_struct *o,
  */ 
 int act_i_use_on(action_struct *a, object_struct *o, 
 		 room_struct *r, player_struct *p);
-
-
-/*
- * An easter egg function that gives the player an instant win
- * Consists of our Initials: M(elinda)E(lly)D(ante)L(ucy)Y(oon)
- * 
- * Parameters:
- * - a: a pointer to an action struct allocated by action_new
- * - p: a pointer to a player struct given by game state
- * 
- * Returns: 
- * - A message to stderr indicating a successful end to the game
- */ 
-int act_n_medly(action_struct *a, player_struct *p);
 
 
 #endif
