@@ -3,12 +3,6 @@
 #include "player.h"
 #include "utlist.h"
 
-llist_t* new_llist()
-{
-    llist_t* new_list = (llist_t*)malloc(sizeof(llist_t));
-    return new_list;
-}
-
 /* See player.h */
 int player_init(player_t* plyr, int health)
 {
@@ -17,20 +11,8 @@ int player_init(player_t* plyr, int health)
     plyr->level = 1;
     plyr->health = health;
     plyr->xp = 0;
-    plyr->inventory = new_llist();
-    plyr->clothes = new_llist();
-
-    if(plyr->inventory == NULL)
-    {
-        error("Could not allocate memory for inventory list");
-        return FAILURE;
-    }
-
-    if(plyr->clothes == NULL)
-    {
-        error("Could not allocate memory for clothes list");
-        return FAILURE;
-    }
+    plyr->inventory = NULL;
+    plyr->clothes = NULL;
 
     return SUCCESS;
 
@@ -44,14 +26,14 @@ player_t* player_new(int health)
 
     if(plyr == NULL)
     {
-        error("Could not allocate memory");
+        perror("Could not allocate memory");
         return NULL;
     }
 
     int init_bool = player_init(plyr, health);
     if(init_bool != SUCCESS)
     {
-        error("Could not initialize player");
+        perror("Could not initialize player");
         return NULL;
     }
 
@@ -126,14 +108,14 @@ int add_inventory_object(object_t* item, player_t* plyr)
 }
 
 
-llist_t* get_inventory(player_t* plyr)
+all_objects_t get_inventory(player_t* plyr)
 {
 	//TODO
 	return NULL;
 }
 
 
-llist_t* get_clothes(player_t* plyr)
+all_objects_t get_clothes(player_t* plyr)
 {
 	//TODO
 	return NULL;

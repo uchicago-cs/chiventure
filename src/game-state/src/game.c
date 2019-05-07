@@ -3,16 +3,6 @@
 
 /* see game.h */
 
-void add_room(game_t *game, int room_id, room_t *room) {
-    room_t *s;
-    HASH_FIND_INT(game->all_rooms, &room_id, s);
-    if (s != NULL) {
-        printf("room_id already used!\n");
-        exit(0);
-    }
-    HASH_ADD_INT(game->all_rooms, room_id, s);
-}
-
 //loads game. If given file is empty start new game, else load
 game_t *init_game(FILE *f) {
     game_t *game = malloc(sizeof(game_t));

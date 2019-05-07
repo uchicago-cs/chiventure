@@ -8,7 +8,13 @@
 #include "object.h"
 
 /* Forward declaration of linked list */
-typedef struct llist llist_t;
+typedef struct exit {
+    /* fields used for linked list */
+    struct exit *next, *prev;
+
+    /* add necessary exit/door info here */
+
+} exit_t;
 
 /* This struct represents a single room, which includes a
  * short and long description of the room, a list of objects to be
@@ -23,9 +29,13 @@ typedef struct room {
     int room_id;
     char *short_desc;
     char *long_desc;
-    llist_t *items;
-    llist_t *exits;
+    /* a hashtable of all items in the room */
+    all_objects_t items;
+    /* an adjacency list (using linked list) of adjacent rooms */
+    exit_t *exits;
 } room_t;
+
+typedef struct room* all_rooms_t;
 
 /* Mallocs space for a new room
  *
@@ -38,16 +48,29 @@ typedef struct room {
  * Returns:
  *  a pointer to new room
  */
-room_t *room_new(char *short_desc, char *long_desc, llist_t *items, llist_t *exits);
+room_t *room_new(char *short_desc, char *long_desc, all_objects_t *items, exit_t *exits);
 
 /* Frees the space in memory taken by given room
  *
  * Parameters:
  *  pointer to the room struct to be freed
- *  
+ *
  * Returns:
  *  1 if successful, 0 if failed
  */
 int free_room(room_t *room);
+
+
+/* Adds a room to the given hashtable of rooms
+ *
+ * Parameters:
+ *  hashtable the room is added to
+ *  room id
+ *  pointer to the room
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+int add_room_to_hash(all_rooms_t all_rooms, int room_id, room_t *room);
+
 
 #endif

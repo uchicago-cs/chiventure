@@ -3,10 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "uthash.h"
-#include "player.h"
-#include "room.h"
-#include "game.h"
 
 typedef struct door {
     int locked;
@@ -28,6 +26,8 @@ typedef struct tagged_object {
 /* this object struct will include a door object to be used between rooms,
 i.e. included in the room struct in its list of exits */
 typedef struct object {
+    /* hh is used for hashtable, making this struct hashable, as provided in uthash.h*/
+    UT_hash_handle hh;
     char *object_id;
     char *short_desc;
     char *long_desc;
@@ -36,6 +36,20 @@ typedef struct object {
     2 = condition to pick it up */
     bool condition; /* reserved for future expansion */
 } object_t;
+
+typedef struct object* all_objects_t;
+
+
+/* Adds an object to the given hashtable of objects
+ *
+ * Parameters:
+ *  hashtable the object is added to
+ *  object id
+ *  pointer to the object
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+int add_object_to_hash(all_objects_t all_objects, int object_id, object_t *object);
 
 
 /* allocates a new object on the heap */

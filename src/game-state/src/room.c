@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include "room.h"
-#include "object.h"
 
 /* See board.h */
-room_t *room_new(char *short_desc, char *long_desc, llist_t *items, llist_t *exits) {
+room_t *room_new(char *short_desc, char *long_desc, all_objects_t *items, exit_t *exits) {
   /* TODO */
   return NULL;
 }
@@ -12,6 +11,18 @@ room_t *room_new(char *short_desc, char *long_desc, llist_t *items, llist_t *exi
 int room_free(room_t *room) {
   /* TODO */
   return 0;
+}
+
+/* See board.h */
+int add_room_to_hash(all_rooms_t all_rooms, int room_id, room_t *room) {
+    room_t *s;
+    HASH_FIND_INT(all_rooms, &room_id, s);
+    if (s != NULL) {
+        printf("FATAL: room_id already used!\n");
+        exit(0);
+    }
+    HASH_ADD_INT(all_rooms, room_id, s);
+    return 1;
 }
 
 /* Get short description of room
@@ -40,28 +51,28 @@ char *get_ldesc(room_t *room) {
   return NULL;
 }
 
-/* Get list of objects in room
+/* Get list (implemented with hashtable) of objects in room
  *
  * Parameters:
  *  pointer to room
  *
  * Returns:
- *  pointer to linked list of items in room
+ *  hashtable of items in room
  */
-llist_t *list_objs(room_t *room) {
+all_objects_t list_objs(room_t *room) {
   /* TODO */
   return NULL;
 }
 
 /* Get list of exits from room
- * 
+ *
  * Parameters:
  *  pointer to room
  *
  * Returns:
  *  pointer to linked list of exits from room
  */
-llist_t *list_exits(room_t *room) {
+exit_t *list_exits(room_t *room) {
   /* TODO */
   return NULL;
 }

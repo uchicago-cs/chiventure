@@ -11,22 +11,23 @@
 #include "utlist.h"
 #include "uthash.h"
 #include "object.h"
-#include "room.h"
+
+#define SUCCESS 1
+#define FAILURE 1
 
 /* Forward declaration of linked list */
-typedef struct llist llist_t;
 
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
     UT_hash_handle hh;
-    int id;
+    int player_id;
     char username[20];
     int level;
     int health;
     int xp;
-    llist_t* inventory;
-    llist_t* clothes;
+    all_objects_t inventory;
+    all_objects_t clothes;
 } player_t;
 
 /*
@@ -161,9 +162,9 @@ int add_inventory_object(object_t* item, player_t* plyr);
  * 	plyr: the player
  *
  * Returns:
- *  linked list, the inventory
+ *  hashtable of objects, the inventory
  */
-llist_t* get_inventory(player_t* plyr);
+all_objects_t get_inventory(player_t* plyr);
 
 /*
  * Returns the inventory list
@@ -172,9 +173,9 @@ llist_t* get_inventory(player_t* plyr);
  * 	plyr: the player
  *
  * Returns:
- *  linked list, the clothes
+ *  hashtable of objects, the clothes
  */
-llist_t* get_clothes(player_t* plyr);
+all_objects_t get_clothes(player_t* plyr);
 
 
 #endif
