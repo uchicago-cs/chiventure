@@ -23,11 +23,18 @@ typedef struct exit {
  * Each exit will be an object (door) struct that connects to another room
  * and has a locked/unlocked quality.
  */
+
+typedef struct coord {
+    int x;
+    int y;
+} coord_t;
+
 typedef struct room {
     /* hh is used for hashtable, as provided in uthash.h*/
     UT_hash_handle hh;
 
     int room_id;
+    coord_t coord;
     char *short_desc;
     char *long_desc;
     /* a hashtable of all items in the room */
