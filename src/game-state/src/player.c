@@ -48,6 +48,14 @@ int player_free(player_t* plyr)
     return SUCCESS;
 }
 
+void delete_all_players(all_players_t players) {
+    player_t *current_player, *tmp;
+    HASH_ITER(hh, players, current_player, tmp) {
+        HASH_DEL(players, current_player);  /* delete it (players advances to next) */
+        player_free(current_player);             /* free it */
+    }
+}
+
 /* See player.h */
 int get_health(player_t* plyr)
 {

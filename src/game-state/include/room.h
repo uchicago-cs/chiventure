@@ -80,5 +80,15 @@ int free_room(room_t *room);
  */
 int add_room_to_hash(all_rooms_t all_rooms, int room_id, room_t *room);
 
+/* Deletes a hashtable of rooms
+ * Implemented with macros provided by uthash.h
+ *
+ * Parameters:
+ *  hashtable of rooms that need to be deleted
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+int delete_all_rooms(all_rooms_t rooms);
+
 
 #endif

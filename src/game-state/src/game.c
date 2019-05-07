@@ -37,26 +37,6 @@ void exit_game(game_t *game) {
     //printf("THIS SHOULD NOT BE EXECUTED");
 }
 
-//helper function that deletes all the rooms using macros provided in uthash.h
-void delete_all_rooms(all_rooms_t rooms) {
-    room_t *current_room, *tmp;
-    HASH_ITER(hh, rooms, current_room, tmp) {
-        HASH_DEL(rooms, current_room);  /* delete it (rooms advances to next) */
-// ** SHOULD CHANGE THIS TO FUNCTIONS IN SMALL MODULES **
-        free(current_room);             /* free it */
-    }
-}
-
-//helper function that deletes all the players using macros provided in uthash.h
-void delete_all_players(all_players_t players) {
-    player_t *current_player, *tmp;
-    HASH_ITER(hh, players, current_player, tmp) {
-        HASH_DEL(players, current_player);  /* delete it (players advances to next) */
-// ** SHOULD CHANGE THIS TO FUNCTIONS IN SMALL MODULES **
-        free(current_player);             /* free it */
-    }
-}
-
 void free_game(game_t *game) {
     //assuming we have the given free fxns
     delete_all_rooms(game->all_rooms);

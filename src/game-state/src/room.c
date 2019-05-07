@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "room.h"
 
 /* See board.h */
@@ -21,6 +22,16 @@ int add_room_to_hash(all_rooms_t all_rooms, int room_id, room_t *room) {
         exit(0);
     }
     HASH_ADD_INT(all_rooms, room_id, s);
+    return 1;
+}
+
+/* See board.h */
+int delete_all_rooms(all_rooms_t rooms) {
+    room_t *current_room, *tmp;
+    HASH_ITER(hh, rooms, current_room, tmp) {
+        HASH_DEL(rooms, current_room);  /* delete it (rooms advances to next) */
+        room_free(current_room);             /* free it */
+    }
     return 1;
 }
 

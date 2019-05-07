@@ -13,8 +13,6 @@
 for anyone who needs to work the game
 */
 
-typedef struct player* all_players_t;
-
 typedef struct game {
     // list of players, the expected value is 1 but this can change
     all_players_t all_players;
@@ -35,9 +33,9 @@ typedef struct game {
 } game_t;
 
 
-/* loads game from given file. 
+/* loads game from given file.
 * If given file is empty, start a new game, else load the saved game
-*/ 
+*/
 game_t *init_game(FILE *f);
 
 /* Saves game to file
@@ -61,7 +59,7 @@ void move_room(game_t *game, room_t *new_room);
 * Future easter egg :) :) :)
 * pls dont hate
 * Returns: void
-*/ 
+*/
 void exit_game(game_t *game);
 
 /* Frees game struct

@@ -31,6 +31,8 @@ typedef struct player {
     all_objects_t clothes;
 } player_t;
 
+typedef struct player* all_players_t;
+
 /*
  * Initializes a player
  *
@@ -64,6 +66,16 @@ player_t* player_new(int health);
  *  always returns 0
  */
 int player_free(player_t* plyr);
+
+/* Deletes a hashtable of players
+ * Implemented with macros provided by uthash.h
+ *
+ * Parameters:
+ *  hashtable of players that need to be deleted
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+void delete_all_players(all_players_t players);
 
 /*
  * Returns the health of a player
