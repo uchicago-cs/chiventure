@@ -13,26 +13,6 @@
 for anyone who needs to work the game
 */
 
-// // This detailed implementation of this struct is in the small modules.
-// // Once small_modules.h is finished, we will change the implementation to the following:
-// // typedef **name_used_in_small_modules.h** room_t;
-// typedef struct room {
-//     int id;
-//     UT_hash_handle hh;
-//     // room;
-// } room_t;
-
-
-// typedef struct player {
-//     int id;
-//     UT_hash_handle hh;
-//     //holds levels
-//     //health
-//     //inventory
-//     //experience
-//     //objectives : 1 or 0 if complete
-// } player_t;
-
 typedef struct player* all_players_t;
 
 typedef struct game {
