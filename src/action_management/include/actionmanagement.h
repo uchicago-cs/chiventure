@@ -16,7 +16,7 @@ enum actions {
   TURN_ON, /* world action */
   TURN_OFF, /* world action */
   TALK_TO, /* NPC action */
-  GIVE, /* requires 2 arguments,  NPC action */
+  GIVE, /* requires 2 arguments separated by 'to',  NPC action */
   GO, /* world action */
   TAKE, /* synonymous with "pick up", is an inventory action */
   DROP, /* inventory action */
