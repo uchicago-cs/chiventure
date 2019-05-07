@@ -4,3 +4,6 @@
 *.a
 *.so
 /chiventure
+*.swp
+*.vscode
+*.ipch
