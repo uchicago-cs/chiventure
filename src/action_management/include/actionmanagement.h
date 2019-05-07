@@ -22,7 +22,7 @@ enum actions {
   DROP, /* inventory action */
   CONSUME, /* synonymous with "use", "drink", "eat", is an inventory action */
   USE_ON, /* requires two arguments separated by 'on', world and NPC action  */
-  MEDLY /* NPC action */
+  MEDLY /* world action */
 };
 
 
