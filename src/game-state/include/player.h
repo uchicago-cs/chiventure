@@ -3,9 +3,10 @@
  * A player structure
  */
 
-#ifndef INCLUDE_PLAYER_H_
-#define INCLUDE_PLAYER_H_
+#ifndef _PLAYER_H
+#define _PLAYER_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "utlist.h"

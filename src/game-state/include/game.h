@@ -1,11 +1,12 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef _GAME_H
+#define _GAME_H
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include "utlist.h"
 #include "uthash.h"
 #include "player.h"
-#include "object.h"
 #include "room.h"
 
 /* The game struct is built to contain all the relevant information
