@@ -14,22 +14,20 @@
  */
 
 typedef struct game {
-    /* list of players */
+    /* an iteratable hashtable of players */
+    /* using the macros provided in uthash.h */
     /* the expected size is 1 for single player games but this can change */
     all_players_t all_players;
 
-    //rooms: rooms should be a graph struct w/ directed edges
-    //assuming rooms form a network/graphs we can just store the current room
-    //store graph of rooms
-
-    //pointer to all rooms struct (current room + list of all rooms)
-    //use the hashtable macro provided by uthash.h
+    /* an iteratable hashtable of players */
+    /* using the macros provided in uthash.h */
+    /* inside each room struct a list of adjacent rooms' id is stored (adjacency list) */
     all_rooms_t all_rooms;
 
-    //pointer to current room struct
+    /* pointer to current room struct */
     room_t *curr_room;
 
-    //TIME STARTED
+    /* time when game started */
     int time_start;
 } game_t;
 

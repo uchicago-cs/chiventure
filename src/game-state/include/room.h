@@ -30,7 +30,7 @@ typedef struct coord {
 } coord_t;
 
 typedef struct room {
-    /* hh is used for hashtable, as provided in uthash.h*/
+    /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
 
     int room_id;
