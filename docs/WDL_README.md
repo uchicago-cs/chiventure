@@ -1,9 +1,3 @@
-**QUESTIONS:**
-
-**1. Do we have a set list of actions that the user can write in the WDL file?** 
-
-**2. Should we keep actions separate from objects?**
-
 # WDL Specification
 May 2, 2019
 
@@ -34,17 +28,17 @@ Each room has to have the following fields:
 		- Ex. door
 	- NOTE: a valid connection has to have an ID that exists
   
-## Objects
-Each object contains the following fields:
-- id : a unique identifier (like object name)
-- short_desc : a first-glance description of the object
-- long_desc : an in-depth description to be printed when object is examined
-- in : The location that the object is in, can be multiple (obj door is in room A, room B)
+## Items
+Each item contains the following fields:
+- id : a unique identifier (like item name)
+- short_desc : a first-glance description of the item
+- long_desc : an in-depth description to be printed when item is examined
+- in : The location that the item is in, can be multiple (item door is in room A, room B)
 - state : attributes like locked, closed, open.
-- actions : actions that can be performed on the object; each action the following fields:
+- actions : actions that can be performed on the item; each action the following fields:
 	- allowed: a *no* field that states that this action can never succeed. (e.g. you can try to open the door, but no matter what, you will fail)
 	- conditions: prerequisites for given action (e.g. door must be unlocked to open)
 		- If an action is not “allowed”, it cannot have conditions.
 	- text_success: text that is printed upon success of an action
 	- text_fail: text that is printed upon action failure
-	- set: sets an object’s *state* upon action (you pull the door; now the door is open)
+	- set: sets an item’s *state* upon action (you pull the door; now the door is open)
