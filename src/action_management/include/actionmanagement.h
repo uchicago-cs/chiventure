@@ -2,6 +2,7 @@
 #define _ACTIONS_H_ 
 
 #include <stdio.h>
+#include <stdlib.h>
 
 
 /* An enumeration of all supported actions. */
