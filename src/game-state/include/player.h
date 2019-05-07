@@ -20,7 +20,6 @@ typedef struct llist llist_t;
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
     UT_hash_handle hh;
-
     int id;
     char username[20];
     int level;

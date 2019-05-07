@@ -3,6 +3,12 @@
 #include "player.h"
 #include "utlist.h"
 
+llist_t* new_llist()
+{
+    llist_t* new_list = (llist_t*)malloc(sizeof(llist_t));
+    return new_list;
+}
+
 /* See player.h */
 int player_init(player_t* plyr, int health)
 {
@@ -11,17 +17,16 @@ int player_init(player_t* plyr, int health)
     plyr->level = 1;
     plyr->health = health;
     plyr->xp = 0;
-    //create empty llist for inventory + clothes
+    plyr->inventory = new_llist();
+    plyr->clothes = new_llist();
 
-    plyr->points = malloc(INITIAL_ALLOC * sizeof(point_t));
-
-    if(p->inventory == NULL)
+    if(plyr->inventory == NULL)
     {
         error("Could not allocate memory for inventory list");
         return FAILURE;
     }
 
-    if(p->clothes == NULL)
+    if(plyr->clothes == NULL)
     {
         error("Could not allocate memory for clothes list");
         return FAILURE;
@@ -43,7 +48,7 @@ player_t* player_new(int health)
         return NULL;
     }
 
-    int init_bool = player_init(plyr);
+    int init_bool = player_init(plyr, health);
     if(init_bool != SUCCESS)
     {
         error("Could not initialize player");
