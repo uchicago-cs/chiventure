@@ -89,7 +89,7 @@ int action_init(action_t *a, enum actions act, enum action_type type,
 
 
 /*
- * A function that frees the resources associated with a piece
+ * A function that frees the resources associated with an action struct
  * 
  * Parameters:
  * - a: An action struct. Must point to action struct allocated by action_new
