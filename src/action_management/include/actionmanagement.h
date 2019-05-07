@@ -56,7 +56,7 @@ typedef struct action_struct action_t;
 
 
 /* 
- * Allocates a new action on the heap
+ * Allocates a new action on the heap, calling action_init
  * 
  * Parameters:
  * - act: an enumeration of the action
