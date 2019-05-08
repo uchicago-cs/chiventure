@@ -11,19 +11,14 @@
 /* cmd_new: make a new heap-allocated command with arg set to NULL
  * and preposition set to 0, which is the symbol for no preposition.
  */
-cmd *cmd_new(enum cmd_name name)
+cmd *cmd_new(char * tokens[TOKEN_LIST_SIZE])
 {
   cmd *c = (cmd*)malloc(sizeof(cmd));
   if (c==NULL) {
     fprintf(stderr,"error (cmd_tag): malloc failed\n");
     exit(1);
   }
-  c->name=name;
-  c->preposition=0;
-  if ((c->arg1 == NULL) || (c->arg2 == NULL)) {
-    fprintf(stderr,"error (cmd_tag): malloc failed\n");
-    exit(1);
-  }
+  c->tokens=tokens;
   return c;
 }
 
@@ -32,13 +27,11 @@ cmd *cmd_new(enum cmd_name name)
 /* cmd_free: free command struct and its string, if there is one */
 void cmd_free(cmd *c)
 {
-  if (c) {
-    if (c->arg1)
-      free(c->arg1);
-    if (c->arg2)
-      free(c->arg2);
-    free(c);
+  if (c == NULL || c->tokens == NULL) return;
+  for(int i = 0; i < TOKEN_LIST_SIZE; i++) {
+      if (c->tokens[i] != NULL) free(c->tokens[i]);
   }
+    free(c);
 }
 
 /* === command display (for debugging, logging) === */
@@ -46,20 +39,10 @@ void cmd_free(cmd *c)
 /* cmd_name_tos: return string constant for command name */
 char *cmd_name_tos(cmd *c)
 {
-  switch (c->name) {
-  case QUIT:      return "QUIT";
-  case HELP:      return "HELP";
-  case HIST:	  return "HIST";
-  case LOOK:	  return "LOOK";
-  case TAKE:	  return "TAKE";
-  case GIVE:	  return "GIVE"; 
-  }
-  // this should never happen, ever 
-  fprintf(stderr,"BUG (cmd_name_tos): unrecognized command name %d\n",c->name);
-  exit(1);
+  if(c == NULL || c->tokens == NULL || c->tokens[0] == NULL) return "ERROR";
+  return c->tokens[0];
 }
 
-static const char *prep[] = {"NONE", "WITH", "TO", "IN"};
 /* cmd_show: print command */
 /* note: for debugging only; */
 void cmd_show(cmd *c)
@@ -67,26 +50,15 @@ void cmd_show(cmd *c)
   /* note: cmd_name_tos result does not need to be freed
    * since that function returns pointers to string constants
    */
-  if (c->arg1 && strlen(c->arg2)>0)
-      printf("%s %s %s %s\n",cmd_name_tos(c),c->arg1,prep[c->preposition],c->arg2);
-  else if (c->arg1)
-      printf("%s %s\n",cmd_name_tos(c),c->arg1);
-  else
-      printf("%s\n",cmd_name_tos(c));
+   if (c == NULL || c->tokens == NULL) return;
+   for(int i = 0; i < TOKEN_LIST_SIZE; i++) {
+       if (c->tokens[i] != NULL) printf("%s\n",(c->tokens[i]));
+   }
+   return;
 }
 
 /* === command parsing === */
 
-/*
- * Set preposition (if exists) for the command
- */
-void fill_preposition(cmd *c, char *token)
-{
-	if(token==NULL) return;
-	if(strcmp((token),("WITH"))==0) c->preposition = WITH;
-	if(strcmp((token),("TO"))==0) c->preposition = TO; 	
-	if(strcmp((token),("IN"))==0) c->preposition = IN;
-}
 
 /*
  * Takes tokens (parsed command) and creates a command using them.
@@ -139,17 +111,17 @@ cmd *cmd_from_string(char *s)
  */
 void do_cmd(cmd *c,int *quit)
 {
-  switch (c->name) {
+  switch (cmd_name_tos(c)) {
   /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
-  case QUIT:      *quit=0; break;
-  case HELP:      help_text(); break;
-  case HIST:	  print_history(); break;
-  case LOOK:	  cmd_show(c); break;
-  case TAKE:	  cmd_show(c); break;
-  case GIVE:	  cmd_show(c); break;
+  case "QUIT":      *quit=0; break;
+  case "HELP":      help_text(); break;
+  case "HIST":	  print_history(); break;
+  case "LOOK":	  cmd_show(c); break;
+  case "TAKE":	  cmd_show(c); break;
+  case "GIVE":	  cmd_show(c); break;
   default:
     /* this shouldn't happen, ever */
     fprintf(stderr,"BUG (do_cmd): bad tag in cmd (%d)\n",c->name);
     exit(1);
-  }    
+  }
 }
