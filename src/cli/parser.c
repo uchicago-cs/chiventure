@@ -3,12 +3,6 @@
 #include <string.h>
 #include "parser.h"
 
-/* 
- * This size is the number of words possible in a single command.
- * For now this size is 4, which includes an action, an object,
- * a preposition, and an indirect object
- */
-#define TOKEN_LIST_SIZE 4
 
 //See parser.h
 char **parse(char *input) {

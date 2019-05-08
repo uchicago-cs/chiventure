@@ -1,6 +1,6 @@
 #ifndef _CMD_H
 #define _CMD_H
-//#include "operations.h"
+#include "parser.h"
 /*
 * DISCLAIMER; THIS CODE IS BASED ON THE LAB 6 ADRBOOK SHELL
 * FROM THE CMSC 15200 (WIN 2019) COURSE TOUGHT BY ADAM SHAW (University of Chicago)
@@ -19,14 +19,14 @@ enum cmd_name {
 enum preposition_name{
   NONE, WITH, TO, IN
 };
+// Operation data type
+typedef char * operation(char * tokens[TOKEN_LIST_SIZE]);
 
 // Command data type
 typedef struct {
-  char * tokens[TOKEN_LIST_SIZE];
+  char ** tokens; //should be of TOKEN_LIST_SIZE
   operation * functionofcommand;
 } cmd;
-// Operation data type
-typedef char * operation(char * tokens[TOKEN_LIST_SIZE]);
 
 
 

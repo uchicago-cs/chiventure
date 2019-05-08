@@ -11,7 +11,7 @@
 /* cmd_new: make a new heap-allocated command with arg set to NULL
  * and preposition set to 0, which is the symbol for no preposition.
  */
-cmd *cmd_new(char * tokens[TOKEN_LIST_SIZE])
+cmd *cmd_new(char *  tokens[TOKEN_LIST_SIZE])
 {
   cmd *c = (cmd*)malloc(sizeof(cmd));
   if (c==NULL) {
@@ -70,28 +70,24 @@ void cmd_show(cmd *c)
  * Also, if malloc fails for a string
  */
 cmd *cmd_from_tokens(char **ts){
-  cmd *output = NULL;
+  // cmd *output = NULL;
 /*selectcommand(ts[0],QUIT)
   selectcommand(ts[0],HELP)
   selectcommand(ts[0],HIST)
   selectcommand(ts[0],LOOK)
   selectcommand(ts[0],TAKE)
   selectcommand(ts[0],GIVE) */
-  if(strcmp(ts[0],"QUIT")==0) output = cmd_new(QUIT);
-  if(strcmp(ts[0],"HELP")==0) output = cmd_new(HELP);
-  if(strcmp(ts[0],"HIST")==0) output = cmd_new(HIST);
-  if(strcmp(ts[0],"LOOK")==0) output = cmd_new(LOOK);
-  if(strcmp(ts[0],"TAKE")==0) output = cmd_new(TAKE);
-  if(strcmp(ts[0],"GIVE")==0) output = cmd_new(GIVE);
+  // if(strcmp(ts[0],"QUIT")==0) output = cmd_new(QUIT);
+  // if(strcmp(ts[0],"HELP")==0) output = cmd_new(HELP);
+  // if(strcmp(ts[0],"HIST")==0) output = cmd_new(HIST);
+  // if(strcmp(ts[0],"LOOK")==0) output = cmd_new(LOOK);
+  // if(strcmp(ts[0],"TAKE")==0) output = cmd_new(TAKE);
+  // if(strcmp(ts[0],"GIVE")==0) output = cmd_new(GIVE);
   // These are macros defined above. Essentially, just treat them as switch
   // statement cases
   // Add a new one for each new command.
-  if(output == NULL) return output;
-  // As above, but for prepositions.
-  fill_preposition(output, ts[2]);
-  if(ts[1] != NULL) strcpy(output->arg1, ts[1]);
-  if(ts[3] != NULL) strcpy(output->arg2, ts[3]);
-  return output;
+  return cmd_new(ts);
+
 }
 
 /* cmd_from_string: build a cmd (as defined in the cmd.h) from a string;
@@ -111,17 +107,17 @@ cmd *cmd_from_string(char *s)
  */
 void do_cmd(cmd *c,int *quit)
 {
-  switch (cmd_name_tos(c)) {
   /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
-  case "QUIT":      *quit=0; break;
-  case "HELP":      help_text(); break;
-  case "HIST":	  print_history(); break;
-  case "LOOK":	  cmd_show(c); break;
-  case "TAKE":	  cmd_show(c); break;
-  case "GIVE":	  cmd_show(c); break;
-  default:
+  if (strcmp(cmd_name_tos(c),"QUIT")==0)  *quit=0;
+  else if (strcmp(cmd_name_tos(c),"HELP")==0)  help_text();
+  else if (strcmp(cmd_name_tos(c),"HIST")==0)	print_history();
+  else if (strcmp(cmd_name_tos(c),"LOOK")==0)	cmd_show(c);
+  else if (strcmp(cmd_name_tos(c),"TAKE")==0)	  cmd_show(c);
+  else if (strcmp(cmd_name_tos(c),"GIVE")==0)	  cmd_show(c);
+  else {
     /* this shouldn't happen, ever */
-    fprintf(stderr,"BUG (do_cmd): bad tag in cmd (%d)\n",c->name);
+    fprintf(stderr,"BUG (do_cmd): bad tag in cmd (%s)\n",cmd_name_tos(c));
     exit(1);
   }
+  return;
 }
