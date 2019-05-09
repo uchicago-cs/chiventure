@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
         printf("\nGame is valid.\n");
         print_game(obj, game_s, game_i);
     }
-    else 
+    else
         printf("\nGame is not valid.\n");
 
     // Verify room and print room arguments
