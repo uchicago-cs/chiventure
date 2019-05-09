@@ -1,19 +1,27 @@
 # Makefile for CS22000 Command Line Interface
  
-CC = clang
+
+CC = gcc
 BINS = cli
-SRCS = cmd.c shell.c cli.c parser.c 
-HDRS = cmd.h cli.h shell.h parser.h
-CFLAGS = -Wall -Wextra -g -lm 
+SRCS = src/cmd.c src/shell.c src/cli.c src/parser.c 
+HDRS = include/cmd.h include/cli.h include/shell.h include/parser.h
+CFLAGS = -fPIC -Wall -Wextra -g -O2 -lm -I./include/ -I../common/include/
+OBJS = $(SRCS:.c=.o)
+LIB = cli.so
 
-parser: parser.c parser.h 
-	$(CC) $(CFLAGS) -o parser parser.c
+.PHONY: all
+all: $(LIB)
 
-.PHONY: clean
+$(LIB): $(SRCS) $(HDRS)
+	$(CC) $(CFLAGS) -shared -o $@ $^
 
-$(BINS): $(SRCS) $(HDRS)
+test: $(SRCS) $(HDRS)
 	$(CC) $(CFLAGS) $(SRCS) -o $(@) -lreadline
 
+#parser: src/parser.c include/parser.h 
+	#$(CC) $(CFLAGS) -o parser parser.c
+
+.PHONY: clean
 # type 'make clean' to remove the executable and debug information
 clean:
-	rm $(BINS)
+	rm $(BINS) $(LIB) $(OBJS) test parser
