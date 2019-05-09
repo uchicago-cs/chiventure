@@ -1,5 +1,5 @@
 /*
-* DISCLAIMER; THIS SHELL IS BASED ON THE LAB 6 ADRBOOK SHELL 
+* DISCLAIMER; THIS SHELL IS BASED ON THE LAB 6 ADRBOOK SHELL
 * FROM THE CMSC 15200 (WIN 2019) COURSE TOUGHT BY ADAM SHAW (University of Chicago)
 */
 #include <stdlib.h>
@@ -13,8 +13,8 @@
 
 #define BUFFER_SIZE 256
 
-/* trim_newline: duplicate the string and replace the newline 
- * at the end with '\0' if it exists. 
+/* trim_newline: duplicate the string and replace the newline
+ * at the end with '\0' if it exists.
  */
 char *trim_newline(char *s)
 {
@@ -30,7 +30,7 @@ char *trim_newline(char *s)
 /* ===================================== */
 
 int main()
-{   
+{
     int quit = 1;
     char *cmd_string;
     greet();
@@ -40,13 +40,13 @@ int main()
     while (quit) {
         // Display prompt and read input
         char* input = readline("chiventure (enter HELP for help)> ");
-    
-	cmd_string = trim_newline(input);    
+
+	cmd_string = trim_newline(input);
         putchar('\n');
         //check whether user input is empty
         if (!strcmp(cmd_string,""))
             continue;
-        
+
         cmd *c = cmd_from_string(cmd_string);
         if (!c) {
             shell_error_arg("unrecognized or malformed command: \"%s\"", input);
@@ -61,9 +61,9 @@ int main()
         if (cmd_string)
             free(cmd_string);
         //cmd_free(c);
-        free(input);    
+        free(input);
         }
-        
+
 
     return 0;
 }

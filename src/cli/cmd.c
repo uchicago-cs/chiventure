@@ -70,23 +70,23 @@ void cmd_show(cmd *c)
  * Also, if malloc fails for a string
  */
 cmd *cmd_from_tokens(char **ts){
-  // cmd *output = NULL;
+  cmd *output = cmd_new(ts);
 /*selectcommand(ts[0],QUIT)
   selectcommand(ts[0],HELP)
   selectcommand(ts[0],HIST)
   selectcommand(ts[0],LOOK)
   selectcommand(ts[0],TAKE)
   selectcommand(ts[0],GIVE) */
-  // if(strcmp(ts[0],"QUIT")==0) output = cmd_new(QUIT);
-  // if(strcmp(ts[0],"HELP")==0) output = cmd_new(HELP);
-  // if(strcmp(ts[0],"HIST")==0) output = cmd_new(HIST);
-  // if(strcmp(ts[0],"LOOK")==0) output = cmd_new(LOOK);
-  // if(strcmp(ts[0],"TAKE")==0) output = cmd_new(TAKE);
-  // if(strcmp(ts[0],"GIVE")==0) output = cmd_new(GIVE);
+  if(strcmp(ts[0],"QUIT")==0) output->functionofcommand = quit_operation;
+  if(strcmp(ts[0],"HELP")==0) output->functionofcommand = help_operation;
+  if(strcmp(ts[0],"HIST")==0) output->functionofcommand = hist_operation;
+  if(strcmp(ts[0],"LOOK")==0) output->functionofcommand = state_operation;
+  if(strcmp(ts[0],"TAKE")==0) output->functionofcommand = action_operation;
+  if(strcmp(ts[0],"GIVE")==0) output->functionofcommand = action_operation;
   // These are macros defined above. Essentially, just treat them as switch
   // statement cases
   // Add a new one for each new command.
-  return cmd_new(ts);
+  return output;
 
 }
 
@@ -107,8 +107,12 @@ cmd *cmd_from_string(char *s)
  */
 void do_cmd(cmd *c,int *quit)
 {
+  char * outstring;
   /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
-  if (strcmp(cmd_name_tos(c),"QUIT")==0)  *quit=0;
+  if (strcmp(cmd_name_tos(c),"QUIT")==0){
+      *quit=0;
+      (*(c->functionofcommand))(c->tokens);
+    }
   else if (strcmp(cmd_name_tos(c),"HELP")==0)  help_text();
   else if (strcmp(cmd_name_tos(c),"HIST")==0)	print_history();
   else if (strcmp(cmd_name_tos(c),"LOOK")==0)	cmd_show(c);
