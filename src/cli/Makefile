@@ -1,9 +1,9 @@
 # Makefile for CS22000 Command Line Interface
- 
+
 
 CC = gcc
 BINS = cli
-SRCS = src/cmd.c src/shell.c src/cli.c src/parser.c 
+SRCS = src/cmd.c src/shell.c src/cli.c src/parser.c src/operations.c
 HDRS = include/cmd.h include/cli.h include/shell.h include/parser.h
 CFLAGS = -fPIC -Wall -Wextra -g -O2 -lm -I./include/ -I../common/include/
 OBJS = $(SRCS:.c=.o)
@@ -18,7 +18,7 @@ $(LIB): $(SRCS) $(HDRS)
 test: $(SRCS) $(HDRS)
 	$(CC) $(CFLAGS) $(SRCS) -o $(@) -lreadline
 
-#parser: src/parser.c include/parser.h 
+#parser: src/parser.c include/parser.h
 	#$(CC) $(CFLAGS) -o parser parser.c
 
 .PHONY: clean
