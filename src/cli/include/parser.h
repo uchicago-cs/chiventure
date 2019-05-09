@@ -1,6 +1,11 @@
 #ifndef _PARSER_H
 #define _PARSER_H
-
+/*
+ * This size is the number of words possible in a single command.
+ * For now this size is 4, which includes an action, an object,
+ * a preposition, and an indirect object
+ */
+#define TOKEN_LIST_SIZE 4
 /*
  * Parses a string into a list of words, breaking on spaces
  *
