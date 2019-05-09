@@ -11,7 +11,7 @@ LDFLAGS = -L../libobj/ -Wl,-rpath=../libobj/
 LIB = -lobj
 LDLIBS = -lyaml
 # sources
-SRCS = src/main_test.c src/parse.c
+SRCS = src/main_test.c src/parse.c src/validate.c
 # objects
 OBJ = $(SRCS:.c=.o)
 # bin
