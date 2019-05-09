@@ -113,15 +113,20 @@ void do_cmd(cmd *c,int *quit)
       *quit=0;
       (*(c->functionofcommand))(c->tokens);
     }
-  else if (strcmp(cmd_name_tos(c),"HELP")==0)  help_text();
-  else if (strcmp(cmd_name_tos(c),"HIST")==0)	print_history();
-  else if (strcmp(cmd_name_tos(c),"LOOK")==0)	cmd_show(c);
-  else if (strcmp(cmd_name_tos(c),"TAKE")==0)	  cmd_show(c);
-  else if (strcmp(cmd_name_tos(c),"GIVE")==0)	  cmd_show(c);
-  else {
-    /* this shouldn't happen, ever */
-    fprintf(stderr,"BUG (do_cmd): bad tag in cmd (%s)\n",cmd_name_tos(c));
-    exit(1);
+  else{
+    outstring = (*(c->functionofcommand))(c->tokens);
+    if(outstring!=NULL)
+    printf("%s\n",outstring );
   }
+  // else if (strcmp(cmd_name_tos(c),"HELP")==0)  help_text();
+  // else if (strcmp(cmd_name_tos(c),"HIST")==0)	print_history();
+  // else if (strcmp(cmd_name_tos(c),"LOOK")==0)	cmd_show(c);
+  // else if (strcmp(cmd_name_tos(c),"TAKE")==0)	  cmd_show(c);
+  // else if (strcmp(cmd_name_tos(c),"GIVE")==0)	  cmd_show(c);
+  // else {
+  //   /* this shouldn't happen, ever */
+  //   fprintf(stderr,"BUG (do_cmd): bad tag in cmd (%s)\n",cmd_name_tos(c));
+  //   exit(1);
+  // }
   return;
 }
