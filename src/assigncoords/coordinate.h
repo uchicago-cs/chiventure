@@ -5,6 +5,7 @@
 #ifndef INCLUDE_COORDINATE_H_
 #define INCLUDE_COORDINATE_H_
 
+#include<stdio.h>
 #include <stdbool.h>
 #include "common.h"
 #include "uthash.h"
