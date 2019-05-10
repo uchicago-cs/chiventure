@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "shell.h"
 #include "cmd.h"
+#include "validate.h"
 //#define selectcommand(token,name) if(strcmp(token,"name")==0) output = cmd_new(name);
 
 /* === command constructors  === */
@@ -70,29 +71,30 @@ void cmd_show(cmd *c)
  * Also, if malloc fails for a string
  */
 cmd *cmd_from_tokens(char **ts){
-  cmd *output = cmd_new(ts);
+  cmd *output = assign_action(ts);
+  
+  if(output->functionofcommand == action_error_operation){
+    return output;
+  }
+  else if(!validate_object(output)){
+    output->functionofcommand = object_error_operation;
+    return output;
+  }
+  else if(!validate_prep(output)){
+    output->functionofcommand = prep_error_operation;
+    return output;
+  }
+  else if(!validate_ind_objects(output)){
+    output->functionofcommand = ind_object_error_operation;
+    return output;
+  }
 /*selectcommand(ts[0],QUIT)
   selectcommand(ts[0],HELP)
   selectcommand(ts[0],HIST)
   selectcommand(ts[0],LOOK)
   selectcommand(ts[0],TAKE)
   selectcommand(ts[0],GIVE) */
-  if(strcmp(ts[0],"QUIT")==0) output->functionofcommand = quit_operation;
-  else if(strcmp(ts[0],"HELP")==0) output->functionofcommand = help_operation;
-  else if(strcmp(ts[0],"HIST")==0) output->functionofcommand = hist_operation;
-  else if(strcmp(ts[0],"LOOK")==0) output->functionofcommand = state_operation;
-  else if(strcmp(ts[0],"TAKE")==0) output->functionofcommand = action_operation;
-  else if(strcmp(ts[0],"GIVE")==0) output->functionofcommand = action_operation;
-  // These are macros defined above. Essentially, just treat them as switch
-  // statement cases
-  // Add a new one for each new command.
-  else {
-    output->functionofcommand = action_error_operation;
-    }
-  //HERE WE VALIDATE THE COMMANDS
-
   return output;
-
 }
 
 /* cmd_from_string: build a cmd (as defined in the cmd.h) from a string;

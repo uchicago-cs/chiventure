@@ -26,4 +26,11 @@ char * state_operation(char * tokens[TOKEN_LIST_SIZE]);
 char * action_error_operation(char * tokens[TOKEN_LIST_SIZE]);
 // prints the operation and tells the user that it was not recognised
 // Put more operations here!
+
+char * object_error_operation(char * tokens[TOKEN_LIST_SIZE]);
+
+char * prep_error_operation(char * tokens[TOKEN_LIST_SIZE]);
+
+char * ind_object_error_operation(char * tokens[TOKEN_LIST_SIZE]);
+
 #endif /* _OPERATIONS_H */

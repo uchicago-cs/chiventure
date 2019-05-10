@@ -32,3 +32,16 @@ char * state_operation(char * tokens[TOKEN_LIST_SIZE]){
 char * action_error_operation(char * tokens[TOKEN_LIST_SIZE]){
   return "You cannot perform this action";
 }
+
+
+char * object_error_operation(char * tokens[TOKEN_LIST_SIZE]){
+  return "You cannot perform the action on this object";
+}
+
+char * prep_error_operation(char * tokens[TOKEN_LIST_SIZE]){
+  return "You used the wrong preposition";
+}
+
+char * ind_object_error_operation(char * tokens[TOKEN_LIST_SIZE]){
+  return "You cant perform this action on specefied object";
+}
