@@ -87,3 +87,4 @@ exit_t *list_exits(room_t *room) {
   return NULL;
 }
 
+//starting issue 47
