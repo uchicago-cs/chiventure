@@ -1,24 +1,24 @@
 /* Implementations of the object struct */
 #include <stdio.h>
 #include <stdlib.h.h>
-#include "object.h"
+#include "item.h"
 
-object_t *object_new();
+item_t *item_new();
 
-int add_object_to_hash(all_objects_t all_objects, int object_id, object_t *object) {
-    object_t *s;
-    HASH_FIND_INT(all_objects, &object_id, s);
+int add_item_to_hash(all_items_t all_items, int item_id, item_t *item) {
+    item_t *s;
+    HASH_FIND_INT(all_items, &item_id, s);
     if (s != NULL) {
         /* WARNING */
         /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE OBJECTS */
-        printf("FATAL: object_id already used!\n");
+        printf("FATAL: item_id already used!\n");
         exit(0);
     }
-    HASH_ADD_INT(all_objects, object_id, s);
+    HASH_ADD_INT(all_items, item_id, s);
     return 1;
 }
 
-int object_init(char *object_id, char *short_desc, char *long_desc)
+int item_init(char *item_id, char *short_desc, char *long_desc)
 {
 
     /* TO DO */
@@ -31,7 +31,7 @@ in anticipation of supporting player demands */
 /* will add function basics to ensure compilation */
 
 
-char *get_id(object_t obj)
+char *get_id(item_t obj)
 {
 
     /* TO DO */
@@ -40,7 +40,7 @@ char *get_id(object_t obj)
 }
 
 
-char *get_short_desc(object_t obj)
+char *get_short_desc(item_t obj)
 {
 
     /* TO DO */
