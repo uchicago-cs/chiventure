@@ -7,3 +7,4 @@ Yoon Jeong
 Andrea Domiter 
 Melinda Tang
 Ellyn Liu
+Dante Gil-Marin
