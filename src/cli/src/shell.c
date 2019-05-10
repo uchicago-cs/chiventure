@@ -51,7 +51,7 @@ void print_history()
 /* See shell.h */
 void shell_error(char *s)
 {
-  fprintf(stderr,"===> ERROR: %s <===\n",s);
+  fprintf(stderr,"===> ERROR! You can't: %s <===\n",s);
 }
 
 /* See shell.h */

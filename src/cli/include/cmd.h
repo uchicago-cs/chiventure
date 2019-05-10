@@ -67,8 +67,9 @@ cmd *cmd_from_string(char *s);
 
 /*
  * Takes tokens and creates a command using them.
+ * Validate command, if command exists 
  * Input is a list of tokens, output is a pointer to a new command.
- *
+ * 
  */
 cmd *cmd_from_tokens(char **ts);
 
