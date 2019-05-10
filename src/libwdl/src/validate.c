@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "parse.h"
+#include "validate.h"
 
-/* See parse.h */
+/* See validate.h */
 void print_room(obj_t *obj, char *str)
 {
     // Initialize strings for fields within object struct
@@ -36,7 +36,7 @@ void print_room(obj_t *obj, char *str)
 }
 
 
-/* See parse.h */
+/* See validate.h */
 void print_item(obj_t *obj, char *str)
 {
     // Initialize strings for fields within object struct
@@ -69,7 +69,7 @@ void print_item(obj_t *obj, char *str)
 }
 
 
-/* See parse.h */
+/* See validate.h */
 void print_game(obj_t *obj, char *str1, char *str2)
 {
     // Initialize strings for fields within object struct
@@ -96,7 +96,7 @@ void print_game(obj_t *obj, char *str1, char *str2)
 }
 
 
-/* See parse.h */
+/* See validate.h */
 bool verify_item(obj_t *obj, char *str)
 {
     // Initialize strings for fields within object struct
@@ -135,7 +135,7 @@ bool verify_item(obj_t *obj, char *str)
 }
 
 
-/* See parse.h */
+/* See validate.h */
 bool verify_room(obj_t *obj, char *str)
 {
     // Initialize strings for fields within object struct
@@ -174,7 +174,7 @@ bool verify_room(obj_t *obj, char *str)
 }
 
 
-/* See parse.h */
+/* See validate.h */
 bool verify_game(obj_t *obj, char *str1, char *str2)
 {
     // Initialize strings for fields within object struct
