@@ -221,3 +221,17 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 
     return result;
 }
+
+
+/* see validate.h */
+bool list_print(attr_list_t *ls, bool(*print)(obj_t*))
+{
+    // what should the function do if given a null?
+
+    attr_list_t *curr = ls;
+
+    while(curr != NULL) {
+        (*print)(curr->obj);
+        curr = curr->next;
+    }
+}

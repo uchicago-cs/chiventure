@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parse.h"
+#include "validate.h"
 
 int main(int argc, char* argv[])
 {

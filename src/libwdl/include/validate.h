@@ -52,7 +52,7 @@ notation
 
 // NEW VERIFY FUNCTIONS
 /* list_type_check()
- * a function to to automate type checking,
+ * a function to automate type checking,
  * used before running extract_id() from parse.h
  * 
  * parameters:
@@ -62,8 +62,30 @@ notation
  * returns:
  *  - true if all objects in the list pass the type checker
  *  - false if else
+ *
+ * note: behaviour is undefined if object and validation function do not match
  */
- bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
+bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
+
+
+/* list_print()
+ * a function to automate printing objects;
+ * used primarily for testing
+ * 
+ * parameters:
+ *  - ls: a list of objects
+ *  - a function pointer to a type checking function
+ *
+ * returns:
+ *  - nothing
+ *
+ * side effects:
+ *  - printing the contents of the given objects according to the given function
+ *
+ * note: behaviour is undefined if object and validation function do not match
+ */
+void list_print(attr_list_t *ls, bool(*print)(obj_t*));
+
 
 /*
  * verify

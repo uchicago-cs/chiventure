@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "parse.h"
-#include "validate.h"
 
 /* see parse.h */
 // this might become a helper function get_obj_list() if we follow the flow chart
