@@ -36,6 +36,8 @@ void add_coord(int x, int y, room_t *r)
   coord_record_t *cr = find_coord(x, y);
 
   if (cr == NULL) {
+    fprintf(stderr,"Adding coord (%d, %d) to hash\n", x, y);
+    
     /* Only runs if find_coord does not find coord
     already existing in hashtable */
     coord_init(&key, x, y);
@@ -52,11 +54,27 @@ void add_coord(int x, int y, room_t *r)
 }
 
 /* for basic testing of compilation
+ *Will implement much more testing later
+ */
 int main()
 {
   coordmap = NULL;
   coordmap = find_coord(1, 2);
   if (coordmap == NULL)
-    printf("success");
+    fprintf(stdout,
+	    "find_coord: Successfully returns NULL when not found\n");
+
+  room_t *r = malloc(sizeof(room_t));
+  r->id = 1;
+  add_coord(5, 6, r);
+
+  coord_record_t *example = find_coord(5, 6);
+  if (example == NULL)
+    fprintf(stderr,"Failure to add coord\n");
+  else
+    fprintf(stdout,"Found coordinate of room with room id %d",
+	    example->r->id);
+	    
+  free(r);
 }
-*/
+
