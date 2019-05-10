@@ -51,6 +51,19 @@ notation
 // bool verify_game(obj_t *obj, char *str1, char *str2);
 
 // NEW VERIFY FUNCTIONS
+/* list_type_check()
+ * a function to to automate type checking,
+ * used before running extract_id() from parse.h
+ * 
+ * parameters:
+ *  - ls: a list of objects
+ *  - a function pointer to a type checking function
+ *
+ * returns:
+ *  - true if all objects in the list pass the type checker
+ *  - false if else
+ */
+ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
 
 /*
  * verify

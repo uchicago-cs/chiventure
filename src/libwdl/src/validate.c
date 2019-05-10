@@ -204,3 +204,20 @@ bool verify_game(obj_t *obj, char *str1, char *str2)
 
     return (start_ver && intro_ver);
 }
+
+/* see validate.h */
+bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
+{
+    if (ls == NULL)
+        return false; // if the function returns false, it will halt parsing
+
+    bool result = true;
+    attr_list_t *curr = ls;
+
+    while(curr != NULL) {
+        result = (result && (*validate)(curr->obj));
+        curr = curr->next;
+    }
+
+    return result;
+}

@@ -6,6 +6,7 @@
 #include "validate.h"
 
 /* see parse.h */
+// this might become a helper function get_obj_list() if we follow the flow chart
 attr_list_t *extract_objects(obj_t *obj, char *str)
 {
     char *valid_attributes[3] = {"ROOMS", "ITEMS", "PLAYERS"};
@@ -18,30 +19,33 @@ attr_list_t *extract_objects(obj_t *obj, char *str)
     return obj_list_attr(obj);
 }
 
-/* list_type_check()
- * a function to to atomate type checking,
- * used before running extract_id() from parse.h
- * 
+
+/* make_char_id()
+ * a helper function for extract_ids();
+ * used to add a char id to the id list
+ *
  * parameters:
- *  - ls: a list of objects
- *  - a function pointer to a type checking function
+ *  - obj: the object for which to get the id
  *
  * returns:
- *  - true if all objects in the list pass the type checker
- *  - false if else
- */
-bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
+ *  - a single id item to be added to the list by extract_ids()
+ *
+attr_list_t *make_char_id(obj_t *obj)
 {
-    if (ls == NULL)
-        return false; // refer to flow chart
 
-    bool result = true;
-    attr_list_t *curr = ls;
+}*/
 
-    while(curr != NULL) {
-        result = (result && (*validate)(curr->obj));
-        curr = curr->next;
-    }
-
-    return result;
-}
+/* make_str_id()
+ * a helper function for extract_ids();
+ * used to add a str id to the id list
+ *
+ * parameters:
+ *  - obj: the object for which to get the id
+ *
+ * returns:
+ *  - a single id item to be added to the list by extract_ids()
+ *
+attr_list_t *make_str_id(obj_t *obj)
+{
+    
+}*/
