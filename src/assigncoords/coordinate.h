@@ -12,7 +12,7 @@
 
 /*Dummy room struct */
 typedef struct {
-  int i;
+  int id;
 } room_t;
 
 /* A coordinate in two-dimensional space */
@@ -26,7 +26,7 @@ typedef struct {
  */
 typedef struct coord_record {
   coordinate_t key;
-  //room *r;
+  room_t *r;
   UT_hash_handle hh;
 } coord_record_t;
 
@@ -52,6 +52,6 @@ coord_record_t *find_coord(int x, int y);
  * - Implementation  Will use HASH_FIND to check uniqueness
  *   If unique, creates a new coord_key_t and add to map using HASH_ADD
  */
-void add_coord(coordinate_t c, room_t *r);
+void add_coord(int x, int y, room_t *r);
 
 #endif /* INCLUDE_COORDINATE_H_ */
