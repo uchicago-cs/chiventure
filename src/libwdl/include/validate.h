@@ -1,11 +1,15 @@
+/*
+ * Header file for object validation and object printing functions and 
+ * related utilities
+ */
+
+#ifndef INCLUDE_VALIDATE_H
+#define INCLUDE_VALIDATE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parser.h"
-
-/*
- * Header for parsing functions and other utilities for the proof of concept
- */
 
 /*
  * These functions print out the short description and long description of an
@@ -84,3 +88,5 @@ notation
  bool verify_game(obj_t *obj);
 
  bool verify_player(obj_t *obj);
+
+#endif /* INCLUDE_VALIDATE_H */
