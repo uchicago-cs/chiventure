@@ -32,22 +32,20 @@ enum action_type {
 		"turn on", "turn off", and "go" */
   ACT_INVENTORY /* includes "take", "drop", "consume" */
 };
-  
+
+enum object
+
 
 /* An action struct that contains the following: 
  * act: A tag corresponding to the action 
  * type: A tag describing the type of action
- * num_arg: the number of actions required for the action to be valid
+ * parameters - array of enum inputs
 */
-struct action_struct {
+typedef struct {
   enum actions act;
   enum action_type type;
-  int num_arg; 
-};
-
-
-/* A type declaration of the action struct to action_t. */
-typedef struct action_struct action_t;
+  int *parameters;
+} action_t;
 
 
 /* 
