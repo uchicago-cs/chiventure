@@ -51,19 +51,6 @@ notation
 // bool verify_game(obj_t *obj, char *str1, char *str2);
 
 // NEW VERIFY FUNCTIONS
-/*
- * extract_object
- * extracts the specific object given the document object and associated
- * string of the extracted object
- *
- * Parameters:
- * - obj: The document object
- * - str: The id of the specific object within document object
- *
- * Returns:
- * - pointer to object associated with inputted string
- */
- object_t *extract_object(obj_t *obj, char *str);
 
 /*
  * verify
