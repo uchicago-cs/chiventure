@@ -18,4 +18,35 @@ EXAMPLE GAME:
  - intro: “Welcome to the virtual house. You have been wandering for quite some time, 
    and you need to determine how to return to reality.”
  - end:
-   - Inventory: red ruby 
+   - Inventory: red ruby
+
+ROOM file object:
+
+- Each FILE OBJECT CATEGORY(ROOM,ITEM,or GAME) must be followed by a colon (:)
+- Fields apply to categories and subcategories, and are followed immediately bya colon(:). The information in the field is preceded by a space.
+- The first field in every category (and subcategory) must be indented with one
+space, followed by a dash(-), followed by another space, then the field.
+
+- All other fields are indented	with three spaces.
+
+Format:
+
+<FILE OBJECT CATEGORY>
+(the following fields belong to the above category)
+ - id: <UNIQUE ID NAME>
+   short_desc: <STRING DESCRIPTION>
+   long_desc: <STRING DESCRIPTION>
+   connections:
+   (the	following fields belong	to subcategory 'connections')
+    - to: <ROOM	  ID>
+      direction: <CARDINAL DIRECTION>
+      through: <OBJECT ID>
+
+ROOMS:
+ - id: KITCHEN
+   short_desc: "A well-furnished area for cooking food."
+   long_desc: "The room is lit merrily, and a faint glow comes from the oven."
+   connections:
+    - to: BASEMENT
+      direction: DOWN
+      through: trapdoor
