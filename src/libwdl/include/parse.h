@@ -10,20 +10,44 @@
 #include <stdbool.h>
 #include "parser.h"
 
+
+/* a doubly linked list of strings used to store the ids of objects;
+ * used to check that room passages lead to valid rooms and the such
+ */
+typedef struct id_list
+{
+    char *id;
+    struct id_list *prev;
+    struct id_list *next;
+} id_list_t;
+
+
 /*
- * extract_object
- * extracts the specific object given the document object and associated
- * string of the extracted object
+ * extract_objects()
+ * extracts the a list of objects associated with an attribute of the primary object;
+ * used to get a list of rooms, items, and players
  *
  * Parameters:
- * - obj: The document object
- * - str: The id of the specific object within document object
+ *  - obj: The document object
+ *  - str: the attribute asssociated with the desired objects
  *
  * Returns:
- * - pointer to object associated with inputted string
+ *  - a list of objects
+ *  - null if attribute does not have associated objects, or if no such attribute exists
  */
- object_t *extract_object(obj_t *obj, char *str);
+attr_list_t *extract_objects(obj_t *obj, char *str);
 
 
+/*
+ * extract_ids()
+ * gets the ids of a list of room, item, or player objects
+ *
+ * parameters:
+ *  - ls: a list of room,s items, or players
+ *
+ * returns:
+ *  - a list of ids, more specifically, a doubly linked list of strings
+ */
+id_list_t *extract_ids(attr_list_t *ls);
 
 #endif /* INCLUDE_PARSE_H */
