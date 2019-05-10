@@ -9,38 +9,45 @@
 #include "object.h"
 
 /* Forward declaration of linked list */
-typedef struct exit {
-    /* fields used for linked list */
-    struct exit *next, *prev;
+typedef struct llist {
+  /* fields used for linked list of condition_t */
+  condition_t *cond;
+  llist_t *next;
+} llist_t;
 
-    /* add necessary exit/door info here */
+/* This struct represents a single condition that must be
+ * met for a path to be taken. It includes an object, an
+ * attribute that the object must have, and a value that is 1 if
+ * the attribute is met and 0 if not. */
+typedef struct condition {
+  object_t *item;
+  char *attribute;
+  int value;
+} condition_t;
 
-} exit_t;
+/* This struct represents a path from one room to another. It contains
+ * the room_ID string of the room it leads to as well as a linked
+ * list of conditions that must be fulfilled to move to the room. */
+typedef struct path {
+  UT_hash_handle hh;
+  char *room_ID;
+  llist_t *conditions;
+} path_t;
 
 /* This struct represents a single room, which includes a
- * short and long description of the room, a list of objects to be
- * found there, and a list of doors accessible from the room.
- * Each exit will be an object (door) struct that connects to another room
- * and has a locked/unlocked quality.
- */
-
-typedef struct coord {
-    int x;
-    int y;
-} coord_t;
-
+ * short and long description of the room, a hashtable of objects to be
+ * found there, and a hashtable of paths accessible from the room. */
 typedef struct room {
-    /* hh is used for hashtable, as provided in uthash.h */
-    UT_hash_handle hh;
-
-    int room_id;
-    coord_t coord;
-    char *short_desc;
-    char *long_desc;
-    /* a hashtable of all items in the room */
-    all_objects_t items;
-    /* an adjacency list (using linked list) of adjacent rooms */
-    exit_t *exits;
+  /* hh is used for hashtable, as provided in uthash.h */
+  UT_hash_handle hh;
+  
+  char *room_id;
+  char *short_desc;
+  char *long_desc;
+  /* a hashtable of all items in the room */
+  all_objects_t items;
+  /* a hashtable of all paths from the room */
+  all_paths_t paths;
 } room_t;
 
 typedef struct room* all_rooms_t;
