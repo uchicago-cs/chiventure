@@ -1,3 +1,6 @@
+/* Implementations of the object struct */
+#include <stdio.h>
+#include <stdlib.h.h>
 #include "object.h"
 
 object_t *object_new();
