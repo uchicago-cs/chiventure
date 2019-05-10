@@ -1,5 +1,6 @@
 /*
  * A two-dimensional coordinate data structure
+ * and corresponding hashmap
  */
 
 #ifndef INCLUDE_COORDINATE_H_
@@ -7,13 +8,17 @@
 
 #include<stdio.h>
 #include <stdbool.h>
-#include "common.h"
 #include "uthash.h"
+
+/*Dummy room struct */
+typedef struct {
+  int i;
+} room_t;
 
 /* A coordinate in two-dimensional space */
 typedef struct {
-    double x;
-    double y;
+    int x;
+    int y;
 } coordinate_t;
 
 /* Structure to make coordinate hashable
@@ -24,6 +29,10 @@ typedef struct coord_record {
   //room *r;
   UT_hash_handle hh;
 } coord_record_t;
+
+
+void coord_init(coordinate_t *c, int x, int y);
+
 
 /* find_coord
  * - Implementation will use HASH_FIND to find coord_record
@@ -36,22 +45,13 @@ typedef struct coord_record {
  * NOTE:
  * - call this function (once it's implemented) in DFS to check
  * whether we have assigned a room a coord yet
- *
- * NOTE:
- *
- * perhaps I will make the arguments int x, int y instead. I can just
- * assemble them into a coordinate in this function, making one less
- * step for you in DFS
  */
-coord_record_t *find_coord(coordinate_t c);
+coord_record_t *find_coord(int x, int y);
 
 /* add_coord:
  * - Implementation  Will use HASH_FIND to check uniqueness
  *   If unique, creates a new coord_key_t and add to map using HASH_ADD
  */
-void add_coord(coordinate_t c, room *r);
-
-
-
+void add_coord(coordinate_t c, room_t *r);
 
 #endif /* INCLUDE_COORDINATE_H_ */
