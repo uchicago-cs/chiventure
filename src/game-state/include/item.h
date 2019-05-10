@@ -8,6 +8,8 @@
 #include "room.h"
 #include "game.h"
 
+enum attribute_tag {INTEGER, DOUBLE, CHARACTER, STRING}
+
 //actual values left up to action management
 typedef union attribute_value {
     char* str_val;
@@ -47,6 +49,8 @@ char *get_long_desc(object_t obj);
 int *get_obj_type(enum object_type_t obj_t);
 
 int take_object(object_t obj);
+
+attribute_value_t* create_attribute(void* value, int type);
 
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute, 
 create a function that changes an atttribute, 

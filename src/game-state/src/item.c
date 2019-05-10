@@ -113,3 +113,32 @@ int add_attr_to_item(item_t *item, char *attribute, attribute_value_t item_attr)
     HASH_ADD_INT(all_attrs, attribute, s);
     return 1;
 }
+
+//do we want to make the attribute union a tagged union?? 
+attribute_value_t* create_attribute(void* value, int type)
+{
+  attribute_value_t* new_attribute = malloc(attribute_value_t)
+  if (type == INTEGER)
+  {
+    new_attribute->int_val = *value;
+    return new_attribute;
+  }
+  else if (type == DOUBLE)
+  {
+    new_attribute->double_value = *value;
+    return new_attribute;
+  }
+  else if (type == CHARACTER)
+  {
+    new_attribute->char_val = *value;
+    return new_attribute;
+  }
+  else if (type == STRING)
+  {
+    new_attribute->str_val = value;
+    return new_attribute;
+  }
+  error("Attribute could not be created");
+  return NULL;
+
+}
