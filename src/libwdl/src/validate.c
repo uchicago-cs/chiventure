@@ -226,7 +226,8 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 /* see validate.h */
 bool list_print(attr_list_t *ls, bool(*print)(obj_t*))
 {
-    // what should the function do if given a null?
+    if (ls == NULL)
+        return;
 
     attr_list_t *curr = ls;
 

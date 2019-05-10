@@ -26,6 +26,7 @@ typedef struct id_list
  * extract_objects()
  * extracts the a list of objects associated with an attribute of the primary object;
  * used to get a list of rooms, items, and players
+ * note that this function will only return if it determines all the objects are valid
  *
  * Parameters:
  *  - obj: The document object
