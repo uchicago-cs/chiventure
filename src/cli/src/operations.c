@@ -19,15 +19,27 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE]){
   return NULL;
 }
 
-char *action_operation(char *tokens[TOKEN_LIST_SIZE]){
+char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE]){
   printf("%s\n",tokens[0] );
   return "is an action!";
 }
 
-char *state_operation(char *tokens[TOKEN_LIST_SIZE]){
+char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE]){
   printf("%s\n",tokens[0] );
-  return "is a state action!";
+  return "is a direction action!";
 }
+
+char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE]){
+  printf("%s\n",tokens[0] );
+  return "is an action!";
+}
+char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE]){
+  printf("%s\n",tokens[0] );
+  return "is an action!";
+}
+
+
+
 
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE]){
   return "You cannot perform this action";

@@ -19,10 +19,18 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE]);
 // implements the help command
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE]);
 // implements the history command
-char *action_operation(char *tokens[TOKEN_LIST_SIZE]);
-// implements a general form for actions, like TAKE
-char *state_operation(char *tokens[TOKEN_LIST_SIZE]);
-// implements a general form for state actions, like MOVE and LOOK
+
+char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE]);
+// implements a general form for the 1st kind of actions specified by action management
+char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE]);
+// implements a general form for the 2nd kind of actions specified by action management
+char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE]);
+// implements a general form for the 3rd kind of actions specified by action management
+char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE]);
+// implements a general form for the 4th kind of actions specified by action management
+
+
+
 
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 // prints the operation and tells the user that it was not recognised

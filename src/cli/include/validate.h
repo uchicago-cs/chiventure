@@ -29,7 +29,7 @@ bool validate_object(cmd *c);
 bool validate_prep(cmd *c);
 
 /*
-*  validate_ind_object checks if the specefied indirect object is accesible, and if action is applicable
+*  validate_ind_object checks if the specefied indirect object (e.g. NPC) is accesible, and if action is applicable
 */
 
 bool validate_ind_objects(cmd *c);

@@ -6,10 +6,15 @@
 #include "shell.h"
 #include "cmd.h"
 #include "validate.h"
+#include "../../game-state/include/game.h"
 
 /*
 *  THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
 */
+
+/* current game - contains information about the current state of game
+ * need to talk to game state to figure out how this is obtained */
+game_t *curr_game;
 
 /*
 *  See validate.h
@@ -20,10 +25,10 @@ cmd *assign_action(char **ts){
     if(strcmp(ts[0],"QUIT")==0) output->functionofcommand = quit_operation;
     else if(strcmp(ts[0],"HELP")==0) output->functionofcommand = help_operation;
     else if(strcmp(ts[0],"HIST")==0) output->functionofcommand = hist_operation;
-    else if(strcmp(ts[0],"LOOK")==0) output->functionofcommand = state_operation;
-    else if(strcmp(ts[0],"TAKE")==0) output->functionofcommand = action_operation;
-    else if(strcmp(ts[0],"GIVE")==0) output->functionofcommand = action_operation;
-    // These are macros defined above. Essentially, just treat them as switch
+    else if(strcmp(ts[0],"OPEN")==0) output->functionofcommand = type1_action_operation;
+    else if(strcmp(ts[0],"GO")==0) output->functionofcommand = type2_action_operation;
+    else if(strcmp(ts[0],"TALK")==0) output->functionofcommand = type3_action_operation;
+    else if(strcmp(ts[0],"GIVE")==0) output->functionofcommand = type4_action_operation;
     // statement cases
     // Add a new one for each new command.
     else {
@@ -39,6 +44,7 @@ cmd *assign_action(char **ts){
 */
 
 bool validate_object(cmd *c){
+    //curr_game->curr_room->items // this is a hash table
     return true;
 }
 
