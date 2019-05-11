@@ -1,4 +1,5 @@
 Borja Sotomayor
+Lucy Li
 Ellyn Liu
 Tianle Liu
 David Barer
@@ -8,3 +9,4 @@ Andrea Domiter
 Melinda Tang
 Ellyn Liu
 Olivia Morkved
+Dante Gil-Marin
