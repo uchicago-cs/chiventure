@@ -47,7 +47,7 @@ enum object_type {
  * - act: the encoded enum name for this action
  * - c_name: the 'canonical' string that should call the enum
  * - synonyms: the synonyms that would also be allowed to call action
- * parameters - an order-sensitive linked list of object_type enums
+ * - parameters: an order-sensitive linked list of object_type enums
 */
 typedef struct {
 	enum actions act;   // e.g. CONSUME
