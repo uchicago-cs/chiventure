@@ -121,9 +121,9 @@ Talk to [NPC]
 - New information may be given to the player
 
 
-### Give [Item] on [NPC]
-Kind 5 Action
+Give [Item] on [NPC] 
 ------------
+Kind 5 Action<br>
 ### Requirements:
 - Item must be in inventory
 
