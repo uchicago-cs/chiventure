@@ -11,23 +11,13 @@
 /* === command datatype and operations === */
 /* ======================================= */
 
-// Supported command tags
-enum cmd_name {
-  QUIT, HELP, HIST, LOOK, TAKE, GIVE
-};
-
-// Supported prepositions
-enum preposition_name{
-  NONE, WITH, TO, IN
-};
-
 // Operation data type
-typedef char * operation(char * tokens[TOKEN_LIST_SIZE]);
+typedef char *operation(char *tokens[TOKEN_LIST_SIZE]);
 
 // Command data type
 typedef struct {
-  char ** tokens; //should be of TOKEN_LIST_SIZE
-  operation * functionofcommand;
+  char **tokens; //should be of TOKEN_LIST_SIZE
+  operation *functionofcommand;
 } cmd;
 
 
@@ -35,7 +25,7 @@ typedef struct {
 /* === command constructors === */
 
 /* cmd_new: make a new heap-allocated command with the operation set to NULL */
-cmd *cmd_new(char * tokens[TOKEN_LIST_SIZE]);
+cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE]);
 
 /* === command free === */
 
@@ -49,8 +39,6 @@ void cmd_free(cmd *c);
 /* === command display (for debugging, logging) === */
 
 /* cmd_name_tos: return 1st token as a string constant for command name */
-/* note: for debugging only; not currently used in shell */
-/* Above is not true, will now be used for hash table later*/
 char *cmd_name_tos(cmd *c);
 
 /* cmd_show: print command */

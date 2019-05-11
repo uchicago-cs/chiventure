@@ -5,43 +5,43 @@
 #include "shell.h"
 #include "assert.h"
 
-char * quit_operation(char * tokens[TOKEN_LIST_SIZE]){
+char *quit_operation(char *tokens[TOKEN_LIST_SIZE]){
   return NULL;
 }
 
-char * help_operation(char * tokens[TOKEN_LIST_SIZE]){
+char *help_operation(char *tokens[TOKEN_LIST_SIZE]){
   help_text();
   return NULL;
 }
 
-char * hist_operation(char * tokens[TOKEN_LIST_SIZE]){
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE]){
   print_history();
   return NULL;
 }
 
-char * action_operation(char * tokens[TOKEN_LIST_SIZE]){
+char *action_operation(char *tokens[TOKEN_LIST_SIZE]){
   printf("%s\n",tokens[0] );
   return "is an action!";
 }
 
-char * state_operation(char * tokens[TOKEN_LIST_SIZE]){
+char *state_operation(char *tokens[TOKEN_LIST_SIZE]){
   printf("%s\n",tokens[0] );
   return "is a state action!";
 }
 
-char * action_error_operation(char * tokens[TOKEN_LIST_SIZE]){
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE]){
   return "You cannot perform this action";
 }
 
 
-char * object_error_operation(char * tokens[TOKEN_LIST_SIZE]){
+char *object_error_operation(char *tokens[TOKEN_LIST_SIZE]){
   return "You cannot perform the action on this object";
 }
 
-char * prep_error_operation(char * tokens[TOKEN_LIST_SIZE]){
+char *prep_error_operation(char *tokens[TOKEN_LIST_SIZE]){
   return "You used the wrong preposition";
 }
 
-char * ind_object_error_operation(char * tokens[TOKEN_LIST_SIZE]){
+char *ind_object_error_operation(char *tokens[TOKEN_LIST_SIZE]){
   return "You cant perform this action on specefied object";
 }

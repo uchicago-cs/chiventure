@@ -23,15 +23,3 @@ char **parse(char *input) {
 
     return words;
 }
-// A test function
-/*int main() {
-    char str[] = "GIVE talisman";
-    char **words = parse(str);
-
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++) {
-        printf("%s\n", words[i]);
-    }
-
-    return 0;
-}
-*/

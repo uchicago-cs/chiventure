@@ -5,14 +5,13 @@
 #include "shell.h"
 #include "cmd.h"
 #include "validate.h"
-//#define selectcommand(token,name) if(strcmp(token,"name")==0) output = cmd_new(name);
 
 /* === command constructors  === */
 
 /* cmd_new: make a new heap-allocated command with arg set to NULL
  * and preposition set to 0, which is the symbol for no preposition.
  */
-cmd *cmd_new(char *  tokens[TOKEN_LIST_SIZE])
+cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE])
 {
   cmd *c = (cmd*)malloc(sizeof(cmd));
   if (c==NULL) {
@@ -88,12 +87,6 @@ cmd *cmd_from_tokens(char **ts){
     output->functionofcommand = ind_object_error_operation;
     return output;
   }
-/*selectcommand(ts[0],QUIT)
-  selectcommand(ts[0],HELP)
-  selectcommand(ts[0],HIST)
-  selectcommand(ts[0],LOOK)
-  selectcommand(ts[0],TAKE)
-  selectcommand(ts[0],GIVE) */
   return output;
 }
 
@@ -114,7 +107,7 @@ cmd *cmd_from_string(char *s)
  */
 void do_cmd(cmd *c,int *quit)
 {
-  char * outstring;
+  char *outstring;
   /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
   if (strcmp(cmd_name_tos(c),"QUIT")==0){
       *quit=0;
@@ -125,15 +118,5 @@ void do_cmd(cmd *c,int *quit)
     if(outstring!=NULL)
     printf("%s\n",outstring );
   }
-  // else if (strcmp(cmd_name_tos(c),"HELP")==0)  help_text();
-  // else if (strcmp(cmd_name_tos(c),"HIST")==0)	print_history();
-  // else if (strcmp(cmd_name_tos(c),"LOOK")==0)	cmd_show(c);
-  // else if (strcmp(cmd_name_tos(c),"TAKE")==0)	  cmd_show(c);
-  // else if (strcmp(cmd_name_tos(c),"GIVE")==0)	  cmd_show(c);
-  // else {
-  //   /* this shouldn't happen, ever */
-  //   fprintf(stderr,"BUG (do_cmd): bad tag in cmd (%s)\n",cmd_name_tos(c));
-  //   exit(1);
-  // }
   return;
 }
