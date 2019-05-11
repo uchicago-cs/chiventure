@@ -51,7 +51,7 @@ enum object_type {
 */
 typedef struct {
 	enum actions act;   // e.g. CONSUME
-	char *c_name; 		// e.g. "eat"
+	char *c_name;  // e.g. "eat"
 	list_t *synonyms;   // e.g. "drink" -> "use"
 	list_t *parameters; // e.g. ITEM_OBJ -> NPC_OBJ
 } action_t;
