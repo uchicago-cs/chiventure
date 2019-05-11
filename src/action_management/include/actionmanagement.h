@@ -126,25 +126,127 @@ int action_type4(game_t *g, action_t *a, item_t *i, npc_t *n);
 // ===========================================================
 
 /* TYPE 1 ACTIONS */
+
+/* Changes item state to opened
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_open(game_t *g, item_t *i);
+
+
+/* Changes item state to closed
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_close(game_t *g, item_t *i);
+
+
+/* Changes item state to pushed
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_push(game_t *g, item_t *i);
+
+/* Changes item state to pulled
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_pull(game_t *g, item_t *i);
+
+/* Prints a description of an item
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_examine(game_t *g, item_t *i);
+
+/* Changes item state to turned on
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_turn_on(game_t *g, item_t *i);
+
+/* Changes item state to turned off
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_turn_off(game_t *g, item_t *i);
+
+/* Picks up an item, removing it from world and adding to inventory
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_take(game_t *g, item_t *i);
+
+/* Drops an item, removing it from inventory
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_drop(game_t *g, item_t *i);
+
+/* Consumes an item, removing it from inventory
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_consume(game_t *g, item_t *i);
 
 /* TYPE 2 ACTIONS */
+
+/* Moves the player to the given direction
+ * Paramters:
+ * - g: the game struct
+ * - d: the direction struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_go(game_t *g, direction_t *d);
 
 /* TYPE 3 ACTIONS */
+
+/* Prints dialogue from an npc
+ * Paramters:
+ * - g: the game struct
+ * - n: the npc struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_talk_to(game_t *g, npc_t *n);
 
 /* TYPE 4 ACTIONS */
+
+/* Gives item to an npc, removing it from inventory and changing npc state
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * - n: the npc struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_give_to(game_t *g, item_t *i, npc_t *n);
+
+/* Uses item on npc, removing it from inventory and changing npc state
+ * Paramters:
+ * - g: the game struct
+ * - i: the item struct
+ * - n: the npc struct
+ * Output:
+ * - 0 if success, 1 if error */
 int act_use_on(game_t *g, item_t *i, npc_t *n);
 
 
