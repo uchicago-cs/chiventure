@@ -19,10 +19,11 @@ void coord_init(coordinate_t *c, int x, int y)
  */
 coord_record_t *find_coord(int x, int y)
 {
-  coordinate_t key;
-  coord_init(&key, x, y);
+  coordinate_t *key = malloc(sizeof(coordinate_t));
+  memset(key, 0, sizeof(coordinate_t));
+  coord_init(key, x, y);
   coord_record_t *cr = NULL;
-  HASH_FIND(hh, coordmap, &key, sizeof(coord_record_t), cr);
+  HASH_FIND(hh, coordmap, key, sizeof(coordinate_t), cr);
   return cr;
 }
 
@@ -74,7 +75,11 @@ int main()
   else
     fprintf(stdout,"Found coordinate of room with room id %d",
 	    example->r->id);
-	    
+
+  //coord_record_t *a = NULL;
+  //coord_record_t *b = NULL;
+  //  HASH_ITER(hh, coordmap, a, b);
+
   free(r);
 }
 
