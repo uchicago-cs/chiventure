@@ -29,7 +29,7 @@ space, followed by a dash(-), followed by another space, then the field.
 
 - All other fields are indented	with three spaces.
 
-Format:
+Format_ROOM:
 
 <FILE OBJECT CATEGORY>
 (the following fields belong to the above category)
@@ -50,3 +50,45 @@ ROOMS:
     - to: BASEMENT
       direction: DOWN
       through: trapdoor
+
+Format_ITEM:
+
+<FILE OBJECT CATEGORY>
+(the      following fields belong    to the above category)
+  - id: <UNIQUE ID NAME>
+    short_desc: <STRING DESCRIPTION>
+    long_desc: <STRING DESCRIPTION>
+    in: <ROOM ID>
+    state: <ATTRIBUTE>
+    actions:
+      - <ACTION FROM BANK>:
+          - allowed: <YES/NO>
+          - text_fail: <STRING>
+      - <ACTION FROM BANK>
+           - condition: <ATTRIBUTE: YES/NO>
+           - text_success: <STRING>
+           - text_fail: <STRING>
+           - set:
+               - item: <ITEM ID>
+               - state: <ATTRIBUTE>
+               - value: <YES/NO>
+
+ITEMS:
+ - id: door
+   short_desc: "a wooden door."
+   long_desc: "A very ancient and gnarled looking thing."
+   in: KITCHEN
+   state: locked: YES
+   actions:
+     - eat
+         - allowed: no
+         - text_fail: "you cannot eat a door."
+     - open
+         - condition: locked: NO
+         - text_success: "you open the door."
+         - text_fail: "you fail to open the door, it is locked."
+         - set:
+             - item: door
+             - state: locked
+             - value: NO
+								    
