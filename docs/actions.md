@@ -20,6 +20,7 @@ Kind 5: ACTION `<ITEM> <ITEM>`<br>
 - Item may not be able to be affected by current action
 - Item position may be changed 
 - Other item states may be changed
+- New rooms may be accessible or closed off
 - Player state may be changed 
 
 
@@ -38,141 +39,86 @@ Kind 5: ACTION `<ITEM> <ITEM>`<br>
 
 ## Actions:
 
-Open [Item]
+Open [Item] (Kind 1)
 ------
 ### Requirements:
-Item must be able to be opened<br>
-
-Item must be closed<br>
-
+- Item must be unlocked
+- Item must not be blocked
 
 ### Effects:
-Change Item state from closed to open <br>
-Items in opened Item now reachable<br>
-OR<br>
-Items behind Item now reachable<br>
-OR<br>
-Item dependent effect on state<br>
+- A new room may be available 
+- New item may be accessible
 
 
 Close [Item]
 ------
-
-
 ### Requirements:
-
-
-Item must be able to be opened<br>
-
-Item must be open<br>
-
+- Item must be open
+- Item must not be blocked
 
 ### Effects:
-
-
-Change Item state from open to closed<br>
-Items in closed Item no longer reachable<br>
-OR<br>
-Items behind Item no longer reachable<br>
-OR<br>
-Item dependent effect on state<br>
+- A room may no longer be available 
 
 
 Push [Item]
 ------
-
-
 ### Requirements:
-
-
-Item must be pushable<br>
-
-Player must be strong enough to push Item(?)<br>
-
+- Item must not have anything blocking it from being pushed
+- Item must not be too heavy
 
 ### Effects:
+- New items may be accessible
 
-
-Item may now be no longer pushable<br>
-Item dependent effect on state<br>
 
 
 Pull [Item]
 ------
-
-
 ### Requirements:
-
-
-Item must be pullable<br>
-
-Player must be strong enough to pull Item(?)<br>
-
+- Item must not be too heavy
+- Item must not be blocked
 
 ### Effects:
-
-
-Item may now be no longer pullable<br>
-Item dependent effect on state<br>
+- New rooms or items may be unlocked
 
 
 Look at [Item] / Examine [Item]
 ------
-
-
 ### Requirements:
-
-
-Item must be observable<br>
-Item must be in field of view<br>
+- No additional requirements
 
 
 ### Effects:
-
-
-Print long description of Item<br>
+- New information may be given to the player
+- Description of item will be printed
 
 
 Turn on [Item]
 --------------
-
-
 ### Requirements:
-Item must be switchable<br>
-Item must be off<br>
-
+- No additional requirements
 
 ### Effects:
-Change Item state to “on”<br>
-Item dependent effect on state<br><br>
-
-
+- No additional effects
 
 
 Turn off [Item]
 ----------
 ### Requirements:
-Item must be switchable<br>
-
-Item must be on<br>
+- No additional requirements
 
 
 ### Effects:
-Change Item state to “off”<br>
-Item dependent effect on state<br><br>
+- No additional effects
 
 
-Talk to [Item]
+Talk to [NPC]
 ---------
 ### Requirements:
-Item must be an NPC<br>
-Item must be talkable to<br>
+- Nothing may be blocking the NPC
 
 
 ### Effects:
-Item dependent effect on state<br>
-Print what the player says(?)<br>
-Print NPC response<br><br>
+- New information may be given to the player
 
 
 Give [Item1] on [Item2]
