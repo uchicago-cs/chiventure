@@ -132,8 +132,7 @@ K5 - Give [Item] on [NPC]
 - New information may be given to the player
 
 
-Go [direction]
-#### Kind 2 Action
+K2 - Go [direction]
 ---------
 ### Requirements:
 - Room must be in direction and not blocked
@@ -148,8 +147,7 @@ Go [direction]
 
 
 
-Pick up / Take [Item]
-#### Kind 1 Action
+K1 - Pick up / Take [Item]
 --------------
 
 
@@ -164,8 +162,7 @@ Pick up / Take [Item]
 - Decrease player inventory space
 
 
-Drop [Item]
-#### Kind 1 Action
+K1 - Drop [Item]
 ----------
 ### Requirements:
 - Item must be in inventory
@@ -176,8 +173,7 @@ Drop [Item]
 - Put Item in room (changes room description and state)
 
 
-Use [Item]
-#### Kind 1 Action
+K1 - Use [Item]
 ---------
 ### Requirements:
 - No additional requirements
@@ -188,8 +184,7 @@ Use [Item]
 - No additional effects
 
 
-Use [Item] on [Item]
-#### Kind 5 Action
+K5 - Use [Item] on [Item]
 ------------
 ### Requirements:
 - No additional requirements
@@ -199,8 +194,7 @@ Use [Item] on [Item]
 - No additional effects
 
 
-Drink [Item] / Consume [Item]
-#### Kind 1 Action
+K1 - Drink [Item] / Consume [Item]
 ---------
 ### Requirements:
 
@@ -213,8 +207,7 @@ Drink [Item] / Consume [Item]
 - No additional effects
 
 
-Eat [Item] / Consume [Item]
-#### Kind 1 Action
+K1 - Eat [Item] / Consume [Item]
 ---------
 ### Requirements:
 
