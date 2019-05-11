@@ -9,13 +9,13 @@ Kind 5: ACTION `<ITEM> <ITEM>`<br>
 
 
 ## Items and NPC's:
-## `<ITEM>`
-### Requirements:
+### `<ITEM>`
+#### Requirements:
 - Item must be accessible by player
 - Item must be able to be affected by action
 - Item must be in a state where action can be affective
 
-### Effects:
+#### Effects:
 - Item may no longer accessible 
 - Item may not be able to be affected by current action
 - Item position may be changed 
@@ -24,12 +24,12 @@ Kind 5: ACTION `<ITEM> <ITEM>`<br>
 
 
 
-## `<NPC>`
-### Requirements:
+### `<NPC>`
+#### Requirements:
 - NPC must be accessible
 - NPC has the ability to be interacted with
 
-### Effects:
+#### Effects:
 - NPC may no longer be accessible
 - NPC position may be changed
 - Other item states may be changed
