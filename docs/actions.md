@@ -10,7 +10,6 @@ Kind 5: ACTION `<ITEM> <ITEM>`<br>
 
 ## Items and NPC's:
 ## `<ITEM>`
------------
 ### Requirements:
 - Item must be accessible by player
 - Item must be able to be affected by action
@@ -26,7 +25,6 @@ Kind 5: ACTION `<ITEM> <ITEM>`<br>
 
 
 ## `<NPC>`
-------------
 ### Requirements:
 - NPC must be accessible
 - NPC has the ability to be interacted with
