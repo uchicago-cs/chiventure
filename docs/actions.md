@@ -28,10 +28,10 @@ Kind 5: ACTION `<ITEM> <ITEM>`<br>
 ### `<NPC>`
 #### Requirements:
 - NPC must be accessible
-- NPC has the ability to be interacted with
+- NPC has the ability to be interacted with (possibly with specific item)
 
 #### Effects:
-- NPC may no longer be accessible
+- NPC may no longer be accessible/interactable
 - NPC position may be changed
 - Other item states may be changed
 - Player state may be changed
@@ -121,118 +121,106 @@ Talk to [NPC]
 - New information may be given to the player
 
 
-Give [Item1] on [Item2]
+Give [Item] on [NPC]
+#### Kind 5 Action
 ------------
 ### Requirements:
-Item1 must be in inventory<br>
-Item2 must be an NPC (has own inventory?)<br>
-Item2 must be reachable<br>
-Item2 must have Item1 in wantItems [list of Item names](?)<br> 
+- Item must be in inventory
 
 
 ### Effects:
-Remove Item1 from player inventory<br>
-Put Item1 in Item2 inventory(?)<br>
-Remove Item1 from Item2 wantItem list(?)<br>
-Item dependent effect on state<br>
-Print NPC message<br><br>
+- Remove Item from player inventory
+- New information may be given to the player
 
 
 Go [direction]
+#### Kind 2 Action
 ---------
 ### Requirements:
-Reachable room must be in direction<br>
+- Room must be in direction and not blocked
 
 
 
 
 ### Effects:
-Move player to room in direction<br>
-Print brief description of room<br>
-Entering room has effect on state(?)<br><br>
+- Move player to room in direction
+- Print brief description of room
 
 
 
 
 Pick up / Take [Item]
+#### Kind 1 Action
 --------------
 
 
 ### Requirements:
 
-Item must be takeable<br>
-Player must have inventory space for Item (if implemented)
+- Player must have inventory space for Item
 
 
 ### Effects:
-Take Item out of room (changes room description and state)<br>
-Put Item in player inventory<br>
-Decrease player inventory space(?)<br>
-Item is now always reachable to player unless dropped<br><br>
+- Take Item out of room (changes room description and state)
+- Put Item in player inventory
+- Decrease player inventory space
 
 
 Drop [Item]
+#### Kind 1 Action
 ----------
 ### Requirements:
-Item must be in inventory<br>
-Item must be droppable(if implemented)<br>
-
+- Item must be in inventory
 
 ### Effects:
-Take Item out of player inventory<br>
-Increase player inventory space(?)<br>
-Put Item in room(changes room description and state)<br><br>
+- Take Item out of player inventory
+- Increase player inventory space
+- Put Item in room (changes room description and state)
 
 
 Use [Item]
+#### Kind 1 Action
 ---------
 ### Requirements:
-Item must be usable<br>
+- No additional requirements
 
 
 
 ### Effects:
-Item dependent effect on state<br>
-Print effect of Item use<br>
-Item may no longer be usable and/or in inventory or room (changes to Item state)<br><br>
+- No additional effects
 
 
-Use [Item1] on [Item2]
+Use [Item] on [Item]
+#### Kind 5 Action
 ------------
 ### Requirements:
-
-Item2 must be in Item interations [list of Item names] of Item1(if implemented)<br>
+- No additional requirements
 
 
 ### Effects:
-Item dependent effect on state<br>
-Print effect of use<br>
-Items may no longer be usable and/or in inventory or room (changes to Items’ state)<br>
+- No additional effects
 
 
 Drink [Item] / Consume [Item]
+#### Kind 1 Action
 ---------
 ### Requirements:
 
-Item must be liquid<br>
+- Item must be liquid
 
 
 
 
 ### Effects:
-Item dependent effect on state<br>
-Changes to Item state (may no longer be consumable)<br>
-May change player state<br>
+- No additional effects
 
 
 Eat [Item] / Consume [Item]
+#### Kind 1 Action
 ---------
 ### Requirements:
 
-Item must be solid<br>
+- Item must be solid
 
 
 ### Effects:
-Item dependent effect on state<br>
-Changes to Item state (may no longer be consumable)<br>
-May change player state<br>
+- No additional effects
