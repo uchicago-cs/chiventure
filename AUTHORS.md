@@ -1,4 +1,5 @@
 Borja Sotomayor
+Lucy Li
 Ellyn Liu
 Tianle Liu
 David Barer
