@@ -1,172 +1,196 @@
 ﻿# Documentation of Action Specifications
-General (applies to all supported actions)
+
+## Kinds of Actions:
+Kind 1: ACTION `<ITEM>` <br>
+Kind 2: ACTION `<DIRECTION>`<br>
+Kind 3: ACTION `<NPC>`<br>
+Kind 4: ACTION `<ITEM> <NPC>` <br>
+Kind 5: ACTION `<ITEM> <ITEM>`<br>
 
 
-------
-
-
+## Items and NPC's:
+## `<ITEM>`
+-----------
 ### Requirements:
-Error: Prints object cannot be/is not [requirement missing]<br>
+- Item must be accessible by player
+- Item must be able to be affected by action
+- Item must be in a state where action can be affective
+
+### Effects:
+- Item may no longer accessible 
+- Item may not be able to be affected by current action
+- Item position may be changed 
+- Other item states may be changed
+- Player state may be changed 
+
+
+
+## `<NPC>`
+------------
+### Requirements:
+- NPC must be accessible
+- NPC has the ability to be interacted with
+
+### Effects:
+- NPC may no longer be accessible
+- NPC position may be changed
+- Other item states may be changed
+- Player state may be changed
+
+
+## Actions:
+
+Open [Item]
+------
+### Requirements:
+Item must be able to be opened<br>
+
+Item must be closed<br>
 
 
 ### Effects:
-Prints confirmation of action<br>
-Changes to state may or may not be printed<br>
-
-
-Open [object]
-------
-### Requirements:
-Object must be able to be opened<br>
-Object must be reachable<br>
-Object must be closed<br>
-
-
-### Effects:
-Change object state from closed to open <br>
-Objects in opened object now reachable<br>
+Change Item state from closed to open <br>
+Items in opened Item now reachable<br>
 OR<br>
-Objects behind object now reachable<br>
+Items behind Item now reachable<br>
 OR<br>
-Object dependent effect on state<br>
+Item dependent effect on state<br>
 
 
-Close [object]
+Close [Item]
 ------
 
 
 ### Requirements:
 
 
-Object must be able to be opened<br>
-Object must be reachable<br>
-Object must be open<br>
+Item must be able to be opened<br>
+
+Item must be open<br>
 
 
 ### Effects:
 
 
-Change object state from open to closed<br>
-Objects in closed object no longer reachable<br>
+Change Item state from open to closed<br>
+Items in closed Item no longer reachable<br>
 OR<br>
-Objects behind object no longer reachable<br>
+Items behind Item no longer reachable<br>
 OR<br>
-Object dependent effect on state<br>
+Item dependent effect on state<br>
 
 
-Push [object]
+Push [Item]
 ------
 
 
 ### Requirements:
 
 
-Object must be pushable<br>
-Object must be reachable<br>
-Player must be strong enough to push object(?)<br>
+Item must be pushable<br>
+
+Player must be strong enough to push Item(?)<br>
 
 
 ### Effects:
 
 
-Object may now be no longer pushable<br>
-Object dependent effect on state<br>
+Item may now be no longer pushable<br>
+Item dependent effect on state<br>
 
 
-Pull [object]
+Pull [Item]
 ------
 
 
 ### Requirements:
 
 
-Object must be pullable<br>
-Object must be reachable<br>
-Player must be strong enough to pull object(?)<br>
+Item must be pullable<br>
+
+Player must be strong enough to pull Item(?)<br>
 
 
 ### Effects:
 
 
-Object may now be no longer pullable<br>
-Object dependent effect on state<br>
+Item may now be no longer pullable<br>
+Item dependent effect on state<br>
 
 
-Look at [object] / Examine [object]
+Look at [Item] / Examine [Item]
 ------
 
 
 ### Requirements:
 
 
-Object must be observable<br>
-Object must be in field of view<br>
+Item must be observable<br>
+Item must be in field of view<br>
 
 
 ### Effects:
 
 
-Print long description of object<br>
+Print long description of Item<br>
 
 
-Turn on [object]
+Turn on [Item]
 --------------
 
 
 ### Requirements:
-Object must be switchable<br>
-Object must be reachable<br>
-Object must be off<br>
+Item must be switchable<br>
+Item must be off<br>
 
 
 ### Effects:
-Change object state to “on”<br>
-Object dependent effect on state<br><br>
+Change Item state to “on”<br>
+Item dependent effect on state<br><br>
 
 
 
 
-Turn off [object]
+Turn off [Item]
 ----------
 ### Requirements:
-Object must be switchable<br>
-Object must be reachable<br>
-Object must be on<br>
+Item must be switchable<br>
+
+Item must be on<br>
 
 
 ### Effects:
-Change object state to “off”<br>
-Object dependent effect on state<br><br>
+Change Item state to “off”<br>
+Item dependent effect on state<br><br>
 
 
-Talk to [object]
+Talk to [Item]
 ---------
 ### Requirements:
-Object must be an NPC<br>
-Object must be reachable<br>
-Object must be talkable to<br>
+Item must be an NPC<br>
+Item must be talkable to<br>
 
 
 ### Effects:
-Object dependent effect on state<br>
+Item dependent effect on state<br>
 Print what the player says(?)<br>
 Print NPC response<br><br>
 
 
-Give [object1] on [object2]
+Give [Item1] on [Item2]
 ------------
 ### Requirements:
-Object1 must be in inventory<br>
-Object2 must be an NPC (has own inventory?)<br>
-Object2 must be reachable<br>
-Object2 must have object1 in wantobjects [list of object names](?)<br> 
+Item1 must be in inventory<br>
+Item2 must be an NPC (has own inventory?)<br>
+Item2 must be reachable<br>
+Item2 must have Item1 in wantItems [list of Item names](?)<br> 
 
 
 ### Effects:
-Remove object1 from player inventory<br>
-Put object1 in object2 inventory(?)<br>
-Remove object1 from object2 wantobject list(?)<br>
-Object dependent effect on state<br>
+Remove Item1 from player inventory<br>
+Put Item1 in Item2 inventory(?)<br>
+Remove Item1 from Item2 wantItem list(?)<br>
+Item dependent effect on state<br>
 Print NPC message<br><br>
 
 
@@ -186,85 +210,85 @@ Entering room has effect on state(?)<br><br>
 
 
 
-Pick up / Take [object]
+Pick up / Take [Item]
 --------------
 
 
 ### Requirements:
-Object must be reachable<br>
-Object must be takeable<br>
-Player must have inventory space for object (if implemented)
+
+Item must be takeable<br>
+Player must have inventory space for Item (if implemented)
 
 
 ### Effects:
-Take object out of room (changes room description and state)<br>
-Put object in player inventory<br>
+Take Item out of room (changes room description and state)<br>
+Put Item in player inventory<br>
 Decrease player inventory space(?)<br>
-Object is now always reachable to player unless dropped<br><br>
+Item is now always reachable to player unless dropped<br><br>
 
 
-Drop [object]
+Drop [Item]
 ----------
 ### Requirements:
-Object must be in inventory<br>
-Object must be droppable(if implemented)<br>
+Item must be in inventory<br>
+Item must be droppable(if implemented)<br>
 
 
 ### Effects:
-Take object out of player inventory<br>
+Take Item out of player inventory<br>
 Increase player inventory space(?)<br>
-Put object in room(changes room description and state)<br><br>
+Put Item in room(changes room description and state)<br><br>
 
 
-Use [object]
+Use [Item]
 ---------
 ### Requirements:
-Object must be usable<br>
-Object must be reachable<br>
+Item must be usable<br>
+
 
 
 ### Effects:
-Object dependent effect on state<br>
-Print effect of object use<br>
-Object may no longer be usable and/or in inventory or room (changes to object state)<br><br>
+Item dependent effect on state<br>
+Print effect of Item use<br>
+Item may no longer be usable and/or in inventory or room (changes to Item state)<br><br>
 
 
-Use [object1] on [object2]
+Use [Item1] on [Item2]
 ------------
 ### Requirements:
-Object must be reachable<br>
-Object2 must be in object interations [list of object names] of object1(if implemented)<br>
+
+Item2 must be in Item interations [list of Item names] of Item1(if implemented)<br>
 
 
 ### Effects:
-Object dependent effect on state<br>
+Item dependent effect on state<br>
 Print effect of use<br>
-Objects may no longer be usable and/or in inventory or room (changes to objects’ state)<br>
+Items may no longer be usable and/or in inventory or room (changes to Items’ state)<br>
 
 
-Drink [object] / Consume [object]
+Drink [Item] / Consume [Item]
 ---------
 ### Requirements:
-Object must be reachable<br>
-Object must be liquid<br>
+
+Item must be liquid<br>
 
 
 
 
 ### Effects:
-Object dependent effect on state<br>
-Changes to object state (may no longer be consumable)<br>
+Item dependent effect on state<br>
+Changes to Item state (may no longer be consumable)<br>
 May change player state<br>
 
 
-Eat [object] / Consume [object]
+Eat [Item] / Consume [Item]
 ---------
 ### Requirements:
-Object must be reachable<br>
-Object must be solid<br>
+
+Item must be solid<br>
 
 
 ### Effects:
-Object dependent effect on state<br>
-Changes to object state (may no longer be consumable)<br>
+Item dependent effect on state<br>
+Changes to Item state (may no longer be consumable)<br>
 May change player state<br>
