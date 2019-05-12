@@ -25,18 +25,15 @@ action_t *action_new(enum actions act, char *c_name,
   }
 
 
+int action_init(action_t *a, enum actions act, char *c_name,
+  list_t *synonyms, enum kind)
+  {
+    assert(a != NULL);
 
-// int act_give_to(game_t *g, item_t *i, npc_t *n)
-// {
-//   while (g->all_players_t->inventory)
-//   {
-//     if (i == g->all_players_t->inventory->tagged_objs->object_type_t[i])
-//     {
-//       //use add_object_to_hash function
-//       //need a remove from hash function
-//       return 0;
-//     }
-//   }
-//   fprintf(stderr, "%s\n", "unable to give item");
-//   return 1;
-// }
+    a->actions = act;
+    a->c_name = cname;
+    a->synonyms = synonyms;
+    a->kind = kind;
+
+    return SUCCESS;
+  }
