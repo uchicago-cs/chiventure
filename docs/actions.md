@@ -78,7 +78,7 @@ have no excpetions.<br>
 
 ## WDL:
     - actions:
-        -  [name of action]:
+        - [name of action]:
             - conditions:
             - set:
                 - object:
