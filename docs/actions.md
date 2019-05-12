@@ -76,13 +76,27 @@ conditions and effects listed above, there are special conditions and effects th
 If items have "No additional ..." listed, they follow the only follow the determined general conditions/requirements listed above, and <br>
 have no excpetions.<br>
 
+## WDL:
+    - actions:
+        -  action:
+            - conditions:
+            - set:
+                - object:
+                  attribute:
+                  value:
+            - text_fail:
+            - text_success: 
+
 K1 - Open `<ITEM>`
 ------
 ### Conditions:
 - No additional conditions
 
 ### Effects:
-- A new room may be available 
+- A new room may be available
+
+### WDL:
+        - open:
 
 
 K1 - Close `<ITEM>`
@@ -93,6 +107,10 @@ K1 - Close `<ITEM>`
 ### Effects:
 - A room may no longer be available 
 
+### WDL:
+         - close:
+
+
 
 K1 - Push `<ITEM>`
 ------
@@ -102,6 +120,10 @@ K1 - Push `<ITEM>`
 ### Effects:
 - No additional effects
 
+### WDL:
+        - push:
+            - conditions:
+                - weight:
 
 
 K1 - Pull `<ITEM>`
@@ -112,6 +134,11 @@ K1 - Pull `<ITEM>`
 ### Effects:
 - No additional effects
 
+### WDL:
+        - pull:
+            - conditions:
+                - weight:
+
 
 K1 - Look at `<ITEM>` / Examine `<ITEM>`
 ------
@@ -120,7 +147,10 @@ K1 - Look at `<ITEM>` / Examine `<ITEM>`
 
 
 ### Effects:
-- Description of item will be printed
+- Long description of item will be printed
+
+### WDL:
+        - examine:
 
 
 K1 - Turn on `<ITEM>`
@@ -131,16 +161,19 @@ K1 - Turn on `<ITEM>`
 ### Effects:
 - No additional effects
 
+### WDL:
+        - turn_on:
 
 K1 - Turn off `<ITEM>`
 ----------
 ### Conditions:
 - No additional Conditions
 
-
 ### Effects:
 - No additional effects
 
+### WDL:
+        - turn_off:
 
 K3 - Talk to [NPC]
 ---------
@@ -151,8 +184,10 @@ K3 - Talk to [NPC]
 ### Effects:
 - Dialogue from NPC will be printed
 
+### WDL:
+        - talk_to:
 
-K5 - Give `<ITEM>` on [NPC] 
+K5 - Give `<ITEM>` to [NPC] 
 ------------
 ### Conditions:
 - Item must be in inventory
@@ -161,6 +196,9 @@ K5 - Give `<ITEM>` on [NPC]
 ### Effects:
 - Remove Item from player inventory
 - Dialogue from NPC may be printed
+
+### WDL:
+        - give_to:
 
 
 K2 - Go [direction]
@@ -173,7 +211,8 @@ K2 - Go [direction]
 - Move player to room in direction
 - Brief description of room will be printed
 
-
+### WDL:
+        - go:
 
 K1 - Pick up / Take `<ITEM>`
 --------------
@@ -186,6 +225,8 @@ K1 - Pick up / Take `<ITEM>`
 - Put Item in player inventory
 - Decrease player inventory space
 
+### WDL:
+        - take:
 
 K1 - Drop `<ITEM>`
 ----------
@@ -197,6 +238,8 @@ K1 - Drop `<ITEM>`
 - Increase player inventory space
 - Put Item in room (changes room description and state)
 
+### WDL:
+        - drop:
 
 K1 - Use `<ITEM>`
 ---------
@@ -207,6 +250,8 @@ K1 - Use `<ITEM>`
 ### Effects:
 - No additional effects
 
+### WDL:
+        - use:
 
 K5 - Use `<ITEM>` on `<ITEM>`
 ------------
@@ -217,6 +262,9 @@ K5 - Use `<ITEM>` on `<ITEM>`
 ### Effects:
 - No additional effects
 
+### WDL:
+        - use_on:
+
 
 K1 - Drink `<ITEM>` / Consume `<ITEM>`
 ---------
@@ -226,6 +274,8 @@ K1 - Drink `<ITEM>` / Consume `<ITEM>`
 ### Effects:
 - No additional effects
 
+### WDL:
+        - drink:
 
 K1 - Eat `<ITEM>` / Consume `<ITEM>`
 ---------
@@ -235,3 +285,6 @@ K1 - Eat `<ITEM>` / Consume `<ITEM>`
 
 ### Effects:
 - No additional effects
+
+### WDL:
+        - eat:
