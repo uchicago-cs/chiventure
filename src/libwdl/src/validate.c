@@ -231,7 +231,7 @@ bool connection_type_check(obj_t *obj)
     attr_list_t *ls = connections_get_list(obj);
     
     // call connection_type_check on each connection
-    bool check = list_type_check(ls, connection_type_check);
+    bool check = list_type_check(ls, check_connection_attr);
 
     return check;
 }
