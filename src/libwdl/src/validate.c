@@ -3,6 +3,40 @@
 #include <string.h>
 #include "validate.h"
 
+
+/* see validate.h */
+bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
+{
+    if (ls == NULL)
+        return false; // if the function returns false, it will halt parsing
+
+    bool result = true;
+    attr_list_t *curr = ls;
+
+    while(curr != NULL) {
+        result = (result && (*validate)(curr->obj));
+        curr = curr->next;
+    }
+
+    return result;
+}
+
+
+/* see validate.h */
+bool list_print(attr_list_t *ls, bool(*print)(obj_t*))
+{
+    if (ls == NULL)
+        return;
+
+    attr_list_t *curr = ls;
+
+    while(curr != NULL) {
+        (*print)(curr->obj);
+        curr = curr->next;
+    }
+}
+
+
 // THIS IS TEMPORALLY COMMENTED OUT TO PREVENT COMPILATION ERRORS //
 /* See validate.h 
 void print_room(obj_t *obj, char *str)
@@ -136,11 +170,34 @@ bool verify_item(obj_t *obj, char *str)
 }
 
 
+/* connections_get_list()
+ * a helper function for room_type_check() that gets a list of connections
+ * associated with a room object
+ *
+ * parameters: 
+ *  - obj: a room object
+ *
+ * returns:
+ *  - an attribute list of all the connections
+ *  - null if an erreor occurs or no list can be generated
+ */
+attr_list_t *connections_get_list(obj_t *obj)
+{
+    obj_t *connections = obj_get_attr(obj, "connections", false);
+    
+    if (connections == NULL)
+        return NULL;
+    else
+        return obj_list_attr(connections);
+}
+
+
 /* See validate.h */
-bool verify_room(obj_t *obj)
+bool room_type_check(obj_t *obj)
 {
     // verify types of fields
-    bool id_ver = true, short_ver = true, long_ver = true;
+    bool id_ver = true, short_ver = true, long_ver = true
+         connections_ver = true;
 
     if (obj_get_type(obj, "id") != TYPE_STR && obj_get_type(obj, "id") != TYPE_CHAR)
         id_ver = false;
@@ -183,36 +240,4 @@ bool verify_game(obj_t *obj, char *str1, char *str2)
     free(intro_str);
 
     return (start_ver && intro_ver);
-}
-
-/* see validate.h */
-bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
-{
-    if (ls == NULL)
-        return false; // if the function returns false, it will halt parsing
-
-    bool result = true;
-    attr_list_t *curr = ls;
-
-    while(curr != NULL) {
-        result = (result && (*validate)(curr->obj));
-        curr = curr->next;
-    }
-
-    return result;
-}
-
-
-/* see validate.h */
-bool list_print(attr_list_t *ls, bool(*print)(obj_t*))
-{
-    if (ls == NULL)
-        return;
-
-    attr_list_t *curr = ls;
-
-    while(curr != NULL) {
-        (*print)(curr->obj);
-        curr = curr->next;
-    }
 }
