@@ -78,7 +78,7 @@ have no excpetions.<br>
 
 ## WDL:
     - actions:
-        -  action:
+        -  [name of action]:
             - conditions:
             - set:
                 - object:
@@ -98,6 +98,8 @@ K1 - Open `<ITEM>`
 ### WDL:
         - open:
 
+### Default:
+I can't open the `<ITEM>`
 
 K1 - Close `<ITEM>`
 ------
@@ -110,6 +112,8 @@ K1 - Close `<ITEM>`
 ### WDL:
          - close:
 
+### Default:
+I can't close the `<ITEM>`
 
 
 K1 - Push `<ITEM>`
@@ -125,6 +129,8 @@ K1 - Push `<ITEM>`
             - conditions:
                 - weight:
 
+### Default:
+I push the `<ITEM>` to no effect
 
 K1 - Pull `<ITEM>`
 ------
@@ -139,6 +145,8 @@ K1 - Pull `<ITEM>`
             - conditions:
                 - weight:
 
+### Default:
+I pull the `<ITEM>` to no effect
 
 K1 - Look at `<ITEM>` / Examine `<ITEM>`
 ------
@@ -152,6 +160,8 @@ K1 - Look at `<ITEM>` / Examine `<ITEM>`
 ### WDL:
         - examine:
 
+### Default:
+I examine the `<ITEM>` but find nothing of interest
 
 K1 - Turn on `<ITEM>`
 --------------
@@ -164,6 +174,9 @@ K1 - Turn on `<ITEM>`
 ### WDL:
         - turn_on:
 
+### Default:
+I am unable to turn on the `<ITEM>`
+
 K1 - Turn off `<ITEM>`
 ----------
 ### Conditions:
@@ -174,6 +187,9 @@ K1 - Turn off `<ITEM>`
 
 ### WDL:
         - turn_off:
+
+### Default:
+I am unable to turn off the `<ITEM>`
 
 K3 - Talk to [NPC]
 ---------
@@ -186,6 +202,9 @@ K3 - Talk to [NPC]
 
 ### WDL:
         - talk_to:
+
+### Default:
+I talk to [NPC] but get no response
 
 K5 - Give `<ITEM>` to [NPC] 
 ------------
@@ -200,6 +219,8 @@ K5 - Give `<ITEM>` to [NPC]
 ### WDL:
         - give_to:
 
+### Default:
+It is clear [NPC] does not want my `<ITEM>`
 
 K2 - Go [direction]
 ---------
@@ -213,6 +234,9 @@ K2 - Go [direction]
 
 ### WDL:
         - go:
+
+### Default:
+I can't find a way to go [direction]
 
 K1 - Pick up / Take `<ITEM>`
 --------------
@@ -228,6 +252,9 @@ K1 - Pick up / Take `<ITEM>`
 ### WDL:
         - take:
 
+### Default:
+I can't take the `<ITEM>`
+
 K1 - Drop `<ITEM>`
 ----------
 ### Conditions:
@@ -241,6 +268,9 @@ K1 - Drop `<ITEM>`
 ### WDL:
         - drop:
 
+### Default:
+I drop the `<ITEM>`
+
 K1 - Use `<ITEM>`
 ---------
 ### Conditions:
@@ -252,6 +282,9 @@ K1 - Use `<ITEM>`
 
 ### WDL:
         - use:
+
+### Default:
+I can't figure out how to use the `<ITEM>`
 
 K5 - Use `<ITEM>` on `<ITEM>`
 ------------
@@ -265,6 +298,8 @@ K5 - Use `<ITEM>` on `<ITEM>`
 ### WDL:
         - use_on:
 
+### Default:
+I can't figure out how to use the `<ITEM>` on the `<ITEM>`
 
 K1 - Drink `<ITEM>` / Consume `<ITEM>`
 ---------
@@ -277,6 +312,9 @@ K1 - Drink `<ITEM>` / Consume `<ITEM>`
 ### WDL:
         - drink:
 
+### Default:
+I do not want to drink the `<ITEM>`
+
 K1 - Eat `<ITEM>` / Consume `<ITEM>`
 ---------
 ### Conditions:
@@ -288,3 +326,6 @@ K1 - Eat `<ITEM>` / Consume `<ITEM>`
 
 ### WDL:
         - eat:
+
+### Default:
+I do not want to eat the `<ITEM>`
