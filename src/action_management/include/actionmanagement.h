@@ -108,22 +108,22 @@ list_t *get_supported_actions();
 
 /* A function that executes TYPE 1 actions (ACTION <item>)
  * Returns 0 on success, 1 on failure. */
-int action_type1(game_t *g, action_t *a, item_t *i);
+int action_items(game_t *g, action_t *a, item_t *i);
 
 
 /* A function that executes TYPE 2 actions (ACTION <direction>)
  * Returns 0 on success, 1 on failure. */
-int action_type2(game_t *g, action_t *a, direction_t *d);
+int action_directions(game_t *g, action_t *a, direction_t *d);
 
 
 /* A function that executes TYPE 3 actions (ACTION <npc>)
  * Returns 0 on success, 1 on failure. */
-int action_type3(game_t *g, action_t *a, npc_t *n);
+int action_npc(game_t *g, action_t *a, npc_t *n);
 
 
 /* A function that executes TYPE 4 actions (ACTION <item> <npc>)
  * Returns 0 on success, 1 on failure. */
-int action_type4(game_t *g, action_t *a, item_t *i, npc_t *n);
+int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n);
 
 // ===========================================================
 
