@@ -1,1 +1,14 @@
 Borja Sotomayor
+Lucy Li
+Ellyn Liu
+Tianle Liu
+David Barer
+Ryan Gold
+Yoon Jeong
+Andrea Domiter 
+Melinda Tang
+Ellyn Liu
+Olivia Morkved
+Dante Gil-Marin
+Elizabeth Coble
+Samuel Shatzkin
