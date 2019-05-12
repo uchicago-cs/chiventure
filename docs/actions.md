@@ -87,6 +87,10 @@ have no excpetions.<br>
             - text_fail:
             - text_success: 
 
+## Default:
+
+The action's behavior when called on an `<ITEM>` or [NPC] that does not support the action.
+
 K1 - Open `<ITEM>`
 ------
 ### Conditions:
@@ -99,7 +103,7 @@ K1 - Open `<ITEM>`
         - open:
 
 ### Default:
-I can't open the `<ITEM>`
+"I can't open the `<ITEM>`"
 
 K1 - Close `<ITEM>`
 ------
@@ -113,7 +117,7 @@ K1 - Close `<ITEM>`
          - close:
 
 ### Default:
-I can't close the `<ITEM>`
+"I can't close the `<ITEM>`"
 
 
 K1 - Push `<ITEM>`
@@ -130,7 +134,7 @@ K1 - Push `<ITEM>`
                 - weight:
 
 ### Default:
-I push the `<ITEM>` to no effect
+"I push the `<ITEM>` to no effect"
 
 K1 - Pull `<ITEM>`
 ------
@@ -146,7 +150,7 @@ K1 - Pull `<ITEM>`
                 - weight:
 
 ### Default:
-I pull the `<ITEM>` to no effect
+"I pull the `<ITEM>` to no effect"
 
 K1 - Look at `<ITEM>` / Examine `<ITEM>`
 ------
@@ -161,7 +165,7 @@ K1 - Look at `<ITEM>` / Examine `<ITEM>`
         - examine:
 
 ### Default:
-I examine the `<ITEM>` but find nothing of interest
+"I examine the `<ITEM>` but find nothing of interest"
 
 K1 - Turn on `<ITEM>`
 --------------
@@ -175,7 +179,7 @@ K1 - Turn on `<ITEM>`
         - turn_on:
 
 ### Default:
-I am unable to turn on the `<ITEM>`
+"I am unable to turn on the `<ITEM>`"
 
 K1 - Turn off `<ITEM>`
 ----------
@@ -189,7 +193,7 @@ K1 - Turn off `<ITEM>`
         - turn_off:
 
 ### Default:
-I am unable to turn off the `<ITEM>`
+"I am unable to turn off the `<ITEM>`"
 
 K3 - Talk to [NPC]
 ---------
@@ -204,7 +208,7 @@ K3 - Talk to [NPC]
         - talk_to:
 
 ### Default:
-I talk to [NPC] but get no response
+"I talk to [NPC] but get no response"
 
 K5 - Give `<ITEM>` to [NPC] 
 ------------
@@ -220,7 +224,7 @@ K5 - Give `<ITEM>` to [NPC]
         - give_to:
 
 ### Default:
-It is clear [NPC] does not want my `<ITEM>`
+"It is clear [NPC] does not want my `<ITEM>`"
 
 K2 - Go [direction]
 ---------
@@ -236,7 +240,7 @@ K2 - Go [direction]
         - go:
 
 ### Default:
-I can't find a way to go [direction]
+"I can't find a way to go [direction]"
 
 K1 - Pick up / Take `<ITEM>`
 --------------
@@ -253,7 +257,7 @@ K1 - Pick up / Take `<ITEM>`
         - take:
 
 ### Default:
-I can't take the `<ITEM>`
+"I can't take the `<ITEM>`"
 
 K1 - Drop `<ITEM>`
 ----------
@@ -269,7 +273,7 @@ K1 - Drop `<ITEM>`
         - drop:
 
 ### Default:
-I drop the `<ITEM>`
+"I drop the `<ITEM>`"
 
 K1 - Use `<ITEM>`
 ---------
@@ -284,7 +288,7 @@ K1 - Use `<ITEM>`
         - use:
 
 ### Default:
-I can't figure out how to use the `<ITEM>`
+"I can't figure out how to use the `<ITEM>`"
 
 K5 - Use `<ITEM>` on `<ITEM>`
 ------------
@@ -299,7 +303,7 @@ K5 - Use `<ITEM>` on `<ITEM>`
         - use_on:
 
 ### Default:
-I can't figure out how to use the `<ITEM>` on the `<ITEM>`
+"I can't figure out how to use the `<ITEM>` on the `<ITEM>`"
 
 K1 - Drink `<ITEM>` / Consume `<ITEM>`
 ---------
@@ -313,7 +317,7 @@ K1 - Drink `<ITEM>` / Consume `<ITEM>`
         - drink:
 
 ### Default:
-I do not want to drink the `<ITEM>`
+"I do not want to drink the `<ITEM>`"
 
 K1 - Eat `<ITEM>` / Consume `<ITEM>`
 ---------
@@ -328,4 +332,4 @@ K1 - Eat `<ITEM>` / Consume `<ITEM>`
         - eat:
 
 ### Default:
-I do not want to eat the `<ITEM>`
+"I do not want to eat the `<ITEM>`"
