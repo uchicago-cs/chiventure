@@ -38,7 +38,7 @@ bool list_print(attr_list_t *ls, bool(*print)(obj_t*))
 
 
 // THIS IS TEMPORALLY COMMENTED OUT TO PREVENT COMPILATION ERRORS //
-/* See validate.h 
+/* See validate.h
 void print_room(obj_t *obj, char *str)
 {
     // Initialize strings for fields within object struct
@@ -71,7 +71,7 @@ void print_room(obj_t *obj, char *str)
 }
 
 
-/* See validate.h 
+/* See validate.h
 void print_item(obj_t *obj, char *str)
 {
     // Initialize strings for fields within object struct
@@ -104,7 +104,7 @@ void print_item(obj_t *obj, char *str)
 }
 
 
-/* See validate.h 
+/* See validate.h
 void print_game(obj_t *obj, char *str1, char *str2)
 {
     // Initialize strings for fields within object struct
@@ -171,33 +171,77 @@ bool verify_item(obj_t *obj, char *str)
 
 
 /* connections_get_list()
- * a helper function for room_type_check() that gets a list of connections
+ * a helper function for check_connections that gets a list of connections
  * associated with a room object
  *
- * parameters: 
+ * parameters:
  *  - obj: a room object
  *
  * returns:
  *  - an attribute list of all the connections
- *  - null if an erreor occurs or no list can be generated
+ *  - null if an error occurs or no list can be generated
  */
 attr_list_t *connections_get_list(obj_t *obj)
 {
     obj_t *connections = obj_get_attr(obj, "connections", false);
-    
+
     if (connections == NULL)
         return NULL;
     else
         return obj_list_attr(connections);
 }
 
+/* connection_type_check()
+ * a helper function for check_connections() that checks the attributes of connections
+ * associated with a room object
+ *
+ * parameters:
+ * - obj: a connection object
+ *
+ * returns:
+ * - true if connection types match, else return false
+ */
+bool connection_type_check(obj_t *obj)
+{
+    // verify types of fields
+    bool id = true, direction = true, through = true;
+
+    if (obj_get_type(obj, "to") != TYPE_STR && obj_get_type(obj, "to") != TYPE_CHAR)
+        id = false;
+    if (obj_get_type(obj, "direction") != TYPE_STR)
+        direction = false;
+    if (obj_get_type(obj, "through") != TYPE_STR)
+        through = false;
+
+    return (id && direction && through);
+}
+
+/* check_connections()
+ * a helper function for room_type_check that checks all connections and its
+ * attributes associated with a room object
+ *
+ * parameters:
+ * - obj: a room object
+ *
+ * returns:
+ * - true if attributes of all connections match, else return false
+ */
+bool check_connections(obj_t *obj)
+{
+    // obtain list of connections
+    attr_list_t *ls = connections_get_list(obj);
+
+    // call connection_type_check on each connection
+    bool check = list_type_check(obj, connection_type_check);
+
+    return check;
+}
 
 /* See validate.h */
 bool room_type_check(obj_t *obj)
 {
     // verify types of fields
-    bool id_ver = true, short_ver = true, long_ver = true
-         connections_ver = true;
+    bool id_ver = true, short_ver = true, long_ver = true;
 
     if (obj_get_type(obj, "id") != TYPE_STR && obj_get_type(obj, "id") != TYPE_CHAR)
         id_ver = false;
@@ -206,8 +250,10 @@ bool room_type_check(obj_t *obj)
     // Revise
     if (obj_get_type(obj, "long_desc") != TYPE_STR)
         long_ver = false;
+    // verify connections
+    bool connections_ver = check_connections(obj);
 
-    return (id_ver && short_ver && long_ver);
+    return (id_ver && short_ver && long_ver && connections_ver);
 }
 
 
@@ -234,7 +280,7 @@ bool verify_game(obj_t *obj, char *str1, char *str2)
         start_ver = false;
     if (obj_get_type(obj, intro_str) != TYPE_STR)
         intro_ver = false;
-    
+
     // Free strings
     free(start_str);
     free(intro_str);
