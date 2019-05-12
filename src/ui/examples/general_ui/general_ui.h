@@ -3,7 +3,7 @@
 
 typedef struct window {
     WINDOW *w;
-    void (*print)(struct window *win, int ch);
+    void (*print)(struct window *win);
 } window_t;
 
 /* create_newwin
@@ -22,10 +22,40 @@ typedef struct window {
  * NOTE: the top left corener of the terminal is (0,0)
  */
  window_t *create_newwin(int height, int width, int starty,
-                         int startx, int show, void (*print)(window_t *win, int ch));
+                         int startx, int show, void (*print)(window_t *win));
 
-void switch_windows(window_t **w1, window_t **w2);
 
 /* Signal Handler for SIGINT */
 void sigintHandler(int sig_num);
+
+
+/*
+ * Prints score and number of moves
+ *
+ * Parameters:
+ *   - win : window where to print the info
+ *
+ * No value is returned
+ */
+void print_info(window_t *win);
+
+/*
+ * Prints the CLI- adds and deltees character based on user input
+ *
+ * Parameters:
+ *   - win : window where to print the info
+ *
+ * No value is returned
+ */
+void print_cli(window_t *win);
+
+/*
+ * Prints the word map in the window (top left corner)
+ *
+ * Parameters:
+ *   - win : window where to print the info
+ *
+ * No value is returned
+ */
+void print_map(window_t *win);
 #endif
