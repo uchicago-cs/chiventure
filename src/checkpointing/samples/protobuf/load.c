@@ -32,7 +32,7 @@ int main (int argc, const char * argv[])
 
 	printf("Received: \nplayer_info: name = %s, gender = %d\nlocation = %s", 
 			sub1->name, sub1->gender, sub2->r_name);
-	if (file.discovered != NULL)
+	if (file->discovered != NULL)
 		printf("\ndiscovered = %d\n", file->discovered);
 	
 	game__free_unpacked(file,NULL);
