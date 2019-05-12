@@ -240,7 +240,7 @@ int act_talk_to(game_t *g, npc_t *n);
  * - n: the npc struct
  * Output:
  * - 0 if success, 1 if error */
-int act_give_to(game_t *g, item_t *i, npc_t *n);
+int act_give_to(player_t *p, game_t *g, item_t *i, npc_t *n);
 
 /* Uses item on npc, removing it from inventory and changing npc state
  * Paramters:
@@ -249,7 +249,7 @@ int act_give_to(game_t *g, item_t *i, npc_t *n);
  * - n: the npc struct
  * Output:
  * - 0 if success, 1 if error */
-int act_use_on(game_t *g, item_t *i, npc_t *n);
+int act_use_on(player_t *p, game_t *g, item_t *i, npc_t *n);
 
 
 #endif
