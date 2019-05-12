@@ -91,4 +91,14 @@ ITEMS:
              - item: door
              - state: locked
              - value: NO
-								    
+Example ITEM:
+ - id: wand
+   short_desc: "A wand"
+   long_desc: "It has magical properties"
+   in: BEDROOM
+   take: conditional
+   take_conditions:
+    - in_inventory: top_hat
+   take_success: "You got the wand!"
+   take_fail: "You cannot take the wand until you have the top hat"
+   consume: no								    
