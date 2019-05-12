@@ -125,6 +125,11 @@ int action_npc(game_t *g, action_t *a, npc_t *n);
  * Returns 0 on success, 1 on failure. */
 int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n);
 
+
+/* A function that executes TYPE 5 actions (ACTION <item> <item>)
+ * Returns 0 on success, 1 on failure. */
+int action_item_npc(game_t *g, action_t *a, item_t *i, item_t *i);
+
 // ===========================================================
 
 /* TYPE 1 ACTIONS */
