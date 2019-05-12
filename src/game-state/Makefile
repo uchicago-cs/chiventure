@@ -10,7 +10,7 @@ LIB = gamestate.so
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	$(CC) -shared -o $@ $^
+	$(CC) $(CFLAGS) -shared -o $@ $^
 
 $(OBJS): $(SRCS)
 

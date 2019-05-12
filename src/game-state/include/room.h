@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include "utlist.h"
 #include "uthash.h"
-#include "object.h"
+#include "item.h"
 
 /* Forward declaration of linked list */
 typedef struct exit {
@@ -38,7 +38,7 @@ typedef struct room {
     char *short_desc;
     char *long_desc;
     /* a hashtable of all items in the room */
-    all_objects_t items;
+    all_items_t items;
     /* an adjacency list (using linked list) of adjacent rooms */
     exit_t *exits;
 } room_t;

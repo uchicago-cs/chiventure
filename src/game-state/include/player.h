@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include "utlist.h"
 #include "uthash.h"
-#include "object.h"
+#include "item.h"
 
 #define SUCCESS 1
 #define FAILURE 1

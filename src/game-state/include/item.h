@@ -3,12 +3,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include<stdbool.h>
 #include "uthash.h"
-#include "player.h"
-#include "room.h"
-#include "game.h"
+// #include "player.h"
+// #include "room.h"
+// #include "game.h"
 
-enum attribute_tag {INTEGER, DOUBLE, CHARACTER, STRING}
+enum attribute_tag {BOOL, CHARACTER, STRING, INT};
 
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
@@ -18,37 +19,80 @@ typedef union attribute_value {
     int int_val;
 } attribute_value_t;
 
+typedef struct tagged_attributes {
+  enum attribute_tag attr_tag;
+  attribute_value_t attr_value_types;
+} tagged_attrs_t;
+
+
+typedef struct attribute_table {
+    UT_hash_handle hh; //makes this struct hashable for the object struct
+    char* attribute_name;
+    tagged_attrs_t tagged_values;
+} attribute_table_t;
+
 /* this object struct will include a door object to be used between rooms,
 i.e. included in the room struct in its list of exits */
-typedef struct object {
+typedef struct item {
     UT_hash_handle hh; //makes thuis struct hashable for the room struct (objects in rooms) and player struct (inventory)
-    char *object_id;
+    char *item_id;
     char *short_desc;
     char *long_desc;
     bool condition; /* reserved for future expansion */
     attribute_table_t attributes;
-} object_t;
+} item_t;
 
-typedef struct attribute_table{
-    UT_hash_handle hh; //makes this struct hashable for the object struct
-    char* attribute_name;
-    union attribute_value_t val;
-} attribute_table_t;
+/* item_new() allocates a space for an item struct in memory
+  Returns:
+    A pointer to a new item struct.
+*/
+item_t *item_new();
 
-object_t *object_new();
+/* item_init() initializes an item struct with given values
+    arguments are taken from WDL
+  Parameters:
+    a unique item id
+    a short description of the item
+    a long description of the item
 
-// arguments are taken from WDL
-int object_init(char *object_id, char *short_desc, char *long_desc);
-//
-char *get_id(object_t obj);
+  Returns:
+    0 for failure, 1 for success
+*/
+int item_init(char *item_id, char *short_desc, char *long_desc);
 
-char *get_short_desc(object_t obj);
+/* get_id() retrieves the unique id of the item
+  Parameters:
+    the item struct in question
+  Returns:
+    a string representing the item id
+*/
+char *get_id(item_t *item);
 
-char *get_long_desc(object_t obj);
+/* get_short_desc() retrieves the short description of the item
+  Parameters:
+    the item struct in question
+  Returns:
+    a string representing a brief description of the item
+*/
+char *get_short_desc(item_t *item);
 
-int *get_obj_type(enum object_type_t obj_t);
+/* get_long_desc() retrieves the long description of the item
+  Parameters:
+    the item struct in question
+  Returns:
+    a string representing a longer, more detailed description of the item
+*/
+char *get_long_desc(item_t *item);
 
-int take_object(object_t obj);
+/* get_item_type() retrieves the type of the item
+  Parameters:
+    the item struct in question
+  Returns:
+
+*/
+// int *get_item_type(enum item_type_t item);
+
+int take_item(item_t *item);
 
 attribute_value_t* create_attribute(void* value, int type);
 
