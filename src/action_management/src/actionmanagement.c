@@ -48,3 +48,27 @@ int action_free(action_t *a)
   free(a)
   return SUCCESS;
 }
+
+//KIND 1
+int action_item(game_t *g, action_t *a, item_t *i)
+{
+	//actions involving inventory
+	while (g->all_players_t->inventory)
+	{
+		//if i is in inventory of the player
+		if (i == g->all_players_t->inventory->tagged_objs->object_type_t[i])
+		{
+		 	//is it able to be consumed	;
+			//remove from player inventory
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+  //actions involving only items
+
+  //this still needs work
+
+}
