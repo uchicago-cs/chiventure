@@ -1,4 +1,7 @@
 #include "map.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <ncurses.h>
 
 //Initiallizes ncurses window
 //This function will later live in ui.c
@@ -50,29 +53,29 @@ void draw_room (int width, int height, int x, int y, room_t *room){
     mvaddch(halfy,x,ACS_HLINE);
   }
   if (room->ex_n){
-    mvaddch(y,halfx-2,ACS_VLINE);
-    mvaddch(y,halfx-1,' ');
-    mvaddch(y,halfx,ACS_VLINE);
+    mvaddch(y,halfx-1,ACS_VLINE);
+    mvaddch(y,halfx,' ');
+    mvaddch(y,halfx+1,ACS_VLINE);
   }
   if (room->ex_s){
-    mvaddch(bot_y,halfx-2,ACS_VLINE);
-    mvaddch(bot_y,halfx-1,' ');
-    mvaddch(bot_y,halfx,ACS_VLINE);
+    mvaddch(bot_y,halfx-1,ACS_VLINE);
+    mvaddch(bot_y,halfx,' ');
+    mvaddch(bot_y,halfx+1,ACS_VLINE);
   }
 }
 
 //Takes a coordinate and an array of rooms and draws them in
-void draw_rooms(int top_y, int left_x, room_t **rooms, int n){
+void draw_rooms(room_t **rooms,int n, int left_x, int top_y){
   //Declare variables
-  int x,y,z,x_offset,y_offset;
+  int x,y,x_offset,y_offset;
   int room_h = 6;
-  int room_w = 12;
+  int room_w = 11;
 
   //Get x,y,z coordinates for rooms
   for (int i = 0; i<n; i++){
-    x = rooms[i]->loc.x;
-    y = rooms[i]->loc.y;
-    z = rooms[i]->loc.z;
+    x = rooms[i]->loc->x;
+    y = rooms[i]->loc->y;
+    //z = rooms[i]->loc->z;
     
     x_offset = left_x + (room_w * x);
     y_offset = top_y + (room_h * y);
@@ -82,4 +85,47 @@ void draw_rooms(int top_y, int left_x, room_t **rooms, int n){
   }
 
   return;
+}
+
+room_t ** get_test_rooms(int n){
+  //Initialize a bunch of coords
+  /*  coord_t loc_a = {0,0,0};
+  coord_t loc_b = {0,1,0};
+  coord_t loc_c = {1,0,0};
+  coord_t loc_d = {2,1,0};
+  coord_t loc_e = {2,2,0};*/
+
+  //Initialize a bunch of rooms
+  int j = 0;
+  
+  room_t **rooms = malloc(sizeof(room_t *) * n);
+  for(int i = 0; i < n; i++){
+    
+    room_t *roomi = malloc(sizeof(room_t));
+    rooms[i] = roomi;
+    coord_t *loci = malloc(sizeof(coord_t));
+    loci->x = i%4;
+    loci->y = j;
+    loci->z = 0;
+    roomi->loc = loci;
+    roomi->ex_e = i%2;
+    roomi->ex_n = (i+1)%2;
+    roomi->ex_s = i%2;
+    roomi->ex_w = (i+1)%2;
+
+    if (i%4 == 3)
+      j++;
+  }
+
+  //  room_t rm_a = {loc_a, "Room A", 1,1,0,0};
+  //room_t rm_b = {loc_b, "Room B", 0,1,1,1};
+  //room_t rm_c = {loc_c, "Room C", 1,0,1,0};
+  //room_t rm_d = {loc_d, "Room D", 0,0,0,0};
+  //room_t rm_e = {loc_e, "Room E", 1,1,1,1};
+  
+  //Create an array of the rooms
+  //room_t *rooms[5] = {&rm_a, &rm_b, &rm_c, &rm_d, &rm_e};
+ 
+  return rooms;
+
 }
