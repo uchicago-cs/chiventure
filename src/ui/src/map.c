@@ -1,3 +1,4 @@
+
 #include "map.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,7 +23,7 @@ void erase_ch (int y, int x){
 }
 
 //Draw a single room
-void draw_room (int width, int height, int x, int y, room_t *room){
+void draw_room (int width, int height, int x, int y, room_t *room, WINDOW *win){
   //Calculate dimensions
   int top_len = width - 2;
   int side_ht = height -2;
@@ -32,40 +33,40 @@ void draw_room (int width, int height, int x, int y, room_t *room){
   int halfx = x + width/2;
 
   //Draw the corners
-  mvaddch(y,x,ACS_ULCORNER);
-  mvaddch(y,right_x,ACS_URCORNER);
-  mvaddch(bot_y,x,ACS_LLCORNER);
-  mvaddch(bot_y,right_x,ACS_LRCORNER);
+  mvwaddch(win,y,x,ACS_ULCORNER);
+  mvwaddch(win,y,right_x,ACS_URCORNER);
+  mvwaddch(win,bot_y,x,ACS_LLCORNER);
+  mvwaddch(win,bot_y,right_x,ACS_LRCORNER);
 
   //Draw the sides
-  mvhline(y,x+1,ACS_HLINE,(width-2));
-  mvhline(bot_y,x+1,ACS_HLINE,top_len);
-  mvvline(y+1,x,ACS_VLINE,side_ht);
-  mvvline(y+1,right_x,ACS_VLINE,side_ht);
+  mvwhline(win,y,x+1,ACS_HLINE,(width-2));
+  mvwhline(win,bot_y,x+1,ACS_HLINE,top_len);
+  mvwvline(win,y+1,x,ACS_VLINE,side_ht);
+  mvwvline(win,y+1,right_x,ACS_VLINE,side_ht);
 
   //Checks if given room has exits on each side, draws exits
   if (room->ex_e){    
-    mvaddch(halfy-1,right_x,ACS_HLINE);
-    mvaddch(halfy,right_x,ACS_HLINE);
+    mvwaddch(win,halfy-1,right_x,ACS_HLINE);
+    mvwaddch(win,halfy,right_x,ACS_HLINE);
   }
   if (room->ex_w){
-    mvaddch(halfy-1,x,ACS_HLINE);
-    mvaddch(halfy,x,ACS_HLINE);
+    mvwaddch(win,halfy-1,x,ACS_HLINE);
+    mvwaddch(win,halfy,x,ACS_HLINE);
   }
   if (room->ex_n){
-    mvaddch(y,halfx-1,ACS_VLINE);
-    mvaddch(y,halfx,' ');
-    mvaddch(y,halfx+1,ACS_VLINE);
+    mvwaddch(win,y,halfx-1,ACS_VLINE);
+    mvwaddch(win,y,halfx,' ');
+    mvwaddch(win,y,halfx+1,ACS_VLINE);
   }
   if (room->ex_s){
-    mvaddch(bot_y,halfx-1,ACS_VLINE);
-    mvaddch(bot_y,halfx,' ');
-    mvaddch(bot_y,halfx+1,ACS_VLINE);
+    mvwaddch(win,bot_y,halfx-1,ACS_VLINE);
+    mvwaddch(win,bot_y,halfx,' ');
+    mvwaddch(win,bot_y,halfx+1,ACS_VLINE);
   }
 }
 
 //Takes a coordinate and an array of rooms and draws them in
-void draw_rooms(room_t **rooms,int n, int left_x, int top_y){
+void draw_rooms(room_t **rooms,int n, int left_x, int top_y, WINDOW *win){
   //Declare variables
   int x,y,x_offset,y_offset;
   int room_h = 6;
@@ -81,7 +82,7 @@ void draw_rooms(room_t **rooms,int n, int left_x, int top_y){
     y_offset = top_y + (room_h * y);
 
     //Draw room at x/y coordinate given, with preset w/h
-    draw_room(room_w, room_h, x_offset, y_offset,rooms[i]);
+    draw_room(room_w, room_h, x_offset, y_offset,rooms[i],win);
   }
 
   return;

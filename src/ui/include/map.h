@@ -33,10 +33,10 @@ void init();
 void erase_ch(int y, int x);
 
 //Draws a room at coordinates x,y of width 'witdh' and height 'height'
-void draw_room(int width, int height, int x, int y, room_t *room);
+void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win);
 
 //Draws a list of rooms starting at the coordinate given
-void draw_rooms(room_t **rooms, int n, int left_x, int top_y);
+void draw_rooms(room_t **rooms, int n, int left_x, int top_y, WINDOW *win);
 
 
 //Gets an array of test rooms
