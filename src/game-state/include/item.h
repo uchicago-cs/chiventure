@@ -10,12 +10,12 @@
 
 enum attribute_tag {INTEGER, DOUBLE, CHARACTER, STRING}
 
-//actual values left up to action management
+// values will be loaded from WDL/provided by action management
 typedef union attribute_value {
-    char* str_val;
-    int int_val;
-    double double_val;
+    bool b;
     char char_val;
+    char *str_val;
+    int int_val;
 } attribute_value_t;
 
 /* this object struct will include a door object to be used between rooms,
@@ -52,8 +52,8 @@ int take_object(object_t obj);
 
 attribute_value_t* create_attribute(void* value, int type);
 
-/*create a function to add to the attribute table, create a function that returnsd the value of an attribute, 
-create a function that changes an atttribute, 
+/*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
+create a function that changes an atttribute,
 
 */
 
