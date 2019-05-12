@@ -10,14 +10,26 @@ ROOMS:
  - id: A
    short_desc: "This is room A"
    long_desc: "This is room A long"
+   connections:
+    - to: B
+    - direction: north
+    - through: door
 
  - id: B
    short_desc: "This is room B"
    long_desc: "This is room B long"
+   connections: 
+    - to: C
+    - direction: north
+    - through: tunnel
 
  - id: C
    short_desc: "This is room C"
    long_desc: "This is room C long"
+   connections:
+    - to: A
+    - direction: north
+    - through: window
 
 ITEMS:
  - id: chair

@@ -84,7 +84,7 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
  *
  * note: behaviour is undefined if object and validation function do not match
  */
-void list_print(attr_list_t *ls, bool(*print)(obj_t*));
+bool list_print(attr_list_t *ls, bool(*print)(obj_t*));
 
 
 /*

@@ -20,35 +20,36 @@ attr_list_t *get_obj_list(obj_t *obj, char *str)
 {
     char *attributes[3] = {"ROOMS", "ITEMS", "PLAYERS"};
 
-    if (strcmp(str, &attributes[0]) != 0 &&
-        strcmp(str, &attributes[1]) != 1 &&
-        strcmp(str, &attributes[2]))
+    if (strcmp(str, attributes[0]) != 0 &&
+        strcmp(str, attributes[1]) != 1 &&
+        strcmp(str, attributes[2]))
         return NULL;
 
     return obj_list_attr(obj);
 }
 
 /* see parse.h */
-attr_list_t *extract_objects(obj_t *obj, char *str)
-{
-    char *attributes[3] = {"ROOMS", "ITEMS", "PLAYERS"};
-    attr_list_t *ls = get_obj_list(obj, str);
-
-    if (ls == NULL)
-        return NULL;
-
-    if (strcmp(str, &attributes[0]))
-        bool valid = list_check_type(ls, verify_room);
-    else if (strcmp(str, &attributes[1]))
-        bool valid = list_check_type(ls, verify_item);
-    else
-        bool valid = list_check_type(ls, verify_player);
-
-    if (valid)
-        return ls;
-    else
-        return NULL;
-}
+//attr_list_t *extract_objects(obj_t *obj, char *str)
+//{
+//    char *attributes[3] = {"ROOMS", "ITEMS", "PLAYERS"};
+//    attr_list_t *ls = get_obj_list(obj, str);
+//    bool valid = false;
+//
+//    if (ls == NULL)
+//        return NULL;
+//
+//    if (strcmp(str, attributes[0]))
+//        valid = list_check_type(ls, verify_room);
+//   else if (strcmp(str, attributes[1]))
+//       valid = list_check_type(ls, verify_item);
+//    else
+//        valid = list_check_type(ls, verify_player);
+//
+//    if (valid)
+//        return ls;
+//    else
+//        return NULL;
+//}
 
 
 /* make_char_id()

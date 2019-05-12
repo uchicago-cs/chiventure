@@ -216,7 +216,7 @@ bool connection_type_check(obj_t *obj)
     return (id && direction && through);
 }
 
-/* check_connections()
+/* check_connection_attr()
  * a helper function for room_type_check that checks all connections and its
  * attributes associated with a room object
  *
@@ -226,13 +226,12 @@ bool connection_type_check(obj_t *obj)
  * returns:
  * - true if attributes of all connections match, else return false
  */
-bool check_connections(obj_t *obj)
+bool check_connection_attr(obj_t *obj)
 {
-    // obtain list of connections
     attr_list_t *ls = connections_get_list(obj);
-
+    
     // call connection_type_check on each connection
-    bool check = list_type_check(obj, connection_type_check);
+    bool check = list_type_check(ls, connection_type_check);
 
     return check;
 }
@@ -251,7 +250,7 @@ bool room_type_check(obj_t *obj)
     if (obj_get_type(obj, "long_desc") != TYPE_STR)
         long_ver = false;
     // verify connections
-    bool connections_ver = check_connections(obj);
+    bool connections_ver = check_connection_attr(obj);
 
     return (id_ver && short_ver && long_ver && connections_ver);
 }
