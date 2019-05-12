@@ -1,19 +1,50 @@
 ﻿# Documentation of Action Specifications
 
+#### Definitions
+**Conditions**: <br>
+When an action is requested on an item or NPC, these conditions<br>
+must be met in order for an action to be successful. When the action is successful<br>
+there are potential effects that can occur. <br>
+
+**Effects**:<br>
+When an action is completed successful, there are multiple types of effects<br>
+that can occur, depending on which action is committed on a certain item.<br>
+
+
 ## Kinds of Actions:
 Kind 1: ACTION `<ITEM>` <br>
+A **Kind 1** action is an action that makes the player do something to an item.<br>
+Examples: EAT apple, OPEN door, PUSH box, etc.<br>
+
 Kind 2: ACTION `<DIRECTION>`<br>
+A **Kind 2** action is an action that makes the player walk in a certain direction, most likely into a new area/room.<br>
+Examples: GO west, WALK east, GO left, etc.<br>
+
 Kind 3: ACTION `<NPC>`<br>
+A **Kind 3** action is an action that makes the player interact with an NPC in some way. This action does not include<br>
+any physical interaction with the NPC.<br>
+Examples: TALK TO NPC, LOOK AT NPC, etc.
+
 Kind 4: ACTION `<ITEM> <NPC>` <br>
+A **Kind 4** action is an action that makes the player interact with an item and an NPC.<br>
+Examples: TAKE apple from NPC, GIVE apple to NPC, etc.<br>
+
 Kind 5: ACTION `<ITEM> <ITEM>`<br>
+A **Kind 5** action is an action that makes the player interact with two items. <br>
+Examples: PUT apple on table, PUSH box on button, USE key on door, etc<br>
 
 
 ## Items and NPC's:
+
+These are the general conditions and requirements for NPC's.
+
 ### `<ITEM>`
-#### Requirements:
+#### Conditions:
 - Item must be accessible by player
 - Item must be able to be affected by action
 - Item must be in a state where action can be affective
+- Item may need a certain attribute to be a certain value before action can be affective
+
 
 #### Effects:
 - Item may no longer accessible 
@@ -22,11 +53,12 @@ Kind 5: ACTION `<ITEM> <ITEM>`<br>
 - Other item states may be changed
 - New rooms may be accessible or closed off
 - Player state may be changed 
+- Item may change another item's attribute value
 
 
 
 ### `<NPC>`
-#### Requirements:
+#### Conditions:
 - NPC must be accessible
 - NPC has the ability to be interacted with (possibly with specific item)
 
@@ -39,120 +71,113 @@ Kind 5: ACTION `<ITEM> <ITEM>`<br>
 
 ## Actions:
 
-Open [Item] (Kind 1)
+These are specific conditions and effects that are affiliated with certain actions. This means that along with the general<br>
+conditions and effects listed above, there are special conditions and effects tha can also be included with specific actions.<br>
+If items have "No additional ..." listed, they follow the only follow the determined general conditions/requirements listed above, and <br>
+have no excpetions.<br>
+
+K1 - Open `<ITEM>`
 ------
-### Requirements:
-- Item must be unlocked
-- Item must not be blocked
+### Conditions:
+- No additional conditions
 
 ### Effects:
 - A new room may be available 
-- New item may be accessible
 
 
-Close [Item]
+K1 - Close `<ITEM>`
 ------
-### Requirements:
-- Item must be open
-- Item must not be blocked
+### Conditions:
+- No additional requirements
 
 ### Effects:
 - A room may no longer be available 
 
 
-Push [Item]
+K1 - Push `<ITEM>`
 ------
-### Requirements:
-- Item must not have anything blocking it from being pushed
+### Conditions:
 - Item must not be too heavy
 
 ### Effects:
-- New items may be accessible
+- No additional effects
 
 
 
-Pull [Item]
+K1 - Pull `<ITEM>`
 ------
-### Requirements:
+### Conditions:
 - Item must not be too heavy
-- Item must not be blocked
 
 ### Effects:
-- New rooms or items may be unlocked
+- No additional effects
 
 
-Look at [Item] / Examine [Item]
+K1 - Look at `<ITEM>` / Examine `<ITEM>`
 ------
-### Requirements:
-- No additional requirements
+### Conditions:
+- No additional Conditions
 
 
 ### Effects:
-- New information may be given to the player
 - Description of item will be printed
 
 
-Turn on [Item]
+K1 - Turn on `<ITEM>`
 --------------
-### Requirements:
-- No additional requirements
+### Conditions:
+- No additional Conditions
 
 ### Effects:
 - No additional effects
 
 
-Turn off [Item]
+K1 - Turn off `<ITEM>`
 ----------
-### Requirements:
-- No additional requirements
+### Conditions:
+- No additional Conditions
 
 
 ### Effects:
 - No additional effects
 
 
-Talk to [NPC]
+K3 - Talk to [NPC]
 ---------
-### Requirements:
-- Nothing may be blocking the NPC
+### Conditions:
+- No additional requirements
 
 
 ### Effects:
-- New information may be given to the player
+- Dialogue from NPC will be printed
 
 
-K5 - Give [Item] on [NPC] 
+K5 - Give `<ITEM>` on [NPC] 
 ------------
-### Requirements:
+### Conditions:
 - Item must be in inventory
 
 
 ### Effects:
 - Remove Item from player inventory
-- New information may be given to the player
+- Dialogue from NPC may be printed
 
 
 K2 - Go [direction]
 ---------
-### Requirements:
-- Room must be in direction and not blocked
-
-
+### Conditions:
+- A direction must be given.
 
 
 ### Effects:
 - Move player to room in direction
-- Print brief description of room
+- Brief description of room will be printed
 
 
 
-
-K1 - Pick up / Take [Item]
+K1 - Pick up / Take `<ITEM>`
 --------------
-
-
-### Requirements:
-
+### Conditions:
 - Player must have inventory space for Item
 
 
@@ -162,9 +187,9 @@ K1 - Pick up / Take [Item]
 - Decrease player inventory space
 
 
-K1 - Drop [Item]
+K1 - Drop `<ITEM>`
 ----------
-### Requirements:
+### Conditions:
 - Item must be in inventory
 
 ### Effects:
@@ -173,44 +198,38 @@ K1 - Drop [Item]
 - Put Item in room (changes room description and state)
 
 
-K1 - Use [Item]
+K1 - Use `<ITEM>`
 ---------
-### Requirements:
-- No additional requirements
-
+### Conditions:
+- No additional Conditions
 
 
 ### Effects:
 - No additional effects
 
 
-K5 - Use [Item] on [Item]
+K5 - Use `<ITEM>` on `<ITEM>`
 ------------
-### Requirements:
-- No additional requirements
+### Conditions:
+- No additional Conditions
 
 
 ### Effects:
 - No additional effects
 
 
-K1 - Drink [Item] / Consume [Item]
+K1 - Drink `<ITEM>` / Consume `<ITEM>`
 ---------
-### Requirements:
-
+### Conditions:
 - Item must be liquid
 
-
-
-
 ### Effects:
 - No additional effects
 
 
-K1 - Eat [Item] / Consume [Item]
+K1 - Eat `<ITEM>` / Consume `<ITEM>`
 ---------
-### Requirements:
-
+### Conditions:
 - Item must be solid
 
 
