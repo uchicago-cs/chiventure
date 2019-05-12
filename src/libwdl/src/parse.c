@@ -39,11 +39,11 @@ attr_list_t *get_obj_list(obj_t *obj, char *str)
 //        return NULL;
 //
 //    if (strcmp(str, attributes[0]))
-//        valid = list_check_type(ls, verify_room);
+//        valid = list_check_type(ls, room_type_check);
 //   else if (strcmp(str, attributes[1]))
-//       valid = list_check_type(ls, verify_item);
+//       valid = list_check_type(ls, item_type_check);
 //    else
-//        valid = list_check_type(ls, verify_player);
+//        valid = list_check_type(ls, player_type_check);
 //
 //    if (valid)
 //        return ls;
