@@ -17,8 +17,9 @@ typedef struct llist {
 
 /* This struct represents a single condition that must be
  * met for a path to be taken. It includes an object, an
- * attribute that the object must have, and a value that is 1 if
- * the attribute is met and 0 if not. */
+ * attribute of the object, and the value of that attribute 
+ * (1 if yes and 0 for no)
+ *  and 0 if not. */
 typedef struct condition {
   object_t *item;
   char *attribute;
