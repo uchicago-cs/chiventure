@@ -4,7 +4,7 @@
 
 
 action_t *action_new(enum actions act, char *c_name,
-  list_t *synonyms, list_t *parameters)
+  list_t *synonyms, enum kind)
   {
     action_t *a = malloc(sizeof(action_t));
 
