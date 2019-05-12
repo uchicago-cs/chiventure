@@ -3,18 +3,40 @@
 #include "actionmanagement.h"
 
 
-
-int act_give_to(game_t *g, item_t *i, npc_t *n)
-{
-  while (g->all_players_t->inventory)
+action_t *action_new(enum actions act, char *c_name,
+  list_t *synonyms, list_t *parameters)
   {
-    if (i == g->all_players_t->inventory->tagged_objs->object_type_t[i])
+    action_t *a = malloc(sizeof(action_t));
+
+    if(a == NULL)
     {
-      //use add_object_to_hash function
-      //need a remove from hash function
-      return 0;
+      error("Could not allocate memory");
+      return NULL;
     }
+
+    new_a = action_init(a, act, c_name, synonyms, parameters);
+    if (new_a != SUCCESS)
+    {
+      error("Could not initialize this action");
+      return NULL;
+    }
+
+    return a;
   }
-  fprintf(stderr, "%s\n", "unable to give item");
-  return 1;
-}
+
+
+
+// int act_give_to(game_t *g, item_t *i, npc_t *n)
+// {
+//   while (g->all_players_t->inventory)
+//   {
+//     if (i == g->all_players_t->inventory->tagged_objs->object_type_t[i])
+//     {
+//       //use add_object_to_hash function
+//       //need a remove from hash function
+//       return 0;
+//     }
+//   }
+//   fprintf(stderr, "%s\n", "unable to give item");
+//   return 1;
+// }
