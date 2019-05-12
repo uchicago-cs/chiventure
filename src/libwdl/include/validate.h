@@ -103,12 +103,12 @@ void list_print(attr_list_t *ls, bool(*print)(obj_t*));
  * which would include each of the rooms and their attributes.
  * We will want to then validate each of the attributes
  */
- bool verify_item(obj_t *obj);
+ bool game_type_check(obj_t *obj);
 
- bool verify_room(obj_t *obj);
+ bool room_type_check(obj_t *obj);
 
- bool verify_game(obj_t *obj);
+ bool item_type_check(obj_t *obj);
 
- bool verify_player(obj_t *obj);
+ bool player_type_check(obj_t *obj);
 
 #endif /* INCLUDE_VALIDATE_H */
