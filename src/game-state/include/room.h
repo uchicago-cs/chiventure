@@ -18,12 +18,11 @@ typedef struct llist {
 /* This struct represents a single condition that must be
  * met for a path to be taken. It includes an object, an
  * attribute of the object, and the value of that attribute 
- * (1 if yes and 0 for no)
- *  and 0 if not. */
+ * which can be a string or integer, as defined in object.h */
 typedef struct condition {
   object_t *item;
   char *attribute;
-  int value;
+  attribute_value_t value;
 } condition_t;
 
 /* This struct represents a path from one room to another. It contains
