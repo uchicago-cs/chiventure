@@ -31,23 +31,8 @@ attr_list_t *get_obj_list(obj_t *obj, char *str)
 /* see parse.h */
 attr_list_t *extract_objects(obj_t *obj, char *str)
 {
-    char *attributes[3] = {"ROOMS", "ITEMS", "PLAYERS"};
     attr_list_t *ls = get_obj_list(obj, str);
-
-    if (ls == NULL)
-        return NULL;
-
-    if (strcmp(str, &attributes[0]))
-        bool valid = list_check_type(ls, verify_room);
-    else if (strcmp(str, &attributes[1]))
-        bool valid = list_check_type(ls, verify_item);
-    else
-        bool valid = list_check_type(ls, verify_player);
-
-    if (valid)
-        return ls;
-    else
-        return NULL;
+    return ls;
 }
 
 
