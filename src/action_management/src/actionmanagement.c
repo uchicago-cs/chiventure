@@ -37,3 +37,14 @@ int action_init(action_t *a, enum actions act, char *c_name,
 
     return SUCCESS;
   }
+
+
+int action_free(action_t *a)
+{
+  assert(a != NULL);
+  free(a->c_name);
+  free(a->synonyms);
+  free(a->parameters);
+  free(a)
+  return SUCCESS;
+}
