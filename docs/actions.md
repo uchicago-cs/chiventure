@@ -72,8 +72,9 @@ These are the general conditions and requirements for NPC's.
 ## Actions:
 
 These are specific conditions and effects that are affiliated with certain actions. This means that along with the general<br>
-conditions and effects listed above, there are special conditions and effects tha can also be included with the actions.<br>
-If items have "No additional ..." listed, they follow the only follow the determined general conditions/requirements listed above.<br>
+conditions and effects listed above, there are special conditions and effects tha can also be included with specific actions.<br>
+If items have "No additional ..." listed, they follow the only follow the determined general conditions/requirements listed above, and <br>
+have no excpetions.<br>
 
 K1 - Open `<ITEM>`
 ------
