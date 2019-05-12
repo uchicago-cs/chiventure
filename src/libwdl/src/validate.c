@@ -3,7 +3,8 @@
 #include <string.h>
 #include "validate.h"
 
-/* See validate.h */
+// THIS IS TEMPORALLY COMMENTED OUT TO PREVENT COMPILATION ERRORS //
+/* See validate.h 
 void print_room(obj_t *obj, char *str)
 {
     // Initialize strings for fields within object struct
@@ -36,7 +37,7 @@ void print_room(obj_t *obj, char *str)
 }
 
 
-/* See validate.h */
+/* See validate.h 
 void print_item(obj_t *obj, char *str)
 {
     // Initialize strings for fields within object struct
@@ -69,7 +70,7 @@ void print_item(obj_t *obj, char *str)
 }
 
 
-/* See validate.h */
+/* See validate.h 
 void print_game(obj_t *obj, char *str1, char *str2)
 {
     // Initialize strings for fields within object struct
@@ -94,7 +95,7 @@ void print_game(obj_t *obj, char *str1, char *str2)
     free(start_str);
     free(intro_str);
 }
-
+*/
 
 /* See validate.h */
 bool verify_item(obj_t *obj, char *str)
@@ -136,39 +137,18 @@ bool verify_item(obj_t *obj, char *str)
 
 
 /* See validate.h */
-bool verify_room(obj_t *obj, char *str)
+bool verify_room(obj_t *obj)
 {
-    // Initialize strings for fields within object struct
-    char *id = ".id";
-    char *short_desc = ".short_desc";
-    char *long_desc = ".long_desc";
-
-    // Allocate memory for new strings and copy in str
-    char *id_str = malloc(sizeof(char) * 30);
-    strcpy(id_str, str);
-    char *short_str = malloc(sizeof(char) * 30);
-    strcpy(short_str, str);
-    char *long_str = malloc(sizeof(char) * 30);
-    strcpy(long_str, str);
-
-    // Concatenate str with field strings
-    strcat(id_str, id);
-    strcat(short_str, short_desc);
-    strcat(long_str, long_desc);
-
     // verify types of fields
     bool id_ver = true, short_ver = true, long_ver = true;
-    if (obj_get_type(obj, id_str) != TYPE_STR && obj_get_type(obj, id_str) != TYPE_CHAR)
-        id_ver = false;
-    if (obj_get_type(obj, short_str) != TYPE_STR)
-        short_ver = false;
-    if (obj_get_type(obj, long_str) != TYPE_STR)
-        long_ver = false;
 
-    // Free strings
-    free(id_str);
-    free(short_str);
-    free(long_str);
+    if (obj_get_type(obj, "id") != TYPE_STR && obj_get_type(obj, "id") != TYPE_CHAR)
+        id_ver = false;
+    if (obj_get_type(obj, "short_desc") != TYPE_STR)
+        short_ver = false;
+    // Revise
+    if (obj_get_type(obj, "long_desc") != TYPE_STR)
+        long_ver = false;
 
     return (id_ver && short_ver && long_ver);
 }
