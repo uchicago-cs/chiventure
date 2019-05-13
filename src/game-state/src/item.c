@@ -1,8 +1,11 @@
 /* Implementations of the item struct */
 #include <stdio.h>
 #include <stdlib.h>
-#include "item.h"
 #include <assert.h>
+#include "item.h"
+#include "room.h"
+#include "uthash.h"
+
 
 item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 {
@@ -15,14 +18,14 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
   new_item->long_desc = malloc(300*sizeof(char));
 
   if(new_item == NULL) {
-      error("Could not allocate memory!");
+      // error("Could not allocate memory!");
       return NULL;
   }
 
-  check = item_init(new_item, short_desc, long_desc);
+  check = item_init(new_item, item_id, short_desc, long_desc);
 
-  if(check != SUCCESS) {
-      error("Could not initialize item!");
+  if(check != 1) {
+      // error("Could not initialize item!");
       return NULL;
   }
 
@@ -38,7 +41,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
   new_item->short_desc = short_desc;
   new_item->long_desc = long_desc;
 
-  return SUCCESS;
+  return 1;
 }
 
 /* the following functions retrieve specific information from desired item
@@ -67,17 +70,17 @@ char *get_long_desc(item_t *item)
   return item_longd;
 }
 
+/*what was this supposed to do?*/
+// int *get_obj_type(enum item_type_t obj_t)
+// {
+//
+//     /* TO DO */
+//
+//     return NULL;
+// }
 
-int *get_item_type(enum item_type_t item_t)
-{
 
-    /* TO DO */
-
-    return NULL;
-}
-
-
-int take_item(item_t item)
+int take_item(item_t *item)
 {
 
     /* TO DO */
@@ -85,52 +88,51 @@ int take_item(item_t item)
     return 0;
 }
 
-
 /* adding item to room inventory hash */
-int add_item_to_room(all_items_t all_items, int item_id, item_t *item) {
-    item_t *s;
-    HASH_FIND_STR(all_items, &item_id, s);
-    if (s != NULL) {
+int add_item_to_room(room_t* room, char* item_id, item_t *item) {
+    item_t* check;
+    item_t* room_items = room->items;
+    HASH_FIND_STR(room_items, item_id, check);
+    if (check != NULL) {
         /* WARNING */
-        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE itemS */
-        printf("FATAL: item_id already used!\n");
+        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
+        fprintf(stderr, "Error: this item id is already in use.\n");
         exit(0);
     }
-    HASH_ADD_INT(all_items, item_id, s);
+    HASH_ADD_STR(room_items, item_id, item);
     return 1;
 }
 
-
-/* adding item attributes to item attr hash, in progress */
-int add_attr_to_item(item_t *item, char *attribute, attribute_value_t item_attr) {
-    item_t *s;
-    attribute_table_t all_attrs = item->attributes;
-    HASH_FIND_STR(all_attrs, attribute, s);
-    if (s != NULL) {
-        printf("This attribute is already present!\n");
+/* adding item attributes to item attribute hash */
+int add_attr_to_item(item_t *item, char *attribute_key, tagged_attribute_t* new_attribute) {
+    tagged_attribute_t* check;
+    tagged_attribute_t* all_attributes = item->attributes;
+    HASH_FIND_STR(all_attributes, attribute_key, check);
+    if (check != NULL) {
+        printf("Error: this attribute is already present.\n");
         exit(1);
     }
-    HASH_ADD_INT(all_attrs, attribute, s);
+    HASH_ADD_STR(all_attributes, attribute_key, new_attribute);
     return 1;
 }
 
-//do we want to make the attribute union a tagged union?? 
-attribute_value_t* create_attribute(void* value, int type)
+
+tagged_attribute_t* create_attribute(void* value, int type)
 {
-  attribute_value_t* new_attribute = malloc(attribute_value_t)
+  tagged_attribute_t* new_attribute = (tagged_attribute_t*)malloc(sizeof(tagged_attribute_t));
   if (type == INTEGER)
   {
-    new_attribute->int_val = *value;
+    new_attribute->int_val = value;
     return new_attribute;
   }
-  else if (type == DOUBLE)
+  else if (type == BOOLE)
   {
-    new_attribute->double_value = *value;
+    new_attribute->boole_val = value;
     return new_attribute;
   }
   else if (type == CHARACTER)
   {
-    new_attribute->char_val = *value;
+    new_attribute->char_val = value;
     return new_attribute;
   }
   else if (type == STRING)
@@ -138,7 +140,43 @@ attribute_value_t* create_attribute(void* value, int type)
     new_attribute->str_val = value;
     return new_attribute;
   }
-  error("Attribute could not be created");
+  fprintf(stderr, "Attribute could not be created");
   return NULL;
-
 }
+
+void* get_attribute(item_t* item)
+{
+  /*to do*/
+  return NULL;
+}
+
+
+/*in progress*/
+int change_attribute(tagged_attribute_t* attribute, void* new_value)
+{
+  if (attribute->attr_tag == INTEGER)
+  {
+    attribute->attr_value.int_val = new_value;
+    return 1;
+  }
+  else if (type == BOOLE)
+  {
+    attribute->attr_value.boole_val = new_value;
+    return 1;
+  }
+  else if (type == CHARACTER)
+  {
+    attribute->attr_value.char_val = new_value;
+    return 1;
+  }
+  else if (type == STRING)
+  {
+    attribute->attr_value.str_val = new_value;
+    return 1;
+  }
+  fprintf(stderr, "Attribute could not be changed");
+  return 0;
+}
+
+
+

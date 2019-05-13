@@ -1,59 +1,118 @@
-#ifndef _ITEM_H
-#define _ITEM_H
+#ifndef _OBJECT_H
+#define _OBJECT_H
 
 #include <stdio.h>
 #include <stdlib.h>
+#include<stdbool.h>
 #include "uthash.h"
 #include "player.h"
 #include "room.h"
 #include "game.h"
 
-enum attribute_tag {INTEGER, DOUBLE, CHARACTER, STRING}
+//where does this belong?? 
+/* Forward declaration of linked list */
+typedef struct all_items {
+    /* fields used for linked list */
+    struct exit *next, *prev;
+
+    /* add necessary item info here */
+
+} all_items_t;
 
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
-    bool b;
-    char char_val;
+    bool *boole_val;
+    char *char_val;
     char *str_val;
-    int int_val;
+    int *int_val;
 } attribute_value_t;
 
+enum attribute_tag {BOOLE, CHARACTER, STRING, INTEGER};
 
-/* this item struct will include a door item to be used between rooms,
+typedef struct tagged_attributes {
+  UT_hash_handle hh;
+  char* attribute_key;
+  enum attribute_tag attr_tag;
+  attribute_value_t attr_value;
+} tagged_attribute_t;
+
+/* this object struct will include a door object to be used between rooms,
 i.e. included in the room struct in its list of exits */
 typedef struct item {
-    UT_hash_handle hh; //makes thuis struct hashable for the room struct (items in rooms) and player struct (inventory)
+    UT_hash_handle hh; //makes thuis struct hashable for the room struct (objects in rooms) and player struct (inventory)
     char *item_id;
     char *short_desc;
     char *long_desc;
     bool condition; /* reserved for future expansion */
-    attribute_table_t attributes;
+    tagged_attribute_t* attributes;
 } item_t;
 
-typedef struct item* all_items_t;
+/* item_new() allocates a space for an item struct in memory
+  Parameters: 
+    a unique item id
+    a short description of the item
+    a long description of the item
+  Returns:
+    A pointer to a new item struct.
+*/
+item_t *item_new(char *item_id, char *short_desc, char *long_desc);
 
-typedef struct attribute_table{
-    UT_hash_handle hh; //makes this struct hashable for the item struct
-    char* attribute_name;
-    union attribute_value_t val;
-} attribute_table_t;
+/* item_init() initializes an item struct with given values
+    arguments are taken from WDL
+  Parameters:
+    a memory allocated new item pointer
+    a unique item id
+    a short description of the item
+    a long description of the item
 
-item_t *item_new();
+  Returns:
+    0 for failure, 1 for success
+*/
+int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc);
 
-// arguments are taken from WDL
-int item_init(char *item_id, char *short_desc, char *long_desc);
-//
-char *get_id(item_t item);
+/* get_id() retrieves the unique id of the item
+  Parameters:
+    the item struct in question
+  Returns:
+    a string representing the item id
+*/
+char *get_id(item_t *item);
 
-char *get_short_desc(item_t item);
+/* get_short_desc() retrieves the short description of the item
+  Parameters:
+    the item struct in question
+  Returns:
+    a string representing a brief description of the item
+*/
+char *get_short_desc(item_t *item);
 
-char *get_long_desc(item_t item);
+/* get_long_desc() retrieves the long description of the item
+  Parameters:
+    the item struct in question
+  Returns:
+    a string representing a longer, more detailed description of the item
+*/
+char *get_long_desc(item_t *item);
 
-int *get_item_type(enum item_type_t item_t);
+/* get_item_type() retrieves the type of the item
+  Parameters:
+    the item struct in question
+  Returns:
 
-int take_item(item_t item);
+*/
+// int *get_item_type(enum item_type_t item);
 
-attribute_value_t *create_attribute(void* value, int type);
+int take_item(item_t *item);
+
+attribute_value_t* create_attribute(void* value, int type);
+
+int add_item_to_room(room_t* room, char* item_id, item_t *item);
+
+int add_attr_to_item(item_t *item, char *attribute_key, tagged_attribute_t* new_attribute);
+
+void* get_attribute(item_t* item);
+
+int change_attribute(tagged_attribute_t* attribute, void* new_value);
 
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
 create a function that changes an atttribute,

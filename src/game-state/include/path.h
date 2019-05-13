@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "utlist.h"
 #include "uthash.h"
+#include "item.h"
 
 /* This struct represents a single condition that must be
  * met for a path to be taken. It includes an item, an
