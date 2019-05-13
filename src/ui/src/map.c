@@ -7,6 +7,7 @@
 int room_h = 6;
 int room_w = 11;
 
+
 //Initiallizes ncurses window
 //This function will later live in ui.c
 void init(){
@@ -14,7 +15,7 @@ void init(){
   clear();
   noecho();
   cbreak();
-  keypad(stdscr, TRUE);
+  //  keypad(stdscr, TRUE);
   curs_set(0);
   return ;
 }
@@ -27,6 +28,7 @@ void erase_ch (int y, int x){
 
 //Draw a single room
 void draw_room (int width, int height, int x, int y, room_t *room, WINDOW *win){
+  fprintf(debug,"Drawing room with w %i, h %i at (%i,%i)\n",width,height,x,y);
   //Calculate dimensions
   int top_len = width - 2;
   int side_ht = height -2;
@@ -69,11 +71,10 @@ void draw_room (int width, int height, int x, int y, room_t *room, WINDOW *win){
 }
 
 //Takes a coordinate and an array of rooms and draws them in
-void draw_rooms(room_t **rooms,int n, int left_x, int top_y, WINDOW *win){
+void draw_rooms(room_t **rooms,int n, int left_x, int top_y, map_t *map){
   //Declare variables
   int x,y,x_offset,y_offset;
-  //  int room_h = 6;
-  //int room_w = 11;
+
 
   //Get x,y,z coordinates for rooms
   for (int i = 0; i<n; i++){
@@ -81,11 +82,12 @@ void draw_rooms(room_t **rooms,int n, int left_x, int top_y, WINDOW *win){
     y = rooms[i]->loc->y;
     //z = rooms[i]->loc->z;
     
-    x_offset = left_x + (room_w * x);
-    y_offset = top_y + (room_h * y);
+    x_offset = left_x + (room_w * x) + map->xoff;
+    y_offset = top_y + (room_h * y) + map->yoff;
 
     //Draw room at x/y coordinate given, with preset w/h
-    draw_room(room_w, room_h, x_offset, y_offset,rooms[i],win);
+    // fprintf(debug,"Drawing room at x %i, y %i\n",x_offset, y_offset);
+    draw_room(room_w, room_h, x_offset, y_offset,rooms[i],map->pad);
   }
   return;
 }
@@ -111,24 +113,41 @@ int *calculate_map_dims(room_t **rooms, int n){
     if (cz>z)
       z = cz;
   }
+
   int *xyz = malloc(sizeof(int)*3);
-  xyz[0] = x;
-  xyz[1] = y;
-  xyz[2] = z;
+  xyz[0] = x+1;
+  xyz[1] = y+1;
+  xyz[2] = z+1;
+  fprintf(debug,"Dims %i, %i, %i\n",xyz[0],xyz[1],xyz[2]);
   return xyz;
 }
 
-map_t *init_map(room_t ** rooms, int n){
+map_t *map_init(room_t ** rooms, int n){
+  int xoffset = 30;
+  int yoffset = 5;
+  
   //map_dims[0] is xmax, map_dims[1] is ymax, and map_dims[2] is zmax
   int *dims = calculate_map_dims(rooms,n);
-  WINDOW *pad = newpad(dims[1],dims[0]);
+  int maxx = dims[0] * room_w + 2*xoffset;
+  int maxy = dims[1] * room_h + 2*yoffset;
+  WINDOW *pad = newpad(maxy,maxx);
   map_t *map = malloc(sizeof(map_t));
   map->pad = pad;
-  map->maxx = dims[0];
-  map->maxy = dims[1];
+  map->xoff = xoffset;
+  map->yoff = yoffset;
+  map->maxx = maxx;
+  map->maxy = maxy;
   map->maxz = dims[2];
-  draw_rooms(rooms,n,0,0,pad);
+  map->padx = xoffset;
+  map->pady = yoffset;
+  map->padz = 0;
+  map->ulx = 0;
+  map->uly = 0;
+  map->lrx = 0;
+  map->lry = 0;
 
+  keypad(pad, TRUE);
+  draw_rooms(rooms,n,0,0,map);
   return map;
 }
 
@@ -137,18 +156,36 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry){
   map->uly = uly;
   map->lrx = lrx;
   map->lry = lry;
+  fprintf(debug,"Display Window Set With\nMap Struct maxx %i, maxy %i\nulx %i, uly %i, lrx %i, lry %i\n",map->maxx,map->maxy,ulx,uly,lrx,lry);
+  fprintf(debug,"Padx %i, Pady %i Map xoff %i, yoff %i\n",map->padx, map->pady,map->xoff, map->yoff);
   return 0;
 }
 
-int refresh_map(map_t *map, int x, int y, int z){
-  int maxx = map->maxx;
-  int maxy = map->maxy;
-  int maxz = map->maxz;
-  int padx, pady;
+int map_refresh(map_t *map, int x, int y, int z){
+  // touchwin(map->pad);
 
-  padx = 
+  map->padx = x;
+  map->pady = y;
+  map->padz = z;
+  //fprintf(debug, "Debugging refresh\n padx %i, pady %i\n",x,y);
+  prefresh(map->pad, y,x,map->uly,map->ulx,map->lry,map->lrx);
+  return 0;
+}
 
-  prefresh(map->pad, padx,pady,uly,ulx,lry,lrx);
+int map_crefresh(map_t *map, int x, int y, int z){
+  int ulx = map->ulx;
+  int uly = map->uly;
+  int lrx = map->lrx;
+  int lry = map->lry;
+  int centx = (lrx+ulx)/2;
+  int centy = (lry+uly)/2;
+  int centxc = centx - (room_w/2);
+  int centyc = centy - (room_h/2);
+  int padx = room_w*x + map->xoff - centxc;
+  int pady = room_h*y + map->yoff - centyc;
+
+  map_refresh(map, padx, pady,z);
+  //  prefresh(map->pad, padx,pady,uly,ulx,lry,lrx);
   return 0;
 }
 

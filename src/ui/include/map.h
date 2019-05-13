@@ -28,16 +28,21 @@ typedef struct room{
 // and max z coordinates
 typedef struct map{
   WINDOW *pad;
+  int xoff;
+  int yoff;
   int maxx;
   int maxy;
   int maxz;
   int padx;
   int pady;
+  int padz;
   int ulx;
   int uly;
   int lrx;
   int lry;
 } map_t;
+
+FILE *debug;
 
 //Function Declarations
 
@@ -51,11 +56,12 @@ void erase_ch(int y, int x);
 void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win);
 
 //Draws a list of rooms starting at the coordinate given
-void draw_rooms(room_t **rooms, int n, int left_x, int top_y, WINDOW *win);
+void draw_rooms(room_t **rooms, int n, int left_x, int top_y, map_t *map);
 
 
 //Gets an array of test rooms
 room_t **get_test_rooms(int n);
+
 
 /*Initiates map at WINDOW * pointer to pad
  *
@@ -78,7 +84,19 @@ map_t *map_init(room_t **rooms, int n);
  */
 int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry); 
 
-/* Updates the map to display witha  given coordinate at it's center
+/* Updates the map to display with given coords as the pad's upper left corner
+ *
+ * Inputs:
+ * - map, a pointer to an initialized map struct
+ * - x, y, and z are the pad coordinates to be the upper left corner of display
+ * 
+ * Outputs:
+ * - 0
+ */
+int map_refresh(map_t *map, int x, int y, int z);
+
+
+/* Updates the map to display with given room coordinates at center
  *
  * Inputs:
  * - map, a pointer to an initialized map struct
@@ -87,6 +105,5 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry);
  * Outputs:
  * - 0
  */
-int refresh_map(map_t *map, int x, int y, int z);
-
+int map_crefresh(map_t *map, int x, int y, int z);
 
