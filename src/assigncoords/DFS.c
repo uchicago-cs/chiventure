@@ -29,19 +29,69 @@ int begin_depth_first_search(/*may pass in info from WDL*/)
   return r;
 }
 
-int assign(int how_north, int how_east, room* room) {
-  while
-  if((find_coord(int x, int y)) != NULL){
-    return SUCCESS;
-  } else {
-    return FAILURE; 
+
+
+int assign(int how_north, int how_east, room* room) 
+{
+  while (SUCCESS) {
+    
+    //checks if the coordinate has already been assigned
+    coord_record_t *coord_information = find_coord(how_north, how_east);
+    int = add_coord(how_north, how_east, coord_information);
+
+    //returns SUCCESS if it has been assigned correctly, or failure if it has
+    //already been assigned but to a different room id 
+    if(int == SUCCESS){
+      return SUCCESS;
+    } else {
+      return FAILURE; 
+      break();
+    }
+
+    //adds the coordinate to the hash_tablex
+
+    coord_record_t *north_room = find_coord(how_north+1, how_east);
+    if (north_room != NULL) {
+      int north = assign(how_north+1, how_east, north_room->r);
+      if (north == FAILURE) {
+        return FAILURE;
+        break(); 
+      }
+    } 
+
+    coord_record_t *east_room = find_coord(how_north, how_east+1);
+    if (east_room != NULL) {
+      int east = assign(how_north, how_east+1, east_room->r);
+      if (east == FAILURE) {
+        return FAILURE;
+        break(); 
+      }
+    }
+
+    coord_record_t *south_room = find_coord(how_north-1, how_east);
+    if (south_room != NULL) {
+      int south = assign(how_north+1, how_east, south_room->r);
+      if (south == FAILURE) {
+        return FAILURE;
+        break(); 
+      }
+    }
+
+    coord_record_t *west_room = find_coord(how_north, how_east-1);
+    if (west_room != NULL) {
+      int west = assign(how_north+1, how_east, south_room->r);
+      if (west == FAILURE) {
+        return FAILURE;
+        break(); 
+      }
+    }
+
+    break;
   }
- )
-	//if (room marked done)
-	//Return success;
-	//If (check_if_assigned(how_north, how_east, room->id or room)) {
-	//checkassigned is true if the coord is a. Assigned already to b. A new room, not the same room
-	//Return failure;
+  
+  return SUCCESS;
+}
+ 
 
 
   
@@ -67,7 +117,7 @@ Recursive call: assign(how_north, how_east - 1, west room id);
 
 
 	Return success
-
-}
+ 
+  }
 
 
