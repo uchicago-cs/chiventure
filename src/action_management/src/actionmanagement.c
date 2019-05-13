@@ -66,20 +66,13 @@ list_t *get_action_synonyms(action_t *a)
     return a->synonyms;
 }
 
-/* A function that returns the KIND of an action as an integer
- * Returns 1 for KIND 1, 2 for KIND 2, etc.
- */
+/* See actionmanagement.h */
 int *get_action_kind(action_t *a)
 {
     return a->kind;
 }
 
-/* A function that returns all supported actions
- * Parameters:
- * - kind: The enumerated value of KIND, specifying which action KIND necessary
- * Returns:
- * - a linked list of action_t structs
- */
+/* See actionmanagement.h */
 list_t *get_supported_actions(enum action_kind *kind)
 {
     int kind = get_action_kind(kind);
@@ -140,7 +133,6 @@ int action_direction(game_t *g, action_t *a, direction_t *d)
 {
     assert(g);
     assert(a);
-    assert(n);
     if (a->kind != DIRECTION) {
         fprintf(stderr, "The action provided is not of the correct type.\n");
         return FAILURE;
