@@ -7,6 +7,7 @@
 #include "utlist.h"
 #include "uthash.h"
 #include "object.h"
+#include "item.h"
 
 /* Forward declaration of linked list */
 typedef struct llist {
