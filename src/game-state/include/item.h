@@ -3,9 +3,12 @@
 
 #include "game_state_common.h"
 
+typedef struct item* all_items_t;
+
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
-    double *double_val;
+    char *char_val;
+    bool *boole_val;
     char *str_val;
     int *int_val;
 } attribute_value_t;
@@ -16,7 +19,7 @@ typedef struct attribute {
     UT_hash_handle hh;
     char *attribute_key;
     enum attribute_tag attribute_tag;
-    attribute_value_t attribute_value;
+    attribute_value_t* attribute_value;
 } attribute_t;
 
 typedef struct attribute* attribute_hash_t;
@@ -30,6 +33,8 @@ typedef struct item {
     char *long_desc;
     // bool condition; /* reserved for future expansion */
     attribute_hash_t attributes; // a hashtable for all attributes
+    struct item* next;
+    struct item* prev;
 } item_t;
 
 typedef struct item* item_hash_t;
@@ -91,7 +96,7 @@ char *get_long_desc(item_t *item);
 int take_item(item_t *item);
 
 // attribute_t* create_attribute(void* value, int type);
-attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
+attribute_t* create_attribute(void* value, enum attribute_tag type);
 
 int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
 

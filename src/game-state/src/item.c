@@ -81,37 +81,55 @@ int take_item(item_t *item)
 }
 
 
-attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type)
+attribute_t* create_attribute(void* value, enum attribute_tag type)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
+    attribute_value_t* new_attribute_value = malloc(sizeof(attribute_value_t));
 
     new_attribute->attribute_tag = type;
-    new_attribute->attribute_value = value;
+    new_attribute->attribute_value = new_attribute_value;
 
-    return new_attribute;
+    switch(type)
+    {
+        case(INTEGER):
+            new_attribute_value->int_val = value;
+            return new_attribute;
+            break;
+        case(BOOLE):
+            new_attribute_value->boole_val = value;
+            return new_attribute;
+            break;
+        case(CHARACTER):
+            new_attribute_value->char_val = value;
+            return new_attribute;
+            break;
+        case(STRING)
+            new_attribute_value->str_val = value;
+            return new_attribute;
 
-    // if (type == INTEGER)
-    // {
-    //     new_attribute->int_val = value;
-    //     return new_attribute;
-    // }
-    // else if (type == BOOLE)
-    // {
-    //     new_attribute->boole_val = value;
-    //     return new_attribute;
-    // }
-    // else if (type == CHARACTER)
-    // {
-    //     new_attribute->char_val = value;
-    //     return new_attribute;
-    // }
-    // else if (type == STRING)
-    // {
-    //     new_attribute->str_val = value;
-    //     return new_attribute;
-    // }
-    // fprintf(stderr, "Attribute could not be created");
-    // return NULL;
+    }
+    if (type == INTEGER)
+    {
+        new_attribute_value->int_val = value;
+        return new_attribute;
+    }
+     else if (type == BOOLE)
+     {
+        new_attribute_value->boole_val = value;
+        return new_attribute;
+     }
+     else if (type == CHARACTER)
+     {
+        new_attribute_value->char_val = value;
+        return new_attribute;
+     }
+     else if (type == STRING)
+     {
+        new_attribute_value->str_val = value;
+        return new_attribute;
+     }
+     fprintf(stderr, "Attribute could not be created");
+     return NULL;
 }
 
 /* adding item to room inventory hash */
@@ -150,8 +168,8 @@ void* get_attribute(item_t* item)
 /*in progress*/
 int change_attribute(attribute_t* attribute, attribute_value_t value)
 {
-    attribute->attribute_value = value;
     return 1;
+
 //   if (attribute->attr_tag == INTEGER)
 //   {
 //     attribute->attr_value.int_val = new_value;
