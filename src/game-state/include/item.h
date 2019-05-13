@@ -12,7 +12,7 @@ typedef union attribute_value {
     int int_val;
 } attribute_value_t;
 
-enum attribute_tag {BOOLE, CHARACTER, STRING, INTEGER};
+enum attribute_tag {BOOL, CHARACTER, STRING, INTEGER};
 
 typedef struct attribute {
     UT_hash_handle hh;
@@ -60,8 +60,11 @@ int take_item(item_t *item);
 //attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
 attribute_t* create_attribute(void* value, enum attribute_tag type);
 
+<<<<<<< HEAD
+=======
 /* this has to be in interface as room and player modlues use this */
 int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
+>>>>>>> d2232e23f8789646481628bb298c7024d4bdeefb
 
 int item_free(item_t *item);
 
