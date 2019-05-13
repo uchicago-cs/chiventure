@@ -39,8 +39,9 @@ int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room) {
 /* adding item to room inventory hash */
 int add_item_to_room(item_t *item, room_t *room) {
     item_t *check;
-    item_hash_t *item_hash = room->items;
-    char_t *item_id = item->item_id;
+    char *item_id = item->item_id;
+    item_hash_t item_hash = room->items;
+    //add_item_to_hash()
     HASH_FIND_STR(item_hash, item_id, check);
     if (check != NULL) {
         /* WARNING */
@@ -61,7 +62,6 @@ int delete_all_rooms(room_hash_t rooms) {
     }
     return 1;
 }
-
 
 /* Get short description of room
  *

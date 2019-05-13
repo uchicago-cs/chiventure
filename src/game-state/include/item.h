@@ -52,11 +52,6 @@ typedef struct attribute {
     attribute_value_t attribute_value;
 } attribute_t;
 
-f3args myunion;
-    myunion.int_val = 1;
-    int tmp = GET_ATTRIBUTE(int_val, myunion);
-    printf("%d\n", tmp);
-
 typedef struct attribute* attribute_hash_t;
 
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
@@ -77,7 +72,20 @@ int add_item_to_hash(item_hash_t item_hash, item_t *item);
 
 
 
+// attribute_t* create_attribute(void* value, int type);
+//attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
+int create_new_str_attr(item_t* item, char* attr_name, char* value);
 
+int create_new_char_attr(item_t* item, char* attr_name, char value);
+
+int create_new_boole_attr(item_t* item, char* attr_name, bool value);
+
+int create_new_double_attr(item_t* item, char* attr_name, double value);
+
+int create_new_int_attr(item_t* item, char* attr_name, int value);
+
+/* this has to be in interface as room and player modlues use this -- but shoudl it??*/
+int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
 
 
 
@@ -107,8 +115,7 @@ int replace_bool_attr(item_t *item, attribute_t* attr);
 /* this has to be in the interace as room and player modules use this */
 int delete_all_items(item_hash_t items);
 
-int delete_all_attributes(attribute_hash_t attributes);
-
+int delete_item_attributes(item_t* item);
 
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
 create a function that changes an atttribute,
