@@ -7,12 +7,12 @@
 typedef union attribute_value {
     double double_val;
     char char_val;
-    bool boole_val;
+    bool bool_val;
     char* str_val;
     int int_val;
 } attribute_value_t;
 
-enum attribute_tag {BOOL, CHARACTER, STRING, INTEGER};
+enum attribute_tag {BOOLE, CHARACTER, STRING, INTEGER, DOUBLE};
 
 typedef struct attribute {
     UT_hash_handle hh;
@@ -58,13 +58,18 @@ int take_item(item_t *item);
 
 // attribute_t* create_attribute(void* value, int type);
 //attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
-attribute_t* create_attribute(void* value, enum attribute_tag type);
+int create_new_str_attr(item_t* item, char* attr_name, char* value);
 
-<<<<<<< HEAD
-=======
-/* this has to be in interface as room and player modlues use this */
+int create_new_char_attr(item_t* item, char* attr_name, char value);
+
+int create_new_boole_attr(item_t* item, char* attr_name, bool value);
+
+int create_new_double_attr(item_t* item, char* attr_name, double value);
+
+int create_new_int_attr(item_t* item, char* attr_name, int value);
+
+/* this has to be in interface as room and player modlues use this -- but shoudl it??*/
 int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
->>>>>>> d2232e23f8789646481628bb298c7024d4bdeefb
 
 int item_free(item_t *item);
 
@@ -73,11 +78,8 @@ int attribute_free(attribute_t *attribute);
 /* this has to be in the interace as room and player modules use this */
 int delete_all_items(item_hash_t items);
 
-int delete_all_attributes(attribute_hash_t attributes);
+int delete_item_attributes(item_t* item);
 
-void* get_attribute(item_t* item, char* attribute_key);
-
-int change_attribute(item_t* item, char* attribute_key, void* new_attribute);
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
 create a function that changes an atttribute,
 

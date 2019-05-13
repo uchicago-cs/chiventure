@@ -47,145 +47,81 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
     return 1;
 }
 
-/* the following functions retrieve specific information from desired item
-in anticipation of supporting player demands */
+/* add_attribute_to_hash() adds an attribute to the item hash table
+  Parameters:
+    the hash table of an item
+    the attribute value to add 
 
-/*what was this supposed to do?*/
-// int *get_obj_type(enum item_type_t obj_t)
-// {
-//
-//     /* TO DO */
-//
-//     return NULL;
-// }
-
-
-int take_item(item_t *item)
-{
-
-    /* TO DO */
-
-    return 0;
-}
-
-/* see item.h */
-attribute_t* create_attribute(void* value, enum attribute_tag type)
-{
-    attribute_t* new_attribute = malloc(sizeof(attribute_t));
-
-    new_attribute->attribute_tag = type;
-    switch(type)
-    {
-        case(INTEGER):
-            new_attribute->attribute_value.int_val = value;
-            return new_attribute;
-            break;
-        case(BOOLE):
-            new_attribute->attribute_value.boole_val = value;
-            return new_attribute;
-            break;
-        case(CHARACTER):
-            new_attribute->attribute_value.char_val = value;
-            return new_attribute;
-            break;
-        case(STRING):
-            new_attribute->attribute_value.str_val = value;
-            return new_attribute;
-            break;
-        default:
-            fprintf(stderr, "Attribute could not be created");
-            return NULL;
-    }
-}
-
-
-
-/* adding item attributes to item attribute hash */
-int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, attribute_t* attribute) {
+  Returns:
+    0 for failure, 1 for success
+*/
+int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
     attribute_t* check;
+    char* attribute_key = new_attribute->attribute_key;
     HASH_FIND_STR(attribute_hash, attribute_key, check);
     if (check != NULL) {
         fprintf(stderr, "Error: this attribute is already present.\n");
         return 0;
     }
-    HASH_ADD_STR(attribute_hash, attribute_key, attribute);
+    HASH_ADD_STR(attribute_hash, attribute_key, new_attribute);
     return 1;
 }
 
 /* see item.h */
-int add_attribute_to_item(item_t* item, char *attribute_key, attribute_t* attribute)
+int create_new_str_attr(item_t* item, char* attr_name, char* value)
 {
-    int rv = add_attribute_to_hash(item->attributes, attribute_key, attribute);
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+    new_attribute->attribute_tag = STRING;
+    new_attribute->attribute_value.str_val = value;
+    new_attribute->attribute_key = attr_name;
+    int rv = add_attribute_to_hash(item->attributes, new_attribute);
     return rv;
 }
 
 /* see item.h */
-void* get_attribute_value(item_t* item, char* attribute_key)
+int create_new_char_attr(item_t* item, char* attr_name, char value)
 {
-    attribute_t* attribute;
-    attribute_hash_t attribute_hash = item->attributes;
-    HASH_FIND_STR(attribute_hash, attribute_key, attribute);
-    if (attribute == NULL)
-    {
-        printf("Error: this attribute does not exist\n");
-        return NULL;
-    }
-    switch(attribute->attribute_tag)
-    {
-        case(BOOLE):
-            return attribute->attribute_value.boole_val;
-            break;
-        case(CHARACTER):
-            return attribute->attribute_value.char_val;
-            break;
-        case(INTEGER):
-            return attribute->attribute_value.int_val;
-            break;
-        case(STRING):
-            return attribute->attribute_value.int_val;
-            break;
-    }
-    if (attribute == NULL) {
-        printf("Error: this attribute does not exist\n");
-    }
-    return NULL;
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+    new_attribute->attribute_tag = CHARACTER;
+    new_attribute->attribute_value.char_val = value;
+    new_attribute->attribute_key = attr_name;
+    int rv = add_attribute_to_hash(item->attributes, new_attribute);
+    return rv;
 }
 
 /* see item.h */
-int change_attribute(item_t* item, char* attribute_key, void* new_value)
+int create_new_bool_attr(item_t* item, char* attr_name, bool value)
 {
-    switch(attribute->attr_tag)
-    {
-        case(INTEGER):
-            attribute->attr_value.int_val = new_value;
-            return 1;
-        case(BOOLE):
-
-    }
-
-//   if (attribute->attr_tag == INTEGER)
-//   {
-//     attribute->attr_value.int_val = new_value;
-//     return 1;
-//   }
-//   else if (type == BOOLE)
-//   {
-//     attribute->attr_value.boole_val = new_value;
-//     return 1;
-//   }
-//   else if (type == CHARACTER)
-//   {
-//     attribute->attr_value.char_val = new_value;
-//     return 1;
-//   }
-//   else if (type == STRING)
-//   {
-//     attribute->attr_value.str_val = new_value;
-//     return 1;
-//   }
-//   fprintf(stderr, "Attribute could not be changed");
-//   return 0;
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+    new_attribute->attribute_tag = BOOLE;
+    new_attribute->attribute_value.bool_val = value;
+    new_attribute->attribute_key = attr_name;
+    int rv = add_attribute_to_hash(item->attributes, new_attribute);
+    return rv;
 }
+
+/* see item.h */
+int create_new_double_attr(item_t* item, char* attr_name, double value)
+{
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+    new_attribute->attribute_tag = DOUBLE;
+    new_attribute->attribute_value.double_val = value;
+    new_attribute->attribute_key = attr_name;
+    int rv = add_attribute_to_hash(item->attributes, new_attribute);
+    return rv;
+}
+
+/* see item.h */
+int create_new_int_attr(item_t* item, char* attr_name, int value)
+{
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+    new_attribute->attribute_tag = INTEGER;
+    new_attribute->attribute_value.int_val = value;
+    new_attribute->attribute_key = attr_name;
+    int rv = add_attribute_to_hash(item->attributes, new_attribute);
+    return rv;
+}
+
 
 /* Need a function that checks if two attribute_value_ts are equal
 * TBD: Is this game-state or action management task?
@@ -201,12 +137,6 @@ int item_free(item_t *item) {
     return 1;
 }
 
-/* See item.h */
-int attribute_free(attribute_t *attribute) {
-    free(attribute->attribute_key);
-    free(attribute);
-    return 1;
-}
 
 /* See item.h */
 int delete_all_items(item_hash_t items) {
@@ -218,9 +148,15 @@ int delete_all_items(item_hash_t items) {
     return 1;
 }
 
-
 /* See item.h */
-int delete_item_attributes(attribute_hash_t attributes) {
+int attribute_free(attribute_t *attribute) {
+    free(attribute->attribute_key);
+    free(attribute);
+    return 1;
+}
+
+int delete_all_attributes(attribute_hash_t attributes)
+{
     attribute_t *current_attribute, *tmp;
     HASH_ITER(hh, attributes, current_attribute, tmp) {
         HASH_DEL(attributes, current_attribute);  /* delete it (attributes advances to next) */
@@ -229,7 +165,8 @@ int delete_item_attributes(attribute_hash_t attributes) {
     return 1;
 }
 
-int delete_all_attributes(item_t* item)
+/* See item.h */
+int delete_item_attributes(item_t* item) 
 {
-    
+    return delete_all_attributes(item->attributes);
 }
