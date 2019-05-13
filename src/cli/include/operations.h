@@ -42,4 +42,16 @@ char *prep_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 char *ind_object_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 
+/*The following functions will create an action struct as specified by action management
+ * that uses their enums, currently returns void but will eventually
+ * return the type of the action management struct
+ */
+void create_type1_action(char *tokens[TOKEN_LIST_SIZE]);
+
+void create_type2_action(char *tokens[TOKEN_LIST_SIZE]);
+
+void create_type3_action(char *tokens[TOKEN_LIST_SIZE]);
+
+void create_type4_action(char *tokens[TOKEN_LIST_SIZE]);
+
 #endif /* _OPERATIONS_H */
