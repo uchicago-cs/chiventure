@@ -24,6 +24,7 @@ coord_record_t *find_coord(int x, int y)
   coord_init(key, x, y);
   coord_record_t *cr = NULL;
   HASH_FIND(hh, coordmap, key, sizeof(coordinate_t), cr);
+
   return cr;
 }
 
@@ -45,8 +46,8 @@ coord_record_t *find_coord(int x, int y)
  */
 int add_coord(int x, int y, room_t *r)
 {
-  coordinate_t key;
-  memset(&key, 0, sizeof(coordinate_t));
+  coordinate_t *key = malloc(sizeof(coordinate_t));
+  memset(key, 0, sizeof(coordinate_t));
   
   coord_record_t *cr = find_coord(x, y);
 
@@ -55,13 +56,13 @@ int add_coord(int x, int y, room_t *r)
     
     /* Only runs if find_coord does not find coord
     already existing in hashtable */
-    coord_init(&key, x, y);
+    coord_init(key, x, y);
     cr = malloc(sizeof(coord_record_t));
 
     //uthash warning to use  memset when key is a structure
-    memset(cr, 0, sizeof(coord_record_t));
+    //memset(cr, 0, sizeof(coord_record_t));
     
-    cr->key = key;
+    cr->key = *key;
     cr->r = r;
     HASH_ADD(hh, coordmap, key, sizeof(coord_record_t), cr); 
     return SUCCESS;
@@ -76,7 +77,7 @@ int add_coord(int x, int y, room_t *r)
 }
 
 /* for basic testing of compilation
- *Will implement much more testing later
+ * Will implement much more testing later
  */
 int main()
 {
@@ -90,17 +91,30 @@ int main()
   r->id = 1;
   add_coord(5, 6, r);
 
+  room_t *g = malloc(sizeof(room_t));
+  g->id = 2;
+  add_coord(-1, -2, g);
+
   coord_record_t *example = find_coord(5, 6);
   if (example == NULL)
-    fprintf(stderr,"Failure to find coord\n");
+    fprintf(stderr,"Failure to find coord (%d, %d)\n", 5, 6);
   else
     fprintf(stdout,"Found coordinate of room with room id %d",
 	    example->r->id);
 
+  coord_record_t *ex2 = find_coord(-1, -2);
+
+  if (ex2 == NULL)
+    fprintf(stderr,"Failure to find coord (%d, %d)\n", -1, -2);
+  else
+    fprintf(stderr,"Found coordinate of room with room id %d\n",
+	    ex2->r->id);
+  
   //coord_record_t *a = NULL;
   //coord_record_t *b = NULL;
   //  HASH_ITER(hh, coordmap, a, b);
 
   free(r);
+  free(g);
 }
 
