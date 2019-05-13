@@ -1,7 +1,7 @@
 /* Implementations of the item struct */
 #include "item.h"
 
-
+/* see item.h */
 item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 {
     item_t *new_item = malloc(sizeof(item_t));
@@ -25,6 +25,7 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
+/* see item.h */
 int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc)
 {
     assert(new_item != NULL);
@@ -39,6 +40,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 /* the following functions retrieve specific information from desired item
 in anticipation of supporting player demands */
 
+/* see item.h */
 char *get_id(item_t *item)
 {
     char *my_item_id = item->item_id;
@@ -46,7 +48,7 @@ char *get_id(item_t *item)
     return my_item_id;
 }
 
-
+/* see item.h */
 char *get_short_desc(item_t *item)
 {
     char *item_shortd = item->short_desc;
@@ -54,7 +56,7 @@ char *get_short_desc(item_t *item)
     return item_shortd;
 }
 
-
+/* see item.h */
 char *get_long_desc(item_t *item)
 {
     char *item_longd = item->long_desc;
@@ -80,38 +82,34 @@ int take_item(item_t *item)
     return 0;
 }
 
-
-attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type)
+/* see item.h */
+attribute_t* create_attribute(void* value, enum attribute_tag type)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
 
     new_attribute->attribute_tag = type;
-    new_attribute->attribute_value = value;
-
-    return new_attribute;
-
-    // if (type == INTEGER)
-    // {
-    //     new_attribute->int_val = value;
-    //     return new_attribute;
-    // }
-    // else if (type == BOOLE)
-    // {
-    //     new_attribute->boole_val = value;
-    //     return new_attribute;
-    // }
-    // else if (type == CHARACTER)
-    // {
-    //     new_attribute->char_val = value;
-    //     return new_attribute;
-    // }
-    // else if (type == STRING)
-    // {
-    //     new_attribute->str_val = value;
-    //     return new_attribute;
-    // }
-    // fprintf(stderr, "Attribute could not be created");
-    // return NULL;
+    switch(type)
+    {
+        case(INTEGER):
+            new_attribute->attribute_value.int_val = value;
+            return new_attribute;
+            break;
+        case(BOOLE):
+            new_attribute->attribute_value.boole_val = value;
+            return new_attribute;
+            break;
+        case(CHARACTER):
+            new_attribute->attribute_value.char_val = value;
+            return new_attribute;
+            break;
+        case(STRING):
+            new_attribute->attribute_value.str_val = value;
+            return new_attribute;
+            break;
+        default:
+            fprintf(stderr, "Attribute could not be created");
+            return NULL;
+    }
 }
 
 /* adding item to room inventory hash */
@@ -133,25 +131,56 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, 
     attribute_t* check;
     HASH_FIND_STR(attribute_hash, attribute_key, check);
     if (check != NULL) {
-        printf("Error: this attribute is already present.\n");
-        exit(1);
+        fprintf(stderr, "Error: this attribute is already present.\n");
+        return 0;
     }
     HASH_ADD_STR(attribute_hash, attribute_key, attribute);
     return 1;
 }
 
-void* get_attribute(item_t* item)
+/* see item.h */
+int add_attribute_to_item(item_t* item, char *attribute_key, attribute_t* attribute)
 {
-    /*to do*/
-    return NULL;
+    int rv = add_attribute_to_hash(item->attributes, attribute_key, attribute);
+    return rv;
 }
 
-
-/*in progress*/
-int change_attribute(attribute_t* attribute, attribute_value_t value)
+/* see item.h */
+void* get_attribute(item_t* item, char* attribute_key)
 {
-    attribute->attribute_value = value;
+    attribute_t* attribute;
+    attribute_hash_t attribute_hash = item->attributes;
+    HASH_FIND_STR(attribute_hash, attribute_key, attribute);
+    if (attribute == NULL)
+    {
+        printf("Error: this attribute does not exist\n");
+        return NULL;
+    }
+    switch(attribute->attribute_tag)
+    {
+        case(BOOLE):
+            return attribute->attribute_value.boole_val;
+            break;
+        case(CHARACTER):
+            return attribute->attribute_value.char_val;
+            break;
+        case(INTEGER):
+            return attribute->attribute_value.int_val;
+            break;
+        case(STRING):
+            return attribute->attribute_value.int_val;
+            break;
+    }
+    if (attribute == NULL) {
+        printf("Error: this attribute does not exist\n");
+    }
+}
+
+/* see item.h */
+int change_attribute(item_t* item, char* attribute_key, void* new_attribute)
+{
     return 1;
+
 //   if (attribute->attr_tag == INTEGER)
 //   {
 //     attribute->attr_value.int_val = new_value;

@@ -23,7 +23,6 @@ typedef struct room {
 
 typedef struct room* room_hash_t;
 
-
 /* Mallocs space for a new room
  *
  * Parameters:

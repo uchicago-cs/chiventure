@@ -16,8 +16,6 @@
 #define SUCCESS 1
 #define FAILURE 1
 
-/* Forward declaration of linked list */
-
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
