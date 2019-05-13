@@ -7,7 +7,7 @@ SRCS = src/cmd.c src/shell.c src/cli.c src/parser.c src/operations.c src/validat
 HDRS = include/cmd.h include/cli.h include/shell.h include/parser.h include/validate.h
 CFLAGS = -fPIC -Wall -Wextra -g -O2 -lm -I./include/ -I../common/include/
 OBJS = $(SRCS:.c=.o)
-LIB = cli.so
+LIB = cli.a
 
 .PHONY: all
 all: $(LIB)
@@ -24,4 +24,4 @@ test: $(SRCS) $(HDRS)
 .PHONY: clean
 # type 'make clean' to remove the executable and debug information
 clean:
-	rm $(BINS) $(LIB) $(OBJS) test parser
+	rm $(BINS) $(LIB) $(OBJS) test #parser
