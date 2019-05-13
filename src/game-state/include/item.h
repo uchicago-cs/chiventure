@@ -19,8 +19,6 @@ typedef struct all_items {
 
 } all_items_t;
 
-enum attribute_tag {BOOLE, CHARACTER, STRING, INTEGER};
-
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
     bool *boole_val;
@@ -29,20 +27,14 @@ typedef union attribute_value {
     int *int_val;
 } attribute_value_t;
 
+enum attribute_tag {BOOLE, CHARACTER, STRING, INTEGER};
+
 typedef struct tagged_attributes {
   UT_hash_handle hh;
-  char* attribute_name;
+  char* attribute_key;
   enum attribute_tag attr_tag;
   attribute_value_t attr_value;
-} tagged_attributes_t;
-
-/*
-typedef struct attribute_table {
-    UT_hash_handle hh; //makes this struct hashable for the object struct
-    char* attribute_name;
-    tagged_attrs_t tagged_values;
-} attribute_table_t;
-*/
+} tagged_attribute_t;
 
 /* this object struct will include a door object to be used between rooms,
 i.e. included in the room struct in its list of exits */
@@ -52,7 +44,7 @@ typedef struct item {
     char *short_desc;
     char *long_desc;
     bool condition; /* reserved for future expansion */
-    tagged_attributes_t* attributes;
+    tagged_attribute_t* attributes;
 } item_t;
 
 /* item_new() allocates a space for an item struct in memory
