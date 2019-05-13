@@ -98,6 +98,19 @@ attribute_t* create_attribute(void* value, enum attribute_tag type)
     }
 }
 
+int add_item_to_hash(item_hash_t item_hash, item_t *item) {
+
+    item_t* check;
+    char *item_id = item->item_id
+    HASH_FIND_STR(item_hash, item_id, check);
+    if (check != NULL) {
+        fprintf(stderr, "Error: this item id is already present.\n");
+        return 0;
+    }
+    HASH_ADD_STR(item_hash, item_id, item;
+    return 1;
+
+}
 
 
 /* adding item attributes to item attribute hash */
@@ -112,6 +125,84 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, 
     return 1;
 }
 
+attribute_t *replace_attribute(item_t *item, char *attribute_name) {
+    attribute_t* return_value;
+    attribute_hash_t attribute_hash = item->attributes;
+    char *attr_key = attribute->attribute_key;
+    HASH_FIND_STR(attribute_hash, attribute_key, return_value);
+    if (check != NULL) {
+        fprintf(stderr, "Error: this attribute is already present.\n");
+        return NULL;
+    }
+    HASH_REPLACE_STR(attribute_hash, attribute_key, attribute);
+    return return_value;
+}
+
+int replace_str_attr(item_t *item, char* attr_name, attribute_value_t *new_value) {
+
+  int res = replace_attribute(item, attr_name);
+  if (res == 0) {
+    fprintf(stderr, "Error: attribute replacement failed.\n");
+  }
+
+  res.str_val = new_value;
+  attr->attribute_value = new_value;
+  
+  return 1;
+}
+
+int replace_int_attr(item_t *item, attribute_t* attr) {
+
+  int res = replace_attribute(item, attr);
+  if (res == 0) {
+    fprintf(stderr, "Error: attribute replacement failed.\n");
+  }
+
+  res.int_val = new_value;
+  attr->attribute_value = new_value;
+
+  return 1;
+}
+
+int replace_double_attr(item_t *item, attribute_t* attr) {
+
+  int res = replace_attribute(item, attr);
+  if (res == 0) {
+    fprintf(stderr, "Error: attribute replacement failed.\n");
+  }
+
+  res.double_val = new_value;
+  attr->attribute_value = new_value;
+
+  return 1;
+}
+
+int replace_char_attr(item_t *item, attribute_t* attr) {
+
+  int res = replace_attribute(item, attr);
+  if (res == 0) {
+    fprintf(stderr, "Error: attribute replacement failed.\n");
+  }
+
+  res.char_val = new_value;
+  attr->attribute_value = new_value;
+
+  return 1;
+}
+
+int replace_bool_attr(item_t *item, attribute_t* attr) {
+
+  int res = replace_attribute(item, attr);
+  if (res == 0) {
+    fprintf(stderr, "Error: attribute replacement failed.\n");
+  }
+
+  res.bool_val = new_value;
+  attr->attribute_value = new_value;
+
+  return 1;
+}
+
 /* see item.h */
 int add_attribute_to_item(item_t* item, char *attribute_key, attribute_t* attribute)
 {
@@ -120,72 +211,37 @@ int add_attribute_to_item(item_t* item, char *attribute_key, attribute_t* attrib
 }
 
 /* see item.h */
-void* get_attribute_value(item_t* item, char* attribute_key)
-{
-    attribute_t* attribute;
-    attribute_hash_t attribute_hash = item->attributes;
-    HASH_FIND_STR(attribute_hash, attribute_key, attribute);
-    if (attribute == NULL)
-    {
-        printf("Error: this attribute does not exist\n");
-        return NULL;
-    }
-    switch(attribute->attribute_tag)
-    {
-        case(BOOLE):
-            return attribute->attribute_value.boole_val;
-            break;
-        case(CHARACTER):
-            return attribute->attribute_value.char_val;
-            break;
-        case(INTEGER):
-            return attribute->attribute_value.int_val;
-            break;
-        case(STRING):
-            return attribute->attribute_value.int_val;
-            break;
-    }
-    if (attribute == NULL) {
-        printf("Error: this attribute does not exist\n");
-    }
-    return NULL;
-}
+// void* get_attribute_value(item_t* item, char* attribute_key)
+// {
+//     attribute_t* attribute;
+//     attribute_hash_t attribute_hash = item->attributes;
+//     HASH_FIND_STR(attribute_hash, attribute_key, attribute);
+//     if (attribute == NULL)
+//     {
+//         printf("Error: this attribute does not exist\n");
+//         return NULL;
+//     }
+//     switch(attribute->attribute_tag)
+//     {
+//         case(BOOL):
+//             return attribute->attribute_value.bool_val;
+//             break;
+//         case(CHARACTER):
+//             return attribute->attribute_value.char_val;
+//             break;
+//         case(INTEGER):
+//             return attribute->attribute_value.int_val;
+//             break;
+//         case(STRING):
+//             return attribute->attribute_value.int_val;
+//             break;
+//     }
+//     if (attribute == NULL) {
+//         printf("Error: this attribute does not exist\n");
+//     }
+//     return NULL;
+// }
 
-/* see item.h */
-int change_attribute(item_t* item, char* attribute_key, void* new_value)
-{
-    switch(attribute->attr_tag)
-    {
-        case(INTEGER):
-            attribute->attr_value.int_val = new_value;
-            return 1;
-        case(BOOLE):
-
-    }
-
-//   if (attribute->attr_tag == INTEGER)
-//   {
-//     attribute->attr_value.int_val = new_value;
-//     return 1;
-//   }
-//   else if (type == BOOLE)
-//   {
-//     attribute->attr_value.boole_val = new_value;
-//     return 1;
-//   }
-//   else if (type == CHARACTER)
-//   {
-//     attribute->attr_value.char_val = new_value;
-//     return 1;
-//   }
-//   else if (type == STRING)
-//   {
-//     attribute->attr_value.str_val = new_value;
-//     return 1;
-//   }
-//   fprintf(stderr, "Attribute could not be changed");
-//   return 0;
-}
 
 /* Need a function that checks if two attribute_value_ts are equal
 * TBD: Is this game-state or action management task?
@@ -231,5 +287,5 @@ int delete_item_attributes(attribute_hash_t attributes) {
 
 int delete_all_attributes(item_t* item)
 {
-    
+
 }
