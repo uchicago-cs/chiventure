@@ -30,15 +30,24 @@ int begin_depth_first_search(/*may pass in info from WDL*/)
 }
 
 int assign(int how_north, int how_east, room* room) {
+  while
+  if((find_coord(int x, int y)) != NULL){
+    return SUCCESS;
+  } else {
+    return FAILURE; 
+  }
+ )
 	//if (room marked done)
 	//Return success;
 	//If (check_if_assigned(how_north, how_east, room->id or room)) {
 	//checkassigned is true if the coord is a. Assigned already to b. A new room, not the same room
 	//Return failure;
 
+
   
 Set coord (how_north,how_east) (add to hash table and struct)
 Mark room done
+
 
 If (north exists)
 	//dont need to check if marked done-- it will check once it calls the fcn recursively
