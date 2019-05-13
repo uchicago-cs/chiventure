@@ -101,6 +101,14 @@ void* get_attribute(item_t* item);
 
 int change_attribute(attribute_t* attribute, attribute_value_t value);
 
+int item_free(item_t *item);
+
+int attribute_free(attribute *attribute);
+
+int delete_all_items(item_hash_t items);
+
+int delete_all_attributes(attribute_hash_t attributes);
+
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
 create a function that changes an atttribute,
 

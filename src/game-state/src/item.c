@@ -179,3 +179,39 @@ int change_attribute(attribute_t* attribute, attribute_value_t value)
 /* Need a function that checks if two attribute_value_ts are equal
 * TBD: Is this game-state or action management task?
 */
+
+/* See item.h */
+int item_free(item_t *item) {
+    free(room_id);
+    free(room->short_desc);
+    free(room->long_desc);
+    delete_all_attributes(item->attributes);
+    free(item);
+}
+
+/* See item.h */
+int attribute_free(attribute *attribute) {
+    free(attribute->attribute_key);
+    free(attribute);
+}
+
+/* See item.h */
+int delete_all_items(item_hash_t items) {
+    item_t *current_item, *tmp;
+    HASH_ITER(hh, items, current_item, tmp) {
+        HASH_DEL(items, current_item);  /* delete it (items advances to next) */
+        item_free(current_item);             /* free it */
+    }
+    return 1;
+}
+
+
+/* See item.h */
+int delete_all_attributes(attribute_hash_t attributes) {
+    attribute_t *current_attribute, *tmp;
+    HASH_ITER(hh, attributes, current_attribute, tmp) {
+        HASH_DEL(attributes, current_attribute);  /* delete it (attributes advances to next) */
+        attribute_free(current_attribute);             /* free it */
+    }
+    return 1;
+}
