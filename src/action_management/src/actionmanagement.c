@@ -60,7 +60,7 @@ char *get_action_cname(action_t *a)
     return a->c_name;
 }
 
-/* A function that returns the canonical name of an action as a string */
+/* See actionmanagement.h */
 list_t *get_action_synonyms(action_t *a)
 {
     return a->synonyms;
