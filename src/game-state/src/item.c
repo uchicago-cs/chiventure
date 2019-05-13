@@ -1,6 +1,6 @@
 /* Implementations of the item struct */
 #include <stdio.h>
-#include <stdlib.h.h>
+#include <stdlib.h>
 #include "item.h"
 #include <assert.h>
 
