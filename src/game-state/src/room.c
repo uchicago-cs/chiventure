@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "room.h"
+#include "item.h"
 
 /* See board.h */
 room_t *room_new(char *short_desc, char *long_desc, all_items_t *items, exit_t *exits) {

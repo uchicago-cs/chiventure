@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include<stdbool.h>
 #include "uthash.h"
-// #include "player.h"
-// #include "room.h"
-// #include "game.h"
+#include "player.h"
+#include "room.h"
+#include "game.h"
 
 //where does this belong?? 
 /* Forward declaration of linked list */
@@ -105,6 +105,14 @@ char *get_long_desc(item_t *item);
 int take_item(item_t *item);
 
 attribute_value_t* create_attribute(void* value, int type);
+
+int add_item_to_room(room_t* room, char* item_id, item_t *item);
+
+int add_attr_to_item(item_t *item, char *attribute_key, tagged_attribute_t* new_attribute);
+
+void* get_attribute(item_t* item);
+
+int change_attribute(tagged_attribute_t* attribute, void* new_value);
 
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
 create a function that changes an atttribute,

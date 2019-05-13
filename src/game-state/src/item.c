@@ -144,31 +144,38 @@ tagged_attribute_t* create_attribute(void* value, int type)
   return NULL;
 }
 
+void* get_attribute(item_t* item)
+{
+  /*to do*/
+  return NULL;
+}
+
+
 /*in progress*/
 int change_attribute(tagged_attribute_t* attribute, void* new_value)
 {
   if (attribute->attr_tag == INTEGER)
   {
-    attribute->int_val = value;
-    return new_attribute;
+    attribute->attr_value.int_val = new_value;
+    return 1;
   }
   else if (type == BOOLE)
   {
-    new_attribute->boole_val = value;
-    return new_attribute;
+    attribute->attr_value.boole_val = new_value;
+    return 1;
   }
   else if (type == CHARACTER)
   {
-    new_attribute->char_val = value;
-    return new_attribute;
+    attribute->attr_value.char_val = new_value;
+    return 1;
   }
   else if (type == STRING)
   {
-    new_attribute->str_val = value;
-    return new_attribute;
+    attribute->attr_value.str_val = new_value;
+    return 1;
   }
-  fprintf(stderr, "Attribute could not be created");
-  return NULL;
+  fprintf(stderr, "Attribute could not be changed");
+  return 0;
 }
 
 
