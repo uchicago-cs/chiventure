@@ -5,6 +5,13 @@
 #include "parse.h"
 #include "validate.h"
 
+bool test_room(obj_t *obj)
+{
+    printf("short desc: %s\n", obj_get_str(obj, "short_desc"));
+    return true;
+}
+    
+
 int main(int argc, char* argv[])
 {
     // Makes sure there are enough arguments
@@ -85,6 +92,7 @@ int main(int argc, char* argv[])
     else 
         printf("it didn't work\n");
 
+    list_print(obj_list_attr(rooms), test_room);
 
     return 0;
 }

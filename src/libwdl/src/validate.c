@@ -25,7 +25,7 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 bool list_print(attr_list_t *ls, bool(*print)(obj_t*))
 {
     if (ls == NULL)
-        return;
+        return false;
 
     attr_list_t *curr = ls;
 
@@ -33,6 +33,7 @@ bool list_print(attr_list_t *ls, bool(*print)(obj_t*))
         (*print)(curr->obj);
         curr = curr->next;
     }
+    return true;
 }
 
 // The following functions regard room type checking
@@ -142,7 +143,7 @@ bool item_type_check(obj_t *obj)
     if (obj_get_type(obj, "state") != TYPE_STR)
         state_ver = false;
 
-    return (id_ver && short_ver && long_ver && in_ver && state_ver)
+    return (id_ver && short_ver && long_ver && in_ver && state_ver);
 }
 
 // The following functions regard game type checking
@@ -159,5 +160,5 @@ bool game_type_check(obj_t *obj)
     if (obj_get_type(obj, "intro") != TYPE_STR)
         intro_ver = false;
 
-    return (start_ver && intro_ver)
+    return (start_ver && intro_ver);
 }
