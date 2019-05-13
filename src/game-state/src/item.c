@@ -1,7 +1,7 @@
 /* Implementations of the item struct */
 #include "item.h"
 
-
+/* see item.h */
 item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 {
     item_t *new_item = malloc(sizeof(item_t));
@@ -25,6 +25,7 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
+/* see item.h */
 int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc)
 {
     assert(new_item != NULL);
@@ -39,6 +40,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 /* the following functions retrieve specific information from desired item
 in anticipation of supporting player demands */
 
+/* see item.h */
 char *get_id(item_t *item)
 {
     char *my_item_id = item->item_id;
@@ -46,7 +48,7 @@ char *get_id(item_t *item)
     return my_item_id;
 }
 
-
+/* see item.h */
 char *get_short_desc(item_t *item)
 {
     char *item_shortd = item->short_desc;
@@ -54,7 +56,7 @@ char *get_short_desc(item_t *item)
     return item_shortd;
 }
 
-
+/* see item.h */
 char *get_long_desc(item_t *item)
 {
     char *item_longd = item->long_desc;
@@ -80,7 +82,7 @@ int take_item(item_t *item)
     return 0;
 }
 
-
+/* see item.h */
 attribute_t* create_attribute(void* value, enum attribute_tag type)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
@@ -125,9 +127,6 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
     return 1;
 }
 
-/* add_item_to_room is in the room and player module */
-
-
 /* adding item attributes to item attribute hash */
 int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, attribute_t* attribute) {
     attribute_t* check;
@@ -140,12 +139,14 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, 
     return 1;
 }
 
+/* see item.h */
 int add_attribute_to_item(item_t* item, char *attribute_key, attribute_t* attribute)
 {
     int rv = add_attribute_to_hash(item->attributes, attribute_key, attribute);
     return rv;
 }
 
+/* see item.h */
 void* get_attribute(item_t* item, char* attribute_key)
 {
     attribute_t* attribute;
@@ -176,9 +177,8 @@ void* get_attribute(item_t* item, char* attribute_key)
     }
 }
 
-
-/*in progress*/
-int change_attribute(attribute_t* attribute, attribute_value_t value)
+/* see item.h */
+int change_attribute(item_t* item, char* attribute_key, void* new_attribute)
 {
     return 1;
 
@@ -206,15 +206,17 @@ int change_attribute(attribute_t* attribute, attribute_value_t value)
 //   return 0;
 }
 
+/* see item.h */
 int delete_all_items()
 {
 
 }
 
+/* see item.h */
 int delete_all_attributes()
 {
     
 }
 
-
+/* add_item_to_room is in the room and player module */
 
