@@ -12,7 +12,7 @@ all: $(LIB)
 $(LIB): $(OBJS)
 	$(CC) -shared -o $@ $^
 
-$(OBJS): $(SRCS)
+$(OBJS): %.o:%.c
 
 .PHONY: clean
 clean:
