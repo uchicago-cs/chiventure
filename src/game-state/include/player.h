@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include "utlist.h"
 #include "uthash.h"
-#include "object.h"
+#include "item.h"
 
 #define SUCCESS 1
 #define FAILURE 1
@@ -27,8 +27,8 @@ typedef struct player {
     int level;
     int health;
     int xp;
-    all_objects_t inventory;
-    all_objects_t clothes;
+    all_items_t *inventory;
+    all_items_t *clothes;
 } player_t;
 
 typedef struct player* all_players_t;
@@ -145,7 +145,7 @@ int get_xp(player_t* plyr);
 int change_xp(player_t* plyr, int points);
 
 /*
- * Adds an object to the player's inventory
+ * Adds an item to the player's inventory
  *
  * Parameters:
  *  plyr: the player
@@ -154,19 +154,19 @@ int change_xp(player_t* plyr, int points);
  * Returns:
  *  int, 1 for success, 0 for failure
  */
-int add_clothes_object(object_t* item, player_t* plyr);
+int add_clothes_item(item_t* item, player_t* plyr);
 
 /*
- * Adds an object to the player's inventory
+ * Adds an item to the player's inventory
  *
  * Parameters:
- *  object: the object too add
+ *  item: the item too add
  * 	plyr: the plyaer
  *
  * Returns:
  *  int, 1 for success, 0 for failure
  */
-int add_inventory_object(object_t* item, player_t* plyr);
+int add_inventory_item(item_t* item, player_t* plyr);
 
 /*
  * Returns the inventory list
@@ -175,9 +175,9 @@ int add_inventory_object(object_t* item, player_t* plyr);
  * 	plyr: the player
  *
  * Returns:
- *  hashtable of objects, the inventory
+ *  hashtable of items, the inventory
  */
-all_objects_t get_inventory(player_t* plyr);
+all_items_t get_inventory(player_t* plyr);
 
 /*
  * Returns the inventory list
@@ -186,9 +186,9 @@ all_objects_t get_inventory(player_t* plyr);
  * 	plyr: the player
  *
  * Returns:
- *  hashtable of objects, the clothes
+ *  hashtable of items, the clothes
  */
-all_objects_t get_clothes(player_t* plyr);
+all_items_t get_clothes(player_t* plyr);
 
 
 #endif

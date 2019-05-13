@@ -1,4 +1,4 @@
-/* Implementations of the object struct */
+/* Implementations of the item struct */
 #include <stdio.h>
 #include <stdlib.h.h>
 #include "item.h"
@@ -41,7 +41,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
   return SUCCESS;
 }
 
-/* the following functions retrieve specific information from desired object
+/* the following functions retrieve specific information from desired item
 in anticipation of supporting player demands */
 
 char *get_id(item_t *item)
@@ -68,7 +68,7 @@ char *get_long_desc(item_t *item)
 }
 
 
-int *get_obj_type(enum object_type_t obj_t)
+int *get_item_type(enum item_type_t item_t)
 {
 
     /* TO DO */
@@ -77,7 +77,7 @@ int *get_obj_type(enum object_type_t obj_t)
 }
 
 
-int take_object(object_t obj)
+int take_item(item_t item)
 {
 
     /* TO DO */
@@ -92,7 +92,7 @@ int add_item_to_room(all_items_t all_items, int item_id, item_t *item) {
     HASH_FIND_STR(all_items, &item_id, s);
     if (s != NULL) {
         /* WARNING */
-        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE OBJECTS */
+        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE itemS */
         printf("FATAL: item_id already used!\n");
         exit(0);
     }

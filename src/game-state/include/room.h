@@ -6,7 +6,6 @@
 #include <stdbool.h>
 #include "utlist.h"
 #include "uthash.h"
-#include "object.h"
 #include "item.h"
 
 /* Forward declaration of linked list */
@@ -17,11 +16,11 @@ typedef struct llist {
 } llist_t;
 
 /* This struct represents a single condition that must be
- * met for a path to be taken. It includes an object, an
- * attribute of the object, and the value of that attribute 
- * which can be a string or integer, as defined in object.h */
+ * met for a path to be taken. It includes an item, an
+ * attribute of the item, and the value of that attribute 
+ * which can be a string or integer, as defined in item.h */
 typedef struct condition {
-  object_t *item;
+  item_t *item;
   char *attribute;
   attribute_value_t value;
 } condition_t;
@@ -35,8 +34,10 @@ typedef struct path {
   llist_t *conditions;
 } path_t;
 
+typedef struct path* all_paths_t;
+
 /* This struct represents a single room, which includes a
- * short and long description of the room, a hashtable of objects to be
+ * short and long description of the room, a hashtable of items to be
  * found there, and a hashtable of paths accessible from the room. */
 typedef struct room {
   /* hh is used for hashtable, as provided in uthash.h */
@@ -46,12 +47,13 @@ typedef struct room {
   char *short_desc;
   char *long_desc;
   /* a hashtable of all items in the room */
-  all_objects_t items;
+  all_items_t items;
   /* a hashtable of all paths from the room */
   all_paths_t paths;
 } room_t;
 
 typedef struct room* all_rooms_t;
+
 
 /* Mallocs space for a new room
  *
@@ -64,7 +66,7 @@ typedef struct room* all_rooms_t;
  * Returns:
  *  a pointer to new room
  */
-room_t *room_new(char *short_desc, char *long_desc, all_objects_t *items, exit_t *exits);
+room_t *room_new(char *short_desc, char *long_desc, all_items_t *items, exit_t *exits);
 
 /* Frees the space in memory taken by given room
  *
