@@ -12,7 +12,7 @@ typedef union attribute_value {
     int *int_val;
 } attribute_value_t;
 
-enum attribute_tag {BOOLE, CHARACTER, STRING, INTEGER};
+enum attribute_tag {BOOL, CHARACTER, STRING, INTEGER};
 
 typedef struct attribute {
     UT_hash_handle hh;
@@ -96,7 +96,6 @@ int take_item(item_t *item);
 //attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
 attribute_t* create_attribute(void* value, enum attribute_tag type);
 
-int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
 
 int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, attribute_t* attribute);
 

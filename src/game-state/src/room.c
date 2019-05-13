@@ -36,6 +36,22 @@ int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room) {
     return 1;
 }
 
+/* adding item to room inventory hash */
+int add_item_to_room(item_t *item, room_t *room) {
+    item_t *check;
+    item_hash_t *item_hash = room->items;
+    char_t *item_id = item->item_id;
+    HASH_FIND_STR(item_hash, item_id, check);
+    if (check != NULL) {
+        /* WARNING */
+        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
+        fprintf(stderr, "Error: this item id is already in use.\n");
+        exit(1);
+    }
+    HASH_ADD_STR(item_hash, item_id, item);
+    return 1;
+}
+
 /* See room.h */
 int delete_all_rooms(room_hash_t rooms) {
     room_t *current_room, *tmp;
@@ -107,9 +123,3 @@ path_t *path_to_room(path_hash_t paths, char* room_id) {
 * check path for equal
 * see item.h for fxn that checks equality
 */
-
-
-
-
-
-

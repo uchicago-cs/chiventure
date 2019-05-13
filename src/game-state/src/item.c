@@ -112,19 +112,7 @@ attribute_t* create_attribute(void* value, enum attribute_tag type)
     }
 }
 
-/* adding item to room inventory hash */
-int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
-    item_t* check;
-    HASH_FIND_STR(item_hash, item_id, check);
-    if (check != NULL) {
-        /* WARNING */
-        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
-        fprintf(stderr, "Error: this item id is already in use.\n");
-        exit(1);
-    }
-    HASH_ADD_STR(item_hash, item_id, item);
-    return 1;
-}
+
 
 /* adding item attributes to item attribute hash */
 int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, attribute_t* attribute) {
