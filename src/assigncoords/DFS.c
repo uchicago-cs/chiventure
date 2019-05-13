@@ -9,7 +9,6 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <math.h>
-#include "utils.h"
 #include "coordinate.h"
 
 /*For now, the hash will be a global variable.
@@ -22,7 +21,7 @@ int begin_depth_first_search(/*may pass in info from WDL*/)
   coordmap = NULL;
   
   //initial: Read initial room that player begins in out of WDL
-  room *initial = NULL; /*dummy line of code, delete later*/
+  room_t *initial = NULL; /*dummy line of code, delete later*/
   
   //Coord for initial room arbitrarily set to be (0,0)
   int r =  assign(0, 0, initial);
@@ -31,20 +30,20 @@ int begin_depth_first_search(/*may pass in info from WDL*/)
 
 
 
-int assign(int how_north, int how_east, room* room) 
+int assign(int how_north, int how_east, room_t* room) 
 {
   while (SUCCESS) {
     
     //checks if the coordinate has already been assigned
-    int = add_coord(how_north, how_east, room);
+    int x = add_coord(how_north, how_east, room);
 
     //returns SUCCESS if it has been assigned correctly, or failure if it has
     //already been assigned but to a different room id 
-    if(int == SUCCESS){
+    if(x == SUCCESS){
       return SUCCESS;
     } else {
       return FAILURE; 
-      break();
+      break;
     }
 
     //adds the coordinate to the hash_tablex
@@ -54,7 +53,7 @@ int assign(int how_north, int how_east, room* room)
       int north = assign(how_north+1, how_east, north_room->r);
       if (north == FAILURE) {
         return FAILURE;
-        break(); 
+        break; 
       }
     } 
 
@@ -63,7 +62,7 @@ int assign(int how_north, int how_east, room* room)
       int east = assign(how_north, how_east+1, east_room->r);
       if (east == FAILURE) {
         return FAILURE;
-        break(); 
+        break; 
       }
     }
 
@@ -72,7 +71,7 @@ int assign(int how_north, int how_east, room* room)
       int south = assign(how_north-1, how_east, south_room->r);
       if (south == FAILURE) {
         return FAILURE;
-        break(); 
+        break; 
       }
     }
 
@@ -81,12 +80,12 @@ int assign(int how_north, int how_east, room* room)
       int west = assign(how_north, how_east-1, west_room->r);
       if (west == FAILURE) {
         return FAILURE;
-        break(); 
+        break; 
       }
     }
 
     return SUCCESS;
-    break();
+    break;
   }
 }
  
@@ -106,10 +105,9 @@ int main()
   r->id = 1;
   add_coord(0, 0, r);
 
-  int = assign(0, 0, r);
-  if (int == SUCCESS){
-    fprintf(stdout, "Successfully assigned coordinates")
-  }
+  int initial = assign(0, 0, r);
+  if (initial == SUCCESS)
+    fprintf(stdout, "Successfully assigned coordinates");
 
   //coord_record_t *a = NULL;
   //coord_record_t *b = NULL;

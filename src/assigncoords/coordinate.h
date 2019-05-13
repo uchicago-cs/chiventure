@@ -29,7 +29,7 @@ typedef struct {
  * Defines a coordinate_t as the key
  */
 typedef struct coord_record {
-  coordinate_t *key;
+  coordinate_t key;
   room_t *r;
   UT_hash_handle hh;
 } coord_record_t;
