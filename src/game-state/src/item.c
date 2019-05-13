@@ -174,6 +174,7 @@ void* get_attribute(item_t* item, char* attribute_key)
     if (attribute == NULL) {
         printf("Error: this attribute does not exist\n");
     }
+    return NULL;
 }
 
 /* see item.h */
@@ -216,12 +217,14 @@ int item_free(item_t *item) {
     free(item->long_desc);
     delete_all_attributes(item->attributes);
     free(item);
+    return 1;
 }
 
 /* See item.h */
 int attribute_free(attribute_t *attribute) {
     free(attribute->attribute_key);
     free(attribute);
+    return 1;
 }
 
 /* See item.h */
