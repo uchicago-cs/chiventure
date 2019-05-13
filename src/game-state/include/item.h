@@ -1,40 +1,25 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include<stdbool.h>
-#include "uthash.h"
-#include "player.h"
-#include "room.h"
-#include "game.h"
-
-//where does this belong?? 
-/* Forward declaration of linked list */
-typedef struct all_items {
-    /* fields used for linked list */
-    struct exit *next, *prev;
-
-    /* add necessary item info here */
-
-} all_items_t;
+#include "game_state_common.h"
 
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
-    bool *boole_val;
-    char *char_val;
+    double *double_val;
     char *str_val;
     int *int_val;
 } attribute_value_t;
 
 enum attribute_tag {BOOLE, CHARACTER, STRING, INTEGER};
 
-typedef struct tagged_attributes {
-  UT_hash_handle hh;
-  char* attribute_key;
-  enum attribute_tag attr_tag;
-  attribute_value_t attr_value;
-} tagged_attribute_t;
+typedef struct attribute {
+    UT_hash_handle hh;
+    char *attribute_key;
+    enum attribute_tag attribute_tag;
+    attribute_value_t attribute_value;
+} attribute_t;
+
+typedef struct attribute* attribute_hash_t;
 
 /* this object struct will include a door object to be used between rooms,
 i.e. included in the room struct in its list of exits */
@@ -43,12 +28,13 @@ typedef struct item {
     char *item_id;
     char *short_desc;
     char *long_desc;
-    bool condition; /* reserved for future expansion */
-    tagged_attribute_t* attributes;
+    // bool condition; /* reserved for future expansion */
+    attribute_hash_t attributes; // a hashtable for all attributes
 } item_t;
 
+typedef struct item* item_hash_t;
 /* item_new() allocates a space for an item struct in memory
-  Parameters: 
+  Parameters:
     a unique item id
     a short description of the item
     a long description of the item
@@ -104,15 +90,16 @@ char *get_long_desc(item_t *item);
 
 int take_item(item_t *item);
 
-attribute_value_t* create_attribute(void* value, int type);
+// attribute_t* create_attribute(void* value, int type);
+attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
 
-int add_item_to_room(room_t* room, char* item_id, item_t *item);
+int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
 
-int add_attr_to_item(item_t *item, char *attribute_key, tagged_attribute_t* new_attribute);
+int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, attribute_t* attribute);
 
 void* get_attribute(item_t* item);
 
-int change_attribute(tagged_attribute_t* attribute, void* new_value);
+int change_attribute(attribute_t* attribute, attribute_value_t value);
 
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
 create a function that changes an atttribute,
