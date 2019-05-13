@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include "room.h"
+#include "item.h"
 
 /* See board.h */
-room_t *room_new(char *short_desc, char *long_desc, all_objects_t *items, exit_t *exits) {
+room_t *room_new(char *short_desc, char *long_desc, all_items_t *items, exit_t *exits) {
   /* TODO */
   return NULL;
 }
@@ -61,7 +62,7 @@ char *get_ldesc(room_t *room) {
   return NULL;
 }
 
-/* Get list (implemented with hashtable) of objects in room
+/* Get list (implemented with hashtable) of items in room
  *
  * Parameters:
  *  pointer to room
@@ -69,7 +70,7 @@ char *get_ldesc(room_t *room) {
  * Returns:
  *  hashtable of items in room
  */
-all_objects_t list_objs(room_t *room) {
+all_items_t* list_objs(room_t *room) {
   /* TODO */
   return NULL;
 }

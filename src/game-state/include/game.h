@@ -8,6 +8,7 @@
 #include "uthash.h"
 #include "player.h"
 #include "room.h"
+#include "item.h"
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
@@ -72,4 +73,3 @@ void free_game(game_t *game);
 
 
 #endif
-

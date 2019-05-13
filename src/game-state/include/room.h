@@ -6,7 +6,9 @@
 #include <stdbool.h>
 #include "utlist.h"
 #include "uthash.h"
-#include "object.h"
+#include "item.h"
+
+typedef struct room* all_rooms_t;
 
 /* Forward declaration of linked list */
 typedef struct exit {
@@ -18,7 +20,7 @@ typedef struct exit {
 } exit_t;
 
 /* This struct represents a single room, which includes a
- * short and long description of the room, a list of objects to be
+ * short and long description of the room, a list of items to be
  * found there, and a list of doors accessible from the room.
  * Each exit will be an object (door) struct that connects to another room
  * and has a locked/unlocked quality.
@@ -38,12 +40,10 @@ typedef struct room {
     char *short_desc;
     char *long_desc;
     /* a hashtable of all items in the room */
-    all_objects_t items;
+    item_t* items;
     /* an adjacency list (using linked list) of adjacent rooms */
     exit_t *exits;
 } room_t;
-
-typedef struct room* all_rooms_t;
 
 /* Mallocs space for a new room
  *
@@ -56,7 +56,7 @@ typedef struct room* all_rooms_t;
  * Returns:
  *  a pointer to new room
  */
-room_t *room_new(char *short_desc, char *long_desc, all_objects_t *items, exit_t *exits);
+room_t *room_new(char *short_desc, char *long_desc, all_items_t *items, exit_t *exits);
 
 /* Frees the space in memory taken by given room
  *

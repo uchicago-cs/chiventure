@@ -99,28 +99,28 @@ int change_xp(player_t* plyr, int points)
 }
 
 
-int add_clothes_object(object_t* item, player_t* plyr)
+int add_clothes_item(item_t* item, player_t* plyr)
 {
 	//TODO
 	return -1;
 }
 
 
-int add_inventory_object(object_t* item, player_t* plyr)
+int add_inventory_item(item_t* item, player_t* plyr)
 {
 	//TODO
 	return -1;
 }
 
 
-all_objects_t get_inventory(player_t* plyr)
+all_items_t* get_inventory(player_t* plyr)
 {
 	//TODO
 	return NULL;
 }
 
 
-all_objects_t get_clothes(player_t* plyr)
+all_items_t* get_clothes(player_t* plyr)
 {
 	//TODO
 	return NULL;
