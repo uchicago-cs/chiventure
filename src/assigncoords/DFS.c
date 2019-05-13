@@ -94,30 +94,3 @@ int assign(int how_north, int how_east, room* room)
  
 
 
-  
-Set coord (how_north,how_east) (add to hash table and struct)
-Mark room done
-
-
-If (north exists)
-	//dont need to check if marked done-- it will check once it calls the fcn recursively
-Int = assign(how_north+1, how_east north room pointer);
-If int = 0
-
-If (east exists)
-assign(how north, how_east +1, east room)
-If (south exists)
-
-assign(how_north -1, how_east, south room id);
-
-If (west exists)
-Recursive call: assign(how_north, how_east - 1, west room id);
-
-
-
-
-	Return success
- 
-  }
-
-
