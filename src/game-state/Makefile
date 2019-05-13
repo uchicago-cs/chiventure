@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
 RM = rm -f
-SRCS = src/game.c src/player.c src/item.c src/room.c
+SRCS = src/game.c src/player.c src/item.c src/room.c src/path.c
 OBJS = $(SRCS:.c=.o)
 BINS = $(SRCS:.c=)
 LIB = gamestate.so
@@ -10,7 +10,7 @@ LIB = gamestate.so
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	$(CC) $(CFLAGS) -shared -o $@ $^
+	$(CC) -shared -o $@ $^
 
 $(OBJS): $(SRCS)
 
