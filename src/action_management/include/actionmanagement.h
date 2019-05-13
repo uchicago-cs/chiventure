@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "game.h"
 
 /* An enumeration of all supported actions.
  * KIND 1 ACTIONS - ACTION <item>
@@ -34,19 +34,19 @@ enum actions {
 
 /* KIND 4 ACTIONS */
 	GIVE_TO,
-
+	
 /* KIND 5 ACTIONS */
-    USE_ON
+	USE_ON
 };
 
 
 /* Each enum corresponds to a different "KIND" of action */
 enum action_kind {
-    ITEM = 1, // ACTION <item>
-    DIRECTION = 2, // ACTION <direction
-    NPC = 3, // ACTION <npc>
-    ITEM_NPC = 4, // ACTION <item> <npc>
-    ITEM_ITEM = 5 // ACTION <item> <item>
+  ITEM, // ACTION <item> i.e. Action Type 1
+  DIRECTION, // ACTION <direction i.e. Action Type 2
+  NPC, // ACTION <npc> i.e. Action Type 3
+  ITEM_NPC, // ACTION <item> <npc> i.e. Action Type 4
+  ITEM_ITEM // ACTION <item> <item> i.e. Action Type 5
 };
 
 
@@ -193,46 +193,44 @@ int action_direction(game_t *g, action_t *a, direction_t *d);
 /* A function that executes KIND 3 actions (ACTION <npc>)
  * 
  * Parameters:
- * - g: A game struct consisting of the game state
  * - a: An action struct
  * - n: An npc struct
  * 
  * Returns
- * - 0 on success
- * - 1 on failure
+ * - 1 on success
+ * - 0 on failure
  */
-int action_npc(game_t *g, action_t *a, npc_t *n);
+int action_npc(action_t *a, npc_t *n);
 
 
 /* A function that executes KIND 4 actions (ACTION <item> <npc>)
  * 
  * Parameters:
- * - g: A game struct consisting of the game state
+ * - p: A player struct containing an inventory
  * - a: An action struct
  * - i: An item struct
- * - n: An npc struct
+ * - n: An npc struct containing an inventory
  * 
  * Returns
- * - 0 on success
- * - 1 on failure
+ * - 1 on success
+ * - 0 on failure
  */
-int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n);
+int action_item_npc(player_t *p, action_t *a, item_t *i, npc_t *n);
 
 
 /* A function that executes KIND 5 actions (ACTION <item> <item>)
  * 
  * Parameters:
- * - g: A game struct consisting of the game state
+ * - p: A player struct containing an inventory
  * - a: An action struct
  * - direct: An item struct containing the direct object (the "actor")
  * - indirect: An item struct containing the indirect object (the "actee")
  * 
  * Returns
- * - 0 on success
- * - 1 on failure
+ * - 1 on success
+ * - 0 on failure
  */
-int action_item_item(game_t *g, action_t *a, item_t *direct, item_t *indirect);
-
+int action_item_item(player_t *p, action_t *a, item_t *direct, item_t *indirect);
 
 
 #endif

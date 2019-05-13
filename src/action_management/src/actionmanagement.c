@@ -40,6 +40,7 @@ int action_init(action_t *a, enum actions act, char *c_name,
   return SUCCESS;
 }
 
+
 /* See actionmanagement.h */
 int action_free(action_t *a)
 {
@@ -50,4 +51,70 @@ int action_free(action_t *a)
   free(a->synonyms);
   free(a);
   return SUCCESS;
+}
+
+
+// ===========================================================
+
+
+/* See actionmanagement.h */
+int action_npc(action_t *a, npc_t *n)
+{
+  assert(a);
+  assert(n);
+  if (a->kind != NPC) {
+    error("The action provided is not of the correct type");
+    return 0;
+  }
+  fprintf(stderr, "%s", n->dialogue);
+  return 1;
+}
+
+
+/* See actionmanagement.h */
+int action_item_npc(player_t *p, action_t *a, item_t *i, npc_t *n)
+{
+  assert(p);
+  assert(a);
+  assert(i);
+  assert(n);
+  if (a->kind != ITEM_NPC) {
+    error("The action provided is not of the correct type");
+    return 0;
+  }
+  /* function needs to be implemented by game state 
+   * takes in a player, npc, and item
+   * removes object from inventory
+   * frees object if necessary
+   * returns 1 if success, 0 if failed
+   */
+  int given = remove_inventory_object(p, i);
+  if (given) {
+    printf(stderr, "%s", npc->dialogue);
+    return 1;
+  }
+  else
+    return 0;
+}
+
+
+/* See actionmanagement.h */
+int action_item_item(player_t *p, action_t *a, item_t *direct, item_t *indirect)
+{
+  assert(p);
+  assert(a);
+  assert(direct);
+  assert(indirect);
+  if (a->kind != ITEM_ITEM) {
+    error("The action provided is not of the correct type");
+    return 0;
+  }
+  int moved = remove_inventory_object(p, i);
+  if (moved) {
+    printf(stderr, "%s", indirect->status_change);
+    return 1;
+  }
+  else
+    return 0;
+  
 }
