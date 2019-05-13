@@ -103,33 +103,14 @@ attribute_t* create_attribute(void* value, enum attribute_tag type)
             new_attribute_value->char_val = value;
             return new_attribute;
             break;
-        case(STRING)
+        case(STRING):
             new_attribute_value->str_val = value;
             return new_attribute;
-
+            break;
+        default:
+            fprintf(stderr, "Attribute could not be created");
+            return NULL;
     }
-    if (type == INTEGER)
-    {
-        new_attribute_value->int_val = value;
-        return new_attribute;
-    }
-     else if (type == BOOLE)
-     {
-        new_attribute_value->boole_val = value;
-        return new_attribute;
-     }
-     else if (type == CHARACTER)
-     {
-        new_attribute_value->char_val = value;
-        return new_attribute;
-     }
-     else if (type == STRING)
-     {
-        new_attribute_value->str_val = value;
-        return new_attribute;
-     }
-     fprintf(stderr, "Attribute could not be created");
-     return NULL;
 }
 
 /* adding item to room inventory hash */
