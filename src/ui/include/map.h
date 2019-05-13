@@ -33,10 +33,10 @@ typedef struct map{
   int maxz;
   int padx;
   int pady;
-  int ul_x;
-  int ul_y;
-  int lr_x;
-  int lr_y;
+  int ulx;
+  int uly;
+  int lrx;
+  int lry;
 } map_t;
 
 //Function Declarations
@@ -57,5 +57,36 @@ void draw_rooms(room_t **rooms, int n, int left_x, int top_y, WINDOW *win);
 //Gets an array of test rooms
 room_t **get_test_rooms(int n);
 
-//Initiates map at WINDOW * pointer to pad
-map_t *init_map(room_t **rooms, int n);
+/*Initiates map at WINDOW * pointer to pad
+ *
+ *Inputs:
+ * - rooms, an array of pointers to room structs
+ * - n , the number of rooms in array "rooms"
+ * Outputs:
+ * - A pointer to a new map struct initialized with rooms and coordinates
+ */
+map_t *map_init(room_t **rooms, int n);
+
+/* Sets the portion of the map to be displayed on screen
+ *
+ * Inputs:
+ * - map, a pointer to an initialized map struct
+ * - ulx, uly, lrx, lry, Screen coordinates for the upper left x,y and 
+ * lower right x,y for the map display
+ * Outputs:
+ * - an integer indicating success
+ */
+int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry); 
+
+/* Updates the map to display witha  given coordinate at it's center
+ *
+ * Inputs:
+ * - map, a pointer to an initialized map struct
+ * - x, y, and z are the room coordinates of the room at the center of the new display
+ * 
+ * Outputs:
+ * - 0
+ */
+int refresh_map(map_t *map, int x, int y, int z);
+
+

@@ -132,6 +132,26 @@ map_t *init_map(room_t ** rooms, int n){
   return map;
 }
 
+int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry){
+  map->ulx = ulx;
+  map->uly = uly;
+  map->lrx = lrx;
+  map->lry = lry;
+  return 0;
+}
+
+int refresh_map(map_t *map, int x, int y, int z){
+  int maxx = map->maxx;
+  int maxy = map->maxy;
+  int maxz = map->maxz;
+  int padx, pady;
+
+  padx = 
+
+  prefresh(map->pad, padx,pady,uly,ulx,lry,lrx);
+  return 0;
+}
+
 room_t ** get_test_rooms(int n){
   int j = 0;
   
