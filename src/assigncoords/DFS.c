@@ -86,10 +86,9 @@ int assign(int how_north, int how_east, room* room)
       }
     }
 
+    return SUCCESS;
     break;
   }
-  
-  return SUCCESS;
 }
  
 
