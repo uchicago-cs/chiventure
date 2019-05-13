@@ -82,6 +82,18 @@ item_hash_t list_items(room_t *room) {
   return room->items;
 }
 
+/* Get list of paths from room
+ *
+ * Parameters:
+ *  pointer to room
+ *
+ * Returns:
+ *  pointer to hashtable of paths from room
+ */
+path_t *list_paths(room_t *room) {
+  return room->paths;
+}
+
 //returns path to given room given hashtable of paths and room id
 path_t *path_to_room(path_hash_t paths, char* room_id) {
   path_t *path;
@@ -94,6 +106,8 @@ path_t *path_to_room(path_hash_t paths, char* room_id) {
 * check path for equal
 * see item.h for fxn that checks equality
 */
+
+
 
 
 
