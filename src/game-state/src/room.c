@@ -52,7 +52,6 @@ int delete_all_rooms(all_rooms_t rooms) {
  *  short description string
  */
 char *get_sdesc(room_t *room) {
-  if(room->short_desc != NULL)
   return room->short_desc;
 }
 
@@ -65,7 +64,6 @@ char *get_sdesc(room_t *room) {
  *  long description string
  */
 char *get_ldesc(room_t *room) {
-  if(room->long_desc != NULL)
   return room->long_desc;
 }
 
@@ -78,8 +76,7 @@ char *get_ldesc(room_t *room) {
  *  hashtable of items in room
  */
 all_items_t list_items(room_t *room) {
-  /* TODO */
-  return NULL;
+  return room->items;
 }
 
 /* Get list of paths from room
@@ -88,11 +85,17 @@ all_items_t list_items(room_t *room) {
  *  pointer to room
  *
  * Returns:
- *  pointer to linked list of paths from room
+ *  pointer to hashtable of paths from room
  */
 path_t *list_paths(room_t *room) {
-  /* TODO */
-  return NULL;
+  return room->paths;
 }
 
-//starting issue 47
+//returns path to given room given hashtable of paths and room id
+path_t *path_to_room(all_paths_t *paths, char* room_id) {
+  path_t *path;
+  HASH_FIND_STR(*paths, room_id, path);
+  return path;
+}
+
+
