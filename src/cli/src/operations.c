@@ -38,9 +38,6 @@ char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE]){
   return "is an action!";
 }
 
-
-
-
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE]){
   return "You cannot perform this action";
 }
@@ -57,3 +54,11 @@ char *prep_error_operation(char *tokens[TOKEN_LIST_SIZE]){
 char *ind_object_error_operation(char *tokens[TOKEN_LIST_SIZE]){
   return "You cant perform this action on specefied object";
 }
+
+void create_type1_action(char *tokens[TOKEN_LIST_SIZE]){}
+
+void create_type2_action(char *tokens[TOKEN_LIST_SIZE]){}
+
+void create_type3_action(char *tokens[TOKEN_LIST_SIZE]){}
+
+void create_type4_action(char *tokens[TOKEN_LIST_SIZE]){}
