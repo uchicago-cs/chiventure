@@ -25,7 +25,17 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
-/* see item.h */
+/* item_init() initializes an item struct with given values
+    arguments are taken from WDL
+  Parameters:
+    a memory allocated new item pointer
+    a unique item id
+    a short description of the item
+    a long description of the item
+
+  Returns:
+    0 for failure, 1 for success
+*/
 int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc)
 {
     assert(new_item != NULL);
@@ -39,30 +49,6 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 
 /* the following functions retrieve specific information from desired item
 in anticipation of supporting player demands */
-
-/* see item.h */
-char *get_id(item_t *item)
-{
-    char *my_item_id = item->item_id;
-
-    return my_item_id;
-}
-
-/* see item.h */
-char *get_short_desc(item_t *item)
-{
-    char *item_shortd = item->short_desc;
-
-    return item_shortd;
-}
-
-/* see item.h */
-char *get_long_desc(item_t *item)
-{
-    char *item_longd = item->long_desc;
-
-    return item_longd;
-}
 
 /*what was this supposed to do?*/
 // int *get_obj_type(enum item_type_t obj_t)
@@ -134,7 +120,7 @@ int add_attribute_to_item(item_t* item, char *attribute_key, attribute_t* attrib
 }
 
 /* see item.h */
-void* get_attribute(item_t* item, char* attribute_key)
+void* get_attribute_value(item_t* item, char* attribute_key)
 {
     attribute_t* attribute;
     attribute_hash_t attribute_hash = item->attributes;
@@ -166,9 +152,16 @@ void* get_attribute(item_t* item, char* attribute_key)
 }
 
 /* see item.h */
-int change_attribute(item_t* item, char* attribute_key, void* new_attribute)
+int change_attribute(item_t* item, char* attribute_key, void* new_value)
 {
-    return 1;
+    switch(attribute->attr_tag)
+    {
+        case(INTEGER):
+            attribute->attr_value.int_val = new_value;
+            return 1;
+        case(BOOLE):
+
+    }
 
 //   if (attribute->attr_tag == INTEGER)
 //   {
@@ -227,11 +220,16 @@ int delete_all_items(item_hash_t items) {
 
 
 /* See item.h */
-int delete_all_attributes(attribute_hash_t attributes) {
+int delete_item_attributes(attribute_hash_t attributes) {
     attribute_t *current_attribute, *tmp;
     HASH_ITER(hh, attributes, current_attribute, tmp) {
         HASH_DEL(attributes, current_attribute);  /* delete it (attributes advances to next) */
         attribute_free(current_attribute);             /* free it */
     }
     return 1;
+}
+
+int delete_all_attributes(item_t* item)
+{
+    
 }
