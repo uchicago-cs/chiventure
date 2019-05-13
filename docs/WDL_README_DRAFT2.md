@@ -1,20 +1,20 @@
 # WDL FORMATTING RULES AND EXAMPLES
 May 13, 2019
 
-##### Definitions:
-###### - Component:
+### Definitions:
+##### - Component:
 Something that is part of the physical environment in a game (a single room, a single object, a single non-player character, etc.)
 
-###### - Object:
+##### - Object:
 A classification category for the components in a game
 Attribute: A trait that describes or serves to further define a component
-###### - Attribute name:
+##### - Attribute name:
 The name of an attribute
 
-###### - Specification:
+##### - Specification:
 This document
 
-##### Syntax:
+### Syntax:
 - The order that the Objects in a WDL file are written in must follow the order of explanation in specification (See example)
 - Must have one space, followed by “-” then followed by one space before an attribute name
 - Short_desc are strings that can have at max 100 characters (including spaces)
@@ -30,21 +30,19 @@ space, followed by a dash(-), followed by another space, then the field.
 
 ##### Refer to Action Management's file: src/action_management/include/actionmanagement.h on the actions/dev branch for a list of approved actions in a game
 
-## Format_GAME:
+## GAME Format:
 
 ##### The Game Object must contain the following attributes:
 - start: `<ROOM IDENTIFIER>` used to specify the ID of the room that the game will start in. This value is the string ID of the room that the game will start in  
-
    ###### NOTE: The given ID must have been assigned to a room defined in the ROOM object (i.e. the room ID must exist, so if the start field has value “BEDROOM”, then there must be a room in the ROOM object that has the id “BEDROOM”).
 
 - intro: `<STATEMENT WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 - end: `<CONDITION>` a condition specification for how the game ends. This must be one of two ways:
    1. The inventory contains a specific item
+    - Ex. inventory contains: emerald gem
 
-   Ex. inventory contains: emerald gem
    2. The number of points that the player has accumulated
-
-   Ex. num_points = 100
+    - Ex. num_points = 100
 
 ### GAME example:
  - **start**: KITCHEN
@@ -53,9 +51,8 @@ space, followed by a dash(-), followed by another space, then the field.
  - **end**:
    - Inventory: wand
 
-## Format_ROOM:
+## ROOM Format:
 ##### The Room Object must contain the following attributes:
-(the following fields belong to the above category)
  - id: `<UNIQUE ID NAME>` which is an identification name that is unique to the room, in all uppercase
 
    short_desc: `<STRING DESCRIPTION>` which is a string that is displayed when the player first enters the room
@@ -67,11 +64,11 @@ space, followed by a dash(-), followed by another space, then the field.
    (the	following fields belong	to subcategory 'connections')
   - to: `<ROOM	ID>` which lists a valid place the player can reach in one action from this room by ID
 
-  direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down.
+    direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down.
 
-  through: `<OBJECT ID>` if applicable, the object that the player must go through to go in that direction
+    through: `<OBJECT ID>` if applicable, the object that the player must go through to go in that direction
 
-  ###### NOTE: a valid connection has to have an ID that exists
+    ###### NOTE: a valid connection has to have an ID that exists
 
 
 ### ROOMS example:
@@ -84,11 +81,11 @@ space, followed by a dash(-), followed by another space, then the field.
    **connections**:
     - to: BASEMENT
 
-     direction: DOWN
+      direction: DOWN
 
-     through: trapdoor
+      through: trapdoor
 
-## Format_ITEM:
+## ITEM Format:
 
 - For ITEMs, the format is the same as above, except for actions, the fields are indented with two spaces, followed by a dash.
 - This applies to the subcategories in action as well.
@@ -97,31 +94,31 @@ space, followed by a dash(-), followed by another space, then the field.
 ##### The Item Object must contain the following attributes:
   - id: `<UNIQUE ID NAME>` which is a unique identifier for the item; one id can only used to identify one item in the entire ITEMS object. (i.e. only one door can have id “door”, the others would have to have “door1”, “door2”, etc. because there must be no repeat ids)
 
-  short_desc: `<STRING DESCRIPTION>` which is a string that is displayed when the player picks up the item
+    short_desc: `<STRING DESCRIPTION>` which is a string that is displayed when the player picks up the item
 
-  long_desc: `<STRING DESCRIPTION>` which is a string that is more specific than short_desc, displayed when the player types “look at (insert item name)” into the command line
+    long_desc: `<STRING DESCRIPTION>` which is a string that is more specific than short_desc, displayed when the player types “look at (insert item name)” into the command line
 
-  in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
+    in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
 
-  state: `<ATTRIBUTE>` which is the attribute of the item (e.g. locked, closed, open) when the game starts
+    state: `<ATTRIBUTE>` which is the attribute of the item (e.g. locked, closed, open) when the game starts
 
-  actions: the possible actions that can be performed on the object; each action has the following attributes:
+    actions: the possible actions that can be performed on the object; each action has the following attributes:
       - `<ACTION FROM BANK>`:
-          - allowed: `<YES/NO>` which is a no attribute value to specify that this action can never succeed. (You may want this attribute in order to trigger the text_fail action to notify the player to try something else)
+        - allowed: `<YES/NO>` which is a no attribute value to specify that this action can never succeed. (You may want this attribute in order to trigger the text_fail action to notify the player to try something else)
 
-          - text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
+        - text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
 
-      - `<ACTION FROM BANK>`
-           - condition: `<ATTRIBUTE: YES/NO>` which is prerequisite states for the given action to be performed, written as “state_attribute : yes/no” (e.g. to specify that a door must be unlocked to open, write “locked: no” in conditions)
+    - `<ACTION FROM BANK>`
+      - condition: `<ATTRIBUTE: YES/NO>` which is prerequisite states for the given action to be performed, written as “state_attribute : yes/no” (e.g. to specify that a door must be unlocked to open, write “locked: no” in conditions)
 
-           - text_success: `<STRING>` which is a string that is displayed upon the success of an action
+      - text_success: `<STRING>` which is a string that is displayed upon the success of an action
 
-           - text_fail: `<STRING>` which is a string that is displayed upon the failure of an action
-           - set: changes an attribute of the object’s state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition)
+      - text_fail: `<STRING>` which is a string that is displayed upon the failure of an action
+      - set: changes an attribute of the object’s state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition)
 
-               - item: `<ITEM ID>`
-               - state: `<ATTRIBUTE>`
-               - value: `<YES/NO>`
+          - item: `<ITEM ID>`
+          - state: `<ATTRIBUTE>`
+          - value: `<YES/NO>`
 
 ### ITEMS examples:
  - **id**: door
@@ -160,6 +157,6 @@ space, followed by a dash(-), followed by another space, then the field.
     - condition: in_inventory: top_hat
     - text_success: "You got the wand!"
     - text_fail: "You cannot take the wand until you have the top hat"
- - consume:
+  - consume:
     - allowed: no
     - text_fail: "you cannot consume a wand."
