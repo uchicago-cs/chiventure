@@ -15,9 +15,12 @@
 /* current game - contains information about the current state of game
  * need to talk to game state to figure out how this is obtained */
 game_t *curr_game;
+ 
+bool is_in_room(char *object);
+        //curr_game->curr_room->items // now look up what actions can be performed on this object
 
 /*
-*  See validate.h
+*  See validate.h, THIS FUNCTION WILL BE REFERING TO SYNONYMS INSTEAD OF A SPECIFIC COMMAND
 */
 
 cmd *assign_action(char **ts){
@@ -42,9 +45,8 @@ cmd *assign_action(char **ts){
 /*
 *  See validate.h
 */
-
 bool validate_object(cmd *c){
-    //curr_game->curr_room->items // this is a hash table
+
     return true;
 }
 
@@ -53,6 +55,8 @@ bool validate_object(cmd *c){
 */
 
 bool validate_prep(cmd *c){
+    //Once the commands are finalized we can match the preposition with the command,
+    // talk to, vs talk from, take from, vs take to. give from vs give to. 
     return true;
 }
 
@@ -61,6 +65,7 @@ bool validate_prep(cmd *c){
 */
 
 bool validate_ind_objects(cmd *c){
+    //similar to validate_in_objects
     return true;
 }
 
