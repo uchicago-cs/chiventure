@@ -54,7 +54,7 @@ int action_free(action_t *a)
     return SUCCESS;
 }
 
-/* A function that returns the canonical name of an action as a string */
+/* See actionmanagement.h */
 char *get_action_cname(action_t *a)
 {
     return a->c_name;
