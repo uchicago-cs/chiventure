@@ -84,27 +84,25 @@ int take_item(item_t *item)
 attribute_t* create_attribute(void* value, enum attribute_tag type)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    attribute_value_t* new_attribute_value = malloc(sizeof(attribute_value_t));
 
     new_attribute->attribute_tag = type;
-    new_attribute->attribute_value = new_attribute_value;
 
     switch(type)
     {
         case(INTEGER):
-            new_attribute_value->int_val = value;
+            new_attribute->attribute_value.int_val = value;
             return new_attribute;
             break;
         case(BOOLE):
-            new_attribute_value->boole_val = value;
+            new_attribute->attribute_value.boole_val = value;
             return new_attribute;
             break;
         case(CHARACTER):
-            new_attribute_value->char_val = value;
+            new_attribute->attribute_value.char_val = value;
             return new_attribute;
             break;
         case(STRING):
-            new_attribute_value->str_val = value;
+            new_attribute->attribute_value.str_val = value;
             return new_attribute;
             break;
         default:

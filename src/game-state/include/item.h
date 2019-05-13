@@ -19,7 +19,7 @@ typedef struct attribute {
     UT_hash_handle hh;
     char *attribute_key;
     enum attribute_tag attribute_tag;
-    attribute_value_t* attribute_value;
+    attribute_value_t attribute_value;
 } attribute_t;
 
 typedef struct attribute* attribute_hash_t;
