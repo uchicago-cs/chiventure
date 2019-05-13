@@ -58,3 +58,4 @@ int delete_all_paths(path_hash_t paths) {
 * Figure out way to create path struct
 */ 
 
+
