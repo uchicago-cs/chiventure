@@ -101,4 +101,7 @@ path_t *path_to_room(path_hash_t paths, char* room_id) {
   return path;
 }
 
+//checks if conditions have been met for given path
+
+int *path_clear(path_t *path)
 
