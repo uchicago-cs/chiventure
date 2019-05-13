@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include "actionmanagement.h"
+#include "common.h"
 
 /* See actionmanagement.h */
 action_t *action_new(enum actions act, char *c_name,
@@ -9,7 +10,7 @@ action_t *action_new(enum actions act, char *c_name,
 {
   action_t *a = malloc(sizeof(action_t));
   
-  if(!a)
+  if(a == NULL)
     {
       error("Could not allocate memory");
       return NULL;
@@ -18,7 +19,7 @@ action_t *action_new(enum actions act, char *c_name,
   int new_a = action_init(a, act, c_name, synonyms, parameters);
   if (new_a != SUCCESS)
     {
-      error("Could not initialize this action");
+      fprintf(stderr, "Could not initialize this action");
       return NULL;
     }
   
@@ -63,24 +64,25 @@ int action_npc(action_t *a, npc_t *n)
   assert(a);
   assert(n);
   if (a->kind != NPC) {
-    error("The action provided is not of the correct type");
-    return 0;
+    fprintf(stderr, "The action provided is not of the correct type");
+    return FAILURE;
   }
   fprintf(stderr, "%s", n->dialogue);
-  return 1;
+  return SUCCESS;
 }
 
 
 /* See actionmanagement.h */
-int action_item_npc(player_t *p, action_t *a, item_t *i, npc_t *n)
+int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
 {
-  assert(p);
+  assert(g);
+  assert(g->current_player); // assumes game_t has a field for current player
   assert(a);
   assert(i);
   assert(n);
   if (a->kind != ITEM_NPC) {
-    error("The action provided is not of the correct type");
-    return 0;
+    fprintf(stderr, "The action provided is not of the correct type");
+    return FAILURE;
   }
   /* function needs to be implemented by game state 
    * takes in a player, npc, and item
@@ -88,33 +90,33 @@ int action_item_npc(player_t *p, action_t *a, item_t *i, npc_t *n)
    * frees object if necessary
    * returns 1 if success, 0 if failed
    */
-  int given = remove_inventory_object(p, i);
-  if (given) {
-    printf(stderr, "%s", npc->dialogue);
-    return 1;
+  int given = remove_inventory_object(g->current_player, i);
+  if (given != SUCCESS) {
+    fprintf(stderr, "Object could not be moved from inventory");
+    return FAILURE;
   }
-  else
-    return 0;
+  fprintf(stderr, "%s", npc->dialogue);
+  return SUCCESS;
 }
 
 
 /* See actionmanagement.h */
-int action_item_item(player_t *p, action_t *a, item_t *direct, item_t *indirect)
+int action_item_item(player_t *p, action_t *a, 
+		     item_t *direct, item_t *indirect)
 {
   assert(p);
   assert(a);
   assert(direct);
   assert(indirect);
   if (a->kind != ITEM_ITEM) {
-    error("The action provided is not of the correct type");
-    return 0;
+    fprintf(stderr, "The action provided is not of the correct type");
+    return FAILURE;
   }
-  int moved = remove_inventory_object(p, i);
-  if (moved) {
-    printf(stderr, "%s", indirect->status_change);
-    return 1;
+  int moved = remove_inventory_object(g->current_player, i);
+  if (moved != SUCCESS) {
+    fprintf(stderr, "Object could not be moved from inventory");
+    return FAILURE;
   }
-  else
-    return 0;
-  
+  fprintf(stderr, "%s", indirect->status_change); // notifies status change
+  return SUCCESS;
 }
