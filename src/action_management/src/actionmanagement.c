@@ -10,7 +10,7 @@ action_t *action_new(enum actions act, char *c_name,
 {
   action_t *a = malloc(sizeof(action_t));
   
-  if(a == NULL)
+  if (a == NULL)
     {
       error("Could not allocate memory");
       return NULL;
@@ -57,9 +57,33 @@ int action_free(action_t *a)
 
 // ===========================================================
 
+//KIND 1
+int action_item(game_t *g, action_t *a, item_t *i)
+{
+	//actions involving inventory
+	while (g->all_players_t->inventory)
+	{
+		//if i is in inventory of the player
+		if (i == g->all_players_t->inventory->tagged_objs->object_type_t[i])
+		{
+		 	//is it able to be consumed	;
+			//remove from player inventory
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+  //actions involving only items
+
+  //this still needs work
+
+}
+
 
 /* See actionmanagement.h */
-int action_npc(action_t *a, npc_t *n)
+int action_npc(action_t *a, npc_t *n) // Kind 3
 {
   assert(a);
   assert(n);
@@ -73,7 +97,7 @@ int action_npc(action_t *a, npc_t *n)
 
 
 /* See actionmanagement.h */
-int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
+int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n) // Kind 4
 {
   assert(g);
   assert(g->current_player); // assumes game_t has a field for current player
@@ -102,7 +126,7 @@ int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
 
 /* See actionmanagement.h */
 int action_item_item(player_t *p, action_t *a, 
-		     item_t *direct, item_t *indirect)
+		     item_t *direct, item_t *indirect) // Kind 5
 {
   assert(p);
   assert(a);
@@ -119,28 +143,4 @@ int action_item_item(player_t *p, action_t *a,
   }
   fprintf(stderr, "%s", indirect->status_change); // notifies status change
   return SUCCESS;
-}
-
-//KIND 1
-int action_item(game_t *g, action_t *a, item_t *i)
-{
-	//actions involving inventory
-	while (g->all_players_t->inventory)
-	{
-		//if i is in inventory of the player
-		if (i == g->all_players_t->inventory->tagged_objs->object_type_t[i])
-		{
-		 	//is it able to be consumed	;
-			//remove from player inventory
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
-	}
-  //actions involving only items
-
-  //this still needs work
-
 }
