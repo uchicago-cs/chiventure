@@ -11,6 +11,9 @@
 #include <stddef.h>
 #include "uthash.h"
 
+#define SUCCESS 1
+#define FAILURE 0
+
 /*Dummy room struct */
 typedef struct {
   int id;
@@ -52,7 +55,11 @@ coord_record_t *find_coord(int x, int y);
 /* add_coord:
  * - Implementation  Will use HASH_FIND to check uniqueness
  *   If unique, creates a new coord_key_t and add to map using HASH_ADD
+ * returns:
+ * - SUCCESS if assigns new coordinate or if coordinate checked is already
+ *   assigned to the same room id
+ * - FAILURE if coordinate is already assigned to a different room id
  */
-void add_coord(int x, int y, room_t *r);
+int add_coord(int x, int y, room_t *r);
 
 #endif /* INCLUDE_COORDINATE_H_ */
