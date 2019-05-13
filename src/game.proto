@@ -1,4 +1,4 @@
-syntax = "proto2";
+syntax = "proto1";
 
 // Object
 Message Door_{
