@@ -48,7 +48,7 @@ int player_free(player_t* plyr)
     return SUCCESS;
 }
 
-void delete_all_players(all_players_t players) {
+void delete_all_players(player_hash_t players) {
     player_t *current_player, *tmp;
     HASH_ITER(hh, players, current_player, tmp) {
         HASH_DEL(players, current_player);  /* delete it (players advances to next) */
@@ -99,28 +99,28 @@ int change_xp(player_t* plyr, int points)
 }
 
 
-int add_clothes_object(object_t* item, player_t* plyr)
+int add_clothes_item(item_t* item, player_t* plyr)
 {
 	//TODO
 	return -1;
 }
 
 
-int add_inventory_object(object_t* item, player_t* plyr)
+int add_inventory_item(item_t* item, player_t* plyr)
 {
 	//TODO
 	return -1;
 }
 
 
-all_objects_t get_inventory(player_t* plyr)
+item_hash_t get_inventory(player_t* plyr)
 {
 	//TODO
 	return NULL;
 }
 
 
-all_objects_t get_clothes(player_t* plyr)
+item_hash_t get_clothes(player_t* plyr)
 {
 	//TODO
 	return NULL;

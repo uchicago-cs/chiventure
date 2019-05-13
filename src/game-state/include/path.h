@@ -1,11 +1,7 @@
 #ifndef _PATH_H
 #define _PATH_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "utlist.h"
-#include "uthash.h"
+#include "game_state_common.h"
 #include "item.h"
 
 /* This struct represents a single condition that must be
@@ -30,10 +26,10 @@ typedef struct path {
     /* for hashtable consistency (e.g. player hash uses player_id), */
     /* we use path_id here to avoid bugs when using uthash functions */
     char *path_id; // ***** MEANS ROOM_ID *****
-    condition_llist_t *conditions;
+    condition_t *conditions_list;
 } path_t;
 
-typedef struct path* all_paths_t;
+typedef struct path* path_hash_t;
 
 /* Deletes the linked list of conditions completely
  *
@@ -43,18 +39,17 @@ typedef struct path* all_paths_t;
  * Returns:
  *  1 if successful, 0 if failed
  */
-int delete_all_conditions(condition_t *conditions);
+int delete_all_conditions(condition_t *conditions_list);
 
 /* Mallocs space for a new path
  *
  * Parameters:
  *  id of the room this path leads to
- *  linked list of conditions
  *
  * Returns:
  *  a pointer to new path
  */
-path_t *path_new(char *room_id, condition_llist_t conditions);
+path_t *path_new(char *room_id);
 
 /* Frees the space in memory taken by given path
  *
@@ -75,7 +70,7 @@ int path_free(path_t *path);
  * Returns:
  *  1 if successful, 0 if failed
  */
-int add_path_to_hash(all_paths_t all_paths, char* path_id, path_t *path);
+int add_path_to_hash(path_hash_t all_paths, char* path_id, path_t *path);
 
 /* Deletes a hashtable of paths
  * Implemented with macros provided by uthash.h
@@ -85,4 +80,6 @@ int add_path_to_hash(all_paths_t all_paths, char* path_id, path_t *path);
  * Returns:
  *  1 if successful, 0 if failed
  */
-int delete_all_paths(all_paths_t paths);
+int delete_all_paths(path_hash_t paths);
+
+#endif

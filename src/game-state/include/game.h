@@ -17,12 +17,12 @@ typedef struct game {
     /* an iteratable hashtable of players */
     /* using the macros provided in uthash.h */
     /* the expected size is 1 for single player games but this can change */
-    all_players_t all_players;
+    player_hash_t all_players;
 
     /* an iteratable hashtable of players */
     /* using the macros provided in uthash.h */
     /* inside each room struct a list of adjacent rooms' id is stored (adjacency list) */
-    all_rooms_t all_rooms;
+    room_hash_t all_rooms;
 
     /* pointer to current room struct */
     room_t *curr_room;
