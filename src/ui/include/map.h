@@ -24,6 +24,21 @@ typedef struct room{
   char ex_s;
 } room_t;
 
+//This struct holds the pointer to the map's pad, the pad's max x and max y
+// and max z coordinates
+typedef struct map{
+  WINDOW *pad;
+  int maxx;
+  int maxy;
+  int maxz;
+  int padx;
+  int pady;
+  int ul_x;
+  int ul_y;
+  int lr_x;
+  int lr_y;
+} map_t;
+
 //Function Declarations
 
 //Initializes the ncurses indow
@@ -41,3 +56,6 @@ void draw_rooms(room_t **rooms, int n, int left_x, int top_y, WINDOW *win);
 
 //Gets an array of test rooms
 room_t **get_test_rooms(int n);
+
+//Initiates map at WINDOW * pointer to pad
+map_t *init_map(room_t **rooms, int n);

@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <ncurses.h>
 
+int room_h = 6;
+int room_w = 11;
+
 //Initiallizes ncurses window
 //This function will later live in ui.c
 void init(){
@@ -69,8 +72,8 @@ void draw_room (int width, int height, int x, int y, room_t *room, WINDOW *win){
 void draw_rooms(room_t **rooms,int n, int left_x, int top_y, WINDOW *win){
   //Declare variables
   int x,y,x_offset,y_offset;
-  int room_h = 6;
-  int room_w = 11;
+  //  int room_h = 6;
+  //int room_w = 11;
 
   //Get x,y,z coordinates for rooms
   for (int i = 0; i<n; i++){
@@ -84,19 +87,52 @@ void draw_rooms(room_t **rooms,int n, int left_x, int top_y, WINDOW *win){
     //Draw room at x/y coordinate given, with preset w/h
     draw_room(room_w, room_h, x_offset, y_offset,rooms[i],win);
   }
-
   return;
 }
 
-room_t ** get_test_rooms(int n){
-  //Initialize a bunch of coords
-  /*  coord_t loc_a = {0,0,0};
-  coord_t loc_b = {0,1,0};
-  coord_t loc_c = {1,0,0};
-  coord_t loc_d = {2,1,0};
-  coord_t loc_e = {2,2,0};*/
+int *calculate_map_dims(room_t **rooms, int n){
+  int x=0;
+  int y=0;
+  int z=0;
+  coord_t *curr;
+  int cx;
+  int cy;
+  int cz;
+  
+  for (int i = 0; i < n; i++){
+    curr = rooms[i]->loc;
+    cx = curr->x;
+    cy = curr->y;
+    cz = curr->z;
+    if (cx > x)
+      x = cx;
+    if (cy>y)
+      y = cy;
+    if (cz>z)
+      z = cz;
+  }
+  int *xyz = malloc(sizeof(int)*3);
+  xyz[0] = x;
+  xyz[1] = y;
+  xyz[2] = z;
+  return xyz;
+}
 
-  //Initialize a bunch of rooms
+map_t *init_map(room_t ** rooms, int n){
+  //map_dims[0] is xmax, map_dims[1] is ymax, and map_dims[2] is zmax
+  int *dims = calculate_map_dims(rooms,n);
+  WINDOW *pad = newpad(dims[1],dims[0]);
+  map_t *map = malloc(sizeof(map_t));
+  map->pad = pad;
+  map->maxx = dims[0];
+  map->maxy = dims[1];
+  map->maxz = dims[2];
+  draw_rooms(rooms,n,0,0,pad);
+
+  return map;
+}
+
+room_t ** get_test_rooms(int n){
   int j = 0;
   
   room_t **rooms = malloc(sizeof(room_t *) * n);
@@ -105,7 +141,7 @@ room_t ** get_test_rooms(int n){
     room_t *roomi = malloc(sizeof(room_t));
     rooms[i] = roomi;
     coord_t *loci = malloc(sizeof(coord_t));
-    loci->x = i%4;
+    loci->x = i%8;
     loci->y = j;
     loci->z = 0;
     roomi->loc = loci;
@@ -114,19 +150,9 @@ room_t ** get_test_rooms(int n){
     roomi->ex_s = i%2;
     roomi->ex_w = (i+1)%2;
 
-    if (i%4 == 3)
+    if (i%6 == 5)
       j++;
   }
-
-  //  room_t rm_a = {loc_a, "Room A", 1,1,0,0};
-  //room_t rm_b = {loc_b, "Room B", 0,1,1,1};
-  //room_t rm_c = {loc_c, "Room C", 1,0,1,0};
-  //room_t rm_d = {loc_d, "Room D", 0,0,0,0};
-  //room_t rm_e = {loc_e, "Room E", 1,1,1,1};
-  
-  //Create an array of the rooms
-  //room_t *rooms[5] = {&rm_a, &rm_b, &rm_c, &rm_d, &rm_e};
  
   return rooms;
-
 }
