@@ -2,20 +2,21 @@
 #include "room.h"
 
 /* See room.h */
-room_t *room_new(char *short_desc, char *long_desc, all_items_t *items, all_paths_t *paths) {
+room_t *room_new(char *room_id, char *short_desc, char *long_desc, all_items_t *items, all_paths_t *paths) {
   room_t *room = malloc(sizeof(room_t));
+  room->room_id = room_id;
   room->short_desc = short_desc;
   room->long_desc = long_desc;
   room->items = items;
   room->paths = paths;
-  return NULL;
+  return room;
 }
 
 /* See room.h */
 int room_free(room_t *room) {
-  free(room_id);
-  free(room->short_desc);
-  free(room->long_desc);
+  //free(room_id);
+  //free(room->short_desc);
+  //free(room->long_desc);
   delete_all_paths(room->paths);
   delete_all_items(room->items);
   free(room);
@@ -44,27 +45,6 @@ int delete_all_rooms(all_rooms_t rooms) {
     return 1;
 }
 
-/* See room.h */
-int add_path_to_hash(all_paths_t all_paths, int path_id, path_t *path) {
-    path_t *s;
-    HASH_FIND_INT(all_paths, &path_id, s);
-    if (s != NULL) {
-        printf("FATAL: path_id already used!\n");
-        path(0);
-    }
-    HASH_ADD_INT(all_paths, path_id, s);
-    return 1;
-}
-
-/* See room.h */
-int delete_all_paths(all_paths_t paths) {
-    path_t *current_path, *tmp;
-    HASH_ITER(hh, paths, current_path, tmp) {
-        HASH_DEL(paths, current_path);  /* delete it (paths advances to next) */
-        path_free(current_path);             /* free it */
-    }
-    return 1;
-}
 
 /* Get short description of room
  *
