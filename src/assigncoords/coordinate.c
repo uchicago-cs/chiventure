@@ -30,10 +30,21 @@ coord_record_t *find_coord(int x, int y)
 /* add_coord:
  * - Implementation  Will use HASH_FIND to check uniqueness
  *   If unique, creates a new coord_key_t and add to map using HASH_ADD
+ *
+ *
+ * Note: Will implement more extensive tests of add_coord once 
+ * find_coord works (as this seems to be the best way to test if
+ * a coord has been added). For now, it seems add coord does indeed work 
+ * -- when I run the main in gdb, a call to
+ * print coordmap->key 
+ * after the add_coord function is called 
+ * returns = {x = 5, y = 6}, which shows that the first coord has been added
  */
 void add_coord(int x, int y, room_t *r)
 {
   coordinate_t key;
+  memset(&key, 0, sizeof(coordinate_t));
+  
   coord_record_t *cr = find_coord(x, y);
 
   if (cr == NULL) {
@@ -43,6 +54,7 @@ void add_coord(int x, int y, room_t *r)
     already existing in hashtable */
     coord_init(&key, x, y);
     cr = malloc(sizeof(coord_record_t));
+
     //uthash warning to use  memset when key is a structure
     memset(cr, 0, sizeof(coord_record_t));
     
@@ -71,7 +83,7 @@ int main()
 
   coord_record_t *example = find_coord(5, 6);
   if (example == NULL)
-    fprintf(stderr,"Failure to add coord\n");
+    fprintf(stderr,"Failure to find coord\n");
   else
     fprintf(stdout,"Found coordinate of room with room id %d",
 	    example->r->id);
