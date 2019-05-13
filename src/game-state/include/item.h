@@ -111,8 +111,7 @@ int delete_all_attributes(attribute_hash_t attributes);
 
 void* get_attribute(item_t* item, char* attribute_key);
 
-int change_attribute(attribute_t* attribute, attribute_value_t value);
-
+int change_attribute(item_t* item, char* attribute_key, void* new_attribute);
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
 create a function that changes an atttribute,
 

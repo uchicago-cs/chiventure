@@ -211,15 +211,15 @@ int change_attribute(item_t* item, char* attribute_key, void* new_attribute)
 
 /* See item.h */
 int item_free(item_t *item) {
-    free(room_id);
-    free(room->short_desc);
-    free(room->long_desc);
+    free(item->item_id);
+    free(item->short_desc);
+    free(item->long_desc);
     delete_all_attributes(item->attributes);
     free(item);
 }
 
 /* See item.h */
-int attribute_free(attribute *attribute) {
+int attribute_free(attribute_t *attribute) {
     free(attribute->attribute_key);
     free(attribute);
 }

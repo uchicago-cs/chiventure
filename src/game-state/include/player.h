@@ -95,7 +95,7 @@ int get_health(player_t* plyr);
  * Returns:
  *  int, remaining health
  */
-int change_health(player_t* plyr);
+int change_health(player_t* plyr, int change, int max);
 
 /*
  * Returns the level of the player
@@ -117,7 +117,7 @@ int get_level(player_t* plyr);
  * Returns:
  *  int, the new level
  */
-int change_level(player_t* plyr);
+int change_level(player_t* plyr, int change);
 
 /*
  * Returns the experience points of the player
