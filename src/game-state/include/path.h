@@ -19,7 +19,9 @@ typedef struct condition {
 
 /* This struct represents a path from one room to another. It contains
  * the room_ID string of the room it leads to as well as a linked
- * list of conditions that must be fulfilled to move to the room. */
+ * list of conditions that must be fulfilled to move to the room. 
+ * essentially, the list of conditions are the "answers"
+ * */
 typedef struct path {
     UT_hash_handle hh;
     /* path_id means the room_id this path goes to */

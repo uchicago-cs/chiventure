@@ -176,5 +176,6 @@ int change_attribute(attribute_t* attribute, attribute_value_t value)
 //   return 0;
 }
 
-
-
+/* Need a function that checks if two attribute_value_ts are equal
+* TBD: Is this game-state or action management task?
+*/
