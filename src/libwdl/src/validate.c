@@ -3,7 +3,7 @@
 #include <string.h>
 #include "validate.h"
 
-
+// The following functions assist with iterating through lists of objects
 /* see validate.h */
 bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 {
@@ -21,7 +21,6 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
     return result;
 }
 
-
 /* see validate.h */
 bool list_print(attr_list_t *ls, bool(*print)(obj_t*))
 {
@@ -36,140 +35,7 @@ bool list_print(attr_list_t *ls, bool(*print)(obj_t*))
     }
 }
 
-
-// THIS IS TEMPORALLY COMMENTED OUT TO PREVENT COMPILATION ERRORS //
-/* See validate.h
-void print_room(obj_t *obj, char *str)
-{
-    // Initialize strings for fields within object struct
-    char *id = ".id";
-    char *short_desc = ".short_desc";
-    char *long_desc = ".long_desc";
-
-    // Allocate memory for new strings and copy in str
-    char *id_str = (char*) malloc(sizeof(char)*30);
-    strcpy(id_str, str);
-    char *short_str = (char*) malloc(sizeof(char)*30);
-    strcpy(short_str, str);
-    char *long_str = (char*) malloc(sizeof(char)*30);
-    strcpy(long_str, str);
-
-    // Concatenate str with field strings
-    strcat(id_str, id);
-    strcat(short_str, short_desc);
-    strcat(long_str, long_desc);
-
-    // Print id, short_desc, and long_desc
-    printf("%s: %c\n", id_str, obj_get_char(obj, id_str));
-    printf("%s: %s\n", short_str, obj_get_str(obj, short_str));
-    printf("%s: %s\n", long_str, obj_get_str(obj, long_str));
-
-    // Free strings
-    free(id_str);
-    free(short_str);
-    free(long_str);
-}
-
-
-/* See validate.h
-void print_item(obj_t *obj, char *str)
-{
-    // Initialize strings for fields within object struct
-    char *id = ".id";
-    char *short_desc = ".short_desc";
-    char *long_desc = ".long_desc";
-
-    // Allocate memory for new strings and copy in str
-    char *id_str = (char*) malloc(sizeof(char)*30);
-    strcpy(id_str, str);
-    char *short_str = (char*) malloc(sizeof(char)*30);
-    strcpy(short_str, str);
-    char *long_str = (char*) malloc(sizeof(char)*30);
-    strcpy(long_str, str);
-
-    // Concatenate str with field strings
-    strcat(id_str, id);
-    strcat(short_str, short_desc);
-    strcat(long_str, long_desc);
-
-    // Print id, short_desc, and long_desc
-    printf("%s: %s\n", id_str, obj_get_str(obj, id_str));
-    printf("%s: %s\n", short_str, obj_get_str(obj, short_str));
-    printf("%s: %s\n", long_str, obj_get_str(obj, long_str));
-
-    // Free strings
-    free(id_str);
-    free(short_str);
-    free(long_str);
-}
-
-
-/* See validate.h
-void print_game(obj_t *obj, char *str1, char *str2)
-{
-    // Initialize strings for fields within object struct
-    char *start = ".start";
-    char *intro = ".intro";
-
-    // Allocate memory for new strings and copy in str
-    char *start_str = (char*) malloc(sizeof(char)*30);
-    strcpy(start_str, str1);
-    char *intro_str = (char*) malloc(sizeof(char)*30);
-    strcpy(intro_str, str2);
-
-    // Concatenate str with field strings
-    strcat(start_str, start);
-    strcat(intro_str, intro);
-
-    // Print id, short_desc, and long_desc
-    printf("%s: %c\n", start_str, obj_get_char(obj, start_str));
-    printf("%s: %s\n", intro_str, obj_get_str(obj, intro_str));
-
-    // Free strings
-    free(start_str);
-    free(intro_str);
-}
-*/
-
-/* See validate.h */
-bool verify_item(obj_t *obj, char *str)
-{
-    // Initialize strings for fields within object struct
-    char *id = ".id";
-    char *short_desc = ".short_desc";
-    char *long_desc = ".long_desc";
-
-    // Allocate memory for new strings and copy in str
-    char *id_str = malloc(sizeof(char) * 30);
-    strcpy(id_str, str);
-    char *short_str = malloc(sizeof(char) * 30);
-    strcpy(short_str, str);
-    char *long_str = malloc(sizeof(char) * 30);
-    strcpy(long_str, str);
-
-    // Concatenate str with field strings
-    strcat(id_str, id);
-    strcat(short_str, short_desc);
-    strcat(long_str, long_desc);
-
-    // verify types of fields
-    bool id_ver = true, short_ver = true, long_ver = true;
-    if (obj_get_type(obj, id_str) != TYPE_STR && obj_get_type(obj, id_str) != TYPE_CHAR)
-        id_ver = false;
-    if (obj_get_type(obj, short_str) != TYPE_STR)
-        short_ver = false;
-    if (obj_get_type(obj, long_str) != TYPE_STR)
-        long_ver = false;
-
-    // Free strings
-    free(id_str);
-    free(short_str);
-    free(long_str);
-
-    return (id_ver && short_ver && long_ver);
-}
-
-
+// The following functions regard room type checking
 /* connections_get_list()
  * a helper function for check_connections that gets a list of connections
  * associated with a room object
@@ -229,7 +95,7 @@ bool check_connection_attr(obj_t *obj)
 bool connection_type_check(obj_t *obj)
 {
     attr_list_t *ls = connections_get_list(obj);
-    
+
     // call connection_type_check on each connection
     bool check = list_type_check(ls, check_connection_attr);
 
@@ -239,50 +105,59 @@ bool connection_type_check(obj_t *obj)
 /* See validate.h */
 bool room_type_check(obj_t *obj)
 {
-    // verify types of fields
+    // fields to verify
     bool id_ver = true, short_ver = true, long_ver = true;
 
+    // verify each field
     if (obj_get_type(obj, "id") != TYPE_STR && obj_get_type(obj, "id") != TYPE_CHAR)
         id_ver = false;
     if (obj_get_type(obj, "short_desc") != TYPE_STR)
         short_ver = false;
-    // Revise
     if (obj_get_type(obj, "long_desc") != TYPE_STR)
         long_ver = false;
-    // verify connections
+
+    // verify each attribute
     bool connections_ver = connection_type_check(obj);
 
     return (id_ver && short_ver && long_ver && connections_ver);
 }
 
-
+// The following functions regard item type checking
 /* See validate.h */
-bool verify_game(obj_t *obj, char *str1, char *str2)
+bool item_type_check(obj_t *obj)
 {
-    // Initialize strings for fields within object struct
-    char *start = ".start";
-    char *intro = ".intro";
+    // fields to verify
+    bool id_ver = true, short_ver = true, long_ver = true, in_ver = true,
+    state_ver = true;
 
-    // Allocate memory for new strings and copy in str
-    char *start_str = malloc(sizeof(char) * 30);
-    strcpy(start_str, str1);
-    char *intro_str = malloc(sizeof(char) * 30);
-    strcpy(intro_str, str2);
+    // verify each attribute
+    if (obj_get_type(obj, "id") != TYPE_STR && obj_get_type(obj, "id") != TYPE_CHAR)
+        id_ver = false;
+    if (obj_get_type(obj, "short_desc") != TYPE_STR)
+        short_ver = false;
+    if (obj_get_type(obj, "long_desc") != TYPE_STR)
+        long_ver = false;
+    if (obj_get_type(obj, "in") != TYPE_STR && obj_get_type(obj, "in") != TYPE_CHAR)
+        in_ver = false;
+    if (obj_get_type(obj, "state") != TYPE_STR)
+        state_ver = false;
 
-    // Concatenate str with field strings
-    strcat(start_str, start);
-    strcat(intro_str, intro);
+    return (id_ver && short_ver && long_ver && in_ver && state_ver)
+}
 
-    // verify types of fields
+// The following functions regard game type checking
+/* See validate.h */
+bool game_type_check(obj_t *obj)
+{
+    // fields to verify
     bool start_ver = true, intro_ver = true;
-    if (obj_get_type(obj, start_str) != TYPE_CHAR)
+
+    // verify each attribute
+    if (obj_get_type(obj, "start") != TYPE_STR && obj_get_type(obj, "start") !=
+        TYPE_CHAR)
         start_ver = false;
-    if (obj_get_type(obj, intro_str) != TYPE_STR)
+    if (obj_get_type(obj, "intro") != TYPE_STR)
         intro_ver = false;
 
-    // Free strings
-    free(start_str);
-    free(intro_str);
-
-    return (start_ver && intro_ver);
+    return (start_ver && intro_ver)
 }

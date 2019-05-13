@@ -1,5 +1,5 @@
 /*
- * Header file for object validation and object printing functions and 
+ * Header file for object validation and object printing functions and
  * related utilities
  */
 
@@ -29,32 +29,10 @@ void print_room(obj_t *obj, char *str);
 
 void print_game(obj_t *obj, char *str1, char *str2);
 
-// ORIGINAL FUNCTIONS
-/*
- * These functions verify that the object fields are of the right type.
- *
- * Parameters:
- *  - obj: The document object
- *  - str: The id of the specific object in dot
-notation
- *  - for verify game, str1 is starting room and str2 is intro
- *
- * Returns:
- *  - true if object is valid
- *  - false if object is invalid
- */
-
-// bool verify_item(obj_t *obj, char *str);
-
-// bool verify_room(obj_t *obj, char *str);
-
-// bool verify_game(obj_t *obj, char *str1, char *str2);
-
-// NEW VERIFY FUNCTIONS
 /* list_type_check()
  * a function to automate type checking,
  * used before running extract_id() from parse.h
- * 
+ *
  * parameters:
  *  - ls: a list of objects
  *  - a function pointer to a type checking function
@@ -67,11 +45,10 @@ notation
  */
 bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
 
-
 /* list_print()
  * a function to automate printing objects;
  * used primarily for testing
- * 
+ *
  * parameters:
  *  - ls: a list of objects
  *  - a function pointer to a type checking function
@@ -86,9 +63,8 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
  */
 bool list_print(attr_list_t *ls, bool(*print)(obj_t*));
 
-
 /*
- * verify
+ * type_check
  * Verifies whether the given object has the correct return types for all of
  * its attributes
  *
@@ -101,7 +77,8 @@ bool list_print(attr_list_t *ls, bool(*print)(obj_t*));
  * Notes:
  * What we plan to do is first extract an object, such as the room object,
  * which would include each of the rooms and their attributes.
- * We will want to then validate each of the attributes
+ * We will want to then validate each of the attributes by running type_check
+ * with list_type_check
  */
  bool game_type_check(obj_t *obj);
 
