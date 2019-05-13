@@ -9,27 +9,40 @@
 // #include "room.h"
 // #include "game.h"
 
-enum attribute_tag {BOOL, CHARACTER, STRING, INT};
+//where does this belong?? 
+/* Forward declaration of linked list */
+typedef struct all_items {
+    /* fields used for linked list */
+    struct exit *next, *prev;
+
+    /* add necessary item info here */
+
+} all_items_t;
+
+enum attribute_tag {BOOLE, CHARACTER, STRING, INTEGER};
 
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
-    bool b;
-    char char_val;
+    bool *boole_val;
+    char *char_val;
     char *str_val;
-    int int_val;
+    int *int_val;
 } attribute_value_t;
 
 typedef struct tagged_attributes {
+  UT_hash_handle hh;
+  char* attribute_name;
   enum attribute_tag attr_tag;
-  attribute_value_t attr_value_types;
-} tagged_attrs_t;
+  attribute_value_t attr_value;
+} tagged_attributes_t;
 
-
+/*
 typedef struct attribute_table {
     UT_hash_handle hh; //makes this struct hashable for the object struct
     char* attribute_name;
     tagged_attrs_t tagged_values;
 } attribute_table_t;
+*/
 
 /* this object struct will include a door object to be used between rooms,
 i.e. included in the room struct in its list of exits */
@@ -39,18 +52,23 @@ typedef struct item {
     char *short_desc;
     char *long_desc;
     bool condition; /* reserved for future expansion */
-    attribute_table_t attributes;
+    tagged_attributes_t* attributes;
 } item_t;
 
 /* item_new() allocates a space for an item struct in memory
+  Parameters: 
+    a unique item id
+    a short description of the item
+    a long description of the item
   Returns:
     A pointer to a new item struct.
 */
-item_t *item_new();
+item_t *item_new(char *item_id, char *short_desc, char *long_desc);
 
 /* item_init() initializes an item struct with given values
     arguments are taken from WDL
   Parameters:
+    a memory allocated new item pointer
     a unique item id
     a short description of the item
     a long description of the item
@@ -58,7 +76,7 @@ item_t *item_new();
   Returns:
     0 for failure, 1 for success
 */
-int item_init(char *item_id, char *short_desc, char *long_desc);
+int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc);
 
 /* get_id() retrieves the unique id of the item
   Parameters:
