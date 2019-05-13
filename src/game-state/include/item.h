@@ -103,7 +103,7 @@ int change_attribute(attribute_t* attribute, attribute_value_t value);
 
 int item_free(item_t *item);
 
-int attribute_free(attribute *attribute);
+int attribute_free(attribute_t *attribute);
 
 int delete_all_items(item_hash_t items);
 
