@@ -6,7 +6,7 @@
 
 /* See actionmanagement.h */
 action_t *action_new(enum actions act, char *c_name,
-		     list_t *synonyms, enum kind)
+                     list_t *synonyms, enum kind)
 {
     action_t *a = malloc(sizeof(action_t));
 
@@ -29,7 +29,7 @@ action_t *action_new(enum actions act, char *c_name,
 
 /* See actionmanagement.h */
 int action_init(action_t *a, enum actions act, char *c_name,
-		list_t *synonyms, enum kind)
+                list_t *synonyms, enum kind)
 {
     assert(a);
 
@@ -102,28 +102,28 @@ list_t *get_supported_actions(enum action_kind *kind)
 /* See actionmanagement.h */
 int action_item(game_t *g, action_t *a, item_t *i)
 {
-	assert(g);
-	assert(g->current_player); // assumes game_t has a field for current player
-	assert(a);
-	assert(i);
-	if (a->kind != ITEM) {
-		fprintf(stderr, "The action provided is not of the correct type.\n");
-		return FAILURE;
-	}
-	/* function needs to be implemented by game state
-	 * takes in a player, npc, and item
-	 * removes object from inventory
-	 * frees object if necessary
-	 * returns 0 if success, 1 if failed
-	 */
-	int given = remove_inventory_object(g->current_player, i);
+    assert(g);
+    assert(g->current_player); // assumes game_t has a field for current player
+    assert(a);
+    assert(i);
+    if (a->kind != ITEM) {
+        fprintf(stderr, "The action provided is not of the correct type.\n");
+        return FAILURE;
+    }
+    /* function needs to be implemented by game state
+     * takes in a player, npc, and item
+     * removes object from inventory
+     * frees object if necessary
+     * returns 0 if success, 1 if failed
+     */
+    int given = remove_inventory_object(g->current_player, i);
     // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
-	//ex if "OPEN DOOR", game state needs to change the state of the door
-	if (given != SUCCESS) {
-		fprintf(stderr, "Object could not be moved from inventory.\n");
-		return FAILURE;
-	}
-	return SUCCESS;
+    //ex if "OPEN DOOR", game state needs to change the state of the door
+    if (given != SUCCESS) {
+        fprintf(stderr, "Object could not be moved from inventory.\n");
+        return FAILURE;
+    }
+    return SUCCESS;
 
 }
 
@@ -202,7 +202,7 @@ int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
 //KIND 5
 /* See actionmanagement.h */
 int action_item_item(player_t *p, action_t *a,
-		     item_t *direct, item_t *indirect)
+             item_t *direct, item_t *indirect)
 {
   assert(p);
   assert(a);

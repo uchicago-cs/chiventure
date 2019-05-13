@@ -15,28 +15,30 @@
 enum actions {
 
 /* KIND 1 ACTIONS */
-	OPEN,
-	CLOSE,
-	PUSH,
-	PULL,
-	EXAMINE,
-	TURN_ON,
-	TURN_OFF,
-	TAKE,    // synonyms: "pick up"
-	DROP,
-	CONSUME, // synonyms: "use" "drink" "eat"
+    OPEN,
+    CLOSE,
+    PUSH,
+    PULL,
+    EXAMINE,
+    TURN_ON,
+    TURN_OFF,
+    TAKE,    // synonyms: "pick up"
+    DROP,
+    CONSUME, // synonyms: "use" "drink" "eat"
 
 /* KIND 2 ACTIONS */
-	GO, 	 // synonyms: "walk"
+    GO,      // synonyms: "walk"
+    ENTER,
 
 /* KIND 3 ACTIONS */
-	TALK_TO,
+    TALK_TO,
 
 /* KIND 4 ACTIONS */
-	GIVE_TO,
-	
+    GIVE_TO,
+    
 /* KIND 5 ACTIONS */
-	USE_ON
+    USE_ON,
+    PUT_ON
 };
 
 
@@ -57,10 +59,10 @@ enum action_kind {
  * - parameters: an order-sensitive linked list of object_type enums
 */
 typedef struct {
-	enum actions act;   // e.g. CONSUME
-	char *c_name;  // e.g. "eat"
-	list_t *synonyms;   // e.g. "drink" -> "use"
-	enum action_kind *kind; // e.g. KIND_1
+    enum actions act;   // e.g. CONSUME
+    char *c_name;  // e.g. "eat"
+    list_t *synonyms;   // e.g. "drink" -> "use"
+    enum action_kind *kind; // e.g. KIND_1
 } action_t;
 
 
