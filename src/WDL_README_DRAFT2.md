@@ -1,26 +1,4 @@
-The Game Object must contain the following fields:
- - start: <ROOM IDENTIFIER> used to specify the ID of the room that the game will start in.   
-   The given ID must have been assigned to a room defined below in the ROOM 
-   object (i.e. the room ID must exist, so if the start field has value 
-   “BEDROOM”, then there must be a room in the ROOM object that has the id “BEDROOM”).
-    - ex. A, BEDROOM, etc
- - intro: <STATEMENT WITH MAX LENGTH 500 CHAR> Introduction statement. A string description that is shown at the 
-   beginning of the game.
- - end: <CONDITION> a condition specification for how the game ends. This must be one of two ways:
-   1. The inventory contains a specific item
-   - Ex. inventory contains: emerald gem
-   2. The number of points that the player has accumulated
-   - Ex. num_points = 100
-
-
-EXAMPLE GAME:
- - start: KITCHEN
- - intro: “Welcome to the virtual house. You have been wandering for quite some time, 
-   and you need to determine how to return to reality.”
- - end:
-   - Inventory: red ruby
-
-ROOM file object:
+WDL FORMATTING RULES AND EXAMPLES
 
 - Each FILE OBJECT CATEGORY(ROOM,ITEM,or GAME) must be followed by a colon (:)
 - Fields apply to categories and subcategories, and are followed immediately bya colon(:). The information in the field is preceded by a space.
@@ -51,10 +29,14 @@ ROOMS:
       direction: DOWN
       through: trapdoor
 
+- For ITEMs, the format is the same as above, except for actions, the fields are indented with two spaces, followed by a dash.
+- This applies to the subcategories in action as well.
+- The fields within actions must be indented with a dash(-) as well.
+
 Format_ITEM:
 
 <FILE OBJECT CATEGORY>
-(the      following fields belong    to the above category)
+(the following fields belong to the above category)
   - id: <UNIQUE ID NAME>
     short_desc: <STRING DESCRIPTION>
     long_desc: <STRING DESCRIPTION>
@@ -91,4 +73,28 @@ ITEMS:
              - item: door
              - state: locked
              - value: NO
-								    
+
+
+- Same formatting rules as ROOM.
+
+Format_GAME:
+
+ - start: <ROOM IDENTIFIER> used to specify the ID of the room that the game will start in.   
+   The given ID must have been assigned to a room defined below in the ROOM 
+   object (i.e. the room ID must exist, so if the start field has value 
+   “BEDROOM”, then there must be a room in the ROOM object that has the id “BEDROOM”).
+    - ex. A, BEDROOM, etc
+ - intro: <STATEMENT WITH MAX LENGTH 500 CHAR> Introduction statement. A string description that is shown at the 
+   beginning of the game.
+ - end: <CONDITION> a condition specification for how the game ends. This must be one of two ways:
+   1. The inventory contains a specific item
+   - Ex. inventory contains: emerald gem
+   2. The number of points that the player has accumulated
+   - Ex. num_points = 100
+
+EXAMPLE GAME:
+ - start: KITCHEN
+ - intro: “Welcome to the virtual house. You have been wandering for quite some time, 
+   and you need to determine how to return to reality.”
+ - end:
+   - Inventory: red ruby
