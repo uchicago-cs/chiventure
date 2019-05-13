@@ -39,53 +39,47 @@ int assign(int how_north, int how_east, room_t* room)
 
     //returns SUCCESS if it has been assigned correctly, or failure if it has
     //already been assigned but to a different room id 
-    if(x == SUCCESS){
-      return SUCCESS;
-    } else {
-      return FAILURE; 
-      break;
-    }
+    if(x != SUCCESS)
+      return FAILURE;
 
-    //adds the coordinate to the hash_tablex
+    //adds the coordinate to the hash_table
 
-    coord_record_t *north_room = find_coord(how_north+1, how_east);
-    if (north_room != NULL) {
-      int north = assign(how_north+1, how_east, north_room->r);
+
+
+    room_t *find_room_north = find_room(room, 'north');
+    if (find_room_north != NULL) {
+      int north = assign(how_north+1, how_east, find_room_north);
       if (north == FAILURE) {
         return FAILURE;
-        break; 
       }
     } 
 
-    coord_record_t *east_room = find_coord(how_north, how_east+1);
-    if (east_room != NULL) {
-      int east = assign(how_north, how_east+1, east_room->r);
+    room_t *find_room_east = find_room(room, 'east');
+    if (find_room_east != NULL) {
+      int east = assign(how_north, how_east+1, find_room_east);
       if (east == FAILURE) {
         return FAILURE;
-        break; 
       }
     }
 
-    coord_record_t *south_room = find_coord(how_north-1, how_east);
-    if (south_room != NULL) {
-      int south = assign(how_north-1, how_east, south_room->r);
+ 
+    room_t *find_room_south = find_room(room, 'south');
+    if (find_room_south != NULL) {
+      int south = assign(how_north-1, how_east, find_room_south);
       if (south == FAILURE) {
-        return FAILURE;
-        break; 
+        return FAILURE; 
       }
     }
 
-    coord_record_t *west_room = find_coord(how_north, how_east-1);
-    if (west_room != NULL) {
-      int west = assign(how_north, how_east-1, west_room->r);
+    room_t *find_room_south = find_room(room, 'south');
+    if (find_room_south != NULL) {
+      int west = assign(how_north, how_east-1, find_room_south);
       if (west == FAILURE) {
         return FAILURE;
-        break; 
       }
     }
 
     return SUCCESS;
-    break;
   }
 }
  
