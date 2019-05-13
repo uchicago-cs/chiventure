@@ -193,6 +193,7 @@ int action_direction(game_t *g, action_t *a, direction_t *d);
 /* A function that executes KIND 3 actions (ACTION <npc>)
  * 
  * Parameters:
+ * - g: A game struct
  * - a: An action struct
  * - n: An npc struct
  * 
@@ -200,7 +201,7 @@ int action_direction(game_t *g, action_t *a, direction_t *d);
  * - 0 on success
  * - 1 on failure
  */
-int action_npc(action_t *a, npc_t *n);
+int action_npc(game_t *g, action_t *a, npc_t *n);
 
 
 /* A function that executes KIND 4 actions (ACTION <item> <npc>)
