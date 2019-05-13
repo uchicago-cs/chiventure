@@ -21,11 +21,6 @@ typedef struct attribute {
     attribute_value_t attribute_value;
 } attribute_t;
 
-f3args myunion;
-    myunion.int_val = 1;
-    int tmp = GET_ATTRIBUTE(int_val, myunion);
-    printf("%d\n", tmp);
-
 typedef struct attribute* attribute_hash_t;
 
 /* this object struct will include a door object to be used between rooms,
