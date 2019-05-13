@@ -3,8 +3,6 @@
 
 #include "game_state_common.h"
 
-typedef struct item* all_items_t;
-
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
     char *char_val;
@@ -102,7 +100,7 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
 
 int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, attribute_t* attribute);
 
-void* get_attribute(item_t* item);
+void* get_attribute(item_t* item, char* attribute_key);
 
 int change_attribute(attribute_t* attribute, attribute_value_t value);
 

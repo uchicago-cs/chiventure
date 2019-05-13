@@ -125,22 +125,55 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
     return 1;
 }
 
+/* add_item_to_room is in the room and player module */
+
+
 /* adding item attributes to item attribute hash */
 int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, attribute_t* attribute) {
     attribute_t* check;
     HASH_FIND_STR(attribute_hash, attribute_key, check);
     if (check != NULL) {
-        printf("Error: this attribute is already present.\n");
-        exit(1);
+        fprintf(stderr, "Error: this attribute is already present.\n");
+        return 0;
     }
     HASH_ADD_STR(attribute_hash, attribute_key, attribute);
     return 1;
 }
 
-void* get_attribute(item_t* item)
+int add_attribute_to_item(item_t* item, char *attribute_key, attribute_t* attribute)
 {
-    /*to do*/
-    return NULL;
+    int rv = add_attribute_to_hash(item->attributes, attribute_key, attribute);
+    return rv;
+}
+
+void* get_attribute(item_t* item, char* attribute_key)
+{
+    attribute_t* attribute;
+    attribute_hash_t attribute_hash = item->attributes;
+    HASH_FIND_STR(attribute_hash, attribute_key, attribute);
+    if (attribute == NULL) 
+    {
+        printf("Error: this attribute does not exist\n");
+        return NULL;
+    }
+    switch(attribute->attribute_tag)
+    {
+        case(BOOLE):
+            return attribute->attribute_value.boole_val;
+            break;
+        case(CHARACTER):
+            return attribute->attribute_value.char_val;
+            break;
+        case(INTEGER):
+            return attribute->attribute_value.int_val;
+            break;
+        case(STRING):
+            return attribute->attribute_value.int_val;
+            break;
+    }
+    if (attribute == NULL) {
+        printf("Error: this attribute does not exist\n");
+    }
 }
 
 
@@ -171,6 +204,16 @@ int change_attribute(attribute_t* attribute, attribute_value_t value)
 //   }
 //   fprintf(stderr, "Attribute could not be changed");
 //   return 0;
+}
+
+int delete_all_items()
+{
+
+}
+
+int delete_all_attributes()
+{
+    
 }
 
 
