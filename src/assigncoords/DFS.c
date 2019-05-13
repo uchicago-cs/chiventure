@@ -92,4 +92,29 @@ int assign(int how_north, int how_east, room* room)
 }
  
 
+/* for basic testing of compilation
+ *Will implement much more testing later
+ */
+int main()
+{
+  coordmap = NULL;
+  coordmap = find_coord(1, 2);
+  if (coordmap == NULL)
+    fprintf(stdout,
+	    "find_coord: Successfully returns NULL when not found\n");
 
+  room_t *r = malloc(sizeof(room_t));
+  r->id = 1;
+  add_coord(0, 0, r);
+
+  int = assign(0, 0, r);
+  if (int == SUCCESS){
+    fprintf(stdout, "Successfully assigned coordinates")
+  }
+
+  //coord_record_t *a = NULL;
+  //coord_record_t *b = NULL;
+  //  HASH_ITER(hh, coordmap, a, b);
+
+  free(r);
+}

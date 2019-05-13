@@ -61,7 +61,7 @@ int add_coord(int x, int y, room_t *r)
     //uthash warning to use  memset when key is a structure
     memset(cr, 0, sizeof(coord_record_t));
     
-    cr->key = key;
+    cr->key = &key;
     cr->r = r;
     HASH_ADD(hh, coordmap, key, sizeof(coord_record_t), cr); 
     return SUCCESS;
