@@ -36,8 +36,7 @@ int assign(int how_north, int how_east, room* room)
   while (SUCCESS) {
     
     //checks if the coordinate has already been assigned
-    coord_record_t *coord_information = find_coord(how_north, how_east);
-    int = add_coord(how_north, how_east, coord_information);
+    int = add_coord(how_north, how_east, room);
 
     //returns SUCCESS if it has been assigned correctly, or failure if it has
     //already been assigned but to a different room id 
@@ -70,7 +69,7 @@ int assign(int how_north, int how_east, room* room)
 
     coord_record_t *south_room = find_coord(how_north-1, how_east);
     if (south_room != NULL) {
-      int south = assign(how_north+1, how_east, south_room->r);
+      int south = assign(how_north-1, how_east, south_room->r);
       if (south == FAILURE) {
         return FAILURE;
         break(); 
@@ -79,7 +78,7 @@ int assign(int how_north, int how_east, room* room)
 
     coord_record_t *west_room = find_coord(how_north, how_east-1);
     if (west_room != NULL) {
-      int west = assign(how_north+1, how_east, south_room->r);
+      int west = assign(how_north, how_east-1, west_room->r);
       if (west == FAILURE) {
         return FAILURE;
         break(); 
@@ -87,7 +86,7 @@ int assign(int how_north, int how_east, room* room)
     }
 
     return SUCCESS;
-    break;
+    break();
   }
 }
  
