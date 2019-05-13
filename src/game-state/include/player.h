@@ -25,11 +25,11 @@ typedef struct player {
     int level;
     int health;
     int xp;
-    all_items_t* inventory;
-    all_items_t* clothes;
+    item_hash_t *inventory;
+    item_hash_t *clothes;
 } player_t;
 
-typedef struct player* all_players_t;
+typedef struct player* player_hash_t;
 
 /*
  * Initializes a player
@@ -73,7 +73,7 @@ int player_free(player_t* plyr);
  * Returns:
  *  1 if successful, 0 if failed
  */
-void delete_all_players(all_players_t players);
+void delete_all_players(player_hash_t players);
 
 /*
  * Returns the health of a player
@@ -95,7 +95,7 @@ int get_health(player_t* plyr);
  * Returns:
  *  int, remaining health
  */
-int change_health(player_t* plyr);
+int change_health(player_t* plyr, int change, int max);
 
 /*
  * Returns the level of the player
@@ -117,7 +117,7 @@ int get_level(player_t* plyr);
  * Returns:
  *  int, the new level
  */
-int change_level(player_t* plyr);
+int change_level(player_t* plyr, int change);
 
 /*
  * Returns the experience points of the player
@@ -175,7 +175,7 @@ int add_inventory_item(item_t* item, player_t* plyr);
  * Returns:
  *  hashtable of items, the inventory
  */
-all_items_t* get_inventory(player_t* plyr);
+item_hash_t get_inventory(player_t* plyr);
 
 /*
  * Returns the inventory list
@@ -186,7 +186,7 @@ all_items_t* get_inventory(player_t* plyr);
  * Returns:
  *  hashtable of items, the clothes
  */
-all_items_t* get_clothes(player_t* plyr);
+item_hash_t get_clothes(player_t* plyr);
 
 
 #endif

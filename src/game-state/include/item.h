@@ -6,6 +6,8 @@
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
     double *double_val;
+    char *char_val;
+    bool *boole_val;
     char *str_val;
     int *int_val;
 } attribute_value_t;
@@ -91,16 +93,25 @@ char *get_long_desc(item_t *item);
 int take_item(item_t *item);
 
 // attribute_t* create_attribute(void* value, int type);
-attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
+//attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
+attribute_t* create_attribute(void* value, enum attribute_tag type);
 
 int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
 
 int add_attribute_to_hash(attribute_hash_t attribute_hash, char *attribute_key, attribute_t* attribute);
 
-void* get_attribute(item_t* item);
 
-int change_attribute(attribute_t* attribute, attribute_value_t value);
+int item_free(item_t *item);
 
+int attribute_free(attribute_t *attribute);
+
+int delete_all_items(item_hash_t items);
+
+int delete_all_attributes(attribute_hash_t attributes);
+
+void* get_attribute(item_t* item, char* attribute_key);
+
+int change_attribute(item_t* item, char* attribute_key, void* new_attribute);
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
 create a function that changes an atttribute,
 

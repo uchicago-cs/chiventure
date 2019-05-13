@@ -1,49 +1,27 @@
 #ifndef _ROOM_H
 #define _ROOM_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "utlist.h"
-#include "uthash.h"
+#include "game_state_common.h"
 #include "item.h"
-
-typedef struct room* all_rooms_t;
-
-/* Forward declaration of linked list */
-typedef struct exit {
-    /* fields used for linked list */
-    struct exit *next, *prev;
-
-    /* add necessary exit/door info here */
-
-} exit_t;
+#include "path.h"
 
 /* This struct represents a single room, which includes a
- * short and long description of the room, a list of items to be
- * found there, and a list of doors accessible from the room.
- * Each exit will be an object (door) struct that connects to another room
- * and has a locked/unlocked quality.
- */
-
-typedef struct coord {
-    int x;
-    int y;
-} coord_t;
-
+ * short and long description of the room, a hashtable of items to be
+ * found there, and a hashtable of paths accessible from the room. */
 typedef struct room {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
 
-    int room_id;
-    coord_t coord;
+    char *room_id;
     char *short_desc;
     char *long_desc;
     /* a hashtable of all items in the room */
-    item_t* items;
-    /* an adjacency list (using linked list) of adjacent rooms */
-    exit_t *exits;
+    item_hash_t items;
+    /* a hashtable of all paths from the room */
+    path_hash_t paths;
 } room_t;
+
+typedef struct room* room_hash_t;
 
 /* Mallocs space for a new room
  *
@@ -56,7 +34,7 @@ typedef struct room {
  * Returns:
  *  a pointer to new room
  */
-room_t *room_new(char *short_desc, char *long_desc, all_items_t *items, exit_t *exits);
+room_t *room_new(char *room_id, char *short_desc, char *long_desc, item_hash_t items, path_hash_t paths);
 
 /* Frees the space in memory taken by given room
  *
@@ -66,8 +44,7 @@ room_t *room_new(char *short_desc, char *long_desc, all_items_t *items, exit_t *
  * Returns:
  *  1 if successful, 0 if failed
  */
-int free_room(room_t *room);
-
+int room_free(room_t *room);
 
 /* Adds a room to the given hashtable of rooms
  *
@@ -78,7 +55,7 @@ int free_room(room_t *room);
  * Returns:
  *  1 if successful, 0 if failed
  */
-int add_room_to_hash(all_rooms_t all_rooms, int room_id, room_t *room);
+int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room);
 
 /* Deletes a hashtable of rooms
  * Implemented with macros provided by uthash.h
@@ -88,7 +65,7 @@ int add_room_to_hash(all_rooms_t all_rooms, int room_id, room_t *room);
  * Returns:
  *  1 if successful, 0 if failed
  */
-int delete_all_rooms(all_rooms_t rooms);
+int delete_all_rooms(room_hash_t rooms);
 
 
 #endif

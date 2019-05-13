@@ -48,7 +48,7 @@ int player_free(player_t* plyr)
     return SUCCESS;
 }
 
-void delete_all_players(all_players_t players) {
+void delete_all_players(player_hash_t players) {
     player_t *current_player, *tmp;
     HASH_ITER(hh, players, current_player, tmp) {
         HASH_DEL(players, current_player);  /* delete it (players advances to next) */
@@ -59,29 +59,31 @@ void delete_all_players(all_players_t players) {
 /* See player.h */
 int get_health(player_t* plyr)
 {
-	//TODO
-	return -1;
+	return plyr->health;
 }
 
 /* See player.h */
-int change_health(player_t* plyr)
+int change_health(player_t* plyr, int change, int max)
 {
-	//TODO
-	return -1;
+    if((plyr->health + change) < max) {
+        plyr->health += change;
+    } else {
+        plyr->health = max;
+    }
+	return plyr->health;
 }
 
 /* See player.h */
 int get_level(player_t* plyr)
 {
-	//TODO
-	return -1;
+    return plyr->level;
 }
 
 /* See player.h */
-int change_level(player_t* plyr)
+int change_level(player_t* plyr, int change)
 {
-	//TODO
-	return -1;
+	plyr->level += change;
+    return plyr->level;
 }
 
 /* See player.h */
@@ -94,8 +96,8 @@ int get_xp(player_t* plyr)
 /* See player.h */
 int change_xp(player_t* plyr, int points)
 {
-	//TODO
-	return -1;
+	plyr->xp += points;
+	return plyr->xp;
 }
 
 
@@ -113,14 +115,14 @@ int add_inventory_item(item_t* item, player_t* plyr)
 }
 
 
-all_items_t* get_inventory(player_t* plyr)
+item_hash_t get_inventory(player_t* plyr)
 {
 	//TODO
 	return NULL;
 }
 
 
-all_items_t* get_clothes(player_t* plyr)
+item_hash_t get_clothes(player_t* plyr)
 {
 	//TODO
 	return NULL;
