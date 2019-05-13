@@ -28,7 +28,7 @@ typedef struct game {
     room_t *curr_room;
 
     /* time when game started */
-    int time_start;
+    //int time_start;
 } game_t;
 
 

@@ -7,7 +7,7 @@ RM = rm -f
 BIN = test-rooms
 LDLIBS = -lcriterion 
 
-SRCS = main.c test_rooms.c
+SRCS = main.c test_rooms.c test_game.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all

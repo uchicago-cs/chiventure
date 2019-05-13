@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "path.h"
 
+
 /* See path.h */
 int delete_all_conditions(condition_t *conditions) {
     condition_t *elt, *tmp;
@@ -52,28 +53,9 @@ int delete_all_paths(path_hash_t paths) {
     return 1;
 }
 
+/* TO-DO
+* FOR WDL
+* Figure out way to create path struct
+*/ 
 
-/* Get list of paths from room
- *
- * Parameters:
- *  pointer to room
- *
- * Returns:
- *  pointer to hashtable of paths from room
- */
-path_t *list_paths(room_t *room) {
-  return room->paths;
-}
 
-//returns path to given room given hashtable of paths and room id
-path_t *path_to_room(path_hash_t paths, char* room_id) {
-  path_t *path;
-  HASH_FIND_STR(paths, room_id, path);
-  return path;
-}
-
-/* FOR ACTION MANAGEMENT
-* go through hashtable of attributes
-* check path for equal
-* see item.h for fxn that checks equality
-*/
