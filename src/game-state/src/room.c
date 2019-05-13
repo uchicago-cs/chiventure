@@ -82,6 +82,19 @@ item_hash_t list_items(room_t *room) {
   return room->items;
 }
 
+//returns path to given room given hashtable of paths and room id
+path_t *path_to_room(path_hash_t paths, char* room_id) {
+  path_t *path;
+  HASH_FIND_STR(paths, room_id, path);
+  return path;
+}
+
+/* FOR ACTION MANAGEMENT
+* go through hashtable of attributes
+* check path for equal
+* see item.h for fxn that checks equality
+*/
+
 
 
 
