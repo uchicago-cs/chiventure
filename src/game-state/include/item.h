@@ -1,5 +1,5 @@
-#ifndef _OBJECT_H
-#define _OBJECT_H
+#ifndef _ITEM_H
+#define _ITEM_H
 
 #include "game_state_common.h"
 
