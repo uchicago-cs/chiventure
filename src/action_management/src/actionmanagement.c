@@ -9,20 +9,20 @@ action_t *action_new(enum actions act, char *c_name,
 		     list_t *synonyms, enum kind)
 {
   action_t *a = malloc(sizeof(action_t));
-  
+
   if (a == NULL)
     {
       error("Could not allocate memory");
       return NULL;
     }
-  
+
   int new_a = action_init(a, act, c_name, synonyms, parameters);
   if (new_a != SUCCESS)
     {
       fprintf(stderr, "Could not initialize this action");
       return NULL;
     }
-  
+
   return a;
 }
 
@@ -32,12 +32,12 @@ int action_init(action_t *a, enum actions act, char *c_name,
 		list_t *synonyms, enum kind)
 {
   assert(a);
-  
+
   a->actions = act;
   a->c_name = cname;
   a->synonyms = synonyms;
   a->kind = kind;
-  
+
   return SUCCESS;
 }
 
@@ -58,32 +58,36 @@ int action_free(action_t *a)
 // ===========================================================
 
 //KIND 1
+/* See actionmanagement.h */
 int action_item(game_t *g, action_t *a, item_t *i)
 {
-	//actions involving inventory
-	while (g->all_players_t->inventory)
-	{
-		//if i is in inventory of the player
-		if (i == g->all_players_t->inventory->tagged_objs->object_type_t[i])
-		{
-		 	//is it able to be consumed	;
-			//remove from player inventory
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
+	assert(g);
+	assert(g->current_player); // assumes game_t has a field for current player
+	assert(a);
+	assert(i);
+	if (a->kind != ITEM_NPC) {
+		fprintf(stderr, "The action provided is not of the correct type");
+		return FAILURE;
 	}
-  //actions involving only items
-
-  //this still needs work
+	/* function needs to be implemented by game state
+	 * takes in a player, npc, and item
+	 * removes object from inventory
+	 * frees object if necessary
+	 * returns 1 if success, 0 if failed
+	 */
+	int given = remove_inventory_object(g->current_player, i);
+	//ex if "OPEN DOOR", game state needs to change the state of the door
+	if (given != SUCCESS) {
+		fprintf(stderr, "Object could not be moved from inventory");
+		return FAILURE;
+	}
+	return SUCCESS;
 
 }
 
-
+//KIND 3
 /* See actionmanagement.h */
-int action_npc(action_t *a, npc_t *n) // Kind 3
+int action_npc(action_t *a, npc_t *n)
 {
   assert(a);
   assert(n);
@@ -96,8 +100,9 @@ int action_npc(action_t *a, npc_t *n) // Kind 3
 }
 
 
+//KIND 4
 /* See actionmanagement.h */
-int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n) // Kind 4
+int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
 {
   assert(g);
   assert(g->current_player); // assumes game_t has a field for current player
@@ -108,7 +113,7 @@ int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n) // Kind 4
     fprintf(stderr, "The action provided is not of the correct type");
     return FAILURE;
   }
-  /* function needs to be implemented by game state 
+  /* function needs to be implemented by game state
    * takes in a player, npc, and item
    * removes object from inventory
    * frees object if necessary
@@ -124,9 +129,11 @@ int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n) // Kind 4
 }
 
 
+
+//KIND 5
 /* See actionmanagement.h */
-int action_item_item(player_t *p, action_t *a, 
-		     item_t *direct, item_t *indirect) // Kind 5
+int action_item_item(player_t *p, action_t *a,
+		     item_t *direct, item_t *indirect)
 {
   assert(p);
   assert(a);
