@@ -19,6 +19,24 @@ typedef struct {
   int id;
 } room_t;
 
+/*Dummy function
+ * need to ask game state if they are providing or if we nee
+ * to write this function ourselves
+ * PURPOSE:
+ * This function goes into current room and checks
+ * if a room exists in that direction.
+ * i.e.: Is there a room to the North?
+ *
+ * Will use game state's hash table
+ * Returns:
+ * - pointer to room if room exists in that direction
+ * - NULL if no room in that direction
+ */
+
+room_t *find_room(room_t *curr, char *direction);
+
+
+
 /* A coordinate in two-dimensional space */
 typedef struct {
     int x;
