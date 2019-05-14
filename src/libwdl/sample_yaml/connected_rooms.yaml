@@ -1,0 +1,25 @@
+#
+# Sample YAML file with two connected rooms
+#
+
+GAME:
+ - start: A
+ - intro: "This is the intro"
+ - end: B
+
+ROOMS:
+ - id: A
+   short_desc: "This is room A"
+   long_desc: "This is room A long"
+   connections:
+    - to: B
+      direction: north
+      through: door
+
+ - id: B
+   short_desc: "This is room B"
+   long_desc: "This is room B long"
+   connections:
+    - to: A
+      direction: south
+      through: door
