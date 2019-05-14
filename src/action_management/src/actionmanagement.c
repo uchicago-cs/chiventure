@@ -75,7 +75,7 @@ int *get_action_kind(action_t *a)
 /* See actionmanagement.h */
 list_t *get_supported_actions(enum action_kind *kind)
 {
-    switch(kind)
+    switch (kind)
     {
         case ITEM:
             list_t *actions_kind1 = get_actions_kind1();
@@ -97,7 +97,7 @@ list_t *get_supported_actions(enum action_kind *kind)
 
 // ===========================================================
 
-//KIND 1
+// KIND 1
 /* See actionmanagement.h */
 int action_item(game_t *g, action_t *a, item_t *i)
 {
@@ -109,24 +109,64 @@ int action_item(game_t *g, action_t *a, item_t *i)
         fprintf(stderr, "The action provided is not of the correct type.\n");
         return FAILURE;
     }
-    /* function needs to be implemented by game state
-     * takes in a player, npc, and item
-     * removes object from inventory
-     * frees object if necessary
-     * returns 0 if success, 1 if failed
-     */
-    int given = remove_inventory_object(g->current_player, i);
-    // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
-    //ex if "OPEN DOOR", game state needs to change the state of the door
-    if (given != SUCCESS) {
-        fprintf(stderr, "Object could not be moved from inventory.\n");
+    switch (a->act) {
+    case 'PUSH':
+    case 'PULL':
+    case 'OPEN':
+    case 'CLOSE':
+    case 'TURN_ON':
+    case 'TURN_OFF':
+      // non-existent function implemented by game state
+      // turns things from on to off, open to closed, pushed to pulled vice versa
+      int toggle = toggle_condition(g, a, i);
+      if (toggle != SUCCESS) {
+	fprintf(stderr, "%s failed", a->c_name);
+	return FAILURE;
+      }
+    case 'EXAMINE':
+      // function implemented by game state
+      int describe = get_long_desc(i);
+      if (describe != SUCCESS) {
+	fprintf(stderr, "%s failed", a->c_name);
+	return FAILURE;
+      }
+    case 'DROP':
+      // non-existent function to be implemented by game state
+      int drop = remove_inventory_object(g->current_player, i);
+      if (drop != SUCCESS) {
+        fprintf(stderr, "Object could not be removed from inventory.\n");
         return FAILURE;
-    }
+      }
+    case 'TAKE':
+      // function implemented by game state
+      int take = take_object(i);
+      if (take != SUCCESS) {
+	fprintf(stderr, "item can't be taken");
+	return FAILURE;
+      }
+      // function implemented by game state
+      int add = add_inventory_item(i, g->current_player);
+      if (add != SUCCESS) {
+	fprintf(stderr, "item was not taken");
+	return FAILURE;
+      }
+    case 'CONSUME':
+      // non-existent function to be implemented by game state
+      int consumed = remove_inventory_object(g->current_player, i);
+      if (consumed != SUCCESS) {
+        fprintf(stderr, "Object could not be removed from inventory.\n");
+        return FAILURE;
+      }
+      // function implemented by game state
+      int boosted = change_health(g->current_player, i->change, 
+				g->current_player->max_health);
+      if (boosted) {
+	fprintf(stderr, "Player's health is %d", boosted);
+      }
     return SUCCESS;
-
 }
 
-//KIND 2
+// KIND 2
 /* See actionmanagement.h */
 int action_direction(game_t *g, action_t *a, direction_t *d)
 {
@@ -164,17 +204,16 @@ int action_npc(game_t *g, action_t *a, npc_t *n)
     fprintf(stderr, "NPC is not in room.\n");
     return FAILURE;
   }
-  else {
-    // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
-    int talked = player_talk(g->current_player, n); 
-    if (talked == SUCCESS) {
-      return SUCCESS;
-    } else {
-      fprintf(stderr, "Player was unable to talk to NPC.\n");
-      return FAILURE;
-    }
+  // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
+  int talked = player_talk(g->current_player, n); 
+  if (talked == SUCCESS) {
+    return SUCCESS;
+  } else {
+    fprintf(stderr, "Player was unable to talk to NPC.\n");
+    return FAILURE;
   }
 }
+
 
 
 // KIND 4
@@ -190,12 +229,7 @@ int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
     fprintf(stderr, "The action provided is not of the correct type.\n");
     return FAILURE;
   }
-  /* function needs to be implemented by game state
-   * takes in a player, npc, and item
-   * removes object from inventory
-   * frees object if necessary
-   * returns 1 if success, 0 if failed
-   */
+  // non-existent function to be implemented by game state
   int given = remove_inventory_object(g->current_player, i);
   if (given != SUCCESS) {
     fprintf(stderr, "Object could not be moved from inventory.\n");
@@ -220,6 +254,7 @@ int action_item_item(player_t *p, action_t *a,
     fprintf(stderr, "The action provided is not of the correct type.\n");
     return FAILURE;
   }
+  // non-existent function to be implemented by game state
   int moved = remove_inventory_object(g->current_player, i);
   if (moved != SUCCESS) {
     fprintf(stderr, "Object could not be moved from inventory.\n");
