@@ -3,23 +3,23 @@
 #
 
 GAME:
- - start: A
+ - start: "room1"
  - intro: "This is the intro"
- - end: B
+ - end: "room2"
 
 ROOMS:
- - id: A
+ - id: "room1"
    short_desc: "This is room A"
    long_desc: "This is room A long"
    connections:
-    - to: B
+    - to: "room2"
       direction: north
       through: door
 
- - id: B
+ - id: "room1"
    short_desc: "This is room B"
    long_desc: "This is room B long"
    connections:
-    - to: A
+    - to: "room1"
       direction: south
       through: door
