@@ -15,7 +15,7 @@
  * Can pass it around as an argument instead if we need to */
 coord_record_t *coordmap;
 
-int begin_depth_first_search(/*may pass in info from WDL*/)
+int check_valid_map(/*may pass in info from WDL*/)
 {
   //Set hash to NULL
   coordmap = NULL;
@@ -28,7 +28,10 @@ int begin_depth_first_search(/*may pass in info from WDL*/)
   return r;
 }
 
-
+room_t *find_room(room_t *room, char* direction)
+{
+  
+}
 
 int assign(int how_north, int how_east, room_t* room) 
 {
