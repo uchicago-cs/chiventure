@@ -250,10 +250,5 @@ int delete_all_attributes(attribute_hash_t attributes)
 /* See item.h */
 int delete_item_attributes(item_t* item)
 {
-<<<<<<< HEAD
-
-}
-=======
     return delete_all_attributes(item->attributes);
 }
->>>>>>> a0f0ef90518c25ce555a18865fe7774e9b4ac4ae
