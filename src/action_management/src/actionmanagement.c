@@ -110,12 +110,12 @@ int action_item(game_t *g, action_t *a, item_t *i)
         return FAILURE;
     }
     switch (a->act) {
-    case 'PUSH':
-    case 'PULL':
-    case 'OPEN':
-    case 'CLOSE':
-    case 'TURN_ON':
-    case 'TURN_OFF':
+    case PUSH:
+    case PULL:
+    case OPEN:
+    case CLOSE:
+    case TURN_ON:
+    case TURN_OFF:
       // non-existent function implemented by game state
       // turns things from on to off, open to closed, pushed to pulled vice versa
       int toggle = toggle_condition(g, a, i);
@@ -123,21 +123,21 @@ int action_item(game_t *g, action_t *a, item_t *i)
 	fprintf(stderr, "%s failed", a->c_name);
 	return FAILURE;
       }
-    case 'EXAMINE':
+    case EXAMINE:
       // function implemented by game state
       int describe = get_long_desc(i);
       if (describe != SUCCESS) {
 	fprintf(stderr, "%s failed", a->c_name);
 	return FAILURE;
       }
-    case 'DROP':
+    case DROP:
       // non-existent function to be implemented by game state
       int drop = remove_inventory_object(g->current_player, i);
       if (drop != SUCCESS) {
         fprintf(stderr, "Object could not be removed from inventory.\n");
         return FAILURE;
       }
-    case 'TAKE':
+    case TAKE:
       // function implemented by game state
       int take = take_object(i);
       if (take != SUCCESS) {
@@ -150,7 +150,7 @@ int action_item(game_t *g, action_t *a, item_t *i)
 	fprintf(stderr, "item was not taken");
 	return FAILURE;
       }
-    case 'CONSUME':
+    case CONSUME:
       // non-existent function to be implemented by game state
       int consumed = remove_inventory_object(g->current_player, i);
       if (consumed != SUCCESS) {
