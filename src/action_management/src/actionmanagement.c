@@ -152,6 +152,7 @@ int action_direction(game_t *g, action_t *a, direction_t *d)
 int action_npc(game_t *g, action_t *a, npc_t *n)
 {
     assert(g);
+  assert(g->current_player);
   assert(a);
   assert(n);
   if (a->kind != NPC) {
