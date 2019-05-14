@@ -67,6 +67,10 @@ int add_coord(int x, int y, room_t *r)
 /* for basic testing of compilation
  * Will implement much more testing later
  */
+
+/* This compiles but has been moved to coord_example.c 
+ * in ../examples/
+
 int main()
 {
   coordmap = NULL;
@@ -108,3 +112,4 @@ int main()
   free(g);
 }
 
+*/
