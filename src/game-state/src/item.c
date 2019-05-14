@@ -284,7 +284,7 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
             }
             break;
         case(STRING):
-            if (!strtcmp(attribute_1->attribute_value,attribute_2->attribute_value.str_val))
+            if (!strcmp(attribute_1->attribute_value.str_val,attribute_2->attribute_value.str_val))
             {
                 comparison = 1;
             }
