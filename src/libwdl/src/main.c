@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
     }
 
     // Create new, malloc'ed, blank "document" object
-    obj_t* doc_obj = obj_new("DOCUMENT");
+    obj_t* doc_obj = obj_new("document");
 
     // Call parse_game to fill in object
     parse_game(fname, doc_obj);
@@ -44,8 +44,8 @@ int main(int argc, char* argv[])
 
     // Extract individual objects
     obj_t *room_obj = obj_get_attr(doc_obj, "ROOMS", false);
+    obj_t *item_obj = obj_get_attr(doc_obj, "ITEMS", false);
     obj_t *game_obj = obj_get_attr(doc_obj, "GAME", false);
-    obj_t *item_obj = obj_get_attr(doc_obj, "ITEM", false);
 
     // Extract list of rooms and items
     attr_list_t *rooms_ls = obj_list_attr(room_obj);
