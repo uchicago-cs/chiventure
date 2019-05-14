@@ -14,4 +14,7 @@
 #define MAX_SDESC_LEN 50
 #define MAX_LDESC_LEN 300
 
+#define SUCCESS 1
+#define FAILURE 1
+
 #endif

@@ -1,11 +1,7 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "utlist.h"
-#include "uthash.h"
+#include "game_state_common.h"
 #include "player.h"
 #include "room.h"
 #include "item.h"
