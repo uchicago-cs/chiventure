@@ -5,7 +5,6 @@
 
 coord_record_t *coordmap;
 
-
 void coord_init(coordinate_t *c, int x, int y)
 {
   assert (c != NULL);

@@ -14,11 +14,22 @@
 #define SUCCESS 1
 #define FAILURE 0
 
+
+/*A dummy struct to mimic the hash that we expect
+ * game state to create, based on their communication with us!
+ */
+typedef struct {
+  char *key; /* direction */
+  room_t *adj; /*adjacent room in that direction*/
+  UT_hash_handle hh;
+} room_hash_t;
+
 /*Dummy room struct */
 typedef struct {
   int id;
+  room_hash_t hash;
 } room_t;
-
+  
 /*Dummy function
  * need to ask game state if they are providing or if we nee
  * to write this function ourselves
@@ -34,6 +45,7 @@ typedef struct {
  */
 
 room_t *find_room(room_t *curr, char *direction);
+
 
 
 
