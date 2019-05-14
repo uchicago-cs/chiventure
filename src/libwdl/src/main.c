@@ -5,12 +5,6 @@
 #include "parse.h"
 #include "validate.h"
 
-bool test_room(obj_t *obj)
-{
-    printf("short desc: %s\n", obj_get_str(obj, "short_desc"));
-    return true;
-}
-    
 
 int main(int argc, char* argv[])
 {
@@ -45,54 +39,22 @@ int main(int argc, char* argv[])
     // Call parse_game to fill in object
     parse_game(fname, obj);
 
-    // Verify game and print game arguments
-//    char *game_s = "GAME.0";
-//    char *game_i = "GAME.1";
-//    if (verify_game(obj, game_s, game_i)) {
-//        printf("\nGame is valid.\n");
-//        print_game(obj, game_s, game_i);
-//    }
-//    else
-//        printf("\nGame is not valid.\n");
+    // Stream of functions to verify the attributes of objects parsed from the
+    // YAML file
 
-    // Verify room and print room arguments
-//    char *room_a = "ROOMS.0";
-//    char *room_b = "ROOMS.1";
-//    char *room_c = "ROOMS.2";
-//    char *rooms[3] = {room_a, room_b, room_c};
-//    for (int i = 0; i < 3; ++i) {
-//        if (verify_room(obj, rooms[i])) {
-//            printf("\nRoom is valid.\n");
-//            print_room(obj, rooms[i]);
-//        }
-//        else
-//            printf("\nRoom is not valid\n");
-//    }
+    // Verify rooms
+    obj_t *room_obj = obj_get_attr(obj, "ROOMS", false);
+    attr_list_t *rooms_ls = obj_list_attr(room_obj);
+    bool roomcheck = list_type_check(rooms_ls, room_type_check);
 
-    // Print item arguments
-//    char *item_table = "ITEMS.0";
-//    char *item_chair = "ITEMS.1";
-//    char *item_candle = "ITEMS.2";
-//    char *items[3] = {item_table, item_candle, item_chair};
-//    for (int i = 0; i < 3; ++i) {
-//        if (verify_item(obj, items[i])) {
-//            printf("\nItem is valid.\n");
-//            print_item(obj, items[i]);
-//        }
-//        else
-//            printf("\nItem is not valid.\n");
-//   }
-
-    obj_t *rooms = obj_get_attr(obj, "ROOMS", false);
-    bool roomcheck = list_type_check(obj_list_attr(rooms), room_type_check);
     if (roomcheck)
-    {
-        printf("it worked\n");
-    }
-    else 
-        printf("it didn't work\n");
+        printf("Rooms successfully verified\n");
 
-    list_print(obj_list_attr(rooms), test_room);
+    else
+        printf("Rooms unsuccessfully verified\n");
+
+    // Print rooms
+    list_print(rooms_ls, print_room);
 
     return 0;
 }

@@ -11,23 +11,52 @@
 #include <stdbool.h>
 #include "parser.h"
 
-/*
- * These functions print out the short description and long description of an
- * object given the "document" object and string of the specified object e.g.
- * "OBJECTS.0" for the first object specified within the YAML file
- * Parameters:
- * - obj: The document object
- * - str: The string of the specified object
- * Side-effects:
- * - Prints out information of the inputted object string, specifically the
- *   short and long descriptions of rooms and items and the introduction and
- *   start of the game
+/* print_item
+ * prints the attributes associated with the item: id, short_desc, long_desc,
+ * in, and state
+ *
+ * parameters:
+ * - item object
+ *
+ * side effects:
+ * - prints out associated attributes of item object
  */
-void print_item(obj_t *obj, char *str);
+void print_item(obj_t *obj);
 
-void print_room(obj_t *obj, char *str);
+/* print_room
+ * prints the attributes associated with the room: id, short_desc, long_desc,
+ * and connections
+ *
+ * parameters:
+ * - room object
+ *
+ * side effects:
+ * - prints out associated attributes of room object
+ */
+void print_room(obj_t *obj);
 
-void print_game(obj_t *obj, char *str1, char *str2);
+/* print_game
+ * prints the attributes associated with the game: start, intro
+ *
+ * parameters:
+ * - game object
+ *
+ * side effects:
+ * - prints out associated attributes of game object
+ */
+void print_game(obj_t *obj);
+
+/* print_document
+ * essentially prints out the attributes of the entire game in this order:
+ * game, room, item
+ *
+ * parameters:
+ * - document object
+ *
+ * side effects:
+ * - prints out associated attributes of document object
+ */
+ void print_documents(obj_t *obj);
 
 /* list_type_check()
  * a function to automate type checking,
