@@ -61,8 +61,6 @@ attribute_t* create_attribute(void* value, enum attribute_tag type);
 
 int attribute_free(attribute_t *attribute);
 
-void* get_attribute(item_t* item, char* attribute_key);
-
 
 
 // ATTRIBUTE ADDITION FUNCTIONS -----------------------------------------------
@@ -100,8 +98,19 @@ int replace_double_attr(item_t *item, char* attr_name, double new_value);
 
 int replace_bool_attr(item_t *item, char* attr_name, bool new_value);
 
+// ATTRIBUTE GET FUNCTIONS --------------------------------------------
+// the following functions allow their users to get (read: retrieve)
+// attributes associated with an item using the name of the attribute
 
+char* get_str_attr(item_t *item, char* attr_name);
 
+int get_int_attr(item_t *item, char* attr_name);
+
+double get_double_attr(item_t *item, char* attr_name);
+
+char get_char_attr(item_t *item, char* attr_name);
+
+bool get_bool_attr(item_t *item, char* attr_name);
 
 
 // DELETION FUNCTIONS -----------------------------------------------

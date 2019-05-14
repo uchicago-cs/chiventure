@@ -1,5 +1,6 @@
 /* Implementations of the item struct */
 #include "item.h"
+#include <string.h>
 
 /* item_init() initializes an item struct with given values
     arguments are taken from WDL
@@ -122,7 +123,7 @@ int create_new_int_attr(item_t* item, char* attr_name, int value)
     return rv;
 }
 
-attribute_t *replace_attribute(item_t *item, char *attr_name) {
+attribute_t *get_attribute(item_t *item, char *attr_name) {
     attribute_t* return_value;
     attribute_hash_t attribute_hash = item->attributes;
     HASH_FIND_STR(attribute_hash, attr_name, return_value);
@@ -135,9 +136,10 @@ attribute_t *replace_attribute(item_t *item, char *attr_name) {
 
 int replace_str_attr(item_t *item, char* attr_name, char *new_value) {
 
-  attribute_t* res = replace_attribute(item, attr_name);
+  attribute_t* res = get_attribute(item, attr_name);
   if (res == NULL) {
     fprintf(stderr, "Error: attribute replacement failed.\n");
+    return 0;
   }
 
   res->attribute_value.str_val = new_value;
@@ -147,9 +149,10 @@ int replace_str_attr(item_t *item, char* attr_name, char *new_value) {
 
 int replace_int_attr(item_t *item, char* attr_name, int new_value) {
 
-  attribute_t* res = replace_attribute(item, attr_name);
+  attribute_t* res = get_attribute(item, attr_name);
   if (res == NULL) {
     fprintf(stderr, "Error: attribute replacement failed.\n");
+    return 0;
   }
 
   res->attribute_value.int_val = new_value;
@@ -159,9 +162,10 @@ int replace_int_attr(item_t *item, char* attr_name, int new_value) {
 
 int replace_double_attr(item_t *item, char* attr_name, double new_value) {
 
-  attribute_t* res = replace_attribute(item, attr_name);
+  attribute_t* res = get_attribute(item, attr_name);
   if (res == NULL) {
     fprintf(stderr, "Error: attribute replacement failed.\n");
+    return 0;
   }
 
   res->attribute_value.double_val = new_value;
@@ -171,9 +175,10 @@ int replace_double_attr(item_t *item, char* attr_name, double new_value) {
 
 int replace_char_attr(item_t *item, char* attr_name, char new_value) {
 
-  attribute_t* res = replace_attribute(item, attr_name);
+  attribute_t* res = get_attribute(item, attr_name);
   if (res == NULL) {
     fprintf(stderr, "Error: attribute replacement failed.\n");
+    return 0;
   }
 
   res->attribute_value.char_val = new_value;
@@ -183,18 +188,116 @@ int replace_char_attr(item_t *item, char* attr_name, char new_value) {
 
 int replace_bool_attr(item_t *item, char* attr_name, bool new_value) {
 
-  attribute_t* res = replace_attribute(item, attr_name);
+  attribute_t* res = get_attribute(item, attr_name);
   if (res == NULL) {
     fprintf(stderr, "Error: attribute replacement failed.\n");
+    return 0;
   }
 
   res->attribute_value.bool_val = new_value;
 
   return 1;
 }
-/* Need a function that checks if two attribute_value_ts are equal
-* TBD: Is this game-state or action management task?
-*/
+
+char* get_str_attr(item_t *item, char* attr_name) {
+
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
+  return res->attribute_value.str_val;
+}
+
+int get_int_attr(item_t *item, char* attr_name) {
+
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
+
+  return res->attribute_value.int_val;
+}
+
+double get_double_attr(item_t *item, char* attr_name) {
+
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
+
+  return res->attribute_value.double_val;
+}
+
+char get_char_attr(item_t *item, char* attr_name) {
+
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
+
+  return res->attribute_value.char_val;
+}
+
+bool get_bool_attr(item_t *item, char* attr_name) {
+
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
+
+  return res->attribute_value.bool_val;
+}
+
+int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
+{
+    attribute_t* attribute_1 = get_attribute(item_1, attribute_name);
+    attribute_t* attribute_2 = get_attribute(item_2, attribute_name);
+    if(attribute_1==NULL || attribute_2==NULL)
+    {
+        fprintf(stderr, "Error: attribute does not exist for one or more items\n");
+        return -1;
+    }
+    if (attribute_1->attribute_tag != attribute_2->attribute_tag)
+    {
+        fprintf(stderr, "Error: could not compare attributes as they are of different types\n");
+        return -1;
+    }
+    int comparison = 0;
+    switch(attribute_1->attribute_tag)
+    {
+        case(DOUBLE):
+            if (attribute_1->attribute_value.double_val == attribute_2->attribute_value.double_val)
+            {
+                comparison = 1;
+            }
+            break;
+        case(BOOLE):
+            if (attribute_1->attribute_value.bool_val == attribute_2->attribute_value.bool_val)
+            {
+                comparison = 1;
+            }
+            break;
+        case(CHARACTER):
+            if (attribute_1->attribute_value.char_val == attribute_2->attribute_value.char_val)
+            {
+                comparison = 1;
+            }
+            break;
+        case(STRING):
+            if (!strtcmp(attribute_1->attribute_value,attribute_2->attribute_value.str_val))
+            {
+                comparison = 1;
+            }
+            break;
+        case(INTEGER):
+            if (attribute_1->attribute_value.int_val == attribute_2->attribute_value.int_val)
+            {
+                comparison = 1;
+            }
+            break;
+    }
+    return comparison;
+}
 
 int delete_all_attributes(attribute_hash_t attributes)
 {
