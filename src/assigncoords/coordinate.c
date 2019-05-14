@@ -20,9 +20,11 @@ void coord_init(coordinate_t *c, int x, int y)
 coord_record_t *find_coord(int x, int y)
 {
   coordinate_t *key = malloc(sizeof(coordinate_t));
+
   memset(key, 0, sizeof(coordinate_t));
   coord_init(key, x, y);
-  coord_record_t *cr = NULL;
+  coord_record_t *cr = malloc(sizeof(coord_record_t));
+  memset(cr, 0, sizeof(coord_record_t));
   HASH_FIND(hh, coordmap, key, sizeof(coordinate_t), cr);
 
   return cr;
@@ -46,8 +48,8 @@ coord_record_t *find_coord(int x, int y)
  */
 int add_coord(int x, int y, room_t *r)
 {
-  coordinate_t *key = malloc(sizeof(coordinate_t));
-  memset(key, 0, sizeof(coordinate_t));
+  //coordinate_t *key = malloc(sizeof(coordinate_t));
+  //memset(key, 0, sizeof(coordinate_t));
   
   coord_record_t *cr = find_coord(x, y);
 
@@ -56,15 +58,14 @@ int add_coord(int x, int y, room_t *r)
     
     /* Only runs if find_coord does not find coord
     already existing in hashtable */
-    coord_init(key, x, y);
-    cr = malloc(sizeof(coord_record_t));
 
-    //uthash warning to use  memset when key is a structure
-    //memset(cr, 0, sizeof(coord_record_t));
-    
-    cr->key = *key;
+    //coord_init(key, x, y);
+    cr = malloc(sizeof(coord_record_t));
+    memset(cr, 0, sizeof(coord_record_t));    
+    cr->key.x = x;
+    cr->key.y = y;
     cr->r = r;
-    HASH_ADD(hh, coordmap, key, sizeof(coord_record_t), cr); 
+    HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr); 
     return SUCCESS;
   }
 
