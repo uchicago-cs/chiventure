@@ -49,8 +49,7 @@ typedef struct map{
   int lry;
 } map_t;
 
-//This is a global variable so that I can print error messages to a seperate file
-FILE *debug;
+
 
 //Function Declarations________________________________________________________
 //Initializes the ncurses window

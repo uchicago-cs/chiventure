@@ -34,7 +34,6 @@ void erase_ch (int y, int x){
  * - win: window pointer to draw window
  */
 void draw_room (int width, int height, int x, int y, room_t *room, WINDOW *win){
-  fprintf(debug,"Drawing room with w %i, h %i at (%i,%i)\n",width,height,x,y);
   //Calculate dimensions
   int top_len = width - 2;
   int side_ht = height -2;
@@ -92,7 +91,6 @@ void draw_rooms(room_t **rooms,int n, int left_x, int top_y, int z,map_t *map){
       y_offset = top_y + (room_h * y);// + map->yoff;
     
     //Draw room at x/y coordinate given, with preset w/h
-    // fprintf(debug,"Drawing room at x %i, y %i\n",x_offset, y_offset);
     draw_room(room_w, room_h, x_offset, y_offset,rooms[i],map->pad);
     }
   }
@@ -125,7 +123,6 @@ int *calculate_map_dims(room_t **rooms, int n){
   xyz[0] = x+1;
   xyz[1] = y+1;
   xyz[2] = z+1;
-  fprintf(debug,"Dims %i, %i, %i\n",xyz[0],xyz[1],xyz[2]);
   return xyz;
 }
 
@@ -179,7 +176,6 @@ int map_refresh(map_t *map, int x, int y, int z){
   map->padx = x;
   map->pady = y;
   map->padz = z;
-  //fprintf(debug, "Debugging refresh\n padx %i, pady %i\n",x,y);
 
   prefresh(map->pad, 0,0,map->uly,map->ulx,map->lry,map->lrx);
   return 0;
