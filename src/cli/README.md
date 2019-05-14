@@ -16,5 +16,7 @@ Besides this README, this directory includes the following files:
 
 - example/testshell.c runs an example shell that is used for demonstration and testing 
   To run the example shell, do
-  ```make test
-     ./example/testshell```
+  ```bash
+  make test
+  ./example/testshell
+  ```
