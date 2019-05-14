@@ -159,7 +159,7 @@ int action_npc(game_t *g, action_t *a, npc_t *n)
     return FAILURE;
   }
 
-  int talked = player_talk(n); // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
+  int talked = player_talk(g->current_player, n); // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
   if (talked == SUCCESS) {
       return SUCCESS;
   } else {
