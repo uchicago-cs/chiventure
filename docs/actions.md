@@ -40,7 +40,7 @@ These are the general conditions and requirements for NPC's.
 
 ### `<ITEM>`
 #### Conditions:
-- Item must be accessible by player
+- Item must be in the same room as the player
 - Item must be able to be affected by action
 - Item must be in a state where action can be affective
 - Item may need a certain attribute to be a certain value before action can be affective
@@ -59,7 +59,7 @@ These are the general conditions and requirements for NPC's.
 
 ### `<NPC>`
 #### Conditions:
-- NPC must be accessible
+- NPC must be in the same room as the player
 - NPC has the ability to be interacted with (possibly with specific item)
 
 #### Effects:
