@@ -5,15 +5,39 @@
  * See coordinate.h for coordiante struct reference.
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
 #include <math.h>
 #include "coordinate.h"
 
-/*For now, the hash will be a global variable.
+//#define NORTH "north"
+//#define EAST "east"
+
+/*
+ * For now, the hash will be a global variable.
  * Can pass it around as an argument instead if we need to */
 coord_record_t *coordmap;
+
+/* Temporary function:
+ * We will use the hashing functions provided by game state
+ * to access these paths in each room
+ */
+room_t *find_room(room_t *curr, char *direction)
+{
+  if (curr->hash == NULL) {
+    fprintf(stderr, "No adjacent rooms\n");
+    return NULL;
+  }
+  room_t *adj = NULL;
+  /*
+  room_hash_t *head = curr->hash;
+  else
+    HASH_FIND_STR(head, direction, adj);
+  */
+  return adj;
+}
 
 int begin_depth_first_search(/*may pass in info from WDL*/)
 {
@@ -45,16 +69,18 @@ int assign(int how_north, int how_east, room_t* room)
     //adds the coordinate to the hash_table
 
 
-
-    room_t *find_room_north = find_room(room, 'north');
+    char *north = (char*) malloc(6 * sizeof(char));
+    strcpy(test, "north");
+    
+    room_t *find_room_north = find_room(room, north);
     if (find_room_north != NULL) {
       int north = assign(how_north+1, how_east, find_room_north);
       if (north == FAILURE) {
         return FAILURE;
       }
     } 
-
-    room_t *find_room_east = find_room(room, 'east');
+    const char *east = EAST;
+    room_t *find_room_east = find_room(room, east);
     if (find_room_east != NULL) {
       int east = assign(how_north, how_east+1, find_room_east);
       if (east == FAILURE) {

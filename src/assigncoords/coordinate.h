@@ -14,18 +14,19 @@
 #define SUCCESS 1
 #define FAILURE 0
 
+struct room;
 
 /*A dummy struct to mimic the hash that we expect
  * game state to create, based on their communication with us!
  */
 typedef struct {
   char *key; /* direction */
-  room_t *adj; /*adjacent room in that direction*/
+  struct room *adj; /*adjacent room in that direction*/
   UT_hash_handle hh;
 } room_hash_t;
 
 /*Dummy room struct */
-typedef struct {
+typedef struct room {
   int id;
   room_hash_t hash;
 } room_t;
