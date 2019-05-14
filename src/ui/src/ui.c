@@ -5,12 +5,12 @@
 #include <stdbool.h>
 #include <signal.h>
 #include "general_ui.h"
-
+#include "ui.h"
 
 extern int line;
 extern int ch;
 
-int main(){
+void start_ui(){
 
     window_t *info;
     window_t *cli;
@@ -33,16 +33,7 @@ int main(){
     width = COLS;
 
 
-    printw("Press 1 if you want the CLI on top, anything else to continue");
-    // must refresh  every time a change is made to show change in screen
-    refresh();
 
-    // wait for key prss to determine position of cli
-    keypad(stdscr, TRUE);
-
-    if((ch = getch()) == '1'){
-        cli_top = 1;
-    }
 
     /* initializes the widows. there is one for score, one where maps could
      * be displayed, and the cli window
@@ -88,7 +79,7 @@ int main(){
         mvwin(info->w, (cli_top) * height, 0);
 
 
-        // redraws the top box
+        // redraws the info box
         box(info->w, 0, 0 );
 
         // detects ALt+key commands
@@ -105,7 +96,9 @@ int main(){
                 mainw = !mainw;
                 ch = 27;
             }
-
+            else if(ch == 's'){
+                cli_top = !cli_top;
+            }
         }
 
         cli->print(cli);
@@ -119,5 +112,4 @@ int main(){
     }
 
     endwin();			/* End curses mode		  */
-    return 0;
 }
