@@ -123,6 +123,7 @@ int action_item(game_t *g, action_t *a, item_t *i)
 	fprintf(stderr, "%s failed", a->c_name);
 	return FAILURE;
       }
+      break;
     case EXAMINE:
       // function implemented by game state
       int describe = get_long_desc(i);
@@ -130,6 +131,7 @@ int action_item(game_t *g, action_t *a, item_t *i)
 	fprintf(stderr, "%s failed", a->c_name);
 	return FAILURE;
       }
+      break;
     case DROP:
       // non-existent function to be implemented by game state
       int drop = remove_inventory_object(g->current_player, i);
@@ -150,6 +152,7 @@ int action_item(game_t *g, action_t *a, item_t *i)
 	fprintf(stderr, "item was not taken");
 	return FAILURE;
       }
+      break;
     case CONSUME:
       // non-existent function to be implemented by game state
       int consumed = remove_inventory_object(g->current_player, i);
@@ -163,6 +166,8 @@ int action_item(game_t *g, action_t *a, item_t *i)
       if (boosted) {
 	fprintf(stderr, "Player's health is %d", boosted);
       }
+      break;
+    }
     return SUCCESS;
 }
 
