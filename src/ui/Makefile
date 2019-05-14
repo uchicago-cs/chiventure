@@ -13,7 +13,7 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/ui.c src/general_ui.c src/map.c src/coordinates.c src/dfs.c
+SRCS = src/ui.c src/general_ui.c src/map.c src/coordinate.c src/DFS.c
 OBJS = $(SRCS:.c=.o)
 
 $(SRCS:.c=.d):%.d:%.c
