@@ -7,13 +7,7 @@
 
 ## A Visual Overview
 ![sturct image]
-(https://g.gravizo.com/svg?
- digraph G {  
-   game -> players -> items -> attributes;  
-   game -> rooms -> items;  
-   rooms -> paths -> conditions;  
- }  
-)
+(https://g.gravizo.com/svg?  digraph G {  game -> players -> items -> attributes;  game -> rooms -> items;  rooms -> paths -> conditions;  }  )
 
 ## The Game Module
 
