@@ -1,7 +1,7 @@
 #include "game.h"
 
 /* see game.h */
-game_t *init_game(FILE *f) {
+game_t *game_new() {
     game_t *game = malloc(sizeof(game_t));
     game->all_players = NULL; //helper fxn to get list of players
     game->all_rooms = NULL;
@@ -11,14 +11,6 @@ game_t *init_game(FILE *f) {
     return game;
 }
 
-/* See game.h */
-int save_game(game_t *game, FILE *f) {
-    int check = 0;
-
-    /* helpers to take game states and save them */
-
-    return check;
-}
 
 /* See game.h */
 void move_room(game_t *game, room_t *new_room) {
@@ -28,15 +20,17 @@ void move_room(game_t *game, room_t *new_room) {
 }
 
 /* See game.h */
-void exit_game(game_t *game) {
-    if (game != NULL) free_game(game);
+void game_quit(game_t *game) {
+    if (game != NULL) game_free(game);
     exit(0);
 }
 
-void free_game(game_t *game) {
+/* See game.h */
+int game_free(game_t *game) {
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
     free(game);
+    return 1;
 }
 
 

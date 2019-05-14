@@ -6,15 +6,8 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "utlist.h"
-#include "uthash.h"
+#include "game_state_common.h"
 #include "item.h"
-
-#define SUCCESS 1
-#define FAILURE 1
 
 /* A player in game */
 typedef struct player {
