@@ -14,7 +14,7 @@ Besides this README, this directory includes the following files:
 
 - operations.c and operations.h that will link the operations to actual actions.
 
-- example/testshell.c runs an example shell that is used for demonstration and testing 
+- example/testshell.c runs an example shell that is used for demonstration and testing\
   To run the example shell, do
   ```bash
   make test
