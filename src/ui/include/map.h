@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//TESTING Struct Declarations________________________________________________________
+// All of these structs will be replaced with real structs at a later stage
+
 //This is a test coordinate struct
 /* These two test structs will be replaced with real structs
 one communication with gamestate and calculation of coordinates
@@ -24,8 +27,10 @@ typedef struct room{
   char ex_s;
 } room_t;
 
-//This struct holds the pointer to the map's pad, the pad's max x and max y
-// and max z coordinates
+
+//Struct Declarations________________________________________________________
+/*The map struct holds a lot of crucial information for the performance
+  of all of the map functions*/ 
 typedef struct map{
   WINDOW *pad;
   room_t **rooms;
@@ -44,18 +49,16 @@ typedef struct map{
   int lry;
 } map_t;
 
+//This is a global variable so that I can print error messages to a seperate file
 FILE *debug;
 
-//Function Declarations
-
-//Initializes the ncurses indow
-void init();
+//Function Declarations________________________________________________________
+//Initializes the ncurses window
+void ncurses_init();
 
 //Erases a char in a specific location
 void erase_ch(int y, int x);
 
-//Draws a room at coordinates x,y of width 'witdh' and height 'height'
-void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win);
 
 //Draws a list of rooms starting at the coordinate given
 void draw_rooms(room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
@@ -86,7 +89,7 @@ map_t *map_init(room_t **rooms, int n);
  */
 int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry); 
 
-/* Updates the map to display with given coords as the pad's upper left corner
+/* Updates the map to display with given col/row number as the pad's upper left corner
  *
  * Inputs:
  * - map, a pointer to an initialized map struct
