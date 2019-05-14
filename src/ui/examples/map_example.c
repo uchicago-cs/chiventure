@@ -4,7 +4,6 @@
 #include "map.h"
 
 int main(){
-  debug = fopen("debug.txt","w");
   ncurses_init();
 
   
