@@ -7,7 +7,8 @@ Something that is part of the physical environment in a game (a single room, a s
 
 ##### - Object:
 A classification category for the components in a game
-Attribute: A trait that describes or serves to further define a component
+
+##### - Attribute: A trait that describes or serves to further define a component
 ##### - Attribute name:
 The name of an attribute
 
