@@ -223,7 +223,7 @@ void print_item(obj_t *obj)
     // print item attributes
     printf("ITEM: %s\n", obj_get_str(obj, "id"));
     printf("short_desc: %s\n", obj_get_str(obj, "short_desc"));
-    printf("long_desc: %s"\n, obj_get_str(obj, "long_desc"));
+    printf("long_desc: %s\n", obj_get_str(obj, "long_desc"));
     printf("in: %s\n", obj_get_str(obj, "in"));
     printf("state: %s \n", obj_get_str(obj, "state"));
     return;
