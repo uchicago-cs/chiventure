@@ -6,14 +6,13 @@
    Game State is responsible for managing the state of the game, such that all data within the game may be returned at any given moment, as the player travels through the world of the game. Due to the nature of this portion of the project, all work serves to provide a foundation for interaction between the work of Action Management, Command-Line Interface, World Description Language, Checkpointing, and User Interface. This entails the implementation of a number of important data structures and accompanying functions that alter these structures as the game progresses. These structures, divided into the modules outlined below, include an overall game struct, which contains a player, room, and item struct. 
 
 ## A Visual Overview
-
-<img src='https://g.gravizo.com/svg?
+![alt text](https://g.gravizo.com/svg?
  digraph G {  
    game -> players -> items -> attributes;  
    game -> rooms -> items;  
    rooms -> paths -> conditions;  
  }  
-'/>
+)
 
 ## The Game Module
 
