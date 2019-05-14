@@ -25,6 +25,42 @@ char *trim_newline(char *s)
   return t;
 }
 
+char *commandnames[] =
+  {
+    "LOOK",
+    "HELP",
+    "FIND",
+    "QUIT",
+    NULL
+  };
+
+char* command_name(const char *text, int state)
+{
+  static int index, len;
+  char *name;
+  if(!state)
+    {
+      index = 0;
+      len = strlen(text);
+    }
+  while((name = commandnames[index++])){
+    if (strncmp(name, text, len)==0) {
+      return strdup(name);
+    }
+  }
+  return NULL;
+}
+
+  /* Function that allows for autocompletion of commands written by user */
+char** command_complete(const char *text, int start, int end)
+{
+  rl_attempted_completion_over = 1;
+  return rl_completion_matches(text, command_name);
+}
+ 
+
+
+
 /* ===================================== */
 /* ==== run the chiventure  shell  ===== */
 /* ===================================== */
@@ -36,10 +72,10 @@ int main()
     greet();
     //rl_bind_key('\t', rl_complete); // Configure readline to auto-complete paths when the tab key is hit.
     using_history();
-
     while (quit) {
-        // Display prompt and read input
-        char* input = readline("chiventure (enter HELP for help)> ");
+      rl_attempted_completion_function = command_complete;
+      // Display prompt and read input
+      char* input = readline("chiventure (enter HELP for help)> ");
 
 	cmd_string = trim_newline(input);
         putchar('\n');
