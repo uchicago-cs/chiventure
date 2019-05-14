@@ -4,11 +4,8 @@
 #include <stdbool.h>
 #include "parse_document.h"
 
-/*
- * input:
- *  - attr_list_t *ls: a list of the rooms in the document
- */
-void create_room(attr_list_t *ls)
+/* See parse_document.h */
+void create_room(attr_list_t *ls, game_t *g)
 {
     attr_list_t* tmp = ls;
 
@@ -18,17 +15,15 @@ void create_room(attr_list_t *ls)
         char* short_desc = obj_get_str(tmp->obj, short_str);
         char* long_desc = obj_get_str(tmp->obj, long_str);
 
-        while(
-        char* to = obj_get_str(tmp->obj, to);
-        char* direction = obj_get_str(tmp->obj, direction);
-        char* through = obj_get_str(tmp->obj, through);
+        attr_list_t* internal_tmp = tmp;
 
-        room_new(id, short_desc, long_desc, get_items_in_room(id, ), paths);
+        room_new(id, short_desc, long_desc, get_items_in_room(id, extract_object), paths);
         //ADD TO GAME
         tmp = tmp->next;
     }
 }
 
+/* See parse_document.h */
 attr_list_t* get_items_in_room(char* room_id, attr_list_t *all_items)
 {
     attr_list_t* ret_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
