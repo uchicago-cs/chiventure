@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS = -fPIC -Wall -Wextra -g -O2 -lm -I../include/
 STC_LDFLAGS = -L../
 LIB = cli.a
+RM = rm -f
 
 SRCS = testshell.c
 OBJS = $(SRCS:.c=.o)
@@ -10,9 +10,9 @@ BINS = testshell
 .PHONY: all
 all: $(BINS)
 
-testshell: testshell.o ../cli.a
+testshell: testshell.o ../cli.a 
 	$(CC) $(STC_LDFLAGS) $^ -o$@ -l:cli.a -lreadline
 
 .PHONY: clean
 clean:
-	rm -f ${OBJS} ${BINS}
+	$(RM) ${OBJS} ${BINS}
