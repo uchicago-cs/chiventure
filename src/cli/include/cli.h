@@ -1,5 +1,5 @@
-#ifndef _CLI_H_
-#define _CLI_H_
+#ifndef _CLI_INCLUDE_CLI_H_
+#define _CLI_INCLUDE_CLI_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,4 +14,4 @@
 
 
 
-#endif /* _CLI_H_ */
+#endif /* _CLI_INCLUDE_CLI_H_ */
