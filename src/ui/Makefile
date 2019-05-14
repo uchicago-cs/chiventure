@@ -27,7 +27,7 @@ $(LIB): $(OBJS)
 
 # Examples
 
-EXAMPLE_BINS = examples/test_ui exmaples/coord_example
+EXAMPLE_BINS = examples/test_ui examples/map_example examples/coord_example 
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
 
 $(EXAMPLE_SRCS:.c=.d):%.d:%.c
