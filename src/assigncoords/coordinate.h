@@ -31,7 +31,7 @@ typedef struct room {
   room_hash_t hash;
 } room_t;
   
-/*Dummy function
+/*Dummy function called find_room
  * need to ask game state if they are providing or if we nee
  * to write this function ourselves
  * PURPOSE:
@@ -46,9 +46,6 @@ typedef struct room {
  */
 
 room_t *find_room(room_t *curr, char *direction);
-
-
-
 
 /* A coordinate in two-dimensional space */
 typedef struct {
@@ -65,9 +62,7 @@ typedef struct coord_record {
   UT_hash_handle hh;
 } coord_record_t;
 
-
 void coord_init(coordinate_t *c, int x, int y);
-
 
 /* find_coord
  * - Implementation will use HASH_FIND to find coord_record
@@ -92,5 +87,14 @@ coord_record_t *find_coord(int x, int y);
  * - FAILURE if coordinate is already assigned to a different room id
  */
 int add_coord(int x, int y, room_t *r);
+
+/* begin_depth_first_search:
+ * - will be used when a game is passed to WDL 
+ * returns:
+ * - SUCCESS if all rooms are assigned a coordinate 
+ * - FAILURE if a list of rooms are invalid 
+ */
+int check_valid_map(/*may pass in info from WDL*/);
+
 
 #endif /* INCLUDE_COORDINATE_H_ */
