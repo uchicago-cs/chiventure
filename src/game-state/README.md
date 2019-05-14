@@ -32,6 +32,14 @@ items --> attributes
 paths --> conditions
 ```
 
+<img src='https://g.gravizo.com/svg?
+ digraph G {  
+   game -> players -> items -> attributes;  
+   game -> rooms -> items;  
+   rooms -> paths -> conditions;  
+ }  
+'/>
+
 ## Game module
 ### Structs
 The game module contains a hashtable of **players** and a hashtable of **rooms** (that being said, other teams do not need to know it is implemented with hashtable; it is just a iteratable list of players; other teams do not even need to type and words containing "hash" in their programs; same for all the subsequent modules).
