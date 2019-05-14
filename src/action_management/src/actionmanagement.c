@@ -136,8 +136,8 @@ int action_direction(game_t *g, action_t *a, direction_t *d)
         fprintf(stderr, "The action provided is not of the correct type.\n");
         return FAILURE;
     }
-
-    int moved = player_move(d); // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
+    // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
+    int moved = player_move(d);
     if (moved == SUCCESS) {
         return SUCCESS;
     } else {
@@ -146,11 +146,11 @@ int action_direction(game_t *g, action_t *a, direction_t *d)
     }
 }
 
-//KIND 3
+// KIND 3
 /* See actionmanagement.h */
 int action_npc(game_t *g, action_t *a, npc_t *n)
 {
-    assert(g);
+  assert(g);
   assert(g->current_player);
   assert(a);
   assert(n);
@@ -158,18 +158,26 @@ int action_npc(game_t *g, action_t *a, npc_t *n)
     fprintf(stderr, "The action provided is not of the correct type.\n");
     return FAILURE;
   }
-
-  int talked = player_talk(g->current_player, n); // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
-  if (talked == SUCCESS) {
+  // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
+  int available = in_room(g, n);
+  if (available == FAILURE) {
+    fprintf(stderr, "NPC is not in room.\n");
+    return FAILURE;
+  }
+  else {
+    // THIS IS A non-existent FUNCTION we depend on GAME STATE FOR
+    int talked = player_talk(g->current_player, n); 
+    if (talked == SUCCESS) {
       return SUCCESS;
-  } else {
+    } else {
       fprintf(stderr, "Player was unable to talk to NPC.\n");
       return FAILURE;
+    }
   }
 }
 
 
-//KIND 4
+// KIND 4
 /* See actionmanagement.h */
 int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
 {
