@@ -38,7 +38,7 @@ custom_mark10
 </details>
 
 
-## Game module
+## The Game module
 ### Structs
 The game module contains a hashtable of **players** and a hashtable of **rooms** (that being said, other teams do not need to know it is implemented with hashtable; it is just a iteratable list of players; other teams do not even need to type and words containing "hash" in their programs; same for all the subsequent modules).
 
@@ -106,6 +106,7 @@ Given the pointer to another room, changes the current room in game-state. This 
 ## The Player Module
 
 In the game, a player is represented by a unique player ID, their chosen username, current level of the game, health, and experience. Further, the player struct contains storage for their inventory and attire. The player module provides functions that allow game authors to:
+
 - create new players
 - access and modify player attire + inventory
 - access and modify player traits such as health + game level
@@ -118,9 +119,81 @@ The room module provides the framework for a data representation of the physical
 - access + modify the inventory of the room
 - access traits of the room such as its descriptions and possible paths
 
+## The Path Module
+The path module deals specifically with the connections among rooms. Each path struct stores a path_id, which is used to identify the direction from the starting room, a path destination, which stores the id of the ending room, and a linked list of conditions. All the path connected to each room will be stored in a hash table data structure in that specific room. Functions in the path module allow authors to:
+
+- create new paths
+- add paths to the struct containing all the paths or to a room
+- access the conditions that have to be satisfied to go through the path
+
 ## The Item Module
 
 The item module implements a data structure for items within the game. Each item struct stores a unique item ID, a short and long description, and a container of attributes. These attributes are represented by string keys, whose values can be represented by a variety of types, specifically int, double, char, bool, and string. These attributes signify particular aspects of the item pertinent to the game, i.e. if a door is locked, if the item can be picked up by the player, etc. Functions in the module allow authors to:
 
 - create items + attributes
 - modify + replace attributes
+
+## Guide of Loading and Saving Game
+
+### Retrieving Game Contents
+
+Macros provided below can help you iterate the game contents like a "for" loop, they take 2 arguments, the first being the parent-level struct, the second being the iterator that you can use in the loop:
+
+- ITER_ALL_PLAYERS(game, curr_player)
+- ITER_ALL_ROOMS(game, curr_room)
+- ITER_ALL_PATHS(room, curr_path)
+- ITER_ALL_CONDITIONS(path, curr_condi)
+- ITER_ALL_ITEMS_IN_ROOM(room, curr_item)
+- ITER_ALL_ITEMS_IN_INVENTORY(player, curr_item)
+- ITER_ALL_ATTRIBUTES(item, curr_attr)
+
+Notice: do not nest 2 same macros, this may cause errors. (2 different is OK.)
+
+Here's an example:
+
+    game_t *my_game = game_new();
+    ...
+    room_t *room_i;
+    ITER_ALL_ROOMS(my_game, room_i) {
+        printf("%s", room_i->short_desc);
+        // Other operations
+    }
+
+These macros may help you save the game more conveniently.
+
+### Building Game Contents
+
+Functions provided below can help you add game contents parsed from files to the game struct efficiently. The usage of these functions is very intuitive and the details are described in their corresponding header files.
+
+- int add_player_to_game(game_t \*game, player_t \*player);
+- int add_room_to_game(game_t \*game, room_t \*room);
+- int add_item_to_player(player_t \*player, item_t \*item);
+- int add_item_to_room(room_t \*room, item_t \*item);
+- int add_path_to_room(room_t \*room, path_t \*path);
+- int add_condition_to_path(path_t \*path, condition_t \*condition);
+- int create_new_str_attr(item_t\* item, char\* attr_name, char\* value);
+- int create_new_char_attr(item_t\* item, char\* attr_name, char value);
+- int create_new_boole_attr(item_t\* item, char\* attr_name, bool value);
+- int create_new_double_attr(item_t\* item, char\* attr_name, double value);
+- int create_new_int_attr(item_t\* item, char\* attr_name, int value);
+
+Note that the last several create_xxx functions create the attribute and add it to the item at the same time.
+
+Therefore, suppose game-building related teams (wdl/checkpointing) have already parsed the files in their own data structures, they are able to put everything into the game-state structs like this:
+
+    game_t *my_game = game_new();
+    for (/* each room */) { // This line depends on how you store the parsed data
+        room_t *room = room_new(/* room_params */);
+        add_room_to_game(my_game, room);
+        for (/* each item in this room */) { // This line also depends on you
+            item_t *item = item_new(/* item_params */)
+            add_item_to_room(room, item);
+            /* ... */
+            /* add attributes */
+            /* ... */
+        }
+    }
+    /* ... */
+    /* add player in the same way */
+    /* ... */
+

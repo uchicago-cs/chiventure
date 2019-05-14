@@ -9,6 +9,8 @@
 #include "game_state_common.h"
 #include "item.h"
 
+#define ITER_ALL_PLAYERS(game, curr_player) player_t *ITTMP_PLAYER; HASH_ITER(hh, (game)->all_players, (curr_player), ITTMP_PLAYER)
+
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/

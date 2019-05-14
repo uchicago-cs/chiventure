@@ -5,6 +5,8 @@
 #include "item.h"
 #include "path.h"
 
+#define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM; HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
+
 /* This struct represents a single room, which includes a
  * short and long description of the room, a hashtable of items to be
  * found there, and a hashtable of paths accessible from the room. */

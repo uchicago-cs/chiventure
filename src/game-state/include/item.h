@@ -3,6 +3,10 @@
 
 #include "game_state_common.h"
 
+#define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
+#define ITER_ALL_ITEMS_IN_INVENTORY(player, curr_item) item_t *ITTMP_ITEMINV; HASH_ITER(hh, (player)->inventory, (curr_item), ITTMP_ITEMINV)
+#define ITER_ALL_ATTRIBUTES(item, curr_attr) attribute_t *ITTMP_ATTR; HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
+
 // ITEM STRUCTURE DEFINITION --------------------------------------------------
 typedef struct attribute* attribute_hash_t;
 
@@ -120,7 +124,7 @@ int delete_all_items(item_hash_t items);
 int delete_item_attributes(item_t* item);
 
 /*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
-create a function that changes an atttribute,
+create a function that changes an attribute,
 
 */
 
