@@ -4,15 +4,17 @@ Besides this README, this directory includes the following files:
 
 - a Makefile for the project
 
-- cli.h, a header file including struct definitions and
-  function prototypes for vcard and bst operations
+- shell.h and shell.c, shell actions (to be merged with operations.h/.c)
 
-- cli.c, which runs a shell "chiventure" for an interactive experience
+- cmd.c and cmd.h that introduces a data structure for commands, and navigates between them.
 
-- shell.h and shell.c, shell actions 
+- parser.c and parser.h that parses a input string
 
-- cmd.c and cmd.h that introduces a (to simple) data structure for commands, and navigates between them.
+- validate.c and validate.h that check a function's validity
 
-- validate.c and validate.h that check a functions validity
+- operations.c and operations.h that will link the operations to actual actions.
 
-- operations.c and operations.h that will link the operations to actual actions. 
+- example/testshell.c runs an example shell that is used for demonstration and testing 
+  To run the example shell, do
+  ```make test
+     ./example/testshell```
