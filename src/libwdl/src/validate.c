@@ -22,10 +22,13 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 }
 
 /* see validate.h */
-bool list_print(attr_list_t *ls, void (*print)(obj_t*))
+void list_print(attr_list_t *ls, void (*print)(obj_t*))
 {
     if (ls == NULL)
-        return false;
+    {
+        fprintf(stderr, "list_print failed, list empty\n");
+        return;
+    }
 
     attr_list_t *curr = ls;
 
@@ -34,7 +37,7 @@ bool list_print(attr_list_t *ls, void (*print)(obj_t*))
         curr = curr->next;
     }
 
-    return true;
+    return;
 }
 
 // The following functions regard room type checking
@@ -206,9 +209,6 @@ void print_connections(obj_t *obj)
 /* See validate.h */
 void print_room(obj_t *obj)
 {
-    // obtain list of connections
-    attr_list_t *ls = connections_get_list(obj);
-
     // print room attributes
     printf("ROOM: %c\n", obj_get_char(obj, "id"));
     printf("short desc: %s\n", obj_get_str(obj, "short_desc"));
