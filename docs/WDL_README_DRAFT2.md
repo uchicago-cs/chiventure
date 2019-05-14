@@ -48,11 +48,13 @@ space, followed by a dash(-), followed by another space, then the attribute.
     - Ex. num_points = 100
 
 ### GAME example:
- - **start**: KITCHEN
- - **intro**: “Welcome to the virtual house. You have been wandering for quite some time,
+```yaml
+ - start: KITCHEN
+ - intro: “Welcome to the virtual house. You have been wandering for quite some time,
    and you need to determine how to return to reality.”
- - **end**:
+ - end:
    - Inventory: wand
+```
 
 ## ROOM:
 ##### The Room Object must contain the following attributes:
@@ -75,18 +77,20 @@ space, followed by a dash(-), followed by another space, then the attribute.
 
 
 ### ROOM example:
- - **id**: KITCHEN
+```yaml
+ - id: KITCHEN
 
-   **short_desc**: "A well-furnished area for cooking food."
+   short_desc: "A well-furnished area for cooking food."
 
-   **long_desc**: "The room is lit merrily, and a faint glow comes from the oven."
+   long_desc: "The room is lit merrily, and a faint glow comes from the oven."
 
-   **connections**:
+   connections:
     - to: BASEMENT
 
       direction: DOWN
 
       through: trapdoor
+```
 
 ## ITEM:
 
@@ -124,17 +128,18 @@ space, followed by a dash(-), followed by another space, then the attribute.
           - value: `<YES/NO>`
 
 ### ITEM examples:
- - **id**: door
+```yaml
+ - id: door
 
-   **short_desc**: "a wooden door."
+   short_desc: "a wooden door."
 
-   **long_desc**: "A very ancient and gnarled looking thing."
+   long_desc: "A very ancient and gnarled looking thing."
 
-   **in**: KITCHEN
+   in: KITCHEN
 
-   **state**: locked: YES
+   state: locked: YES
 
-   **actions**:
+   actions:
      - consumer
          - allowed: no
          - text_fail: "you cannot consume a door."
@@ -147,15 +152,15 @@ space, followed by a dash(-), followed by another space, then the attribute.
              - state: locked
              - value: NO
 
-- **id**: wand
+- id: wand
 
-  **short_desc**: "A wand"
+  short_desc: "A wand"
 
-  **long_desc**: "It has magical properties"
+  long_desc: "It has magical properties"
 
-  **in**: BEDROOM
+  in: BEDROOM
 
-  **actions**:  
+  actions:  
   - take
     - condition: in_inventory: top_hat
     - text_success: "You got the wand!"
@@ -163,3 +168,4 @@ space, followed by a dash(-), followed by another space, then the attribute.
   - consume:
     - allowed: no
     - text_fail: "you cannot consume a wand."
+```
