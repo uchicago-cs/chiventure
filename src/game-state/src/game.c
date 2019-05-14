@@ -33,4 +33,13 @@ int game_free(game_t *game) {
     return 1;
 }
 
+/* See game.h */
+int add_player_to_game(game_t *game, player_t *player) {
+    return add_player_to_hash(game->all_players, player->player_id, player);
+}
+
+/* See game.h */
+int add_room_to_game(game_t *game, room_t *room) {
+    return add_room_to_hash(game->all_rooms, room->room_id, room);
+}
 

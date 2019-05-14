@@ -17,18 +17,21 @@ typedef struct condition {
     attribute_value_t value;
 } condition_t;
 
+typedef struct condition* condition_list_t;
+
 /* This struct represents a path from one room to another. It contains
  * the room_ID string of the room it leads to as well as a linked
- * list of conditions that must be fulfilled to move to the room. 
+ * list of conditions that must be fulfilled to move to the room.
  * essentially, the list of conditions are the "answers"
  * */
 typedef struct path {
     UT_hash_handle hh;
-    /* path_id means the room_id this path goes to */
+    /* path_id means the direction (north/south/etc) */
     /* for hashtable consistency (e.g. player hash uses player_id), */
     /* we use path_id here to avoid bugs when using uthash functions */
-    char *path_id; // ***** MEANS ROOM_ID *****
-    condition_t *conditions_list;
+    char *path_id; // ***** MEANS DIRECTION *****
+    char *path_dest; // ***** MEANS ROOM_ID *****
+    condition_list_t conditions;
 } path_t;
 
 typedef struct path* path_hash_t;
@@ -41,7 +44,7 @@ typedef struct path* path_hash_t;
  * Returns:
  *  1 if successful, 0 if failed
  */
-int delete_all_conditions(condition_t *conditions_list);
+int delete_all_conditions(condition_list_t conditions);
 
 /* Mallocs space for a new path
  *
@@ -73,6 +76,17 @@ int path_free(path_t *path);
  *  1 if successful, 0 if failed
  */
 int add_path_to_hash(path_hash_t all_paths, char* path_id, path_t *path);
+
+/* Adds a condition to the given path
+ *
+ * Parameters:
+ *  path struct
+ *  condition struct
+ *
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+int add_condition_to_path(path_t *path, condition_t *condition);
 
 /* Deletes a hashtable of paths
  * Implemented with macros provided by uthash.h

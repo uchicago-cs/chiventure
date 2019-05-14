@@ -13,13 +13,11 @@
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
     UT_hash_handle hh;
-    int player_id;
-    char username[20];
+    char *player_id;
     int level;
     int health;
     int xp;
-    item_hash_t *inventory;
-    item_hash_t *clothes;
+    item_hash_t inventory;
 } player_t;
 
 typedef struct player* player_hash_t;
@@ -136,30 +134,6 @@ int get_xp(player_t* plyr);
 int change_xp(player_t* plyr, int points);
 
 /*
- * Adds an item to the player's inventory
- *
- * Parameters:
- *  plyr: the player
- * 	points: how much to change xp (positive or negative)
- *
- * Returns:
- *  int, 1 for success, 0 for failure
- */
-int add_clothes_item(item_t* item, player_t* plyr);
-
-/*
- * Adds an item to the player's inventory
- *
- * Parameters:
- *  item: the item too add
- * 	plyr: the plyaer
- *
- * Returns:
- *  int, 1 for success, 0 for failure
- */
-int add_inventory_item(item_t* item, player_t* plyr);
-
-/*
  * Returns the inventory list
  *
  * Parameters:
@@ -170,16 +144,26 @@ int add_inventory_item(item_t* item, player_t* plyr);
  */
 item_hash_t get_inventory(player_t* plyr);
 
-/*
- * Returns the inventory list
+/* Adds a player to the given hashtable of players
  *
  * Parameters:
- * 	plyr: the player
+ *  hashtable the player is added to
+ *  player id
+ *  pointer to the player
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *player);
+
+/* Adds an item to the given player
+ *
+ * Parameters:
+ *  player struct
+ *  item struct
  *
  * Returns:
- *  hashtable of items, the clothes
+ *  1 if successful, 0 if failed
  */
-item_hash_t get_clothes(player_t* plyr);
-
+int add_item_to_player(player_t *player, item_t *item);
 
 #endif

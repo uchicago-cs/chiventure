@@ -76,7 +76,27 @@ void game_quit(game_t *game);
  */
 int game_free(game_t *game);
 
+/* Adds a player to the given game
+ *
+ * Parameters:
+ *  game struct
+ *  player struct
+ *
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+int add_player_to_game(game_t *game, player_t *player);
 
+/* Adds a room to the given game
+ *
+ * Parameters:
+ *  game struct
+ *  room struct
+ *
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+int add_room_to_game(game_t *game, room_t *room);
 
 
 

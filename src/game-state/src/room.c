@@ -36,21 +36,14 @@ int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room) {
     return 1;
 }
 
-/* adding item to room inventory hash */
-int add_item_to_room(item_t *item, room_t *room) {
-    item_t *check;
-    char *item_id = item->item_id;
-    item_hash_t item_hash = room->items;
-    //add_item_to_hash()
-    HASH_FIND_STR(item_hash, item_id, check);
-    if (check != NULL) {
-        /* WARNING */
-        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
-        fprintf(stderr, "Error: this item id is already in use.\n");
-        exit(1);
-    }
-    HASH_ADD_STR(item_hash, item_id, item);
-    return 1;
+/* See room.h */
+int add_item_to_room(room_t *room, item_t *item) {
+    return add_item_to_hash(room->items, item->item_id, item);
+}
+
+/* See room.h */
+int add_path_to_room(room_t *room, path_t *path) {
+    return add_path_to_hash(room->paths, path->path_id, path);
 }
 
 /* See room.h */

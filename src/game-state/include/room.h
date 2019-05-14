@@ -57,8 +57,27 @@ int room_free(room_t *room);
  */
 int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room);
 
-int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
+/* Adds an item to the given room
+ *
+ * Parameters:
+ *  room struct
+ *  item struct
+ *
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+int add_item_to_room(room_t *room, item_t *item);
 
+/* Adds a path to the given room
+ *
+ * Parameters:
+ *  room struct
+ *  path struct
+ *
+ * Returns:
+ *  1 if successful, 0 if failed
+ */
+int add_path_to_room(room_t *room, path_t *path);
 
 /* Deletes a hashtable of rooms
  * Implemented with macros provided by uthash.h
