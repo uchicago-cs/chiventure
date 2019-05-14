@@ -98,6 +98,7 @@ void start_ui(){
             }
             else if(ch == 's'){
                 cli_top = !cli_top;
+                ch = 27;
             }
         }
 
