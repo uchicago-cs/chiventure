@@ -5,7 +5,7 @@
 #include "parse_document.h"
 
 /* See parse_document.h */
-void create_room(attr_list_t *ls, game_t *g)
+void create_rooms(attr_list_t *ls, game_t *g)
 {
     attr_list_t* tmp = ls;
 
@@ -15,10 +15,12 @@ void create_room(attr_list_t *ls, game_t *g)
         char* short_desc = obj_get_str(tmp->obj, short_str);
         char* long_desc = obj_get_str(tmp->obj, long_str);
 
-        attr_list_t* internal_tmp = tmp;
+        attr_list_t* connections_list = connections_get_list(tmp->obj);
 
-        room_new(id, short_desc, long_desc, get_items_in_room(id, extract_object), paths);
-        //ADD TO GAME
+        //based on linked list structs instead of hash table as per conversation today
+        room_new(id, short_desc, long_desc, 
+                get_items_in_room(id, extract_objects(doc_obj, id)), connections_list);
+        add_room_to_game(room_new, g); //ADD TO GAME when game state gives us this function
         tmp = tmp->next;
     }
 }

@@ -92,6 +92,28 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
  */
 void list_print(attr_list_t *ls, void(*print)(obj_t*));
 
+// The following functions regard room type checking
+/* connections_get_list()
+ * a helper function for check_connections that gets a list of connections
+ * associated with a room object
+ *
+ * parameters:
+ *  - obj: a room object
+ *
+ * returns:
+ *  - an attribute list of all the connections
+ *  - null if an error occurs or no list can be generated
+ */
+attr_list_t *connections_get_list(obj_t *obj)
+{
+    obj_t *connections = obj_get_attr(obj, "connections", false);
+
+    if (connections == NULL)
+        return NULL;
+    else
+        return obj_list_attr(connections);
+}
+
 /*
  * type_check
  * Verifies whether the given object has the correct return types for all of
