@@ -7,6 +7,18 @@
 
 ## A Visual Overview
 
+![Alt text](https://g.gravizo.com/source/custom_mark10?https%3A%2F%2Fraw.githubusercontent.com%2Fuchicago-cs%2Fchiventure%2Ftree%2Fgame-state%2Fdev%2Fsrc%2Fgame-state%2FREAD_ME.md)
+<details> 
+<summary></summary>
+custom_mark10
+  digraph G {
+    game -> players -> items -> attributes; 
+    game -> rooms -> items;
+    rooms -> paths -> conditions;
+  }
+custom_mark10
+</details>
+
 ![Alt text](https://g.gravizo.com/svg?
   digraph G {
     game -> players -> items -> attributes; 
