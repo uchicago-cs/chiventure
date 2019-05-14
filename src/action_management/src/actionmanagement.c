@@ -75,7 +75,6 @@ int *get_action_kind(action_t *a)
 /* See actionmanagement.h */
 list_t *get_supported_actions(enum action_kind *kind)
 {
-    int kind = get_action_kind(kind);
     switch(kind)
     {
         case ITEM:
