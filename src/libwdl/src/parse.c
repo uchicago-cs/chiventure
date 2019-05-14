@@ -20,9 +20,9 @@ attr_list_t *get_obj_list(obj_t *obj, char *str)
 {
     char *attributes[3] = {"ROOMS", "ITEMS", "PLAYERS"};
 
-    if (strcmp(str, &attributes[0]) != 0 &&
-        strcmp(str, &attributes[1]) != 1 &&
-        strcmp(str, &attributes[2]))
+    if (strcmp(str, attributes[0]) != 0 &&
+        strcmp(str, attributes[1]) != 1 &&
+        strcmp(str, attributes[2]))
         return NULL;
 
     return obj_list_attr(obj);
