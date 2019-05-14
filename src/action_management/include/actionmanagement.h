@@ -15,28 +15,30 @@
 enum actions {
 
 /* KIND 1 ACTIONS */
-	OPEN,
-	CLOSE,
-	PUSH,
-	PULL,
-	EXAMINE,
-	TURN_ON,
-	TURN_OFF,
-	TAKE,    // synonyms: "pick up"
-	DROP,
-	CONSUME, // synonyms: "use" "drink" "eat"
+    OPEN,
+    CLOSE,
+    PUSH,
+    PULL,
+    EXAMINE,
+    TURN_ON,
+    TURN_OFF,
+    TAKE,    // synonyms: "pick up"
+    DROP,
+    CONSUME, // synonyms: "use" "drink" "eat"
 
 /* KIND 2 ACTIONS */
-	GO, 	 // synonyms: "walk"
+    GO,      // synonyms: "walk"
+    ENTER,
 
 /* KIND 3 ACTIONS */
-	TALK_TO,
+    TALK_TO,
 
 /* KIND 4 ACTIONS */
-	GIVE_TO,
-	
+    GIVE_TO,
+    
 /* KIND 5 ACTIONS */
-	USE_ON
+    USE_ON,
+    PUT_ON
 };
 
 
@@ -57,10 +59,10 @@ enum action_kind {
  * - parameters: an order-sensitive linked list of object_type enums
 */
 typedef struct {
-	enum actions act;   // e.g. CONSUME
-	char *c_name;  // e.g. "eat"
-	list_t *synonyms;   // e.g. "drink" -> "use"
-	enum action_kind *kind; // e.g. KIND_1
+    enum actions act;   // e.g. CONSUME
+    char *c_name;  // e.g. "eat"
+    list_t *synonyms;   // e.g. "drink" -> "use"
+    enum action_kind *kind; // e.g. KIND_1
 } action_t;
 
 
@@ -193,6 +195,7 @@ int action_direction(game_t *g, action_t *a, direction_t *d);
 /* A function that executes KIND 3 actions (ACTION <npc>)
  * 
  * Parameters:
+ * - g: A game struct
  * - a: An action struct
  * - n: An npc struct
  * 
@@ -200,7 +203,7 @@ int action_direction(game_t *g, action_t *a, direction_t *d);
  * - 0 on success
  * - 1 on failure
  */
-int action_npc(action_t *a, npc_t *n);
+int action_npc(game_t *g, action_t *a, npc_t *n);
 
 
 /* A function that executes KIND 4 actions (ACTION <item> <npc>)
