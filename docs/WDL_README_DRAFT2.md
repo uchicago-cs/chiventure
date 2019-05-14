@@ -8,7 +8,9 @@ Something that is part of the physical environment in a game (a single room, a s
 ##### - Object:
 A classification category for the components in a game
 
-##### - Attribute: A trait that describes or serves to further define a component
+##### - Attribute: 
+A trait that describes or serves to further define a component
+
 ##### - Attribute name:
 The name of an attribute
 
@@ -21,23 +23,23 @@ This document
 - Short_desc are strings that can have at max 100 characters (including spaces)
 - Long_desc are strings that can have at max 500 characters (including spaces)
 
-- Each file object category(ROOM,ITEM,or GAME) must be followed by a colon (:)
-- Fields apply to categories and subcategories, and are followed immediately bya colon(:). The information in the field is preceded by a space.
-- The first field in every category (and subcategory) must be indented with one
-space, followed by a dash(-), followed by another space, then the field.
-- All other fields are indented	with three spaces.
+- Each file object category(ROOM, ITEM, or GAME) must be followed by a colon (:)
+- Attributes apply to categories and subcategories, and are followed immediately by a colon(:). The information in the attribute is preceded by a space.
+- The first attribute in every category (and subcategory) must be indented with one
+space, followed by a dash(-), followed by another space, then the attribute.
+- All other attributes are indented	with three spaces.
 
 #### A WDL file is a YAML file that has at least the three file objects: Game, Room, Objects.
 
-##### Refer to Action Management's file: src/action_management/include/actionmanagement.h on the actions/dev branch for a list of approved actions in a game
+### Refer to Action Management's file: src/action_management/include/actionmanagement.h on the actions/dev branch for a list of approved actions in a game
 
-## GAME Format:
+## GAME:
 
 ##### The Game Object must contain the following attributes:
 - start: `<ROOM IDENTIFIER>` used to specify the ID of the room that the game will start in. This value is the string ID of the room that the game will start in  
-   ###### NOTE: The given ID must have been assigned to a room defined in the ROOM object (i.e. the room ID must exist, so if the start field has value “BEDROOM”, then there must be a room in the ROOM object that has the id “BEDROOM”).
+   ###### NOTE: The given ID must have been assigned to a room defined in the ROOM object (i.e. the room ID must exist, so if the start attribute has value “BEDROOM”, then there must be a room in the ROOM object that has the id “BEDROOM”).
 
-- intro: `<STATEMENT WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
+- intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 - end: `<CONDITION>` a condition specification for how the game ends. This must be one of two ways:
    1. The inventory contains a specific item
     - Ex. inventory contains: emerald gem
@@ -52,9 +54,9 @@ space, followed by a dash(-), followed by another space, then the field.
  - **end**:
    - Inventory: wand
 
-## ROOM Format:
+## ROOM:
 ##### The Room Object must contain the following attributes:
- - id: `<UNIQUE ID NAME>` which is an identification name that is unique to the room, in all uppercase
+ - id: `<UNIQUE ID NAME>` which is an identification name that is unique to the room
 
    short_desc: `<STRING DESCRIPTION>` which is a string that is displayed when the player first enters the room
 
@@ -62,7 +64,7 @@ space, followed by a dash(-), followed by another space, then the field.
 
 
    connections:
-   (the	following fields belong	to subcategory 'connections')
+   (the	following attributes belong	to subcategory 'connections')
   - to: `<ROOM	ID>` which lists a valid place the player can reach in one action from this room by ID
 
     direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down.
@@ -72,7 +74,7 @@ space, followed by a dash(-), followed by another space, then the field.
     ###### NOTE: a valid connection has to have an ID that exists
 
 
-### ROOMS example:
+### ROOM example:
  - **id**: KITCHEN
 
    **short_desc**: "A well-furnished area for cooking food."
@@ -86,11 +88,11 @@ space, followed by a dash(-), followed by another space, then the field.
 
       through: trapdoor
 
-## ITEM Format:
+## ITEM:
 
-- For ITEMs, the format is the same as above, except for actions, the fields are indented with two spaces, followed by a dash.
+- For ITEMs, the indentation format is the same as above, except for actions, the attributes are indented with two spaces, followed by a dash.
 - This applies to the subcategories in action as well.
-- The fields within actions must be indented with a dash(-) as well.
+- The attributes within actions must be indented with a dash(-) as well.
 
 ##### The Item Object must contain the following attributes:
   - id: `<UNIQUE ID NAME>` which is a unique identifier for the item; one id can only used to identify one item in the entire ITEMS object. (i.e. only one door can have id “door”, the others would have to have “door1”, “door2”, etc. because there must be no repeat ids)
@@ -121,7 +123,7 @@ space, followed by a dash(-), followed by another space, then the field.
           - state: `<ATTRIBUTE>`
           - value: `<YES/NO>`
 
-### ITEMS examples:
+### ITEM examples:
  - **id**: door
 
    **short_desc**: "a wooden door."
