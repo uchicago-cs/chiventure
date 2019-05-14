@@ -71,23 +71,24 @@ void draw_room (int width, int height, int x, int y, room_t *room, WINDOW *win){
 }
 
 //Takes a coordinate and an array of rooms and draws them in
-void draw_rooms(room_t **rooms,int n, int left_x, int top_y, map_t *map){
+void draw_rooms(room_t **rooms,int n, int left_x, int top_y, int z,map_t *map){
   //Declare variables
-  int x,y,x_offset,y_offset;
-
+  int x,y,zroom,x_offset,y_offset;
 
   //Get x,y,z coordinates for rooms
   for (int i = 0; i<n; i++){
     x = rooms[i]->loc->x;
     y = rooms[i]->loc->y;
-    //z = rooms[i]->loc->z;
-    
-    x_offset = left_x + (room_w * x) + map->xoff;
-    y_offset = top_y + (room_h * y) + map->yoff;
+    zroom = rooms[i]->loc->z;
 
+    if (zroom == z){
+      x_offset = left_x + (room_w * x);// + map->xoff;
+      y_offset = top_y + (room_h * y);// + map->yoff;
+    
     //Draw room at x/y coordinate given, with preset w/h
     // fprintf(debug,"Drawing room at x %i, y %i\n",x_offset, y_offset);
     draw_room(room_w, room_h, x_offset, y_offset,rooms[i],map->pad);
+    }
   }
   return;
 }
@@ -123,7 +124,7 @@ int *calculate_map_dims(room_t **rooms, int n){
 }
 
 map_t *map_init(room_t ** rooms, int n){
-  int xoffset = 30;
+  int xoffset = 10;
   int yoffset = 5;
   
   //map_dims[0] is xmax, map_dims[1] is ymax, and map_dims[2] is zmax
@@ -132,6 +133,8 @@ map_t *map_init(room_t ** rooms, int n){
   int maxy = dims[1] * room_h + 2*yoffset;
   WINDOW *pad = newpad(maxy,maxx);
   map_t *map = malloc(sizeof(map_t));
+  map->rooms = rooms;
+  map->n = n;
   map->pad = pad;
   map->xoff = xoffset;
   map->yoff = yoffset;
@@ -147,7 +150,7 @@ map_t *map_init(room_t ** rooms, int n){
   map->lry = 0;
 
   keypad(pad, TRUE);
-  draw_rooms(rooms,n,0,0,map);
+  draw_rooms(rooms,n,xoffset,yoffset,0,map);
   return map;
 }
 
@@ -163,7 +166,11 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry){
 
 int map_refresh(map_t *map, int x, int y, int z){
   // touchwin(map->pad);
-
+  if (z != map->padz){
+    wclear(map->pad);
+    draw_rooms(map->rooms,map->n,map->xoff,map->yoff,z,map);
+  }
+  
   map->padx = x;
   map->pady = y;
   map->padz = z;
@@ -193,23 +200,47 @@ room_t ** get_test_rooms(int n){
   int j = 0;
   
   room_t **rooms = malloc(sizeof(room_t *) * n);
-  for(int i = 0; i < n; i++){
+  for(int i = 0; i < (n-2); i++){
     
     room_t *roomi = malloc(sizeof(room_t));
     rooms[i] = roomi;
     coord_t *loci = malloc(sizeof(coord_t));
-    loci->x = i%8;
+    loci->x = i%9;
     loci->y = j;
     loci->z = 0;
     roomi->loc = loci;
     roomi->ex_e = i%2;
     roomi->ex_n = (i+1)%2;
     roomi->ex_s = i%2;
-    roomi->ex_w = (i+1)%2;
+    roomi->ex_w = (i+1)%3;
 
-    if (i%6 == 5)
+    if (i%7 == 5)
       j++;
   }
- 
+  
+  coord_t *coorda  = malloc(sizeof(coord_t));
+  coorda->x = 0;
+  coorda->y = 0;
+  coorda->z = 1;
+  room_t *rooma = malloc(sizeof(room_t));
+  rooma->loc = coorda;
+  rooma->ex_e = 0;
+  rooma->ex_w = 0;
+  rooma->ex_s = 1;
+  rooma->ex_n = 0;
+
+  coord_t *coordb  = malloc(sizeof(coord_t));
+  coordb->x = 0;
+  coordb->y = 1;
+  coordb->z = 1;
+  room_t *roomb = malloc(sizeof(room_t));
+  roomb->loc = coordb;
+  roomb->ex_e = 0;
+  roomb->ex_w = 0;
+  roomb->ex_s = 0;
+  roomb->ex_n = 1;
+
+  rooms[n-2] = rooma;
+  rooms[n-1] = roomb;
   return rooms;
 }

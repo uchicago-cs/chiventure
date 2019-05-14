@@ -28,6 +28,8 @@ typedef struct room{
 // and max z coordinates
 typedef struct map{
   WINDOW *pad;
+  room_t **rooms;
+  int n;
   int xoff;
   int yoff;
   int maxx;
@@ -56,7 +58,7 @@ void erase_ch(int y, int x);
 void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win);
 
 //Draws a list of rooms starting at the coordinate given
-void draw_rooms(room_t **rooms, int n, int left_x, int top_y, map_t *map);
+void draw_rooms(room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
 
 
 //Gets an array of test rooms
