@@ -7,9 +7,8 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "shell.h"
-#include "cli.h"
-#include "cmd.h"
+#include "../include/cmd.h"
+#include "../include/shell.h"
 
 #define BUFFER_SIZE 256
 
