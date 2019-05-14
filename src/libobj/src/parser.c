@@ -12,7 +12,7 @@
 #define DEBUG 0
 
 /* Forward function declaration */
-void itoa(int n, char s[]);
+void itoa1(int n, char s[]);
 
 /* Helper function: to print debugging statments only when debugging */
 int my_print(char *string)
@@ -63,7 +63,7 @@ stack_t *begin_obj(stack_t *stack, char *key)
         if (stacktop->isListHead)
         {
             char *index_string = calloc(1,100);
-            itoa((stacktop->nextListIndex)++, index_string);
+            itoa1((stacktop->nextListIndex)++, index_string);
             my_print("index_string");
             my_print(index_string);
             prefix = extend_prefix(prefix, index_string);
@@ -286,7 +286,7 @@ void reverse(char s[])
     }
 }
 
-void itoa(int n, char s[])
+void itoa1(int n, char s[])
 {
     int i, sign;
 

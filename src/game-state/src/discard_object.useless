@@ -1,0 +1,73 @@
+#include "item.h"
+
+item_t *item_new();
+
+int add_item_to_hash(all_items_t all_items, int item_id, item_t *item) {
+    item_t *s;
+    HASH_FIND_INT(all_items, &item_id, s);
+    if (s != NULL) {
+        /* WARNING */
+        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE itemS */
+        printf("FATAL: item_id already used!\n");
+        exit(0);
+    }
+    HASH_ADD_INT(all_items, item_id, s);
+    return 1;
+}
+
+int item_init(char *item_id, char *short_desc, char *long_desc)
+{
+
+    /* TO DO */
+
+    return 0;
+}
+
+/* the following functions retrieve specific information from desired item
+in anticipation of supporting player demands */
+/* will add function basics to ensure compilation */
+
+
+char *get_id(item_t item)
+{
+
+    /* TO DO */
+
+    return NULL;
+}
+
+
+char *get_short_desc(item_t item)
+{
+
+    /* TO DO */
+
+    return NULL;
+}
+
+
+char *get_long_desc(item_t item)
+{
+
+    /* TO DO */
+
+    return NULL;
+}
+
+
+int *get_item_type(enum item_type_t item_t)
+{
+
+    /* TO DO */
+
+    return NULL;
+}
+
+
+int take_item(item_t item)
+{
+
+    /* TO DO */
+
+    return 0;
+}

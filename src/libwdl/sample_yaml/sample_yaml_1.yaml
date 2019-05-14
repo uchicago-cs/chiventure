@@ -1,0 +1,33 @@
+#
+# Sample proof-of-concept yaml file
+#
+
+GAME:
+ - start: A
+ - intro: "This is the intro"
+
+ROOMS:
+ - id: A
+   short_desc: "This is room A"
+   long_desc: "This is room A long"
+
+ - id: B
+   short_desc: "This is room B"
+   long_desc: "This is room B long"
+
+ - id: C
+   short_desc: "This is room C"
+   long_desc: "This is room C long"
+
+ITEMS:
+ - id: chair
+   short_desc: "This is a chair"
+   long_desc: "This is a chair long"
+
+ - id: table
+   short_desc: "This is a table"
+   long_desc: "This is a table long"
+ 
+ - id: candle
+   short_desc: "This is a candle"
+   long_desc: "This is a candle long"
