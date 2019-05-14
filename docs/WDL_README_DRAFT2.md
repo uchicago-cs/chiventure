@@ -161,7 +161,7 @@ space, followed by a dash(-), followed by another space, then the attribute.
   in: BEDROOM
 
   actions:  
-  - take
+  - take:
     - condition: in_inventory: top_hat
     - text_success: "You got the wand!"
     - text_fail: "You cannot take the wand until you have the top hat"
