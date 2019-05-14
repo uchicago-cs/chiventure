@@ -61,7 +61,7 @@ attribute_t* create_attribute(void* value, enum attribute_tag type);
 
 int attribute_free(attribute_t *attribute);
 
-
+int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
 
 // ATTRIBUTE ADDITION FUNCTIONS -----------------------------------------------
 // the following functions allow their users to add attributes to the given item
