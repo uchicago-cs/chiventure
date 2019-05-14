@@ -108,7 +108,7 @@ space, followed by a dash(-), followed by another space, then the field.
 
         - text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
 
-    - `<ACTION FROM BANK>`
+    - `<ACTION FROM BANK>`:
       - condition: `<ATTRIBUTE: YES/NO>` which is prerequisite states for the given action to be performed, written as “state_attribute : yes/no” (e.g. to specify that a door must be unlocked to open, write “locked: no” in conditions)
 
       - text_success: `<STRING>` which is a string that is displayed upon the success of an action
