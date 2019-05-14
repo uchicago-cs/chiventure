@@ -77,7 +77,7 @@ bool check_connection_attr(obj_t *obj)
     // verify types of fields
     bool id = true, direction = true, through = true;
 
-    if (obj_get_type(obj, "to") != TYPE_STR && obj_get_type(obj, "to") != TYPE_CHAR)
+    if (obj_get_type(obj, "to") != TYPE_STR)
         id = false;
     if (obj_get_type(obj, "direction") != TYPE_STR)
         direction = false;
@@ -114,7 +114,7 @@ bool room_type_check(obj_t *obj)
     bool id_ver = true, short_ver = true, long_ver = true;
 
     // verify each field
-    if (obj_get_type(obj, "id") != TYPE_STR && obj_get_type(obj, "id") != TYPE_CHAR)
+    if (obj_get_type(obj, "id") != TYPE_STR)
         id_ver = false;
     if (obj_get_type(obj, "short_desc") != TYPE_STR)
         short_ver = false;
@@ -136,13 +136,13 @@ bool item_type_check(obj_t *obj)
     state_ver = true;
 
     // verify each attribute
-    if (obj_get_type(obj, "id") != TYPE_STR && obj_get_type(obj, "id") != TYPE_CHAR)
+    if (obj_get_type(obj, "id") != TYPE_STR)
         id_ver = false;
     if (obj_get_type(obj, "short_desc") != TYPE_STR)
         short_ver = false;
     if (obj_get_type(obj, "long_desc") != TYPE_STR)
         long_ver = false;
-    if (obj_get_type(obj, "in") != TYPE_STR && obj_get_type(obj, "in") != TYPE_CHAR)
+    if (obj_get_type(obj, "in") != TYPE_STR)
         in_ver = false;
     if (obj_get_type(obj, "state") != TYPE_STR)
         state_ver = false;
@@ -158,8 +158,7 @@ bool game_type_check(obj_t *obj)
     bool start_ver = true, intro_ver = true;
 
     // verify each attribute
-    if (obj_get_type(obj, "start") != TYPE_STR && obj_get_type(obj, "start") !=
-        TYPE_CHAR)
+    if (obj_get_type(obj, "start") != TYPE_STR)
         start_ver = false;
     if (obj_get_type(obj, "intro") != TYPE_STR)
         intro_ver = false;
@@ -180,7 +179,7 @@ bool game_type_check(obj_t *obj)
  void print_connection_attr(obj_t *obj)
  {
      // print each attribute within connection object
-     printf("connected to: %c\n", obj_get_char(obj, "to"));
+     printf("connected to: %s\n", obj_get_str(obj, "to"));
      printf("direction: %s\n", obj_get_str(obj, "direction"));
      printf("through: %s\n", obj_get_str(obj, "through"));
      return;
@@ -210,10 +209,31 @@ void print_connections(obj_t *obj)
 void print_room(obj_t *obj)
 {
     // print room attributes
-    printf("ROOM: %c\n", obj_get_char(obj, "id"));
+    printf("ROOM: %s\n", obj_get_str(obj, "id"));
     printf("short desc: %s\n", obj_get_str(obj, "short_desc"));
     printf("long_desc: %s\n", obj_get_str(obj, "long_desc"));
     // print connections
     print_connections(obj);
+    return;
+}
+
+/* See validate.h */
+void print_item(obj_t *obj)
+{
+    // print item attributes
+    printf("ITEM: %s\n", obj_get_str(obj, "id"));
+    printf("short_desc: %s\n", obj_get_str(obj, "short_desc"));
+    printf("long_desc: %s"\n, obj_get_str(obj, "long_desc"));
+    printf("in: %s\n", obj_get_str(obj, "in"));
+    printf("state: %s \n", obj_get_str(obj, "state"));
+    return;
+}
+
+/* See validate.h */
+void print_game(obj_t *obj)
+{
+    // print game attributes
+    printf("GAME introduction: %s\n", obj_get_str(obj, "intro"));
+    printf("starting room: %s\n", obj_get_str(obj, "start"));
     return;
 }
