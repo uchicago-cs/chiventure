@@ -43,3 +43,18 @@ int add_room_to_game(game_t *game, room_t *room) {
     return add_room_to_hash(game->all_rooms, room->room_id, room);
 }
 
+
+/* See game.h */
+int set_curr_player(game_t *game, player_t *player) {
+    game->curr_player = player;
+    if (game->curr_player != NULL)
+        return 1;
+    return 0;
+}
+
+// Function to find player given game and player id
+player_t *get_player(game_t *game, char *player_id) {
+    player_t *s;
+    HASH_FIND_STR(game->all_players, player_id, s);
+    return s;
+}

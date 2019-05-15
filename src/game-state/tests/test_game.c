@@ -5,7 +5,7 @@
 #include "game.h"
 
 
-//need to figure out how to feed in test struct into criterion
+/*need to figure out how to feed in test struct into criterion
 //assuming that is completed
 Test(game, init) 
 {
@@ -40,3 +40,4 @@ Test(game, free)
 {
 //tbd? 
 }
+*/

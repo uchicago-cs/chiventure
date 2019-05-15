@@ -108,7 +108,7 @@ int set_int_attr(item_t* item, char* attr_name, int value)
     if (res == NULL) 
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_tag = INEGER;
+        new_attribute->attribute_tag = INTEGER;
         new_attribute->attribute_value.int_val = value;
         new_attribute->attribute_key = attr_name;
         int rv = add_attribute_to_hash(item->attributes, new_attribute);

@@ -110,3 +110,12 @@ int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *pla
 int add_item_to_player(player_t *player, item_t *item) {
     return add_item_to_hash(player->inventory, item->item_id, item);
 }
+
+
+/* DISCARD
+IMPLEMENT function to find player given list and pid 
+/* See player_private.h 
+player_t *get_player(player_hash_t all_players, char *player_id) {
+    player_t
+}
+*/

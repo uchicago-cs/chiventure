@@ -24,7 +24,7 @@ typedef struct game {
     room_t *curr_room;
 
     /* pointer to current player struct */
-    room_t *curr_player;
+    player_t *curr_player;
 
     /* time when game started */
     //int time_start;
@@ -99,5 +99,27 @@ int add_player_to_game(game_t *game, player_t *player);
 int add_room_to_game(game_t *game, room_t *room);
 
 
+/* 
+*
+* Set current player in game
+* 
+* Parameters:
+* game, player
+* 
+* Returns:
+* 1 if the game->curr_player != NULL, 0 if NULL
+*/
+int set_curr_player(game_t *game, player_t *player);
+
+
+/* 
+* Function to find player given game and player id
+* Parameters:
+* Game, player id
+* 
+* Returns
+* player struct
+*/
+player_t *get_player(game_t *game, char *player_id);
 
 #endif
