@@ -68,62 +68,8 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attr
     return 1;
 }
 
-/* see item.h */
-int create_new_str_attr(item_t* item, char* attr_name, char* value)
+attribute_t *get_attribute(item_t *item, char *attr_name) 
 {
-    attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = STRING;
-    new_attribute->attribute_value.str_val = value;
-    new_attribute->attribute_key = attr_name;
-    int rv = add_attribute_to_hash(item->attributes, new_attribute);
-    return rv;
-}
-
-/* see item.h */
-int create_new_char_attr(item_t* item, char* attr_name, char value)
-{
-    attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = CHARACTER;
-    new_attribute->attribute_value.char_val = value;
-    new_attribute->attribute_key = attr_name;
-    int rv = add_attribute_to_hash(item->attributes, new_attribute);
-    return rv;
-}
-
-/* see item.h */
-int create_new_bool_attr(item_t* item, char* attr_name, bool value)
-{
-    attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = BOOLE;
-    new_attribute->attribute_value.bool_val = value;
-    new_attribute->attribute_key = attr_name;
-    int rv = add_attribute_to_hash(item->attributes, new_attribute);
-    return rv;
-}
-
-/* see item.h */
-int create_new_double_attr(item_t* item, char* attr_name, double value)
-{
-    attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = DOUBLE;
-    new_attribute->attribute_value.double_val = value;
-    new_attribute->attribute_key = attr_name;
-    int rv = add_attribute_to_hash(item->attributes, new_attribute);
-    return rv;
-}
-
-/* see item.h */
-int create_new_int_attr(item_t* item, char* attr_name, int value)
-{
-    attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = INTEGER;
-    new_attribute->attribute_value.int_val = value;
-    new_attribute->attribute_key = attr_name;
-    int rv = add_attribute_to_hash(item->attributes, new_attribute);
-    return rv;
-}
-
-attribute_t *get_attribute(item_t *item, char *attr_name) {
     attribute_t* return_value;
     attribute_hash_t attribute_hash = item->attributes;
     HASH_FIND_STR(attribute_hash, attr_name, return_value);
@@ -134,69 +80,106 @@ attribute_t *get_attribute(item_t *item, char *attr_name) {
     return return_value;
 }
 
-int replace_str_attr(item_t *item, char* attr_name, char *new_value) {
-
-  attribute_t* res = get_attribute(item, attr_name);
-  if (res == NULL) {
-    fprintf(stderr, "Error: attribute replacement failed.\n");
-    return 0;
-  }
-
-  res->attribute_value.str_val = new_value;
-
-  return 1;
+/* see item.h */
+int set_str_attr(item_t* item, char* attr_name, char* value)
+{
+    attribute_t* res = get_attribute(item, attr_name);
+    if (res == NULL) 
+    {
+        attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_tag = STRING;
+        new_attribute->attribute_value.str_val = value;
+        new_attribute->attribute_key = attr_name;
+        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        return rv;
+    }
+    else
+    {
+        res->attribute_value.str_val = value;
+        return 1;
+    }    
 }
 
-int replace_int_attr(item_t *item, char* attr_name, int new_value) {
 
-  attribute_t* res = get_attribute(item, attr_name);
-  if (res == NULL) {
-    fprintf(stderr, "Error: attribute replacement failed.\n");
-    return 0;
-  }
-
-  res->attribute_value.int_val = new_value;
-
-  return 1;
+/* see item.h */
+int set_int_attr(item_t* item, char* attr_name, int value)
+{
+    attribute_t* res = get_attribute(item, attr_name);
+    if (res == NULL) 
+    {
+        attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_tag = INEGER;
+        new_attribute->attribute_value.int_val = value;
+        new_attribute->attribute_key = attr_name;
+        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        return rv;
+    }
+    else
+    {
+        res->attribute_value.int_val = value;
+        return 1;
+    }    
 }
 
-int replace_double_attr(item_t *item, char* attr_name, double new_value) {
+/* see item.h */
+int set_double_attr(item_t* item, char* attr_name, double value)
+{
+    attribute_t* res = get_attribute(item, attr_name);
+    if (res == NULL) 
+    {
+        attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_tag = DOUBLE;
+        new_attribute->attribute_value.double_val = value;
+        new_attribute->attribute_key = attr_name;
+        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        return rv;
+    }
+    else
+    {
+        res->attribute_value.double_val = value;
+        return 1;
+    }    
 
-  attribute_t* res = get_attribute(item, attr_name);
-  if (res == NULL) {
-    fprintf(stderr, "Error: attribute replacement failed.\n");
-    return 0;
-  }
-
-  res->attribute_value.double_val = new_value;
-
-  return 1;
 }
 
-int replace_char_attr(item_t *item, char* attr_name, char new_value) {
-
-  attribute_t* res = get_attribute(item, attr_name);
-  if (res == NULL) {
-    fprintf(stderr, "Error: attribute replacement failed.\n");
-    return 0;
-  }
-
-  res->attribute_value.char_val = new_value;
-
-  return 1;
+/* see item.h */
+int set_char_attr(item_t* item, char* attr_name, char value)
+{
+    attribute_t* res = get_attribute(item, attr_name);
+    if (res == NULL) 
+    {
+        attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_tag = CHARACTER;
+        new_attribute->attribute_value.char_val = value;
+        new_attribute->attribute_key = attr_name;
+        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        return rv;
+    }
+    else
+    {
+        res->attribute_value.char_val = value;
+        return 1;
+    }    
 }
 
-int replace_bool_attr(item_t *item, char* attr_name, bool new_value) {
-
-  attribute_t* res = get_attribute(item, attr_name);
-  if (res == NULL) {
-    fprintf(stderr, "Error: attribute replacement failed.\n");
-    return 0;
-  }
-
-  res->attribute_value.bool_val = new_value;
-
-  return 1;
+/* see item.h */
+int set_bool_attr(item_t* item, char* attr_name, bool value)
+{
+    attribute_t* res = get_attribute(item, attr_name);
+    if (res == NULL) 
+    {
+        attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_tag = BOOLE;
+        new_attribute->attribute_value.bool_val = value;
+        new_attribute->attribute_key = attr_name;
+        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        return rv;
+    }
+    else
+    {
+        res->attribute_value.bool_val = value;
+        return 1;
+    }    
 }
 
 char* get_str_attr(item_t *item, char* attr_name) {

@@ -73,15 +73,6 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
 
 // attribute_t* create_attribute(void* value, int type);
 //attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
-int create_new_str_attr(item_t* item, char* attr_name, char* value);
-
-int create_new_char_attr(item_t* item, char* attr_name, char value);
-
-int create_new_boole_attr(item_t* item, char* attr_name, bool value);
-
-int create_new_double_attr(item_t* item, char* attr_name, double value);
-
-int create_new_int_attr(item_t* item, char* attr_name, int value);
 
 /* this has to be in interface as room and player modlues use this */
 int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
@@ -92,15 +83,16 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
 // the following functions allow their users to replace (read: change)
 // attributes associated
 
-int replace_str_attr(item_t *item, char* attr_name, char *new_value);
+int set_str_attr(item_t* item, char* attr_name, char* value);
 
-int replace_int_attr(item_t *item, char* attr_name, int new_value);
+int set_int_attr(item_t* item, char* attr_name, int value);
 
-int replace_char_attr(item_t *item, char* attr_name, char new_value);
+int set_double_attr(item_t* item, char* attr_name, double value);
 
-int replace_double_attr(item_t *item, char* attr_name, double new_value);
+int set_char_attr(item_t* item, char* attr_name, char value);
 
-int replace_bool_attr(item_t *item, char* attr_name, bool new_value);
+int set_bool_attr(item_t* item, char* attr_name, bool value);
+
 
 // ATTRIBUTE GET FUNCTIONS --------------------------------------------
 // the following functions allow their users to get (read: retrieve)
