@@ -25,6 +25,7 @@ char *trim_newline(char *s)
   return t;
 }
 
+/*Char array that stores valid commands to complete*/
 char *commandnames[] =
   {
     "LOOK",
@@ -34,6 +35,14 @@ char *commandnames[] =
     NULL
   };
 
+/*Helper function that compares to see if given command matches with a valid command*/
+/*
+ * Parameters:
+ * text: written in by user, and a yes or no state
+ *
+ * Returns:
+ *  The pointer to the command in the stored array
+ */
 char* command_name(const char *text, int state)
 {
   static int index, len;
@@ -52,6 +61,14 @@ char* command_name(const char *text, int state)
 }
 
   /* Function that allows for autocompletion of commands written by user */
+/* 
+ *
+ * Parameters:
+ * text output from command_name, and a start and end for future implementation 
+ *
+ * returns 
+ *  a pointer to the char pointer to the char array
+ */
 char** command_complete(const char *text, int start, int end)
 {
   rl_attempted_completion_over = 1;
