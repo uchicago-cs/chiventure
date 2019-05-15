@@ -114,7 +114,7 @@ int add_item_to_player(player_t *player, item_t *item) {
 
 /* DISCARD
 IMPLEMENT function to find player given list and pid 
-/* See player_private.h 
+See player_private.h 
 player_t *get_player(player_hash_t all_players, char *player_id) {
     player_t
 }
