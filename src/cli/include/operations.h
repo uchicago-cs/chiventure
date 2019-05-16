@@ -47,7 +47,7 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE]);
  * Generates history of commands (print_history() in shell.c needs 
  * to be intergrated into this function)
  * 
- *  Parameters:
+ * Parameters:
  *  - tokens: parsed input string
  *
  * Returns:
@@ -58,6 +58,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 /* Theese functions will generate an action-struct (based on action management) 
  * and pass a command along.   
+ *
  * Parameters:
  * - tokens: parsed input string (validified)
  *
@@ -73,6 +74,7 @@ char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 /* 
  * Prints the operation and tells the user that it was not recognised
+ *
  * Parameters:
  * - tokens: parsed input string
  *
@@ -84,6 +86,7 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 /* 
  * Prints the object and tells the user that it was not recognised
+ *
  * Parameters:
  * - tokens: parsed input string
  *
@@ -95,6 +98,7 @@ char *object_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 /* 
  * Prints the input action and tells the user that it was not recognised
+ *
  * Parameters:
  * - tokens: parsed input string
  *
@@ -107,6 +111,7 @@ char *prep_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 /*                                                                                                                             
  * Prints the second input item and tells the user 
  * that it was not recognised   
+ *
  * Parameters:
  * - tokens: parsed input string
  *
