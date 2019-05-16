@@ -55,8 +55,8 @@ void start_ui()
 
 
     // prints the score and number of moves in the info window
-    print_window(info);
-    print_window(cli);
+    window_print(info);
+    window_print(cli);
 
     // refreshes both windows to show the above changes
     wrefresh(info->w);
@@ -109,8 +109,8 @@ void start_ui()
             }
         }
 
-        print_window(cli);
-        print_window(info);
+        window_print(cli);
+        window_print(info);
 
         // refreshes windows to reflect changes
         wrefresh(info->w);
