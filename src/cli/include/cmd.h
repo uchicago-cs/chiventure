@@ -3,15 +3,6 @@
 #include "parser.h"
 #include "operations.h"
 
-/*
-* DISCLAIMER; THIS CODE IS BASED ON THE LAB 6 ADRBOOK SHELL
-* FROM THE CMSC 15200 (WIN 2019) COURSE TOUGHT BY ADAM SHAW (University of Chicago)
-*/
-
-/* ======================================= */
-/* === command datatype and operations === */
-/* ======================================= */
-
 /* Operation data type */
 typedef char *operation(char *tokens[TOKEN_LIST_SIZE]);
 
@@ -23,36 +14,48 @@ typedef struct
 } cmd;
 
 
-/* === command constructors === */
-
-/* 
- * Makes a new heap-allocated command with the operation set to NULL 
+/* Heap allocates a new cmd struct
+ * 
+ *
+ * Parameters:
+ * - an array of characters, with a defined lengh
+ *
+ * Returns:
+ * - a pointer to a new cmd struct
  */
 cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE]);
 
 
-/* === command free === */
-
-/* 
- * Frees command struct and its associated tokens, if there is one
+/* Frees resources associated with the cmd struct
  *
- * NOTE: DOESN'T DELETE OPERATIONS. They should not be deleted (and I am pretty)
- *  sure they can't be.
+ * Parameters:
+ * - pointer to a cmd struct
+ *
+ * Returns:
+ * - nothing
  */
 void cmd_free(cmd *c);
 
+/* === command debugging === */
 
-/* === command display (for debugging, logging) === */
-
-/* 
- * Returns 1st token as a string constant for command name
+/* Returns first token as command name (for debugging)
+ *
+ * Parameters:
+ * - pointer to a cmd struct
+ *
+ * Returns:
+ * - command name as a string
  */
 char *cmd_name_tos(cmd *c);
 
 
-/* 
- * Print a command 
- * note: for debugging only 
+/* Print the entire command (for debugging)
+ *
+ * Parameters:
+ * - pointer to a cmd struct
+ *
+ * Returns:
+ * - nothing - prints in stdout
  */
 void cmd_show(cmd *c);
 
@@ -61,27 +64,38 @@ void cmd_show(cmd *c);
 
 /*
  * Builds a cmd (as defined above) from a string
- * returns NULL if the parse fails
  * Almost unneeded, but will stay so that AND is a working command.
+ *
+ * Parameters:
+ * - array of characters
+ *
+ * Returns:
+ * - pointer to command struct, NULL if parse fails
  */
+
 cmd *cmd_from_string(char *s);
 
 
 /*
- * Takes tokens (parsed command) and creates a command using them.
- * For the purposes of this, we will store the preposition
- * in the command, not the name.
- * Input is a list of tokens, output is a pointer to a new command.
- * If the command is not valid, (the first word), then it outputs a NULL pointer.
- * otherwise, it ignores bad prepositions, and keeps all other bits.
- * Also, if malloc fails for a string
+ * creates a command from parsed string.
+ *
+ * Parameters:
+ * - Array of tokens 
+ *
+ * Returns:
+ * - pointer to a cmd struct, NULL if there is an error
  */
 cmd *cmd_from_tokens(char **ts);
 
 
 /* 
  * Executes the given command
- * note: address_book is of type bst** so it can be modified in READ
+ * 
+ * Parameters:
+ * - pointer to a cmd struct
+ *
+ * Returns:
+ * - nothing -> output handled elsewhere
  */
 void do_cmd(cmd *c,int *quit);
 

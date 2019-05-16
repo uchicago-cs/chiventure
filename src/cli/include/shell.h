@@ -2,9 +2,8 @@
 #define _CLI_INCLUDE_SHELL_H
 
 /*
- * DISCLAIMER; THIS SHELL STRUCTURE IS BASED ON THE LAB 6 ADRBOOK SHELL
- * FROM THE CMSC 15200 (WIN 2019) COURSE TOUGHT BY ADAM SHAW 
- * (University of Chicago)
+ * The shell module contains system internal functions
+ * 
  */
 
 /* ========================= */
@@ -14,6 +13,11 @@
 /* 
  * Prints out a help menu that contains a list of supported commands
  * (Note that this function will be moved to operation.c)
+ * Parameters:
+ *  - none
+ *
+ * Returns:
+ *  - nothing 
  */
 void help_text();
 
@@ -21,26 +25,51 @@ void help_text();
 /*
  * Prints a greeting message when player starts the game
  * (Note that this function will be moved to operation.c)
+ * Parameters:
+ *  - none
+ *
+ * Returns:
+ *  - nothing
  */
+ 
 void greet();
 
 
 /*
  * Prints out the history of valid command inputs in the current session
+ * Parameters:
+ *  - none
+ *
+ * Returns:
+ *  - none
  */
 void print_history();
 
 
 /*
  * Prints out error messages for user errors (as opposed to bugs in code)
+ * This function is mostly replaced by other more detailed error messages
+ * 
+ * Parameters:
+ *  - none
+ *
+ * Returns:
+ *  - none
  */
+ 
 void shell_error(char *s);
 
 
 /*
  * Prints out error messages for user errors (as opposed to bugs in code)
  * - this version takes a string arg for added flexibility
+ * Parameters:
+ *  - none
+ *
+ * Returns:
+ *  - none
  */
+ 
 void shell_error_arg(char *fmt, char *s);
 
 #endif /* _CLI_INCLUDE_SHELL_H */

@@ -21,8 +21,6 @@ cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE])
     return c;
 }
 
-/* === command free === */
-
 /* See cmd.h */
 void cmd_free(cmd *c)
 {
@@ -34,7 +32,8 @@ void cmd_free(cmd *c)
     free(c);
 }
 
-/* === command display (for debugging, logging) === */
+/* === command debugging === */
+
 
 /* See cmd.h */
 char *cmd_name_tos(cmd *c)

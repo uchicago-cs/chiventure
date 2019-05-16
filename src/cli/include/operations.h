@@ -30,26 +30,39 @@
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 
-/* 
- * Prints out a help menu (help_text() in shell.c needs to be intergrated
- * into this function) 
- */
+/* Generate a list of supported operations,
+ * Could later be modefied to provide hints
+ * 
+ *  Parameters:
+ *  - tokens: parsed input string
+ *
+ * Returns:
+ * - Said list of supported operations as a string
+ */ 
+ 
 char *help_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 
 /*                                                                                                                             
- * Prints out a history of commands (print_history() in shell.c needs 
+ * Generates history of commands (print_history() in shell.c needs 
  * to be intergrated into this function)
+ * 
+ *  Parameters:
+ *  - tokens: parsed input string
+ *
+ * Returns:
+ * - Said list of previous actions as a string
  */  
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 
-/*
- * The functions below take in a validated parsed command, package the 
- * command into structs that can be passed onto the corresponding action 
- * functions provided by the action management team.
+/* Theese functions will generate an action-struct (based on action management) 
+ * and pass a command along.   
+ * Parameters:
+ * - tokens: parsed input string (validified)
  *
- * Will be further clarified. 
+ * Returns:
+ * - Said list of supported operations as a string
  *
  */
 char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE]);
@@ -60,26 +73,46 @@ char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 /* 
  * Prints the operation and tells the user that it was not recognised
+ * Parameters:
+ * - tokens: parsed input string
+ *
+ * Returns:
+ * - error message as a string
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 
 /* 
  * Prints the object and tells the user that it was not recognised
+ * Parameters:
+ * - tokens: parsed input string
+ *
+ * Returns:
+ * - error message as a string
  */
 char *object_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 
 /* 
  * Prints the input action and tells the user that it was not recognised
+ * Parameters:
+ * - tokens: parsed input string
+ *
+ * Returns:
+ * - error message as a string
  */
 char *prep_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 
 /*                                                                                                                             
  * Prints the second input item and tells the user 
- * that it was not recognised                                                          
- */   
+ * that it was not recognised   
+ * Parameters:
+ * - tokens: parsed input string
+ *
+ * Returns:
+ * - error message as a string
+ */                                                       
 char *ind_object_error_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 // Put more operations here!
