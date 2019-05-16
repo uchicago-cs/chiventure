@@ -16,13 +16,7 @@
 //#define NORTH "north"
 //#define EAST "east"
 
-/*
- * For now, the hash will be a global variable.
- * Can pass it around as an argument instead if we need to */
-coord_record_t *coordmap;
-
-
-/* Temporary function:
+/* Dummy function:
  * We will use the hashing functions provided by game state
  * to access these paths in each room
  */
@@ -43,11 +37,12 @@ room_t *find_room(room_t *curr, char *direction)
 }
 
 
-int assign(int how_north, int how_east, room_t* room) 
+int assign(coord_record_t *coordmap, int how_north,
+	   int how_east, room_t* room) 
 {
   while (SUCCESS) {
         //checks if the coordinate has already been assigned
-    int x = add_coord(how_north, how_east, room);
+    int x = add_coord(coordmap, how_north, how_east, room);
 
     //returns SUCCESS if it has been assigned correctly, or failure if it has
     //already been assigned but to a different room id 
@@ -69,7 +64,7 @@ int assign(int how_north, int how_east, room_t* room)
     
     room_t *find_room_north = find_room(room, north);
     if (find_room_north != NULL) {
-      int north = assign(how_north+1, how_east, find_room_north);
+      int north = assign(coordmap, how_north+1, how_east, find_room_north);
       if (north == FAILURE) {
         return FAILURE;
       }
@@ -79,7 +74,7 @@ int assign(int how_north, int how_east, room_t* room)
     
     room_t *find_room_east = find_room(room, east);
     if (find_room_east != NULL) {
-      int east = assign(how_north, how_east+1, find_room_east);
+      int east = assign(coordmap, how_north, how_east+1, find_room_east);
       if (east == FAILURE) {
         return FAILURE;
       }
@@ -90,7 +85,7 @@ int assign(int how_north, int how_east, room_t* room)
 
     room_t *find_room_south = find_room(room, south);
     if (find_room_south != NULL) {
-      int south = assign(how_north-1, how_east, find_room_south);
+      int south = assign(coordmap, how_north-1, how_east, find_room_south);
       if (south == FAILURE) {
         return FAILURE; 
       }
@@ -101,7 +96,7 @@ int assign(int how_north, int how_east, room_t* room)
     
     room_t *find_room_west = find_room(room, west);
     if (find_room_south != NULL) {
-      int west = assign(how_north, how_east-1, find_room_west);
+      int west = assign(coordmap, how_north, how_east-1, find_room_west);
       if (west == FAILURE) {
         return FAILURE;
       }
@@ -114,13 +109,13 @@ int assign(int how_north, int how_east, room_t* room)
 int check_valid_map(/*may pass in info from WDL*/)
 {
   //Set hash to NULL
-  coordmap = NULL;
+  coord_record_t *coordmap = NULL;
 
   //initial: Read initial room that player begins in out of WDL
   room_t *initial = NULL; /*dummy line of code, delete later*/
 
   //Coord for initial room arbitrarily set to be (0,0)
-  int r =  assign(0, 0, initial);
+  int r =  assign(coordmap, 0, 0, initial);
   return r;
 }
 
@@ -128,7 +123,7 @@ int check_valid_map(/*may pass in info from WDL*/)
 /* Cannot fully test this function without Game State's hash structs
  * and functions for finding items in hash. We realized that rewriting all
  * of these for testing would be reinventing the wheel and will
- * make wriitng extensive tests a seperate Sprint 3 task (once game state
+ * make writing extensive tests a seperate Sprint 3 task (once game state
  * structs have been merged to master) */
 
 /*

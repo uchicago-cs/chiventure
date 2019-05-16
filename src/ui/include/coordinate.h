@@ -76,7 +76,7 @@ void coord_init(coordinate_t *c, int x, int y);
  * - call this function (once it's implemented) in DFS to check
  * whether we have assigned a room a coord yet
  */
-coord_record_t *find_coord(int x, int y);
+coord_record_t *find_coord(coord_record_t *coordmap, int x, int y);
 
 /* add_coord:
  * - Implementation  Will use HASH_FIND to check uniqueness
@@ -86,15 +86,15 @@ coord_record_t *find_coord(int x, int y);
  *   assigned to the same room id
  * - FAILURE if coordinate is already assigned to a different room id
  */
-int add_coord(int x, int y, room_t *r);
+int add_coord(coord_record_t *coordmap, int x, int y, room_t *r);
 
-/* begin_depth_first_search:
- * - will be used when a game is passed to WDL 
+/* check_valid_map:
+ * - will be called on as soon as game is loaded in by WDL 
  * returns:
  * - SUCCESS if all rooms are assigned a coordinate 
  * - FAILURE if a list of rooms are invalid 
  */
-int check_valid_map(/*may pass in info from WDL*/);
+int check_valid_map(/*will pass in info from WDL/gamestate*/);
 
 
 #endif /* INCLUDE_COORDINATE_H_ */

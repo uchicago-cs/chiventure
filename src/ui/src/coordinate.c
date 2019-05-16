@@ -3,7 +3,7 @@
 #include "coordinate.h"
 #include "assert.h"
 
-coord_record_t *coordmap;
+//coord_record_t *coordmap;
 
 void coord_init(coordinate_t *c, int x, int y)
 {
@@ -18,7 +18,7 @@ void coord_init(coordinate_t *c, int x, int y)
  * See coordinate.h for more details
  * Returns NULL if coord not found in hash
  */
-coord_record_t *find_coord(int x, int y)
+coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
 {
   coordinate_t *key = malloc(sizeof(coordinate_t));
   memset(key, 0, sizeof(coordinate_t));
@@ -37,9 +37,9 @@ coord_record_t *find_coord(int x, int y)
  * - returns FAILURE if it finds coordinate already and 
  * - the coord is mapped to a different room
  */
-int add_coord(int x, int y, room_t *r)
+int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 {
-  coord_record_t *cr = find_coord(x, y);
+  coord_record_t *cr = find_coord(coordmap, x, y);
   /* Only runs if find_coord does not find coord
     already existing in hashtable */
   
