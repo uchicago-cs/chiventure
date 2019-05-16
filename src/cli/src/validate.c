@@ -9,21 +9,16 @@
 #include "../../game-state/include/game.h"
 
 /*
-*  THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
-*/
+ *  THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
+ */
 
-/* current game - contains information about the current state of game
- * need to talk to game state to figure out how this is obtained */
+/* Forward declaration. Need to collaborate with game state */
 game_t *curr_game;
- 
 bool is_in_room(char *object);
-        //curr_game->curr_room->items // now look up what actions can be performed on this object
 
-/*
-*  See validate.h, THIS FUNCTION WILL BE REFERING TO SYNONYMS INSTEAD OF A SPECIFIC COMMAND
-*/
-
-cmd *assign_action(char **ts){
+/* See validate.h */
+cmd *assign_action(char **ts)
+{
     cmd *output = cmd_new(ts);
     if(strcmp(ts[0],"QUIT")==0) output->functionofcommand = quit_operation;
     else if(strcmp(ts[0],"HELP")==0) output->functionofcommand = help_operation;
@@ -34,39 +29,33 @@ cmd *assign_action(char **ts){
     else if(strcmp(ts[0],"GIVE")==0) output->functionofcommand = type4_action_operation;
     // statement cases
     // Add a new one for each new command.
-    else {
+    else
+    {
         output->functionofcommand = action_error_operation;
-        }
+    }
     //HERE WE VALIDATE THE COMMANDS
 
     return output;
 }
 
-/*
-*  See validate.h
-*/
-bool validate_object(cmd *c){
+/* See validate.h */
+bool validate_object(cmd *c)
+{
 
     return true;
 }
 
-/*
-*  See validate.h
-*/
-
-bool validate_prep(cmd *c){
+/* See validate.h */
+bool validate_prep(cmd *c)
+{
     //Once the commands are finalized we can match the preposition with the command,
-    // talk to, vs talk from, take from, vs take to. give from vs give to. 
+    // talk to, vs talk from, take from, vs take to. give from vs give to.
     return true;
 }
 
-/*
-*  See validate.h
-*/
-
-bool validate_ind_objects(cmd *c){
+/* See validate.h */
+bool validate_ind_objects(cmd *c)
+{
     //similar to validate_in_objects
     return true;
 }
-
-

@@ -8,115 +8,110 @@
 
 /* === command constructors  === */
 
-/* cmd_new: make a new heap-allocated command with arg set to NULL
- * and preposition set to 0, which is the symbol for no preposition.
- */
+/* See cmd.h */
 cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE])
 {
-  cmd *c = (cmd*)malloc(sizeof(cmd));
-  if (c==NULL) {
-    fprintf(stderr,"error (cmd_tag): malloc failed\n");
-    exit(1);
-  }
-  c->tokens=tokens;
-  return c;
+    cmd *c = (cmd*)malloc(sizeof(cmd));
+    if (c==NULL)
+    {
+        fprintf(stderr,"error (cmd_tag): malloc failed\n");
+        exit(1);
+    }
+    c->tokens=tokens;
+    return c;
 }
 
 /* === command free === */
 
-/* cmd_free: free command struct and its string, if there is one */
+/* See cmd.h */
 void cmd_free(cmd *c)
 {
-  if (c == NULL || c->tokens == NULL) return;
-  for(int i = 0; i < TOKEN_LIST_SIZE; i++) {
-      if (c->tokens[i] != NULL) free(c->tokens[i]);
-  }
+    if (c == NULL || c->tokens == NULL) return;
+    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+    {
+        if (c->tokens[i] != NULL) free(c->tokens[i]);
+    }
     free(c);
 }
 
 /* === command display (for debugging, logging) === */
 
-/* cmd_name_tos: return string constant for command name */
+/* See cmd.h */
 char *cmd_name_tos(cmd *c)
 {
-  if(c == NULL || c->tokens == NULL || c->tokens[0] == NULL) return "ERROR";
-  return c->tokens[0];
+    if(c == NULL || c->tokens == NULL || c->tokens[0] == NULL) return "ERROR";
+    return c->tokens[0];
 }
 
-/* cmd_show: print command */
-/* note: for debugging only; */
+/* See cmd.h */
 void cmd_show(cmd *c)
 {
-  /* note: cmd_name_tos result does not need to be freed
-   * since that function returns pointers to string constants
-   */
-   if (c == NULL || c->tokens == NULL) return;
-   for(int i = 0; i < TOKEN_LIST_SIZE; i++) {
-       if (c->tokens[i] != NULL) printf("%s\n",(c->tokens[i]));
-   }
-   return;
+    /* note: cmd_name_tos result does not need to be freed
+     * since that function returns pointers to string constants
+     */
+    if (c == NULL || c->tokens == NULL) return;
+    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+    {
+        if (c->tokens[i] != NULL) printf("%s\n",(c->tokens[i]));
+    }
+    return;
 }
 
 /* === command parsing === */
 
+/* See cmd.h */
+cmd *cmd_from_tokens(char **ts)
+{
+    cmd *output = assign_action(ts);
 
-/*
- * Takes tokens (parsed command) and creates a command using them.
- * For the purposes of this, we will store the preposition
- * in the command, not the name.
- * Input is a list of tokens, output is a pointer to a new command.
- * If the command is not valid, (the first word), then it outputs a NULL pointer.
- * otherwise, it ignores bad prepositions, and keeps all other bits.
- * Also, if malloc fails for a string
- */
-cmd *cmd_from_tokens(char **ts){
-  cmd *output = assign_action(ts);
-  
-  if(output->functionofcommand == action_error_operation){
+    if(output->functionofcommand == action_error_operation)
+    {
+        return output;
+    }
+    else if(!validate_object(output))
+    {
+        output->functionofcommand = object_error_operation;
+        return output;
+    }
+    else if(!validate_prep(output))
+    {
+        output->functionofcommand = prep_error_operation;
+        return output;
+    }
+    else if(!validate_ind_objects(output))
+    {
+        output->functionofcommand = ind_object_error_operation;
+        return output;
+    }
     return output;
-  }
-  else if(!validate_object(output)){
-    output->functionofcommand = object_error_operation;
-    return output;
-  }
-  else if(!validate_prep(output)){
-    output->functionofcommand = prep_error_operation;
-    return output;
-  }
-  else if(!validate_ind_objects(output)){
-    output->functionofcommand = ind_object_error_operation;
-    return output;
-  }
-  return output;
 }
 
-/* cmd_from_string: build a cmd (as defined in the cmd.h) from a string;
- * return NULL if the parse fails
- */
+/* See cmd.h */
 cmd *cmd_from_string(char *s)
 {
-  char **parsed_input = parse(s);
-  return cmd_from_tokens(parsed_input);
+    char **parsed_input = parse(s);
+    return cmd_from_tokens(parsed_input);
 }
 
 /* =================================== */
 /* === execution of shell commands === */
 /* =================================== */
 
-/* do_cmd: execute the given command
- */
+/* See cmd.h */
 void do_cmd(cmd *c,int *quit)
 {
-  char *outstring;
-  /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
-  if (strcmp(cmd_name_tos(c),"QUIT")==0){
-      *quit=0;
-      (*(c->functionofcommand))(c->tokens);
+    char *outstring;
+    /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
+    if (strcmp(cmd_name_tos(c),"QUIT")==0)
+    {
+        *quit=0;
+        (*(c->functionofcommand))(c->tokens);
     }
-  else{
-    outstring = (*(c->functionofcommand))(c->tokens);
-    if(outstring!=NULL)
-    printf("%s\n",outstring );
-  }
-  return;
+    else
+    {
+        outstring = (*(c->functionofcommand))(c->tokens);
+        if(outstring!=NULL)
+            printf("%s\n",outstring );
+    }
+    return;
 }
