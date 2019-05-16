@@ -19,7 +19,7 @@ typedef char *operation(char *tokens[TOKEN_LIST_SIZE]);
 typedef struct
 {   
     char **tokens;    //should be of TOKEN_LIST_SIZE
-    operation *functionofcommand;
+    operation *func_of_cmd;
 } cmd;
 
 

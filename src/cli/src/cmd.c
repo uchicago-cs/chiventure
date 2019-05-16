@@ -64,23 +64,23 @@ cmd *cmd_from_tokens(char **ts)
 {
     cmd *output = assign_action(ts);
 
-    if(output->functionofcommand == action_error_operation)
+    if(output->func_of_cmd == action_error_operation)
     {
         return output;
     }
     else if(!validate_object(output))
     {
-        output->functionofcommand = object_error_operation;
+        output->func_of_cmd = object_error_operation;
         return output;
     }
     else if(!validate_prep(output))
     {
-        output->functionofcommand = prep_error_operation;
+        output->func_of_cmd = prep_error_operation;
         return output;
     }
     else if(!validate_ind_objects(output))
     {
-        output->functionofcommand = ind_object_error_operation;
+        output->func_of_cmd = ind_object_error_operation;
         return output;
     }
     return output;
@@ -105,11 +105,11 @@ void do_cmd(cmd *c,int *quit)
     if (strcmp(cmd_name_tos(c),"QUIT")==0)
     {
         *quit=0;
-        (*(c->functionofcommand))(c->tokens);
+        (*(c->func_of_cmd))(c->tokens);
     }
     else
     {
-        outstring = (*(c->functionofcommand))(c->tokens);
+        outstring = (*(c->func_of_cmd))(c->tokens);
         if(outstring!=NULL)
             printf("%s\n",outstring );
     }
