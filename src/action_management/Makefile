@@ -7,7 +7,7 @@ SRCS = src/actionmanagement.c src/game.c
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ 
 LDFLAGS = -shared
 OBJS = $(SRCS:.c=.o)
-LIB = actions.a
+LIB = action_management.a
 RM = rm -f
 
 .PHONY: all
