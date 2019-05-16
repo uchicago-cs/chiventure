@@ -5,7 +5,7 @@ AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
 RM = rm -f
 LIB = libui.a
-LDLIBS = -lyaml -lncurses
+LDLIBS =  -lncurses
 
 .PHONY: all clean examples
 
@@ -13,7 +13,7 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/ui.c src/general_ui.c src/map.c src/coordinate.c src/DFS.c
+SRCS = src/ui.c src/window.c src/print_functions.c src/map.c src/coordinate.c src/DFS.c
 OBJS = $(SRCS:.c=.o)
 
 $(SRCS:.c=.d):%.d:%.c

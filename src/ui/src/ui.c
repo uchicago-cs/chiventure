@@ -4,24 +4,27 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <signal.h>
-#include "general_ui.h"
+#include "window.h"
 #include "ui.h"
+#include "print_functions.h"
 
-extern int line;
-extern int ch;
 
-void start_ui(){
 
-    window_t *info;
-    window_t *cli;
-    window_t *map;
-    window_t *score;
-    int  width, height;
-    int mainw = 1;
-    int cli_top = 0; // 0 if the cli will be in the bottom, 1 if it will be on top
 
+void start_ui()
+{
     // prevents program from closing on CTRL+C
-    signal(SIGINT, sigintHandler);
+    signal(SIGINT, SIG_IGN);
+
+    /* 1 will indicate we are in the main window, 0 will mean
+     * we are in the map window
+     */
+    int on_main = 1;
+    int ch;
+
+    // 0 if the cli will be in the bottom, 1 if it will be on top
+    int cli_top = 0;
+
     // starts curses mode
     initscr();
 
@@ -29,32 +32,31 @@ void start_ui(){
     noecho();
 
     // height and width of the terminal window
-    height = LINES / 2;
-    width = COLS;
+    int height = LINES / 2;
+    int width = COLS;
 
 
 
 
-    /* initializes the widows. there is one for score, one where maps could
-     * be displayed, and the cli window
+    /* initializes the widows. there is a main window, one where
+     * maps could be displayed, and the cli window
      */
-    score = create_newwin(height, width, cli_top * height, 0, true, print_info);
-    map = create_newwin(height, width, cli_top * height, 0, true, print_map);
-
-    cli = create_newwin(height, width, (!cli_top)* height , 0, false, print_cli);
+    window_t *main_win = window_new(height, width, cli_top * height, 0, print_info, true);
+    window_t *map = window_new(height, width, cli_top * height, 0, print_map, true);
+    window_t *cli = window_new(height, width, (!cli_top)* height, 0, print_cli, false);
 
     // info window is the window to be displayed in addition to cli
-    info = score;
+    window_t *info = main_win;
 
     // reads input from the cli window, allows scrolling
     keypad(cli->w, TRUE);
     scrollok(cli->w, TRUE);
 
-    // prints '>' in the cli window
-    mvwprintw(cli->w, line, 2, ">");
+
 
     // prints the score and number of moves in the info window
-    info->print(info);
+    print_window(info);
+    print_window(cli);
 
     // refreshes both windows to show the above changes
     wrefresh(info->w);
@@ -62,7 +64,7 @@ void start_ui(){
 
     // sample game loop. uses ctrl+D key to exit
 
-    while((ch = wgetch(cli->w)) != 4){
+    while ((ch = wgetch(cli->w)) != 4) {
 
 
         height = LINES / 2;
@@ -83,27 +85,32 @@ void start_ui(){
         box(info->w, 0, 0 );
 
         // detects ALt+key commands
-        if(ch == 27){
+        if (ch == 27) {
             ch = wgetch(cli->w);
             // Alt+m switches the info window to the map window
-            if(ch == 'm'){
-                if(mainw){
+            // Alt+s switches the position of the CLI
+            if (ch == 'm') {
+                if (on_main) {
                     info = map;
                 }
-                else{
-                    info = score;
+                else {
+                    info = main_win;
                 }
-                mainw = !mainw;
+                on_main = !on_main;
                 ch = 27;
             }
-            else if(ch == 's'){
+            else if (ch == 's') {
                 cli_top = !cli_top;
                 ch = 27;
+                mvwin(cli->w, !(cli_top) * height, 0);
+                mvwin(main_win->w, (cli_top) * height, 0);
+                mvwin(map->w, (cli_top) * height, 0);
+
             }
         }
 
-        cli->print(cli);
-        info->print(info);
+        print_window(cli);
+        print_window(info);
 
         // refreshes windows to reflect changes
         wrefresh(info->w);
@@ -112,5 +119,10 @@ void start_ui(){
 
     }
 
-    endwin();			/* End curses mode		  */
+    window_free(main_win);
+    window_free(map);
+    window_free(cli);
+
+    // End curses mode
+    endwin();
 }
