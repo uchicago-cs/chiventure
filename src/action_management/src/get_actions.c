@@ -1,36 +1,61 @@
 #include <stdlib.h>
 #include "utlist.h"
 #include "actionmanagement.h"
+#include "action_structs.h"
 
-typedef struct list_t {
-    void* data;
-    struct list_t *next, *prev;
-} list_t;
-
-
-
-list_t* get_actions_kind1()
+static action_type_t valid_actions[] =
 {
-    // SYNONYM TAKE
-    list_t *head_take = NULL;
-    LL_APPEND(head_take, "pick up");
-    // SYNONYM CONSUME
-    list_t *head_consume = NULL;
-    LL_APPEND(head_consume, "eat");
-    LL_APPEND(head_consume, "drink");
+/* KIND 1 */
+    {"open", ITEM},
+    {"close", ITEM},
+    {"push",ITEM},
+    {"pull", ITEM},
+    {"examine",ITEM},
+    {"turn on", ITEM},
+    {"turn off",ITEM},
+    {"take", ITEM},
+    {"drop",ITEM},
+    {"consume", ITEM},
+/* KIND 2 */
+    {"go",PATH},
+    {"enter",PATH},
+/* KIND 3 */
+    {"use on",ITEM_ITEM},
+    {"put on",ITEM_ITEM}
+};
 
-    // LIST OF ACTIONS
-    list_t *head = NULL;
-    LL_APPEND(head,action_new(OPEN, "open", NULL, ITEM));
-    LL_APPEND(head,action_new(CLOSE, "close", NULL, ITEM));
-    LL_APPEND(head,action_new(PUSH, "push", NULL, ITEM));
-    LL_APPEND(head,action_new(PULL, "pull", NULL, ITEM));
-    LL_APPEND(head,action_new(EXAMINE, "examine", NULL, ITEM));
-    LL_APPEND(head,action_new(TURN_ON, "turn on", NULL, ITEM));
-    LL_APPEND(head,action_new(TURN_OFF, "turn off", NULL, ITEM));
-    LL_APPEND(head,action_new(TAKE, "take", take_synonyms, ITEM));
-    LL_APPEND(head,action_new(DROP, "drop", NULL, ITEM));
-    LL_APPEND(head,action_new(CONSUME, "consume", consume_synonyms, ITEM));
+static int NUM_ACTIONS = sizeof(valid_actions) / sizeof(action_type_t);
 
 
+list_actions *get_supported_actions(enum action_kind kind)
+{
+    action_type_t temp = NULL;
+    int i;
+
+    switch(kind)
+    {
+        case 1:
+            for(i = 0; i <= 9; i++) 
+            {
+                LL_APPEND(temp,valid_actions[i]);
+                temp = valid_actions[i];
+            }
+            break;
+
+        case 2:
+            for(i = 10; i <= 11; i++) 
+            {
+                LL_APPEND(temp,valid_actions[i]);
+                temp = valid_actions[i];
+            }
+            break;
+
+        case 3:
+            for(i = 12; i <= 13; i++) 
+            {
+                LL_APPEND(temp,valid_actions[i]);
+                temp = valid_actions[i];
+            }
+            break;
+    }
 }
