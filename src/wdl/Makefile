@@ -1,31 +1,28 @@
-# Makefile for using library and connecting our files
-# compiler
+# Makefile based on template at https://gist.github.com/xuhdev/1873316
+
 CC = gcc
-# compiler flags
-CFLAGS = -I./include/ -I../libobj/include/ -I../common/include/ -O2 -Wall -Wextra -g -fPIC
-# remove command
+AR = ar 
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/
 RM = rm -f
-# library flags
-LDFLAGS = -L../libobj/ -Wl,-rpath=../libobj/
-# libraries
-LIB = -lobj
+LIB = wdl.a
 LDLIBS = -lyaml
-# sources
-SRCS = src/main.c src/parse.c src/validate.c
-# objects
-OBJ = $(SRCS:.c=.o)
-# bin
-BIN = main
 
-.PHONY = all
-all: $(BIN)
+.PHONY: all clean examples
 
-main.o: $(SRCS)
+all: $(LIB)
 
-main: $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIB) $(LDLIBS) -o $@
+# Library
 
-.PHONY = clean
+SRCS = src/parse.c src/validate.c
+OBJS = $(SRCS:.c=.o)
+
+$(SRCS:.c=.d):%.d:%.c
+	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
+
+-include $(SRCS:.c=.d)
+
+$(LIB): $(OBJS)
+	$(AR) -r -o $@ $^
 
 clean:
-	$(RM) $(BIN) $(OBJ)
+	${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
