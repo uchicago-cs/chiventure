@@ -21,7 +21,7 @@ int room_free(room_t *room) {
     delete_all_paths(room->paths);
     delete_all_items(room->items);
     free(room);
-    return 1;
+    return SUCCESS;
 }
 
 /* See room.h */
@@ -33,7 +33,7 @@ int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room) {
         exit(1);
     }
     HASH_ADD_STR(all_rooms, room_id, room);
-    return 1;
+    return SUCCESS;
 }
 
 /* See room.h */
@@ -53,7 +53,7 @@ int delete_all_rooms(room_hash_t rooms) {
         HASH_DEL(rooms, current_room);  /* delete it (rooms advances to next) */
         room_free(current_room);             /* free it */
     }
-    return 1;
+    return SUCCESS;
 }
 
 /* Get short description of room

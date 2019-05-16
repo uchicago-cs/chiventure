@@ -44,7 +44,7 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc, item_hash_t i
  *  pointer to the room struct to be freed
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int room_free(room_t *room);
 
@@ -55,7 +55,7 @@ int room_free(room_t *room);
  *  room id
  *  pointer to the room
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room);
 
@@ -66,7 +66,7 @@ int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room);
  *  item struct
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int add_item_to_room(room_t *room, item_t *item);
 
@@ -77,7 +77,7 @@ int add_item_to_room(room_t *room, item_t *item);
  *  path struct
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int add_path_to_room(room_t *room, path_t *path);
 
@@ -87,7 +87,7 @@ int add_path_to_room(room_t *room, path_t *path);
  * Parameters:
  *  hashtable of rooms that need to be deleted
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int delete_all_rooms(room_hash_t rooms);
 
