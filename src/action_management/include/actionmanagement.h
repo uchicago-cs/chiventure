@@ -1,84 +1,27 @@
 #ifndef _ACTIONS_H_
 #define _ACTIONS_H_
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "action_structs.h"
 #include "game.h"
 
-/* An enumeration of all supported actions.
- * KIND 1 ACTIONS - ACTION <item>
- * KIND 2 ACTIONS - ACTION <direction>
- * KIND 3 ACTIONS - ACTION <npc>
- * KIND 4 ACTIONS - ACTION <item> <npc> 
- * KIND 5 ACTIONS - ACTION <item> <item> 
- */
-enum actions {
 
-/* KIND 1 ACTIONS */
-    OPEN,
-    CLOSE,
-    PUSH,
-    PULL,
-    EXAMINE,
-    TURN_ON,
-    TURN_OFF,
-    TAKE,    // synonyms: "pick up"
-    DROP,
-    CONSUME, // synonyms: "use" "drink" "eat"
-
-/* KIND 2 ACTIONS */
-    GO,      // synonyms: "walk"
-    ENTER,
-
-/* KIND 3 ACTIONS */
-    TALK_TO,
-
-/* KIND 4 ACTIONS */
-    GIVE_TO,
-    
-/* KIND 5 ACTIONS */
-    USE_ON,
-    PUT_ON
-};
-
-
-/* Each enum corresponds to a different "KIND" of action */
-enum action_kind {
-  ITEM = 1, // ACTION <item> i.e. Action Type 1
-  DIRECTION = 2, // ACTION <direction i.e. Action Type 2
-  NPC = 3, // ACTION <npc> i.e. Action Type 3
-  ITEM_NPC = 4, // ACTION <item> <npc> i.e. Action Type 4
-  ITEM_ITEM = 5 // ACTION <item> <item> i.e. Action Type 5
-};
-
-
-/* An action struct that contains the following:
- * - act: the encoded enum name for this action
- * - c_name: the 'canonical' string that should call the enum
- * - synonyms: the synonyms that would also be allowed to call action
- * - parameters: an order-sensitive linked list of object_type enums
-*/
-typedef struct {
-    enum actions act;   // e.g. CONSUME
-    char *c_name;  // e.g. "eat"
-    list_t *synonyms;   // e.g. "drink" -> "use"
-    enum action_kind *kind; // e.g. KIND_1
-} action_t;
-
-
-// ===========================================================
+/* File consisting of all functions created by action management
+   =========================================================================== */
 
 /*
  * Allocates a new action on the heap, calling action_init
  *
  * Parameters:
  * - act: an enumeration of the action
+ * - c_name: a string containing an actions canonical name
+ * - synonyms: a list of synonyms for the action
+ * - kind: an enumeration of the kind of action
  *
  * Returns:
  * - a pointer to a new action struct
  */
 action_t *action_new(enum actions act, char *c_name,
-                     list_t *synonyms, enum action_kind *kind);
+                     list_t *synonyms, enum action_kind kind);
 
 
 /*
@@ -86,15 +29,18 @@ action_t *action_new(enum actions act, char *c_name,
  * Will determine the action_type, depending on what action is given
  *
  * Parameters:
- * - a: a pointer to an empty action_t
+ * - a: a pointer to an empty action_t allocated by action_new
  * - act: an enumeration of the action
+ * - c_name: a string containing an actions canonical name
+ * - synonyms: a list of synonyms for the action
+ * - kind: an enumeration of the kind of action
  *
  * Returns:
  * - 0 if success, 1 if an error occurs
  * - an error message in stderr if the action struct is not initialized
  */
 int action_init(action_t *a, enum actions act, char *c_name,
-                list_t *synonyms, enum action_kind *kind);
+                list_t *synonyms, enum action_kind kind);
 
 
 /*
@@ -109,18 +55,31 @@ int action_init(action_t *a, enum actions act, char *c_name,
 int action_free(action_t *a);
 
 
-// ===========================================================
+/* ========================================================================== */
 
 /* 
  * A function that returns all supported actions
  *
  * Parameters:
- * - kind: The enumerated value of KIND, specifying which action KIND necessary
+ * - kind: The enumerated value of kind, specifying the kind of actions wanted
  * 
  * Returns:
  * - a linked list of action_t structs 
  */
-list_t *get_supported_actions(enum action_kind *kind);
+list_t *get_supported_actions(enum action_kind kind);
+
+
+/* A series of functions that will be implemented in a later sprint
+ * along with the list structure we will use for them
+ *
+ * Returns:
+ * - a linked list of action_t structs of the same action kind
+ */
+list_t *get_actions_kind1();
+list_t *get_actions_kind2();
+list_t *get_actions_kind3();
+list_t *get_actions_kind4();
+list_t *get_actions_kind5();
 
 
 /* 
@@ -136,7 +95,7 @@ char *get_action_cname(action_t *a);
 
 
 /* 
- * A function that returns the synonyms of an action as a list of enums 
+ * A function that returns the synonyms of an action as a list of strings 
  * 
  * Parameters:
  * - a: An action struct
@@ -147,7 +106,7 @@ char *get_action_cname(action_t *a);
 list_t *get_action_synonyms(action_t *a);
 
 
-/* A function that returns the KIND of an action as an integer 
+/* A function that returns the kind of action as an integer
  * 
  * Parameters:
  * - a: An action struct
@@ -159,10 +118,10 @@ list_t *get_action_synonyms(action_t *a);
  * - 4 for KIND 4
  * - 5 for KIND 5
  */
-int *get_action_kind(action_t *a);
+int get_action_kind(action_t *a);
 
 
-// ===========================================================
+/* ========================================================================== */
 
 /* A function that executes KIND 1 actions (ACTION <item>)
  * 
