@@ -2,6 +2,7 @@
 #define LOAD_H
 
 #include "../game.pb-c.h"
+#include "dummy.h"
 
 /*
  * Dummy Structs Generally Based off of Game-State's Structs
