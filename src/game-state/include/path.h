@@ -45,7 +45,7 @@ typedef struct path* path_hash_t;
  *  the linked list of conditions that need to be deleted
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int delete_all_conditions(condition_list_t conditions);
 
@@ -65,7 +65,7 @@ path_t *path_new(char *room_id);
  *  pointer to the path struct to be freed
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int path_free(path_t *path);
 
@@ -76,7 +76,7 @@ int path_free(path_t *path);
  *  path id
  *  pointer to the path
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int add_path_to_hash(path_hash_t all_paths, char* path_id, path_t *path);
 
@@ -87,7 +87,7 @@ int add_path_to_hash(path_hash_t all_paths, char* path_id, path_t *path);
  *  condition struct
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int add_condition_to_path(path_t *path, condition_t *condition);
 
@@ -97,7 +97,7 @@ int add_condition_to_path(path_t *path, condition_t *condition);
  * Parameters:
  *  hashtable of paths that need to be deleted
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int delete_all_paths(path_hash_t paths);
 

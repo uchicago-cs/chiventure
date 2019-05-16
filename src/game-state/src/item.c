@@ -11,7 +11,7 @@
     a long description of the item
 
   Returns:
-    0 for failure, 1 for success
+    FAILURE for failure, SUCCESS for success
 */
 int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc)
 {
@@ -21,7 +21,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
     strcpy(new_item->short_desc, short_desc);
     strcpy(new_item->long_desc, long_desc);
 
-    return 1;
+    return SUCCESS;
 }
 
 /* see item.h */
@@ -32,7 +32,8 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
 
-    if(new_item == NULL || new_item->item_id == NULL || new_item->short_desc == NULL || new_item->long_desc == NULL) {
+    if(new_item == NULL || new_item->item_id == NULL ||
+       new_item->short_desc == NULL || new_item->long_desc == NULL) {
         // error("Could not allocate memory!");
         exit(1);
     }
@@ -54,7 +55,7 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
     the attribute value to add
 
   Returns:
-    0 for failure, 1 for success
+    FAILURE for failure, SUCCESS for success
 */
 int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
     attribute_t* check;
@@ -62,10 +63,10 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attr
     HASH_FIND_STR(attribute_hash, attribute_key, check);
     if (check != NULL) {
         fprintf(stderr, "Error: this attribute is already present.\n");
-        return 0;
+        return FAILURE;
     }
     HASH_ADD_STR(attribute_hash, attribute_key, new_attribute);
-    return 1;
+    return SUCCESS;
 }
 
 attribute_t *get_attribute(item_t *item, char *attr_name) 
@@ -96,7 +97,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
     else
     {
         res->attribute_value.str_val = value;
-        return 1;
+        return SUCCESS;
     }    
 }
 
@@ -117,7 +118,7 @@ int set_int_attr(item_t* item, char* attr_name, int value)
     else
     {
         res->attribute_value.int_val = value;
-        return 1;
+        return SUCCESS;
     }    
 }
 
@@ -137,7 +138,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
     else
     {
         res->attribute_value.double_val = value;
-        return 1;
+        return SUCCESS;
     }    
 
 }
@@ -158,7 +159,7 @@ int set_char_attr(item_t* item, char* attr_name, char value)
     else
     {
         res->attribute_value.char_val = value;
-        return 1;
+        return SUCCESS;
     }    
 }
 
@@ -178,7 +179,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     else
     {
         res->attribute_value.bool_val = value;
-        return 1;
+        return SUCCESS;
     }    
 }
 
@@ -289,7 +290,7 @@ int delete_all_attributes(attribute_hash_t attributes)
         HASH_DEL(attributes, current_attribute);  /* delete it (attributes advances to next) */
         attribute_free(current_attribute);             /* free it */
     }
-    return 1;
+    return SUCCESS;
 }
 
 /* See item.h */
@@ -302,7 +303,7 @@ int delete_item_attributes(item_t* item)
 int attribute_free(attribute_t *attribute) {
     free(attribute->attribute_key);
     free(attribute);
-    return 1;
+    return SUCCESS;
 }
 
 /* See item.h */
@@ -312,7 +313,7 @@ int item_free(item_t *item) {
     free(item->long_desc);
     delete_all_attributes(item->attributes);
     free(item);
-    return 1;
+    return SUCCESS;
 }
 
 /* See item.h */
@@ -322,5 +323,5 @@ int delete_all_items(item_hash_t items) {
         HASH_DEL(items, current_item);  /* delete it (items advances to next) */
         item_free(current_item);             /* free it */
     }
-    return 1;
+    return SUCCESS;
 }

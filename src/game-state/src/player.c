@@ -103,7 +103,7 @@ int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *pla
         exit(1);
     }
     HASH_ADD_STR(all_players, player_id, player);
-    return 1;
+    return SUCCESS;
 }
 
 /* See player.h */

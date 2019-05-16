@@ -32,7 +32,7 @@ typedef struct player* player_hash_t;
  *  health: The starting health of the player
  *
  * Returns:
- *  0 on success, 1 if an error occurs.
+ *  SUCCESS on success, FAILURE if an error occurs.
  */
 int player_init(player_t* plyr, int health);
 
@@ -54,7 +54,7 @@ player_t* player_new(int health);
  *  plyr: the player to be freed
  *
  * Returns:
- *  always returns 0
+ *  SUCCESS if successful
  */
 int player_free(player_t* plyr);
 
@@ -64,7 +64,7 @@ int player_free(player_t* plyr);
  * Parameters:
  *  hashtable of players that need to be deleted
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 void delete_all_players(player_hash_t players);
 
@@ -153,7 +153,7 @@ item_hash_t get_inventory(player_t* plyr);
  *  player id
  *  pointer to the player
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, exits if failed
  */
 int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *player);
 
@@ -164,7 +164,7 @@ int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *pla
  *  item struct
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int add_item_to_player(player_t *player, item_t *item);
 

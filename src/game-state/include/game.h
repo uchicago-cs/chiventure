@@ -52,7 +52,7 @@ game_t *game_new();
  * Returns:
  *  none
  */
-void move_to_room(game_t *game, room_t *new_room);
+void move_room(game_t *game, room_t *new_room);
 
 /* Exits game safely (frees all memory)
  * Future easter egg :) :) :)
@@ -72,7 +72,7 @@ void game_quit(game_t *game);
  *  game struct that needs to be freed
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful
  */
 int game_free(game_t *game);
 
@@ -83,7 +83,7 @@ int game_free(game_t *game);
  *  player struct
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int add_player_to_game(game_t *game, player_t *player);
 
@@ -94,7 +94,7 @@ int add_player_to_game(game_t *game, player_t *player);
  *  room struct
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
 int add_room_to_game(game_t *game, room_t *room);
 
@@ -107,7 +107,7 @@ int add_room_to_game(game_t *game, room_t *room);
 * game, player
 * 
 * Returns:
-* 1 if the game->curr_player != NULL, 0 if NULL
+*  SUCCESS if the game->curr_player != NULL, FAILURE if NULL
 */
 int set_curr_player(game_t *game, player_t *player);
 

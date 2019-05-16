@@ -9,7 +9,7 @@ int delete_all_conditions(condition_list_t conditions) {
         LL_DELETE(conditions, elt);
         free(elt);
     }
-    return 1;
+    return SUCCESS;
 }
 
 /* See path.h */
@@ -28,7 +28,7 @@ int path_free(path_t *path) {
     free(path->path_id);
     delete_all_conditions(path->conditions);
     free(path);
-    return 1;
+    return SUCCESS;
 }
 
 /* See path.h */
@@ -40,13 +40,13 @@ int add_path_to_hash(path_hash_t all_paths, char *path_id, path_t *path) {
         exit(1);
     }
     HASH_ADD_STR(all_paths, path_id, path);
-    return 1;
+    return SUCCESS;
 }
 
 /* See path.h */
 int add_condition_to_path(path_t *path, condition_t *condition) {
     LL_PREPEND(path->conditions, condition);
-    return 1;
+    return SUCCESS;
 }
 
 /* See path.h */
@@ -56,7 +56,7 @@ int delete_all_paths(path_hash_t paths) {
         HASH_DEL(paths, current_path);  /* delete it (paths advances to next) */
         path_free(current_path);             /* free it */
     }
-    return 1;
+    return SUCCESS;
 }
 
 /* TO-DO

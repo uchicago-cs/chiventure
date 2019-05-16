@@ -30,7 +30,7 @@ int game_free(game_t *game) {
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
     free(game);
-    return 1;
+    return SUCCESS;
 }
 
 /* See game.h */
@@ -48,8 +48,8 @@ int add_room_to_game(game_t *game, room_t *room) {
 int set_curr_player(game_t *game, player_t *player) {
     game->curr_player = player;
     if (game->curr_player != NULL)
-        return 1;
-    return 0;
+        return SUCCESS;
+    return FAILURE;
 }
 
 // Function to find player given game and player id
