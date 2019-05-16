@@ -20,7 +20,7 @@ typedef struct list list_t;
  */
 enum actions {
 
-/* KIND 1 ACTIONS */
+/* KIND 1 ACTIONS - ACTION <item> */
     OPEN,
     CLOSE,
     PUSH,
@@ -32,17 +32,17 @@ enum actions {
     DROP,
     CONSUME, // synonyms: "use" "drink" "eat"
 
-/* KIND 2 ACTIONS */
+/* KIND 2 ACTIONS - ACTION <direction> */
     GO,      // synonyms: "walk"
     ENTER,
 
-/* KIND 3 ACTIONS */
+/* KIND 3 ACTIONS - ACTION <npc> */
     TALK_TO,
 
-/* KIND 4 ACTIONS */
+/* KIND 4 ACTIONS - ACTION <item_npc> */
     GIVE_TO,
     
-/* KIND 5 ACTIONS */
+/* KIND 5 ACTIONS - ACTION <item_item> */
     USE_ON,
     PUT_ON
 };
