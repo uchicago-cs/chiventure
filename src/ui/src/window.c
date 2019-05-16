@@ -32,7 +32,7 @@ int window_init(window_t *win, int height, int width, int y_start,
                 int x_start, win_print print)
 {
     assert(win != NULL);
-    
+
     WINDOW *w = newwin(height, width, y_start, x_start);
 
     win->w = w;
@@ -52,4 +52,10 @@ int window_free(window_t *win)
     free(win);
 
     return 0;
+}
+
+/* see window.h */
+void window_print(window_t *win)
+{
+    win->print(win);
 }

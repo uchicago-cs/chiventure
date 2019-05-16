@@ -32,13 +32,5 @@ void print_cli(window_t *win);
  */
 void print_map(window_t *win);
 
-/* print_window
- * Calls the print function associated with the given window
- *
- * Parameters:
- *    - win : window which we want to print
- *
- * does not return anything
- */
-void print_window(window_t *win);
+
 #endif

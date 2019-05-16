@@ -13,7 +13,8 @@ The modules contained are the following:
 # window
 Contains a new window_t struct that has a ncurses WINDOW field and a print function
 field. It contains the functions necessary to declare window_t structs as well as
-to free them.
+to free them. It also contains a window_print function that takes in a window_t
+as a parameter and calls on the struct's print function
 
 # print_functions
 Contains functions that serve as the print function field for different window_t

@@ -9,12 +9,6 @@
 #include "print_functions.h"
 
 
-/* see print_functions.h */
-void print_window(window_t *win)
-{
-    win->print(win);
-}
-
 
 /* see print_functions.h */
 void print_info(window_t *win)

@@ -59,7 +59,15 @@ int window_init(window_t *win, int height, int width, int y_start,
  */
 int window_free(window_t *win);
 
-
+/* print_window
+ * Calls the print function associated with the given window
+ *
+ * Parameters:
+ *    - win : window which we want to print
+ *
+ * does not return anything
+ */
+void window_print(window_t *win);
 
 
 

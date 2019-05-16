@@ -8,9 +8,6 @@
 #include "ui.h"
 
 
-extern int line;
-extern int ch;
-
 int main()
 {
     start_ui();
