@@ -4,7 +4,7 @@ CC = gcc
 AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
 RM = rm -f
-LIB = libui.a
+LIB = ui.a
 LDLIBS =  -lncurses
 
 .PHONY: all clean examples
@@ -27,7 +27,7 @@ $(LIB): $(OBJS)
 
 # Examples
 
-EXAMPLE_BINS = examples/test_ui exmaples/coord_example
+EXAMPLE_BINS = examples/test_ui examples/coord_example
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
 
 $(EXAMPLE_SRCS:.c=.d):%.d:%.c
