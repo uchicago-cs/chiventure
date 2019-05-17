@@ -33,7 +33,6 @@ void help_text();
  * Returns:
  *  - nothing
  */
- 
 void greet();
 
 
@@ -59,7 +58,6 @@ void print_history();
  * Returns:
  *  - none
  */
- 
 void shell_error(char *s);
 
 
@@ -73,8 +71,7 @@ void shell_error(char *s);
  *
  * Returns:
  *  - none
- */
- 
+ */ 
 void shell_error_arg(char *fmt, char *s);
 
 #endif /* _CLI_INCLUDE_SHELL_H */
