@@ -32,8 +32,8 @@ typedef struct path {
     /* path_id means the direction (north/south/etc) */
     /* for hashtable consistency (e.g. player hash uses player_id), */
     /* we use path_id here to avoid bugs when using uthash functions */
-    char *path_id; // ***** MEANS DIRECTION *****
-    char *path_dest; // ***** MEANS ROOM_ID *****
+    char *direction; // ***** MEANS DIRECTION *****
+    char *dest; // ***** MEANS ROOM_ID *****
     condition_list_t conditions;
 } path_t;
 
