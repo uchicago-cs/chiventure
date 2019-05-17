@@ -81,7 +81,7 @@ This functions mallocs space for a new game struct. It does not take any argumen
 + Parameters:
      - game struct that needs to be freed
 + Returns:
-     - 1 if successful, 0 if failed
+     - 0 if successful, 1 if failed
 
  Frees everything in the game struct safely.
 
@@ -132,6 +132,7 @@ The item module implements a data structure for items within the game. Each item
 
 - create items + attributes
 - modify + replace attributes
+- modify items
 
 ## Guide of Loading and Saving Game
 

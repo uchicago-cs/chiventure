@@ -23,7 +23,7 @@ typedef struct item* item_hash_t;
 
 /* item_new() allocates a space for an item struct in memory
 *  Parameters:
-*    a unique item id
+*    a unique item id, sdesc, ldesc
 *  Returns:
 *    A pointer to a new item struct.
 */
