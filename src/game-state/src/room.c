@@ -4,13 +4,13 @@
 #include "common.h"
 
 /* See room.h */
-room_t *room_new(char *room_id, char *short_desc, char *long_desc, item_hash_t items, path_hash_t paths) {
+room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
     room_t *room = malloc(sizeof(room_t));
     room->room_id = room_id;
     room->short_desc = short_desc;
     room->long_desc = long_desc;
-    room->items = items;
-    room->paths = paths;
+    room->items = NULL;
+    room->paths = NULL;
     return room;
 }
 
@@ -55,6 +55,13 @@ int delete_all_rooms(room_hash_t rooms) {
         room_free(current_room);             /* free it */
     }
     return SUCCESS;
+}
+
+//returns path to given room given hashtable of paths and room id
+path_t *path_to_room(path_hash_t paths, char* room_id) {
+  path_t *path;
+  HASH_FIND_STR(paths, room_id, path);
+  return path;
 }
 
 /* Get short description of room
@@ -105,12 +112,6 @@ path_t *list_paths(room_t *room) {
   return room->paths;
 }
 
-//returns path to given room given hashtable of paths and room id
-path_t *path_to_room(path_hash_t paths, char* room_id) {
-  path_t *path;
-  HASH_FIND_STR(paths, room_id, path);
-  return path;
-}
 
 /* FOR ACTION MANAGEMENT
 * go through hashtable of attributes
