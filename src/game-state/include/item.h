@@ -82,24 +82,9 @@ int attribute_free(attribute_t *attribute);
  */
 int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
 
-// ATTRIBUTE ADDITION FUNCTIONS -----------------------------------------------
+// ATTRIBUTE ADDITION & REPLACEMENT FUNCTIONS ---------------------------------
 // the following functions allow their users to add attributes to the given item
-
-/* this has to be in interface as room and player modules use this */
-/* add_item_to_hash() adds an item to the hash table of items
- * Parameters:
- *  a unique item id
- *  a pointer to the item
- *  the hash table of items
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item);
-
-
-// ATTRIBUTE REPLACEMENT FUNCTIONS --------------------------------------------
-// the following functions allow their users to replace (read: change)
-// attributes associated
+// or replace (read: change) attributes associated
 
 /* set_str_attr() sets the value of an attribute of an item to the given string 
  * Parameters:
@@ -160,6 +145,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value);
 // ATTRIBUTE GET FUNCTIONS --------------------------------------------
 // the following functions allow their users to get (read: retrieve)
 // attributes associated with an item using the name of the attribute
+
 /* get_str_attr() returns the string value of an attribute of an item
  * Parameters:
  *  a pointer to the item
@@ -204,29 +190,5 @@ char get_char_attr(item_t *item, char* attr_name);
  *  the bool value associated with the attribute
  */
 bool get_bool_attr(item_t *item, char* attr_name);
-
-
-// DELETION FUNCTIONS -----------------------------------------------
-/* this has to be in the interface as room and player modules use this */
-/* delete_all_items() deletes and frees all items in a hash table
- * Parameters:
- *  hash table of items
- * Returns:
- *  SUCCESS if successful
- */
-int delete_all_items(item_hash_t items);
-
-/* delete_item_attributes() deletes the attributes of an item
- * Parameters:
- *  a pointer to the item
- * Returns:
- *  SUCCESS if successful
- */
-int delete_item_attributes(item_t* item);
-
-/*create a function to add to the attribute table, create a function that returnsd the value of an attribute,
-create a function that changes an attribute,
-
-*/
 
 #endif

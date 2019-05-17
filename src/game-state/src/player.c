@@ -1,4 +1,5 @@
 #include "player.h"
+#include "common.h"
 
 /* See player.h */
 int player_init(player_t* plyr, int health) {
@@ -37,7 +38,7 @@ player_t* player_new(int health) {
 int player_free(player_t* plyr) {
     assert(plyr != NULL);
 
-    free(plyr->inventory);
+    delete_all_items(plyr->inventory);
 
     return SUCCESS;
 }

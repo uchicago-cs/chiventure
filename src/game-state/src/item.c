@@ -1,5 +1,6 @@
 /* Implementations of the item struct */
 #include "item.h"
+#include "common.h"
 #include <string.h>
 
 /* item_init() initializes an item struct with given values
@@ -34,14 +35,12 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
     if(new_item == NULL || new_item->item_id == NULL ||
        new_item->short_desc == NULL || new_item->long_desc == NULL) {
-        // error("Could not allocate memory!");
         exit(1);
     }
 
     int check = item_init(new_item, item_id, short_desc, long_desc);
 
     if(check != 1) {
-        // error("Could not initialize item!");
         exit(1);
     }
 
@@ -69,13 +68,27 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attr
     return SUCCESS;
 }
 
+/* adding item to room inventory hash */
+int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
+    item_t* check;
+    HASH_FIND_STR(item_hash, item_id, check);
+    if (check != NULL) {
+        /* WARNING */
+        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
+        fprintf(stderr, "Error: this item id is already in use.\n");
+        exit(1);
+    }
+    HASH_ADD_STR(item_hash, item_id, item);
+    return SUCCESS;
+}
+
+//DEFINE THIS
 attribute_t *get_attribute(item_t *item, char *attr_name) 
 {
     attribute_t* return_value;
     attribute_hash_t attribute_hash = item->attributes;
     HASH_FIND_STR(attribute_hash, attr_name, return_value);
     if (return_value != NULL) {
-        fprintf(stderr, "Error: this attribute is already present.\n");
         return NULL;
     }
     return return_value;
@@ -183,6 +196,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }    
 }
 
+/* see item.h */
 char* get_str_attr(item_t *item, char* attr_name) {
 
   attribute_t* res = get_attribute(item, attr_name);
@@ -192,6 +206,7 @@ char* get_str_attr(item_t *item, char* attr_name) {
   return res->attribute_value.str_val;
 }
 
+/* see item.h */
 int get_int_attr(item_t *item, char* attr_name) {
 
   attribute_t* res = get_attribute(item, attr_name);
@@ -202,6 +217,7 @@ int get_int_attr(item_t *item, char* attr_name) {
   return res->attribute_value.int_val;
 }
 
+/* see item.h */
 double get_double_attr(item_t *item, char* attr_name) {
 
   attribute_t* res = get_attribute(item, attr_name);
@@ -212,6 +228,7 @@ double get_double_attr(item_t *item, char* attr_name) {
   return res->attribute_value.double_val;
 }
 
+/* see item.h */
 char get_char_attr(item_t *item, char* attr_name) {
 
   attribute_t* res = get_attribute(item, attr_name);
@@ -222,6 +239,7 @@ char get_char_attr(item_t *item, char* attr_name) {
   return res->attribute_value.char_val;
 }
 
+/* see item.h */
 bool get_bool_attr(item_t *item, char* attr_name) {
 
   attribute_t* res = get_attribute(item, attr_name);
@@ -232,6 +250,7 @@ bool get_bool_attr(item_t *item, char* attr_name) {
   return res->attribute_value.bool_val;
 }
 
+/* see item.h */
 int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
 {
     attribute_t* attribute_1 = get_attribute(item_1, attribute_name);
@@ -283,6 +302,14 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
     return comparison;
 }
 
+//DEFINE THIS
+int attribute_free(attribute_t *attribute) {
+    free(attribute->attribute_key);
+    free(attribute);
+    return SUCCESS;
+}
+
+//DEFINE THIS
 int delete_all_attributes(attribute_hash_t attributes)
 {
     attribute_t *current_attribute, *tmp;
@@ -290,19 +317,6 @@ int delete_all_attributes(attribute_hash_t attributes)
         HASH_DEL(attributes, current_attribute);  /* delete it (attributes advances to next) */
         attribute_free(current_attribute);             /* free it */
     }
-    return SUCCESS;
-}
-
-/* See item.h */
-int delete_item_attributes(item_t* item)
-{
-    return delete_all_attributes(item->attributes);
-}
-
-/* See item.h */
-int attribute_free(attribute_t *attribute) {
-    free(attribute->attribute_key);
-    free(attribute);
     return SUCCESS;
 }
 
@@ -316,7 +330,7 @@ int item_free(item_t *item) {
     return SUCCESS;
 }
 
-/* See item.h */
+/* See common.h*/
 int delete_all_items(item_hash_t items) {
     item_t *current_item, *tmp;
     HASH_ITER(hh, items, current_item, tmp) {
