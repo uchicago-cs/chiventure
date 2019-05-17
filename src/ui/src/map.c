@@ -4,9 +4,6 @@
 #include <stdlib.h>
 #include <ncurses.h>
 
-int room_h = 6;
-int room_w = 11;
-
 
 //Initiallizes ncurses window
 //This function will later live in ui.c
@@ -79,7 +76,9 @@ void draw_room (int width, int height, int x, int y, room_t *room, WINDOW *win){
 void draw_rooms(room_t **rooms,int n, int left_x, int top_y, int z,map_t *map){
   //Declare variables
   int x,y,zroom,x_offset,y_offset;
-
+  int room_h = map->room_h;
+  int room_w = map->room_w;
+  
   //Get x,y,z coordinates for rooms
   for (int i = 0; i<n; i++){
     x = rooms[i]->loc->x;
@@ -138,6 +137,8 @@ map_t *map_init(room_t ** rooms, int n){
   map_t *map = malloc(sizeof(map_t));
   map->rooms = rooms;
   map->n = n;
+  map->room_h = 6;
+  map->room_w = 11;
   map->pad = pad;
   map->xoff = xoffset;
   map->yoff = yoffset;
@@ -182,6 +183,8 @@ int map_refresh(map_t *map, int x, int y, int z){
 }
 
 int map_center_on(map_t *map, int x, int y, int z){
+  int room_h = map->room_h;
+  int room_w = map->room_w;
   int ulx = map->ulx;
   int uly = map->uly;
   int lrx = map->lrx;

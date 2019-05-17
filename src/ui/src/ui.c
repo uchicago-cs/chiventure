@@ -7,7 +7,7 @@
 #include "window.h"
 #include "ui.h"
 #include "print_functions.h"
-
+#include "map.h"
 
 
 
@@ -16,10 +16,12 @@ void start_ui()
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
 
-    /* 1 will indicate we are in the main window, 0 will mean
-     * we are in the map window
+    /* 1 will indicate we are in the main window
+     * 2 will mean we are in the map window
+     * 3 will indicate we are in the inventory window
+     *
      */
-    int on_main = 1;
+    int curr_page = 1;
     int ch;
 
     // 0 if the cli will be in the bottom, 1 if it will be on top
@@ -36,13 +38,17 @@ void start_ui()
     int width = COLS;
 
 
-
-
     /* initializes the widows. there is a main window, one where
      * maps could be displayed, and the cli window
      */
     window_t *main_win = window_new(height, width, cli_top * height, 0, print_info, true);
-    window_t *map = window_new(height, width, cli_top * height, 0, print_map, true);
+
+    //Creates an array of test_rooms and initializes a map using those rooms
+    int num_rooms = 20;  
+    room_t ** rooms = get_test_rooms(num_rooms);
+    map_t *map = map_init(rooms,num_rooms);
+
+    //window_t *map = window_new(height, width, cli_top * height, 0, print_map, true);
     window_t *cli = window_new(height, width, (!cli_top)* height, 0, print_cli, false);
 
     // info window is the window to be displayed in addition to cli
@@ -74,29 +80,38 @@ void start_ui()
          * to adjust for new terminal window size. moves the bottom window to
          * the adequate position
          */
-        wclear(info->w);
-        wresize(info->w, height, width);
-        wresize(cli->w, height, width);
+	if(curr_page==1){
+	  wclear(info->w);
+	  wresize(info->w, height, width);
+	  mvwin(info->w, (cli_top) * height, 0);
+	  // redraws the info box
+	  box(info->w, 0, 0 );
+	}	
+	wresize(cli->w, height, width);
         mvwin(cli->w, !(cli_top) * height, 0);
-        mvwin(info->w, (cli_top) * height, 0);
 
 
-        // redraws the info box
-        box(info->w, 0, 0 );
-
+        
         // detects ALt+key commands
         if (ch == 27) {
             ch = wgetch(cli->w);
             // Alt+m switches the info window to the map window
             // Alt+s switches the position of the CLI
             if (ch == 'm') {
-                if (on_main) {
-                    info = map;
+                if (curr_page!=2) {
+		  //This function sets the display dimensions of map
+		  wresize(info->w, 0, 0);
+		  map_set_displaywin(map, 0,(cli_top) * height, width, height + (cli_top) * height);
+		  map_center_on(map,0,0,0);
+		  curr_page = 2;
+		  //info = map;
                 }
                 else {
-                    info = main_win;
+		  curr_page = 1;
+		  info = main_win;
+		  wresize(info->w, height,width);
                 }
-                on_main = !on_main;
+
                 ch = 27;
             }
             else if (ch == 's') {
@@ -104,23 +119,28 @@ void start_ui()
                 ch = 27;
                 mvwin(cli->w, !(cli_top) * height, 0);
                 mvwin(main_win->w, (cli_top) * height, 0);
-                mvwin(map->w, (cli_top) * height, 0);
+                //mvwin(map->w, (cli_top) * height, 0);
 
             }
         }
 
         window_print(cli);
-        window_print(info);
+	if(curr_page==1){
+	  window_print(info);
+	  wrefresh(info->w);
+	}else if(curr_page ==2){
+
+	}
 
         // refreshes windows to reflect changes
-        wrefresh(info->w);
+
         wrefresh(cli->w);
 
 
     }
 
     window_free(main_win);
-    window_free(map);
+    // window_free(map);
     window_free(cli);
 
     // End curses mode

@@ -47,6 +47,8 @@ typedef struct map{
   int uly;
   int lrx;
   int lry;
+  int room_h;
+  int room_w;
 } map_t;
 
 
