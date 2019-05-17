@@ -39,7 +39,6 @@ char *quit_operation(char *tokens[TOKEN_LIST_SIZE]);
  * Returns:
  * - Said list of supported operations as a string
  */ 
- 
 char *help_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 
@@ -56,7 +55,7 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE]);
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE]);
 
 
-/* Theese functions will generate an action-struct (based on action management) 
+/* These functions will generate an action-struct (based on action management) 
  * and pass a command along.   
  *
  * Parameters:
