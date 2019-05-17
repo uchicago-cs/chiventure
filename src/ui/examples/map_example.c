@@ -32,36 +32,36 @@ int main(){
     if(ch == 'w' || ch == 'W'){
       cur_y -= incr;
       // map_refresh(map,cur_x,cur_y,cur_z);
-      map_crefresh(map,cur_x,cur_y,cur_z);
+      map_center_on(map,cur_x,cur_y,cur_z);
     }
     if(ch == 'S' || ch == 's'){
       cur_y += incr;
       //      map_refresh(map,cur_x,cur_y,cur_z);
-      map_crefresh(map,cur_x,cur_y,cur_z);
+      map_center_on(map,cur_x,cur_y,cur_z);
     }
     
     if(ch == 'a' || ch == 'A'){
       cur_x -= incr;
       //      map_refresh(map,cur_x,cur_y,cur_z);
-      map_crefresh(map,cur_x,cur_y,cur_z);
+      map_center_on(map,cur_x,cur_y,cur_z);
     }
     if(ch == 'd' || ch == 'D'){
       cur_x += incr;
       //      map_refresh(map,cur_x,cur_y,cur_z);
-      map_crefresh(map,cur_x,cur_y,cur_z);
+      map_center_on(map,cur_x,cur_y,cur_z);
     }
     if(ch == 'u' || ch == 'U'){
       cur_z += 1;
       //map_refresh(map,cur_x, cur_y, cur_z);
-      map_crefresh(map,cur_x,cur_y,cur_z);
+      map_center_on(map,cur_x,cur_y,cur_z);
     }
     if(ch == 'i' || ch == 'I'){
       cur_z -= 1;
       //      map_refresh(map,cur_x, cur_y, cur_z);
-      map_crefresh(map,cur_x,cur_y,cur_z);
+      map_center_on(map,cur_x,cur_y,cur_z);
     }
     if(ch == 'c' || ch == 'C'){
-      map_crefresh(map,0,1,1);
+      map_center_on(map,0,1,1);
     }
     if(ch == 'Q'|| ch == 'q'){
       break;

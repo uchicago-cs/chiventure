@@ -181,7 +181,7 @@ int map_refresh(map_t *map, int x, int y, int z){
   return 0;
 }
 
-int map_crefresh(map_t *map, int x, int y, int z){
+int map_center_on(map_t *map, int x, int y, int z){
   int ulx = map->ulx;
   int uly = map->uly;
   int lrx = map->lrx;
