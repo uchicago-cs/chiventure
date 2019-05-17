@@ -1,6 +1,9 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
+#include "room.h"
+#include "item.h"
+
 /* add_item_to_hash() adds an item to the hash table of items
  * Parameters:
  *  a unique item id

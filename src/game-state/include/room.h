@@ -2,6 +2,7 @@
 #define _ROOM_H
 
 #include "game_state_common.h"
+#include "common.h"
 #include "item.h"
 #include "path.h"
 
@@ -44,7 +45,7 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc);
  *  pointer to the room struct to be freed
  *
  * Returns:
- *  SUCCESS if successful, FAILURE if failed
+ *  Always returns SUCCESS
  */
 int room_free(room_t *room);
 

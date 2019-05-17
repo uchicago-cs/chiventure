@@ -48,27 +48,7 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
-/* add_attribute_to_hash() adds an attribute to the item hash table
-  Parameters:
-    the hash table of an item
-    the attribute value to add
-
-  Returns:
-    FAILURE for failure, SUCCESS for success
-*/
-int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
-    attribute_t* check;
-    char* attribute_key = new_attribute->attribute_key;
-    HASH_FIND_STR(attribute_hash, attribute_key, check);
-    if (check != NULL) {
-        fprintf(stderr, "Error: this attribute is already present.\n");
-        return FAILURE;
-    }
-    HASH_ADD_STR(attribute_hash, attribute_key, new_attribute);
-    return SUCCESS;
-}
-
-/* adding item to room inventory hash */
+/* See common.h */
 int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
     item_t* check;
     HASH_FIND_STR(item_hash, item_id, check);
@@ -82,7 +62,35 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
     return SUCCESS;
 }
 
-//DEFINE THIS
+/* add_attribute_to_hash() adds an attribute to the item hash table
+  Parameters:
+    the hash table of an item
+    the attribute value to add
+
+  Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+
+int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
+    attribute_t* check;
+    char* attribute_key = new_attribute->attribute_key;
+    HASH_FIND_STR(attribute_hash, attribute_key, check);
+    if (check != NULL) {
+        fprintf(stderr, "Error: this attribute is already present.\n");
+        return FAILURE;
+    }
+    HASH_ADD_STR(attribute_hash, attribute_key, new_attribute);
+    return SUCCESS;
+}
+
+/* get_attribute() returns a pointer to an attribute if it exists
+  Parameters:
+    an item
+    the attribute name
+
+  Returns:
+    NULL if the attribute does not exist, pointer to attribute if it does
+*/
 attribute_t *get_attribute(item_t *item, char *attr_name) 
 {
     attribute_t* return_value;
@@ -302,14 +310,26 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
     return comparison;
 }
 
-//DEFINE THIS
+/* add_attribute_free() frees an attribute
+  Parameters:
+    the attribute
+
+  Returns:
+    always returns SUCCESS
+*/
 int attribute_free(attribute_t *attribute) {
     free(attribute->attribute_key);
     free(attribute);
     return SUCCESS;
 }
 
-//DEFINE THIS
+/* delete_all_attributes() deletes all attributes in a hashtable of attributes
+  Parameters:
+    a hash table of attributes
+
+  Returns:
+    Always returns SUCCESS
+*/
 int delete_all_attributes(attribute_hash_t attributes)
 {
     attribute_t *current_attribute, *tmp;
