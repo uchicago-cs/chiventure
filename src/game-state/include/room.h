@@ -36,7 +36,7 @@ typedef struct room* room_hash_t;
  * Returns:
  *  a pointer to new room
  */
-room_t *room_new(char *room_id, char *short_desc, char *long_desc, item_hash_t items, path_hash_t paths);
+room_t *room_new(char *room_id, char *short_desc, char *long_desc);
 
 /* Frees the space in memory taken by given room
  *
