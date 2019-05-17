@@ -50,11 +50,11 @@ enum actions {
 
 /* Each enum corresponds to a different "KIND" of action */
 enum action_kind {
-  ITEM = 1, // ACTION <item> i.e. Action Type 1
-  DIRECTION = 2, // ACTION <direction i.e. Action Type 2
-  NPC = 3, // ACTION <npc> i.e. Action Type 3
-  ITEM_NPC = 4, // ACTION <item> <npc> i.e. Action Type 4
-  ITEM_ITEM = 5 // ACTION <item> <item> i.e. Action Type 5
+    ITEM = 1, // ACTION <item> i.e. Action Type 1
+    DIRECTION = 2, // ACTION <direction i.e. Action Type 2
+    NPC = 3, // ACTION <npc> i.e. Action Type 3
+    ITEM_NPC = 4, // ACTION <item> <npc> i.e. Action Type 4
+    ITEM_ITEM = 5 // ACTION <item> <item> i.e. Action Type 5
 };
 
 

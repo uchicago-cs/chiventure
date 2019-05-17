@@ -15,7 +15,7 @@
  * - dialogue: a line of dialogue NPC will say when spoken to 
  */
 typedef struct {
-  char *dialogue; 
+    char *dialogue; 
 } npc_t;
 
 
@@ -26,10 +26,10 @@ typedef struct {
  * - status_change: a string notifying the player of the status change
  */
 typedef struct {
-  int *allowed_actions;
-  int num_allowed_actions;
-  int change; 
-  char *status_change;
+    int *allowed_actions;
+    int num_allowed_actions;
+    int change; 
+    char *status_change;
 } item_t;
 
 
@@ -46,8 +46,8 @@ typedef struct direction_struct direction_t;
  * - max_health: an int representing the maximum health a player can have
  */
 typedef struct {
-  inventory_t *inventory;
-  int max_health;
+    inventory_t *inventory;
+    int max_health;
 } player_t;
 
 
@@ -55,7 +55,7 @@ typedef struct {
  * - current_player: a pointer to the player struct containing the current player
  */
 typedef struct {
-  player_t *current_player;
+    player_t *current_player;
 } game_t;
 
 
