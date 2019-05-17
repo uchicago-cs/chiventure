@@ -11,8 +11,8 @@
 #include <stddef.h>
 #include "uthash.h"
 
-#define SUCCESS 1
-#define FAILURE 0
+#define SUCCESS 0
+#define FAILURE 1
 
 struct room;
 
@@ -32,7 +32,7 @@ typedef struct room {
 } room_t;
   
 /* Dummy function called find_room
- * need to ask game state if they are providing or if we nee
+ * Need to ask game state if they are providing or if we nee
  * to write this function ourselves
  * PURPOSE:
  * This function goes into current room and checks
@@ -62,10 +62,12 @@ typedef struct coord_record {
   UT_hash_handle hh;
 } coord_record_t;
 
+/* Initialize coordinate_t struct */
 void coord_init(coordinate_t *c, int x, int y);
 
 /* find_coord
  * - Implementation will use HASH_FIND to find coord_record
+ * - Internal fcn only
  *
  * Returns:
  *
@@ -82,10 +84,11 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y);
 /* add_coord:                                                                                           
  * Internal function to create hashing. Included
  * in header for now in case another team needs it
+ *
  * Parameters:                                                                                          
  * - coordmap is both an in and out parameter   
- * -  x, y are the respective coordinates. They will be bundled   
- *  into a coordinate key for hashing   
+ * -  x, y are the respective coordinates. They are bundled   
+ *  internally into a coordinate key for hashing   
  * - r is a pointer to the room to assign the coords to   
  * Return value:                                                            
  * - returns SUCCESS if does not find coordinate and add its  
@@ -94,13 +97,16 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y);
  */
 int add_coord(coord_record_t *coordmap, int x, int y, room_t *r);
 
-/* check_valid_map:
- * - will be called on as soon as game is loaded in by WDL 
- * returns:
- * - SUCCESS if all rooms are assigned a coordinate 
- * - FAILURE if a list of rooms are invalid 
+
+/* create_valid_map:
+ * - will be called on as soon as game is loaded in by WDL and Game State 
+ *
+ * Return values:                          
+ * - Returns pointer to hashmap of coordinates upon SUCCESS      
+ * - Returns NULL if unable to assign a valid coordinate system
+ *   (This means create_valid_map returns NULL when assign() returns FAILURE)
  */
-int check_valid_map(/*will pass in info from WDL/gamestate*/);
+coord_record_t *create_valid_map(/*will pass in info from WDL/gamestate*/);
 
 
 #endif /* INCLUDE_COORDINATE_H_ */

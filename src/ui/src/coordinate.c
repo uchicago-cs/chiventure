@@ -33,7 +33,7 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
 
 /* add_coord:
  * Parameters:
- * - coordmap is both an in and out parameter
+ * - coordmap is both an in and out parameter, so must be non-NULL
  * - x, y are the respective coordinates. They will be bundled
  *  into a coordinate key for hashing
  * - r is a pointer to the room to assign the coords to
@@ -46,9 +46,9 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
 int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 {
   coord_record_t *cr = find_coord(coordmap, x, y);
-  /* Only runs if find_coord does not find coord
-    already existing in hashtable */
   
+  /* Only runs if find_coord does not find coord
+   *  already existing in hashtable */
   if (cr == NULL) {
     fprintf(stderr,"Adding coord (%d, %d) to hash\n", x, y);
 
@@ -58,8 +58,7 @@ int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
     cr->key.y = y;
     cr->r = r;
     HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr); 
-    if (coordmap != NULL)
-      fprintf(stderr, "Coordmap nonempty\n");
+
     return SUCCESS;
   }
 
@@ -71,53 +70,3 @@ int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 	  "add_coord(): This coordinate has already been assigned.\n");  
   return FAILURE;
 }
-
-/* for basic testing of compilation
- * Will implement much more testing later
- */
-
-/* This compiles but has been moved to coord_example.c 
- * in ../examples/
-
-int main()
-{
-  coordmap = NULL;
-  coordmap = find_coord(1, 2);
-  if (coordmap == NULL)
-    fprintf(stderr,
-	    "find_coord: Successfully returns NULL when not found\n");
-
-  room_t *r = malloc(sizeof(room_t));
-  r->id = 1;
-  add_coord(5, 6, r);
-
-  room_t *g = malloc(sizeof(room_t));
-  g->id = 2;
-  add_coord(-1, -2, g);
-
-  coord_record_t *example = find_coord(5, 6);
-  if (example == NULL)
-    fprintf(stderr,"Failure to find coord (%d, %d)\n", 5, 6);
-  else
-    fprintf(stderr,"Found coordinate of room with room id %d\n",
-	    example->r->id);
-
-  coord_record_t *ex2 = find_coord(-1, -2);
-
-  if (ex2 == NULL)
-    fprintf(stderr,"Failure to find coord (%d, %d)\n", -1, -2);
-  else
-    fprintf(stderr,"Found coordinate of room with room id %d\n",
-	    ex2->r->id);
-  
-  room_t *z = malloc(sizeof(room_t));
-  z->id = 3;
-  fprintf(stderr,
-	  "Test to see if add_coord() correctly blocks double-assigning:\n");
-  add_coord(5, 6, z);
-
-  free(r);
-  free(g);
-}
-
-*/
