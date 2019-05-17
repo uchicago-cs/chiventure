@@ -2,7 +2,7 @@
 #define UI_H
 
 /*
- * Starts the ui. No inputs, returns 0
+ * Starts the ui. No inputs or return values
  */
 void start_ui();
 
