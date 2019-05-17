@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "room.h"
 #include "item.h"
+#include "common.h"
 
 /* See room.h */
 room_t *room_new(char *room_id, char *short_desc, char *long_desc, item_hash_t items, path_hash_t paths) {
