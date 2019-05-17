@@ -59,9 +59,6 @@ typedef struct attribute {
 } attribute_t;
 
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
-// attribute_t* create_attribute(void* value, int type);
-//attribute_t* create_attribute(attribute_value_t value, enum attribute_tag type);
-attribute_t* create_attribute(void* value, enum attribute_tag type);
 
 /* attribute_free() frees given attribute
  * Parameters:
