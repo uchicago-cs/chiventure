@@ -2,7 +2,7 @@
 
 #### Definitions
 **Conditions**: <br>
-When an action is requested on an item or NPC, these conditions<br>
+When an action is requested on an item, these conditions<br>
 must be met in order for an action to be successful. When the action is successful<br>
 there are potential effects that can occur. <br>
 
@@ -20,23 +20,14 @@ Kind 2: ACTION `<DIRECTION>`<br>
 A **Kind 2** action is an action that makes the player walk in a certain direction, most likely into a new area/room.<br>
 Examples: GO west, WALK east, GO left, etc.<br>
 
-Kind 3: ACTION `<NPC>`<br>
-A **Kind 3** action is an action that makes the player interact with an NPC in some way. This action does not include<br>
-any physical interaction with the NPC.<br>
-Examples: TALK TO NPC, LOOK AT NPC, etc.
-
-Kind 4: ACTION `<ITEM> <NPC>` <br>
-A **Kind 4** action is an action that makes the player interact with an item and an NPC.<br>
-Examples: TAKE apple from NPC, GIVE apple to NPC, etc.<br>
-
-Kind 5: ACTION `<ITEM> <ITEM>`<br>
-A **Kind 5** action is an action that makes the player interact with two items. <br>
+Kind 3: ACTION `<ITEM> <ITEM>`<br>
+A **Kind 3** action is an action that makes the player interact with two items. <br>
 Examples: PUT apple on table, PUSH box on button, USE key on door, etc<br>
 
 
-## Items and NPC's:
+## Items:
 
-These are the general conditions and requirements for NPC's.
+These are the general conditions and requirements for items.
 
 ### `<ITEM>`
 #### Conditions:
@@ -152,7 +143,7 @@ K1 - Pull `<ITEM>`
 ### Default:
 "I pull the `<ITEM>` to no effect"
 
-K1 - Look at `<ITEM>` / Examine `<ITEM>`
+K1 - Look at `<ITEM>`
 ------
 ### Conditions:
 - No additional Conditions
@@ -195,36 +186,6 @@ K1 - Turn off `<ITEM>`
 ### Default:
 "I am unable to turn off the `<ITEM>`"
 
-K3 - Talk to [NPC]
----------
-### Conditions:
-- No additional requirements
-
-
-### Effects:
-- Dialogue from NPC will be printed
-
-### WDL:
-        - talk_to:
-
-### Default:
-"I talk to [NPC] but get no response"
-
-K5 - Give `<ITEM>` to [NPC] 
-------------
-### Conditions:
-- Item must be in inventory
-
-
-### Effects:
-- Remove Item from player inventory
-- Dialogue from NPC may be printed
-
-### WDL:
-        - give_to:
-
-### Default:
-"It is clear [NPC] does not want my `<ITEM>`"
 
 K2 - Go [direction]
 ---------
@@ -242,7 +203,7 @@ K2 - Go [direction]
 ### Default:
 "I can't find a way to go [direction]"
 
-K1 - Pick up / Take `<ITEM>`
+K1 - Take `<ITEM>`
 --------------
 ### Conditions:
 - Player must have inventory space for Item
@@ -305,7 +266,7 @@ K5 - Use `<ITEM>` on `<ITEM>`
 ### Default:
 "I can't figure out how to use the `<ITEM>` on the `<ITEM>`"
 
-K1 - Drink `<ITEM>` / Consume `<ITEM>`
+K1 - Drink `<ITEM>`
 ---------
 ### Conditions:
 - Item must be liquid
@@ -319,7 +280,7 @@ K1 - Drink `<ITEM>` / Consume `<ITEM>`
 ### Default:
 "I do not want to drink the `<ITEM>`"
 
-K1 - Eat `<ITEM>` / Consume `<ITEM>`
+K1 - Eat `<ITEM>`
 ---------
 ### Conditions:
 - Item must be solid
