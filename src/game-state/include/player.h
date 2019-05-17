@@ -45,7 +45,7 @@ int player_init(player_t* plyr, int health);
  * Returns:
  *  Pointer to allocated player
  */
-player_t* player_new(int health);
+player_t *player_new(int health);
 
 /*
  * Frees resources associated with a player
@@ -102,7 +102,7 @@ int change_health(player_t* plyr, int change, int max);
 int get_level(player_t* plyr);
 
 /*
- * Increments the level of the player by one
+ * Increments the level of the player by given amt
  *
  * Parameters:
  *  plyr: the player
