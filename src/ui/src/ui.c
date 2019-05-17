@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <string.h>
 #include "window.h"
 #include "ui.h"
 #include "print_functions.h"
@@ -53,7 +54,6 @@ void start_ui()
     scrollok(cli->w, TRUE);
 
 
-
     // prints the score and number of moves in the info window
     window_print(info);
     window_print(cli);
@@ -65,7 +65,6 @@ void start_ui()
     // sample game loop. uses ctrl+D key to exit
 
     while ((ch = wgetch(cli->w)) != 4) {
-
 
         height = LINES / 2;
         width = COLS;
@@ -108,8 +107,23 @@ void start_ui()
 
             }
         }
+        else if (isalnum(ch)) {
+            echo();
+            ungetch(ch);
+            char str[80];
 
-        window_print(cli);
+            wgetstr(cli->w, str);
+
+            int x,y;
+            getyx(cli->w, y, x);
+            mvwprintw(cli->w, y, 3, str);
+            window_print(cli);
+
+
+            noecho();
+
+        }
+
         window_print(info);
 
         // refreshes windows to reflect changes
