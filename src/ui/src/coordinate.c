@@ -32,10 +32,16 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
 }
 
 /* add_coord:
+ * Parameters:
+ * - coordmap is both an in and out parameter
+ * - x, y are the respective coordinates. They will be bundled
+ *  into a coordinate key for hashing
+ * - r is a pointer to the room to assign the coords to
  *
+ * Return value:
  * - returns SUCCESS if does not find coordinate and add its
  * - returns FAILURE if it finds coordinate already and 
- * - the coord is mapped to a different room
+ *   the coord is mapped to a different room
  */
 int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 {
@@ -52,6 +58,8 @@ int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
     cr->key.y = y;
     cr->r = r;
     HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr); 
+    if (coordmap != NULL)
+      fprintf(stderr, "Coordmap nonempty\n");
     return SUCCESS;
   }
 

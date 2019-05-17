@@ -17,7 +17,9 @@ int main()
   room_t *r = malloc(sizeof(room_t));
   r->id = 1;
   add_coord(coordmap, 5, 6, r);
-
+  if (coordmap == NULL)
+    fprintf(stderr,"ERROR: Add_coord returned an empty hashmap\n");
+  
   room_t *g = malloc(sizeof(room_t));
   g->id = 2;
   add_coord(coordmap, -1, -2, g);

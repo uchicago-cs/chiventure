@@ -31,7 +31,7 @@ typedef struct room {
   room_hash_t hash;
 } room_t;
   
-/*Dummy function called find_room
+/* Dummy function called find_room
  * need to ask game state if they are providing or if we nee
  * to write this function ourselves
  * PURPOSE:
@@ -78,13 +78,19 @@ void coord_init(coordinate_t *c, int x, int y);
  */
 coord_record_t *find_coord(coord_record_t *coordmap, int x, int y);
 
-/* add_coord:
- * - Implementation  Will use HASH_FIND to check uniqueness
- *   If unique, creates a new coord_key_t and add to map using HASH_ADD
- * returns:
- * - SUCCESS if assigns new coordinate or if coordinate checked is already
- *   assigned to the same room id
- * - FAILURE if coordinate is already assigned to a different room id
+
+/* add_coord:                                                                                           
+ * Internal function to create hashing. Included
+ * in header for now in case another team needs it
+ * Parameters:                                                                                          
+ * - coordmap is both an in and out parameter   
+ * -  x, y are the respective coordinates. They will be bundled   
+ *  into a coordinate key for hashing   
+ * - r is a pointer to the room to assign the coords to   
+ * Return value:                                                            
+ * - returns SUCCESS if does not find coordinate and add its  
+ * - returns FAILURE if it finds coordinate already and  
+ *   the coord is mapped to a different room     
  */
 int add_coord(coord_record_t *coordmap, int x, int y, room_t *r);
 
