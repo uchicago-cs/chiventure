@@ -1,6 +1,5 @@
 /* Implementations of the item struct */
 #include "item.h"
-#include "common.h"
 #include <string.h>
 
 /* item_init() initializes an item struct with given values
