@@ -1,4 +1,5 @@
 Borja Sotomayor
+Shriya Bansal
 Lucy Li
 Ellyn Liu
 Tianle Liu

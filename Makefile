@@ -21,7 +21,7 @@ all: $(BIN)
 #  - Directory: src/ui/
 #  - Makefile: src/ui/Makefile
 #  - Library: src/ui/ui.a
-COMPONENTS = libobj action_management
+COMPONENTS = libobj ui action_management
 LIBS = $(foreach comp,$(COMPONENTS),src/$(comp)/$(comp).a)
 
 $(LIBS):
