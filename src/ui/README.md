@@ -28,6 +28,11 @@ position of the windows. Alt+m can be used to toggle between the 'map' and the
 'main' (the one that displays the score and number of moves).
 
 # map
+The map interface consists of a 4 important map control functions
+1. map_init initializes a new map_t * and draws rooms inside it
+2. map_set_displaywin takes row,column coordinates for the upper left and lower right corners of the window that the map will occupy.
+3. map_refresh updates the map to show all of the rooms with the given row/col number of the map aligned to the top left corner of the map's display window
+4. map_center_on updates the map to show the room at room coords (x,y,z) at the center of the map. The z coordinate indicates current "floor number". This function will be the primary refresh function for adjusting map position to player location.
 
 # coordinate
 
