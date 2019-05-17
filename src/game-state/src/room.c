@@ -25,7 +25,7 @@ int room_free(room_t *room) {
     return SUCCESS;
 }
 
-/* See room.h */
+/* See common.h */
 int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room) {
     room_t *s;
     HASH_FIND_STR(all_rooms, room_id, s);
@@ -47,7 +47,7 @@ int add_path_to_room(room_t *room, path_t *path) {
     return add_path_to_hash(room->paths, path->path_id, path);
 }
 
-/* See room.h */
+/* See common.h */
 int delete_all_rooms(room_hash_t rooms) {
     room_t *current_room, *tmp;
     HASH_ITER(hh, rooms, current_room, tmp) {
