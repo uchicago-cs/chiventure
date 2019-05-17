@@ -36,6 +36,7 @@ cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE]);
  */
 void cmd_free(cmd *c);
 
+
 /* === command debugging === */
 
 /* Returns first token as command name (for debugging)
@@ -72,7 +73,6 @@ void cmd_show(cmd *c);
  * Returns:
  * - pointer to command struct, NULL if parse fails
  */
-
 cmd *cmd_from_string(char *s);
 
 
