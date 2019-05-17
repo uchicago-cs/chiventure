@@ -44,7 +44,7 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc, item_hash_t i
  *  pointer to the room struct to be freed
  *
  * Returns:
- *  SUCCESS if successful, FAILURE if failed
+ *  Always returns SUCCESS
  */
 int room_free(room_t *room);
 
