@@ -2,6 +2,7 @@
 #define _ROOM_H
 
 #include "game_state_common.h"
+#include "common.h"
 #include "item.h"
 #include "path.h"
 
