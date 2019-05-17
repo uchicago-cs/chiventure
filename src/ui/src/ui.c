@@ -110,13 +110,7 @@ void start_ui()
         else if (isalnum(ch)) {
             echo();
             ungetch(ch);
-            char str[80];
 
-            wgetstr(cli->w, str);
-
-            int x,y;
-            getyx(cli->w, y, x);
-            mvwprintw(cli->w, y, 3, str);
             window_print(cli);
 
 

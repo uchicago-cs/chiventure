@@ -20,16 +20,33 @@ void print_info(window_t *win)
 /* see print_functions.h */
 void print_cli(window_t *win)
 {
+    static bool first_run = true;
     int x,y;
-//    int height, width;
+
+    if (!first_run) {
+        char str[80];
+
+        wgetnstr(win->w, str, 80);
+
+        getyx(win->w, y, x);
+        mvwprintw(win->w, y, 3, str);
+    }
+    else {
+        first_run = false;
+    }
+
+
     getyx(win->w, y, x);
-//    getmaxyx(win->w, height, width);
+
     int height  = LINES / 2;
-    if (y >= height -2) {
-        wscrl(win->w, y - height +2);
+    if (y >= height - 2) {
+        wscrl(win->w, y - height + 2);
         y = height - 2;
     }
-    mvwprintw(win->w, y+1, 2, ">");
+
+    mvwprintw(win->w, y + 1, 2, ">");
+
+
 
     // prints '>' in the cli window
     //mvwprintw(win->w, 1, 2, ">");
