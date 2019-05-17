@@ -1,5 +1,5 @@
 #include "player.h"
-#include "common.h"
+#include "common-item.h"
 
 /* See player.h */
 int player_init(player_t* plyr, int health) {
