@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <parse.h>
+#include "parse.h"
 
 /*
  * Function to load a complete game into game_t struct
