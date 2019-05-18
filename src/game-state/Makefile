@@ -1,8 +1,14 @@
 CC = gcc
+AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I./src/
 RM = rm -f
-SRCS = src/game.c src/player.c src/item.c src/room.c src/path.c
-OBJS = $(SRCS:.c=.o)
+SRCDIR = src
+DEPDIR = dep
+BUILDDIR = build
+SRCEXT = c
+SRCS = $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+DEPS = $(patsubst $(SRCDIR)/%,$(DEPDIR)/%,$(SOURCES:.$(SRCEXT)=.d))
+OBJS = $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 BINS = $(SRCS:.c=)
 LIB = gamestate.a
 
@@ -10,9 +16,17 @@ LIB = gamestate.a
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	$(CC) -shared -o $@ $^
+	$(AR) -r -o $@ $^
 
-$(OBJS): %.o:%.c
+$(DEPDIR)/%.d: $(SRCDIR)/%.$(SRCEXT)
+	mkdir -p $(BUILDDIR)
+	mkdir -p $(DEPDIR)
+	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
+
+-include $(DEPS)
+
+# Alias
+$(patsubst $(SRCDIR)/%.c, %, $(SRCS)): $(patsubst %, $(DEPDIR)/%.d, $<) 
 
 .PHONY: clean
 clean:
