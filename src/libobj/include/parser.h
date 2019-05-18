@@ -1,3 +1,6 @@
+#ifndef INCLUDE_PARSER_H
+#define INCLUDE_PARSER_H
+
 #include "stack.h"
 
 //Personalized token type to keep track of what last happened
@@ -55,3 +58,5 @@ char *extend_prefix(char *orig_prefix, char *to_add);
  * - 0 on success
  */
 int parse_game(char *filename, obj_t *docobj);
+
+#endif /* INCLUDE_PARSER_H */
