@@ -13,14 +13,14 @@ void load_rooms(atrr_list_t *rooms, attr_list_t *all_items, game_t *g)
   attr_list_t *items_in_room;
   int success;
   while(rooms->next != NULL){
-    /* r = create_room(rooms->obj) */
+    /* r = create_room(rooms->obj) waiting on this from Kate */
     items_in_room = get_items_in_room(rooms->obj->id, all_items);
     while(items_in_room->next != NULL){
-    /* i = create_item(items_in_room->obj) */
-    /* add_item_to_room(); */
+    /* i = create_item(items_in_room->obj) waiting on this from Shriya*/
+    /* add_item_to_room(); waiting on this from game_state*/
       items_in_room = items_in_room->next;
     }
-    success = add_room_to_game(g, r);
+    /* success = add_room_to_game(g, r); */
     rooms = rooms->next;
   }
 }
