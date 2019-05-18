@@ -43,4 +43,4 @@ $(EXAMPLE_BINS): %:%.c $(LIB)
 examples: $(EXAMPLE_BINS)
 
 clean:
-	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
+-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
