@@ -40,7 +40,6 @@ Your code must follow [this style guide](https://uchicago-cs.github.io/cmsc23300
 In general, we will be following Vincent Driessen's [git flow](https://nvie.com/posts/a-successful-git-branching-model/) model of branching. Please take a few minutes to read that article in full.
 
 There are a few modifications we will be making to Vincent's model:
-
 * As you read the article, whenever you see "merge to `master`", mentally replace that with "pull request to `master`".
 * We will not have release or hotfix branches.
 * Rather than one `dev` branch, each team will have their own: `actions/dev`, `checkpointing/dev`, `cli/dev`, `state/dev`, `ui/dev`, and `wdl/dev`.
