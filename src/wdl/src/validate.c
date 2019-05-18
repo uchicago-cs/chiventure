@@ -240,3 +240,28 @@ void print_game(obj_t *obj)
     printf("starting room: %s\n", obj_get_str(obj, "start"));
     return;
 }
+
+/* See validate.h */
+void print_document(obj_t *obj)
+{
+  // Extract individual objects
+  obj_t *room_obj = obj_get_attr(obj, "ROOMS", false);
+  obj_t *item_obj = obj_get_attr(obj, "ITEMS", false);
+  obj_t *game_obj = obj_get_attr(obj, "GAME", false);
+
+  // Extract list of rooms and items
+  attr_list_t *rooms_ls = obj_list_attr(room_obj);
+  attr_list_t *items_ls = obj_list_attr(item_obj);
+
+  // Print game
+  printf("printing game attributes:\n");
+  print_game(game_obj);
+
+  // Print rooms
+  printf("printing all rooms and their attributes:\n");
+  list_print(rooms_ls, print_room);
+
+  // Print items
+  printf("printing all items and their attributes\n");
+  list_print(items_ls, print_item);
+}
