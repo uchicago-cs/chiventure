@@ -26,3 +26,21 @@ $(LIB): $(OBJS)
 
 clean:
 	${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
+
+# Examples
+
+EXAMPLE_BINS = examples/typecheck_demo
+EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
+
+$(EXAMPLE_SRCS:.c=.d):%.d:%.c
+	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
+
+-include $(EXAMPLE_SRCS:.c=.d)
+
+$(EXAMPLE_BINS): %:%.c $(LIB)
+	$(CC) $(CFLAGS) $^ -o$@ $(LDLIBS)
+
+examples: $(EXAMPLE_BINS)
+
+clean:
+-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
