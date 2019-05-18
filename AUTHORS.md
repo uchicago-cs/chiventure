@@ -1,4 +1,9 @@
 Borja Sotomayor
+Matthew Yang
+Sebastian Villegas Mejia
+Victor Almaraz Argueta
+Shriya Bansal
+Lucy Li
 Ellyn Liu
 Tianle Liu
 David Barer
@@ -8,3 +13,7 @@ Andrea Domiter
 Melinda Tang
 Ellyn Liu
 Anant Matai
+Olivia Morkved
+Dante Gil-Marin
+Elizabeth Coble
+Samuel Shatzkin
