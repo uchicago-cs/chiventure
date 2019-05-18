@@ -44,7 +44,7 @@ int add_item_to_room(room_t *room, item_t *item) {
 
 /* See room.h */
 int add_path_to_room(room_t *room, path_t *path) {
-    return add_path_to_hash(room->paths, path->path_id, path);
+    return add_path_to_hash(room->paths, path->direction, path);
 }
 
 /* See common.h */

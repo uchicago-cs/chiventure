@@ -1,6 +1,4 @@
 #include "game.h"
-#include "common-room.h"
-#include "common-player.h"
 
 /* see game.h */
 game_t *game_new() {
