@@ -236,6 +236,7 @@ ROOM Example:
   in: "bedroom"
 
   actions:
+  
     - action: "take"
 
       text_success: "Congrats! You got the wand and can perform a spell!"
@@ -251,7 +252,7 @@ ROOM Example:
         value: "no"
 
     - action: "consumer"
-	
+   
       allowed: "no"
 
       text_fail: "You cannot consume the wand."
