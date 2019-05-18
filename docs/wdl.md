@@ -49,11 +49,11 @@ space, followed by a dash(-), followed by another space, then the attribute.
 
 ### GAME example:
 ```yaml
- - start: KITCHEN
+ - start: "KITCHEN"
  - intro: “Welcome to the virtual house. You have been wandering for quite some time,
    and you need to determine how to return to reality.”
  - end:
-   - Inventory: wand
+   - Inventory: "wand"
 ```
 
 ## ROOM:
@@ -88,7 +88,7 @@ space, followed by a dash(-), followed by another space, then the attribute.
 ### ROOM example:
 ```yaml
 ROOM Example:
-- id: KITCHEN
+- id: "kitchen"
 
   short_desc: "A well-furnished area for cooking food."
 
@@ -96,45 +96,45 @@ ROOM Example:
 
   connections:
 
-    - to: BASEMENT
+    - to: "basement"
 
-      direction: down
+      direction: "down"
 
-      through: trapdoor
-
-      conditions:
-
-      - id: spoon
-
-        state: clean
-
-        value: no
-
-      - id: apple
-
-        state: sliced
-
-        value: no
-
-    - to: BEDROOM
-
-      direction: north
-
-      through: portal
+      through: "trapdoor"
 
       conditions:
 
-      - id: water_bottle
+      - id: "spoon"
 
-        state: full
+        state: "clean"
 
-        value: no
+        value: "no"
 
-      - id: candy
+      - id: "apple"
 
-        state: in_inventory
+        state: "sliced"
 
-        value: yes
+        value: "no"
+
+    - to: "bedroom"
+
+      direction: "north"
+
+      through: "portal"
+
+      conditions:
+
+      - id: "water bottle"
+
+        state: "full"
+
+        value: "no"
+
+      - id: "candy"
+
+        state: "in inventory"
+
+        value: "yes"
 ```
 
 ## ITEM:
@@ -160,67 +160,99 @@ ROOM Example:
       
     - action: `<ACTION FROM BANK>`:
         
-      allowed: `<YES/NO>` which is a no attribute value to specify that this action can never succeed. (You may want this attribute in order to trigger the text_fail action to notify the player to try something else)
+      allowed: `<NO>` which is a no attribute value to specify that this action can never succeed. (You may want this attribute in order to trigger the text_fail action to notify the player to try something else) By default, actions are allowed, so this field 
+      is not necessary if the game designer would like the action to be allowed. (OPTIONAL)
 
-      text_success: `<STRING>` which is a string that is displayed upon the success of an action
+      text_success: `<STRING>` which is a string that is displayed upon the success of an action (OPTIONAL)
 
       text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
 
-      conditions:
+      conditions: (OPTIONAL)
 
-      - id: `<STRING_ITEM>` which is an identification name that is unique to the item
+      - id: `<STRING_ITEM>` which is an identification name that is unique to the conditional item
 
-        state: `<STRING_ADJ>` which is the descriptor for the state of the item
+        state: `<STRING_ADJ>` which is the descriptor for the state of the conditional item
 
-        value: `<VAL>` which is the value of the state of the item upon initializaition of the game
+        value: `<VAL>` which is the value of the state of the conditional item in order for the action to be completed
 
-        set: changes an attribute of the object’s state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition)
+      set: changes an attribute of the object’s state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition) (OPTIONAL)
 
-        - id: `<ITEM ID>`
+      - id: `<ITEM ID>`
         
-          state: `<ATTRIBUTE>`
+        state: `<ATTRIBUTE>`
          
-          value: `<YES/NO>`
+        val: `<VAL>` which is the value of the state of the item upon completion of the action
 
 ### ITEM examples:
 ```yaml
- - id: handle
+- id: "handle"
 
-   short_desc: "a wooden door."
+  short_desc: "A lever."
 
-   long_desc: "A very ancient and gnarled looking thing."
+  long_desc: "The iron lever is painted gold and rusting in the corner of the palace garden."
 
-   in: KITCHEN
+  in: "garden"
 
-   state: locked: YES
+  state: "pulled"
 
-   actions:
-     - consumer
-         - allowed: no
-         - text_fail: "you cannot consume a door."
-     - open
-         - condition: locked: NO
-         - text_success: "you open the door."
-         - text_fail: "you fail to open the door, it is locked."
-         - set:
-             - item: door
-             - state: locked
-             - value: NO
+  value: "no"
 
-- id: wand
+  actions:
+
+    - action: "push"
+
+      allowed: "no"
+
+      text_fail: "You cannot push the lever. You can only pull it."
+
+    - action: "pull"
+
+      text_success: "Congrats! You can now access the underground tunnel. Go find it!"
+
+      text_fail: "You cannot pull the lever. You must be holding the star in order to pull the lever."
+
+      conditions:
+      
+      - id: "star"
+
+        state: "in inventory"
+
+        value: "no"
+
+      set:
+
+      - id: "lever"
+
+      	state: "pulled"
+
+      	value: "yes"
+
+- id: "wand"
 
   short_desc: "A wand"
 
   long_desc: "It has magical properties"
 
-  in: BEDROOM
+  in: "bedroom"
 
-  actions:  
-  - take:
-    - condition: in_inventory: top_hat
-    - text_success: "You got the wand!"
-    - text_fail: "You cannot take the wand until you have the top hat"
-  - consume:
-    - allowed: no
-    - text_fail: "you cannot consume a wand."
+  actions:
+  	- action: "take"
+	
+	  text_success: "Congrats! You got the wand and can perform a spell!"
+
+	  text_fail: "You cannot take the wand until you have the top hat"
+
+	  conditions:
+      
+      - id: "top hat"
+
+        state: "in inventory"
+
+        value: "no"
+
+    - action: "consumer"
+	
+	  allowed: "no"
+
+	  text_fail: "You cannot consume the wand."
 ```
