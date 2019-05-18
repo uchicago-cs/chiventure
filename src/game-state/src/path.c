@@ -13,33 +13,33 @@ int delete_all_conditions(condition_list_t conditions) {
 }
 
 /* See path.h */
-path_t *path_new(char *path_id) {
+path_t *path_new(char *direction) {
     path_t *path = malloc(sizeof(path_t));
-    path->path_id = malloc(MAX_ID_LEN * sizeof(char));
+    path->direction = malloc(MAX_ID_LEN * sizeof(char));
     path->conditions = NULL;
 
-    strcpy(path->path_id, path_id);
+    strcpy(path->direction, direction);
 
     return path;
 }
 
 /* See path.h */
 int path_free(path_t *path) {
-    free(path->path_id);
+    free(path->direction);
     delete_all_conditions(path->conditions);
     free(path);
     return SUCCESS;
 }
 
 /* See path.h */
-int add_path_to_hash(path_hash_t all_paths, char *path_id, path_t *path) {
+int add_path_to_hash(path_hash_t all_paths, char *direction, path_t *path) {
     path_t *s;
-    HASH_FIND_STR(all_paths, path_id, s);
+    HASH_FIND_STR(all_paths, direction, s);
     if (s != NULL) {
-        printf("FATAL: path_id already used!\n");
+        printf("FATAL: direction already used!\n");
         exit(1);
     }
-    HASH_ADD_STR(all_paths, path_id, path);
+    HASH_ADD_STR(all_paths, direction, path);
     return SUCCESS;
 }
 
