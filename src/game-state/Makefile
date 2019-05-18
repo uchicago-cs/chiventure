@@ -3,14 +3,17 @@ AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I./src/
 RM = rm -f
 SRCDIR = src
-DEPDIR = dep
+DEPDIR = .dep
+$(shell mkdir -p $(DEPDIR) >/dev/null)
 BUILDDIR = build
+$(shell mkdir -p $(BUILDDIR) >/dev/null)
 SRCEXT = c
 SRCS = $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
-DEPS = $(patsubst $(SRCDIR)/%,$(DEPDIR)/%,$(SOURCES:.$(SRCEXT)=.d))
-OBJS = $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
+DEPS = $(patsubst $(SRCDIR)/%,$(DEPDIR)/%,$(SRCS:.$(SRCEXT)=.d))
+OBJS = $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SRCS:.$(SRCEXT)=.o))
 BINS = $(SRCS:.c=)
 LIB = game-state.a
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
 .PHONY: all
 all: $(LIB)
@@ -18,10 +21,11 @@ all: $(LIB)
 $(LIB): $(OBJS)
 	$(AR) -r -o $@ $^
 
-$(DEPDIR)/%.d: $(SRCDIR)/%.$(SRCEXT)
-	mkdir -p $(BUILDDIR)
-	mkdir -p $(DEPDIR)
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
+# $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(DEPDIR)/%.d
+	$(CC) $(CFLAGS) $(DEPFLAGS) $< -c -o $@
+
+$(DEPDIR)/%.d: ;
 
 -include $(DEPS)
 
@@ -30,4 +34,4 @@ $(patsubst $(SRCDIR)/%.c, %, $(SRCS)): $(patsubst %, $(DEPDIR)/%.d, $<)
 
 .PHONY: clean
 clean:
-	$(RM) $(LIB) $(OBJS) $(BINS)
+	$(RM) $(LIB) $(OBJS) $(BINS) $(DEPS)
