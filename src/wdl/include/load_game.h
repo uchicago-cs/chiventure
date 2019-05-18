@@ -2,7 +2,7 @@
  * Header file for loading game Object into game struct
  */
 
-#ifndef INCLUDE_LOADGAME_H
+#ifndef INCLUDE_LOAD_GAME_H
 #define INCLUDE_LOAD_GAME_H
 
 #include <stdio.h>
