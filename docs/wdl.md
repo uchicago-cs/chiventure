@@ -1,5 +1,5 @@
 # WDL FORMATTING RULES AND EXAMPLES
-May 13, 2019
+May 17, 2019
 
 ### Definitions:
 ##### - Component:
@@ -57,39 +57,84 @@ space, followed by a dash(-), followed by another space, then the attribute.
 ```
 
 ## ROOM:
+- Proper indentation and syntax is shown below. Be sure to use colons, tabs, and tick marks as defined below for valid inputs. 
+
 ##### The Room Object must contain the following attributes:
- - id: `<UNIQUE ID NAME>` which is an identification name that is unique to the room
+- id: `<UNIQUE ID NAME>` which is an identification name that is unique to the room
 
-   short_desc: `<STRING DESCRIPTION>` which is a string that is displayed when the player first enters the room
+  short_desc: `<STRING DESCRIPTION>` which is a string that is displayed when the player first enters the room
 
-   long_desc: `<STRING DESCRIPTION>` which is a string that is displayed once player types “look at room” into the command line
+  long_desc: `<STRING DESCRIPTION>` which is a string that is displayed once player types “look at room” into the command line
 
+  connections: (the following attributes belong to subcategory 'connections')
 
-   connections:
-   (the	following attributes belong	to subcategory 'connections')
-  - to: `<ROOM	ID>` which lists a valid place the player can reach in one action from this room by ID
+    - to: `<ROOM  ID>` which lists a valid place the player can reach in one action from this room by ID
 
-    direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down.
+      direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
 
-    through: `<OBJECT ID>` if applicable, the object that the player must go through to go in that direction
+      through: `<ITEM ID>` if applicable, the object that the player must go through to go in that direction
 
-    ###### NOTE: a valid connection has to have an ID that exists
+      conditions:
+
+      - id: `<STRING_ITEM>` which is an identification name that is unique to the item
+
+        state: `<STRING_ADJ>` which is the descriptor for the state of the item
+
+        value: `<VAL>` which is the value of the state of the item upon initializaition of the game
+
+    ###### NOTE: a valid connection has to have an ID that exists. 
 
 
 ### ROOM example:
 ```yaml
- - id: KITCHEN
+ROOM Example:
+- id: KITCHEN
 
-   short_desc: "A well-furnished area for cooking food."
+  short_desc: "A well-furnished area for cooking food."
 
-   long_desc: "The room is lit merrily, and a faint glow comes from the oven."
+  long_desc: "The room is lit merrily, and a faint glow comes from the oven."
 
-   connections:
+  connections:
+
     - to: BASEMENT
 
-      direction: DOWN
+      direction: down
 
       through: trapdoor
+
+      conditions:
+
+      - id: spoon
+
+        state: clean
+
+        value: no
+
+      - id: apple
+
+        state: sliced
+
+        value: no
+
+    - to: BEDROOM
+
+      direction: north
+
+      through: portal
+
+      conditions:
+
+      - id: water_bottle
+
+        state: full
+
+        value: no
+
+      - id: candy
+
+        state: in_inventory
+
+        value: yes
 ```
 
 ## ITEM:
