@@ -117,4 +117,15 @@ void list_print(attr_list_t *ls, void(*print)(obj_t*));
 
  bool player_type_check(obj_t *obj);
 
+ /* raise_error()
+  * an utility used to print errors to stderrs
+  *
+  * parameters:
+  * - str: the error message to print out
+  *
+  * side effects:
+  * - prints a string to sdterr
+  */
+void raise_error(char *str);
+
 #endif /* INCLUDE_VALIDATE_H */

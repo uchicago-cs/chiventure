@@ -3,6 +3,14 @@
 #include <string.h>
 #include "validate.h"
 
+
+/* see validate.h */
+void raise_error(char *str)
+{
+  fprintf(stderr, "%s\n", str);
+}
+
+
 // The following functions assist with iterating through lists of objects
 /* see validate.h */
 bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
@@ -26,7 +34,7 @@ void list_print(attr_list_t *ls, void (*print)(obj_t*))
 {
     if (ls == NULL)
     {
-        fprintf(stderr, "list_print failed, list empty\n");
+        raise_error("list_print failed, list empty");
         return;
     }
 
@@ -50,7 +58,7 @@ void list_print(attr_list_t *ls, void (*print)(obj_t*))
  *
  * returns:
  *  - an attribute list of all the connections
- *  - null if an error occurs or no list can be generated
+ *  - null if no list can be generated
  */
 attr_list_t *connections_get_list(obj_t *obj)
 {

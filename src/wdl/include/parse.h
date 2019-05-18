@@ -22,6 +22,22 @@ typedef struct id_list
 } id_list_t;
 
 
+/* id_list_add()
+ * a function that adds an item to the id_list in the `next` position
+ *
+ * parameters:
+ *  - id: a string indicating the id to add to the list
+ *  - ls: the list to which to add the id; if null, the function will start a new list
+ *
+ * returns
+ *  - a list of ids
+ *
+ * side effects:
+ *  - prints to stderr if an error occurs
+ */
+id_list_t *id_list_add(char *id, id_list_t *ls);
+
+
 /*
  * extract_objects()
  * extracts the a list of objects associated with an attribute of the primary object;
