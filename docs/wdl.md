@@ -17,6 +17,9 @@ The name of an attribute
 ##### - Specification:
 This document
 
+##### - Possible Actions:
+Please see this document for all possible actions and descriptions: https://github.com/uchicago-cs/chiventure/blob/actions/dev/docs/actions.md 
+
 ### Syntax:
 - The order that the Objects in a WDL file are written in must follow the order of explanation in specification (See example)
 - Must have one space, followed by “-” then followed by one space before an attribute name
