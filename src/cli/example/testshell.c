@@ -9,6 +9,8 @@
 #include <readline/history.h>
 #include "../include/cmd.h"
 #include "../include/shell.h"
+#include "../include/lookup.h"
+
 
 #define BUFFER_SIZE 256
 
@@ -30,6 +32,7 @@ char *trim_newline(char *s)
 
 int main()
 {
+    initialize_lookup();
     int quit = 1;
     char *cmd_string;
     greet();

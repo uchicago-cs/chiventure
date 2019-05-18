@@ -5,6 +5,7 @@
 #include "shell.h"
 #include "cmd.h"
 #include "validate.h"
+#include "lookup.h"
 
 /* === command constructors  === */
 
@@ -63,25 +64,25 @@ cmd *cmd_from_tokens(char **ts)
 {
     cmd *output = assign_action(ts);
 
-    if(output->func_of_cmd == action_error_operation)
-    {
-        return output;
-    }
-    else if(!validate_object(output))
-    {
-        output->func_of_cmd = object_error_operation;
-        return output;
-    }
-    else if(!validate_prep(output))
-    {
-        output->func_of_cmd = prep_error_operation;
-        return output;
-    }
-    else if(!validate_ind_objects(output))
-    {
-        output->func_of_cmd = ind_object_error_operation;
-        return output;
-    }
+    // if(output->func_of_cmd == action_error_operation)
+    // {
+    //     return output;
+    // }
+    // else if(!validate_object(output))
+    // {
+    //     output->func_of_cmd = object_error_operation;
+    //     return output;
+    // }
+    // else if(!validate_prep(output))
+    // {
+    //     output->func_of_cmd = prep_error_operation;
+    //     return output;
+    // }
+    // else if(!validate_ind_objects(output))
+    // {
+    //     output->func_of_cmd = ind_object_error_operation;
+    //     return output;
+    // }
     return output;
 }
 
