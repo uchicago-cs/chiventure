@@ -1,5 +1,5 @@
 # WDL FORMATTING RULES AND EXAMPLES
-May 13, 2019
+May 17, 2019
 
 ### Definitions:
 ##### - Component:
@@ -57,6 +57,8 @@ space, followed by a dash(-), followed by another space, then the attribute.
 ```
 
 ## ROOM:
+- Proper indentation and syntax is shown below. Be sure to use colons, tabs, and tick marks as defined below for valid inputs. 
+
 ##### The Room Object must contain the following attributes:
 - id: `<UNIQUE ID NAME>` which is an identification name that is unique to the room
 
@@ -74,11 +76,11 @@ space, followed by a dash(-), followed by another space, then the attribute.
 
       conditions:
 
-      - id: <STRING_ITEM> which is an identification name that is unique to the item
+      - id: `<STRING_ITEM>` which is an identification name that is unique to the item
 
-        state: <STRING_ADJ> which is the descriptor for the state of the item
+        state: `<STRING_ADJ>` which is the descriptor for the state of the item
 
-        value: <VAL> which is the value of the state of the item upon initializaition of the game
+        value: `<VAL>` which is the value of the state of the item upon initializaition of the game
 
     ###### NOTE: a valid connection has to have an ID that exists. 
 
