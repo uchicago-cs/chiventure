@@ -4,7 +4,7 @@ RM = rm -f
 SRCS = src/game.c src/player.c src/item.c src/room.c src/path.c
 OBJS = $(SRCS:.c=.o)
 BINS = $(SRCS:.c=)
-LIB = gamestate.a
+LIB = game-state.a
 
 .PHONY: all
 all: $(LIB)
