@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <parse.h>
+#include "parse.h"
 
 /*
  * Function to load a single item into the item_t struct
@@ -19,7 +19,5 @@
  *   - a pointer to the item_t struct that has been loaded 
  */
 item_t* load_item(wdl_item_t* item);
-
-
 
 #endif /* INCLUDE_LOAD_ITEM_H */
