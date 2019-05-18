@@ -10,7 +10,7 @@ SRCS = $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 DEPS = $(patsubst $(SRCDIR)/%,$(DEPDIR)/%,$(SOURCES:.$(SRCEXT)=.d))
 OBJS = $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 BINS = $(SRCS:.c=)
-LIB = gamestate.a
+LIB = game-state.a
 
 .PHONY: all
 all: $(LIB)

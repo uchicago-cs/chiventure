@@ -120,7 +120,7 @@ The room module provides the framework for a data representation of the physical
 - access traits of the room such as its descriptions and possible paths
 
 ## The Path Module
-The path module deals specifically with the connections among rooms. Each path struct stores a path_id, which is used to identify the direction from the starting room, a path destination, which stores the id of the ending room, and a linked list of conditions. All the path connected to each room will be stored in a hash table data structure in that specific room. Functions in the path module allow authors to:
+The path module deals specifically with the connections among rooms. Each path struct stores a direction, which is used to identify the direction from the starting room, a path destination, which stores the id of the ending room, and a linked list of conditions. All the path connected to each room will be stored in a hash table data structure in that specific room. Functions in the path module allow authors to:
 
 - create new paths
 - add paths to the struct containing all the paths or to a room
