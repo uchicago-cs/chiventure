@@ -236,13 +236,13 @@ ROOM Example:
   in: "bedroom"
 
   actions:
-  	- action: "take"
-	
-	  text_success: "Congrats! You got the wand and can perform a spell!"
+    - action: "take"
 
-	  text_fail: "You cannot take the wand until you have the top hat"
+      text_success: "Congrats! You got the wand and can perform a spell!"
 
-	  conditions:
+      text_fail: "You cannot take the wand until you have the top hat"
+
+      conditions:
       
       - id: "top hat"
 
@@ -252,7 +252,7 @@ ROOM Example:
 
     - action: "consumer"
 	
-	  allowed: "no"
+      allowed: "no"
 
-	  text_fail: "You cannot consume the wand."
+      text_fail: "You cannot consume the wand."
 ```
