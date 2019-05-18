@@ -41,6 +41,73 @@ void list_print(attr_list_t *ls, void (*print)(obj_t*))
 }
 
 // The following functions regard room type checking
+
+/* conditions_get_list()
+ * a helper function for check_connections that gets a list of connections
+ * associated with a room object
+ *
+ * parameters:
+ *  - obj: a connection object
+ *
+ * returns:
+ *  - an attribute list of all the conditions for connection
+ *  - null if an error occurs or no list can be generated
+ */
+attr_list_t *conditions_get_list(obj_t *obj)
+{
+    obj_t *conditions = obj_get_attr(obj, "conditions", false);
+
+    if (conditions == NULL)
+        return NULL;
+    else
+        return obj_list_attr(conditions);
+}
+
+/* check_condition_attr()
+ * a helper function for check_conditions() that checks the attributes of conditions
+ * associated with a connection object
+ *
+ * parameters:
+ * - obj: a condition object
+ *
+ * returns:
+ * - true if condition types match, else return false
+ */
+bool check_condition_attr(obj_t *obj)
+{
+    // verify types of fields
+    bool id = true, state = true, value = true;
+
+    if (obj_get_type(obj, "id") != TYPE_STR)
+        id = false;
+    if (obj_get_type(obj, "state") != TYPE_STR)
+        state = false;
+    if (obj_get_type(obj, "value") != TYPE_STR)
+        value = false;
+
+    return (id && state && value);
+}
+
+/* condition_type_check()
+ * a helper function for connection_type_check that checks all conditions and its
+ * attributes associated with a connection object
+ *
+ * parameters:
+ * - obj: a connection object
+ *
+ * returns:
+ * - true if attributes of all conditions match, else return false
+ */
+bool condition_type_check(obj_t *obj)
+{
+    attr_list_t *ls = conditions_get_list(obj);
+
+    // call connection_type_check on each connection
+    bool check = list_type_check(ls, check_condition_attr);
+
+    return check;
+}
+
 /* connections_get_list()
  * a helper function for check_connections that gets a list of connections
  * associated with a room object
@@ -75,16 +142,16 @@ attr_list_t *connections_get_list(obj_t *obj)
 bool check_connection_attr(obj_t *obj)
 {
     // verify types of fields
-    bool id = true, direction = true, through = true;
+    bool to = true, direction = true, through = true;
 
     if (obj_get_type(obj, "to") != TYPE_STR)
-        id = false;
+        to = false;
     if (obj_get_type(obj, "direction") != TYPE_STR)
         direction = false;
     if (obj_get_type(obj, "through") != TYPE_STR)
         through = false;
 
-    return (id && direction && through);
+    return (to && direction && through);
 }
 
 /* connection_type_check()
@@ -99,12 +166,17 @@ bool check_connection_attr(obj_t *obj)
  */
 bool connection_type_check(obj_t *obj)
 {
-    attr_list_t *ls = connections_get_list(obj);
+    // extract connections from room object and check the conditions
+    obj_t *connections = obj_get_attr(obj, "connections", false);
+    attr_list_t *conditions_ls = conditions_get_list(connections);
+    bool condition_check = list_type_check(conditions_ls, check_condition_attr);
 
+    // obtain connections list
+    attr_list_t *connections_ls = connections_get_list(obj);
     // call connection_type_check on each connection
-    bool check = list_type_check(ls, check_connection_attr);
+    bool connection_check = list_type_check(connections_ls, check_connection_attr);
 
-    return check;
+    return (connection_check && condition_check);
 }
 
 /* See validate.h */
@@ -169,6 +241,45 @@ bool game_type_check(obj_t *obj)
     return (start_ver && intro_ver);
 }
 
+/* print_conditions_attr
+ * helper function for print_connection that prints out the attributes of a
+ * condition
+ *
+ * parameters:
+ * - obj: a condition object
+ *
+ * side effects:
+ * prints out the attributes of a condition
+ */
+ void print_conditions_attr(obj_t *obj)
+ {
+     // print each attribute within connection object
+     printf("id: %s\n", obj_get_str(obj, "id"));
+     printf("state: %s\n", obj_get_str(obj, "state"));
+     printf("value: %s\n", obj_get_str(obj, "value"));
+     return;
+ }
+
+ /* print_conditions
+  * helper function for print_connections that prints out the attributes of all
+  * conditions within a connection object
+  *
+  * parameters:
+  * - obj: a connection object
+  *
+  * side effects:
+  * prints out all conditions of a room
+  */
+ void print_conditions(obj_t *obj)
+ {
+    // obtain list of conditions
+    attr_list_t *ls = conditions_get_list(obj);
+
+    // call list_print with print_connection_attr
+    list_print(ls, print_conditions_attr);
+    return;
+ }
+
 /* print_connection_attr
  * helper function for print_connection that prints out the attributes of a
  * connection
@@ -200,11 +311,16 @@ bool game_type_check(obj_t *obj)
   */
 void print_connections(obj_t *obj)
 {
-    // obtain list of connections
-    attr_list_t *ls = connections_get_list(obj);
+    // extract connection object to print conditions
+    obj_t *connections = obj_get_attr(obj, "connections", false);
+    attr_list_t *conditions_ls = conditions_get_list(connections);
+    // cal list_print with print_conditions_attr
+    list_print(conditions_ls, print_conditions_attr);
 
+    // obtain list of connections
+    attr_list_t *connections_ls = connections_get_list(obj);
     // call list_print with print_connection_attr
-    list_print(ls, print_connection_attr);
+    list_print(connections_ls, print_connection_attr);
     return;
 }
 
