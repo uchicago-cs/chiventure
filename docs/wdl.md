@@ -152,29 +152,39 @@ ROOM Example:
 
     in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
 
-    state: `<ATTRIBUTE>` which is the attribute of the item (e.g. locked, closed, open) when the game starts
+    state: `<STRING_ADJ>` which is the descriptor for the state of the item
+    
+    value: `<VAL>` which is the value of the state of the item upon initializaition of the game
 
     actions: the possible actions that can be performed on the object; each action has the following attributes:
-      - `<ACTION FROM BANK>`:
-        - allowed: `<YES/NO>` which is a no attribute value to specify that this action can never succeed. (You may want this attribute in order to trigger the text_fail action to notify the player to try something else)
+      
+    - action: `<ACTION FROM BANK>`:
+        
+      allowed: `<YES/NO>` which is a no attribute value to specify that this action can never succeed. (You may want this attribute in order to trigger the text_fail action to notify the player to try something else)
 
-        - text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
+      text_success: `<STRING>` which is a string that is displayed upon the success of an action
 
-    - `<ACTION FROM BANK>`:
-      - condition: `<ATTRIBUTE: YES/NO>` which is prerequisite states for the given action to be performed, written as “state_attribute : yes/no” (e.g. to specify that a door must be unlocked to open, write “locked: no” in conditions)
+      text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
 
-      - text_success: `<STRING>` which is a string that is displayed upon the success of an action
+      conditions:
 
-      - text_fail: `<STRING>` which is a string that is displayed upon the failure of an action
-      - set: changes an attribute of the object’s state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition)
+      - id: `<STRING_ITEM>` which is an identification name that is unique to the item
 
-          - item: `<ITEM ID>`
-          - state: `<ATTRIBUTE>`
-          - value: `<YES/NO>`
+        state: `<STRING_ADJ>` which is the descriptor for the state of the item
+
+        value: `<VAL>` which is the value of the state of the item upon initializaition of the game
+
+        set: changes an attribute of the object’s state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition)
+
+        - id: `<ITEM ID>`
+        
+          state: `<ATTRIBUTE>`
+         
+          value: `<YES/NO>`
 
 ### ITEM examples:
 ```yaml
- - id: door
+ - id: handle
 
    short_desc: "a wooden door."
 
