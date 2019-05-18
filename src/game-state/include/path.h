@@ -29,9 +29,9 @@ typedef struct condition* condition_list_t;
  * */
 typedef struct path {
     UT_hash_handle hh;
-    /* path_id means the direction (north/south/etc) */
+    /* direction (north/south/etc) */
     /* for hashtable consistency (e.g. player hash uses player_id), */
-    /* we use path_id here to avoid bugs when using uthash functions */
+    /* we use direction here to avoid bugs when using uthash functions */
     char *direction; // ***** MEANS DIRECTION *****
     char *dest; // ***** MEANS ROOM_ID *****
     condition_list_t conditions;
@@ -78,7 +78,7 @@ int path_free(path_t *path);
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_path_to_hash(path_hash_t all_paths, char* path_id, path_t *path);
+int add_path_to_hash(path_hash_t all_paths, char* direction, path_t *path);
 
 /* Adds a condition to the given path
  *
