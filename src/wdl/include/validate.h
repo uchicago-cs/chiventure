@@ -11,6 +11,48 @@
 #include <stdbool.h>
 #include "parser.h"
 
+
+/* a doubly linked list of strings used to store the ids of objects;
+ * used to check that room passages lead to valid rooms and the such
+ */
+typedef struct id_list
+{
+    char *id;
+    struct id_list *prev;
+    struct id_list *next;
+} id_list_t;
+
+
+/* id_list_add()
+ * a function that adds an item to the id_list in the `next` position
+ *
+ * parameters:
+ *  - id: a string indicating the id to add to the list
+ *  - ls: the list to which to add the id; if null, the function will start a new list
+ *
+ * returns
+ *  - a list of ids
+ *
+ * side effects:
+ *  - prints to stderr if an error occurs
+ */
+id_list_t *id_list_add(char *id, id_list_t *ls);
+
+
+/* id_list_dup_check()
+ * a function that checks a list of items for duplicate ids
+ *
+ * parameters:
+ *  - ls: the list which to check for duplicates
+ *
+ * returns:
+ *  - true if duplicates are detected
+ *  - false if no duplicates are detected
+// note to self: use a helper function to count for instances
+ */
+bool id_list_dup_check(id_list_t *ls);
+
+
 /* print_item
  * prints the attributes associated with the item: id, short_desc, long_desc,
  * in, and state
@@ -60,7 +102,6 @@ void print_game(obj_t *obj);
 
 /* list_type_check()
  * a function to automate type checking,
- * used before running extract_id() from parse.h
  *
  * parameters:
  *  - ls: a list of objects
@@ -73,6 +114,24 @@ void print_game(obj_t *obj);
  * note: behaviour is undefined if object and validation function do not match
  */
 bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
+
+
+/* list_valid_id_ref()
+ * a function to automate the checking of valid id references in objects
+ * note that the behaviour is undefined if the object and the validation functions
+ * do not match
+ *
+ * parameters:
+ *  - ls_obj: a list of objects
+ *  - ls_id: a list of ids extracted from those objects
+ *
+ * returns:
+ *  - true is all objects pass the given validation test
+ *  - false if else
+ */
+bool list_valid_id_ref(attr_list_t *ls_obj, id_list_t *ls_id, 
+                       (*validate)(obj_t *obj)(id_list_t *ls));
+
 
 /* list_print()
  * a function to automate printing objects;
