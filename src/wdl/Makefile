@@ -7,7 +7,7 @@ RM = rm -f
 LIB = wdl.a
 LDLIBS = -lyaml
 
-.PHONY: all clean examples
+.PHONY: clean clean-lib clean-bin
 
 all: $(LIB)
 
@@ -24,10 +24,8 @@ $(SRCS:.c=.d):%.d:%.c
 $(LIB): $(OBJS)
 	$(AR) -r -o $@ $^
 
-clean:
+clean-lib:
 	${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
-
-# Examples
 
 EXAMPLE_BINS = examples/typecheck_demo
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
@@ -42,5 +40,7 @@ $(EXAMPLE_BINS): %:%.c $(LIB)
 
 examples: $(EXAMPLE_BINS)
 
-clean:
--${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
+clean-bin:
+	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
+
+clean: clean-lib clean-lib
