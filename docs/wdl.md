@@ -251,7 +251,7 @@ ROOM Example:
 
         value: "no"
 
-    - action: "consumer"
+    - action: "consume"
    
       allowed: "no"
 
