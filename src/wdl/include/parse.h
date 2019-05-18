@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parser.h"
+#include "validate.h"
 
 /*
  * extract_objects()
@@ -28,7 +29,7 @@ attr_list_t *extract_objects(obj_t *obj, char *str);
 
 
 /*
- * extract_ids()
+ * get_id_list()
  * gets the ids of a list of room, item, or player objects
  *
  * parameters:
@@ -37,6 +38,6 @@ attr_list_t *extract_objects(obj_t *obj, char *str);
  * returns:
  *  - a list of ids, more specifically, a doubly linked list of strings
  */
-id_list_t *extract_ids(attr_list_t *ls);
+id_list_t *get_id_list(attr_list_t *ls);
 
 #endif /* INCLUDE_PARSE_H */

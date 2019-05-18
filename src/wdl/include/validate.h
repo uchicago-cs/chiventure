@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parser.h"
+// DO NOT #include "parse.h" AS IT WILL CREATE CIRCULAR DEPENDENCIES
 
 
 /* a doubly linked list of strings used to store the ids of objects;
@@ -130,7 +131,7 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
  *  - false if else
  */
 bool list_valid_id_ref(attr_list_t *ls_obj, id_list_t *ls_id, 
-                       (*validate)(obj_t *obj)(id_list_t *ls));
+                       bool(*validate)(obj_t *obj, id_list_t *ls));
 
 
 /* list_print()
