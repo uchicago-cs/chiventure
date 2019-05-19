@@ -1,30 +1,44 @@
 ﻿# Documentation of Action Specifications
 
-#### Definitions
+### Definitions
+
 **Conditions**:
 
-When an action is requested on an item, these conditions<br>
-must be met in order for an action to be successful. When the action is successful<br>
-there are potential effects that can occur. <br>
+When an action is requested on an item, these conditions must be met in
+
+order for an action to be successful. When the action is successful there
+
+are potential effects that can occur. 
+
 
 **Effects**:
 
-When an action is completed successful, there are multiple types of effects<br>
-that can occur, depending on which action is committed on a certain item.<br>
+When an action is completed successful, there are multiple types of effects
+
+that can occur, depending on which action is committed on a certain item.
 
 
 ## Kinds of Actions:
-Kind 1: ACTION `<ITEM>` <br>
-A **Kind 1** action is an action that makes the player do something to an item.<br>
-Examples: EAT apple, OPEN door, PUSH box, etc.<br>
+Kind 1: ACTION `<ITEM>`
 
-Kind 2: ACTION `<DIRECTION>`<br>
-A **Kind 2** action is an action that makes the player walk in a certain direction, most likely into a new area/room.<br>
-Examples: GO west, WALK east, GO left, etc.<br>
+A **Kind 1** action is an action that makes the player do something to an item.
 
-Kind 3: ACTION `<ITEM> <ITEM>`<br>
-A **Kind 3** action is an action that makes the player interact with two items. <br>
-Examples: PUT apple on table, PUSH box on button, USE key on door, etc<br>
+Examples: eat apple, open door, push box, etc.
+
+
+Kind 2: ACTION `<DIRECTION>`
+
+A **Kind 2** action is an action that makes the player walk in a certain direction, most likely into a new area/room.
+
+Examples: go west, go left, etc.
+
+
+Kind 3: ACTION `<ITEM>` `<ITEM>`
+
+A **Kind 3** action is an action that makes the player interact with two items.
+
+Examples: put apple on table, push box on button, use key on door, etc
+
 
 
 ## Items:
@@ -48,28 +62,19 @@ These are the general conditions and requirements for items.
 - Player state may be changed 
 - Item may change another item's attribute value
 
-
-
-### `<NPC>`
-#### Conditions:
-- NPC must be in the same room as the player
-- NPC has the ability to be interacted with (possibly with specific item)
-
-#### Effects:
-- NPC may no longer be accessible/interactable
-- NPC position may be changed
-- Other item states may be changed
-- Player state may be changed
-
-
 ## Actions:
 
-These are specific conditions and effects that are affiliated with certain actions. This means that along with the general<br>
-conditions and effects listed above, there are special conditions and effects tha can also be included with specific actions.<br>
-If items have "No additional ..." listed, they follow the only follow the determined general conditions/requirements listed above, and <br>
-have no excpetions.<br>
+These are specific conditions and effects that are affiliated with certain actions. This means that along with the general
+
+conditions and effects listed above, there are special conditions and effects tha can also be included with specific actions.
+
+If items have "No additional ..." listed, they follow the only follow the determined general conditions/requirements listed above, and
+
+have no excpetions.
+
 
 ## WDL:
+```
     - actions:
         - [name of action]:
             - conditions:
@@ -79,10 +84,11 @@ have no excpetions.<br>
                   value:
             - text_fail:
             - text_success: 
+```
 
 ## Default:
 
-The action's behavior when called on an `<ITEM>` or [NPC] that does not support the action.
+The action's behavior when called on an `<ITEM>` that does not support the action.
 
 K1 - Open `<ITEM>`
 ------
@@ -93,7 +99,9 @@ K1 - Open `<ITEM>`
 - A new room may be available
 
 ### WDL:
+```
         - open:
+```
 
 ### Default:
 "I can't open the `<ITEM>`"
@@ -107,7 +115,9 @@ K1 - Close `<ITEM>`
 - A room may no longer be available 
 
 ### WDL:
+```
          - close:
+```
 
 ### Default:
 "I can't close the `<ITEM>`"
@@ -122,9 +132,11 @@ K1 - Push `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - push:
             - conditions:
                 - weight:
+```
 
 ### Default:
 "I push the `<ITEM>` to no effect"
@@ -138,9 +150,11 @@ K1 - Pull `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - pull:
             - conditions:
                 - weight:
+```
 
 ### Default:
 "I pull the `<ITEM>` to no effect"
@@ -155,7 +169,9 @@ K1 - Look at `<ITEM>`
 - Long description of item will be printed
 
 ### WDL:
+```
         - examine:
+```
 
 ### Default:
 "I examine the `<ITEM>` but find nothing of interest"
@@ -169,7 +185,9 @@ K1 - Turn on `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - turn_on:
+```
 
 ### Default:
 "I am unable to turn on the `<ITEM>`"
@@ -183,7 +201,9 @@ K1 - Turn off `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - turn_off:
+```
 
 ### Default:
 "I am unable to turn off the `<ITEM>`"
@@ -200,7 +220,9 @@ K2 - Go [direction]
 - Brief description of room will be printed
 
 ### WDL:
+```
         - go:
+```
 
 ### Default:
 "I can't find a way to go [direction]"
@@ -217,7 +239,9 @@ K1 - Take `<ITEM>`
 - Decrease player inventory space
 
 ### WDL:
+```
         - take:
+```
 
 ### Default:
 "I can't take the `<ITEM>`"
@@ -233,7 +257,9 @@ K1 - Drop `<ITEM>`
 - Put Item in room (changes room description and state)
 
 ### WDL:
+```
         - drop:
+```
 
 ### Default:
 "I drop the `<ITEM>`"
@@ -248,7 +274,9 @@ K1 - Use `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - use:
+```
 
 ### Default:
 "I can't figure out how to use the `<ITEM>`"
@@ -263,7 +291,9 @@ K5 - Use `<ITEM>` on `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - use_on:
+```
 
 ### Default:
 "I can't figure out how to use the `<ITEM>` on the `<ITEM>`"
@@ -277,7 +307,9 @@ K1 - Drink `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - drink:
+```
 
 ### Default:
 "I do not want to drink the `<ITEM>`"
@@ -292,7 +324,9 @@ K1 - Eat `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - eat:
+```
 
 ### Default:
 "I do not want to eat the `<ITEM>`"
