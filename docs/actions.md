@@ -3,7 +3,8 @@
 #### Definitions
 **Conditions**:
 
-When an action is requested on an item, these conditions<br>
+When an action is requested on an item, these conditions
+
 must be met in order for an action to be successful. When the action is successful<br>
 there are potential effects that can occur. <br>
 
