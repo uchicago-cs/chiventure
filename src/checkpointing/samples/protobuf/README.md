@@ -1,3 +1,8 @@
+
+THIS IS A PROOF OF CONCEPT FOR USING PROTOBUF TO SERIALIZE AND DESERIALIZE
+
+CAN BE IGNORED
+
 to create .c .h from proto file
 	make proto
 
