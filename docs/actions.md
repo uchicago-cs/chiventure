@@ -7,7 +7,8 @@ When an action is requested on an item, these conditions<br>
 must be met in order for an action to be successful. When the action is successful<br>
 there are potential effects that can occur. <br>
 
-**Effects**:<br>
+**Effects**:
+
 When an action is completed successful, there are multiple types of effects<br>
 that can occur, depending on which action is committed on a certain item.<br>
 
