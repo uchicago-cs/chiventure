@@ -291,7 +291,6 @@ K1 - Eat `<ITEM>`
 - No additional effects
 
 ### WDL:
-        - eat:
 
 ### Default:
 "I do not want to eat the `<ITEM>`"
