@@ -95,23 +95,18 @@ list_t *get_supported_actions(enum action_kind kind)
     case ITEM:
         actions = get_actions_kind1();
         return actions;
-        break;
     case DIRECTION:
         actions = get_actions_kind2();
         return actions;
-        break;
     case NPC:
         actions = get_actions_kind3();
         return actions;
-        break;
     case ITEM_NPC:
         actions = get_actions_kind4();
         return actions;
-        break;
     case ITEM_ITEM:
         actions = get_actions_kind5();
         return actions;
-        break;
     }
 }
 
