@@ -16,8 +16,8 @@ proto:
 serialize: proto
 	$(CC) -o $@ save.c $(COMP) $(LIBS)
 
-deserialize:
+deserialize: proto
 	$(CC) -o $@ load.c $(COMP) $(LIBS)
 
 clean:
-	${RM} ${BINS}
+	${RM} ${BINS} $(COMP) $(COMP:.c=.h)

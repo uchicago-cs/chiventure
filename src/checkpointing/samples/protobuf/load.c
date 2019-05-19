@@ -32,10 +32,10 @@ int main (int argc, const char *argv[])
     sub1 = file->player_info;
     sub2 = file->location;
 
-    printf("Received: \nplayer_info: name = %s, gender = %d\nlocation = %s", 
+    printf("Received: \nplayer_info: name = %s\ngender = %d\nlocation = %s\n", 
 	   sub1->name, sub1->gender, sub2->r_name);
-    if (file->discovered != NULL) {
-	printf("\ndiscovered = %d\n", file->discovered);
+    if (file->has_discovered == 1) {
+	printf("discovered = %d\n", file->discovered);
     }
     
     game__free_unpacked(file, NULL);
