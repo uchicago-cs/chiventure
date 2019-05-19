@@ -4,9 +4,6 @@ message Object {
     required string object_id = 1;
     optional string short_desc = 2;
     optional string long_desc = 3;
-    // placeholder for required Tagged_Object_ object_type = 4;
-    // placeholder for optional int32 can_take = 5;
-    // placeholder for optional int32 condition = 6;
 }
 
 message Room {
@@ -15,7 +12,6 @@ message Room {
     optional string long_desc = 3;
     required int32 objs_len = 4; 
     repeated Object objs = 5; //Array of all object ids in room
-    // placeholder for repeated Path paths = 5; Array of all paths (submessage)
 }
 
 message Player {
