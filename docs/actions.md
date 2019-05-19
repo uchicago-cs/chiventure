@@ -264,7 +264,6 @@ K5 - Use `<ITEM>` on `<ITEM>`
 - No additional effects
 
 ### WDL:
-        - use_on:
 
 ### Default:
 "I can't figure out how to use the `<ITEM>` on the `<ITEM>`"
