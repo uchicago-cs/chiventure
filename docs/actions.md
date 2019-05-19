@@ -33,7 +33,7 @@ A **Kind 2** action is an action that makes the player walk in a certain directi
 Examples: go west, go left, etc.
 
 
-Kind 3: ACTION `<ITEM> <ITEM>`
+Kind 3: ACTION `<ITEM>` `<ITEM>`
 
 A **Kind 3** action is an action that makes the player interact with two items.
 
@@ -88,6 +88,7 @@ have no excpetions.
 
 
 ## WDL:
+```
     - actions:
         - [name of action]:
             - conditions:
@@ -97,6 +98,7 @@ have no excpetions.
                   value:
             - text_fail:
             - text_success: 
+```
 
 ## Default:
 
@@ -111,7 +113,9 @@ K1 - Open `<ITEM>`
 - A new room may be available
 
 ### WDL:
+```
         - open:
+```
 
 ### Default:
 "I can't open the `<ITEM>`"
@@ -125,7 +129,9 @@ K1 - Close `<ITEM>`
 - A room may no longer be available 
 
 ### WDL:
+```
          - close:
+```
 
 ### Default:
 "I can't close the `<ITEM>`"
@@ -140,9 +146,11 @@ K1 - Push `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - push:
             - conditions:
                 - weight:
+```
 
 ### Default:
 "I push the `<ITEM>` to no effect"
@@ -156,9 +164,11 @@ K1 - Pull `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - pull:
             - conditions:
                 - weight:
+```
 
 ### Default:
 "I pull the `<ITEM>` to no effect"
@@ -173,7 +183,9 @@ K1 - Look at `<ITEM>`
 - Long description of item will be printed
 
 ### WDL:
+```
         - examine:
+```
 
 ### Default:
 "I examine the `<ITEM>` but find nothing of interest"
@@ -187,7 +199,9 @@ K1 - Turn on `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - turn_on:
+```
 
 ### Default:
 "I am unable to turn on the `<ITEM>`"
@@ -201,7 +215,9 @@ K1 - Turn off `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
         - turn_off:
+```
 
 ### Default:
 "I am unable to turn off the `<ITEM>`"
@@ -218,7 +234,9 @@ K2 - Go [direction]
 - Brief description of room will be printed
 
 ### WDL:
+```
         - go:
+```
 
 ### Default:
 "I can't find a way to go [direction]"
@@ -235,7 +253,9 @@ K1 - Take `<ITEM>`
 - Decrease player inventory space
 
 ### WDL:
+```
         - take:
+```
 
 ### Default:
 "I can't take the `<ITEM>`"
@@ -251,6 +271,9 @@ K1 - Drop `<ITEM>`
 - Put Item in room (changes room description and state)
 
 ### WDL:
+```
+        - drop:
+```
 
 ### Default:
 "I drop the `<ITEM>`"
@@ -265,6 +288,9 @@ K1 - Use `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
+        - use:
+```
 
 ### Default:
 "I can't figure out how to use the `<ITEM>`"
@@ -279,6 +305,9 @@ K5 - Use `<ITEM>` on `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
+        - use_on:
+```
 
 ### Default:
 "I can't figure out how to use the `<ITEM>` on the `<ITEM>`"
@@ -292,6 +321,9 @@ K1 - Drink `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
+        - drink:
+```
 
 ### Default:
 "I do not want to drink the `<ITEM>`"
@@ -306,6 +338,9 @@ K1 - Eat `<ITEM>`
 - No additional effects
 
 ### WDL:
+```
+        - eat:
+```
 
 ### Default:
 "I do not want to eat the `<ITEM>`"
