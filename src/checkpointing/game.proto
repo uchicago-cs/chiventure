@@ -64,8 +64,9 @@ message Player {
 	optional int32 xp = 4;
 	repeated Item inventory = 5; //Array of all object ids in inventory
 	optional int32 inventory_len = 6;
-	repeated Item clothes = 7; //Array of all object ids worn by player
-	optional int32 clothes_len = 8;
+	// I have been looking at the master branch but see no sign of any clothes object
+	//repeated Item clothes = 7; //Array of all object ids worn by player
+	//optional int32 clothes_len = 8;
 }   
 			
 
