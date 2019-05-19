@@ -3,6 +3,7 @@
 
 #include "../game.pb-c.h"
 #include "dummy.h"
+
 /* 
  * Takes a file, reads it, and returns the length of file
  * 

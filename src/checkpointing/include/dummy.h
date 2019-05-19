@@ -11,7 +11,8 @@ typedef struct object {
     char *object_id;
     char *short_desc;
     char *long_desc;
-    //placeholder tagged union thing;
+    // bool condition (reserved for future expansion in game state)
+    // placeholder for hashtable of attributes
 } object_t;
 
 typedef struct player {

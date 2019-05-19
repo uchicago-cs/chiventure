@@ -1,19 +1,13 @@
 syntax = "proto2";
 
-// Dummy Implementation
-
-// Object
-
 message Object {
     required string object_id = 1;
     optional string short_desc = 2;
     optional string long_desc = 3;
-    //required Tagged_Object_ object_type = 4;
-    //optional int32 can_take = 5;
-    //optional int32 condition = 6;
+    // placeholder for required Tagged_Object_ object_type = 4;
+    // placeholder for optional int32 can_take = 5;
+    // placeholder for optional int32 condition = 6;
 }
-
-//Room
 
 message Room {
     required string room_id = 1;
@@ -21,10 +15,8 @@ message Room {
     optional string long_desc = 3;
     required int32 objs_len = 4; 
     repeated Object objs = 5; //Array of all object ids in room
-    //repeated Path paths = 5; Array of all paths (submessage) ~future expansion~
+    // placeholder for repeated Path paths = 5; Array of all paths (submessage)
 }
-
-//Player
 
 message Player {
     required int32 player_id = 1;
@@ -37,10 +29,6 @@ message Player {
     repeated Object clothes = 8; //Array of all object ids worn by player
     required int32 clothes_len = 9;
 }   
-			
-
-
-//Game
 
 message Game {
     repeated Player players = 1; //Array of all players (submessage)
@@ -50,82 +38,3 @@ message Game {
     optional string curr_room = 5; //ID of current room
     optional int32 start_time = 6;
 }
-
-
-// Old Implementation
-
-
-// // Object
-// message Door_ {
-//     required int32 locked = 1;
-//     required int32 room_id = 2;
-// }
-// message ObjectUnion_ {
-//     optional Door_ dr = 1;
-//     // Still unfinished in game_state, will add later
-// }
-// message Tagged_Object_ {
-//     enum Object_Type_t{
-//         DOOR = 1;
-//         // Will add type once game state add theirs
-//     } 
-//     required ObjectUnion_ t = 1; 
-// }
-// message Object_ {
-//     required string object_id = 1;
-//     optional string short_des = 2;
-//     optional string long_des = 3;
-//     required Tagged_Object_ object_type = 4;
-//     optional int32 can_take = 5;
-//     optional int32 condition = 6;
-// }
-
-
-
-
-
-// //Room
-// message Condition_ {
-//     optional int32 object_id = 1;
-//     optional string attribute = 2;
-//     optional int32 attribute_value = 3;
-// }
-// message Path_ {
-//     required string room_id = 1;
-//     repeated Condition_ conditions = 2; //Array of all conditions in the path    
-// }
-// message Room_ {
-//     required string room_id = 1;
-//     optional string short_desc = 2;
-//     optional string long_desc = 3; 
-//     repeated string all_objects_t = 4; //Array of all object ids in room
-//     repeated Path_ paths = 5; //Array of all paths (submessage)
-// }
-
-
-
-
-// //Player
-// message Player_ {
-//     required int32 player_id = 1;
-//     optional string username = 2;
-//     optional int32 level = 3;
-//     optional int32 xp = 4;
-//     repeated string inventory = 5; //Array of all object ids in inventory
-//     repeated string clothes = 6; //Array of all object ids worn by player
-// }   
-    
-
-
-// //Game
-// message Game_ {
-//     repeated Player_ all_players = 1; //Array of all players (submessage)
-//     repeated Room_ all_rooms = 2; //Array of all rooms (submessage)
-//     optional string curr_room = 3; //ID of current room
-//     optional int32 time_start = 4;
-// }
-
-
-
-
-
