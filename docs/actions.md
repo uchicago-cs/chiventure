@@ -236,7 +236,6 @@ K1 - Drop `<ITEM>`
 - Put Item in room (changes room description and state)
 
 ### WDL:
-        - drop:
 
 ### Default:
 "I drop the `<ITEM>`"
