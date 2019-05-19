@@ -18,8 +18,7 @@
 static size_t read_file(char *filename, unsigned max_length, uint8_t *out);
 
 /*
- * Loads object into game struct and 
- * prints out information the object struct contains
+ * Loads object into game struct
  * 
  * Parameters:
  * - o: pointer to object in protofile
@@ -32,8 +31,7 @@ static size_t read_file(char *filename, unsigned max_length, uint8_t *out);
 int load_object(Object *o, object_t *o_t);
 
 /*
- * Loads player into game struct and
- * prints out information the player struct contains
+ * Loads player into game struct
  * 
  * Parameters:
  * - p: pointer to player in protofile
@@ -46,8 +44,7 @@ int load_object(Object *o, object_t *o_t);
 int load_player(Player *p, player_t *p_t);
 
 /*
- * Loads room into game struct and
- * prints out information the room struct contains
+ * Loads room into game struct
  * 
  * Parameters:
  * - r: pointer to room in protofile
@@ -60,8 +57,7 @@ int load_player(Player *p, player_t *p_t);
 int load_room(Room *r, room_t *r_t);
 
 /*
- * Loads game into game struct and
- * prints out information the game struct contains
+ * Loads game into game struct
  * 
  * Parameters:
  * - g: pointer to game in protofile
