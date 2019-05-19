@@ -1,33 +1,44 @@
 ﻿# Documentation of Action Specifications
 
-#### Definitions
+### Definitions
+
 **Conditions**:
 
-When an action is requested on an item, these conditions
+When an action is requested on an item, these conditions must be met in
 
-must be met in order for an action to be successful. When the action is successful
+order for an action to be successful. When the action is successful there
 
-there are potential effects that can occur. 
+are potential effects that can occur. 
 
 
 **Effects**:
 
-When an action is completed successful, there are multiple types of effects<br>
-that can occur, depending on which action is committed on a certain item.<br>
+When an action is completed successful, there are multiple types of effects
+
+that can occur, depending on which action is committed on a certain item.
 
 
 ## Kinds of Actions:
-Kind 1: ACTION `<ITEM>` <br>
-A **Kind 1** action is an action that makes the player do something to an item.<br>
-Examples: EAT apple, OPEN door, PUSH box, etc.<br>
+Kind 1: ACTION `<ITEM>`
 
-Kind 2: ACTION `<DIRECTION>`<br>
-A **Kind 2** action is an action that makes the player walk in a certain direction, most likely into a new area/room.<br>
-Examples: GO west, WALK east, GO left, etc.<br>
+A **Kind 1** action is an action that makes the player do something to an item.
 
-Kind 3: ACTION `<ITEM> <ITEM>`<br>
-A **Kind 3** action is an action that makes the player interact with two items. <br>
-Examples: PUT apple on table, PUSH box on button, USE key on door, etc<br>
+Examples: EAT apple, OPEN door, PUSH box, etc.
+
+
+Kind 2: ACTION `<DIRECTION>`
+
+A **Kind 2** action is an action that makes the player walk in a certain direction, most likely into a new area/room.
+
+Examples: GO west, WALK east, GO left, etc.
+
+
+Kind 3: ACTION `<ITEM> <ITEM>`
+
+A **Kind 3** action is an action that makes the player interact with two items.
+
+Examples: PUT apple on table, PUSH box on button, USE key on door, etc
+
 
 
 ## Items:
@@ -67,10 +78,14 @@ These are the general conditions and requirements for items.
 
 ## Actions:
 
-These are specific conditions and effects that are affiliated with certain actions. This means that along with the general<br>
-conditions and effects listed above, there are special conditions and effects tha can also be included with specific actions.<br>
-If items have "No additional ..." listed, they follow the only follow the determined general conditions/requirements listed above, and <br>
-have no excpetions.<br>
+These are specific conditions and effects that are affiliated with certain actions. This means that along with the general
+
+conditions and effects listed above, there are special conditions and effects tha can also be included with specific actions.
+
+If items have "No additional ..." listed, they follow the only follow the determined general conditions/requirements listed above, and
+
+have no excpetions.
+
 
 ## WDL:
     - actions:
