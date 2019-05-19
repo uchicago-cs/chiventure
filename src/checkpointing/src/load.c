@@ -23,7 +23,7 @@ static size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 }
 
 
-int print_object(Object *o, object_t *o_t)
+int load_object(Object *o, object_t *o_t)
 {
     // Check if givent object_t is null
     if(o_t == NULL){
@@ -58,7 +58,7 @@ int print_object(Object *o, object_t *o_t)
 }
 
 
-int print_player(Player *p, player_t *p_t)
+int load_player(Player *p, player_t *p_t)
 {
     //check if given is null
     if (p_t == NULL){
@@ -140,7 +140,7 @@ int print_player(Player *p, player_t *p_t)
     return 0;
 }    
 
-int print_room(Room *r, room_t *r_t)
+int load_room(Room *r, room_t *r_t)
 {
     // check if given room_t is null
     if (r_t == NULL){
@@ -184,7 +184,7 @@ int print_room(Room *r, room_t *r_t)
 
 }
 
-int print_game(Game *g, game_t *g_t)
+int load_game(Game *g, game_t *g_t)
 {
     //check if given game_t is null
     if (g_t == NULL){
@@ -238,7 +238,7 @@ int print_game(Game *g, game_t *g_t)
     return 0;
 }
 
-int load (char *filename, Game *g, game_t *g_t)
+int load(char *filename, Game *g, game_t *g_t)
 {
     uint8_t buffer[MAX_SIZE];
     size_t game_len = read_file(filename, MAX_SIZE, buffer);

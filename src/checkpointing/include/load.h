@@ -18,7 +18,8 @@
 static size_t read_file(char *filename, unsigned max_length, uint8_t *out);
 
 /*
- * Prints out object saved in protofile and loads object into game struct
+ * Loads object into game struct and 
+ * prints out information the object struct contains
  * 
  * Parameters:
  * - o: pointer to object in protofile
@@ -28,10 +29,11 @@ static size_t read_file(char *filename, unsigned max_length, uint8_t *out);
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int print_object(Object *o, object_t *o_t);
+int load_object(Object *o, object_t *o_t);
 
 /*
- * Prints out player saved in protofile and loads player into game struct
+ * Loads player into game struct and
+ * prints out information the player struct contains
  * 
  * Parameters:
  * - p: pointer to player in protofile
@@ -41,10 +43,11 @@ int print_object(Object *o, object_t *o_t);
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int print_player(Player *p, player_t *p_t);
+int load_player(Player *p, player_t *p_t);
 
 /*
- * Prints out room saved in protofile and loads room into game struct
+ * Loads room into game struct and
+ * prints out information the room struct contains
  * 
  * Parameters:
  * - r: pointer to room in protofile
@@ -54,10 +57,11 @@ int print_player(Player *p, player_t *p_t);
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int print_room(Room *r, room_t *r_t);
+int load_room(Room *r, room_t *r_t);
 
 /*
- * Prints out game saved in protofile and loads game into game struct
+ * Loads game into game struct and
+ * prints out information the game struct contains
  * 
  * Parameters:
  * - g: pointer to game in protofile
@@ -67,7 +71,7 @@ int print_room(Room *r, room_t *r_t);
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int print_game(Game *g, game_t *g_t);
+int load_game(Game *g, game_t *g_t);
 
 /*
  * Unpacks the protofile and reloads all saved information into game structs
