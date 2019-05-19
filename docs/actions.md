@@ -23,21 +23,21 @@ Kind 1: ACTION `<ITEM>`
 
 A **Kind 1** action is an action that makes the player do something to an item.
 
-Examples: EAT apple, OPEN door, PUSH box, etc.
+Examples: eat apple, open door, push box, etc.
 
 
 Kind 2: ACTION `<DIRECTION>`
 
 A **Kind 2** action is an action that makes the player walk in a certain direction, most likely into a new area/room.
 
-Examples: GO west, WALK east, GO left, etc.
+Examples: go west, go left, etc.
 
 
 Kind 3: ACTION `<ITEM> <ITEM>`
 
 A **Kind 3** action is an action that makes the player interact with two items.
 
-Examples: PUT apple on table, PUSH box on button, USE key on door, etc
+Examples: put apple on table, push box on button, use key on door, etc
 
 
 
