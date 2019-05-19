@@ -4,7 +4,7 @@
 #include "game.pb-c.h"
 #include "save.h"
 
-int transfer_object(object_t *o_t, Object *o)
+int save_object(object_t *o_t, Object *o)
 {
     if (o_t == NULL){
         return -1;
@@ -27,7 +27,7 @@ int transfer_object(object_t *o_t, Object *o)
     return 0;
 }
 
-int transfer_room(room_t *r_t, Room *r)
+int save_room(room_t *r_t, Room *r)
 {
     if (r_t == NULL) {
 	fprintf(stderr, "Given a room_t struct that is NULL in transfer_room.\n");
@@ -60,7 +60,7 @@ int transfer_room(room_t *r_t, Room *r)
     for (int i=0; i<len; ++i) {
 	objs[i] = malloc(sizeof(Object));
 	object__init(objs[i]);
-	int transfer_object_success = transfer_object(r_t->objs[i], objs[i]);
+	int transfer_object_success = save_object(r_t->objs[i], objs[i]);
     }
 
     r->objs = objs;
@@ -68,8 +68,7 @@ int transfer_room(room_t *r_t, Room *r)
     return 0;
 }
 
-
-int transfer_player(player_t *p_t, Player *p)
+int save_player(player_t *p_t, Player *p)
 {
     if (p_t == NULL) {
 	fprintf(stderr, "Given a player_t struct that is NULL in transfer_player.\n");
@@ -115,7 +114,7 @@ int transfer_player(player_t *p_t, Player *p)
     for (int i = 0; i < i_len; i++) {
 	inventory[i] = malloc(sizeof(Object));
 	object__init(inventory[i]);
-	inventory_success = transfer_object(p_t->inventory[i], inventory[i]);
+	inventory_success = save_object(p_t->inventory[i], inventory[i]);
     }
 
     p->inventory = inventory;
@@ -133,7 +132,7 @@ int transfer_player(player_t *p_t, Player *p)
     for (int j = 0; j < c_len; j++){
 	clothes[j] = malloc(sizeof(Object));
 	object__init(clothes[j]);
-	clothes_success = transfer_object(p_t->clothes[j], clothes[j]);
+	clothes_success = save_object(p_t->clothes[j], clothes[j]);
     }
 
     p->clothes = clothes;
@@ -141,8 +140,7 @@ int transfer_player(player_t *p_t, Player *p)
     return 0;
 }
 
-
-int transfer_game(game_t *g_t, Game *g)
+int save_game(game_t *g_t, Game *g)
 {
     if(g_t == NULL){
 	fprintf(stderr, "Given a game_t struct that is NULL in transfer_game.\n");
@@ -174,7 +172,7 @@ int transfer_game(game_t *g_t, Game *g)
 	    players[i]->has_xp = 1;
 	}
     
-	player_success = transfer_player(g_t->players[i], players[i]);
+	player_success = save_player(g_t->players[i], players[i]);
     }
   
     g->players = players;
@@ -192,7 +190,7 @@ int transfer_game(game_t *g_t, Game *g)
     for (int j = 0; j < r_len; j++){
 	rooms[j] = malloc(sizeof(Room));
 	room__init(rooms[j]);
-	room_success = transfer_room(g_t->rooms[j], rooms[j]);
+	room_success = save_room(g_t->rooms[j], rooms[j]);
     }
 
     g->rooms = rooms;
@@ -222,7 +220,7 @@ int write_to_file(char *filename, uint8_t *buffer, unsigned len)
     return res;
 }
 
-int save (game_t *g_t, char *filename)
+int save(game_t *g_t, char *filename)
 {
     Game g = GAME__INIT;
     void *buf;
@@ -230,7 +228,7 @@ int save (game_t *g_t, char *filename)
     int success;
 
 
-    success = transfer_game(g_t, &g);
+    success = save_game(g_t, &g);
     len = game__get_packed_size(&g);
     buf = malloc(len);
     game__pack(&g, buf);
@@ -243,6 +241,7 @@ int save (game_t *g_t, char *filename)
     return 0;
 }
 
+/*
 int main(int argc, char *argv[])
 {
     if (argc < 1){
@@ -365,3 +364,4 @@ int main(int argc, char *argv[])
   
     return 0;
 }
+*/

@@ -1,7 +1,7 @@
 #ifndef DUMMY_H
 #define DUMMY_H
 
-#include "../game.pb-c.h"
+#include "game.pb-c.h"
 
 /*
  * Dummy Structs Generally Based off of Game-State's Structs

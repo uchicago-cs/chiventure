@@ -15,7 +15,7 @@
  *   - 0 if successful
  *   - -1 if unsuccessful 
  */
-int transfer_object(object_t *o_t, Object *o);
+int save_object(object_t *o_t, Object *o);
 
 
 /* 
@@ -29,7 +29,7 @@ int transfer_object(object_t *o_t, Object *o);
  *   - 0 if successful
  *   - -1 if unsuccessful 
  */
-int transfer_room(room_t *r_t, Room *r);
+int save_room(room_t *r_t, Room *r);
 
 
 /* 
@@ -42,7 +42,7 @@ int transfer_room(room_t *r_t, Room *r);
  * Return:
  *   - 0 if successful, -1 if unsuccessful 
  */
-int transfer_player(player_t *p_t, Player *p);
+int save_player(player_t *p_t, Player *p);
 
 
 /* 
@@ -56,7 +56,7 @@ int transfer_player(player_t *p_t, Player *p);
  *   - 0 if successful
  *   - -1 if unsuccessful 
  */
-int transfer_game(game_t *g_t, Game *g);
+int save_game(game_t *g_t, Game *g);
 
 
 /* 

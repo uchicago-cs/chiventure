@@ -230,6 +230,7 @@ int load(char *filename, Game *g, game_t *g_t)
     return 0;
 }
 
+/*
 int main(int argc, char *argv[])
 {
     if (argc < 1) {
@@ -244,3 +245,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+*/
