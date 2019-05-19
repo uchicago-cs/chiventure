@@ -5,38 +5,38 @@
 
 int main (int argc, const char * argv[]) 
 {
-	Game *file;
-	Player *sub1;
-	Room *sub2;
+    Game *file;
+    Player *sub1;
+    Room *sub2;
 
-	char c;
-	int i = 0;
-	uint8_t buf[MAX_SIZE];
+    char c;
+    int i = 0;
+    uint8_t buf[MAX_SIZE];
 
-	while (fread(&c,1,1,stdin) != 0){
-		if (i >= MAX_SIZE){
-			fprintf(stderr, "msg too long for allocated buffer\n");
-			return 1;
-		}
-		buf[i++] = c;
+    while (fread(&c,1,1,stdin) != 0){
+	if (i >= MAX_SIZE){
+	    fprintf(stderr, "msg too long for allocated buffer\n");
+	    return 1;
 	}
+	buf[i++] = c;
+    }
 
-	file = game__unpack(NULL, i, buf);
-	if (file == NULL){ //something failed
-		fprintf(stderr, "error unpacking incoming message\n");
-		return 1;
-	}
+    file = game__unpack(NULL, i, buf);
+    if (file == NULL){ //something failed
+	fprintf(stderr, "error unpacking incoming message\n");
+	return 1;
+    }
 
-	sub1 = file->player_info;
-	sub2 = file->location;
+    sub1 = file->player_info;
+    sub2 = file->location;
 
-	printf("Received: \nplayer_info: name = %s, gender = %d\nlocation = %s", 
-			sub1->name, sub1->gender, sub2->r_name);
-	if (file->discovered != NULL)
-		printf("\ndiscovered = %d\n", file->discovered);
+    printf("Received: \nplayer_info: name = %s, gender = %d\nlocation = %s", 
+	   sub1->name, sub1->gender, sub2->r_name);
+    if (file->discovered != NULL)
+	printf("\ndiscovered = %d\n", file->discovered);
 	
-	game__free_unpacked(file,NULL);
+    game__free_unpacked(file,NULL);
 
 
-	return 0;
+    return 0;
 }
