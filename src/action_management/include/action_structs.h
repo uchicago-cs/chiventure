@@ -8,9 +8,7 @@
 /* An enumeration of all supported actions.
  * KIND 1 ACTIONS - ACTION <item>
  * KIND 2 ACTIONS - ACTION <direction>
- * KIND 3 ACTIONS - ACTION <npc>
- * KIND 4 ACTIONS - ACTION <item> <npc> 
- * KIND 5 ACTIONS - ACTION <item> <item>
+ * KIND 3 ACTIONS - ACTION <item> <item>
  */
 enum actions {
 
@@ -30,13 +28,7 @@ enum actions {
     GO,      // synonyms: "walk"
     ENTER,
 
-/* KIND 3 ACTIONS - ACTION <npc> */
-    TALK_TO,
-
-/* KIND 4 ACTIONS - ACTION <item_npc> */
-    GIVE_TO,
-    
-/* KIND 5 ACTIONS - ACTION <item_item> */
+/* KIND 3 ACTIONS - ACTION <item_item> */
     USE_ON,
     PUT_ON
 };
@@ -45,10 +37,8 @@ enum actions {
 /* Each enum corresponds to a different "KIND" of action */
 enum action_kind {
     ITEM = 1, // ACTION <item> i.e. Action Type 1
-    DIRECTION = 2, // ACTION <direction i.e. Action Type 2
-    NPC = 3, // ACTION <npc> i.e. Action Type 3
-    ITEM_NPC = 4, // ACTION <item> <npc> i.e. Action Type 4
-    ITEM_ITEM = 5 // ACTION <item> <item> i.e. Action Type 5
+    PATH = 2, // ACTION <direction i.e. Action Type 2
+    ITEM_ITEM = 3 // ACTION <item> <item> i.e. Action Type 3
 };
 
 
@@ -69,7 +59,7 @@ typedef struct {
  * - next: the next item in the linked list
  * This struct is primarily used in the get_supported_actions function.
 */
-typedef struct list_actions {
+typedef struct {
     action_type_t *act;
     list_actions *next;
 } list_actions;

@@ -3,6 +3,7 @@
 #include "actionmanagement.h"
 #include "action_structs.h"
 
+
 static action_type_t valid_actions[] =
 {
 /* KIND 1 */
@@ -26,36 +27,53 @@ static action_type_t valid_actions[] =
 
 static int NUM_ACTIONS = sizeof(valid_actions) / sizeof(action_type_t);
 
+/* the number of each of the kinds of actions there currently are */
+static int NUM_ITEM = 10;
+static int NUM_PATH = 2;
+static int NUM_ITEM_ITEM = 2;
 
 list_actions *get_supported_actions(enum action_kind kind)
 {
-    action_type_t temp = NULL;
+    list_actions *temp = NULL;
     int i;
 
     switch(kind)
     {
-        case 1:
-            for(i = 0; i <= 9; i++) 
+        case ITEM:
+            for(i = 0; i <= --NUM_ITEM; i++) 
             {
-                LL_APPEND(temp,valid_actions[i]);
-                temp = valid_actions[i];
+                list_actions *add = (list_actions*)malloc(sizeof(list_actions));
+                action_type_t *add_data = action_new(valid_actions[i].c_name,
+                                                     valid_actions[i].kind);
+                add->data = add_data;
+                LL_PREPEND(temp,add);
+                temp = add;
             }
             break;
 
-        case 2:
-            for(i = 10; i <= 11; i++) 
+        case PATH:
+            for(i = NUM_ITEM; i <= --(NUM_ITEM+NUM_PATH); i++) 
             {
-                LL_APPEND(temp,valid_actions[i]);
-                temp = valid_actions[i];
+                list_actions *add = (list_actions*)malloc(sizeof(list_actions));
+                action_type_t *add_data = action_new(valid_actions[i].c_name,
+                                                     valid_actions[i].kind);
+                add->data = add_data;
+                LL_PREPEND(temp,add);
+                temp = add;
             }
             break;
 
-        case 3:
-            for(i = 12; i <= 13; i++) 
+        case ITEM_ITEM:
+            for(i = NUM_ITEM+NUM_PATH; i <= --(NUM_ITEM+NUM_PATH+NUM_ITEM_ITEM); i++) 
             {
-                LL_APPEND(temp,valid_actions[i]);
-                temp = valid_actions[i];
+                list_actions *add = (list_actions*)malloc(sizeof(list_actions));
+                action_type_t *add_data = action_new(valid_actions[i].c_name,
+                                                     valid_actions[i].kind);
+                add->data = add_data;
+                LL_PREPEND(temp,add);
+                temp = add;
             }
             break;
     }
+    return temp;
 }
