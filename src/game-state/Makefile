@@ -9,10 +9,10 @@ BUILDDIR = build
 $(shell mkdir -p $(DEPDIR) >/dev/null)
 $(shell mkdir -p $(BUILDDIR) >/dev/null)
 SRCEXT = c
-SRCS = $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+SRCS = $(shell find $(SRCDIR) -type f -name '*.$(SRCEXT)')
 DEPS = $(patsubst $(SRCDIR)/%,$(DEPDIR)/%,$(SRCS:.$(SRCEXT)=.d))
 OBJS = $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SRCS:.$(SRCEXT)=.o))
-LIB = game-state.a
+LIB = libgamestate.a
 
 .PHONY: all
 all: $(LIB)
@@ -30,3 +30,9 @@ $(DEPDIR)/%.d: ;
 .PHONY: clean
 clean:
 	$(RM) $(LIB) $(OBJS) $(BINS) $(DEPS)
+	make -C tests/ clean
+
+.PHONY: tests
+tests:
+	make -C tests/ all
+

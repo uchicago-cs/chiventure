@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include "game.h"
 
+Test(game, new_free)
+{
+    game_t *game = game_new();
+    cr_assert_not_null(game, "game_new() failed");
+    cr_assert_eq(game_free(game), SUCCESS, "game_free() failed");
+}
 
 /*need to figure out how to feed in test struct into criterion
 //assuming that is completed
