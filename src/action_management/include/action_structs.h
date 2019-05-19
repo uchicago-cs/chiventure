@@ -5,18 +5,12 @@
 /* File consisting of all action structs created by action management
    =========================================================================== */
 
-
-/* forward declaration of a list struct used for synonoyms 
- * will be implemented in a later sprint */
-typedef struct list list_t;
-
-
 /* An enumeration of all supported actions.
  * KIND 1 ACTIONS - ACTION <item>
  * KIND 2 ACTIONS - ACTION <direction>
  * KIND 3 ACTIONS - ACTION <npc>
  * KIND 4 ACTIONS - ACTION <item> <npc> 
- * KIND 5 ACTIONS - ACTION <item> <item> 
+ * KIND 5 ACTIONS - ACTION <item> <item>
  */
 enum actions {
 
@@ -65,11 +59,19 @@ enum action_kind {
  * - kind: an enumeration of the kind of action
 */
 typedef struct {
-    enum actions act;   // e.g. CONSUME
     char *c_name;  // e.g. "eat"
-    list_t *synonyms;   // e.g. "drink" -> "use"
     enum action_kind kind; // e.g. KIND_1
-} action_t;
+} action_type_t;
 
+
+/* A linked list struct that contains two components
+ * - act: the data component
+ * - next: the next item in the linked list
+ * This struct is primarily used in the get_supported_actions function.
+*/
+typedef struct list_actions {
+    action_type_t *act;
+    list_actions *next;
+} list_actions;
 
 #endif

@@ -20,16 +20,15 @@
  * Returns:
  * - a pointer to a new action struct
  */
-action_t *action_new(enum actions act, char *c_name,
-                     list_t *synonyms, enum action_kind kind);
+action_type_t *action_new(char *c_name, enum action_kind kind);
 
 
 /*
  * A function that initializes an action
- * Will determine the action_type, depending on what action is given
+ * Will determine the action_type_type, depending on what action is given
  *
  * Parameters:
- * - a: a pointer to an empty action_t allocated by action_new
+ * - a: a pointer to an empty action_type_t allocated by action_new
  * - act: an enumeration of the action
  * - c_name: a string containing an actions canonical name
  * - synonyms: a list of synonyms for the action
@@ -39,8 +38,7 @@ action_t *action_new(enum actions act, char *c_name,
  * - 0 if success, 1 if an error occurs
  * - an error message in stderr if the action struct is not initialized
  */
-int action_init(action_t *a, enum actions act, char *c_name,
-                list_t *synonyms, enum action_kind kind);
+int action_init(action_type_t *a, char *c_name, enum action_kind kind);
 
 
 /*
@@ -52,7 +50,7 @@ int action_init(action_t *a, enum actions act, char *c_name,
  * Returns:
  * - Always returns 0.
  */
-int action_free(action_t *a);
+int action_free(action_type_t *a);
 
 
 /* ========================================================================== */
@@ -64,22 +62,9 @@ int action_free(action_t *a);
  * - kind: The enumerated value of kind, specifying the kind of actions wanted
  * 
  * Returns:
- * - a linked list of action_t structs 
+ * - a linked list of action_type_t structs 
  */
-list_t *get_supported_actions(enum action_kind kind);
-
-
-/* A series of functions that will be implemented in a later sprint
- * along with the list structure we will use for them
- *
- * Returns:
- * - a linked list of action_t structs of the same action kind
- */
-list_t *get_actions_kind1();
-list_t *get_actions_kind2();
-list_t *get_actions_kind3();
-list_t *get_actions_kind4();
-list_t *get_actions_kind5();
+list_actions *get_supported_actions(enum action_kind kind);
 
 
 /* 
@@ -91,19 +76,7 @@ list_t *get_actions_kind5();
  * Returns:
  * - the canonical name of the action as a string
 */
-char *get_action_cname(action_t *a);
-
-
-/* 
- * A function that returns the synonyms of an action as a list of strings 
- * 
- * Parameters:
- * - a: An action struct
- * 
- * Returns:
- * - a list of the synonyms of the action
-*/
-list_t *get_action_synonyms(action_t *a);
+char *get_action_cname(action_type_t *a);
 
 
 /* A function that returns the kind of action as an integer
@@ -118,7 +91,7 @@ list_t *get_action_synonyms(action_t *a);
  * - 4 for KIND 4
  * - 5 for KIND 5
  */
-int get_action_kind(action_t *a);
+int get_action_kind(action_type_t *a);
 
 
 /* ========================================================================== */
@@ -134,7 +107,7 @@ int get_action_kind(action_t *a);
  * - 0 on success
  * - 1 on failure
  */
-int action_item(game_t *g, action_t *a, item_t *i);
+int action_item(game_t *g, action_type_t *a, item_t *i);
 
 
 /* A function that executes KIND 2 actions (ACTION <direction>)
@@ -148,7 +121,7 @@ int action_item(game_t *g, action_t *a, item_t *i);
  * - 0 on success
  * - 1 on failure
  */
-int action_direction(game_t *g, action_t *a, direction_t *d);
+int action_direction(game_t *g, action_type_t *a, direction_t *d);
 
 
 /* A function that executes KIND 3 actions (ACTION <npc>)
@@ -162,7 +135,7 @@ int action_direction(game_t *g, action_t *a, direction_t *d);
  * - 0 on success
  * - 1 on failure
  */
-int action_npc(game_t *g, action_t *a, npc_t *n);
+int action_npc(game_t *g, action_type_t *a, npc_t *n);
 
 
 /* A function that executes KIND 4 actions (ACTION <item> <npc>)
@@ -177,7 +150,7 @@ int action_npc(game_t *g, action_t *a, npc_t *n);
  * - 0 on success
  * - 1 on failure
  */
-int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n);
+int action_item_npc(game_t *g, action_type_t *a, item_t *i, npc_t *n);
 
 
 /* A function that executes KIND 5 actions (ACTION <item> <item>)
@@ -192,7 +165,7 @@ int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n);
  * - 0 on success
  * - 1 on failure
  */
-int action_item_item(game_t *g, action_t *a, item_t *direct, item_t *indirect);
+int action_item_item(game_t *g, action_type_t *a, item_t *direct, item_t *indirect);
 
 
 #endif
