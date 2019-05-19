@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../game.pb-c.h"
+#include "game.pb-c.h"
 #include "save.h"
 
 int transfer_object(object_t *o_t, Object *o)
@@ -56,9 +56,9 @@ int transfer_room(room_t *r_t, Room *r)
 
     r->n_objs = len;
 
-    objs = malloc (sizeof(Object*)*len); 
+    objs = malloc(sizeof(Object*)*len); 
     for (int i=0; i<len; ++i) {
-	objs[i] = malloc (sizeof(Object));
+	objs[i] = malloc(sizeof(Object));
 	object__init(objs[i]);
 	int transfer_object_success = transfer_object(r_t->objs[i], objs[i]);
     }

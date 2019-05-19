@@ -1,7 +1,7 @@
 #ifndef SAVE_H
 #define SAVE_H
 
-#include "../game.pb-c.h"
+#include "game.pb-c.h"
 #include "dummy.h"
 
 /* 

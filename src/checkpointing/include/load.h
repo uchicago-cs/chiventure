@@ -1,7 +1,7 @@
 #ifndef LOAD_H
 #define LOAD_H
 
-#include "../game.pb-c.h"
+#include "game.pb-c.h"
 #include "dummy.h"
 
 /* 
@@ -15,7 +15,7 @@
  * Returns:
  * - size_t: length of file
  */
-static size_t read_file(char *filename, unsigned max_length, uint8_t *out);
+size_t read_file(char *filename, unsigned max_length, uint8_t *out);
 
 /*
  * Loads object into game struct

@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../game.pb-c.h"
+#include "game.pb-c.h"
 #include "load.h"
 #define MAX_SIZE 1000000 // size of buffer that deserialized file is stored in
 
-static size_t read_file(char *filename, unsigned max_length, uint8_t *out)
+size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 {
     size_t cur_len = 0;
     size_t nread;
@@ -15,7 +15,7 @@ static size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 	cur_len += nread;
 	if (cur_len == max_length) {
 	    fprintf(stderr, "max message length exceed\n");
-	    exit(1);
+	    return max_length;
 	}
     }
     fclose(fp);
@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 1) {
 	fprintf(stderr, "no filename provided\n");
-	exit(1);
+	return -1;
     }
 	
     Game *g = malloc(sizeof(Game));
