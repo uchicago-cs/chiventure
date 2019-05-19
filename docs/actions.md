@@ -5,7 +5,8 @@
 
 When an action is requested on an item, these conditions
 
-must be met in order for an action to be successful. When the action is successful<br>
+must be met in order for an action to be successful. When the action is successful
+
 there are potential effects that can occur. 
 
 
