@@ -277,7 +277,6 @@ K1 - Drink `<ITEM>`
 - No additional effects
 
 ### WDL:
-        - drink:
 
 ### Default:
 "I do not want to drink the `<ITEM>`"
