@@ -12,7 +12,7 @@ message Player {
     required Gender gender = 2;
 }
 
-message Room{
+message Room {
     required string r_name = 1;
 }
 

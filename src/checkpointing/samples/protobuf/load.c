@@ -2,8 +2,9 @@
 #include <string.h>
 #include "sample.pb-c.h"
 #define MAX_SIZE 4096
+// MAX_SIZE is the size of the buffer that the deserialized data goes into
 
-int main (int argc, const char * argv[]) 
+int main (int argc, const char *argv[]) 
 {
     Game *file;
     Player *sub1;
@@ -37,7 +38,7 @@ int main (int argc, const char * argv[])
 	printf("\ndiscovered = %d\n", file->discovered);
     }
     
-    game__free_unpacked(file,NULL);
+    game__free_unpacked(file, NULL);
 
     return 0;
 }

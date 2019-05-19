@@ -3,7 +3,7 @@
 #include <string.h>
 #include "sample.pb-c.h"
 
-int transfer(int argc, char * argv[], Game * file) 
+int transfer(int argc, char *argv[], Game *file) 
 {
     static Player sub1 = PLAYER__INIT;
     static Room sub2 = ROOM__INIT;
@@ -26,7 +26,7 @@ int transfer(int argc, char * argv[], Game * file)
     return 0;
 }
 
-int main(int argc, char * argv[])
+int main(int argc, char *argv[])
 {
     void *buf;
     unsigned len;
@@ -43,5 +43,3 @@ int main(int argc, char * argv[])
 
     return 0;
 };
-
-
