@@ -6,7 +6,7 @@
 
 
 /* In the absence of the Game State team's code, 
- * here are some theoretical structs containing the bare minimum of what we need. 
+ * here are some theoretical structs containing the minimum of what we need.
  * We use these structs in our implementation of basic action commands.
    =========================================================================== */
 
@@ -33,11 +33,11 @@ typedef struct {
 } item_t;
 
 
-/* forward declaration of inventory struct */
+// forward declaration of inventory struct
 typedef struct inventory_struct inventory_t;
 
 
-/* forward declaration of a direction struct */
+// forward declaration of a direction struct
 typedef struct direction_struct direction_t;
 
 
@@ -105,7 +105,8 @@ int player_move(game_t *g, direction_t *d);
 int found_in_room(game_t *g, npc_t *n);
 
 
-/* prints a conversation with npc to stderr */
+/* prints a conversation with npc to stderr 
+ * returns SUCCESS = 0 or FAILURE = 1 */
 int npc_talk(player_t *p, npc_t *n);
 
 

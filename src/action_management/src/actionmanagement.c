@@ -4,7 +4,7 @@
 #include "actionmanagement.h"
 #include "common.h"
 
-/* See actionmanagement.h */
+// See actionmanagement.h 
 action_t *action_new(enum actions act, char *c_name,
                      list_t *synonyms, enum action_kind kind)
 {
@@ -27,7 +27,7 @@ action_t *action_new(enum actions act, char *c_name,
 }
 
 
-/* See actionmanagement.h */
+// See actionmanagement.h 
 int action_init(action_t *a, enum actions act, char *c_name,
                 list_t *synonyms, enum action_kind kind)
 {
@@ -42,7 +42,7 @@ int action_init(action_t *a, enum actions act, char *c_name,
 }
 
 
-/* See actionmanagement.h */
+// See actionmanagement.h 
 int action_free(action_t *a)
 {
     assert(a);
@@ -55,21 +55,21 @@ int action_free(action_t *a)
 }
 
 
-/* See actionmanagement.h */
+// See actionmanagement.h 
 char *get_action_cname(action_t *a)
 {
     return a->c_name;
 }
 
 
-/* See actionmanagement.h */
+// See actionmanagement.h 
 list_t *get_action_synonyms(action_t *a)
 {
     return a->synonyms;
 }
 
 
-/* See actionmanagement.h */
+// See actionmanagement.h 
 int get_action_kind(action_t *a)
 {
     return a->kind;
@@ -97,7 +97,7 @@ list_t *get_actions_kind5() {
 }
 
 
-/* See actionmanagement.h */
+// See actionmanagement.h 
 list_t *get_supported_actions(enum action_kind kind)
 {
     list_t *actions = NULL;
@@ -127,11 +127,11 @@ list_t *get_supported_actions(enum action_kind kind)
 }
 
 
-/* ========================================================================== */
+// =============================================================================
 
 
-// KIND 1
-/* See actionmanagement.h */
+/* KIND 1
+ * See actionmanagement.h */
 int action_item(game_t *g, action_t *a, item_t *i)
 {
     assert(g);
@@ -158,7 +158,7 @@ int action_item(game_t *g, action_t *a, item_t *i)
     case TURN_ON:
     case TURN_OFF:
     {
-        /* See game.h */
+        // See game.h 
         int toggle = toggle_condition(g, a, i);
         if (toggle != SUCCESS) {
             fprintf(stderr, "%s failed", a->c_name);
@@ -168,7 +168,7 @@ int action_item(game_t *g, action_t *a, item_t *i)
     }
     case EXAMINE: 
     {
-        /* See game.h */
+        // See game.h
         int describe = get_long_desc(i);
         if (describe != SUCCESS) {
             fprintf(stderr, "%s failed", a->c_name);
@@ -178,7 +178,7 @@ int action_item(game_t *g, action_t *a, item_t *i)
     }
     case DROP:
       {
-          /* See game.h */
+          // See game.h 
           int drop = remove_inventory_item(g->current_player, i);
           if (drop != SUCCESS) {
               fprintf(stderr, "Object could not be removed from inventory.\n");
@@ -187,13 +187,13 @@ int action_item(game_t *g, action_t *a, item_t *i)
       }
     case TAKE:
     {
-        /* See game.h */
+        // See game.h
         int take = take_object(i);
         if (take != SUCCESS) {
             fprintf(stderr, "item can't be taken");
             return FAILURE;
         }
-        /* See game.h */
+        // See game.h
         int add = add_inventory_item(g->current_player, i);
         if (add != SUCCESS) {
             fprintf(stderr, "item was not taken");
@@ -203,13 +203,13 @@ int action_item(game_t *g, action_t *a, item_t *i)
     }
     case CONSUME:
     {
-        /* See game.h */
+        // See game.h
         int consumed = remove_inventory_item(g->current_player, i);
         if (consumed != SUCCESS) {
             fprintf(stderr, "Object could not be removed from inventory.\n");
             return FAILURE;
         }
-        /* See game.h */
+        // See game.h
         int boosted = change_health(g->current_player, i->change, 
                                     g->current_player->max_health);
         if (boosted) {
@@ -227,8 +227,8 @@ int action_item(game_t *g, action_t *a, item_t *i)
 }
 
 
-// KIND 2
-/* See actionmanagement.h */
+/* KIND 2
+ * See actionmanagement.h */
 int action_direction(game_t *g, action_t *a, direction_t *d)
 {
     assert(g);
@@ -237,7 +237,7 @@ int action_direction(game_t *g, action_t *a, direction_t *d)
         fprintf(stderr, "The action provided is not of the correct type.\n");
         return FAILURE;
     }
-    /* See game.h */
+    // See game.h
     int moved = player_move(g, d);
     if (moved == SUCCESS) {
         return SUCCESS;
@@ -248,8 +248,8 @@ int action_direction(game_t *g, action_t *a, direction_t *d)
 }
 
 
-// KIND 3
-/* See actionmanagement.h */
+/* KIND 3
+ * See actionmanagement.h */
 int action_npc(game_t *g, action_t *a, npc_t *n)
 {
     assert(g);
@@ -260,13 +260,13 @@ int action_npc(game_t *g, action_t *a, npc_t *n)
         fprintf(stderr, "The action provided is not of the correct type.\n");
         return FAILURE;
     }
-    /* See game.h */
+    // See game.h 
     int available = found_in_room(g, n);
     if (available == FAILURE) {
         fprintf(stderr, "NPC is not in room.\n");
         return FAILURE;
     }
-    /* See game.h */
+    // See game.h
     int talked = npc_talk(g->current_player, n); 
     if (talked == SUCCESS) {
         return SUCCESS;
@@ -278,8 +278,8 @@ int action_npc(game_t *g, action_t *a, npc_t *n)
 
 
 
-// KIND 4
-/* See actionmanagement.h */
+/* KIND 4
+ * See actionmanagement.h */
 int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
 {
     assert(g);
@@ -299,7 +299,7 @@ int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
         fprintf(stderr, "The action can not be done with this item.\n");
         return FAILURE;
     }
-    /* See game.h */
+    // See game.h
     int given = remove_inventory_item(g->current_player, i);
     if (given != SUCCESS) {
         fprintf(stderr, "Object could not be moved from inventory.\n");
@@ -311,8 +311,8 @@ int action_item_npc(game_t *g, action_t *a, item_t *i, npc_t *n)
 
 
 
-// KIND 5
-/* See actionmanagement.h */
+/* KIND 5
+ * See actionmanagement.h */
 int action_item_item(game_t *g, action_t *a,
                      item_t *direct, item_t *indirect)
 {
@@ -333,7 +333,7 @@ int action_item_item(game_t *g, action_t *a,
       fprintf(stderr, "The action can not be done to this item.\n");
       return FAILURE;
   }
-  /* See game.h */
+  // See game.h
   int moved = remove_inventory_item(g->current_player, direct);
   if (moved != SUCCESS) {
       fprintf(stderr, "Object could not be moved from inventory.\n");

@@ -55,7 +55,7 @@ int action_init(action_t *a, enum actions act, char *c_name,
 int action_free(action_t *a);
 
 
-/* ========================================================================== */
+// =============================================================================
 
 /* 
  * A function that returns all supported actions
@@ -121,7 +121,7 @@ list_t *get_action_synonyms(action_t *a);
 int get_action_kind(action_t *a);
 
 
-/* ========================================================================== */
+// =============================================================================
 
 /* A function that executes KIND 1 actions (ACTION <item>)
  * 
