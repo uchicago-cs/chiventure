@@ -23,7 +23,8 @@ void print_cli(window_t *win)
     static bool first_run = true;
     int x,y;
 
-    if (!first_run) {
+    if (!first_run)
+    {
         char str[80];
 
         wgetnstr(win->w, str, 80);
@@ -31,7 +32,8 @@ void print_cli(window_t *win)
         getyx(win->w, y, x);
         mvwprintw(win->w, y, 3, str);
     }
-    else {
+    else
+    {
         first_run = false;
     }
 
@@ -39,7 +41,8 @@ void print_cli(window_t *win)
     getyx(win->w, y, x);
 
     int height  = LINES / 2;
-    if (y >= height - 2) {
+    if (y >= height - 2)
+    {
         wscrl(win->w, y - height + 2);
         y = height - 2;
     }

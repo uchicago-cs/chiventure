@@ -64,7 +64,8 @@ void start_ui()
 
     // sample game loop. uses ctrl+D key to exit
 
-    while ((ch = wgetch(cli->w)) != 4) {
+    while ((ch = wgetch(cli->w)) != 4)
+    {
 
         height = LINES / 2;
         width = COLS;
@@ -84,21 +85,26 @@ void start_ui()
         box(info->w, 0, 0 );
 
         // detects ALt+key commands
-        if (ch == 27) {
+        if (ch == 27)
+        {
             ch = wgetch(cli->w);
             // Alt+m switches the info window to the map window
             // Alt+s switches the position of the CLI
-            if (ch == 'm') {
-                if (on_main) {
+            if (ch == 'm')
+            {
+                if (on_main)
+                {
                     info = map;
                 }
-                else {
+                else
+                {
                     info = main_win;
                 }
                 on_main = !on_main;
                 ch = 27;
             }
-            else if (ch == 's') {
+            else if (ch == 's')
+            {
                 cli_top = !cli_top;
                 ch = 27;
                 mvwin(cli->w, !(cli_top) * height, 0);
@@ -107,7 +113,8 @@ void start_ui()
 
             }
         }
-        else if (isalnum(ch)) {
+        else if (isalnum(ch))
+        {
             echo();
             ungetch(ch);
 
