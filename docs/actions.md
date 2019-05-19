@@ -250,7 +250,6 @@ K1 - Use `<ITEM>`
 - No additional effects
 
 ### WDL:
-        - use:
 
 ### Default:
 "I can't figure out how to use the `<ITEM>`"
