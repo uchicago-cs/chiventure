@@ -64,7 +64,7 @@ These are the general conditions and requirements for items.
 
 
 
-### `<NPC>`
+### `[NPC]`
 #### Conditions:
 - NPC must be in the same room as the player
 - NPC has the ability to be interacted with (possibly with specific item)
@@ -102,7 +102,7 @@ have no excpetions.
 
 ## Default:
 
-The action's behavior when called on an `<ITEM>` or [NPC] that does not support the action.
+The action's behavior when called on an `<ITEM>` or `[NPC]` that does not support the action.
 
 K1 - Open `<ITEM>`
 ------
