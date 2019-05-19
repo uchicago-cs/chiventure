@@ -11,7 +11,7 @@ static size_t read_file(char *filename, unsigned max_length, uint8_t *out)
     size_t cur_len = 0;
     size_t nread;
     FILE *fp = fopen(filename, "r");
-    while((nread=fread(out+cur_len, 1, max_length - cur_len, fp)) != 0) {
+    while((nread = fread(out+cur_len, 1, max_length - cur_len, fp)) != 0) {
 	cur_len += nread;
 	if (cur_len == max_length) {
 	    fprintf(stderr, "max message length exceed\n");
