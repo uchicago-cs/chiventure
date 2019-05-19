@@ -56,7 +56,7 @@ int save_room(room_t *r_t, Room *r)
 
     r->n_objs = len;
 
-    objs = malloc(sizeof(Object*)*len); 
+    objs = malloc(sizeof(Object*) * len); 
     for (int i=0; i<len; ++i) {
 	objs[i] = malloc(sizeof(Object));
 	object__init(objs[i]);
@@ -109,7 +109,7 @@ int save_player(player_t *p_t, Player *p)
   
     p->n_inventory = i_len;
 
-    inventory = malloc(sizeof(Object*)*i_len);
+    inventory = malloc(sizeof(Object*) * i_len);
     int inventory_success = 1;
     for (int i = 0; i < i_len; i++) {
 	inventory[i] = malloc(sizeof(Object));
@@ -127,7 +127,7 @@ int save_player(player_t *p_t, Player *p)
   
     p->n_clothes = c_len;
     
-    clothes = malloc(sizeof(Object*)*c_len);
+    clothes = malloc(sizeof(Object*) * c_len);
     int clothes_success = 1;
     for (int j = 0; j < c_len; j++){
 	clothes[j] = malloc(sizeof(Object));
@@ -154,7 +154,7 @@ int save_game(game_t *g_t, Game *g)
     g->n_players = p_len;
 
     Player **players;
-    players = malloc(sizeof(Player*)*p_len);
+    players = malloc(sizeof(Player*) * p_len);
     int player_success = 1;
     for (int i = 0; i < p_len; i++){
 	players[i] = malloc(sizeof(Player));
@@ -185,7 +185,7 @@ int save_game(game_t *g_t, Game *g)
   
     g->n_rooms = r_len;
     
-    rooms = malloc(sizeof(Room*)*r_len);
+    rooms = malloc(sizeof(Room*) * r_len);
     int room_success = 1;
     for (int j = 0; j < r_len; j++){
 	rooms[j] = malloc(sizeof(Room));

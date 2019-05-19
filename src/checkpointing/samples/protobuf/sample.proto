@@ -21,7 +21,3 @@ message Game {
     required Room location = 2;
     optional int32 discovered = 3; // number of rooms found
 }
-
-
-
-

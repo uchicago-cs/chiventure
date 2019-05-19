@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "sample.pb-c.h"
-#define MAX_SIZE 4096
-// MAX_SIZE is the size of the buffer that the deserialized data goes into
+#define MAX_BUF_SIZE 4096
+
 
 int main (int argc, const char *argv[]) 
 {
@@ -12,10 +12,10 @@ int main (int argc, const char *argv[])
 
     char c;
     int i = 0;
-    uint8_t buf[MAX_SIZE];
+    uint8_t buf[MAX_BUF_SIZE];
 
-    while (fread(&c,1,1,stdin) != 0) {
-	if (i >= MAX_SIZE) {
+    while (fread(&c, 1, 1, stdin) != 0) {
+	if (i >= MAX_BUF_SIZE) {
 	    fprintf(stderr, "msg too long for allocated buffer\n");
 	    return 1;
 	}

@@ -8,9 +8,9 @@
  * Takes a file, reads it, and returns the length of file
  * 
  * Parameters:
- * - filename: string that is name of file
+ * - filename: pointer to string that is name of file
  * - max_length: unsigned int of the max length the file can be
- * - out: a buffer
+ * - out: pointer to a buffer
  *
  * Returns:
  * - size_t: length of file
@@ -73,9 +73,9 @@ int load_game(Game *g, game_t *g_t);
  * Unpacks the protofile and reloads all saved information into game structs
  *
  * Parameters:
- * - filename: string name of file with sereialized information
- * - g: proto game struct
- * - g_t: game struct
+ * - filename: pointer to string name of file with sereialized information
+ * - g: pointer to proto game struct
+ * - g_t: pointer game struct
  * 
  * Returns:
  * - 0 if successful
