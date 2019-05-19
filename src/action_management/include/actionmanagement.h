@@ -82,45 +82,6 @@ list_t *get_actions_kind4();
 list_t *get_actions_kind5();
 
 
-/*
- * A function that returns the canonical name of an action as a string
- *
- * Parameters:
- * - a: An action struct
- *
- * Returns:
- * - the canonical name of the action as a string
-*/
-char *get_action_cname(action_t *a);
-
-
-/*
- * A function that returns the synonyms of an action as a list of strings
- *
- * Parameters:
- * - a: An action struct
- *
- * Returns:
- * - a list of the synonyms of the action
-*/
-list_t *get_action_synonyms(action_t *a);
-
-
-/* A function that returns the kind of action as an integer
- *
- * Parameters:
- * - a: An action struct
- *
- * Returns:
- * - 1 for KIND 1
- * - 2 for KIND 2
- * - 3 for KIND 3
- * - 4 for KIND 4
- * - 5 for KIND 5
- */
-int get_action_kind(action_t *a);
-
-
 // =============================================================================
 
 /* A function that executes KIND 1 actions (ACTION <item>)

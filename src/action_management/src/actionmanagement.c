@@ -53,27 +53,6 @@ int action_free(action_t *a)
 }
 
 
-// See actionmanagement.h
-char *get_action_cname(action_t *a)
-{
-    return a->c_name;
-}
-
-
-// See actionmanagement.h
-list_t *get_action_synonyms(action_t *a)
-{
-    return a->synonyms;
-}
-
-
-// See actionmanagement.h
-int get_action_kind(action_t *a)
-{
-    return a->kind;
-}
-
-
 /* See actionmanagement.h
  * These are skeleton functions put in place so the code will compile
  * The actual implementation will be executed in a later sprint,
