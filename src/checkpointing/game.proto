@@ -13,8 +13,9 @@ message Attribute_value {
 }
 
 message Attribute {
-	required string attribute_tag = 1; //Tag of which type attribute value will be
-	required Attribute_value val = 2; //Value of attribute (submessage) 
+	required string attribute_key = 1; // Presumably ID for attribute hashtable
+	required string attribute_tag = 2; //Tag of which type attribute value will be
+	required Attribute_value val = 3; //Value of attribute (submessage) 
 
 message Item {
 	required string item_id = 1;
