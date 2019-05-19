@@ -1,8 +1,5 @@
 syntax = "proto2";
 
-
-// Item
-
 //In Game-state implementation, attribute is a union. Proto doesn't support unions, so we use optional instead
 message Attribute_value {
 	optional double double_val = 1;
@@ -16,6 +13,7 @@ message Attribute {
 	required string attribute_key = 1; // Presumably ID for attribute hashtable
 	required string attribute_tag = 2; //Tag of which type attribute value will be
 	required Attribute_value val = 3; //Value of attribute (submessage) 
+}
 
 message Item {
 	required string item_id = 1;
@@ -25,8 +23,6 @@ message Item {
 	repeated Attribute attributes = 4; //Array of attributes (submessage)
 	optional int32 attributes_len = 5; //Length of array (helpful for loading)
 }
-
-//Path
 
 message Condition {
 	optional string item_id = 1; //Assuming item is already stored in a room or player, only ID is needed
@@ -40,9 +36,7 @@ message Path {
 	optional string destination = 2; //Room ID of destination
 	repeated Condition conditions = 3; //Array of conditions (submessage)
 	optional int32 conditions_len = 4;
-	
-
-//Room
+}
 
 message Room {
 	required string room_id = 1;
@@ -55,8 +49,6 @@ message Room {
 	optional int32 paths_len = 8;
 }
 
-//Player
-
 message Player {
 	required int32 player_id = 1;
 	optional int32 level = 2;  
@@ -68,10 +60,6 @@ message Player {
 	//repeated Item clothes = 7; //Array of all object ids worn by player
 	//optional int32 clothes_len = 8;
 }   
-			
-
-
-//Game
 
 message Game {
 	repeated Player players = 1; //Array of all players (submessage)
@@ -81,82 +69,3 @@ message Game {
 	optional string curr_room = 5; //ID of current room (different from struct pointer of game_state)
 	optional string curr_player = 6; //ID of player (different from struct pointer of game_state)
 }
-
-
-// Old Implementation
-
-
-// // Object
-// message Door_ {
-//     required int32 locked = 1;
-//     required int32 room_id = 2;
-// }
-// message ObjectUnion_ {
-//     optional Door_ dr = 1;
-//     // Still unfinished in game_state, will add later
-// }
-// message Tagged_Object_ {
-//     enum Object_Type_t{
-//         DOOR = 1;
-//         // Will add type once game state add theirs
-//     } 
-//     required ObjectUnion_ t = 1; 
-// }
-// message Object_ {
-//     required string object_id = 1;
-//     optional string short_des = 2;
-//     optional string long_des = 3;
-//     required Tagged_Object_ object_type = 4;
-//     optional int32 can_take = 5;
-//     optional int32 condition = 6;
-// }
-
-
-
-
-
-// //Room
-// message Condition_ {
-//     optional int32 object_id = 1;
-//     optional string attribute = 2;
-//     optional int32 attribute_value = 3;
-// }
-// message Path_ {
-//     required string room_id = 1;
-//     repeated Condition_ conditions = 2; //Array of all conditions in the path    
-// }
-// message Room_ {
-//     required string room_id = 1;
-//     optional string short_desc = 2;
-//     optional string long_desc = 3; 
-//     repeated string all_objects_t = 4; //Array of all object ids in room
-//     repeated Path_ paths = 5; //Array of all paths (submessage)
-// }
-
-
-
-
-// //Player
-// message Player_ {
-//     required int32 player_id = 1;
-//     optional string username = 2;
-//     optional int32 level = 3;
-//     optional int32 xp = 4;
-//     repeated string inventory = 5; //Array of all object ids in inventory
-//     repeated string clothes = 6; //Array of all object ids worn by player
-// }   
-    
-
-
-// //Game
-// message Game_ {
-//     repeated Player_ all_players = 1; //Array of all players (submessage)
-//     repeated Room_ all_rooms = 2; //Array of all rooms (submessage)
-//     optional string curr_room = 3; //ID of current room
-//     optional int32 time_start = 4;
-// }
-
-
-
-
-
