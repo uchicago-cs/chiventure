@@ -21,11 +21,5 @@ $(STATIC_LIB): $(OBJS)
 $(PROTOCOMP): game.proto
 	protoc-c --c_out=./include game.proto
 
-save: $(PROTOCOMP) src/save.c
-	$(CC) -g src/save.c -I./include $(PROTOCOMP) $(PROTOLIBS) -o save
-
-load: $(PROTOCOMP) src/load.c
-	$(CC) -g src/load.c -I./include $(PROTOCOMP) $(PROTOLIBS) -o load
-
 clean:
-	${RM} src/*.txt src/save src/load ${PROTOCOMP} ${OBJS} ${STATIC_LIB} ${PROTOCOMP:.c=.h}
+	${RM} ${PROTOCOMP} ${OBJS} ${STATIC_LIB} ${PROTOCOMP:.c=.h}

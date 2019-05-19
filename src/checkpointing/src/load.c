@@ -229,20 +229,3 @@ int load(char *filename, Game *g, game_t *g_t)
   
     return 0;
 }
-
-/*
-int main(int argc, char *argv[])
-{
-    if (argc < 1) {
-	fprintf(stderr, "no filename provided\n");
-	return -1;
-    }
-	
-    Game *g = malloc(sizeof(Game));
-    game_t *g_t = malloc(sizeof(game_t));
-  
-    load(argv[1], g, g_t);
-
-    return 0;
-}
-*/
