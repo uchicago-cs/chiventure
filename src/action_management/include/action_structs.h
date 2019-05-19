@@ -6,7 +6,7 @@
    =========================================================================== */
 
 
-/* forward declaration of a list struct used for synonoyms 
+/* forward declaration of a list struct used for synonoyms
  * will be implemented in a later sprint */
 typedef struct list list_t;
 
@@ -15,12 +15,12 @@ typedef struct list list_t;
  * KIND 1 ACTIONS - ACTION <item>
  * KIND 2 ACTIONS - ACTION <direction>
  * KIND 3 ACTIONS - ACTION <npc>
- * KIND 4 ACTIONS - ACTION <item> <npc> 
- * KIND 5 ACTIONS - ACTION <item> <item> 
+ * KIND 4 ACTIONS - ACTION <item> <npc>
+ * KIND 5 ACTIONS - ACTION <item> <item>
  */
 enum actions {
 
-    // KIND 1 ACTIONS - ACTION <item> 
+    // KIND 1 ACTIONS - ACTION <item>
     OPEN,
     CLOSE,
     PUSH,
@@ -32,23 +32,23 @@ enum actions {
     DROP,
     CONSUME, // synonyms: "use" "drink" "eat"
 
-    // KIND 2 ACTIONS - ACTION <direction> 
+    // KIND 2 ACTIONS - ACTION <direction>
     GO,      // synonyms: "walk"
     ENTER,
 
-    // KIND 3 ACTIONS - ACTION <npc> 
+    // KIND 3 ACTIONS - ACTION <npc>
     TALK_TO,
 
-    // KIND 4 ACTIONS - ACTION <item_npc> 
+    // KIND 4 ACTIONS - ACTION <item_npc>
     GIVE_TO,
-    
+
     // KIND 5 ACTIONS - ACTION <item_item>
     USE_ON,
     PUT_ON
 };
 
 
-// Each enum corresponds to a different "KIND" of action 
+// Each enum corresponds to a different "KIND" of action
 enum action_kind {
     ITEM = 1, // ACTION <item> i.e. Action Type 1
     DIRECTION = 2, // ACTION <direction i.e. Action Type 2
