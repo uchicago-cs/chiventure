@@ -8,58 +8,55 @@
  * Packs the object_t struct into the Object field in the protofile.
  * 
  * Parameters:
- *   - o: the proto file object struct
- *   - o_t: the game struct object_t struct
+ *   - o_t: pointer to the game struct object_t struct
+ *   - o: pointer to the proto file object struct
  *
  * Return:
- *   - 0 if successful, -1 if unsuccessful 
+ *   - 0 if successful
+ *   - -1 if unsuccessful 
  */
-int transfer_object(Object *o, object_t *o_t);
+int transfer_object(object_t *o_t, Object *o);
 
 
 /* 
  * Packs the room_t struct into the Room field in the protofile.
  * 
  * Parameters:
- *   - r: the proto file object struct
- *   - r_t: the game struct object_t struct
+ *   - r_t: the game struct room_t struct
+ *   - r: pointer to the proto file room struct
  *
  * Return:
- *   - 0 if successful, -1 if unsuccessful 
+ *   - 0 if successful
+ *   - -1 if unsuccessful 
  */
-int transfer_room(Room *r, room_t *r_t);
+int transfer_room(room_t *r_t, Room *r);
 
 
 /* 
  * Packs the player_t struct into the Player field in the protofile.
  * 
  * Parameters:
- *   - p: the proto file object struct
- *   - p_t: the game struct object_t struct
- *   - level: flag signifying whether level field is in use or not
- *      - 1 for in use, -1 for not in use
- *   - health:  flag signifying whether health field is in use or not
- *      - 1 for in use, -1 for not in use
- *   - xp: flag signifying whether xp field is in use or not
- *      - 1 for in use, -1 for not in use
+ *   - p_t: pointer to the game struct player_t struct 
+ *   - p: pointer to the proto file player struct
  *
  * Return:
  *   - 0 if successful, -1 if unsuccessful 
  */
-int transfer_player(Player *p, player_t *p_t, int level, int health, int xp);
+int transfer_player(player_t *p_t, Player *p);
 
 
 /* 
  * Packs the game_t struct into the Game field in the protofile.
  * 
  * Parameters:
- *   - g: the proto file object struct
- *   - g_t: the game struct object_t struct
+ *   - g_t: pointer to the game struct game_t struct
+ *   - g: pointer to the proto file game struct
  *
  * Return:
- *   - 0 if successful, -1 if unsuccessful 
+ *   - 0 if successful
+ *   - -1 if unsuccessful 
  */
-int transfer_game(Game *g, game_t *g_t);
+int transfer_game(game_t *g_t, Game *g);
 
 
 /* 
@@ -67,11 +64,12 @@ int transfer_game(Game *g, game_t *g_t);
  * 
  * Parameters:
  *   - filename: name of the file given from command line
- *   - buffer: buffer containing seraizlied game
+ *   - buffer: pointer to buffer containing seraizlied game
  *   - len: the length of the serialized game in buffer
  *
  * Return:
- *   - 0 if successful, -1 if unsuccessful 
+ *   - 0 if successful
+ *   - -1 if unsuccessful 
  */
 int write_to_file(char *filename, uint8_t *buffer, unsigned len);
 
@@ -84,7 +82,8 @@ int write_to_file(char *filename, uint8_t *buffer, unsigned len);
  *   - filename: the name of the save file
  *
  * Return:
- *   - 0 if successful, -1 if unsuccessful 
+ *   - 0 if successful
+ *   - -1 if unsuccessful 
  */
 int save(game_t *game, char *filename);
 
