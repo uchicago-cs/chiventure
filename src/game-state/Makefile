@@ -34,5 +34,6 @@ clean:
 
 .PHONY: tests
 tests:
+	make all
 	make -C tests/ all
 
