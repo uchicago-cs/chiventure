@@ -62,20 +62,6 @@ These are the general conditions and requirements for items.
 - Player state may be changed 
 - Item may change another item's attribute value
 
-
-
-### `[NPC]`
-#### Conditions:
-- NPC must be in the same room as the player
-- NPC has the ability to be interacted with (possibly with specific item)
-
-#### Effects:
-- NPC may no longer be accessible/interactable
-- NPC position may be changed
-- Other item states may be changed
-- Player state may be changed
-
-
 ## Actions:
 
 These are specific conditions and effects that are affiliated with certain actions. This means that along with the general
@@ -102,7 +88,7 @@ have no excpetions.
 
 ## Default:
 
-The action's behavior when called on an `<ITEM>` or `[NPC]` that does not support the action.
+The action's behavior when called on an `<ITEM>` that does not support the action.
 
 K1 - Open `<ITEM>`
 ------
