@@ -29,11 +29,11 @@ example:
 ```
 
 output:
-
+```
 Writing 23 serialized bytes
 Received: 
 player_info: name = John
 gender = 0
 location = Dungeon
 discovered = 2
-	
+```
