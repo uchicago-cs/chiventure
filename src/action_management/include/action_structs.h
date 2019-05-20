@@ -28,7 +28,7 @@ enum actions {
     GO, // synonyms: "walk"
     ENTER,
 
-/* KIND 3 ACTIONS - ACTION <item_item> */
+    /* KIND 3 ACTIONS - ACTION <item_item> */
     USE_ON,
     PUT_ON
 };

@@ -58,7 +58,7 @@ void action_free(action_type_t *a);
  * - kind: The enumerated value of kind, specifying the kind of actions wanted
  *
  * Returns:
- * - a linked list of action_type_t structs 
+ * - a linked list of action_type_t structs
  */
 list_actions *get_supported_actions(enum action_kind kind);
 

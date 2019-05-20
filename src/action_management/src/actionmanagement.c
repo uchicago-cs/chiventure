@@ -14,10 +14,9 @@ action_type_t *action_new(char *c_name, enum action_kind kind)
         fprintf(stderr, "Could not allocate memory");
         return NULL;
     }
-    
+
     int new_a = action_init(a, c_name, kind);
-    if (new_a != SUCCESS)
-    {
+    if (new_a != SUCCESS) {
         fprintf(stderr, "Could not initialize this action");
         return NULL;
     }
@@ -166,7 +165,7 @@ int action_path(game_t *g, action_type_t *a, path_t *p)
 // KIND 3
 /* See actionmanagement.h */
 int action_item_item(game_t *g, action_type_t *a,
-		     item_t *direct, item_t *indirect)
+                     item_t *direct, item_t *indirect)
 {
     assert(g);
     assert(g->current_player);
