@@ -15,7 +15,7 @@ int main()
    * because null hashmap cannot be sent into add_coord()
    */
   coord_record_t *cr = malloc(sizeof(coord_record_t));
-  memset(cr, 0, sizeof(coord_record_t));
+  memset(cr, 0, sizeof(coord_record_t));    //uthash requirement for struct keys
 
   cr->key.x = 0;
   cr->key.y = 0;
@@ -31,7 +31,10 @@ int main()
   coord_record_t *test = find_coord(coordmap, 1, 2);
   if (test == NULL)
     fprintf(stderr,
-	    "find_coord(): Successfully returns NULL when not found\n");
+	    "find_coord(): Correctly returns NULL when coord not found\n");
+  else
+    fprintf(stderr,
+	    "find_coord(): Incorrect return result--should return NULL\n");
 
   room_t *r = malloc(sizeof(room_t));
   r->id = 456;
@@ -60,8 +63,16 @@ int main()
   
   room_t *z = malloc(sizeof(room_t));
   z->id = 3;
+
+  /* When compiled and run, this portion of the example demonstrates to
+   * future developers how the add_coord() function should block
+   * double-assigning of coordinates. This is essential for the 
+   * DFS function in DFS.c
+   */
   fprintf(stderr,
 	  "Test to see if add_coord() correctly blocks double-assigning:\n");
+  fprintf(stderr,
+	  "(Should view an error message below:)\n");
   add_coord(coordmap, 5, 6, z);
 
   free(r);

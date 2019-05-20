@@ -42,6 +42,9 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
  * - returns SUCCESS if does not find coordinate and add its
  * - returns FAILURE if it finds coordinate already and 
  *   the coord is mapped to a different room
+ *
+ * Info on struct keys from uthash guide:
+ * https://troydhanson.github.io/uthash/userguide.html#_structure_keys
  */
 int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 {
@@ -50,10 +53,9 @@ int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
   /* Only runs if find_coord does not find coord
    *  already existing in hashtable */
   if (cr == NULL) {
-    fprintf(stderr,"Adding coord (%d, %d) to hash\n", x, y);
-
+    //Debug: fprintf(stderr,"Adding coord (%d, %d) to hash\n", x, y);
     cr = malloc(sizeof(coord_record_t));
-    memset(cr, 0, sizeof(coord_record_t));    
+    memset(cr, 0, sizeof(coord_record_t));    //uthash requirement for struct keys
     cr->key.x = x;
     cr->key.y = y;
     cr->r = r;
@@ -63,10 +65,11 @@ int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
   }
 
   else {
+    /* If assigned to itself, no conflicts */
     if (cr->r->id == r->id)
       return SUCCESS;
   }
   fprintf(stderr,
-	  "add_coord(): This coordinate has already been assigned.\n");  
+	  "ERROR: add_coord(): This coordinate has already been assigned.\n");  
   return FAILURE;
 }

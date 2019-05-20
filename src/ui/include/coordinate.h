@@ -68,6 +68,12 @@ void coord_init(coordinate_t *c, int x, int y);
 /* find_coord
  * - Implementation will use HASH_FIND to find coord_record
  * - Internal fcn only
+ * 
+ * Input:
+ * - coordmap: a pointer to the coordinate hash (internal to UI)
+ * - x, y: Integer values (locations) of room one
+ *   wishes to find in hash. Values are determined by internal
+ *   DFS algorithm (Initial room is assigned 0,0)
  *
  * Returns:
  *
@@ -81,12 +87,12 @@ void coord_init(coordinate_t *c, int x, int y);
 coord_record_t *find_coord(coord_record_t *coordmap, int x, int y);
 
 
-/* add_coord:                                                                                           
+/* add_coord:                                                                                       *
  * Internal function to create hashing. Included
  * in header for now in case another team needs it
  *
- * Parameters:                                                                                          
- * - coordmap is both an in and out parameter   
+ * Parameters:                  
+ * - coordmap is a pointer to the hash. Acts as both an in and out parameter   
  * -  x, y are the respective coordinates. They are bundled   
  *  internally into a coordinate key for hashing   
  * - r is a pointer to the room to assign the coords to   
