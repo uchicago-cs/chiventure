@@ -75,10 +75,10 @@ room_t *find_room_from_path(game_t *game, path_t *path) {
     room_t *room = find_room(game, path->dest);
 }
 
-//given game and direction, return adjacent room
+//given *game, direction, and *room return adjacent room
 //experiment (HEADER TBD)
-room_t *find_room_from_dir(game_t *game, char* direction) {
-    path_t *path = path_to_room(game->curr_room, direction);
+room_t *find_room_from_dir(game_t *game, char* direction, room_t *room) {
+    path_t *path = path_to_room(room, direction);
     room_t *room = find_room(game, path->dest);
     return room;
 }

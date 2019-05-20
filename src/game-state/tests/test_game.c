@@ -7,7 +7,14 @@
 void setup(void) {
     game_t *game = game_new();
     player_t *plyr = player_new(100);
-    room_t *room1 = room_new("vroom", )
+    room_t *room1 = room_new("vroom", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+    add_room_to_game(game, room1);
+    add_player_to_game(game, plyr);
+    game->curr_player = plyr;
+    game->curr_room = room1;
+    path_t *path = path_new("nroom", "north");
+    add_path_to_room(room1, path)
 }
 
 void teardown(void) {
