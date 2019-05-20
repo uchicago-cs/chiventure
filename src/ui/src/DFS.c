@@ -133,13 +133,13 @@ coord_record_t *create_valid_map(/*will pass in info from Game State*/)
 
   HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr);
 
-  /* Testing: Can be taken out later */
-  if (coordmap != NULL)
-    fprintf(stderr,
-	    "check_valid_map() has successfully added initial room to hashmap\n");
-  else
-    fprintf(stderr,"ERR: check_valid_map could not add initial room to hashmap\n");
-  /* --- end testing --- */
+  /* Testing: Can be taken out later
+   * if (coordmap != NULL)
+   * fprintf(stderr,
+   *    "check_valid_map() has successfully added initial room to hashmap\n");
+   * else
+   *  fprintf(stderr,"ERR: check_valid_map could not add initial room to hashmap\n");
+   * --- end testing --- */
 
   
   /* Begin DFS search */
@@ -150,33 +150,3 @@ coord_record_t *create_valid_map(/*will pass in info from Game State*/)
 }
 
 
-/* Cannot fully test this function without Game State's hash structs
- * and functions for finding items in hash. We realized that rewriting all
- * of these for testing would be reinventing the wheel and will
- * make writing extensive tests a seperate Sprint 3 task (once game state
- * structs have been merged to master) */
-
-/*
-int main()
-{
-  coordmap = NULL;
-  coordmap = find_coord(1, 2);
-  if (coordmap == NULL)
-    fprintf(stdout,
-	    "find_coord: Successfully returns NULL when not found\n");
-
-  room_t *r = malloc(sizeof(room_t));
-  r->id = 1;
-  add_coord(0, 0, r);
-
-  int initial = assign(0, 0, r);
-  if (initial == SUCCESS)
-    fprintf(stdout, "Successfully assigned coordinates");
-
-  //coord_record_t *a = NULL;
-  //coord_record_t *b = NULL;
-  //  HASH_ITER(hh, coordmap, a, b);
-
-  free(r);
-}
-*/

@@ -15,7 +15,7 @@ int main()
    * because null hashmap cannot be sent into add_coord()
    */
   coord_record_t *cr = malloc(sizeof(coord_record_t));
-  memset(cr, 0, sizeof(coord_record_t));
+  memset(cr, 0, sizeof(coord_record_t));    //uthash requirement for struct keys
 
   cr->key.x = 0;
   cr->key.y = 0;
@@ -31,7 +31,10 @@ int main()
   coord_record_t *test = find_coord(coordmap, 1, 2);
   if (test == NULL)
     fprintf(stderr,
-	    "find_coord(): Successfully returns NULL when not found\n");
+	    "find_coord(): Correctly returns NULL when coord not found\n");
+  else
+    fprintf(stderr,
+	    "find_coord(): Incorrect return result--should return NULL"\n);
 
   room_t *r = malloc(sizeof(room_t));
   r->id = 456;
