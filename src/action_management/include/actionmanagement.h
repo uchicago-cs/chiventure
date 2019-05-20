@@ -18,7 +18,7 @@
  * Returns:
  * - a pointer to a new action struct
  */
-action_type_t *action_new(char *c_name, enum action_kind kind);
+action_type_new *action_new(char *c_name, enum action_kind kind);
 
 
 /*
@@ -33,7 +33,7 @@ action_type_t *action_new(char *c_name, enum action_kind kind);
  * - 0 if success, 1 if an error occurs
  * - an error message in stderr if the action struct is not initialized
  */
-int action_init(action_type_t *a, char *c_name, enum action_kind kind);
+int action_type_init(action_type_t *a, char *c_name, enum action_kind kind);
 
 
 /*
@@ -45,7 +45,7 @@ int action_init(action_type_t *a, char *c_name, enum action_kind kind);
  * Returns:
  * - Returns void.
  */
-void action_free(action_type_t *a);
+void action_type_free(action_type_t *a);
 
 
 // =============================================================================
@@ -75,7 +75,7 @@ list_actions *get_supported_actions(enum action_kind kind);
  * - 0 on success
  * - 1 on failure
  */
-int action_item(game_t *g, action_type_t *a, item_t *i);
+int do_item_action(game_t *g, action_type_t *a, item_t *i);
 
 
 /* A function that executes KIND 2 actions (ACTION <path>)
@@ -89,7 +89,7 @@ int action_item(game_t *g, action_type_t *a, item_t *i);
  * - 0 on success
  * - 1 on failure
  */
-int action_path(game_t *g, action_type_t *a, path_t *p);
+int do_path_action(game_t *g, action_type_t *a, path_t *p);
 
 
 /* A function that executes KIND 5 actions (ACTION <item> <item>)
@@ -104,7 +104,7 @@ int action_path(game_t *g, action_type_t *a, path_t *p);
  * - 0 on success
  * - 1 on failure
  */
-int action_item_item(game_t *g, action_type_t *a, item_t *direct, item_t *indirect);
+int do_item_item_action(game_t *g, action_type_t *a, item_t *direct, item_t *indirect);
 
 
 #endif

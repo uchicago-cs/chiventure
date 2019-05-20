@@ -5,23 +5,23 @@
 
 
 static action_type_t valid_actions[] = {
-// KIND 1
+    // KIND 1
     {"open", ITEM},
     {"close", ITEM},
-    {"push",ITEM},
+    {"push", ITEM},
     {"pull", ITEM},
-    {"examine",ITEM},
+    {"examine", ITEM},
     {"turn on", ITEM},
-    {"turn off",ITEM},
+    {"turn off", ITEM},
     {"take", ITEM},
-    {"drop",ITEM},
+    {"drop", ITEM},
     {"consume", ITEM},
-// KIND 2
-    {"go",PATH}, // index = 10
-    {"enter",PATH},
-// KIND 3
-    {"use on",ITEM_ITEM}, // index = 12
-    {"put on",ITEM_ITEM}
+    // KIND 2
+    {"go", PATH}, // index = 10
+    {"enter", PATH},
+    // KIND 3
+    {"use on", ITEM_ITEM}, // index = 12
+    {"put on", ITEM_ITEM}
 };
 
 

@@ -60,6 +60,6 @@ typedef struct {
 typedef struct {
     action_type_t *act;
     struct list_actions *next;
-} list_actions;
+} list_action_type_t;
 
 #endif
