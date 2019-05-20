@@ -66,11 +66,11 @@ These are the general conditions and requirements for items.
 
 These are specific conditions and effects that are affiliated with certain actions. This means that along with the general
 
-conditions and effects listed above, there are special conditions and effects tha can also be included with specific actions.
+conditions and effects listed above, there are special conditions and effects that can also be included with specific actions.
 
-If items have "No additional ..." listed, they follow the only follow the determined general conditions/requirements listed above, and
+If items have "No additional ..." listed, they only follow the determined general conditions/requirements listed above, and
 
-have no excpetions.
+have no exceptions.
 
 
 ## WDL:
