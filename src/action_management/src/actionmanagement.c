@@ -37,13 +37,13 @@ int action_init(action_type_t *a, char *c_name, enum action_kind kind)
 
 
 /* See actionmanagement.h */
-int action_free(action_type_t *a)
+void action_free(action_type_t *a)
 {
     assert(a);
     assert(a->c_name);
     free(a->c_name);
     free(a);
-    return SUCCESS;
+    return;
 }
 
 
