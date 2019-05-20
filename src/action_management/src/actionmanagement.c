@@ -4,6 +4,7 @@
 #include "actionmanagement.h"
 #include "common.h"
 
+
 /* See actionmanagement.h */
 action_type_t *action_new(char *c_name, enum action_kind kind)
 {

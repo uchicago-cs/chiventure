@@ -25,12 +25,19 @@ static action_type_t valid_actions[] =
     {"put on",ITEM_ITEM}
 };
 
+
 static int NUM_ACTIONS = sizeof(valid_actions) / sizeof(action_type_t);
+
 
 // the index which is currently holding the first action of each kind
 static int INDEX_ITEM = 0;
+
+
 static int INDEX_PATH = 10;
+
+
 static int INDEX_ITEM_ITEM = 12;
+
 
 list_actions *get_supported_actions(enum action_kind kind)
 {
