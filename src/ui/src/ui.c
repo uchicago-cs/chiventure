@@ -13,11 +13,6 @@
 
 void start_ui()
 {
-
-  //THIS LINE IS FOR TESTING
-  FILE *debug = fopen("../src/debug.txt","w");
-
-
   
   // prevents program from closing on CTRL+C
   signal(SIGINT, SIG_IGN);
@@ -139,7 +134,6 @@ void start_ui()
       //This function sets the display dimensions of map
       wresize(info->w, 0, 0);
       map_set_displaywin(map, 0,cli_top * height, width, height + cli_top * height);
-      fprintf(debug, "Map ulx %i, uly %i, lrx %i, lry %i\n", map->ulx,map->uly,map->lrx,map->lry);
       map_center_on(map,0,0,0);
       
     }

@@ -157,6 +157,7 @@ map_t *map_init(room_t ** rooms, int n){
 
   keypad(pad, TRUE);
   draw_rooms(rooms,n,xoffset,yoffset,0,map);
+  free(dims);
   return map;
 }
 

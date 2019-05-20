@@ -57,9 +57,6 @@ typedef struct map{
 //Initializes the ncurses window
 void ncurses_init();
 
-//Erases a char in a specific location
-void erase_ch(int y, int x);
-
 
 //Draws a list of rooms starting at the coordinate given
 void draw_rooms(room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
