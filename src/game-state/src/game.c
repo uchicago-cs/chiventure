@@ -1,4 +1,6 @@
 #include "game.h"
+// #include "common-player.h"
+// #include "common-room.h"
 
 /* see game.h */
 game_t *game_new() {
@@ -30,7 +32,31 @@ int game_free(game_t *game) {
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
     free(game);
-    return 1;
+    return SUCCESS;
+}
+
+/* See game.h */
+int add_player_to_game(game_t *game, player_t *player) {
+    return add_player_to_hash(game->all_players, player->player_id, player);
+}
+
+/* See game.h */
+int add_room_to_game(game_t *game, room_t *room) {
+    return add_room_to_hash(game->all_rooms, room->room_id, room);
 }
 
 
+/* See game.h */
+int set_curr_player(game_t *game, player_t *player) {
+    game->curr_player = player;
+    if (game->curr_player != NULL)
+        return SUCCESS;
+    return FAILURE;
+}
+
+// Function to find player given game and player id
+player_t *get_player(game_t *game, char *player_id) {
+    player_t *s;
+    HASH_FIND_STR(game->all_players, player_id, s);
+    return s;
+}

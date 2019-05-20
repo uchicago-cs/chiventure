@@ -17,7 +17,7 @@ Test(player, init) {
     cr_assert_not_null(playerone->clothes, "player_init failed: clothes");
 }
 
-Test(player, health change)
+Test(player, health_change)
 {
     player_t *playerone = malloc(sizeof(player_t));
     player_init(playerone, 100);

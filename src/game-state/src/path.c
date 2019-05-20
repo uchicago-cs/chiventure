@@ -3,44 +3,50 @@
 
 
 /* See path.h */
-int delete_all_conditions(condition_t *conditions) {
+int delete_all_conditions(condition_list_t conditions) {
     condition_t *elt, *tmp;
     LL_FOREACH_SAFE(conditions, elt, tmp) {
         LL_DELETE(conditions, elt);
         free(elt);
     }
-    return 1;
+    return SUCCESS;
 }
 
 /* See path.h */
-path_t *path_new(char *path_id) {
+path_t *path_new(char *direction) {
     path_t *path = malloc(sizeof(path_t));
-    path->path_id = malloc(MAX_ID_LEN * sizeof(char));
-    path->conditions_list = NULL;
+    path->direction = malloc(MAX_ID_LEN * sizeof(char));
+    path->conditions = NULL;
 
-    strcpy(path->path_id, path_id);
+    strcpy(path->direction, direction);
 
     return path;
 }
 
 /* See path.h */
 int path_free(path_t *path) {
-    free(path->path_id);
-    delete_all_conditions(path->conditions_list);
+    free(path->direction);
+    delete_all_conditions(path->conditions);
     free(path);
-    return 1;
+    return SUCCESS;
 }
 
 /* See path.h */
-int add_path_to_hash(path_hash_t all_paths, char *path_id, path_t *path) {
+int add_path_to_hash(path_hash_t all_paths, char *direction, path_t *path) {
     path_t *s;
-    HASH_FIND_STR(all_paths, path_id, s);
+    HASH_FIND_STR(all_paths, direction, s);
     if (s != NULL) {
-        printf("FATAL: path_id already used!\n");
+        printf("FATAL: direction already used!\n");
         exit(1);
     }
-    HASH_ADD_STR(all_paths, path_id, path);
-    return 1;
+    HASH_ADD_STR(all_paths, direction, path);
+    return SUCCESS;
+}
+
+/* See path.h */
+int add_condition_to_path(path_t *path, condition_t *condition) {
+    LL_PREPEND(path->conditions, condition);
+    return SUCCESS;
 }
 
 /* See path.h */
@@ -50,12 +56,12 @@ int delete_all_paths(path_hash_t paths) {
         HASH_DEL(paths, current_path);  /* delete it (paths advances to next) */
         path_free(current_path);             /* free it */
     }
-    return 1;
+    return SUCCESS;
 }
 
 /* TO-DO
 * FOR WDL
 * Figure out way to create path struct
-*/ 
+*/
 
 
