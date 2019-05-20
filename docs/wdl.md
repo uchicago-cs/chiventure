@@ -22,17 +22,15 @@ Please see this document for all possible actions and descriptions: https://gith
 
 ### Syntax:
 - The order that the Objects in a WDL file are written in must follow the order of explanation in specification (See example)
-- Must have one space, followed by “-” then followed by one space before an attribute name
 - Short_desc are strings that can have at max 100 characters (including spaces)
 - Long_desc are strings that can have at max 500 characters (including spaces)
 
 - Each file object category(ROOM, ITEM, or GAME) must be followed by a colon (:)
 - Attributes apply to categories and subcategories, and are followed immediately by a colon(:). The information in the attribute is preceded by a space.
-- The first attribute in every category (and subcategory) must be indented with one
-space, followed by a dash(-), followed by another space, then the attribute.
+- The first attribute in every category (and subcategory) must be indented with one space
 - All other attributes are indented	with three spaces.
 
-#### A WDL file is a YAML file that has at least the three file objects: Game, Room, Objects.
+#### A WDL file is a YAML file that has at least the three file objects: Game, Room, Item.
 
 ### Refer to Action Management's file: src/action_management/include/actionmanagement.h on the actions/dev branch for a list of approved actions in a game
 
@@ -75,7 +73,7 @@ space, followed by a dash(-), followed by another space, then the attribute.
 
       direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
 
-      through: `<ITEM ID>` if applicable, the object that the player must go through to go in that direction
+      through: `<ITEM ID>` if applicable, the item that the player must go through to go in that direction
 
       conditions:
 
@@ -159,7 +157,7 @@ ROOM Example:
     
     value: `<VAL>` which is the value of the state of the item upon initializaition of the game
 
-    actions: the possible actions that can be performed on the object; each action has the following attributes:
+    actions: the possible actions that can be performed on the item; each action has the following attributes:
       
     - action: `<ACTION FROM BANK>`:
         
@@ -178,7 +176,7 @@ ROOM Example:
 
         value: `<VAL>` which is the value of the state of the conditional item in order for the action to be completed
 
-      set: changes an attribute of the object’s state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition) (OPTIONAL)
+      set: changes an attribute of the item's state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition) (OPTIONAL)
 
       - id: `<ITEM ID>`
         
