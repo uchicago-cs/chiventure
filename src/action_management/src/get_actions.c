@@ -40,7 +40,7 @@ list_actions *get_supported_actions(enum action_kind kind)
     switch(kind)
     {
         case ITEM:
-            for(i = 0; i <= INDEX_PATH-1; i++) 
+            for(i = 0; i < INDEX_PATH; i++) 
             {
                 list_actions *add = (list_actions*)malloc(sizeof(list_actions));
                 action_type_t *add_data = action_new(valid_actions[i].c_name,
@@ -52,7 +52,7 @@ list_actions *get_supported_actions(enum action_kind kind)
             break;
 
         case PATH:
-            for(i = INDEX_PATH; i <= INDEX_ITEM_ITEM-1; i++) 
+            for(i = INDEX_PATH; i < INDEX_ITEM_ITEM; i++) 
             {
                 list_actions *add = (list_actions*)malloc(sizeof(list_actions));
                 action_type_t *add_data = action_new(valid_actions[i].c_name,
@@ -64,7 +64,7 @@ list_actions *get_supported_actions(enum action_kind kind)
             break;
 
         case ITEM_ITEM:
-            for(i = INDEX_ITEM_ITEM; i <= NUM_ACTIONS-1; i++) 
+            for(i = INDEX_ITEM_ITEM; i < NUM_ACTIONS; i++) 
             {
                 list_actions *add = (list_actions*)malloc(sizeof(list_actions));
                 action_type_t *add_data = action_new(valid_actions[i].c_name,
