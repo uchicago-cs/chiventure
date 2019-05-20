@@ -23,7 +23,6 @@ action_type_t *action_new(char *c_name, enum action_kind kind);
 
 /*
  * A function that initializes an action struct, filling its parameters.
- * Will determine the action_kind, depending on what action is given
  *
  * Parameters:
  * - a: a pointer to an empty action_type_t allocated by action_new
