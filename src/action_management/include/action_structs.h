@@ -12,7 +12,7 @@
  */
 enum actions {
 
-/* KIND 1 ACTIONS - ACTION <item> */
+    // KIND 1 ACTIONS - ACTION <item>
     OPEN,
     CLOSE,
     PUSH,
@@ -24,7 +24,7 @@ enum actions {
     DROP,
     CONSUME, // synonyms: "use" "drink" "eat"
 
-/* KIND 2 ACTIONS - ACTION <direction> */
+    // KIND 2 ACTIONS - ACTION <direction>
     GO,      // synonyms: "walk"
     ENTER,
 
@@ -34,7 +34,7 @@ enum actions {
 };
 
 
-/* Each enum corresponds to a different "KIND" of action */
+// Each enum corresponds to a different "KIND" of action
 enum action_kind {
     ITEM = 1, // ACTION <item> i.e. Action Type 1
     PATH = 2, // ACTION <direction i.e. Action Type 2

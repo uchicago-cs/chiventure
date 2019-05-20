@@ -5,22 +5,22 @@
 #include "action_structs.h"
 
 
-/* In the absence of the Game State team's code, 
- * here are some theoretical structs containing the bare minimum of what we need. 
+/* In the absence of the Game State team's code,
+ * here are some theoretical structs containing the minimum of what we need.
  * We use these structs in our implementation of basic action commands.
    =========================================================================== */
 
 
 /* A NPC struct containing:
- * - dialogue: a line of dialogue NPC will say when spoken to 
+ * - dialogue: a line of dialogue NPC will say when spoken to
  */
 typedef struct {
-    char *dialogue; 
+    char *dialogue;
 } npc_t;
 
 
 /* An item struct containing:
- * - allowed_actions: an integer array that contains enumerated "actions" 
+ * - allowed_actions: an integer array that contains enumerated "actions"
  * - num_allowed_actions: the number of elements in the allowed_actions array
  * - change: the effect an item has on a player's health
  * - status_change: a string notifying the player of the status change
@@ -28,16 +28,16 @@ typedef struct {
 typedef struct {
     int *allowed_actions;
     int num_allowed_actions;
-    int change; 
+    int change;
     char *status_change;
 } item_t;
 
 
-/* forward declaration of inventory struct */
+// forward declaration of inventory struct
 typedef struct inventory_struct inventory_t;
 
 
-/* forward declaration of a direction struct */
+// forward declaration of a direction struct
 typedef struct direction_struct direction_t;
 
 
@@ -59,13 +59,13 @@ typedef struct {
 } game_t;
 
 
-/* In the absence of the Game State team's code, 
+/* In the absence of the Game State team's code,
  * here are some functions we assume are available for our implementation.
  * We use these structs in our implementation of basic action commands.
    =========================================================================== */
 
 
-/* changes item conditon from on to off, open to closed, etc. and vice versa 
+/* changes item conditon from on to off, open to closed, etc. and vice versa
  * returns SUCCESS = 0 or FAILURE = 1 */
 int toggle_condition(game_t *g, action_t *a, item_t *i);
 
@@ -75,7 +75,7 @@ int toggle_condition(game_t *g, action_t *a, item_t *i);
 int get_long_desc(item_t *i);
 
 
-/* removes an item from a player's inventory 
+/* removes an item from a player's inventory
  * returns SUCCESS = 0 or FAILURE = 1 */
 int remove_inventory_item(player_t *p, item_t *i);
 
@@ -90,22 +90,23 @@ int take_object(item_t *i);
 int add_inventory_item(player_t *p, item_t *i);
 
 
-/* changes a player's health (already included by game state) 
+/* changes a player's health (already included by game state)
  * returns SUCCESS = 0 or FAILURE = 1 */
 int change_health(player_t *p, int change, int max_health);
 
 
-/* moves a player through the game based on a given direction 
+/* moves a player through the game based on a given direction
  * returns SUCCESS = 0 or FAILURE = 1 */
 int player_move(game_t *g, direction_t *d);
 
 
-/* determines if an npc can be found in the room 
+/* determines if an npc can be found in the room
  * returns SUCCESS = 0 or FAILURE = 1 */
 int found_in_room(game_t *g, npc_t *n);
 
 
-/* prints a conversation with npc to stderr */
+/* prints a conversation with npc to stderr
+ * returns SUCCESS = 0 or FAILURE = 1 */
 int npc_talk(player_t *p, npc_t *n);
 
 
