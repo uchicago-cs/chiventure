@@ -47,19 +47,6 @@ int action_free(action_type_t *a)
 }
 
 
-/* See actionmanagement.h */
-char *get_action_cname(action_type_t *a)
-{
-    return NULL;
-}
-
-
-/* See actionmanagement.h */
-int get_action_kind(action_type_t *a)
-{
-    return NULL;
-}
-
 /* ========================================================================== */
 
 

@@ -18,7 +18,7 @@
  * Returns:
  * - a pointer to a new action struct
  */
-action_type_t *action_new(char *cname, enum action_kind kind);
+action_type_t *action_new(char *c_name, enum action_kind kind);
 
 
 /*
@@ -34,7 +34,7 @@ action_type_t *action_new(char *cname, enum action_kind kind);
  * - 0 if success, 1 if an error occurs
  * - an error message in stderr if the action struct is not initialized
  */
-int action_init(action_type_t *a, char *cname, enum action_kind kind);
+int action_init(action_type_t *a, char *c_name, enum action_kind kind);
 
 
 /*

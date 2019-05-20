@@ -43,11 +43,11 @@ enum action_kind {
 
 
 /* An action struct that contains the following:
- * - cname: the 'canonical' string that should call the enum
+ * - c_name: the 'canonical' string that should call the enum
  * - kind: an enumeration of the kind of action
  */
 typedef struct {
-    char *cname; // e.g. "eat"
+    char *c_name; // e.g. "eat"
     enum action_kind kind; // e.g. KIND_1
 } action_type_t;
 
