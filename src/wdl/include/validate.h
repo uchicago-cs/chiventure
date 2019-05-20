@@ -56,7 +56,7 @@ void print_game(obj_t *obj);
  * side effects:
  * - prints out associated attributes of document object
  */
- void print_documents(obj_t *obj);
+ void print_document(obj_t *obj);
 
 /* list_type_check()
  * a function to automate type checking,
@@ -92,28 +92,6 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
  */
 void list_print(attr_list_t *ls, void(*print)(obj_t*));
 
-// The following functions regard room type checking
-/* connections_get_list()
- * a helper function for check_connections that gets a list of connections
- * associated with a room object
- *
- * parameters:
- *  - obj: a room object
- *
- * returns:
- *  - an attribute list of all the connections
- *  - null if an error occurs or no list can be generated
- */
-attr_list_t *connections_get_list(obj_t *obj)
-{
-    obj_t *connections = obj_get_attr(obj, "connections", false);
-
-    if (connections == NULL)
-        return NULL;
-    else
-        return obj_list_attr(connections);
-}
-
 /*
  * type_check
  * Verifies whether the given object has the correct return types for all of
@@ -131,12 +109,12 @@ attr_list_t *connections_get_list(obj_t *obj)
  * We will want to then validate each of the attributes by running type_check
  * with list_type_check
  */
-bool game_type_check(obj_t *obj);
+ bool game_type_check(obj_t *obj);
 
-bool room_type_check(obj_t *obj);
+ bool room_type_check(obj_t *obj);
 
-bool item_type_check(obj_t *obj);
+ bool item_type_check(obj_t *obj);
 
-bool player_type_check(obj_t *obj);
+ bool player_type_check(obj_t *obj);
 
 #endif /* INCLUDE_VALIDATE_H */

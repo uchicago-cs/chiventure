@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdbool.h>
 #include "parse.h"
+#include "validate.h"
+
 
 int main(int argc, char* argv[])
 {
@@ -84,3 +86,6 @@ int main(int argc, char* argv[])
     // Print items
     printf("printing all items and their attributes\n");
     list_print(items_ls, print_item);
+
+    return 0;
+}
