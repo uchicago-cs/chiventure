@@ -5,14 +5,16 @@ message Attribute_value {
     optional double double_val = 1;
     optional string char_val = 2; //NO CHAR TYPE SUPPORTED IN .PROTO, SO USING STRING INSTEAD
     optional bool bool_val = 3;
-    optional string string_val = 4;
+    optional string str_val = 4;
     optional int32 int_val = 5;
 }
 
 message Attribute {
-    required string attribute_key = 1; // Presumably ID for attribute hashtable
+    //Actual string describing attribute (e.g: locked for door)
+    //attribute_key may change to attribute_name later
+    required string attribute_key = 1; 
     required string attribute_tag = 2; //Tag of which type attribute value will be
-    required Attribute_value val = 3; //Value of attribute (submessage) 
+    required Attribute_value attribute_value = 3; //Value of attribute (submessage) 
 }
 
 message Item {
@@ -26,14 +28,14 @@ message Item {
 
 message Condition {
     optional string item_id = 1; //Assuming item is already stored in a room or player, only ID is needed
-    optional Attribute attribute = 2; //May change when Game State explains how attributes work in paths
-    // More comment: We are both confused why in game state it's an attribute_value_t union
-    // instead of attribute_t tagged union, we will likely to contact them next
+    //May change when Game State update their expected_attribute
+    optional Attribute expected_attribute = 2; 
+    // Contacted with Game state, likely to be their final format
 }
 
 message Path {
     optional string direction = 1; 
-    optional string destination = 2; //Room ID of destination
+    optional string dest = 2; //Room ID of destination
     repeated Condition conditions = 3; //Array of conditions (submessage)
     optional int32 conditions_len = 4;
 }
@@ -58,9 +60,9 @@ message Player {
 }   
 
 message Game {
-    repeated Player players = 1; //Array of all players (submessage)
+    repeated Player all_players = 1; //Array of all players (submessage)
     required int32 players_len = 2;
-    repeated Room rooms = 3; //Array of all rooms (submessage)
+    repeated Room all_rooms = 3; //Array of all rooms (submessage)
     required int32 rooms_len = 4;
     optional string curr_room = 5; //ID of current room (different from struct pointer of game_state)
     optional string curr_player = 6; //ID of player (different from struct pointer of game_state)
