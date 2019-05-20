@@ -26,8 +26,7 @@ message Item {
 
 message Condition {
     optional string item_id = 1; //Assuming item is already stored in a room or player, only ID is needed
-    optional string attribute = 2; // Jarvis: I think this is supposed to be the attribute_key
-    optional Attribute attribute = 3; //May change when Game State explains how attributes work in paths
+    optional Attribute attribute = 2; //May change when Game State explains how attributes work in paths
     // More comment: We are both confused why in game state it's an attribute_value_t union
     // instead of attribute_t tagged union, we will likely to contact them next
 }
@@ -43,11 +42,10 @@ message Room {
     required string room_id = 1;
     optional string short_desc = 2;
     optional string long_desc = 3;
-    required int32 items_len = 4; 
-    repeated Item items = 5; //Array of all items in room
-    optional int32 items_len = 6;
-    repeated Path paths = 7; //Array of all paths (submessage) 
-    optional int32 paths_len = 8;
+    repeated Item items = 4; //Array of all items in room
+    optional int32 items_len = 5;
+    repeated Path paths = 6; //Array of all paths (submessage) 
+    optional int32 paths_len = 7;
 }
 
 message Player {
@@ -57,9 +55,6 @@ message Player {
     optional int32 xp = 4;
     repeated Item inventory = 5; //Array of all object ids in inventory
     optional int32 inventory_len = 6;
-    // I have been looking at the master branch but see no sign of any clothes object
-    //repeated Item clothes = 7; //Array of all object ids worn by player
-    //optional int32 clothes_len = 8;
 }   
 
 message Game {
