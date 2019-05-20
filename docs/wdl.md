@@ -1,5 +1,5 @@
 # WDL FORMATTING RULES AND EXAMPLES
-May 13, 2019 
+May 17, 2019
 
 ### Definitions:
 ##### - Component:
@@ -17,19 +17,20 @@ The name of an attribute
 ##### - Specification:
 This document
 
+##### - Possible Actions:
+Please see this document for all possible actions and descriptions: https://github.com/uchicago-cs/chiventure/blob/actions/dev/docs/actions.md 
+
 ### Syntax:
 - The order that the Objects in a WDL file are written in must follow the order of explanation in specification (See example)
-- Must have one space, followed by “-” then followed by one space before an attribute name
 - Short_desc are strings that can have at max 100 characters (including spaces)
 - Long_desc are strings that can have at max 500 characters (including spaces)
 
 - Each file object category(ROOM, ITEM, or GAME) must be followed by a colon (:)
 - Attributes apply to categories and subcategories, and are followed immediately by a colon(:). The information in the attribute is preceded by a space.
-- The first attribute in every category (and subcategory) must be indented with one
-space, followed by a dash(-), followed by another space, then the attribute.
+- The first attribute in every category (and subcategory) must be indented with one space
 - All other attributes are indented	with three spaces.
 
-#### A WDL file is a YAML file that has at least the three file objects: Game, Room, Objects.
+#### A WDL file is a YAML file that has at least the three file objects: Game, Room, Item.
 
 ### Refer to Action Management's file: src/action_management/include/actionmanagement.h on the actions/dev branch for a list of approved actions in a game
 
@@ -49,47 +50,92 @@ space, followed by a dash(-), followed by another space, then the attribute.
 
 ### GAME example:
 ```yaml
- - start: KITCHEN
+ - start: "KITCHEN"
  - intro: “Welcome to the virtual house. You have been wandering for quite some time,
    and you need to determine how to return to reality.”
  - end:
-   - Inventory: wand
+   - Inventory: "wand"
 ```
 
 ## ROOM:
+- Proper indentation and syntax is shown below. Be sure to use colons, tabs, and tick marks as defined below for valid inputs. 
+
 ##### The Room Object must contain the following attributes:
- - id: `<UNIQUE ID NAME>` which is an identification name that is unique to the room
+- id: `<UNIQUE ID NAME>` which is an identification name that is unique to the room
 
-   short_desc: `<STRING DESCRIPTION>` which is a string that is displayed when the player first enters the room
+  short_desc: `<STRING DESCRIPTION>` which is a string that is displayed when the player first enters the room
 
-   long_desc: `<STRING DESCRIPTION>` which is a string that is displayed once player types “look at room” into the command line
+  long_desc: `<STRING DESCRIPTION>` which is a string that is displayed once player types “look at room” into the command line
 
+  connections: (the following attributes belong to subcategory 'connections')
 
-   connections:
-   (the	following attributes belong	to subcategory 'connections')
-  - to: `<ROOM	ID>` which lists a valid place the player can reach in one action from this room by ID
+    - to: `<ROOM  ID>` which lists a valid place the player can reach in one action from this room by ID
 
-    direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down.
+      direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
 
-    through: `<OBJECT ID>` if applicable, the object that the player must go through to go in that direction
+      through: `<ITEM ID>` if applicable, the item that the player must go through to go in that direction
 
-    ###### NOTE: a valid connection has to have an ID that exists
+      conditions:
+
+      - id: `<STRING_ITEM>` which is an identification name that is unique to the item
+
+        state: `<STRING_ADJ>` which is the descriptor for the state of the item
+
+        value: `<VAL>` which is the value of the state of the item upon initializaition of the game
+
+    ###### NOTE: a valid connection has to have an ID that exists. 
 
 
 ### ROOM example:
 ```yaml
- - id: KITCHEN
+ROOM Example:
+- id: "kitchen"
 
-   short_desc: "A well-furnished area for cooking food."
+  short_desc: "A well-furnished area for cooking food."
 
-   long_desc: "The room is lit merrily, and a faint glow comes from the oven."
+  long_desc: "The room is lit merrily, and a faint glow comes from the oven."
 
-   connections:
-    - to: BASEMENT
+  connections:
 
-      direction: DOWN
+    - to: "basement"
 
-      through: trapdoor
+      direction: "down"
+
+      through: "trapdoor"
+
+      conditions:
+
+      - id: "spoon"
+
+        state: "clean"
+
+        value: "no"
+
+      - id: "apple"
+
+        state: "sliced"
+
+        value: "no"
+
+    - to: "bedroom"
+
+      direction: "north"
+
+      through: "portal"
+
+      conditions:
+
+      - id: "water bottle"
+
+        state: "full"
+
+        value: "no"
+
+      - id: "candy"
+
+        state: "in inventory"
+
+        value: "yes"
 ```
 
 ## ITEM:
@@ -107,65 +153,108 @@ space, followed by a dash(-), followed by another space, then the attribute.
 
     in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
 
-    state: `<ATTRIBUTE>` which is the attribute of the item (e.g. locked, closed, open) when the game starts
+    state: `<STRING_ADJ>` which is the descriptor for the state of the item
+    
+    value: `<VAL>` which is the value of the state of the item upon initializaition of the game
 
-    actions: the possible actions that can be performed on the object; each action has the following attributes:
-      - `<ACTION FROM BANK>`:
-        - allowed: `<YES/NO>` which is a no attribute value to specify that this action can never succeed. (You may want this attribute in order to trigger the text_fail action to notify the player to try something else)
+    actions: the possible actions that can be performed on the item; each action has the following attributes:
+      
+    - action: `<ACTION FROM BANK>`:
+        
+      allowed: `<NO>` which is a no attribute value to specify that this action can never succeed. (You may want this attribute in order to trigger the text_fail action to notify the player to try something else) By default, actions are allowed, so this field 
+      is not necessary if the game designer would like the action to be allowed. (OPTIONAL)
 
-        - text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
+      text_success: `<STRING>` which is a string that is displayed upon the success of an action (OPTIONAL)
 
-    - `<ACTION FROM BANK>`:
-      - condition: `<ATTRIBUTE: YES/NO>` which is prerequisite states for the given action to be performed, written as “state_attribute : yes/no” (e.g. to specify that a door must be unlocked to open, write “locked: no” in conditions)
+      text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
 
-      - text_success: `<STRING>` which is a string that is displayed upon the success of an action
+      conditions: (OPTIONAL)
 
-      - text_fail: `<STRING>` which is a string that is displayed upon the failure of an action
-      - set: changes an attribute of the object’s state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition)
+      - id: `<STRING_ITEM>` which is an identification name that is unique to the conditional item
 
-          - item: `<ITEM ID>`
-          - state: `<ATTRIBUTE>`
-          - value: `<YES/NO>`
+        state: `<STRING_ADJ>` which is the descriptor for the state of the conditional item
+
+        value: `<VAL>` which is the value of the state of the conditional item in order for the action to be completed
+
+      set: changes an attribute of the item's state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition) (OPTIONAL)
+
+      - id: `<ITEM ID>`
+        
+        state: `<ATTRIBUTE>`
+         
+        val: `<VAL>` which is the value of the state of the item upon completion of the action
 
 ### ITEM examples:
 ```yaml
- - id: door
+- id: "handle"
 
-   short_desc: "a wooden door."
+  short_desc: "A lever."
 
-   long_desc: "A very ancient and gnarled looking thing."
+  long_desc: "The iron lever is painted gold and rusting in the corner of the palace garden."
 
-   in: KITCHEN
+  in: "garden"
 
-   state: locked: YES
+  state: "pulled"
 
-   actions:
-     - consumer
-         - allowed: no
-         - text_fail: "you cannot consume a door."
-     - open
-         - condition: locked: NO
-         - text_success: "you open the door."
-         - text_fail: "you fail to open the door, it is locked."
-         - set:
-             - item: door
-             - state: locked
-             - value: NO
+  value: "no"
 
-- id: wand
+  actions:
+
+    - action: "push"
+
+      allowed: "no"
+
+      text_fail: "You cannot push the lever. You can only pull it."
+
+    - action: "pull"
+
+      text_success: "Congrats! You can now access the underground tunnel. Go find it!"
+
+      text_fail: "You cannot pull the lever. You must be holding the star in order to pull the lever."
+
+      conditions:
+      
+      - id: "star"
+
+        state: "in inventory"
+
+        value: "no"
+
+      set:
+
+      - id: "lever"
+
+      	state: "pulled"
+
+      	value: "yes"
+
+- id: "wand"
 
   short_desc: "A wand"
 
   long_desc: "It has magical properties"
 
-  in: BEDROOM
+  in: "bedroom"
 
-  actions:  
-  - take:
-    - condition: in_inventory: top_hat
-    - text_success: "You got the wand!"
-    - text_fail: "You cannot take the wand until you have the top hat"
-  - consume:
-    - allowed: no
-    - text_fail: "you cannot consume a wand."
+  actions:
+  
+    - action: "take"
+
+      text_success: "Congrats! You got the wand and can perform a spell!"
+
+      text_fail: "You cannot take the wand until you have the top hat"
+
+      conditions:
+      
+      - id: "top hat"
+
+        state: "in inventory"
+
+        value: "no"
+
+    - action: "consume"
+   
+      allowed: "no"
+
+      text_fail: "You cannot consume the wand."
 ```
