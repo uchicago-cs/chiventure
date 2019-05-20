@@ -56,7 +56,7 @@ void print_game(obj_t *obj);
  * side effects:
  * - prints out associated attributes of document object
  */
- void print_documents(obj_t *obj);
+ void print_document(obj_t *obj);
 
 /* list_type_check()
  * a function to automate type checking,
