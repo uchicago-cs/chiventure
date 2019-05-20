@@ -1,5 +1,5 @@
 # WDL FORMATTING RULES AND EXAMPLES
-May 13, 2019
+May 13, 2019 
 
 ### Definitions:
 ##### - Component:
