@@ -62,6 +62,7 @@ player_t *get_player(game_t *game, char *player_id) {
 }
 
 //function to find room given game struct and room_id
+//HEADER TBD INTERNAL FUNCTION
 room_t *find_room(game_t *game, char* room_id) {
     room_t *r;
     HASH_FIND_STR(game->all_rooms, room_id, r);
@@ -69,6 +70,15 @@ room_t *find_room(game_t *game, char* room_id) {
 }
 //find room given room_id
 //interface function that takes in a game struct, path struct
+//HEADER TBD
 room_t *find_room_from_path(game_t *game, path_t *path) {
     room_t *room = find_room(game, path->dest);
+}
+
+//given game and direction, return adjacent room
+//experiment (HEADER TBD)
+room_t *find_room_from_dir(game_t *game, char* direction) {
+    path_t *path = path_to_room(game->curr_room, direction);
+    room_t *room = find_room(game, path->dest);
+    return room;
 }
