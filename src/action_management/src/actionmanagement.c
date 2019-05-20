@@ -6,7 +6,7 @@
 
 
 /* See actionmanagement.h */
-action_type_new *action_new(char *c_name, enum action_kind kind)
+action_type_t *action_type_new(char *c_name, enum action_kind kind)
 {
     action_type_t *a = malloc(sizeof(action_type_t));
 
@@ -15,7 +15,7 @@ action_type_new *action_new(char *c_name, enum action_kind kind)
         return NULL;
     }
 
-    int new_a = action_init(a, c_name, kind);
+    int new_a = action_type_init(a, c_name, kind);
     if (new_a != SUCCESS) {
         fprintf(stderr, "Could not initialize this action");
         return NULL;
@@ -76,7 +76,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
     case OPEN:
     case CLOSE:
     case TURN_ON:
-    case TURN_OFF:
+    case TURN_OFF: {
         // See game.h
         int toggle = toggle_condition(g, a, i);
         if (toggle != SUCCESS) {
@@ -84,8 +84,8 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
             return FAILURE;
         }
         break;
-
-    case EXAMINE:
+    }
+    case EXAMINE: {
         // See game.h
         int describe = get_long_desc(i);
         if (describe != SUCCESS) {
@@ -93,16 +93,16 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
             return FAILURE;
         }
         break;
-
-    case DROP:
+    }
+    case DROP: {
         // See game.h
         int drop = remove_inventory_item(g->current_player, i);
         if (drop != SUCCESS) {
             fprintf(stderr, "Object could not be removed from inventory.\n");
             return FAILURE;
         }
-
-    case TAKE:
+    }
+    case TAKE: {
         // See game.h
         int take = take_object(i);
         if (take != SUCCESS) {
@@ -116,8 +116,8 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
             return FAILURE;
         }
         break;
-
-    case CONSUME:
+    }
+    case CONSUME: {
         // See game.h
         int consumed = remove_inventory_item(g->current_player, i);
         if (consumed != SUCCESS) {
@@ -131,7 +131,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
             fprintf(stderr, "Player's health is %d", boosted);
         }
         break;
-
+    }
     default:
         fprintf(stderr, "Action is not of the correct type.\n");
         return FAILURE;

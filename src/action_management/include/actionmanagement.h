@@ -18,7 +18,7 @@
  * Returns:
  * - a pointer to a new action struct
  */
-action_type_new *action_new(char *c_name, enum action_kind kind);
+action_type_t *action_type_new(char *c_name, enum action_kind kind);
 
 
 /*
@@ -59,7 +59,7 @@ void action_type_free(action_type_t *a);
  * Returns:
  * - a linked list of action_type_t structs
  */
-list_actions *get_supported_actions(enum action_kind kind);
+list_action_type_t *get_supported_actions(enum action_kind kind);
 
 
 // =============================================================================
