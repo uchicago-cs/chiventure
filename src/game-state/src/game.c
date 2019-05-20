@@ -60,3 +60,15 @@ player_t *get_player(game_t *game, char *player_id) {
     HASH_FIND_STR(game->all_players, player_id, s);
     return s;
 }
+
+//function to find room given game struct and room_id
+room_t *find_room(game_t *game, char* room_id) {
+    room_t *r;
+    HASH_FIND_STR(game->all_rooms, room_id, r);
+    return r;
+}
+//find room given room_id
+//interface function that takes in a game struct, path struct
+room_t *find_room_from_path(game_t *game, path_t *path) {
+    room_t *room = find_room(game, path->dest);
+}

@@ -58,10 +58,12 @@ int delete_all_rooms(room_hash_t rooms) {
     return SUCCESS;
 }
 
-//returns path to given room given hashtable of paths and room id
-path_t *path_to_room(path_hash_t paths, char* room_id) {
+//returns path to given room given hashtable of paths and direction
+//previously took in room_id but updated for direction
+//HEADER TBD
+path_t *path_to_room(room_t *curr, char* direction) {
   path_t *path;
-  HASH_FIND_STR(paths, room_id, path);
+  HASH_FIND_STR(curr->paths, direction, path);
   return path;
 }
 
