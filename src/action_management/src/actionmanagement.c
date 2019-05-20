@@ -77,13 +77,13 @@ int action_item(game_t *g, action_type_t *a, item_t *i)
     }
     int allowed = FAILURE;
     for (int action = 0; action < i->num_allowed_actions; action++)
-        if (a->act == i->allowed_actions[action])
+        if (!allowed)
             allowed = SUCCESS;
     if (allowed != SUCCESS) {
         fprintf(stderr, "The action can not be done with this item.\n");
         return FAILURE;
     }
-    switch (a->act) {
+    switch (allowed) {
     case PUSH:
     case PULL:
     case OPEN:
@@ -191,7 +191,7 @@ int action_item_item(game_t *g, action_type_t *a,
     }
     int allowed = FAILURE;
     for (int action = 0; action < direct->num_allowed_actions; action++)
-        if (a->act == direct->allowed_actions[action])
+        if (!allowed)
             allowed = SUCCESS;
     if (allowed != SUCCESS) {
         fprintf(stderr, "The action can not be done to this item.\n");

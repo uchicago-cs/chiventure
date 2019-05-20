@@ -67,7 +67,7 @@ typedef struct {
 
 /* changes item conditon from on to off, open to closed, etc. and vice versa
  * returns SUCCESS = 0 or FAILURE = 1 */
-int toggle_condition(game_t *g, action_t *a, item_t *i);
+int toggle_condition(game_t *g, action_type_t *a, item_t *i);
 
 
 /* prints item description to stderr (already included by game state)

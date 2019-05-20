@@ -10,7 +10,7 @@
 
 
 // See game.h
-int toggle_condition(game_t *g, action_t *a, item_t *i)
+int toggle_condition(game_t *g, action_type_t *a, item_t *i)
 {
     return SUCCESS;
 }

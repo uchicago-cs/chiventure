@@ -59,9 +59,9 @@ typedef struct {
  * - next: the next item in the linked list
  * This struct is primarily used in the get_supported_actions function.
 */
-typedef struct {
+typedef struct list_actions {
     action_type_t *act;
-    list_actions *next;
+    struct list_actions *next;
 } list_actions;
 
 #endif
