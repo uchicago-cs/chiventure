@@ -4,6 +4,16 @@
 #include <stdio.h>
 #include "game.h"
 
+void setup(void) {
+    game_t *game = game_new();
+    player_t *plyr = player_new(100);
+    room_t *room1 = room_new("vroom", )
+}
+
+void teardown(void) {
+    puts("Runs after the test");
+}
+
 Test(game, new_free)
 {
     game_t *game = game_new();

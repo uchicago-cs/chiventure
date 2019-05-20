@@ -1,7 +1,8 @@
 #include <stdlib.h>
-#include "room.h"
-#include "item.h"
 #include "common-item.h"
+#include "common-item.h"
+#include "common-room.h"
+#include "common-path.h"
 
 /* See room.h */
 room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
@@ -42,7 +43,7 @@ int add_item_to_room(room_t *room, item_t *item) {
     return add_item_to_hash(room->items, item->item_id, item);
 }
 
-/* See room.h */
+/* See common-room.h */
 int add_path_to_room(room_t *room, path_t *path) {
     return add_path_to_hash(room->paths, path->direction, path);
 }
