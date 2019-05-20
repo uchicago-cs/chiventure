@@ -156,16 +156,16 @@ int action_item(game_t *g, action_type_t *a, item_t *i)
 
 // KIND 2
 /* See actionmanagement.h */
-int action_direction(game_t *g, action_type_t *a, direction_t *d)
+int action_path(game_t *g, action_type_t *a, path_t *p)
 {
     assert(g);
     assert(a);
-    if (a->kind != DIRECTION) {
+    if (a->kind != PATH) {
         fprintf(stderr, "The action provided is not of the correct type.\n");
         return FAILURE;
     }
     // See game.h
-    int moved = player_move(g, d);
+    int moved = player_move(g, p);
     if (moved == SUCCESS) {
         return SUCCESS;
     } else {
@@ -176,69 +176,6 @@ int action_direction(game_t *g, action_type_t *a, direction_t *d)
 
 
 // KIND 3
-/* See actionmanagement.h */
-int action_npc(game_t *g, action_type_t *a, npc_t *n)
-{
-    assert(g);
-    assert(g->current_player);
-    assert(a);
-    assert(n);
-    if (a->kind != NPC) {
-        fprintf(stderr, "The action provided is not of the correct type.\n");
-        return FAILURE;
-    }
-    // See game.h
-    int available = found_in_room(g, n);
-    if (available == FAILURE) {
-        fprintf(stderr, "NPC is not in room.\n");
-        return FAILURE;
-    }
-    // See game.h
-    int talked = npc_talk(g->current_player, n);
-    if (talked == SUCCESS) {
-        return SUCCESS;
-    } else {
-        fprintf(stderr, "Player was unable to talk to NPC.\n");
-        return FAILURE;
-    }
-}
-
-
-
-// KIND 4
-/* See actionmanagement.h */
-int action_item_npc(game_t *g, action_type_t *a, item_t *i, npc_t *n)
-{
-    assert(g);
-    assert(g->current_player); // assumes game_t has a field for current player
-    assert(a);
-    assert(i);
-    assert(n);
-    if (a->kind != ITEM_NPC) {
-        fprintf(stderr, "The action provided is not of the correct type.\n");
-        return FAILURE;
-    }
-    int allowed = FAILURE;
-    for (int action = 0; action < i->num_allowed_actions; action++)
-        if (a->act == i->allowed_actions[action])
-            allowed = SUCCESS;
-    if (allowed != SUCCESS) {
-        fprintf(stderr, "The action can not be done with this item.\n");
-        return FAILURE;
-    }
-    // See game.h
-    int given = remove_inventory_item(g->current_player, i);
-    if (given != SUCCESS) {
-        fprintf(stderr, "Object could not be moved from inventory.\n");
-        return FAILURE;
-    }
-    fprintf(stderr, "%s", n->dialogue);
-    return SUCCESS;
-}
-
-
-
-// KIND 5
 /* See actionmanagement.h */
 int action_item_item(game_t *g, action_type_t *a,
 		     item_t *direct, item_t *indirect)

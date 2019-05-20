@@ -37,8 +37,8 @@ typedef struct {
 typedef struct inventory_struct inventory_t;
 
 
-// forward declaration of a direction struct
-typedef struct direction_struct direction_t;
+// forward declaration of a path struct
+typedef struct path_struct path_t;
 
 
 /* A player struct containing:
@@ -77,7 +77,7 @@ int get_long_desc(item_t *i);
 
 /* removes an item from a player's inventory
  * returns SUCCESS = 0 or FAILURE = 1 */
-int remove_inventory_item(player_t *p, item_t *i);
+int remove_inventory_item(player_t *play, item_t *i);
 
 
 /* checks if an item can be taken (already included by game state)
@@ -87,17 +87,17 @@ int take_object(item_t *i);
 
 /* adds an item to a player's inventory
  * returns SUCCESS = 0 or FAILURE = 1 */
-int add_inventory_item(player_t *p, item_t *i);
+int add_inventory_item(player_t *play, item_t *i);
 
 
 /* changes a player's health (already included by game state)
  * returns SUCCESS = 0 or FAILURE = 1 */
-int change_health(player_t *p, int change, int max_health);
+int change_health(player_t *play, int change, int max_health);
 
 
-/* moves a player through the game based on a given direction
+/* moves a player through the game based on a given path
  * returns SUCCESS = 0 or FAILURE = 1 */
-int player_move(game_t *g, direction_t *d);
+int player_move(game_t *g, path_t *p);
 
 
 /* determines if an npc can be found in the room
@@ -107,7 +107,7 @@ int found_in_room(game_t *g, npc_t *n);
 
 /* prints a conversation with npc to stderr
  * returns SUCCESS = 0 or FAILURE = 1 */
-int npc_talk(player_t *p, npc_t *n);
+int npc_talk(player_t *play, npc_t *n);
 
 
 #endif

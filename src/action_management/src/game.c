@@ -24,7 +24,7 @@ int get_long_desc(item_t *i)
 
 
 // See game.h
-int remove_inventory_item(player_t *p, item_t *i)
+int remove_inventory_item(player_t *play, item_t *i)
 {
     return SUCCESS;
 }
@@ -38,21 +38,21 @@ int take_object(item_t *i)
 
 
 // See game.h
-int add_inventory_item(player_t *p, item_t *i)
+int add_inventory_item(player_t *play, item_t *i)
 {
     return SUCCESS;
 }
 
 
 // See game.h
-int change_health(player_t *p, int change, int max_health)
+int change_health(player_t *play, int change, int max_health)
 {
     return SUCCESS;
 }
 
 
 // See game.h
-int player_move(game_t *g, direction_t *d)
+int player_move(game_t *g, path_t *p)
 {
     return SUCCESS;
 }
@@ -66,7 +66,7 @@ int found_in_room(game_t *g, npc_t *n)
 
 
 // See game.h
-int npc_talk(player_t *p, npc_t *n)
+int npc_talk(player_t *play, npc_t *n)
 {
     return SUCCESS;
 }

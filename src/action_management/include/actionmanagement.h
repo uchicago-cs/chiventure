@@ -79,47 +79,18 @@ list_actions *get_supported_actions(enum action_kind kind);
 int action_item(game_t *g, action_type_t *a, item_t *i);
 
 
-/* A function that executes KIND 2 actions (ACTION <direction>)
+/* A function that executes KIND 2 actions (ACTION <path>)
  *
  * Parameters:
  * - g: A game struct consisting of the game state
  * - a: An action struct
- * - d: A direction struct
+ * - p: A path struct
  *
  * Returns
  * - 0 on success
  * - 1 on failure
  */
-int action_direction(game_t *g, action_type_t *a, direction_t *d);
-
-
-/* A function that executes KIND 3 actions (ACTION <npc>)
- *
- * Parameters:
- * - g: A game struct
- * - a: An action struct
- * - n: An npc struct
- *
- * Returns
- * - 0 on success
- * - 1 on failure
- */
-int action_npc(game_t *g, action_type_t *a, npc_t *n);
-
-
-/* A function that executes KIND 4 actions (ACTION <item> <npc>)
- *
- * Parameters:
- * - g: A game struct containing a field for the current player
- * - a: An action struct
- * - i: An item struct
- * - n: An npc struct containing an inventory
- *
- * Returns
- * - 0 on success
- * - 1 on failure
- */
-int action_item_npc(game_t *g, action_type_t *a, item_t *i, npc_t *n);
+int action_path(game_t *g, action_type_t *a, path_t *p);
 
 
 /* A function that executes KIND 5 actions (ACTION <item> <item>)
