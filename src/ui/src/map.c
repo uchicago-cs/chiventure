@@ -5,6 +5,8 @@
 #include <ncurses.h>
 
 
+
+
 //Initiallizes ncurses window
 //This function will later live in ui.c
 void ncurses_init(){
@@ -189,14 +191,17 @@ int map_center_on(map_t *map, int x, int y, int z){
   int uly = map->uly;
   int lrx = map->lrx;
   int lry = map->lry;
-  int centx = (lrx+ulx)/2;
-  int centy = (lry+uly)/2;
+  int centx = (lrx-ulx)/2;
+  int centy = (lry-uly)/2;
   int centxc = centx - (room_w/2);
   int centyc = centy - (room_h/2);
   int padx = room_w*x - centxc;
   int pady = room_h*y - centyc;
 
-  
+  //THIS LINE IS FOR TESTING
+  //  FILE *debug = fopen("../src/debug.txt","w");
+
+  //  fprintf(debug,"Map new x %i, y %i, z %i\n",padx,pady,z);
   map_refresh(map, padx, pady,z);
   return 0;
 }
