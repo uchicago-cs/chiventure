@@ -1,5 +1,5 @@
-#ifndef _ROOM_COMMON_H
-#define _ROOM_COMMON_H
+#ifndef _COMMON_ROOM_H
+#define _COMMON_ROOM_H
 
 #include "room.h"
 

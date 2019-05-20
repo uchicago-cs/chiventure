@@ -1,5 +1,5 @@
-#ifndef _PLAYER_COMMON_H
-#define _PLAYER_COMMON_H
+#ifndef _COMMON_PLAYER_H
+#define _COMMON_PLAYER_H
 
 #include "player.h"
 

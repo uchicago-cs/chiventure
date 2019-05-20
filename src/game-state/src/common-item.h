@@ -1,5 +1,5 @@
-#ifndef _ITEM_COMMON_H
-#define _ITEM_COMMON_H
+#ifndef _COMMON_ITEM_H
+#define _COMMON_ITEM_H
 
 #include "item.h"
 
