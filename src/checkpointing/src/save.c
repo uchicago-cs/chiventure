@@ -4,33 +4,156 @@
 #include "game.pb-c.h"
 #include "save.h"
 
-int save_object(object_t *o_t, Object *o)
+int save_attribute_value(attribute_value_t *av_t, Attribute_value *av)
 {
-    if (o_t == NULL){
-        return -1;
-    }
-  
-    o->object_id = o_t->object_id;
-  
-    if (o_t->short_desc == NULL) {
-	o->short_desc = NULL;
-    } else {
-	o->short_desc = o_t->short_desc;
-    }
-  
-    if (o_t->long_desc == NULL) {
-	o->long_desc = NULL;
-    } else {
-	o->long_desc = o_t->long_desc;
+    if (av_t == NULL) {
+	fprintf(stderr, "Given a NULL attribute_value struct in save_attribute_value");
+	return -1;
     }
 
+    if (av_t->double_val == NULL) {
+	av->double_val = NULL;
+    } else {
+	av->double_val = av_t->double_val;
+    }
+
+    if (av_t->char_val == NULL) {
+	av->char_val = NULL;
+    } else {
+	av->char_val = av_t->char_val;
+    }
+
+    if (av_t->bool_val == NULL) {
+	av->bool_val = NULL;
+    } else {
+	av->bool_val = av_t->bool_val;
+    }
+
+    if (av_t->str_val == NULL) {
+	av->string_val = NULL;
+    } else {
+	av->string_val = av_t->str_val;
+    }
+
+    if (av_t->int_val == NULL) {
+	av->int_val = NULL;
+    } else {
+	av->int_val = av_t->int_val;
+    }
+    return 0;
+}
+
+int save_attribute(attribute_t *a_t, Attribute *a)
+{
+    if (a_t == NULL) {
+	fprintf(stderr, "Given a NULL attribute struct in save_attribute");
+	return -1;
+    }
+
+    a->attribute_key = a_t->attribute_key;
+
+    if (a_t->attribute_tag == DOUBLE) {
+	a->attribute_tag = "DOUBLE";
+    } else if (a_t->attribute_tag == BOOLE) {
+	a->attribute_tag = "BOOLE";
+    } else if (a_t->attribute_tag == CHARACTER) {
+	a->attribute_tag = "CHARACTER";
+    } else if (a_t->attribute_tag == STRING) {
+	a->attribute_tag = "STRING";
+    } else {
+	a->attribute_tag = "INTEGER";
+    }
+
+    save_attribute_value(a_t->attribute_value, a->val);
+
+    return 0;
+}
+
+
+int save_item(item_t *i_t, Item *i)
+{
+    if (i_t == NULL) {
+	fprintf(stderr, "Given a NULL item struct in save_item");
+	return -1;
+    }
+
+    i->item_id = i_t->item_id;
+
+    if (i_t->short_desc == NULL) {
+	i->short_desc = NULL;
+    } else {
+	i->short_desc = i_t->short_desc;
+    }
+
+    if (i_t->long_desc == NULL) {
+	i->long_desc = NULL;
+    } else {
+	i->long_desc = i_t->long_desc;
+    }
+
+    // bool condition reserved for future expansion
+
+    // repeated Attribute HERE
+
+    // go through array and figure out length
+    // save this as i->attributes_len
+    return 0;
+}
+
+int save_condition(condition_t *c_t, Condition *c)
+{
+    if (c_t == NULL) {
+	fprintf(stderr, "Given a NULL condition struct in save_condition");
+	return -1;
+    }
+
+    if (c_t->item->item_id == NULL) {
+	c->item_id = NULL;
+    } else {
+	c->item_id = c_t->item->item_id;
+    }
+
+    // THIS MIGHT BE attribute_key
+    if (c_t->attribute == NULL) {
+	c->attribute = NULL;
+    } else {
+	c->attribute = c_t->attribute;
+    }
+
+    //optional Attribute here, but might change
+    return 0;
+}
+
+int save_path(path_t *p_t, Path *p)
+{
+    if (p_t == NULL) {
+	fprintf(stderr, "Given a NULL path struct in save_path");
+	return -1;
+    }
+
+    if (p_t->direction == NULL) {
+	p->direction = NULL;
+    } else {
+	p->direction = p_t->direction;
+    }
+
+    if (p_t->dest == NULL) {
+	p->destination = NULL;
+    } else {
+	p->destination = p_t->dest;
+    }
+
+    // repeated Condition HERE
+
+    // go through array and figure out the length
+    // save this as p->conditions_len
     return 0;
 }
 
 int save_room(room_t *r_t, Room *r)
 {
     if (r_t == NULL) {
-	fprintf(stderr, "Given a room_t struct that is NULL in transfer_room.\n");
+	fprintf(stderr, "Given a room_t struct that is NULL in save_room.\n");
 	return -1;
     }
   
@@ -47,64 +170,61 @@ int save_room(room_t *r_t, Room *r)
     } else {
 	r->long_desc = r_t->long_desc;
     }
-  
-    r->objs_len = r_t->objs_len;
+    // this is a hash table and may have to be redone!!
+    /*
+    r->items_len = r_t->items_len;
 
-    int len = r_t->objs_len;
+    int len = r_t->items_len;
 
-    Object **objs;
+    Item **items;
+    
+    r->n_items = len;
 
-    r->n_objs = len;
-
-    objs = malloc(sizeof(Object*) * len); 
-    for (int i=0; i<len; ++i) {
-	objs[i] = malloc(sizeof(Object));
-	object__init(objs[i]);
-	int transfer_object_success = save_object(r_t->objs[i], objs[i]);
+    items = malloc(sizeof(Item*) * len); 
+    for (int i = 0; i < len; ++i) {
+	items[i] = malloc(sizeof(Item));
+	item__init(items[i]);
+	int transfer_item_success = save_item(r_t->items[i], items[i]);
     }
 
-    r->objs = objs;
-  
+    r->items = items;
+    */
     return 0;
 }
 
 int save_player(player_t *p_t, Player *p)
 {
     if (p_t == NULL) {
-	fprintf(stderr, "Given a player_t struct that is NULL in transfer_player.\n");
+	fprintf(stderr, "Given a player_t struct that is NULL in save_player.\n");
 	return -1;
     }
   
     p->player_id = p_t->player_id;
   
-    if (p_t->username == NULL) {
-	p->username = NULL;
+    if (p_t->level == NULL) {
+	p->level = NULL;
     } else {
-	p->username = p_t->username;
-    }
-  
-    if (p->has_level == 1) {
 	p->level = p_t->level;
-    } else {
-	p->level = -1; 
     }
   
-    if (p->has_health == 1) {
+    if (p_t->health == NULL) {
+	p->health = NULL;
+    } else {
 	p->health = p_t->health;
-    } else {
-	p->health = -1;
     }
-  
-    if (p->has_xp == 1) {
+
+    if (p_t->xp == NULL) {
+	p->xp = NULL;
+    } else {
 	p->xp = p_t->xp;
-    } else {
-	p->xp = -1;
     }
-  
-    p->inventory_len = p_t->inventory_len;
+
+    // inventory is a has table; this may been to be redone!!
+
+    /*    p->inventory_len = p_t->inventory_len;
 
     int i_len = p_t->inventory_len;
-  
+
     Object **inventory;
   
     p->n_inventory = i_len;
@@ -118,37 +238,21 @@ int save_player(player_t *p_t, Player *p)
     }
 
     p->inventory = inventory;
-
-    p->clothes_len = p_t->clothes_len;
-   
-    int c_len = p_t->clothes_len;
-
-    Object **clothes;
-  
-    p->n_clothes = c_len;
-    
-    clothes = malloc(sizeof(Object*) * c_len);
-    int clothes_success = 1;
-    for (int j = 0; j < c_len; j++){
-	clothes[j] = malloc(sizeof(Object));
-	object__init(clothes[j]);
-	clothes_success = save_object(p_t->clothes[j], clothes[j]);
-    }
-
-    p->clothes = clothes;
-  
+    */
     return 0;
 }
 
 int save_game(game_t *g_t, Game *g)
 {
     if(g_t == NULL){
-	fprintf(stderr, "Given a game_t struct that is NULL in transfer_game.\n");
+	fprintf(stderr, "Given a game_t struct that is NULL in save_game.\n");
 	return -1;
     }
-  
+    
     g->players_len = g_t->players_len;
 
+    // repeated players here!!!!!    
+    /*
     int p_len = g_t->players_len;
   
     g->n_players = p_len;
@@ -176,9 +280,11 @@ int save_game(game_t *g_t, Game *g)
     }
   
     g->players = players;
-  
+    */
+    // repeated rooms here!!!!!!!
+
     g->rooms_len = g_t->rooms_len;
-   
+    /*
     int r_len = g_t->rooms_len;
   
     Room **rooms;
@@ -194,20 +300,19 @@ int save_game(game_t *g_t, Game *g)
     }
 
     g->rooms = rooms;
-  
+    */
     if (g_t->curr_room == NULL) {
 	g->curr_room = NULL;
     } else {
 	g->curr_room = g_t->curr_room;
     }
   
-    if (g_t->start_time != -1) {
-	g->has_start_time = 1; 
-	g->start_time = g_t->start_time;
+    if (g_t->curr_player == NULL) {
+	g->curr_player = NULL;
     } else {
-	g->start_time = -1;
+	g->curr_player = g_t->curr_player;
     }
-  
+    
     return 0;
 }
 
@@ -226,7 +331,6 @@ int save(game_t *g_t, char *filename)
     void *buf;
     size_t len;
     int success;
-
 
     success = save_game(g_t, &g);
     len = game__get_packed_size(&g);
