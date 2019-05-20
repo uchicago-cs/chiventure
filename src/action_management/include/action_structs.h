@@ -20,12 +20,12 @@ enum actions {
     EXAMINE,
     TURN_ON,
     TURN_OFF,
-    TAKE,    // synonyms: "pick up"
+    TAKE, // synonyms: "pick up"
     DROP,
     CONSUME, // synonyms: "use" "drink" "eat"
 
     // KIND 2 ACTIONS - ACTION <path>
-    GO,      // synonyms: "walk"
+    GO, // synonyms: "walk"
     ENTER,
 
 /* KIND 3 ACTIONS - ACTION <item_item> */
@@ -43,13 +43,11 @@ enum action_kind {
 
 
 /* An action struct that contains the following:
- * - act: the encoded enum name for this action
- * - c_name: the 'canonical' string that should call the enum
- * - synonyms: the synonyms that would also be allowed to call action
+ * - cname: the 'canonical' string that should call the enum
  * - kind: an enumeration of the kind of action
-*/
+ */
 typedef struct {
-    char *c_name;  // e.g. "eat"
+    char *cname; // e.g. "eat"
     enum action_kind kind; // e.g. KIND_1
 } action_type_t;
 
@@ -59,7 +57,7 @@ typedef struct {
  * - next: the next item in the linked list
  * This struct is primarily used in the get_supported_actions function.
 */
-typedef struct list_actions {
+typedef struct {
     action_type_t *act;
     struct list_actions *next;
 } list_actions;
