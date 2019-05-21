@@ -6,32 +6,23 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "utlist.h"
-#include "uthash.h"
-#include "object.h"
+#include "game_state_common.h"
+#include "item.h"
 
-#define SUCCESS 1
-#define FAILURE 1
-
-/* Forward declaration of linked list */
+#define ITER_ALL_PLAYERS(game, curr_player) player_t *ITTMP_PLAYER; HASH_ITER(hh, (game)->all_players, (curr_player), ITTMP_PLAYER)
 
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
     UT_hash_handle hh;
-    int player_id;
-    char username[20];
+    char *player_id;
     int level;
     int health;
     int xp;
-    all_objects_t inventory;
-    all_objects_t clothes;
+    item_hash_t inventory;
 } player_t;
 
-typedef struct player* all_players_t;
+typedef struct player* player_hash_t;
 
 /*
  * Initializes a player
@@ -41,7 +32,7 @@ typedef struct player* all_players_t;
  *  health: The starting health of the player
  *
  * Returns:
- *  0 on success, 1 if an error occurs.
+ *  SUCCESS on success, FAILURE if an error occurs.
  */
 int player_init(player_t* plyr, int health);
 
@@ -54,7 +45,7 @@ int player_init(player_t* plyr, int health);
  * Returns:
  *  Pointer to allocated player
  */
-player_t* player_new(int health);
+player_t *player_new(int health);
 
 /*
  * Frees resources associated with a player
@@ -63,7 +54,7 @@ player_t* player_new(int health);
  *  plyr: the player to be freed
  *
  * Returns:
- *  always returns 0
+ *  SUCCESS if successful
  */
 int player_free(player_t* plyr);
 
@@ -73,9 +64,9 @@ int player_free(player_t* plyr);
  * Parameters:
  *  hashtable of players that need to be deleted
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful, FAILURE if failed
  */
-void delete_all_players(all_players_t players);
+void delete_all_players(player_hash_t players);
 
 /*
  * Returns the health of a player
@@ -97,7 +88,7 @@ int get_health(player_t* plyr);
  * Returns:
  *  int, remaining health
  */
-int change_health(player_t* plyr);
+int change_health(player_t* plyr, int change, int max);
 
 /*
  * Returns the level of the player
@@ -111,7 +102,7 @@ int change_health(player_t* plyr);
 int get_level(player_t* plyr);
 
 /*
- * Increments the level of the player by one
+ * Increments the level of the player by given amt
  *
  * Parameters:
  *  plyr: the player
@@ -119,7 +110,7 @@ int get_level(player_t* plyr);
  * Returns:
  *  int, the new level
  */
-int change_level(player_t* plyr);
+int change_level(player_t* plyr, int change);
 
 /*
  * Returns the experience points of the player
@@ -145,50 +136,36 @@ int get_xp(player_t* plyr);
 int change_xp(player_t* plyr, int points);
 
 /*
- * Adds an object to the player's inventory
- *
- * Parameters:
- *  plyr: the player
- * 	points: how much to change xp (positive or negative)
- *
- * Returns:
- *  int, 1 for success, 0 for failure
- */
-int add_clothes_object(object_t* item, player_t* plyr);
-
-/*
- * Adds an object to the player's inventory
- *
- * Parameters:
- *  object: the object too add
- * 	plyr: the plyaer
- *
- * Returns:
- *  int, 1 for success, 0 for failure
- */
-int add_inventory_object(object_t* item, player_t* plyr);
-
-/*
  * Returns the inventory list
  *
  * Parameters:
  * 	plyr: the player
  *
  * Returns:
- *  hashtable of objects, the inventory
+ *  hashtable of items, the inventory
  */
-all_objects_t get_inventory(player_t* plyr);
+item_hash_t get_inventory(player_t* plyr);
 
-/*
- * Returns the inventory list
+/* Adds a player to the given hashtable of players
  *
  * Parameters:
- * 	plyr: the player
+ *  hashtable the player is added to
+ *  player id
+ *  pointer to the player
+ * Returns:
+ *  SUCCESS if successful, exits if failed
+ */
+int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *player);
+
+/* Adds an item to the given player
+ *
+ * Parameters:
+ *  player struct
+ *  item struct
  *
  * Returns:
- *  hashtable of objects, the clothes
+ *  SUCCESS if successful, FAILURE if failed
  */
-all_objects_t get_clothes(player_t* plyr);
-
+int add_item_to_player(player_t *player, item_t *item);
 
 #endif

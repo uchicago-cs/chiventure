@@ -6,14 +6,14 @@
 #include "shell.h"
 #include "cmd.h"
 #include "validate.h"
-//#include "../../game-state/include/game.h"
+
 
 /*
  *  THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
  */
 
 /* Forward declaration. Need to collaborate with game state */
-game_t *curr_game;
+// game_t *curr_game;
 bool is_in_room(char *object);
 
 /* See validate.h */
