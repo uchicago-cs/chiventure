@@ -1,23 +1,24 @@
 #ifndef LOAD_H
 #define LOAD_H
 
-#include "../game.pb-c.h"
+#include "game.pb-c.h"
 #include "dummy.h"
+
 /* 
  * Takes a file, reads it, and returns the length of file
  * 
  * Parameters:
- * - filename: string that is name of file
+ * - filename: pointer to string that is name of file
  * - max_length: unsigned int of the max length the file can be
- * - out: a buffer
+ * - out: pointer to a buffer
  *
  * Returns:
  * - size_t: length of file
  */
-static size_t read_file(char *filename, unsigned max_length, uint8_t *out);
+size_t read_file(char *filename, unsigned max_length, uint8_t *out);
 
 /*
- * Prints out object saved in protofile and loads object into game struct
+ * Loads object into game struct
  * 
  * Parameters:
  * - o: pointer to object in protofile
@@ -27,10 +28,10 @@ static size_t read_file(char *filename, unsigned max_length, uint8_t *out);
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int print_object(Object *o, object_t *o_t);
+int load_object(Object *o, object_t *o_t);
 
 /*
- * Prints out player saved in protofile and loads player into game struct
+ * Loads player into game struct
  * 
  * Parameters:
  * - p: pointer to player in protofile
@@ -40,10 +41,10 @@ int print_object(Object *o, object_t *o_t);
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int print_player(Player *p, player_t *p_t);
+int load_player(Player *p, player_t *p_t);
 
 /*
- * Prints out room saved in protofile and loads room into game struct
+ * Loads room into game struct
  * 
  * Parameters:
  * - r: pointer to room in protofile
@@ -53,10 +54,10 @@ int print_player(Player *p, player_t *p_t);
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int print_room(Room *r, room_t *r_t);
+int load_room(Room *r, room_t *r_t);
 
 /*
- * Prints out game saved in protofile and loads game into game struct
+ * Loads game into game struct
  * 
  * Parameters:
  * - g: pointer to game in protofile
@@ -66,15 +67,15 @@ int print_room(Room *r, room_t *r_t);
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int print_game(Game *g, game_t *g_t);
+int load_game(Game *g, game_t *g_t);
 
 /*
  * Unpacks the protofile and reloads all saved information into game structs
  *
  * Parameters:
- * - filename: string name of file with sereialized information
- * - g: proto game struct
- * - g_t: game struct
+ * - filename: pointer to string name of file with sereialized information
+ * - g: pointer to proto game struct
+ * - g_t: pointer game struct
  * 
  * Returns:
  * - 0 if successful

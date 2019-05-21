@@ -5,27 +5,22 @@ CFLAGS = -fPIC -g -I./include
 LDFLAGES = -shared
 PROTOLIBS = -lprotobuf-c
 
-COMP = game.pb-c.c
-BINS = save load
+PROTOCOMP = include/game.pb-c.c
+PROTOFLAGS = --c_out=./include
 SRCS = src/save.c src/load.c
 OBJS = $(SRCS:.c=.o)
-STATIC_LIB = libcheckpointing.a
+STATIC_LIB = checkpointing.a
 
 
 .PHONY: all
-all: ${BINS} ${STATIC_LIB}
+
+all: $(PROTOCOMP) $(STATIC_LIB)
 
 $(STATIC_LIB): $(OBJS)
 	$(AR) -r -o $@ $^
 
-game.pb-c.c: game.proto
-	protoc-c --c_out=. game.proto
-
-save: game.pb-c.c src/save.c
-	$(CC) -g src/save.c -I./include  $(COMP) $(PROTOLIBS) -o src/$@
-
-load: game.pb-c.c src/load.c
-	$(CC) -g src/load.c -I./include $(COMP) $(PROTOLIBS) -o src/$@
+$(PROTOCOMP): game.proto
+	protoc-c $(PROTOFLAGS) $^
 
 clean:
-	${RM} src/*.txt src/save src/load ${COMP} ${OBJS} ${STATIC_LIB} game.pb-c.h
+	$(RM) $(PROTOCOMP) $(OBJS) $(STATIC_LIB) $(PROTOCOMP:.c=.h)
