@@ -4,10 +4,10 @@ CC = gcc
 AR = ar 
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/
 RM = rm -f
-LIB = wdl.a
+LIB = wdl.a 
 
-LDFLAGS = -L../libobj -Wl,-rpath,../libobj
-LDLIBS = ../libobj/libobj.a
+LDFLAGS = -L../libobj 
+LDLIBS = ../libobj/libobj.a -lyaml 
 
 .PHONY: clean clean-lib clean-bin
 
@@ -38,7 +38,7 @@ $(EXAMPLE_SRCS:.c=.d):%.d:%.c
 -include $(EXAMPLE_SRCS:.c=.d)
 
 $(EXAMPLE_BINS): %:%.c
-	$(CC) $(CFLAGS) $(LDFLAGS) $(LIB) $(LDLIBS) $^ -o$@
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIB) $(LDLIBS) -o$@
 
 examples: $(EXAMPLE_BINS)
 
