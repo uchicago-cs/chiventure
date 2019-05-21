@@ -17,7 +17,7 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind)
 
     int new_a = action_type_init(a, c_name, kind);
     if (new_a != SUCCESS) {
-        fprintf(stderr, "Could not initialize this action");
+        fprintf(stderr, "Could not initialize this action type");
         return NULL;
     }
 

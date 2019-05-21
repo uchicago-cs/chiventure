@@ -35,7 +35,7 @@ list_action_type_t *get_supported_actions()
 
     for(i = 0; i < NUM_ACTIONS; i++) {
         list_action_type_t *add = (list_action_type_t*)malloc(sizeof(list_action_type_t));
-        action_type_t *add_data = action_new(valid_actions[i].c_name,
+        action_type_t *add_data = action_type_new(valid_actions[i].c_name,
                                              valid_actions[i].kind);
         add->data = add_data;
         LL_PREPEND(temp,add);
