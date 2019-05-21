@@ -53,7 +53,7 @@ enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
 
 typedef struct attribute {
     UT_hash_handle hh;
-    char *attribute_key;
+    char *attribute_key; // attribute name
     enum attribute_tag attribute_tag;
     attribute_value_t attribute_value;
 } attribute_t;
@@ -83,18 +83,18 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
 // the following functions allow their users to add attributes to the given item
 // or replace (read: change) attributes associated
 
-/* set_str_attr() sets the value of an attribute of an item to the given string 
+/* set_str_attr() sets the value of an attribute of an item to the given string
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed
  *  the string attribute value to be set
- * Returns: 
+ * Returns:
  *  SUCCESS if successful, FAILURE if failed
  *  returns SUCCESS if given value is already the attribute value
  */
 int set_str_attr(item_t* item, char* attr_name, char* value);
 
-/* set_int_attr() sets the value of an attribute of an item to the given int 
+/* set_int_attr() sets the value of an attribute of an item to the given int
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed
@@ -116,7 +116,7 @@ int set_int_attr(item_t* item, char* attr_name, int value);
  */
 int set_double_attr(item_t* item, char* attr_name, double value);
 
-/* set_char_attr() sets the value of an attribute of an item to the given int 
+/* set_char_attr() sets the value of an attribute of an item to the given int
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed
@@ -127,7 +127,7 @@ int set_double_attr(item_t* item, char* attr_name, double value);
  */
 int set_char_attr(item_t* item, char* attr_name, char value);
 
-/* set_bool_attr() sets the value of an attribute of an item to the given int 
+/* set_bool_attr() sets the value of an attribute of an item to the given int
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed

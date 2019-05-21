@@ -24,4 +24,14 @@ int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room);
  */
 int delete_all_rooms(room_hash_t rooms);
 
+/* Returns path given hashtable of paths and key
+ *
+ * Parameters:
+ *  hashtable of paths
+ *  the key (direction) of hashtable
+ * Returns:
+ *  the path struct corresponding to the key, or NULL if not found
+ */
+path_t *path_search(path_hash_t paths, char* direction);
+
 #endif
