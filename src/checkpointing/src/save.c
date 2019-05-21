@@ -64,7 +64,7 @@ int save_attribute(attribute_t *a_t, Attribute *a)
 	a->attribute_tag = "INTEGER";
     }
 
-    save_attribute_value(a_t->attribute_value, a->val);
+    save_attribute_value(a_t->attribute_value, a->attribute_value);
 
     return 0;
 }
@@ -113,12 +113,12 @@ int save_condition(condition_t *c_t, Condition *c)
 	c->item_id = c_t->item->item_id;
     }
 
-    // THIS MIGHT BE attribute_key
-    if (c_t->attribute == NULL) {
+    // possibly expected_attribute here
+    /*if (c_t->attribute == NULL) {
 	c->attribute = NULL;
     } else {
 	c->attribute = c_t->attribute;
-    }
+	}*/
 
     //optional Attribute here, but might change
     return 0;
@@ -137,10 +137,10 @@ int save_path(path_t *p_t, Path *p)
 	p->direction = p_t->direction;
     }
 
-    if (p_t->dest == NULL) {
+    if (p_t->destination == NULL) {
 	p->destination = NULL;
     } else {
-	p->destination = p_t->dest;
+	p->destination = p_t->destination;
     }
 
     // repeated Condition HERE
@@ -189,6 +189,9 @@ int save_room(room_t *r_t, Room *r)
 
     r->items = items;
     */
+
+    // path stuff here!!!
+    
     return 0;
 }
 
@@ -251,7 +254,7 @@ int save_game(game_t *g_t, Game *g)
     
     g->players_len = g_t->players_len;
 
-    // repeated players here!!!!!    
+    // repeated all_players here!!!!!    
     /*
     int p_len = g_t->players_len;
   
@@ -281,7 +284,7 @@ int save_game(game_t *g_t, Game *g)
   
     g->players = players;
     */
-    // repeated rooms here!!!!!!!
+    // repeated all_rooms here!!!!!!!
 
     g->rooms_len = g_t->rooms_len;
     /*
