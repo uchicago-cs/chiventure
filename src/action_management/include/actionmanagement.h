@@ -54,7 +54,7 @@ void action_type_free(action_type_t *a);
  * A function that returns all supported actions
  *
  * Parameters:
- * - kind: The enumerated value of kind, specifying the kind of actions wanted
+ * - none
  *
  * Returns:
  * - a linked list of action_type_t structs
