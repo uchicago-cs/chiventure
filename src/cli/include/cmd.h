@@ -27,7 +27,7 @@ until action_t is ready */
  *
  *
  * Parameters:
- * - command name and operation of added entry
+ * - command name and operation of added entry,
  *
  * Returns:
  * - nothing
@@ -38,7 +38,7 @@ void add_entry(char * command_name, operation * associated_operation, lookup_t *
  *
  *
  * Parameters:
- * - command name
+ * - command name and pointer to table
  *
  * Returns:
  * - a pointer to the entire entry
@@ -50,7 +50,7 @@ lookup_t * find_entry(char * command_name, lookup_t * * table);
  *
  *
  * Parameters:
- * - command name
+ * - command name and pointer to table
  *
  * Returns:
  * - a pointer to the corresponding operation
@@ -60,7 +60,7 @@ operation * find_operation(char * command_name, lookup_t * * table);
  *
  *
  * Parameters:
- * - command name
+ * - command name and pointer to table
  *
  * Returns:
  * - a pointer to the corresponding action
@@ -74,20 +74,29 @@ operation * find_operation(char * command_name, lookup_t * * table);
  *
  *
  * Parameters:
- * - command name of entry
+ * - command name of entry and pointer to table
  *
  * Returns:
  * - nothing
  */
 void delete_entry(char * command_name, lookup_t * * table);
-/* Clears out the entire table, and frees it too! */
+
+/* Clears out the entire table, and frees it too!
+ *
+ *
+ * Parameters:
+ * - command name of entry and pointer to table
+ *
+ * Returns:
+ * - nothing
+ */
 void delete_entries(lookup_t * * table);
 /* Puts stuff into table, for testing purposes
  * You can see what is in there in the .c file.
+ * Returns a pointer to the new table.
  */
 
 lookup_t * * initialize_lookup();
-
 /* Command data type */
 typedef struct
 {
@@ -175,6 +184,7 @@ cmd *cmd_from_tokens(char **ts, lookup_t * table);
  *
  * Parameters:
  * - pointer to a cmd struct
+ * - pointer to game to be altered
  *
  * Returns:
  * - nothing -> output handled elsewhere

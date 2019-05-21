@@ -36,7 +36,7 @@ char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  *
  *  Parameters:
  *  - tokens: parsed input string
- *
+ *  - pointer to game to be altered, unused
  * Returns:
  * - Said list of supported operations as a string
  */
@@ -49,7 +49,7 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  *
  * Parameters:
  *  - tokens: parsed input string
- *
+ *  - pointer to game to be altered, unused
  * Returns:
  * - Said list of previous actions as a string
  */
@@ -61,7 +61,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  *
  * Parameters:
  * - tokens: parsed input string (validified)
- *
+ *  - pointer to game to be altered, unused
  * Returns:
  * - Said list of supported operations as a string
  *
