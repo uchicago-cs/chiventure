@@ -6,6 +6,68 @@
 #include "cmd.h"
 #include "validate.h"
 
+/* === hashtable constructors === */
+
+void add_entry(char * command_name, operation * associated_operation, lookup_t * * table)
+{
+    lookup_t * t = malloc(sizeof(lookup_t));
+    t->name = command_name;
+    t->operation_type = associated_operation;
+    HASH_ADD_KEYPTR( hh, * table, t->name, strlen(t->name), t);
+    printf("%d\n",HASH_COUNT(* table) );
+}
+
+//void add_action_entries(action_t * action_value, lookup_t * table){
+// To be filled with a while loop that adds each synonym,
+// and maps the enum in the action value to the proper operation.
+//}
+
+lookup_t * find_entry(char * command_name, lookup_t * * table)
+{
+    lookup_t * t;
+    HASH_FIND_STR(* table, command_name, t);
+    return t;
+}
+
+operation * find_operation(char * command_name, lookup_t * * table)
+{
+    lookup_t * t;
+    if (t = find_entry(command_name, table)) return t->operation_type;
+    return NULL;
+}
+
+// operation * find_action(char * command_name, lookup_t * table){
+//   return find_entry(command_name)->action_type;
+// }
+
+
+void delete_entry(char * command_name, lookup_t * * table)
+{
+    lookup_t * t = find_entry(command_name, table);
+    HASH_DEL(* table, t);
+    free(t);
+}
+void delete_entries(lookup_t * * table)
+{
+    lookup_t * tmp;
+    lookup_t * current_user;
+    HASH_ITER(hh, * table, current_user, tmp)
+    {
+        HASH_DEL(* table, current_user);
+        free(current_user);
+    }
+}
+
+lookup_t * * initialize_lookup()
+{
+    lookup_t * * table = malloc(sizeof(*table));
+    add_entry("QUIT", quit_operation,  table);
+    printf("%d\n",HASH_COUNT(* table) );
+    add_entry("HELP", help_operation, table);
+    add_entry("HIST", hist_operation,  table);
+    return table;
+}
+
 /* === command constructors  === */
 
 /* See cmd.h */
@@ -59,37 +121,36 @@ void cmd_show(cmd *c)
 /* === command parsing === */
 
 /* See cmd.h */
-cmd *cmd_from_tokens(char **ts)
+cmd *cmd_from_tokens(char **ts, lookup_t * table)
 {
-    cmd *output = assign_action(ts);
-
-    if(output->func_of_cmd == action_error_operation)
-    {
-        return output;
-    }
-    else if(!validate_object(output))
-    {
-        output->func_of_cmd = object_error_operation;
-        return output;
-    }
-    else if(!validate_prep(output))
-    {
-        output->func_of_cmd = prep_error_operation;
-        return output;
-    }
-    else if(!validate_ind_objects(output))
-    {
-        output->func_of_cmd = ind_object_error_operation;
-        return output;
-    }
+    cmd *output = assign_action(ts, table);
+    // if(output->func_of_cmd == action_error_operation)
+    // {
+    //     return output;
+    // }
+    // else if(!validate_object(output))
+    // {
+    //     output->func_of_cmd = object_error_operation;
+    //     return output;
+    // }
+    // else if(!validate_prep(output))
+    // {
+    //     output->func_of_cmd = prep_error_operation;
+    //     return output;
+    // }
+    // else if(!validate_ind_objects(output))
+    // {
+    //     output->func_of_cmd = ind_object_error_operation;
+    //     return output;
+    // }
     return output;
 }
 
 /* See cmd.h */
-cmd *cmd_from_string(char *s)
+cmd *cmd_from_string(char *s, lookup_t * table)
 {
     char **parsed_input = parse(s);
-    return cmd_from_tokens(parsed_input);
+    return cmd_from_tokens(parsed_input, table);
 }
 
 /* =================================== */
@@ -97,18 +158,18 @@ cmd *cmd_from_string(char *s)
 /* =================================== */
 
 /* See cmd.h */
-void do_cmd(cmd *c,int *quit)
+void do_cmd(cmd *c,int *quit, game_t * game)
 {
     char *outstring;
     /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
     if (strcmp(cmd_name_tos(c),"QUIT")==0)
     {
         *quit=0;
-        (*(c->func_of_cmd))(c->tokens);
+        (*(c->func_of_cmd))(c->tokens, game);
     }
     else
     {
-        outstring = (*(c->func_of_cmd))(c->tokens);
+        outstring = (*(c->func_of_cmd))(c->tokens, game);
         if(outstring!=NULL)
             printf("%s\n",outstring );
     }

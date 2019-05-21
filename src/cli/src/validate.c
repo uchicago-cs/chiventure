@@ -7,6 +7,7 @@
 #include "cmd.h"
 #include "validate.h"
 
+
 /*
  *  THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
  */
@@ -16,22 +17,24 @@
 bool is_in_room(char *object);
 
 /* See validate.h */
-cmd *assign_action(char **ts)
+cmd *assign_action(char **ts, lookup_t * table)
 {
     cmd *output = cmd_new(ts);
-    if(strcmp(ts[0],"QUIT")==0) output->func_of_cmd = quit_operation;
-    else if(strcmp(ts[0],"HELP")==0) output->func_of_cmd = help_operation;
-    else if(strcmp(ts[0],"HIST")==0) output->func_of_cmd = hist_operation;
-    else if(strcmp(ts[0],"OPEN")==0) output->func_of_cmd = type1_action_operation;
-    else if(strcmp(ts[0],"GO")==0) output->func_of_cmd = type2_action_operation;
-    else if(strcmp(ts[0],"TALK")==0) output->func_of_cmd = type3_action_operation;
-    else if(strcmp(ts[0],"GIVE")==0) output->func_of_cmd = type4_action_operation;
+    output->func_of_cmd = find_operation(ts[0], table);
+    // if(strcmp(ts[0],"QUIT")==0) output->func_of_cmd = quit_operation;
+    // else if(strcmp(ts[0],"HELP")==0) output->func_of_cmd = help_operation;
+    // else if(strcmp(ts[0],"HIST")==0) output->func_of_cmd = hist_operation;
+    // else if(strcmp(ts[0],"OPEN")==0) output->func_of_cmd = type1_action_operation;
+    // else if(strcmp(ts[0],"GO")==0) output->func_of_cmd = type2_action_operation;
+    // else if(strcmp(ts[0],"TALK")==0) output->func_of_cmd = type3_action_operation;
+    // else if(strcmp(ts[0],"GIVE")==0) output->func_of_cmd = type4_action_operation;
     // statement cases
     // Add a new one for each new command.
-    else
-    {
-        output->func_of_cmd = action_error_operation;
-    }
+    // else
+    // {
+    //     output->func_of_cmd = action_error_operation;
+    // }
+    if(output->func_of_cmd == NULL) output->func_of_cmd = action_error_operation;
     //HERE WE VALIDATE THE COMMANDS
 
     return output;

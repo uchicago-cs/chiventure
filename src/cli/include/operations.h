@@ -1,6 +1,7 @@
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
+//#include "../../game-state/include/game.h"
 
 /*
  * We list all demanded operations over here.
@@ -27,51 +28,51 @@
  *
  * Note that this command literally does nothing right now.
  */
-char *quit_operation(char *tokens[TOKEN_LIST_SIZE]);
+char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
 /* Generate a list of supported operations,
  * Could later be modefied to provide hints
- * 
+ *
  *  Parameters:
  *  - tokens: parsed input string
- *
+ *  - pointer to game to be altered, unused
  * Returns:
  * - Said list of supported operations as a string
- */ 
-char *help_operation(char *tokens[TOKEN_LIST_SIZE]);
+ */
+char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
-/*                                                                                                                             
- * Generates history of commands (print_history() in shell.c needs 
+/*
+ * Generates history of commands (print_history() in shell.c needs
  * to be intergrated into this function)
- * 
+ *
  * Parameters:
  *  - tokens: parsed input string
- *
+ *  - pointer to game to be altered, unused
  * Returns:
  * - Said list of previous actions as a string
- */  
-char *hist_operation(char *tokens[TOKEN_LIST_SIZE]);
+ */
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
-/* These functions will generate an action-struct (based on action management) 
- * and pass a command along.   
+/* These functions will generate an action-struct (based on action management)
+ * and pass a command along.
  *
  * Parameters:
  * - tokens: parsed input string (validified)
- *
+ *  - pointer to game to be altered, unused
  * Returns:
  * - Said list of supported operations as a string
  *
  */
-char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE]);
-char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE]);
-char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE]);
-char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE]);
+char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
-/* 
+/*
  * Prints the operation and tells the user that it was not recognised
  *
  * Parameters:
@@ -80,10 +81,10 @@ char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE]);
  * Returns:
  * - error message as a string
  */
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE]);
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
-/* 
+/*
  * Prints the object and tells the user that it was not recognised
  *
  * Parameters:
@@ -92,10 +93,10 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE]);
  * Returns:
  * - error message as a string
  */
-char *object_error_operation(char *tokens[TOKEN_LIST_SIZE]);
+char *object_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
-/* 
+/*
  * Prints the input action and tells the user that it was not recognised
  *
  * Parameters:
@@ -104,20 +105,20 @@ char *object_error_operation(char *tokens[TOKEN_LIST_SIZE]);
  * Returns:
  * - error message as a string
  */
-char *prep_error_operation(char *tokens[TOKEN_LIST_SIZE]);
+char *prep_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
-/*                                                                                                                             
- * Prints the second input item and tells the user 
- * that it was not recognised   
+/*
+ * Prints the second input item and tells the user
+ * that it was not recognised
  *
  * Parameters:
  * - tokens: parsed input string
  *
  * Returns:
  * - error message as a string
- */                                                       
-char *ind_object_error_operation(char *tokens[TOKEN_LIST_SIZE]);
+ */
+char *ind_object_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 // Put more operations here!
 

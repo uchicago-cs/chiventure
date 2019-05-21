@@ -13,30 +13,30 @@ void help_text()
     char p[] =
         "HERE IS A BRIEF OVERVIEW OF GAME ACTIONS (SOME NOT IMPLEMENTED)\n"
         "LOOK [OBJECT]\n"
-			"	-Look at specefied object\n"
+        "	-Look at specefied object\n"
         "TAKE [OBJECT]\n"
-			"	-Take specefied object\n"
+        "	-Take specefied object\n"
         "go [DIRECTION]\n"
-			"	-Move to the south, east, west or north\n"
+        "	-Move to the south, east, west or north\n"
         "inv\n"
-			"	-Prints everything you are carrying\n"
+        "	-Prints everything you are carrying\n"
         "GIVE [OBJECT] TO [NPC]\n"
-			"	-Gives specefied object to specefied non player character\n\n"
+        "	-Gives specefied object to specefied non player character\n\n"
 
         "HERE IS A BRIEF OVERVIEW OF SYSTEM ACTIONS\n"
-        "HELP\n" 
-			"	-Prints out help menu (duh, you just used it)\n"
+        "HELP\n"
+        "	-Prints out help menu (duh, you just used it)\n"
         "HIST\n"
-			"	-Prints out the history of valid command"
-			" inputs in this session\n"
+        "	-Prints out the history of valid command"
+        " inputs in this session\n"
         "load [PATH] (NOT IMPLEMENTED)\n"
-			"	-Loads a saved game from a specefied location\n"
-			"	 relative to the folder chiventure is running in\n"
+        "	-Loads a saved game from a specefied location\n"
+        "	 relative to the folder chiventure is running in\n"
         "save [PATH] (NOT IMPLEMENTED)\n"
-		 	"	-Saves a game to a specefied location\n"
+        "	-Saves a game to a specefied location\n"
         "QUIT\n"
-			"	-Quit game\n\n";
-   printf("%s",p);
+        "	-Quit game\n\n";
+    printf("%s",p);
 }
 
 /* See shell.h */
