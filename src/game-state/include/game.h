@@ -24,7 +24,7 @@ typedef struct game {
     room_t *curr_room;
 
     /* pointer to current player struct */
-    room_t *curr_player;
+    player_t *curr_player;
 
     /* time when game started */
     //int time_start;
@@ -52,7 +52,7 @@ game_t *game_new();
  * Returns:
  *  none
  */
-void move_to_room(game_t *game, room_t *new_room);
+void move_room(game_t *game, room_t *new_room);
 
 /* Exits game safely (frees all memory)
  * Future easter egg :) :) :)
@@ -72,12 +72,54 @@ void game_quit(game_t *game);
  *  game struct that needs to be freed
  *
  * Returns:
- *  1 if successful, 0 if failed
+ *  SUCCESS if successful
  */
 int game_free(game_t *game);
 
+/* Adds a player to the given game
+ *
+ * Parameters:
+ *  game struct
+ *  player struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_player_to_game(game_t *game, player_t *player);
+
+/* Adds a room to the given game
+ *
+ * Parameters:
+ *  game struct
+ *  room struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_room_to_game(game_t *game, room_t *room);
 
 
+/* 
+*
+* Set current player in game
+* 
+* Parameters:
+* game, player
+* 
+* Returns:
+*  SUCCESS if the game->curr_player != NULL, FAILURE if NULL
+*/
+int set_curr_player(game_t *game, player_t *player);
 
+
+/* 
+* Function to find player given game and player id
+* Parameters:
+* Game, player id
+* 
+* Returns
+* player struct
+*/
+player_t *get_player(game_t *game, char *player_id);
 
 #endif

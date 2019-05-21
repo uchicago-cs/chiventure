@@ -4,8 +4,31 @@
 #include <stdio.h>
 #include "game.h"
 
+void setup(void) {
+    game_t *game = game_new();
+    player_t *plyr = player_new(100);
+    room_t *room1 = room_new("vroom", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+    add_room_to_game(game, room1);
+    add_player_to_game(game, plyr);
+    game->curr_player = plyr;
+    game->curr_room = room1;
+    path_t *path = path_new("nroom", "north");
+    add_path_to_room(room1, path)
+}
 
-//need to figure out how to feed in test struct into criterion
+void teardown(void) {
+    puts("Runs after the test");
+}
+
+Test(game, new_free)
+{
+    game_t *game = game_new();
+    cr_assert_not_null(game, "game_new() failed");
+    cr_assert_eq(game_free(game), SUCCESS, "game_free() failed");
+}
+
+/*need to figure out how to feed in test struct into criterion
 //assuming that is completed
 Test(game, init) 
 {
@@ -40,3 +63,4 @@ Test(game, free)
 {
 //tbd? 
 }
+*/

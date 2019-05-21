@@ -5,7 +5,8 @@
 #include "room.h"
 
 
-Test (rooms, init)
+/* Test (rooms, init)
 {
-    
+
 }
+*/
