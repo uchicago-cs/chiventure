@@ -21,7 +21,8 @@ all: $(BIN)
 #  - Directory: src/ui/
 #  - Makefile: src/ui/Makefile
 #  - Library: src/ui/ui.a
-COMPONENTS = libobj ui cli game-state checkpointing
+
+COMPONENTS = libobj ui cli game-state action_management checkpointing
 LIBS = $(foreach comp,$(COMPONENTS),src/$(comp)/$(comp).a)
 
 $(LIBS):
