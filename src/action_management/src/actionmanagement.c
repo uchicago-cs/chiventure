@@ -59,7 +59,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
     assert(a);
     assert(i);
     if (a->kind != ITEM) {
-        fprintf(stderr, "The action provided is not of the correct type.\n");
+        fprintf(stderr, "The action type provided is not of the correct kind.\n");
         return FAILURE;
     }
     int allowed = FAILURE;
@@ -147,7 +147,7 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p)
     assert(g);
     assert(a);
     if (a->kind != PATH) {
-        fprintf(stderr, "The action provided is not of the correct type.\n");
+        fprintf(stderr, "The action type provided is not of the correct kind.\n");
         return FAILURE;
     }
     // See game.h
@@ -172,7 +172,7 @@ int do_item_item_action(game_t *g, action_type_t *a,
     assert(direct);
     assert(indirect);
     if (a->kind != ITEM_ITEM) {
-        fprintf(stderr, "The action provided is not of the correct type.\n");
+        fprintf(stderr, "The action type provided is not of the correct kind.\n");
         return FAILURE;
     }
     int allowed = FAILURE;

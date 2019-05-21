@@ -9,20 +9,20 @@
    =========================================================================== */
 
 /*
- * Allocates a new action on the heap, calling action_init
+ * Allocates a new action type on the heap, calling action_init
  *
  * Parameters:
  * - c_name: a string containing an actions canonical name
  * - kind: an enumeration of the kind of action
  *
  * Returns:
- * - a pointer to a new action struct
+ * - a pointer to a new action type struct
  */
 action_type_t *action_type_new(char *c_name, enum action_kind kind);
 
 
 /*
- * A function that initializes an action struct, filling its parameters.
+ * A function that initializes an action type struct, filling its parameters.
  *
  * Parameters:
  * - a: a pointer to an empty action_type_t allocated by action_new
@@ -31,13 +31,13 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind);
  *
  * Returns:
  * - 0 if success, 1 if an error occurs
- * - an error message in stderr if the action struct is not initialized
+ * - an error message in stderr if the action type struct is not initialized
  */
 int action_type_init(action_type_t *a, char *c_name, enum action_kind kind);
 
 
 /*
- * A function that frees the resources associated with an action struct
+ * A function that frees the resources associated with an action type struct
  *
  * Parameters:
  * - a: An action struct. Must point to action struct allocated by action_new
@@ -68,7 +68,7 @@ list_action_type_t *get_supported_actions();
  *
  * Parameters:
  * - g: A game struct consisting of the game state
- * - a: An action struct
+ * - a: An action type struct
  * - i: An item struct
  *
  * Returns
@@ -82,7 +82,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i);
  *
  * Parameters:
  * - g: A game struct consisting of the game state
- * - a: An action struct
+ * - a: An action type struct
  * - p: A path struct
  *
  * Returns
@@ -96,7 +96,7 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p);
  *
  * Parameters:
  * - g: A game struct containing a field for the current player
- * - a: An action struct
+ * - a: An action type struct
  * - direct: An item struct containing the direct object (the "actor")
  * - indirect: An item struct containing the indirect object (the "actee")
  *
