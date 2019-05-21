@@ -1,21 +1,76 @@
 #ifndef SAVE_H
 #define SAVE_H
-
 #include "game.pb-c.h"
-#include "dummy.h"
+
 
 /* 
- * Packs the object_t struct into the Object field in the protofile.
+ * Packs the attribute_value_t struct into the Attribute_value field in the protofile.
  * 
  * Parameters:
- *   - o_t: pointer to an object_t struct
- *   - o: pointer to the proto file object struct
+ *   - av_t: pointer to an attribute_value_t struct
+ *   - av: pointer to the proto file Attribute_value struct
  *
  * Return:
  *   - 0 if successful
  *   - -1 if unsuccessful 
  */
-int save_object(object_t *o_t, Object *o);
+int save_attribute_value(attribute_value_t *av_t, Attribute_value *av);
+
+
+/* 
+ * Packs the attribute_t struct into the Attribute field in the protofile.
+ * 
+ * Parameters:
+ *   - a_t: pointer to an attribute_t struct
+ *   - a: pointer to the proto file Attribute struct
+ *
+ * Return:
+ *   - 0 if successful
+ *   - -1 if unsuccessful 
+ */
+int save_attribute(attribute_t *a_t, Attribute *a);
+
+
+/* 
+ * Packs the item_t struct into the Item field in the protofile.
+ * 
+ * Parameters:
+ *   - i_t: pointer to an item_t struct
+ *   - i: pointer to the proto file Item struct
+ *
+ * Return:
+ *   - 0 if successful
+ *   - -1 if unsuccessful 
+ */
+int save_iten(item_t *i_t, Item *i);
+
+
+/* 
+ * Packs the condition_t struct into the Condition field in the protofile.
+ * 
+ * Parameters:
+ *   - c_t: pointer to a condition_t struct
+ *   - c: pointer to the proto file Condition struct
+ *
+ * Return:
+ *   - 0 if successful
+ *   - -1 if unsuccessful 
+ */
+int save_condition(condition_t *c_t, Condition *c);
+
+
+/* 
+ * Packs the path_t struct into the Path field in the protofile.
+ * 
+ * Parameters:
+ *   - p_t: pointer to a path_t struct
+ *   - p: pointer to the proto file Path struct
+ *
+ * Return:
+ *   - 0 if successful
+ *   - -1 if unsuccessful 
+ */
+int save_path(path_t *p_t, Path *p);
 
 
 /* 
