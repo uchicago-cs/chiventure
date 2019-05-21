@@ -17,7 +17,7 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind)
 
     int new_a = action_type_init(a, c_name, kind);
     if (new_a != SUCCESS) {
-        fprintf(stderr, "Could not initialize this action type");
+        fprintf(stderr, "Could not initialize action type %s", c_name);
         return NULL;
     }
 
@@ -101,6 +101,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
             fprintf(stderr, "Object could not be removed from inventory.\n");
             return FAILURE;
         }
+        break;
     }
     case TAKE: {
         // See game.h
@@ -136,6 +137,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
         fprintf(stderr, "Action is not of the correct type.\n");
         return FAILURE;
     }
+    fprintf(stderr, "Action type %s was used", a->c_name);
     return SUCCESS;
 }
 
