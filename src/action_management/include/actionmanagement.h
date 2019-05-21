@@ -59,7 +59,7 @@ void action_type_free(action_type_t *a);
  * Returns:
  * - a linked list of action_type_t structs
  */
-list_action_type_t *get_supported_actions(enum action_kind kind);
+list_action_type_t *get_supported_actions();
 
 
 // =============================================================================
