@@ -6,8 +6,7 @@
 #include "shell.h"
 #include "cmd.h"
 #include "validate.h"
-#include "../../game-state/include/game.h"
-#include "lookup.h"
+//#include "../../game-state/include/game.h"
 
 /*
  *  THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
@@ -18,10 +17,10 @@ game_t *curr_game;
 bool is_in_room(char *object);
 
 /* See validate.h */
-cmd *assign_action(char **ts)
+cmd *assign_action(char **ts, lookup_t * table)
 {
     cmd *output = cmd_new(ts);
-    output->func_of_cmd = find_operation(ts[0]);
+    output->func_of_cmd = find_operation(ts[0], table);
     // if(strcmp(ts[0],"QUIT")==0) output->func_of_cmd = quit_operation;
     // else if(strcmp(ts[0],"HELP")==0) output->func_of_cmd = help_operation;
     // else if(strcmp(ts[0],"HIST")==0) output->func_of_cmd = hist_operation;
