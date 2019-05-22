@@ -5,8 +5,13 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <signal.h>
+#include <string.h>
 #include "window.h"
 #include "print_functions.h"
+#include "cmd.h"
+#include "operations.h"
+#include "shell.h"
+#include "validate.h"
 
 
 
@@ -22,15 +27,16 @@ void print_cli(window_t *win)
 {
     static bool first_run = true;
     int x,y;
-
+    char input[80];
+    int quit = 1;
+    char *cmd_string;
     if (!first_run)
     {
-        char str[80];
 
-        wgetnstr(win->w, str, 80);
+        wgetnstr(win->w, input, 80);
 
         getyx(win->w, y, x);
-        mvwprintw(win->w, y, 3, str);
+        //mvwprintw(win->w, y, 3, str);
     }
     else
     {
@@ -46,13 +52,39 @@ void print_cli(window_t *win)
         wscrl(win->w, y - height + 2);
         y = height - 2;
     }
+    //char* input = readline("chiventure (enter HELP for help)> ");
+
+    cmd_string = strdup(input);
+    //putchar('\n');
+    //check whether user input is empty
+    if (!strcmp(cmd_string,""))
+    {
+        return;
+    }
+
+    cmd *c = cmd_from_string(cmd_string);
+    if (!c)
+    {
+        shell_error_arg("unrecognized or malformed command: \"%s\"", input);
+    //    putchar('\n');
+    }
+    else
+    {
+        do_cmd(c,&quit);
+        // Add valid input to readline history.
+        //add_history(input);
+    }
+
+    if (cmd_string)
+        free(cmd_string);
+    //cmd_free(c);
+    //free(input);
 
     mvwprintw(win->w, y + 1, 2, ">");
 
 
 
-    // prints '>' in the cli window
-    //mvwprintw(win->w, 1, 2, ">");
+
 }
 
 /* see print_functions.h */

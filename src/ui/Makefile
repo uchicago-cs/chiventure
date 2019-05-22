@@ -2,10 +2,10 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../cli/include/
 RM = rm -f
 LIB = ui.a
-LDLIBS =  -lncurses
+LDLIBS =  -lncurses -lreadline
 
 .PHONY: all clean examples
 
@@ -17,7 +17,7 @@ SRCS = src/ui.c src/window.c src/print_functions.c #src/map.c src/coordinate.c s
 OBJS = $(SRCS:.c=.o)
 
 $(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
+	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@; make -C ../cli/
 
 -include $(SRCS:.c=.d)
 
@@ -37,9 +37,9 @@ $(EXAMPLE_SRCS:.c=.d):%.d:%.c
 -include $(EXAMPLE_SRCS:.c=.d)
 
 $(EXAMPLE_BINS): %:%.c $(LIB)
-	$(CC) $(CFLAGS) $^ -o$@ $(LDLIBS)
+	$(CC) $(CFLAGS) $^ ../cli/cli.a -o$@ $(LDLIBS)
 
 examples: $(EXAMPLE_BINS)
 
 clean:
-	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
+	-${RM} ${LIB}  ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
