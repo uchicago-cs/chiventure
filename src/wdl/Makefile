@@ -45,5 +45,5 @@ examples: $(EXAMPLE_BINS)
 clean-bin:
 	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
 
-clean: clean-lib clean-lib
+clean: clean-lib clean-bin
 

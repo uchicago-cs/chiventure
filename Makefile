@@ -21,7 +21,7 @@ all: $(BIN)
 #  - Directory: src/ui/
 #  - Makefile: src/ui/Makefile
 #  - Library: src/ui/ui.a
-COMPONENTS = libobj ui cli game-state
+COMPONENTS = libobj ui cli game-state wdl
 LIBS = $(foreach comp,$(COMPONENTS),src/$(comp)/$(comp).a)
 
 $(LIBS):
