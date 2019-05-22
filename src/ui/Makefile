@@ -5,7 +5,7 @@ AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
 RM = rm -f
 LIB = ui.a
-LDLIBS =  -lncurses
+LDLIBS = -lncurses
 
 .PHONY: all clean examples
 
@@ -36,8 +36,8 @@ $(EXAMPLE_SRCS:.c=.d):%.d:%.c
 
 -include $(EXAMPLE_SRCS:.c=.d)
 
-$(EXAMPLE_BINS): %:%.c $(LIB)
-	$(CC) $(CFLAGS) $^ -o$@ $(LDLIBS)
+$(EXAMPLE_BINS): %:%.c
+	$(CC) $(CFLAGS) $^ $(LIB) $(LDLIBS) -o$@
 
 examples: $(EXAMPLE_BINS)
 
