@@ -41,6 +41,8 @@ void print_cli(window_t *win)
     else
     {
         first_run = false;
+        mvwprintw(win->w,1, 2, ">");
+        return;
     }
 
 
