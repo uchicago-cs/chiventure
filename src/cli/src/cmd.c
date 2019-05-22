@@ -65,6 +65,10 @@ lookup_t * * initialize_lookup()
     printf("%d\n",HASH_COUNT(* table) );
     add_entry("HELP", help_operation, table);
     add_entry("HIST", hist_operation,  table);
+    add_entry("TAKE", type1_action_operation,table);
+    add_entry("PUT", type3_action_operation, table);
+    add_entry("LOOK",look_operation, table);
+    add_entry("INV", inventory_operation, table);
     return table;
 }
 
@@ -124,25 +128,6 @@ void cmd_show(cmd *c)
 cmd *cmd_from_tokens(char **ts, lookup_t * table)
 {
     cmd *output = assign_action(ts, table);
-    // if(output->func_of_cmd == action_error_operation)
-    // {
-    //     return output;
-    // }
-    // else if(!validate_object(output))
-    // {
-    //     output->func_of_cmd = object_error_operation;
-    //     return output;
-    // }
-    // else if(!validate_prep(output))
-    // {
-    //     output->func_of_cmd = prep_error_operation;
-    //     return output;
-    // }
-    // else if(!validate_ind_objects(output))
-    // {
-    //     output->func_of_cmd = ind_object_error_operation;
-    //     return output;
-    // }
     return output;
 }
 

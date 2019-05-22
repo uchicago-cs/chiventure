@@ -55,7 +55,41 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  */
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
+/*
+ * Returns a description of either a specefied item, or the room 
+ * if no item was specified
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - pointer to game to be altered, unused
+ * Returns:
+ * - Said description as a string
+ */
+char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
+/*Returns a description of the player inventory contents 
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - pointer to game to be altered, unused
+ * Returns:
+ * - Said description as a string
+ */
+char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+
+
+/* Error Operations that returns an error message as string
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - pointer to game to be altered, unused
+ * Returns:
+ * - Said error message as a string
+ */
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+
+
+ 
 /* These functions will generate an action-struct (based on action management)
  * and pass a command along.
  *
@@ -69,57 +103,6 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-
-
-/*
- * Prints the operation and tells the user that it was not recognised
- *
- * Parameters:
- * - tokens: parsed input string
- *
- * Returns:
- * - error message as a string
- */
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-
-
-/*
- * Prints the object and tells the user that it was not recognised
- *
- * Parameters:
- * - tokens: parsed input string
- *
- * Returns:
- * - error message as a string
- */
-char *object_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-
-
-/*
- * Prints the input action and tells the user that it was not recognised
- *
- * Parameters:
- * - tokens: parsed input string
- *
- * Returns:
- * - error message as a string
- */
-char *prep_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-
-
-/*
- * Prints the second input item and tells the user
- * that it was not recognised
- *
- * Parameters:
- * - tokens: parsed input string
- *
- * Returns:
- * - error message as a string
- */
-char *ind_object_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-
-// Put more operations here!
+//char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */

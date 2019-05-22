@@ -8,6 +8,8 @@
 #include "parser.h"
 #include "shell.h"
 #include "cmd.h"
+#include "item.h"
+#include "room.h"
 /*
  * THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
  */
@@ -44,7 +46,8 @@ cmd *assign_action(char **ts, lookup_t * table);
  *    Additionally, we may set the cmd pointer to an error function
  *    that returns a error message with respect to the type of error
  */
-bool validate_object(cmd *c);
+//item_t get_object(cmd *c);
+//Commented out, because this should be inside game-state.
 
 
 /*
@@ -73,5 +76,9 @@ bool validate_prep(cmd *c);
  *  - FALSE if the item is not accessible; TRUE if it is.
  */
 bool validate_ind_objects(cmd *c);
+
+//Placeholder function, for game-state will provide this function
+
+item_t *get_item(char * objId, room_t *curr_room);
 
 #endif /* _CLI_INCLUDE_VALIDATE_H_ */

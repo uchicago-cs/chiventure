@@ -6,34 +6,20 @@
 #include "shell.h"
 #include "cmd.h"
 #include "validate.h"
+#include "room.h"
+#include "item.h"
 
 
 /*
  *  THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
  */
 
-/* Forward declaration. Need to collaborate with game state */
-// game_t *curr_game;
-bool is_in_room(char *object);
 
 /* See validate.h */
 cmd *assign_action(char **ts, lookup_t * table)
 {
     cmd *output = cmd_new(ts);
     output->func_of_cmd = find_operation(ts[0], table);
-    // if(strcmp(ts[0],"QUIT")==0) output->func_of_cmd = quit_operation;
-    // else if(strcmp(ts[0],"HELP")==0) output->func_of_cmd = help_operation;
-    // else if(strcmp(ts[0],"HIST")==0) output->func_of_cmd = hist_operation;
-    // else if(strcmp(ts[0],"OPEN")==0) output->func_of_cmd = type1_action_operation;
-    // else if(strcmp(ts[0],"GO")==0) output->func_of_cmd = type2_action_operation;
-    // else if(strcmp(ts[0],"TALK")==0) output->func_of_cmd = type3_action_operation;
-    // else if(strcmp(ts[0],"GIVE")==0) output->func_of_cmd = type4_action_operation;
-    // statement cases
-    // Add a new one for each new command.
-    // else
-    // {
-    //     output->func_of_cmd = action_error_operation;
-    // }
     if(output->func_of_cmd == NULL) output->func_of_cmd = action_error_operation;
     //HERE WE VALIDATE THE COMMANDS
 
@@ -60,4 +46,10 @@ bool validate_ind_objects(cmd *c)
 {
     //similar to validate_in_objects
     return true;
+}
+
+//Placeholder function, for game-state will provide this function
+
+item_t *get_item(char * objId, room_t *curr_room){
+    return NULL;
 }
