@@ -79,17 +79,10 @@ attr_list_t *conditions_get_list(obj_t *obj)
 bool check_condition_attr(obj_t *obj)
 {
     // verify types of fields
-    bool id = true, state = true, value = true;
+    bool id = (obj_get_type(obj, "id") == TYPE_STR);
+    bool state = (obj_get_type(obj, "state") == TYPE_STR);
+    bool value = (obj_get_type(obj, "value") == TYPE_STR);
 
-    if (obj_get_type(obj, "id") != TYPE_STR) {
-        id = false;
-    }
-    if (obj_get_type(obj, "state") != TYPE_STR) {
-        state = false;
-    }
-    if (obj_get_type(obj, "value") != TYPE_STR) {
-        value = false;
-    }
     return (id && state && value);
 }
 
@@ -149,19 +142,10 @@ attr_list_t *connections_get_list(obj_t *obj)
 bool check_connection_attr(obj_t *obj)
 {
     // verify types of fields
-    bool id = true, direction = true, through = true, conditions = true;
-
-    if (obj_get_type(obj, "to") != TYPE_STR) {
-        id = false;
-    }
-    if (obj_get_type(obj, "direction") != TYPE_STR) {
-        direction = false;
-    }
-    if (obj_get_type(obj, "through") != TYPE_STR) {
-        through = false;
-    }
-    //typecheck each condition
-    conditions = condition_type_check(obj);
+    bool id = (obj_get_type(obj, "to") == TYPE_STR);
+    bool direction = (obj_get_type(obj, "direction") == TYPE_STR);
+    bool through = (obj_get_type(obj, "through") == TYPE_STR);
+    bool conditions = condition_type_check(obj);
 
     return (id && direction && through && conditions);
 }
@@ -190,18 +174,10 @@ bool connection_type_check(obj_t *obj)
 bool room_type_check(obj_t *obj)
 {
     // fields to verify
-    bool id_ver = true, short_ver = true, long_ver = true;
+    bool id_ver = (obj_get_type(obj, "id") == TYPE_STR); 
+    bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
+    bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
 
-    // verify each field
-    if (obj_get_type(obj, "id") != TYPE_STR) {
-        id_ver = false;
-    }
-    if (obj_get_type(obj, "short_desc") != TYPE_STR) {
-        short_ver = false;
-    }
-    if (obj_get_type(obj, "long_desc") != TYPE_STR) {
-        long_ver = false;
-    }
     // verify each attribute
     bool connections_ver = connection_type_check(obj);
 
@@ -214,28 +190,12 @@ bool room_type_check(obj_t *obj)
 bool item_type_check(obj_t *obj)
 {
     // fields to verify
-    bool id_ver = true, short_ver = true, long_ver = true, in_ver = true,
-    state_ver = true, val_ver = true;
-
-    // verify each attribute
-    if (obj_get_type(obj, "id") != TYPE_STR) {
-        id_ver = false;
-    }
-    if (obj_get_type(obj, "short_desc") != TYPE_STR) {
-        short_ver = false;
-    }
-    if (obj_get_type(obj, "long_desc") != TYPE_STR) {
-        long_ver = false;
-    }
-    if (obj_get_type(obj, "in") != TYPE_STR) {
-        in_ver = false;
-    }
-    if (obj_get_type(obj, "state") != TYPE_STR) {
-        state_ver = false;
-    }
-    if (obj_get_type(obj, "value)") != TYPE_STR) {
-        val_ver = false;
-    }
+    bool id_ver = (obj_get_type(obj, "id") == TYPE_STR);
+    bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
+    bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
+    bool in_ver = (obj_get_type(obj, "in") == TYPE_STR);
+    bool state_ver = (obj_get_type(obj, "state") == TYPE_STR);
+    bool val_ver = (obj_get_type(obj, "value)") == TYPE_STR);
 
     return (id_ver && short_ver && long_ver && in_ver && state_ver);
 }
@@ -249,15 +209,8 @@ bool game_type_check(obj_t *obj)
     obj_t *game = temp->obj;
 
     // fields to verify
-    bool start_ver = true, intro_ver = true;
-
-    // verify each attribute
-    if (obj_get_type(game, "start") != TYPE_STR) {
-        start_ver = false;
-    }
-    if (obj_get_type(game, "intro") != TYPE_STR) {
-        intro_ver = false;
-    }
+    bool start_ver = (obj_get_type(game, "start") == TYPE_STR);
+    bool intro_ver = (obj_get_type(game, "intro") == TYPE_STR);
 
     return (start_ver && intro_ver);
 }
@@ -277,11 +230,11 @@ bool game_type_check(obj_t *obj)
  */
  void print_conditions_attr(obj_t *obj)
  {
-     // print each attribute within connection object
-     printf("id: %s\n", obj_get_str(obj, "id"));
-     printf("state: %s\n", obj_get_str(obj, "state"));
-     printf("value: %s\n", obj_get_str(obj, "value"));
-     return;
+    // print each attribute within connection object
+    printf("id: %s\n", obj_get_str(obj, "id"));
+    printf("state: %s\n", obj_get_str(obj, "state"));
+    printf("value: %s\n", obj_get_str(obj, "value"));
+    return;
  }
 
  /* print_conditions
@@ -296,12 +249,12 @@ bool game_type_check(obj_t *obj)
    */
   void print_conditions(obj_t *obj)
   {
-     // obtain list of conditions
-     attr_list_t *ls = conditions_get_list(obj);
+    // obtain list of conditions
+    attr_list_t *ls = conditions_get_list(obj);
 
-     // call list_print with print_connection_attr
-     list_print(ls, print_conditions_attr);
-     return;
+    // call list_print with print_connection_attr
+    list_print(ls, print_conditions_attr);
+    return;
   }
 
 /* print_connection_attr
@@ -316,14 +269,14 @@ bool game_type_check(obj_t *obj)
  */
  void print_connection_attr(obj_t *obj)
  {
-     // print each attribute within connection object
-     printf("connected to: %s\n", obj_get_str(obj, "to"));
-     printf("direction: %s\n", obj_get_str(obj, "direction"));
-     printf("through: %s\n", obj_get_str(obj, "through"));
+    // print each attribute within connection object
+    printf("connected to: %s\n", obj_get_str(obj, "to"));
+    printf("direction: %s\n", obj_get_str(obj, "direction"));
+    printf("through: %s\n", obj_get_str(obj, "through"));
 
-     // print the conditions
-     print_conditions(obj);
-     return;
+    // print the conditions
+    print_conditions(obj);
+    return;
  }
 
  /* print_connections
@@ -382,24 +335,24 @@ void print_game(obj_t *obj)
 /* See validate.h */
 void print_document(obj_t *obj)
 {
-  // Extract individual objects
-  obj_t *room_obj = obj_get_attr(obj, "ROOMS", false);
-  obj_t *item_obj = obj_get_attr(obj, "ITEMS", false);
-  obj_t *game_obj = obj_get_attr(obj, "GAME", false);
+    // Extract individual objects
+    obj_t *room_obj = obj_get_attr(obj, "ROOMS", false);
+    obj_t *item_obj = obj_get_attr(obj, "ITEMS", false);
+    obj_t *game_obj = obj_get_attr(obj, "GAME", false);
 
-  // Extract list of rooms and items
-  attr_list_t *rooms_ls = obj_list_attr(room_obj);
-  attr_list_t *items_ls = obj_list_attr(item_obj);
+    // Extract list of rooms and items
+    attr_list_t *rooms_ls = obj_list_attr(room_obj);
+    attr_list_t *items_ls = obj_list_attr(item_obj);
 
-  // Print game
-  printf("printing game attributes:\n");
-  print_game(game_obj);
+    // Print game
+    printf("printing game attributes:\n");
+    print_game(game_obj);
 
-  // Print rooms
-  printf("printing all rooms and their attributes:\n");
-  list_print(rooms_ls, print_room);
+    // Print rooms
+    printf("printing all rooms and their attributes:\n");
+    list_print(rooms_ls, print_room);
 
-  // Print items
-  printf("printing all items and their attributes\n");
-  list_print(items_ls, print_item);
+    // Print items
+    printf("printing all items and their attributes\n");
+    list_print(items_ls, print_item);
 }
