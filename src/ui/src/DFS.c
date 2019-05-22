@@ -6,15 +6,12 @@
  */
 
 
-#include<stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
 #include <math.h>
 #include "coordinate.h"
-
-//#define NORTH "north"
-//#define EAST "east"
 
 /* Dummy function:
  * We will use the hashing functions provided by game state
@@ -22,18 +19,8 @@
  */
 room_t *find_room(room_t *curr, char *direction)
 {
-    /*
-    if (curr->hash == NULL) {
-      fprintf(stderr, "No adjacent rooms\n");
-      return NULL;
-      }*/
     room_t *adj = NULL;
-    /*
-    room_hash_t *head = curr->hash;
-    else
-      HASH_FIND_STR(head, direction, adj);
-    */
-    return adj;
+     eturn adj;
 }
 
 
@@ -41,7 +28,7 @@ int assign(coord_record_t *coordmap, int how_north,
            int how_east, room_t* room)
 {
     //checks if the coordinate has already been assigned
-    int x = add_coord(coordmap, how_north, how_east, room);
+    int x = try_add_coord(coordmap, how_north, how_east, room);
 
     //returns SUCCESS if it has been assigned correctly, or failure if it has
     //already been assigned but to a different room id
