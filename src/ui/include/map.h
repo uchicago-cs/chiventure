@@ -2,10 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//TESTING Struct Declarations________________________________________________________
-// All of these structs will be replaced with real structs at a later stage
+// TESTING Struct Declarations
 
-//This is a test coordinate struct
+// This is a test coordinate struct
 /* These two test structs will be replaced with real structs
 one communication with gamestate and calculation of coordinates
 is complete*/
@@ -15,9 +14,7 @@ typedef struct coord {
     int z;
 } coord_t;
 
-//typdef struct coord coord_t;
-
-//This is a test room struct, simulates gamestate's room struct
+// This is a test room struct, simulates gamestate's room struct
 typedef struct room {
     struct coord *loc;
     char *name;
@@ -28,8 +25,8 @@ typedef struct room {
 } room_t;
 
 
-//Struct Declarations________________________________________________________
-/*The map struct holds a lot of crucial information for the performance
+// Struct Declarations
+/* The map struct holds a lot of crucial information for the performance
   of all of the map functions*/
 typedef struct map {
     WINDOW *pad;
@@ -51,24 +48,19 @@ typedef struct map {
     int room_w;
 } map_t;
 
-
-
-//Function Declarations________________________________________________________
-//Initializes the ncurses window
+// Function Declarations
+// Initializes the ncurses window
 void ncurses_init();
 
-
-//Draws a list of rooms starting at the coordinate given
+// Draws a list of rooms starting at the coordinate given
 void draw_rooms(room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
 
-
-//Gets an array of test rooms
+// Gets an array of test rooms
 room_t **get_test_rooms(int n);
 
-
-/*Initiates map at WINDOW * pointer to pad
+/* Initiates map at WINDOW * pointer to pad
  *
- *Inputs:
+ * Inputs:
  * - rooms, an array of pointers to room structs
  * - n , the number of rooms in array "rooms"
  * Outputs:
@@ -97,7 +89,6 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry);
  * - 0
  */
 int map_refresh(map_t *map, int x, int y, int z);
-
 
 /* Updates the map to display with given room coordinates at center
  *
