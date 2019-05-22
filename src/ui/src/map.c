@@ -216,7 +216,7 @@ room_t **get_test_rooms(int n)
 
         room_t *roomi = malloc(sizeof(room_t));
         rooms[i] = roomi;
-	
+
         coord_t *loci = malloc(sizeof(coord_t));
         loci->x = i % 12;
         loci->y = j;
@@ -227,13 +227,15 @@ room_t **get_test_rooms(int n)
         roomi->ex_s = i % 2;
         roomi->ex_w = (i + 1) % 3;
 
-        if (i % 10 == 5){
-	  j++;}
-        if (i % 13 == 8){
-	  k++;}
-        if (i % 13 == 10){
+        if (i % 10 == 5) {
+            j++;
+        }
+        if (i % 13 == 8) {
+            k++;
+        }
+        if (i % 13 == 10) {
             k--;
-	}
+        }
     }
 
     coord_t *coorda = malloc(sizeof(coord_t));

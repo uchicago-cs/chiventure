@@ -13,7 +13,6 @@
 
 void start_ui()
 {
-
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
 
@@ -39,27 +38,21 @@ void start_ui()
     int width = COLS;
 
 
-    /* initializes the widows. there is a main window, one where
-     * maps could be displayed, and the cli window
-     */
+    // Initializes the main window
     window_t *main_win = window_new(height, width, cli_top * height, 0, print_info, true);
 
-    //Creates an array of test_rooms and initializes a map using those rooms
+    // The map window is initialized and a random room array is generated
     int num_rooms = 20;
-    room_t ** rooms = get_test_rooms(num_rooms);
+    room_t **rooms = get_test_rooms(num_rooms);
     map_t *map = map_init(rooms,num_rooms);
 
-    //window_t *map = window_new(height, width, cli_top * height, 0, print_map, true);
+    // Initializes the CLI window
     window_t *cli = window_new(height, width, (!cli_top)* height, 0, print_cli, false);
-
-    // info window is the window to be displayed in addition to cli
     window_t *info = main_win;
 
     // reads input from the cli window, allows scrolling
     keypad(cli->w, TRUE);
     scrollok(cli->w, TRUE);
-
-
 
     // prints the score and number of moves in the info window
     window_print(info);
@@ -81,12 +74,12 @@ void start_ui()
          * to adjust for new terminal window size. moves the bottom window to
          * the adequate position
          */
-        if(curr_page==1) {
+        if(curr_page == 1) {
             wclear(info->w);
             wresize(info->w, height, width);
             mvwin(info->w, (cli_top) * height, 0);
             // redraws the info box
-            box(info->w, 0, 0 );
+            box(info->w, 0, 0);
         }
         wresize(cli->w, height, width);
         mvwin(cli->w, !(cli_top) * height, 0);
@@ -99,12 +92,7 @@ void start_ui()
             // Alt+m switches the info window to the map window
             // Alt+s switches the position of the CLI
             if (ch == 'm') {
-                if (curr_page!=2) {
-                    //This function sets the display dimensions of map
-                    /*wresize(info->w, 0, 0);
-                     */
-                    //map_center_on(map,0,0,0)
-                    //	  map_set_displaywin(map, 0,cli_top * height, width, height + cli_top * height);
+                if (curr_page != 2) {
                     curr_page = 2;
                 } else {
                     curr_page = 1;
@@ -118,33 +106,31 @@ void start_ui()
                 ch = 27;
                 mvwin(cli->w, !(cli_top) * height, 0);
                 mvwin(main_win->w, (cli_top) * height, 0);
-                map_set_displaywin(map,0,cli_top*height,width,height+cli_top*height);
-                map_center_on(map,0,0,0);
+                map_set_displaywin(map, 0, cli_top * height, width,
+                                   height + cli_top * height);
+                map_center_on(map, 0, 0, 0);
             }
         }
 
+        // Prints the cli to the screen
         window_print(cli);
 
-        if(curr_page==1) {
+        // This conditional refreshes the non-CLI window
+        if (curr_page == 1) {
             window_print(info);
             wrefresh(info->w);
-        } else if(curr_page ==2) {
-            //This function sets the display dimensions of map
+        } else if (curr_page == 2) {
             wresize(info->w, 0, 0);
-            map_set_displaywin(map, 0,cli_top * height, width, height + cli_top * height);
-            map_center_on(map,0,0,0);
-
+            map_set_displaywin(map, 0, cli_top * height, width,
+                               height + cli_top * height);
+            map_center_on(map, 0, 0, 0);
         }
 
-        // refreshes windows to reflect changes
-
+        // Refreshes the CLI window
         wrefresh(cli->w);
-
-
     }
 
     window_free(main_win);
-    // window_free(map);
     window_free(cli);
 
     // End curses mode
