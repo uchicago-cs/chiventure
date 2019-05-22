@@ -8,8 +8,9 @@
 /* see validate.h */
 bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 {
-    if (ls == NULL)
-        return false; // if the function returns false, it will halt parsing
+    if (ls == NULL) {
+      return false; // if the function returns false, it will halt parsing
+    }
 
     bool result = true;
     attr_list_t *curr = ls;
@@ -25,8 +26,7 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 /* see validate.h */
 void list_print(attr_list_t *ls, void (*print)(obj_t*))
 {
-    if (ls == NULL)
-    {
+    if (ls == NULL) {
         fprintf(stderr, "list_print failed, list empty\n");
         return;
     }

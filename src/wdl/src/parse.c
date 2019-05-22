@@ -39,13 +39,13 @@ attr_list_t *extract_objects(obj_t *obj, char *str)
     }
 
     if (strcmp(str, "ROOMS") != 0) {
-        valid = list_check_type(ls, room_type_check);
+        valid = list_type_check(ls, room_type_check);
     }
-    else if (strcmp(str, "ITEMS")) {
-       valid = list_check_type(ls, item_type_check);
+    else if (strcmp(str, "ITEMS") != 0) {
+        valid = list_type_check(ls, item_type_check);
     } 
-    else {
-        valid = list_check_type(ls, player_type_check);
+    else if (strcmp(str, "PLAYERS") != 0) {
+        valid = list_type_check(ls, player_type_check);
     }
 
     if (valid) {
