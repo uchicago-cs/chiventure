@@ -1,0 +1,11 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <ncurses.h>
+#include <ctype.h>
+#include <stdbool.h>
+#include <signal.h>
+#include "coordinate.h"
+#include "window.h"
+#include "print_functions.h"
+#include "map.h"
+#include "ui_ctx.h"
