@@ -43,33 +43,46 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
  * - returns FAILURE if it finds coordinate already and 
  *   the coord is mapped to a different room
  *
+ * Note:
+ * - Printing debug statements to a seperate txt file
+ *
  * Info on struct keys from uthash guide:
  * https://troydhanson.github.io/uthash/userguide.html#_structure_keys
  */
 int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 {
   coord_record_t *cr = find_coord(coordmap, x, y);
-  
+
+  /* File created for debug statments */
+  FILE *debug = fopen("ui_debug.txt", "a");  
+
   /* Only runs if find_coord does not find coord
    *  already existing in hashtable */
   if (cr == NULL) {
-    //Debug: fprintf(stderr,"Adding coord (%d, %d) to hash\n", x, y);
+    fseek(debug, 0, SEEK_END);
+    fprintf(debug,"Adding coord (%d, %d) to hash\n", x, y);
     cr = malloc(sizeof(coord_record_t));
     memset(cr, 0, sizeof(coord_record_t));    //uthash requirement for struct keys
     cr->key.x = x;
     cr->key.y = y;
     cr->r = r;
     HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr); 
-
+    fclose(debug);
     return SUCCESS;
   }
-
+  
   else {
     /* If assigned to itself, no conflicts */
-    if (cr->r->id == r->id)
+    if (cr->r->id == r->id){
+      fclose(debug);
       return SUCCESS;
+    }
+
+    fseek(debug, 0, SEEK_END);    
+    fprintf(debug,
+	    "ERROR: add_coord(): This coordinate has already been assigned.\n");  
+    fclose(debug);
+    return FAILURE;
   }
-  fprintf(stderr,
-	  "ERROR: add_coord(): This coordinate has already been assigned.\n");  
-  return FAILURE;
 }
+  
