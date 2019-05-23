@@ -1,12 +1,14 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+
+typedef void (win_print)();
+
 typedef struct window {
     WINDOW *w;
-    void (*print)(struct window *win);
+    win_print *print;
 } window_t;
 
-typedef void (win_print)(window_t *win);
 
 /* window_new
  * allocates memory for a window_t struct and creates a window)t with the

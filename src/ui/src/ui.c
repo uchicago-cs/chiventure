@@ -66,6 +66,10 @@ void start_ui()
 
     while ((ch = wgetch(cli->w)) != 4)
     {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
         height = LINES / 2;
         width = COLS;

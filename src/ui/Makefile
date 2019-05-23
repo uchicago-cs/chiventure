@@ -13,7 +13,7 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c 
+SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c
 OBJS = $(SRCS:.c=.o)
 LOGS = examples/ui_debug.txt
 

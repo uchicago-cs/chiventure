@@ -42,7 +42,7 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
         fseek(debug, 0, SEEK_END);
         fprintf(debug,"Adding coord (%d, %d) to hash\n", x, y);
         cr = malloc(sizeof(coord_record_t));
-	
+
         // uthash requirement for struct keys
         memset(cr, 0, sizeof(coord_record_t));
 
@@ -68,4 +68,3 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
         return FAILURE;
     }
 }
-

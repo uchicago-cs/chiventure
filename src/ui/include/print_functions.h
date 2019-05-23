@@ -1,6 +1,7 @@
 #ifndef PRINT_FUNCTIONS_H
 #define PRINT_FUNCTIONS_H
 
+#include "ctx.h"
 
 /* print_scor
  * Prints score and number of moves
@@ -10,7 +11,7 @@
  *
  * No value is returned
  */
-void print_info(window_t *win);
+void print_info(chiventure_ctx_t *ctx);
 
 /* print_cli
  * Prints the CLI- adds and deltees character based on user input
@@ -20,7 +21,7 @@ void print_info(window_t *win);
  *
  * No value is returned
  */
-void print_cli(window_t *win);
+void print_cli(chiventure_ctx_t *ctx);
 
 /* print_map
  * Prints the word map in the window (top left corner)
@@ -30,7 +31,7 @@ void print_cli(window_t *win);
  *
  * No value is returned
  */
-void print_map(window_t *win);
+void print_map(chiventure_ctx_t *ctx);
 
 
 #endif
