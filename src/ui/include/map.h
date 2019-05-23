@@ -2,12 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// TESTING Struct Declarations
-
-// This is a test coordinate struct
 /* These two test structs will be replaced with real structs
-one communication with gamestate and calculation of coordinates
-is complete*/
+ * one communication with gamestate and calculation of coordinates
+ * is complete
+ */
 typedef struct coord {
     int x;
     int y;
@@ -24,10 +22,9 @@ typedef struct room {
     char ex_s;
 } room_t;
 
-
-// Struct Declarations
 /* The map struct holds a lot of crucial information for the performance
-  of all of the map functions*/
+ * of all of the map functions
+ */
 typedef struct map {
     WINDOW *pad;
     room_t **rooms;
@@ -48,14 +45,37 @@ typedef struct map {
     int room_w;
 } map_t;
 
-// Function Declarations
-// Initializes the ncurses window
+/* Initializes the ncurses window
+ *
+ * Inputs: N/A
+ *
+ * Outputs:N/A
+ */
 void ncurses_init();
 
-// Draws a list of rooms starting at the coordinate given
+/* Draws a list of rooms starting at the coordinate given
+ * 
+ * Inputs:
+ * - rooms: an array of pointers to rooms
+ * - n: the number of rooms
+ * - left_x: the top left corner of the top-left most room
+ * - top_y: to top left corner of the top-left-most room
+ * - z: the z coordinate of the floor being drawn
+ * - map: pointer to a map_t struct
+ * 
+ * Outputs:
+ * - Draws the rooms to the scren
+ */
 void draw_rooms(room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
 
-// Gets an array of test rooms
+/* Gets an array of test rooms
+ * 
+ * Inputs: 
+ * - n: number of rooms to generate
+ * 
+ * Outputs:
+ * - An array of pointers to random room structs
+ */
 room_t **get_test_rooms(int n);
 
 /* Initiates map at WINDOW * pointer to pad

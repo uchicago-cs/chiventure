@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <ncurses.h>
 
-// Initiallizes ncurses window
-// This function will later live in ui.c
 void ncurses_init()
 {
     initscr();
@@ -15,8 +13,6 @@ void ncurses_init()
     return ;
 }
 
-
-// Erase a character
 void erase_ch(int y, int x)
 {
     mvaddch(y, x, '#');
@@ -115,13 +111,15 @@ int *calculate_map_dims(room_t **rooms, int n)
         cz = curr->z;
         if (cx > x)
             x = cx;
-        if (cy>y)
+        if (cy > y){
             y = cy;
-        if (cz>z)
+	}
+        if (cz > z){
             z = cz;
+	}
     }
 
-    int *xyz = malloc(sizeof(int)*3);
+    int *xyz = malloc(sizeof(int) * 3);
     xyz[0] = x + 1;
     xyz[1] = y + 1;
     xyz[2] = z + 1;
@@ -158,7 +156,7 @@ map_t *map_init(room_t **rooms, int n)
     map->lry = 0;
 
     keypad(pad, TRUE);
-    draw_rooms(rooms,n,xoffset,yoffset,0,map);
+    draw_rooms(rooms, n, xoffset, yoffset, 0, map);
     free(dims);
     return map;
 }
@@ -200,8 +198,8 @@ int map_center_on(map_t *map, int x, int y, int z)
     int centy = (lry - uly) / 2;
     int centxc = centx - (room_w / 2);
     int centyc = centy - (room_h / 2);
-    int padx = room_w*x - centxc;
-    int pady = room_h*y - centyc;
+    int padx = room_w * x - centxc;
+    int pady = room_h * y - centyc;
 
     map_refresh(map, padx, pady, z);
     return 0;
@@ -212,7 +210,7 @@ room_t **get_test_rooms(int n)
     int j = 0;
     int k = 0;
     room_t **rooms = malloc(sizeof(room_t *) * n);
-    for(int i = 0; i < (n - 2); i++) {
+    for (int i = 0; i < (n - 2); i++) {
 
         room_t *roomi = malloc(sizeof(room_t));
         rooms[i] = roomi;

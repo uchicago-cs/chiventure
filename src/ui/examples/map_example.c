@@ -15,12 +15,12 @@ int main()
     int num_rooms = 100;
     room_t ** rooms = get_test_rooms(num_rooms);
 
-    //Allocates & Initializes map struct
+    // Allocates & Initializes map struct
     map_t *map = map_init(rooms, num_rooms);
-    //Set the screen location of the map
-    map_set_displaywin(map, 0,0,COLS,LINES-1);
-    //Refresh the map centered on room 0,0,0
-    map_center_on(map, 0,0,0);
+    // Set the screen location of the map
+    map_set_displaywin(map, 0, 0, COLS, LINES-1);
+    // Refresh the map centered on room 0,0,0
+    map_center_on(map, 0, 0, 0);
 
     char ch;
     while (true) {

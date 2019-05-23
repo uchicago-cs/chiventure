@@ -21,7 +21,6 @@ void start_ui()
     /* MAIN_WIN_NUM will indicate we are in the main window
      * MAP_WIN_NUM will mean we are in the map window
      * INV_WIN_NUM will indicate we are in the inventory window
-     *
      */
     int curr_page = MAIN_WIN_NUM;
     int ch;
@@ -96,14 +95,16 @@ void start_ui()
             if (ch == 'm') {
                 if (curr_page != MAP_WIN_NUM) {
                     curr_page = MAP_WIN_NUM;
-                } else {
+                }
+		else {
                     curr_page = MAIN_WIN_NUM;
                     info = main_win;
                     wresize(info->w, height,width);
                 }
 
                 ch = 27;
-            } else if (ch == 's') {
+            }
+	    else if (ch == 's') {
                 cli_top = !cli_top;
                 ch = 27;
                 mvwin(cli->w, !(cli_top) * height, 0);
@@ -121,7 +122,8 @@ void start_ui()
         if (curr_page == MAIN_WIN_NUM) {
             window_print(info);
             wrefresh(info->w);
-        } else if (curr_page == MAP_WIN_NUM) {
+        }
+	else if (curr_page == MAP_WIN_NUM) {
             wresize(info->w, 0, 0);
             map_set_displaywin(map, 0, cli_top * height, width,
                                height + cli_top * height);
