@@ -71,23 +71,25 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
         return FAILURE;
     }
     switch (allowed) {
-    case PUSH:
-    case PULL:
-    case OPEN:
-    case CLOSE:
-    case TURN_ON:
-    case TURN_OFF: {
-        // See game.h
-        int toggle = toggle_condition(g, a, i);
-        if (toggle != SUCCESS) {
-            fprintf(stderr, "%s failed", a->c_name);
-            return FAILURE;
-        }
-        break;
-    }
+    //**
+    // waiting on game state to implement a toggle function
+    // case PUSH:
+    // case PULL:
+    // case OPEN:
+    // case CLOSE:
+    // case TURN_ON:
+    // case TURN_OFF: {
+    //     // See game.h
+    //     int toggle = toggle_condition(g, a, i);
+    //     if (toggle != SUCCESS) {
+    //         fprintf(stderr, "%s failed", a->c_name);
+    //         return FAILURE;
+    //     }
+    //     break;
+    // }
     case EXAMINE: {
         // See game.h
-        int describe = get_long_desc(i);
+        int describe = i->long_desc;
         if (describe != SUCCESS) {
             fprintf(stderr, "%s failed", a->c_name);
             return FAILURE;
@@ -96,11 +98,13 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
     }
     case DROP: {
         // See game.h
-        int drop = remove_inventory_item(g->current_player, i);
-        if (drop != SUCCESS) {
-            fprintf(stderr, "Object could not be removed from inventory.\n");
-            return FAILURE;
-        }
+        //**
+        // waiting on game state to create function that removes inventory item from player
+        // int drop = remove_inventory_item(g->current_player, i);
+        // if (drop != SUCCESS) {
+        //     fprintf(stderr, "Object could not be removed from inventory.\n");
+        //     return FAILURE;
+        // }
         break;
     }
     case TAKE: {
@@ -111,23 +115,27 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
             return FAILURE;
         }
         // See game.h
-        int add = add_inventory_item(g->current_player, i);
-        if (add != SUCCESS) {
-            fprintf(stderr, "item was not taken");
-            return FAILURE;
-        }
-        break;
+        //**
+        // waiting on game state to create a function that add investory to a current player
+        // int add = add_inventory_item(g->current_player, i);
+        // if (add != SUCCESS) {
+        //     fprintf(stderr, "item was not taken");
+        //     return FAILURE;
+        // }
+        // break;
     }
     case CONSUME: {
         // See game.h
-        int consumed = remove_inventory_item(g->current_player, i);
-        if (consumed != SUCCESS) {
-            fprintf(stderr, "Object could not be removed from inventory.\n");
-            return FAILURE;
-        }
+        //**
+        // waiting on game state to create function that removes inventory item from player
+        // int consumed = remove_inventory_item(g->current_player, i);
+        // if (consumed != SUCCESS) {
+        //     fprintf(stderr, "Object could not be removed from inventory.\n");
+        //     return FAILURE;
+        // }
         // See game.h
-        int boosted = change_health(g->current_player, i->change,
-                                    g->current_player->max_health);
+
+        int boosted = change_health(g->current_player, int change, g->current_player->health;
         if (boosted) {
             fprintf(stderr, "Player's health is %d", boosted);
         }
@@ -153,7 +161,8 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p)
         return FAILURE;
     }
     // See game.h
-    int moved = player_move(g, p);
+    //game state doesn't have player move function yet
+    int moved = move_room(g, p);
     if (moved == SUCCESS) {
         return SUCCESS;
     } else {
@@ -186,11 +195,14 @@ int do_item_item_action(game_t *g, action_type_t *a,
         return FAILURE;
     }
     // See game.h
-    int moved = remove_inventory_item(g->current_player, direct);
-    if (moved != SUCCESS) {
-        fprintf(stderr, "Object could not be moved from inventory.\n");
-        return FAILURE;
-    }
-    fprintf(stderr, "%s", indirect->status_change); // notifies status change
+    //**
+    // waiting on game state to create function that removes inventory item from player
+    // int moved = remove_inventory_item(g->current_player, direct);
+    // if (moved != SUCCESS) {
+    //     fprintf(stderr, "Object could not be moved from inventory.\n");
+    //     return FAILURE;
+    // }
+    fprintf(stderr, "status has changed in item.\n"); // notifies status change
+      //talk to game state about how to notify a status change
     return SUCCESS;
 }
