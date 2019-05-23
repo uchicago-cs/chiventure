@@ -32,7 +32,7 @@ item_t *item_new()
 
 }
 
-/* See common.h */
+/* See common-item.h */
 int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
     item_t* check;
     HASH_FIND_STR(item_hash, item_id, check);
@@ -46,9 +46,9 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
     return SUCCESS;
 }
 
-
+/* see common-item.h */
 int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
-    attribute_t* check;
+    attribute_t* check = (attribute_t*)malloc(sizeof(attribute_t));
     char* attribute_key = new_attribute->attribute_key;
     HASH_FIND_STR(attribute_hash, attribute_key, check);
     if (check != NULL) {
@@ -59,14 +59,7 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attr
     return SUCCESS;
 }
 
-/* get_attribute() returns a pointer to an attribute if it exists
-  Parameters:
-    an item
-    the attribute name
-
-  Returns:
-    NULL if the attribute does not exist, pointer to attribute if it does
-*/
+/* see common-item.h */
 attribute_t *get_attribute(item_t *item, char *attr_name)
 {
     attribute_t* return_value;

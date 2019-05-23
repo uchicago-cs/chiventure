@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <criterion/criterion.h>
 #include "item.h"
+<<<<<<< HEAD
+=======
+#include "common-item.h"
+>>>>>>> 584597f8a373e169b3b47e74d218fd71c44ac7e9
 
 // BASIC ITEM UNIT TESTS ------------------------------------------------------
 Test(item, new)
@@ -35,7 +39,6 @@ Test(item, free)
 
 }
 
-//  ----------------------
 item_t *item_setup() {
   item_t *test_item = item_new();
   int init = item_init(test_item, "item1", "item to test attr fxn",
@@ -80,4 +83,18 @@ Test(attributes, add_attr_to_hash)
   cr_assert_eq(test, SUCCESS, "add_attr_to_hash() test 1 failed!");
 
   item_teardown(test_item);
+}
+
+Test(item, get_attribute_exists)
+{
+	item_t *new_item = item_new();
+	attribute_t* new_attribute = malloc(sizeof(attribute_t));
+    new_attribute->attribute_tag = STRING;
+    new_attribute->attribute_value.str_val = "This is a value";
+    new_attribute->attribute_key = "Attribute";
+    int rv = add_attribute_to_hash(new_item->attributes, new_attribute);
+    rv ++;
+    //attribute_t* found_atttribute = get_attribute(new_item, "Attribute");
+    //cr_assert_str_eq(new_attribute->attribute_value.str_val, found_atttribute->attribute_value.str_val, "get_attribute() has failed!");
+
 }
