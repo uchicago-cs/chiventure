@@ -8,7 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "validate.h"
+#include "parser.h"
+#include "room.h"
+#include "game.h"
+#include "path.h"
 
 /*
  * add_rooms_to_game
@@ -21,6 +24,10 @@
  *
  * side effects:
  * - adds rooms into the inputted game pointer
+ *
+ * returns:
+ * - 0 for successful parse
+ * - 1 for unsuccessful parse
  */
 
 /*
@@ -33,6 +40,10 @@
  *
  * side effects:
  * - adds connections into the inputted game parameter
+ *
+ * returns;
+ * - 0 for successful parse
+ * - 1 for unsuccessful parse
  */
 
 #endif

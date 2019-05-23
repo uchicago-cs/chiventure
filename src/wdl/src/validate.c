@@ -106,17 +106,7 @@ bool condition_type_check(obj_t *obj)
     return check;
 }
 
-/* connections_get_list()
- * a helper function for connection_type_check that gets a list of connections
- * associated with a room object
- *
- * parameters:
- *  - obj: a room object
- *
- * returns:
- *  - an attribute list of all the connections
- *  - null if an error occurs or no list can be generated
- */
+/* see validate.h */
 attr_list_t *connections_get_list(obj_t *obj)
 {
     obj_t *connections = obj_get_attr(obj, "connections", false);
