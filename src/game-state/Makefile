@@ -18,7 +18,7 @@ LIB = game-state.a
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	$(AR) -r $@ -o $^
+	$(AR) rcs $@ $^
 
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(DEPDIR)/%.d
