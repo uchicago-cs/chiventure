@@ -9,19 +9,21 @@
 #include "print_functions.h"
 #include "map.h"
 
-
+#define MAIN_WIN_NUM 1
+#define MAP_WIN_NUM 2
+#define INV_WIN_NUM 3
 
 void start_ui()
 {
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
 
-    /* 1 will indicate we are in the main window
-     * 2 will mean we are in the map window
-     * 3 will indicate we are in the inventory window
+    /* MAIN_WIN_NUM will indicate we are in the main window
+     * MAP_WIN_NUM will mean we are in the map window
+     * INV_WIN_NUM will indicate we are in the inventory window
      *
      */
-    int curr_page = 1;
+    int curr_page = MAIN_WIN_NUM;
     int ch;
 
     // 0 if the cli will be in the bottom, 1 if it will be on top
@@ -74,7 +76,7 @@ void start_ui()
          * to adjust for new terminal window size. moves the bottom window to
          * the adequate position
          */
-        if(curr_page == 1) {
+        if(curr_page == MAIN_WIN_NUM) {
             wclear(info->w);
             wresize(info->w, height, width);
             mvwin(info->w, (cli_top) * height, 0);
@@ -92,10 +94,10 @@ void start_ui()
             // Alt+m switches the info window to the map window
             // Alt+s switches the position of the CLI
             if (ch == 'm') {
-                if (curr_page != 2) {
-                    curr_page = 2;
+                if (curr_page != MAP_WIN_NUM) {
+                    curr_page = MAP_WIN_NUM;
                 } else {
-                    curr_page = 1;
+                    curr_page = MAIN_WIN_NUM;
                     info = main_win;
                     wresize(info->w, height,width);
                 }
@@ -116,10 +118,10 @@ void start_ui()
         window_print(cli);
 
         // This conditional refreshes the non-CLI window
-        if (curr_page == 1) {
+        if (curr_page == MAIN_WIN_NUM) {
             window_print(info);
             wrefresh(info->w);
-        } else if (curr_page == 2) {
+        } else if (curr_page == MAP_WIN_NUM) {
             wresize(info->w, 0, 0);
             map_set_displaywin(map, 0, cli_top * height, width,
                                height + cli_top * height);
