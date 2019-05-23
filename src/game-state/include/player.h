@@ -22,7 +22,7 @@ typedef struct player {
     item_hash_t inventory;
 } player_t;
 
-typedef struct player* player_hash_t;
+typedef struct player_t *player_hash_t;
 
 /*
  * Initializes a player
@@ -34,7 +34,7 @@ typedef struct player* player_hash_t;
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int player_init(player_t* plyr, int health);
+int player_init(player_t *plyr, int health);
 
 /*
  * Allocates a new player
@@ -56,7 +56,7 @@ player_t *player_new(int health);
  * Returns:
  *  SUCCESS if successful
  */
-int player_free(player_t* plyr);
+int player_free(player_t *plyr);
 
 /* Deletes a hashtable of players
  * Implemented with macros provided by uthash.h
@@ -77,7 +77,7 @@ void delete_all_players(player_hash_t players);
  * Returns:
  *  int, the player's health
  */
-int get_health(player_t* plyr);
+int get_health(player_t *plyr);
 
 /*
  * Changes the health of the player
@@ -88,7 +88,7 @@ int get_health(player_t* plyr);
  * Returns:
  *  int, remaining health
  */
-int change_health(player_t* plyr, int change, int max);
+int change_health(player_t *plyr, int change, int max);
 
 /*
  * Returns the level of the player
@@ -99,7 +99,7 @@ int change_health(player_t* plyr, int change, int max);
  * Returns:
  *  int, the player's level
  */
-int get_level(player_t* plyr);
+int get_level(player_t *plyr);
 
 /*
  * Increments the level of the player by given amt
@@ -110,7 +110,7 @@ int get_level(player_t* plyr);
  * Returns:
  *  int, the new level
  */
-int change_level(player_t* plyr, int change);
+int change_level(player_t *plyr, int change);
 
 /*
  * Returns the experience points of the player
@@ -121,7 +121,7 @@ int change_level(player_t* plyr, int change);
  * Returns:
  *  int, the player's experience
  */
-int get_xp(player_t* plyr);
+int get_xp(player_t *plyr);
 
 /*
  * Changes the experience (xp) points of the player
@@ -133,7 +133,7 @@ int get_xp(player_t* plyr);
  * Returns:
  *  int, the player's new xp
  */
-int change_xp(player_t* plyr, int points);
+int change_xp(player_t *plyr, int points);
 
 /*
  * Returns the inventory list
@@ -144,7 +144,7 @@ int change_xp(player_t* plyr, int points);
  * Returns:
  *  hashtable of items, the inventory
  */
-item_hash_t get_inventory(player_t* plyr);
+item_hash_t get_inventory(player_t *plyr);
 
 /* Adds a player to the given hashtable of players
  *

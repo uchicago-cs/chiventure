@@ -14,13 +14,12 @@
 typedef struct condition {
     /* fields used for linked list of condition_t */
     struct condition *next;
-
     item_t *item;
     char *attribute;
     attribute_value_t value;
 } condition_t;
 
-typedef struct condition* condition_list_t;
+typedef struct condition *condition_list_t;
 
 /* This struct represents a path from one room to another. It contains
  * the room_ID string of the room it leads to as well as a linked

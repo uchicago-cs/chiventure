@@ -25,6 +25,7 @@ player_t* player_new(int health) {
     }
 
     int init_bool = player_init(plyr, health);
+		
     if(init_bool != SUCCESS)
     {
         perror("Could not initialize player");
@@ -101,7 +102,7 @@ int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *pla
     HASH_FIND_STR(all_players, player_id, s);
     if (s != NULL) {
         printf("FATAL: player_id already used!\n");
-        exit(1);
+        return FAILURE;
     }
     HASH_ADD_STR(all_players, player_id, player);
     return SUCCESS;
@@ -114,8 +115,8 @@ int add_item_to_player(player_t *player, item_t *item) {
 
 
 /* DISCARD
-IMPLEMENT function to find player given list and pid 
-See player_private.h 
+IMPLEMENT function to find player given list and pid
+See player_private.h
 player_t *get_player(player_hash_t all_players, char *player_id) {
     player_t
 }

@@ -10,6 +10,10 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
     strncpy(new_item->short_desc, short_desc, strlen(short_desc));
     strncpy(new_item->long_desc, long_desc, strlen(long_desc));
 
+    // init. to NULL according to Troy Hanson's documentation?
+    // item_new->attributes = NULL;
+
+
     return SUCCESS;
 }
 
@@ -42,14 +46,6 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
     return SUCCESS;
 }
 
-/* add_attribute_to_hash() adds an attribute to the item hash table
-  Parameters:
-    the hash table of an item
-    the attribute value to add
-
-  Returns:
-    FAILURE for failure, SUCCESS for success
-*/
 
 int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
     attribute_t* check;
