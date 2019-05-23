@@ -80,7 +80,7 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
  *
  * parameters:
  *  - ls: a list of objects
- *  - a function pointer to a type object printing function
+ *  - a function pointer to a object printing function
  *
  * returns:
  *  - nothing
