@@ -8,13 +8,14 @@ void setup(void) {
     game_t *game = game_new();
     player_t *plyr = player_new(100);
     room_t *room1 = room_new("vroom", "test room", "yes this is a test room");
-    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+    // room_t *room2 = room_new("nroom", "test next door", "KND number 1");
     add_room_to_game(game, room1);
     add_player_to_game(game, plyr);
     game->curr_player = plyr;
     game->curr_room = room1;
-    path_t *path = path_new("nroom", "north");
-    add_path_to_room(room1, path)
+    // path_t *path = path_new("nroom", "north");
+    path_t *path = path_new("north");
+    add_path_to_room(room1, path);
 }
 
 void teardown(void) {
@@ -30,13 +31,13 @@ Test(game, new_free)
 
 /*need to figure out how to feed in test struct into criterion
 //assuming that is completed
-Test(game, init) 
+Test(game, init)
 {
     game_t *game = //test struct
 
 }
 
-Test(game, save) 
+Test(game, save)
 {
     game_t *game = //test struct
     int rc = 0;
@@ -44,7 +45,7 @@ Test(game, save)
     cr_assert_eq(rc, 1, "file not saved");
 }
 
-Test(game, move room) 
+Test(game, move room)
 {
     game_t *game = //teststruct
     game->curr_room = curr;
@@ -54,13 +55,13 @@ Test(game, move room)
     int chk = 0;
     if(strcheck != 1)
         chk = 1;
-    
+
     cr_assert_eq(chk, 1, "failed to move to new room");
 
 }
 
 Test(game, free)
 {
-//tbd? 
+//tbd?
 }
 */

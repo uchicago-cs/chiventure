@@ -18,7 +18,8 @@ LIB = game-state.a
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	$(AR) -r -o $@ $^
+	$(AR) -r $@ -o $^
+
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(DEPDIR)/%.d
 	$(CC) $(CFLAGS) $(DEPFLAGS) $< -c -o $@
@@ -41,4 +42,3 @@ cleanall:
 tests:
 	make all
 	make -C tests/ all
-

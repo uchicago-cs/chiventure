@@ -73,12 +73,14 @@ room_t *find_room(game_t *game, char* room_id) {
 //HEADER TBD
 room_t *find_room_from_path(game_t *game, path_t *path) {
     room_t *room = find_room(game, path->dest);
+    return room;
 }
 
 //given *game, direction, and *room return adjacent room
 //experiment (HEADER TBD)
-room_t *find_room_from_dir(game_t *game, char* direction, room_t *room) {
-    path_t *path = path_to_room(room, direction);
-    room_t *room = find_room(game, path->dest);
-    return room;
-}
+// commented out for now while debugging -- path_to_room unwritten?
+// room_t *find_room_from_dir(game_t *game, char* direction, room_t *room) {
+//     path_t *path = path_to_room(room, direction);
+//     room_t *room_adj = find_room(game, path->dest);
+//     return room_adj;
+// }
