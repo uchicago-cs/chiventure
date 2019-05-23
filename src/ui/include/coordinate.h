@@ -32,7 +32,7 @@ typedef struct room {
     room_hash_t hash;
 } room_t;
 
-/* Dummy function called find_room
+/* Dummy function called find_room()
  * Will be integrating with Game State's real function
  * for Sprint 3 task
  *
@@ -88,25 +88,28 @@ void coord_init(coordinate_t *c, int x, int y);
  */
 coord_record_t *find_coord(coord_record_t *coordmap, int x, int y);
 
-
-/* add_coord:                                                                                       *
- * Internal function to create hashing. Included
- * in header for now in case another team needs it
- *
+/* try_add_coord():
  * Parameters:
- * - coordmap is a pointer to the hash. Acts as both an in and out parameter
- * -  x, y are the respective coordinates. They are bundled
- *  internally into a coordinate key for hashing
+ * - coordmap is both an in and out parameter, so must be non-NULL
+ * - x, y are the respective coordinates. They will be bundled
+ *  into a coordinate key for hashing
  * - r is a pointer to the room to assign the coords to
+ *
  * Return value:
  * - returns SUCCESS if does not find coordinate and add its
  * - returns FAILURE if it finds coordinate already and
  *   the coord is mapped to a different room
+ *
+ * Note:
+ * - Printing debug statements to a seperate txt file
+ *
+ * Info on struct keys from uthash guide:
+ * https://troydhanson.github.io/uthash/userguide.html#_structure_keys
  */
 int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r);
 
 
-/* create_valid_map:
+/* create_valid_map():
  * - will be called on as soon as game is loaded in by WDL and Game State
  *
  * Return values:

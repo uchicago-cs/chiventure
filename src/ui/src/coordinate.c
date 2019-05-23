@@ -1,9 +1,7 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "coordinate.h"
 #include "assert.h"
-
-//coord_record_t *coordmap;
 
 void coord_init(coordinate_t *c, int x, int y)
 {
@@ -13,7 +11,7 @@ void coord_init(coordinate_t *c, int x, int y)
     return;
 }
 
-/* find_coord:
+/* find_coord():
  *
  * See coordinate.h for more details
  * Returns NULL if coord not found in hash
@@ -21,6 +19,8 @@ void coord_init(coordinate_t *c, int x, int y)
 coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
 {
     coordinate_t *key = malloc(sizeof(coordinate_t));
+
+    /*use of memset: requirement for struct keys  per uthash documentation */
     memset(key, 0, sizeof(coordinate_t));
     coord_init(key, x, y);
 
@@ -31,7 +31,7 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
     return cr;
 }
 
-/* add_coord:
+/* try_add_coord():
  * Parameters:
  * - coordmap is both an in and out parameter, so must be non-NULL
  * - x, y are the respective coordinates. They will be bundled
@@ -49,7 +49,7 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
  * Info on struct keys from uthash guide:
  * https://troydhanson.github.io/uthash/userguide.html#_structure_keys
  */
-int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
+int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 {
     coord_record_t *cr = find_coord(coordmap, x, y);
 
@@ -62,7 +62,9 @@ int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
         fseek(debug, 0, SEEK_END);
         fprintf(debug,"Adding coord (%d, %d) to hash\n", x, y);
         cr = malloc(sizeof(coord_record_t));
-        memset(cr, 0, sizeof(coord_record_t));    //uthash requirement for struct keys
+
+        /* use of memset(): uthash requirement for struct keys */
+        memset(cr, 0, sizeof(coord_record_t));
         cr->key.x = x;
         cr->key.y = y;
         cr->r = r;
@@ -80,7 +82,7 @@ int add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 
         fseek(debug, 0, SEEK_END);
         fprintf(debug,
-                "ERROR: add_coord(): This coordinate has already been assigned.\n");
+                "ERROR: try_add_coord(): This coordinate has already been assigned.\n");
         fclose(debug);
         return FAILURE;
     }

@@ -15,7 +15,7 @@ all: $(LIB)
 
 SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c 
 OBJS = $(SRCS:.c=.o)
-LOGS = ui_debug.txt
+LOGS = examples/ui_debug.txt
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@

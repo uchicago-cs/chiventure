@@ -43,7 +43,7 @@ int main()
     if (coordmap != NULL) {
         fprintf(debug,"Added initial room to hashmap\n");
     }
-    
+
     coord_record_t *test = find_coord(coordmap, 1, 2);
     if (test == NULL)
         fprintf(debug,
@@ -54,6 +54,7 @@ int main()
 
     room_t *r = malloc(sizeof(room_t));
     r->id = 456;
+
     /* Close file so that coordinate.c can write into it */
     fclose(debug);
     try_add_coord(coordmap, 5, 6, r);
@@ -100,7 +101,7 @@ int main()
      * DFS function in DFS.c
      */
     fprintf(debug,
-            "Test to see if add_coord() correctly blocks double-assigning:\n");
+            "Test to see if try_add_coord() correctly blocks double-assigning:\n");
     fprintf(debug,
             "(Should view an error message below:)\n");
     fclose(debug);
