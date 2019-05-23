@@ -14,22 +14,19 @@ FILE *open_ui_logfile()
     return debug;
 }
 
-/* for basic testing of compilation
- * Will implement much more testing later
- */
 int main()
 {
     FILE *debug = open_ui_logfile();
 
-    /* Hash must be initialized to NULL (see uthash documentation) */
+    // Hash must be initialized to NULL (see uthash documentation)
     coord_record_t *coordmap = NULL;
 
-    /* Initial room must be added prior to calling add_coord() function
-     * because null hashmap cannot be sent into add_coord()
+    /* Initial room must be added prior to calling try_add_coord() function
+     * because null hashmap cannot be sent into try_add_coord()
      */
     coord_record_t *cr = malloc(sizeof(coord_record_t));
 
-    /* uthash requirement for struct keys */
+    // uthash requirement for struct keys
     memset(cr, 0, sizeof(coord_record_t));
 
     cr->key.x = 0;
@@ -45,25 +42,27 @@ int main()
     }
 
     coord_record_t *test = find_coord(coordmap, 1, 2);
-    if (test == NULL)
+    if (test == NULL) {
         fprintf(debug,
                 "find_coord(): Correctly returns NULL when coord not found\n");
-    else
+    } else {
         fprintf(debug,
                 "find_coord(): Incorrect return result--should return NULL\n");
+    }
 
     room_t *r = malloc(sizeof(room_t));
     r->id = 456;
 
-    /* Close file so that coordinate.c can write into it */
+    // Close file so that coordinate.c can write into it
     fclose(debug);
     try_add_coord(coordmap, 5, 6, r);
 
 
     debug = open_ui_logfile();
 
-    if (coordmap == NULL)
+    if (coordmap == NULL) {
         fprintf(debug,"ERROR: try_add_coord() returned an empty hashmap\n");
+    }
 
     room_t *g = malloc(sizeof(room_t));
     g->id = 2;
@@ -78,11 +77,12 @@ int main()
      * coordinate keys in the hash
      */
     coord_record_t *example = find_coord(coordmap, 5, 6);
-    if (example == NULL)
+    if (example == NULL) {
         fprintf(debug,"Failure to find coord (%d, %d)\n", 5, 6);
-    else
+    } else {
         fprintf(debug,"Found coordinate of room with room id %d\n",
                 example->r->id);
+    }
 
     coord_record_t *ex2 = find_coord(coordmap, -1, -2);
 
@@ -96,7 +96,7 @@ int main()
     z->id = 3;
 
     /* When compiled and run, this portion of the example demonstrates to
-     * future developers how the add_coord() function should block
+     * future developers how the try_add_coord() function should block
      * double-assigning of coordinates. This is essential for the
      * DFS function in DFS.c
      */

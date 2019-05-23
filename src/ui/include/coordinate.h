@@ -19,14 +19,14 @@ struct room;
  */
 
 typedef struct {
-    /* direction */
+    // direction
     char *key;
-    /* adjacent room in that direction */
+    // adjacent room in that direction
     struct room *adj;
     UT_hash_handle hh;
 } room_hash_t;
 
-/*Dummy room struct */
+// Dummy room struct
 typedef struct room {
     int id;
     room_hash_t hash;
@@ -49,7 +49,7 @@ typedef struct room {
 
 room_t *find_room(room_t *curr, char *direction);
 
-/* A coordinate in two-dimensional space */
+// A coordinate in two-dimensional space
 typedef struct {
     int x;
     int y;
@@ -64,10 +64,10 @@ typedef struct coord_record {
     UT_hash_handle hh;
 } coord_record_t;
 
-/* Initialize coordinate_t struct */
+// Initialize coordinate_t struct
 void coord_init(coordinate_t *c, int x, int y);
 
-/* find_coord
+/* find_coord():
  * - Implementation will use HASH_FIND to find coord_record
  * - Internal fcn only
  *
@@ -78,13 +78,9 @@ void coord_init(coordinate_t *c, int x, int y);
  *   DFS algorithm (Initial room is assigned 0,0)
  *
  * Returns:
- *
- * - returns coord_record_t struct (contains room pointer) if room exists
+ * - returns coord_record_t struct (which contains a room pointer) if room
+ *   exists at that coordinant key
  * - returns NULL if key not in hash
- *
- * NOTE:
- * - call this function (once it's implemented) in DFS to check
- *   whether we have assigned a room a coord yet
  */
 coord_record_t *find_coord(coord_record_t *coordmap, int x, int y);
 
@@ -112,12 +108,16 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r);
 /* create_valid_map():
  * - will be called on as soon as game is loaded in by WDL and Game State
  *
+ * Parameters: TO-DO
+ * - Will Pass in info from WDL/gamestate. Likely will take in
+ *   a game state context struct. (Sprint 3)
+ *
  * Return values:
  * - Returns pointer to hashmap of coordinates upon SUCCESS
  * - Returns NULL if unable to assign a valid coordinate system
  *   (This means create_valid_map returns NULL when assign() returns FAILURE)
  */
-coord_record_t *create_valid_map(/*will pass in info from WDL/gamestate*/);
+coord_record_t *create_valid_map();
 
 
 #endif /* INCLUDE_COORDINATE_H_ */
