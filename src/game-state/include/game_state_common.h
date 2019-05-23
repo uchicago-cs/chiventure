@@ -13,6 +13,7 @@
 #define MAX_ID_LEN 20
 #define MAX_SDESC_LEN 50
 #define MAX_LDESC_LEN 300
+#define HASH_SIZE 500 // temporary hash table size for testing item fxns
 
 #define SUCCESS 0
 #define FAILURE 1
