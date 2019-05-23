@@ -164,7 +164,7 @@ ROOM Example:
 
       text_success: `<STRING>` which is a string that is displayed upon the success of an action (OPTIONAL)
 
-      text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
+      text_fail: `<STRING>` which is the string that is displayed when an action is not allowed (OPTIONAL)
 
       conditions: (OPTIONAL)
 
