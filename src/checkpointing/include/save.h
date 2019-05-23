@@ -42,7 +42,7 @@ int save_attribute(attribute_t *a_t, Attribute *a);
  *   - 0 if successful
  *   - -1 if unsuccessful 
  */
-int save_iten(item_t *i_t, Item *i);
+int save_item(item_t *i_t, Item *i);
 
 
 /* 
