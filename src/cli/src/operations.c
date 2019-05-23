@@ -29,13 +29,14 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
 {
     if(tokens[1]==NULL){
+        //As soon as the game struct no longer is a placeholder CHANGE THIS
         return "room description";
     }
     item_t *i = get_item(tokens[1],NULL);
     if(i == NULL){
         return "specified item not found";
     }
-    return "item description";
+    return i->long_desc;
 }
 
 
@@ -79,7 +80,17 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game){
 }
 
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game){
-    return "TODO: Inventory operation";
+    //This line will be added once game_t is no placeholder
+    //item_hash_t inv = get_inverntory(game->curr_player);
+    item_hash_t inv;
+    item_t *t;
+    int i = 0;
+    for(t = inv; t!=NULL; t=t->hh.next){
+        printf("%d:  %s\n",i, t->item_id);
+        i++;
+    }
+    return "This was your inventory";
+
 }
 //Because action managment does not support NPCs type 4 is not supported
 //char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
