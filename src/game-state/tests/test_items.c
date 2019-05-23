@@ -2,6 +2,7 @@
 #include <criterion/criterion.h>
 #include "item.c"
 
+// BASIC ITEM UNIT TESTS ------------------------------------------------------
 Test(item, new)
 {
   item_t *new_item = item_new();
@@ -25,7 +26,7 @@ Test(item, free)
   int init = item_init(item_tofree, "my_item", "pls free me",
   "this item needs to be freed");
 
-  cr_assert_eq(init, 0, "item_free test 1: item init failed!");
+  cr_assert_eq(init, SUCCESS, "item_free test 1: item init failed!");
 
   int freed = item_free(item_tofree);
 
@@ -33,3 +34,5 @@ Test(item, free)
 
 
 }
+
+// 

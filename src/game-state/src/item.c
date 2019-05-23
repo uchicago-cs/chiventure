@@ -2,24 +2,13 @@
 #include "item.h"
 #include <string.h>
 
-/* item_init() initializes an item struct with given values
-    arguments are taken from WDL
-  Parameters:
-    a memory allocated new item pointer
-    a unique item id
-    a short description of the item
-    a long description of the item
-
-  Returns:
-    FAILURE for failure, SUCCESS for success
-*/
 int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc)
 {
     assert(new_item != NULL);
 
-    strcpy(new_item->item_id, item_id);
-    strcpy(new_item->short_desc, short_desc);
-    strcpy(new_item->long_desc, long_desc);
+    strncpy(new_item->item_id, item_id, strlen(item_id));
+    strncpy(new_item->short_desc, short_desc, strlen(short_desc));
+    strncpy(new_item->long_desc, long_desc, strlen(long_desc));
 
     return SUCCESS;
 }
@@ -336,8 +325,8 @@ int item_free(item_t *item) {
     free(item->item_id);
     free(item->short_desc);
     free(item->long_desc);
-    delete_all_attributes(item->attributes);
-    // uthash_free(attributes, HASH_SIZE);
+    // delete_all_attributes(item->attributes);
+    uthash_free(item->attributes, HASH_SIZE);
     free(item);
     return SUCCESS;
 }
