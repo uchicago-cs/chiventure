@@ -81,7 +81,7 @@ Please see this document for all possible actions and descriptions: https://gith
 
         state: `<STRING_ADJ>` which is the descriptor for the state of the item
 
-        value: `<VAL>` which is the value of the state of the item upon initializaition of the game
+        value: `<VAL>` which is the value of the state of the item upon initialization of the game
 
     ###### NOTE: a valid connection has to have an ID that exists. 
 
@@ -155,7 +155,7 @@ ROOM Example:
 
     state: `<STRING_ADJ>` which is the descriptor for the state of the item
     
-    value: `<VAL>` which is the value of the state of the item upon initializaition of the game
+    value: `<VAL>` which is the value of the state of the item upon initialization of the game
 
     actions: the possible actions that can be performed on the item; each action has the following attributes:
       
