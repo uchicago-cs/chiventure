@@ -17,6 +17,11 @@ typedef struct ui_ctx
 
     window_t *cli_win;
 
+//    map_t *map;
+
+    coord_t *player_loc;
+    coord_record_t *coord_hash;
+
 } ui_ctx_t;
 
 

@@ -42,6 +42,8 @@ int ui_ctx_init(ui_ctx_t *ui_ctx)
     ui_ctx->main_win = main_win;
     ui_ctx->displayed_win = displayed_win;
     ui_ctx->cli_win = cli_win;
+    ui_ctx->coord_hash = NULL;
+    ui_ctx->player_loc = NULL;
 
     return 0;
 }
