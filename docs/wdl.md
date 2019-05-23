@@ -32,8 +32,6 @@ Please see this document for all possible actions and descriptions: https://gith
 
 #### A WDL file is a YAML file that has at least the three file objects: Game, Room, Item.
 
-### Refer to Action Management's file: src/action_management/include/actionmanagement.h on the actions/dev branch for a list of approved actions in a game
-
 ## GAME:
 
 ##### The Game Object must contain the following attributes:
