@@ -44,8 +44,8 @@ void list_print(attr_list_t *ls, void (*print)(obj_t*))
 // The following functions regard room type checking
 
 /* conditions_get_list()
- * a helper function for connection_type_check that gets a list of connections
- * associated with a room object
+ * a helper function for connection_type_check that gets a list of conditions
+ * associated with a connection for a room object
  *
  * parameters:
  *  - obj: a connection object
@@ -174,7 +174,7 @@ bool connection_type_check(obj_t *obj)
 bool room_type_check(obj_t *obj)
 {
     // fields to verify
-    bool id_ver = (obj_get_type(obj, "id") == TYPE_STR); 
+    bool id_ver = (obj_get_type(obj, "id") == TYPE_STR);
     bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
 
