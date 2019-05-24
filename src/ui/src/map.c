@@ -109,8 +109,9 @@ int *calculate_map_dims(room_t **rooms, int n)
         cx = curr->x;
         cy = curr->y;
         cz = curr->z;
-        if (cx > x)
+        if (cx > x){
             x = cx;
+	}
         if (cy > y){
             y = cy;
 	}
