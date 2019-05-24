@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/ -I../game_state/include
 RM = rm -f
 LIB = wdl.a 
 
