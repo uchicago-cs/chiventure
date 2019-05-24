@@ -4,9 +4,8 @@
 #include "parse.h"
 #include "item.h"
 
-
-
-item_t* load_item(wdl_i)
+/* See load_item/h */
+int load_items(obj_t *doc, game_t *g)
 {
     obj_t *items_obj = obj_get_attr(doc, "ITEMS", false);
 
@@ -27,10 +26,14 @@ item_t* load_item(wdl_i)
         char *long_desc = obj_get_str(curr->obj, "long_desc");
 
         // create new game_state item
-        item_t *ret_item = item_new(id, short_desc, long_desc);
+        item_t *item = item_new(id, short_desc, long_desc);
+
+        //retrieve the pointer for the room that the item is located in
+        room_t *item_room = find_room(g, obj_get_str(curr->obj, "in"));
 
         // add item to room
-        add_room_to_game(g, room); //FIXME 
+        add_item_to_room(item_room, item);
         curr = curr->next;
     }
+    return 0;
 }
