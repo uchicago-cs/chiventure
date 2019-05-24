@@ -30,6 +30,7 @@
  * - 0 for successful parse
  * - 1 for unsuccessful parse
  */
+int add_rooms_to_game(obj_t *obj, game_t *g);
 
 /*
  * add_connections_to_rooms
@@ -46,5 +47,6 @@
  * - 0 for successful parse
  * - 1 for unsuccessful parse
  */
+int add_connections_to_rooms(obj_t *obj, game_t *g);
 
 #endif

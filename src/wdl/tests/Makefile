@@ -1,8 +1,8 @@
 #Makefile for Tests
 CC = gcc 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../libobj/include -I../../common/include -I../../game-state/include
-LDFLAGS = -L../ 
-LDLIBS = ../wdl.a -lyaml -lcriterion
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../../game-state/include -I../include/ -I../../libobj/include -I../../common/include
+LDFLAGS = -L../ -L../../libobj
+LDLIBS = ../wdl.a ../../libobj/libobj.a -lyaml -lcriterion
 RM = rm -f
 BIN = test-rooms
 
