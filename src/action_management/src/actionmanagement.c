@@ -56,6 +56,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
 {
     // a couple confirmation checks
     assert(g);
+    assert(g->curr_player);
     assert(a);
     assert(i);
     if (a->kind != ITEM) {
@@ -73,13 +74,14 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
 int do_path_action(game_t *g, action_type_t *a, path_t *p)
 {
     assert(g);
+    assert(g->curr_player);
     assert(a);
     if (a->kind != PATH) {
         fprintf(stderr, "The action type provided is not of the correct kind.\n");
         return FAILURE;
     }
     // TODO: implement the rest of this function, using game state funcs
-    printf("Preformed movement %s using %s into the room %s.",
+    printf("Performed movement %s using %s into the room %s.",
            a->c_name, p->direction, p->dest);
     return SUCCESS;
 }
@@ -91,6 +93,7 @@ int do_item_item_action(game_t *g, action_type_t *a,
                         item_t *direct, item_t *indirect)
 {
     assert(g);
+    assert(g->curr_player);
     assert(a);
     assert(direct);
     assert(indirect);
