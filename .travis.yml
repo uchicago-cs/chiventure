@@ -3,6 +3,8 @@ addons:
   apt:
     packages:
       - libyaml-dev
+      - protobuf-compiler
+      - protobuf-c-compiler
 
 branches:
   only:
