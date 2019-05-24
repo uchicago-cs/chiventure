@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "actionmanagement.h"
 #include "common.h"
-
+#include "string.h"
 
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind)
@@ -50,55 +50,84 @@ void action_type_free(action_type_t *a)
 /* ========================================================================== */
 
 
-// KIND 1
-/* See actionmanagement.h */
-int do_item_action(game_t *g, action_type_t *a, item_t *i)
+/* KIND 1
+ * See actionmanagement.h */
+char *do_item_action(game_t *g, action_type_t *a, item_t *i)
 {
     // a couple confirmation checks
     assert(g);
+    assert(g->curr_player);
     assert(a);
     assert(i);
+    char *ret_string = malloc(100); // buffer
+    ret_string[0] '\0';
     if (a->kind != ITEM) {
-        fprintf(stderr, "The action type provided is not of the correct kind.\n");
-        return FAILURE;
+        strcat(ret_string, "The action type provided is not the right kind");
+        return ret_string;
     }
-    // TODO: implement the rest of this function, using game_state funcs
-    printf("Performed action %s on item %s", a->c_name, i->item_id);
-    return SUCCESS;
+    /* TODO: implement the rest of this function, using game_state funcs
+     * Will eventually check for if the action is allowed on the item
+     * as well as perform the action if all checks pass 
+     */
+    strcat(ret_string, "Performed action ");
+    strcat(ret_string, a->cname);
+    strcat(ret_string, " on item ");
+    strcat(ret_string, i->item_id);
+    return ret_string;
 }
 
 
-// KIND 2
-/* See actionmanagement.h */
-int do_path_action(game_t *g, action_type_t *a, path_t *p)
+/* KIND 2
+ * See actionmanagement.h */
+char *do_path_action(game_t *g, action_type_t *a, path_t *p)
 {
     assert(g);
     assert(a);
+    char *ret_string = malloc(100); // buffer
+    ret_string[0] '\0';
     if (a->kind != PATH) {
-        fprintf(stderr, "The action type provided is not of the correct kind.\n");
-        return FAILURE;
+        strcat(ret_string, "The action type provided is not the right kind");
+        return ret_string;
     }
-    // TODO: implement the rest of this function, using game state funcs
-    printf("Preformed movement %s using %s into the room %s.",
-           a->c_name, p->direction, p->dest);
-    return SUCCESS;
+    /* TODO: implement the rest of this function, using game state funcs
+     * Will eventually check for if the action is allowed on the item
+     * as well as perform the action if all checks pass 
+     */
+    strcat(ret_string, "Performed movement ");
+    strcat(ret_string, a->c_name);
+    strcat(ret_string, " in direction ");
+    strcat(ret_string, p->direction);
+    strcat(ret_string, " into room ");
+    strcat(ret_string, p->dest);
+    return ret_string;
 }
 
 
-// KIND 3
-/* See actionmanagement.h */
-int do_item_item_action(game_t *g, action_type_t *a,
+/* KIND 3
+ * See actionmanagement.h */
+char *do_item_item_action(game_t *g, action_type_t *a,
                         item_t *direct, item_t *indirect)
 {
     assert(g);
     assert(a);
+    assert(g->curr_player);
     assert(direct);
     assert(indirect);
+    char *ret_string = malloc(100); // buffer
+    ret_string[0] '\0';
     if (a->kind != ITEM_ITEM) {
-        fprintf(stderr, "The action type provided is not of the correct kind.\n");
-        return FAILURE;
+        strcat(ret_string, "The action type provided is not the right kind");
+        return ret_string;
     }
-    printf("Performed action %s with %s on %s.",
-           a->c_name, direct->item_id, indirect->item_id);
-    return SUCCESS;
+    /* TODO: implement the rest of this function, using game state funcs
+     * Will eventually check for if the action is allowed on the item
+     * as well as perform the action if all checks pass 
+     */
+    strcat(ret_string, "Performed action ");
+    strcat(ret_string, a->cname);
+    strcat(ret_string, " with ");
+    strcat(ret_string, direct->item_id);
+    strcat(ret_string, " on ");
+    strcat(ret_string, indirect->item_id);
+    return ret_string;
 }
