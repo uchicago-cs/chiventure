@@ -63,7 +63,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i)
         return FAILURE;
     }
     // TODO: implement the rest of this function, using game_state funcs
-    printf("Performed action %s on item %s",a->c_name,i->item_id);
+    printf("Performed action %s on item %s", a->c_name, i->item_id);
     return SUCCESS;
 }
 
@@ -80,7 +80,7 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p)
     }
     // TODO: implement the rest of this function, using game state funcs
     printf("Preformed movement %s using %s into the room %s.",
-           a->c_name,p->direction,p->dest);
+           a->c_name, p->direction, p->dest);
     return SUCCESS;
 }
 
@@ -99,6 +99,6 @@ int do_item_item_action(game_t *g, action_type_t *a,
         return FAILURE;
     }
     printf("Performed action %s with %s on %s.",
-           a->c_name,direct->item_id,indirect->item_id);
+           a->c_name, direct->item_id, indirect->item_id);
     return SUCCESS;
 }
