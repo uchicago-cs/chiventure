@@ -194,10 +194,8 @@ bool item_type_check(obj_t *obj)
     bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
     bool in_ver = (obj_get_type(obj, "in") == TYPE_STR);
-    bool state_ver = (obj_get_type(obj, "state") == TYPE_STR);
-    bool val_ver = (obj_get_type(obj, "value)") == TYPE_STR);
 
-    return (id_ver && short_ver && long_ver && in_ver && state_ver);
+    return (id_ver && short_ver && long_ver && in_ver);
 }
 
 // The following functions regard game type checking
