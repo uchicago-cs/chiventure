@@ -48,7 +48,6 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
 
 /* see common-item.h */
 int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
-    /*
     attribute_t* check = (attribute_t*)malloc(sizeof(attribute_t));
     char* test_attribute_key = new_attribute->attribute_key;
     HASH_FIND_STR(attribute_hash, test_attribute_key, check);
@@ -56,7 +55,6 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attr
         fprintf(stderr, "Error: this attribute is already present.\n");
         return FAILURE;
     }
-    */
     HASH_ADD_STR(attribute_hash, attribute_key, new_attribute);
     return SUCCESS;
 }
@@ -65,8 +63,7 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attr
 attribute_t *get_attribute(item_t *item, char *attr_name)
 {
     attribute_t* return_value;
-    attribute_hash_t attribute_hash = item->attributes;
-    HASH_FIND_STR(attribute_hash, attr_name, return_value);
+    HASH_FIND_STR(item->attributes, attr_name, return_value);
     if (return_value != NULL) {
         return NULL;
     }

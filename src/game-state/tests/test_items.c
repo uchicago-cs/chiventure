@@ -53,11 +53,13 @@ void item_teardown(item_t *test_item) {
 }
 
 
-Test(attribute, set_string_attribute)
+Test(attribute, set_int_attribute)
 {
 	item_t *test_item = item_new();
-	int rv = set_str_attr(test_item, "Attribute_Test_Name", "An Attribute");
+	int rv = set_int_attr(test_item, "A", 2);
 	cr_assert_eq(rv, SUCCESS, "set_string_attribute: returned the wrong value");
+	int test_int = get_int_attr(test_item, "A");
+	//cr_assert_eq(test_int, 2, "set_string_attribute: set the wrong value");
 
 
 }
