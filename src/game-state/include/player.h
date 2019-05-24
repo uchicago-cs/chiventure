@@ -25,7 +25,7 @@ typedef struct player {
 typedef struct player* player_hash_t;
 
 /*
- * Initializes a player
+ * Initializes a player with level 1, given health, and 0 experience
  *
  * Parameters:
  *  p: A player. Must point to already allocated memory.
