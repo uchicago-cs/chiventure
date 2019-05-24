@@ -109,10 +109,6 @@ ROOM Example:
 
     in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
 
-    state: `<STRING_ADJ>` which is the descriptor for the state of the item
-    
-    value: `<VAL>` which is the value of the state of the item upon initialization of the game
-
     actions: the possible actions that can be performed on the item; each action has the following attributes:
       
     - action: `<ACTION FROM BANK>`:
@@ -123,16 +119,10 @@ ROOM Example:
 
       - id: `<STRING_ITEM>` which is an identification name that is unique to the conditional item
 
-        state: `<STRING_ADJ>` which is the descriptor for the state of the conditional item
-
-        value: `<VAL>` which is the value of the state of the conditional item in order for the action to be completed
-
       - id: `<ITEM ID>`
         
         state: `<ATTRIBUTE>`
          
-        val: `<VAL>` which is the value of the state of the item upon completion of the action
-
 ### ITEM examples:
 ```yaml
 - id: "handle"
@@ -142,10 +132,6 @@ ROOM Example:
   long_desc: "The iron lever is painted gold and rusting in the corner of the palace garden."
 
   in: "garden"
-
-  state: "pulled"
-
-  value: "no"
 
   actions:
 
