@@ -2,9 +2,6 @@
 #include <assert.h>
 #include <stdio.h>
 #include "actionmanagement.h"
-#include "item.h"
-#include "path.h"
-#include "game.h"
 #include "common.h"
 
 
