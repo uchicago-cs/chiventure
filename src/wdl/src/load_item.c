@@ -37,3 +37,9 @@ int load_items(obj_t *doc, game_t *g)
     }
     return 0;
 }
+
+/* See load_item/h */
+int load_actions(obj_t *doc, item_t *i)
+{
+    return 0;
+}

@@ -28,4 +28,9 @@
  */
 item_t* load_items(obj_t *doc, game_t *g );
 
+/* load_actions
+ * loads actions into items
+ */
+int load_actions(obj_t *doc, item_t *i);
+
 #endif /* INCLUDE_LOAD_ITEM_H */
