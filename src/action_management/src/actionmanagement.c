@@ -60,7 +60,7 @@ char *do_item_action(game_t *g, action_type_t *a, item_t *i)
     assert(a);
     assert(i);
     char *ret_string = malloc(100); // buffer
-    ret_string[0] '\0';
+    ret_string[0] = '\0';
     if (a->kind != ITEM) {
         strcat(ret_string, "The action type provided is not the right kind");
         return ret_string;
@@ -70,7 +70,7 @@ char *do_item_action(game_t *g, action_type_t *a, item_t *i)
      * as well as perform the action if all checks pass 
      */
     strcat(ret_string, "Performed action ");
-    strcat(ret_string, a->cname);
+    strcat(ret_string, a->c_name);
     strcat(ret_string, " on item ");
     strcat(ret_string, i->item_id);
     return ret_string;
@@ -84,7 +84,7 @@ char *do_path_action(game_t *g, action_type_t *a, path_t *p)
     assert(g);
     assert(a);
     char *ret_string = malloc(100); // buffer
-    ret_string[0] '\0';
+    ret_string[0] = '\0';
     if (a->kind != PATH) {
         strcat(ret_string, "The action type provided is not the right kind");
         return ret_string;
@@ -114,7 +114,7 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     assert(direct);
     assert(indirect);
     char *ret_string = malloc(100); // buffer
-    ret_string[0] '\0';
+    ret_string[0] = '\0';
     if (a->kind != ITEM_ITEM) {
         strcat(ret_string, "The action type provided is not the right kind");
         return ret_string;
@@ -124,7 +124,7 @@ char *do_item_item_action(game_t *g, action_type_t *a,
      * as well as perform the action if all checks pass 
      */
     strcat(ret_string, "Performed action ");
-    strcat(ret_string, a->cname);
+    strcat(ret_string, a->c_name);
     strcat(ret_string, " with ");
     strcat(ret_string, direct->item_id);
     strcat(ret_string, " on ");
