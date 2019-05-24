@@ -18,6 +18,6 @@
  * output: 
  *   - a pointer to the item_t struct that has been loaded 
  */
-item_t* load_item(wdl_item_t* item);
+item_t* load_items_into_game(obj_t *doc, game_t *g );
 
 #endif /* INCLUDE_LOAD_ITEM_H */
