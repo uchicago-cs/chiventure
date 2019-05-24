@@ -20,7 +20,21 @@
  *   - a pointer to a game_t struct
  *
  */
-game_t *create_game(obj_t *game);
+game_t *create_game(obj_t *doc);
+
+
+/*
+ * Function set start room in a game
+ *
+ * input: 
+ *   - room id, pointer to game_t struct
+ *
+ * output:
+ *   - none
+ *
+ */
+void game_set_start(char *room_id, game_t *game);
+
 
 
 
