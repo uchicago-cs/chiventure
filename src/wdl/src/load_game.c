@@ -5,24 +5,10 @@
 #include "load_game.h"
 #include "parse_document.h"
 
-/*
- * see load_game.h
- */
-void load_rooms(atrr_list_t *rooms, attr_list_t *all_items, game_t *g)
+game_t *create_game(obj_t *game)
 {
-  attr_list_t *items_in_room;
-  int success;
-  while(rooms->next != NULL){
-    /* r = create_room(rooms->obj) waiting on this from Kate */
-    items_in_room = get_items_in_room(rooms->obj->id, all_items);
-    while(items_in_room->next != NULL){
-    /* i = create_item(items_in_room->obj) waiting on this from Shriya*/
-    /* add_item_to_room(); waiting on this from game_state*/
-      items_in_room = items_in_room->next;
-    }
-    /* success = add_room_to_game(g, r); */
-    rooms = rooms->next;
-  }
+  //  char *intro = obj_get_str(game,"GAME.1.intro");
+  
+  game_t *game_ret = game_new();
+  return game_ret;
 }
-      
-      

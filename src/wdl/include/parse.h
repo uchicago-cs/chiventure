@@ -44,7 +44,7 @@ attr_list_t *extract_objects(obj_t *obj, char *str);
  * gets the ids of a list of room, item, or player objects
  *
  * parameters:
- *  - ls: a list of room,s items, or players
+ *  - ls: a list of rooms, items, or players
  *
  * returns:
  *  - a list of ids, more specifically, a doubly linked list of strings

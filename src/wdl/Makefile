@@ -1,11 +1,13 @@
-# Makefile based on template at https://gist.github.com/xuhdev/1873316
+## Makefile based on template at https://gist.github.com/xuhdev/1873316
 
 CC = gcc
 AR = ar 
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/
 RM = rm -f
-LIB = wdl.a
-LDLIBS = -lyaml
+LIB = wdl.a 
+
+LDFLAGS = -L../libobj 
+LDLIBS = ../libobj/libobj.a -lyaml 
 
 .PHONY: clean clean-lib clean-bin
 
@@ -35,12 +37,13 @@ $(EXAMPLE_SRCS:.c=.d):%.d:%.c
 
 -include $(EXAMPLE_SRCS:.c=.d)
 
-$(EXAMPLE_BINS): %:%.c $(LIB)
-	$(CC) $(CFLAGS) $^ -o$@ $(LDLIBS)
+$(EXAMPLE_BINS): %:%.c
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIB) $(LDLIBS) -o$@
 
 examples: $(EXAMPLE_BINS)
 
 clean-bin:
 	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
 
-clean: clean-lib clean-lib
+clean: clean-lib clean-bin
+
