@@ -18,74 +18,81 @@
  */
 attr_list_t *get_obj_list(obj_t *obj, char *str)
 {
-    char *attributes[3] = {"ROOMS", "ITEMS", "PLAYERS"};
-
-    if (strcmp(str, attributes[0]) != 0 &&
-        strcmp(str, attributes[1]) != 1 &&
-        strcmp(str, attributes[2]))
+    if (strcmp(str, "ROOMS") != 0 &&
+        strcmp(str, "ITEMS") != 0 &&
+        strcmp(str, "PLAYERS") != 0) {
         return NULL;
+    }
 
     return obj_list_attr(obj);
 }
 
 /* see parse.h */
-//attr_list_t *extract_objects(obj_t *obj, char *str)
-//{
-//    char *attributes[3] = {"ROOMS", "ITEMS", "PLAYERS"};
-//    attr_list_t *ls = get_obj_list(obj, str);
-//    bool valid = false;
-//
-//    if (ls == NULL)
-//        return NULL;
-//
-//    if (strcmp(str, attributes[0]))
-//        valid = list_check_type(ls, room_type_check);
-//   else if (strcmp(str, attributes[1]))
-//       valid = list_check_type(ls, item_type_check);
-//    else
-//        valid = list_check_type(ls, player_type_check);
-//
-//    if (valid)
-//        return ls;
-//    else
-//        return NULL;
-//}
-
-
-/* make_char_id()
- * a helper function for extract_ids();
- * used to add a char id to the id list
- *
- * parameters:
- *  - obj: the object for which to get the id
- *
- * returns:
- *  - a single id item to be added to the list by extract_ids()
- *
-attr_list_t *make_char_id(obj_t *obj)
+attr_list_t *extract_objects(obj_t *obj, char *str)
 {
+    bool valid = false;
 
-}*/
+    attr_list_t *ls = get_obj_list(obj, str);
 
+    if (ls == NULL) {
+        return NULL;
+    }
 
-/* make_str_id()
- * a helper function for extract_ids();
- * used to add a str id to the id list
- *
- * parameters:
- *  - obj: the object for which to get the id
- *
- * returns:
- *  - a single id item to be added to the list by extract_ids()
- *
-attr_list_t *make_str_id(obj_t *obj)
+    if (strcmp(str, "ROOMS") != 0) {
+        valid = list_type_check(ls, room_type_check);
+    }
+    else if (strcmp(str, "ITEMS") != 0) {
+        valid = list_type_check(ls, item_type_check);
+    } 
+    else if (strcmp(str, "PLAYERS") != 0) {
+        valid = list_type_check(ls, player_type_check);
+    }
+
+    if (valid) {
+        return ls;
+    }
+    else {
+        return NULL;
+    }
+}
+
+/* See parse.h */
+attr_list_t* get_items_in_room(char* room_id, attr_list_t *all_items)
 {
-    
-}*/
-
+    attr_list_t* ret_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
+    attr_list_t* tmp = all_items;
+    while(tmp != NULL)
+    {
+        //will update this to item_compare in the future
+        if(strcmp(obj_get_str(tmp->obj, "in"), room_id) == 0)
+        {
+            ret_ls->obj = tmp->obj;
+            attr_list_t* next_in_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
+            ret_ls->next = next_in_ls;
+            ret_ls = ret_ls->next; 
+        }
+        tmp = tmp->next;
+    }
+    return ret_ls;
+}
 
 /* see parse.h */
-id_list_t *extract_ids(attr_list_t *ls)
+attr_list_t *get_item_actions(obj_t *item)
 {
-    return NULL;
+    bool valid = false;
+
+    attr_list_t *ls = get_obj_list(obj, str);
+
+    if (ls == NULL) {
+        return NULL;
+    }
+
+    valid = list_type_check(ls, action_type_check);
+
+    if (valid) {
+        return ls;
+    }
+    else {
+        return NULL;
+    }
 }

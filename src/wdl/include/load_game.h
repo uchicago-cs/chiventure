@@ -11,17 +11,30 @@
 #include "parse.h"
 
 /*
- * Function to load a complete game into game_t struct
+ * Function to create a pointer to an empty game
  *
  * input: 
- *   - an attr_list_t pointer to a list of rooms
- *   - another attr_list_t pointer to a list of all items in the game
- *   - a pointer to the game_t struct that will be filled.
+ *   - document object that contains whole game
  *
  * output:
+ *   - a pointer to a game_t struct
  *
  */
-void load_rooms(atrr_list_t *rooms, attr_list_t *all_items, game_t *g);
+game_t *create_game(obj_t *doc);
+
+
+/*
+ * Function set start room in a game
+ *
+ * input: 
+ *   - room id, pointer to game_t struct
+ *
+ * output:
+ *   - none
+ *
+ */
+void game_set_start(char *room_id, game_t *game);
+
 
 
 
