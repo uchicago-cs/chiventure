@@ -12,6 +12,7 @@
 #include "room.h"
 #include "game.h"
 #include "path.h"
+#include "validate.h"
 
 /*
  * add_rooms_to_game
