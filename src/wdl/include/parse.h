@@ -55,4 +55,17 @@ id_list_t *extract_ids(attr_list_t *ls);
  * a list with all the items in that room */
 attr_list_t* get_items_in_room(char* room_id, attr_list_t* all_items);
 
+/*
+ * get_item_actions()
+ * gets a list of actions assoiciated with a given item
+ *
+ * parameters:
+ *  - item: the item for which to get the actions
+ *
+ * returns:
+ *  - a linked list of type-checked action attributes
+ *  - a null if any of the actions are malformed
+ */
+attr_list_t *get_item_actions(obj_t *item);
+
 #endif /* INCLUDE_PARSE_H */
