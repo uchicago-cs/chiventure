@@ -13,7 +13,7 @@ void add_entry(char * command_name, operation * associated_operation, lookup_t *
     lookup_t * t = malloc(sizeof(lookup_t));
     t->name = command_name;
     t->operation_type = associated_operation;
-    HASH_ADD_KEYPTR( hh, * table, t->name, strlen(t->name), t);
+    HASH_ADD_KEYPTR(hh, * table, t->name, strlen(t->name), t);
     printf("%d\n",HASH_COUNT(* table) );
 }
 
@@ -47,6 +47,7 @@ void delete_entry(char * command_name, lookup_t * * table)
     HASH_DEL(* table, t);
     free(t);
 }
+
 void delete_entries(lookup_t * * table)
 {
     lookup_t * tmp;

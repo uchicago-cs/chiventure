@@ -11,12 +11,22 @@
 typedef char * operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 // Lookup entry for hashtable, using uthash.
-typedef struct lookup_entry{
+typedef struct lookup_entry
+{
   char * name; // key
   operation * operation_type;
   // * action_t action_type;
   UT_hash_handle hh;
 } lookup_t;
+
+
+/* Command data type */
+typedef struct
+{
+    char **tokens;    //should be of TOKEN_LIST_SIZE
+    operation *func_of_cmd;
+} cmd;
+
 
 /* Iteratively adds each action, and its synonyms into the table. Commented out
 until action_t is ready */
@@ -91,18 +101,13 @@ void delete_entry(char * command_name, lookup_t * * table);
  * - nothing
  */
 void delete_entries(lookup_t * * table);
+
+
 /* Puts stuff into table, for testing purposes
  * You can see what is in there in the .c file.
  * Returns a pointer to the new table.
  */
-
 lookup_t * * initialize_lookup();
-/* Command data type */
-typedef struct
-{
-    char **tokens;    //should be of TOKEN_LIST_SIZE
-    operation *func_of_cmd;
-} cmd;
 
 
 /* Heap allocates a new cmd struct
