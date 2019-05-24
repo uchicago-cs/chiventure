@@ -44,13 +44,15 @@ int player_free(player_t* plyr) {
     return SUCCESS;
 }
 
+
 void delete_all_players(player_hash_t players) {
     player_t *current_player, *tmp;
     HASH_ITER(hh, players, current_player, tmp) {
-        HASH_DEL(players, current_player);  /* delete it (players advances to next) */
-        player_free(current_player);             /* free it */
+        HASH_DEL(players, current_player);  
+        player_free(current_player);           
     }
 }
+
 
 /* See player.h */
 int get_health(player_t* plyr) {
@@ -97,6 +99,7 @@ item_hash_t get_inventory(player_t* plyr) {
 
 
 /* See player.h */
+
 int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *player) {
     player_t *s;
     HASH_FIND_STR(all_players, player_id, s);

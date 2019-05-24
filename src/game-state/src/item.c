@@ -26,7 +26,7 @@ item_t *item_new()
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
 
-    new_item->attributes = uthash_malloc(HASH_SIZE);
+    new_item->attributes = NULL; //used to be uthash_malloc(NULL) THIS IS WHAT WAS CAUSING THE BUGS
 
     return new_item;
 
@@ -48,13 +48,15 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
 
 /* see common-item.h */
 int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
+    /*
     attribute_t* check = (attribute_t*)malloc(sizeof(attribute_t));
-    char* attribute_key = new_attribute->attribute_key;
-    HASH_FIND_STR(attribute_hash, attribute_key, check);
+    char* test_attribute_key = new_attribute->attribute_key;
+    HASH_FIND_STR(attribute_hash, test_attribute_key, check);
     if (check != NULL) {
         fprintf(stderr, "Error: this attribute is already present.\n");
         return FAILURE;
     }
+    */
     HASH_ADD_STR(attribute_hash, attribute_key, new_attribute);
     return SUCCESS;
 }

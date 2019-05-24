@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <criterion/criterion.h>
 #include "item.h"
-<<<<<<< HEAD
-=======
 #include "common-item.h"
->>>>>>> 584597f8a373e169b3b47e74d218fd71c44ac7e9
 
 // BASIC ITEM UNIT TESTS ------------------------------------------------------
 Test(item, new)
@@ -56,6 +53,15 @@ void item_teardown(item_t *test_item) {
 }
 
 
+Test(attribute, set_string_attribute)
+{
+	item_t *test_item = item_new();
+	int rv = set_str_attr(test_item, "Attribute_Test_Name", "An Attribute");
+	cr_assert_eq(rv, SUCCESS, "set_string_attribute: returned the wrong value");
+
+
+}
+
 //
 // Test(attributes, set_int)
 // {
@@ -68,6 +74,7 @@ void item_teardown(item_t *test_item) {
 // Test(atrributes, add_attr_to_hash, .init = item_setup, .fini = item_teardown)
 // don't really understand the last two args, doesn't pass the structure to
 // the test to be used
+/*
 Test(attributes, add_attr_to_hash)
 {
   attribute_t test_attr = {0};
@@ -98,3 +105,4 @@ Test(item, get_attribute_exists)
     //cr_assert_str_eq(new_attribute->attribute_value.str_val, found_atttribute->attribute_value.str_val, "get_attribute() has failed!");
 
 }
+*/
