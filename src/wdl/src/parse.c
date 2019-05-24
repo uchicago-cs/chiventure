@@ -56,15 +56,7 @@ attr_list_t *extract_objects(obj_t *obj, char *str)
     }
 }
 
-
-/* see parse.h */
-id_list_t *extract_ids(attr_list_t *ls)
-{
-    // TODO
-    return NULL;
-}
-
-/* See parse_document.h */
+/* See parse.h */
 attr_list_t* get_items_in_room(char* room_id, attr_list_t *all_items)
 {
     attr_list_t* ret_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
@@ -82,4 +74,25 @@ attr_list_t* get_items_in_room(char* room_id, attr_list_t *all_items)
         tmp = tmp->next;
     }
     return ret_ls;
+}
+
+/* see parse.h */
+attr_list_t *get_item_actions(obj_t *item)
+{
+    bool valid = false;
+
+    attr_list_t *ls = get_obj_list(obj, str);
+
+    if (ls == NULL) {
+        return NULL;
+    }
+
+    valid = list_type_check(ls, action_type_check);
+
+    if (valid) {
+        return ls;
+    }
+    else {
+        return NULL;
+    }
 }

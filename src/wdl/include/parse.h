@@ -11,17 +11,6 @@
 #include "parser.h"
 
 
-/* a doubly linked list of strings used to store the ids of objects;
- * used to check that room passages lead to valid rooms and the such
- */
-typedef struct id_list
-{
-    char *id;
-    struct id_list *prev;
-    struct id_list *next;
-} id_list_t;
-
-
 /*
  * extract_objects()
  * extracts the a list of objects associated with an attribute of the primary object;
@@ -39,21 +28,10 @@ typedef struct id_list
 attr_list_t *extract_objects(obj_t *obj, char *str);
 
 
-/*
- * extract_ids()
- * gets the ids of a list of room, item, or player objects
- *
- * parameters:
- *  - ls: a list of rooms, items, or players
- *
- * returns:
- *  - a list of ids, more specifically, a doubly linked list of strings
- */
-id_list_t *extract_ids(attr_list_t *ls);
-
 /* Given a room id and the list of all items in a game returns
  * a list with all the items in that room */
 attr_list_t* get_items_in_room(char* room_id, attr_list_t* all_items);
+
 
 /*
  * get_item_actions()
@@ -64,7 +42,7 @@ attr_list_t* get_items_in_room(char* room_id, attr_list_t* all_items);
  *
  * returns:
  *  - a linked list of type-checked action attributes
- *  - a null if any of the actions are malformed
+ *  - a null if any of the actions are malformed or if no actions are present
  */
 attr_list_t *get_item_actions(obj_t *item);
 
