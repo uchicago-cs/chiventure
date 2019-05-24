@@ -2,6 +2,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include "actionmanagement.h"
+#include "item.h"
+#include "path.h"
+#include "game.h"
 #include "common.h"
 
 
@@ -54,98 +57,16 @@ void action_type_free(action_type_t *a)
 /* See actionmanagement.h */
 int do_item_action(game_t *g, action_type_t *a, item_t *i)
 {
+    // a couple confirmation checks
     assert(g);
-    assert(g->current_player); // assumes game_t has a field for current player
     assert(a);
     assert(i);
     if (a->kind != ITEM) {
         fprintf(stderr, "The action type provided is not of the correct kind.\n");
         return FAILURE;
     }
-    int allowed = FAILURE;
-    for (int action = 0; action < i->num_allowed_actions; action++)
-        if (!allowed)
-            allowed = SUCCESS;
-    if (allowed != SUCCESS) {
-        fprintf(stderr, "The action can not be done with this item.\n");
-        return FAILURE;
-    }
-    switch (allowed) {
-    //**
-    // waiting on game state to implement a toggle function
-    // case PUSH:
-    // case PULL:
-    // case OPEN:
-    // case CLOSE:
-    // case TURN_ON:
-    // case TURN_OFF: {
-    //     // See game.h
-    //     int toggle = toggle_condition(g, a, i);
-    //     if (toggle != SUCCESS) {
-    //         fprintf(stderr, "%s failed", a->c_name);
-    //         return FAILURE;
-    //     }
-    //     break;
-    // }
-    case EXAMINE: {
-        // See game.h
-        int describe = i->long_desc;
-        if (describe != SUCCESS) {
-            fprintf(stderr, "%s failed", a->c_name);
-            return FAILURE;
-        }
-        break;
-    }
-    case DROP: {
-        // See game.h
-        //**
-        // waiting on game state to create function that removes inventory item from player
-        // int drop = remove_inventory_item(g->current_player, i);
-        // if (drop != SUCCESS) {
-        //     fprintf(stderr, "Object could not be removed from inventory.\n");
-        //     return FAILURE;
-        // }
-        break;
-    }
-    case TAKE: {
-        // See game.h
-        int take = take_object(i);
-        if (take != SUCCESS) {
-            fprintf(stderr, "item can't be taken");
-            return FAILURE;
-        }
-        // See game.h
-        //**
-        // waiting on game state to create a function that add investory to a current player
-        // int add = add_inventory_item(g->current_player, i);
-        // if (add != SUCCESS) {
-        //     fprintf(stderr, "item was not taken");
-        //     return FAILURE;
-        // }
-        // break;
-    }
-    case CONSUME: {
-        // See game.h
-        //**
-        // waiting on game state to create function that removes inventory item from player
-        // int consumed = remove_inventory_item(g->current_player, i);
-        // if (consumed != SUCCESS) {
-        //     fprintf(stderr, "Object could not be removed from inventory.\n");
-        //     return FAILURE;
-        // }
-        // See game.h
-
-        int boosted = change_health(g->current_player, int change, g->current_player->health;
-        if (boosted) {
-            fprintf(stderr, "Player's health is %d", boosted);
-        }
-        break;
-    }
-    default:
-        fprintf(stderr, "Action is not of the correct type.\n");
-        return FAILURE;
-    }
-    fprintf(stderr, "Action type %s was used", a->c_name);
+    // TODO: implement the rest of this function, using game_state funcs
+    printf("Performed action %s on item %s",a->c_name,i->item_id);
     return SUCCESS;
 }
 
@@ -160,25 +81,19 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p)
         fprintf(stderr, "The action type provided is not of the correct kind.\n");
         return FAILURE;
     }
-    // See game.h
-    //game state doesn't have player move function yet
-    int moved = move_room(g, p);
-    if (moved == SUCCESS) {
-        return SUCCESS;
-    } else {
-        fprintf(stderr, "Player was unable to move.\n");
-        return FAILURE;
-    }
+    // TODO: implement the rest of this function, using game state funcs
+    printf("Preformed movement %s using %s into the room %s.",
+           a->c_name,p->direction,p->dest);
+    return SUCCESS;
 }
 
 
 // KIND 3
 /* See actionmanagement.h */
 int do_item_item_action(game_t *g, action_type_t *a,
-                     item_t *direct, item_t *indirect)
+                        item_t *direct, item_t *indirect)
 {
     assert(g);
-    assert(g->current_player);
     assert(a);
     assert(direct);
     assert(indirect);
@@ -186,23 +101,7 @@ int do_item_item_action(game_t *g, action_type_t *a,
         fprintf(stderr, "The action type provided is not of the correct kind.\n");
         return FAILURE;
     }
-    int allowed = FAILURE;
-    for (int action = 0; action < direct->num_allowed_actions; action++)
-        if (!allowed)
-            allowed = SUCCESS;
-    if (allowed != SUCCESS) {
-        fprintf(stderr, "The action can not be done to this item.\n");
-        return FAILURE;
-    }
-    // See game.h
-    //**
-    // waiting on game state to create function that removes inventory item from player
-    // int moved = remove_inventory_item(g->current_player, direct);
-    // if (moved != SUCCESS) {
-    //     fprintf(stderr, "Object could not be moved from inventory.\n");
-    //     return FAILURE;
-    // }
-    fprintf(stderr, "status has changed in item.\n"); // notifies status change
-      //talk to game state about how to notify a status change
+    printf("Performed action %s with %s on %s.",
+           a->c_name,direct->item_id,indirect->item_id);
     return SUCCESS;
 }

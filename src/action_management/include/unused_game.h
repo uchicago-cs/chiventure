@@ -1,9 +1,7 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-
 #include "action_structs.h"
-
 
 /* In the absence of the Game State team's code,
  * here are some theoretical structs containing the minimum of what we need.
