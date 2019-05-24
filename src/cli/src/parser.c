@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "parser.h"
+#include "../include/parser.h"
 
 /* See parser.h */
 char **parse(char *input)
@@ -23,5 +23,27 @@ char **parse(char *input)
         token = strtok(NULL, " ");
     }
 
+    if(token != NULL) 
+    {
+        printf("ERROR: too many words!\n");
+        return NULL;
+    }
+
     return words;
 }
+
+//A test function
+// int main() {
+//     char str[] = "GIVE talisman to the wizard";
+//     char **words = parse(str);
+
+//     if(words == NULL) {
+//         return 1;
+//     }
+
+//      for(int i = 0; i < TOKEN_LIST_SIZE; i++) {
+//         printf("%s\n", words[i]);
+//     }
+
+//      return 0;
+// }

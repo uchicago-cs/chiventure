@@ -51,6 +51,7 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
     }
     return "is an action!";
 }
+
 //KIND 2:   ACTION <direction>
 char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
 {
