@@ -64,7 +64,7 @@ attribute_t *get_attribute(item_t *item, char *attr_name)
 {
     attribute_t* return_value;
     HASH_FIND_STR(item->attributes, attr_name, return_value);
-    if (return_value != NULL) {
+    if (return_value == NULL) {
         return NULL;
     }
     return return_value;
@@ -189,8 +189,10 @@ int get_int_attr(item_t *item, char* attr_name) {
   if (res == NULL) {
     fprintf(stderr, "Error: attribute get failed.\n");
   }
-
-  return res->attribute_value.int_val;
+  attribute_value_t attr1 = res->attribute_value;
+  int x = attr1.int_val;
+  printf("the vale of x is %d", x);
+  return x;//res->attribute_value.int_val;
 }
 
 /* see item.h */
@@ -211,7 +213,6 @@ char get_char_attr(item_t *item, char* attr_name) {
   if (res == NULL) {
     fprintf(stderr, "Error: attribute get failed.\n");
   }
-
   return res->attribute_value.char_val;
 }
 
