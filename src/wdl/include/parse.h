@@ -51,4 +51,8 @@ attr_list_t *extract_objects(obj_t *obj, char *str);
  */
 id_list_t *extract_ids(attr_list_t *ls);
 
+/* Given a room id and the list of all items in a game returns
+ * a list with all the items in that room */
+attr_list_t* get_items_in_room(char* room_id, attr_list_t* all_items);
+
 #endif /* INCLUDE_PARSE_H */

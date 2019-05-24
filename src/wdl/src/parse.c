@@ -63,3 +63,23 @@ id_list_t *extract_ids(attr_list_t *ls)
     // TODO
     return NULL;
 }
+
+/* See parse_document.h */
+attr_list_t* get_items_in_room(char* room_id, attr_list_t *all_items)
+{
+    attr_list_t* ret_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
+    attr_list_t* tmp = all_items;
+    while(tmp != NULL)
+    {
+        //will update this to item_compare in the future
+        if(strcmp(obj_get_str(tmp->obj, "in"), room_id) == 0)
+        {
+            ret_ls->object = tmp->obj;
+            attr_list_t* next_in_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
+            ret_ls->next = next_in_ls;
+            ret_ls = ret_ls->next; 
+        }
+        tmp = tmp->next;
+    }
+    return ret_ls;
+}
