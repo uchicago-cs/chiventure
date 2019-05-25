@@ -65,26 +65,12 @@ path_t *path_search(path_hash_t paths, char* direction) {
   return path;
 }
 
-/* Get short description of room
- *
- * Parameters:
- *  pointer to room
- *
- * Returns:
- *  short description string
- */
+/* See room.h */
 char *get_sdesc(room_t *room) {
     return room->short_desc;
 }
 
-/* Get long description of room
- *
- * Parameters:
- *  pointer to room
- *
- * Returns:
- *  long description string
- */
+/* See room.h */
 char *get_ldesc(room_t *room) {
     return room->long_desc;
 }

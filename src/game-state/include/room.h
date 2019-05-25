@@ -70,4 +70,24 @@ int add_item_to_room(room_t *room, item_t *item);
  */
 int add_path_to_room(room_t *room, path_t *path);
 
+/* Get short description of room
+ *
+ * Parameters:
+ *  pointer to room
+ *
+ * Returns:
+ *  short description string
+ */
+char *get_sdesc(room_t *room);
+
+/* Get long description of room
+ *
+ * Parameters:
+ *  pointer to room
+ *
+ * Returns:
+ *  short description string
+ */
+char *get_ldesc(room_t *room);
+
 #endif
