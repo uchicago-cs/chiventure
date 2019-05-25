@@ -68,7 +68,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
             // add connection to room in game
             int result = add_connection(g, id, to, direction);
 
-            // if result is 1, then id doesn't exist, if reult is 2, then
+            // if result is 1, then id doesn't exist, if result is 2, then
             // connection id (to) doesn't exist
             if (result == 1) {
                 fprintf(stderr, "the source room with id %s does not exist\n",
