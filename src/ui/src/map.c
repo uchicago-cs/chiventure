@@ -71,7 +71,8 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
 }
 
 // Takes a coordinate and an array of rooms and draws them in
-void draw_rooms(room_t **rooms, int n, int left_x, int top_y, int z, map_t *map)
+// z should be 0 when ground floor
+void draw_rooms(chiventure_ctx_t *ctx, room_t **rooms, int n, int left_x, int top_y, int z, map_t *map)
 {
     // Declare variables
     int x, y, zroom, x_offset, y_offset;
@@ -79,18 +80,26 @@ void draw_rooms(room_t **rooms, int n, int left_x, int top_y, int z, map_t *map)
     int room_w = map->room_w;
 
     // Get x, y, z coordinates for rooms
-    for (int i = 0; i < n; i++) {
+
+    // TO DO: what is the field name for ui in chiventure_ctx_t?
+    for (itr = ctx->ui->coord_hash; itr != NULL; itr=itr->hh.next) {
+
+      zroom = itr->key->z;
+      x = itr->key->x;
+      y = itr->key->y;
+      /*
+	for (int i = 0; i < n; i++) {
         x = rooms[i]->loc->x;
         y = rooms[i]->loc->y;
         zroom = rooms[i]->loc->z;
-
-        if (zroom == z) {
-            x_offset = left_x + (room_w * x);
-            y_offset = top_y + (room_h * y);
-
-            // Draw room at x/y coordinate given, with preset w/h
-            draw_room(room_w, room_h, x_offset, y_offset,rooms[i],map->pad);
-        }
+      */
+      if (zroom == z) {
+	x_offset = left_x + (room_w * x);
+	y_offset = top_y + (room_h * y);
+	
+	// Draw room at x/y coordinate given, with preset w/h
+	draw_room(room_w, room_h, x_offset, y_offset, itr->r, map->pad);
+      }
     }
     return;
 }
