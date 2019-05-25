@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "game.h"
-
+/*
 void setup(void) {
     game_t *game = game_new();
     player_t *plyr = player_new(100);
@@ -21,7 +21,7 @@ Test(game, new_free)
     cr_assert_eq(game_free(game), SUCCESS, "game_free() failed");
 }
 
-/*need to figure out how to feed in test struct into criterion
+need to figure out how to feed in test struct into criterion
 //assuming that is completed
 Test(game, init) 
 {
