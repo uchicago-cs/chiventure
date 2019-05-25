@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <string.h>
 #include "window.h"
 #include "ui.h"
 #include "print_functions.h"
@@ -55,6 +56,7 @@ void start_ui()
     keypad(cli->w, TRUE);
     scrollok(cli->w, TRUE);
 
+
     // prints the score and number of moves in the info window
     window_print(info);
     window_print(cli);
@@ -65,8 +67,8 @@ void start_ui()
 
     // sample game loop. uses ctrl+D key to exit
 
-    while ((ch = wgetch(cli->w)) != 4) {
-
+    while ((ch = wgetch(cli->w)) != 4)
+    {
 
         height = LINES / 2;
         width = COLS;
@@ -88,10 +90,12 @@ void start_ui()
 
 
         // detects ALt+key commands
-        if (ch == 27) {
+        if (ch == 27)
+        {
             ch = wgetch(cli->w);
             // Alt+m switches the info window to the map window
             // Alt+s switches the position of the CLI
+
             if (ch == 'm') {
                 if (curr_page != MAP_WIN_NUM) {
                     curr_page = MAP_WIN_NUM;
@@ -104,6 +108,7 @@ void start_ui()
 
                 ch = 27;
             }
+
 	    else if (ch == 's') {
                 cli_top = !cli_top;
                 ch = 27;
@@ -114,6 +119,18 @@ void start_ui()
                 map_center_on(map, 0, 0, 0);
             }
         }
+        else if (isalnum(ch))
+        {
+            echo();
+            ungetch(ch);
+
+            window_print(cli);
+
+
+            noecho();
+
+        }
+
 
         // Prints the cli to the screen
         window_print(cli);

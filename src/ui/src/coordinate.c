@@ -16,8 +16,8 @@ void coord_init(coordinate_t *c, int x, int y)
 coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
 {
     coordinate_t *key = malloc(sizeof(coordinate_t));
-
     // Requirement for struct keys per uthash documentation
+
     memset(key, 0, sizeof(coordinate_t));
     coord_init(key, x, y);
 
@@ -42,7 +42,7 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
         fseek(debug, 0, SEEK_END);
         fprintf(debug,"Adding coord (%d, %d) to hash\n", x, y);
         cr = malloc(sizeof(coord_record_t));
-
+	
         // uthash requirement for struct keys
         memset(cr, 0, sizeof(coord_record_t));
 

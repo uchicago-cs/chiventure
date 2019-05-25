@@ -13,6 +13,7 @@ void ncurses_init()
     return ;
 }
 
+
 void erase_ch(int y, int x)
 {
     mvaddch(y, x, '#');
@@ -109,6 +110,7 @@ int *calculate_map_dims(room_t **rooms, int n)
         cx = curr->x;
         cy = curr->y;
         cz = curr->z;
+
         if (cx > x){
             x = cx;
 	}
@@ -157,6 +159,7 @@ map_t *map_init(room_t **rooms, int n)
     map->lry = 0;
 
     keypad(pad, TRUE);
+
     draw_rooms(rooms, n, xoffset, yoffset, 0, map);
     free(dims);
     return map;
@@ -174,6 +177,7 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
 
 int map_refresh(map_t *map, int x, int y, int z)
 {
+
     if (z != map->padz || x != map->padx || y != map->pady) {
         wclear(map->pad);
         draw_rooms(map->rooms, map->n, -x, -y, z, map);
@@ -236,7 +240,6 @@ room_t **get_test_rooms(int n)
             k--;
         }
     }
-
     coord_t *coorda = malloc(sizeof(coord_t));
     coorda->x = 0;
     coorda->y = 0;

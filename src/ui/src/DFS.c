@@ -113,5 +113,3 @@ coord_record_t *create_valid_map()
     }
     return coordmap;
 }
-
-
