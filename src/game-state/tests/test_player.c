@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "player.h"
+#include "item.h"
+#include "game.h"
 #include "common-player.h"
 #include "game_state_common.h"
 
@@ -32,8 +34,6 @@ Test(player, init)
   cr_assert_eq(player->xp, 0, "player_init() didn't set experience to 0");
   cr_assert_eq(res, SUCCESS, "player_init() failed");
 }
-
-// SKIPPED DELETE ALL PLAYERS
 
 Test(player, free)
 {
@@ -121,25 +121,50 @@ Test(player, change_xp)
   cr_assert_eq(xp2, 15, "change_xp() failed to subtract from player experience");
 }
 
-
-//same issue—need to figure out way to create defined structs that can be called
-/*
-Test(player, init) {
-    player_t *playerone = malloc(sizeof(player_t));
-    player_init(playerone, 100);
-    cr_assert_not_null(playerone, "player_init failed");
-    cr_assert_eq(playerone->health, 100, "player_init failed: health");
-    cr_assert_eq(playerone->level, 1, "player_init failed: level");
-    cr_assert_eq(playerone->xp, 0, "player_init failed: xp");
-    cr_assert_not_null(playerone->inventory, "player_init failed: inventory");
-    cr_assert_not_null(playerone->clothes, "player_init failed: clothes");
-}
-
-Test(player, health_change)
+Test(player, get_inventory)
 {
-    player_t *playerone = malloc(sizeof(player_t));
-    player_init(playerone, 100);
-    health_change(plyr, -50);
-    cr_assert_eq(plyr->health, 50, "health change failed");
+  player_t *player = player_new(99);
+  player_t *player2 = player_new(100);
+  item_t *new_item = item_new();
+  item_init(new_item, "a", "b", "c");
+  add_item_to_player(player2, new_item);
+
+  item_hash_t inv = get_inventory(player);
+  item_hash_t inv2 = get_inventory(player2);
+  
+  cr_assert_not_null(player, "player_new() failed");
+  cr_assert_not_null(player2, "player_new() failed");
+  cr_assert_not_null(new_item, "item_new() failed");
+
+  cr_assert_eq(inv, player->inventory, "get_inventory() failed to return NULL for empty inventory");
+  cr_assert_eq(inv2, player2->inventory, "get_inventory() failed to return inventory");
 }
-*/
+
+Test(player, add_player_to_hash)
+{
+  player_t *player = player_new(99);
+  game_t *game = game_new();
+  int res = add_player_to_hash(game->all_players, "a", player);
+
+  cr_assert_not_null(player, "player_new() failed");
+  //  cr_assert_not_null(game->all_players, "add_player_to_hash failed to add player");
+
+  cr_assert_eq(res, SUCCESS, "add_player_to_hash failed to add player");
+}
+
+Test(player, add_item_to_player)
+{
+  player_t *player = player_new(100);
+  item_t *new_item = item_new();
+  item_init(new_item, "a", "b", "c");
+  add_item_to_player(player, new_item);
+
+  cr_assert_not_null(player, "player_new() failed");
+  cr_assert_not_null(new_item, "item_new() failed");
+  cr_assert_not_null(player->inventory, "add_item_to_player() failed to add item");
+}
+
+Test(player, delete_all_players)
+{
+  
+}

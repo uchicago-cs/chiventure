@@ -25,23 +25,15 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 }
 
 /* see item.h */
-item_t *item_new(char *item_id, char *short_desc, char *long_desc)
+// item_t *item_new(char *item_id, char *short_desc, char *long_desc)
+item_t *item_new()
 {
     item_t *new_item = malloc(sizeof(item_t));
     new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
 
-    if(new_item == NULL || new_item->item_id == NULL ||
-       new_item->short_desc == NULL || new_item->long_desc == NULL) {
-        exit(1);
-    }
-
-    int check = item_init(new_item, item_id, short_desc, long_desc);
-
-    if(check != 1) {
-        exit(1);
-    }
+    new_item->attributes = NULL; //used to be uthash_malloc(NULL) THIS IS WHAT WAS CAUSING THE BUGS
 
     return new_item;
 
