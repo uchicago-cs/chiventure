@@ -78,9 +78,8 @@ room_t *find_room_from_path(path_t *path) {
 
 //given *game, direction, and *room return adjacent room
 //experiment (HEADER TBD)
-//written for WDL, unsure if they need it?
 room_t *find_room_from_dir(game_t *game, char* direction, room_t *room) {
     path_t *path = path_search(room, direction);
-    room_t *room_adj = find_room(game, path->dest->room_id);
+    room_t *room_adj = find_room_from_path(path->dest);
     return room_adj;
 }
