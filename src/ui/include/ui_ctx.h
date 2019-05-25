@@ -1,6 +1,6 @@
 #ifndef UI_CTX_H
 #define UI_CTX_H
-
+#include "ctx.h"
 #include "window.h"
 /*
  * UI context struct.  Contains the following fields:
@@ -8,6 +8,8 @@
  *  - main_win : main window. May contain images or other info about the game
  *  - cli_win : window that contains the CLI. It's always displayed
  *  - displayed_win : window that is diplayed along with the CLI.
+ *  - coord_hash: a pointer to the head of a hash map that matches 
+ *                coordinate keys to room pointers
  */
 typedef struct ui_ctx
 {
@@ -28,11 +30,15 @@ typedef struct ui_ctx
 /*
  * Crates a new UI context struct
  *
- * No parameters
+ * Parameters:
+ * - a pointer to the game_t struct
  *
- * Returns the created UI context struct
+ * Returns:
+ * - The created UI context struct upon SUCCESS
+ * - NULL upon FAILURE (cannot be allocated or 
+ *   cannot assign logical  coordinates)
  */
-ui_ctx_t *ui_ctx_new();
+ui_ctx_t *ui_ctx_new(game_t *game);
 
 
 /*
@@ -43,11 +49,15 @@ ui_ctx_t *ui_ctx_new();
  * the top half of the terminal, while the cli_win is placed on the bottom half
  * displayed_win is intially set to main_win.
  *
- * No parameters
- *
- * Returns the created UI context struct
+ * Parameters
+ * - a pointer to the game_t struct
+ * Returns:
+ * - SUCCESS if every field can be initialized and a logical
+ *   coordinate system can be assigned to each room
+ * - FAILURE if a logical coordinate system cannot be assigned 
  */
-int ui_ctx_init(ui_ctx_t *ui_ctx);
+int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game);
+
 
 int ui_ctx_free(ui_ctx_t *ui_ctx);
 

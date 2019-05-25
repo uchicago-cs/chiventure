@@ -13,20 +13,27 @@
 
 
 /* see ui_ctx.h */
-ui_ctx_t *ui_ctx_new()
+ui_ctx_t *ui_ctx_new(game_t *game)
 {
+    assert(game != NULL);
+  
+    int init;
     ui_ctx_t *ui_ctx = (ui_ctx_t *) malloc(sizeof(ui_ctx_t));
 
-    ui_ctx_init(ui_ctx);
+    init = ui_ctx_init(ui_ctx, game);
 
+    if (init == FAILURE) {
+      return NULL;
+    }
+    
     return ui_ctx;
-
 }
 
 /* see ui_ctx.h */
-int ui_ctx_init(ui_ctx_t *ui_ctx)
+int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
 {
     assert(ui_ctx != NULL);
+    assert(game != NULL);
 
     int height = LINES / 2;
     int col = COLS;
@@ -42,10 +49,28 @@ int ui_ctx_init(ui_ctx_t *ui_ctx)
     ui_ctx->main_win = main_win;
     ui_ctx->displayed_win = displayed_win;
     ui_ctx->cli_win = cli_win;
-    ui_ctx->coord_hash = NULL;
-    ui_ctx->player_loc = NULL;
 
-    return 0;
+    /* TO-DO: create_valid_map will take arguments:
+     * either:
+     * 1. a pointer to a game struct
+     * 2. a pointer to the game ctx
+     * 3. perhaps just the ui_ctx->player_loc 
+     *    field--this may be all the function needs
+     */
+    ui_ctx->coord_hash = create_valid_map();
+
+    /* TO-DO: Ask game state if there is a function we should call on
+     * to retrieve the initial room instead
+     */
+    ui_ctx->player_loc = game->curr_room;
+
+    /* Valid maps cannot be created for illogical map directions or for maps
+     * with logical distances of more than unit one
+     */
+    if (ui_ctx->coord_hash == NULL) {
+      return FAILURE;
+      
+    return SUCCESS;
 }
 
 /* see ui_ctx.h */
