@@ -5,6 +5,7 @@
 #include "load.h"
 #define MAX_BUF_SIZE 1000000
 
+
 size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 {
     size_t cur_len = 0;
@@ -22,28 +23,75 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 }
 
 
-int load_object(Object *o, object_t *o_t)
+int load_attribute_value(Attribute_value *av, attribute_value_t *av_t);
+
+
+int load_attribute(Attribute *a, attribute_t *a_t);
+
+
+int load_item(Item *i, item_t *i_t);
 {
-    if(o_t == NULL) {
-	fprintf(stderr, "given null object_t struct\n");
+    if(i_t == NULL) {
+	fprintf(stderr, "given null item_t struct\n");
 	return -1;
     }
 
-    o_t->object_id = o->object_id;
+    i_t->item_id = i->item_id;
   
-    if (o->short_desc != NULL) {
-	o_t->short_desc = o->short_desc;
+    if (i->short_desc != NULL) {
+	i_t->short_desc = i->short_desc;
     } else {
-	o_t->short_desc = NULL;
+	i_t->short_desc = NULL;
     }
   
-    if (o->long_desc != NULL) {
-	o_t->long_desc = o->long_desc;
+    if (i->long_desc != NULL) {
+	i_t->long_desc = i->long_desc;
     } else {
-	o_t->long_desc = NULL;
+	i_t->long_desc = NULL;
     }
 
     return 0;
+}
+
+
+int load_condition(Condition *c, condition_t *c_t);
+
+
+int load_path(Path *p, path_t *p_t);
+
+
+int load_room(Room *r, room_t *r_t)
+{
+    if (r_t == NULL) {
+	fprintf(stderr, "given null room_t struct\n");
+	return -1;
+    }
+
+    r_t->room_id = r->room_id;
+  
+    if (r->short_desc != NULL) {
+	r_t->short_desc = r->short_desc;
+    } else {
+	r_t->short_desc = NULL;
+    }
+  
+    if (r->long_desc != NULL) {
+	r_t->long_desc = r->long_desc;
+    } else {
+	r_t->short_desc = NULL;
+    }
+  
+    object_t **objs = malloc(sizeof(object_t*) * r->objs_len);
+
+    for (int i = 0; i < r->objs_len; i++) {
+	objs[i] = malloc(sizeof(object_t));
+	load_object(r->objs[i], objs[i]);
+    }
+  
+    r_t->objs = objs;
+  
+    return 0;
+
 }
 
 
@@ -104,39 +152,6 @@ int load_player(Player *p, player_t *p_t)
     return 0;
 }    
 
-int load_room(Room *r, room_t *r_t)
-{
-    if (r_t == NULL) {
-	fprintf(stderr, "given null room_t struct\n");
-	return -1;
-    }
-
-    r_t->room_id = r->room_id;
-  
-    if (r->short_desc != NULL) {
-	r_t->short_desc = r->short_desc;
-    } else {
-	r_t->short_desc = NULL;
-    }
-  
-    if (r->long_desc != NULL) {
-	r_t->long_desc = r->long_desc;
-    } else {
-	r_t->short_desc = NULL;
-    }
-  
-    object_t **objs = malloc(sizeof(object_t*) * r->objs_len);
-
-    for (int i = 0; i < r->objs_len; i++) {
-	objs[i] = malloc(sizeof(object_t));
-	load_object(r->objs[i], objs[i]);
-    }
-  
-    r_t->objs = objs;
-  
-    return 0;
-
-}
 
 int load_game(Game *g, game_t *g_t)
 {
