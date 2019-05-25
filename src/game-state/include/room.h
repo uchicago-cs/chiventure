@@ -33,7 +33,7 @@ typedef struct path {
     /* for hashtable consistency (e.g. player hash uses player_id), */
     /* we use direction here to avoid bugs when using uthash functions */
     char *direction; // ***** MEANS DIRECTION *****
-    char *dest; // ***** MEANS ROOM_ID *****
+    struct room *dest;
     condition_list_t conditions;
 } path_t;
 

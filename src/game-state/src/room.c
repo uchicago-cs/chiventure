@@ -59,9 +59,9 @@ int delete_all_rooms(room_hash_t rooms) {
 }
 
 /* See common.h */
-path_t *path_search(path_hash_t paths, char* direction) {
+path_t *path_search(room_t *room, char* direction) {
   path_t *path;
-  HASH_FIND_STR(paths, direction, path);
+  HASH_FIND_STR(room->paths, direction, path);
   return path;
 }
 

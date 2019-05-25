@@ -68,19 +68,19 @@ room_t *find_room(game_t *game, char* room_id) {
     HASH_FIND_STR(game->all_rooms, room_id, r);
     return r;
 }
-//find room given room_id
+
+//returns room given path
 //interface function that takes in a game struct, path struct
 //HEADER TBD
-room_t *find_room_from_path(game_t *game, path_t *path) {
-    room_t *room = find_room(game, path->dest);
-    return room;
+room_t *find_room_from_path(path_t *path) {
+    return path->dest;
 }
 
 //given *game, direction, and *room return adjacent room
 //experiment (HEADER TBD)
-// commented out for now while debugging -- path_to_room unwritten?
-// room_t *find_room_from_dir(game_t *game, char* direction, room_t *room) {
-//     path_t *path = path_to_room(room, direction);
-//     room_t *room_adj = find_room(game, path->dest);
-//     return room_adj;
-// }
+//written for WDL, unsure if they need it?
+room_t *find_room_from_dir(game_t *game, char* direction, room_t *room) {
+    path_t *path = path_search(room, direction);
+    room_t *room_adj = find_room(game, path->dest->room_id);
+    return room_adj;
+}
