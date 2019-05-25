@@ -4,6 +4,7 @@
 
 #ifndef INCLUDE_LOAD_ROOMS_H
 #define INCLUDE_LOAD_ROOMS_H
+#define PATH "../examples/sample_yaml/connected_rooms.yaml"
 
 #include <stdio.h>
 #include <stdlib.h>
