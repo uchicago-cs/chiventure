@@ -59,16 +59,17 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
      */
     ui_ctx->coord_hash = create_valid_map();
 
-    /* TO-DO: Ask game state if there is a function we should call on
-     * to retrieve the initial room instead
-     */
-    ui_ctx->player_loc = game->curr_room;
+    // Initial room coordinates set to 0, 0
+    coord_init(ui_ctx->player_loc, 0, 0);
 
     /* Valid maps cannot be created for illogical map directions or for maps
      * with logical distances of more than unit one
      */
     if (ui_ctx->coord_hash == NULL) {
       return FAILURE;
+    }
+    
+    ui_ctx->map = map_init();
       
     return SUCCESS;
 }
