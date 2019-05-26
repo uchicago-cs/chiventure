@@ -6,6 +6,7 @@
 #include "room.h"
 #include "item.h"
 
+
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
  */
@@ -99,24 +100,24 @@ int add_player_to_game(game_t *game, player_t *player);
 int add_room_to_game(game_t *game, room_t *room);
 
 
-/* 
+/*
 *
 * Set current player in game
-* 
+*
 * Parameters:
 * game, player
-* 
+*
 * Returns:
 *  SUCCESS if the game->curr_player != NULL, FAILURE if NULL
 */
 int set_curr_player(game_t *game, player_t *player);
 
 
-/* 
+/*
 * Function to find player given game and player id
 * Parameters:
 * Game, player id
-* 
+*
 * Returns
 * player struct
 */
