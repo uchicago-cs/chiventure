@@ -52,7 +52,18 @@ int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room) {
 
 /* See room.h */
 int add_item_to_room(room_t *room, item_t *item) {
-    return add_item_to_hash(room->items, item->item_id, item);
+    item_t* check;
+    HASH_FIND(hh, room->items, item->item_id, strlen(item->item_id), check);
+
+    if (check != NULL) {
+        /* WARNING */
+        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
+        fprintf(stderr, "Error: this item id is already in use.\n");
+        exit(1);
+    }
+    HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id), item);
+    return SUCCESS;
+
 }
 
 /* See common-room.h */

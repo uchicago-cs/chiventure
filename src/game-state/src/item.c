@@ -10,6 +10,9 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
     strncpy(new_item->short_desc, short_desc, strlen(short_desc));
     strncpy(new_item->long_desc, long_desc, strlen(long_desc));
 
+    // init. to NULL according to Troy Hanson's documentation?
+    // item_new->attributes = NULL;
+
 
     return SUCCESS;
 }
@@ -23,25 +26,26 @@ item_t *item_new()
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
 
-    new_item->attributes = NULL; 
+    new_item->attributes = NULL; //used to be uthash_malloc(NULL) THIS IS WHAT WAS CAUSING THE BUGS
 
     return new_item;
 
 }
 
 /* See common-item.h */
-int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
-    item_t* check;
-    HASH_FIND_STR(item_hash, item_id, check);
-    if (check != NULL) {
-        /* WARNING */
-        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
-        fprintf(stderr, "Error: this item id is already in use.\n");
-        exit(1);
-    }
-    HASH_ADD_STR(item_hash, item_id, item);
-    return SUCCESS;
-}
+// int add_item_to_hash(item_t *item, char *item_id, item_t *item_toadd) {
+//     item_t* check;
+//     HASH_FIND_STR(item_hash, item_id, check);
+//     if (check != NULL) {
+//         /* WARNING */
+//         /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
+//         fprintf(stderr, "Error: this item id is already in use.\n");
+//         exit(1);
+//     }
+//     HASH_ADD_STR(item_hash, item_id, item_toadd);
+//     return SUCCESS;
+// }
+//
 
 
 /* see common-item.h */
@@ -66,6 +70,9 @@ attribute_t *get_attribute(item_t *item, char* attr_name)
     return return_value;
 }
 
+/* we need to write a part to the following 5 functions
+ * where if the attr alr exists we do not override its type
+ */
 
 /* see item.h */
 int set_str_attr(item_t* item, char* attr_name, char* value)
@@ -83,16 +90,8 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
     }
     else
     {
-        if(res->attribute_tag != STRING)
-        {
-            fprintf(stderr, "Error: this attribute exists and is not type string.\n");
-            return FAILURE;
-        }
-        else
-        {
-            res->attribute_value.str_val = value;
-            return SUCCESS;
-        }   
+        res->attribute_value.str_val = value;
+        return SUCCESS;
     }
 }
 
@@ -113,16 +112,8 @@ int set_int_attr(item_t* item, char* attr_name, int value)
     }
     else
     {
-        if(res->attribute_tag != INTEGER)
-        {
-            fprintf(stderr, "Error: this attribute exists and is not type integer.\n");
-            return FAILURE;
-        }
-        else
-        {
-            res->attribute_value.int_val = value;
-            return SUCCESS;
-        }
+        res->attribute_value.int_val = value;
+        return SUCCESS;
     }
 }
 
@@ -142,16 +133,8 @@ int set_double_attr(item_t* item, char* attr_name, double value)
     }
     else
     {
-        if(res->attribute_tag != DOUBLE)
-        {
-            fprintf(stderr, "Error: this attribute exists and is not type double.\n");
-            return FAILURE;
-        }
-        else
-        {
-            res->attribute_value.double_val = value;
-            return SUCCESS;
-        }
+        res->attribute_value.double_val = value;
+        return SUCCESS;
     }
 
 }
@@ -172,16 +155,8 @@ int set_char_attr(item_t* item, char* attr_name, char value)
     }
     else
     {
-        if(res->attribute_tag != CHARACTER)
-        {
-            fprintf(stderr, "Error: this attribute exists and is not type char.\n");
-            return FAILURE;
-        }
-        else
-        {
-            res->attribute_value.char_val = value;
-            return SUCCESS;
-        }
+        res->attribute_value.char_val = value;
+        return SUCCESS;
     }
 }
 
@@ -201,100 +176,64 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
     else
     {
-        if(res->attribute_tag != BOOLE)
-        {
-            fprintf(stderr, "Error: this attribute exists and is not type boolean.\n");
-            return FAILURE;
-        }
-        else
-        {
-            res->attribute_value.bool_val = value;
-            return SUCCESS;
-        }
+        res->attribute_value.bool_val = value;
+        return SUCCESS;
     }
 }
 
 /* see item.h */
-char* get_str_attr(item_t *item, char* attr_name) 
-{
-    attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
-        exit(1);
-    }
-    if(res->attribute_tag != STRING)
-    {
-        fprintf(stderr, "Error: attribute is not type string.\n");
-        exit(1);
-    }
-    return res->attribute_value.str_val;
+char* get_str_attr(item_t *item, char* attr_name) {
+
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
+  return res->attribute_value.str_val;
 }
 
 /* see item.h */
-int get_int_attr(item_t *item, char* attr_name) 
-{
-    attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
-    }
-    if(res->attribute_tag != INTEGER)
-    {
-        fprintf(stderr, "Error: attribute is not type integer.\n");
-        exit(1);
-    }
-    return res->attribute_value.int_val;
+int get_int_attr(item_t *item, char* attr_name) {
+
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
+  attribute_value_t attr1 = res->attribute_value;
+  int x = attr1.int_val;
+  printf("the vale of x is %d", x);
+  return x;//res->attribute_value.int_val;
 }
 
 /* see item.h */
-double get_double_attr(item_t *item, char* attr_name) 
-{
+double get_double_attr(item_t *item, char* attr_name) {
 
-    attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
-    }
-    if (res->attribute_tag != DOUBLE)
-    {
-        fprintf(stderr, "Error: attribute is not type double.\n");
-        exit(1);
-    }
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
 
-    return res->attribute_value.double_val;
+  return res->attribute_value.double_val;
 }
 
 /* see item.h */
-char get_char_attr(item_t *item, char* attr_name) 
-{
-    attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
-    }
-    if (res->attribute_tag != CHARACTER)
-    {
-        fprintf(stderr, "Error: attribute is not type character.\n");
-        exit(1);
-    }
-    return res->attribute_value.char_val;
+char get_char_attr(item_t *item, char* attr_name) {
+
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
+  return res->attribute_value.char_val;
 }
 
 /* see item.h */
-bool get_bool_attr(item_t *item, char* attr_name) 
-{
-    attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
-    }
-    if (res->attribute_tag != BOOLE)
-    {
-        fprintf(stderr, "Error: attribute is not type boolean.\n");
-        exit(1);
-    }
-    return res->attribute_value.bool_val;
+bool get_bool_attr(item_t *item, char* attr_name) {
+
+  attribute_t* res = get_attribute(item, attr_name);
+  if (res == NULL) {
+    fprintf(stderr, "Error: attribute get failed.\n");
+  }
+
+  return res->attribute_value.bool_val;
 }
 
 /* see item.h */
