@@ -1,8 +1,8 @@
 #include <stdlib.h>
-#include "path.h"
+#include "room.h"
 
 
-/* See path.h */
+/* See room.h */
 int delete_all_conditions(condition_list_t conditions) {
     condition_t *elt, *tmp;
     LL_FOREACH_SAFE(conditions, elt, tmp) {
@@ -12,7 +12,7 @@ int delete_all_conditions(condition_list_t conditions) {
     return SUCCESS;
 }
 
-/* See path.h */
+/* See room.h */
 path_t *path_new(char *direction) {
     path_t *path = malloc(sizeof(path_t));
     path->direction = malloc(MAX_ID_LEN * sizeof(char));
@@ -23,7 +23,7 @@ path_t *path_new(char *direction) {
     return path;
 }
 
-/* See path.h */
+/* See room.h */
 int path_free(path_t *path) {
     free(path->direction);
     delete_all_conditions(path->conditions);
@@ -31,7 +31,7 @@ int path_free(path_t *path) {
     return SUCCESS;
 }
 
-/* See path.h */
+/* See room.h */
 int add_path_to_hash(path_hash_t all_paths, char *direction, path_t *path) {
     path_t *s;
     HASH_FIND_STR(all_paths, direction, s);
@@ -43,13 +43,13 @@ int add_path_to_hash(path_hash_t all_paths, char *direction, path_t *path) {
     return SUCCESS;
 }
 
-/* See path.h */
+/* See room.h */
 int add_condition_to_path(path_t *path, condition_t *condition) {
     LL_PREPEND(path->conditions, condition);
     return SUCCESS;
 }
 
-/* See path.h */
+/* See room.h */
 int delete_all_paths(path_hash_t paths) {
     path_t *current_path, *tmp;
     HASH_ITER(hh, paths, current_path, tmp) {

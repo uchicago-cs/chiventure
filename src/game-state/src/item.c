@@ -26,7 +26,7 @@ item_t *item_new()
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
 
-    new_item->attributes = uthash_malloc(HASH_SIZE);
+    new_item->attributes = NULL; //used to be uthash_malloc(NULL) THIS IS WHAT WAS CAUSING THE BUGS
 
     return new_item;
 
@@ -49,8 +49,8 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
 /* see common-item.h */
 int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
     attribute_t* check = (attribute_t*)malloc(sizeof(attribute_t));
-    char* attribute_key = new_attribute->attribute_key;
-    HASH_FIND_STR(attribute_hash, attribute_key, check);
+    char* test_attribute_key = new_attribute->attribute_key;
+    HASH_FIND_STR(attribute_hash, test_attribute_key, check);
     if (check != NULL) {
         fprintf(stderr, "Error: this attribute is already present.\n");
         return FAILURE;
@@ -63,9 +63,8 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attr
 attribute_t *get_attribute(item_t *item, char *attr_name)
 {
     attribute_t* return_value;
-    attribute_hash_t attribute_hash = item->attributes;
-    HASH_FIND_STR(attribute_hash, attr_name, return_value);
-    if (return_value != NULL) {
+    HASH_FIND_STR(item->attributes, attr_name, return_value);
+    if (return_value == NULL) {
         return NULL;
     }
     return return_value;
@@ -190,8 +189,10 @@ int get_int_attr(item_t *item, char* attr_name) {
   if (res == NULL) {
     fprintf(stderr, "Error: attribute get failed.\n");
   }
-
-  return res->attribute_value.int_val;
+  attribute_value_t attr1 = res->attribute_value;
+  int x = attr1.int_val;
+  printf("the vale of x is %d", x);
+  return x;//res->attribute_value.int_val;
 }
 
 /* see item.h */
@@ -212,7 +213,6 @@ char get_char_attr(item_t *item, char* attr_name) {
   if (res == NULL) {
     fprintf(stderr, "Error: attribute get failed.\n");
   }
-
   return res->attribute_value.char_val;
 }
 

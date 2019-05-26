@@ -22,7 +22,7 @@ typedef struct player {
     item_hash_t inventory;
 } player_t;
 
-typedef struct player_t *player_hash_t;
+typedef struct player *player_hash_t;
 
 /*
  * Initializes a player

@@ -1,7 +1,7 @@
 #ifndef _COMMON_PATH_H
 #define _COMMON_PATH_H
 
-#include "path.h"
+#include "room.h"
 
 /* Adds a path to the given hashtable of paths
  *

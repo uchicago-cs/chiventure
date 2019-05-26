@@ -54,7 +54,7 @@ int item_free(item_t *item);
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
-typedef union attribute_value {
+typedef struct attribute_value {
     double double_val;
     char char_val;
     bool bool_val;
@@ -67,9 +67,11 @@ enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
 typedef struct attribute {
     UT_hash_handle hh;
     char *attribute_key; // attribute name
-    enum attribute_tag attribute_tag;
+    enum attribute_tag attribute_tag; 
     attribute_value_t attribute_value;
 } attribute_t;
+
+
 
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
 
@@ -210,5 +212,6 @@ char get_char_attr(item_t *item, char* attr_name);
  *  the bool value associated with the attribute
  */
 bool get_bool_attr(item_t *item, char* attr_name);
+
 
 #endif
