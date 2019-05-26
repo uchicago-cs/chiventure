@@ -24,12 +24,13 @@ int load_items(obj_t *doc, game_t *g)
         char *id = obj_get_str(curr->obj, "id");
         char *short_desc = obj_get_str(curr->obj, "short_desc");
         char *long_desc = obj_get_str(curr->obj, "long_desc");
+        char* in = obj_get_str(curr->obj. "in");
 
         // create new game_state item
-        item_t *item = item_new(id, short_desc, long_desc);
+        item_t *item = item_new(id, short_desc, long_desc, in);
 
         //retrieve the pointer for the room that the item is located in
-        room_t *item_room = find_room(g, obj_get_str(curr->obj, "in"));
+        room_t *item_room = find_room(g, in);
 
         // add item to room
         add_item_to_room(item_room, item);
