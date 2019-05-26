@@ -8,19 +8,22 @@
 #include "window.h"
 #include "ui.h"
 #include "print_functions.h"
+#include "map.h"
 
-
-
+#define MAIN_WIN_NUM 1
+#define MAP_WIN_NUM 2
+#define INV_WIN_NUM 3
 
 void start_ui()
 {
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
 
-    /* 1 will indicate we are in the main window, 0 will mean
-     * we are in the map window
+    /* MAIN_WIN_NUM will indicate we are in the main window
+     * MAP_WIN_NUM will mean we are in the map window
+     * INV_WIN_NUM will indicate we are in the inventory window
      */
-    int on_main = 1;
+    int curr_page = MAIN_WIN_NUM;
     int ch;
 
     // 0 if the cli will be in the bottom, 1 if it will be on top
@@ -37,22 +40,21 @@ void start_ui()
     int width = COLS;
 
 
-
-
-    /* initializes the widows. there is a main window, one where
-     * maps could be displayed, and the cli window
-     */
+    // Initializes the main window
     window_t *main_win = window_new(height, width, cli_top * height, 0, print_info, true);
-    window_t *map = window_new(height, width, cli_top * height, 0, print_map, true);
-    window_t *cli = window_new(height, width, (!cli_top)* height, 0, print_cli, false);
 
-    // info window is the window to be displayed in addition to cli
+    // The map window is initialized and a random room array is generated
+    int num_rooms = 20;
+    room_t **rooms = get_test_rooms(num_rooms);
+    map_t *map = map_init(rooms,num_rooms);
+
+    // Initializes the CLI window
+    window_t *cli = window_new(height, width, (!cli_top)* height, 0, print_cli, false);
     window_t *info = main_win;
 
     // reads input from the cli window, allows scrolling
     keypad(cli->w, TRUE);
     scrollok(cli->w, TRUE);
-
 
     // prints the score and number of moves in the info window
     window_print(info);
@@ -78,15 +80,17 @@ void start_ui()
          * to adjust for new terminal window size. moves the bottom window to
          * the adequate position
          */
-        wclear(info->w);
-        wresize(info->w, height, width);
+        if(curr_page == MAIN_WIN_NUM) {
+            wclear(info->w);
+            wresize(info->w, height, width);
+            mvwin(info->w, (cli_top) * height, 0);
+            // redraws the info box
+            box(info->w, 0, 0);
+        }
         wresize(cli->w, height, width);
         mvwin(cli->w, !(cli_top) * height, 0);
-        mvwin(info->w, (cli_top) * height, 0);
 
 
-        // redraws the info box
-        box(info->w, 0, 0 );
 
         // detects ALt+key commands
         if (ch == 27)
@@ -94,27 +98,26 @@ void start_ui()
             ch = wgetch(cli->w);
             // Alt+m switches the info window to the map window
             // Alt+s switches the position of the CLI
-            if (ch == 'm')
-            {
-                if (on_main)
-                {
-                    info = map;
+            if (ch == 'm') {
+                if (curr_page != MAP_WIN_NUM) {
+                    curr_page = MAP_WIN_NUM;
                 }
-                else
-                {
+		else {
+                    curr_page = MAIN_WIN_NUM;
                     info = main_win;
+                    wresize(info->w, height,width);
                 }
-                on_main = !on_main;
+
                 ch = 27;
             }
-            else if (ch == 's')
-            {
+	    else if (ch == 's') {
                 cli_top = !cli_top;
                 ch = 27;
                 mvwin(cli->w, !(cli_top) * height, 0);
                 mvwin(main_win->w, (cli_top) * height, 0);
-                mvwin(map->w, (cli_top) * height, 0);
-
+                map_set_displaywin(map, 0, cli_top * height, width,
+                                   height + cli_top * height);
+                map_center_on(map, 0, 0, 0);
             }
         }
         else if (isalnum(ch))
@@ -129,17 +132,26 @@ void start_ui()
 
         }
 
-        window_print(info);
+        // Prints the cli to the screen
+        window_print(cli);
 
-        // refreshes windows to reflect changes
-        wrefresh(info->w);
+        // This conditional refreshes the non-CLI window
+        if (curr_page == MAIN_WIN_NUM) {
+            window_print(info);
+            wrefresh(info->w);
+        }
+	else if (curr_page == MAP_WIN_NUM) {
+            wresize(info->w, 0, 0);
+            map_set_displaywin(map, 0, cli_top * height, width,
+                               height + cli_top * height);
+            map_center_on(map, 0, 0, 0);
+        }
+
+        // Refreshes the CLI window
         wrefresh(cli->w);
-
-
     }
 
     window_free(main_win);
-    window_free(map);
     window_free(cli);
 
     // End curses mode
