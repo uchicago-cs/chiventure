@@ -49,7 +49,7 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
 
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
-    attribute_t* check; 
+    attribute_t* check;
     HASH_FIND(hh, item->attributes, new_attribute->attribute_key, strlen(new_attribute->attribute_key), check);
     if (check != NULL) {
         fprintf(stderr, "Error: this attribute is already present.\n");
@@ -359,8 +359,8 @@ int item_free(item_t *item) {
     free(item->item_id);
     free(item->short_desc);
     free(item->long_desc);
-    // delete_all_attributes(item->attributes);
-    uthash_free(item->attributes, HASH_SIZE);
+    delete_all_attributes(item->attributes);
+    // uthash_free(item->attributes, HASH_SIZE);
     free(item);
     return SUCCESS;
 }

@@ -5,14 +5,24 @@
 #include "common-path.h"
 
 /* See room.h */
-room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
+room_t *room_new() {
     room_t *room = malloc(sizeof(room_t));
-    room->room_id = room_id;
-    room->short_desc = short_desc;
-    room->long_desc = long_desc;
-    room->items = NULL;
-    room->paths = NULL;
+    room->room_id = malloc(MAX_ID_LEN);
+    room->short_desc = malloc(MAX_SDESC_LEN);
+    room->long_desc = malloc(MAX_LDESC_LEN);
+
     return room;
+}
+
+int room_init(room_t *new_room, char *room_id, char *short_desc, char *long_desc) {
+
+    assert(new_room != NULL);
+
+    strncpy(new_room->room_id, room_id, strlen(room_id));
+    strncpy(new_room->short_desc, short_desc, strlen(short_desc));
+    strncpy(new_room->long_desc, long_desc, strlen(long_desc));
+
+    return SUCCESS;
 }
 
 /* See room.h */
@@ -22,6 +32,8 @@ int room_free(room_t *room) {
     free(room->long_desc);
     delete_all_paths(room->paths);
     delete_all_items(room->items);
+    // uthash_free(room->paths, sizeof(room->paths));
+    // uthash_free(room->items, sizeof(room->items));
     free(room);
     return SUCCESS;
 }
