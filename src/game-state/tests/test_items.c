@@ -3,6 +3,9 @@
 #include "item.h"
 #include "common-item.h"
 
+//write descriptions of each test
+//standerdize the way exits/errors are thrown
+
 // BASIC ITEM UNIT TESTS ------------------------------------------------------
 Test(item, new)
 {
@@ -263,11 +266,7 @@ Test(attribute, change_bool_attr)
 	cr_assert_eq(test_bool, false, "change_bool_attribute: set the wrong value");
 }
 
-
-
-
-
-//write tests for changing a attr of the wrong type
+//WRITE TESTS FOR CHANGING ATTR OF THE WRONG TYPE
 
 // TESTS FOR TYPE-SPECIFIC GET_ATTR() FUNCTIONS -------------------------------
 Test(attribute, get_str_attr)
@@ -325,13 +324,49 @@ Test(attribute, get_bool_attr)
 	cr_assert_eq(test_bool, true, "change_bool_attribute: set the wrong value");
 }
 
-Test(attribute, get_false_str_attr, .exit_code = 1) {
+Test(attribute, get_non_str_attr, .exit_code = 1) {
+	item_t *test_item = item_new();
+	int rv = set_int_attr(test_item, "Attribute_Test_Name",2);
+	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
+	get_str_attr(test_item, "Attribute_Test_Name");
+}
+
+Test(attribute, get_non_int_attr, .exit_code = 1) {
+	item_t *test_item = item_new();
+	int rv = set_double_attr(test_item, "Attribute_Test_Name", 2.0);
+	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
+	get_int_attr(test_item, "Attribute_Test_Name");
+}
+
+Test(attribute, get_non_double_attr, .exit_code = 1) {
+	item_t *test_item = item_new();
+	int rv = set_char_attr(test_item, "Attribute_Test_Name", 'a');
+	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
+	get_double_attr(test_item, "Attribute_Test_Name");
+}
+
+Test(attribute, get_non_char_attr, .exit_code = 1) {
+	item_t *test_item = item_new();
+	int rv = set_bool_attr(test_item, "Attribute_Test_Name", true);
+	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
+	get_char_attr(test_item, "Attribute_Test_Name");
+}
+
+Test(attribute, get_non_bool_attr, .exit_code = 1) {
 	item_t *test_item = item_new();
 	int rv = set_str_attr(test_item, "Attribute_Test_Name", "Attribute_Test_Value");
 	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
 	int num_in_hash = HASH_COUNT(test_item->attributes);
 	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	bool test_str = get_bool_attr(test_item, "Attribute_Test_Name");
+	get_bool_attr(test_item, "Attribute_Test_Name");
 }
 
 //
