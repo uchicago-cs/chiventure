@@ -6,6 +6,7 @@
 #include "assert.h"
 #include "item.h"
 #include "validate.h"
+#include "save.h"
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
 {
@@ -24,6 +25,14 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
     return NULL;
 }
 
+char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+{
+  if(tokens[1] == NULL){
+    printf("Save Error, No filename specified");
+  }
+  int sv = save(game, tokens[1]);
+  return NULL;
+}
 
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
