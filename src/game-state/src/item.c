@@ -33,18 +33,20 @@ item_t *item_new()
 }
 
 /* See common-item.h */
-int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
-    item_t* check;
-    HASH_FIND_STR(item_hash, item_id, check);
-    if (check != NULL) {
-        /* WARNING */
-        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
-        fprintf(stderr, "Error: this item id is already in use.\n");
-        exit(1);
-    }
-    HASH_ADD_STR(item_hash, item_id, item);
-    return SUCCESS;
-}
+// int add_item_to_hash(item_t *item, char *item_id, item_t *item_toadd) {
+//     item_t* check;
+//     HASH_FIND_STR(item_hash, item_id, check);
+//     if (check != NULL) {
+//         /* WARNING */
+//         /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
+//         fprintf(stderr, "Error: this item id is already in use.\n");
+//         exit(1);
+//     }
+//     HASH_ADD_STR(item_hash, item_id, item_toadd);
+//     return SUCCESS;
+// }
+//
+
 
 
 /* see common-item.h */
@@ -69,7 +71,7 @@ attribute_t *get_attribute(item_t *item, char* attr_name)
     return return_value;
 }
 
-/* we need to write a part to the following 5 functions  
+/* we need to write a part to the following 5 functions
  * where if the attr alr exists we do not override its type
  */
 

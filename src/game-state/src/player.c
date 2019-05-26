@@ -25,7 +25,7 @@ player_t* player_new(int health) {
     }
 
     int init_bool = player_init(plyr, health);
-		
+
     if(init_bool != SUCCESS)
     {
         perror("Could not initialize player");
@@ -48,8 +48,8 @@ int player_free(player_t* plyr) {
 void delete_all_players(player_hash_t players) {
     player_t *current_player, *tmp;
     HASH_ITER(hh, players, current_player, tmp) {
-        HASH_DEL(players, current_player);  
-        player_free(current_player);           
+        HASH_DEL(players, current_player);
+        player_free(current_player);
     }
 }
 
@@ -111,10 +111,23 @@ int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *pla
     return SUCCESS;
 }
 
-/* See player.h */
+// see player.h
 int add_item_to_player(player_t *player, item_t *item) {
-    return add_item_to_hash(player->inventory, item->item_id, item);
+    item_t* check;
+    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id), check);
+
+    if (check != NULL) {
+        /* WARNING */
+        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
+        fprintf(stderr, "Error: this item id is already in use.\n");
+        exit(1);
+    }
+    HASH_ADD_KEYPTR(hh, player->inventory, item->item_id, strlen(item->item_id), item);
+    return SUCCESS;
+
 }
+
+
 
 
 /* DISCARD
