@@ -66,7 +66,7 @@ enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
 
 typedef struct attribute {
     UT_hash_handle hh;
-    char *attribute_key; // attribute name
+    char* attribute_key; // attribute name
     enum attribute_tag attribute_tag; 
     attribute_value_t attribute_value;
 } attribute_t;
@@ -94,15 +94,6 @@ int attribute_free(attribute_t *attribute);
  */
 int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
 
-/* add_attribute_to_hash() adds an attribute to the item hash table
-  Parameters:
-    the hash table of an item
-    the attribute value to add
-
-  Returns:
-    FAILURE for failure, SUCCESS for success
-*/
-int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute);
 
 // ATTRIBUTE ADDITION & REPLACEMENT FUNCTIONS ---------------------------------
 // the following functions allow their users to add attributes to the given item

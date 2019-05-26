@@ -24,13 +24,13 @@ int delete_all_items(item_hash_t items);
 
 /* add_attribute_to_hash() adds an attribute to the item hash table
   Parameters:
-    the hash table of an item
+    an item
     the attribute value to add
 
   Returns:
     FAILURE for failure, SUCCESS for success
 */
-int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute);
+int add_attribute_to_hash(item_t* item, attribute_t* new_attribute);
 
 /* get_attribute() returns a pointer to an attribute if it exists
   Parameters:
