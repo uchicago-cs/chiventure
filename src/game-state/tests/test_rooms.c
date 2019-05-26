@@ -7,24 +7,29 @@
 // BASIC ROOM UNIT TESTS ------------------------------------------------------
 Test(room, new)
 {
-  item_t *new_room = room_new("test_room", "room for testing",
-  "testing if memory is correctly allocated for new rooms");
+  room_t *new_room = room_new("test_room", "room for testing", "testing if memory is correctly allocated for new rooms");
 
   cr_assert_not_null(new_room, "room_new() test 1 has failed!");
 
 }
 
-// Test(room, free)
-// {
-//   item_t *item_tofree = item_new();
-//   int init = item_init(item_tofree, "my_item", "pls free me",
-//   "this item needs to be freed");
-//
-//   cr_assert_eq(init, SUCCESS, "item_free test 1: item init failed!");
-//
-//   int freed = item_free(item_tofree);
-//
-//   cr_assert_eq(freed, SUCCESS, "item_free() test 1 has failed!");
-//
-//
-// }
+Test(room, init)
+{
+  room_t *empty_room = room_new();
+  int check = room_init(empty_room, "test_room", "This is a test room",
+  "The purpose of this room is testing");
+
+  cr_assert_eq(check, SUCCESS, "room_new() test 1 has failed!");
+}
+
+Test(room, free)
+{
+  room_t *room_tofree = room_new("test_room", "room for testing", "testing if memory is correctly freed for rooms");
+
+  cr_assert_not_null(room_tofree, "room_free(): room is null");
+  int freed = room_free(room_tofree);
+
+  cr_assert_eq(freed, SUCCESS, "room_free() test 1 has failed!");
+
+
+}

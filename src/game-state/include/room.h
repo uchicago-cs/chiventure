@@ -69,7 +69,20 @@ typedef struct room* room_hash_t;
  * Returns:
  *  a pointer to new room
  */
-room_t *room_new(char *room_id, char *short_desc, char *long_desc);
+room_t *room_new();
+
+/* room_init() initializes a room struct with given values
+  Parameters:
+    a memory allocated new room pointer
+    a unique room id
+    a short description of the room
+    a long description of the room
+
+  Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+
+int room_init(room_t *new_room, char *room_id, char *short_desc, char *long_desc);
 
 /* Frees the space in memory taken by given room
  *
@@ -79,6 +92,7 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc);
  * Returns:
  *  Always returns SUCCESS
  */
+
 int room_free(room_t *room);
 
 /* Adds an item to the given room
@@ -140,7 +154,7 @@ int delete_all_conditions(condition_list_t conditions);
  * Parameters:
  *  ptr to the room this path leads to
  *  char* direction (will be path key)
- * 
+ *
  * Returns:
  *  a pointer to new path
  */
