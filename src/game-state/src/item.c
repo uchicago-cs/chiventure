@@ -46,27 +46,16 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
     return SUCCESS;
 }
 
-/* see common-item.h */
-int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
-    attribute_t* check; //= (attribute_t*)malloc(sizeof(attribute_t));
-    HASH_FIND_STR(attribute_hash, new_attribute->attribute_key, check);
-    //if (check != NULL) {
-        //fprintf(stderr, "Error: this attribute is already present.\n");
-        //return FAILURE;
-    //}
-    HASH_ADD_KEYPTR(hh, attribute_hash, new_attribute->attribute_key, strlen(new_attribute->attribute_key), new_attribute);
-    return SUCCESS;
-}
 
 /* see common-item.h */
-int add_attr_to_hash(item_t* new_item, attribute_t* new_attribute) {
-    attribute_t* check; //= (attribute_t*)malloc(sizeof(attribute_t));
-    HASH_FIND_STR(new_item->attributes, new_attribute->attribute_key, check);
-    //if (check != NULL) {
-        //fprintf(stderr, "Error: this attribute is already present.\n");
-        //return FAILURE;
-    //}
-    HASH_ADD_KEYPTR(hh, new_item->attributes, new_attribute->attribute_key, strlen(new_attribute->attribute_key), new_attribute);
+int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
+    attribute_t* check; 
+    HASH_FIND(hh, item->attributes, new_attribute->attribute_key, strlen(new_attribute->attribute_key), check);
+    if (check != NULL) {
+        fprintf(stderr, "Error: this attribute is already present.\n");
+        return FAILURE;
+    }
+    HASH_ADD_KEYPTR(hh, item->attributes, new_attribute->attribute_key, strlen(new_attribute->attribute_key), new_attribute);
     return SUCCESS;
 }
 /* see common-item.h */
@@ -90,7 +79,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
         new_attribute->attribute_tag = STRING;
         new_attribute->attribute_value.str_val = value;
         strcpy(new_attribute->attribute_key, attr_name);
-        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
     else
@@ -112,7 +101,7 @@ int set_int_attr(item_t* item, char* attr_name, int value)
         new_attribute->attribute_tag = INTEGER;
         new_attribute->attribute_value.int_val = value;
         strcpy(new_attribute->attribute_key, attr_name);
-        int rv = add_attr_to_hash(item, new_attribute);
+        int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
     else
@@ -132,7 +121,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
         new_attribute->attribute_tag = DOUBLE;
         new_attribute->attribute_value.double_val = value;
         strcpy(new_attribute->attribute_key, attr_name);
-        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
     else
@@ -153,7 +142,7 @@ int set_char_attr(item_t* item, char* attr_name, char value)
         new_attribute->attribute_tag = CHARACTER;
         new_attribute->attribute_value.char_val = value;
         strcpy(new_attribute->attribute_key, attr_name);
-        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
     else
@@ -173,7 +162,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
         new_attribute->attribute_tag = BOOLE;
         new_attribute->attribute_value.bool_val = value;
         strcpy(new_attribute->attribute_key, attr_name);
-        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
     else
