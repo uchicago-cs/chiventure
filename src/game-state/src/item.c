@@ -48,7 +48,6 @@ item_t *item_new()
 //
 
 
-
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
     attribute_t* check;
