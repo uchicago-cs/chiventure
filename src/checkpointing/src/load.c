@@ -115,11 +115,12 @@ int load_item(Item *i, item_t *i_t);
     // bool condition reserved for future expansion
 
     // repeated Attribute HERE
-    
+    //ITER_ALL_ITEMS
     return 0;
 }
 
-
+// won't need condition for semi-incremental saving
+/*
 int load_condition(Condition *c, condition_t *c_t)
 {
     if (c_t == NULL) {
@@ -138,7 +139,7 @@ int load_condition(Condition *c, condition_t *c_t)
     // optional Attribute here but might change
 
     return 0;
-}
+    }*/
 
 
 int load_path(Path *p, path_t *p_t)
@@ -154,10 +155,11 @@ int load_path(Path *p, path_t *p_t)
 	p_t->direction = NULL;
     }
 
-    if (p->destination != NULL) {
-	p_t->destination = p->destination;
+    // if game state changes dest to a pointer, this will need to change!
+    if (p->dest != NULL) {
+	p_t->dest = p->dest;
     } else {
-	p_t->destination = NULL;
+	p_t->dest = NULL;
     }
 
     // repeated Condition HERE
@@ -281,14 +283,24 @@ int load_game(Game *g, game_t *g_t)
   
     g_t->rooms_len = g->rooms_len;  
     */
-    if(g->curr_room != NULL) {
-	g_t->curr_room = g->curr_room;
+
+
+    if(g->curr_room != -1) {
+	ITER_ALL_ROOMS(g_t, curr_r) {
+	    if (curr_r->room_id == g->curr_room) {
+		g_t->curr_room = curr_r;
+	    }
+	}
     } else {
 	g_t->curr_room = NULL;
     }
-    
-    if (g->curr_player != NULL) {
-	g_t->curr_player = g->curr_player;
+
+    if (g->curr_player != -1) {
+	ITER_ALL_PLAYERS(g_t, curr_p) {
+	    if (curr_p->player_id == g->curr_player) {
+		g_t->curr_player = curr_p;
+	    }
+	}
     } else {
 	g_t->curr_player = NULL;
     }
