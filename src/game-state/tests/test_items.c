@@ -252,6 +252,15 @@ Test(attribute, get_bool_attr)
 	cr_assert_eq(test_bool, true, "change_bool_attribute: set the wrong value");
 }
 
+Test(attribute, get_false_str_attr, .exit_code = 1) {
+	item_t *test_item = item_new();
+	int rv = set_str_attr(test_item, "Attribute_Test_Name", "Attribute_Test_Value");
+	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
+	bool test_str = get_bool_attr(test_item, "Attribute_Test_Name");
+}
+
 //
 // Test(attributes, set_int)
 // {
