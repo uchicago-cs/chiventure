@@ -19,6 +19,7 @@ Test(player, new)
   cr_assert_eq(player->health, 100, "player_new() didn't set player health");
   cr_assert_eq(player->level, 1, "player_new() didn't properly call player_init()");
   cr_assert_eq(player->xp, 0, "player_new() didn't properly call player_init()");
+  cr_assert_eq(player->player_id, "1", "player_new() didn't properly call player_init()");
 }
 
 Test(player, init)
@@ -83,7 +84,6 @@ Test(player, get_level)
   cr_assert_eq(level, 1, "get_level() failed to return player level");
 }
 
-
 Test(player, change_level)
 {
   player_t *player = player_new(99);
@@ -144,10 +144,10 @@ Test(player, add_player_to_hash)
 {
   player_t *player = player_new(99);
   game_t *game = game_new();
-  int res = add_player_to_hash(game->all_players, "a", player);
+  int res = add_player_to_hash(game, player);
 
   cr_assert_not_null(player, "player_new() failed");
-  //  cr_assert_not_null(game->all_players, "add_player_to_hash failed to add player");
+  cr_assert_not_null(game->all_players, "add_player_to_hash failed to add player");
 
   cr_assert_eq(res, SUCCESS, "add_player_to_hash failed to add player");
 }

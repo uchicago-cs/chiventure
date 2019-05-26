@@ -9,7 +9,8 @@ int player_init(player_t* plyr, int health) {
     plyr->health = health;
     plyr->xp = 0;
     plyr->inventory = NULL;
-
+    plyr->player_id = "1";
+    
     return SUCCESS;
 }
 
@@ -92,19 +93,6 @@ int change_xp(player_t* plyr, int points) {
 /* See player.h */
 item_hash_t get_inventory(player_t* plyr) {
 	return plyr->inventory;
-}
-
-
-/* See player.h */
-int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *player) {
-    player_t *s;
-    HASH_FIND_STR(all_players, player_id, s);
-    if (s != NULL) {
-        printf("FATAL: player_id already used!\n");
-        exit(1);
-    }
-    HASH_ADD_STR(all_players, player_id, player);
-    return SUCCESS;
 }
 
 /* See player.h */
