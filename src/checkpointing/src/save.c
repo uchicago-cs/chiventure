@@ -177,7 +177,8 @@ int save_path(path_t *p_t, Path *p)
     if (p_t->dest == NULL) {
 	p->dest = NULL;
     } else {
-	p->dest = p_t->dest->room_id;
+	//p->dest = p_t->dest->room_id; in case game state updates their struct we want the following line:
+	p->dest = p_t->dest;
     }
 
     /* The code below will be commented out since it appears that we don't 
