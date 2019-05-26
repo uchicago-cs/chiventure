@@ -127,6 +127,7 @@ path_t *list_paths(room_t *room) {
 * given an item_ID as string and a pointer to the current room.
 */
 
+/* see room.h */
 item_t* get_item_in_room(room_t* room, char* item_id)
 {
     attribute_t* return_value;
