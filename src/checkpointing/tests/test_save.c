@@ -37,19 +37,24 @@ Test(save, item)
     // we'll test attributes when its finished
 }
 
+
 Test(save, condition)
 {
-   condition_t *cond_t;
-   char *item_id = "1234";
-   cond_t->item_id = item_id;
+    condition_t *cond_t;
+    char *item_id = "1234";
+    cond_t->item_id = item_id;
+    // expected_attribute component of condition hasn't been pushed by game-state
 
-   Condition *cond;
+    Condition *cond;
 
-   int success = save_condition(cond_t, cond);
-   cr_assert_eq(success, 0, "save_condition failed");
-   cr_assert_eq(cond->item_id, "1234", "save_condition: saving item_id failed");
+    int success = save_condition(cond_t, cond);
+    cr_assert_eq(success, 0, "save_condition failed");
+    cr_assert_eq(cond->item_id, "1234", "save_condition: saving item_id failed");
+
+    //
 
 }
+
 
 Test(save, path)
 {
@@ -57,7 +62,7 @@ Test(save, path)
     char *room_id = "1234";
     path_t = path_new(room_id);
 
-    // repeated condition stuff needs to be added
+    // save.c no longer stores Condition inside a path
 
     Path *path;
 
@@ -133,7 +138,7 @@ Test(save, game)
     game_t->curr_room = "1234"; // no set_curr_room function
     game_t->curr_player = "Chad";
     game_t->time_start = 1234;
-    
+
     Game *gama
     int success = save_game(game_t, game);
 
