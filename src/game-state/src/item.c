@@ -69,9 +69,6 @@ attribute_t *get_attribute(item_t *item, char* attr_name)
     return return_value;
 }
 
-/* we need to write a part to the following 5 functions  
- * where if the attr alr exists we do not override its type
- */
 
 /* see item.h */
 int set_str_attr(item_t* item, char* attr_name, char* value)
@@ -89,8 +86,16 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
     }
     else
     {
-        res->attribute_value.str_val = value;
-        return SUCCESS;
+        if(res->attribute_tag != STRING)
+        {
+            fprintf(stderr, "Error: this attribute exists and is not type string.\n");
+            return FAILURE;
+        }
+        else
+        {
+            res->attribute_value.str_val = value;
+            return SUCCESS;
+        }   
     }
 }
 
@@ -111,8 +116,16 @@ int set_int_attr(item_t* item, char* attr_name, int value)
     }
     else
     {
-        res->attribute_value.int_val = value;
-        return SUCCESS;
+        if(res->attribute_tag != INTEGER)
+        {
+            fprintf(stderr, "Error: this attribute exists and is not type integer.\n");
+            return FAILURE;
+        }
+        else
+        {
+            res->attribute_value.int_val = value;
+            return SUCCESS;
+        }
     }
 }
 
@@ -132,8 +145,16 @@ int set_double_attr(item_t* item, char* attr_name, double value)
     }
     else
     {
-        res->attribute_value.double_val = value;
-        return SUCCESS;
+        if(res->attribute_tag != DOUBLE)
+        {
+            fprintf(stderr, "Error: this attribute exists and is not type double.\n");
+            return FAILURE;
+        }
+        else
+        {
+            res->attribute_value.double_val = value;
+            return SUCCESS;
+        }
     }
 
 }
@@ -154,8 +175,16 @@ int set_char_attr(item_t* item, char* attr_name, char value)
     }
     else
     {
-        res->attribute_value.char_val = value;
-        return SUCCESS;
+        if(res->attribute_tag != CHARACTER)
+        {
+            fprintf(stderr, "Error: this attribute exists and is not type char.\n");
+            return FAILURE;
+        }
+        else
+        {
+            res->attribute_value.char_val = value;
+            return SUCCESS;
+        }
     }
 }
 
@@ -175,8 +204,16 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
     else
     {
-        res->attribute_value.bool_val = value;
-        return SUCCESS;
+        if(res->attribute_tag != BOOLE)
+        {
+            fprintf(stderr, "Error: this attribute exists and is not type boolean.\n");
+            return FAILURE;
+        }
+        else
+        {
+            res->attribute_value.bool_val = value;
+            return SUCCESS;
+        }
     }
 }
 
