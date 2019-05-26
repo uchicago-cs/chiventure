@@ -69,6 +69,10 @@ attribute_t *get_attribute(item_t *item, char* attr_name)
     return return_value;
 }
 
+/* we need to write a part to the following 5 functions  
+ * where if the attr alr exists we do not override its type
+ */
+
 /* see item.h */
 int set_str_attr(item_t* item, char* attr_name, char* value)
 {
@@ -76,6 +80,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = STRING;
         new_attribute->attribute_value.str_val = value;
         strcpy(new_attribute->attribute_key, attr_name);
@@ -118,6 +123,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = DOUBLE;
         new_attribute->attribute_value.double_val = value;
         strcpy(new_attribute->attribute_key, attr_name);
@@ -139,6 +145,7 @@ int set_char_attr(item_t* item, char* attr_name, char value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = CHARACTER;
         new_attribute->attribute_value.char_val = value;
         strcpy(new_attribute->attribute_key, attr_name);
@@ -159,6 +166,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = BOOLE;
         new_attribute->attribute_value.bool_val = value;
         strcpy(new_attribute->attribute_key, attr_name);
