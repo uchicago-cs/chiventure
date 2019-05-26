@@ -58,11 +58,14 @@ Test(attribute, set_int_attribute)
 	item_t *test_item = item_new();
 	int rv = set_int_attr(test_item, "Attribute_Test_Name", 2);
 	cr_assert_eq(rv, SUCCESS, "set_string_attribute: returned the wrong value");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "set_int_attribute: no memebers in hash");
 	attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name"); //that is returning a NULL value
 
-	//int test_int = test_attr->attribute_tag;
+	int test_int = test_attr->attribute_value.int_val;
 	//int test_int = get_int_attr(test_item, "Attribute_Test_Name");
-	cr_assert_null(test_attr, "set_string_attribute: set the wrong value");
+	cr_assert_not_null(test_attr, "set_int_attribute: null find");
+	//cr_assert_eq(test_int, 2, "set_int_attribute: set the wrong value");
 }
 
 //

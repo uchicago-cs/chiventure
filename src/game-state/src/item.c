@@ -48,22 +48,32 @@ int add_item_to_hash(item_hash_t item_hash, char *item_id, item_t *item) {
 
 /* see common-item.h */
 int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attribute) {
-    attribute_t* check = (attribute_t*)malloc(sizeof(attribute_t));
-    char* test_attribute_key = new_attribute->attribute_key;
-    HASH_FIND_STR(attribute_hash, test_attribute_key, check);
-    if (check != NULL) {
-        fprintf(stderr, "Error: this attribute is already present.\n");
-        return FAILURE;
-    }
-    HASH_ADD_STR(attribute_hash, attribute_key, new_attribute);
+    attribute_t* check; //= (attribute_t*)malloc(sizeof(attribute_t));
+    HASH_FIND_STR(attribute_hash, new_attribute->attribute_key, check);
+    //if (check != NULL) {
+        //fprintf(stderr, "Error: this attribute is already present.\n");
+        //return FAILURE;
+    //}
+    HASH_ADD_KEYPTR(hh, attribute_hash, new_attribute->attribute_key, strlen(new_attribute->attribute_key), new_attribute);
     return SUCCESS;
 }
 
 /* see common-item.h */
-attribute_t *get_attribute(item_t *item, char *attr_name)
+int add_attr_to_hash(item_t* new_item, attribute_t* new_attribute) {
+    attribute_t* check; //= (attribute_t*)malloc(sizeof(attribute_t));
+    HASH_FIND_STR(new_item->attributes, new_attribute->attribute_key, check);
+    //if (check != NULL) {
+        //fprintf(stderr, "Error: this attribute is already present.\n");
+        //return FAILURE;
+    //}
+    HASH_ADD_KEYPTR(hh, new_item->attributes, new_attribute->attribute_key, strlen(new_attribute->attribute_key), new_attribute);
+    return SUCCESS;
+}
+/* see common-item.h */
+attribute_t *get_attribute(item_t *item, char* attr_name)
 {
     attribute_t* return_value;
-    HASH_FIND_STR(item->attributes, attr_name, return_value);
+    HASH_FIND(hh, item->attributes, attr_name, strlen(attr_name), return_value);
     if (return_value == NULL) {
         return NULL;
     }
@@ -79,7 +89,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = STRING;
         new_attribute->attribute_value.str_val = value;
-        new_attribute->attribute_key = attr_name;
+        strcpy(new_attribute->attribute_key, attr_name);
         int rv = add_attribute_to_hash(item->attributes, new_attribute);
         return rv;
     }
@@ -98,10 +108,11 @@ int set_int_attr(item_t* item, char* attr_name, int value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = INTEGER;
         new_attribute->attribute_value.int_val = value;
-        new_attribute->attribute_key = attr_name;
-        int rv = add_attribute_to_hash(item->attributes, new_attribute);
+        strcpy(new_attribute->attribute_key, attr_name);
+        int rv = add_attr_to_hash(item, new_attribute);
         return rv;
     }
     else
@@ -120,7 +131,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = DOUBLE;
         new_attribute->attribute_value.double_val = value;
-        new_attribute->attribute_key = attr_name;
+        strcpy(new_attribute->attribute_key, attr_name);
         int rv = add_attribute_to_hash(item->attributes, new_attribute);
         return rv;
     }
@@ -141,7 +152,7 @@ int set_char_attr(item_t* item, char* attr_name, char value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = CHARACTER;
         new_attribute->attribute_value.char_val = value;
-        new_attribute->attribute_key = attr_name;
+        strcpy(new_attribute->attribute_key, attr_name);
         int rv = add_attribute_to_hash(item->attributes, new_attribute);
         return rv;
     }
@@ -161,7 +172,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = BOOLE;
         new_attribute->attribute_value.bool_val = value;
-        new_attribute->attribute_key = attr_name;
+        strcpy(new_attribute->attribute_key, attr_name);
         int rv = add_attribute_to_hash(item->attributes, new_attribute);
         return rv;
     }

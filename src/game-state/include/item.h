@@ -66,7 +66,7 @@ enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
 
 typedef struct attribute {
     UT_hash_handle hh;
-    char *attribute_key; // attribute name
+    char* attribute_key; // attribute name
     enum attribute_tag attribute_tag; 
     attribute_value_t attribute_value;
 } attribute_t;
