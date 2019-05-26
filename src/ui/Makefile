@@ -13,7 +13,9 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c 
+
+SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c src/map.c
+
 OBJS = $(SRCS:.c=.o)
 LOGS = examples/ui_debug.txt
 
@@ -28,7 +30,9 @@ $(LIB): $(OBJS)
 
 # Examples
 
-EXAMPLE_BINS = examples/test_ui examples/coord_example
+
+EXAMPLE_BINS = examples/test_ui examples/map_example examples/coord_example
+
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
 
 $(EXAMPLE_SRCS:.c=.d):%.d:%.c
