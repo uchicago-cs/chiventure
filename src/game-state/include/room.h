@@ -138,8 +138,9 @@ int delete_all_conditions(condition_list_t conditions);
 /* Mallocs space for a new path
  *
  * Parameters:
- *  id of the room this path leads to
- *
+ *  ptr to the room this path leads to
+ *  char* direction (will be path key)
+ * 
  * Returns:
  *  a pointer to new path
  */
