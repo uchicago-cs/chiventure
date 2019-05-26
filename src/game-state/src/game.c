@@ -30,7 +30,8 @@ void game_quit(game_t *game) {
 /* See game.h */
 int game_free(game_t *game) {
     delete_all_rooms(game->all_rooms);
-    delete_all_players(game->all_players);
+    // delete_all_players(game->all_players);
+    uthash_free(game->all_players, sizeof(game->all_players));
     free(game);
     return SUCCESS;
 }
@@ -57,7 +58,14 @@ int set_curr_player(game_t *game, player_t *player) {
 // Function to find player given game and player id
 player_t *get_player(game_t *game, char *player_id) {
     player_t *s;
-    HASH_FIND_STR(game->all_players, player_id, s);
+    player_hash_t plyr_hash = game->all_players;
+
+    HASH_FIND_STR(plyr_hash, player_id, s);
+
+    if (s == NULL) {
+      return NULL;
+    }
+
     return s;
 }
 
