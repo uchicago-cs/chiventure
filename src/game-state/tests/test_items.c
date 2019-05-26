@@ -266,7 +266,13 @@ Test(attribute, change_bool_attr)
 	cr_assert_eq(test_bool, false, "change_bool_attribute: set the wrong value");
 }
 
+<<<<<<< HEAD
+
+
+//write tests for changing a attr of the wrong type
+=======
 //WRITE TESTS FOR CHANGING ATTR OF THE WRONG TYPE
+>>>>>>> 10c38b359fe2d70afdf8e22024318e2b2a9ef62d
 
 // TESTS FOR TYPE-SPECIFIC GET_ATTR() FUNCTIONS -------------------------------
 Test(attribute, get_str_attr)
@@ -369,38 +375,40 @@ Test(attribute, get_non_bool_attr, .exit_code = 1) {
 	get_bool_attr(test_item, "Attribute_Test_Name");
 }
 
-//
-// Test(attributes, set_int)
-// {
-//   item_t* test_item = item_setup();
-//   int set = set_int_attr(test_item, "locked", 1);
-//   cr_assert_eq(set, SUCCESS, "set_int_attr test failed!");
-//
-// }
 
-// Test(atrributes, add_attr_to_hash, .init = item_setup, .fini = item_teardown)
-// don't really understand the last two args, doesn't pass the structure to
-// the test to be used
-/*
-Test(attributes, add_attr_to_hash)
+// TEST FOR ATTRIBUTES_EQUAL()-------------------------------------------------
+
+Test(attribute, equal)
 {
-  attribute_t test_attr = {0};
-  // char *attr_name = "locked";
-  // int attr_val = 1;
-  test_attr.attribute_key = "locked";
-  test_attr.attribute_tag = INTEGER;
-  test_attr.attribute_value.int_val = 1;
-  attribute_t *attr_ptr = &test_attr;
-  item_t *test_item = item_setup();
-  int test = add_attribute_to_hash(test_item->attributes, attr_ptr);
+    item_t *item1 = item_new();
+    item_t *item2 = item_new();
+    item_init(item1, "test_item1", "attribute test", "testing equality of attributes");
+    item_init(item2, "test_item2", "attribute test", "testing equality of attributes");
+    set_str_attr(item1, "test_attr", "test");
+    set_str_attr(item2, "test_attr", "test");
 
-  cr_assert_eq(test, SUCCESS, "add_attr_to_hash() test 1 failed!");
+    int equal = attributes_equal(item1, item2, "test_attr");
 
-  item_teardown(test_item);
+    cr_assert_eq(equal, 1, "attributes_equal() test failed!");
+
+
 }
 
-Test(item, get_attribute_exists)
+Test(attribute, not_equal)
 {
+<<<<<<< HEAD
+    item_t *item1 = item_new();
+    item_t *item2 = item_new();
+    item_init(item1, "test_item1", "attribute test", "testing equality of attributes");
+    item_init(item2, "test_item2", "attribute test", "testing equality of attributes");
+    set_str_attr(item1, "test_attr", "test1");
+    set_str_attr(item2, "test_attr", "test2");
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, 0, "attributes_equal() test failed!");
+
+=======
 	item_t *new_item = item_new("test item", "test item for testing", "test item for testing item");
 	attribute_t* new_attribute = malloc(sizeof(attribute_t));
     new_attribute->attribute_tag = STRING;
@@ -410,6 +418,39 @@ Test(item, get_attribute_exists)
     rv ++;
     //attribute_t* found_atttribute = get_attribute(new_item, "Attribute");
     //cr_assert_str_eq(new_attribute->attribute_value.str_val, found_atttribute->attribute_value.str_val, "get_attribute() has failed!");
+>>>>>>> 10c38b359fe2d70afdf8e22024318e2b2a9ef62d
 
 }
-*/
+
+Test(attribute, null_attr)
+{
+    item_t *item1 = item_new();
+    item_t *item2 = item_new();
+    item_init(item1, "test_item1", "attribute test", "testing equality of attributes");
+    item_init(item2, "test_item2", "attribute test", "testing equality of attributes");
+    set_str_attr(item1, "test_attr", "test1");
+    // set_str_attr(item2, "test_attr", "test2");
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: neither of the attributes are NULL");
+
+
+}
+
+Test(attribute, not_equal_types)
+{
+    item_t *item1 = item_new();
+    item_t *item2 = item_new();
+    item_init(item1, "test_item1", "attribute test", "testing equality of attributes");
+    item_init(item2, "test_item2", "attribute test", "testing equality of attributes");
+    set_str_attr(item1, "test_attr", "test1");
+    set_int_attr(item2, "test_attr", 1);
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: attributes are of the same type");
+
+}
+
+// TEST FOR ATTRIBUTE_FREE() --------------------------------------------------
