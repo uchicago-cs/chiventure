@@ -217,9 +217,6 @@ bool game_type_check(obj_t *obj)
 
 // the following functions regard action type checking
 
-/*
- * get_valid_actions()
-
 /* action_validate()
  * a helper function for action_type_check() that verifies the given action is on
  * the list of approved actions determined by action-management
@@ -232,12 +229,16 @@ bool game_type_check(obj_t *obj)
  *  - true if the action is valid
  *  - false if else
  */
-bool action_validate(action_list_t *ls, char *str)
-{
-    action_list_t *curr = ls;
+bool action_validate(char *str)
+{   
+    // getting a list of valid actions; 
+    // note that in the future we may wish to use a hasth table
+    list_action_type_t *valid_actions = get_supported_actions();
+
+    action_list_t *curr = valid_actions;
 
     while (curr != NULL) {
-        if (strcmp(curr->action, str) == 0) {
+        if (strcmp(curr->act->c_name, str) == 0) {
             return true;
         }
     }

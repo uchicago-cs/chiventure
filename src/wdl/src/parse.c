@@ -18,13 +18,18 @@
  */
 attr_list_t *get_obj_list(obj_t *obj, char *str)
 {
-    if (strcmp(str, "ROOMS") != 0 &&
-        strcmp(str, "ITEMS") != 0 &&
-        strcmp(str, "PLAYERS") != 0) {
+    if (strcmp(str, "ROOMS") == 0) {
+        return obj_list_attr(obj_get_attr(obj, "ROOMS", false));
+    }
+    else if (strcmp(str, "ITEMS") == 0) {
+        return obj_list_attr(obj_get_attr(obj, "ITEMS", false));
+    }
+    else if (strcmp(str, "PLAYERS") == 0) {
+        return obj_list_attr(obj_get_attr(obj, "PLAYERS", false));
+    }
+    else {
         return NULL;
     }
-
-    return obj_list_attr(obj);
 }
 
 /* see parse.h */
