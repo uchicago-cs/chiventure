@@ -122,9 +122,24 @@ path_t *list_paths(room_t *room) {
   return room->paths;
 }
 
+/* FOR CLI
+* Implement a function that returns an item 
+* given an item_ID as string and a pointer to the current room.
+*/
+
+item_t* get_item_in_room(room_t* room, char* item_id)
+{
+    attribute_t* return_value;
+    HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
+    if (return_value == NULL) {
+        return NULL;
+    }
+    return return_value;
+}
 
 /* FOR ACTION MANAGEMENT
 * go through hashtable of attributes
 * check path for equal
 * see item.h for fxn that checks equality
 */
+
