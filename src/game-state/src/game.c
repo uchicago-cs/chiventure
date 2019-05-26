@@ -30,7 +30,8 @@ void game_quit(game_t *game) {
 /* See game.h */
 int game_free(game_t *game) {
     delete_all_rooms(game->all_rooms);
-    delete_all_players(game->all_players);
+    // delete_all_players(game->all_players);
+    uthash_free(game->all_players, sizeof(game->all_players));
     free(game);
     return SUCCESS;
 }
@@ -57,7 +58,14 @@ int set_curr_player(game_t *game, player_t *player) {
 // Function to find player given game and player id
 player_t *get_player(game_t *game, char *player_id) {
     player_t *s;
-    HASH_FIND_STR(game->all_players, player_id, s);
+    player_hash_t plyr_hash = game->all_players;
+
+    HASH_FIND_STR(plyr_hash, player_id, s);
+
+    if (s == NULL) {
+      return NULL;
+    }
+
     return s;
 }
 
@@ -68,19 +76,19 @@ room_t *find_room(game_t *game, char* room_id) {
     HASH_FIND_STR(game->all_rooms, room_id, r);
     return r;
 }
-//find room given room_id
+
+//returns room given path
 //interface function that takes in a game struct, path struct
 //HEADER TBD
-room_t *find_room_from_path(game_t *game, path_t *path) {
-    room_t *room = find_room(game, path->dest);
-    return room;
+room_t *find_room_from_path(path_t *path) {
+    return path->dest;
 }
 
 //given *game, direction, and *room return adjacent room
 //experiment (HEADER TBD)
-// commented out for now while debugging -- path_to_room unwritten?
-// room_t *find_room_from_dir(game_t *game, char* direction, room_t *room) {
-//     path_t *path = path_to_room(room, direction);
-//     room_t *room_adj = find_room(game, path->dest);
-//     return room_adj;
-// }
+//COMMENT ON CAPITALIZATION
+room_t *find_room_from_dir(room_t *curr, char* direction) {
+    path_t *path = path_search(curr, direction);
+    room_t *room_adj = find_room_from_path(path);
+    return room_adj;
+}

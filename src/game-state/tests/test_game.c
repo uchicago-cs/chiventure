@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "game.h"
 
+/*
 void setup(void) {
     game_t *game = game_new();
     player_t *plyr = player_new(100);
@@ -13,13 +14,13 @@ void setup(void) {
     add_player_to_game(game, plyr);
     game->curr_player = plyr;
     game->curr_room = room1;
-    // path_t *path = path_new("nroom", "north");
-    path_t *path = path_new("north");
+    path_t *path = path_new(room2,"north");
     add_path_to_room(room1, path);
 }
 
 void teardown(void) {
     puts("Runs after the test");
+
 }
 
 Test(game, new_free)
@@ -29,13 +30,13 @@ Test(game, new_free)
     cr_assert_eq(game_free(game), SUCCESS, "game_free() failed");
 }
 
-/*need to figure out how to feed in test struct into criterion
-//assuming that is completed
+
 Test(game, init)
 {
-    game_t *game = //test struct
+    game_t *game_test = game_new();
 
 }
+
 
 Test(game, save)
 {
@@ -45,12 +46,11 @@ Test(game, save)
     cr_assert_eq(rc, 1, "file not saved");
 }
 
-Test(game, move room)
+
+Test(game, move_room, .init = setup)
 {
-    game_t *game = //teststruct
-    game->curr_room = curr;
-    room_t *new_room = //add new room?
-    move_room(game, new_room);
+    room_t *curr = game->curr_room;
+    move_room(game, nroom);
     int strcheck = strcmp(curr->room_id, game->curr_room->room_id);
     int chk = 0;
     if(strcheck != 1)
@@ -60,8 +60,4 @@ Test(game, move room)
 
 }
 
-Test(game, free)
-{
-//tbd?
-}
 */

@@ -32,6 +32,6 @@ int delete_all_rooms(room_hash_t rooms);
  * Returns:
  *  the path struct corresponding to the key, or NULL if not found
  */
-path_t *path_search(path_hash_t paths, char* direction);
+path_t *path_search(room_t *room, char* direction);
 
 #endif
