@@ -119,8 +119,7 @@ Test(attribute, get_attribute)
     cr_assert_str_eq(my_attr->attribute_value.str_val, "locked", "get_attr(): wrong value!");
 }
 
-
-
+// TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS -------------------------------
 Test(attribute, set_str_attr)
 {
 	item_t *test_item = item_new();
@@ -147,10 +146,6 @@ Test(attribute, set_int_attr)
 	cr_assert_eq(test_int, 2, "set_int_attribute: set the wrong value");
 }
 
-<<<<<<< HEAD
-// TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS -------------------------------
-Test(attribute, set_int_attribute)
-=======
 Test(attribute, set_double_attr)
 {
 	item_t *test_item = item_new();
@@ -190,6 +185,8 @@ Test(attribute, set_bool_attr)
 	cr_assert_eq(test_bool, true, "change_bool_attribute: set the wrong value");
 }
 
+
+// TESTS FOR TYPE-SPECIFIC CHANGE_ATTR() FUNCTIONS ----------------------------
 Test(attribute, change_str_attr)
 {
 	item_t *test_item = item_new();
