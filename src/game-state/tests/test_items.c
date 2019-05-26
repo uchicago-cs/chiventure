@@ -53,9 +53,53 @@ void item_teardown(item_t *test_item) {
 
 }
 
+// TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
+
+Test(attribute, add_attr_to_hash_success)
+{
+    item_t *test_item = item_new();
+    int fill_item = item_init(test_item, "test_item", "test item for attributes", "item for testing add_attr_to_hash");
+
+    cr_assert_eq(fill_item, SUCCESS, "add_attribute_to_hash() test: item initialization failed!");
+
+    attribute_t *test_attr = malloc(sizeof(attribute_t));
+    test_attr->attribute_key = (char*)malloc(100);
+    test_attr->attribute_key = "test_attr";
+    test_attr->attribute_tag = STRING;
+    test_attr->attribute_value.str_val = "test";
+
+    int test = add_attribute_to_hash(test_item, test_attr);
+
+    cr_assert_eq(test, SUCCESS, "add_attr_to_hash() test failed!");
 
 
+}
 
+
+Test(attribute, add_attr_to_hash_failure)
+{
+    item_t *test_item = item_new();
+    int fill_item = item_init(test_item, "test_item", "test item for attributes", "item for testing add_attr_to_hash");
+
+    cr_assert_eq(fill_item, SUCCESS, "add_attribute_to_hash() test: item initialization failed!");
+
+    attribute_t *test_attr = malloc(sizeof(attribute_t));
+    test_attr->attribute_key = (char*)malloc(100);
+    test_attr->attribute_key = "test_attr";
+    test_attr->attribute_tag = STRING;
+    test_attr->attribute_value.str_val = "test";
+
+    int setup = add_attribute_to_hash(test_item, test_attr);
+    cr_assert_eq(setup, SUCCESS, "add_attr_to_hash() test setup failed!");
+
+    int test = add_attribute_to_hash(test_item, test_attr);
+    cr_assert_eq(test, FAILURE, "add_attr_to_hash() test failed: duplicate attribute added");
+
+
+}
+
+
+// TEST FOR GENERAL GET_ATTRIBUTE()--------------------------------------------
 Test(attribute, get_attribute)
 {
     item_t *test_item = item_new();
@@ -78,10 +122,7 @@ Test(attribute, get_attribute)
 }
 
 
-
-
-
-
+// TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS -------------------------------
 Test(attribute, set_int_attribute)
 {
 	item_t *test_item = item_new();
@@ -93,6 +134,7 @@ Test(attribute, set_int_attribute)
 	int test_int = get_int_attr(test_item, "Attribute_Test_Name");
 	cr_assert_not_null(test_attr, "set_int_attribute: null find");
 	cr_assert_eq(test_int, 2, "set_int_attribute: set the wrong value");
+
 }
 
 
@@ -103,6 +145,7 @@ Test(attribute, set_int_attribute)
 
 //write tests for changing a attr of the wrong type
 
+// TESTS FOR TYPE-SPECIFIC GET_ATTR() FUNCTIONS -------------------------------
 Test(attribute, get_str_attr)
 {
 	item_t *test_item = item_new();
