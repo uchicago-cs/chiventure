@@ -78,6 +78,7 @@ room_t *find_room_from_path(path_t *path) {
 
 //given *game, direction, and *room return adjacent room
 //experiment (HEADER TBD)
+//COMMENT ON CAPITALIZATION
 room_t *find_room_from_dir(room_t *curr, char* direction) {
     path_t *path = path_search(curr, direction);
     room_t *room_adj = find_room_from_path(path);

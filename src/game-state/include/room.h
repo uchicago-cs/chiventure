@@ -143,8 +143,8 @@ int delete_all_conditions(condition_list_t conditions);
  * Returns:
  *  a pointer to new path
  */
-// path_t *path_new(char *room_id, char* direction);
-path_t *path_new(char *direction);
+// path_t *path_new(room_t *destination, char* direction);
+path_t *path_new(room_t *dest, char *direction);
 
 /* Frees the space in memory taken by given path
  *
