@@ -3,6 +3,18 @@
 
 #include "item.h"
 
+/* item_init() initializes an item struct with given values
+    arguments are taken from WDL
+  Parameters:
+    a memory allocated new item pointer
+    a unique item id
+    a short description of the item
+    a long description of the item
+  Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc);
+
 /* add_item_to_hash() adds an item to the hash table of items
  * Parameters:
  *  a unique item id

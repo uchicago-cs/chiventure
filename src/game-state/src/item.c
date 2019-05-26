@@ -2,31 +2,36 @@
 #include "item.h"
 #include <string.h>
 
+/* see common-item.h*/
 int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc)
 {
     assert(new_item != NULL);
 
-    strncpy(new_item->item_id, item_id, strlen(item_id));
-    strncpy(new_item->short_desc, short_desc, strlen(short_desc));
-    strncpy(new_item->long_desc, long_desc, strlen(long_desc));
-
-    // init. to NULL according to Troy Hanson's documentation?
-    // item_new->attributes = NULL;
-
+    strcpy(new_item->item_id, item_id);
+    strcpy(new_item->short_desc, short_desc);
+    strcpy(new_item->long_desc, long_desc);
 
     return SUCCESS;
 }
 
 /* see item.h */
-// item_t *item_new(char *item_id, char *short_desc, char *long_desc)
-item_t *item_new()
+item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 {
     item_t *new_item = malloc(sizeof(item_t));
     new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
+    
+    int check = item_init(new_item, item_id, short_desc, long_desc);
 
-    new_item->attributes = NULL; //used to be uthash_malloc(NULL) THIS IS WHAT WAS CAUSING THE BUGS
+    if(new_item == NULL || new_item->item_id == NULL ||
+       new_item->short_desc == NULL || new_item->long_desc == NULL) {
+        exit(1);
+    }
+
+    if(check != SUCCESS) {
+        exit(1);
+    }
 
     return new_item;
 
