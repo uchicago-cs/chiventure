@@ -247,9 +247,9 @@ int get_int_attr(item_t *item, char* attr_name) {
         fprintf(stderr, "Error: attribute get failed.\n");
         exit(1);
     }
-    if(res->attribute_tag != STRING)
+    if(res->attribute_tag != INTEGER)
     {
-        fprintf(stderr, "Error: attribute is not type string.\n");
+        fprintf(stderr, "Error: attribute is not type integer.\n");
         exit(1);
     }
     return res->attribute_value.int_val;
