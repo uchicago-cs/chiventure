@@ -16,6 +16,7 @@ int save_attribute_value(attribute_value_t *av_t, Attribute_value *av)
     if (av_t->double_val == NULL) {
 	av->double_val = NULL;
     } else {
+	av->has_double_val = 1;
 	av->double_val = av_t->double_val;
     }
 
@@ -28,6 +29,7 @@ int save_attribute_value(attribute_value_t *av_t, Attribute_value *av)
     if (av_t->bool_val == NULL) {
 	av->bool_val = NULL;
     } else {
+	av->has_bool_val = 1;
 	av->bool_val = av_t->bool_val;
     }
 
@@ -40,6 +42,7 @@ int save_attribute_value(attribute_value_t *av_t, Attribute_value *av)
     if (av_t->int_val == NULL) {
 	av->int_val = NULL;
     } else {
+	av->has_int_val = 1;
 	av->int_val = av_t->int_val;
     }
     return 0;
@@ -68,6 +71,7 @@ int save_attribute(attribute_t *a_t, Attribute *a)
 	a->attribute_tag = "INTEGER";
     }
 
+    attribute_value__init(a->attribute_value);
     save_attribute_value(a_t->attribute_value, a->attribute_value);
 
     return 0;
@@ -101,7 +105,8 @@ int save_item(item_t *i_t, Item *i)
     // repeated Attribute HERE
     i->attributes_len = COUNT_ATTRIBUTES(i_t);  // Set length of array
     i->n_attributes = COUNT_ATTRIBUTES(i_t);  // Set length of array
-
+    i->has_attributes_len = 1;
+    
     // Allocate an array of proto Attribute structs
     Attribute **attrs = malloc(sizeof(Attribute*) * (i->attributes_len));
     int iter =0; // Iterator int to track the array
@@ -114,9 +119,9 @@ int save_item(item_t *i_t, Item *i)
       if (save_attribute_success != 0) {
 	fprintf(stderr, "Attribute saving for item failed \n");
 	return -1;
-      };
+      }
       iter += 1;
-    };
+    }
 
     i->attributes = attrs;
     
@@ -237,6 +242,7 @@ int save_room(room_t *r_t, Room *r)
     // Saving the items in room
     r->items_len = COUNT_ITEMS_IN_ROOM(r_t);  // Set length of array
     r->n_items = COUNT_ITEMS_IN_ROOM(r_t);  // Set length of array
+    r->has_items_len = 1;
     
     // Allocate an array of proto Item structs
     Item **items = malloc(sizeof(Item*) * (r->items_len));
@@ -250,15 +256,17 @@ int save_room(room_t *r_t, Room *r)
       if (save_item_success != 0) {
 	fprintf(stderr, "Item saving for room failed \n");
 	return -1;
-      };
+      }
       iter += 1;
-    };
+    }
 
     r->items = items;
     
     // path stuff here!!!
     r->paths_len = COUNT_PATHS(r_t);  // Set length of array
     r->n_paths = COUNT_PATHS(r_t);  // Set length of array
+    r->has_paths_len = 1;
+    
     // Allocate an array of proto Path structs
     Path **paths = malloc(sizeof(Path*) * (r->paths_len));
     iter =0; // Iterator int to track the array
@@ -294,18 +302,21 @@ int save_player(player_t *p_t, Player *p)
     if (p_t->level == NULL) {
 	p->level = NULL;
     } else {
+	p->has_level = 1;
 	p->level = p_t->level;
     }
   
     if (p_t->health == NULL) {
 	p->health = NULL;
     } else {
+	p->has_health = 1;
 	p->health = p_t->health;
     }
 
     if (p_t->xp == NULL) {
 	p->xp = NULL;
     } else {
+	p->has_xp = 1;
 	p->xp = p_t->xp;
     }
 
@@ -325,9 +336,9 @@ int save_player(player_t *p_t, Player *p)
       if (save_item_success != 0){
 	fprintf(stderr, "Item saving for inventory failed \n");
 	return -1;
-      };
+      }
       iter += 1;
-    };
+    }
 
     p->inventory = items;
     
@@ -346,7 +357,7 @@ int save_game(game_t *g_t, Game *g)
     // repeated all_players here!!!!!    
     g->players_len = COUNT_PLAYERS(g_t);  // Set length of array
     g->n_players = COUNT_PLAYERS(g_t);  // Set length of array
-    
+        
     // Allocate an array of proto Player structs
     Player **plyrs = malloc(sizeof(Player*) * (g->plyrs_len));
     int iter =0; // Iterator int to track the array
@@ -359,9 +370,9 @@ int save_game(game_t *g_t, Game *g)
       if (save_plyr_success != 0){
 	fprintf(stderr, "Player saving for game failed \n");
 	return -1;
-      };
+      }
       iter += 1;
-    };
+    }
 
     g->all_players = plyrs;
     
