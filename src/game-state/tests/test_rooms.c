@@ -7,7 +7,7 @@
 // BASIC ROOM UNIT TESTS ------------------------------------------------------
 Test(room, new)
 {
-  item_t *new_room = room_new("test_room", "room for testing",
+  room_t *new_room = room_new("test_room", "room for testing",
   "testing if memory is correctly allocated for new rooms");
 
   cr_assert_not_null(new_room, "room_new() test 1 has failed!");

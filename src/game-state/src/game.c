@@ -13,28 +13,19 @@ game_t *game_new() {
     return game;
 }
 
-
-/* See game.h */
-void move_room(game_t *game, room_t *new_room) {
-    if(game != NULL && new_room != NULL) {
-        game->curr_room = new_room;
-    }
-}
-
 /* See game.h */
 void game_quit(game_t *game) {
     if (game != NULL) game_free(game);
     exit(0);
 }
-
-/* See game.h */
-int game_free(game_t *game) {
-    delete_all_rooms(game->all_rooms);
-    // delete_all_players(game->all_players);
-    uthash_free(game->all_players, sizeof(game->all_players));
-    free(game);
-    return SUCCESS;
+//function to find room given game struct and room_id
+//HEADER TBD INTERNAL FUNCTION
+room_t *find_room(game_t *game, char* room_id) {
+    room_t *r;
+    HASH_FIND_STR(game->all_rooms, room_id, r);
+    return r;
 }
+
 
 /* See game.h */
 int add_player_to_game(game_t *game, player_t *player) {
@@ -69,13 +60,6 @@ player_t *get_player(game_t *game, char *player_id) {
     return s;
 }
 
-//function to find room given game struct and room_id
-//HEADER TBD INTERNAL FUNCTION
-room_t *find_room(game_t *game, char* room_id) {
-    room_t *r;
-    HASH_FIND_STR(game->all_rooms, room_id, r);
-    return r;
-}
 
 //returns room given path
 //interface function that takes in a game struct, path struct
@@ -91,4 +75,22 @@ room_t *find_room_from_dir(room_t *curr, char* direction) {
     path_t *path = path_search(curr, direction);
     room_t *room_adj = find_room_from_path(path);
     return room_adj;
+}
+
+/* See game.h */
+void move_room(game_t *game, room_t *new_room) {
+    if(game != NULL && new_room != NULL) {
+        room_t *check = find_room(game, new_room->room_id);
+        if(check != NULL)
+            game->curr_room = new_room;
+    }
+}
+
+/* See game.h */
+int game_free(game_t *game) {
+    delete_all_rooms(game->all_rooms);
+    // delete_all_players(game->all_players);
+    uthash_free(game->all_players, sizeof(game->all_players));
+    free(game);
+    return SUCCESS;
 }
