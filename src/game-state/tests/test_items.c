@@ -203,20 +203,11 @@ Test(attribute, change_str_attr)
 }
 
 Test(attribute, change_int_attr)
->>>>>>> 1cc41b3aa5bb1349f9fb048b0cae8f2875f8e305
 {
 	item_t *test_item = item_new();
 	int rv = set_int_attr(test_item, "Attribute_Test_Name", 2);
 	cr_assert_eq(rv, SUCCESS, "set_int_attribute: did not successfully set attr");
 	int num_in_hash = HASH_COUNT(test_item->attributes);
-<<<<<<< HEAD
-	cr_assert_gt(num_in_hash, 0, "set_int_attribute: no memebers in hash");
-	attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name"); //that is returning a NULL value
-	int test_int = get_int_attr(test_item, "Attribute_Test_Name");
-	cr_assert_not_null(test_attr, "set_int_attribute: null find");
-	cr_assert_eq(test_int, 2, "set_int_attribute: set the wrong value");
-
-=======
 	cr_assert_gt(num_in_hash, 0, "set_int_attribute: no elements added to hash");
 	rv = set_int_attr(test_item, "Attribute_Test_Name", 3);
 	cr_assert_eq(rv, SUCCESS, "set_int_attribute: did not successfully change attr");
@@ -239,7 +230,7 @@ Test(attribute, change_double_attr)
 	cr_assert_not_null(test_attr, "change_double_attribute: null attribute returned");
 	double test_double = test_attr->attribute_value.double_val;
 	cr_assert_float_eq(test_double, 2.5, 0.0001, "change_double_attribute: set the wrong value");
->>>>>>> 1cc41b3aa5bb1349f9fb048b0cae8f2875f8e305
+
 }
 
 Test(attribute, change_char_attr)
