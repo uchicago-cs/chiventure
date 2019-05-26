@@ -7,10 +7,14 @@
 /* See load_item/h */
 int load_items(obj_t *doc, game_t *g)
 {
-    obj_t *items_obj = obj_get_attr(doc, "ITEMS", false);
+    // we use extract_objects() instead of obj_list_attr() because the former does type checking
+    attr_list_t *items_obj = extract_objects(doc, "ITEMS");
+    if (items_obj == NULL) {
+        fprintf(stderr, "items fail type checking\n");
+    }
 
-    // extract list of items
-    attr_list_t *curr = obj_list_attr(items_obj);
+    // set current item
+    attr_list_t *curr = items_obj;
 
     // if items list is empty then return 1
     if (curr != NULL) {
