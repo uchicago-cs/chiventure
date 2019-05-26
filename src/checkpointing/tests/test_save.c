@@ -8,13 +8,135 @@
 // attribute not quite figured out
 Test(save, attribute_value)
 {
-    attribute_value_t *av_t;
+    attribute_value_t *d_t;
+    attribute_value_t *c_t;
+    attribute_value_t *b_t;
+    attribute_value_t *s_t;
+    attribute_value_t *i_t;
 
+    d_t->double_val = 2.5;
+    c_t->char_val = 'T';
+    b_t->bool_val = true;
+    s_t->str_val = "string";
+    i_t->int_val = 5;
+
+    Attribute_value *d;
+    attribute_value__init(d);
+    Attribute_value *c;
+    attribute_value__init(c);
+    Attribute_value *b;
+    attribute_value__init(b);
+    Attribute_value *s;
+    attribute_value__init(s);
+    Attribute_value *i;
+    attribute_value__init(i);
+
+    int success;
+    success = save_attribute_value(d_t, d);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(d->has_double_val, 1, "save_attribute_value failed to save has_double");
+    cr_assert_eq(d->double_val, 2.5, "save_attribute_value failed to save double");
+
+    success = save_attribute_value(c_t, c);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(c->char_val, 'T', "save_attribute_value failed to save char");
+    
+    success = save_attribute_value(b_t, b);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(b->has_bool_val, 1,"save_attribute_value failed to save has_bool");
+    cr_assert_eq(b->bool_val, true,"save_attribute_value failed to save bool");
+
+    success = save_attribute_value(s_t, s);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(s->str_val, "string",  "save_attribute_value failed to save string");
+
+    success = save_attribute_value(i_t, i);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(i->has_int_val, 1,  "save_attribute_value failed to save has_int");
+    cr_assert_eq(i->int_val, 5,  "save_attribute_value failed to save int");
+    
 }
 
 Test(save, attribute)
 {
+    attribute_value_t *dv_t;
+    attribute_value_t *cv_t;
+    attribute_value_t *bv_t;
+    attribute_value_t *sv_t;
+    attribute_value_t *iv_t;
 
+    dv_t->double_val = 2.5;
+    cv_t->char_val = 'T';
+    bv_t->bool_val = true;
+    sv_t->str_val = "string";
+    iv_t->int_val = 5;
+
+
+    attribute_t *d_t;
+    attribute_t *c_t;
+    attribute_t *b_t;
+    attribute_t *s_t;
+    attribute_t *i_t;
+
+    d_t->attribute_key = "double";
+    d_t->attribute_tag = DOUBLE;
+    d_t->attribute_value = dv_T;
+
+    c_t->attribute_key = "char";
+    c_t->attribute_tag = CHARACTER;
+    c_t->attribute_value = cv_T;
+
+    b_t->attribute_key = "bool";
+    b_t->attribute_tag = BOOLE;
+    b_t->attribute_value = bv_T;
+
+    s_t->attribute_key = "string";
+    s_t->attribute_tag = STRING;
+    s_t->attribute_value = sv_T;
+
+    i_t->attribute_key = "int";
+    i_t->attribute_tag = INTEGER;
+    i_t->attribute_value = iv_T;
+
+    
+    Attribute *d;
+    attribute__init(d);
+    Attribute *c;
+    attribute__init(c);
+    Attribute *b;
+    attribute__init(b);
+    Attribute *s;
+    attribute__init(s);
+    Attribute *i;
+    attribute__init(i);
+
+    int success;
+
+    success = save_attribute(d_t, d);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(d->attribute_key, "double", "save_attribute_value failed to save attribute_key");
+    cr_assert_eq(d->attribute_tag, "DOUBLE", "save_attribute_value failed to save attribute_tag");
+
+    success = save_attribute(c_t, c);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(c->attribute_key, "char", "save_attribute_value failed to save attribute_key");
+    cr_assert_eq(c->attribute_tag, "CHARACTER", "save_attribute_value failed to save attribute_tag");
+    
+    success = save_attribute(b_t, b);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(b->attribute_key, "bool", "save_attribute_value failed to save attribute_key");
+    cr_assert_eq(b->attribute_tag, "BOOLE", "save_attribute_value failed to save attribute_tag");
+
+    success = save_attribute(s_t, s);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(s->attribute_key, "string", "save_attribute_value failed to save attribute_key");
+    cr_assert_eq(s->attribute_tag, "STRING", "save_attribute_value failed to save attribute_tag");
+    
+    success = save_attribute(i_t, i);
+    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(i->attribute_key, "int", "save_attribute_value failed to save attribute_key");
+    cr_assert_eq(i->attribute_tag, "INTEGER", "save_attribute_value failed to save attribute_tag");
+    
 }
 
 Test(save, item)
