@@ -141,7 +141,7 @@ path_t *list_paths(room_t *room) {
 /* see room.h */
 item_t* get_item_in_room(room_t* room, char* item_id)
 {
-    attribute_t* return_value;
+    item_t* return_value;
     HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
     if (return_value == NULL) {
         return NULL;

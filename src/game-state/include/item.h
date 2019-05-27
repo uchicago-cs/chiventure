@@ -27,15 +27,16 @@ typedef struct item* item_hash_t;
 *  Returns:
 *    A pointer to a new item struct.
 */
-item_t *item_new();
+item_t *item_new(char *item_id, char *short_desc, char *long_desc);
+
 
 /* item_free() frees allocated space for an item struct in memory
 *  Parameters:
 *    a pointer to the item
 *  Returns:
-*    SUCCESS if successful
+*    SUCCESS if successful, FAILURE if not
 */
-item_t *item_new(char *item_id, char *short_desc, char *long_desc);
+int item_free(item_t *item_tofree);
 
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
@@ -53,7 +54,7 @@ enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
 typedef struct attribute {
     UT_hash_handle hh;
     char* attribute_key; // attribute name
-    enum attribute_tag attribute_tag; 
+    enum attribute_tag attribute_tag;
     attribute_value_t attribute_value;
 } attribute_t;
 

@@ -53,4 +53,14 @@ int add_attribute_to_hash(item_t* item, attribute_t* new_attribute);
     NULL if the attribute does not exist, pointer to attribute if it does
 */
 attribute_t *get_attribute(item_t *item, char *attr_name);
+
+
+/* delete_all_attributes() deletes all attributes in a hashtable of attributes
+  Parameters:
+    a hash table of attributes
+
+  Returns:
+    Always returns SUCCESS
+*/
+int delete_all_attributes(attribute_hash_t attributes);
 #endif
