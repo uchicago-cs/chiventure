@@ -209,41 +209,6 @@ Test(save, item)
     // we'll test attributes when its finished
 }
 
-
-Test(save, condition)
-{
-    condition_t *cond_t;
-    char *item_id = "1234";
-    cond_t->item_id = item_id;
-    // expected_attribute component of condition hasn't been pushed by game-state
-
-    Condition *cond;
-
-    int success = save_condition(cond_t, cond);
-    cr_assert_eq(success, 0, "save_condition failed");
-    cr_assert_eq(cond->item_id, "1234", "save_condition: saving item_id failed");
-
-    //
-
-}
-
-
-Test(save, path)
-{
-    path_t *path_t;
-    char *room_id = "1234";
-    path_t = path_new(room_id);
-
-    // save.c no longer stores Condition inside a path
-
-    Path *path;
-
-    int success = save_path(path_t, path);
-
-    cr_assert_eq(success, 0, "save_path failed");
-    cr_assert_eq(path->room_id, "1234", "save_path: saving room_id failed");
-}
-
 Test(save, room)
 {
     room_t *room_t;
