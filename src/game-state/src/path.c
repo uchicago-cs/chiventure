@@ -32,17 +32,6 @@ int path_free(path_t *path) {
     return SUCCESS;
 }
 
-/* See room.h */
-int add_path_to_hash(path_hash_t all_paths, char *direction, path_t *path) {
-    path_t *s;
-    HASH_FIND_STR(all_paths, direction, s);
-    if (s != NULL) {
-        printf("FATAL: direction already used!\n");
-        exit(1);
-    }
-    HASH_ADD_STR(all_paths, direction, path);
-    return SUCCESS;
-}
 
 /* See room.h */
 int add_condition_to_path(path_t *path, condition_t *condition) {

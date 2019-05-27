@@ -18,13 +18,6 @@ void game_quit(game_t *game) {
     if (game != NULL) game_free(game);
     exit(0);
 }
-//function to find room given game struct and room_id
-//HEADER TBD INTERNAL FUNCTION
-room_t *find_room(game_t *game, char* room_id) {
-    room_t *r;
-    HASH_FIND(hh, game->all_rooms, room_id, strlen(room_id), r);
-    return r;
-}
 
 
 /* See game.h */
@@ -63,7 +56,7 @@ int set_curr_player(game_t *game, player_t *player) {
     return FAILURE;
 }
 
-// Function to find player given game and player id
+/* See game.h */
 player_t *get_player(game_t *game, char *player_id) {
     player_t *s;
     player_hash_t plyr_hash = game->all_players;
@@ -77,16 +70,21 @@ player_t *get_player(game_t *game, char *player_id) {
     return s;
 }
 
-//returns room given path
-//interface function that takes in a game struct, path struct
-//HEADER TBD
-room_t *find_room_from_path(path_t *path) {
-    return path->dest;
+/* See game.h */
+room_t *find_room(game_t *game, char* room_id) {
+    room_t *r;
+    HASH_FIND(hh, game->all_rooms, room_id, strlen(room_id), r);
+    return r;
 }
 
-//given *game, direction, and *room return adjacent room
-//experiment (HEADER TBD)
-//COMMENT ON CAPITALIZATION
+/* See game.h */
+room_t *find_room_from_path(path_t *path) {
+    if(path != NULL)
+        return path->dest;
+    return NULL;
+}
+
+/* See game.h */
 room_t *find_room_from_dir(room_t *curr, char* direction) {
     path_t *path = path_search(curr, direction);
     room_t *room_adj = find_room_from_path(path);
@@ -111,15 +109,5 @@ int game_free(game_t *game) {
     return SUCCESS;
 }
 
-/* See common-player.h */
-int add_player_to_hash(game_t *game, player_t *player) {
-    player_t *s;
-    HASH_FIND(hh, game->all_players, player->player_id, strlen(player->player_id), s);
-    if (s != NULL) {
-        printf("FATAL: player_id already used!\n");
-        exit(1);
-    } 
-    HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
-    return SUCCESS;
-}
+
 
