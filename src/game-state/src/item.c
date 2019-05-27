@@ -108,7 +108,7 @@ int set_int_attr(item_t* item, char* attr_name, int value)
         return rv;
     }
     else if (res != NULL && res->attribute_tag != INTEGER)
-        exit(1); // skeleton for not overriding type
+        return FAILURE; // skeleton for not overriding type
     else
     {
         res->attribute_value.int_val = value;
@@ -131,7 +131,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
         return rv;
     }
     else if (res != NULL && res->attribute_tag != DOUBLE)
-        exit(1); // skeleton for not overriding type
+        return FAILURE; // skeleton for not overriding type
 
     else
     {
@@ -156,7 +156,7 @@ int set_char_attr(item_t* item, char* attr_name, char value)
         return rv;
     }
     else if (res != NULL && res->attribute_tag != CHARACTER)
-        exit(1); // skeleton for not overriding type
+        return FAILURE; // skeleton for not overriding type
 
     else
     {
@@ -180,7 +180,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
         return rv;
     }
     else if (res != NULL && res->attribute_tag != BOOLE)
-        exit(1); // skeleton for not overriding type
+        return FAILURE; // skeleton for not overriding type
 
     else
     {

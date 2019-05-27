@@ -3,38 +3,33 @@
 
 /* See player.h */
 int player_init(player_t* plyr, char* player_id, int health) {
+
 	assert(plyr != NULL);
     strncpy(plyr->player_id, player_id, strlen(player_id));
     plyr->level = 1;
     plyr->health = health;
     plyr->xp = 0;
     plyr->inventory = NULL;
-    
+
     return SUCCESS;
 }
 
 /* See player.h */
-player_t* player_new() {
+player_t* player_new(char* player_id, int health) {
     player_t *plyr;
     plyr = malloc(sizeof(player_t));
     plyr->player_id = malloc(MAX_ID_LEN);
 
-    if(plyr == NULL)
-    {
-        perror("Could not allocate memory");
-        return NULL;
+	int check = player_init(plyr, player_id, health);
+
+    if (player == NULL || player->player_id == NULL) {
+        exit(1);
     }
 
-   /* 
-   int init_bool = player_init(plyr, player_id, health);
-
-    if(init_bool != SUCCESS)
-    {
-        perror("Could not initialize player");
-        return NULL;
+    if(check != SUCCESS) {
+        exit(1);
     }
-    */
-   
+
     return plyr;
 }
 

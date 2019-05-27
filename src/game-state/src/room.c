@@ -5,6 +5,17 @@
 #include "common-path.h"
 
 /* See room.h */
+int room_init(room_t *new_room, char *room_id, char *short_desc, char *long_desc) {
+
+    assert(new_room != NULL);
+
+    strncpy(new_room->room_id, room_id, strlen(room_id));
+    strncpy(new_room->short_desc, short_desc, strlen(short_desc));
+    strncpy(new_room->long_desc, long_desc, strlen(long_desc));
+
+    return SUCCESS;
+}
+
 room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
 
     room_t *room = malloc(sizeof(room_t));
@@ -25,16 +36,7 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
     return room;
 }
 
-int room_init(room_t *new_room, char *room_id, char *short_desc, char *long_desc) {
 
-    assert(new_room != NULL);
-
-    strncpy(new_room->room_id, room_id, strlen(room_id));
-    strncpy(new_room->short_desc, short_desc, strlen(short_desc));
-    strncpy(new_room->long_desc, long_desc, strlen(long_desc));
-
-    return SUCCESS;
-}
 
 /* See room.h */
 int room_free(room_t *room) {

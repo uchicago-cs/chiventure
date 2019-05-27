@@ -49,6 +49,11 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 */
 int item_free(item_t *item_tofree);
 
+// ACTION STRUCTURE DEFINITION ------------------------------------------------
+// typedef struct action {
+//     char *c_name;
+//     enum action_kind kind;
+// } action_t;
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
