@@ -64,7 +64,7 @@ char *do_item_action(game_t *g, action_type_t *a, item_t *i)
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM) {
-        strcat(ret_string, "The action type provided is not of the right kind");
+        strcat(ret_string, "The action type provided is not of the correct kind");
         return ret_string;
     }
     // checks if the action can be used on the item
@@ -98,7 +98,7 @@ char *do_path_action(game_t *g, action_type_t *a, path_t *p)
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != PATH) {
-        strcat(ret_string, "The action type provided is not of the right kind");
+        strcat(ret_string, "The action type provided is not of the correct kind");
         return ret_string;
     }
     /* TODO: implement the rest of this function, using game state funcs
@@ -127,7 +127,7 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
-        strcat(ret_string, "The action type provided is not of the right kind");
+        strcat(ret_string, "The action type provided is not of the correct kind");
         return ret_string;
     }
     // checks if the action can be used on the item
