@@ -72,3 +72,14 @@ Test(path, find_room)
 
     cr_assert_str_eq(found_room->long_desc, "room for testing find_room_from_path()", "find_room_from_path() test: room found from path has incorrect long description!");
 }
+
+
+//tested
+path_t *path_new(room_t *dest, char *direction);
+int path_free(path_t *path);
+path_t *path_search(room_t *room, char* direction);
+room_t *find_room_from_path(path_t *path);
+
+//untested
+int add_condition_to_path(path_t *path, condition_t *condition);
+int add_path_to_room(room_t *room, path_t *path);
