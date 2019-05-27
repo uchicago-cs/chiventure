@@ -4,9 +4,9 @@ CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../../game-state/include -I../include/ -I.
 LDFLAGS = -L../ -L../../libobj
 LDLIBS = ../wdl.a ../../libobj/libobj.a -lyaml -lcriterion
 RM = rm -f
-BIN = test-rooms
+BIN = test-wdl
 
-SRCS = main.c test_rooms.c
+SRCS = main.c test_validation.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all
