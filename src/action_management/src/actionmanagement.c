@@ -104,7 +104,7 @@ char *do_path_action(game_t *g, action_type_t *a, path_t *p)
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Requested movement ");
+    strcat(ret_string, "Requested action ");
     strcat(ret_string, a->c_name);
     strcat(ret_string, " in direction ");
     strcat(ret_string, p->direction);
@@ -119,7 +119,6 @@ char *do_item_item_action(game_t *g, action_type_t *a,
                         item_t *direct, item_t *indirect)
 {
     assert(g);
-    assert(g->curr_player);
     assert(a);
     assert(g->curr_player); // needed for sprint 4
     assert(direct);
