@@ -92,6 +92,7 @@ char *do_item_action(game_t *g, action_type_t *a, item_t *i)
 char *do_path_action(game_t *g, action_type_t *a, path_t *p)
 {
     assert(g);
+    assert(g->curr_player);
     assert(a);
     char *ret_string = malloc(100); // buffer
     ret_string[0] = '\0';
@@ -110,7 +111,6 @@ char *do_path_action(game_t *g, action_type_t *a, path_t *p)
     strcat(ret_string, " into room ");
     strcat(ret_string, p->dest);
     return ret_string;
-}
 
 
 /* KIND 3
@@ -119,6 +119,7 @@ char *do_item_item_action(game_t *g, action_type_t *a,
                         item_t *direct, item_t *indirect)
 {
     assert(g);
+    assert(g->curr_player);
     assert(a);
     assert(g->curr_player); // needed for sprint 4
     assert(direct);
