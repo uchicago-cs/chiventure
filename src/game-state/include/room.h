@@ -208,9 +208,14 @@ room_t *find_room_from_path(path_t *path);
 */
 room_t *find_room_from_dir(room_t *curr, char* direction);
 
-//TODO
+/* Retrieves the pointer to an item contained within a room
+* Parameters:
+*   pointer to room
+*   string of item's id
+*
+* Returns:
+*   pointer to item, NULL if not found 
+*/
 item_t* get_item_in_room(room_t* room, char* item_id);
-
-
 
 #endif

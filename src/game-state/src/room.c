@@ -141,10 +141,7 @@ item_t* get_item_in_room(room_t* room, char* item_id)
 {
     item_t* return_value;
     HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
-    if (return_value == NULL) {
-        return NULL;
-    }
-    return return_value;
+    return return_value; //if it is NULL, return_value will be equal to NULL by default
 }
 
 

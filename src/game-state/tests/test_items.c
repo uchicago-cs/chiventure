@@ -43,7 +43,6 @@ Test(item, free)
 
 }
 
-
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
 
 /*Checks adding attribute to item hash*/
@@ -547,8 +546,11 @@ Test(attribute, not_equal_types)
 
 }
 
+//NEED MORE TESTS FOR COMPARISONS OF EVERY ATTR TYPE
+
 // TEST FOR ATTRIBUTE_FREE() --------------------------------------------------
 
+/*Checks freeing of attribute struct*/
 Test(attribute, attr_free)
 {
     attribute_t *test_attr = malloc(sizeof(attribute_t));
@@ -564,6 +566,7 @@ Test(attribute, attr_free)
 
 // TESTS FOR HASH DELETION ----------------------------------------------------
 
+/*Checks deletion of all attributes associated with an item struct*/
 Test(attribute, deletion)
 {
     item_t *test_item = item_new("test_item", "item for attr testing", "item for testing del_all_attr function");
@@ -578,6 +581,7 @@ Test(attribute, deletion)
 
 }
 
+/*Checks deletion of all items within a room struct*/
 Test(item, deletion)
 {
     room_t *test_room = room_new("test_room", "room for item testing", "room for testing item deletion");
@@ -598,3 +602,5 @@ Test(item, deletion)
 
 
 }
+
+/*Checks deletion of all items within a player struct*/
