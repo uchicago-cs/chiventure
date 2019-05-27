@@ -147,6 +147,15 @@ char *get_ldesc(room_t *room);
  */
 int delete_all_conditions(condition_list_t conditions);
 
+/* delete_all_paths() deletes all paths in a path hash
+* Parameters:
+*  the hash table of paths that needs to be deleted
+*
+* Returns:
+*  SUCCESS if successful, FAILURE if failed
+*/
+int delete_all_paths(path_hash_t paths);
+
 /* Mallocs space for a new path
  *
  * Parameters:
@@ -184,7 +193,7 @@ int add_condition_to_path(path_t *path, condition_t *condition);
  *
  * Parameters:
  * ptr to room, char* direction
- * 
+ *
  * Returns:
  *  the path struct corresponding to the key, or NULL if not found
  */
@@ -192,9 +201,9 @@ path_t *path_search(room_t *room, char* direction);
 
 /* Returns pointer to room given path
 * Parameters:
-* ptr to path 
+* ptr to path
 *
-* Returns: 
+* Returns:
 * ptr to room or NULL if not found
 */
 room_t *find_room_from_path(path_t *path);
@@ -214,7 +223,7 @@ room_t *find_room_from_dir(room_t *curr, char* direction);
 *   string of item's id
 *
 * Returns:
-*   pointer to item, NULL if not found 
+*   pointer to item, NULL if not found
 */
 item_t* get_item_in_room(room_t* room, char* item_id);
 

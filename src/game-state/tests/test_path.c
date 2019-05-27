@@ -83,3 +83,18 @@ room_t *find_room_from_path(path_t *path);
 //untested
 int add_condition_to_path(path_t *path, condition_t *condition);
 int add_path_to_room(room_t *room, path_t *path);
+Test(path, del_all)
+{
+    room_t *test_room = room_new("test_room", "room for testing", "item for testing del_all_paths function");
+    path_t *test_path1 = path_new(test_room, "north");
+    path_t *test_path2 = path_new(test_room, "east");
+    path_t *test_path3 = path_new(test_room, "south");
+
+    add_path_to_room(test_room, test_path1);
+    add_path_to_room(test_room, test_path2);
+    add_path_to_room(test_room, test_path3);
+
+    int test = delete_all_paths(test_room->paths);
+
+    cr_assert_eq(test, SUCCESS, "delete_all_paths() test failed!");
+}
