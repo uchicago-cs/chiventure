@@ -47,6 +47,19 @@ int add_room_to_game(game_t *game, room_t *room) {
     return SUCCESS;
 }
 
+/* See game.h */
+int create_connection(game_t *game, char* src_room, char* to_room, char* direction) {
+    room_t *src = find_room(game, src_room);
+    if (src == NULL)
+        exit(1);
+    room_t *to = find_room(game, to_room);
+    if (to == NULL)
+        exit(2);
+    path_t *connection = path_new(to, direction);
+    int check = add_path_to_room(src, connection);
+    return check;
+}
+
 
 /* See game.h */
 int set_curr_player(game_t *game, player_t *player) {
@@ -96,16 +109,4 @@ int game_free(game_t *game) {
     return SUCCESS;
 }
 
-// CONNECT TWO ROOOOOOMS
-int create_connection(game_t *game, char* src_room, char* to_room, char* direction) {
-    room_t *src = find_room(game, src_room);
-    if (src == NULL)
-        exit(1);
-    room_t *to = find_room(game, to_room);
-    if (to == NULL)
-        exit(2);
-    path_t *connection = path_new(to, direction);
-    int check = add_path_to_room(src, connection);
-    return check;
-}
 
