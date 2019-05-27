@@ -37,7 +37,11 @@ int load_items(obj_t *doc, game_t *g)
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
         //load actions into item
-        load_actions(doc, item);
+        if(load_actions(doc, item) == -1)
+	{
+	     fprintf(stderr, "actions havw not been loaded properly");
+	     return -1;
+	}
 
         //retrieve the pointer for the room that the item is located in
         room_t *item_room = find_room(g, in);
