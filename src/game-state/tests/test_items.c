@@ -3,10 +3,11 @@
 #include "item.h"
 #include "common-item.h"
 #include "common-room.h"
+#include "common-player.h"
 
 // BASIC ITEM UNIT TESTS ------------------------------------------------------
 
-/*Checks creation of new item*/
+/* Checks creation of new item */
 Test(item, new)
 {
     item_t *new_item = item_new("test_item", "item for testing", "test item for item_new()");
@@ -15,7 +16,7 @@ Test(item, new)
 
 }
 
-/*Checks initialization of new item*/
+/* Checks initialization of new item */
 Test(item, init)
 {
     item_t *empty_item = item_new("test_item", "This is a test item",
@@ -26,7 +27,7 @@ Test(item, init)
     cr_assert_eq(check, SUCCESS, "item_new() test 1 has failed!");
 }
 
-/*Checks freeing of item struct*/
+/* Checks freeing of item struct */
 Test(item, free)
 {
     item_t *item_tofree = item_new("my_item", "pls free me",
@@ -45,7 +46,7 @@ Test(item, free)
 
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
 
-/*Checks adding attribute to item hash*/
+/* Checks adding attribute to item hash */
 Test(attribute, add_attr_to_hash_success)
 {
     item_t *test_item = item_new("test_item", "test item for attributes", "item for testing add_attr_to_hash");
@@ -62,7 +63,7 @@ Test(attribute, add_attr_to_hash_success)
 
 }
 
-/*Checks if adding same attribute to item hash twice fails*/
+/* Checks if adding same attribute to item hash twice fails */
 Test(attribute, add_attr_to_hash_failure)
 {
     item_t *test_item = item_new("test_item", "test item for attributes", "item for testing add_attr_to_hash");
@@ -84,7 +85,7 @@ Test(attribute, add_attr_to_hash_failure)
 
 // TEST FOR GENERAL GET_ATTRIBUTE()--------------------------------------------
 
-/*Checks helper function to retrieve attribute from item*/
+/* Checks helper function to retrieve attribute from item */
 Test(attribute, get_attribute)
 {
     item_t *test_item = item_new("test_item", "test item for attributes", "item for testing get_attribute()");
@@ -104,7 +105,7 @@ Test(attribute, get_attribute)
 
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS -------------------------------
 
-/*Checks creation of new string attribute and adding it to an item*/
+/* Checks creation of new string attribute and adding it to an item */
 Test(attribute, set_str_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -119,7 +120,7 @@ Test(attribute, set_str_attr)
 
 }
 
-/*Checks creation of new integer attribute and adding it to an item*/
+/* Checks creation of new integer attribute and adding it to an item */
 Test(attribute, set_int_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -134,7 +135,7 @@ Test(attribute, set_int_attr)
 
 }
 
-/*Checks creation of new double attribute and adding it to an item*/
+/* Checks creation of new double attribute and adding it to an item */
 Test(attribute, set_double_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -149,7 +150,7 @@ Test(attribute, set_double_attr)
 
 }
 
-/*Checks creation of new character attribute and adding it to an item*/
+/* Checks creation of new character attribute and adding it to an item */
 Test(attribute, set_char_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -164,7 +165,7 @@ Test(attribute, set_char_attr)
 
 }
 
-/*Checks creation of new boolean attribute and adding it to an item*/
+/* Checks creation of new boolean attribute and adding it to an item */
 Test(attribute, set_bool_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -182,7 +183,7 @@ Test(attribute, set_bool_attr)
 
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS CHANGING ATTR VALUE ------------------------
 
-/*Checks creation of new string attribute and changing its value*/
+/* Checks creation of new string attribute and changing its value */
 Test(attribute, change_str_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -199,7 +200,7 @@ Test(attribute, change_str_attr)
 
 }
 
-/*Checks creation of new str attribute and if change to non-str is blocked */
+/* Checks creation of new str attribute and if change to non-str is blocked */
 Test(attribute, change_str_attr_fail)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -219,7 +220,7 @@ Test(attribute, change_str_attr_fail)
 
 }
 
-/*Checks creation of new string attribute and changing its value*/
+/* Checks creation of new string attribute and changing its value */
 Test(attribute, change_int_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -236,7 +237,7 @@ Test(attribute, change_int_attr)
 
 }
 
-/*Checks creation of new int attribute and if change to non-int is blocked */
+/* Checks creation of new int attribute and if change to non-int is blocked */
 Test(attribute, change_int_attr_fail)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -256,7 +257,7 @@ Test(attribute, change_int_attr_fail)
 
 }
 
-/*Checks creation of new double attribute and changing its value*/
+/* Checks creation of new double attribute and changing its value */
 Test(attribute, change_double_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -273,7 +274,7 @@ Test(attribute, change_double_attr)
 
 }
 
-/*Checks creation of new dbl attribute and if change to non-dbl is blocked */
+/* Checks creation of new dbl attribute and if change to non-dbl is blocked */
 Test(attribute, change_double_attr_fail)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -293,7 +294,7 @@ Test(attribute, change_double_attr_fail)
 
 }
 
-/*Checks creation of new character attribute and changing its value*/
+/* Checks creation of new character attribute and changing its value */
 Test(attribute, change_char_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -310,7 +311,7 @@ Test(attribute, change_char_attr)
 
 }
 
-/*Checks creation of new char attribute and if change to non-char is blocked */
+/* Checks creation of new char attribute and if change to non-char is blocked */
 Test(attribute, change_char_attr_fail)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -330,7 +331,7 @@ Test(attribute, change_char_attr_fail)
 
 }
 
-/*Checks creation of new boolean attribute and changing its value*/
+/* Checks creation of new boolean attribute and changing its value */
 Test(attribute, change_bool_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -351,7 +352,7 @@ Test(attribute, change_bool_attr)
 
 }
 
-/*Checks creation of new bool attribute and if change to non-bool is blocked */
+/* Checks creation of new bool attribute and if change to non-bool is blocked */
 Test(attribute, change_bool_attr_fail)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -375,7 +376,7 @@ Test(attribute, change_bool_attr_fail)
 
 // TESTS FOR TYPE-SPECIFIC GET_ATTR() FUNCTIONS -------------------------------
 
-/*Checks retrieval of string attribute value*/
+/* Checks retrieval of string attribute value */
 Test(attribute, get_str_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test getting attributes");
@@ -388,7 +389,7 @@ Test(attribute, get_str_attr)
 
 }
 
-/*Checks retrieval of integer attribute value*/
+/* Checks retrieval of integer attribute value */
 Test(attribute, get_int_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test getting attributes");
@@ -401,7 +402,7 @@ Test(attribute, get_int_attr)
 
 }
 
-/*Checks retrieval of double attribute value*/
+/* Checks retrieval of double attribute value */
 Test(attribute, get_double_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test getting attributes");
@@ -414,7 +415,7 @@ Test(attribute, get_double_attr)
 
 }
 
-/*Checks retrieval of character attribute value*/
+/* Checks retrieval of character attribute value */
 Test(attribute, get_char_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test getting attributes");
@@ -427,7 +428,7 @@ Test(attribute, get_char_attr)
 
 }
 
-/*Checks retrieval of boolean attribute value*/
+/* Checks retrieval of boolean attribute value */
 Test(attribute, get_bool_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test getting attributes");
@@ -440,7 +441,7 @@ Test(attribute, get_bool_attr)
 
 }
 
-/*Checks if retireval of non-str attribute using get_str_attr is blocked*/
+/* Checks if retrieval of non-str attribute using get_str_attr is blocked */
 Test(attribute, get_non_str_attr, .exit_code = 1) {
 	item_t *test_item = item_new("test item", "test item for testing", "test item for testing item");
 	int rv = set_int_attr(test_item, "Attribute_Test_Name",2);
@@ -450,7 +451,7 @@ Test(attribute, get_non_str_attr, .exit_code = 1) {
 	get_str_attr(test_item, "Attribute_Test_Name");
 }
 
-/*Checks if retireval of non-int attribute using get_int_attr is blocked*/
+/* Checks if retrieval of non-int attribute using get_int_attr is blocked */
 Test(attribute, get_non_int_attr, .exit_code = 1) {
 	item_t *test_item = item_new("test item", "test item for testing", "test item for testing item");
 	int rv = set_double_attr(test_item, "Attribute_Test_Name", 2.0);
@@ -460,7 +461,7 @@ Test(attribute, get_non_int_attr, .exit_code = 1) {
 	get_int_attr(test_item, "Attribute_Test_Name");
 }
 
-/*Checks if retireval of non-double attribute using get_double_attr is blocked*/
+/* checks if retrieval of non-double attribute using get_double_attr is blocked */
 Test(attribute, get_non_double_attr, .exit_code = 1) {
 	item_t *test_item = item_new("test item", "test item for testing", "test item for testing item");
 	int rv = set_char_attr(test_item, "Attribute_Test_Name", 'a');
@@ -470,7 +471,7 @@ Test(attribute, get_non_double_attr, .exit_code = 1) {
 	get_double_attr(test_item, "Attribute_Test_Name");
 }
 
-/*Checks if retireval of non-character attribute using get_char_attr is blocked*/
+/* Checks if retrieval of non-character attribute using get_char_attr is blocked */
 Test(attribute, get_non_char_attr, .exit_code = 1) {
 	item_t *test_item = item_new("test item", "test item for testing", "test item for testing item");
 	int rv = set_bool_attr(test_item, "Attribute_Test_Name", true);
@@ -480,7 +481,7 @@ Test(attribute, get_non_char_attr, .exit_code = 1) {
 	get_char_attr(test_item, "Attribute_Test_Name");
 }
 
-/*Checks if retireval of non-boolean attribute using get_bool_attr is blocked*/
+/* Checks if retrieval of non-boolean attribute using get_bool_attr is blocked */
 Test(attribute, get_non_bool_attr, .exit_code = 1) {
 	item_t *test_item = item_new("test item", "test item for testing", "test item for testing item");
 	int rv = set_str_attr(test_item, "Attribute_Test_Name", "Attribute_Test_Value");
@@ -494,6 +495,7 @@ Test(attribute, get_non_bool_attr, .exit_code = 1) {
 
 // TEST FOR ATTRIBUTES_EQUAL()-------------------------------------------------
 
+/* checks that two equal attributes are equal */
 Test(attribute, equal)
 {
     item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
@@ -507,7 +509,7 @@ Test(attribute, equal)
 
 }
 
-
+/* checks that two unequal attributes are not equal */
 Test(attribute, not_equal)
 {
     item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
@@ -521,6 +523,8 @@ Test(attribute, not_equal)
 
 }
 
+/* checks that function catches if one of the attributes being compared
+is NULL */
 Test(attribute, null_attr)
 {
     item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
@@ -533,7 +537,10 @@ Test(attribute, null_attr)
 
 }
 
-Test(attribute, not_equal_types)
+/* the following tests check that function catches if the attributes being compared are of different types  */
+
+// str + int
+Test(attribute_equal, str_to_int)
 {
     item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
     item_t *item2 = item_new("test_item2", "attribute test", "testing equality of attributes");
@@ -546,11 +553,122 @@ Test(attribute, not_equal_types)
 
 }
 
-//NEED MORE TESTS FOR COMPARISONS OF EVERY ATTR TYPE
+// str + char
+Test(attribute_equal, str_to_char)
+{
+    item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
+    item_t *item2 = item_new("test_item2", "attribute test", "testing equality of attributes");
+    set_str_attr(item1, "test_attr", "test1");
+    set_char_attr(item2, "test_attr", 'x');
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: attributes are of the same type");
+
+}
+
+// str + double
+Test(attribute_equal, str_to_double)
+{
+    item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
+    item_t *item2 = item_new("test_item2", "attribute test", "testing equality of attributes");
+    set_str_attr(item1, "test_attr", "test1");
+    set_double_attr(item2, "test_attr", 2.0);
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: attributes are of the same type");
+
+}
+
+// str + bool
+Test(attribute_equal, str_to_bool)
+{
+    item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
+    item_t *item2 = item_new("test_item2", "attribute test", "testing equality of attributes");
+    set_str_attr(item1, "test_attr", "test1");
+    set_bool_attr(item2, "test_attr", true);
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: attributes are of the same type");
+
+}
+
+// int + char
+Test(attribute_equal, int_to_char)
+{
+    item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
+    item_t *item2 = item_new("test_item2", "attribute test", "testing equality of attributes");
+    set_int_attr(item1, "test_attr", 1);
+    set_char_attr(item2, "test_attr", 'x');
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: attributes are of the same type");
+
+}
+
+// int + double
+Test(attribute_equal, int_to_double)
+{
+    item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
+    item_t *item2 = item_new("test_item2", "attribute test", "testing equality of attributes");
+    set_int_attr(item1, "test_attr", 1);
+    set_double_attr(item2, "test_attr", 2.0);
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: attributes are of the same type");
+
+}
+
+// int + bool
+Test(attribute_equal, int_to_bool)
+{
+    item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
+    item_t *item2 = item_new("test_item2", "attribute test", "testing equality of attributes");
+    set_int_attr(item1, "test_attr", 1);
+    set_bool_attr(item2, "test_attr", true);
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: attributes are of the same type");
+
+}
+
+// char + double
+Test(attribute_equal, char_to_double)
+{
+    item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
+    item_t *item2 = item_new("test_item2", "attribute test", "testing equality of attributes");
+    set_char_attr(item1, "test_attr", 'x');
+    set_double_attr(item2, "test_attr", 2.0);
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: attributes are of the same type");
+
+}
+
+// char + bool
+Test(attribute_equal, char_to_bool)
+{
+    item_t *item1 = item_new("test_item1", "attribute test", "testing equality of attributes");
+    item_t *item2 = item_new("test_item2", "attribute test", "testing equality of attributes");
+    set_char_attr(item1, "test_attr", 'x');
+    set_bool_attr(item2, "test_attr", true);
+
+    int equal = attributes_equal(item1, item2, "test_attr");
+
+    cr_assert_eq(equal, -1, "attributes_equal() test failed: attributes are of the same type");
+
+}
+
 
 // TEST FOR ATTRIBUTE_FREE() --------------------------------------------------
 
-/*Checks freeing of attribute struct*/
+/* Checks freeing of attribute struct */
 Test(attribute, attr_free)
 {
     attribute_t *test_attr = malloc(sizeof(attribute_t));
@@ -566,7 +684,7 @@ Test(attribute, attr_free)
 
 // TESTS FOR HASH DELETION ----------------------------------------------------
 
-/*Checks deletion of all attributes associated with an item struct*/
+/* Checks deletion of all attributes associated with an item struct */
 Test(attribute, deletion)
 {
     item_t *test_item = item_new("test_item", "item for attr testing", "item for testing del_all_attr function");
@@ -581,8 +699,8 @@ Test(attribute, deletion)
 
 }
 
-/*Checks deletion of all items within a room struct*/
-Test(item, deletion)
+/* Checks deletion of all items within a room struct */
+Test(item, deletion_in_room)
 {
     room_t *test_room = room_new("test_room", "room for item testing", "room for testing item deletion");
     item_t *test_item1 = item_new("hat", "fedora", "Indiana Jones vibes");
@@ -604,3 +722,23 @@ Test(item, deletion)
 }
 
 /*Checks deletion of all items within a player struct*/
+Test(item, deletion_in_player)
+{
+    player_t *test_player = player_new("test_player", 100);
+    item_t *test_item1 = item_new("hat", "fedora", "Indiana Jones vibes");
+    item_t *test_item2 = item_new("lightsaber", "weapon", "star wars vibes, it's a crossover episode");
+    item_t *test_item3 = item_new("apple", "fujis are the best", "a player's gotta nourish");
+
+    int item_add1 = add_item_to_player(test_player, test_item1);
+    int item_add2 = add_item_to_player(test_player, test_item2);
+    int item_add3 = add_item_to_player(test_player, test_item3);
+
+    cr_assert_eq(item_add1, SUCCESS, "del_all_items test: item1 was not added!");
+    cr_assert_eq(item_add2, SUCCESS, "del_all_items test: item2 was not added!");
+    cr_assert_eq(item_add3, SUCCESS, "del_all_items test: item3 was not added!");
+
+    int del_items = delete_all_items(test_player->inventory);
+    cr_assert_eq(del_items, SUCCESS, "del_all_items test: items were not successfully deleted!");
+
+
+}
