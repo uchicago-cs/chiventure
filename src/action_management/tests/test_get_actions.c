@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <criterion/criterion.h>
 #include "utlist.h"
-#include "get_actions.h"
+#include "actionmanagement.h"
 
 void check_search(list_action_type_t *head, char *query, int expected_index)
 {
