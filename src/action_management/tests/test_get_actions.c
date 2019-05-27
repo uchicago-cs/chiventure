@@ -32,7 +32,7 @@ void check_search(list_action_type_t *head, char *query, int expected_index)
     int strcmp_result = strcmp(elt->c_name,valid_actions[expected_index].c_name);
     cr_assert_eq(strcmp_result,0,
                  "Searched using query %s. Found the element %s of the kind %d.\n",
-                 query, elt->act->c_name, elt->act->kind);
+                 query, elt->c_name, elt->kind);
 }
 
 /* Checks to see if the action list called can be iterated over using string */
