@@ -64,7 +64,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  * - pointer to game to be saved,
  *
  * Returns:
- * - A NULL pointer
+ * - A success or error message
  */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game);
 

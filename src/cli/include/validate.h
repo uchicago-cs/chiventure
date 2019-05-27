@@ -81,7 +81,7 @@ bool validate_ind_objects(cmd *c);
  * Checks that a specified filetype is a .dat file
  *
  * Parameters:
- * - A string of the filneame
+ * - A string of the filename
  *
  *
  * Returns:

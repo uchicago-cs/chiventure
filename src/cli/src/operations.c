@@ -28,11 +28,10 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 {
   if(tokens[1] == NULL){
-    printf("Save Error, No filename specified");
+    fprintf(stderr,"Save Error, No filename specified. \n");
   }
   if (validate(tokens[1]) == true){
     int sv = save(game, tokens[1]);
-  }
   return NULL;
 }
 
