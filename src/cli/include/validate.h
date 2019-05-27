@@ -15,13 +15,12 @@
  */
 
 /*
- * Checks if the action is valid (also needs a list of valid actions as input,
- * to be provided by the action management team). If the input action is valid,
- * this function creates a cmd struct, and assigns the function pointer to the
- * operation function with the correspnding action type
+ * If the input action is valid (checks by calling validate_action), go through
+ * the hashtable again to find the corresponding operation and creates a cmd struct
  *
  * Input:
  *  - ts: parsed command line input (an array of tokens)
+ *  - table: hashtable that stores all supported actions
  *
  * Returns:
  *  - A cmd struct that contains the given tokens and a pointer to an operation
@@ -30,7 +29,20 @@
  *    If the action is invalid, assigns the cmd pointer
  *    to action_error_operation
  */
-cmd *assign_action(char **ts, lookup_t * table);
+cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t *table);
+
+
+/*
+ * Checks if a given action is supported by the game
+ *
+ * Input:
+ *  - tokens: an array of parsed input
+ *  - table: hashtable that stores all supported actions
+ *
+ * Returns:
+ *  - FALSE if the action is not supported; TRUE if it is.
+ */
+bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t *table);
 
 
 /*
@@ -46,8 +58,7 @@ cmd *assign_action(char **ts, lookup_t * table);
  *    Additionally, we may set the cmd pointer to an error function
  *    that returns a error message with respect to the type of error
  */
-//item_t get_object(cmd *c);
-//Commented out, because this should be inside game-state.
+bool validate_object(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
 /*
@@ -75,7 +86,7 @@ bool validate_prep(cmd *c);
  * Returns:
  *  - FALSE if the item is not accessible; TRUE if it is.
  */
-bool validate_ind_objects(cmd *c);
+bool validate_ind_objects(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 /*
  * Checks that a specified filetype is a .dat file
@@ -89,8 +100,5 @@ bool validate_ind_objects(cmd *c);
  */
 bool validate_filename(char *filename);
 
-//Placeholder function, for game-state will provide this function
-
-item_t *get_item(char * objId, room_t *curr_room);
 
 #endif /* _CLI_INCLUDE_VALIDATE_H_ */

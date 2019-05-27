@@ -50,7 +50,7 @@ int main()
             continue;
 
         cmd *c = cmd_from_string(cmd_string, table);
-        if (!c)
+        if (c == NULL)
         {
             shell_error_arg("unrecognized or malformed command: \"%s\"", input);
             putchar('\n');
