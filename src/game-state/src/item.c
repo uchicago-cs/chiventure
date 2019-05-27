@@ -16,7 +16,8 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 }
 
 /* see item.h */
-item_t *item_new(char *item_id, char *short_desc, char *long_desc)
+// item_t *item_new(char *item_id, char *short_desc, char *long_desc)
+item_t *item_new()
 {
     item_t *new_item = malloc(sizeof(item_t));
     new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation

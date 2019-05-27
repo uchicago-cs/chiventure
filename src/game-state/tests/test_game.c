@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "game.h"
 
-
 void setup(void) {
     puts("Ready to go!");
 }

@@ -27,8 +27,19 @@ typedef struct item* item_hash_t;
 *  Returns:
 *    A pointer to a new item struct.
 */
-item_t *item_new(char *item_id, char *short_desc, char *long_desc);
+item_t *item_new();
 
+/* item_init() initializes an item struct with given values
+   arguments are taken from WDL
+ Parameters:
+    a memory allocated new item pointer
+    a unique item id
+    a short description of the item
+    a long description of the item
+ Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc);
 
 /* item_free() frees allocated space for an item struct in memory
 *  Parameters:
