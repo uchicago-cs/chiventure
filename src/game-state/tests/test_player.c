@@ -12,33 +12,34 @@
 
 Test(player, new)
 {
-  player_t *player = player_new(100);
+  player_t *player = player_new("1", 100);
 
   cr_assert_not_null(player, "player_new() failed");
-  
+
   cr_assert_eq(player->health, 100, "player_new() didn't set player health");
   cr_assert_eq(player->level, 1, "player_new() didn't properly call player_init()");
   cr_assert_eq(player->xp, 0, "player_new() didn't properly call player_init()");
-  cr_assert_eq(player->player_id, "1", "player_new() didn't properly call player_init()");
+  cr_assert_eq(strcmp(player->player_id, "1"), 0, "player_new() didn't properly call player_init() for player_id");
 }
 
 Test(player, init)
 {
-  player_t *player = player_new(100);
+  player_t *player = player_new("1", 100);
 
-  int res = player_init(player, 56);
+  int res = player_init(player, "1", 56);
 
   cr_assert_not_null(player, "player_new() failed");
 
   cr_assert_eq(player->health, 56, "player_init() didn't set player health");
   cr_assert_eq(player->level, 1, "player_init() didn't set level to 1");
   cr_assert_eq(player->xp, 0, "player_init() didn't set experience to 0");
+  cr_assert_eq(strcmp(player->player_id, "1"), 0, "player_init() didn't set player_id to 1");
   cr_assert_eq(res, SUCCESS, "player_init() failed");
 }
 
 Test(player, free)
 {
-  player_t *player = player_new(100);
+  player_t *player = player_new("1", 100);
   
   int res = player_free(player);
 
@@ -49,7 +50,7 @@ Test(player, free)
 
 Test(player, get_health)
 {
-  player_t *player = player_new(99);
+  player_t *player = player_new("1", 99);
   
   int health = get_health(player);
 
@@ -60,7 +61,7 @@ Test(player, get_health)
 
 Test(player, change_health)
 {
-  player_t *player = player_new(99);
+  player_t *player = player_new("1", 99);
 
   int health = change_health(player, 2, 100);
   int health2 = change_health(player, -20, 100);
@@ -75,7 +76,7 @@ Test(player, change_health)
 
 Test(player, get_level)
 {
-  player_t *player = player_new(99);
+  player_t *player = player_new("1", 99);
 
   int level = get_level(player);
 
@@ -86,7 +87,7 @@ Test(player, get_level)
 
 Test(player, change_level)
 {
-  player_t *player = player_new(99);
+  player_t *player = player_new("1", 99);
 
   int level = change_level(player, 3);
   int level2 = change_level(player, -1);
@@ -99,7 +100,7 @@ Test(player, change_level)
 
 Test(player, get_xp)
 {
-  player_t *player = player_new(99);
+  player_t *player = player_new("1", 99);
 
   int xp = get_xp(player);
   
@@ -110,7 +111,7 @@ Test(player, get_xp)
 
 Test(player, change_xp)
 {
-  player_t *player = player_new(99);
+  player_t *player = player_new("1", 99);
 
   int xp = change_xp(player, 20);
   int xp2 = change_xp(player, -5);
@@ -123,8 +124,8 @@ Test(player, change_xp)
 
 Test(player, get_inventory)
 {
-  player_t *player = player_new(99);
-  player_t *player2 = player_new(100);
+  player_t *player = player_new("1", 99);
+  player_t *player2 = player_new("1", 100);
   item_t *new_item = item_new();
   item_init(new_item, "a", "b", "c");
   add_item_to_player(player2, new_item);
@@ -142,7 +143,7 @@ Test(player, get_inventory)
 
 Test(player, add_player_to_hash)
 {
-  player_t *player = player_new(99);
+  player_t *player = player_new("1", 99);
   game_t *game = game_new();
   int res = add_player_to_hash(game, player);
 
@@ -154,7 +155,7 @@ Test(player, add_player_to_hash)
 
 Test(player, add_item_to_player)
 {
-  player_t *player = player_new(100);
+  player_t *player = player_new("1", 100);
   item_t *new_item = item_new();
   item_init(new_item, "a", "b", "c");
   add_item_to_player(player, new_item);

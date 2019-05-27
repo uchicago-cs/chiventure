@@ -4,7 +4,7 @@
 /* See player.h */
 int player_init(player_t* plyr, char* player_id, int health) {
 
-	assert(plyr != NULL);
+    assert(plyr != NULL);
     strncpy(plyr->player_id, player_id, strlen(player_id));
     plyr->level = 1;
     plyr->health = health;
@@ -20,9 +20,9 @@ player_t* player_new(char* player_id, int health) {
     plyr = malloc(sizeof(player_t));
     plyr->player_id = malloc(MAX_ID_LEN);
 
-	int check = player_init(plyr, player_id, health);
+    int check = player_init(plyr, player_id, health);
 
-    if (player == NULL || player->player_id == NULL) {
+    if (plyr == NULL || plyr->player_id == NULL) {
         exit(1);
     }
 
