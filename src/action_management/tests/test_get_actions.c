@@ -19,7 +19,7 @@ action_type_t *search_supported_actions(char *query)
 }
 
 /* Checks to see if the action list called can be iterated over using string */
-Test(get_actions, search)
+Test(get_actions, search_success)
 {
     action_type_t *open, *consume, *go, *use_on;
     open = search_supported_actions("open");
@@ -35,4 +35,31 @@ Test(get_actions, search)
                   "search_supported_actions returned a null for query \"go\".\n");
     cr_assert_neq(use_on, NULL, 
                   "search_supported_actions returned a null for query \"use on\".\n");
+
+    cr_assert_eq(open->kind, ITEM, 
+                 "Expected the action kind %d, but got action kind %d.\n",
+                 ITEM, open->kind);
+    cr_assert_eq(consume->kind, ITEM, 
+                 "Expected the action kind %d, but got action kind %d.\n",
+                 ITEM, consume->kind);
+    cr_assert_eq(go->kind, PATH, 
+                 "Expected the action kind %d, but got action kind %d.\n",
+                 PATH, go->kind);
+    cr_assert_eq(use_on->kind, ITEM_ITEM, 
+                 "Expected the action kind %d, but got action kind %d.\n",
+                 ITEM_ITEM, use_on->kind);
+}
+
+Test(get_actions, search_failure)
+{
+    action_type_t *dance, *jump, *fight;
+    dance = search_supported_actions("dance");
+    jump = search_supported_actions("jump");
+    fight = search_supported_actions("fight");
+    cr_assert_eq(dance, NULL, 
+                 "search_supported_actions returned a pointer for invalid query \"dance\".\n");
+    cr_assert_eq(jump, NULL, 
+                 "search_supported_actions returned a pointer for invalid query \"jump\".\n");
+    cr_assert_eq(fight, NULL, 
+                 "search_supported_actions returned a pointer for invalid query \"fight\".\n");
 }
