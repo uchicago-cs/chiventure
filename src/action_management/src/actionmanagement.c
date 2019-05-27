@@ -112,7 +112,7 @@ char *do_path_action(game_t *g, action_type_t *a, path_t *p)
     strcat(ret_string, p->dest);
     return ret_string;
 
-
+}
 /* KIND 3
  * See actionmanagement.h */
 char *do_item_item_action(game_t *g, action_type_t *a,
