@@ -77,6 +77,18 @@ bool validate_prep(cmd *c);
  */
 bool validate_ind_objects(cmd *c);
 
+/*
+ * Checks that a specified filetype is a .dat file
+ *
+ * Parameters:
+ * - A string of the filneame
+ *
+ *
+ * Returns:
+ * - TRUE if proper filename, FALSE if not
+ */
+bool validate_filename(char *filename);
+
 //Placeholder function, for game-state will provide this function
 
 item_t *get_item(char * objId, room_t *curr_room);

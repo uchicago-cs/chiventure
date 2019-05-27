@@ -47,7 +47,21 @@ bool validate_ind_objects(cmd *c)
     //similar to validate_in_objects
     return true;
 }
-
+/* See validate.h */
+bool validate_filename(char *filename)
+{
+  int len = strlen(filename);
+  if(len < 4){
+    return false;
+  }
+  const char *ending = &filename[len-4];
+  int cmp = strcmp(ending, ".dat");
+  if(cmp == 0){
+    return true;
+  } else {
+    return false;
+  }
+}
 //Placeholder function, for game-state will provide this function
 
 item_t *get_item(char * objId, room_t *curr_room){

@@ -6,7 +6,7 @@
 #include "assert.h"
 #include "item.h"
 #include "validate.h"
-#include "save.h"
+#include "../../checkpointing/include/save.h"
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
 {
@@ -24,13 +24,15 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game)
     print_history();
     return NULL;
 }
-
+/* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 {
   if(tokens[1] == NULL){
     printf("Save Error, No filename specified");
   }
-  int sv = save(game, tokens[1]);
+  if (validate(tokens[1]) == true){
+    int sv = save(game, tokens[1]);
+  }
   return NULL;
 }
 
