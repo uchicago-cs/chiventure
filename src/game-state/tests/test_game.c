@@ -53,7 +53,7 @@ Test(game, save)
 
 */
 
-Test(game, add_room_to_game) 
+Test(game_room, add_room_to_game) 
 {
     game_t *game = game_new();
     room_t *room1 = room_new();
@@ -80,7 +80,7 @@ Test(game, add_room_to_game)
 
 }
 
-Test(game, move_room)
+Test(game_room, move_room)
 {
     game_t *game = game_new();
     room_t *room1 = room_new();
@@ -90,11 +90,9 @@ Test(game, move_room)
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     game->curr_room = room1;
-    path_t *path = path_new(room2,"north");
-    add_path_to_room(room1, path);
-    room_t *curr = game->curr_room;
-
+    create_connection(game, "vroom1", "nroom", "north");
     
+    room_t *curr = game->curr_room;
     move_room(game, room2);
     int strcheck = strcmp(curr->room_id, game->curr_room->room_id);
     int chk = 0;
@@ -106,7 +104,7 @@ Test(game, move_room)
 }
 
 
-Test(game, add_player_to_game) 
+Test(game_player, add_player_to_game) 
 {
     game_t *game = game_new();
     player_t *plyr = player_new();
@@ -122,3 +120,19 @@ Test(game, add_player_to_game)
     cr_assert_eq(p1chk, 0, "found wrong player1");
 }
 
+Test(game_player, set_curr_player) 
+{
+    game_t *game = game_new();
+    player_t *plyr1 = player_new();
+    player_t *plyr2 = player_new();
+    player_init(plyr1, "player_one", 100);
+    player_init(plyr2, "player_two", 100);
+    add_player_to_game(game, plyr1);
+    add_player_to_game(game, plyr2);
+    set_curr_player(game, plyr1);
+
+    int check = strncmp(game->curr_player->player_id, plyr1->player_id, MAX_ID_LEN);
+    set_curr_player(game, plyr2);
+
+    cr_assert_eq(check, 0, "set_curr_player failed");
+}
