@@ -7,7 +7,7 @@ RM = rm -f
 BIN = test-actionmanagement
 LDLIBS = -lcriterion
 
-SRCS = main.c test_get_actions.c
+SRCS = main.c test_get_actions.c ../src/get_actions.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all
