@@ -68,7 +68,7 @@ Test(get_actions, search_failure)
 
 Test(get_actions, count)
 {   
-    list_actions_type_t *head, *elt;
+    list_action_type_t *head, *elt;
     head = get_supported_actions();
     int count;
     LL_COUNT(head, elt, count);
