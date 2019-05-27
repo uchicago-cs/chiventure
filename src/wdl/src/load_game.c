@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <Stdbool.h>
 #include "validate.h"
 #include "parse.h"
+#include "game.h"
 #include "load_game.h"
 #include "parse_document.h"
 
