@@ -72,3 +72,19 @@ Test(path, find_room)
 
     cr_assert_str_eq(found_room->long_desc, "room for testing find_room_from_path()", "find_room_from_path() test: room found from path has incorrect long description!");
 }
+
+Test(path, del_all)
+{
+    room_t *test_room = room_new("test_room", "room for testing", "item for testing del_all_paths function");
+    path_t *test_path1 = path_new(test_room, "north");
+    path_t *test_path2 = path_new(test_room, "east");
+    path_t *test_path3 = path_new(test_room, "south");
+
+    add_path_to_room(test_room, test_path1);
+    add_path_to_room(test_room, test_path2);
+    add_path_to_room(test_room, test_path3);
+
+    int test = delete_all_paths(test_room->paths);
+
+    cr_assert_eq(test, SUCCESS, "delete_all_paths() test failed!");
+}
