@@ -30,8 +30,9 @@ game_t *start_test() {
 
 Test(game, new_free)
 {
-    game_t *game = game_new();
+    game_t *game = game_new("hello and welcome to this awesome game");
     cr_assert_not_null(game, "game_new() failed");
+    cr_assert_eq(strcmp(game->start_desc, "hello and welcome to this awesome game"), 0, "game_new() failed to set the starting description");
     cr_assert_eq(game_free(game), SUCCESS, "game_free() failed");
 }
 
@@ -55,7 +56,7 @@ Test(game, save)
 
 Test(game, add_room_to_game) 
 {
-    game_t *game = game_new();
+    game_t *game = game_new("welcome");
     room_t *room1 = room_new();
     room_t *room2 = room_new();
     room_init(room1, "vroom1", "test room", "yes this is a test room");
@@ -82,7 +83,7 @@ Test(game, add_room_to_game)
 
 Test(game, move_room)
 {
-    game_t *game = game_new();
+    game_t *game = game_new("welcome");
     room_t *room1 = room_new();
     room_t *room2 = room_new();
     room_init(room1, "vroom1", "test room", "yes this is a test room");
@@ -108,7 +109,7 @@ Test(game, move_room)
 
 Test(game, add_player_to_game) 
 {
-    game_t *game = game_new();
+    game_t *game = game_new("welcome");
     player_t *plyr = player_new();
     player_init(plyr, "player_one", 100);
     add_player_to_game(game, plyr);

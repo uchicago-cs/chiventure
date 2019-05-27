@@ -8,8 +8,7 @@
 #include "common-player.h"
 #include "game_state_common.h"
 
-// NEED TO WRITE ALL THE COMMENTS FOR EACH TEST
-
+/* Checks that player_new() properly mallocs and initializes a new player struct */
 Test(player, new)
 {
   player_t *player = player_new("1", 100);
@@ -22,6 +21,7 @@ Test(player, new)
   cr_assert_eq(strcmp(player->player_id, "1"), 0, "player_new() didn't properly call player_init() for player_id");
 }
 
+/* Checks that player_init() initializes the fields within the new player struct */
 Test(player, init)
 {
   player_t *player = player_new("1", 100);
@@ -37,6 +37,7 @@ Test(player, init)
   cr_assert_eq(res, SUCCESS, "player_init() failed");
 }
 
+/* Checks that player_free() frees the given player struct from memory */
 Test(player, free)
 {
   player_t *player = player_new("1", 100);
@@ -48,6 +49,7 @@ Test(player, free)
   cr_assert_eq(res, SUCCESS, "player_free() failed");
 }
 
+/* Checks that get_health() returns the health of the player */
 Test(player, get_health)
 {
   player_t *player = player_new("1", 99);
@@ -59,6 +61,7 @@ Test(player, get_health)
   cr_assert_eq(health, 99, "get_health() returned incorrect health");
 }
 
+/* Checks that a player's health is changed by change_health() both positively and negatively with a set maximum */
 Test(player, change_health)
 {
   player_t *player = player_new("1", 99);
@@ -74,6 +77,7 @@ Test(player, change_health)
   cr_assert_eq(health3, 83, "change_health() did not properly add health");
 }
 
+/* Checks that get_level() returns the level of the player */
 Test(player, get_level)
 {
   player_t *player = player_new("1", 99);
@@ -85,6 +89,7 @@ Test(player, get_level)
   cr_assert_eq(level, 1, "get_level() failed to return player level");
 }
 
+/* Checks that a player's level is changed by change_level() both positively and negatively */
 Test(player, change_level)
 {
   player_t *player = player_new("1", 99);
@@ -98,6 +103,7 @@ Test(player, change_level)
   cr_assert_eq(level2, 3, "change_level() failed to subtract from player level");
 }
 
+/* Checks that get_xp() returns the experience points of the player */
 Test(player, get_xp)
 {
   player_t *player = player_new("1", 99);
@@ -109,6 +115,7 @@ Test(player, get_xp)
   cr_assert_eq(xp, 0, "get_xp() failed to return player experience");
 }
 
+/* Checks that a player's experience points is changed by change_xp positively and negatively */
 Test(player, change_xp)
 {
   player_t *player = player_new("1", 99);
@@ -122,6 +129,7 @@ Test(player, change_xp)
   cr_assert_eq(xp2, 15, "change_xp() failed to subtract from player experience");
 }
 
+/* Checks that get_inventory() returns the player's inventory */
 Test(player, get_inventory)
 {
   player_t *player = player_new("1", 99);
@@ -141,11 +149,12 @@ Test(player, get_inventory)
   cr_assert_eq(inv2, player2->inventory, "get_inventory() failed to return inventory");
 }
 
-Test(player, add_player_to_hash)
+/* Checks that add_player_to_game adds a player to a game struct's player hash table */
+Test(player, add_player_to_game)
 {
   player_t *player = player_new("1", 99);
-  game_t *game = game_new();
-  int res = add_player_to_hash(game, player);
+  game_t *game = game_new("welcome");
+  int res = add_player_to_game(game, player);
 
   cr_assert_not_null(player, "player_new() failed");
   cr_assert_not_null(game->all_players, "add_player_to_hash failed to add player");
@@ -153,6 +162,7 @@ Test(player, add_player_to_hash)
   cr_assert_eq(res, SUCCESS, "add_player_to_hash failed to add player");
 }
 
+/* Checks that add_item_to_player adds an item to a player struct's inventory */
 Test(player, add_item_to_player)
 {
   player_t *player = player_new("1", 100);
@@ -165,7 +175,21 @@ Test(player, add_item_to_player)
   cr_assert_not_null(player->inventory, "add_item_to_player() failed to add item");
 }
 
+/*
 Test(player, delete_all_players)
 {
-  
+  player_t *player = player_new("1", 100);
+  player_t *player2 = player_new("2", 100);
+  game_t *game = game_new("welcome");
+
+  int res = add_player_to_game(game, player);
+  int res2 = add_player_to_game(game, player2);
+
+  cr_assert_eq(res, SUCCESS, "add_player_to_game() failed to add player to game");
+  cr_assert_eq(res2, SUCCESS, "add_player_to_game() failed to add player to game");
+
+  delete_all_players(game->all_players);
+
+  cr_assert_eq(NULL, game->all_players, "delete_all_players() failed to delete players");
 }
+*/
