@@ -1,8 +1,11 @@
 #ifndef UI_CTX_H
 #define UI_CTX_H
-#include "ctx.h"
+
+#include "game.h"
 #include "window.h"
 #include "coordinate.h"
+#include "map.h"
+
 
 /*
  * UI context struct.  Contains the following fields:

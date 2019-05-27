@@ -5,12 +5,12 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <assert.h>
+#include "ui_ctx.h"
+#include "game.h"
 #include "coordinate.h"
 #include "window.h"
 #include "print_functions.h"
-#include "map.h"
-#include "coordinate.h"
-#include "ui_ctx.h"
+//#include "map.h"
 
 
 /* see ui_ctx.h */

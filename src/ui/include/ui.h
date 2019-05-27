@@ -1,6 +1,8 @@
 #ifndef UI_H
 #define UI_H
 
+#include "ctx.h"
+
 /*
  * Starts the ui. No inputs or return values
  */

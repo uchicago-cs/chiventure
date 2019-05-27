@@ -5,10 +5,10 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <string.h>
-#include "window.h"
+#include "ctx.h"
 #include "ui.h"
+#include "window.h"
 #include "print_functions.h"
-#include "map.h"
 
 #define MAIN_WIN_NUM 1
 #define MAP_WIN_NUM 2

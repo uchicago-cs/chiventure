@@ -12,7 +12,7 @@
 #include "uthash.h"
 #include "common.h"
 
-struct room;
+struct hash_map_room;
 
 /* A dummy struct to mimic the hash that we expect
  * game state to create, based on their communication with us!
@@ -22,15 +22,15 @@ typedef struct {
     // direction
     char *key;
     // adjacent room in that direction
-    struct room *adj;
+    struct hash_map_room *adj;
     UT_hash_handle hh;
-} room_hash_t;
+} rooms_hash_t;
 
 // Dummy room struct
-typedef struct room {
+typedef struct hash_map_room {
     int id;
-    room_hash_t hash;
-} room_t;
+    rooms_hash_t hash;
+} hash_map_room_t;
 
 /* Dummy function called find_room()
  * Will be integrating with Game State's real function
@@ -47,7 +47,7 @@ typedef struct room {
  * - NULL if no room in that direction
  */
 
-room_t *find_room(room_t *curr, char *direction);
+hash_map_room_t *find_room(hash_map_room_t *curr, char *direction);
 
 // A coordinate in two-dimensional space
 typedef struct {
@@ -60,7 +60,7 @@ typedef struct {
  */
 typedef struct coord_record {
     coordinate_t key;
-    room_t *r;
+    hash_map_room_t *r;
     UT_hash_handle hh;
 } coord_record_t;
 
@@ -102,7 +102,7 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y);
  * Info on struct keys from uthash guide:
  * https://troydhanson.github.io/uthash/userguide.html#_structure_keys
  */
-int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r);
+int try_add_coord(coord_record_t *coordmap, int x, int y, hash_map_room_t *r);
 
 
 /* create_valid_map():

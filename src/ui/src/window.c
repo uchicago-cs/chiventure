@@ -6,7 +6,6 @@
 #include <assert.h>
 #include <signal.h>
 #include "window.h"
-#include "ctx.h"
 
 
 
