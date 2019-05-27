@@ -77,7 +77,6 @@ player_t *get_player(game_t *game, char *player_id) {
     return s;
 }
 
-
 //returns room given path
 //interface function that takes in a game struct, path struct
 //HEADER TBD
@@ -111,3 +110,16 @@ int game_free(game_t *game) {
     free(game);
     return SUCCESS;
 }
+
+/* See common-player.h */
+int add_player_to_hash(game_t *game, player_t *player) {
+    player_t *s;
+    HASH_FIND(hh, game->all_players, player->player_id, strlen(player->player_id), s);
+    if (s != NULL) {
+        printf("FATAL: player_id already used!\n");
+        exit(1);
+    } 
+    HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
+    return SUCCESS;
+}
+

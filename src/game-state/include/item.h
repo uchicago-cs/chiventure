@@ -30,26 +30,24 @@ typedef struct item* item_hash_t;
 item_t *item_new();
 
 /* item_init() initializes an item struct with given values
-    arguments are taken from WDL
-  Parameters:
+   arguments are taken from WDL
+ Parameters:
     a memory allocated new item pointer
     a unique item id
     a short description of the item
     a long description of the item
-
-  Returns:
+ Returns:
     FAILURE for failure, SUCCESS for success
 */
 int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc);
-
 
 /* item_free() frees allocated space for an item struct in memory
 *  Parameters:
 *    a pointer to the item
 *  Returns:
-*    SUCCESS if successful
+*    SUCCESS if successful, FAILURE if not
 */
-int item_free(item_t *item);
+int item_free(item_t *item_tofree);
 
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
@@ -67,7 +65,7 @@ enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
 typedef struct attribute {
     UT_hash_handle hh;
     char* attribute_key; // attribute name
-    enum attribute_tag attribute_tag; 
+    enum attribute_tag attribute_tag;
     attribute_value_t attribute_value;
 } attribute_t;
 

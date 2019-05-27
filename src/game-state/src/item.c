@@ -2,31 +2,37 @@
 #include "item.h"
 #include <string.h>
 
+// BASIC ITEM FUNCTIONS -------------------------------------------------------
+/* see common-item.h*/
 int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc)
 {
     assert(new_item != NULL);
 
-    strncpy(new_item->item_id, item_id, strlen(item_id));
-    strncpy(new_item->short_desc, short_desc, strlen(short_desc));
-    strncpy(new_item->long_desc, long_desc, strlen(long_desc));
-
-    // init. to NULL according to Troy Hanson's documentation?
-    // item_new->attributes = NULL;
-
+    strcpy(new_item->item_id, item_id);
+    strcpy(new_item->short_desc, short_desc);
+    strcpy(new_item->long_desc, long_desc);
 
     return SUCCESS;
 }
 
 /* see item.h */
-// item_t *item_new(char *item_id, char *short_desc, char *long_desc)
-item_t *item_new()
+item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 {
     item_t *new_item = malloc(sizeof(item_t));
     new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
 
-    new_item->attributes = NULL; //used to be uthash_malloc(NULL) THIS IS WHAT WAS CAUSING THE BUGS
+    int check = item_init(new_item, item_id, short_desc, long_desc);
+
+    if (new_item == NULL || new_item->item_id == NULL ||
+       new_item->short_desc == NULL || new_item->long_desc == NULL) {
+        exit(1);
+    }
+
+    if(check != SUCCESS) {
+        exit(1);
+    }
 
     return new_item;
 
@@ -47,7 +53,7 @@ item_t *item_new()
 // }
 //
 
-
+// ATTRIBUTE MANIPULATION FUNCTIONS -------------------------------------------
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
     attribute_t* check;
@@ -59,6 +65,7 @@ int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
     HASH_ADD_KEYPTR(hh, item->attributes, new_attribute->attribute_key, strlen(new_attribute->attribute_key), new_attribute);
     return SUCCESS;
 }
+
 /* see common-item.h */
 attribute_t *get_attribute(item_t *item, char* attr_name)
 {
@@ -72,6 +79,9 @@ attribute_t *get_attribute(item_t *item, char* attr_name)
 
 /* we need to write a part to the following 5 functions
  * where if the attr alr exists we do not override its type
+ */
+
+ /* I added an else if that returns FAILURE if the attr exists and is of the wrong type, and wrote accompanying tests, let's discuss if we want this aspect of the function to do something different
  */
 
 /* see item.h */
@@ -88,6 +98,8 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
+    else if (res != NULL && res->attribute_tag != STRING)
+        return FAILURE; // skeleton for not overriding type
     else
     {
         res->attribute_value.str_val = value;
@@ -110,6 +122,8 @@ int set_int_attr(item_t* item, char* attr_name, int value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
+    else if (res != NULL && res->attribute_tag != INTEGER)
+        exit(1); // skeleton for not overriding type
     else
     {
         res->attribute_value.int_val = value;
@@ -131,6 +145,9 @@ int set_double_attr(item_t* item, char* attr_name, double value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
+    else if (res != NULL && res->attribute_tag != DOUBLE)
+        exit(1); // skeleton for not overriding type
+
     else
     {
         res->attribute_value.double_val = value;
@@ -153,6 +170,9 @@ int set_char_attr(item_t* item, char* attr_name, char value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
+    else if (res != NULL && res->attribute_tag != CHARACTER)
+        exit(1); // skeleton for not overriding type
+
     else
     {
         res->attribute_value.char_val = value;
@@ -174,6 +194,9 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
+    else if (res != NULL && res->attribute_tag != BOOLE)
+        exit(1); // skeleton for not overriding type
+
     else
     {
         res->attribute_value.bool_val = value;
@@ -317,26 +340,15 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
     return comparison;
 }
 
-/* add_attribute_free() frees an attribute
-  Parameters:
-    the attribute
-
-  Returns:
-    always returns SUCCESS
-*/
+// FREEING AND DELETION FUNCTIONS ---------------------------------------------
+/* see item.h */
 int attribute_free(attribute_t *attribute) {
     free(attribute->attribute_key);
     free(attribute);
     return SUCCESS;
 }
 
-/* delete_all_attributes() deletes all attributes in a hashtable of attributes
-  Parameters:
-    a hash table of attributes
-
-  Returns:
-    Always returns SUCCESS
-*/
+/* see common-item.h */
 int delete_all_attributes(attribute_hash_t attributes)
 {
     attribute_t *current_attribute, *tmp;

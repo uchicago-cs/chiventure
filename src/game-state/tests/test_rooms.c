@@ -15,7 +15,8 @@ Test(room, new)
 
 Test(room, init)
 {
-  room_t *empty_room = room_new();
+  room_t *empty_room = room_new("test_room", "This is a test room",
+  "The purpose of this room is testing");
   int check = room_init(empty_room, "test_room", "This is a test room",
   "The purpose of this room is testing");
 
@@ -30,6 +31,20 @@ Test(room, free)
   int freed = room_free(room_tofree);
 
   cr_assert_eq(freed, SUCCESS, "room_free() test 1 has failed!");
+
+
+}
+
+Test(room, get_item)
+{
+    room_t *new_room = room_new("test_room", "room for testing", "testing if memory is correctly allocated for new rooms");
+    item_t *test_item = item_new("test_item", "item for testing", "testing to see if get_item() works");
+    int rv = add_item_to_room(new_room, test_item);
+    cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
+    item_t *returned_item = get_item_in_room(new_room, "test_item");
+    cr_assert_eq(test_item, returned_item, "item not added to room correctly");
+
+
 
 
 }
