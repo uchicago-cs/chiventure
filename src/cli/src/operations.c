@@ -32,8 +32,8 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
     fprintf(stderr,"Save Error, No filename specified. \n");
   }
   if (validate(tokens[1]) == true){
-*/    int sv = save(game, tokens[1]);
-  return NULL;
+    int sv = save(game, tokens[1]);
+*/  return NULL;
 }
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
@@ -42,12 +42,15 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
     {
         return game->curr_room->long_desc;
     }
-    item_t *i = get_item(tokens[1],NULL);
-    if(i == NULL)
+    item_t *curr_item;
+    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, curr_item)
     {
-        return "specified item not found";
+        if (strcmp(curr_item->item_id,tokens[1])==0)
+        {
+            return curr_item->long_desc;
+        }
     }
-    return i->long_desc;
+    return "specified item not found\n";
 }
 
 //KIND 1:   ACTION <item>
