@@ -4,6 +4,8 @@
 #include "utlist.h"
 #include "actionmanagement.h"
 
+#define NUM_ACTIONS (13)
+
 action_type_t *search_supported_actions(char *query)
 {
     list_action_type_t *head, *temp;
@@ -62,4 +64,15 @@ Test(get_actions, search_failure)
                  "search_supported_actions returned a pointer for invalid query \"jump\".\n");
     cr_assert_eq(fight, NULL, 
                  "search_supported_actions returned a pointer for invalid query \"fight\".\n");
+}
+
+Test(get_actions, count)
+{   
+    list_actions_type_t *head, *elt;
+    head = get_supported_actions();
+    int count;
+    LL_COUNT(head, elt, count);
+    cr_assert_eq(count, NUM_ACTIONS,
+                 "Expected a count of %d items, but got a count of %d.\n",
+                 count, NUM_ACTIONS);
 }
