@@ -77,18 +77,16 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game){
 }
 
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game){
-    //This line will be added once game_t is no placeholder
-    //item_hash_t inv = get_inverntory(game->curr_player);
-    item_hash_t inv;
     item_t *t;
     int i = 0;
-    for(t = inv; t!=NULL; t=t->hh.next){
-        printf("%d:  %s\n",i, t->item_id);
-        i++;
+    ITER_ALL_ITEMS_IN_INVENTORY(game->curr_player, t)
+    {
+	i++;
+        printf("%d:  %s, %s\n",i, t->item_id, t->short_desc);    
     }
     return "This was your inventory";
-
 }
+
 //Because action managment does not support NPCs type 4 is not supported
 //char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 //{
