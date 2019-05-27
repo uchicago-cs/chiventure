@@ -6,10 +6,7 @@
 #ifndef INCLUDE_VALIDATE_H
 #define INCLUDE_VALIDATE_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "parser.h"
+#include "wdl_common.h"
 
 /* connections_get_list()
  * a helper function for connection_type_check that gets a list of connections
