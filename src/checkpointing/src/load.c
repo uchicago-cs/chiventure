@@ -119,54 +119,6 @@ int load_item(Item *i, item_t *i_t);
     return 0;
 }
 
-// won't need condition for semi-incremental saving
-/*
-int load_condition(Condition *c, condition_t *c_t)
-{
-    if (c_t == NULL) {
-	fprintf(stderr, "given null condition_t struct\n");
-	return -1;
-    }
-
-    if (c->item_id != NULL) {
-	c_t->item->item_id = c->item_id;
-    } else {
-	c_t->item->item_id = NULL;
-    }
-
-    // something here? idk depends on game state
-
-    // optional Attribute here but might change
-
-    return 0;
-    }*/
-
-
-int load_path(Path *p, path_t *p_t)
-{
-    if (p_t == NULL) {
-	fprintf(stderr, "given null path_t struct\n");
-	return -1;
-    }
-
-    if (p->direction != NULL) {
-	p_t->direction = p->direction;
-    } else {
-	p_t->direction = NULL;
-    }
-
-    // if game state changes dest to a pointer, this will need to change!
-    if (p->dest != NULL) {
-	p_t->dest = p->dest;
-    } else {
-	p_t->dest = NULL;
-    }
-
-    // repeated Condition HERE
-
-    return 0;
-}
-
 
 int load_room(Room *r, room_t *r_t)
 {
@@ -189,7 +141,7 @@ int load_room(Room *r, room_t *r_t)
 	r_t->short_desc = NULL;
     }
 
-    // hash table stuff
+    // Load items here
     // note that object is now called item
     
     /* object_t **objs = malloc(sizeof(object_t*) * r->objs_len);
@@ -235,7 +187,7 @@ int load_player(Player *p, player_t *p_t)
 	p_t->xp = NULL;
     }
 
-    // hash table stuff for inventory
+    // Load inventory here
     /*
     object_t **inventory = malloc(sizeof(object_t*) * p->inventory_len);
 
@@ -284,25 +236,24 @@ int load_game(Game *g, game_t *g_t)
     g_t->rooms_len = g->rooms_len;  
     */
 
-
+    // Note: in game state structs, curr_room is a room struct that contains a room_id
+    // In the proto struct, curr_room is simply the room_id as a string
     if(g->curr_room != -1) {
+	room_t *curr_r;
 	ITER_ALL_ROOMS(g_t, curr_r) {
 	    if (curr_r->room_id == g->curr_room) {
 		g_t->curr_room = curr_r;
 	    }
 	}
-    } else {
-	g_t->curr_room = NULL;
     }
 
     if (g->curr_player != -1) {
+	player_t *curr_p;
 	ITER_ALL_PLAYERS(g_t, curr_p) {
 	    if (curr_p->player_id == g->curr_player) {
 		g_t->curr_player = curr_p;
 	    }
 	}
-    } else {
-	g_t->curr_player = NULL;
     }
     
     return 0;
