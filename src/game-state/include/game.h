@@ -134,7 +134,6 @@ player_t *get_player(game_t *game, char *player_id);
 room_t *find_room(game_t *game, char* room_id);
 
 /*
-*
 * Function to connect two rooms
 * Parameters:
 * game, Source room_id, destination room_id, direction
