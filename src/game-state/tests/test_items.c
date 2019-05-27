@@ -721,7 +721,7 @@ Test(item, deletion_in_room)
 
 }
 
-/*Checks deletion of all items within a player struct*/
+/* Checks deletion of all items within a player struct */
 Test(item, deletion_in_player)
 {
     player_t *test_player = player_new("test_player", 100);
