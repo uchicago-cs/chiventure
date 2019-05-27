@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "validate.h"
+#include "actionmanagement.h"
 
 // The following functions assist with iterating through lists of objects
 
@@ -211,6 +212,48 @@ bool game_type_check(obj_t *obj)
     bool intro_ver = (obj_get_type(game, "intro") == TYPE_STR);
 
     return (start_ver && intro_ver);
+}
+
+
+// the following functions regard action type checking
+
+/* action_validate()
+ * a helper function for action_type_check() that verifies the given action is on
+ * the list of approved actions determined by action-management
+ *
+ * parameters
+ *  - ls: a list of approved actions
+ *  - str: the action to check
+ *
+ * returns
+ *  - true if the action is valid
+ *  - false if else
+ */
+bool action_validate(char *str)
+{   
+    // getting a list of valid actions; 
+    // note that in the future we may wish to use a hasth table
+    list_action_type_t *valid_actions = get_supported_actions();
+
+    list_action_type_t *curr = valid_actions;
+
+    while (curr != NULL) {
+        if (strcmp(curr->act->c_name, str) == 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/* see validate.h */
+bool action_type_check(obj_t *obj)
+{
+    // fields to verify
+    bool action_type = (obj_get_type(obj, "action") == TYPE_STR);
+    bool action_valid =  action_validate(obj_get_str(obj, "action"));
+
+    return (action_type && action_valid);
 }
 
 // The following are print functions to print out specific fields within a

@@ -18,13 +18,18 @@
  */
 attr_list_t *get_obj_list(obj_t *obj, char *str)
 {
-    if (strcmp(str, "ROOMS") != 0 &&
-        strcmp(str, "ITEMS") != 0 &&
-        strcmp(str, "PLAYERS") != 0) {
+    if (strcmp(str, "ROOMS") == 0) {
+        return obj_list_attr(obj_get_attr(obj, "ROOMS", false));
+    }
+    else if (strcmp(str, "ITEMS") == 0) {
+        return obj_list_attr(obj_get_attr(obj, "ITEMS", false));
+    }
+    else if (strcmp(str, "PLAYERS") == 0) {
+        return obj_list_attr(obj_get_attr(obj, "PLAYERS", false));
+    }
+    else {
         return NULL;
     }
-
-    return obj_list_attr(obj);
 }
 
 /* see parse.h */
@@ -56,15 +61,7 @@ attr_list_t *extract_objects(obj_t *obj, char *str)
     }
 }
 
-
-/* see parse.h */
-id_list_t *extract_ids(attr_list_t *ls)
-{
-    // TODO
-    return NULL;
-}
-
-/* See parse_document.h */
+/* See parse.h */
 attr_list_t* get_items_in_room(char* room_id, attr_list_t *all_items)
 {
     attr_list_t* ret_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
@@ -82,4 +79,25 @@ attr_list_t* get_items_in_room(char* room_id, attr_list_t *all_items)
         tmp = tmp->next;
     }
     return ret_ls;
+}
+
+/* see parse.h */
+attr_list_t *get_item_actions(obj_t *item)
+{
+    bool valid = false;
+
+    attr_list_t *ls = obj_list_attr(obj_get_attr(item, "actions", false));
+
+    if (ls == NULL) {
+        return NULL;
+    }
+
+    valid = list_type_check(ls, action_type_check);
+
+    if (valid) {
+        return ls;
+    }
+    else {
+        return NULL;
+    }
 }

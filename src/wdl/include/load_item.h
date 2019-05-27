@@ -10,14 +10,27 @@
 #include <stdbool.h>
 #include "parse.h"
 
-/*
- * Function to load a single item into the item_t struct
+/* load_items
+ * accesses the document object and obtain list of items to parse into the
+ * game_state structs and adds to the inputted game pointer
+ * 
+ * parameters:
+ * - obj: the document object
+ * - g: a game pointer as a return parameter
  *
- * input: 
- *   - a wdl item object as defined above
- * output: 
- *   - a pointer to the item_t struct that has been loaded 
+ * side effects:
+ * - adds items into the inputted game pointer and 
+ *   their respective rooms
+ *
+ * returns:
+ * - 0 for successful parse
+ * - 1 for unsuccessful parse
  */
-item_t* load_item(wdl_item_t* item);
+item_t* load_items(obj_t *doc, game_t *g );
+
+/* load_actions
+ * loads actions into the given item
+ */
+int load_actions(obj_t *doc, item_t *i);
 
 #endif /* INCLUDE_LOAD_ITEM_H */
