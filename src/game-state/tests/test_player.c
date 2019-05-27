@@ -41,11 +41,11 @@ Test(player, init)
 Test(player, free)
 {
   player_t *player = player_new("1", 100);
-  
+
   int res = player_free(player);
 
   cr_assert_not_null(player, "player_new() failed");
-  
+
   cr_assert_eq(res, SUCCESS, "player_free() failed");
 }
 
@@ -53,7 +53,7 @@ Test(player, free)
 Test(player, get_health)
 {
   player_t *player = player_new("1", 99);
-  
+
   int health = get_health(player);
 
   cr_assert_not_null(player, "player_new() failed");
@@ -71,7 +71,7 @@ Test(player, change_health)
   int health3 = change_health(player, 3, 83);
 
   cr_assert_not_null(player, "player_new() failed");
-  
+
   cr_assert_eq(health, 100, "change_health() increased health past max");
   cr_assert_eq(health2, 80, "change_health() did not properly reduce health");
   cr_assert_eq(health3, 83, "change_health() did not properly add health");
@@ -98,7 +98,7 @@ Test(player, change_level)
   int level2 = change_level(player, -1);
 
   cr_assert_not_null(player, "player_new() failed");
-  
+
   cr_assert_eq(level, 4, "change_level() failed to add to player level");
   cr_assert_eq(level2, 3, "change_level() failed to subtract from player level");
 }
@@ -109,7 +109,7 @@ Test(player, get_xp)
   player_t *player = player_new("1", 99);
 
   int xp = get_xp(player);
-  
+
   cr_assert_not_null(player, "player_new() failed");
 
   cr_assert_eq(xp, 0, "get_xp() failed to return player experience");
@@ -134,13 +134,12 @@ Test(player, get_inventory)
 {
   player_t *player = player_new("1", 99);
   player_t *player2 = player_new("1", 100);
-  item_t *new_item = item_new();
-  item_init(new_item, "a", "b", "c");
+  item_t *new_item = item_new("test_item", "item for player testing", "item for testing get_inventory()");
   add_item_to_player(player2, new_item);
 
   item_hash_t inv = get_inventory(player);
   item_hash_t inv2 = get_inventory(player2);
-  
+
   cr_assert_not_null(player, "player_new() failed");
   cr_assert_not_null(player2, "player_new() failed");
   cr_assert_not_null(new_item, "item_new() failed");
@@ -166,8 +165,7 @@ Test(player, add_player_to_game)
 Test(player, add_item_to_player)
 {
   player_t *player = player_new("1", 100);
-  item_t *new_item = item_new();
-  item_init(new_item, "a", "b", "c");
+  item_t *new_item = item_new("test_item", "item for player testing", "item for testing add_item_to_player");
   add_item_to_player(player, new_item);
 
   cr_assert_not_null(player, "player_new() failed");
@@ -175,7 +173,7 @@ Test(player, add_item_to_player)
   cr_assert_not_null(player->inventory, "add_item_to_player() failed to add item");
 }
 
-/* Commented out because currently this function is not in use 
+/* Commented out because currently this function is not in use
 Test(player, delete_all_players)
 {
   player_t *player = player_new("1", 100);
