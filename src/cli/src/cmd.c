@@ -70,6 +70,7 @@ lookup_t * * initialize_lookup()
     add_entry("PUT", type3_action_operation, table);
     add_entry("LOOK",look_operation, table);
     add_entry("INV", inventory_operation, table);
+    add_entry("SAVE", save_operation, table);
     return table;
 }
 
