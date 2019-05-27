@@ -7,10 +7,9 @@
 
 game_t *create_game(obj_t *doc)
 {
-  // to be used when game_state supports an intro in their game_t struct
-  //  char *intro = obj_get_str(game,"GAME.1.intro");
+  char *intro = obj_get_str(game,"GAME.1.intro");
   
-  game_t *game_ret = game_new();
+  game_t *game_ret = game_new(intro);
   return game_ret;
 }
 
