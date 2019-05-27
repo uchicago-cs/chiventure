@@ -73,7 +73,7 @@ Test(room_item, get_item)
 }
 
 /* Checks if get_item_in_room() returns NULL when searching non-existent item*/
-Test(room, get_nonexistent_item)
+Test(room_item, get_nonexistent_item)
 {
     room_t *new_room = room_new("test_room", "room for testing", "testing if memory is correctly allocated for new rooms");
     item_t *test_item = item_new("test_item", "item for testing", "testing to see if get_item() works");
@@ -84,15 +84,38 @@ Test(room, get_nonexistent_item)
 
 }
 
+Test(room_get, get_sdesc) {
+  room_t *new_room = room_new("test_room", "room for testing", "testing if memory is correctly allocated for new rooms");
+  char test[MAX_SDESC_LEN] = "room for testing";
+  char fail[MAX_SDESC_LEN] = "this is supposed to fail";
+  int check = strncmp(get_sdesc(new_room), test, MAX_SDESC_LEN); 
+  int check2 = strncmp(get_sdesc(new_room), fail, MAX_SDESC_LEN);
+  if(check2 != SUCCESS)
+    check2 = SUCCESS;
+  cr_assert_eq(check, SUCCESS, "get_sdesc: failed to get sdesc");
+  cr_assert_eq(check2, SUCCESS, "get_sdesc: failed to fail wrong strncmp");
+}
+
+Test(room_get, get_ldesc) {
+  room_t *new_room = room_new("test_room", "room for testing", "testing if memory is correctly allocated for new rooms");
+  char test[MAX_LDESC_LEN] = "testing if memory is correctly allocated for new rooms";
+  char fail[MAX_LDESC_LEN] = "this is supposed to fail";
+  int check = strncmp(get_ldesc(new_room), test, MAX_LDESC_LEN); 
+  int check2 = strncmp(get_ldesc(new_room), fail, MAX_LDESC_LEN);
+  if(check2 != SUCCESS)
+    check2 = SUCCESS;
+  cr_assert_eq(check, SUCCESS, "get_ldesc: failed to get sdesc");
+  cr_assert_eq(check2, SUCCESS, "get_ldesc: failed to fail wrong strncmp");
+}
 
 //tested
 room_t *room_new();
 int room_init(room_t *new_room, char *room_id, char *short_desc, char *long_desc);
 int room_free(room_t *room);
 item_t* get_item_in_room(room_t* room, char* item_id);
+int add_item_to_room(room_t *room, item_t *item);
 
 //untested
-int add_item_to_room(room_t *room, item_t *item);
 char *get_sdesc(room_t *room);
 char *get_ldesc(room_t *room);
 int delete_all_conditions(condition_list_t conditions);
