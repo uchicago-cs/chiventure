@@ -77,19 +77,6 @@ room_t *find_room(game_t *game, char* room_id) {
     return r;
 }
 
-/* See game.h */
-room_t *find_room_from_path(path_t *path) {
-    if(path != NULL)
-        return path->dest;
-    return NULL;
-}
-
-/* See game.h */
-room_t *find_room_from_dir(room_t *curr, char* direction) {
-    path_t *path = path_search(curr, direction);
-    room_t *room_adj = find_room_from_path(path);
-    return room_adj;
-}
 
 /* See game.h */
 void move_room(game_t *game, room_t *new_room) {
