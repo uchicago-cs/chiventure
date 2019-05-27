@@ -5,7 +5,8 @@
 #include "shell.h"
 #include "assert.h"
 #include "validate.h"
-#include "../../checkpointing/include/save.h"
+// remove the comment as soon as checkpointing removes their dummy struct
+//#include "../../checkpointing/include/save.h"
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 {
@@ -27,11 +28,11 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 {
-  if(tokens[1] == NULL){
+/*  if(tokens[1] == NULL){
     fprintf(stderr,"Save Error, No filename specified. \n");
   }
   if (validate(tokens[1]) == true){
-    int sv = save(game, tokens[1]);
+*/    int sv = save(game, tokens[1]);
   return NULL;
 }
 
