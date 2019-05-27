@@ -32,8 +32,8 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
     fprintf(stderr,"Save Error, No filename specified. \n");
   }
   if (validate(tokens[1]) == true){
-*/    int sv = save(game, tokens[1]);
-  return NULL;
+    int sv = save(game, tokens[1]);
+*/  return NULL;
 }
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
@@ -42,28 +42,34 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
     {
         return game->curr_room->long_desc;
     }
-    item_t *i = get_item(tokens[1],NULL);
-    if(i == NULL)
+    item_t *curr_item;
+    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, curr_item)
     {
-        return "specified item not found";
+        if (strcmp(curr_item->item_id,tokens[1])==0)
+        {
+            return curr_item->long_desc;
+        }
     }
-    return i->long_desc;
+    return "specified item not found\n";
 }
-
 
 //KIND 1:   ACTION <item>
 char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 {
     if(tokens[1]==NULL)
     {
-        return "You must identify an object to act on";
+        return "You must identify an object to act on\n";
     }
-    item_t *i = get_item(tokens[1], NULL);
-    if(i == NULL)
+    item_t *curr_item;
+    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, curr_item)
     {
-        return "The object could not be found";
+	if (strcmp(curr_item->item_id,tokens[1])==0)
+	{
+		// call action magement function
+		return "The object is found\n";
+	}
     }
-    return "is an action!";
+    return "The object could not be found\n";
 }
 
 //KIND 2:   ACTION <direction>
@@ -74,19 +80,34 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 }
 
 //KIND 3:   ACTION <item> <item>
-
 char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 {
     if(tokens[1]==NULL || tokens[3]==NULL)
     {
         return "You must identify two objects to act on";
     }
-    item_t *i1 = get_item(tokens[1], NULL);
-    item_t *i2 = get_item(tokens[3], NULL);
-    if(i1 == NULL || i2 == NULL)
+
+    item_t *item1, *item2;
+    int find_it1 = 1, find_it2 = 1; // set to be 0 if an item is found 
+    
+    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, item1)
+    {
+	if (strcmp(item1->item_id,tokens[1])==0)
+	{
+		find_it1 = 0;
+	}
+	if (strcmp(item2->item_id,tokens[3])==0)
+        {   
+            find_it2 = 0;
+        }
+    }
+    
+    if(find_it1 == 1 || find_it2 == 1)
     {
         return "The object(s) could not be found";
     }
+
+	// call action management function
     return "is an action!";
 }
 
