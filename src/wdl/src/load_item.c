@@ -5,6 +5,41 @@
 #include "game.h"
 #include "item.h"
 
+
+/* hack alert
+ * stop-gap solution until we get access to the game-state function
+ * used as helper for load_items()
+ */
+room_t *find_room(game_t *game, char* room_id) {
+    room_t *r;
+    HASH_FIND(hh, game->all_rooms, room_id, strlen(room_id), r);
+    return r;
+}
+
+
+/* See load_item/h */
+int load_actions(obj_t *doc, item_t *i)
+{
+    // getting a list of actions from item
+    attr_list_t *action_ls = get_item_actions(doc);
+
+    if (action_ls == NULL) {
+        fprintf(stderr, "action fails type checking, or action list is empty\n");
+        return -1;
+    }
+
+    attr_list_t *curr = action_ls;
+
+    // setting action attributes; might need to change this in the future
+    while (curr != NULL) {
+        set_str_attr(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "action"));
+        curr = curr->next;
+    }
+
+    return 0;
+}
+
+
 /* See load_item/h */
 int load_items(obj_t *doc, game_t *g)
 {
@@ -50,27 +85,5 @@ int load_items(obj_t *doc, game_t *g)
         add_item_to_room(item_room, item);
         curr = curr->next;
     }
-    return 0;
-}
-
-/* See load_item/h */
-int load_actions(obj_t *doc, item_t *i)
-{
-    // getting a list of actions from item
-    attr_list_t *action_ls = get_item_actions(doc);
-
-    if (action_ls == NULL) {
-        fprintf(stderr, "action fails type checking, or action list is empty\n");
-        return -1;
-    }
-
-    attr_list_t *curr = action_ls;
-
-    // setting action attributes; might need to change this in the future
-    while (curr != NULL) {
-        set_str_attr(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "action"));
-        curr = curr->next;
-    }
-
     return 0;
 }
