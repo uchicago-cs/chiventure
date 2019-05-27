@@ -38,21 +38,6 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
-/* See common-item.h */
-// int add_item_to_hash(item_t *item, char *item_id, item_t *item_toadd) {
-//     item_t* check;
-//     HASH_FIND_STR(item_hash, item_id, check);
-//     if (check != NULL) {
-//         /* WARNING */
-//         /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
-//         fprintf(stderr, "Error: this item id is already in use.\n");
-//         exit(1);
-//     }
-//     HASH_ADD_STR(item_hash, item_id, item_toadd);
-//     return SUCCESS;
-// }
-//
-
 // ATTRIBUTE MANIPULATION FUNCTIONS -------------------------------------------
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
@@ -379,3 +364,18 @@ int delete_all_items(item_hash_t items) {
     }
     return SUCCESS;
 }
+
+/* See common-item.h */
+// int add_item_to_hash(item_t *item, char *item_id, item_t *item_toadd) {
+//     item_t* check;
+//     HASH_FIND_STR(item_hash, item_id, check);
+//     if (check != NULL) {
+//         /* WARNING */
+//         /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
+//         fprintf(stderr, "Error: this item id is already in use.\n");
+//         exit(1);
+//     }
+//     HASH_ADD_STR(item_hash, item_id, item_toadd);
+//     return SUCCESS;
+// }
+//

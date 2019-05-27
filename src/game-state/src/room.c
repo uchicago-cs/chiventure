@@ -49,17 +49,6 @@ int room_free(room_t *room) {
     return SUCCESS;
 }
 
-/* See common.h */
-int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room) {
-    room_t *s;
-    HASH_FIND_PTR(all_rooms, room_id, s);
-    if (s != NULL) {
-        printf("FATAL: room_id already used!\n");
-        exit(1);
-    }
-    HASH_ADD_PTR(all_rooms, room_id, room);
-    return SUCCESS;
-}
 
 /* See room.h */
 int add_item_to_room(room_t *room, item_t *item) {
@@ -77,12 +66,19 @@ int add_item_to_room(room_t *room, item_t *item) {
 
 }
 
-/* See common-room.h */
+/* See room.h */
 int add_path_to_room(room_t *room, path_t *path) {
-    return add_path_to_hash(room->paths, path->direction, path);
+    path_t *s;
+    HASH_FIND(hh, room->paths, path->direction, strlen(path->direction), s);
+    if (s != NULL) {
+        fprintf(stderr, "add_path_to_room: direction already used!\n");
+        exit(1);
+    }
+    HASH_ADD_KEYPTR(hh, room->paths, path->direction, strlen(path->direction), path);
+    return SUCCESS;
 }
 
-/* See common.h */
+/* See common-room.h */
 int delete_all_rooms(room_hash_t rooms) {
     room_t *current_room, *tmp;
     HASH_ITER(hh, rooms, current_room, tmp) {
@@ -92,10 +88,10 @@ int delete_all_rooms(room_hash_t rooms) {
     return SUCCESS;
 }
 
-/* See common.h */
+/* See room.h */
 path_t *path_search(room_t *room, char* direction) {
   path_t *path;
-  HASH_FIND_STR(room->paths, direction, path);
+  HASH_FIND(hh, room->paths, direction, strlen(direction), path);
   return path;
 }
 
@@ -149,8 +145,3 @@ item_t* get_item_in_room(room_t* room, char* item_id)
     return return_value;
 }
 
-/* FOR ACTION MANAGEMENT
-* go through hashtable of attributes
-* check path for equal
-* see item.h for fxn that checks equality
-*/

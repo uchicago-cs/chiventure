@@ -182,6 +182,16 @@ int path_free(path_t *path);
  */
 int add_condition_to_path(path_t *path, condition_t *condition);
 
+/* Returns path given room and direction
+ *
+ * Parameters:
+ * ptr to room, char* direction
+ * 
+ * Returns:
+ *  the path struct corresponding to the key, or NULL if not found
+ */
+path_t *path_search(room_t *room, char* direction);
+
 //TODO
 item_t* get_item_in_room(room_t* room, char* item_id);
 

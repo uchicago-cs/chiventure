@@ -3,6 +3,9 @@
 
 #include "player.h"
 
+
+// this is currently pointless
+
 /* Adds a player to the given hashtable of players
  *
  * Parameters:
@@ -11,7 +14,10 @@
  *  pointer to the player
  * Returns:
  *  SUCCESS if successful, exits if failed
- */
+ * UNECESSARYYYY
+ * 
 //int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *player);
-int add_player_to_hash(game_t *game, player_t *player);
+// int add_player_to_hash(game_t *game, player_t *player);
+
+*/
 #endif
