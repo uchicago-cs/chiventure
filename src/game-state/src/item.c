@@ -21,10 +21,10 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
     new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
-    
+
     int check = item_init(new_item, item_id, short_desc, long_desc);
 
-    if(new_item == NULL || new_item->item_id == NULL ||
+    if (new_item == NULL || new_item->item_id == NULL ||
        new_item->short_desc == NULL || new_item->long_desc == NULL) {
         exit(1);
     }

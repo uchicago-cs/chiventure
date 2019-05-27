@@ -15,7 +15,8 @@ Test(room, new)
 
 Test(room, init)
 {
-  room_t *empty_room = room_new();
+  room_t *empty_room = room_new("test_room", "This is a test room",
+  "The purpose of this room is testing");
   int check = room_init(empty_room, "test_room", "This is a test room",
   "The purpose of this room is testing");
 

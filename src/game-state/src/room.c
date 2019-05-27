@@ -5,11 +5,22 @@
 #include "common-path.h"
 
 /* See room.h */
-room_t *room_new() {
+room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
+
     room_t *room = malloc(sizeof(room_t));
     room->room_id = malloc(MAX_ID_LEN);
     room->short_desc = malloc(MAX_SDESC_LEN);
     room->long_desc = malloc(MAX_LDESC_LEN);
+    int check = room_init(room, room_id, short_desc, long_desc);
+
+    if (room == NULL || room->room_id == NULL ||
+       room->short_desc == NULL || room->long_desc == NULL) {
+        exit(1);
+    }
+
+    if(check != SUCCESS) {
+        exit(1);
+    }
 
     return room;
 }
@@ -123,7 +134,7 @@ path_t *list_paths(room_t *room) {
 }
 
 /* FOR CLI
-* Implement a function that returns an item 
+* Implement a function that returns an item
 * given an item_ID as string and a pointer to the current room.
 */
 
@@ -143,4 +154,3 @@ item_t* get_item_in_room(room_t* room, char* item_id)
 * check path for equal
 * see item.h for fxn that checks equality
 */
-
