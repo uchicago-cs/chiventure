@@ -29,7 +29,7 @@ void check_search(list_action_type_t *head, char *query, int expected_index)
 {
     list_action_type_t *elt;
     LL_SEARCH(head,elt,valid_actions[expected_index].c_name,strcmp);
-    int strcmp_result = strcmp(elt->act->c_name,valid_actions[expected_index].c_name)
+    int strcmp_result = strcmp(elt->act->c_name,valid_actions[expected_index].c_name);
     cr_assert_eq(strcmp_result,0,
                  "Searched using query %s. Found the element %s of the kind %d.\n",
                  query, elt->act->c_name, elt->act->kind);
