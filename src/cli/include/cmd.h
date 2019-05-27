@@ -12,10 +12,10 @@ typedef char * operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 // Lookup entry for hashtable, using uthash.
 typedef struct lookup_entry
 {
-  char * name; // key
-  operation * operation_type;
-  // * action_t action_type;
-  UT_hash_handle hh;
+    char * name; // key
+    operation * operation_type;
+    // * action_t action_type;
+    UT_hash_handle hh;
 } lookup_t;
 
 

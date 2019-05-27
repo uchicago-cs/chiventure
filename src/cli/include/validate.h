@@ -21,7 +21,7 @@
  * Input:
  *  - ts: parsed command line input (an array of tokens)
  *  - table: hashtable that stores all supported actions
- * 
+ *
  * Returns:
  *  - A cmd struct that contains the given tokens and a pointer to an operation
  *    function (function selected based on the first token)
@@ -87,9 +87,5 @@ bool validate_prep(cmd *c);
  *  - FALSE if the item is not accessible; TRUE if it is.
  */
 bool validate_ind_objects(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-
-//Placeholder function, for game-state will provide this function
-
-item_t *get_item(char * objId, room_t *curr_room);
 
 #endif /* _CLI_INCLUDE_VALIDATE_H_ */

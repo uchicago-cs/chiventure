@@ -29,7 +29,7 @@ cmd *assign_action(char **ts, lookup_t * table)
 /* See validate.h */
 bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t * table)
 {
-	return true;
+    return true;
 }
 
 /* See validate.h */
@@ -54,8 +54,4 @@ bool validate_ind_objects(char *tokens[TOKEN_LIST_SIZE], game_t * game)
     return true;
 }
 
-//Placeholder function, for game-state will provide this function
 
-item_t *get_item(char * objid, room_t *curr_room){
-    return NULL;
-}

@@ -56,7 +56,7 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 /*
- * Returns a description of either a specefied item, or the room 
+ * Returns a description of either a specefied item, or the room
  * if no item was specified
  *
  * Parameters:
@@ -67,7 +67,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  */
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
-/*Returns a description of the player inventory contents 
+/*Returns a description of the player inventory contents
  *
  * Parameters:
  *  - tokens: parsed input string
@@ -89,7 +89,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
- 
+
 /* These functions will generate an action-struct (based on action management)
  * and pass a command along.
  *

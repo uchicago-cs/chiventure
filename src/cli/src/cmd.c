@@ -136,7 +136,7 @@ cmd *cmd_from_tokens(char **ts, lookup_t * table)
 cmd *cmd_from_string(char *s, lookup_t * table)
 {
     char **parsed_input = parse(s);
-    if(parsed_input == NULL) 
+    if(parsed_input == NULL)
     {
         return NULL;
     }

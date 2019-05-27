@@ -24,7 +24,7 @@ char **parse(char *input)
         token = strtok(NULL, " ");
     }
 
-    if(token != NULL) 
+    if(token != NULL)
     {
         printf("ERROR: too many words!\n");
         return NULL;

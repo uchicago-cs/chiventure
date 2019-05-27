@@ -25,11 +25,13 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 {
-    if(tokens[1]==NULL){
-	return game->curr_room->long_desc;
+    if(tokens[1]==NULL)
+    {
+        return game->curr_room->long_desc;
     }
     item_t *i = get_item(tokens[1],NULL);
-    if(i == NULL){
+    if(i == NULL)
+    {
         return "specified item not found";
     }
     return i->long_desc;
@@ -38,12 +40,14 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 
 //KIND 1:   ACTION <item>
 char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
-{   
-    if(tokens[1]==NULL){
+{
+    if(tokens[1]==NULL)
+    {
         return "You must identify an object to act on";
     }
     item_t *i = get_item(tokens[1], NULL);
-    if(i == NULL){
+    if(i == NULL)
+    {
         return "The object could not be found";
     }
     return "is an action!";
@@ -60,29 +64,33 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 
 char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 {
-    if(tokens[1]==NULL || tokens[3]==NULL){
+    if(tokens[1]==NULL || tokens[3]==NULL)
+    {
         return "You must identify two objects to act on";
     }
     item_t *i1 = get_item(tokens[1], NULL);
     item_t *i2 = get_item(tokens[3], NULL);
-    if(i1 == NULL || i2 == NULL){
+    if(i1 == NULL || i2 == NULL)
+    {
         return "The object(s) could not be found";
     }
     return "is an action!";
 }
 
 
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game){
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+{
     return "You cannot perform this action !";
 }
 
-char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game){
+char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+{
     item_t *t;
     int i = 0;
     ITER_ALL_ITEMS_IN_INVENTORY(game->curr_player, t)
     {
-	i++;
-        printf("%d:  %s, %s\n",i, t->item_id, t->short_desc);    
+        i++;
+        printf("%d:  %s, %s\n",i, t->item_id, t->short_desc);
     }
     return "This was your inventory";
 }
