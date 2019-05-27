@@ -150,12 +150,62 @@ Test(save, item)
 
     Item *candy;
 
-    int success = save_item(candy_t, candy);
+    attribute_value_t *dv_t;
+    attribute_value_t *cv_t;
+    attribute_value_t *bv_t;
+    attribute_value_t *sv_t;
+    attribute_value_t *iv_t;
 
+    dv_t->double_val = 2.5;
+    cv_t->char_val = 'T';
+    bv_t->bool_val = true;
+    sv_t->str_val = "string";
+    iv_t->int_val = 5;
+
+    
+    attribute_t *d_t;
+    attribute_t *c_t;
+    attribute_t *b_t;
+    attribute_t *s_t;
+    attribute_t *i_t;
+
+    d_t->attribute_key = "double";
+    d_t->attribute_tag = DOUBLE;
+    d_t->attribute_value = dv_T;
+
+    c_t->attribute_key = "char";
+    c_t->attribute_tag = CHARACTER;
+    c_t->attribute_value = cv_T;
+
+    b_t->attribute_key = "bool";
+    b_t->attribute_tag = BOOLE;
+    b_t->attribute_value = bv_T;
+
+    s_t->attribute_key = "string";
+    s_t->attribute_tag = STRING;
+    s_t->attribute_value = sv_T;
+
+    i_t->attribute_key = "int";
+    i_t->attribute_tag = INTEGER;
+    i_t->attribute_value = iv_T;
+
+    attribute_hash_t attribute_hash = malloc(sizeof(attribute_hash_t));
+
+    add_attribute_to_hash(attribute_hash, d_t);
+    add_attribute_to_hash(attribute_hash, c_t);
+    add_attribute_to_hash(attribute_hash, n_t);
+    add_attribute_to_hash(attribute_hash, s_t);
+    add_attribute_to_hash(attribute_hash, i_t);
+
+    candy_y->attributes = attribute_hash;
+    
+    int success = save_item(candy_t, candy);
+    
     cr_assert_eq(success, 0, "save_item failed");
     cr_assert_eq(candy->item_id, "1234", "save_item: saving item_id failed");
     cr_assert_eq(candy->short_desc, "salt water taffy", "save_item: saving short_desc failed");
     cr_assert_eq(candy->long_desc, "glues mouth shut", "save_item: saving long_desc failed");
+    cr_asser_eq(candy->attributes_len, 5, "save_item: saving the attributes_len failed");
     // we'll test attributes when its finished
 }
 
