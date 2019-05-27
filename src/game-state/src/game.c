@@ -1,8 +1,7 @@
 #include "game.h"
 #include "common-player.h"
 #include "common-room.h"
-
-#define MAX_START_DESC_LEN 500
+#include "game_state_common.h"
 
 /* see game.h */
 game_t *game_new(char *desc) {
