@@ -64,7 +64,7 @@ int load_items(obj_t *doc, game_t *g)
         char *id = obj_get_str(curr->obj, "id");
         char *short_desc = obj_get_str(curr->obj, "short_desc");
         char *long_desc = obj_get_str(curr->obj, "long_desc");
-        char* in = obj_get_str(curr->obj, "in");
+        char *in = obj_get_str(curr->obj, "in");
 
         // create new game_state item
         item_t *item = item_new(id, short_desc, long_desc);
