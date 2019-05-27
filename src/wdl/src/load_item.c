@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
+#include "game.h"
 #include "item.h"
 
 /* See load_item/h */

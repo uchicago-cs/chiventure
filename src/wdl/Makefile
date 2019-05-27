@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../action_management/include/ -I../common/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../game-state/include/ -I../action_management/include/ -I../common/include/
 RM = rm -f
 LIB = wdl.a 
 
@@ -15,7 +15,7 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/parse.c src/validate.c
+SRCS = src/parse.c src/validate.c src/load_item.c
 OBJS = $(SRCS:.c=.o)
 
 $(SRCS:.c=.d):%.d:%.c
