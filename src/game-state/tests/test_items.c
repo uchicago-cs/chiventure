@@ -185,16 +185,19 @@ Test(attribute, change_str_attr)
 
 }
 
-// testing changing a non-string attribute
+// testing changing a string attr to a non-string attribute
 Test(attribute, change_str_attr_fail)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
 	int rv = set_str_attr(test_item, "Attribute_Test_Name", "Attribute_Test_Value");
+
 	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
 	int num_in_hash = HASH_COUNT(test_item->attributes);
 	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	rv = set_str_attr(test_item, "Attribute_Test_Name", 3);
+
+	rv = set_int_attr(test_item, "Attribute_Test_Name", 3);
 	cr_assert_eq(rv, FAILURE, "change_str_attr: string attr was wrongfully overwritten");
+
 	attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
 	cr_assert_not_null(test_attr, "change_str_attr: null attribute returned");
 	char* test_str = test_attr->attribute_value.str_val;
@@ -218,6 +221,26 @@ Test(attribute, change_int_attr)
 
 }
 
+// testing changing int attr to a non-integer attribute
+Test(attribute, change_int_attr_fail)
+{
+	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
+	int rv = set_int_attr(test_item, "Attribute_Test_Name", 5);
+
+	cr_assert_eq(rv, SUCCESS, "change_int_attr: did not successfully set attr");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "change_int_attr: no elements added to hash");
+
+	rv = set_str_attr(test_item, "Attribute_Test_Name", "five");
+	cr_assert_eq(rv, FAILURE, "change_int_attr: integer attr was wrongfully overwritten");
+
+	attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
+	cr_assert_not_null(test_attr, "change_int_attr: null attribute returned");
+	int test_int = test_attr->attribute_value.int_val;
+	cr_assert_eq(test_int, 5, "change_int_attr: changed to a non-integer type");
+
+}
+
 Test(attribute, change_double_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
@@ -231,6 +254,26 @@ Test(attribute, change_double_attr)
 	cr_assert_not_null(test_attr, "change_double_attribute: null attribute returned");
 	double test_double = test_attr->attribute_value.double_val;
 	cr_assert_float_eq(test_double, 2.5, 0.0001, "change_double_attribute: set the wrong value");
+
+}
+
+// testing changing double attr to a non-double attribute
+Test(attribute, change_double_attr_fail)
+{
+	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
+	int rv = set_double_attr(test_item, "Attribute_Test_Name", 5.0);
+
+	cr_assert_eq(rv, SUCCESS, "change_double_attr: did not successfully set attr");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "change_double_attr: no elements added to hash");
+
+	rv = set_str_attr(test_item, "Attribute_Test_Name", "five");
+	cr_assert_eq(rv, FAILURE, "change_double_attr: double attr was wrongfully overwritten");
+
+	attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
+	cr_assert_not_null(test_attr, "change_double_attr: null attribute returned");
+	double test_double = test_attr->attribute_value.double_val;
+	cr_assert_eq(test_double, 5.0, "change_double_attr: changed to a non-double type");
 
 }
 
@@ -250,25 +293,69 @@ Test(attribute, change_char_attr)
 
 }
 
+// testing changing char attr to a non-double attribute
+Test(attribute, change_char_attr_fail)
+{
+	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
+	int rv = set_char_attr(test_item, "Attribute_Test_Name", 'x');
+
+	cr_assert_eq(rv, SUCCESS, "change_char_attr: did not successfully set attr");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "change_char_attr: no elements added to hash");
+
+	rv = set_int_attr(test_item, "Attribute_Test_Name", 8);
+	cr_assert_eq(rv, FAILURE, "change_char_attr: char attr was wrongfully overwritten");
+
+	attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
+	cr_assert_not_null(test_attr, "change_char_attr: null attribute returned");
+	char test_char = test_attr->attribute_value.char_val;
+	cr_assert_eq(test_char, 'x', "change_char_attr: changed to a non-char type");
+
+}
+
 Test(attribute, change_bool_attr)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
 	int rv = set_bool_attr(test_item, "Attribute_Test_Name", true);
 	cr_assert_eq(rv, SUCCESS, "change_bool_attribute: did not successfully set attr");
+
 	int num_in_hash = HASH_COUNT(test_item->attributes);
 	cr_assert_gt(num_in_hash, 0, "change_bool_attribute: no elements added to hash");
+
 	rv = set_bool_attr(test_item, "Attribute_Test_Name", false);
 	cr_assert_eq(rv, SUCCESS, "change_bool_attribute: did not successfully change attr");
+
 	attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
 	cr_assert_not_null(test_attr, "change_bool_attribute: null attribute returned");
+
 	bool test_bool = test_attr->attribute_value.bool_val;
 	cr_assert_eq(test_bool, false, "change_bool_attribute: set the wrong value");
 
 }
 
+// testing changing bool attr to a non-bool attribute
+Test(attribute, change_bool_attr_fail)
+{
+	item_t *test_item = item_new("test_item", "attr test", "item to test setting attributes");
+	int rv = set_bool_attr(test_item, "Attribute_Test_Name", true);
+
+	cr_assert_eq(rv, SUCCESS, "change_bool_attr: did not successfully set attr");
+	int num_in_hash = HASH_COUNT(test_item->attributes);
+	cr_assert_gt(num_in_hash, 0, "change_bool_attr: no elements added to hash");
+
+	rv = set_int_attr(test_item, "Attribute_Test_Name", 8);
+	cr_assert_eq(rv, FAILURE, "change_bool_attr: bool attr was wrongfully overwritten");
+
+	attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
+	cr_assert_not_null(test_attr, "change_bool_attr: null attribute returned");
+
+	bool test_bool = test_attr->attribute_value.bool_val;
+	cr_assert_eq(test_bool, true, "change_bool_attr: changed to a non-bool type");
+
+}
 
 
-//write tests for changing a attr of the wrong type
+
 
 // TESTS FOR TYPE-SPECIFIC GET_ATTR() FUNCTIONS -------------------------------
 Test(attribute, get_str_attr)
@@ -331,13 +418,16 @@ Test(attribute, get_bool_attr)
 
 }
 
+/* to finish */
 Test(attribute, get_false_str_attr, .exit_code = 1)
 {
 	item_t *test_item = item_new("test_item", "attr test", "item to test getting attributes");
 	int rv = set_str_attr(test_item, "Attribute_Test_Name", "Attribute_Test_Value");
 	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+
 	int num_in_hash = HASH_COUNT(test_item->attributes);
 	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
+
 	bool test_str = get_bool_attr(test_item, "Attribute_Test_Name");
 
 }
