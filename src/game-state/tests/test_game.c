@@ -12,60 +12,47 @@ void teardown(void) {
     puts("Runs after the test");
 }
 
-/*
-game_t *start_test() {
-    game_t *game = game_new();
-    player_t *plyr = player_new(100);
-    room_t *room1 = room_new("vroom", "test room", "yes this is a test room");
-    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
-    add_room_to_game(game, room1);
-    add_player_to_game(game, plyr);
-    game->curr_player = plyr;
-    game->curr_room = room1;
-    path_t *path = path_new(room2,"north");
-    add_path_to_room(room1, path);
-    return game;
-}
-*/
 
-Test(game, new_free)
+Test(game_start, new)
 {
     game_t *game = game_new("hello and welcome to this awesome game");
     cr_assert_not_null(game, "game_new() failed");
     cr_assert_eq(strcmp(game->start_desc, "hello and welcome to this awesome game"), 0, "game_new() failed to set the starting description");
+}
+
+Test(game_start, free)
+{
+    game_t *game = game_new("hello and welcome to this awesome game");
+    cr_assert_not_null(game, "game_new() failed");
     cr_assert_eq(game_free(game), SUCCESS, "game_free() failed");
 }
 
-/*
-Test(game, init)
-{
-    game_t *game_test = game_new();
-
-}
-
-
-Test(game, save)
-{
-    game_t *game = //test struct
-    int rc = 0;
-    rc = save_game(game, f);
-    cr_assert_eq(rc, 1, "file not saved");
-}
-
-*/
-
 Test(game_room, add_room_to_game) 
 {
-    game_t *game = game_new("welcome");
-    room_t *room1 = room_new();
-    room_t *room2 = room_new();
-    room_init(room1, "vroom1", "test room", "yes this is a test room");
-    room_init(room2, "nroom", "test next door", "KND number 1");
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+    cr_assert_not_null(room1, "room 1 not initialized");
+    cr_assert_not_null(room2, "room 2 not initialized");
+    
+    int r1 = add_room_to_game(game, room1);
+    int r2 = add_room_to_game(game, room2);
+    
+    cr_assert_eq(r1, SUCCESS, "add_room_to_game: room1 failed");
+    cr_assert_eq(r2, SUCCESS, "add_room_to_game: room2 failed");
+}
+
+Test(game_room, find_room) 
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+    cr_assert_not_null(room1, "room 1 not initialized");
+    cr_assert_not_null(room2, "room 2 not initialized");
+    
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     
-    cr_assert_not_null(room1, "room 1 not initialized");
-    cr_assert_not_null(room2, "room 2 not initialized");
 
     room_t *r1 = find_room(game, room1->room_id);
     room_t *r2 = find_room(game, room2->room_id);
@@ -81,13 +68,50 @@ Test(game_room, add_room_to_game)
 
 }
 
+Test(game_room, create_connection_0)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    game->curr_room = room1;
+    int north = create_connection(game, "vroom1", "nroom", "north");
+    cr_assert_eq(north, 0, "create_connection: failed to exit successfully");
+    
+}
+
+Test(game_room, create_connection_1, .exit_code = 1)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    game->curr_room = room1;
+    int south = create_connection(game, "vroom", "nroom", "south");
+    cr_assert_eq(south, 1, "create_connection: failed to exit(1)");
+
+}
+
+Test(game_room, create_connection_2, .exit_code = 2)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    game->curr_room = room1;
+    int west = create_connection(game, "vroom1", "nrom", "west");
+
+}
+
+
 Test(game_room, move_room)
 {
-    game_t *game = game_new("welcome");
-    room_t *room1 = room_new();
-    room_t *room2 = room_new();
-    room_init(room1, "vroom1", "test room", "yes this is a test room");
-    room_init(room2, "nroom", "test next door", "KND number 1");
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     game->curr_room = room1;
@@ -107,9 +131,8 @@ Test(game_room, move_room)
 
 Test(game_player, add_player_to_game) 
 {
-    game_t *game = game_new("welcome");
-    player_t *plyr = player_new();
-    player_init(plyr, "player_one", 100);
+    game_t *game = game_new("Welcome to Chiventure!");
+    player_t *plyr = player_new("player_one", 100);
     add_player_to_game(game, plyr);
     set_curr_player(game, plyr);
 
@@ -123,11 +146,9 @@ Test(game_player, add_player_to_game)
 
 Test(game_player, set_curr_player) 
 {
-    game_t *game = game_new();
-    player_t *plyr1 = player_new();
-    player_t *plyr2 = player_new();
-    player_init(plyr1, "player_one", 100);
-    player_init(plyr2, "player_two", 100);
+    game_t *game = game_new("Welcome to Chiventure!");
+    player_t *plyr1 = player_new("player_one", 100);
+    player_t *plyr2 = player_new("player_two", 100);
     add_player_to_game(game, plyr1);
     add_player_to_game(game, plyr2);
     set_curr_player(game, plyr1);
@@ -137,3 +158,40 @@ Test(game_player, set_curr_player)
 
     cr_assert_eq(check, 0, "set_curr_player failed");
 }
+
+Test(game_player, get_player) 
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    player_t *plyr1 = player_new("player_one", 100);
+    player_t *plyr2 = player_new("player_two", 100);
+    add_player_to_game(game, plyr1);
+    add_player_to_game(game, plyr2);
+
+    player_t *test1 = get_player(game, "player_one");
+    player_t *test2 = get_player(game, "player_two");
+
+    int check1 = strncmp(test1->player_id, plyr1->player_id, MAX_ID_LEN);
+    int check2 = strncmp(test2->player_id, plyr2->player_id, MAX_ID_LEN);
+
+    cr_assert_eq(check1, 0, "get_player: failed plyr1");
+    cr_assert_eq(check2, 0, "get_player: failed plyr2");
+}
+
+//untested
+//doesn't need testing
+//is carbon copy of game_free for now
+void game_quit(game_t *game);
+
+
+//tested
+void move_room(game_t *game, room_t *new_room);
+int add_player_to_game(game_t *game, player_t *player);
+int add_room_to_game(game_t *game, room_t *room);
+int set_curr_player(game_t *game, player_t *player);
+player_t *get_player(game_t *game, char *player_id);
+int game_free(game_t *game);
+game_t *game_new(char *start_desc);
+int create_connection(game_t *game, char* src_room, char* dest_room, char* direction);
+room_t *find_room(game_t *game, char* room_id);
+
+

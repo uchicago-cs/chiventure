@@ -18,7 +18,8 @@ game_t *game_new(char *desc) {
 
 /* See game.h */
 void game_quit(game_t *game) {
-    if (game != NULL) game_free(game);
+    if (game != NULL) 
+    game_free(game);
     exit(0);
 }
 
