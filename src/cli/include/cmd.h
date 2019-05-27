@@ -1,9 +1,8 @@
 #ifndef _CLI_INCLUDE_CMD_H
 #define _CLI_INCLUDE_CMD_H
 #include "parser.h"
-//DELETETHISPLACEHOLDER, it has a meaningless definition of game_t that is not implemented yet
-#include "placeholder.h"
 #include "operations.h"
+#include "../../game-state/include/game.h"
 #include "../../common/include/uthash.h"
 //#include "../../game-state/include/game.h"
 

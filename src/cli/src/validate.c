@@ -56,6 +56,6 @@ bool validate_ind_objects(char *tokens[TOKEN_LIST_SIZE], game_t * game)
 
 //Placeholder function, for game-state will provide this function
 
-item_t *get_item(char * objId, room_t *curr_room){
+item_t *get_item(char * objid, room_t *curr_room){
     return NULL;
 }
