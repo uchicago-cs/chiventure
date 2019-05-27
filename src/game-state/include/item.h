@@ -223,7 +223,7 @@ int add_allowed_action(item_t* item, char* action_name);
  * Returns:
  *  SUCCESS if item contains action, FAILURE if it does not
  */
-int allowed_action(item* item, char* action_name);
+int allowed_action(item_t* item, char* action_name);
 
 
 #endif

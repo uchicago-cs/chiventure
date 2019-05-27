@@ -333,7 +333,7 @@ int add_allowed_action(item_t* item, char* action_name)
 }
 
 /* see item.h */
-int allowed_action(item* item, char* action_name)
+int allowed_action(item_t* item, char* action_name)
 {
     attribute_t* action = get_attribute(item, action_name);
     if (action == NULL)
@@ -342,7 +342,7 @@ int allowed_action(item* item, char* action_name)
     }
     else
     {
-        return SUCCESS:
+        return SUCCESS;
     }
 }
 

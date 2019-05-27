@@ -82,7 +82,7 @@ Test(attribute, add_attr_to_hash_failure)
 }
 
 
-// TEST FOR GENERAL GET_ATTRIBUTE()--------------------------------------------
+// TEST FOR GENERAL GET_ATTRIBUTE()---------------------------------------------
 
 /*Checks helper function to retrieve attribute from item*/
 Test(attribute, get_attribute)
@@ -102,7 +102,7 @@ Test(attribute, get_attribute)
 
 }
 
-// TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS -------------------------------
+// TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS --------------------------------
 
 /*Checks creation of new string attribute and adding it to an item*/
 Test(attribute, set_str_attr)
@@ -547,6 +547,49 @@ Test(attribute, not_equal_types)
 }
 
 //NEED MORE TESTS FOR COMPARISONS OF EVERY ATTR TYPE
+
+
+
+// TEST FOR ALLOWED_ACTION()----------------------------------------------------
+
+/* Checks adding an action to an item */
+Test(attribute, add_an_action)
+{
+	item_t *test_item = item_new("test_item", "action test", "item to test setting actions");
+	int rv = add_allowed_action(test_item, "push");
+	cr_assert_eq(rv, SUCCESS, "add_allowed_action: did not successfully set action");
+}
+
+/*
+Test(attribute, add_same_action)
+{
+	item_t *test_item = item_new("test_item", "action test", "item to test setting actions");
+	int rv = add_allowed_action(test_item, "push");
+	cr_assert_eq(rv, SUCCESS, "add_allowed_action: did not successfully set action");
+	rv = add_allowed_action(test_item, "push");
+	cr_assert_eq(rv, FAILURE, "add_allowed_action: added action twice");
+}
+*/
+
+/* Checks retrieving an action from an item */
+Test(attribute, get_action)
+{
+	item_t *test_item = item_new("test_item", "action test", "item to test setting actions");
+	int rv = add_allowed_action(test_item, "push");
+	cr_assert_eq(rv, SUCCESS, "add_allowed_action: did not successfully set action");
+	rv = allowed_action(test_item, "push");
+	cr_assert_eq(rv, SUCCESS, "add_allowed_action: did not retrieve action");
+}
+
+/* Checks if retrieving a nonexistent action from an item blocked*/
+Test(attribute, get_non_existent_action)
+{
+	item_t *test_item = item_new("test_item", "action test", "item to test setting actions");
+	int rv = add_allowed_action(test_item, "push");
+	cr_assert_eq(rv, SUCCESS, "add_allowed_action: did not successfully set action");
+	rv = allowed_action(test_item, "pull");
+	cr_assert_eq(rv, FAILURE, "add_allowed_action: retrieved nonexistent action");
+}
 
 // TEST FOR ATTRIBUTE_FREE() --------------------------------------------------
 
