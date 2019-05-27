@@ -29,10 +29,8 @@ typedef struct condition *condition_list_t;
  * */
 typedef struct path {
     UT_hash_handle hh;
-    /* direction (north/south/etc) */
-    /* for hashtable consistency (e.g. player hash uses player_id), */
-    /* we use direction here to avoid bugs when using uthash functions */
-    char *direction; // ***** MEANS DIRECTION *****
+    /* direction (north/south/etc) as key */
+    char *direction; // *capitalization matters*
     struct room *dest;
     condition_list_t conditions;
 } path_t;
