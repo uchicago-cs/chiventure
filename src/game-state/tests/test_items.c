@@ -351,6 +351,7 @@ Test(attribute, equal)
 
 }
 
+//hey lindsey can you pick which version is correct? thanks! 
 Test(attribute, not_equal)
 {
     item_t *item1 = item_new();

@@ -182,6 +182,9 @@ int path_free(path_t *path);
  */
 int add_condition_to_path(path_t *path, condition_t *condition);
 
+//TODO
+item_t* get_item_in_room(room_t* room, char* item_id);
+
 
 
 #endif
