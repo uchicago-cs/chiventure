@@ -2,21 +2,19 @@
 #define UI_CTX_H
 #include "ctx.h"
 #include "window.h"
+#include "coordinate.h"
+
 /*
  * UI context struct.  Contains the following fields:
  *  - map_win : contains the map
  *  - main_win : main window. May contain images or other info about the game
  *  - cli_win : window that contains the CLI. It's always displayed
  *  - displayed_win : window that is diplayed along with the CLI.
- *  - coord_hash: a pointer to the head of a hash map that matches 
+ *  - coord_hash: a pointer to the head of a hash map that matches
  *                coordinate keys to room pointers
  */
 typedef struct ui_ctx
 {
-    window_t *map_win;
-    window_t *main_win;
-    window_t *displayed_win;
-    window_t *cli_win;
     map_t *map;
     coord_t *player_loc;
     coord_record_t *coord_hash;
@@ -32,7 +30,7 @@ typedef struct ui_ctx
  *
  * Returns:
  * - The created UI context struct upon SUCCESS
- * - NULL upon FAILURE (cannot be allocated or 
+ * - NULL upon FAILURE (cannot be allocated or
  *   cannot assign logical  coordinates)
  */
 ui_ctx_t *ui_ctx_new(game_t *game);
@@ -51,7 +49,7 @@ ui_ctx_t *ui_ctx_new(game_t *game);
  * Returns:
  * - SUCCESS if every field can be initialized and a logical
  *   coordinate system can be assigned to each room
- * - FAILURE if a logical coordinate system cannot be assigned 
+ * - FAILURE if a logical coordinate system cannot be assigned
  */
 int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game);
 

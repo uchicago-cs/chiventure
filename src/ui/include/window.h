@@ -1,13 +1,17 @@
+
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "ctx.h"
 
-typedef void (win_print)();
+
 
 typedef struct window {
     WINDOW *w;
-    win_print *print;
+    void (*print)( struct window *win);
 } window_t;
+
+typedef void (win_print)( window_t *win);
 
 
 /* window_new

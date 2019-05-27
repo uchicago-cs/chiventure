@@ -13,21 +13,21 @@ typedef struct coord {
 } coord_t;
 
 // This is a test room struct, simulates gamestate's room struct
-typedef struct room {
+typedef struct map_room {
     struct coord *loc;
     char *name;
     char ex_w;
     char ex_e;
     char ex_n;
     char ex_s;
-} room_t;
+} map_room_t;
 
 /* The map struct holds a lot of crucial information for the performance
  * of all of the map functions
  */
 typedef struct map {
     WINDOW *pad;
-    room_t **rooms;
+    map_room_t **rooms;
     int n;
     int xoff;
     int yoff;
@@ -54,7 +54,7 @@ typedef struct map {
 void ncurses_init();
 
 /* Draws a list of rooms starting at the coordinate given
- * 
+ *
  * Inputs:
  * - rooms: an array of pointers to rooms
  * - n: the number of rooms
@@ -62,21 +62,21 @@ void ncurses_init();
  * - top_y: to top left corner of the top-left-most room
  * - z: the z coordinate of the floor being drawn
  * - map: pointer to a map_t struct
- * 
+ *
  * Outputs:
  * - Draws the rooms to the scren
  */
-void draw_rooms(room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
+void draw_rooms(map_room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
 
 /* Gets an array of test rooms
- * 
- * Inputs: 
+ *
+ * Inputs:
  * - n: number of rooms to generate
- * 
+ *
  * Outputs:
  * - An array of pointers to random room structs
  */
-room_t **get_test_rooms(int n);
+map_room_t **get_test_rooms(int n);
 
 /* Initiates map at WINDOW * pointer to pad
  *
@@ -86,7 +86,7 @@ room_t **get_test_rooms(int n);
  * Outputs:
  * - A pointer to a new map struct initialized with rooms and coordinates
  */
-map_t *map_init(room_t **rooms, int n);
+map_t *map_init(map_room_t **rooms, int n);
 
 /* Sets the portion of the map to be displayed on screen
  *
@@ -120,4 +120,3 @@ int map_refresh(map_t *map, int x, int y, int z);
  * - 0
  */
 int map_center_on(map_t *map, int x, int y, int z);
-

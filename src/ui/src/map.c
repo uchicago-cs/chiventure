@@ -26,7 +26,7 @@ void erase_ch(int y, int x)
  * - room: room's room struct (THIS IS A TEST STRUCT)
  * - win: window pointer to draw window
  */
-void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
+void draw_room(int width, int height, int x, int y, map_room_t *room, WINDOW *win)
 {
     // Calculate dimensions
     int top_len = width - 2;
@@ -70,7 +70,7 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
 }
 
 // Takes a coordinate and an array of rooms and draws them in
-void draw_rooms(room_t **rooms, int n, int left_x, int top_y, int z, map_t *map)
+void draw_rooms(map_room_t **rooms, int n, int left_x, int top_y, int z, map_t *map)
 {
     // Declare variables
     int x, y, zroom, x_offset, y_offset;
@@ -94,7 +94,7 @@ void draw_rooms(room_t **rooms, int n, int left_x, int top_y, int z, map_t *map)
     return;
 }
 
-int *calculate_map_dims(room_t **rooms, int n)
+int *calculate_map_dims(map_room_t **rooms, int n)
 {
     int x = 0;
     int y = 0;
@@ -127,7 +127,7 @@ int *calculate_map_dims(room_t **rooms, int n)
     return xyz;
 }
 
-map_t *map_init(room_t **rooms, int n)
+map_t *map_init(map_room_t **rooms, int n)
 {
     int xoffset = 0;
     int yoffset = 0;
@@ -206,14 +206,14 @@ int map_center_on(map_t *map, int x, int y, int z)
     return 0;
 }
 
-room_t **get_test_rooms(int n)
+map_room_t **get_test_rooms(int n)
 {
     int j = 0;
     int k = 0;
-    room_t **rooms = malloc(sizeof(room_t *) * n);
+    map_room_t **rooms = malloc(sizeof(map_room_t *) * n);
     for (int i = 0; i < (n - 2); i++) {
 
-        room_t *roomi = malloc(sizeof(room_t));
+        map_room_t *roomi = malloc(sizeof(map_room_t));
         rooms[i] = roomi;
 
         coord_t *loci = malloc(sizeof(coord_t));
@@ -241,7 +241,7 @@ room_t **get_test_rooms(int n)
     coorda->x = 0;
     coorda->y = 0;
     coorda->z = 1;
-    room_t *rooma = malloc(sizeof(room_t));
+    map_room_t *rooma = malloc(sizeof(map_room_t));
     rooma->loc = coorda;
     rooma->ex_e = 0;
     rooma->ex_w = 0;
@@ -252,7 +252,7 @@ room_t **get_test_rooms(int n)
     coordb->x = 0;
     coordb->y = 1;
     coordb->z = 1;
-    room_t *roomb = malloc(sizeof(room_t));
+    map_room_t *roomb = malloc(sizeof(map_room_t));
     roomb->loc = coordb;
     roomb->ex_e = 0;
     roomb->ex_w = 0;

@@ -14,7 +14,7 @@
 #define MAP_WIN_NUM 2
 #define INV_WIN_NUM 3
 
-void start_ui()
+void start_ui(chiventure_ctx_t *ctx)
 {
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
@@ -68,10 +68,6 @@ void start_ui()
 
     while ((ch = wgetch(cli->w)) != 4)
     {
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
         height = LINES / 2;
         width = COLS;
@@ -125,7 +121,7 @@ void start_ui()
             echo();
             ungetch(ch);
 
-            window_print(cli);
+            window_print( cli);
 
 
             noecho();

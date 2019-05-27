@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <signal.h>
 #include "window.h"
-//#include "ctx.h"
+#include "ctx.h"
 
 
 
@@ -57,7 +57,7 @@ int window_free(window_t *win)
 }
 
 /* see window.h */
-void window_print(window_t *win)
+void window_print( window_t *win)
 {
-    win->print(win);
+    win->print( win);
 }
