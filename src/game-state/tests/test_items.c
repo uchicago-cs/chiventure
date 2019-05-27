@@ -324,7 +324,7 @@ Test(attribute, get_bool_attr)
 	bool test_bool = get_bool_attr(test_item, "Attribute_Test_Name");
 	cr_assert_eq(test_bool, true, "change_bool_attribute: set the wrong value");
 }
-
+/*
 Test(attribute, get_false_str_attr, .exit_code = 1) {
 	item_t *test_item = item_new();
 	int rv = set_str_attr(test_item, "Attribute_Test_Name", "Attribute_Test_Value");

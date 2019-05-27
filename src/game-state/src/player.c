@@ -2,9 +2,9 @@
 #include "common-item.h"
 
 /* See player.h */
-int player_init(player_t* plyr, int health) {
+int player_init(player_t* plyr, char* player_id, int health) {
 	assert(plyr != NULL);
-
+    strncpy(plyr->player_id, player_id, strlen(player_id));
     plyr->level = 1;
     plyr->health = health;
     plyr->xp = 0;
@@ -14,9 +14,10 @@ int player_init(player_t* plyr, int health) {
 }
 
 /* See player.h */
-player_t* player_new(int health) {
+player_t* player_new() {
     player_t *plyr;
     plyr = malloc(sizeof(player_t));
+    plyr->player_id = malloc(MAX_ID_LEN);
 
     if(plyr == NULL)
     {
@@ -24,14 +25,16 @@ player_t* player_new(int health) {
         return NULL;
     }
 
-    int init_bool = player_init(plyr, health);
+   /* 
+   int init_bool = player_init(plyr, player_id, health);
 
     if(init_bool != SUCCESS)
     {
         perror("Could not initialize player");
         return NULL;
     }
-
+    */
+   
     return plyr;
 }
 

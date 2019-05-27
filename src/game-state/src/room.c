@@ -58,7 +58,7 @@ int add_item_to_room(room_t *room, item_t *item) {
     if (check != NULL) {
         /* WARNING */
         /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
-        fprintf(stderr, "Error: this item id is already in use.\n");
+        fprintf(stderr, "add_item_to_room: this item id is already in use.\n");
         exit(1);
     }
     HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id), item);

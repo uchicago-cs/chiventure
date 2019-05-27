@@ -34,7 +34,7 @@ typedef struct player *player_hash_t;
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int player_init(player_t *plyr, int health);
+int player_init(player_t *plyr, char* player_id, int health);
 
 /*
  * Allocates a new player
@@ -45,7 +45,7 @@ int player_init(player_t *plyr, int health);
  * Returns:
  *  Pointer to allocated player
  */
-player_t *player_new(int health);
+player_t *player_new();
 
 /*
  * Frees resources associated with a player
