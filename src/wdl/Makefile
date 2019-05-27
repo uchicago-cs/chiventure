@@ -5,7 +5,6 @@ AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/ -I../game-state/include
 RM = rm -f
 LIB = wdl.a 
-
 LDFLAGS = -L../libobj 
 LDLIBS = ../libobj/libobj.a -lyaml 
 
@@ -29,6 +28,8 @@ $(LIB): $(OBJS)
 clean-lib:
 	${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
 
+# Examples
+
 EXAMPLE_BINS = examples/typecheck_demo
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
 
@@ -45,5 +46,12 @@ examples: $(EXAMPLE_BINS)
 clean-bin:
 	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
 
-clean: clean-lib clean-bin
+# Tests
+tests: $(LIB) 
+	make -C ./tests
+
+clean-tests:
+	make -C ./tests clean
+
+clean: clean-lib clean-bin clean-tests
 
