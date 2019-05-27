@@ -144,5 +144,7 @@ room_t *find_room(game_t *game, char* room_id);
 * 
 * WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
-int create_connection(game_t *game, char* src_room, char* dest_room, char* direction)
+int create_connection(game_t *game, char* src_room, char* dest_room, char* direction);
+
+
 #endif
