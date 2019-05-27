@@ -560,16 +560,6 @@ Test(attribute, add_an_action)
 	cr_assert_eq(rv, SUCCESS, "add_allowed_action: did not successfully set action");
 }
 
-/*
-Test(attribute, add_same_action)
-{
-	item_t *test_item = item_new("test_item", "action test", "item to test setting actions");
-	int rv = add_allowed_action(test_item, "push");
-	cr_assert_eq(rv, SUCCESS, "add_allowed_action: did not successfully set action");
-	rv = add_allowed_action(test_item, "push");
-	cr_assert_eq(rv, FAILURE, "add_allowed_action: added action twice");
-}
-*/
 
 /* Checks retrieving an action from an item */
 Test(attribute, get_action)
