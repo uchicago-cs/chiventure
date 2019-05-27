@@ -6,6 +6,7 @@
 
 // BASIC ROOM UNIT TESTS ------------------------------------------------------
 /* Tests init function of room */
+/* manually mallocs */
 Test(room_start, init)
 {
 	room_t *empty_room = malloc(sizeof(room_t));
@@ -66,6 +67,8 @@ Test(room_item, add_duplicate_item_to_room, .exit_code = 1)
 	item_t *test_item2 = item_new("test_item", "item2 for testing", "testing to see if get_item() exits correctly");
 	int rv = add_item_to_room(new_room, test_item);
 	cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
+	//exits after adding test_item2 as item_id are equal.
+	//exit code = 1
 	add_item_to_room(new_room, test_item2);
 
 }
@@ -104,6 +107,7 @@ Test(room_get, get_sdesc) {
     char fail[MAX_SDESC_LEN] = "this is supposed to fail";
     int check = strncmp(get_sdesc(new_room), test, MAX_SDESC_LEN); 
     int check2 = strncmp(get_sdesc(new_room), fail, MAX_SDESC_LEN);
+	//if check2 returns !SUCCESS, set to SUCCESS
     if(check2 != SUCCESS)
       check2 = SUCCESS;
     cr_assert_eq(check, SUCCESS, "get_sdesc: failed to get sdesc");
@@ -121,6 +125,7 @@ Test(room_get, get_ldesc)
     char fail[MAX_LDESC_LEN] = "this is supposed to fail";
     int check = strncmp(get_ldesc(new_room), test, MAX_LDESC_LEN); 
     int check2 = strncmp(get_ldesc(new_room), fail, MAX_LDESC_LEN);
+	//if check2 returns !SUCCESS, set to SUCCESS
     if(check2 != SUCCESS)
       check2 = SUCCESS;
     cr_assert_eq(check, SUCCESS, "get_ldesc: failed to get sdesc");
@@ -140,8 +145,11 @@ Test(room_find, find_room_from_dir)
     add_path_to_room(room1, path_real);
     room_t *succ = find_room_from_dir(room1, "west");
     room_t *fail = find_room_from_dir(room1, "east");
+
+	//checks that room_ids are the same
 	int c1 = strncmp(room2->room_id, succ->room_id, MAX_ID_LEN);
 	cr_assert_not_null(succ, "returned NULL room instead of room2");
+	//ensures find_room_from_dir returns NULL
 	cr_assert_null(fail, "found nonexistent room");
 	cr_assert_eq(c1, SUCCESS, "failed to obtain correct room_id");
 
