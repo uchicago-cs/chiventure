@@ -6,9 +6,12 @@
 #include <signal.h>
 #include "window.h"
 #include "ui.h"
+#include "ctx.h"
 
 
 int main()
 {
-    start_ui();
+    chiventure_ctx_t *ctx = chiventure_ctx_new();
+
+    start_ui(ctx);
 }

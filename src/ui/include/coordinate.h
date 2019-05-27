@@ -64,6 +64,10 @@ typedef struct coord_record {
     UT_hash_handle hh;
 } coord_record_t;
 
+
+coordinate_t *coord_new(int x, int y);
+
+
 // Initialize coordinate_t struct
 void coord_init(coordinate_t *c, int x, int y);
 

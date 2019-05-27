@@ -18,8 +18,8 @@
  */
 typedef struct ui_ctx
 {
-    map_t *map;
-    coord_t *player_loc;
+//    map_t *map;
+    coordinate_t *player_loc;
     coord_record_t *coord_hash;
 
 } ui_ctx_t;

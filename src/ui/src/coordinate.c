@@ -3,6 +3,15 @@
 #include "coordinate.h"
 #include "assert.h"
 
+
+coordinate_t *coord_new(int x, int y)
+{
+    coordinate_t *coord = (coordinate_t *) malloc(sizeof(coordinate_t));
+    coord_init(coord, x, y);
+
+    return coord;
+}
+
 // see coordinate.h for details
 void coord_init(coordinate_t *c, int x, int y)
 {
