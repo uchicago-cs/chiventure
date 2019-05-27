@@ -32,7 +32,7 @@ void help_text()
         "load [PATH] (NOT IMPLEMENTED)\n"
         "	-Loads a saved game from a specefied location\n"
         "	 relative to the folder chiventure is running in\n"
-        "save [PATH] (NOT IMPLEMENTED)\n"
+        "SAVE [PATH] (NOT IMPLEMENTED)\n"
         "	-Saves a game to a specefied location\n"
         "QUIT\n"
         "	-Quit game\n\n";

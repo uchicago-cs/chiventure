@@ -88,4 +88,17 @@ bool validate_prep(cmd *c);
  */
 bool validate_ind_objects(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
+/*
+ * Checks that a specified filetype is a .dat file
+ *
+ * Parameters:
+ * - A string of the filename
+ *
+ *
+ * Returns:
+ * - TRUE if proper filename, FALSE if not
+ */
+bool validate_filename(char *filename);
+
+
 #endif /* _CLI_INCLUDE_VALIDATE_H_ */

@@ -54,4 +54,18 @@ bool validate_ind_objects(char *tokens[TOKEN_LIST_SIZE], game_t * game)
     return true;
 }
 
-
+/* See validate.h */
+bool validate_filename(char *filename)
+{
+  int len = strlen(filename);
+  if(len < 4){
+    return false;
+  }
+  const char *ending = &filename[len-4];
+  int cmp = strcmp(ending, ".dat");
+  if(cmp == 0){
+    return true;
+  } else {
+    return false;
+  }
+}

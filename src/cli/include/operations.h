@@ -57,6 +57,19 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 
 /*
+ * Saves the current state of a game to a .dat file
+ * Prints an Error message if filename improperly specified
+ *
+ * Paramters:
+ * - tokens: parsed input string
+ * - pointer to game to be saved,
+ *
+ * Returns:
+ * - A success or error message
+ */
+char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game);
+
+/*
  * Returns a description of either a specefied item, or the room
  * if no item was specified
  *
