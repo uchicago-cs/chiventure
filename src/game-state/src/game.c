@@ -2,12 +2,14 @@
 #include "common-player.h"
 #include "common-room.h"
 
+#define MAX_START_DESC_LEN 500
+
 /* see game.h */
 game_t *game_new(char *desc) {
     game_t *game = malloc(sizeof(game_t));
     game->all_players = NULL; //helper fxn to get list of players
     game->all_rooms = NULL;
-    game->start_desc = malloc(MAX_LDESC_LEN * sizeof(char));
+    game->start_desc = malloc(MAX_START_DESC_LEN * sizeof(char));
 
     strncpy(game->start_desc, desc, strlen(desc));
 
@@ -76,14 +78,7 @@ int set_curr_player(game_t *game, player_t *player) {
 /* See game.h */
 player_t *get_player(game_t *game, char *player_id) {
     player_t *s;
-    player_hash_t plyr_hash = game->all_players;
-
-    HASH_FIND_STR(plyr_hash, player_id, s);
-
-    if (s == NULL) {
-      return NULL;
-    }
-
+    HASH_FIND(hh, game->all_players, player_id, strlen(player_id), s);
     return s;
 }
 

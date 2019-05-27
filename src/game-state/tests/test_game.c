@@ -12,7 +12,7 @@ void teardown(void) {
     puts("Runs after the test");
 }
 
-
+/* Checks that game_new() mallocs memory for a game struct and initializes it with a starting string */
 Test(game_start, new)
 {
     game_t *game = game_new("hello and welcome to this awesome game");
@@ -20,6 +20,7 @@ Test(game_start, new)
     cr_assert_eq(strcmp(game->start_desc, "hello and welcome to this awesome game"), 0, "game_new() failed to set the starting description");
 }
 
+/* Checks that game_free() frees a game struct successfully */
 Test(game_start, free)
 {
     game_t *game = game_new("hello and welcome to this awesome game");
@@ -27,6 +28,7 @@ Test(game_start, free)
     cr_assert_eq(game_free(game), SUCCESS, "game_free() failed");
 }
 
+/* Checks that add_room_to_game() adds a room to the game struct's room hash table */
 Test(game_room, add_room_to_game) 
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -42,6 +44,7 @@ Test(game_room, add_room_to_game)
     cr_assert_eq(r2, SUCCESS, "add_room_to_game: room2 failed");
 }
 
+/* Checks that find_room() returns the desired room pointer from a game */
 Test(game_room, find_room) 
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -53,7 +56,6 @@ Test(game_room, find_room)
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     
-
     room_t *r1 = find_room(game, room1->room_id);
     room_t *r2 = find_room(game, room2->room_id);
     room_t *r3 = find_room(game, "boiiii");
@@ -68,6 +70,7 @@ Test(game_room, find_room)
 
 }
 
+/* Checks that create_connection() creates a path from one existing room to another */
 Test(game_room, create_connection_0)
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -81,6 +84,7 @@ Test(game_room, create_connection_0)
     
 }
 
+/* Checks that create_connection() exits if source room is not found */
 Test(game_room, create_connection_1, .exit_code = 1)
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -94,6 +98,7 @@ Test(game_room, create_connection_1, .exit_code = 1)
 
 }
 
+/* Checks that create_connection() exits if connecting room is not found */
 Test(game_room, create_connection_2, .exit_code = 2)
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -106,7 +111,7 @@ Test(game_room, create_connection_2, .exit_code = 2)
     cr_assert_eq(west, 2, "create_connection: failed to exit(1)");
 }
 
-
+/* Checks that move_room() switches the current room stored in game */
 Test(game_room, move_room)
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -128,7 +133,7 @@ Test(game_room, move_room)
 
 }
 
-
+/* Checks that add_player_to_game() adds a player to the game struct's player hash table */
 Test(game_player, add_player_to_game) 
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -144,6 +149,7 @@ Test(game_player, add_player_to_game)
     cr_assert_eq(p1chk, 0, "found wrong player1");
 }
 
+/* Checks that set_curr_player() sets the current player field of the game struct */
 Test(game_player, set_curr_player) 
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -159,6 +165,7 @@ Test(game_player, set_curr_player)
     cr_assert_eq(check, 0, "set_curr_player failed");
 }
 
+/* Checks that get_player() returns the desired player from the game struct */
 Test(game_player, get_player) 
 {
     game_t *game = game_new("Welcome to Chiventure!");

@@ -175,7 +175,7 @@ Test(player, add_item_to_player)
   cr_assert_not_null(player->inventory, "add_item_to_player() failed to add item");
 }
 
-/*
+/* Commented out because currently this function is not in use 
 Test(player, delete_all_players)
 {
   player_t *player = player_new("1", 100);
