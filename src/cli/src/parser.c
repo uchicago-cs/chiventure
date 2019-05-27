@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "../include/parser.h"
 
 /* See parser.h */
@@ -29,12 +30,23 @@ char **parse(char *input)
         return NULL;
     }
 
+    char *command = words[0];
+    int i = 0;
+    char ch;
+
+    while(command[i])
+    {
+        ch = toupper(command[i]);
+        command[i] = ch;
+        i++;
+    }
+
     return words;
 }
 
 //A test function
 // int main() {
-//     char str[] = "GIVE talisman to the wizard";
+//     char str[] = "give talisman to wizard";
 //     char **words = parse(str);
 
 //     if(words == NULL) {
