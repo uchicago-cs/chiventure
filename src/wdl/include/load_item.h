@@ -29,7 +29,7 @@
 item_t* load_items(obj_t *doc, game_t *g );
 
 /* load_actions
- * loads actions into items
+ * loads actions into the given item
  */
 int load_actions(obj_t *doc, item_t *i);
 
