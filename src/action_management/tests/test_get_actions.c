@@ -28,7 +28,7 @@ void check_search(list_action_type_t *head, char *query, int expected_index)
 {
     list_action_type_t *elt;
     LL_SEARCH_SCALAR(head,elt,act->c_name,query);
-    cr_assert_eq(elt->act->c_name,valid_actions[expected_index]->c_name,
+    cr_assert_eq(elt->act->c_name,valid_actions[expected_index].c_name,
                  "Searched using query %s. Found the element %s of the kind %d.\n",
                  query, elt->act->c_name, elt->act->kind);
 }
