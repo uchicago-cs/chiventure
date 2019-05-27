@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "validate.h"
-#include "action_structs.h"
+#include "actionmanagement.h"
 
 // The following functions assist with iterating through lists of objects
 
@@ -235,7 +235,7 @@ bool action_validate(char *str)
     // note that in the future we may wish to use a hasth table
     list_action_type_t *valid_actions = get_supported_actions();
 
-    action_list_t *curr = valid_actions;
+    list_action_type_t *curr = valid_actions;
 
     while (curr != NULL) {
         if (strcmp(curr->act->c_name, str) == 0) {

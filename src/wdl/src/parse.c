@@ -86,7 +86,7 @@ attr_list_t *get_item_actions(obj_t *item)
 {
     bool valid = false;
 
-    attr_list_t *ls = get_obj_list(obj, str);
+    attr_list_t *ls = obj_list_attr(obj_get_attr(item, "actions", false));
 
     if (ls == NULL) {
         return NULL;
