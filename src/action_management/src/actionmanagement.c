@@ -4,6 +4,7 @@
 #include "actionmanagement.h"
 #include "common.h"
 #include "string.h"
+#include "item.h"
 
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind)
@@ -56,20 +57,29 @@ char *do_item_action(game_t *g, action_type_t *a, item_t *i)
 {
     // a couple confirmation checks
     assert(g);
-    assert(g->curr_player);
+    assert(g->curr_player); // needed for sprint 4
     assert(a);
     assert(i);
     char *ret_string = malloc(100); // buffer
     ret_string[0] = '\0';
+    // checks if the action type is the correct kind
     if (a->kind != ITEM) {
         strcat(ret_string, "The action type provided is not the right kind");
         return ret_string;
     }
+    // checks if the action can be used on the item
+    int allowed = allowed_action(i, a->c_name);
+    if (allowed != SUCCESS) {
+        strcat(ret_string, "Action ");
+        strcat(ret_string, a->c_name);
+        strcat(ret_string, "can't be requested on item ");
+        strcat(ret_string, i->item_id);
+        return ret_string;
+    }
     /* TODO: implement the rest of this function, using game_state funcs
-     * Will eventually check for if the action is allowed on the item
-     * as well as perform the action if all checks pass 
+     * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Performed action ");
+    strcat(ret_string, "Requested action ");
     strcat(ret_string, a->c_name);
     strcat(ret_string, " on item ");
     strcat(ret_string, i->item_id);
@@ -85,15 +95,15 @@ char *do_path_action(game_t *g, action_type_t *a, path_t *p)
     assert(a);
     char *ret_string = malloc(100); // buffer
     ret_string[0] = '\0';
+    // checks if the action type is the correct kind
     if (a->kind != PATH) {
         strcat(ret_string, "The action type provided is not the right kind");
         return ret_string;
     }
     /* TODO: implement the rest of this function, using game state funcs
-     * Will eventually check for if the action is allowed on the item
-     * as well as perform the action if all checks pass 
+     * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Performed movement ");
+    strcat(ret_string, "Requested movement ");
     strcat(ret_string, a->c_name);
     strcat(ret_string, " in direction ");
     strcat(ret_string, p->direction);
@@ -110,20 +120,29 @@ char *do_item_item_action(game_t *g, action_type_t *a,
 {
     assert(g);
     assert(a);
-    assert(g->curr_player);
+    assert(g->curr_player); // needed for sprint 4
     assert(direct);
     assert(indirect);
     char *ret_string = malloc(100); // buffer
     ret_string[0] = '\0';
+    // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
         strcat(ret_string, "The action type provided is not the right kind");
         return ret_string;
     }
+    // checks if the action can be used on the item
+    int allowed = allowed_action(indirect, a->c_name);
+    if (allowed != SUCCESS) {
+        strcat(ret_string, "Action ");
+        strcat(ret_string, a->c_name);
+        strcat(ret_string, "can't be requested on item ");
+        strcat(ret_string, indirect->item_id);
+        return ret_string;
+    }
     /* TODO: implement the rest of this function, using game state funcs
-     * Will eventually check for if the action is allowed on the item
-     * as well as perform the action if all checks pass 
+     * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Performed action ");
+    strcat(ret_string, "Requested action ");
     strcat(ret_string, a->c_name);
     strcat(ret_string, " with ");
     strcat(ret_string, direct->item_id);
