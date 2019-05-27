@@ -325,6 +325,27 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
     return comparison;
 }
 
+/* see item.h */
+int add_allowed_action(item_t* item, char* action_name)
+{
+    int rv = set_bool_attr(item, action_name, true);
+    return rv;
+}
+
+/* see item.h */
+int allowed_action(item_t* item, char* action_name)
+{
+    attribute_t* action = get_attribute(item, action_name);
+    if (action == NULL)
+    {
+        return FAILURE;
+    }
+    else
+    {
+        return SUCCESS;
+    }
+}
+
 // FREEING AND DELETION FUNCTIONS ---------------------------------------------
 /* see item.h */
 int attribute_free(attribute_t *attribute) {
@@ -364,6 +385,8 @@ int delete_all_items(item_hash_t items) {
     }
     return SUCCESS;
 }
+
+
 
 /* See common-item.h */
 // int add_item_to_hash(item_t *item, char *item_id, item_t *item_toadd) {

@@ -207,5 +207,23 @@ char get_char_attr(item_t *item, char* attr_name);
  */
 bool get_bool_attr(item_t *item, char* attr_name);
 
+/* add_allowed_action() adds a permitted action to an item
+ * Parameters:
+ *  a pointer to the item
+ *  the action name
+ * Returns:
+ *  SUCCESS if added correctly, FAILURE if failed to add
+ */
+int add_allowed_action(item_t* item, char* action_name);
+
+/* allowed_action() checks if an item permits a specific action
+ * Parameters:
+ *  a pointer to the item
+ *  the action name
+ * Returns:
+ *  SUCCESS if item contains action, FAILURE if it does not
+ */
+int allowed_action(item_t* item, char* action_name);
+
 
 #endif
