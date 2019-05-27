@@ -103,7 +103,7 @@ Test(game_room, create_connection_2, .exit_code = 2)
     add_room_to_game(game, room2);
     game->curr_room = room1;
     int west = create_connection(game, "vroom1", "nrom", "west");
-
+    cr_assert_eq(west, 2, "create_connection: failed to exit(1)");
 }
 
 
