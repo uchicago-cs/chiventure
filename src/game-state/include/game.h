@@ -27,21 +27,25 @@ typedef struct game {
     /* pointer to current player struct */
     player_t *curr_player;
 
+    /* starting string description to be presented at beginning of game */
+    char *start_desc;
+  
     /* time when game started */
     //int time_start;
 } game_t;
 
 
 /* Malloc space for a new game struct
- * This does not take any arguments and creates a new game without rooms and players
+ * This only takes in the beginning string description and 
+ * creates a new game without rooms and players
  *
  * Parameters:
- *  none
+ *  string description 
  *
  * Returns:
  *  a new game struct
  */
-game_t *game_new();
+game_t *game_new(char *start_desc);
 
 /* Given the pointer to another room, changes the current room in game-state
  * This function does NOT check if the move is legal

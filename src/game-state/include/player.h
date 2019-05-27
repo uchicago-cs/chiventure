@@ -30,6 +30,8 @@ typedef struct player *player_hash_t;
  * Parameters:
  *  p: A player. Must point to already allocated memory.
  *  health: The starting health of the player
+ *  player_id: the unique string ID of the player. currently 
+ *   this will always be "1" since there is only one player
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
@@ -41,11 +43,12 @@ int player_init(player_t *plyr, char* player_id, int health);
  *
  * Parameters:
  *  health: The starting health of the player
+ *  player_id: the unique string ID of the player
  *
  * Returns:
  *  Pointer to allocated player
  */
-player_t *player_new();
+player_t *player_new(char* player_id, int health);
 
 /*
  * Frees resources associated with a player

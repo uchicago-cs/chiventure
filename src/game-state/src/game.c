@@ -3,10 +3,13 @@
 #include "common-room.h"
 
 /* see game.h */
-game_t *game_new() {
+game_t *game_new(char *desc) {
     game_t *game = malloc(sizeof(game_t));
     game->all_players = NULL; //helper fxn to get list of players
     game->all_rooms = NULL;
+    game->start_desc = malloc(MAX_LDESC_LEN * sizeof(char));
+
+    strncpy(game->start_desc, desc, strlen(desc));
 
     /* read from the file using interface from WDL team */
 
