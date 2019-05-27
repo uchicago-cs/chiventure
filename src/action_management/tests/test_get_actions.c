@@ -27,9 +27,9 @@ static action_type_t valid_actions[] = {
 
 void check_search(list_action_type_t *head, char *query, int expected_index)
 {
-    list_action_type_t *elt = malloc(sizeof(list_action_type_t));
-    LL_SEARCH_SCALAR(head,elt,act->c_name,query);
-    strcmp_result = strcmp(elt->act->c_name,valid_actions[expected_index].c_name);
+    list_action_type_t *elt;
+    LL_SEARCH(head,elt,valid_actions[expected_index],strcmp);
+    int strcmp_result = strcmp(elt->act->c_name,valid_actions[expected_index].c_name)
     cr_assert_eq(strcmp_result,0,
                  "Searched using query %s. Found the element %s of the kind %d.\n",
                  query, elt->act->c_name, elt->act->kind);
