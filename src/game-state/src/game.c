@@ -50,6 +50,19 @@ int add_room_to_game(game_t *game, room_t *room) {
     return SUCCESS;
 }
 
+/* See game.h */
+int create_connection(game_t *game, char* src_room, char* to_room, char* direction) {
+    room_t *src = find_room(game, src_room);
+    if (src == NULL)
+        exit(1);
+    room_t *to = find_room(game, to_room);
+    if (to == NULL)
+        exit(2);
+    path_t *connection = path_new(to, direction);
+    int check = add_path_to_room(src, connection);
+    return check;
+}
+
 
 /* See game.h */
 int set_curr_player(game_t *game, player_t *player) {
@@ -80,19 +93,6 @@ room_t *find_room(game_t *game, char* room_id) {
     return r;
 }
 
-/* See game.h */
-room_t *find_room_from_path(path_t *path) {
-    if(path != NULL)
-        return path->dest;
-    return NULL;
-}
-
-/* See game.h */
-room_t *find_room_from_dir(room_t *curr, char* direction) {
-    path_t *path = path_search(curr, direction);
-    room_t *room_adj = find_room_from_path(path);
-    return room_adj;
-}
 
 /* See game.h */
 void move_room(game_t *game, room_t *new_room) {
@@ -111,6 +111,5 @@ int game_free(game_t *game) {
     free(game);
     return SUCCESS;
 }
-
 
 

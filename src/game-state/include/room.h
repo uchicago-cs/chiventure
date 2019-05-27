@@ -192,6 +192,24 @@ int add_condition_to_path(path_t *path, condition_t *condition);
  */
 path_t *path_search(room_t *room, char* direction);
 
+/* Returns pointer to room given path
+* Parameters:
+* ptr to path 
+*
+* Returns: 
+* ptr to room or NULL if not found
+*/
+room_t *find_room_from_path(path_t *path);
+
+/* Returns ptr to adjacent room given direction
+* Parameters:
+* ptr to room, char* direction (must follow initialized direction characters)
+*
+* Returns:
+* ptr to room or NULL if not found
+*/
+room_t *find_room_from_dir(room_t *curr, char* direction);
+
 //TODO
 item_t* get_item_in_room(room_t* room, char* item_id);
 

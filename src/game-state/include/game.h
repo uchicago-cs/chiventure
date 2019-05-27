@@ -103,6 +103,18 @@ int add_player_to_game(game_t *game, player_t *player);
  */
 int add_room_to_game(game_t *game, room_t *room);
 
+/*
+* Function to connect two rooms
+* Parameters:
+* game, Source room_id, destination room_id, direction
+* 
+* Returns:
+* SUCCESS if all okay, exit(1) if src room_id not found, exit(2) if dest not found
+* 
+* WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS AT THE MOMENT AS PARAMETERS NOT GIVEN
+*/
+int create_connection(game_t *game, char* src_room, char* dest_room, char* direction);
+
 
 /*
 *
@@ -138,22 +150,5 @@ player_t *get_player(game_t *game, char *player_id);
 room_t *find_room(game_t *game, char* room_id);
 
 
-/* Returns pointer to room given path
-* Parameters:
-* ptr to game, ptr to path 
-*
-* Returns: 
-* ptr to room or NULL if not found
-*/
-room_t *find_room_from_path(path_t *path);
-
-/* Returns ptr to adjacent room given direction
-* Parameters:
-* ptr to room, char* direction (must follow initialized direction characters)
-*
-* Returns:
-* ptr to room or NULL if not found
-*/
-room_t *find_room_from_dir(room_t *curr, char* direction);
 
 #endif
