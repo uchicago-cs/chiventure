@@ -55,6 +55,7 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  */
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
+
 /*
  * Returns a description of either a specefied item, or the room
  * if no item was specified
@@ -66,6 +67,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  * - Said description as a string
  */
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+
 
 /*Returns a description of the player inventory contents
  *
@@ -87,7 +89,6 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  * - Said error message as a string
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-
 
 
 /* These functions will generate an action-struct (based on action management)
