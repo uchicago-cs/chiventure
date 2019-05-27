@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include "room.h"
+#include "coordinate.h"
 
 void ncurses_init()
 {
@@ -49,6 +51,7 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     mvwvline(win, y+1, right_x, ACS_VLINE, side_ht);
 
     // Checks if given room has exits on each side, draws exits
+    /* TO- DO -- Update using Game State function to check exits
     if (room->ex_e) {
         mvwaddch(win, halfy-1, right_x, ACS_HLINE);
         mvwaddch(win, halfy, right_x, ACS_HLINE);
@@ -67,6 +70,7 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
         mvwaddch(win, bot_y, halfx, ' ');
         mvwaddch(win, bot_y, halfx+1, ACS_VLINE);
     }
+    */
 }
 
 // Takes a coordinate and an array of rooms and draws them in
@@ -78,6 +82,7 @@ void draw_rooms(room_t **rooms, int n, int left_x, int top_y, int z, map_t *map)
     int room_w = map->room_w;
 
     // Get x, y, z coordinates for rooms
+    /* Fixed in map-from-coords feature branch
     for (int i = 0; i < n; i++) {
         x = rooms[i]->loc->x;
         y = rooms[i]->loc->y;
@@ -89,8 +94,9 @@ void draw_rooms(room_t **rooms, int n, int left_x, int top_y, int z, map_t *map)
 
             // Draw room at x/y coordinate given, with preset w/h
             draw_room(room_w, room_h, x_offset, y_offset,rooms[i],map->pad);
-        }
+       }
     }
+    */
     return;
 }
 
@@ -105,19 +111,24 @@ int *calculate_map_dims(room_t **rooms, int n)
     int cz;
 
     for (int i = 0; i < n; i++) {
-        curr = rooms[i]->loc;
+        /* TO-DO -- Will have to reach into coord hash, not room structs,
+            to access coordinates. This will be fixed in map-from-coords feature branch
+
+            curr = rooms[i]->loc;
+
         cx = curr->x;
-        cy = curr->y;
-        cz = curr->z;
-        if (cx > x){
-            x = cx;
-	}
-        if (cy > y){
-            y = cy;
-	}
-        if (cz > z){
-            z = cz;
-	}
+            cy = curr->y;
+            cz = curr->z;
+            if (cx > x){
+                x = cx;
+        }
+            if (cy > y){
+                y = cy;
+        }
+            if (cz > z){
+                z = cz;
+        }
+        */
     }
 
     int *xyz = malloc(sizeof(int) * 3);
@@ -206,60 +217,64 @@ int map_center_on(map_t *map, int x, int y, int z)
     return 0;
 }
 
+// TO-DO -- Fix this with new room stucts
+
 room_t **get_test_rooms(int n)
 {
-    int j = 0;
-    int k = 0;
-    room_t **rooms = malloc(sizeof(room_t *) * n);
-    for (int i = 0; i < (n - 2); i++) {
+    /*
+      int j = 0;
+      int k = 0;
+      room_t **rooms = malloc(sizeof(room_t *) * n);
+      for (int i = 0; i < (n - 2); i++) {
 
-        room_t *roomi = malloc(sizeof(room_t));
-        rooms[i] = roomi;
+          room_t *roomi = malloc(sizeof(room_t));
+          rooms[i] = roomi;
 
-        coord_t *loci = malloc(sizeof(coord_t));
-        loci->x = i % 12;
-        loci->y = j;
-        loci->z = k;
-        roomi->loc = loci;
-        roomi->ex_e = i % 2;
-        roomi->ex_n = (i + 1) % 2;
-        roomi->ex_s = i % 2;
-        roomi->ex_w = (i + 1) % 3;
+          coord_t *loci = malloc(sizeof(coord_t));
+          loci->x = i % 12;
+          loci->y = j;
+          loci->z = k;
+          roomi->loc = loci;
+          roomi->ex_e = i % 2;
+          roomi->ex_n = (i + 1) % 2;
+          roomi->ex_s = i % 2;
+          roomi->ex_w = (i + 1) % 3;
 
-        if (i % 10 == 5) {
-            j++;
-        }
-        if (i % 13 == 8) {
-            k++;
-        }
-        if (i % 13 == 10) {
-            k--;
-        }
-    }
+          if (i % 10 == 5) {
+              j++;
+          }
+          if (i % 13 == 8) {
+              k++;
+          }
+          if (i % 13 == 10) {
+              k--;
+          }
+      }
 
-    coord_t *coorda = malloc(sizeof(coord_t));
-    coorda->x = 0;
-    coorda->y = 0;
-    coorda->z = 1;
-    room_t *rooma = malloc(sizeof(room_t));
-    rooma->loc = coorda;
-    rooma->ex_e = 0;
-    rooma->ex_w = 0;
-    rooma->ex_s = 1;
-    rooma->ex_n = 0;
+      coord_t *coorda = malloc(sizeof(coord_t));
+      coorda->x = 0;
+      coorda->y = 0;
+      coorda->z = 1;
+      room_t *rooma = malloc(sizeof(room_t));
+      rooma->loc = coorda;
+      rooma->ex_e = 0;
+      rooma->ex_w = 0;
+      rooma->ex_s = 1;
+      rooma->ex_n = 0;
 
-    coord_t *coordb = malloc(sizeof(coord_t));
-    coordb->x = 0;
-    coordb->y = 1;
-    coordb->z = 1;
-    room_t *roomb = malloc(sizeof(room_t));
-    roomb->loc = coordb;
-    roomb->ex_e = 0;
-    roomb->ex_w = 0;
-    roomb->ex_s = 0;
-    roomb->ex_n = 1;
+      coord_t *coordb = malloc(sizeof(coord_t));
+      coordb->x = 0;
+      coordb->y = 1;
+      coordb->z = 1;
+      room_t *roomb = malloc(sizeof(room_t));
+      roomb->loc = coordb;
+      roomb->ex_e = 0;
+      roomb->ex_w = 0;
+      roomb->ex_s = 0;
+      roomb->ex_n = 1;
 
-    rooms[n - 2] = rooma;
-    rooms[n - 1] = roomb;
-    return rooms;
+      rooms[n - 2] = rooma;
+      rooms[n - 1] = roomb;
+      return rooms;
+    */
 }
