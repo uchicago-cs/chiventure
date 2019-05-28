@@ -1,10 +1,10 @@
 # Makefile based on template at https://gist.github.com/xuhdev/1873316
 
 CC = gcc
-AR = ar 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include -I./src/game-state/include
+AR = ar
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include -I./src/game-state/include -I./src/ui/include
 RM = rm -f
-LDLIBS = -lyaml
+LDLIBS = -lyaml -lncurses
 BIN = chiventure
 
 .PHONY: all clean libs
@@ -22,7 +22,7 @@ all: $(BIN)
 #  - Makefile: src/ui/Makefile
 #  - Library: src/ui/ui.a
 
-COMPONENTS = libobj ui cli game-state action_management checkpointing common
+COMPONENTS = libobj common ui cli game-state action_management checkpointing
 LIBS = $(foreach comp,$(COMPONENTS),src/$(comp)/$(comp).a)
 
 $(LIBS):

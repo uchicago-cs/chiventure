@@ -11,5 +11,5 @@
 
 int main()
 {
-  start_ui();
+  start_ui(ctx);
 }
