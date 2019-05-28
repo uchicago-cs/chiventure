@@ -107,17 +107,7 @@ bool condition_type_check(obj_t *obj)
     return check;
 }
 
-/* connections_get_list()
- * a helper function for connection_type_check that gets a list of connections
- * associated with a room object
- *
- * parameters:
- *  - obj: a room object
- *
- * returns:
- *  - an attribute list of all the connections
- *  - null if an error occurs or no list can be generated
- */
+/* see validate.h */
 attr_list_t *connections_get_list(obj_t *obj)
 {
     obj_t *connections = obj_get_attr(obj, "connections", false);
@@ -196,7 +186,7 @@ bool item_type_check(obj_t *obj)
     bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
     bool in_ver = (obj_get_type(obj, "in") == TYPE_STR);
 
-    return (id_ver && short_ver && long_ver && in_ver);
+    return (id_ver && short_ver && long_ver && in_ver && state_ver && val_ver);
 }
 
 // The following functions regard game type checking
@@ -230,8 +220,8 @@ bool game_type_check(obj_t *obj)
  *  - false if else
  */
 bool action_validate(char *str)
-{   
-    // getting a list of valid actions; 
+{
+    // getting a list of valid actions;
     // note that in the future we may wish to use a hasth table
     list_action_type_t *valid_actions = get_supported_actions();
 
