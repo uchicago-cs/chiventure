@@ -52,7 +52,8 @@ int main()
     fprintf(stderr, "map_example.c continuing...\n");
     chiventure_ctx_t *ctx = chiventure_ctx_new();
     ctx->ui_ctx = ui_ctx;
-    fprintf(stderr,"Called chiventure_ctx_new();");
+    fprintf(stderr,"Called chiventure_ctx_new();\n");
+
     /* Game State functions needed for DFS not complete at this stage,
      * so we will disregard the coord hash created in ui_ctx_new 
      * (which does not work yet) and instead create use own mini coord hash
@@ -61,9 +62,13 @@ int main()
     fprintf(stderr, "map_example.c continuing...\n");
     // Set the screen location of the map
     map_set_displaywin(ui_ctx->map, 0, 0, COLS, LINES-1);
+
+    fprintf(stderr,"Called map_set_displaywin\n");
+    
     // Refresh the map centered on room 0,0,0
     map_center_on(ctx, 0, 0, 0);
-
+    fprintf(stderr,"Finished calling map_center_on()\n");
+    
     char ch;
     while (true) {
         ch = wgetch(ui_ctx->map->pad);

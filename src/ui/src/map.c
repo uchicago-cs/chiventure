@@ -19,8 +19,6 @@ void ncurses_init()
 }
 
 
-
-
 void erase_ch(int y, int x)
 {
     mvaddch(y, x, '#');
@@ -85,6 +83,12 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
 // z should be 0 when ground floor
 void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 {
+    assert(ctx != NULL);
+    assert(ctx->ui_ctx != NULL);
+  
+    // Temp
+    fprintf(stderr,"Running draw_rooms()\n");
+  
     // Declare variables
     coord_record_t *itr;
     map_t *map = ctx->ui_ctx->map;
@@ -94,7 +98,14 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 
     // Get x, y, z coordinates for rooms
 
+    //Temporary integer to count loop
+    int temp = 1;
     for (itr = ctx->ui_ctx->coord_hash; itr != NULL; itr=itr->hh.next) {
+
+        //Temporary:
+        fprintf(stderr,"Loop runs %d\n", temp);
+        temp++;
+	
         zroom = itr->key.z;
         x = itr->key.x;
         y = itr->key.y;
@@ -203,7 +214,12 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
 
 int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
 {
+    //Temp debugging:
+    fprintf(stderr, "Called map_refresh()\n");
+  
     map_t *map = ctx->ui_ctx->map;
+    assert(map != NULL);
+    
     if (z != map->padz || x != map->padx || y != map->pady) {
         wclear(map->pad);
         draw_rooms(ctx, -x, -y, z);
@@ -212,6 +228,8 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
     map->padx = x;
     map->pady = y;
     map->padz = z;
+    //Temp
+    fprintf(stderr,"Set map pad values\n");
 
     prefresh(map->pad, 0, 0, map->uly, map->ulx, map->lry, map->lrx);
     return 0;
@@ -219,6 +237,9 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
 
 int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
 {
+    assert(ctx != NULL);
+    assert(ctx->ui_ctx != NULL);
+    
     map_t *map = ctx->ui_ctx->map;
     int room_h = map->room_h;
     int room_w = map->room_w;
