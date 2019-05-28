@@ -180,6 +180,7 @@ Test(attribute, set_bool_attr)
 
 }
 
+// need test for set_act_attr (which is essentially add_allowed_action)
 
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS CHANGING ATTR VALUE ------------------------
 

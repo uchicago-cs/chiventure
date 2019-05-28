@@ -70,7 +70,7 @@ typedef struct attribute_value {
     bool bool_val;
     char* str_val;
     int int_val;
-    game_action act_value;
+    game_action act_val;
 } attribute_value_t;
 
 enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER, ACTION};

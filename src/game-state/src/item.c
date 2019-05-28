@@ -189,6 +189,29 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
 }
 
+int set_act_attr(item_t* item, char* attr_name, game_action value)
+{
+    attribute_t* res = get_attribute(item, attr_name);
+    if (res == NULL)
+    {
+        attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_key = (char*)malloc(100);
+        new_attribute->attribute_tag = ACTION;
+        new_attribute->attribute_value.act_val = value;
+        strcpy(new_attribute->attribute_key, attr_name);
+        int rv = add_attribute_to_hash(item, new_attribute);
+        return rv;
+    }
+    else if (res != NULL && res->attribute_tag != ACTION)
+        return FAILURE; // skeleton for not overriding type
+
+    else
+    {
+        res->attribute_value.act_val = value;
+        return SUCCESS;
+    }
+}
+
 /* see item.h */
 char* get_str_attr(item_t *item, char* attr_name)
 {
@@ -273,6 +296,20 @@ bool get_bool_attr(item_t *item, char* attr_name) {
     return res->attribute_value.bool_val;
 }
 
+game_action get_act_attr(item_t *item, char* attr_name) {
+    attribute_t* res = get_attribute(item, attr_name);
+    if (res == NULL)
+    {
+        fprintf(stderr, "Error: attribute get failed.\n");
+    }
+    if (res->attribute_tag != ACTION)
+    {
+        fprintf(stderr, "Error: attribute is not type boolean.\n");
+        exit(1);
+    }
+    return res->attribute_value.act_val;
+}
+
 
 /* see item.h */
 int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
@@ -323,7 +360,7 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
             }
             break;
         case(ACTION):
-        // just for now to get prototype out
+        // just for now to get prototype out, we need an actions_eq function
             comparison = 1;
             break;
     }
