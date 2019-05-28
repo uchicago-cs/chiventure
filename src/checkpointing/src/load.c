@@ -5,6 +5,7 @@
 #include "load.h"
 #define MAX_BUF_SIZE 1000000
 
+
 size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 {
     size_t cur_len = 0;
@@ -22,87 +23,102 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 }
 
 
-int load_object(Object *o, object_t *o_t)
+int load_attribute_value(Attribute_value *av, attribute_value_t *av_t)
 {
-    if(o_t == NULL) {
-	fprintf(stderr, "given null object_t struct\n");
+    if (av_t == NULL) {
+	fprintf(stderr, "given null attribute_value_t struct\n");
 	return -1;
     }
 
-    o_t->object_id = o->object_id;
-  
-    if (o->short_desc != NULL) {
-	o_t->short_desc = o->short_desc;
+    if (av->double_value != NULL) {
+	av_t->double_value = av->double_value;
     } else {
-	o_t->short_desc = NULL;
+	av_t->double_value = NULL;
     }
-  
-    if (o->long_desc != NULL) {
-	o_t->long_desc = o->long_desc;
+
+    if (av->char_val != NULL) {
+	av_t->char_val = av->char_val;
     } else {
-	o_t->long_desc = NULL;
+	av_t->char_val = NULL;
+    }
+
+    if (av->bool_val != NULL) {
+	av_t->bool_val = av->bool_val;
+    } else {
+	av_t->bool_val = NULL;
+    }
+
+    if (av->str_val != NULL) {
+	av_t->str_val = av->str_val;
+    } else {
+	av_t->str_val = NULL;
+    }
+
+    if (av->int_val != NULL) {
+	av_t->int_val = av->int_val;
+    } else {
+	av_t->int_val = NULL;
     }
 
     return 0;
 }
 
 
-int load_player(Player *p, player_t *p_t)
+int load_attribute(Attribute *a, attribute_t *a_t)
 {
-    if (p_t == NULL) {
-	fprintf(stderr, "given null player_t struct\n");
+    if (a_t == NULL) {
+	fprintf(stderr, "given null attribute_t struct\n");
 	return -1;
     }
-  
-    p_t->player_id = p->player_id;
 
-    if (p->username !=  NULL) {
-	p_t->username = p->username;
-    } else {
-	p_t->username = NULL;
-    }
-  
-    if (p->has_level == 1) {
-	p_t->level = p->level;
-    } else {
-	p_t->level = -1;
-    }
-  
-    if (p->has_health == 1) {
-	p_t->health = p->health;
-    } else {
-	p_t->health = -1;
-    }
-  
-    if (p->has_xp == 1) {
-	p_t->xp = p->xp;
-    } else {
-	p_t->xp = -1;
-    }
-  
-    object_t **inventory = malloc(sizeof(object_t*) * p->inventory_len);
+    a_t->attribute_key = a->attribute_key;
 
-    for (int i = 0; i < p->inventory_len; i++) {
-	inventory[i] = malloc(sizeof(object_t));
-	load_object(p->inventory[i], inventory[i]);
+    if (strcmp(a->attribute_tag, "DOUBLE") == 0) {
+	a_t->attribute_tag = DOUBLE;
+    } else if (strcmp(a->attribute_tag, "BOOLE") == 0) {
+	a_t->attribute_tag = BOOLE;
+    } else if (strcmp(a->attribute_tag, "CHARACTER") == 0) {
+	a_t->attribute_tag = CHARACTER;
+    } else if (strcmp(a->attribute_tag, "STRING") == 0) {
+	a_t->attribute_tag = STRING;
+    } else {
+	a_t->attribute_tag = INTEGER;
     }
-    p_t->inventory = inventory;
-	
-    p_t->inventory_len = p->inventory_len;
-  
-    object_t **clothes = malloc(sizeof(object_t*) * p->clothes_len);
 
-    for (int i = 0; i < p->clothes_len; i++) {
-	clothes[i] = malloc(sizeof(object_t));
-	load_object(p->clothes[i], clothes[i]);
-    }
-  
-    p_t->clothes = clothes;
-  
-    p_t->clothes_len = p->clothes_len;
+    load_attribute_value(a->attribute_value, a_t->attribute_value);
 
     return 0;
-}    
+}
+
+    
+int load_item(Item *i, item_t *i_t);
+{
+    if(i_t == NULL) {
+	fprintf(stderr, "given null item_t struct\n");
+	return -1;
+    }
+
+    i_t->item_id = i->item_id;
+  
+    if (i->short_desc != NULL) {
+	i_t->short_desc = i->short_desc;
+    } else {
+	i_t->short_desc = NULL;
+    }
+  
+    if (i->long_desc != NULL) {
+	i_t->long_desc = i->long_desc;
+    } else {
+	i_t->long_desc = NULL;
+    }
+
+    // bool condition reserved for future expansion
+
+    // repeated Attribute HERE
+    //ITER_ALL_ITEMS
+    return 0;
+}
+
 
 int load_room(Room *r, room_t *r_t)
 {
@@ -124,8 +140,11 @@ int load_room(Room *r, room_t *r_t)
     } else {
 	r_t->short_desc = NULL;
     }
-  
-    object_t **objs = malloc(sizeof(object_t*) * r->objs_len);
+
+    // Load items here
+    // note that object is now called item
+    
+    /* object_t **objs = malloc(sizeof(object_t*) * r->objs_len);
 
     for (int i = 0; i < r->objs_len; i++) {
 	objs[i] = malloc(sizeof(object_t));
@@ -133,10 +152,57 @@ int load_room(Room *r, room_t *r_t)
     }
   
     r_t->objs = objs;
-  
-    return 0;
 
+    // path stuff here
+
+    */
+    return 0;
 }
+
+
+int load_player(Player *p, player_t *p_t)
+{
+    if (p_t == NULL) {
+	fprintf(stderr, "given null player_t struct\n");
+	return -1;
+    }
+  
+    p_t->player_id = p->player_id;
+
+    if (p->level != NULL) {
+	p_t->level = p->level;
+    } else {
+	p_t->level = NULL;
+    }
+  
+    if (p->health != NULL) {
+	p_t->health = p->health;
+    } else {
+	p_t->health = NULL;
+    }
+  
+    if (p->xp != NULL) {
+	p_t->xp = p->xp;
+    } else {
+	p_t->xp = NULL;
+    }
+
+    // Load inventory here
+    /*
+    object_t **inventory = malloc(sizeof(object_t*) * p->inventory_len);
+
+    for (int i = 0; i < p->inventory_len; i++) {
+	inventory[i] = malloc(sizeof(object_t));
+	load_object(p->inventory[i], inventory[i]);
+    }
+    p_t->inventory = inventory;
+	
+    p_t->inventory_len = p->inventory_len;
+  
+    */
+    return 0;
+}    
+
 
 int load_game(Game *g, game_t *g_t)
 {
@@ -144,7 +210,9 @@ int load_game(Game *g, game_t *g_t)
 	fprintf(stderr, "given null game_t struct\n");
 	return -1;
     }
-  
+
+    // repeated all_players
+    /*
     player_t **players = malloc(sizeof(player_t*) * g->players_len);
     for (int i = 0; i < g->players_len; i++) {
 	players[i] = malloc(sizeof(player_t));
@@ -155,6 +223,8 @@ int load_game(Game *g, game_t *g_t)
   
     g_t->players_len = g->players_len;
   
+    // repeated all_rooms
+
     room_t **rooms = malloc(sizeof(room_t*) * g->rooms_len); 
     for (int j = 0; j < g->rooms_len; j++) {
 	rooms[j] = malloc(sizeof(room_t));
@@ -164,17 +234,26 @@ int load_game(Game *g, game_t *g_t)
     g_t->rooms = rooms;
   
     g_t->rooms_len = g->rooms_len;  
+    */
 
-    if(g->curr_room != NULL) {
-	g_t->curr_room = g->curr_room;
-    } else {
-	g_t->curr_room = NULL;
+    // Note: in game state structs, curr_room is a room struct that contains a room_id
+    // In the proto struct, curr_room is simply the room_id as a string
+    if(g->curr_room != -1) {
+	room_t *curr_r;
+	ITER_ALL_ROOMS(g_t, curr_r) {
+	    if (curr_r->room_id == g->curr_room) {
+		g_t->curr_room = curr_r;
+	    }
+	}
     }
-    
-    if(g->has_start_time == 1) {
-	g_t->start_time = g->start_time;
-    } else {
-	g_t->start_time = -1;
+
+    if (g->curr_player != -1) {
+	player_t *curr_p;
+	ITER_ALL_PLAYERS(g_t, curr_p) {
+	    if (curr_p->player_id == g->curr_player) {
+		g_t->curr_player = curr_p;
+	    }
+	}
     }
     
     return 0;
