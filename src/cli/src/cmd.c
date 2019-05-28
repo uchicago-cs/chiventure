@@ -14,7 +14,6 @@ void add_entry(char *command_name, operation *associated_operation, lookup_t **t
     t->name = command_name;
     t->operation_type = associated_operation;
     HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
-    printf("%d\n",HASH_COUNT(*table));
 
     /* This is code for how we will print once we get UI context structs, ideally they
        will provide a function for printing so we don't have to lookup x and y coordinates
@@ -35,21 +34,16 @@ void add_action_entries(lookup_t **table){
     while(all_actions->next != NULL)
     {
         action_type_t *curr_action = all_actions->act;
-        lookup_t *t = malloc(sizeof(lookup_t));
 
-        t->name = curr_action->c_name;
         if(curr_action->kind == 1) {
-            t->operation_type = type1_action_operation;
+            add_entry(curr_action->c_name, type1_action_operation, table);
         }
         else if(curr_action->kind == 2) {
-            t->operation_type = type2_action_operation;
+            add_entry(curr_action->c_name, type2_action_operation, table);
         }
         else if(curr_action->kind == 3) {
-            t->operation_type = type3_action_operation;
+            add_entry(curr_action->c_name, type2_action_operation, table);
         }
-
-        HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
-        printf("%d\n",HASH_COUNT(*table));
 
         all_actions = all_actions->next;
     }
@@ -71,7 +65,7 @@ operation *find_operation(char *command_name, lookup_t **table)
     return NULL;
 }
 
-action_type_t *find_action(char *command_name, lookup_t *table){
+action_type_t *find_action(char *command_name, lookup_t **table){
   return find_entry(command_name, table)->action;
 }
 
@@ -97,12 +91,10 @@ void delete_entries(lookup_t **table)
 lookup_t **initialize_lookup()
 {
     lookup_t **table = malloc(sizeof(*table));
-    add_entry("QUIT", quit_operation,  table);
-    printf("%d\n",HASH_COUNT(*table) );
+    add_entry("QUIT", quit_operation, table);
+    printf("%d\n",HASH_COUNT(*table));
     add_entry("HELP", help_operation, table);
-    add_entry("HIST", hist_operation,  table);
-    add_entry("TAKE", type1_action_operation,table);
-    add_entry("PUT", type3_action_operation, table);
+    add_entry("HIST", hist_operation, table);
     add_entry("LOOK",look_operation, table);
     add_entry("INV", inventory_operation, table);
     add_entry("SAVE", save_operation, table);
@@ -185,18 +177,18 @@ cmd *cmd_from_string(char *s, lookup_t **table)
 /* =================================== */
 
 /* See cmd.h */
-void do_cmd(cmd *c,int *quit, game_t *game)
+void do_cmd(cmd *c,int *quit, game_t *game, lookup_t **table)
 {
     char *outstring;
     /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
     if (strcmp(cmd_name_tos(c),"QUIT")==0)
     {
         *quit=0;
-        (*(c->func_of_cmd))(c->tokens, game);
+        (*(c->func_of_cmd))(c->tokens, game, table);
     }
     else
     {
-        outstring = (*(c->func_of_cmd))(c->tokens, game);
+        outstring = (*(c->func_of_cmd))(c->tokens, game, table);
         if(outstring!=NULL)
             printf("%s\n",outstring );
     }

@@ -9,25 +9,25 @@
 // remove the comment as soon as checkpointing removes their dummy struct
 //#include "../../checkpointing/include/save.h"
 
-char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
     return NULL;
 }
 
-char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
     help_text();
     return NULL;
 }
 
-char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
     print_history();
     return NULL;
 }
 
 /* See operations.h */
-char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
 /*  if(tokens[1] == NULL){
     fprintf(stderr,"Save Error, No filename specified. \n");
@@ -37,7 +37,7 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 */  return NULL;
 }
 
-char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
     if(tokens[1]==NULL)
     {
@@ -127,12 +127,12 @@ char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
     return "You cannot perform this action !";
 }
 
-char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
     item_t *t;
     int i = 0;

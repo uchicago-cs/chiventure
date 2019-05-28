@@ -9,7 +9,8 @@
 //#include "../../game-state/include/game.h"
 
 /* Operation data type */
-typedef char *operation(char *tokens[TOKEN_LIST_SIZE], game_t *game);
+typedef struct lookup_entry lookup_t;
+typedef char *operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 // Lookup entry for hashtable, using uthash.
 typedef struct lookup_entry
@@ -19,7 +20,6 @@ typedef struct lookup_entry
     action_type_t *action;
     UT_hash_handle hh;
 } lookup_t;
-
 
 /* Command data type */
 typedef struct
@@ -77,7 +77,7 @@ operation *find_operation(char *command_name, lookup_t **table);
  * - a pointer to the corresponding action
  * - NULL if the command is not an action.
  */
-action_type_t *find_action(char *command_name, lookup_t *table);
+action_type_t *find_action(char *command_name, lookup_t **table);
 /*  Commented out until action_t is ready.*/
 
 
@@ -195,6 +195,6 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table);
  * Returns:
  * - nothing -> output handled elsewhere
  */
-void do_cmd(cmd *c,int *quit, game_t *game);
+void do_cmd(cmd *c,int *quit, game_t *game, lookup_t **table);
 
 #endif /* _CLI_INCLUDE_CMD_H */
