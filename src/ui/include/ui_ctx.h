@@ -16,9 +16,8 @@
  *  - coord_hash: a pointer to the head of a hash map that matches
  *                coordinate keys to room pointers
  */
-typedef struct ui_ctx
-{
-//    map_t *map;
+typedef struct ui_ctx {
+    map_t *map;
     coord_t *player_loc;
     coord_record_t *coord_hash;
     window_t *map_win;

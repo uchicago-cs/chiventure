@@ -73,7 +73,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
         return FAILURE;
     }
 
-//    ui_ctx->map = map_init();
+    //ui_ctx->map = map_init();
     return SUCCESS;
 }
 
