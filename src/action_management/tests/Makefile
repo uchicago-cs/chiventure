@@ -1,20 +1,20 @@
 # Makefile based on template at https://gist.github.com/xuhdev/1873316
 
 CC = gcc 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include -I../../game-state/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/
 LDFLAGS = -L../ -Wl,-rpath,.
 RM = rm -f
 BIN = test-actionmanagement
-LDLIBS = -lcriterion -lactionmanagement
+LDLIBS = -lcriterion
 
-SRCS = test_action_new_init_free.c main.c
-OBJS = $(SRCS:.c=.o)
+SRCS = main.c test_get_actions.c test_action_new_init_free.c
+OBJS = $(SRCS:.c=.o) ../action_management.a
 
 .PHONY: all
 all: ${BIN}
 
 $(BIN): $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) -o$(BIN) $(LDLIBS) 
+	$(CC) $(LDFLAGS) $(CFLAGS) $(OBJS) -o$(BIN) $(LDLIBS)
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< >$@
