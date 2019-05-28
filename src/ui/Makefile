@@ -5,7 +5,7 @@ AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../cli/include/
 RM = rm -f
 LIB = ui.a
-LDLIBS = -lncurses
+LDLIBS = -lncurses -lreadline
 
 .PHONY: all clean examples
 
@@ -20,7 +20,7 @@ OBJS = $(SRCS:.c=.o)
 LOGS = examples/ui_debug.txt
 
 $(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@; make -C ../cli/
+	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(SRCS:.c=.d)
 
@@ -41,7 +41,7 @@ $(EXAMPLE_SRCS:.c=.d):%.d:%.c
 -include $(EXAMPLE_SRCS:.c=.d)
 
 $(EXAMPLE_BINS): %:%.c $(LIB)
-	$(CC) $(CFLAGS) $^ ../cli/cli.a -o$@ $(LDLIBS)
+	$(CC) $(CFLAGS)  $^ ../common/common.a ../cli/cli.a ../game-state/game-state.a  -o$@ $(LDLIBS)
 
 examples: $(EXAMPLE_BINS)
 
