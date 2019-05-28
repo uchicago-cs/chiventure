@@ -1,9 +1,9 @@
 syntax = "proto2";
 
 //In Game-state implementation, attribute is a union. Proto doesn't support unions, so we use optional instead
-message Attribute_value {
+message Attributevalue {
     optional double double_val = 1;
-    optional string char_val = 2; //NO CHAR TYPE SUPPORTED IN .PROTO, SO USING STRING INSTEAD
+    optional int32 char_val = 2; //NO CHAR TYPE SUPPORTED IN .PROTO, SO USING INT INSTEAD
     optional bool bool_val = 3;
     optional string str_val = 4;
     optional int32 int_val = 5;
@@ -14,7 +14,7 @@ message Attribute {
     //attribute_key may change to attribute_name later
     required string attribute_key = 1; 
     required string attribute_tag = 2; //Tag of which type attribute value will be
-    required Attribute_value attribute_value = 3; //Value of attribute (submessage) 
+    required Attributevalue attribute_value = 3; //Value of attribute (submessage) 
 }
 
 message Item {
@@ -51,7 +51,7 @@ message Room {
 }
 
 message Player {
-    required int32 player_id = 1;
+    required string player_id = 1;
     optional int32 level = 2;  
     optional int32 health = 3;
     optional int32 xp = 4;

@@ -4,42 +4,30 @@
 #include "game.pb-c.h"
 #include "save.h"
 
-int save_attribute_value(attribute_value_t *av_t, Attribute_value *av)
+int save_attribute_value(attribute_value_t *av_t, Attributevalue *av)
 {
     if (av_t == NULL) {
 	fprintf(stderr, "Given a NULL attribute_value struct in save_attribute_value");
 	return -1;
     }
 
-    if (av_t->double_val == NULL) {
-	av->double_val = NULL;
+    if (av->has_double_val == 1){
+      av->double_val = av_t->double_val;
     } else {
-	av->double_val = av_t->double_val;
+      av->double_val = -1.0;
     }
-
-    if (av_t->char_val == NULL) {
-	av->char_val = NULL;
-    } else {
-	av->char_val = av_t->char_val;
-    }
-
-    if (av_t->bool_val == NULL) {
-	av->bool_val = NULL;
-    } else {
-	av->bool_val = av_t->bool_val;
-    }
-
+    av->char_val = av_t->char_val;
+    
+    av->bool_val = av_t->bool_val;
+    
     if (av_t->str_val == NULL) {
-	av->string_val = NULL;
+	av->str_val = NULL;
     } else {
-	av->string_val = av_t->str_val;
+	av->str_val = av_t->str_val;
     }
 
-    if (av_t->int_val == NULL) {
-	av->int_val = NULL;
-    } else {
-	av->int_val = av_t->int_val;
-    }
+    av->int_val = av_t->int_val;
+    
     return 0;
 }
 
@@ -64,7 +52,7 @@ int save_attribute(attribute_t *a_t, Attribute *a)
 	a->attribute_tag = "INTEGER";
     }
 
-    save_attribute_value(a_t->attribute_value, a->attribute_value);
+    save_attribute_value(&(a_t->attribute_value), a->attribute_value);
 
     return 0;
 }
@@ -137,10 +125,10 @@ int save_path(path_t *p_t, Path *p)
 	p->direction = p_t->direction;
     }
 
-    if (p_t->destination == NULL) {
-	p->destination = NULL;
+    if (p_t->dest == NULL) {
+	p->dest = NULL;
     } else {
-	p->destination = p_t->destination;
+	p->dest = p_t->dest;
     }
 
     // repeated Condition HERE
