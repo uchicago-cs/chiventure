@@ -2,6 +2,7 @@
 #define _ITEM_H
 
 #include "game_state_common.h"
+#include "action_structs.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
 #define ITER_ALL_ITEMS_IN_INVENTORY(player, curr_item) item_t *ITTMP_ITEMINV; HASH_ITER(hh, (player)->inventory, (curr_item), ITTMP_ITEMINV)
@@ -27,7 +28,7 @@ typedef struct item* item_hash_t;
 *  Returns:
 *    A pointer to a new item struct.
 */
-item_t *item_new();
+item_t *item_new(char *item_id, char *short_desc, char *long_desc);
 
 /* item_init() initializes an item struct with given values
    arguments are taken from WDL
@@ -50,10 +51,16 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 int item_free(item_t *item_tofree);
 
 // ACTION STRUCTURE DEFINITION ------------------------------------------------
-// typedef struct action {
+// action type struct modeled from action management
+// typedef struct action_type {
 //     char *c_name;
 //     enum action_kind kind;
-// } action_t;
+// } atype;
+
+typedef struct action {
+    action_type_t *action_type;
+    // will be expanded to include conditions and effects in Sprint 4
+} game_action;
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
@@ -63,9 +70,10 @@ typedef struct attribute_value {
     bool bool_val;
     char* str_val;
     int int_val;
+    game_action act_value;
 } attribute_value_t;
 
-enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
+enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER, ACTION};
 
 typedef struct attribute {
     UT_hash_handle hh;

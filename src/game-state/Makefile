@@ -1,6 +1,6 @@
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I./src/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I./src/ -I../action_management/include
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 RM = rm -f
 SRCDIR = src

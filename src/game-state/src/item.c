@@ -273,6 +273,7 @@ bool get_bool_attr(item_t *item, char* attr_name) {
     return res->attribute_value.bool_val;
 }
 
+
 /* see item.h */
 int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
 {
@@ -320,6 +321,10 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
             {
                 comparison = 1;
             }
+            break;
+        case(ACTION):
+        // just for now to get prototype out
+            comparison = 1;
             break;
     }
     return comparison;
