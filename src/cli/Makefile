@@ -2,7 +2,8 @@
 
 CC = gcc
 SRCS = src/cmd.c src/shell.c src/parser.c src/operations.c src/validate.c
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../action_management/include/
+LDFLAGS = -shared
 OBJS = $(SRCS:.c=.o)
 LIB = cli.a
 RM = rm -f
@@ -11,15 +12,12 @@ RM = rm -f
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	ar -r -o $@ $(OBJS)
+	$(CC) ${LDFLAGS} -o $@ $^
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(SRCS:.c=.d)
-
-test: $(LIB)
-	make -C ./example
 
 .PHONY: clean
 
