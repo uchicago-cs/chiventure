@@ -5,16 +5,16 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <string.h>
-#include "window.h"
+#include "ctx.h"
 #include "ui.h"
+#include "window.h"
 #include "print_functions.h"
-#include "map.h"
 
 #define MAIN_WIN_NUM 1
 #define MAP_WIN_NUM 2
 #define INV_WIN_NUM 3
 
-void start_ui()
+void start_ui(chiventure_ctx_t *ctx)
 {
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
@@ -58,8 +58,8 @@ void start_ui()
 
 
     // prints the score and number of moves in the info window
-    window_print(info);
-    window_print(cli);
+    window_print(ctx, info);
+    window_print(ctx, cli);
 
     // refreshes both windows to show the above changes
     wrefresh(info->w);
@@ -96,6 +96,7 @@ void start_ui()
             // Alt+m switches the info window to the map window
             // Alt+s switches the position of the CLI
 
+
             if (ch == 'm') {
                 if (curr_page != MAP_WIN_NUM) {
                     curr_page = MAP_WIN_NUM;
@@ -108,6 +109,7 @@ void start_ui()
 
                 ch = 27;
             }
+
 
 	    else if (ch == 's') {
                 cli_top = !cli_top;
@@ -124,20 +126,19 @@ void start_ui()
             echo();
             ungetch(ch);
 
-            window_print(cli);
+            window_print(ctx,  cli);
 
 
             noecho();
 
         }
 
-
         // Prints the cli to the screen
-        window_print(cli);
+        window_print(ctx, cli);
 
         // This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM) {
-            window_print(info);
+            window_print(ctx, info);
             wrefresh(info->w);
         }
 	else if (curr_page == MAP_WIN_NUM) {
