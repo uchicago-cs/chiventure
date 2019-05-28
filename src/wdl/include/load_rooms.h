@@ -4,11 +4,16 @@
 
 #ifndef INCLUDE_LOAD_ROOMS_H
 #define INCLUDE_LOAD_ROOMS_H
-#define PATH "../examples/sample_yaml/connected_rooms.yaml"
+
+#define PATH "./examples/sample_yaml/connected_rooms.yaml"
+
+#define SUCCESS 0
+#define FAILURE 1
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "parser.h"
 #include "room.h"
 #include "game.h"

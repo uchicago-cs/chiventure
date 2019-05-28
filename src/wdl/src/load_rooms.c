@@ -15,7 +15,7 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
     // if rooms list is empty then return 1
     if (curr != NULL) {
         fprintf(stderr, "rooms list is empty\n");
-        return -1;
+        return 1;
     }
 
     // while list of rooms exists, create new game_struct room, add room to game
@@ -66,19 +66,19 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
             char *direction = obj_get_str(conn_curr->obj, "direction");
 
             // add connection to room in game
-            int result = add_connection(g, id, to, direction);
+            int result = create_connection(g, id, to, direction);
 
             // if result is 1, then id doesn't exist, if result is 2, then
             // connection id (to) doesn't exist
             if (result == 1) {
                 fprintf(stderr, "the source room with id %s does not exist\n",
                         id);
-                return -1;
+                return 1;
             }
             else if (result == 2) {
                 fprintf(stderr, "the connection room with id %s does not exist\n",
                         to);
-                return -1;
+                return 2;
             }
             else {
                 printf("the connection between %s and %s in the direction %s"
