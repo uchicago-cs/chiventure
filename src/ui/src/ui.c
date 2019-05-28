@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <string.h>
+#include "common.h"
 #include "ctx.h"
 #include "ui.h"
 #include "window.h"

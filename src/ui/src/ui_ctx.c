@@ -10,8 +10,7 @@
 #include "coordinate.h"
 #include "window.h"
 #include "print_functions.h"
-//#include "map.h"
-
+#include "map.h"
 
 // see ui_ctx.h
 ui_ctx_t *ui_ctx_new(game_t *game)

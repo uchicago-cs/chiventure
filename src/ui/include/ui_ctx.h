@@ -2,13 +2,17 @@
 #define UI_CTX_H
 
 #include "game.h"
+#include "room.h"
 #include "window.h"
 #include "coordinate.h"
 #include "map.h"
 
 
+
+
 /*
  * UI context struct.  Contains the following fields:
+ *  - map : contains crucial information about the map
  *  - map_win : contains the map
  *  - main_win : main window. May contain images or other info about the game
  *  - cli_win : window that contains the CLI. It's always displayed

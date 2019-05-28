@@ -4,6 +4,9 @@
 #include <ncurses.h>
 #include "room.h"
 #include "coordinate.h"
+#include "common.h"
+#include "ctx.h"
+#include "ui.h"
 
 void ncurses_init()
 {
