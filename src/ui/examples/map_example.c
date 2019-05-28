@@ -1,8 +1,9 @@
+
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-
+#include <assert.h>
 #include "ctx.h"
 #include "ui_ctx.h"
 #include "room.h"
@@ -31,10 +32,8 @@ int main()
 
     // Initial coordinate is arbitrarily set to be (0,0)
     head->key.x = 0;
-    fprintf(stderr,"Set key.x\n");
     head->key.y = 0;
     head->r = room1;
-    fprintf(stderr,"Set head->r\n");
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), head);
     fprintf(stderr, "Added initial room to hash\n");
     assert(coordmap != NULL);
@@ -43,11 +42,11 @@ int main()
     try_add_coord(coordmap, 0, 2, room3);
     try_add_coord(coordmap, 1, 1, room4);
     fprintf(stderr, "Added three more rooms to hash\n");
+
     game_t *game = game_new();
     fprintf(stderr,"Called game_new()\n");
-    if (game == NULL)
-      fprintf(stderr,"GAME NULL\n");
-    
+    assert (game != NULL);
+    fprintf(stderr,"Game not null\n");
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
 
     fprintf(stderr, "map_example.c continuing...\n");

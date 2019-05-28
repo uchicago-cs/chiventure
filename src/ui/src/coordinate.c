@@ -45,6 +45,7 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
 // see coordinate.h for details
 int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 {
+    assert(r != NULL);
     coord_record_t *cr = find_coord(coordmap, x, y);
 
     // File created for debug statments
@@ -67,10 +68,11 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
         fclose(debug);
         return SUCCESS;
     }
-
     else {
-        // If assigned to itself, no conflicts
-        if (strcmp(cr->r->room_id, r->room_id) == 0) {
+         assert(cr->r != NULL);
+
+	 // If assigned to itself, no conflicts
+         if (strcmp(cr->r->room_id, r->room_id) == 0) {
             fclose(debug);
             return SUCCESS;
         }
