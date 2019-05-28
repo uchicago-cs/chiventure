@@ -1,7 +1,7 @@
 #ifndef _CLI_INCLUDE_CMD_H
 #define _CLI_INCLUDE_CMD_H
 #include "parser.h"
-#include "operations.h"
+
 #include "game.h"
 #include "uthash.h"
 #include "action_structs.h"
@@ -27,7 +27,7 @@ typedef struct
     char **tokens;    //should be of TOKEN_LIST_SIZE
     operation *func_of_cmd;
 } cmd;
-
+#include "operations.h"
 
 /* Iteratively adds each action, and its synonyms into the table. Commented out
 until action_t is ready */
