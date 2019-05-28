@@ -51,8 +51,10 @@ void action_type_free(action_type_t *a);
 
 // =============================================================================
 
-/*
- * A function that returns all supported actions
+/* 
+ * Note: this function is in the src file get_actions.c, a separate module
+ * from the rest of the functions, which are in actionmanagement.c.
+ * A function that returns all supported actions.
  *
  * Parameters:
  * - none
@@ -73,10 +75,10 @@ list_action_type_t *get_supported_actions();
  * - i: An item struct
  *
  * Returns
- * - 0 on success
- * - 1 on failure
+ * - An error string upon failure
+ * - A success string upon success
  */
-int do_item_action(game_t *g, action_type_t *a, item_t *i);
+char *do_item_action(game_t *g, action_type_t *a, item_t *i);
 
 
 /* A function that executes KIND 2 actions (ACTION <path>)
@@ -87,10 +89,10 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i);
  * - p: A path struct
  *
  * Returns
- * - 0 on success
- * - 1 on failure
+ * - An error string upon failure
+ * - A success string upon success
  */
-int do_path_action(game_t *g, action_type_t *a, path_t *p);
+char *do_path_action(game_t *g, action_type_t *a, path_t *p);
 
 
 /* A function that executes KIND 5 actions (ACTION <item> <item>)
@@ -102,10 +104,10 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p);
  * - indirect: An item struct containing the indirect object (the "actee")
  *
  * Returns
- * - 0 on success
- * - 1 on failure
+ * - An error string upon failure
+ * - A success string upon success
  */
-int do_item_item_action(game_t *g, action_type_t *a, item_t *direct, item_t *indirect);
+char *do_item_item_action(game_t *g, action_type_t *a, item_t *direct, item_t *indirect);
 
 
 #endif
