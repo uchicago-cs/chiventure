@@ -92,7 +92,6 @@ lookup_t **initialize_lookup()
 {
     lookup_t **table = malloc(sizeof(*table));
     add_entry("QUIT", quit_operation, table);
-    printf("%d\n",HASH_COUNT(*table));
     add_entry("HELP", help_operation, table);
     add_entry("HIST", hist_operation, table);
     add_entry("LOOK",look_operation, table);
