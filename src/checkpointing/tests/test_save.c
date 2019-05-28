@@ -150,56 +150,23 @@ Test(save, item)
 
     Item *candy;
 
-    attribute_value_t *dv_t;
-    attribute_value_t *cv_t;
-    attribute_value_t *bv_t;
-    attribute_value_t *sv_t;
-    attribute_value_t *iv_t;
+    int success;
+    success = create_new_double_attr(candy_t, "double", 2.5);
+    cr_assert_eq(success, 0, "create_new_double_attr failed");
 
-    dv_t->double_val = 2.5;
-    cv_t->char_val = 'T';
-    bv_t->bool_val = true;
-    sv_t->str_val = "string";
-    iv_t->int_val = 5;
+    success = create_new_char_attr(candy_t, "char", 'T');
+    cr_assert_eq(success, 0, "create_new_char_attr failed");
 
-    
-    attribute_t *d_t;
-    attribute_t *c_t;
-    attribute_t *b_t;
-    attribute_t *s_t;
-    attribute_t *i_t;
+    success = create_new_boole_attr(candy_t, "boole", true);
+    cr_assert_eq(success, 0, "create_new_boole_attr failed");
 
-    d_t->attribute_key = "double";
-    d_t->attribute_tag = DOUBLE;
-    d_t->attribute_value = dv_T;
+    success = create_new_str_attr(candy_t, "str", "string");
+    cr_assert_eq(success, 0, "create_new_str_attr failed");
 
-    c_t->attribute_key = "char";
-    c_t->attribute_tag = CHARACTER;
-    c_t->attribute_value = cv_T;
+    success = create_new_int_attr(candy_t, "int", 1);
+    cr_assert_eq(success, 0, "create_new_int_attr failed");
 
-    b_t->attribute_key = "bool";
-    b_t->attribute_tag = BOOLE;
-    b_t->attribute_value = bv_T;
-
-    s_t->attribute_key = "string";
-    s_t->attribute_tag = STRING;
-    s_t->attribute_value = sv_T;
-
-    i_t->attribute_key = "int";
-    i_t->attribute_tag = INTEGER;
-    i_t->attribute_value = iv_T;
-
-    attribute_hash_t attribute_hash = malloc(sizeof(attribute_hash_t));
-
-    add_attribute_to_hash(attribute_hash, d_t);
-    add_attribute_to_hash(attribute_hash, c_t);
-    add_attribute_to_hash(attribute_hash, n_t);
-    add_attribute_to_hash(attribute_hash, s_t);
-    add_attribute_to_hash(attribute_hash, i_t);
-
-    candy_y->attributes = attribute_hash;
-    
-    int success = save_item(candy_t, candy);
+    success = save_item(candy_t, candy);
     
     cr_assert_eq(success, 0, "save_item failed");
     cr_assert_eq(candy->item_id, "1234", "save_item: saving item_id failed");
@@ -276,13 +243,20 @@ Test(save, game)
     game_t->curr_player = "Chad";
     game_t->time_start = 1234;
 
-    Game *gama
+    Game *game
     int success = save_game(game_t, game);
 
     cr_assert_eq(success, 0, "save_game failed");
     cr_assert_eq(game->curr_room, "1234", "save_game: saving curr_room failed");
     cr_assert_eq(game->curr_player, "Chad", "save_game: saving curr_player failed");
-
-   // wait for hashtable stuff
-
+    cr_asser_eq(game->players_len, 1, "save_game: saving players_len failed");
+    cr_asser_eq(game->allplayers[0].player_id, "Chad",
+		 "save_game: saving player_id failed");
+    cr_asser_eq(game->rooms_len, 1, "save_game: saving rooms_len failed");
+    cr_asser_eq(game->all_rooms[0].room_id, "5", "save_game: saving room_id failed");
+    cr_asser_eq(game->all_rooms[0].short_desc, "college dorm",
+		"save_game: saving room_id failed");
+    cr_asser_eq(game->all_rooms[0].long_desc,
+		"there are clothes and empty ramen cups everywhere",
+		"save_game: saving room_id failed");
 }
