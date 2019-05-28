@@ -31,9 +31,8 @@ static int NUM_ACTIONS = sizeof(valid_actions) / sizeof(action_type_t);
 list_action_type_t *get_supported_actions()
 {
     list_action_type_t *temp = NULL;
-    int i;
 
-    for (i = 0; i < NUM_ACTIONS; i++) {
+    for (int i = 0; i < NUM_ACTIONS; i++) {
         list_action_type_t *add = (list_action_type_t*)malloc(sizeof(list_action_type_t));
         action_type_t *add_data = action_type_new(valid_actions[i].c_name,
                                                   valid_actions[i].kind);
