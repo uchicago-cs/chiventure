@@ -53,5 +53,3 @@ int delete_all_paths(path_hash_t paths) {
 * FOR WDL
 * Figure out way to create path struct
 */
-
-
