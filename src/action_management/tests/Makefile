@@ -7,7 +7,7 @@ RM = rm -f
 BIN = test-actionmanagement
 LDLIBS = -lcriterion -lactionmanagement
 
-SRCS = test_actionmanagement.c
+SRCS = test_action_new_init_free.c main.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all
