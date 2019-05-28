@@ -5,7 +5,6 @@
 #include "parse.h"
 #include "game.h"
 #include "load_game.h"
-#include "parse_document.h"
 
 game_t *create_game(obj_t *doc)
 {
