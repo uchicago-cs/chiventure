@@ -16,7 +16,7 @@ Test(items, test1)
     //printf("ROOMS.0.id: %s\n", obj_get_str(doc, "ROOMS.0.id"));
     game_t *g = game_new();
 
-    if(load_items(doc, g) == SUCCESS)
+    if(load_items(doc, g) == 0)
     {
          return SUCCESS;
     }
