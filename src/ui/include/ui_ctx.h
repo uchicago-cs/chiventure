@@ -19,7 +19,7 @@
 typedef struct ui_ctx
 {
 //    map_t *map;
-    coordinate_t *player_loc;
+    coord_t *player_loc;
     coord_record_t *coord_hash;
     window_t *map_win;
     window_t *main_win;

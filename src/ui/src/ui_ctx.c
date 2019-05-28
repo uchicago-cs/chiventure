@@ -59,10 +59,10 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
      * 3. perhaps just the ui_ctx->player_loc
      *    field--this may be all the function needs
      */
-    ui_ctx->coord_hash = create_valid_map();
+    ui_ctx->coord_hash = create_valid_map(game);
 
     // Initial room coordinates set to 0, 0
-    coordinate_t *initial_coord = coord_new(0, 0);
+    coord_t *initial_coord = coord_new(0, 0);
 
     ui_ctx->player_loc = initial_coord;
 

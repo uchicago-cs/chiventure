@@ -1,33 +1,16 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "common.h"
+#include "room.h"
 
-/* These two test structs will be replaced with real structs
- * one communication with gamestate and calculation of coordinates
- * is complete
- */
-typedef struct coord {
-    int x;
-    int y;
-    int z;
-} coord_t;
-
-// This is a test room struct, simulates gamestate's room struct
-typedef struct map_room {
-    struct coord *loc;
-    char *name;
-    char ex_w;
-    char ex_e;
-    char ex_n;
-    char ex_s;
-} map_room_t;
-
+//Struct Declarations________________________________________________________
 /* The map struct holds a lot of crucial information for the performance
  * of all of the map functions
  */
 typedef struct map {
     WINDOW *pad;
-    map_room_t **rooms;
+    room_t **rooms;
     int n;
     int xoff;
     int yoff;
@@ -66,7 +49,7 @@ void ncurses_init();
  * Outputs:
  * - Draws the rooms to the scren
  */
-void draw_rooms(map_room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
+void draw_rooms(room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
 
 /* Gets an array of test rooms
  *
@@ -76,7 +59,7 @@ void draw_rooms(map_room_t **rooms, int n, int left_x, int top_y,int z, map_t *m
  * Outputs:
  * - An array of pointers to random room structs
  */
-map_room_t **get_test_rooms(int n);
+room_t **get_test_rooms(int n);
 
 /* Initiates map at WINDOW * pointer to pad
  *
@@ -86,7 +69,7 @@ map_room_t **get_test_rooms(int n);
  * Outputs:
  * - A pointer to a new map struct initialized with rooms and coordinates
  */
-map_t *map_init(map_room_t **rooms, int n);
+map_t *map_init(room_t **rooms, int n);
 
 /* Sets the portion of the map to be displayed on screen
  *

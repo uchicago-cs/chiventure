@@ -15,9 +15,9 @@
  * We will use the hashing functions provided by game state
  * to access these paths in each room
  */
-hash_map_room_t *find_room(hash_map_room_t *curr, char *direction)
+room_t *find_room(room_t *curr, char *direction)
 {
-    hash_map_room_t *adj = NULL;
+    room_t *adj = NULL;
     return adj;
 }
 
@@ -33,7 +33,7 @@ hash_map_room_t *find_room(hash_map_room_t *curr, char *direction)
  *   (Negative if west of origin)
  */
 int assign(coord_record_t *coordmap, int vertical_hops,
-           int horizontal_hops, hash_map_room_t* room)
+           int horizontal_hops, room_t* room)
 {
     int x = try_add_coord(coordmap, vertical_hops, horizontal_hops, room);
 
@@ -43,7 +43,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
 
     // TO-DO: Implement calls to game state functions to find rooms
 
-    hash_map_room_t *find_room_north = find_room(room, "north");
+    room_t *find_room_north = find_room(room, "north");
     if (find_room_north != NULL) {
         int north = assign(coordmap, vertical_hops + 1,
                            horizontal_hops, find_room_north);
@@ -52,7 +52,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
         }
     }
 
-    hash_map_room_t *find_room_east = find_room(room, "east");
+    room_t *find_room_east = find_room(room, "east");
     if (find_room_east != NULL) {
         int east = assign(coordmap, vertical_hops,
                           horizontal_hops + 1, find_room_east);
@@ -61,7 +61,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
         }
     }
 
-    hash_map_room_t *find_room_south = find_room(room, "south");
+    room_t *find_room_south = find_room(room, "south");
     if (find_room_south != NULL) {
         int south = assign(coordmap, vertical_hops - 1,
                            horizontal_hops, find_room_south);
@@ -70,7 +70,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
         }
     }
 
-    hash_map_room_t *find_room_west = find_room(room, "west");
+    room_t *find_room_west = find_room(room, "west");
     if (find_room_south != NULL) {
         int west = assign(coordmap, vertical_hops,
                           horizontal_hops - 1, find_room_west);
@@ -83,7 +83,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
 }
 
 // See coordinate.h for details
-coord_record_t *create_valid_map()
+coord_record_t *create_valid_map(game_t *game)
 {
     //  Must set hash to NULL (see uthash documentation)
     coord_record_t *coordmap = NULL;
@@ -91,7 +91,7 @@ coord_record_t *create_valid_map()
     /* initial: Read initial room that player begins in out of Game State struct
      * - temporarily set to NULL while we wait on game structs
      */
-    hash_map_room_t *initial = NULL;
+    room_t *initial = NULL;
 
     /* Initial room must be added prior to calling assign() function
      * because null hashmap cannot be sent into assign()
@@ -104,7 +104,7 @@ coord_record_t *create_valid_map()
     cr->key.y = 0;
     cr->r = initial;
 
-    HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr);
+    HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
 
     // Begin DFS search
     int r =  assign(coordmap, 0, 0, initial);

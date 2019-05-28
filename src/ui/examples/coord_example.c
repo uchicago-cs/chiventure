@@ -33,10 +33,10 @@ int main()
     cr->key.y = 0;
 
     room_t *initial = malloc(sizeof(room_t));
-    initial->id = 123;
+    initial->room_id = "123";
     cr->r = initial;
 
-    HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr);
+    HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
     if (coordmap != NULL) {
         fprintf(debug,"Added initial room to hashmap\n");
     }
@@ -51,7 +51,7 @@ int main()
     }
 
     room_t *r = malloc(sizeof(room_t));
-    r->id = 456;
+    r->room_id = "456";
 
     // Close file so that coordinate.c can write into it
     fclose(debug);
@@ -65,7 +65,7 @@ int main()
     }
 
     room_t *g = malloc(sizeof(room_t));
-    g->id = 2;
+    g->room_id = "2";
     fclose(debug);
 
     try_add_coord(coordmap, -1, -2, g);
@@ -80,8 +80,8 @@ int main()
     if (example == NULL) {
         fprintf(debug,"Failure to find coord (%d, %d)\n", 5, 6);
     } else {
-        fprintf(debug,"Found coordinate of room with room id %d\n",
-                example->r->id);
+        fprintf(debug,"Found coordinate of room with room id %s\n",
+                example->r->room_id);
     }
 
     coord_record_t *ex2 = find_coord(coordmap, -1, -2);
@@ -89,11 +89,11 @@ int main()
     if (ex2 == NULL)
         fprintf(debug,"Failure to find coord (%d, %d)\n", -1, -2);
     else
-        fprintf(debug,"Found coordinate of room with room id %d\n",
-                ex2->r->id);
+        fprintf(debug,"Found coordinate of room with room id %s\n",
+                ex2->r->room_id);
 
     room_t *z = malloc(sizeof(room_t));
-    z->id = 3;
+    z->room_id = "3";
 
     /* When compiled and run, this portion of the example demonstrates to
      * future developers how the try_add_coord() function should block
