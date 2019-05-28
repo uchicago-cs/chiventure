@@ -55,7 +55,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     if (!c)
     {
         shell_error_arg("unrecognized or malformed command: \"%s\"", input);
-    //    putchar('\n');
+        //    putchar('\n');
     }
     else
     {
