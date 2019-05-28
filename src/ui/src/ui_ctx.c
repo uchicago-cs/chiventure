@@ -10,6 +10,7 @@
 #include "coordinate.h"
 #include "window.h"
 #include "print_functions.h"
+#include "ui.c"
 //#include "map.h"
 
 
@@ -23,7 +24,8 @@ ui_ctx_t *ui_ctx_new(game_t *game)
 
     init = ui_ctx_init(ui_ctx, game);
 
-    if (init == FAILURE) {
+    if (init == FAILURE)
+    {
         return NULL;
     }
 
@@ -45,13 +47,16 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     window_t *displayed_win = main_win;
 
     window_t *cli_win = window_new(height, width, height, 0, print_cli, false);
-
+    keypad(cli_win->w, TRUE);
+    scrollok(cli_win->w, TRUE);
+    
     ui_ctx->map_win = map_win;
     ui_ctx->main_win = main_win;
     ui_ctx->displayed_win = displayed_win;
     ui_ctx->cli_win = cli_win;
 
-
+    ui_ctx->curr_page = MAIN_WIN_NUM;
+    ui_ctx->cli_top = 0;
     /* TO-DO: create_valid_map will take arguments:
      * either:
      * 1. a pointer to a game struct
@@ -69,7 +74,8 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     /* Valid maps cannot be created for illogical map directions or for maps
     * with logical distances of more than unit one
     */
-    if (ui_ctx->coord_hash == NULL) {
+    if (ui_ctx->coord_hash == NULL)
+    {
         return FAILURE;
     }
 
@@ -89,7 +95,8 @@ int ui_ctx_free(ui_ctx_t *ui_ctx)
 
     coord_record_t *coord_hash, *item, *temp;
     coord_hash = ui_ctx->coord_hash;
-    HASH_ITER(hh, coord_hash, item, temp) {
+    HASH_ITER(hh, coord_hash, item, temp)
+    {
         HASH_DEL(coord_hash, item);
         free(item);
     }

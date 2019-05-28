@@ -37,44 +37,53 @@ int assign(coord_record_t *coordmap, int vertical_hops,
 {
     int x = try_add_coord(coordmap, vertical_hops, horizontal_hops, room);
 
-    if (x != SUCCESS) {
+    if (x != SUCCESS)
+    {
         return FAILURE;
     }
 
     // TO-DO: Implement calls to game state functions to find rooms
 
     room_t *find_room_north = find_room(room, "north");
-    if (find_room_north != NULL) {
+    if (find_room_north != NULL)
+    {
         int north = assign(coordmap, vertical_hops + 1,
                            horizontal_hops, find_room_north);
-        if (north == FAILURE) {
+        if (north == FAILURE)
+        {
             return FAILURE;
         }
     }
 
     room_t *find_room_east = find_room(room, "east");
-    if (find_room_east != NULL) {
+    if (find_room_east != NULL)
+    {
         int east = assign(coordmap, vertical_hops,
                           horizontal_hops + 1, find_room_east);
-        if (east == FAILURE) {
+        if (east == FAILURE)
+        {
             return FAILURE;
         }
     }
 
     room_t *find_room_south = find_room(room, "south");
-    if (find_room_south != NULL) {
+    if (find_room_south != NULL)
+    {
         int south = assign(coordmap, vertical_hops - 1,
                            horizontal_hops, find_room_south);
-        if (south == FAILURE) {
+        if (south == FAILURE)
+        {
             return FAILURE;
         }
     }
 
     room_t *find_room_west = find_room(room, "west");
-    if (find_room_south != NULL) {
+    if (find_room_south != NULL)
+    {
         int west = assign(coordmap, vertical_hops,
                           horizontal_hops - 1, find_room_west);
-        if (west == FAILURE) {
+        if (west == FAILURE)
+        {
             return FAILURE;
         }
     }
@@ -108,7 +117,8 @@ coord_record_t *create_valid_map(game_t *game)
 
     // Begin DFS search
     int r =  assign(coordmap, 0, 0, initial);
-    if (r == FAILURE) {
+    if (r == FAILURE)
+    {
         return NULL;
     }
     return coordmap;
