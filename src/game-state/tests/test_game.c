@@ -122,7 +122,9 @@ Test(game_room, create_connection_2, .exit_code = 2)
 }
 
 /* Checks that move_room() switches the current room stored in game 
-* also 
+* tests failed move and successful move 
+* failed move takes in NULL room (mv_fail)
+* another failed move takes in NULL game (mv_gfail)
 */
 Test(game_room, move_room)
 {
@@ -136,13 +138,17 @@ Test(game_room, move_room)
     
     room_t *curr = game->curr_room;
     room_t *room3 = NULL;
+    game_t *game_fake = NULL;
     int mv_check = move_room(game, room2);
     int strcheck = strcmp(curr->room_id, game->curr_room->room_id);
     int mv_fail = move_room(game, room3);
+    int mv_gfail = move_room(game_fake, room2);
   
     cr_assert_eq(mv_check, SUCCESS, "failed to move room");
     cr_assert_eq(strcheck, SUCCESS, "failed to move to new room");
     cr_assert_eq(mv_fail, FAILURE, "moved to NULL room");
+    cr_assert_eq(mv_gfail, FAILURE, "moved in null game");
+
 
 }
 
@@ -162,7 +168,11 @@ Test(game_player, add_player_to_game)
     cr_assert_eq(p1chk, 0, "found wrong player1");
 }
 
-/* Checks that set_curr_player() sets the current player field of the game struct */
+/* Checks that set_curr_player() sets the current player field of the game struct 
+* tests set to player_one 
+* tests set to player_two
+* tests set to NULL
+*/
 Test(game_player, set_curr_player) 
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -174,8 +184,11 @@ Test(game_player, set_curr_player)
 
     int check = strncmp(game->curr_player->player_id, plyr1->player_id, MAX_ID_LEN);
     set_curr_player(game, plyr2);
-
-    cr_assert_eq(check, 0, "set_curr_player failed");
+    int check2 = strncmp(game->curr_player->player_id, plyr2->player_id, MAX_ID_LEN);
+    int chk_fail = set_curr_player(game, NULL);
+    cr_assert_eq(check, SUCCESS, "set_curr_player to player_one failed");
+    cr_assert_eq(check2, SUCCESS, "set_curr_player to player_two failed");
+    cr_assert_eq(chk_fail, FAILURE, "set NULL player");
 }
 
 /* Checks that get_player() returns the desired player from the game struct */
