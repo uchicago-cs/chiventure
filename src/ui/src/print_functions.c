@@ -26,34 +26,21 @@ void print_info(chiventure_ctx_t *ctx, window_t *win)
 void print_cli(chiventure_ctx_t *ctx, window_t *win)
 {
     static bool first_run = true;
+
+    if (first_run)
+    {
+        first_run = false;
+        print_to_cli(ctx, ">");
+        return;
+    }
+
     int x,y;
     char input[80];
     int quit = 1;
     char *cmd_string;
-    if (!first_run)
-    {
-
-        wgetnstr(win->w, input, 80);
-
-        getyx(win->w, y, x);
-        //mvwprintw(win->w, y, 3, str);
-    }
-    else
-    {
-        first_run = false;
-        mvwprintw(win->w,1, 2, ">");
-        return;
-    }
+    wgetnstr(win->w, input, 80);
 
 
-    getyx(win->w, y, x);
-
-    int height  = LINES / 2;
-    if (y >= height - 2)
-    {
-        wscrl(win->w, y - height + 2);
-        y = height - 2;
-    }
     //char* input = readline("chiventure (enter HELP for help)> ");
 
     cmd_string = strdup(input);
@@ -82,8 +69,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     //cmd_free(c);
     //free(input);
 
-    mvwprintw(win->w, y + 1, 2, ">");
-
+    print_to_cli(ctx, ">");
 
 
 
@@ -95,4 +81,23 @@ void print_map(chiventure_ctx_t *ctx, window_t *win)
     // prints the word map in the window
     mvwprintw(win->w, 1,2, "map");
     return;
+}
+
+
+void print_to_cli(chiventure_ctx_t *ctx, char *str)
+{
+    int x, y;
+
+    WINDOW *cli = ctx->ui_ctx->cli_win->w;
+
+    getyx(cli, y, x);
+
+    int height  = LINES / 2;
+    if (y >= height - 2)
+    {
+        wscrl(cli, y - height + 2);
+        y = height - 2;
+    }
+
+    mvwprintw(cli, y + 1, 2, str);
 }

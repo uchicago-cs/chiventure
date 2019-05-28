@@ -9,6 +9,7 @@
 #include "ui.h"
 #include "window.h"
 #include "print_functions.h"
+#include "ui_ctx.h"
 
 #define MAIN_WIN_NUM 1
 #define MAP_WIN_NUM 2
@@ -97,42 +98,24 @@ void start_ui(chiventure_ctx_t *ctx)
             // Alt+s switches the position of the CLI
             if (ch == 'm')
             {
-                if (curr_page != MAP_WIN_NUM)
-                {
-                    ui_ctx->curr_page = MAP_WIN_NUM;
-                }
-                else
-                {
-                    ui_ctx->curr_page = MAIN_WIN_NUM;
-                    ui_ctx->displayed_win = ui_ctx->main_win;
-                    info = ctx->ui_ctx->displayed_win;
-                    wresize(info->w, height,width);
-                }
-
                 ch = 27;
+
+                toggle_map(ctx);
+
             }
             else if (ch == 's')
             {
-                ui_ctx->cli_top = ui_ctx->cli_top;
                 ch = 27;
-                int cli_top = ui_ctx->cli_top;
-                mvwin(cli->w, !(cli_top) * height, 0);
-                mvwin(ui_ctx->main_win->w, (cli_top) * height, 0);
-                map_set_displaywin(map, 0, cli_top * height, width,
-                                   height + cli_top * height);
-                map_center_on(map, 0, 0, 0);
+
+                layout_switch(ctx);
             }
         }
         else if (isalnum(ch))
         {
             echo();
             ungetch(ch);
-
             window_print(ctx,  cli);
-
-
             noecho();
-
         }
 
         // Prints the cli to the screen

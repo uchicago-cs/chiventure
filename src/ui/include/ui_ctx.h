@@ -65,6 +65,10 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game);
 
 int ui_ctx_free(ui_ctx_t *ui_ctx);
 
+void toggle_map(chiventure_ctx_t *ctx);
+
+void layout_switch(chiventure_ctx_t *ctx);
+
 
 
 

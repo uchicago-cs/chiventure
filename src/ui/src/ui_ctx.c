@@ -10,9 +10,11 @@
 #include "coordinate.h"
 #include "window.h"
 #include "print_functions.h"
-#include "ui.c"
 //#include "map.h"
 
+#define MAIN_WIN_NUM 1
+#define MAP_WIN_NUM 2
+#define INV_WIN_NUM 3
 
 // see ui_ctx.h
 ui_ctx_t *ui_ctx_new(game_t *game)
@@ -47,9 +49,11 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     window_t *displayed_win = main_win;
 
     window_t *cli_win = window_new(height, width, height, 0, print_cli, false);
+
     keypad(cli_win->w, TRUE);
     scrollok(cli_win->w, TRUE);
-    
+    wmove(cli_win->w, 0,0);
+
     ui_ctx->map_win = map_win;
     ui_ctx->main_win = main_win;
     ui_ctx->displayed_win = displayed_win;
@@ -104,4 +108,38 @@ int ui_ctx_free(ui_ctx_t *ui_ctx)
     free(ui_ctx);
 
     return 0;
+}
+
+void toggle_map(chiventure_ctx_t *ctx)
+{
+    if(ctx->ui_ctx->curr_page == MAP_WIN_NUM)
+    {
+        ctx->ui_ctx->curr_page = MAIN_WIN_NUM;
+        ctx->ui_ctx->displayed_win = ctx->ui_ctx->main_win;
+
+        window_t *win = ctx->ui_ctx->displayed_win;
+        int height = LINES / 2;
+        int width = COLS;
+        wresize(win->w, height,width);
+    }
+    else
+    {
+        ctx->ui_ctx->curr_page = MAP_WIN_NUM;
+    }
+
+}
+
+void layout_switch(chiventure_ctx_t *ctx)
+{
+    int cli_top = !ctx->ui_ctx->cli_top;
+    ctx->ui_ctx->cli_top = cli_top;
+
+    int height = LINES / 2;
+    int width = COLS / 2;
+
+    mvwin(ctx->ui_ctx->cli_win->w, !(cli_top) * height, 0);
+    mvwin(ctx->ui_ctx->main_win->w, (cli_top) * height, 0);
+    map_set_displaywin(ctx->ui_ctx->map, 0, cli_top * height, width,
+                       height + cli_top * height);
+    map_center_on(ctx->ui_ctx->map, 0, 0, 0);
 }
