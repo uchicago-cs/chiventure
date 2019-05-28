@@ -246,30 +246,6 @@ int load_game(Game *g, game_t *g_t)
         }
     }
   
-  
-    // Malloc an array of all paths in the game
-    int path_len = 0;
-    ITER_ALL_ROOMS(g_t, curr_r){
-        path_len += COUNT_PATHS_IN_ROOM(curr_r);
-    }
-    path_t **all_paths = malloc(sizeof(path_t*) * path_len);
-  
-    // Create a deep copy of all paths in the game
-    iter = 0;
-    ITER_ALL_ROOMS(g_t, curr_r){
-        ITER_ALL_PATHS(curr_r, curr_path){
-            // This may change in the future depends on how dest changes, should also include direction, should talk to game state
-            all_paths[iter] = path_new(curr_path->dest);  
-            ITER_ALL_CONDITIONS(curr_path, curr_condi){
-                int add_condition_success = add_condition_to_path(all_paths[iter], curr_condi);
-                if (add_condition_success != SUCCESS){
-                    fprintf(stderr, "Condition cannot be loaded into path deep copy. Will proceed \n");
-                }
-            }
-            iter+=1;
-        }
-    }
-  
     // Load room into game
     int i;
     for (i = 0; i < g->room_len; i++){
