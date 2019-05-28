@@ -88,7 +88,7 @@ Test(path, del_all)
 
     cr_assert_eq(test, SUCCESS, "delete_all_paths() test failed!");
 }
-
+/*
 //tested
 path_t *path_new(room_t *dest, char *direction);
 int path_free(path_t *path);
@@ -99,3 +99,4 @@ room_t *find_room_from_path(path_t *path);
 int add_condition_to_path(path_t *path, condition_t *condition);
 int add_path_to_room(room_t *room, path_t *path);
 
+*/

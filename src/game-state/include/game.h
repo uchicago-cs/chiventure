@@ -55,9 +55,10 @@ game_t *game_new(char *start_desc);
  *  room that we're changing to
  *
  * Returns:
- *  none
+ *  0 for success
+ *  1 for failure
  */
-void move_room(game_t *game, room_t *new_room);
+int move_room(game_t *game, room_t *new_room);
 
 /* Exits game safely (frees all memory)
  * Future easter egg :) :) :)

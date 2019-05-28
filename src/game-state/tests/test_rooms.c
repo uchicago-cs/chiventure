@@ -155,6 +155,7 @@ Test(room_find, find_room_from_dir)
 
 }
 
+/*
 //tested
 room_t *room_new();
 int room_init(room_t *new_room, char *room_id, char *short_desc, char *long_desc);
@@ -168,3 +169,4 @@ room_t *find_room_from_dir(room_t *curr, char* direction);
 //untested (will remain untested)
 int delete_all_conditions(condition_list_t conditions);
 
+*/
