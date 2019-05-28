@@ -65,3 +65,17 @@ Test(get_actions, search_failure)
     cr_assert_eq(fight, NULL, 
                  "search_supported_actions returned a pointer for invalid query \"fight\".\n");
 }
+
+Test(get_actions, count)
+{
+    list_action_type_t *head, *temp;
+    int out = 0;
+    head = get_supported_actions();
+    for (temp = head; temp != NULL; temp = temp->next)
+    {
+        out++;
+    }
+    cr_assert_eq(out, NUM_ACTIONS,
+                 "Expected %d actions, got %d actions when counting through list.\n", 
+                 NUM_ACTIONS, out);
+}
