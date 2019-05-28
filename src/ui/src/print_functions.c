@@ -83,7 +83,7 @@ void print_map(chiventure_ctx_t *ctx, window_t *win)
     return;
 }
 
-
+/* see print_functions.h */
 void print_to_cli(chiventure_ctx_t *ctx, char *str)
 {
     int x, y;

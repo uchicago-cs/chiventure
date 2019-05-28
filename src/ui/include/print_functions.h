@@ -3,7 +3,7 @@
 
 #include "ctx.h"
 
-/* print_scor
+/* print_info
  * Prints score and number of moves
  *
  * Parameters:
@@ -32,6 +32,18 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win);
  * No value is returned
  */
 void print_map(chiventure_ctx_t *ctx, window_t *win);
+
+
+/* print_to_cli
+ * prints the given string the CLI window
+ *
+ * Parameters:
+ *    - ctx : chiventrue context struct
+ *    - str : message to be printed
+ *
+ * No value is returned
+ */
+void print_to_cli(chiventure_ctx_t *ctx, char *str);
 
 
 #endif

@@ -62,11 +62,38 @@ ui_ctx_t *ui_ctx_new(game_t *game);
  */
 int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game);
 
-
+/*
+ * frees the given ui_ctx struct and associated resources
+ *
+ * Parameters:
+ *   - ui_ctx: ui context struct to be freed
+ *
+ * Always returns 0
+ */
 int ui_ctx_free(ui_ctx_t *ui_ctx);
 
+
+/*
+ * Switches between the map and the main window
+ *
+ * Parameters:
+ *    - ctx : chiventure context struct
+ *
+ * Does not return anything
+ *
+ */
 void toggle_map(chiventure_ctx_t *ctx);
 
+
+/*
+ * Switches the location of the CLI from top to bottom and veceversa 
+ *
+ * Parameters:
+ *    - ctx : chiventure context struct
+ *
+ * Does not return anything
+ *
+ */
 void layout_switch(chiventure_ctx_t *ctx);
 
 

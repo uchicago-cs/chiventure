@@ -111,6 +111,7 @@ int ui_ctx_free(ui_ctx_t *ui_ctx)
     return 0;
 }
 
+// see ui_ctx.h
 void toggle_map(chiventure_ctx_t *ctx)
 {
     if(ctx->ui_ctx->curr_page == MAP_WIN_NUM)
@@ -130,12 +131,12 @@ void toggle_map(chiventure_ctx_t *ctx)
 
 }
 
+// see ui_ctx.h
 void layout_switch(chiventure_ctx_t *ctx)
 {
     int cli_top = !ctx->ui_ctx->cli_top;
     ctx->ui_ctx->cli_top = cli_top;
 
-    printf("%s\n", "1");
     int height = LINES / 2;
     int width = COLS / 2;
 

@@ -140,9 +140,11 @@ void start_ui(chiventure_ctx_t *ctx)
             }
 
         }
+        wrefresh(info->w);
 
         // Refreshes the CLI window
         wrefresh(cli->w);
+
     }
 
 
