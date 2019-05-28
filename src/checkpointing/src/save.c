@@ -75,6 +75,7 @@ int save_item(item_t *i_t, Item *i)
     int iter =0; // Iterator int to track the array
     
     // Put the hashtable into the array
+    attribute_t *curr_attr;
     ITER_ALL_ATTRIBUTES(i_t, curr_attr) {
       attrs[iter] = malloc(sizeof(Attribute));
       attribute__init(attrs[iter]);
@@ -201,6 +202,7 @@ int save_room(room_t *r_t, Room *r)
     int iter =0; // Iterator int to track the array
 
     // Put the hashtable into the array
+    item_t *curr_item;
     ITER_ALL_ITEMS_IN_ROOM(r_t, curr_item) {
       items[iter] = malloc(sizeof(Item));
       item__init(items[iter]);
@@ -222,6 +224,7 @@ int save_room(room_t *r_t, Room *r)
     iter =0; // Iterator int to track the array
 
     // Put the hashtable into the array
+    path_t *curr_path;
     ITER_ALL_PATHS(r_t, curr_path) {
       paths[iter] = malloc(sizeof(Path));
       path__init(paths[iter]);
@@ -265,6 +268,7 @@ int save_player(player_t *p_t, Player *p)
     int iter =0; // Iterator int to track the array
 
     // Put the hashtable into the array
+    item_t *curr_item;
     ITER_ALL_ITEMS_IN_INVENTORY(p_t, curr_item) {
       items[iter] = malloc(sizeof(Item));
       item__init(items[iter]);
@@ -296,6 +300,7 @@ int save_game(game_t *g_t, Game *g)
     int iter =0; // Iterator int to track the array
 
     // Put the hashtable into the array
+    player_t *curr_player;
     ITER_ALL_PLAYERS(g_t, curr_player) {
       plyrs[iter] = malloc(sizeof(Player));
       player__init(plyrs[iter]);
@@ -319,6 +324,7 @@ int save_game(game_t *g_t, Game *g)
     iter =0; // Iterator int to track the array
 
     // Put the hashtable into the array
+    room_t *curr_room;
     ITER_ALL_ROOMS(g_t, curr_room) {
       rooms[iter] = malloc(sizeof(Room));
       room__init(rooms[iter]);
