@@ -29,12 +29,12 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
-/*  if(tokens[1] == NULL){
-    fprintf(stderr,"Save Error, No filename specified. \n");
-  }
-  if (validate(tokens[1]) == true){
-    int sv = save(game, tokens[1]);
-*/  return NULL;
+    /*  if(tokens[1] == NULL){
+        fprintf(stderr,"Save Error, No filename specified. \n");
+      }
+      if (validate(tokens[1]) == true){
+        int sv = save(game, tokens[1]);
+    */  return NULL;
 }
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
@@ -64,12 +64,12 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
     item_t *curr_item;
     ITER_ALL_ITEMS_IN_ROOM(game->curr_room, curr_item)
     {
-	if (strcmp(curr_item->item_id,tokens[1])==0)
-	{
-        action_type_t *action = find_action(tokens[0], table);
-        do_item_action(game, action, curr_item);
-		return "The object is found\n";
-	}
+        if (strcmp(curr_item->item_id,tokens[1])==0)
+        {
+            action_type_t *action = find_action(tokens[0], table);
+            do_item_action(game, action, curr_item);
+            return "The object is found\n";
+        }
     }
     return "The object could not be found\n";
 }
@@ -106,11 +106,11 @@ char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 
     ITER_ALL_ITEMS_IN_ROOM(game->curr_room, item1)
     {
-	if (strcmp(item1->item_id,tokens[1])==0)
-	{
-		find_it1 = 0;
-	}
-	if (strcmp(item2->item_id,tokens[3])==0)
+        if (strcmp(item1->item_id,tokens[1])==0)
+        {
+            find_it1 = 0;
+        }
+        if (strcmp(item2->item_id,tokens[3])==0)
         {
             find_it2 = 0;
         }

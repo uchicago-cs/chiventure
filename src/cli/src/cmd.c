@@ -26,22 +26,26 @@ void add_entry(char *command_name, operation *associated_operation, lookup_t **t
     */
 }
 
-void add_action_entries(lookup_t **table){
- //To be filled with a while loop that adds each synonym,
- //and maps the enum in the action value to the proper operation.
+void add_action_entries(lookup_t **table)
+{
+//To be filled with a while loop that adds each synonym,
+//and maps the enum in the action value to the proper operation.
     list_action_type_t *all_actions = get_supported_actions();
 
-    while(all_actions->next != NULL)
+    while(all_actions != NULL)
     {
         action_type_t *curr_action = all_actions->act;
 
-        if(curr_action->kind == 1) {
+        if(curr_action->kind == 1)
+        {
             add_entry(curr_action->c_name, type1_action_operation, table);
         }
-        else if(curr_action->kind == 2) {
+        else if(curr_action->kind == 2)
+        {
             add_entry(curr_action->c_name, type2_action_operation, table);
         }
-        else if(curr_action->kind == 3) {
+        else if(curr_action->kind == 3)
+        {
             add_entry(curr_action->c_name, type2_action_operation, table);
         }
 
@@ -65,8 +69,9 @@ operation *find_operation(char *command_name, lookup_t **table)
     return NULL;
 }
 
-action_type_t *find_action(char *command_name, lookup_t **table){
-  return find_entry(command_name, table)->action;
+action_type_t *find_action(char *command_name, lookup_t **table)
+{
+    return find_entry(command_name, table)->action;
 }
 
 
