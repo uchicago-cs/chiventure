@@ -11,7 +11,6 @@
 int main()
 {
   FILE *debug = fopen("debug.txt","w");
-  fprintf(debug,"STARTED MAIN\n");
   
     ncurses_init();
 
@@ -38,39 +37,33 @@ int main()
     head->key.y = 0;
     head->r = room1;
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), head);
-    fprintf(stderr, "Added initial room to hash\n");
     assert(coordmap != NULL);
 
     try_add_coord(coordmap, 0, 1, room2);
     try_add_coord(coordmap, 0, 2, room3);
     try_add_coord(coordmap, 1, 1, room4);
-    fprintf(stderr, "Added three more rooms to hash\n");
 
     game_t *game = game_new();
-    fprintf(stderr,"Called game_new()\n");
     assert (game != NULL);
-    fprintf(stderr,"Game not null\n");
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
 
-    fprintf(stderr, "map_example.c continuing...\n");
+  
     chiventure_ctx_t *ctx = chiventure_ctx_new();
     ctx->ui_ctx = ui_ctx;
-    fprintf(stderr,"Called chiventure_ctx_new();\n");
 
     /* Game State functions needed for DFS not complete at this stage,
      * so we will disregard the coord hash created in ui_ctx_new 
      * (which does not work yet) and instead create use own mini coord hash
      */
     ui_ctx->coord_hash = coordmap;
-    fprintf(stderr, "map_example.c continuing...\n");
+
+    
     // Set the screen location of the map
     map_set_displaywin(ui_ctx->map, 0, 0, COLS, LINES-1);
 
-    fprintf(stderr,"Called map_set_displaywin\n");
     
     // Refresh the map centered on room 0,0,0
     map_center_on(ctx, 0, 0, 0);
-    fprintf(stderr,"Finished calling map_center_on()\n");
     
     char ch;
     while (true) {
@@ -98,7 +91,7 @@ int main()
         if (ch == 'q') {
             break;
         }
-        map_center_on(ctx, cur_x, cur_y, cur_z);
+	map_center_on(ctx, cur_x, cur_y, cur_z);
     }
 
     //Ends the ncurses UI

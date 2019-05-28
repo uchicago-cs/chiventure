@@ -8,6 +8,7 @@
 #include "ctx.h"
 #include "ui.h"
 
+
 void ncurses_init()
 {
     initscr();
@@ -85,10 +86,7 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 {
     assert(ctx != NULL);
     assert(ctx->ui_ctx != NULL);
-  
-    // Temp
-    fprintf(stderr,"Running draw_rooms()\n");
-  
+    
     // Declare variables
     coord_record_t *itr;
     map_t *map = ctx->ui_ctx->map;
@@ -103,7 +101,6 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
     for (itr = ctx->ui_ctx->coord_hash; itr != NULL; itr=itr->hh.next) {
 
         //Temporary:
-        fprintf(stderr,"Loop runs %d\n", temp);
         temp++;
 	
         zroom = itr->key.z;
@@ -214,27 +211,21 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
 
 int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
 {
-    //Temp debugging:
-    fprintf(stderr, "Called map_refresh()\n");
     assert(ctx->ui_ctx != NULL);
-    assert(ctx->ui_ctx->map != NULL);  
+    assert(ctx->ui_ctx->map != NULL);
+    assert(ctx->ui_ctx->map->pad != NULL);
+    
     map_t *map = ctx->ui_ctx->map;
-    fprintf(stderr,"Set map\n");
     
     if (z != map->padz || x != map->padx || y != map->pady) {
-      fprintf(stderr,"About to call wclear()\n");
         wclear(map->pad);
 	
-	//Temp fprintf
-        fprintf(stderr,"Proceeding to call draw_rooms()\n");
         draw_rooms(ctx, -x, -y, z);
     }
 
     map->padx = x;
     map->pady = y;
     map->padz = z;
-    //Temp
-    fprintf(stderr,"Set map pad values\n");
 
     prefresh(map->pad, 0, 0, map->uly, map->ulx, map->lry, map->lrx);
     return 0;

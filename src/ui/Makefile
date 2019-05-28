@@ -30,7 +30,7 @@ $(LIB): $(OBJS)
 
 # Examples
 
-LIB2 = ../game-state/game-state.a ../common/common.a
+LIB2 =  ../common/common.a ui.a ../game-state/game-state.a
 
 EXAMPLE_BINS = examples/map_example examples/coord_example examples/test_ui
 
