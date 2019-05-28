@@ -16,7 +16,6 @@
 ui_ctx_t *ui_ctx_new(game_t *game)
 {
     assert(game != NULL);
-
     int init;
     ui_ctx_t *ui_ctx = (ui_ctx_t *) malloc(sizeof(ui_ctx_t));
 
@@ -38,7 +37,6 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     int height = LINES / 2;
     int width = COLS;
 
-
     window_t *map_win = window_new(height, width, 0, 0, print_map, true);
     window_t *main_win = window_new(height, width, 0, 0, print_info, true);
     window_t *displayed_win = main_win;
@@ -50,7 +48,6 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     ui_ctx->displayed_win = displayed_win;
     ui_ctx->cli_win = cli_win;
 
-
     /* TO-DO: create_valid_map will take arguments:
      * either:
      * 1. a pointer to a game struct
@@ -59,7 +56,8 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
      *    field--this may be all the function needs
      */
     ui_ctx->coord_hash = create_valid_map(game);
-
+    fprintf(stderr,"Completed creation of valid map\n");
+    
     // Initial room coordinates set to 0, 0
     coord_t *initial_coord = coord_new(0, 0);
 
