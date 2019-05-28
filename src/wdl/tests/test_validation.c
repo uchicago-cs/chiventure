@@ -4,6 +4,11 @@
 #include "validate.h"
 
 /*
+ * NOTE: these tests are specifically for the file designated by PATH located
+ * within validate.h
+ */
+
+/*
  * helper function for parsing a YAML file into an object
  */
 obj_t *get_doc_obj()
@@ -13,6 +18,7 @@ obj_t *get_doc_obj()
     return obj;
 }
 
+/* tests whether the game fields are valid */ 
 Test(validate, game_type_check)
 {
     // obtain doc/game objects
@@ -23,6 +29,7 @@ Test(validate, game_type_check)
     cr_assert_eq(rc, true, "game verification failed");
 }
 
+/* tests whether the room fields are valid */
 Test(validate, room_type_check)
 {
     // obtain doc/room objects
@@ -33,6 +40,7 @@ Test(validate, room_type_check)
     cr_assert_eq(rc, true, "rooms verification failed");
 }
 
+/* tests whether the item fields are valid */
 Test(validate, item_type_check)
 {
     // obraint doc/item objects
