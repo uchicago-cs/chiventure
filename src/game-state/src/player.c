@@ -37,21 +37,20 @@ player_t* player_new(char* player_id, int health) {
 int player_free(player_t* plyr) {
     assert(plyr != NULL);
 
+    free(plyr->player_id);
     delete_all_items(plyr->inventory);
 
     return SUCCESS;
 }
 
-/* not sure this is used anywhere
-void delete_all_players(player_hash_t players) {
+int delete_all_players(player_hash_t players) {
     player_t *current_player, *tmp;
     HASH_ITER(hh, players, current_player, tmp) {
         HASH_DEL(players, current_player);
         player_free(current_player);
     }
+    return SUCCESS;
 }
-*/
-
 
 /* See player.h */
 int get_health(player_t* plyr) {

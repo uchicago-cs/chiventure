@@ -31,17 +31,17 @@ Test(game_start, free)
 /* Checks that add_room_to_game() adds a room to the game struct's room hash table
 * Adds two rooms
 */
-Test(game_room, add_room_to_game) 
+Test(game_room, add_room_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
     room_t *room2 = room_new("nroom", "test next door", "KND number 1");
     cr_assert_not_null(room1, "room 1 not initialized");
     cr_assert_not_null(room2, "room 2 not initialized");
-    
+
     int r1 = add_room_to_game(game, room1);
     int r2 = add_room_to_game(game, room2);
-    
+
     cr_assert_eq(r1, SUCCESS, "add_room_to_game: room1 failed");
     cr_assert_eq(r2, SUCCESS, "add_room_to_game: room2 failed");
 }
@@ -49,17 +49,17 @@ Test(game_room, add_room_to_game)
 /* Checks that find_room() returns the desired room pointer from a game
 * Also tests for a room that was not added (supposed to return NULL)
 */
-Test(game_room, find_room) 
+Test(game_room, find_room)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
     room_t *room2 = room_new("nroom", "test next door", "KND number 1");
     cr_assert_not_null(room1, "room 1 not initialized");
     cr_assert_not_null(room2, "room 2 not initialized");
-    
+
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
-    
+
     room_t *r1 = find_room(game, room1->room_id);
     room_t *r2 = find_room(game, room2->room_id);
     room_t *r3 = find_room(game, "boiiii");
@@ -74,7 +74,7 @@ Test(game_room, find_room)
 
 }
 
-/* Checks that create_connection() creates a path from one existing room to another 
+/* Checks that create_connection() creates a path from one existing room to another
 * 0 for successful exit
 */
 Test(game_room, create_connection_0)
@@ -87,10 +87,10 @@ Test(game_room, create_connection_0)
     game->curr_room = room1;
     int north = create_connection(game, "vroom1", "nroom", "north");
     cr_assert_eq(north, 0, "create_connection: failed to exit successfully");
-    
+
 }
 
-/* Checks that create_connection() exits if source room is not found 
+/* Checks that create_connection() exits if source room is not found
 * exit(1) means src room not found
 */
 Test(game_room, create_connection_1, .exit_code = 1)
@@ -106,7 +106,7 @@ Test(game_room, create_connection_1, .exit_code = 1)
 
 }
 
-/* Checks that create_connection() exits if connecting room is not found 
+/* Checks that create_connection() exits if connecting room is not found
 * exit(2) means dest_room not found
 */
 Test(game_room, create_connection_2, .exit_code = 2)
@@ -121,8 +121,8 @@ Test(game_room, create_connection_2, .exit_code = 2)
     cr_assert_eq(west, 2, "create_connection: failed to exit(1)");
 }
 
-/* Checks that move_room() switches the current room stored in game 
-* tests failed move and successful move 
+/* Checks that move_room() switches the current room stored in game
+* tests failed move and successful move
 * failed move takes in NULL room (mv_fail)
 * another failed move takes in NULL game (mv_gfail)
 */
@@ -135,7 +135,7 @@ Test(game_room, move_room)
     add_room_to_game(game, room2);
     game->curr_room = room1;
     create_connection(game, "vroom1", "nroom", "north");
-    
+
     room_t *curr = game->curr_room;
     room_t *room3 = NULL;
     game_t *game_fake = NULL;
@@ -143,7 +143,7 @@ Test(game_room, move_room)
     int strcheck = strcmp(curr->room_id, game->curr_room->room_id);
     int mv_fail = move_room(game, room3);
     int mv_gfail = move_room(game_fake, room2);
-  
+
     cr_assert_eq(mv_check, SUCCESS, "failed to move room");
     cr_assert_eq(strcheck, SUCCESS, "failed to move to new room");
     cr_assert_eq(mv_fail, FAILURE, "moved to NULL room");
@@ -153,7 +153,7 @@ Test(game_room, move_room)
 }
 
 /* Checks that add_player_to_game() adds a player to the game struct's player hash table */
-Test(game_player, add_player_to_game) 
+Test(game_player, add_player_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     player_t *plyr = player_new("player_one", 100);
@@ -168,12 +168,12 @@ Test(game_player, add_player_to_game)
     cr_assert_eq(p1chk, 0, "found wrong player1");
 }
 
-/* Checks that set_curr_player() sets the current player field of the game struct 
-* tests set to player_one 
+/* Checks that set_curr_player() sets the current player field of the game struct
+* tests set to player_one
 * tests set to player_two
 * tests set to NULL
 */
-Test(game_player, set_curr_player) 
+Test(game_player, set_curr_player)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     player_t *plyr1 = player_new("player_one", 100);
@@ -192,7 +192,7 @@ Test(game_player, set_curr_player)
 }
 
 /* Checks that get_player() returns the desired player from the game struct */
-Test(game_player, get_player) 
+Test(game_player, get_player)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     player_t *plyr1 = player_new("player_one", 100);
@@ -208,6 +208,33 @@ Test(game_player, get_player)
 
     cr_assert_eq(check1, 0, "get_player: failed plyr1");
     cr_assert_eq(check2, 0, "get_player: failed plyr2");
+}
+
+Test(iter_macro, iter_rooms)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
+    room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    add_room_to_game(game, room3);
+    int cnt = 0;
+    room_t *curr_room;
+    ITER_ALL_ROOMS(game, curr_room) {
+        cnt++;
+        if (!strcmp(curr_room->room_id, "room1")) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long", "ldesc does not correspond");
+        } else if (!strcmp(curr_room->room_id, "room2")) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long", "ldesc does not correspond");
+        } else if (!strcmp(curr_room->room_id, "room3")) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long", "ldesc does not correspond");
+        } else {
+            cr_assert_fail("non-existent room detected");
+        }
+    }
+    cr_assert_eq(cnt, 3, "wrong room counts");
+    game_free(game);
 }
 /*
 //untested

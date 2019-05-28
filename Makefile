@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include -I./src/game-state/include
 RM = rm -f
 LDLIBS = -lyaml
 BIN = chiventure
@@ -21,7 +21,7 @@ all: $(BIN)
 #  - Directory: src/ui/
 #  - Makefile: src/ui/Makefile
 #  - Library: src/ui/ui.a
-COMPONENTS = libobj ui cli game-state
+COMPONENTS = libobj ui cli game-state action_management checkpointing wdl common
 LIBS = $(foreach comp,$(COMPONENTS),src/$(comp)/$(comp).a)
 
 $(LIBS):
