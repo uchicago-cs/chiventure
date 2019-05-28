@@ -10,7 +10,7 @@
 #include "coordinate.h"
 #include "window.h"
 #include "print_functions.h"
-#include "map.h"
+//#include "map.h"
 
 
 // see ui_ctx.h
@@ -62,7 +62,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     ui_ctx->coord_hash = create_valid_map();
 
     // Initial room coordinates set to 0, 0
-    coord_t *initial_coord = coord_new(0, 0);
+    coordinate_t *initial_coord = coord_new(0, 0);
 
     ui_ctx->player_loc = initial_coord;
 
@@ -73,7 +73,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
         return FAILURE;
     }
 
-    ui_ctx->map = map_init();
+//    ui_ctx->map = map_init();
     return SUCCESS;
 }
 
