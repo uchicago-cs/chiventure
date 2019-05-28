@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../action_management/include/
-LDFLAGS = -L../ -Wl,-rpath,.
+LDFLAGS = -L../ -L../../action_management/ -Wl,-rpath,../ -Wl,-rpath,../../action_management/
 RM = rm -f
 LDLIBS = -lreadline 
 
@@ -12,7 +12,7 @@ BIN = testshell
 all: ${BIN}
 
 $(BIN): $(OBJS)
-	$(CC) $(LDFLAGS) $(CFLAGS) $(OBJS) $(LDLIBS) -o$(BIN) -l:cli.a
+	$(CC) $(LDFLAGS) $(CFLAGS) $(OBJS) $(LDLIBS) -o$(BIN) -l:cli.a -l:action_management.a
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< >$@
