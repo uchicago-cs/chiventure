@@ -16,7 +16,7 @@
 
 
 /* See validate.h */
-cmd *assign_action(char **ts, lookup_t * table)
+cmd *assign_action(char **ts, lookup_t ** table)
 {
     cmd *output = cmd_new(ts);
     output->func_of_cmd = find_operation(ts[0], table);

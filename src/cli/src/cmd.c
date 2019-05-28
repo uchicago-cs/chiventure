@@ -163,14 +163,14 @@ void cmd_show(cmd *c)
 /* === command parsing === */
 
 /* See cmd.h */
-cmd *cmd_from_tokens(char **ts, lookup_t *table)
+cmd *cmd_from_tokens(char **ts, lookup_t **table)
 {
     cmd *output = assign_action(ts, table);
     return output;
 }
 
 /* See cmd.h */
-cmd *cmd_from_string(char *s, lookup_t *table)
+cmd *cmd_from_string(char *s, lookup_t **table)
 {
     char **parsed_input = parse(s);
     if(parsed_input == NULL)

@@ -170,7 +170,7 @@ void cmd_show(cmd *c);
  * Returns:
  * - pointer to command struct, NULL if parse fails
  */
-cmd *cmd_from_string(char *s, lookup_t *table);
+cmd *cmd_from_string(char *s, lookup_t **table);
 
 
 /*
@@ -182,7 +182,7 @@ cmd *cmd_from_string(char *s, lookup_t *table);
  * Returns:
  * - pointer to a cmd struct, NULL if there is an error
  */
-cmd *cmd_from_tokens(char **ts, lookup_t *table);
+cmd *cmd_from_tokens(char **ts, lookup_t **table);
 
 
 /*
