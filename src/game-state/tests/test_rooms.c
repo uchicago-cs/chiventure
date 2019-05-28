@@ -170,10 +170,14 @@ Test(iter_macro, iter_paths)
             cr_assert_str_eq(curr_path->direction, "south", "direction does not correspond");
         } else if (!strcmp(curr_path->dest->room_id, "room2")) {
             cr_assert_str_eq(curr_path->direction, "north", "direction does not correspond");
+        } else {
+            cr_assert_fail("non-existent room detected");
         }
     }
     cr_assert_eq(cnt, 2, "wrong path counts");
-    room_free()
+    room_free(room1);
+    room_free(room2);
+    room_free(room3);
 }
 
 // Conditions not done yet. Leave it for now.
