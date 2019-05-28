@@ -27,7 +27,7 @@ cmd *assign_action(char **ts, lookup_t ** table)
 }
 
 /* See validate.h */
-bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t * table)
+bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t ** table)
 {
     return true;
 }
