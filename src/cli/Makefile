@@ -12,7 +12,7 @@ RM = rm -f
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	$(CC) ${LDFLAGS} -o $@ $^
+	ar -r -o $@ $(OBJS)
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@

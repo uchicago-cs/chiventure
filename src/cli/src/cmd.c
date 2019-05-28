@@ -50,6 +50,8 @@ void add_action_entries(lookup_t **table){
 
         HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
         printf("%d\n",HASH_COUNT(*table));
+
+        all_actions = all_actions->next;
     }
 
 
