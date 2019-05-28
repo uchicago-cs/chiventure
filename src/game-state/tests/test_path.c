@@ -16,6 +16,7 @@ Test(path, new)
 
 }
 
+
 /* checks path is properly freed */
 Test(path, free)
 {
@@ -42,6 +43,29 @@ Test(path, add_to_room)
 
 }
 
+Test(path, add_to_null_room)
+{
+    room_t *test_room = NULL;
+    path_t *test_path = path_new(test_room, "east");
+
+    cr_assert_not_null(test_path, "add_path_to_room() test: path initialization failed!");
+
+    int added = add_path_to_room(test_room, test_path);
+    cr_assert_eq(added, FAILURE, "add_path_to_room() test: path was wrongfully added to NULL room!");
+
+}
+
+Test(path, add_null_path_to_room)
+{
+    room_t *test_room = room_new("test_room", "room for testing", "testing add_path_to_room()");
+    path_t *test_path = NULL;
+
+    int added = add_path_to_room(test_room, test_path);
+    cr_assert_eq(added, FAILURE, "add_path_to_room() test: NULL path was wrongfully added to room!");
+
+}
+
+
 // will write tests for adding conditions to path when WDL and action management finalize conditions
 // TESTS FOR FIND/SEARCH FUNCTIONS --------------------------------------------
 Test(path, search)
@@ -59,6 +83,16 @@ Test(path, search)
 
 }
 
+Test(path, search_null_room)
+{
+    room_t *test_room = NULL;
+
+    path_t *path_found = path_search(test_room, "south");
+
+    cr_assert_null(path_found, "path_search() test: path somehow found in NULL room");
+
+}
+
 Test(path, find_room)
 {
     room_t *test_room = room_new("test_room", "room for testing", "room for testing find_room_from_path()");
@@ -71,6 +105,16 @@ Test(path, find_room)
     cr_assert_str_eq(found_room->short_desc, "room for testing", "find_room_from_path() test: room found from path has incorrect short description!");
 
     cr_assert_str_eq(found_room->long_desc, "room for testing find_room_from_path()", "find_room_from_path() test: room found from path has incorrect long description!");
+}
+
+Test(path, find_room_null_path)
+{
+    path_t *test_path = NULL;
+
+    room_t *found_room = find_room_from_path(test_path);
+
+    cr_assert_null(found_room, "find_room_from_path() test: room wrongfully found from NULL path");
+
 }
 
 Test(path, del_all)
@@ -97,6 +141,6 @@ room_t *find_room_from_path(path_t *path);
 
 //untested
 int add_condition_to_path(path_t *path, condition_t *condition);
-int add_path_to_room(room_t *room, path_t *path);
+
 
 */

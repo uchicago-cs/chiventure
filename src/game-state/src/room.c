@@ -71,6 +71,17 @@ int add_item_to_room(room_t *room, item_t *item) {
 /* See room.h */
 int add_path_to_room(room_t *room, path_t *path) {
     path_t *s;
+
+    if (room == NULL) {
+        fprintf(stderr, "add_path_to_room: cannot add path to NULL room\n");
+        return FAILURE;
+    }
+
+    if (path == NULL) {
+        fprintf(stderr, "add_path_to_room: cannot add NULL path to room\n");
+        return FAILURE;
+    }
+
     HASH_FIND(hh, room->paths, path->direction, strlen(path->direction), s);
     if (s != NULL) {
         fprintf(stderr, "add_path_to_room: direction already used!\n");
@@ -93,6 +104,12 @@ int delete_all_rooms(room_hash_t rooms) {
 /* See room.h */
 path_t *path_search(room_t *room, char* direction) {
   path_t *path;
+
+  if (room == NULL) {
+      fprintf(stderr, "path_search: cannot search path in NULL room\n");
+      return NULL;
+  }
+
   HASH_FIND(hh, room->paths, direction, strlen(direction), path);
   return path;
 }
