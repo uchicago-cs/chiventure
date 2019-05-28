@@ -67,7 +67,7 @@ int main()
         //cmd_free(c);
         free(input);
     }
-    delete_entries(**table);
+    delete_entries(table);
 
     return 0;
 }
