@@ -1,8 +1,12 @@
+#ifndef MAP_H
+#define MAP_H
+
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "common.h"
-#include "room.h"
+#include "ctx.h"
+
+
 
 //Struct Declarations________________________________________________________
 /* The map struct holds a lot of crucial information for the performance
@@ -100,3 +104,5 @@ int map_refresh(map_t *map, int x, int y, int z);
  * - 0
  */
 int map_center_on(map_t *map, int x, int y, int z);
+
+#endif 

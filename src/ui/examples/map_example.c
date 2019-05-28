@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "map.h"
+#include "room.h"
+#include "coordinate.h"
+#include "common.h"
+#include "ctx.h"
+#include "ui.h"
 
 int main()
 {
