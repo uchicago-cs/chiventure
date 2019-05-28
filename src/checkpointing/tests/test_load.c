@@ -139,7 +139,6 @@ Test(load, attribute)
                 "load_attribute failed to load sttribute_value");
 }
 
-
 Test(load, item)
 {
     Item *candy;
@@ -158,7 +157,6 @@ Test(load, item)
     cr_assert_eq(candy_t->long_desc, "glues mouth shut",
 		 "load_item: loading long_desc failed");
 }
-
 
 Test(load, room)
 {
