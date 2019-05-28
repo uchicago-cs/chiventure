@@ -27,7 +27,6 @@ typedef struct room {
  */
 typedef struct map {
     WINDOW *pad;
-    room_t **rooms;
     int n;
     int xoff;
     int yoff;
@@ -66,7 +65,7 @@ void ncurses_init();
  * Outputs:
  * - Draws the rooms to the scren
  */
-void draw_rooms(room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
+void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y,int z);
 
 /* Gets an array of test rooms
  * 
@@ -80,13 +79,11 @@ room_t **get_test_rooms(int n);
 
 /* Initiates map at WINDOW * pointer to pad
  *
- * Inputs:
- * - rooms, an array of pointers to room structs
- * - n , the number of rooms in array "rooms"
+ * Inputs: N/A
  * Outputs:
  * - A pointer to a new map struct initialized with rooms and coordinates
  */
-map_t *map_init(room_t **rooms, int n);
+map_t *map_init();
 
 /* Sets the portion of the map to be displayed on screen
  *

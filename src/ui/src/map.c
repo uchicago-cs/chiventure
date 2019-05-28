@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include "coordinate.h"
 
 void ncurses_init()
 {
@@ -72,9 +73,10 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
 
 // Takes a coordinate and an array of rooms and draws them in
 // z should be 0 when ground floor
-void draw_rooms(chiventure_ctx_t *ctx, room_t **rooms, int n, int left_x, int top_y, int z, map_t *map)
+void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 {
     // Declare variables
+    map_t *map = ctx->ui->map;
     int x, y, zroom, x_offset, y_offset;
     int room_h = map->room_h;
     int room_w = map->room_w;
@@ -138,13 +140,13 @@ int *calculate_map_dims(room_t **rooms, int n)
     return xyz;
 }
 
-map_t *map_init(room_t **rooms, int n)
+map_t *map_init()
 {
     int xoffset = 0;
     int yoffset = 0;
 
     // map_dims[0] is xmax, map_dims[1] is ymax, and map_dims[2] is zmax
-    int *dims = calculate_map_dims(rooms, n);
+    //    int *dims = calculate_map_dims(rooms, n);
     int maxx = COLS;
     int maxy = LINES-1;
     WINDOW *pad = newpad(maxy, maxx);
@@ -158,7 +160,7 @@ map_t *map_init(room_t **rooms, int n)
     map->yoff = yoffset;
     map->maxx = maxx;
     map->maxy = maxy;
-    map->maxz = dims[2];
+    //map->maxz = dims[2];
     map->padx = xoffset;
     map->pady = yoffset;
     map->padz = 0;
@@ -184,12 +186,12 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
     return 0;
 }
 
-int map_refresh(map_t *map, int x, int y, int z)
+int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
 {
 
     if (z != map->padz || x != map->padx || y != map->pady) {
         wclear(map->pad);
-        draw_rooms(map->rooms, map->n, -x, -y, z, map);
+        draw_rooms(ctx, -x, -y, z);
     }
 
     map->padx = x;
