@@ -9,6 +9,7 @@
 #include <assert.h>
 #include "uthash.h"
 #include "utlist.h"
+#include "common.h"
 
 #define MAX_ID_LEN 20
 #define MAX_SDESC_LEN 50
@@ -16,7 +17,5 @@
 #define MAX_START_DESC_LEN 500 // for string in game struct
 #define HASH_SIZE 500 // temporary hash table size for testing item fxns
 
-#define SUCCESS 0
-#define FAILURE 1
 
 #endif
