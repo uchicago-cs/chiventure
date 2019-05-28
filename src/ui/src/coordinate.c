@@ -52,7 +52,8 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
 
     /* Only runs if find_coord() does not find this coordinate key
      *  already existing in hashtable */
-    if (cr == NULL) {
+    if (cr == NULL)
+    {
         fseek(debug, 0, SEEK_END);
         fprintf(debug,"Adding coord (%d, %d) to hash\n", x, y);
         cr = malloc(sizeof(coord_record_t));
@@ -68,9 +69,11 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
         return SUCCESS;
     }
 
-    else {
+    else
+    {
         // If assigned to itself, no conflicts
-        if (strcmp(cr->r->room_id, r->room_id) == 0) {
+        if (strcmp(cr->r->room_id, r->room_id) == 0)
+        {
             fclose(debug);
             return SUCCESS;
         }

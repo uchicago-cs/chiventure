@@ -5,7 +5,8 @@
 typedef struct chiventure_ctx chiventure_ctx_t;
 
 
-typedef struct window {
+typedef struct window
+{
     WINDOW *w;
     void (*print)(chiventure_ctx_t *ctx, struct window *win);
 } window_t;

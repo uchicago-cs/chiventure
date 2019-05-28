@@ -110,7 +110,8 @@ int *calculate_map_dims(room_t **rooms, int n)
     int cy;
     int cz;
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
+    {
         /* TO-DO -- Will have to reach into coord hash, not room structs,
             to access coordinates. This will be fixed in map-from-coords feature branch
 
@@ -185,7 +186,8 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
 
 int map_refresh(map_t *map, int x, int y, int z)
 {
-    if (z != map->padz || x != map->padx || y != map->pady) {
+    if (z != map->padz || x != map->padx || y != map->pady)
+    {
         wclear(map->pad);
         draw_rooms(map->rooms, map->n, -x, -y, z, map);
     }
