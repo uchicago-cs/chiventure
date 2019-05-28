@@ -6,7 +6,8 @@
 #include "save.h"
 #include "game.h"
 
-// attribute not quite figured out
+// attribute not yet determined to be used yet
+/*
 Test(save, attribute_value)
 {
     attribute_value_t *d_t;
@@ -139,6 +140,7 @@ Test(save, attribute)
     cr_assert_eq(i->attribute_tag, "INTEGER", "save_attribute_value failed to save attribute_tag");
     
 }
+*/
 
 Test(save, item)
 {
