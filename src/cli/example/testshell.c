@@ -31,7 +31,7 @@ char *trim_newline(char *s)
 
 int main()
 {
-    lookup_t * table = initialize_lookup();
+    lookup_t ** table = initialize_lookup();
     int quit = 1;
     char *cmd_string;
     greet();
@@ -67,7 +67,7 @@ int main()
         //cmd_free(c);
         free(input);
     }
-    delete_entries(table);
+    delete_entries(**table);
 
     return 0;
 }
