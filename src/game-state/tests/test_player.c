@@ -173,6 +173,7 @@ Test(player, add_item_to_player)
   cr_assert_not_null(player->inventory, "add_item_to_player() failed to add item");
 }
 
+/* Checks that delete_all_players successfully empties the game's player hash table */
 Test(player, delete_all_players)
 {
   player_t *player = player_new("1", 100);
