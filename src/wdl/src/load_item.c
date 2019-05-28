@@ -58,7 +58,7 @@ int load_items(obj_t *doc, game_t *g)
         return -1;
     }
 
-    // while list of itemss exists, create new game_struct item, add item to room
+    // while list of items exists, create new game_struct item, add item to room
     while (curr != NULL) {
         // get id, short_desc, and long_desc
         char *id = obj_get_str(curr->obj, "id");
@@ -74,7 +74,7 @@ int load_items(obj_t *doc, game_t *g)
         //load actions into item
         if(load_actions(doc, item) == -1)
 	    {
-	        fprintf(stderr, "actions havw not been loaded properly");
+	        fprintf(stderr, "actions have not been loaded properly");
 	        return -1;
 	    }
 
