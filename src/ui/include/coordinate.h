@@ -15,8 +15,7 @@
 #include "game.h"
 
 // A coordinate in three-dimensional space
-typedef struct
-{
+typedef struct {
     int x;
     int y;
     int z;
@@ -25,8 +24,7 @@ typedef struct
 /* Structure to make coordinate hashable
  * Defines a coordinate as the key
  */
-typedef struct coord_record
-{
+typedef struct coord_record {
     coord_t key;
     room_t *r;
     UT_hash_handle hh;

@@ -27,8 +27,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 {
     static bool first_run = true;
 
-    if (first_run)
-    {
+    if (first_run) {
         first_run = false;
         print_to_cli(ctx, ">");
         return;
@@ -46,19 +45,16 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     cmd_string = strdup(input);
     //putchar('\n');
     //check whether user input is empty
-    if (!strcmp(cmd_string,""))
-    {
+    if (!strcmp(cmd_string,"")) {
         return;
     }
 
     cmd *c = cmd_from_string(cmd_string);
-    if (!c)
-    {
+    if (!c) {
         shell_error_arg("unrecognized or malformed command: \"%s\"", input);
         //    putchar('\n');
     }
-    else
-    {
+    else {
         do_cmd(c,&quit);
         // Add valid input to readline history.
         //add_history(input);
@@ -93,8 +89,7 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
     getyx(cli, y, x);
 
     int height  = LINES / 2;
-    if (y >= height - 2)
-    {
+    if (y >= height - 2) {
         wscrl(cli, y - height + 2);
         y = height - 2;
     }

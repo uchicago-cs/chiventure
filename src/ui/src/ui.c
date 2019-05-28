@@ -65,8 +65,7 @@ void start_ui(chiventure_ctx_t *ctx)
 
     // sample game loop. uses ctrl+D key to exit
 
-    while ((ch = wgetch(cli->w)) != 4)
-    {
+    while ((ch = wgetch(cli->w)) != 4) {
 
         height = LINES / 2;
         width = COLS;
@@ -76,8 +75,7 @@ void start_ui(chiventure_ctx_t *ctx)
          * to adjust for new terminal window size. moves the bottom window to
          * the adequate position
          */
-        if(curr_page == MAIN_WIN_NUM)
-        {
+        if(curr_page == MAIN_WIN_NUM) {
             wclear(info->w);
             wresize(info->w, height, width);
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
@@ -90,13 +88,11 @@ void start_ui(chiventure_ctx_t *ctx)
 
 
         // detects ALt+key commands
-        if (ch == 27)
-        {
+        if (ch == 27) {
             ch = wgetch(cli->w);
             // Alt+m switches the info window to the map window
             // Alt+s switches the position of the CLI
-            if (ch == 'm')
-            {
+            if (ch == 'm') {
                 ch = 27;
 
                 toggle_map(ctx);
@@ -104,15 +100,13 @@ void start_ui(chiventure_ctx_t *ctx)
                 curr_page = ui_ctx->curr_page;
 
             }
-            else if (ch == 's')
-            {
+            else if (ch == 's') {
                 ch = 27;
 
                 layout_switch(ctx);
             }
         }
-        else if (isalnum(ch))
-        {
+        else if (isalnum(ch)) {
             echo();
             ungetch(ch);
             window_print(ctx,  cli);
@@ -123,17 +117,14 @@ void start_ui(chiventure_ctx_t *ctx)
         //    window_print(ctx, cli);
 
         // This conditional refreshes the non-CLI window
-        if (curr_page == MAIN_WIN_NUM)
-        {
+        if (curr_page == MAIN_WIN_NUM) {
             window_print(ctx, info);
             wrefresh(info->w);
         }
-        else if (curr_page == MAP_WIN_NUM)
-        {
+        else if (curr_page == MAP_WIN_NUM) {
             wresize(info->w, 0, 0);
             int cli_top = ui_ctx->cli_top;
-            if (map != NULL)
-            {
+            if (map != NULL) {
                 map_set_displaywin(map, 0, cli_top * height, width,
                                    height + cli_top * height);
                 map_center_on(map, 0, 0, 0);

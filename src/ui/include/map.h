@@ -8,8 +8,7 @@
 /* The map struct holds a lot of crucial information for the performance
  * of all of the map functions
  */
-typedef struct map
-{
+typedef struct map {
     WINDOW *pad;
     room_t **rooms;
     int n;

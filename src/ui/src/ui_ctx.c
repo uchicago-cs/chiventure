@@ -26,8 +26,7 @@ ui_ctx_t *ui_ctx_new(game_t *game)
 
     init = ui_ctx_init(ui_ctx, game);
 
-    if (init == FAILURE)
-    {
+    if (init == FAILURE) {
         return NULL;
     }
 
@@ -79,8 +78,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     /* Valid maps cannot be created for illogical map directions or for maps
     * with logical distances of more than unit one
     */
-    if (ui_ctx->coord_hash != NULL)
-    {
+    if (ui_ctx->coord_hash != NULL) {
         return FAILURE;
     }
 
@@ -100,8 +98,7 @@ int ui_ctx_free(ui_ctx_t *ui_ctx)
 
     coord_record_t *coord_hash, *item, *temp;
     coord_hash = ui_ctx->coord_hash;
-    HASH_ITER(hh, coord_hash, item, temp)
-    {
+    HASH_ITER(hh, coord_hash, item, temp) {
         HASH_DEL(coord_hash, item);
         free(item);
     }
@@ -114,8 +111,7 @@ int ui_ctx_free(ui_ctx_t *ui_ctx)
 // see ui_ctx.h
 void toggle_map(chiventure_ctx_t *ctx)
 {
-    if(ctx->ui_ctx->curr_page == MAP_WIN_NUM)
-    {
+    if(ctx->ui_ctx->curr_page == MAP_WIN_NUM) {
         ctx->ui_ctx->curr_page = MAIN_WIN_NUM;
         ctx->ui_ctx->displayed_win = ctx->ui_ctx->main_win;
 
@@ -124,8 +120,7 @@ void toggle_map(chiventure_ctx_t *ctx)
         int width = COLS;
         wresize(win->w, height,width);
     }
-    else
-    {
+    else {
         ctx->ui_ctx->curr_page = MAP_WIN_NUM;
     }
 
@@ -142,8 +137,7 @@ void layout_switch(chiventure_ctx_t *ctx)
 
     mvwin(ctx->ui_ctx->cli_win->w, !(cli_top) * height, 0);
     mvwin(ctx->ui_ctx->main_win->w, (cli_top) * height, 0);
-    if (ctx->ui_ctx->map != NULL)
-    {
+    if (ctx->ui_ctx->map != NULL) {
         map_set_displaywin(ctx->ui_ctx->map, 0, cli_top * height, width,
                            height + cli_top * height);
         map_center_on(ctx->ui_ctx->map, 0, 0, 0);

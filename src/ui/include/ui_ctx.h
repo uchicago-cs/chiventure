@@ -16,8 +16,7 @@
  *  - coord_hash: a pointer to the head of a hash map that matches
  *                coordinate keys to room pointers
  */
-typedef struct ui_ctx
-{
+typedef struct ui_ctx {
     map_t *map;
     coord_t *player_loc;
     coord_record_t *coord_hash;
@@ -86,7 +85,7 @@ void toggle_map(chiventure_ctx_t *ctx);
 
 
 /*
- * Switches the location of the CLI from top to bottom and veceversa 
+ * Switches the location of the CLI from top to bottom and veceversa
  *
  * Parameters:
  *    - ctx : chiventure context struct
