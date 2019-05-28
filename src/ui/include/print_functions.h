@@ -11,7 +11,7 @@
  *
  * No value is returned
  */
-void print_info(window_t *win);
+void print_info(chiventure_ctx_t *ctx, window_t *win);
 
 /* print_cli
  * Prints the CLI- adds and deltees character based on user input
@@ -31,7 +31,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win);
  *
  * No value is returned
  */
-void print_map(window_t *win);
+void print_map(chiventure_ctx_t *ctx, window_t *win);
 
 
 #endif

@@ -12,7 +12,7 @@
 
 
 /* see print_functions.h */
-void print_info(window_t *win)
+void print_info(chiventure_ctx_t *ctx, window_t *win)
 {
     mvwprintw(win->w, 1, 2, "Main Window");
 }
@@ -55,7 +55,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 }
 
 /* see print_functions.h */
-void print_map(window_t *win)
+void print_map(chiventure_ctx_t *ctx, window_t *win)
 {
     // prints the word map in the window
     mvwprintw(win->w, 1,2, "map");

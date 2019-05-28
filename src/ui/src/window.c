@@ -57,7 +57,7 @@ int window_free(window_t *win)
 }
 
 /* see window.h */
-void window_print( window_t *win)
+void window_print(chiventure_ctx_t *ctx, window_t *win)
 {
-    win->print( win);
+    win->print(ctx, win);
 }

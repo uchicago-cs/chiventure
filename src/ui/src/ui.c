@@ -57,8 +57,8 @@ void start_ui(chiventure_ctx_t *ctx)
     scrollok(cli->w, TRUE);
 
     // prints the score and number of moves in the info window
-    window_print(info);
-    window_print(cli);
+    window_print(ctx, info);
+    window_print(ctx, cli);
 
     // refreshes both windows to show the above changes
     wrefresh(info->w);
@@ -121,7 +121,7 @@ void start_ui(chiventure_ctx_t *ctx)
             echo();
             ungetch(ch);
 
-            window_print( cli);
+            window_print(ctx,  cli);
 
 
             noecho();
@@ -129,11 +129,11 @@ void start_ui(chiventure_ctx_t *ctx)
         }
 
         // Prints the cli to the screen
-        window_print(cli);
+        window_print(ctx, cli);
 
         // This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM) {
-            window_print(info);
+            window_print(ctx, info);
             wrefresh(info->w);
         }
 	else if (curr_page == MAP_WIN_NUM) {
