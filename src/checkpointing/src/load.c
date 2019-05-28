@@ -51,7 +51,10 @@ int load_item(Item *i, item_t *i_t);
     for (iter = 0; iter < i->attributes_len; iter++) {
         switch (i->attributes[iter]->attribute_tag) {
             case STRING:
-                int set_str_success = set_str_attr(i_t, i->attributes[iter]->attribute_key, i->attributes[iter]->attribute_value);
+                int set_str_success = set_str_attr(i_t, 
+                i->attributes[iter]->attribute_key, 
+                i->attributes[iter]->attribute_value);
+
                 if (set_str_success != SUCCESS){
                     fprintf(stderr, "Could not set string attribute for item \n");
                     return -1;
@@ -59,7 +62,10 @@ int load_item(Item *i, item_t *i_t);
                 break;
       
             case INTEGER:
-                int set_int_success = set_int_attr(i_t, i->attributes[iter]->attribute_key, i->attributes[iter]->attribute_value);
+                int set_int_success = set_int_attr(i_t, 
+                i->attributes[iter]->attribute_key, 
+                i->attributes[iter]->attribute_value);
+
                 if (set_int_success != SUCCESS){
                     fprintf(stderr, "Could not set integer attribute for item \n");
                     return -1;
@@ -67,7 +73,10 @@ int load_item(Item *i, item_t *i_t);
                 break;
       
             case DOUBLE:
-                int set_double_success = set_double_attr(i_t, i->attributes[iter]->attribute_key, i->attributes[iter]->attribute_value);
+                int set_double_success = set_double_attr(i_t, 
+                i->attributes[iter]->attribute_key, 
+                i->attributes[iter]->attribute_value);
+                
                 if (set_double_success != SUCCESS){
                     fprintf(stderr, "Could not set double attribute for item \n");
                     return -1;
@@ -75,7 +84,10 @@ int load_item(Item *i, item_t *i_t);
                 break;
         
             case CHARACTER:
-                int set_char_success = set_char_attr(i_t, i->attributes[iter]->attribute_key, i->attributes[iter]->attribute_value);
+                int set_char_success = set_char_attr(i_t, 
+                i->attributes[iter]->attribute_key, 
+                i->attributes[iter]->attribute_value);
+
                 if (set_char_success != SUCCESS){
                     fprintf(stderr, "Could not set character attribute for item \n");
                     return -1;
@@ -83,7 +95,10 @@ int load_item(Item *i, item_t *i_t);
                 break;
       
             case BOOLE:
-                int set_bool_success = set_bool_attr(i_t, i->attributes[iter]->attribute_key, i->attributes[iter]->attribute_value);
+                int set_bool_success = set_bool_attr(i_t, 
+                i->attributes[iter]->attribute_key, 
+                i->attributes[iter]->attribute_value);
+
                 if (set_bool_success != SUCCESS){
                     fprintf(stderr, "Could not set boole attribute for item \n");
                     return -1;
@@ -94,7 +109,6 @@ int load_item(Item *i, item_t *i_t);
                 fprintf(stderr, "Could not set any attribute \n");
                 return -1;
         }
-  
     }
     return 0;
 }
@@ -121,7 +135,13 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len, game_
     } else {
         r_t->short_desc = NULL;
     }
-  
+    
+    /* Here, we pass in an array of all items (generated from loaded WDL items),
+    free all items in this room loaded by WDL,
+    then search through the item ids we have serialized into this room,
+    and add matching items from the array into this room.
+    */
+
     // Free all items in the room
     ITER_ALL_ITEMS_IN_ROOM(r_t, curr_item){
         int item_free_success = item_free(curr_item);
@@ -162,23 +182,29 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len,
 
     p_t->player_id = p->player_id;
 
-    if (p->level != NULL) {
-        p_t->level = p->level;
+    if (p->has_level == 1) {
+	p_t->level = p->level;
     } else {
-        p_t->level = NULL;
+	p_t->level = -1;
+    }
+  
+    if (p->has_health == 1) {
+	p_t->health = p->health;
+    } else {
+	p_t->health = -1;
+    }
+  
+    if (p->has_xp == 1) {
+	p_t->xp = p->xp;
+    } else {
+	p_t->xp = -1;
     }
 
-    if (p->health != NULL) {
-        p_t->health = p->health;
-    } else {
-        p_t->health = NULL;
-    }
-
-    if (p->xp != NULL) {
-        p_t->xp = p->xp;
-    } else {
-        p_t->xp = NULL;
-    }
+    /* Here, we pass in an array of all items (generated from loaded WDL items),
+    free all items in this inventory loaded by WDL,
+    then search through the item ids we have serialized into this inventory,
+    and add matching items from the array into this inventory.
+    */
 
     // Free all items in the inventory
     ITER_ALL_ITEMS_IN_INVENTORY(p_t, curr_item){
@@ -188,7 +214,8 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len,
         }
     }
   
-    // Fill inventory with items (we assume that no item get destroyed/created during the game)
+    /* Fill inventory with items 
+    (we assume no items get destroyed/created during game) */
     int iter;
     int j;
     for (iter = 0; iter < p->inventory_len; iter++){
@@ -233,7 +260,9 @@ int load_game(Game *g, game_t *g_t)
     int iter = 0;
     ITER_ALL_ROOMS(g_t, curr_r){
         ITER_ALL_ITEMS_IN_ROOM(curr_r, curr_item){
-            all_items[iter] = item_new(curr_item->item_id, curr_item->short_desc, curr_item->long_desc);
+            all_items[iter] = item_new(curr_item->item_id, 
+            curr_item->short_desc, 
+            curr_item->long_desc);
             iter++;
         }
     }
@@ -241,12 +270,14 @@ int load_game(Game *g, game_t *g_t)
     iter = 0;
     ITER_ALL_PLAYERS(g_t, curr_p){
         ITER_ALL_ITEMS_IN_INVENTORY(curr_r, curr_item){
-            all_items[iter] = item_new(curr_item->item_id, curr_item->short_desc, curr_item->long_desc);
+            all_items[iter] = item_new(curr_item->item_id, 
+            curr_item->short_desc, 
+            curr_item->long_desc);
             iter+=1;
         }
     }
   
-    // Load room into game
+    // Load all rooms into game
     int i;
     for (i = 0; i < g->room_len; i++){
         ITER_ALL_ROOMS(g_t, curr_r){
@@ -260,7 +291,7 @@ int load_game(Game *g, game_t *g_t)
         }
     }
     
-    // Load player into game
+    // Load player(s) into game
     for (i = 0; i < g->player_len; i++){
         ITER_ALL_PLAYERS(g_t, curr_p){
             if (strcmp(g->all_players[i]->player_id, curr_p->player_id) == 0){
@@ -273,13 +304,14 @@ int load_game(Game *g, game_t *g_t)
         }
     } 
   
-    // Note: in game state structs, curr_room is a room struct that contains a room_id
-    // In the proto struct, curr_room is simply the room_id as a string
+    /* Note: in game state structs, curr_room is a room struct 
+     that contains a room_id.
+     In the proto struct, curr_room is simply the room_id as a string */
     if(g->curr_room != -1) {
         room_t *curr_r;
         ITER_ALL_ROOMS(g_t, curr_r) {
             if (strcmp(curr_r->room_id, g->curr_room) == 0){
-                move_room(g_t, curr_r)
+                move_room(g_t, curr_r) //move_room provided by game state to set current room
             }
         }
     }
@@ -288,7 +320,7 @@ int load_game(Game *g, game_t *g_t)
         player_t *curr_p;
         ITER_ALL_PLAYERS(g_t, curr_p) {
             if (strcmp(curr_p->player_id, g->curr_player) == 0){
-                set_curr_player(g_t, curr_p);
+                set_curr_player(g_t, curr_p); //provided by game state
             }
         }
     } 
