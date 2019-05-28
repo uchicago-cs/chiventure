@@ -41,8 +41,9 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     int side_ht = height -2;
     int bot_y = y+height -1;
     int right_x = x+width-1;
-    int halfy = y + height/2;
-    int halfx = x + width/2;
+    // These are commented because they are only used for drawing exits
+    //    int halfy = y + height/2;
+    //int halfx = x + width/2;
 
     // Draw the corners
     mvwaddch(win, y, x, ACS_ULCORNER);
@@ -120,10 +121,11 @@ int *calculate_map_dims(room_t **rooms, int n)
     int x = 0;
     int y = 0;
     int z = 0;
-    coord_t *curr;
-    int cx;
-    int cy;
-    int cz;
+    // These are commented because they are only used for iterating over rooms
+    //coord_t *curr;
+    //    int cx;
+    //int cy;
+    //int cz;
 
     for (int i = 0; i < n; i++) {
         /* TO-DO -- Will have to reach into coord hash, not room structs,
