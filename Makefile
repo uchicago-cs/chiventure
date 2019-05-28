@@ -22,7 +22,7 @@ all: $(BIN)
 #  - Makefile: src/ui/Makefile
 #  - Library: src/ui/ui.a
 
-COMPONENTS = libobj common ui cli game-state action_management checkpointing
+COMPONENTS = libobj ui cli game-state action_management checkpointing wdl common
 LIBS = $(foreach comp,$(COMPONENTS),src/$(comp)/$(comp).a)
 
 $(LIBS):
