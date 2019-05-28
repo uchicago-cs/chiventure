@@ -29,12 +29,11 @@ void start_ui(chiventure_ctx_t *ctx)
     int ch;
 
 
+
     // starts curses mode
     initscr();
-
     // pressed keys are not displayed in the window
     noecho();
-
     // height and width of the terminal window
     int width = COLS;
     int height = LINES /2;
@@ -101,6 +100,8 @@ void start_ui(chiventure_ctx_t *ctx)
                 ch = 27;
 
                 toggle_map(ctx);
+                ui_ctx = ctx->ui_ctx;
+                curr_page = ui_ctx->curr_page;
 
             }
             else if (ch == 's')
@@ -119,7 +120,7 @@ void start_ui(chiventure_ctx_t *ctx)
         }
 
         // Prints the cli to the screen
-        window_print(ctx, cli);
+    //    window_print(ctx, cli);
 
         // This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM)
@@ -131,9 +132,13 @@ void start_ui(chiventure_ctx_t *ctx)
         {
             wresize(info->w, 0, 0);
             int cli_top = ui_ctx->cli_top;
-            map_set_displaywin(map, 0, cli_top * height, width,
-                               height + cli_top * height);
-            map_center_on(map, 0, 0, 0);
+            if (map != NULL)
+            {
+                map_set_displaywin(map, 0, cli_top * height, width,
+                                   height + cli_top * height);
+                map_center_on(map, 0, 0, 0);
+            }
+
         }
 
         // Refreshes the CLI window

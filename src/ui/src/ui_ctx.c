@@ -39,6 +39,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
 {
     assert(ui_ctx != NULL);
     assert(game != NULL);
+    initscr();
 
     int height = LINES / 2;
     int width = COLS;
@@ -68,7 +69,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
      * 3. perhaps just the ui_ctx->player_loc
      *    field--this may be all the function needs
      */
-    ui_ctx->coord_hash = create_valid_map(game);
+    ui_ctx->coord_hash = NULL;//create_valid_map(game);
 
     // Initial room coordinates set to 0, 0
     coord_t *initial_coord = coord_new(0, 0);
@@ -78,7 +79,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     /* Valid maps cannot be created for illogical map directions or for maps
     * with logical distances of more than unit one
     */
-    if (ui_ctx->coord_hash == NULL)
+    if (ui_ctx->coord_hash != NULL)
     {
         return FAILURE;
     }
@@ -134,12 +135,17 @@ void layout_switch(chiventure_ctx_t *ctx)
     int cli_top = !ctx->ui_ctx->cli_top;
     ctx->ui_ctx->cli_top = cli_top;
 
+    printf("%s\n", "1");
     int height = LINES / 2;
     int width = COLS / 2;
 
     mvwin(ctx->ui_ctx->cli_win->w, !(cli_top) * height, 0);
     mvwin(ctx->ui_ctx->main_win->w, (cli_top) * height, 0);
-    map_set_displaywin(ctx->ui_ctx->map, 0, cli_top * height, width,
-                       height + cli_top * height);
-    map_center_on(ctx->ui_ctx->map, 0, 0, 0);
+    if (ctx->ui_ctx->map != NULL)
+    {
+        map_set_displaywin(ctx->ui_ctx->map, 0, cli_top * height, width,
+                           height + cli_top * height);
+        map_center_on(ctx->ui_ctx->map, 0, 0, 0);
+    }
+
 }
