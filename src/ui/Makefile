@@ -6,7 +6,7 @@ CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-
 RM = rm -f
 LIB = ui.a
 LDLIBS = -lncurses -lreadline
-
+STLIBS = ../common/common.a ../cli/cli.a ../game-state/game-state.a
 .PHONY: all clean examples
 
 all: $(LIB)
@@ -41,7 +41,7 @@ $(EXAMPLE_SRCS:.c=.d):%.d:%.c
 -include $(EXAMPLE_SRCS:.c=.d)
 
 $(EXAMPLE_BINS): %:%.c $(LIB)
-	$(CC) $(CFLAGS)  $^ ../common/common.a ../cli/cli.a ../game-state/game-state.a  -o$@ $(LDLIBS)
+	$(CC) $(CFLAGS)  $^  $(STLIBS)  -o$@ $(LDLIBS)
 
 examples: $(EXAMPLE_BINS)
 
