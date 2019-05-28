@@ -66,9 +66,9 @@ int player_free(player_t *plyr);
  * Parameters:
  *  hashtable of players that need to be deleted
  * Returns:
- *  SUCCESS if successful, FAILURE if failed
+ *  SUCCESS if successful
  */
-void delete_all_players(player_hash_t players);
+int delete_all_players(player_hash_t players);
 
 /*
  * Returns the health of a player
