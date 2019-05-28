@@ -25,77 +25,6 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 
 
 // see load.h
-int load_attribute_value(Attribute_value *av, attribute_value_t *av_t)
-{
-    
-    if (av_t == NULL) {
-        fprintf(stderr, "given null attribute_value_t struct\n");
-        return -1;
-    }
-
-    if (av->double_value != NULL) {
-        av_t->double_value = av->double_value;
-    } else {
-        av_t->double_value = NULL;
-    }
-
-    if (av->char_val != NULL) {
-        av_t->char_val = av->char_val;
-    } else {
-        av_t->char_val = NULL;
-    }
-
-    if (av->bool_val != NULL) {
-        av_t->bool_val = av->bool_val;
-    } else {
-        av_t->bool_val = NULL;
-    }
-
-    if (av->str_val != NULL) {
-        av_t->str_val = av->str_val;
-    } else {
-        av_t->str_val = NULL;
-    }
-
-    if (av->int_val != NULL) {
-        av_t->int_val = av->int_val;
-    } else {
-        av_t->int_val = NULL;
-    }
-
-    return 0;
-}
-
-
-// see load.h
-int load_attribute(Attribute *a, attribute_t *a_t)
-{
-    if (a_t == NULL) {
-        fprintf(stderr, "given null attribute_t struct\n");
-        return -1;
-    }
-
-    a_t->attribute_key = a->attribute_key;
-
-    if (strcmp(a->attribute_tag, "DOUBLE") == 0) {
-        a_t->attribute_tag = DOUBLE;
-    } else if (strcmp(a->attribute_tag, "BOOLE") == 0) {
-        a_t->attribute_tag = BOOLE;
-    } else if (strcmp(a->attribute_tag, "CHARACTER") == 0) {
-        a_t->attribute_tag = CHARACTER;
-    } else if (strcmp(a->attribute_tag, "STRING") == 0) {
-        a_t->attribute_tag = STRING;
-    } else {
-        a_t->attribute_tag = INTEGER;
-    } 
-
-    load_attribute_value(a->attribute_value, a_t->attribute_value);
-
-    return 0;
-}
-
-
-// see load.h
 int load_item(Item *i, item_t *i_t);
 {
     if(i_t == NULL) {
@@ -171,61 +100,6 @@ int load_item(Item *i, item_t *i_t);
 }
 
 
-// Completed code for condition, will delete in master
-int load_condition(Condition *c, condition_t *c_t)
-{
-    if (c_t == NULL) {
-        fprintf(stderr, "given null condition_t struct\n");
-        return -1;
-    }
-
-    if (c->item_id != NULL) {
-        c_t->item->item_id = c->item_id;
-    } else {
-        c_t->item->item_id = NULL;
-    }
-
-    // something here? idk depends on game state
-
-    // optional Attribute here but might change
-    if (i_t->expected_attribute != NULL){
-        i_t->expected_attribute = malloc(sizeof(Attribute));
-    }
-    int load_attribute_success = load_attribute(i->expected_attribute, i_t->expected_attribute) 
-    if (load_attribute_success != 0) {
-        fprintf(stderr, "Could not load expected attribute for condition \n");
-    }
-    return 0;
-}
-
-
-// see load.h
-int load_path(Path *p, path_t *p_t, game_t *g_t)
-{
-    if (p_t == NULL) {
-        fprintf(stderr, "given null path_t struct\n");
-        return -1;
-    }
-
-    if (p->direction != NULL) {
-        p_t->direction = p->direction;
-    } else {
-        p_t->direction = NULL;
-    }
-
-  
-    // if game state changes dest to a pointer to something, this will need to change!!
-    if (p->dest != NULL) {   // dest cannot be NULL at the moment
-        p_t->dest = p->dest;
-        // Write commented code here to loop through the list of rooms and assign a pointer instead of room ID (either Ellyn or Jonah)
-    } else {
-        p_t->dest = NULL;
-    }
-
-    return 0;
-}
-
-
 // see load.h
 int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len, game_t *g_t)
 {
@@ -274,8 +148,6 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len, game_
         }
     }
     
-  // path stuff here (Jonah would you be able to write this?)
-
   return 0;
 }
 
