@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <Stdbool.h>
+#include <stdbool.h>
 #include "validate.h"
 #include "parse.h"
 #include "game.h"
@@ -8,7 +8,7 @@
 
 game_t *create_game(obj_t *doc)
 {
-  char *intro = obj_get_str(game,"GAME.1.intro");
+  char *intro = obj_get_str(doc, "GAME.1.intro");
   
   game_t *game_ret = game_new(intro);
   return game_ret;

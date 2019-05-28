@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
+#include "room.h"
 
 /*
  * Function to create a pointer to an empty game

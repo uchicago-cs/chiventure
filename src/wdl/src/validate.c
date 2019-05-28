@@ -186,7 +186,7 @@ bool item_type_check(obj_t *obj)
     bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
     bool in_ver = (obj_get_type(obj, "in") == TYPE_STR);
 
-    return (id_ver && short_ver && long_ver && in_ver && state_ver && val_ver);
+    return (id_ver && short_ver && long_ver && in_ver);
 }
 
 // The following functions regard game type checking
@@ -386,4 +386,6 @@ void print_document(obj_t *obj)
     // Print items
     printf("printing all items and their attributes\n");
     list_print(items_ls, print_item);
+
+    return;
 }
