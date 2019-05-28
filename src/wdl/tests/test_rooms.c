@@ -13,7 +13,6 @@ obj_t *get_doc_obj()
 Test(rooms, test)
 {
     obj_t *doc = get_doc_obj();
-    printf("ROOMS.0.id: %s\n", obj_get_str(doc, "ROOMS.0.id"));
     //game_t *g = game_new();
     //add_rooms_to_game(doc, g);
     //room_t *r = find_room(g, "room A");
