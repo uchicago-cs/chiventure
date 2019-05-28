@@ -18,34 +18,6 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out);
 
 
 /*
- * Loads attribute value into game struct
- * 
- * Parameters:
- * - av: pointer to Attribute_value in protofile
- * - av_t: pointer to an empty attribute_value_t in game struct to be filled from protofile
- *
- * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
- */
-int load_attribute_value(Attribute_value *av, attribute_value_t *av_t);
-
-
-/*
- * Loads attribute into game struct
- * 
- * Parameters:
- * - a: pointer to Attribute in protofile
- * - a_t: pointer to an empty attribute_t in game struct to be filled from protofile
- *
- * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
- */
-int load_attribute(Attribute *a, attribute_t *a_t);
-
-
-/*
  * Loads item into game struct
  * 
  * Parameters:
@@ -57,34 +29,6 @@ int load_attribute(Attribute *a, attribute_t *a_t);
  * - -1 if unsuccessful
  */
 int load_item(Item *i, item_t *i_t);
-
-
-/*
- * Loads condition into game struct
- * 
- * Parameters:
- * - c: pointer to Condition in protofile
- * - c_t: pointer to an empty condition_t in game struct to be filled from protofile
- *
- * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
- */
-int load_condition(Condition *c, condition_t *c_t);
-
-
-/*
- * Loads path into game struct
- * 
- * Parameters:
- * - p: pointer to Path in protofile
- * - p_t: pointer to an empty path_t in game struct to be filled from protofile
- *
- * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
- */
-int load_path(Path *p, path_t *p_t);
 
 
 /*
