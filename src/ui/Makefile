@@ -14,7 +14,7 @@ all: $(LIB)
 # Library
 
 
-SRCS = src/window.c src/print_functions.c src/coordinate.c src/DFS.c src/map.c src/ui_ctx.c
+SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c src/map.c src/ui_ctx.c
 
 OBJS = $(SRCS:.c=.o)
 LOGS = examples/ui_debug.txt
@@ -30,6 +30,7 @@ $(LIB): $(OBJS)
 
 # Examples
 
+LIB2 = ../game-state/game-state.a ../common/common.a
 
 EXAMPLE_BINS = examples/test_ui examples/map_example examples/coord_example
 
@@ -41,7 +42,7 @@ $(EXAMPLE_SRCS:.c=.d):%.d:%.c
 -include $(EXAMPLE_SRCS:.c=.d)
 
 $(EXAMPLE_BINS): %:%.c
-	$(CC) $(CFLAGS) $^ $(LIB) $(LDLIBS) -o$@
+	$(CC) $(CFLAGS) $^ $(LIB) $(LIB2) $(LDLIBS) -o$@
 
 examples: $(EXAMPLE_BINS)
 

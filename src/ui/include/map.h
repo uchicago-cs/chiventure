@@ -6,7 +6,8 @@
 #include <stdlib.h>
 #include "ctx.h"
 
-
+// Forward declaration
+typedef struct chiventure_ctx chiventure_ctx_t;
 
 //Struct Declarations________________________________________________________
 /* The map struct holds a lot of crucial information for the performance
