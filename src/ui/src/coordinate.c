@@ -11,7 +11,6 @@ coordinate_t *coord_new(int x, int y)
     return c;
 }
 
-
 // see coordinate.h for details
 void coord_init(coordinate_t *c, int x, int y)
 {
@@ -38,7 +37,7 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y)
 }
 
 // see coordinate.h for details
-int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
+int try_add_coord(coord_record_t *coordmap, int x, int y, hash_map_room_t *r)
 {
     coord_record_t *cr = find_coord(coordmap, x, y);
 

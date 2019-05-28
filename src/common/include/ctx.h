@@ -5,6 +5,7 @@
 #ifndef CHIVENTURE_CHIVENTURE_H
 #define CHIVENTURE_CHIVENTURE_H
 
+#include <ncurses.h>
 #include "common.h"
 #include "game.h"
 #include "ui_ctx.h"

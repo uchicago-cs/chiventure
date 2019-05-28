@@ -6,12 +6,10 @@
 #include <signal.h>
 #include "window.h"
 #include "ui.h"
-#include "ctx.h"
-
+#include "map.h"
+#include "print_functions.h"
 
 int main()
 {
-    chiventure_ctx_t *ctx = chiventure_ctx_new();
-
-    start_ui(ctx);
+  start_ui(ctx);
 }

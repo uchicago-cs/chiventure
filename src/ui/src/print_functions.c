@@ -12,17 +12,16 @@
 
 
 /* see print_functions.h */
-void print_info(chiventure_ctx_t *ctx)
+void print_info(chiventure_ctx_t *ctx, window_t *win)
 {
-    mvwprintw(ctx->ui_ctx->main_win->w, 1, 2, "Main Window");
+    mvwprintw(win->w, 1, 2, "Main Window");
 }
 
 /* see print_functions.h */
-void print_cli(chiventure_ctx_t *ctx)
+void print_cli(chiventure_ctx_t *ctx, window_t *win)
 {
     static bool first_run = true;
     int x,y;
-
     if (!first_run)
     {
         char str[80];
@@ -52,17 +51,13 @@ void print_cli(chiventure_ctx_t *ctx)
 
 
     // prints '>' in the cli window
-<<<<<<< Updated upstream
     //mvwprintw(win->w, 1, 2, ">");
-=======
-    mvwprintw(ctx->ui_ctx->cli_win->w, 1, 2, ">");
->>>>>>> Stashed changes
 }
 
 /* see print_functions.h */
-void print_map(chiventure_ctx_t *ctx)
+void print_map(chiventure_ctx_t *ctx, window_t *win)
 {
     // prints the word map in the window
-    mvwprintw(ctx->ui_ctx->map_win->w, 1,2, "map");
+    mvwprintw(win->w, 1,2, "map");
     return;
 }

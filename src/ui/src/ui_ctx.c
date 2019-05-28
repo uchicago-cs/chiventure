@@ -5,14 +5,15 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <assert.h>
+#include "ui_ctx.h"
+#include "game.h"
 #include "coordinate.h"
 #include "window.h"
 #include "print_functions.h"
 #include "map.h"
-#include "ui_ctx.h"
 
 
-/* see ui_ctx.h */
+// see ui_ctx.h
 ui_ctx_t *ui_ctx_new(game_t *game)
 {
     assert(game != NULL);
@@ -29,14 +30,14 @@ ui_ctx_t *ui_ctx_new(game_t *game)
     return ui_ctx;
 }
 
-/* see ui_ctx.h */
+// see ui_ctx.h
 int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
 {
     assert(ui_ctx != NULL);
     assert(game != NULL);
 
     int height = LINES / 2;
-    int col = COLS;
+    int width = COLS;
 
 
     window_t *map_win = window_new(height, width, 0, 0, print_map, true);
@@ -50,6 +51,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     ui_ctx->displayed_win = displayed_win;
     ui_ctx->cli_win = cli_win;
 
+
     /* TO-DO: create_valid_map will take arguments:
      * either:
      * 1. a pointer to a game struct
@@ -61,21 +63,21 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
 
     // Initial room coordinates set to 0, 0
     coord_t *initial_coord = coord_new(0, 0);
+
     ui_ctx->player_loc = initial_coord;
 
     /* Valid maps cannot be created for illogical map directions or for maps
-     * with logical distances of more than unit one
-     */
+    * with logical distances of more than unit one
+    */
     if (ui_ctx->coord_hash == NULL) {
         return FAILURE;
     }
 
     ui_ctx->map = map_init();
-
     return SUCCESS;
 }
 
-/* see ui_ctx.h */
+// see ui_ctx.h
 int ui_ctx_free(ui_ctx_t *ui_ctx)
 {
     assert(ui_ctx_init != NULL);

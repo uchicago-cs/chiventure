@@ -1,13 +1,16 @@
+
 #ifndef WINDOW_H
 #define WINDOW_H
 
+typedef struct chiventure_ctx chiventure_ctx_t;
 
-typedef void (win_print)();
 
 typedef struct window {
     WINDOW *w;
-    win_print *print;
+    void (*print)(chiventure_ctx_t *ctx, struct window *win);
 } window_t;
+
+typedef void (win_print)(chiventure_ctx_t *ctx, window_t *win);
 
 
 /* window_new
@@ -69,7 +72,7 @@ int window_free(window_t *win);
  *
  * does not return anything
  */
-void window_print(window_t *win);
+void window_print(chiventure_ctx_t *ctx, window_t *win);
 
 
 
