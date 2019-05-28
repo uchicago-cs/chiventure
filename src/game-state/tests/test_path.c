@@ -82,7 +82,9 @@ room_t *find_room_from_path(path_t *path);
 
 //untested
 int add_condition_to_path(path_t *path, condition_t *condition);
-int add_path_to_room(room_t *room, path_t *path);
+int add_path_to_room(room_t *room, path_t *path); // this was tested
+
+// TEST FOR DELETION OF ALL PATHS FROM ROOM ----------------------
 Test(path, del_all)
 {
     room_t *test_room = room_new("test_room", "room for testing", "item for testing del_all_paths function");
