@@ -111,14 +111,14 @@ Test(save, attribute)
     int success;
 
     success = save_attribute(d_t, d);
-    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(success, 0, "save_attribute failed");
     cr_assert_eq(d->attribute_key, "double",
 		 "save_attribute failed to save attribute_key");
     cr_assert_eq(d->attribute_tag, "DOUBLE",
 		 "save_attribute failed to save attribute_tag");
 
     success = save_attribute(c_t, c);
-    cr_assert_eq(success, 0, "save_attribute_value failed");
+    cr_assert_eq(success, 0, "save_attribute failed");
     cr_assert_eq(c->attribute_key, "char",
 		 "save_attribute failed to save attribute_key");
     cr_assert_eq(c->attribute_tag, "CHARACTER",
