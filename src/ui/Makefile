@@ -14,7 +14,7 @@ all: $(LIB)
 # Library
 
 
-SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c src/map.c src/ui_ctx.c
+SRCS = src/window.c src/print_functions.c src/coordinate.c src/DFS.c src/map.c src/ui_ctx.c
 
 OBJS = $(SRCS:.c=.o)
 LOGS = examples/ui_debug.txt

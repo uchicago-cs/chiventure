@@ -57,21 +57,22 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     mvwvline(win, y+1, right_x, ACS_VLINE, side_ht);
 
     // Checks if given room has exits on each side, draws exits
-    /* TO- DO -- Update using Game State function to check exits
-    if (room->ex_e) {
+    /* TO-DO -- Ask Game state if they have added this fcn to master
+     * yet. See Git Issue #151
+    if (find_room_from_dir(room, "East") != NULL) {
         mvwaddch(win, halfy-1, right_x, ACS_HLINE);
         mvwaddch(win, halfy, right_x, ACS_HLINE);
     }
-    if (room->ex_w) {
+    if (find_room_from_dir(room, "West") != NULL) {
         mvwaddch(win, halfy-1, x, ACS_HLINE);
         mvwaddch(win, halfy, x, ACS_HLINE);
     }
-    if (room->ex_n) {
+    if (find_room_from_dir(room, "North") != NULL) {
         mvwaddch(win, y, halfx-1, ACS_VLINE);
         mvwaddch(win, y, halfx,' ');
         mvwaddch(win, y, halfx+1, ACS_VLINE);
     }
-    if (room->ex_s) {
+    if (find_room_from_dir(room, "South") != NULL) {
         mvwaddch(win, bot_y, halfx-1, ACS_VLINE);
         mvwaddch(win, bot_y, halfx, ' ');
         mvwaddch(win, bot_y, halfx+1, ACS_VLINE);
@@ -84,34 +85,33 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
 void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 {
     // Declare variables
-    map_t *map = ctx->ui->map;
+    coord_record_t *itr;
+    map_t *map = ctx->ui_ctx->map;
     int x, y, zroom, x_offset, y_offset;
     int room_h = map->room_h;
     int room_w = map->room_w;
 
     // Get x, y, z coordinates for rooms
 
-    // TO DO: what is the field name for ui in chiventure_ctx_t?
-    for (itr = ctx->ui->coord_hash; itr != NULL; itr=itr->hh.next) {
+    for (itr = ctx->ui_ctx->coord_hash; itr != NULL; itr=itr->hh.next) {
+        zroom = itr->key.z;
+        x = itr->key.x;
+        y = itr->key.y;
+        /*
+        for (int i = 0; i < n; i++) {
+               x = rooms[i]->loc->x;
+               y = rooms[i]->loc->y;
+               zroom = rooms[i]->loc->z;
+             */
+        if (zroom == z) {
+            x_offset = left_x + (room_w * x);
+            y_offset = top_y + (room_h * y);
 
-      zroom = itr->key->z;
-      x = itr->key->x;
-      y = itr->key->y;
-      /*
-	for (int i = 0; i < n; i++) {
-        x = rooms[i]->loc->x;
-        y = rooms[i]->loc->y;
-        zroom = rooms[i]->loc->z;
-      */
-      if (zroom == z) {
-	x_offset = left_x + (room_w * x);
-	y_offset = top_y + (room_h * y);
-	
-	// Draw room at x/y coordinate given, with preset w/h
-	draw_room(room_w, room_h, x_offset, y_offset, itr->r, map->pad);
-      }
+            // Draw room at x/y coordinate given, with preset w/h
+            draw_room(room_w, room_h, x_offset, y_offset, itr->r, map->pad);
+        }
     }
-    
+
     return;
 }
 
@@ -164,8 +164,7 @@ map_t *map_init()
     int maxy = LINES-1;
     WINDOW *pad = newpad(maxy, maxx);
     map_t *map = malloc(sizeof(map_t));
-    map->rooms = rooms;
-    map->n = n;
+
     map->room_h = 6;
     map->room_w = 11;
     map->pad = pad;
@@ -185,8 +184,8 @@ map_t *map_init()
     keypad(pad, TRUE);
 
 
-    draw_rooms(rooms, n, xoffset, yoffset, 0, map);
-    free(dims);
+    //draw_rooms( xoffset, yoffset, 0, map);
+    //  free(dims);
     return map;
 }
 
@@ -202,7 +201,7 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
 
 int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
 {
-
+    map_t *map = ctx->ui_ctx->map;
     if (z != map->padz || x != map->padx || y != map->pady) {
         wclear(map->pad);
         draw_rooms(ctx, -x, -y, z);
@@ -216,8 +215,9 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
     return 0;
 }
 
-int map_center_on(map_t *map, int x, int y, int z)
+int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
 {
+    map_t *map = ctx->ui_ctx->map;
     int room_h = map->room_h;
     int room_w = map->room_w;
     int ulx = map->ulx;
@@ -231,7 +231,7 @@ int map_center_on(map_t *map, int x, int y, int z)
     int padx = room_w * x - centxc;
     int pady = room_h * y - centyc;
 
-    map_refresh(map, padx, pady, z);
+    map_refresh(ctx, padx, pady, z);
     return 0;
 }
 
@@ -295,5 +295,5 @@ room_t **get_test_rooms(int n)
       rooms[n - 1] = roomb;
       return rooms;
     */
-
+    return NULL;
 }

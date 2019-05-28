@@ -12,7 +12,10 @@
 /* The map struct holds a lot of crucial information for the performance
  * of all of the map functions
  */
-typedef struct map {
+
+typedef struct map map_t;
+
+struct map {
     WINDOW *pad;
     int n;
     int xoff;
@@ -29,7 +32,7 @@ typedef struct map {
     int lry;
     int room_h;
     int room_w;
-} map_t;
+};
 
 /* Initializes the ncurses window
  *
@@ -92,7 +95,7 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry);
  * Outputs:
  * - 0
  */
-int map_refresh(map_t *map, int x, int y, int z);
+int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z);
 
 /* Updates the map to display with given room coordinates at center
  *
@@ -103,6 +106,6 @@ int map_refresh(map_t *map, int x, int y, int z);
  * Outputs:
  * - 0
  */
-int map_center_on(map_t *map, int x, int y, int z);
+int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z);
 
-#endif 
+#endif

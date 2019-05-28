@@ -79,7 +79,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
 // see ui_ctx.h
 int ui_ctx_free(ui_ctx_t *ui_ctx)
 {
-    assert(ui_ctx_init != NULL);
+    assert(ui_ctx != NULL);
 
     window_free(ui_ctx->map_win);
     window_free(ui_ctx->main_win);

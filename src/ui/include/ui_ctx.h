@@ -1,14 +1,11 @@
 #ifndef UI_CTX_H
 #define UI_CTX_H
 
+#include "map.h"
 #include "game.h"
 #include "room.h"
 #include "window.h"
 #include "coordinate.h"
-#include "map.h"
-
-
-
 
 /*
  * UI context struct.  Contains the following fields:
@@ -20,7 +17,10 @@
  *  - coord_hash: a pointer to the head of a hash map that matches
  *                coordinate keys to room pointers
  */
-typedef struct ui_ctx {
+
+typedef struct map map_t;
+typedef struct ui_ctx ui_ctx_t;
+struct ui_ctx {
     map_t *map;
     coord_t *player_loc;
     coord_record_t *coord_hash;
@@ -29,7 +29,7 @@ typedef struct ui_ctx {
     window_t *displayed_win;
     window_t *cli_win;
 
-} ui_ctx_t;
+};
 
 
 /*
