@@ -216,12 +216,17 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
 {
     //Temp debugging:
     fprintf(stderr, "Called map_refresh()\n");
-  
+    assert(ctx->ui_ctx != NULL);
+    assert(ctx->ui_ctx->map != NULL);  
     map_t *map = ctx->ui_ctx->map;
-    assert(map != NULL);
+    fprintf(stderr,"Set map\n");
     
     if (z != map->padz || x != map->padx || y != map->pady) {
+      fprintf(stderr,"About to call wclear()\n");
         wclear(map->pad);
+	
+	//Temp fprintf
+        fprintf(stderr,"Proceeding to call draw_rooms()\n");
         draw_rooms(ctx, -x, -y, z);
     }
 
