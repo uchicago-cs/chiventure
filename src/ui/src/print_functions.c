@@ -6,23 +6,22 @@
 #include <assert.h>
 #include <signal.h>
 #include "window.h"
+#include "ctx.h"
 #include "print_functions.h"
 
 
 
 /* see print_functions.h */
-void print_info(window_t *win)
+void print_info(chiventure_ctx_t *ctx, window_t *win)
 {
-    mvwprintw(win->w, 1, 2, "Score: %i", 0);
-    mvwprintw(win->w, 2, 2, "Moves: %i", 0);
+    mvwprintw(win->w, 1, 2, "Main Window");
 }
 
 /* see print_functions.h */
-void print_cli(window_t *win)
+void print_cli(chiventure_ctx_t *ctx, window_t *win)
 {
     static bool first_run = true;
     int x,y;
-
     if (!first_run)
     {
         char str[80];
@@ -56,7 +55,7 @@ void print_cli(window_t *win)
 }
 
 /* see print_functions.h */
-void print_map(window_t* win)
+void print_map(chiventure_ctx_t *ctx, window_t *win)
 {
     // prints the word map in the window
     mvwprintw(win->w, 1,2, "map");

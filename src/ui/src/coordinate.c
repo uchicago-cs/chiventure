@@ -4,6 +4,14 @@
 #include "coordinate.h"
 #include "assert.h"
 
+coord_t *coord_new(int x, int y)
+{
+    coord_t *c = malloc(sizeof(coord_t));
+    assert(c != NULL);
+    coord_init(c, x, y);
+    return c;
+}
+
 // see coordinate.h for details
 void coord_init(coord_t *c, int x, int y)
 {
@@ -74,4 +82,3 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r)
         return FAILURE;
     }
 }
-

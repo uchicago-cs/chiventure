@@ -37,7 +37,7 @@ typedef struct map {
 void ncurses_init();
 
 /* Draws a list of rooms starting at the coordinate given
- * 
+ *
  * Inputs:
  * - rooms: an array of pointers to rooms
  * - n: the number of rooms
@@ -45,17 +45,17 @@ void ncurses_init();
  * - top_y: to top left corner of the top-left-most room
  * - z: the z coordinate of the floor being drawn
  * - map: pointer to a map_t struct
- * 
+ *
  * Outputs:
  * - Draws the rooms to the scren
  */
 void draw_rooms(room_t **rooms, int n, int left_x, int top_y,int z, map_t *map);
 
 /* Gets an array of test rooms
- * 
- * Inputs: 
+ *
+ * Inputs:
  * - n: number of rooms to generate
- * 
+ *
  * Outputs:
  * - An array of pointers to random room structs
  */
@@ -103,4 +103,3 @@ int map_refresh(map_t *map, int x, int y, int z);
  * - 0
  */
 int map_center_on(map_t *map, int x, int y, int z);
-
