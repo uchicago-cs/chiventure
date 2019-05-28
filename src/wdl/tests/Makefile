@@ -6,7 +6,7 @@ LDLIBS = ../wdl.a ../../libobj/libobj.a -lyaml -lcriterion
 RM = rm -f
 BIN = test-wdl
 
-SRCS = main.c test_rooms.c test_items.c
+SRCS = main.c test_room.c test_item.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all

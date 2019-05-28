@@ -26,7 +26,7 @@
  * - 0 for successful parse
  * - 1 for unsuccessful parse
  */
-item_t* load_items(obj_t *doc, game_t *g );
+int load_items(obj_t *doc, game_t *g );
 
 /* load_actions
  * loads actions into the given item

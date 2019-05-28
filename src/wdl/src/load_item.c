@@ -4,7 +4,7 @@
 #include "parse.h"
 #include "game.h"
 #include "item.h"
-
+#include "load_item.h"
 
 /* hack alert
  * stop-gap solution until we get access to the game-state function
