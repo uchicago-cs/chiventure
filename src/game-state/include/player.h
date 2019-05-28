@@ -9,7 +9,6 @@
 #include "game_state_common.h"
 #include "item.h"
 
-#define ITER_ALL_PLAYERS(game, curr_player) player_t *ITTMP_PLAYER; HASH_ITER(hh, (game)->all_players, (curr_player), ITTMP_PLAYER)
 
 /* A player in game */
 typedef struct player {
@@ -30,7 +29,7 @@ typedef struct player *player_hash_t;
  * Parameters:
  *  p: A player. Must point to already allocated memory.
  *  health: The starting health of the player
- *  player_id: the unique string ID of the player. currently 
+ *  player_id: the unique string ID of the player. currently
  *   this will always be "1" since there is only one player
  *
  * Returns:
@@ -67,9 +66,9 @@ int player_free(player_t *plyr);
  * Parameters:
  *  hashtable of players that need to be deleted
  * Returns:
- *  SUCCESS if successful, FAILURE if failed
+ *  SUCCESS if successful
  */
-void delete_all_players(player_hash_t players);
+int delete_all_players(player_hash_t players);
 
 /*
  * Returns the health of a player

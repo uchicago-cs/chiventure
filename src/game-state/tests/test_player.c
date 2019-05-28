@@ -173,7 +173,7 @@ Test(player, add_item_to_player)
   cr_assert_not_null(player->inventory, "add_item_to_player() failed to add item");
 }
 
-/* Commented out because currently this function is not in use
+/* Checks that delete_all_players successfully empties the game's player hash table */
 Test(player, delete_all_players)
 {
   player_t *player = player_new("1", 100);
@@ -186,8 +186,8 @@ Test(player, delete_all_players)
   cr_assert_eq(res, SUCCESS, "add_player_to_game() failed to add player to game");
   cr_assert_eq(res2, SUCCESS, "add_player_to_game() failed to add player to game");
 
-  delete_all_players(game->all_players);
+  int res3 = delete_all_players(game->all_players);
 
-  cr_assert_eq(NULL, game->all_players, "delete_all_players() failed to delete players");
+  cr_assert_eq(res3, SUCCESS, "delete_all_players() failed to delete players");
 }
-*/
+

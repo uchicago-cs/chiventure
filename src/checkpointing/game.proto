@@ -1,0 +1,36 @@
+syntax = "proto2";
+
+message Object {
+    required string object_id = 1;
+    optional string short_desc = 2;
+    optional string long_desc = 3;
+}
+
+message Room {
+    required string room_id = 1;
+    optional string short_desc = 2;
+    optional string long_desc = 3;
+    required int32 objs_len = 4; 
+    repeated Object objs = 5; //Array of all object ids in room
+}
+
+message Player {
+    required int32 player_id = 1;
+    optional string username = 2;
+    optional int32 level = 3;  
+    optional int32 health = 4;
+    optional int32 xp = 5;
+    repeated Object inventory = 6; //Array of all object ids in inventory
+    required int32 inventory_len = 7;
+    repeated Object clothes = 8; //Array of all object ids worn by player
+    required int32 clothes_len = 9;
+}   
+
+message Game {
+    repeated Player players = 1; //Array of all players (submessage)
+    required int32 players_len = 2;
+    repeated Room rooms = 3; //Array of all rooms (submessage)
+    required int32 rooms_len = 4;
+    optional string curr_room = 5; //ID of current room
+    optional int32 start_time = 6;
+}

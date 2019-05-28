@@ -6,6 +6,8 @@
 #include "room.h"
 #include "item.h"
 
+#define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM; HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
+#define ITER_ALL_PLAYERS(game, curr_player) player_t *ITTMP_PLAYER; HASH_ITER(hh, (game)->all_players, (curr_player), ITTMP_PLAYER)
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
@@ -29,18 +31,18 @@ typedef struct game {
 
     /* starting string description to be presented at beginning of game */
     char *start_desc;
-  
+
     /* time when game started */
     //int time_start;
 } game_t;
 
 
 /* Malloc space for a new game struct
- * This only takes in the beginning string description and 
+ * This only takes in the beginning string description and
  * creates a new game without rooms and players
  *
  * Parameters:
- *  string description 
+ *  string description
  *
  * Returns:
  *  a new game struct
@@ -108,10 +110,10 @@ int add_room_to_game(game_t *game, room_t *room);
 * Function to connect two rooms
 * Parameters:
 * game, Source room_id, destination room_id, direction
-* 
+*
 * Returns:
 * SUCCESS if all okay, exit(1) if src room_id not found, exit(2) if dest not found
-* 
+*
 * WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
 int create_connection(game_t *game, char* src_room, char* dest_room, char* direction);

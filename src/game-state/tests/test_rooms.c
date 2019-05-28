@@ -42,7 +42,7 @@ Test(room_start, free)
 
 }
 
-/* Tests add_item_to_room 
+/* Tests add_item_to_room
 * Adds two items with different ids
 */
 Test(room_item, add_item_to_room)
@@ -97,7 +97,7 @@ Test(room_item, get_nonexistent_item)
 
 }
 
-/* Checks if sdesc is correctly returned 
+/* Checks if sdesc is correctly returned
 * Runs two small tests
 * Tests same sdesc and different sdesc
 */
@@ -105,7 +105,7 @@ Test(room_get, get_sdesc) {
     room_t *new_room = room_new("test_room", "room for testing", "testing if memory is correctly allocated for new rooms");
     char test[MAX_SDESC_LEN] = "room for testing";
     char fail[MAX_SDESC_LEN] = "this is supposed to fail";
-    int check = strncmp(get_sdesc(new_room), test, MAX_SDESC_LEN); 
+    int check = strncmp(get_sdesc(new_room), test, MAX_SDESC_LEN);
     int check2 = strncmp(get_sdesc(new_room), fail, MAX_SDESC_LEN);
 	//if check2 returns !SUCCESS, set to SUCCESS
     if(check2 != SUCCESS)
@@ -114,16 +114,16 @@ Test(room_get, get_sdesc) {
     cr_assert_eq(check2, SUCCESS, "get_sdesc: failed to fail wrong strncmp");
 }
 
-/* Checks if ldesc is correctly returned 
+/* Checks if ldesc is correctly returned
 * Runs two small tests
 * Tests same ldesc and different ldesc
 */
-Test(room_get, get_ldesc) 
+Test(room_get, get_ldesc)
 {
     room_t *new_room = room_new("test_room", "room for testing", "testing if memory is correctly allocated for new rooms");
     char test[MAX_LDESC_LEN] = "testing if memory is correctly allocated for new rooms";
     char fail[MAX_LDESC_LEN] = "this is supposed to fail";
-    int check = strncmp(get_ldesc(new_room), test, MAX_LDESC_LEN); 
+    int check = strncmp(get_ldesc(new_room), test, MAX_LDESC_LEN);
     int check2 = strncmp(get_ldesc(new_room), fail, MAX_LDESC_LEN);
 	//if check2 returns !SUCCESS, set to SUCCESS
     if(check2 != SUCCESS)
@@ -136,7 +136,7 @@ Test(room_get, get_ldesc)
 * Runs two tests
 * test1 checks if correct room is returned
 * test2 checks if non-null room is returned
-*/ 
+*/
 Test(room_find, find_room_from_dir)
 {
 	room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
@@ -154,6 +154,50 @@ Test(room_find, find_room_from_dir)
 	cr_assert_eq(c1, SUCCESS, "failed to obtain correct room_id");
 
 }
+
+Test(iter_macro, iter_paths)
+{
+    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
+    room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
+    add_path_to_room(room1, path_new(room2, "north"));
+    add_path_to_room(room1, path_new(room3, "south"));
+    int cnt = 0;
+    path_t *curr_path;
+    ITER_ALL_PATHS(room1, curr_path) {
+        cnt++;
+        if (!strcmp(curr_path->dest->room_id, "room3")) {
+            cr_assert_str_eq(curr_path->direction, "south", "direction does not correspond");
+        } else if (!strcmp(curr_path->dest->room_id, "room2")) {
+            cr_assert_str_eq(curr_path->direction, "north", "direction does not correspond");
+        }
+    }
+    cr_assert_eq(cnt, 2, "wrong path counts");
+    room_free()
+}
+
+// Conditions not done yet. Leave it for now.
+/*
+Test(iter_macro, iter_conditions)
+{
+    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
+    path_t *path = path_new(room2, "north");
+    add_path_to_room(room1, path);
+    add_condition_to_path(path, condition_new());
+    int cnt = 0;
+    path_t *curr_path;
+    ITER_ALL_CONDITIONS(room1, curr_condi) {
+        cnt++;
+        if (!strcmp(curr_path->dest->room_id, "room3")) {
+            cr_assert_str_eq(curr_path->direction, "south", "direction does not correspond");
+
+            cr_assert_str_eq(curr_path->direction, "north", "direction does not correspond");
+        }
+    }
+    cr_assert_eq(cnt, 2, "wrong path counts");
+}
+*/
 
 /*
 //tested
