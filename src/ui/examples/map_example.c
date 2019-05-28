@@ -9,6 +9,9 @@
 
 int main()
 {
+  FILE *debug = fopen("debug.txt","w");
+  fprintf(debug,"STARTED MAIN\n");
+  
     ncurses_init();
 
     int cur_x = 0;
