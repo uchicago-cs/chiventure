@@ -5,6 +5,8 @@ addons:
       - libyaml-dev
       - protobuf-compiler
       - protobuf-c-compiler
+      - criterion-dev
+      - criterion
 
 branches:
   only:
