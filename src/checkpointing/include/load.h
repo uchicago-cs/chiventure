@@ -1,7 +1,7 @@
 #ifndef LOAD_H
 #define LOAD_H
 #include "game.pb-c.h"
-
+#include "game.h"
 
 /* 
  * Takes a file, reads it, and returns the length of file
