@@ -2,9 +2,9 @@
 #define _ACTIONS_H_
 
 #include "action_structs.h"
-#include "item.h"
-#include "path.h"
-#include "game.h"
+#include "../../game-state/include/item.h"
+#include "../../game-state/include/path.h"
+#include "../../game-state/include/game.h"
 
 /* File consisting of all functions created by action management
    =========================================================================== */

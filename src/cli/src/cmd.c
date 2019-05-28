@@ -8,62 +8,95 @@
 
 /* === hashtable constructors === */
 
-void add_entry(char * command_name, operation * associated_operation, lookup_t * * table)
+void add_entry(char *command_name, operation *associated_operation, lookup_t **table)
 {
-    lookup_t * t = malloc(sizeof(lookup_t));
+    lookup_t *t = malloc(sizeof(lookup_t));
     t->name = command_name;
     t->operation_type = associated_operation;
-    HASH_ADD_KEYPTR(hh, * table, t->name, strlen(t->name), t);
-    printf("%d\n",HASH_COUNT(* table) );
+    HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
+    printf("%d\n",HASH_COUNT(*table));
+
+    /* This is code for how we will print once we get UI context structs, ideally they
+       will provide a function for printing so we don't have to lookup x and y coordinates
+       every time. Ignore this for now.
+
+       int y;
+       int x;
+       getyx(win->w, y, x);
+       mvwprintw(win->w, y + 1, 2, HASH_COUNT(*table));
+    */
 }
 
-//void add_action_entries(action_t * action_value, lookup_t * table){
-// To be filled with a while loop that adds each synonym,
-// and maps the enum in the action value to the proper operation.
-//}
+void add_action_entries(lookup_t **table){
+ //To be filled with a while loop that adds each synonym,
+ //and maps the enum in the action value to the proper operation.
+    list_action_type_t *all_actions = get_supported_actions();
 
-lookup_t * find_entry(char * command_name, lookup_t * * table)
+    while(all_actions->next != NULL)
+    {
+        action_type_t *curr_action = all_actions->act;
+        lookup_t *t = malloc(sizeof(lookup_t));
+
+        t->name = curr_action->c_name;
+        if(curr_action->kind == 1) {
+            t->operation_type = type1_action_operation;
+        }
+        else if(curr_action->kind == 2) {
+            t->operation_type = type2_action_operation;
+        }
+        else if(curr_action->kind == 3) {
+            t->operation_type = type3_action_operation;
+        }
+
+        HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
+        printf("%d\n",HASH_COUNT(*table));
+    }
+
+
+}
+
+lookup_t *find_entry(char *command_name, lookup_t **table)
 {
-    lookup_t * t;
-    HASH_FIND_STR(* table, command_name, t);
+    lookup_t *t;
+    HASH_FIND_STR(*table, command_name, t);
     return t;
 }
 
-operation * find_operation(char * command_name, lookup_t * * table)
+operation *find_operation(char *command_name, lookup_t **table)
 {
-    lookup_t * t;
+    lookup_t *t;
     if (t = find_entry(command_name, table)) return t->operation_type;
     return NULL;
 }
 
-// operation * find_action(char * command_name, lookup_t * table){
-//   return find_entry(command_name)->action_type;
-// }
+action_type_t *find_action(char *command_name, lookup_t *table){
+  return find_entry(command_name, table)->action;
+}
 
 
-void delete_entry(char * command_name, lookup_t * * table)
+void delete_entry(char *command_name, lookup_t **table)
 {
-    lookup_t * t = find_entry(command_name, table);
-    HASH_DEL(* table, t);
+    lookup_t *t = find_entry(command_name, table);
+    HASH_DEL(*table, t);
     free(t);
 }
 
-void delete_entries(lookup_t * * table)
+void delete_entries(lookup_t **table)
 {
-    lookup_t * tmp;
-    lookup_t * current_user;
-    HASH_ITER(hh, * table, current_user, tmp)
+    lookup_t *tmp;
+    lookup_t *current_user;
+    HASH_ITER(hh, *table, current_user, tmp)
     {
-        HASH_DEL(* table, current_user);
+        HASH_DEL(*table, current_user);
         free(current_user);
     }
 }
 
-lookup_t * * initialize_lookup()
+lookup_t **initialize_lookup()
 {
-    lookup_t * * table = malloc(sizeof(*table));
+    lookup_t **table = malloc(sizeof(*table));
     add_entry("QUIT", quit_operation,  table);
-    printf("%d\n",HASH_COUNT(* table) );
+    printf("%d\n",HASH_COUNT(*table) );
     add_entry("HELP", help_operation, table);
     add_entry("HIST", hist_operation,  table);
     add_entry("TAKE", type1_action_operation,table);
@@ -71,6 +104,7 @@ lookup_t * * initialize_lookup()
     add_entry("LOOK",look_operation, table);
     add_entry("INV", inventory_operation, table);
     add_entry("SAVE", save_operation, table);
+    add_action_entries(table);
     return table;
 }
 
@@ -127,14 +161,14 @@ void cmd_show(cmd *c)
 /* === command parsing === */
 
 /* See cmd.h */
-cmd *cmd_from_tokens(char **ts, lookup_t * table)
+cmd *cmd_from_tokens(char **ts, lookup_t *table)
 {
     cmd *output = assign_action(ts, table);
     return output;
 }
 
 /* See cmd.h */
-cmd *cmd_from_string(char *s, lookup_t * table)
+cmd *cmd_from_string(char *s, lookup_t *table)
 {
     char **parsed_input = parse(s);
     if(parsed_input == NULL)
@@ -149,7 +183,7 @@ cmd *cmd_from_string(char *s, lookup_t * table)
 /* =================================== */
 
 /* See cmd.h */
-void do_cmd(cmd *c,int *quit, game_t * game)
+void do_cmd(cmd *c,int *quit, game_t *game)
 {
     char *outstring;
     /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */

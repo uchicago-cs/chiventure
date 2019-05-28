@@ -5,6 +5,7 @@
 #include "shell.h"
 #include "assert.h"
 #include "validate.h"
+
 // remove the comment as soon as checkpointing removes their dummy struct
 //#include "../../checkpointing/include/save.h"
 
@@ -54,7 +55,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 }
 
 //KIND 1:   ACTION <item>
-char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
     if(tokens[1]==NULL)
     {
@@ -65,7 +66,8 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
     {
 	if (strcmp(curr_item->item_id,tokens[1])==0)
 	{
-		// call action magement function
+        action_type_t *action = find_action(tokens[0], table);
+        do_item_action(game, action, curr_item);
 		return "The object is found\n";
 	}
     }
@@ -73,14 +75,26 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 }
 
 //KIND 2:   ACTION <direction>
-char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
-    printf("%s\n",tokens[0] );
-    return "is a direction action!";
+    path_t *curr_path;
+    ITER_ALL_PATHS(game->curr_room, curr_path)
+    {
+        if (strcmp(curr_path->direction,tokens[1])==0)
+        {
+            action_type_t *action = find_action(tokens[0], table);
+            do_path_action(game, action, curr_path);
+            return "Direction available!\n";
+        }
+    }
+
+    return "You cannot go in this direction\n";
+    
+    
 }
 
 //KIND 3:   ACTION <item> <item>
-char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
 {
     if(tokens[1]==NULL || tokens[3]==NULL)
     {
@@ -107,7 +121,8 @@ char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
         return "The object(s) could not be found";
     }
 
-	// call action management function
+    action_type_t *action = find_action(tokens[0], table);
+    do_item_item_action(game, action, item1, item2);
     return "is an action!";
 }
 
@@ -136,8 +151,3 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 //    return "is an action!";
 //}
 
-void create_type1_action(char *tokens[TOKEN_LIST_SIZE], game_t *game) {}
-void create_type2_action(char *tokens[TOKEN_LIST_SIZE], game_t *game) {}
-void create_type3_action(char *tokens[TOKEN_LIST_SIZE], game_t *game) {}
-
-//void create_type4_action(char *tokens[TOKEN_LIST_SIZE], game_t *game) {}

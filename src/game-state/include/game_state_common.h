@@ -7,8 +7,8 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
-#include "uthash.h"
-#include "utlist.h"
+#include "../../common/include/uthash.h"
+#include "../../common/include/utlist.h"
 
 #define MAX_ID_LEN 20
 #define MAX_SDESC_LEN 50
