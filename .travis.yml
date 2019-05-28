@@ -16,3 +16,7 @@ compiler: gcc
 
 script:
   - make
+  - cd src/game-state/
+  - make tests
+  - tests/test-libgamestate
+  - cd ../../
