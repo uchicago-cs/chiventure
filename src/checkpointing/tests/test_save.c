@@ -6,8 +6,7 @@
 #include "save.h"
 #include "game.h"
 
-// attribute not yet determined to be used yet
-/*
+// Attribute struct may change in the future, expect changes
 Test(save, attribute_value)
 {
     attribute_value_t *d_t;
@@ -56,7 +55,6 @@ Test(save, attribute_value)
     cr_assert_eq(success, 0, "save_attribute_value failed");
     cr_assert_eq(i->has_int_val, 1,  "save_attribute_value failed to save has_int");
     cr_assert_eq(i->int_val, 5,  "save_attribute_value failed to save int");
-    
 }
 
 Test(save, attribute)
@@ -72,7 +70,6 @@ Test(save, attribute)
     bv_t->bool_val = true;
     sv_t->str_val = "string";
     iv_t->int_val = 5;
-
 
     attribute_t *d_t;
     attribute_t *c_t;
@@ -100,7 +97,6 @@ Test(save, attribute)
     i_t->attribute_tag = INTEGER;
     i_t->attribute_value = iv_T;
 
-    
     Attribute *d;
     attribute__init(d);
     Attribute *c;
@@ -116,31 +112,40 @@ Test(save, attribute)
 
     success = save_attribute(d_t, d);
     cr_assert_eq(success, 0, "save_attribute_value failed");
-    cr_assert_eq(d->attribute_key, "double", "save_attribute_value failed to save attribute_key");
-    cr_assert_eq(d->attribute_tag, "DOUBLE", "save_attribute_value failed to save attribute_tag");
+    cr_assert_eq(d->attribute_key, "double",
+		 "save_attribute failed to save attribute_key");
+    cr_assert_eq(d->attribute_tag, "DOUBLE",
+		 "save_attribute failed to save attribute_tag");
 
     success = save_attribute(c_t, c);
     cr_assert_eq(success, 0, "save_attribute_value failed");
-    cr_assert_eq(c->attribute_key, "char", "save_attribute_value failed to save attribute_key");
-    cr_assert_eq(c->attribute_tag, "CHARACTER", "save_attribute_value failed to save attribute_tag");
+    cr_assert_eq(c->attribute_key, "char",
+		 "save_attribute failed to save attribute_key");
+    cr_assert_eq(c->attribute_tag, "CHARACTER",
+		 "save_attribute failed to save attribute_tag");
     
     success = save_attribute(b_t, b);
-    cr_assert_eq(success, 0, "save_attribute_value failed");
-    cr_assert_eq(b->attribute_key, "bool", "save_attribute_value failed to save attribute_key");
-    cr_assert_eq(b->attribute_tag, "BOOLE", "save_attribute_value failed to save attribute_tag");
+    cr_assert_eq(success, 0, "save_attribute failed");
+    cr_assert_eq(b->attribute_key, "bool",
+		 "save_attribute failed to save attribute_key");
+    cr_assert_eq(b->attribute_tag, "BOOLE",
+		 "save_attribute failed to save attribute_tag");
 
     success = save_attribute(s_t, s);
-    cr_assert_eq(success, 0, "save_attribute_value failed");
-    cr_assert_eq(s->attribute_key, "string", "save_attribute_value failed to save attribute_key");
-    cr_assert_eq(s->attribute_tag, "STRING", "save_attribute_value failed to save attribute_tag");
+    cr_assert_eq(success, 0, "save_attribute failed");
+    cr_assert_eq(s->attribute_key, "string",
+		 "save_attribute failed to save attribute_key");
+    cr_assert_eq(s->attribute_tag, "STRING",
+		 "save_attribute failed to save attribute_tag");
     
     success = save_attribute(i_t, i);
-    cr_assert_eq(success, 0, "save_attribute_value failed");
-    cr_assert_eq(i->attribute_key, "int", "save_attribute_value failed to save attribute_key");
-    cr_assert_eq(i->attribute_tag, "INTEGER", "save_attribute_value failed to save attribute_tag");
-    
+    cr_assert_eq(success, 0, "save_attribute failed");
+    cr_assert_eq(i->attribute_key, "int",
+		 "save_attribute failed to save attribute_key");
+    cr_assert_eq(i->attribute_tag, "INTEGER",
+		 "save_attribute failed to save attribute_tag");
 }
-*/
+
 
 Test(save, item)
 {
@@ -148,7 +153,7 @@ Test(save, item)
     char *item_id = "1234";
     char *short_desc = "salt water taffy";
     char *long_desc = "glues mouth shut";
-    // game-state's function
+    // item_new is a function in game-states's item.h. It creates an item_t struct.
     candy_t = item_new(item_id, short_desc, long_desc);
 
     Item *candy;
@@ -173,10 +178,12 @@ Test(save, item)
     
     cr_assert_eq(success, 0, "save_item failed");
     cr_assert_eq(candy->item_id, "1234", "save_item: saving item_id failed");
-    cr_assert_eq(candy->short_desc, "salt water taffy", "save_item: saving short_desc failed");
-    cr_assert_eq(candy->long_desc, "glues mouth shut", "save_item: saving long_desc failed");
-    cr_asser_eq(candy->attributes_len, 5, "save_item: saving the attributes_len failed");
-    // we'll test attributes when its finished
+    cr_assert_eq(candy->short_desc, "salt water taffy",
+		 "save_item: saving short_desc failed");
+    cr_assert_eq(candy->long_desc, "glues mouth shut",
+		 "save_item: saving long_desc failed");
+    cr_asser_eq(candy->attributes_len, 5,
+		"save_item: saving the attributes_len failed");
 }
 
 Test(save, room)
@@ -185,16 +192,18 @@ Test(save, room)
     char *room_id = "5";
     char *short_desc = "college dorm";
     char *long_desc = "there are clothes and empty ramen cups everywhere";
+    // room_new is a function in game-states's room.h. It creates a room_t struct.
     room_t = room_new(room_id, short_desc, long_desc);
 
     item_t *ramen_t;
     char *i_item_id = "1234";
     char *i_short_desc = "cup ramen";
     char *i_long_desc = "has already been eaten";
-    // game-state's function
+    // item_new is a function in game-states's item.h. It creates an item_t struct.
     ramen_t = item_new(item_id, short_desc, long_desc);
 
     path_t *path_t;
+    // path_new is a function in game-states's path.h. It creates a path_t struct.
     path_t = path_new("4")
 
     int item_succ = add_item_to_room(room_t, ramen_t);
@@ -205,15 +214,22 @@ Test(save, room)
 
     cr_assert_eq(success, 0, "save_room failed");
     cr_assert_eq(dorm->room_id, "5", "save_room: saving room_id failed");
-    cr_assert_eq(dorm->short_desc, "college dorm", "save_room: saving short_desc failed");
+    cr_assert_eq(dorm->short_desc, "college dorm",
+		 "save_room: saving short_desc failed");
     cr_assert_eq(dorm->long_desc, "there are clothes and empty ramen cups everwhere",
                                         "save_room: saving long_desc failed");
-    // will check items and paths when jarvis finishes
+    /* There is potential changes coming regarding whether we include paths.
+     * We additionally need a way to check if an item was stored in the hash.
+     * This might need to be some discussion with Game-State.
+     */
 }
 
 Test(save, player)
 {
     player_t *player_t;
+    /* player_new is a function in game-states's player.h. It creates a
+     * player_t struct.
+     */
     player_t = player_new(1);
 
     Player *chad;
@@ -226,17 +242,21 @@ Test(save, player)
 
 Test(save, game)
 {
+    // game_new is a function in game-states's game.h. It creates a game_t struct.
     game_t *game_t = game_new();
-
 
     room_t *room_t;
     char *room_id = "5";
     char *short_desc = "college dorm";
     char *long_desc = "there are clothes and empty ramen cups everywhere";
+    // room_new is a function in game-states's room.h. It creates a room_t struct.
     room_t = room_new(room_id, short_desc, long_desc);
     int room_succ = add_room_to_game(game_t, room_t);
 
     player_t *player_t;
+     /* player_new is a function in game-states's player.h. It creates a
+     * player_t struct.
+     */
     player_t = player_new(1);
     player_t->player_id = "Chad";
     int player_succ = add_player_to_game(game_t, player_t);
@@ -252,14 +272,14 @@ Test(save, game)
     cr_assert_eq(success, 0, "save_game failed");
     cr_assert_eq(game->curr_room, "1234", "save_game: saving curr_room failed");
     cr_assert_eq(game->curr_player, "Chad", "save_game: saving curr_player failed");
-    cr_asser_eq(game->players_len, 1, "save_game: saving players_len failed");
-    cr_asser_eq(game->allplayers[0].player_id, "Chad",
+    cr_assert_eq(game->players_len, 1, "save_game: saving players_len failed");
+    cr_assert_eq(game->allplayers[0].player_id, "Chad",
 		 "save_game: saving player_id failed");
-    cr_asser_eq(game->rooms_len, 1, "save_game: saving rooms_len failed");
-    cr_asser_eq(game->all_rooms[0].room_id, "5", "save_game: saving room_id failed");
-    cr_asser_eq(game->all_rooms[0].short_desc, "college dorm",
-		"save_game: saving room_id failed");
-    cr_asser_eq(game->all_rooms[0].long_desc,
+    cr_assert_eq(game->rooms_len, 1, "save_game: saving rooms_len failed");
+    cr_assert_eq(game->all_rooms[0].room_id, "5", "save_game: saving room_id failed");
+    cr_assert_eq(game->all_rooms[0].short_desc, "college dorm",
+		"save_game: saving short_desc failed");
+    cr_assert_eq(game->all_rooms[0].long_desc,
 		"there are clothes and empty ramen cups everywhere",
-		"save_game: saving room_id failed");
+		"save_game: saving long_desc failed");
 }
