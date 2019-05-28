@@ -5,7 +5,6 @@
 #include "shell.h"
 #include "cmd.h"
 #include "validate.h"
-
 /* === hashtable constructors === */
 
 void add_entry(char *command_name, operation *associated_operation, lookup_t **table)
@@ -18,7 +17,8 @@ void add_entry(char *command_name, operation *associated_operation, lookup_t **t
     /* This is code for how we will print once we get UI context structs, ideally they
        will provide a function for printing so we don't have to lookup x and y coordinates
        every time. Ignore this for now.
-
+       char * (*)(char **, game_t *, lookup_t **) {aka char * (*)(char **, struct <anonymous> *, struct lookup_entry **)}
+       char * (*)(char **, game_t *, lookup **) {aka char * (*)(char **, struct <anonymous> *, struct lookup_t **)}
        int y;
        int x;
        getyx(win->w, y, x);
@@ -61,7 +61,7 @@ lookup_t *find_entry(char *command_name, lookup_t **table)
 operation *find_operation(char *command_name, lookup_t **table)
 {
     lookup_t *t;
-    if (t = find_entry(command_name, table)) return t->operation_type;
+    if ((t = find_entry(command_name, table))) return t->operation_type;
     return NULL;
 }
 

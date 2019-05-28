@@ -9,25 +9,25 @@
 // remove the comment as soon as checkpointing removes their dummy struct
 //#include "../../checkpointing/include/save.h"
 
-char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     return NULL;
 }
 
-char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     help_text();
     return NULL;
 }
 
-char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     print_history();
     return NULL;
 }
 
 /* See operations.h */
-char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
 /*  if(tokens[1] == NULL){
     fprintf(stderr,"Save Error, No filename specified. \n");
@@ -37,7 +37,7 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table
 */  return NULL;
 }
 
-char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     if(tokens[1]==NULL)
     {
@@ -55,7 +55,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table
 }
 
 //KIND 1:   ACTION <item>
-char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     if(tokens[1]==NULL)
     {
@@ -75,7 +75,7 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 //KIND 2:   ACTION <direction>
-char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
@@ -89,12 +89,12 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
     }
 
     return "You cannot go in this direction\n";
-    
-    
+
+
 }
 
 //KIND 3:   ACTION <item> <item>
-char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     if(tokens[1]==NULL || tokens[3]==NULL)
     {
@@ -102,8 +102,8 @@ char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
     }
 
     item_t *item1, *item2;
-    int find_it1 = 1, find_it2 = 1; // set to be 0 if an item is found 
-    
+    int find_it1 = 1, find_it2 = 1; // set to be 0 if an item is found
+
     ITER_ALL_ITEMS_IN_ROOM(game->curr_room, item1)
     {
 	if (strcmp(item1->item_id,tokens[1])==0)
@@ -111,11 +111,11 @@ char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 		find_it1 = 0;
 	}
 	if (strcmp(item2->item_id,tokens[3])==0)
-        {   
+        {
             find_it2 = 0;
         }
     }
-    
+
     if(find_it1 == 1 || find_it2 == 1)
     {
         return "The object(s) could not be found";
@@ -127,12 +127,12 @@ char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     return "You cannot perform this action !";
 }
 
-char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **table)
+char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     item_t *t;
     int i = 0;
@@ -150,4 +150,3 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup **
 //    printf("%s\n",tokens[0] );
 //    return "is an action!";
 //}
-
