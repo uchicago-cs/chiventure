@@ -36,13 +36,13 @@ Test(load, attribute_value)
     atttribute_value_t *s_t;
     int succ_s = load_attribute_value(s_v, s_t);
     cr_assert_eq(succ_s, 0, "load_attribute_value failed");
-    cr_assert_eq(s_t->str_val, "string", "load_attribute_value failed to load string");
+    cr_assert_eq(s_t->str_val, "string",
+		 "load_attribute_value failed to load string");
 
     atttribute_value_t *i_t;
     int succ_i = load_attribute_value(i_v, i_t);
     cr_assert_eq(succ_i, 0, "load_attribute_value failed");
     cr_assert_eq(i_t->int_val, 5, "load_attribute_value failed to load int");
-  
 }
 
 Test(load, attribute)
@@ -153,8 +153,10 @@ Test(load, item)
 
     cr_assert_eq(success, 0, "save_item failed");
     cr_assert_eq(candy_t->item_id, "1234", "load_item: loading item_id failed");
-    cr_assert_eq(candy_t->short_desc, "salt water taffy", "load_item: loading short_desc failed");
-    cr_assert_eq(candy_t->long_desc, "glues mouth shut", "load_item: loading long_desc failed");
+    cr_assert_eq(candy_t->short_desc, "salt water taffy",
+		 "load_item: loading short_desc failed");
+    cr_assert_eq(candy_t->long_desc, "glues mouth shut",
+		 "load_item: loading long_desc failed");
 }
 
 
@@ -176,10 +178,14 @@ Test(load, room)
 
     cr_assert_eq(success, 0, "load_room failed");
     cr_assert_eq(room_t->room_id, "5", "load_room: loading room_id failed");
-    cr_assert_eq(room_t->short_desc, "college dorm", "load_room: loading short_desc failed");
-    cr_assert_eq(room_t->long_desc, "there are clothes and empty ramen cups everwhere",
-                                        "load_room: loading long_desc failed");
-    // will check items and paths when jarvis finishes
+    cr_assert_eq(room_t->short_desc, "college dorm",
+		 "load_room: loading short_desc failed");
+    cr_assert_eq(room_t->long_desc,
+		 "there are clothes and empty ramen cups everwhere",
+		 "load_room: loading long_desc failed");
+    /* We potentially need to talk to game-state about a function that let's us
+     * check the contents of the item hashtable within a room. 
+     */
 }
 
 Test(load, player)
@@ -197,7 +203,6 @@ Test(load, player)
 
 Test(load, game)
 {
-
     Game *game;
     game->curr_room = "5";
     game->curr_player = "chad";
