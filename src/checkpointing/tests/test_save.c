@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "game.pb-c.h"
 #include "save.h"
 #include "game.h"
