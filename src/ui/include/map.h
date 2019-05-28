@@ -1,27 +1,10 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "common.h"
+#include "room.h"
 
-/* These two test structs will be replaced with real structs
- * one communication with gamestate and calculation of coordinates
- * is complete
- */
-typedef struct coord {
-    int x;
-    int y;
-    int z;
-} coord_t;
-
-// This is a test room struct, simulates gamestate's room struct
-typedef struct room {
-    struct coord *loc;
-    char *name;
-    char ex_w;
-    char ex_e;
-    char ex_n;
-    char ex_s;
-} room_t;
-
+//Struct Declarations________________________________________________________
 /* The map struct holds a lot of crucial information for the performance
  * of all of the map functions
  */

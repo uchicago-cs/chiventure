@@ -83,7 +83,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
 }
 
 // See coordinate.h for details
-coord_record_t *create_valid_map()
+coord_record_t *create_valid_map(game_t *game)
 {
     //  Must set hash to NULL (see uthash documentation)
     coord_record_t *coordmap = NULL;
@@ -104,7 +104,7 @@ coord_record_t *create_valid_map()
     cr->key.y = 0;
     cr->r = initial;
 
-    HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr);
+    HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
 
     // Begin DFS search
     int r =  assign(coordmap, 0, 0, initial);
