@@ -1,9 +1,9 @@
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
-#include "../../game-state/include/game.h"
-#include "../../game-state/include/path.h"
-#include "../../action_management/include/actionmanagement.h"
+#include "game.h"
+#include "path.h"
+#include "actionmanagement.h"
 
 typedef struct lookup_t lookup;
 

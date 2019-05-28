@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "../include/parser.h"
+#include "parser.h"
 
 /* See parser.h */
 char **parse(char *input)

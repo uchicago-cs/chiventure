@@ -2,10 +2,10 @@
 #define _CLI_INCLUDE_CMD_H
 #include "parser.h"
 #include "operations.h"
-#include "../../game-state/include/game.h"
-#include "../../common/include/uthash.h"
-#include "../../action_management/include/action_structs.h"
-#include "../../action_management/include/actionmanagement.h"
+#include "game.h"
+#include "uthash.h"
+#include "action_structs.h"
+#include "actionmanagement.h"
 //#include "../../game-state/include/game.h"
 
 /* Operation data type */

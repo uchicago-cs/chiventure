@@ -1,18 +1,24 @@
 CC = gcc
-STC_LDFLAGS = -L../
-LIB = cli.a
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../action_management/include/
+LDFLAGS = -L../ -Wl,-rpath,.
 RM = rm -f
 
 SRCS = testshell.c
 OBJS = $(SRCS:.c=.o)
-BINS = testshell
+BIN = testshell
 
 .PHONY: all
-all: $(BINS)
+all: ${BIN}
 
-testshell: testshell.o ../cli.a 
-	$(CC) $(STC_LDFLAGS) $^ -o$@ -l:cli.a -lreadline
+$(BIN): $(OBJS)
+	$(CC) $(LDFLAGS) $(CFLAGS) $(OBJS) -o$(BIN) -l:cli.a -lreadline
+
+$(SRCS:.c=.d):%.d:%.c
+	$(CC) $(CFLAGS) -MM $< >$@
+
+include $(SRCS:.c=.d)
 
 .PHONY: clean
 clean:
-	$(RM) ${OBJS} ${BINS}
+	-${RM} ${BIN} ${OBJS} $(SRCS:.c=.d)
+
