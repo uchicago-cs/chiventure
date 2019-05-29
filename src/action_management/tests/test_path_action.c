@@ -6,22 +6,23 @@
 #include "item.h"
 #include "game.h"
 
-bool execute_do_path_action(char *c_name, enum action_kind kind,
-  char *direction, char *dest)
+bool execute_do_path_action(char *c_name, enum action_kind kind)
 {
+    char *dest = "dummy_room";
+    char *direction = "south";
     game_t *g = game_new;
     action_type_t *a = action_type_new(c_name, kind);
     path_t *path = path_new(direction);
-
+    
 
     char *expected_output = malloc(100); // buffer
     expected_output[0] = '\0';
     strcat(expected_output, "Requested action ");
     strcat(expected_output, c_name);
     strcat(expected_output, " in direction ");
-    strcat(expected_output, direction);
+    strcat(expected_output, p->direction);
     strcat(expected_output, " into room");
-    strcat(expected_output, dest);
+    strcat(expected_output, p->dest);
 
     bool rc;
     if (strcmp(do_path_action(g, a, path), expected_output) == 0)
