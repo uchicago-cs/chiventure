@@ -113,8 +113,8 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
 
 
 // ATTRIBUTE ADDITION & REPLACEMENT FUNCTIONS ---------------------------------
-// the following functions allow their users to add attributes to the given item
-// or replace (read: change) attributes associated
+// the following functions allow their users to add attributes to the given
+// item or replace (read: change) attributes associated
 
 /* set_str_attr() sets the value of an attribute of an item to the given string
  * Parameters:
@@ -138,7 +138,8 @@ int set_str_attr(item_t* item, char* attr_name, char* value);
  */
 int set_int_attr(item_t* item, char* attr_name, int value);
 
-/* set_double_attr() sets the value of an attribute of an item to the given double
+/* set_double_attr() sets the value of an attribute of an item to
+* the given double
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed

@@ -5,7 +5,6 @@
 #include "item.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
-//#define ITER_ALL_CONDITIONS(path, curr_condi) condition *ITTMP_CONDI; LL_FOREACH_SAFE((path)->conditions, curr_condi, ITTMP_CONDI)
 
 /* This struct represents a single condition that must be
  * met for a path to be taken. It includes an item, an
