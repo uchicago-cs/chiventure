@@ -32,19 +32,27 @@ typedef struct coord_record {
 
 
 // Create new coord_t struct
+<<<<<<< HEAD
 coord_t *coord_new (int x, int y);
 
 
 // Initialize coordi_t struct
 void coord_init(coord_t *c, int x, int y);
+=======
+coord_t *coord_new (int x, int y, int z);
+
+
+// Initialize coord_t struct
+void coord_init(coord_t *c, int x, int y, int z);
+>>>>>>> 89b180c2abc0be6544802a6fa6b2bbeda7144573
 
 /* find_coord():
- * - Implementation will use HASH_FIND to find coord_record
- * - Internal fcn only
+ * - Implementation uses HASH_FIND to find coord_record
+ * - UI Internal fcn only
  *
  * Parameters:
  * - coordmap: a pointer to the coordinate hash (internal to UI)
- * - x, y: Integer values (locations) of room
+ * - x, y, z: Integer values (locations) of room
  *   to search for in hash.
  *
  * Returns:
@@ -52,32 +60,32 @@ void coord_init(coord_t *c, int x, int y);
  *   exists at that coordinant key
  * - returns NULL if key not in hash
  */
-coord_record_t *find_coord(coord_record_t *coordmap, int x, int y);
+coord_record_t *find_coord(coord_record_t *coordmap, int x, int y, int z);
 
 /* try_add_coord():
  * Parameters:
- * - coordmap is both an in and out parameter, so must be non-NULL
- * - x, y are the respective coordinates. They will be bundled
- *  into a coordinate key for hashing
+ * - coordmap is both an in and out parameter, so it must be non-NULL
+ * - x, y, z are the respective coordinates. They will be bundled
+ *           into a coordinate key for hashing
  * - r is a pointer to the room to assign the coords to
  *
  * Return value:
- * - returns SUCCESS if does not find coordinate and add its
+ * - returns SUCCESS if:
+ *           -  does not find coordinate and successfully adds it
+ *           - finds coordinate and it is already mapped to the same room
  * - returns FAILURE if it finds coordinate already and
  *   the coord is mapped to a different room
  *
  * Note:
  * - Printing debug statements to a seperate txt file
- * - Currently does not support z coordinates
  *
  * Info on struct keys from uthash guide:
  * https://troydhanson.github.io/uthash/userguide.html#_structure_keys
  */
-int try_add_coord(coord_record_t *coordmap, int x, int y, room_t *r);
+int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r);
 
 
 /* create_valid_map():
- * - will be called on as soon as game is loaded in by WDL and Game State
  *
  * Parameters: TO-DO
  * - Will Pass in info from WDL/gamestate. Likely will take in
