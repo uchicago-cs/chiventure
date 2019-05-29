@@ -9,12 +9,16 @@
 
 /*
  * UI context struct.  Contains the following fields:
+ *  - map : contains the map of the game
+ *  - player_loc : current player location
  *  - map_win : contains the map
  *  - main_win : main window. May contain images or other info about the game
  *  - cli_win : window that contains the CLI. It's always displayed
  *  - displayed_win : window that is diplayed along with the CLI.
  *  - coord_hash: a pointer to the head of a hash map that matches
  *                coordinate keys to room pointers
+ *  - curr_page : indicates what page to be displayed
+ *  - cli_top : indicates if the CLI will be on top
  */
 typedef struct ui_ctx {
     map_t *map;
@@ -53,7 +57,8 @@ ui_ctx_t *ui_ctx_new(game_t *game);
  * displayed_win is intially set to main_win.
  *
  * Parameters
- * - a pointer to the game_t struct
+ * - ui_ctx : ui context struct to be initialized
+ * - game : a pointer to the game_t struct
  * Returns:
  * - SUCCESS if every field can be initialized and a logical
  *   coordinate system can be assigned to each room

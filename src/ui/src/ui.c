@@ -11,6 +11,10 @@
 #include "print_functions.h"
 #include "ui_ctx.h"
 
+/* MAIN_WIN_NUM will indicate we are in the main window
+ * MAP_WIN_NUM will mean we are in the map window
+ * INV_WIN_NUM will indicate we are in the inventory window
+ */
 #define MAIN_WIN_NUM 1
 #define MAP_WIN_NUM 2
 #define INV_WIN_NUM 3
@@ -21,11 +25,6 @@ void start_ui(chiventure_ctx_t *ctx)
     signal(SIGINT, SIG_IGN);
 
     ui_ctx_t *ui_ctx = ctx->ui_ctx;
-
-    /* MAIN_WIN_NUM will indicate we are in the main window
-     * MAP_WIN_NUM will mean we are in the map window
-     * INV_WIN_NUM will indicate we are in the inventory window
-     */
     int ch;
 
 
@@ -38,23 +37,14 @@ void start_ui(chiventure_ctx_t *ctx)
     int width = COLS;
     int height = LINES /2;
 
-    /*
-        // Initializes the main window
-        window_t *main_win = window_new(height, width, cli_top * height, 0, print_info, true);
-    */
-    // The map window is initialized and a random room array is generated
-    int num_rooms = 20;
-    room_t **rooms = get_test_rooms(num_rooms);
-    map_t *map = map_init(rooms,num_rooms);
 
+
+    map_t *map = ui_ctx->map;
     // Initializes the CLI window
     window_t *cli = ui_ctx->cli_win;
     window_t *info = ui_ctx->displayed_win;
 
-    // reads input from the cli window, allows scrolling
-    /*    keypad(cli->w, TRUE);
-        scrollok(cli->w, TRUE);
-    */
+
     // prints the score and number of moves in the info window
     window_print(ctx, info);
     window_print(ctx, cli);
@@ -102,7 +92,6 @@ void start_ui(chiventure_ctx_t *ctx)
             }
             else if (ch == 's') {
                 ch = 27;
-
                 layout_switch(ctx);
             }
         }
@@ -112,9 +101,6 @@ void start_ui(chiventure_ctx_t *ctx)
             window_print(ctx,  cli);
             noecho();
         }
-
-        // Prints the cli to the screen
-        //    window_print(ctx, cli);
 
         // This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM) {

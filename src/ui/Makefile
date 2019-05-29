@@ -6,7 +6,12 @@ CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-
 RM = rm -f
 LIB = ui.a
 LDLIBS = -lncurses -lreadline
-STLIBS = ../common/common.a ../cli/cli.a ../game-state/game-state.a
+
+COMMON = -L../common/ -Wl,-rpath,../common/ common.a
+CLI = -L../cli/ -Wl,-rpath,../cli/ cli.a
+GAME_STATE = -L../game-state/ -Wl,-rpath,../game-state/ game-state.a
+STLIBS = $(COMMON) $(CLI) $(GAME_STATE)
+
 .PHONY: all clean examples
 
 all: $(LIB)
@@ -41,7 +46,7 @@ $(EXAMPLE_SRCS:.c=.d):%.d:%.c
 -include $(EXAMPLE_SRCS:.c=.d)
 
 $(EXAMPLE_BINS): %:%.c $(LIB)
-	$(CC) $(CFLAGS)  $^  $(STLIBS)  -o$@ $(LDLIBS)
+	$(CC) $(CFLAGS) $^ $(STLIBS) -o$@ $(LDLIBS)
 
 examples: $(EXAMPLE_BINS)
 

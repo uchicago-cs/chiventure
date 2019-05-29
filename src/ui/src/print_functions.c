@@ -33,37 +33,33 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
         return;
     }
 
-    int x,y;
+    int x, y;
     char input[80];
     int quit = 1;
     char *cmd_string;
     wgetnstr(win->w, input, 80);
 
 
-    //char* input = readline("chiventure (enter HELP for help)> ");
-
     cmd_string = strdup(input);
-    //putchar('\n');
     //check whether user input is empty
-    if (!strcmp(cmd_string,"")) {
+    if (!strcmp(cmd_string, "")) {
         return;
     }
 
     cmd *c = cmd_from_string(cmd_string);
     if (!c) {
         shell_error_arg("unrecognized or malformed command: \"%s\"", input);
-        //    putchar('\n');
     }
     else {
         do_cmd(c,&quit);
         // Add valid input to readline history.
-        //add_history(input);
+        add_history(input);
     }
 
-    if (cmd_string)
+    if (cmd_string) {
         free(cmd_string);
-    //cmd_free(c);
-    //free(input);
+    }
+
 
     print_to_cli(ctx, ">");
 

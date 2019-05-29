@@ -31,11 +31,11 @@ typedef struct coord_record {
 } coord_record_t;
 
 
-// Create new coordinate_t struct
+// Create new coord_t struct
 coord_t *coord_new (int x, int y);
 
 
-// Initialize coordinate_t struct
+// Initialize coordi_t struct
 void coord_init(coord_t *c, int x, int y);
 
 /* find_coord():
