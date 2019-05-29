@@ -31,8 +31,12 @@ int load_item(Item *i, item_t *i_t)
         fprintf(stderr, "given null item_t struct\n");
         return -1;
     }
-
-    i_t->item_id = i->item_id;
+	
+	if (i->item_id == NULL){
+        fprintf(stderr, "no item id saved\n");
+    } else {
+        i_t->item_id = i->item_id;
+    }
 
     if (i->short_desc != NULL) {
         i_t->short_desc = i->short_desc;
@@ -181,9 +185,8 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
         fprintf(stderr, "given null player_t struct\n");
         return -1;
     }
-    if (p_t->player_id == NULL) {
-        fprintf(stderr, "given null player id\n");
-        return -1;
+    if (p->player_id == NULL) {
+        fprintf(stderr, "saved null player id\n");
     } else { 
         p_t->player_id = p->player_id;
     }
