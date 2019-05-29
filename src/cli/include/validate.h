@@ -29,7 +29,7 @@
  *    If the action is invalid, assigns the cmd pointer
  *    to action_error_operation
  */
-cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t *table);
+cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
 
 
 /*
@@ -42,7 +42,7 @@ cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t *table);
  * Returns:
  *  - FALSE if the action is not supported; TRUE if it is.
  */
-bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t *table);
+bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t **table);
 
 
 /*

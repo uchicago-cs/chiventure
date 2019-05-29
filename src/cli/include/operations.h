@@ -1,7 +1,11 @@
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
-#include "../../game-state/include/game.h"
+#include "game.h"
+#include "path.h"
+#include "actionmanagement.h"
+
+//typedef lookup_entry lookup_t;
 
 /*
  * We list all demanded operations over here.
@@ -28,7 +32,7 @@
  *
  * Note that this command literally does nothing right now.
  */
-char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
 /* Generate a list of supported operations,
@@ -40,7 +44,7 @@ char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  * Returns:
  * - Said list of supported operations as a string
  */
-char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
 /*
@@ -53,7 +57,7 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  * Returns:
  * - Said list of previous actions as a string
  */
-char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
 /*
@@ -67,7 +71,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  * Returns:
  * - A success or error message
  */
-char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game);
+char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 /*
  * Returns a description of either a specefied item, or the room
@@ -79,7 +83,7 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game);
  * Returns:
  * - Said description as a string
  */
-char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
 /*Returns a description of the player inventory contents
@@ -90,7 +94,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  * Returns:
  * - Said description as a string
  */
-char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
 /* Error Operations that returns an error message as string
@@ -101,7 +105,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  * Returns:
  * - Said error message as a string
  */
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
 /* These functions will generate an action-struct (based on action management)
@@ -114,9 +118,9 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
  * - Said list of supported operations as a string
  *
  */
-char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 //char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */

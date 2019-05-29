@@ -31,7 +31,7 @@ char *trim_newline(char *s)
 
 int main()
 {
-    lookup_t * table = initialize_lookup();
+    lookup_t **table = initialize_lookup();
     int quit = 1;
     char *cmd_string;
     greet();
@@ -57,7 +57,7 @@ int main()
         }
         else
         {
-            do_cmd(c,&quit, NULL);
+            do_cmd(c,&quit, NULL, table);
             // Add valid input to readline history.
             add_history(input);
         }

@@ -16,7 +16,7 @@
 
 
 /* See validate.h */
-cmd *assign_action(char **ts, lookup_t * table)
+cmd *assign_action(char **ts, lookup_t ** table)
 {
     cmd *output = cmd_new(ts);
     output->func_of_cmd = find_operation(ts[0], table);
@@ -27,7 +27,7 @@ cmd *assign_action(char **ts, lookup_t * table)
 }
 
 /* See validate.h */
-bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t * table)
+bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t ** table)
 {
     return true;
 }
@@ -57,15 +57,19 @@ bool validate_ind_objects(char *tokens[TOKEN_LIST_SIZE], game_t * game)
 /* See validate.h */
 bool validate_filename(char *filename)
 {
-  int len = strlen(filename);
-  if(len < 4){
-    return false;
-  }
-  const char *ending = &filename[len-4];
-  int cmp = strcmp(ending, ".dat");
-  if(cmp == 0){
-    return true;
-  } else {
-    return false;
-  }
+    int len = strlen(filename);
+    if(len < 4)
+    {
+        return false;
+    }
+    const char *ending = &filename[len-4];
+    int cmp = strcmp(ending, ".dat");
+    if(cmp == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
