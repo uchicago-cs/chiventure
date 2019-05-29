@@ -2,8 +2,8 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include
-	-I./src/game-state/include -I./src/action_management/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include/
+-I./src/game-state/include/ -I./src/action_management/include/
 RM = rm -f
 LDLIBS = -lyaml
 BIN = chiventure
