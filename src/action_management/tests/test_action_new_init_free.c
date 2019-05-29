@@ -7,11 +7,8 @@
 /* Checks that a new action kind, type 1 is created without interruption */
 Test(action_type, new_ITEM)
 {
-    char *c_name;
-    enum action_kind kind;
-    
-    c_name = "EAT";
-    kind = ITEM;
+    char *c_name = "EAT";
+    enum action_kind kind = ITEM;
 
     action_type_t* new_action = action_type_new(c_name, kind);
 
@@ -25,11 +22,8 @@ Test(action_type, new_ITEM)
 /* Checks that a new action type, kind 2 is created without interruption */
 Test(action_type, new_PATH)
 {
-    char *c_name;
-    enum action_kind kind;
-    
-    c_name = "GO";
-    kind = PATH;
+    char *c_name = "GO";
+    enum action_kind kind = PATH;
 
     action_type_t* new_action = action_type_new(c_name, kind);
 
@@ -44,11 +38,8 @@ Test(action_type, new_PATH)
 /* Checks that a new action type, kind 3 is created without interruption */
 Test(action_type, new_ITEM_ITEM)
 {
-    char *c_name;
-    enum action_kind kind;
-    
-    c_name = "USE_ON";
-    kind = ITEM_ITEM;
+    char *c_name = "USE_ON";
+    enum action_kind kind = ITEM_ITEM;
 
     action_type_t* new_action = action_type_new(c_name, kind);
 
@@ -64,11 +55,8 @@ Test(action_type, init_ITEM)
 {
     action_type_t a;
     int rc;
-    char* c_name;
-    enum action_kind kind;
-
-    c_name = "TAKE";
-    kind = ITEM;
+    char* c_name = "TAKE";
+    enum action_kind kind = ITEM;
 
     rc = action_type_init(&a, c_name, kind);
 
@@ -84,11 +72,8 @@ Test(action_type, init_PATH)
 {
     action_type_t a;
     int rc;
-    char* c_name;
-    enum action_kind kind;
-
-    c_name = "GO";
-    kind = PATH;
+    char* c_name = "GO";
+    enum action_kind kind = PATH;
 
     rc = action_type_init(&a, c_name, kind);
 
@@ -104,11 +89,8 @@ Test(action_type, init_ITEM_ITEM)
 {
     action_type_t a;
     int rc;
-    char* c_name;
-    enum action_kind kind;
-
-    c_name = "PUT_ON";
-    kind = ITEM_ITEM;
+    char* c_name = "PUT_ON";
+    enum action_kind kind = ITEM_ITEM;
 
     rc = action_type_init(&a, c_name, kind);
 
@@ -128,10 +110,10 @@ Test(action_type, free_ITEM)
     a = action_type_new("PULL", ITEM);
 
     cr_assert_not_null(a, "action_type_new() failed");
-	
-	rc = action_type_free(a);
 
-	cr_assert_eq(rc, SUCCESS, "action_type_free() failed");
+    rc = action_type_free(a);
+
+    cr_assert_eq(rc, SUCCESS, "action_type_free() failed");
 }
 
 
@@ -144,10 +126,10 @@ Test(action_type, free_PATH)
     a = action_type_new("GO", PATH);
 
     cr_assert_not_null(a, "action_type_new() failed");
-	
-	rc = action_type_free(a);
 
-	cr_assert_eq(rc, SUCCESS, "action_type_free() failed");
+    rc = action_type_free(a);
+
+    cr_assert_eq(rc, SUCCESS, "action_type_free() failed");
 }
 
 
@@ -160,9 +142,8 @@ Test(action_type, free_ITEM_ITEM)
     a = action_type_new("USE_ON", ITEM_ITEM);
 
     cr_assert_not_null(a, "action_type_new() failed");
-	
-	rc = action_type_free(a);
 
-	cr_assert_eq(rc, SUCCESS, "action_type_free() failed");
+    rc = action_type_free(a);
+
+    cr_assert_eq(rc, SUCCESS, "action_type_free() failed");
 }
-
