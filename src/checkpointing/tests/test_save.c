@@ -40,7 +40,7 @@ Test(save, item)
 
     success = save_item(candy_t, candy);
     
-    cr_assert_eq(success, 0, "save_item failed");
+    cr_assert_eq(success, 0, "save_item failed %d", success);
     cr_assert_eq(candy->item_id, "1234", "save_item: saving item_id failed");
     cr_assert_eq(candy->short_desc, "salt water taffy",
 		 "save_item: saving short_desc failed");
