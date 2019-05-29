@@ -31,8 +31,12 @@ int load_item(Item *i, item_t *i_t)
         fprintf(stderr, "given null item_t struct\n");
         return -1;
     }
-
-    i_t->item_id = i->item_id;
+	
+    if (i->item_id == NULL){
+        fprintf(stderr, "no item id saved\n");
+    } else {
+        i_t->item_id = i->item_id;
+    }
 
     if (i->short_desc != NULL) {
         i_t->short_desc = i->short_desc;
@@ -122,8 +126,12 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
         fprintf(stderr, "given null room_t struct\n");
         return -1;
     }
-
-    r_t->room_id = r->room_id;
+    
+    if (r->room_id == NULL){
+        fprintf(stderr, "room id not saved\n");
+    } else {
+	r_t->room_id = r->room_id;
+    }
 
     if (r->short_desc != NULL) {
         r_t->short_desc = r->short_desc;
@@ -181,8 +189,11 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
         fprintf(stderr, "given null player_t struct\n");
         return -1;
     }
-
-    p_t->player_id = p->player_id;
+    if (p->player_id == NULL) {
+        fprintf(stderr, "saved null player id\n");
+    } else { 
+        p_t->player_id = p->player_id;
+    }
 
     if (p->has_level == 1) {
 	p_t->level = p->level;
@@ -297,15 +308,17 @@ int load_game(Game *g, game_t *g_t)
         }
     }
   
-    // Load all rooms into game
+    /* Load all rooms into game
+    The all_items array will be used in
+    load_room and load_player */
     int i;
     for (i = 0; i < g->rooms_len; i++) {
         ITER_ALL_ROOMS(g_t, curr_room) {
             if (strcmp(g->all_rooms[i]->room_id, curr_room->room_id) == 0) {
                 int load_room_success = load_room(g->all_rooms[i],
-						  curr_room,
-						  all_items,
-						  item_len);
+				          curr_room,
+				          all_items,
+				          item_len);
                 if (load_room_success != 0){
                     fprintf(stderr, "Failed to load room into game. Abort! \n");
                     return -1;
