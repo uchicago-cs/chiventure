@@ -43,7 +43,7 @@ Test(item_actions, correct_kind_1)
     bool rc = execute_do_item_action("dummy", ITEM);
 
     cr_assert_eq(rc, false,
-                  "execute_do_item_item_action returned false for wrong kind 1");
+                  "execute_do_item_action returned false for wrong kind 1");
 }
 
 Test(item_actions, wrong_kind_2)
@@ -52,7 +52,7 @@ Test(item_actions, wrong_kind_2)
     bool rc = execute_do_item_action("dummy", PATH);
 
     cr_assert_eq(rc, false,
-                 "execute_do_item_item_action returned true for wrong kind 2");
+                 "execute_do_item_action returned true for wrong kind 2");
 }
 
 Test(item_actions, wrong_kind_3)
@@ -60,5 +60,5 @@ Test(item_actions, wrong_kind_3)
     bool rc = execute_do_item_action("dummy", ITEM_ITEM);
 
     cr_assert_eq(rc, true,
-                 "execute_do_item_item_action returned true for correct kind 3");
+                 "execute_do_item_action returned true for correct kind 3");
 }
