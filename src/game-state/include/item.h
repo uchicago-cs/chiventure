@@ -52,30 +52,12 @@ int item_free(item_t *item_tofree);
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
+// action_type_t written by AM, can be seen in action_structs.h
 typedef struct action {
     char *action_name;
     action_type_t *action_type;
     // will be expanded to include conditions and effects in Sprint 4
 } game_action_t;
-
-/* action_new() allocates a space for an action struct in memory and *  assigns given values to struct fields
-*  Parameters:
-*    action name and an action type struct
-*  Returns:
-*    A pointer to a new action struct.
-*/
-game_action_t *action_new(char *act_name, action_type_t *act_type);
-
-/* action_init() initializes an action struct with given values
-   arguments are taken from action management
- Parameters:
-    a memory allocated new action pointer
-    an action name
-    an action type struct
- Returns:
-    FAILURE for failure, SUCCESS for success
-*/
-int action_init(game_action_t *new_action, char *act_name, action_type_t *act_type);
 
 /* item_free() frees allocated space for an action struct in memory
 *  Parameters:
@@ -83,7 +65,7 @@ int action_init(game_action_t *new_action, char *act_name, action_type_t *act_ty
 *  Returns:
 *    SUCCESS if successful, FAILURE if not
 */
-int action_free(game_action_t *action_tofree);
+int game_action_free(game_action_t *action_tofree);
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management

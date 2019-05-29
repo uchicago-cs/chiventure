@@ -773,7 +773,7 @@ Test(attribute, act_attr_free)
 {
     attribute_t *test_attr = malloc(sizeof(attribute_t));
     action_type_t *test_act_type = action_type_new("push", 1);
-    game_action_t *test_act = action_new("push", test_act_type);
+    game_action_t *test_act = game_action_new("push", test_act_type);
 
     test_attr->attribute_key = (char*)malloc(100);
     test_attr->attribute_tag = ACTION;
