@@ -6,7 +6,7 @@
 #include "item.h"
 #include "game.h"
 
-bool execute_do_item_action(char *c_name, enum action_kind kind,
+bool execute_do_path_action(char *c_name, enum action_kind kind,
   char *direction, char *dest)
 {
     game_t *g = game_new;
@@ -41,27 +41,27 @@ bool execute_do_item_action(char *c_name, enum action_kind kind,
     return rc;
 }
 
-Test(item_actions, wrong_kind_1)
+Test(path_actions, kind_ITEM)
 {
-    bool rc = execute_do_item_action("dummy", ITEM);
+    bool rc = execute_do_path_action("dummy", ITEM);
 
     cr_assert_eq(rc, false,
-                  "execute_do_item_item_action returned true for wrong kind 1");
+                  "execute_do_item_item_action returned true for wrong kind ITEM");
 }
 
-Test(item_actions, correct_kind_2)
+Test(path_actions, kind_PATH)
 {
 
-    bool rc = execute_do_item_action("dummy", PATH);
-
-    cr_assert_eq(rc, false,
-                 "execute_do_item_item_action returned false for wrong kind 2");
-}
-
-Test(item_actions, wrong_kind_3)
-{
-    bool rc = execute_do_item_action("dummy", ITEM_ITEM);
+    bool rc = execute_do_path_action("dummy", PATH);
 
     cr_assert_eq(rc, true,
-                 "execute_do_item_item_action returned true for correct kind 3");
+                 "execute_do_item_item_action returned false for correct kind PATH");
+}
+
+Test(path_actions, kind_ITEM_ITEM)
+{
+    bool rc = execute_do_path_action("dummy", ITEM_ITEM);
+
+    cr_assert_eq(rc, false,
+                 "execute_do_item_item_action returned true for wrong kind ITEM_ITEM");
 }
