@@ -2,10 +2,15 @@
 
 CC = gcc 
 CFLAGS = -fPIC -Wall -Wextra -O2 -g  -I../include/ -I../../game-state/include -I../../common/include
-LDFLAGS = -L../ -Wl,-rpath,. -L../../game-state/ -Wl,-rpath,.
 RM = rm -f
 BIN = test-checkpointing
-LDLIBS = -lcriterion -lcheckpointing -lgame-state
+LDLIBS = -lprotobuf-c -lcriterion
+
+COMMON = -L../../common/ -Wl,-rpath,../../common/ -l:common.a
+GAME_STATE = -L../../game-state/ -Wl,-rpath,../../game-state/ -l:game-state.a
+CHECKPOINTING = -L../ -Wl,-rpath,../ -l:checkpointing.a
+STLIBS = $(COMMON) $(GAME_STATE) $(CHECKPOINTING)
+
 
 SRCS = main.c test_save.c
 OBJS = $(SRCS:.c=.o)
@@ -14,7 +19,7 @@ OBJS = $(SRCS:.c=.o)
 all: ${BIN}
 
 $(BIN): $(OBJS)
-	$(CC) $(OBJS) -o $(BIN) $(LDFLAGS) $(LDLIBS) 
+	$(CC) $(OBJS) $(STLIBS) -o $(BIN) $(LDLIBS) 
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< >$@
