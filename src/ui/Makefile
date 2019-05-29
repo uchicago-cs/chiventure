@@ -13,8 +13,6 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/ui.c src/window.c src/print_functions.c #src/map.c src/coordinate.c src/DFS.c
-OBJS = $(SRCS:.c=.o)
 
 SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c src/map.c
 
@@ -31,6 +29,7 @@ $(LIB): $(OBJS)
 
 
 # Examples
+
 
 EXAMPLE_BINS = examples/test_ui examples/map_example examples/coord_example
 
