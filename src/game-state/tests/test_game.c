@@ -17,7 +17,7 @@ Test(game_start, new)
 {
     game_t *game = game_new("hello and welcome to this awesome game");
     cr_assert_not_null(game, "game_new() failed");
-    cr_assert_eq(strcmp(game->start_desc, "hello and welcome to this awesome game"), 0, "game_new() failed to set the starting description");
+    cr_assert_eq(strncmp(game->start_desc, "hello and welcome to this awesome game", MAX_START_DESC_LEN), 0, "game_new() failed to set the starting description");
 }
 
 /* Checks that game_free() frees a game struct successfully */
@@ -140,7 +140,7 @@ Test(game_room, move_room)
     room_t *room3 = NULL;
     game_t *game_fake = NULL;
     int mv_check = move_room(game, room2);
-    int strcheck = strcmp(curr->room_id, game->curr_room->room_id);
+    int strcheck = strncmp(curr->room_id, game->curr_room->room_id, MAX_ID_LEN);
     int mv_fail = move_room(game, room3);
     int mv_gfail = move_room(game_fake, room2);
 
@@ -223,11 +223,11 @@ Test(iter_macro, iter_rooms)
     room_t *curr_room;
     ITER_ALL_ROOMS(game, curr_room) {
         cnt++;
-        if (!strcmp(curr_room->room_id, "room1")) {
+        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long", "ldesc does not correspond");
-        } else if (!strcmp(curr_room->room_id, "room2")) {
+        } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long", "ldesc does not correspond");
-        } else if (!strcmp(curr_room->room_id, "room3")) {
+        } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long", "ldesc does not correspond");
         } else {
             cr_assert_fail("non-existent room detected");

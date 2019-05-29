@@ -17,7 +17,7 @@ Test(player, new)
   cr_assert_eq(player->health, 100, "player_new() didn't set player health");
   cr_assert_eq(player->level, 1, "player_new() didn't properly call player_init()");
   cr_assert_eq(player->xp, 0, "player_new() didn't properly call player_init()");
-  cr_assert_eq(strcmp(player->player_id, "1"), 0, "player_new() didn't properly call player_init() for player_id");
+  cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0, "player_new() didn't properly call player_init() for player_id");
 }
 
 /* Checks that player_init() initializes the fields within the new player struct */
@@ -32,7 +32,7 @@ Test(player, init)
   cr_assert_eq(player->health, 56, "player_init() didn't set player health");
   cr_assert_eq(player->level, 1, "player_init() didn't set level to 1");
   cr_assert_eq(player->xp, 0, "player_init() didn't set experience to 0");
-  cr_assert_eq(strcmp(player->player_id, "1"), 0, "player_init() didn't set player_id to 1");
+  cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0, "player_init() didn't set player_id to 1");
   cr_assert_eq(res, SUCCESS, "player_init() failed");
 }
 

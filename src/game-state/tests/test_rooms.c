@@ -166,9 +166,9 @@ Test(iter_macro, iter_paths)
     path_t *curr_path;
     ITER_ALL_PATHS(room1, curr_path) {
         cnt++;
-        if (!strcmp(curr_path->dest->room_id, "room3")) {
+        if (!strncmp(curr_path->dest->room_id, "room3", MAX_ID_LEN)) {
             cr_assert_str_eq(curr_path->direction, "south", "direction does not correspond");
-        } else if (!strcmp(curr_path->dest->room_id, "room2")) {
+        } else if (!strncmp(curr_path->dest->room_id, "room2", MAX_ID_LEN)) {
             cr_assert_str_eq(curr_path->direction, "north", "direction does not correspond");
         } else {
             cr_assert_fail("non-existent room detected");
@@ -193,7 +193,7 @@ Test(iter_macro, iter_conditions)
     path_t *curr_path;
     ITER_ALL_CONDITIONS(room1, curr_condi) {
         cnt++;
-        if (!strcmp(curr_path->dest->room_id, "room3")) {
+        if (!strncmp(curr_path->dest->room_id, "room3", MAX_ID_LEN)) {
             cr_assert_str_eq(curr_path->direction, "south", "direction does not correspond");
 
             cr_assert_str_eq(curr_path->direction, "north", "direction does not correspond");

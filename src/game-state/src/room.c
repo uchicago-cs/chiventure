@@ -45,8 +45,6 @@ int room_free(room_t *room) {
     free(room->long_desc);
     delete_all_paths(room->paths);
     delete_all_items(room->items);
-    // uthash_free(room->paths, sizeof(room->paths));
-    // uthash_free(room->items, sizeof(room->items));
     free(room);
     return SUCCESS;
 }
@@ -89,7 +87,6 @@ int add_path_to_room(room_t *room, path_t *path) {
     }
     HASH_ADD_KEYPTR(hh, room->paths, path->direction, strlen(path->direction), path);
     return SUCCESS;
-    //return add_path_to_hash(room->paths, path->direction, path);
 }
 
 /* See common-room.h */
