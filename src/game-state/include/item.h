@@ -249,6 +249,14 @@ char get_char_attr(item_t *item, char* attr_name);
  */
 bool get_bool_attr(item_t *item, char* attr_name);
 
+/* get_act_attr() returns the string value of an attribute of an item
+ * Parameters:
+ *  a pointer to the item
+ *  the attribute name
+ * Returns:
+ *  the action struct associated with the attribute
+ */
+game_action_t *get_act_attr(item_t *item, char* attr_name);
 /* add_allowed_action() adds a permitted action to an item
  * Parameters:
  *  a pointer to the item
