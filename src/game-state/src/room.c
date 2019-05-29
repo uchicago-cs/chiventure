@@ -5,7 +5,9 @@
 #include "common-path.h"
 
 /* See room.h */
-int room_init(room_t *new_room, char *room_id, char *short_desc, char *long_desc) {
+int room_init(room_t *new_room, char *room_id, char *short_desc,
+    char *long_desc)
+{
 
     assert(new_room != NULL);
 
@@ -61,7 +63,8 @@ int add_item_to_room(room_t *room, item_t *item) {
         fprintf(stderr, "add_item_to_room: this item id is already in use.\n");
         exit(1);
     }
-    HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id), item);
+    HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id),
+    item);
     return SUCCESS;
 
 }
@@ -85,7 +88,8 @@ int add_path_to_room(room_t *room, path_t *path) {
         fprintf(stderr, "add_path_to_room: direction already used!\n");
         exit(1);
     }
-    HASH_ADD_KEYPTR(hh, room->paths, path->direction, strlen(path->direction), path);
+    HASH_ADD_KEYPTR(hh, room->paths, path->direction, strlen(path->direction),
+    path);
     return SUCCESS;
 }
 
@@ -93,7 +97,7 @@ int add_path_to_room(room_t *room, path_t *path) {
 int delete_all_rooms(room_hash_t rooms) {
     room_t *current_room, *tmp;
     HASH_ITER(hh, rooms, current_room, tmp) {
-        HASH_DEL(rooms, current_room);  /* delete it (rooms advances to next) */
+        HASH_DEL(rooms, current_room);  /* deletes (rooms advances to next) */
         room_free(current_room);             /* free it */
     }
     return SUCCESS;
@@ -156,7 +160,8 @@ item_t* get_item_in_room(room_t* room, char* item_id)
 {
     item_t* return_value;
     HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
-    return return_value; //if it is NULL, return_value will be equal to NULL by default
+    return return_value;
+    //if it is NULL, return_value will be equal to NULL by default
 }
 
 

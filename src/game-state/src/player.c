@@ -98,7 +98,8 @@ item_hash_t get_inventory(player_t* plyr) {
 /* See player.h */
 int add_item_to_player(player_t *player, item_t *item) {
     item_t* check;
-    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id), check);
+    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
+	check);
 
     if (check != NULL) {
         /* WARNING */
@@ -106,8 +107,8 @@ int add_item_to_player(player_t *player, item_t *item) {
         fprintf(stderr, "Error: this item id is already in use.\n");
         exit(1);
     }
-    HASH_ADD_KEYPTR(hh, player->inventory, item->item_id, strlen(item->item_id), item);
+    HASH_ADD_KEYPTR(hh, player->inventory, item->item_id,
+		strlen(item->item_id), item);
     return SUCCESS;
 
 }
-

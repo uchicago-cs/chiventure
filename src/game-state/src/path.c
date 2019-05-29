@@ -59,7 +59,7 @@ int add_condition_to_path(path_t *path, condition_t *condition) {
 int delete_all_paths(path_hash_t paths) {
     path_t *current_path, *tmp;
     HASH_ITER(hh, paths, current_path, tmp) {
-        HASH_DEL(paths, current_path);  /* delete it (paths advances to next) */
+        HASH_DEL(paths, current_path);  /* deletes (paths advances to next) */
         path_free(current_path);             /* free it */
     }
     return SUCCESS;

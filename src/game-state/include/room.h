@@ -79,7 +79,8 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc);
     FAILURE for failure, SUCCESS for success
 */
 
-int room_init(room_t *new_room, char *room_id, char *short_desc, char *long_desc);
+int room_init(room_t *new_room, char *room_id, char *short_desc,
+    char *long_desc);
 
 /* Frees the space in memory taken by given room
  *

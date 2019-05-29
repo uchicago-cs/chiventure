@@ -27,32 +27,38 @@ void game_quit(game_t *game) {
 /* See game.h */
 int add_player_to_game(game_t *game, player_t *player) {
     player_t *check;
-    HASH_FIND(hh, game->all_players, player->player_id, strlen(player->player_id), check);
+    HASH_FIND(hh, game->all_players, player->player_id,
+        strlen(player->player_id), check);
     if (check != NULL) {
         /* WARNING */
         fprintf(stderr, "add_room_to_game: this room id is already in use.\n");
         exit(1);
     }
-    HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
+    HASH_ADD_KEYPTR(hh, game->all_players, player->player_id,
+        strlen(player->player_id), player);
     return SUCCESS;
 }
 
 /* See game.h */
 int add_room_to_game(game_t *game, room_t *room) {
     room_t *check;
-    HASH_FIND(hh, game->all_rooms, room->room_id, strlen(room->room_id), check);
+    HASH_FIND(hh, game->all_rooms, room->room_id, strlen(room->room_id),
+    check);
 
     if (check != NULL) {
         /* WARNING */
         fprintf(stderr, "add_room_to_game: this room id is already in use.\n");
         exit(1);
     }
-    HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, strlen(room->room_id), room);
+    HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, strlen(room->room_id),
+    room);
     return SUCCESS;
 }
 
 /* See game.h */
-int create_connection(game_t *game, char* src_room, char* to_room, char* direction) {
+int create_connection(game_t *game, char* src_room, char* to_room,
+    char* direction)
+{
     room_t *src = find_room(game, src_room);
     if (src == NULL)
         exit(1);
