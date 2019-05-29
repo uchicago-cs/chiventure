@@ -60,3 +60,25 @@ player_t *get_player(game_t *game, char *player_id) {
     HASH_FIND_STR(game->all_players, player_id, s);
     return s;
 }
+
+/* See game.h */
+room_list_t *get_all_rooms(game_t *game) {
+    room_list_t *head = NULL;
+    room_t *ITTMP_ROOM, *curr_room;
+    room_list_t *tmp;
+    HASH_ITER(hh, game->all_rooms, curr_room, ITTMP_ROOM) {
+        tmp = malloc(sizeof(room_list_t));
+        tmp->room = curr_room;
+        LL_APPEND(head, tmp);
+    }
+    return head;
+}
+
+/* See game.h */
+int delete_room_llist(room_list_t *head) {
+    room_list_t *elt, *tmp;
+    LL_FOREACH_SAFE(head, elt, tmp) {
+        LL_DELETE(head, elt);
+        free(elt);
+    }
+}
