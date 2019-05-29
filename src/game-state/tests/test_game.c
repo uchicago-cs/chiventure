@@ -12,12 +12,15 @@ void teardown(void) {
     puts("Runs after the test");
 }
 
-/* Checks that game_new() mallocs memory for a game struct and initializes it with a starting string */
+/* Checks that game_new() mallocs memory for a game struct
+and initializes it with a starting string */
 Test(game_start, new)
 {
     game_t *game = game_new("hello and welcome to this awesome game");
     cr_assert_not_null(game, "game_new() failed");
-    cr_assert_eq(strncmp(game->start_desc, "hello and welcome to this awesome game", MAX_START_DESC_LEN), 0, "game_new() failed to set the starting description");
+    cr_assert_eq(strncmp(game->start_desc,
+        "hello and welcome to this awesome game", MAX_START_DESC_LEN), 0,
+        "game_new() failed to set the starting description");
 }
 
 /* Checks that game_free() frees a game struct successfully */
@@ -28,7 +31,7 @@ Test(game_start, free)
     cr_assert_eq(game_free(game), SUCCESS, "game_free() failed");
 }
 
-/* Checks that add_room_to_game() adds a room to the game struct's room hash table
+/* Checks that add_room_to_game() adds a room to the game struct's room hash
 * Adds two rooms
 */
 Test(game_room, add_room_to_game)
@@ -74,7 +77,8 @@ Test(game_room, find_room)
 
 }
 
-/* Checks that create_connection() creates a path from one existing room to another
+/* Checks that create_connection() creates a path from
+* one existing room to another
 * 0 for successful exit
 */
 Test(game_room, create_connection_0)
@@ -152,7 +156,8 @@ Test(game_room, move_room)
 
 }
 
-/* Checks that add_player_to_game() adds a player to the game struct's player hash table */
+/* Checks that add_player_to_game() adds a player to the
+game struct's player hash table */
 Test(game_player, add_player_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -168,7 +173,7 @@ Test(game_player, add_player_to_game)
     cr_assert_eq(p1chk, 0, "found wrong player1");
 }
 
-/* Checks that set_curr_player() sets the current player field of the game struct
+/* Checks that set_curr_player() sets the current player field of game struct
 * tests set to player_one
 * tests set to player_two
 * tests set to NULL
@@ -182,9 +187,11 @@ Test(game_player, set_curr_player)
     add_player_to_game(game, plyr2);
     set_curr_player(game, plyr1);
 
-    int check = strncmp(game->curr_player->player_id, plyr1->player_id, MAX_ID_LEN);
+    int check = strncmp(game->curr_player->player_id, plyr1->player_id,
+        MAX_ID_LEN);
     set_curr_player(game, plyr2);
-    int check2 = strncmp(game->curr_player->player_id, plyr2->player_id, MAX_ID_LEN);
+    int check2 = strncmp(game->curr_player->player_id, plyr2->player_id,
+        MAX_ID_LEN);
     int chk_fail = set_curr_player(game, NULL);
     cr_assert_eq(check, SUCCESS, "set_curr_player to player_one failed");
     cr_assert_eq(check2, SUCCESS, "set_curr_player to player_two failed");
@@ -224,11 +231,14 @@ Test(iter_macro, iter_rooms)
     ITER_ALL_ROOMS(game, curr_room) {
         cnt++;
         if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
-            cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long", "ldesc does not correspond");
+            cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
+            "ldesc does not correspond");
         } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
-            cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long", "ldesc does not correspond");
+            cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
+            "ldesc does not correspond");
         } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
-            cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long", "ldesc does not correspond");
+            cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
+            "ldesc does not correspond");
         } else {
             cr_assert_fail("non-existent room detected");
         }

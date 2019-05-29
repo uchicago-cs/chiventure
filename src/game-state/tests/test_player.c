@@ -7,7 +7,7 @@
 #include "game.h"
 #include "game_state_common.h"
 
-/* Checks that player_new() properly mallocs and initializes a new player struct */
+/* Checks that player_new() properly mallocs and inits a new player struct */
 Test(player, new)
 {
   player_t *player = player_new("1", 100);
@@ -15,12 +15,15 @@ Test(player, new)
   cr_assert_not_null(player, "player_new() failed");
 
   cr_assert_eq(player->health, 100, "player_new() didn't set player health");
-  cr_assert_eq(player->level, 1, "player_new() didn't properly call player_init()");
-  cr_assert_eq(player->xp, 0, "player_new() didn't properly call player_init()");
-  cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0, "player_new() didn't properly call player_init() for player_id");
+  cr_assert_eq(player->level, 1,
+      "player_new() didn't properly call player_init()");
+  cr_assert_eq(player->xp, 0,
+      "player_new() didn't properly call player_init()");
+  cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0,
+  "player_new() didn't properly call player_init() for player_id");
 }
 
-/* Checks that player_init() initializes the fields within the new player struct */
+/* Checks that player_init() initializes the fields in the new player struct */
 Test(player, init)
 {
   player_t *player = player_new("1", 100);
@@ -32,7 +35,8 @@ Test(player, init)
   cr_assert_eq(player->health, 56, "player_init() didn't set player health");
   cr_assert_eq(player->level, 1, "player_init() didn't set level to 1");
   cr_assert_eq(player->xp, 0, "player_init() didn't set experience to 0");
-  cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0, "player_init() didn't set player_id to 1");
+  cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0,
+  "player_init() didn't set player_id to 1");
   cr_assert_eq(res, SUCCESS, "player_init() failed");
 }
 
@@ -60,7 +64,8 @@ Test(player, get_health)
   cr_assert_eq(health, 99, "get_health() returned incorrect health");
 }
 
-/* Checks that a player's health is changed by change_health() both positively and negatively with a set maximum */
+/* Checks that a player's health is changed by change_health()
+both positively and negatively with a set maximum */
 Test(player, change_health)
 {
   player_t *player = player_new("1", 99);
@@ -88,7 +93,8 @@ Test(player, get_level)
   cr_assert_eq(level, 1, "get_level() failed to return player level");
 }
 
-/* Checks that a player's level is changed by change_level() both positively and negatively */
+/* Checks that a player's level is changed by change_level()
+both positively and negatively */
 Test(player, change_level)
 {
   player_t *player = player_new("1", 99);
@@ -99,7 +105,8 @@ Test(player, change_level)
   cr_assert_not_null(player, "player_new() failed");
 
   cr_assert_eq(level, 4, "change_level() failed to add to player level");
-  cr_assert_eq(level2, 3, "change_level() failed to subtract from player level");
+  cr_assert_eq(level2, 3,
+      "change_level() failed to subtract from player level");
 }
 
 /* Checks that get_xp() returns the experience points of the player */
@@ -114,7 +121,8 @@ Test(player, get_xp)
   cr_assert_eq(xp, 0, "get_xp() failed to return player experience");
 }
 
-/* Checks that a player's experience points is changed by change_xp positively and negatively */
+/* Checks that a player's experience points is changed
+by change_xp positively and negatively */
 Test(player, change_xp)
 {
   player_t *player = player_new("1", 99);
@@ -125,7 +133,8 @@ Test(player, change_xp)
   cr_assert_not_null(player, "player_new() failed");
 
   cr_assert_eq(xp, 20, "change_xp() failed to add to player experience");
-  cr_assert_eq(xp2, 15, "change_xp() failed to subtract from player experience");
+  cr_assert_eq(xp2, 15,
+      "change_xp() failed to subtract from player experience");
 }
 
 /* Checks that get_inventory() returns the player's inventory */
@@ -133,7 +142,8 @@ Test(player, get_inventory)
 {
   player_t *player = player_new("1", 99);
   player_t *player2 = player_new("1", 100);
-  item_t *new_item = item_new("test_item", "item for player testing", "item for testing get_inventory()");
+  item_t *new_item = item_new("test_item", "item for player testing",
+  "item for testing get_inventory()");
   add_item_to_player(player2, new_item);
 
   item_hash_t inv = get_inventory(player);
@@ -143,11 +153,14 @@ Test(player, get_inventory)
   cr_assert_not_null(player2, "player_new() failed");
   cr_assert_not_null(new_item, "item_new() failed");
 
-  cr_assert_eq(inv, player->inventory, "get_inventory() failed to return NULL for empty inventory");
-  cr_assert_eq(inv2, player2->inventory, "get_inventory() failed to return inventory");
+  cr_assert_eq(inv, player->inventory,
+      "get_inventory() failed to return NULL for empty inventory");
+  cr_assert_eq(inv2, player2->inventory,
+      "get_inventory() failed to return inventory");
 }
 
-/* Checks that add_player_to_game adds a player to a game struct's player hash table */
+/* Checks that add_player_to_game adds a player
+to a game struct's player hash table */
 Test(player, add_player_to_game)
 {
   player_t *player = player_new("1", 99);
@@ -155,24 +168,28 @@ Test(player, add_player_to_game)
   int res = add_player_to_game(game, player);
 
   cr_assert_not_null(player, "player_new() failed");
-  cr_assert_not_null(game->all_players, "add_player_to_hash failed to add player");
+  cr_assert_not_null(game->all_players,
+      "add_player_to_hash failed to add player");
 
   cr_assert_eq(res, SUCCESS, "add_player_to_hash failed to add player");
 }
 
-/* Checks that add_item_to_player adds an item to a player struct's inventory */
+/* Checks that add_item_to_player adds item to a player struct's inventory */
 Test(player, add_item_to_player)
 {
   player_t *player = player_new("1", 100);
-  item_t *new_item = item_new("test_item", "item for player testing", "item for testing add_item_to_player");
+  item_t *new_item = item_new("test_item", "item for player testing",
+  "item for testing add_item_to_player");
   add_item_to_player(player, new_item);
 
   cr_assert_not_null(player, "player_new() failed");
   cr_assert_not_null(new_item, "item_new() failed");
-  cr_assert_not_null(player->inventory, "add_item_to_player() failed to add item");
+  cr_assert_not_null(player->inventory,
+      "add_item_to_player() failed to add item");
 }
 
-/* Checks that delete_all_players successfully empties the game's player hash table */
+/* Checks that delete_all_players successfully
+empties the game's player hash table */
 Test(player, delete_all_players)
 {
   player_t *player = player_new("1", 100);
@@ -182,8 +199,10 @@ Test(player, delete_all_players)
   int res = add_player_to_game(game, player);
   int res2 = add_player_to_game(game, player2);
 
-  cr_assert_eq(res, SUCCESS, "add_player_to_game() failed to add player to game");
-  cr_assert_eq(res2, SUCCESS, "add_player_to_game() failed to add player to game");
+  cr_assert_eq(res, SUCCESS,
+      "add_player_to_game() failed to add player to game");
+  cr_assert_eq(res2, SUCCESS,
+      "add_player_to_game() failed to add player to game");
 
   int res3 = delete_all_players(game->all_players);
 

@@ -4,7 +4,8 @@
 
 // BASIC ITEM FUNCTIONS -------------------------------------------------------
 /* see common-item.h*/
-int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc)
+int item_init(item_t *new_item, char *item_id, char *short_desc,
+    char *long_desc)
 {
     assert(new_item != NULL);
 
@@ -19,7 +20,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 {
     item_t *new_item = malloc(sizeof(item_t));
-    new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
+    new_item->item_id = malloc(MAX_ID_LEN * sizeof(char));
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
 
@@ -38,7 +39,8 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
-int action_init(game_action_t *new_action, char *act_name, action_type_t *act_type)
+int action_init(game_action_t *new_action, char *act_name,
+    action_type_t *act_type)
 {
     assert(new_action != NULL);
 
@@ -52,7 +54,7 @@ int action_init(game_action_t *new_action, char *act_name, action_type_t *act_ty
 game_action_t *game_action_new(char *act_name, action_type_t *act_type)
 {
     game_action_t *new_action = malloc(sizeof(game_action_t));
-    new_action->action_name = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
+    new_action->action_name = malloc(MAX_ID_LEN * sizeof(char));
     new_action->action_type = malloc(sizeof(action_type_t));
 
     int check = action_init(new_action, act_name, act_type);
@@ -74,12 +76,14 @@ game_action_t *game_action_new(char *act_name, action_type_t *act_type)
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
     attribute_t* check;
-    HASH_FIND(hh, item->attributes, new_attribute->attribute_key, strlen(new_attribute->attribute_key), check);
+    HASH_FIND(hh, item->attributes, new_attribute->attribute_key,
+        strlen(new_attribute->attribute_key), check);
     if (check != NULL) {
         fprintf(stderr, "Error: this attribute is already present.\n");
         return FAILURE;
     }
-    HASH_ADD_KEYPTR(hh, item->attributes, new_attribute->attribute_key, strlen(new_attribute->attribute_key), new_attribute);
+    HASH_ADD_KEYPTR(hh, item->attributes, new_attribute->attribute_key,
+        strlen(new_attribute->attribute_key), new_attribute);
     return SUCCESS;
 }
 
@@ -223,7 +227,8 @@ int set_act_attr(item_t* item, char* attr_name, action_type_t *value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = ACTION;
-        new_attribute->attribute_value.act_val = game_action_new(attr_name, value);
+        new_attribute->attribute_value.act_val = game_action_new(attr_name,
+            value);
         strcpy(new_attribute->attribute_key, attr_name);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
@@ -348,43 +353,50 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
     attribute_t* attribute_2 = get_attribute(item_2, attribute_name);
     if(attribute_1==NULL || attribute_2==NULL)
     {
-        fprintf(stderr, "Error: attribute does not exist for one or more items\n");
+        fprintf(stderr,
+            "Error: attribute does not exist for one or more items\n");
         return -1;
     }
     if (attribute_1->attribute_tag != attribute_2->attribute_tag)
     {
-        fprintf(stderr, "Error: could not compare attributes as they are of different types\n");
+        fprintf(stderr,
+            "Error: could not compare attributes as they are of different types\n");
         return -1;
     }
     int comparison = 0;
     switch(attribute_1->attribute_tag)
     {
         case(DOUBLE):
-            if (attribute_1->attribute_value.double_val == attribute_2->attribute_value.double_val)
+            if (attribute_1->attribute_value.double_val ==
+                attribute_2->attribute_value.double_val)
             {
                 comparison = 1;
             }
             break;
         case(BOOLE):
-            if (attribute_1->attribute_value.bool_val == attribute_2->attribute_value.bool_val)
+            if (attribute_1->attribute_value.bool_val ==
+                attribute_2->attribute_value.bool_val)
             {
                 comparison = 1;
             }
             break;
         case(CHARACTER):
-            if (attribute_1->attribute_value.char_val == attribute_2->attribute_value.char_val)
+            if (attribute_1->attribute_value.char_val ==
+                attribute_2->attribute_value.char_val)
             {
                 comparison = 1;
             }
             break;
         case(STRING):
-            if (!strcmp(attribute_1->attribute_value.str_val,attribute_2->attribute_value.str_val))
+            if (!strcmp(attribute_1->attribute_value.str_val,
+                attribute_2->attribute_value.str_val))
             {
                 comparison = 1;
             }
             break;
         case(INTEGER):
-            if (attribute_1->attribute_value.int_val == attribute_2->attribute_value.int_val)
+            if (attribute_1->attribute_value.int_val ==
+                attribute_2->attribute_value.int_val)
             {
                 comparison = 1;
             }
@@ -450,7 +462,8 @@ int delete_all_attributes(attribute_hash_t attributes)
 {
     attribute_t *current_attribute, *tmp;
     HASH_ITER(hh, attributes, current_attribute, tmp) {
-        HASH_DEL(attributes, current_attribute);  /* delete it (attributes advances to next) */
+        /* deletes (attrs advances to next) */
+        HASH_DEL(attributes, current_attribute);
         attribute_free(current_attribute);             /* free it */
     }
     return SUCCESS;
@@ -471,7 +484,7 @@ int item_free(item_t *item) {
 int delete_all_items(item_hash_t items) {
     item_t *current_item, *tmp;
     HASH_ITER(hh, items, current_item, tmp) {
-        HASH_DEL(items, current_item);  /* delete it (items advances to next) */
+        HASH_DEL(items, current_item);  /* deletes (items advances to next) */
         item_free(current_item);             /* free it */
     }
     return SUCCESS;

@@ -13,7 +13,8 @@
   Returns:
     FAILURE for failure, SUCCESS for success
 */
-int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc);
+int item_init(item_t *new_item, char *item_id, char *short_desc,
+    char *long_desc);
 
 /* add_item_to_hash() adds an item to the hash table of items
  * Parameters:
@@ -65,7 +66,8 @@ attribute_t *get_attribute(item_t *item, char *attr_name);
 */
 int delete_all_attributes(attribute_hash_t attributes);
 
-/* action_new() allocates a space for an action struct in memory and *  assigns given values to struct fields
+/* action_new() allocates a space for an action struct in memory and
+* assigns given values to struct fields
 *  Parameters:
 *    action name and an action type struct
 *  Returns:
@@ -82,5 +84,6 @@ game_action_t *game_action_new(char *act_name, action_type_t *act_type);
  Returns:
     FAILURE for failure, SUCCESS for success
 */
-int game_action_init(game_action_t *new_action, char *act_name, action_type_t *act_type);
+int game_action_init(game_action_t *new_action, char *act_name,
+    action_type_t *act_type);
 #endif

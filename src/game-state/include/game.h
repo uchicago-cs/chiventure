@@ -112,11 +112,14 @@ int add_room_to_game(game_t *game, room_t *room);
 * game, Source room_id, destination room_id, direction
 *
 * Returns:
-* SUCCESS if all okay, exit(1) if src room_id not found, exit(2) if dest not found
+* SUCCESS if all okay, exit(1) if src room_id not found,
+* exit(2) if dest not found
 *
-* WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS AT THE MOMENT AS PARAMETERS NOT GIVEN
+* WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS
+* AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
-int create_connection(game_t *game, char* src_room, char* dest_room, char* direction);
+int create_connection(game_t *game, char* src_room, char* dest_room,
+    char* direction);
 
 
 /*
