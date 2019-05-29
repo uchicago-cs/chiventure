@@ -25,7 +25,7 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 
 
 // see load.h
-int load_item(Item *i, item_t *i_t);
+int load_item(Item *i, item_t *i_t)
 {
     if(i_t == NULL) {
         fprintf(stderr, "given null item_t struct\n");
@@ -49,64 +49,60 @@ int load_item(Item *i, item_t *i_t);
     // Fill in the new attribute (assuming that the number and id's of the attributes don't change)
     int iter;
     for (iter = 0; iter < i->attributes_len; iter++) {
-        switch (i->attributes[iter]->attribute_tag) {
-            case STRING:
-                int set_str_success = set_str_attr(i_t, 
-                i->attributes[iter]->attribute_key, 
-                i->attributes[iter]->attribute_value);
+				char* tag = i->attributes[iter]->attribute_tag;
+				if((strcmp(tag, "STRING")) == 0){
+            int set_str_success = set_str_attr(i_t, 
+            i->attributes[iter]->attribute_key, 
+            i->attributes[iter]->attribute_value);
 
-                if (set_str_success != SUCCESS){
-                    fprintf(stderr, "Could not set string attribute for item \n");
-                    return -1;
-                }
-                break;
-      
-            case INTEGER:
-                int set_int_success = set_int_attr(i_t, 
-                i->attributes[iter]->attribute_key, 
-                i->attributes[iter]->attribute_value);
+            if (set_str_success != SUCCESS){
+                fprintf(stderr, "Could not set string attribute for item \n");
+                return -1;
+            }
 
-                if (set_int_success != SUCCESS){
-                    fprintf(stderr, "Could not set integer attribute for item \n");
-                    return -1;
-                }
-                break;
+        }else if((strcmp(tag, "INTEGER")) == 0){
       
-            case DOUBLE:
-                int set_double_success = set_double_attr(i_t, 
-                i->attributes[iter]->attribute_key, 
-                i->attributes[iter]->attribute_value);
+            int set_int_success = set_int_attr(i_t, 
+            i->attributes[iter]->attribute_key, 
+            i->attributes[iter]->attribute_value);
+
+            if (set_int_success != SUCCESS){
+                 fprintf(stderr, "Could not set integer attribute for item \n");
+                return -1;
+            }
+
+        }else if((strcmp(tag, "DOUBLE")) == 0){
+      
+						int set_double_success = set_double_attr(i_t, 
+						i->attributes[iter]->attribute_key, 
+            i->attributes[iter]->attribute_value);
                 
-                if (set_double_success != SUCCESS){
-                    fprintf(stderr, "Could not set double attribute for item \n");
-                    return -1;
-                }
-                break;
-        
-            case CHARACTER:
-                int set_char_success = set_char_attr(i_t, 
-                i->attributes[iter]->attribute_key, 
-                i->attributes[iter]->attribute_value);
+            if (set_double_success != SUCCESS){
+                fprintf(stderr, "Could not set double attribute for item \n");
+                return -1;
+            }
+       }else if((strcmp(tag, "CHARACTER")) == 0){ 
+            int set_char_success = set_char_attr(i_t, 
+            i->attributes[iter]->attribute_key, 
+            i->attributes[iter]->attribute_value);
 
-                if (set_char_success != SUCCESS){
-                    fprintf(stderr, "Could not set character attribute for item \n");
-                    return -1;
-                }
-                break;
+            if (set_char_success != SUCCESS){
+                fprintf(stderr, "Could not set character attribute for item \n");
+                 return -1;
+            }
       
-            case BOOLE:
-                int set_bool_success = set_bool_attr(i_t, 
-                i->attributes[iter]->attribute_key, 
-                i->attributes[iter]->attribute_value);
+        }else if((strcmp(tag, "BOOLE")) == 0){
+            int set_bool_success = set_bool_attr(i_t, 
+            i->attributes[iter]->attribute_key, 
+            i->attributes[iter]->attribute_value);
 
-                if (set_bool_success != SUCCESS){
-                    fprintf(stderr, "Could not set boole attribute for item \n");
-                    return -1;
-                }
-                break;
+            if (set_bool_success != SUCCESS){
+                 fprintf(stderr, "Could not set boole attribute for item \n");
+                 return -1;
+            }
         
-            default:
-                fprintf(stderr, "Could not set any attribute \n");
+        }else{
+						fprintf(stderr, "Could not set any attribute \n");
                 return -1;
         }
     }
@@ -115,7 +111,7 @@ int load_item(Item *i, item_t *i_t);
 
 
 // see load.h
-int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len, game_t *g_t)
+int load_room(Room *r, room_t *r_t)
 {
     if (r_t == NULL) {
         fprintf(stderr, "given null room_t struct\n");
