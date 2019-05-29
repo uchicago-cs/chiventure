@@ -131,7 +131,7 @@ player_t *get_player(game_t *game, char *player_id);
  * Returns:
  *  linked list of pointers to rooms (the head element)
  */
-room_list_t get_all_rooms(game_t *game);
+room_list_t *get_all_rooms(game_t *game);
 
 /*
  * Function to delete a linked list (utlist) retrieved from get_all_rooms()
