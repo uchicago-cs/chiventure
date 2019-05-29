@@ -38,6 +38,38 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
+int action_init(game_action_t *new_action, char *act_name, action_type_t *act_type)
+{
+    assert(new_action != NULL);
+
+    strcpy(new_action->action_name, act_name);
+    new_action->action_type = act_type;
+
+    return SUCCESS;
+}
+
+/* see item.h */
+game_action_t *action_new(char *act_name, action_type_t *act_type)
+{
+    game_action_t *new_action = malloc(sizeof(game_action_t));
+    new_action->action_name = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
+    new_action->action_type = malloc(sizeof(action_type_t));
+
+    int check = action_init(new_action, act_name, act_type);
+
+    if (new_action == NULL || new_action->action_name == NULL ||
+       new_action->action_type == NULL) {
+        exit(1);
+    }
+
+    if(check != SUCCESS) {
+        exit(1);
+    }
+
+    return new_action;
+
+}
+
 // ATTRIBUTE MANIPULATION FUNCTIONS -------------------------------------------
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
@@ -92,7 +124,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
     }
 }
 
-
+// TYPE-SPECIFIC SET_ATTR FUNCTIONS -------------------------------------------
 /* see item.h */
 int set_int_attr(item_t* item, char* attr_name, int value)
 {
@@ -189,7 +221,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
 }
 
-int set_act_attr(item_t* item, char* attr_name, game_action value)
+int set_act_attr(item_t* item, char* attr_name, action_type_t *value)
 {
     attribute_t* res = get_attribute(item, attr_name);
     if (res == NULL)
@@ -197,7 +229,7 @@ int set_act_attr(item_t* item, char* attr_name, game_action value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = ACTION;
-        new_attribute->attribute_value.act_val = value;
+        new_attribute->attribute_value.act_val = action_new(attr_name, value);
         strcpy(new_attribute->attribute_key, attr_name);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
@@ -207,11 +239,13 @@ int set_act_attr(item_t* item, char* attr_name, game_action value)
 
     else
     {
-        res->attribute_value.act_val = value;
+        // this needs to be discussed
+        res->attribute_value.act_val = action_new(attr_name, value);
         return SUCCESS;
     }
 }
 
+// TYPE-SPECIFIC GET_ATTR FUNCTIONS -------------------------------------------
 /* see item.h */
 char* get_str_attr(item_t *item, char* attr_name)
 {
@@ -296,8 +330,9 @@ bool get_bool_attr(item_t *item, char* attr_name) {
     return res->attribute_value.bool_val;
 }
 
-game_action get_act_attr(item_t *item, char* attr_name) {
+game_action_t *get_act_attr(item_t *item, char* attr_name) {
     attribute_t* res = get_attribute(item, attr_name);
+
     if (res == NULL)
     {
         fprintf(stderr, "Error: attribute get failed.\n");
@@ -310,6 +345,7 @@ game_action get_act_attr(item_t *item, char* attr_name) {
     return res->attribute_value.act_val;
 }
 
+ // ---------------------------------------------------------------------------
 
 /* see item.h */
 int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
@@ -368,9 +404,9 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
 }
 
 /* see item.h */
-int add_allowed_action(item_t* item, char* action_name)
+int add_allowed_action(item_t* item, char *act_name, action_type_t *act_type)
 {
-    int rv = set_bool_attr(item, action_name, true);
+    int rv = set_act_attr(item, act_name, act_type);
     return rv;
 }
 
@@ -389,12 +425,31 @@ int allowed_action(item_t* item, char* action_name)
 }
 
 // FREEING AND DELETION FUNCTIONS ---------------------------------------------
+
+int action_free(game_action_t *action_tofree) {
+    free(action_tofree->action_name);
+    free(action_tofree->action_type);
+    free(action_tofree);
+
+    return SUCCESS;
+}
+
+
 /* see item.h */
 int attribute_free(attribute_t *attribute) {
     free(attribute->attribute_key);
+
+    if (attribute->attribute_value.act_val != NULL) {
+        action_free(attribute->attribute_value.act_val);
+        free(attribute);
+        return SUCCESS;
+    }
+
+    // free(attribute->attribute_value);
     free(attribute);
     return SUCCESS;
 }
+
 
 /* see common-item.h */
 int delete_all_attributes(attribute_hash_t attributes)
