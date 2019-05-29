@@ -7,7 +7,7 @@ PROTOLIBS = -lprotobuf-c
 
 PROTOCOMP = include/game.pb-c.c
 PROTOFLAGS = --c_out=./include
-SRCS = src/save.c src/load.c
+SRCS = src/save.c
 OBJS = $(SRCS:.c=.o)
 STATIC_LIB = libcheckpointing.a
 
