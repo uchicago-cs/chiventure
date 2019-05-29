@@ -32,19 +32,11 @@ typedef struct coord_record {
 
 
 // Create new coord_t struct
-<<<<<<< HEAD
-coord_t *coord_new (int x, int y);
-
-
-// Initialize coordi_t struct
-void coord_init(coord_t *c, int x, int y);
-=======
 coord_t *coord_new (int x, int y, int z);
 
 
 // Initialize coord_t struct
 void coord_init(coord_t *c, int x, int y, int z);
->>>>>>> 89b180c2abc0be6544802a6fa6b2bbeda7144573
 
 /* find_coord():
  * - Implementation uses HASH_FIND to find coord_record
