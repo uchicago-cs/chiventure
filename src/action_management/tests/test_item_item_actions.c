@@ -1,6 +1,8 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 #include "actionmanagement.h"
 #include "action_structs.h"
 #include "item.h"
@@ -41,7 +43,7 @@ bool execute_do_item_item_action(char *c_name, enum action_kind kind)
     return rc;
 }
 
-Test(item_item_actions, wrong_kind_1)
+Test(item_item_actions, kind_ITEM)
 {
     bool rc = execute_do_item_item_action("dummy", ITEM);
 
@@ -49,7 +51,7 @@ Test(item_item_actions, wrong_kind_1)
                   "execute_do_item_item_action returned true for wrong kind 1");
 }
 
-Test(item_item_actions, wrong_kind_2)
+Test(item_item_actions, kind_PATH)
 {
 
     bool rc = execute_do_item_item_action("dummy", PATH);
@@ -59,7 +61,7 @@ Test(item_item_actions, wrong_kind_2)
     ;
 }
 
-Test(item_item_actions, correct_kind_3)
+Test(item_item_actions, kind_ITEM_ITEM)
 {
     bool rc = execute_do_item_item_action("dummy", ITEM_ITEM);
 
