@@ -6,7 +6,8 @@
 #include "room.h"
 #include "item.h"
 
-#define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM; HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
+#define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
+HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
 #define ITER_ALL_PLAYERS(game, curr_player) player_t *ITTMP_PLAYER; HASH_ITER(hh, (game)->all_players, (curr_player), ITTMP_PLAYER)
 
 /* The game struct is built to contain all the relevant information
