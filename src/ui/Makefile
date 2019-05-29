@@ -7,9 +7,9 @@ RM = rm -f
 LIB = ui.a
 LDLIBS = -lncurses -lreadline
 
-COMMON = -L../common/ -Wl,-rpath,../common/ common.a
-CLI = -L../cli/ -Wl,-rpath,../cli/ cli.a
-GAME_STATE = -L../game-state/ -Wl,-rpath,../game-state/ game-state.a
+COMMON = -L../common/ -Wl,-rpath,../common/ -l:common.a
+CLI = -L../cli/ -Wl,-rpath,../cli/ -l:cli.a
+GAME_STATE = -L../game-state/ -Wl,-rpath,../game-state/ -l:game-state.a
 STLIBS = $(COMMON) $(CLI) $(GAME_STATE)
 
 .PHONY: all clean examples
