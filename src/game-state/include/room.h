@@ -66,7 +66,7 @@ typedef struct room* room_hash_t;
  * Returns:
  *  a pointer to new room
  */
-room_t *room_new();
+room_t *room_new(char *room_id, char *short_desc, char *long_desc);
 
 /* room_init() initializes a room struct with given values
   Parameters:

@@ -5,7 +5,6 @@
 #include "player.h"
 #include "item.h"
 #include "game.h"
-#include "common-player.h"
 #include "game_state_common.h"
 
 /* Checks that player_new() properly mallocs and initializes a new player struct */
@@ -190,4 +189,3 @@ Test(player, delete_all_players)
 
   cr_assert_eq(res3, SUCCESS, "delete_all_players() failed to delete players");
 }
-

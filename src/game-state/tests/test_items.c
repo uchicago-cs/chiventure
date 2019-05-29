@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <criterion/criterion.h>
 #include "item.h"
+
 #include "actionmanagement.c"
+#include "player.h"
+
 #include "common-item.h"
 #include "common-room.h"
-#include "common-player.h"
 
 // BASIC ITEM UNIT TESTS ------------------------------------------------------
 

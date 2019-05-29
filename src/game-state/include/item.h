@@ -204,7 +204,7 @@ char* get_str_attr(item_t *item, char* attr_name);
  */
 int get_int_attr(item_t *item, char* attr_name);
 
-/* get_double_attr() returns the string value of an attribute of an item
+/* get_double_attr() returns the double value of an attribute of an item
  * Parameters:
  *  a pointer to the item
  *  the attribute name
@@ -213,7 +213,7 @@ int get_int_attr(item_t *item, char* attr_name);
  */
 double get_double_attr(item_t *item, char* attr_name);
 
-/* get_char_attr() returns the string value of an attribute of an item
+/* get_char_attr() returns the character value of an attribute of an item
  * Parameters:
  *  a pointer to the item
  *  the attribute name
@@ -222,7 +222,7 @@ double get_double_attr(item_t *item, char* attr_name);
  */
 char get_char_attr(item_t *item, char* attr_name);
 
-/* get_bool_attr() returns the string value of an attribute of an item
+/* get_bool_attr() returns the bool value of an attribute of an item
  * Parameters:
  *  a pointer to the item
  *  the attribute name

@@ -1,5 +1,4 @@
 #include "game.h"
-#include "common-player.h"
 #include "common-room.h"
 #include "game_state_common.h"
 
@@ -19,7 +18,7 @@ game_t *game_new(char *desc) {
 
 /* See game.h */
 void game_quit(game_t *game) {
-    if (game != NULL) 
+    if (game != NULL)
     game_free(game);
     exit(0);
 }
@@ -111,5 +110,3 @@ int game_free(game_t *game) {
     free(game);
     return SUCCESS;
 }
-
-
