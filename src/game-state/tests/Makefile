@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../src/ -I../../action_management/include
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../src/ -I../../action_management/include -I../../action_management/src
 LDFLAGS = -L../ -Wl,-rpath,.
 LDLIBS = -lcriterion -l:game-state.a
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d

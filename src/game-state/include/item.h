@@ -8,7 +8,7 @@
 #define ITER_ALL_ITEMS_IN_INVENTORY(player, curr_item) item_t *ITTMP_ITEMINV; HASH_ITER(hh, (player)->inventory, (curr_item), ITTMP_ITEMINV)
 #define ITER_ALL_ATTRIBUTES(item, curr_attr) attribute_t *ITTMP_ATTR; HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 
-// ITEM STRUCTURE DEFINITION --------------------------------------------------
+// ITEM STRUCTURE DEFINITION + BASIC FUNCTIONS --------------------------------
 typedef struct attribute* attribute_hash_t;
 
 typedef struct item {
@@ -50,17 +50,40 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 */
 int item_free(item_t *item_tofree);
 
-// ACTION STRUCTURE DEFINITION ------------------------------------------------
-// action type struct modeled from action management
-// typedef struct action_type {
-//     char *c_name;
-//     enum action_kind kind;
-// } atype;
+// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
 typedef struct action {
+    char *action_name;
     action_type_t *action_type;
     // will be expanded to include conditions and effects in Sprint 4
-} game_action;
+} game_action_t;
+
+/* action_new() allocates a space for an action struct in memory and *  assigns given values to struct fields
+*  Parameters:
+*    action name and an action type struct
+*  Returns:
+*    A pointer to a new action struct.
+*/
+game_action_t *action_new(char *act_name, action_type_t *act_type);
+
+/* action_init() initializes an action struct with given values
+   arguments are taken from action management
+ Parameters:
+    a memory allocated new action pointer
+    an action name
+    an action type struct
+ Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int action_init(game_action_t *new_action, char *act_name, action_type_t *act_type);
+
+/* item_free() frees allocated space for an action struct in memory
+*  Parameters:
+*    a pointer to the action
+*  Returns:
+*    SUCCESS if successful, FAILURE if not
+*/
+int action_free(game_action_t *action_tofree);
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
@@ -70,7 +93,7 @@ typedef struct attribute_value {
     bool bool_val;
     char* str_val;
     int int_val;
-    game_action act_val;
+    game_action_t *act_val;
 } attribute_value_t;
 
 enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER, ACTION};
@@ -104,6 +127,7 @@ int attribute_free(attribute_t *attribute);
  *  1 if equal, 0 if not equal
  */
 int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
+
 
 
 // ATTRIBUTE ADDITION & REPLACEMENT FUNCTIONS ---------------------------------
@@ -165,6 +189,16 @@ int set_char_attr(item_t* item, char* attr_name, char value);
  */
 int set_bool_attr(item_t* item, char* attr_name, bool value);
 
+/* set_act_attr() sets the value of an attribute of an item to the given int
+ * Parameters:
+ *  a pointer to the item
+ *  the attribute name with value to be changed
+ *  the action attribute value to be set
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ *  returns SUCCESS if given value is already the attribute value
+ */
+int set_act_attr(item_t* item, char* attr_name, action_type_t *value);
 
 // ATTRIBUTE GET FUNCTIONS --------------------------------------------
 // the following functions allow their users to get (read: retrieve)
@@ -215,14 +249,23 @@ char get_char_attr(item_t *item, char* attr_name);
  */
 bool get_bool_attr(item_t *item, char* attr_name);
 
+/* get_act_attr() returns the string value of an attribute of an item
+ * Parameters:
+ *  a pointer to the item
+ *  the attribute name
+ * Returns:
+ *  the action struct associated with the attribute
+ */
+game_action_t *get_act_attr(item_t *item, char* attr_name);
 /* add_allowed_action() adds a permitted action to an item
  * Parameters:
  *  a pointer to the item
  *  the action name
+ *  the permitted action struct
  * Returns:
  *  SUCCESS if added correctly, FAILURE if failed to add
  */
-int add_allowed_action(item_t* item, char* action_name);
+int add_allowed_action(item_t* item, char *act_name, action_type_t *act_type);
 
 /* allowed_action() checks if an item permits a specific action
  * Parameters:
