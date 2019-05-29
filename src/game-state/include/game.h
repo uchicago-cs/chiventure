@@ -156,6 +156,26 @@ player_t *get_player(game_t *game, char *player_id);
 */
 room_t *find_room(game_t *game, char* room_id);
 
+/*
+ * Function to get a linked list (utlist) of all the rooms in the game
+ *
+ * Parameters:
+ *  game
+ *
+ * Returns:
+ *  linked list of pointers to rooms (the head element)
+ */
+room_list_t get_all_rooms(game_t *game);
 
+/*
+ * Function to delete a linked list (utlist) retrieved from get_all_rooms()
+ *
+ * Parameters:
+ *  linked list of pointers to rooms
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int delete_room_llist(room_list_t *list);
 
 #endif
