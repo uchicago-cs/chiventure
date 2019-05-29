@@ -4,7 +4,6 @@
 #include "game.pb-c.h"
 #include "save.h"
 
-
 int save_attribute(attribute_t *a_t, Attribute *a)
 {
     if (a_t == NULL) {
