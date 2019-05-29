@@ -238,6 +238,28 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
     return 0;
 }    
 
+int count(game_t *g_t)
+{
+    int res = 0;
+    room_t *curr_room;
+    player_t *curr_player;
+    item_t *curr_item;
+    ITER_ALL_ROOMS(g_t, curr_room) {
+        ITER_ALL_ITEMS_IN_ROOM(curr_room, curr_item) {
+	    res++;
+        }
+
+    }
+
+    ITER_ALL_PLAYERS(g_t, curr_player) {
+        ITER_ALL_ITEMS_IN_INVENTORY(curr_player, curr_item) {
+	    res++;
+        }
+    }
+	
+    return res;
+}
+
 
 // see load.h
 int load_game(Game *g, game_t *g_t)
@@ -248,17 +270,9 @@ int load_game(Game *g, game_t *g_t)
     }
   
     // Malloc an array of all items in the game
-    int item_len = 0;
+    int item_len = count(g_t);
     room_t *curr_room;
-    ITER_ALL_ROOMS(g_t, curr_room) {
-	item_len++;
-        //item_len += COUNT_ITEMS_IN_ROOM(curr_r);
-    }
     player_t *curr_player;
-    ITER_ALL_PLAYERS(g_t, curr_player) {
-	item_len++;
-        //item_len += COUNT_ITEMS_IN_INVENTORY(curr_p);
-    }
     item_t **all_items = malloc(sizeof(item_t*) * item_len);
   
     // Create a deep copy of all items in the game
