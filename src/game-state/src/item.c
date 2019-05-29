@@ -49,7 +49,7 @@ int action_init(game_action_t *new_action, char *act_name, action_type_t *act_ty
 }
 
 /* see item.h */
-game_action_t *action_new(char *act_name, action_type_t *act_type)
+game_action_t *game_action_new(char *act_name, action_type_t *act_type)
 {
     game_action_t *new_action = malloc(sizeof(game_action_t));
     new_action->action_name = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
@@ -229,7 +229,7 @@ int set_act_attr(item_t* item, char* attr_name, action_type_t *value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = ACTION;
-        new_attribute->attribute_value.act_val = action_new(attr_name, value);
+        new_attribute->attribute_value.act_val = game_action_new(attr_name, value);
         strcpy(new_attribute->attribute_key, attr_name);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
@@ -240,7 +240,7 @@ int set_act_attr(item_t* item, char* attr_name, action_type_t *value)
     else
     {
         // this needs to be discussed
-        res->attribute_value.act_val = action_new(attr_name, value);
+        res->attribute_value.act_val = game_action_new(attr_name, value);
         return SUCCESS;
     }
 }
@@ -426,7 +426,7 @@ int allowed_action(item_t* item, char* action_name)
 
 // FREEING AND DELETION FUNCTIONS ---------------------------------------------
 
-int action_free(game_action_t *action_tofree) {
+int game_action_free(game_action_t *action_tofree) {
     free(action_tofree->action_name);
     free(action_tofree->action_type);
     free(action_tofree);
@@ -440,7 +440,7 @@ int attribute_free(attribute_t *attribute) {
     free(attribute->attribute_key);
 
     if (attribute->attribute_value.act_val != NULL) {
-        action_free(attribute->attribute_value.act_val);
+        game_action_free(attribute->attribute_value.act_val);
         free(attribute);
         return SUCCESS;
     }
