@@ -70,8 +70,8 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
      */
     ui_ctx->coord_hash = NULL;//create_valid_map(game);
 
-    // Initial room coordinates set to 0, 0
-    coord_t *initial_coord = coord_new(0, 0);
+    // Initial room coordinates set to 0, 0, 0
+    coord_t *initial_coord = coord_new(0, 0, 0);
 
     ui_ctx->player_loc = initial_coord;
 
@@ -89,7 +89,7 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
 // see ui_ctx.h
 int ui_ctx_free(ui_ctx_t *ui_ctx)
 {
-    assert(ui_ctx_init != NULL);
+    assert(ui_ctx != NULL);
 
     window_free(ui_ctx->map_win);
     window_free(ui_ctx->main_win);
