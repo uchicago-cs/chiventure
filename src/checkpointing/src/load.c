@@ -32,7 +32,7 @@ int load_item(Item *i, item_t *i_t)
         return -1;
     }
 	
-	if (i->item_id == NULL){
+    if (i->item_id == NULL){
         fprintf(stderr, "no item id saved\n");
     } else {
         i_t->item_id = i->item_id;
@@ -126,8 +126,12 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
         fprintf(stderr, "given null room_t struct\n");
         return -1;
     }
-
-    r_t->room_id = r->room_id;
+    
+    if (r->room_id == NULL){
+        fprintf(stderr, "room id not saved\n");
+    } else {
+	r_t->room_id = r->room_id;
+    }
 
     if (r->short_desc != NULL) {
         r_t->short_desc = r->short_desc;
