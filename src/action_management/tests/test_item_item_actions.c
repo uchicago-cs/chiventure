@@ -20,9 +20,9 @@ bool execute_do_item_item_action(char *c_name, enum action_kind kind)
     strcat(expected_output, "Requested action ");
     strcat(expected_output, c_name);
     strcat(expected_output, " with ");
-    strcat(expected_output, "direct");
+    strcat(expected_output, direct->item_id);
     strcat(expected_output, " on ");
-    strcat(expected_output, "indirect");
+    strcat(expected_output, indirect->item_id);
 
     bool rc;
     if (strcmp(do_item_item_action(g, a, direct, indirect), expected_output) == 0) 
