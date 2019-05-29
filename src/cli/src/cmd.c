@@ -13,23 +13,10 @@ void add_entry(char *command_name, operation *associated_operation, lookup_t **t
     t->name = command_name;
     t->operation_type = associated_operation;
     HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
-
-    /* This is code for how we will print once we get UI context structs, ideally they
-       will provide a function for printing so we don't have to lookup x and y coordinates
-       every time. Ignore this for now.
-       char * (*)(char **, game_t *, lookup_t **) {aka char * (*)(char **, struct <anonymous> *, struct lookup_entry **)}
-       char * (*)(char **, game_t *, lookup **) {aka char * (*)(char **, struct <anonymous> *, struct lookup_t **)}
-       int y;
-       int x;
-       getyx(win->w, y, x);
-       mvwprintw(win->w, y + 1, 2, HASH_COUNT(*table));
-    */
 }
 
 void add_action_entries(lookup_t **table)
 {
-//To be filled with a while loop that adds each synonym,
-//and maps the enum in the action value to the proper operation.
     list_action_type_t *all_actions = get_supported_actions();
 
     while(all_actions != NULL)
@@ -112,7 +99,7 @@ lookup_t **initialize_lookup()
 cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE])
 {
     cmd *c = (cmd*)malloc(sizeof(cmd));
-    if (c==NULL)
+    if(c == NULL)
     {
         fprintf(stderr,"error (cmd_tag): malloc failed\n");
         exit(1);
@@ -124,10 +111,10 @@ cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE])
 /* See cmd.h */
 void cmd_free(cmd *c)
 {
-    if (c == NULL || c->tokens == NULL) return;
+    if(c == NULL || c->tokens == NULL) return;
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
-        if (c->tokens[i] != NULL) free(c->tokens[i]);
+        if(c->tokens[i] != NULL) free(c->tokens[i]);
     }
     free(c);
 }
@@ -184,7 +171,10 @@ cmd *cmd_from_string(char *s, lookup_t **table)
 void do_cmd(cmd *c,int *quit, game_t *game, lookup_t **table)
 {
     char *outstring;
-    /* available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ */
+    /* 
+     * available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ
+     * all other commands will segfault in the testshell, because there is no game file
+     */ 
     if (strcmp(cmd_name_tos(c),"QUIT")==0)
     {
         *quit=0;

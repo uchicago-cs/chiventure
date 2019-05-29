@@ -10,9 +10,6 @@
 #include "cmd.h"
 #include "item.h"
 #include "room.h"
-/*
- * THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
- */
 
 /*
  * If the input action is valid (checks by calling validate_action), go through
@@ -30,63 +27,6 @@
  *    to action_error_operation
  */
 cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
-
-
-/*
- * Checks if a given action is supported by the game
- *
- * Input:
- *  - tokens: an array of parsed input
- *  - table: hashtable that stores all supported actions
- *
- * Returns:
- *  - FALSE if the action is not supported; TRUE if it is.
- */
-bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t **table);
-
-
-/*
- * Checks if a given object is in the current room
- *
- * Input:
- *  - c: cmd struct returned by assign_action
- *  - we also need a list of accessible items as input.
- *    This needs to be provided by game state
- *
- * Returns:
- *  - FALSE if the object is not accessible; TRUE if it is.
- *    Additionally, we may set the cmd pointer to an error function
- *    that returns a error message with respect to the type of error
- */
-bool validate_object(char *tokens[TOKEN_LIST_SIZE], game_t * game);
-
-
-/*
- * Checks if an input preposition is valid
- *
- * Input:
- *  - c: cmd struct returned by assign_action
- *  - we also need a list of valid actions as input.
- *    This needs to be provided by action management
- *
- * Returns:
- *  - FALSE if the preposition is invalid; TRUE if it is.
- */
-bool validate_prep(cmd *c);
-
-
-/*
- *  Checks if the specefied indirect object (2nd item) (e.g. NPC) is
- *  accessible
- *
- * Input:
- *  - c: cmd struct returned by assign_action
- *  - we also need a list of accessible items as input.
- *    This needs to be provided by game state
- * Returns:
- *  - FALSE if the item is not accessible; TRUE if it is.
- */
-bool validate_ind_objects(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 /*
  * Checks that a specified filetype is a .dat file

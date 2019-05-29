@@ -29,6 +29,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
+    //Commented out for now until an actual save and load function are provided
     /*  if(tokens[1] == NULL){
         fprintf(stderr,"Save Error, No filename specified. \n");
       }
@@ -87,10 +88,7 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
             return "Direction available!\n";
         }
     }
-
     return "You cannot go in this direction\n";
-
-
 }
 
 //KIND 3:   ACTION <item> <item>

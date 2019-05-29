@@ -9,12 +9,6 @@
 #include "room.h"
 #include "item.h"
 
-
-/*
- *  THIS FILE INCLUDES A SET OF FUNCTIONS THAT VALIDATE A COMMAND
- */
-
-
 /* See validate.h */
 cmd *assign_action(char **ts, lookup_t ** table)
 {
@@ -24,34 +18,6 @@ cmd *assign_action(char **ts, lookup_t ** table)
     //HERE WE VALIDATE THE COMMANDS
 
     return output;
-}
-
-/* See validate.h */
-bool validate_action(char *tokens[TOKEN_LIST_SIZE], lookup_t ** table)
-{
-    return true;
-}
-
-/* See validate.h */
-bool validate_object(char *tokens[TOKEN_LIST_SIZE], game_t * game)
-{
-
-    return true;
-}
-
-/* See validate.h */
-bool validate_prep(cmd *c)
-{
-    //Once the commands are finalized we can match the preposition with the command,
-    // talk to, vs talk from, take from, vs take to. give from vs give to.
-    return true;
-}
-
-/* See validate.h */
-bool validate_ind_objects(char *tokens[TOKEN_LIST_SIZE], game_t * game)
-{
-    //similar to validate_in_objects
-    return true;
 }
 
 /* See validate.h */

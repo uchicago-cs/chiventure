@@ -21,16 +21,23 @@
  * niceness, it is in cmd.h.
  */
 
+/* Some operations take a game struct and a pointer
+ * to a look up table even though these parameters are unused.
+ * This is to keep the type of operation consistent, since it
+ * is used in the lookup_t struct
+ * /
+
 /*
  * Quits the game
  *
  * Input:
  *  - tokens: parsed input string
+ *  - game struct, unused
+ *  - pointer to table, unused
  *
  * Returns:
  *  - Some system message
  *
- * Note that this command literally does nothing right now.
  */
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
@@ -41,6 +48,8 @@ char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  *  Parameters:
  *  - tokens: parsed input string
  *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
  * Returns:
  * - Said list of supported operations as a string
  */
@@ -54,6 +63,8 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  * Parameters:
  *  - tokens: parsed input string
  *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
  * Returns:
  * - Said list of previous actions as a string
  */
@@ -67,6 +78,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  * Paramters:
  * - tokens: parsed input string
  * - pointer to game to be saved,
+ * - pointer to table, unused
  *
  * Returns:
  * - A success or error message
@@ -80,6 +92,8 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  * Parameters:
  *  - tokens: parsed input string
  *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
  * Returns:
  * - Said description as a string
  */
@@ -91,6 +105,8 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  * Parameters:
  *  - tokens: parsed input string
  *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
  * Returns:
  * - Said description as a string
  */
@@ -102,24 +118,51 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t 
  * Parameters:
  *  - tokens: parsed input string
  *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
  * Returns:
  * - Said error message as a string
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
-/* These functions will generate an action-struct (based on action management)
- * and pass a command along.
+/* Validates an item is in a room, passes an action struct on to
+ * action management's function that handles ACTION ITEM
  *
  * Parameters:
  * - tokens: parsed input string (validified)
- *  - pointer to game to be altered, unused
+ *  - pointer to game
+ *  - pointer to table
+ * 
  * Returns:
  * - Said list of supported operations as a string
- *
  */
 char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+
+/* Validates a path is available in a room, passes an action struct on to
+ * action management's function that handles ACTION PATH
+ *
+ * Parameters:
+ * - tokens: parsed input string (validified)
+ *  - pointer to game
+ *  - pointer to table
+ * 
+ * Returns:
+ * - Said list of supported operations as a string
+ */
 char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+
+/* Validates both items are in a room, passes an action struct on to
+ * action management's function that handles ACTION ITEM ITEM
+ *
+ * Parameters:
+ * - tokens: parsed input string (validified)
+ *  - pointer to game
+ *  - pointer to table
+ * 
+ * Returns:
+ * - Said list of supported operations as a string
+ */
 char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 //char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 

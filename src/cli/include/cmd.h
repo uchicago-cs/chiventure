@@ -6,7 +6,6 @@
 #include "uthash.h"
 #include "action_structs.h"
 #include "actionmanagement.h"
-//#include "../../game-state/include/game.h"
 
 /* Operation data type */
 typedef struct lookup_entry lookup_t;
@@ -27,10 +26,18 @@ typedef struct
     char **tokens;    //should be of TOKEN_LIST_SIZE
     operation *func_of_cmd;
 } cmd;
+
 #include "operations.h"
 
-/* Iteratively adds each action, and its synonyms into the table. Commented out
-until action_t is ready */
+/* Iteratively adds each action into the table, from a
+ * list of functions provided by action management
+ * 
+ * Parameters: 
+ * - pointers to a lookup table
+ * 
+ * Returns:
+ * - nothing
+ */
 
 void add_action_entries(lookup_t **table);
 
@@ -38,7 +45,7 @@ void add_action_entries(lookup_t **table);
  *
  *
  * Parameters:
- * - command name and operation of added entry,
+ * - command name, operation of added entry, lookup table
  *
  * Returns:
  * - nothing
@@ -49,7 +56,7 @@ void add_entry(char *command_name, operation *associated_operation, lookup_t **t
  *
  *
  * Parameters:
- * - command name and pointer to table
+ * - command name, pointer to table
  *
  * Returns:
  * - a pointer to the entire entry
@@ -61,7 +68,7 @@ lookup_t *find_entry(char *command_name, lookup_t **table);
  *
  *
  * Parameters:
- * - command name and pointer to table
+ * - command name, pointer to table
  *
  * Returns:
  * - a pointer to the corresponding operation
@@ -71,7 +78,7 @@ operation *find_operation(char *command_name, lookup_t **table);
  *
  *
  * Parameters:
- * - command name and pointer to table
+ * - command name, pointer to table
  *
  * Returns:
  * - a pointer to the corresponding action
@@ -85,7 +92,7 @@ action_type_t *find_action(char *command_name, lookup_t **table);
  *
  *
  * Parameters:
- * - command name of entry and pointer to table
+ * - command name of entry, pointer to table
  *
  * Returns:
  * - nothing
@@ -96,7 +103,7 @@ void delete_entry(char *command_name, lookup_t **table);
  *
  *
  * Parameters:
- * - command name of entry and pointer to table
+ * -pointer to table
  *
  * Returns:
  * - nothing
@@ -165,7 +172,7 @@ void cmd_show(cmd *c);
  * Almost unneeded, but will stay so that AND is a working command.
  *
  * Parameters:
- * - array of characters
+ * - array of characters, pointer to table
  *
  * Returns:
  * - pointer to command struct, NULL if parse fails
@@ -177,7 +184,7 @@ cmd *cmd_from_string(char *s, lookup_t **table);
  * creates a command from parsed string.
  *
  * Parameters:
- * - Array of tokens
+ * - Array of tokens, pointer to table
  *
  * Returns:
  * - pointer to a cmd struct, NULL if there is an error
@@ -191,6 +198,7 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table);
  * Parameters:
  * - pointer to a cmd struct
  * - pointer to game to be altered
+ * - pointer to table
  *
  * Returns:
  * - nothing -> output handled elsewhere
