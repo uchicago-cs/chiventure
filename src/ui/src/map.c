@@ -40,9 +40,13 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     int side_ht = height -2;
     int bot_y = y+height -1;
     int right_x = x+width-1;
-    // These are commented because they are only used for drawing exits
-    //    int halfy = y + height/2;
-    //int halfx = x + width/2;
+
+    /* These are commented because they are only used for drawing exits
+     * We will add them back in once merged with Game State, so we would
+     * like to keep this commented code here
+     */
+    // int halfy = y + height/2;
+    // int halfx = x + width/2;
 
     // Draw the corners
     mvwaddch(win, y, x, ACS_ULCORNER);
@@ -80,13 +84,13 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     */
 }
 
-// Takes a coordinate and an array of rooms and draws them in
-// z should be 0 when ground floor
+// Takes a coordinate and an array of rooms and draws them.
+// Note: z =  0 is the ground floor
 void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 {
     assert(ctx != NULL);
     assert(ctx->ui_ctx != NULL);
-    
+
     // Declare variables
     coord_record_t *itr;
     map_t *map = ctx->ui_ctx->map;
@@ -102,7 +106,7 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 
         //Temporary:
         temp++;
-	
+
         zroom = itr->key.z;
         x = itr->key.x;
         y = itr->key.y;
@@ -214,12 +218,12 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
     assert(ctx->ui_ctx != NULL);
     assert(ctx->ui_ctx->map != NULL);
     assert(ctx->ui_ctx->map->pad != NULL);
-    
+
     map_t *map = ctx->ui_ctx->map;
-    
+
     if (z != map->padz || x != map->padx || y != map->pady) {
         wclear(map->pad);
-	
+
         draw_rooms(ctx, -x, -y, z);
     }
 
@@ -235,7 +239,7 @@ int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
 {
     assert(ctx != NULL);
     assert(ctx->ui_ctx != NULL);
-    
+
     map_t *map = ctx->ui_ctx->map;
     int room_h = map->room_h;
     int room_w = map->room_w;
@@ -254,7 +258,6 @@ int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
     return 0;
 }
 
-// TO-DO -- Fix this with new room stucts
 
 room_t **get_test_rooms(int n)
 {

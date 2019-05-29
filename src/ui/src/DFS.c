@@ -89,9 +89,9 @@ coord_record_t *create_valid_map(game_t *game)
 
     // The IF loop below is Temporary: (For compilation of map_examples)
     if (game->curr_room == NULL) {
-      return FAILURE;
+        return FAILURE;
     }
-    
+
     /* Add this line back in once game_new() is fixed to never
      * initialize with NULL as the current room. After all, we
      * should never try to create a map for a game that has no rooms
@@ -123,7 +123,7 @@ coord_record_t *create_valid_map(game_t *game)
 
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
     assert (coordmap != NULL);
-    
+
     // Begin DFS search
     /*
     int r =  assign(coordmap, 0, 0, initial);
