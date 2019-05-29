@@ -62,12 +62,6 @@ attribute_t *get_attribute(item_t *item, char* attr_name)
     return return_value;
 }
 
-/* we need to write a part to the following 5 functions
- * where if the attr alr exists we do not override its type
- */
-
- /* I added an else if that returns FAILURE if the attr exists and is of the wrong type, and wrote accompanying tests, let's discuss if we want this aspect of the function to do something different
- */
 
 /* see item.h */
 int set_str_attr(item_t* item, char* attr_name, char* value)
