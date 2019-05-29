@@ -1,7 +1,7 @@
 #ifndef LOAD_H
 #define LOAD_H
 #include "game.pb-c.h"
-
+#include "game.h"
 
 /* 
  * Takes a file, reads it, and returns the length of file
@@ -28,7 +28,7 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out);
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int load_attribute_value(Attribute_value *av, attribute_value_t *av_t);
+int load_attribute_value(AttributeValue *av, attribute_value_t *av_t);
 
 
 /*

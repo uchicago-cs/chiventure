@@ -4,40 +4,6 @@
 #include "game.pb-c.h"
 #include "save.h"
 
-int save_attribute(attribute_t *a_t, Attribute *a)
-{
-    if (a_t == NULL) {
-	fprintf(stderr, "Given a NULL attribute struct in save_attribute");
-	return -1;
-    }
-
-    a->attribute_key = a_t->attribute_key;
-
-    if (a_t->attribute_tag == DOUBLE) {
-	a->attribute_tag = "DOUBLE";
-	a->attribute_value->double_val = a_t->attribute_value.double_val;
-    } else if (a_t->attribute_tag == BOOLE) {
-	a->attribute_tag = "BOOLE";
-	a->attribute_value->bool_val = a_t->attribute_value.bool_val;
-    } else if (a_t->attribute_tag == CHARACTER) {
-	a->attribute_tag = "CHARACTER";
-	a->attribute_value->char_val = a_t->attribute_value.char_val;
-    } else if (a_t->attribute_tag == STRING) {
-	a->attribute_tag = "STRING";
-	if (a_t->attribute_value.str_val != NULL){
-	    a->attribute_value->str_val = strdup(a_t->attribute_value.str_val);
-	} else {
-	    a->attribute_value->str_val = NULL;
-	}
-    } else {
-	a->attribute_tag = "INTEGER";
-	a->attribute_value->int_val = a_t->attribute_value.int_val;
-    }
-
-    return 0;
-}
-
-
 int save_item(item_t *i_t, Item *i)
 {
     if (i_t == NULL) {

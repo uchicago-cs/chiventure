@@ -51,7 +51,7 @@ message Room {
 }
 
 message Player {
-    required int32 player_id = 1;
+    required string player_id = 1;
     optional int32 level = 2;  
     optional int32 health = 3;
     optional int32 xp = 4;

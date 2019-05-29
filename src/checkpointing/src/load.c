@@ -11,7 +11,7 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out)
     size_t cur_len = 0;
     size_t nread;
     FILE *fp = fopen(filename, "r");
-    while((nread = fread(out + cur_len, 1, max_length - cur_len, fp)) != 0) {
+    while ((nread = fread(out + cur_len, 1, max_length - cur_len, fp)) != 0) {
 	cur_len += nread;
 	if (cur_len == max_length) {
 	    fprintf(stderr, "max message length exceed\n");
@@ -21,77 +21,8 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out)
     fclose(fp);
     return cur_len;
 }
-
-
-int load_attribute_value(Attribute_value *av, attribute_value_t *av_t)
-{
-    if (av_t == NULL) {
-	fprintf(stderr, "given null attribute_value_t struct\n");
-	return -1;
-    }
-
-    if (av->double_value != NULL) {
-	av_t->double_value = av->double_value;
-    } else {
-	av_t->double_value = NULL;
-    }
-
-    if (av->char_val != NULL) {
-	av_t->char_val = av->char_val;
-    } else {
-	av_t->char_val = NULL;
-    }
-
-    if (av->bool_val != NULL) {
-	av_t->bool_val = av->bool_val;
-    } else {
-	av_t->bool_val = NULL;
-    }
-
-    if (av->str_val != NULL) {
-	av_t->str_val = av->str_val;
-    } else {
-	av_t->str_val = NULL;
-    }
-
-    if (av->int_val != NULL) {
-	av_t->int_val = av->int_val;
-    } else {
-	av_t->int_val = NULL;
-    }
-
-    return 0;
-}
-
-
-int load_attribute(Attribute *a, attribute_t *a_t)
-{
-    if (a_t == NULL) {
-	fprintf(stderr, "given null attribute_t struct\n");
-	return -1;
-    }
-
-    a_t->attribute_key = a->attribute_key;
-
-    if (strcmp(a->attribute_tag, "DOUBLE") == 0) {
-	a_t->attribute_tag = DOUBLE;
-    } else if (strcmp(a->attribute_tag, "BOOLE") == 0) {
-	a_t->attribute_tag = BOOLE;
-    } else if (strcmp(a->attribute_tag, "CHARACTER") == 0) {
-	a_t->attribute_tag = CHARACTER;
-    } else if (strcmp(a->attribute_tag, "STRING") == 0) {
-	a_t->attribute_tag = STRING;
-    } else {
-	a_t->attribute_tag = INTEGER;
-    }
-
-    load_attribute_value(a->attribute_value, a_t->attribute_value);
-
-    return 0;
-}
-
     
-int load_item(Item *i, item_t *i_t);
+int load_item(Item *i, item_t *i_t)
 {
     if(i_t == NULL) {
 	fprintf(stderr, "given null item_t struct\n");
@@ -118,7 +49,6 @@ int load_item(Item *i, item_t *i_t);
     //ITER_ALL_ITEMS
     return 0;
 }
-
 
 int load_room(Room *r, room_t *r_t)
 {
@@ -159,34 +89,33 @@ int load_room(Room *r, room_t *r_t)
     return 0;
 }
 
-
 int load_player(Player *p, player_t *p_t)
 {
     if (p_t == NULL) {
 	fprintf(stderr, "given null player_t struct\n");
 	return -1;
     }
-  
+
     p_t->player_id = p->player_id;
 
-    if (p->level != NULL) {
+    if (p->has_level == 1) {
 	p_t->level = p->level;
     } else {
-	p_t->level = NULL;
-    }
-  
-    if (p->health != NULL) {
-	p_t->health = p->health;
-    } else {
-	p_t->health = NULL;
-    }
-  
-    if (p->xp != NULL) {
-	p_t->xp = p->xp;
-    } else {
-	p_t->xp = NULL;
+	p_t->level = -1;
     }
 
+    if (p->has_health == 1) {
+	p_t->health = p->health;
+    } else {
+	p_t->health = -1;
+    }
+
+    if (p->has_xp == 1) {
+	p_t->xp = p->xp;
+    } else {
+	p_t->xp = -1;
+    }
+    
     // Load inventory here
     /*
     object_t **inventory = malloc(sizeof(object_t*) * p->inventory_len);
@@ -202,7 +131,6 @@ int load_player(Player *p, player_t *p_t)
     */
     return 0;
 }    
-
 
 int load_game(Game *g, game_t *g_t)
 {
@@ -238,7 +166,7 @@ int load_game(Game *g, game_t *g_t)
 
     // Note: in game state structs, curr_room is a room struct that contains a room_id
     // In the proto struct, curr_room is simply the room_id as a string
-    if(g->curr_room != -1) {
+    if(g->curr_room != NULL) {
 	room_t *curr_r;
 	ITER_ALL_ROOMS(g_t, curr_r) {
 	    if (curr_r->room_id == g->curr_room) {
@@ -247,7 +175,7 @@ int load_game(Game *g, game_t *g_t)
 	}
     }
 
-    if (g->curr_player != -1) {
+    if (g->curr_player != NULL) {
 	player_t *curr_p;
 	ITER_ALL_PLAYERS(g_t, curr_p) {
 	    if (curr_p->player_id == g->curr_player) {

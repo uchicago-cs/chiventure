@@ -1,7 +1,7 @@
 #ifndef SAVE_H
 #define SAVE_H
 #include "game.pb-c.h"
-#include "../../game-state/include/game.h"
+#include "game.h"
 
 /* 
  * Packs the attribute_value_t struct into the Attribute_value field in the protofile.
@@ -14,7 +14,7 @@
  *   - 0 if successful
  *   - -1 if unsuccessful 
  */
-int save_attribute_value(attribute_value_t *av_t, Attribute_value *av);
+int save_attribute_value(attribute_value_t *av_t, AttributeValue *av);
 
 
 /* 
