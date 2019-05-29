@@ -1,13 +1,13 @@
 CC = gcc
 AR = ar
 RM = rm -f 
-CFLAGS = -fPIC -g -I./include
+CFLAGS = -fPIC -g -I./include -I../common/include -I../game-state/include
 LDFLAGES = -shared
 PROTOLIBS = -lprotobuf-c
 
 PROTOCOMP = include/game.pb-c.c
 PROTOFLAGS = --c_out=./include
-SRCS = src/save.c src/load.c
+SRCS = src/save.c
 OBJS = $(SRCS:.c=.o)
 STATIC_LIB = checkpointing.a
 
@@ -24,3 +24,6 @@ $(PROTOCOMP): game.proto
 
 clean:
 	$(RM) $(PROTOCOMP) $(OBJS) $(STATIC_LIB) $(PROTOCOMP:.c=.h)
+
+tests: ${STATIC_LIB}
+	make -C ./tests
