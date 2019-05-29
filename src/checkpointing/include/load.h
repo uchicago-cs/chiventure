@@ -37,12 +37,14 @@ int load_item(Item *i, item_t *i_t);
  * Parameters:
  * - r: pointer to Room in protofile
  * - r_t: pointer to an empty room_t in game struct to be filled from protofile
+ * - all_items: pointer to array of items in the room
+ * - all_items_len: lenght of the all_items array
  *
  * Returns:
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int load_room(Room *r, room_t *r_t);
+int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len);
 
 
 /*
@@ -51,12 +53,14 @@ int load_room(Room *r, room_t *r_t);
  * Parameters:
  * - p: pointer to Player in protofile
  * - p_t: pointer to an empty player_t in game struct to be filled from protofile
+ * - all_items: pointer to array of items in the room
+ * - all_items_len: lenght of the all_items array
  *
  * Returns:
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int load_player(Player *p, player_t *p_t);
+int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len);
 
 
 /*

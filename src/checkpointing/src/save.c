@@ -26,9 +26,9 @@ int save_attribute(attribute_t *a_t, Attribute *a)
     } else if (a_t->attribute_tag == STRING) {
 	a->attribute_tag = "STRING";
 	if (a_t->attribute_value.str_val != NULL){
-	  a->attribute_value->str_val = strdup(a_t->attribute_value.str_val);
+	    a->attribute_value->str_val = strdup(a_t->attribute_value.str_val);
 	} else {
-	  a->attribute_value->str_val = NULL;
+	    a->attribute_value->str_val = NULL;
 	}
     } else {
 	a->attribute_tag = "INTEGER";
@@ -47,9 +47,9 @@ int save_item(item_t *i_t, Item *i)
     }
 
     if (i_t->item_id != NULL){
-      i->item_id = i_t->item_id;
+	i->item_id = i_t->item_id;
     } else {
-      i->item_id = NULL;
+	i->item_id = NULL;
     }
     
     if (i_t->short_desc == NULL) {
@@ -64,30 +64,28 @@ int save_item(item_t *i_t, Item *i)
 	i->long_desc = i_t->long_desc;
     }
 
-    // bool condition reserved for future expansion
-
-    // repeated Attribute HERE
-    i->attributes_len = COUNT_ATTRIBUTES(i_t);  // Set length of array
-    i->n_attributes = COUNT_ATTRIBUTES(i_t);  // Set length of array
-    
     // Allocate an array of proto Attribute structs
     Attribute **attrs = malloc(sizeof(Attribute*) * (i->attributes_len));
     int iter =0; // Iterator int to track the array
-    
+
     // Put the hashtable into the array
     attribute_t *curr_attr;
     ITER_ALL_ATTRIBUTES(i_t, curr_attr) {
-      attrs[iter] = malloc(sizeof(Attribute));
-      attribute__init(attrs[iter]);
-      int save_attribute_success = save_attribute(curr_attr, attrs[iter]);
-      if (save_attribute_success != 0) {
-	fprintf(stderr, "Attribute saving for item failed \n");
-	return -1;
-      };
-      iter += 1;
-    };
+	attrs[iter] = malloc(sizeof(Attribute));
+	attribute__init(attrs[iter]);
+	int save_attribute_success = save_attribute(curr_attr, attrs[iter]);
+	if (save_attribute_success != 0) {
+	    fprintf(stderr, "Attribute saving for item failed \n");
+	    return -1;
+	}
+	iter += 1;
+    }
 
     i->attributes = attrs;
+
+    i->attributes_len = iter;  // Set length of array
+    i->n_attributes = iter;  // Set length of array
+
     
     return 0;
 }
@@ -112,14 +110,14 @@ int save_condition(condition_t *c_t, Condition *c)
      * our last meeting with Borja,it seems that we don't need to store 
      * the Condition structs. However, I will not delete the code completely
      * until we decide for sure that we won't need it.
-    Attribute *expected_attr = malloc(sizeof(Attribute));
-    int save_attribute_success =
-      save_attribute(c_t->expected_attribute, expected_attr);
-    if (save_attribute_success != 0) {
-      fprintf(stderr, "Attribute saving failed for condition \n");
-      return -1;
-    };
-    c->expected_attribute = expected_attr;
+     Attribute *expected_attr = malloc(sizeof(Attribute));
+     int save_attribute_success =
+     save_attribute(c_t->expected_attribute, expected_attr);
+     if (save_attribute_success != 0) {
+     fprintf(stderr, "Attribute saving failed for condition \n");
+     return -1;
+     };
+     c->expected_attribute = expected_attr;
     */
     return 0;
 }
@@ -147,25 +145,25 @@ int save_path(path_t *p_t, Path *p)
     /* The code below will be commented out since it appears that we don't 
      * need to store the Condition for a path. However, I will not 
      * delete them completely until we know for sure we don't need the code.
-    // repeated Condition HERE
-    p->conditions_len = COUNT_CONDITIONS(p_t);  // Set length of array
-    p->n_conditions = COUNT_CONDITIONS(p_t);  // Set length of array
-    // Allocate an array of proto Condition structs
-    Condition **conds = malloc(sizeof(Condition*) * (p->conditions_len));
-    int iter =0; // Iterator int to track the array
+     // repeated Condition HERE
+     p->conditions_len = COUNT_CONDITIONS(p_t);  // Set length of array
+     p->n_conditions = COUNT_CONDITIONS(p_t);  // Set length of array
+     // Allocate an array of proto Condition structs
+     Condition **conds = malloc(sizeof(Condition*) * (p->conditions_len));
+     int iter =0; // Iterator int to track the array
     
-    // Put the hashtable into the array
-    ITER_ALL_CONDITIONS(p_t, curr_cond){
-      conds[iter] = malloc(sizeof(Condition));
-      condition__init(conds[iter]);
-      int save_condition_success = save_condition(curr_cond, conds[iter]);
-      if (save_condition_success != 0) {
-      fprintf(stderr, "Condition saving for path failed \n");
-      return -1;
-      };
-      iter += 1;
-    };
-    p->conditions = conds;
+     // Put the hashtable into the array
+     ITER_ALL_CONDITIONS(p_t, curr_cond){
+     conds[iter] = malloc(sizeof(Condition));
+     condition__init(conds[iter]);
+     int save_condition_success = save_condition(curr_cond, conds[iter]);
+     if (save_condition_success != 0) {
+     fprintf(stderr, "Condition saving for path failed \n");
+     return -1;
+     };
+     iter += 1;
+     };
+     p->conditions = conds;
     
     */
 
@@ -193,10 +191,6 @@ int save_room(room_t *r_t, Room *r)
 	r->long_desc = r_t->long_desc;
     }
 
-    // Saving the items in room
-    r->items_len = COUNT_ITEMS_IN_ROOM(r_t);  // Set length of array
-    r->n_items = COUNT_ITEMS_IN_ROOM(r_t);  // Set length of array
-
     // Allocate an array of proto Item structs
     Item **items = malloc(sizeof(Item*) * (r->items_len));
     int iter =0; // Iterator int to track the array
@@ -204,39 +198,44 @@ int save_room(room_t *r_t, Room *r)
     // Put the hashtable into the array
     item_t *curr_item;
     ITER_ALL_ITEMS_IN_ROOM(r_t, curr_item) {
-      items[iter] = malloc(sizeof(Item));
-      item__init(items[iter]);
-      int save_item_success = save_item(curr_item, items[iter]);
-      if (save_item_success != 0) {
-	fprintf(stderr, "Item saving for room failed \n");
-	return -1;
-      };
-      iter += 1;
-    };
+	items[iter] = malloc(sizeof(Item));
+	item__init(items[iter]);
+	int save_item_success = save_item(curr_item, items[iter]);
+	if (save_item_success != 0) {
+	    fprintf(stderr, "Item saving for room failed \n");
+	    return -1;
+	}
+	iter += 1;
+    }
 
     r->items = items;
 
-    // path stuff here!!!
-    r->paths_len = COUNT_PATHS(r_t);  // Set length of array
-    r->n_paths = COUNT_PATHS(r_t);  // Set length of array
+    r->items_len = iter;  // Set length of array
+    r->n_items = iter;  // Set length of array
+    
     // Allocate an array of proto Path structs
     Path **paths = malloc(sizeof(Path*) * (r->paths_len));
     iter =0; // Iterator int to track the array
 
     // Put the hashtable into the array
+
     path_t *curr_path;
     ITER_ALL_PATHS(r_t, curr_path) {
-      paths[iter] = malloc(sizeof(Path));
-      path__init(paths[iter]);
-      int save_path_success = save_path(curr_path, paths[iter]);
-      if (save_path_success != 0){
-	fprintf(stderr, "Path saving for room failed \n");
-	return -1;
-      };
-      iter += 1;
-    };
-
+	paths[iter] = malloc(sizeof(Path));
+	path__init(paths[iter]);
+	int save_path_success = save_path(curr_path, paths[iter]);
+	if (save_path_success != 0){
+	    fprintf(stderr, "Path saving for room failed \n");
+	    return -1;
+	}
+	iter += 1;
+    }
+    
     r->paths = paths;
+
+    r->n_paths = iter;  // Set length of array
+    r->paths_len = iter;  // Set length of array
+
     return 0;
 }
 
@@ -248,9 +247,9 @@ int save_player(player_t *p_t, Player *p)
     }
 
     if (p_t->player_id != NULL) {
-      p->player_id = p_t->player_id;
+	p->player_id = p_t->player_id;
     } else {
-      p->player_id = NULL;
+	p->player_id = NULL;
     }
     
     p->level = p_t->level;
@@ -259,28 +258,27 @@ int save_player(player_t *p_t, Player *p)
     
     p->xp = p_t->xp;
     
-    // Processing the inventory hashtable
-    p->inventory_len = COUNT_ITEMS_IN_INVENTORY(p_t);  // Set length of array
-    p->n_inventory = COUNT_ITEMS_IN_INVENTORY(p_t);  // Set length of array
-
     // Allocate an array of proto Item structs
     Item **items = malloc(sizeof(Item*) * (p->inventory_len));
     int iter =0; // Iterator int to track the array
-
+    
     // Put the hashtable into the array
     item_t *curr_item;
     ITER_ALL_ITEMS_IN_INVENTORY(p_t, curr_item) {
-      items[iter] = malloc(sizeof(Item));
-      item__init(items[iter]);
-      int save_item_success = save_item(curr_item, items[iter]);
-      if (save_item_success != 0){
-	fprintf(stderr, "Item saving for inventory failed \n");
-	return -1;
-      };
-      iter += 1;
-    };
+	items[iter] = malloc(sizeof(Item));
+	item__init(items[iter]);
+	int save_item_success = save_item(curr_item, items[iter]);
+	if (save_item_success != 0){
+	    fprintf(stderr, "Item saving for inventory failed \n");
+	    return -1;
+	}
+	iter += 1;
+    }
 
     p->inventory = items;
+
+    p->inventory_len = iter;  // Set length of array
+    p->n_inventory = iter;  // Set length of array
     
     return 0;
 }
@@ -292,9 +290,6 @@ int save_game(game_t *g_t, Game *g)
 	return -1;
     }
     
-    g->players_len = COUNT_PLAYERS(g_t);
-    g->n_all_players = COUNT_PLAYERS(g_t);  // Set length of array
-
     // Allocate an array of proto Player structs
     Player **plyrs = malloc(sizeof(Player*) * (g->players_len));
     int iter =0; // Iterator int to track the array
@@ -302,22 +297,23 @@ int save_game(game_t *g_t, Game *g)
     // Put the hashtable into the array
     player_t *curr_player;
     ITER_ALL_PLAYERS(g_t, curr_player) {
-      plyrs[iter] = malloc(sizeof(Player));
-      player__init(plyrs[iter]);
-      int save_plyr_success = save_player(curr_player, plyrs[iter]);
-      if (save_plyr_success != 0){
-	fprintf(stderr, "Player saving for game failed \n");
-	return -1;
-      };
-      iter += 1;
-    };
+	plyrs[iter] = malloc(sizeof(Player));
+	player__init(plyrs[iter]);
+	int save_plyr_success = save_player(curr_player, plyrs[iter]);
+	if (save_plyr_success != 0){
+	    fprintf(stderr, "Player saving for game failed \n");
+	    return -1;
+	}
+	iter += 1;
+    }
 
     g->all_players = plyrs;
+
+    g->players_len = iter;
+    g->n_all_players = iter;  // Set length of array
+
     
     // repeated all_rooms here!!!!!!!
-
-    g->rooms_len = COUNT_ROOMS(g_t);
-    g->n_all_rooms = COUNT_ROOMS(g_t);
 
     // Allocate an array of proto Player structs
     Room **rooms = malloc(sizeof(Room*) * (g->rooms_len));
@@ -326,18 +322,22 @@ int save_game(game_t *g_t, Game *g)
     // Put the hashtable into the array
     room_t *curr_room;
     ITER_ALL_ROOMS(g_t, curr_room) {
-      rooms[iter] = malloc(sizeof(Room));
-      room__init(rooms[iter]);
-      int save_room_success = save_room(curr_room, rooms[iter]);
-      if (save_room_success != 0){
-	fprintf(stderr, "Room saving for game failed \n");
-	return -1;
-      };
-      iter += 1;
-    };
+	rooms[iter] = malloc(sizeof(Room));
+	room__init(rooms[iter]);
+	int save_room_success = save_room(curr_room, rooms[iter]);
+	if (save_room_success != 0){
+	    fprintf(stderr, "Room saving for game failed \n");
+	    return -1;
+	}
+	iter += 1;
+    }
 
     g->all_rooms = rooms;
 
+    g->rooms_len = iter;
+    g->n_all_rooms = iter;
+
+    
     // Save all the other attributes
     if (g_t->curr_room == NULL) {
 	g->curr_room = NULL;

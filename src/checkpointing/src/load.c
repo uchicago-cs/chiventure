@@ -12,7 +12,7 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out)
     size_t cur_len = 0;
     size_t nread;
     FILE *fp = fopen(filename, "r");
-    while((nread = fread(out + cur_len, 1, max_length - cur_len, fp)) != 0) {
+    while ((nread = fread(out + cur_len, 1, max_length - cur_len, fp)) != 0) {
         cur_len += nread;
         if (cur_len == max_length) {
             fprintf(stderr, "max message length exceed\n");
@@ -27,7 +27,7 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out)
 // see load.h
 int load_item(Item *i, item_t *i_t)
 {
-    if(i_t == NULL) {
+    if (i_t == NULL) {
         fprintf(stderr, "given null item_t struct\n");
         return -1;
     }
@@ -49,61 +49,66 @@ int load_item(Item *i, item_t *i_t)
     // Fill in the new attribute (assuming that the number and id's of the attributes don't change)
     int iter;
     for (iter = 0; iter < i->attributes_len; iter++) {
-				char* tag = i->attributes[iter]->attribute_tag;
-				if((strcmp(tag, "STRING")) == 0){
-            int set_str_success = set_str_attr(i_t, 
-            i->attributes[iter]->attribute_key, 
-            i->attributes[iter]->attribute_value);
+	char* tag = i->attributes[iter]->attribute_tag;
+	if ((strcmp(tag, "STRING")) == 0) {
+            int set_str_success;
+	    set_str_success = set_str_attr(i_t, 
+					   i->attributes[iter]->attribute_key, 
+					   i->attributes[iter]->attribute_value->str_val);
 
-            if (set_str_success != SUCCESS){
+            if (set_str_success != SUCCESS) {
                 fprintf(stderr, "Could not set string attribute for item \n");
                 return -1;
             }
 
-        }else if((strcmp(tag, "INTEGER")) == 0){
+        } else if ((strcmp(tag, "INTEGER")) == 0) {
       
-            int set_int_success = set_int_attr(i_t, 
-            i->attributes[iter]->attribute_key, 
-            i->attributes[iter]->attribute_value);
+            int set_int_success;
+	    set_int_success = set_int_attr(i_t, 
+					   i->attributes[iter]->attribute_key, 
+					   i->attributes[iter]->attribute_value->int_val);
 
-            if (set_int_success != SUCCESS){
-                 fprintf(stderr, "Could not set integer attribute for item \n");
+            if (set_int_success != SUCCESS) {
+		fprintf(stderr, "Could not set integer attribute for item \n");
                 return -1;
             }
 
-        }else if((strcmp(tag, "DOUBLE")) == 0){
+        } else if ((strcmp(tag, "DOUBLE")) == 0) {
       
-						int set_double_success = set_double_attr(i_t, 
-						i->attributes[iter]->attribute_key, 
-            i->attributes[iter]->attribute_value);
+	    int set_double_success;
+	    set_double_success = set_double_attr(i_t, 
+						 i->attributes[iter]->attribute_key, 
+						 i->attributes[iter]->attribute_value->double_val);
                 
-            if (set_double_success != SUCCESS){
+            if (set_double_success != SUCCESS) {
                 fprintf(stderr, "Could not set double attribute for item \n");
                 return -1;
             }
-       }else if((strcmp(tag, "CHARACTER")) == 0){ 
-            int set_char_success = set_char_attr(i_t, 
-            i->attributes[iter]->attribute_key, 
-            i->attributes[iter]->attribute_value);
+	} else if ((strcmp(tag, "CHARACTER")) == 0) { 
+            int set_char_success;
+	    set_char_success = set_char_attr(i_t, 
+					     i->attributes[iter]->attribute_key, 
+					     i->attributes[iter]->attribute_value->char_val);
 
-            if (set_char_success != SUCCESS){
+            if (set_char_success != SUCCESS) {
                 fprintf(stderr, "Could not set character attribute for item \n");
-                 return -1;
+		return -1;
             }
       
-        }else if((strcmp(tag, "BOOLE")) == 0){
-            int set_bool_success = set_bool_attr(i_t, 
-            i->attributes[iter]->attribute_key, 
-            i->attributes[iter]->attribute_value);
+        } else if ((strcmp(tag, "BOOLE")) == 0) {
+            int set_bool_success;
+	    set_bool_success = set_bool_attr(i_t, 
+					     i->attributes[iter]->attribute_key, 
+					     i->attributes[iter]->attribute_value->bool_val);
 
-            if (set_bool_success != SUCCESS){
-                 fprintf(stderr, "Could not set boole attribute for item \n");
-                 return -1;
+            if (set_bool_success != SUCCESS) {
+		fprintf(stderr, "Could not set boole attribute for item \n");
+		return -1;
             }
         
-        }else{
-						fprintf(stderr, "Could not set any attribute \n");
-                return -1;
+        } else {
+	    fprintf(stderr, "Could not set any attribute \n");
+	    return -1;
         }
     }
     return 0;
@@ -111,7 +116,7 @@ int load_item(Item *i, item_t *i_t)
 
 
 // see load.h
-int load_room(Room *r, room_t *r_t)
+int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
 {
     if (r_t == NULL) {
         fprintf(stderr, "given null room_t struct\n");
@@ -133,15 +138,16 @@ int load_room(Room *r, room_t *r_t)
     }
     
     /* Here, we pass in an array of all items (generated from loaded WDL items),
-    free all items in this room loaded by WDL,
-    then search through the item ids we have serialized into this room,
-    and add matching items from the array into this room.
+       free all items in this room loaded by WDL,
+       then search through the item ids we have serialized into this room,
+       and add matching items from the array into this room.
     */
 
     // Free all items in the room
-    ITER_ALL_ITEMS_IN_ROOM(r_t, curr_item){
+    item_t *curr_item;
+    ITER_ALL_ITEMS_IN_ROOM(r_t, curr_item) {
         int item_free_success = item_free(curr_item);
-        if (item_free_success != 0){
+        if (item_free_success != 0) {
             fprintf(stderr, "Failed to remove/ free item from room \n");
         }
     }
@@ -149,27 +155,27 @@ int load_room(Room *r, room_t *r_t)
     // Fill room with items (we assume that no item get destroyed/created during the game)
     int iter;
     int j;
-    for (iter = 0; iter < r->items_len; iter++){
-        for (j = 0; j < all_items_len; j++){
-            if (r->items[iter]->item_id == all_items[j]->item_id){
+    for (iter = 0; iter < r->items_len; iter++) {
+        for (j = 0; j < all_items_len; j++) {
+            if (r->items[iter]->item_id == all_items[j]->item_id) {
                 int load_item_success = load_item(r->items[iter], all_items[j]);
-                if (load_item_success != 0){
+                if (load_item_success != 0) {
                     fprintf(stderr, "Failed to load item in room \n");
                 }
                 int add_item_success = add_item_to_room(r_t, all_items[j]);
-                if (add_item_success != 0){
+                if (add_item_success != 0) {
                     fprintf(stderr, "Failed to add item to room \n");
                 }
             }
         }
     }
     
-  return 0;
+    return 0;
 }
 
 
 // see load.h
-int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len, game_t *g_t)
+int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
 {
     if (p_t == NULL) {
         fprintf(stderr, "given null player_t struct\n");
@@ -197,32 +203,33 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len,
     }
 
     /* Here, we pass in an array of all items (generated from loaded WDL items),
-    free all items in this inventory loaded by WDL,
-    then search through the item ids we have serialized into this inventory,
-    and add matching items from the array into this inventory.
+       free all items in this inventory loaded by WDL,
+       then search through the item ids we have serialized into this inventory,
+       and add matching items from the array into this inventory.
     */
 
     // Free all items in the inventory
-    ITER_ALL_ITEMS_IN_INVENTORY(p_t, curr_item){
+    item_t *curr_item;
+    ITER_ALL_ITEMS_IN_INVENTORY(p_t, curr_item) {
         int item_free_success = item_free(curr_item);
-        if (item_free_success != 0){
+        if (item_free_success != 0) {
             fprintf(stderr, "Failed to remove/ free item from inventory \n");
         }
     }
-  
+    
     /* Fill inventory with items 
-    (we assume no items get destroyed/created during game) */
+       (we assume no items get destroyed/created during game) */
     int iter;
     int j;
-    for (iter = 0; iter < p->inventory_len; iter++){
-        for (j = 0; j < all_items_len; j++){
-            if (strcmp(p->inventory[iter]->item_id, all_items[j]->item_id) == 0){
+    for (iter = 0; iter < p->inventory_len; iter++) {
+        for (j = 0; j < all_items_len; j++) {
+            if (strcmp(p->inventory[iter]->item_id, all_items[j]->item_id) == 0) {
                 int load_item_success = load_item(p->inventory[iter], all_items[j]);
-                if (load_item_success != 0){
+                if (load_item_success != 0) {
                     fprintf(stderr, "Failed to load item in inventory \n");
                 }
                 int add_item_success = add_item_to_player(p_t, all_items[j]);
-                if (add_item_success != 0){
+                if (add_item_success != 0) {
                     fprintf(stderr, "Failed to add item to inventory \n");
                 }
             }
@@ -242,43 +249,49 @@ int load_game(Game *g, game_t *g_t)
   
     // Malloc an array of all items in the game
     int item_len = 0;
-    room_t *curr_r;
-    ITER_ALL_ROOMS(g_t, curr_r){
-        item_len += COUNT_ITEMS_IN_ROOM(curr_r);
+    room_t *curr_room;
+    ITER_ALL_ROOMS(g_t, curr_room) {
+	item_len++;
+        //item_len += COUNT_ITEMS_IN_ROOM(curr_r);
     }
-    player_t *curr_p;
-    ITER_ALL_PLAYERS(g_t, curr_p){
-        item_len += COUNT_ITEMS_IN_INVENTORY(curr_p);
+    player_t *curr_player;
+    ITER_ALL_PLAYERS(g_t, curr_player) {
+	item_len++;
+        //item_len += COUNT_ITEMS_IN_INVENTORY(curr_p);
     }
     item_t **all_items = malloc(sizeof(item_t*) * item_len);
   
     // Create a deep copy of all items in the game
     int iter = 0;
-    ITER_ALL_ROOMS(g_t, curr_r){
-        ITER_ALL_ITEMS_IN_ROOM(curr_r, curr_item){
+    item_t *curr_item;
+    ITER_ALL_ROOMS(g_t, curr_room) {
+        ITER_ALL_ITEMS_IN_ROOM(curr_room, curr_item) {
             all_items[iter] = item_new(curr_item->item_id, 
-            curr_item->short_desc, 
-            curr_item->long_desc);
+				       curr_item->short_desc, 
+				       curr_item->long_desc);
             iter++;
         }
     }
     
     iter = 0;
-    ITER_ALL_PLAYERS(g_t, curr_p){
-        ITER_ALL_ITEMS_IN_INVENTORY(curr_r, curr_item){
+    ITER_ALL_PLAYERS(g_t, curr_player) {
+        ITER_ALL_ITEMS_IN_INVENTORY(curr_player, curr_item) {
             all_items[iter] = item_new(curr_item->item_id, 
-            curr_item->short_desc, 
-            curr_item->long_desc);
+				       curr_item->short_desc, 
+				       curr_item->long_desc);
             iter+=1;
         }
     }
   
     // Load all rooms into game
     int i;
-    for (i = 0; i < g->room_len; i++){
-        ITER_ALL_ROOMS(g_t, curr_r){
-            if (strcmp(g->all_rooms[i]->room_id, curr_r->room_id) == 0){
-                int load_room_success = load_room(g->all_rooms[i], curr_r);
+    for (i = 0; i < g->rooms_len; i++) {
+        ITER_ALL_ROOMS(g_t, curr_room) {
+            if (strcmp(g->all_rooms[i]->room_id, curr_room->room_id) == 0) {
+                int load_room_success = load_room(g->all_rooms[i],
+						  curr_room,
+						  all_items,
+						  item_len);
                 if (load_room_success != 0){
                     fprintf(stderr, "Failed to load room into game. Abort! \n");
                     return -1;
@@ -288,11 +301,14 @@ int load_game(Game *g, game_t *g_t)
     }
     
     // Load player(s) into game
-    for (i = 0; i < g->player_len; i++){
-        ITER_ALL_PLAYERS(g_t, curr_p){
-            if (strcmp(g->all_players[i]->player_id, curr_p->player_id) == 0){
-                int load_player_success = load_player(g->all_players[i], curr_p);
-                if (load_player_success != 0){
+    for (i = 0; i < g->players_len; i++) {
+        ITER_ALL_PLAYERS(g_t, curr_player) {
+            if (strcmp(g->all_players[i]->player_id, curr_player->player_id) == 0) {
+                int load_player_success = load_player(g->all_players[i],
+						      curr_player,
+						      all_items,
+						      item_len);
+                if (load_player_success != 0) {
                     fprintf(stderr, "Failed to load player into game. Abort! \n");
                     return -1;
                 }
@@ -301,21 +317,22 @@ int load_game(Game *g, game_t *g_t)
     } 
   
     /* Note: in game state structs, curr_room is a room struct 
-     that contains a room_id.
-     In the proto struct, curr_room is simply the room_id as a string */
-    if(g->curr_room != -1) {
+       that contains a room_id.
+       In the proto struct, curr_room is simply the room_id as a string */
+    if (g->curr_room != NULL) {
         room_t *curr_r;
         ITER_ALL_ROOMS(g_t, curr_r) {
-            if (strcmp(curr_r->room_id, g->curr_room) == 0){
-                move_room(g_t, curr_r) //move_room provided by game state to set current room
-            }
+            if (strcmp(curr_r->room_id, g->curr_room) == 0) {
+                move_room(g_t, curr_r);
+		//move_room provided by game state to set current room
+	    }
         }
     }
 
-    if (g->curr_player != -1) {
+    if (g->curr_player != NULL) {
         player_t *curr_p;
         ITER_ALL_PLAYERS(g_t, curr_p) {
-            if (strcmp(curr_p->player_id, g->curr_player) == 0){
+            if (strcmp(curr_p->player_id, g->curr_player) == 0) {
                 set_curr_player(g_t, curr_p); //provided by game state
             }
         }
@@ -345,4 +362,3 @@ int load(char *filename, Game *g, game_t *g_t)
 
     return 0;
 }
-
