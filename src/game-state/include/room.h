@@ -130,7 +130,7 @@ char *get_sdesc(room_t *room);
  *  pointer to room
  *
  * Returns:
- *  short description string
+ *  long description string
  */
 char *get_ldesc(room_t *room);
 
