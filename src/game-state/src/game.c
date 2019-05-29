@@ -137,4 +137,5 @@ int delete_room_llist(room_list_t *head) {
         LL_DELETE(head, elt);
         free(elt);
     }
+    return SUCCESS;
 }
