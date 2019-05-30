@@ -23,11 +23,11 @@ player_t* player_new(char* player_id, int health) {
     int check = player_init(plyr, player_id, health);
 
     if (plyr == NULL || plyr->player_id == NULL) {
-        exit(1);
+        return NULL;
     }
 
     if(check != SUCCESS) {
-        exit(1);
+        return NULL;
     }
 
     return plyr;
@@ -105,7 +105,7 @@ int add_item_to_player(player_t *player, item_t *item) {
         /* WARNING */
         /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
         fprintf(stderr, "Error: this item id is already in use.\n");
-        exit(1);
+        return FAILURE;
     }
     HASH_ADD_KEYPTR(hh, player->inventory, item->item_id,
 		strlen(item->item_id), item);
