@@ -9,7 +9,7 @@ game_t *game_new(char *desc) {
     game->all_rooms = NULL;
     game->start_desc = malloc(MAX_START_DESC_LEN * sizeof(char));
 
-    strncpy(game->start_desc, desc, strlen(desc));
+    strncpy(game->start_desc, desc, strnlen(desc, MAX_ID_LEN));
 
     /* read from the file using interface from WDL team */
 
@@ -31,21 +31,21 @@ int game_quit(game_t *game) {
 int add_player_to_game(game_t *game, player_t *player) {
     player_t *check;
     HASH_FIND(hh, game->all_players, player->player_id,
-        strlen(player->player_id), check);
+        strnlen(player->player_id, MAX_ID_LEN), check);
     if (check != NULL) {
         /* WARNING */
         fprintf(stderr, "add_room_to_game: this room id is already in use.\n");
         return FAILURE;
     }
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id,
-        strlen(player->player_id), player);
+        strnlen(player->player_id, MAX_ID_LEN), player);
     return SUCCESS;
 }
 
 /* See game.h */
 int add_room_to_game(game_t *game, room_t *room) {
     room_t *check;
-    HASH_FIND(hh, game->all_rooms, room->room_id, strlen(room->room_id),
+    HASH_FIND(hh, game->all_rooms, room->room_id, strnlen(room->room_id, MAX_ID_LEN),
     check);
 
     if (check != NULL) {
@@ -53,7 +53,7 @@ int add_room_to_game(game_t *game, room_t *room) {
         fprintf(stderr, "add_room_to_game: this room id is already in use.\n");
         return FAILURE;
     }
-    HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, strlen(room->room_id),
+    HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, strnlen(room->room_id, MAX_ID_LEN),
     room);
     return SUCCESS;
 }
@@ -87,14 +87,14 @@ int set_curr_player(game_t *game, player_t *player) {
 /* See game.h */
 player_t *get_player(game_t *game, char *player_id) {
     player_t *s;
-    HASH_FIND(hh, game->all_players, player_id, strlen(player_id), s);
+    HASH_FIND(hh, game->all_players, player_id, strnlen(player_id, MAX_ID_LEN), s);
     return s;
 }
 
 /* See game.h */
 room_t *find_room(game_t *game, char* room_id) {
     room_t *r;
-    HASH_FIND(hh, game->all_rooms, room_id, strlen(room_id), r);
+    HASH_FIND(hh, game->all_rooms, room_id, strnlen(room_id, MAX_ID_LEN), r);
     // if (r == NULL) {
     //     return NULL;
     // }
@@ -122,7 +122,7 @@ int game_free(game_t *game) {
     delete_all_players(game->all_players);
     // room_free(game->curr_room);
     // player_free(game->curr_player);
-    // free(game->start_desc);
+    free(game->start_desc);
     free(game);
     return SUCCESS;
 }
