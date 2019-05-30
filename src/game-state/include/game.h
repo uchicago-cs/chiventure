@@ -144,4 +144,16 @@ room_list_t *get_all_rooms(game_t *game);
  */
 int delete_room_llist(room_list_t *head);
 
+/*
+ * Function to get a linked list (utlist) of all the items in the game
+ * THIS WORKS ONLY IF THERE ARE NO SHARED ITEMS
+ *
+ * Parameters:
+ *  game
+ *
+ * Returns:
+ *  linked list of pointers to items (the head element)
+ */
+item_list_t *get_all_items_in_game(game_t *game);
+
 #endif
