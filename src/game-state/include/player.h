@@ -168,4 +168,15 @@ int add_player_to_hash(player_hash_t all_players, char *player_id, player_t *pla
  */
 int add_item_to_player(player_t *player, item_t *item);
 
+/*
+ * Function to get a linked list (utlist) of all the items in the player's inventory
+ *
+ * Parameters:
+ *  player
+ *
+ * Returns:
+ *  linked list of pointers to items (the head element)
+ */
+item_list_t *get_all_items_in_inventory(player_t *player);
+
 #endif

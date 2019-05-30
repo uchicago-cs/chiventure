@@ -381,3 +381,13 @@ int delete_attribute_llist(attribute_list_t *head) {
     }
     return SUCCESS;
 }
+
+/* See item.h */
+int delete_item_llist(item_list_t *head) {
+    item_list_t *elt, *tmp;
+    LL_FOREACH_SAFE(head, elt, tmp) {
+        LL_DELETE(head, elt);
+        free(elt);
+    }
+    return SUCCESS;
+}

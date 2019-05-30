@@ -75,4 +75,15 @@ int add_item_to_room(room_t *room, item_t *item);
  */
 int add_path_to_room(room_t *room, path_t *path);
 
+/*
+ * Function to get a linked list (utlist) of all the items in the room
+ *
+ * Parameters:
+ *  room
+ *
+ * Returns:
+ *  linked list of pointers to items (the head element)
+ */
+item_list_t *get_all_items_in_room(room_t *room);
+
 #endif

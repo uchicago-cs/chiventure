@@ -21,6 +21,11 @@ typedef struct item {
 
 typedef struct item* item_hash_t;
 
+typedef struct item_wrapped_for_llist {
+    struct item_wrapped_for_llist *next;
+    item_t *item;
+} item_list_t;
+
 /* item_new() allocates a space for an item struct in memory
 *  Parameters:
 *    a unique item id, sdesc, ldesc
@@ -214,5 +219,16 @@ attribute_list_t *get_all_attributes(item_t *item);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int delete_attribute_llist(attribute_list_t *head);
+
+/*
+ * Function to delete a linked list (utlist) retrieved from get_all_items()
+ *
+ * Parameters:
+ *  linked list of pointers to items
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int delete_item_llist(item_list_t *head);
 
 #endif

@@ -114,9 +114,22 @@ int add_item_to_player(player_t *player, item_t *item) {
 
 
 /* DISCARD
-IMPLEMENT function to find player given list and pid 
-See player_private.h 
+IMPLEMENT function to find player given list and pid
+See player_private.h
 player_t *get_player(player_hash_t all_players, char *player_id) {
     player_t
 }
 */
+
+/* See player.h */
+item_list_t *get_all_items_in_inventory(player_t *player) {
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, player->inventory, curr_item, ITTMP_ITEMRM) {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
+    }
+    return head;
+}
