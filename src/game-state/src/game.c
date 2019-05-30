@@ -119,8 +119,8 @@ int move_room(game_t *game, room_t *new_room) {
 /* See game.h */
 int game_free(game_t *game) {
     delete_all_rooms(game->all_rooms);
-    // delete_all_players(game->all_players);
-    uthash_free(game->all_players, sizeof(game->all_players));
+    delete_all_players(game->all_players);
+    // uthash_free(game->all_players, sizeof(game->all_players));
     free(game);
     return SUCCESS;
 }

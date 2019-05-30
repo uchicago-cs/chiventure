@@ -20,7 +20,7 @@ path_t *path_new(room_t *dest, char *direction) {
     path->dest = dest;
     path->conditions = NULL;
 
-    strcpy(path->direction, direction);
+    strncpy(path->direction, direction, MAX_ID_LEN);
 
     return path;
 }

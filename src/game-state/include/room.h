@@ -4,8 +4,10 @@
 #include "game_state_common.h"
 #include "item.h"
 
-#define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
+#define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
+HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
 
+// CONDITION STRUCT DEFINITION ------------------------------------------------
 /* This struct represents a single condition that must be
  * met for a path to be taken. It includes an item, an
  * attribute of the item, and the value of that attribute
@@ -20,10 +22,13 @@ typedef struct condition {
 
 typedef struct condition *condition_list_t;
 
-/* This struct represents a path from one room to another. It contains
- * the room_ID string of the room it leads to as well as a linked
- * list of conditions that must be fulfilled to move to the room.
- * essentially, the list of conditions are the "answers"
+// PATH STRUCT DEFINITION -----------------------------------------------------
+/* This struct represents a path from one room to another.
+ * It contains:
+ *      string direction of path (case-sensitive)
+ *      the room_id of the destination room
+ *      list of conditions that must be fulfilled to move to the room
+ *      essentially, the list of conditions are the "answers"
  * */
 typedef struct path {
     UT_hash_handle hh;
@@ -35,19 +40,21 @@ typedef struct path {
 
 typedef struct path* path_hash_t;
 
-/* This struct represents a single room, which includes a
- * short and long description of the room, a hashtable of items to be
- * found there, and a hashtable of paths accessible from the room. */
+// ROOM STRUCT DEFINITION -----------------------------------------------------
+/* This struct represents a single room.
+ * It contains:
+ *      the room_id
+ *      short description
+ *      long description
+ *      a hashtable of items to be found there
+ *      a hashtable of paths accessible from the room. */
 typedef struct room {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
-
     char *room_id;
     char *short_desc;
     char *long_desc;
-    /* a hashtable of all items in the room */
     item_hash_t items;
-    /* a hashtable of all paths from the room */
     path_hash_t paths;
 } room_t;
 
@@ -58,6 +65,7 @@ typedef struct room_wrapped_for_llist {
     room_t *room;
 } room_list_t;
 
+// ROOM FUNCTIONS -------------------------------------------------------------
 /* Mallocs space for a new room
  *
  * Parameters:
@@ -168,7 +176,6 @@ int delete_all_paths(path_hash_t paths);
  * Returns:
  *  a pointer to new path
  */
-// path_t *path_new(room_t *destination, char* direction);
 path_t *path_new(room_t *dest, char *direction);
 
 /* Frees the space in memory taken by given path

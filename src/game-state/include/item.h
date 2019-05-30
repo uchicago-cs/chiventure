@@ -4,9 +4,12 @@
 #include "game_state_common.h"
 #include "action_structs.h"
 
-#define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
-#define ITER_ALL_ITEMS_IN_INVENTORY(player, curr_item) item_t *ITTMP_ITEMINV; HASH_ITER(hh, (player)->inventory, (curr_item), ITTMP_ITEMINV)
-#define ITER_ALL_ATTRIBUTES(item, curr_attr) attribute_t *ITTMP_ATTR; HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
+#define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
+HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
+#define ITER_ALL_ITEMS_IN_INVENTORY(player, curr_item) item_t *ITTMP_ITEMINV; \
+HASH_ITER(hh, (player)->inventory, (curr_item), ITTMP_ITEMINV)
+#define ITER_ALL_ATTRIBUTES(item, curr_attr) attribute_t *ITTMP_ATTR; \
+HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 
 // ITEM STRUCTURE DEFINITION + BASIC FUNCTIONS --------------------------------
 typedef struct attribute* attribute_hash_t;
