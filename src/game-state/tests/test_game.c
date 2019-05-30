@@ -246,6 +246,39 @@ Test(iter_macro, iter_rooms)
     cr_assert_eq(cnt, 3, "wrong room counts");
     game_free(game);
 }
+
+Test(iter, get_all_rooms) {
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
+    room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    add_room_to_game(game, room3);
+    int cnt = 0;
+    room_t *curr_room;
+    room_list_t *list = get_all_rooms(game);
+    room_list_t *elt;
+    LL_FOREACH(list, elt) {
+        cnt++;
+        curr_room = elt->room;
+        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
+            "ldesc does not correspond");
+        } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
+            "ldesc does not correspond");
+        } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
+            "ldesc does not correspond");
+        } else {
+            cr_assert_fail("non-existent room detected");
+        }
+    }
+    cr_assert_eq(cnt, 3, "wrong room counts");
+    cr_assert_eq(delete_room_llist(list), SUCCESS, "delete llist failed");
+    game_free(game);
+}
 /*
 //untested
 //doesn't need testing

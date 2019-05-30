@@ -53,6 +53,10 @@ typedef struct room {
 
 typedef struct room* room_hash_t;
 
+typedef struct room_wrapped_for_llist {
+    struct room_wrapped_for_llist *next;
+    room_t *room;
+} room_list_t;
 
 /* Mallocs space for a new room
  *
