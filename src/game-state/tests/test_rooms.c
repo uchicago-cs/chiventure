@@ -64,9 +64,9 @@ Test(room_item, add_item_to_room)
 }
 
 /* Tests add_item_to_room
-* Adds two duplicate items and should exit(1)
+* Adds two duplicate items and fail
 */
-Test(room_item, add_duplicate_item_to_room, .exit_code = 1)
+Test(room_item, add_duplicate_item_to_room)
 {
 	room_t *new_room = room_new("test_room", "room for testing",
 	"testing if memory is correctly allocated for new rooms");
@@ -74,11 +74,13 @@ Test(room_item, add_duplicate_item_to_room, .exit_code = 1)
 	"testing to see if get_item() works");
 	item_t *test_item2 = item_new("test_item", "item2 for testing",
 	"testing to see if get_item() exits correctly");
+
 	int rv = add_item_to_room(new_room, test_item);
 	cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
-	//exits after adding test_item2 as item_id are equal.
-	//exit code = 1
-	add_item_to_room(new_room, test_item2);
+
+	int check = add_item_to_room(new_room, test_item2);
+	cr_assert_eq(check, FAILURE,
+		"add_dup_item_to_room() test: duplicate item added");
 
 }
 

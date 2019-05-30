@@ -28,11 +28,11 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
 
     if (room == NULL || room->room_id == NULL ||
        room->short_desc == NULL || room->long_desc == NULL) {
-        exit(1);
+        return NULL;
     }
 
     if(check != SUCCESS) {
-        exit(1);
+        return NULL;
     }
 
     return room;
@@ -61,7 +61,7 @@ int add_item_to_room(room_t *room, item_t *item) {
         /* WARNING */
         /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
         fprintf(stderr, "add_item_to_room: this item id is already in use.\n");
-        exit(1);
+        return FAILURE;
     }
     HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id),
     item);
@@ -89,7 +89,7 @@ int add_path_to_room(room_t *room, path_t *path) {
         fprintf(stderr, "add_path_to_room: direction already used!\n");
         return FAILURE;
     }
-    
+
     HASH_ADD_KEYPTR(hh, room->paths, path->direction, strlen(path->direction),
     path);
     return SUCCESS;
