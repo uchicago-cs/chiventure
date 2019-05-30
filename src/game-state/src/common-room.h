@@ -3,19 +3,6 @@
 
 #include "room.h"
 
-/* Adds a room to the given hashtable of rooms
- *
- * Parameters:
- *  hashtable the room is added to
- *  room id
- *  pointer to the room
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- * UNECESSARY
- 
-int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room);
-*/
-
 /* Deletes a hashtable of rooms
  * Implemented with macros provided by uthash.h
  *

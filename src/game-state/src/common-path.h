@@ -20,7 +20,7 @@ int add_path_to_hash(path_hash_t all_paths, char* direction, path_t *path);
  * Parameters:
  *  hashtable of paths that need to be deleted
  * Returns:
- *  SUCCESS if successful, FAILURE if failed
+ *  SUCCESS if successful
  */
 int delete_all_paths(path_hash_t paths);
 
