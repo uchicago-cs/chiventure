@@ -121,8 +121,9 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
-    else if (res != NULL && res->attribute_tag != STRING)
+    else if (res != NULL && res->attribute_tag != STRING) {
         return FAILURE; // skeleton for not overriding type
+    }
     else
     {
         res->attribute_value.str_val = value;
@@ -145,8 +146,9 @@ int set_int_attr(item_t* item, char* attr_name, int value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
-    else if (res != NULL && res->attribute_tag != INTEGER)
+    else if (res != NULL && res->attribute_tag != INTEGER) {
         return FAILURE; // skeleton for not overriding type
+    }
     else
     {
         res->attribute_value.int_val = value;
@@ -168,9 +170,9 @@ int set_double_attr(item_t* item, char* attr_name, double value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
-    else if (res != NULL && res->attribute_tag != DOUBLE)
+    else if (res != NULL && res->attribute_tag != DOUBLE) {
         return FAILURE; // skeleton for not overriding type
-
+    }
     else
     {
         res->attribute_value.double_val = value;
@@ -193,8 +195,9 @@ int set_char_attr(item_t* item, char* attr_name, char value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
-    else if (res != NULL && res->attribute_tag != CHARACTER)
+    else if (res != NULL && res->attribute_tag != CHARACTER) {
         return FAILURE; // skeleton for not overriding type
+    }
 
     else
     {
@@ -217,8 +220,9 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
-    else if (res != NULL && res->attribute_tag != BOOLE)
+    else if (res != NULL && res->attribute_tag != BOOLE) {
         return FAILURE; // skeleton for not overriding type
+    }
 
     else
     {
@@ -241,8 +245,9 @@ int set_act_attr(item_t* item, char* attr_name, action_type_t *value)
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
-    else if (res != NULL && res->attribute_tag != ACTION)
+    else if (res != NULL && res->attribute_tag != ACTION) {
         return FAILURE; // skeleton for not overriding type
+    }
 
     else
     {
@@ -294,7 +299,7 @@ double get_double_attr(item_t *item, char* attr_name) {
   attribute_t* res = get_attribute(item, attr_name);
     if (res == NULL)
     {
-        fprintf(stderr, "Error: attribute get failed.\n");
+        fprintf(stderr, "Error: attribute does not exist.\n");
         // value returned if search fails, open to alternative
         return -1.0;
     }
@@ -305,7 +310,7 @@ double get_double_attr(item_t *item, char* attr_name) {
     }
     return res->attribute_value.double_val;
 }
-//rename first error mesg to attribute does not exist
+
 
 /* see item.h */
 char get_char_attr(item_t *item, char* attr_name) {
@@ -501,20 +506,3 @@ int delete_all_items(item_hash_t items) {
     }
     return SUCCESS;
 }
-
-
-
-/* See common-item.h */
-// int add_item_to_hash(item_t *item, char *item_id, item_t *item_toadd) {
-//     item_t* check;
-//     HASH_FIND_STR(item_hash, item_id, check);
-//     if (check != NULL) {
-//         /* WARNING */
-//         /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
-//         fprintf(stderr, "Error: this item id is already in use.\n");
-//         exit(1);
-//     }
-//     HASH_ADD_STR(item_hash, item_id, item_toadd);
-//     return SUCCESS;
-// }
-//

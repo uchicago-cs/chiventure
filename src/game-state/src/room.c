@@ -168,8 +168,9 @@ item_t* get_item_in_room(room_t* room, char* item_id)
 
 /* See room.h */
 room_t *find_room_from_path(path_t *path) {
-    if(path != NULL)
+    if(path != NULL) {
         return path->dest;
+    }
     return NULL;
 }
 
