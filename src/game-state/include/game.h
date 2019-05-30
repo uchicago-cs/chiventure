@@ -99,24 +99,24 @@ int add_player_to_game(game_t *game, player_t *player);
 int add_room_to_game(game_t *game, room_t *room);
 
 
-/* 
+/*
 *
 * Set current player in game
-* 
+*
 * Parameters:
 * game, player
-* 
+*
 * Returns:
 *  SUCCESS if the game->curr_player != NULL, FAILURE if NULL
 */
 int set_curr_player(game_t *game, player_t *player);
 
 
-/* 
+/*
 * Function to find player given game and player id
 * Parameters:
 * Game, player id
-* 
+*
 * Returns
 * player struct
 */
@@ -142,6 +142,6 @@ room_list_t *get_all_rooms(game_t *game);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int delete_room_llist(room_list_t *list);
+int delete_room_llist(room_list_t *head);
 
 #endif

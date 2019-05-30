@@ -213,6 +213,6 @@ attribute_list_t *get_all_attributes(item_t *item);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int delete_attribute_llist(attribute_list_t *list);
+int delete_attribute_llist(attribute_list_t *head);
 
 #endif
