@@ -15,9 +15,6 @@ void ncurses_init()
     return ;
 }
 
-
-
-
 void erase_ch(int y, int x)
 {
     mvaddch(y, x, '#');
