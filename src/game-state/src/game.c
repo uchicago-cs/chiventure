@@ -120,6 +120,9 @@ int move_room(game_t *game, room_t *new_room) {
 int game_free(game_t *game) {
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
+    // room_free(game->curr_room);
+    // player_free(game->curr_player);
+    // free(game->start_desc);
     free(game);
     return SUCCESS;
 }
