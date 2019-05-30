@@ -1,12 +1,17 @@
+
 #ifndef WINDOW_H
 #define WINDOW_H
 
+typedef struct chiventure_ctx chiventure_ctx_t;
+
+
 typedef struct window {
     WINDOW *w;
-    void (*print)(struct window *win);
+    void (*print)(chiventure_ctx_t *ctx, struct window *win);
 } window_t;
 
-typedef void (win_print)(window_t *win);
+typedef void (win_print)(chiventure_ctx_t *ctx, window_t *win);
+
 
 /* window_new
  * allocates memory for a window_t struct and creates a window)t with the
@@ -18,7 +23,7 @@ typedef void (win_print)(window_t *win);
  *    - starty : initial vertical position of the window
  *    - startx : initial horizontal position of the window
  *    - print : print function associated with the window
- *    - show : indicates whether or not to draw a box around the window
+ *    - box : indicates whether or not to draw a box around the window
  *
  * returns:
  *    - window_t created, displays the window if show = true
@@ -26,7 +31,7 @@ typedef void (win_print)(window_t *win);
  * NOTE: the top left corner of the terminal is (0,0)
  */
 window_t *window_new(int height, int width, int y_start,
-                     int x_start, win_print print, int show);
+                     int x_start, win_print print, int box);
 
 
 /* window_init
@@ -63,11 +68,12 @@ int window_free(window_t *win);
  * Calls the print function associated with the given window
  *
  * Parameters:
- *    - win : window which we want to print
+ *   - ctx : chiventure context struct
+ *   - win : window which we want to print
  *
  * does not return anything
  */
-void window_print(window_t *win);
+void window_print(chiventure_ctx_t *ctx, window_t *win);
 
 
 
