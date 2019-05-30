@@ -17,6 +17,7 @@ int player_init(player_t* plyr, int health) {
 player_t* player_new(int health) {
     player_t *plyr;
     plyr = malloc(sizeof(player_t));
+    memset(plyr, 0, sizeof(player_t));
 
     if(plyr == NULL)
     {
@@ -114,8 +115,8 @@ int add_item_to_player(player_t *player, item_t *item) {
 
 
 /* DISCARD
-IMPLEMENT function to find player given list and pid 
-See player_private.h 
+IMPLEMENT function to find player given list and pid
+See player_private.h
 player_t *get_player(player_hash_t all_players, char *player_id) {
     player_t
 }

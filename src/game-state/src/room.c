@@ -6,6 +6,7 @@
 /* See room.h */
 room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
     room_t *room = malloc(sizeof(room_t));
+    memset(room, 0, sizeof(room_t));
     room->room_id = room_id;
     room->short_desc = short_desc;
     room->long_desc = long_desc;

@@ -28,6 +28,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 {
     item_t *new_item = malloc(sizeof(item_t));
+    memset(new_item, 0, sizeof(item_t));
     new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
@@ -90,7 +91,7 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attr
   Returns:
     NULL if the attribute does not exist, pointer to attribute if it does
 */
-attribute_t *get_attribute(item_t *item, char *attr_name) 
+attribute_t *get_attribute(item_t *item, char *attr_name)
 {
     attribute_t* return_value;
     attribute_hash_t attribute_hash = item->attributes;
@@ -105,7 +106,7 @@ attribute_t *get_attribute(item_t *item, char *attr_name)
 int set_str_attr(item_t* item, char* attr_name, char* value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = STRING;
@@ -118,7 +119,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
     {
         res->attribute_value.str_val = value;
         return SUCCESS;
-    }    
+    }
 }
 
 
@@ -126,7 +127,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
 int set_int_attr(item_t* item, char* attr_name, int value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = INTEGER;
@@ -139,14 +140,14 @@ int set_int_attr(item_t* item, char* attr_name, int value)
     {
         res->attribute_value.int_val = value;
         return SUCCESS;
-    }    
+    }
 }
 
 /* see item.h */
 int set_double_attr(item_t* item, char* attr_name, double value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = DOUBLE;
@@ -159,7 +160,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
     {
         res->attribute_value.double_val = value;
         return SUCCESS;
-    }    
+    }
 
 }
 
@@ -167,7 +168,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
 int set_char_attr(item_t* item, char* attr_name, char value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = CHARACTER;
@@ -180,14 +181,14 @@ int set_char_attr(item_t* item, char* attr_name, char value)
     {
         res->attribute_value.char_val = value;
         return SUCCESS;
-    }    
+    }
 }
 
 /* see item.h */
 int set_bool_attr(item_t* item, char* attr_name, bool value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = BOOLE;
@@ -200,7 +201,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     {
         res->attribute_value.bool_val = value;
         return SUCCESS;
-    }    
+    }
 }
 
 /* see item.h */
