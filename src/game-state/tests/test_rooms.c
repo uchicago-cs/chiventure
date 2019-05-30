@@ -18,7 +18,7 @@ Test(room_start, init)
 	int check = room_init(empty_room, "test_room", "This is a test room",
 	"The purpose of this room is testing");
 
-	cr_assert_eq(check, SUCCESS, "room_new() test 1 has failed!");
+	cr_assert_eq(check, SUCCESS, "room_init() test 1 has failed!");
 }
 
 /* Tests new room malloc (new uses init) */

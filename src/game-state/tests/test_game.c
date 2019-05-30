@@ -89,28 +89,11 @@ Test(game_room, create_connection_0)
     add_room_to_game(game, room2);
     game->curr_room = room1;
     int north = create_connection(game, "vroom1", "nroom", "north");
-    cr_assert_eq(north, SUCCESS, "create_connection: failed to exit successfully");
+    cr_assert_eq(north, 0, "create_connection: failed to exit successfully");
 
 }
 
 /* Checks that create_connection() fails if source room is not found
-*/
-Test(game_room, create_connection_1)
-{
-    game_t *game = game_new("Welcome to Chiventure!");
-    room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
-    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
-
-    add_room_to_game(game, room1);
-    add_room_to_game(game, room2);
-    game->curr_room = room1;
-
-    int south = create_connection(game, "vroom", "nroom", "south");
-    cr_assert_eq(south, FAILURE, "create_connection: should have failed");
-
-}
-
-/* Checks that create_connection() fails if dest room is not found
 */
 Test(game_room, create_connection_2)
 {
@@ -122,8 +105,25 @@ Test(game_room, create_connection_2)
     add_room_to_game(game, room2);
     game->curr_room = room1;
 
+    int south = create_connection(game, "vroom", "nroom", "south");
+    cr_assert_eq(south, 2, "create_connection: should have failed");
+
+}
+
+/* Checks that create_connection() fails if dest room is not found
+*/
+Test(game_room, create_connection_3)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    game->curr_room = room1;
+
     int west = create_connection(game, "vroom1", "nrom", "west");
-    cr_assert_eq(west, FAILURE, "create_connection: should have failed");
+    cr_assert_eq(west, 3, "create_connection: should have failed");
 }
 
 /* Checks that move_room() switches the current room stored in game

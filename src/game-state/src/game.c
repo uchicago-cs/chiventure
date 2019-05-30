@@ -64,11 +64,11 @@ int create_connection(game_t *game, char* src_room, char* to_room,
 {
     room_t *src = find_room(game, src_room);
     if (src == NULL) {
-        return FAILURE;
+        return 2;
     }
     room_t *to = find_room(game, to_room);
     if (to == NULL) {
-        return FAILURE;
+        return 3;
     }
     path_t *connection = path_new(to, direction);
     int check = add_path_to_room(src, connection);

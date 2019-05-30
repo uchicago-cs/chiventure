@@ -164,7 +164,7 @@ int set_double_attr(item_t* item, char* attr_name, double value);
  */
 int set_char_attr(item_t* item, char* attr_name, char value);
 
-/* set_bool_attr() sets the value of an attribute of an item to the given int
+/* set_bool_attr() sets the value of an attribute of an item to the given bool
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed

@@ -114,8 +114,8 @@ int add_room_to_game(game_t *game, room_t *room);
 * game, Source room_id, destination room_id, direction
 *
 * Returns:
-* SUCCESS if all okay, exit(1) if src room_id not found,
-* exit(2) if dest not found
+* SUCCESS if all okay, 2 if src room_id not found,
+* 3 if dest not found, FAILURE if add_path fails
 *
 * WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS
 * AT THE MOMENT AS PARAMETERS NOT GIVEN
