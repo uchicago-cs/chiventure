@@ -12,6 +12,11 @@ HASH_ITER(hh, (player)->inventory, (curr_item), ITTMP_ITEMINV)
 HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 
 // ITEM STRUCTURE DEFINITION + BASIC FUNCTIONS --------------------------------
+
+/* This typedef is to distinguish between attribute_t pointers which are 
+* used to point to the attribute_t structs in the traditional sense, 
+* and those which are used to hash attribute_t structs with the 
+* UTHASH macros as specified in src/common/include */
 typedef struct attribute* attribute_hash_t;
 
 typedef struct item {
@@ -23,7 +28,11 @@ typedef struct item {
     attribute_hash_t attributes; // a hashtable for all attributes
 } item_t;
 
-typedef struct item* item_hash_t;
+/* This typedef is to distinguish between item_t pointers which are 
+* used to point to the item_t structs in the traditional sense, 
+* and those which are used to hash item_t structs with the 
+* UTHASH macros as specified in src/common/include */
+ typedef struct item* item_hash_t; 
 
 /* item_new() allocates a space for an item struct in memory
 *  Parameters:

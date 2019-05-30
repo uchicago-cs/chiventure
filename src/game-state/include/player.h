@@ -21,6 +21,10 @@ typedef struct player {
     item_hash_t inventory;
 } player_t;
 
+/* This typedef is to distinguish between player_t pointers which are 
+* used to point to the player_t structs themselves, and those which are used
+* to hash player_t structs with the UTHASH macros as specified
+* in src/common/include */
 typedef struct player *player_hash_t;
 
 /*
