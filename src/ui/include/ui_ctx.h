@@ -45,8 +45,7 @@ struct ui_ctx {
  *
  * Returns:
  * - The created UI context struct upon SUCCESS
- * - NULL upon FAILURE (cannot be allocated or
- *   cannot assign logical  coordinates)
+ * - NULL upon FAILURE
  */
 ui_ctx_t *ui_ctx_new(game_t *game);
 
@@ -63,14 +62,16 @@ ui_ctx_t *ui_ctx_new(game_t *game);
  * - ui_ctx : ui context struct to be initialized
  * - game : a pointer to the game_t struct
  * Returns:
- * - SUCCESS if every field can be initialized and a logical
- *   coordinate system can be assigned to each room
- * - FAILURE if a logical coordinate system cannot be assigned
+ * - SUCCESS if every field can be initialized
+ *
+ * Note:
+ * - If a logical coordmap cannot be created, ui_ctx_init will
+ *   still fill in ui_ctx, but the coord_hash field will be NULL
  */
 int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game);
 
 /*
- * frees the given ui_ctx struct and associated resources
+ * Frees the given ui_ctx struct and associated resources
  *
  * Parameters:
  *   - ui_ctx: ui context struct to be freed

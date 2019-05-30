@@ -60,27 +60,14 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     ui_ctx->curr_page = MAIN_WIN_NUM;
     ui_ctx->cli_top = 0;
 
-    /* TO-DO: create_valid_map will take arguments:
-     * either:
-     * 1. a pointer to a game struct
-     * 2. a pointer to the game ctx
-     * 3. perhaps just the ui_ctx->player_loc
-     *    field--this may be all the function needs
+    /* This field will be NULL if a logical coordinate
+     * system cannot be assigned
      */
     ui_ctx->coord_hash = create_valid_map(game);
 
-
-    // Initial room coordinates set to 0, 0, 0
+    // Initial room coordinates always set to 0, 0, 0
     coord_t *initial_coord = coord_new(0, 0, 0);
-
     ui_ctx->player_loc = initial_coord;
-
-    /* Valid maps cannot be created for illogical map directions or for maps
-    * with logical distances of more than unit one
-    */
-    if (ui_ctx->coord_hash != NULL) {
-        return FAILURE;
-    }
 
     ui_ctx->map = map_init();
 
@@ -120,8 +107,7 @@ void toggle_map(chiventure_ctx_t *ctx)
         int height = LINES / 2;
         int width = COLS;
         wresize(win->w, height,width);
-    }
-    else {
+    } else {
         ctx->ui_ctx->curr_page = MAP_WIN_NUM;
     }
 

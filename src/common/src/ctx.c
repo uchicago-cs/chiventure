@@ -12,14 +12,12 @@ chiventure_ctx_t* chiventure_ctx_new()
 
     ctx = malloc(sizeof(chiventure_ctx_t));
 
-    if(ctx == NULL)
-    {
+    if(ctx == NULL) {
         return NULL;
     }
 
     rc = chiventure_ctx_init(ctx);
-    if(rc != SUCCESS)
-    {
+    if(rc != SUCCESS) {
         return NULL;
     }
 
@@ -30,15 +28,13 @@ chiventure_ctx_t* chiventure_ctx_new()
 int chiventure_ctx_init(chiventure_ctx_t *ctx)
 {
     assert(ctx != NULL);
-
+   
     game_t *game = game_new();
-
+    /* Add calls to component-specific initialization here */
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
 
     ctx->game = game;
     ctx->ui_ctx = ui_ctx;
-
-    /* Add calls to component-specific initialization here */
 
     return SUCCESS;
 }

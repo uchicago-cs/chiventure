@@ -10,8 +10,8 @@
 
 int main()
 {
-  FILE *debug = fopen("debug.txt","w");
-  
+    FILE *debug = fopen("debug.txt","w");
+
     ncurses_init();
 
     int cur_x = 0;
@@ -24,10 +24,10 @@ int main()
     room_t *room2 = room_new("Two", "", "");
     room_t *room3 = room_new("Three", "", "");
     room_t *room4 = room_new("Four", "", "");
-    
+
     //  Must set hash to NULL (see uthash documentation)
     coord_record_t *coordmap = NULL;
-    
+
     coord_record_t *head = malloc(sizeof(coord_record_t));
     assert(head != NULL);
     memset(head, 0, sizeof(coord_record_t));
@@ -42,29 +42,32 @@ int main()
     try_add_coord(coordmap, 0, 1, 0, room2);
     try_add_coord(coordmap, 0, 2, 0, room3);
     try_add_coord(coordmap, 1, 1, 0, room4);
+    fprintf(stderr,"created coordmap\n");
 
     game_t *game = game_new();
     assert (game != NULL);
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
+    fprintf(stderr,"ran ui_ctx_new()\n");
 
-  
     chiventure_ctx_t *ctx = chiventure_ctx_new();
+    fprintf(stderr,"ran chi new\n");
+
     ctx->ui_ctx = ui_ctx;
 
     /* Game State functions needed for DFS not complete at this stage,
-     * so we will disregard the coord hash created in ui_ctx_new 
+     * so we will disregard the coord hash created in ui_ctx_new
      * (which does not work yet) and instead create use own mini coord hash
      */
     ui_ctx->coord_hash = coordmap;
 
-    
+
     // Set the screen location of the map
     map_set_displaywin(ui_ctx->map, 0, 0, COLS, LINES-1);
 
-    
+
     // Refresh the map centered on room 0,0,0
     map_center_on(ctx, 0, 0, 0);
-    
+
     char ch;
     while (true) {
         ch = wgetch(ui_ctx->map->pad);
@@ -91,7 +94,7 @@ int main()
         if (ch == 'q') {
             break;
         }
-	map_center_on(ctx, cur_x, cur_y, cur_z);
+        map_center_on(ctx, cur_x, cur_y, cur_z);
     }
 
     //Ends the ncurses UI

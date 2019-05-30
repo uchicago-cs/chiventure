@@ -12,7 +12,7 @@
 #include "coordinate.h"
 
 /* Dummy function:
- * We will use the hashing functions provided by game state
+ * We will use the find_room_from_dir functions provided by game state
  * to access these paths in each room
  */
 room_t *find_room(room_t *curr, char *direction)
@@ -37,13 +37,13 @@ int assign(coord_record_t *coordmap, int vertical_hops,
 {
     int x = try_add_coord(coordmap, horizontal_hops, vertical_hops,
                           up_down_hops, room);
-
     if (x != SUCCESS) {
         return FAILURE;
     }
 
-    // TO-DO: Implement calls to game state functions to find rooms
-
+    /* TO-DO: Implement calls to game state function (find_room_from_dir)
+     * to find rooms
+     */
     room_t *find_room_north = find_room(room, "north");
     if (find_room_north != NULL) {
         int north = assign(coordmap, vertical_hops + 1,
@@ -106,33 +106,20 @@ coord_record_t *create_valid_map(game_t *game)
 {
     assert(game != NULL);
 
-    // The IF loop below is Temporary: (For compilation of map_examples)
     if (game->curr_room == NULL) {
         return FAILURE;
     }
 
-    /* Add this line back in once game_new() is fixed to never
-     * initialize with NULL as the current room. After all, we
-     * should never try to create a map for a game that has no rooms
-     */
-    //assert(game->curr_room != NULL);
-
     //  Must set hash to NULL (see uthash documentation)
     coord_record_t *coordmap = NULL;
 
-    /* initial: Read initial room that player begins in out of Game State struct
-     * - temporarily set to NULL while we wait on game structs
-     */
     room_t *initial = game->curr_room;
-
-    //Delete this after debug:
-    fprintf(stderr, "initialized room\n");
 
     /* Initial room must be added prior to calling assign() function
      * because null hashmap cannot be sent into assign()
      */
     coord_record_t *cr = malloc(sizeof(coord_record_t));
-    assert( cr != NULL);
+    assert(cr != NULL);
     memset(cr, 0, sizeof(coord_record_t));
 
     // Initial coordinate is arbitrarily set to be (0,0)
@@ -142,7 +129,7 @@ coord_record_t *create_valid_map(game_t *game)
     cr->r = initial;
 
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
-    assert (coordmap != NULL);
+    assert(coordmap != NULL);
 
     // Begin DFS search
     int r =  assign(coordmap, 0, 0, 0, initial);
@@ -150,7 +137,5 @@ coord_record_t *create_valid_map(game_t *game)
     if (r == FAILURE) {
         return NULL;
     }
-
-    fprintf(stderr, "finished running create_valid_map()\n");
     return coordmap;
 }

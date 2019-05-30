@@ -33,17 +33,19 @@ coord_record_t *find_coord(coord_record_t *coordmap, int x, int y, int z)
     coord_init(key, x, y, z);
 
     coord_record_t *cr = malloc(sizeof(coord_record_t));
+    assert (cr != NULL);
     memset(cr, 0, sizeof(coord_record_t));
     HASH_FIND(hh, coordmap, key, sizeof(coord_t), cr);
 
+    // Key no longer needed once comparison is made
     free(key);
     return cr;
 }
 
-// see coordinate.h for details
+// See coordinate.h for details
 int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
 {
-
+    assert(coordmap != NULL);
     assert(r != NULL);
     coord_record_t *cr = find_coord(coordmap, x, y, z);
 
@@ -59,17 +61,16 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
 
         // uthash requirement for struct keys
         memset(cr, 0, sizeof(coord_record_t));
-
         cr->key.x = x;
         cr->key.y = y;
         cr->key.z = z;
         cr->r = r;
+
         HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
         fclose(debug);
         return SUCCESS;
     } else {
         assert(cr->r != NULL);
-
         // If assigned to itself, no conflicts
         if (strcmp(cr->r->room_id, r->room_id) == 0) {
             fclose(debug);
