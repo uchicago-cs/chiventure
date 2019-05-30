@@ -13,7 +13,7 @@ STLIBS = $(COMMON) $(GAME_STATE) $(CHECKPOINTING)
 PROTOHD = include/game.pb-c.h
 PROTOCOMP = src/game.pb-c.c
 PROTOFLAGS = --c_out=./src
-SRCS = src/game.pb-c.c src/save.c
+SRCS = src/game.pb-c.c src/save.c src/load.c
 OBJS = $(SRCS:.c=.o)
 STATIC_LIB = checkpointing.a
 
