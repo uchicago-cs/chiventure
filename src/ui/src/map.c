@@ -19,7 +19,6 @@ void ncurses_init()
     return ;
 }
 
-
 void erase_ch(int y, int x)
 {
     mvaddch(y, x, '#');
@@ -59,7 +58,7 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     mvwhline(win, bot_y, x+1, ACS_HLINE, top_len);
     mvwvline(win, y+1, x, ACS_VLINE, side_ht);
     mvwvline(win, y+1, right_x, ACS_VLINE, side_ht);
-
+    
     // Checks if given room has exits on each side, draws exits
     /* TO-DO -- Ask Game state if they have added this fcn to master
      * yet. See Git Issue #151
@@ -142,21 +141,6 @@ int *calculate_map_dims(room_t **rooms, int n)
     for (int i = 0; i < n; i++) {
         /* TO-DO -- Will have to reach into coord hash, not room structs,
             to access coordinates. This will be fixed in map-from-coords feature branch
-
-            curr = rooms[i]->loc;
-
-        cx = curr->x;
-            cy = curr->y;
-            cz = curr->z;
-            if (cx > x){
-                x = cx;
-        }
-            if (cy > y){
-                y = cy;
-        }
-            if (cz > z){
-                z = cz;
-        }
         */
     }
 
@@ -258,64 +242,3 @@ int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
     return 0;
 }
 
-
-room_t **get_test_rooms(int n)
-{
-    /*
-      int j = 0;
-      int k = 0;
-      room_t **rooms = malloc(sizeof(room_t *) * n);
-      for (int i = 0; i < (n - 2); i++) {
-
-          room_t *roomi = malloc(sizeof(room_t));
-          rooms[i] = roomi;
-
-          coord_t *loci = malloc(sizeof(coord_t));
-          loci->x = i % 12;
-          loci->y = j;
-          loci->z = k;
-          roomi->loc = loci;
-          roomi->ex_e = i % 2;
-          roomi->ex_n = (i + 1) % 2;
-          roomi->ex_s = i % 2;
-          roomi->ex_w = (i + 1) % 3;
-
-          if (i % 10 == 5) {
-              j++;
-          }
-          if (i % 13 == 8) {
-              k++;
-          }
-          if (i % 13 == 10) {
-              k--;
-          }
-      }
-
-      coord_t *coorda = malloc(sizeof(coord_t));
-      coorda->x = 0;
-      coorda->y = 0;
-      coorda->z = 1;
-      room_t *rooma = malloc(sizeof(room_t));
-      rooma->loc = coorda;
-      rooma->ex_e = 0;
-      rooma->ex_w = 0;
-      rooma->ex_s = 1;
-      rooma->ex_n = 0;
-
-      coord_t *coordb = malloc(sizeof(coord_t));
-      coordb->x = 0;
-      coordb->y = 1;
-      coordb->z = 1;
-      room_t *roomb = malloc(sizeof(room_t));
-      roomb->loc = coordb;
-      roomb->ex_e = 0;
-      roomb->ex_w = 0;
-      roomb->ex_s = 0;
-      roomb->ex_n = 1;
-
-      rooms[n - 2] = rooma;
-      rooms[n - 1] = roomb;
-      return rooms;
-    */
-    return NULL;
-}

@@ -39,9 +39,9 @@ int main()
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), head);
     assert(coordmap != NULL);
 
-    try_add_coord(coordmap, 0, 1, room2);
-    try_add_coord(coordmap, 0, 2, room3);
-    try_add_coord(coordmap, 1, 1, room4);
+    try_add_coord(coordmap, 0, 1, 0, room2);
+    try_add_coord(coordmap, 0, 2, 0, room3);
+    try_add_coord(coordmap, 1, 1, 0, room4);
 
     game_t *game = game_new();
     assert (game != NULL);

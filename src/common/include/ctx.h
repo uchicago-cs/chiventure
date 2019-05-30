@@ -5,14 +5,15 @@
 #ifndef CHIVENTURE_CHIVENTURE_H
 #define CHIVENTURE_CHIVENTURE_H
 
+
 #include <ncurses.h>
 #include "common.h"
 #include "game.h"
 #include "ui_ctx.h"
 
+
 // Forward declaration
 typedef struct ui_ctx ui_ctx_t;
-
 
 /* A context struct encapsulating all the shared state in chiventure */
 typedef struct chiventure_ctx

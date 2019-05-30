@@ -3,6 +3,7 @@
 #include "game.h"
 #include "ui_ctx.h"
 
+
 /* See ctx.h */
 chiventure_ctx_t* chiventure_ctx_new()
 {
