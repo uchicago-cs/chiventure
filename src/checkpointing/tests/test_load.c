@@ -31,11 +31,17 @@ Test(load, room)
     dorm->short_desc = "college dorm";
     dorm->long_desc = "there are clothes and empty ramen cups everywhere";
 
-    dorm->items[0]->item_id = "1234";
-    dorm->items[0]->short_desc = "cup ramen";
-    dorm->items[0]->long_desc = "has already been eaten";
-
-    dorm->paths[0]->dest = "3";
+    Item **items = malloc(sizeof(item*) * 2); 
+    items[0] = malloc(sizeof(item));
+    items[0]->item_id = "1234";
+    items[0]->short_desc = "cup ramen";
+    items[0]->long_desc = "has already been eaten";
+    items[1] = malloc(sizeof(item));
+    items[1]->item_id = "1234";
+    items[1]->item_id = "4321";
+    items[1]->short_desc = "black sweatshirt";
+    items[1]->long_desc = "wrinkled and probably needs to be washed";
+    dorm->items = items
 
     room_t* room_t;
     int succ = load_room(dorm, room_t);
@@ -62,10 +68,10 @@ Test(load, player)
     candy->long_desc = "glues mouth shut";
 
     item_t *candy_t;
-	Item **inventory = malloc(sizeof(Item*) * 1);
-	inventory[0] = malloc(sizeof(Item));
-	inventory[0] = candy;
-	chad->inventory = inventory;
+    Item **inventory = malloc(sizeof(Item*) * 1);
+    inventory[0] = malloc(sizeof(Item));
+    inventory[0] = candy;
+    chad->inventory = inventory;
 	
     player_t *player_t;
 	
@@ -81,13 +87,28 @@ Test(load, game)
     game->curr_room = "5";
     game->curr_player = "chad";
     
-    game->all_rooms[0]->room_id = "5";
-    game->all_rooms[0]->short_desc = "college dorm";
-    game->all_rooms[0]->long_desc = "there are clothes and empty ramen cups everywhere";
-    game->all_rooms[0]->items[0]->item_id = "1234";
-    game->all_rooms[0]->items[0]->short_desc = "cup ramen";
-    game->all_rooms[0]->items[0]->long_desc = "has already been eaten";
-    game->all_rooms[0]->paths[0]->dest = "3";
+    Room **all_rooms = malloc(sizeof(Room*) *2);
+    all_rooms[0] = malloc(sizeof(Room));
+    all_rooms[0]->room_id = "5";
+    all_rooms[0]->short_desc = "college dorm";
+    all_rooms[0]->long_desc = "there are clothes and empty ramen cups everywhere";
+    Item **items1 = malloc(sizeof(Item*) *1);
+    items1[0] = malloc(sizeof(Item));
+    items1[0]->item_id = "1234";
+    items1[0]->short_desc = "cup ramen";
+    items1[0]->long_desc = "has already been eaten";
+    all_rooms[0]->items = items1;
+    all_rooms[1] = malloc(sizeof(Room));
+    all_rooms[1]->room_id = "10";
+    all_rooms[1]->short_desc = "lecture hall";
+    all_rooms[1]->long_desc = "where students come to sleep";
+    Item **items2 = malloc(sizeof(Item*) *1);
+    items2[0] = malloc(sizeof(Item));
+    items2[0]->item_id = "420";
+    items2[0]->short_desc = "pen";
+    items2[0]->long_desc = "writes in black ink";
+    all_rooms[1]->items = items2;
+    game->all_rooms = all_rooms;
   
     game->all_players[0]->health = 1;
 
