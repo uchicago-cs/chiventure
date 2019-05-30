@@ -99,14 +99,15 @@ room_t *find_room(game_t *game, char* room_id) {
 /* See game.h */
 int move_room(game_t *game, room_t *new_room) {
     if(game == NULL) {
-        return FAILURE;
+        return 2;
     }
     if(new_room == NULL)
-        return FAILURE;
+        return 3;
     room_t *check = find_room(game, new_room->room_id);
     if(check == NULL) {
         return FAILURE;
     }
+    game->curr_room = new_room;
     return SUCCESS;
 }
 
