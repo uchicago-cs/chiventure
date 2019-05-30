@@ -260,7 +260,7 @@ int save_player(player_t *p_t, Player *p)
     
     // Allocate an array of proto Item structs
     Item **items = malloc(sizeof(Item*) * (p->inventory_len));
-    int iter =0; // Iterator int to track the array
+    int iter = 0; // Iterator int to track the array
     
     // Put the hashtable into the array
     item_t *curr_item;
@@ -292,7 +292,7 @@ int save_game(game_t *g_t, Game *g)
     
     // Allocate an array of proto Player structs
     Player **plyrs = malloc(sizeof(Player*) * (g->players_len));
-    int iter =0; // Iterator int to track the array
+    int iter = 0; // Iterator int to track the array
 
     // Put the hashtable into the array
     player_t *curr_player;
@@ -317,7 +317,7 @@ int save_game(game_t *g_t, Game *g)
 
     // Allocate an array of proto Player structs
     Room **rooms = malloc(sizeof(Room*) * (g->rooms_len));
-    iter =0; // Iterator int to track the array
+    iter = 0; // Iterator int to track the array
 
     // Put the hashtable into the array
     room_t *curr_room;

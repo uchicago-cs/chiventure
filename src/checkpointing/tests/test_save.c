@@ -41,10 +41,10 @@ Test(save, item)
     success = save_item(candy_t, candy);
     
     cr_assert_eq(success, 0, "save_item failed %d", success);
-    cr_assert_eq(candy->item_id, "1234", "save_item: saving item_id failed");
-    cr_assert_eq(candy->short_desc, "salt water taffy",
+    cr_assert_str_eq(candy->item_id, "1234", "save_item: saving item_id failed");
+    cr_assert_str_eq(candy->short_desc, "salt water taffy",
 		 "save_item: saving short_desc failed");
-    cr_assert_eq(candy->long_desc, "glues mouth shut",
+    cr_assert_str_eq(candy->long_desc, "glues mouth shut",
      "save_item: saving long_desc failed");
     cr_assert_eq(candy->attributes_len, 5,
     "save_item: saving the attributes_len failed");
@@ -76,13 +76,14 @@ Test(save, room)
     add_path_to_room(room_t, path_t);
 
     Room *dorm = malloc(sizeof(Room));
-		int succ = save_room(room_t, dorm);
-
+    int succ = save_room(room_t, dorm);
+    printf("starting room tests");
     cr_assert_eq(succ, 0, "save_room failed");
-    cr_assert_eq(dorm->room_id, "5", "save_room: saving room_id failed");
-    cr_assert_eq(dorm->short_desc, "college dorm",
+    printf("passed");
+    cr_assert_str_eq(dorm->room_id, "5", "save_room: saving room_id failed");
+    cr_assert_str_eq(dorm->short_desc, "college dorm",
      "save_room: saving short_desc failed");
-    cr_assert_eq(dorm->long_desc, "there are clothes and empty ramen cups everwhere",
+    cr_assert_str_eq(dorm->long_desc, "there are clothes and empty ramen cups everwhere",
                                    "save_room: saving long_desc failed");
     /* There is potential changes coming regarding whether we include paths.
      * We additionally need a way to check if an item was stored in the hash.
@@ -139,19 +140,21 @@ Test(save, game)
     int success = save_game(game_t, game);
 
     cr_assert_eq(success, 0, "save_game failed");
-    cr_assert_eq(game->curr_room, "5", 
+    cr_assert_str_eq(game->curr_room, "5", 
                   "save_game: saving curr_room failed");
-    cr_assert_eq(game->curr_player, "Chad", 
+    cr_assert_str_eq(game->curr_player, "Chad", 
                   "save_game: saving curr_player failed");
-    cr_assert_eq(game->players_len, 1, "save_game: saving players_len failed");
-    cr_assert_eq(game->all_players[0]->player_id, "Chad",
+    cr_assert_eq(game->players_len, 1, "save_game: saving players_len %d failed",
+		 game->players_len);
+    
+    cr_assert_str_eq(game->all_players[0]->player_id, "Chad",
                   "save_game: saving player_id failed");
     cr_assert_eq(game->rooms_len, 1, "save_game: saving rooms_len failed");
-    cr_assert_eq(game->all_rooms[0]->room_id, "5", 
+    cr_assert_str_eq(game->all_rooms[0]->room_id, "5", 
                   "save_game: saving room_id failed");
-    cr_assert_eq(game->all_rooms[0]->short_desc, "college dorm",
+    cr_assert_str_eq(game->all_rooms[0]->short_desc, "college dorm",
                   "save_game: saving short_desc failed");
-    cr_assert_eq(game->all_rooms[0]->long_desc,
+    cr_assert_str_eq(game->all_rooms[0]->long_desc,
                   "there are clothes and empty ramen cups everywhere",
                   "save_game: saving long_desc failed");
 
