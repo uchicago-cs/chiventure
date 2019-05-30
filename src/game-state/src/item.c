@@ -28,11 +28,15 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
     if (new_item == NULL || new_item->item_id == NULL ||
        new_item->short_desc == NULL || new_item->long_desc == NULL) {
-        exit(1);
+
+       fprintf(stderr,
+           "item_new(): item struct not properly malloced");
+        return NULL;
+
     }
 
     if(check != SUCCESS) {
-        exit(1);
+        return NULL;
     }
 
     return new_item;
@@ -61,11 +65,15 @@ game_action_t *game_action_new(char *act_name, action_type_t *act_type)
 
     if (new_action == NULL || new_action->action_name == NULL ||
        new_action->action_type == NULL) {
-        exit(1);
+
+        fprintf(stderr,
+            "game_action_new(): game action struct not properly malloced");
+        return NULL;
+
     }
 
     if(check != SUCCESS) {
-        exit(1);
+        return NULL;
     }
 
     return new_action;
@@ -252,12 +260,12 @@ char* get_str_attr(item_t *item, char* attr_name)
     if (res == NULL)
     {
         fprintf(stderr, "Error: attribute get failed.\n");
-        exit(1);
+        return NULL;
     }
     if(res->attribute_tag != STRING)
     {
         fprintf(stderr, "Error: attribute is not type string.\n");
-        exit(1);
+        return NULL;
     }
     return res->attribute_value.str_val;
 }
@@ -269,12 +277,13 @@ int get_int_attr(item_t *item, char* attr_name) {
     if (res == NULL)
     {
         fprintf(stderr, "Error: attribute get failed.\n");
-        exit(1);
+        // value returned if search fails, open to alternative
+        return -1;
     }
     if(res->attribute_tag != INTEGER)
     {
         fprintf(stderr, "Error: attribute is not type integer.\n");
-        exit(1);
+        return -1;
     }
     return res->attribute_value.int_val;
 }
@@ -286,12 +295,13 @@ double get_double_attr(item_t *item, char* attr_name) {
     if (res == NULL)
     {
         fprintf(stderr, "Error: attribute get failed.\n");
-        exit(1);
+        // value returned if search fails, open to alternative
+        return -1.0;
     }
     if (res->attribute_tag != DOUBLE)
     {
         fprintf(stderr, "Error: attribute is not type double.\n");
-        exit(1);
+        return -1.0;
     }
     return res->attribute_value.double_val;
 }
@@ -304,12 +314,12 @@ char get_char_attr(item_t *item, char* attr_name) {
     if (res == NULL)
     {
         fprintf(stderr, "Error: attribute get failed.\n");
-        exit(1);
+        return '~';
     }
     if (res->attribute_tag != CHARACTER)
     {
         fprintf(stderr, "Error: attribute is not type character.\n");
-        exit(1);
+        return '~';
     }
     return res->attribute_value.char_val;
 }
@@ -320,11 +330,12 @@ bool get_bool_attr(item_t *item, char* attr_name) {
     if (res == NULL)
     {
         fprintf(stderr, "Error: attribute get failed.\n");
+        return NULL;
     }
     if (res->attribute_tag != BOOLE)
     {
         fprintf(stderr, "Error: attribute is not type boolean.\n");
-        exit(1);
+        return NULL;
     }
     return res->attribute_value.bool_val;
 }
@@ -335,11 +346,12 @@ game_action_t *get_act_attr(item_t *item, char* attr_name) {
     if (res == NULL)
     {
         fprintf(stderr, "Error: attribute get failed.\n");
+        return NULL;
     }
     if (res->attribute_tag != ACTION)
     {
         fprintf(stderr, "Error: attribute is not type boolean.\n");
-        exit(1);
+        return NULL;
     }
     return res->attribute_value.act_val;
 }

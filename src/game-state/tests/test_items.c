@@ -574,72 +574,98 @@ Test(attribute, get_act_attr)
 }
 
 /* Checks if retrieval of non-str attribute using get_str_attr is blocked */
-Test(attribute, get_non_str_attr, .exit_code = 1) {
+Test(attribute, get_non_str_attr) {
 	item_t *test_item = item_new("test item", "test item for testing",
     "test item for testing item");
-	int rv = set_int_attr(test_item, "Attribute_Test_Name",2);
+	int rv = set_int_attr(test_item, "Attribute_Test_Name", 2);
+
 	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
 	int num_in_hash = HASH_COUNT(test_item->attributes);
+
 	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	get_str_attr(test_item, "Attribute_Test_Name");
+	char *check = get_str_attr(test_item, "Attribute_Test_Name");
+
+    cr_assert_null(check, "get_non_str_attr() test: incorrect finding");
 }
 
 /* Checks if retrieval of non-int attribute using get_int_attr is blocked */
-Test(attribute, get_non_int_attr, .exit_code = 1) {
+Test(attribute, get_non_int_attr) {
 	item_t *test_item = item_new("test item", "test item for testing",
     "test item for testing item");
+
 	int rv = set_double_attr(test_item, "Attribute_Test_Name", 2.0);
 	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+
 	int num_in_hash = HASH_COUNT(test_item->attributes);
 	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	get_int_attr(test_item, "Attribute_Test_Name");
+	int check = get_int_attr(test_item, "Attribute_Test_Name");
+
+    cr_assert_eq(check, -1, "get_non_int_attr() test: incorrect finding");
+
+
 }
 
 /* checks if retrieval of non-double attribute using get_double_attr is blocked */
-Test(attribute, get_non_double_attr, .exit_code = 1) {
+Test(attribute, get_non_double_attr) {
 	item_t *test_item = item_new("test item", "test item for testing",
     "test item for testing item");
+
 	int rv = set_char_attr(test_item, "Attribute_Test_Name", 'a');
 	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+
 	int num_in_hash = HASH_COUNT(test_item->attributes);
 	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	get_double_attr(test_item, "Attribute_Test_Name");
+	double check = get_double_attr(test_item, "Attribute_Test_Name");
+
+    cr_assert_float_eq(check, -1.0, 0.001,
+        "change_double_attr: incorrect finding");
 }
 
 /* Checks if retrieval of non-character attribute using get_char_attr is blocked */
-Test(attribute, get_non_char_attr, .exit_code = 1) {
+Test(attribute, get_non_char_attr) {
 	item_t *test_item = item_new("test item", "test item for testing",
     "test item for testing item");
+
 	int rv = set_bool_attr(test_item, "Attribute_Test_Name", true);
 	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+
 	int num_in_hash = HASH_COUNT(test_item->attributes);
 	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	get_char_attr(test_item, "Attribute_Test_Name");
+	char check = get_char_attr(test_item, "Attribute_Test_Name");
+
+    cr_assert_eq(check, '~', "get_non_char_attr() test: incorrect finding");
 }
 
 /* Checks if retrieval of non-boolean attribute using get_bool_attr is blocked */
-Test(attribute, get_non_bool_attr, .exit_code = 1) {
+Test(attribute, get_non_bool_attr) {
 	item_t *test_item = item_new("test item", "test item for testing",
     "test item for testing item");
+
 	int rv = set_str_attr(test_item, "Attribute_Test_Name",
     "Attribute_Test_Value");
 	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+
 	int num_in_hash = HASH_COUNT(test_item->attributes);
 	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	get_bool_attr(test_item, "Attribute_Test_Name");
+	bool check = get_bool_attr(test_item, "Attribute_Test_Name");
+
+    cr_assert_null(check, "get_non_bool_attr() test: incorrect finding");
 }
 
 /* Checks if retrieval of non-action attribute using get_act_attr is blocked */
-Test(attribute, get_non_act_attr, .exit_code = 1) {
+Test(attribute, get_non_act_attr) {
 	item_t *test_item = item_new("test item", "test item for testing",
     "test item for testing item");
 
 	int rv = set_str_attr(test_item, "Attribute_Test_Name",
     "Attribute_Test_Value");
 	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
+
 	int num_in_hash = HASH_COUNT(test_item->attributes);
 	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	get_act_attr(test_item, "Attribute_Test_Name");
+	game_action_t *check = get_act_attr(test_item, "Attribute_Test_Name");
+
+    cr_assert_null(check, "get_non_act_attr() test: incorrect finding");
 }
 
 
