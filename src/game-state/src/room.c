@@ -84,10 +84,12 @@ int add_path_to_room(room_t *room, path_t *path) {
     }
 
     HASH_FIND(hh, room->paths, path->direction, strlen(path->direction), s);
+
     if (s != NULL) {
         fprintf(stderr, "add_path_to_room: direction already used!\n");
-        exit(1);
+        return FAILURE;
     }
+    
     HASH_ADD_KEYPTR(hh, room->paths, path->direction, strlen(path->direction),
     path);
     return SUCCESS;

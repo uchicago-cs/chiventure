@@ -17,10 +17,13 @@ game_t *game_new(char *desc) {
 }
 
 /* See game.h */
-void game_quit(game_t *game) {
-    if (game != NULL)
-    game_free(game);
-    exit(0);
+int game_quit(game_t *game) {
+
+    if (game != NULL) {
+        game_free(game);
+        return SUCCESS;
+    }
+    return FAILURE;
 }
 
 
@@ -32,7 +35,7 @@ int add_player_to_game(game_t *game, player_t *player) {
     if (check != NULL) {
         /* WARNING */
         fprintf(stderr, "add_room_to_game: this room id is already in use.\n");
-        exit(1);
+        return FAILURE;
     }
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id,
         strlen(player->player_id), player);
@@ -48,7 +51,7 @@ int add_room_to_game(game_t *game, room_t *room) {
     if (check != NULL) {
         /* WARNING */
         fprintf(stderr, "add_room_to_game: this room id is already in use.\n");
-        exit(1);
+        return FAILURE;
     }
     HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, strlen(room->room_id),
     room);
@@ -60,11 +63,13 @@ int create_connection(game_t *game, char* src_room, char* to_room,
     char* direction)
 {
     room_t *src = find_room(game, src_room);
-    if (src == NULL)
-        exit(1);
+    if (src == NULL) {
+        return FAILURE;
+    }
     room_t *to = find_room(game, to_room);
-    if (to == NULL)
-        exit(2);
+    if (to == NULL) {
+        return FAILURE;
+    }
     path_t *connection = path_new(to, direction);
     int check = add_path_to_room(src, connection);
     return check;
@@ -90,6 +95,9 @@ player_t *get_player(game_t *game, char *player_id) {
 room_t *find_room(game_t *game, char* room_id) {
     room_t *r;
     HASH_FIND(hh, game->all_rooms, room_id, strlen(room_id), r);
+    // if (r == NULL) {
+    //     return NULL;
+    // }
     return r;
 }
 

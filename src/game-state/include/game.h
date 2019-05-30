@@ -74,7 +74,7 @@ int move_room(game_t *game, room_t *new_room);
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-void game_quit(game_t *game);
+int game_quit(game_t *game);
 
 /* Frees everything in the game struct safely
  *
