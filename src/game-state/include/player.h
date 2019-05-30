@@ -27,7 +27,7 @@ typedef struct player *player_hash_t;
  * Initializes a player with level 1, given health, and 0 experience
  *
  * Parameters:
- *  p: A player. Must point to already allocated memory.
+ *  plyr: A player. Must point to already allocated memory.
  *  health: The starting health of the player
  *  player_id: the unique string ID of the player. currently
  *   this will always be "1" since there is only one player
@@ -108,6 +108,7 @@ int get_level(player_t *plyr);
  *
  * Parameters:
  *  plyr: the player
+ *  change: the desired amount to increment in player level
  *
  * Returns:
  *  int, the new level
