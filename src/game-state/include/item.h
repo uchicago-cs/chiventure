@@ -81,7 +81,7 @@ int game_action_free(game_action_t *action_tofree);
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
-typedef struct attribute_value {
+typedef union attribute_value {
     double double_val;
     char char_val;
     bool bool_val;
