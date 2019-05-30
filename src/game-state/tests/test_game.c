@@ -145,7 +145,7 @@ Test(game_room, move_room)
     room_t *room3 = NULL;
     game_t *game_fake = NULL;
     int mv_check = move_room(game, room2);
-    int strcheck = strncmp(curr->room_id, game->curr_room->room_id, MAX_ID_LEN);
+    int strcheck = strncmp(room2->room_id, game->curr_room->room_id, MAX_ID_LEN);
     int mv_fail = move_room(game, room3);
     int mv_gfail = move_room(game_fake, room2);
 
