@@ -12,7 +12,7 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
     room->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     room->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
 
-    strcpy(room->room_id, item_id);
+    strcpy(room->room_id, room_id);
     strcpy(room->short_desc, short_desc);
     strcpy(room->long_desc, long_desc);
 
