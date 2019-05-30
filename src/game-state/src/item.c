@@ -114,10 +114,9 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = STRING;
         new_attribute->attribute_value.str_val = value;
-        strcpy(new_attribute->attribute_key, attr_name);
+	new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -139,10 +138,9 @@ int set_int_attr(item_t* item, char* attr_name, int value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = INTEGER;
         new_attribute->attribute_value.int_val = value;
-        strcpy(new_attribute->attribute_key, attr_name);
+	new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -163,10 +161,9 @@ int set_double_attr(item_t* item, char* attr_name, double value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = DOUBLE;
         new_attribute->attribute_value.double_val = value;
-        strcpy(new_attribute->attribute_key, attr_name);
+        new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -188,10 +185,9 @@ int set_char_attr(item_t* item, char* attr_name, char value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = CHARACTER;
         new_attribute->attribute_value.char_val = value;
-        strcpy(new_attribute->attribute_key, attr_name);
+	new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -213,10 +209,9 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = BOOLE;
         new_attribute->attribute_value.bool_val = value;
-        strcpy(new_attribute->attribute_key, attr_name);
+	new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -237,11 +232,10 @@ int set_act_attr(item_t* item, char* attr_name, action_type_t *value)
     if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_key = (char*)malloc(100);
         new_attribute->attribute_tag = ACTION;
         new_attribute->attribute_value.act_val = game_action_new(attr_name,
             value);
-        strcpy(new_attribute->attribute_key, attr_name);
+	new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }

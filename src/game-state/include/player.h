@@ -65,6 +65,7 @@ int player_free(player_t *plyr);
  *
  * Parameters:
  *  hashtable of players that need to be deleted
+ *
  * Returns:
  *  SUCCESS if successful
  */
@@ -131,7 +132,7 @@ int get_xp(player_t *plyr);
  *
  * Parameters:
  *  plyr: the player
- * 	points: how much to change xp (positive or negative)
+ *  points: how much to change xp (positive or negative)
  *
  * Returns:
  *  int, the player's new xp
@@ -142,7 +143,7 @@ int change_xp(player_t *plyr, int points);
  * Returns the inventory list
  *
  * Parameters:
- * 	plyr: the player
+ *  plyr: the player
  *
  * Returns:
  *  hashtable of items, the inventory

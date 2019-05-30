@@ -7,10 +7,7 @@ game_t *game_new(char *desc) {
     game_t *game = malloc(sizeof(game_t));
     game->all_players = NULL; //helper fxn to get list of players
     game->all_rooms = NULL;
-    game->start_desc = malloc(MAX_START_DESC_LEN * sizeof(char));
-
-    strncpy(game->start_desc, desc, strlen(desc));
-
+    game->start_desc = strndup(desc, MAX_START_DESC_LEN);
     /* read from the file using interface from WDL team */
 
     return game;
@@ -120,9 +117,7 @@ int move_room(game_t *game, room_t *new_room) {
 int game_free(game_t *game) {
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
-    // room_free(game->curr_room);
-    // player_free(game->curr_player);
-    // free(game->start_desc);
+    free(game->start_desc);
     free(game);
     return SUCCESS;
 }

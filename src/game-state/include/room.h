@@ -33,7 +33,7 @@ typedef struct condition *condition_list_t;
 typedef struct path {
     UT_hash_handle hh;
     /* direction (north/south/etc) as key */
-    char *direction; // *capitalization matters*
+    char *direction; // *letter case matters*
     struct room *dest;
     condition_list_t conditions;
 } path_t;
