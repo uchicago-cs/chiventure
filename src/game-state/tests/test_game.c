@@ -49,7 +49,7 @@ Test(game_room, add_room_to_game)
     cr_assert_eq(r2, SUCCESS, "add_room_to_game: room2 failed");
 }
 
-/* Checks that find_room() returns the desired room pointer from a game
+/* Checks that find_room_from_game() returns the desired room pointer from a game
 * Also tests for a room that was not added (supposed to return NULL)
 */
 Test(game_room, find_room)
@@ -63,9 +63,9 @@ Test(game_room, find_room)
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
 
-    room_t *r1 = find_room(game, room1->room_id);
-    room_t *r2 = find_room(game, room2->room_id);
-    room_t *r3 = find_room(game, "boiiii");
+    room_t *r1 = find_room_from_game(game, room1->room_id);
+    room_t *r2 = find_room_from_game(game, room2->room_id);
+    room_t *r3 = find_room_from_game(game, "boiiii");
     int r1chk = strncmp(r1->room_id, room1->room_id, 256);
     int r2chk = strncmp(r2->room_id, room2->room_id, 256);
     cr_assert_not_null(r1, "room 1 not added");
@@ -296,6 +296,6 @@ player_t *get_player(game_t *game, char *player_id);
 int game_free(game_t *game);
 game_t *game_new(char *start_desc);
 int create_connection(game_t *game, char* src_room, char* dest_room, char* direction);
-room_t *find_room(game_t *game, char* room_id);
+room_t *find_room_from_game(game_t *game, char* room_id);
 
 */
