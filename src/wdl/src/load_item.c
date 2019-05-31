@@ -6,17 +6,6 @@
 #include "item.h"
 #include "load_item.h"
 
-/* hack alert
- * stop-gap solution until we get access to the game-state function
- * used as helper for load_items()
- */
-room_t *find_room(game_t *game, char* room_id) {
-    room_t *r;
-    HASH_FIND(hh, game->all_rooms, room_id, strlen(room_id), r);
-    return r;
-}
-
-
 /* See load_item/h */
 int load_actions(obj_t *doc, item_t *i)
 {
