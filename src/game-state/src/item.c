@@ -90,7 +90,7 @@ int add_attribute_to_hash(attribute_hash_t attribute_hash, attribute_t* new_attr
   Returns:
     NULL if the attribute does not exist, pointer to attribute if it does
 */
-attribute_t *get_attribute(item_t *item, char *attr_name) 
+attribute_t *get_attribute(item_t *item, char *attr_name)
 {
     attribute_t* return_value;
     attribute_hash_t attribute_hash = item->attributes;
@@ -105,7 +105,7 @@ attribute_t *get_attribute(item_t *item, char *attr_name)
 int set_str_attr(item_t* item, char* attr_name, char* value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = STRING;
@@ -118,7 +118,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
     {
         res->attribute_value.str_val = value;
         return SUCCESS;
-    }    
+    }
 }
 
 
@@ -126,7 +126,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
 int set_int_attr(item_t* item, char* attr_name, int value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = INTEGER;
@@ -139,14 +139,14 @@ int set_int_attr(item_t* item, char* attr_name, int value)
     {
         res->attribute_value.int_val = value;
         return SUCCESS;
-    }    
+    }
 }
 
 /* see item.h */
 int set_double_attr(item_t* item, char* attr_name, double value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = DOUBLE;
@@ -159,7 +159,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
     {
         res->attribute_value.double_val = value;
         return SUCCESS;
-    }    
+    }
 
 }
 
@@ -167,7 +167,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
 int set_char_attr(item_t* item, char* attr_name, char value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = CHARACTER;
@@ -180,14 +180,14 @@ int set_char_attr(item_t* item, char* attr_name, char value)
     {
         res->attribute_value.char_val = value;
         return SUCCESS;
-    }    
+    }
 }
 
 /* see item.h */
 int set_bool_attr(item_t* item, char* attr_name, bool value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) 
+    if (res == NULL)
     {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = BOOLE;
@@ -200,7 +200,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     {
         res->attribute_value.bool_val = value;
         return SUCCESS;
-    }    
+    }
 }
 
 /* see item.h */
@@ -355,6 +355,39 @@ int delete_all_items(item_hash_t items) {
     HASH_ITER(hh, items, current_item, tmp) {
         HASH_DEL(items, current_item);  /* delete it (items advances to next) */
         item_free(current_item);             /* free it */
+    }
+    return SUCCESS;
+}
+
+/* See item.h */
+attribute_list_t *get_all_attributes(item_t *item) {
+    attribute_list_t *head = NULL;
+    attribute_t *ITTMP_ATTR, *curr_attribute;
+    attribute_list_t *tmp;
+    HASH_ITER(hh, item->attributes, curr_attribute, ITTMP_ATTR) {
+        tmp = malloc(sizeof(attribute_list_t));
+        tmp->attribute = curr_attribute;
+        LL_APPEND(head, tmp);
+    }
+    return head;
+}
+
+/* See item.h */
+int delete_attribute_llist(attribute_list_t *head) {
+    attribute_list_t *elt, *tmp;
+    LL_FOREACH_SAFE(head, elt, tmp) {
+        LL_DELETE(head, elt);
+        free(elt);
+    }
+    return SUCCESS;
+}
+
+/* See item.h */
+int delete_item_llist(item_list_t *head) {
+    item_list_t *elt, *tmp;
+    LL_FOREACH_SAFE(head, elt, tmp) {
+        LL_DELETE(head, elt);
+        free(elt);
     }
     return SUCCESS;
 }
