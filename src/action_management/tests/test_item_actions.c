@@ -10,7 +10,7 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
 {
     game_t *g = game_new;
     action_type_t *a = action_type_new(act_name, kind);
-    action_type_t *allowed_a = action_type_new(act_name, kind);
+    action_type_t *allowed_a = action_type_new(allowed_act_name, allowed_kind);
     item_t *item = item_new("dummy", "The dummy item", "The dummy object of interest");
     add_allowed_action(item, allowed_act_name, allowed_a);
 
