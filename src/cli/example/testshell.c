@@ -57,7 +57,7 @@ int main()
         }
         else
         {
-            do_cmd(c,&quit, NULL, table);
+            do_cmd(c,&quit, table);
             // Add valid input to readline history.
             add_history(input);
         }

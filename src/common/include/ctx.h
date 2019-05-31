@@ -12,7 +12,6 @@
 #include "ui_ctx.h"
 #include "cmd.h"
 
-
 /* A context struct encapsulating all the shared state in chiventure */
 typedef struct chiventure_ctx
 {

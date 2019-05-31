@@ -2,6 +2,7 @@
 #include "ctx.h"
 #include "game.h"
 #include "ui_ctx.h"
+#include "cmd.h"
 
 
 /* See ctx.h */
