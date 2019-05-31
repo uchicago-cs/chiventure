@@ -114,23 +114,55 @@ void delete_entry(char *command_name, lookup_t **table);
 void delete_entries(lookup_t **table);
 
 
+/* Creates a new lookup Hashtable
+ *
+ * Parameters:
+ * - None
+ * 
+ * Returns:
+ * - a pointer to a new hashtable, NULL if failure
+ */
+lookup_t **lookup_t_new();
+
+
 /* Puts stuff into table, for testing purposes
  * You can see what is in there in the .c file.
  * Returns a pointer to the new table.
  */
-lookup_t **initialize_lookup();
+int lookup_t_init();
 
 
-/* Heap allocates a new cmd struct
+/* Frees resources associated with the lookup hashtable struct
  *
+ * Parameters:
+ * - pointer to a lookup hashtable
+ *
+ * Returns:
+ * - nothing
+ */
+void lookup_t_free();
+
+
+/* Creates a new cmd struct
  *
  * Parameters:
  * - an array of characters, with a defined lengh
  *
  * Returns:
- * - a pointer to a new cmd struct
+ * - a pointer to a new cmd struct, NULL if failure
  */
 cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE]);
+
+/* Initializes the values in a cmd struct
+ *
+ * Parameters:
+ * - an array of string tokens
+ * - a pointer to a cmd struct
+ * 
+ * Returns:
+ * - an int corresponding to SUCCESS or FAILURE
+ */
+int cmd_init(cmd *c, char *tokens[TOKEN_LIST_SIZE]);
 
 
 /* Frees resources associated with the cmd struct
