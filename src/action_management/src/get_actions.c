@@ -7,21 +7,22 @@
 
 static action_type_t valid_actions[] = {
     // KIND 1
-    {"open", ITEM},
-    {"close", ITEM},
-    {"push", ITEM},
-    {"pull", ITEM},
-    {"turn on", ITEM},
-    {"turn off", ITEM},
-    {"take", ITEM},
-    {"drop", ITEM},
-    {"consume", ITEM},
+    {"OPEN", ITEM},
+    {"CLOSE", ITEM},
+    {"PUSH", ITEM},
+    {"PULL", ITEM},
+    {"EXAMINE", ITEM},
+    {"TURN_ON", ITEM},
+    {"TURN_OFF", ITEM},
+    {"TAKE", ITEM},
+    {"DROP", ITEM},
+    {"CONSUME", ITEM},
     // KIND 2
-    {"go", PATH},
-    {"enter", PATH},
+    {"GO", PATH},
+    {"ENTER", PATH},
     // KIND 3
-    {"use on", ITEM_ITEM},
-    {"put on", ITEM_ITEM}
+    {"USE_ON", ITEM_ITEM},
+    {"PUT_ON", ITEM_ITEM}
 };
 
 
@@ -45,11 +46,11 @@ list_action_type_t *get_supported_actions()
 
 /* THIS FUNCTION IS USED IN TEST_GET_ACTIONS.C
  * BUT IS LEFT HERE FOR REFERENCE
-
-action_type_t *search_supported_actions(char *query)
+ * head: SHOULD BE GET_SUPPORTED_ACTIONS()
+ * query: SHOULD BE A VALID LOWERCASE ACTION STRING C_NAME, e.g. "go", "pull", "open"
+action_type_t *search_supported_actions(list_action_type_t* head, char *query)
 {
-    list_action_type_t *head, *temp;
-    head = get_supported_actions();
+    list_action_type_t *temp;
     for (temp = head; temp != NULL; temp = temp->next)
     {
         if (strcmp(temp->c_name,query) == 0)
