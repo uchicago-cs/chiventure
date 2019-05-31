@@ -3,6 +3,7 @@
 #include "game.h"
 #include "ui_ctx.h"
 
+
 /* See ctx.h */
 chiventure_ctx_t* chiventure_ctx_new()
 {
@@ -29,8 +30,9 @@ chiventure_ctx_t* chiventure_ctx_new()
 int chiventure_ctx_init(chiventure_ctx_t *ctx)
 {
     assert(ctx != NULL);
+    char *desc = "Welcome to Chiventure";
 
-    game_t *game = game_new();
+    game_t *game = game_new(desc);
 
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
 

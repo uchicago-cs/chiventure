@@ -2,9 +2,11 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include -I./src/game-state/include -I./src/ui/include
+
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include/ -I./src/game-state/include/ -I./src/action_management/include/ -I./src/ui/include/
+
 RM = rm -f
-LDLIBS = -lyaml -lncurses
+LDLIBS = -lyaml -lncurses -lreadline
 BIN = chiventure
 
 .PHONY: all clean libs
@@ -22,7 +24,8 @@ all: $(BIN)
 #  - Makefile: src/ui/Makefile
 #  - Library: src/ui/ui.a
 
-COMPONENTS = libobj ui cli game-state action_management checkpointing wdl common
+COMPONENTS = libobj common game-state action_management checkpointing wdl ui cli
+
 LIBS = $(foreach comp,$(COMPONENTS),src/$(comp)/$(comp).a)
 
 $(LIBS):
