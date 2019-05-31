@@ -165,11 +165,7 @@ int set_int_attr(item_t* item, char* attr_name, int value);
  */
 int set_double_attr(item_t* item, char* attr_name, double value);
 
-<<<<<<< HEAD
 /* set_char_attr() sets the value of an attribute of an item to the given char
-=======
-/* set_char_attr() sets the value of an attribute of an item to the given int
->>>>>>> master
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed
@@ -180,11 +176,7 @@ int set_double_attr(item_t* item, char* attr_name, double value);
  */
 int set_char_attr(item_t* item, char* attr_name, char value);
 
-<<<<<<< HEAD
 /* set_bool_attr() sets the value of an attribute of an item to the given boolean
-=======
-/* set_bool_attr() sets the value of an attribute of an item to the given int
->>>>>>> master
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed
@@ -255,7 +247,6 @@ char get_char_attr(item_t *item, char* attr_name);
  */
 bool get_bool_attr(item_t *item, char* attr_name);
 
-<<<<<<< HEAD
 /* get_act_attr() returns the string value of an attribute of an item
  * Parameters:
  *  a pointer to the item
@@ -282,40 +273,5 @@ int add_allowed_action(item_t* item, char *act_name, action_type_t *act_type);
  *  SUCCESS if item contains action, FAILURE if it does not
  */
 int allowed_action(item_t* item, char* action_name);
-
-=======
-/*
- * Function to get a linked list (utlist) of all the attributes in the item
- *
- * Parameters:
- *  item
- *
- * Returns:
- *  linked list of pointers to attributes (the head element)
- */
-attribute_list_t *get_all_attributes(item_t *item);
-
-/*
- * Function to delete a linked list (utlist) retrieved from get_all_attributes()
- *
- * Parameters:
- *  linked list of pointers to attributes
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int delete_attribute_llist(attribute_list_t *head);
-
-/*
- * Function to delete a linked list (utlist) retrieved from get_all_items()
- *
- * Parameters:
- *  linked list of pointers to items
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int delete_item_llist(item_list_t *head);
->>>>>>> master
 
 #endif
