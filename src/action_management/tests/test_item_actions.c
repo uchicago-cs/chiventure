@@ -8,7 +8,7 @@
 
 bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, enum action_kind allowed_kind)
 {
-    game_t *g = game_new;
+    game_t *g = game_new("this is a dummy game");
     action_type_t *a = action_type_new(act_name, kind);
     action_type_t *allowed_a = action_type_new(allowed_act_name, allowed_kind);
     item_t *item = item_new("dummy", "The dummy item", "The dummy object of interest");
@@ -18,10 +18,10 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
     char *expected_output = malloc(100); // buffer
     expected_output[0] = '\0';
     strcat(expected_output, "Requested action ");
-    strcat(expected_output, c_name);
+    strcat(expected_output, act_name);
     strcat(expected_output, " on ");
     strcat(expected_output, "item");
-    strcat(ret_string, item->item_id);
+    strcat(expected_output, item->item_id);
 
     bool rc;
     if (strcmp(do_item_action(g, a, item), expected_output) == 0)
