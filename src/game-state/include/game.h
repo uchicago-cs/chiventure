@@ -157,7 +157,7 @@ player_t *get_player(game_t *game, char *player_id);
 * Returns:
 * pointer to room or NULL if not found
 */
-room_t *find_room(game_t *game, char* room_id);
+room_t *find_room_from_game(game_t *game, char* room_id);
 
 /*
  * Function to get a linked list (utlist) of all the rooms in the game

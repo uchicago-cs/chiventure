@@ -59,11 +59,11 @@ int add_room_to_game(game_t *game, room_t *room) {
 int create_connection(game_t *game, char* src_room, char* to_room,
     char* direction)
 {
-    room_t *src = find_room(game, src_room);
+    room_t *src = find_room_from_game(game, src_room);
     if (src == NULL) {
         return 2;
     }
-    room_t *to = find_room(game, to_room);
+    room_t *to = find_room_from_game(game, to_room);
     if (to == NULL) {
         return 3;
     }
@@ -89,7 +89,7 @@ player_t *get_player(game_t *game, char *player_id) {
 }
 
 /* See game.h */
-room_t *find_room(game_t *game, char* room_id) {
+room_t *find_room_from_game(game_t *game, char* room_id) {
     room_t *r;
     HASH_FIND(hh, game->all_rooms, room_id, strnlen(room_id, MAX_ID_LEN), r);
     return r;
@@ -103,7 +103,7 @@ int move_room(game_t *game, room_t *new_room) {
     }
     if(new_room == NULL)
         return 3;
-    room_t *check = find_room(game, new_room->room_id);
+    room_t *check = find_room_from_game(game, new_room->room_id);
     if(check == NULL) {
         return FAILURE;
     }

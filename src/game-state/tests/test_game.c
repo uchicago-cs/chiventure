@@ -151,8 +151,8 @@ Test(game_room, move_room)
 
     cr_assert_eq(mv_check, SUCCESS, "failed to move room");
     cr_assert_eq(strcheck, SUCCESS, "failed to move to new room");
-    cr_assert_eq(mv_fail, FAILURE, "moved to NULL room");
-    cr_assert_eq(mv_gfail, FAILURE, "moved in null game");
+    cr_assert_eq(mv_fail, 3, "moved to NULL room");
+    cr_assert_eq(mv_gfail, 2, "moved in null game");
 
 
 }
