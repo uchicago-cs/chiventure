@@ -130,7 +130,17 @@ char *do_item_item_action(game_t *g, action_type_t *a,
         strcat(ret_string, "The action type provided is not of the correct kind");
         return ret_string;
     }
-    // checks if the action can be used on the item
+    // checks if the action can be used on the direct item
+    int allowed = allowed_action(direct, a->c_name);
+    if (allowed != SUCCESS)
+    {
+        strcat(ret_string, "Action ");
+        strcat(ret_string, a->c_name);
+        strcat(ret_string, "can't be requested on item ");
+        strcat(ret_string, direct->item_id);
+        return ret_string;
+    }
+    // checks if the action can be used on the indirect item
     int allowed = allowed_action(indirect, a->c_name);
     if (allowed != SUCCESS) {
         strcat(ret_string, "Action ");
