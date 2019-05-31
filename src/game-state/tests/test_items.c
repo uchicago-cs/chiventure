@@ -928,8 +928,9 @@ Test(attribute, get_non_existent_action)
 /* Checks freeing of attribute struct */
 Test(attribute, attr_free)
 {
-    attribute_t *test_attr = malloc(sizeof(attribute_t));
-    test_attr->attribute_key = (char*)malloc(100);
+    attribute_t *test_attr = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr->attribute_key = malloc(sizeof(char)*100);
     test_attr->attribute_tag = INTEGER;
     test_attr->attribute_value.int_val = 5;
 

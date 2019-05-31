@@ -141,7 +141,7 @@ Test(game_room, move_room)
     game->curr_room = room1;
     create_connection(game, "vroom1", "nroom", "north");
 
-    room_t *curr = game->curr_room;
+    // room_t *curr = game->curr_room;
     room_t *room3 = NULL;
     game_t *game_fake = NULL;
     int mv_check = move_room(game, room2);
@@ -151,8 +151,8 @@ Test(game_room, move_room)
 
     cr_assert_eq(mv_check, SUCCESS, "failed to move room");
     cr_assert_eq(strcheck, SUCCESS, "failed to move to new room");
-    cr_assert_eq(mv_fail, FAILURE, "moved to NULL room");
-    cr_assert_eq(mv_gfail, FAILURE, "moved in null game");
+    cr_assert_eq(mv_fail, 3, "moved to NULL room");
+    cr_assert_eq(mv_gfail, 2, "moved in null game");
 
 
 }
