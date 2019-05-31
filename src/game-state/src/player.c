@@ -17,6 +17,7 @@ int player_init(player_t* plyr, int health) {
 player_t* player_new(int health) {
     player_t *plyr;
     plyr = malloc(sizeof(player_t));
+    memset(plyr, 0, sizeof(player_t));
 
     if(plyr == NULL)
     {
