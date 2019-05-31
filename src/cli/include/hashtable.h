@@ -1,12 +1,11 @@
-#ifndef _CLI_INCLUDE_CMD_H
-#define _CLI_INCLUDE_CMD_H
-#include "parser.h"
-#include "game.h"
+#ifndef _CLI_INCLUDE_HASHTABLE_H
+#define _CLI_INCLUDE_HASHTABLE_H
 #include "uthash.h"
 #include "action_structs.h"
 #include "actionmanagement.h"
+#include "ctx.h"
+#include "operations.h"
 
-typedef struct chiventure_ctx chiventure_ctx_t;
 /* Operation data type */
 typedef char *operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
@@ -20,14 +19,11 @@ typedef struct lookup_entry
 } lookup_t;
 
 /* Command data type */
-typedef struct
-{
-    char **tokens;    //should be of TOKEN_LIST_SIZE
-    operation *func_of_cmd;
-} cmd;
-
-#include "ctx.h"
-#include "operations.h"
+// typedef struct
+// {
+//     char **tokens;    //should be of TOKEN_LIST_SIZE
+//     operation *func_of_cmd;
+// } cmd;
 
 /* Iteratively adds each action into the table, from a
  * list of functions provided by action management
@@ -143,101 +139,4 @@ int lookup_t_init();
 void lookup_t_free();
 
 
-/* Creates a new cmd struct
- *
- * Parameters:
- * - an array of characters, with a defined lengh
- *
- * Returns:
- * - a pointer to a new cmd struct, NULL if failure
- */
-cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE]);
-
-/* Initializes the values in a cmd struct
- *
- * Parameters:
- * - an array of string tokens
- * - a pointer to a cmd struct
- * 
- * Returns:
- * - an int corresponding to SUCCESS or FAILURE
- */
-int cmd_init(cmd *c, char *tokens[TOKEN_LIST_SIZE]);
-
-
-/* Frees resources associated with the cmd struct
- *
- * Parameters:
- * - pointer to a cmd struct
- *
- * Returns:
- * - nothing
- */
-void cmd_free(cmd *c);
-
-
-/* === command debugging === */
-
-/* Returns first token as command name (for debugging)
- *
- * Parameters:
- * - pointer to a cmd struct
- *
- * Returns:
- * - command name as a string
- */
-char *cmd_name_tos(cmd *c);
-
-
-/* Print the entire command (for debugging)
- *
- * Parameters:
- * - pointer to a cmd struct
- *
- * Returns:
- * - nothing - prints in stdout
- */
-void cmd_show(cmd *c);
-
-
-/* === command parsing === */
-
-/*
- * Builds a cmd (as defined above) from a string
- * Almost unneeded, but will stay so that AND is a working command.
- *
- * Parameters:
- * - array of characters, pointer to chiventure context struct
- *
- * Returns:
- * - pointer to command struct, NULL if parse fails
- */
-cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx);
-
-
-/*
- * creates a command from parsed string.
- *
- * Parameters:
- * - Array of tokens, pointer to table
- *
- * Returns:
- * - pointer to a cmd struct, NULL if there is an error
- */
-cmd *cmd_from_tokens(char **ts, lookup_t **table);
-
-
-/*
- * Executes the given command
- *
- * Parameters:
- * - pointer to a cmd struct
- * - pointer to chiventure context struct
- *
- * Returns:
- * - nothing -> output handled elsewhere
- */
-void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx);
-
-
-#endif /* _CLI_INCLUDE_CMD_H */
+#endif /* _CLI_INCLUDE_HASHTABLE_H */

@@ -9,25 +9,25 @@
 // remove the comment as soon as checkpointing removes their dummy struct
 //#include "../../checkpointing/include/save.h"
 
-char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     return NULL;
 }
 
-char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     help_text();
     return NULL;
 }
 
-char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     print_history();
     return NULL;
 }
 
 /* See operations.h */
-char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     //Commented out for now until an actual save and load function are provided
     /*  if(tokens[1] == NULL){
@@ -38,8 +38,10 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
     */  return NULL;
 }
 
-char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
+    game_t *game = ctx->game;
+
     if(tokens[1] == NULL)
     {
         return game->curr_room->long_desc;
@@ -56,8 +58,11 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
 }
 
 //KIND 1:   ACTION <item>
-char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
+    game_t *game = ctx->game;
+    lookup_t **table = ctx->table;
+
     if(tokens[1] == NULL)
     {
         return "You must identify an object to act on\n";
@@ -76,8 +81,11 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 //KIND 2:   ACTION <direction>
-char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
+    game_t *game = ctx->game;
+    lookup_t **table = ctx->table;
+
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
@@ -92,8 +100,11 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 //KIND 3:   ACTION <item> <item>
-char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
+    game_t *game = ctx->game;
+    lookup_t **table = ctx->table;
+
     if(tokens[1] == NULL || tokens[3] == NULL)
     {
         return "You must identify two objects to act on";
@@ -125,13 +136,15 @@ char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     return "You cannot perform this action !";
 }
 
-char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
+    game_t *game = ctx->game;
+
     item_t *t;
     int i = 0;
     ITER_ALL_ITEMS_IN_INVENTORY(game->curr_player, t)
