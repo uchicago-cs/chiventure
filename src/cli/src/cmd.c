@@ -25,15 +25,15 @@ void add_action_entries(lookup_t **table)
 
         if(curr_action->kind == 1)
         {
-            add_entry(curr_action->c_name, type1_action_operation, table);
+            add_entry(curr_action->c_name, kind1_action_operation, table);
         }
         else if(curr_action->kind == 2)
         {
-            add_entry(curr_action->c_name, type2_action_operation, table);
+            add_entry(curr_action->c_name, kind2_action_operation, table);
         }
         else if(curr_action->kind == 3)
         {
-            add_entry(curr_action->c_name, type2_action_operation, table);
+            add_entry(curr_action->c_name, kind3_action_operation, table);
         }
 
         all_actions = all_actions->next;
