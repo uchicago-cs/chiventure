@@ -2,7 +2,8 @@
 
 CC = gcc
 AR = ar 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../game-state/include/ -I../action_management/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../game-state/include/ -I../action_management/include/ -I../ui/include
+
 RM = rm -f
 LIB = common.a
 LDLIBS =
@@ -26,4 +27,3 @@ $(LIB): $(OBJS)
 
 clean:
 	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
-

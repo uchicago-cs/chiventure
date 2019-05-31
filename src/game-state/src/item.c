@@ -456,13 +456,13 @@ int game_action_free(game_action_t *action_tofree) {
 int attribute_free(attribute_t *attribute) {
     free(attribute->attribute_key);
 
-    if (attribute->attribute_value.act_val != NULL) {
+    if (attribute->attribute_tag == ACTION) {
         game_action_free(attribute->attribute_value.act_val);
         free(attribute);
         return SUCCESS;
     }
 
-    // free(attribute->attribute_value);
+
     free(attribute);
     return SUCCESS;
 }

@@ -141,7 +141,7 @@ Test(game_room, move_room)
     game->curr_room = room1;
     create_connection(game, "vroom1", "nroom", "north");
 
-    room_t *curr = game->curr_room;
+    // room_t *curr = game->curr_room;
     room_t *room3 = NULL;
     game_t *game_fake = NULL;
     int mv_check = move_room(game, room2);

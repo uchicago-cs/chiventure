@@ -20,6 +20,10 @@ typedef struct condition {
     attribute_value_t value;
 } condition_t;
 
+/* This typedef is to distinguish between condition_t pointers which are 
+* used to point to the condition_t structs in the traditional sense, 
+* and those which are used to hash condition_t structs with the 
+* UTHASH macros as specified in src/common/include */
 typedef struct condition *condition_list_t;
 
 // PATH STRUCT DEFINITION -----------------------------------------------------
@@ -38,6 +42,10 @@ typedef struct path {
     condition_list_t conditions;
 } path_t;
 
+/* This typedef is to distinguish between path_t pointers which are 
+* used to point to the path_t structs in the traditional sense, 
+* and those which are used to hash path_t structs with the 
+* UTHASH macros as specified in src/common/include */
 typedef struct path* path_hash_t;
 
 // ROOM STRUCT DEFINITION -----------------------------------------------------
@@ -58,6 +66,10 @@ typedef struct room {
     path_hash_t paths;
 } room_t;
 
+/* This typedef is to distinguish between room_t pointers which are 
+* used to point to the room_t structs in the traditional sense, 
+* and those which are used to hash room_t structs with the 
+* UTHASH macros as specified in src/common/include */
 typedef struct room* room_hash_t;
 
 typedef struct room_wrapped_for_llist {
