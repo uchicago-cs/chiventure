@@ -5,7 +5,6 @@
 #include <string.h>
 #include "actionmanagement.h"
 #include "action_structs.h"
-#include "item.h"
 #include "game.h"
 #include "path.h"
 
