@@ -10,11 +10,11 @@
 
 bool execute_do_path_action(char *c_name, enum action_kind kind)
 {
-    char *dest = "dummy_room";
+    char *dest = room_new("dummyroom", "a dummy room", "a placeholder room");
     char *direction = "south";
     game_t *g = game_new;
     action_type_t *a = action_type_new(c_name, kind);
-    path_t *path = path_new(direction);
+    path_t *path = path_new(dest, direction);
     
 
     char *expected_output = malloc(100); // buffer
