@@ -1,10 +1,9 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "actionmanagement.h"
 #include "common.h"
-#include <string.h>
-#include "item.h"
 
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind)
@@ -109,7 +108,7 @@ char *do_path_action(game_t *g, action_type_t *a, path_t *p)
     strcat(ret_string, " in direction ");
     strcat(ret_string, p->direction);
     strcat(ret_string, " into room ");
-    strcat(ret_string, p->dest);
+    strcat(ret_string, p->dest->room_id);
     return ret_string;
 
 }
