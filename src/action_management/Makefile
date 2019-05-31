@@ -4,7 +4,7 @@
 
 CC = gcc
 SRCS = src/actionmanagement.c src/get_actions.c
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../action_management/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/
 LDFLAGS = -shared
 OBJS = $(SRCS:.c=.o)
 LIB = action_management.a
