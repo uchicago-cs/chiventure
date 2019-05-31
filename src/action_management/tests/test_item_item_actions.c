@@ -12,9 +12,12 @@ bool execute_do_item_item_action(char *act_name, enum action_kind kind, char *al
 {
     game_t *g = game_new;
     action_type_t *a = action_type_new(c_name, kind);
-    action_type_t *allowed_a = action_type_new(act_name, kind);
+    action_type_t *allowed_a1 = action_type_new(allowed_act_name1, allowed_kind1);
+    action_type_t *allowed_a2 = action_type_new(allowed_act_name2, allowed_kind2);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
     item_t *indirect = item_new("indirect", "The indirect item", "The indirectmost object of interest");
+    add_allowed_action(direct, allowed_act_name1, allowed_a1);
+    add_allowed_action(indirect, allowed_act_name2, allowed_a2);
 
     char *expected_output = malloc(100); // buffer
     expected_output[0] = '\0';
