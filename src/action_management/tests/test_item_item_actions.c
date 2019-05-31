@@ -10,7 +10,7 @@
 
 bool execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, enum action_kind allowed_kind1, char *allowed_act_name2, enum action_kind allowed_kind2)
 {
-    game_t *g = game_new;
+    game_t *g = game_new("a dummy game");
     action_type_t *a = action_type_new(c_name, kind);
     action_type_t *allowed_a1 = action_type_new(allowed_act_name1, allowed_kind1);
     action_type_t *allowed_a2 = action_type_new(allowed_act_name2, allowed_kind2);
@@ -22,7 +22,7 @@ bool execute_do_item_item_action(char *act_name, enum action_kind kind, char *al
     char *expected_output = malloc(100); // buffer
     expected_output[0] = '\0';
     strcat(expected_output, "Requested action ");
-    strcat(expected_output, c_name);
+    strcat(expected_output, act_name);
     strcat(expected_output, " with ");
     strcat(expected_output, direct->item_id);
     strcat(expected_output, " on ");
