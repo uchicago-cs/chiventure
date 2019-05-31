@@ -6,6 +6,11 @@
 #include "room.h"
 #include "item.h"
 
+#define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
+HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
+#define ITER_ALL_PLAYERS(game, curr_player) player_t *ITTMP_PLAYER; \
+HASH_ITER(hh, (game)->all_players, (curr_player), ITTMP_PLAYER)
+
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
  */
@@ -26,21 +31,25 @@ typedef struct game {
     /* pointer to current player struct */
     player_t *curr_player;
 
+    /* starting string description to be presented at beginning of game */
+    char *start_desc;
+
     /* time when game started */
     //int time_start;
 } game_t;
 
 
 /* Malloc space for a new game struct
- * This does not take any arguments and creates a new game without rooms and players
+ * This only takes in the beginning string description and
+ * creates a new game without rooms and players
  *
  * Parameters:
- *  none
+ *  string description
  *
  * Returns:
  *  a new game struct
  */
-game_t *game_new();
+game_t *game_new(char *start_desc);
 
 /* Given the pointer to another room, changes the current room in game-state
  * This function does NOT check if the move is legal
@@ -50,9 +59,12 @@ game_t *game_new();
  *  room that we're changing to
  *
  * Returns:
- *  none
+ *  0 for success
+ *  1 for failure
+ *  2 if game null
+ *  3 if new_room is null
  */
-void move_room(game_t *game, room_t *new_room);
+int move_room(game_t *game, room_t *new_room);
 
 /* Exits game safely (frees all memory)
  * Future easter egg :) :) :)
@@ -62,9 +74,9 @@ void move_room(game_t *game, room_t *new_room);
  *  game struct
  *
  * Returns:
- *  none
+ *  SUCCESS if successful, FAILURE if failed
  */
-void game_quit(game_t *game);
+int game_quit(game_t *game);
 
 /* Frees everything in the game struct safely
  *
@@ -98,6 +110,20 @@ int add_player_to_game(game_t *game, player_t *player);
  */
 int add_room_to_game(game_t *game, room_t *room);
 
+/*
+* Function to connect two rooms
+* Parameters:
+* game, Source room_id, destination room_id, direction
+*
+* Returns:
+* SUCCESS if all okay, 2 if src room_id not found,
+* 3 if dest not found, FAILURE if add_path fails
+*
+* WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS
+* AT THE MOMENT AS PARAMETERS NOT GIVEN
+*/
+int create_connection(game_t *game, char* src_room, char* dest_room,
+    char* direction);
 
 /*
 *
@@ -118,9 +144,19 @@ int set_curr_player(game_t *game, player_t *player);
 * Game, player id
 *
 * Returns
-* player struct
+* player struct or NULL if not found
 */
 player_t *get_player(game_t *game, char *player_id);
+
+/*
+* Function to find room from all_rooms
+* Parameters:
+* Game, room_id
+*
+* Returns:
+* pointer to room or NULL if not found
+*/
+room_t *find_room_from_game(game_t *game, char* room_id);
 
 /*
  * Function to get a linked list (utlist) of all the rooms in the game
