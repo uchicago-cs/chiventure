@@ -7,8 +7,8 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../include/cmd.h"
-#include "../include/shell.h"
+#include "cmd.h"
+#include "shell.h"
 
 
 #define BUFFER_SIZE 256
@@ -34,7 +34,7 @@ int main()
     lookup_t **table = initialize_lookup();
     int quit = 1;
     char *cmd_string;
-    greet();
+    //greet();
     //rl_bind_key('\t', rl_complete); // Configure readline to auto-complete paths when the tab key is hit.
     using_history();
 

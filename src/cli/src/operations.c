@@ -17,13 +17,13 @@ char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    help_text();
+    help_text(ctx);
     return NULL;
 }
 
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    print_history();
+    print_history(ctx);
     return NULL;
 }
 
@@ -59,7 +59,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 //KIND 1:   ACTION <item>
-char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
     lookup_t **table = ctx->table;
@@ -82,7 +82,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 //KIND 2:   ACTION <direction>
-char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
     lookup_t **table = ctx->table;
@@ -101,7 +101,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 //KIND 3:   ACTION <item> <item>
-char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
     lookup_t **table = ctx->table;
@@ -151,7 +151,9 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     ITER_ALL_ITEMS_IN_INVENTORY(game->curr_player, t)
     {
         i++;
-        printf("%d:  %s, %s\n",i, t->item_id, t->short_desc);
+        print_to_cli(ctx, i);
+        print_to_cli(ctx, t->item_id);
+        print_to_cli(ctx, t->short_desc);
     }
     return "This was your inventory";
 }

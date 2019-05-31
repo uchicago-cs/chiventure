@@ -5,6 +5,8 @@
 #include "uthash.h"
 #include "action_structs.h"
 #include "actionmanagement.h"
+#include <ncurses.h>
+#include "ui_ctx.h"
 
 typedef struct chiventure_ctx chiventure_ctx_t;
 /* Operation data type */
@@ -28,6 +30,7 @@ typedef struct
 
 #include "ctx.h"
 #include "operations.h"
+#include "print_functions.h"
 
 /* Iteratively adds each action into the table, from a
  * list of functions provided by action management
@@ -197,7 +200,7 @@ char *cmd_name_tos(cmd *c);
  * Returns:
  * - nothing - prints in stdout
  */
-void cmd_show(cmd *c);
+void cmd_show(cmd *c, chiventure_ctx_t *ctx);
 
 
 /* === command parsing === */

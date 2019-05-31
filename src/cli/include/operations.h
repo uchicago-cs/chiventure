@@ -4,6 +4,7 @@
 #include "game.h"
 #include "path.h"
 #include "actionmanagement.h"
+#include "print_functions.h"
 
 /*
  * We list all demanded operations over here.
@@ -128,7 +129,7 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  * Returns:
  *  - Said list of supported operations as a string
  */
-char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /* Validates a path is available in a room, passes an action struct on to
@@ -141,7 +142,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, looku
  * Returns:
  *  - Said list of supported operations as a string
  */
-char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /* Validates both items are in a room, passes an action struct on to
@@ -154,7 +155,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, looku
  * Returns:
  *  - Said list of supported operations as a string
  */
-char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 //char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);

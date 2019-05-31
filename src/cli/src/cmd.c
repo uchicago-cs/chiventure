@@ -105,6 +105,8 @@ void add_action_entries(lookup_t **table)
      add_entry("LOOK",look_operation, t);
      add_entry("INV", inventory_operation, t);
      add_entry("SAVE", save_operation, t);
+     add_entry("MAP", toggle_map, t);
+     add_entry("SWITCH", layout_switch, t);
      add_action_entries(t);
 
      return SUCCESS;
@@ -188,7 +190,7 @@ char *cmd_name_tos(cmd *c)
 }
 
 /* See cmd.h */
-void cmd_show(cmd *c)
+void cmd_show(cmd *c, chiventure_ctx_t *ctx)
 {
     /* note: cmd_name_tos result does not need to be freed
      * since that function returns pointers to string constants
@@ -202,7 +204,7 @@ void cmd_show(cmd *c)
     {
         if(c->tokens[i] != NULL)
         {
-            printf("%s\n",(c->tokens[i]));
+            print_to_cli(ctx, c->tokens[i]);
         }
     }
     return;
@@ -251,8 +253,25 @@ void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx)
         outstring = (*(c->func_of_cmd))(c->tokens, ctx);
         if(outstring!=NULL)
         {
-            printf("%s\n",outstring );
+            print_to_cli(ctx, outstring);
         }
     }
     return;
+}
+
+void process_string(char *string, char *input, int *quit, chiventure_ctx_t *ctx)
+{
+    cmd *c = cmd_from_string(string, ctx);
+    if (!c) {
+        shell_error_arg("unrecognized or malformed command: \"%s\"", input);
+    }
+    else {
+        do_cmd(c, &quit, ctx);
+        // Add valid input to readline history.
+        add_history(input);
+    }
+
+    if(string) {
+        free(string);
+    }
 }

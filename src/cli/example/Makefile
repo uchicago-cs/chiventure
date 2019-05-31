@@ -3,11 +3,11 @@ CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../.
 RM = rm -f
 LDLIBS = -lreadline 
 
-COMMON = -L../common/ -Wl,-rpath,../common/ -l:common.a
-CLI = -L../ -WL,-rpath,../ -l:cli.a
-AM = -L../action_management/ -Wl,-rpath,../action_management/ -l:action_management.a
-UI = -L../ui/ -Wl,-rpath,../ui/ -l:ui.a
-STLIBS = $(COMMON) $(UI) $(CLI) $(AM)
+COMMON = -L../../common/ -Wl,-rpath,../../common/ -l:common.a
+CLI = -L../ -Wl,-rpath,../ -l:cli.a
+AM = -L../../action_management/ -Wl,-rpath,../../action_management/ -l:action_management.a
+UI = -L../../ui/ -Wl,-rpath,../../ui/ -l:ui.a
+STLIBS = $(COMMON) $(CLI) $(AM) $(UI)
 
 SRCS = testshell.c
 OBJS = $(SRCS:.c=.o)

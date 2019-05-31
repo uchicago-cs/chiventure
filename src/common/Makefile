@@ -5,7 +5,6 @@ AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../game-state/include/ -I../ui/include/ -I../cli/include/ -I../action_management/include/
 RM = rm -f
 LIB = common.a
-LDLIBS =
 
 .PHONY: all clean
 

@@ -8,7 +8,7 @@
 /* ========================= */
 
 /* See shell.h */
-void help_text()
+void help_text(chiventure_ctx_t *ctx)
 {
     char p[] =
         "HERE IS A BRIEF OVERVIEW OF GAME ACTIONS (SOME NOT IMPLEMENTED)\n"
@@ -36,18 +36,18 @@ void help_text()
         "	-Saves a game to a specefied location\n"
         "QUIT\n"
         "	-Quit game\n\n";
-    printf("%s",p);
+    print_to_cli(ctx, p);
 }
 
 /* See shell.h */
-void greet()
+void greet(chiventure_ctx_t *ctx)
 {
-    printf("***** Welcome to CHIVENTURE! *****\n\n");
-    printf("NOTHING USEFULL IMPLEMENTED YET !\n\n");
+    print_to_cli(ctx, "***** Welcome to CHIVENTURE! *****\n\n");
+    print_to_cli(ctx, "NOTHING USEFULL IMPLEMENTED YET !\n\n");
 }
 
 /* See shell.h */
-void print_history()
+void print_history(chiventure_ctx_t *ctx)
 {
     int offset_start = history_base,
         offset_end = history_length;
@@ -55,7 +55,9 @@ void print_history()
     int i, j=1;
     for (i = offset_start; i <= offset_end; i++)
     {
-        printf("Entry %d: %s\n", j, history_get(i)->line);
+        print_to_cli(ctx, "Entry: ");
+        print_to_cli(ctx, j);
+        print_to_cli(ctx, history_get(i)->line);
         j++;
     }
 }
