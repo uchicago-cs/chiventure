@@ -6,9 +6,16 @@
 /* See room.h */
 room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
     room_t *room = malloc(sizeof(room_t));
-    room->room_id = room_id;
-    room->short_desc = short_desc;
-    room->long_desc = long_desc;
+    memset(room, 0, sizeof(room_t));
+
+    room->room_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
+    room->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
+    room->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
+
+    strcpy(room->room_id, room_id);
+    strcpy(room->short_desc, short_desc);
+    strcpy(room->long_desc, long_desc);
+
     room->items = NULL;
     room->paths = NULL;
     return room;
@@ -118,3 +125,16 @@ path_t *list_paths(room_t *room) {
 * check path for equal
 * see item.h for fxn that checks equality
 */
+
+/* See room.h */
+item_list_t *get_all_items_in_room(room_t *room) {
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, room->items, curr_item, ITTMP_ITEMRM) {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
+    }
+    return head;
+}
