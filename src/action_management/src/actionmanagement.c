@@ -52,100 +52,110 @@ void action_type_free(action_type_t *a)
 
 /* KIND 1
  * See actionmanagement.h */
-char *do_item_action(game_t *g, action_type_t *a, item_t *i)
+int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
 {
     // a couple confirmation checks
     assert(g);
     assert(g->curr_player); // needed for sprint 4
     assert(a);
     assert(i);
-    char *ret_string = malloc(100); // buffer
-    ret_string[0] = '\0';
+    char *string = malloc(100); // buffer
+    string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM) {
-        strcat(ret_string, "The action type provided is not of the correct kind");
-        return ret_string;
+        strcat(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return FAILURE;
     }
     // checks if the action can be used on the item
     int allowed = allowed_action(i, a->c_name);
     if (allowed != SUCCESS) {
-        strcat(ret_string, "Action ");
-        strcat(ret_string, a->c_name);
-        strcat(ret_string, "can't be requested on item ");
-        strcat(ret_string, i->item_id);
-        return ret_string;
+        strcat(string, "Action ");
+        strcat(string, a->c_name);
+        strcat(string, "can't be requested on item ");
+        strcat(string, i->item_id);
+        *ret_string = string;
+        return FAILURE;
     }
     /* TODO: implement the rest of this function, using game_state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Requested action ");
-    strcat(ret_string, a->c_name);
-    strcat(ret_string, " on item ");
-    strcat(ret_string, i->item_id);
-    return ret_string;
+    strcat(string, "Requested action ");
+    strcat(string, a->c_name);
+    strcat(string, " on item ");
+    strcat(string, i->item_id);
+    *ret_string = string;
+    return SUCCESS;
 }
 
 
 /* KIND 2
  * See actionmanagement.h */
-char *do_path_action(game_t *g, action_type_t *a, path_t *p)
+int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
 {
     assert(g);
     assert(g->curr_player);
     assert(a);
-    char *ret_string = malloc(100); // buffer
-    ret_string[0] = '\0';
+    char *string = malloc(100); // buffer
+    string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != PATH) {
-        strcat(ret_string, "The action type provided is not of the correct kind");
-        return ret_string;
+        strcat(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return FAILURE;
     }
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Requested action ");
-    strcat(ret_string, a->c_name);
-    strcat(ret_string, " in direction ");
-    strcat(ret_string, p->direction);
-    strcat(ret_string, " into room ");
-    strcat(ret_string, p->dest->room_id);
-    return ret_string;
+    strcat(string, "Requested action ");
+    strcat(string, a->c_name);
+    strcat(string, " in direction ");
+    strcat(string, p->direction);
+    strcat(string, " into room ");
+    strcat(string, p->dest->room_id);
+    *ret_string = string;
+    return SUCCESS;
 
 }
+
+
 /* KIND 3
  * See actionmanagement.h */
-char *do_item_item_action(game_t *g, action_type_t *a,
-                        item_t *direct, item_t *indirect)
+int do_item_item_action(game_t *g, action_type_t *a, item_t *direct, 
+                          item_t *indirect, char **ret_string)
 {
     assert(g);
     assert(a);
     assert(g->curr_player); // needed for sprint 4
     assert(direct);
     assert(indirect);
-    char *ret_string = malloc(100); // buffer
-    ret_string[0] = '\0';
+    char *string = malloc(100); // buffer
+    string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
-        strcat(ret_string, "The action type provided is not of the correct kind");
-        return ret_string;
+        strcat(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return FAILURE;
     }
     // checks if the action can be used on the item
     int allowed = allowed_action(indirect, a->c_name);
     if (allowed != SUCCESS) {
-        strcat(ret_string, "Action ");
-        strcat(ret_string, a->c_name);
-        strcat(ret_string, "can't be requested on item ");
-        strcat(ret_string, indirect->item_id);
-        return ret_string;
+        strcat(string, "Action ");
+        strcat(string, a->c_name);
+        strcat(string, "can't be requested on item ");
+        strcat(string, indirect->item_id);
+        *ret_string = string;
+        return FAILURE;
     }
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Requested action ");
-    strcat(ret_string, a->c_name);
-    strcat(ret_string, " with ");
-    strcat(ret_string, direct->item_id);
-    strcat(ret_string, " on ");
-    strcat(ret_string, indirect->item_id);
-    return ret_string;
+    strcat(string, "Requested action ");
+    strcat(string, a->c_name);
+    strcat(string, " with ");
+    strcat(string, direct->item_id);
+    strcat(string, " on ");
+    strcat(string, indirect->item_id);
+    *ret_string = string;
+    return SUCCESS;
 }
