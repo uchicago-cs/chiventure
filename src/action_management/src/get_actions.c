@@ -46,11 +46,11 @@ list_action_type_t *get_supported_actions()
 
 /* THIS FUNCTION IS USED IN TEST_GET_ACTIONS.C
  * BUT IS LEFT HERE FOR REFERENCE
-
-action_type_t *search_supported_actions(char *query)
+ * head: SHOULD BE GET_SUPPORTED_ACTIONS()
+ * query: SHOULD BE A VALID LOWERCASE ACTION STRING C_NAME, e.g. "go", "pull", "open"
+action_type_t *search_supported_actions(list_action_type_t* head, char *query)
 {
-    list_action_type_t *head, *temp;
-    head = get_supported_actions();
+    list_action_type_t *temp;
     for (temp = head; temp != NULL; temp = temp->next)
     {
         if (strcmp(temp->c_name,query) == 0)
