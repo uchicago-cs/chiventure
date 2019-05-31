@@ -5,8 +5,6 @@
 #include "path.h"
 #include "actionmanagement.h"
 
-//typedef lookup_entry lookup_t;
-
 /*
  * We list all demanded operations over here.
  * All meta operations must be defined here.
@@ -25,7 +23,7 @@
  * to a look up table even though these parameters are unused.
  * This is to keep the type of operation consistent, since it
  * is used in the lookup_t struct
- * /
+ */
 
 /*
  * Quits the game
@@ -85,6 +83,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
+
 /*
  * Returns a description of either a specefied item, or the room
  * if no item was specified
@@ -139,6 +138,7 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
  */
 char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 
+
 /* Validates a path is available in a room, passes an action struct on to
  * action management's function that handles ACTION PATH
  *
@@ -152,6 +152,7 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, looku
  */
 char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 
+
 /* Validates both items are in a room, passes an action struct on to
  * action management's function that handles ACTION ITEM ITEM
  *
@@ -164,6 +165,8 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, looku
  * - Said list of supported operations as a string
  */
 char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+
+
 //char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */

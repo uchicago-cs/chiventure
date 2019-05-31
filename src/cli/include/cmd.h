@@ -38,8 +38,8 @@ typedef struct
  * Returns:
  * - nothing
  */
-
 void add_action_entries(lookup_t **table);
+
 
 /* Adds entry into hashtable
  *
@@ -51,6 +51,7 @@ void add_action_entries(lookup_t **table);
  * - nothing
  */
 void add_entry(char *command_name, operation *associated_operation, lookup_t **table);
+
 
 /* Finds entry in hashtable with the given name.
  *
@@ -74,6 +75,8 @@ lookup_t *find_entry(char *command_name, lookup_t **table);
  * - a pointer to the corresponding operation
  */
 operation *find_operation(char *command_name, lookup_t **table);
+
+
 /* Finds action in hashtable corresponding to the given name.
  *
  *
@@ -85,7 +88,6 @@ operation *find_operation(char *command_name, lookup_t **table);
  * - NULL if the command is not an action.
  */
 action_type_t *find_action(char *command_name, lookup_t **table);
-/*  Commented out until action_t is ready.*/
 
 
 /* Deletes entry from hashtable. Doesn't get rid of synonyms.
@@ -98,6 +100,7 @@ action_type_t *find_action(char *command_name, lookup_t **table);
  * - nothing
  */
 void delete_entry(char *command_name, lookup_t **table);
+
 
 /* Clears out the entire table, and frees it too!
  *
@@ -204,5 +207,6 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table);
  * - nothing -> output handled elsewhere
  */
 void do_cmd(cmd *c,int *quit, game_t *game, lookup_t **table);
+
 
 #endif /* _CLI_INCLUDE_CMD_H */

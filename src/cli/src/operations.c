@@ -40,14 +40,14 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
-    if(tokens[1]==NULL)
+    if(tokens[1] == NULL)
     {
         return game->curr_room->long_desc;
     }
     item_t *curr_item;
     ITER_ALL_ITEMS_IN_ROOM(game->curr_room, curr_item)
     {
-        if (strcmp(curr_item->item_id,tokens[1])==0)
+        if (strcmp(curr_item->item_id,tokens[1]) == 0)
         {
             return curr_item->long_desc;
         }
@@ -58,14 +58,14 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
 //KIND 1:   ACTION <item>
 char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
-    if(tokens[1]==NULL)
+    if(tokens[1] == NULL)
     {
         return "You must identify an object to act on\n";
     }
     item_t *curr_item;
     ITER_ALL_ITEMS_IN_ROOM(game->curr_room, curr_item)
     {
-        if (strcmp(curr_item->item_id,tokens[1])==0)
+        if (strcmp(curr_item->item_id,tokens[1]) ==0 )
         {
             action_type_t *action = find_action(tokens[0], table);
             do_item_action(game, action, curr_item);
@@ -81,7 +81,7 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
-        if (strcmp(curr_path->direction,tokens[1])==0)
+        if (strcmp(curr_path->direction,tokens[1]) == 0)
         {
             action_type_t *action = find_action(tokens[0], table);
             do_path_action(game, action, curr_path);
@@ -94,7 +94,7 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 //KIND 3:   ACTION <item> <item>
 char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
-    if(tokens[1]==NULL || tokens[3]==NULL)
+    if(tokens[1] == NULL || tokens[3] == NULL)
     {
         return "You must identify two objects to act on";
     }
@@ -104,7 +104,7 @@ char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 
     ITER_ALL_ITEMS_IN_ROOM(game->curr_room, item1)
     {
-        if (strcmp(item1->item_id,tokens[1])==0)
+        if (strcmp(item1->item_id,tokens[1]) == 0)
         {
             find_it1 = 0;
         }

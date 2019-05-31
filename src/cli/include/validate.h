@@ -28,6 +28,7 @@
  */
 cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
 
+
 /*
  * Checks that a specified filetype is a .dat file
  *

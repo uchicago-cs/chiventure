@@ -52,7 +52,10 @@ lookup_t *find_entry(char *command_name, lookup_t **table)
 operation *find_operation(char *command_name, lookup_t **table)
 {
     lookup_t *t;
-    if ((t = find_entry(command_name, table))) return t->operation_type;
+    if((t = find_entry(command_name, table))) 
+    {
+        return t->operation_type;
+    }
     return NULL;
 }
 
@@ -101,8 +104,8 @@ cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE])
     cmd *c = (cmd*)malloc(sizeof(cmd));
     if(c == NULL)
     {
-        fprintf(stderr,"error (cmd_tag): malloc failed\n");
-        exit(1);
+        fprintf(stderr,"error: malloc failed\n");
+        return NULL;
     }
     c->tokens=tokens;
     return c;
@@ -111,10 +114,17 @@ cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE])
 /* See cmd.h */
 void cmd_free(cmd *c)
 {
-    if(c == NULL || c->tokens == NULL) return;
+    if(c == NULL || c->tokens == NULL)
+    {
+        return;
+    }
+
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
-        if(c->tokens[i] != NULL) free(c->tokens[i]);
+        if(c->tokens[i] != NULL)
+        {
+            free(c->tokens[i]);
+        }
     }
     free(c);
 }
@@ -125,7 +135,10 @@ void cmd_free(cmd *c)
 /* See cmd.h */
 char *cmd_name_tos(cmd *c)
 {
-    if(c == NULL || c->tokens == NULL || c->tokens[0] == NULL) return "ERROR";
+    if(c == NULL || c->tokens == NULL || c->tokens[0] == NULL) 
+    {
+        return "ERROR";
+    }
     return c->tokens[0];
 }
 
@@ -135,10 +148,17 @@ void cmd_show(cmd *c)
     /* note: cmd_name_tos result does not need to be freed
      * since that function returns pointers to string constants
      */
-    if (c == NULL || c->tokens == NULL) return;
+    if (c == NULL || c->tokens == NULL)
+    {
+        return;
+    }
+
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
-        if (c->tokens[i] != NULL) printf("%s\n",(c->tokens[i]));
+        if(c->tokens[i] != NULL)
+        {
+            printf("%s\n",(c->tokens[i]));
+        }
     }
     return;
 }
@@ -184,7 +204,9 @@ void do_cmd(cmd *c,int *quit, game_t *game, lookup_t **table)
     {
         outstring = (*(c->func_of_cmd))(c->tokens, game, table);
         if(outstring!=NULL)
+        {
             printf("%s\n",outstring );
+        }
     }
     return;
 }
