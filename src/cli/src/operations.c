@@ -59,7 +59,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 //KIND 1:   ACTION <item>
-char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     game_t *game = ctx->game;
     lookup_t **table = ctx->table;
@@ -82,7 +82,7 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 }
 
 //KIND 2:   ACTION <direction>
-char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     game_t *game = ctx->game;
     lookup_t **table = ctx->table;
@@ -101,7 +101,7 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 }
 
 //KIND 3:   ACTION <item> <item>
-char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     game_t *game = ctx->game;
     lookup_t **table = ctx->table;
@@ -116,11 +116,11 @@ char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 
     ITER_ALL_ITEMS_IN_ROOM(game->curr_room, item1)
     {
-        if (strcmp(item1->item_id,tokens[1]) == 0)
+        if(strcmp(item1->item_id,tokens[1]) == 0)
         {
             find_it1 = 0;
         }
-        if (strcmp(item2->item_id,tokens[3])==0)
+        if(strcmp(item2->item_id,tokens[3]) == 0)
         {
             find_it2 = 0;
         }
@@ -157,7 +157,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 //Because action managment does not support NPCs type 4 is not supported
-//char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+//char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 //{
 //    printf("%s\n",tokens[0] );
 //    return "is an action!";
