@@ -3,9 +3,9 @@
 #Based off Makefile template from libobj which is from https://gist.github.com/xuhdev/1873316#
 
 CC = gcc
+AR = ar
 SRCS = src/actionmanagement.c src/get_actions.c
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../action_management/include/
-LDFLAGS = -shared
+CFLAGS = -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/
 OBJS = $(SRCS:.c=.o)
 LIB = action_management.a
 RM = rm -f
@@ -14,7 +14,7 @@ RM = rm -f
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	ar -r -o $@ $(OBJS)
+	$(AR) rcs $@ $^ 
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
