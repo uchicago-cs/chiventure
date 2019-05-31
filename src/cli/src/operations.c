@@ -108,7 +108,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
         {
             find_it1 = 0;
         }
-        if (strcmp(item2->item_id,tokens[3])==0)
+        if (strcmp(item2->item_id,tokens[3]) == 0)
         {
             find_it2 = 0;
         }
