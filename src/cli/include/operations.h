@@ -136,7 +136,7 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
  * Returns:
  * - Said list of supported operations as a string
  */
-char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 
 
 /* Validates a path is available in a room, passes an action struct on to
@@ -150,7 +150,7 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, looku
  * Returns:
  * - Said list of supported operations as a string
  */
-char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 
 
 /* Validates both items are in a room, passes an action struct on to
@@ -164,9 +164,9 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, looku
  * Returns:
  * - Said list of supported operations as a string
  */
-char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 
 
-//char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+//char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */

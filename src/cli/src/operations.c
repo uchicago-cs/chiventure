@@ -56,7 +56,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
 }
 
 //KIND 1:   ACTION <item>
-char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     if(tokens[1] == NULL)
     {
@@ -76,7 +76,7 @@ char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 //KIND 2:   ACTION <direction>
-char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
@@ -92,7 +92,7 @@ char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
 }
 
 //KIND 3:   ACTION <item> <item>
-char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     if(tokens[1] == NULL || tokens[3] == NULL)
     {
@@ -143,7 +143,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t 
 }
 
 //Because action managment does not support NPCs type 4 is not supported
-//char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
+//char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 //{
 //    printf("%s\n",tokens[0] );
 //    return "is an action!";
