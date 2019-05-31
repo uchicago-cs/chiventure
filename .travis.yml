@@ -1,10 +1,14 @@
 dist: xenial
 addons:
   apt:
+    sources:
+      - sourceline: 'ppa:snaipewastaken/ppa'
     packages:
       - libyaml-dev
       - protobuf-compiler
       - protobuf-c-compiler
+      - criterion-dev
+      - criterion
 
 branches:
   only:
@@ -16,3 +20,7 @@ compiler: gcc
 
 script:
   - make
+  - cd src/game-state/
+  - make tests
+  - tests/test-libgamestate
+  - cd ../../
