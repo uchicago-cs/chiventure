@@ -8,10 +8,11 @@
 #include "item.h"
 #include "game.h"
 
-bool execute_do_item_item_action(char *c_name, enum action_kind kind)
+bool execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, enum action_kind allowed_kind1, char *allowed_act_name2, enum action_kind allowed_kind2)
 {
     game_t *g = game_new;
     action_type_t *a = action_type_new(c_name, kind);
+    action_type_t *allowed_a = action_type_new(act_name, kind);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
     item_t *indirect = item_new("indirect", "The indirect item", "The indirectmost object of interest");
 
