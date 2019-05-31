@@ -20,6 +20,7 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
 room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
 
     room_t *room = malloc(sizeof(room_t));
+    memset(room, 0, sizeof(room_t));
     room->room_id = malloc(MAX_ID_LEN);
     room->short_desc = malloc(MAX_SDESC_LEN);
     room->long_desc = malloc(MAX_LDESC_LEN);
@@ -179,4 +180,17 @@ room_t *find_room_from_dir(room_t *curr, char* direction) {
     path_t *path = path_search(curr, direction);
     room_t *room_adj = find_room_from_path(path);
     return room_adj;
+}
+
+/* See room.h */
+item_list_t *get_all_items_in_room(room_t *room) {
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, room->items, curr_item, ITTMP_ITEMRM) {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
+    }
+    return head;
 }

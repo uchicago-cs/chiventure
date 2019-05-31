@@ -20,7 +20,8 @@ int item_init(item_t *new_item, char *item_id, char *short_desc,
 item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 {
     item_t *new_item = malloc(sizeof(item_t));
-    new_item->item_id = malloc(MAX_ID_LEN * sizeof(char));
+    memset(new_item, 0, sizeof(item_t));
+    new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
 
@@ -497,6 +498,39 @@ int delete_all_items(item_hash_t items) {
     HASH_ITER(hh, items, current_item, tmp) {
         HASH_DEL(items, current_item);  /* deletes (items advances to next) */
         item_free(current_item);             /* free it */
+    }
+    return SUCCESS;
+}
+
+/* See item.h */
+attribute_list_t *get_all_attributes(item_t *item) {
+    attribute_list_t *head = NULL;
+    attribute_t *ITTMP_ATTR, *curr_attribute;
+    attribute_list_t *tmp;
+    HASH_ITER(hh, item->attributes, curr_attribute, ITTMP_ATTR) {
+        tmp = malloc(sizeof(attribute_list_t));
+        tmp->attribute = curr_attribute;
+        LL_APPEND(head, tmp);
+    }
+    return head;
+}
+
+/* See item.h */
+int delete_attribute_llist(attribute_list_t *head) {
+    attribute_list_t *elt, *tmp;
+    LL_FOREACH_SAFE(head, elt, tmp) {
+        LL_DELETE(head, elt);
+        free(elt);
+    }
+    return SUCCESS;
+}
+
+/* See item.h */
+int delete_item_llist(item_list_t *head) {
+    item_list_t *elt, *tmp;
+    LL_FOREACH_SAFE(head, elt, tmp) {
+        LL_DELETE(head, elt);
+        free(elt);
     }
     return SUCCESS;
 }

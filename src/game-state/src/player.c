@@ -18,6 +18,7 @@ int player_init(player_t* plyr, char* player_id, int health) {
 player_t* player_new(char* player_id, int health) {
     player_t *plyr;
     plyr = malloc(sizeof(player_t));
+    memset(plyr, 0, sizeof(player_t));
     plyr->player_id = malloc(MAX_ID_LEN);
 
     int check = player_init(plyr, player_id, health);
@@ -111,4 +112,17 @@ int add_item_to_player(player_t *player, item_t *item) {
 		strlen(item->item_id), item);
     return SUCCESS;
 
+}
+
+/* See player.h */
+item_list_t *get_all_items_in_inventory(player_t *player) {
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, player->inventory, curr_item, ITTMP_ITEMRM) {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
+    }
+    return head;
 }

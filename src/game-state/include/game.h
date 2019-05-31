@@ -125,7 +125,6 @@ int add_room_to_game(game_t *game, room_t *room);
 int create_connection(game_t *game, char* src_room, char* dest_room,
     char* direction);
 
-
 /*
 *
 * Set current player in game
@@ -179,6 +178,18 @@ room_list_t *get_all_rooms(game_t *game);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int delete_room_llist(room_list_t *list);
+int delete_room_llist(room_list_t *head);
+
+/*
+ * Function to get a linked list (utlist) of all the items in the game
+ * THIS WORKS ONLY IF THERE ARE NO SHARED ITEMS
+ *
+ * Parameters:
+ *  game
+ *
+ * Returns:
+ *  linked list of pointers to items (the head element)
+ */
+item_list_t *get_all_items_in_game(game_t *game);
 
 #endif

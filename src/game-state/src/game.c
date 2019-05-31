@@ -5,9 +5,9 @@
 /* see game.h */
 game_t *game_new(char *desc) {
     game_t *game = malloc(sizeof(game_t));
-    game->all_players = NULL; //helper fxn to get list of players
-    game->all_rooms = NULL;
+    memset(game, 0, sizeof(game_t));
     game->start_desc = strndup(desc, MAX_START_DESC_LEN);
+
     /* read from the file using interface from WDL team */
 
     return game;
@@ -142,3 +142,20 @@ int delete_room_llist(room_list_t *head) {
     }
     return SUCCESS;
 }
+
+/* See game.h */
+item_list_t *get_all_items_in_game(game_t *game) {
+    item_list_t *items = NULL, *items_tmp = NULL;
+    room_list_t *rooms = get_all_rooms(game);
+    room_list_t *roomwrapped;
+    LL_FOREACH(rooms, roomwrapped) {
+        items_tmp = get_all_items_in_room(roomwrapped->room);
+        LL_CONCAT(items, items_tmp);
+    }
+    /* **** If multiplayer/npc is supported in the furture,
+            please add get_all_players() and modify this    **** */
+    items_tmp = get_all_items_in_inventory(game->curr_player);
+    LL_CONCAT(items, items_tmp);
+    return items;
+}
+

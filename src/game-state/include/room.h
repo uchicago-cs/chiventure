@@ -249,4 +249,15 @@ room_t *find_room_from_dir(room_t *curr, char* direction);
 */
 item_t* get_item_in_room(room_t* room, char* item_id);
 
+/*
+ * Function to get a linked list (utlist) of all the items in the room
+ *
+ * Parameters:
+ *  room
+ *
+ * Returns:
+ *  linked list of pointers to items (the head element)
+ */
+item_list_t *get_all_items_in_room(room_t *room);
+
 #endif
