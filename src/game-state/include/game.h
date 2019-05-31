@@ -125,6 +125,7 @@ int add_room_to_game(game_t *game, room_t *room);
 int create_connection(game_t *game, char* src_room, char* dest_room,
     char* direction);
 
+
 /*
 *
 * Set current player in game
@@ -137,6 +138,7 @@ int create_connection(game_t *game, char* src_room, char* dest_room,
 */
 int set_curr_player(game_t *game, player_t *player);
 
+
 /*
 * Function to find player given game and player id
 * Parameters:
@@ -148,7 +150,6 @@ int set_curr_player(game_t *game, player_t *player);
 player_t *get_player(game_t *game, char *player_id);
 
 /*
-<<<<<<< HEAD
 * Function to find room from all_rooms
 * Parameters:
 * Game, room_id
@@ -159,8 +160,6 @@ player_t *get_player(game_t *game, char *player_id);
 room_t *find_room_from_game(game_t *game, char* room_id);
 
 /*
-=======
->>>>>>> master
  * Function to get a linked list (utlist) of all the rooms in the game
  *
  * Parameters:
