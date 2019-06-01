@@ -4,7 +4,7 @@
 
 CC = gcc
 AR = ar
-SRCS = src/actionmanagement.c src/get_actions.c
+SRCS = src/actionmanagement.c src/get_actions.c ../game-state/src/item.c
 CFLAGS = -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/
 OBJS = $(SRCS:.c=.o)
 LIB = action_management.a
@@ -21,7 +21,11 @@ $(SRCS:.c=.d):%.d:%.c
 
 -include $(SRCS:.c=.d)
 
-.PHONY: clean
+.PHONY: clean tests
 
 clean:
-	${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
+	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
+	make -C ./tests clean
+
+tests: $(LIB)
+	make -C ./tests
