@@ -24,10 +24,10 @@ action_type_t *search_supported_actions(char *query)
 Test(get_actions, search_success)
 {
     action_type_t *open, *consume, *go, *use_on;
-    open = search_supported_actions("open");
-    consume = search_supported_actions("consume");
-    go = search_supported_actions("go");
-    use_on = search_supported_actions("use on");
+    open = search_supported_actions("OPEN");
+    consume = search_supported_actions("CONSUME");
+    go = search_supported_actions("GO");
+    use_on = search_supported_actions("USE_ON");
 
     cr_assert_neq(open, NULL, 
                   "search_supported_actions returned a null for query \"open\".\n");
