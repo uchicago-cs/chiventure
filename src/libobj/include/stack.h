@@ -1,3 +1,6 @@
+#ifndef INCLUDE_STACK_H
+#define INCLUDE_STACK_H
+
 #include "obj.h"
 
 /* A stack frame to keep track of attribute prefix strings */
@@ -74,6 +77,4 @@ int stackobj_free(stackobj_t *sobj);
  */
 int stack_free(stack_t *stack);
 
-
-
-
+#endif /* INCLUDE_STACK_H */
