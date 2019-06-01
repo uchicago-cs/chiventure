@@ -7,7 +7,7 @@ RM = rm -f
 BIN = test-actionmanagement
 LIBS = -lactionmanagement -lcriterion
 
-SRCS = main.c test_get_actions.c
+SRCS = main.c test_get_actions.c test_path_actions.c
 OBJS = $(SRCS:.c=.o) 
 
 .PHONY: all
