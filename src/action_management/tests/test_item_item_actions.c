@@ -25,7 +25,7 @@ bool execute_do_item_item_action(char *act_name, enum action_kind kind, char *al
     char *expected_output = malloc(100); // buffer
     expected_output[0] = '\0';
     strcat(expected_output, "Requested action ");
-    strcat(expected_output, act_name);
+    strcat(expected_output, a->c_name);
     strcat(expected_output, " with ");
     strcat(expected_output, direct->item_id);
     strcat(expected_output, " on ");
@@ -84,7 +84,7 @@ Test(item_item_actions, correct_allowed_actions)
                  "execute_do_item_item_action returned false for correct allowed actions in indirect and direct");
 }
 
-Test(item_item_actions, wrong_allowed_actions_direct_name)
+Test(item_item_actions, wrong_allowed_actions_direct)
 {
     bool rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy", ITEM_ITEM);
 
@@ -92,7 +92,7 @@ Test(item_item_actions, wrong_allowed_actions_direct_name)
                  "execute_do_item_item_action returned true for incorrect allowed actions name in direct");
 }
 
-Test(item_item_actions, wrong_allowed_actions_indirect_name)
+Test(item_item_actions, wrong_allowed_actions_indirect)
 {
     bool rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM);
 
@@ -100,34 +100,10 @@ Test(item_item_actions, wrong_allowed_actions_indirect_name)
                  "execute_do_item_item_action returned true for incorrect allowed actions name in indirect");
 }
 
-Test(item_item_actions, wrong_allowed_actions_name)
+Test(item_item_actions, wrong_allowed_actions)
 {
     bool rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy_allowed", ITEM_ITEM);
 
     cr_assert_eq(rc, false,
                  "execute_do_item_item_action returned true for incorrect allowed actions name in indirect and direct");
-}
-
-Test(item_item_actions, wrong_allowed_actions_direct_kind)
-{
-    bool rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy_allowed", ITEM, "dummy", ITEM_ITEM);
-
-    cr_assert_eq(rc, false,
-                 "execute_do_item_item_action returned true for incorrect allowed actions kind in direct");
-}
-
-Test(item_item_actions, wrong_allowed_actions_indirect_kind)
-{
-    bool rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM, "dummy_allowed", ITEM);
-
-    cr_assert_eq(rc, false,
-                 "execute_do_item_item_action returned true for incorrect allowed actions kind in indirect");
-}
-
-Test(item_item_actions, wrong_allowed_actions_kind)
-{
-    bool rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy_allowed", ITEM, "dummy_allowed", PATH);
-
-    cr_assert_eq(rc, false,
-                 "execute_do_item_item_action returned true for incorrect allowed actions kind in indirect and direct");
 }
