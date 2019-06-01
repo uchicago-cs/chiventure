@@ -68,7 +68,7 @@ int load_items(obj_t *doc, game_t *g)
 	    }
 
         //retrieve the pointer for the room that the item is located in
-        room_t *item_room = find_room(g, in);
+        room_t *item_room = find_room_from_game(g, in);
 
         // add item to room
         add_item_to_room(item_room, item);
