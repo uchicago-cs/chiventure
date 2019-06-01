@@ -3,6 +3,7 @@
 #include "parser.h"
 
 #include "game.h"
+#include "room.h"
 #include "uthash.h"
 #include "action_structs.h"
 #include "actionmanagement.h"

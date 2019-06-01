@@ -2,6 +2,7 @@
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
 #include "game.h"
+#include "room.h"
 #include "path.h"
 #include "actionmanagement.h"
 
