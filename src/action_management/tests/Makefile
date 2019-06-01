@@ -5,7 +5,7 @@ CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I ../
 LFLAGS = -L ..
 RM = rm -f
 BIN = test-actionmanagement
-LIBS = -lactionmanagement -lcriterion
+LIBS = -l:action_management.a -lcriterion
 
 SRCS = main.c test_get_actions.c test_path_actions.c
 OBJS = $(SRCS:.c=.o) 
