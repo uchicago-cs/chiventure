@@ -7,7 +7,7 @@ AR = ar
 SRCS = src/actionmanagement.c src/get_actions.c ../game-state/src/item.c
 CFLAGS = -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/
 OBJS = $(SRCS:.c=.o)
-LIB = libactionmanagement.a
+LIB = action_management.a
 RM = rm -f
 
 .PHONY: all
