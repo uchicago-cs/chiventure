@@ -11,7 +11,6 @@ static action_type_t valid_actions[] = {
     {"CLOSE", ITEM},
     {"PUSH", ITEM},
     {"PULL", ITEM},
-    {"EXAMINE", ITEM},
     {"TURN_ON", ITEM},
     {"TURN_OFF", ITEM},
     {"TAKE", ITEM},
