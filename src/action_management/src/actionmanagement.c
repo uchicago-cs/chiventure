@@ -120,7 +120,7 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     assert(g->curr_player); // needed for sprint 4
     assert(direct);
     assert(indirect);
-    char *ret_string = malloc(100); // buffer
+    char *ret_string = malloc(1000); // buffer
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
@@ -133,7 +133,7 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     {
         strcat(ret_string, "Action ");
         strcat(ret_string, a->c_name);
-        strcat(ret_string, "can't be requested on item ");
+        strcat(ret_string, " can't be requested on item ");
         strcat(ret_string, direct->item_id);
         return ret_string;
     }
@@ -142,7 +142,7 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     if (allowed != SUCCESS) {
         strcat(ret_string, "Action ");
         strcat(ret_string, a->c_name);
-        strcat(ret_string, "can't be requested on item ");
+        strcat(ret_string, " can't be requested on item ");
         strcat(ret_string, indirect->item_id);
         return ret_string;
     }
