@@ -16,6 +16,8 @@ Test(action_type, new_init_ITEM)
 
     cr_assert_eq(new_action->c_name, "EAT", "action_type_new() didn't set new_action->c_name");
     cr_assert_eq(new_action->kind, ITEM, "action_type_new() didn't set new_action->kind");
+
+    action_type_free(new_action);
 }
 
 
@@ -31,6 +33,8 @@ Test(action_type, new_init_PATH)
 
     cr_assert_eq(new_action->c_name, "GO", "action_type_new() didn't set new_action->c_name");
     cr_assert_eq(new_action->kind, PATH, "action_type_new() didn't set new_action->kind");
+
+    action_type_free(new_action);
 }
 
 
@@ -47,6 +51,8 @@ Test(action_type, new_init_ITEM_ITEM)
 
     cr_assert_eq(new_action->c_name, "USE_ON", "action_type_new() didn't set new_action->c_name");
     cr_assert_eq(new_action->kind, ITEM_ITEM, "action_type_new() didn't set new_action->kind");
+
+    action_type_free(new_action);
 }
 
 /* Checks that a new action type, kind 1 is freed without interruption */
