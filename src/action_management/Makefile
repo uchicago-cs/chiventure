@@ -4,24 +4,28 @@
 
 CC = gcc
 AR = ar
-SRCS = src/actionmanagement.c src/get_actions.c
+SRCS = src/actionmanagement.c src/get_actions.c ../game-state/src/item.c
 CFLAGS = -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/
 OBJS = $(SRCS:.c=.o)
-LIB = action_management.a
+LIB = libactionmanagement.a
 RM = rm -f
 
 .PHONY: all
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	$(AR) rcs $@ $^ 
+	$(AR) -r -o $@ $(OBJS) 
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(SRCS:.c=.d)
 
-.PHONY: clean
+.PHONY: clean tests
 
 clean:
-	${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
+	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
+	make -C ./tests clean
+
+tests: $(LIB)
+	make -C ./tests
