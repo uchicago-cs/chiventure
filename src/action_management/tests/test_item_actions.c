@@ -22,9 +22,8 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
     char *expected_output = malloc(100); // buffer
     expected_output[0] = '\0';
     strcat(expected_output, "Requested action ");
-    strcat(expected_output, act_name);
-    strcat(expected_output, " on ");
-    strcat(expected_output, "item");
+    strcat(expected_output, a->c_name);
+    strcat(expected_output, " on item ");
     strcat(expected_output, item->item_id);
 
     bool rc;
@@ -39,10 +38,9 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
 
     free(expected_output);
     item_free(item);
-    action_type_free(a);
-    action_type_free(allowed_a);
+    //action_type_free(a);
+    //action_type_free(allowed_a);
     game_free(g);
-    player_free(player);
 
     return rc;
 }
