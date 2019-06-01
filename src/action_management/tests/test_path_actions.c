@@ -26,7 +26,7 @@ bool execute_do_path_action(char *c_name, enum action_kind kind)
     strcat(expected_output, c_name);
     strcat(expected_output, " in direction ");
     strcat(expected_output, p->direction);
-    strcat(expected_output, " into room");
+    strcat(expected_output, " into room ");
     strcat(expected_output, p->dest->room_id);
 
     bool rc;
