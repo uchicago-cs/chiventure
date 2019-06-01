@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <signal.h>
 #include <string.h>
+#include <readline/history.h>
 #include "window.h"
 #include "ctx.h"
 #include "print_functions.h"
@@ -59,12 +60,8 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     if (cmd_string) {
         free(cmd_string);
     }
-
-
+    
     print_to_cli(ctx, ">");
-
-
-
 }
 
 /* see print_functions.h */

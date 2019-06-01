@@ -7,7 +7,7 @@ COMMON = -L../../common/ -Wl,-rpath,../../common/ -l:common.a
 CLI = -L../ -Wl,-rpath,../ -l:cli.a
 AM = -L../../action_management/ -Wl,-rpath,../../action_management/ -l:action_management.a
 UI = -L../../ui/ -Wl,-rpath,../../ui/ -l:ui.a
-STLIBS = $(COMMON) $(CLI) $(AM) $(UI)
+STLIBS = $(COMMON) $(UI) $(CLI) $(AM)
 
 SRCS = testshell.c
 OBJS = $(SRCS:.c=.o)
