@@ -41,7 +41,7 @@ message Item {
 // message Condition {
     // optional string item_id = 1; //Assuming item is already stored in a room or player, only ID is needed
     //May change when Game State update their expected_attribute
-    optional Attribute expected_attribute = 2; 
+    // optional Attribute expected_attribute = 2; 
     // Contacted with Game state, likely to be their final format
 // }
 
@@ -79,5 +79,5 @@ message Game {
     required int32 rooms_len = 4;
     optional string curr_room = 5; //ID of current room (different from struct pointer of game_state)
     optional string curr_player = 6; //ID of player (different from struct pointer of game_state)
-    optional string start_desc = 7;
+    // optional string start_desc = 7;
 }
