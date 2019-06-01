@@ -14,7 +14,7 @@ RM = rm -f
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	$(AR) rcs $@ $^ 
+	$(AR) -r -o $@ $(OBJS) 
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
