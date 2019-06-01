@@ -21,7 +21,7 @@ Test(rooms, add_rooms)
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
 
     // find a room and check sdesc and ldesc
-    room_t *r = find_room(g, "room A");
+    room_t *r = find_room_from_game(g, "room A");
     char *s = get_sdesc(r);
     char *scmp = "This is room A";
     rc = strncmp(s, scmp, strlen(scmp));
@@ -45,7 +45,7 @@ Test(rooms, add_connections)
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
 
     // find path given room and direction
-    room_t *r = find_room(g, "room A");
+    room_t *r = find_room_from_game(g, "room A");
     path_t *p = path_search(r, "north");
     char *to_id = p->dest->room_id;
     char *s = "room B";
