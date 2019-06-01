@@ -38,8 +38,8 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
 
     free(expected_output);
     item_free(item);
-    //action_type_free(a);
-    //action_type_free(allowed_a);
+    action_type_free(a);
+    action_type_free(allowed_a);
     game_free(g);
 
     return rc;
