@@ -7,7 +7,11 @@ RM = rm -f
 BIN = test-actionmanagement
 LIBS = -l:action_management.a -l:game-state.a -lcriterion
 
+<<<<<<< HEAD
 SRCS = main.c test_get_actions.c test_action_new_init_free.c test_item_item_actions.c
+=======
+SRCS = main.c test_get_actions.c test_action_new_init_free.c
+>>>>>>> actions/tests
 OBJS = $(SRCS:.c=.o) 
 
 .PHONY: all
