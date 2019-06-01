@@ -48,6 +48,24 @@ Test(item, free)
 
 }
 
+/* Checks return of short description of item */
+Test(item, get_sdesc_item)
+{
+  item_t *new_item = item_new("item", "short", "long");
+
+  char *ret = get_sdesc_item(new_item);
+  cr_assert_eq(ret, new_item->short_desc, "get_sdesc_item() failed to return short description");
+}
+
+/* Checks return of long description of item */
+Test(item, get_ldesc_item)
+{
+  item_t *new_item = item_new("item", "short", "long");
+
+  char *ret = get_ldesc_item(new_item);
+  cr_assert_eq(ret, new_item->long_desc, "get_ldesc_item() failed to return long description");
+}
+
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
 
 /* Checks adding attribute to item hash */
