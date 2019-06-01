@@ -2,10 +2,10 @@
 
 CC = gcc 
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I ../../game-state/include
-LFLAGS = -L ..
+LFLAGS = -L .. -L ../../game-state
 RM = rm -f
 BIN = test-actionmanagement
-LIBS = -l:action_management.a -lcriterion
+LIBS = -l:action_management.a -l:game-state.a -lcriterion
 
 SRCS = main.c test_get_actions.c test_action_new_init_free.c test_item_item_actions.c
 OBJS = $(SRCS:.c=.o) 
