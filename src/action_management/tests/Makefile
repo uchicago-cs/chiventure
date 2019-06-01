@@ -1,7 +1,7 @@
 # Makefile based on template at https://gist.github.com/xuhdev/1873316
 
 CC = gcc 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I ../../game-state/include
 LFLAGS = -L ..
 RM = rm -f
 BIN = test-actionmanagement
@@ -18,8 +18,6 @@ $(BIN): $(OBJS)
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< >$@
-
-include $(SRCS:.c=.d)
 
 .PHONY: clean
 clean:
