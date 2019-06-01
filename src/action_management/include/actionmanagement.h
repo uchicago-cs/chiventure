@@ -64,7 +64,6 @@ void action_type_free(action_type_t *a);
  */
 list_action_type_t *get_supported_actions();
 
-
 // =============================================================================
 
 /* A function that executes KIND 1 actions (ACTION <item>)
