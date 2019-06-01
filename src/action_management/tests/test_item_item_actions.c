@@ -10,8 +10,11 @@
 
 bool execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, enum action_kind allowed_kind1, char *allowed_act_name2, enum action_kind allowed_kind2)
 {
+    player_t *player = player_new("player", 1);
     game_t *g = game_new("a dummy game");
-    action_type_t *a = action_type_new(c_name, kind);
+    add_player_to_game(g, player);
+    set_curr_player(g, player);
+    action_type_t *a = action_type_new(act_name, kind);
     action_type_t *allowed_a1 = action_type_new(allowed_act_name1, allowed_kind1);
     action_type_t *allowed_a2 = action_type_new(allowed_act_name2, allowed_kind2);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
