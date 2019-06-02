@@ -51,7 +51,7 @@ void action_type_free(action_type_t *a);
 
 // =============================================================================
 
-/* 
+/*
  * Note: this function is in the src file get_actions.c, a separate module
  * from the rest of the functions, which are in actionmanagement.c.
  * A function that returns all supported actions.
