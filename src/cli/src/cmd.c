@@ -258,20 +258,3 @@ void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx)
     }
     return;
 }
-
-void process_string(char *string, char *input, int *quit, chiventure_ctx_t *ctx)
-{
-    cmd *c = cmd_from_string(string, ctx);
-    if (!c) {
-        shell_error_arg("unrecognized or malformed command: \"%s\"", input);
-    }
-    else {
-        do_cmd(c, &quit, ctx);
-        // Add valid input to readline history.
-        add_history(input);
-    }
-
-    if(string) {
-        free(string);
-    }
-}
