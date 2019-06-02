@@ -43,21 +43,3 @@ list_action_type_t *get_supported_actions()
     return temp;
 }
 
-/* THIS FUNCTION IS USED IN TEST_GET_ACTIONS.C
- * BUT IS LEFT HERE FOR REFERENCE
- * head: SHOULD BE GET_SUPPORTED_ACTIONS()
- * query: SHOULD BE A VALID ACTION STRING C_NAME, e.g. "GO", "PULL", "OPEN"
-action_type_t *search_supported_actions(list_action_type_t* head, char *query)
-{
-    list_action_type_t *temp;
-    for (temp = head; temp != NULL; temp = temp->next)
-    {
-        if (strcmp(temp->c_name,query) == 0)
-        {
-            return temp;
-        }
-    }
-    return NULL;
-}
-
-*/
