@@ -5,6 +5,8 @@
 #include "actionmanagement.h"
 #include "common.h"
 
+#define BUFFER_SIZE (100)
+
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind)
 {
@@ -59,7 +61,7 @@ char *do_item_action(game_t *g, action_type_t *a, item_t *i)
     assert(g->curr_player); // needed for sprint 4
     assert(a);
     assert(i);
-    char *ret_string = malloc(100); // buffer
+    char *ret_string = malloc(BUFFER_SIZE); // buffer
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM) {
@@ -93,7 +95,7 @@ char *do_path_action(game_t *g, action_type_t *a, path_t *p)
     assert(g);
     assert(g->curr_player);
     assert(a);
-    char *ret_string = malloc(100); // buffer
+    char *ret_string = malloc(BUFFER_SIZE); // buffer
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != PATH) {
@@ -122,7 +124,7 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     assert(g->curr_player); // needed for sprint 4
     assert(direct);
     assert(indirect);
-    char *ret_string = malloc(100); // buffer
+    char *ret_string = malloc(BUFFER_SIZE); // buffer
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
