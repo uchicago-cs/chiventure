@@ -271,16 +271,18 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
 int count(game_t *g_t)
 {
     int res = 0;
+
     room_t *curr_room;
     player_t *curr_player;
-    item_t *curr_item;
-    ITER_ALL_ROOMS(g_t, curr_room) {
-        ITER_ALL_ITEMS_IN_ROOM(curr_room, curr_item) {
-	    res++;
+    room_list_t *i = get_all_rooms(g_t); 
+    for(; i != NULL; i = i->next){
+        curr_room = i->room;
+        item_list_t *j = get_all_items_in_room(curr_room);
+        for(; j != NULL; j = j->next){
+            res++;
         }
-
     }
-
+//Need to replace with a player get function, but game state needs to make it (current one takes player ID)
     ITER_ALL_PLAYERS(g_t, curr_player) {
         ITER_ALL_ITEMS_IN_INVENTORY(curr_player, curr_item) {
 	    res++;
