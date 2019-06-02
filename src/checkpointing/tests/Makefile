@@ -7,8 +7,9 @@ BIN = test-checkpointing
 LDLIBS = -lprotobuf-c -lcriterion
 COMMON = -L../../common/ -Wl,-rpath,../../common/ -l:common.a
 GAME_STATE = -L../../game-state/ -Wl,-rpath,../../game-state/ -l:game-state.a
+ACTION_MANAGEMENT = -L../../action_management/ -Wl,-rpath,../../action_management/ -l:action_management.a
 CHECKPOINTING = -L../ -Wl,-rpath,../ -l:checkpointing.a
-STLIBS = $(COMMON) $(GAME_STATE) $(CHECKPOINTING)
+STLIBS = $(COMMON) $(GAME_STATE) $(CHECKPOINTING) $(ACTION_MANAGEMENT)
 SRCS = main.c test_save.c
 OBJS = $(SRCS:.c=.o)
 
