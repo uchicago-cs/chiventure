@@ -4,18 +4,11 @@ CC = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g  -I../include/ -I../../game-state/include -I../../common/include -I../../action_management/include/
 RM = rm -f
 BIN = test-checkpointing
-<<<<<<< HEAD
-LDLIBS = -lcriterion -l:checkpointing.a -l:game-state.a
-=======
 LDLIBS = -lprotobuf-c -lcriterion
-
 COMMON = -L../../common/ -Wl,-rpath,../../common/ -l:common.a
 GAME_STATE = -L../../game-state/ -Wl,-rpath,../../game-state/ -l:game-state.a
 CHECKPOINTING = -L../ -Wl,-rpath,../ -l:checkpointing.a
 STLIBS = $(COMMON) $(GAME_STATE) $(CHECKPOINTING)
-
->>>>>>> af669d20c6c7bcd3e369cbed027232df6e567dc2
-
 SRCS = main.c test_save.c
 OBJS = $(SRCS:.c=.o)
 
