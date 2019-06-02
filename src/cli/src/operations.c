@@ -22,7 +22,7 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 /* backlog task */
-char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     //print_history();
     return "history operation not implemented yet\n";

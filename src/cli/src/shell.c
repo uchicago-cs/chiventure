@@ -33,7 +33,7 @@ void help_text(chiventure_ctx_t *ctx)
         "	 relative to the folder chiventure is running in\n"
         "SAVE [PATH] (NOT IMPLEMENTED)\n"
         "	-Saves a game to a specefied location\n"
-        "QUIT\n"
+        "CTRL + D\n"
         "	-Quit game\n\n";
     print_to_cli(ctx, p);
 }
