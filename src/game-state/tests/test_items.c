@@ -207,30 +207,6 @@ Test(attribute, set_bool_attr)
 
 }
 
-/* Checks creation of new action attribute and adding it to an item */
-Test(attribute, set_act_attr)
-{
-	item_t *test_item = item_new("test_item", "attr test",
-    "item to test setting attributes");
-    action_type_t *test_act_type = action_type_new("pull", 1);
-	int rv = set_act_attr(test_item, "pull", test_act_type);
-
-	cr_assert_eq(rv, SUCCESS,
-        "change_bool_attribute: did not successfully set attr");
-
-	int num_in_hash = HASH_COUNT(test_item->attributes);
-	cr_assert_gt(num_in_hash, 0,
-        "change_bool_attribute: no elements added to hash");
-
-	attribute_t* test_attr = get_attribute(test_item, "pull");
-	cr_assert_not_null(test_attr,
-        "change_act_attribute: null attribute returned");
-	game_action_t *test_act_attr = test_attr->attribute_value.act_val;
-	cr_assert_str_eq(test_act_attr->action_name, "pull",
-    "change_act_attribute: set the wrong value");
-
-}
-
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS CHANGING ATTR VALUE ------------------------
 
 /* Checks creation of new string attribute and changing its value */
@@ -652,24 +628,6 @@ Test(attribute, get_non_bool_attr) {
     cr_assert_null(check, "get_non_bool_attr() test: incorrect finding");
 }
 
-/* Checks if retrieval of non-action attribute using get_act_attr is blocked */
-Test(attribute, get_non_act_attr) {
-	item_t *test_item = item_new("test item", "test item for testing",
-    "test item for testing item");
-
-	int rv = set_str_attr(test_item, "Attribute_Test_Name",
-    "Attribute_Test_Value");
-	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
-
-	int num_in_hash = HASH_COUNT(test_item->attributes);
-	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	game_action_t *check = get_act_attr(test_item, "Attribute_Test_Name");
-
-    cr_assert_null(check, "get_non_act_attr() test: incorrect finding");
-}
-
-
-
 // TEST FOR ATTRIBUTES_EQUAL()-------------------------------------------------
 
 /* checks that two equal attributes are equal */
@@ -933,22 +891,6 @@ Test(attribute, attr_free)
     test_attr->attribute_key = malloc(sizeof(char)*100);
     test_attr->attribute_tag = INTEGER;
     test_attr->attribute_value.int_val = 5;
-
-    int test = attribute_free(test_attr);
-
-    cr_assert_eq(test, SUCCESS, "attribute_free() test failed!");
-
-}
-
-Test(attribute, act_attr_free)
-{
-    attribute_t *test_attr = malloc(sizeof(attribute_t));
-    action_type_t *test_act_type = action_type_new("push", 1);
-    game_action_t *test_act = game_action_new("push", test_act_type);
-
-    test_attr->attribute_key = (char*)malloc(100);
-    test_attr->attribute_tag = ACTION;
-    test_attr->attribute_value.act_val = test_act;
 
     int test = attribute_free(test_attr);
 
