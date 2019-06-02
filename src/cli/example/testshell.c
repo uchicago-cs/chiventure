@@ -10,6 +10,7 @@
 #include "../include/cmd.h"
 #include "../include/shell.h"
 
+
 #define BUFFER_SIZE 256
 
 /* trim_newline: duplicates the string and replace the newline
@@ -30,6 +31,7 @@ char *trim_newline(char *s)
 
 int main()
 {
+    lookup_t **table = initialize_lookup();
     int quit = 1;
     char *cmd_string;
     greet();
@@ -47,15 +49,15 @@ int main()
         if (!strcmp(cmd_string,""))
             continue;
 
-        cmd *c = cmd_from_string(cmd_string);
-        if (!c)
+        cmd *c = cmd_from_string(cmd_string, table);
+        if (c == NULL)
         {
             shell_error_arg("unrecognized or malformed command: \"%s\"", input);
             putchar('\n');
         }
         else
         {
-            do_cmd(c,&quit);
+            do_cmd(c,&quit, NULL, table);
             // Add valid input to readline history.
             add_history(input);
         }
@@ -65,7 +67,7 @@ int main()
         //cmd_free(c);
         free(input);
     }
-
+    delete_entries(table);
 
     return 0;
 }

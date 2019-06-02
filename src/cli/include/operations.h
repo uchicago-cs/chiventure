@@ -1,6 +1,9 @@
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
+#include "game.h"
+#include "path.h"
+#include "actionmanagement.h"
 
 /*
  * We list all demanded operations over here.
@@ -16,109 +19,154 @@
  * niceness, it is in cmd.h.
  */
 
+/* Some operations take a game struct and a pointer
+ * to a look up table even though these parameters are unused.
+ * This is to keep the type of operation consistent, since it
+ * is used in the lookup_t struct
+ */
+
 /*
  * Quits the game
  *
  * Input:
  *  - tokens: parsed input string
+ *  - game struct, unused
+ *  - pointer to table, unused
  *
  * Returns:
  *  - Some system message
  *
- * Note that this command literally does nothing right now.
  */
-char *quit_operation(char *tokens[TOKEN_LIST_SIZE]);
+char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
 /* Generate a list of supported operations,
  * Could later be modefied to provide hints
- * 
+ *
  *  Parameters:
  *  - tokens: parsed input string
- *
+ *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
  * Returns:
  * - Said list of supported operations as a string
- */ 
-char *help_operation(char *tokens[TOKEN_LIST_SIZE]);
+ */
+char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
-/*                                                                                                                             
- * Generates history of commands (print_history() in shell.c needs 
+/*
+ * Generates history of commands (print_history() in shell.c needs
  * to be intergrated into this function)
- * 
+ *
  * Parameters:
  *  - tokens: parsed input string
- *
+ *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
  * Returns:
  * - Said list of previous actions as a string
- */  
-char *hist_operation(char *tokens[TOKEN_LIST_SIZE]);
+ */
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
 
-/* These functions will generate an action-struct (based on action management) 
- * and pass a command along.   
+/*
+ * Saves the current state of a game to a .dat file
+ * Prints an Error message if filename improperly specified
+ *
+ * Paramters:
+ * - tokens: parsed input string
+ * - pointer to game to be saved,
+ * - pointer to table, unused
+ *
+ * Returns:
+ * - A success or error message
+ */
+char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+
+
+/*
+ * Returns a description of either a specefied item, or the room
+ * if no item was specified
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
+ * Returns:
+ * - Said description as a string
+ */
+char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+
+
+/*Returns a description of the player inventory contents
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
+ * Returns:
+ * - Said description as a string
+ */
+char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+
+
+/* Error Operations that returns an error message as string
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - pointer to game to be altered, unused
+ *  - pointer to table, unused
+ * 
+ * Returns:
+ * - Said error message as a string
+ */
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+
+
+/* Validates an item is in a room, passes an action struct on to
+ * action management's function that handles ACTION ITEM
  *
  * Parameters:
  * - tokens: parsed input string (validified)
- *
+ *  - pointer to game
+ *  - pointer to table
+ * 
  * Returns:
  * - Said list of supported operations as a string
- *
  */
-char *type1_action_operation(char *tokens[TOKEN_LIST_SIZE]);
-char *type2_action_operation(char *tokens[TOKEN_LIST_SIZE]);
-char *type3_action_operation(char *tokens[TOKEN_LIST_SIZE]);
-char *type4_action_operation(char *tokens[TOKEN_LIST_SIZE]);
+char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 
 
-/* 
- * Prints the operation and tells the user that it was not recognised
+/* Validates a path is available in a room, passes an action struct on to
+ * action management's function that handles ACTION PATH
  *
  * Parameters:
- * - tokens: parsed input string
- *
+ * - tokens: parsed input string (validified)
+ *  - pointer to game
+ *  - pointer to table
+ * 
  * Returns:
- * - error message as a string
+ * - Said list of supported operations as a string
  */
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE]);
+char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 
 
-/* 
- * Prints the object and tells the user that it was not recognised
+/* Validates both items are in a room, passes an action struct on to
+ * action management's function that handles ACTION ITEM ITEM
  *
  * Parameters:
- * - tokens: parsed input string
- *
+ * - tokens: parsed input string (validified)
+ *  - pointer to game
+ *  - pointer to table
+ * 
  * Returns:
- * - error message as a string
+ * - Said list of supported operations as a string
  */
-char *object_error_operation(char *tokens[TOKEN_LIST_SIZE]);
+char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
 
 
-/* 
- * Prints the input action and tells the user that it was not recognised
- *
- * Parameters:
- * - tokens: parsed input string
- *
- * Returns:
- * - error message as a string
- */
-char *prep_error_operation(char *tokens[TOKEN_LIST_SIZE]);
-
-
-/*                                                                                                                             
- * Prints the second input item and tells the user 
- * that it was not recognised   
- *
- * Parameters:
- * - tokens: parsed input string
- *
- * Returns:
- * - error message as a string
- */                                                       
-char *ind_object_error_operation(char *tokens[TOKEN_LIST_SIZE]);
-
-// Put more operations here!
+//char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */
