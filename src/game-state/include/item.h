@@ -74,6 +74,7 @@ int item_free(item_t *item_tofree);
  *
  * Returns:
  *  short description string
+ *  NULL if item is NULL
  */
 char *get_sdesc_item(item_t *item);
 
@@ -84,6 +85,7 @@ char *get_sdesc_item(item_t *item);
  *
  * Returns:
  *  long description string
+ *  NULL if item is NULL
  */
 char *get_ldesc_item(item_t *item);
 
