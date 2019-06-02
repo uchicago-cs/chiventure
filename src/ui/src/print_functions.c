@@ -53,7 +53,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     else {
         do_cmd(c, &quit, ctx);
         // Add valid input to readline history.
-        add_history(input);
+        // add_history(input);
     }
 
     if (cmd_string) {
