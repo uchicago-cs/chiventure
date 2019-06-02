@@ -97,8 +97,7 @@ typedef struct attribute_wrapped_for_llist {
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
 typedef struct game_action_condition{
-    char* attribute_key;
-    attribute_value_t attribute_value;
+    attribute_t* desired_attribute;
     struct game_action_condition *next;
 } game_action_condition_t;
 
@@ -111,8 +110,7 @@ typedef struct game_action_condition* action_condition_list_t;
 
 typedef struct game_action_effect{
     char* item_id;
-    char* attribute_key;
-    attribute_value_t new_attribute_value;
+    attribute_t* changed_attribute;
     struct game_action_effect *next; //mandatory for utlist macros
 } game_action_effect_t;
 
@@ -152,7 +150,7 @@ int game_action_free(game_action_t *action_tofree);
  */
 int attribute_free(attribute_t *attribute);
 
-/* attributes_equal() checks if two items have the same attribute
+/* attributes_equal() checks if two items have the same attributes
  * Parameters:
  *  pointer to item1
  *  pointer to item2
@@ -285,15 +283,31 @@ char get_char_attr(item_t *item, char* attr_name);
  */
 bool get_bool_attr(item_t *item, char* attr_name);
 
-/* get_act_attr() returns the string value of an attribute of an item
+
+
+//TODO SPRINT 4
+
+
+
+bool check_condition(item_t *item, attribute_t* desired_attribute);
+//check if types are the same
+//check if values are the same
+
+bool all_conditions_met(item_t* item, char* action_name);
+
+/*action management needs to write perform_effect(game_action_effect* effect) to use in do_item_action(), do_item_item_action()
+
+
+/* get_act_attr() returns the action of an attribute of an item
  * Parameters:
  *  a pointer to the item
  *  the attribute name
  * Returns:
  *  the action struct associated with the attribute
  */
-game_action_t *get_act_attr(item_t *item, char* attr_name);
-/* add_allowed_action() adds a permitted action to an item
+game_action_t *get_act_attr(item_t *item, char* action_name);
+
+/*REDO THIS add_allowed_action() adds a permitted action to an item
  * Parameters:
  *  a pointer to the item
  *  the action name
@@ -301,16 +315,17 @@ game_action_t *get_act_attr(item_t *item, char* attr_name);
  * Returns:
  *  SUCCESS if added correctly, FAILURE if failed to add
  */
-int add_allowed_action(item_t* item, char *act_name, action_type_t *act_type);
+//calls game_action_new
+int add_allowed_action(item_t* item, char *action_name, action_type_t *action_type, char* success_str, char* fail_str);
 
-/* allowed_action() checks if an item permits a specific action
+/* REDO THIS possible_action() (formerly allowed_action())checks if an item permits a specific action
  * Parameters:
  *  a pointer to the item
  *  the action name
  * Returns:
  *  SUCCESS if item contains action, FAILURE if it does not
  */
-int allowed_action(item_t* item, char* action_name);
+int possible_action(item_t* item, char* action_name);
 
 /*
  * Function to get a linked list (utlist) of all the attributes in the item
