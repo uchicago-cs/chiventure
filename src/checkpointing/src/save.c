@@ -30,24 +30,11 @@ int save_attribute(attribute_t *a_t, Attribute *a)
 	} else {
 	    a->attribute_value->str_val = NULL;
 	}
-    } else if (a_t->attribute_tag == INTEGER) {
+    } else {
 	a->attribute_tag = "INTEGER";
 	a->attribute_value->int_val = a_t->attribute_value.int_val;
-    } else {
-	a->attribute_tag = "ACTION";
-	a->attribute_value->act_val->action_name =
-	  strdup(a_t->attribute_value.act_val->action_name);
-	a->attribute_value->act_val->action_type->c_name =
-	  strdup(a_t->attribute_value.act_val->action_type->c_name);
-	if (a_t->attribute_value.act_val->action_type->kind == ITEM){
-	  a->attribute_value->act_val->action_type->kind = "ITEM";
-	} else if (a_t->attribute_value.act_val->action_type->kind == PATH) {
-	  a->attribute_value->act_val->action_type->kind = "PATH";
-	} else {
-	  a->attribute_value->act_val->action_type->kind = "ITEM_ITEM";
-	}
     }
-    
+
     return 0;
 }
 
@@ -84,19 +71,13 @@ int save_item(item_t *i_t, Item *i)
         count_attr += 1;
     } // Delete after PR
     */
-    attribute_list_t *all_attrs = get_all_attributes(i_t);
-    attribute_list_t *curr_attr = all_attrs;
+    
+    Attribute **attrs = malloc(sizeof(Attribute*) * 10);
     int iter =0; // Iterator int to track the array
-    while (curr_attr != NULL){
-      iter += 1;
-      curr_attr = curr_attr->next;
-    }
-    Attribute **attrs = malloc(sizeof(Attribute*) * iter);
 
     // Put the hashtable into the array
 
     // Delete after game-state pushed to master
-    /*
     attribute_t *curr_attr;
     ITER_ALL_ATTRIBUTES(i_t, curr_attr) {
         attrs[iter] = malloc(sizeof(Attribute));
@@ -108,10 +89,10 @@ int save_item(item_t *i_t, Item *i)
 	}
 	iter += 1;
     }      
-    */
-    // Uncomment when game-state pushed to master
-    curr_attr = all_attrs;
-    iter = 0;
+    
+    /* Uncomment when game-state pushed to master
+    attribute_list_t *all_attrs = get_all_attributes(i_t);
+    attribute_list_t *curr_attr = all_attrs;
     while (curr_attr != NULL){
         attrs[iter] = malloc(sizeof(Attribute));
         attribute__init(attrs[iter]);
@@ -124,7 +105,7 @@ int save_item(item_t *i_t, Item *i)
 	iter += 1;
 	curr_attr = curr_attr->next;
     }
-    //*/
+    */
     
     i->attributes = attrs;
 
@@ -249,20 +230,13 @@ int save_room(room_t *r_t, Room *r)
         count_item += 1;
     }
     */
-    item_list_t *all_items = get_all_items_in_room(r_t);
-    item_list_t *curr_item = all_items;
-    int iter =0; // Iterator int to track the array
-    while (curr_item != NULL){
-      iter += 1;
-      curr_item = curr_item->next;
-    }
     
-    Item **items = malloc(sizeof(Item*) * iter);
+    Item **items = malloc(sizeof(Item*) * 10);
+    int iter =0; // Iterator int to track the array
 
     // Put the hashtable into the array
 
     // Delete after game-state pushed to master
-    /*
     item_t *curr_item;
     ITER_ALL_ITEMS_IN_ROOM(r_t, curr_item) {
 	items[iter] = malloc(sizeof(Item));
@@ -274,10 +248,10 @@ int save_room(room_t *r_t, Room *r)
 	}
 	iter += 1;
     }
-    */
-    // Uncomment after game-state pushed to master
-    curr_item = all_items;
-    iter = 0;
+
+    /* Uncomment after game-state pushed to master
+    item_list_t *all_items = get_all_items_in_room(r_t);
+    item_list_t *curr_item = all_items;
     while(curr_item != NULL){
 	items[iter] = malloc(sizeof(Item));
 	item__init(items[iter]);
@@ -289,7 +263,7 @@ int save_room(room_t *r_t, Room *r)
 	iter += 1;
 	curr_item = curr_item->next;
     }
-    //
+    */
     
     r->items = items;
 
@@ -350,20 +324,13 @@ int save_player(player_t *p_t, Player *p)
         count_item += 1;
     }
     */
-    item_list_t *all_items = get_all_items_in_inventory(p_t);
-    item_list_t *curr_item = all_items;
+    
+    Item **items = malloc(sizeof(Item*) * 10);
     int iter = 0; // Iterator int to track the array
-    while (curr_item != NULL) {
-      iter += 1;
-      curr_item = curr_item->next;
-    }
-    Item **items = malloc(sizeof(Item*) * iter);
-
     
     // Put the hashtable into the array
 
     // Delete after game-state pushed to master
-    /*
     item_t *curr_item;
     ITER_ALL_ITEMS_IN_INVENTORY(p_t, curr_item) {
 	items[iter] = malloc(sizeof(Item));
@@ -375,10 +342,10 @@ int save_player(player_t *p_t, Player *p)
 	}
 	iter += 1;
     }
-    */
-    // Uncomment when game-state PR
-    curr_item = all_items;
-    iter = 0;
+
+    /* Uncomment when game-state PR
+    item_list_t *all_items = get_all_items_in_inventory(p_t);
+    item_list_t *curr_item = all_items;
     while(curr_item != NULL){
 	items[iter] = malloc(sizeof(Item));
 	item__init(items[iter]);
@@ -391,7 +358,7 @@ int save_player(player_t *p_t, Player *p)
 	curr_item = curr_item->next;
 
     }
-    //
+    */
     
     p->inventory = items;
 
@@ -415,14 +382,10 @@ int save_game(game_t *g_t, Game *g)
         count_player += 1;
     }
     */
-
-    //int iter = 0; // Iterator int to track the array
-    
-    //Player **plyrs = malloc(sizeof(Player*) * 10);
-
+    Player **plyrs = malloc(sizeof(Player*) * 10);
+    int iter = 0; // Iterator int to track the array
 
     // Put the hashtable into the array
-    /*
     player_t *curr_player;
     ITER_ALL_PLAYERS(g_t, curr_player) {
 	plyrs[iter] = malloc(sizeof(Player));
@@ -434,23 +397,21 @@ int save_game(game_t *g_t, Game *g)
 	}
 	iter += 1;
     }
-    */
-    // Uncomment when game-state pushed to master
-    Player **plyrs = malloc(sizeof(Player*));
-    plyrs[0] = malloc(sizeof(Player));
-    player__init(plyrs[0]);
-    int save_plyr_success = save_player(g_t->all_players, plyrs[0]);
+
+    /* Uncomment when game-state pushed to master
+    player_t *plyr;
+    int save_plyr_success = save_player(g_t->all_players, plyrs[iter]);
     if (save_plyr_success != 0){
         fprintf(stderr, "Player saving for game failed \n");
         return -1;
     }
-    //
+    */
 
+    //g->all_players = plyr;
     g->all_players = plyrs;
-    // g->all_players = plyrs;
 
-    g->players_len = 1;
-    g->n_all_players = 1;  // Set length of array
+    g->players_len = iter;
+    g->n_all_players = iter;  // Set length of array
 
     
     // repeated all_rooms here!!!!!!!
@@ -462,20 +423,13 @@ int save_game(game_t *g_t, Game *g)
         count_room += 1;
     }
     */
-    room_list_t *all_rooms = get_all_rooms(g_t);
-    room_list_t *curr_room = all_rooms;    
-    int iter = 0; // Iterator int to track the array
-    while (curr_room != NULL) {
-      iter += 1;
-      curr_room = curr_room->next;
-    }
-    Room **rooms = malloc(sizeof(Room*) * iter);
-
+    
+    Room **rooms = malloc(sizeof(Room*) * 10);
+    iter = 0; // Iterator int to track the array
 
     // Put the hashtable into the array
 
     // Delete PR
-    /*
     room_t *curr_room;
     ITER_ALL_ROOMS(g_t, curr_room) {
 	rooms[iter] = malloc(sizeof(Room));
@@ -487,10 +441,10 @@ int save_game(game_t *g_t, Game *g)
 	}
 	iter += 1;
     }
-    */
-    // Uncomment after PR
-    curr_room = all_rooms;
-    iter = 0;
+
+    /* Uncomment after PR
+    room_list_t *all_rooms = get_all_rooms(g_t);
+    room_list_t *curr_room = all_rooms;
     while(curr_room != NULL){
 	rooms[iter] = malloc(sizeof(Room));
 	room__init(rooms[iter]);
@@ -502,7 +456,7 @@ int save_game(game_t *g_t, Game *g)
 	iter += 1;
         curr_room = curr_room->next;
     }
-    //    
+    */    
 
     g->all_rooms = rooms;
 
