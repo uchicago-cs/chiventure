@@ -28,7 +28,7 @@ typedef struct item {
     char *long_desc;
     // bool condition; /* reserved for future expansion */
     attribute_hash_t attributes; // a hashtable for all attributes
-    game_action_hash_t *actions;
+    game_action_hash_t actions;
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are 
@@ -97,7 +97,6 @@ typedef struct attribute_wrapped_for_llist {
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
 typedef struct game_action_condition{
-    UT_hash_handle hh; //makes this struct hashable for the item struct
     char* attribute_key;
     attribute_value_t attribute_value;
     struct game_action_condition *next;
@@ -124,7 +123,8 @@ typedef struct game_action_effect{
 */
 typedef struct game_action_effect* action_effect_list_t;
 
-typedef struct action {
+typedef struct game_action {
+    UT_hash_handle hh;
     char* action_name;
     action_type_t *action_type; // action_type_t written by AM, can be seen in action_structs.h
     action_condition_list_t *conditions; //must be initialized to NULL

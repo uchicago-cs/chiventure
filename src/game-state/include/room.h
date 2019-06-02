@@ -141,16 +141,6 @@ char *get_ldesc(room_t *room);
 
 //PATH DEFINITIONS AND HEADER
 
-/* Deletes the linked list of conditions completely
- *
- * Parameters:
- *  the linked list of conditions that need to be deleted
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int delete_all_conditions(condition_list_t conditions);
-
 /* delete_all_paths() deletes all paths in a path hash
 * Parameters:
 *  the hash table of paths that needs to be deleted
@@ -181,16 +171,6 @@ path_t *path_new(room_t *dest, char *direction);
  */
 int path_free(path_t *path);
 
-/* Adds a condition to the given path
- *
- * Parameters:
- *  path struct
- *  condition struct
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_condition_to_path(path_t *path, condition_t *condition);
 
 /* Returns path given room and direction
  *
