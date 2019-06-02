@@ -4,7 +4,23 @@
 #include "utlist.h"
 #include "actionmanagement.h"
 
+
 #define NUM_ACTIONS (13)
+
+
+Test(get_actions, count)
+{
+    list_action_type_t *head, *temp;
+    int out = 0;
+    head = get_supported_actions();
+    for (temp = head; temp != NULL; temp = temp->next) {
+        out++;
+    }
+    cr_assert_eq(out, NUM_ACTIONS,
+                 "Expected %d actions, got %d actions when counting through list.\n",
+                 NUM_ACTIONS, out);
+}
+
 
 action_type_t *search_supported_actions(char *query)
 {
@@ -17,6 +33,7 @@ action_type_t *search_supported_actions(char *query)
     }
     return NULL;
 }
+
 
 /* Checks to see if the action list called can be iterated over using string */
 Test(get_actions, search_success)
@@ -50,6 +67,7 @@ Test(get_actions, search_success)
                  ITEM_ITEM, use_on->kind);
 }
 
+
 Test(get_actions, search_failure)
 {
     action_type_t *dance, *jump, *fight;
@@ -64,15 +82,3 @@ Test(get_actions, search_failure)
                  "search_supported_actions returned a pointer for invalid query \"fight\".\n");
 }
 
-Test(get_actions, count)
-{
-    list_action_type_t *head, *temp;
-    int out = 0;
-    head = get_supported_actions();
-    for (temp = head; temp != NULL; temp = temp->next) {
-        out++;
-    }
-    cr_assert_eq(out, NUM_ACTIONS,
-                 "Expected %d actions, got %d actions when counting through list.\n",
-                 NUM_ACTIONS, out);
-}
