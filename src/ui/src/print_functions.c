@@ -6,7 +6,6 @@
 #include <assert.h>
 #include <signal.h>
 #include <string.h>
-#include <readline/history.h>
 #include "window.h"
 #include "ctx.h"
 #include "print_functions.h"
