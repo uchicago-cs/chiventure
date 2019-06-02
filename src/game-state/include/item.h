@@ -72,7 +72,7 @@ int item_free(item_t *item_tofree);
 typedef struct game_action_condition{
     char* condition_name;
     struct game_action_condition *prev, *next; //mandatory for utlist macros
-    //TODO
+    bool condition_met; 
 } game_action_condition_t;
 
 /* This typedef is to distinguish between game_action_condition_t 
@@ -83,7 +83,9 @@ typedef struct game_action_condition{
 typedef struct game_action_condition* action_condition_list_t;
 
 typedef struct game_action_effect{
-    char* effect_name;
+    char* item_id;
+    char* attribute_key;
+
     struct game_action_effect *prev, *next; //mandatory for utlist macros
     //TODO
 } game_action_effect_t;
@@ -102,7 +104,6 @@ typedef struct action {
     action_effect_list_t; //must be initialized to NULL
     char* success_str;
     char* fail_str;
-    bool action_allowed;
 } game_action_t;
 
 /* item_free() frees allocated space for an action struct in memory
