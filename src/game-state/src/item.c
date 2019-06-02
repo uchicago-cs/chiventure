@@ -44,25 +44,43 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
-int action_init(game_action_t *new_action, char *act_name,
-    action_type_t *act_type)
+int game_action_init(game_action_t *new_action, char *act_name,
+    action_type_t *act_type, char* success_str, char* fail_str)
 {
     assert(new_action != NULL);
 
-    strcpy(new_action->action_name, act_name);
+    strncpy(new_action->action_name, act_name, strlen(act_name));
     new_action->action_type = act_type;
+    new_action->conditions = NULL; //by UTLIST rules
+    new_action->effects= NULL; //by UTLIST rules
+    strncpy(new_action->success_str, success_str, strlen(success_str))
+    strncpy(new_action->fail_str, fail_str, strlen(fail_str))
 
     return SUCCESS;
 }
 
+/* ADD TO ITEM.H */
+int game_action_free(game_action_free* game_action)
+{
+    free(game_action->action_name);
+    //FREE ACTION TYPE USING AM's FUNCTION
+    //CREATE FREE LIST FUNCTION TO FREE CONDITIONS
+    //CREATE FREE LIST FUNCTION TO FREE EFFECTS
+    free(game_action->success_str);
+    free(game_action->fail_str);
+    free(game_action);
+    return SUCCESS;
+}
+
+
 /* see item.h */
-game_action_t *game_action_new(char *act_name, action_type_t *act_type)
+game_action_t *game_action_new(char *action_name, action_type_t *action_type, char* success_str, char* fail_str)
 {
     game_action_t *new_action = malloc(sizeof(game_action_t));
     new_action->action_name = malloc(MAX_ID_LEN * sizeof(char));
     new_action->action_type = malloc(sizeof(action_type_t));
 
-    int check = action_init(new_action, act_name, act_type);
+    int check = game_action_init(new_action, act_name, act_type, success_str, fail_str);
 
     if (new_action == NULL || new_action->action_name == NULL ||
        new_action->action_type == NULL) {

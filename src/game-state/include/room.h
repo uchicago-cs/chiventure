@@ -7,25 +7,6 @@
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
 
-// CONDITION STRUCT DEFINITION ------------------------------------------------
-/* This struct represents a single condition that must be
- * met for a path to be taken. It includes an item, an
- * attribute of the item, and the value of that attribute
- * which can be a string or integer, as defined in item.h */
-typedef struct condition {
-    /* fields used for linked list of condition_t */
-    struct condition *next;
-    item_t *item;
-    char *attribute;
-    attribute_value_t value;
-} condition_t;
-
-/* This typedef is to distinguish between condition_t pointers which are 
-* used to point to the condition_t structs in the traditional sense, 
-* and those which are used to hash condition_t structs with the 
-* UTHASH macros as specified in src/common/include */
-typedef struct condition *condition_list_t;
-
 // PATH STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a path from one room to another.
  * It contains:

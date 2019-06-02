@@ -97,7 +97,7 @@ typedef struct game_action_effect{
 typedef struct game_action_effect* action_effect_list_t;
 
 typedef struct action {
-    char *action_name;
+    char* action_name;
     action_type_t *action_type; // action_type_t written by AM, can be seen in action_structs.h
     action_condition_list_t; //must be initialized to NULL
     action_effect_list_t; //must be initialized to NULL
@@ -121,10 +121,9 @@ typedef union attribute_value {
     bool bool_val;
     char* str_val;
     int int_val;
-    game_action_t *act_val;
 } attribute_value_t;
 
-enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER, ACTION};
+enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
 
 typedef struct attribute {
     UT_hash_handle hh;
