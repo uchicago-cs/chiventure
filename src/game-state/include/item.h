@@ -19,6 +19,8 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 * UTHASH macros as specified in src/common/include */
 typedef struct attribute* attribute_hash_t;
 
+typedef struct action *game_action_hash_t;
+
 typedef struct item {
     UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
     char *item_id;
@@ -26,6 +28,7 @@ typedef struct item {
     char *long_desc;
     // bool condition; /* reserved for future expansion */
     attribute_hash_t attributes; // a hashtable for all attributes
+    game_action_hash_t *actions;
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are 
@@ -67,9 +70,34 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 */
 int item_free(item_t *item_tofree);
 
+// ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
+// values will be loaded from WDL/provided by action management
+typedef union attribute_value {
+    double double_val;
+    char char_val;
+    bool bool_val;
+    char* str_val;
+    int int_val;
+} attribute_value_t;
+
+enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER, ACTION};
+
+typedef struct attribute {
+    UT_hash_handle hh;
+    char* attribute_key; // attribute name
+    enum attribute_tag attribute_tag;
+    attribute_value_t attribute_value;
+} attribute_t;
+
+typedef struct attribute_wrapped_for_llist {
+    struct attribute_wrapped_for_llist *next;
+    attribute_t *attribute;
+} attribute_list_t;
+
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
 typedef struct game_action_condition{
+    UT_hash_handle hh; //makes this struct hashable for the item struct
     char* attribute_key;
     attribute_value_t attribute_value;
     struct game_action_condition *next;
@@ -99,8 +127,8 @@ typedef struct game_action_effect* action_effect_list_t;
 typedef struct action {
     char* action_name;
     action_type_t *action_type; // action_type_t written by AM, can be seen in action_structs.h
-    action_condition_list_t; //must be initialized to NULL
-    action_effect_list_t; //must be initialized to NULL
+    action_condition_list_t *conditions; //must be initialized to NULL
+    action_effect_list_t *effects; //must be initialized to NULL
     char* success_str;
     char* fail_str;
 } game_action_t;
@@ -113,29 +141,6 @@ typedef struct action {
 */
 int game_action_free(game_action_t *action_tofree);
 
-// ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
-// values will be loaded from WDL/provided by action management
-typedef union attribute_value {
-    double double_val;
-    char char_val;
-    bool bool_val;
-    char* str_val;
-    int int_val;
-} attribute_value_t;
-
-enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
-
-typedef struct attribute {
-    UT_hash_handle hh;
-    char* attribute_key; // attribute name
-    enum attribute_tag attribute_tag;
-    attribute_value_t attribute_value;
-} attribute_t;
-
-typedef struct attribute_wrapped_for_llist {
-    struct attribute_wrapped_for_llist *next;
-    attribute_t *attribute;
-} attribute_list_t;
 
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
 

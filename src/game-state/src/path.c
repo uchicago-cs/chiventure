@@ -2,7 +2,7 @@
 #include "room.h"
 
 
-/* See room.h */
+/* See room.h 
 int delete_all_conditions(condition_list_t conditions) {
     condition_t *elt, *tmp;
     LL_FOREACH_SAFE(conditions, elt, tmp) {
@@ -10,7 +10,7 @@ int delete_all_conditions(condition_list_t conditions) {
         free(elt);
     }
     return SUCCESS;
-}
+}*/
 
 /* See room.h */
 path_t *path_new(room_t *dest, char *direction) {
@@ -19,8 +19,8 @@ path_t *path_new(room_t *dest, char *direction) {
     memset(path, 0, sizeof(path_t));
     path->direction = malloc(MAX_ID_LEN * sizeof(char));
     path->dest = dest;
-    path->conditions = NULL;
-
+    path->through = NULL;
+    // will need a function to add item pointer to through
     strncpy(path->direction, direction, MAX_ID_LEN);
 
     return path;
@@ -29,17 +29,18 @@ path_t *path_new(room_t *dest, char *direction) {
 /* See room.h */
 int path_free(path_t *path) {
     free(path->direction);
-    delete_all_conditions(path->conditions);
+    // delete_all_conditions(path->conditions);
     free(path);
+    //will need to free item associated with path
     return SUCCESS;
 }
 
 
-/* See room.h */
+/* See room.h 
 int add_condition_to_path(path_t *path, condition_t *condition) {
     LL_PREPEND(path->conditions, condition);
     return SUCCESS;
-}
+    }*/
 
 /* See room.h */
 int delete_all_paths(path_hash_t paths) {

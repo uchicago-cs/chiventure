@@ -245,6 +245,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
 }
 
+
 int set_act_attr(item_t* item, char* attr_name, action_type_t *value)
 {
     attribute_t* res = get_attribute(item, attr_name);
