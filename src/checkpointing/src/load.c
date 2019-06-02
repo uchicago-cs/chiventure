@@ -168,7 +168,9 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
 
     // Free all items in the room
     item_t *curr_item;
-    ITER_ALL_ITEMS_IN_ROOM(r_t, curr_item) {
+    item_list_t *i;
+    for(i = get_all_items_in_room(r_t); i != NULL; i=i->next){
+        curr_item = i->item;
         int item_free_success = item_free(curr_item);
         if (item_free_success != 0) {
             fprintf(stderr, "Failed to remove/ free item from room \n");
@@ -236,7 +238,9 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
 
     // Free all items in the inventory
     item_t *curr_item;
-    ITER_ALL_ITEMS_IN_INVENTORY(p_t, curr_item) {
+    item_list_t *i;
+    for(i = get_all_items_in_inventory(p_t); i != NULL; i=i->next){
+        curr_item = i->item;
         int item_free_success = item_free(curr_item);
         if (item_free_success != 0) {
             fprintf(stderr, "Failed to remove/ free item from inventory \n");
