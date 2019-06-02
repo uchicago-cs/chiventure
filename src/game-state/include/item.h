@@ -70,9 +70,9 @@ int item_free(item_t *item_tofree);
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
 typedef struct game_action_condition{
-    char* condition_name;
-    struct game_action_condition *prev, *next; //mandatory for utlist macros
-    bool condition_met; 
+    char* attribute_key;
+    attribute_value_t attribute_value;
+    struct game_action_condition *next;
 } game_action_condition_t;
 
 /* This typedef is to distinguish between game_action_condition_t 
@@ -85,9 +85,8 @@ typedef struct game_action_condition* action_condition_list_t;
 typedef struct game_action_effect{
     char* item_id;
     char* attribute_key;
-
-    struct game_action_effect *prev, *next; //mandatory for utlist macros
-    //TODO
+    attribute_value_t new_attribute_value;
+    struct game_action_effect *next; //mandatory for utlist macros
 } game_action_effect_t;
 
 /* This typedef is to distinguish between game_action_effect_t 

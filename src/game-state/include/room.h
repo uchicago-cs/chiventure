@@ -39,7 +39,7 @@ typedef struct path {
     /* direction (north/south/etc) as key */
     char *direction; // *letter case matters*
     struct room *dest;
-    condition_list_t conditions;
+    item_t *through; //to check if the door is "open"
 } path_t;
 
 /* This typedef is to distinguish between path_t pointers which are 
