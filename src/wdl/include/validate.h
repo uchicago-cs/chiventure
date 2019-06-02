@@ -11,6 +11,28 @@
 #include <stdbool.h>
 #include "parser.h"
 
+/* a doubly linked list of strings used to store approved actions
+ * used when type-checking actions
+ */
+typedef struct action_list
+{
+    char *action;
+    struct action_list *next;
+} action_list_t;
+
+/* connections_get_list()
+ * a helper function for connection_type_check that gets a list of connections
+ * associated with a room object
+ *
+ * parameters:
+ *  - obj: a room object
+ *
+ * returns:
+ *  - an attribute list of all the connections
+ *  - null if an error occurs or no list can be generated
+ */
+attr_list_t *connections_get_list(obj_t *obj);
+
 /* print_item
  * prints the attributes associated with the item: id, short_desc, long_desc,
  * in, and state
@@ -109,12 +131,14 @@ void list_print(attr_list_t *ls, void(*print)(obj_t*));
  * We will want to then validate each of the attributes by running type_check
  * with list_type_check
  */
- bool game_type_check(obj_t *obj);
+bool game_type_check(obj_t *obj);
 
- bool room_type_check(obj_t *obj);
+bool room_type_check(obj_t *obj);
 
- bool item_type_check(obj_t *obj);
+bool item_type_check(obj_t *obj);
 
- bool player_type_check(obj_t *obj);
+bool player_type_check(obj_t *obj);
+
+bool action_type_check(obj_t *obj);
 
 #endif /* INCLUDE_VALIDATE_H */
