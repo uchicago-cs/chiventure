@@ -5,6 +5,8 @@
 #include "actionmanagement.h"
 #include "common.h"
 
+#define BUFFER_SIZE (100)
+
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind)
 {
@@ -59,30 +61,25 @@ char *do_item_action(game_t *g, action_type_t *a, item_t *i)
     assert(g->curr_player); // needed for sprint 4
     assert(a);
     assert(i);
-    char *ret_string = malloc(100); // buffer
+    char *ret_string = malloc(BUFFER_SIZE); // buffer
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM) {
-        strcat(ret_string, "The action type provided is not of the correct kind");
-        return ret_string;
+        sprintf(ret_string, "The action type provided is not of the correct kind");
+        return ret_string; // sprint 4 TODO: change to return 1 (error code for invalid kind)
     }
     // checks if the action can be used on the item
     int allowed = allowed_action(i, a->c_name);
     if (allowed != SUCCESS) {
-        strcat(ret_string, "Action ");
-        strcat(ret_string, a->c_name);
-        strcat(ret_string, "can't be requested on item ");
-        strcat(ret_string, i->item_id);
-        return ret_string;
+        sprintf(ret_string, "Action %s can't be requested on item %s",
+                a->c_name, i->item_id);
+        return ret_string; // sprint 4 TODO: change to return 2 (error code for invalid action-item combo)
     }
     /* TODO: implement the rest of this function, using game_state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Requested action ");
-    strcat(ret_string, a->c_name);
-    strcat(ret_string, " on item ");
-    strcat(ret_string, i->item_id);
-    return ret_string;
+    sprintf(ret_string, "Requested action %s on item %s", a->c_name, i->item_id);
+    return ret_string; // sprint 4 TODO: change to return 0 (success code)
 }
 
 
@@ -97,18 +94,14 @@ char *do_path_action(game_t *g, action_type_t *a, path_t *p)
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != PATH) {
-        strcat(ret_string, "The action type provided is not of the correct kind");
-        return ret_string;
+        sprintf(ret_string, "The action type provided is not of the correct kind");
+        return ret_string; 
     }
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Requested action ");
-    strcat(ret_string, a->c_name);
-    strcat(ret_string, " in direction ");
-    strcat(ret_string, p->direction);
-    strcat(ret_string, " into room ");
-    strcat(ret_string, p->dest->room_id);
+    sprintf(ret_string, "Requested action %s in direction %s into room %s",
+            a->c_name, p->direction, p->dest->room_id);
     return ret_string;
 
 }
@@ -126,26 +119,20 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
-        strcat(ret_string, "The action type provided is not of the correct kind");
+        sprintf(ret_string, "The action type provided is not of the correct kind");
         return ret_string;
     }
     // checks if the action can be used on the item
     int allowed = allowed_action(indirect, a->c_name);
     if (allowed != SUCCESS) {
-        strcat(ret_string, "Action ");
-        strcat(ret_string, a->c_name);
-        strcat(ret_string, "can't be requested on item ");
-        strcat(ret_string, indirect->item_id);
+        sprintf(ret_string, "Action %s can't be requested on item %s",
+                a->c_name, indirect->item_id);
         return ret_string;
     }
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
-    strcat(ret_string, "Requested action ");
-    strcat(ret_string, a->c_name);
-    strcat(ret_string, " with ");
-    strcat(ret_string, direct->item_id);
-    strcat(ret_string, " on ");
-    strcat(ret_string, indirect->item_id);
+    sprintf(ret_string, "Requested action %s with %s on %s",
+            a->c_name, direct->item_id, indirect->item_id);
     return ret_string;
 }
