@@ -6,7 +6,7 @@
 obj_t *get_doc_obj()
 {
     obj_t *obj = obj_new("doc");
-    parse_game(PATH, obj);
+    parse_game(FILE_PATH, obj);
     return obj;
 }
 

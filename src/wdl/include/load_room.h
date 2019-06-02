@@ -5,10 +5,7 @@
 #ifndef INCLUDE_LOAD_ROOMS_H
 #define INCLUDE_LOAD_ROOMS_H
 
-#define PATH "./examples/sample_yaml/connected_rooms.yaml"
-
-#define SUCCESS 0
-#define FAILURE 1
+#define FILE_PATH "../examples/sample_yaml/connected_rooms.yaml"
 
 #include <stdio.h>
 #include <stdlib.h>
