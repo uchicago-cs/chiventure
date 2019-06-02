@@ -5,7 +5,7 @@ CFLAGS = -fPIC -Wall -Wextra -O2 -g  -I../include/ -I../../game-state/include -I
 LDFLAGS = -L../ -Wl,-rpath,. -L../../game-state/ -Wl,-rpath,.
 RM = rm -f
 BIN = test-checkpointing
-LDLIBS = -lcriterion -lcheckpointing -lgame-state
+LDLIBS = -lcriterion -l:checkpointing.a -l:game-state.a
 
 SRCS = main.c test_save.c
 OBJS = $(SRCS:.c=.o)
