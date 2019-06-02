@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <readline/readline.h>
-#include <readline/history.h>
-#include "cmd.h"
-#include "shell.h"
+//#include <readline/history.h>
+#include "../include/cmd.h"
+#include "../include/shell.h"
 
 
 #define BUFFER_SIZE 256
@@ -36,7 +36,7 @@ int main()
     char *cmd_string;
     //greet();
     //rl_bind_key('\t', rl_complete); // Configure readline to auto-complete paths when the tab key is hit.
-    using_history();
+    //using_history();
 
     while (quit)
     {
@@ -59,7 +59,7 @@ int main()
         {
             do_cmd(c,&quit, table);
             // Add valid input to readline history.
-            add_history(input);
+            // add_history(input);
         }
 
         if (cmd_string)

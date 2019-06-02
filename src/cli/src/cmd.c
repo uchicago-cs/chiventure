@@ -101,7 +101,7 @@ void add_action_entries(lookup_t **table)
 
      add_entry("QUIT", quit_operation, t);
      add_entry("HELP", help_operation, t);
-     add_entry("HIST", hist_operation, t);
+     //add_entry("HIST", hist_operation, t);
      add_entry("LOOK",look_operation, t);
      add_entry("INV", inventory_operation, t);
      add_entry("SAVE", save_operation, t);

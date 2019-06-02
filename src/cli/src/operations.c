@@ -21,10 +21,11 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return NULL;
 }
 
-char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+/* backlog task */
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
-    print_history(ctx);
-    return NULL;
+    //print_history();
+    return "history operation not implemented yet\n";
 }
 
 /* See operations.h */

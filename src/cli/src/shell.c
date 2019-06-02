@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <readline/history.h>
 #include "shell.h"
 
 /* ========================= */
@@ -26,9 +25,9 @@ void help_text(chiventure_ctx_t *ctx)
         "HERE IS A BRIEF OVERVIEW OF SYSTEM ACTIONS\n"
         "HELP\n"
         "	-Prints out help menu (duh, you just used it)\n"
-        "HIST\n"
-        "	-Prints out the history of valid command"
-        " inputs in this session\n"
+        //"HIST\n"
+        //"	-Prints out the history of valid command"
+        //" inputs in this session\n"
         "load [PATH] (NOT IMPLEMENTED)\n"
         "	-Loads a saved game from a specefied location\n"
         "	 relative to the folder chiventure is running in\n"
@@ -44,22 +43,6 @@ void greet(chiventure_ctx_t *ctx)
 {
     print_to_cli(ctx, "***** Welcome to CHIVENTURE! *****\n\n");
     print_to_cli(ctx, "NOTHING USEFULL IMPLEMENTED YET !\n\n");
-}
-
-/* See shell.h */
-void print_history(chiventure_ctx_t *ctx)
-{
-    int offset_start = history_base,
-        offset_end = history_length;
-
-    int i, j=1;
-    for (i = offset_start; i <= offset_end; i++)
-    {
-        print_to_cli(ctx, "Entry: ");
-        print_to_cli(ctx, j);
-        print_to_cli(ctx, history_get(i)->line);
-        j++;
-    }
 }
 
 /* See shell.h */
