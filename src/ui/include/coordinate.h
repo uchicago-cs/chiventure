@@ -10,7 +10,9 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include "uthash.h"
-#include "common.h"
+
+#define SUCCESS 1 
+#define FAILURE 0 
 
 struct room;
 
