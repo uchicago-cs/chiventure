@@ -71,7 +71,7 @@ Test(save, room)
 
     path_t *path_t;
     // path_new is a function in game-states's path.h. It creates a path_t struct.
-    path_t = path_new("4");
+    path_t = path_new(room_t, "east");
     cr_assert_not_null(path_t, "path_t is null in save_room");
     
     int succ;
@@ -104,12 +104,11 @@ Test(save, player)
     /* player_new is a function in game-states's player.h. It creates a
      * player_t struct.
      */
-    player_t = player_new(1);
+    player_t = player_new("Chad", 1);
 
     Player *chad = malloc(sizeof(Player));
 
     int success = save_player(player_t, chad);
-    chad->player_id = "Chad";
     chad->xp = 50;
     chad->level = 9000;
     cr_assert_eq(success, 0, "save_player failed");
@@ -123,7 +122,7 @@ Test(save, player)
 Test(save, game)
 {
     // game_new is a function in game-states's game.h. It creates a game_t struct.
-    game_t *game_t = game_new();
+    game_t *game_t = game_new("Welcome to Chiventure!");
 
     room_t *room_t;
     char *room_id = "5";
@@ -142,10 +141,9 @@ Test(save, game)
      /* player_new is a function in game-states's player.h. It creates a
      * player_t struct.
      */
-    player_t = player_new(1);
+    player_t = player_new("Chad", 1);
     cr_assert_not_null(player_t, "player_t is null in save_game");
 
-    player_t->player_id = "Chad";
     succ = add_player_to_game(game_t, player_t);
     cr_assert_eq(succ, 0, "add_player_to_game failed");
     set_curr_player(game_t, player_t);
