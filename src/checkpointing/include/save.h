@@ -56,7 +56,7 @@ int save_item(item_t *i_t, Item *i);
  *   - 0 if successful
  *   - -1 if unsuccessful 
  */
-int save_condition(condition_t *c_t, Condition *c);
+// int save_condition(condition_t *c_t, Condition *c);
 
 
 /* 
@@ -70,7 +70,7 @@ int save_condition(condition_t *c_t, Condition *c);
  *   - 0 if successful
  *   - -1 if unsuccessful 
  */
-int save_path(path_t *p_t, Path *p);
+// int save_path(path_t *p_t, Path *p);
 
 
 /* 
