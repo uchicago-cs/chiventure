@@ -114,9 +114,11 @@ int load_item(Item *i, item_t *i_t)
 	    // help, idk if this is correct since the function set_act_attr takes in an action_type_t pointer as an input, but we don't have the pointer after serializing
 	    // also need to take into consideration c_name and kind, but i'm so confused since there's no set_ function to set these values but I'm not sure if we should be setting the values ourselves
 	    set_act_attr_success =
-		set_act_attr(i_t,
-			     i->attributes[iter]->attribute_key,
-			     i->attributes[iter]->attribute_value->act_val->action_type);
+		char* cname = i->attributes[iter]->attribute_value->act_val->action_type->c_name;
+        int kind = atoi(i->attributes[iter]->attribute_value->act_val->action_type->kind);
+        set_act_attr(i_t,
+			 i->attributes[iter]->attribute_key, action_type_new(cname, kind),
+			 i->attributes[iter]->attribute_value->act_val->action_type);
 
 	    if (set_act_attr_success != SUCCESS) {
 		fprintf(stderr, "Could not set action attribute for item \n");
