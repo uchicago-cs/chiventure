@@ -116,9 +116,14 @@ void delete_entry(char *command_name, lookup_t **table);
 lookup_t **lookup_t_new();
 
 
-/* Puts stuff into table, for testing purposes
- * You can see what is in there in the .c file.
- * Returns a pointer to the new table.
+/* Initializes the values in a lookup Hashtable struct
+ * Populates the hashtable with all possible commands
+ *
+ * Parameters:
+ * - none
+ * 
+ * Returns:
+ * - an int corresponding to SUCCESS or FAILURE
  */
 int lookup_t_init();
 
