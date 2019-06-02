@@ -298,15 +298,6 @@ bool all_conditions_met(item_t* item, char* action_name);
 /*action management needs to write perform_effect(game_action_effect* effect) to use in do_item_action(), do_item_item_action()
 
 
-/* get_act_attr() returns the action of an attribute of an item
- * Parameters:
- *  a pointer to the item
- *  the attribute name
- * Returns:
- *  the action struct associated with the attribute
- */
-game_action_t *get_act_attr(item_t *item, char* action_name);
-
 /*REDO THIS add_allowed_action() adds a permitted action to an item
  * Parameters:
  *  a pointer to the item
