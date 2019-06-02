@@ -69,11 +69,40 @@ int item_free(item_t *item_tofree);
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
-// action_type_t written by AM, can be seen in action_structs.h
+typedef struct game_action_condition{
+    char* condition_name;
+    struct game_action_condition *prev, *next; //mandatory for utlist macros
+    //TODO
+} game_action_condition_t;
+
+/* This typedef is to distinguish between game_action_condition_t 
+* pointers which are used to point to the game_action_condition_t structs 
+* in the traditional sense, and those which are used to enable UTLIST functionality
+* on the game_action_condition_t structs as specified in src/common/include 
+*/
+typedef struct game_action_condition* action_condition_list_t;
+
+typedef struct game_action_effect{
+    char* effect_name;
+    struct game_action_effect *prev, *next; //mandatory for utlist macros
+    //TODO
+} game_action_effect_t;
+
+/* This typedef is to distinguish between game_action_effect_t 
+* pointers which are used to point to the game_action_effect_t structs 
+* in the traditional sense, and those which are used to enable UTLIST functionality
+* on the game_action_effect_t structs as specified in src/common/include 
+*/
+typedef struct game_action_effect* action_effect_list_t;
+
 typedef struct action {
     char *action_name;
-    action_type_t *action_type;
-    // will be expanded to include conditions and effects in Sprint 4
+    action_type_t *action_type; // action_type_t written by AM, can be seen in action_structs.h
+    action_condition_list_t; //must be initialized to NULL
+    action_effect_list_t; //must be initialized to NULL
+    char* success_str;
+    char* fail_str;
+    bool action_allowed;
 } game_action_t;
 
 /* item_free() frees allocated space for an action struct in memory
