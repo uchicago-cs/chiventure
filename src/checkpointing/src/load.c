@@ -64,9 +64,8 @@ int load_item(Item *i, item_t *i_t)
                 fprintf(stderr, "Could not set string attribute for item \n");
                 return -1;
             }
-
+	    
         } else if ((strcmp(tag, "INTEGER")) == 0) {
-      
             int set_int_success;
 	    set_int_success = set_int_attr(i_t, 
 					   i->attributes[iter]->attribute_key, 
@@ -76,10 +75,9 @@ int load_item(Item *i, item_t *i_t)
 		fprintf(stderr, "Could not set integer attribute for item \n");
                 return -1;
             }
-
+	    
         } else if ((strcmp(tag, "DOUBLE")) == 0) {
-      
-	    int set_double_success;
+      	    int set_double_success;
 	    set_double_success = set_double_attr(i_t, 
 						 i->attributes[iter]->attribute_key, 
 						 i->attributes[iter]->attribute_value->double_val);
@@ -88,6 +86,7 @@ int load_item(Item *i, item_t *i_t)
                 fprintf(stderr, "Could not set double attribute for item \n");
                 return -1;
             }
+	    
 	} else if ((strcmp(tag, "CHARACTER")) == 0) { 
             int set_char_success;
 	    set_char_success = set_char_attr(i_t, 
@@ -98,7 +97,7 @@ int load_item(Item *i, item_t *i_t)
                 fprintf(stderr, "Could not set character attribute for item \n");
 		return -1;
             }
-      
+	    
         } else if ((strcmp(tag, "BOOLE")) == 0) {
             int set_bool_success;
 	    set_bool_success = set_bool_attr(i_t, 
@@ -110,7 +109,21 @@ int load_item(Item *i, item_t *i_t)
 		return -1;
             }
         
-        } else {
+        } else if ((strcmp(tag, "ACTION")) == 0) {
+	    int set_act_attr_success;
+	    // help, idk if this is correct since the function set_act_attr takes in an action_type_t pointer as an input, but we don't have the pointer after serializing
+	    // also need to take into consideration c_name and kind, but i'm so confused since there's no set_ function to set these values but I'm not sure if we should be setting the values ourselves
+	    set_act_attr_success =
+		set_act_attr(i_t,
+			     i->attributes[iter]->attribute_value->act_val,
+			     i->attributes[iter]->attribute_value->act_val->action_name);
+
+	    if (set_act_attr_success != SUCCESS) {
+		fprintf(stderr, "Could not set action attribute for item \n");
+		return -1;
+	    }			 
+	    
+	} else {
 	    fprintf(stderr, "Could not set any attribute \n");
 	    return -1;
         }
