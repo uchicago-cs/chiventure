@@ -7,6 +7,8 @@
 
 
 #define BUFFER_SIZE (100)
+#define WRONG_KIND (1)
+#define NOT_ALLOWED (2)
 
 
 /* See actionmanagement.h */
@@ -68,7 +70,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
     if (a->kind != ITEM) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
-        return FAILURE;
+        return WRONG_KIND;
     }
     // checks if the action can be used on the item
     int allowed = allowed_action(i, a->c_name);
@@ -76,7 +78,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, i->item_id);
         *ret_string = string;
-        return FAILURE;
+        return NOT_ALLOWED;
     }
     /* TODO: implement the rest of this function, using game_state funcs
      * Will perform the action if all checks pass (Sprint 4)
@@ -100,7 +102,7 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
     if (a->kind != PATH) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
-        return FAILURE;
+        return WRONG_KIND;
     }
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)
@@ -127,7 +129,7 @@ int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
     if (a->kind != ITEM_ITEM) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
-        return FAILURE;
+        return WRONG_KIND;
     }
     // checks if the action can be used on the item
     int allowed = allowed_action(indirect, a->c_name);
@@ -135,7 +137,7 @@ int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, indirect->item_id);
         *ret_string = string;
-        return FAILURE;
+        return NOT_ALLOWED;
     }
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)

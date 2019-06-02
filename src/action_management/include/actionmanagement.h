@@ -75,9 +75,10 @@ list_action_type_t *get_supported_actions();
  * - ret_string : A pointer to a string describing the result of the function
  *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
- * Returns
- * - 0 upon success with a success string as an out parameter
- * - 1 upon failure with a failure string as an out parameter
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - 1 if the action type has the wrong kind, failure string as an out parameter
+ * - 2 if the action can't be used on the item, failure string as an out parameter
  */
 int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string);
 
@@ -91,9 +92,9 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string);
  * - ret_string : A pointer to a string describing the result of the function
  *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
- * Returns
- * - 0 upon success with a success string as an out parameter
- * - 1 upon failure with a failure string as an out parameter
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - 1 if the action type has the wrong kind, failure string as an out parameter
  */
 int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string);
 
@@ -108,9 +109,10 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string);
  * - ret_string : A pointer to a string describing the result of the function
  *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
- * Returns
- * - 0 upon success with a success string as an out parameter
- * - 1 upon failure with a failure string as an out parameter
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - 1 if the action type has the wrong kind, failure string as an out parameter
+ * - 2 if the action can't be used on the item, failure string as an out parameter
  */
 int do_item_item_action(game_t *g, action_type_t *a, item_t *direct, 
                         item_t *indirect, char **ret_string);
