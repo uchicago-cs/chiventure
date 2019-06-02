@@ -48,7 +48,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 
     cmd *c = cmd_from_string(cmd_string, ctx);
     if (!c) {
-        shell_error_arg("unrecognized or malformed command: \"%s\"", input);
+        print_to_cli(ctx, "Error: Malformed input (4 words max)");
     }
     else {
         do_cmd(c, &quit, ctx);

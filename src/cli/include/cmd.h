@@ -105,18 +105,6 @@ action_type_t *find_action(char *command_name, lookup_t **table);
 void delete_entry(char *command_name, lookup_t **table);
 
 
-/* Clears out the entire table, and frees it too!
- *
- *
- * Parameters:
- * -pointer to table
- *
- * Returns:
- * - nothing
- */
-void delete_entries(lookup_t **table);
-
-
 /* Creates a new lookup Hashtable
  *
  * Parameters:
@@ -143,7 +131,7 @@ int lookup_t_init();
  * Returns:
  * - nothing
  */
-void lookup_t_free();
+void lookup_t_free(lookup_t **t);
 
 
 /* Creates a new cmd struct
