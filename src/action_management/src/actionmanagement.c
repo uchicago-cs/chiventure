@@ -5,7 +5,9 @@
 #include "actionmanagement.h"
 #include "common.h"
 
+
 #define BUFFER_SIZE (100)
+
 
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind)

@@ -81,4 +81,3 @@ Test(get_actions, search_failure)
     cr_assert_eq(fight, NULL,
                  "search_supported_actions returned a pointer for invalid query \"fight\".\n");
 }
-

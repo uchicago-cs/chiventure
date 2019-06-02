@@ -42,4 +42,3 @@ list_action_type_t *get_supported_actions()
     }
     return temp;
 }
-
