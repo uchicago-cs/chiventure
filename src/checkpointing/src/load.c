@@ -118,7 +118,7 @@ int load_item(Item *i, item_t *i_t)
         
             set_act_attr_success =
             set_act_attr(i_t,
-			 i->attributes[iter]->attribute_key, action_type_new(cname, kind);
+			 i->attributes[iter]->attribute_key, action_type_new(cname, kind));
 
 	        if (set_act_attr_success != SUCCESS) {
 		    fprintf(stderr, "Could not set action attribute for item \n");
