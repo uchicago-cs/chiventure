@@ -115,8 +115,8 @@ int load_item(Item *i, item_t *i_t)
 	    // also need to take into consideration c_name and kind, but i'm so confused since there's no set_ function to set these values but I'm not sure if we should be setting the values ourselves
 	    set_act_attr_success =
 		set_act_attr(i_t,
-			     i->attributes[iter]->attribute_value->act_val,
-			     i->attributes[iter]->attribute_value->act_val->action_name);
+			     i->attributes[iter]->attribute_key,
+			     i->attributes[iter]->attribute_value->act_val->action_type);
 
 	    if (set_act_attr_success != SUCCESS) {
 		fprintf(stderr, "Could not set action attribute for item \n");
