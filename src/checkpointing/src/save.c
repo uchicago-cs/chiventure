@@ -40,11 +40,11 @@ int save_attribute(attribute_t *a_t, Attribute *a)
 	a->attribute_value->act_val->action_type->c_name =
 	  strdup(a_t->attribute_value.act_val->action_type->c_name);
 	if (a_t->attribute_value.act_val->action_type->kind == ITEM){
-	  a->attribute_value->act_val->action_type->kind = "ITEM";
+	  a->attribute_value->act_val->action_type->kind = "0";
 	} else if (a_t->attribute_value.act_val->action_type->kind == PATH) {
-	  a->attribute_value->act_val->action_type->kind = "PATH";
+	  a->attribute_value->act_val->action_type->kind = "1";
 	} else {
-	  a->attribute_value->act_val->action_type->kind = "ITEM_ITEM";
+	  a->attribute_value->act_val->action_type->kind = "2";
 	}
     }
     
