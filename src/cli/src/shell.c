@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <readline/history.h>
 #include "shell.h"
 
 /* ========================= */
@@ -44,20 +43,6 @@ void greet()
 {
     printf("***** Welcome to CHIVENTURE! *****\n\n");
     printf("NOTHING USEFULL IMPLEMENTED YET !\n\n");
-}
-
-/* See shell.h */
-void print_history()
-{
-    int offset_start = history_base,
-        offset_end = history_length;
-
-    int i, j=1;
-    for (i = offset_start; i <= offset_end; i++)
-    {
-        printf("Entry %d: %s\n", j, history_get(i)->line);
-        j++;
-    }
 }
 
 /* See shell.h */
