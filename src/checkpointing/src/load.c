@@ -273,7 +273,6 @@ int count(game_t *g_t)
     int res = 0;
 
     room_t *curr_room;
-    player_t *curr_player;
     room_list_t *i = get_all_rooms(g_t); 
     for(; i != NULL; i = i->next){
         curr_room = i->room;
@@ -282,11 +281,11 @@ int count(game_t *g_t)
             res++;
         }
     }
-//Need to replace with a player get function, but game state needs to make it (current one takes player ID)
-    ITER_ALL_PLAYERS(g_t, curr_player) {
-        ITER_ALL_ITEMS_IN_INVENTORY(curr_player, curr_item) {
-	    res++;
-        }
+    
+    player_t *curr_player = get_player(g_t, g_t->curr_player->player_id);
+    item_list_t *k = get_all_items_in_inventory(curr_player);
+    for(; k != NULL; k = k->next){
+	res++;
     }
 	
     return res;
@@ -309,9 +308,12 @@ int load_game(Game *g, game_t *g_t)
   
     // Create a deep copy of all items in the game
     int iter = 0;
-    item_t *curr_item;
-    ITER_ALL_ROOMS(g_t, curr_room) {
-        ITER_ALL_ITEMS_IN_ROOM(curr_room, curr_item) {
+    room_list_t *room_list = get_all_rooms(g_t);
+    for(; room_list != NULL; room_list->next){
+        curr_room = room_list->room;
+        item_list_t *item_room_list = get_all_items_in_room(curr_room);
+        for(; item_room_list != NULL; item_room_list->next){
+            item_t *curr_item = item_room_list->item;
             all_items[iter] = item_new(curr_item->item_id, 
 				       curr_item->short_desc, 
 				       curr_item->long_desc);
@@ -319,14 +321,14 @@ int load_game(Game *g, game_t *g_t)
         }
     }
     
-    iter = 0;
-    ITER_ALL_PLAYERS(g_t, curr_player) {
-        ITER_ALL_ITEMS_IN_INVENTORY(curr_player, curr_item) {
-            all_items[iter] = item_new(curr_item->item_id, 
-				       curr_item->short_desc, 
-				       curr_item->long_desc);
-            iter+=1;
-        }
+    curr_player = get_player(g_t, g_t->curr_player->player_id);
+    item_list_t *inventory_list = get_all_items_in_inventory(curr_player);
+    for(; inventory_list != NULL ; inventory_list = inventory_list->next){
+        item_t *curr_item = inventory_list->item;
+        all_items[iter] = item_new(curr_item->item_id, 
+                                   curr_item->short_desc, 
+                                   curr_item->long_desc);
+        iter++;
     }
   
     /* Load all rooms into game
@@ -334,7 +336,9 @@ int load_game(Game *g, game_t *g_t)
     load_room and load_player */
     int i;
     for (i = 0; i < g->rooms_len; i++) {
-        ITER_ALL_ROOMS(g_t, curr_room) {
+        room_list = get_all_rooms(g_t);
+        for(; room_list != NULL; room_list->next){
+            curr_room = room_list->room;
             if (strcmp(g->all_rooms[i]->room_id, curr_room->room_id) == 0) {
                 int load_room_success = load_room(g->all_rooms[i],
 				          curr_room,
@@ -350,16 +354,14 @@ int load_game(Game *g, game_t *g_t)
     
     // Load player(s) into game
     for (i = 0; i < g->players_len; i++) {
-        ITER_ALL_PLAYERS(g_t, curr_player) {
-            if (strcmp(g->all_players[i]->player_id, curr_player->player_id) == 0) {
-                int load_player_success = load_player(g->all_players[i],
-						      curr_player,
-						      all_items,
-						      item_len);
-                if (load_player_success != 0) {
-                    fprintf(stderr, "Failed to load player into game. Abort! \n");
-                    return -1;
-                }
+        if (strcmp(g->all_players[i]->player_id, curr_player->player_id) == 0) {
+            int load_player_success = load_player(g->all_players[i],
+                                                  curr_player,
+                                                  all_items,
+                                                  item_len);
+            if (load_player_success != 0) {
+                fprintf(stderr, "Failed to load player into game. Abort! \n");
+                return -1;
             }
         }
     } 
@@ -368,8 +370,9 @@ int load_game(Game *g, game_t *g_t)
        that contains a room_id.
        In the proto struct, curr_room is simply the room_id as a string */
     if (g->curr_room != NULL) {
-        room_t *curr_r;
-        ITER_ALL_ROOMS(g_t, curr_r) {
+        room_list = get_all_rooms(g_t);
+        for(; room_list != NULL; room_list->next){
+            room_t *curr_r = room_list->room;
             if (strcmp(curr_r->room_id, g->curr_room) == 0) {
                 move_room(g_t, curr_r);
 		//move_room provided by game state to set current room
@@ -378,11 +381,9 @@ int load_game(Game *g, game_t *g_t)
     }
 
     if (g->curr_player != NULL) {
-        player_t *curr_p;
-        ITER_ALL_PLAYERS(g_t, curr_p) {
-            if (strcmp(curr_p->player_id, g->curr_player) == 0) {
-                set_curr_player(g_t, curr_p); //provided by game state
-            }
+        player_t *curr_p = get_player(g_t, g_t->curr_player->player_id);
+        if (strcmp(curr_p->player_id, g->curr_player) == 0) {
+            set_curr_player(g_t, curr_p); //provided by game state
         }
     } 
 
