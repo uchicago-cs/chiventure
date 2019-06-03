@@ -7,7 +7,7 @@
 /* ========================= */
 
 /* See shell.h */
-void help_text()
+void help_text(chiventure_ctx_t *ctx)
 {
     char p[] =
         "HERE IS A BRIEF OVERVIEW OF GAME ACTIONS (SOME NOT IMPLEMENTED)\n"
@@ -33,16 +33,16 @@ void help_text()
         "	 relative to the folder chiventure is running in\n"
         "SAVE [PATH] (NOT IMPLEMENTED)\n"
         "	-Saves a game to a specefied location\n"
-        "QUIT\n"
+        "CTRL + D\n"
         "	-Quit game\n\n";
-    printf("%s",p);
+    print_to_cli(ctx, p);
 }
 
 /* See shell.h */
-void greet()
+void greet(chiventure_ctx_t *ctx)
 {
-    printf("***** Welcome to CHIVENTURE! *****\n\n");
-    printf("NOTHING USEFULL IMPLEMENTED YET !\n\n");
+    print_to_cli(ctx, "***** Welcome to CHIVENTURE! *****\n\n");
+    print_to_cli(ctx, "NOTHING USEFULL IMPLEMENTED YET !\n\n");
 }
 
 /* See shell.h */
