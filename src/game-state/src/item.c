@@ -234,11 +234,12 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
 }
 
-
+/*
 int set_action(item_t* item, char* attr_name, action_type_t *value)
 {
-    //TODO
+    
 }
+*/
 
 // TYPE-SPECIFIC GET_ATTR FUNCTIONS -------------------------------------------
 /* see item.h */
@@ -341,14 +342,18 @@ game_action_t *get_action(item_t *item, char* action_name) {
 }
 
 /* see item.h */
-int add_action(item_t* item, game_action_t *action) {
+int add_action(item_t* item, char *action_name, action_type_t *action_type, char* success_str, char* fail_str)
+{
+    //this should make the entire action struct using action_new
     game_action_t* check;
-    HASH_FIND(hh, item->actions, action->action_name, strnlen(action->action_name, MAX_ID_LEN), check);
-    if (check != NULL) {
+    HASH_FIND(hh, item->actions, action_name, strlen(action_name), check);
+    if (check != NULL) 
+    {
         fprintf(stderr, "Error: this action is already present.\n");
         return FAILURE;
     }
-    HASH_ADD_KEYPTR(hh, item->actions, action->action_name, strnlen(action->action_name, MAX_ID_LEN), action);
+    game_action_t* action = game_action_new(action_name, action_type, success_str, fail_str);
+    HASH_ADD_KEYPTR(hh, item->actions, action_name, strlen(action_name), action);
     return SUCCESS;
 }
 
@@ -419,11 +424,7 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
 }
 
 
-/* see item.h */
-int allowed_action(item_t* item, char* action_name)
-{
-    //TODO
-}
+
 
 // FREEING AND DELETION FUNCTIONS ---------------------------------------------
 
