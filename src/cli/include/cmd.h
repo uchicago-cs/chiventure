@@ -1,15 +1,16 @@
 #ifndef _CLI_INCLUDE_CMD_H
 #define _CLI_INCLUDE_CMD_H
 #include "parser.h"
-
 #include "game.h"
 #include "uthash.h"
 #include "action_structs.h"
 #include "actionmanagement.h"
+#include <ncurses.h>
+#include "ui_ctx.h"
 
+typedef struct chiventure_ctx chiventure_ctx_t;
 /* Operation data type */
-typedef struct lookup_entry lookup_t;
-typedef char *operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+typedef char *operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 // Lookup entry for hashtable, using uthash.
 typedef struct lookup_entry
@@ -27,7 +28,9 @@ typedef struct
     operation *func_of_cmd;
 } cmd;
 
+#include "ctx.h"
 #include "operations.h"
+#include "print_functions.h"
 
 /* Iteratively adds each action into the table, from a
  * list of functions provided by action management
@@ -102,35 +105,60 @@ action_type_t *find_action(char *command_name, lookup_t **table);
 void delete_entry(char *command_name, lookup_t **table);
 
 
-/* Clears out the entire table, and frees it too!
- *
+/* Creates a new lookup Hashtable
  *
  * Parameters:
- * -pointer to table
+ * - None
+ * 
+ * Returns:
+ * - a pointer to a new hashtable, NULL if failure
+ */
+lookup_t **lookup_t_new();
+
+
+/* Initializes the values in a lookup Hashtable struct
+ * Populates the hashtable with all possible commands
+ *
+ * Parameters:
+ * - none
+ * 
+ * Returns:
+ * - an int corresponding to SUCCESS or FAILURE
+ */
+int lookup_t_init();
+
+
+/* Frees resources associated with the lookup hashtable struct
+ *
+ * Parameters:
+ * - pointer to a lookup hashtable
  *
  * Returns:
  * - nothing
  */
-void delete_entries(lookup_t **table);
+void lookup_t_free(lookup_t **t);
 
 
-/* Puts stuff into table, for testing purposes
- * You can see what is in there in the .c file.
- * Returns a pointer to the new table.
- */
-lookup_t **initialize_lookup();
-
-
-/* Heap allocates a new cmd struct
- *
+/* Creates a new cmd struct
  *
  * Parameters:
  * - an array of characters, with a defined lengh
  *
  * Returns:
- * - a pointer to a new cmd struct
+ * - a pointer to a new cmd struct, NULL if failure
  */
 cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE]);
+
+/* Initializes the values in a cmd struct
+ *
+ * Parameters:
+ * - an array of string tokens
+ * - a pointer to a cmd struct
+ * 
+ * Returns:
+ * - an int corresponding to SUCCESS or FAILURE
+ */
+int cmd_init(cmd *c, char *tokens[TOKEN_LIST_SIZE]);
 
 
 /* Frees resources associated with the cmd struct
@@ -165,7 +193,7 @@ char *cmd_name_tos(cmd *c);
  * Returns:
  * - nothing - prints in stdout
  */
-void cmd_show(cmd *c);
+void cmd_show(cmd *c, chiventure_ctx_t *ctx);
 
 
 /* === command parsing === */
@@ -175,12 +203,12 @@ void cmd_show(cmd *c);
  * Almost unneeded, but will stay so that AND is a working command.
  *
  * Parameters:
- * - array of characters, pointer to table
+ * - array of characters, pointer to chiventure context struct
  *
  * Returns:
  * - pointer to command struct, NULL if parse fails
  */
-cmd *cmd_from_string(char *s, lookup_t **table);
+cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx);
 
 
 /*
@@ -200,13 +228,12 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table);
  *
  * Parameters:
  * - pointer to a cmd struct
- * - pointer to game to be altered
- * - pointer to table
+ * - pointer to chiventure context struct
  *
  * Returns:
  * - nothing -> output handled elsewhere
  */
-void do_cmd(cmd *c,int *quit, game_t *game, lookup_t **table);
+void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx);
 
 
 #endif /* _CLI_INCLUDE_CMD_H */
