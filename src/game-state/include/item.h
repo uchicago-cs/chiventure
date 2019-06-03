@@ -18,7 +18,6 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 * and those which are used to hash attribute_t structs with the 
 * UTHASH macros as specified in src/common/include */
 typedef struct attribute* attribute_hash_t;
-typedef struct game_action* action_list_t;
 
 typedef struct game_action *game_action_hash_t;
 
@@ -27,7 +26,7 @@ typedef struct item {
     char *item_id;
     char *short_desc;
     char *long_desc;
-    action_list_t action_list;
+    game_action_hash_t actions;
     attribute_hash_t attributes; // a hashtable for all attributes
 } item_t;
 
@@ -97,6 +96,7 @@ typedef struct attribute_wrapped_for_llist {
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
 typedef struct game_action_condition{
+    char* item_id;
     attribute_t* desired_attribute;
     struct game_action_condition *next;
 } game_action_condition_t;
@@ -124,7 +124,6 @@ typedef struct game_action_effect* action_effect_list_t;
 typedef struct game_action {
     UT_hash_handle hh;
     char* action_name;
-    action_type_t *action_type; // action_type_t written by AM, can be seen in action_structs.h
     action_condition_list_t *conditions; //must be initialized to NULL
     action_effect_list_t *effects; //must be initialized to NULL
     char* success_str;
