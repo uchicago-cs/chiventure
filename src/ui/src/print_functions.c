@@ -46,12 +46,12 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
         return;
     }
 
-    cmd *c = cmd_from_string(cmd_string);
+    cmd *c = cmd_from_string(cmd_string, NULL);
     if (!c) {
         shell_error_arg("unrecognized or malformed command: \"%s\"", input);
     }
     else {
-        do_cmd(c,&quit);
+        do_cmd(c,&quit, NULL, NULL);
         // Add valid input to readline history.
         add_history(input);
     }
