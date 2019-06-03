@@ -50,7 +50,7 @@ int action_type_free(action_type_t *a);
 
 // =============================================================================
 
-/* 
+/*
  * Note: this function is in the src file get_actions.c, a separate module
  * from the rest of the functions, which are in actionmanagement.c.
  * A function that returns all supported actions.
@@ -62,7 +62,6 @@ int action_type_free(action_type_t *a);
  * - a linked list of action_type_t structs
  */
 list_action_type_t *get_supported_actions();
-
 
 // =============================================================================
 
@@ -94,7 +93,7 @@ char *do_item_action(game_t *g, action_type_t *a, item_t *i);
 char *do_path_action(game_t *g, action_type_t *a, path_t *p);
 
 
-/* A function that executes KIND 5 actions (ACTION <item> <item>)
+/* A function that executes KIND 3 actions (ACTION <item> <item>)
  *
  * Parameters:
  * - g: A game struct containing a field for the current player
