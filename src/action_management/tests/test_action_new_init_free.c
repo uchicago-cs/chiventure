@@ -67,8 +67,8 @@ Test(action_type, init_ITEM)
 
      cr_assert_eq(rc, SUCCESS, "action_type_init() failed");	
 
-     cr_assert_eq(a.c_name, "action_type_init() didn't set a.c_name");	
-    cr_assert_eq(a.kind, "action_type_init() didn't set a.kind");	
+     cr_assert_eq(a.c_name, "TAKE", "action_type_init() didn't set a.c_name");	
+    cr_assert_eq(a.kind, ITEM, "action_type_init() didn't set a.kind");	
 }	
 
 
@@ -84,8 +84,8 @@ Test(action_type, init_PATH)
 
      cr_assert_eq(rc, SUCCESS, "action_type_init() failed");	
 
-     cr_assert_eq(a.c_name, "action_type_init() didn't set a.c_name");	
-    cr_assert_eq(a.kind, "action_type_init() didn't set a.kind");	
+     cr_assert_eq(a.c_name, "GO", "action_type_init() didn't set a.c_name");	
+    cr_assert_eq(a.kind, PATH, "action_type_init() didn't set a.kind");	
 }	
 
 
@@ -101,8 +101,8 @@ Test(action_type, init_ITEM_ITEM)
 
      cr_assert_eq(rc, SUCCESS, "action_type_init() failed");	
 
-     cr_assert_eq(a.c_name, "action_type_init() didn't set a.c_name");	
-    cr_assert_eq(a.kind, "action_type_init() didn't set a.kind");	
+     cr_assert_eq(a.c_name, "PUT_ON", "action_type_init() didn't set a.c_name");	
+    cr_assert_eq(a.kind, ITEM_ITEM, "action_type_init() didn't set a.kind");	
 }
 
 /* Checks that a new action type, kind 1 is freed without interruption */
