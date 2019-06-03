@@ -91,5 +91,14 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r);
  */
 coord_record_t *create_valid_map(game_t *game);
 
+/* get_test_coord_hash():
+ * 
+ * Parameters: 
+ * 
+ * 
+ * Returns:
+ * - A pointer to a hashmap of rooms for testing the map functions
+ */
+coord_record_t *get_test_coord_hash();
 
 #endif /* INCLUDE_COORDINATE_H_ */

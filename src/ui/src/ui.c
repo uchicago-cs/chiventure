@@ -29,7 +29,6 @@ void start_ui(chiventure_ctx_t *ctx)
     int ch;
 
 
-
     // starts curses mode
     initscr();
     // pressed keys are not displayed in the window
@@ -37,8 +36,6 @@ void start_ui(chiventure_ctx_t *ctx)
     // height and width of the terminal window
     int width = COLS;
     int height = LINES /2;
-
-
 
     map_t *map = ui_ctx->map;
     // Initializes the CLI window
@@ -55,7 +52,6 @@ void start_ui(chiventure_ctx_t *ctx)
     wrefresh(cli->w);
 
     // sample game loop. uses ctrl+D key to exit
-
     while ((ch = wgetch(cli->w)) != 4) {
 
         height = LINES / 2;
@@ -71,11 +67,10 @@ void start_ui(chiventure_ctx_t *ctx)
             wresize(info->w, height, width);
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
             // redraws the info box
-            box(info->w, 0, 0);
+            box(info->w, 0, 0); 
         }
         wresize(cli->w, height, width);
         mvwin(cli->w, !(ui_ctx->cli_top) * height, 0);
-
 
 
         // detects ALt+key commands
@@ -89,7 +84,6 @@ void start_ui(chiventure_ctx_t *ctx)
                 toggle_map(ctx);
                 ui_ctx = ctx->ui_ctx;
                 curr_page = ui_ctx->curr_page;
-
             }
             else if (ch == 's') {
                 ch = 27;
@@ -99,7 +93,7 @@ void start_ui(chiventure_ctx_t *ctx)
         else if (isalnum(ch)) {
             echo();
             ungetch(ch);
-            window_print(ctx,  cli);
+            window_print(ctx, cli);
             noecho();
         }
 
@@ -110,15 +104,16 @@ void start_ui(chiventure_ctx_t *ctx)
         }
         else if (curr_page == MAP_WIN_NUM) {
             wresize(info->w, 0, 0);
+	    touchwin(info->w);
+	    wrefresh(info->w);
             int cli_top = ui_ctx->cli_top;
             if (map != NULL) {
-                map_set_displaywin(map, 0, cli_top * height, width,
+	        map_set_displaywin(map, 0, cli_top * height, width,
                                    height + cli_top * height);
-                map_center_on(map, 0, 0, 0);
+                map_center_on(ctx, 0, 0, 0);
             }
-
         }
-        wrefresh(info->w);
+	wrefresh(info->w);
 
         // Refreshes the CLI window
         wrefresh(cli->w);

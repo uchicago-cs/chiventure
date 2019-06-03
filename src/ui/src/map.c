@@ -89,8 +89,7 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 {
     assert(ctx != NULL);
     assert(ctx->ui_ctx != NULL);
-
-    fprintf(stderr,"About to draw rooms\n");
+    
     // Declare variables
     coord_record_t *itr;
     map_t *map = ctx->ui_ctx->map;
@@ -100,11 +99,9 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 
     // Get x, y, z coordinates for rooms
 
-    fprintf(stderr,"About to start loop\n");
     //Temporary integer to count loop
     int temp = 1;
     for (itr = ctx->ui_ctx->coord_hash; itr != NULL; itr=itr->hh.next) {
-      fprintf(stderr,"First line in loop\n");
         //Temporary:
         temp++;
 
@@ -117,7 +114,7 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
                y = rooms[i]->loc->y;
                zroom = rooms[i]->loc->z;
              */
-	fprintf(stderr,"Zroom %i, z %i\n",zroom,z);
+
         if (zroom == z) {
             x_offset = left_x + (room_w * x);
             y_offset = top_y + (room_h * y);
