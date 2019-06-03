@@ -43,10 +43,10 @@ Please see this document for all possible actions and descriptions: https://gith
 - intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 - end: `<CONDITION>` a condition specification for how the game ends. This must be one of two ways:
    1. The inventory contains a specific item
-    - Ex. inventory contains: emerald gem
+    - Ex. inventory contains: "emerald gem"
 
-   2. The number of points that the player has accumulated
-    - Ex. num_points = 100
+   2. The player is located in a specific room
+    - Ex. in_room: "BEDROOM"
 
 ### GAME example:
 ```yaml
@@ -54,7 +54,7 @@ Please see this document for all possible actions and descriptions: https://gith
  - intro: “Welcome to the virtual house. You have been wandering for quite some time,
    and you need to determine how to return to reality.”
  - end:
-   - Inventory: "wand"
+   - in_room: "LIVING ROOM"
 ```
 
 ## ROOM:
@@ -203,6 +203,10 @@ ROOM Example:
   actions:
   
     - action: "take"
+    
+      text_success: "Congrats! You got the wand and can perform a spell!"
+
+      text_fail: "You cannot take the wand until the top hat is on your head"
 
       conditions:
       
@@ -211,10 +215,6 @@ ROOM Example:
         attribute: "on_head"
 
         value: true
-
-      text_success: "Congrats! You got the wand and can perform a spell!"
-
-      text_fail: "You cannot take the wand until the top hat is on your head"
 
     - action: "consume"
 
