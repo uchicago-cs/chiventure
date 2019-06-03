@@ -28,18 +28,4 @@
  */
 cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
 
-
-/*
- * Checks that a specified filetype is a .dat file
- *
- * Parameters:
- * - A string of the filename
- *
- *
- * Returns:
- * - TRUE if proper filename, FALSE if not
- */
-bool validate_filename(char *filename);
-
-
 #endif /* _CLI_INCLUDE_VALIDATE_H_ */
