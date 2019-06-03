@@ -17,7 +17,7 @@ Test(save, item)
     candy_t = item_new(item_id, short_desc, long_desc);
     cr_assert_not_null(candy_t, "candy_t is null");
     Item *candy = malloc(sizeof(Item));
-    
+
     int success;
 
     // functions that will be in game-states pull request
@@ -37,9 +37,9 @@ Test(save, item)
     success = create_new_int_attr(candy_t, "int", 1);
     cr_assert_eq(success, 0, "create_new_int_attr failed");
     */
-    
+
     success = save_item(candy_t, candy);
-    
+
     cr_assert_eq(success, 0, "save_item failed %d", success);
     cr_assert_str_eq(candy->item_id, "1234", "save_item: saving item_id failed");
     cr_assert_str_eq(candy->short_desc, "salt water taffy",
@@ -47,7 +47,7 @@ Test(save, item)
     cr_assert_str_eq(candy->long_desc, "glues mouth shut",
 		     "save_item: saving long_desc failed");
     cr_assert_eq(candy->attributes_len, 5,
-		 "save_item: saving the attributes_len failed");
+		 "save_item: saving the attributes_len failed %d", candy->attributes_len);
 
     free(candy);
 }
@@ -73,13 +73,13 @@ Test(save, room)
     // path_new is a function in game-states's path.h. It creates a path_t struct.
     path_t = path_new(room_t, "east");
     cr_assert_not_null(path_t, "path_t is null in save_room");
-    
+
     int succ;
     succ = add_item_to_room(room_t, ramen_t);
     cr_assert_eq(succ, 0, "save_room failed");
     succ = add_path_to_room(room_t, path_t);
     cr_assert_eq(succ, 0, "save_room failed");
-    
+
     Room *dorm = malloc(sizeof(Room));
     succ = save_room(room_t, dorm);
     printf("starting room tests");
@@ -136,7 +136,7 @@ Test(save, game)
     int succ;
     succ = add_room_to_game(game_t, room_t);
     cr_assert_eq(succ, 0, "add_room_to_game failed");
-    
+
     player_t *player_t;
      /* player_new is a function in game-states's player.h. It creates a
      * player_t struct.
@@ -155,23 +155,22 @@ Test(save, game)
     int success = save_game(game_t, game);
 
     cr_assert_eq(success, 0, "save_game failed");
-    cr_assert_str_eq(game->curr_room, "5", 
+    cr_assert_str_eq(game->curr_room, "5",
                   "save_game: saving curr_room failed");
-    cr_assert_str_eq(game->curr_player, "Chad", 
+    cr_assert_str_eq(game->curr_player, "Chad",
                   "save_game: saving curr_player failed");
-    cr_assert_eq(game->players_len, 0, "save_game: saving players_len %d failed",
+    cr_assert_eq(game->players_len, 1, "save_game: saving players_len %d failed",
 		 game->players_len);
-    /*    
     cr_assert_str_eq(game->all_players[0]->player_id, "Chad",
                   "save_game: saving player_id failed");
     cr_assert_eq(game->rooms_len, 1, "save_game: saving rooms_len failed");
-    cr_assert_str_eq(game->all_rooms[0]->room_id, "5", 
+    cr_assert_str_eq(game->all_rooms[0]->room_id, "5",
                   "save_game: saving room_id failed");
     cr_assert_str_eq(game->all_rooms[0]->short_desc, "college dorm",
                   "save_game: saving short_desc failed");
     cr_assert_str_eq(game->all_rooms[0]->long_desc,
                   "there are clothes and empty ramen cups everywhere",
                   "save_game: saving long_desc failed");
-    */
+
     free(game);
 }
