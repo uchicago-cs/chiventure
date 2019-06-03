@@ -5,6 +5,7 @@
 #include "shell.h"
 #include "assert.h"
 #include "validate.h"
+#include "room.h"
 
 // remove the comment as soon as checkpointing removes their dummy struct
 //#include "../../checkpointing/include/save.h"
@@ -42,40 +43,40 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     if(tokens[1] == NULL)
-    {
-        return game->curr_room->long_desc;
-    }
-    item_t *curr_item;
-    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, curr_item)
-    {
-        if (strcmp(curr_item->item_id,tokens[1]) == 0)
-        {
-            return curr_item->long_desc;
+    {   
+        if(game !=NULL){
+            return game->curr_room->long_desc;
         }
+        else{
+            return "Error !";
+        }
+    }
+    item_t *curr_item = NULL;
+    curr_item = get_item_in_room(game->curr_room, tokens[1]);
+    if(curr_item != NULL){
+        return curr_item->long_desc;
     }
     return "specified item not found\n";
 }
+
 
 //KIND 1:   ACTION <item>
 char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     if(tokens[1] == NULL)
-    {
-        return "You must identify an object to act on\n";
-    }
+        {
+            return "You must identify an object to act on\n";
+        }
     item_t *curr_item;
-    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, curr_item)
-    {
-        if (strcmp(curr_item->item_id,tokens[1]) ==0 )
+    curr_item = get_item_in_room(game->curr_room, tokens[1]);
+    if (curr_item != NULL)
         {
             action_type_t *action = find_action(tokens[0], table);
             do_item_action(game, action, curr_item);
             return "The object is found\n";
         }
-    }
     return "The object could not be found\n";
 }
-
 //KIND 2:   ACTION <direction>
 char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
@@ -101,34 +102,15 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup
     }
 
     item_t *item1, *item2;
-    int find_it1 = 1, find_it2 = 1; // set to be 0 if an item is found
-
-    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, item1)
-    {
-        if(strcmp(item1->item_id,tokens[1]) == 0)
-        {
-            find_it1 = 0;
-        }
-        if(strcmp(item2->item_id,tokens[3]) == 0)
-        {
-            find_it2 = 0;
-        }
-    }
-
-    if(find_it1 == 1 || find_it2 == 1)
-    {
+    item1 = get_item_in_room(game->curr_room, tokens[1]);
+    item2 = get_item_in_room(game->curr_room, tokens[3]);
+    
+    if(item1 == NULL || item2 == NULL){
         return "The object(s) could not be found";
     }
-
     action_type_t *action = find_action(tokens[0], table);
     do_item_item_action(game, action, item1, item2);
     return "is an action!";
-}
-
-
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
-{
-    return "You cannot perform this action !";
 }
 
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
