@@ -346,14 +346,14 @@ bool check_condition(item_t *item, attribute_t* desired_attribute);
 
 
 
-//check if types are the same
-//check if values are the same
-
+/* all_conditions_met() checks if all of the conditions of an action are met
+ * Parameters:
+ *  a pointer to the item to check
+ *  the action
+ * Returns:
+ *  true if all conditions are met, false if not
+ */
 bool all_conditions_met(item_t* item, char* action_name);
-
-/*action management needs to write perform_effect(game_action_effect* effect) to use in do_item_action(), do_item_item_action()
-*/
-
 
 
 /* REDO THIS possible_action() (formerly allowed_action())checks if an item permits a specific action
@@ -361,9 +361,9 @@ bool all_conditions_met(item_t* item, char* action_name);
  *  a pointer to the item
  *  the action name
  * Returns:
- *  SUCCESS if item contains action, FAILURE if it does not
+ *  true if item contains action, false if it does not
  */
-int possible_action(item_t* item, char* action_name);
+bool possible_action(item_t* item, char* action_name);
 
 //ACTION LIST FUNCTIONS
 /*

@@ -355,6 +355,19 @@ int add_action(item_t* item, char *action_name, action_type_t *action_type, char
     return SUCCESS;
 }
 
+bool possible_action(item_t item, char* action_name)
+{
+    game_action_t* possible_action = get_action(item, action_name);
+    if (possible_action == NULL)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }   
+}
+
 bool check_condition(item_t *item, attribute_t* desired_attribute)
 {
     char* attribute_name = desired_attribute->attribute_key;
@@ -407,6 +420,15 @@ bool check_condition(item_t *item, attribute_t* desired_attribute)
     }
     return false;
 }
+
+
+
+bool all_conditions_met(item_t* item, char* action_name)
+{
+    //call possible action to see if the action exists
+    //call iterate through list of conditions and call check_condition on each node
+}
+
 
 
  // ---------------------------------------------------------------------------
