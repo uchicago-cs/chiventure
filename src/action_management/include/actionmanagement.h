@@ -36,7 +36,6 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind);
  */
 int action_type_init(action_type_t *a, char *c_name, enum action_kind kind);
 
-
 /*
  * A function that frees the resources associated with an action type struct
  *
@@ -44,9 +43,9 @@ int action_type_init(action_type_t *a, char *c_name, enum action_kind kind);
  * - a: An action type struct. Must point to action type struct allocated by action_type_new
  *
  * Returns:
- * - Returns void.
+ * - 0 if success, 1 if an error occurs
  */
-void action_type_free(action_type_t *a);
+int action_type_free(action_type_t *a);
 
 
 // =============================================================================
