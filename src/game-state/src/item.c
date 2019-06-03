@@ -195,7 +195,7 @@ int set_char_attr(item_t* item, char* attr_name, char value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = CHARACTER;
         new_attribute->attribute_value.char_val = value;
-	new_attribute->attribute_key = strndup(attr_name, 100);
+	    new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -219,7 +219,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = BOOLE;
         new_attribute->attribute_value.bool_val = value;
-	new_attribute->attribute_key = strndup(attr_name, 100);
+	    new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -353,6 +353,11 @@ int add_action(item_t* item, char *action_name, action_type_t *action_type, char
     game_action_t* action = game_action_new(action_name, action_type, success_str, fail_str);
     HASH_ADD_KEYPTR(hh, item->actions, action_name, strlen(action_name), action);
     return SUCCESS;
+}
+
+int add_action_condition(item_t* item, char* action_name)
+{
+    //TODO: add more parameters & how to support conditions being multiple types?? 
 }
 
 bool possible_action(item_t item, char* action_name)
