@@ -344,9 +344,7 @@ game_action_t *get_action(item_t *item, char* action_name) {
 /* see item.h */
 int add_action(item_t* item, char *action_name, action_type_t *action_type, char* success_str, char* fail_str)
 {
-    //this should make the entire action struct using action_new
-    game_action_t* check;
-    HASH_FIND(hh, item->actions, action_name, strlen(action_name), check);
+    game_action_t* check = get_action(item, action_name);
     if (check != NULL) 
     {
         fprintf(stderr, "Error: this action is already present.\n");
@@ -355,6 +353,59 @@ int add_action(item_t* item, char *action_name, action_type_t *action_type, char
     game_action_t* action = game_action_new(action_name, action_type, success_str, fail_str);
     HASH_ADD_KEYPTR(hh, item->actions, action_name, strlen(action_name), action);
     return SUCCESS;
+}
+
+bool check_condition(item_t *item, attribute_t* desired_attribute)
+{
+    char* attribute_name = desired_attribute->attribute_key;
+    attribute_t* actual_attribute = get_attribute(item, attribute_name);
+    if(actual_attribute == NULL)
+    {
+        return false;
+    }
+    if(actual_attribute->attribute_tag != desired_attribute->attribute_tag)
+    {
+        return false;
+    }
+    switch(actual_attribute->attribute_tag)
+    {
+        case(DOUBLE):
+            if (attribute_1->attribute_value.double_val ==
+                attribute_2->attribute_value.double_val)
+            {
+                return true;
+            }
+            break;
+        case(BOOLE):
+            if (attribute_1->attribute_value.bool_val ==
+                attribute_2->attribute_value.bool_val)
+            {
+                return true;
+            }
+            break;
+        case(CHARACTER):
+            if (attribute_1->attribute_value.char_val ==
+                attribute_2->attribute_value.char_val)
+            {
+                return true;
+            }
+            break;
+        case(STRING):
+            if (!strcmp(attribute_1->attribute_value.str_val,
+                attribute_2->attribute_value.str_val))
+            {
+                return true;
+            }
+            break;
+        case(INTEGER):
+            if (attribute_1->attribute_value.int_val ==
+                attribute_2->attribute_value.int_val)
+            {
+                return true;
+            }
+            break;
+    }
+    return false;
 }
 
 
@@ -414,10 +465,6 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
             {
                 comparison = 1;
             }
-            break;
-        case(ACTION):
-        // just for now to get prototype out, we need an actions_eq function
-            comparison = 1;
             break;
     }
     return comparison;
