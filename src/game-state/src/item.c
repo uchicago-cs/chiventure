@@ -44,25 +44,32 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
-int action_init(game_action_t *new_action, char *act_name,
-    action_type_t *act_type)
+int game_action_init(game_action_t *new_action, char *act_name,
+    action_type_t *act_type, char* success_str, char* fail_str)
 {
     assert(new_action != NULL);
 
-    strcpy(new_action->action_name, act_name);
+    strncpy(new_action->action_name, act_name, strlen(act_name));
     new_action->action_type = act_type;
+    new_action->conditions = NULL; //by UTLIST rules
+    new_action->effects= NULL; //by UTLIST rules
+    strncpy(new_action->success_str, success_str, strlen(success_str));
+    strncpy(new_action->fail_str, fail_str, strlen(fail_str));
 
     return SUCCESS;
 }
 
+
+
+
 /* see item.h */
-game_action_t *game_action_new(char *act_name, action_type_t *act_type)
+game_action_t *game_action_new(char *action_name, action_type_t *action_type, char* success_str, char* fail_str)
 {
     game_action_t *new_action = malloc(sizeof(game_action_t));
     new_action->action_name = malloc(MAX_ID_LEN * sizeof(char));
     new_action->action_type = malloc(sizeof(action_type_t));
 
-    int check = action_init(new_action, act_name, act_type);
+    int check = game_action_init(new_action, action_name, action_type, success_str, fail_str);
 
     if (new_action == NULL || new_action->action_name == NULL ||
        new_action->action_type == NULL) {
@@ -227,29 +234,10 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
 }
 
-int set_act_attr(item_t* item, char* attr_name, action_type_t *value)
-{
-    attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_tag = ACTION;
-        new_attribute->attribute_value.act_val = game_action_new(attr_name,
-            value);
-	new_attribute->attribute_key = strndup(attr_name, 100);
-        int rv = add_attribute_to_hash(item, new_attribute);
-        return rv;
-    }
-    else if (res != NULL && res->attribute_tag != ACTION) {
-        return FAILURE; // skeleton for not overriding type
-    }
 
-    else
-    {
-        // this needs to be discussed
-        res->attribute_value.act_val = game_action_new(attr_name, value);
-        return SUCCESS;
-    }
+int set_action(item_t* item, char* attr_name, action_type_t *value)
+{
+    //TODO
 }
 
 // TYPE-SPECIFIC GET_ATTR FUNCTIONS -------------------------------------------
@@ -431,28 +419,30 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
     return comparison;
 }
 
+/* see item.h */
+int add_allowed_action(item_t* item, char *act_name, action_type_t *act_type)
+{
+    //TODO
+}
 
 /* see item.h */
 int allowed_action(item_t* item, char* action_name)
 {
-    attribute_t* action = get_attribute(item, action_name);
-    if (action == NULL)
-    {
-        return FAILURE;
-    }
-    else
-    {
-        return SUCCESS;
-    }
+    //TODO
 }
 
 // FREEING AND DELETION FUNCTIONS ---------------------------------------------
 
-int game_action_free(game_action_t *action_tofree) {
-    free(action_tofree->action_name);
-    free(action_tofree->action_type);
-    free(action_tofree);
-
+/* ADD TO ITEM.H */
+int game_action_free(game_action_t* game_action)
+{
+    free(game_action->action_name);
+    //FREE ACTION TYPE USING AM's FUNCTION
+    //CREATE FREE LIST FUNCTION TO FREE CONDITIONS
+    //CREATE FREE LIST FUNCTION TO FREE EFFECTS
+    free(game_action->success_str);
+    free(game_action->fail_str);
+    free(game_action);
     return SUCCESS;
 }
 
@@ -460,13 +450,6 @@ int game_action_free(game_action_t *action_tofree) {
 /* see item.h */
 int attribute_free(attribute_t *attribute) {
     free(attribute->attribute_key);
-
-    if (attribute->attribute_tag == ACTION) {
-        game_action_free(attribute->attribute_value.act_val);
-        free(attribute);
-        return SUCCESS;
-    }
-
 
     free(attribute);
     return SUCCESS;

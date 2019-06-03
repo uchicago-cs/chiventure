@@ -20,6 +20,8 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 typedef struct attribute* attribute_hash_t;
 typedef struct game_action_t* action_list_t;
 
+typedef struct action *game_action_hash_t;
+
 typedef struct item {
     UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
     char *item_id;
@@ -27,6 +29,7 @@ typedef struct item {
     char *long_desc;
     action_list_t *actions;
     attribute_hash_t attributes; // a hashtable for all attributes
+    game_action_hash_t actions;
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are 
@@ -68,51 +71,6 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 */
 int item_free(item_t *item_tofree);
 
-// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
-
-
-
-/* This typedef is to distinguish between game_action_condition_t 
-* pointers which are used to point to the game_action_condition_t structs 
-* in the traditional sense, and those which are used to enable UTLIST functionality
-* on the game_action_condition_t structs as specified in src/common/include 
-*/
-typedef struct game_action_condition* action_condition_list_t;
-
-typedef struct game_action_effect{
-    item_t *item;
-    char* attribute_key;
-
-    struct game_action_effect *prev, *next; //mandatory for utlist macros
-    //TODO
-} game_action_effect_t;
-
-/* This typedef is to distinguish between game_action_effect_t 
-* pointers which are used to point to the game_action_effect_t structs 
-* in the traditional sense, and those which are used to enable UTLIST functionality
-* on the game_action_effect_t structs as specified in src/common/include 
-*/
-typedef struct game_action_effect* action_effect_list_t;
-
-typedef struct action {
-    UT_hash_handle hh; // required for uthash
-    char *action_name;
-    action_type_t *action_type; // action_type_t written by AM, can be seen in action_structs.h
-    action_condition_list_t conditions; //must be initialized to NULL
-    action_effect_list_t effects; //must be initialized to NULL
-    char* success_str;
-    char* fail_str;
-} game_action_t;
-
-
-/* item_free() frees allocated space for an action struct in memory
-*  Parameters:
-*    a pointer to the action
-*  Returns:
-*    SUCCESS if successful, FAILURE if not
-*/
-int game_action_free(game_action_t *action_tofree);
-
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
@@ -121,7 +79,6 @@ typedef union attribute_value {
     bool bool_val;
     char* str_val;
     int int_val;
-    game_action_t *act_val;
 } attribute_value_t;
 
 enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER, ACTION};
@@ -138,6 +95,53 @@ typedef struct attribute_wrapped_for_llist {
     attribute_t *attribute;
 } attribute_list_t;
 
+// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
+
+typedef struct game_action_condition{
+    attribute_t* desired_attribute;
+    struct game_action_condition *next;
+} game_action_condition_t;
+
+/* This typedef is to distinguish between game_action_condition_t 
+* pointers which are used to point to the game_action_condition_t structs 
+* in the traditional sense, and those which are used to enable UTLIST functionality
+* on the game_action_condition_t structs as specified in src/common/include 
+*/
+typedef struct game_action_condition* action_condition_list_t;
+
+typedef struct game_action_effect{
+    char* item_id;
+    attribute_t* changed_attribute;
+    struct game_action_effect *next; //mandatory for utlist macros
+} game_action_effect_t;
+
+/* This typedef is to distinguish between game_action_effect_t 
+* pointers which are used to point to the game_action_effect_t structs 
+* in the traditional sense, and those which are used to enable UTLIST functionality
+* on the game_action_effect_t structs as specified in src/common/include 
+*/
+typedef struct game_action_effect* action_effect_list_t;
+
+typedef struct game_action {
+    UT_hash_handle hh;
+    char* action_name;
+    action_type_t *action_type; // action_type_t written by AM, can be seen in action_structs.h
+    action_condition_list_t *conditions; //must be initialized to NULL
+    action_effect_list_t *effects; //must be initialized to NULL
+    char* success_str;
+    char* fail_str;
+} game_action_t;
+
+
+/* item_free() frees allocated space for an action struct in memory
+*  Parameters:
+*    a pointer to the action
+*  Returns:
+*    SUCCESS if successful, FAILURE if not
+*/
+int game_action_free(game_action_t *action_tofree);
+
+
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
 
 /* attribute_free() frees given attribute
@@ -148,7 +152,7 @@ typedef struct attribute_wrapped_for_llist {
  */
 int attribute_free(attribute_t *attribute);
 
-/* attributes_equal() checks if two items have the same attribute
+/* attributes_equal() checks if two items have the same attributes
  * Parameters:
  *  pointer to item1
  *  pointer to item2
@@ -327,14 +331,28 @@ game_action_t *get_action(item_t *item, char* action_name);
  */
 int add_action(item_t* item, game_action_t *action);
 
-/* allowed_action() checks if an item permits a specific action
+
+//TODO SPRINT 4
+bool check_condition(item_t *item, attribute_t* desired_attribute);
+//check if types are the same
+//check if values are the same
+
+bool all_conditions_met(item_t* item, char* action_name);
+
+/*action management needs to write perform_effect(game_action_effect* effect) to use in do_item_action(), do_item_item_action()
+
+
+/*REDO THIS add_allowed_action() adds a permitted action to an item */
+int add_allowed_action(item_t* item, char *action_name, action_type_t *action_type, char* success_str, char* fail_str);
+
+/* REDO THIS possible_action() (formerly allowed_action())checks if an item permits a specific action
  * Parameters:
  *  a pointer to the item
  *  the action name
  * Returns:
  *  SUCCESS if item contains action, FAILURE if it does not
  */
-int allowed_action(item_t* item, char* action_name);
+int possible_action(item_t* item, char* action_name);
 
 //ACTION LIST FUNCTIONS
 /*

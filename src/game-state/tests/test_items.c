@@ -207,30 +207,6 @@ Test(attribute, set_bool_attr)
 
 }
 
-/* Checks creation of new action attribute and adding it to an item */
-Test(attribute, set_act_attr)
-{
-	item_t *test_item = item_new("test_item", "attr test",
-    "item to test setting attributes");
-    action_type_t *test_act_type = action_type_new("pull", 1);
-	int rv = set_act_attr(test_item, "pull", test_act_type);
-
-	cr_assert_eq(rv, SUCCESS,
-        "change_bool_attribute: did not successfully set attr");
-
-	int num_in_hash = HASH_COUNT(test_item->attributes);
-	cr_assert_gt(num_in_hash, 0,
-        "change_bool_attribute: no elements added to hash");
-
-	attribute_t* test_attr = get_attribute(test_item, "pull");
-	cr_assert_not_null(test_attr,
-        "change_act_attribute: null attribute returned");
-	game_action_t *test_act_attr = test_attr->attribute_value.act_val;
-	cr_assert_str_eq(test_act_attr->action_name, "pull",
-    "change_act_attribute: set the wrong value");
-
-}
-
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS CHANGING ATTR VALUE ------------------------
 
 /* Checks creation of new string attribute and changing its value */
@@ -554,24 +530,6 @@ Test(attribute, get_bool_attr)
 
 }
 
-/* Checks retrieval of action attribute value */
-Test(attribute, get_act_attr)
-{
-	item_t *test_item = item_new("test_item", "attr test",
-    "item to test getting attributes");
-    action_type_t *test_act_type = action_type_new("open", 1);
-	int rv = set_act_attr(test_item, "open", test_act_type);
-
-	cr_assert_eq(rv, SUCCESS, "change_act_attribute: did not successfully set attr");
-
-	int num_in_hash = HASH_COUNT(test_item->attributes);
-	cr_assert_gt(num_in_hash, 0, "change_act_attribute: no elements added to hash");
-
-	game_action_t *test_act = get_act_attr(test_item, "open");
-	cr_assert_str_eq(test_act->action_name, "open",
-    "change_act_attribute: set the wrong value");
-
-}
 
 /* Checks if retrieval of non-str attribute using get_str_attr is blocked */
 Test(attribute, get_non_str_attr) {
@@ -651,24 +609,6 @@ Test(attribute, get_non_bool_attr) {
 
     cr_assert_null(check, "get_non_bool_attr() test: incorrect finding");
 }
-
-/* Checks if retrieval of non-action attribute using get_act_attr is blocked */
-Test(attribute, get_non_act_attr) {
-	item_t *test_item = item_new("test item", "test item for testing",
-    "test item for testing item");
-
-	int rv = set_str_attr(test_item, "Attribute_Test_Name",
-    "Attribute_Test_Value");
-	cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
-
-	int num_in_hash = HASH_COUNT(test_item->attributes);
-	cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-	game_action_t *check = get_act_attr(test_item, "Attribute_Test_Name");
-
-    cr_assert_null(check, "get_non_act_attr() test: incorrect finding");
-}
-
-
 
 // TEST FOR ATTRIBUTES_EQUAL()-------------------------------------------------
 
@@ -884,43 +824,20 @@ Test(attribute_equal, char_to_bool)
 /* Checks adding an action to an item */
 Test(attribute, add_an_action)
 {
-	item_t *test_item = item_new("test_item", "action test",
-    "item to test setting actions");
-    action_type_t *test_action = action_type_new("push", 1);
-	int rv = add_allowed_action(test_item, "push", test_action);
-	cr_assert_eq(rv, SUCCESS,
-        "add_allowed_action: did not successfully set action");
+	
 }
 
 
 /* Checks retrieving an action from an item */
 Test(attribute, get_action)
 {
-	item_t *test_item = item_new("test_item", "action test",
-    "item to test setting actions");
-    action_type_t *test_act_type = action_type_new("push", 1);
 
-	int rv = add_allowed_action(test_item, "push", test_act_type);
-	cr_assert_eq(rv, SUCCESS,
-        "add_allowed_action: did not successfully set action");
-	rv = allowed_action(test_item, "push");
-	cr_assert_eq(rv, SUCCESS,
-        "add_allowed_action: did not retrieve action");
 }
 
 /* Checks if retrieving a nonexistent action from an item blocked*/
 Test(attribute, get_non_existent_action)
 {
-	item_t *test_item = item_new("test_item", "action test",
-    "item to test setting actions");
-    action_type_t *test_act_type = action_type_new("push", 1);
 
-	int rv = add_allowed_action(test_item, "push", test_act_type);
-	cr_assert_eq(rv, SUCCESS,
-        "add_allowed_action: did not successfully set action");
-	rv = allowed_action(test_item, "pull");
-	cr_assert_eq(rv, FAILURE,
-        "add_allowed_action: retrieved nonexistent action");
 }
 
 // TEST FOR ATTRIBUTE_FREE() --------------------------------------------------
@@ -940,22 +857,6 @@ Test(attribute, attr_free)
 
 }
 
-Test(attribute, act_attr_free)
-{
-    attribute_t *test_attr = malloc(sizeof(attribute_t));
-    action_type_t *test_act_type = action_type_new("push", 1);
-    game_action_t *test_act = game_action_new("push", test_act_type);
-
-    test_attr->attribute_key = (char*)malloc(100);
-    test_attr->attribute_tag = ACTION;
-    test_attr->attribute_value.act_val = test_act;
-
-    int test = attribute_free(test_attr);
-
-    cr_assert_eq(test, SUCCESS, "attribute_free() test failed!");
-
-}
-
 // TESTS FOR HASH DELETION ----------------------------------------------------
 
 /* Checks deletion of all attributes associated with an item struct */
@@ -963,12 +864,10 @@ Test(attribute, deletion)
 {
     item_t *test_item = item_new("test_item", "item for attr testing",
     "item for testing del_all_attr function");
-    action_type_t *test_act = action_type_new("enter", 2);
 
     set_str_attr(test_item, "test1", "this is a test");
     set_int_attr(test_item, "open", 1);
     set_double_attr(test_item, "battery", 0.75);
-    set_act_attr(test_item, "enter", test_act);
 
 
     int test = delete_all_attributes(test_item->attributes);

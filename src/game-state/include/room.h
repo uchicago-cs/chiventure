@@ -7,25 +7,6 @@
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
 
-// CONDITION STRUCT DEFINITION ------------------------------------------------
-/* This struct represents a single condition that must be
- * met for a path to be taken. It includes an item, an
- * attribute of the item, and the value of that attribute
- * which can be a string or integer, as defined in item.h */
-typedef struct condition {
-    /* fields used for linked list of condition_t */
-    struct condition *next;
-    item_t *item;
-    char *attribute;
-    attribute_value_t value;
-} condition_t;
-
-/* This typedef is to distinguish between condition_t pointers which are 
-* used to point to the condition_t structs in the traditional sense, 
-* and those which are used to hash condition_t structs with the 
-* UTHASH macros as specified in src/common/include */
-typedef struct condition *condition_list_t;
-
 // PATH STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a path from one room to another.
  * It contains:
@@ -39,7 +20,7 @@ typedef struct path {
     /* direction (north/south/etc) as key */
     char *direction; // *letter case matters*
     struct room *dest;
-    condition_list_t conditions;
+    item_t *through; //to check if the door is "open"
 } path_t;
 
 /* This typedef is to distinguish between path_t pointers which are 
@@ -160,16 +141,6 @@ char *get_ldesc(room_t *room);
 
 //PATH DEFINITIONS AND HEADER
 
-/* Deletes the linked list of conditions completely
- *
- * Parameters:
- *  the linked list of conditions that need to be deleted
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int delete_all_conditions(condition_list_t conditions);
-
 /* delete_all_paths() deletes all paths in a path hash
 * Parameters:
 *  the hash table of paths that needs to be deleted
@@ -200,16 +171,6 @@ path_t *path_new(room_t *dest, char *direction);
  */
 int path_free(path_t *path);
 
-/* Adds a condition to the given path
- *
- * Parameters:
- *  path struct
- *  condition struct
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_condition_to_path(path_t *path, condition_t *condition);
 
 /* Returns path given room and direction
  *
