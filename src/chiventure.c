@@ -18,13 +18,13 @@ const char *banner =
 
 int main(int argc, char **argv)
 {
-   chiventure_ctx_t *ctx = chiventure_ctx_new();   
+    chiventure_ctx_t *ctx = chiventure_ctx_new();
 
     /* Add calls to component-specific initializations here */
 
 
-   start_ui(ctx);
-   
+    start_ui(ctx);
+
 
     return 0;
 }

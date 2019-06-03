@@ -16,8 +16,7 @@
 typedef struct ui_ctx ui_ctx_t;
 
 /* A context struct encapsulating all the shared state in chiventure */
-typedef struct chiventure_ctx
-{
+typedef struct chiventure_ctx {
     /* Add component-specific structs here */
     ui_ctx_t *ui_ctx;
     game_t *game;

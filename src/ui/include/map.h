@@ -13,9 +13,8 @@ typedef struct chiventure_ctx chiventure_ctx_t;
 /* The map struct holds a lot of crucial information for the performance
  * of all of the map functions
  */
-typedef struct map map_t;
 
-struct map {
+typedef struct map {
     WINDOW *pad;
     int n;
     int xoff;
@@ -32,7 +31,7 @@ struct map {
     int lry;
     int room_h;
     int room_w;
-};
+} map_t;
 
 /* Initializes the ncurses window
  *
