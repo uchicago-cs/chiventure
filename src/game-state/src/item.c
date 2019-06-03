@@ -340,21 +340,31 @@ bool get_bool_attr(item_t *item, char* attr_name) {
     return res->attribute_value.bool_val;
 }
 
-game_action_t *get_act_attr(item_t *item, char* attr_name) {
-    attribute_t* res = get_attribute(item, attr_name);
+// ---------------------------------------------------------------------------
 
-    if (res == NULL)
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
+/* see item.h */
+game_action_t *get_action(item_t *item, char* action_name) {
+    game_action_t *action;
+    HASH_FIND(hh, item->actions, action_name, strlen(action_name), action);
+    if (action == NULL) {
         return NULL;
     }
-    if (res->attribute_tag != ACTION)
-    {
-        fprintf(stderr, "Error: attribute is not type boolean.\n");
-        return NULL;
-    }
-    return res->attribute_value.act_val;
+    return action;
 }
+
+/* see item.h */
+int add_action(item_t* item, game_action_t *action) {
+    game_action_t* check;
+    HASH_FIND(hh, item->actions, action->action_name, strnlen(action->action_name, MAX_ID_LEN), check);
+    if (check != NULL) {
+        fprintf(stderr, "Error: this action is already present.\n");
+        return FAILURE;
+    }
+    HASH_ADD_KEYPTR(hh, item->actions, action->action_name, strnlen(action->action_name, MAX_ID_LEN), action);
+    return SUCCESS;
+
+}
+
 
  // ---------------------------------------------------------------------------
 
@@ -421,12 +431,6 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
     return comparison;
 }
 
-/* see item.h */
-int add_allowed_action(item_t* item, char *act_name, action_type_t *act_type)
-{
-    int rv = set_act_attr(item, act_name, act_type);
-    return rv;
-}
 
 /* see item.h */
 int allowed_action(item_t* item, char* action_name)

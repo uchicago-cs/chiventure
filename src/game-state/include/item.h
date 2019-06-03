@@ -18,13 +18,14 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 * and those which are used to hash attribute_t structs with the 
 * UTHASH macros as specified in src/common/include */
 typedef struct attribute* attribute_hash_t;
+typedef struct game_action_t* action_list_t;
 
 typedef struct item {
     UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
     char *item_id;
     char *short_desc;
     char *long_desc;
-    // bool condition; /* reserved for future expansion */
+    action_list_t *actions;
     attribute_hash_t attributes; // a hashtable for all attributes
 } item_t;
 
@@ -69,11 +70,7 @@ int item_free(item_t *item_tofree);
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
-typedef struct game_action_condition{
-    char* condition_name;
-    struct game_action_condition *prev, *next; //mandatory for utlist macros
-    bool condition_met; 
-} game_action_condition_t;
+
 
 /* This typedef is to distinguish between game_action_condition_t 
 * pointers which are used to point to the game_action_condition_t structs 
@@ -83,7 +80,7 @@ typedef struct game_action_condition{
 typedef struct game_action_condition* action_condition_list_t;
 
 typedef struct game_action_effect{
-    char* item_id;
+    item_t *item;
     char* attribute_key;
 
     struct game_action_effect *prev, *next; //mandatory for utlist macros
@@ -98,13 +95,15 @@ typedef struct game_action_effect{
 typedef struct game_action_effect* action_effect_list_t;
 
 typedef struct action {
+    UT_hash_handle hh; // required for uthash
     char *action_name;
     action_type_t *action_type; // action_type_t written by AM, can be seen in action_structs.h
-    action_condition_list_t; //must be initialized to NULL
-    action_effect_list_t; //must be initialized to NULL
+    action_condition_list_t conditions; //must be initialized to NULL
+    action_effect_list_t effects; //must be initialized to NULL
     char* success_str;
     char* fail_str;
 } game_action_t;
+
 
 /* item_free() frees allocated space for an action struct in memory
 *  Parameters:
@@ -282,33 +281,7 @@ char get_char_attr(item_t *item, char* attr_name);
  */
 bool get_bool_attr(item_t *item, char* attr_name);
 
-/* get_act_attr() returns the string value of an attribute of an item
- * Parameters:
- *  a pointer to the item
- *  the attribute name
- * Returns:
- *  the action struct associated with the attribute
- */
-game_action_t *get_act_attr(item_t *item, char* attr_name);
-/* add_allowed_action() adds a permitted action to an item
- * Parameters:
- *  a pointer to the item
- *  the action name
- *  the permitted action struct
- * Returns:
- *  SUCCESS if added correctly, FAILURE if failed to add
- */
-int add_allowed_action(item_t* item, char *act_name, action_type_t *act_type);
-
-/* allowed_action() checks if an item permits a specific action
- * Parameters:
- *  a pointer to the item
- *  the action name
- * Returns:
- *  SUCCESS if item contains action, FAILURE if it does not
- */
-int allowed_action(item_t* item, char* action_name);
-
+//ATTRIBUTE LIST FUNCTIONS
 /*
  * Function to get a linked list (utlist) of all the attributes in the item
  *
@@ -330,6 +303,61 @@ attribute_list_t *get_all_attributes(item_t *item);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int delete_attribute_llist(attribute_list_t *head);
+
+//ACTION FUNCTIONS
+// the following functions are to do with searching for allowed actions
+//and conducting actions
+
+/* get_action() returns the game_action_t associated with an action
+ * Parameters:
+ *  a pointer to the item
+ *  the action name
+ * Returns:
+ *  the action struct associated or NULL if not associated
+ */
+game_action_t *get_action(item_t *item, char* action_name);
+
+/* add_action() adds a (presumed legal) action to an item
+ * Parameters:
+ *  a pointer to the item
+ *  the action name
+ *  the action struct
+ * Returns:
+ *  SUCCESS if added correctly, FAILURE if failed to add
+ */
+int add_action(item_t* item, game_action_t *action);
+
+/* allowed_action() checks if an item permits a specific action
+ * Parameters:
+ *  a pointer to the item
+ *  the action name
+ * Returns:
+ *  SUCCESS if item contains action, FAILURE if it does not
+ */
+int allowed_action(item_t* item, char* action_name);
+
+//ACTION LIST FUNCTIONS
+/*
+ * Function to get a linked list (utlist) of all the actions in the item
+ *
+ * Parameters:
+ *  item
+ *
+ * Returns:
+ *  linked list of pointers to actions (the head element)
+ */
+action_list_t *get_all_actions(item_t *item);
+
+/*
+ * Function to delete a linked list (utlist) retrieved from get_all_actions()
+ *
+ * Parameters:
+ *  linked list of pointers to attributes
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int delete_action_llist(action_list_t *head);
 
 /*
  * Function to delete a linked list (utlist) retrieved from get_all_items()
