@@ -42,6 +42,10 @@ Test(rooms, add_connections)
     int rc = add_rooms_to_game(doc, g);
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
 
+    rc = add_connections_to_rooms(doc, g);
+	printf("connections returns: %d\n", rc);    
+    cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
+    
     // find path given room and direction
     room_t *r = find_room_from_game(g, "room A");
     path_t *p = path_search(r, "north");
