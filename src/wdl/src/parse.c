@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "validate.h"
 #include "parse.h"
 
 /* get_obj_list()
@@ -49,9 +48,6 @@ attr_list_t *extract_objects(obj_t *obj, char *str)
     else if (strcmp(str, "ITEMS") != 0) {
         valid = list_type_check(ls, item_type_check);
     } 
-    else if (strcmp(str, "PLAYERS") != 0) {
-        valid = list_type_check(ls, player_type_check);
-    }
 
     if (valid) {
         return ls;

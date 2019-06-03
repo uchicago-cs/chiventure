@@ -5,8 +5,6 @@
 #ifndef INCLUDE_LOAD_ITEM_H
 #define INCLUDE_LOAD_ITEM_H
 
-#define FILE_PATH "../examples/sample_yaml/connected_rooms.yaml"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

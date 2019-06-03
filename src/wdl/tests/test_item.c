@@ -2,13 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "load_item.h"
-
-obj_t *get_doc_obj()
-{
-    obj_t *obj = obj_new("doc");
-    parse_game(FILE_PATH, obj);
-    return obj;
-}
+#include "load_room.h"
 
 Test(items, test1)
 {

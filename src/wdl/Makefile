@@ -6,7 +6,7 @@ CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../game-
 RM = rm -f
 LIB = wdl.a
 LDFLAGS = -L../libobj
-LDLIBS = ../libobj/libobj.a -lyaml
+LDLIBS = ../libobj/libobj.a  -lyaml
 
 .PHONY: clean clean-lib clean-bin
 

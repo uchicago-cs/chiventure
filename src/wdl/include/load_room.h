@@ -17,6 +17,14 @@
 #include "path.h"
 #include "validate.h"
 
+/* Helper function for creating doc object from defined FILE_PATH */
+obj_t *get_doc_obj()
+{
+    obj_t *obj = obj_new("doc");
+    parse_game(FILE_PATH, obj);
+    return obj;
+}
+
 /*
  * add_rooms_to_game
  * accesses the document object and obtain list of rooms to parse into game_state

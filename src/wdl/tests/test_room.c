@@ -3,13 +3,6 @@
 #include <stdbool.h>
 #include "load_room.h"
 
-obj_t *get_doc_obj()
-{
-    obj_t *obj = obj_new("doc");
-    parse_game(FILE_PATH, obj);
-    return obj;
-}
-
 /* check to see if rooms are added to game struct correctly */
 Test(rooms, add_rooms)
 {
