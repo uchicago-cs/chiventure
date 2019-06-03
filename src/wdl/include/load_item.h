@@ -5,10 +5,13 @@
 #ifndef INCLUDE_LOAD_ITEM_H
 #define INCLUDE_LOAD_ITEM_H
 
+#define FILE_PATH "../examples/sample_yaml/connected_rooms.yaml"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
+#include "game.h"
 
 /* load_items
  * accesses the document object and obtain list of items to parse into the

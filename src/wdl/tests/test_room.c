@@ -14,8 +14,7 @@ obj_t *get_doc_obj()
 Test(rooms, add_rooms)
 {
     obj_t *doc = get_doc_obj();
-    game_t *g = game_new();
-
+    game_t *g = game_new("Welcome to UChicago");
     // check adding rooms to game
     int rc = add_rooms_to_game(doc, g);
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
@@ -39,7 +38,7 @@ Test(rooms, add_rooms)
 Test(rooms, add_connections)
 {
     obj_t *doc = get_doc_obj();
-    game_t *g = game_new();
+    game_t *g = game_new("Welcome to UChicago");
 
     int rc = add_rooms_to_game(doc, g);
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");

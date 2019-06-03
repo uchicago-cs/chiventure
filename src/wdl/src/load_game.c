@@ -17,6 +17,6 @@ game_t *create_game(obj_t *doc)
 //uses find_room specified in game.c
 void game_set_start(char *room_id, game_t *game)
 {
-  game->curr_room = find_room(game, room_id);
+  game->curr_room = find_room_from_game(game, room_id);
   return;
 }

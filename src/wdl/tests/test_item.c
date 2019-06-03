@@ -6,14 +6,14 @@
 obj_t *get_doc_obj()
 {
     obj_t *obj = obj_new("doc");
-    parse_game(PATH, obj);
+    parse_game(FILE_PATH, obj);
     return obj;
 }
 
 Test(items, test1)
 {
     obj_t *doc = get_doc_obj();
-    game_t *g = game_new();
+    game_t *g = game_new("Welcome to UChicago");
     
     // check adding rooms to game
     int rc = load_items(doc, g);
