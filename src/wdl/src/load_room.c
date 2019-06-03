@@ -55,9 +55,8 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
     while (curr != NULL) {
         // obtain room id
         char *id = obj_get_str(curr->obj, "id");
-
         // get list of connections for the room
-        attr_list_t *conn_curr = connections_get_list(rooms_obj);
+        attr_list_t *conn_curr = connections_get_list(curr->obj);
 
         // if connections list is empty then return 1
         if (conn_curr == NULL) {
