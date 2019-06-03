@@ -120,12 +120,12 @@ lookup_t **lookup_t_new();
  * Populates the hashtable with all possible commands
  *
  * Parameters:
- * - none
+ * - a pointer to a new hashtable
  * 
  * Returns:
  * - an int corresponding to SUCCESS or FAILURE
  */
-int lookup_t_init();
+int lookup_t_init(lookup_t **t);
 
 
 /* Frees resources associated with the lookup hashtable struct
