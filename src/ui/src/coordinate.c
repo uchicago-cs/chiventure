@@ -86,31 +86,32 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
 }
 
 //See coordinate.h for details
-coord_record_t *get_test_coord_hash(){
-  // Sample Rooms
-  room_t *room1 = room_new("One", "", "");
-  room_t *room2 = room_new("Two", "", "");
-  room_t *room3 = room_new("Three", "", "");
-  room_t *room4 = room_new("Four", "", "");
+coord_record_t *get_test_coord_hash()
+{
+    // Sample Rooms
+    room_t *room1 = room_new("One", "", "");
+    room_t *room2 = room_new("Two", "", "");
+    room_t *room3 = room_new("Three", "", "");
+    room_t *room4 = room_new("Four", "", "");
 
-  // Must set hash to NULL (see uthash documentation)
-  coord_record_t *coordmap = NULL;
+    // Must set hash to NULL (see uthash documentation)
+    coord_record_t *coordmap = NULL;
 
-  coord_record_t *head = malloc(sizeof(coord_record_t));
-  assert(head != NULL);
-  memset(head, 0, sizeof(coord_record_t));
+    coord_record_t *head = malloc(sizeof(coord_record_t));
+    assert(head != NULL);
+    memset(head, 0, sizeof(coord_record_t));
 
-  // Initial coordinate is arbitrarily set to be (0,0,0)
-  head->key.x = 0;
-  head->key.y = 0;
-  head->key.z = 0;
-  head->r = room1;
-  HASH_ADD(hh, coordmap, key, sizeof(coord_t), head);
-  assert(coordmap != NULL);
+    // Initial coordinate is arbitrarily set to be (0,0,0)
+    head->key.x = 0;
+    head->key.y = 0;
+    head->key.z = 0;
+    head->r = room1;
+    HASH_ADD(hh, coordmap, key, sizeof(coord_t), head);
+    assert(coordmap != NULL);
 
-  try_add_coord(coordmap, 0, 1, 0, room2);
-  try_add_coord(coordmap, 0, 2, 0, room3);
-  try_add_coord(coordmap, 1, 1, 0, room4);
-  
-  return coordmap;
+    try_add_coord(coordmap, 0, 1, 0, room2);
+    try_add_coord(coordmap, 0, 2, 0, room3);
+    try_add_coord(coordmap, 1, 1, 0, room4);
+
+    return coordmap;
 }

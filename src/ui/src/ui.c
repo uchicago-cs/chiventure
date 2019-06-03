@@ -67,7 +67,7 @@ void start_ui(chiventure_ctx_t *ctx)
             wresize(info->w, height, width);
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
             // redraws the info box
-            box(info->w, 0, 0); 
+            box(info->w, 0, 0);
         }
         wresize(cli->w, height, width);
         mvwin(cli->w, !(ui_ctx->cli_top) * height, 0);
@@ -84,13 +84,11 @@ void start_ui(chiventure_ctx_t *ctx)
                 toggle_map(ctx);
                 ui_ctx = ctx->ui_ctx;
                 curr_page = ui_ctx->curr_page;
-            }
-            else if (ch == 's') {
+            } else if (ch == 's') {
                 ch = 27;
                 layout_switch(ctx);
             }
-        }
-        else if (isalnum(ch)) {
+        } else if (isalnum(ch)) {
             echo();
             ungetch(ch);
             window_print(ctx, cli);
@@ -100,20 +98,19 @@ void start_ui(chiventure_ctx_t *ctx)
         // This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM) {
             window_print(ctx, info);
-	    mvwin(info->w, (ui_ctx->cli_top) * height, 0);
-        }
-        else if (curr_page == MAP_WIN_NUM) {
+            mvwin(info->w, (ui_ctx->cli_top) * height, 0);
+        } else if (curr_page == MAP_WIN_NUM) {
             wresize(info->w, 0, 0);
-	    touchwin(info->w);
-	    wrefresh(info->w);
+            touchwin(info->w);
+            wrefresh(info->w);
             int cli_top = ui_ctx->cli_top;
             if (map != NULL) {
-	        map_set_displaywin(map, 0, cli_top * height, width,
+                map_set_displaywin(map, 0, cli_top * height, width,
                                    height + cli_top * height);
                 map_center_on(ctx, 0, 0, 0);
             }
         }
-	wrefresh(info->w);
+        wrefresh(info->w);
 
         // Refreshes the CLI window
         wrefresh(cli->w);

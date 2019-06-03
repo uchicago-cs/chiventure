@@ -58,7 +58,7 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     mvwhline(win, bot_y, x+1, ACS_HLINE, top_len);
     mvwvline(win, y+1, x, ACS_VLINE, side_ht);
     mvwvline(win, y+1, right_x, ACS_VLINE, side_ht);
-    
+
     // Checks if given room has exits on each side, draws exits
     /* TO-DO -- Ask Game state if they have added this fcn to master
      * yet. See Git Issue #151
@@ -89,7 +89,7 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 {
     assert(ctx != NULL);
     assert(ctx->ui_ctx != NULL);
-    
+
     // Declare variables
     coord_record_t *itr;
     map_t *map = ctx->ui_ctx->map;
@@ -225,7 +225,7 @@ int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
     assert(ctx->ui_ctx != NULL);
     assert(ctx->ui_ctx->map != NULL);
     assert(ctx->ui_ctx->map->pad != NULL);
-    
+
     map_t *map = ctx->ui_ctx->map;
     int room_h = map->room_h;
     int room_w = map->room_w;

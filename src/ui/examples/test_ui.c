@@ -12,6 +12,6 @@
 int main()
 {
     chiventure_ctx_t *ctx = chiventure_ctx_new();
-    
+
     start_ui(ctx);
 }
