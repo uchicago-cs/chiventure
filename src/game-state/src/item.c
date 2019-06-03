@@ -350,7 +350,6 @@ int add_action(item_t* item, game_action_t *action) {
     }
     HASH_ADD_KEYPTR(hh, item->actions, action->action_name, strnlen(action->action_name, MAX_ID_LEN), action);
     return SUCCESS;
-
 }
 
 
@@ -419,11 +418,6 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
     return comparison;
 }
 
-/* see item.h */
-int add_allowed_action(item_t* item, char *act_name, action_type_t *act_type)
-{
-    //TODO
-}
 
 /* see item.h */
 int allowed_action(item_t* item, char* action_name)

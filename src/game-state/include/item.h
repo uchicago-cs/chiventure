@@ -29,7 +29,6 @@ typedef struct item {
     char *long_desc;
     action_list_t *actions;
     attribute_hash_t attributes; // a hashtable for all attributes
-    game_action_hash_t actions;
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are 
