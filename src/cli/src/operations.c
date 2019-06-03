@@ -28,6 +28,35 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
     return "history operation not implemented yet\n";
 }
 
+/*
+ * Checks that a specified filetype is a .dat file
+ *
+ * Parameters:
+ * - A string of the filename
+ *
+ *
+ * Returns:
+ * - TRUE if proper filename, FALSE if not
+ */
+bool validate_filename(char *filename)
+{
+    int len = strlen(filename);
+    if(len < 4)
+    {
+        return false;
+    }
+    const char *ending = &filename[len-4];
+    int cmp = strcmp(ending, ".dat");
+    if(cmp == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
