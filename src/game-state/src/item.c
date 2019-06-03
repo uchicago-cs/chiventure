@@ -195,7 +195,7 @@ int set_char_attr(item_t* item, char* attr_name, char value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = CHARACTER;
         new_attribute->attribute_value.char_val = value;
-	new_attribute->attribute_key = strndup(attr_name, 100);
+	    new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -219,7 +219,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = BOOLE;
         new_attribute->attribute_value.bool_val = value;
-	new_attribute->attribute_key = strndup(attr_name, 100);
+	    new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -234,11 +234,12 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
 }
 
-
+/*
 int set_action(item_t* item, char* attr_name, action_type_t *value)
 {
-    //TODO
+    
 }
+*/
 
 // TYPE-SPECIFIC GET_ATTR FUNCTIONS -------------------------------------------
 /* see item.h */
@@ -341,16 +342,98 @@ game_action_t *get_action(item_t *item, char* action_name) {
 }
 
 /* see item.h */
-int add_action(item_t* item, game_action_t *action) {
-    game_action_t* check;
-    HASH_FIND(hh, item->actions, action->action_name, strnlen(action->action_name, MAX_ID_LEN), check);
-    if (check != NULL) {
+int add_action(item_t* item, char *action_name, action_type_t *action_type, char* success_str, char* fail_str)
+{
+    game_action_t* check = get_action(item, action_name);
+    if (check != NULL) 
+    {
         fprintf(stderr, "Error: this action is already present.\n");
         return FAILURE;
     }
-    HASH_ADD_KEYPTR(hh, item->actions, action->action_name, strnlen(action->action_name, MAX_ID_LEN), action);
+    game_action_t* action = game_action_new(action_name, action_type, success_str, fail_str);
+    HASH_ADD_KEYPTR(hh, item->actions, action_name, strlen(action_name), action);
     return SUCCESS;
 }
+
+int add_action_condition(item_t* item, char* action_name)
+{
+    //TODO: add more parameters & how to support conditions being multiple types?? 
+}
+
+bool possible_action(item_t *item, char* action_name)
+{
+    game_action_t* possible_action = get_action(item, action_name);
+    if (possible_action == NULL)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }   
+}
+
+bool check_condition(item_t *item, attribute_t* desired_attribute)
+{
+    char* attribute_name = desired_attribute->attribute_key;
+    attribute_t* actual_attribute = get_attribute(item, attribute_name);
+    if(actual_attribute == NULL)
+    {
+        return false;
+    }
+    if(actual_attribute->attribute_tag != desired_attribute->attribute_tag)
+    {
+        return false;
+    }
+    switch(actual_attribute->attribute_tag)
+    {
+        case(DOUBLE):
+            if (attribute_1->attribute_value.double_val ==
+                attribute_2->attribute_value.double_val)
+            {
+                return true;
+            }
+            break;
+        case(BOOLE):
+            if (attribute_1->attribute_value.bool_val ==
+                attribute_2->attribute_value.bool_val)
+            {
+                return true;
+            }
+            break;
+        case(CHARACTER):
+            if (attribute_1->attribute_value.char_val ==
+                attribute_2->attribute_value.char_val)
+            {
+                return true;
+            }
+            break;
+        case(STRING):
+            if (!strcmp(attribute_1->attribute_value.str_val,
+                attribute_2->attribute_value.str_val))
+            {
+                return true;
+            }
+            break;
+        case(INTEGER):
+            if (attribute_1->attribute_value.int_val ==
+                attribute_2->attribute_value.int_val)
+            {
+                return true;
+            }
+            break;
+    }
+    return false;
+}
+
+
+
+bool all_conditions_met(item_t* item, char* action_name)
+{
+    //call possible action to see if the action exists
+    //call iterate through list of conditions and call check_condition on each node
+}
+
 
 
  // ---------------------------------------------------------------------------
@@ -410,20 +493,12 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
                 comparison = 1;
             }
             break;
-        case(ACTION):
-        // just for now to get prototype out, we need an actions_eq function
-            comparison = 1;
-            break;
     }
     return comparison;
 }
 
 
-/* see item.h */
-int allowed_action(item_t* item, char* action_name)
-{
-    //TODO
-}
+
 
 // FREEING AND DELETION FUNCTIONS ---------------------------------------------
 
