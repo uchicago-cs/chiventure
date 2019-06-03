@@ -227,15 +227,15 @@ int save_room(room_t *r_t, Room *r)
 	fprintf(stderr, "Given a room_t struct that is NULL in save_room.\n");
 	return -1;
     }
-  
+
     r->room_id = r_t->room_id;
-  
-    if (r_t->short_desc == NULL) { 
+
+    if (r_t->short_desc == NULL) {
 	r->short_desc = NULL;
     } else {
 	r->short_desc = r_t->short_desc;
     }
-  
+
     if (r_t->long_desc == NULL) {
 	r->long_desc = NULL;
     } else {
@@ -516,13 +516,13 @@ int save_game(game_t *g_t, Game *g)
     } else {
 	g->curr_room = g_t->curr_room->room_id;
     }
-  
+
     if (g_t->curr_player == NULL) {
 	g->curr_player = NULL;
     } else {
 	g->curr_player = g_t->curr_player->player_id;
     }
-    
+
     return 0;
 }
 
@@ -547,10 +547,10 @@ int save(game_t *g_t, char *filename)
     buf = malloc(len);
     game__pack(&g, buf);
 
-    fprintf(stderr, "Writing %ld serialized bytes\n", len);    
+    fprintf(stderr, "Writing %ld serialized bytes\n", len);
 
     write_to_file(filename, buf, len);
-    
+
     free(buf);
     return 0;
 }
