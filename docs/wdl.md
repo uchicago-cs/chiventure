@@ -1,5 +1,5 @@
 # WDL FORMATTING RULES AND EXAMPLES
-May 17, 2019
+June 2, 2019
 
 ### Definitions:
 ##### - Component:
@@ -73,16 +73,6 @@ Please see this document for all possible actions and descriptions: https://gith
 
       direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
 
-      through: `<ITEM ID>` if applicable, the item that the player must go through to go in that direction
-
-      conditions:
-
-      - id: `<STRING_ITEM>` which is an identification name that is unique to the item
-
-        state: `<STRING_ADJ>` which is the descriptor for the state of the item
-
-        value: `<VAL>` which is the value of the state of the item upon initializaition of the game
-
     ###### NOTE: a valid connection has to have an ID that exists. 
 
 
@@ -101,48 +91,17 @@ ROOM Example:
 
       direction: "down"
 
-      through: "trapdoor"
-
-      conditions:
-
-      - id: "spoon"
-
-        state: "clean"
-
-        value: "no"
-
-      - id: "apple"
-
-        state: "sliced"
-
-        value: "no"
-
     - to: "bedroom"
 
       direction: "north"
 
-      through: "portal"
-
-      conditions:
-
-      - id: "water bottle"
-
-        state: "full"
-
-        value: "no"
-
-      - id: "candy"
-
-        state: "in inventory"
-
-        value: "yes"
 ```
 
 ## ITEM:
 
-- For ITEMs, the indentation format is the same as above, except for actions, the attributes are indented with two spaces, followed by a dash.
+- For ITEMs, the indentation format is the same as above, except for actions, the fields are indented with two spaces, followed by a dash.
 - This applies to the subcategories in action as well.
-- The attributes within actions must be indented with a dash(-) as well.
+- The fields within actions must be indented with a dash(-) as well.
 
 ##### The Item Object must contain the following attributes:
   - id: `<UNIQUE ID NAME>` which is a unique identifier for the item; one id can only used to identify one item in the entire ITEMS object. (i.e. only one door can have id “door”, the others would have to have “door1”, “door2”, etc. because there must be no repeat ids)
@@ -153,36 +112,37 @@ ROOM Example:
 
     in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
 
-    state: `<STRING_ADJ>` which is the descriptor for the state of the item
-    
-    value: `<VAL>` which is the value of the state of the item upon initializaition of the game
+    attributes: the descriptors for the item
 
-    actions: the possible actions that can be performed on the item; each action has the following attributes:
+    - attribute: `<STRING>` which is the name of the state of the item upon initialization of the game
+
+      value: `<STRING_VAL>` which is the value of the state of the item upon initializaition of the game
+
+    actions: the possible actions that can be performed on the item; each action has the following fields:
       
-    - action: `<ACTION FROM BANK>`:
-        
-      allowed: `<NO>` which is a no attribute value to specify that this action can never succeed. (You may want this attribute in order to trigger the text_fail action to notify the player to try something else) By default, actions are allowed, so this field 
-      is not necessary if the game designer would like the action to be allowed. (OPTIONAL)
+    - action: `<ACTION FROM BANK>`
 
-      text_success: `<STRING>` which is a string that is displayed upon the success of an action (OPTIONAL)
-
-      text_fail: `<STRING>` which is the string that is displayed when an action is not allowed
-
-      conditions: (OPTIONAL)
+      conditions: (OPTIONAL) the conditions that must be fulfilled for the action to be completed
 
       - id: `<STRING_ITEM>` which is an identification name that is unique to the conditional item
 
-        state: `<STRING_ADJ>` which is the descriptor for the state of the conditional item
+        attribute: `<STRING>` which is the name of the state of the conditional item
 
-        value: `<VAL>` which is the value of the state of the conditional item in order for the action to be completed
+        value: `<STRING_VAL>` which is the value of the state of the conditional item in order for the action to be completed
 
-      set: changes an attribute of the item's state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition) (OPTIONAL)
+      effects: (OPTIONAL) changes an attribute of the item's state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition) 
 
-      - id: `<ITEM ID>`
-        
-        state: `<ATTRIBUTE>`
-         
-        val: `<VAL>` which is the value of the state of the item upon completion of the action
+      - id: `<STRING_ITEM>` which is an identification name that is unique to the affected item
+
+        attribute: `<STRING>` which is the name of the state of the affected item
+
+        value: `<STRING_VAL>` which is the value of the state of the affected item upon completion of the action
+
+      text_success: `<STRING>` which is a string that is displayed upon the success of an action (OPTIONAL)
+
+      text_fail: `<STRING>` which is the string that is displayed when an action is not allowed (OPTIONAL)
+
+      
 
 ### ITEM examples:
 ```yaml
@@ -194,15 +154,19 @@ ROOM Example:
 
   in: "garden"
 
-  state: "pulled"
+  attributes:
 
-  value: "no"
+    - attribute: "size"
+
+      value: "small"
+
+    - attribute: "pulled"
+
+      value: true
 
   actions:
 
     - action: "push"
-
-      allowed: "no"
 
       text_fail: "You cannot push the lever. You can only pull it."
 
@@ -210,21 +174,21 @@ ROOM Example:
 
       text_success: "Congrats! You can now access the underground tunnel. Go find it!"
 
-      text_fail: "You cannot pull the lever. You must be holding the star in order to pull the lever."
+      text_fail: "You cannot pull the lever. The star must be red in order to pull the lever."
 
       conditions:
       
       - id: "star"
 
-        state: "in inventory"
+        attribute: "color"
 
-        value: "no"
+        value: "red"
 
-      set:
+      effects:
 
       - id: "lever"
 
-      	state: "pulled"
+      	attribute: "pulled"
 
       	value: "yes"
 
@@ -240,21 +204,19 @@ ROOM Example:
   
     - action: "take"
 
-      text_success: "Congrats! You got the wand and can perform a spell!"
-
-      text_fail: "You cannot take the wand until you have the top hat"
-
       conditions:
       
       - id: "top hat"
 
-        state: "in inventory"
+        attribute: "on_head"
 
-        value: "no"
+        value: true
+
+      text_success: "Congrats! You got the wand and can perform a spell!"
+
+      text_fail: "You cannot take the wand until the top hat is on your head"
 
     - action: "consume"
-   
-      allowed: "no"
 
-      text_fail: "You cannot consume the wand."
+      text_fail: "You cannot consume the wand. Please try to hold it."
 ```
