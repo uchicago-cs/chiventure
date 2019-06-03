@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "load_item.h"
-#include "load_room.h"
 
 Test(items, test1)
 {
