@@ -31,12 +31,12 @@ Test(items, correct_fields_chair)
     room_t *r = find_room_from_game(g, "room A");
     item_t *i = get_item_in_room(r, "chair");
 
-    char *s = get_sdesc(r);
+    char *s = get_sdesc_item(i);
     char *scmp = "This is a chair";
     rc = strncmp(s, scmp, strlen(scmp));
     cr_assert_eq(rc, SUCCESS, "failed to parse item sdesc");
 
-    char *l = get_ldesc(r);
+    char *l = get_ldesc_item(i);
     char *lcmp = "This is a chair long";
     rc = strncmp(l, lcmp, strlen(lcmp));
     cr_assert_eq(rc, SUCCESS, "failed to parse item ldesc");
