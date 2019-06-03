@@ -326,15 +326,26 @@ game_action_t *get_action(item_t *item, char* action_name);
  *  a pointer to the item
  *  the action name
  *  the action struct
- *  TODO
+ *  the action type (as specified by action management)
+ *  the string to print should the action be performed successfully
+ *  the string to print shoulf the action fail to be performed
  * Returns:
  *  SUCCESS if added correctly, FAILURE if failed to add
  */
 int add_action(item_t* item, char *action_name, action_type_t *action_type, char* success_str, char* fail_str);
 
 
-//TODO SPRINT 4
+/* check_conditionn() checks if the actual attribute of an item is equal to the desired attribute
+ * Parameters:
+ *  a pointer to the item to check
+ *  the desired attribute 
+ * Returns:
+ *  true if desired attribute matches the actual, false if not
+ */
 bool check_condition(item_t *item, attribute_t* desired_attribute);
+
+
+
 //check if types are the same
 //check if values are the same
 
