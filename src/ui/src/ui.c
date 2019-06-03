@@ -101,7 +101,6 @@ void start_ui(chiventure_ctx_t *ctx)
         if (curr_page == MAIN_WIN_NUM) {
             window_print(ctx, info);
 	    mvwin(info->w, (ui_ctx->cli_top) * height, 0);
-            //wrefresh(info->w);
         }
         else if (curr_page == MAP_WIN_NUM) {
             wresize(info->w, 0, 0);

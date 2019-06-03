@@ -63,8 +63,9 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     /* This field will be NULL if a logical coordinate
      * system cannot be assigned
      */
-    ui_ctx->coord_hash = create_valid_map(game);
-
+    //ui_ctx->coord_hash = create_valid_map(game);
+    ui_ctx->coord_hash = get_test_coord_hash();
+    
     // Initial room coordinates always set to 0, 0, 0
     coord_t *initial_coord = coord_new(0, 0, 0);
     ui_ctx->player_loc = initial_coord;

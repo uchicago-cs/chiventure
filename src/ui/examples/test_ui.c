@@ -11,10 +11,7 @@
 
 int main()
 {
-  //game_t *game = game_new("Starting the game");
-  //assert (game != NULL);
     chiventure_ctx_t *ctx = chiventure_ctx_new();
-    ctx->ui_ctx->coord_hash = get_test_coord_hash();
     
     start_ui(ctx);
 }
