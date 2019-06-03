@@ -124,7 +124,7 @@ void layout_switch(chiventure_ctx_t *ctx)
 
     mvwin(ctx->ui_ctx->cli_win->w, !(cli_top) * height, 0);
     mvwin(ctx->ui_ctx->main_win->w, (cli_top) * height, 0);
-    if (ctx->ui_ctx->map != NULL) {
+    if (ctx->ui_ctx->curr_page == MAP_WIN_NUM) {
         map_set_displaywin(ctx->ui_ctx->map, 0, cli_top * height, width,
                            height + cli_top * height);
         map_center_on(ctx, 0, 0, 0);
