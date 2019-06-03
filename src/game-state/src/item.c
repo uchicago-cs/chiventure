@@ -360,7 +360,7 @@ int add_action_condition(item_t* item, char* action_name)
     //TODO: add more parameters & how to support conditions being multiple types?? 
 }
 
-bool possible_action(item_t item, char* action_name)
+bool possible_action(item_t *item, char* action_name)
 {
     game_action_t* possible_action = get_action(item, action_name);
     if (possible_action == NULL)
