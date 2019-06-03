@@ -44,7 +44,7 @@ int main()
     try_add_coord(coordmap, 1, 1, 0, room4);
     fprintf(stderr,"created coordmap\n");
 
-    game_t *game = game_new();
+    game_t *game = game_new("Starting the game");
     assert (game != NULL);
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
     fprintf(stderr,"ran ui_ctx_new()\n");

@@ -9,11 +9,10 @@
 // Forward declaration
 typedef struct chiventure_ctx chiventure_ctx_t;
 
-//Struct Declarations________________________________________________________
+
 /* The map struct holds a lot of crucial information for the performance
  * of all of the map functions
  */
-
 typedef struct map map_t;
 
 struct map {

@@ -127,7 +127,7 @@ void layout_switch(chiventure_ctx_t *ctx)
     if (ctx->ui_ctx->map != NULL) {
         map_set_displaywin(ctx->ui_ctx->map, 0, cli_top * height, width,
                            height + cli_top * height);
-        map_center_on(ctx->ui_ctx->map, 0, 0, 0);
+        map_center_on(ctx, 0, 0, 0);
     }
 
 }
