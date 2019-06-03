@@ -81,12 +81,12 @@ void start_ui(chiventure_ctx_t *ctx)
             if (ch == 'm') {
                 ch = 27;
 
-                toggle_map(ctx);
+                toggle_map(NULL, ctx);
                 ui_ctx = ctx->ui_ctx;
                 curr_page = ui_ctx->curr_page;
             } else if (ch == 's') {
                 ch = 27;
-                layout_switch(ctx);
+                layout_switch(NULL, ctx);
             }
         } else if (isalnum(ch)) {
             echo();

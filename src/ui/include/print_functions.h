@@ -3,6 +3,8 @@
 
 #include "ctx.h"
 
+typedef struct window window_t;
+
 /* print_info
  * Prints score and number of moves
  *
