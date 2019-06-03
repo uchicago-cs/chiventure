@@ -18,16 +18,16 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 * and those which are used to hash attribute_t structs with the 
 * UTHASH macros as specified in src/common/include */
 typedef struct attribute* attribute_hash_t;
-typedef struct game_action_t* action_list_t;
+typedef struct game_action* action_list_t;
 
-typedef struct action *game_action_hash_t;
+typedef struct game_action *game_action_hash_t;
 
 typedef struct item {
     UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
     char *item_id;
     char *short_desc;
     char *long_desc;
-    action_list_t *actions;
+    action_list_t action_list;
     attribute_hash_t attributes; // a hashtable for all attributes
     game_action_hash_t actions;
 } item_t;
@@ -326,10 +326,11 @@ game_action_t *get_action(item_t *item, char* action_name);
  *  a pointer to the item
  *  the action name
  *  the action struct
+ *  TODO
  * Returns:
  *  SUCCESS if added correctly, FAILURE if failed to add
  */
-int add_action(item_t* item, game_action_t *action);
+int add_action(item_t* item, char *action_name, action_type_t *action_type, char* success_str, char* fail_str);
 
 
 //TODO SPRINT 4
@@ -340,10 +341,9 @@ bool check_condition(item_t *item, attribute_t* desired_attribute);
 bool all_conditions_met(item_t* item, char* action_name);
 
 /*action management needs to write perform_effect(game_action_effect* effect) to use in do_item_action(), do_item_item_action()
+*/
 
 
-/*REDO THIS add_allowed_action() adds a permitted action to an item */
-int add_allowed_action(item_t* item, char *action_name, action_type_t *action_type, char* success_str, char* fail_str);
 
 /* REDO THIS possible_action() (formerly allowed_action())checks if an item permits a specific action
  * Parameters:
