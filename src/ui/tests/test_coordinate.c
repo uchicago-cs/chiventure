@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "coordinate.h"
+#include <string.h>
 
 // Checks that a given x and y-coordinate are allocated in memory within a
 // coordinate struct
@@ -25,21 +26,31 @@ Test(coordinate, new)
 //Checks whether two rooms are equal
 int check_equal(coord_record_t *one, coord_record_t *two)
 {
-	if (one->r->room_id == NULL && two->r->room_id == NULL) {
-		return 1;
-	}
+    if (one == NULL && two == NULL) {
+        return 1;
+    }
+    if (one == NULL || two == NULL) {
+        return 0;
+    }
+    if (one->r->room_id == NULL && two->r->room_id == NULL) {
+        return 1;
+    }
 
-	int one_x = one->key.x;
-	int one_y = one->key.y;
-	int two_x = two->key.x;
+    int one_x = one->key.x;
+    int one_y = one->key.y;
+    int one_z = one->key.z;
+
+    int two_x = two->key.x;
     int two_y = two->key.y;
+    int two_z = two->key.z;
+
     char *one_id = one->r->room_id;
     char *two_id = two->r->room_id;
 
-    if (one_x == two_x && one_y == two_y && one_id == two_id)
-    {
+    if (one_x == two_x && one_y == two_y && one_z == two_z && strcmp(one_id, two_id) == 0) {
         return 1;
-    } else {
+    }
+    else {
         return 0;
     }
 
@@ -47,21 +58,34 @@ int check_equal(coord_record_t *one, coord_record_t *two)
 
 //Returns a room when a coordinate has already been assigned to it
 void check_find_coord(coord_record_t *coordmap, int x, int y, int z, coord_record_t *rd_expected,
-						int expected)
+                      int expected)
 {
-	coord_record_t *rd;
-	rd = malloc(sizeof(coord_record_t));
+    coord_record_t *rd;
+    rd = malloc(sizeof(coord_record_t));
 
     rd = find_coord(coordmap, x, y, z);
 
     int equal = check_equal(rd, rd_expected);
 
-    cr_assert_eq(equal, expected,
-                 " Coordinate record %d is %s but"
-                 " find_room returned %s",
-                 rd_expected->r->room_id,
-                 expected? "not present":"present",
-                 equal? "false":"true");
+
+    if (rd_expected != NULL) {
+        cr_assert_eq(equal, expected,
+                     " Coordinate record %d is %s but"
+                     " find_room returned %s",
+                     rd_expected->r->room_id,
+                     expected? "not present":"present",
+                     equal? "false":"true");
+    }
+    else {
+        cr_assert_eq(equal, expected,
+                     " Coordinate record %s is %s but"
+                     " find_room returned %s",
+                     "NULL",
+                     expected? "not present":"present",
+                     equal? "false":"true");
+    }
+
+
 }
 
 /* Checks that a room not present in the hash table returns NULL */
@@ -80,7 +104,7 @@ Test(coordinate, not_found)
 
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
 
-    check_find_coord(coordmap, 1, 2, 1, NULL, 0);
+    check_find_coord(coordmap, 1, 2, 1, NULL, 1);
 }
 
 /* Checks that a room present in the hash table returns the correct
@@ -105,9 +129,9 @@ Test(coordinate, found)
 
 //Returns SUCCESS if a coordinate is not present and adds it
 void check_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r,
-						int expected)
+                     int expected)
 {
-	int rc;
+    int rc;
 
     rc = try_add_coord(coordmap, x, y, z, r);
 
@@ -180,7 +204,7 @@ Test(coordinate, add_failure )
 
 //Returns SUCCESS if all rooms are assigned coordinates
 void check_create_valid_map(game_t *game,
-					int expected)
+                            int expected)
 {
     coord_record_t *end_map;
     end_map = malloc(sizeof(coord_record_t));
