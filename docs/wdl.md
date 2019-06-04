@@ -1,6 +1,7 @@
 # WDL FORMATTING RULES AND EXAMPLES
 June 2, 2019
 
+
 ### Definitions:
 ##### - Component:
 Something that is part of the physical environment in a game (a single room, a single object, a single non-player character, etc.)
@@ -32,8 +33,6 @@ Please see this document for all possible actions and descriptions: https://gith
 
 #### A WDL file is a YAML file that has at least the three file objects: Game, Room, Item.
 
-### Refer to Action Management's file: src/action_management/include/actionmanagement.h on the actions/dev branch for a list of approved actions in a game
-
 ## GAME:
 
 ##### The Game Object must contain the following attributes:
@@ -41,6 +40,7 @@ Please see this document for all possible actions and descriptions: https://gith
    ###### NOTE: The given ID must have been assigned to a room defined in the ROOM object (i.e. the room ID must exist, so if the start attribute has value “BEDROOM”, then there must be a room in the ROOM object that has the id “BEDROOM”).
 
 - intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
+
 - end: `<CONDITION>` a condition specification for how the game ends. This must be one of two ways:
    1. The inventory contains a specific item
     - Ex. inventory contains: "emerald gem"
@@ -72,8 +72,8 @@ Please see this document for all possible actions and descriptions: https://gith
     - to: `<ROOM  ID>` which lists a valid place the player can reach in one action from this room by ID
 
       direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
-
-    ###### NOTE: a valid connection has to have an ID that exists. 
+   
+   ###### NOTE: a valid connection has to have an ID that exists. 
 
 
 ### ROOM example:
@@ -94,7 +94,6 @@ ROOM Example:
     - to: "bedroom"
 
       direction: "north"
-
 ```
 
 ## ITEM:
@@ -115,8 +114,8 @@ ROOM Example:
     attributes: the descriptors for the item
 
     - attribute: `<STRING>` which is the name of the state of the item upon initialization of the game
-
-      value: `<STRING_VAL>` which is the value of the state of the item upon initializaition of the game
+    
+      value: `<STRING_VAL>` which is the value of the state of the item upon initialization of the game
 
     actions: the possible actions that can be performed on the item; each action has the following fields:
       
@@ -142,8 +141,6 @@ ROOM Example:
 
       text_fail: `<STRING>` which is the string that is displayed when an action is not allowed (OPTIONAL)
 
-      
-
 ### ITEM examples:
 ```yaml
 - id: "handle"
@@ -153,7 +150,7 @@ ROOM Example:
   long_desc: "The iron lever is painted gold and rusting in the corner of the palace garden."
 
   in: "garden"
-
+  
   attributes:
 
     - attribute: "size"
@@ -172,10 +169,6 @@ ROOM Example:
 
     - action: "pull"
 
-      text_success: "Congrats! You can now access the underground tunnel. Go find it!"
-
-      text_fail: "You cannot pull the lever. The star must be red in order to pull the lever."
-
       conditions:
       
       - id: "star"
@@ -191,6 +184,10 @@ ROOM Example:
       	attribute: "pulled"
 
       	value: "yes"
+        
+      text_success: "Congrats! You can now access the underground tunnel. Go find it!"
+
+      text_fail: "You cannot pull the lever. The star must be red in order to pull the lever."
 
 - id: "wand"
 
@@ -203,10 +200,6 @@ ROOM Example:
   actions:
   
     - action: "take"
-    
-      text_success: "Congrats! You got the wand and can perform a spell!"
-
-      text_fail: "You cannot take the wand until the top hat is on your head"
 
       conditions:
       
@@ -215,6 +208,10 @@ ROOM Example:
         attribute: "on_head"
 
         value: true
+        
+      text_success: "Congrats! You got the wand and can perform a spell!"
+
+      text_fail: "You cannot take the wand until the top hat is on your head"
 
     - action: "consume"
 
