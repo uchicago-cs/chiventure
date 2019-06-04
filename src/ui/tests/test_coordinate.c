@@ -138,7 +138,7 @@ Test(coordinate, added_successfully)
     room_t *r = malloc(sizeof(room_t));
     r->room_id = "24";
 
-    check_add_coord(coordmap, 3, 4, 1, r, 1);
+    check_add_coord(coordmap, 3, 4, 1, r, SUCCESS);
 }
 
 /* Checks that a room present in the hash table is not added */
@@ -155,13 +155,16 @@ Test(coordinate, add_failure )
     initial->room_id = "125";
     cr->r = initial;
 
+    room_t *room_2 = malloc(sizeof(room_t));
+    room_2->room_id = "126";
+
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
 
-    check_add_coord(coordmap, 0, 0, 0, initial, 0);
+    check_add_coord(coordmap, 0, 0, 0, room_2, FAILURE);
 }
 
 //Returns SUCCESS if all rooms are assigned coordinates
-/*void check_assign_dfs(coord_record_t *coordmap, int vertical_hops, 
+/*void check_assign_dfs(coord_record_t *coordmap, int vertical_hops,
            game_t *game, int horizontal_hops, room_t* room, int expected)
 {
     int rc;
