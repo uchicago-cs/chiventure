@@ -1,15 +1,15 @@
 CC = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../cli/include/ -I../../action_management/include/
 
-UI = -L../ -Wl,-rpath,../. -l:ui.a
-COMMON = -L../common/ -Wl,-rpath,../common/ -l:common.a
-CLI = -L../cli/ -Wl,-rpath,../cli/ -l:cli.a
-GAME_STATE = -L../game-state/ -Wl,-rpath,../game-state/ -l:game-state.a
+UI = -L../. -Wl,-rpath,../.
+COMMON = -L../../common/ -Wl,-rpath,../../common/ -l:common.a
+CLI = -L../../cli/ -Wl,-rpath,../../cli/ -l:cli.a
+GAME_STATE = -L../../game-state/ -Wl,-rpath,../../game-state/ -l:game-state.a
 STLIBS = $(UI) $(COMMON) $(CLI) $(GAME_STATE)
 
 RM = rm -f
 BIN = test-coordinates
-LDLIBS = -lcriterion
+LDLIBS = -lcriterion -l:ui.a
 
 SRCS = main.c test_coordinate.c
 OBJS = $(SRCS:.c=.o)
