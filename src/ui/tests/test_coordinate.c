@@ -3,35 +3,37 @@
 #include <stdbool.h>
 #include "coordinate.h"
 
-// Checks that a given x and y-coordinate are allocated in memory within a 
+// Checks that a given x and y-coordinate are allocated in memory within a
 // coordinate struct
-Test(coordinate, init)
+Test(coordinate, new)
 {
-    coordinate_t *c;
-    c = malloc(sizeof(coordinate_t));
-    
-    coordinate_t *rc;
-    rc = malloc(sizeof(coordinate_t));
-    rc = coordinate_init(c, 5, 3);
+    coord_t *c;
+    c = malloc(sizeof(coord_t));
+
+    coord_t *rc;
+    rc = malloc(sizeof(coord_t));
+    rc = coord_new(5, 3, 7);
 
     cr_assert_not_null(rc, "coord_init() failed");
     cr_assert_eq(rc->x, 5, "coord_init() didn't set the coordinates's x-coordinate");
     cr_assert_eq(rc->y, 3, "coord_init() didn't set the coordinates's y-coordinate");
+    cr_assert_eq(rc->z, 7, "coord_init() didn't set the coordinates's z-coordinate");
+
 }
 
 
 //Checks whether two rooms are equal
-void check_equal(coord_record_t *one, coord_record_t *two)
+int check_equal(coord_record_t *one, coord_record_t *two)
 {
-	if (one_id == NULL && two_id == NULL) {
+	if (one->r->room_id == NULL && two->r->room_id == NULL) {
 		return 1;
 	}
-	int one_x = one->key->x;
-	int one_y = one->key->y;
-	int two_x = two->key->x;
-    int two_y = two->key->y;
-    int one_id = one->r->id;
-    int two_id = two->r->id;
+	int one_x = one->key.x;
+	int one_y = one->key.y;
+	int two_x = two->key.x;
+    int two_y = two->key.y;
+    char *one_id = one->r->room_id;
+    char *two_id = two->r->room_id;
 
     if (one_x == two_x && one_y == two_y && one_id == two_id)
     {
@@ -41,20 +43,20 @@ void check_equal(coord_record_t *one, coord_record_t *two)
 }
 
 //Returns a room when a coordinate has already been assigned to it
-void check_find_coord(coord_record_t *coordmap, int x, int y, coord_record_t rd_expected,
+void check_find_coord(coord_record_t *coordmap, int x, int y, int z, coord_record_t *rd_expected,
 						int expected)
 {
 	coord_record_t *rd;
 	rd = malloc(sizeof(coord_record_t));
-    
-    rd = find_coord(coordmap, x, y);
 
-    int equal = check_equal(rd, rd_expected)
+    rd = find_coord(coordmap, x, y, z);
+
+    int equal = check_equal(rd, rd_expected);
 
     cr_assert_eq(equal, expected,
                  " Coordinate record %d is %s but"
                  " find_room returned %s",
-                 rd_expected->r->id,
+                 rd_expected->r->room_id,
                  expected? "not present":"present",
                  equal? "false":"true");
 }
@@ -69,10 +71,10 @@ Test(coordinate, not_found)
     cr->key.y = 0;
 
     room_t *initial = malloc(sizeof(room_t));
-    initial->id = 123;
+    initial->room_id = "123";
     cr->r = initial;
 
-    HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr);
+    HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
 
     check_find_coord(coordmap, 1, 2, NULL, 0);
 }
@@ -91,8 +93,8 @@ Test(coordinate, found)
     initial->id = 125;
     cr->r = initial;
 
-    HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr);
-    
+    HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
+
     check_find_coord(coordmap, 0, 0, coordmap, 1);
 }
 
@@ -101,7 +103,7 @@ void check_add_coord(coord_record_t *coordmap, int x, int y, room_t *r,
 						int expected)
 {
 	int rc;
-	
+
     rc = try_add_coord(coordmap, x, y, r)
 
     cr_assert_eq(rc, expected,
@@ -125,7 +127,7 @@ Test(coordinate, added_successfully)
     initial->id = 125;
     cr->r = initial;
 
-    HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr);
+    HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
 
     room_t *r = malloc(sizeof(room_t));
     r->id = 24;
@@ -146,7 +148,7 @@ Test(coordinate, add_failure )
     initial->id = 125;
     cr->r = initial;
 
-    HASH_ADD(hh, coordmap, key, sizeof(coordinate_t), cr);
+    HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
 
     check_add_coord(coordmap, 0, 0, initial, 0)
 }
@@ -175,7 +177,7 @@ void check_create_valid_map(coord_record_t *coordmap,
 
     end_map = create_valid_map();
 
-    int 
+    int
     cr_assert_eq(rc, expected,
                  "The map is %s but "
                  "create_valid_map returned %s",
