@@ -19,23 +19,3 @@ cmd *assign_action(char **ts, lookup_t ** table)
 
     return output;
 }
-
-/* See validate.h */
-bool validate_filename(char *filename)
-{
-    int len = strlen(filename);
-    if(len < 4)
-    {
-        return false;
-    }
-    const char *ending = &filename[len-4];
-    int cmp = strcmp(ending, ".dat");
-    if(cmp == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
