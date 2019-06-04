@@ -14,7 +14,6 @@
 #include "parser.h"
 #include "room.h"
 #include "game.h"
-#include "path.h"
 #include "validate.h"
 
 /* Helper function for creating doc object from defined FILE_PATH */
