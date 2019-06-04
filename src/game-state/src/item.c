@@ -234,12 +234,6 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
 }
 
-/*
-int set_action(item_t* item, char* attr_name, action_type_t *value)
-{
-    
-}
-*/
 
 // TYPE-SPECIFIC GET_ATTR FUNCTIONS -------------------------------------------
 /* see item.h */

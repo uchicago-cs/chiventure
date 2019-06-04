@@ -63,6 +63,7 @@ game_t *game_new(char *start_desc);
  *  1 for failure
  *  2 if game null
  *  3 if new_room is null
+ *  4 if new_room is the final_room
  */
 int move_room(game_t *game, room_t *new_room);
 
