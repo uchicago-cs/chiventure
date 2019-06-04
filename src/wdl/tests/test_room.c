@@ -3,54 +3,189 @@
 #include <stdbool.h>
 #include "load_room.h"
 
+/* See load_room.h */
 obj_t *get_doc_obj()
 {
     obj_t *obj = obj_new("doc");
-    parse_game(PATH, obj);
+    parse_game(FILE_PATH, obj);
     return obj;
 }
 
-/* check to see if rooms are added to game struct correctly */
-Test(rooms, add_rooms)
+/*
+ * add_rooms_check
+ * helper functions for checking whether the designated rooms from 
+ * the document object are correctly loaded into a game struct
+ */
+game_t *add_rooms_check()
 {
+    // get the document object located in FILE_PATH and create a new
+    // game pointer
     obj_t *doc = get_doc_obj();
-    game_t *g = game_new();
-
-    // check adding rooms to game
+    game_t *g = game_new("Welcome to UChicago");
+    
+    // check adding rooms to the game pointer
     int rc = add_rooms_to_game(doc, g);
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
 
-    // find a room and check sdesc and ldesc
-    room_t *r = find_room_from_game(g, "room A");
-    char *s = get_sdesc(r);
-    char *scmp = "This is room A";
-    rc = strncmp(s, scmp, strlen(scmp));
-    cr_assert_eq(rc, SUCCESS, "failed to parse room sdesc");
-
-    char *l = get_ldesc(r);
-    char *lcmp = "This is room A long";
-    rc = strncmp(l, lcmp, strlen(lcmp));
-    cr_assert_eq(rc, SUCCESS, "failed to parse room ldesc");
-
-    //TODO: make sure we can check all attribute fields
+    // return the game pointer for further access in tests
+    return g;
 }
 
-/* check to see if connections are added to game struct correctly */
-Test(rooms, add_connections)
+/*
+ * check_room_descs
+ * helper functions for checking the short and long descriptions of 
+ * a certain room struct
+ * Parameters:
+ * - pointer to game
+ * - string ID of specific room
+ * - sdesc comparison string
+ * - ldesc comparison string
+ * Side Effects: 
+ * - asserts whether the sdesc and ldesc match the sdesc and ldesc of
+ *   given room ID string
+ */
+void check_room_descs(game_t *g, char *id, char *sdesc, char *ldesc)
 {
+    // find room from the game
+    room_t *r = find_room_from_game(g, id);
+
+    // obtain the sdesc and ldesc to compare with the parameter strings
+    char *scmp = get_sdesc(r);
+    char *lcmp = get_ldesc(r);
+
+    // first check sdesc
+    int rc = strncmp(sdesc, scmp, strlen(sdesc));
+    cr_assert_eq(rc, SUCCESS, "failed to parse sdesc of %s", id);
+
+    // next check ldesc
+    rc = strncmp(ldesc, lcmp, strlen(lcmp));
+    cr_assert_eq(rc, SUCCESS, "failed to parse ldesc of %s", id);
+}
+
+/*
+ * check_conns
+ * helper functions for checking connections via path searching to find a
+ * room and comparing the room_id found to the known connection id
+ * Parameters:
+ * - pointer to game
+ * - string ID of specific room
+ * - string direction pertaining to above room
+ * - string ID of connected room
+ * Side Effects:
+ * - asserts whether the inputted id of connected room matches the outputted
+ *   connected room ID
+ */
+void check_conns(game_t *g, char *origin, char *dir, char *dest)
+{
+    // find room pertaining to the origin ID
+    room_t *r = find_room_from_game(g, origin);
+
+    // search for the path of the origin room
+    path_t *p = path_search(r, dir);
+
+    // initialize the outputted destination room ID
+    char *to_id = p->dest->room_id;
+    
+    // compare the values of to_id and dest
+    int rc = strncmp(to_id, dest, strlen(dest));
+    cr_assert_eq(rc, SUCCESS, "failed to parse connection");
+}
+
+/* 
+ * check to see if rooms are added to game struct correctly
+ * and check fields for room A
+ */
+Test(rooms, add_rooms_room_a)
+{
+    // check adding rooms and return game pointer
+    game_t *g = add_rooms_check();
+    
+    // check whether room A was added correctly by comparing sdesc and ldesc
+    char *id = "room A";
+    char *sdesc = "This is room A";
+    char *ldesc = "This is room A long";
+
+    check_room_descs(g, id, sdesc, ldesc);
+}
+
+/* check fields for room B */
+Test(rooms, add_rooms_room_b)
+{
+    // check adding rooms and return game pointer
+    game_t *g = add_rooms_check();
+
+    // check whether room B was added correctly by comparing sdesc and ldesc
+    char *id = "room B";
+    char *sdesc = "This is room B";
+    char *ldesc = "This is room B long";
+
+    check_room_descs(g, id, sdesc, ldesc);
+}
+
+/* check fields for room C */
+Test(rooms, add_rooms_room_c)
+{
+    // same process as above
+    game_t *g = add_rooms_check();
+
+    char *id = "room C";
+    char *sdesc = "This is room C";
+    char *ldesc = "This is room C long";
+
+    check_room_descs(g, id, sdesc, ldesc);
+}
+
+/* 
+ * check to see if connections are added to game struct correctly 
+ * and check connection from room A to room B
+ */
+Test(rooms, add_connections_A_B)
+{
+    // first add rooms to game  and ensure it has run correctly
     obj_t *doc = get_doc_obj();
-    game_t *g = game_new();
+    game_t *g = game_new("Welcome to UChicago");
 
     int rc = add_rooms_to_game(doc, g);
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
 
-    // find path given room and direction
-    room_t *r = find_room_from_game(g, "room A");
-    path_t *p = path_search(r, "north");
-    char *to_id = p->dest->room_id;
-    char *s = "room B";
-    rc = strncmp(to_id, s, strlen(s));
-    cr_assert_eq(rc, SUCCESS, "failed to parse connection");
+    // next add connections to room and ensure it has run correctly
+    rc = add_connections_to_rooms(doc, g);
+    cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
 
-    //TODO: make sure we can check every single connection
+    // check connection from room A to room B
+    check_conns(g, "room A", "north", "room B");
+}
+
+/* check connection from room B to room C */
+Test(rooms, add_connections_B_C)
+{   
+    // same process as above test
+    obj_t *doc = get_doc_obj();
+    game_t *g = game_new("Welcome to UChicago");
+    
+    int rc = add_rooms_to_game(doc, g);
+    cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
+
+    rc = add_connections_to_rooms(doc, g);
+    cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
+
+    // check connection from room B to room C
+    check_conns(g, "room B", "north", "room C");
+}
+
+/* check connection from room C to room A */
+Test(rooms, add_connections_C_A)
+{   
+    // same process as above
+    obj_t *doc = get_doc_obj();
+    game_t *g = game_new("Welcome to UChicago");
+    
+    int rc = add_rooms_to_game(doc, g);
+    cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
+
+    rc = add_connections_to_rooms(doc, g);
+    cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
+
+    // check connection from room B to room C
+    check_conns(g, "room C", "north", "room A");
 }

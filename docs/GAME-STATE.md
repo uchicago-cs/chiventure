@@ -154,9 +154,18 @@ Here's an example:
 
     game_t *my_game = game_new();
     ...
+    // User playing game
+    ...
+    // User wants to save the game
     room_t *room_i;
     ITER_ALL_ROOMS(my_game, room_i) {
         printf("%s", room_i->short_desc);
+        // Technically it should be frpintf if it should be written to a file
+        // Other operations
+        ITER_ALL_ITEMS_IN_ROOM(room_i, item_i) {
+            printf("%s", item_i->short_desc);
+            // other operations
+        }
         // Other operations
     }
 

@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
+#include "game.h"
+#include "load_room.h"
 
 /* load_items
  * accesses the document object and obtain list of items to parse into the

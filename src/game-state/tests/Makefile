@@ -1,26 +1,33 @@
-# Makefile based on template at https://gist.github.com/xuhdev/1873316
-
-CC = gcc 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/
+CC = gcc
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../src/ -I../../action_management/include -I../../action_management/src
 LDFLAGS = -L../ -Wl,-rpath,.
+LDLIBS = -lcriterion -l:game-state.a
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 RM = rm -f
-BIN = test-rooms
-LDLIBS = -lcriterion 
-
-SRCS = main.c test_rooms.c test_game.c
-OBJS = $(SRCS:.c=.o)
+SRCDIR = .
+DEPDIR = .dep
+BUILDDIR = .
+$(shell mkdir -p $(DEPDIR) >/dev/null)
+$(shell mkdir -p $(BUILDDIR) >/dev/null)
+SRCEXT = c
+SRCS = $(shell find $(SRCDIR) -type f -name '*.$(SRCEXT)')
+DEPS = $(patsubst $(SRCDIR)/%,$(DEPDIR)/%,$(SRCS:.$(SRCEXT)=.d))
+OBJS = $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SRCS:.$(SRCEXT)=.o))
+BIN = test-libgamestate
 
 .PHONY: all
-all: ${BIN}
+all: $(BIN)
 
 $(BIN): $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) -o$(BIN) $(LDLIBS) 
+	$(CC) $(LDFLAGS) $(OBJS) -o $(BIN) $(LDLIBS)
 
-$(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< >$@
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(DEPDIR)/%.d
+	$(CC) $(CFLAGS) $(DEPFLAGS) $< -c -o $@
 
-include $(SRCS:.c=.d)
+$(DEPDIR)/%.d: ;
+
+-include $(DEPS)
 
 .PHONY: clean
 clean:
-	-${RM} ${BIN} ${OBJS} $(SRCS:.c=.d)
+	$(RM) $(BIN) $(OBJS) $(BINS) $(DEPS)
