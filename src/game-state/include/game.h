@@ -28,6 +28,9 @@ typedef struct game {
     /* pointer to current room struct */
     room_t *curr_room;
 
+    /* pointer to room that, when entered, ends the game */
+    room_t *final_room;
+
     /* pointer to current player struct */
     player_t *curr_player;
 
@@ -63,6 +66,7 @@ game_t *game_new(char *start_desc);
  *  1 for failure
  *  2 if game null
  *  3 if new_room is null
+ *  4 if new_room is the game's final_room
  */
 int move_room(game_t *game, room_t *new_room);
 
