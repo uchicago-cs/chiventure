@@ -2,8 +2,9 @@
 #define _ACTIONS_H_
 
 #include "action_structs.h"
+#include "item.h"
+#include "path.h"
 #include "game.h"
-
 
 /* File consisting of all functions created by action management
    =========================================================================== */
@@ -60,7 +61,6 @@ void action_type_free(action_type_t *a);
  * - a linked list of action_type_t structs
  */
 list_action_type_t *get_supported_actions();
-
 
 // =============================================================================
 

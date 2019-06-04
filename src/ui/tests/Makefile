@@ -5,7 +5,7 @@ RM = rm -f
 BIN = test-coordinates
 LDLIBS = -lcriterion
 
-SRCS = coordinate.c  
+SRCS = ../src/coordinate.c  
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all

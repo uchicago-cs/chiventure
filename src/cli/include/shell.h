@@ -3,14 +3,14 @@
 
 /*
  * The shell module contains system internal functions
- * 
+ *
  */
 
 /* ========================= */
 /* === interface actions === */
 /* ========================= */
 
-/* 
+/*
  * Prints out a help menu that contains a list of supported commands
  * (Note that this function will be moved to operation.c)
  *
@@ -18,7 +18,7 @@
  *  - none
  *
  * Returns:
- *  - nothing 
+ *  - nothing
  */
 void help_text();
 
@@ -51,7 +51,7 @@ void print_history();
 /*
  * Prints out error messages for user errors (as opposed to bugs in code)
  * This function is mostly replaced by other more detailed error messages
- * 
+ *
  * Parameters:
  *  - input string
  *
@@ -71,7 +71,7 @@ void shell_error(char *s);
  *
  * Returns:
  *  - none
- */ 
+ */
 void shell_error_arg(char *fmt, char *s);
 
 #endif /* _CLI_INCLUDE_SHELL_H */

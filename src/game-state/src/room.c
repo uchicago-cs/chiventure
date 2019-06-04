@@ -1,18 +1,44 @@
 #include <stdlib.h>
-#include "room.h"
-#include "item.h"
 #include "common-item.h"
+#include "common-room.h"
+#include "common-path.h"
 
 /* See room.h */
+int room_init(room_t *new_room, char *room_id, char *short_desc,
+    char *long_desc)
+{
+
+    assert(new_room != NULL);
+
+    strncpy(new_room->room_id, room_id, strlen(room_id));
+    strncpy(new_room->short_desc, short_desc, strlen(short_desc));
+    strncpy(new_room->long_desc, long_desc, strlen(long_desc));
+
+    return SUCCESS;
+}
+
 room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
+
     room_t *room = malloc(sizeof(room_t));
-    room->room_id = room_id;
-    room->short_desc = short_desc;
-    room->long_desc = long_desc;
-    room->items = NULL;
-    room->paths = NULL;
+    memset(room, 0, sizeof(room_t));
+    room->room_id = malloc(MAX_ID_LEN);
+    room->short_desc = malloc(MAX_SDESC_LEN);
+    room->long_desc = malloc(MAX_LDESC_LEN);
+    int check = room_init(room, room_id, short_desc, long_desc);
+
+    if (room == NULL || room->room_id == NULL ||
+       room->short_desc == NULL || room->long_desc == NULL) {
+        return NULL;
+    }
+
+    if(check != SUCCESS) {
+        return NULL;
+    }
+
     return room;
 }
+
+
 
 /* See room.h */
 int room_free(room_t *room) {
@@ -25,65 +51,79 @@ int room_free(room_t *room) {
     return SUCCESS;
 }
 
-/* See common.h */
-int add_room_to_hash(room_hash_t all_rooms, char *room_id, room_t *room) {
-    room_t *s;
-    HASH_FIND_STR(all_rooms, room_id, s);
-    if (s != NULL) {
-        printf("FATAL: room_id already used!\n");
-        exit(1);
-    }
-    HASH_ADD_STR(all_rooms, room_id, room);
-    return SUCCESS;
-}
 
 /* See room.h */
 int add_item_to_room(room_t *room, item_t *item) {
-    return add_item_to_hash(room->items, item->item_id, item);
+    item_t* check;
+    HASH_FIND(hh, room->items, item->item_id, strlen(item->item_id), check);
+
+    if (check != NULL) {
+        /* WARNING */
+        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
+        fprintf(stderr, "add_item_to_room: this item id is already in use.\n");
+        return FAILURE;
+    }
+    HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id),
+    item);
+    return SUCCESS;
+
 }
 
 /* See room.h */
 int add_path_to_room(room_t *room, path_t *path) {
-    return add_path_to_hash(room->paths, path->direction, path);
+    path_t *s;
+
+    if (room == NULL) {
+        fprintf(stderr, "add_path_to_room: cannot add path to NULL room\n");
+        return FAILURE;
+    }
+
+    if (path == NULL) {
+        fprintf(stderr, "add_path_to_room: cannot add NULL path to room\n");
+        return FAILURE;
+    }
+
+    HASH_FIND(hh, room->paths, path->direction, strlen(path->direction), s);
+
+    if (s != NULL) {
+        fprintf(stderr, "add_path_to_room: direction already used!\n");
+        return FAILURE;
+    }
+
+    HASH_ADD_KEYPTR(hh, room->paths, path->direction, strlen(path->direction),
+    path);
+    return SUCCESS;
 }
 
-/* See common.h */
+/* See common-room.h */
 int delete_all_rooms(room_hash_t rooms) {
     room_t *current_room, *tmp;
     HASH_ITER(hh, rooms, current_room, tmp) {
-        HASH_DEL(rooms, current_room);  /* delete it (rooms advances to next) */
+        HASH_DEL(rooms, current_room);  /* deletes (rooms advances to next) */
         room_free(current_room);             /* free it */
     }
     return SUCCESS;
 }
 
-//returns path to given room given hashtable of paths and room id
-path_t *path_to_room(path_hash_t paths, char* room_id) {
+/* See room.h */
+path_t *path_search(room_t *room, char* direction) {
   path_t *path;
-  HASH_FIND_STR(paths, room_id, path);
+
+  if (room == NULL) {
+      fprintf(stderr, "path_search: cannot search path in NULL room\n");
+      return NULL;
+  }
+
+  HASH_FIND(hh, room->paths, direction, strlen(direction), path);
   return path;
 }
 
-/* Get short description of room
- *
- * Parameters:
- *  pointer to room
- *
- * Returns:
- *  short description string
- */
+/* See room.h */
 char *get_sdesc(room_t *room) {
     return room->short_desc;
 }
 
-/* Get long description of room
- *
- * Parameters:
- *  pointer to room
- *
- * Returns:
- *  long description string
- */
+/* See room.h */
 char *get_ldesc(room_t *room) {
     return room->long_desc;
 }
@@ -112,9 +152,45 @@ path_t *list_paths(room_t *room) {
   return room->paths;
 }
 
-
-/* FOR ACTION MANAGEMENT
-* go through hashtable of attributes
-* check path for equal
-* see item.h for fxn that checks equality
+/* FOR CLI
+* Implement a function that returns an item
+* given an item_ID as string and a pointer to the current room.
 */
+
+/* see room.h */
+item_t* get_item_in_room(room_t* room, char* item_id)
+{
+    item_t* return_value;
+    HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
+    return return_value;
+    //if it is NULL, return_value will be equal to NULL by default
+}
+
+
+/* See room.h */
+room_t *find_room_from_path(path_t *path) {
+    if(path != NULL) {
+        return path->dest;
+    }
+    return NULL;
+}
+
+/* See room.h */
+room_t *find_room_from_dir(room_t *curr, char* direction) {
+    path_t *path = path_search(curr, direction);
+    room_t *room_adj = find_room_from_path(path);
+    return room_adj;
+}
+
+/* See room.h */
+item_list_t *get_all_items_in_room(room_t *room) {
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, room->items, curr_item, ITTMP_ITEMRM) {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
+    }
+    return head;
+}
