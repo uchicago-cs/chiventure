@@ -80,6 +80,22 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/*
+ * If the input action is valid (checks by calling validate_action), go through
+ * the hashtable again to find the corresponding operation and creates a cmd struct
+ *
+ * Input:
+ *  - ts: parsed command line input (an array of tokens)
+ *  - table: hashtable that stores all supported actions
+ *
+ * Returns:
+ *  - A cmd struct that contains the given tokens and a pointer to an operation
+ *    function (function selected based on the first token)
+ *
+ *    If the action is invalid, assigns the cmd pointer
+ *    to action_error_operation
+ */
+cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
 
 /*
  * Returns a description of either a specefied item, or the room

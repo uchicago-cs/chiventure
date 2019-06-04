@@ -4,7 +4,6 @@
 #include "operations.h"
 #include "shell.h"
 #include "assert.h"
-#include "validate.h"
 #include "room.h"
 
 // remove the comment as soon as checkpointing removes their dummy struct
@@ -67,6 +66,17 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
       if (validate(tokens[1]) == true){
         int sv = save(game, tokens[1]);
     */  return NULL;
+}
+
+/* See operation.h */
+cmd *assign_action(char **ts, lookup_t ** table)
+{
+    cmd *output = cmd_new(ts);
+    output->func_of_cmd = find_operation(ts[0], table);
+    if(output->func_of_cmd == NULL) output->func_of_cmd = action_error_operation;
+    //HERE WE VALIDATE THE COMMANDS
+
+    return output;
 }
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)

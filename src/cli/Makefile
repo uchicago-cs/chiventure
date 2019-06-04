@@ -1,7 +1,7 @@
 # Makefile for CS22000 Command Line Interface
 
 CC = gcc
-SRCS = src/cmd.c src/shell.c src/parser.c src/operations.c src/validate.c
+SRCS = src/cmd.c src/shell.c src/parser.c src/operations.c 
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../action_management/include/ -I../ui/include/
 OBJS = $(SRCS:.c=.o)
 LIB = cli.a

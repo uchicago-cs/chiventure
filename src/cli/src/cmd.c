@@ -4,7 +4,6 @@
 #include "parser.h"
 #include "shell.h"
 #include "cmd.h"
-#include "validate.h"
 
 /* === hashtable helper constructors === */
 
