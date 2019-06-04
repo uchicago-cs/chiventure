@@ -77,7 +77,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             action_type_t *action = find_action(tokens[0], table);
 
             char *str;
-            do_item_action(game, action, curr_item, str);
+            do_item_action(game, action, curr_item, &str);
             printf("%s", str);
             return "The object is found\n";
         }
@@ -96,10 +96,10 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         if (strcmp(curr_path->direction,tokens[1]) == 0)
         {
-            action_type_t *action = find_action(tokens[0], table);
+            action_type_t *action = find_action(tokens[0], &table);
 
             char *str;
-            do_path_action(game, action, curr_path, str);
+            do_path_action(game, action, curr_path, &str);
             printf("%s", str);
             return "Direction available!\n";
         }
@@ -141,7 +141,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     action_type_t *action = find_action(tokens[0], table);
 
     char *str;
-    do_item_item_action(game, action, item1, item2, str);
+    do_item_item_action(game, action, item1, item2, &str);
     printf("%s", str);
     return "is an action!";
 }
