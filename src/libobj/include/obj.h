@@ -1,6 +1,9 @@
 #include "uthash.h"
 #include <stdbool.h>
 
+#ifndef INCLUDE_OBJ_H
+#define INCLUDE_OBJ_H
+
 #define MAXLEN_DATA 1024 // strings containing data
 #define MAXLEN_ID 60 // ID strings for objects
 #define MAX_DEPTH 20 // max search depth for accessing properties
@@ -233,3 +236,5 @@ int obj_set_bool(obj_t *obj, char *id, bool value);
 int obj_set_char(obj_t *obj, char *id, char value);
 int obj_set_int(obj_t *obj, char *id, int value);
 int obj_set_str(obj_t *obj, char *id, char *value);
+
+#endif /* INCLUDE_OBJ_H */
