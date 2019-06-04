@@ -8,17 +8,6 @@
 #include "wdl_common.h"
 
 
-/* a doubly linked list of strings used to store the ids of objects;
- * used to check that room passages lead to valid rooms and the such
- */
-typedef struct id_list
-{
-    char *id;
-    struct id_list *prev;
-    struct id_list *next;
-} id_list_t;
-
-
 /*
  * extract_objects()
  * extracts the a list of objects associated with an attribute of the primary object;
@@ -36,16 +25,22 @@ typedef struct id_list
 attr_list_t *extract_objects(obj_t *obj, char *str);
 
 
+/* Given a room id and the list of all items in a game returns
+ * a list with all the items in that room */
+attr_list_t* get_items_in_room(char* room_id, attr_list_t* all_items);
+
+
 /*
- * extract_ids()
- * gets the ids of a list of room, item, or player objects
+ * get_item_actions()
+ * gets a list of actions assoiciated with a given item
  *
  * parameters:
- *  - ls: a list of rooms, items, or players
+ *  - item: the item for which to get the actions
  *
  * returns:
- *  - a list of ids, more specifically, a doubly linked list of strings
+ *  - a linked list of type-checked action attributes
+ *  - a null if any of the actions are malformed or if no actions are present
  */
-id_list_t *extract_ids(attr_list_t *ls);
+attr_list_t *get_item_actions(obj_t *item);
 
 #endif /* INCLUDE_PARSE_H */

@@ -2,10 +2,15 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../cli/include/ -I../action_management/include/
 RM = rm -f
 LIB = ui.a
-LDLIBS =  -lncurses
+LDLIBS = -lncurses -lreadline
+
+COMMON = -L../common/ -Wl,-rpath,../common/ -l:common.a
+CLI = -L../cli/ -Wl,-rpath,../cli/ -l:cli.a
+GAME_STATE = -L../game-state/ -Wl,-rpath,../game-state/ -l:game-state.a
+STLIBS = $(COMMON) $(CLI) $(GAME_STATE)
 
 .PHONY: all clean examples
 
@@ -13,8 +18,11 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/ui.c src/window.c src/print_functions.c #src/map.c src/coordinate.c src/DFS.c
+
+SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c src/map.c src/ui_ctx.c
+
 OBJS = $(SRCS:.c=.o)
+LOGS = examples/ui_debug.txt
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
@@ -27,7 +35,9 @@ $(LIB): $(OBJS)
 
 # Examples
 
-EXAMPLE_BINS = examples/test_ui #examples/coord_example
+
+EXAMPLE_BINS = examples/test_ui examples/map_example examples/coord_example
+
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
 
 $(EXAMPLE_SRCS:.c=.d):%.d:%.c
@@ -36,9 +46,9 @@ $(EXAMPLE_SRCS:.c=.d):%.d:%.c
 -include $(EXAMPLE_SRCS:.c=.d)
 
 $(EXAMPLE_BINS): %:%.c $(LIB)
-	$(CC) $(CFLAGS) $^ -o$@ $(LDLIBS)
+	$(CC) $(CFLAGS) $^ $(STLIBS) -o$@ $(LDLIBS)
 
 examples: $(EXAMPLE_BINS)
 
 clean:
-	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
+	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(LOGS) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)

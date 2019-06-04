@@ -3,8 +3,8 @@
 #Based off Makefile template from libobj which is from https://gist.github.com/xuhdev/1873316#
 
 CC = gcc
-SRCS = src/actionmanagement.c src/game.c src/get_actions.c
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ 
+SRCS = src/actionmanagement.c src/get_actions.c
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/
 LDFLAGS = -shared
 OBJS = $(SRCS:.c=.o)
 LIB = action_management.a
@@ -14,7 +14,7 @@ RM = rm -f
 all: $(LIB)
 
 $(LIB): $(OBJS)
-	$(CC) ${LDFLAGS} -o $@ $^
+	ar -r -o $@ $(OBJS)
 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@

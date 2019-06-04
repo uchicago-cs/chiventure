@@ -5,8 +5,7 @@ LDFLAGS = -L../ -L../../libobj
 LDLIBS = ../wdl.a ../../libobj/libobj.a -lyaml -lcriterion
 RM = rm -f
 BIN = test-wdl
-
-SRCS = main.c test_validation.c
+SRCS = main.c test_validation.c test_room.c test_item.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all

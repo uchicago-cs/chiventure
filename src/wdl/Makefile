@@ -1,12 +1,12 @@
 ## Makefile based on template at https://gist.github.com/xuhdev/1873316
 
 CC = gcc
-AR = ar 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/ -I../game-state/include
+AR = ar
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../game-state/include/ -I../action_management/include/ -I../common/include/
 RM = rm -f
-LIB = wdl.a 
-LDFLAGS = -L../libobj 
-LDLIBS = ../libobj/libobj.a -lyaml 
+LIB = wdl.a
+LDFLAGS = -L../libobj
+LDLIBS = ../libobj/libobj.a -lyaml
 
 .PHONY: clean clean-lib clean-bin
 
@@ -14,7 +14,7 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/parse.c src/validate.c
+SRCS = src/parse.c src/validate.c src/load_room.c src/load_item.c src/load_game.c
 OBJS = $(SRCS:.c=.o)
 
 $(SRCS:.c=.d):%.d:%.c
@@ -47,11 +47,10 @@ clean-bin:
 	-${RM} ${LIB} ${OBJS} $(SRCS:.c=.d) $(EXAMPLE_SRCS:.c=.d) $(EXAMPLE_BINS)
 
 # Tests
-tests: $(LIB) 
+tests: $(LIB)
 	make -C ./tests
 
 clean-tests:
 	make -C ./tests clean
 
 clean: clean-lib clean-bin clean-tests
-
