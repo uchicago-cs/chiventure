@@ -3,6 +3,27 @@
 #include <stdbool.h>
 #include "load_item.h"
 
+//TEMPORARILY ADDING FUNCTIONS FOR TESTING; WILL REMOVE BEFORE PR
+//**********************************************
+/* see item.h */
+char *get_sdesc_item(item_t *item)
+{
+  if (item == NULL) {
+    return NULL;
+  }
+  return item->short_desc;
+}
+
+/* see item.h */
+char *get_ldesc_item(item_t *item)
+{
+  if (item == NULL) {
+    return NULL;
+  }
+  return item->long_desc;
+}
+//**********************************************
+
 Test(items, test1)
 {
     obj_t *doc = get_doc_obj();
@@ -24,7 +45,7 @@ Test(items, correct_fields_chair)
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
 
     // check adding items to game
-    int rc = load_items(doc, g);
+    rc = load_items(doc, g);
     cr_assert_eq(rc, SUCCESS, "loading items failed");
 
     // checking fields were correctly filled
