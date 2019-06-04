@@ -56,6 +56,22 @@ int add_room_to_game(game_t *game, room_t *room) {
 }
 
 /* See game.h */
+int add_final_room_to_game(game_t *game, room_t *final_room) {
+    room_t *check;
+    HASH_FIND(hh, game->all_rooms, final_room->room_id, strnlen(final_room->room_id, MAX_ID_LEN),
+    check);
+
+    if (check != NULL) {
+        fprintf(stderr, "add_final_room_to_game: this room does not exist in  the list of rooms\n");
+        return FAILURE;
+    }
+    game->final_room = final_room;
+    if (game->final_room != NULL)
+        return SUCCESS;
+    return FAILURE;
+}
+
+/* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
     char* direction)
 {

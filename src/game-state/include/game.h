@@ -114,6 +114,17 @@ int add_player_to_game(game_t *game, player_t *player);
  */
 int add_room_to_game(game_t *game, room_t *room);
 
+/* Adds the final room to the given game
+ *
+ * Parameters:
+ *  game struct
+ *  final room struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_final_room_to_game(game_t *game, room_t *final_room);
+
 /*
 * Function to connect two rooms
 * Parameters:
