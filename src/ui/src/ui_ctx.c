@@ -109,7 +109,7 @@ int ui_ctx_free(ui_ctx_t *ui_ctx)
 }
 
 // see ui_ctx.h
-void toggle_map(char *dummy, chiventure_ctx_t *ctx)
+void toggle_map(chiventure_ctx_t *ctx)
 {
     if(ctx->ui_ctx->curr_page == MAP_WIN_NUM) {
         ctx->ui_ctx->curr_page = MAIN_WIN_NUM;
@@ -127,7 +127,7 @@ void toggle_map(char *dummy, chiventure_ctx_t *ctx)
 }
 
 // see ui_ctx.h
-void layout_switch(char *dummy, chiventure_ctx_t *ctx)
+void layout_switch(chiventure_ctx_t *ctx)
 {
     int cli_top = !ctx->ui_ctx->cli_top;
     ctx->ui_ctx->cli_top = cli_top;
