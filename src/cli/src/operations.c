@@ -28,15 +28,17 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
-    Commented out for now until an actual save and load function are provided
+  /*    Commented out for now until an actual save and load function are provided
       if(tokens[1] == NULL){
         fprintf(stderr,"Save Error, No filename specified. \n");
       }  
       if (validate(tokens[1]) == true){
         int sv = save(game, tokens[1]);
       }
+  */
       return NULL;
 }
+
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
