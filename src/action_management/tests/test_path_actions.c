@@ -6,7 +6,7 @@
 #include "actionmanagement.h"
 #include "action_structs.h"
 #include "game.h"
-#include "path.h"
+#include "room.h"
 
 bool execute_do_path_action(char *c_name, enum action_kind kind)
 {
