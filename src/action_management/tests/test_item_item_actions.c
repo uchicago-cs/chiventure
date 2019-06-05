@@ -22,8 +22,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     item_t *indirect = item_new("indirect", "The indirect item", "The indirectmost object of interest");
     add_allowed_action(direct, allowed_act_name1, allowed_a1);
     add_allowed_action(indirect, allowed_act_name2, allowed_a2);
+    char *string = malloc(BUFFER_SIZE);
 
-    int rc = do_item_item_action(g, a, direct, indirect);
+    int rc = do_item_item_action(g, a, direct, indirect, &string);
 
     item_free(direct);
     item_free(indirect);

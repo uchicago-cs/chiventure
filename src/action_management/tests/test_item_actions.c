@@ -19,8 +19,9 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     action_type_t *allowed_a = action_type_new(allowed_act_name, allowed_kind);
     item_t *item = item_new("dummy", "The dummy item", "The dummy object of interest");
     add_allowed_action(item, allowed_act_name, allowed_a);
+    char *string = malloc(BUFFER_SIZE);
 
-    int rc = do_item_action(g, a, item);
+    int rc = do_item_action(g, a, item, &string);
 
     item_free(item);
     action_type_free(a);

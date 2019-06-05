@@ -19,8 +19,9 @@ int execute_do_path_action(char *c_name, enum action_kind kind)
     set_curr_player(g, player);
     action_type_t *a = action_type_new(c_name, kind);
     path_t *p = path_new(dest, direction);
+    char *string = malloc(BUFFER_SIZE);
 
-    int rc = do_path_action(g, a, p);
+    int rc = do_path_action(g, a, p, &string);
     
     path_free(p);
     action_type_free(a);
