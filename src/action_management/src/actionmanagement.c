@@ -137,7 +137,7 @@ int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, direct->item_id);
         *ret_string = string;
-        return NOT_ALLOWED_DIRECT
+        return NOT_ALLOWED_DIRECT;
     }
     // checks if the action can be used on the indirect item
     allowed = allowed_action(indirect, a->c_name);
