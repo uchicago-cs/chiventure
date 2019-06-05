@@ -1,14 +1,15 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
 #include "actionmanagement.h"
 #include "action_structs.h"
+#include "item.h"
 #include "game.h"
-#include "path.h"
+#include "player.h"
 
-bool execute_do_path_action(char *c_name, enum action_kind kind)
+#define BUFFER_SIZE (100)
+
+int execute_do_path_action(char *c_name, enum action_kind kind)
 {
     room_t *dest = room_new("dummyroom", "a dummy room", "a placeholder room");
     char *direction = "south";
@@ -18,28 +19,30 @@ bool execute_do_path_action(char *c_name, enum action_kind kind)
     set_curr_player(g, player);
     action_type_t *a = action_type_new(c_name, kind);
     path_t *p = path_new(dest, direction);
-    
 
-    char *expected_output = malloc(100); // buffer
-    expected_output[0] = '\0';
-    strcat(expected_output, "Requested action ");
-    strcat(expected_output, c_name);
-    strcat(expected_output, " in direction ");
-    strcat(expected_output, p->direction);
-    strcat(expected_output, " into room ");
-    strcat(expected_output, p->dest->room_id);
+    char *expected_output = malloc(BUFFER_SIZE);
+    sprintf(expected_output, "Requested action %s in direction %s into room %s",
+            a->c_name, p->direction, p->dest->room_id);
 
-    bool rc;
+    char *kind_error = malloc(BUFFER_SIZE);
+    sprintf(kind_error, "The action type provided is not of the correct kind");
+
+    int rc;
     if (strcmp(do_path_action(g, a, p), expected_output) == 0)
     {
-        rc = true;
+        rc = SUCCESS;
+    }
+    else if (strcmp(do_path_action(g, a, p), kind_error) == 0)
+    {
+        rc = FAILURE;
     }
     else
     {
-        rc = false;
+        rc = 4; //Wrong string printed
     }
 
     free(expected_output);
+    free(kind_error);
     path_free(p);
     action_type_free(a);
     game_free(g);
@@ -49,25 +52,25 @@ bool execute_do_path_action(char *c_name, enum action_kind kind)
 
 Test(path_actions, kind_ITEM)
 {
-    bool rc = execute_do_path_action("dummy", ITEM);
+    int rc = execute_do_path_action("dummy", ITEM);
 
-    cr_assert_eq(rc, false,
-                  "execute_do_item_item_action returned true for wrong kind ITEM");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_item_action returned %d for wrong kind ITEM, expected 1", rc);
 }
 
 Test(path_actions, kind_PATH)
 {
 
-    bool rc = execute_do_path_action("dummy", PATH);
+    int rc = execute_do_path_action("dummy", PATH);
 
-    cr_assert_eq(rc, true,
-                 "execute_do_item_item_action returned false for correct kind PATH");
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for correct kind PATH expected 0", rc);
 }
 
 Test(path_actions, kind_ITEM_ITEM)
 {
-    bool rc = execute_do_path_action("dummy", ITEM_ITEM);
+    int rc = execute_do_path_action("dummy", ITEM_ITEM);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_item_action returned true for wrong kind ITEM_ITEM");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_item_action returned %d for wrong kind ITEM_ITEM expected 1");
 }
