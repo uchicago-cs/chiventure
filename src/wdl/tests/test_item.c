@@ -24,20 +24,24 @@ char *get_ldesc_item(item_t *item)
 }
 //**********************************************
 
-Test(items, test1)
+Test(items, load_items)
 {
-    obj_t *doc = get_doc_obj();
+    obj_t *doc = get_doc_obj(FILE_PATH);
     game_t *g = game_new("Welcome to UChicago");
-    
+   
+    // check and load rooms
+    int rc = add_rooms_to_game(doc, g);
+    cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
+
     // check adding items to game
-    int rc = load_items(doc, g);
+    rc = load_items(doc, g);
     cr_assert_eq(rc, SUCCESS, "loading items failed");
 }
 
 
-Test(items, correct_fields_chair)
+Test(items, load_items_chair_check)
 {
-    obj_t *doc = get_doc_obj();
+    obj_t *doc = get_doc_obj(FILE_PATH);
     game_t *g = game_new("Welcome to UChicago");
 
     // check adding rooms to game
@@ -48,6 +52,7 @@ Test(items, correct_fields_chair)
     rc = load_items(doc, g);
     cr_assert_eq(rc, SUCCESS, "loading items failed");
 
+    printf("it worked\n");
     // checking fields were correctly filled
     room_t *r = find_room_from_game(g, "room A");
     item_t *i = get_item_in_room(r, "chair");

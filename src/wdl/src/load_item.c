@@ -4,27 +4,26 @@
 #include "parse.h"
 #include "game.h"
 #include "item.h"
+#include "room.h"
 #include "load_item.h"
 
-/* See load_item/h */
+/* See load_item.h */
 int load_actions(obj_t *doc, item_t *i)
 {
     // getting a list of actions from item
     attr_list_t *action_ls = get_item_actions(doc);
-
     if (action_ls == NULL) {
         fprintf(stderr, "action fails type checking, or action list is empty\n");
         return -1;
     }
 
     attr_list_t *curr = action_ls;
-
     // setting action attributes; might need to change this in the future
+    
     while (curr != NULL) {
         set_str_attr(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "action"));
         curr = curr->next;
     }
-
     return 0;
 }
 
@@ -42,7 +41,7 @@ int load_items(obj_t *doc, game_t *g)
     attr_list_t *curr = items_obj;
 
     // if items list is empty then return 1
-    if (curr != NULL) {
+    if (curr == NULL) {
         fprintf(stderr, "items list is empty\n");
         return -1;
     }
@@ -61,7 +60,7 @@ int load_items(obj_t *doc, game_t *g)
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
         //load actions into item
-        if(load_actions(doc, item) == -1)
+        if(load_actions(curr->obj, item) == -1)
 	    {
 	        fprintf(stderr, "actions have not been loaded properly");
 	        return -1;
@@ -69,9 +68,10 @@ int load_items(obj_t *doc, game_t *g)
 
         //retrieve the pointer for the room that the item is located in
         room_t *item_room = find_room_from_game(g, in);
-
+        
         // add item to room
         add_item_to_room(item_room, item);
+        printf("after added item to room\n");
         curr = curr->next;
     }
     return 0;

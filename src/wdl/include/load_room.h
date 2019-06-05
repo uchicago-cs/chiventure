@@ -15,6 +15,8 @@
 #include "validate.h"
 #include "parse.h"
 
+#define ROOM_PATH "../examples/sample_yaml/connected_rooms.yaml"
+
 /*
  * add_rooms_to_game
  * accesses the document object and obtain list of rooms to parse into game_state
