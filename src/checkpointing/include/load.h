@@ -2,6 +2,7 @@
 #define LOAD_H
 #include "game.pb-c.h"
 #include "game.h"
+#include "actionmanagement.h"
 
 /* 
  * Takes a file, reads it, and returns the length of file
@@ -15,34 +16,6 @@
  * - size_t: length of file
  */
 size_t read_file(char *filename, unsigned max_length, uint8_t *out);
-
-
-/*
- * Loads attribute value into game struct
- * 
- * Parameters:
- * - av: pointer to Attribute_value in protofile
- * - av_t: pointer to an empty attribute_value_t in game struct to be filled from protofile
- *
- * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
- */
-int load_attribute_value(AttributeValue *av, attribute_value_t *av_t);
-
-
-/*
- * Loads attribute into game struct
- * 
- * Parameters:
- * - a: pointer to Attribute in protofile
- * - a_t: pointer to an empty attribute_t in game struct to be filled from protofile
- *
- * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
- */
-int load_attribute(Attribute *a, attribute_t *a_t);
 
 
 /*
@@ -60,45 +33,19 @@ int load_item(Item *i, item_t *i_t);
 
 
 /*
- * Loads condition into game struct
- * 
- * Parameters:
- * - c: pointer to Condition in protofile
- * - c_t: pointer to an empty condition_t in game struct to be filled from protofile
- *
- * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
- */
-int load_condition(Condition *c, condition_t *c_t);
-
-
-/*
- * Loads path into game struct
- * 
- * Parameters:
- * - p: pointer to Path in protofile
- * - p_t: pointer to an empty path_t in game struct to be filled from protofile
- *
- * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
- */
-int load_path(Path *p, path_t *p_t);
-
-
-/*
  * Loads room into game struct
  * 
  * Parameters:
  * - r: pointer to Room in protofile
  * - r_t: pointer to an empty room_t in game struct to be filled from protofile
+ * - all_items: pointer to array of items in the room
+ * - all_items_len: lenght of the all_items array
  *
  * Returns:
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int load_room(Room *r, room_t *r_t);
+int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len);
 
 
 /*
@@ -107,12 +54,14 @@ int load_room(Room *r, room_t *r_t);
  * Parameters:
  * - p: pointer to Player in protofile
  * - p_t: pointer to an empty player_t in game struct to be filled from protofile
+ * - all_items: pointer to array of items in the room
+ * - all_items_len: lenght of the all_items array
  *
  * Returns:
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int load_player(Player *p, player_t *p_t);
+int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len);
 
 
 /*

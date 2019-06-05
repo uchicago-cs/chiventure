@@ -1,12 +1,24 @@
 syntax = "proto2";
 
 //In Game-state implementation, attribute is a union. Proto doesn't support unions, so we use optional instead
-message Attribute_value {
+
+message Actiontype {
+    optional string c_name = 1;
+    optional string kind = 2;
+}
+
+message Gameaction {
+    optional string action_name = 1;
+    optional Actiontype action_type = 2;
+}
+
+message Attributevalue {
     optional double double_val = 1;
-    optional string char_val = 2; //NO CHAR TYPE SUPPORTED IN .PROTO, SO USING STRING INSTEAD
+    optional int32 char_val = 2; //NO CHAR TYPE SUPPORTED IN .PROTO, SO USING INT INSTEAD
     optional bool bool_val = 3;
     optional string str_val = 4;
     optional int32 int_val = 5;
+    optional Gameaction act_val = 6;
 }
 
 message Attribute {
@@ -14,7 +26,7 @@ message Attribute {
     //attribute_key may change to attribute_name later
     required string attribute_key = 1; 
     required string attribute_tag = 2; //Tag of which type attribute value will be
-    required Attribute_value attribute_value = 3; //Value of attribute (submessage) 
+    required Attributevalue attribute_value = 3; //Value of attribute (submessage) 
 }
 
 message Item {
@@ -26,19 +38,19 @@ message Item {
     optional int32 attributes_len = 5; //Length of array (helpful for loading)
 }
 
-message Condition {
-    optional string item_id = 1; //Assuming item is already stored in a room or player, only ID is needed
+// message Condition {
+    // optional string item_id = 1; //Assuming item is already stored in a room or player, only ID is needed
     //May change when Game State update their expected_attribute
-    optional Attribute expected_attribute = 2; 
+    // optional Attribute expected_attribute = 2; 
     // Contacted with Game state, likely to be their final format
-}
+// }
 
-message Path {
-    optional string direction = 1; 
-    optional string dest = 2; //Room ID of destination
-    repeated Condition conditions = 3; //Array of conditions (submessage)
-    optional int32 conditions_len = 4;
-}
+// message Path {
+    // optional string direction = 1; 
+    // optional string dest = 2; //Room ID of destination
+    // repeated Condition conditions = 3; //Array of conditions (submessage)
+    // optional int32 conditions_len = 4;
+// }
 
 message Room {
     required string room_id = 1;
@@ -46,8 +58,9 @@ message Room {
     optional string long_desc = 3;
     repeated Item items = 4; //Array of all items in room
     optional int32 items_len = 5;
-    repeated Path paths = 6; //Array of all paths (submessage) 
-    optional int32 paths_len = 7;
+    // Comment out path since we no longer store paths
+    // repeated Path paths = 6; //Array of all paths (submessage) 
+    // optional int32 paths_len = 7;
 }
 
 message Player {
@@ -66,4 +79,5 @@ message Game {
     required int32 rooms_len = 4;
     optional string curr_room = 5; //ID of current room (different from struct pointer of game_state)
     optional string curr_player = 6; //ID of player (different from struct pointer of game_state)
+    // optional string start_desc = 7;
 }
