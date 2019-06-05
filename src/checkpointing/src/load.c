@@ -258,7 +258,12 @@ int count(game_t *g_t)
     int res = 0;
 
     room_t *curr_room;
-    room_list_t *i = get_all_rooms(g_t); 
+    fprintf(stdout, "wop no! \n");
+    room_list_t *i = get_all_rooms(g_t);
+    if (i != NULL){
+      fprintf(stdout, "null not \n");
+    }
+    fprintf(stdout, "wop! \n");
     for(; i != NULL; i = i->next){
         curr_room = i->room;
         item_list_t *j = get_all_items_in_room(curr_room);
@@ -266,7 +271,7 @@ int count(game_t *g_t)
             res++;
         }
     }
-    
+    fprintf(stdout, "wop more! \n");
     player_t *curr_player = get_player(g_t, g_t->curr_player->player_id);
     item_list_t *k = get_all_items_in_inventory(curr_player);
     for(; k != NULL; k = k->next){
@@ -284,9 +289,11 @@ int load_game(Game *g, game_t *g_t)
         fprintf(stderr, "given null game_t struct\n");
         return -1;
     }
-  
+
     // Malloc an array of all items in the game
+    fprintf(stdout, "count no ! \n");
     int item_len = count(g_t);
+    fprintf(stdout, "count! \n");
     room_t *curr_room;
     player_t *curr_player;
     item_t **all_items = malloc(sizeof(item_t*) * item_len);

@@ -122,36 +122,116 @@ Test(load, player)
 Test(load, game)
 {
     Game *game = malloc(sizeof(Game));
+    game__init(game);
+    
     game->curr_room = "5";
     game->curr_player = "chad";
 
     Room **all_rooms = malloc(sizeof(Room*) *2);
     all_rooms[0] = malloc(sizeof(Room));
+    room__init(all_rooms[0]);
+    
     all_rooms[0]->room_id = "5";
     all_rooms[0]->short_desc = "college dorm";
     all_rooms[0]->long_desc = "there are clothes and empty ramen cups everywhere";
     Item **items1 = malloc(sizeof(Item*) *1);
     items1[0] = malloc(sizeof(Item));
+    item__init(items1[0]);
+    
     items1[0]->item_id = "1234";
     items1[0]->short_desc = "cup ramen";
     items1[0]->long_desc = "has already been eaten";
     all_rooms[0]->items = items1;
     all_rooms[1] = malloc(sizeof(Room));
+    room__init(all_rooms[1]);
+    
     all_rooms[1]->room_id = "10";
     all_rooms[1]->short_desc = "lecture hall";
     all_rooms[1]->long_desc = "where students come to sleep";
     Item **items2 = malloc(sizeof(Item*) *1);
     items2[0] = malloc(sizeof(Item));
+    item__init(items2[0]);
+    
     items2[0]->item_id = "420";
     items2[0]->short_desc = "pen";
     items2[0]->long_desc = "writes in black ink";
     all_rooms[1]->items = items2;
     game->all_rooms = all_rooms;
 
-    game->all_players[0]->health = 1;
+    Player *player1 = malloc(sizeof(Player));
 
+    player__init(player1);
+    player1->player_id = "chad";
+    player1->health = 1;
+    game->all_players = &player1;
+    
+    fprintf(stdout, "here first \n");
     game_t *g_t = malloc(sizeof(game_t));
-    int success = load_game(game, g_t);
+
+    room_t **all_rooms_t = malloc(sizeof(room_t*) *2);
+    all_rooms_t[0] = malloc(sizeof(room_t));
+    
+    all_rooms_t[0]->room_id = "5";
+    all_rooms_t[0]->short_desc = "college dorm";
+    all_rooms_t[0]->long_desc = "there are clothes and empty ramen cups everywhere";
+    fprintf(stdout, "here room1 \n");
+    item_t **items1_t = malloc(sizeof(item_t*) *1);
+    items1_t[0] = malloc(sizeof(item_t));
+    
+    items1_t[0]->item_id = "1234";
+    items1_t[0]->short_desc = "cup ramen";
+    items1_t[0]->long_desc = "ready to eat";
+    int success = add_item_to_room(all_rooms_t[0], items1_t[0]);
+    if (success != 0) {
+      fprintf(stderr, "Failed to add item to room \n");
+    }
+    fprintf(stdout, "here item1 \n");
+    all_rooms_t[1] = malloc(sizeof(room_t));
+    
+    all_rooms_t[1]->room_id = "10";
+    all_rooms_t[1]->short_desc = "lecture only";
+    all_rooms_t[1]->long_desc = "where students come to study";
+    fprintf(stdout, "here room2 \n");
+    
+    item_t **items2_t = malloc(sizeof(item_t*) *1);
+    items2_t[0] = malloc(sizeof(item_t));
+    
+    items2_t[0]->item_id = "420";
+    items2_t[0]->short_desc = "pencil";
+    items2_t[0]->long_desc = "writes in black ink";
+    success = add_item_to_room(all_rooms_t[1], items2_t[0]);
+    if (success != 0) {
+      fprintf(stderr, "Failed to add item to room \n");
+    }
+    fprintf(stdout, "here item2 \n");
+    /*
+    success = add_room_to_game(g_t, all_rooms_t[0]);
+    if (success != 0) {
+      fprintf(stderr, "Failed to add room to game \n");
+    }
+    fprintf(stdout, "here room to game1 \n");
+    success = add_room_to_game(g_t, all_rooms_t[1]);
+    if (success != 0) {
+      fprintf(stderr, "Failed to add room to game \n");
+    }
+    fprintf(stdout, "here room to game2 \n");
+    */
+    player_t *player1_t= malloc(sizeof(player_t));
+
+    player1_t->player_id = "chad";
+    player1_t->health = 1;
+    fprintf(stdout, "here player \n");
+    
+    success = add_player_to_game(g_t, player1_t);
+    if (success != 0) {
+      fprintf(stderr, "Failed to add player to game \n");
+    }
+    fprintf(stdout, "here player1 \n");
+    g_t->curr_room = all_rooms_t[1];
+    g_t->curr_player = player1_t;
+    fprintf(stdout, "here curr \n");
+    fprintf(stdout, "Here \n");
+    success = load_game(game, g_t);
 
     cr_assert_eq(success, 0, "load_game failed");
     cr_assert_eq(g_t->curr_room, "5", "load_game: loading curr_room failed");
