@@ -24,17 +24,25 @@ int execute_do_path_action(char *c_name, enum action_kind kind)
     sprintf(expected_output, "Requested action %s in direction %s into room %s",
             a->c_name, p->direction, p->dest->room_id);
 
+    char *kind_error = malloc(BUFFER_SIZE);
+    sprintf(kind_error, "The action type provided is not of the correct kind");
+
     int rc;
     if (strcmp(do_path_action(g, a, p), expected_output) == 0)
     {
         rc = SUCCESS;
     }
-    else
+    else if (strcmp(do_path_action(g, a, p), kind_error) == 0)
     {
         rc = FAILURE;
     }
+    else
+    {
+        rc = 4; //Wrong string printed
+    }
 
     free(expected_output);
+    free(kind_error);
     path_free(p);
     action_type_free(a);
     game_free(g);
@@ -47,7 +55,7 @@ Test(path_actions, kind_ITEM)
     int rc = execute_do_path_action("dummy", ITEM);
 
     cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned SUCCESS for wrong kind ITEM");
+                 "execute_do_item_item_action returned %d for wrong kind ITEM, expected 1", rc);
 }
 
 Test(path_actions, kind_PATH)
@@ -56,7 +64,7 @@ Test(path_actions, kind_PATH)
     int rc = execute_do_path_action("dummy", PATH);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned FAILURE for correct kind PATH");
+                 "execute_do_item_item_action returned %d for correct kind PATH expected 0", rc);
 }
 
 Test(path_actions, kind_ITEM_ITEM)
@@ -64,5 +72,5 @@ Test(path_actions, kind_ITEM_ITEM)
     int rc = execute_do_path_action("dummy", ITEM_ITEM);
 
     cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned SUCCESS for wrong kind ITEM_ITEM");
+                 "execute_do_item_item_action returned %d for wrong kind ITEM_ITEM expected 1");
 }
