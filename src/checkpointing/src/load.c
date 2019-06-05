@@ -210,24 +210,18 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
         p_t->player_id = p->player_id;
     }
 
-    if (p->has_level == 1) {
+    if (p->has_level) {
 	p_t->level = p->level;
-    } else {
-	p_t->level = -1;
     }
   
     if (p->has_health == 1) {
 	p_t->health = p->health;
-    } else {
-	p_t->health = -1;
     }
   
     if (p->has_xp == 1) {
 	p_t->xp = p->xp;
-    } else {
-	p_t->xp = -1;
     }
-
+	
     /* Here, we pass in an array of all items (generated from loaded WDL items),
        free all items in this inventory loaded by WDL,
        then search through the item ids we have serialized into this inventory,
