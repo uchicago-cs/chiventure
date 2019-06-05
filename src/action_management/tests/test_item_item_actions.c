@@ -43,13 +43,11 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
             rc = FAILURE; //incorrcet direct item allowed_actions
 
         }
-
-        free(expected_output1);
-
         else
         {
             rc = 2; //incorrcet indirect item allowed_actions
         }
+        free(expected_output1);
     }
 
     free(expected_output);
