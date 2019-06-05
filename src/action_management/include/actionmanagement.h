@@ -3,7 +3,7 @@
 
 #include "action_structs.h"
 #include "item.h"
-#include "path.h"
+#include "room.h"
 #include "game.h"
 
 /* File consisting of all functions created by action management

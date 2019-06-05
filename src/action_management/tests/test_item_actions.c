@@ -7,7 +7,9 @@
 #include "game.h"
 #include "player.h"
 
-bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, enum action_kind allowed_kind)
+#define BUFFER_SIZE (100)
+
+int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, enum action_kind allowed_kind)
 {
     player_t *player = player_new("player", 1);
     game_t *g = game_new("this is a dummy game");
@@ -18,25 +20,37 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
     item_t *item = item_new("dummy", "The dummy item", "The dummy object of interest");
     add_allowed_action(item, allowed_act_name, allowed_a);
 
+    char *expected_output = malloc(BUFFER_SIZE);
+    sprintf(expected_output, "Requested action %s on item %s",
+            a->c_name, item->item_id);
 
-    char *expected_output = malloc(100); // buffer
-    expected_output[0] = '\0';
-    strcat(expected_output, "Requested action ");
-    strcat(expected_output, a->c_name);
-    strcat(expected_output, " on item ");
-    strcat(expected_output, item->item_id);
+    char *kind_error = malloc(BUFFER_SIZE);
+    sprintf(kind_error, "The action type provided is not of the correct kind");
 
-    bool rc;
+    char *allowed_error = malloc(BUFFER_SIZE);
+    sprintf(allowed_error, "Action %s can't be requested on item %s",
+            a->c_name, item->item_id);
+
+    int rc;
     if (strcmp(do_item_action(g, a, item), expected_output) == 0)
     {
-        rc = true;
+        rc = SUCCESS;
     }
-    else
+    else if (strcmp(do_item_action(g, a, item), kind_error) == 0)
     {
-        rc = false;
+        rc = FAILURE;
+    }
+    else if (strcmp(do_item_action(g, a, item), allowed_error) == 0)
+    {
+        rc = 2;
+    }
+    else {
+        rc = 4; //Wrong string printed
     }
 
     free(expected_output);
+    free(kind_error);
+    free(allowed_error);
     item_free(item);
     action_type_free(a);
     action_type_free(allowed_a);
@@ -47,41 +61,41 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
 
 Test(item_actions, correct_kind_1_and_allowed_action)
 {
-    bool rc = execute_do_item_action("dummy", ITEM, "dummy", ITEM);
+    int rc = execute_do_item_action("dummy", ITEM, "dummy", ITEM);
 
-    cr_assert_eq(rc, true,
-                  "execute_do_item_action returned false for correct kind 1");
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_action returned %d for correct kind 1, expected 0", rc);
 }
 
 Test(item_actions, wrong_kind_2)
 {
 
-    bool rc = execute_do_item_action("dummy", PATH, "dummy", PATH);
+    int rc = execute_do_item_action("dummy", PATH, "dummy", PATH);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_action returned true for wrong kind 2");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_action returned %d for wrong kind 2, expected 1", rc);
 }
 
 Test(item_actions, wrong_kind_3)
 {
-    bool rc = execute_do_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_action returned true for wrong kind 3");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_action returned %d for wrong kind 3, expected 1", rc);
 }
 
 Test(item_actions, action_not_allowed_name)
 {
-    bool rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM);
+    int rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_action returned true for action name that is not allowed");
+    cr_assert_eq(rc, 2,
+                 "execute_do_item_action returned %d for action name that is not allowed, expected 2", rc);
 }
 
 Test(item_actions, action_not_allowed_struct)
 {
-    bool rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM_ITEM);
+    int rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM_ITEM);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_action returned true for action struct that is not allowed");
+    cr_assert_eq(rc, 2,
+                 "execute_do_item_action returned %d for action struct that is not allowed, expected 2", rc);
 }
