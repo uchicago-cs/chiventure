@@ -92,6 +92,7 @@ lookup_t **initialize_lookup()
     add_entry("LOOK",look_operation, table);
     add_entry("INV", inventory_operation, table);
     add_entry("SAVE", save_operation, table);
+    add_entry("LOAD", load_operation, table);
     add_action_entries(table);
     return table;
 }
