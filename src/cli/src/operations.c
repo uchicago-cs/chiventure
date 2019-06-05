@@ -39,9 +39,12 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
     */  return NULL;
 }
 
-char *load_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_T **table)
+char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  int ld = load(game, tokens[1]);
+  game_t *game = ctx->game;
+  if(validate(tokens[1]) == true){
+    int ld = load(game, tokens[1]);
+  }
 }
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
