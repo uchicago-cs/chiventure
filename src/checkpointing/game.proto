@@ -65,9 +65,9 @@ message Room {
 
 message Player {
     required string player_id = 1;
-    optional int32 level = 2;  
-    optional int32 health = 3;
-    optional int32 xp = 4;
+    required int32 level = 2; // 2,3,4 required b/c initial values always set by GS
+    required int32 health = 3;
+    required int32 xp = 4; 
     repeated Item inventory = 5; //Array of all object ids in inventory
     optional int32 inventory_len = 6;
 }   
