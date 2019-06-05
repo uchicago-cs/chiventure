@@ -214,11 +214,11 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
 	p_t->level = p->level;
     }
   
-    if (p->has_health == 1) {
+    if (p->has_health) {
 	p_t->health = p->health;
     }
   
-    if (p->has_xp == 1) {
+    if (p->has_xp) {
 	p_t->xp = p->xp;
     }
 	
