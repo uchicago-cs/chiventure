@@ -8,7 +8,8 @@
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (1)
-#define NOT_ALLOWED (2)
+#define NOT_ALLOWED_DIRECT (2)
+#define NOT_ALLOWED_INDIRECT (3)
 
 
 /* See actionmanagement.h */
