@@ -27,30 +27,43 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     sprintf(expected_output, "Requested action %s with %s on %s",
             a->c_name, direct->item_id, indirect->item_id);
 
+    char *kind_error = malloc(BUFFER_SIZE);
+    sprintf(kind_error, "The action type provided is not of the correct kind");
+
+    char *allowed_direct_error = malloc(BUFFER_SIZE);
+    sprintf(allowed_direct_error, "Action %s can't be requested on item %s",
+            a->c_name, direct->item_id);
+
+    char *allowed_indirect_error = malloc(BUFFER_SIZE);
+    sprintf(allowed_indirect_error, "Action %s can't be requested on item %s",
+            a->c_name, indirect->item_id);
+
     int rc;
     if (strcmp(do_item_item_action(g, a, direct, indirect), expected_output) == 0) 
     {
         rc = SUCCESS;
     }
-    else 
+    else if ((strcmp(do_item_item_action(g, a, direct, indirect), kind_error) == 0))
     {
-        char *expected_output1 = malloc(BUFFER_SIZE);
-        sprintf(expected_output1, "Action %s can't be requested on item %s",
-                a->c_name, direct->item_id);
-
-        if ((strcmp(do_item_item_action(g, a, direct, indirect), expected_output1) == 0))
-        {
-            rc = FAILURE; //incorrcet direct item allowed_actions
-
-        }
-        else
-        {
-            rc = 2; //incorrcet indirect item allowed_actions
-        }
-        free(expected_output1);
+            rc = FAILURE;
+    }
+    else if ((strcmp(do_item_item_action(g, a, direct, indirect), allowed_direct_error) == 0))
+    {
+        rc = 2; 
+    }
+    else if ((strcmp(do_item_item_action(g, a, direct, indirect), allowed_indirect_error) == 0))
+    {
+        rc = 3;
+    }
+    else
+    {
+        rc = 4; //Wrong string printed
     }
 
     free(expected_output);
+    free(kind_error);
+    free(allowed_direct_error);
+    free(allowed_indirect_error);
     item_free(direct);
     item_free(indirect);
     action_type_free(a);
@@ -97,22 +110,22 @@ Test(item_item_actions, wrong_allowed_actions_direct)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy", ITEM_ITEM);
 
-    cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned %d for incorrect allowed actions name in direct, expected 1", rc);
+    cr_assert_eq(rc, 2,
+                 "execute_do_item_item_action returned %d for incorrect allowed actions name in direct, expected 2", rc);
 }
 
 Test(item_item_actions, wrong_allowed_actions_indirect)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM);
 
-    cr_assert_eq(rc, 2,
-                 "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect, expected 2", rc);
+    cr_assert_eq(rc, 3,
+                 "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect, expected 3", rc);
 }
 
 Test(item_item_actions, wrong_allowed_actions)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy_allowed", ITEM_ITEM);
 
-    cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect and direct, expected 1", rc);
+    cr_assert_eq(rc, 2,
+                 "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect and direct, expected 2", rc);
 }
