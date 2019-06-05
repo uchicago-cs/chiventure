@@ -20,37 +20,8 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     item_t *item = item_new("dummy", "The dummy item", "The dummy object of interest");
     add_allowed_action(item, allowed_act_name, allowed_a);
 
-    char *expected_output = malloc(BUFFER_SIZE);
-    sprintf(expected_output, "Requested action %s on item %s",
-            a->c_name, item->item_id);
+    int rc = do_item_action(g, a, item);
 
-    char *kind_error = malloc(BUFFER_SIZE);
-    sprintf(kind_error, "The action type provided is not of the correct kind");
-
-    char *allowed_error = malloc(BUFFER_SIZE);
-    sprintf(allowed_error, "Action %s can't be requested on item %s",
-            a->c_name, item->item_id);
-
-    int rc;
-    if (strcmp(do_item_action(g, a, item), expected_output) == 0)
-    {
-        rc = SUCCESS;
-    }
-    else if (strcmp(do_item_action(g, a, item), kind_error) == 0)
-    {
-        rc = FAILURE;
-    }
-    else if (strcmp(do_item_action(g, a, item), allowed_error) == 0)
-    {
-        rc = 2;
-    }
-    else {
-        rc = 4; //Wrong string printed
-    }
-
-    free(expected_output);
-    free(kind_error);
-    free(allowed_error);
     item_free(item);
     action_type_free(a);
     action_type_free(allowed_a);

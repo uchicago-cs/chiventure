@@ -23,47 +23,8 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     add_allowed_action(direct, allowed_act_name1, allowed_a1);
     add_allowed_action(indirect, allowed_act_name2, allowed_a2);
 
-    char *expected_output = malloc(BUFFER_SIZE);
-    sprintf(expected_output, "Requested action %s with %s on %s",
-            a->c_name, direct->item_id, indirect->item_id);
+    int rc = do_item_item_action(g, a, direct, indirect);
 
-    char *kind_error = malloc(BUFFER_SIZE);
-    sprintf(kind_error, "The action type provided is not of the correct kind");
-
-    char *allowed_direct_error = malloc(BUFFER_SIZE);
-    sprintf(allowed_direct_error, "Action %s can't be requested on item %s",
-            a->c_name, direct->item_id);
-
-    char *allowed_indirect_error = malloc(BUFFER_SIZE);
-    sprintf(allowed_indirect_error, "Action %s can't be requested on item %s",
-            a->c_name, indirect->item_id);
-
-    int rc;
-    if (strcmp(do_item_item_action(g, a, direct, indirect), expected_output) == 0) 
-    {
-        rc = SUCCESS;
-    }
-    else if (strcmp(do_item_item_action(g, a, direct, indirect), kind_error) == 0)
-    {
-            rc = FAILURE;
-    }
-    else if (strcmp(do_item_item_action(g, a, direct, indirect), allowed_direct_error) == 0)
-    {
-        rc = 2; 
-    }
-    else if (strcmp(do_item_item_action(g, a, direct, indirect), allowed_indirect_error) == 0)
-    {
-        rc = 3;
-    }
-    else
-    {
-        rc = 4; //Wrong string printed
-    }
-
-    free(expected_output);
-    free(kind_error);
-    free(allowed_direct_error);
-    free(allowed_indirect_error);
     item_free(direct);
     item_free(indirect);
     action_type_free(a);
