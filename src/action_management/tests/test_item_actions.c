@@ -7,6 +7,8 @@
 #include "game.h"
 #include "player.h"
 
+#define BUFFER_SIZE (100)
+
 bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, enum action_kind allowed_kind)
 {
     player_t *player = player_new("player", 1);
@@ -18,8 +20,7 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
     item_t *item = item_new("dummy", "The dummy item", "The dummy object of interest");
     add_allowed_action(item, allowed_act_name, allowed_a);
 
-
-    char *expected_output = malloc(100); // buffer
+    char *expected_output = malloc(BUFFER_SIZE);
     expected_output[0] = '\0';
     strcat(expected_output, "Requested action ");
     strcat(expected_output, a->c_name);

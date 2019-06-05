@@ -8,6 +8,8 @@
 #include "game.h"
 #include "room.h"
 
+#define BUFFER_SIZE (100)
+
 bool execute_do_path_action(char *c_name, enum action_kind kind)
 {
     room_t *dest = room_new("dummyroom", "a dummy room", "a placeholder room");
@@ -18,9 +20,8 @@ bool execute_do_path_action(char *c_name, enum action_kind kind)
     set_curr_player(g, player);
     action_type_t *a = action_type_new(c_name, kind);
     path_t *p = path_new(dest, direction);
-    
 
-    char *expected_output = malloc(100); // buffer
+    char *expected_output = malloc(BUFFER_SIZE);
     expected_output[0] = '\0';
     strcat(expected_output, "Requested action ");
     strcat(expected_output, c_name);
