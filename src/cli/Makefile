@@ -22,4 +22,4 @@ $(SRCS:.c=.d):%.d:%.c
 
 clean:
 	${RM} ${LIB} ${OBJS} $(SRCS:.c=.d)
-	make -C ./example clean
+	make -C ./examples clean
