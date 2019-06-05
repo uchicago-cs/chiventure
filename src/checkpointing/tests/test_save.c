@@ -37,18 +37,18 @@ Test(save, item)
 
     success = set_str_attr(candy_t, "str", "string");
     cr_assert_eq(success, 0, "set_str_attr failed");
-    
+
     success = set_int_attr(candy_t, "int", 1);
     cr_assert_eq(success, 0, "set_int_attr failed");
 
     fprintf(stderr, "set values successfully\n");
 
 */
-    
+
     success = save_item(candy_t, candy);
 
     fprintf(stderr, "got through save_item function\n");
-    
+
     cr_assert_eq(success, 0, "save_item failed %d", success);
     cr_assert_str_eq(candy->item_id, "1234", "save_item: saving item_id failed");
     cr_assert_str_eq(candy->short_desc, "salt water taffy",
@@ -123,7 +123,7 @@ Test(save, player)
      * player_t struct.
      */
     player_t = player_new("Chad", 1);
-    int success = change_level(player_t, 8999); 
+    int success = change_level(player_t, 8999);
     cr_assert_eq(success, 9000, "change_level() failed %d", success);
     success = change_xp(player_t, 50);
     cr_assert_eq(success, 50, "change_xp() failed, %d", success);
