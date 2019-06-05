@@ -39,6 +39,11 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
     */  return NULL;
 }
 
+char *load_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_T **table)
+{
+  int ld = load(game, tokens[1]);
+}
+
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table)
 {
     if(tokens[1] == NULL)

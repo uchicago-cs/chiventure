@@ -83,6 +83,19 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
 
+/*
+ * Loads the current state of a game from a .dat file
+ * Prints an Error message if filename improperly specified
+ *
+ * Parameters:
+ * - tokens: parsed input string
+ * - pointer to game to be saved
+ * - pointer to table, unused
+ *
+ * Returns:
+ * - A success or error message
+ */
+char *load_operation(char *tokens[TOKEN_LIST_SIZE], game_t* game, lookup_t **table);
 
 /*
  * Returns a description of either a specefied item, or the room
