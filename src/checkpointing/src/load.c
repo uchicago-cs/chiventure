@@ -377,12 +377,14 @@ int load_game(Game *g, game_t *g_t)
 
 
 // see load.h
-int load(char *filename, Game *g, game_t *g_t)
+int load(char *filename, game_t *g_t)
 {
     uint8_t buffer[MAX_BUF_SIZE];
     size_t game_len = read_file(filename, MAX_BUF_SIZE, buffer);
     printf("game_len: %ld\n", game_len);
 
+    Game *g;
+    game__init(g);
     g = game__unpack(NULL, game_len, buffer);
 
     if (g == NULL) {
