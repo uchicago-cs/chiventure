@@ -25,7 +25,7 @@ Test(save, item)
 
     // setting attributes crashes during the test
     //
-    /*
+    
     success = set_double_attr(candy_t, "double", 2.5);
     cr_assert_eq(success, 0, "set_double_attr failed");
 
@@ -43,7 +43,7 @@ Test(save, item)
 
     fprintf(stderr, "set values successfully\n");
 
-*/
+
 
     success = save_item(candy_t, candy);
 

@@ -11,12 +11,11 @@ int save_attribute(item_t *i_t, attribute_t *a_t, Attribute *a)
 	fprintf(stderr, "Given a NULL attribute struct in save_attribute");
 	return -1;
     }
-    
     a->attribute_key = a_t->attribute_key;
-    
+
     if (a_t->attribute_tag == DOUBLE) {
 	a->attribute_tag = "DOUBLE";
-	a->attribute_value->double_val = get_double_attr(i_t, a_t->attribute_key);
+	a->attribute_value->double_val = a_t->attribute_value.double_val;
     } else if (a_t->attribute_tag == BOOLE) {
 	a->attribute_tag = "BOOLE";
 	a->attribute_value->bool_val = get_bool_attr(i_t, a_t->attribute_key);
@@ -85,14 +84,18 @@ int save_item(item_t *i_t, Item *i)
       curr_attr = curr_attr->next;
     }
     Attribute **attrs = malloc(sizeof(Attribute*) * iter);
-
+    i->attributes_len = iter;  // Set length of array
+    i->n_attributes = iter;  // Set length of array
+    
     // put the linked list of attributes into an array
     curr_attr = all_attrs;
     iter = 0;
     while (curr_attr != NULL){
 	attrs[iter] = malloc(sizeof(Attribute));
         attribute__init(attrs[iter]);
-	
+	attrs[iter]->attribute_value = malloc(sizeof(Attributevalue));
+	attributevalue__init(attrs[iter]->attribute_value);
+		
         int save_attribute_success = save_attribute(i_t, curr_attr->attribute,
 						    attrs[iter]);
 
@@ -100,12 +103,11 @@ int save_item(item_t *i_t, Item *i)
 	    fprintf(stderr, "Attribute saving for item failed \n");
 	    return -1;
 	}
+	
 	iter += 1;
 	curr_attr = curr_attr->next;
     }
     i->attributes = attrs;    
-    i->attributes_len = iter;  // Set length of array
-    i->n_attributes = iter;  // Set length of array
     
     return 0;
 }
