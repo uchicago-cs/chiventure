@@ -34,7 +34,22 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     }
     else 
     {
-        rc = FAILURE;
+        char *expected_output1 = malloc(BUFFER_SIZE);
+        sprintf(expected_output1, "Action %s can't be requested on item %s",
+                a->c_name, direct->item_id);
+
+        if ((strcmp(do_item_item_action(g, a, direct, indirect), expected_output1) == 0))
+        {
+            rc = FAILURE; //incorrcet direct item allowed_actions
+
+        }
+
+        free(expected_output1);
+
+        else
+        {
+            rc = 2; //incorrcet indirect item allowed_actions
+        }
     }
 
     free(expected_output);
@@ -51,7 +66,7 @@ Test(item_item_actions, wrong_kind_ITEM)
     int rc = execute_do_item_item_action("dummy", ITEM, "dummy", ITEM, "dummy", ITEM);
 
     cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned SUCCESS for wrong kind 1");
+                 "execute_do_item_item_action returned %d for wrong kind 1, expected 1", rc);
 }
 
 Test(item_item_actions, wrong_kind_PATH)
@@ -60,7 +75,7 @@ Test(item_item_actions, wrong_kind_PATH)
     int rc = execute_do_item_item_action("dummy", PATH, "dummy", PATH, "dummy", PATH);
 
     cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned SUCCESS for wrong kind 2");
+                 "execute_do_item_item_action returned %d for wrong kind 2, expected 1", rc);
     ;
 }
 
@@ -69,7 +84,7 @@ Test(item_item_actions, correct_kind_ITEM_ITEM)
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned FAILURE for correct kind 3");
+                 "execute_do_item_item_action returned %d for correct kind 3, expected 1", rc);
 }
 
 Test(item_item_actions, correct_allowed_actions)
@@ -77,7 +92,7 @@ Test(item_item_actions, correct_allowed_actions)
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned FAILURE for correct allowed actions in indirect and direct");
+                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected 0", rc);
 }
 
 Test(item_item_actions, wrong_allowed_actions_direct)
@@ -85,15 +100,15 @@ Test(item_item_actions, wrong_allowed_actions_direct)
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy", ITEM_ITEM);
 
     cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned SUCCESS for incorrect allowed actions name in direct");
+                 "execute_do_item_item_action returned %d for incorrect allowed actions name in direct, expected 1", rc);
 }
 
 Test(item_item_actions, wrong_allowed_actions_indirect)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM);
 
-    cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned SUCCESS for incorrect allowed actions name in indirect");
+    cr_assert_eq(rc, 2,
+                 "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect, expected 2", rc);
 }
 
 Test(item_item_actions, wrong_allowed_actions)
@@ -101,5 +116,5 @@ Test(item_item_actions, wrong_allowed_actions)
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy_allowed", ITEM_ITEM);
 
     cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned SUCCESS for incorrect allowed actions name in indirect and direct");
+                 "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect and direct, expected 1", rc);
 }
