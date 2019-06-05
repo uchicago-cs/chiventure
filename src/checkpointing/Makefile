@@ -31,7 +31,6 @@ $(PROTOCOMP): game.proto
 
 clean:
 	$(RM) $(PROTOHD) $(PROTOCOMP) $(OBJS) $(STATIC_LIB)
-	make -C tests clean
 
 tests: ${STATIC_LIB}
 	make -C ./tests
