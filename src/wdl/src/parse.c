@@ -4,6 +4,16 @@
 #include <stdbool.h>
 #include "parse.h"
 
+#define FILE_PATH "../examples/sample_yaml/simplified_wdl.yaml"
+
+/* See load_room.h */
+obj_t *get_doc_obj()
+{
+    obj_t *obj = obj_new("doc");
+    parse_game(FILE_PATH, obj);
+    return obj;
+}
+
 /* get_obj_list()
  * a helper function to load a list of the rooms, items, or players
  *

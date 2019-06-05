@@ -3,14 +3,6 @@
 #include <stdbool.h>
 #include "load_room.h"
 
-/* See load_room.h */
-obj_t *get_doc_obj()
-{
-    obj_t *obj = obj_new("doc");
-    parse_game(FILE_PATH, obj);
-    return obj;
-}
-
 /*
  * add_rooms_check
  * helper functions for checking whether the designated rooms from 
