@@ -43,15 +43,15 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     {
         rc = SUCCESS;
     }
-    else if ((strcmp(do_item_item_action(g, a, direct, indirect), kind_error) == 0))
+    else if (strcmp(do_item_item_action(g, a, direct, indirect), kind_error) == 0)
     {
             rc = FAILURE;
     }
-    else if ((strcmp(do_item_item_action(g, a, direct, indirect), allowed_direct_error) == 0))
+    else if (strcmp(do_item_item_action(g, a, direct, indirect), allowed_direct_error) == 0)
     {
         rc = 2; 
     }
-    else if ((strcmp(do_item_item_action(g, a, direct, indirect), allowed_indirect_error) == 0))
+    else if (strcmp(do_item_item_action(g, a, direct, indirect), allowed_indirect_error) == 0)
     {
         rc = 3;
     }
