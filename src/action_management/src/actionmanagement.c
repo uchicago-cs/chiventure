@@ -115,7 +115,6 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     assert(direct);
     assert(indirect);
     char *ret_string = malloc(BUFFER_SIZE); // buffer
-    ret_string[0] = '\0';
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
         sprintf(ret_string, "The action type provided is not of the correct kind");
