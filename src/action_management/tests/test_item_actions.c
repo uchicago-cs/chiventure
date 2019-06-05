@@ -21,11 +21,8 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
     add_allowed_action(item, allowed_act_name, allowed_a);
 
     char *expected_output = malloc(BUFFER_SIZE);
-    expected_output[0] = '\0';
-    strcat(expected_output, "Requested action ");
-    strcat(expected_output, a->c_name);
-    strcat(expected_output, " on item ");
-    strcat(expected_output, item->item_id);
+    sprintf(expected_output, "Requested action %s on item %s",
+            a->c_name, item->item_id);
 
     bool rc;
     if (strcmp(do_item_action(g, a, item), expected_output) == 0)

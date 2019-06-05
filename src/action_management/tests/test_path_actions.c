@@ -22,13 +22,8 @@ bool execute_do_path_action(char *c_name, enum action_kind kind)
     path_t *p = path_new(dest, direction);
 
     char *expected_output = malloc(BUFFER_SIZE);
-    expected_output[0] = '\0';
-    strcat(expected_output, "Requested action ");
-    strcat(expected_output, c_name);
-    strcat(expected_output, " in direction ");
-    strcat(expected_output, p->direction);
-    strcat(expected_output, " into room ");
-    strcat(expected_output, p->dest->room_id);
+    sprintf(expected_output, "Requested action %s in direction %s into room %s",
+            a->c_name, p->direction, p->dest->room_id);
 
     bool rc;
     if (strcmp(do_path_action(g, a, p), expected_output) == 0)
