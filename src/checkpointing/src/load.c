@@ -155,7 +155,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
     if (r->long_desc != NULL) {
         r_t->long_desc = r->long_desc;
     } else {
-        r_t->short_desc = NULL;
+        r_t->long_desc = NULL;
     }
     
     /* Here, we pass in an array of all items (generated from loaded WDL items),
