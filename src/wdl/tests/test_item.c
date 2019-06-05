@@ -26,7 +26,7 @@ void item_check(char* room, char *item, char *index)
     char *item_path = malloc(100); // setting up string buffer
     strncat(item_path, "ITEMS.", 6);
     strncat(item_path, index, 94);
-    obj_t item_obj = obj_get_attr(doc, item_path, false);
+    obj_t *item_obj = obj_get_attr(doc, item_path, false);
 
     rc = strcmp(obj_get_str(item_obj, "short_desc"), get_sdesc_item(i));
     cr_assert_eq(rc, 0, "failed to load item short_desc");
