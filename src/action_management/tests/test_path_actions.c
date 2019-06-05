@@ -1,16 +1,15 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
 #include "actionmanagement.h"
 #include "action_structs.h"
+#include "item.h"
 #include "game.h"
-#include "room.h"
+#include "player.h"
 
 #define BUFFER_SIZE (100)
 
-bool execute_do_path_action(char *c_name, enum action_kind kind)
+int execute_do_path_action(char *c_name, enum action_kind kind)
 {
     room_t *dest = room_new("dummyroom", "a dummy room", "a placeholder room");
     char *direction = "south";
@@ -25,14 +24,14 @@ bool execute_do_path_action(char *c_name, enum action_kind kind)
     sprintf(expected_output, "Requested action %s in direction %s into room %s",
             a->c_name, p->direction, p->dest->room_id);
 
-    bool rc;
+    int rc;
     if (strcmp(do_path_action(g, a, p), expected_output) == 0)
     {
-        rc = true;
+        rc = SUCCESS;
     }
     else
     {
-        rc = false;
+        rc = FAILURE;
     }
 
     free(expected_output);
@@ -45,25 +44,25 @@ bool execute_do_path_action(char *c_name, enum action_kind kind)
 
 Test(path_actions, kind_ITEM)
 {
-    bool rc = execute_do_path_action("dummy", ITEM);
+    int rc = execute_do_path_action("dummy", ITEM);
 
-    cr_assert_eq(rc, false,
-                  "execute_do_item_item_action returned true for wrong kind ITEM");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_item_action returned SUCCESS for wrong kind ITEM");
 }
 
 Test(path_actions, kind_PATH)
 {
 
-    bool rc = execute_do_path_action("dummy", PATH);
+    int rc = execute_do_path_action("dummy", PATH);
 
-    cr_assert_eq(rc, true,
-                 "execute_do_item_item_action returned false for correct kind PATH");
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned FAILURE for correct kind PATH");
 }
 
 Test(path_actions, kind_ITEM_ITEM)
 {
-    bool rc = execute_do_path_action("dummy", ITEM_ITEM);
+    int rc = execute_do_path_action("dummy", ITEM_ITEM);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_item_action returned true for wrong kind ITEM_ITEM");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_item_action returned SUCCESS for wrong kind ITEM_ITEM");
 }

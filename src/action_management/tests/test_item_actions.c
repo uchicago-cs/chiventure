@@ -9,7 +9,7 @@
 
 #define BUFFER_SIZE (100)
 
-bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, enum action_kind allowed_kind)
+int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, enum action_kind allowed_kind)
 {
     player_t *player = player_new("player", 1);
     game_t *g = game_new("this is a dummy game");
@@ -24,14 +24,14 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
     sprintf(expected_output, "Requested action %s on item %s",
             a->c_name, item->item_id);
 
-    bool rc;
+    int rc;
     if (strcmp(do_item_action(g, a, item), expected_output) == 0)
     {
-        rc = true;
+        rc = SUCCESS;
     }
     else
     {
-        rc = false;
+        rc = FAILURE;
     }
 
     free(expected_output);
@@ -45,41 +45,41 @@ bool execute_do_item_action(char *act_name, enum action_kind kind, char *allowed
 
 Test(item_actions, correct_kind_1_and_allowed_action)
 {
-    bool rc = execute_do_item_action("dummy", ITEM, "dummy", ITEM);
+    int rc = execute_do_item_action("dummy", ITEM, "dummy", ITEM);
 
-    cr_assert_eq(rc, true,
-                  "execute_do_item_action returned false for correct kind 1");
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_action returned FAILURE for correct kind 1");
 }
 
 Test(item_actions, wrong_kind_2)
 {
 
-    bool rc = execute_do_item_action("dummy", PATH, "dummy", PATH);
+    int rc = execute_do_item_action("dummy", PATH, "dummy", PATH);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_action returned true for wrong kind 2");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_action returned SUCCESS for wrong kind 2");
 }
 
 Test(item_actions, wrong_kind_3)
 {
-    bool rc = execute_do_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_action returned true for wrong kind 3");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_action returned SUCCESS for wrong kind 3");
 }
 
 Test(item_actions, action_not_allowed_name)
 {
-    bool rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM);
+    int rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_action returned true for action name that is not allowed");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_action returned SUCCESS for action name that is not allowed");
 }
 
 Test(item_actions, action_not_allowed_struct)
 {
-    bool rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM_ITEM);
+    int rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM_ITEM);
 
-    cr_assert_eq(rc, false,
-                 "execute_do_item_action returned true for action struct that is not allowed");
+    cr_assert_eq(rc, FAILURE,
+                 "execute_do_item_action returned SUCCESS for action struct that is not allowed");
 }
