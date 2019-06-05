@@ -8,6 +8,7 @@
 #include "game.h"
 #include "item.h"
 
+
 Test(save, item)
 {
     item_t *candy_t;
@@ -21,10 +22,6 @@ Test(save, item)
     Item *candy = malloc(sizeof(Item));
 
     int success;
-
-
-    // setting attributes crashes during the test
-    //
     
     success = set_double_attr(candy_t, "double", 2.5);
     cr_assert_eq(success, 0, "set_double_attr failed");
@@ -41,13 +38,7 @@ Test(save, item)
     success = set_int_attr(candy_t, "int", 1);
     cr_assert_eq(success, 0, "set_int_attr failed");
 
-    fprintf(stderr, "set values successfully\n");
-
-
-
     success = save_item(candy_t, candy);
-
-    fprintf(stderr, "got through save_item function\n");
 
     cr_assert_eq(success, 0, "save_item failed %d", success);
     cr_assert_str_eq(candy->item_id, "1234", "save_item: saving item_id failed");
@@ -68,6 +59,7 @@ Test(save, room)
     char *room_id = "5";
     char *short_desc = "college dorm";
     char *long_desc = "there are clothes and empty ramen cups everywhere";
+
     // room_new is a function in game-states's room.h. It creates a room_t struct.
     room_t = room_new(room_id, short_desc, long_desc);
     cr_assert_not_null(room_t, "room_t is null in save_room");
@@ -75,6 +67,7 @@ Test(save, room)
     char *i_item_id = "1234";
     char *i_short_desc = "cup ramen";
     char *i_long_desc = "has already been eaten";
+
     // item_new is a function in game-states's item.h. It creates an item_t struct.
     ramen_t = item_new(i_item_id, i_short_desc, i_long_desc);
     cr_assert_not_null(ramen_t, "ramen_t is null in save_room");
@@ -83,11 +76,13 @@ Test(save, room)
     char *s_item_id = "5678";
     char *s_short_desc = "shirt";
     char *s_long_desc = "looks unwashed";
+
     // item_new is a function in game-states's item.h. It creates an item_t struct.
     shirt_t = item_new(s_item_id, s_short_desc, s_long_desc);
     cr_assert_not_null(shirt_t, "shirt_t is null in save_room");
 
     path_t *path_t;
+
     // path_new is a function in game-states's path.h. It creates a path_t struct.
     path_t = path_new(room_t, "east");
     cr_assert_not_null(path_t, "path_t is null in save_room");
@@ -114,25 +109,16 @@ Test(save, room)
     cr_assert_eq(dorm->items_len, 2,
 		 "save_item: saving the items_len failed %d", dorm->items_len);
 
-
-    /* There is potential changes coming regarding whether we include paths.
-     * We additionally need a way to check if an item was stored in the hash.
-     * This might need to be some discussion with Game-State.
-     */
-
-
-
     free(dorm);
 }
-
-
 
 
 Test(save, player)
 {
     player_t *player_t;
-    /* player_new is a function in game-states's player.h. It creates a
-     * player_t struct.
+
+    /* player_new is a function in game-states's player.h. 
+     * It creates a player_t struct.
      */
     player_t = player_new("Chad", 1);
     int success = change_level(player_t, 8999);
@@ -144,6 +130,7 @@ Test(save, player)
     char *item_id = "1234";
     char *short_desc = "salt water taffy";
     char *long_desc = "glues mouth shut";
+
     // item_new is a function in game-states's item.h. It creates an item_t struct.
     candy_t = item_new(item_id, short_desc, long_desc);
     cr_assert_not_null(candy_t, "candy_t is null");
@@ -154,6 +141,7 @@ Test(save, player)
     char *s_item_id = "6666";
     char *s_short_desc = "katana";
     char *s_long_desc = "the blade of Jarvis";
+
     // item_new is a function in game-states's item.h. It creates an item_t struct.
     sword_t = item_new(s_item_id, s_short_desc, s_long_desc);
     cr_assert_not_null(sword_t, "sword_t is null");
@@ -164,13 +152,13 @@ Test(save, player)
     char *b_item_id = "0000";
     char *b_short_desc = "backpack";
     char *b_long_desc = "empty bag with nothing in it";
+
     // item_new is a function in game-states's item.h. It creates an item_t struct.
     bag_t = item_new(b_item_id, b_short_desc, b_long_desc);
     cr_assert_not_null(bag_t, "bag_t is null");
     success = add_item_to_player(player_t, bag_t);
     cr_assert_eq(success, 0, "add_item_to_player() failed");
 
-    
     Player *chad = malloc(sizeof(Player));
     success = save_player(player_t, chad);
 
@@ -187,6 +175,7 @@ Test(save, player)
     free(chad);
 }
 
+
 Test(save, game)
 {
     // game_new is a function in game-states's game.h. It creates a game_t struct.
@@ -196,19 +185,19 @@ Test(save, game)
     char *room_id = "5";
     char *short_desc = "college dorm";
     char *long_desc = "there are clothes and empty ramen cups everywhere";
+
     // room_new is a function in game-states's room.h. It creates a room_t struct.
-    
     room_t = room_new(room_id, short_desc, long_desc);
     cr_assert_not_null(room_t, "room_t is null in save_game");
 
-    
     int succ;
     succ = add_room_to_game(game_t, room_t);
     cr_assert_eq(succ, 0, "add_room_to_game failed");
 
     player_t *player_t;
-     /* player_new is a function in game-states's player.h. It creates a
-     * player_t struct.
+
+    /* player_new is a function in game-states's player.h. 
+     * It creates a player_t struct.
      */
     player_t = player_new("Chad", 1);
     cr_assert_not_null(player_t, "player_t is null in save_game");
