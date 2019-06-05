@@ -210,17 +210,10 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
         p_t->player_id = p->player_id;
     }
 
-    if (p->has_level) {
-	p_t->level = p->level;
-    }
-  
-    if (p->has_health) {
-	p_t->health = p->health;
-    }
-  
-    if (p->has_xp) {
-	p_t->xp = p->xp;
-    }
+    //All players have a level, health, and xp (initial values are always set)
+    p_t->level = p->level; 
+    p_t->health = p->health;
+    p_t->xp = p->xp;
 	
     /* Here, we pass in an array of all items (generated from loaded WDL items),
        free all items in this inventory loaded by WDL,
