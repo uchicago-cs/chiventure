@@ -185,6 +185,8 @@ bool item_type_check(obj_t *obj)
     bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
     bool in_ver = (obj_get_type(obj, "in") == TYPE_STR);
+    bool state_ver = (obj_get_type(obj, "state") == TYPE_STR);
+    bool val_ver = (obj_get_type(obj, "value") == TYPE_STR);
 
     return (id_ver && short_ver && long_ver && in_ver);
 }
@@ -357,9 +359,11 @@ void print_item(obj_t *obj)
 /* See validate.h */
 void print_game(obj_t *obj)
 {
+    attr_list_t *temp = obj_list_attr(obj);
+    obj_t *game = temp->obj;
     // print game attributes
-    printf("GAME introduction: %s\n", obj_get_str(obj, "intro"));
-    printf("starting room: %s\n", obj_get_str(obj, "start"));
+    printf("GAME introduction: %s\n", obj_get_str(game, "intro"));
+    printf("starting room: %s\n", obj_get_str(game, "start"));
     return;
 }
 
