@@ -123,17 +123,34 @@ Test(save, player)
      * player_t struct.
      */
     player_t = player_new("Chad", 1);
+    int success = change_level(player_t, 8999); 
+    cr_assert_eq(success, 9000, "change_level() failed %d", success);
+    success = change_xp(player_t, 50);
+    cr_assert_eq(success, 50, "change_xp() failed, %d", success);
+
+    item_t *candy_t;
+    char *item_id = "1234";
+    char *short_desc = "salt water taffy";
+    char *long_desc = "glues mouth shut";
+    // item_new is a function in game-states's item.h. It creates an item_t struct.
+    candy_t = item_new(item_id, short_desc, long_desc);
+    cr_assert_not_null(candy_t, "candy_t is null");
+    success = add_item_to_player(player_t, candy_t);
+    cr_assert_eq(success, 0, "add_item_to_player() failed");
 
     Player *chad = malloc(sizeof(Player));
+    success = save_player(player_t, chad);
 
-    int success = save_player(player_t, chad);
-    chad->xp = 50;
-    chad->level = 9000;
+    item_list_t *inventory = get_all_items_in_inventory(player_t);
+    item_t *item_t = inventory->item;
+
     cr_assert_eq(success, 0, "save_player failed");
     cr_assert_eq(chad->health, 1, "save_player: saving health failed");
     cr_assert_str_eq(chad->player_id, "Chad", "save_player: saving player_id failed");
     cr_assert_eq(chad->xp, 50, "save_player: saving xp failed");
     cr_assert_eq(chad->level, 9000, "save_player: saving level failed");
+    cr_assert_eq(chad->inventory[0]->item_id, item_t->item_id, "save_player: saving item failed");
+    cr_assert_eq(chad->inventory_len, 1, "save_player: saving inventory_len failed");
     free(chad);
 }
 
