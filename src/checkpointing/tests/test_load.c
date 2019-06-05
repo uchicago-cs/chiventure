@@ -67,7 +67,7 @@ Test(load, room)
     cr_assert_eq(room_t->short_desc, "college dorm",
 		 "load_room: loading short_desc failed");
     cr_assert_eq(room_t->long_desc,
-		 "there are clothes and empty ramen cups everwhere",
+		 "there are clothes and empty ramen cups everywhere",
 		 "load_room: loading long_desc failed");
     /* We potentially need to talk to game-state about a function that let's us
      * check the contents of the item hashtable within a room.
