@@ -113,7 +113,7 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string);
  * - 1 if the action type has the wrong kind, failure string as an out parameter
  * - 2 if the action can't be used on the item, failure string as an out parameter
  */
-int do_item_item_action(game_t *g, action_type_t *a, item_t *direct, 
+int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
 
 

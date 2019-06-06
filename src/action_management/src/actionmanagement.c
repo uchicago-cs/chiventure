@@ -115,8 +115,8 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
 
 /* KIND 3
  * See actionmanagement.h */
-int do_item_item_action(game_t *g, action_type_t *a, item_t *direct, 
-                          item_t *indirect, char **ret_string)
+int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
+                        item_t *indirect, char **ret_string)
 {
     assert(g);
     assert(a);
@@ -132,8 +132,7 @@ int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
     }
     // checks if the action can be used on the direct item
     int allowed = allowed_action(direct, a->c_name);
-    if (allowed != SUCCESS)
-    {
+    if (allowed != SUCCESS) {
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, direct->item_id);
         *ret_string = string;
