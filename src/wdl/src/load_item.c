@@ -21,7 +21,7 @@
  *  - a pointer to an game_action struct
  *  - NULL if an error occurs
  */
-game_action_t *get_game_action(char *action, list_action_type_t *valid) 
+action_type_t *get_game_action(char *action, list_action_type_t *valid) 
 {
     list_action_type_t *curr = valid;
     
@@ -33,15 +33,7 @@ game_action_t *get_game_action(char *action, list_action_type_t *valid)
         curr = curr->next;
     }
 
-    // creating game_action_t
-    game_action_t *r = malloc(game_action);
-    action_name = malloc(strlen(action));
-    strcpy(action_name, action);
-
-    r->action_name = action_name;
-    r->action_type = curr->act;
-
-    return r;
+    return curr->act;
 }
 
 
@@ -58,7 +50,7 @@ int load_actions(obj_t *doc, item_t *i)
     attr_list_t *curr = action_ls;
     // setting action attributes; might need to change this in the future
     
-    game_action_t *temp;
+    action_type_t *temp;
     list_action_type_t *val_actions = get_supported_actions();
 
     while (curr != NULL) {
