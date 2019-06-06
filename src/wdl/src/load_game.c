@@ -8,9 +8,8 @@
 
 game_t *create_game(obj_t *doc)
 {
-  obj_t *game = obj_get_attr(doc, "GAME.0", false);
-  char *intro = obj_get_str(game, "intro");
- 
+  char *intro = obj_get_str(doc, "GAME.1.intro");
+  
   game_t *game_ret = game_new(intro);
   return game_ret;
 }
