@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "parser.h"
 
 /* See parser.h */
@@ -21,6 +22,22 @@ char **parse(char *input)
     {
         words[i] = token;
         token = strtok(NULL, " ");
+    }
+
+    if(token != NULL)
+    {
+        return NULL;
+    }
+
+    char *command = words[0];
+    int i = 0;
+    char ch;
+
+    while(command[i])
+    {
+        ch = toupper(command[i]);
+        command[i] = ch;
+        i++;
     }
 
     return words;
