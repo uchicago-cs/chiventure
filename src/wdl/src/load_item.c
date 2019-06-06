@@ -7,6 +7,44 @@
 #include "room.h"
 #include "load_item.h"
 
+
+/*
+ * get_game_action()
+ * A helper fuction to get the pointer to the game_action struct corresponding to
+ * the action in the attribute list in the actions field of an item.
+ *
+ * parameters
+ *  - action: a string corresponding to the action ID
+ *  - val: a list of valid actions
+ *
+ * returns:
+ *  - a pointer to an game_action struct
+ *  - NULL if an error occurs
+ */
+game_action_t *get_game_action(char *action, list_action_type_t *valid) 
+{
+    list_action_type_t *curr = valid;
+    
+    // finding matching action_type_t
+    while (curr != NULL) {
+        if (strcmp(curr->act->c_name, str) == 0) {
+            break;
+        }
+        curr = curr->next;
+    }
+
+    // creating game_action_t
+    game_action_t *r = malloc(game_action);
+    action_name = malloc(strlen(action));
+    strcpy(action_name, action);
+
+    r->action_name = action_name;
+    r->action_type = curr->act;
+
+    return r;
+}
+
+
 /* See load_item.h */
 int load_actions(obj_t *doc, item_t *i)
 {
@@ -20,10 +58,14 @@ int load_actions(obj_t *doc, item_t *i)
     attr_list_t *curr = action_ls;
     // setting action attributes; might need to change this in the future
     
+    game_action_t *temp;
+    list_action_type_t *val_actions = get_supported_actions();
+
     while (curr != NULL) {
-        set_str_attr(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "action"));
-        curr = curr->next;
+        temp = get_game_action(obj_get_str(curr->obj, "action"), val_actions);
+        set_act_attr(i, obj_get_str(curr->obj, "action"), temp);
     }
+
     return 0;
 }
 
