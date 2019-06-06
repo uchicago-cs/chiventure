@@ -103,9 +103,8 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
         *ret_string = string;
         return WRONG_KIND;
     }
-    /* TODO: implement the rest of this function, using game state funcs
-     * Will perform the action if all checks pass (Sprint 4)
-     */
+
+    
     sprintf(string, "Requested action %s in direction %s into room %s",
             a->c_name, p->direction, p->dest->room_id);
     *ret_string = string;
