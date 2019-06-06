@@ -43,7 +43,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
             a->c_name, indirect->item_id);
 
     int rc;
-    if (strcmp(do_item_item_action(g, a, direct, indirect), expected_output) == 0) 
+    if (strcmp(do_item_item_action(g, a, direct, indirect), expected_output) == 0)
     {
         rc = SUCCESS;
     }
