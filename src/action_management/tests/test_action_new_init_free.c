@@ -63,11 +63,10 @@ Test(action_type, init_ITEM)
     char* c_name = "TAKE";	
     enum action_kind kind = ITEM;	
 
-     rc = action_type_init(&a, c_name, kind);	
+    rc = action_type_init(&a, c_name, kind);	
 
-     cr_assert_eq(rc, SUCCESS, "action_type_init() failed");	
-
-     cr_assert_eq(a.c_name, "TAKE", "action_type_init() didn't set a.c_name");	
+    cr_assert_eq(rc, SUCCESS, "action_type_init() failed");	
+    cr_assert_eq(a.c_name, "TAKE", "action_type_init() didn't set a.c_name");	
     cr_assert_eq(a.kind, ITEM, "action_type_init() didn't set a.kind");	
 }	
 
@@ -80,11 +79,10 @@ Test(action_type, init_PATH)
     char* c_name = "GO";	
     enum action_kind kind = PATH;	
 
-     rc = action_type_init(&a, c_name, kind);	
+    rc = action_type_init(&a, c_name, kind);	
 
-     cr_assert_eq(rc, SUCCESS, "action_type_init() failed");	
-
-     cr_assert_eq(a.c_name, "GO", "action_type_init() didn't set a.c_name");	
+    cr_assert_eq(rc, SUCCESS, "action_type_init() failed");	
+    cr_assert_eq(a.c_name, "GO", "action_type_init() didn't set a.c_name");	
     cr_assert_eq(a.kind, PATH, "action_type_init() didn't set a.kind");	
 }	
 
@@ -97,11 +95,10 @@ Test(action_type, init_ITEM_ITEM)
     char* c_name = "PUT_ON";	
     enum action_kind kind = ITEM_ITEM;	
 
-     rc = action_type_init(&a, c_name, kind);	
+    rc = action_type_init(&a, c_name, kind);	
 
-     cr_assert_eq(rc, SUCCESS, "action_type_init() failed");	
-
-     cr_assert_eq(a.c_name, "PUT_ON", "action_type_init() didn't set a.c_name");	
+    cr_assert_eq(rc, SUCCESS, "action_type_init() failed");	
+    cr_assert_eq(a.c_name, "PUT_ON", "action_type_init() didn't set a.c_name");	
     cr_assert_eq(a.kind, ITEM_ITEM, "action_type_init() didn't set a.kind");	
 }
 
