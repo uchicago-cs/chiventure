@@ -8,6 +8,8 @@
 #include "player.h"
 
 #define BUFFER_SIZE (100)
+#define KIND_ERROR (1)
+#define WRONG_STRING (4)
 
 int execute_do_path_action(char *c_name, enum action_kind kind)
 {
@@ -34,11 +36,11 @@ int execute_do_path_action(char *c_name, enum action_kind kind)
     }
     else if (strcmp(do_path_action(g, a, p), kind_error) == 0)
     {
-        rc = FAILURE;
+        rc = KIND_ERROR;
     }
     else
     {
-        rc = 4; //Wrong string printed
+        rc = WRONG_STRING;
     }
 
     free(expected_output);
@@ -54,8 +56,8 @@ Test(path_actions, kind_ITEM)
 {
     int rc = execute_do_path_action("dummy", ITEM);
 
-    cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned %d for wrong kind ITEM, expected 1", rc);
+    cr_assert_eq(rc, KIND_ERROR,
+                 "execute_do_item_item_action returned %d for wrong kind ITEM, expected KIND_ERROR (1)", rc);
 }
 
 Test(path_actions, kind_PATH)
@@ -64,13 +66,13 @@ Test(path_actions, kind_PATH)
     int rc = execute_do_path_action("dummy", PATH);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned %d for correct kind PATH expected 0", rc);
+                 "execute_do_item_item_action returned %d for correct kind PATH expected SUCCESS (0)", rc);
 }
 
 Test(path_actions, kind_ITEM_ITEM)
 {
     int rc = execute_do_path_action("dummy", ITEM_ITEM);
 
-    cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_item_action returned %d for wrong kind ITEM_ITEM expected 1");
+    cr_assert_eq(rc, KIND_ERROR(1),
+                 "execute_do_item_item_action returned %d for wrong kind ITEM_ITEM expected KIND_ERROR (1)");
 }
