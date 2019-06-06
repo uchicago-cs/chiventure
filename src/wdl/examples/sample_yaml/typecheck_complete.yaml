@@ -13,6 +13,14 @@ ROOMS:
    connections:
     - to: "room B"
       direction: north
+      through: door
+      conditions:
+       - id: "spoon"
+         state: "clean"
+         value: "no"
+       - id: "apple"
+         state: "sliced"
+         value: "no"
 
  - id: "room B"
    short_desc: "This is room B"
@@ -20,6 +28,11 @@ ROOMS:
    connections:
     - to: "room C"
       direction: north
+      through: tunnel
+      conditions:
+       - id: "hat"
+         state: "in inventory"
+         value: "yes"
 
  - id: "room C"
    short_desc: "This is room C"
@@ -27,6 +40,11 @@ ROOMS:
    connections:
     - to: "room A"
       direction: north
+      through: window
+      conditions:
+       - id: "flower"
+         state: "plucked"
+         value: "no"
 
 ITEMS:
  - id: chair

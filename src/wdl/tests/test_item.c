@@ -3,27 +3,6 @@
 #include <stdbool.h>
 #include "load_item.h"
 
-//TEMPORARILY ADDING FUNCTIONS FOR TESTING; WILL REMOVE BEFORE PR
-//**********************************************
-/* see item.h */
-char *get_sdesc_item(item_t *item)
-{
-  if (item == NULL) {
-    return NULL;
-  }
-  return item->short_desc;
-}
-
-/* see item.h */
-char *get_ldesc_item(item_t *item)
-{
-  if (item == NULL) {
-    return NULL;
-  }
-  return item->long_desc;
-}
-//**********************************************
-
 void item_check(char *room, char *item, char *index)
 {
     obj_t *doc = get_doc_obj(FILE_PATH);

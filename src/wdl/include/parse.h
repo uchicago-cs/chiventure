@@ -10,6 +10,7 @@
 #include <stdbool.h>
 #include <validate.h>
 
+
 /* Helper function for creating doc object from defined FILE_PATH */
 obj_t *get_doc_obj(char *fpath);
 

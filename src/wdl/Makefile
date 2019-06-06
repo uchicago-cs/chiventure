@@ -8,6 +8,7 @@ LIB = wdl.a
 LDFLAGS = -L../libobj -L../action_management
 LDLIBS = ../libobj/libobj.a ../action_management/action_management.a -lyaml
 
+
 .PHONY: clean clean-lib clean-bin
 
 all: $(LIB)

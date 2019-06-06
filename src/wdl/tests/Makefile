@@ -7,6 +7,7 @@ RM = rm -f
 BIN = test-wdl
 
 SRCS = main.c test_room.c test_item.c test_game.c
+
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all

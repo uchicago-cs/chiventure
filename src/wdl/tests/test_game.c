@@ -10,5 +10,4 @@ Test(game, create_game)
     game_t *g = create_game(doc);
     char *str = g->start_desc;
     cr_assert_str_eq(str, "This is the intro", "Intro was not loaded correctly");
-    
 }

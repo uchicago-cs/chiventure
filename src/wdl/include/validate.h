@@ -12,6 +12,7 @@
 #include "parser.h"
 #include "actionmanagement.h"
 
+
 /* a doubly linked list of strings used to store approved actions
  * used when type-checking actions
  */
