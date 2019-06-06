@@ -68,7 +68,7 @@ Please see this document for all possible actions and descriptions: https://gith
 
     - to: `<ROOM  ID>` which lists a valid place the player can reach in one action from this room by ID
 
-      direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
+      direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. All directions must be in lower-case. 
    
    ###### NOTE: a valid connection has to have an ID that exists. 
 
