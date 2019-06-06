@@ -41,11 +41,8 @@ Please see this document for all possible actions and descriptions: https://gith
 
 - intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 
-- end: `<CONDITION>` a condition specification for how the game ends. This must be one of two ways:
-   1. The inventory contains a specific item
-    - Ex. inventory contains: "emerald gem"
-
-   2. The player is located in a specific room
+- end: `<CONDITION>` a condition specification for how the game ends. This must be one way:
+   The player is located in a specific room.
     - Ex. in_room: "BEDROOM"
 
 ### GAME example:
@@ -119,7 +116,7 @@ ROOM Example:
 
     actions: the possible actions that can be performed on the item; each action has the following fields:
       
-    - action: `<ACTION FROM BANK>`
+    - action: `<ACTION FROM BANK>` actions must be in ALL UPPERCASE
 
       conditions: (OPTIONAL) the conditions that must be fulfilled for the action to be completed
 
@@ -163,11 +160,11 @@ ROOM Example:
 
   actions:
 
-    - action: "push"
+    - action: "PUSH"
 
       text_fail: "You cannot push the lever. You can only pull it."
 
-    - action: "pull"
+    - action: "PULL"
 
       conditions:
       
@@ -199,7 +196,7 @@ ROOM Example:
 
   actions:
   
-    - action: "take"
+    - action: "TAKE"
 
       conditions:
       
@@ -213,7 +210,7 @@ ROOM Example:
 
       text_fail: "You cannot take the wand until the top hat is on your head"
 
-    - action: "consume"
+    - action: "CONSUME"
 
       text_fail: "You cannot consume the wand. Please try to hold it."
 ```
