@@ -7,26 +7,23 @@
 #include "room.h"
 #include "load_item.h"
 
-/* See load_item/h */
-int load_actions(obj_t *doc, item_t *i)
+//temp fix - will remove before PR to master
+/* see item.h */
+char *get_sdesc_item(item_t *item)
 {
-    // getting a list of actions from item
-    attr_list_t *action_ls = get_item_actions(doc);
+  if (item == NULL) {
+    return NULL;
+  }
+  return item->short_desc;
+}
 
-    if (action_ls == NULL) {
-        fprintf(stderr, "action fails type checking, or action list is empty\n");
-        return -1;
-    }
-
-    attr_list_t *curr = action_ls;
-
-    // setting action attributes; might need to change this in the future
-    while (curr != NULL) {
-        set_str_attr(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "action"));
-        curr = curr->next;
-    }
-
-    return 0;
+/* see item.h */
+char *get_ldesc_item(item_t *item)
+{
+  if (item == NULL) {
+    return NULL;
+  }
+  return item->long_desc;
 }
 
 /*
