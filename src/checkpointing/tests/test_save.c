@@ -81,19 +81,10 @@ Test(save, room)
     shirt_t = item_new(s_item_id, s_short_desc, s_long_desc);
     cr_assert_not_null(shirt_t, "shirt_t is null in save_room");
 
-    path_t *path_t;
-
-    // path_new is a function in game-states's path.h. It creates a path_t struct.
-    path_t = path_new(room_t, "east");
-    cr_assert_not_null(path_t, "path_t is null in save_room");
-
     int succ;
     succ = add_item_to_room(room_t, ramen_t);
     cr_assert_eq(succ, 0, "save_room failed");
     succ = add_item_to_room(room_t, shirt_t);
-    cr_assert_eq(succ, 0, "save_room failed");
-
-    succ = add_path_to_room(room_t, path_t);
     cr_assert_eq(succ, 0, "save_room failed");
 
     Room *dorm = malloc(sizeof(Room));
