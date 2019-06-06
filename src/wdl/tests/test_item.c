@@ -104,12 +104,13 @@ void item_check(char *room, char *item, char *index)
 
     while(action_ll != NULL)
     {
-        rc = allowed_action(i, action_ll->obj->id);
+        rc = allowed_action(i, obj_get_str(action_ll->obj, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
+        action_ll = action_ll->next;
     }    
 }
 
-Test(items, load_items_chair_check)
+Test(items, check_items)
 {
     item_check("room A", "chair", "0");
 }
