@@ -10,6 +10,13 @@
  *  - room: the id of the room in which the item is located, as written in the wdl file
  *  - index: a number indicating the position of the item in the list of items
  */
+/* a function used to automate the testing of loading items 
+ * 
+ * parameters:
+ *  - item: the id of the item as in the wdl file that is being loaded and tested
+ *  - room: the id of the room in which the item is located, as written in the wdl file
+ *  - index: a number indicating the position of the item in the list of items
+ */
 void item_check(char* room, char *item, char *index)
 {
     obj_t *doc = get_doc_obj();
@@ -19,12 +26,15 @@ void item_check(char* room, char *item, char *index)
     int rc = add_rooms_to_game(doc, g);
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
 
+    int rc = add_items_to_game(doc, g);
+    cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
+
     // checking fields were correctly filled
     room_t *r = find_room_from_game(g, room);
     item_t *i = get_item_in_room(r, item);
 
     char *item_path = malloc(100); // setting up string buffer
-    strncat(item_path, "ITEMS.", 6);
+    strcpy(item_path, "ITEMS.");
     strncat(item_path, index, 94);
     obj_t *item_obj = obj_get_attr(doc, item_path, false);
 
@@ -43,3 +53,4 @@ void item_check(char* room, char *item, char *index)
         cr_assert_eq(rc, 0, "failed to load item action");
     }
 }
+
