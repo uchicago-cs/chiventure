@@ -7,6 +7,36 @@
 #include "room.h"
 #include "load_item.h"
 
+
+/*
+ * get_game_action()
+ * A helper fuction to get the pointer to the game_action struct corresponding to
+ * the action in the attribute list in the actions field of an item.
+ *
+ * parameters
+ *  - action: a string corresponding to the action ID
+ *  - val: a list of valid actions
+ *
+ * returns:
+ *  - a pointer to an game_action struct
+ *  - NULL if an error occurs
+ */
+action_type_t *get_game_action(char *action, list_action_type_t *valid) 
+{
+    list_action_type_t *curr = valid;
+    
+    // finding matching action_type_t
+    while (curr != NULL) {
+        if (strcmp(curr->act->c_name, action) == 0) {
+            break;
+        }
+        curr = curr->next;
+    }
+
+    return curr->act;
+}
+
+
 /* See load_item.h */
 int load_actions(obj_t *doc, item_t *i)
 {
@@ -20,10 +50,16 @@ int load_actions(obj_t *doc, item_t *i)
     attr_list_t *curr = action_ls;
     // setting action attributes; might need to change this in the future
     
+    action_type_t *temp;
+    list_action_type_t *val_actions = get_supported_actions();
+
     while (curr != NULL) {
-        set_str_attr(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "action"));
+        temp = get_game_action(obj_get_str(curr->obj, "action"), val_actions);
+        set_act_attr(i, obj_get_str(curr->obj, "action"), temp);
+
         curr = curr->next;
     }
+
     return 0;
 }
 
