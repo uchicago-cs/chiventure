@@ -52,7 +52,6 @@ Test(items, load_items_chair_check)
     rc = load_items(doc, g);
     cr_assert_eq(rc, SUCCESS, "loading items failed");
 
-    printf("it worked\n");
     // checking fields were correctly filled
     room_t *r = find_room_from_game(g, "room A");
     item_t *i = get_item_in_room(r, "chair");
