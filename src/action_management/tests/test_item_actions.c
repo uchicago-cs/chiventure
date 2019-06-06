@@ -8,9 +8,8 @@
 #include "player.h"
 
 #define BUFFER_SIZE (100)
-#define KIND_ERROR (1)
-#define NOT_ALLOWED (2)
-#define WRONG_STRING (4)
+#define WRONG_KIND (1)
+#define NOT_ALLOWED_DIRECT (2)
 
 int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, enum action_kind allowed_kind)
 {
@@ -22,38 +21,10 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     action_type_t *allowed_a = action_type_new(allowed_act_name, allowed_kind);
     item_t *item = item_new("dummy", "The dummy item", "The dummy object of interest");
     add_allowed_action(item, allowed_act_name, allowed_a);
+    char *string = malloc(BUFFER_SIZE);
 
-    char *expected_output = malloc(BUFFER_SIZE);
-    sprintf(expected_output, "Requested action %s on item %s",
-            a->c_name, item->item_id);
+    int rc = do_item_action(g, a, item, &string);
 
-    char *kind_error = malloc(BUFFER_SIZE);
-    sprintf(kind_error, "The action type provided is not of the correct kind");
-
-    char *allowed_error = malloc(BUFFER_SIZE);
-    sprintf(allowed_error, "Action %s can't be requested on item %s",
-            a->c_name, item->item_id);
-
-    int rc;
-    if (strcmp(do_item_action(g, a, item), expected_output) == 0)
-    {
-        rc = SUCCESS;
-    }
-    else if (strcmp(do_item_action(g, a, item), kind_error) == 0)
-    {
-        rc = KIND_ERROR;
-    }
-    else if (strcmp(do_item_action(g, a, item), allowed_error) == 0)
-    {
-        rc = NOT_ALLOWED;
-    }
-    else {
-        rc = WRONG_STRING;
-    }
-
-    free(expected_output);
-    free(kind_error);
-    free(allowed_error);
     item_free(item);
     action_type_free(a);
     action_type_free(allowed_a);
@@ -61,6 +32,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
 
     return rc;
 }
+
 
 Test(item_actions, correct_kind_1_and_allowed_action)
 {
@@ -70,35 +42,39 @@ Test(item_actions, correct_kind_1_and_allowed_action)
                  "execute_do_item_action returned %d for correct kind 1, expected SUCCESS (0)", rc);
 }
 
+
 Test(item_actions, wrong_kind_2)
 {
 
     int rc = execute_do_item_action("dummy", PATH, "dummy", PATH);
-
-    cr_assert_eq(rc, KIND_ERROR,
-                 "execute_do_item_action returned %d for wrong kind 2, expected KIND_ERROR (1)", rc);
+  
+    cr_assert_eq(rc, WRONG_KIND,
+                 "execute_do_item_action returned %d for wrong kind 2, expected WRONG_KIND (1)", rc);
 }
+
 
 Test(item_actions, wrong_kind_3)
 {
     int rc = execute_do_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
 
-    cr_assert_eq(rc, KIND_ERROR,
-                 "execute_do_item_action returned %d for wrong kind 3, expected KIND_ERROR (1)", rc);
+    cr_assert_eq(rc, WRONG_KIND,
+                 "execute_do_item_action returned %d for wrong kind 3, expected WRONG_KIND (1)", rc);
 }
+
 
 Test(item_actions, action_not_allowed_name)
 {
     int rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM);
 
-    cr_assert_eq(rc, NOT_ALLOWED,
-                 "execute_do_item_action returned %d for action name that is not allowed, expected NOT_ALLOWED (2)", rc);
+    cr_assert_eq(rc, NOT_ALLOWED_DIRECT,
+                 "execute_do_item_action returned %d for action name that is not allowed, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
+
 
 Test(item_actions, action_not_allowed_struct)
 {
     int rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM_ITEM);
 
-    cr_assert_eq(rc, NOT_ALLOWED,
-                 "execute_do_item_action returned %d for action struct that is not allowed, expected NOT_ALLOWED (2)", rc);
+    cr_assert_eq(rc, NOT_ALLOWED_DIRECT,
+                 "execute_do_item_action returned %d for action struct that is not allowed, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
