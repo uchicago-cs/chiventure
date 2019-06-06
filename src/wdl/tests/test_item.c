@@ -24,49 +24,6 @@ char *get_ldesc_item(item_t *item)
 }
 //**********************************************
 
-// Test(items, load_items)
-// {
-//     obj_t *doc = get_doc_obj(FILE_PATH);
-//     game_t *g = game_new("Welcome to UChicago");
-   
-//     // check and load rooms
-//     int rc = add_rooms_to_game(doc, g);
-//     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
-
-//     // check adding items to game
-//     rc = load_items(doc, g);
-//     cr_assert_eq(rc, SUCCESS, "loading items failed");
-// }
-
-
-// Test(items, load_items_chair_check)
-// {
-//     obj_t *doc = get_doc_obj(FILE_PATH);
-//     game_t *g = game_new("Welcome to UChicago");
-
-//     // check adding rooms to game
-//     int rc = add_rooms_to_game(doc, g);
-//     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
-
-//     // check adding items to game
-//     rc = load_items(doc, g);
-//     cr_assert_eq(rc, SUCCESS, "loading items failed");
-
-//     // checking fields were correctly filled
-//     room_t *r = find_room_from_game(g, "room A");
-//     item_t *i = get_item_in_room(r, "chair");
-
-//     char *s = get_sdesc_item(i);
-//     char *scmp = "This is a chair";
-//     rc = strncmp(s, scmp, strlen(scmp));
-//     cr_assert_eq(rc, SUCCESS, "failed to parse item sdesc");
-
-//     char *l = get_ldesc_item(i);
-//     char *lcmp = "This is a chair long";
-//     rc = strncmp(l, lcmp, strlen(lcmp));
-//     cr_assert_eq(rc, SUCCESS, "failed to parse item ldesc");
-// }
-
 void item_check(char *room, char *item, char *index)
 {
     obj_t *doc = get_doc_obj(FILE_PATH);
@@ -110,7 +67,12 @@ void item_check(char *room, char *item, char *index)
     }    
 }
 
-Test(items, check_items)
+Test(items, check_chair)
 {
     item_check("room A", "chair", "0");
+}
+
+Test(items, check_table)
+{
+    item_check("room B", "table", "1");
 }
