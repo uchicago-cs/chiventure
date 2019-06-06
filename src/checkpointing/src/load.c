@@ -165,8 +165,10 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
     */
 
     // Free all items in the room
+    /*
     item_t *curr_item;
     item_list_t *i;
+    
     for(i = get_all_items_in_room(r_t); i != NULL; i=i->next){
         curr_item = i->item;
         int item_free_success = item_free(curr_item);
@@ -174,7 +176,12 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
             fprintf(stderr, "Failed to remove/ free item from room \n");
         }
     }
-  
+    */
+    int delete = delete_all_items (r_t->items);
+    if (delete != 0) {
+        fprintf(stderr, "Failed to remove/ free item from room \n");
+    }
+    
     // Fill room with items (we assume that no item get destroyed/created during the game)
     int iter;
     int j;
@@ -222,6 +229,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
     */
 
     // Free all items in the inventory
+    
     item_t *curr_item;
     item_list_t *i;
     for(i = get_all_items_in_inventory(p_t); i != NULL; i=i->next){
@@ -231,6 +239,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
             fprintf(stderr, "Failed to remove/ free item from inventory \n");
         }
     }
+    
     
     /* Fill inventory with items 
        (we assume no items get destroyed/created during game) */
@@ -330,7 +339,7 @@ int load_game(Game *g, game_t *g_t)
     int i;
     for (i = 0; i < g->rooms_len; i++) {
         room_list = get_all_rooms(g_t);
-        for(; room_list != NULL; room_list->next){
+        for(; room_list != NULL; room_list = room_list->next){
             curr_room = room_list->room;
             if (strcmp(g->all_rooms[i]->room_id, curr_room->room_id) == 0) {
                 int load_room_success = load_room(g->all_rooms[i],
@@ -344,7 +353,7 @@ int load_game(Game *g, game_t *g_t)
             }
         }
     }
-    
+    fprintf(stdout, "room game! \n");
     // Load player(s) into game
     for (i = 0; i < g->players_len; i++) {
         if (strcmp(g->all_players[i]->player_id, curr_player->player_id) == 0) {
@@ -358,16 +367,16 @@ int load_game(Game *g, game_t *g_t)
             }
         }
     } 
-  
+    fprintf(stdout, "player game! \n");
     /* Note: in game state structs, curr_room is a room struct 
        that contains a room_id.
        In the proto struct, curr_room is simply the room_id as a string */
     if (g->curr_room != NULL) {
         room_list = get_all_rooms(g_t);
-        for(; room_list != NULL; room_list->next){
+        for(; room_list != NULL; room_list = room_list->next){
             room_t *curr_r = room_list->room;
             if (strcmp(curr_r->room_id, g->curr_room) == 0) {
-                move_room(g_t, curr_r);
+                g_t->curr_room = curr_r;
 		//move_room provided by game state to set current room
 	    }
         }

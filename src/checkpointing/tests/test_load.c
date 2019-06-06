@@ -236,7 +236,14 @@ Test(load, game)
     success = load_game(game, g_t);
 
     cr_assert_eq(success, 0, "load_game failed");
-    cr_assert_eq(g_t->curr_room, "5", "load_game: loading curr_room failed");
-    cr_assert_eq(g_t->curr_player, "chad", "load_game: loading curr_player failed");
+    cr_assert_eq(g_t->curr_room->room_id, "5", "load_game: loading curr_room failed %s", g_t->curr_room->room_id);
+    cr_assert_eq(g_t->curr_player->player_id, "chad", "load_game: loading curr_player failed");
     // need hashtable searching options to check all_players and all_rooms
+    room_list_t * all_rooms1 = get_all_rooms(g_t);
+    int count_r = 0;
+    for (; all_rooms1 != NULL; all_rooms1 = all_rooms1->next) {
+      count_r += 1;
+    }
+    cr_assert_eq(count_r, 2, "load_game: wrong number of rooms %d", count_r);
+    
 }
