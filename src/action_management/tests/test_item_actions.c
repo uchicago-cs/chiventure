@@ -8,6 +8,8 @@
 #include "player.h"
 
 #define BUFFER_SIZE (100)
+#define WRONG_KIND (1)
+#define NOT_ALLOWED_DIRECT (2)
 
 int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, enum action_kind allowed_kind)
 {
@@ -36,7 +38,7 @@ Test(item_actions, correct_kind_1_and_allowed_action)
     int rc = execute_do_item_action("dummy", ITEM, "dummy", ITEM);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_action returned %d for correct kind 1, expected 0", rc);
+                 "execute_do_item_action returned %d for correct kind 1, expected SUCCESS (0)", rc);
 }
 
 Test(item_actions, wrong_kind_2)
@@ -44,30 +46,30 @@ Test(item_actions, wrong_kind_2)
 
     int rc = execute_do_item_action("dummy", PATH, "dummy", PATH);
 
-    cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_action returned %d for wrong kind 2, expected 1", rc);
+    cr_assert_eq(rc, WRONG_KIND,
+                 "execute_do_item_action returned %d for wrong kind 2, expected WRONG_KIND (1)", rc);
 }
 
 Test(item_actions, wrong_kind_3)
 {
     int rc = execute_do_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
 
-    cr_assert_eq(rc, FAILURE,
-                 "execute_do_item_action returned %d for wrong kind 3, expected 1", rc);
+    cr_assert_eq(rc, WRONG_KIND,
+                 "execute_do_item_action returned %d for wrong kind 3, expected WRONG_KIND (1)", rc);
 }
 
 Test(item_actions, action_not_allowed_name)
 {
     int rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM);
 
-    cr_assert_eq(rc, 2,
-                 "execute_do_item_action returned %d for action name that is not allowed, expected 2", rc);
+    cr_assert_eq(rc, NOT_ALLOWED_DIRECT,
+                 "execute_do_item_action returned %d for action name that is not allowed, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
 
 Test(item_actions, action_not_allowed_struct)
 {
     int rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM_ITEM);
 
-    cr_assert_eq(rc, 2,
-                 "execute_do_item_action returned %d for action struct that is not allowed, expected 2", rc);
+    cr_assert_eq(rc, NOT_ALLOWED_DIRECT,
+                 "execute_do_item_action returned %d for action struct that is not allowed, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
