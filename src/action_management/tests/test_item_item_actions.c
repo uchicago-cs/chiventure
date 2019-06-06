@@ -37,6 +37,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     return rc;
 }
 
+
 Test(item_item_actions, wrong_kind_ITEM)
 {
     int rc = execute_do_item_item_action("dummy", ITEM, "dummy", ITEM, "dummy", ITEM);
@@ -45,6 +46,7 @@ Test(item_item_actions, wrong_kind_ITEM)
                  "execute_do_item_item_action returned %d for wrong kind 1, expected WRONG_KIND (1)", rc);
 }
 
+
 Test(item_item_actions, wrong_kind_PATH)
 {
 
@@ -52,8 +54,8 @@ Test(item_item_actions, wrong_kind_PATH)
 
     cr_assert_eq(rc, WRONG_KIND,
                  "execute_do_item_item_action returned %d for wrong kind 2, expected WRONG_KIND (1)", rc);
-    ;
 }
+
 
 Test(item_item_actions, correct_kind_ITEM_ITEM)
 {
@@ -63,6 +65,7 @@ Test(item_item_actions, correct_kind_ITEM_ITEM)
                  "execute_do_item_item_action returned %d for correct kind 3, expected SUCCESS (0)", rc);
 }
 
+
 Test(item_item_actions, correct_allowed_actions)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
@@ -70,6 +73,7 @@ Test(item_item_actions, correct_allowed_actions)
     cr_assert_eq(rc, SUCCESS,
                  "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
 }
+
 
 Test(item_item_actions, wrong_allowed_actions_direct)
 {
@@ -79,6 +83,7 @@ Test(item_item_actions, wrong_allowed_actions_direct)
                  "execute_do_item_item_action returned %d for incorrect allowed actions name in direct, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
 
+
 Test(item_item_actions, wrong_allowed_actions_indirect)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM);
@@ -86,6 +91,7 @@ Test(item_item_actions, wrong_allowed_actions_indirect)
     cr_assert_eq(rc, NOT_ALLOWED_INDIRECT,
                  "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect, expected NOT_ALLOWED_INDIRECT (3)", rc);
 }
+
 
 Test(item_item_actions, wrong_allowed_actions)
 {

@@ -23,13 +23,14 @@ int execute_do_path_action(char *c_name, enum action_kind kind)
     char *string = malloc(BUFFER_SIZE);
 
     int rc = do_path_action(g, a, p, &string);
-    
+ 
     path_free(p);
     action_type_free(a);
     game_free(g);
 
     return rc;
 }
+
 
 Test(path_actions, kind_ITEM)
 {
@@ -39,6 +40,7 @@ Test(path_actions, kind_ITEM)
                  "execute_do_item_item_action returned %d for wrong kind ITEM, expected WRONG_KIND (1)", rc);
 }
 
+
 Test(path_actions, kind_PATH)
 {
 
@@ -47,6 +49,7 @@ Test(path_actions, kind_PATH)
     cr_assert_eq(rc, SUCCESS,
                  "execute_do_item_item_action returned %d for correct kind PATH expected SUCCESS (0)", rc);
 }
+
 
 Test(path_actions, kind_ITEM_ITEM)
 {

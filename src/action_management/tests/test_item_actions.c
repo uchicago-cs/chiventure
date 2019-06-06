@@ -33,6 +33,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     return rc;
 }
 
+
 Test(item_actions, correct_kind_1_and_allowed_action)
 {
     int rc = execute_do_item_action("dummy", ITEM, "dummy", ITEM);
@@ -41,14 +42,16 @@ Test(item_actions, correct_kind_1_and_allowed_action)
                  "execute_do_item_action returned %d for correct kind 1, expected SUCCESS (0)", rc);
 }
 
+
 Test(item_actions, wrong_kind_2)
 {
 
     int rc = execute_do_item_action("dummy", PATH, "dummy", PATH);
-
+  
     cr_assert_eq(rc, WRONG_KIND,
                  "execute_do_item_action returned %d for wrong kind 2, expected WRONG_KIND (1)", rc);
 }
+
 
 Test(item_actions, wrong_kind_3)
 {
@@ -58,6 +61,7 @@ Test(item_actions, wrong_kind_3)
                  "execute_do_item_action returned %d for wrong kind 3, expected WRONG_KIND (1)", rc);
 }
 
+
 Test(item_actions, action_not_allowed_name)
 {
     int rc = execute_do_item_action("dummy", ITEM, "dummy_allow", ITEM);
@@ -65,6 +69,7 @@ Test(item_actions, action_not_allowed_name)
     cr_assert_eq(rc, NOT_ALLOWED_DIRECT,
                  "execute_do_item_action returned %d for action name that is not allowed, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
+
 
 Test(item_actions, action_not_allowed_struct)
 {
