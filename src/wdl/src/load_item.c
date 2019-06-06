@@ -71,6 +71,7 @@ int load_items(obj_t *doc, game_t *g)
         
         // add item to room
         add_item_to_room(item_room, item);
+        printf("after added item to room\n");
         curr = curr->next;
     }
     return 0;

@@ -22,6 +22,7 @@ void item_check(char* room, char *item, char *index)
     int rc = add_items_to_game(doc, g);
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
 
+    printf("it worked\n");
     // checking fields were correctly filled
     room_t *r = find_room_from_game(g, room);
     item_t *i = get_item_in_room(r, item);

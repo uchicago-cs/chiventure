@@ -252,7 +252,8 @@ bool action_type_check(obj_t *obj)
     // fields to verify
     bool action_type = (obj_get_type(obj, "action") == TYPE_STR);
     bool action_valid = action_validate(obj_get_str(obj, "action"));
-    
+    printf("this is the string: %s\n", obj_get_str(obj, "action"));
+    printf("this is type_str check %d, this is valid action check %d\n", action_type, action_valid); 
     return (action_type && action_valid);
 }
 
