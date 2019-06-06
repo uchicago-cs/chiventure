@@ -5,10 +5,7 @@
 #ifndef INCLUDE_PARSE_H
 #define INCLUDE_PARSE_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "parser.h"
+#include "wdl_common.h"
 
 
 /*
