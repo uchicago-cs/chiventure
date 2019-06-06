@@ -268,9 +268,6 @@ int count(game_t *g_t)
 
     room_t *curr_room;
     room_list_t *i = get_all_rooms(g_t);
-    if (i != NULL){
-      fprintf(stdout, "null not \n");
-    }
 
     for(; i != NULL; i = i->next){
         curr_room = i->room;
@@ -300,29 +297,23 @@ int load_game(Game *g, game_t *g_t)
 
     // Malloc an array of all items in the game
     int item_len = count(g_t);
-    fprintf(stdout, "count! \n");
     room_t *curr_room;
     player_t *curr_player;
     item_t **all_items = malloc(sizeof(item_t*) * item_len);
-    fprintf(stdout, "here first! \n");
     // Create a deep copy of all items in the game
     int iter = 0;
     room_list_t *room_list = get_all_rooms(g_t);
-    fprintf(stdout, "get room! \n");
     for(; room_list != NULL; room_list = room_list->next){
         curr_room = room_list->room;
         item_list_t *item_room_list = get_all_items_in_room(curr_room);
-	fprintf(stdout, "get item! \n");
         for(; item_room_list != NULL; item_room_list = item_room_list->next){
             item_t *curr_item = item_room_list->item;
-	    fprintf(stdout, "curr item! \n");
             all_items[iter] = item_new(curr_item->item_id, 
 				       curr_item->short_desc, 
 				       curr_item->long_desc);
             iter++;
         }
     }
-    fprintf(stdout, "copy room! \n");
     curr_player = get_player(g_t, g_t->curr_player->player_id);
     item_list_t *inventory_list = get_all_items_in_inventory(curr_player);
     for(; inventory_list != NULL ; inventory_list = inventory_list->next){
@@ -332,7 +323,6 @@ int load_game(Game *g, game_t *g_t)
                                    curr_item->long_desc);
         iter++;
     }
-    fprintf(stdout, "copy player! \n");
     /* Load all rooms into game
     The all_items array will be used in
     load_room and load_player */
@@ -353,7 +343,7 @@ int load_game(Game *g, game_t *g_t)
             }
         }
     }
-    fprintf(stdout, "room game! \n");
+
     // Load player(s) into game
     for (i = 0; i < g->players_len; i++) {
         if (strcmp(g->all_players[i]->player_id, curr_player->player_id) == 0) {
@@ -367,7 +357,7 @@ int load_game(Game *g, game_t *g_t)
             }
         }
     } 
-    fprintf(stdout, "player game! \n");
+
     /* Note: in game state structs, curr_room is a room struct 
        that contains a room_id.
        In the proto struct, curr_room is simply the room_id as a string */
