@@ -12,6 +12,8 @@
 #include "game.h"
 #include "load_room.h"
 
+#define FILE_P ../examples/sample_yaml/simplified_wdl.yaml
+
 /* load_items
  * accesses the document object and obtain list of items to parse into the
  * game_state structs and adds to the inputted game pointer

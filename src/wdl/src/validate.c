@@ -134,10 +134,9 @@ bool check_connection_attr(obj_t *obj)
     // verify types of fields
     bool id = (obj_get_type(obj, "to") == TYPE_STR);
     bool direction = (obj_get_type(obj, "direction") == TYPE_STR);
-    bool through = (obj_get_type(obj, "through") == TYPE_STR);
     bool conditions = condition_type_check(obj);
 
-    return (id && direction && through && conditions);
+    return (id && direction && conditions);
 }
 
 /* connection_type_check()
@@ -183,9 +182,9 @@ bool item_type_check(obj_t *obj)
     bool id_ver = (obj_get_type(obj, "id") == TYPE_STR);
     bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
-    bool in_ver = (obj_get_type(obj, "in") == TYPE_STR);
+    bool in = (obj_get_type(obj, "in") == TYPE_STR);
 
-    return (id_ver && short_ver && long_ver && in_ver);
+    return (id_ver && short_ver && long_ver && in);
 }
 
 // The following functions regard game type checking
