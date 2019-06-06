@@ -27,7 +27,7 @@ game_action_t *get_game_action(char *action, list_action_type_t *valid)
     
     // finding matching action_type_t
     while (curr != NULL) {
-        if (strcmp(curr->act->c_name, str) == 0) {
+        if (strcmp(curr->act->c_name, action) == 0) {
             break;
         }
         curr = curr->next;
