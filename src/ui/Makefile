@@ -10,7 +10,8 @@ LDLIBS = -lncurses -lreadline
 COMMON = -L../common/ -Wl,-rpath,../common/ -l:common.a
 CLI = -L../cli/ -Wl,-rpath,../cli/ -l:cli.a
 GAME_STATE = -L../game-state/ -Wl,-rpath,../game-state/ -l:game-state.a
-STLIBS = $(COMMON) $(CLI) $(GAME_STATE)
+AM = -L../action_management/ -Wl,-rpath,../action_management/ -l:action_management.a
+STLIBS = $(COMMON) $(CLI) $(GAME_STATE) $(AM)
 
 .PHONY: all clean examples
 
