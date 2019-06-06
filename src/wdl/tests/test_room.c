@@ -3,26 +3,18 @@
 #include <stdbool.h>
 #include "load_room.h"
 
-/* See load_room.h */
-obj_t *get_doc_obj()
-{
-    obj_t *obj = obj_new("doc");
-    parse_game(FILE_PATH, obj);
-    return obj;
-}
-
 /*
  * add_rooms_check
- * helper functions for checking whether the designated rooms from 
+ * helper functions for checking whether the designated rooms from
  * the document object are correctly loaded into a game struct
  */
 game_t *add_rooms_check()
 {
     // get the document object located in FILE_PATH and create a new
     // game pointer
-    obj_t *doc = get_doc_obj();
+    obj_t *doc = get_doc_obj(ROOM_PATH);
     game_t *g = game_new("Welcome to UChicago");
-    
+
     // check adding rooms to the game pointer
     int rc = add_rooms_to_game(doc, g);
     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
@@ -33,14 +25,14 @@ game_t *add_rooms_check()
 
 /*
  * check_room_descs
- * helper functions for checking the short and long descriptions of 
+ * helper functions for checking the short and long descriptions of
  * a certain room struct
  * Parameters:
  * - pointer to game
  * - string ID of specific room
  * - sdesc comparison string
  * - ldesc comparison string
- * Side Effects: 
+ * Side Effects:
  * - asserts whether the sdesc and ldesc match the sdesc and ldesc of
  *   given room ID string
  */
@@ -63,8 +55,29 @@ void check_room_descs(game_t *g, char *id, char *sdesc, char *ldesc)
 }
 
 /*
+ * eck
+ * helper function for checking add_connections_to_rooms
+ * returns a game pointer containing the added connections and rooms
+ */
+ game_t *add_conns_check()
+ {
+     // first add rooms to game  and ensure it has run correctly
+     obj_t *doc = get_doc_obj(ROOM_PATH);
+     game_t *g = game_new("Welcome to UChicago");
+
+     int rc = add_rooms_to_game(doc, g);
+     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
+
+     // next add connections to room and ensure it has run correctly
+     rc = add_connections_to_rooms(doc, g);
+     cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
+
+     return g;
+ }
+
+/*
  * check_conns
- * helper functions for checking connections via path searching to find a
+ * helper function for checking connections via path searching to find a
  * room and comparing the room_id found to the known connection id
  * Parameters:
  * - pointer to game
@@ -85,13 +98,13 @@ void check_conns(game_t *g, char *origin, char *dir, char *dest)
 
     // initialize the outputted destination room ID
     char *to_id = p->dest->room_id;
-    
+
     // compare the values of to_id and dest
     int rc = strncmp(to_id, dest, strlen(dest));
     cr_assert_eq(rc, SUCCESS, "failed to parse connection");
 }
 
-/* 
+/*
  * check to see if rooms are added to game struct correctly
  * and check fields for room A
  */
@@ -99,7 +112,7 @@ Test(rooms, add_rooms_room_a)
 {
     // check adding rooms and return game pointer
     game_t *g = add_rooms_check();
-    
+
     // check whether room A was added correctly by comparing sdesc and ldesc
     char *id = "room A";
     char *sdesc = "This is room A";
@@ -135,22 +148,14 @@ Test(rooms, add_rooms_room_c)
     check_room_descs(g, id, sdesc, ldesc);
 }
 
-/* 
- * check to see if connections are added to game struct correctly 
+/*
+ * check to see if connections are added to game struct correctly
  * and check connection from room A to room B
  */
 Test(rooms, add_connections_A_B)
 {
-    // first add rooms to game  and ensure it has run correctly
-    obj_t *doc = get_doc_obj();
-    game_t *g = game_new("Welcome to UChicago");
-
-    int rc = add_rooms_to_game(doc, g);
-    cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
-
-    // next add connections to room and ensure it has run correctly
-    rc = add_connections_to_rooms(doc, g);
-    cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
+    // add rooms and connections check
+    game_t *g = add_conns_check();
 
     // check connection from room A to room B
     check_conns(g, "room A", "north", "room B");
@@ -158,16 +163,9 @@ Test(rooms, add_connections_A_B)
 
 /* check connection from room B to room C */
 Test(rooms, add_connections_B_C)
-{   
+{
     // same process as above test
-    obj_t *doc = get_doc_obj();
-    game_t *g = game_new("Welcome to UChicago");
-    
-    int rc = add_rooms_to_game(doc, g);
-    cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
-
-    rc = add_connections_to_rooms(doc, g);
-    cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
+    game_t *g = add_conns_check();
 
     // check connection from room B to room C
     check_conns(g, "room B", "north", "room C");
@@ -175,16 +173,9 @@ Test(rooms, add_connections_B_C)
 
 /* check connection from room C to room A */
 Test(rooms, add_connections_C_A)
-{   
+{
     // same process as above
-    obj_t *doc = get_doc_obj();
-    game_t *g = game_new("Welcome to UChicago");
-    
-    int rc = add_rooms_to_game(doc, g);
-    cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
-
-    rc = add_connections_to_rooms(doc, g);
-    cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
+    game_t *g = add_conns_check();
 
     // check connection from room B to room C
     check_conns(g, "room C", "north", "room A");

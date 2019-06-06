@@ -222,25 +222,38 @@ bool action_validate(char *str)
     // getting a list of valid actions;
     // note that in the future we may wish to use a hasth table
     list_action_type_t *valid_actions = get_supported_actions();
-
     list_action_type_t *curr = valid_actions;
-
+    
     while (curr != NULL) {
         if (strcmp(curr->act->c_name, str) == 0) {
             return true;
         }
+        curr = curr->next;
     }
-
+    
     return false;
 }
 
+void print_list(list_action_type_t *ls)
+{
+    int i;
+    for (i = 0; i < 14; i++)
+    {
+        printf("%s\n", ls->act->c_name);
+        ls = ls->next;
+    }
+    return;
+}
+
 /* see validate.h */
+/* INPUTS AN ITEM OBJ */
 bool action_type_check(obj_t *obj)
 {
     // fields to verify
     bool action_type = (obj_get_type(obj, "action") == TYPE_STR);
-    bool action_valid =  action_validate(obj_get_str(obj, "action"));
-
+    bool action_valid = action_validate(obj_get_str(obj, "action"));
+    printf("this is the string: %s\n", obj_get_str(obj, "action"));
+    printf("this is type_str check %d, this is valid action check %d\n", action_type, action_valid); 
     return (action_type && action_valid);
 }
 

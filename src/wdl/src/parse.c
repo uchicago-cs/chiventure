@@ -4,6 +4,14 @@
 #include <stdbool.h>
 #include "parse.h"
 
+/* See load_room.h */
+obj_t *get_doc_obj(char *fpath)
+{
+    obj_t *obj = obj_new("doc");
+    parse_game(fpath, obj);
+    return obj;
+}
+
 /* get_obj_list()
  * a helper function to load a list of the rooms, items, or players
  *
@@ -42,10 +50,10 @@ attr_list_t *extract_objects(obj_t *obj, char *str)
         return NULL;
     }
 
-    if (strcmp(str, "ROOMS") != 0) {
+    if (strcmp(str, "ROOMS") == 0) {
         valid = list_type_check(ls, room_type_check);
     }
-    else if (strcmp(str, "ITEMS") != 0) {
+    else if (strcmp(str, "ITEMS") == 0) {
         valid = list_type_check(ls, item_type_check);
     } 
 
@@ -83,13 +91,11 @@ attr_list_t *get_item_actions(obj_t *item)
     bool valid = false;
 
     attr_list_t *ls = obj_list_attr(obj_get_attr(item, "actions", false));
-
     if (ls == NULL) {
         return NULL;
     }
 
     valid = list_type_check(ls, action_type_check);
-
     if (valid) {
         return ls;
     }

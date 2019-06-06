@@ -5,8 +5,6 @@
 #ifndef INCLUDE_LOAD_ROOMS_H
 #define INCLUDE_LOAD_ROOMS_H
 
-#define FILE_PATH "../examples/sample_yaml/connected_rooms.yaml"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -15,9 +13,9 @@
 #include "room.h"
 #include "game.h"
 #include "validate.h"
+#include "parse.h"
 
-/* Helper function for creating doc object from defined FILE_PATH */
-obj_t *get_doc_obj();
+#define ROOM_PATH "../examples/sample_yaml/connected_rooms.yaml"
 
 /*
  * add_rooms_to_game

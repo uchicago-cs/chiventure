@@ -10,6 +10,9 @@
 #include <stdbool.h>
 #include <validate.h>
 
+/* Helper function for creating doc object from defined FILE_PATH */
+obj_t *get_doc_obj(char *fpath);
+
 /*
  * extract_objects()
  * extracts the a list of objects associated with an attribute of the primary object;
