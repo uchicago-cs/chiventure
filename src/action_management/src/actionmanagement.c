@@ -138,6 +138,32 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
+    
+    /* initialize all the game-state structs */
+    attribute_list_t *attributes_direct = get_all_attributes(direct);
+    attribute_list_t *attributes_indirect = get_all_attributes(direct);
+    game_action_t *action_direct = get_action(direct, a->c_name);
+    game_action_t *action_indirect = get_action(indirect, a->c-name);
+
+    // this is to count how many elements are in each list
+    attribute_list_t *temp_att;
+    int count_attributes_direct, count_attributes_indirect;
+    LL_COUNT(attributes_direct, temp_att, count_attributes_direct);
+    LL_COUNT(attributes_indirect, temp_att, count_attributes_indirect);
+
+    action_effect_list_t *temp_eff;
+    int count_effects_direct, count_effects_indirect;
+    LL_COUNT(action_direct->effects, temp_eff, count_effects_direct);
+    LL_COUNT(action_indirect->effects, temp_eff, count_effects_indirect);
+
+    action_condition_list_t *temp_cond;
+    int count_conditions_direct, count_conditions_indirect;
+    LL_COUNT(action_indirect->conditions, temp_cond, count_conditions_direct);
+    LL_COUNT(action_indirect->conditions, temp_cond, count_conditions_direct);
+
+    /* alter the game-state structs via action management */
+    
+
     sprintf(ret_string, "Requested action %s with %s on %s",
             a->c_name, direct->item_id, indirect->item_id);
     return ret_string;
