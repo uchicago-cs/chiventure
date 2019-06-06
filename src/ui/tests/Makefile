@@ -1,6 +1,5 @@
 CC = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../cli/include/ -I../../action_management/include/
-
 UI = -L../. -Wl,-rpath,../.
 COMMON = -L../../common/ -Wl,-rpath,../../common/ -l:common.a
 CLI = -L../../cli/ -Wl,-rpath,../../cli/ -l:cli.a
@@ -18,7 +17,7 @@ OBJS = $(SRCS:.c=.o)
 all: ${BIN}
 
 $(BIN): $(OBJS)
-	$(CC) $(STLIBS) $(OBJS) -o$(BIN) $(LDLIBS)
+	$(CC) $(OBJS) -o$(BIN) $(STLIBS) $(LDLIBS)
 
 
 $(SRCS:.c=.d):%.d:%.c

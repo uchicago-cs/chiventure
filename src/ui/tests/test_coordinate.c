@@ -1,9 +1,9 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "coordinate.h"
 #include <string.h>
-
+#include "coordinate.h"
+#include "game.h"
 // Checks that a given x and y-coordinate are allocated in memory within a
 // coordinate struct
 Test(coordinate, new)
@@ -209,11 +209,28 @@ void check_create_valid_map(game_t *game,
     coord_record_t *end_map;
     end_map = malloc(sizeof(coord_record_t));
 
+
     end_map = create_valid_map(game);
 
     cr_assert_eq(end_map, expected,
-                 "The map is %s but "
+                 "The map %s but "
                  "create_valid_map returned %s",
                  expected? "is not a valid map":"is a valid map",
                  end_map? "failure":"success");
+}
+
+
+Test(coordinate, valid_map) {
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
+    room_t *room2 = room_new("nroom", "test next door", "KND number 1");
+    cr_assert_not_null(room1, "room 1 not initialized");
+    cr_assert_not_null(room2, "room 2 not initialized");
+
+    int r1 = add_room_to_game(game, room1);
+    int r2 = add_room_to_game(game, room2);
+    cr_assert_eq(r1, SUCCESS, "add_room_to_game: room1 failed");
+    cr_assert_eq(r2, SUCCESS, "add_room_to_game: room2 failed");
+
+    check_create_valid_map(game, SUCCESS);
 }
