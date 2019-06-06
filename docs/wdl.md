@@ -41,11 +41,9 @@ Please see this document for all possible actions and descriptions: https://gith
 
 - intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 
-- end: `<CONDITION>` a condition specification for how the game ends. This must be one of two ways:
-   1. The inventory contains a specific item
-    - Ex. inventory contains: "emerald gem"
+- end: `<CONDITION>` a condition specification for how the game ends. It specifies the room a player must be in to end the game.
 
-   2. The player is located in a specific room
+  1. The player is located in a specific room
     - Ex. in_room: "BEDROOM"
 
 ### GAME example:
@@ -72,7 +70,8 @@ Please see this document for all possible actions and descriptions: https://gith
     - to: `<ROOM  ID>` which lists a valid place the player can reach in one action from this room by ID
 
       direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
-   
+
+   ###### NOTE: a direction must be in all lower case.
    ###### NOTE: a valid connection has to have an ID that exists. 
 
 
@@ -120,6 +119,7 @@ ROOM Example:
     actions: the possible actions that can be performed on the item; each action has the following fields:
       
     - action: `<ACTION FROM BANK>`
+       ###### NOTE: an action must be in all upper case.
 
       conditions: (OPTIONAL) the conditions that must be fulfilled for the action to be completed
 
@@ -163,11 +163,11 @@ ROOM Example:
 
   actions:
 
-    - action: "push"
+    - action: "PUSH"
 
       text_fail: "You cannot push the lever. You can only pull it."
 
-    - action: "pull"
+    - action: "PULL"
 
       conditions:
       
@@ -199,7 +199,7 @@ ROOM Example:
 
   actions:
   
-    - action: "take"
+    - action: "TAKE"
 
       conditions:
       
@@ -213,7 +213,7 @@ ROOM Example:
 
       text_fail: "You cannot take the wand until the top hat is on your head"
 
-    - action: "consume"
+    - action: "CONSUME"
 
       text_fail: "You cannot consume the wand. Please try to hold it."
 ```
