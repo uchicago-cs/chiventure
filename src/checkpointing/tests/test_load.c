@@ -134,14 +134,25 @@ Test(load, game)
     all_rooms[0]->room_id = "5";
     all_rooms[0]->short_desc = "college dorm";
     all_rooms[0]->long_desc = "there are clothes and empty ramen cups everywhere";
-    Item **items1 = malloc(sizeof(Item*) *1);
+    Item **items1 = malloc(sizeof(Item*) * 2);
     items1[0] = malloc(sizeof(Item));
     item__init(items1[0]);
     
     items1[0]->item_id = "1234";
     items1[0]->short_desc = "cup ramen";
     items1[0]->long_desc = "has already been eaten";
+
+    items1[1] = malloc(sizeof(Item));
+    item__init(items1[1]);
+    
+    items1[1]->item_id = "6666";
+    items1[1]->short_desc = "sword";
+    items1[1]->long_desc = "blade of Jarvis";
+
     all_rooms[0]->items = items1;
+    all_rooms[0]->items_len = 2;
+    all_rooms[0]->n_items = 2;
+    
     all_rooms[1] = malloc(sizeof(Room));
     room__init(all_rooms[1]);
     
@@ -156,7 +167,12 @@ Test(load, game)
     items2[0]->short_desc = "pen";
     items2[0]->long_desc = "writes in black ink";
     all_rooms[1]->items = items2;
+    all_rooms[1]->items_len = 1;
+    all_rooms[1]->n_items = 1;
+    
     game->all_rooms = all_rooms;
+    game->rooms_len = 2;
+    game->n_all_rooms = 2;
 
     Player *player1 = malloc(sizeof(Player));
 
@@ -164,73 +180,59 @@ Test(load, game)
     player1->player_id = "chad";
     player1->health = 1;
     game->all_players = &player1;
-    
-    fprintf(stdout, "here first \n");
-    game_t *g_t = malloc(sizeof(game_t));
+    game->players_len = 1;
+    game->n_all_players = 1;
 
-    room_t **all_rooms_t = malloc(sizeof(room_t*) *2);
-    all_rooms_t[0] = malloc(sizeof(room_t));
-    
-    all_rooms_t[0]->room_id = "5";
-    all_rooms_t[0]->short_desc = "college dorm";
-    all_rooms_t[0]->long_desc = "there are clothes and empty ramen cups everywhere";
-    fprintf(stdout, "here room1 \n");
-    item_t **items1_t = malloc(sizeof(item_t*) *1);
-    items1_t[0] = malloc(sizeof(item_t));
-    
-    items1_t[0]->item_id = "1234";
-    items1_t[0]->short_desc = "cup ramen";
-    items1_t[0]->long_desc = "ready to eat";
-    int success = add_item_to_room(all_rooms_t[0], items1_t[0]);
-    if (success != 0) {
-      fprintf(stderr, "Failed to add item to room \n");
-    }
-    fprintf(stdout, "here item1 \n");
-    all_rooms_t[1] = malloc(sizeof(room_t));
-    
-    all_rooms_t[1]->room_id = "10";
-    all_rooms_t[1]->short_desc = "lecture only";
-    all_rooms_t[1]->long_desc = "where students come to study";
-    fprintf(stdout, "here room2 \n");
-    
-    item_t **items2_t = malloc(sizeof(item_t*) *1);
-    items2_t[0] = malloc(sizeof(item_t));
-    
-    items2_t[0]->item_id = "420";
-    items2_t[0]->short_desc = "pencil";
-    items2_t[0]->long_desc = "writes in black ink";
-    success = add_item_to_room(all_rooms_t[1], items2_t[0]);
-    if (success != 0) {
-      fprintf(stderr, "Failed to add item to room \n");
-    }
-    fprintf(stdout, "here item2 \n");
-    /*
-    success = add_room_to_game(g_t, all_rooms_t[0]);
+
+    // Start creating our game
+
+    game_t *g_t = game_new("Welcome to my sex lair\n");
+
+    room_t *room0 = room_new("5", "college dorm", "there are clothes and empty ramen cups everywhere");
+
+    int success = add_room_to_game(g_t, room0);
     if (success != 0) {
       fprintf(stderr, "Failed to add room to game \n");
     }
-    fprintf(stdout, "here room to game1 \n");
-    success = add_room_to_game(g_t, all_rooms_t[1]);
+    
+    item_t *item1 = item_new("1234", "cup ramen", "ready to eat");
+    item_t *item2 = item_new("6666", "sword", "blade of Sheryl");
+
+    success = add_item_to_room(room0, item1);
+    if (success != 0) {
+      fprintf(stderr, "Failed to add item to room \n");
+    }
+
+    success = add_item_to_room(room0, item2);
+    if (success != 0) {
+      fprintf(stderr, "Failed to add item to room \n");
+    }
+
+    
+    room_t *room1 = room_new("10", "lecture only", "where students party");
+    
+    success = add_room_to_game(g_t, room1);
     if (success != 0) {
       fprintf(stderr, "Failed to add room to game \n");
     }
-    fprintf(stdout, "here room to game2 \n");
-    */
-    player_t *player1_t= malloc(sizeof(player_t));
-
-    player1_t->player_id = "chad";
-    player1_t->health = 1;
-    fprintf(stdout, "here player \n");
     
+    item_t *item3 = item_new("420", "pencil", "writes in blue ink");
+    
+    success = add_item_to_room(room1, item3);
+    if (success != 0) {
+      fprintf(stderr, "Failed to add item to room \n");
+    }
+    
+    player_t *player1_t= player_new("chad", 1);
+
     success = add_player_to_game(g_t, player1_t);
     if (success != 0) {
       fprintf(stderr, "Failed to add player to game \n");
     }
-    fprintf(stdout, "here player1 \n");
-    g_t->curr_room = all_rooms_t[1];
+    
+    g_t->curr_room = room1;
     g_t->curr_player = player1_t;
-    fprintf(stdout, "here curr \n");
-    fprintf(stdout, "Here \n");
+
     success = load_game(game, g_t);
 
     cr_assert_eq(success, 0, "load_game failed");
