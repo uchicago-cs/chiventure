@@ -40,11 +40,17 @@ Please see this document for all possible actions and descriptions: https://gith
 
 - intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 
+- end: `<CONDITION>` a condition specification for how the game ends. A game can currently only end when the player is in a certain room.
+   - Ex. in_room: "BEDROOM"
+  
+
 ### GAME example:
 ```yaml
  - start: "KITCHEN"
  - intro: “Welcome to the virtual house. You have been wandering for quite some time,
    and you need to determine how to return to reality.”
+ - end:
+   - in_room: "LIVING ROOM"
 
 ```
 
@@ -63,6 +69,8 @@ Please see this document for all possible actions and descriptions: https://gith
     - to: `<ROOM  ID>` which lists a valid place the player can reach in one action from this room by ID
 
       direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
+
+    ###### NOTE: a direction must be in all lower-case.
 
       through: `<ITEM ID>` if applicable, the item that the player must go through to go in that direction
 
@@ -109,7 +117,7 @@ ROOM Example:
 
     in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
 
-    actions: the possible actions that can be performed on the item; each action has the following attributes:
+    actions: each action must be in all upper case. the possible actions that can be performed on the item; each action has the following attributes:
       
     - action: `<ACTION FROM BANK>`:
 
@@ -135,11 +143,11 @@ ROOM Example:
 
   actions:
 
-    - action: "push"
+    - action: "PUSH"
 
       text_fail: "You cannot push the lever. You can only pull it."
 
-    - action: "pull"
+    - action: "PULL"
 
       text_success: "Congrats! You can now access the underground tunnel. Go find it!"
 
@@ -155,13 +163,13 @@ ROOM Example:
 
   actions:
   
-    - action: "take"
+    - action: "TAKE"
 
       text_success: "Congrats! You got the wand and can perform a spell!"
 
       text_fail: "You cannot take the wand until you have the top hat"
 
-    - action: "consume"
+    - action: "CONSUME"
 
       text_fail: "You cannot consume the wand."
 ```
