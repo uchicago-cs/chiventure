@@ -67,28 +67,6 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 */
 int item_free(item_t *item_tofree);
 
-/* Get short description of item
- *
- * Parameters:
- *  pointer to item
- *
- * Returns:
- *  short description string
- *  NULL if item is NULL
- */
-char *get_sdesc_item(item_t *item);
-
-/* Get long description of item
- *
- * Parameters:
- *  pointer to item
- *
- * Returns:
- *  long description string
- *  NULL if item is NULL
- */
-char *get_ldesc_item(item_t *item);
-
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
 // action_type_t written by AM, can be seen in action_structs.h

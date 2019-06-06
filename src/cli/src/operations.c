@@ -159,18 +159,6 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "This was your inventory";
 }
 
-char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    toggle_map(ctx);
-    return "Map toggled.";
-}
-
-char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    layout_switch(ctx);
-    return "Layout switched.";
-}
-
 //Because action managment does not support NPCs type 4 is not supported
 //char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
 //{

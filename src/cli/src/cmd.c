@@ -51,7 +51,7 @@ void add_action_entries(lookup_t **table)
  operation *find_operation(char *command_name, lookup_t **table)
  {
      lookup_t *t;
-     if((t = find_entry(command_name, table)))
+     if((t = find_entry(command_name, table))) 
      {
          return t->operation_type;
      }
@@ -105,15 +105,15 @@ void add_action_entries(lookup_t **table)
      add_entry("LOOK",look_operation, t);
      add_entry("INV", inventory_operation, t);
      add_entry("SAVE", save_operation, t);
-     add_entry("MAP", map_operation, t);
-     add_entry("SWITCH", switch_operation, t);
+     add_entry("MAP", toggle_map, t);
+     add_entry("SWITCH", layout_switch, t);
      add_action_entries(t);
 
      return SUCCESS;
  }
 
  /* See cmd.h */
- void lookup_t_free(lookup_t **t)
+ void lookup_t_free(lookup_t **t) 
  {
      lookup_t *tmp;
      lookup_t *current_user;
@@ -182,7 +182,7 @@ void cmd_free(cmd *c)
 /* See cmd.h */
 char *cmd_name_tos(cmd *c)
 {
-    if(c == NULL || c->tokens == NULL || c->tokens[0] == NULL)
+    if(c == NULL || c->tokens == NULL || c->tokens[0] == NULL) 
     {
         return "ERROR";
     }
@@ -239,10 +239,10 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx)
 {
     char *outstring;
-    /*
+    /* 
      * available commands are QUIT, STATS, CHAR, LOOKUP, HELP, READ
      * all other commands will segfault in the testshell, because there is no game file
-     */
+     */ 
     if (strcmp(cmd_name_tos(c),"QUIT")==0)
     {
         *quit=0;

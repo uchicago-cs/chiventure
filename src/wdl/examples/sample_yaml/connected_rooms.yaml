@@ -13,6 +13,7 @@ ROOMS:
    connections:
     - to: "room B"
       direction: north
+      through: door
 
  - id: "room B"
    short_desc: "This is room B"
@@ -20,6 +21,7 @@ ROOMS:
    connections: 
     - to: "room C"
       direction: north
+      through: tunnel
 
  - id: "room C"
    short_desc: "This is room C"
@@ -27,6 +29,7 @@ ROOMS:
    connections:
     - to: "room A"
       direction: north
+      through: window
 
 ITEMS:
  - id: chair

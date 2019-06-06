@@ -9,32 +9,15 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
-#include "game.h"
-#include "load_room.h"
 
-#define FILE_PATH "../examples/sample_yaml/simplified_wdl.yaml"
-
-/* load_items
- * accesses the document object and obtain list of items to parse into the
- * game_state structs and adds to the inputted game pointer
- * 
- * parameters:
- * - obj: the document object
- * - g: a game pointer as a return parameter
+/*
+ * Function to load a single item into the item_t struct
  *
- * side effects:
- * - adds items into the inputted game pointer and 
- *   their respective rooms
- *
- * returns:
- * - 0 for successful parse
- * - 1 for unsuccessful parse
+ * input: 
+ *   - a wdl item object as defined above
+ * output: 
+ *   - a pointer to the item_t struct that has been loaded 
  */
-int load_items(obj_t *doc, game_t *g );
-
-/* load_actions
- * loads actions into the given item
- */
-int load_actions(obj_t *doc, item_t *i);
+item_t* load_item(wdl_item_t* item);
 
 #endif /* INCLUDE_LOAD_ITEM_H */
