@@ -116,7 +116,7 @@ ROOM Example:
 
     actions: the possible actions that can be performed on the item; each action has the following fields:
       
-    - action: `<ACTION FROM BANK>`
+    - action: `<ACTION FROM BANK>` actions must be in ALL UPPERCASE
 
       conditions: (OPTIONAL) the conditions that must be fulfilled for the action to be completed
 
@@ -160,11 +160,11 @@ ROOM Example:
 
   actions:
 
-    - action: "push"
+    - action: "PUSH"
 
       text_fail: "You cannot push the lever. You can only pull it."
 
-    - action: "pull"
+    - action: "PULL"
 
       conditions:
       
@@ -196,7 +196,7 @@ ROOM Example:
 
   actions:
   
-    - action: "take"
+    - action: "TAKE"
 
       conditions:
       
@@ -210,7 +210,7 @@ ROOM Example:
 
       text_fail: "You cannot take the wand until the top hat is on your head"
 
-    - action: "consume"
+    - action: "CONSUME"
 
       text_fail: "You cannot consume the wand. Please try to hold it."
 ```
