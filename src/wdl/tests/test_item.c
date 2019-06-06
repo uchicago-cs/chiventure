@@ -33,4 +33,13 @@ void item_check(char* room, char *item, char *index)
 
     rc = strcmp(obj_get_str(item_obj, "long_desc"), get_ldesc_item(i));
     cr_assert_eq(rc, 0, "failed to load item long_desc");
+
+    obj_t *actions = obj_get_attr(item, "actions", false);
+    attr_list_t *action_ll = obj_list_attr(actions);
+
+    while(action_ll != NULL)
+    {
+        rc = allowed_action(i, action_ll->obj->id);
+        cr_assert_eq(rc, 0, "failed to load item action");
+    }
 }
