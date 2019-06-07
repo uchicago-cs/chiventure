@@ -385,7 +385,6 @@ int load(char *filename, game_t *g_t)
 
     Game *g
     g = game__unpack(NULL, game_len, buffer);
-
     if (g == NULL) {
         fprintf(stderr, "error unpacking incoming game\n");
         exit(1);
