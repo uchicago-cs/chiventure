@@ -2,7 +2,9 @@
 #define LOAD_H
 #include "game.pb-c.h"
 #include "game.h"
+#include "common-item.h"
 #include "actionmanagement.h"
+
 
 /* 
  * Takes a file, reads it, and returns the length of file
@@ -77,6 +79,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
  */
 int load_game(Game *g, game_t *g_t);
 
+
 /*
  * Unpacks the protofile and reloads all saved information into game structs
  *
@@ -89,5 +92,6 @@ int load_game(Game *g, game_t *g_t);
  * - -1 if unsuccessful
  */
 int load(char *filename, game_t *g_t);
+
 
 #endif
