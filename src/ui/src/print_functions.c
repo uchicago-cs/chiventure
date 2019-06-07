@@ -29,17 +29,17 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 
     if (first_run) {
         first_run = false;
-        print_to_cli(ctx, ">");
+        mvwprintw(win->w, 1, 2, ">");
         return;
     }
-
+    echo();
     int x, y;
     char input[80];
     int quit = 1;
     char *cmd_string;
     wgetnstr(win->w, input, 80);
 
-
+    noecho();
     cmd_string = strdup(input);
     //check whether user input is empty
     if (!strcmp(cmd_string, "")) {
@@ -59,8 +59,17 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     if (cmd_string) {
         free(cmd_string);
     }
-    
-    print_to_cli(ctx, ">");
+
+
+
+    getyx(win->w, y, x);
+    y++;
+    int height  = LINES / 2;
+    if (y >= height - 2) {
+        wscrl(win->w, y - height + 2);
+        y = height - 2;
+    }
+    mvwprintw(win->w, y, 2, ">");
 }
 
 /* see print_functions.h */
@@ -74,17 +83,47 @@ void print_map(chiventure_ctx_t *ctx, window_t *win)
 /* see print_functions.h */
 void print_to_cli(chiventure_ctx_t *ctx, char *str)
 {
-    int x, y;
+    int x, y, height;
+
+    height  = LINES / 2;
 
     WINDOW *cli = ctx->ui_ctx->cli_win->w;
 
+    char *tmp = strtok(str, "\n");
+
     getyx(cli, y, x);
 
-    int height  = LINES / 2;
-    if (y >= height - 2) {
+    // scrolls the screen up if there is no space to print the first line of output
+    if (y >= height - 1) {
         wscrl(cli, y - height + 2);
         y = height - 2;
     }
+    while (tmp != NULL) {
+        mvwprintw(cli, y, 3, tmp);
+        tmp = strtok(NULL, "\n");
 
-    mvwprintw(cli, y + 1, 2, str);
+        getyx(cli, y, x);
+        y++;
+
+        // if there is no space to print the next line, instuction to press ENTER
+        // to see more is given
+        if (y >= height - 1 && tmp != NULL) {
+            mvwprintw(cli, y, 3, "Press ENTER to see more");
+            int ch;
+
+            while ((ch = wgetch(cli)) != '\n') {
+                /* wait until enter is pressed */
+            }
+            // sets the cursor to the begining of the line just printed
+            // ("Press ENTER to see more"), and then clears it
+            wmove(cli, y, 2);
+            wclrtoeol(cli);
+
+            // scrolls the screen up
+            wscrl(cli, y - height + 2);
+            y = height - 2;
+        }
+    }
+
+
 }

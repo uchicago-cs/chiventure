@@ -96,10 +96,8 @@ void start_ui(chiventure_ctx_t *ctx)
             }
         }
         else if (isalnum(ch)) {
-            echo();
             ungetch(ch);
             window_print(ctx,  cli);
-            noecho();
         }
 
         // This conditional refreshes the non-CLI window
