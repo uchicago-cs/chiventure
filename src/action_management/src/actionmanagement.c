@@ -124,7 +124,7 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
 
     if (move == SUCCESS) {
         sprintf(string, "Moved into %s. %s", 
-                room_dest->room_id, room_dest->short_desc);
+                room_dest->room_id, room_dest->long_desc);
         *ret_string = string;
         return SUCCESS;
     }
