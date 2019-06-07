@@ -41,7 +41,7 @@ Please see this document for all possible actions and descriptions: https://gith
 
 - intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 
-- end: `<CONDITION>` a condition specification for how the game ends. It specifies the room a player must be in to end the game.
+- end: `<CONDITION>` Only one way to end the game is supported. It specifies the room a player must be in to end the game.
 
   1. The player is located in a specific room
     - Ex. in_room: "BEDROOM"
