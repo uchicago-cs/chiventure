@@ -26,9 +26,9 @@ const char *banner =
 int main(int argc, char **argv)
 {
 
-    chiventure_ctx_t *ctx = chiventure_ctx_new(banner);
+    chiventure_ctx_t *ctx = chiventure_ctx_new();
 
 
 
-    start_ui(ctx);
+    start_ui(ctx, banner);
 }

@@ -21,11 +21,11 @@ int main(int argc, char **argv)
 {
     chiventure_ctx_t ctx;
 
-    chiventure_ctx_init(&ctx, banner);
+    chiventure_ctx_init(&ctx);
 
     /* Add calls to component-specific initializations here */
 
-    start_ui(&ctx);
+    start_ui(&ctx, banner);
 
     return 0;
 }

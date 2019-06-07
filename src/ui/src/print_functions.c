@@ -14,20 +14,25 @@
 #include "shell.h"
 #include "validate.h"
 
-
+// approximate length of chiventure banner
+#define BANNER_LENGTH (96)
+#define BANNER_HEIGHT (12)
 
 /* see print_functions.h */
-void print_info(chiventure_ctx_t *ctx, window_t *win)
+void print_homescreen(window_t *win, const char *banner)
 {
-    int x_pos = COLS / 2 - 48;
-    int y_pos = LINES / 4 - 7;
+    // calculate the position of the banner so that is is approximately centered.
+    // The -1 in the y position is to give space for the message below the banner
+    // x_pos and y_pos indicate the x-y coordinates of the top left corner of the banner
+    int x_pos = COLS / 2 - BANNER_LENGTH / 2;
+    int y_pos = LINES / 4 - BANNER_HEIGHT / 2 - 1;
     if (x_pos < 0) {
         x_pos = 0;
     }
-    int len = strlen(ctx->banner);
-    char banner[len];
-    strcpy(banner, ctx->banner);
-    char *str = strtok(banner, "\n");
+    int len = strlen(banner);
+    char temp[len];
+    strcpy(temp, banner);
+    char *str = strtok(temp, "\n");
 
     while (str != NULL) {
         mvwprintw(win->w, y_pos, x_pos, str);
@@ -36,11 +41,17 @@ void print_info(chiventure_ctx_t *ctx, window_t *win)
     }
 
     char help[] = "Type 'HELP' to show help menu";
+    // similarly, as above, calculates where to place the message so it's centered
     x_pos = COLS /2 - strlen(help) / 2;
 
     mvwprintw(win->w, y_pos + 2, x_pos, help);
 
+}
 
+/* see print_functions.h */
+void print_info(chiventure_ctx_t *ctx, window_t *win)
+{
+    mvwprintw(win->w, 1, 2, "Main Window");
 }
 
 /* see print_functions.h */
