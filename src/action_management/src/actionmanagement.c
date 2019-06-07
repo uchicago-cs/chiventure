@@ -10,6 +10,7 @@
 #define WRONG_KIND (1)
 #define NOT_ALLOWED_DIRECT (2)
 #define NOT_ALLOWED_INDIRECT (3)
+#define NOT_ALLOWED_PATH (4)
 
 
 /* See actionmanagement.h */
@@ -95,20 +96,45 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
 {
     assert(g);
     assert(g->curr_player);
+    assert(g->curr_room);
     assert(a);
-    char *string = malloc(BUFFER_SIZE); // buffer
+
+    /* INITIALIZATION */
+    char *string = malloc(BUFFER_SIZE);
+    char *direction = p->direction;
+    room_t *room_dest = p->dest;
+    room_t *room_curr = g->curr_room;
+    path_t *path_found = path_search(room_curr, direction);
+
+    /* VALIDATION */
     // checks if the action type is the correct kind
     if (a->kind != PATH) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
     }
+    // validate existence of path and destination
+    if ((path_found == NULL) || (room_dest == NULL)) {
+        sprintf(string, "The path or room provided was invalid.");
+        return NOT_ALLOWED_PATH;
+    }
 
-    
-    sprintf(string, "Requested action %s in direction %s into room %s",
-            a->c_name, p->direction, p->dest->room_id);
-    *ret_string = string;
-    return SUCCESS;
+    /* PERFORM ACTION */
+    int move = move_room(g, room_dest);
+
+    if (move == SUCCESS) {
+        sprintf(string, "Requested action %s in direction %s into room %s",
+                a->c_name, p->direction, p->dest->room_id);
+        *ret_string = string;
+        return SUCCESS;
+    }
+    else {
+        sprintf(string, 
+                "Requested action %s in direction %s into room %s, but given error code %d by move_room()",
+                a->c_name, p->direction, p->dest->room_id, move);
+        *ret_string = string;
+        return NOT_ALLOWED_PATH;
+    }
 }
 
 
