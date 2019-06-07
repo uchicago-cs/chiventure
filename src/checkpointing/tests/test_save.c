@@ -112,6 +112,7 @@ Test(save, player)
      * It creates a player_t struct.
      */
     player_t = player_new("Chad", 1);
+
     int success = change_level(player_t, 8999);
     cr_assert_eq(success, 9000, "change_level() failed %d", success);
     success = change_xp(player_t, 50);
@@ -177,6 +178,7 @@ Test(save, player)
     cr_assert_eq(chad->inventory[0]->short_desc, item_t->short_desc, "save_player: saving item failed");
     cr_assert_eq(chad->inventory[0]->long_desc, item_t->long_desc, "save_player: saving item failed");
     cr_assert_eq(chad->inventory_len, 4, "save_player: saving inventory_len failed");
+  
     free(chad);
 }
 
