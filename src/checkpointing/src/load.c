@@ -158,31 +158,19 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
         r_t->long_desc = NULL;
     }
     
-    /* Here, we pass in an array of all items (generated from loaded WDL items),
-       free all items in this room loaded by WDL,
-       then search through the item ids we have serialized into this room,
-       and add matching items from the array into this room.
-    */
-
-    // Free all items in the room
-    /*
-    item_t *curr_item;
-    item_list_t *i;
-    
-    for(i = get_all_items_in_room(r_t); i != NULL; i=i->next){
-        curr_item = i->item;
-        int item_free_success = item_free(curr_item);
-        if (item_free_success != 0) {
-            fprintf(stderr, "Failed to remove/ free item from room \n");
-        }
-    }
-    */
     int delete = delete_all_items (r_t->items);
     if (delete != 0) {
         fprintf(stderr, "Failed to remove/ free item from room \n");
     }
     
-    // Fill room with items (we assume that no item get destroyed/created during the game)
+    /* Here, we pass in an array of all items (generated from loaded WDL items),
+       free all items in this room loaded by WDL,
+       then search through the item ids we have serialized into this room,
+       and add matching items from the array into this room.
+       
+       In other words, fill the room with items 
+       (assuming that no items get destroyed/created during the game).
+       */
     int iter;
     int j;
     for (iter = 0; iter < r->items_len; iter++) {
@@ -199,7 +187,6 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
             }
         }
     }
-    
     return 0;
 }
 
@@ -217,19 +204,12 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
         p_t->player_id = p->player_id;
     }
 
-    //All players have a level, health, and xp (initial values are always set)
+    // All players have a level, health, and xp (initial values are always set)
     p_t->level = p->level; 
     p_t->health = p->health;
     p_t->xp = p->xp;
 	
-    /* Here, we pass in an array of all items (generated from loaded WDL items),
-       free all items in this inventory loaded by WDL,
-       then search through the item ids we have serialized into this inventory,
-       and add matching items from the array into this inventory.
-    */
-
     // Free all items in the inventory
-    
     item_t *curr_item;
     item_list_t *i;
     for(i = get_all_items_in_inventory(p_t); i != NULL; i=i->next){
@@ -240,9 +220,14 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
         }
     }
     
-    
-    /* Fill inventory with items 
-       (we assume no items get destroyed/created during game) */
+    /* Here, we pass in an array of all items (generated from loaded WDL items),
+       free all items in this inventory loaded by WDL,
+       then search through the item ids we have serialized into this inventory,
+       and add matching items from the array into this inventory.
+
+       In other words, fill inventory with items 
+       (we assume no items get destroyed/created during game)
+       */
     int iter;
     int j;
     for (iter = 0; iter < p->inventory_len; iter++) {
@@ -300,6 +285,7 @@ int load_game(Game *g, game_t *g_t)
     room_t *curr_room;
     player_t *curr_player;
     item_t **all_items = malloc(sizeof(item_t*) * item_len);
+	
     // Create a deep copy of all items in the game
     int iter = 0;
     room_list_t *room_list = get_all_rooms(g_t);
