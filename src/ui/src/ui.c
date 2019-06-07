@@ -27,8 +27,6 @@ void start_ui(chiventure_ctx_t *ctx)
     ui_ctx_t *ui_ctx = ctx->ui_ctx;
     int ch;
 
-
-
     // starts curses mode
     initscr();
     // pressed keys are not displayed in the window
@@ -37,13 +35,10 @@ void start_ui(chiventure_ctx_t *ctx)
     int width = COLS;
     int height = LINES /2;
 
-
-
     map_t *map = ui_ctx->map;
     // Initializes the CLI window
     window_t *cli = ui_ctx->cli_win;
     window_t *info = ui_ctx->displayed_win;
-
 
     // prints the score and number of moves in the info window
     window_print(ctx, info);
@@ -74,8 +69,6 @@ void start_ui(chiventure_ctx_t *ctx)
         }
         wresize(cli->w, height, width);
         mvwin(cli->w, !(ui_ctx->cli_top) * height, 0);
-
-
 
         // detects ALt+key commands
         if (ch == 27) {
@@ -114,13 +107,11 @@ void start_ui(chiventure_ctx_t *ctx)
                 map_center_on(map, 0, 0, 0);
             }
         }
+
+        // Refreshes the displayed windows
         wrefresh(info->w);
-        // Refreshes the CLI window
         wrefresh(cli->w);
-
     }
-
-
 
     // End curses mode
     endwin();
