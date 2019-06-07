@@ -62,7 +62,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     y++;
 
     // scrolls the screen up if there is no space to print the next line
-    int height  = LINES / 2;
+    int height = LINES / 2;
     if (y >= height - 2) {
         wscrl(win->w, y - height + 2);
         y = height - 2;
@@ -113,7 +113,7 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
             while ((ch = wgetch(cli)) != '\n' && ch != 'q') {
                 /* wait until enter is pressed or q are pressed */
             }
-            
+
             if (ch == 'q') {
                 return;
             }
