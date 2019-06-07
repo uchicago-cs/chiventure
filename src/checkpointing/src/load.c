@@ -155,7 +155,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
     if (r->long_desc != NULL) {
         r_t->long_desc = r->long_desc;
     } else {
-        r_t->short_desc = NULL;
+        r_t->long_desc = NULL;
     }
     
     /* Here, we pass in an array of all items (generated from loaded WDL items),
@@ -210,24 +210,11 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
         p_t->player_id = p->player_id;
     }
 
-    if (p->has_level == 1) {
-	p_t->level = p->level;
-    } else {
-	p_t->level = -1;
-    }
-  
-    if (p->has_health == 1) {
-	p_t->health = p->health;
-    } else {
-	p_t->health = -1;
-    }
-  
-    if (p->has_xp == 1) {
-	p_t->xp = p->xp;
-    } else {
-	p_t->xp = -1;
-    }
-
+    //All players have a level, health, and xp (initial values are always set)
+    p_t->level = p->level; 
+    p_t->health = p->health;
+    p_t->xp = p->xp;
+	
     /* Here, we pass in an array of all items (generated from loaded WDL items),
        free all items in this inventory loaded by WDL,
        then search through the item ids we have serialized into this inventory,
@@ -390,14 +377,14 @@ int load_game(Game *g, game_t *g_t)
 
 
 // see load.h
-int load(char *filename, Game *g, game_t *g_t)
+int load(char *filename, game_t *g_t)
 {
     uint8_t buffer[MAX_BUF_SIZE];
     size_t game_len = read_file(filename, MAX_BUF_SIZE, buffer);
     printf("game_len: %ld\n", game_len);
 
+    Game *g;
     g = game__unpack(NULL, game_len, buffer);
-
     if (g == NULL) {
         fprintf(stderr, "error unpacking incoming game\n");
         exit(1);
