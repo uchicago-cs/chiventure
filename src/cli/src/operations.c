@@ -37,7 +37,7 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
   }
   if (validate(tokens[1]) == true){
     int sv = save(ctx->game, tokens[1]);
-    return "Save Succesful!\n";
+    return "Game Saved\n";
   }
   else
     return "Improper filename, Save failed\n";
