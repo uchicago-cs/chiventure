@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "load.h"
 #include "game.h"
+#include "common-item.h"
 
 Test(load, item)
 {

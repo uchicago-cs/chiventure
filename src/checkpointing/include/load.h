@@ -2,6 +2,7 @@
 #define LOAD_H
 #include "game.pb-c.h"
 #include "game.h"
+#include "common-item.h"
 #include "actionmanagement.h"
 
 
