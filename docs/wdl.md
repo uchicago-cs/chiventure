@@ -118,8 +118,7 @@ ROOM Example:
 
     actions: the possible actions that can be performed on the item; each action has the following fields:
       
-    - action: `<ACTION FROM BANK>`
-       ###### NOTE: an action must be in all upper case.
+    - action: `<ACTION FROM BANK>` ###### NOTE: an action must be in all upper case.
 
       conditions: (OPTIONAL) the conditions that must be fulfilled for the action to be completed
 
