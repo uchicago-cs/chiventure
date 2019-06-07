@@ -166,7 +166,7 @@ Test(coordinate, added_successfully)
 }
 
 /* Checks that a room present in the hash table is not added */
-Test(coordinate, add_failure )
+Test(coordinate, add_failure)
 {
     coord_record_t *coordmap = NULL;
     coord_record_t *cr = malloc(sizeof(coord_record_t));
@@ -188,21 +188,6 @@ Test(coordinate, add_failure )
 }
 
 //Returns SUCCESS if all rooms are assigned coordinates
-/*void check_assign_dfs(coord_record_t *coordmap, int vertical_hops,
-           game_t *game, int horizontal_hops, room_t* room, int expected)
-{
-    int rc;
-
-    rc = assign(coordmap, vertical_hops, horizontal_hops, room, game);
-
-    cr_assert_eq(rc, expected,
-                 "The map is %s but "
-                 "create_valid_map returned %s",
-                 expected? "is not a valid map":"is a valid map",
-                 rc? "failure":"success");
-}*/
-
-//Returns SUCCESS if all rooms are assigned coordinates
 void check_create_valid_map(game_t *game,
                             int expected)
 {
@@ -220,7 +205,8 @@ void check_create_valid_map(game_t *game,
 }
 
 
-Test(coordinate, valid_map) {
+Test(coordinate, valid_map)
+{
     game_t *game = game_new("Welcome to Chiventure!");
     room_t *room1 = room_new("vroom1", "test room", "yes this is a test room");
     room_t *room2 = room_new("nroom", "test next door", "KND number 1");
