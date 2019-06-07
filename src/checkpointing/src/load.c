@@ -383,7 +383,7 @@ int load(char *filename, game_t *g_t)
     size_t game_len = read_file(filename, MAX_BUF_SIZE, buffer);
     printf("game_len: %ld\n", game_len);
 
-    Game *g
+    Game *g;
     g = game__unpack(NULL, game_len, buffer);
     if (g == NULL) {
         fprintf(stderr, "error unpacking incoming game\n");
