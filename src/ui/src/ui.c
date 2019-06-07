@@ -113,10 +113,8 @@ void start_ui(chiventure_ctx_t *ctx)
                                    height + cli_top * height);
                 map_center_on(map, 0, 0, 0);
             }
-
         }
         wrefresh(info->w);
-
         // Refreshes the CLI window
         wrefresh(cli->w);
 
