@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     // Checks if extension is a .yaml extension
     const char *ext = strchr(fname, '.');
     const char *check = ".yaml";
-    if (strncmp(ext, check, 5) != 0)
+    if (strncmp(ext, check, strlen(check)) != 0)
     {
         printf("Err: file does not have .yaml extension\n");
         return 1;
