@@ -5,9 +5,13 @@
 #include "actionmanagement.h"
 #include "common.h"
 
-
 #define BUFFER_SIZE (100)
-
+#define WRONG_KIND (1)
+#define NOT_ALLOWED_DIRECT (2)
+#define NOT_ALLOWED_INDIRECT (3)
+#define CONDITIONS_NOT_MET (4)
+#define ATTRIBUTE_TYPE_DNE (5)
+#define ATTRIBUTE_NOT_SET (6)
 
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind)
@@ -54,73 +58,78 @@ int action_type_free(action_type_t *a)
 
 /* KIND 1
  * See actionmanagement.h */
-char *do_item_action(game_t *g, action_type_t *a, item_t *i)
+int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
 {
     // a couple confirmation checks
     assert(g);
     assert(g->curr_player); // needed for sprint 4
     assert(a);
     assert(i);
-    char *ret_string = malloc(BUFFER_SIZE); // buffer
+    char *string = malloc(BUFFER_SIZE); // buffer
     // checks if the action type is the correct kind
     if (a->kind != ITEM) {
-        sprintf(ret_string, "The action type provided is not of the correct kind");
-        return ret_string;
+        sprintf(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return WRONG_KIND;
     }
     // checks if the action can be used on the item
     int allowed = allowed_action(i, a->c_name);
     if (allowed != SUCCESS) {
-        sprintf(ret_string, "Action %s can't be requested on item %s",
+        sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, i->item_id);
-        return ret_string;
+        *ret_string = string;
+        return NOT_ALLOWED_DIRECT;
     }
     /* TODO: implement the rest of this function, using game_state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
-    sprintf(ret_string, "Requested action %s on item %s",
+    sprintf(string, "Requested action %s on item %s",
             a->c_name, i->item_id);
-    return ret_string;
+    *ret_string = string;
+    return SUCCESS;
 }
 
 
 /* KIND 2
  * See actionmanagement.h */
-char *do_path_action(game_t *g, action_type_t *a, path_t *p)
+int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
 {
     assert(g);
     assert(g->curr_player);
     assert(a);
-    char *ret_string = malloc(BUFFER_SIZE); // buffer
+    char *string = malloc(BUFFER_SIZE); // buffer
     // checks if the action type is the correct kind
     if (a->kind != PATH) {
-        sprintf(ret_string, "The action type provided is not of the correct kind");
-        return ret_string;
+        sprintf(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return WRONG_KIND;
     }
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)
      */
-    sprintf(ret_string, "Requested action %s in direction %s into room %s",
+    sprintf(string, "Requested action %s in direction %s into room %s",
             a->c_name, p->direction, p->dest->room_id);
-    return ret_string;
-
+    *ret_string = string;
+    return SUCCESS;
 }
+
+
 /* KIND 3
  * See actionmanagement.h */
-char *do_item_item_action(game_t *g, action_type_t *a,
-                          item_t *direct, item_t *indirect)
+int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
+                        item_t *indirect, char **ret_string)
 {
     assert(g);
     assert(a);
-    assert(g->curr_player); // needed for sprint 4
     assert(direct);
     assert(indirect);
-
-    char *ret_string = malloc(BUFFER_SIZE); // buffer
+    char *string = malloc(BUFFER_SIZE); // buffer
 
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
-        sprintf(ret_string, "The action type provided is not of the correct kind");
-        return ret_string;
+        sprintf(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return WRONG_KIND;
     }
 
     // isolate the direct action (i.e. put, use)
@@ -130,19 +139,21 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     // checks if the direct action is possible with the direct item
     bool possible = possible_action(direct, direct_action);
     if (possible == false) {
-        sprintf(ret_string, "Action %s can't be requested with item %s",
+        sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, direct->item_id);
         free(temp);
-        return ret_string;
+        *ret_string = string;
+        return NOT_ALLOWED_DIRECT;
     }
 
     // checks if the action is possible with the indirect item
     possible = possible_action(indirect, a->c_name);
     if (possible == false) {
-        sprintf(ret_string, "Action %s can't be requested on item %s",
+        sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, indirect->item_id);
         free(temp);
-        return ret_string;
+        *ret_string = string;
+        return NOT_ALLOWED_INDIRECT;
     }
 
     // get the direct action struct
@@ -151,9 +162,10 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     // check if all conditions of the direct action are met
     bool all_clear = all_conditions_met(direct, direct_acton);
     if (all_clear == false) {
-        sprintf(ret_string, "%s", dir_game_act->fail_str);
+        sprintf(string, "%s", dir_game_act->fail_str);
         free(temp);
-        return ret_string;
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
     }
 
     // implement the action (i.e. dole out the effects)
@@ -198,22 +210,25 @@ char *do_item_item_action(game_t *g, action_type_t *a,
                                                 act_effects->changed_attribute->attribute_value);
                     break;
                 default:
-                    sprintf(ret_string, "Attribute Type does not exist");
+                    sprintf(string, "Attribute Type does not exist");
                     free(temp);
-                    return ret_string;
+                    *ret_string = string;
+                    return ATTRIBUTE_TYPE_DNE;
                 }
             }
             act_effects = act_effects->next;
         }
         if (attr_set == FAILURE) {
-            sprintf(ret_string, "Effect of Action %s was not applied to Item %s",
+            sprintf(string, "Effect of Action %s was not applied to Item %s",
                     a->c_name, indirect->item_id);
             free(temp);
-            return ret_string;
+            *ret_string = string;
+            return ATTRIBUTE_NOT_SET;
         }
         // successfully carried out action
-        sprintf(ret_string, "%s", dir_game_act->success_str);
+        sprintf(string, "%s", dir_game_act->success_str);
         free(temp);
-        return ret_string;
+        *ret_string = string;
+        return SUCCESS;
     }
 }
