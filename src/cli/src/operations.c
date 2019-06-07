@@ -31,13 +31,14 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    //Commented out for now until an actual save and load function are provided
-    /*  if(tokens[1] == NULL){
+    if(tokens[1] == NULL){
         fprintf(stderr,"Save Error, No filename specified. \n");
-      }
-      if (validate(tokens[1]) == true){
-        int sv = save(game, tokens[1]);
-    */  return NULL;
+    }
+    if (validate(tokens[1]) == true){
+        int sv = save(ctx->game, tokens[1]);
+	return "game saved"
+    }
+    return NULL;
 }
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
