@@ -82,13 +82,12 @@ int load_game(Game *g, game_t *g_t);
  *
  * Parameters:
  * - filename: pointer to string name of file with sereialized information
- * - g: pointer to proto game struct
  * - g_t: pointer game struct
  * 
  * Returns:
  * - 0 if successful
  * - -1 if unsuccessful
  */
-int load(char *filename, Game *g, game_t *g_t);
+int load(char *filename, game_t *g_t);
 
 #endif
