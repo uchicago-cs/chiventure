@@ -43,9 +43,6 @@ Please see this document for all possible actions and descriptions: https://gith
 
 - end: `<CONDITION>` Only one way to end the game is supported. It specifies the room a player must be in to end the game.
 
-  1. The player is located in a specific room
-    - Ex. in_room: "BEDROOM"
-
 ### GAME example:
 ```yaml
  - start: "KITCHEN"
