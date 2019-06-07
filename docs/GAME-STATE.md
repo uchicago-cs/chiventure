@@ -105,7 +105,7 @@ Exits game safely (frees all memory before exits).
 
 Given the pointer to another room, changes the current room in game-state. 
 
-int add_final_room_to_game(game_t *game, room_t *final_room)
+    int add_final_room_to_game(game_t *game, room_t *final_room)
 +  Parameters:
     - game struct
     - pointer to final room
