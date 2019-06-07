@@ -114,57 +114,106 @@ char *do_item_item_action(game_t *g, action_type_t *a,
     assert(g->curr_player); // needed for sprint 4
     assert(direct);
     assert(indirect);
+
     char *ret_string = malloc(BUFFER_SIZE); // buffer
+
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
         sprintf(ret_string, "The action type provided is not of the correct kind");
         return ret_string;
     }
-    // checks if the action can be used on the direct item
-    int allowed = allowed_action(direct, a->c_name);
-    if (allowed != SUCCESS)
-    {
-        sprintf(ret_string, "Action %s can't be requested on item %s",
+
+    // isolate the direct action (i.e. put, use)
+    char *temp = strdup(a->c_name);
+    char *direct_action = strtok(a->c_name, "_");
+
+    // checks if the direct action is possible with the direct item
+    bool possible = possible_action(direct, direct_action);
+    if (possible == false) {
+        sprintf(ret_string, "Action %s can't be requested with item %s",
                 a->c_name, direct->item_id);
+        free(temp);
         return ret_string;
     }
-    // checks if the action can be used on the indirect item
-    allowed = allowed_action(indirect, a->c_name);
-    if (allowed != SUCCESS) {
+
+    // checks if the action is possible with the indirect item
+    possible = possible_action(indirect, a->c_name);
+    if (possible == false) {
         sprintf(ret_string, "Action %s can't be requested on item %s",
                 a->c_name, indirect->item_id);
+        free(temp);
         return ret_string;
     }
-    /* TODO: implement the rest of this function, using game state funcs
-     * Will perform the action if all checks pass (Sprint 4)
-     */
-    
-    /* initialize all the game-state structs */
-    attribute_list_t *attributes_direct = get_all_attributes(direct);
-    attribute_list_t *attributes_indirect = get_all_attributes(direct);
-    game_action_t *action_direct = get_action(direct, a->c_name);
-    game_action_t *action_indirect = get_action(indirect, a->c-name);
 
-    // this is to count how many elements are in each list
-    attribute_list_t *temp_att;
-    int count_attributes_direct, count_attributes_indirect;
-    LL_COUNT(attributes_direct, temp_att, count_attributes_direct);
-    LL_COUNT(attributes_indirect, temp_att, count_attributes_indirect);
+    // get the direct action struct
+    game_action_t *dir_game_act = get_action(direct, direct_action);
 
-    action_effect_list_t *temp_eff;
-    int count_effects_direct, count_effects_indirect;
-    LL_COUNT(action_direct->effects, temp_eff, count_effects_direct);
-    LL_COUNT(action_indirect->effects, temp_eff, count_effects_indirect);
+    // check if all conditions of the direct action are met
+    bool all_clear = all_conditions_met(direct, direct_acton);
+    if (all_clear == false) {
+        sprintf(ret_string, "%s", dir_game_act->fail_str);
+        free(temp);
+        return ret_string;
+    }
 
-    action_condition_list_t *temp_cond;
-    int count_conditions_direct, count_conditions_indirect;
-    LL_COUNT(action_indirect->conditions, temp_cond, count_conditions_direct);
-    LL_COUNT(action_indirect->conditions, temp_cond, count_conditions_direct);
-
-    /* alter the game-state structs via action management */
-    
-
-    sprintf(ret_string, "Requested action %s with %s on %s",
-            a->c_name, direct->item_id, indirect->item_id);
-    return ret_string;
+    // implement the action (i.e. dole out the effects)
+    // assume that the item_id field has been changed to an item_t struct
+    // the item_t struct is tentatively called affected
+    else {
+        action_effect_list_t *act_effects = dir_game_act->effects;
+        int attr_set = FAILURE;
+        while (act_effects) {
+            // apply the effects of the direct item action (use, put) on the indirect item
+            if (strcmp(act_effects->affected->item_id, indirect->item_id) == 0) {
+                int attr_set;
+                switch(act_effects->changed_attribute->attribute_tag) {
+                case DOUBLE:
+                    attr_set = set_double_attr(act_effects->affected,
+                                               act_effects->changed_attribute->attribute_key,
+                                               act_effects->changed_attribute->attribute_value);
+                    break;
+                case BOOLE:
+                    attr_set = set_bool_attr(act_effects->affected,
+                                             act_effects->changed_attribute->attribute_key,
+                                             act_effects->changed_attribute->attribute_value);
+                    break;
+                case CHARACTER:
+                    attr_set = set_char_attr(act_effects->affected,
+                                             act_effects->changed_attribute->attribute_key,
+                                             act_effects->changed_attribute->attribute_value);
+                    break;
+                case STRING:
+                    attr_set = set_str_attr(act_effects->affected,
+                                            act_effects->changed_attribute->attribute_key,
+                                            act_effects->changed_attribute->attribute_value);
+                    break;
+                case INTEGER:
+                    attr_set = set_int_attr(act_effects->affected,
+                                            act_effects->changed_attribute->attribute_key,
+                                            act_effects->changed_attribute->attribute_value);
+                    break;
+                case ACTIONS:
+                    attr_set = set_actions_attr(act_effects->affected,
+                                                act_effects->changed_attribute->attribute_key,
+                                                act_effects->changed_attribute->attribute_value);
+                    break;
+                default:
+                    sprintf(ret_string, "Attribute Type does not exist");
+                    free(temp);
+                    return ret_string;
+                }
+            }
+            act_effects = act_effects->next;
+        }
+        if (attr_set == FAILURE) {
+            sprintf(ret_string, "Effect of Action %s was not applied to Item %s",
+                    a->c_name, indirect->item_id);
+            free(temp);
+            return ret_string;
+        }
+        // successfully carried out action
+        sprintf(ret_string, "%s", dir_game_act->success_str);
+        free(temp);
+        return ret_string;
+    }
 }
