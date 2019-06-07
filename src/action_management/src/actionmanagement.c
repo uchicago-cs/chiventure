@@ -123,15 +123,15 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
     int move = move_room(g, room_dest);
 
     if (move == SUCCESS) {
-        sprintf(string, "Requested action %s in direction %s into room %s",
-                a->c_name, p->direction, p->dest->room_id);
+        sprintf(string, "Moved into %s. Short description: %s", 
+                room_dest->room_id, room_dest->short_desc);
         *ret_string = string;
         return SUCCESS;
     }
     else {
         sprintf(string, 
                 "Requested action %s in direction %s into room %s, but given error code %d by move_room()",
-                a->c_name, p->direction, p->dest->room_id, move);
+                a->c_name, direction, room_dest->room_id, move);
         *ret_string = string;
         return NOT_ALLOWED_PATH;
     }
