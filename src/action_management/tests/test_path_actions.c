@@ -61,7 +61,7 @@ Test(path_actions, room)
 {
     int rc = execute_do_path_action2("dummy", PATH);
 
-    cr_assert_eq(rc, SUCCESS,
+    cr_assert_eq(rc, 0,
                  "execute_do_path_action2 correctedly moved to the right room");
 }
 
