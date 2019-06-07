@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "validate.h"
-#include "actionmanagement.h"
 
 // The following functions assist with iterating through lists of objects
 
@@ -135,10 +134,9 @@ bool check_connection_attr(obj_t *obj)
     // verify types of fields
     bool id = (obj_get_type(obj, "to") == TYPE_STR);
     bool direction = (obj_get_type(obj, "direction") == TYPE_STR);
-    bool through = (obj_get_type(obj, "through") == TYPE_STR);
     bool conditions = condition_type_check(obj);
 
-    return (id && direction && through && conditions);
+    return (id && direction && conditions);
 }
 
 /* connection_type_check()
@@ -184,11 +182,9 @@ bool item_type_check(obj_t *obj)
     bool id_ver = (obj_get_type(obj, "id") == TYPE_STR);
     bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
-    bool in_ver = (obj_get_type(obj, "in") == TYPE_STR);
-    bool state_ver = (obj_get_type(obj, "state") == TYPE_STR);
-    bool val_ver = (obj_get_type(obj, "value") == TYPE_STR);
+    bool in = (obj_get_type(obj, "in") == TYPE_STR);
 
-    return (id_ver && short_ver && long_ver && in_ver);
+    return (id_ver && short_ver && long_ver && in);
 }
 
 // The following functions regard game type checking
@@ -226,25 +222,37 @@ bool action_validate(char *str)
     // getting a list of valid actions;
     // note that in the future we may wish to use a hasth table
     list_action_type_t *valid_actions = get_supported_actions();
-
     list_action_type_t *curr = valid_actions;
-
+    
     while (curr != NULL) {
         if (strcmp(curr->act->c_name, str) == 0) {
             return true;
         }
+        curr = curr->next;
     }
-
+    
     return false;
 }
 
+void print_list(list_action_type_t *ls)
+{
+    int i;
+    for (i = 0; i < 14; i++)
+    {
+        printf("%s\n", ls->act->c_name);
+        ls = ls->next;
+    }
+    return;
+}
+
 /* see validate.h */
+/* INPUTS AN ITEM OBJ */
 bool action_type_check(obj_t *obj)
 {
     // fields to verify
     bool action_type = (obj_get_type(obj, "action") == TYPE_STR);
-    bool action_valid =  action_validate(obj_get_str(obj, "action"));
-
+    bool action_valid = action_validate(obj_get_str(obj, "action"));
+    
     return (action_type && action_valid);
 }
 
@@ -359,11 +367,9 @@ void print_item(obj_t *obj)
 /* See validate.h */
 void print_game(obj_t *obj)
 {
-    attr_list_t *temp = obj_list_attr(obj);
-    obj_t *game = temp->obj;
     // print game attributes
-    printf("GAME introduction: %s\n", obj_get_str(game, "intro"));
-    printf("starting room: %s\n", obj_get_str(game, "start"));
+    printf("GAME introduction: %s\n", obj_get_str(obj, "intro"));
+    printf("starting room: %s\n", obj_get_str(obj, "start"));
     return;
 }
 

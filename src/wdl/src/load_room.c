@@ -13,7 +13,7 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
     attr_list_t *curr = obj_list_attr(rooms_obj);
 
     // if rooms list is empty then return 1
-    if (curr != NULL) {
+    if (curr == NULL) {
         fprintf(stderr, "rooms list is empty\n");
         return 1;
     }
@@ -46,7 +46,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
     attr_list_t *curr = obj_list_attr(rooms_obj);
 
     // if rooms list is empty then return 1
-    if (curr != NULL) {
+    if (curr == NULL) {
         fprintf(stderr, "rooms list is empty\n");
         return 1;
     }
@@ -55,10 +55,14 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
     while (curr != NULL) {
         // obtain room id
         char *id = obj_get_str(curr->obj, "id");
-
         // get list of connections for the room
-        attr_list_t *conn_curr = connections_get_list(rooms_obj);
+        attr_list_t *conn_curr = connections_get_list(curr->obj);
 
+        // if connections list is empty then return 1
+        if (conn_curr == NULL) {
+            fprintf(stderr, "connections list is empty\n");
+            return 1;
+        }
         // iterate through connections list
         while (conn_curr != NULL) {
             // get id of room we are going to and direction
@@ -71,14 +75,18 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
             // if result is 1, then id doesn't exist, if result is 2, then
             // connection id (to) doesn't exist
             if (result == 1) {
-                fprintf(stderr, "the source room with id %s does not exist\n",
-                        id);
+                fprintf(stderr, "add_path failed\n");
                 return 1;
             }
             else if (result == 2) {
+                fprintf(stderr, "the source room with id %s does not exist\n",
+                        id);
+                return 2;
+            }
+            else if (result == 3) {
                 fprintf(stderr, "the connection room with id %s does not exist\n",
                         to);
-                return 2;
+                return 3;
             }
             else {
                 printf("the connection between %s and %s in the direction %s"

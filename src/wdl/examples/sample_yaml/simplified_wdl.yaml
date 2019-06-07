@@ -27,12 +27,14 @@ ITEMS:
    long_desc: "This is a chair long"
    in: "room A"
    actions: 
-    - action: "push"
-    - action: "pull" 
+    - action: "PUSH"
+    - action: "PULL" 
+
 
  - id: "table"
    short_desc: "This is a table"
    long_desc: "This is a table long"
    in: "room B"
-    - action: "push"
-    - action: "pull"
+   actions:
+    - action: "PUSH"
+    - action: "PULL"

@@ -11,6 +11,9 @@
 #include "parse.h"
 #include "room.h"
 
+#define FILE_PATH "../examples/sample_yaml/connected_rooms.yaml"
+
+
 /*
  * Function to create a pointer to an empty game
  *

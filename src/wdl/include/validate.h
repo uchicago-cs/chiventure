@@ -6,7 +6,12 @@
 #ifndef INCLUDE_VALIDATE_H
 #define INCLUDE_VALIDATE_H
 
-#include "wdl_common.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "parser.h"
+#include "actionmanagement.h"
+
 
 /* a doubly linked list of strings used to store approved actions
  * used when type-checking actions
