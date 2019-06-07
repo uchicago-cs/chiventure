@@ -161,6 +161,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
     int delete = delete_all_items (r_t->items);
     if (delete != 0) {
         fprintf(stderr, "Failed to remove/ free item from room \n");
+
     }
     
     /* Here, we pass in an array of all items (generated from loaded WDL items),
@@ -175,7 +176,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
     int j;
     for (iter = 0; iter < r->items_len; iter++) {
         for (j = 0; j < all_items_len; j++) {
-            if (r->items[iter]->item_id == all_items[j]->item_id) {
+            if (r->items[iter]->item_id == all_items[j]-ir request for review 41 minutes ago>item_id) {
                 int load_item_success = load_item(r->items[iter], all_items[j]);
                 if (load_item_success != 0) {
                     fprintf(stderr, "Failed to load item in room \n");
@@ -208,7 +209,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
     p_t->level = p->level; 
     p_t->health = p->health;
     p_t->xp = p->xp;
-	
+
     // Free all items in the inventory
     item_t *curr_item;
     item_list_t *i;
@@ -227,7 +228,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
 
        In other words, fill inventory with items 
        (we assume no items get destroyed/created during game)
-       */
+    */
     int iter;
     int j;
     for (iter = 0; iter < p->inventory_len; iter++) {
@@ -333,7 +334,7 @@ int load_game(Game *g, game_t *g_t)
     // Load player(s) into game
     for (i = 0; i < g->players_len; i++) {
         if (strcmp(g->all_players[i]->player_id, curr_player->player_id) == 0) {
-            int load_player_success = load_player(g->all_players[i],
+            int load_player_success = load_player(g->alir request for review 41 minutes agol_players[i],
                                                   curr_player,
                                                   all_items,
                                                   item_len);
@@ -379,7 +380,7 @@ int load(char *filename, game_t *g_t)
     Game *g;
     game__init(g);
     g = game__unpack(NULL, game_len, buffer);
-
+  
     if (g == NULL) {
         fprintf(stderr, "error unpacking incoming game\n");
         exit(1);
