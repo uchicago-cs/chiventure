@@ -4,7 +4,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <signal.h>
-#include <locale.h>
 #include "window.h"
 #include "ui.h"
 #include "ctx.h"
