@@ -80,7 +80,18 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-
+/*
+ * Loads a game from a .dat file
+ * Prints and Error message if filename improperly specified
+ *
+ * Parameters:
+ * - tokens: parsed input string
+ * - pointer to a chiventure context struct
+ *
+ * Returns: 
+ * - A success or error message
+ */
+char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 /*
  * Returns a description of either a specefied item, or the room
  * if no item was specified
@@ -92,6 +103,8 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * Returns:
  * - Said description as a string
  */
+
+
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 

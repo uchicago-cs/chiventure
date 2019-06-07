@@ -5,7 +5,8 @@
 #include "shell.h"
 #include "assert.h"
 #include "validate.h"
-
+#include "save.h"
+#include "load.h"
 
 // remove the comment as soon as checkpointing removes their dummy struct
 //#include "../../checkpointing/include/save.h"
@@ -31,15 +32,30 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    //Commented out for now until an actual save and load function are provided
-    /*  if(tokens[1] == NULL){
-        fprintf(stderr,"Save Error, No filename specified. \n");
-      }
-      if (validate(tokens[1]) == true){
-        int sv = save(game, tokens[1]);
-    */  return NULL;
+  if(tokens[1] == NULL){
+    return "Invalid Input, Save failed\n";
+  }
+  if (validate(tokens[1]) == true){
+    int sv = save(ctx->game, tokens[1]);
+    return "Save Succesful!\n";
+  }
+  else
+    return "Improper filename, Save failed\n";
 }
 
+char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+  if(tokens[1] == NULL){
+    return "Invalid Input, Load failed\n";
+  }
+  if (validate(tokens[1]) == true){
+    int load = load(tokens[1], ctx->game);
+    return "Load Succesful\n!";
+  }
+  else
+    return "Improper filename, Load failed\n";
+  
+}
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
