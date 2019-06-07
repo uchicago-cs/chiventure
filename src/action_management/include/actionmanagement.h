@@ -79,7 +79,7 @@ list_action_type_t *get_supported_actions();
  * - 1 if the action type has the wrong kind, failure string as an out parameter
  * - 2 if the action can't be used on the item, failure string as an out parameter
  */
-int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string);
+int do_item_action(action_type_t *a, item_t *i, char **ret_string);
 
 
 /* A function that executes KIND 2 actions (ACTION <path>)
@@ -101,7 +101,6 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string);
 /* A function that executes KIND 3 actions (ACTION <item> <item>)
  *
  * Parameters:
- * - g: A game struct containing a field for the current player
  * - a: An action type struct
  * - direct: An item struct containing the direct object (the "actor")
  * - indirect: An item struct containing the indirect object (the "actee")
@@ -113,7 +112,7 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string);
  * - 1 if the action type has the wrong kind, failure string as an out parameter
  * - 2 if the action can't be used on the item, failure string as an out parameter
  */
-int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
+int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
 
 
