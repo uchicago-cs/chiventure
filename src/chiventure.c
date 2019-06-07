@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "ctx.h"
+#include "ui.h"
 
 const char *banner =
     "    ________________________________________________________________________________________\n"
@@ -20,13 +21,11 @@ int main(int argc, char **argv)
 {
     chiventure_ctx_t ctx;
 
-    chiventure_ctx_init(&ctx);
+    chiventure_ctx_init(&ctx, banner);
 
     /* Add calls to component-specific initializations here */
 
-    printf("%s\n>", banner);
-
-    getchar();
+    start_ui(&ctx);
 
     return 0;
 }

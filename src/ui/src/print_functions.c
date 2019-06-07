@@ -19,7 +19,28 @@
 /* see print_functions.h */
 void print_info(chiventure_ctx_t *ctx, window_t *win)
 {
-    mvwprintw(win->w, 1, 2, "Main Window");
+    int x_pos = COLS / 2 - 48;
+    int y_pos = LINES / 4 - 7;
+    if (x_pos < 0) {
+        x_pos = 0;
+    }
+    int len = strlen(ctx->banner);
+    char banner[len];
+    strcpy(banner, ctx->banner);
+    char *str = strtok(banner, "\n");
+
+    while (str != NULL) {
+        mvwprintw(win->w, y_pos, x_pos, str);
+        str = strtok(NULL, "\n");
+        y_pos++;
+    }
+
+    char help[] = "Type 'HELP' to show help menu";
+    x_pos = COLS /2 - strlen(help) / 2;
+
+    mvwprintw(win->w, y_pos + 2, x_pos, help);
+
+
 }
 
 /* see print_functions.h */
@@ -59,7 +80,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     if (cmd_string) {
         free(cmd_string);
     }
-    
+
     print_to_cli(ctx, ">");
 }
 

@@ -6,7 +6,7 @@
 
 
 /* See ctx.h */
-chiventure_ctx_t* chiventure_ctx_new()
+chiventure_ctx_t* chiventure_ctx_new(const char *banner)
 {
     chiventure_ctx_t *ctx;
     int rc;
@@ -18,7 +18,7 @@ chiventure_ctx_t* chiventure_ctx_new()
         return NULL;
     }
 
-    rc = chiventure_ctx_init(ctx);
+    rc = chiventure_ctx_init(ctx, banner);
     if(rc != SUCCESS)
     {
         return NULL;
@@ -28,7 +28,7 @@ chiventure_ctx_t* chiventure_ctx_new()
 }
 
 /* See ctx.h */
-int chiventure_ctx_init(chiventure_ctx_t *ctx)
+int chiventure_ctx_init(chiventure_ctx_t *ctx, const char *banner)
 {
     assert(ctx != NULL);
     char *desc = "Welcome to Chiventure";
@@ -42,6 +42,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx)
     ctx->game = game;
     ctx->ui_ctx = ui_ctx;
     ctx->table = table;
+    ctx->banner = banner;
 
     /* Add calls to component-specific initialization here */
 

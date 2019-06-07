@@ -16,6 +16,7 @@
 typedef struct chiventure_ctx
 {
     /* Add component-specific structs here */
+    const char *banner;
     ui_ctx_t *ui_ctx;
     game_t *game;
     lookup_t **table;
@@ -31,7 +32,7 @@ typedef struct chiventure_ctx
  * Returns:
  *  - A pointer to the context, or NULL if it cannot be allocated
  */
-chiventure_ctx_t* chiventure_ctx_new();
+chiventure_ctx_t* chiventure_ctx_new(const char *banner);
 
 
 /*
@@ -43,7 +44,7 @@ chiventure_ctx_t* chiventure_ctx_new();
  * Returns:
  *  - 0 on success, 1 if an error occurs.
  */
-int chiventure_ctx_init(chiventure_ctx_t *ctx);
+int chiventure_ctx_init(chiventure_ctx_t *ctx, const char *banner);
 
 
 /*
