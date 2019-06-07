@@ -13,19 +13,25 @@ Test(coordinate, new)
     rc = malloc(sizeof(coord_t));
     rc = coord_new(5, 3, 7);
 
-    cr_assert_not_null(rc, "coord_init() failed");
-    cr_assert_eq(rc->x, 5, "coord_init() didn't set the coordinates's x-coordinate");
-    cr_assert_eq(rc->y, 3, "coord_init() didn't set the coordinates's y-coordinate");
-    cr_assert_eq(rc->z, 7, "coord_init() didn't set the coordinates's z-coordinate");
+    cr_assert_not_null(rc, "coord_new() failed");
+    cr_assert_eq(rc->x, 5, "coord_new() didn't set the coordinates's x-coordinate");
+    cr_assert_eq(rc->y, 3, "coord_new() didn't set the coordinates's y-coordinate");
+    cr_assert_eq(rc->z, 7, "coord_new() didn't set the coordinates's z-coordinate");
 }
 
 
-// Checks whether two rooms are equal
+/*This is a helper function used in check_find_coord to check 
+whether the coord_record_t given by find_coord is the same 
+as the expected coord_record_t*/
 int check_equal(coord_record_t *one, coord_record_t *two)
 {
+    //returns success when a room associated with the coordinates 
+    //does not exist and find_coord returns NULL 
     if (one == NULL && two == NULL) {
         return SUCCESS;
     }
+    //returns failure when a room associated with the coordinates 
+    //does exist and find_coord returns NULL 
     if (one == NULL || two == NULL) {
         return FAILURE;
     }
@@ -53,14 +59,26 @@ int check_equal(coord_record_t *one, coord_record_t *two)
 
 }
 
-// Checks that find_coord returns a room when a coordinate has already been assigned to it
+/* checks find_coord():
+ * - Implementation uses HASH_FIND to find coord_record
+ * - UI Internal fcn only
+ *
+ * Parameters:
+ * - coordmap: a pointer to the coordinate hash (internal to UI)
+ * - x, y, z: Integer values (locations) of room
+ *   to search for in hash.
+ * - rd_expected: the expected coordinate hash
+ * - expected: denotes whether it is or is not present
+ *
+ * Returns:
+ * - returns coord_record_t struct (which contains a room pointer) if room
+ *   exists at that coordinant key
+ * - returns NULL if key not in hash
+ */
 void check_find_coord(coord_record_t *coordmap, int x, int y, int z,
                     coord_record_t *rd_expected, int expected)
 {
-    coord_record_t *rd;
-    rd = malloc(sizeof(coord_record_t));
-
-    rd = find_coord(coordmap, x, y, z);
+    coord_record_t *rd = find_coord(coordmap, x, y, z);
 
     int equal = check_equal(rd, rd_expected);
 
@@ -94,8 +112,7 @@ Test(coordinate, not_found)
     cr->key.y = 0;
     cr->key.z = 0;
 
-    room_t *initial = malloc(sizeof(room_t));
-    initial->room_id = "123";
+    room_t *initial = room_new("123", "walk", "walk far");
     cr->r = initial;
 
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
@@ -113,8 +130,7 @@ Test(coordinate, found)
     cr->key.y = 0;
     cr->key.z = 0;
 
-    room_t *initial = malloc(sizeof(room_t));
-    initial->room_id = "125";
+    room_t *initial = room_new("125", "walk", "walk far");
     cr->r = initial;
 
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
@@ -122,7 +138,21 @@ Test(coordinate, found)
     check_find_coord(coordmap, 0, 0, 0, coordmap, SUCCESS);
 }
 
-// Checks if a coordinate is not present then it is added
+/* Checks try_add_coord():
+ * Parameters:
+ * - coordmap is both an in and out parameter, so it must be non-NULL
+ * - x, y, z are the respective coordinates. They will be bundled
+ *           into a coordinate key for hashing
+ * - r is a pointer to the room to assign the coords to
+ * - expected denotes whether it should or should not be added 
+ *
+ * Return value:
+ * - returns SUCCESS if:
+ *           -  does not find coordinate and successfully adds it
+ *           - finds coordinate and it is already mapped to the same room
+ * - returns FAILURE if it finds coordinate already and
+ *   the coord is mapped to a different room
+ */
 void check_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r,
                      int expected)
 {
@@ -148,14 +178,12 @@ Test(coordinate, added_successfully)
     cr->key.y = 0;
     cr->key.z = 0;
 
-    room_t *initial = malloc(sizeof(room_t));
-    initial->room_id = "125";
+    room_t *initial = room_new("125", "walk", "walk far");
     cr->r = initial;
 
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
 
-    room_t *r = malloc(sizeof(room_t));
-    r->room_id = "24";
+    room_t *r = room_new("24", "run", "run far");
 
     check_add_coord(coordmap, 3, 4, 1, r, SUCCESS);
 }
@@ -170,12 +198,10 @@ Test(coordinate, add_failure)
     cr->key.y = 0;
     cr->key.z = 0;
 
-    room_t *initial = malloc(sizeof(room_t));
-    initial->room_id = "125";
+    room_t *initial = room_new("125", "walk", "walk far");
     cr->r = initial;
 
-    room_t *room_2 = malloc(sizeof(room_t));
-    room_2->room_id = "126";
+    room_t *room_2 = room_new("126", "run", "run far");
 
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
 
