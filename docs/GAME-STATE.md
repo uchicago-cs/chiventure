@@ -59,6 +59,9 @@ There is also a time_start field, but it does not have specific functionalily ri
         /* pointer to current room struct */
         room_t *curr_room;
 
+        /* pointer to room that, when entered, ends the game */
+        room_t *final_room;
+
         /* pointer to current player struct */
         room_t *curr_player;
 
@@ -85,7 +88,6 @@ This functions mallocs space for a new game struct. It does not take any argumen
 
  Frees everything in the game struct safely.
 
-
     void game_quit(game_t *game);
 + Parameters:
      - game struct
@@ -94,14 +96,27 @@ This functions mallocs space for a new game struct. It does not take any argumen
 
 Exits game safely (frees all memory before exits).
 
-    void move_to_room(game_t *game, room_t *new_room);
+    void move_room(game_t *game, room_t *new_room);
 + Parameters:
      - game struct
-     - room that we're changing to
+     - pointer to room that we're changing to
 + Returns:
-     - none
+     - 0 if successful, 1 if failed, 2 if game NULL, 3 if new_room NULL, 4 if new_room is final room
 
-Given the pointer to another room, changes the current room in game-state. This function does NOT check if the move is legal.
+Given the pointer to another room, changes the current room in game-state. 
+
+int add_final_room_to_game(game_t *game, room_t *final_room)
++  Parameters:
+    - game struct
+    - pointer to final room
++ Returns: 
+    - SUCCESS if successful, FAILURE if failed
+
+ Adds the final room to the given game
+
+
+
+
 
 ## The Player Module
 
