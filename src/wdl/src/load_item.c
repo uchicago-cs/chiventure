@@ -93,7 +93,7 @@ int load_items(obj_t *doc, game_t *g)
     // set current item
     attr_list_t *curr = items_obj;
 
-    // if items list is empty then return 1
+    // if items list is empty then return -1
     if (curr == NULL) {
         fprintf(stderr, "items list is empty\n");
         return -1;
