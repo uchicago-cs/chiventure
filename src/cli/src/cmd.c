@@ -85,6 +85,8 @@ void add_action_entries(lookup_t **table)
          return NULL;
      }
 
+     *t = NULL;
+
      rc = lookup_t_init(t);
      if(rc != SUCCESS)
      {
