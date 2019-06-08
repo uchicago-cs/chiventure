@@ -4,7 +4,6 @@
 #include "actionmanagement.h"
 #include "action_structs.h"
 #include "item.h"
-#include "game.h"
 #include "player.h"
 #include "ctx.h"
 
