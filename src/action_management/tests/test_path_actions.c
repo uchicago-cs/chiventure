@@ -20,10 +20,10 @@ void check_do_path(chiventure_ctx_t *c, action_type_t *a, path_t *p, room_t *roo
     rc = do_path_action(c, a, p, &ret_string);
     room_output = c->game->curr_room;
 
-    cr_assert_eq(room_output, room_expected,
-                 "The room expected, %s, did not match the room output, %s.",
+    cr_assert_eq(room_expected, room_output,
+                 "The room expected, %s, did not match the actual room output, %s.",
                  room_expected->room_id, room_output->room_id);
-    cr_assert_eq(rc, rc_expected,
+    cr_assert_eq(rc_expected, rc,
                  "The expected return code was %d, but the actual return code was %d.",
                  rc_expected, rc);
 }
