@@ -64,3 +64,14 @@ Test(parse, more_words)
     char **words = parse(str);
     cr_assert_null(words, "parser() should return NULL if too many words");
 }
+
+//Tests the parsing of three words.
+Test(parse, many_spaces)
+{
+    char str[] = "LOOK    AT        ME              ";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"LOOK", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "AT", "parse() did not create second token");
+    cr_assert_str_eq(words[2], "ME", "parse() did not create third token");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
