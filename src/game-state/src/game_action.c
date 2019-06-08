@@ -69,7 +69,7 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
     return SUCCESS;
 }
 
-// ------------------------------------- EFFECTS -------------------------------------
+// ------------------------------------- CONDITIONS -------------------------------------
 
 /* see game_action.h */
 int add_action_condition(item_t* item, char* action_name)
@@ -152,4 +152,4 @@ bool all_conditions_met(item_t* item, char* action_name)
     //call iterate through list of conditions and call check_condition on each node
 }
 
-// ------------------------------------- CONDITIONS -------------------------------------
+// ------------------------------------- EFFECTS -------------------------------------
