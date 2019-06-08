@@ -14,6 +14,11 @@
 #include "game.h"
 #include "validate.h"
 #include "parse.h"
+#include "common.h"
+
+#define PATH_FAILURE (1)
+#define ID_FAILURE (2)
+#define CONNECTIONS_FAILURE (3)
 
 #define ROOM_PATH "../examples/sample_yaml/connected_rooms.yaml"
 
