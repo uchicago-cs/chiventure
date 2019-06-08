@@ -67,15 +67,7 @@ Test(path_actions, validate_path)
     check_do_path(ctx_test, action_enter, path_origin, room_origin, NOT_ALLOWED_PATH);
 
     /* FREE VARIABLES */
-    //chiventure_ctx_free(ctx_test); // for some reason this function is malfunctioning
-    free(ctx_test);
-    game_free(game_test);
-    player_free(player_test);
-    room_free(room_origin);
-    room_free(room_north);
-    path_free(path_north);
-    path_free(path_origin);
-    //
+    chiventure_ctx_free(ctx_test); // for some reason this function is malfunctioning
     action_type_free(action_enter);
     action_type_free(action_invalid);
 }
