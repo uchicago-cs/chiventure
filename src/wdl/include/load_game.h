@@ -11,7 +11,7 @@
 #include "parse.h"
 #include "room.h"
 
-#define FILE_PATH "../examples/sample_yaml/connected_rooms.yaml"
+#define FILE_PATH "../examples/sample_yaml/simplified_wdl.yaml"
 
 
 /*
