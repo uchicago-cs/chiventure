@@ -28,6 +28,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
 
     int rc = do_item_item_action(a, direct, indirect, &string);
 
+    free(string);
     item_free(direct);
     item_free(indirect);
     action_type_free(a);
