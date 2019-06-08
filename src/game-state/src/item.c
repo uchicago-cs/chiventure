@@ -49,6 +49,24 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 
 
+/* see item.h */
+char *get_sdesc_item(item_t *item)
+{
+  if (item == NULL) {
+    return NULL;
+  }
+  return item->short_desc;
+}
+
+/* see item.h */
+char *get_ldesc_item(item_t *item)
+{
+  if (item == NULL) {
+    return NULL;
+  }
+  return item->long_desc;
+}
+
 // ATTRIBUTE MANIPULATION FUNCTIONS -------------------------------------------
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {

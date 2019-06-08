@@ -69,6 +69,45 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
 */
 int item_free(item_t *item_tofree);
 
+/* Get short description of item
+ *
+ * Parameters:
+ *  pointer to item
+ *
+ * Returns:
+ *  short description string
+ *  NULL if item is NULL
+ */
+char *get_sdesc_item(item_t *item);
+
+/* Get long description of item
+ *
+ * Parameters:
+ *  pointer to item
+ *
+ * Returns:
+ *  long description string
+ *  NULL if item is NULL
+ */
+char *get_ldesc_item(item_t *item);
+
+// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
+
+// action_type_t written by AM, can be seen in action_structs.h
+typedef struct action {
+    char *action_name;
+    action_type_t *action_type;
+    // will be expanded to include conditions and effects in Sprint 4
+} game_action_t;
+
+/* item_free() frees allocated space for an action struct in memory
+*  Parameters:
+*    a pointer to the action
+*  Returns:
+*    SUCCESS if successful, FAILURE if not
+*/
+int game_action_free(game_action_t *action_tofree);
+
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
