@@ -4,7 +4,6 @@
 #include <string.h>
 #include "actionmanagement.h"
 #include "common.h"
-#include "ctx.h"
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (1)
