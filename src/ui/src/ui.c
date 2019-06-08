@@ -19,15 +19,13 @@
 #define MAP_WIN_NUM 2
 #define INV_WIN_NUM 3
 
-void start_ui(chiventure_ctx_t *ctx)
+void start_ui(chiventure_ctx_t *ctx, const char *banner)
 {
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
 
     ui_ctx_t *ui_ctx = ctx->ui_ctx;
     int ch;
-
-
 
     // starts curses mode
     initscr();
@@ -44,13 +42,14 @@ void start_ui(chiventure_ctx_t *ctx)
     window_t *cli = ui_ctx->cli_win;
     window_t *info = ui_ctx->displayed_win;
 
+    // prints home screen
+    print_homescreen(info, banner);
+    wrefresh(info->w);
 
     // prints the score and number of moves in the info window
-    window_print(ctx, info);
     window_print(ctx, cli);
 
     // refreshes both windows to show the above changes
-    wrefresh(info->w);
     wrefresh(cli->w);
 
     // sample game loop. uses ctrl+D key to exit
@@ -71,11 +70,12 @@ void start_ui(chiventure_ctx_t *ctx)
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
             // redraws the info box
             box(info->w, 0, 0);
+            window_print(ctx, info);
+            wrefresh(info->w);
         }
+
         wresize(cli->w, height, width);
         mvwin(cli->w, !(ui_ctx->cli_top) * height, 0);
-
-
 
         // detects ALt+key commands
         if (ch == 27) {
@@ -123,8 +123,6 @@ void start_ui(chiventure_ctx_t *ctx)
         wrefresh(cli->w);
 
     }
-
-
 
     // End curses mode
     endwin();
