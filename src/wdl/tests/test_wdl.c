@@ -5,6 +5,7 @@
 
 Test(wdl, load_wdl)
 {
+  printf("TEST WDL STARTS HERE\n");
   game_t *game = load_wdl();
 
   char *start_desc = game->start_desc;
