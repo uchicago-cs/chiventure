@@ -55,7 +55,7 @@ Test(action_type, new_ITEM_ITEM)
     action_type_free(new_action);
 }
 
-/* Checks that a new action type, kind 1 is initiated without interruption */
+/* Checks that a new action type, kind 1 is initialized without interruption */
 Test(action_type, init_ITEM)
 {
     action_type_t a;
@@ -71,7 +71,7 @@ Test(action_type, init_ITEM)
 }
 
 
-/* Checks that a new action type, kind 2 is initiated without interruption */
+/* Checks that a new action type, kind 2 is initialized without interruption */
 Test(action_type, init_PATH)
 {
     action_type_t a;
@@ -87,7 +87,7 @@ Test(action_type, init_PATH)
 }
 
 
-/* Checks that a new action type, kind 3 is initiated without interruption */
+/* Checks that a new action type, kind 3 is initialized without interruption */
 Test(action_type, init_ITEM_ITEM)
 {
     action_type_t a;
