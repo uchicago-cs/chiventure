@@ -35,7 +35,7 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
   if(tokens[1] == NULL){
     return "Invalid Input, Save failed\n";
   }
-  if (validate(tokens[1]) == true){
+  if (validate_filename(tokens[1]) == true){
     int sv = save(ctx->game, tokens[1]);
     return "Game Saved\n";
   }
@@ -48,8 +48,8 @@ char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
   if(tokens[1] == NULL){
     return "Invalid Input, Load failed\n";
   }
-  if (validate(tokens[1]) == true){
-    int load = load(tokens[1], ctx->game);
+  if (validate_filename(tokens[1]) == true){
+    int ld = load(tokens[1], ctx->game);
     return "Load Succesful\n!";
   }
   else

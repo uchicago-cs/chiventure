@@ -2,7 +2,7 @@
 
 CC = gcc
 SRCS = src/cmd.c src/shell.c src/parser.c src/operations.c src/validate.c
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../action_management/include/ -I../ui/include/ -I../checkpointing/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../checkpointing/include/ -I../action_management/include/ -I../ui/include/  -I../game-state/src/
 OBJS = $(SRCS:.c=.o)
 LIB = cli.a
 RM = rm -f
