@@ -12,6 +12,8 @@
 #include "ui_ctx.h"
 #include "cmd.h"
 
+typedef struct lookup_entry lookup_t;
+
 /* A context struct encapsulating all the shared state in chiventure */
 typedef struct chiventure_ctx
 {
