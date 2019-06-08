@@ -53,8 +53,8 @@ Test(path_actions, validate_path)
     ctx_test->game = game_test;
     add_player_to_game(game_test, player_test);
     set_curr_player(game_test, player_test);
-    add_path_to_room(path_north, room_origin);
-    add_path_to_room(path_origin, room_north);
+    add_path_to_room(room_origin, path_north);
+    add_path_to_room(room_north, path_origin);
 
     /* SUCCESS TEST */
     check_do_path(ctx_test, action_enter, path_north, room_north, SUCCESS);
