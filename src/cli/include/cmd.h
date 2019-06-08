@@ -136,7 +136,7 @@ int lookup_t_init(lookup_t **t);
  * Returns:
  * - nothing
  */
-void lookup_t_free(lookup_t **t);
+int lookup_t_free(lookup_t **t);
 
 
 /* Creates a new cmd struct
