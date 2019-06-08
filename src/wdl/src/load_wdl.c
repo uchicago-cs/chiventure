@@ -22,8 +22,12 @@ game_t *load_wdl()
   game_set_start(start_room, game);
   int items = load_items(big_document, game);
 
-  if((rooms + connections + items) == 0){
-    return game;
+  if((rooms + connections) == 0){
+    if(items == -1){
+      return NULL;
+    }else{
+      return game;
+    }
   }else{
     return NULL;
   }
