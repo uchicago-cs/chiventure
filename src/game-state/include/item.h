@@ -96,7 +96,7 @@ typedef struct attribute_wrapped_for_llist {
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
 typedef struct game_action_condition{
-    char* item_id;
+    item_t *item;
     attribute_t* desired_attribute;
     struct game_action_condition *next;
 } game_action_condition_t;
@@ -109,7 +109,7 @@ typedef struct game_action_condition{
 typedef struct game_action_condition* action_condition_list_t;
 
 typedef struct game_action_effect{
-    char* item_id;
+    item_t *item;
     attribute_t* changed_attribute;
     struct game_action_effect *next; //mandatory for utlist macros
 } game_action_effect_t;
