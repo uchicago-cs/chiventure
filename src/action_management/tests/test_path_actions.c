@@ -11,7 +11,7 @@
 #define WRONG_KIND (1)
 #define NOT_ALLOWED_PATH (4)
 
-void check_do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, room_t *room_expected, int rc_expected)
+void check_do_path(chiventure_ctx_t *c, action_type_t *a, path_t *p, room_t *room_expected, int rc_expected)
 {
     int rc;
     char *ret_string;
@@ -57,14 +57,14 @@ Test(path_actions, validate_path)
     add_path_to_room(path_origin, room_north);
 
     /* SUCCESS TEST */
-    execute_do_path_action(ctx_test, action_enter, path_north, room_north, SUCCESS);
+    check_do_path(ctx_test, action_enter, path_north, room_north, SUCCESS);
     // player should be in room_north
-    execute_do_path_action(ctx_test, action_enter, path_origin, room_origin, SUCCESS);
+    check_do_path(ctx_test, action_enter, path_origin, room_origin, SUCCESS);
     // player should be in room_origin
 
     /* FAIL TESTS */
-    execute_do_path_action(ctx_test, action_invalid, path_north, room_origin, WRONG_KIND);
-    execute_do_path_action(ctx_test, action_enter, path_origin, room_origin, NOT_ALLOWED_PATH);
+    check_do_path(ctx_test, action_invalid, path_north, room_origin, WRONG_KIND);
+    check_do_path(ctx_test, action_enter, path_origin, room_origin, NOT_ALLOWED_PATH);
 
     /* FREE VARIABLES */
     chiventure_ctx_free(ctx_test);
