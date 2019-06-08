@@ -5,8 +5,6 @@
 #include "shell.h"
 #include "assert.h"
 #include "validate.h"
-#include "save.h"
-#include "load.h"
 
 // remove the comment as soon as checkpointing removes their dummy struct
 //#include "../../checkpointing/include/save.h"
