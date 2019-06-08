@@ -10,10 +10,11 @@
 *  Returns:
 *    A pointer to a new action struct.
 */
+//this should be an internal function that is called by add_action -- Patrick
 game_action_t *game_action_new(char *act_name, char* success_str, char* fail_str);
 
 
-//ACTION FUNCTIONS
+//ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions
 //and conducting actions
 
@@ -72,7 +73,7 @@ int game_action_free(game_action_t *action_tofree);
 
 // CONDITION FUNCTIONS -------------------------
 
-//write header (fix params)
+//this should take in an attribute_t, attribute_value_t, and another pointer as well
 int add_action_condition(item_t* item, char* action_name);
 
 
@@ -99,7 +100,7 @@ bool all_conditions_met(item_t* item, char* action_name);
 
 //EFFECT FUNCTIONS ------------------------------
 
-//write header (fix params)
- int add_action_effect(item_t* item, char* action_name);
+//this should take in an attribute_t, attribute_value_t, and another pointer as well
+int add_action_effect(item_t* item, char* action_name);
 
  
