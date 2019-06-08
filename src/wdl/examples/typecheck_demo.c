@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
         printf("Game successfully verified\n");
     }
     else {
-        printf("Game unsuccessfully verified\n");
+        printf("Game verification unsuccessul\n");
     }
 
     // Verify rooms
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
         printf("Rooms successfully verified\n");
     }
     else {
-        printf("Rooms unsuccessfully verified\n");
+        printf("Rooms verification unsuccessful\n");
     }
     // Verify items
     bool item_check = list_type_check(items_ls, item_type_check);
@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
         printf("Items successfully verified\n");
     }
     else {
-        printf("Items unsuccessfully verified\n");
+        printf("Items verificaton unsuccessful\n");
     }
 
     // Print game
