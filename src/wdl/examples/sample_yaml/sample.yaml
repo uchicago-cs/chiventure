@@ -34,16 +34,64 @@ ITEMS:
    short_desc: "This is a chair"
    long_desc: "This is a chair long"
    in: "room A"
+   attributes:
+    - attribute: "size"
+      value: "small"
+    - attribute: "color"
+      value: "black"
    actions: 
     - action: "PUSH"
-      - conditions:
+      conditions:
+      - id: "star"
+        attribute: "color"
+        value: "red"
+      effects:
+      - id: "lever"
+        attribute: "pulled"
+        value: "yes"
     - action: "PULL" 
-
+      conditions:
+      - id: "star"
+        attribute: "color"
+        value: "green"
+      effects:
+      - id: "lever"
+        attribute: "pulled"
+        value: "no"
 
  - id: "table"
    short_desc: "This is a table"
    long_desc: "This is a table long"
    in: "room B"
+   attributes:
+    - attribute: "width"
+      value: "100"
+    - attribute: "color"
+      value: "green"
    actions:
     - action: "PUSH"
+      conditions:
+      - id: "star"
+        attribute: "color"
+        value: "green"
+      effects:
+      - id: "lever"
+        attribute: "pulled"
+        value: "no"
     - action: "PULL"
+      conditions:
+      - id: "star"
+        attribute: "color"
+        value: "green"
+      effects:
+      - id: "lever"
+        attribute: "pulled"
+        value: "no"
+ - id: "star"
+   short_desc: "This is a star"
+   long_desc: "This is a star long"
+   in: "room B"
+ - id: "lever"
+   short_desc: "This is a table"
+   long_desc: "This is a table long"
+   in: "room B"
