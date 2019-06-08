@@ -87,10 +87,12 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
+        
  - id: "star"
    short_desc: "This is a star"
    long_desc: "This is a star long"
    in: "room B"
+
  - id: "lever"
    short_desc: "This is a table"
    long_desc: "This is a table long"
