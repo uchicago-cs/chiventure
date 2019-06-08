@@ -59,7 +59,7 @@ int save_item(item_t *i_t, Item *i)
 	return -1;
     }
 
-    if (i_t->item_id != NULL){
+    if (i_t->item_id != NULL) {
 	i->item_id = i_t->item_id;
     } else {
 	i->item_id = NULL;
@@ -81,7 +81,7 @@ int save_item(item_t *i_t, Item *i)
     attribute_list_t *curr_attr = all_attrs;
     
     int iter = 0; // Iterator int to track the array
-    while (curr_attr != NULL){
+    while (curr_attr != NULL) {
       iter += 1;
       curr_attr = curr_attr->next;
     }
@@ -92,7 +92,7 @@ int save_item(item_t *i_t, Item *i)
     // put the linked list of attributes into an array
     curr_attr = all_attrs;
     iter = 0;
-    while (curr_attr != NULL){
+    while (curr_attr != NULL) {
 	attrs[iter] = malloc(sizeof(Attribute));
         attribute__init(attrs[iter]);
 	attrs[iter]->attribute_value = malloc(sizeof(Attributevalue));
@@ -163,10 +163,8 @@ int save_room(room_t *r_t, Room *r)
     }
     
     r->items = items;
-
     r->items_len = iter;  // Set length of array
     r->n_items = iter;  // Set length of array
-    
     return 0;
 }
 
@@ -186,9 +184,7 @@ int save_player(player_t *p_t, Player *p)
     }
     
     p->level = p_t->level;
-    
     p->health = p_t->health;
-    
     p->xp = p_t->xp;
     
     item_list_t *all_items = get_all_items_in_inventory(p_t);
@@ -201,7 +197,7 @@ int save_player(player_t *p_t, Player *p)
 	
     // Allocate an array of proto Item structs
     Item **items = malloc(sizeof(Item*) * iter);
-
+	
     curr_item = all_items;
     iter = 0;
     while(curr_item != NULL){
@@ -218,10 +214,8 @@ int save_player(player_t *p_t, Player *p)
     }
     
     p->inventory = items;
-
     p->inventory_len = iter;  // Set length of array
     p->n_inventory = iter;  // Set length of array
-    
     return 0;
 }
 
@@ -239,13 +233,12 @@ int save_game(game_t *g_t, Game *g)
     plyrs[0] = malloc(sizeof(Player));
     player__init(plyrs[0]);
     int save_plyr_success = save_player(g_t->all_players, plyrs[0]);
-    if (save_plyr_success != 0){
+    if (save_plyr_success != 0) {
         fprintf(stderr, "Player saving for game failed \n");
         return -1;
     }
     
     g->all_players = plyrs;
-
     g->players_len = 1;
     g->n_all_players = 1;  // Set length of array
 
@@ -260,11 +253,11 @@ int save_game(game_t *g_t, Game *g)
 
     curr_room = all_rooms;
     iter = 0;
-    while(curr_room != NULL){
+    while(curr_room != NULL) {
 	rooms[iter] = malloc(sizeof(Room));
 	room__init(rooms[iter]);
 	int save_room_success = save_room(curr_room->room, rooms[iter]);
-	if (save_room_success != 0){
+	if (save_room_success != 0) {
 	    fprintf(stderr, "Room saving for game failed \n");
 	    return -1;
 	}
@@ -273,7 +266,6 @@ int save_game(game_t *g_t, Game *g)
     }
 
     g->all_rooms = rooms;
-
     g->rooms_len = iter;
     g->n_all_rooms = iter;
 
@@ -318,9 +310,7 @@ int save(game_t *g_t, char *filename)
     game__pack(&g, buf);
 
     fprintf(stderr, "Writing %ld serialized bytes\n", len);
-
     write_to_file(filename, buf, len);
-
     free(buf);
     return 0;
 }
