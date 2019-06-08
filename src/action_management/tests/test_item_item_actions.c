@@ -22,8 +22,8 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     action_type_t *allowed_a2 = action_type_new(allowed_act_name2, allowed_kind2);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
     item_t *indirect = item_new("indirect", "The indirect item", "The indirectmost object of interest");
-    add_allowed_action(direct, allowed_act_name1, allowed_a1);
-    add_allowed_action(indirect, allowed_act_name2, allowed_a2);
+    add_action(direct, allowed_act_name1, "success1", "fail1");
+    add_action(indirect, allowed_act_name2, "success2", "fail2");
     char *string = malloc(BUFFER_SIZE);
 
     int rc = do_item_item_action(a, direct, indirect, &string);
@@ -100,7 +100,15 @@ Test(item_item_actions, wrong_allowed_actions)
                  "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect and direct, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
 
-Test(item_item_actions, conditons_not_met)
+Test(item_item_actions, conditons_not_met_both)
+{
+}
+
+Test(item_item_actions, conditons_not_met_direct)
+{
+}
+
+Test(item_item_actions, conditons_not_met_indirect)
 {
 }
 
