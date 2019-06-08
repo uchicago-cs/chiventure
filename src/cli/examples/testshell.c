@@ -68,7 +68,7 @@ int main()
         //cmd_free(c);
         free(input);
     }
-    
+
     lookup_t_free(ctx->table);
 
     return 0;
