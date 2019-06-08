@@ -13,11 +13,13 @@
 
 void check_do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, room_t *room_expected, int rc_expected)
 {
+    int rc;
     char *ret_string;
-    room_t *room_ouput;
-    rc = do_path_action(c, a, p, &ret_string);
+    room_t *room_output;
 
+    rc = do_path_action(c, a, p, &ret_string);
     room_output = c->game->curr_room;
+
     cr_assert_eq(room_output, room_expected,
                  "The room expected, %s, did not match the room output, %s.",
                  room_expected->room_id, room_output->room_id);
