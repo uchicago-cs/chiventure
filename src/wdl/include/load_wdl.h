@@ -17,7 +17,8 @@
  *
  * input: nothing
  * 
- * output: a 0 for success, a 1 for failure
+ * output: a pointer to an game_t struct
+ * that has been filled with the contents of the yaml file
  */
-int load_wdl();
+game_t *load_wdl();
 

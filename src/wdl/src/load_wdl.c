@@ -11,7 +11,7 @@
  *
  *
  */
-int load_wdl()
+game_t *load_wdl()
 {
   obj_t *big_document = get_doc_obj(PATH_TO_YAML);
   game_t *game = create_game(big_document);
@@ -23,9 +23,9 @@ int load_wdl()
   int items = load_items(big_document, game);
 
   if((rooms + connections + items) == 0){
-    return 0;
+    return game;
   }else{
-    return 1;
+    return NULL;
   }
 }
 
