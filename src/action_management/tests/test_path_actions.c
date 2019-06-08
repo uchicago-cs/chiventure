@@ -9,86 +9,63 @@
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (1)
+#define NOT_ALLOWED_PATH (4)
 
-int execute_do_path_action(char *c_name, enum action_kind kind)
+void check_do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, room_t *room_expected, int rc_expected)
 {
-    chiventure_ctx_t *wrapper = chiventure_ctx_new();
-    player_t *player = player_new("player", 1);
-    add_player_to_game(wrapper->game, player);
-    set_curr_player(wrapper->game, player);
-    room_t *dest = room_new("dummyroom", "a dummy room", "a placeholder room");
-    char *direction = "south";
-    action_type_t *a = action_type_new(c_name, kind);
-    path_t *p = path_new(dest, direction);
-    char *string = malloc(BUFFER_SIZE);
+    char *ret_string;
+    room_t *room_ouput;
+    rc = do_path_action(c, a, p, &ret_string);
 
-    int rc = do_path_action(wrapper, a, p, &string);
-
-    free(string);
-    path_free(p);
-    action_type_free(a);
-    chiventure_ctx_free(wrapper);
-
-    return rc;
+    room_output = c->game->curr_room;
+    cr_assert_eq(room_output, room_expected,
+                 "The room expected, %s, did not match the room output, %s.",
+                 room_expected->room_id, room_output->room_id);
+    cr_assert_eq(rc, rc_expected,
+                 "The expected return code was %d, but the actual return code was %d.",
+                 rc_expected, rc);
 }
 
-int execute_do_path_action2(char *c_name, enum action_kind kind)
+Test(path_actions, validate_path)
 {
-    chiventure_ctx_t *wrapper = chiventure_ctx_new();
-    player_t *player = player_new("player", 1);
-    add_player_to_game(wrapper->game, player);
-    set_curr_player(wrapper->game, player);
-    room_t *dest = room_new("dummyroom", "a dummy room", "a placeholder room");
-    char *direction = "south";
-    action_type_t *a = action_type_new(c_name, kind);
-    path_t *p = path_new(dest, direction);
-    char *string = malloc(BUFFER_SIZE);
-    add_path_to_room(room1, p);
-    room_t *succ = find_room_from_dir(room1, "south");
-    do_path_action(wrapper, a, p, &string);
+    /* INITIALIZE VARIABLES */
+    chiventure_ctx_t *ctx_test;
+    game_t *game_test;
+    room_t *room_north, *room_origin;
+    player_t *player_test;
+    path_t *path_north, *path_origin;
+    action_type_t *action_enter;
 
+    /* CREATE VARIABLE CONTENTS */
+    ctx_test = chiventure_ctx_new();
+    game_test = game_new("This is the test game!");
+    player_test = player_new("player", 1);
+    room_origin = room_new("room_o","origin room", "This is the room the player starts in.");
+    room_north = room_new("room_n", "room north of origin", "This is the room north of the spawn.");
+    path_north = path_new(room_north, "north");
+    path_origin = path_new(room_origin, "origin");
+    action_enter = action_type_new("ENTER", PATH);
+    action_invalid = action_type_new("OPEN", ITEM);
 
-    int rc = strncmp(wrapper->game->curr_room, succ, MAX_ID_LEN);
+    /* FILL VARIABLE CONTENTS */
+    ctx_test->game = game_test;
+    add_player_to_game(game_test, player_test);
+    set_curr_player(game_test, player_test);
+    add_path_to_room(path_north, room_origin);
+    add_path_to_room(path_origin, room_north);
 
-    path_free(p);
-    action_type_free(a);
-    chiventure_ctx_free(wrapper);
+    /* SUCCESS TEST */
+    execute_do_path_action(ctx_test, action_enter, path_north, room_north, SUCCESS);
+    // player should be in room_north
+    execute_do_path_action(ctx_test, action_enter, path_origin, room_origin, SUCCESS);
+    // player should be in room_origin
 
-    return rc;
-}
+    /* FAIL TESTS */
+    execute_do_path_action(ctx_test, action_invalid, path_north, room_origin, WRONG_KIND);
+    execute_do_path_action(ctx_test, action_enter, path_origin, room_origin, NOT_ALLOWED_PATH);
 
-
-Test(path_actions, room)
-{
-    int rc = execute_do_path_action2("dummy", PATH);
-
-    cr_assert_eq(rc, 0,
-                 "execute_do_path_action2 correctedly moved to the right room");
-}
-
-Test(path_actions, kind_ITEM)
-{
-    int rc = execute_do_path_action("dummy", ITEM);
-
-    cr_assert_eq(rc, WRONG_KIND,
-                 "execute_do_path_action returned %d for wrong kind ITEM, expected WRONG_KIND (1)", rc);
-}
-
-
-Test(path_actions, kind_PATH)
-{
-
-    int rc = execute_do_path_action("dummy", PATH);
-
-    cr_assert_eq(rc, SUCCESS,
-                 "execute_do_path_action returned %d for correct kind PATH expected SUCCESS (0)", rc);
-}
-
-
-Test(path_actions, kind_ITEM_ITEM)
-{
-    int rc = execute_do_path_action("dummy", ITEM_ITEM);
-
-    cr_assert_eq(rc, WRONG_KIND,
-                 "execute_do_path_action returned %d for wrong kind ITEM_ITEM expected WRONG_KIND (1)");
+    /* FREE VARIABLES */
+    chiventure_ctx_free(ctx_test);
+    action_type_free(action_enter);
+    action_type_free(action_invalid);
 }

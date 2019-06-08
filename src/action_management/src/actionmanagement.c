@@ -96,11 +96,11 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     assert(c->game->curr_room);
     assert(a);
     
-    game_t *g = c->game;
 
     /* INITIALIZATION */
     char *string = malloc(BUFFER_SIZE);
     char *direction = p->direction;
+    game_t *g = c->game;
     room_t *room_dest = p->dest;
     room_t *room_curr = g->curr_room;
     path_t *path_found = path_search(room_curr, direction);
