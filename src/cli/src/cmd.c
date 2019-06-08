@@ -112,16 +112,17 @@ void add_action_entries(lookup_t **table)
  }
 
  /* See cmd.h */
- void lookup_t_free(lookup_t **t) 
+ int lookup_t_free(lookup_t **t) 
  {
-     lookup_t *tmp;
-     lookup_t *current_user;
-     HASH_ITER(hh, *t, current_user, tmp)
-     {
-         HASH_DEL(*t, current_user);
-         free(current_user);
-     }
- }
+    lookup_t *tmp;
+    lookup_t *current_user;
+    HASH_ITER(hh, *t, current_user, tmp)
+    {
+        HASH_DEL(*t, current_user);
+        free(current_user);
+    }
+    return 0 
+}
 
 /* === command constructors  === */
 
