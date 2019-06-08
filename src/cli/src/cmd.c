@@ -121,7 +121,7 @@ void add_action_entries(lookup_t **table)
         HASH_DEL(*t, current_user);
         free(current_user);
     }
-    return 0 
+    return 0; 
 }
 
 /* === command constructors  === */

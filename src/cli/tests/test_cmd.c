@@ -52,7 +52,7 @@ Test(cmd, new)
 
     cr_assert_eq(c1->tokens, token, 
                  "cmd_new() didn't set the tokens field correctly");
-    cr_assert_eq(c2->tokens, token, 
+    cr_assert_eq(c2->tokens, tokens, 
                  "cmd_new() didn't set the tokens field correctly");
 }
 
