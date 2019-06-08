@@ -7,6 +7,11 @@
 /* See parser.h */
 char **parse(char *input)
 {
+    if(strcmp(input, "") == 0)
+    {
+        return NULL;
+    }
+
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
 
