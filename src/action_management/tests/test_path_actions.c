@@ -34,7 +34,7 @@ Test(path_actions, validate_path)
     room_t *room_north, *room_origin;
     player_t *player_test;
     path_t *path_north, *path_origin;
-    action_type_t *action_enter;
+    action_type_t *action_enter, *action_invalid;
 
     /* CREATE VARIABLE CONTENTS */
     ctx_test = chiventure_ctx_new();
