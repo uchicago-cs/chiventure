@@ -1,6 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "actionmanagement.h"
 #include "action_structs.h"
 #include "item.h"
@@ -15,16 +16,53 @@
 #define ATTRIBUTE_TYPE_DNE (5)
 #define ATTRIBUTE_NOT_SET (6)
 
-int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, enum action_kind allowed_kind1, char *allowed_act_name2, enum action_kind allowed_kind2)
+int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, enum action_kind allowed_kind1, char *allowed_act_name2, enum action_kind allowed_kind2, int choose_item, int choose_attribute)
 {
     action_type_t *a = action_type_new(act_name, kind);
-    action_type_t *allowed_a1 = action_type_new(allowed_act_name1, allowed_kind1);
-    action_type_t *allowed_a2 = action_type_new(allowed_act_name2, allowed_kind2);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
     item_t *indirect = item_new("indirect", "The indirect item", "The indirectmost object of interest");
     add_action(direct, allowed_act_name1, "success1", "fail1");
     add_action(indirect, allowed_act_name2, "success2", "fail2");
     char *string = malloc(BUFFER_SIZE);
+
+    item_t **chosen_item;
+    switch (choose_item)
+    {
+    case 1:
+        chosen_item = &direct;
+        break;
+    case 2:
+        chosen_item = &indirect;
+        break;
+    default:
+        break;
+    }
+
+    int n;
+    switch (choose_attribute)
+    {
+    case 1:
+        n = set_str_attr(*chosen_item, "DUMMYATTR", "str");
+        break;
+    case 2:
+        int set_int_attr(*chosen_item, "DUMMYATTR", 1)
+        break;
+    case 3:
+        int set_double_attr(*chosen_item, "DUMMYATTR", 2.0);
+        break;
+    case 4:
+        int set_char_attr(*chosen_item, "DUMMYATTR", 'a');
+        break;
+    case 5:
+        int set_bool_attr(*chosen_item, "DUMMYATTR", false);
+        break;
+    case 6:
+        action_type_t test_set_act = action_type_new("testforset", ITEM_ITEM);
+        int set_act_attr(*chosen_item, "DUMMYATTR", test_set_act);
+        break;
+    default:
+        break;
+    }
 
     int rc = do_item_item_action(a, direct, indirect, &string);
 
@@ -100,19 +138,7 @@ Test(item_item_actions, wrong_allowed_actions)
                  "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect and direct, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
 
-Test(item_item_actions, conditons_not_met_both)
-{
-}
-
-Test(item_item_actions, conditons_not_met_direct)
-{
-}
-
-Test(item_item_actions, conditons_not_met_indirect)
-{
-}
-
-Test(item_item_actions, conditons_met)
+Test(item_item_actions, effect_set_string)
 {
 }
 
@@ -128,10 +154,6 @@ Test(item_item_actions, effect_set_character)
 {
 }
 
-Test(item_item_actions, effect_set_string)
-{
-}
-
 Test(item_item_actions, effect_set_integer)
 {
 }
@@ -144,6 +166,22 @@ Test(item_item_actions, effect_set_DNE)
 {
 }
 
-Test(item_item_actions, failed_to_set?)
+Test(item_item_actions, failed_to_set)
+{
+}
+
+Test(item_item_actions, conditons_not_met_both)
+{
+}
+
+Test(item_item_actions, conditons_not_met_direct)
+{
+}
+
+Test(item_item_actions, conditons_not_met_indirect)
+{
+}
+
+Test(item_item_actions, conditons_met)
 {
 }
