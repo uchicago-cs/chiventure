@@ -5,6 +5,7 @@
 #include "item.h"
 #include "room.h"
 #include "game.h"
+#include "ctx.h"
 
 /* File consisting of all functions created by action management
    =========================================================================== */
