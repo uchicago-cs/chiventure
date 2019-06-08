@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <assert.h>
+#include <locale.h>
 #include "ui_ctx.h"
 #include "game.h"
 #include "coordinate.h"
@@ -38,6 +39,9 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
 {
     assert(ui_ctx != NULL);
     assert(game != NULL);
+
+    setlocale(LC_ALL, "");
+
     initscr();
 
     int height = LINES / 2;
