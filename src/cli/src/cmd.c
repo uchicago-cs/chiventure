@@ -159,11 +159,11 @@ int cmd_init(cmd *c, char *tokens[TOKEN_LIST_SIZE])
 }
 
 /* See cmd.h */
-void cmd_free(cmd *c)
+int cmd_free(cmd *c)
 {
     if(c == NULL || c->tokens == NULL)
     {
-        return;
+        return 0;
     }
 
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
@@ -174,6 +174,7 @@ void cmd_free(cmd *c)
         }
     }
     free(c);
+    return 0;
 }
 
 /* === command debugging === */
