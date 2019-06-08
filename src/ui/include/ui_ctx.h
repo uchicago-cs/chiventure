@@ -62,6 +62,7 @@ ui_ctx_t *ui_ctx_new(game_t *game);
  * - game : a pointer to the game_t struct
  * Returns:
  * - SUCCESS if every field can be initialized
+ * - FAILURE if there is a problem
  *
  * Note:
  * - If a logical coordmap cannot be created, ui_ctx_init will
