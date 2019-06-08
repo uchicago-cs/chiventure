@@ -119,16 +119,7 @@ attr_list_t *connections_get_list(obj_t *obj)
     }
 }
 
-/* check_connection_attr()
- * a helper function for connection_type_check() that checks the attributes of
- * connections associated with a room object
- *
- * parameters:
- * - obj: a connection object
- *
- * returns:
- * - true if connection types match, else return false
- */
+/* See validate.h */
 bool check_connection_attr(obj_t *obj)
 {
     // verify types of fields
@@ -223,14 +214,14 @@ bool action_validate(char *str)
     // note that in the future we may wish to use a hasth table
     list_action_type_t *valid_actions = get_supported_actions();
     list_action_type_t *curr = valid_actions;
-    
+
     while (curr != NULL) {
         if (strcmp(curr->act->c_name, str) == 0) {
             return true;
         }
         curr = curr->next;
     }
-    
+
     return false;
 }
 
@@ -252,7 +243,7 @@ bool action_type_check(obj_t *obj)
     // fields to verify
     bool action_type = (obj_get_type(obj, "action") == TYPE_STR);
     bool action_valid = action_validate(obj_get_str(obj, "action"));
-    
+
     return (action_type && action_valid);
 }
 
