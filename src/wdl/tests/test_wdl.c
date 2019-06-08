@@ -8,4 +8,6 @@ Test(wdl, load_wdl)
   game_t *game = load_wdl();
 
   char *start_desc = game->start_desc;
-  room
+  cr_assert_str_eq(start_desc, "This is the intro", "Intro was not loaded corr\
+ectly");
+}
