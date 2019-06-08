@@ -43,22 +43,28 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     {
     case 1:
         n = set_str_attr(*chosen_item, "DUMMYATTR", "str");
+        //add effect GS function here
         break;
     case 2:
-        int set_int_attr(*chosen_item, "DUMMYATTR", 1)
+        n = set_int_attr(*chosen_item, "DUMMYATTR", 1);
+        //add effect GS function here
         break;
     case 3:
-        int set_double_attr(*chosen_item, "DUMMYATTR", 2.0);
+        n = set_double_attr(*chosen_item, "DUMMYATTR", 2.0);
+        //add effect GS function here
         break;
     case 4:
-        int set_char_attr(*chosen_item, "DUMMYATTR", 'a');
+        n = set_char_attr(*chosen_item, "DUMMYATTR", 'a');
+        //add effect GS function here
         break;
     case 5:
-        int set_bool_attr(*chosen_item, "DUMMYATTR", false);
+        n = set_bool_attr(*chosen_item, "DUMMYATTR", false);
+        //add effect GS function here
         break;
     case 6:
         action_type_t test_set_act = action_type_new("testforset", ITEM_ITEM);
-        int set_act_attr(*chosen_item, "DUMMYATTR", test_set_act);
+        n = set_act_attr(*chosen_item, "DUMMYATTR", test_set_act);
+        //add effect GS function here
         break;
     default:
         break;
