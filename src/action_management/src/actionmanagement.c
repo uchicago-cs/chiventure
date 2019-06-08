@@ -130,8 +130,8 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
     }
     else {
         sprintf(string, 
-                "Move action %s via %s into %s failed. Given error code %d by move_room()",
-                a->c_name, direction, room_dest->room_id, move);
+                "Move action %s via %s into %s failed.",
+                a->c_name, direction, room_dest->room_id);
         *ret_string = string;
         return NOT_ALLOWED_PATH;
     }
