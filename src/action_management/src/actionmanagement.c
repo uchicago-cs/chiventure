@@ -1,8 +1,12 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "actionmanagement.h"
 #include "common.h"
+
+
+#define BUFFER_SIZE (100)
 
 
 /* See actionmanagement.h */
@@ -50,58 +54,85 @@ void action_type_free(action_type_t *a)
 /* ========================================================================== */
 
 
-// KIND 1
-/* See actionmanagement.h */
-int do_item_action(game_t *g, action_type_t *a, item_t *i)
+/* KIND 1
+ * See actionmanagement.h */
+char *do_item_action(game_t *g, action_type_t *a, item_t *i)
 {
     // a couple confirmation checks
     assert(g);
-    assert(g->curr_player);
+    assert(g->curr_player); // needed for sprint 4
     assert(a);
     assert(i);
+    char *ret_string = malloc(BUFFER_SIZE); // buffer
+    // checks if the action type is the correct kind
     if (a->kind != ITEM) {
-        fprintf(stderr, "The action type provided is not of the correct kind.\n");
-        return FAILURE;
+        sprintf(ret_string, "The action type provided is not of the correct kind");
+        return ret_string;
     }
-    // TODO: implement the rest of this function, using game_state funcs
-    printf("Performed action %s on item %s", a->c_name, i->item_id);
-    return SUCCESS;
+    // checks if the action can be used on the item
+    int allowed = allowed_action(i, a->c_name);
+    if (allowed != SUCCESS) {
+        sprintf(ret_string, "Action %s can't be requested on item %s",
+                a->c_name, i->item_id);
+        return ret_string;
+    }
+    /* TODO: implement the rest of this function, using game_state funcs
+     * Will perform the action if all checks pass (Sprint 4)
+     */
+    sprintf(ret_string, "Requested action %s on item %s",
+            a->c_name, i->item_id);
+    return ret_string;
 }
 
 
-// KIND 2
-/* See actionmanagement.h */
-int do_path_action(game_t *g, action_type_t *a, path_t *p)
+/* KIND 2
+ * See actionmanagement.h */
+char *do_path_action(game_t *g, action_type_t *a, path_t *p)
 {
     assert(g);
     assert(g->curr_player);
     assert(a);
+    char *ret_string = malloc(BUFFER_SIZE); // buffer
+    // checks if the action type is the correct kind
     if (a->kind != PATH) {
-        fprintf(stderr, "The action type provided is not of the correct kind.\n");
-        return FAILURE;
+        sprintf(ret_string, "The action type provided is not of the correct kind");
+        return ret_string;
     }
-    // TODO: implement the rest of this function, using game state funcs
-    printf("Performed movement %s using %s into the room %s.",
-           a->c_name, p->direction, p->dest);
-    return SUCCESS;
+    /* TODO: implement the rest of this function, using game state funcs
+     * Will perform the action if all checks pass (Sprint 4)
+     */
+    sprintf(ret_string, "Requested action %s in direction %s into room %s",
+            a->c_name, p->direction, p->dest->room_id);
+    return ret_string;
+
 }
-
-
-// KIND 3
-/* See actionmanagement.h */
-int do_item_item_action(game_t *g, action_type_t *a,
-                        item_t *direct, item_t *indirect)
+/* KIND 3
+ * See actionmanagement.h */
+char *do_item_item_action(game_t *g, action_type_t *a,
+                          item_t *direct, item_t *indirect)
 {
     assert(g);
-    assert(g->curr_player);
     assert(a);
+    assert(g->curr_player); // needed for sprint 4
     assert(direct);
     assert(indirect);
+    char *ret_string = malloc(BUFFER_SIZE); // buffer
+    // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
-        fprintf(stderr, "The action type provided is not of the correct kind.\n");
-        return FAILURE;
+        sprintf(ret_string, "The action type provided is not of the correct kind");
+        return ret_string;
     }
-    printf("Performed action %s with %s on %s.",
-           a->c_name, direct->item_id, indirect->item_id);
-    return SUCCESS;
+    // checks if the action can be used on the item
+    int allowed = allowed_action(indirect, a->c_name);
+    if (allowed != SUCCESS) {
+        sprintf(ret_string, "Action %s can't be requested on item %s",
+                a->c_name, indirect->item_id);
+        return ret_string;
+    }
+    /* TODO: implement the rest of this function, using game state funcs
+     * Will perform the action if all checks pass (Sprint 4)
+     */
+    sprintf(ret_string, "Requested action %s with %s on %s",
+            a->c_name, direct->item_id, indirect->item_id);
+    return ret_string;
 }
