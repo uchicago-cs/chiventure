@@ -166,45 +166,43 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     }
 
     // implement the action (i.e. dole out the effects)
-    // assume that the item_id field has been changed to an item_t struct
-    // the item_t struct is tentatively called affected
     else {
         action_effect_list_t *act_effects = dir_game_act->effects;
         int attr_set = FAILURE;
         while (act_effects) {
             // apply the effects of the direct item action (use, put) on the indirect item
-            if (strcmp(act_effects->affected->item_id, indirect->item_id) == 0) {
+            if (strcmp(act_effects->item->item_id, indirect->item_id) == 0) {
                 int attr_set;
-                switch(act_effects->changed_attribute->attribute_tag) {
+                switch(act_effects->attr_to_modify->attribute_tag) {
                 case DOUBLE:
-                    attr_set = set_double_attr(act_effects->affected,
-                                               act_effects->changed_attribute->attribute_key,
-                                               act_effects->changed_attribute->attribute_value);
+                    attr_set = set_double_attr(act_effects->item,
+                                               act_effects->attr_to_modify->attribute_key,
+                                               act_effects->attr_to_modify->new_value);
                     break;
                 case BOOLE:
-                    attr_set = set_bool_attr(act_effects->affected,
-                                             act_effects->changed_attribute->attribute_key,
-                                             act_effects->changed_attribute->attribute_value);
+                    attr_set = set_bool_attr(act_effects->item,
+                                             act_effects->attr_to_modify->attribute_key,
+                                             act_effects->attr_to_modify->new_value);
                     break;
                 case CHARACTER:
-                    attr_set = set_char_attr(act_effects->affected,
-                                             act_effects->changed_attribute->attribute_key,
-                                             act_effects->changed_attribute->attribute_value);
+                    attr_set = set_char_attr(act_effects->item,
+                                             act_effects->attr_to_modify->attribute_key,
+                                             act_effects->attr_to_modify->new_value);
                     break;
                 case STRING:
-                    attr_set = set_str_attr(act_effects->affected,
-                                            act_effects->changed_attribute->attribute_key,
-                                            act_effects->changed_attribute->attribute_value);
+                    attr_set = set_str_attr(act_effects->item,
+                                            act_effects->attr_to_modify->attribute_key,
+                                            act_effects->attr_to_modify->new_value);
                     break;
                 case INTEGER:
-                    attr_set = set_int_attr(act_effects->affected,
-                                            act_effects->changed_attribute->attribute_key,
-                                            act_effects->changed_attribute->attribute_value);
+                    attr_set = set_int_attr(act_effects->item,
+                                            act_effects->attr_to_modify->attribute_key,
+                                            act_effects->attr_to_modify->new_value);
                     break;
                 case ACTIONS:
-                    attr_set = set_actions_attr(act_effects->affected,
-                                                act_effects->changed_attribute->attribute_key,
-                                                act_effects->changed_attribute->attribute_value);
+                    attr_set = set_actions_attr(act_effects->item,
+                                                act_effects->attr_to_modify->attribute_key,
+                                                act_effects->attr_to_modify->new_value);
                     break;
                 default:
                     sprintf(string, "Attribute Type does not exist");
@@ -216,7 +214,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
             act_effects = act_effects->next;
         }
         if (attr_set == FAILURE) {
-            sprintf(string, "Effect of Action %s was not applied to Item %s",
+            sprintf(string, "Effect of Action %s could not be applied to Item %s",
                     a->c_name, indirect->item_id);
             free(temp);
             *ret_string = string;
