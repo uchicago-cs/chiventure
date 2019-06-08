@@ -61,7 +61,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 
     if (first_run) {
         first_run = false;
-        mvwprintw(win->w, 1, 2, ">");
+        mvwprintw(win->w, 1, 2, "> ");
         return;
     }
     echo();
@@ -99,7 +99,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
         wscrl(win->w, y - height + 2);
         y = height - 2;
     }
-    mvwprintw(win->w, y, 2, ">");
+    mvwprintw(win->w, y, 2, "> ");
 }
 
 /* see print_functions.h */
