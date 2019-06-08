@@ -22,7 +22,7 @@ int execute_do_path_action(char *c_name, enum action_kind kind)
     path_t *p = path_new(dest, direction);
     char *string = malloc(BUFFER_SIZE);
 
-    int rc = do_path_action(g, a, p, &string);
+    int rc = do_path_action(wrapper, a, p, &string);
 
     free(string);
     path_free(p);
@@ -34,25 +34,25 @@ int execute_do_path_action(char *c_name, enum action_kind kind)
 
 int execute_do_path_action2(char *c_name, enum action_kind kind)
 {
+    chiventure_ctx_t *wrapper = chiventure_ctx_new();
+    player_t *player = player_new("player", 1);
+    add_player_to_game(wrapper->game, player);
+    set_curr_player(wrapper->game, player);
     room_t *dest = room_new("dummyroom", "a dummy room", "a placeholder room");
     char *direction = "south";
-    player_t *player = player_new("player", 1);
-    game_t *g = game_new("this is a dummy game");
-    add_player_to_game(g, player);
-    set_curr_player(g, player);
     action_type_t *a = action_type_new(c_name, kind);
     path_t *p = path_new(dest, direction);
     char *string = malloc(BUFFER_SIZE);
     add_path_to_room(room1, p);
     room_t *succ = find_room_from_dir(room1, "south");
-    do_path_action(g, a, p, &string);
+    do_path_action(wrapper, a, p, &string);
 
 
-    int rc = strncmp(g->curr_room, succ, MAX_ID_LEN);
+    int rc = strncmp(wrapper->game->curr_room, succ, MAX_ID_LEN);
 
     path_free(p);
     action_type_free(a);
-    game_free(g);
+    chiventure_ctx_free(wrapper);
 
     return rc;
 }
