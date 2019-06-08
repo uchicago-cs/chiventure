@@ -32,7 +32,7 @@ int load_item(Item *i, item_t *i_t)
         return -1;
     }
 
-    if (i->item_id == NULL){
+    if (i->item_id == NULL) {
         fprintf(stderr, "no item id saved\n");
     } else {
         i_t->item_id = i->item_id;
@@ -140,7 +140,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
         return -1;
     }
 
-    if (r->room_id == NULL){
+    if (r->room_id == NULL) {
         fprintf(stderr, "room id not saved\n");
     } else {
 	    r_t->room_id = r->room_id;
@@ -213,7 +213,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
     // Free all items in the inventory
     item_t *curr_item;
     item_list_t *i;
-    for (i = get_all_items_in_inventory(p_t); i != NULL; i=i->next){
+    for (i = get_all_items_in_inventory(p_t); i != NULL; i=i->next) {
         curr_item = i->item;
         int item_free_success = item_free(curr_item);
         if (item_free_success != 0) {
@@ -254,17 +254,17 @@ int count(game_t *g_t)
     room_t *curr_room;
     room_list_t *i = get_all_rooms(g_t);
 
-    for (; i != NULL; i = i->next){
+    for (; i != NULL; i = i->next) {
         curr_room = i->room;
         item_list_t *j = get_all_items_in_room(curr_room);
-        for (; j != NULL; j = j->next){
+        for (; j != NULL; j = j->next) {
             res++;
         }
     }
 
     player_t *curr_player = get_player(g_t, g_t->curr_player->player_id);
     item_list_t *k = get_all_items_in_inventory(curr_player);
-    for (; k != NULL; k = k->next){
+    for (; k != NULL; k = k->next) {
 	    res++;
     }
 
@@ -289,10 +289,10 @@ int load_game(Game *g, game_t *g_t)
     // Create a deep copy of all items in the game
     int iter = 0;
     room_list_t *room_list = get_all_rooms(g_t);
-    for (; room_list != NULL; room_list = room_list->next){
+    for (; room_list != NULL; room_list = room_list->next) {
         curr_room = room_list->room;
         item_list_t *item_room_list = get_all_items_in_room(curr_room);
-        for (; item_room_list != NULL; item_room_list = item_room_list->next){
+        for (; item_room_list != NULL; item_room_list = item_room_list->next) {
             item_t *curr_item = item_room_list->item;
             all_items[iter] = item_new(curr_item->item_id,
 				       curr_item->short_desc,
@@ -302,7 +302,7 @@ int load_game(Game *g, game_t *g_t)
     }
     curr_player = get_player(g_t, g_t->curr_player->player_id);
     item_list_t *inventory_list = get_all_items_in_inventory(curr_player);
-    for (; inventory_list != NULL ; inventory_list = inventory_list->next){
+    for (; inventory_list != NULL ; inventory_list = inventory_list->next) {
         item_t *curr_item = inventory_list->item;
         all_items[iter] = item_new(curr_item->item_id,
                                    curr_item->short_desc,
@@ -315,7 +315,7 @@ int load_game(Game *g, game_t *g_t)
     int i;
     for (i = 0; i < g->rooms_len; i++) {
         room_list = get_all_rooms(g_t);
-        for (; room_list != NULL; room_list = room_list->next){
+        for (; room_list != NULL; room_list = room_list->next) {
             curr_room = room_list->room;
             if (strcmp(g->all_rooms[i]->room_id, curr_room->room_id) == 0) {
                 int load_room_success = load_room(g->all_rooms[i],
@@ -349,7 +349,7 @@ int load_game(Game *g, game_t *g_t)
        In the proto struct, curr_room is simply the room_id as a string */
     if (g->curr_room != NULL) {
         room_list = get_all_rooms(g_t);
-        for (; room_list != NULL; room_list = room_list->next){
+        for (; room_list != NULL; room_list = room_list->next) {
             room_t *curr_r = room_list->room;
             if (strcmp(curr_r->room_id, g->curr_room) == 0) {
                 move_room(g_t, curr_r); //move_room provided by game state to set current room
@@ -385,8 +385,6 @@ int load(char *filename, game_t *g_t)
     }
 
     load_game(g, g_t);
-
     game__free_unpacked(g, NULL);
-
     return 0;
 }
