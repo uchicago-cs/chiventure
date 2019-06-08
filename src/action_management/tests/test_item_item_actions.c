@@ -98,3 +98,43 @@ Test(item_item_actions, wrong_allowed_actions)
     cr_assert_eq(rc, NOT_ALLOWED_DIRECT,
                  "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect and direct, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
+
+Test(item_item_actions, conditons_not_met)
+{
+}
+
+Test(item_item_actions, conditons_met)
+{
+}
+
+Test(item_item_actions, effect_set_double)
+{
+}
+
+Test(item_item_actions, effect_set_boole)
+{
+}
+
+Test(item_item_actions, effect_set_character)
+{
+}
+
+Test(item_item_actions, effect_set_string)
+{
+}
+
+Test(item_item_actions, effect_set_integer)
+{
+}
+
+Test(item_item_actions, effect_set_actions)
+{
+}
+
+Test(item_item_actions, effect_set_DNE)
+{
+}
+
+Test(item_item_actions, failed_to_set?)
+{
+}
