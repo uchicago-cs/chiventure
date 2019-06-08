@@ -48,8 +48,6 @@ int main()
 
     chiventure_ctx_t *ctx = chiventure_ctx_new();
 
-    //ctx->ui_ctx = ui_ctx;
-
     /* Game State functions needed for DFS not complete at this stage,
      * so we will disregard the coord hash created in ui_ctx_new
      * (which does not work yet) and instead create use own mini coord hash
