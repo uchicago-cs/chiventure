@@ -5,6 +5,8 @@
 #include "path.h"
 #include "actionmanagement.h"
 #include "print_functions.h"
+#include "save.h"
+#include "load.h"
 
 /*
  * We list all demanded operations over here.
