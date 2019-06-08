@@ -41,31 +41,6 @@ typedef struct map {
  */
 void ncurses_init();
 
-/* Draws a list of rooms starting at the coordinate given
- *
- * Inputs:
- * - rooms: an array of pointers to rooms
- * - n: the number of rooms
- * - left_x: the top left corner of the top-left most room
- * - top_y: to top left corner of the top-left-most room
- * - z: the z coordinate of the floor being drawn
- * - map: pointer to a map_t struct
- *
- * Outputs:
- * - Draws the rooms to the scren
- */
-void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y,int z);
-
-/* Gets an array of test rooms
- *
- * Inputs:
- * - n: number of rooms to generate
- *
- * Outputs:
- * - An array of pointers to random room structs
- */
-room_t **get_test_rooms(int n);
-
 /* Initiates map at WINDOW * pointer to pad
  *
  * Inputs: N/A

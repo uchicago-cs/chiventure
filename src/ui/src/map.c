@@ -83,8 +83,17 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     */
 }
 
-// Takes a coordinate and an array of rooms and draws them.
-// Note: z =  0 is the ground floor
+/* Draws all of the rooms stored in the hashmap of the ui_ctx given
+ *
+ * Inputs: 
+ * - ctx: The game's ctx struct
+ * - left_x: the top, left coordinate of the top-left most room
+ * - top_y: the top left coordinate of the top-left-most room
+ * - z: the z coordinate of the floor being draw (0 is ground floor)
+ * 
+ * Outputs:
+ * - Draws the rooms to the screen
+ */
 void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 {
     assert(ctx != NULL);
