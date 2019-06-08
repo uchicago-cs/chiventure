@@ -57,7 +57,7 @@ Test(parse, four_words)
     cr_assert_str_eq(words[3], "NOT", "parse() did not create fourth token");
 }
 
-//Tests the parsing of five words. (Adding more words should not break the parsing)
+//Tests the parsing of five words. (Having more words than 4 causes the parser to return NULL)
 Test(parse, more_words)
 {
     char str[] = "LOOK AT ME NOT YEAH";
@@ -65,7 +65,7 @@ Test(parse, more_words)
     cr_assert_null(words, "parser() should return NULL if too many words");
 }
 
-//Tests the parsing of three words.
+//Tests the parsing of input with many spaces between each word.
 Test(parse, many_spaces)
 {
     char str[] = "LOOK    AT        ME              ";

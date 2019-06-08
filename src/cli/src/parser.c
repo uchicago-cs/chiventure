@@ -29,11 +29,14 @@ char **parse(char *input)
         token = strtok(NULL, " ");
     }
 
+    //If there are more than 4 words, parser returns NULL and does not attempt
+    //to pass the first four words as tokens
     if(token != NULL)
     {
         return NULL;
     }
 
+    //Changes the first word to be all caps, for compatibility with commands
     char *command = words[0];
     int i = 0;
     char ch;
