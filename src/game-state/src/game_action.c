@@ -1,6 +1,7 @@
 #include "game_action.h"
 #include "common-item.h"
 
+/* See game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name, char* success_str, char* fail_str)
 {
     assert(new_action != NULL);
@@ -68,11 +69,13 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
     return SUCCESS;
 }
 
+/* see game_action.h */
 int add_action_condition(item_t* item, char* action_name)
 {
     //TODO: add more parameters & how to support conditions being multiple types?? 
 }
 
+/* see game_action.h */
 bool possible_action(item_t *item, char* action_name)
 {
     game_action_t* possible_action = get_action(item, action_name);
@@ -86,8 +89,7 @@ bool possible_action(item_t *item, char* action_name)
     }   
 }
 
-
-
+/* see game_action.h */
 bool check_condition(item_t *item, attribute_t* desired_attribute)
 {
     char* attribute_name = desired_attribute->attribute_key;
@@ -141,7 +143,7 @@ bool check_condition(item_t *item, attribute_t* desired_attribute)
     return false;
 }
 
-
+/* see game_action.h */
 bool all_conditions_met(item_t* item, char* action_name)
 {
     //call possible action to see if the action exists
