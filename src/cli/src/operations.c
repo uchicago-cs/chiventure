@@ -43,7 +43,8 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL) return "Room not found! Error! We need a room to be loaded to LOOK!\n";
+    if(game == NULL || game->curr_room == NULL)
+        return "Room not found! Error! We need a room to be loaded to LOOK!\n";
     if(tokens[1] == NULL)
     {
         return game->curr_room->long_desc;
