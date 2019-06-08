@@ -49,7 +49,6 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
  */
 bool possible_action(item_t* item, char* action_name);
 
-//ACTION LIST FUNCTIONS
 /*
  * Function to get a linked list (utlist) of all the actions in the item
  *
@@ -60,6 +59,21 @@ bool possible_action(item_t* item, char* action_name);
  *  linked list of pointers to actions (the head element)
  */
 game_action_hash_t *get_all_actions(item_t *item);
+
+
+/* game_action_free() frees allocated space for an action struct in memory
+*  Parameters:
+*    a pointer to the action
+*  Returns:
+*    SUCCESS if successful, FAILURE if not
+*/
+int game_action_free(game_action_t *action_tofree);
+
+
+// CONDITION FUNCTIONS -------------------------
+
+//write header (fix params)
+int add_action_condition(item_t* item, char* action_name);
 
 
 /* check_conditionn() checks if the actual attribute of an item is equal to the desired attribute
@@ -82,11 +96,10 @@ bool check_condition(item_t *item, attribute_t* desired_attribute);
  */
 bool all_conditions_met(item_t* item, char* action_name);
 
-/* game_action_free() frees allocated space for an action struct in memory
-*  Parameters:
-*    a pointer to the action
-*  Returns:
-*    SUCCESS if successful, FAILURE if not
-*/
-int game_action_free(game_action_t *action_tofree);
 
+//EFFECT FUNCTIONS ------------------------------
+
+//write header (fix params)
+ int add_action_effect(item_t* item, char* action_name);
+
+ 

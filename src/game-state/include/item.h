@@ -119,7 +119,8 @@ typedef struct attribute_wrapped_for_llist {
 
 typedef struct game_action_condition{
     item_t *item;
-    attribute_t* desired_attribute;
+    attribute_t* attribute_to_check; //pointer to attribute
+    attribute_value_t expected_value;
     struct game_action_condition *next;
 } game_action_condition_t;
 
@@ -132,7 +133,8 @@ typedef struct game_action_condition* action_condition_list_t;
 
 typedef struct game_action_effect{
     item_t *item;
-    attribute_t* changed_attribute;
+    attribute_t* attribute_to_modify;
+    attribute_value_t new_value;
     struct game_action_effect *next; //mandatory for utlist macros
 } game_action_effect_t;
 
