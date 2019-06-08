@@ -91,23 +91,6 @@ char *get_sdesc_item(item_t *item);
  */
 char *get_ldesc_item(item_t *item);
 
-// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
-
-// action_type_t written by AM, can be seen in action_structs.h
-typedef struct action {
-    char *action_name;
-    action_type_t *action_type;
-    // will be expanded to include conditions and effects in Sprint 4
-} game_action_t;
-
-/* item_free() frees allocated space for an action struct in memory
-*  Parameters:
-*    a pointer to the action
-*  Returns:
-*    SUCCESS if successful, FAILURE if not
-*/
-int game_action_free(game_action_t *action_tofree);
-
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
@@ -118,7 +101,7 @@ typedef union attribute_value {
     int int_val;
 } attribute_value_t;
 
-enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER, ACTION};
+enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
 
 typedef struct attribute {
     UT_hash_handle hh;
@@ -159,6 +142,7 @@ typedef struct game_action_effect{
 * on the game_action_effect_t structs as specified in src/common/include 
 */
 typedef struct game_action_effect* action_effect_list_t;
+
 
 typedef struct game_action {
     UT_hash_handle hh;

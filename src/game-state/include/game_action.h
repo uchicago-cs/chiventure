@@ -3,13 +3,15 @@
 #include "action_structs.h"
 #include "item.h"
 
-/* item_free() frees allocated space for an action struct in memory
+/* game_action_new() allocates a space for an action struct in memory and
+* assigns given values to struct fields
 *  Parameters:
-*    a pointer to the action
+*    action name and an action type struct
 *  Returns:
-*    SUCCESS if successful, FAILURE if not
+*    A pointer to a new action struct.
 */
-int game_action_free(game_action_t *action_tofree);
+game_action_t *game_action_new(char *act_name, char* success_str, char* fail_str);
+
 
 //ACTION FUNCTIONS
 // the following functions are to do with searching for allowed actions
@@ -79,3 +81,12 @@ bool check_condition(item_t *item, attribute_t* desired_attribute);
  *  true if all conditions are met, false if not
  */
 bool all_conditions_met(item_t* item, char* action_name);
+
+/* game_action_free() frees allocated space for an action struct in memory
+*  Parameters:
+*    a pointer to the action
+*  Returns:
+*    SUCCESS if successful, FAILURE if not
+*/
+int game_action_free(game_action_t *action_tofree);
+

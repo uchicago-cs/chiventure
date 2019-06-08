@@ -56,14 +56,6 @@ attribute_t *get_attribute(item_t *item, char *attr_name);
 */
 int delete_all_attributes(attribute_hash_t attributes);
 
-/* action_new() allocates a space for an action struct in memory and
-* assigns given values to struct fields
-*  Parameters:
-*    action name and an action type struct
-*  Returns:
-*    A pointer to a new action struct.
-*/
-game_action_t *game_action_new(char *act_name, char* success_str, char* fail_str);
 
 /* action_init() initializes an action struct with given values
    arguments are taken from action management

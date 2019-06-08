@@ -322,42 +322,42 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
             "Error: could not compare attributes as they are of different types\n");
         return -1;
     }
-    int comparison = 0;
+    int comparison = FAILURE;
     switch(attribute_1->attribute_tag)
     {
         case(DOUBLE):
             if (attribute_1->attribute_value.double_val ==
                 attribute_2->attribute_value.double_val)
             {
-                comparison = 1;
+                comparison = SUCCESS;
             }
             break;
         case(BOOLE):
             if (attribute_1->attribute_value.bool_val ==
                 attribute_2->attribute_value.bool_val)
             {
-                comparison = 1;
+                comparison = SUCCESS;
             }
             break;
         case(CHARACTER):
             if (attribute_1->attribute_value.char_val ==
                 attribute_2->attribute_value.char_val)
             {
-                comparison = 1;
+                comparison = SUCCESS;
             }
             break;
         case(STRING):
             if (!strcmp(attribute_1->attribute_value.str_val,
                 attribute_2->attribute_value.str_val))
             {
-                comparison = 1;
+                comparison = SUCCESS;
             }
             break;
         case(INTEGER):
             if (attribute_1->attribute_value.int_val ==
                 attribute_2->attribute_value.int_val)
             {
-                comparison = 1;
+                comparison = SUCCESS;
             }
             break;
     }
