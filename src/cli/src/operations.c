@@ -44,7 +44,9 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
     if(game == NULL || game->curr_room == NULL)
+    {
         return "Room not found! Error! We need a room to be loaded to LOOK!\n";
+    }
     if(tokens[1] == NULL)
     {
         return game->curr_room->long_desc;
@@ -98,7 +100,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     if(game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
-        return ( "Error! We need a loaded room to do the above action. \n");
+        return "Error! We need a loaded room to do the above action. \n";
     }
     lookup_t **table = ctx->table;
 
@@ -125,7 +127,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     if(game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
-        return ( "Error! We need a loaded room to do the above action. \n");
+        return "Error! We need a loaded room to do the above action. \n";
     }
     lookup_t **table = ctx->table;
 
