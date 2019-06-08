@@ -55,32 +55,32 @@ int load_item(Item *i, item_t *i_t)
     for (iter = 0; iter < i->attributes_len; iter++) {
 	char* tag = i->attributes[iter]->attribute_tag;
 	if ((strcmp(tag, "STRING")) == 0) {
-            int set_str_success;
+        int set_str_success;
 	    set_str_success = set_str_attr(i_t,
 					   i->attributes[iter]->attribute_key,
 					   i->attributes[iter]->attribute_value->str_val);
 
-            if (set_str_success != SUCCESS) {
-                fprintf(stderr, "Could not set string attribute for item \n");
-                return -1;
-            }
+        if (set_str_success != SUCCESS) {
+            fprintf(stderr, "Could not set string attribute for item \n");
+            return -1;
+        }
 
-        } else if ((strcmp(tag, "INTEGER")) == 0) {
-            int set_int_success;
+    } else if ((strcmp(tag, "INTEGER")) == 0) {
+        int set_int_success;
 	    set_int_success = set_int_attr(i_t,
-					   i->attributes[iter]->attribute_key,
-					   i->attributes[iter]->attribute_value->int_val);
+				i->attributes[iter]->attribute_key,
+				i->attributes[iter]->attribute_value->int_val);
 
-            if (set_int_success != SUCCESS) {
-		fprintf(stderr, "Could not set integer attribute for item \n");
-                return -1;
-            }
+        if (set_int_success != SUCCESS) {
+		    fprintf(stderr, "Could not set integer attribute for item \n");
+            return -1;
+        }
 
-        } else if ((strcmp(tag, "DOUBLE")) == 0) {
+    } else if ((strcmp(tag, "DOUBLE")) == 0) {
       	    int set_double_success;
-	    set_double_success = set_double_attr(i_t,
-						 i->attributes[iter]->attribute_key,
-						 i->attributes[iter]->attribute_value->double_val);
+	        set_double_success = set_double_attr(i_t,
+			        i->attributes[iter]->attribute_key,
+					i->attributes[iter]->attribute_value->double_val);
 
             if (set_double_success != SUCCESS) {
                 fprintf(stderr, "Could not set double attribute for item \n");
@@ -88,37 +88,37 @@ int load_item(Item *i, item_t *i_t)
             }
 
 	} else if ((strcmp(tag, "CHARACTER")) == 0) {
-            int set_char_success;
+        int set_char_success;
 	    set_char_success = set_char_attr(i_t,
-					     i->attributes[iter]->attribute_key,
-					     i->attributes[iter]->attribute_value->char_val);
+	            i->attributes[iter]->attribute_key,
+			    i->attributes[iter]->attribute_value->char_val);
 
-            if (set_char_success != SUCCESS) {
-                fprintf(stderr, "Could not set character attribute for item \n");
-		return -1;
-            }
+        if (set_char_success != SUCCESS) {
+            fprintf(stderr, "Could not set character attribute for item \n");
+		    return -1;
+        }
 
-        } else if ((strcmp(tag, "BOOLE")) == 0) {
-            int set_bool_success;
-	    set_bool_success = set_bool_attr(i_t,
-					     i->attributes[iter]->attribute_key,
-					     i->attributes[iter]->attribute_value->bool_val);
+    } else if ((strcmp(tag, "BOOLE")) == 0) {
+         int set_bool_success;
+	     set_bool_success = set_bool_attr(i_t,
+				i->attributes[iter]->attribute_key,
+			    i->attributes[iter]->attribute_value->bool_val);
 
-            if (set_bool_success != SUCCESS) {
-		fprintf(stderr, "Could not set boole attribute for item \n");
-		return -1;
-            }
+         if (set_bool_success != SUCCESS) {
+		    fprintf(stderr, "Could not set boole attribute for item \n");
+		    return -1;
+         }
 
-        } else if ((strcmp(tag, "ACTION")) == 0) {
+    } else if ((strcmp(tag, "ACTION")) == 0) {
 	    int set_act_attr_success;
 	    char* cname = i->attributes[iter]->attribute_value->act_val->action_type->c_name;
-            int kind = atoi(i->attributes[iter]->attribute_value->act_val->action_type->kind);
+        int kind = atoi(i->attributes[iter]->attribute_value->act_val->action_type->kind);
 
-            set_act_attr_success =
+        set_act_attr_success =
             set_act_attr(i_t,
-			 i->attributes[iter]->attribute_key, action_type_new(cname, kind));
+			i->attributes[iter]->attribute_key, action_type_new(cname, kind));
 
-	        if (set_act_attr_success != SUCCESS) {
+	    if (set_act_attr_success != SUCCESS) {
 		    fprintf(stderr, "Could not set action attribute for item \n");
 		    return -1;
 	    }
@@ -143,7 +143,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
     if (r->room_id == NULL){
         fprintf(stderr, "room id not saved\n");
     } else {
-	r_t->room_id = r->room_id;
+	    r_t->room_id = r->room_id;
     }
 
     if (r->short_desc != NULL) {
@@ -251,7 +251,6 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
 int count(game_t *g_t)
 {
     int res = 0;
-
     room_t *curr_room;
     room_list_t *i = get_all_rooms(g_t);
 
@@ -353,9 +352,8 @@ int load_game(Game *g, game_t *g_t)
         for(; room_list != NULL; room_list = room_list->next){
             room_t *curr_r = room_list->room;
             if (strcmp(curr_r->room_id, g->curr_room) == 0) {
-                g_t->curr_room = curr_r;
-		//move_room provided by game state to set current room
-	    }
+                move_room(g_t, curr_r); //move_room provided by game state to set current room
+	        }
         }
     }
 
