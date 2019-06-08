@@ -58,11 +58,9 @@ int action_type_free(action_type_t *a)
 
 /* KIND 1
  * See actionmanagement.h */
-int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
+int do_item_action(action_type_t *a, item_t *i, char **ret_string)
 {
     // a couple confirmation checks
-    assert(g);
-    assert(g->curr_player); // needed for sprint 4
     assert(a);
     assert(i);
     char *string = malloc(BUFFER_SIZE); // buffer
@@ -92,12 +90,14 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
 
 /* KIND 2
  * See actionmanagement.h */
-int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
+int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_string)
 {
-    assert(g);
-    assert(g->curr_player);
-    assert(g->curr_room);
+    assert(c);
+    assert(c->game);
+    assert(c->game->curr_room);
     assert(a);
+    
+    game_t *g = c->game;
 
     /* INITIALIZATION */
     char *string = malloc(BUFFER_SIZE);
@@ -140,12 +140,10 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
 
 /* KIND 3
  * See actionmanagement.h */
-int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
+int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string)
 {
-    assert(g);
     assert(a);
-    assert(g->curr_player); // needed for sprint 4
     assert(direct);
     assert(indirect);
     char *string = malloc(BUFFER_SIZE); // buffer

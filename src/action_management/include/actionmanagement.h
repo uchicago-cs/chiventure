@@ -68,10 +68,9 @@ list_action_type_t *get_supported_actions();
 /* A function that executes KIND 1 actions (ACTION <item>)
  *
  * Parameters:
- * - g: A game struct consisting of the game state
  * - a: An action type struct
  * - i: An item struct
- * - ret_string : A pointer to a string describing the result of the function
+ * - ret_string: A pointer to a string describing the result of the function
  *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
  * Returns:
@@ -79,33 +78,32 @@ list_action_type_t *get_supported_actions();
  * - 1 if the action type has the wrong kind, failure string as an out parameter
  * - 2 if the action can't be used on the item, failure string as an out parameter
  */
-int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string);
+int do_item_action(action_type_t *a, item_t *i, char **ret_string);
 
 
 /* A function that executes KIND 2 actions (ACTION <path>)
  *
  * Parameters:
- * - g: A game struct consisting of the game state
+ * - c: A context struct encapsulating the shared state in chiventure
  * - a: An action type struct
  * - p: A path struct
- * - ret_string : A pointer to a string describing the result of the function
+ * - ret_string: A pointer to a string describing the result of the function
  *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
  * Returns:
  * - 0 upon success, success string as an out parameter
  * - 1 if the action type has the wrong kind, failure string as an out parameter
  */
-int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string);
+int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_string);
 
 
 /* A function that executes KIND 3 actions (ACTION <item> <item>)
  *
  * Parameters:
- * - g: A game struct containing a field for the current player
  * - a: An action type struct
  * - direct: An item struct containing the direct object (the "actor")
  * - indirect: An item struct containing the indirect object (the "actee")
- * - ret_string : A pointer to a string describing the result of the function
+ * - ret_string: A pointer to a string describing the result of the function
  *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
  * Returns:
@@ -113,7 +111,7 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string);
  * - 1 if the action type has the wrong kind, failure string as an out parameter
  * - 2 if the action can't be used on the item, failure string as an out parameter
  */
-int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
+int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
 
 
