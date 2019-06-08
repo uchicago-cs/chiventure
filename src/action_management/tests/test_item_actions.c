@@ -21,6 +21,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
 
     int rc = do_item_action(a, item, &string);
 
+    free(string);
     item_free(item);
     action_type_free(a);
     action_type_free(allowed_a);

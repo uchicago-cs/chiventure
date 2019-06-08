@@ -24,6 +24,7 @@ int execute_do_path_action(char *c_name, enum action_kind kind)
 
     int rc = do_path_action(g, a, p, &string);
 
+    free(string);
     path_free(p);
     action_type_free(a);
     game_free(g);
