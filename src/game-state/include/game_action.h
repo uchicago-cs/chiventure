@@ -72,11 +72,24 @@ int game_action_free(game_action_t *action_tofree);
 
 // CONDITION FUNCTIONS -------------------------
 
-//write header (fix params)
-int add_action_condition(item_t* item, char* action_name);
+/* add_action_condition() creates a new condition for an item's action and 
+ * adds to the action's condition list
+ * Parameters:
+ *  a pointer to the item the action is being performed on
+ *  a pointer to the action to which the condition is being added
+ *  a pointer to the item specified in the action condition
+ *  a pointer to the attribute of the item specified in action condition that needs to be validated
+ *  a pointer to the value of the above attribute that needs to be validated
+ * Returns:
+ *  SUCCESS upon SUCCESS, 1 if first item ID does not exist
+ *  2 if specified action does not exist in first item
+ *  3 if second item ID does not exist
+ */
+int add_action_condition(item_t *item, game_action_t *action,
+			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t *cond_value);
 
-
-/* check_conditionn() checks if the actual attribute of an item is equal to the desired attribute
+/* check_condition() checks if the actual attribute of an item is equal 
+ * to the desired attribute
  * Parameters:
  *  a pointer to the item to check
  *  the desired attribute 
@@ -84,7 +97,6 @@ int add_action_condition(item_t* item, char* action_name);
  *  true if desired attribute matches the actual, false if not
  */
 bool check_condition(item_t *item, attribute_t* desired_attribute);
-
 
 
 /* all_conditions_met() checks if all of the conditions of an action are met
@@ -99,7 +111,5 @@ bool all_conditions_met(item_t* item, char* action_name);
 
 //EFFECT FUNCTIONS ------------------------------
 
-//write header (fix params)
- int add_action_effect(item_t* item, char* action_name);
 
  

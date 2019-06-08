@@ -72,9 +72,33 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
 // ------------------------------------- CONDITIONS -------------------------------------
 
 /* see game_action.h */
-int add_action_condition(item_t* item, char* action_name)
+int add_action_condition(item_t *item, game_action_t *action,
+			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t *cond_value)
 {
-    //TODO: add more parameters & how to support conditions being multiple types?? 
+    if (item == NULL) {
+        return 1;
+    }
+    if (cond_item == NULL) {
+        return 3;
+    }
+    game_action_condition_t *new_condition = malloc(sizeof(game_action_condition_t));
+    new_condition->item = cond_item;
+    new_condition->attribute_to_check = cond_attribute;
+    new_condition->expected_value = *cond_value;
+
+    game_action_t *ret_action;
+    HASH_FIND(hh, item->actions, action->action_name, strlen(action->action_name), ret_action);
+    if (ret_action == NULL) {
+        return 2;
+    }
+
+    game_action_condition_t *tmp = *(action->conditions);
+    while (tmp != NULL) {
+      tmp = tmp->next;
+    }
+
+    tmp = new_condition;
+    return 0;
 }
 
 /* see game_action.h */
