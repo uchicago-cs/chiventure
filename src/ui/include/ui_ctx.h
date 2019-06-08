@@ -7,23 +7,23 @@
 #include "window.h"
 #include "coordinate.h"
 
+//Forward Declaration
+typedef struct map map_t;
+
 /*
  * UI context struct.  Contains the following fields:
- *  - map : contains the map of the game
- *  - player_loc : current player location
- *  - map_win : contains the map
- *  - main_win : main window. May contain images or other info about the game
- *  - cli_win : window that contains the CLI. It's always displayed
- *  - displayed_win : window that is diplayed along with the CLI.
+ *  - map: instance of the map struct that contains map information
+ *  - player_loc: current player location
  *  - coord_hash: a pointer to the head of a hash map that matches
  *                coordinate keys to room pointers
- *  - curr_page : indicates what page to be displayed
- *  - cli_top : indicates if the CLI will be on top
+ *  - map_win: contains the map
+ *  - main_win: main window. May contain images or other info about the game
+ *  - cli_win: window that contains the CLI. It's always displayed
+ *  - displayed_win: window that is diplayed along with the CLI.
+ *  - curr_page: indicates what page to be displayed
+ *  - cli_top: indicates if the CLI will be on top
  */
-
-typedef struct map map_t;
-typedef struct ui_ctx ui_ctx_t;
-struct ui_ctx {
+typedef struct ui_ctx {
     map_t *map;
     coord_t *player_loc;
     coord_record_t *coord_hash;
@@ -33,8 +33,7 @@ struct ui_ctx {
     window_t *cli_win;
     int curr_page;
     int cli_top;
-
-};
+} ui_ctx_t;
 
 
 /*
