@@ -41,15 +41,15 @@ Please see this document for all possible actions and descriptions: https://gith
 
 intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 
-- end: `<CONDITION>` Only one way to end the game is supported. It specifies the room a player must be in to end the game.
+end: `<CONDITION>` Only one way to end the game is supported. It specifies the room a player must be in to end the game.
 
 ### GAME example:
 ```yaml
- - start: "KITCHEN"
+start: "KITCHEN"
  - intro: “Welcome to the virtual house. You have been wandering for quite some time,
    and you need to determine how to return to reality.”
- - end:
-   - in_room: "LIVING ROOM"
+end:
+ - in_room: "LIVING ROOM"
 ```
 
 ## ROOM:
