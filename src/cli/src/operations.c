@@ -4,7 +4,6 @@
 #include "operations.h"
 #include "shell.h"
 #include "assert.h"
-#include "validate.h"
 #include "room.h"
 
 // remove the comment as soon as checkpointing removes their dummy struct
@@ -55,6 +54,17 @@ bool validate_filename(char *filename)
     {
         return false;
     }
+}
+
+/* See operation.h */
+cmd *assign_action(char **ts, lookup_t ** table)
+{
+    cmd *output = cmd_new(ts);
+    output->func_of_cmd = find_operation(ts[0], table);
+    if(output->func_of_cmd == NULL) output->func_of_cmd = action_error_operation;
+    //HERE WE VALIDATE THE COMMANDS
+
+    return output;
 }
 
 /* See operations.h */
@@ -204,4 +214,3 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     layout_switch(ctx);
     return "Layout switched.";
 }
-
