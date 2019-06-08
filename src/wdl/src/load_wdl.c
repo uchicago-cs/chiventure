@@ -18,11 +18,13 @@ game_t *load_wdl()
 
   int rooms = add_rooms_to_game(big_document, game);
   int connections =  add_connections_to_rooms(big_document, game);
-  char *start_room = obj_get_str(big_document, "start");
+  obj_t *game_document = obj_get_attr(big_document, "GAME.0", false);
+  char *start_room = obj_get_str(game_document, "start");
   game_set_start(start_room, game);
-  int items = load_items(big_document, game);
+  //  int items = load_items(big_document, game);
 
-  if((rooms + connections) == 0){
+  return game;
+  /*  if((rooms + connections) == 0){
     if(items == -1){
       return NULL;
     }else{
@@ -30,7 +32,7 @@ game_t *load_wdl()
     }
   }else{
     return NULL;
-  }
+    }*/
 }
 
     
