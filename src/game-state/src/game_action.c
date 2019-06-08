@@ -42,7 +42,6 @@ game_action_t *game_action_new(char *action_name, char* success_str, char* fail_
 
 }
 
-
 // ---------------------------------------------------------------------------
 
 /* see game_action.h */
