@@ -211,6 +211,16 @@ int add_effect(game_t *game, char* room_id, char* action, char* item_src, char* 
 /* see game_action.h */
 int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
 {
+    game_action_t *action = get_action(item_src, action);
+    if(action == NULL)
+    {
+        return 2;
+    }
+    item_t *item_modify = get_item_in_room(room, item_id);
+    if(item_modify == NULL)
+    {
+        return 3;
+    }
     //create effect
     game_action_effect_t *effect = create_effect(item_to_modify, attribute, new_value);
     
@@ -231,7 +241,7 @@ game_action_effect_t *create_effect(item_t *item_to_modify, attribute_t *attribu
 }
 
 /* see game_action.h */
-bool affect_effect(game_action_effect_t *effect) 
+int affect_effect(game_action_effect_t *effect) 
 {
     item_t *item = effect->item;
     attribute_t *attr = effect->attribute_to_modify;
@@ -241,33 +251,33 @@ bool affect_effect(game_action_effect_t *effect)
         case(DOUBLE):
             if(set_double_attr(item, attr->attribute_key, val.double_val))
             {
-                return true;
+                return SUCCESS;
             }
             break;
         case(BOOLE):
             if(set_bool_attr(item, attr->attribute_key, val.bool_val))
             {
-                return true;
+                return SUCCESS;
             }
             break;
         case(CHARACTER):
             if(set_char_attr(item, attr->attribute_key, val.char_val))
             {
-                return true;
+                return SUCCESS;
             }
             break;
         case(STRING):
             if(set_str_attr(item, attr->attribute_key, val.str_val))
             {
-                return true;
+                return SUCCESS;
             }
             break;
         case(INTEGER):
             if(set_int_attr(item, attr->attribute_key, val.int_val))
             {
-                return true;
+                return SUCCESS;
             }
             break;
     }
-    return false;
+    return FAILURE;
 }
