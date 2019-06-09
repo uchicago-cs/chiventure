@@ -3,9 +3,9 @@
 #include <criterion/criterion.h>
 #include <criterion/options.h>
 #include <criterion/output.h>
-#include "parser.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     struct criterion_test_set *tests = criterion_initialize();
 
     criterion_options.jobs = 1;
