@@ -25,7 +25,7 @@ The player_t struct in game-state looks like this:
         item_hash_t inventory;
     } player_t;
 
-To serialize a player using protobuf, we create a Player struct in a .proto file. Note that protobuf only supports integers, strings, characters, and arrays. The Player struct as found in game.proto is as below:
+To serialize a player using protobuf, we create a Player struct in a .proto file. Note that protobuf only supports integers, strings, characters, and arrays. The Player struct in game.proto is as below:
 
     message Player {
         required string player_id = 1;
