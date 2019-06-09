@@ -37,7 +37,6 @@ Test(path_actions, validate_path)
     game_t *game_test;
     player_t *player_test;
     room_t *room_north, *room_origin;
-    path_t *path_north, *path_origin;
     action_type_t *action_go, *action_invalid;
 
     /* CREATE VARIABLE CONTENTS */
@@ -46,18 +45,20 @@ Test(path_actions, validate_path)
     player_test = player_new("player", 1);
     room_origin = room_new("room_o","origin room", "This is the room the player starts in.");
     room_north = room_new("room_n", "room north of origin", "This is the room north of the spawn.");
-    path_north = path_new(room_north, "north");
-    path_origin = path_new(room_origin, "origin");
     action_go = action_type_new("GO", PATH);
     action_invalid = action_type_new("OPEN", ITEM);
 
     /* FILL VARIABLE CONTENTS */
-    game_test->curr_room = room_origin;
-    ctx_test->game = game_test;
     add_player_to_game(game_test, player_test);
     set_curr_player(game_test, player_test);
-    add_path_to_room(room_origin, path_north);
-    add_path_to_room(room_north, path_origin);
+    add_room_to_game(game_test, room_origin);
+    add_room_to_game(game_test, room_north);
+    create_connection(room_origin, "room_o", "room_n", "north");
+    create_connection(room_north, "room_n", "room_o", "origin");
+    path_north = path_search(room_north, "north");
+    path_origin = path_search(room_origin, "origin");
+    game_test->curr_room = room_origin;
+    ctx_test->game = game_test;
 
     /* SUCCESS TEST */
     check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
