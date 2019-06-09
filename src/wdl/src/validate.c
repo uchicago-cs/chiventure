@@ -106,17 +106,7 @@ bool condition_type_check(obj_t *obj)
     return check;
 }
 
-/* connections_get_list()
- * a helper function for connection_type_check that gets a list of connections
- * associated with a room object
- *
- * parameters:
- *  - obj: a room object
- *
- * returns:
- *  - an attribute list of all the connections
- *  - null if an error occurs or no list can be generated
- */
+/* see validate.h */
 attr_list_t *connections_get_list(obj_t *obj)
 {
     obj_t *connections = obj_get_attr(obj, "connections", false);
@@ -144,10 +134,8 @@ bool check_connection_attr(obj_t *obj)
     // verify types of fields
     bool id = (obj_get_type(obj, "to") == TYPE_STR);
     bool direction = (obj_get_type(obj, "direction") == TYPE_STR);
-    bool through = (obj_get_type(obj, "through") == TYPE_STR);
-    bool conditions = condition_type_check(obj);
 
-    return (id && direction && through && conditions);
+    return (id && direction);
 }
 
 /* connection_type_check()
@@ -195,9 +183,9 @@ bool item_type_check(obj_t *obj)
     bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
     bool in_ver = (obj_get_type(obj, "in") == TYPE_STR);
     bool state_ver = (obj_get_type(obj, "state") == TYPE_STR);
-    bool val_ver = (obj_get_type(obj, "value)") == TYPE_STR);
+    bool val_ver = (obj_get_type(obj, "value") == TYPE_STR);
 
-    return (id_ver && short_ver && long_ver && in_ver && state_ver);
+    return (id_ver && short_ver && long_ver && in_ver && state_ver && val_ver);
 }
 
 // The following functions regard game type checking
@@ -272,10 +260,7 @@ bool game_type_check(obj_t *obj)
     // print each attribute within connection object
     printf("connected to: %s\n", obj_get_str(obj, "to"));
     printf("direction: %s\n", obj_get_str(obj, "direction"));
-    printf("through: %s\n", obj_get_str(obj, "through"));
 
-    // print the conditions
-    print_conditions(obj);
     return;
  }
 
@@ -326,9 +311,11 @@ void print_item(obj_t *obj)
 /* See validate.h */
 void print_game(obj_t *obj)
 {
+    attr_list_t *temp = obj_list_attr(obj);
+    obj_t *game = temp->obj;
     // print game attributes
-    printf("GAME introduction: %s\n", obj_get_str(obj, "intro"));
-    printf("starting room: %s\n", obj_get_str(obj, "start"));
+    printf("GAME introduction: %s\n", obj_get_str(game, "intro"));
+    printf("starting room: %s\n", obj_get_str(game, "start"));
     return;
 }
 

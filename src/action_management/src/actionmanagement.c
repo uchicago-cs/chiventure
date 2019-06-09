@@ -8,7 +8,8 @@
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (1)
-#define NOT_ALLOWED (2)
+#define NOT_ALLOWED_DIRECT (2)
+#define NOT_ALLOWED_INDIRECT (3)
 
 
 /* See actionmanagement.h */
@@ -76,7 +77,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, i->item_id);
         *ret_string = string;
-        return NOT_ALLOWED;
+        return NOT_ALLOWED_DIRECT;
     }
     /* TODO: implement the rest of this function, using game_state funcs
      * Will perform the action if all checks pass (Sprint 4)
@@ -114,8 +115,8 @@ int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
 
 /* KIND 3
  * See actionmanagement.h */
-int do_item_item_action(game_t *g, action_type_t *a, item_t *direct, 
-                          item_t *indirect, char **ret_string)
+int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
+                        item_t *indirect, char **ret_string)
 {
     assert(g);
     assert(a);
@@ -131,11 +132,11 @@ int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
     }
     // checks if the action can be used on the direct item
     int allowed = allowed_action(direct, a->c_name);
-    if (allowed != SUCCESS)
-    {
-        sprintf(ret_string, "Action %s can't be requested on item %s",
+    if (allowed != SUCCESS) {
+        sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, direct->item_id);
-        return ret_string;
+        *ret_string = string;
+        return NOT_ALLOWED_DIRECT;
     }
     // checks if the action can be used on the indirect item
     allowed = allowed_action(indirect, a->c_name);
@@ -143,7 +144,7 @@ int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, indirect->item_id);
         *ret_string = string;
-        return NOT_ALLOWED;
+        return NOT_ALLOWED_INDIRECT;
     }
     /* TODO: implement the rest of this function, using game state funcs
      * Will perform the action if all checks pass (Sprint 4)
