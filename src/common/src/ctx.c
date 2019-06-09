@@ -55,6 +55,8 @@ int chiventure_ctx_free(chiventure_ctx_t *ctx)
 
     /* Add calls to component-specific freeing functions here */
 
+    ui_ctx_free(ctx->ui_ctx);
+
     free(ctx);
 
     return SUCCESS;

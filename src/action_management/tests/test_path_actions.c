@@ -4,57 +4,75 @@
 #include "actionmanagement.h"
 #include "action_structs.h"
 #include "item.h"
-#include "game.h"
 #include "player.h"
+#include "ctx.h"
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (1)
+#define NOT_ALLOWED_PATH (4)
 
-int execute_do_path_action(char *c_name, enum action_kind kind)
+void check_do_path(chiventure_ctx_t *c, action_type_t *a, path_t *p, room_t *room_expected, int rc_expected)
 {
-    room_t *dest = room_new("dummyroom", "a dummy room", "a placeholder room");
-    char *direction = "south";
-    player_t *player = player_new("player", 1);
-    game_t *g = game_new("this is a dummy game");
-    add_player_to_game(g, player);
-    set_curr_player(g, player);
-    action_type_t *a = action_type_new(c_name, kind);
-    path_t *p = path_new(dest, direction);
-    char *string = malloc(BUFFER_SIZE);
+    int rc;
+    char *ret_string;
+    room_t *room_output;
 
-    int rc = do_path_action(g, a, p, &string);
- 
-    path_free(p);
-    action_type_free(a);
-    game_free(g);
+    rc = do_path_action(c, a, p, &ret_string);
+    room_output = c->game->curr_room;
 
-    return rc;
+    cr_expect_eq(room_expected, room_output,
+                 "The room expected, %s, did not match the actual room output, %s.",
+                 room_expected->room_id, room_output->room_id);
+    cr_assert_eq(rc_expected, rc,
+                 "The expected return code was %d, but the actual return code was %d.\n"
+                 "The return string given: %s.",
+                 rc_expected, rc, ret_string);
+    free(ret_string);
 }
 
-
-Test(path_actions, kind_ITEM)
+Test(path_actions, validate_path)
 {
-    int rc = execute_do_path_action("dummy", ITEM);
+    /* INITIALIZE VARIABLES */
+    chiventure_ctx_t *ctx_test;
+    game_t *game_test;
+    player_t *player_test;
+    room_t *room_north, *room_origin;
+    path_t *path_north, *path_origin;
+    action_type_t *action_go, *action_invalid;
 
-    cr_assert_eq(rc, WRONG_KIND,
-                 "execute_do_item_item_action returned %d for wrong kind ITEM, expected WRONG_KIND (1)", rc);
-}
+    /* CREATE VARIABLE CONTENTS */
+    ctx_test = chiventure_ctx_new();
+    game_test = game_new("This is a test game!");
+    player_test = player_new("player", 1);
+    room_origin = room_new("room_o", "origin room", "This is the room the player starts in.");
+    room_north = room_new("room_n", "room north of origin", "This is the room north of the spawn.");
+    action_go = action_type_new("GO", PATH);
+    action_invalid = action_type_new("OPEN", ITEM);
 
+    /* FILL VARIABLE CONTENTS */
+    add_player_to_game(game_test, player_test);
+    set_curr_player(game_test, player_test);
+    add_room_to_game(game_test, room_origin);
+    add_room_to_game(game_test, room_north);
+    create_connection(game_test, room_origin->room_id, room_north->room_id, "north");
+    create_connection(game_test, room_north->room_id, room_origin->room_id, "origin");
+    path_north = path_search(room_origin, "north");
+    path_origin = path_search(room_north, "origin");
+    game_test->curr_room = room_origin;
+    ctx_test->game = game_test;
 
-Test(path_actions, kind_PATH)
-{
+    /* SUCCESS TEST */
+    check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
+    // player should be in room_north
+    check_do_path(ctx_test, action_go, path_origin, room_origin, SUCCESS);
+    // player should be in room_origin
 
-    int rc = execute_do_path_action("dummy", PATH);
+    /* FAIL TESTS */
+    check_do_path(ctx_test, action_invalid, path_north, room_origin, WRONG_KIND);
+    check_do_path(ctx_test, action_go, path_origin, room_origin, NOT_ALLOWED_PATH);
 
-    cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned %d for correct kind PATH expected SUCCESS (0)", rc);
-}
-
-
-Test(path_actions, kind_ITEM_ITEM)
-{
-    int rc = execute_do_path_action("dummy", ITEM_ITEM);
-
-    cr_assert_eq(rc, WRONG_KIND,
-                 "execute_do_item_item_action returned %d for wrong kind ITEM_ITEM expected WRONG_KIND (1)");
+    /* FREE VARIABLES */
+    chiventure_ctx_free(ctx_test);
+    action_type_free(action_go);
+    action_type_free(action_invalid);
 }
