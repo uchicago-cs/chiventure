@@ -12,7 +12,6 @@
 #include "cmd.h"
 #include "operations.h"
 #include "shell.h"
-#include "validate.h"
 
 // approximate length of chiventure banner
 #define BANNER_LENGTH (96)

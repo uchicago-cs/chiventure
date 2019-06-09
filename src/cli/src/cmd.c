@@ -4,7 +4,6 @@
 #include "parser.h"
 #include "shell.h"
 #include "cmd.h"
-#include "validate.h"
 
 /* === hashtable helper constructors === */
 
@@ -70,9 +69,9 @@ void delete_entry(char *command_name, lookup_t **table)
     free(t);
 }
 
-/* === hashtable constructors  === */
+ /* === hashtable constructors  === */
 
-/* See cmd.h */
+ /* See cmd.h */
 lookup_t **lookup_t_new()
 {
     lookup_t **t;
@@ -94,11 +93,10 @@ lookup_t **lookup_t_new()
     return t;
 }
 
-/* See cmd.h */
+ /* See cmd.h */
 int lookup_t_init(lookup_t **t)
 {
     assert(t != NULL);
-
     add_entry("QUIT", quit_operation, t);
     add_entry("HELP", help_operation, t);
     //add_entry("HIST", hist_operation, t);
@@ -112,16 +110,17 @@ int lookup_t_init(lookup_t **t)
     return SUCCESS;
 }
 
-/* See cmd.h */
-void lookup_t_free(lookup_t **t)
+ /* See cmd.h */
+int lookup_t_free(lookup_t **t) 
 {
-    lookup_t *tmp;
-    lookup_t *current_user;
-    HASH_ITER(hh, *t, current_user, tmp)
-    {
-        HASH_DEL(*t, current_user);
-        free(current_user);
-    }
+   lookup_t *tmp;
+   lookup_t *current_user;
+   HASH_ITER(hh, *t, current_user, tmp)
+   {
+       HASH_DEL(*t, current_user);
+       free(current_user);
+   }
+   return SUCCESS; 
 }
 
 /* === command constructors  === */
@@ -159,21 +158,14 @@ int cmd_init(cmd *c, char *tokens[TOKEN_LIST_SIZE])
 }
 
 /* See cmd.h */
-void cmd_free(cmd *c)
+int cmd_free(cmd *c)
 {
     if(c == NULL || c->tokens == NULL)
     {
-        return;
-    }
-
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
-    {
-        if(c->tokens[i] != NULL)
-        {
-            free(c->tokens[i]);
-        }
+        return SUCCESS;
     }
     free(c);
+    return SUCCESS;
 }
 
 /* === command debugging === */
