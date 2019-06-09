@@ -39,7 +39,7 @@ Test(path_actions, validate_path)
     room_t *room_north, *room_origin;
     path_t *path_north, *path_origin;
     action_type_t *action_go, *action_invalid;
-printf("crash test 0");
+
     /* CREATE VARIABLE CONTENTS */
     ctx_test = chiventure_ctx_new();
     game_test = game_new("This is a test game!");
@@ -48,19 +48,19 @@ printf("crash test 0");
     room_north = room_new("room_n", "room north of origin", "This is the room north of the spawn.");
     action_go = action_type_new("GO", PATH);
     action_invalid = action_type_new("OPEN", ITEM);
-printf("crash test 1");
+
     /* FILL VARIABLE CONTENTS */
-    add_player_to_game(game_test, player_test);
-    set_curr_player(game_test, player_test);
+    // add_player_to_game(game_test, player_test);
+    // set_curr_player(game_test, player_test);
     add_room_to_game(game_test, room_origin);
     add_room_to_game(game_test, room_north);
-    create_connection(game_test, "room_o", "room_n", "north");
-    create_connection(game_test, "room_n", "room_o", "origin");
+    create_connection(game_test, room_origin->room_id, room_north->room_id, "north");
+    create_connection(game_test, room_north->room_id, room_origin->room_id, "origin");
     path_north = path_search(room_north, "north");
     path_origin = path_search(room_origin, "origin");
     game_test->curr_room = room_origin;
     ctx_test->game = game_test;
-printf("crash test 2");
+
     /* SUCCESS TEST */
     check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
     // player should be in room_north
