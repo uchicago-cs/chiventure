@@ -24,7 +24,6 @@ int game_quit(game_t *game) {
     return FAILURE;
 }
 
-
 /* See game.h */
 int add_player_to_game(game_t *game, player_t *player) {
     player_t *check;
@@ -44,7 +43,7 @@ int add_player_to_game(game_t *game, player_t *player) {
 int add_room_to_game(game_t *game, room_t *room) {
     room_t *check;
     HASH_FIND(hh, game->all_rooms, room->room_id, strnlen(room->room_id, MAX_ID_LEN),
-    check);
+	      check);
 
     if (check != NULL) {
         /* WARNING */
@@ -52,7 +51,22 @@ int add_room_to_game(game_t *game, room_t *room) {
         return FAILURE;
     }
     HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, strnlen(room->room_id, MAX_ID_LEN),
-    room);
+		    room);
+    return SUCCESS;
+}
+
+/* See game.h */
+int add_item_to_game(game_t *game, item_t *item) {
+    item_t *check;
+    HASH_FIND(hh, game->all_items, item->item_id, strnlen(item->item_id, MAX_ID_LEN), check);
+
+    if (check != NULL) {
+        /* WARNING */
+        fprintf(stderr, "add_item_to_game: this item id is already in use.\n");
+	return FAILURE;
+    }
+    HASH_ADD_KEYPTR(hh, game->all_items, item->item_id, strnlen(item->item_id, MAX_ID_LEN),
+		    item);
     return SUCCESS;
 }
 
@@ -96,6 +110,12 @@ room_t *find_room_from_game(game_t *game, char* room_id) {
     return r;
 }
 
+/* See game.h */
+item_t *get_item_from_game(game_t *game, char *item_id) {
+    item_t *i;
+    HASH_FIND(hh, game->all_items, item_id, strnlen(item_id, MAX_ID_LEN), i);
+    return i;
+}
 
 /* See game.h */
 int move_room(game_t *game, room_t *new_room) {
