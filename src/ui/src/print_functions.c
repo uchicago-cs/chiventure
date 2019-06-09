@@ -121,7 +121,7 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
     int len = strlen(str);
     char temp[len];
     strcpy(temp, str);
-    char *tmp = strtok(str, "\n");
+    char *tmp = strtok(temp, "\n");
     
     
     getyx(cli, y, x);
