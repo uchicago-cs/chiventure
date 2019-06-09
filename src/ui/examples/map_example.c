@@ -15,12 +15,12 @@
  */
 void ncurses_init()
 {
-  initscr();
-  clear();
-  noecho();
-  cbreak();
-  curs_set(0);
-  return ;
+    initscr();
+    clear();
+    noecho();
+    cbreak();
+    curs_set(0);
+    return ;
 }
 
 int main()

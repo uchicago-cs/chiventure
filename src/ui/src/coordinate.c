@@ -69,8 +69,7 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
         HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
         fclose(debug);
         return SUCCESS;
-    }
-    else {
+    } else {
         assert(cr->r != NULL);
         // If assigned to itself, no conflicts
         if (strcmp(cr->r->room_id, r->room_id) == 0) {
