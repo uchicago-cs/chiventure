@@ -4,7 +4,10 @@
 This library is dependent on `protobuf-c`. In order to compile, `protobuf-c` must be installed and properly referenced in the Makefile. 
 
 `protobuf-c` also requires `protobuf` to run. For more information, [protobuf-c](https://github.com/protobuf-c/protobuf-cI./src/checkpointing/include).
-  
+ 
+## How to Use
+To compile the library, run `make` inside the checkpointing directory. Examples of `protobuf-c` can be found int the checkpointing/examples/protobuf subdirectory. For more information, cosult the README in the subdirectoFor more information, cosult the README in the subdirectoryy
+ 
 ## Functions
 
 ## Save
