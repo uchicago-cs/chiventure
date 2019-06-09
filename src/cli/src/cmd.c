@@ -112,16 +112,17 @@ void add_action_entries(lookup_t **table)
  }
 
  /* See cmd.h */
- void lookup_t_free(lookup_t **t)
+ int lookup_t_free(lookup_t **t) 
  {
-     lookup_t *tmp;
-     lookup_t *current_user;
-     HASH_ITER(hh, *t, current_user, tmp)
-     {
-         HASH_DEL(*t, current_user);
-         free(current_user);
-     }
- }
+    lookup_t *tmp;
+    lookup_t *current_user;
+    HASH_ITER(hh, *t, current_user, tmp)
+    {
+        HASH_DEL(*t, current_user);
+        free(current_user);
+    }
+    return 0; 
+}
 
 /* === command constructors  === */
 
@@ -158,21 +159,14 @@ int cmd_init(cmd *c, char *tokens[TOKEN_LIST_SIZE])
 }
 
 /* See cmd.h */
-void cmd_free(cmd *c)
+int cmd_free(cmd *c)
 {
     if(c == NULL || c->tokens == NULL)
     {
-        return;
-    }
-
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
-    {
-        if(c->tokens[i] != NULL)
-        {
-            free(c->tokens[i]);
-        }
+        return 0;
     }
     free(c);
+    return 0;
 }
 
 /* === command debugging === */

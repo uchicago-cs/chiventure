@@ -11,7 +11,7 @@ UI = -L../../ui/
 
 STLIBS = $(COMMON) $(UI) $(CLI) $(GAME_STATE) $(ACTION_MANAGEMENT) -Wl,--start-group -lncurses -l:cli.a -l:ui.a -l:game-state.a -l:action_management.a -Wl,--end-group  
 
-SRCS = main.c test_parser.c
+SRCS = main.c test_parser.c test_cmd.c
 OBJS = $(SRCS:.c=.o)
 BIN = test_cli
 
@@ -28,5 +28,5 @@ $(SRCS:.c=.d):%.d:%.c
 
 .PHONY: clean
 clean:
-	-${RM} ${BIN} ${OBJS} $(SRCS:.c=.d)
 
+	${RM} ${BIN} ${OBJS} $(SRCS:.c=.d)
