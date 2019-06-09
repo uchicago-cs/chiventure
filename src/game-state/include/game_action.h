@@ -143,7 +143,12 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
 */
 game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
 
-
+/* do_effects() sets an effect
+ * Parameters:
+ * - a pointer to effect
+ * Returns:
+ *  SUCCESS if effect is set, FAILURE if not
+ */
 int do_effect(game_action_effect_t *effect);
 
 /* do_all_effects() sets all effects of an action
