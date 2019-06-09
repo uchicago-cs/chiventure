@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 
     /* Add calls to component-specific initializations here */
 
-    start_ui(&ctx, banner);
+    start_ui(ctx, banner);
 
 
     return 0;
