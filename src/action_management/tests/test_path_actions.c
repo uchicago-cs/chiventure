@@ -50,6 +50,7 @@ Test(path_actions, validate_path)
     action_invalid = action_type_new("OPEN", ITEM);
 
     /* FILL VARIABLE CONTENTS */
+    game->curr_room = room_origin;
     ctx_test->game = game_test;
     add_player_to_game(game_test, player_test);
     set_curr_player(game_test, player_test);
