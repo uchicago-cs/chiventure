@@ -211,6 +211,7 @@ item_list_t *get_all_items_in_game(game_t *game);
 * error 3 if item src is null
 * error 4 if item to modify is null
 * error 5 if action is null
+* error 6 if attr is null
 */
 int add_effect(game_t *game, char* room_id, char* action_name, char* item_src_name, 
     char* item_modify_name, char* attribute_name, attribute_value_t new_value);

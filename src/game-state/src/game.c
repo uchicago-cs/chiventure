@@ -184,6 +184,10 @@ int add_effect(game_t *game, char* room_id, char* action_name, char* item_src_na
         return 5;
     }
     attribute_t *attribute = get_attribute(item_src, attribute_name);
+    if(attribute == NULL)
+    {
+        return 6;
+    }
     int check = add_action_effect(action, item_src, item_modify, attribute, new_value);
     
     return check;
