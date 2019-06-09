@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "sample_game.h"
 #include "item.h" // to get item_t
 #include "action_structs.h" // to get action_type_t
@@ -65,9 +64,3 @@ game_t* create_sample_game()
 
     return game;
 }
-=======
-#include "game.h"
-#include "sample_game.h"
-
-
->>>>>>> master
