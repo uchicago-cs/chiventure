@@ -17,7 +17,6 @@ int game_action_init(game_action_t *new_action, char *act_name, char* success_st
 }
 
 
-
 /* see game_action.h */
 game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str)
 {
@@ -61,20 +60,12 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
     game_action_t* check = get_action(item, action_name);
     if (check != NULL) 
     {
-        fprintf(stderr, "Error: this action is already present.\n");
+        //fprintf(stderr, "Error: this action is already present.\n");
         return FAILURE;
     }
     game_action_t* action = game_action_new(action_name, success_str, fail_str);
     HASH_ADD_KEYPTR(hh, item->actions, action_name, strlen(action_name), action);
     return SUCCESS;
-}
-
-// ------------------------------------- CONDITIONS -------------------------------------
-
-/* see game_action.h */
-int add_action_condition(item_t* item, char* action_name)
-{
-    //TODO: add more parameters & how to support conditions being multiple types?? 
 }
 
 /* see game_action.h */
@@ -91,52 +82,57 @@ bool possible_action(item_t *item, char* action_name)
     }   
 }
 
+// ------------------------------------- CONDITIONS -------------------------------------
+
 /* see game_action.h */
-bool check_condition(item_t *item, attribute_t* desired_attribute)
+int add_action_condition(item_t* item, char* action_name)
 {
-    char* attribute_name = desired_attribute->attribute_key;
-    attribute_t* actual_attribute = get_attribute(item, attribute_name);
-    if(actual_attribute == NULL)
-    {
-        return false;
-    }
-    if(actual_attribute->attribute_tag != desired_attribute->attribute_tag)
-    {
-        return false;
-    }
+    //TODO: add more parameters & how to support conditions being multiple types?? 
+}
+
+
+/* see game_action.h */
+bool check_condition(item_t *item, game_action_condition_t *condition)
+{
+    //check if NULL attribute, return true if true
+    attribute_t* actual_attribute = condition->attribute_to_check;
+    if(actual_attribute == NULL) 
+        return true;
+    char* attribute_name = actual_attribute->attribute_id;
+
     switch(actual_attribute->attribute_tag)
     {
         case(DOUBLE):
             if (actual_attribute->attribute_value.double_val ==
-                desired_attribute->attribute_value.double_val)
+                condition->expected_value.double_val)
             {
                 return true;
             }
             break;
         case(BOOLE):
             if (actual_attribute->attribute_value.bool_val ==
-                desired_attribute->attribute_value.bool_val)
+                condition->expected_value.bool_val)
             {
                 return true;
             }
             break;
         case(CHARACTER):
             if (actual_attribute->attribute_value.char_val ==
-                desired_attribute->attribute_value.char_val)
+                condition->expected_value.char_val)
             {
                 return true;
             }
             break;
         case(STRING):
             if (!strcmp(actual_attribute->attribute_value.str_val,
-                desired_attribute->attribute_value.str_val))
+                condition->expected_value.str_val))
             {
                 return true;
             }
             break;
         case(INTEGER):
             if (actual_attribute->attribute_value.int_val ==
-                desired_attribute->attribute_value.int_val)
+                condition->expected_value.int_val)
             {
                 return true;
             }
@@ -146,10 +142,77 @@ bool check_condition(item_t *item, attribute_t* desired_attribute)
 }
 
 /* see game_action.h */
-bool all_conditions_met(item_t* item, char* action_name)
+int all_conditions_met(item_t* item, char* action_name)
 {
     //call possible action to see if the action exists
-    //call iterate through list of conditions and call check_condition on each node
+    if (!(possible_action(item, action_name))) 
+    {
+        return 2;
+    }
+
+  //PATRICK
 }
 
 // ------------------------------------- EFFECTS -------------------------------------
+
+/* see game_action.h */
+int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t *attribute, attribute_value_t *new_value) 
+{
+    //create effect
+    game_action_effect_t *effect = create_effect(item_to_modify, attribute, new_value);
+    
+    //ADD TO LIST IDK HOW?
+}
+
+/* see game_action.h */
+game_action_effect_t *create_effect(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
+{
+    game_action_effect_t *effect = malloc(sizeof(condition_t));
+    effect->attribute_to_modify = attribute;
+    effect->expected_value = new_value;
+    effect->next = NULL;
+
+    return effect;
+}
+
+/* see game_action.h */
+bool affect_effect(game_action_effect_t *effect) 
+{
+    item_t *item = effect->item;
+    attribute_t *attr = effect->attribute_to_modify;
+    attribute_value_t *val = effect->new_value;
+    switch(attr->attribute_tag)
+    {
+        case(DOUBLE):
+            if(set_double_attr(item, attr->attribute_key, val.double_val))
+            {
+                return true;
+            }
+            break;
+        case(BOOLE):
+            if(set_bool_attr(item, attr->attribute_key, val.bool_val))
+            {
+                return true;
+            }
+            break;
+        case(CHARACTER):
+            if(set_char_attr(item, attr->attribute_key, val.char_val))
+            {
+                return true;
+            }
+            break;
+        case(STRING):
+            if(set_str_attr(item, attr->attribute_key, val.str_val))
+            {
+                return true;
+            }
+            break;
+        case(INTEGER):
+            if(set_int_attr(item, attr->attribute_key, val.int_val))
+            {
+                return true;
+            }
+            break;
+    }
+    return false;
+}

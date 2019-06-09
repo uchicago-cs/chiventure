@@ -40,7 +40,7 @@ game_action_t *get_action(item_t *item, char* action_name);
 int add_action(item_t* item, char *action_name, char* success_str, char* fail_str);
 
 
-/* REDO THIS possible_action() (formerly allowed_action())checks if an item permits a specific action
+/* possible_action() checks if an item permits a specific action
  * Parameters:
  *  a pointer to the item
  *  the action name
@@ -70,7 +70,7 @@ game_action_hash_t *get_all_actions(item_t *item);
 int game_action_free(game_action_t *action_tofree);
 
 
-// CONDITION FUNCTIONS -------------------------
+// ------------------------- CONDITION FUNCTIONS -------------------------
 
 //write header (fix params)
 int add_action_condition(item_t* item, char* action_name);
@@ -83,7 +83,7 @@ int add_action_condition(item_t* item, char* action_name);
  * Returns:
  *  true if desired attribute matches the actual, false if not
  */
-bool check_condition(item_t *item, attribute_t* desired_attribute);
+bool check_condition(item_t *item, game_action_condition_t *condition);
 
 
 
@@ -92,14 +92,39 @@ bool check_condition(item_t *item, attribute_t* desired_attribute);
  *  a pointer to the item to check
  *  the action
  * Returns:
- *  true if all conditions are met, false if not
+ *  SUCCESS if all conditions are met, FAILURE if not
+ *  2 if action not possible
  */
-bool all_conditions_met(item_t* item, char* action_name);
+int all_conditions_met(item_t* item, char* action_name);
 
 
-//EFFECT FUNCTIONS ------------------------------
+//------------------------- EFFECT FUNCTIONS ------------------------------
 
-//write header (fix params)
- int add_action_effect(item_t* item, char* action_name);
+/* add_action_effect creates an effect_t struct and adds it to the action pointed to
+* Parameters:
+* - ptr to action
+* - ptr to item being modified
+* - ptr to attribute to modify
+* - new attribute_value_t (takes tag from attribute above)
+* 
+* Returns:
+* int SUCCESS FAILURE
+* error 2 if action NULL
+* error 3 if item to modify is null
+*/
+int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t *attribute, attribute_value_t *new_value);
+
+
+//alt version 
+//int add_effect(game_t *game, char* room_id, char* action, char* item_id, attribute_t *attribute, attribute_value_t *new_value);
+
+//UNWRITTEN HEADER
+//creates condition_t
+condition_t *create_condition(item_t *item_to_modify, attribute_t *attribute, attribute_value_t *new_value);
+
+//troll name find a better one
+bool affect_effect(game_action_effect_t *effect);
+
+
 
  
