@@ -80,14 +80,25 @@ int game_action_free(game_action_t *action_tofree);
  *  a pointer to the action to which the condition is being added
  *  a pointer to the item specified in the action condition
  *  a pointer to the attribute of the item specified in action condition that needs to be validated
- *  a pointer to the value of the above attribute that needs to be validated
+ *  the value of the above attribute that needs to be validated
  * Returns:
  *  SUCCESS upon SUCCESS, 1 if first item ID does not exist
  *  2 if specified action does not exist in first item
  *  3 if second item ID does not exist
  */
 int add_action_condition(item_t *item, game_action_t *action,
-			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t *cond_value);
+			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t cond_value);
+
+/* condition_new() creates a new condition in an item with given inputs
+ * Parameters:
+ *  a pointer to the item to be modified
+ *  a pointer to the attribute 
+ *  the desired value of the attribute
+ * Returns:
+ *  NULL if item or attribute are NULL, the new condition if succcessful
+ */ 
+game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
+				       attribute_value_t new_value);
 
 /* check_condition() checks if the actual attribute of an item is equal 
  * to the desired attribute
