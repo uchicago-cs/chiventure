@@ -384,7 +384,9 @@ int load(char *filename, game_t *g_t)
         exit(1);
     }
 
-    load_game(g, g_t);
+    int success = load_game(g, g_t);
+    if(success != 0)
+        return -1;
     game__free_unpacked(g, NULL);
     return 0;
 }
