@@ -5,7 +5,7 @@ AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../cli/include/ -I../action_management/include/
 RM = rm -f
 LIB = ui.a
-LDLIBS = -lncurses -lreadline
+LDLIBS = -lncursesw -lreadline
 
 COMMON = -L../common/ -Wl,-rpath,../common/ -l:common.a
 CLI = -L../cli/ -Wl,-rpath,../cli/ -l:cli.a

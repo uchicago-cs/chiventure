@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "ctx.h"
+#include "ui.h"
 
 const char *banner =
     "    ________________________________________________________________________________________\n"
@@ -22,8 +23,7 @@ int main(int argc, char **argv)
 
     /* Add calls to component-specific initializations here */
 
-
-    start_ui(ctx);
+    start_ui(&ctx, banner);
 
 
     return 0;

@@ -19,6 +19,7 @@ typedef struct lookup_entry lookup_t;
 /* A context struct encapsulating all the shared state in chiventure */
 typedef struct chiventure_ctx {
     /* Add component-specific structs here */
+
     ui_ctx_t *ui_ctx;
     game_t *game;
     lookup_t **table;
