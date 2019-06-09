@@ -25,6 +25,5 @@ int main(int argc, char **argv)
 
     start_ui(ctx, banner);
 
-
     return 0;
 }

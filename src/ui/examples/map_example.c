@@ -7,6 +7,22 @@
 #include "ui_ctx.h"
 #include "room.h"
 
+/* Initializes the ncurses window
+ *
+ * Inputs: N/A
+ *
+ * Outputs:N/A
+ */
+void ncurses_init()
+{
+  initscr();
+  clear();
+  noecho();
+  cbreak();
+  curs_set(0);
+  return ;
+}
+
 int main()
 {
     ncurses_init();

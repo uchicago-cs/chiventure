@@ -33,14 +33,6 @@ typedef struct map {
     int room_w;
 } map_t;
 
-/* Initializes the ncurses window
- *
- * Inputs: N/A
- *
- * Outputs:N/A
- */
-void ncurses_init();
-
 /* Initiates map at WINDOW * pointer to pad
  *
  * Inputs: N/A

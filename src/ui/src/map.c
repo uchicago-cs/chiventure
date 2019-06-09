@@ -8,17 +8,6 @@
 #include "ctx.h"
 #include "ui.h"
 
-
-void ncurses_init()
-{
-    initscr();
-    clear();
-    noecho();
-    cbreak();
-    curs_set(0);
-    return ;
-}
-
 void erase_ch(int y, int x)
 {
     mvaddch(y, x, '#');
