@@ -54,8 +54,8 @@ Test(path_actions, validate_path)
     set_curr_player(game_test, player_test);
     add_room_to_game(game_test, room_origin);
     add_room_to_game(game_test, room_north);
-    create_connection(room_origin, "room_o", "room_n", "north");
-    create_connection(room_north, "room_n", "room_o", "origin");
+    create_connection(game_test, "room_o", "room_n", "north");
+    create_connection(game_test, "room_n", "room_o", "origin");
     path_north = path_search(room_north, "north");
     path_origin = path_search(room_origin, "origin");
     game_test->curr_room = room_origin;
