@@ -159,8 +159,8 @@ item_list_t *get_all_items_in_game(game_t *game) {
     return items;
 }
 
-//header unwritten
-int add_effect(game_t *game, char* room_id, char* action_name, char* item_src_name, char* item_modify_name, attribute_t *attribute, attribute_value_t new_value)
+/* see game.h */
+int add_effect(game_t *game, char* room_id, char* action_name, char* item_src_name, char* item_modify_name, char* attribute_name, attribute_value_t new_value)
 {
     room_t *room = find_room_from_game(game, room_id);
     if(room == NULL)
@@ -182,6 +182,7 @@ int add_effect(game_t *game, char* room_id, char* action_name, char* item_src_na
     {
         return 5;
     }
+    attribute_t *attribute = get_attribute(item_src, attribute_name);
     int check = add_action_effect(action, item_src, item_modify, attribute, new_value);
     
     return check;
