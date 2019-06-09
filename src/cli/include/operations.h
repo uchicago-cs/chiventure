@@ -1,9 +1,7 @@
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
-#include "cmd.h"
-#include "game.h"
-#include "actionmanagement.h"
-#include "print_functions.h"
+
+#include "ctx.h"
 
 /*
  * We list all demanded operations over here.

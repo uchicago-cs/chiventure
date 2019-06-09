@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "operations.h"
+#include "cmd.c"
+#include "print_functions.h"
 #include "shell.h"
-#include "room.h"
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
