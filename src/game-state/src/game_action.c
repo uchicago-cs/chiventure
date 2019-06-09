@@ -98,7 +98,7 @@ bool check_condition(item_t *item, game_action_condition_t *condition)
     attribute_t* actual_attribute = condition->attribute_to_check;
     if(actual_attribute == NULL) 
         return true;
-    char* attribute_name = actual_attribute->attribute_id;
+    char* attribute_name = actual_attribute->attribute_key;
 
     switch(actual_attribute->attribute_tag)
     {
@@ -156,7 +156,7 @@ int all_conditions_met(item_t* item, char* action_name)
 // ------------------------------------- EFFECTS -------------------------------------
 
 /* see game_action.h */
-int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t *attribute, attribute_value_t *new_value) 
+int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
 {
     //create effect
     game_action_effect_t *effect = create_effect(item_to_modify, attribute, new_value);
@@ -167,9 +167,9 @@ int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t
 /* see game_action.h */
 game_action_effect_t *create_effect(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
 {
-    game_action_effect_t *effect = malloc(sizeof(condition_t));
+    game_action_effect_t *effect = malloc(sizeof(game_action_effect_t));
     effect->attribute_to_modify = attribute;
-    effect->expected_value = new_value;
+    effect->new_value = new_value;
     effect->next = NULL;
 
     return effect;
@@ -180,7 +180,7 @@ bool affect_effect(game_action_effect_t *effect)
 {
     item_t *item = effect->item;
     attribute_t *attr = effect->attribute_to_modify;
-    attribute_value_t *val = effect->new_value;
+    attribute_value_t val = effect->new_value;
     switch(attr->attribute_tag)
     {
         case(DOUBLE):
