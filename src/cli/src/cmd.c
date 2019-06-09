@@ -36,8 +36,8 @@ void add_action_entries(lookup_t **table)
             add_entry(curr_action->c_name, kind3_action_operation, table);
         }
 
-         all_actions = all_actions->next;
-     }
+        all_actions = all_actions->next;
+    }
 }
 
 lookup_t *find_entry(char *command_name, lookup_t **table)
