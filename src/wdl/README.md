@@ -22,7 +22,7 @@ In order to run a script, type `make examples` followed by `cd examples`. Then r
 `[script.c] sample_yaml/[yaml file]`
 
 These are the current scripts: 
-* `typecheck_demo.c`: First official test of our type-checking and printing functions. It takes in a YAML file, does basic type-checking and prints out whatever content it can.
+* `typecheck_demo.c`: First official test of our type-checking and printing functions. It takes in a YAML file, does basic type-checking and prints all content that is printable.
 
 These are the current YAML files:
 * `connected_rooms.yaml`: simple YAML file that contains rooms and connections

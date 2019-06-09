@@ -22,7 +22,8 @@ int main(int argc, char* argv[])
     // Checks if extension is a .yaml extension
     const char *ext = strchr(fname, '.');
     const char *check = ".yaml";
-    if (strncmp(ext, check, 5) != 0)
+   
+    if (strncmp(ext, check, strlen(check)) != 0)
     {
         printf("Err: file does not have .yaml extension\n");
         return 1;
@@ -52,7 +53,7 @@ int main(int argc, char* argv[])
         printf("Game successfully verified\n");
     }
     else {
-        printf("Game unsuccessfully verified\n");
+        printf("Game verification unsuccessful\n"); 
     }
 
     // Verify rooms
@@ -62,7 +63,7 @@ int main(int argc, char* argv[])
         printf("Rooms successfully verified\n");
     }
     else {
-        printf("Rooms unsuccessfully verified\n");
+        printf("Rooms verification unsuccessful\n");
     }
     // Verify items
     bool item_check = list_type_check(items_ls, item_type_check);
@@ -71,7 +72,7 @@ int main(int argc, char* argv[])
         printf("Items successfully verified\n");
     }
     else {
-        printf("Items unsuccessfully verified\n");
+        printf("Items verificaton unsuccessful\n");
     }
 
     // Print game

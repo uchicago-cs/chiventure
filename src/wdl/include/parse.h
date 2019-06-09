@@ -5,11 +5,8 @@
 #ifndef INCLUDE_PARSE_H
 #define INCLUDE_PARSE_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include <validate.h>
-
+#include "wdl_common.h"
 
 /* Helper function for creating doc object from defined FILE_PATH */
 obj_t *get_doc_obj(char *fpath);

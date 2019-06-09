@@ -1,5 +1,6 @@
 # WDL FORMATTING RULES AND EXAMPLES
-May 20, 2019
+June 2, 2019
+
 
 ### Definitions:
 ##### - Component:
@@ -40,12 +41,20 @@ Please see this document for all possible actions and descriptions: https://gith
 
 - intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 
+- end: `<CONDITION>` a condition specification for how the game ends. This must be one of two ways:
+   1. The inventory contains a specific item
+    - Ex. inventory contains: "emerald gem"
+
+   2. The player is located in a specific room
+    - Ex. in_room: "BEDROOM"
+
 ### GAME example:
 ```yaml
  - start: "KITCHEN"
  - intro: “Welcome to the virtual house. You have been wandering for quite some time,
    and you need to determine how to return to reality.”
-
+ - end:
+   - in_room: "LIVING ROOM"
 ```
 
 ## ROOM:
@@ -63,10 +72,8 @@ Please see this document for all possible actions and descriptions: https://gith
     - to: `<ROOM  ID>` which lists a valid place the player can reach in one action from this room by ID
 
       direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
-
-      through: `<ITEM ID>` if applicable, the item that the player must go through to go in that direction
-
-    ###### NOTE: a valid connection has to have an ID that exists. 
+   
+   ###### NOTE: a valid connection has to have an ID that exists. 
 
 
 ### ROOM example:
@@ -84,21 +91,16 @@ ROOM Example:
 
       direction: "down"
 
-      through: "trapdoor"
-
     - to: "bedroom"
 
       direction: "north"
-
-      through: "portal"
-
 ```
 
 ## ITEM:
 
-- For ITEMs, the indentation format is the same as above, except for actions, the attributes are indented with two spaces, followed by a dash.
+- For ITEMs, the indentation format is the same as above, except for actions, the fields are indented with two spaces, followed by a dash.
 - This applies to the subcategories in action as well.
-- The attributes within actions must be indented with a dash(-) as well.
+- The fields within actions must be indented with a dash(-) as well.
 
 ##### The Item Object must contain the following attributes:
   - id: `<UNIQUE ID NAME>` which is a unique identifier for the item; one id can only used to identify one item in the entire ITEMS object. (i.e. only one door can have id “door”, the others would have to have “door1”, “door2”, etc. because there must be no repeat ids)
@@ -109,20 +111,36 @@ ROOM Example:
 
     in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
 
-    actions: the possible actions that can be performed on the item; each action has the following attributes:
+    attributes: the descriptors for the item
+
+    - attribute: `<STRING>` which is the name of the state of the item upon initialization of the game
+    
+      value: `<STRING_VAL>` which is the value of the state of the item upon initialization of the game
+
+    actions: the possible actions that can be performed on the item; each action has the following fields:
       
-    - action: `<ACTION FROM BANK>`:
+    - action: `<ACTION FROM BANK>`
+
+      conditions: (OPTIONAL) the conditions that must be fulfilled for the action to be completed
+
+      - id: `<STRING_ITEM>` which is an identification name that is unique to the conditional item
+
+        attribute: `<STRING>` which is the name of the state of the conditional item
+
+        value: `<STRING_VAL>` which is the value of the state of the conditional item in order for the action to be completed
+
+      effects: (OPTIONAL) changes an attribute of the item's state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition) 
+
+      - id: `<STRING_ITEM>` which is an identification name that is unique to the affected item
+
+        attribute: `<STRING>` which is the name of the state of the affected item
+
+        value: `<STRING_VAL>` which is the value of the state of the affected item upon completion of the action
 
       text_success: `<STRING>` which is a string that is displayed upon the success of an action (OPTIONAL)
 
       text_fail: `<STRING>` which is the string that is displayed when an action is not allowed (OPTIONAL)
 
-      - id: `<STRING_ITEM>` which is an identification name that is unique to the conditional item
-
-      - id: `<ITEM ID>`
-        
-        state: `<ATTRIBUTE>`
-         
 ### ITEM examples:
 ```yaml
 - id: "handle"
@@ -132,6 +150,16 @@ ROOM Example:
   long_desc: "The iron lever is painted gold and rusting in the corner of the palace garden."
 
   in: "garden"
+  
+  attributes:
+
+    - attribute: "size"
+
+      value: "small"
+
+    - attribute: "pulled"
+
+      value: true
 
   actions:
 
@@ -141,9 +169,25 @@ ROOM Example:
 
     - action: "pull"
 
+      conditions:
+      
+      - id: "star"
+
+        attribute: "color"
+
+        value: "red"
+
+      effects:
+
+      - id: "lever"
+
+      	attribute: "pulled"
+
+      	value: "yes"
+        
       text_success: "Congrats! You can now access the underground tunnel. Go find it!"
 
-      text_fail: "You cannot pull the lever. You must be holding the star in order to pull the lever."
+      text_fail: "You cannot pull the lever. The star must be red in order to pull the lever."
 
 - id: "wand"
 
@@ -157,11 +201,19 @@ ROOM Example:
   
     - action: "take"
 
+      conditions:
+      
+      - id: "top hat"
+
+        attribute: "on_head"
+
+        value: true
+        
       text_success: "Congrats! You got the wand and can perform a spell!"
 
-      text_fail: "You cannot take the wand until you have the top hat"
+      text_fail: "You cannot take the wand until the top hat is on your head"
 
     - action: "consume"
 
-      text_fail: "You cannot consume the wand."
+      text_fail: "You cannot consume the wand. Please try to hold it."
 ```

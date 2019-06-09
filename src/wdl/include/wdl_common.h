@@ -10,6 +10,7 @@
 #include "parser.h"
 #include "room.h"
 #include "game.h"
+#include "path.h"
 
 #define PATH "./examples/sample_yaml/connected_rooms.yaml"
 
