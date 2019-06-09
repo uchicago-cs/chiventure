@@ -79,9 +79,8 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r);
 
 /* create_valid_map():
  *
- * Parameters: TO-DO
- * - Will Pass in info from WDL/gamestate. Likely will take in
- *   a game state context struct. (Sprint 3)
+ * Parameters:
+ * - game: takes in a game from game-state
  *
  * Return values:
  * - Returns pointer to hashmap of coordinates upon SUCCESS
