@@ -73,6 +73,7 @@ Test(path_actions, validate_path)
 
     /* FREE VARIABLES */
     chiventure_ctx_free(ctx_test);
+    game_free(game_test);
     action_type_free(action_go);
     action_type_free(action_invalid);
 }
