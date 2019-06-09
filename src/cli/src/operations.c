@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "operations.h"
-#include "cmd.c"
+#include "cmd.h"
 #include "print_functions.h"
 #include "shell.h"
 
