@@ -4,14 +4,16 @@
 #include <string.h>
 #include "actionmanagement.h"
 #include "common.h"
+#include "game_action.h"
 
 #define BUFFER_SIZE (100)
-#define WRONG_KIND (1)
-#define NOT_ALLOWED_DIRECT (2)
-#define NOT_ALLOWED_INDIRECT (3)
-#define CONDITIONS_NOT_MET (4)
-#define ATTRIBUTE_TYPE_DNE (5)
-#define ATTRIBUTE_NOT_SET (6)
+#define WRONG_KIND (2)
+#define NOT_ALLOWED_DIRECT (3)
+#define NOT_ALLOWED_INDIRECT (4)
+#define NOT_ALLOWED_PATH (5)
+#define CONDITIONS_NOT_MET (6)
+#define EFFECT_NOT_APPLIED (7)
+
 
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind)
@@ -90,25 +92,51 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
 
 /* KIND 2
  * See actionmanagement.h */
-int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
+int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_string)
 {
-    assert(g);
-    assert(g->curr_player);
+    assert(c);
+    assert(c->game);
+    assert(c->game->curr_room);
     assert(a);
-    char *string = malloc(BUFFER_SIZE); // buffer
+    
+
+    /* INITIALIZATION */
+    char *string = malloc(BUFFER_SIZE);
+    char *direction = p->direction;
+    game_t *g = c->game;
+    room_t *room_dest = p->dest;
+    room_t *room_curr = g->curr_room;
+    path_t *path_found = path_search(room_curr, direction);
+
+    /* VALIDATION */
     // checks if the action type is the correct kind
     if (a->kind != PATH) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
     }
-    /* TODO: implement the rest of this function, using game state funcs
-     * Will perform the action if all checks pass (Sprint 4)
-     */
-    sprintf(string, "Requested action %s in direction %s into room %s",
-            a->c_name, p->direction, p->dest->room_id);
-    *ret_string = string;
-    return SUCCESS;
+    // validate existence of path and destination
+    if ((path_found == NULL) || (room_dest == NULL)) {
+        sprintf(string, "The path or room provided was invalid.");
+        return NOT_ALLOWED_PATH;
+    }
+
+    /* PERFORM ACTION */
+    int move = move_room(g, room_dest);
+
+    if (move == SUCCESS) {
+        snprintf(string, "Moved into %s. %s", 
+                room_dest->room_id, room_dest->long_desc);
+        *ret_string = string;
+        return SUCCESS;
+    }
+    else {
+        sprintf(string, 
+                "Move action %s via %s into %s failed.",
+                a->c_name, direction, room_dest->room_id);
+        *ret_string = string;
+        return NOT_ALLOWED_PATH;
+    }
 }
 
 
@@ -168,62 +196,34 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     // implement the action (i.e. dole out the effects)
     else {
         action_effect_list_t *act_effects = dir_game_act->effects;
-        int attr_set = FAILURE;
+        int applied_effect = 40; // unused macro
         while (act_effects) {
             // apply the effects of the direct item action (use, put) on the indirect item
             if (strcmp(act_effects->item->item_id, indirect->item_id) == 0) {
-                int attr_set;
-                switch(act_effects->attr_to_modify->attribute_tag) {
-                case DOUBLE:
-                    attr_set = set_double_attr(act_effects->item,
-                                               act_effects->attr_to_modify->attribute_key,
-                                               act_effects->attr_to_modify->new_value);
-                    break;
-                case BOOLE:
-                    attr_set = set_bool_attr(act_effects->item,
-                                             act_effects->attr_to_modify->attribute_key,
-                                             act_effects->attr_to_modify->new_value);
-                    break;
-                case CHARACTER:
-                    attr_set = set_char_attr(act_effects->item,
-                                             act_effects->attr_to_modify->attribute_key,
-                                             act_effects->attr_to_modify->new_value);
-                    break;
-                case STRING:
-                    attr_set = set_str_attr(act_effects->item,
-                                            act_effects->attr_to_modify->attribute_key,
-                                            act_effects->attr_to_modify->new_value);
-                    break;
-                case INTEGER:
-                    attr_set = set_int_attr(act_effects->item,
-                                            act_effects->attr_to_modify->attribute_key,
-                                            act_effects->attr_to_modify->new_value);
-                    break;
-                case ACTIONS:
-                    attr_set = set_actions_attr(act_effects->item,
-                                                act_effects->attr_to_modify->attribute_key,
-                                                act_effects->attr_to_modify->new_value);
-                    break;
-                default:
-                    sprintf(string, "Attribute Type does not exist");
+                applied_effect = do_effect(act_effects);
+                if (applied_effect == FAILURE) {
+                    sprintf(string, "Effect of Action %s could not be applied to Item %s",
+                            a->c_name, indirect->item_id);
                     free(temp);
                     *ret_string = string;
-                    return ATTRIBUTE_TYPE_DNE;
+                    return EFFECT_NOT_APPLIED;
                 }
             }
             act_effects = act_effects->next;
         }
-        if (attr_set == FAILURE) {
-            sprintf(string, "Effect of Action %s could not be applied to Item %s",
+        if (applied_effect == 40) {
+            sprintf(string, "Action %s can't be requested on item %s",
                     a->c_name, indirect->item_id);
             free(temp);
             *ret_string = string;
-            return ATTRIBUTE_NOT_SET;
+            return NOT_ALLOWED_INDIRECT;
         }
+        else if (applied_effect == SUCCESS) {
         // successfully carried out action
-        sprintf(string, "%s", dir_game_act->success_str);
-        free(temp);
-        *ret_string = string;
-        return SUCCESS;
+            sprintf(string, "%s", dir_game_act->success_str);
+            free(temp);
+            *ret_string = string;
+            return SUCCESS;
+        }
     }
 }

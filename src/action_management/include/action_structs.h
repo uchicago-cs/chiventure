@@ -25,7 +25,6 @@ enum actions {
 
     // KIND 2 ACTIONS - ACTION <path>
     GO, // synonyms: "walk"
-    ENTER,
 
     /* KIND 3 ACTIONS - ACTION <item_item> */
     USE_ON,
