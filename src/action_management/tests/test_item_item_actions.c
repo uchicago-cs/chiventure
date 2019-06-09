@@ -16,7 +16,7 @@
 #define ATTRIBUTE_TYPE_DNE (5)
 #define ATTRIBUTE_NOT_SET (6)
 
-int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, enum action_kind allowed_kind1, char *allowed_act_name2, enum action_kind allowed_kind2, int choose_item, int choose_attribute)
+int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, enum action_kind allowed_kind1, char *allowed_act_name2, enum action_kind allowed_kind2, int choose_condition, int choose_effect)
 {
     action_type_t *a = action_type_new(act_name, kind);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
@@ -25,15 +25,11 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     add_action(indirect, allowed_act_name2, "success2", "fail2");
     char *string = malloc(BUFFER_SIZE);
 
-    item_t **chosen_item;
-    switch (choose_item)
+    switch (choose_condition)
     {
     case 1:
-        chosen_item = &direct;
         break;
-    case 2:
-        chosen_item = &indirect;
-        break;
+    
     default:
         break;
     }
@@ -42,11 +38,11 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     switch (choose_attribute)
     {
     case 1:
-        n = set_str_attr(*chosen_item, "DUMMYATTR", "old");
-        game_action_t *ga = get_action(*chosen_item, act_name);
-        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", "new");
+        n = set_str_attr(direct, "DUMMYATTR", "old");
+        game_action_t *ga = get_action(direct, act_name);
+        n = add_action_effect(ga, direct, "DUMMYATTR", "new");
         n = do_item_item_action(a, direct, indirect, &string);
-        if (strcmp(get_str_attr(*chosen_item, "DUMMYATTR"), "new") == 0)
+        if (strcmp(get_str_attr(direct, "DUMMYATTR"), "new") == 0)
         {
             rc = SUCCESS;
         }
@@ -56,11 +52,11 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     case 2:
-        n = set_int_attr(*chosen_item, "DUMMYATTR", 0);
-        game_action_t *ga = get_action(*chosen_item, act_name);
-        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", 1);
+        n = set_int_attr(direct, "DUMMYATTR", 0);
+        game_action_t *ga = get_action(direct, act_name);
+        n = add_action_effect(ga, direct, "DUMMYATTR", 1);
         n = do_item_item_action(a, direct, indirect, &string);
-        if (get_int_attr(*chosen_item, "DUMMYATTR") == 1)
+        if (get_int_attr(direct, "DUMMYATTR") == 1)
         {
             rc = SUCCESS;
         }
@@ -70,11 +66,11 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     case 3:
-        n = set_double_attr(*chosen_item, "DUMMYATTR", 0.0);
-        game_action_t *ga = get_action(*chosen_item, act_name);
-        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", 1.0);
+        n = set_double_attr(direct, "DUMMYATTR", 0.0);
+        game_action_t *ga = get_action(direct, act_name);
+        n = add_action_effect(ga, direct, "DUMMYATTR", 1.0);
         n = do_item_item_action(a, direct, indirect, &string);
-        if (get_double_attr(*chosen_item, "DUMMYATTR") == 1.0)
+        if (get_double_attr(direct, "DUMMYATTR") == 1.0)
         {
             rc = SUCCESS;
         }
@@ -84,11 +80,11 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     case 4:
-        n = set_char_attr(*chosen_item, "DUMMYATTR", 'a');
-        game_action_t *ga = get_action(*chosen_item, act_name);
-        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", 'b');
+        n = set_char_attr(direct, "DUMMYATTR", 'a');
+        game_action_t *ga = get_action(direct, act_name);
+        n = add_action_effect(ga, direct, "DUMMYATTR", 'b');
         n = do_item_item_action(a, direct, indirect, &string);
-        if (get_char_attr(*chosen_item, "DUMMYATTR") == 'b')
+        if (get_char_attr(direct, "DUMMYATTR") == 'b')
         {
             rc = SUCCESS;
         }
@@ -98,11 +94,11 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     case 5:
-        n = set_bool_attr(*chosen_item, "DUMMYATTR", false);
-        game_action_t *ga = get_action(*chosen_item, act_name);
-        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", true);
+        n = set_bool_attr(direct, "DUMMYATTR", false);
+        game_action_t *ga = get_action(direct, act_name);
+        n = add_action_effect(ga, direct, "DUMMYATTR", true);
         n = do_item_item_action(a, direct, indirect, &string);
-        if (get_bool_attr(*chosen_item, "DUMMYATTR") == true)
+        if (get_bool_attr(direct, "DUMMYATTR") == true)
         {
             rc = SUCCESS;
         }
@@ -234,10 +230,6 @@ Test(item_item_actions, conditons_not_met_both)
 }
 
 Test(item_item_actions, conditons_not_met_direct)
-{
-}
-
-Test(item_item_actions, conditons_not_met_indirect)
 {
 }
 
