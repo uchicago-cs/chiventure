@@ -146,16 +146,13 @@ game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute,
 
 int do_effect(game_action_effect_t *effect);
 
-/* all_effects_set() sets all effects of an action
+/* do_all_effects() sets all effects of an action
  * Parameters:
  * - a pointer to the item to check
  * - the action_name
  * Returns:
- *  SUCCESS if all effeets are set, FAILURE if not
+ *  SUCCESS if all effects are set, FAILURE if not
  */
-int all_effects_set(item_t* item, char* action_name);
-
-/* see game_action.h */
 int do_all_effects(item_t* item, char* action_name); 
 
  
