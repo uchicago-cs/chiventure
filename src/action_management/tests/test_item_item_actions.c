@@ -43,7 +43,8 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     {
     case 1:
         n = set_str_attr(*chosen_item, "DUMMYATTR", "old");
-        //add effect GS function here
+        game_action_t *ga = get_action(*chosen_item, act_name);
+        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", "new");
         n = do_item_item_action(a, direct, indirect, &string);
         if (strcmp(get_str_attr(*chosen_item, "DUMMYATTR"), "new") == 0)
         {
@@ -56,7 +57,8 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         break;
     case 2:
         n = set_int_attr(*chosen_item, "DUMMYATTR", 0);
-        //add effect GS function here
+        game_action_t *ga = get_action(*chosen_item, act_name);
+        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", 1);
         n = do_item_item_action(a, direct, indirect, &string);
         if (get_int_attr(*chosen_item, "DUMMYATTR") == 1)
         {
@@ -69,7 +71,8 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         break;
     case 3:
         n = set_double_attr(*chosen_item, "DUMMYATTR", 0.0);
-        //add effect GS function here
+        game_action_t *ga = get_action(*chosen_item, act_name);
+        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", 1.0);
         n = do_item_item_action(a, direct, indirect, &string);
         if (get_double_attr(*chosen_item, "DUMMYATTR") == 1.0)
         {
@@ -82,7 +85,8 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         break;
     case 4:
         n = set_char_attr(*chosen_item, "DUMMYATTR", 'a');
-        //add effect GS function here
+        game_action_t *ga = get_action(*chosen_item, act_name);
+        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", 'b');
         n = do_item_item_action(a, direct, indirect, &string);
         if (get_char_attr(*chosen_item, "DUMMYATTR") == 'b')
         {
@@ -95,23 +99,10 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         break;
     case 5:
         n = set_bool_attr(*chosen_item, "DUMMYATTR", false);
-        //add effect GS function here
+        game_action_t *ga = get_action(*chosen_item, act_name);
+        n = add_action_effect(ga, *chosen_item, "DUMMYATTR", true);
         n = do_item_item_action(a, direct, indirect, &string);
         if (get_bool_attr(*chosen_item, "DUMMYATTR") == true)
-        {
-            rc = SUCCESS;
-        }
-        else
-        {
-            rc = FAILURE;
-        }
-        break;
-    case 6:
-        action_type_t test_set_act = action_type_new("testforset", ITEM_ITEM);
-        n = set_act_attr(*chosen_item, "DUMMYATTR", test_set_act);
-        //add effect GS function here
-        n = do_item_item_action(a, direct, indirect, &string);
-        if () // A GS get attribute function for action attributes
         {
             rc = SUCCESS;
         }
@@ -236,14 +227,6 @@ Test(item_item_actions, effect_set_boole_direct)
 
     cr_assert_eq(rc, SUCCESS,
                  "bool attribute was not set due to effect of direct item");
-}
-
-Test(item_item_actions, effect_set_actions_direct)
-{
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 6);
-
-    cr_assert_eq(rc, SUCCESS,
-                 "action attribute was not set due to effect of direct item");
 }
 
 Test(item_item_actions, conditons_not_met_both)
