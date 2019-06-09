@@ -24,8 +24,10 @@ void check_do_path(chiventure_ctx_t *c, action_type_t *a, path_t *p, room_t *roo
                  "The room expected, %s, did not match the actual room output, %s.",
                  room_expected->room_id, room_output->room_id);
     cr_assert_eq(rc_expected, rc,
-                 "The expected return code was %d, but the actual return code was %d.",
-                 rc_expected, rc);
+                 "The expected return code was %d, but the actual return code was %d.\n"
+                 "The return string given: %s.",
+                 rc_expected, rc, ret_string);
+    free(ret_string);
 }
 
 Test(path_actions, validate_path)
