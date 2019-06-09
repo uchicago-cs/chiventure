@@ -137,7 +137,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
 
 Test(item_item_actions, wrong_kind_ITEM)
 {
-    int rc = execute_do_item_item_action(ITEM, "dummy", ITEM, "dummy", ITEM);
+    int rc = execute_do_item_item_action(ITEM, "dummy", ITEM, "dummy", ITEM, 1, 0);
 
     cr_assert_eq(rc, WRONG_KIND,
                  "execute_do_item_item_action returned %d for wrong kind 1, expected WRONG_KIND (1)", rc);
@@ -147,7 +147,7 @@ Test(item_item_actions, wrong_kind_ITEM)
 Test(item_item_actions, wrong_kind_PATH)
 {
 
-    int rc = execute_do_item_item_action(PATH, "dummy", PATH, "dummy", PATH);
+    int rc = execute_do_item_item_action(PATH, "dummy", PATH, "dummy", PATH, 1, 0);
 
     cr_assert_eq(rc, WRONG_KIND,
                  "execute_do_item_item_action returned %d for wrong kind 2, expected WRONG_KIND (1)", rc);
@@ -156,7 +156,7 @@ Test(item_item_actions, wrong_kind_PATH)
 
 Test(item_item_actions, correct_kind_ITEM_ITEM)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 0);
 
     cr_assert_eq(rc, SUCCESS,
                  "execute_do_item_item_action returned %d for correct kind 3, expected SUCCESS (0)", rc);
@@ -165,7 +165,7 @@ Test(item_item_actions, correct_kind_ITEM_ITEM)
 
 Test(item_item_actions, correct_allowed_actions)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 0);
 
     cr_assert_eq(rc, SUCCESS,
                  "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
@@ -174,7 +174,7 @@ Test(item_item_actions, correct_allowed_actions)
 
 Test(item_item_actions, wrong_allowed_actions_direct)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 0);
 
     cr_assert_eq(rc, NOT_ALLOWED_DIRECT,
                  "execute_do_item_item_action returned %d for incorrect allowed actions name in direct, expected NOT_ALLOWED_DIRECT (2)", rc);
@@ -183,7 +183,7 @@ Test(item_item_actions, wrong_allowed_actions_direct)
 
 Test(item_item_actions, wrong_allowed_actions_indirect)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy_allowed", ITEM_ITEM, 1, 0);
 
     cr_assert_eq(rc, NOT_ALLOWED_INDIRECT,
                  "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect, expected NOT_ALLOWED_INDIRECT (3)", rc);
@@ -192,62 +192,58 @@ Test(item_item_actions, wrong_allowed_actions_indirect)
 
 Test(item_item_actions, wrong_allowed_actions)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy_allowed", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy_allowed", ITEM_ITEM, "dummy_allowed", ITEM_ITEM, 1, 0);
 
     cr_assert_eq(rc, NOT_ALLOWED_DIRECT,
                  "execute_do_item_item_action returned %d for incorrect allowed actions name in indirect and direct, expected NOT_ALLOWED_DIRECT (2)", rc);
 }
 
-Test(item_item_actions, effect_set_string)
+Test(item_item_actions, effect_set_string_direct)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 1);
     
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
+                 "string attributewas not set due to effect of direct item");
 }
 
-Test(item_item_actions, effect_set_integer)
+Test(item_item_actions, effect_set_integer_direct)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 2);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
+                 "integer attribute was not set due to effect of direct item");
 }
 
-Test(item_item_actions, effect_set_double)
+Test(item_item_actions, effect_set_double_direct)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 3);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
+                 "double attribute was not set due to effect of direct item");
 }
 
-Test(item_item_actions, effect_set_character)
+Test(item_item_actions, effect_set_character_direct)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 4);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
+                 "character attribute was not set due to effect of direct item");
 }
 
-Test(item_item_actions, effect_set_boole)
+Test(item_item_actions, effect_set_boole_direct)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 5);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
+                 "bool attribute was not set due to effect of direct item");
 }
 
-Test(item_item_actions, effect_set_actions)
+Test(item_item_actions, effect_set_actions_direct)
 {
-    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM, 1, 6);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
-}
-
-Test(item_item_actions, failed_to_set)
-{
+                 "action attribute was not set due to effect of direct item");
 }
 
 Test(item_item_actions, conditons_not_met_both)
