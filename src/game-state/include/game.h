@@ -195,7 +195,7 @@ int delete_room_llist(room_list_t *head);
 item_list_t *get_all_items_in_game(game_t *game);
 
 
-/* add_effect creates an effect_t struct and adds it to the action pointed to
+/* add_effect creates a game_action_effect_t struct and adds it to the action pointed to
 * Parameters:
 * - game_t *game
 * - room_id to find room (use game_curr->room_id if curr)
@@ -206,15 +206,36 @@ item_list_t *get_all_items_in_game(game_t *game);
 * - attribute_value_t of value to be set
 *
 * Returns:
-* int SUCCESS FAILURE
-* error 2 if room NULL
-* error 3 if item src is null
-* error 4 if item to modify is null
-* error 5 if action is null
-* error 6 if attr is null
+* - SUCCESS upon success
+* - error 2 if room NULL
+* - error 3 if item src is null
+* - error 4 if item to modify is null
+* - error 5 if action is null
+* - error 6 if attribute is null
 */
 int add_effect(game_t *game, char* room_id, char* action_name, char* item_src_name, 
-    char* item_modify_name, char* attribute_name, attribute_value_t new_value);
+	       char* item_modify_name, char* attribute_name, attribute_value_t new_value);
+
+/* add_condition creates a game_action_condition_t struct and adds it to the action pointed to
+ * Parameters:
+ * - game_t *game
+ * - room_id to find room 
+ * - action name
+ * - item ID of the item containing the action
+ * - item ID of the item to be modified by the action
+ * - the name of attribute to be checked
+ * - the desired attribute value for the attribute
+ *
+ * Returns:
+ * - SUCCESS upon success
+ * - error 2 if room NULL
+ * - error 3 if item src is null
+ * - error 4 if item to modify is null
+ * - error 5 if action is null
+ * - error 6 if attribute is null
+ */
+int add_condition(game_t *game, char *room_id, char *action_name, char *item_src_name,
+		  char *item_modify_name, char *attribute_name, attribute_value_t new_value);
 
 #endif
 

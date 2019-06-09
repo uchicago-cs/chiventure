@@ -161,7 +161,8 @@ item_list_t *get_all_items_in_game(game_t *game) {
 }
 
 /* see game.h */
-int add_effect(game_t *game, char* room_id, char* action_name, char* item_src_name, char* item_modify_name, char* attribute_name, attribute_value_t new_value)
+int add_effect(game_t *game, char* room_id, char* action_name, char* item_src_name,
+	       char* item_modify_name, char* attribute_name, attribute_value_t new_value)
 {
     room_t *room = find_room_from_game(game, room_id);
     if(room == NULL)
@@ -189,6 +190,36 @@ int add_effect(game_t *game, char* room_id, char* action_name, char* item_src_na
         return 6;
     }
     int check = add_action_effect(action, item_src, item_modify, attribute, new_value);
+    
+    return check;
+}
+
+int add_condition(game_t *game, char* room_id, char* action_name, char* item_src_name,
+		  char* item_modify_name, char* attribute_name, attribute_value_t new_value)
+{
+    room_t *room = find_room_from_game(game, room_id);
+    if (room == NULL) {
+        return 2;
+    }
+
+    item_t *item_src = get_item_in_room(room, item_src_name);
+    if (item_src == NULL) {
+        return 3;
+    }
+
+    item_t *item_modify = get_item_in_room(room, item_modify_name);
+    if (item_modify == NULL) {
+        return 4;
+    }
+    game_action_t *action = get_action(item_src, action_name);
+    if(action == NULL) {
+	return 5;
+    }
+    attribute_t *attribute = get_attribute(item_src, attribute_name);
+    if(attribute == NULL) {
+	return 6;
+    }
+    int check = add_action_condition(item_src, action, item_modify, attribute, new_value);
     
     return check;
 }
