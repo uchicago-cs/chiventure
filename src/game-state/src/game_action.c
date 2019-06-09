@@ -103,13 +103,9 @@ int add_action_condition(item_t *item, game_action_t *action,
     
     game_action_condition_t *new_condition = condition_new(item, cond_attribute, cond_value);
 
-    game_action_condition_t *tmp = action->conditions;
-    while (tmp != NULL) {
-      tmp = tmp->next;
-    }
-
-    tmp = new_condition;
-    return 0;
+    LL_APPEND(action->conditions, new_condition);
+    
+    return SUCCESS;
 }
 
 /* see game_action.h */
