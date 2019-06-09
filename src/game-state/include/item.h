@@ -129,7 +129,7 @@ typedef struct game_action_condition{
 * in the traditional sense, and those which are used to enable UTLIST functionality
 * on the game_action_condition_t structs as specified in src/common/include 
 */
-typedef struct game_action_condition* action_condition_list_t;
+typedef struct game_action_condition action_condition_list_t;
 
 typedef struct game_action_effect{
     item_t *item;
@@ -143,7 +143,7 @@ typedef struct game_action_effect{
 * in the traditional sense, and those which are used to enable UTLIST functionality
 * on the game_action_effect_t structs as specified in src/common/include 
 */
-typedef struct game_action_effect* action_effect_list_t;
+typedef struct game_action_effect action_effect_list_t;
 
 
 typedef struct game_action {

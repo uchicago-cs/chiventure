@@ -87,7 +87,7 @@ bool possible_action(item_t *item, char* action_name)
 
 /* see game_action.h */
 int add_action_condition(item_t *item, game_action_t *action,
-			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t *cond_value)
+			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t cond_value)
 {
     if (item == NULL) {
         return 1;
@@ -95,18 +95,15 @@ int add_action_condition(item_t *item, game_action_t *action,
     if (cond_item == NULL) {
         return 3;
     }
-    game_action_condition_t *new_condition = malloc(sizeof(game_action_condition_t));
-    new_condition->item = cond_item;
-    new_condition->attribute_to_check = cond_attribute;
-    new_condition->expected_value = *cond_value;
 
-    game_action_t *ret_action;
-    HASH_FIND(hh, item->actions, action->action_name, strlen(action->action_name), ret_action);
+    game_action_t *ret_action = get_action(item, action->action_name);
     if (ret_action == NULL) {
         return 2;
     }
+    
+    game_action_condition_t *new_condition = condition_new(item, cond_attribute, cond_value);
 
-    game_action_condition_t *tmp = *(action->conditions);
+    game_action_condition_t *tmp = action->conditions;
     while (tmp != NULL) {
       tmp = tmp->next;
     }
@@ -115,6 +112,21 @@ int add_action_condition(item_t *item, game_action_t *action,
     return 0;
 }
 
+/* see game_action.h */
+game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
+				       attribute_value_t new_value)
+{
+    if (item_to_modify == NULL || attribute == NULL) {
+        return NULL;
+    }
+
+    game_action_condition_t *new_condition = malloc(sizeof(game_action_condition_t));
+    new_condition->item = item_to_modify;
+    new_condition->attribute_to_check = attribute;
+    new_condition->expected_value = new_value;
+
+    return new_condition;
+}
 
 /* see game_action.h */
 bool check_condition(game_action_condition_t *condition)
@@ -174,12 +186,23 @@ int all_conditions_met(item_t* item, char* action_name)
         return 2;
     }
 
-  //PATRICK
+    game_action_t *ret_action = get_action(item, action_name);
+    
+    game_action_condition_t *tmp = ret_action->conditions;
+    while (tmp != NULL) {
+        if(!(check_condition(tmp))) { 
+	    return FAILURE;
+	}
+	tmp = tmp->next;
+    }
+
+    return SUCCESS;
 }
 
 // ------------------------------------- EFFECTS -------------------------------------
 
 /* see game_action.h */
+//we either use item_to_add or action as action is loacted within item_to_add
 int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
 {
     if(action == NULL)
@@ -202,6 +225,7 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
 game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
 {
     game_action_effect_t *effect = malloc(sizeof(game_action_effect_t));
+    effect->item = item_to_modify;
     effect->attribute_to_modify = attribute;
     effect->new_value = new_value;
     effect->next = NULL;
@@ -235,6 +259,7 @@ int do_effect(game_action_effect_t *effect)
     return FAILURE;
 }
 
+
 /* see game_action.h */
 int do_all_effects(item_t *item, char* action_name) 
 {
@@ -243,8 +268,8 @@ int do_all_effects(item_t *item, char* action_name)
     {
         return FAILURE;
     }
-    game_action_effect_t* tmp; = action->effects;
-    for(tmp->action->effects; tmp != NULL; tmp = tmp->next)
+    game_action_effect_t* tmp;
+    for(tmp = action->effects; tmp != NULL; tmp = tmp->next)
     {
         int check = do_effect(tmp);
         if(check == FAILURE)
@@ -254,3 +279,4 @@ int do_all_effects(item_t *item, char* action_name)
     }
     return SUCCESS;
 }
+
