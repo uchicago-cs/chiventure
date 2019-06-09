@@ -48,9 +48,6 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     mvwvline(win, y+1, x, ACS_VLINE, side_ht);
     mvwvline(win, y+1, right_x, ACS_VLINE, side_ht);
 
-    // Checks if given room has exits on each side, draws exits
-    /* TO-DO -- Ask Game state if they have added this fcn to master
-     * yet. See Git Issue #151 */
     if (find_room_from_dir(room, "East") != NULL) {
         mvwaddch(win, halfy-1, right_x, ACS_HLINE);
         mvwaddch(win, halfy, right_x, ACS_HLINE);
@@ -118,37 +115,10 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
     return;
 }
 
-int *calculate_map_dims(room_t **rooms, int n)
-{
-    int x = 0;
-    int y = 0;
-    int z = 0;
-    // These are commented because they are only used for iterating over rooms
-    //coord_t *curr;
-    //    int cx;
-    //int cy;
-    //int cz;
-
-    for (int i = 0; i < n; i++) {
-        /* TO-DO -- Will have to reach into coord hash, not room structs,
-            to access coordinates. This will be fixed in map-from-coords feature branch
-        */
-    }
-
-    int *xyz = malloc(sizeof(int) * 3);
-    xyz[0] = x + 1;
-    xyz[1] = y + 1;
-    xyz[2] = z + 1;
-    return xyz;
-}
-
 map_t *map_init()
 {
     int xoffset = 0;
     int yoffset = 0;
-
-    // map_dims[0] is xmax, map_dims[1] is ymax, and map_dims[2] is zmax
-    //    int *dims = calculate_map_dims(rooms, n);
     int maxx = COLS;
     int maxy = LINES-1;
     WINDOW *pad = newpad(maxy, maxx);
@@ -161,7 +131,7 @@ map_t *map_init()
     map->yoff = yoffset;
     map->maxx = maxx;
     map->maxy = maxy;
-    //map->maxz = dims[2];
+    map->maxz = 0;
     map->padx = xoffset;
     map->pady = yoffset;
     map->padz = 0;
@@ -171,10 +141,6 @@ map_t *map_init()
     map->lry = 0;
 
     keypad(pad, TRUE);
-
-
-    //draw_rooms( xoffset, yoffset, 0, map);
-    //  free(dims);
     return map;
 }
 
