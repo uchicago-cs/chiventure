@@ -5,11 +5,11 @@
 #include "actionmanagement.h"
 #include "common.h"
 
-
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (1)
 #define NOT_ALLOWED_DIRECT (2)
 #define NOT_ALLOWED_INDIRECT (3)
+#define NOT_ALLOWED_PATH (4)
 
 
 /* See actionmanagement.h */
@@ -57,11 +57,9 @@ int action_type_free(action_type_t *a)
 
 /* KIND 1
  * See actionmanagement.h */
-int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
+int do_item_action(action_type_t *a, item_t *i, char **ret_string)
 {
     // a couple confirmation checks
-    assert(g);
-    assert(g->curr_player); // needed for sprint 4
     assert(a);
     assert(i);
     char *string = malloc(BUFFER_SIZE); // buffer
@@ -91,36 +89,60 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
 
 /* KIND 2
  * See actionmanagement.h */
-int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string)
+int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_string)
 {
-    assert(g);
-    assert(g->curr_player);
+    assert(c);
+    assert(c->game);
+    assert(c->game->curr_room);
     assert(a);
-    char *string = malloc(BUFFER_SIZE); // buffer
+    
+
+    /* INITIALIZATION */
+    char *string = malloc(BUFFER_SIZE);
+    char *direction = p->direction;
+    game_t *g = c->game;
+    room_t *room_dest = p->dest;
+    room_t *room_curr = g->curr_room;
+    path_t *path_found = path_search(room_curr, direction);
+
+    /* VALIDATION */
     // checks if the action type is the correct kind
     if (a->kind != PATH) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
     }
-    /* TODO: implement the rest of this function, using game state funcs
-     * Will perform the action if all checks pass (Sprint 4)
-     */
-    sprintf(string, "Requested action %s in direction %s into room %s",
-            a->c_name, p->direction, p->dest->room_id);
-    *ret_string = string;
-    return SUCCESS;
+    // validate existence of path and destination
+    if ((path_found == NULL) || (room_dest == NULL)) {
+        sprintf(string, "The path or room provided was invalid.");
+        return NOT_ALLOWED_PATH;
+    }
+
+    /* PERFORM ACTION */
+    int move = move_room(g, room_dest);
+
+    if (move == SUCCESS) {
+        sprintf(string, "Moved into %s. %s", 
+                room_dest->room_id, room_dest->long_desc);
+        *ret_string = string;
+        return SUCCESS;
+    }
+    else {
+        sprintf(string, 
+                "Move action %s via %s into %s failed.",
+                a->c_name, direction, room_dest->room_id);
+        *ret_string = string;
+        return NOT_ALLOWED_PATH;
+    }
 }
 
 
 /* KIND 3
  * See actionmanagement.h */
-int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
+int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string)
 {
-    assert(g);
     assert(a);
-    assert(g->curr_player); // needed for sprint 4
     assert(direct);
     assert(indirect);
     char *string = malloc(BUFFER_SIZE); // buffer
