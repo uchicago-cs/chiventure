@@ -43,7 +43,10 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-
+    if(game == NULL || game->curr_room == NULL)
+    {
+        return "Room not found! Error! We need a room to be loaded to LOOK!\n";
+    }
     if(tokens[1] == NULL)
     {
         return game->curr_room->long_desc;
@@ -63,6 +66,11 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return ( "Error! We need a loaded room to do the above action. \n");
+    }
     lookup_t **table = ctx->table;
 
     if(tokens[1] == NULL)
@@ -89,6 +97,11 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded room to do the above action. \n";
+    }
     lookup_t **table = ctx->table;
 
     path_t *curr_path;
@@ -111,6 +124,11 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded room to do the above action. \n";
+    }
     lookup_t **table = ctx->table;
 
     if(tokens[1] == NULL || tokens[3] == NULL)
@@ -155,7 +173,11 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-
+    if(game == NULL || game->curr_player == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded player to check inventory.\n";
+    }
     item_t *t;
     int i = 0;
     ITER_ALL_ITEMS_IN_INVENTORY(game->curr_player, t)
