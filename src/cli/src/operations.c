@@ -3,7 +3,6 @@
 #include <string.h>
 #include "operations.h"
 #include "shell.h"
-#include "assert.h"
 #include "room.h"
 
 // remove the comment as soon as checkpointing removes their dummy struct
