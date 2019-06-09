@@ -2,7 +2,6 @@
 #define _COMMON_ITEM_H
 
 #include "item.h"
-#include "game_action.h"
 
 /* item_init() initializes an item struct with given values
     arguments are taken from WDL

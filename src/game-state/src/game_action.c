@@ -1,7 +1,7 @@
 #include "game_action.h"
 #include "common-item.h"
 
-/* See game_action.h */
+/* See common_game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name, char* success_str, char* fail_str)
 {
     assert(new_action != NULL);
@@ -17,7 +17,7 @@ int game_action_init(game_action_t *new_action, char *act_name, char* success_st
 }
 
 
-/* see game_action.h */
+/* see common_game_action.h */
 game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str)
 {
     game_action_t *new_action = malloc(sizeof(game_action_t));
@@ -69,7 +69,6 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
 }
 
 
-
 /* see game_action.h */
 bool possible_action(item_t *item, char* action_name)
 {
@@ -118,13 +117,12 @@ int add_action_condition(item_t *item, game_action_t *action,
 
 
 /* see game_action.h */
-bool check_condition(item_t *item, game_action_condition_t *condition)
+bool check_condition(game_action_condition_t *condition)
 {
     //check if NULL attribute, return true if true
     attribute_t* actual_attribute = condition->attribute_to_check;
     if(actual_attribute == NULL) 
         return true;
-    char* attribute_name = actual_attribute->attribute_key;
 
     switch(actual_attribute->attribute_tag)
     {
@@ -192,16 +190,16 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
     {
         return 3;
     }
-    //create effect
-    game_action_effect_t *effect = create_effect(item_to_modify, attribute, new_value);
+
+    game_action_effect_t *new_effect = effect_new(item_to_modify, attribute, new_value);
     
-    //ADD TO LIST IDK HOW?
+    LL_APPEND(action->effects, new_effect);
 
     return SUCCESS;
 }
 
 /* see game_action.h */
-game_action_effect_t *create_effect(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
+game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
 {
     game_action_effect_t *effect = malloc(sizeof(game_action_effect_t));
     effect->attribute_to_modify = attribute;
@@ -211,44 +209,48 @@ game_action_effect_t *create_effect(item_t *item_to_modify, attribute_t *attribu
     return effect;
 }
 
-/* see game_action.h */
-int affect_effect(game_action_effect_t *effect) 
+/* see common_game_action.h */
+int do_effect(game_action_effect_t *effect) 
 {
-    item_t *item = effect->item;
     attribute_t *attr = effect->attribute_to_modify;
-    attribute_value_t val = effect->new_value;
+    attribute_value_t new_val = effect->new_value;
     switch(attr->attribute_tag)
     {
         case(DOUBLE):
-            if(set_double_attr(item, attr->attribute_key, val.double_val))
-            {
-                return SUCCESS;
-            }
-            break;
+            attr->attribute_value.double_val = new_val.double_val;
+            return SUCCESS;
         case(BOOLE):
-            if(set_bool_attr(item, attr->attribute_key, val.bool_val))
-            {
-                return SUCCESS;
-            }
-            break;
+            attr->attribute_value.bool_val = new_val.bool_val;
+            return SUCCESS;
         case(CHARACTER):
-            if(set_char_attr(item, attr->attribute_key, val.char_val))
-            {
-                return SUCCESS;
-            }
-            break;
+            attr->attribute_value.char_val = new_val.char_val;
+            return SUCCESS;
         case(STRING):
-            if(set_str_attr(item, attr->attribute_key, val.str_val))
-            {
-                return SUCCESS;
-            }
-            break;
+            attr->attribute_value.str_val = new_val.str_val;
+            return SUCCESS;
         case(INTEGER):
-            if(set_int_attr(item, attr->attribute_key, val.int_val))
-            {
-                return SUCCESS;
-            }
-            break;
+            attr->attribute_value.int_val = new_val.int_val;
+            return SUCCESS;
     }
     return FAILURE;
+}
+
+/* see game_action.h */
+int do_all_effects(item_t *item, char* action_name) 
+{
+    game_action_t* action = get_action(item, action_name);
+    if(action == NULL)
+    {
+        return FAILURE;
+    }
+    game_action_effect_t* tmp; = action->effects;
+    for(tmp->action->effects; tmp != NULL; tmp = tmp->next)
+    {
+        int check = do_effect(tmp);
+        if(check == FAILURE)
+        {
+            return FAILURE;
+        }
+    }
+    return SUCCESS;
 }

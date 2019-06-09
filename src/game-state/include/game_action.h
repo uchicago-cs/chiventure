@@ -3,15 +3,6 @@
 #include "action_structs.h"
 #include "item.h"
 
-/* game_action_new() allocates a space for an action struct in memory and
-* assigns given values to struct fields
-*  Parameters:
-*    action name and an action type struct
-*  Returns:
-*    A pointer to a new action struct.
-*/
-//this should be an internal function that is called by add_action -- Patrick
-game_action_t *game_action_new(char *act_name, char* success_str, char* fail_str);
 
 
 //ACTION FUNCTIONS -------------------------
@@ -97,7 +88,7 @@ int add_action_condition(item_t *item, game_action_t *action,
  * Returns:
  *  true if desired attribute matches the actual, false if not
  */
-bool check_condition(item_t *item, game_action_condition_t *condition);
+bool check_condition(game_action_condition_t *condition);
 
 
 /* all_conditions_met() checks if all of the conditions of an action are met
@@ -139,10 +130,10 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
 * Returns:
 * NULL or game_action_effect_t
 */
-game_action_effect_t *create_effect(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
+game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
 
-//troll name find a better one
-int affect_effect(game_action_effect_t *effect);
+
+int do_effect(game_action_effect_t *effect);
 
 /* all_effects_set() sets all effects of an action
  * Parameters:
@@ -153,6 +144,7 @@ int affect_effect(game_action_effect_t *effect);
  */
 int all_effects_set(item_t* item, char* action_name);
 
-
+/* see game_action.h */
+int do_all_effects(item* item, char* action_name); 
 
  
