@@ -5,9 +5,6 @@
 #include "shell.h"
 #include "room.h"
 
-// remove the comment as soon as checkpointing removes their dummy struct
-//#include "../../checkpointing/include/save.h"
-
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     return NULL;
@@ -26,20 +23,17 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "history operation not implemented yet\n";
 }
 
-/*
- * Checks that a specified filetype is a .dat file
- *
- * Parameters:
- * - A string of the filename
- *
- *
- * Returns:
- * - TRUE if proper filename, FALSE if not
- */
+/* See operations.h */
+char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    return NULL;
+}
+
 bool validate_filename(char *filename)
 {
     int len = strlen(filename);
-    if(len < 4)
+    int min_filename_length = 4;
+    if(len < min_filename_length)
     {
         return false;
     }
@@ -60,22 +54,11 @@ cmd *assign_action(char **ts, lookup_t ** table)
 {
     cmd *output = cmd_new(ts);
     output->func_of_cmd = find_operation(ts[0], table);
-    if(output->func_of_cmd == NULL) output->func_of_cmd = action_error_operation;
-    //HERE WE VALIDATE THE COMMANDS
-
+    if(output->func_of_cmd == NULL)
+    {
+        output->func_of_cmd = action_error_operation;
+    }
     return output;
-}
-
-/* See operations.h */
-char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    //Commented out for now until an actual save and load function are provided
-    /*  if(tokens[1] == NULL){
-        fprintf(stderr,"Save Error, No filename specified. \n");
-      }
-      if (validate(tokens[1]) == true){
-        int sv = save(game, tokens[1]);
-    */  return NULL;
 }
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -87,16 +70,18 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     if(tokens[1] == NULL)
     {   
-        if(game !=NULL){
+        if(game != NULL){
             return game->curr_room->long_desc;
         }
-        else{
+        else
+        {
             return "Error !";
         }
     }
     item_t *curr_item = NULL;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
-    if(curr_item != NULL){
+    if(curr_item != NULL)
+    {
         return curr_item->long_desc;
     }
     return "specified item not found\n";
@@ -114,21 +99,20 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     lookup_t **table = ctx->table;
 
     if(tokens[1] == NULL)
-        {
-            return "You must identify an object to act on\n";
-        }
+    {
+        return "You must identify an object to act on\n";
+    }
     item_t *curr_item;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
-    if (curr_item != NULL)
-        {
-            action_type_t *action = find_action(tokens[0], table);
+    if(curr_item != NULL)
+    {
+        action_type_t *action = find_action(tokens[0], table);
 
-            char *str;
-            do_item_action(game, action, curr_item, &str);
-            printf("%s", str);
-
-            return "The object is found\n";
-        }
+        char *str;
+        do_item_action(game, action, curr_item, &str);
+        printf("%s", str);
+        return "The object is found\n";
+    }
     return "The object could not be found\n";
 }
 
@@ -146,7 +130,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
-        if (strcmp(curr_path->direction,tokens[1]) == 0)
+        if(strcmp(curr_path->direction,tokens[1]) == 0)
         {
             action_type_t *action = find_action(tokens[0], table);
 
@@ -180,7 +164,8 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     item1 = get_item_in_room(game->curr_room, tokens[1]);
     item2 = get_item_in_room(game->curr_room, tokens[3]);
     
-    if(item1 == NULL || item2 == NULL){
+    if(item1 == NULL || item2 == NULL)
+    {
         return "The object(s) could not be found";
     }
     action_type_t *action = find_action(tokens[0], table);
@@ -211,21 +196,18 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         i++;
 
-        char str[10];
+        //To print an integer with print_to_cli, int i must be cast to a string
+        //10 was chosen as a buffer, i should not need all 10 bytes
+        int strbuff = 10;
+        char str[strbuff];
         sprintf(str, "%d", i);
+
         print_to_cli(ctx, str);
         print_to_cli(ctx, t->item_id);
         print_to_cli(ctx, t->short_desc);
     }
     return "This was your inventory";
 }
-
-//Because action managment does not support NPCs type 4 is not supported
-//char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game)
-//{
-//    printf("%s\n",tokens[0] );
-//    return "is an action!";
-//}
 
 char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {

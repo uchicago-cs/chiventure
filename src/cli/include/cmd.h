@@ -134,7 +134,7 @@ int lookup_t_init(lookup_t **t);
  * - pointer to a lookup hashtable
  *
  * Returns:
- * - always returns 0
+ * - always returns SUCCESS
  */
 int lookup_t_free(lookup_t **t);
 
@@ -167,7 +167,7 @@ int cmd_init(cmd *c, char *tokens[TOKEN_LIST_SIZE]);
  * - pointer to a cmd struct
  *
  * Returns:
- * - always returns 0
+ * - always returns SUCCESS
  */
 int cmd_free(cmd *c);
 

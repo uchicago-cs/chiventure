@@ -80,6 +80,18 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /*
+ * Checks that a specified filetype is a .dat file
+ *
+ * Parameters:
+ * - A string of the filename
+ *
+ *
+ * Returns:
+ * - true if proper filename, false if not
+ */
+bool validate_filename(char *filename);
+
+/*
  * If the input action is valid (checks by calling validate_action), go through
  * the hashtable again to find the corresponding operation and creates a cmd struct
  *

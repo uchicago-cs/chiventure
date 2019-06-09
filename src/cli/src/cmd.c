@@ -120,7 +120,7 @@ int lookup_t_free(lookup_t **t)
        HASH_DEL(*t, current_user);
        free(current_user);
    }
-   return 0; 
+   return SUCCESS; 
 }
 
 /* === command constructors  === */
@@ -162,10 +162,10 @@ int cmd_free(cmd *c)
 {
     if(c == NULL || c->tokens == NULL)
     {
-        return 0;
+        return SUCCESS;
     }
     free(c);
-    return 0;
+    return SUCCESS;
 }
 
 /* === command debugging === */

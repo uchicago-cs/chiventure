@@ -63,7 +63,7 @@ Test(parse, more_words)
 {
     char str[] = "LOOK AT ME NOT YEAH";
     char **words = parse(str);
-    cr_assert_null(words, "parser() should return NULL if too many words");
+    cr_assert_null(words, "parser() should return NULL if more than 4 words");
 }
 
 //Tests the parsing of input with many spaces between each word.
