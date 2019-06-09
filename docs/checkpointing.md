@@ -9,7 +9,48 @@ Checkpointing is responsible for saving and loading in a Chiventure game. Protoc
 * CLI calls our save and load functions.
 * When CLI calls load, the WDL is loaded in first, then our serialized data is loaded in. Basically, our functions write over the game struct to reflect changes that have been made (see semi-incremental saving for more info).
 
+### Protobuf
+* Note: This is a general summary of how we used protobuf-c. Please do additional research on protobuf to supplement this explanation.
+
+The player_t struct in game-state looks like this:
+
+    /* A player in game */
+    typedef struct player {
+        /* hh is used for hashtable, as provided in uthash.h*/
+        UT_hash_handle hh;
+        char *player_id;
+        int level;
+        int health;
+        int xp;
+        item_hash_t inventory;
+    } player_t;
+
+To serialize a player using protobuf, we create a Player struct in a .proto file. Note that protobuf only supports integers, strings, characters, and arrays. The Player struct as found in game.proto is as below:
+
+    message Player {
+        required string player_id = 1;
+        required int32 level = 2;  
+        required int32 health = 3;
+        required int32 xp = 4;
+        repeated Item inventory = 5; //Array of all object ids in inventory
+        optional int32 inventory_len = 6;
+    }
+    
+A repeated field is protobuf's "array." A required field means that some data must be provided for this field during saving, while optional means the field does not need to be filled. You may also notice that the UT_hash_handle hh is left out, as there is no way of saving a hash table with protobuf. Also, as seen above, player_t is game-state's player struct while Player is protobuf's player struct. We follow this naming convention throughout the project.
+
+After deciding upon the structs in the .proto file and running make, you can generate a .pb-c.h file that will contain functions that can be used in save.c and load.c. 
+
 ### Implementation
 The current implementation uses what we coined as "semi-incremental" saving and loading. This means that instead of saving every aspect of a game, including all the game-state structs that are immutable, we only save the mutable aspects of the structs. For example, attributes and attribute values of items are not saved, as they will not change throughout the game. Paths in rooms are also not saved.
 
-In order for this to work, each load function directly modifies a struct instead of creating a new struct. For example, load_player inside load.c first frees all items in the player's inventory so we have an empty slate to start adding in items that have been saved. Then, we load in the items that have been saved by looking through an array of all items (this array is passed in as an input to the function), comparing item IDs, and adding the items that have the same item IDs as those that have been saved by our save function. In this way, the attributes corresponding to the item do not have to be saved; they will be loaded in with WDL. This procedure is also used to load items into rooms.
+In order for this to work, each load function directly modifies a struct instead of creating a new struct. For example, the function  declaration of load_player is as follows: 
+
+    int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len);
+
+For something simple like loading in the health of the player, we just directly overwrite the health with:
+
+    p_t->health = p->health;
+    
+To clarify, p_t is the player_t struct in game-state while p is the protobuf struct that contains the information that has been saved.
+
+However, to work with game-state's hash tables, such as the player's inventory, a longer process is needed. Looking at load_player inside load.c, we first free all items in the player's inventory so we have an empty slate to start adding in items that have been saved (otherwise, you may end up with items in the inventory that are no longer needed). Then, we load in the items that have been saved by looking through all_items, comparing item IDs, and adding the items that have the corresponding item IDs into the inventory. In this way, the attributes corresponding to the item do not have to be saved; they will be loaded in with this process. This procedure is also used to load items into rooms.
