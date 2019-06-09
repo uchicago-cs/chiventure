@@ -35,8 +35,6 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     int width = COLS;
     int height = LINES /2;
 
-
-
     map_t *map = ui_ctx->map;
     // Initializes the CLI window
     window_t *cli = ui_ctx->cli_win;
@@ -96,10 +94,8 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
             }
         }
         else if (isalnum(ch)) {
-            echo();
             ungetch(ch);
             window_print(ctx,  cli);
-            noecho();
         }
 
         // This conditional refreshes the non-CLI window
@@ -115,13 +111,11 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
                                    height + cli_top * height);
                 map_center_on(map, 0, 0, 0);
             }
-
         }
+
+        // Refreshes the displayed windows
         wrefresh(info->w);
-
-        // Refreshes the CLI window
         wrefresh(cli->w);
-
     }
 
     // End curses mode
