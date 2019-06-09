@@ -5,6 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
+#include "game_action.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
@@ -193,4 +194,25 @@ int delete_room_llist(room_list_t *head);
  */
 item_list_t *get_all_items_in_game(game_t *game);
 
+
+/* add_effect creates an effect_t struct and adds it to the action pointed to
+* Parameters:
+* - game_t *game
+* - room_id to find room (use game_curr->room_id if curr)
+* - char* action
+* - char* item_src (item_id of item with action)
+* - char* item_modify (item_id of item to modify)
+* - ptr to attribute_t to modify
+* - attribute_value_t of value to be set
+*
+* Returns:
+* int SUCCESS FAILURE
+* error 2 if room NULL
+* error 3 if item src is null
+* error 4 if item to modify is null
+* error 5 if action is null
+*/
+int add_effect(game_t *game, char* room_id, char* action, char* item_src, char* item_modify, attribute_t *attribute, attribute_value_t new_value);
+
 #endif
+

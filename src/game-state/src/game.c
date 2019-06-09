@@ -159,3 +159,30 @@ item_list_t *get_all_items_in_game(game_t *game) {
     return items;
 }
 
+//header unwritten
+int add_effect(game_t *game, char* room_id, char* action_name, char* item_src, char* item_modify, attribute_t *attribute, attribute_value_t new_value)
+{
+    room_t *room = find_room_from_game(game, room_id);
+    if(room == NULL)
+    {
+        return 2;
+    }
+    item_t *item_to_add = get_item_in_room(room, item_src);
+    if(item_src == NULL)
+    {
+        return 3;
+    }
+    item_t *item_to_modify = get_item_in_room(room, item_modify);
+    if(item_modify == NULL)
+    {
+        return 4;
+    }
+    game_action_t *action = get_action(item_src, action_name);
+    if(action == NULL)
+    {
+        return 5;
+    }
+    int check = add_action_effect(action, item_to_add, item_to_modify, attribute, new_value);
+    
+    return check;
+}

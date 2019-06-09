@@ -112,24 +112,6 @@ int all_conditions_met(item_t* item, char* action_name);
 
 
 //------------------------- EFFECT FUNCTIONS ------------------------------
-/* add_effect creates an effect_t struct and adds it to the action pointed to
-* Parameters:
-* - game_t *game
-* - room_id to find room (use game_curr->room_id if curr)
-* - char* action
-* - char* item_src (item_id of item with action)
-* - char* item_modify (item_id of item to modify)
-* - ptr to attribute_t to modify
-* - attribute_value_t of value to be set
-*
-* Returns:
-* int SUCCESS FAILURE
-* error 2 if room NULL
-* error 3 if item src is null
-* error 4 if item to modify is null
-* error 5 if action is null
-*/
-int add_effect(game_t *game, char* room_id, char* action, char* item_src, char* item_modify, attribute_t *attribute, attribute_value_t new_value)
 
 
 /* add_action_effect creates an effect_t struct and adds it to the action pointed to
@@ -144,7 +126,7 @@ int add_effect(game_t *game, char* room_id, char* action, char* item_src, char* 
 * error 2 if action NULL
 * error 3 if item to modify is null
 */
-int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
+int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
 
 
 //alt version 
