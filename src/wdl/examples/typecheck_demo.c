@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
         printf("Game successfully verified\n");
     }
     else {
-        printf("Game verification unsuccessul\n");
+        printf("Game verification unsuccessful\n");
     }
 
     // Verify rooms
