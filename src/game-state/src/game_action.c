@@ -181,6 +181,33 @@ int all_conditions_met(item_t* item, char* action_name)
 
 // ------------------------------------- EFFECTS -------------------------------------
 
+//header unwritten
+int add_effect(game_t *game, char* room_id, char* action, char* item_src, char* item_modify, attribute_t *attribute, attribute_value_t new_value)
+{
+    room_t *room = find_room_from_game(game, room_id);
+    if(room == NULL)
+    {
+        return 2;
+    }
+    item_t *item_src = get_item_in_room(room, item_id);
+    if(item_src == NULL)
+    {
+        return 3;
+    }
+    item_t *item_modify = get_item_in_room(room, item_id);
+    if(item_modify == NULL)
+    {
+        return 4;
+    }
+    game_action_t *action = get_action(item_src, action);
+    if(action == NULL)
+    {
+        return 5;
+    }
+    int check = add_action_effect(action, item_modify, attribute, new_value);
+    
+    return check;
+}
 /* see game_action.h */
 int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
 {
@@ -188,6 +215,8 @@ int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t
     game_action_effect_t *effect = create_effect(item_to_modify, attribute, new_value);
     
     //ADD TO LIST IDK HOW?
+
+    return SUCCESS;
 }
 
 /* see game_action.h */

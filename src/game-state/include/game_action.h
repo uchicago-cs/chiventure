@@ -122,14 +122,16 @@ int all_conditions_met(item_t* item, char* action_name);
 * 
 * Returns:
 * int SUCCESS FAILURE
-* error 2 if action NULL
-* error 3 if item to modify is null
+* error 2 if room NULL
+* error 3 if item src is null
+* error 4 if item to modify is null
+* error 5 if action is null
 */
 int add_action_effect(game_action_t *action, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
 
 
 //alt version 
-//int add_effect(game_t *game, char* room_id, char* action, char* item_id, attribute_t *attribute, attribute_value_t *new_value);
+int add_effect(game_t *game, char* room_id, char* action, char* item_id, attribute_t *attribute, attribute_value_t new_value);
 
 //UNWRITTEN HEADER
 //creates condition_t
