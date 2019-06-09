@@ -42,35 +42,89 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     switch (choose_attribute)
     {
     case 1:
-        n = set_str_attr(*chosen_item, "DUMMYATTR", "str");
+        n = set_str_attr(*chosen_item, "DUMMYATTR", "old");
         //add effect GS function here
+        n = do_item_item_action(a, direct, indirect, &string);
+        if (strcmp(get_str_attr(*chosen_item, "DUMMYATTR"), "new") == 0)
+        {
+            rc = SUCCESS;
+        }
+        else
+        {
+            rc = FAILURE;
+        }
         break;
     case 2:
-        n = set_int_attr(*chosen_item, "DUMMYATTR", 1);
+        n = set_int_attr(*chosen_item, "DUMMYATTR", 0);
         //add effect GS function here
+        n = do_item_item_action(a, direct, indirect, &string);
+        if (get_int_attr(*chosen_item, "DUMMYATTR") == 1)
+        {
+            rc = SUCCESS;
+        }
+        else
+        {
+            rc = FAILURE;
+        }
         break;
     case 3:
-        n = set_double_attr(*chosen_item, "DUMMYATTR", 2.0);
+        n = set_double_attr(*chosen_item, "DUMMYATTR", 0.0);
         //add effect GS function here
+        n = do_item_item_action(a, direct, indirect, &string);
+        if (get_double_attr(*chosen_item, "DUMMYATTR") == 1.0)
+        {
+            rc = SUCCESS;
+        }
+        else
+        {
+            rc = FAILURE;
+        }
         break;
     case 4:
         n = set_char_attr(*chosen_item, "DUMMYATTR", 'a');
         //add effect GS function here
+        n = do_item_item_action(a, direct, indirect, &string);
+        if (get_char_attr(*chosen_item, "DUMMYATTR") == 'b')
+        {
+            rc = SUCCESS;
+        }
+        else
+        {
+            rc = FAILURE;
+        }
         break;
     case 5:
         n = set_bool_attr(*chosen_item, "DUMMYATTR", false);
         //add effect GS function here
+        n = do_item_item_action(a, direct, indirect, &string);
+        if (get_bool_attr(*chosen_item, "DUMMYATTR") == true)
+        {
+            rc = SUCCESS;
+        }
+        else
+        {
+            rc = FAILURE;
+        }
         break;
     case 6:
         action_type_t test_set_act = action_type_new("testforset", ITEM_ITEM);
         n = set_act_attr(*chosen_item, "DUMMYATTR", test_set_act);
         //add effect GS function here
+        n = do_item_item_action(a, direct, indirect, &string);
+        if () // A GS get attribute function for action attributes
+        {
+            rc = SUCCESS;
+        }
+        else
+        {
+            rc = FAILURE;
+        }
         break;
     default:
+        rc = do_item_item_action(a, direct, indirect, &string);
         break;
     }
 
-    int rc = do_item_item_action(a, direct, indirect, &string);
 
     free(string);
     item_free(direct);
@@ -146,30 +200,50 @@ Test(item_item_actions, wrong_allowed_actions)
 
 Test(item_item_actions, effect_set_string)
 {
-}
-
-Test(item_item_actions, effect_set_double)
-{
-}
-
-Test(item_item_actions, effect_set_boole)
-{
-}
-
-Test(item_item_actions, effect_set_character)
-{
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+    
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
 }
 
 Test(item_item_actions, effect_set_integer)
 {
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
+}
+
+Test(item_item_actions, effect_set_double)
+{
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
+}
+
+Test(item_item_actions, effect_set_character)
+{
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
+}
+
+Test(item_item_actions, effect_set_boole)
+{
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
+
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
 }
 
 Test(item_item_actions, effect_set_actions)
 {
-}
+    int rc = execute_do_item_item_action(ITEM_ITEM, "dummy", ITEM_ITEM, "dummy", ITEM_ITEM);
 
-Test(item_item_actions, effect_set_DNE)
-{
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for correct allowed actions in indirect and direct, expected SUCCESS (0)", rc);
 }
 
 Test(item_item_actions, failed_to_set)
