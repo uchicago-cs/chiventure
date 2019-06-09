@@ -17,7 +17,6 @@ enum actions {
     CLOSE,
     PUSH,
     PULL,
-    EXAMINE,
     TURN_ON,
     TURN_OFF,
     TAKE, // synonyms: "pick up"
