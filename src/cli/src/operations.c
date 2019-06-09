@@ -56,6 +56,17 @@ bool validate_filename(char *filename)
     }
 }
 
+/* See operation.h */
+cmd *assign_action(char **ts, lookup_t ** table)
+{
+    cmd *output = cmd_new(ts);
+    output->func_of_cmd = find_operation(ts[0], table);
+    if(output->func_of_cmd == NULL) output->func_of_cmd = action_error_operation;
+    //HERE WE VALIDATE THE COMMANDS
+
+    return output;
+}
+
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -66,17 +77,6 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
       if (validate(tokens[1]) == true){
         int sv = save(game, tokens[1]);
     */  return NULL;
-}
-
-/* See operation.h */
-cmd *assign_action(char **ts, lookup_t ** table)
-{
-    cmd *output = cmd_new(ts);
-    output->func_of_cmd = find_operation(ts[0], table);
-    if(output->func_of_cmd == NULL) output->func_of_cmd = action_error_operation;
-    //HERE WE VALIDATE THE COMMANDS
-
-    return output;
 }
 
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -115,7 +115,11 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     if (curr_item != NULL)
         {
             action_type_t *action = find_action(tokens[0], table);
-            do_item_action(game, action, curr_item);
+
+            char *str;
+            do_item_action(game, action, curr_item, &str);
+            printf("%s", str);
+
             return "The object is found\n";
         }
     return "The object could not be found\n";
@@ -133,7 +137,11 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         if (strcmp(curr_path->direction,tokens[1]) == 0)
         {
             action_type_t *action = find_action(tokens[0], table);
-            do_path_action(game, action, curr_path);
+
+            char *str;
+            do_path_action(game, action, curr_path, &str);
+            printf("%s", str);
+
             return "Direction available!\n";
         }
     }
@@ -159,7 +167,10 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         return "The object(s) could not be found";
     }
     action_type_t *action = find_action(tokens[0], table);
-    do_item_item_action(game, action, item1, item2);
+
+    char *str;
+    do_item_item_action(game, action, item1, item2, &str);
+    printf("%s", str);
     return "is an action!";
 }
 
@@ -191,3 +202,15 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 //    printf("%s\n",tokens[0] );
 //    return "is an action!";
 //}
+
+char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    toggle_map(ctx);
+    return "Map toggled.";
+}
+
+char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    layout_switch(ctx);
+    return "Layout switched.";
+}

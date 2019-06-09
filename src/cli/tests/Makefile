@@ -1,19 +1,19 @@
 CC = gcc
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../action_management/include/ -I../../ui/include/
 RM = rm -f
-LDLIBS = -lcriterion
+LDLIBS = -lcriterion 
 
-COMMON = -L../../common/
-GAME_STATE = -L../../game-state/
-ACTION_MANAGEMENT = -L../../action_management/
-CLI = -L../
-UI = -L../../ui/
+COMMON = -L../../common/ 
+GAME_STATE = -L../../game-state/ 
+ACTION_MANAGEMENT = -L../../action_management/ 
+CLI = -L../ 
+UI = -L../../ui/ 
 
-STLIBS = $(COMMON) $(UI) $(CLI) $(GAME_STATE) $(ACTION_MANAGEMENT) -Wl,--start-group -lncurses -l:cli.a -l:ui.a -l:game-state.a -l:action_management.a -Wl,--end-group
+STLIBS = $(COMMON) $(UI) $(CLI) $(GAME_STATE) $(ACTION_MANAGEMENT) -Wl,--start-group -lncurses -l:cli.a -l:ui.a -l:game-state.a -l:action_management.a -Wl,--end-group  
 
-SRCS = test_cmd.c
+SRCS = main.c test_parser.c test_cmd.c
 OBJS = $(SRCS:.c=.o)
-BIN = test_cmd
+BIN = test_cli
 
 .PHONY: all
 all: ${BIN}
@@ -28,4 +28,5 @@ $(SRCS:.c=.d):%.d:%.c
 
 .PHONY: clean
 clean:
+
 	${RM} ${BIN} ${OBJS} $(SRCS:.c=.d)
