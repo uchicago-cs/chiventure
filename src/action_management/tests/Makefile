@@ -5,7 +5,7 @@ CFLAGS = -fPIC -Wall -Wextra -O2 -g -I ../include/ -I ../../common/include/ -I .
 LFLAGS = -L .. -L ../../common -L ../../game-state -L ../../ui -L ../../cli
 RM = rm -f
 BIN = test-actionmanagement
-LIBS = -l:ui.a -l:cli.a -l:common.a -l:action_management.a -l:game-state.a -lcriterion
+LIBS = -l:common.a -l:ui.a -l:cli.a -l:action_management.a -l:game-state.a -lcriterion -lncurses
 SRCS = main.c test_get_actions.c test_action_new_init_free.c test_item_actions.c test_path_actions.c test_item_item_actions.c
 
 OBJS = $(SRCS:.c=.o) 
