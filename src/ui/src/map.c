@@ -44,8 +44,8 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
      * We will add them back in once merged with Game State, so we would
      * like to keep this commented code here
      */
-    // int halfy = y + height/2;
-    // int halfx = x + width/2;
+    int halfy = y + height/2;
+    int halfx = x + width/2;
 
     // Draw the corners
     mvwaddch(win, y, x, ACS_ULCORNER);
@@ -61,7 +61,7 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
 
     // Checks if given room has exits on each side, draws exits
     /* TO-DO -- Ask Game state if they have added this fcn to master
-     * yet. See Git Issue #151
+     * yet. See Git Issue #151 */
     if (find_room_from_dir(room, "East") != NULL) {
         mvwaddch(win, halfy-1, right_x, ACS_HLINE);
         mvwaddch(win, halfy, right_x, ACS_HLINE);
@@ -80,7 +80,6 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
         mvwaddch(win, bot_y, halfx, ' ');
         mvwaddch(win, bot_y, halfx+1, ACS_VLINE);
     }
-    */
 }
 
 /* Draws all of the rooms stored in the hashmap of the ui_ctx given

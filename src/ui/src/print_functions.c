@@ -118,8 +118,12 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
 
     WINDOW *cli = ctx->ui_ctx->cli_win->w;
 
+    int len = strlen(str);
+    char temp[len];
+    strcpy(temp, str);
     char *tmp = strtok(str, "\n");
-
+    
+    
     getyx(cli, y, x);
 
     // scrolls the screen up if there is no space to print the first line of output
