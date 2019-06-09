@@ -37,6 +37,7 @@ Test(path_actions, validate_path)
     game_t *game_test;
     player_t *player_test;
     room_t *room_north, *room_origin;
+    path_t *path_north, *path_origin;
     action_type_t *action_go, *action_invalid;
 
     /* CREATE VARIABLE CONTENTS */
