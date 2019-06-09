@@ -165,14 +165,6 @@ int cmd_free(cmd *c)
     {
         return 0;
     }
-
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
-    {
-        if(c->tokens[i] != NULL)
-        {
-            free(c->tokens[i]);
-        }
-    }
     free(c);
     return 0;
 }
