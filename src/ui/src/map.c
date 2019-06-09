@@ -117,12 +117,6 @@ void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
         zroom = itr->key.z;
         x = itr->key.x;
         y = itr->key.y;
-        /*
-        for (int i = 0; i < n; i++) {
-               x = rooms[i]->loc->x;
-               y = rooms[i]->loc->y;
-               zroom = rooms[i]->loc->z;
-             */
 
         if (zroom == z) {
             x_offset = left_x + (room_w * x);
@@ -236,19 +230,29 @@ int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
     assert(ctx->ui_ctx->map->pad != NULL);
 
     map_t *map = ctx->ui_ctx->map;
+
+    // Width and height of a room
     int room_h = map->room_h;
     int room_w = map->room_w;
+
+    // The upper left hand corner of the map display on screen
     int ulx = map->ulx;
     int uly = map->uly;
+    // The lower right hand corner of the map display on screen
     int lrx = map->lrx;
     int lry = map->lry;
+    //The x and y coordinates of the center of the map display screen
     int centx = (lrx - ulx) / 2;
     int centy = (lry - uly) / 2;
+    /* The display coordinates of the upper left corner of the room at the
+     center of the screen*/
     int centxc = centx - (room_w / 2);
     int centyc = centy - (room_h / 2);
+    // The x and y offset of the map in order to put room (x, y, z) in the center
     int padx = room_w * x - centxc;
     int pady = room_h * y - centyc;
 
+    // Pass these offsets to map_refresh
     map_refresh(ctx, padx, pady, z);
     return 0;
 }
