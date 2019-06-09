@@ -50,8 +50,8 @@ Test(path_actions, validate_path)
     action_invalid = action_type_new("OPEN", ITEM);
 
     /* FILL VARIABLE CONTENTS */
-    // add_player_to_game(game_test, player_test);
-    // set_curr_player(game_test, player_test);
+    add_player_to_game(game_test, player_test);
+    set_curr_player(game_test, player_test);
     add_room_to_game(game_test, room_origin);
     add_room_to_game(game_test, room_north);
     create_connection(game_test, room_origin->room_id, room_north->room_id, "north");
