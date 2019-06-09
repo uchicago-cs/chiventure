@@ -189,7 +189,10 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     ITER_ALL_ITEMS_IN_INVENTORY(game->curr_player, t)
     {
         i++;
-        print_to_cli(ctx, i);
+
+        char str[10];
+        sprintf(str, "%d", i);
+        print_to_cli(ctx, str);
         print_to_cli(ctx, t->item_id);
         print_to_cli(ctx, t->short_desc);
     }
