@@ -29,3 +29,4 @@ $(SRCS:.c=.d):%.d:%.c
 .PHONY: clean
 clean:
 	-${RM} ${BIN} ${OBJS} $(SRCS:.c=.d)
+
