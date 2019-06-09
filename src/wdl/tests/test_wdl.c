@@ -3,6 +3,9 @@
 #include <stdbool.h>
 #include "load_wdl.h"
 
+/*
+ * checks that start_desc was loaded
+ */
 Test(wdl, load_wdl)
 {
   printf("TEST WDL STARTS HERE\n");

@@ -21,7 +21,7 @@ game_t *load_wdl()
   obj_t *game_document = obj_get_attr(big_document, "GAME.0", false);
   char *start_room = obj_get_str(game_document, "start");
   game_set_start(start_room, game);
-  //  int items = load_items(big_document, game);
+  int items = load_items(big_document, game);
 
   return game;
   /*  if((rooms + connections) == 0){
