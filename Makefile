@@ -36,13 +36,13 @@ $(LIBS):
 SRCS = src/chiventure.c
 OBJS = $(SRCS:.c=.o)
 
-$(SRCS:.c=.d):%.d:%.c
+$(SRCS:.c=.d):%.d:%.c $(LIBS)
 	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(SRCS:.c=.d)
 
 $(BIN): $(OBJS) $(LIBS)
-	$(CC) $^ -o$@ $(LDLIBS)
+	$(CC) $^ -o $@ $(LDLIBS)
 
 clean:
 	-${RM} ${OBJS} $(SRCS:.c=.d)
