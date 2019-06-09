@@ -1,4 +1,6 @@
 #include "sample_game.h"
+#include "game.h" // to get game_t
+#include "player.h" // to get player_t
 #include "item.h" // to get item_t
 #include "action_structs.h" // to get action_type_t
 #include "actionmanagement.h" // for get_supported_actions
@@ -32,7 +34,7 @@ game_t* create_sample_game()
     game->curr_room = room1;
 
     /* initialize player */
-    player_t player1 = player_new("player1", 10);
+    player_t *player1 = player_new("player1", 10);
     add_player_to_game(game, player1);
     game->curr_player = player1;
 
