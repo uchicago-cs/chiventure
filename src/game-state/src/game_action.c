@@ -220,6 +220,10 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
 /* see game_action.h */
 game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
 {
+
+    if (item_to_modify == NULL || attribute == NULL) {
+        return NULL;
+    }
     game_action_effect_t *effect = malloc(sizeof(game_action_effect_t));
     effect->item = item_to_modify;
     effect->attribute_to_modify = attribute;
