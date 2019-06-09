@@ -39,16 +39,16 @@ Test(path_actions, validate_path)
     room_t *room_north, *room_origin;
     path_t *path_north, *path_origin;
     action_type_t *action_go, *action_invalid;
-
+printf("crash test 0");
     /* CREATE VARIABLE CONTENTS */
     ctx_test = chiventure_ctx_new();
-    game_test = game_new("This is the test game!");
+    game_test = game_new("This is a test game!");
     player_test = player_new("player", 1);
-    room_origin = room_new("room_o","origin room", "This is the room the player starts in.");
+    room_origin = room_new("room_o", "origin room", "This is the room the player starts in.");
     room_north = room_new("room_n", "room north of origin", "This is the room north of the spawn.");
     action_go = action_type_new("GO", PATH);
     action_invalid = action_type_new("OPEN", ITEM);
-
+printf("crash test 1");
     /* FILL VARIABLE CONTENTS */
     add_player_to_game(game_test, player_test);
     set_curr_player(game_test, player_test);
@@ -60,7 +60,7 @@ Test(path_actions, validate_path)
     path_origin = path_search(room_origin, "origin");
     game_test->curr_room = room_origin;
     ctx_test->game = game_test;
-
+printf("crash test 2");
     /* SUCCESS TEST */
     check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
     // player should be in room_north
@@ -72,7 +72,7 @@ Test(path_actions, validate_path)
     check_do_path(ctx_test, action_go, path_origin, room_origin, NOT_ALLOWED_PATH);
 
     /* FREE VARIABLES */
-    chiventure_ctx_free(ctx_test); // for some reason this function is malfunctioning
+    chiventure_ctx_free(ctx_test);
     action_type_free(action_go);
     action_type_free(action_invalid);
 }
