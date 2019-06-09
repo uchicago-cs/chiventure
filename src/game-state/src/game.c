@@ -1,6 +1,7 @@
 #include "game.h"
 #include "common-room.h"
 #include "game_state_common.h"
+#include "common-item.h"
 
 /* see game.h */
 game_t *game_new(char *desc) {
