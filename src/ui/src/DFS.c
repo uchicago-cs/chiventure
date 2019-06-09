@@ -11,16 +11,6 @@
 #include <math.h>
 #include "coordinate.h"
 
-/* Dummy function:
- * We will use the find_room_from_dir functions provided by game state
- * to access these paths in each room
- */
-room_t *find_room(room_t *curr, char *direction)
-{
-    room_t *adj = NULL;
-    return adj;
-}
-
 /* assign():
  *
  * Internal function for UI
@@ -44,7 +34,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
     /* TO-DO: Implement calls to game state function (find_room_from_dir)
      * to find rooms
      */
-    room_t *find_room_north = find_room(room, "north");
+    room_t *find_room_north = find_room_from_dir(room, "North");
     if (find_room_north != NULL) {
         int north = assign(coordmap, vertical_hops + 1,
                            horizontal_hops, up_down_hops, find_room_north);
@@ -53,7 +43,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
         }
     }
 
-    room_t *find_room_east = find_room(room, "east");
+    room_t *find_room_east = find_room_from_dir(room, "East");
     if (find_room_east != NULL) {
         int east = assign(coordmap, vertical_hops,
                           horizontal_hops + 1, up_down_hops, find_room_east);
@@ -62,7 +52,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
         }
     }
 
-    room_t *find_room_south = find_room(room, "south");
+    room_t *find_room_south = find_room_from_dir(room, "South");
     if (find_room_south != NULL) {
         int south = assign(coordmap, vertical_hops - 1,
                            horizontal_hops, up_down_hops, find_room_south);
@@ -71,7 +61,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
         }
     }
 
-    room_t *find_room_west = find_room(room, "west");
+    room_t *find_room_west = find_room_from_dir(room, "West");
     if (find_room_south != NULL) {
         int west = assign(coordmap, vertical_hops,
                           horizontal_hops - 1, up_down_hops, find_room_west);
@@ -80,7 +70,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
         }
     }
 
-    room_t *find_room_up = find_room(room, "up");
+    room_t *find_room_up = find_room_from_dir(room, "Up");
     if (find_room_up != NULL) {
         int up = assign(coordmap, vertical_hops, horizontal_hops,
                         up_down_hops + 1, find_room_up);
@@ -89,7 +79,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
         }
     }
 
-    room_t *find_room_down = find_room(room, "down");
+    room_t *find_room_down = find_room_from_dir(room, "Down");
     if (find_room_down != NULL) {
         int down = assign(coordmap, vertical_hops, horizontal_hops,
                           up_down_hops - 1, find_room_down);
