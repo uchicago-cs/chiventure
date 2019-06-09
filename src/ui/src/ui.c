@@ -87,7 +87,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
 
                 toggle_map(ctx);
                 ui_ctx = ctx->ui_ctx;
-                curr_page = ui_ctx->curr_page;
+
             } else if (ch == 's') {
                 ch = 27;
                 layout_switch(ctx);
@@ -98,7 +98,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
             window_print(ctx,  cli);
 
         }
-
+	curr_page = ui_ctx->curr_page;
         // This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM) {
             window_print(ctx, info);
