@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "parse.h"
 #include "load_wdl.h"
 
 /*
@@ -23,16 +19,15 @@ game_t *load_wdl()
   game_set_start(start_room, game);
   int items = load_items(big_document, game);
 
-  return game;
-  /*  if((rooms + connections) == 0){
-    if(items == -1){
+  if((rooms + connections) == 0){
+    if(items == -1){//load_items is the only one that returns -1 on failure
       return NULL;
     }else{
       return game;
     }
   }else{
     return NULL;
-    }*/
+  }
 }
 
     

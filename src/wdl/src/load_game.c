@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "validate.h"
-#include "parse.h"
-#include "game.h"
 #include "load_game.h"
 
 game_t *create_game(obj_t *doc)
