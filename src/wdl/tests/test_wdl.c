@@ -8,7 +8,6 @@
  */
 Test(wdl, load_wdl)
 {
-  printf("TEST WDL STARTS HERE\n");
   game_t *game = load_wdl();
 
   char *start_desc = game->start_desc;
@@ -39,3 +38,4 @@ Test(wdl, loading_items)
 
     cr_assert_not_null(rc, "load_wdl did not load items");
 }
+
