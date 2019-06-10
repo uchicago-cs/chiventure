@@ -2,21 +2,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "validate.h"
+#include "parse.h"
 
 /*
  * NOTE: these tests are specifically for the file designated by PATH located
  * within validate.h
  */
-
-/*
- * helper function for parsing a YAML file into an object
- */
-obj_t *get_doc_obj()
-{
-    obj_t *obj = obj_new("doc");
-    parse_game(PATH, obj);
-    return obj;
-}
 
 /* tests whether the game fields are valid */ 
 Test(validate, game_type_check)

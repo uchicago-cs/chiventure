@@ -1,13 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "parse.h"
-#include "game.h"
-#include "item.h"
-#include "room.h"
+#ifndef INCLUDE_LOAD_WDL_H
+#define INCLUDE_LOAD_WDL_H
+
 #include "load_item.h"
 #include "load_room.h"
 #include "load_game.h"
+#include "wdl_common.h"
 
 //file path that specifies which yaml file to use
 #define PATH_TO_YAML "../examples/sample_yaml/simplified_wdl.yaml"
@@ -22,3 +19,4 @@
  */
 game_t *load_wdl();
 
+#endif /* end if for LOAD_WDL_H */
