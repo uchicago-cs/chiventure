@@ -42,15 +42,17 @@ int add_player_to_game(game_t *game, player_t *player) {
 /* See game.h */
 int add_room_to_game(game_t *game, room_t *room) {
     room_t *check;
-    HASH_FIND(hh, game->all_rooms, room->room_id, strnlen(room->room_id, MAX_ID_LEN),
-    check);
+    HASH_FIND(hh, game->all_rooms, room->room_id, 
+        strnlen(room->room_id, MAX_ID_LEN),
+        check);
 
     if (check != NULL) {
         /* WARNING */
         fprintf(stderr, "add_room_to_game: this room id is already in use.\n");
         return FAILURE;
     }
-    HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, strnlen(room->room_id, MAX_ID_LEN),
+    HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, 
+        strnlen(room->room_id, MAX_ID_LEN),
     room);
     return SUCCESS;
 }
@@ -58,11 +60,13 @@ int add_room_to_game(game_t *game, room_t *room) {
 /* See game.h */
 int add_final_room_to_game(game_t *game, room_t *final_room) {
     room_t *check;
-    HASH_FIND(hh, game->all_rooms, final_room->room_id, strnlen(final_room->room_id, MAX_ID_LEN),
-    check); // checks if the room exists within the list of game rooms
+    HASH_FIND(hh, game->all_rooms, final_room->room_id, 
+        strnlen(final_room->room_id, MAX_ID_LEN),
+        check); // checks if the room exists within the list of game rooms
 
     if (check != NULL) {
-        fprintf(stderr, "add_final_room_to_game: this room does not exist in the list of rooms\n");
+        fprintf(stderr, "add_final_room_to_game: this room does not exist"
+            "in the list of rooms\n");
         return FAILURE;
     }
     game->final_room = final_room;
@@ -100,7 +104,8 @@ int set_curr_player(game_t *game, player_t *player) {
 /* See game.h */
 player_t *get_player(game_t *game, char *player_id) {
     player_t *s;
-    HASH_FIND(hh, game->all_players, player_id, strnlen(player_id, MAX_ID_LEN), s);
+    HASH_FIND(hh, game->all_players, player_id, 
+        strnlen(player_id, MAX_ID_LEN), s);
     return s;
 }
 
@@ -115,13 +120,13 @@ room_t *find_room_from_game(game_t *game, char* room_id) {
 /* See game.h */
 int move_room(game_t *game, room_t *new_room) {
     if(game == NULL) {
-        return 2;
+        return GAME_NULL;
     }
     if(new_room == NULL)
-        return 3;
+        return ROOM_NULL;
     if(new_room == game->final_room)
     {
-        return 4;
+        return FINAL_ROOM;
     }
     room_t *check = find_room_from_game(game, new_room->room_id);
     if(check == NULL) {

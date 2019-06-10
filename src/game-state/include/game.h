@@ -62,11 +62,11 @@ game_t *game_new(char *start_desc);
  *  room that we're changing to
  *
  * Returns:
- *  0 for success
- *  1 for failure
- *  2 if game null
- *  3 if new_room is null
- *  4 if new_room is the game's final_room
+ *  SUCCESS for success
+ *  FAILURE for failure
+ *  GAME_NULL if game null
+ *  ROOM_NULL if new_room is null
+ *  FINAL_ROOM if new_room is the game's final_room
  */
 int move_room(game_t *game, room_t *new_room);
 
@@ -75,7 +75,7 @@ int move_room(game_t *game, room_t *new_room);
  * pls dont hate
  *
  * Parameters:
- *  game struct
+ *  pointer to game struct
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
@@ -85,7 +85,7 @@ int game_quit(game_t *game);
 /* Frees everything in the game struct safely
  *
  * Parameters:
- *  game struct that needs to be freed
+ *  pointer to game struct that needs to be freed
  *
  * Returns:
  *  SUCCESS if successful

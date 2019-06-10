@@ -112,7 +112,7 @@ Given the pointer to another room, changes the current room in game-state.
 + Returns: 
     - SUCCESS if successful, FAILURE if failed
 
- Adds the final room to the given game
+ Adds the final_room field to the given game struct
 
 
 
