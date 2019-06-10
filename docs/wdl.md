@@ -74,7 +74,6 @@ Please see this document for all possible actions and descriptions: https://gith
 
 ### ROOM example:
 ```yaml
-ROOM Example:
 - id: "kitchen"
 
   short_desc: "A well-furnished area for cooking food."
