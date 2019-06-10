@@ -39,7 +39,7 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
  * Returns:
  *  true if item contains action, false if it does not
  */
-bool possible_action(item_t* item, char* action_name);
+bool allowed_action(item_t* item, char* action_name);
 
 /*
  * Function to get a linked list (utlist) of all the actions in the item
@@ -64,7 +64,7 @@ int game_action_free(game_action_t *action_tofree);
 
 // ------------------------- CONDITION FUNCTIONS -------------------------
 
-/* add_action_condition() creates a new condition for an item's action and 
+/* add_action_condition() creates a new condition for an item's action and
  * adds to the action's condition list
  * Parameters:
  *  a pointer to the item the action is being performed on
@@ -83,19 +83,19 @@ int add_action_condition(item_t *item, game_action_t *action,
 /* condition_new() creates a new condition in an item with given inputs
  * Parameters:
  *  a pointer to the item to be modified
- *  a pointer to the attribute 
+ *  a pointer to the attribute
  *  the desired value of the attribute
  * Returns:
  *  NULL if item or attribute are NULL, the new condition if succcessful
- */ 
+ */
 game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
 				       attribute_value_t new_value);
 
-/* check_condition() checks if the actual attribute of an item is equal 
+/* check_condition() checks if the actual attribute of an item is equal
  * to the desired attribute
  * Parameters:
  *  a pointer to the item to check
- *  the desired attribute 
+ *  the desired attribute
  * Returns:
  *  true if desired attribute matches the actual, false if not
  */
@@ -122,7 +122,7 @@ int all_conditions_met(item_t* item, char* action_name);
 * - ptr to item being modified
 * - ptr to attribute to modify
 * - new attribute_value_t (takes tag from attribute above)
-* 
+*
 * Returns:
 * int SUCCESS FAILURE
 * error 2 if action NULL
@@ -131,7 +131,7 @@ int all_conditions_met(item_t* item, char* action_name);
 int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
 
 
-//alt version 
+//alt version
 
 /* create_effect creates an effect_t struct with the given inputs
 * Parameters:
@@ -158,6 +158,4 @@ int do_effect(game_action_effect_t *effect);
  * Returns:
  *  SUCCESS if all effects are set, FAILURE if not
  */
-int do_all_effects(item_t* item, char* action_name); 
-
- 
+int do_all_effects(item_t* item, char* action_name);
