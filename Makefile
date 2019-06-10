@@ -7,7 +7,7 @@ RM = rm -f
 LDLIBS = -lyaml -lncurses -lreadline -lprotobuf-c
 BIN = chiventure
 
-.PHONY: all clean libs
+.PHONY: proto all clean
 
 all: $(BIN)
 
@@ -22,11 +22,12 @@ all: $(BIN)
 #  - Makefile: src/ui/Makefile
 #  - Library: src/ui/ui.a
 
-COMPONENTS = checkpointing libobj common ui cli game-state action_management wdl
+COMPONENTS = libobj common ui cli checkpointing game-state action_management wdl
 
 LIBS = $(foreach comp,$(COMPONENTS),src/$(comp)/$(comp).a)
 
 $(LIBS):
+	make -C ./src/checkpointing
 	make -C ./src/$(basename $(notdir $@))/
 
 
@@ -41,8 +42,9 @@ $(SRCS:.c=.d):%.d:%.c $(LIBS)
 -include $(SRCS:.c=.d)
 
 $(BIN): $(OBJS) $(LIBS)
-	$(CC) $^ -o$@ $(LDLIBS)
+	$(CC) $^ -o $@ $(LDLIBS)
 
 clean:
 	-${RM} ${OBJS} $(SRCS:.c=.d)
 	-for COMP in $(COMPONENTS); do make -C src/$$COMP/ clean; done
+
