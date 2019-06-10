@@ -44,11 +44,6 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 
 }
 
-
-
-
-
-
 /* see item.h */
 char *get_sdesc_item(item_t *item)
 {

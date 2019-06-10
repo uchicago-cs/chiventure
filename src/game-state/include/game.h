@@ -255,10 +255,11 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
  *
  * Returns:
  * - SUCCESS upon success
- * - error 1 if item src is null
- * - error 2 if item to modify is null
- * - error 3 if action is null
- * - error 4 if attribute is null
+ * - FAILURE if add_action_condition fails
+ * - error 2 if item src is null
+ * - error 3 if item to modify is null
+ * - error 4 if action is null
+ * - error 5 if attribute is null
  */
 int add_condition(game_t *game, char *action_name, char *item_src_name,
 		  char *item_modify_name, char *attribute_name, attribute_value_t new_value);

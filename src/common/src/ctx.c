@@ -2,6 +2,7 @@
 #include "ctx.h"
 #include "game.h"
 #include "ui_ctx.h"
+#include "cmd.h"
 
 
 /* See ctx.h */
@@ -36,8 +37,11 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx)
 
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
 
+    lookup_t **table = lookup_t_new();
+
     ctx->game = game;
     ctx->ui_ctx = ui_ctx;
+    ctx->table = table;
 
     /* Add calls to component-specific initialization here */
 
@@ -50,6 +54,8 @@ int chiventure_ctx_free(chiventure_ctx_t *ctx)
     assert(ctx != NULL);
 
     /* Add calls to component-specific freeing functions here */
+
+    ui_ctx_free(ctx->ui_ctx);
 
     free(ctx);
 
