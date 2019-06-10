@@ -6,7 +6,7 @@
 bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 {
     if (ls == NULL) {
-      return true; // if the function returns false, it will halt parsing
+      return true;
     }
 
     bool result = true;
