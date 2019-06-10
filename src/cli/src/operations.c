@@ -69,7 +69,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "Room not found! Error! We need a room to be loaded to LOOK!\n";
     }
     if(tokens[1] == NULL)
-    {   
+    {
         if(game != NULL){
             return game->curr_room->long_desc;
         }
@@ -163,7 +163,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     item_t *item1, *item2;
     item1 = get_item_in_room(game->curr_room, tokens[1]);
     item2 = get_item_in_room(game->curr_room, tokens[3]);
-    
+
     if(item1 == NULL || item2 == NULL)
     {
         return "The object(s) could not be found";
@@ -219,4 +219,14 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     layout_switch(ctx);
     return "Layout switched.";
+}
+char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
+    if(find_entry(tokens[1], (ctx->table)) == NULL){
+      return "You can't bind something that doesn't exist";
+    }
+    if(find_entry(tokens[2],(ctx->table)) != NULL){
+      return "You can't bind something that already means something else";
+    }
+    add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (ctx->table));
+    return "It is bound!";
 }

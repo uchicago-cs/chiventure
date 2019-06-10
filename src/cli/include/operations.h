@@ -205,7 +205,15 @@ char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-
+/* Inserts a new command as a synonym for an existing one.
+ * The third word becomes a synonym for the second, if it doesn't mean anything already.
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ * Returns:
+ * The text saying the naming is complete or has failed.
+ */
+char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 //char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 

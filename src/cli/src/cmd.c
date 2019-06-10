@@ -83,7 +83,6 @@ lookup_t **lookup_t_new()
     {
         return NULL;
     }
-
     rc = lookup_t_init(t);
     if(rc != SUCCESS)
     {
@@ -111,7 +110,7 @@ int lookup_t_init(lookup_t **t)
 }
 
  /* See cmd.h */
-int lookup_t_free(lookup_t **t) 
+int lookup_t_free(lookup_t **t)
 {
    lookup_t *tmp;
    lookup_t *current_user;
@@ -120,7 +119,7 @@ int lookup_t_free(lookup_t **t)
        HASH_DEL(*t, current_user);
        free(current_user);
    }
-   return SUCCESS; 
+   return SUCCESS;
 }
 
 /* === command constructors  === */
