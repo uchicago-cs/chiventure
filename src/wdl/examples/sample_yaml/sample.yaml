@@ -78,6 +78,8 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
+      text_success: "Congrats! You can now access room B."
+      text_fail: "You cannot push the table. You can only pull it."
     - action: "PULL"
       conditions:
       - id: "star"
@@ -87,6 +89,8 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
+      text_success: "Congrats! You can now access room C."
+      text_fail: "You cannot pull the table if the star is not green."
         
  - id: "star"
    short_desc: "This is a star"
