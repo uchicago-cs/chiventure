@@ -58,6 +58,8 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
+   text_success: "<placeholder text>"
+   text_fail: "<placeholder text>"
 
  - id: "table"
    short_desc: "This is a table"
@@ -96,8 +98,14 @@ ITEMS:
    short_desc: "This is a star"
    long_desc: "This is a star long"
    in: "room B"
+   text_success: "<placeholder text>"
+   text_fail: "<placeholder text>"
 
  - id: "lever"
    short_desc: "This is a table"
    long_desc: "This is a table long"
    in: "room B"
+   attributes:
+   actions:
+   text_success: "<placeholder text>"
+   text_fail: "<placeholder text>"
