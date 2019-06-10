@@ -45,11 +45,11 @@ Please see this document for all possible actions and descriptions: https://gith
 
 ### GAME example:
 ```yaml
-start: "KITCHEN"
-intro: “Welcome to the virtual house. You have been wandering for quite some time,
-and you need to determine how to return to reality.”
-end:
- - in_room: "LIVING ROOM"
+ - start: "KITCHEN"
+   intro: “Welcome to the virtual house. You have been wandering for quite some time,
+   and you need to determine how to return to reality.”
+   end:
+    - in_room: "LIVING ROOM"
 ```
 
 ## ROOM:
