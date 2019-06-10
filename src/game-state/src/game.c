@@ -185,22 +185,22 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
     item_t *item_src = get_item_from_game(game, item_src_name);
     if(item_src == NULL)
     {
-        return 1;
+        return 2;
     }
     item_t *item_modify = get_item_from_game(game, item_modify_name);
     if(item_modify == NULL)
     {
-        return 2;
+        return 3;
     }
     game_action_t *action = get_action(item_src, action_name);
     if(action == NULL)
     {
-        return 3;
+        return 4;
     }
     attribute_t *attribute = get_attribute(item_src, attribute_name);
     if(attribute == NULL)
     {
-        return 4;
+        return 5;
     }
     int check = add_action_effect(action, item_src, item_modify, attribute, new_value);
     
@@ -212,20 +212,20 @@ int add_condition(game_t *game, char* action_name, char* item_src_name,
 {
     item_t *item_src = get_item_from_game(game, item_src_name);
     if (item_src == NULL) {
-        return 1;
+        return 2;
     }
 
     item_t *item_modify = get_item_from_game(game, item_modify_name);
     if (item_modify == NULL) {
-        return 2;
+        return 3;
     }
     game_action_t *action = get_action(item_src, action_name);
     if(action == NULL) {
-	return 3;
+	return 4;
     }
     attribute_t *attribute = get_attribute(item_src, attribute_name);
     if(attribute == NULL) {
-	return 4;
+	return 5;
     }
     int check = add_action_condition(item_src, action, item_modify, attribute, new_value);
     
