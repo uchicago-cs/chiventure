@@ -166,18 +166,16 @@ int delete_room_llist(room_list_t *head) {
 
 /* See game.h */
 item_list_t *get_all_items_in_game(game_t *game) {
-    item_list_t *items = NULL, *items_tmp = NULL;
-    room_list_t *rooms = get_all_rooms(game);
-    room_list_t *roomwrapped;
-    LL_FOREACH(rooms, roomwrapped) {
-        items_tmp = get_all_items_in_room(roomwrapped->room);
-        LL_CONCAT(items, items_tmp);
+    item_list_t *items = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, game->all_items, curr_item, ITTMP_ITEMRM)
+    {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
     }
-    /* **** If multiplayer/npc is supported in the furture,
-            please add get_all_players() and modify this    **** */
-    items_tmp = get_all_items_in_inventory(game->curr_player);
-    LL_CONCAT(items, items_tmp);
-    return items;
+    return head;
 }
 
 /* see game.h */
