@@ -166,7 +166,7 @@ int delete_room_llist(room_list_t *head) {
 
 /* See game.h */
 item_list_t *get_all_items_in_game(game_t *game) {
-    item_list_t *items = NULL;
+    item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item;
     item_list_t *tmp;
     HASH_ITER(hh, game->all_items, curr_item, ITTMP_ITEMRM)
