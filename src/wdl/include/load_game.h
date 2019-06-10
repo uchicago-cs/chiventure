@@ -5,13 +5,10 @@
 #ifndef INCLUDE_LOAD_GAME_H
 #define INCLUDE_LOAD_GAME_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include "wdl_common.h"
 #include "parse.h"
-#include "room.h"
 
-#define FILE_PATH "../examples/sample_yaml/connected_rooms.yaml"
+#define FILE_PATH "../examples/sample_yaml/simplified_wdl.yaml"
 
 
 /*

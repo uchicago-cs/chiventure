@@ -10,10 +10,8 @@
 #include "parser.h"
 #include "room.h"
 #include "game.h"
-
-#define PATH "./examples/sample_yaml/connected_rooms.yaml"
-
-#define SUCCESS 0
-#define FAILURE 1
+#include "item.h"
+#include "common.h"
+#include "actionmanagement.h"
 
 #endif

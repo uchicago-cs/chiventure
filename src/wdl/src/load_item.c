@@ -1,30 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "parse.h"
-#include "game.h"
-#include "item.h"
-#include "room.h"
 #include "load_item.h"
-
-//temp fix - will remove before PR to master
-/* see item.h */
-char *get_sdesc_item(item_t *item)
-{
-  if (item == NULL) {
-    return NULL;
-  }
-  return item->short_desc;
-}
-
-/* see item.h */
-char *get_ldesc_item(item_t *item)
-{
-  if (item == NULL) {
-    return NULL;
-  }
-  return item->long_desc;
-}
 
 /*
  * get_game_action()

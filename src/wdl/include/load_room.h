@@ -5,13 +5,6 @@
 #ifndef INCLUDE_LOAD_ROOMS_H
 #define INCLUDE_LOAD_ROOMS_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include "parser.h"
-#include "room.h"
-#include "game.h"
 #include "validate.h"
 #include "parse.h"
 
