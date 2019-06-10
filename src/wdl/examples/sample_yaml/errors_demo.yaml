@@ -1,0 +1,101 @@
+#
+# Sample proof-of-concept yaml file
+#
+
+GAME:
+  # wrong type for start
+ - start: 0509
+   intro: "This is the intro"
+   end: "room B"
+
+ROOMS:
+  # mising field
+ - short_desc: "This is room A"
+   long_desc: "This is room A long"
+   connection: 
+    - to: "room B"
+      direction: "south"
+
+ - id: "room B"
+   short_desc: "This is room B"
+   long_desc: "This is room B long"
+   connection: 
+    - to: "room A"
+      direction: "west"
+
+ - id: "room C"
+   short_desc: "This is room C"
+   long_desc: "This is room C long"
+   connection: 
+    - to: "room A"
+      direction: "north"
+
+ITEMS:
+ - id: "chair"
+   short_desc: "This is a chair"
+   long_desc: "This is a chair long"
+   in: "room A"
+   attributes:
+    - attribute: "size"
+      # missing field
+    - attribute: "color"
+      value: "black"
+   actions: 
+    - action: "PUSH"
+      conditions:
+      - id: "star"
+        attribute: "color"
+        value: "red"
+      effects:
+      - id: "lever"
+        attribute: "pulled"
+        value: "yes"
+    - action: "PULL" 
+      conditions:
+      - id: "star"
+        attribute: "color"
+        value: "green"
+      effects:
+      - id: "lever"
+        attribute: "pulled"
+        value: "no"
+
+ - id: "table"
+   short_desc: "This is a table"
+   long_desc: "This is a table long"
+   in: "room B"
+   attributes:
+    - attribute: "width"
+      value: "100"
+    - attribute: "color"
+      value: "green"
+   actions:
+    - action: "PUSH"
+      conditions:
+      - id: "star"
+        attribute: "color"
+        value: "green"
+      effects:
+      - id: "lever"
+        attribute: "pulled"
+        value: "no"
+    - action: "PULL"
+      conditions:
+      - id: "star"
+        attribute: "color"
+        value: "green"
+      effects:
+      - id: "lever"
+        attribute: "pulled"
+        value: "no"
+        
+ - id: "star"
+   short_desc: "This is a star"
+   long_desc: "This is a star long"
+   # wrong type
+   in: 0509
+
+ - id: "lever"
+   short_desc: "This is a table"
+   long_desc: "This is a table long"
+   in: "room B"
