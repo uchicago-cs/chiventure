@@ -32,14 +32,14 @@ game_action_t *get_action(item_t *item, char* action_name);
 int add_action(item_t* item, char *action_name, char* success_str, char* fail_str);
 
 
-/* possible_action() checks if an item permits a specific action
+/* allowed_action() checks if an item permits a specific action
  * Parameters:
  *  a pointer to the item
  *  the action name
  * Returns:
  *  true if item contains action, false if it does not
  */
-bool possible_action(item_t* item, char* action_name);
+bool allowed_action(item_t* item, char* action_name);
 
 /*
  * Function to get a linked list (utlist) of all the actions in the item

@@ -654,7 +654,7 @@ Test(attribute, equal)
 
     int equal = attributes_equal(item1, item2, "test_attr");
 
-    cr_assert_eq(equal, 1, "attributes_equal() test failed!");
+    cr_assert_eq(equal, SUCCESS, "attributes_equal() test failed!");
 
 }
 
@@ -670,7 +670,7 @@ Test(attribute, not_equal)
 
     int equal = attributes_equal(item1, item2, "test_attr");
 
-    cr_assert_eq(equal, 0, "attributes_equal() test failed!");
+    cr_assert_eq(equal, FAILURE, "attributes_equal() test failed!");
 
 }
 

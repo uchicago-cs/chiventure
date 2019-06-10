@@ -70,7 +70,7 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
 
 
 /* see game_action.h */
-bool possible_action(item_t *item, char* action_name)
+bool allowed_action(item_t *item, char* action_name)
 {
     game_action_t* possible_action = get_action(item, action_name);
     if (possible_action == NULL)
@@ -176,8 +176,8 @@ bool check_condition(game_action_condition_t *condition)
 /* see game_action.h */
 int all_conditions_met(item_t* item, char* action_name)
 {
-    //call possible action to see if the action exists
-    if (!(possible_action(item, action_name))) 
+    //call allowed action to see if the action exists
+    if (!(allowed_action(item, action_name))) 
     {
         return 2;
     }
