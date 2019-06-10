@@ -47,7 +47,6 @@ bool validate_filename(char *filename)
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-
   if(tokens[1] == NULL){
     return "Invalid Input, Save failed\n";
   }
@@ -73,6 +72,25 @@ char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
   
 }
 
+bool validate_filename(char *filename)
+{
+    int len = strlen(filename);
+    int min_filename_length = 4;
+    if(len < min_filename_length)
+    {
+        return false;
+    }
+    const char *ending = &filename[len-4];
+    int cmp = strcmp(ending, ".dat");
+    if(cmp == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 /* See operation.h */
 cmd *assign_action(char **ts, lookup_t ** table)

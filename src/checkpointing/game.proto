@@ -81,3 +81,30 @@ message Game {
     optional string curr_player = 6; //ID of player (different from struct pointer of game_state)
     // optional string start_desc = 7;
 }
+
+message Logvalueunion {
+    optional int32 int_val = 1;
+    optional string str_val = 2;
+    optional double double_val = 3;
+    optional int32 char_val = 4; //NO CHAR TYPE SUPPORTED IN .PROTO, SO USING INT INSTEAD
+    optional bool bool_val = 5;
+}
+
+message Logvalue {
+    optional string tag = 1;
+    optional Logvalueunion value = 2;
+}
+
+message Log {
+    optional string level = 1; // To specify whether it's in game, player, etc
+    optional string level_id = 2; // Id of player, room, etc
+    optional string member = 3; // Indicate which member, such as player's "xp"
+    optional Logvalue old_value = 4;
+    optional Logvalue new_value = 5;
+}
+
+message Logs {
+    optional int32 logs_len = 1;
+    repeated Log logs = 2;
+}
+
