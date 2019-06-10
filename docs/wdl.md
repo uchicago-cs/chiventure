@@ -97,6 +97,7 @@ Please see this document for all possible actions and descriptions: https://gith
 - For ITEMs, the indentation format is the same as above, except for actions, the fields are indented with two spaces, followed by a dash.
 - This applies to the subcategories in action as well.
 - The fields within actions must be indented with a dash(-) as well.
+- OPTIONAL fields must be specified for now, and can be indicated with the string "<PLACEHOLDER>".
 
 ##### The Item Object must contain the following attributes:
   - id: `<UNIQUE ID NAME>` which is a unique identifier for the item; one id can only used to identify one item in the entire ITEMS object. (i.e. only one door can have id “door”, the others would have to have “door1”, “door2”, etc. because there must be no repeat ids)
@@ -163,21 +164,21 @@ Please see this document for all possible actions and descriptions: https://gith
     
       conditions:
       
-      - id: <PLACEHOLDER>
+      - id: "<PLACEHOLDER>"
       
-        attribute: <PLACEHOLDER>
+        attribute: "<PLACEHOLDER>"
         
-        value: <PLACEHOLDER>
+        value: "<PLACEHOLDER>"
         
       effects:
       
-      - id: <PLACEHOLDER>
+      - id: "<PLACEHOLDER>"
       
-        attribute: <PLACEHOLDER>
+        attribute: "<PLACEHOLDER>"
         
-        value: <PLACEHOLDER>
+        value: "<PLACEHOLDER>"
         
-      text_success: <PLACEHOLDER>
+      text_success: "<PLACEHOLDER>"
 
       text_fail: "You cannot push the lever. You can only pull it."
 
@@ -213,9 +214,9 @@ Please see this document for all possible actions and descriptions: https://gith
   
   attributes:
     
-    - attribute: <PLACEHOLDER>
+    - attribute: "<PLACEHOLDER>"
     
-      value: <PLACEHOLDER>
+      value: "<PLACEHOLDER>"
 
   actions:
   
@@ -231,11 +232,11 @@ Please see this document for all possible actions and descriptions: https://gith
        
       effects:
 
-      - id: <PLACEHOLDER>
+      - id: "<PLACEHOLDER>"
 
-      	attribute: <PLACEHOLDER>
+      	attribute: "<PLACEHOLDER>"
 
-      	value: <PLACEHOLDER>
+      	value: "<PLACEHOLDER>"
        
       text_success: "Congrats! You got the wand and can perform a spell!"
 
@@ -245,21 +246,21 @@ Please see this document for all possible actions and descriptions: https://gith
     
       conditions:
       
-      - id: <PLACEHOLDER>
+      - id: "<PLACEHOLDER>"
 
-        attribute: <PLACEHOLDER>
+        attribute: "<PLACEHOLDER>"
 
-        value: <PLACEHOLDER>
+        value: "<PLACEHOLDER>"
        
       effects:
 
-      - id: <PLACEHOLDER>
+      - id: "<PLACEHOLDER>"
 
-      	attribute: <PLACEHOLDER>
+      	attribute: "<PLACEHOLDER>"
 
-      	value: <PLACEHOLDER>
+      	value: "<PLACEHOLDER>"
        
-      text_success: <PLACEHOLDER>
+      text_success: "<PLACEHOLDER>"
 
       text_fail: "You cannot consume the wand. Please try to hold it."
 ```
