@@ -89,8 +89,8 @@ Logs *logs_new() {
 }
 
 /* See log_save.h */
-Logs *logs_add(Logs *logs, Log *log) {
-  if (logs == NULL) {
+Logs *logs_add(Logs *l, Log *log) {
+  if (l == NULL) {
     fprintf(stderr, "Need to pass in an initialized Logs \n");
     return NULL;
   }
@@ -98,14 +98,14 @@ Logs *logs_add(Logs *logs, Log *log) {
     fprintf(stderr, "Need to pass in an initialized Log \n");
     return NULL;
   }
-  if (logs->logs_len == 100) {
+  if (l->logs_len == 100) {
     fprintf(stderr, "Logs excedding 100 Log, dump game state\n");
     return NULL;
   }
-  logs->logs_len += 1;
-  logs->n_logs += 1;
-  logs->logs[logs->logs_len - 1] = log;
-  return logs;
+  l->logs_len += 1;
+  l->n_logs += 1;
+  l->logs[l->logs_len - 1] = log;
+  return l;
 }
 
 /* See log_save.h */

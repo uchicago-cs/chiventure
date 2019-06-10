@@ -33,7 +33,7 @@ Log *log_new();
  * Parameters: 
  * - log: a new log
  * - level: either "game", "player", "room", "item", etc
- * - player_id : the id of that level string
+ * - level_id : the id of that level string
  * - member : member of the level string
  * - old_value: old value of that member
  * - new_value: new value of that member
@@ -46,7 +46,7 @@ Logs *logs_new();
 
 /* Add a Log to the array of Log's
  * Parameters: 
- * - logs: an existing Logs
+ * - logs: an existing Logs, a.k.a an array of logs
  * - log: the Log to add in
  * Return: a pointer to that Logs
  */
