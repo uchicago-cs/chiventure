@@ -34,4 +34,23 @@ int load_items(obj_t *doc, game_t *g );
  */
 int load_actions(obj_t *doc, item_t *i);
 
+/* add_cond_and_eff_to_actions
+ * Iterates through a parsed WDL file a second time after successfully
+ * loading items and item actions
+ *
+ * Parameters:
+ * - doc: the parsed WDL document object
+ * - g : a game pointer
+ *
+ * Side effects:
+ * - adds conditions and effects for all the actions of all items
+ * - prints accompanying error messages and success messages to stderr
+ *   and stdout respectfully 
+ *
+ * Returns:
+ * - 0 for SUCCESS
+ * - 1 otherwise
+ */
+int add_cond_and_eff_to_actions(obj_t *doc, game_t *g)
+
 #endif /* INCLUDE_LOAD_ITEM_H */
