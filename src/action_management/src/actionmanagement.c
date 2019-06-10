@@ -162,8 +162,8 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     char *direct_action = strtok(a->c_name, "_");
 
     // checks if the direct action is possible with the direct item
-    bool possible = possible_action(direct, direct_action);
-    if (possible == false) {
+    int possible = possible_action(direct, direct_action);
+    if (possible == FAILURE) {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, direct->item_id);
         free(temp);
@@ -173,7 +173,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
 
     // checks if the action is possible with the indirect item
     possible = possible_action(indirect, a->c_name);
-    if (possible == false) {
+    if (possible == FAILURE) {
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, indirect->item_id);
         free(temp);
