@@ -51,6 +51,6 @@ int load_actions(obj_t *doc, item_t *i);
  * - 0 for SUCCESS
  * - 1 otherwise
  */
-int add_cond_and_eff_to_actions(obj_t *doc, game_t *g)
+int add_cond_and_eff_to_actions(obj_t *doc, game_t *g);
 
 #endif /* INCLUDE_LOAD_ITEM_H */
