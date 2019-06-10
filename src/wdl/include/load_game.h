@@ -14,7 +14,7 @@
 /*
  * Function to create a pointer to an empty game
  *
- * input: 
+ * input:
  *   - document object that contains whole game
  *
  * output:
@@ -27,7 +27,7 @@ game_t *create_game(obj_t *doc);
 /*
  * Function set start room in a game
  *
- * input: 
+ * input:
  *   - room id, pointer to game_t struct
  *
  * output:

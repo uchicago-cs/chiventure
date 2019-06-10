@@ -14,13 +14,13 @@
 /* load_items
  * accesses the document object and obtain list of items to parse into the
  * game_state structs and adds to the inputted game pointer
- * 
+ *
  * parameters:
  * - obj: the document object
  * - g: a game pointer as a return parameter
  *
  * side effects:
- * - adds items into the inputted game pointer and 
+ * - adds items into the inputted game pointer and
  *   their respective rooms
  *
  * returns:
