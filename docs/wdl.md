@@ -160,6 +160,24 @@ Please see this document for all possible actions and descriptions: https://gith
   actions:
 
     - action: "PUSH"
+    
+      conditions:
+      
+      - id: <PLACEHOLDER>
+      
+        attribute: <PLACEHOLDER>
+        
+        value: <PLACEHOLDER>
+        
+      effects:
+      
+      - id: <PLACEHOLDER>
+      
+        attribute: <PLACEHOLDER>
+        
+        value: <PLACEHOLDER>
+        
+      text_success: <PLACEHOLDER>
 
       text_fail: "You cannot push the lever. You can only pull it."
 
@@ -192,6 +210,12 @@ Please see this document for all possible actions and descriptions: https://gith
   long_desc: "It has magical properties"
 
   in: "bedroom"
+  
+  attributes:
+    
+    - attribute: <PLACEHOLDER>
+    
+      value: <PLACEHOLDER>
 
   actions:
   
@@ -204,12 +228,38 @@ Please see this document for all possible actions and descriptions: https://gith
         attribute: "on_head"
 
         value: true
-        
+       
+      effects:
+
+      - id: <PLACEHOLDER>
+
+      	attribute: <PLACEHOLDER>
+
+      	value: <PLACEHOLDER>
+       
       text_success: "Congrats! You got the wand and can perform a spell!"
 
       text_fail: "You cannot take the wand until the top hat is on your head"
 
     - action: "CONSUME"
+    
+      conditions:
+      
+      - id: <PLACEHOLDER>
+
+        attribute: <PLACEHOLDER>
+
+        value: <PLACEHOLDER>
+       
+      effects:
+
+      - id: <PLACEHOLDER>
+
+      	attribute: <PLACEHOLDER>
+
+      	value: <PLACEHOLDER>
+       
+      text_success: <PLACEHOLDER>
 
       text_fail: "You cannot consume the wand. Please try to hold it."
 ```
