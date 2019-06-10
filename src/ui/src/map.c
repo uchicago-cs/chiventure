@@ -78,6 +78,8 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
  * 
  * Outputs:
  * - Draws the rooms to the screen
+ *
+ * Note: Map and ctx structs must be initialized before calling
  */
 void draw_rooms(chiventure_ctx_t *ctx, int left_x, int top_y, int z)
 {
