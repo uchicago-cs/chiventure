@@ -55,7 +55,7 @@ The current implementation uses what we coined as "semi-incremental" saving and 
 
 After saving the appropriate data, in order to load back into Chiventure, each load function directly modifies a struct instead of creating or mallocing a new struct. For example, the function  declaration of `load_player()` in load.c is as follows: 
 ```
-    int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len);```
+    int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len);
 ```
 For something simple like loading in the health of the player, we just directly overwrite the health with:
 ```
