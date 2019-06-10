@@ -47,4 +47,17 @@ attr_list_t* get_items_in_room(char* room_id, attr_list_t* all_items);
  */
 attr_list_t *get_item_actions(obj_t *item);
 
+/*
+ * get_item_attributes()
+ * gets a list of attributes assoiciated with a given item
+ *
+ * parameters:
+ *  - item: the item for which to get the attributes
+ *
+ * returns:
+ *  - a linked list of attributes
+ *  - a null if no attributes are present
+ */
+attr_list_t *get_item_attributes(obj_t *item);
+
 #endif /* INCLUDE_PARSE_H */

@@ -86,6 +86,17 @@ int load_items(obj_t *doc, game_t *g)
         /* in parameter yet to implemented by game-state
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
+        //load attributes into item
+        // getting a list of actions from item
+        attr_list_t *attr_ls = get_item_attributes(doc);
+        while (attr_ls != NULL)
+        {
+            char* attr_name = obj_get_str(attr_ls->obj, "attribute");
+            char* val = obj_get_str(attr_ls->obj, "value");
+            set_str_attr(item, attr_name, val);
+            attr_ls = attr_ls->next;
+        }
+        
         //load actions into item
         if(load_actions(curr->obj, item) == -1)
 	      {
