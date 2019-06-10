@@ -14,13 +14,13 @@
 /* load_items
  * accesses the document object and obtain list of items to parse into the
  * game_state structs and adds to the inputted game pointer
- * 
+ *
  * parameters:
  * - obj: the document object
  * - g: a game pointer as a return parameter
  *
  * side effects:
- * - adds items into the inputted game pointer and 
+ * - adds items into the inputted game pointer and
  *   their respective rooms
  *
  * returns:
@@ -34,6 +34,46 @@ int load_items(obj_t *doc, game_t *g );
  */
 int load_actions(obj_t *doc, item_t *i);
 
+/* add_single_condition
+ * Helper for add_cond_and_eff_to_actions
+ * Adds a condition to an exisiting action struct in game
+ *
+ * Parameters:
+ * - game: a game pointer
+ * - action: an action name
+ * - item_id: ID of the source item
+ * - cond: a single condition object
+ *
+ * Side effects:
+ * - adds condition to an action struct in game struct
+ * - prints accompanying error messages to stderr
+ *
+ * Returns:
+ * - 0 for SUCCESS
+ * - 1 otherwise
+ */
+int add_single_condition(game_t *game, char* action, char* item_id, obj_t *cond);
+
+/* add_single_effect
+ * Helper for add_cond_and_eff_to_actions
+ * Adds an effect to an existing action struct in game
+ *
+ * Parameters:
+ * - game: a game pointer
+ * - action: an action name
+ * - item_id: ID of the source item
+ * - effect: a single effect object
+ *
+ * Side effects:
+ * - adds effect to an action struct in game struct
+ * - prints accompanying error messages to stderr
+ *
+ * Returns:
+ * - 0 for SUCCESS
+ * - 1 otherwise
+ */
+int add_single_effect(game_t *game, char* action, char* item_id, obj_t *effect);
+
 /* add_cond_and_eff_to_actions
  * Iterates through a parsed WDL file a second time after successfully
  * loading items and item actions
@@ -43,9 +83,9 @@ int load_actions(obj_t *doc, item_t *i);
  * - g : a game pointer
  *
  * Side effects:
- * - adds conditions and effects for all the actions of all items
+ * - adds conditions and effects for all the actions of all items by calling
+ *   on helpers add_single_condition() and add_single_effect()
  * - prints accompanying error messages and success messages to stderr
- *   and stdout respectfully 
  *
  * Returns:
  * - 0 for SUCCESS
