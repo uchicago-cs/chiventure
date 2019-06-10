@@ -98,7 +98,7 @@ int add_single_effect(game_t *game, char* action, char* item_id, obj_t *effect)
   char *value = obj_get_str(effect, "value");
 
   // add effect to action for the specified item
-  int result = add_effect(g, action, id, set_id, attribute, value);
+  int result = add_effect(game, action, item_id, set_id, attribute, value);
 
   if (result == 1) {
       fprintf(stderr, "Source item with id %s does not exist\n", item_id);
@@ -162,7 +162,7 @@ int add_cond_and_eff_to_actions(obj_t *doc, game_t *g)
           }
           //CONDITIONS
             while (cond_curr != NULL) {  // iterate through conditions list
-              single_cond = cond_curr->obj;
+              obj_t *single_cond = cond_curr->obj;
               //call add_single_condition function
               int cond_info = add_single_condition(g, action_name, id, single_cond);
 
@@ -191,7 +191,9 @@ int add_cond_and_eff_to_actions(obj_t *doc, game_t *g)
           }
 
             while (set_curr != NULL) { // iterate through effects list
-              int set_info = add_single_effect(g, action_name, id, single);
+              obj_t *single_eff = set_curr->obj;
+              // call add_single_effect function
+              int set_info = add_single_effect(g, action_name, id, single_eff);
 
               if (set_info == 0) {
                 fprintf(stderr, "The effect for action %s of item %s"
