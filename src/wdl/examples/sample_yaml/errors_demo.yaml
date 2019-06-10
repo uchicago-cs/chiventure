@@ -3,13 +3,14 @@
 #
 
 GAME:
- - start: "room A"
+  # wrong type for start
+ - start: 0509
    intro: "This is the intro"
    end: "room B"
 
 ROOMS:
- - id: "room A"
-   short_desc: "This is room A"
+  # mising field
+ - short_desc: "This is room A"
    long_desc: "This is room A long"
    connection: 
     - to: "room B"
@@ -36,7 +37,7 @@ ITEMS:
    in: "room A"
    attributes:
     - attribute: "size"
-      value: "small"
+      # missing field
     - attribute: "color"
       value: "black"
    actions: 
@@ -58,9 +59,6 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
-   text_success: ""
-   text_fail: ""
-
 
  - id: "table"
    short_desc: "This is a table"
@@ -81,8 +79,6 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
-      text_success: "Congrats! You can now access room B."
-      text_fail: "You cannot push the table. You can only pull it."
     - action: "PULL"
       conditions:
       - id: "star"
@@ -92,23 +88,14 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
-      text_success: "Congrats! You can now access room C."
-      text_fail: "You cannot pull the table if the star is not green."
         
  - id: "star"
    short_desc: "This is a star"
    long_desc: "This is a star long"
-   in: "room B"
-   attributes:
-   actions:
-   text_success: ""
-   text_fail: ""
-   
+   # wrong type
+   in: 0509
+
  - id: "lever"
    short_desc: "This is a table"
    long_desc: "This is a table long"
    in: "room B"
-   attributes:
-   actions:
-   text_success: ""
-   text_fail: ""
