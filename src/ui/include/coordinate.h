@@ -92,8 +92,7 @@ coord_record_t *create_valid_map(game_t *game);
 
 /* get_test_coord_hash():
  *
- * Parameters:
- *
+ * Parameters: N/A
  *
  * Returns:
  * - A pointer to a hashmap of rooms for testing the map functions

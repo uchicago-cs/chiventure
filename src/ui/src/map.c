@@ -48,20 +48,20 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     mvwvline(win, y+1, x, ACS_VLINE, side_ht);
     mvwvline(win, y+1, right_x, ACS_VLINE, side_ht);
 
-    if (find_room_from_dir(room, "East") != NULL) {
+    if (find_room_from_dir(room, "east") != NULL) {
         mvwaddch(win, halfy-1, right_x, ACS_HLINE);
         mvwaddch(win, halfy, right_x, ACS_HLINE);
     }
-    if (find_room_from_dir(room, "West") != NULL) {
+    if (find_room_from_dir(room, "west") != NULL) {
         mvwaddch(win, halfy-1, x, ACS_HLINE);
         mvwaddch(win, halfy, x, ACS_HLINE);
     }
-    if (find_room_from_dir(room, "North") != NULL) {
+    if (find_room_from_dir(room, "north") != NULL) {
         mvwaddch(win, y, halfx-1, ACS_VLINE);
         mvwaddch(win, y, halfx,' ');
         mvwaddch(win, y, halfx+1, ACS_VLINE);
     }
-    if (find_room_from_dir(room, "South") != NULL) {
+    if (find_room_from_dir(room, "south") != NULL) {
         mvwaddch(win, bot_y, halfx-1, ACS_VLINE);
         mvwaddch(win, bot_y, halfx, ' ');
         mvwaddch(win, bot_y, halfx+1, ACS_VLINE);
