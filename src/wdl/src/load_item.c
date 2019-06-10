@@ -90,8 +90,12 @@ int load_items(obj_t *doc, game_t *g)
 
         // create new game_state item
         item_t *item = item_new(id, short_desc, long_desc);
-        /* in parameter yet to implemented by game-state
-        item_t *item = item_new(id, short_desc, long_desc, in); */
+
+        //load attributes into item
+        // getting a list of actions from item
+        attr_list_t *attr_ls = get_item_attributes(doc);
+
+        
 
         //load actions into item
         if(load_actions(curr->obj, item) == -1)

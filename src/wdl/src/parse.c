@@ -106,7 +106,7 @@ attr_list_t *get_item_actions(obj_t *item)
 
 attr_list_t *get_item_attributes(obj_t *item)
 {
-    attr_list_t *ls = obj_list_attr(obj_get_attr(item, "actions", false));
+    attr_list_t *ls = obj_list_attr(obj_get_attr(item, "attributes", false));
     if (ls == NULL) {
         return NULL;
     }
