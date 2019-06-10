@@ -7,6 +7,24 @@
 #include "room.h"
 #include "load_item.h"
 
+/* see item.h */
+char *get_sdesc_item(item_t *item)
+{
+  if (item == NULL) {
+    return NULL;
+  }
+  return item->short_desc;
+}
+
+/* see item.h */
+char *get_ldesc_item(item_t *item)
+{
+  if (item == NULL) {
+    return NULL;
+  }
+  return item->long_desc;
+}
+
 /*
  * get_game_action()
  * A helper fuction to get the pointer to the game_action struct corresponding to

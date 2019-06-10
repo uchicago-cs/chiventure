@@ -11,7 +11,7 @@
 /*
  * helper function for parsing a YAML file into an object
  */
-obj_t *get_doc_obj()
+obj_t *get_doc_obj_validate()
 {
     obj_t *obj = obj_new("doc");
     parse_game(PATH, obj);
@@ -22,7 +22,7 @@ obj_t *get_doc_obj()
 Test(validate, game_type_check)
 {
     // obtain doc/game objects
-    obj_t *doc = get_doc_obj();
+    obj_t *doc = get_doc_obj_validate();
     obj_t *game = obj_get_attr(doc, "GAME", false);
 
     bool rc = game_type_check(game);
@@ -33,7 +33,7 @@ Test(validate, game_type_check)
 Test(validate, room_type_check)
 {
     // obtain doc/room objects
-    obj_t *doc = get_doc_obj();
+    obj_t *doc = get_doc_obj_validate();
     attr_list_t *rooms = obj_list_attr(obj_get_attr(doc, "ROOMS", false));
 
     bool rc = list_type_check(rooms, room_type_check);
@@ -44,7 +44,7 @@ Test(validate, room_type_check)
 Test(validate, item_type_check)
 {
     // obraint doc/item objects
-    obj_t *doc = get_doc_obj();
+    obj_t *doc = get_doc_obj_validate();
     attr_list_t *items = obj_list_attr(obj_get_attr(doc, "ITEMS", false));
 
     bool rc = list_type_check(items, item_type_check);
