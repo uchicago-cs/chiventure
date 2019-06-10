@@ -39,9 +39,9 @@ Please see this document for all possible actions and descriptions: https://gith
 - start: `<ROOM IDENTIFIER>` used to specify the ID of the room that the game will start in. This value is the string ID of the room that the game will start in  
    ###### NOTE: The given ID must have been assigned to a room defined in the ROOM object (i.e. the room ID must exist, so if the start attribute has value “BEDROOM”, then there must be a room in the ROOM object that has the id “BEDROOM”).
 
-- intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
+  intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 
-- end: `<CONDITION>` Only one way to end the game is supported. It specifies the room a player must be in to end the game.
+  end: `<CONDITION>` Only one way to end the game is supported. It specifies the room a player must be in to end the game.
 
 ### GAME example:
 ```yaml
