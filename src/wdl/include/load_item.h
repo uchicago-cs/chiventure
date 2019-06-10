@@ -5,12 +5,9 @@
 #ifndef INCLUDE_LOAD_ITEM_H
 #define INCLUDE_LOAD_ITEM_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "parse.h"
-#include "game.h"
 #include "load_room.h"
+#include "wdl_common.h"
 
 #define FILE_PATH "../examples/sample_yaml/simplified_wdl.yaml"
 
