@@ -10,14 +10,16 @@
 #include "common.h"
 #include "game.h"
 #include "ui_ctx.h"
-
+#include "cmd.h"
 
 /* A context struct encapsulating all the shared state in chiventure */
 typedef struct chiventure_ctx
 {
     /* Add component-specific structs here */
+
     ui_ctx_t *ui_ctx;
     game_t *game;
+    lookup_t **table;
 } chiventure_ctx_t;
 
 

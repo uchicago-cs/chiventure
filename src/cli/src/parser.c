@@ -7,6 +7,11 @@
 /* See parser.h */
 char **parse(char *input)
 {
+    if(strcmp(input, "") == 0)
+    {
+        return NULL;
+    }
+
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
 
@@ -24,12 +29,14 @@ char **parse(char *input)
         token = strtok(NULL, " ");
     }
 
+    //If there are more than 4 words, parser returns NULL and does not attempt
+    //to pass the first four words as tokens
     if(token != NULL)
     {
-        printf("ERROR: too many words!\n");
         return NULL;
     }
 
+    //Changes the first word to be all caps, for compatibility with commands
     char *command = words[0];
     int i = 0;
     char ch;
