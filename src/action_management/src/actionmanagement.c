@@ -74,8 +74,8 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     }
 
     // checks if the action is possible
-    bool possible = possible_action(i, a->c_name);
-    if (possible == false) {
+    int possible = possible_action(i, a->c_name);
+    if (possible == FAILURE) {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, i->item_id);
         *ret_string = string;
@@ -86,8 +86,8 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     game_action_t *game_act = get_action(i, a->c_name);
 
     // check if all conditions are met
-    bool all_clear = all_conditions_met(i, a->c_name);
-    if (all_clear == false) {
+    int all_clear = all_conditions_met(i, a->c_name);
+    if (all_clear == FAILURE) {
         sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;
         return CONDITIONS_NOT_MET;
