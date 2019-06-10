@@ -185,8 +185,8 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     game_action_t *dir_game_act = get_action(direct, direct_action);
 
     // check if all conditions of the direct action are met
-    bool all_clear = all_conditions_met(direct, direct_action);
-    if (all_clear == false) {
+    int all_clear = all_conditions_met(direct, direct_action);
+    if (all_clear == FAILURE) {
         sprintf(string, "%s", dir_game_act->fail_str);
         free(temp);
         *ret_string = string;
