@@ -24,10 +24,30 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "history operation not implemented yet\n";
 }
 
+bool validate_filename(char *filename)
+{
+  int len = strlen(filename);
+  int min_filename_length = 4;
+  if(len < min_filename_length)
+    {
+      return false;
+    }
+  const char *ending = &filename[len-4];
+  int cmp = strcmp(ending, ".dat");
+  if(cmp == 0)
+    {
+      return true;
+    }
+  else
+    {
+      return false;
+    }
+}
+
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-<<<<<<< HEAD
+
   if(tokens[1] == NULL){
     return "Invalid Input, Save failed\n";
   }
@@ -52,31 +72,7 @@ char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "Improper filename, Load failed\n";
   
 }
-char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-=======
-    return NULL;
-}
 
-bool validate_filename(char *filename)
->>>>>>> master
-{
-    int len = strlen(filename);
-    int min_filename_length = 4;
-    if(len < min_filename_length)
-    {
-        return false;
-    }
-    const char *ending = &filename[len-4];
-    int cmp = strcmp(ending, ".dat");
-    if(cmp == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
 
 /* See operation.h */
 cmd *assign_action(char **ts, lookup_t ** table)

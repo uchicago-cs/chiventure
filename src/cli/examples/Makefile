@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../game-state/src -I../../action_management/include/ -I../../ui/include -I../../checkpointing/include
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../action_management/include/ -I../../ui/include -I../../checkpointing/include -I../../game-state/src
 
 RM = rm -f
 LDLIBS = -lreadline 
@@ -11,7 +11,7 @@ CLI = -L../ -Wl,-rpath,../ -l:cli.a
 UI = -L../../ui/ -Wl,-rpath,../../ui/ -l:ui.a
 CHECKPOINTING = -L../../checkpointing -Wl,-rpath,../../checkpointing -l:checkpointing.a
 
-STLIBS = $(COMMON) $(UI) $(CLI) $(GAME_STATE) $(ACTION_MANAGEMENT)
+STLIBS = $(CHECKPOINTING) $(COMMON) $(UI) $(CLI) $(GAME_STATE) $(ACTION_MANAGEMENT)
 SRCS = testshell.c
 OBJS = $(SRCS:.c=.o)
 BIN = testshell

@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../game-state/include/ -I../ui/include/ -I../cli/include/ -I../action_management/include/ -I../checkpointing/include/ -I../game-state/src
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../game-state/include/ -I../ui/include/ -I../cli/include/ -I../action_management/include/ -I../checkpointing/include -I../game-state/src
 RM = rm -f
 LIB = common.a
 
