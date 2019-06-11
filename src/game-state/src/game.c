@@ -197,7 +197,7 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
     {
         return 4;
     }
-    attribute_t *attribute = get_attribute(item_src, attribute_name);
+    attribute_t *attribute = get_attribute(item_modify, attribute_name);
     if(attribute == NULL)
     {
         return 5;
@@ -223,7 +223,7 @@ int add_condition(game_t *game, char* action_name, char* item_src_name,
     if(action == NULL) {
 	return 4;
     }
-    attribute_t *attribute = get_attribute(item_src, attribute_name);
+    attribute_t *attribute = get_attribute(item_modify, attribute_name);
     if(attribute == NULL) {
 	return 5;
     }
