@@ -176,11 +176,13 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
     int j;
     for (iter = 0; iter < r->items_len; iter++) {
         for (j = 0; j < all_items_len; j++) {
-            if (r->items[iter]->item_id == all_items[j]->item_id) {
+            if (strcmp(r->items[iter]->item_id, all_items[j]->item_id) == 0) {
                 int load_item_success = load_item(r->items[iter], all_items[j]);
                 if (load_item_success != 0) {
                     fprintf(stderr, "Failed to load item in room \n");
                 }
+		printf("all_items[j]->item_id: %s\n", all_items[j]->item_id);
+		printf("all_items[j]->short_desc: %s\n", all_items[j]->short_desc);
                 int add_item_success = add_item_to_room(r_t, all_items[j]);
                 if (add_item_success != 0) {
                     fprintf(stderr, "Failed to add item to room \n");
@@ -284,6 +286,7 @@ int load_game(Game *g, game_t *g_t)
 
     // Malloc an array of all items in the game
     int item_len = count(g_t);
+    printf("item_len %d\n", item_len);
     room_t *curr_room;
     player_t *curr_player;
     item_t **all_items = malloc(sizeof(item_t*) * item_len);
@@ -350,6 +353,18 @@ int load_game(Game *g, game_t *g_t)
        that contains a room_id.
        In the proto struct, curr_room is simply the room_id as a string */
     if (g->curr_room != NULL) {
+	room_t *room = malloc(sizeof(room_t));
+	room = find_room_from_game(g_t, g->curr_room);
+	move_room(g_t, room);
+	item_list_t *list = get_all_items_in_room(room);
+	while (list) {
+	    printf("list->item->item_id: %s\n", list->item->item_id);
+	    printf("list->item->short_desc: %s\n", list->item->short_desc);
+	    printf("list->item->long_desc: %s\n", list->item->long_desc);
+	    list = list->next;
+	}
+	
+	/*
         room_list = get_all_rooms(g_t);
         for (; room_list != NULL; room_list = room_list->next) {
             room_t *curr_r = room_list->room;
@@ -358,6 +373,7 @@ int load_game(Game *g, game_t *g_t)
 		break;
 	    }
         }
+	*/
     }
 
     if (g->curr_player != NULL) {
