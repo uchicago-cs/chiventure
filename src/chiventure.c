@@ -17,6 +17,7 @@ const char *banner =
     "     \\_/______________________________________________________________________________________/\n"
     
                     "RUN AWAY BEFORE THEY COME FOR YOU"
+                    "srsly pls"
     ;
 
 
