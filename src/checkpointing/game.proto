@@ -44,9 +44,6 @@ message Room {
     optional string long_desc = 3;
     repeated Item items = 4; //Array of all items in room
     optional int32 items_len = 5;
-    // Comment out path since we no longer store paths
-    // repeated Path paths = 6; //Array of all paths (submessage) 
-    // optional int32 paths_len = 7;
 }
 
 message Player {
@@ -65,7 +62,6 @@ message Game {
     required int32 rooms_len = 4;
     optional string curr_room = 5; //ID of current room (different from struct pointer of game_state)
     optional string curr_player = 6; //ID of player (different from struct pointer of game_state)
-    // optional string start_desc = 7;
 }
 
 message Logvalueunion {
