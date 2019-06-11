@@ -16,12 +16,15 @@ int save_attribute(item_t *i_t, attribute_t *a_t, Attribute *a)
 
     if (a_t->attribute_tag == DOUBLE) {
 	a->attribute_tag = "DOUBLE";
+	a->attribute_value->has_double_val = 1;
 	a->attribute_value->double_val = a_t->attribute_value.double_val;
     } else if (a_t->attribute_tag == BOOLE) {
 	a->attribute_tag = "BOOLE";
+	a->attribute_value->has_bool_val = 1;
 	a->attribute_value->bool_val = get_bool_attr(i_t, a_t->attribute_key);
     } else if (a_t->attribute_tag == CHARACTER) {
 	a->attribute_tag = "CHARACTER";
+	a->attribute_value->has_char_val = 1;
 	a->attribute_value->char_val = get_char_attr(i_t, a_t->attribute_key);
     } else if (a_t->attribute_tag == STRING) {
 	a->attribute_tag = "STRING";
@@ -32,19 +35,20 @@ int save_attribute(item_t *i_t, attribute_t *a_t, Attribute *a)
 	}	
     } else if (a_t->attribute_tag == INTEGER) {
 	a->attribute_tag = "INTEGER";
+	a->attribute_value->has_int_val = 1;
 	a->attribute_value->int_val = get_int_attr(i_t, a_t->attribute_key);	
     } else {
 	a->attribute_tag = "ACTION";
 	a->attribute_value->act_val->action_name =
-	  strdup(a_t->attribute_value.act_val->action_name);
+	    strdup(a_t->attribute_value.act_val->action_name);
 	a->attribute_value->act_val->action_type->c_name =
-	  strdup(a_t->attribute_value.act_val->action_type->c_name);
+	    strdup(a_t->attribute_value.act_val->action_type->c_name);
 	if (a_t->attribute_value.act_val->action_type->kind == ITEM){
-	  a->attribute_value->act_val->action_type->kind = "0";
+	    a->attribute_value->act_val->action_type->kind = "0";
 	} else if (a_t->attribute_value.act_val->action_type->kind == PATH) {
-	  a->attribute_value->act_val->action_type->kind = "1";
+	    a->attribute_value->act_val->action_type->kind = "1";
 	} else {
-	  a->attribute_value->act_val->action_type->kind = "2";
+	    a->attribute_value->act_val->action_type->kind = "2";
 	}
     }
     return SUCCESS;
@@ -59,10 +63,10 @@ int save_item(item_t *i_t, Item *i)
 	return FAILURE;
     }
 
-    if (i_t->item_id != NULL) {
-	i->item_id = i_t->item_id;
-    } else {
+    if (i_t->item_id == NULL) {
 	i->item_id = NULL;
+    } else {
+	i->item_id = i_t->item_id;
     }
     
     if (i_t->short_desc == NULL) {
@@ -86,6 +90,7 @@ int save_item(item_t *i_t, Item *i)
       curr_attr = curr_attr->next;
     }
     Attribute **attrs = malloc(sizeof(Attribute*) * iter);
+    i->has_attributes_len = 1;
     i->attributes_len = iter;  // Set length of array
     i->n_attributes = iter;  // Set length of array
     
@@ -122,6 +127,12 @@ int save_room(room_t *r_t, Room *r)
 	fprintf(stderr, "Given a room_t struct that is NULL in save_room.\n");
 	return FAILURE;
     }
+
+    if (r == NULL) {
+	fprintf(stderr, "Given a Room struct that is NULL in save_room.\n");
+	return -1;
+    }
+    
 
     r->room_id = r_t->room_id;
 
@@ -163,6 +174,7 @@ int save_room(room_t *r_t, Room *r)
     }
     
     r->items = items;
+    r->has_items_len = 1;
     r->items_len = iter;  // Set length of array
     r->n_items = iter;  // Set length of array
     return SUCCESS;
@@ -212,8 +224,9 @@ int save_player(player_t *p_t, Player *p)
 	curr_item = curr_item->next;
 
     }
-    
+
     p->inventory = items;
+    p->has_inventory_len = 1;
     p->inventory_len = iter;  // Set length of array
     p->n_inventory = iter;  // Set length of array
     return SUCCESS;
@@ -298,17 +311,18 @@ int write_to_file(char *filename, uint8_t *buffer, unsigned len)
 // see save.h
 int save(game_t *g_t, char *filename)
 {
-    Game g = GAME__INIT;
+    Game *g = malloc(sizeof(Game));
+    game__init(g);
     void *buf;
     size_t len;
     int success;
 
-    success = save_game(g_t, &g);
+    success = save_game(g_t, g);
     if(success != 0)
         return FAILURE;
-    len = game__get_packed_size(&g);
+    len = game__get_packed_size(g);
     buf = malloc(len);
-    game__pack(&g, buf);
+    game__pack(g, buf);
 
     fprintf(stderr, "Writing %ld serialized bytes\n", len);
     write_to_file(filename, buf, len);
