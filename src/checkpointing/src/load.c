@@ -122,9 +122,10 @@ int load_item(Item *i, item_t *i_t)
 	    if (set_act_attr_success != SUCCESS) {
 		    fprintf(stderr, "Could not set action attribute for item \n");
 		    return -1;
-	    }*/
+	    }
 
-	} else {
+	} */
+    else {
 	    fprintf(stderr, "Could not set any attribute \n");
 	    return FAILURE;
         }
