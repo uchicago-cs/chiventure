@@ -174,6 +174,13 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
     map->pady = y;
     map->padz = z;
 
+    //The x and y coordinates of the center of the map display screen
+    int centx = (map->lrx - map->ulx) / 2;
+    int centy = (map->lry - map->uly) / 2;
+
+    mvwaddch(map->pad, centy-1, centx, 'o' | A_UNDERLINE);
+    mvwaddch(map->pad, centy, centx, '^');
+    //mvwaddch(map->pad, centy+1, centx, ACS_PI);
     prefresh(map->pad, 0, 0, map->uly, map->ulx, map->lry, map->lrx);
     return 0;
 }
@@ -210,6 +217,7 @@ int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
 
     // Pass these offsets to map_refresh
     map_refresh(ctx, padx, pady, z);
+    
     return 0;
 }
 
