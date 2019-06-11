@@ -21,9 +21,8 @@
 /* see print_functions.h */
 void print_homescreen(window_t *win, const char *banner)
 {
-    if (curs_set(0) == ERR) {
-        exit(0);
-    }
+    // hides cursor
+    curs_set(0);
 
     // calculate the position of the banner so that is is approximately centered.
     // The -1 in the y position is to give space for the message below the banner
@@ -33,7 +32,8 @@ void print_homescreen(window_t *win, const char *banner)
     if (x_pos < 0) {
         x_pos = 0;
     }
-
+    // runs the animation of the banner (flashes a few times, the last couple a
+    // a bit slower). usleep is used to control for how long the banner is on/off
     for (int i = 0; i < 7; i ++) {
         int x = x_pos;
         int y = y_pos;
@@ -61,6 +61,7 @@ void print_homescreen(window_t *win, const char *banner)
         box(win->w, 0, 0);
 
         wrefresh(win->w);
+
         usleep(100 * 1000);
 
         if (i > 3) {
