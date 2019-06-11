@@ -98,7 +98,7 @@ coord_record_t *get_test_coord_hash()
     room_t *room7 = room_new("Seven", "", "");
     room_t *room8 = room_new("Eight", "", "");
     room_t *room9 = room_new("Nine", "", "");
-    
+
     // Must set hash to NULL (see uthash documentation)
     coord_record_t *coordmap = NULL;
 
@@ -122,16 +122,17 @@ coord_record_t *get_test_coord_hash()
     try_add_coord(coordmap, 0, 0, 1, room7);
     try_add_coord(coordmap, 0, 1, 1, room8);
     try_add_coord(coordmap, 0, 0, 2, room9);
-    
+
     return coordmap;
 }
 
 /* See coordinate.h for documentation */
-void set_player_loc(chiventure_ctx_t *ctx, int x, int y, int z){
-  coord_t *pos = ctx->ui_ctx->player_loc;
-  pos->x = x;
-  pos->y = y;
-  pos->z = z;
+void set_player_loc(chiventure_ctx_t *ctx, int x, int y, int z)
+{
+    coord_t *pos = ctx->ui_ctx->player_loc;
+    pos->x = x;
+    pos->y = y;
+    pos->z = z;
 
-  return;
+    return;
 }

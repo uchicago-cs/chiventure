@@ -70,12 +70,12 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
 
 /* Draws all of the rooms stored in the hashmap of the ui_ctx given
  *
- * Inputs: 
+ * Inputs:
  * - ctx: The game's ctx struct
  * - left_x: the top, left coordinate of the top-left most room
  * - top_y: the top left coordinate of the top-left-most room
  * - z: the z coordinate of the floor being draw (0 is ground floor)
- * 
+ *
  * Outputs:
  * - Draws the rooms to the screen
  *
@@ -164,48 +164,50 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
  *
  * Outputs: N/A
  */
-void draw_info(chiventure_ctx_t *ctx){
-  ui_ctx_t *ui_ctx = ctx->ui_ctx;
-  map_t *map = ui_ctx->map;
-  coord_t *curr_pos = ui_ctx->player_loc; 
+void draw_info(chiventure_ctx_t *ctx)
+{
+    ui_ctx_t *ui_ctx = ctx->ui_ctx;
+    map_t *map = ui_ctx->map;
+    coord_t *curr_pos = ui_ctx->player_loc;
 
-  int info_x = map->ulx + 2;
-  int info_y = map->uly + 1;
+    int info_x = map->ulx + 2;
+    int info_y = map->uly + 1;
 
-  mvwprintw(map->pad, info_y, info_x, "(%i, %i) Floor %i", curr_pos->x, curr_pos->y, curr_pos->z);
-  return;
+    mvwprintw(map->pad, info_y, info_x, "(%i, %i) Floor %i", curr_pos->x, curr_pos->y, curr_pos->z);
+    return;
 }
 
 /* Draws the border on the map view
- * 
+ *
  * Inputs:
  * - The chiventure context struct
  *
  * Outputs: N/A
  */
-void draw_border(chiventure_ctx_t *ctx){
-  ui_ctx_t *ui_ctx = ctx->ui_ctx;
-  map_t *map = ui_ctx->map;
-  WINDOW *win = map->pad;
-  
-  int ulx = map->ulx; // Upper left x
-  int uly = map->uly; // Upper left y
-  int lrx = map->lrx - 1; // Lower Right x
-  int lry = map->lry; // Lower Right y
+void draw_border(chiventure_ctx_t *ctx)
+{
+    ui_ctx_t *ui_ctx = ctx->ui_ctx;
+    map_t *map = ui_ctx->map;
+    WINDOW *win = map->pad;
 
-  // Draw the sides
-  mvwhline(win, uly, ulx, ACS_HLINE, lrx-ulx);
-  mvwhline(win, lry, ulx, ACS_HLINE, lrx-ulx);
-  mvwvline(win, uly, ulx, ACS_VLINE, lry-uly);
-  mvwvline(win, uly, lrx, ACS_VLINE, lry-uly);
+    int ulx = map->ulx; // Upper left x
+    int uly = map->uly; // Upper left y
+    int lrx = map->lrx - 1; // Lower Right x
+    int lry = map->lry; // Lower Right y
 
-  // Draw the corners
-  mvwaddch(win, uly, ulx, ACS_ULCORNER);
-  mvwaddch(win, uly, lrx, ACS_URCORNER);
-  mvwaddch(win, lry, ulx, ACS_LLCORNER);
-  mvwaddch(win, lry, lrx, ACS_LRCORNER);  
-  
-  return;
+    // Draw the sides
+    mvwhline(win, uly, ulx, ACS_HLINE, lrx-ulx);
+    mvwhline(win, lry, ulx, ACS_HLINE, lrx-ulx);
+    mvwvline(win, uly, ulx, ACS_VLINE, lry-uly);
+    mvwvline(win, uly, lrx, ACS_VLINE, lry-uly);
+
+    // Draw the corners
+    mvwaddch(win, uly, ulx, ACS_ULCORNER);
+    mvwaddch(win, uly, lrx, ACS_URCORNER);
+    mvwaddch(win, lry, ulx, ACS_LLCORNER);
+    mvwaddch(win, lry, lrx, ACS_LRCORNER);
+
+    return;
 }
 
 
@@ -228,23 +230,23 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
     map->pady = y;
     map->padz = z;
 
-    
+
     //The x and y coordinates of the center of the map display screen
     int centx = (map->lrx - map->ulx) / 2;
     int centy = (map->lry - map->uly) / 2;
-    
+
     // Draws the 'player' on to the screen
     mvwaddch(map->pad, centy-1, centx, 'o' | A_UNDERLINE);
     mvwaddch(map->pad, centy, centx, '^');
 
     draw_border(ctx);
     draw_info(ctx);
-    
+
     prefresh(map->pad, 0, 0, map->uly, map->ulx, map->lry, map->lrx);
     return 0;
 }
 
-/* See map.h for documentation */	       
+/* See map.h for documentation */
 int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
 {
     assert(ctx != NULL);
@@ -277,7 +279,7 @@ int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
 
     // Pass these offsets to map_refresh
     map_refresh(ctx, padx, pady, z);
-    
+
     return 0;
 }
 

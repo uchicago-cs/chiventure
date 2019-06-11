@@ -32,8 +32,8 @@ int main()
     int cur_z = 0;
     int incr = 1;
 
-    
-    
+
+
     game_t *game = game_new("Starting the game");
     assert (game != NULL);
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
@@ -79,7 +79,7 @@ int main()
         if (ch == 'q') {
             break;
         }
-	set_player_loc(ctx, cur_x, cur_y, cur_z);
+        set_player_loc(ctx, cur_x, cur_y, cur_z);
         map_center_on(ctx, cur_x, cur_y, cur_z);
     }
 
