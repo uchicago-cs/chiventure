@@ -7,7 +7,6 @@ int game_action_init(game_action_t *new_action, char *act_name, char* success_st
     assert(new_action != NULL);
 
     strncpy(new_action->action_name, act_name, strlen(act_name));
-    // new_action->action_type = act_type; //REMOVED action_type
     new_action->conditions = NULL; //by UTLIST rules
     new_action->effects= NULL; //by UTLIST rules
     strncpy(new_action->success_str, success_str, strlen(success_str));
@@ -22,7 +21,6 @@ game_action_t *game_action_new(char *action_name, char* success_str, char* fail_
 {
     game_action_t *new_action = malloc(sizeof(game_action_t));
     new_action->action_name = malloc(MAX_ID_LEN * sizeof(char));
-    // new_action->action_type = malloc(sizeof(action_type_t)); //REMOVED action_type
 
     int check = game_action_init(new_action, action_name, success_str, fail_str);
 
@@ -60,7 +58,6 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
     game_action_t* check = get_action(item, action_name);
     if (check != NULL) 
     {
-        //fprintf(stderr, "Error: this action is already present.\n");
         return FAILURE;
     }
     game_action_t* action = game_action_new(action_name, success_str, fail_str);
