@@ -28,6 +28,8 @@ that file.
 + Parameters:
     - filename: the name of the file with the saved info
     - g_t: a pointer to an empty game struct to load the information into
++ Returns:
+    - 0 if successful, -1 if not
 ```
 load.c contains code which takes the text file that has the serialized structs from
 the command line, unpacks (aka deserializes) the information into the game.proto
