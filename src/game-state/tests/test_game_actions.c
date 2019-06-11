@@ -71,51 +71,311 @@ Test(game_action, add_action)
 
 }
 
-
- // in current branch (game-state/develop-actions) possible_action is named
- // allowed_action, and action management files reflect this as well, these
- // tests will run when branch merged
-
 /* checks that desired action is possible on item */
-// Test(game_action, possible_action)
-// {
-//     item_t *test_item = item_new("test_item", "item for testing",
-//     "item for testing possible_action");
-//
-//     add_action(test_item, "push", "success", "failure");
-//
-//     int is_allowed = possible_action(test_item, "push");
-//
-//     cr_assert_eq(is_allowed, SUCCESS, "possible_action() test failed!");
-// }
-//
-// /* checks that desired action is correctly found to be not possible */
-// Test(game_action, possible_action_fail)
-// {
-//     item_t *test_item = item_new("test_item", "item for testing",
-//     "item for testing possible_action");
-//
-//     add_action(test_item, "push", "success", "failure");
-//
-//     int is_allowed = possible_action(test_item, "pull");
-//
-//     cr_assert_eq(is_allowed, FAILURE,
-//         "possible_action() failure test failed!");
-// }
+ Test(game_action, possible_action)
+ {
+     item_t *test_item = item_new("test_item", "item for testing",
+     "item for testing possible_action");
+
+     add_action(test_item, "push", "success", "failure");
+
+     int is_allowed = possible_action(test_item, "push");
+
+     cr_assert_eq(is_allowed, SUCCESS, "possible_action() test failed!");
+ }
+
+ /* checks that desired action is correctly found to be not possible */
+ Test(game_action, possible_action_fail)
+ {
+     item_t *test_item = item_new("test_item", "item for testing",
+     "item for testing possible_action");
+
+     add_action(test_item, "push", "success", "failure");
+
+     int is_allowed = possible_action(test_item, "pull");
+
+     cr_assert_eq(is_allowed, FAILURE,
+         "possible_action() failure test failed!");
+ }
 
 // CONDITION TESTS ------------------------------------------------------------
 
-/* checks that action condition correctly added to item action */
-// Test(game_action_cond, add_act_cond)
-// {
-//     item_t *test_item = item_new("door", "door for testing",
-//     "item for testing add_action_condition");
-//     item_t *cond_test_item = item_new("lock", "cond item for testing", "conditional item for testing add_action_condition");
-//     game_action_t *test_action = game_action_new("open", "success", "failure");
-//
-//
-//
-// }
+/* checks adding a single condition to an item's action*/
+Test(game_action_cond, add_act_cond) {
+    //setting up
+    item_t *door = item_new("door", "door for testing",
+        "item for testing add_action_condition");
+
+    int set_attr = set_bool_attr(door, "locked", true);
+    cr_assert_eq(set_attr, SUCCESS, "add_act_cond: failed to set attribute");
+
+    int add_action_check = add_action(door, "open", "door opened!", "door did not open!");
+    cr_assert_eq(add_action_check, SUCCESS, "add_act_cond: failed to retrieve action from item");
+
+    //checking
+    game_action_t *open_action = get_action(door, "open");
+
+    attribute_t* attr_to_check = get_attribute(door, "locked");
+    cr_assert_not_null(attr_to_check, "add_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value;
+    cond_value.bool_val = false;
+
+    int add_cond_check = add_action_condition(door, open_action, door, attr_to_check, cond_value);
+     
+    cr_assert_eq(add_cond_check, SUCCESS, "add_act_cond: adding the condition failed");  
+}
+
+/* checks adding multiple conditions to an item's action*/
+Test(game_action_cond, add_multiple_act_cond) {
+    //setting up
+    item_t *door = item_new("door", "door for testing",
+        "item1 for testing add_action_condition");
+
+    int set_attr1 = set_bool_attr(door, "locked", true);
+    cr_assert_eq(set_attr1, SUCCESS, "add_multiple_act_cond: failed to set attribute");
+
+    item_t* sconce = item_new("sconce", "sconce for testing",
+        "item2 for testing add_action_condition");
+
+    int set_attr2 = set_bool_attr(sconce, "pulled", false);
+    cr_assert_eq(set_attr2, SUCCESS, "add_multiple_act_cond: failed to set attribute");
+    
+
+    int add_action_check = add_action(door, "open", "door opened!", "door did not open!");
+    cr_assert_eq(add_action_check, SUCCESS, "add_multiple_act_cond: failed to retrieve action");
+
+    //checking
+    game_action_t *open_action = get_action(door, "open");
+
+    attribute_t* attr_to_check1 = get_attribute(door, "locked");
+    cr_assert_not_null(attr_to_check1, "add_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value1;
+    cond_value1.bool_val = false;
+
+    attribute_t* attr_to_check2 = get_attribute(sconce, "pulled");
+    cr_assert_not_null(attr_to_check2, "add_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value2;
+    cond_value2.bool_val = false;
+
+    int add_cond_check1 = add_action_condition(door, open_action, door, attr_to_check1, cond_value1);
+     
+    cr_assert_eq(add_cond_check1, SUCCESS, "add_multiple_act_cond: adding the condition failed"); 
+
+    int add_cond_check2 = add_action_condition(door, open_action, sconce , attr_to_check2, cond_value2);
+     
+    cr_assert_eq(add_cond_check2, SUCCESS, "add_multiple_act_cond: adding the condition failed");  
+}
+
+
+/* checks if all_cond_met() correctly evaluates a single failed condition for an action*/
+Test(game_action_cond, check_failed_act_cond) {
+    //setting up
+    item_t *door = item_new("door", "door for testing",
+        "item for testing add_action_condition");
+
+    int set_attr = set_bool_attr(door, "locked", true);
+    cr_assert_eq(set_attr, SUCCESS, "failed to set attribute");
+
+    int add_action_check = add_action(door, "open", "door opened!", "door did not open!");
+    cr_assert_eq(add_action_check, SUCCESS, "failed to add the action");
+
+    //checking
+    game_action_t *open_action = get_action(door, "open");
+
+    attribute_t* attr_to_check = get_attribute(door, "locked");
+    cr_assert_not_null(attr_to_check, "could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value;
+    cond_value.bool_val = false;
+
+    int add_cond_check = add_action_condition(door, open_action, door, attr_to_check, cond_value);
+     
+    cr_assert_eq(add_cond_check, SUCCESS, "adding the condition failed");  
+
+    int checking_conditon = all_conditions_met(door, "open");
+
+    cr_assert_eq(checking_conditon, FAILURE, "returned that all conditions were met when they were not");
+}
+
+/* checks if all_cond_met() correctly evaluates a single successful condition for an action*/
+Test(game_action_cond, check_auccess_act_cond) {
+    //setting up
+    item_t *door = item_new("door", "door for testing",
+        "item for testing add_action_condition");
+
+    int set_attr = set_bool_attr(door, "locked", false);
+    cr_assert_eq(set_attr, SUCCESS, "failed to set attribute");
+
+    int add_action_check = add_action(door, "open", "door opened!", "door did not open!");
+    cr_assert_eq(add_action_check, SUCCESS, "failed to add the action");
+
+    //checking
+    game_action_t *open_action = get_action(door, "open");
+
+    attribute_t* attr_to_check = get_attribute(door, "locked");
+    cr_assert_not_null(attr_to_check, "could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value;
+    cond_value.bool_val = false;
+
+    int add_cond_check = add_action_condition(door, open_action, door, attr_to_check, cond_value);
+     
+    cr_assert_eq(add_cond_check, SUCCESS, "adding the condition failed");  
+
+    int checking_conditon = all_conditions_met(door, "open");
+
+    cr_assert_eq(checking_conditon, SUCCESS, "returned that all conditions were met when they were not");
+}
+
+/* checks multiple conditions of an item's action where all should fail*/
+Test(game_action_cond, check_all_failed_multiple_act_cond) {
+    //setting up
+    item_t *door = item_new("door", "door for testing",
+        "item1 for testing add_action_condition");
+
+    int set_attr1 = set_bool_attr(door, "locked", true);
+    cr_assert_eq(set_attr1, SUCCESS, "add_multiple_act_cond: failed to set attribute");
+
+    item_t* sconce = item_new("sconce", "sconce for testing",
+        "item2 for testing add_action_condition");
+
+    int set_attr2 = set_bool_attr(sconce, "pulled", false);
+    cr_assert_eq(set_attr2, SUCCESS, "add_multiple_act_cond: failed to set attribute");
+    
+
+    int add_action_check = add_action(door, "open", "door opened!", "door did not open!");
+    cr_assert_eq(add_action_check, SUCCESS, "add_multiple_act_cond: failed to retrieve action");
+
+    //checking
+    game_action_t *open_action = get_action(door, "open");
+
+    attribute_t* attr_to_check1 = get_attribute(door, "locked");
+    cr_assert_not_null(attr_to_check1, "add_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value1;
+    cond_value1.bool_val = false;
+
+    attribute_t* attr_to_check2 = get_attribute(sconce, "pulled");
+    cr_assert_not_null(attr_to_check2, "add_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value2;
+    cond_value2.bool_val = true;
+
+    int add_cond_check1 = add_action_condition(door, open_action, door, attr_to_check1, cond_value1);
+     
+    cr_assert_eq(add_cond_check1, SUCCESS, "add_multiple_act_cond: adding the condition failed"); 
+
+    int add_cond_check2 = add_action_condition(door, open_action, sconce , attr_to_check2, cond_value2);
+     
+    cr_assert_eq(add_cond_check2, SUCCESS, "add_multiple_act_cond: adding the condition failed");  
+
+    int checking_conditon = all_conditions_met(door, "open");
+
+    cr_assert_eq(checking_conditon, FAILURE, "returned that all conditions were met when they were not");
+}
+
+/* checks multiple conditions of an item's action where some fail and some pass*/
+Test(game_action_cond, check_some_failed_multiple_act_cond) {
+    //setting up
+    item_t *door = item_new("door", "door for testing",
+        "item1 for testing add_action_condition");
+
+    int set_attr1 = set_bool_attr(door, "locked", true);
+    cr_assert_eq(set_attr1, SUCCESS, "add_multiple_act_cond: failed to set attribute");
+
+    item_t* sconce = item_new("sconce", "sconce for testing",
+        "item2 for testing add_action_condition");
+
+    int set_attr2 = set_bool_attr(sconce, "pulled", true);
+    cr_assert_eq(set_attr2, SUCCESS, "add_multiple_act_cond: failed to set attribute");
+    
+
+    int add_action_check = add_action(door, "open", "door opened!", "door did not open!");
+    cr_assert_eq(add_action_check, SUCCESS, "add_multiple_act_cond: failed to retrieve action");
+
+    //checking
+    game_action_t *open_action = get_action(door, "open");
+
+    attribute_t* attr_to_check1 = get_attribute(door, "locked");
+    cr_assert_not_null(attr_to_check1, "add_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value1;
+    cond_value1.bool_val = false;
+
+    attribute_t* attr_to_check2 = get_attribute(sconce, "pulled");
+    cr_assert_not_null(attr_to_check2, "add_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value2;
+    cond_value2.bool_val = false;
+
+    int add_cond_check1 = add_action_condition(door, open_action, door, attr_to_check1, cond_value1);
+     
+    cr_assert_eq(add_cond_check1, SUCCESS, "add_multiple_act_cond: adding the condition failed"); 
+
+    int add_cond_check2 = add_action_condition(door, open_action, sconce , attr_to_check2, cond_value2);
+     
+    cr_assert_eq(add_cond_check2, SUCCESS, "add_multiple_act_cond: adding the condition failed");  
+
+    int checking_conditon = all_conditions_met(door, "open");
+
+    cr_assert_eq(checking_conditon, FAILURE, "returned that all conditions were met when they were not");
+}
+
+/* checks multiple conditions of an item's action where all pass*/
+Test(game_action_cond, check_all_pass_multiple_act_cond) {
+    //setting up
+    item_t *door = item_new("door", "door for testing",
+        "item1 for testing add_action_condition");
+
+    int set_attr1 = set_bool_attr(door, "locked", false);
+    cr_assert_eq(set_attr1, SUCCESS, "add_multiple_act_cond: failed to set attribute");
+
+    item_t* sconce = item_new("sconce", "sconce for testing",
+        "item2 for testing add_action_condition");
+
+    int set_attr2 = set_bool_attr(sconce, "pulled", true);
+    cr_assert_eq(set_attr2, SUCCESS, "add_multiple_act_cond: failed to set attribute");
+    
+
+    int add_action_check = add_action(door, "open", "door opened!", "door did not open!");
+    cr_assert_eq(add_action_check, SUCCESS, "add_multiple_act_cond: failed to retrieve action");
+
+    //checking
+    game_action_t *open_action = get_action(door, "open");
+
+    attribute_t* attr_to_check1 = get_attribute(door, "locked");
+    cr_assert_not_null(attr_to_check1, "add_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value1;
+    cond_value1.bool_val = false;
+
+    attribute_t* attr_to_check2 = get_attribute(sconce, "pulled");
+    cr_assert_not_null(attr_to_check2, "add_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value2;
+    cond_value2.bool_val = false;
+
+    int add_cond_check1 = add_action_condition(door, open_action, door, attr_to_check1, cond_value1);
+     
+    cr_assert_eq(add_cond_check1, SUCCESS, "add_multiple_act_cond: adding the condition failed"); 
+
+    int add_cond_check2 = add_action_condition(door, open_action, sconce , attr_to_check2, cond_value2);
+     
+    cr_assert_eq(add_cond_check2, SUCCESS, "add_multiple_act_cond: adding the condition failed");  
+
+    int checking_conditon = all_conditions_met(door, "open");
+
+    cr_assert_eq(checking_conditon, FAILURE, "returned that all conditions were met when they were not");
+}
+
+
+/* checks that action conditions checked correctly */
+
+
+
 
 /* checks new condition created correctly */
 Test(game_action_conditions, new)
@@ -129,15 +389,12 @@ Test(game_action_conditions, new)
     test_attr->attribute_tag = INTEGER;
     test_attr->attribute_value.int_val = 1;
 
-    game_action_condition_t *test_cond = condition_new(test_item, test_attr, 0);
+    attribute_value_t value;
+    value.int_val = 0;
+
+    game_action_condition_t *test_cond = condition_new(test_item, test_attr, value);
 
     cr_assert_eq(test_cond->expected_value.int_val, 0, "condition_new() test failed!");
 
 
-}
-
-/* check if actual attribute of condition is equal to its expected value */
-Test(game_action_condition, check_condition)
-{
-    condition_new()
 }
