@@ -47,4 +47,3 @@ $(BIN): $(OBJS) $(LIBS)
 clean:
 	-${RM} ${OBJS} $(SRCS:.c=.d)
 	-for COMP in $(COMPONENTS); do make -C src/$$COMP/ clean; done
-
