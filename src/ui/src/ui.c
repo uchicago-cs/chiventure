@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <string.h>
+#include "common.h"
 #include "ctx.h"
 #include "ui.h"
 #include "window.h"
@@ -27,6 +28,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     ui_ctx_t *ui_ctx = ctx->ui_ctx;
     int ch;
 
+
     // starts curses mode
     initscr();
     // pressed keys are not displayed in the window
@@ -40,6 +42,14 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     window_t *cli = ui_ctx->cli_win;
     window_t *info = ui_ctx->displayed_win;
 
+    //Initializes Colors
+    start_color();
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    
+    wbkgd(ui_ctx->cli_win->w, COLOR_PAIR(1));
+    wbkgd(ui_ctx->displayed_win->w, COLOR_PAIR(1));
+    wbkgd(ui_ctx->map->pad, COLOR_PAIR(1));
+    
     // prints home screen
     print_homescreen(info, banner);
     wrefresh(info->w);
@@ -51,7 +61,6 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     wrefresh(cli->w);
 
     // sample game loop. uses ctrl+D key to exit
-
     while ((ch = wgetch(cli->w)) != 4) {
 
         height = LINES / 2;
@@ -75,6 +84,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
         wresize(cli->w, height, width);
         mvwin(cli->w, !(ui_ctx->cli_top) * height, 0);
 
+
         // detects ALt+key commands
         if (ch == 27) {
             ch = wgetch(cli->w);
@@ -85,10 +95,8 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
 
                 toggle_map(ctx);
                 ui_ctx = ctx->ui_ctx;
-                curr_page = ui_ctx->curr_page;
 
-            }
-            else if (ch == 's') {
+            } else if (ch == 's') {
                 ch = 27;
                 layout_switch(ctx);
             }
@@ -96,20 +104,22 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
         else if (isalnum(ch)) {
             ungetch(ch);
             window_print(ctx,  cli);
-        }
 
+        }
+	curr_page = ui_ctx->curr_page;
         // This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM) {
             window_print(ctx, info);
-            wrefresh(info->w);
-        }
-        else if (curr_page == MAP_WIN_NUM) {
+            mvwin(info->w, (ui_ctx->cli_top) * height, 0);
+        } else if (curr_page == MAP_WIN_NUM) {
             wresize(info->w, 0, 0);
+            touchwin(info->w);
+            wrefresh(info->w);
             int cli_top = ui_ctx->cli_top;
             if (map != NULL) {
                 map_set_displaywin(map, 0, cli_top * height, width,
                                    height + cli_top * height);
-                map_center_on(map, 0, 0, 0);
+                map_center_on(ctx, 0, 0, 0);
             }
         }
 
