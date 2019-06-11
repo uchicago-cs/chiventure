@@ -11,14 +11,13 @@
  * KIND 3 ACTIONS - ACTION <item> <item>
  */
 enum actions {
-
     // KIND 1 ACTIONS - ACTION <item>
     OPEN,
     CLOSE,
     PUSH,
     PULL,
-    TURN_ON,
-    TURN_OFF,
+    TURNON,
+    TURNOFF,
     TAKE, // synonyms: "pick up"
     DROP,
     CONSUME, // synonyms: "use" "drink" "eat"
@@ -27,8 +26,8 @@ enum actions {
     GO, // synonyms: "walk"
 
     /* KIND 3 ACTIONS - ACTION <item_item> */
-    USE_ON,
-    PUT_ON
+    USE,
+    PUT
 };
 
 
