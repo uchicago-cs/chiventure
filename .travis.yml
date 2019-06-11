@@ -18,9 +18,15 @@ language: c
 
 compiler: gcc
 
+before_script:
+  - make clean
+
 script:
   - make
   - cd src/game-state/
   - make tests
   - tests/test-libgamestate
   - cd ../../
+
+after_script:
+  - make clean
