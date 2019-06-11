@@ -51,7 +51,7 @@ message Player {
     required int32 level = 2; //next 3 req because GS loads in initial values  
     required int32 health = 3;
     required int32 xp = 4;
-    repeated Item inventory = 5; //Array of all object ids in inventory
+    repeated Item inventory = 5; //Array of all items in inventory
     optional int32 inventory_len = 6;
 }   
 
