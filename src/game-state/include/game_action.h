@@ -133,16 +133,6 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
 
 //alt version
 
-/* create_effect creates an effect_t struct with the given inputs
- * Parameters:
- *  item to modify
- *  attribute_t
- *  attribute_value_t
- * Returns:
- * NULL or game_action_effect_t
- */
-game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
-
 /* do_effects() sets an effect
  * Parameters:
  *  pointer to effect

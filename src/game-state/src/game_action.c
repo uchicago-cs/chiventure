@@ -216,7 +216,7 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
     return SUCCESS;
 }
 
-/* see game_action.h */
+/* see common-game-action.h */
 game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
 {
 
