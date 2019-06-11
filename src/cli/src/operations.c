@@ -5,7 +5,6 @@
 #include "shell.h"
 #include "room.h"
 
-
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     return NULL;
@@ -27,29 +26,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  if(tokens[1] == NULL){
-    return "Invalid Input, Save failed\n";
-  }
-  if (validate_filename(tokens[1]) == true){
-    int sv = save(ctx->game, tokens[1]);
-    return "Game Saved\n";
-  }
-  else
-    return "Improper filename, Save failed\n";
-}
-
-char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-  if(tokens[1] == NULL){
-    return "Invalid Input, Load failed\n";
-  }
-  if (validate_filename(tokens[1]) == true){
-    int ld = load(tokens[1], ctx->game);
-    return "Load Succesful\n!";
-  }
-  else
-    return "Improper filename, Load failed\n";
-  
+    return NULL;
 }
 
 bool validate_filename(char *filename)
@@ -130,8 +107,9 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     if(curr_item != NULL)
     {
         action_type_t *action = find_action(tokens[0], table);
+
         char *str;
-        do_item_action(action, curr_item, &str);
+        do_item_action(game, action, curr_item, &str);
         printf("%s", str);
         return "The object is found\n";
     }
@@ -157,7 +135,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             action_type_t *action = find_action(tokens[0], table);
 
             char *str;
-            do_path_action(ctx, action, curr_path, &str);
+            do_path_action(game, action, curr_path, &str);
             printf("%s", str);
 
             return "Direction available!\n";
@@ -193,7 +171,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     action_type_t *action = find_action(tokens[0], table);
 
     char *str;
-    do_item_item_action(action, item1, item2, &str);
+    do_item_item_action(game, action, item1, item2, &str);
     printf("%s", str);
     return "is an action!";
 }
