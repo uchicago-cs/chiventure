@@ -71,7 +71,7 @@ int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
     return SUCCESS;
 }
 
-/* see common-item.h */
+/* see item.h */
 attribute_t *get_attribute(item_t *item, char* attr_name) {
     attribute_t* return_value;
     HASH_FIND(hh, item->attributes, attr_name, strlen(attr_name), return_value);
@@ -317,7 +317,6 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name) {
 /* ADD TO ITEM.H */
 int game_action_free(game_action_t* game_action) {
     free(game_action->action_name);
-    //FREE ACTION TYPE USING AM's FUNCTION
     delete_action_condition_llist(game_action->conditions);
     delete_action_effect_llist(game_action->effects);
     free(game_action->success_str);

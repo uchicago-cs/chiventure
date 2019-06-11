@@ -217,7 +217,7 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
     if(attribute == NULL) {
         return 5;
     }
-    int check = add_action_effect(action, item_src, item_modify, attribute, new_value);
+    int check = add_action_effect(action, item_src, attribute, new_value);
     
     return check;
 }

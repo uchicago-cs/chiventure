@@ -137,7 +137,7 @@ int all_conditions_met(item_t* item, char* action_name);
  * error 2 if action NULL
  * error 3 if item to modify is null
  */
-int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
+int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t new_value);
 
 /* delete_action_effect_llist frees a linked list of action effects
  * Parameters:

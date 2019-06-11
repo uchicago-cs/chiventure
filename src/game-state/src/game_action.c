@@ -207,18 +207,18 @@ int all_conditions_met(item_t* item, char* action_name)
 
 /* see game_action.h */
 //we either use item_to_add or action as action is loacted within item_to_add
-int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
+int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t new_value)
 {
     if(action == NULL)
     {
         return 2;
     }
-    if(item_to_modify == NULL)
+    if(item_to_add == NULL)
     {
         return 3;
     }
 
-    game_action_effect_t *new_effect = effect_new(item_to_modify, attribute, new_value);
+    game_action_effect_t *new_effect = effect_new(item_to_add, attribute, new_value);
 
     LL_APPEND(action->effects, new_effect);
 

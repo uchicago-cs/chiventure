@@ -166,6 +166,15 @@ typedef struct game_action {
  */
 int attribute_free(attribute_t *attribute);
 
+/* get_attribute() returns a pointer to an attribute if it exists
+ * Parameters:
+ *  a pointer to an item
+ *  attribute name
+ * Returns:
+ *  NULL if attribute does not exist, pointer to attribute if does
+ */
+attribute_t *get_attribute(item_t *item, char *attr_name);
+
 /* attributes_equal() checks if two items have the same specific attribute
  * note that it only checks ONE attribute of two items
  * Parameters:
