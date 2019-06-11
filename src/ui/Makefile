@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../cli/include/ -I../action_management/include/ -I../checkpointing/include -I../game-state/src
+CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../cli/include/ -I../action_management/include/ -I../checkpointing/include -I../game-state/src
 RM = rm -f
 LIB = ui.a
 LDLIBS = -lncursesw -lreadline
@@ -26,9 +26,6 @@ SRCS = src/ui.c src/window.c src/print_functions.c src/coordinate.c src/DFS.c sr
 OBJS = $(SRCS:.c=.o)
 LOGS = examples/ui_debug.txt
 
-$(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
-
 -include $(SRCS:.c=.d)
 
 $(LIB): $(OBJS)
@@ -42,9 +39,6 @@ $(LIB): $(OBJS)
 EXAMPLE_BINS = examples/map_example examples/coord_example examples/test_ui
 
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
-
-$(EXAMPLE_SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(EXAMPLE_SRCS:.c=.d)
 
