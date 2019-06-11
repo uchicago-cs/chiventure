@@ -279,7 +279,7 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
   wbkgd(ctx->ui_ctx->cli_win->w, COLOR_PAIR(n));
   wbkgd(ctx->ui_ctx->displayed_win->w, COLOR_PAIR(n));
   wbkgd(ctx->ui_ctx->map->pad, COLOR_PAIR(n));
-  return "The color palette has been changed"
+  return "The color palette has been changed";
   }
   return "I don't have that palette yet. You must make do with the current style.";
 }
