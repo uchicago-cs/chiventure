@@ -38,11 +38,11 @@ action_type_t *search_supported_actions(char *query)
 /* Checks to see if the action list called can be iterated over using string */
 Test(get_actions, search_success)
 {
-    action_type_t *open, *consume, *go, *use_on;
+    action_type_t *open, *consume, *go, *use;
     open = search_supported_actions("OPEN");
     consume = search_supported_actions("CONSUME");
     go = search_supported_actions("GO");
-    use_on = search_supported_actions("USE_ON");
+    use_on = search_supported_actions("USE");
 
     cr_assert_neq(open, NULL,
                   "search_supported_actions returned a null for query \"open\".\n");
@@ -50,7 +50,7 @@ Test(get_actions, search_success)
                   "search_supported_actions returned a null for query \"consume\".\n");
     cr_assert_neq(go, NULL,
                   "search_supported_actions returned a null for query \"go\".\n");
-    cr_assert_neq(use_on, NULL,
+    cr_assert_neq(use, NULL,
                   "search_supported_actions returned a null for query \"use on\".\n");
 
     cr_assert_eq(open->kind, ITEM,
@@ -64,7 +64,7 @@ Test(get_actions, search_success)
                  PATH, go->kind);
     cr_assert_eq(use_on->kind, ITEM_ITEM,
                  "Expected the action kind %d, but got action kind %d.\n",
-                 ITEM_ITEM, use_on->kind);
+                 ITEM_ITEM, use->kind);
 }
 
 
