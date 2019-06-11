@@ -54,11 +54,11 @@ The current implementation uses what we coined as "semi-incremental" saving and 
 
 After saving the appropriate data, in order to load back into Chiventure, each load function directly modifies a struct instead of creating or mallocing a new struct. For example, the function  declaration of `load_player()` in `load.c` is as follows: 
 ```
-    int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len);
+int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len);
 ```
 For something simple like loading in the health of the player, we just directly overwrite the health with:
 ```
-    p_t->health = p->health;
+p_t->health = p->health;
 ````
     
 Notice that we pass in a protobuf struct, `p`, that contains the information that has been saved and a `player_t` struct, `p_t`, that will be overwritten with the specified information from p.
@@ -68,12 +68,12 @@ However, to work with game-state's hash tables, such as the player's inventory, 
 ### Modules
 There are two main modules in checkpointing: save and load. As the name suggests, `save.h` and `save.c` are responsible for saving, or serializing, a game struct into a specified file. The save function:
 ```
-    int save(game_t *game, char *filename);
+int save(game_t *game, char *filename);
 ```
 takes in a game and calls helper functions in order to save all the structs inside a game.
 
 Similarly, `load.h` and `load.c` use a similar approach to load in, or deserialize, the data that has been serialized by `save()`. Calling the function:
 ```
-    int load(char *filename, game_t *g_t);
+int load(char *filename, game_t *g_t);
 ```
 will in turn call a host of helper functions to unpack all the serialized structs and write the information into a game struct (g_t).
