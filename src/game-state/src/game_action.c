@@ -1,5 +1,6 @@
 #include "game_action.h"
 #include "common-item.h"
+#include "common-game-action.h"
 
 /* See common_game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name, char* success_str, char* fail_str)
@@ -56,7 +57,7 @@ game_action_t *get_action(item_t *item, char* action_name) {
 int add_action(item_t* item, char *action_name, char* success_str, char* fail_str)
 {
     game_action_t* check = get_action(item, action_name);
-    if (check != NULL) 
+    if (check != NULL)
     {
         return FAILURE;
     }
@@ -77,7 +78,7 @@ int possible_action(item_t *item, char* action_name)
     else
     {
         return SUCCESS;
-    }   
+    }
 }
 
 // ------------------------------------- CONDITIONS -------------------------------------
@@ -97,11 +98,22 @@ int add_action_condition(item_t *item, game_action_t *action,
     if (ret_action == NULL) {
         return 2;
     }
-    
+
     game_action_condition_t *new_condition = condition_new(item, cond_attribute, cond_value);
 
     LL_APPEND(action->conditions, new_condition);
-    
+
+    return SUCCESS;
+}
+
+/* see game_action.h */
+int delete_action_condition_llist(action_condition_list_t *conditions)
+{
+    game_action_condition_t *elt, *tmp;
+    LL_FOREACH_SAFE(conditions, elt, tmp) {
+        LL_DELETE(conditions, elt);
+        free(elt);
+    }
     return SUCCESS;
 }
 
@@ -126,7 +138,7 @@ bool check_condition(game_action_condition_t *condition)
 {
     //check if NULL attribute, return true if true
     attribute_t* actual_attribute = condition->attribute_to_check;
-    if(actual_attribute == NULL) 
+    if(actual_attribute == NULL)
         return true;
 
     switch(actual_attribute->attribute_tag)
@@ -174,19 +186,18 @@ bool check_condition(game_action_condition_t *condition)
 int all_conditions_met(item_t* item, char* action_name)
 {
     //call allowed action to see if the action exists
-    if (possible_action(item, action_name))
-    {
+    if (possible_action(item, action_name)) {
         return 2;
     }
 
     game_action_t *ret_action = get_action(item, action_name);
-    
+
     game_action_condition_t *tmp = ret_action->conditions;
     while (tmp != NULL) {
-        if(!(check_condition(tmp))) { 
-	    return FAILURE;
-	}
-	tmp = tmp->next;
+        if(!(check_condition(tmp))) {
+            return FAILURE;
+        }
+        tmp = tmp->next;
     }
 
     return SUCCESS;
@@ -196,7 +207,7 @@ int all_conditions_met(item_t* item, char* action_name)
 
 /* see game_action.h */
 //we either use item_to_add or action as action is loacted within item_to_add
-int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
+int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
 {
     if(action == NULL)
     {
@@ -208,14 +219,25 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
     }
 
     game_action_effect_t *new_effect = effect_new(item_to_modify, attribute, new_value);
-    
+
     LL_APPEND(action->effects, new_effect);
 
     return SUCCESS;
 }
 
 /* see game_action.h */
-game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) 
+int delete_action_effect_llist(action_effect_list_t *effects)
+{
+    game_action_effect_t *elt, *tmp;
+    LL_FOREACH_SAFE(effects, elt, tmp) {
+        LL_DELETE(effects, elt);
+        free(elt);
+    }
+    return SUCCESS;
+}
+
+/* see common-game-action.h */
+game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
 {
 
     if (item_to_modify == NULL || attribute == NULL) {
@@ -231,7 +253,7 @@ game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute,
 }
 
 /* see common_game_action.h */
-int do_effect(game_action_effect_t *effect) 
+int do_effect(game_action_effect_t *effect)
 {
     attribute_t *attr = effect->attribute_to_modify;
     attribute_value_t new_val = effect->new_value;
@@ -258,7 +280,7 @@ int do_effect(game_action_effect_t *effect)
 
 
 /* see game_action.h */
-int do_all_effects(item_t *item, char* action_name) 
+int do_all_effects(item_t *item, char* action_name)
 {
     game_action_t* action = get_action(item, action_name);
     if(action == NULL)

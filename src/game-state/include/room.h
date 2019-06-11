@@ -20,12 +20,14 @@ typedef struct path {
     /* direction (north/south/etc) as key */
     char *direction; // *letter case matters*
     struct room *dest;
-    item_t *through; //to check if the door is "open"
+    /* the door item in the path, which has to be
+    open (attribute open is set true) to let through */
+    item_t *through;
 } path_t;
 
-/* This typedef is to distinguish between path_t pointers which are 
-* used to point to the path_t structs in the traditional sense, 
-* and those which are used to hash path_t structs with the 
+/* This typedef is to distinguish between path_t pointers which are
+* used to point to the path_t structs in the traditional sense,
+* and those which are used to hash path_t structs with the
 * UTHASH macros as specified in src/common/include */
 typedef struct path path_hash_t;
 
@@ -47,9 +49,9 @@ typedef struct room {
     path_hash_t *paths;
 } room_t;
 
-/* This typedef is to distinguish between room_t pointers which are 
-* used to point to the room_t structs in the traditional sense, 
-* and those which are used to hash room_t structs with the 
+/* This typedef is to distinguish between room_t pointers which are
+* used to point to the room_t structs in the traditional sense,
+* and those which are used to hash room_t structs with the
 * UTHASH macros as specified in src/common/include */
 typedef struct room room_hash_t;
 

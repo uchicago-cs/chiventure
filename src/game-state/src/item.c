@@ -1,12 +1,13 @@
 /* Implementations of the item struct */
 #include "item.h"
+#include "game_action.h"
 #include <string.h>
 
 // BASIC ITEM FUNCTIONS -------------------------------------------------------
 /* see common-item.h*/
 int item_init(item_t *new_item, char *item_id, char *short_desc,
     char *long_desc) {
-    
+
     assert(new_item != NULL);
     strcpy(new_item->item_id, item_id);
     strcpy(new_item->short_desc, short_desc);
@@ -152,7 +153,7 @@ int set_char_attr(item_t* item, char* attr_name, char value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = CHARACTER;
         new_attribute->attribute_value.char_val = value;
-	    new_attribute->attribute_key = strndup(attr_name, 100);
+        new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -174,7 +175,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = BOOLE;
         new_attribute->attribute_value.bool_val = value;
-	    new_attribute->attribute_key = strndup(attr_name, 100);
+        new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -272,7 +273,7 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name) {
         return -1; //could not compare attributes as they are of different types
     }
     int comparison = FAILURE;
-    switch(attribute_1->attribute_tag) 
+    switch(attribute_1->attribute_tag)
     {
         case(DOUBLE):
             if (attribute_1->attribute_value.double_val ==
@@ -317,8 +318,8 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name) {
 int game_action_free(game_action_t* game_action) {
     free(game_action->action_name);
     //FREE ACTION TYPE USING AM's FUNCTION
-    //CREATE FREE LIST FUNCTION TO FREE CONDITIONS
-    //CREATE FREE LIST FUNCTION TO FREE EFFECTS
+    delete_action_condition_llist(game_action->conditions);
+    delete_action_effect_llist(game_action->effects);
     free(game_action->success_str);
     free(game_action->fail_str);
     free(game_action);

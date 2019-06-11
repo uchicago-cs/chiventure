@@ -13,7 +13,8 @@
   Returns:
     FAILURE for failure, SUCCESS for success
 */
-int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc);
+int item_init(item_t *new_item, char *item_id,
+              char *short_desc, char *long_desc);
 
 
 /* this has to be in the interface as room and player modules use this */
