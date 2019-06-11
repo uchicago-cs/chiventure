@@ -30,9 +30,7 @@ int add_player_to_game(game_t *game, player_t *player) {
     HASH_FIND(hh, game->all_players, player->player_id,
         strnlen(player->player_id, MAX_ID_LEN), check);
     if (check != NULL) {
-        /* WARNING */
-        fprintf(stderr, "add_room_to_game: this room id is already in use.\n");
-        return FAILURE;
+        return FAILURE; //this plauer id is already in use.
     }
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id,
         strnlen(player->player_id, MAX_ID_LEN), player);
@@ -46,9 +44,7 @@ int add_room_to_game(game_t *game, room_t *room) {
 	      check);
 
     if (check != NULL) {
-        /* WARNING */
-        fprintf(stderr, "add_room_to_game: this room id is already in use.\n");
-        return FAILURE;
+        return FAILURE; //this room id is already in use.
     }
     HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, strnlen(room->room_id, MAX_ID_LEN),
 		    room);
@@ -61,9 +57,7 @@ int add_item_to_game(game_t *game, item_t *item) {
     HASH_FIND(hh, game->all_items, item->item_id, strnlen(item->item_id, MAX_ID_LEN), check);
 
     if (check != NULL) {
-        /* WARNING */
-        fprintf(stderr, "add_item_to_game: this item id is already in use.\n");
-	return FAILURE;
+	return FAILURE; //this item id is already in use.
     }
     HASH_ADD_KEYPTR(hh, game->all_items, item->item_id, strnlen(item->item_id, MAX_ID_LEN),
 		    item);
@@ -169,8 +163,7 @@ item_list_t *get_all_items_in_game(game_t *game) {
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item;
     item_list_t *tmp;
-    HASH_ITER(hh, game->all_items, curr_item, ITTMP_ITEMRM)
-    {
+    HASH_ITER(hh, game->all_items, curr_item, ITTMP_ITEMRM) {
         tmp = malloc(sizeof(item_list_t));
         tmp->item = curr_item;
         LL_APPEND(head, tmp);
@@ -180,26 +173,22 @@ item_list_t *get_all_items_in_game(game_t *game) {
 
 /* see game.h */
 int add_effect(game_t *game, char* action_name, char* item_src_name,
-	       char* item_modify_name, char* attribute_name, attribute_value_t new_value)
-{
+	       char* item_modify_name, char* attribute_name, attribute_value_t new_value) {
+
     item_t *item_src = get_item_from_game(game, item_src_name);
-    if(item_src == NULL)
-    {
+    if(item_src == NULL) {
         return 2;
     }
     item_t *item_modify = get_item_from_game(game, item_modify_name);
-    if(item_modify == NULL)
-    {
+    if(item_modify == NULL) {
         return 3;
     }
     game_action_t *action = get_action(item_src, action_name);
-    if(action == NULL)
-    {
+    if(action == NULL) {
         return 4;
     }
     attribute_t *attribute = get_attribute(item_modify, attribute_name);
-    if(attribute == NULL)
-    {
+    if(attribute == NULL) {
         return 5;
     }
     int check = add_action_effect(action, item_src, item_modify, attribute, new_value);
@@ -208,13 +197,12 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
 }
 
 int add_condition(game_t *game, char* action_name, char* item_src_name,
-		  char* item_modify_name, char* attribute_name, attribute_value_t new_value)
-{
+		  char* item_modify_name, char* attribute_name, attribute_value_t new_value) {
+    
     item_t *item_src = get_item_from_game(game, item_src_name);
     if (item_src == NULL) {
         return 2;
     }
-
     item_t *item_modify = get_item_from_game(game, item_modify_name);
     if (item_modify == NULL) {
         return 3;
@@ -227,7 +215,8 @@ int add_condition(game_t *game, char* action_name, char* item_src_name,
     if(attribute == NULL) {
 	return 5;
     }
-    int check = add_action_condition(item_src, action, item_modify, attribute, new_value);
+    int check = add_action_condition(item_src, action, 
+        item_modify, attribute, new_value);
     
     return check;
 }

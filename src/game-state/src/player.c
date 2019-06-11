@@ -62,7 +62,8 @@ int get_health(player_t* plyr) {
 int change_health(player_t* plyr, int change, int max) {
     if((plyr->health + change) < max) {
         plyr->health += change;
-    } else {
+    } 
+    else {
         plyr->health = max;
     }
 	return plyr->health;
@@ -103,10 +104,7 @@ int add_item_to_player(player_t *player, item_t *item) {
 	check);
 
     if (check != NULL) {
-        /* WARNING */
-        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
-        fprintf(stderr, "Error: this item id is already in use.\n");
-        return FAILURE;
+        return FAILURE; //this item id is already in use.
     }
     HASH_ADD_KEYPTR(hh, player->inventory, item->item_id,
 		strlen(item->item_id), item);
