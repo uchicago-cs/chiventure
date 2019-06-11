@@ -12,6 +12,7 @@
 #include "cmd.h"
 #include "operations.h"
 #include "shell.h"
+#include <unistd.h>
 
 // approximate length of chiventure banner
 #define BANNER_LENGTH (96)
@@ -20,6 +21,10 @@
 /* see print_functions.h */
 void print_homescreen(window_t *win, const char *banner)
 {
+    if (curs_set(0) == ERR) {
+        exit(0);
+    }
+
     // calculate the position of the banner so that is is approximately centered.
     // The -1 in the y position is to give space for the message below the banner
     // x_pos and y_pos indicate the x-y coordinates of the top left corner of the banner
@@ -28,23 +33,53 @@ void print_homescreen(window_t *win, const char *banner)
     if (x_pos < 0) {
         x_pos = 0;
     }
-    int len = strlen(banner);
-    char temp[len];
-    strcpy(temp, banner);
-    char *str = strtok(temp, "\n");
 
-    while (str != NULL) {
-        mvwprintw(win->w, y_pos, x_pos, str);
-        str = strtok(NULL, "\n");
-        y_pos++;
+    for (int i = 0; i < 7; i ++) {
+        int x = x_pos;
+        int y = y_pos;
+        wclear(win->w);
+        box(win->w, 0, 0);
+
+        wrefresh(win->w);
+
+        usleep(100 * 1000);
+
+        if (i > 4) {
+            usleep(500 * 1000);
+        }
+
+        int len = strlen(banner);
+        char temp[len];
+        strcpy(temp, banner);
+        char *str = strtok(temp, "\n");
+
+        while (str != NULL) {
+            mvwprintw(win->w, y, x, str);
+            str = strtok(NULL, "\n");
+            y++;
+        }
+        box(win->w, 0, 0);
+
+        wrefresh(win->w);
+        usleep(100 * 1000);
+
+        if (i > 3) {
+            usleep(500 * 1000);
+        }
+
+        if (i == 6) {
+            y_pos = y;
+        }
+
     }
+    usleep(1000 * 1000);
 
     char help[] = "Type 'HELP' to show help menu";
     // similarly, as above, calculates where to place the message so it's centered
     x_pos = COLS /2 - strlen(help) / 2;
 
     mvwprintw(win->w, y_pos + 2, x_pos, help);
-
+    curs_set(1);
 }
 
 /* see print_functions.h */
@@ -122,8 +157,7 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
     char temp[len];
     strcpy(temp, str);
     char *tmp = strtok(temp, "\n");
-    
-    
+
     getyx(cli, y, x);
 
     // scrolls the screen up if there is no space to print the first line of output
