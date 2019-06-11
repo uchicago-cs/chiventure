@@ -11,21 +11,21 @@ ROOMS:
  - id: "room A"
    short_desc: "This is room A"
    long_desc: "This is room A long"
-   connection: 
+   connection:
     - to: "room B"
       direction: "south"
 
  - id: "room B"
    short_desc: "This is room B"
    long_desc: "This is room B long"
-   connection: 
+   connection:
     - to: "room A"
       direction: "west"
 
  - id: "room C"
    short_desc: "This is room C"
    long_desc: "This is room C long"
-   connection: 
+   connection:
     - to: "room A"
       direction: "north"
 
@@ -39,7 +39,7 @@ ITEMS:
       value: "small"
     - attribute: "color"
       value: "black"
-   actions: 
+   actions:
     - action: "PUSH"
       conditions:
       - id: "star"
@@ -49,7 +49,7 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "yes"
-    - action: "PULL" 
+    - action: "PULL"
       conditions:
       - id: "star"
         attribute: "color"
@@ -87,7 +87,7 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
-        
+
  - id: "star"
    short_desc: "This is a star"
    long_desc: "This is a star long"

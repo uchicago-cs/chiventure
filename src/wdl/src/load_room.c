@@ -12,7 +12,7 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
     // if rooms list is empty then return 1
     if (curr == NULL) {
         fprintf(stderr, "rooms list is empty\n");
-        return 1;
+        return FAILURE;
     }
 
     // while list of rooms exists, create new game_struct room, add room to game
@@ -30,7 +30,7 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
         curr = curr->next;
     }
 
-    return 0;
+    return SUCCESS;
 }
 
 /* see load_rooms.h */
@@ -45,7 +45,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
     // if rooms list is empty then return 1
     if (curr == NULL) {
         fprintf(stderr, "rooms list is empty\n");
-        return 1;
+        return FAILURE;
     }
 
     // while list of rooms exists, create new game_struct room, add room to game
@@ -58,7 +58,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
         // if connections list is empty then return 1
         if (conn_curr == NULL) {
             fprintf(stderr, "connections list is empty\n");
-            return 1;
+            return FAILURE;
         }
         // iterate through connections list
         while (conn_curr != NULL) {
@@ -71,19 +71,19 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
 
             // if result is 1, then id doesn't exist, if result is 2, then
             // connection id (to) doesn't exist
-            if (result == 1) {
+            if (result == PATH_FAILURE) {
                 fprintf(stderr, "add_path failed\n");
-                return 1;
+                return FAILURE;
             }
-            else if (result == 2) {
+            else if (result == ID_FAILURE) {
                 fprintf(stderr, "the source room with id %s does not exist\n",
                         id);
-                return 2;
+                return FAILURE;
             }
-            else if (result == 3) {
+            else if (result == CONNECTIONS_FAILURE) {
                 fprintf(stderr, "the connection room with id %s does not exist\n",
                         to);
-                return 3;
+                return FAILURE;
             }
             else {
                 printf("the connection between %s and %s in the direction %s"
@@ -96,5 +96,5 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
         curr = curr->next;
     }
 
-    return 0;
+    return SUCCESS;
 }

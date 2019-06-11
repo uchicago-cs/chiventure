@@ -8,7 +8,6 @@
 
 #include "wdl_common.h"
 
-
 /* a doubly linked list of strings used to store approved actions
  * used when type-checking actions
  */
@@ -30,6 +29,18 @@ typedef struct action_list
  *  - null if an error occurs or no list can be generated
  */
 attr_list_t *connections_get_list(obj_t *obj);
+
+/* check_connection_attr()
+ * a helper function for connection_type_check() that checks the attributes of
+ * connections associated with a room object
+ *
+ * parameters:
+ * - obj: a connection object
+ *
+ * returns:
+ * - true if connection types match, else return false
+ */
+bool check_connection_attr(obj_t *obj);
 
 /* print_item
  * prints the attributes associated with the item: id, short_desc, long_desc,

@@ -35,7 +35,7 @@ int load_actions(obj_t *doc, item_t *i)
     attr_list_t *action_ls = get_item_actions(doc);
     if (action_ls == NULL) {
         fprintf(stderr, "action fails type checking, or action list is empty\n");
-        return -1;
+        return FAILURE;
     }
 
     attr_list_t *curr = action_ls;
@@ -51,7 +51,7 @@ int load_actions(obj_t *doc, item_t *i)
         curr = curr->next;
     }
 
-    return 0;
+    return SUCCESS;
 }
 
 
@@ -70,7 +70,7 @@ int load_items(obj_t *doc, game_t *g)
     // if items list is empty then return -1
     if (curr == NULL) {
         fprintf(stderr, "items list is empty\n");
-        return -1;
+        return FAILURE;
     }
 
     // while list of items exists, create new game_struct item, add item to room
@@ -87,11 +87,10 @@ int load_items(obj_t *doc, game_t *g)
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
         //load actions into item
-        if(load_actions(curr->obj, item) == -1)
-	      {
+        if(load_actions(curr->obj, item) == FAILURE) {
 	          fprintf(stderr, "actions have not been loaded properly");
-	          return -1;
-	      }
+	          return FAILURE;
+        }
 
         //retrieve the pointer for the room that the item is located in
         room_t *item_room = find_room_from_game(g, in);
@@ -100,5 +99,9 @@ int load_items(obj_t *doc, game_t *g)
         add_item_to_room(item_room, item);
         curr = curr->next;
     }
+<<<<<<< HEAD
     return 0;
+=======
+    return SUCCESS;
+>>>>>>> master
 }

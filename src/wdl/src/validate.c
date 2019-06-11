@@ -116,24 +116,14 @@ attr_list_t *connections_get_list(obj_t *obj)
     }
 }
 
-/* check_connection_attr()
- * a helper function for connection_type_check() that checks the attributes of
- * connections associated with a room object
- *
- * parameters:
- * - obj: a connection object
- *
- * returns:
- * - true if connection types match, else return false
- */
+/* See validate.h */
 bool check_connection_attr(obj_t *obj)
 {
     // verify types of fields
     bool id = (obj_get_type(obj, "to") == TYPE_STR);
     bool direction = (obj_get_type(obj, "direction") == TYPE_STR);
-    bool conditions = condition_type_check(obj);
 
-    return (id && direction && conditions);
+    return (id && direction);
 }
 
 /* connection_type_check()
@@ -310,10 +300,7 @@ bool action_type_check(obj_t *obj)
     // print each attribute within connection object
     printf("connected to: %s\n", obj_get_str(obj, "to"));
     printf("direction: %s\n", obj_get_str(obj, "direction"));
-    printf("through: %s\n", obj_get_str(obj, "through"));
 
-    // print the conditions
-    print_conditions(obj);
     return;
  }
 

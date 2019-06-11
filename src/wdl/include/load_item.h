@@ -24,13 +24,21 @@
  *   their respective rooms
  *
  * returns:
- * - 0 for successful parse
- * - 1 for unsuccessful parse
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
  */
 int load_items(obj_t *doc, game_t *g );
 
 /* load_actions
  * loads actions into the given item
+ *
+ * parameters:
+ * - obj: the document object
+ * - i: an item pointer
+ *
+ * returns;
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
  */
 int load_actions(obj_t *doc, item_t *i);
 

@@ -7,6 +7,11 @@
 
 #include "validate.h"
 #include "parse.h"
+#include "common.h"
+
+#define PATH_FAILURE (1)
+#define ID_FAILURE (2)
+#define CONNECTIONS_FAILURE (3)
 
 #define ROOM_PATH "../examples/sample_yaml/connected_rooms.yaml"
 
@@ -23,8 +28,8 @@
  * - adds rooms into the inputted game pointer
  *
  * returns:
- * - 0 for successful parse
- * - 1 for unsuccessful parse
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
  */
 int add_rooms_to_game(obj_t *obj, game_t *g);
 
@@ -40,8 +45,8 @@ int add_rooms_to_game(obj_t *obj, game_t *g);
  * - adds connections into the inputted game parameter
  *
  * returns;
- * - 0 for successful parse
- * - 1 for unsuccessful parse
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
  */
 int add_connections_to_rooms(obj_t *obj, game_t *g);
 

@@ -3,6 +3,9 @@
 
 #include "ctx.h"
 
+
+typedef struct window window_t;
+
 /* print_homescreen
  * Prints the home screen
  *
@@ -12,6 +15,7 @@
  * No value is returned
  */
 void print_homescreen(window_t *win, const char *banner);
+
 
 /* print_info
  * Prints "Main Window"
