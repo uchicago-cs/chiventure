@@ -43,7 +43,7 @@ Test(load, room)
     items[1]->long_desc = "wrinkled and probably needs to be washed";
     items[2] = malloc(sizeof(Item));
     items[2]->item_id = "1324";
-    items[2]->short_desc = "salt water taffy"
+    items[2]->short_desc = "salt water taffy";
     items[2]->long_desc = "glues mouth shut";
     dorm->items = items;
 
@@ -88,7 +88,7 @@ Test(load, player)
     items[1]->long_desc = "wrinkled and probably needs to be washed";
     items[2] = malloc(sizeof(Item));
     items[2]->item_id = "1324";
-    items[2]->short_desc = "salt water taffy"
+    items[2]->short_desc = "salt water taffy";
     items[2]->long_desc = "glues mouth shut";
     chad->inventory = items;
 
