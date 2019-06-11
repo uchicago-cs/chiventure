@@ -221,12 +221,14 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     layout_switch(ctx);
     return "Layout switched.";
 }
+
 /* A function that capitalizes a word to be used in name_operation
  * Parameters:
  * - word: A pointer to a string to be capitalized.
  * Output:
  * - The newly capitalized string.
 */
+
 char *capitalize(char *word){
   char *command = word;
   int i = 0;
@@ -240,18 +242,20 @@ char *capitalize(char *word){
   }
   return word;
 }
+
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
     capitalize(tokens[1]);
     capitalize(tokens[2]);
     if(find_entry(tokens[1], (ctx->table)) == NULL){
-      return "You can't bind something that doesn't exist";
+      return "You can't make a new word have the meaning of a word that doesn't already exist!";
     }
     if(find_entry(tokens[2],(ctx->table)) != NULL){
-      return "You can't bind something that already means something else";
+      return "You can't change the meaning of a word that's already defined!";
     }
     add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (ctx->table));
-    return "It is bound!";
+    return "The two words are now synonyms!";
 }
+
 char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
   int n = 0;
   capitalize(tokens[1]);
@@ -275,6 +279,7 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
   wbkgd(ctx->ui_ctx->cli_win->w, COLOR_PAIR(n));
   wbkgd(ctx->ui_ctx->displayed_win->w, COLOR_PAIR(n));
   wbkgd(ctx->ui_ctx->map->pad, COLOR_PAIR(n));
+  return "The color palette has been changed"
   }
-  return NULL;
+  return "I don't have that palette yet. You must make do with the current style.";
 }
