@@ -1,5 +1,6 @@
 #include "game_action.h"
 #include "common-item.h"
+#include "common-game-action.h"
 
 /* See common_game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name, char* success_str, char* fail_str)
@@ -7,7 +8,6 @@ int game_action_init(game_action_t *new_action, char *act_name, char* success_st
     assert(new_action != NULL);
 
     strncpy(new_action->action_name, act_name, strlen(act_name));
-    // new_action->action_type = act_type; //REMOVED action_type
     new_action->conditions = NULL; //by UTLIST rules
     new_action->effects= NULL; //by UTLIST rules
     strncpy(new_action->success_str, success_str, strlen(success_str));
@@ -24,6 +24,7 @@ game_action_t *game_action_new(char *action_name, char* success_str, char* fail_
     new_action->action_name = malloc(MAX_ID_LEN * sizeof(char));
     new_action->success_str = malloc(MAX_ID_LEN * sizeof(char));
     new_action->fail_str = malloc(MAX_ID_LEN * sizeof(char));
+
 
     int check = game_action_init(new_action, action_name, success_str, fail_str);
 
@@ -61,7 +62,6 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
     game_action_t* check = get_action(item, action_name);
     if (check != NULL)
     {
-        //fprintf(stderr, "Error: this action is already present.\n");
         return FAILURE;
     }
     game_action_t* action = game_action_new(action_name, success_str, fail_str);
@@ -71,7 +71,7 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
 
 
 /* see game_action.h */
-bool allowed_action(item_t *item, char* action_name)
+int possible_action(item_t *item, char* action_name)
 {
     game_action_t* possible_action = get_action(item, action_name);
     if (possible_action == NULL)
@@ -106,6 +106,17 @@ int add_action_condition(item_t *item, game_action_t *action,
 
     LL_APPEND(action->conditions, new_condition);
 
+    return SUCCESS;
+}
+
+/* see game_action.h */
+int delete_action_condition_llist(action_condition_list_t *conditions)
+{
+    game_action_condition_t *elt, *tmp;
+    LL_FOREACH_SAFE(conditions, elt, tmp) {
+        LL_DELETE(conditions, elt);
+        free(elt);
+    }
     return SUCCESS;
 }
 
@@ -180,6 +191,10 @@ int all_conditions_met(item_t* item, char* action_name)
     //call possible action to see if the action exists
     if (!(allowed_action(item, action_name)))
     {
+
+    //call allowed action to see if the action exists
+    if (!(possible_action(item, action_name)) {
+
         return 2;
     }
 
@@ -191,7 +206,7 @@ int all_conditions_met(item_t* item, char* action_name)
 	    return FAILURE;
 	}
 	tmp = tmp->next;
-    }
+
 
     return SUCCESS;
 }
@@ -200,6 +215,7 @@ int all_conditions_met(item_t* item, char* action_name)
 
 /* see game_action.h */
 //we either use item_to_add or action as action is located within item_to_add
+
 int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
 {
     if(action == NULL)
@@ -219,6 +235,18 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
 }
 
 /* see game_action.h */
+
+int delete_action_effect_llist(action_effect_list_t *effects)
+{
+    game_action_effect_t *elt, *tmp;
+    LL_FOREACH_SAFE(effects, elt, tmp) {
+        LL_DELETE(effects, elt);
+        free(elt);
+    }
+    return SUCCESS;
+}
+
+/* see common-game-action.h */
 game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
 {
 

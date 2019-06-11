@@ -1,14 +1,14 @@
 /* Implementations of the item struct */
 #include "item.h"
+#include "game_action.h"
 #include <string.h>
 
 // BASIC ITEM FUNCTIONS -------------------------------------------------------
 /* see common-item.h*/
 int item_init(item_t *new_item, char *item_id, char *short_desc,
-    char *long_desc)
-{
-    assert(new_item != NULL);
+    char *long_desc) {
 
+    assert(new_item != NULL);
     strcpy(new_item->item_id, item_id);
     strcpy(new_item->short_desc, short_desc);
     strcpy(new_item->long_desc, long_desc);
@@ -17,8 +17,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc,
 }
 
 /* see item.h */
-item_t *item_new(char *item_id, char *short_desc, char *long_desc)
-{
+item_t *item_new(char *item_id, char *short_desc, char *long_desc) {
     item_t *new_item = malloc(sizeof(item_t));
     memset(new_item, 0, sizeof(item_t));
     new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
@@ -30,9 +29,7 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
     if (new_item == NULL || new_item->item_id == NULL ||
        new_item->short_desc == NULL || new_item->long_desc == NULL) {
 
-       fprintf(stderr,
-           "item_new(): item struct not properly malloced");
-        return NULL;
+        return NULL; //item struct not properly malloced
 
     }
 
@@ -45,8 +42,7 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 }
 
 /* see item.h */
-char *get_sdesc_item(item_t *item)
-{
+char *get_sdesc_item(item_t *item) {
   if (item == NULL) {
     return NULL;
   }
@@ -54,8 +50,7 @@ char *get_sdesc_item(item_t *item)
 }
 
 /* see item.h */
-char *get_ldesc_item(item_t *item)
-{
+char *get_ldesc_item(item_t *item) {
   if (item == NULL) {
     return NULL;
   }
@@ -69,8 +64,7 @@ int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
     HASH_FIND(hh, item->attributes, new_attribute->attribute_key,
         strlen(new_attribute->attribute_key), check);
     if (check != NULL) {
-        fprintf(stderr, "Error: this attribute is already present.\n");
-        return FAILURE;
+        return FAILURE; //this attribute is already present.
     }
     HASH_ADD_KEYPTR(hh, item->attributes, new_attribute->attribute_key,
         strlen(new_attribute->attribute_key), new_attribute);
@@ -78,13 +72,10 @@ int add_attribute_to_hash(item_t* item, attribute_t* new_attribute) {
 }
 
 /* see common-item.h */
-attribute_t *get_attribute(item_t *item, char* attr_name)
-{
+attribute_t *get_attribute(item_t *item, char* attr_name) {
     attribute_t* return_value;
     HASH_FIND(hh, item->attributes, attr_name, strlen(attr_name), return_value);
-    if (return_value == NULL) {
-        return NULL;
-    }
+
     return return_value;
 }
 
@@ -93,20 +84,18 @@ attribute_t *get_attribute(item_t *item, char* attr_name)
 int set_str_attr(item_t* item, char* attr_name, char* value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
+    if (res == NULL) {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = STRING;
         new_attribute->attribute_value.str_val = value;
-	new_attribute->attribute_key = strndup(attr_name, 100);
+	    new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
     else if (res != NULL && res->attribute_tag != STRING) {
         return FAILURE; // skeleton for not overriding type
     }
-    else
-    {
+    else {
         res->attribute_value.str_val = value;
         return SUCCESS;
     }
@@ -117,20 +106,18 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
 int set_int_attr(item_t* item, char* attr_name, int value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
+    if (res == NULL) {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = INTEGER;
         new_attribute->attribute_value.int_val = value;
-	new_attribute->attribute_key = strndup(attr_name, 100);
+	    new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
     else if (res != NULL && res->attribute_tag != INTEGER) {
         return FAILURE; // skeleton for not overriding type
     }
-    else
-    {
+    else {
         res->attribute_value.int_val = value;
         return SUCCESS;
     }
@@ -140,8 +127,7 @@ int set_int_attr(item_t* item, char* attr_name, int value)
 int set_double_attr(item_t* item, char* attr_name, double value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
+    if (res == NULL) {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = DOUBLE;
         new_attribute->attribute_value.double_val = value;
@@ -152,8 +138,7 @@ int set_double_attr(item_t* item, char* attr_name, double value)
     else if (res != NULL && res->attribute_tag != DOUBLE) {
         return FAILURE; // skeleton for not overriding type
     }
-    else
-    {
+    else {
         res->attribute_value.double_val = value;
         return SUCCESS;
     }
@@ -164,12 +149,11 @@ int set_double_attr(item_t* item, char* attr_name, double value)
 int set_char_attr(item_t* item, char* attr_name, char value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
+    if (res == NULL) {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = CHARACTER;
         new_attribute->attribute_value.char_val = value;
-	    new_attribute->attribute_key = strndup(attr_name, 100);
+        new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -177,8 +161,7 @@ int set_char_attr(item_t* item, char* attr_name, char value)
         return FAILURE; // skeleton for not overriding type
     }
 
-    else
-    {
+    else {
         res->attribute_value.char_val = value;
         return SUCCESS;
     }
@@ -188,12 +171,11 @@ int set_char_attr(item_t* item, char* attr_name, char value)
 int set_bool_attr(item_t* item, char* attr_name, bool value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
+    if (res == NULL) {
         attribute_t* new_attribute = malloc(sizeof(attribute_t));
         new_attribute->attribute_tag = BOOLE;
         new_attribute->attribute_value.bool_val = value;
-	    new_attribute->attribute_key = strndup(attr_name, 100);
+        new_attribute->attribute_key = strndup(attr_name, 100);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
     }
@@ -201,8 +183,7 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
         return FAILURE; // skeleton for not overriding type
     }
 
-    else
-    {
+    else {
         res->attribute_value.bool_val = value;
         return SUCCESS;
     }
@@ -211,18 +192,13 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
 
 // TYPE-SPECIFIC GET_ATTR FUNCTIONS -------------------------------------------
 /* see item.h */
-char* get_str_attr(item_t *item, char* attr_name)
-{
+char* get_str_attr(item_t *item, char* attr_name) {
   attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
+    if (res == NULL) {
         return NULL;
     }
-    if(res->attribute_tag != STRING)
-    {
-        fprintf(stderr, "Error: attribute is not type string.\n");
-        return NULL;
+    if(res->attribute_tag != STRING) {
+        return NULL; //attribute is not type string
     }
     return res->attribute_value.str_val;
 }
@@ -231,16 +207,12 @@ char* get_str_attr(item_t *item, char* attr_name)
 int get_int_attr(item_t *item, char* attr_name) {
 
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
+    if (res == NULL) {
         // value returned if search fails, open to alternative
         return -1;
     }
-    if(res->attribute_tag != INTEGER)
-    {
-        fprintf(stderr, "Error: attribute is not type integer.\n");
-        return -1;
+    if(res->attribute_tag != INTEGER) {
+        return -1; //attribute is not type integer
     }
     return res->attribute_value.int_val;
 }
@@ -249,16 +221,12 @@ int get_int_attr(item_t *item, char* attr_name) {
 double get_double_attr(item_t *item, char* attr_name) {
 
   attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        fprintf(stderr, "Error: attribute does not exist.\n");
+    if (res == NULL) {
         // value returned if search fails, open to alternative
         return -1.0;
     }
-    if (res->attribute_tag != DOUBLE)
-    {
-        fprintf(stderr, "Error: attribute is not type double.\n");
-        return -1.0;
+    if (res->attribute_tag != DOUBLE) {
+        return -1.0; //attribute is not type double
     }
     return res->attribute_value.double_val;
 }
@@ -268,15 +236,11 @@ double get_double_attr(item_t *item, char* attr_name) {
 char get_char_attr(item_t *item, char* attr_name) {
 
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
+    if (res == NULL) {
         return '~';
     }
-    if (res->attribute_tag != CHARACTER)
-    {
-        fprintf(stderr, "Error: attribute is not type character.\n");
-        return '~';
+    if (res->attribute_tag != CHARACTER) {
+        return '~'; //attribute is not type character
     }
     return res->attribute_value.char_val;
 }
@@ -284,15 +248,12 @@ char get_char_attr(item_t *item, char* attr_name) {
 /* see item.h */
 bool get_bool_attr(item_t *item, char* attr_name) {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        fprintf(stderr, "Error: attribute get failed.\n");
+    if (res == NULL) {
         return NULL;
     }
     if (res->attribute_tag != BOOLE)
     {
-        fprintf(stderr, "Error: attribute is not type boolean.\n");
-        return NULL;
+        return NULL; //attribute is not type boolean
     }
     return res->attribute_value.bool_val;
 }
@@ -301,57 +262,46 @@ bool get_bool_attr(item_t *item, char* attr_name) {
  // ---------------------------------------------------------------------------
 
 /* see item.h */
-int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
-{
+int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name) {
     attribute_t* attribute_1 = get_attribute(item_1, attribute_name);
     attribute_t* attribute_2 = get_attribute(item_2, attribute_name);
-    if(attribute_1==NULL || attribute_2==NULL)
-    {
-        fprintf(stderr,
-            "Error: attribute does not exist for one or more items\n");
-        return -1;
+    if(attribute_1==NULL || attribute_2==NULL) {
+        return -1; //attribute does not exist for one or more items
     }
-    if (attribute_1->attribute_tag != attribute_2->attribute_tag)
-    {
-        fprintf(stderr,
-            "Error: could not compare attributes as they are of different types\n");
-        return -1;
+    if (attribute_1->attribute_tag != attribute_2->attribute_tag) {
+
+        return -1; //could not compare attributes as they are of different types
     }
     int comparison = FAILURE;
     switch(attribute_1->attribute_tag)
     {
         case(DOUBLE):
             if (attribute_1->attribute_value.double_val ==
-                attribute_2->attribute_value.double_val)
-            {
+                attribute_2->attribute_value.double_val) {
                 comparison = SUCCESS;
             }
             break;
         case(BOOLE):
             if (attribute_1->attribute_value.bool_val ==
-                attribute_2->attribute_value.bool_val)
-            {
+                attribute_2->attribute_value.bool_val) {
                 comparison = SUCCESS;
             }
             break;
         case(CHARACTER):
             if (attribute_1->attribute_value.char_val ==
-                attribute_2->attribute_value.char_val)
-            {
+                attribute_2->attribute_value.char_val) {
                 comparison = SUCCESS;
             }
             break;
         case(STRING):
             if (!strcmp(attribute_1->attribute_value.str_val,
-                attribute_2->attribute_value.str_val))
-            {
+                attribute_2->attribute_value.str_val)) {
                 comparison = SUCCESS;
             }
             break;
         case(INTEGER):
             if (attribute_1->attribute_value.int_val ==
-                attribute_2->attribute_value.int_val)
-            {
+                attribute_2->attribute_value.int_val) {
                 comparison = SUCCESS;
             }
             break;
@@ -365,12 +315,11 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
 // FREEING AND DELETION FUNCTIONS ---------------------------------------------
 
 /* ADD TO ITEM.H */
-int game_action_free(game_action_t* game_action)
-{
+int game_action_free(game_action_t* game_action) {
     free(game_action->action_name);
     //FREE ACTION TYPE USING AM's FUNCTION
-    //CREATE FREE LIST FUNCTION TO FREE CONDITIONS
-    //CREATE FREE LIST FUNCTION TO FREE EFFECTS
+    delete_action_condition_llist(game_action->conditions);
+    delete_action_effect_llist(game_action->effects);
     free(game_action->success_str);
     free(game_action->fail_str);
     free(game_action);
@@ -388,8 +337,7 @@ int attribute_free(attribute_t *attribute) {
 
 
 /* see common-item.h */
-int delete_all_attributes(attribute_hash_t attributes)
-{
+int delete_all_attributes(attribute_hash_t* attributes) {
     attribute_t *current_attribute, *tmp;
     HASH_ITER(hh, attributes, current_attribute, tmp) {
         /* deletes (attrs advances to next) */
@@ -411,7 +359,7 @@ int item_free(item_t *item) {
 }
 
 /* See common.h*/
-int delete_all_items(item_hash_t items) {
+int delete_all_items(item_hash_t* items) {
     item_t *current_item, *tmp;
     HASH_ITER(hh, items, current_item, tmp) {
         HASH_DEL(items, current_item);  /* deletes (items advances to next) */

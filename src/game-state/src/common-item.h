@@ -13,7 +13,8 @@
   Returns:
     FAILURE for failure, SUCCESS for success
 */
-int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc);
+int item_init(item_t *new_item, char *item_id,
+              char *short_desc, char *long_desc);
 
 
 /* this has to be in the interface as room and player modules use this */
@@ -23,7 +24,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc, char *long_desc
  * Returns:
  *  SUCCESS if successful
  */
-int delete_all_items(item_hash_t items);
+int delete_all_items(item_hash_t *items);
 
 /* add_attribute_to_hash() adds an attribute to the item hash table
   Parameters:
@@ -53,7 +54,7 @@ attribute_t *get_attribute(item_t *item, char *attr_name);
   Returns:
     Always returns SUCCESS
 */
-int delete_all_attributes(attribute_hash_t attributes);
+int delete_all_attributes(attribute_hash_t *attributes);
 
 
 /* action_init() initializes an action struct with given values

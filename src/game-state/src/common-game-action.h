@@ -25,4 +25,14 @@ game_action_t *game_action_new(char *action_name, char* success_str, char* fail_
 
 int do_effect(game_action_effect_t *effect);
 
+/* create_effect creates an effect_t struct with the given inputs
+ * Parameters:
+ *  item to modify
+ *  attribute_t
+ *  attribute_value_t
+ * Returns:
+ * NULL or game_action_effect_t
+ */
+game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
+
 #endif

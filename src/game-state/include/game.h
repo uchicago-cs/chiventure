@@ -20,18 +20,21 @@ typedef struct game {
     /* an iteratable hashtable of players */
     /* using the macros provided in uthash.h */
     /* the expected size is 1 for single player games but this can change */
-    player_hash_t all_players;
+    player_hash_t *all_players;
 
     /* an iteratable hashtable of rooms */
     /* using the macros provided in uthash.h */
-    room_hash_t all_rooms;
+    room_hash_t *all_rooms;
 
     /* an iteratable hashtable of items */
     /* using the macros provided in uthash.h */
-    item_hash_t all_items;
-  
+    item_hash_t *all_items;
+
     /* pointer to current room struct */
     room_t *curr_room;
+
+    /* pointer to room that, when entered, ends the game */
+    room_t *final_room;
 
     /* pointer to current player struct */
     player_t *curr_player;
@@ -127,12 +130,23 @@ int add_room_to_game(game_t *game, room_t *room);
  */
 int add_item_to_game(game_t *game, item_t *item);
 
+/* Adds the final room to the given game
+ *
+ * Parameters:
+ *  game struct
+ *  final room struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_final_room_to_game(game_t *game, room_t *final_room);
+
 /*
 * Function to connect two rooms
 * Parameters:
 *  pointer to a game
-*  source room_id
-*  destination room_id
+*  source room_id (a string, i.e. char*)
+*  destination room_id (a string, i.e. char*)
 *  string direction
 *
 * Returns:
@@ -162,7 +176,7 @@ int set_curr_player(game_t *game, player_t *player);
 * Function to find player given game and player id
 * Parameters:
 *  pointer to game
-*  player id
+*  player id (a string, i.e. char*)
 *
 * Returns
 *  pointer to player struct or NULL if not found
@@ -173,7 +187,7 @@ player_t *get_player(game_t *game, char *player_id);
 * Function to find room from all_rooms
 * Parameters:
 *  pointer to game
-*  room id
+*  room id (a string, i.e. char*)
 *
 * Returns:
 *  pointer to room or NULL if not found
@@ -184,7 +198,7 @@ room_t *find_room_from_game(game_t *game, char* room_id);
  * Function to get item from all_items
  * Parameters:
  *  pointer to game
- *  item id
+ *  item id (a string, i.e. char*)
  *
  * Returns:
  *  pointer to item or NULL if not found
@@ -241,7 +255,7 @@ item_list_t *get_all_items_in_game(game_t *game);
 * - error 3 if action is null
 * - error 4 if attribute is null
 */
-int add_effect(game_t *game, char* action_name, char* item_src_name, 
+int add_effect(game_t *game, char* action_name, char* item_src_name,
 	       char* item_modify_name, char* attribute_name, attribute_value_t new_value);
 
 /* add_condition creates a game_action_condition_t struct and adds it to the action pointed to
