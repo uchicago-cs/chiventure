@@ -243,7 +243,8 @@ char *capitalize(char *word){
   return word;
 }
 
-char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
+char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
     capitalize(tokens[1]);
     capitalize(tokens[2]);
     if(find_entry(tokens[1], (ctx->table)) == NULL){
