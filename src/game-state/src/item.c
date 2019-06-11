@@ -251,8 +251,7 @@ bool get_bool_attr(item_t *item, char* attr_name) {
     if (res == NULL) {
         return NULL;
     }
-    if (res->attribute_tag != BOOLE)
-    {
+    if (res->attribute_tag != BOOLE) {
         return NULL; //attribute is not type boolean
     }
     return res->attribute_value.bool_val;
