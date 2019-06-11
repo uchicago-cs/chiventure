@@ -32,33 +32,29 @@ Test(load, room)
     dorm->short_desc = "college dorm";
     dorm->long_desc = "there are clothes and empty ramen cups everywhere";
 
-    Item **items = malloc(sizeof(Item*) * 2);
+    Item **items = malloc(sizeof(Item*) * 3);
     items[0] = malloc(sizeof(Item));
     items[0]->item_id = "1234";
     items[0]->short_desc = "cup ramen";
     items[0]->long_desc = "has already been eaten";
     items[1] = malloc(sizeof(Item));
-    items[1]->item_id = "1234";
     items[1]->item_id = "4321";
     items[1]->short_desc = "black sweatshirt";
     items[1]->long_desc = "wrinkled and probably needs to be washed";
+    items[2] = malloc(sizeof(Item));
+    items[2]->item_id = "1324";
+    items[2]->short_desc = "salt water taffy"
+    items[2]->long_desc = "glues mouth shut";
     dorm->items = items;
 
     item_t** all_items = malloc(sizeof(item_t*) * 3);
     int itemsucc;
-    for(int i = 0; i < 2; i++){
+    for(int i = 0; i < 3; i++){
         all_items[i] = malloc(sizeof(item_t));
         itemsucc = load_item(items[i], all_items[i]);
         cr_assert_eq(itemsucc, 0,
                      "load_item: loading item %d in load_room failed", i);
     }
-    Item *candy = malloc(sizeof(Item));
-    candy->item_id = "1234";
-    candy->short_desc = "salt water taffy";
-    candy->long_desc = "glues mouth shut";
-    all_items[2] = malloc(sizeof(item_t));
-    itemsucc = load_item(candy, all_items[2]);
-    cr_assert_eq(itemsucc, 0, "load_item: loading item 2 in load_room failed");
 
     room_t* room_t = malloc(sizeof(room_t));
     int succ = load_room(dorm, room_t, all_items, 3);
@@ -79,37 +75,38 @@ Test(load, player)
 {
     Player *chad = malloc(sizeof(Player));
     chad->health = 1;
-
-    Item **items = malloc(sizeof(Item*) * 2);
+    
+    // All items in game
+    Item **items = malloc(sizeof(Item*) * 3);
     items[0] = malloc(sizeof(Item));
     items[0]->item_id = "1234";
     items[0]->short_desc = "cup ramen";
     items[0]->long_desc = "has already been eaten";
     items[1] = malloc(sizeof(Item));
-    items[1]->item_id = "1234";
     items[1]->item_id = "4321";
     items[1]->short_desc = "black sweatshirt";
     items[1]->long_desc = "wrinkled and probably needs to be washed";
+    items[2] = malloc(sizeof(Item));
+    items[2]->item_id = "1324";
+    items[2]->short_desc = "salt water taffy"
+    items[2]->long_desc = "glues mouth shut";
+    chad->inventory = items;
 
     item_t** all_items = malloc(sizeof(item_t*) * 3);
     int itemsucc;
-    for(int i = 0; i < 2; i++){
+    for(int i = 0; i < 3; i++){
         all_items[i] = malloc(sizeof(item_t));
         itemsucc = load_item(items[i], all_items[i]);
         cr_assert_eq(itemsucc, 0,
-                     "load_item: loading item %d in load_room failed", i);
+                     "load_item: loading item %d in load_player failed", i);
     }
-    Item *candy = malloc(sizeof(Item));
-    candy->item_id = "1234";
-    candy->short_desc = "salt water taffy";
-    candy->long_desc = "glues mouth shut";
-    all_items[2] = malloc(sizeof(item_t));
-    itemsucc = load_item(candy, all_items[2]);
-    cr_assert_eq(itemsucc, 0, "load_item: loading item 2 in load_room failed");
 
-    Item **inventory = malloc(sizeof(Item*) * 1);
+
+    Item **inventory = malloc(sizeof(Item*) * 2);
     inventory[0] = malloc(sizeof(Item));
-    inventory[0] = candy;
+    inventory[0] = items[0];
+    inventory[1] = malloc(sizeof(Item));
+    inventory[1] = items[1];
     chad->inventory = inventory;
 
     player_t *player_t = malloc(sizeof(player_t));
