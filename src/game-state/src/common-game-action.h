@@ -12,7 +12,8 @@
  Returns:
     FAILURE for failure, SUCCESS for success
 */
-int game_action_init(game_action_t *new_action, char *act_name, char* success_str, char* fail_str);
+int game_action_init(game_action_t *new_action, char *act_name, 
+		     char* success_str, char* fail_str);
 
 /* game_action_new() allocates a space for an action struct in memory and
 * assigns given values to struct fields
@@ -42,6 +43,7 @@ int do_effect(game_action_effect_t *effect);
  * Returns:
  * NULL or game_action_effect_t
  */
-game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
+game_action_effect_t *effect_new(item_t *item_to_modify, 
+				 attribute_t *attribute, attribute_value_t new_value);
 
 #endif

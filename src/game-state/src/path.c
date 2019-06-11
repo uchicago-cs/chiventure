@@ -1,17 +1,6 @@
 #include <stdlib.h>
 #include "room.h"
 
-
-/* See room.h 
-int delete_all_conditions(condition_list_t conditions) {
-    condition_t *elt, *tmp;
-    LL_FOREACH_SAFE(conditions, elt, tmp) {
-        LL_DELETE(conditions, elt);
-        free(elt);
-    }
-    return SUCCESS;
-}*/
-
 /* See room.h */
 path_t *path_new(room_t *dest, char *direction) {
 
@@ -34,13 +23,6 @@ int path_free(path_t *path) {
     //will need to free item associated with path
     return SUCCESS;
 }
-
-
-/* See room.h 
-int add_condition_to_path(path_t *path, condition_t *condition) {
-    LL_PREPEND(path->conditions, condition);
-    return SUCCESS;
-    }*/
 
 /* See room.h */
 int delete_all_paths(path_hash_t* paths) {

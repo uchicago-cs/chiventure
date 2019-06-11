@@ -3,7 +3,8 @@
 #include "common-game-action.h"
 
 /* See common_game_action.h */
-int game_action_init(game_action_t *new_action, char *act_name, char* success_str, char* fail_str)
+int game_action_init(game_action_t *new_action, char *act_name, 
+		     char* success_str, char* fail_str)
 {
     assert(new_action != NULL);
 
@@ -138,8 +139,9 @@ bool check_condition(game_action_condition_t *condition)
 {
     //check if NULL attribute, return true if true
     attribute_t* actual_attribute = condition->attribute_to_check;
-    if(actual_attribute == NULL)
+    if(actual_attribute == NULL) {
         return true;
+    }
 
     switch(actual_attribute->attribute_tag)
     {

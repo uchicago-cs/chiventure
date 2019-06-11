@@ -77,8 +77,8 @@ int game_action_free(game_action_t *action_tofree);
  *  2 if specified action does not exist in first item
  *  3 if second item ID does not exist
  */
-int add_action_condition(item_t *item, game_action_t *action,
-			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t cond_value);
+int add_action_condition(item_t *item, game_action_t *action, item_t *cond_item, 
+			 attribute_t *cond_attribute, attribute_value_t cond_value);
 
 /* delete_action_condition_llist frees a linked list of action conditions
  * Parameters:
@@ -137,7 +137,8 @@ int all_conditions_met(item_t* item, char* action_name);
  * error 2 if action NULL
  * error 3 if item to modify is null
  */
-int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t new_value);
+int add_action_effect(game_action_t *action, item_t *item_to_add, 
+		      attribute_t *attribute, attribute_value_t new_value);
 
 /* delete_action_effect_llist frees a linked list of action effects
  * Parameters:
