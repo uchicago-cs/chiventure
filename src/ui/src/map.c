@@ -152,7 +152,7 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
     map->ulx = ulx;
     map->uly = uly;
     map->lrx = lrx;
-    map->lry = lry-1;
+    map->lry = lry - 1;
 
     return 0;
 }

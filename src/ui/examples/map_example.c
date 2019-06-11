@@ -40,12 +40,6 @@ int main()
 
     chiventure_ctx_t *ctx = chiventure_ctx_new();
 
-    /* This example tests without a loaded game stuct, so
-     * the coord_hash is set manually.
-     */
-    //ctx->ui_ctx->coord_hash = coordmap;
-
-
     // Set the screen location of the map
     map_set_displaywin(ctx->ui_ctx->map, 0, 0, COLS, LINES-1);
 
