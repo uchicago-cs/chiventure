@@ -122,10 +122,11 @@ int move_room(game_t *game, room_t *new_room) {
     if(game == NULL) {
         return GAME_NULL;
     }
-    if(new_room == NULL)
+    if(new_room == NULL) {
+
         return ROOM_NULL;
-    if(new_room == game->final_room)
-    {
+    }
+    if(new_room == game->final_room) {
         return FINAL_ROOM;
     }
     room_t *check = find_room_from_game(game, new_room->room_id);
