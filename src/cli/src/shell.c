@@ -34,7 +34,7 @@ void help_text(chiventure_ctx_t *ctx)
         "SAVE [PATH] (NOT IMPLEMENTED)\n"
         "	-Saves a game to a specified location\n"
         "NAME [VALID COMMAND] [NEW COMMAND]\n"
-        " -Makes the second argument a command word with the definition of the first argument"
+        " -Makes the second argument a command word with the definition of the first argument\n"
         "PALETTE [\"DEFAULT\"/\"NIGHT\"/\"BRIGHT\"/\"PAIN\"]"
         " -Makes the color of the UI change to that theme!"
         "CTRL + D\n"
