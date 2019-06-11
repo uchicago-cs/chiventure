@@ -13,6 +13,7 @@
 #include "cmd.h"
 
 // Forward declaration
+typedef struct ui_ctx ui_ctx_t;
 typedef struct lookup_entry lookup_t;
 
 /* A context struct encapsulating all the shared state in chiventure */
