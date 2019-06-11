@@ -10,8 +10,8 @@
 void help_text(chiventure_ctx_t *ctx)
 {
     char p[] =
-        "HERE IS A BRIEF OVERVIEW OF GAME ACTIONS (SOME NOT IMPLEMENTED)\n"
-        "LOOK]n"
+        "HERE IS A BRIEF OVERVIEW OF GAME ACTIONS\n"
+        "LOOK\n"
         "   -Look around the room\n"
         "GO [DIRECTION]\n"
         "	-Move to the south, east, west or north\n"
