@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <readline/history.h>
 #include "parser.h"
 
 /* See parser.h */
@@ -11,6 +12,9 @@ char **parse(char *input)
     {
         return NULL;
     }
+     
+    //Add input to history
+    add_history(input);
 
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
