@@ -108,31 +108,9 @@ Please see this document for all possible actions and descriptions: https://gith
 
     in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
 
-    attributes: the descriptors for the item
-
-    - attribute: `<STRING>` which is the name of the state of the item upon initialization of the game
-    
-      value: `<STRING_VAL>` which is the value of the state of the item upon initialization of the game
-
     actions: the possible actions that can be performed on the item; each action has the following fields:
       
     - action: `<ACTION FROM BANK>` in the form of a string in ALL UPPER CASE
-
-      conditions: (OPTIONAL) the conditions that must be fulfilled for the action to be completed
-
-      - id: `<STRING_ITEM>` which is an identification name that is unique to the conditional item
-
-        attribute: `<STRING>` which is the name of the state of the conditional item
-
-        value: `<STRING_VAL>` which is the value of the state of the conditional item in order for the action to be completed
-
-      effects: (OPTIONAL) changes an attribute of the item's state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition) 
-
-      - id: `<STRING_ITEM>` which is an identification name that is unique to the affected item
-
-        attribute: `<STRING>` which is the name of the state of the affected item
-
-        value: `<STRING_VAL>` which is the value of the state of the affected item upon completion of the action
 
       text_success: `<STRING>` which is a string that is displayed upon the success of an action (OPTIONAL)
 
@@ -148,58 +126,14 @@ Please see this document for all possible actions and descriptions: https://gith
 
   in: "garden"
   
-  attributes:
-
-    - attribute: "size"
-
-      value: "small"
-
-    - attribute: "pulled"
-
-      value: true
-
   actions:
 
     - action: "PUSH"
-    
-      conditions:
-      
-      - id:
-      
-        attribute:
-        
-        value:
-        
-      effects:
-      
-      - id:
-      
-        attribute:
-        
-        value:
-        
-      text_success:
 
       text_fail: "You cannot push the lever. You can only pull it."
 
     - action: "PULL"
 
-      conditions:
-      
-      - id: "star"
-
-        attribute: "color"
-
-        value: "red"
-
-      effects:
-
-      - id: "lever"
-
-      	attribute: "pulled"
-
-      	value: "yes"
-        
       text_success: "Congrats! You can now access the underground tunnel. Go find it!"
 
       text_fail: "You cannot pull the lever. The star must be red in order to pull the lever."
@@ -211,56 +145,16 @@ Please see this document for all possible actions and descriptions: https://gith
   long_desc: "It has magical properties"
 
   in: "bedroom"
-  
-  attributes:
-    
-    - attribute:
-    
-      value:
 
   actions:
   
     - action: "TAKE"
-
-      conditions:
-      
-      - id: "top hat"
-
-        attribute: "on_head"
-
-        value: true
-       
-      effects:
-
-      - id:
-
-      	attribute:
-
-      	value:
        
       text_success: "Congrats! You got the wand and can perform a spell!"
 
       text_fail: "You cannot take the wand until the top hat is on your head"
 
     - action: "CONSUME"
-    
-      conditions:
-      
-      - id:
-
-        attribute:
-
-        value: 
-       
-      effects:
-
-      - id:
-
-      	attribute:
-
-      	value:
-       
-      text_success:
 
       text_fail: "You cannot consume the wand. Please try to hold it."
 ```
