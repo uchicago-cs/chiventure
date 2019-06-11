@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <readline/history.h>
 #include "operations.h"
 #include "shell.h"
 #include "room.h"
@@ -19,8 +20,21 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* backlog task */
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    //print_history();
-    return "history operation not implemented yet\n";
+    int offset_start = history_base,
+    offset_end = history_length;
+    int i, j=1;
+    int strbuff = 10;
+    char str[strbuff];
+    for (i = offset_start; i <= offset_end; i++)
+    {
+        sprintf(str, "%d", j);
+        
+        print_to_cli(ctx, str);
+        print_to_cli(ctx, history_get(i)->line);
+        printf("Entry %d: %s\n", j, history_get(i)->line);
+        j++;
+    }
+    return "This was your command history\n";
 }
 
 /* See operations.h */
