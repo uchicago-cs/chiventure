@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "operations.h"
 #include "shell.h"
 #include "room.h"
@@ -220,7 +221,28 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     layout_switch(ctx);
     return "Layout switched.";
 }
+/* A function that capitalizes a word to be used in name_operation
+ * Parameters:
+ * - word: A pointer to a string to be capitalized.
+ * Output:
+ * - The newly capitalized string.
+*/
+char *capitalize(char * word){
+  char *command = word;
+  int i = 0;
+  char ch;
+
+  while(command[i])
+  {
+      ch = toupper(command[i]);
+      command[i] = ch;
+      i++;
+  }
+  return word;
+}
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
+    capitalize(tokens[1]);
+    capitalize(tokens[2]);
     if(find_entry(tokens[1], (ctx->table)) == NULL){
       return "You can't bind something that doesn't exist";
     }
