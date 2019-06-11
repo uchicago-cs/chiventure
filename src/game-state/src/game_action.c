@@ -4,8 +4,7 @@
 
 /* See common_game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name, 
-		     char* success_str, char* fail_str)
-{
+		     char* success_str, char* fail_str) {
     assert(new_action != NULL);
 
     strncpy(new_action->action_name, act_name, strlen(act_name));
@@ -19,8 +18,7 @@ int game_action_init(game_action_t *new_action, char *act_name,
 
 
 /* see common_game_action.h */
-game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str)
-{
+game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str) {
     game_action_t *new_action = malloc(sizeof(game_action_t));
     new_action->action_name = malloc(MAX_ID_LEN * sizeof(char));
 
@@ -58,8 +56,7 @@ game_action_t *get_action(item_t *item, char* action_name) {
 int add_action(item_t* item, char *action_name, char* success_str, char* fail_str)
 {
     game_action_t* check = get_action(item, action_name);
-    if (check != NULL)
-    {
+    if (check != NULL) {
         return FAILURE;
     }
     game_action_t* action = game_action_new(action_name, success_str, fail_str);
@@ -69,15 +66,11 @@ int add_action(item_t* item, char *action_name, char* success_str, char* fail_st
 
 
 /* see game_action.h */
-int possible_action(item_t *item, char* action_name)
-{
+int possible_action(item_t *item, char* action_name) {
     game_action_t* possible_action = get_action(item, action_name);
-    if (possible_action == NULL)
-    {
+    if (possible_action == NULL) {
         return FAILURE;
-    }
-    else
-    {
+    } else {
         return SUCCESS;
     }
 }
@@ -86,8 +79,7 @@ int possible_action(item_t *item, char* action_name)
 
 /* see game_action.h */
 int add_action_condition(item_t *item, game_action_t *action,
-			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t cond_value)
-{
+			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t cond_value) {
     if (item == NULL) {
         return 1;
     }
@@ -108,8 +100,7 @@ int add_action_condition(item_t *item, game_action_t *action,
 }
 
 /* see game_action.h */
-int delete_action_condition_llist(action_condition_list_t *conditions)
-{
+int delete_action_condition_llist(action_condition_list_t *conditions) {
     game_action_condition_t *elt, *tmp;
     LL_FOREACH_SAFE(conditions, elt, tmp) {
         LL_DELETE(conditions, elt);
@@ -120,8 +111,7 @@ int delete_action_condition_llist(action_condition_list_t *conditions)
 
 /* see game_action.h */
 game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
-				       attribute_value_t new_value)
-{
+				       attribute_value_t new_value) {
     if (item_to_modify == NULL || attribute == NULL) {
         return NULL;
     }
@@ -135,48 +125,41 @@ game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attr
 }
 
 /* see game_action.h */
-bool check_condition(game_action_condition_t *condition)
-{
+bool check_condition(game_action_condition_t *condition) {
     //check if NULL attribute, return true if true
     attribute_t* actual_attribute = condition->attribute_to_check;
     if(actual_attribute == NULL) {
         return true;
     }
 
-    switch(actual_attribute->attribute_tag)
-    {
+    switch(actual_attribute->attribute_tag) {
         case(DOUBLE):
             if (actual_attribute->attribute_value.double_val ==
-                condition->expected_value.double_val)
-            {
+                condition->expected_value.double_val) {
                 return true;
             }
             break;
         case(BOOLE):
             if (actual_attribute->attribute_value.bool_val ==
-                condition->expected_value.bool_val)
-            {
+                condition->expected_value.bool_val) {
                 return true;
             }
             break;
         case(CHARACTER):
             if (actual_attribute->attribute_value.char_val ==
-                condition->expected_value.char_val)
-            {
+                condition->expected_value.char_val) {
                 return true;
             }
             break;
         case(STRING):
             if (!strcmp(actual_attribute->attribute_value.str_val,
-                condition->expected_value.str_val))
-            {
+                condition->expected_value.str_val)) {
                 return true;
             }
             break;
         case(INTEGER):
             if (actual_attribute->attribute_value.int_val ==
-                condition->expected_value.int_val)
-            {
+                condition->expected_value.int_val) {
                 return true;
             }
             break;
@@ -185,8 +168,7 @@ bool check_condition(game_action_condition_t *condition)
 }
 
 /* see game_action.h */
-int all_conditions_met(item_t* item, char* action_name)
-{
+int all_conditions_met(item_t* item, char* action_name) {
     //call allowed action to see if the action exists
     if (possible_action(item, action_name)) {
         return 2;
@@ -209,14 +191,11 @@ int all_conditions_met(item_t* item, char* action_name)
 
 /* see game_action.h */
 //we either use item_to_add or action as action is loacted within item_to_add
-int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t new_value)
-{
-    if(action == NULL)
-    {
+int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t new_value) {
+    if(action == NULL) {
         return 2;
     }
-    if(item_to_add == NULL)
-    {
+    if(item_to_add == NULL) {
         return 3;
     }
 
@@ -228,8 +207,7 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *a
 }
 
 /* see game_action.h */
-int delete_action_effect_llist(action_effect_list_t *effects)
-{
+int delete_action_effect_llist(action_effect_list_t *effects) {
     game_action_effect_t *elt, *tmp;
     LL_FOREACH_SAFE(effects, elt, tmp) {
         LL_DELETE(effects, elt);
@@ -239,8 +217,7 @@ int delete_action_effect_llist(action_effect_list_t *effects)
 }
 
 /* see common-game-action.h */
-game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
-{
+game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value) {
 
     if (item_to_modify == NULL || attribute == NULL) {
         return NULL;
@@ -255,12 +232,10 @@ game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute,
 }
 
 /* see common_game_action.h */
-int do_effect(game_action_effect_t *effect)
-{
+int do_effect(game_action_effect_t *effect) {
     attribute_t *attr = effect->attribute_to_modify;
     attribute_value_t new_val = effect->new_value;
-    switch(attr->attribute_tag)
-    {
+    switch(attr->attribute_tag) {
         case(DOUBLE):
             attr->attribute_value.double_val = new_val.double_val;
             return SUCCESS;
@@ -280,21 +255,16 @@ int do_effect(game_action_effect_t *effect)
     return FAILURE;
 }
 
-
 /* see game_action.h */
-int do_all_effects(item_t *item, char* action_name)
-{
+int do_all_effects(item_t *item, char* action_name) {
     game_action_t* action = get_action(item, action_name);
-    if(action == NULL)
-    {
+    if(action == NULL) {
         return FAILURE;
     }
     game_action_effect_t* tmp;
-    for(tmp = action->effects; tmp != NULL; tmp = tmp->next)
-    {
+    for(tmp = action->effects; tmp != NULL; tmp = tmp->next) {
         int check = do_effect(tmp);
-        if(check == FAILURE)
-        {
+        if(check == FAILURE) {
             return FAILURE;
         }
     }
