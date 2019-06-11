@@ -62,31 +62,54 @@ int action_type_free(action_type_t *a)
  * See actionmanagement.h */
 int do_item_action(action_type_t *a, item_t *i, char **ret_string)
 {
-    // a couple confirmation checks
     assert(a);
-    assert(i);
+    assert(direct);
+
     char *string = malloc(BUFFER_SIZE); // buffer
+
     // checks if the action type is the correct kind
     if (a->kind != ITEM) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
     }
-    // checks if the action can be used on the item
-    int allowed = allowed_action(i, a->c_name);
-    if (allowed != SUCCESS) {
-        sprintf(string, "Action %s can't be requested on item %s",
+
+    // checks if the action is possible
+    int possible = possible_action(i, a->c_name);
+    if (possible == FAILURE) {
+        sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, i->item_id);
         *ret_string = string;
         return NOT_ALLOWED_DIRECT;
     }
-    /* TODO: implement the rest of this function, using game_state funcs
-     * Will perform the action if all checks pass (Sprint 4)
-     */
-    sprintf(string, "Requested action %s on item %s",
-            a->c_name, i->item_id);
-    *ret_string = string;
-    return SUCCESS;
+
+    // get the game action struct
+    game_action_t *game_act = get_action(i, a->c_name);
+
+    // check if all conditions are met
+    int all_clear = all_conditions_met(i, a->c_name);
+    if (all_clear == FAILURE) {
+        sprintf(string, "%s", dir_game_act->fail_str);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
+
+    // implement the action (i.e. dole out the effects)
+    else {
+        int applied_effects;
+        applied_effects = do_all_effects(i, a->c_name);
+        if (applied_effects == FAILURE) {
+            sprintf(string, "Effect(s) of Action %s were not applied", a->c_name);
+            *ret_string = string;
+            return EFFECT_NOT_APPLIED;
+        }
+        else {
+            // successfully carried out action
+            sprintf(string, "%s", dir_game_act->success_str);
+            *ret_string = string;
+            return SUCCESS;
+        }
+    }
 }
 
 
