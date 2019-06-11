@@ -44,67 +44,121 @@ int main(int argc, char *argv[])
 
     // one player
     player_t *chad_t;
-    chad_t = player_new("chad", 100);
+    chad_t = player_new("Chad", 100);
 
     if (argc == 1) {
 	game_t *g_t_orig = game_new("Welcome to Chiventure");
 
+	printf("Welcome to Chiventure\n");
+	printf("Player one's name is Chad, he has 100 health.\n");
 	add_room_to_game(g_t_orig, dorm_t);
 	move_room(g_t_orig, dorm_t);
+	printf("Chad starts in a dorm room.\n");
+	printf("In the dorm room there is a shirt and cup ramen.\n"); 
 	add_room_to_game(g_t_orig, dungeon_t);
 	create_connection(g_t_orig, "5", "2", "east");
-	
-	change_level(chad_t, 8999);
+
+	printf("Chad grabs a shirt from the dorm and puts it in his inventory.\n");
 	add_item_to_player(chad_t, shirt_t);
+	printf("Chad levels up to 9000.\n");
+	change_level(chad_t, 8999);
+	printf("Chad gained 578 experience.\n");
 	chad_t->xp = 578;
 	add_player_to_game(g_t_orig, chad_t);
 	set_curr_player(g_t_orig, chad_t);
-	
+	printf("Chad goes to the dungeon from the dorm room.\n");
 	move_room(g_t_orig, dungeon_t);
-	
+	printf("The game is saved in a file named save.txt\n");
 	save(g_t_orig, "save.txt");
     } else {
-	printf("file we are reading from: %s\n", argv[1]);
-	game_t *g_t_load = game_new("Welcome to Chiventure");
+	if (strcmp(argv[1], "save.txt") == 0) {
+	    printf("file we are reading from: %s\n", argv[1]);
+	    game_t *g_t_load = game_new("Welcome to Chiventure");
 
-	// let's pretend to load stuff from WDL
+	    // let's pretend to load stuff from WDL
 
-	add_player_to_game(g_t_load, chad_t);
-	set_curr_player(g_t_load, chad_t);
-	add_room_to_game(g_t_load, dorm_t);
-	move_room(g_t_load, dorm_t);
-	add_room_to_game(g_t_load, dungeon_t);
-	create_connection(g_t_load, "5", "2", "east");
-       
-	load("save.txt", g_t_load);
-	printf("This is the current player\n");
-	printf("g_t_load->curr_player->player_id: %s\n",
-	       g_t_load->curr_player->player_id);
-	printf("g_t_load->curr_player->level: %d\n", g_t_load->curr_player->level);
-	printf("g_t_load->curr_player->health: %d\n",
-	       g_t_load->curr_player->health);
-	printf("g_t_load->curr_player->xp: %d\n", g_t_load->curr_player->xp);
-	printf("g_t_load->curr_room->room_id: %s\n",
-	       g_t_load->curr_room->room_id);
-	printf("g_t_load->curr_room->short_desc: %s\n",
-	       g_t_load->curr_room->short_desc);
-	printf("g_t_load->curr_room->long_desc: %s\n",
-	       g_t_load->curr_room->long_desc);
-	item_list_t *inv = get_all_items_in_inventory(g_t_load->curr_player);
-	printf("%s\'s inventory\n", g_t_load->curr_player->player_id);
-	while (inv) {
-	    printf("inv->item->item_id: %s\n", inv->item->item_id);
-	    printf("inv->item->short_desc: %s\n", inv->item->short_desc);
-	    printf("inv->item->long_desc: %s\n", inv->item->long_desc);
-	    inv = inv->next;
-	}
-	printf("These are the item(s) in this room\n");
-	item_list_t *room_items = get_all_items_in_room(g_t_load->curr_room);
-	while (room_items) {
-	    printf("room_items->item->item_id: %s\n", room_items->item->item_id);
-	    printf("room_items->item->short_desc: %s\n", room_items->item->short_desc);
-	    printf("room_items->item->long_desc: %s\n", room_items->item->long_desc);
-	    room_items = room_items->next;
+	    add_player_to_game(g_t_load, chad_t);
+	    set_curr_player(g_t_load, chad_t);
+	    add_room_to_game(g_t_load, dorm_t);
+	    move_room(g_t_load, dorm_t);
+	    add_room_to_game(g_t_load, dungeon_t);
+	    create_connection(g_t_load, "5", "2", "east");
+	    printf("We load the game\n");
+	    load("save.txt", g_t_load);
+	    printf("Loaded player;s name: %s\n",
+		   g_t_load->curr_player->player_id);
+	    printf("Loaded player's level: %d\n", g_t_load->curr_player->level);
+	    printf("Loaded player's health: %d\n", g_t_load->curr_player->health);
+	    printf("Loaded player's xp: %d\n", g_t_load->curr_player->xp);
+	    printf("Loaded current room: %s\n",
+		   g_t_load->curr_room->room_id);
+	    printf("Loaded current room short description: %s\n",
+		   g_t_load->curr_room->short_desc);
+	    printf("Loaded current room long description: %s\n",
+		   g_t_load->curr_room->long_desc);
+	    item_list_t *inv = get_all_items_in_inventory(g_t_load->curr_player);
+	    printf("%s\'s inventory\n", g_t_load->curr_player->player_id);
+	    while (inv) {
+		printf("Item id: %s\n", inv->item->item_id);
+		printf("Item short description: %s\n", inv->item->short_desc);
+		printf("Item long description: %s\n", inv->item->long_desc);
+		inv = inv->next;
+	    }
+	    printf("These are the item(s) in the %s\n",
+		   g_t_load->curr_room->short_desc);
+	    item_list_t *room_items = get_all_items_in_room(g_t_load->curr_room);
+	    while (room_items) {
+		printf("Item ID: %s\n", room_items->item->item_id);
+		printf("Short Description: %s\n", room_items->item->short_desc);
+		printf("Long Description: %s\n", room_items->item->long_desc);
+		room_items = room_items->next;
+	    }
+	    printf("Now let's save this file without changing anything in a file named: resave.txt\n");
+	    save(g_t_load,"resave.txt");
+	} else {
+	    printf("file we are reading from: %s\n", argv[1]);
+	    game_t *g_t_reload = game_new("Welcome to Chiventure");
+
+	    // let's pretend to load stuff from WDL
+
+	    add_player_to_game(g_t_reload, chad_t);
+	    set_curr_player(g_t_reload, chad_t);
+	    add_room_to_game(g_t_reload, dorm_t);
+	    move_room(g_t_reload, dorm_t);
+	    add_room_to_game(g_t_reload, dungeon_t);
+	    create_connection(g_t_reload, "5", "2", "east");
+	    printf("We load the game\n");
+		
+	    load("resave.txt", g_t_reload);
+		
+	    printf("Loaded player;s name: %s\n",
+		   g_t_reload->curr_player->player_id);
+	    printf("Loaded player's level: %d\n", g_t_reload->curr_player->level);
+	    printf("Loaded player's health: %d\n", g_t_reload->curr_player->health);
+	    printf("Loaded player's xp: %d\n", g_t_reload->curr_player->xp);
+	    printf("Loaded current room: %s\n",
+		   g_t_reload->curr_room->room_id);
+	    printf("Loaded current room short description: %s\n",
+		   g_t_reload->curr_room->short_desc);
+	    printf("Loaded current room long description: %s\n",
+		   g_t_reload->curr_room->long_desc);
+	    item_list_t *reinv = get_all_items_in_inventory(g_t_reload->curr_player);
+	    printf("%s\'s inventory\n", g_t_reload->curr_player->player_id);
+	    while (reinv) {
+		printf("Item id: %s\n", reinv->item->item_id);
+		printf("Item short description: %s\n", reinv->item->short_desc);
+		printf("Item long description: %s\n", reinv->item->long_desc);
+		reinv = reinv->next;
+	    }
+	    printf("These are the item(s) in the %s\n",
+		   g_t_reload->curr_room->short_desc);
+	    item_list_t *reroom_items = get_all_items_in_room(g_t_reload->curr_room);
+	    while (reroom_items) {
+		printf("Item ID: %s\n", reroom_items->item->item_id);
+		printf("Short Description: %s\n", reroom_items->item->short_desc);
+		printf("Long Description: %s\n", reroom_items->item->long_desc);
+		reroom_items = reroom_items->next;
+	    }
 	}
     }
     return 0;

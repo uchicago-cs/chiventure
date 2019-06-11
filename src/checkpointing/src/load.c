@@ -64,9 +64,9 @@ int load_item(Item *i, item_t *i_t)
             fprintf(stderr, "Could not set string attribute for item \n");
             return -1;
         }
-
-    } else if ((strcmp(tag, "INTEGER")) == 0) {
-        int set_int_success;
+	
+	} else if ((strcmp(tag, "INTEGER")) == 0) {
+	    int set_int_success;
 	    set_int_success = set_int_attr(i_t,
 				i->attributes[iter]->attribute_key,
 				i->attributes[iter]->attribute_value->int_val);
@@ -164,6 +164,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
 
     }
 
+    r_t->items = NULL;
     /* Here, we pass in an array of all items (generated from loaded WDL items),
        free all items in this room loaded by WDL,
        then search through the item ids we have serialized into this room,
@@ -172,8 +173,9 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
        In other words, fill the room with items
        (assuming that no items get destroyed/created during the game).
        */
-    int iter;
+        int iter;
     int j;
+    item_t *temp_item;
     for (iter = 0; iter < r->items_len; iter++) {
         for (j = 0; j < all_items_len; j++) {
             if (strcmp(r->items[iter]->item_id, all_items[j]->item_id) == 0) {
@@ -181,14 +183,12 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
                 if (load_item_success != 0) {
                     fprintf(stderr, "Failed to load item in room \n");
                 }
-		printf("all_items[j]->item_id: %s\n", all_items[j]->item_id);
-		printf("all_items[j]->short_desc: %s\n", all_items[j]->short_desc);
-                int add_item_success = add_item_to_room(r_t, all_items[j]);
-                if (add_item_success != 0) {
-                    fprintf(stderr, "Failed to add item to room \n");
-                }
-            }
-        }
+		int add_item_success = add_item_to_room(r_t, all_items[j]);
+		if (add_item_success != 0) {
+		    fprintf(stderr, "Failed to add item to room \n");
+		}
+	    }
+	}
     }
     return 0;
 }
@@ -286,7 +286,6 @@ int load_game(Game *g, game_t *g_t)
 
     // Malloc an array of all items in the game
     int item_len = count(g_t);
-    printf("item_len %d\n", item_len);
     room_t *curr_room;
     player_t *curr_player;
     item_t **all_items = malloc(sizeof(item_t*) * item_len);
@@ -353,27 +352,7 @@ int load_game(Game *g, game_t *g_t)
        that contains a room_id.
        In the proto struct, curr_room is simply the room_id as a string */
     if (g->curr_room != NULL) {
-	room_t *room = malloc(sizeof(room_t));
-	room = find_room_from_game(g_t, g->curr_room);
-	move_room(g_t, room);
-	item_list_t *list = get_all_items_in_room(room);
-	while (list) {
-	    printf("list->item->item_id: %s\n", list->item->item_id);
-	    printf("list->item->short_desc: %s\n", list->item->short_desc);
-	    printf("list->item->long_desc: %s\n", list->item->long_desc);
-	    list = list->next;
-	}
-	
-	/*
-        room_list = get_all_rooms(g_t);
-        for (; room_list != NULL; room_list = room_list->next) {
-            room_t *curr_r = room_list->room;
-            if (strcmp(curr_r->room_id, g->curr_room) == 0) {
-                move_room(g_t, curr_r); //move_room provided by game state to set current room
-		break;
-	    }
-        }
-	*/
+	move_room(g_t, find_room_from_game(g_t, g->curr_room));
     }
 
     if (g->curr_player != NULL) {
@@ -392,7 +371,6 @@ int load(char *filename, game_t *g_t)
 {
     uint8_t buffer[MAX_BUF_SIZE];
     size_t game_len = read_file(filename, MAX_BUF_SIZE, buffer);
-    printf("game_len: %ld\n", game_len);
 
     Game *g = malloc(sizeof(Game));
     game__init(g);
