@@ -257,7 +257,8 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "The two words are now synonyms!";
 }
 
-char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
+char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
   int n = 0;
   capitalize(tokens[1]);
   if(strcmp(tokens[1], "DEFAULT") == 0)
