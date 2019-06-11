@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../action_management/include/ -I../../ui/include
+CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../action_management/include/ -I../../ui/include
 
 RM = rm -f
 LDLIBS = -lreadline 
@@ -21,10 +21,7 @@ all: ${BIN}
 $(BIN): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LDLIBS) $(STLIBS) -o$(BIN)
 
-$(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< >$@
-
-include $(SRCS:.c=.d)
+-include $(SRCS:.c=.d)
 
 .PHONY: clean
 clean:
