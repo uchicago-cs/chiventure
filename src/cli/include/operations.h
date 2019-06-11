@@ -225,6 +225,5 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * A string notifying them if the color was changed or not.
  */
 char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
-//char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */
