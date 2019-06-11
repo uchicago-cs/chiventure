@@ -146,6 +146,7 @@ map_t *map_init()
     return map;
 }
 
+/* See map.h for documentation */
 int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
 {
     map->ulx = ulx;
@@ -155,6 +156,26 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
 
     return 0;
 }
+
+/* Draws info to the top left corner of the map view
+ *
+ * Inputs:
+ * - The context struct
+ *
+ * Outputs: N/A
+ */
+void draw_info(chiventure_ctx_t *ctx){
+  ui_ctx_t *ui_ctx = ctx->ui_ctx;
+  map_t *map = ui_ctx->map;
+  coord_t *curr_pos = ui_ctx->player_loc; 
+
+  int info_x = map->ulx + 2;
+  int info_y = map->uly + 1;
+
+  mvwprintw(map->pad, info_y, info_x, "(%i, %i, %i)", curr_pos->x, curr_pos->y, curr_pos->z);
+  
+}
+
 
 int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
 {
@@ -170,21 +191,27 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
         draw_rooms(ctx, -x, -y, z);
     }
 
+    // Set the pad values in the map struct
     map->padx = x;
     map->pady = y;
     map->padz = z;
 
+    
     //The x and y coordinates of the center of the map display screen
     int centx = (map->lrx - map->ulx) / 2;
     int centy = (map->lry - map->uly) / 2;
-
+    
+    // Draws the 'player' on to the screen
     mvwaddch(map->pad, centy-1, centx, 'o' | A_UNDERLINE);
     mvwaddch(map->pad, centy, centx, '^');
-    //mvwaddch(map->pad, centy+1, centx, ACS_PI);
+
+    draw_info(ctx);
+    
     prefresh(map->pad, 0, 0, map->uly, map->ulx, map->lry, map->lrx);
     return 0;
 }
 
+/* See map.h for documentation */	       
 int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
 {
     assert(ctx != NULL);

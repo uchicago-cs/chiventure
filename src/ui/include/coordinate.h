@@ -14,9 +14,10 @@
 #include "common.h"
 #include "room.h"
 #include "game.h"
+#include "ctx.h"
 
 // A coordinate in three-dimensional space
-typedef struct {
+typedef struct coord {
     int x;
     int y;
     int z;
@@ -98,5 +99,15 @@ coord_record_t *create_valid_map(game_t *game);
  * - A pointer to a hashmap of rooms for testing the map functions
  */
 coord_record_t *get_test_coord_hash();
+
+/* Sets the player_pos coordinate in the ui_ctx to the given coords
+ *
+ * Parameters:
+ * - ctx: The chiventure context
+ * - x, y, z: The coordinates to be assigned
+ * 
+ * Returns: N/A
+ */
+void set_player_loc(chiventure_ctx_t *ctx, int x, int y, int z);
 
 #endif /* INCLUDE_COORDINATE_H_ */

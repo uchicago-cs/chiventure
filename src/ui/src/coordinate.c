@@ -115,3 +115,13 @@ coord_record_t *get_test_coord_hash()
 
     return coordmap;
 }
+
+/* See coordinate.h for documentation */
+void set_player_loc(chiventure_ctx_t *ctx, int x, int y, int z){
+  coord_t *pos = ctx->ui_ctx->player_loc;
+  pos->x = x;
+  pos->y = y;
+  pos->z = z;
+
+  return;
+}

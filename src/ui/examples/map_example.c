@@ -103,6 +103,7 @@ int main()
         if (ch == 'q') {
             break;
         }
+	set_player_loc(ctx, cur_x, cur_y, cur_z);
         map_center_on(ctx, cur_x, cur_y, cur_z);
     }
 
