@@ -5,6 +5,8 @@
 #include "cmd.h"
 #include "print_functions.h"
 #include "shell.h"
+#include "room.h"
+#include "sample_game.h"
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -219,4 +221,12 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     layout_switch(ctx);
     return "Layout switched.";
+}
+
+char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *sample_game = create_sample_game();
+    ctx->game = sample_game;
+
+    return "Sample game loaded";
 }

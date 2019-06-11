@@ -1,7 +1,10 @@
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
-
-#include "ctx.h"
+#include "cmd.h"
+#include "game.h"
+#include "actionmanagement.h"
+#include "print_functions.h"
+#include "sample_game.h"
 
 /*
  * We list all demanded operations over here.
@@ -202,6 +205,8 @@ char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * The text saying the layout has been switched.
  */
 char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 

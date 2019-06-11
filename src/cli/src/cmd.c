@@ -112,6 +112,7 @@ int lookup_t_init(lookup_t **t)
     add_entry("SAVE", save_operation, t);
     add_entry("MAP", map_operation, t);
     add_entry("SWITCH", switch_operation, t);
+    add_entry("LOAD_SAMPLE", sample_game_operation, t);
     add_action_entries(t);
 
     return SUCCESS;
