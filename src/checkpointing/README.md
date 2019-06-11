@@ -19,7 +19,7 @@ Parameters:
 Returns:
 - 0 if successful, -1 if not
 ```
-`save.c` contains code that takes game-states struct implementation and puts them into the game.proto structs, and packs it (aka serializes the structs into a buffer). Then it opens a blank file, whose name is taken from the command line, and writes the buffer/packed structs into
+`save.c` contains code that takes game-states struct implementation and puts them into the `game.proto` structs, and packs it (aka serializes the structs into a buffer). Then it opens a blank file, whose name is taken from the command line, and writes the buffer/packed structs into
 that file.
 
 ## Load
@@ -32,7 +32,7 @@ Returns:
 - 0 if successful, -1 if not
 ```
 `load.c` contains code which takes the text file that has the serialized structs from
-the command line, unpacks (aka deserializes) the information into the game.proto
-file, and then takes the information from the game.proto file and puts it into the
+the command line, unpacks (aka deserializes) the information into the `game.proto`
+file, and then takes the information from the `game.proto` file and puts it into the
 game-state structs we created. Further, it prints all the struct information to stdout
 to ensure that structs were correctly deserialized and put into the game-state structs.
