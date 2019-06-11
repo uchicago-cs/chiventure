@@ -38,20 +38,6 @@ message Item {
     optional int32 attributes_len = 5; //Length of array (helpful for loading)
 }
 
-// message Condition {
-    // optional string item_id = 1; //Assuming item is already stored in a room or player, only ID is needed
-    //May change when Game State update their expected_attribute
-    // optional Attribute expected_attribute = 2; 
-    // Contacted with Game state, likely to be their final format
-// }
-
-// message Path {
-    // optional string direction = 1; 
-    // optional string dest = 2; //Room ID of destination
-    // repeated Condition conditions = 3; //Array of conditions (submessage)
-    // optional int32 conditions_len = 4;
-// }
-
 message Room {
     required string room_id = 1;
     optional string short_desc = 2;
