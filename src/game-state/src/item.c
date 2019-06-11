@@ -266,12 +266,14 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name) {
     attribute_t* attribute_2 = get_attribute(item_2, attribute_name);
     if(attribute_1==NULL || attribute_2==NULL) {
         return -1; //attribute does not exist for one or more items
+    }
     if (attribute_1->attribute_tag != attribute_2->attribute_tag) {
 
         return -1; //could not compare attributes as they are of different types
     }
     int comparison = FAILURE;
-    switch(attribute_1->attribute_tag) {
+    switch(attribute_1->attribute_tag) 
+    {
         case(DOUBLE):
             if (attribute_1->attribute_value.double_val ==
                 attribute_2->attribute_value.double_val) {
