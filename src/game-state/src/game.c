@@ -73,7 +73,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room) {
         strnlen(final_room->room_id, MAX_ID_LEN),
         check); // checks if the room exists within the list of game rooms
 
-    if (check != NULL) {
+    if (check == NULL) {
         fprintf(stderr, "add_final_room_to_game: this room does not exist"
             "in the list of rooms\n");
         return FAILURE;
