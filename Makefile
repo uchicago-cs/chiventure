@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include -I./src/game-state/include -I./src/ui/include -I./src/cli/include -I./src/action_management/include
+CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include -I./src/game-state/include -I./src/ui/include -I./src/cli/include -I./src/action_management/include
 RM = rm -f
 LDLIBS = -lyaml -lncursesw -lreadline
 BIN = chiventure
@@ -34,9 +34,6 @@ $(LIBS):
 
 SRCS = src/chiventure.c
 OBJS = $(SRCS:.c=.o)
-
-$(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(SRCS:.c=.d)
 
