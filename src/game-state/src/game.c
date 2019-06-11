@@ -90,11 +90,11 @@ int create_connection(game_t *game, char* src_room, char* to_room,
 {
     room_t *src = find_room_from_game(game, src_room);
     if (src == NULL) {
-        return 2;
+      return ROOM_SRC_NULL;
     }
     room_t *to = find_room_from_game(game, to_room);
     if (to == NULL) {
-        return 3;
+        return ROOM_DEST_NULL;
     }
     path_t *connection = path_new(to, direction);
     int check = add_path_to_room(src, connection);
@@ -203,19 +203,19 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
 
     item_t *item_src = get_item_from_game(game, item_src_name);
     if(item_src == NULL) {
-        return 2;
+        return ITEM_SRC_NULL;
     }
     item_t *item_modify = get_item_from_game(game, item_modify_name);
     if(item_modify == NULL) {
-        return 3;
+        return ITEM_MODIFY_NULL;
     }
     game_action_t *action = get_action(item_src, action_name);
     if(action == NULL) {
-        return 4;
+        return ACTION_NULL;
     }
     attribute_t *attribute = get_attribute(item_modify, attribute_name);
     if(attribute == NULL) {
-        return 5;
+        return ATTRIBUTE_NULL;
     }
     int check = add_action_effect(action, item_src, attribute, new_value);
     
@@ -227,19 +227,19 @@ int add_condition(game_t *game, char* action_name, char* item_src_name,
     
     item_t *item_src = get_item_from_game(game, item_src_name);
     if (item_src == NULL) {
-        return 2;
+        return ITEM_SRC_NULL;
     }
     item_t *item_modify = get_item_from_game(game, item_modify_name);
     if (item_modify == NULL) {
-        return 3;
+        return ITEM_MODIFY_NULL;
     }
     game_action_t *action = get_action(item_src, action_name);
     if(action == NULL) {
-	return 4;
+	return ACTION_NULL;
     }
     attribute_t *attribute = get_attribute(item_modify, attribute_name);
     if(attribute == NULL) {
-	return 5;
+	return ATTRIBUTE_NULL;
     }
     int check = add_action_condition(item_src, action, 
         item_modify, attribute, new_value);

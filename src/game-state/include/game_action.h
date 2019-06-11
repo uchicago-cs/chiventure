@@ -73,9 +73,10 @@ int game_action_free(game_action_t *action_tofree);
  *  a pointer to the attribute of the item specified in action condition that needs to be validated
  *  the value of the above attribute that needs to be validated
  * Returns:
- *  SUCCESS upon SUCCESS, 1 if first item ID does not exist
- *  2 if specified action does not exist in first item
- *  3 if second item ID does not exist
+ *  SUCCESS upon SUCCESS
+ *  ITEM_SRC_NULL if first item ID does not exist
+ *  ACTION_NULL if specified action does not exist in first item
+ *  ITEM_MODIFY_NULL if second item ID does not exist
  */
 int add_action_condition(item_t *item, game_action_t *action, item_t *cond_item, 
 			 attribute_t *cond_attribute, attribute_value_t cond_value);
@@ -133,9 +134,9 @@ int all_conditions_met(item_t* item, char* action_name);
  *  new attribute_value_t (takes tag from attribute above)
  *
  * Returns:
- * int SUCCESS FAILURE
- * error 2 if action NULL
- * error 3 if item to modify is null
+ * SUCCESS upon success, FAILURE upon failure
+ * ACTION_NULL if action NULL
+ * ITEM_MODIFY_NULL if item to modify is null
  */
 int add_action_effect(game_action_t *action, item_t *item_to_add, 
 		      attribute_t *attribute, attribute_value_t new_value);

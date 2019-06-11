@@ -67,11 +67,11 @@ game_t *game_new(char *start_desc);
  *  pointer to room that we're changing to
  *
  * Returns:
- *  0 for success
- *  1 for failure
- *  2 if game null
- *  3 if new_room is null
- *  4 if new_room is the final_room
+ *  SUCCESS for success
+ *  FAILURE for failure
+ *  GAME_NULL if game null
+ *  ROOM_NULL if new_room is null
+ *  FINAL_ROOM if new_room is the final_room
  */
 int move_room(game_t *game, room_t *new_room);
 
@@ -150,8 +150,9 @@ int add_final_room_to_game(game_t *game, room_t *final_room);
 *  string direction
 *
 * Returns:
-*  SUCCESS if all okay, 2 if src room_id not found,
-*  3 if dest not found, FAILURE if add_path fails
+*  SUCCESS upon success, FAILURE upon add_path failure
+*  ROOM_SRC_NULL if src room_id not found,
+*  ROOM_DEST_NULL if dest not found
 *
 * WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS
 * AT THE MOMENT AS PARAMETERS NOT GIVEN
@@ -250,10 +251,11 @@ item_list_t *get_all_items_in_game(game_t *game);
 *
 * Returns:
 * - SUCCESS upon success
-* - error 1 if item src is null
-* - error 2 if item to modify is null
-* - error 3 if action is null
-* - error 4 if attribute is null
+* - FAILURE if add_action_effect fails
+* - ITEM_SRC_NULL if item src is null
+* - ITEM_MODIFY_NULL if item to modify is null
+* - ACTION_NULL if action is null
+* - ATTRIBUTE_NULL if attribute is null
 */
 int add_effect(game_t *game, char* action_name, char* item_src_name,
 	       char* item_modify_name, char* attribute_name, attribute_value_t new_value);
@@ -270,10 +272,10 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
  * Returns:
  * - SUCCESS upon success
  * - FAILURE if add_action_condition fails
- * - error 2 if item src is null
- * - error 3 if item to modify is null
- * - error 4 if action is null
- * - error 5 if attribute is null
+ * - ITEM_SRC_NULL if item src is null
+ * - ITEM_MODIFY_NULL if item to modify is null
+ * - ACTION_NULL if action is null
+ * - ATTRIBUTE_NULL if attribute is null
  */
 int add_condition(game_t *game, char *action_name, char *item_src_name,
 		  char *item_modify_name, char *attribute_name, attribute_value_t new_value);
