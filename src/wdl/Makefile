@@ -2,9 +2,7 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/
-		 -I../game-state/include/ -I../action_management/include/ -I../ui/include/ -I../cli/include/
-		 -I../checkpointing/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/ -I../game-state/include/ -I../action_management/include/ -I../ui/include/ -I../cli/include/ -I../checkpointing/include/
 RM = rm -f
 LIB = wdl.a
 LDFLAGS = -L../libobj -L../action_management

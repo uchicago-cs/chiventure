@@ -99,9 +99,5 @@ int load_items(obj_t *doc, game_t *g)
         add_item_to_room(item_room, item);
         curr = curr->next;
     }
-<<<<<<< HEAD
-    return 0;
-=======
     return SUCCESS;
->>>>>>> master
 }
