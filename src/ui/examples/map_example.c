@@ -109,5 +109,6 @@ int main()
     //Ends the ncurses UI
     endwin();
 
+    chiventure_ctx_free(ctx);    
     return 0;
 }
