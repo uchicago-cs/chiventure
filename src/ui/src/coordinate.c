@@ -93,7 +93,12 @@ coord_record_t *get_test_coord_hash()
     room_t *room2 = room_new("Two", "", "");
     room_t *room3 = room_new("Three", "", "");
     room_t *room4 = room_new("Four", "", "");
-
+    room_t *room5 = room_new("Five", "", "");
+    room_t *room6 = room_new("Six", "", "");
+    room_t *room7 = room_new("Seven", "", "");
+    room_t *room8 = room_new("Eight", "", "");
+    room_t *room9 = room_new("Nine", "", "");
+    
     // Must set hash to NULL (see uthash documentation)
     coord_record_t *coordmap = NULL;
 
@@ -112,7 +117,12 @@ coord_record_t *get_test_coord_hash()
     try_add_coord(coordmap, 0, 1, 0, room2);
     try_add_coord(coordmap, 0, 2, 0, room3);
     try_add_coord(coordmap, 1, 1, 0, room4);
-
+    try_add_coord(coordmap, 1, 0, 0, room5);
+    try_add_coord(coordmap, 2, 1, 0, room6);
+    try_add_coord(coordmap, 0, 0, 1, room7);
+    try_add_coord(coordmap, 0, 1, 1, room8);
+    try_add_coord(coordmap, 0, 0, 2, room9);
+    
     return coordmap;
 }
 
