@@ -11,7 +11,7 @@ CLI = -L../ -Wl,-rpath,../ -l:cli.a
 UI = -L../../ui/ -Wl,-rpath,../../ui/ -l:ui.a
 CHECKPOINTING = -L../../checkpointing -Wl,-rpath,../../checkpointing -l:checkpointing.a
 
-STLIBS = $(COMMON) $(UI) $(CLI) $(GAME_STATE) $(ACTION_MANAGEMENT)
+STLIBS = $(COMMON) $(UI) $(CLI) $(GAME_STATE) $(ACTION_MANAGEMENT) $(CHECKPOINTING)
 SRCS = testshell.c
 OBJS = $(SRCS:.c=.o)
 BIN = testshell
