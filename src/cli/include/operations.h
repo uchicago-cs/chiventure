@@ -132,8 +132,6 @@ cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
  * Returns:
  * - Said description as a string
  */
-
-
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
