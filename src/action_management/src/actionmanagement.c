@@ -60,7 +60,7 @@ int action_type_free(action_type_t *a)
 int do_item_action(action_type_t *a, item_t *i, char **ret_string)
 {
     // a couple confirmation checks
-    assert(a);
+    //assert(a);
     assert(i);
     char *string = malloc(BUFFER_SIZE); // buffer
     // checks if the action type is the correct kind
@@ -94,7 +94,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     assert(c);
     assert(c->game);
     assert(c->game->curr_room);
-    assert(a);
+    //assert(a);
     
 
     /* INITIALIZATION */
@@ -105,13 +105,13 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     room_t *room_curr = g->curr_room;
     path_t *path_found = path_search(room_curr, direction);
 
-    /* VALIDATION */
+    /* VALIDATION 
     // checks if the action type is the correct kind
     if (a->kind != PATH) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
-    }
+    }*/ 
     // validate existence of path and destination
     if ((path_found == NULL) || (room_dest == NULL)) {
         sprintf(string, "The path or room provided was invalid.");
@@ -143,7 +143,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string)
 {
-    assert(a);
+    //assert(a);
     assert(direct);
     assert(indirect);
     char *string = malloc(BUFFER_SIZE); // buffer
