@@ -249,7 +249,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
     return SUCCESS;
 }
 
-int count(game_t *g_t)
+int count_number_of_overall_items(game_t *g_t)
 {
     int res = 0;
     room_t *curr_room;
@@ -282,7 +282,7 @@ int load_game(Game *g, game_t *g_t)
     }
 
     // Malloc an array of all items in the game
-    int item_len = count(g_t);
+    int item_len = count_number_of_overall_items(g_t);
     room_t *curr_room;
     player_t *curr_player;
     item_t **all_items = malloc(sizeof(item_t*) * item_len);
