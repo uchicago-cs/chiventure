@@ -76,11 +76,11 @@ bool allowed_action(item_t *item, char* action_name)
     game_action_t* possible_action = get_action(item, action_name);
     if (possible_action == NULL)
     {
-        return false;
+        return FAILURE;
     }
     else
     {
-        return true;
+        return SUCCESS;
     }
 }
 
@@ -199,7 +199,7 @@ int all_conditions_met(item_t* item, char* action_name)
 // ------------------------------------- EFFECTS -------------------------------------
 
 /* see game_action.h */
-//we either use item_to_add or action as action is loacted within item_to_add
+//we either use item_to_add or action as action is located within item_to_add
 int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
 {
     if(action == NULL)
