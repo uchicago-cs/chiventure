@@ -3,8 +3,9 @@
 #include <string.h>
 #include <readline/history.h>
 #include "operations.h"
+#include "cmd.h"
+#include "print_functions.h"
 #include "shell.h"
-#include "room.h"
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {

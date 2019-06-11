@@ -1,12 +1,8 @@
 #ifndef _CLI_INCLUDE_CMD_H
 #define _CLI_INCLUDE_CMD_H
-#include "parser.h"
-#include "game.h"
 #include "uthash.h"
+#include "parser.h"
 #include "action_structs.h"
-#include "actionmanagement.h"
-#include <ncurses.h>
-#include "ui_ctx.h"
 
 typedef struct chiventure_ctx chiventure_ctx_t;
 /* Operation data type */
@@ -29,8 +25,6 @@ typedef struct
 } cmd;
 
 #include "ctx.h"
-#include "operations.h"
-#include "print_functions.h"
 
 /* Iteratively adds each action into the table, from a
  * list of functions provided by action management
