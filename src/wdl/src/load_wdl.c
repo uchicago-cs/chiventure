@@ -35,10 +35,10 @@ game_t *load_wdl()
 	    return NULL;
         }
         else {
-            printf("game has successfully been loaded\n");	
+            printf("game has successfully been loaded\n");
 	    return game;
         }
-    } 
+    }
     else if (rooms = FAILURE) {
         fprintf(stderr, "failed to add rooms to game\n");
 	return NULL;
@@ -47,5 +47,3 @@ game_t *load_wdl()
 	fprintf(stderr, "failed to add connections to game\n");
 	return NULL;
 }
-
-    
