@@ -227,7 +227,7 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
  * Output:
  * - The newly capitalized string.
 */
-char *capitalize(char * word){
+char *capitalize(char *word){
   char *command = word;
   int i = 0;
   char ch;
