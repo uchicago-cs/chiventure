@@ -6,7 +6,7 @@ This library is dependent on `protobuf-c`. In order to compile, `protobuf-c` mus
 `protobuf-c` also requires `protobuf` to run. For more information, [protobuf-c](https://github.com/protobuf-c/protobuf-c).
  
 ## How to Use
-To compile the library, run `make` inside the [src/checkpointing](https://github.com/uchicago-cs/chiventure/tree/checkpointing/documentation/src/checkpointing) directory. Examples of `protobuf-c` can be found in the [checkpointing/examples/protobuf](checkpointing/examples/protobuf) subdirectory. For more information, consult the README in the subdirectory.
+To compile the library, run `make` inside the [src/checkpointing](https://github.com/uchicago-cs/chiventure/tree/checkpointing/documentation/src/checkpointing) directory. Examples of `protobuf-c` can be found in the [checkpointing/samples/protobuf](https://github.com/uchicago-cs/chiventure/tree/checkpointing/documentation/src/checkpointing/samples/protobuf) subdirectory. For more information, consult the README in the subdirectory.
  
 ## Functions
 
@@ -24,12 +24,12 @@ that file.
 
 ## Load
 ```
-    int load(char *filename, game_t *g_t);
-+ Parameters:
-    - filename: the name of the file with the saved info
-    - g_t: a pointer to an empty game struct to load the information into
-+ Returns:
-    - 0 if successful, -1 if not
+int load(char *filename, game_t *g_t);
+Parameters:
+- filename: the name of the file with the saved info
+- g_t: a pointer to an empty game struct to load the information into
+Returns:
+- 0 if successful, -1 if not
 ```
 `load.c` contains code which takes the text file that has the serialized structs from
 the command line, unpacks (aka deserializes) the information into the game.proto
