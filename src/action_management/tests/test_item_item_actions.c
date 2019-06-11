@@ -14,7 +14,7 @@
 #define NOT_ALLOWED_INDIRECT (3)
 #define CONDITIONS_NOT_MET (4)
 
-int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, enum action_kind allowed_kind1, char *allowed_act_name2, enum action_kind allowed_kind2, int choose_condition, int choose_effect)
+int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, char *allowed_act_name2, int choose_condition, int choose_effect)
 {
     action_type_t *a = action_type_new(act_name, kind);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
