@@ -11,7 +11,7 @@
 #include "coordinate.h"
 #include "window.h"
 #include "print_functions.h"
-//#include "map.h"
+#include "map.h"
 
 #define MAIN_WIN_NUM 1
 #define MAP_WIN_NUM 2
@@ -21,7 +21,6 @@
 ui_ctx_t *ui_ctx_new(game_t *game)
 {
     assert(game != NULL);
-
     int init;
     ui_ctx_t *ui_ctx = (ui_ctx_t *) malloc(sizeof(ui_ctx_t));
 
@@ -47,7 +46,6 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     int height = LINES / 2;
     int width = COLS;
 
-
     window_t *map_win = window_new(height, width, 0, 0, print_map, true);
     window_t *main_win = window_new(height, width, 0, 0, print_info, true);
     window_t *displayed_win = main_win;
@@ -65,28 +63,22 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
 
     ui_ctx->curr_page = MAIN_WIN_NUM;
     ui_ctx->cli_top = 0;
-    /* TO-DO: create_valid_map will take arguments:
-     * either:
-     * 1. a pointer to a game struct
-     * 2. a pointer to the game ctx
-     * 3. perhaps just the ui_ctx->player_loc
-     *    field--this may be all the function needs
+
+    /* This field will be NULL if a logical coordinate
+     * system cannot be assigned
      */
-    ui_ctx->coord_hash = NULL;
+    ui_ctx->coord_hash = create_valid_map(game);
 
-    // Initial room coordinates set to 0, 0, 0
+    // Failsafe: Draws very basic map so that program does not crash
+    if (ui_ctx->coord_hash == NULL) {
+        ui_ctx->coord_hash = get_test_coord_hash();
+    }
+    // Initial room coordinates always set to 0, 0, 0
     coord_t *initial_coord = coord_new(0, 0, 0);
-
     ui_ctx->player_loc = initial_coord;
 
-    /* Valid maps cannot be created for illogical map directions or for maps
-    * with logical distances of more than unit one
-    */
-    if (ui_ctx->coord_hash != NULL) {
-        return FAILURE;
-    }
+    ui_ctx->map = map_init();
 
-    ui_ctx->map = NULL;
     return SUCCESS;
 }
 
@@ -123,8 +115,7 @@ void toggle_map(chiventure_ctx_t *ctx)
         int height = LINES / 2;
         int width = COLS;
         wresize(win->w, height,width);
-    }
-    else {
+    } else {
         ctx->ui_ctx->curr_page = MAP_WIN_NUM;
     }
 
@@ -141,10 +132,10 @@ void layout_switch(chiventure_ctx_t *ctx)
 
     mvwin(ctx->ui_ctx->cli_win->w, !(cli_top) * height, 0);
     mvwin(ctx->ui_ctx->main_win->w, (cli_top) * height, 0);
-    if (ctx->ui_ctx->map != NULL) {
+    if (ctx->ui_ctx->curr_page == MAP_WIN_NUM) {
         map_set_displaywin(ctx->ui_ctx->map, 0, cli_top * height, width,
                            height + cli_top * height);
-        map_center_on(ctx->ui_ctx->map, 0, 0, 0);
+        map_center_on(ctx, 0, 0, 0);
     }
 
 }
