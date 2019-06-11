@@ -5,7 +5,7 @@
 CC = gcc
 AR = ar
 SRCS = src/actionmanagement.c src/get_actions.c 
-CFLAGS = -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../cli/include/ -I../ui/include/
+CFLAGS = -Wall -Wextra -O2 -g -I../common/include/ -I./include/ -I../game-state/include/ -I../cli/include/ -I../ui/include/
 OBJS = $(SRCS:.c=.o)
 LIB = action_management.a
 RM = rm -f
