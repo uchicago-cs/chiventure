@@ -33,6 +33,9 @@ typedef struct game {
     /* pointer to current room struct */
     room_t *curr_room;
 
+    /* pointer to room that, when entered, ends the game */
+    room_t *final_room;
+
     /* pointer to current player struct */
     player_t *curr_player;
 
@@ -126,6 +129,17 @@ int add_room_to_game(game_t *game, room_t *room);
  *  SUCCESS if successful, FAILURE if failed
  */
 int add_item_to_game(game_t *game, item_t *item);
+
+/* Adds the final room to the given game
+ *
+ * Parameters:
+ *  game struct
+ *  final room struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_final_room_to_game(game_t *game, room_t *final_room);
 
 /*
 * Function to connect two rooms

@@ -46,6 +46,7 @@ int add_room_to_game(game_t *game, room_t *room) {
     if (check != NULL) {
         return FAILURE; //this room id is already in use.
     }
+
     HASH_ADD_KEYPTR(hh, game->all_rooms, room->room_id, strnlen(room->room_id, MAX_ID_LEN),
 		    room);
     return SUCCESS;
@@ -61,7 +62,26 @@ int add_item_to_game(game_t *game, item_t *item) {
     }
     HASH_ADD_KEYPTR(hh, game->all_items, item->item_id, strnlen(item->item_id, MAX_ID_LEN),
 		    item);
+
     return SUCCESS;
+}
+
+/* See game.h */
+int add_final_room_to_game(game_t *game, room_t *final_room) {
+    room_t *check;
+    HASH_FIND(hh, game->all_rooms, final_room->room_id, 
+        strnlen(final_room->room_id, MAX_ID_LEN),
+        check); // checks if the room exists within the list of game rooms
+
+    if (check != NULL) {
+        fprintf(stderr, "add_final_room_to_game: this room does not exist"
+            "in the list of rooms\n");
+        return FAILURE;
+    }
+    game->final_room = final_room;
+    if (game->final_room != NULL)
+        return SUCCESS;
+    return FAILURE;
 }
 
 /* See game.h */
@@ -93,7 +113,8 @@ int set_curr_player(game_t *game, player_t *player) {
 /* See game.h */
 player_t *get_player(game_t *game, char *player_id) {
     player_t *s;
-    HASH_FIND(hh, game->all_players, player_id, strnlen(player_id, MAX_ID_LEN), s);
+    HASH_FIND(hh, game->all_players, player_id, 
+        strnlen(player_id, MAX_ID_LEN), s);
     return s;
 }
 
@@ -114,10 +135,15 @@ item_t *get_item_from_game(game_t *game, char *item_id) {
 /* See game.h */
 int move_room(game_t *game, room_t *new_room) {
     if(game == NULL) {
-        return 2;
+        return GAME_NULL;
     }
-    if(new_room == NULL)
-        return 3;
+    if(new_room == NULL) {
+
+        return ROOM_NULL;
+    }
+    if(new_room == game->final_room) {
+        return FINAL_ROOM;
+    }
     room_t *check = find_room_from_game(game, new_room->room_id);
     if(check == NULL) {
         return FAILURE;
