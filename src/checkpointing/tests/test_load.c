@@ -184,7 +184,7 @@ Test(load, game)
 
     // Start creating our game
 
-    game_t *g_t = game_new("Welcome to my sex lair\n");
+    game_t *g_t = game_new("Welcome to my fun lair\n");
 
     room_t *room0 = room_new("5", "college dorm", "there are clothes and empty ramen cups everywhere");
 
