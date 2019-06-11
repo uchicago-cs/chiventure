@@ -109,6 +109,7 @@ int lookup_t_init(lookup_t **t)
     add_entry("MAP", map_operation, t);
     add_entry("SWITCH", switch_operation, t);
     add_entry("NAME", name_operation, t);
+    add_entry("PALETTE", palette_operation,t);
     add_action_entries(t);
 
     return SUCCESS;

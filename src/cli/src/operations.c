@@ -252,3 +252,29 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
     add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (ctx->table));
     return "It is bound!";
 }
+char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx){
+  int n = 0;
+  capitalize(tokens[1]);
+  if(strcmp(tokens[1], "DEFAULT") == 0)
+  {
+    n = 1;
+  }
+  if(strcmp(tokens[1], "NIGHT") == 0)
+  {
+    n = 2;
+  }
+  if(strcmp(tokens[1], "BRIGHT") == 0)
+  {
+    n = 3;
+  }
+  if(strcmp(tokens[1], "PAIN") == 0)
+  {
+    n = 4;
+  }
+  if(n != 0){
+  wbkgd(ctx->ui_ctx->cli_win->w, COLOR_PAIR(n));
+  wbkgd(ctx->ui_ctx->displayed_win->w, COLOR_PAIR(n));
+  wbkgd(ctx->ui_ctx->map->pad, COLOR_PAIR(n));
+  }
+  return NULL;
+}

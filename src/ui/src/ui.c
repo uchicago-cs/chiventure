@@ -45,11 +45,14 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     //Initializes Colors
     start_color();
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
-    
+    init_pair(2, COLOR_WHITE, COLOR_BLACK);
+    init_pair(3, COLOR_BLACK, COLOR_WHITE);
+    init_pair(4, COLOR_CYAN, COLOR_MAGENTA);
+
     wbkgd(ui_ctx->cli_win->w, COLOR_PAIR(1));
     wbkgd(ui_ctx->displayed_win->w, COLOR_PAIR(1));
     wbkgd(ui_ctx->map->pad, COLOR_PAIR(1));
-    
+
     // prints home screen
     print_homescreen(info, banner);
     wrefresh(info->w);
