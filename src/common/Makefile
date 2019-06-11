@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../game-state/include/ -I../ui/include/ -I../cli/include/ -I../action_management/include/
+CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I./include/ -I../game-state/include/ -I../ui/include/ -I../cli/include/ -I../action_management/include/
 RM = rm -f
 LIB = common.a
 
@@ -14,9 +14,6 @@ all: $(LIB)
 
 SRCS = src/ctx.c src/sample_game.c 
 OBJS = $(SRCS:.c=.o)
-
-$(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(SRCS:.c=.d)
 
