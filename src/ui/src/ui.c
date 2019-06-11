@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ncurses.h>
+#include <readline/history.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <signal.h>
@@ -36,6 +37,9 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     // height and width of the terminal window
     int width = COLS;
     int height = LINES /2;
+     
+    // Begin a session in which the history functions might be used 
+    using_history();
 
     map_t *map = ui_ctx->map;
     // Initializes the CLI window
