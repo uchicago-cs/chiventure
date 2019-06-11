@@ -129,8 +129,14 @@ Please see this document for all possible actions and descriptions: https://gith
   actions:
 
     - action: "PUSH"
+     
+      text_success: "you push the lever"
+      
+      text_fail: "you can't push it again"
 
     - action: "PULL"
+
+      text_fail: "you cannot pull it"
 
 - id: "wand"
 
@@ -143,6 +149,10 @@ Please see this document for all possible actions and descriptions: https://gith
   actions:
   
     - action: "TAKE"
+     
+      text_success: "You take the wand."
 
     - action: "CONSUME"
+    
+      text_fail: "You cant eat the wand"
 ```
