@@ -23,7 +23,6 @@ game_t *load_wdl()
     room_t *final_room = find_room_from_game(game, end_room);
     int final = add_final_room_to_game(game, final_room);
     int items = load_items(big_document, game);
-
     if (final == FAILURE) {
         fprintf(stderr, "failed to add final room to game\n");
 	return NULL;

@@ -11,21 +11,21 @@ ROOMS:
  - id: "room A"
    short_desc: "This is room A"
    long_desc: "This is room A long"
-   connection:
+   connections:
     - to: "room B"
       direction: "south"
 
  - id: "room B"
    short_desc: "This is room B"
    long_desc: "This is room B long"
-   connection:
+   connections:
     - to: "room A"
       direction: "west"
 
  - id: "room C"
    short_desc: "This is room C"
    long_desc: "This is room C long"
-   connection:
+   connections:
     - to: "room A"
       direction: "north"
 
