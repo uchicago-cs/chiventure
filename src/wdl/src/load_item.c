@@ -85,6 +85,8 @@ int add_single_condition(game_t *game, char* action, char* item_id, obj_t *cond)
     return 1;
   }
   else {
+    fprintf(stderr, "The condition for action %s of item %s"
+    " was added successfully\n", action, item_id);
     return 0;
   }
 }
@@ -120,6 +122,8 @@ int add_single_effect(game_t *game, char* action, char* item_id, obj_t *effect)
     return 1;
   }
   else {
+    fprintf(stderr, "The effect for action %s of item %s"
+    " was added successfully\n", action, item_id);
     return 0;
   }
 }
@@ -149,6 +153,8 @@ int add_cond_and_eff_to_actions(obj_t *doc, game_t *g)
         while (action_curr != NULL) {
           // obtain action name
           char *action_name = obj_get_str(action_curr->obj, "action");
+
+          //CONDITIONS
           // extract conditions object
           obj_t *cond_obj = obj_get_attr(actions_obj, "conditions", false);
           // extract list of conditions
@@ -160,21 +166,14 @@ int add_cond_and_eff_to_actions(obj_t *doc, game_t *g)
               fprintf(stderr, "Conditions list is empty for action %s\n",
                     action_name);
           }
-          //CONDITIONS
             while (cond_curr != NULL) {  // iterate through conditions list
               obj_t *single_cond = cond_curr->obj;
               //call add_single_condition function
               int cond_info = add_single_condition(g, action_name, id, single_cond);
 
-              if (cond_info == 0) {
-                fprintf(stderr, "The condition for action %s of item %s"
-                " was added successfully\n", action_name, id);
-              } else {
-                fprintf(stderr, "The condition for action %s of item %s"
-                " could not be added\n", action_name, id);
+              if (cond_info != 0) {
                 return 1;
               }
-
               cond_curr = cond_curr->next;
             }
 
@@ -189,27 +188,19 @@ int add_cond_and_eff_to_actions(obj_t *doc, game_t *g)
               fprintf(stderr, "Effects list is empty for action %s\n",
             action_name);
           }
-
             while (set_curr != NULL) { // iterate through effects list
               obj_t *single_eff = set_curr->obj;
               // call add_single_effect function
               int set_info = add_single_effect(g, action_name, id, single_eff);
 
-              if (set_info == 0) {
-                fprintf(stderr, "The effect for action %s of item %s"
-                " was added successfully\n", action_name, id);
-              } else {
-                fprintf(stderr, "The effect for action %s of item %s"
-                " could not be added\n", action_name, id);
+              if (set_info != 0) {
                 return 1;
               }
-                set_curr = set_curr->next;
+              set_curr = set_curr->next;
             }
-
           action_curr = action_curr->next;
         }
-
         curr = curr->next;
       }
-return 0;
+  return 0;
 }
