@@ -83,11 +83,15 @@ lookup_t **lookup_t_new()
     {
         return NULL;
     }
-    rc = lookup_t_init(t);
-    if(rc != SUCCESS)
-    {
-        return NULL;
-    }
+
+    // Important: Set *t to NULL as per uthash documentation
+     *t = NULL;
+
+     rc = lookup_t_init(t);
+     if(rc != SUCCESS)
+     {
+         return NULL;
+     }
 
     return t;
 }
