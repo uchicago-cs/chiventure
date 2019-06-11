@@ -846,30 +846,6 @@ Test(attribute_equal, char_to_bool)
 
 }
 
-
-
-
-// TEST FOR ALLOWED_ACTION()----------------------------------------------------
-
-/* Checks adding an action to an item */
-Test(attribute, add_an_action)
-{
-	
-}
-
-
-/* Checks retrieving an action from an item */
-Test(attribute, get_action)
-{
-
-}
-
-/* Checks if retrieving a nonexistent action from an item blocked*/
-Test(attribute, get_non_existent_action)
-{
-
-}
-
 // TEST FOR ATTRIBUTE_FREE() --------------------------------------------------
 
 /* Checks freeing of attribute struct */
