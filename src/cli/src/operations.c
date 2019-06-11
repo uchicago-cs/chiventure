@@ -230,17 +230,17 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 */
 
 char *capitalize(char *word){
-  char *command = word;
-  int i = 0;
-  char ch;
+    char *command = word;
+    int i = 0;
+    char ch;
 
-  while(command[i])
-  {
-      ch = toupper(command[i]);
-      command[i] = ch;
-      i++;
+    while(command[i])
+    {
+        ch = toupper(command[i]);
+        command[i] = ch;
+        i++;
   }
-  return word;
+    return word;
 }
 
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -259,29 +259,30 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  int n = 0;
-  capitalize(tokens[1]);
-  if(strcmp(tokens[1], "DEFAULT") == 0)
-  {
-    n = 1;
-  }
-  if(strcmp(tokens[1], "NIGHT") == 0)
-  {
-    n = 2;
-  }
-  if(strcmp(tokens[1], "BRIGHT") == 0)
-  {
-    n = 3;
-  }
-  if(strcmp(tokens[1], "PAIN") == 0)
-  {
-    n = 4;
-  }
-  if(n != 0){
-  wbkgd(ctx->ui_ctx->cli_win->w, COLOR_PAIR(n));
-  wbkgd(ctx->ui_ctx->displayed_win->w, COLOR_PAIR(n));
-  wbkgd(ctx->ui_ctx->map->pad, COLOR_PAIR(n));
-  return "The color palette has been changed";
-  }
-  return "I don't have that palette yet. You must make do with the current style.";
+    int n = 0;
+    capitalize(tokens[1]);
+    if(strcmp(tokens[1], "DEFAULT") == 0)
+    {
+        n = 1;
+    }
+    if(strcmp(tokens[1], "NIGHT") == 0)
+    {
+        n = 2;
+    }
+    if(strcmp(tokens[1], "BRIGHT") == 0)
+    {
+        n = 3;
+    }
+    if(strcmp(tokens[1], "PAIN") == 0)
+    {
+        n = 4;
+    }
+    if(n != 0)
+    {
+        wbkgd(ctx->ui_ctx->cli_win->w, COLOR_PAIR(n));
+        wbkgd(ctx->ui_ctx->displayed_win->w, COLOR_PAIR(n));
+        wbkgd(ctx->ui_ctx->map->pad, COLOR_PAIR(n));
+        return "The color palette has been changed";
+    }
+    return "I don't have that palette yet. You must make do with the current style.";
 }
