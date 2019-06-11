@@ -89,7 +89,7 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * Returns:
  * - A success or error message
  */
-char *load_operation(char *tokens[TOKEN_LIST_SIZE], game_t* game, lookup_t **table);
+char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 /*
  * Checks that a specified filetype is a .dat file
  *

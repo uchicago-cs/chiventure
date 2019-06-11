@@ -5,6 +5,7 @@
 #include "cmd.h"
 #include "print_functions.h"
 #include "shell.h"
+#include "load_wdl.h"
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -24,41 +25,58 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "history operation not implemented yet\n";
 }
 
+bool validate_filename(char *filename)
+{
+  int len = strlen(filename);
+  int min_filename_length = 4;
+  if(len < min_filename_length)
+    {
+      return false;
+    }
+  const char *ending = &filename[len-4];
+  int cmp = strcmp(ending, ".dat");
+  if(cmp == 0)
+    {
+      return true;
+    }
+  else
+    {
+      return false;
+    }
+}
+
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return NULL;
+  if(tokens[1] == NULL){
+    return "Invalid Input, Save failed\n";
+  }
+  if (validate_filename(tokens[1]) == true){
+    int sv = save(ctx->game, tokens[1]);
+    return "Game Saved\n";
+  }
+  else
+    return "Improper filename, Save failed\n";
 }
 
 
 char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  game_t *game = ctx->game;
-  if(validate(tokens[1]) == true){
-    int ld = load(game, tokens[1]);
+  if(tokens[1] == NULL){
+    return "Invalid Input, Load failed\n";
   }
+  if (validate_filename(tokens[1]) == true){
+    game_t *g = malloc(sizeof(game_t));
+    g = load_wdl();
+    ctx->game = g;
+    int ld = load(tokens[1], ctx->game);
+    return "Load Succesful\n!";
+  }
+  else
+    return "Improper filename, Load failed\n";
+    
 }
 
-
-bool validate_filename(char *filename)
-{
-    int len = strlen(filename);
-    int min_filename_length = 4;
-    if(len < min_filename_length)
-    {
-        return false;
-    }
-    const char *ending = &filename[len-4];
-    int cmp = strcmp(ending, ".dat");
-    if(cmp == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
 
 /* See operation.h */
 cmd *assign_action(char **ts, lookup_t ** table)
