@@ -102,7 +102,6 @@ int delete_all_rooms(room_hash_t *rooms) {
 /* See room.h */
 path_t *path_search(room_t *room, char* direction) {
   path_t *path;
-
   if (room == NULL) {
       return NULL; //cannot search path in NULL room
   }
