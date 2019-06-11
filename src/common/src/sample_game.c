@@ -49,8 +49,6 @@ game_t* create_sample_game()
     action_type_t *actiontype_puton = search_supported_actions(head, "PUT_ON");
 
     /* add valid actions to each item */
-    // NOTE: I based this off *NEW* code from game-state/develop-actions
-    // it will not work in this branch because develop-actions is not merged to master
     add_action(item_orb, "TAKE", actiontype_take, 
                "You have placed the orb in your pocket.", "Can't perform that action!");
     add_action(item_orb, "DROP", actiontype_drop,
