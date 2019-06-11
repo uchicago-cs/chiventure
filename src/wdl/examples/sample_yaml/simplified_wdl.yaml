@@ -10,22 +10,14 @@ ROOMS:
  - id: "room A"
    short_desc: "This is room A"
    long_desc: "This is room A long"
-   connections:
+   connection: 
     - to: "room B"
-      direction: "north"
+      direction: "south"
 
  - id: "room B"
    short_desc: "This is room B"
    long_desc: "This is room B long"
-   connections:
-    - to: "room C"
-      direction: "north"
-
-
- - id: "room C"
-   short_desc: "This is room C"
-   long_desc: "This is room C long"
-   connections:
+   connection: 
     - to: "room A"
       direction: "north"
 
@@ -34,19 +26,15 @@ ITEMS:
    short_desc: "This is a chair"
    long_desc: "This is a chair long"
    in: "room A"
-   state: "still"
-   value: "no"
+   actions: 
+    - action: "PUSH"
+    - action: "PULL" 
+
 
  - id: "table"
    short_desc: "This is a table"
    long_desc: "This is a table long"
    in: "room B"
-   state: "solid"
-   value: "no"
-
- - id: "candle"
-   short_desc: "This is a candle"
-   long_desc: "This is a candle long"
-   in: "room C"
-   state: "hot"
-   value: "no"
+   actions:
+    - action: "PUSH"
+    - action: "PULL"
