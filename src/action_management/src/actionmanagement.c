@@ -72,7 +72,7 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string)
         return WRONG_KIND;
     }
     // checks if the action can be used on the item
-    int allowed = allowed_action(i, a->c_name);
+    int allowed = possible_action(i, a->c_name);
     if (allowed != SUCCESS) {
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, i->item_id);
@@ -131,7 +131,7 @@ int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
         return WRONG_KIND;
     }
     // checks if the action can be used on the direct item
-    int allowed = allowed_action(direct, a->c_name);
+    int allowed = possible_action(direct, a->c_name);
     if (allowed != SUCCESS) {
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, direct->item_id);
@@ -139,7 +139,7 @@ int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
         return NOT_ALLOWED_DIRECT;
     }
     // checks if the action can be used on the indirect item
-    allowed = allowed_action(indirect, a->c_name);
+    allowed = possible_action(indirect, a->c_name);
     if (allowed != SUCCESS) {
         sprintf(string, "Action %s can't be requested on item %s",
                 a->c_name, indirect->item_id);
