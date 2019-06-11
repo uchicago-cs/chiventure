@@ -109,6 +109,17 @@ int add_action_condition(item_t *item, game_action_t *action,
 }
 
 /* see game_action.h */
+int delete_action_condition_llist(action_condition_list_t *conditions)
+{
+    game_action_condition_t *elt, *tmp;
+    LL_FOREACH_SAFE(conditions, elt, tmp) {
+        LL_DELETE(conditions, elt);
+        free(elt);
+    }
+    return SUCCESS;
+}
+
+/* see game_action.h */
 game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
 				       attribute_value_t new_value)
 {
@@ -213,6 +224,17 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
 
     LL_APPEND(action->effects, new_effect);
 
+    return SUCCESS;
+}
+
+/* see game_action.h */
+int delete_action_effect_llist(action_effect_list_t *effects)
+{
+    game_action_effect_t *elt, *tmp;
+    LL_FOREACH_SAFE(effects, elt, tmp) {
+        LL_DELETE(effects, elt);
+        free(elt);
+    }
     return SUCCESS;
 }
 

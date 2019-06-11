@@ -80,6 +80,15 @@ int game_action_free(game_action_t *action_tofree);
 int add_action_condition(item_t *item, game_action_t *action,
 			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t cond_value);
 
+/* delete_action_condition_llist frees a linked list of action conditions
+ * Parameters:
+ *  linked list of conditions
+ *
+ * Returns:
+ *  always returns SUCCESS
+ */
+int delete_action_condition_llist(action_condition_list_t *conditions);
+
 /* condition_new() creates a new condition in an item with given inputs
  * Parameters:
  *  a pointer to the item to be modified
@@ -130,6 +139,14 @@ int all_conditions_met(item_t* item, char* action_name);
  */
 int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
 
+/* delete_action_effect_llist frees a linked list of action effects
+ * Parameters:
+ *  linked list of effects
+ *
+ * Returns:
+ *  always returns SUCCESS
+ */
+int delete_action_effect_llist(action_effect_list_t *effects);
 
 //alt version
 

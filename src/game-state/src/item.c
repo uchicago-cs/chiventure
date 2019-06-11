@@ -317,8 +317,8 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name) {
 int game_action_free(game_action_t* game_action) {
     free(game_action->action_name);
     //FREE ACTION TYPE USING AM's FUNCTION
-    //CREATE FREE LIST FUNCTION TO FREE CONDITIONS
-    //CREATE FREE LIST FUNCTION TO FREE EFFECTS
+    delete_action_condition_llist(conditions);
+    delete_action_effect_llist(effects);
     free(game_action->success_str);
     free(game_action->fail_str);
     free(game_action);
