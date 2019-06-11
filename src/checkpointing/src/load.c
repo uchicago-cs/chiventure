@@ -77,15 +77,15 @@ int load_item(Item *i, item_t *i_t)
         }
 
     } else if ((strcmp(tag, "DOUBLE")) == 0) {
-      	    int set_double_success;
-	        set_double_success = set_double_attr(i_t,
+        int set_double_success;
+        set_double_success = set_double_attr(i_t,
 			        i->attributes[iter]->attribute_key,
 					i->attributes[iter]->attribute_value->double_val);
 
-            if (set_double_success != SUCCESS) {
-                fprintf(stderr, "Could not set double attribute for item \n");
-                return -1;
-            }
+        if (set_double_success != SUCCESS) {
+            fprintf(stderr, "Could not set double attribute for item \n");
+            return -1;
+        }
 
 	} else if ((strcmp(tag, "CHARACTER")) == 0) {
         int set_char_success;
@@ -99,12 +99,12 @@ int load_item(Item *i, item_t *i_t)
         }
 
     } else if ((strcmp(tag, "BOOLE")) == 0) {
-         int set_bool_success;
-	     set_bool_success = set_bool_attr(i_t,
-				i->attributes[iter]->attribute_key,
-			    i->attributes[iter]->attribute_value->bool_val);
+        int set_bool_success;
+	    set_bool_success = set_bool_attr(i_t,
+		    i->attributes[iter]->attribute_key,
+	        i->attributes[iter]->attribute_value->bool_val);
 
-         if (set_bool_success != SUCCESS) {
+        if (set_bool_success != SUCCESS) {
 		    fprintf(stderr, "Could not set boole attribute for item \n");
 		    return -1;
          }
@@ -384,7 +384,9 @@ int load(char *filename, game_t *g_t)
         exit(1);
     }
 
-    load_game(g, g_t);
+    int success = load_game(g, g_t);
+    if(success != 0)
+        return -1;
     game__free_unpacked(g, NULL);
     return 0;
 }

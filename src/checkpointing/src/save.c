@@ -305,6 +305,8 @@ int save(game_t *g_t, char *filename)
     int success;
 
     success = save_game(g_t, &g);
+    if(success != 0)
+        return -1;
     len = game__get_packed_size(&g);
     buf = malloc(len);
     game__pack(&g, buf);

@@ -38,29 +38,12 @@ message Item {
     optional int32 attributes_len = 5; //Length of array (helpful for loading)
 }
 
-// message Condition {
-    // optional string item_id = 1; //Assuming item is already stored in a room or player, only ID is needed
-    //May change when Game State update their expected_attribute
-    // optional Attribute expected_attribute = 2; 
-    // Contacted with Game state, likely to be their final format
-// }
-
-// message Path {
-    // optional string direction = 1; 
-    // optional string dest = 2; //Room ID of destination
-    // repeated Condition conditions = 3; //Array of conditions (submessage)
-    // optional int32 conditions_len = 4;
-// }
-
 message Room {
     required string room_id = 1;
     optional string short_desc = 2;
     optional string long_desc = 3;
     repeated Item items = 4; //Array of all items in room
     optional int32 items_len = 5;
-    // Comment out path since we no longer store paths
-    // repeated Path paths = 6; //Array of all paths (submessage) 
-    // optional int32 paths_len = 7;
 }
 
 message Player {
@@ -79,5 +62,31 @@ message Game {
     required int32 rooms_len = 4;
     optional string curr_room = 5; //ID of current room (different from struct pointer of game_state)
     optional string curr_player = 6; //ID of player (different from struct pointer of game_state)
-    // optional string start_desc = 7;
 }
+
+message Logvalueunion {
+    optional int32 int_val = 1;
+    optional string str_val = 2;
+    optional double double_val = 3;
+    optional int32 char_val = 4; //NO CHAR TYPE SUPPORTED IN .PROTO, SO USING INT INSTEAD
+    optional bool bool_val = 5;
+}
+
+message Logvalue {
+    optional string tag = 1;
+    optional Logvalueunion value = 2;
+}
+
+message Log {
+    optional string level = 1; // To specify whether it's in game, player, etc
+    optional string level_id = 2; // Id of player, room, etc
+    optional string member = 3; // Indicate which member, such as player's "xp"
+    optional Logvalue old_value = 4;
+    optional Logvalue new_value = 5;
+}
+
+message Logs {
+    optional int32 logs_len = 1;
+    repeated Log logs = 2;
+}
+
