@@ -77,7 +77,8 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
             // redraws the info box
             box(info->w, 0, 0);
-            window_print(ctx, info);
+	    print_homescreen(info, banner);
+	    //window_print(ctx, info);
             wrefresh(info->w);
         }
 
@@ -109,7 +110,8 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
 	curr_page = ui_ctx->curr_page;
         // This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM) {
-            window_print(ctx, info);
+	  //window_print(ctx, info);
+	    print_homescreen(info, banner);
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
         } else if (curr_page == MAP_WIN_NUM) {
             wresize(info->w, 0, 0);
