@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar 
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
+CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
 RM = rm -f
 LIB = libobj.a
 LDLIBS = -lyaml
@@ -16,9 +16,6 @@ all: $(LIB)
 SRCS = src/obj.c src/parser.c src/stack.c
 OBJS = $(SRCS:.c=.o)
 
-$(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
-
 -include $(SRCS:.c=.d)
 
 $(LIB): $(OBJS)
@@ -29,9 +26,6 @@ $(LIB): $(OBJS)
 
 EXAMPLE_BINS = examples/obj examples/parse
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
-
-$(EXAMPLE_SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(EXAMPLE_SRCS:.c=.d)
 
