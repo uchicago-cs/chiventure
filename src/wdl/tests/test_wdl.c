@@ -8,11 +8,11 @@
  */
 Test(wdl, load_wdl)
 {
-  game_t *game = load_wdl();
+    game_t *game = load_wdl();
 
-  char *start_desc = game->start_desc;
-  cr_assert_str_eq(start_desc, "This is the intro", "Intro was not loaded corr\
-ectly");
+    char *start_desc = game->start_desc;
+    cr_assert_str_eq(start_desc, "This is the intro", "Intro was not loaded corr\
+                                  ectly");
 }
 
 /*
