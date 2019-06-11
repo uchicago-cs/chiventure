@@ -39,7 +39,7 @@ OBJS = $(SRCS:.c=.o)
 
 -include $(SRCS:.c=.d)
 
-$(BIN): $(OBJS) $(LIBS)
+$(BIN): $(LIBS) $(OBJS)
 	$(CC) $^ -o$@ $(LDLIBS)
 
 clean:
