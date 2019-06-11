@@ -39,11 +39,12 @@ game_t *load_wdl()
 	    return game;
         }
     }
-    else if (rooms = FAILURE) {
+    else if (rooms == FAILURE) {
         fprintf(stderr, "failed to add rooms to game\n");
 	return NULL;
     }
     else {
 	fprintf(stderr, "failed to add connections to game\n");
 	return NULL;
+    }
 }
