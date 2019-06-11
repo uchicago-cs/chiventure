@@ -27,8 +27,8 @@
  *   their respective rooms
  *
  * returns:
- * - 0 for successful parse
- * - 1 for unsuccessful parse
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
  */
 int load_items(obj_t *doc, game_t *g );
 
@@ -40,8 +40,8 @@ int load_items(obj_t *doc, game_t *g );
  * - i: an item pointer
  *
  * returns;
- * - 0 for successful parse
- * - 1 for unsuccessful parse
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
  */
 int load_actions(obj_t *doc, item_t *i);
 
