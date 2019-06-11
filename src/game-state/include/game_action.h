@@ -100,16 +100,6 @@ int delete_action_condition_llist(action_condition_list_t *conditions);
 game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
 				       attribute_value_t new_value);
 
-/* check_condition() checks if the actual attribute of an item is equal
- * to the desired attribute
- * Parameters:
- *  a pointer to the item to check
- *  the desired attribute
- * Returns:
- *  true if desired attribute matches the actual, false if not
- */
-bool check_condition(game_action_condition_t *condition);
-
 
 /* all_conditions_met() checks if all of the conditions of an action are met
  * Parameters:
