@@ -1,7 +1,7 @@
-CC = gcc
+C = gcc
 AR = ar
 RM = rm -f 
-CFLAGS = -fPIC -g -I./include -I../common/include -I../game-state/include -I../game-state/src -I../action_management/include/
+CFLAGS = -fPIC -g -I./include -I../common/include -I../game-state/include -I../game-state/src -I../action_management/include/ -I../ui/include -I../cli/include
 LDFLAGES = -shared
 PROTOLIBS = -lprotobuf-c
 
