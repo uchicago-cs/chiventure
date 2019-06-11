@@ -109,8 +109,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         action_type_t *action = find_action(tokens[0], table);
         char *str;
         do_item_action(action, curr_item, &str);
-        printf("%s", str);
-        return "The object is found\n";
+        return str;
     }
     return "The object could not be found\n";
 }
@@ -135,9 +134,8 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 
             char *str;
             do_path_action(ctx, action, curr_path, &str);
-            printf("%s", str);
 
-            return "Direction available!\n";
+            return str;
         }
     }
     return "You cannot go in this direction\n";
@@ -171,8 +169,8 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 
     char *str;
     do_item_item_action(action, item1, item2, &str);
-    printf("%s", str);
-    return "is an action!";
+    
+    return str;
 }
 
 
