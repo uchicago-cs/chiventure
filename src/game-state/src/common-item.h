@@ -56,5 +56,6 @@ int delete_all_attributes(attribute_hash_t *attributes);
  Returns:
     FAILURE for failure, SUCCESS for success
 */
-int game_action_init(game_action_t *new_action, char *act_name, char* success_str, char* fail_str);
+int game_action_init(game_action_t *new_action, char *act_name, 
+		     char* success_str, char* fail_str);
 #endif
