@@ -130,13 +130,7 @@ Please see this document for all possible actions and descriptions: https://gith
 
     - action: "PUSH"
 
-      text_fail: "You cannot push the lever. You can only pull it."
-
     - action: "PULL"
-
-      text_success: "Congrats! You can now access the underground tunnel. Go find it!"
-
-      text_fail: "You cannot pull the lever. The star must be red in order to pull the lever."
 
 - id: "wand"
 
@@ -149,12 +143,6 @@ Please see this document for all possible actions and descriptions: https://gith
   actions:
   
     - action: "TAKE"
-       
-      text_success: "Congrats! You got the wand and can perform a spell!"
-
-      text_fail: "You cannot take the wand until the top hat is on your head"
 
     - action: "CONSUME"
-
-      text_fail: "You cannot consume the wand. Please try to hold it."
 ```
