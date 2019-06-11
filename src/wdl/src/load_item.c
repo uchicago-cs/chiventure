@@ -13,10 +13,10 @@
  *  - a pointer to an game_action struct
  *  - NULL if an error occurs
  */
-action_type_t *get_game_action(char *action, list_action_type_t *valid) 
+action_type_t *get_game_action(char *action, list_action_type_t *valid)
 {
     list_action_type_t *curr = valid;
-    
+
     // finding matching action_type_t
     while (curr != NULL) {
         if (strcmp(curr->act->c_name, action) == 0) {
@@ -40,7 +40,7 @@ int load_actions(obj_t *doc, item_t *i)
 
     attr_list_t *curr = action_ls;
     // setting action attributes; might need to change this in the future
-    
+
     action_type_t *temp;
     list_action_type_t *val_actions = get_supported_actions();
 

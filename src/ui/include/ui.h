@@ -3,9 +3,16 @@
 
 #include "ctx.h"
 
-/*
- * Starts the ui. No inputs or return values
+
+/* start_ui
+ * Starts the ui and runs the game loop.
+ *
+ * Parameters:
+ *    - ctx : chiventure context struct
+ *    - banner : chiventure banner to be shown in the home screen
+ *
+ * No value is returned
  */
-void start_ui(chiventure_ctx_t *ctx);
+void start_ui(chiventure_ctx_t *ctx, const char *banner);
 
 #endif

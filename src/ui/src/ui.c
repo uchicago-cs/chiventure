@@ -19,15 +19,13 @@
 #define MAP_WIN_NUM 2
 #define INV_WIN_NUM 3
 
-void start_ui(chiventure_ctx_t *ctx)
+void start_ui(chiventure_ctx_t *ctx, const char *banner)
 {
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
 
     ui_ctx_t *ui_ctx = ctx->ui_ctx;
     int ch;
-
-
 
     // starts curses mode
     initscr();
@@ -37,20 +35,19 @@ void start_ui(chiventure_ctx_t *ctx)
     int width = COLS;
     int height = LINES /2;
 
-
-
     map_t *map = ui_ctx->map;
     // Initializes the CLI window
     window_t *cli = ui_ctx->cli_win;
     window_t *info = ui_ctx->displayed_win;
 
+    // prints home screen
+    print_homescreen(info, banner);
+    wrefresh(info->w);
 
     // prints the score and number of moves in the info window
-    window_print(ctx, info);
     window_print(ctx, cli);
 
     // refreshes both windows to show the above changes
-    wrefresh(info->w);
     wrefresh(cli->w);
 
     // sample game loop. uses ctrl+D key to exit
@@ -71,11 +68,12 @@ void start_ui(chiventure_ctx_t *ctx)
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
             // redraws the info box
             box(info->w, 0, 0);
+            window_print(ctx, info);
+            wrefresh(info->w);
         }
+
         wresize(cli->w, height, width);
         mvwin(cli->w, !(ui_ctx->cli_top) * height, 0);
-
-
 
         // detects ALt+key commands
         if (ch == 27) {
@@ -96,10 +94,8 @@ void start_ui(chiventure_ctx_t *ctx)
             }
         }
         else if (isalnum(ch)) {
-            echo();
             ungetch(ch);
             window_print(ctx,  cli);
-            noecho();
         }
 
         // This conditional refreshes the non-CLI window
@@ -115,16 +111,12 @@ void start_ui(chiventure_ctx_t *ctx)
                                    height + cli_top * height);
                 map_center_on(map, 0, 0, 0);
             }
-
         }
+
+        // Refreshes the displayed windows
         wrefresh(info->w);
-
-        // Refreshes the CLI window
         wrefresh(cli->w);
-
     }
-
-
 
     // End curses mode
     endwin();
