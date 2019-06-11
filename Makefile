@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include -I./src/game-state/include -I./src/ui/include -I./src/cli/include -I./src/action_management/include
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include -I./src/game-state/include -I./src/ui/include -I./src/cli/include -I./src/action_management/include -I./src/wdl/include -I./src/libobj/include/
 RM = rm -f
 LDLIBS = -lyaml -lncursesw -lreadline
 BIN = chiventure

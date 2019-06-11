@@ -3,7 +3,7 @@
 #include "game.h"
 #include "ui_ctx.h"
 #include "cmd.h"
-
+#include "load_wdl.h"
 
 /* See ctx.h */
 chiventure_ctx_t* chiventure_ctx_new()
@@ -30,9 +30,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx)
 {
     assert(ctx != NULL);
 
-    char *desc = "Welcome to Chiventure";
-
-    game_t *game = game_new(desc);
+    game_t *game = load_wdl("wdl/examples/sample_yaml/simplied_wdl.yaml");
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
 
     lookup_t **table = lookup_t_new();

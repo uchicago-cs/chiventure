@@ -5,6 +5,7 @@
 #include "load_room.h"
 #include "load_game.h"
 #include "wdl_common.h"
+#include "parser.h"
 
 //file path that specifies which yaml file to use
 #define PATH_TO_YAML "../examples/sample_yaml/simplified_wdl.yaml"

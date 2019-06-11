@@ -2,9 +2,11 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../game-state/include/ -I../ui/include/ -I../cli/include/ -I../action_management/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../game-state/include/ -I../ui/include/ -I../cli/include/ -I../action_management/include/ -I../libobj/include/ -I../wdl/include/
 RM = rm -f
 LIB = common.a
+LDFLAGS = -L../libobj
+LDLIBS = ../libobj/libobj.a -lyaml
 
 .PHONY: all clean
 

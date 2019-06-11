@@ -157,6 +157,11 @@ bool room_type_check(obj_t *obj)
     // verify each attribute
     bool connections_ver = connection_type_check(obj);
 
+    if (id_ver == false)
+    {
+        fprintf(stderr, "id verification failed\n");
+    }
+
     return (id_ver && short_ver && long_ver && connections_ver);
 }
 
