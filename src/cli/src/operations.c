@@ -27,15 +27,16 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  if(tokens[1] == NULL){
-    return "Invalid Input, Save failed\n";
-  }
-  if (validate_filename(tokens[1]) == true){
-    int sv = save(ctx->game, tokens[1]);
-    return "Game Saved\n";
-  }
-  else
-    return "Improper filename, Save failed\n";
+    if (tokens[1] == NULL) {
+    	return "Invalid Input, Save failed\n";
+    }
+    if (validate_filename(tokens[1]) == true) {
+        int sv = save(ctx->game, tokens[1]);
+        return "Game Saved\n";
+    }
+    else {
+        return "Improper filename, Save failed\n";
+    }
 }
 
 char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
