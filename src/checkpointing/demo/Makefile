@@ -1,7 +1,7 @@
 # Makefile based on template at https://gist.github.com/xuhdev/1873316
 
 CC = gcc
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include -I../../game-state/include -I../../game-state/src -I../../action_management/include/
+CFLAGS = -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include -I../../game-state/include -I../../game-state/src -I../../action_management/include/ -I../../ui/include/ -I../../cli/include/
 RM = rm -f
 BIN = demo-checkpointing
 LDLIBS = -lprotobuf-c
