@@ -97,21 +97,24 @@ lookup_t **lookup_t_new()
 }
 
  /* See cmd.h */
-int lookup_t_init(lookup_t **t)
-{
-    assert(t != NULL);
-    add_entry("QUIT", quit_operation, t);
-    add_entry("HELP", help_operation, t);
-    //add_entry("HIST", hist_operation, t);
-    add_entry("LOOK",look_operation, t);
-    add_entry("INV", inventory_operation, t);
-    add_entry("SAVE", save_operation, t);
-    add_entry("MAP", map_operation, t);
-    add_entry("SWITCH", switch_operation, t);
-    add_action_entries(t);
+ int lookup_t_init(lookup_t **t)
+ {
+     assert(t != NULL);
 
-    return SUCCESS;
-}
+     add_entry("QUIT", quit_operation, t);
+     add_entry("HELP", help_operation, t);
+     //add_entry("HIST", hist_operation, t);
+     add_entry("LOOK",look_operation, t);
+     add_entry("INV", inventory_operation, t);
+     add_entry("SAVE", save_operation, t);
+     add_entry("LOAD", load_operation, t);
+     add_entry("MAP", map_operation, t);
+     add_entry("SWITCH", switch_operation, t);
+     add_action_entries(t);
+
+     return SUCCESS;
+ }
+
 
  /* See cmd.h */
 int lookup_t_free(lookup_t **t) 
