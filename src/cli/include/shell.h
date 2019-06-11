@@ -1,6 +1,8 @@
 #ifndef _CLI_INCLUDE_SHELL_H
 #define _CLI_INCLUDE_SHELL_H
 
+#include "ctx.h"
+
 /*
  * The shell module contains system internal functions
  *
@@ -20,7 +22,7 @@
  * Returns:
  *  - nothing
  */
-void help_text();
+void help_text(chiventure_ctx_t *ctx);
 
 
 /*
@@ -33,7 +35,7 @@ void help_text();
  * Returns:
  *  - nothing
  */
-void greet();
+void greet(chiventure_ctx_t *ctx);
 
 
 /*
@@ -45,7 +47,7 @@ void greet();
  * Returns:
  *  - none
  */
-void print_history();
+void print_history(chiventure_ctx_t *ctx);
 
 
 /*

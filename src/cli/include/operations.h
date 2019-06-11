@@ -1,9 +1,7 @@
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
-#include "cmd.h"
-#include "game.h"
-#include "path.h"
-#include "actionmanagement.h"
+
+#include "ctx.h"
 
 /*
  * We list all demanded operations over here.
@@ -30,14 +28,13 @@
  *
  * Input:
  *  - tokens: parsed input string
- *  - game struct, unused
- *  - pointer to table, unused
+ *  - pointer to a chiventure context struct, unused
  *
  * Returns:
  *  - Some system message
  *
  */
-char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /* Generate a list of supported operations,
@@ -45,13 +42,12 @@ char *quit_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  *
  *  Parameters:
  *  - tokens: parsed input string
- *  - pointer to game to be altered, unused
- *  - pointer to table, unused
- * 
+ *  - pointer to a chiventure context struct, unused
+ *
  * Returns:
  * - Said list of supported operations as a string
  */
-char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /*
@@ -60,13 +56,12 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  *
  * Parameters:
  *  - tokens: parsed input string
- *  - pointer to game to be altered, unused
- *  - pointer to table, unused
- * 
+ *  - pointer to a chiventure context struct, unused
+ *
  * Returns:
  * - Said list of previous actions as a string
  */
-char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /*
@@ -75,13 +70,12 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  *
  * Paramters:
  * - tokens: parsed input string
- * - pointer to game to be saved,
- * - pointer to table, unused
+ * - pointer to a chiventure context struct
  *
  * Returns:
  * - A success or error message
  */
-char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /*
  * Loads the current state of a game from a .dat file
@@ -96,6 +90,35 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **tab
  * - A success or error message
  */
 char *load_operation(char *tokens[TOKEN_LIST_SIZE], game_t* game, lookup_t **table);
+/*
+ * Checks that a specified filetype is a .dat file
+ *
+ * Parameters:
+ * - A string of the filename
+ *
+ *
+ * Returns:
+ * - true if proper filename, false if not
+ */
+bool validate_filename(char *filename);
+
+/*
+ * If the input action is valid (checks by calling validate_action), go through
+ * the hashtable again to find the corresponding operation and creates a cmd struct
+ *
+ * Input:
+ *  - ts: parsed command line input (an array of tokens)
+ *  - table: hashtable that stores all supported actions
+ *
+ * Returns:
+ *  - A cmd struct that contains the given tokens and a pointer to an operation
+ *    function (function selected based on the first token)
+ *
+ *    If the action is invalid, assigns the cmd pointer
+ *    to action_error_operation
+ */
+cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
+
 
 /*
  * Returns a description of either a specefied item, or the room
@@ -103,81 +126,97 @@ char *load_operation(char *tokens[TOKEN_LIST_SIZE], game_t* game, lookup_t **tab
  *
  * Parameters:
  *  - tokens: parsed input string
- *  - pointer to game to be altered, unused
- *  - pointer to table, unused
- * 
+ *  - pointer to a chiventure context struct
+ *
  * Returns:
  * - Said description as a string
  */
-char *look_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /*Returns a description of the player inventory contents
  *
  * Parameters:
  *  - tokens: parsed input string
- *  - pointer to game to be altered, unused
- *  - pointer to table, unused
- * 
+ *  - pointer to a chiventure context struct
+ *
  * Returns:
  * - Said description as a string
  */
-char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /* Error Operations that returns an error message as string
  *
  * Parameters:
  *  - tokens: parsed input string
- *  - pointer to game to be altered, unused
- *  - pointer to table, unused
- * 
+ *  - pointer to a chiventure context struct, unused
+ *
  * Returns:
  * - Said error message as a string
  */
-char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], game_t *game, lookup_t **table);
+char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /* Validates an item is in a room, passes an action struct on to
  * action management's function that handles ACTION ITEM
  *
  * Parameters:
- * - tokens: parsed input string (validified)
- *  - pointer to game
- *  - pointer to table
- * 
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ *
  * Returns:
- * - Said list of supported operations as a string
+ *  - Said list of supported operations as a string
  */
-char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /* Validates a path is available in a room, passes an action struct on to
  * action management's function that handles ACTION PATH
  *
  * Parameters:
- * - tokens: parsed input string (validified)
- *  - pointer to game
- *  - pointer to table
- * 
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ *
  * Returns:
- * - Said list of supported operations as a string
+ *  - Said list of supported operations as a string
  */
-char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
 /* Validates both items are in a room, passes an action struct on to
  * action management's function that handles ACTION ITEM ITEM
  *
  * Parameters:
- * - tokens: parsed input string (validified)
- *  - pointer to game
- *  - pointer to table
- * 
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ *
  * Returns:
- * - Said list of supported operations as a string
+ *  - Said list of supported operations as a string
  */
-char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game, lookup_t **table);
+char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+
+/* Toggles the map by calling the toggle_map function in ui_ctx.c. Essentially a
+ * wrapper, passing on the context struct only.
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ * Returns:
+ * The text saying the map has been toggled.
+ */
+char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Switches the layout by calling the layout_switch function in ui_ctx.c. Essentially a
+ * wrapper, passing on the context struct only.
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ * Returns:
+ * The text saying the layout has been switched.
+ */
+char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
 
 
 //char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);

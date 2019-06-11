@@ -5,12 +5,13 @@ AR = ar
 CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../cli/include/ -I../action_management/include/
 RM = rm -f
 LIB = ui.a
-LDLIBS = -lncurses -lreadline
+LDLIBS = -lncursesw -lreadline
 
 COMMON = -L../common/ -Wl,-rpath,../common/ -l:common.a
 CLI = -L../cli/ -Wl,-rpath,../cli/ -l:cli.a
 GAME_STATE = -L../game-state/ -Wl,-rpath,../game-state/ -l:game-state.a
-STLIBS = $(COMMON) $(CLI) $(GAME_STATE)
+AM = -L../action_management/ -Wl,-rpath,../action_management/ -l:action_management.a
+STLIBS = $(COMMON) $(CLI) $(GAME_STATE) $(AM)
 
 .PHONY: all clean examples
 
@@ -35,8 +36,9 @@ $(LIB): $(OBJS)
 
 # Examples
 
+#LIB2 =  ../common/common.a ui.a ../game-state/game-state.a
 
-EXAMPLE_BINS = examples/test_ui examples/map_example examples/coord_example
+EXAMPLE_BINS = examples/map_example examples/coord_example examples/test_ui
 
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
 

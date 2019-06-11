@@ -3,8 +3,22 @@
 
 #include "ctx.h"
 
+
+typedef struct window window_t;
+
+/* print_homescreen
+ * Prints the home screen
+ *
+ * Parameters:
+ *   - win : window where the home screen should be printed
+ *   - banner : chiventure banner to display
+ * No value is returned
+ */
+void print_homescreen(window_t *win, const char *banner);
+
+
 /* print_info
- * Prints score and number of moves
+ * Prints "Main Window"
  *
  * Parameters:
  *   - ctx : chiventure context struct

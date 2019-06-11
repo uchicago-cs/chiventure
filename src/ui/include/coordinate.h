@@ -1,3 +1,4 @@
+
 /*
 * A two-dimensional coordinate data structure
 * and corresponding hashmap
@@ -79,9 +80,8 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r);
 
 /* create_valid_map():
  *
- * Parameters: TO-DO
- * - Will Pass in info from WDL/gamestate. Likely will take in
- *   a game state context struct. (Sprint 3)
+ * Parameters:
+ * - game: takes in a game from game-state
  *
  * Return values:
  * - Returns pointer to hashmap of coordinates upon SUCCESS
@@ -90,5 +90,13 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r);
  */
 coord_record_t *create_valid_map(game_t *game);
 
+/* get_test_coord_hash():
+ *
+ * Parameters: N/A
+ *
+ * Returns:
+ * - A pointer to a hashmap of rooms for testing the map functions
+ */
+coord_record_t *get_test_coord_hash();
 
 #endif /* INCLUDE_COORDINATE_H_ */

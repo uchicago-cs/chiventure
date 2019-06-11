@@ -9,6 +9,7 @@
 //#include <readline/history.h>
 #include "../include/cmd.h"
 #include "../include/shell.h"
+#include "ctx.h"
 
 
 #define BUFFER_SIZE 256
@@ -31,17 +32,17 @@ char *trim_newline(char *s)
 
 int main()
 {
-    lookup_t **table = initialize_lookup();
+    chiventure_ctx_t *ctx = chiventure_ctx_new();
     int quit = 1;
     char *cmd_string;
-    greet();
+    greet(ctx);
     //rl_bind_key('\t', rl_complete); // Configure readline to auto-complete paths when the tab key is hit.
     //using_history();
 
     while (quit)
     {
         // Display prompt and read input
-        char* input = readline("chiventure (enter HELP for help)> ");
+        char *input = readline("chiventure (enter HELP for help)> ");
 
         cmd_string = trim_newline(input);
         putchar('\n');
@@ -49,7 +50,7 @@ int main()
         if (!strcmp(cmd_string,""))
             continue;
 
-        cmd *c = cmd_from_string(cmd_string, table);
+        cmd *c = cmd_from_string(cmd_string, ctx);
         if (c == NULL)
         {
             shell_error_arg("unrecognized or malformed command: \"%s\"", input);
@@ -57,7 +58,7 @@ int main()
         }
         else
         {
-            do_cmd(c,&quit, NULL, table);
+            do_cmd(c,&quit, ctx);
             // Add valid input to readline history.
             // add_history(input);
         }
@@ -67,7 +68,8 @@ int main()
         //cmd_free(c);
         free(input);
     }
-    delete_entries(table);
+
+    lookup_t_free(ctx->table);
 
     return 0;
 }

@@ -3,7 +3,7 @@
 
 #include "action_structs.h"
 #include "item.h"
-#include "path.h"
+#include "room.h"
 #include "game.h"
 
 /* File consisting of all functions created by action management
@@ -36,7 +36,6 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind);
  */
 int action_type_init(action_type_t *a, char *c_name, enum action_kind kind);
 
-
 /*
  * A function that frees the resources associated with an action type struct
  *
@@ -44,15 +43,17 @@ int action_type_init(action_type_t *a, char *c_name, enum action_kind kind);
  * - a: An action type struct. Must point to action type struct allocated by action_type_new
  *
  * Returns:
- * - Returns void.
+ * - 0 if success, 1 if an error occurs
  */
-void action_type_free(action_type_t *a);
+int action_type_free(action_type_t *a);
 
 
 // =============================================================================
 
 /*
- * A function that returns all supported actions
+ * Note: this function is in the src file get_actions.c, a separate module
+ * from the rest of the functions, which are in actionmanagement.c.
+ * A function that returns all supported actions.
  *
  * Parameters:
  * - none
@@ -70,12 +71,15 @@ list_action_type_t *get_supported_actions();
  * - g: A game struct consisting of the game state
  * - a: An action type struct
  * - i: An item struct
+ * - ret_string : A pointer to a string describing the result of the function
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
- * Returns
- * - 0 on success
- * - 1 on failure
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - 1 if the action type has the wrong kind, failure string as an out parameter
+ * - 2 if the action can't be used on the item, failure string as an out parameter
  */
-int do_item_action(game_t *g, action_type_t *a, item_t *i);
+int do_item_action(game_t *g, action_type_t *a, item_t *i, char **ret_string);
 
 
 /* A function that executes KIND 2 actions (ACTION <path>)
@@ -84,27 +88,33 @@ int do_item_action(game_t *g, action_type_t *a, item_t *i);
  * - g: A game struct consisting of the game state
  * - a: An action type struct
  * - p: A path struct
+ * - ret_string : A pointer to a string describing the result of the function
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
- * Returns
- * - 0 on success
- * - 1 on failure
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - 1 if the action type has the wrong kind, failure string as an out parameter
  */
-int do_path_action(game_t *g, action_type_t *a, path_t *p);
+int do_path_action(game_t *g, action_type_t *a, path_t *p, char **ret_string);
 
 
-/* A function that executes KIND 5 actions (ACTION <item> <item>)
+/* A function that executes KIND 3 actions (ACTION <item> <item>)
  *
  * Parameters:
  * - g: A game struct containing a field for the current player
  * - a: An action type struct
  * - direct: An item struct containing the direct object (the "actor")
  * - indirect: An item struct containing the indirect object (the "actee")
+ * - ret_string : A pointer to a string describing the result of the function
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
- * Returns
- * - 0 on success
- * - 1 on failure
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - 1 if the action type has the wrong kind, failure string as an out parameter
+ * - 2 if the action can't be used on the item, failure string as an out parameter
  */
-int do_item_item_action(game_t *g, action_type_t *a, item_t *direct, item_t *indirect);
+int do_item_item_action(game_t *g, action_type_t *a, item_t *direct,
+                        item_t *indirect, char **ret_string);
 
 
 #endif

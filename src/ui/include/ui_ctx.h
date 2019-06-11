@@ -1,24 +1,27 @@
 #ifndef UI_CTX_H
 #define UI_CTX_H
 
+#include "map.h"
 #include "game.h"
+#include "room.h"
 #include "window.h"
 #include "coordinate.h"
-#include "map.h"
 
+//Forward Declaration
+typedef struct map map_t;
 
 /*
  * UI context struct.  Contains the following fields:
- *  - map : contains the map of the game
- *  - player_loc : current player location
- *  - map_win : contains the map
- *  - main_win : main window. May contain images or other info about the game
- *  - cli_win : window that contains the CLI. It's always displayed
- *  - displayed_win : window that is diplayed along with the CLI.
+ *  - map: instance of the map struct that contains map information
+ *  - player_loc: current player location
  *  - coord_hash: a pointer to the head of a hash map that matches
  *                coordinate keys to room pointers
- *  - curr_page : indicates what page to be displayed
- *  - cli_top : indicates if the CLI will be on top
+ *  - map_win: contains the map
+ *  - main_win: main window. May contain images or other info about the game
+ *  - cli_win: window that contains the CLI. It's always displayed
+ *  - displayed_win: window that is diplayed along with the CLI.
+ *  - curr_page: indicates what page to be displayed
+ *  - cli_top: indicates if the CLI will be on top
  */
 typedef struct ui_ctx {
     map_t *map;
@@ -30,7 +33,6 @@ typedef struct ui_ctx {
     window_t *cli_win;
     int curr_page;
     int cli_top;
-
 } ui_ctx_t;
 
 
@@ -42,8 +44,7 @@ typedef struct ui_ctx {
  *
  * Returns:
  * - The created UI context struct upon SUCCESS
- * - NULL upon FAILURE (cannot be allocated or
- *   cannot assign logical  coordinates)
+ * - NULL upon FAILURE
  */
 ui_ctx_t *ui_ctx_new(game_t *game);
 
@@ -60,14 +61,17 @@ ui_ctx_t *ui_ctx_new(game_t *game);
  * - ui_ctx : ui context struct to be initialized
  * - game : a pointer to the game_t struct
  * Returns:
- * - SUCCESS if every field can be initialized and a logical
- *   coordinate system can be assigned to each room
- * - FAILURE if a logical coordinate system cannot be assigned
+ * - SUCCESS if every field can be initialized
+ * - FAILURE if there is a problem
+ *
+ * Note:
+ * - If a logical coordmap cannot be created, ui_ctx_init will
+ *   still fill in ui_ctx, but the coord_hash field will be NULL
  */
 int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game);
 
 /*
- * frees the given ui_ctx struct and associated resources
+ * Frees the given ui_ctx struct and associated resources
  *
  * Parameters:
  *   - ui_ctx: ui context struct to be freed
