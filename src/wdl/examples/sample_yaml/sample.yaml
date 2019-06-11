@@ -58,6 +58,9 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
+   text_success: ""
+   text_fail: ""
+
 
  - id: "table"
    short_desc: "This is a table"
@@ -78,6 +81,8 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
+      text_success: "Congrats! You can now access room B."
+      text_fail: "You cannot push the table. You can only pull it."
     - action: "PULL"
       conditions:
       - id: "star"
@@ -87,13 +92,23 @@ ITEMS:
       - id: "lever"
         attribute: "pulled"
         value: "no"
+      text_success: "Congrats! You can now access room C."
+      text_fail: "You cannot pull the table if the star is not green."
         
  - id: "star"
    short_desc: "This is a star"
    long_desc: "This is a star long"
    in: "room B"
-
+   attributes:
+   actions:
+   text_success: ""
+   text_fail: ""
+   
  - id: "lever"
    short_desc: "This is a table"
    long_desc: "This is a table long"
    in: "room B"
+   attributes:
+   actions:
+   text_success: ""
+   text_fail: ""
