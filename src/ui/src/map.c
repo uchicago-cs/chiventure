@@ -173,7 +173,39 @@ void draw_info(chiventure_ctx_t *ctx){
   int info_y = map->uly + 1;
 
   mvwprintw(map->pad, info_y, info_x, "(%i, %i, %i)", curr_pos->x, curr_pos->y, curr_pos->z);
+  return;
+}
+
+/* Draws the border on the map view
+ * 
+ * Inputs:
+ * - The chiventure context struct
+ *
+ * Outputs: N/A
+ */
+void draw_border(chiventure_ctx_t *ctx){
+  ui_ctx_t *ui_ctx = ctx->ui_ctx;
+  map_t *map = ui_ctx->map;
+  WINDOW *win = map->pad;
   
+  int ulx = map->ulx; // Upper left x
+  int uly = map->uly; // Upper left y
+  int lrx = map->lrx - 1; // Lower Right x
+  int lry = map->lry; // Lower Right y
+
+  // Draw the sides
+  mvwhline(win, uly, ulx, ACS_HLINE, lrx-ulx);
+  mvwhline(win, lry, ulx, ACS_HLINE, lrx-ulx);
+  mvwvline(win, uly, ulx, ACS_VLINE, lry-uly);
+  mvwvline(win, uly, lrx, ACS_VLINE, lry-uly);
+
+  // Draw the corners
+  mvwaddch(win, uly, ulx, ACS_ULCORNER);
+  mvwaddch(win, uly, lrx, ACS_URCORNER);
+  mvwaddch(win, lry, ulx, ACS_LLCORNER);
+  mvwaddch(win, lry, lrx, ACS_LRCORNER);  
+  
+  return;
 }
 
 
@@ -205,6 +237,7 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
     mvwaddch(map->pad, centy-1, centx, 'o' | A_UNDERLINE);
     mvwaddch(map->pad, centy, centx, '^');
 
+    draw_border(ctx);
     draw_info(ctx);
     
     prefresh(map->pad, 0, 0, map->uly, map->ulx, map->lry, map->lrx);
