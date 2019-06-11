@@ -246,10 +246,12 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     capitalize(tokens[1]);
     capitalize(tokens[2]);
-    if(find_entry(tokens[1], (ctx->table)) == NULL){
+    if(find_entry(tokens[1], (ctx->table)) == NULL)
+    {
       return "New words must be defined using only words that are already defined!";
     }
-    if(find_entry(tokens[2],(ctx->table)) != NULL){
+    if(find_entry(tokens[2],(ctx->table)) != NULL)
+    {
       return "You can't change the meaning of a word that's already defined!";
     }
     add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (ctx->table));
@@ -259,6 +261,10 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     int n = 0;
+    if (tokens[1] == NULL)
+    {
+        return "Please input a theme";
+    }
     capitalize(tokens[1]);
     if(strcmp(tokens[1], "DEFAULT") == 0)
     {
