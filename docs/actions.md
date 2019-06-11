@@ -159,19 +159,6 @@ K1 - Pull `<ITEM>`
 ### Default:
 "I pull the `<ITEM>` to no effect"
 
-K1 - Look at `<ITEM>`
-------
-### Conditions:
-- No additional Conditions
-
-
-### Effects:
-- Long description of item will be printed
-
-### WDL:
-```
-        - examine:
-```
 
 ### Default:
 "I examine the `<ITEM>` but find nothing of interest"
