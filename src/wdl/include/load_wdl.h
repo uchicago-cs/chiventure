@@ -7,7 +7,7 @@
 #include "wdl_common.h"
 
 //file path that specifies which yaml file to use
-#define PATH_TO_YAML "../examples/sample_yaml/no_conditions.yaml"
+#define PATH_TO_YAML "../examples/sample_yaml/simplified_wdl.yaml"
 
 /*
  * load_wdl, loads a wdl specified internally into all game-state structs

@@ -19,31 +19,19 @@ game_t *load_wdl()
     obj_t *game_document = obj_get_attr(big_document, "GAME.0", false);
     char *start_room = obj_get_str(game_document, "start");
     game_set_start(start_room, game);
-    char *end_room = obj_get_str(game_document, "end");
+    obj_t *end = obj_get_attr(game_document, "end.0", false);
+    char *end_room = obj_get_str(end, "in_room");
     room_t *final_room = find_room_from_game(game, end_room);
-    int final = add_final_room_to_game(game, final_room);
+    game->final_room = final_room;
     int items = load_items(big_document, game);
-    if (final == FAILURE) {
-        fprintf(stderr, "failed to add final room to game\n");
-	return NULL;
+
+    if(rooms+connections == 0){
+      if(items != -1){
+	return game;
+      }
     }
-    if((rooms + connections) == 0) {
-        if(items == FAILURE) {
-	    //load_items is the only one that returns -1 on failure
-            fprintf(stderr, "failed to add items to game\n");
-	    return NULL;
-        }
-        else {
-            printf("game has successfully been loaded\n");
-	    return game;
-        }
-    }
-    else if (rooms == FAILURE) {
-        fprintf(stderr, "failed to add rooms to game\n");
-	return NULL;
-    }
-    else {
-	fprintf(stderr, "failed to add connections to game\n");
-	return NULL;
-    }
+    return NULL;
 }
+
+
+

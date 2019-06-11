@@ -5,6 +5,8 @@
 GAME:
  - start: "room A"
    intro: "This is the intro"
+   end:
+    - in_room: "room B"
 
 ROOMS:
  - id: "room A"
