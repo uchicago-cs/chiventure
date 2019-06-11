@@ -11,16 +11,16 @@ static action_type_t valid_actions[] = {
     {"CLOSE", ITEM},
     {"PUSH", ITEM},
     {"PULL", ITEM},
-    {"TURN_ON", ITEM},
-    {"TURN_OFF", ITEM},
+    {"TURNON", ITEM},
+    {"TURNOFF", ITEM},
     {"TAKE", ITEM},
     {"DROP", ITEM},
     {"CONSUME", ITEM},
     // KIND 2
     {"GO", PATH},
     // KIND 3
-    {"USE_ON", ITEM_ITEM},
-    {"PUT_ON", ITEM_ITEM}
+    {"USE", ITEM_ITEM},
+    {"PUT", ITEM_ITEM}
 };
 
 

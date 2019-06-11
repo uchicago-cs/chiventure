@@ -156,38 +156,22 @@ int do_item_item_action(action_type_t *a, item_t *direct,
         return WRONG_KIND;
     }
 
-    // isolate the direct action (i.e. put, use)
-    char *temp = strdup(a->c_name);
-    char *direct_action = strtok(a->c_name, "_");
-
-    // checks if the direct action is possible with the direct item
-    int possible = possible_action(direct, direct_action);
+    // checks if the action is possible with the direct item
+    int possible = possible_action(direct, a);
     if (possible == FAILURE) {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, direct->item_id);
-        free(temp);
         *ret_string = string;
         return NOT_ALLOWED_DIRECT;
     }
 
-    // checks if the action is possible with the indirect item
-    possible = possible_action(indirect, a->c_name);
-    if (possible == FAILURE) {
-        sprintf(string, "Action %s can't be requested on item %s",
-                a->c_name, indirect->item_id);
-        free(temp);
-        *ret_string = string;
-        return NOT_ALLOWED_INDIRECT;
-    }
+    // get the game action struct
+    game_action_t *dir_game_act = get_action(direct, a);
 
-    // get the direct action struct
-    game_action_t *dir_game_act = get_action(direct, direct_action);
-
-    // check if all conditions of the direct action are met
-    int all_clear = all_conditions_met(direct, direct_action);
+    // check if all conditions of the action are met
+    int all_clear = all_conditions_met(direct, a);
     if (all_clear == FAILURE) {
         sprintf(string, "%s", dir_game_act->fail_str);
-        free(temp);
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
@@ -203,8 +187,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
                 if (applied_effect == FAILURE) {
                     sprintf(string, "Effect of Action %s could not be applied to Item %s",
                             a->c_name, indirect->item_id);
-                    free(temp);
-                    *ret_string = string;
+                     *ret_string = string;
                     return EFFECT_NOT_APPLIED;
                 }
             }
@@ -213,14 +196,12 @@ int do_item_item_action(action_type_t *a, item_t *direct,
         if (applied_effect == 40) {
             sprintf(string, "Action %s can't be requested on item %s",
                     a->c_name, indirect->item_id);
-            free(temp);
-            *ret_string = string;
+             *ret_string = string;
             return NOT_ALLOWED_INDIRECT;
         } else if (applied_effect == SUCCESS) {
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
-            free(temp);
-            *ret_string = string;
+             *ret_string = string;
             return SUCCESS;
         }
     }
