@@ -35,8 +35,8 @@ void help_text(chiventure_ctx_t *ctx)
         "	-Saves a game to a specified location\n"
         "NAME [VALID COMMAND] [NEW COMMAND]\n"
         " -Makes the second argument a command word with the definition of the first argument\n"
-        "PALETTE [\"DEFAULT\"/\"NIGHT\"/\"BRIGHT\"/\"PAIN\"]"
-        " -Makes the color of the UI change to that theme!"
+        "PALETTE [\"DEFAULT\"/\"NIGHT\"/\"BRIGHT\"/\"PAIN\"]\n"
+        " -Makes the color of the UI change to that theme!\n"
         "CTRL + D\n"
         "	-Quit game\n\n";
     print_to_cli(ctx, p);
