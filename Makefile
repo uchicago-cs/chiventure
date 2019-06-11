@@ -7,7 +7,7 @@ RM = rm -f
 LDLIBS = -lyaml -lncurses -lreadline -lprotobuf-c
 BIN = chiventure
 
-.PHONY: proto all clean
+.PHONY: all clean libs
 
 all: $(BIN)
 
