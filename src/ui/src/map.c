@@ -152,7 +152,7 @@ int map_set_displaywin(map_t *map, int ulx, int uly, int lrx, int lry)
     map->ulx = ulx;
     map->uly = uly;
     map->lrx = lrx;
-    map->lry = lry;
+    map->lry = lry-1;
 
     return 0;
 }
@@ -172,7 +172,7 @@ void draw_info(chiventure_ctx_t *ctx){
   int info_x = map->ulx + 2;
   int info_y = map->uly + 1;
 
-  mvwprintw(map->pad, info_y, info_x, "(%i, %i, %i)", curr_pos->x, curr_pos->y, curr_pos->z);
+  mvwprintw(map->pad, info_y, info_x, "(%i, %i) Floor %i", curr_pos->x, curr_pos->y, curr_pos->z);
   return;
 }
 
