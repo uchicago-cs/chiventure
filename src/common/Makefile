@@ -12,7 +12,7 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/ctx.c
+SRCS = src/ctx.c src/sample_game.c 
 OBJS = $(SRCS:.c=.o)
 
 $(SRCS:.c=.d):%.d:%.c

@@ -9,6 +9,8 @@
 
 //Forward Declaration
 typedef struct map map_t;
+typedef struct coord coord_t;
+typedef struct coord_record coord_record_t;
 
 /*
  * UI context struct.  Contains the following fields:
