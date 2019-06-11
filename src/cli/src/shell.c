@@ -28,7 +28,6 @@ void help_text(chiventure_ctx_t *ctx)
         "   -TAKE [OBJ]\n"
         "   -DROP [OBJ]\n"
         "   -CONSUME [OBJ]\n"
-        "   -GO [PATH]\n"
         "   -USE [OBJ] ON [OBJ]\n"
         "   -PUT [OBJ] ON [OBJ]\n"
 
