@@ -28,8 +28,8 @@ size_t read_file(char *filename, unsigned max_length, uint8_t *out);
  * - i_t: pointer to an empty item_t in game struct to be filled from protofile
  *
  * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
+ * - 0 (SUCCESS) if successful
+ * - 1 (FAILURE) if unsuccessful
  */
 int load_item(Item *i, item_t *i_t);
 
@@ -44,8 +44,8 @@ int load_item(Item *i, item_t *i_t);
  * - all_items_len: lenght of the all_items array
  *
  * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
+ * - 0 (SUCCESS) if successful
+ * - 1 (FAILURE) if unsuccessful
  */
 int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len);
 
@@ -60,8 +60,8 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len);
  * - all_items_len: lenght of the all_items array
  *
  * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
+ * - 0 (SUCCESS) if successful
+ * - 1 (FAILURE) if unsuccessful
  */
 int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len);
 
@@ -74,8 +74,8 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
  * - g_t: pointer to an empty game_t in game struct to be filled from protofile
  *
  * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
+ * - 0 (SUCCESS) if successful
+ * - 1 (FAILURE) if unsuccessful
  */
 int load_game(Game *g, game_t *g_t);
 
@@ -88,8 +88,8 @@ int load_game(Game *g, game_t *g_t);
  * - g_t: pointer game struct
  * 
  * Returns:
- * - 0 if successful
- * - -1 if unsuccessful
+ * - 0 (SUCCESS) if successful
+ * - 1 (FAILURE) if unsuccessful
  */
 int load(char *filename, game_t *g_t);
 

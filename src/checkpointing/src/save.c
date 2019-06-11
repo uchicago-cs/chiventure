@@ -3,14 +3,14 @@
 #include <string.h>
 #include "game.pb-c.h"
 #include "save.h"
-
+#include "common.h"
 
 // see save.h
 int save_attribute(item_t *i_t, attribute_t *a_t, Attribute *a)
 {
     if (a_t == NULL) {
 	fprintf(stderr, "Given a NULL attribute struct in save_attribute");
-	return -1;
+	return FAILURE;
     }
     a->attribute_key = a_t->attribute_key;
 
@@ -47,7 +47,7 @@ int save_attribute(item_t *i_t, attribute_t *a_t, Attribute *a)
 	  a->attribute_value->act_val->action_type->kind = "2";
 	}
     }
-    return 0;
+    return SUCCESS;
 }
 
 
@@ -56,7 +56,7 @@ int save_item(item_t *i_t, Item *i)
 {
     if (i_t == NULL) {
 	fprintf(stderr, "Given a NULL item struct in save_item");
-	return -1;
+	return FAILURE;
     }
 
     if (i_t->item_id != NULL) {
@@ -95,15 +95,15 @@ int save_item(item_t *i_t, Item *i)
     while (curr_attr != NULL) {
 	attrs[iter] = malloc(sizeof(Attribute));
         attribute__init(attrs[iter]);
-	attrs[iter]->attribute_value = malloc(sizeof(Attributevalue));
-	attributevalue__init(attrs[iter]->attribute_value);
+	attrs[iter]->attribute_value = malloc(sizeof(AttributeValue));
+	attribute_value__init(attrs[iter]->attribute_value);
 		
         int save_attribute_success = save_attribute(i_t, curr_attr->attribute,
 						    attrs[iter]);
 
 	if (save_attribute_success != 0) {
 	    fprintf(stderr, "Attribute saving for item failed \n");
-	    return -1;
+	    return FAILURE;
 	}
 	
 	iter += 1;
@@ -111,7 +111,7 @@ int save_item(item_t *i_t, Item *i)
     }
     i->attributes = attrs;    
     
-    return 0;
+    return SUCCESS;
 }
 
 
@@ -120,7 +120,7 @@ int save_room(room_t *r_t, Room *r)
 {
     if (r_t == NULL) {
 	fprintf(stderr, "Given a room_t struct that is NULL in save_room.\n");
-	return -1;
+	return FAILURE;
     }
 
     r->room_id = r_t->room_id;
@@ -156,7 +156,7 @@ int save_room(room_t *r_t, Room *r)
 	int save_item_success = save_item(curr_item->item, items[iter]);
 	if (save_item_success != 0) {
 	    fprintf(stderr, "Item saving for room failed \n");
-	    return -1;
+	    return FAILURE;
 	}
 	iter += 1;
 	curr_item = curr_item->next;
@@ -165,7 +165,7 @@ int save_room(room_t *r_t, Room *r)
     r->items = items;
     r->items_len = iter;  // Set length of array
     r->n_items = iter;  // Set length of array
-    return 0;
+    return SUCCESS;
 }
 
 
@@ -174,7 +174,7 @@ int save_player(player_t *p_t, Player *p)
 {
     if (p_t == NULL) {
 	fprintf(stderr, "Given a player_t struct that is NULL in save_player.\n");
-	return -1;
+	return FAILURE;
     }
 
     if (p_t->player_id != NULL) {
@@ -206,7 +206,7 @@ int save_player(player_t *p_t, Player *p)
 	int save_item_success = save_item(curr_item->item, items[iter]);
 	if (save_item_success != 0){
 	    fprintf(stderr, "Item saving for inventory failed \n");
-	    return -1;
+	    return FAILURE;
 	}
 	iter += 1;
 	curr_item = curr_item->next;
@@ -216,7 +216,7 @@ int save_player(player_t *p_t, Player *p)
     p->inventory = items;
     p->inventory_len = iter;  // Set length of array
     p->n_inventory = iter;  // Set length of array
-    return 0;
+    return SUCCESS;
 }
 
 
@@ -225,7 +225,7 @@ int save_game(game_t *g_t, Game *g)
 {
     if(g_t == NULL){
 	fprintf(stderr, "Given a game_t struct that is NULL in save_game.\n");
-	return -1;
+	return FAILURE;
     }
     
     // Allocate an array of proto Player structs	
@@ -235,7 +235,7 @@ int save_game(game_t *g_t, Game *g)
     int save_plyr_success = save_player(g_t->all_players, plyrs[0]);
     if (save_plyr_success != 0) {
         fprintf(stderr, "Player saving for game failed \n");
-        return -1;
+        return FAILURE;
     }
     
     g->all_players = plyrs;
@@ -259,7 +259,7 @@ int save_game(game_t *g_t, Game *g)
 	int save_room_success = save_room(curr_room->room, rooms[iter]);
 	if (save_room_success != 0) {
 	    fprintf(stderr, "Room saving for game failed \n");
-	    return -1;
+	    return FAILURE;
 	}
 	iter += 1;
         curr_room = curr_room->next;
@@ -281,18 +281,17 @@ int save_game(game_t *g_t, Game *g)
     } else {
 	g->curr_player = g_t->curr_player->player_id;
     }
-    return 0;
+    return SUCCESS;
 }
 
 
 // see save.h
 int write_to_file(char *filename, uint8_t *buffer, unsigned len)
 {
-    int res = 0;
     FILE *fp = fopen(filename, "w");
     fwrite(buffer, len, 1,fp);
     fclose(fp);
-    return res;
+    return SUCCESS;
 }
 
 
@@ -306,7 +305,7 @@ int save(game_t *g_t, char *filename)
 
     success = save_game(g_t, &g);
     if(success != 0)
-        return -1;
+        return FAILURE;
     len = game__get_packed_size(&g);
     buf = malloc(len);
     game__pack(&g, buf);
@@ -314,5 +313,5 @@ int save(game_t *g_t, char *filename)
     fprintf(stderr, "Writing %ld serialized bytes\n", len);
     write_to_file(filename, buf, len);
     free(buf);
-    return 0;
+    return SUCCESS;
 }

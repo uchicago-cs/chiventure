@@ -3,6 +3,7 @@
 #include <string.h>
 #include "game.pb-c.h"
 #include "load.h"
+#include "common.h"
 #define MAX_BUF_SIZE 1000000
 
 
@@ -29,7 +30,7 @@ int load_item(Item *i, item_t *i_t)
 {
     if (i_t == NULL) {
         fprintf(stderr, "given null item_t struct\n");
-        return -1;
+        return FAILURE;
     }
 
     if (i->item_id == NULL) {
@@ -62,7 +63,7 @@ int load_item(Item *i, item_t *i_t)
 
         if (set_str_success != SUCCESS) {
             fprintf(stderr, "Could not set string attribute for item \n");
-            return -1;
+            return FAILURE;
         }
 
     } else if ((strcmp(tag, "INTEGER")) == 0) {
@@ -73,7 +74,7 @@ int load_item(Item *i, item_t *i_t)
 
         if (set_int_success != SUCCESS) {
 		    fprintf(stderr, "Could not set integer attribute for item \n");
-            return -1;
+            return FAILURE;
         }
 
     } else if ((strcmp(tag, "DOUBLE")) == 0) {
@@ -84,7 +85,7 @@ int load_item(Item *i, item_t *i_t)
 
         if (set_double_success != SUCCESS) {
             fprintf(stderr, "Could not set double attribute for item \n");
-            return -1;
+            return FAILURE;
         }
 
 	} else if ((strcmp(tag, "CHARACTER")) == 0) {
@@ -95,7 +96,7 @@ int load_item(Item *i, item_t *i_t)
 
         if (set_char_success != SUCCESS) {
             fprintf(stderr, "Could not set character attribute for item \n");
-		    return -1;
+		    return FAILURE;
         }
 
     } else if ((strcmp(tag, "BOOLE")) == 0) {
@@ -106,7 +107,7 @@ int load_item(Item *i, item_t *i_t)
 
         if (set_bool_success != SUCCESS) {
 		    fprintf(stderr, "Could not set boole attribute for item \n");
-		    return -1;
+		    return FAILURE;
          }
 
     } else if ((strcmp(tag, "ACTION")) == 0) {
@@ -125,10 +126,10 @@ int load_item(Item *i, item_t *i_t)
 
 	} else {
 	    fprintf(stderr, "Could not set any attribute \n");
-	    return -1;
+	    return FAILURE;
         }
     }
-    return 0;
+    return SUCCESS;
 }
 
 
@@ -137,7 +138,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
 {
     if (r_t == NULL) {
         fprintf(stderr, "given null room_t struct\n");
-        return -1;
+        return FAILURE;
     }
 
     if (r->room_id == NULL) {
@@ -188,7 +189,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
             }
         }
     }
-    return 0;
+    return SUCCESS;
 }
 
 
@@ -197,7 +198,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
 {
     if (p_t == NULL) {
         fprintf(stderr, "given null player_t struct\n");
-        return -1;
+        return FAILURE;
     }
     if (p->player_id == NULL) {
         fprintf(stderr, "saved null player id\n");
@@ -245,7 +246,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
             }
         }
     }
-    return 0;
+    return SUCCESS;
 }
 
 int count(game_t *g_t)
@@ -277,7 +278,7 @@ int load_game(Game *g, game_t *g_t)
 {
     if (g_t == NULL) {
         fprintf(stderr, "given null game_t struct\n");
-        return -1;
+        return FAILURE;
     }
 
     // Malloc an array of all items in the game
@@ -324,7 +325,7 @@ int load_game(Game *g, game_t *g_t)
 				          item_len);
                 if (load_room_success != 0){
                     fprintf(stderr, "Failed to load room into game. Abort! \n");
-                    return -1;
+                    return FAILURE;
                 }
             }
         }
@@ -339,7 +340,7 @@ int load_game(Game *g, game_t *g_t)
                                                   item_len);
             if (load_player_success != 0) {
                 fprintf(stderr, "Failed to load player into game. Abort! \n");
-                return -1;
+                return FAILURE;
             }
         }
     }
@@ -364,7 +365,7 @@ int load_game(Game *g, game_t *g_t)
         }
     }
 
-    return 0;
+    return SUCCESS;
 }
 
 

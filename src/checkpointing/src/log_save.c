@@ -5,14 +5,14 @@
 
 
 /* See log_save.h */
-Logvalueunion *logvalueunion_new() {
-  Logvalueunion *logvalueunion = malloc(sizeof(Logvalueunion));
-  logvalueunion__init(logvalueunion);
+LogValueUnion *logvalueunion_new() {
+  LogValueUnion *logvalueunion = malloc(sizeof(LogValueUnion));
+  log_value_union__init(logvalueunion);
   return logvalueunion;  
 }
 
 /* See log_save.h */
-Logvalueunion *logvalueunion_init_int(Logvalueunion *logvalueunion, int value){
+LogValueUnion *logvalueunion_init_int(LogValueUnion *logvalueunion, int value){
   if (logvalueunion == NULL) {
     fprintf(stderr, "Need to pass in a new Logvalueunion \n");
     return NULL;
@@ -22,20 +22,20 @@ Logvalueunion *logvalueunion_init_int(Logvalueunion *logvalueunion, int value){
 }
 
 /* See log_save.h */
-Logvalue *logvalue_new() {
-  Logvalue *logvalue = malloc(sizeof(Logvalue));
-  logvalue__init(logvalue);
+LogValue *logvalue_new() {
+  LogValue *logvalue = malloc(sizeof(LogValue));
+  log_value__init(logvalue);
   return logvalue;
 }
 
 /* See log_save.h */
-Logvalue *logvalue_init_int(Logvalue *logvalue, int value) {
+LogValue *logvalue_init_int(LogValue *logvalue, int value) {
   if (logvalue == NULL) {
     fprintf(stderr, "Need to pass in a new Logvalue \n");
     return NULL;
   }
   logvalue->tag = "int";
-  Logvalueunion *logvalueunion = logvalueunion_new();
+  LogValueUnion *logvalueunion = logvalueunion_new();
   logvalueunion = logvalueunion_init_int(logvalueunion, value);
   logvalue->value = logvalueunion;
   return logvalue;
@@ -69,8 +69,8 @@ Log *log_init_int(Log *log, char *level, char *level_id, char *member, int old_v
   log->level = level;
   log->level_id = level_id;
   log->member = member;
-  Logvalue *old = logvalue_new();
-  Logvalue *new = logvalue_new();
+  LogValue *old = logvalue_new();
+  LogValue *new = logvalue_new();
   old = logvalue_init_int(old, old_value);
   new = logvalue_init_int(new, new_value);
   log->old_value = old;

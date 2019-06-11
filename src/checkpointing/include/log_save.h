@@ -5,7 +5,7 @@
 
 
 /* Create a new Logvalueunion struct */
-Logvalueunion *logvalueunion_new();
+LogValueUnion *logvalueunion_new();
 
 /* Initialize an integer Logvalueunion struct
  * Parameters: 
@@ -13,10 +13,10 @@ Logvalueunion *logvalueunion_new();
  * - value: an integer value
  * Return: a pointer to that Logvalueunion
  */
-Logvalueunion *logvalueunion_init_int(Logvalueunion *logvalueunion, int value);
+LogValueUnion *logvalueunion_init_int(LogValueUnion *logvalueunion, int value);
 
 /* Create a new Logvalue struct */
-Logvalue *logvalue_new();
+LogValue *logvalue_new();
 
 /* Initialize an integer Logvalue struct
  * Parameters: 
@@ -24,7 +24,7 @@ Logvalue *logvalue_new();
  * - value: an integer value
  * Return: a pointer to that Logvalue
  */
-Logvalue *logvalue_init_int(Logvalue *logvalue, int value);
+LogValue *logvalue_init_int(LogValue *logvalue, int value);
 
 /* Create a new Log struct */
 Log *log_new();
