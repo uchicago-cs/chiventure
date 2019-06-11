@@ -1,8 +1,11 @@
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
-
-#include "ctx.h"
-
+#include "cmd.h"
+#include "game.h"
+#include "actionmanagement.h"
+#include "print_functions.h"
+#include "save.h"
+#include "load.h"
 /*
  * We list all demanded operations over here.
  * All meta operations must be defined here.
@@ -78,7 +81,19 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /*
- * Checks that a specified filetype is a .dat file
+ * Loads a game from a .dat file
+ * Prints and Error message if filename improperly specified
+ *
+ * Parameters:
+ * - tokens: parsed input string
+ * - pointer to a chiventure context struct
+ *
+ * Returns: 
+ * - A success or error message
+ */
+char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Checks that a specified filetype is a .dat file
  *
  * Parameters:
  * - A string of the filename

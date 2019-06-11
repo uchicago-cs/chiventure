@@ -1,0 +1,16 @@
+Adding coord (0, 1, 0) to hash
+Adding coord (0, 2, 0) to hash
+Adding coord (1, 1, 0) to hash
+Adding coord (1, 0, 0) to hash
+Adding coord (2, 1, 0) to hash
+Adding coord (0, 0, 1) to hash
+Adding coord (0, 1, 1) to hash
+Adding coord (0, 0, 2) to hash
+Adding coord (0, 1, 0) to hash
+Adding coord (0, 2, 0) to hash
+Adding coord (1, 1, 0) to hash
+Adding coord (1, 0, 0) to hash
+Adding coord (2, 1, 0) to hash
+Adding coord (0, 0, 1) to hash
+Adding coord (0, 1, 1) to hash
+Adding coord (0, 0, 2) to hash
