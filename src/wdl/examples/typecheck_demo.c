@@ -4,8 +4,7 @@
 int main(int argc, char* argv[])
 {
     // Makes sure there are enough arguments
-    if (argc <= 1)
-    {
+    if (argc <= 1) {
         printf("Err: not enough arguments");
         return 1;
     }
@@ -14,16 +13,15 @@ int main(int argc, char* argv[])
     char* fname = argv[1];
 
     // Checks if fname exists
-    if (fname == NULL)
-    {
+    if (fname == NULL) {
         printf("Err: no filename provided\n");
         return 1;
     }
     // Checks if extension is a .yaml extension
     const char *ext = strchr(fname, '.');
     const char *check = ".yaml";
-    if (strncmp(ext, check, strlen(check)) != 0)
-    {
+   
+    if (strncmp(ext, check, strlen(check)) != 0) {
         printf("Err: file does not have .yaml extension\n");
         return 1;
     }
@@ -52,7 +50,7 @@ int main(int argc, char* argv[])
         printf("Game successfully verified\n");
     }
     else {
-        printf("Game verification unsuccessful\n");
+        printf("Game verification unsuccessful\n"); 
     }
 
     // Verify rooms
