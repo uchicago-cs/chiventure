@@ -20,15 +20,15 @@ typedef struct game {
     /* an iteratable hashtable of players */
     /* using the macros provided in uthash.h */
     /* the expected size is 1 for single player games but this can change */
-    player_hash_t all_players;
+    player_hash_t *all_players;
 
     /* an iteratable hashtable of rooms */
     /* using the macros provided in uthash.h */
-    room_hash_t all_rooms;
+    room_hash_t *all_rooms;
 
     /* an iteratable hashtable of items */
     /* using the macros provided in uthash.h */
-    item_hash_t all_items;
+    item_hash_t *all_items;
   
     /* pointer to current room struct */
     room_t *curr_room;

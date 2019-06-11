@@ -27,7 +27,7 @@ typedef struct path {
 * used to point to the path_t structs in the traditional sense, 
 * and those which are used to hash path_t structs with the 
 * UTHASH macros as specified in src/common/include */
-typedef struct path* path_hash_t;
+typedef struct path path_hash_t;
 
 // ROOM STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a single room.
@@ -43,15 +43,15 @@ typedef struct room {
     char *room_id;
     char *short_desc;
     char *long_desc;
-    item_hash_t items;
-    path_hash_t paths;
+    item_hash_t *items;
+    path_hash_t *paths;
 } room_t;
 
 /* This typedef is to distinguish between room_t pointers which are 
 * used to point to the room_t structs in the traditional sense, 
 * and those which are used to hash room_t structs with the 
 * UTHASH macros as specified in src/common/include */
-typedef struct room* room_hash_t;
+typedef struct room room_hash_t;
 
 typedef struct room_wrapped_for_llist {
     struct room_wrapped_for_llist *next;
@@ -140,15 +140,6 @@ char *get_sdesc(room_t *room);
 char *get_ldesc(room_t *room);
 
 //PATH DEFINITIONS AND HEADER
-
-/* delete_all_paths() deletes all paths in a path hash
-* Parameters:
-*  the hash table of paths that needs to be deleted
-*
-* Returns:
-*  SUCCESS if successful, FAILURE if failed
-*/
-int delete_all_paths(path_hash_t paths);
 
 /* Mallocs space for a new path
  *

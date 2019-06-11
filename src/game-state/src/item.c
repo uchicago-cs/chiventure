@@ -388,7 +388,7 @@ int attribute_free(attribute_t *attribute) {
 
 
 /* see common-item.h */
-int delete_all_attributes(attribute_hash_t attributes)
+int delete_all_attributes(attribute_hash_t* attributes)
 {
     attribute_t *current_attribute, *tmp;
     HASH_ITER(hh, attributes, current_attribute, tmp) {
@@ -411,7 +411,7 @@ int item_free(item_t *item) {
 }
 
 /* See common.h*/
-int delete_all_items(item_hash_t items) {
+int delete_all_items(item_hash_t* items) {
     item_t *current_item, *tmp;
     HASH_ITER(hh, items, current_item, tmp) {
         HASH_DEL(items, current_item);  /* deletes (items advances to next) */

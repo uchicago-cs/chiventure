@@ -17,24 +17,24 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 * used to point to the attribute_t structs in the traditional sense, 
 * and those which are used to hash attribute_t structs with the 
 * UTHASH macros as specified in src/common/include */
-typedef struct attribute* attribute_hash_t;
+typedef struct attribute attribute_hash_t;
 
-typedef struct game_action *game_action_hash_t;
+typedef struct game_action game_action_hash_t;
 
 typedef struct item {
     UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
     char *item_id;
     char *short_desc;
     char *long_desc;
-    game_action_hash_t actions;
-    attribute_hash_t attributes; // a hashtable for all attributes
+    game_action_hash_t *actions;
+    attribute_hash_t *attributes; // a hashtable for all attributes
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are 
 * used to point to the item_t structs in the traditional sense, 
 * and those which are used to hash item_t structs with the 
 * UTHASH macros as specified in src/common/include */
- typedef struct item* item_hash_t; 
+ typedef struct item item_hash_t; 
 
 typedef struct item_wrapped_for_llist {
     struct item_wrapped_for_llist *next;

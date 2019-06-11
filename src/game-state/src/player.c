@@ -44,7 +44,7 @@ int player_free(player_t* plyr) {
     return SUCCESS;
 }
 
-int delete_all_players(player_hash_t players) {
+int delete_all_players(player_hash_t* players) {
     player_t *current_player, *tmp;
     HASH_ITER(hh, players, current_player, tmp) {
         HASH_DEL(players, current_player);
@@ -92,7 +92,7 @@ int change_xp(player_t* plyr, int points) {
 
 
 /* See player.h */
-item_hash_t get_inventory(player_t* plyr) {
+item_hash_t* get_inventory(player_t* plyr) {
 	return plyr->inventory;
 }
 

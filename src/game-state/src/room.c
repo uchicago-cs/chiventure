@@ -96,7 +96,7 @@ int add_path_to_room(room_t *room, path_t *path) {
 }
 
 /* See common-room.h */
-int delete_all_rooms(room_hash_t rooms) {
+int delete_all_rooms(room_hash_t *rooms) {
     room_t *current_room, *tmp;
     HASH_ITER(hh, rooms, current_room, tmp) {
         HASH_DEL(rooms, current_room);  /* deletes (rooms advances to next) */
@@ -136,7 +136,7 @@ char *get_ldesc(room_t *room) {
  * Returns:
  *  hashtable of items in room
  */
-item_hash_t list_items(room_t *room) {
+item_hash_t* list_items(room_t *room) {
     return room->items;
 }
 
