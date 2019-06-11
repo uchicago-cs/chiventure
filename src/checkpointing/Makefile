@@ -17,6 +17,8 @@ PROTOFLAGS = --c_out=./src
 SRCS = src/game.pb-c.c src/save.c src/load.c src/log_save.c
 OBJS = $(SRCS:.c=.o)
 STATIC_LIB = checkpointing.a
+TESTS = tests/test_load.c tests/test_save.c tests/main.c
+DEMO = demo/demo.c
 
 .PHONY: all
 
@@ -29,8 +31,12 @@ $(PROTOCOMP): game.proto
 	protoc-c $(PROTOFLAGS) $^
 	mv src/game.pb-c.h include/
 
+tests: $(STATIC_LIB) $(TESTS)
+	make -C ./tests
+
+demo: $(DEMO)
+	make -C ./demo
+
 clean:
 	$(RM) $(PROTOHD) $(PROTOCOMP) $(OBJS) $(STATIC_LIB)
 
-tests: ${STATIC_LIB}
-	make -C ./tests

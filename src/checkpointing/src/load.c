@@ -35,17 +35,17 @@ int load_item(Item *i, item_t *i_t)
     if (i->item_id == NULL) {
         fprintf(stderr, "no item id saved\n");
     } else {
-        i_t->item_id = i->item_id;
+        i_t->item_id = strdup(i->item_id);
     }
 
     if (i->short_desc != NULL) {
-        i_t->short_desc = i->short_desc;
+        i_t->short_desc = strdup(i->short_desc);
     } else {
         i_t->short_desc = NULL;
     }
 
     if (i->long_desc != NULL) {
-        i_t->long_desc = i->long_desc;
+        i_t->long_desc = strdup(i->long_desc);
     } else {
         i_t->long_desc = NULL;
     }
@@ -143,17 +143,17 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
     if (r->room_id == NULL) {
         fprintf(stderr, "room id not saved\n");
     } else {
-	    r_t->room_id = r->room_id;
+	r_t->room_id = strdup(r->room_id);
     }
 
     if (r->short_desc != NULL) {
-        r_t->short_desc = r->short_desc;
+        r_t->short_desc = strdup(r->short_desc);
     } else {
         r_t->short_desc = NULL;
     }
 
     if (r->long_desc != NULL) {
-        r_t->long_desc = r->long_desc;
+        r_t->long_desc = strdup(r->long_desc);
     } else {
         r_t->long_desc = NULL;
     }
@@ -202,7 +202,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
     if (p->player_id == NULL) {
         fprintf(stderr, "saved null player id\n");
     } else {
-        p_t->player_id = p->player_id;
+        p_t->player_id = strdup(p->player_id);
     }
 
     // All players have a level, health, and xp (initial values are always set)
@@ -231,6 +231,7 @@ int load_player(Player *p, player_t *p_t, item_t **all_items, int all_items_len)
     */
     int iter;
     int j;
+
     for (iter = 0; iter < p->inventory_len; iter++) {
         for (j = 0; j < all_items_len; j++) {
             if (strcmp(p->inventory[iter]->item_id, all_items[j]->item_id) == 0) {
@@ -254,6 +255,7 @@ int count(game_t *g_t)
     room_t *curr_room;
     room_list_t *i = get_all_rooms(g_t);
 
+    
     for (; i != NULL; i = i->next) {
         curr_room = i->room;
         item_list_t *j = get_all_items_in_room(curr_room);
@@ -353,15 +355,16 @@ int load_game(Game *g, game_t *g_t)
             room_t *curr_r = room_list->room;
             if (strcmp(curr_r->room_id, g->curr_room) == 0) {
                 move_room(g_t, curr_r); //move_room provided by game state to set current room
-	        }
+		break;
+	    }
         }
     }
 
     if (g->curr_player != NULL) {
         player_t *curr_p = get_player(g_t, g_t->curr_player->player_id);
-        if (strcmp(curr_p->player_id, g->curr_player) == 0) {
-            set_curr_player(g_t, curr_p); //provided by game state
-        }
+	if (strcmp(curr_p->player_id, g->curr_player) == 0) {
+	    set_curr_player(g_t, curr_p); //provided by game state
+	}
     }
 
     return 0;
@@ -375,7 +378,7 @@ int load(char *filename, game_t *g_t)
     size_t game_len = read_file(filename, MAX_BUF_SIZE, buffer);
     printf("game_len: %ld\n", game_len);
 
-    Game *g;
+    Game *g = malloc(sizeof(Game));
     game__init(g);
     g = game__unpack(NULL, game_len, buffer);
 

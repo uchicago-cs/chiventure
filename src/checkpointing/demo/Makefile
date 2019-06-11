@@ -27,4 +27,4 @@ include $(SRCS:.c=.d)
 
 .PHONY: clean
 clean:
-	-${RM} ${BIN} ${OBJS} $(SRCS:.c=.d)
+	-${RM} ${BIN} ${OBJS} $(SRCS:.c=.d) *.txt
