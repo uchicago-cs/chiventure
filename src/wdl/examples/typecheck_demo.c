@@ -1,10 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
 #include "parse.h"
 #include "validate.h"
-
 
 int main(int argc, char* argv[])
 {
@@ -27,7 +22,7 @@ int main(int argc, char* argv[])
     // Checks if extension is a .yaml extension
     const char *ext = strchr(fname, '.');
     const char *check = ".yaml";
-    if (strcmp(ext, check) != 0)
+    if (strncmp(ext, check, strlen(check)) != 0)
     {
         printf("Err: file does not have .yaml extension\n");
         return 1;
@@ -53,27 +48,31 @@ int main(int argc, char* argv[])
 
     // Verify game
     bool game_check = game_type_check(game_obj);
-    if (game_check)
+    if (game_check) {
         printf("Game successfully verified\n");
-    else
-        printf("Game unsuccessfully verified\n");
+    }
+    else {
+        printf("Game verification unsuccessful\n");
+    }
 
     // Verify rooms
     bool room_check = list_type_check(rooms_ls, room_type_check);
 
-    if (room_check)
+    if (room_check) {
         printf("Rooms successfully verified\n");
-
-    else
-        printf("Rooms unsuccessfully verified\n");
-
+    }
+    else {
+        printf("Rooms verification unsuccessful\n");
+    }
     // Verify items
     bool item_check = list_type_check(items_ls, item_type_check);
 
-    if (item_check)
+    if (item_check) {
         printf("Items successfully verified\n");
-    else
-        printf("Items unsuccessfully verified\n");
+    }
+    else {
+        printf("Items verificaton unsuccessful\n");
+    }
 
     // Print game
     printf("printing game attributes:\n");
