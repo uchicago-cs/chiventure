@@ -5,9 +5,9 @@
 
 
 
-//ACTION FUNCTIONS -------------------------
+// ------------------------- ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions
-//and conducting actions
+// and conducting actions
 
 /* get_action() returns the game_action_t associated with an action
  * Parameters:
@@ -54,17 +54,17 @@ game_action_hash_t *get_all_actions(item_t *item);
 
 
 /* game_action_free() frees allocated space for an action struct in memory
-*  Parameters:
-*    a pointer to the action
-*  Returns:
-*    SUCCESS if successful, FAILURE if not
-*/
+ *  Parameters:
+ *    a pointer to the action
+ *  Returns:
+ *    SUCCESS if successful, FAILURE if not
+ */
 int game_action_free(game_action_t *action_tofree);
 
 
 // ------------------------- CONDITION FUNCTIONS -------------------------
 
-/* add_action_condition() creates a new condition for an item's action and 
+/* add_action_condition() creates a new condition for an item's action and
  * adds to the action's condition list
  * Parameters:
  *  a pointer to the item the action is being performed on
@@ -83,19 +83,19 @@ int add_action_condition(item_t *item, game_action_t *action,
 /* condition_new() creates a new condition in an item with given inputs
  * Parameters:
  *  a pointer to the item to be modified
- *  a pointer to the attribute 
+ *  a pointer to the attribute
  *  the desired value of the attribute
  * Returns:
  *  NULL if item or attribute are NULL, the new condition if succcessful
- */ 
+ */
 game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
 				       attribute_value_t new_value);
 
-/* check_condition() checks if the actual attribute of an item is equal 
+/* check_condition() checks if the actual attribute of an item is equal
  * to the desired attribute
  * Parameters:
  *  a pointer to the item to check
- *  the desired attribute 
+ *  the desired attribute
  * Returns:
  *  true if desired attribute matches the actual, false if not
  */
@@ -113,39 +113,39 @@ bool check_condition(game_action_condition_t *condition);
 int all_conditions_met(item_t* item, char* action_name);
 
 
-//------------------------- EFFECT FUNCTIONS ------------------------------
+// ------------------------- EFFECT FUNCTIONS ------------------------------
 
 
 /* add_action_effect creates an effect_t struct and adds it to the action pointed to
-* Parameters:
-* - ptr to action
-* - ptr to item being modified
-* - ptr to attribute to modify
-* - new attribute_value_t (takes tag from attribute above)
-* 
-* Returns:
-* int SUCCESS FAILURE
-* error 2 if action NULL
-* error 3 if item to modify is null
-*/
+ * Parameters:
+ *  pointer to action
+ *  pointer to item being modified
+ *  pointer to attribute to modify
+ *  new attribute_value_t (takes tag from attribute above)
+ *
+ * Returns:
+ * int SUCCESS FAILURE
+ * error 2 if action NULL
+ * error 3 if item to modify is null
+ */
 int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
 
 
-//alt version 
+//alt version
 
 /* create_effect creates an effect_t struct with the given inputs
-* Parameters:
-* - item to modify
-* - attribute_t
-* - attribute_value_t
-* Returns:
-* NULL or game_action_effect_t
-*/
+ * Parameters:
+ *  item to modify
+ *  attribute_t
+ *  attribute_value_t
+ * Returns:
+ * NULL or game_action_effect_t
+ */
 game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value);
 
 /* do_effects() sets an effect
  * Parameters:
- * - a pointer to effect
+ *  pointer to effect
  * Returns:
  *  SUCCESS if effect is set, FAILURE if not
  */
@@ -153,11 +153,11 @@ int do_effect(game_action_effect_t *effect);
 
 /* do_all_effects() sets all effects of an action
  * Parameters:
- * - a pointer to the item to check
- * - the action_name
+ *  pointer to the item to check
+ *  the action_name
  * Returns:
  *  SUCCESS if all effects are set, FAILURE if not
  */
-int do_all_effects(item_t* item, char* action_name); 
+int do_all_effects(item_t* item, char* action_name);
 
- 
+

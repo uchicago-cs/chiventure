@@ -13,9 +13,9 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 
 // ITEM STRUCTURE DEFINITION + BASIC FUNCTIONS --------------------------------
 
-/* This typedef is to distinguish between attribute_t pointers which are 
-* used to point to the attribute_t structs in the traditional sense, 
-* and those which are used to hash attribute_t structs with the 
+/* This typedef is to distinguish between attribute_t pointers which are
+* used to point to the attribute_t structs in the traditional sense,
+* and those which are used to hash attribute_t structs with the
 * UTHASH macros as specified in src/common/include */
 typedef struct attribute attribute_hash_t;
 
@@ -30,11 +30,11 @@ typedef struct item {
     attribute_hash_t *attributes; // a hashtable for all attributes
 } item_t;
 
-/* This typedef is to distinguish between item_t pointers which are 
-* used to point to the item_t structs in the traditional sense, 
-* and those which are used to hash item_t structs with the 
+/* This typedef is to distinguish between item_t pointers which are
+* used to point to the item_t structs in the traditional sense,
+* and those which are used to hash item_t structs with the
 * UTHASH macros as specified in src/common/include */
- typedef struct item item_hash_t; 
+ typedef struct item item_hash_t;
 
 typedef struct item_wrapped_for_llist {
     struct item_wrapped_for_llist *next;
@@ -124,10 +124,10 @@ typedef struct game_action_condition{
     struct game_action_condition *next;
 } game_action_condition_t;
 
-/* This typedef is to distinguish between game_action_condition_t 
-* pointers which are used to point to the game_action_condition_t structs 
+/* This typedef is to distinguish between game_action_condition_t
+* pointers which are used to point to the game_action_condition_t structs
 * in the traditional sense, and those which are used to enable UTLIST functionality
-* on the game_action_condition_t structs as specified in src/common/include 
+* on the game_action_condition_t structs as specified in src/common/include
 */
 typedef struct game_action_condition action_condition_list_t;
 
@@ -138,10 +138,10 @@ typedef struct game_action_effect{
     struct game_action_effect *next; //mandatory for utlist macros
 } game_action_effect_t;
 
-/* This typedef is to distinguish between game_action_effect_t 
-* pointers which are used to point to the game_action_effect_t structs 
+/* This typedef is to distinguish between game_action_effect_t
+* pointers which are used to point to the game_action_effect_t structs
 * in the traditional sense, and those which are used to enable UTLIST functionality
-* on the game_action_effect_t structs as specified in src/common/include 
+* on the game_action_effect_t structs as specified in src/common/include
 */
 typedef struct game_action_effect action_effect_list_t;
 
@@ -166,7 +166,8 @@ typedef struct game_action {
  */
 int attribute_free(attribute_t *attribute);
 
-/* attributes_equal() checks if two items have the same attributes
+/* attributes_equal() checks if two items have the same specific attribute
+ * note that it only checks ONE attribute of two items
  * Parameters:
  *  pointer to item1
  *  pointer to item2
@@ -205,7 +206,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value);
 int set_int_attr(item_t* item, char* attr_name, int value);
 
 /* set_double_attr() sets the value of an attribute of an item to
-* the given double
+ * the given double
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed
