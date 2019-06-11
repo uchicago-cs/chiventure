@@ -7,6 +7,9 @@
 #include "game.h"
 #include "ctx.h"
 
+// forward declaration
+typedef struct chiventure_ctx chiventure_ctx_t;
+
 /* File consisting of all functions created by action management
    =========================================================================== */
 
