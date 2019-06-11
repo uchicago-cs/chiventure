@@ -101,7 +101,7 @@ int write_to_file(char *filename, uint8_t *buffer, unsigned len);
  *   - 0 if successful
  *   - -1 if unsuccessful 
  */
-int save(game_t *game, char *filename);
+int save(game_t *g_t, char *filename);
 
 
 #endif
