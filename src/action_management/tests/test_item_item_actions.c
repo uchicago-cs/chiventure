@@ -24,8 +24,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     char *string = malloc(BUFFER_SIZE);
     game_action_t *ga = get_action(direct, act_name);
 
-    switch (choose_condition)
-    {
+    switch (choose_condition) {
     case 1:
         n = set_int_attr(direct, "DUMMYCONDITON", 0);
         add_action_condition(direct, ga, direct, "DUMMYCONDITON", 0);
@@ -47,18 +46,14 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     }
 
     int n;
-    switch (choose_effect)
-    {
+    switch (choose_effect) {
     case 1:
         n = set_str_attr(direct, "DUMMYATTR", "old");
         n = add_action_effect(ga, direct, "DUMMYATTR", "new");
         n = do_item_item_action(a, direct, indirect, &string);
-        if (strcmp(get_str_attr(direct, "DUMMYATTR"), "new") == 0)
-        {
+        if (strcmp(get_str_attr(direct, "DUMMYATTR"), "new") == 0) {
             rc = SUCCESS;
-        }
-        else
-        {
+        } else {
             rc = FAILURE;
         }
         break;
@@ -66,12 +61,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         n = set_int_attr(direct, "DUMMYATTR", 0);
         n = add_action_effect(ga, direct, "DUMMYATTR", 1);
         n = do_item_item_action(a, direct, indirect, &string);
-        if (get_int_attr(direct, "DUMMYATTR") == 1)
-        {
+        if (get_int_attr(direct, "DUMMYATTR") == 1) {
             rc = SUCCESS;
-        }
-        else
-        {
+        } else {
             rc = FAILURE;
         }
         break;
@@ -79,12 +71,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         n = set_double_attr(direct, "DUMMYATTR", 0.0);
         n = add_action_effect(ga, direct, "DUMMYATTR", 1.0);
         n = do_item_item_action(a, direct, indirect, &string);
-        if (get_double_attr(direct, "DUMMYATTR") == 1.0)
-        {
+        if (get_double_attr(direct, "DUMMYATTR") == 1.0) {
             rc = SUCCESS;
-        }
-        else
-        {
+        } else {
             rc = FAILURE;
         }
         break;
@@ -92,12 +81,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         n = set_char_attr(direct, "DUMMYATTR", 'a');
         n = add_action_effect(ga, direct, "DUMMYATTR", 'b');
         n = do_item_item_action(a, direct, indirect, &string);
-        if (get_char_attr(direct, "DUMMYATTR") == 'b')
-        {
+        if (get_char_attr(direct, "DUMMYATTR") == 'b') {
             rc = SUCCESS;
-        }
-        else
-        {
+        } else {
             rc = FAILURE;
         }
         break;
@@ -105,12 +91,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         n = set_bool_attr(direct, "DUMMYATTR", false);
         n = add_action_effect(ga, direct, "DUMMYATTR", true);
         n = do_item_item_action(a, direct, indirect, &string);
-        if (get_bool_attr(direct, "DUMMYATTR") == true)
-        {
+        if (get_bool_attr(direct, "DUMMYATTR") == true) {
             rc = SUCCESS;
-        }
-        else
-        {
+        } else {
             rc = FAILURE;
         }
         break;

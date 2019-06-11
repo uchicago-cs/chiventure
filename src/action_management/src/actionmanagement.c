@@ -98,7 +98,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     assert(c->game);
     assert(c->game->curr_room);
     assert(a);
-    
+
 
     /* INITIALIZATION */
     char *string = malloc(BUFFER_SIZE);
@@ -125,13 +125,12 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     int move = move_room(g, room_dest);
 
     if (move == SUCCESS) {
-        snprintf(string, "Moved into %s. %s", 
-                room_dest->room_id, room_dest->long_desc);
+        snprintf(string, "Moved into %s. %s",
+                 room_dest->room_id, room_dest->long_desc);
         *ret_string = string;
         return SUCCESS;
-    }
-    else {
-        sprintf(string, 
+    } else {
+        sprintf(string,
                 "Move action %s via %s into %s failed.",
                 a->c_name, direction, room_dest->room_id);
         *ret_string = string;
@@ -217,9 +216,8 @@ int do_item_item_action(action_type_t *a, item_t *direct,
             free(temp);
             *ret_string = string;
             return NOT_ALLOWED_INDIRECT;
-        }
-        else if (applied_effect == SUCCESS) {
-        // successfully carried out action
+        } else if (applied_effect == SUCCESS) {
+            // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
             free(temp);
             *ret_string = string;

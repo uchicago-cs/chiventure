@@ -43,7 +43,7 @@ Test(item_actions, wrong_kind_2)
 {
 
     int rc = execute_do_item_action("dummy", PATH, "dummy", PATH);
-  
+
     cr_assert_eq(rc, WRONG_KIND,
                  "execute_do_item_action returned %d for wrong kind 2, expected WRONG_KIND (1)", rc);
 }
