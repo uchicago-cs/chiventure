@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 	printf("Chad starts in a dorm room.\n");
 	printf("In the dorm room there is a shirt and cup ramen.\n"); 
 	add_room_to_game(g_t_orig, dungeon_t);
-	create_connection(g_t_orig, "5", "2", "east");
+	create_connection(g_t_orig, dorm_t->room_id, dungeon_t->room_id, "east");
 
 	printf("Chad grabs a shirt from the dorm and puts it in his inventory.\n");
 	add_item_to_player(chad_t, shirt_t);
