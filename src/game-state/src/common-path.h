@@ -12,7 +12,7 @@
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_path_to_hash(path_hash_t all_paths, char* direction, path_t *path);
+int add_path_to_hash(path_hash_t* all_paths, char* direction, path_t *path);
 
 /* Deletes a hashtable of paths
  * Implemented with macros provided by uthash.h
@@ -22,7 +22,7 @@ int add_path_to_hash(path_hash_t all_paths, char* direction, path_t *path);
  * Returns:
  *  SUCCESS if successful
  */
-int delete_all_paths(path_hash_t paths);
+int delete_all_paths(path_hash_t* paths);
 
 
 #endif

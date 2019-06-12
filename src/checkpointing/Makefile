@@ -1,16 +1,24 @@
-CC = gcc
+C = gcc
 AR = ar
 RM = rm -f 
-CFLAGS = -fPIC -g -I./include
+CFLAGS = -fPIC -g -I./include -I../common/include -I../game-state/include -I../game-state/src -I../action_management/include/ -I../ui/include -I../cli/include
 LDFLAGES = -shared
 PROTOLIBS = -lprotobuf-c
 
-PROTOCOMP = include/game.pb-c.c
-PROTOFLAGS = --c_out=./include
-SRCS = src/save.c src/load.c
+COMMON = -L../../common/ -Wl,-rpath,../../common/ -l:common.a
+GAME_STATE = -L../../game-state/ -Wl,-rpath,../../game-state/ -l:game-state.a
+ACTION_MANAGEMENT = -L../../action_management -Wl, -rpath,../../action-management/ -l:action_management.a
+CHECKPOINTING = -L../ -Wl,-rpath,../ -l:checkpointing.a
+STLIBS = $(COMMON) $(GAME_STATE) $(CHECKPOINTING) $(ACTION_MANAGEMENT)
+
+PROTOHD = include/game.pb-c.h
+PROTOCOMP = src/game.pb-c.c
+PROTOFLAGS = --c_out=./src
+SRCS = src/game.pb-c.c src/save.c src/load.c src/log_save.c
 OBJS = $(SRCS:.c=.o)
 STATIC_LIB = checkpointing.a
-
+TESTS = tests/test_load.c tests/test_save.c tests/main.c
+DEMO = demo/demo.c
 
 .PHONY: all
 
@@ -21,6 +29,14 @@ $(STATIC_LIB): $(OBJS)
 
 $(PROTOCOMP): game.proto
 	protoc-c $(PROTOFLAGS) $^
+	mv src/game.pb-c.h include/
+
+tests: $(STATIC_LIB) $(TESTS)
+	make -C ./tests
+
+demo: $(DEMO)
+	make -C ./demo
 
 clean:
-	$(RM) $(PROTOCOMP) $(OBJS) $(STATIC_LIB) $(PROTOCOMP:.c=.h)
+	$(RM) $(PROTOHD) $(PROTOCOMP) $(OBJS) $(STATIC_LIB)
+
