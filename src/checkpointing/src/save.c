@@ -324,7 +324,6 @@ int save(game_t *g_t, char *filename)
     buf = malloc(len);
     game__pack(g, buf);
 
-    fprintf(stderr, "Writing %ld serialized bytes\n", len);
     write_to_file(filename, buf, len);
     free(buf);
     return SUCCESS;
