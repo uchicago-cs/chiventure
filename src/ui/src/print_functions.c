@@ -126,12 +126,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
         do_cmd(c, &quit, ctx);
     }
 
-    if (cmd_string) {
-        free(cmd_string);
-    }
-
     getyx(win->w, y, x);
-    y++;
 
     // scrolls the screen up if there is no space to print the next line
     int height = LINES / 2;
@@ -204,6 +199,9 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
 
 
         }
+
+        getyx(cli, y, x);
+        wmove(cli, y+1, 2);
     }
 
 
