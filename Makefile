@@ -4,7 +4,7 @@ CC = gcc
 AR = ar
 CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I./include/ -I./src/common/include -I./src/game-state/include -I./src/ui/include -I./src/cli/include -I./src/action_management/include -I./src/checkpointing/include -I./src/game-state/src
 RM = rm -f
-LDLIBS = -lyaml -lncurses -lreadline -lprotobuf-c
+LDLIBS = -lyaml -lncursesw -lreadline -lprotobuf-c
 
 BIN = chiventure
 

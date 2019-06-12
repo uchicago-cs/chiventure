@@ -13,26 +13,28 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 
 // ITEM STRUCTURE DEFINITION + BASIC FUNCTIONS --------------------------------
 
-/* This typedef is to distinguish between attribute_t pointers which are 
-* used to point to the attribute_t structs in the traditional sense, 
-* and those which are used to hash attribute_t structs with the 
+/* This typedef is to distinguish between attribute_t pointers which are
+* used to point to the attribute_t structs in the traditional sense,
+* and those which are used to hash attribute_t structs with the
 * UTHASH macros as specified in src/common/include */
-typedef struct attribute* attribute_hash_t;
+typedef struct attribute attribute_hash_t;
+
+typedef struct game_action game_action_hash_t;
 
 typedef struct item {
     UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
     char *item_id;
     char *short_desc;
     char *long_desc;
-    // bool condition; /* reserved for future expansion */
-    attribute_hash_t attributes; // a hashtable for all attributes
+    game_action_hash_t *actions;
+    attribute_hash_t *attributes; // a hashtable for all attributes
 } item_t;
 
-/* This typedef is to distinguish between item_t pointers which are 
-* used to point to the item_t structs in the traditional sense, 
-* and those which are used to hash item_t structs with the 
+/* This typedef is to distinguish between item_t pointers which are
+* used to point to the item_t structs in the traditional sense,
+* and those which are used to hash item_t structs with the
 * UTHASH macros as specified in src/common/include */
- typedef struct item* item_hash_t; 
+ typedef struct item item_hash_t;
 
 typedef struct item_wrapped_for_llist {
     struct item_wrapped_for_llist *next;
@@ -89,23 +91,6 @@ char *get_sdesc_item(item_t *item);
  */
 char *get_ldesc_item(item_t *item);
 
-// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
-
-// action_type_t written by AM, can be seen in action_structs.h
-typedef struct action {
-    char *action_name;
-    action_type_t *action_type;
-    // will be expanded to include conditions and effects in Sprint 4
-} game_action_t;
-
-/* item_free() frees allocated space for an action struct in memory
-*  Parameters:
-*    a pointer to the action
-*  Returns:
-*    SUCCESS if successful, FAILURE if not
-*/
-int game_action_free(game_action_t *action_tofree);
-
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
@@ -114,10 +99,9 @@ typedef union attribute_value {
     bool bool_val;
     char* str_val;
     int int_val;
-    game_action_t *act_val;
 } attribute_value_t;
 
-enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER, ACTION};
+enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
 
 typedef struct attribute {
     UT_hash_handle hh;
@@ -131,6 +115,47 @@ typedef struct attribute_wrapped_for_llist {
     attribute_t *attribute;
 } attribute_list_t;
 
+// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
+
+typedef struct game_action_condition{
+    item_t *item;
+    attribute_t* attribute_to_check; //pointer to attribute
+    attribute_value_t expected_value;
+    struct game_action_condition *next;
+} game_action_condition_t;
+
+/* This typedef is to distinguish between game_action_condition_t
+* pointers which are used to point to the game_action_condition_t structs
+* in the traditional sense, and those which are used to enable UTLIST functionality
+* on the game_action_condition_t structs as specified in src/common/include
+*/
+typedef struct game_action_condition action_condition_list_t;
+
+typedef struct game_action_effect{
+    item_t *item;
+    attribute_t* attribute_to_modify;
+    attribute_value_t new_value;
+    struct game_action_effect *next; //mandatory for utlist macros
+} game_action_effect_t;
+
+/* This typedef is to distinguish between game_action_effect_t
+* pointers which are used to point to the game_action_effect_t structs
+* in the traditional sense, and those which are used to enable UTLIST functionality
+* on the game_action_effect_t structs as specified in src/common/include
+*/
+typedef struct game_action_effect action_effect_list_t;
+
+
+typedef struct game_action {
+    UT_hash_handle hh;
+    char* action_name;
+    action_condition_list_t *conditions; //must be initialized to NULL
+    action_effect_list_t *effects; //must be initialized to NULL
+    char* success_str;
+    char* fail_str;
+} game_action_t;
+
+
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
 
 /* attribute_free() frees given attribute
@@ -141,7 +166,17 @@ typedef struct attribute_wrapped_for_llist {
  */
 int attribute_free(attribute_t *attribute);
 
-/* attributes_equal() checks if two items have the same attribute
+/* get_attribute() returns a pointer to an attribute if it exists
+ * Parameters:
+ *  a pointer to an item
+ *  attribute name
+ * Returns:
+ *  NULL if attribute does not exist, pointer to attribute if does
+ */
+attribute_t *get_attribute(item_t *item, char *attr_name);
+
+/* attributes_equal() checks if two items have the same specific attribute
+ * note that it only checks ONE attribute of two items
  * Parameters:
  *  pointer to item1
  *  pointer to item2
@@ -151,7 +186,6 @@ int attribute_free(attribute_t *attribute);
  *  1 if equal, 0 if not equal
  */
 int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
-
 
 
 // ATTRIBUTE ADDITION & REPLACEMENT FUNCTIONS ---------------------------------
@@ -181,7 +215,7 @@ int set_str_attr(item_t* item, char* attr_name, char* value);
 int set_int_attr(item_t* item, char* attr_name, int value);
 
 /* set_double_attr() sets the value of an attribute of an item to
-* the given double
+ * the given double
  * Parameters:
  *  a pointer to the item
  *  the attribute with value to be changed
@@ -274,33 +308,7 @@ char get_char_attr(item_t *item, char* attr_name);
  */
 bool get_bool_attr(item_t *item, char* attr_name);
 
-/* get_act_attr() returns the string value of an attribute of an item
- * Parameters:
- *  a pointer to the item
- *  the attribute name
- * Returns:
- *  the action struct associated with the attribute
- */
-game_action_t *get_act_attr(item_t *item, char* attr_name);
-/* add_allowed_action() adds a permitted action to an item
- * Parameters:
- *  a pointer to the item
- *  the action name
- *  the permitted action struct
- * Returns:
- *  SUCCESS if added correctly, FAILURE if failed to add
- */
-int add_allowed_action(item_t* item, char *act_name, action_type_t *act_type);
-
-/* allowed_action() checks if an item permits a specific action
- * Parameters:
- *  a pointer to the item
- *  the action name
- * Returns:
- *  SUCCESS if item contains action, FAILURE if it does not
- */
-int allowed_action(item_t* item, char* action_name);
-
+//ATTRIBUTE LIST FUNCTIONS
 /*
  * Function to get a linked list (utlist) of all the attributes in the item
  *
@@ -322,6 +330,7 @@ attribute_list_t *get_all_attributes(item_t *item);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int delete_attribute_llist(attribute_list_t *head);
+
 
 /*
  * Function to delete a linked list (utlist) retrieved from get_all_items()
