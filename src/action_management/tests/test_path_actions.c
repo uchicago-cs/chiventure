@@ -38,6 +38,7 @@ Test(path_actions, validate_path)
     room_t *room_north, *room_origin;
     path_t *path_north, *path_origin;
     action_type_t *action_go, *action_invalid;
+    int connec_check1, connec_check2;
 
     /* CREATE VARIABLE CONTENTS */
     ctx_test = chiventure_ctx_new();
@@ -53,13 +54,16 @@ Test(path_actions, validate_path)
     set_curr_player(game_test, player_test);
     add_room_to_game(game_test, room_origin);
     add_room_to_game(game_test, room_north);
-    create_connection(game_test, room_origin->room_id, room_north->room_id, "north");
-    create_connection(game_test, room_north->room_id, room_origin->room_id, "origin");
+    connec_check1 = create_connection(game_test, room_origin->room_id, room_north->room_id, "north");
+    connec_check2 =create_connection(game_test, room_north->room_id, room_origin->room_id, "origin");
     path_north = path_search(room_origin, "north");
     path_origin = path_search(room_north, "origin");
     game_test->curr_room = room_origin;
     ctx_test->game = game_test;
 
+    cr_assert_eq(connec_check1, SUCCESS, "create_connection 1 gave the error code %d", connec_check1);
+    cr_assert_eq(connec_check2, SUCCESS, "create_connection 2 gave the error code %d", connec_check2);
+    
     // /* SUCCESS TEST */
     check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
     // // player should be in room_north
