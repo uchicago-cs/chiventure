@@ -11,7 +11,7 @@
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int delete_all_rooms(room_hash_t rooms);
+int delete_all_rooms(room_hash_t* rooms);
 
 
 #endif
