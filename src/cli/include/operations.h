@@ -219,8 +219,24 @@ char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Load a sample game, for demo and testing purposes
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ * Returns:
+ * Text saying a sample game has been loaded
+ */
 char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Load a sample game, for demo and testing purposes
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ * Returns:
+ * Text saying a sample game has been loaded
+ */
 char *sample_game_2_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
