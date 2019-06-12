@@ -144,6 +144,7 @@ game_t *create_sample_game_2()
     create_connection(game, "ryerson", "bartlett", "north");
     create_connection(game, "bartlett", "ryerson", "south");
     create_connection(game, "bartlett", "reg", "west");
+    create_connection(game, "reg", "bartlett", "east");
     create_connection(game, "reg", "kersten", "west");
     create_connection(game, "kersten", "reg", "east");
     create_connection(game, "reg", "crerar", "southwest");
