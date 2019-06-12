@@ -12,7 +12,7 @@ void add_entry(char *command_name, operation *associated_operation, action_type_
     lookup_t *t = malloc(sizeof(lookup_t));
     char * newname = malloc(sizeof(char) * strlen(command_name));
     strcpy(newname, command_name);
-    t->name = new_name;
+    t->name = newname;
     t->operation_type = associated_operation;
     t->action = action;
     HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
