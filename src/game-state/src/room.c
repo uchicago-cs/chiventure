@@ -58,10 +58,7 @@ int add_item_to_room(room_t *room, item_t *item) {
     HASH_FIND(hh, room->items, item->item_id, strlen(item->item_id), check);
 
     if (check != NULL) {
-        /* WARNING */
-        /* SHOULD BE ABLE TO SUPPORT STACKING MULTIPLE items */
-        fprintf(stderr, "add_item_to_room: this item id is already in use.\n");
-        return FAILURE;
+        return FAILURE; //this item id is already in use.
     }
     HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id),
     item);
@@ -74,20 +71,17 @@ int add_path_to_room(room_t *room, path_t *path) {
     path_t *s;
 
     if (room == NULL) {
-        fprintf(stderr, "add_path_to_room: cannot add path to NULL room\n");
-        return FAILURE;
+        return FAILURE; //cannot add path to NULL room
     }
 
     if (path == NULL) {
-        fprintf(stderr, "add_path_to_room: cannot add NULL path to room\n");
-        return FAILURE;
+        return FAILURE; //cannot add NULL path to room
     }
 
     HASH_FIND(hh, room->paths, path->direction, strlen(path->direction), s);
 
     if (s != NULL) {
-        fprintf(stderr, "add_path_to_room: direction already used!\n");
-        return FAILURE;
+        return FAILURE; //direction already used
     }
 
     HASH_ADD_KEYPTR(hh, room->paths, path->direction, strlen(path->direction),
@@ -96,7 +90,7 @@ int add_path_to_room(room_t *room, path_t *path) {
 }
 
 /* See common-room.h */
-int delete_all_rooms(room_hash_t rooms) {
+int delete_all_rooms(room_hash_t *rooms) {
     room_t *current_room, *tmp;
     HASH_ITER(hh, rooms, current_room, tmp) {
         HASH_DEL(rooms, current_room);  /* deletes (rooms advances to next) */
@@ -108,10 +102,8 @@ int delete_all_rooms(room_hash_t rooms) {
 /* See room.h */
 path_t *path_search(room_t *room, char* direction) {
   path_t *path;
-
   if (room == NULL) {
-      fprintf(stderr, "path_search: cannot search path in NULL room\n");
-      return NULL;
+      return NULL; //cannot search path in NULL room
   }
 
   HASH_FIND(hh, room->paths, direction, strlen(direction), path);
@@ -136,7 +128,7 @@ char *get_ldesc(room_t *room) {
  * Returns:
  *  hashtable of items in room
  */
-item_hash_t list_items(room_t *room) {
+item_hash_t* list_items(room_t *room) {
     return room->items;
 }
 
@@ -158,8 +150,7 @@ path_t *list_paths(room_t *room) {
 */
 
 /* see room.h */
-item_t* get_item_in_room(room_t* room, char* item_id)
-{
+item_t* get_item_in_room(room_t* room, char* item_id) {
     item_t* return_value;
     HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
     return return_value;
