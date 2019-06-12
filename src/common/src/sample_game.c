@@ -187,7 +187,7 @@ game_t *create_sample_game_gs()
     attribute_value_t ripe;
     ripe.str_val = "ripe";
     /* conditions */
-    add_condition(game, "EAT", "apple", "apple", "ripeness", ripe);
+    add_condition(game, "CONSUME", "apple", "apple", "ripeness", ripe);
 
     /* add items to room */
     add_item_to_room(room2, apple);
