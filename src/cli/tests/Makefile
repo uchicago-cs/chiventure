@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../action_management/include/ -I../../ui/include/
 RM = rm -f
-LDLIBS = -lcriterion -lncurses 
+LDLIBS = -lcriterion -lncursesw 
 
 COMMON = -L../../common/ 
 GAME_STATE = -L../../game-state/ 

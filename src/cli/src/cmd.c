@@ -112,8 +112,12 @@ int lookup_t_init(lookup_t **t)
     add_entry("LOOK",look_operation, NULL, t);
     add_entry("INV", inventory_operation, NULL, t);
     add_entry("SAVE", save_operation, NULL, t);
+    add_entry("LOAD", load_operation, NULL, t);
     add_entry("MAP", map_operation, NULL, t);
     add_entry("SWITCH", switch_operation, NULL, t);
+    add_entry("LOAD_SAMPLE", sample_game_operation, NULL, t);
+    add_entry("LOAD_SAMPLE_CP", sample_game_cp_operation, NULL, t);
+    add_entry("LOAD_SAMPLE_GS", sample_game_gs_operation, NULL, t);
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
 

@@ -25,5 +25,6 @@ int main(int argc, char **argv)
 
     start_ui(ctx, banner);
 
+    game_free(ctx->game);
     return 0;
 }

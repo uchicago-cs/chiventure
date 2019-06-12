@@ -6,7 +6,9 @@
 int game_action_init(game_action_t *new_action, char *act_name,
 		     char* success_str, char* fail_str) {
     assert(new_action != NULL);
-
+    if(new_action == NULL) {
+        return FAILURE;
+    }
     strncpy(new_action->action_name, act_name, strlen(act_name));
     new_action->conditions = NULL; //by UTLIST rules
     new_action->effects= NULL; //by UTLIST rules
