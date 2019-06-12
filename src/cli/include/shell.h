@@ -1,7 +1,8 @@
 #ifndef _CLI_INCLUDE_SHELL_H
 #define _CLI_INCLUDE_SHELL_H
 
-#include "print_functions.h"
+#include "ctx.h"
+
 /*
  * The shell module contains system internal functions
  *
