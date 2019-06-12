@@ -21,6 +21,7 @@ ROOMS:
     - to: "room C"
       direction: "north"
 
+
  - id: "room C"
    short_desc: "This is room C"
    long_desc: "This is room C long"
