@@ -158,7 +158,7 @@ Test(item_actions, wrong_kind_2)
     int rc = execute_do_item_action("dummy", PATH, "dummy", 0, 0);
 
     cr_assert_eq(rc, WRONG_KIND,
-                 "execute_do_item_action returned %d for wrong kind 2, expected WRONG_KIND (1)", rc);
+                 "execute_do_item_action returned %d for wrong kind 2, expected WRONG_KIND (2)", rc);
 }
 
 Test(item_actions, wrong_kind_3)
@@ -166,7 +166,7 @@ Test(item_actions, wrong_kind_3)
     int rc = execute_do_item_action("dummy", ITEM_ITEM, "dummy", 0, 0);
 
     cr_assert_eq(rc, WRONG_KIND,
-                 "execute_do_item_action returned %d for wrong kind 3, expected WRONG_KIND (1)", rc);
+                 "execute_do_item_action returned %d for wrong kind 3, expected WRONG_KIND (2)", rc);
 }
 
 Test(item_actions, correct_allowed_action)
