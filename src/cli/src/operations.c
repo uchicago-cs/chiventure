@@ -256,7 +256,7 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "You can't change the meaning of a word that's already defined!";
     }
-    add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (ctx->table));
+    add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (find_action(tokens[1],(ctx->table))), (ctx->table));
     return "The two words are now synonyms!";
 }
 
