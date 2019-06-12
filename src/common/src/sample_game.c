@@ -26,8 +26,8 @@ game_t* create_sample_game()
     game_t *game = game_new("Welcome to sample game 1.0!\n");
 
     /* initialize sample rooms */
-    room_t *room1 = room_new("room1", "A room", "room 1 used for the sample game");
-    room_t *room2 = room_new("room2", "A room", "room 2 used for the sample game");
+    room_t *room1 = room_new("room1", "A small room", "A small room. There's a shiny orb in here.");
+    room_t *room2 = room_new("room2", "A slightly larger room", "A slightly larger room. There's a table in here.");
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     create_connection(game, "room1", "room2", "right");
@@ -69,7 +69,7 @@ game_t* create_sample_game()
 
 }
 
-game_t *create_sample_game_fake()
+game_t *create_sample_game_2()
 {
     // first room
     room_t *dorm_t;
