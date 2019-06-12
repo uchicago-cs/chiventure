@@ -1,21 +1,37 @@
 #ifndef SAVE_H
 #define SAVE_H
-
 #include "game.pb-c.h"
-#include "dummy.h"
+#include "game.h"
+#include "actionmanagement.h"
+
 
 /* 
- * Packs the object_t struct into the Object field in the protofile.
+ * Packs the attribute_t struct into the Attribute field in the protofile.
  * 
  * Parameters:
- *   - o_t: pointer to an object_t struct
- *   - o: pointer to the proto file object struct
+ *   - i_t: pointer to an item_t struct
+ *   - a_t: pointer to an attribute_t struct
+ *   - a: pointer to the proto file Attribute struct
  *
  * Return:
- *   - 0 if successful
- *   - -1 if unsuccessful 
+ *   - 0 (SUCCESS) if successful
+ *   - 1 (FAILURE) if unsuccessful 
  */
-int save_object(object_t *o_t, Object *o);
+int save_attribute(item_t *i_t, attribute_t *a_t, Attribute *a);
+
+
+/* 
+ * Packs the item_t struct into the Item field in the protofile.
+ * 
+ * Parameters:
+ *   - i_t: pointer to an item_t struct
+ *   - i: pointer to the proto file Item struct
+ *
+ * Return:
+ *   - 0 (SUCCESS) if successful
+ *   - 1 (FAILURE) if unsuccessful 
+ */
+int save_item(item_t *i_t, Item *i);
 
 
 /* 
@@ -25,10 +41,10 @@ int save_object(object_t *o_t, Object *o);
  *   - r_t: pointer to a room_t struct
  *   - r: pointer to the proto file room struct
  *
- * Return:
- *   - 0 if successful
- *   - -1 if unsuccessful 
- */
+ * Return: 
+ *   - 0 (SUCCESS) if successful
+ *   - 1 (FAILURE) if unsuccessful 
+*/
 int save_room(room_t *r_t, Room *r);
 
 
@@ -40,7 +56,8 @@ int save_room(room_t *r_t, Room *r);
  *   - p: pointer to the proto file player struct
  *
  * Return:
- *   - 0 if successful, -1 if unsuccessful 
+ *   - 0 (SUCCESS) if successful
+ *   - 1 (FAILURE) if unsuccessful 
  */
 int save_player(player_t *p_t, Player *p);
 
@@ -53,8 +70,8 @@ int save_player(player_t *p_t, Player *p);
  *   - g: pointer to the proto file game struct
  *
  * Return:
- *   - 0 if successful
- *   - -1 if unsuccessful 
+ *   - 0 (SUCCESS) if successful
+ *   - 1 (FAILURE) if unsuccessful 
  */
 int save_game(game_t *g_t, Game *g);
 
@@ -68,8 +85,8 @@ int save_game(game_t *g_t, Game *g);
  *   - len: the length of the serialized game in buffer
  *
  * Return:
- *   - 0 if successful
- *   - -1 if unsuccessful 
+ *   - 0 (SUCCESS) if successful
+ *   - 1 (FAILURE) if unsuccessful 
  */
 int write_to_file(char *filename, uint8_t *buffer, unsigned len);
 
@@ -82,9 +99,10 @@ int write_to_file(char *filename, uint8_t *buffer, unsigned len);
  *   - filename: pointer to string name of the save file
  *
  * Return:
- *   - 0 if successful
- *   - -1 if unsuccessful 
+ *   - 0 (SUCCESS) if successful
+ *   - 1 (FAILURE) if unsuccessful 
  */
-int save(game_t *game, char *filename);
+int save(game_t *g_t, char *filename);
+
 
 #endif
