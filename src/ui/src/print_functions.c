@@ -126,9 +126,9 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
         do_cmd(c, &quit, ctx);
     }
 
-    if (cmd_string) {
-        free(cmd_string);
-    }
+    // if (cmd_string) {
+    //     free(cmd_string);
+    // }
 
     getyx(win->w, y, x);
 
