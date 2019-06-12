@@ -13,7 +13,6 @@
 #define NOT_ALLOWED_PATH (5)
 #define CONDITIONS_NOT_MET (6)
 #define EFFECT_NOT_APPLIED (7)
-#define END_FAIL (8)
 
 
 /* See actionmanagement.h */
