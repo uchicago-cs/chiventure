@@ -180,8 +180,6 @@ item_list_t *get_all_items_in_game(game_t *game) {
     }
     /* **** If multiplayer/npc is supported in the furture,
             please add get_all_players() and modify this    **** */
-    items_tmp = get_all_items_in_inventory(game->curr_player);
-    LL_CONCAT(items, items_tmp);
     return items;
 }
 

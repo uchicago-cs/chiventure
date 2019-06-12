@@ -8,7 +8,7 @@
  */
 Test(wdl, load_wdl)
 {
-    game_t *game = load_wdl();
+  game_t *game = load_wdl("../examples/sample_yaml/simplified_wdl.yaml");
 
     char *start_desc = game->start_desc;
     cr_assert_str_eq(start_desc, "This is the intro", "Intro was not loaded correctly");
@@ -19,11 +19,11 @@ Test(wdl, load_wdl)
  */
 Test(wdl, loading_rooms)
 {
-    game_t *game = load_wdl();
+  game_t *game = load_wdl("../examples/sample_yaml/simplified_wdl.yaml");
+  
+  room_list_t *rc = get_all_rooms(game);
 
-    room_list_t *rc = get_all_rooms(game);
-
-    cr_assert_not_null(rc, "load_wdl did not load rooms");
+  cr_assert_not_null(rc, "load_wdl did not load rooms");
 }
 
 /*
@@ -31,11 +31,11 @@ Test(wdl, loading_rooms)
  */
 Test(wdl, loading_items)
 {
-    game_t *game = load_wdl();
+  game_t *game = load_wdl("../examples/sample_yaml/simplified_wdl.yaml");
 
-    item_list_t *rc = get_all_items_in_game(game);
+  item_list_t *rc = get_all_items_in_game(game);
 
-    cr_assert_not_null(rc, "load_wdl did not load items");
+  cr_assert_not_null(rc, "load_wdl did not load items");
 }
 
 /*
@@ -43,11 +43,11 @@ Test(wdl, loading_items)
  */
 Test(wdl, loading_final_room)
 {
-    game_t *game = load_wdl();
+  game_t *game = load_wdl("../examples/sample_yaml/simplified_wdl.yaml");
 
-    char *end_room = game->final_room->room_id;
+  char *end_room = game->final_room->room_id;
 
-    cr_assert_str_eq(end_room, "room B", "final_room was not loaded correctly");
+  cr_assert_str_eq(end_room, "room B", "final_room was not loaded correctly");
 
 }
 

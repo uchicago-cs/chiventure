@@ -7,7 +7,6 @@
 
 #include "wdl_common.h"
 #include "parse.h"
-
 #define FILE_PATH "../examples/sample_yaml/simplified_wdl.yaml"
 
 

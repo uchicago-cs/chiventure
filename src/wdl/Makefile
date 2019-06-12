@@ -2,11 +2,11 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../common/include/ -I../game-state/include/ -I../action_management/include/ -I../ui/include/ -I../cli/include/ -I../checkpointing/include/
+CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../game-state/include/ -I../action_management/include/ -I../common/include/ -I../ui/include -I../cli/include -I../checkpointing/include -I../game-state/src
 RM = rm -f
 LIB = wdl.a
-LDFLAGS = -L../libobj -L../action_management
-LDLIBS = ../libobj/libobj.a ../action_management/action_management.a -lyaml
+LDFLAGS = -L../libobj -L../action_management -L../game-state
+LDLIBS = ../libobj/libobj.a ../action_management/action_management.a -L../game-state.a  -lyaml
 
 .PHONY: clean clean-lib clean-bin
 
@@ -16,9 +16,6 @@ all: $(LIB)
 
 SRCS = src/parse.c src/validate.c src/load_room.c src/load_item.c src/load_game.c src/load_wdl.c
 OBJS = $(SRCS:.c=.o)
-
-$(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(SRCS:.c=.d)
 
@@ -32,9 +29,6 @@ clean-lib:
 
 EXAMPLE_BINS = examples/typecheck_demo
 EXAMPLE_SRCS=$(patsubst %, %.c, $(EXAMPLE_BINS))
-
-$(EXAMPLE_SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(EXAMPLE_SRCS:.c=.d)
 

@@ -3,13 +3,13 @@
 /*
  * load_wdl, function that loads a wdl into all the game-state structs
  *
- * has no parameters, automatically load yaml found in FILE_PATH
+ * takes a path to a yaml file, automatically load yaml found in FILE_PATH
  *
  *
  */
-game_t *load_wdl()
+game_t *load_wdl(char *path_to_yaml)
 {
-    obj_t *big_document = get_doc_obj(PATH_TO_YAML);
+    obj_t *big_document = get_doc_obj(path_to_yaml);
     game_t *game = create_game(big_document);
 
     // call functions that parse items, actions, rooms, and game attributes
