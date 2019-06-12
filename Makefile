@@ -40,7 +40,7 @@ OBJS = $(SRCS:.c=.o)
 -include $(SRCS:.c=.d)
 
 $(BIN): $(LIBS) $(OBJS)
-	$(CC) $(OBJS) $(LIBS) -o$@ $(LDLIBS)
+	$(CC) $(OBJS) $(LIBS) src/common/common.a -o$@ $(LDLIBS)
 
 clean:
 	-${RM} ${OBJS} $(SRCS:.c=.d)
