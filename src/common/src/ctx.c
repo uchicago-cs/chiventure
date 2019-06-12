@@ -30,7 +30,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx)
 {
     assert(ctx != NULL);
 
-    game_t *game = load_wdl("wdl/examples/sample_yaml/simplied_wdl.yaml");
+    game_t *game = load_wdl("src/wdl/examples/sample_yaml/simplified_wdl.yaml");
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
 
     lookup_t **table = lookup_t_new();

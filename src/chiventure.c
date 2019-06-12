@@ -20,7 +20,7 @@ const char *banner =
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = chiventure_ctx_new();
-
+    printf("IT LOADED");
     /* Add calls to component-specific initializations here */
 
     start_ui(ctx, banner);
