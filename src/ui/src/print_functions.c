@@ -42,10 +42,13 @@ void print_homescreen(window_t *win, const char *banner)
 
         wrefresh(win->w);
 
-        usleep(100 * 1000);
+
 
         if (i > 4) {
-            usleep(500 * 1000);
+            usleep(600 * 1000);
+        }
+        else {
+            usleep(100 * 1000);
         }
 
         int len = strlen(banner);
@@ -62,12 +65,14 @@ void print_homescreen(window_t *win, const char *banner)
 
         wrefresh(win->w);
 
-        usleep(100 * 1000);
+
 
         if (i > 3) {
-            usleep(500 * 1000);
+            usleep(600 * 1000);
         }
-
+        else {
+            usleep(100 * 1000);
+        }
         if (i == 6) {
             y_pos = y;
         }
