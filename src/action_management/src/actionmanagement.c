@@ -65,7 +65,8 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     assert(a);
     assert(i);
 
-    char *string = malloc(BUFFER_SIZE); // buffer
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
 
     // checks if the action type is the correct kind
     if (a->kind != ITEM) {
@@ -75,8 +76,8 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     }
 
     // checks if the action is possible
-    int possible = possible_action(i, a->c_name);
-    if (possible == FAILURE) {
+    if (!possible_action(i, a->c_name))
+    {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, i->item_id);
         *ret_string = string;
@@ -87,8 +88,8 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     game_action_t *game_act = get_action(i, a->c_name);
 
     // check if all conditions are met
-    int all_clear = all_conditions_met(i, a->c_name);
-    if (all_clear == FAILURE) {
+    if (!all_conditions_met(i, a->c_name))
+    {
         sprintf(string, "%s", game_act->fail_str);
         *ret_string = string;
         return CONDITIONS_NOT_MET;
@@ -124,6 +125,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 
     /* INITIALIZATION */
     char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
     char *direction = p->direction;
     game_t *g = c->game;
     room_t *room_dest = p->dest;
@@ -170,7 +172,8 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     assert(a);
     assert(direct);
     assert(indirect);
-    char *string = malloc(BUFFER_SIZE); // buffer
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
 
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
@@ -181,8 +184,8 @@ int do_item_item_action(action_type_t *a, item_t *direct,
 
 
     // checks if the action is possible with the direct item
-    int possible = possible_action(direct, a->c_name);
-    if (possible == FAILURE) {
+    if (!possible_action(direct, a->c_name))
+    {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, direct->item_id);
         *ret_string = string;
@@ -193,8 +196,8 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     game_action_t *dir_game_act = get_action(direct, a->c_name);
 
     // check if all conditions of the action are met
-    int all_clear = all_conditions_met(direct, a->c_name);
-    if (all_clear == FAILURE) {
+    if (!all_conditions_met(direct, a->c_name))
+    {
         sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;
         return CONDITIONS_NOT_MET;
