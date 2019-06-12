@@ -119,16 +119,7 @@ attr_list_t *connections_get_list(obj_t *obj)
     }
 }
 
-/* check_connection_attr()
- * a helper function for connection_type_check() that checks the attributes of
- * connections associated with a room object
- *
- * parameters:
- * - obj: a connection object
- *
- * returns:
- * - true if connection types match, else return false
- */
+/* See validate.h */
 bool check_connection_attr(obj_t *obj)
 {
     // verify types of fields
@@ -181,11 +172,9 @@ bool item_type_check(obj_t *obj)
     bool id_ver = (obj_get_type(obj, "id") == TYPE_STR);
     bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
-    bool in_ver = (obj_get_type(obj, "in") == TYPE_STR);
-    bool state_ver = (obj_get_type(obj, "state") == TYPE_STR);
-    bool val_ver = (obj_get_type(obj, "value") == TYPE_STR);
+    bool in = (obj_get_type(obj, "in") == TYPE_STR);
 
-    return (id_ver && short_ver && long_ver && in_ver && state_ver && val_ver);
+    return (id_ver && short_ver && long_ver && in);
 }
 
 // The following functions regard game type checking
@@ -201,6 +190,60 @@ bool game_type_check(obj_t *obj)
     bool intro_ver = (obj_get_type(game, "intro") == TYPE_STR);
 
     return (start_ver && intro_ver);
+}
+
+
+// the following functions regard action type checking
+
+/* action_validate()
+ * a helper function for action_type_check() that verifies the given action is on
+ * the list of approved actions determined by action-management
+ *
+ * parameters
+ *  - ls: a list of approved actions
+ *  - str: the action to check
+ *
+ * returns
+ *  - true if the action is valid
+ *  - false if else
+ */
+bool action_validate(char *str)
+{
+    // getting a list of valid actions;
+    // note that in the future we may wish to use a hasth table
+    list_action_type_t *valid_actions = get_supported_actions();
+    list_action_type_t *curr = valid_actions;
+
+    while (curr != NULL) {
+        if (strcmp(curr->act->c_name, str) == 0) {
+            return true;
+        }
+        curr = curr->next;
+    }
+
+    return false;
+}
+
+void print_list(list_action_type_t *ls)
+{
+    int i;
+    for (i = 0; i < 14; i++)
+    {
+        printf("%s\n", ls->act->c_name);
+        ls = ls->next;
+    }
+    return;
+}
+
+/* see validate.h */
+/* INPUTS AN ITEM OBJ */
+bool action_type_check(obj_t *obj)
+{
+    // fields to verify
+    bool action_type = (obj_get_type(obj, "action") == TYPE_STR);
+    bool action_valid = action_validate(obj_get_str(obj, "action"));
+
+    return (action_type && action_valid);
 }
 
 // The following are print functions to print out specific fields within a
@@ -260,7 +303,7 @@ bool game_type_check(obj_t *obj)
     // print each attribute within connection object
     printf("connected to: %s\n", obj_get_str(obj, "to"));
     printf("direction: %s\n", obj_get_str(obj, "direction"));
-
+   
     return;
  }
 
@@ -311,11 +354,9 @@ void print_item(obj_t *obj)
 /* See validate.h */
 void print_game(obj_t *obj)
 {
-    attr_list_t *temp = obj_list_attr(obj);
-    obj_t *game = temp->obj;
     // print game attributes
-    printf("GAME introduction: %s\n", obj_get_str(game, "intro"));
-    printf("starting room: %s\n", obj_get_str(game, "start"));
+    printf("GAME introduction: %s\n", obj_get_str(obj, "intro"));
+    printf("starting room: %s\n", obj_get_str(obj, "start"));
     return;
 }
 
@@ -342,4 +383,6 @@ void print_document(obj_t *obj)
     // Print items
     printf("printing all items and their attributes\n");
     list_print(items_ls, print_item);
+
+    return;
 }
