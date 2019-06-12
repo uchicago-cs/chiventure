@@ -9,9 +9,10 @@
 #include "player.h"
 
 #define BUFFER_SIZE (100)
-#define WRONG_KIND (1)
-#define NOT_ALLOWED (2)
-#define CONDITIONS_NOT_MET (4)
+#define WRONG_KIND (2)
+#define NOT_ALLOWED_DIRECT (3)
+#define CONDITIONS_NOT_MET (6)
+#define EFFECT_NOT_APPLIED (7)
 
 int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, int choose_condition, int choose_effect)
 {
@@ -19,7 +20,15 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     item_t *item = item_new("item", "The item item", "The itemmost object of interest");
     add_action(item, allowed_act_name, "success1", "fail1");
     char *string = malloc(BUFFER_SIZE);
-    game_action_t *ga = get_action(item, act_name);
+    game_action_t *ga;
+    if (strcmp(act_name, allowed_act_name) == 0)
+    {
+        ga = get_action(item, act_name);
+    }
+    else
+    {
+        ga = get_action(item, allowed_act_name);
+    }
     int rc;
     attribute_value_t value;
     attribute_t *attr;
@@ -170,9 +179,9 @@ Test(item_actions, correct_allowed_action)
 
 Test(item_actions, wrong_allowed_action)
 {
-    int rc = execute_do_item_action("dummy_allowed", ITEM, "dummy", 0, 0);
+    int rc = execute_do_item_action("dummy", ITEM, "dummy_allowed", 0, 0);
 
-    cr_assert_eq(rc, NOT_ALLOWED,
+    cr_assert_eq(rc, NOT_ALLOWED_DIRECT,
                  "execute_do_item_action returned %d for incorrect allowed action, expected NOT_ALLOWED (2)", rc);
 }
 
