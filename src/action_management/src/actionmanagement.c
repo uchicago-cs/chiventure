@@ -94,9 +94,8 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-
-    // implement the action (i.e. dole out the effects)
     else {
+        // implement the action (i.e. dole out the effects)
         int applied_effects;
         applied_effects = do_all_effects(i, a->c_name);
         if (applied_effects == FAILURE) {
@@ -202,10 +201,10 @@ int do_item_item_action(action_type_t *a, item_t *direct,
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-    // implement the action (i.e. dole out the effects)
     else {
+        // implement the action (i.e. dole out the effects)
         action_effect_list_t *act_effects = dir_game_act->effects;
-        int applied_effect = 40; // unused macro
+        int applied_effect = 40; // arbitrary placeholder number for comparison
         while (act_effects) {
             // apply the effects of the direct item action (use, put) on the indirect item
             if (strcmp(act_effects->item->item_id, indirect->item_id) == 0) {
