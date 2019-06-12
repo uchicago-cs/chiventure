@@ -10,6 +10,7 @@
 void help_text(chiventure_ctx_t *ctx)
 {
     char p[] =
+
         "HERE IS A BRIEF OVERVIEW OF GAME ACTIONS\n"
         "LOOK\n"
         "   -Look around the room\n"
@@ -30,7 +31,6 @@ void help_text(chiventure_ctx_t *ctx)
         "   -CONSUME [OBJ]\n"
         "   -USE [OBJ] ON [OBJ]\n"
         "   -PUT [OBJ] ON [OBJ]\n"
-
         "HERE IS A BRIEF OVERVIEW OF SYSTEM ACTIONS\n"
         "HELP\n"
         "	-Prints out help menu (duh, you just used it)\n"
@@ -39,10 +39,14 @@ void help_text(chiventure_ctx_t *ctx)
         "SWITCH\n"
         "   -Switches the position of the main window and the CLI. Type 'switch' again to switch it back\n"
         "LOAD [PATH] (NOT IMPLEMENTED)\n"
-        "	-Loads a saved game from a specefied location\n"
+        "	-Loads a saved game from a specified location\n"
         "	 relative to the folder chiventure is running in\n"
         "SAVE [PATH] (NOT IMPLEMENTED)\n"
-        "	-Saves a game to a specefied location\n"
+        "	-Saves a game to a specified location\n"
+        "NAME [VALID COMMAND] [NEW COMMAND]\n"
+        " -Makes the second argument a command word with the definition of the first argument\n"
+        "PALETTE [\"DEFAULT\"/\"NIGHT\"/\"BRIGHT\"/\"PAIN\"]\n"
+        " -Makes the color of the UI change to that theme!\n"
         "CTRL + D\n"
         "	-Quit game\n\n";
     print_to_cli(ctx, p);
