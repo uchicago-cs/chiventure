@@ -74,9 +74,9 @@ void delete_entry(char *command_name, lookup_t **table)
     free(t);
 }
 
- /* === hashtable constructors  === */
+/* === hashtable constructors  === */
 
- /* See cmd.h */
+/* See cmd.h */
 lookup_t **lookup_t_new()
 {
     lookup_t **t;
@@ -90,18 +90,18 @@ lookup_t **lookup_t_new()
     }
 
     // Important: Set *t to NULL as per uthash documentation
-     *t = NULL;
+    *t = NULL;
 
-     rc = lookup_t_init(t);
-     if(rc != SUCCESS)
-     {
-         return NULL;
-     }
+    rc = lookup_t_init(t);
+    if(rc != SUCCESS)
+    {
+        return NULL;
+    }
 
     return t;
 }
 
- /* See cmd.h */
+/* See cmd.h */
 int lookup_t_init(lookup_t **t)
 {
     assert(t != NULL);
@@ -116,24 +116,28 @@ int lookup_t_init(lookup_t **t)
     add_entry("MAP", map_operation, NULL, t);
     add_entry("SWITCH", switch_operation, NULL, t);
     add_entry("LOAD_SAMPLE", sample_game_operation, NULL, t);
-    add_entry("LOAD_SAMPLE_2", sample_game_2_operation, NULL, t);
+    add_entry("LOAD_SAMPLE_RAND", sample_game_rand_operation, NULL, t);
+    add_entry("LOAD_SAMPLE_GS", sample_game_gs_operation, NULL, t);
+    add_entry("NAME", name_operation, NULL, t);
+    add_entry("PALETTE", palette_operation, NULL, t);
+
     add_action_entries(t);
 
     return SUCCESS;
  }
 
 
- /* See cmd.h */
+/* See cmd.h */
 int lookup_t_free(lookup_t **t)
 {
-   lookup_t *tmp;
-   lookup_t *current_user;
-   HASH_ITER(hh, *t, current_user, tmp)
-   {
-       HASH_DEL(*t, current_user);
-       free(current_user);
-   }
-   return SUCCESS;
+    lookup_t *tmp;
+    lookup_t *current_user;
+    HASH_ITER(hh, *t, current_user, tmp)
+    {
+        HASH_DEL(*t, current_user);
+        free(current_user);
+    }
+    return SUCCESS;
 }
 
 /* === command constructors  === */

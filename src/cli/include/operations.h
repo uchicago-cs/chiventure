@@ -237,10 +237,33 @@ char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
  * Returns:
  * Text saying a sample game has been loaded
  */
-char *sample_game_2_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Load a sample game, for demo and testing purposes
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ * Returns:
+ * Text saying a sample game has been loaded
+ */
+char *sample_game_rand_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Inserts a new command as a synonym for an existing one.
+ * The third word becomes a synonym for the second, if it doesn't mean anything already.
+ * The text saying the naming is complete or has failed.
+ */
+char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-//char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
+/* Changes UI color.
+ * The second word, if a keyword of the following: "DEFAULT", "BRIGHT", "NIGHT","PAIN"
+ * changes the UI color to that theme.
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ * Returns:
+ * A string notifying them if the color was changed or not.
+ */
+char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */

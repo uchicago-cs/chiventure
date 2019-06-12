@@ -16,7 +16,7 @@ Test(parse, no_input)
 
 //Tests the parsing of a single word.
 Test(parse, single)
-{	
+{
     char str[] = "LOOK";
     char **words = parse(str);
     cr_assert_str_eq(words[0],"LOOK", "parse() did not create first token");

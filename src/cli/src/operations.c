@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "operations.h"
 #include "cmd.h"
 #include "print_functions.h"
@@ -96,8 +97,9 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "Room not found! Error! We need a room to be loaded to LOOK!\n";
     }
     if(tokens[1] == NULL)
-    {   
-        if(game != NULL){
+    {
+        if(game != NULL)
+        {
             return game->curr_room->long_desc;
         }
         else
@@ -186,7 +188,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     item_t *item1, *item2;
     item1 = get_item_in_room(game->curr_room, tokens[1]);
     item2 = get_item_in_room(game->curr_room, tokens[3]);
-    
+
     if(item1 == NULL || item2 == NULL)
     {
         return "The object(s) could not be found";
@@ -251,10 +253,89 @@ char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
     return "Sample game loaded";
 }
 
-char *sample_game_2_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    game_t *sample_game = create_sample_game_2();
+    game_t *sample_game = create_sample_game_gs();
     ctx->game = sample_game;
 
     return "Sample game loaded";
+}
+
+char *sample_game_rand_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *sample_game = create_sample_game_rand();
+    ctx->game = sample_game;
+
+    return "Sample game loaded";
+}
+
+/* A function that capitalizes a word to be used in name_operation
+ * Parameters:
+ * - word: A pointer to a string to be capitalized.
+ * Output:
+ * - The newly capitalized string.
+*/
+char *capitalize(char *word)
+{
+    char *command = word;
+    int i = 0;
+    char ch;
+
+    while(command[i])
+    {
+        ch = toupper(command[i]);
+        command[i] = ch;
+        i++;
+    }
+    return word;
+}
+
+char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    capitalize(tokens[1]);
+    capitalize(tokens[2]);
+    if(find_entry(tokens[1], (ctx->table)) == NULL)
+    {
+        return "New words must be defined using only words that are already defined!";
+    }
+    if(find_entry(tokens[2],(ctx->table)) != NULL)
+    {
+        return "You can't change the meaning of a word that's already defined!";
+    }
+    add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (find_action(tokens[1],(ctx->table))), (ctx->table));
+    return "The two words are now synonyms!";
+}
+
+char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    int n = 0;
+    if (tokens[1] == NULL)
+    {
+        return "Please input a theme";
+    }
+    capitalize(tokens[1]);
+    if(strcmp(tokens[1], "DEFAULT") == 0)
+    {
+        n = 1;
+    }
+    if(strcmp(tokens[1], "NIGHT") == 0)
+    {
+        n = 2;
+    }
+    if(strcmp(tokens[1], "BRIGHT") == 0)
+    {
+        n = 3;
+    }
+    if(strcmp(tokens[1], "PAIN") == 0)
+    {
+        n = 4;
+    }
+    if(n != 0)
+    {
+        wbkgd(ctx->ui_ctx->cli_win->w, COLOR_PAIR(n));
+        wbkgd(ctx->ui_ctx->displayed_win->w, COLOR_PAIR(n));
+        wbkgd(ctx->ui_ctx->map->pad, COLOR_PAIR(n));
+        return "The color palette has been changed";
+    }
+    return "I don't have that palette yet. You must make do with the current style.";
 }
