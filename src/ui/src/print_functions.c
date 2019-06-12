@@ -200,9 +200,8 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
 
         }
 
-        getyx(cli, y, x);
-        wmove(cli, y+1, 2);
     }
 
-
+    getyx(cli, y, x);
+    wmove(cli, y+1, 2);
 }
