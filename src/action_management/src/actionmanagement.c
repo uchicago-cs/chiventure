@@ -4,12 +4,15 @@
 #include <string.h>
 #include "actionmanagement.h"
 #include "common.h"
+#include "game_action.h"
 
 #define BUFFER_SIZE (100)
-#define WRONG_KIND (1)
-#define NOT_ALLOWED_DIRECT (2)
-#define NOT_ALLOWED_INDIRECT (3)
-#define NOT_ALLOWED_PATH (4)
+#define WRONG_KIND (2)
+#define NOT_ALLOWED_DIRECT (3)
+#define NOT_ALLOWED_INDIRECT (4)
+#define NOT_ALLOWED_PATH (5)
+#define CONDITIONS_NOT_MET (6)
+#define EFFECT_NOT_APPLIED (7)
 
 
 /* See actionmanagement.h */
@@ -59,31 +62,54 @@ int action_type_free(action_type_t *a)
  * See actionmanagement.h */
 int do_item_action(action_type_t *a, item_t *i, char **ret_string)
 {
-    // a couple confirmation checks
     assert(a);
     assert(i);
-    char *string = malloc(BUFFER_SIZE); // buffer
+
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
     // checks if the action type is the correct kind
     if (a->kind != ITEM) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
     }
-    // checks if the action can be used on the item
-    int allowed = possible_action(i, a->c_name);
-    if (allowed != SUCCESS) {
-        sprintf(string, "Action %s can't be requested on item %s",
+
+    // checks if the action is possible
+    if (!possible_action(i, a->c_name))
+    {
+        sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, i->item_id);
         *ret_string = string;
         return NOT_ALLOWED_DIRECT;
     }
-    /* TODO: implement the rest of this function, using game_state funcs
-     * Will perform the action if all checks pass (Sprint 4)
-     */
-    sprintf(string, "Requested action %s on item %s",
-            a->c_name, i->item_id);
-    *ret_string = string;
-    return SUCCESS;
+
+    // get the game action struct
+    game_action_t *game_act = get_action(i, a->c_name);
+
+    // check if all conditions are met
+    if (!all_conditions_met(i, a->c_name))
+    {
+        sprintf(string, "%s", game_act->fail_str);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
+    else {
+        // implement the action (i.e. dole out the effects)
+        int applied_effects;
+        applied_effects = do_all_effects(i, a->c_name);
+        if (applied_effects == FAILURE) {
+            sprintf(string, "Effect(s) of Action %s were not applied", a->c_name);
+            *ret_string = string;
+            return EFFECT_NOT_APPLIED;
+        }
+        else {
+            // successfully carried out action
+            sprintf(string, "%s", game_act->success_str);
+            *ret_string = string;
+            return SUCCESS;
+        }
+    }
 }
 
 
@@ -95,10 +121,11 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     assert(c->game);
     assert(c->game->curr_room);
     assert(a);
-    
+
 
     /* INITIALIZATION */
     char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
     char *direction = p->direction;
     game_t *g = c->game;
     room_t *room_dest = p->dest;
@@ -123,13 +150,12 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     int move = move_room(g, room_dest);
 
     if (move == SUCCESS) {
-        sprintf(string, "Moved into %s. %s", 
-                room_dest->room_id, room_dest->long_desc);
+        snprintf(string, BUFFER_SIZE, "Moved into %s. %s",
+                 room_dest->room_id, room_dest->long_desc);
         *ret_string = string;
         return SUCCESS;
-    }
-    else {
-        sprintf(string, 
+    } else {
+        sprintf(string,
                 "Move action %s via %s into %s failed.",
                 a->c_name, direction, room_dest->room_id);
         *ret_string = string;
@@ -146,34 +172,64 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     assert(a);
     assert(direct);
     assert(indirect);
-    char *string = malloc(BUFFER_SIZE); // buffer
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
     // checks if the action type is the correct kind
     if (a->kind != ITEM_ITEM) {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
     }
-    // checks if the action can be used on the direct item
-    int allowed = possible_action(direct, a->c_name);
-    if (allowed != SUCCESS) {
-        sprintf(string, "Action %s can't be requested on item %s",
+
+
+    // checks if the action is possible with the direct item
+    if (!possible_action(direct, a->c_name))
+    {
+        sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, direct->item_id);
         *ret_string = string;
         return NOT_ALLOWED_DIRECT;
     }
-    // checks if the action can be used on the indirect item
-    allowed = possible_action(indirect, a->c_name);
-    if (allowed != SUCCESS) {
-        sprintf(string, "Action %s can't be requested on item %s",
-                a->c_name, indirect->item_id);
+
+    // get the game action struct
+    game_action_t *dir_game_act = get_action(direct, a->c_name);
+
+    // check if all conditions of the action are met
+    if (!all_conditions_met(direct, a->c_name))
+    {
+        sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;
-        return NOT_ALLOWED_INDIRECT;
+        return CONDITIONS_NOT_MET;
     }
-    /* TODO: implement the rest of this function, using game state funcs
-     * Will perform the action if all checks pass (Sprint 4)
-     */
-    sprintf(string, "Requested action %s with %s on %s",
-            a->c_name, direct->item_id, indirect->item_id);
-    *ret_string = string;
-    return SUCCESS;
+    else {
+        // implement the action (i.e. dole out the effects)
+        action_effect_list_t *act_effects = dir_game_act->effects;
+        int applied_effect = FAILURE;
+        while (act_effects) {
+            // apply the effects of the direct item action (use, put) on the indirect item
+            if (strcmp(act_effects->item->item_id, indirect->item_id) == 0) {
+                applied_effect = do_effect(act_effects);
+                if (applied_effect == FAILURE) {
+                    sprintf(string, "Effect of Action %s could not be applied to Item %s",
+                            a->c_name, indirect->item_id);
+                    *ret_string = string;
+                    return EFFECT_NOT_APPLIED;
+                }
+            }
+            act_effects = act_effects->next;
+        }
+        if (applied_effect == FAILURE) {
+            sprintf(string, "Action %s can't be requested on item %s",
+                    a->c_name, indirect->item_id);
+            *ret_string = string;
+            return NOT_ALLOWED_INDIRECT;
+        } else if (applied_effect == SUCCESS) {
+            // successfully carried out action
+            sprintf(string, "%s", dir_game_act->success_str);
+            *ret_string = string;
+            return SUCCESS;
+        }
+    }
+    return FAILURE;
 }

@@ -47,7 +47,7 @@ game_t* create_sample_game()
     list_action_type_t *head = get_supported_actions();
     action_type_t *actiontype_take = search_supported_actions(head, "TAKE");
     action_type_t *actiontype_drop = search_supported_actions(head, "DROP");
-    action_type_t *actiontype_puton = search_supported_actions(head, "PUT_ON");
+    action_type_t *actiontype_puton = search_supported_actions(head, "PUT");
 
     /* add valid actions to each item */
     // NOTE: I based this off *NEW* code from game-state/develop-actions
@@ -56,9 +56,9 @@ game_t* create_sample_game()
                "You have placed the orb in your pocket.", "Can't perform that action!");
     add_action(item_orb, "DROP",
                "You have dropped the orb.", "Can't perform that action!");
-    add_action(item_orb, "PUT_ON",
+    add_action(item_orb, "PUT",
                "You have placed the orb on the table", "Can't perform that action!");
-    add_action(item_table, "PUT_ON",
+    add_action(item_table, "PUT",
                 "You have placed the orb on the table", "Can't perform that action!");
 
     /* add items to room */
@@ -165,7 +165,7 @@ game_t *create_sample_game_gs()
     list_action_type_t *head = get_supported_actions();
     action_type_t *actiontype_take = search_supported_actions(head, "TAKE");
     action_type_t *actiontype_drop = search_supported_actions(head, "DROP");
-    //action_type_t *actiontype_puton = search_supported_actions(head, "PUT_ON");
+    action_type_t *actiontype_puton = search_supported_actions(head, "PUT");
     action_type_t *actiontype_consume= search_supported_actions(head, "CONSUME");
 
     /* add valid actions to each item */
@@ -187,7 +187,7 @@ game_t *create_sample_game_gs()
     attribute_value_t ripe;
     ripe.str_val = "ripe";
     /* conditions */
-    add_condition(game, "EAT", "apple", "apple", "ripeness", ripe);
+    add_condition(game, "CONSUME", "apple", "apple", "ripeness", ripe);
 
     /* add items to room */
     add_item_to_room(room2, apple);
