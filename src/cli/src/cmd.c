@@ -101,6 +101,7 @@ lookup_t **lookup_t_new()
 int lookup_t_init(lookup_t **t)
 {
     assert(t != NULL);
+
     add_entry("QUIT", quit_operation, NULL, t);
     add_entry("HELP", help_operation, NULL, t);
     //add_entry("HIST", hist_operation, t);
@@ -111,10 +112,12 @@ int lookup_t_init(lookup_t **t)
     add_entry("SWITCH", switch_operation, NULL, t);
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
+
     add_action_entries(t);
 
     return SUCCESS;
-}
+ }
+
 
 /* See cmd.h */
 int lookup_t_free(lookup_t **t)

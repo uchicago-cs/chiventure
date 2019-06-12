@@ -25,15 +25,14 @@
 int assign(coord_record_t *coordmap, int vertical_hops,
            int horizontal_hops, int up_down_hops, room_t* room)
 {
+    // Returns failure if coordinate has already been assigned
     int x = try_add_coord(coordmap, horizontal_hops, vertical_hops,
                           up_down_hops, room);
     if (x != SUCCESS) {
         return FAILURE;
     }
 
-    /* TO-DO: Implement calls to game state function (find_room_from_dir)
-     * to find rooms
-     */
+    // Begin Search
     room_t *find_room_north = find_room_from_dir(room, "north");
     if (find_room_north != NULL) {
         int north = assign(coordmap, vertical_hops + 1,
@@ -94,10 +93,12 @@ int assign(coord_record_t *coordmap, int vertical_hops,
 // See coordinate.h for details
 coord_record_t *create_valid_map(game_t *game)
 {
-    assert(game != NULL);
+    if (game == NULL) {
+        return NULL;
+    }
 
     if (game->curr_room == NULL) {
-        return FAILURE;
+        return NULL;
     }
 
     //  Must set hash to NULL (see uthash documentation)

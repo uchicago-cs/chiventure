@@ -146,8 +146,8 @@ Test(player, get_inventory)
   "item for testing get_inventory()");
   add_item_to_player(player2, new_item);
 
-  item_hash_t inv = get_inventory(player);
-  item_hash_t inv2 = get_inventory(player2);
+  item_hash_t* inv = get_inventory(player);
+  item_hash_t* inv2 = get_inventory(player2);
 
   cr_assert_not_null(player, "player_new() failed");
   cr_assert_not_null(player2, "player_new() failed");
