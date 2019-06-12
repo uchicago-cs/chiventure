@@ -14,9 +14,9 @@ void help_text(chiventure_ctx_t *ctx)
         "LOOK\n"
         "   -Look around the room\n"
         "GO [DIRECTION]\n"
-        "	-Move to the south, east, west or north\n"
+        "   -Move to the south, east, west or north\n"
         "INV\n"
-        "	-Prints everything you are carrying\n"
+        "   -Prints everything you are carrying\n"
         "OTHER COMMANDS:\n"
         "   -LOOK [OBJ]\n"
         "   -OPEN [OBJ]\n"
@@ -33,18 +33,22 @@ void help_text(chiventure_ctx_t *ctx)
 
         "HERE IS A BRIEF OVERVIEW OF SYSTEM ACTIONS\n"
         "HELP\n"
-        "	-Prints out help menu (duh, you just used it)\n"
+        "   -Prints out help menu (duh, you just used it)\n"
+        "HIST\n"
+        "   -Prints out the list of commands you entered\n"
+        "    in this round of game\n"
         "MAP\n"
         "   -Shows the map. Type 'map' again to hide the map\n"
         "SWITCH\n"
-        "   -Switches the position of the main window and the CLI. Type 'switch' again to switch it back\n"
+        "   -Switches the position of the main window and the CLI.\n"
+        "    Type 'switch' again to switch it back\n"
         "LOAD [PATH] (NOT IMPLEMENTED)\n"
-        "	-Loads a saved game from a specefied location\n"
-        "	 relative to the folder chiventure is running in\n"
+        "   -Loads a saved game from a specefied location\n"
+        "    relative to the folder chiventure is running in\n"
         "SAVE [PATH] (NOT IMPLEMENTED)\n"
-        "	-Saves a game to a specefied location\n"
+        "   -Saves a game to a specefied location\n"
         "CTRL + D\n"
-        "	-Quit game\n\n";
+        "   -Quit game\n\n";
     print_to_cli(ctx, p);
 }
 
