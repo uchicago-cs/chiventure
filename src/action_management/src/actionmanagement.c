@@ -144,22 +144,22 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
         *ret_string = string;
         return NOT_ALLOWED_PATH;
     }
-
+    return 42069;
     /* PERFORM ACTION */
-    int move = move_room(g, room_dest);
+    // int move = move_room(g, room_dest);
 
-    if (move == SUCCESS) {
-        snprintf(string, "Moved into %s. %s",
-                 room_dest->room_id, room_dest->long_desc);
-        *ret_string = string;
-        return SUCCESS;
-    } else {
-        sprintf(string,
-                "Move action %s via %s into %s failed.",
-                a->c_name, direction, room_dest->room_id);
-        *ret_string = string;
-        return NOT_ALLOWED_PATH;
-    }
+    // if (move == SUCCESS) {
+    //     snprintf(string, "Moved into %s. %s",
+    //              room_dest->room_id, room_dest->long_desc);
+    //     *ret_string = string;
+    //     return SUCCESS;
+    // } else {
+    //     sprintf(string,
+    //             "Move action %s via %s into %s failed.",
+    //             a->c_name, direction, room_dest->room_id);
+    //     *ret_string = string;
+    //     return NOT_ALLOWED_PATH;
+    // }
 }
 
 
