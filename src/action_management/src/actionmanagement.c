@@ -231,5 +231,5 @@ int do_item_item_action(action_type_t *a, item_t *direct,
             return SUCCESS;
         }
     }
-    return END_FAIL;
+    return FAILURE;
 }
