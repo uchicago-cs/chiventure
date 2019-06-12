@@ -167,7 +167,6 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string)
 {
-
     assert(a);
     assert(direct);
     assert(indirect);
@@ -203,7 +202,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     else {
         // implement the action (i.e. dole out the effects)
         action_effect_list_t *act_effects = dir_game_act->effects;
-        int applied_effect = 40; // a number that isn't used by declared macros
+        int applied_effect = FAILURE;
         while (act_effects) {
             // apply the effects of the direct item action (use, put) on the indirect item
             if (strcmp(act_effects->item->item_id, indirect->item_id) == 0) {
@@ -217,7 +216,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
             }
             act_effects = act_effects->next;
         }
-        if (applied_effect == 40) {
+        if (applied_effect == FAILURE) {
             sprintf(string, "Action %s can't be requested on item %s",
                     a->c_name, indirect->item_id);
             *ret_string = string;
