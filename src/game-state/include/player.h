@@ -18,14 +18,14 @@ typedef struct player {
     int level;
     int health;
     int xp;
-    item_hash_t inventory;
+    item_hash_t *inventory;
 } player_t;
 
 /* This typedef is to distinguish between player_t pointers which are 
 * used to point to the player_t structs themselves, and those which are used
 * to hash player_t structs with the UTHASH macros as specified
 * in src/common/include */
-typedef struct player *player_hash_t;
+typedef struct player player_hash_t;
 
 /*
  * Initializes a player with level 1, given health, and 0 experience
@@ -73,7 +73,7 @@ int player_free(player_t *plyr);
  * Returns:
  *  SUCCESS if successful
  */
-int delete_all_players(player_hash_t players);
+int delete_all_players(player_hash_t* players);
 
 /*
  * Returns the health of a player
@@ -152,7 +152,7 @@ int change_xp(player_t *plyr, int points);
  * Returns:
  *  hashtable of items, the inventory
  */
-item_hash_t get_inventory(player_t *plyr);
+item_hash_t* get_inventory(player_t *plyr);
 
 
 /* Adds an item to the given player

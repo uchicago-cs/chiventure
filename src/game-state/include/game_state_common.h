@@ -17,10 +17,19 @@
 #define MAX_START_DESC_LEN 500 // for string in game struct
 #define HASH_SIZE 500 // temporary hash table size for testing item fxns
 
-//Macros for for move_room()
+//Macros for move_room()
 #define GAME_NULL 2
 #define ROOM_NULL 3
 #define FINAL_ROOM 4 
 
+//Macros for game_action_t functions 
+#define ITEM_SRC_NULL 2
+#define ITEM_MODIFY_NULL 3
+#define ACTION_NULL 4
+#define ATTRIBUTE_NULL 5
+
+//Macros for create_connection()
+#define ROOM_SRC_NULL 2
+#define ROOM_DEST_NULL 3
 
 #endif
