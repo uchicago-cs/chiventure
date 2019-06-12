@@ -6,10 +6,6 @@ CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../
 RM = rm -f
 LIB = wdl.a
 LDFLAGS = -L../libobj -L../action_management
-
-RM = rm -f
-LIB = wdl.a
-LDFLAGS = -L../libobj -L../action_management
 LDLIBS = ../libobj/libobj.a ../action_management/action_management.a -lyaml
 
 .PHONY: clean clean-lib clean-bin
