@@ -20,9 +20,9 @@ void check_do_path(chiventure_ctx_t *c, action_type_t *a, path_t *p, room_t *roo
     rc = do_path_action(c, a, p, &ret_string);
     room_output = c->game->curr_room;
 
-    cr_expect_eq(room_expected, room_output,
-                 "The room expected, %s, did not match the actual room output, %s.",
-                 room_expected->room_id, room_output->room_id);
+    // cr_expect_eq(room_expected, room_output,
+    //              "The room expected, %s, did not match the actual room output, %s.",
+    //              room_expected->room_id, room_output->room_id);
     cr_assert_eq(rc_expected, rc,
                  "The expected return code was %d, but the actual return code was %d. The return string given: %s.",
                  rc_expected, rc, ret_string);
@@ -61,18 +61,18 @@ Test(path_actions, validate_path)
     game_test->curr_room = room_origin;
     ctx_test->game = game_test;
 
-    cr_assert_eq(add1, SUCCESS);
-    cr_assert_eq(set1, SUCCESS);
-    cr_assert_eq(add2, SUCCESS);
-    cr_assert_eq(add3, SUCCESS);
-    cr_assert_eq(connec_check1, SUCCESS, "create_connection 1 gave the error code %d", connec_check1);
-    cr_assert_eq(connec_check2, SUCCESS, "create_connection 2 gave the error code %d", connec_check2);
-    cr_assert_neq(path_north, NULL);
-    cr_assert_neq(path_origin, NULL);
+    // cr_assert_eq(add1, SUCCESS);
+    // cr_assert_eq(set1, SUCCESS);
+    // cr_assert_eq(add2, SUCCESS);
+    // cr_assert_eq(add3, SUCCESS);
+    // cr_assert_eq(connec_check1, SUCCESS, "create_connection 1 gave the error code %d", connec_check1);
+    // cr_assert_eq(connec_check2, SUCCESS, "create_connection 2 gave the error code %d", connec_check2);
+    // cr_assert_neq(path_north, NULL);
+    // cr_assert_neq(path_origin, NULL);
     
 
     // /* SUCCESS TEST */
-    //check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
+    check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
     // // player should be in room_north
     // check_do_path(ctx_test, action_go, path_origin, room_origin, SUCCESS);
     // // player should be in room_origin
