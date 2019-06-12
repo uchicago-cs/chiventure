@@ -21,7 +21,7 @@ action_type_t *search_supported_actions(list_action_type_t *head, char *query)
 }
 
 /* See sample_game.h */
-game_t* create_sample_game_BROKEN()
+game_t* create_sample_game()
 {
     game_t *game = game_new("Welcome to sample game 1.0!\n");
 
@@ -69,7 +69,7 @@ game_t* create_sample_game_BROKEN()
 
 }
 
-game_t *create_sample_game()
+game_t *create_sample_game_fake()
 {
     // first room
     room_t *dorm_t;

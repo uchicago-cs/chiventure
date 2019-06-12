@@ -94,7 +94,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     assert(c);
     assert(c->game);
     assert(c->game->curr_room);
-    //assert(a);
+    assert(a);
     
 
     /* INITIALIZATION */
