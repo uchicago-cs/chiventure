@@ -6,6 +6,7 @@
 #include "print_functions.h"
 #include "save.h"
 #include "load.h"
+#include "sample_game.h"
 /*
  * We list all demanded operations over here.
  * All meta operations must be defined here.
@@ -218,12 +219,38 @@ char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-/* Inserts a new command as a synonym for an existing one.
- * The third word becomes a synonym for the second, if it doesn't mean anything already.
+/* Load a sample game, for demo and testing purposes
+ *
  * Parameters:
  *  - tokens: parsed input string (validified)
  *  - pointer to a chiventure context struct
  * Returns:
+ *  - Text saying a sample game has been loaded
+ */
+char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Load a sample game, for demo and testing purposes
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ * Returns:
+ *  - Text saying a sample game has been loaded
+ */
+char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Load a sample game, for demo and testing purposes
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - pointer to a chiventure context struct
+ * Returns:
+ *  - Text saying a sample game has been loaded
+ */
+char *sample_game_cp_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Inserts a new command as a synonym for an existing one.
+ * The third word becomes a synonym for the second, if it doesn't mean anything already.
  * The text saying the naming is complete or has failed.
  */
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);

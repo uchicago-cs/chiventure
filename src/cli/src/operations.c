@@ -3,8 +3,11 @@
 #include <string.h>
 #include <ctype.h>
 #include "operations.h"
+#include "cmd.h"
+#include "print_functions.h"
 #include "shell.h"
 #include "room.h"
+#include "sample_game.h"
 
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -247,13 +250,36 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "Layout switched.";
 }
 
+char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *sample_game = create_sample_game();
+    ctx->game = sample_game;
+
+    return "Sample game loaded";
+}
+
+char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *sample_game = create_sample_game_gs();
+    ctx->game = sample_game;
+
+    return "Sample game loaded";
+}
+
+char *sample_game_cp_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *sample_game = create_sample_game_cp();
+    ctx->game = sample_game;
+
+    return "Sample game loaded";
+}
+
 /* A function that capitalizes a word to be used in name_operation
  * Parameters:
  * - word: A pointer to a string to be capitalized.
  * Output:
  * - The newly capitalized string.
 */
-
 char *capitalize(char *word)
 {
     char *command = word;
