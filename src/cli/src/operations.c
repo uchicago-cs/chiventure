@@ -250,3 +250,11 @@ char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
 
     return "Sample game loaded";
 }
+
+char *sample_game_2_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *sample_game = create_sample_game_2();
+    ctx->game = sample_game;
+
+    return "Sample game loaded";
+}

@@ -221,6 +221,8 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+char *sample_game_2_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
 
 
 //char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], game_t * game);
