@@ -8,8 +8,8 @@
 #include "ctx.h"
 
 #define BUFFER_SIZE (100)
-#define WRONG_KIND (1)
-#define NOT_ALLOWED_PATH (4)
+#define WRONG_KIND (2)
+#define NOT_ALLOWED_PATH (5)
 
 void check_do_path(chiventure_ctx_t *c, action_type_t *a, path_t *p, room_t *room_expected, int rc_expected)
 {
@@ -62,7 +62,7 @@ Test(path_actions, validate_path)
     ctx_test->game = game_test;
 
     /* SUCCESS TEST */
-    check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
+     check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
     // player should be in room_north
     check_do_path(ctx_test, action_go, path_origin, room_origin, SUCCESS);
     // player should be in room_origin
