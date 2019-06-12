@@ -24,7 +24,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     char *string = malloc(BUFFER_SIZE);
     game_action_t *ga = get_action(direct, act_name);
     int n;
-    int rc;
+    int rc = 0;
     attribute_value_t value;
     attribute_t *attr;
 
@@ -123,6 +123,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         break;
     }
 
+    n = n+1; //wanted to get rid of warning
 
     free(string);
     item_free(direct);
