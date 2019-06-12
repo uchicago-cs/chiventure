@@ -34,10 +34,10 @@ typedef struct
 
 /* Iteratively adds each action into the table, from a
  * list of functions provided by action management
- * 
- * Parameters: 
+ *
+ * Parameters:
  * - pointers to a lookup table
- * 
+ *
  * Returns:
  * - nothing
  */
@@ -53,7 +53,7 @@ void add_action_entries(lookup_t **table);
  * Returns:
  * - nothing
  */
-void add_entry(char *command_name, operation *associated_operation, lookup_t **table);
+void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table);
 
 
 /* Finds entry in hashtable with the given name.
@@ -109,7 +109,7 @@ void delete_entry(char *command_name, lookup_t **table);
  *
  * Parameters:
  * - None
- * 
+ *
  * Returns:
  * - a pointer to a new hashtable, NULL if failure
  */
@@ -121,7 +121,7 @@ lookup_t **lookup_t_new();
  *
  * Parameters:
  * - none
- * 
+ *
  * Returns:
  * - an int corresponding to SUCCESS or FAILURE
  */
@@ -154,7 +154,7 @@ cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE]);
  * Parameters:
  * - an array of string tokens
  * - a pointer to a cmd struct
- * 
+ *
  * Returns:
  * - an int corresponding to SUCCESS or FAILURE
  */
