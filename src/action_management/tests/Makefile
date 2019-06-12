@@ -6,7 +6,7 @@ LFLAGS = -L .. -L ../../common -L ../../game-state -L ../../ui -L ../../cli -L .
 RM = rm -f
 BIN = test-actionmanagement
 LDLIBS = -lprotobuf-c -lcriterion -lncurses
-LIBS = -l:common.a -l:ui.a -l:cli.a -l:action_management.a -l:game-state.a -l:checkpointing.a -lcriterion 
+LIBS = -l:common.a -l:ui.a -l:cli.a -l:action_management.a -l:game-state.a -l:checkpointing.a
 SRCS = main.c test_get_actions.c test_action_new_init_free.c test_item_actions.c test_path_actions.c test_item_item_actions.c
 
 OBJS = $(SRCS:.c=.o) 
