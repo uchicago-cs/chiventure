@@ -30,7 +30,6 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         sprintf(str, "Entry %d: %s", j, history_get(i)->line);
         print_to_cli(ctx, str);
-//      printf("Entry %d: %s\n", j, history_get(i)->line);
         j++;
     }
     return "This was your command history\n";
@@ -79,6 +78,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     game_t *game = ctx->game;
     if(game == NULL || game->curr_room == NULL)
     {
+        print_to_cli(ctx, "testing");
         return "Room not found! Error! We need a room to be loaded to LOOK!\n";
     }
     if(tokens[1] == NULL)
