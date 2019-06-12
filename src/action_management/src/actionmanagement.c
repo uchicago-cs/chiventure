@@ -60,7 +60,7 @@ int action_type_free(action_type_t *a)
 int do_item_action(action_type_t *a, item_t *i, char **ret_string)
 {
     // a couple confirmation checks
-    //assert(a);
+    assert(a);
     assert(i);
     char *string = malloc(BUFFER_SIZE); // buffer
     // checks if the action type is the correct kind
@@ -143,7 +143,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string)
 {
-    //assert(a);
+    assert(a);
     assert(direct);
     assert(indirect);
     char *string = malloc(BUFFER_SIZE); // buffer
