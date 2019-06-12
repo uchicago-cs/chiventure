@@ -203,7 +203,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     else {
         // implement the action (i.e. dole out the effects)
         action_effect_list_t *act_effects = dir_game_act->effects;
-        int applied_effect = 40; // arbitrary placeholder number for comparison
+        int applied_effect = 40; // a number that isn't used by declared macros
         while (act_effects) {
             // apply the effects of the direct item action (use, put) on the indirect item
             if (strcmp(act_effects->item->item_id, indirect->item_id) == 0) {
