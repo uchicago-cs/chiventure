@@ -346,3 +346,57 @@ Test(game_action_cond, check_all_pass_multiple_act_cond) {
 
     cr_assert_eq(checking_conditon, FAILURE, "check_all_pass_multiple_act_cond: returned that all conditions were met when they were not");
 }
+
+/* checks if all conditions in the list are correctly deleted */
+Test(game_action_cond, check_delete_condition_llist) {
+    //setting up
+    item_t *door = item_new("door", "door for testing",
+        "item1 for testing add_action_condition");
+
+    int set_attr1 = set_bool_attr(door, "locked", false);
+    cr_assert_eq(set_attr1, SUCCESS, "check_all_pass_multiple_act_cond: add_multiple_act_cond: failed to set attribute");
+
+    int set_attr2 = set_double_attr(door, "weight", 2.0);
+    cr_assert_eq(set_attr2, SUCCESS, "check_all_pass_multiple_act_cond: failed to set attribute");
+
+    int add_action_check = add_action(door, "open", "door opened!", "door did not open!");
+    cr_assert_eq(add_action_check, SUCCESS, "check_all_pass_multiple_act_cond: failed to retrieve action");
+
+    //checking
+    game_action_t *open_action = get_action(door, "open");
+
+    attribute_t* attr_to_check1 = get_attribute(door, "locked");
+    cr_assert_not_null(attr_to_check1, "check_all_pass_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value1;
+    cond_value1.bool_val = false;
+
+    attribute_t* attr_to_check2 = get_attribute(door, "weight");
+    cr_assert_not_null(attr_to_check2, "check_all_pass_multiple_act_cond: could not retrieve the attribute to check from item");
+
+    attribute_value_t cond_value2;
+    cond_value2.double_val = 2.0;
+
+    int add_cond_check1 = add_action_condition(door, open_action, door, attr_to_check1, cond_value1);
+
+    cr_assert_eq(add_cond_check1, SUCCESS, "check_all_pass_multiple_act_cond: adding the condition failed");
+
+    int add_cond_check2 = add_action_condition(door, open_action, door , attr_to_check2, cond_value2);
+
+    cr_assert_eq(add_cond_check2, SUCCESS, "check_all_pass_multiple_act_cond: adding the condition failed");
+
+    int checking_conditon = all_conditions_met(door, "open");
+
+    cr_assert_eq(checking_conditon, SUCCESS, "check_all_pass_multiple_act_cond: returned that all conditions were not met when they were");
+
+    int rv = delete_action_condition_llist(open_action->conditions);
+
+    cr_assert_null(open_action->conditions, "check_delete_condition_llist: not null after supposed deletion");
+}
+
+
+
+
+
+
+

@@ -232,7 +232,6 @@ int add_action_effect(game_action_t *action, item_t *item_to_add, item_t *item_t
 }
 
 /* see game_action.h */
-
 int delete_action_effect_llist(action_effect_list_t *effects)
 {
     game_action_effect_t *elt, *tmp;
