@@ -225,7 +225,7 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *  - tokens: parsed input string (validified)
  *  - pointer to a chiventure context struct
  * Returns:
- * Text saying a sample game has been loaded
+ *  - Text saying a sample game has been loaded
  */
 char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
@@ -235,7 +235,7 @@ char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
  *  - tokens: parsed input string (validified)
  *  - pointer to a chiventure context struct
  * Returns:
- * Text saying a sample game has been loaded
+ *  - Text saying a sample game has been loaded
  */
 char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
@@ -245,9 +245,9 @@ char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *
  *  - tokens: parsed input string (validified)
  *  - pointer to a chiventure context struct
  * Returns:
- * Text saying a sample game has been loaded
+ *  - Text saying a sample game has been loaded
  */
-char *sample_game_rand_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+char *sample_game_cp_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /* Inserts a new command as a synonym for an existing one.
  * The third word becomes a synonym for the second, if it doesn't mean anything already.

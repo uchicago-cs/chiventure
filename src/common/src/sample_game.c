@@ -69,7 +69,7 @@ game_t* create_sample_game()
 
 }
 
-game_t *create_sample_game_rand()
+game_t *create_sample_game_cp()
 {
     // first room
     room_t *dorm_t;
@@ -118,6 +118,7 @@ game_t *create_sample_game_rand()
 	move_room(g_t_orig, dorm_t);
 	add_room_to_game(g_t_orig, dungeon_t);
 	create_connection(g_t_orig, "dorm", "dungeon", "east");
+    create_connection(g_t_orig, "dungeon", "dorm", "west");
 	add_player_to_game(g_t_orig, chad_t);
 	set_curr_player(g_t_orig, chad_t);
 
