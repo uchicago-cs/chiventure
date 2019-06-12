@@ -5,7 +5,7 @@
 CC = gcc
 AR = ar
 SRCS = src/actionmanagement.c src/get_actions.c 
-CFLAGS = -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../cli/include/ -I../ui/include/ -I../checkpointing/include -I../action-management/include
+CFLAGS = -MMD -Wall -Wextra -O2 -g -I./include/ -I../common/include/ -I../game-state/include/ -I../cli/include/ -I../ui/include/ -I../checkpointing/include -I../action-management/include -I../game-state/src
 OBJS = $(SRCS:.c=.o)
 LIB = action_management.a
 RM = rm -f
@@ -15,9 +15,6 @@ all: $(LIB)
 
 $(LIB): $(OBJS)
 	$(AR) rcs $@ $^ 
-
-$(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< -MT $(patsubst %.d,%.o,$@) > $@
 
 -include $(SRCS:.c=.d)
 
