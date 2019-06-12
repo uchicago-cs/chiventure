@@ -41,7 +41,7 @@ $(SRCS:.c=.d):%.d:%.c
 -include $(SRCS:.c=.d)
 
 $(BIN): $(OBJS) $(LIBS)
-	$(CC) $^ -o$@ $(LDLIBS)
+	$(CC) $^ -o$@ $(LIBS) $(LDLIBS)
 
 clean:
 	-${RM} ${OBJS} $(SRCS:.c=.d)
