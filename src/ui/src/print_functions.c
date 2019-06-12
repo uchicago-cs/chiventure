@@ -15,7 +15,7 @@
 #include <unistd.h>
 
 // approximate length of chiventure banner
-#define BANNER_LENGTH (96)
+#define BANNER_WIDTH (96)
 #define BANNER_HEIGHT (12)
 
 /* see print_functions.h */
