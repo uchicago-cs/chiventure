@@ -81,15 +81,15 @@ int possible_action(item_t *item, char* action_name) {
 int add_action_condition(item_t *item, game_action_t *action,
 			 item_t *cond_item, attribute_t *cond_attribute, attribute_value_t cond_value) {
     if (item == NULL) {
-        return 2;
+        return ITEM_SRC_NULL;
     }
     if (cond_item == NULL) {
-        return 3;
+        return ITEM_MODIFY_NULL;
     }
 
     game_action_t *ret_action = get_action(item, action->action_name);
     if (ret_action == NULL) {
-        return 4;
+        return ACTION_NULL;
     }
 
     game_action_condition_t *new_condition = condition_new(item, cond_attribute, cond_value);
@@ -193,10 +193,10 @@ int all_conditions_met(item_t* item, char* action_name) {
 //we either use item_to_add or action as action is loacted within item_to_add
 int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t new_value) {
     if(action == NULL) {
-        return 4;
+        return ACTION_NULL;
     }
     if(item_to_add == NULL) {
-        return 3;
+        return ITEM_MODIFY_NULL;
     }
 
     game_action_effect_t *new_effect = effect_new(item_to_add, attribute, new_value);
