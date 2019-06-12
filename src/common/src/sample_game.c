@@ -123,3 +123,62 @@ game_t *create_sample_game_fake()
 
     return g_t_orig;
 }
+
+game_t *create_sample_game_2()
+{
+    game_t *game = game_new("Welcome to sample game game-state!\n");
+
+    /* initialize sample rooms */
+    room_t *room1 = room_new("ryerson","ryerson", "You are in a barn. There is nothing in the room.");
+    room_t *room2 = room_new("bartlett", "bartlett", "There is an apple in the room.");
+    room_t *room3 = room_new("reg", "reg", "There are no apples in this room. There are some students. They look sad");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    add_room_to_game(game, room3);
+    create_connection(game, "ryerson", "bartlett", "north");
+    create_connection(game, "bartlett", "ryerson", "south");
+    create_connection(game, "bartlett", "reg", "west");
+    create_connection(game, "reg", "bartlett", "east");
+    game->curr_room = room1;
+
+    /* initialize player */
+    player_t *player1 = player_new("lydia", 100);
+    add_player_to_game(game, player1);
+    game->curr_player = player1;
+
+    /* initialize items */
+    item_t *apple = item_new("apple", "a regular apple", "an apple that can only be eaten or thrown");
+    item_t *macintosh = item_new("macintosh", "a magical apple", "this apple has computing power");
+    item_t *table = item_new("table", "a magical table", "wow! there's a table");
+    
+    /* introduce actions */
+    list_action_type_t *head = get_supported_actions();
+    action_type_t *actiontype_take = search_supported_actions(head, "TAKE");
+    action_type_t *actiontype_drop = search_supported_actions(head, "DROP");
+    //action_type_t *actiontype_puton = search_supported_actions(head, "PUT_ON");
+    action_type_t *actiontype_eat= search_supported_actions(head, "EAT");
+    action_type_t *actiontype_throw = search_supported_actions(head, "THROW");
+
+    /* add valid actions to each item */
+    // NOTE: I based this off *NEW* code from game-state/develop-actions
+    // it will not work in this branch because develop-actions is not merged
+    add_action(apple, "EAT", 
+               "*Crunch Crunch*", "Can't perform that action!");
+    add_action(apple, "THROW",
+               "Explain yourself.", "Can't perform that action!");
+    add_action(macintosh, "TAKE",
+                "You have placed the orb on the table", "Can't perform that action!");
+    set_str_attr(apple, "ripeness", "very_sour");
+    attribute_value_t ripe;
+    ripe.str_val = "ripe";
+    /* conditions */
+    add_condition(game, "EAT", "apple", "apple", "ripeness", ripe);
+
+    /* add items to room */
+    add_item_to_room(room2, apple);
+    add_item_to_room(room3, macintosh);
+
+    
+
+    return game;
+}
