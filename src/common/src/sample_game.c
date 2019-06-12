@@ -69,7 +69,7 @@ game_t* create_sample_game()
 
 }
 
-game_t *create_sample_game_2()
+game_t *create_sample_game_idk()
 {
     // first room
     room_t *dorm_t;
@@ -129,16 +129,24 @@ game_t *create_sample_game_2()
     game_t *game = game_new("Welcome to sample game game-state!\n");
 
     /* initialize sample rooms */
-    room_t *room1 = room_new("ryerson","ryerson", "You are in a barn. There is nothing in the room.");
-    room_t *room2 = room_new("bartlett", "bartlett", "There is an apple in the room.");
-    room_t *room3 = room_new("reg", "reg", "There are no apples in this room. There are some students. They look sad");
+    room_t *room1 = room_new("ryerson","ryerson", "You are in a barn. There is nothing in the room. A path leads north.");
+    room_t *room2 = room_new("bartlett", "bartlett", 
+        "There is an apple in the room. An exit to the west and to the south.");
+    room_t *room3 = room_new("reg", "reg", 
+    "No apples. Exit to the east, and a road leads west. There is a path southwest.");
+    room_t *room4 = room_new("kersten", "kersten", "Wrong path mate, try again. Go back east.");
+    room_t *room5 = room_new("crerar", "crerar", "A borja screams at you. You're late.");
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     add_room_to_game(game, room3);
+    add_room_to_game(game, room4);
+    add_room_to_game(game, room5);
     create_connection(game, "ryerson", "bartlett", "north");
     create_connection(game, "bartlett", "ryerson", "south");
     create_connection(game, "bartlett", "reg", "west");
-    create_connection(game, "reg", "bartlett", "east");
+    create_connection(game, "reg", "kersten", "west");
+    create_connection(game, "kersten", "reg", "east");
+    create_connection(game, "reg", "crerar", "southwest");
     game->curr_room = room1;
 
     /* initialize player */
@@ -156,15 +164,16 @@ game_t *create_sample_game_2()
     action_type_t *actiontype_take = search_supported_actions(head, "TAKE");
     action_type_t *actiontype_drop = search_supported_actions(head, "DROP");
     //action_type_t *actiontype_puton = search_supported_actions(head, "PUT_ON");
-    action_type_t *actiontype_eat= search_supported_actions(head, "EAT");
-    action_type_t *actiontype_throw = search_supported_actions(head, "THROW");
+    action_type_t *actiontype_consume= search_supported_actions(head, "CONSUME");
 
     /* add valid actions to each item */
     // NOTE: I based this off *NEW* code from game-state/develop-actions
     // it will not work in this branch because develop-actions is not merged
-    add_action(apple, "EAT", 
-               "*Crunch Crunch*", "Can't perform that action!");
-    add_action(apple, "THROW",
+    add_action(apple, "CONSUME", 
+               "*Crunch Crunch*", "It looks... off.");
+    add_action(apple, "TAKE",
+                "You have taken the apple.", "Can't perform that action!");
+    add_action(apple, "DROP",
                "Explain yourself.", "Can't perform that action!");
     add_action(macintosh, "TAKE",
                 "You have placed the orb on the table", "Can't perform that action!");
@@ -177,6 +186,7 @@ game_t *create_sample_game_2()
     /* add items to room */
     add_item_to_room(room2, apple);
     add_item_to_room(room3, macintosh);
+    add_item_to_room(room5, table);
 
     
 
