@@ -27,7 +27,7 @@ void print_homescreen(window_t *win, const char *banner)
     // calculate the position of the banner so that is is approximately centered.
     // The -1 in the y position is to give space for the message below the banner
     // x_pos and y_pos indicate the x-y coordinates of the top left corner of the banner
-    int x_pos = COLS / 2 - BANNER_LENGTH / 2;
+    int x_pos = COLS / 2 - BANNER_WIDTH / 2;
     int y_pos = LINES / 4 - BANNER_HEIGHT / 2 - 1;
     if (x_pos < 0) {
         x_pos = 0;
