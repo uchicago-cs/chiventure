@@ -11,11 +11,12 @@
 
 /* === hashtable helper constructors === */
 
-void add_entry(char *command_name, operation *associated_operation, lookup_t **table)
+void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
     lookup_t *t = malloc(sizeof(lookup_t));
     t->name = command_name;
     t->operation_type = associated_operation;
+    t->action = action;
     HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
 }
 
@@ -29,15 +30,15 @@ void add_action_entries(lookup_t **table)
 
         if(curr_action->kind == 1)
         {
-            add_entry(curr_action->c_name, kind1_action_operation, table);
+            add_entry(curr_action->c_name, kind1_action_operation, curr_action, table);
         }
         else if(curr_action->kind == 2)
         {
-            add_entry(curr_action->c_name, kind2_action_operation, table);
+            add_entry(curr_action->c_name, kind2_action_operation, curr_action, table);
         }
         else if(curr_action->kind == 3)
         {
-            add_entry(curr_action->c_name, kind3_action_operation, table);
+            add_entry(curr_action->c_name, kind3_action_operation, curr_action, table);
         }
 
         all_actions = all_actions->next;
@@ -73,9 +74,9 @@ void delete_entry(char *command_name, lookup_t **table)
     free(t);
 }
 
- /* === hashtable constructors  === */
+/* === hashtable constructors  === */
 
- /* See cmd.h */
+/* See cmd.h */
 lookup_t **lookup_t_new()
 {
     lookup_t **t;
@@ -89,48 +90,50 @@ lookup_t **lookup_t_new()
     }
 
     // Important: Set *t to NULL as per uthash documentation
-     *t = NULL;
+    *t = NULL;
 
-     rc = lookup_t_init(t);
-     if(rc != SUCCESS)
-     {
-         return NULL;
-     }
+    rc = lookup_t_init(t);
+    if(rc != SUCCESS)
+    {
+        return NULL;
+    }
 
     return t;
 }
 
- /* See cmd.h */
+/* See cmd.h */
 int lookup_t_init(lookup_t **t)
 {
     assert(t != NULL);
 
-    add_entry("QUIT", quit_operation, t);
-    add_entry("HELP", help_operation, t);
+    add_entry("QUIT", quit_operation, NULL, t);
+    add_entry("HELP", help_operation, NULL, t);
     //add_entry("HIST", hist_operation, t);
-    add_entry("LOOK",look_operation, t);
-    add_entry("INV", inventory_operation, t);
-    add_entry("SAVE", save_operation, t);
-    add_entry("LOAD", load_operation, t);
-    add_entry("MAP", map_operation, t);
-    add_entry("SWITCH", switch_operation, t);
+    add_entry("LOOK",look_operation, NULL, t);
+    add_entry("INV", inventory_operation, NULL, t);
+    add_entry("SAVE", save_operation, NULL, t);
+    add_entry("MAP", map_operation, NULL, t);
+    add_entry("SWITCH", switch_operation, NULL, t);
+    add_entry("NAME", name_operation, NULL, t);
+    add_entry("PALETTE", palette_operation, NULL, t);
+
     add_action_entries(t);
 
     return SUCCESS;
  }
 
 
- /* See cmd.h */
-int lookup_t_free(lookup_t **t) 
+/* See cmd.h */
+int lookup_t_free(lookup_t **t)
 {
-   lookup_t *tmp;
-   lookup_t *current_user;
-   HASH_ITER(hh, *t, current_user, tmp)
-   {
-       HASH_DEL(*t, current_user);
-       free(current_user);
-   }
-   return SUCCESS; 
+    lookup_t *tmp;
+    lookup_t *current_user;
+    HASH_ITER(hh, *t, current_user, tmp)
+    {
+        HASH_DEL(*t, current_user);
+        free(current_user);
+    }
+    return SUCCESS;
 }
 
 /* === command constructors  === */
