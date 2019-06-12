@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 	    add_room_to_game(g_t_load, dorm_t);
 	    move_room(g_t_load, dorm_t);
 	    add_room_to_game(g_t_load, dungeon_t);
-	    create_connection(g_t_load, "5", "2", "east");
+	    create_connection(g_t_orig, dorm_t->room_id, dungeon_t->room_id, "east");
 	    printf("We load the game\n");
 	    load("save.txt", g_t_load);
 	    printf("Loaded player;s name: %s\n",
@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
 	    add_room_to_game(g_t_reload, dorm_t);
 	    move_room(g_t_reload, dorm_t);
 	    add_room_to_game(g_t_reload, dungeon_t);
-	    create_connection(g_t_reload, "5", "2", "east");
+	    create_connection(g_t_orig, dorm_t->room_id, dungeon_t->room_id, "east");
 	    printf("We load the game\n");
 		
 	    load("resave.txt", g_t_reload);
