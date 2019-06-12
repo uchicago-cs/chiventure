@@ -5,6 +5,9 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
 {
     // extract room object
     attr_list_t *rooms_obj = extract_objects(doc, "ROOMS");
+    if (rooms_obj == NULL) {
+	exit(0);
+    }
 
     // extract list of rooms and items
     attr_list_t *curr = rooms_obj;

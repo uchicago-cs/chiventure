@@ -184,14 +184,13 @@ bool item_type_check(obj_t *obj)
 /* See validate.h */
 bool game_type_check(obj_t *obj)
 {
-    attr_list_t *temp = obj_list_attr(obj);
-    obj_t *game = temp->obj;
+  obj_t *game = obj_get_attr(obj, "GAME.0", false);
 
-    // fields to verify
-    bool start_ver = (obj_get_type(game, "start") == TYPE_STR);
-    bool intro_ver = (obj_get_type(game, "intro") == TYPE_STR);
+  // fields to verify
+  bool start_ver = (obj_get_type(game, "start") == TYPE_STR);
+  bool intro_ver = (obj_get_type(game, "intro") == TYPE_STR);
 
-    return (start_ver && intro_ver);
+  return (start_ver && intro_ver);
 }
 
 

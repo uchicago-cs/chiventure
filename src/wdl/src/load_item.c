@@ -63,6 +63,7 @@ int load_items(obj_t *doc, game_t *g)
     attr_list_t *items_obj = extract_objects(doc, "ITEMS");
     if (items_obj == NULL) {
         fprintf(stderr, "items fail type checking\n");
+	exit(0);
     }
 
     // set current item
