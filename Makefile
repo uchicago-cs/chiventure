@@ -39,8 +39,8 @@ OBJS = $(SRCS:.c=.o)
 
 -include $(SRCS:.c=.d)
 
-$(BIN): $(OBJS) $(LIBS)
-	$(CC) $^ -o$@ $(LIBS) $(LDLIBS)
+$(BIN): $(LIBS) $(OBJS)
+	$(CC) $(OBJS) $(LIBS) src/common/common.a -o$@ $(LDLIBS)
 
 clean:
 	-${RM} ${OBJS} $(SRCS:.c=.d)
