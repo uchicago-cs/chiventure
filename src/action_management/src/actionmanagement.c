@@ -63,7 +63,7 @@ int action_type_free(action_type_t *a)
 int do_item_action(action_type_t *a, item_t *i, char **ret_string)
 {
     assert(a);
-    assert(direct);
+    assert(i);
 
     char *string = malloc(BUFFER_SIZE); // buffer
 
@@ -89,7 +89,7 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     // check if all conditions are met
     int all_clear = all_conditions_met(i, a->c_name);
     if (all_clear == FAILURE) {
-        sprintf(string, "%s", dir_game_act->fail_str);
+        sprintf(string, "%s", game_act->fail_str);
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
@@ -105,7 +105,7 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
         }
         else {
             // successfully carried out action
-            sprintf(string, "%s", dir_game_act->success_str);
+            sprintf(string, "%s", game_act->success_str);
             *ret_string = string;
             return SUCCESS;
         }
@@ -181,7 +181,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     }
 
     // checks if the action is possible with the direct item
-    int possible = possible_action(direct, a);
+    int possible = possible_action(direct, a->c_name);
     if (possible == FAILURE) {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, direct->item_id);
