@@ -39,7 +39,7 @@ int save_attribute(item_t *i_t, attribute_t *a_t, Attribute *a)
 	a->attribute_value->int_val = get_int_attr(i_t, a_t->attribute_key);	
     } else {
 	a->attribute_tag = "ACTION";
-	a->attribute_value->act_val->action_name =
+	/*  a->attribute_value->act_val->action_name =
 	    strdup(a_t->attribute_value.act_val->action_name);
 	a->attribute_value->act_val->action_type->c_name =
 	    strdup(a_t->attribute_value.act_val->action_type->c_name);
@@ -49,7 +49,7 @@ int save_attribute(item_t *i_t, attribute_t *a_t, Attribute *a)
 	    a->attribute_value->act_val->action_type->kind = "1";
 	} else {
 	    a->attribute_value->act_val->action_type->kind = "2";
-	}
+    } */
     }
     return SUCCESS;
 }
@@ -324,7 +324,6 @@ int save(game_t *g_t, char *filename)
     buf = malloc(len);
     game__pack(g, buf);
 
-    fprintf(stderr, "Writing %ld serialized bytes\n", len);
     write_to_file(filename, buf, len);
     free(buf);
     return SUCCESS;

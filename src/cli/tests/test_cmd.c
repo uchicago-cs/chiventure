@@ -39,7 +39,7 @@ Test(lookup, free)
     cr_assert_eq(rc, SUCCESS, "lookup_t_free() failed");
 }
 
-/* Checks if a new cmd struct is successfully created with the 
+/* Checks if a new cmd struct is successfully created with the
  * the correct tokens field
  */
 Test(cmd, new)
@@ -52,9 +52,9 @@ Test(cmd, new)
     cr_assert_not_null(c1, "cmd_new() failed");
     cr_assert_not_null(c2, "cmd_new() failed");
 
-    cr_assert_eq(c1->tokens, token, 
+    cr_assert_eq(c1->tokens, token,
                  "cmd_new() didn't set the tokens field correctly");
-    cr_assert_eq(c2->tokens, tokens, 
+    cr_assert_eq(c2->tokens, tokens,
                  "cmd_new() didn't set the tokens field correctly");
 }
 
@@ -63,7 +63,7 @@ Test(cmd, init)
 {
     int rc;
     cmd c;
-    
+
     char *tokens[4] = {"Put", "orb", "on", "table"};
     rc = cmd_init(&c, tokens);
 
@@ -77,7 +77,7 @@ Test(cmd, free)
 {
     cmd *c;
     int rc;
-    
+
     char *tokens[4] = {"Put", "orb", "on", "table"};
     c = cmd_new(tokens);
 

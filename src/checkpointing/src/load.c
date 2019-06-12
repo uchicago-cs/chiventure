@@ -110,7 +110,7 @@ int load_item(Item *i, item_t *i_t)
 		    return FAILURE;
          }
 
-    } else if ((strcmp(tag, "ACTION")) == 0) {
+    } /* else if ((strcmp(tag, "ACTION")) == 0) {
 	    int set_act_attr_success;
 	    char* cname = i->attributes[iter]->attribute_value->act_val->action_type->c_name;
         int kind = atoi(i->attributes[iter]->attribute_value->act_val->action_type->kind);
@@ -124,7 +124,8 @@ int load_item(Item *i, item_t *i_t)
 		    return -1;
 	    }
 
-	} else {
+	} */
+    else {
 	    fprintf(stderr, "Could not set any attribute \n");
 	    return FAILURE;
         }

@@ -39,22 +39,18 @@ Please see this document for all possible actions and descriptions: https://gith
 - start: `<ROOM IDENTIFIER>` used to specify the ID of the room that the game will start in. This value is the string ID of the room that the game will start in  
    ###### NOTE: The given ID must have been assigned to a room defined in the ROOM object (i.e. the room ID must exist, so if the start attribute has value “BEDROOM”, then there must be a room in the ROOM object that has the id “BEDROOM”).
 
-- intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
+  intro: `<STRING WITH MAX LENGTH 500 CHAR>` which is the introduction statement. A string description that is shown at the beginning of the game.
 
-- end: `<CONDITION>` a condition specification for how the game ends. This must be one of two ways:
-   1. The inventory contains a specific item
-    - Ex. inventory contains: "emerald gem"
-
-   2. The player is located in a specific room
-    - Ex. in_room: "BEDROOM"
+  end: `<CONDITION>` Only one way to end the game is supported. It specifies the room a player must be in to end the game.
+   - in_room: `<ROOM ID>` Specifies the room one must enter to end the game.
 
 ### GAME example:
 ```yaml
  - start: "KITCHEN"
- - intro: “Welcome to the virtual house. You have been wandering for quite some time,
+   intro: “Welcome to the virtual house. You have been wandering for quite some time,
    and you need to determine how to return to reality.”
- - end:
-   - in_room: "LIVING ROOM"
+   end:
+    - in_room: "LIVING ROOM"
 ```
 
 ## ROOM:
@@ -72,13 +68,13 @@ Please see this document for all possible actions and descriptions: https://gith
     - to: `<ROOM  ID>` which lists a valid place the player can reach in one action from this room by ID
 
       direction: `<CARDINAL DIRECTION>` which states the direction that connection is in. Only six directions are available for use in the game: north, east, south, west, up, down. 
-   
+
+   ###### NOTE: a direction must be in all lower case.
    ###### NOTE: a valid connection has to have an ID that exists. 
 
 
 ### ROOM example:
 ```yaml
-ROOM Example:
 - id: "kitchen"
 
   short_desc: "A well-furnished area for cooking food."
@@ -101,6 +97,7 @@ ROOM Example:
 - For ITEMs, the indentation format is the same as above, except for actions, the fields are indented with two spaces, followed by a dash.
 - This applies to the subcategories in action as well.
 - The fields within actions must be indented with a dash(-) as well.
+- OPTIONAL fields must be specified for now, but they do not need a value.
 
 ##### The Item Object must contain the following attributes:
   - id: `<UNIQUE ID NAME>` which is a unique identifier for the item; one id can only used to identify one item in the entire ITEMS object. (i.e. only one door can have id “door”, the others would have to have “door1”, “door2”, etc. because there must be no repeat ids)
@@ -111,31 +108,9 @@ ROOM Example:
 
     in: `<ROOM ID>` which is the id of the room that the item is in when the game starts
 
-    attributes: the descriptors for the item
-
-    - attribute: `<STRING>` which is the name of the state of the item upon initialization of the game
-    
-      value: `<STRING_VAL>` which is the value of the state of the item upon initialization of the game
-
     actions: the possible actions that can be performed on the item; each action has the following fields:
       
-    - action: `<ACTION FROM BANK>`
-
-      conditions: (OPTIONAL) the conditions that must be fulfilled for the action to be completed
-
-      - id: `<STRING_ITEM>` which is an identification name that is unique to the conditional item
-
-        attribute: `<STRING>` which is the name of the state of the conditional item
-
-        value: `<STRING_VAL>` which is the value of the state of the conditional item in order for the action to be completed
-
-      effects: (OPTIONAL) changes an attribute of the item's state upon action (if the door had “locked” as a state attribute, you would change this by writing “locked: no” here to negate that condition) 
-
-      - id: `<STRING_ITEM>` which is an identification name that is unique to the affected item
-
-        attribute: `<STRING>` which is the name of the state of the affected item
-
-        value: `<STRING_VAL>` which is the value of the state of the affected item upon completion of the action
+    - action: `<ACTION FROM BANK>` in the form of a string in ALL UPPER CASE
 
       text_success: `<STRING>` which is a string that is displayed upon the success of an action (OPTIONAL)
 
@@ -151,43 +126,17 @@ ROOM Example:
 
   in: "garden"
   
-  attributes:
-
-    - attribute: "size"
-
-      value: "small"
-
-    - attribute: "pulled"
-
-      value: true
-
   actions:
 
-    - action: "push"
-
-      text_fail: "You cannot push the lever. You can only pull it."
-
-    - action: "pull"
-
-      conditions:
+    - action: "PUSH"
+     
+      text_success: "you push the lever"
       
-      - id: "star"
+      text_fail: "you can't push it again"
 
-        attribute: "color"
+    - action: "PULL"
 
-        value: "red"
-
-      effects:
-
-      - id: "lever"
-
-      	attribute: "pulled"
-
-      	value: "yes"
-        
-      text_success: "Congrats! You can now access the underground tunnel. Go find it!"
-
-      text_fail: "You cannot pull the lever. The star must be red in order to pull the lever."
+      text_fail: "you cannot pull it"
 
 - id: "wand"
 
@@ -199,21 +148,11 @@ ROOM Example:
 
   actions:
   
-    - action: "take"
+    - action: "TAKE"
+     
+      text_success: "You take the wand."
 
-      conditions:
-      
-      - id: "top hat"
-
-        attribute: "on_head"
-
-        value: true
-        
-      text_success: "Congrats! You got the wand and can perform a spell!"
-
-      text_fail: "You cannot take the wand until the top hat is on your head"
-
-    - action: "consume"
-
-      text_fail: "You cannot consume the wand. Please try to hold it."
+    - action: "CONSUME"
+    
+      text_fail: "You cant eat the wand"
 ```
