@@ -71,7 +71,8 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     if(tokens[1] == NULL)
     {
-        if(game != NULL){
+        if(game != NULL)
+        {
             return game->curr_room->long_desc;
         }
         else
@@ -228,7 +229,8 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
  * - The newly capitalized string.
 */
 
-char *capitalize(char *word){
+char *capitalize(char *word)
+{
     char *command = word;
     int i = 0;
     char ch;
@@ -238,7 +240,7 @@ char *capitalize(char *word){
         ch = toupper(command[i]);
         command[i] = ch;
         i++;
-  }
+    }
     return word;
 }
 
@@ -248,11 +250,11 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     capitalize(tokens[2]);
     if(find_entry(tokens[1], (ctx->table)) == NULL)
     {
-      return "New words must be defined using only words that are already defined!";
+        return "New words must be defined using only words that are already defined!";
     }
     if(find_entry(tokens[2],(ctx->table)) != NULL)
     {
-      return "You can't change the meaning of a word that's already defined!";
+        return "You can't change the meaning of a word that's already defined!";
     }
     add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (ctx->table));
     return "The two words are now synonyms!";

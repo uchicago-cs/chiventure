@@ -69,9 +69,9 @@ void delete_entry(char *command_name, lookup_t **table)
     free(t);
 }
 
- /* === hashtable constructors  === */
+/* === hashtable constructors  === */
 
- /* See cmd.h */
+/* See cmd.h */
 lookup_t **lookup_t_new()
 {
     lookup_t **t;
@@ -85,18 +85,18 @@ lookup_t **lookup_t_new()
     }
 
     // Important: Set *t to NULL as per uthash documentation
-     *t = NULL;
+    *t = NULL;
 
-     rc = lookup_t_init(t);
-     if(rc != SUCCESS)
-     {
-         return NULL;
-     }
+    rc = lookup_t_init(t);
+    if(rc != SUCCESS)
+    {
+        return NULL;
+    }
 
     return t;
 }
 
- /* See cmd.h */
+/* See cmd.h */
 int lookup_t_init(lookup_t **t)
 {
     assert(t != NULL);
@@ -115,17 +115,17 @@ int lookup_t_init(lookup_t **t)
     return SUCCESS;
 }
 
- /* See cmd.h */
+/* See cmd.h */
 int lookup_t_free(lookup_t **t)
 {
-   lookup_t *tmp;
-   lookup_t *current_user;
-   HASH_ITER(hh, *t, current_user, tmp)
-   {
-       HASH_DEL(*t, current_user);
-       free(current_user);
-   }
-   return SUCCESS;
+    lookup_t *tmp;
+    lookup_t *current_user;
+    HASH_ITER(hh, *t, current_user, tmp)
+    {
+        HASH_DEL(*t, current_user);
+        free(current_user);
+    }
+    return SUCCESS;
 }
 
 /* === command constructors  === */
