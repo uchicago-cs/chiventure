@@ -24,6 +24,6 @@ int main(int argc, char **argv)
     /* Add calls to component-specific initializations here */
 
     start_ui(ctx, banner);
-
+    game_free(ctx->game);
     return 0;
 }
