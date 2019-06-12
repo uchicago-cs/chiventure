@@ -154,6 +154,11 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     }
     lookup_t **table = ctx->table;
 
+    if(tokens[1] == NULL)
+    {   
+        return "You must specify a direction to go \n";
+    }
+
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
