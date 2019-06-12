@@ -42,7 +42,7 @@ Test(get_actions, search_success)
     open = search_supported_actions("OPEN");
     consume = search_supported_actions("CONSUME");
     go = search_supported_actions("GO");
-    use_on = search_supported_actions("USE");
+    use = search_supported_actions("USE");
 
     cr_assert_neq(open, NULL,
                   "search_supported_actions returned a null for query \"open\".\n");
@@ -62,7 +62,7 @@ Test(get_actions, search_success)
     cr_assert_eq(go->kind, PATH,
                  "Expected the action kind %d, but got action kind %d.\n",
                  PATH, go->kind);
-    cr_assert_eq(use_on->kind, ITEM_ITEM,
+    cr_assert_eq(use->kind, ITEM_ITEM,
                  "Expected the action kind %d, but got action kind %d.\n",
                  ITEM_ITEM, use->kind);
 }
