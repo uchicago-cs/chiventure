@@ -79,8 +79,10 @@ list_action_type_t *get_supported_actions();
  *
  * Returns:
  * - 0 upon success, success string as an out parameter
- * - 1 if the action type has the wrong kind, failure string as an out parameter
- * - 2 if the action can't be used on the item, failure string as an out parameter
+ * - 2 if the action type has the wrong kind, failure string as an out parameter
+ * - 3 if the action can't be used on the item, failure string as an out parameter
+ * - 6 if conditions for the action haven't been met, failure string as an out parameter
+ * - 7 if an effect for the action wasn't applied, failure string as an out parameter
  */
 int do_item_action(action_type_t *a, item_t *i, char **ret_string);
 
@@ -96,7 +98,8 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string);
  *
  * Returns:
  * - 0 upon success, success string as an out parameter
- * - 1 if the action type has the wrong kind, failure string as an out parameter
+ * - 2 if the action type has the wrong kind, failure string as an out parameter
+ * - 5 if the movement was not allowed, failure string as an out parameter
  */
 int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_string);
 
@@ -112,8 +115,16 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
  *
  * Returns:
  * - 0 upon success, success string as an out parameter
- * - 1 if the action type has the wrong kind, failure string as an out parameter
- * - 2 if the action can't be used on the item, failure string as an out parameter
+ * - 1 if the function reaches its end without returning (should never happen)
+ * - 2 if the action type has the wrong kind, failure string as an out parameter
+ * - 3 if the action can't be used with the direct item, 
+ *     failure string as an out parameter
+ * - 4 if an effect of using the action with the direct item does not exist 
+ *     on the indirect item, failure string as an out parameter
+ * - 6 if conditions for the direct action haven't been met, 
+ *     failure string as an out parameter
+ * - 7 if the effect of using the action with the direct item was not applied
+ *     to the indirect item, failure string as an out parameter
  */
 int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
