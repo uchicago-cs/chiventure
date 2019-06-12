@@ -251,9 +251,17 @@ char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
     return "Sample game loaded";
 }
 
-char *sample_game_2_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    game_t *sample_game = create_sample_game_2();
+    game_t *sample_game = create_sample_game_gs();
+    ctx->game = sample_game;
+
+    return "Sample game loaded";
+}
+
+char *sample_game_rand_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *sample_game = create_sample_game_rand();
     ctx->game = sample_game;
 
     return "Sample game loaded";

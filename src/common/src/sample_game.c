@@ -69,7 +69,7 @@ game_t* create_sample_game()
 
 }
 
-game_t *create_sample_game_idk()
+game_t *create_sample_game_rand()
 {
     // first room
     room_t *dorm_t;
@@ -124,7 +124,7 @@ game_t *create_sample_game_idk()
     return g_t_orig;
 }
 
-game_t *create_sample_game_2()
+game_t *create_sample_game_gs()
 {
     game_t *game = game_new("Welcome to sample game game-state!\n");
 
