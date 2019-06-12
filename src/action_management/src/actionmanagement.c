@@ -117,10 +117,10 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
  * See actionmanagement.h */
 int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_string)
 {
-    assert(c);
-    assert(c->game);
-    assert(c->game->curr_room);
-    assert(a);
+    // assert(c);
+    // assert(c->game);
+    // assert(c->game->curr_room);
+    // assert(a);
 
 
     /* INITIALIZATION */
