@@ -14,7 +14,7 @@
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
     lookup_t *t = malloc(sizeof(lookup_t));
-    char * newname = malloc(sizeof(char) * strlen(command_name));
+    char *newname = malloc(sizeof(char) * strlen(command_name));
     strcpy(newname, command_name);
     t->name = newname;
     t->operation_type = associated_operation;
