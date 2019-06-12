@@ -76,7 +76,7 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     }
 
     // checks if the action is possible
-    if (!possible_action(i, a->c_name))
+    if (possible_action(i, a->c_name) == FAILURE)
     {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, i->item_id);
@@ -88,7 +88,7 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     game_action_t *game_act = get_action(i, a->c_name);
 
     // check if all conditions are met
-    if (!all_conditions_met(i, a->c_name))
+    if (all_conditions_met(i, a->c_name) == FAILURE)
     {
         sprintf(string, "%s", game_act->fail_str);
         *ret_string = string;
@@ -184,7 +184,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
 
 
     // checks if the action is possible with the direct item
-    if (!possible_action(direct, a->c_name))
+    if (possible_action(direct, a->c_name) == FAILURE)
     {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, direct->item_id);
@@ -196,7 +196,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     game_action_t *dir_game_act = get_action(direct, a->c_name);
 
     // check if all conditions of the action are met
-    if (!all_conditions_met(direct, a->c_name))
+    if (all_conditions_met(direct, a->c_name) == FAILURE)
     {
         sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;
