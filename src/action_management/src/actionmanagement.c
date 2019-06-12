@@ -13,6 +13,7 @@
 #define NOT_ALLOWED_PATH (5)
 #define CONDITIONS_NOT_MET (6)
 #define EFFECT_NOT_APPLIED (7)
+#define END_FAIL (8)
 
 
 /* See actionmanagement.h */
@@ -167,7 +168,8 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
  * See actionmanagement.h */
 int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string)
-{
+{ 
+
     assert(a);
     assert(direct);
     assert(indirect);
@@ -179,6 +181,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
         *ret_string = string;
         return WRONG_KIND;
     }
+    
 
     // checks if the action is possible with the direct item
     int possible = possible_action(direct, a->c_name);
@@ -188,18 +191,17 @@ int do_item_item_action(action_type_t *a, item_t *direct,
         *ret_string = string;
         return NOT_ALLOWED_DIRECT;
     }
-
+    
     // get the game action struct
-    game_action_t *dir_game_act = get_action(direct, a);
-
+    game_action_t *dir_game_act = get_action(direct, a->c_name);
+    
     // check if all conditions of the action are met
-    int all_clear = all_conditions_met(direct, a);
+    int all_clear = all_conditions_met(direct, a->c_name);
     if (all_clear == FAILURE) {
         sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-
     // implement the action (i.e. dole out the effects)
     else {
         action_effect_list_t *act_effects = dir_game_act->effects;
@@ -229,4 +231,5 @@ int do_item_item_action(action_type_t *a, item_t *direct,
             return SUCCESS;
         }
     }
+    return END_FAIL;
 }
