@@ -3,6 +3,7 @@
 #include "player.h" // to get player_t
 #include "item.h" // to get item_t
 #include "action_structs.h" // to get action_type_t
+#include "game_action.h" // to get game_action_t
 #include "actionmanagement.h" // for get_supported_actions
 #include "string.h" // for strcmp
 
@@ -27,10 +28,10 @@ game_t* create_sample_game()
     /* initialize sample rooms */
     room_t *room1 = room_new("room1", "A room", "room 1 used for the sample game");
     room_t *room2 = room_new("room2", "A room", "room 2 used for the sample game");
-    create_connection(game, "room1", "room2", "right");
-    create_connection(game, "room2", "room1", "left");
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
+    create_connection(game, "room1", "room2", "right");
+    create_connection(game, "room2", "room1", "left");
     game->curr_room = room1;
 
     /* initialize player */

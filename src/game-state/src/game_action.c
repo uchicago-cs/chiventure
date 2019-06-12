@@ -6,7 +6,9 @@
 int game_action_init(game_action_t *new_action, char *act_name, 
 		     char* success_str, char* fail_str) {
     assert(new_action != NULL);
-
+    if(new_action == NULL) {
+        return FAILURE;
+    }
     strncpy(new_action->action_name, act_name, strlen(act_name));
     new_action->conditions = NULL; //by UTLIST rules
     new_action->effects= NULL; //by UTLIST rules
@@ -21,6 +23,8 @@ int game_action_init(game_action_t *new_action, char *act_name,
 game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str) {
     game_action_t *new_action = malloc(sizeof(game_action_t));
     new_action->action_name = malloc(MAX_ID_LEN * sizeof(char));
+    new_action->fail_str = malloc(300 * sizeof(char));
+    new_action->success_str = malloc(300 * sizeof(char));
 
     int check = game_action_init(new_action, action_name, success_str, fail_str);
 
