@@ -8,6 +8,7 @@
 #include "parse.h"
 #include "load_room.h"
 #include "wdl_common.h"
+#include "item.h"
 
 #define FILE_PATH "../examples/sample_yaml/simplified_wdl.yaml"
 
