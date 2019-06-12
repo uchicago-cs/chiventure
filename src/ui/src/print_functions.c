@@ -184,13 +184,14 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
                 /* wait until enter is pressed or q are pressed */
             }
 
+            wmove(cli, y, 2);
+            wclrtoeol(cli);
             if (ch == 'q') {
                 return;
             }
             // sets the cursor to the begining of the line just printed
             // ("Press ENTER to see more, 'q' to continue"), and then clears it
-            wmove(cli, y, 2);
-            wclrtoeol(cli);
+
 
 
             // scrolls the screen up
@@ -200,9 +201,8 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
 
         }
 
-        getyx(cli, y, x);
-        wmove(cli, y+1, 2);
     }
 
-
+    getyx(cli, y, x);
+    wmove(cli, y+1, 2);
 }
