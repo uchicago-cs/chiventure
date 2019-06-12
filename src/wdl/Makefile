@@ -5,8 +5,8 @@ AR = ar
 CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I./include/ -I../libobj/include/ -I../game-state/include/ -I../action_management/include/ -I../common/include/ -I../ui/include -I../cli/include -I../checkpointing/include -I../game-state/src
 RM = rm -f
 LIB = wdl.a
-LDFLAGS = -L../libobj -L../action_management -L../game-state
-LDLIBS = ../libobj/libobj.a ../action_management/action_management.a -L../game-state.a  -lyaml
+LDFLAGS = -L../libobj -L../action_management
+LDLIBS = ../libobj/libobj.a ../action_management/action_management.a -lyaml
 
 .PHONY: clean clean-lib clean-bin
 
