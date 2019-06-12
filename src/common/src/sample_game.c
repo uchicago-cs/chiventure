@@ -177,7 +177,11 @@ game_t *create_sample_game_gs()
     add_action(apple, "DROP",
                "Explain yourself.", "Can't perform that action!");
     add_action(macintosh, "TAKE",
-                "You have placed the orb on the table", "Can't perform that action!");
+                "You have taken the macintosh", "Can't perform that action!");
+    add_action(macintosh, "PUT",
+                "You have put the macintosh on the table", "Can't perform that action!");
+    add_action(table, "PUT",
+                "You have put the macintosh on the table", "Can't perform that action!");
     set_str_attr(apple, "ripeness", "very_sour");
     attribute_value_t ripe;
     ripe.str_val = "ripe";
