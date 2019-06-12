@@ -14,8 +14,4 @@
  */
 game_t* create_sample_game();
 
-game_t *create_sample_game_cp();
-
-game_t *create_sample_game_gs();
-
 #endif /* _INClUDE_SAMPLE_GAME_H */
