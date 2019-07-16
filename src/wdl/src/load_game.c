@@ -9,6 +9,17 @@
 game_t *create_game(obj_t *doc)
 {
     obj_t *game = obj_get_attr(doc, "GAME.0", false);
+    if (game == NULL) {
+      fprintf(stderr, "game object not found\n");
+      exit(0);
+    }
+
+     bool check = game_type_check(doc);
+    if (check == false) {
+      fprintf(stderr, "game object fails type checking\n");
+      exit(0);
+    }
+    
     char *intro = obj_get_str(game, "intro");
 
     game_t *game_ret = game_new(intro);

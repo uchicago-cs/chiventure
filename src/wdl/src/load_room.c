@@ -7,10 +7,13 @@
 int add_rooms_to_game(obj_t *doc, game_t *g)
 {
     // extract room object
-    obj_t *rooms_obj = obj_get_attr(doc, "ROOMS", false);
+    attr_list_t *rooms_obj = extract_objects(doc, "ROOMS");
+    if (rooms_obj == NULL) {
+	exit(0);
+    }
 
     // extract list of rooms and items
-    attr_list_t *curr = obj_list_attr(rooms_obj);
+    attr_list_t *curr = rooms_obj;
 
     // if rooms list is empty then return 1
     if (curr == NULL) {
@@ -40,10 +43,10 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
 int add_connections_to_rooms(obj_t *doc, game_t *g)
 {
     // extract room object
-    obj_t *rooms_obj = obj_get_attr(doc, "ROOMS", false);
+    attr_list_t *rooms_obj = extract_objects(doc, "ROOMS");
 
     // extract list of rooms and items
-    attr_list_t *curr = obj_list_attr(rooms_obj);
+    attr_list_t *curr = rooms_obj;
 
     // if rooms list is empty then return 1
     if (curr == NULL) {

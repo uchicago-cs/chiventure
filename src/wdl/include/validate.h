@@ -8,6 +8,7 @@
 
 #include "actionmanagement.h"
 #include "wdl_common.h"
+#include "actionmanagement.h"
 
 /* a doubly linked list of strings used to store approved actions
  * used when type-checking actions

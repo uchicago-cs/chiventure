@@ -3,10 +3,11 @@
 #include "game.h"
 #include "ui_ctx.h"
 #include "cmd.h"
+#include "load_wdl.h"
 
 
 /* See ctx.h */
-chiventure_ctx_t* chiventure_ctx_new()
+chiventure_ctx_t* chiventure_ctx_new(char *filepath)
 {
     chiventure_ctx_t *ctx;
     int rc;
@@ -17,22 +18,31 @@ chiventure_ctx_t* chiventure_ctx_new()
         return NULL;
     }
 
-    rc = chiventure_ctx_init(ctx);
+    rc = chiventure_ctx_init(ctx, filepath);
     if (rc != SUCCESS) {
         return NULL;
     }
-
+    
     return ctx;
 }
 
 /* See ctx.h */
-int chiventure_ctx_init(chiventure_ctx_t *ctx)
+int chiventure_ctx_init(chiventure_ctx_t *ctx, char *filepath)
 {
     assert(ctx != NULL);
 
     char *desc = "Welcome to Chiventure";
+    game_t *game;
 
-    game_t *game = game_new(desc);
+    if(filepath == NULL)
+    {
+        game = game_new(desc);
+    }
+    else
+    {
+        game = load_wdl(filepath);
+    }
+    
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
 
     lookup_t **table = lookup_t_new();

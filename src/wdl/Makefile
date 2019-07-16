@@ -14,7 +14,7 @@ all: $(LIB)
 
 # Library
 
-SRCS = src/parse.c src/validate.c src/load_room.c src/load_item.c src/load_game.c
+SRCS = src/parse.c src/validate.c src/load_room.c src/load_item.c src/load_game.c src/load_wdl.c
 OBJS = $(SRCS:.c=.o)
 
 -include $(SRCS:.c=.d)

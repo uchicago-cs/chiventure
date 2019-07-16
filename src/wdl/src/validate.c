@@ -9,7 +9,7 @@
 bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 {
     if (ls == NULL) {
-      return false; // if the function returns false, it will halt parsing
+      return true;
     }
 
     bool result = true;
@@ -159,6 +159,11 @@ bool room_type_check(obj_t *obj)
 
     // verify each attribute
     bool connections_ver = connection_type_check(obj);
+
+    if (id_ver == false)
+    {
+        fprintf(stderr, "id verification failed\n");
+    }
 
     return (id_ver && short_ver && long_ver && connections_ver);
 }

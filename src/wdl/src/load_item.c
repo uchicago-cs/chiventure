@@ -53,7 +53,7 @@ int load_actions(obj_t *doc, item_t *i)
 
     while (curr != NULL) {
         temp = get_game_action(obj_get_str(curr->obj, "action"), val_actions);
-        set_act_attr(i, obj_get_str(curr->obj, "action"), temp);
+        add_action(i, obj_get_str(curr->obj, "action"), "action failed", "action succeeded");
 
         curr = curr->next;
     }
