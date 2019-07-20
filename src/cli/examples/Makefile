@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../game-state/src -I../../action_management/include/ -I../../ui/include -I../../checkpointing/include
+CFLAGS = -MMD -fPIC -Wall -Wextra -O0 -g -I../include/ -I../../common/include/ -I../../game-state/include/ -I../../game-state/src -I../../action_management/include/ -I../../ui/include -I../../checkpointing/include
 
 RM = rm -f
 LDLIBS = -lreadline 

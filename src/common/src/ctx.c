@@ -3,7 +3,7 @@
 #include "game.h"
 #include "ui_ctx.h"
 #include "cmd.h"
-#include "load_wdl.h"
+#include "load_game.h"
 
 
 /* See ctx.h */
@@ -40,7 +40,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, char *filepath)
     }
     else
     {
-        game = load_wdl(filepath);
+        game = load_wdl("test.yml");
     }
     
     ui_ctx_t *ui_ctx = ui_ctx_new(game);

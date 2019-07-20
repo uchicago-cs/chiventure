@@ -2,7 +2,7 @@
 
 CC = gcc
 AR = ar 
-CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I./include/ -I../common/include/
+CFLAGS = -MMD -fPIC -Wall -Wextra -O0 -g -I./include/ -I../common/include/
 RM = rm -f
 LIB = libobj.a
 LDLIBS = -lyaml

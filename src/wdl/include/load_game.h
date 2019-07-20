@@ -10,9 +10,19 @@
 #include <stdbool.h>
 #include "parse.h"
 #include "room.h"
+#include "wdl_common.h"
 
 #define FILE_PATH "../examples/sample_yaml/connected_rooms.yaml"
 
+ /*
+ * load_wdl, loads a wdl specified internally into all game-state structs
+ *
+ * input: nothing
+ * 
+ * output: a pointer to an game_t struct
+ * that has been filled with the contents of the yaml file
+ */
+game_t *load_wdl(char *path_to_file);
 
 /*
  * Function to create a pointer to an empty game

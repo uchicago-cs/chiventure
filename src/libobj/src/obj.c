@@ -267,6 +267,8 @@ datatype_t obj_get_type(obj_t *obj, char *id)
 
     obj_t *target = obj_get_attr(obj, id, false);
 
+    printf("%d\n", (target == NULL));
+
     if (target == NULL)
     {
         return TYPE_ERR;
