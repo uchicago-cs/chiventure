@@ -16,9 +16,16 @@
 game_t *load_wdl(char *path_to_yaml)
 {
     obj_t *big_document = get_doc_obj(path_to_yaml);
+
+    printf("GAME.0.start: %c\n", obj_get_char(big_document,"GAME.0.start"));
+    printf("GAME.1.intro: %s\n",obj_get_str(big_document,"GAME.1.intro"));
+    printf("GAME.2.end.inventory: %s\n",obj_get_str(big_document,"GAME.2.end.inventory"));
+    printf("OBJECTS.0.short_desc: %s\n", obj_get_str(big_document,"OBJECTS.0.short_desc"));
+    printf("ROOMS.0.id: %c\n", obj_get_char(big_document, "ROOMS.0.id"));
+
     game_t *game = create_game(big_document);
 
-     // call functions that parse items, actions, rooms, and game attributes
+    // call functions that parse items, actions, rooms, and game attributes
     // into a game pointer
     int rooms = add_rooms_to_game(big_document, game);
     int connections =  add_connections_to_rooms(big_document, game);
@@ -53,6 +60,7 @@ game_t *create_game(obj_t *doc)
       exit(0);
     }
     
+
     char *intro = obj_get_str(game, "intro");
 
     game_t *game_ret = game_new(intro);
