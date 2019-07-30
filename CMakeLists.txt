@@ -19,7 +19,14 @@ set(CHIVENTURE_MODULES action_management checkpointing cli common game-state lib
 #
 # include_directories(include/)
 
+add_subdirectory(src/action_management)
+add_subdirectory(src/checkpointing)
+add_subdirectory(src/cli)
+add_subdirectory(src/common)
+add_subdirectory(src/game-state)
 add_subdirectory(src/libobj)
+add_subdirectory(src/ui)
+add_subdirectory(src/wdl)
 
 # chiventure executable
 add_executable(chiventure-bin src/chiventure.c)
