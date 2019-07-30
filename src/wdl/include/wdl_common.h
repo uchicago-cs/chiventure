@@ -12,5 +12,6 @@
 #include "game.h"
 #include "path.h"
 #include "common.h"
+#include "obj.h"
 
 #endif
