@@ -11,7 +11,7 @@ add_library(checkpointing
             src/load.c
             src/log_save.c
             ${PROTO_SRCS}
-            ${PROTO_HDRS})
+            ${PROTO_HDRS} src/save-int.h)
 
 target_include_directories(checkpointing PRIVATE ${PROTOBUF_DIRS})
 target_include_directories(checkpointing PRIVATE src/)
