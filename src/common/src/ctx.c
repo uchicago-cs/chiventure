@@ -40,7 +40,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, char *filepath)
     }
     else
     {
-        game = load_wdl("orb.yaml");
+        game = load_wdl(filepath);
     }
     
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
