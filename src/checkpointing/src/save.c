@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "game.pb-c.h"
-#include "save.h"
+#include "save-int.h"
 #include "common.h"
 
 // see save.h
