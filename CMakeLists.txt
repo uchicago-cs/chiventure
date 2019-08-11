@@ -7,6 +7,7 @@ project(chiventure C)
 find_package(Protobuf-c REQUIRED)
 find_package(Criterion REQUIRED)
 find_package(Curses REQUIRED)
+find_package(LibYAML REQUIRED)
 
 set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)

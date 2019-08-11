@@ -9,6 +9,8 @@ add_library(wdl
 
 target_include_directories(wdl PRIVATE src/)
 
+target_link_libraries(wdl libobj)
+
 # This is a temporary solution before the directories
 # are reorganized
 target_include_directories(wdl PRIVATE include/)
