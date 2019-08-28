@@ -8,18 +8,14 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
 {
     // extract room object
     attr_list_t *rooms_obj = extract_objects(doc, "ROOMS");
+    // if rooms list is empty then return 1
     if (rooms_obj == NULL) {
-	exit(0);
+        fprintf(stderr, "rooms list is empty\n");
+        return FAILURE;
     }
 
     // extract list of rooms and items
     attr_list_t *curr = rooms_obj;
-
-    // if rooms list is empty then return 1
-    if (curr == NULL) {
-        fprintf(stderr, "rooms list is empty\n");
-        return FAILURE;
-    }
 
     // while list of rooms exists, create new game_struct room, add room to game
     while (curr != NULL) {

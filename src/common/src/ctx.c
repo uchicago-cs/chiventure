@@ -42,7 +42,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, char *filepath)
     {
         game = load_wdl(filepath);
     }
-    
+
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
 
     lookup_t **table = lookup_t_new();
