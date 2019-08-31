@@ -4,6 +4,9 @@
 #include "validate.h"
 #include "parse.h"
 #include "game.h"
+#include "item.h"
+#include "player.h"
+#include "room.h"
 #include "load_game.h"
 #include "load_room.h"
 #include "load_item.h"
@@ -15,15 +18,9 @@
  *
  *
  */
-game_t *load_wdl(char *path_to_yaml)
-{
+game_t *load_wdl(char *path_to_yaml) {
     int rc;
     obj_t *big_document = get_doc_obj(path_to_yaml);
-
-    printf("GAME.0.start: %s\n", obj_get_str(big_document,"GAME.0.start"));
-    printf("GAME.0.intro: %s\n",obj_get_str(big_document,"GAME.0.intro"));
-    printf("ITEMS.0.short_desc: %s\n", obj_get_str(big_document,"ITEMS.0.short_desc"));
-    printf("ROOMS.0.id: %s\n", obj_get_str(big_document, "ROOMS.0.id"));
 
     game_t *game = create_game(big_document);
 
@@ -35,6 +32,7 @@ game_t *load_wdl(char *path_to_yaml)
         fprintf(stderr, "Error adding rooms to game.\n");
         return NULL;
     }
+
 
     rc = add_connections_to_rooms(big_document, game);
     if(rc != SUCCESS)
@@ -69,6 +67,8 @@ game_t *load_wdl(char *path_to_yaml)
         return NULL;
     }
 
+    print_out_game(game);
+
     return game;
 }
 
@@ -90,4 +90,26 @@ game_t *create_game(obj_t *doc)
 
     game_t *game_ret = game_new(intro);
     return game_ret;
+}
+
+void print_out_game(game_t *game) {
+    player_t *currPlayer;
+
+    room_t *currRoom;
+
+    ITER_ALL_ROOMS(game, currRoom) {
+      printf("room id: %s\n", currRoom->room_id);
+
+      path_t *currPath;
+
+      ITER_ALL_PATHS(currRoom, currPath) {
+        printf("direction: %s\n", currPath->direction);
+      }
+
+      item_t *currItem;
+
+      ITER_ALL_ITEMS_IN_ROOM(currRoom, currItem) {
+        printf("item id: %s\n", currItem->item_id);
+      }
+    }   
 }

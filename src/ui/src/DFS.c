@@ -61,7 +61,7 @@ int assign(coord_record_t *coordmap, int vertical_hops,
     }
 
     room_t *find_room_west = find_room_from_dir(room, "west");
-    if (find_room_south != NULL) {
+    if (find_room_west != NULL) {
         int west = assign(coordmap, vertical_hops,
                           horizontal_hops - 1, up_down_hops, find_room_west);
         if (west == FAILURE) {

@@ -9,10 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
-#include "room.h"
 #include "wdl_common.h"
-
-#define FILE_PATH "../examples/sample_yaml/connected_rooms.yaml"
 
  /*
  * load_wdl, loads a wdl specified internally into all game-state structs
@@ -48,6 +45,8 @@ game_t *create_game(obj_t *doc);
  *
  */
 void game_set_start(char *room_id, game_t *game);
+
+void print_out_game(game_t *game);
 
 
 
