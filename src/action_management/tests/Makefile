@@ -1,7 +1,7 @@
 # Makefile based on template at https://gist.github.com/xuhdev/1873316
 
 CC = gcc 
-CFLAGS = -MMD -fPIC -Wall -Wextra -O0 -g -I ../include/ -I ../../common/include/ -I ../../game-state/include -I ../../game-state/src -I ../../ui/include -I ../../cli/include -I ../../checkpointing/include
+CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I ../include/ -I ../../common/include/ -I ../../game-state/include -I ../../game-state/src -I ../../ui/include -I ../../cli/include -I ../../checkpointing/include
 LFLAGS = -L .. -L ../../common -L ../../game-state -L ../../ui -L ../../cli -L ../../checkpointing
 RM = rm -f
 BIN = test-actionmanagement

@@ -1,6 +1,6 @@
 #Makefile for Tests
 CC = gcc 
-CFLAGS = -MMD -fPIC -Wall -Wextra -O0 -g -I../../game-state/include/ -I../include/ -I../../action_management/include/ -I../../libobj/include -I../../common/include
+CFLAGS = -MMD -fPIC -Wall -Wextra -O2 -g -I../../game-state/include/ -I../include/ -I../../action_management/include/ -I../../libobj/include -I../../common/include
 LDFLAGS = -L../ -L../../libobj -L../../game-state -L../../action_management
 LDLIBS = ../wdl.a ../../libobj/libobj.a ../../game-state/game-state.a ../../action_management/action_management.a -lyaml -lcriterion
 RM = rm -f
