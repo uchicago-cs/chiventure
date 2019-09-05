@@ -14,7 +14,7 @@
  /*
  * load_wdl, loads a wdl specified internally into all game-state structs
  *
- * input: nothing
+ * input: path to wdl file
  * 
  * output: a pointer to an game_t struct
  * that has been filled with the contents of the yaml file
@@ -46,7 +46,16 @@ game_t *create_game(obj_t *doc);
  */
 void game_set_start(char *room_id, game_t *game);
 
-void print_out_game(game_t *game);
+/*
+ * Helper function for debugging that prints main objects in the game
+ * 
+ * input:
+ *  - game, pointer to game_t struct
+ * 
+ * output: 
+ *  - none
+ */ 
+void debug_print(game_t *game);
 
 
 

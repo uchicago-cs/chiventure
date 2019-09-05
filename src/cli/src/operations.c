@@ -7,7 +7,7 @@
 #include "print_functions.h"
 #include "shell.h"
 #include "room.h"
-#include "sample_game.h"
+#include "load_game.h"
 
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -50,7 +50,7 @@ char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
   }
   if (validate_filename(tokens[1]) == true){
     int ld = load(tokens[1], ctx->game);
-    return "Load Succesful\n!";
+    return "Load Successful\n!";
   }
   else
     return "Improper filename, Load failed\n";
@@ -74,6 +74,23 @@ bool validate_filename(char *filename)
     else
     {
         return false;
+    }
+}
+
+char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if(tokens[1] == NULL){
+        return "Invalid Input, Loading WDL file failed\n";
+    }
+
+    game_t *game = load_wdl(tokens[1]);
+    if(game == NULL) {
+        return "Load WDL failed";
+    }
+    else
+    {
+        ctx->game = game;
+        return "Load WDL succeeded!";
     }
 }
 
@@ -248,30 +265,6 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     layout_switch(ctx);
     return "Layout switched.";
-}
-
-char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *sample_game = create_sample_game();
-    ctx->game = sample_game;
-
-    return "Sample game loaded";
-}
-
-char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *sample_game = create_sample_game_gs();
-    ctx->game = sample_game;
-
-    return "Sample game loaded";
-}
-
-char *sample_game_cp_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *sample_game = create_sample_game_cp();
-    ctx->game = sample_game;
-
-    return "Sample game loaded";
 }
 
 /* A function that capitalizes a word to be used in name_operation

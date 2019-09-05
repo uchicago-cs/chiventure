@@ -67,8 +67,6 @@ game_t *load_wdl(char *path_to_yaml) {
         return NULL;
     }
 
-    print_out_game(game);
-
     return game;
 }
 
@@ -92,9 +90,7 @@ game_t *create_game(obj_t *doc)
     return game_ret;
 }
 
-void print_out_game(game_t *game) {
-    player_t *currPlayer;
-
+void debug_print(game_t *game) {
     room_t *currRoom;
 
     ITER_ALL_ROOMS(game, currRoom) {

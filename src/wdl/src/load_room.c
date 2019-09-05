@@ -87,10 +87,10 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
                         to);
                 return FAILURE;
             }
-            else {
-                printf("the connection between %s and %s in the direction %s"
-                       " was added successfully\n", id, to, direction);
-            }
+            // else {
+            //     printf("the connection between %s and %s in the direction %s"
+            //            " was added successfully\n", id, to, direction);
+            // }
 
             conn_curr = conn_curr->next;
         }
