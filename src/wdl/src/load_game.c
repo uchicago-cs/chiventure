@@ -4,9 +4,6 @@
 #include "validate.h"
 #include "parse.h"
 #include "game.h"
-#include "item.h"
-#include "player.h"
-#include "room.h"
 #include "load_game.h"
 #include "load_room.h"
 #include "load_item.h"
@@ -14,7 +11,7 @@
 /*
  * load_wdl, function that loads a wdl into all the game-state structs
  *
- * takes a path to a yaml file, automatically load yaml found in FILE_PATH
+ * takes a path to a yaml file, returns a game struct
  *
  *
  */

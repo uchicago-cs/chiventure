@@ -9,7 +9,7 @@
 bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 {
     if (ls == NULL) {
-      return true;
+      return false; // if the function returns false, it will halt parsing
     }
 
     bool result = true;
