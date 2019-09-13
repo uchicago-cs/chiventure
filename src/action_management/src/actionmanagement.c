@@ -154,9 +154,15 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
                  room_dest->room_id, room_dest->long_desc);
         *ret_string = string;
         return SUCCESS;
-    } else {
-        sprintf(string,
-                "Move action %s via %s into %s failed.",
+    }
+    else if (move == FINAL_ROOM) {
+        sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
+                 room_dest->room_id);
+        *ret_string = string;
+        return SUCCESS;
+    }
+    else {
+        sprintf(string, "Move action %s via %s into %s failed.",
                 a->c_name, direction, room_dest->room_id);
         *ret_string = string;
         return NOT_ALLOWED_PATH;
