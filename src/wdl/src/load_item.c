@@ -53,8 +53,14 @@ int load_actions(obj_t *doc, item_t *i)
 
     while (curr != NULL) {
         temp = get_game_action(obj_get_str(curr->obj, "action"), val_actions);
-        add_action(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "text_success"), obj_get_str(curr->obj, "text_fail"));
-
+        
+        if (obj_get_str(curr->obj, "text_success") != NULL && obj_get_str(curr->obj, "text_fail") != NULL) {
+            add_action(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "text_success"), obj_get_str(curr->obj, "text_fail"));
+        } else if(obj_get_str(curr->obj, "text_success") != NULL) {
+            add_action(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "text_success"), "Action failed");
+        } else {
+            add_action(i, obj_get_str(curr->obj, "action"), "Action succeeded", obj_get_str(curr->obj, "text_fail"));
+        }
         curr = curr->next;
     }
 
