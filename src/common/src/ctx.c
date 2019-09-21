@@ -44,8 +44,11 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, char *filepath)
     }
 
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
-
     lookup_t **table = lookup_t_new();
+
+    player_t *player1 = player_new("player1", 100);
+    add_player_to_game(game, player1);
+    game->curr_player = player1;
 
     ctx->game = game;
     ctx->ui_ctx = ui_ctx;

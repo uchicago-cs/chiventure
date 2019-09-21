@@ -42,6 +42,9 @@ ITEMS:
     - action: "PULL" 
       text_success: "You pull the chair"
       text_fail: "You cannot pull this chair"
+    - action: "TAKE"
+      text_success: "You take the chair"
+      text_fail: "You cannot take this chair"
 
 
  - id: "table"
