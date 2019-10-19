@@ -11,21 +11,21 @@ GAME:
 ROOMS:
  - id: "room A"
    short_desc: "This is room A"
-   long_desc: "This is room A long"
+   long_desc: "This is room A. There's a chair and an exit to the south."
    connections:
     - to: "room B"
       direction: "south"
 
  - id: "room B"
    short_desc: "This is room B"
-   long_desc: "This is room B long"
+   long_desc: "This is room B. There's a table and an exit to the west."
    connections:
     - to: "room C"
       direction: "west"
 
  - id: "room C"
    short_desc: "This is room C"
-   long_desc: "This is room C long"
+   long_desc: "This is room C, the final room in the game"
    connections:
     - to: "room A"
       direction: "north"
