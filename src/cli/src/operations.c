@@ -155,6 +155,9 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         action_type_t *action = find_action(tokens[0], table);
         char *str;
         do_item_action(action, curr_item, &str);
+        if(strcmp(tokens[0], "TAKE") == 0) {
+            add_item_to_player(game->curr_player, curr_item);
+        }
         return str;
     }
     return "The object could not be found\n";
@@ -244,13 +247,16 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
         //To print an integer with print_to_cli, int i must be cast to a string
         //10 was chosen as a buffer, i should not need all 10 bytes
-        int strbuff = 10;
-        char str[strbuff];
-        sprintf(str, "%d", i);
 
-        print_to_cli(ctx, str);
+        //Commenting the code that prints what item number the loop is on for now, if this functionality
+        //is useful in the future it can be uncommented
+
+        // int strbuff = 10;
+        // char str[strbuff];
+        // sprintf(str, "%d", i);
+        // print_to_cli(ctx, str);
+        
         print_to_cli(ctx, t->item_id);
-        print_to_cli(ctx, t->short_desc);
     }
     return "This was your inventory";
 }
