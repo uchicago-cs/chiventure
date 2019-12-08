@@ -109,7 +109,6 @@ int add_item_to_player(player_t *player, item_t *item) {
     HASH_ADD_KEYPTR(hh, player->inventory, item->item_id,
 		strlen(item->item_id), item);
     return SUCCESS;
-
 }
 
 /* See player.h */

@@ -156,7 +156,8 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         char *str;
         do_item_action(action, curr_item, &str);
         if(strcmp(tokens[0], "TAKE") == 0) {
-            add_item_to_player(game->curr_player, curr_item);
+            //Below adds items to a player's inventory, commented out for now until seg fault can be fixed
+            // add_item_to_player(game->curr_player, curr_item);   
         }
         return str;
     }
@@ -255,7 +256,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         // char str[strbuff];
         // sprintf(str, "%d", i);
         // print_to_cli(ctx, str);
-        
+
         print_to_cli(ctx, t->item_id);
     }
     return "This was your inventory";
