@@ -14,24 +14,24 @@ ROOMS:
    long_desc: "This is room A. There's a chair and an exit to the south."
    connections:
     - to: "room B"
-      direction: "south"
+      direction: "SOUTH"
 
  - id: "room B"
    short_desc: "This is room B"
    long_desc: "This is room B. There's a table and an exit to the west."
    connections:
     - to: "room C"
-      direction: "west"
+      direction: "WEST"
 
  - id: "room C"
    short_desc: "This is room C"
    long_desc: "This is room C, the final room in the game"
    connections:
     - to: "room A"
-      direction: "north"
+      direction: "NORTH"
 
 ITEMS:
- - id: "chair"
+ - id: "CHAIR"
    short_desc: "This is a chair"
    long_desc: "This is a chair long"
    in: "room A"
@@ -47,7 +47,7 @@ ITEMS:
       text_fail: "You cannot take this chair"
 
 
- - id: "table"
+ - id: "TABLE"
    short_desc: "This is a table"
    long_desc: "This is a table long"
    in: "room B"
