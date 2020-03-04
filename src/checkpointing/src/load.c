@@ -80,8 +80,6 @@ int load_item(Item *i, item_t *i_t)
                 fprintf(stderr, "Could not set string attribute for item \n");
             return FAILURE;
         }
-
-    }
     else if ((strcmp(tag, "INTEGER")) == 0)
     {
         int set_int_success;

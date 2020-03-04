@@ -18,9 +18,9 @@ LogValueUnion *logvalueunion_init_int(LogValueUnion *logvalueunion, int value)
     if (logvalueunion == NULL)
         fprintf(stderr, "Need to pass in a new Logvalueunion \n");
     return NULL;
-}
-logvalueunion->int_val = value;
-return logvalueunion;
+    
+  logvalueunion->int_val = value;
+  return logvalueunion;
 }
 
 /* See log_save.h */
