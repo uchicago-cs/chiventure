@@ -5,7 +5,8 @@
 #include "action_structs.h"
 
 
-static action_type_t valid_actions[] = {
+static action_type_t valid_actions[] =
+{
     // KIND 1
     {"OPEN", ITEM},
     {"CLOSE", ITEM},
@@ -31,7 +32,8 @@ list_action_type_t *get_supported_actions()
 {
     list_action_type_t *temp = NULL;
 
-    for (int i = 0; i < NUM_ACTIONS; i++) {
+    for (int i = 0; i < NUM_ACTIONS; i++)
+    {
         list_action_type_t *add = (list_action_type_t*)malloc(sizeof(list_action_type_t));
         action_type_t *add_data = action_type_new(valid_actions[i].c_name,
                                   valid_actions[i].kind);

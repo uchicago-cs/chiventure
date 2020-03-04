@@ -26,7 +26,8 @@ ui_ctx_t *ui_ctx_new(game_t *game)
 
     init = ui_ctx_init(ui_ctx, game);
 
-    if (init == FAILURE) {
+    if (init == FAILURE)
+    {
         return NULL;
     }
 
@@ -70,7 +71,8 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     ui_ctx->coord_hash = create_valid_map(game);
 
     // Failsafe: Draws very basic map so that program does not crash
-    if (ui_ctx->coord_hash == NULL) {
+    if (ui_ctx->coord_hash == NULL)
+    {
         ui_ctx->coord_hash = get_test_coord_hash();
     }
     // Initial room coordinates always set to 0, 0, 0
@@ -94,7 +96,8 @@ int ui_ctx_free(ui_ctx_t *ui_ctx)
 
     coord_record_t *coord_hash, *item, *temp;
     coord_hash = ui_ctx->coord_hash;
-    HASH_ITER(hh, coord_hash, item, temp) {
+    HASH_ITER(hh, coord_hash, item, temp)
+    {
         HASH_DEL(coord_hash, item);
         free(item);
     }
@@ -107,7 +110,8 @@ int ui_ctx_free(ui_ctx_t *ui_ctx)
 // see ui_ctx.h
 void toggle_map(chiventure_ctx_t *ctx)
 {
-    if(ctx->ui_ctx->curr_page == MAP_WIN_NUM) {
+    if(ctx->ui_ctx->curr_page == MAP_WIN_NUM)
+    {
         ctx->ui_ctx->curr_page = MAIN_WIN_NUM;
         ctx->ui_ctx->displayed_win = ctx->ui_ctx->main_win;
 
@@ -115,7 +119,9 @@ void toggle_map(chiventure_ctx_t *ctx)
         int height = LINES / 2;
         int width = COLS;
         wresize(win->w, height,width);
-    } else {
+    }
+    else
+    {
         ctx->ui_ctx->curr_page = MAP_WIN_NUM;
     }
 
@@ -132,7 +138,8 @@ void layout_switch(chiventure_ctx_t *ctx)
 
     mvwin(ctx->ui_ctx->cli_win->w, !(cli_top) * height, 0);
     mvwin(ctx->ui_ctx->main_win->w, (cli_top) * height, 0);
-    if (ctx->ui_ctx->curr_page == MAP_WIN_NUM) {
+    if (ctx->ui_ctx->curr_page == MAP_WIN_NUM)
+    {
         map_set_displaywin(ctx->ui_ctx->map, 0, cli_top * height, width,
                            height + cli_top * height);
         map_center_on(ctx, 0, 0, 0);

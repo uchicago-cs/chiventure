@@ -31,30 +31,35 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if (tokens[1] == NULL) {
-    	return "Invalid Input, Save failed\n";
+    if (tokens[1] == NULL)
+    {
+        return "Invalid Input, Save failed\n";
     }
-    if (validate_filename(tokens[1]) == true) {
+    if (validate_filename(tokens[1]) == true)
+    {
         int sv = save(ctx->game, tokens[1]);
         return "Game Saved\n";
     }
-    else {
+    else
+    {
         return "Improper filename, Save failed\n";
     }
 }
 
 char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  if(tokens[1] == NULL){
-    return "Invalid Input, Load failed\n";
-  }
-  if (validate_filename(tokens[1]) == true){
-    int ld = load(tokens[1], ctx->game);
-    return "Load Successful\n!";
-  }
-  else
-    return "Improper filename, Load failed\n";
-  
+    if(tokens[1] == NULL)
+    {
+        return "Invalid Input, Load failed\n";
+    }
+    if (validate_filename(tokens[1]) == true)
+    {
+        int ld = load(tokens[1], ctx->game);
+        return "Load Successful\n!";
+    }
+    else
+        return "Improper filename, Load failed\n";
+
 }
 
 bool validate_filename(char *filename)
@@ -79,12 +84,14 @@ bool validate_filename(char *filename)
 
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if(tokens[1] == NULL){
+    if(tokens[1] == NULL)
+    {
         return "Invalid Input, Loading WDL file failed\n";
     }
 
     game_t *game = load_wdl(tokens[1]);
-    if(game == NULL) {
+    if(game == NULL)
+    {
         return "Load WDL failed";
     }
     else
@@ -155,9 +162,10 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         action_type_t *action = find_action(tokens[0], table);
         char *str;
         do_item_action(action, curr_item, &str);
-        if(strcmp(tokens[0], "TAKE") == 0) {
+        if(strcmp(tokens[0], "TAKE") == 0)
+        {
             //Below adds items to a player's inventory, commented out for now until seg fault can be fixed
-            // add_item_to_player(game->curr_player, curr_item);   
+            // add_item_to_player(game->curr_player, curr_item);
         }
         return str;
     }
@@ -176,7 +184,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     lookup_t **table = ctx->table;
 
     if(tokens[1] == NULL)
-    {   
+    {
         return "You must specify a direction to go \n";
     }
 

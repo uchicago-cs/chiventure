@@ -2,7 +2,8 @@
 #include "common-item.h"
 
 /* See player.h */
-int player_init(player_t* plyr, char* player_id, int health) {
+int player_init(player_t* plyr, char* player_id, int health)
+{
 
     assert(plyr != NULL);
     strncpy(plyr->player_id, player_id, strlen(player_id));
@@ -15,7 +16,8 @@ int player_init(player_t* plyr, char* player_id, int health) {
 }
 
 /* See player.h */
-player_t* player_new(char* player_id, int health) {
+player_t* player_new(char* player_id, int health)
+{
     player_t *plyr;
     plyr = malloc(sizeof(player_t));
     memset(plyr, 0, sizeof(player_t));
@@ -23,11 +25,13 @@ player_t* player_new(char* player_id, int health) {
 
     int check = player_init(plyr, player_id, health);
 
-    if (plyr == NULL || plyr->player_id == NULL) {
+    if (plyr == NULL || plyr->player_id == NULL)
+    {
         return NULL;
     }
 
-    if(check != SUCCESS) {
+    if(check != SUCCESS)
+    {
         return NULL;
     }
 
@@ -35,7 +39,8 @@ player_t* player_new(char* player_id, int health) {
 }
 
 /* See player.h */
-int player_free(player_t* plyr) {
+int player_free(player_t* plyr)
+{
     assert(plyr != NULL);
 
     free(plyr->player_id);
@@ -44,9 +49,11 @@ int player_free(player_t* plyr) {
     return SUCCESS;
 }
 
-int delete_all_players(player_hash_t* players) {
+int delete_all_players(player_hash_t* players)
+{
     player_t *current_player, *tmp;
-    HASH_ITER(hh, players, current_player, tmp) {
+    HASH_ITER(hh, players, current_player, tmp)
+    {
         HASH_DEL(players, current_player);
         player_free(current_player);
     }
@@ -54,69 +61,82 @@ int delete_all_players(player_hash_t* players) {
 }
 
 /* See player.h */
-int get_health(player_t* plyr) {
-	return plyr->health;
+int get_health(player_t* plyr)
+{
+    return plyr->health;
 }
 
 /* See player.h */
-int change_health(player_t* plyr, int change, int max) {
-    if((plyr->health + change) < max) {
+int change_health(player_t* plyr, int change, int max)
+{
+    if((plyr->health + change) < max)
+    {
         plyr->health += change;
-    } 
-    else {
+    }
+    else
+    {
         plyr->health = max;
     }
-	return plyr->health;
+    return plyr->health;
 }
 
 /* See player.h */
-int get_level(player_t* plyr) {
+int get_level(player_t* plyr)
+{
     return plyr->level;
 }
 
 /* See player.h */
-int change_level(player_t* plyr, int change) {
-	plyr->level += change;
+int change_level(player_t* plyr, int change)
+{
+    plyr->level += change;
     return plyr->level;
 }
 
 /* See player.h */
-int get_xp(player_t* plyr) {
-	return plyr->xp;
+int get_xp(player_t* plyr)
+{
+    return plyr->xp;
 }
 
 /* See player.h */
-int change_xp(player_t* plyr, int points) {
-	plyr->xp += points;
-	return plyr->xp;
+int change_xp(player_t* plyr, int points)
+{
+    plyr->xp += points;
+    return plyr->xp;
 }
 
 
 /* See player.h */
-item_hash_t* get_inventory(player_t* plyr) {
-	return plyr->inventory;
+item_hash_t* get_inventory(player_t* plyr)
+{
+    return plyr->inventory;
 }
 
 /* See player.h */
-int add_item_to_player(player_t *player, item_t *item) {
+int add_item_to_player(player_t *player, item_t *item)
+{
     item_t* check;
     HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
-	check);
+              check);
 
-    if (check != NULL) {
+    if (check != NULL)
+    {
         return FAILURE; //this item id is already in use.
     }
     HASH_ADD_KEYPTR(hh, player->inventory, item->item_id,
-		strlen(item->item_id), item);
+                    strlen(item->item_id), item);
     return SUCCESS;
 }
 
 /* See player.h */
-item_list_t *get_all_items_in_inventory(player_t *player) {
+item_list_t *get_all_items_in_inventory(player_t *player)
+{
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item;
     item_list_t *tmp;
-    HASH_ITER(hh, player->inventory, curr_item, ITTMP_ITEMRM) {
+    HASH_ITER(hh, player->inventory, curr_item, ITTMP_ITEMRM)
+    {
         tmp = malloc(sizeof(item_list_t));
         tmp->item = curr_item;
         LL_APPEND(head, tmp);

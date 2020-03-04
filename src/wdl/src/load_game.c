@@ -15,7 +15,8 @@
  *
  *
  */
-game_t *load_wdl(char *path_to_yaml) {
+game_t *load_wdl(char *path_to_yaml)
+{
     int rc;
     obj_t *big_document = get_doc_obj(path_to_yaml);
 
@@ -70,15 +71,17 @@ game_t *load_wdl(char *path_to_yaml) {
 game_t *create_game(obj_t *doc)
 {
     obj_t *game = obj_get_attr(doc, "GAME.0", false);
-    if (game == NULL) {
-      fprintf(stderr, "game object not found\n");
-      exit(0);
+    if (game == NULL)
+    {
+        fprintf(stderr, "game object not found\n");
+        exit(0);
     }
 
     bool check = game_type_check(game);
-    if (check == false) {
-      fprintf(stderr, "game object fails type checking\n");
-      exit(0);
+    if (check == false)
+    {
+        fprintf(stderr, "game object fails type checking\n");
+        exit(0);
     }
 
     char *intro = obj_get_str(game, "intro");
@@ -87,22 +90,26 @@ game_t *create_game(obj_t *doc)
     return game_ret;
 }
 
-void debug_print(game_t *game) {
-    room_t *currRoom;
+void debug_print(game_t *game)
+{
+    room_t *curr_room;
 
-    ITER_ALL_ROOMS(game, currRoom) {
-      printf("room id: %s\n", currRoom->room_id);
+    ITER_ALL_ROOMS(game, curr_room)
+    {
+        printf("room id: %s\n", curr_room->room_id);
 
-      path_t *currPath;
+        path_t *curr_path;
 
-      ITER_ALL_PATHS(currRoom, currPath) {
-        printf("direction: %s\n", currPath->direction);
-      }
+        ITER_ALL_PATHS(curr_room, curr_path)
+        {
+            printf("direction: %s\n", curr_path->direction);
+        }
 
-      item_t *currItem;
+        item_t *curr_item;
 
-      ITER_ALL_ITEMS_IN_ROOM(currRoom, currItem) {
-        printf("item id: %s\n", currItem->item_id);
-      }
-    }   
+        ITER_ALL_ITEMS_IN_ROOM(curr_room, curr_item)
+        {
+            printf("item id: %s\n", curr_item->item_id);
+        }
+    }
 }

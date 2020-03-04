@@ -14,15 +14,17 @@ chiventure_ctx_t* chiventure_ctx_new(char *filepath)
 
     ctx = malloc(sizeof(chiventure_ctx_t));
 
-    if (ctx == NULL) {
+    if (ctx == NULL)
+    {
         return NULL;
     }
 
     rc = chiventure_ctx_init(ctx, filepath);
-    if (rc != SUCCESS) {
+    if (rc != SUCCESS)
+    {
         return NULL;
     }
-    
+
     return ctx;
 }
 

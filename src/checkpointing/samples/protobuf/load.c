@@ -14,8 +14,10 @@ int main (int argc, const char *argv[])
     int i = 0;
     uint8_t buf[MAX_BUF_SIZE];
 
-    while (fread(&c, 1, 1, stdin) != 0) {
-	if (i >= MAX_BUF_SIZE) {
+    while (fread(&c, 1, 1, stdin) != 0)
+    {
+	if (i >= MAX_BUF_SIZE)
+    {
 	    fprintf(stderr, "msg too long for allocated buffer\n");
 	    return 1;
 	}
@@ -24,7 +26,8 @@ int main (int argc, const char *argv[])
     }
 
     file = game__unpack(NULL, i, buf);
-    if (file == NULL) {
+    if (file == NULL)
+    {
 	fprintf(stderr, "error unpacking incoming message\n");
 	return 1;
     }
@@ -34,7 +37,8 @@ int main (int argc, const char *argv[])
 
     printf("Received: \nplayer_info: name = %s\ngender = %d\nlocation = %s\n", 
 	   sub1->name, sub1->gender, sub2->r_name);
-    if (file->has_discovered == 1) {
+    if (file->has_discovered == 1)
+    {
 	printf("discovered = %d\n", file->discovered);
     }
     

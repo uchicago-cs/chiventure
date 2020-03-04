@@ -29,12 +29,14 @@ void print_homescreen(window_t *win, const char *banner)
     // x_pos and y_pos indicate the x-y coordinates of the top left corner of the banner
     int x_pos = COLS / 2 - BANNER_WIDTH / 2;
     int y_pos = LINES / 4 - BANNER_HEIGHT / 2 - 1;
-    if (x_pos < 0) {
+    if (x_pos < 0)
+    {
         x_pos = 0;
     }
     // runs the animation of the banner (flashes a few times, the last couple a
     // a bit slower). usleep is used to control for how long the banner is on/off
-    for (int i = 0; i < 7; i ++) {
+    for (int i = 0; i < 7; i ++)
+    {
         int x = x_pos;
         int y = y_pos;
         wclear(win->w);
@@ -44,10 +46,12 @@ void print_homescreen(window_t *win, const char *banner)
 
 
 
-        if (i > 4) {
+        if (i > 4)
+        {
             usleep(600 * 1000);
         }
-        else {
+        else
+        {
             usleep(100 * 1000);
         }
 
@@ -56,7 +60,8 @@ void print_homescreen(window_t *win, const char *banner)
         strcpy(temp, banner);
         char *str = strtok(temp, "\n");
 
-        while (str != NULL) {
+        while (str != NULL)
+        {
             mvwprintw(win->w, y, x, str);
             str = strtok(NULL, "\n");
             y++;
@@ -67,13 +72,16 @@ void print_homescreen(window_t *win, const char *banner)
 
 
 
-        if (i > 3) {
+        if (i > 3)
+        {
             usleep(600 * 1000);
         }
-        else {
+        else
+        {
             usleep(100 * 1000);
         }
-        if (i == 6) {
+        if (i == 6)
+        {
             y_pos = y;
         }
 
@@ -99,7 +107,8 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 {
     static bool first_run = true;
 
-    if (first_run) {
+    if (first_run)
+    {
         first_run = false;
         mvwprintw(win->w, 1, 2, "> ");
         return;
@@ -114,15 +123,18 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     noecho();
     cmd_string = strdup(input);
 
-    if (!strcmp(cmd_string, "")) {
+    if (!strcmp(cmd_string, ""))
+    {
         return;
     }
 
     cmd *c = cmd_from_string(cmd_string, ctx);
-    if (!c) {
+    if (!c)
+    {
         print_to_cli(ctx, "Error: Malformed input (4 words max)");
     }
-    else {
+    else
+    {
         do_cmd(c, &quit, ctx);
     }
 
@@ -130,7 +142,8 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 
     // scrolls the screen up if there is no space to print the next line
     int height = LINES / 2;
-    if (y >= height - 2) {
+    if (y >= height - 2)
+    {
         wscrl(win->w, y - height + 2);
         y = height - 2;
     }
@@ -162,12 +175,14 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
     getyx(cli, y, x);
 
     // scrolls the screen up if there is no space to print the first line of output
-    if (y >= height - 1) {
+    if (y >= height - 1)
+    {
         wscrl(cli, y - height + 2);
         y = height - 2;
     }
 
-    while (tmp != NULL) {
+    while (tmp != NULL)
+    {
         mvwprintw(cli, y, 3, tmp);
         tmp = strtok(NULL, "\n");
 
@@ -176,17 +191,20 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
 
         // if there is no space to print the next line, instruction to press ENTER
         // to see more or q to continue is given,
-        if (y >= height - 1 && tmp != NULL) {
+        if (y >= height - 1 && tmp != NULL)
+        {
             mvwprintw(cli, y, 3, "Press ENTER to see more, 'q' to continue");
             int ch;
 
-            while ((ch = wgetch(cli)) != '\n' && ch != 'q') {
+            while ((ch = wgetch(cli)) != '\n' && ch != 'q')
+            {
                 /* wait until enter is pressed or q are pressed */
             }
 
             wmove(cli, y, 2);
             wclrtoeol(cli);
-            if (ch == 'q') {
+            if (ch == 'q')
+            {
                 return;
             }
             // sets the cursor to the begining of the line just printed

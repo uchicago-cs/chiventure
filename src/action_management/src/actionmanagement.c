@@ -20,13 +20,15 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind)
 {
     action_type_t *a = malloc(sizeof(action_type_t));
 
-    if (a == NULL) {
+    if (a == NULL)
+    {
         fprintf(stderr, "Could not allocate memory");
         return NULL;
     }
 
     int new_a = action_type_init(a, c_name, kind);
-    if (new_a != SUCCESS) {
+    if (new_a != SUCCESS)
+    {
         fprintf(stderr, "Could not initialize action type %s", c_name);
         return NULL;
     }
@@ -69,7 +71,8 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     memset(string, 0, BUFFER_SIZE);
 
     // checks if the action type is the correct kind
-    if (a->kind != ITEM) {
+    if (a->kind != ITEM)
+    {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
@@ -94,16 +97,19 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-    else {
+    else
+    {
         // implement the action (i.e. dole out the effects)
         int applied_effects;
         applied_effects = do_all_effects(i, a->c_name);
-        if (applied_effects == FAILURE) {
+        if (applied_effects == FAILURE)
+        {
             sprintf(string, "Effect(s) of Action %s were not applied", a->c_name);
             *ret_string = string;
             return EFFECT_NOT_APPLIED;
         }
-        else {
+        else
+        {
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
             *ret_string = string;
@@ -134,13 +140,15 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 
     /* VALIDATION */
     // checks if the action type is the correct kind
-    if (a->kind != PATH) {
+    if (a->kind != PATH)
+    {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
     }
     // validate existence of path and destination
-    if ((path_found == NULL) || (room_dest == NULL)) {
+    if ((path_found == NULL) || (room_dest == NULL))
+    {
         sprintf(string, "The path or room provided was invalid.");
         *ret_string = string;
         return NOT_ALLOWED_PATH;
@@ -149,12 +157,15 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     /* PERFORM ACTION */
     int move = move_room(g, room_dest);
 
-    if (move == SUCCESS) {
+    if (move == SUCCESS)
+    {
         snprintf(string, BUFFER_SIZE, "Moved into %s. %s",
                  room_dest->room_id, room_dest->long_desc);
         *ret_string = string;
         return SUCCESS;
-    } else {
+    }
+    else
+    {
         sprintf(string,
                 "Move action %s via %s into %s failed.",
                 a->c_name, direction, room_dest->room_id);
@@ -176,7 +187,8 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     memset(string, 0, BUFFER_SIZE);
 
     // checks if the action type is the correct kind
-    if (a->kind != ITEM_ITEM) {
+    if (a->kind != ITEM_ITEM)
+    {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
@@ -202,15 +214,19 @@ int do_item_item_action(action_type_t *a, item_t *direct,
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-    else {
+    else
+    {
         // implement the action (i.e. dole out the effects)
         action_effect_list_t *act_effects = dir_game_act->effects;
         int applied_effect = FAILURE;
-        while (act_effects) {
+        while (act_effects)
+        {
             // apply the effects of the direct item action (use, put) on the indirect item
-            if (strcmp(act_effects->item->item_id, indirect->item_id) == 0) {
+            if (strcmp(act_effects->item->item_id, indirect->item_id) == 0)
+            {
                 applied_effect = do_effect(act_effects);
-                if (applied_effect == FAILURE) {
+                if (applied_effect == FAILURE)
+                {
                     sprintf(string, "Effect of Action %s could not be applied to Item %s",
                             a->c_name, indirect->item_id);
                     *ret_string = string;
@@ -219,12 +235,15 @@ int do_item_item_action(action_type_t *a, item_t *direct,
             }
             act_effects = act_effects->next;
         }
-        if (applied_effect == FAILURE) {
+        if (applied_effect == FAILURE)
+        {
             sprintf(string, "Action %s can't be requested on item %s",
                     a->c_name, indirect->item_id);
             *ret_string = string;
             return NOT_ALLOWED_INDIRECT;
-        } else if (applied_effect == SUCCESS) {
+        }
+        else if (applied_effect == SUCCESS)
+        {
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
             *ret_string = string;

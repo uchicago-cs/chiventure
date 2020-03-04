@@ -8,7 +8,8 @@ int transfer(int argc, char *argv[], Game *file)
     static Player sub1 = PLAYER__INIT;
     static Room sub2 = ROOM__INIT;
 
-    if (argc != 4 && argc != 5) {
+    if (argc != 4 && argc != 5)
+    {
 	fprintf(stderr, "usage: game player_info location [discovered]");
 	return 1;
     }
@@ -19,7 +20,8 @@ int transfer(int argc, char *argv[], Game *file)
     sub2.r_name = argv[3];
     file->location = &sub2;
 
-    if (argc == 5) {
+    if (argc == 5)
+    {
 	file->has_discovered = 1;
 	file->discovered = atoi(argv[4]);
     }

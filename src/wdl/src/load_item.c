@@ -20,13 +20,15 @@
  *  - a pointer to an game_action struct
  *  - NULL if an error occurs
  */
-action_type_t *get_game_action(char *action, list_action_type_t *valid) 
+action_type_t *get_game_action(char *action, list_action_type_t *valid)
 {
     list_action_type_t *curr = valid;
-    
+
     // finding matching action_type_t
-    while (curr != NULL) {
-        if (strcmp(curr->act->c_name, action) == 0) {
+    while (curr != NULL)
+    {
+        if (strcmp(curr->act->c_name, action) == 0)
+        {
             break;
         }
         curr = curr->next;
@@ -40,25 +42,32 @@ int load_actions(obj_t *doc, item_t *i)
 {
     // getting a list of actions from item
     attr_list_t *action_ls = get_item_actions(doc);
-    if (action_ls == NULL) {
+    if (action_ls == NULL)
+    {
         fprintf(stderr, "action fails type checking, or action list is empty\n");
         return FAILURE;
     }
 
     attr_list_t *curr = action_ls;
     // setting action attributes; might need to change this in the future
-    
+
     action_type_t *temp;
     list_action_type_t *val_actions = get_supported_actions();
 
-    while (curr != NULL) {
+    while (curr != NULL)
+    {
         temp = get_game_action(obj_get_str(curr->obj, "action"), val_actions);
-        
-        if (obj_get_str(curr->obj, "text_success") != NULL && obj_get_str(curr->obj, "text_fail") != NULL) {
+
+        if (obj_get_str(curr->obj, "text_success") != NULL && obj_get_str(curr->obj, "text_fail") != NULL)
+        {
             add_action(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "text_success"), obj_get_str(curr->obj, "text_fail"));
-        } else if(obj_get_str(curr->obj, "text_success") != NULL) {
+        }
+        else if(obj_get_str(curr->obj, "text_success") != NULL)
+        {
             add_action(i, obj_get_str(curr->obj, "action"), obj_get_str(curr->obj, "text_success"), "Action failed");
-        } else {
+        }
+        else
+        {
             add_action(i, obj_get_str(curr->obj, "action"), "Action succeeded", obj_get_str(curr->obj, "text_fail"));
         }
         curr = curr->next;
@@ -73,7 +82,8 @@ int load_items(obj_t *doc, game_t *g)
 {
     // we use extract_objects() instead of obj_list_attr() because the former does type checking
     attr_list_t *items_obj = extract_objects(doc, "ITEMS");
-    if (items_obj == NULL) {
+    if (items_obj == NULL)
+    {
         fprintf(stderr, "items fail type checking\n");
     }
 
@@ -81,13 +91,15 @@ int load_items(obj_t *doc, game_t *g)
     attr_list_t *curr = items_obj;
 
     // if items list is empty then return -1
-    if (curr == NULL) {
+    if (curr == NULL)
+    {
         fprintf(stderr, "items list is empty\n");
         return FAILURE;
     }
 
     // while list of items exists, create new game_struct item, add item to room
-    while (curr != NULL) {
+    while (curr != NULL)
+    {
         // get id, short_desc, and long_desc
         char *id = obj_get_str(curr->obj, "id");
         char *short_desc = obj_get_str(curr->obj, "short_desc");
@@ -100,9 +112,10 @@ int load_items(obj_t *doc, game_t *g)
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
         //load actions into item
-        if(load_actions(curr->obj, item) == FAILURE) {
-	          fprintf(stderr, "actions have not been loaded properly");
-	          return FAILURE;
+        if(load_actions(curr->obj, item) == FAILURE)
+        {
+            fprintf(stderr, "actions have not been loaded properly");
+            return FAILURE;
         }
 
         //retrieve the pointer for the room that the item is located in

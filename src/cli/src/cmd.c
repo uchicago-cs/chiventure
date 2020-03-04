@@ -122,7 +122,7 @@ int lookup_t_init(lookup_t **t)
     add_action_entries(t);
 
     return SUCCESS;
- }
+}
 
 
 /* See cmd.h */

@@ -46,7 +46,8 @@ int main(int argc, char *argv[])
     player_t *chad_t;
     chad_t = player_new("Chad", 100);
 
-    if (argc == 1) {
+    if (argc == 1)
+	{
 	game_t *g_t_orig = game_new("Welcome to Chiventure");
 
 	printf("Welcome to Chiventure\n");
@@ -71,7 +72,8 @@ int main(int argc, char *argv[])
 	printf("The game is saved in a file named save.txt\n");
 	save(g_t_orig, "save.txt");
     } else {
-	if (strcmp(argv[1], "save.txt") == 0) {
+	if (strcmp(argv[1], "save.txt") == 0)
+	{
 	    printf("file we are reading from: %s\n", argv[1]);
 	    game_t *g_t_load = game_new("Welcome to Chiventure");
 
@@ -98,7 +100,8 @@ int main(int argc, char *argv[])
 		   g_t_load->curr_room->long_desc);
 	    item_list_t *inv = get_all_items_in_inventory(g_t_load->curr_player);
 	    printf("%s\'s inventory\n", g_t_load->curr_player->player_id);
-	    while (inv) {
+	    while (inv)
+		{
 		printf("Item id: %s\n", inv->item->item_id);
 		printf("Item short description: %s\n", inv->item->short_desc);
 		printf("Item long description: %s\n", inv->item->long_desc);
@@ -107,7 +110,8 @@ int main(int argc, char *argv[])
 	    printf("These are the item(s) in the %s\n",
 		   g_t_load->curr_room->short_desc);
 	    item_list_t *room_items = get_all_items_in_room(g_t_load->curr_room);
-	    while (room_items) {
+	    while (room_items)
+		{
 		printf("Item ID: %s\n", room_items->item->item_id);
 		printf("Short Description: %s\n", room_items->item->short_desc);
 		printf("Long Description: %s\n", room_items->item->long_desc);
@@ -144,7 +148,8 @@ int main(int argc, char *argv[])
 		   g_t_reload->curr_room->long_desc);
 	    item_list_t *reinv = get_all_items_in_inventory(g_t_reload->curr_player);
 	    printf("%s\'s inventory\n", g_t_reload->curr_player->player_id);
-	    while (reinv) {
+	    while (reinv)
+		{
 		printf("Item id: %s\n", reinv->item->item_id);
 		printf("Item short description: %s\n", reinv->item->short_desc);
 		printf("Item long description: %s\n", reinv->item->long_desc);
@@ -153,7 +158,8 @@ int main(int argc, char *argv[])
 	    printf("These are the item(s) in the %s\n",
 		   g_t_reload->curr_room->short_desc);
 	    item_list_t *reroom_items = get_all_items_in_room(g_t_reload->curr_room);
-	    while (reroom_items) {
+	    while (reroom_items)
+		{
 		printf("Item ID: %s\n", reroom_items->item->item_id);
 		printf("Short Description: %s\n", reroom_items->item->short_desc);
 		printf("Long Description: %s\n", reroom_items->item->long_desc);

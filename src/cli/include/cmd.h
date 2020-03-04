@@ -222,7 +222,7 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table);
  *
  * Parameters:
  * - pointer to a cmd struct
- * - pointer to chiventure context struct
+ * - ctx: pointer to chiventure context struct
  *
  * Returns:
  * - nothing -> output handled elsewhere
