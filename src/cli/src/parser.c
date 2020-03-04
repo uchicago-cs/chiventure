@@ -12,6 +12,17 @@ char **parse(char *input)
         return NULL;
     }
 
+    //Changes the input to be all caps, for compatibility with commands/objects/directions
+    int i = 0;
+    char ch;
+
+    while(input[i])
+    {
+        ch = toupper(input[i]);
+        input[i] = ch;
+        i++;
+    }
+
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
 
@@ -34,18 +45,6 @@ char **parse(char *input)
     if(token != NULL)
     {
         return NULL;
-    }
-
-    //Changes the first word to be all caps, for compatibility with commands
-    char *command = words[0];
-    int i = 0;
-    char ch;
-
-    while(command[i])
-    {
-        ch = toupper(command[i]);
-        command[i] = ch;
-        i++;
     }
 
     return words;

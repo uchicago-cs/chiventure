@@ -2,7 +2,8 @@
 #include "room.h"
 
 /* See room.h */
-path_t *path_new(room_t *dest, char *direction) {
+path_t *path_new(room_t *dest, char *direction)
+{
 
     path_t *path = malloc(sizeof(path_t));
     memset(path, 0, sizeof(path_t));
@@ -16,7 +17,8 @@ path_t *path_new(room_t *dest, char *direction) {
 }
 
 /* See room.h */
-int path_free(path_t *path) {
+int path_free(path_t *path)
+{
     free(path->direction);
     // delete_all_conditions(path->conditions);
     free(path);
@@ -25,9 +27,11 @@ int path_free(path_t *path) {
 }
 
 /* See room.h */
-int delete_all_paths(path_hash_t* paths) {
+int delete_all_paths(path_hash_t* paths)
+{
     path_t *current_path, *tmp;
-    HASH_ITER(hh, paths, current_path, tmp) {
+    HASH_ITER(hh, paths, current_path, tmp)
+    {
         HASH_DEL(paths, current_path);  /* deletes (paths advances to next) */
         path_free(current_path);             /* free it */
     }

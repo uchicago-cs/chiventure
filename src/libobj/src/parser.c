@@ -152,7 +152,7 @@ int parse_game(char *filename, obj_t *docobj)
     yaml_parser_t parser; //creates a parser
     yaml_token_t token; //creating a token
     FILE *pfile; //file to be parsed
-    printf("Now parsing file %s \n", filename);
+    my_print("Now parsing file");
 
     pfile = fopen(filename,"rb"); //opens file for reading
     assert(pfile);

@@ -30,12 +30,12 @@ typedef struct chiventure_ctx {
  * Allocates and initializes a new chiventure context.
  *
  * Parameters:
- *  - None
+ *  - filepath: path to yaml file to load game
  *
  * Returns:
  *  - A pointer to the context, or NULL if it cannot be allocated
  */
-chiventure_ctx_t* chiventure_ctx_new();
+chiventure_ctx_t* chiventure_ctx_new(char *filepath);
 
 
 /*
@@ -43,11 +43,12 @@ chiventure_ctx_t* chiventure_ctx_new();
  *
  * Parameters:
  *  - ctx: A chiventure context. Must already point to allocated memory
+ *  - filepath: filepath to yaml file to load game
  *
  * Returns:
  *  - 0 on success, 1 if an error occurs.
  */
-int chiventure_ctx_init(chiventure_ctx_t *ctx);
+int chiventure_ctx_init(chiventure_ctx_t *ctx, char *filepath);
 
 
 /*

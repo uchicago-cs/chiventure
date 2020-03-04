@@ -9,3 +9,4 @@
 *.ipch
 ui_debug.txt
 build/
+*.dat

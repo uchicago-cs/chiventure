@@ -19,7 +19,8 @@ window_t *window_new(int height, int width, int y_start,
 
     window_init(win, height, width, y_start, x_start, print);
 
-    if (show) {
+    if (show)
+    {
         // 0,0 indicate the default characters for the border of the window
         box(win->w, 0, 0);
     }

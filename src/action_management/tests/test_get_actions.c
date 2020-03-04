@@ -13,7 +13,8 @@ Test(get_actions, count)
     list_action_type_t *head, *temp;
     int out = 0;
     head = get_supported_actions();
-    for (temp = head; temp != NULL; temp = temp->next) {
+    for (temp = head; temp != NULL; temp = temp->next)
+    {
         out++;
     }
     cr_assert_eq(out, NUM_ACTIONS,
@@ -26,8 +27,10 @@ action_type_t *search_supported_actions(char *query)
 {
     list_action_type_t *head, *temp;
     head = get_supported_actions();
-    for (temp = head; temp != NULL; temp = temp->next) {
-        if (strcmp(temp->act->c_name, query) == 0) {
+    for (temp = head; temp != NULL; temp = temp->next)
+    {
+        if (strcmp(temp->act->c_name, query) == 0)
+        {
             return temp->act;
         }
     }

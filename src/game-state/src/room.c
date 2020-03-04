@@ -5,7 +5,7 @@
 
 /* See room.h */
 int room_init(room_t *new_room, char *room_id, char *short_desc,
-    char *long_desc)
+              char *long_desc)
 {
 
     assert(new_room != NULL);
@@ -17,7 +17,8 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
     return SUCCESS;
 }
 
-room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
+room_t *room_new(char *room_id, char *short_desc, char *long_desc)
+{
 
     room_t *room = malloc(sizeof(room_t));
     memset(room, 0, sizeof(room_t));
@@ -27,11 +28,13 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
     int check = room_init(room, room_id, short_desc, long_desc);
 
     if (room == NULL || room->room_id == NULL ||
-       room->short_desc == NULL || room->long_desc == NULL) {
+            room->short_desc == NULL || room->long_desc == NULL)
+    {
         return NULL;
     }
 
-    if(check != SUCCESS) {
+    if(check != SUCCESS)
+    {
         return NULL;
     }
 
@@ -41,7 +44,8 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc) {
 
 
 /* See room.h */
-int room_free(room_t *room) {
+int room_free(room_t *room)
+{
     free(room->room_id);
     free(room->short_desc);
     free(room->long_desc);
@@ -53,46 +57,54 @@ int room_free(room_t *room) {
 
 
 /* See room.h */
-int add_item_to_room(room_t *room, item_t *item) {
+int add_item_to_room(room_t *room, item_t *item)
+{
     item_t* check;
     HASH_FIND(hh, room->items, item->item_id, strlen(item->item_id), check);
 
-    if (check != NULL) {
+    if (check != NULL)
+    {
         return FAILURE; //this item id is already in use.
     }
     HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id),
-    item);
+                    item);
     return SUCCESS;
 
 }
 
 /* See room.h */
-int add_path_to_room(room_t *room, path_t *path) {
+int add_path_to_room(room_t *room, path_t *path)
+{
     path_t *s;
 
-    if (room == NULL) {
+    if (room == NULL)
+    {
         return FAILURE; //cannot add path to NULL room
     }
 
-    if (path == NULL) {
+    if (path == NULL)
+    {
         return FAILURE; //cannot add NULL path to room
     }
 
     HASH_FIND(hh, room->paths, path->direction, strlen(path->direction), s);
 
-    if (s != NULL) {
+    if (s != NULL)
+    {
         return FAILURE; //direction already used
     }
 
     HASH_ADD_KEYPTR(hh, room->paths, path->direction, strlen(path->direction),
-    path);
+                    path);
     return SUCCESS;
 }
 
 /* See common-room.h */
-int delete_all_rooms(room_hash_t *rooms) {
+int delete_all_rooms(room_hash_t *rooms)
+{
     room_t *current_room, *tmp;
-    HASH_ITER(hh, rooms, current_room, tmp) {
+    HASH_ITER(hh, rooms, current_room, tmp)
+    {
         HASH_DEL(rooms, current_room);  /* deletes (rooms advances to next) */
         room_free(current_room);             /* free it */
     }
@@ -100,23 +112,27 @@ int delete_all_rooms(room_hash_t *rooms) {
 }
 
 /* See room.h */
-path_t *path_search(room_t *room, char* direction) {
-  path_t *path;
-  if (room == NULL) {
-      return NULL; //cannot search path in NULL room
-  }
+path_t *path_search(room_t *room, char* direction)
+{
+    path_t *path;
+    if (room == NULL)
+    {
+        return NULL; //cannot search path in NULL room
+    }
 
-  HASH_FIND(hh, room->paths, direction, strlen(direction), path);
-  return path;
+    HASH_FIND(hh, room->paths, direction, strlen(direction), path);
+    return path;
 }
 
 /* See room.h */
-char *get_sdesc(room_t *room) {
+char *get_sdesc(room_t *room)
+{
     return room->short_desc;
 }
 
 /* See room.h */
-char *get_ldesc(room_t *room) {
+char *get_ldesc(room_t *room)
+{
     return room->long_desc;
 }
 
@@ -128,7 +144,8 @@ char *get_ldesc(room_t *room) {
  * Returns:
  *  hashtable of items in room
  */
-item_hash_t* list_items(room_t *room) {
+item_hash_t* list_items(room_t *room)
+{
     return room->items;
 }
 
@@ -140,8 +157,9 @@ item_hash_t* list_items(room_t *room) {
  * Returns:
  *  pointer to hashtable of paths from room
  */
-path_t *list_paths(room_t *room) {
-  return room->paths;
+path_t *list_paths(room_t *room)
+{
+    return room->paths;
 }
 
 /* FOR CLI
@@ -150,7 +168,8 @@ path_t *list_paths(room_t *room) {
 */
 
 /* see room.h */
-item_t* get_item_in_room(room_t* room, char* item_id) {
+item_t* get_item_in_room(room_t* room, char* item_id)
+{
     item_t* return_value;
     HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
     return return_value;
@@ -159,26 +178,31 @@ item_t* get_item_in_room(room_t* room, char* item_id) {
 
 
 /* See room.h */
-room_t *find_room_from_path(path_t *path) {
-    if(path != NULL) {
+room_t *find_room_from_path(path_t *path)
+{
+    if(path != NULL)
+    {
         return path->dest;
     }
     return NULL;
 }
 
 /* See room.h */
-room_t *find_room_from_dir(room_t *curr, char* direction) {
+room_t *find_room_from_dir(room_t *curr, char* direction)
+{
     path_t *path = path_search(curr, direction);
     room_t *room_adj = find_room_from_path(path);
     return room_adj;
 }
 
 /* See room.h */
-item_list_t *get_all_items_in_room(room_t *room) {
+item_list_t *get_all_items_in_room(room_t *room)
+{
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item;
     item_list_t *tmp;
-    HASH_ITER(hh, room->items, curr_item, ITTMP_ITEMRM) {
+    HASH_ITER(hh, room->items, curr_item, ITTMP_ITEMRM)
+    {
         tmp = malloc(sizeof(item_list_t));
         tmp->item = curr_item;
         LL_APPEND(head, tmp);

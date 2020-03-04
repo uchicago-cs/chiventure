@@ -28,61 +28,74 @@ int assign(coord_record_t *coordmap, int vertical_hops,
     // Returns failure if coordinate has already been assigned
     int x = try_add_coord(coordmap, horizontal_hops, vertical_hops,
                           up_down_hops, room);
-    if (x != SUCCESS) {
+    if (x != SUCCESS)
+    {
         return FAILURE;
     }
 
     // Begin Search
     room_t *find_room_north = find_room_from_dir(room, "north");
-    if (find_room_north != NULL) {
+    if (find_room_north != NULL)
+    {
         int north = assign(coordmap, vertical_hops + 1,
                            horizontal_hops, up_down_hops, find_room_north);
-        if (north == FAILURE) {
+        if (north == FAILURE)
+        {
             return FAILURE;
         }
     }
 
     room_t *find_room_east = find_room_from_dir(room, "east");
-    if (find_room_east != NULL) {
+    if (find_room_east != NULL)
+    {
         int east = assign(coordmap, vertical_hops,
                           horizontal_hops + 1, up_down_hops, find_room_east);
-        if (east == FAILURE) {
+        if (east == FAILURE)
+        {
             return FAILURE;
         }
     }
 
     room_t *find_room_south = find_room_from_dir(room, "south");
-    if (find_room_south != NULL) {
+    if (find_room_south != NULL)
+    {
         int south = assign(coordmap, vertical_hops - 1,
                            horizontal_hops, up_down_hops, find_room_south);
-        if (south == FAILURE) {
+        if (south == FAILURE)
+        {
             return FAILURE;
         }
     }
 
     room_t *find_room_west = find_room_from_dir(room, "west");
-    if (find_room_south != NULL) {
+    if (find_room_west != NULL)
+    {
         int west = assign(coordmap, vertical_hops,
                           horizontal_hops - 1, up_down_hops, find_room_west);
-        if (west == FAILURE) {
+        if (west == FAILURE)
+        {
             return FAILURE;
         }
     }
 
     room_t *find_room_up = find_room_from_dir(room, "up");
-    if (find_room_up != NULL) {
+    if (find_room_up != NULL)
+    {
         int up = assign(coordmap, vertical_hops, horizontal_hops,
                         up_down_hops + 1, find_room_up);
-        if (up == FAILURE) {
+        if (up == FAILURE)
+        {
             return FAILURE;
         }
     }
 
     room_t *find_room_down = find_room_from_dir(room, "down");
-    if (find_room_down != NULL) {
+    if (find_room_down != NULL)
+    {
         int down = assign(coordmap, vertical_hops, horizontal_hops,
                           up_down_hops - 1, find_room_down);
-        if (down == FAILURE) {
+        if (down == FAILURE)
+        {
             return FAILURE;
         }
     }
@@ -93,11 +106,13 @@ int assign(coord_record_t *coordmap, int vertical_hops,
 // See coordinate.h for details
 coord_record_t *create_valid_map(game_t *game)
 {
-    if (game == NULL) {
+    if (game == NULL)
+    {
         return NULL;
     }
 
-    if (game->curr_room == NULL) {
+    if (game->curr_room == NULL)
+    {
         return NULL;
     }
 
@@ -125,7 +140,8 @@ coord_record_t *create_valid_map(game_t *game)
     // Begin DFS search
     int r =  assign(coordmap, 0, 0, 0, initial);
 
-    if (r == FAILURE) {
+    if (r == FAILURE)
+    {
         return NULL;
     }
     return coordmap;

@@ -7,7 +7,7 @@
 #include "print_functions.h"
 #include "shell.h"
 #include "room.h"
-#include "sample_game.h"
+#include "load_game.h"
 
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -31,30 +31,35 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* See operations.h */
 char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if (tokens[1] == NULL) {
-    	return "Invalid Input, Save failed\n";
+    if (tokens[1] == NULL)
+    {
+        return "Invalid Input, Save failed\n";
     }
-    if (validate_filename(tokens[1]) == true) {
+    if (validate_filename(tokens[1]) == true)
+    {
         int sv = save(ctx->game, tokens[1]);
         return "Game Saved\n";
     }
-    else {
+    else
+    {
         return "Improper filename, Save failed\n";
     }
 }
 
 char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  if(tokens[1] == NULL){
-    return "Invalid Input, Load failed\n";
-  }
-  if (validate_filename(tokens[1]) == true){
-    int ld = load(tokens[1], ctx->game);
-    return "Load Succesful\n!";
-  }
-  else
-    return "Improper filename, Load failed\n";
-  
+    if(tokens[1] == NULL)
+    {
+        return "Invalid Input, Load failed\n";
+    }
+    if (validate_filename(tokens[1]) == true)
+    {
+        int ld = load(tokens[1], ctx->game);
+        return "Load Successful\n!";
+    }
+    else
+        return "Improper filename, Load failed\n";
+
 }
 
 bool validate_filename(char *filename)
@@ -74,6 +79,25 @@ bool validate_filename(char *filename)
     else
     {
         return false;
+    }
+}
+
+char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if(tokens[1] == NULL)
+    {
+        return "Invalid Input, Loading WDL file failed\n";
+    }
+
+    game_t *game = load_wdl(tokens[1]);
+    if(game == NULL)
+    {
+        return "Load WDL failed";
+    }
+    else
+    {
+        ctx->game = game;
+        return "Load WDL succeeded!";
     }
 }
 
@@ -138,6 +162,11 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         action_type_t *action = find_action(tokens[0], table);
         char *str;
         do_item_action(action, curr_item, &str);
+        if(strcmp(tokens[0], "TAKE") == 0)
+        {
+            //Below adds items to a player's inventory, commented out for now until seg fault can be fixed
+            // add_item_to_player(game->curr_player, curr_item);
+        }
         return str;
     }
     return "The object could not be found\n";
@@ -155,7 +184,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     lookup_t **table = ctx->table;
 
     if(tokens[1] == NULL)
-    {   
+    {
         return "You must specify a direction to go \n";
     }
 
@@ -208,7 +237,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return "You cannot perform this action !";
+    return "This action is not supported.";
 }
 
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -227,13 +256,16 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
         //To print an integer with print_to_cli, int i must be cast to a string
         //10 was chosen as a buffer, i should not need all 10 bytes
-        int strbuff = 10;
-        char str[strbuff];
-        sprintf(str, "%d", i);
 
-        print_to_cli(ctx, str);
+        //Commenting the code that prints what item number the loop is on for now, if this functionality
+        //is useful in the future it can be uncommented
+
+        // int strbuff = 10;
+        // char str[strbuff];
+        // sprintf(str, "%d", i);
+        // print_to_cli(ctx, str);
+
         print_to_cli(ctx, t->item_id);
-        print_to_cli(ctx, t->short_desc);
     }
     return "This was your inventory";
 }
@@ -248,30 +280,6 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     layout_switch(ctx);
     return "Layout switched.";
-}
-
-char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *sample_game = create_sample_game();
-    ctx->game = sample_game;
-
-    return "Sample game loaded";
-}
-
-char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *sample_game = create_sample_game_gs();
-    ctx->game = sample_game;
-
-    return "Sample game loaded";
-}
-
-char *sample_game_cp_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *sample_game = create_sample_game_cp();
-    ctx->game = sample_game;
-
-    return "Sample game loaded";
 }
 
 /* A function that capitalizes a word to be used in name_operation

@@ -6,7 +6,6 @@
 #include "print_functions.h"
 #include "save.h"
 #include "load.h"
-#include "sample_game.h"
 /*
  * We list all demanded operations over here.
  * All meta operations must be defined here.
@@ -32,7 +31,7 @@
  *
  * Input:
  *  - tokens: parsed input string
- *  - pointer to a chiventure context struct, unused
+ *  - ctx: pointer to a chiventure context struct, unused
  *
  * Returns:
  *  - Some system message
@@ -46,7 +45,7 @@ char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *
  *  Parameters:
  *  - tokens: parsed input string
- *  - pointer to a chiventure context struct, unused
+ *  - ctx: pointer to a chiventure context struct, unused
  *
  * Returns:
  * - Said list of supported operations as a string
@@ -60,7 +59,7 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *
  * Parameters:
  *  - tokens: parsed input string
- *  - pointer to a chiventure context struct, unused
+ *  - ctx: pointer to a chiventure context struct, unused
  *
  * Returns:
  * - Said list of previous actions as a string
@@ -74,7 +73,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *
  * Paramters:
  * - tokens: parsed input string
- * - pointer to a chiventure context struct
+ * - ctx:pointer to a chiventure context struct
  *
  * Returns:
  * - A success or error message
@@ -87,12 +86,25 @@ char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *
  * Parameters:
  * - tokens: parsed input string
- * - pointer to a chiventure context struct
+ * - ctx: pointer to a chiventure context struct
  *
  * Returns: 
  * - A success or error message
  */
 char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/*
+ * Loads a new game from a .wdl file
+ * Prints and Error message if filename improperly specified
+ *
+ * Parameters:
+ * - tokens: parsed input string
+ * - ctx: pointer to a chiventure context struct
+ *
+ * Returns: 
+ * - A success or error message
+ */
+char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /* Checks that a specified filetype is a .dat file
  *
@@ -128,7 +140,7 @@ cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
  *
  * Parameters:
  *  - tokens: parsed input string
- *  - pointer to a chiventure context struct
+ *  - ctx: pointer to a chiventure context struct
  *
  * Returns:
  * - Said description as a string
@@ -140,7 +152,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *
  * Parameters:
  *  - tokens: parsed input string
- *  - pointer to a chiventure context struct
+ *  - ctx: pointer to a chiventure context struct
  *
  * Returns:
  * - Said description as a string
@@ -152,7 +164,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *
  * Parameters:
  *  - tokens: parsed input string
- *  - pointer to a chiventure context struct, unused
+ *  - ctx: pointer to a chiventure context struct, unused
  *
  * Returns:
  * - Said error message as a string
@@ -165,7 +177,7 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  *
  * Parameters:
  *  - tokens: parsed input string (validified)
- *  - pointer to a chiventure context struct
+ *  - ctx:pointer to a chiventure context struct
  *
  * Returns:
  *  - Said list of supported operations as a string
@@ -178,7 +190,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  *
  * Parameters:
  *  - tokens: parsed input string (validified)
- *  - pointer to a chiventure context struct
+ *  - ctx: pointer to a chiventure context struct
  *
  * Returns:
  *  - Said list of supported operations as a string
@@ -191,7 +203,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  *
  * Parameters:
  *  - tokens: parsed input string (validified)
- *  - pointer to a chiventure context struct
+ *  - ctx: pointer to a chiventure context struct
  *
  * Returns:
  *  - Said list of supported operations as a string
@@ -203,51 +215,23 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  * wrapper, passing on the context struct only.
  * Parameters:
  *  - tokens: parsed input string (validified)
- *  - pointer to a chiventure context struct
+ *  - ctx: pointer to a chiventure context struct
  * Returns:
  * The text saying the map has been toggled.
  */
 char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+
 /* Switches the layout by calling the layout_switch function in ui_ctx.c. Essentially a
  * wrapper, passing on the context struct only.
  * Parameters:
  *  - tokens: parsed input string (validified)
- *  - pointer to a chiventure context struct
+ *  - ctx: pointer to a chiventure context struct
  * Returns:
  * The text saying the layout has been switched.
  */
 char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
-
-/* Load a sample game, for demo and testing purposes
- *
- * Parameters:
- *  - tokens: parsed input string (validified)
- *  - pointer to a chiventure context struct
- * Returns:
- *  - Text saying a sample game has been loaded
- */
-char *sample_game_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
-
-/* Load a sample game, for demo and testing purposes
- *
- * Parameters:
- *  - tokens: parsed input string (validified)
- *  - pointer to a chiventure context struct
- * Returns:
- *  - Text saying a sample game has been loaded
- */
-char *sample_game_gs_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
-
-/* Load a sample game, for demo and testing purposes
- *
- * Parameters:
- *  - tokens: parsed input string (validified)
- *  - pointer to a chiventure context struct
- * Returns:
- *  - Text saying a sample game has been loaded
- */
-char *sample_game_cp_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+ 
 
 /* Inserts a new command as a synonym for an existing one.
  * The third word becomes a synonym for the second, if it doesn't mean anything already.
@@ -255,12 +239,13 @@ char *sample_game_cp_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *
  */
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+
 /* Changes UI color.
  * The second word, if a keyword of the following: "DEFAULT", "BRIGHT", "NIGHT","PAIN"
  * changes the UI color to that theme.
  * Parameters:
  *  - tokens: parsed input string (validified)
- *  - pointer to a chiventure context struct
+ *  - ctx: pointer to a chiventure context struct
  * Returns:
  * A string notifying them if the color was changed or not.
  */

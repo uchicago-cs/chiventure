@@ -9,9 +9,8 @@
 #include <assert.h>
 #include "parser.h"
 #include "room.h"
-#include "game.h"
-#include "path.h"
-#include "common.h"
 #include "obj.h"
+#include "game.h"
+#include "common.h"
 
 #endif

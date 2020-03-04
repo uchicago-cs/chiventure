@@ -19,7 +19,12 @@ const char *banner =
 
 int main(int argc, char **argv)
 {
-    chiventure_ctx_t *ctx = chiventure_ctx_new();
+    if(argc <= 1) 
+    {
+        chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+    }
+
+    chiventure_ctx_t *ctx = chiventure_ctx_new(argv[1]);
 
     /* Add calls to component-specific initializations here */
 

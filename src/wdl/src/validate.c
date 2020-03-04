@@ -8,14 +8,16 @@
 /* see validate.h */
 bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 {
-    if (ls == NULL) {
-      return false; // if the function returns false, it will halt parsing
+    if (ls == NULL)
+    {
+        return false; // if the function returns false, it will halt parsing
     }
 
     bool result = true;
     attr_list_t *curr = ls;
 
-    while(curr != NULL) {
+    while(curr != NULL)
+    {
         result = (result && (*validate)(curr->obj));
         curr = curr->next;
     }
@@ -26,14 +28,16 @@ bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
 /* see validate.h */
 void list_print(attr_list_t *ls, void (*print)(obj_t*))
 {
-    if (ls == NULL) {
+    if (ls == NULL)
+    {
         fprintf(stderr, "list_print failed, list empty\n");
         return;
     }
 
     attr_list_t *curr = ls;
 
-    while(curr != NULL) {
+    while(curr != NULL)
+    {
         (*print)(curr->obj);
         curr = curr->next;
     }
@@ -58,10 +62,12 @@ attr_list_t *conditions_get_list(obj_t *obj)
 {
     obj_t *conditions = obj_get_attr(obj, "conditions", false);
 
-    if (conditions == NULL) {
+    if (conditions == NULL)
+    {
         return NULL;
     }
-    else {
+    else
+    {
         return obj_list_attr(conditions);
     }
 }
@@ -111,10 +117,12 @@ attr_list_t *connections_get_list(obj_t *obj)
 {
     obj_t *connections = obj_get_attr(obj, "connections", false);
 
-    if (connections == NULL) {
+    if (connections == NULL)
+    {
         return NULL;
     }
-    else {
+    else
+    {
         return obj_list_attr(connections);
     }
 }
@@ -160,6 +168,11 @@ bool room_type_check(obj_t *obj)
     // verify each attribute
     bool connections_ver = connection_type_check(obj);
 
+    if (id_ver == false)
+    {
+        fprintf(stderr, "id verification failed\n");
+    }
+
     return (id_ver && short_ver && long_ver && connections_ver);
 }
 
@@ -182,12 +195,10 @@ bool item_type_check(obj_t *obj)
 /* See validate.h */
 bool game_type_check(obj_t *obj)
 {
-    attr_list_t *temp = obj_list_attr(obj);
-    obj_t *game = temp->obj;
-
     // fields to verify
-    bool start_ver = (obj_get_type(game, "start") == TYPE_STR);
-    bool intro_ver = (obj_get_type(game, "intro") == TYPE_STR);
+    bool start_ver = (obj_get_type(obj, "start") == TYPE_STR);
+    bool intro_ver = (obj_get_type(obj, "intro") == TYPE_STR);
+    bool end_ver = (obj_get_type(obj, "end.0.in_room") == TYPE_STR);
 
     return (start_ver && intro_ver);
 }
@@ -214,8 +225,10 @@ bool action_validate(char *str)
     list_action_type_t *valid_actions = get_supported_actions();
     list_action_type_t *curr = valid_actions;
 
-    while (curr != NULL) {
-        if (strcmp(curr->act->c_name, str) == 0) {
+    while (curr != NULL)
+    {
+        if (strcmp(curr->act->c_name, str) == 0)
+        {
             return true;
         }
         curr = curr->next;
@@ -259,34 +272,34 @@ bool action_type_check(obj_t *obj)
  * side effects:
  * prints out the attributes of a condition
  */
- void print_conditions_attr(obj_t *obj)
- {
+void print_conditions_attr(obj_t *obj)
+{
     // print each attribute within connection object
     printf("id: %s\n", obj_get_str(obj, "id"));
     printf("state: %s\n", obj_get_str(obj, "state"));
     printf("value: %s\n", obj_get_str(obj, "value"));
     return;
- }
+}
 
- /* print_conditions
-   * helper function for print_connections that prints out the attributes of all
-   * conditions within a connection object
-   *
-   * parameters:
-   * - obj: a connection object
-   *
-   * side effects:
-   * prints out all conditions of a room
-   */
-  void print_conditions(obj_t *obj)
-  {
+/* print_conditions
+  * helper function for print_connections that prints out the attributes of all
+  * conditions within a connection object
+  *
+  * parameters:
+  * - obj: a connection object
+  *
+  * side effects:
+  * prints out all conditions of a room
+  */
+void print_conditions(obj_t *obj)
+{
     // obtain list of conditions
     attr_list_t *ls = conditions_get_list(obj);
 
     // call list_print with print_connection_attr
     list_print(ls, print_conditions_attr);
     return;
-  }
+}
 
 /* print_connection_attr
  * helper function for print_connection that prints out the attributes of a
@@ -298,25 +311,25 @@ bool action_type_check(obj_t *obj)
  * side effects:
  * prints out the attributes of a connection
  */
- void print_connection_attr(obj_t *obj)
- {
+void print_connection_attr(obj_t *obj)
+{
     // print each attribute within connection object
     printf("connected to: %s\n", obj_get_str(obj, "to"));
     printf("direction: %s\n", obj_get_str(obj, "direction"));
-   
-    return;
- }
 
- /* print_connections
-  * helper function for print_room that prints out the attributes of all
-  * connections within a room object
-  *
-  * parameters:
-  * - obj: a room object
-  *
-  * side effects:
-  * prints out all connections of a room
-  */
+    return;
+}
+
+/* print_connections
+ * helper function for print_room that prints out the attributes of all
+ * connections within a room object
+ *
+ * parameters:
+ * - obj: a room object
+ *
+ * side effects:
+ * prints out all connections of a room
+ */
 void print_connections(obj_t *obj)
 {
     // obtain list of connections

@@ -25,16 +25,20 @@ obj_t *get_doc_obj(char *fpath)
  */
 attr_list_t *get_obj_list(obj_t *obj, char *str)
 {
-    if (strcmp(str, "ROOMS") == 0) {
+    if (strcmp(str, "ROOMS") == 0)
+    {
         return obj_list_attr(obj_get_attr(obj, "ROOMS", false));
     }
-    else if (strcmp(str, "ITEMS") == 0) {
+    else if (strcmp(str, "ITEMS") == 0)
+    {
         return obj_list_attr(obj_get_attr(obj, "ITEMS", false));
     }
-    else if (strcmp(str, "PLAYERS") == 0) {
+    else if (strcmp(str, "PLAYERS") == 0)
+    {
         return obj_list_attr(obj_get_attr(obj, "PLAYERS", false));
     }
-    else {
+    else
+    {
         return NULL;
     }
 }
@@ -46,21 +50,26 @@ attr_list_t *extract_objects(obj_t *obj, char *str)
 
     attr_list_t *ls = get_obj_list(obj, str);
 
-    if (ls == NULL) {
+    if (ls == NULL)
+    {
         return NULL;
     }
 
-    if (strcmp(str, "ROOMS") == 0) {
+    if (strcmp(str, "ROOMS") == 0)
+    {
         valid = list_type_check(ls, room_type_check);
     }
-    else if (strcmp(str, "ITEMS") == 0) {
+    else if (strcmp(str, "ITEMS") == 0)
+    {
         valid = list_type_check(ls, item_type_check);
-    } 
+    }
 
-    if (valid) {
+    if (valid)
+    {
         return ls;
     }
-    else {
+    else
+    {
         return NULL;
     }
 }
@@ -78,7 +87,7 @@ attr_list_t* get_items_in_room(char* room_id, attr_list_t *all_items)
             ret_ls->obj = tmp->obj;
             attr_list_t* next_in_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
             ret_ls->next = next_in_ls;
-            ret_ls = ret_ls->next; 
+            ret_ls = ret_ls->next;
         }
         tmp = tmp->next;
     }
@@ -91,15 +100,18 @@ attr_list_t *get_item_actions(obj_t *item)
     bool valid = false;
 
     attr_list_t *ls = obj_list_attr(obj_get_attr(item, "actions", false));
-    if (ls == NULL) {
+    if (ls == NULL)
+    {
         return NULL;
     }
 
     valid = list_type_check(ls, action_type_check);
-    if (valid) {
+    if (valid)
+    {
         return ls;
     }
-    else {
+    else
+    {
         return NULL;
     }
 }
