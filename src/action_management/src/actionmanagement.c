@@ -2,9 +2,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include "actionmanagement.h"
-#include "common.h"
-#include "game_action.h"
+#include "action_management/actionmanagement.h"
+#include "common/common.h"
+#include "game-state/game_action.h"
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (2)

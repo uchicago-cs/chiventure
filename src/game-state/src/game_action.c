@@ -1,4 +1,4 @@
-#include "game_action.h"
+#include "game-state/game_action.h"
 #include "common-item.h"
 #include "common-game-action.h"
 

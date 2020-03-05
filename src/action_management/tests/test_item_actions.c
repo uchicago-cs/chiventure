@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "actionmanagement.h"
-#include "action_structs.h"
-#include "item.h"
-#include "game.h"
-#include "player.h"
+#include "action_management/actionmanagement.h"
+#include "action_management/action_structs.h"
+#include "game-state/item.h"
+#include "game-state/game.h"
+#include "game-state/player.h"
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (2)

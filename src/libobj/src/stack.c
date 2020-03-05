@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "stack.h"
+#include "libobj/stack.h"
 
 /* See stack.h */
 stack_t *new_stack()

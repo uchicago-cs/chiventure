@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <criterion/criterion.h>
-#include "utlist.h"
-#include "actionmanagement.h"
+#include "common/utlist.h"
+#include "action_management/actionmanagement.h"
 
 
 #define NUM_ACTIONS (12)

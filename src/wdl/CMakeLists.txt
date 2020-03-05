@@ -11,13 +11,6 @@ target_include_directories(wdl PRIVATE src/)
 
 target_link_libraries(wdl libobj)
 
-# This is a temporary solution before the directories
-# are reorganized
-target_include_directories(wdl PRIVATE include/)
-foreach(module ${CHIVENTURE_MODULES})
-    target_include_directories(wdl PRIVATE ../${module}/include/)
-endforeach(module)
-
 
 
 

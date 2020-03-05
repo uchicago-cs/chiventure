@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "obj.h"
-#include "utlist.h"
+#include "libobj/obj.h"
+#include "common/utlist.h"
 
 int main()
 {

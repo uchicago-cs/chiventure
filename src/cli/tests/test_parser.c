@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "parser.h"
+#include "cli/parser.h"
 
 //Tests the parsing of an empty input, which should return NULL.
 Test(parse, no_input)

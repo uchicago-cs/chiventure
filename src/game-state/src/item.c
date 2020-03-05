@@ -1,6 +1,6 @@
 /* Implementations of the item struct */
-#include "item.h"
-#include "game_action.h"
+#include "game-state/item.h"
+#include "game-state/game_action.h"
 #include <string.h>
 
 // BASIC ITEM FUNCTIONS -------------------------------------------------------

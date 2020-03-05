@@ -4,9 +4,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include "game.pb-c.h"
-#include "save.h"
-#include "game.h"
-#include "item.h"
+#include "checkpointing/save.h"
+#include "game-state/game.h"
+#include "game-state/item.h"
 
 
 Test(save, item)

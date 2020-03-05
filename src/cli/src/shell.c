@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "shell.h"
-#include "print_functions.h"
+#include "cli/shell.h"
+#include "ui/print_functions.h"
 
 /* ========================= */
 /* === interface actions === */

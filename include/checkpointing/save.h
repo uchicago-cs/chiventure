@@ -1,6 +1,6 @@
 #ifndef SAVE_H
 #define SAVE_H
-#include "game.h"
+#include "../game-state/game.h"
 
 /* 
  * Calls all above functions to save game into file

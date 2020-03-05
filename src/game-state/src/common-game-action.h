@@ -1,7 +1,7 @@
 #ifndef _COMMON_GAME_ACTION_H
 #define _COMMON_GAME_ACTION_H
 
-#include "game_action.h"
+#include "game-state/game_action.h"
 
 /* action_init() initializes an action struct with given values
    arguments are taken from action management

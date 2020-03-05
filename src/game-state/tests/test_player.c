@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "player.h"
-#include "item.h"
-#include "game.h"
-#include "game_state_common.h"
+#include "game-state/player.h"
+#include "game-state/item.h"
+#include "game-state/game.h"
+#include "game-state/game_state_common.h"
 
 /* Checks that player_new() properly mallocs and inits a new player struct */
 Test(player, new)

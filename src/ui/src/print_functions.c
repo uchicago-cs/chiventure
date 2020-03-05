@@ -6,12 +6,12 @@
 #include <assert.h>
 #include <signal.h>
 #include <string.h>
-#include "window.h"
-#include "ctx.h"
-#include "print_functions.h"
-#include "cmd.h"
-#include "operations.h"
-#include "shell.h"
+#include "ui/window.h"
+#include "common/ctx.h"
+#include "ui/print_functions.h"
+#include "cli/cmd.h"
+#include "cli/operations.h"
+#include "cli/shell.h"
 #include <unistd.h>
 
 // approximate length of chiventure banner

@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <math.h>
-#include "coordinate.h"
+#include "ui/coordinate.h"
 
 /* assign():
  *

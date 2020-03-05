@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "load_item.h"
+#include "wdl/load_item.h"
 
 void item_check(char *room, char *item, char *index)
 {

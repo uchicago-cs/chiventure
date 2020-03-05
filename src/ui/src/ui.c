@@ -5,12 +5,12 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <string.h>
-#include "common.h"
-#include "ctx.h"
-#include "ui.h"
-#include "window.h"
-#include "print_functions.h"
-#include "ui_ctx.h"
+#include "common/common.h"
+#include "common/ctx.h"
+#include "ui/ui.h"
+#include "ui/window.h"
+#include "ui/print_functions.h"
+#include "ui/ui_ctx.h"
 
 /* MAIN_WIN_NUM will indicate we are in the main window
  * MAP_WIN_NUM will mean we are in the map window

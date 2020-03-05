@@ -1,8 +1,8 @@
 #ifndef SAVE_INT_H
 #define SAVE_INT_H
-#include "save.h"
+#include "checkpointing/save.h"
 #include "game.pb-c.h"
-#include "actionmanagement.h"
+#include "action_management/actionmanagement.h"
 
 /*
  * Packs the attribute_t struct into the Attribute field in the protofile.

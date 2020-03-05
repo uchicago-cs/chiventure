@@ -10,13 +10,6 @@ add_library(game-state
 
 target_include_directories(game-state PRIVATE src/)
 
-# This is a temporary solution before the directories
-# are reorganized
-target_include_directories(game-state PRIVATE include/)
-foreach(module ${CHIVENTURE_MODULES})
-    target_include_directories(game-state PRIVATE ../${module}/include/)
-endforeach(module)
-
 
 
 

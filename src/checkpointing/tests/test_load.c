@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "load.h"
-#include "game.h"
+#include "checkpointing/load.h"
+#include "game-state/game.h"
 #include "common-item.h"
 
 Test(load, item)

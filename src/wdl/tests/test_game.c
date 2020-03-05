@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "load_game.h"
+#include "wdl/load_game.h"
 
 /* check to see if rooms are added to game struct correctly */
 Test(game, create_game)

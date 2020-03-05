@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <criterion/criterion.h>
-#include "item.h"
+#include "game-state/item.h"
 
 #include "actionmanagement.c"
-#include "player.h"
+#include "game-state/player.h"
 
 #include "common-item.h"
 #include "common-room.h"

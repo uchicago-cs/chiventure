@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <signal.h>
-#include "window.h"
+#include "ui/window.h"
 //#include "ctx.h"
 
 

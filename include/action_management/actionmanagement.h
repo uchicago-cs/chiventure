@@ -2,10 +2,10 @@
 #define _ACTIONS_H_
 
 #include "action_structs.h"
-#include "item.h"
-#include "room.h"
-#include "game.h"
-#include "ctx.h"
+#include "../game-state/item.h"
+#include "../game-state/room.h"
+#include "../game-state/game.h"
+#include "../common/ctx.h"
 
 // forward declaration
 typedef struct chiventure_ctx chiventure_ctx_t;

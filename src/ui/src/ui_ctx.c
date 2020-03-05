@@ -6,12 +6,12 @@
 #include <signal.h>
 #include <assert.h>
 #include <locale.h>
-#include "ui_ctx.h"
-#include "game.h"
-#include "coordinate.h"
-#include "window.h"
-#include "print_functions.h"
-#include "map.h"
+#include "ui/ui_ctx.h"
+#include "game-state/game.h"
+#include "ui/coordinate.h"
+#include "ui/window.h"
+#include "ui/print_functions.h"
+#include "ui/map.h"
 
 #define MAIN_WIN_NUM 1
 #define MAP_WIN_NUM 2

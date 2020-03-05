@@ -16,13 +16,6 @@ target_link_libraries(cli common)
 #       from game-state. See TODO in checkpointing CMakeLists.txt
 target_include_directories(cli PRIVATE ../game-state/src/)
 
-# This is a temporary solution before the directories
-# are reorganized
-target_include_directories(cli PRIVATE include/)
-foreach(module ${CHIVENTURE_MODULES})
-    target_include_directories(cli PRIVATE ../${module}/include/)
-endforeach(module)
-
 
 
 

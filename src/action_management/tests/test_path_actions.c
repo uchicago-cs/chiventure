@@ -1,11 +1,11 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "actionmanagement.h"
-#include "action_structs.h"
-#include "item.h"
-#include "player.h"
-#include "ctx.h"
+#include "action_management/actionmanagement.h"
+#include "action_management/action_structs.h"
+#include "game-state/item.h"
+#include "game-state/player.h"
+#include "common/ctx.h"
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (2)

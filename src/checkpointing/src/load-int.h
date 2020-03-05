@@ -1,9 +1,9 @@
 #ifndef LOAD_INT_H
 #define LOAD_INT_H
-#include "load.h"
+#include "checkpointing/load.h"
 #include "game.pb-c.h"
 #include "common-item.h"
-#include "actionmanagement.h"
+#include "action_management/actionmanagement.h"
 
 
 /* 

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "parse.h"
+#include "wdl/parse.h"
 
 /* See load_room.h */
 obj_t *get_doc_obj(char *fpath)

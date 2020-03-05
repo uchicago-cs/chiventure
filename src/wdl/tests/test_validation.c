@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "validate.h"
+#include "wdl/validate.h"
 
 /*
  * NOTE: these tests are specifically for the file designated by PATH located

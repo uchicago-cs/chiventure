@@ -5,7 +5,7 @@
 #ifndef INCLUDE_PARSE_H
 #define INCLUDE_PARSE_H
 
-#include <validate.h>
+#include "validate.h"
 #include "wdl_common.h"
 
 /* Helper function for creating doc object from defined FILE_PATH */

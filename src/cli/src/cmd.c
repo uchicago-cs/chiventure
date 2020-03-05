@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ncurses.h>
-#include "cmd.h"
-#include "shell.h"
-#include "operations.h"
-#include "ui_ctx.h"
-#include "print_functions.h"
-#include "actionmanagement.h"
+#include "cli/cmd.h"
+#include "cli/shell.h"
+#include "cli/operations.h"
+#include "ui/ui_ctx.h"
+#include "ui/print_functions.h"
+#include "action_management/actionmanagement.h"
 
 /* === hashtable helper constructors === */
 

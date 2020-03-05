@@ -1,8 +1,8 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "actionmanagement.h"
-#include "action_structs.h"
+#include "action_management/actionmanagement.h"
+#include "action_management/action_structs.h"
 
 /* Checks that a new action kind, type 1 is created without interruption */
 Test(action_type, new_ITEM)

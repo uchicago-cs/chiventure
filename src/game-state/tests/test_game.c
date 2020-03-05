@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "game.h"
+#include "game-state/game.h"
 
 void setup(void) {
     puts("Ready to go!");

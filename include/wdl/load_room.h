@@ -9,12 +9,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "parser.h"
-#include "room.h"
-#include "game.h"
+#include "../cli/parser.h"
+#include "../game-state/room.h"
+#include "../game-state/game.h"
 #include "validate.h"
 #include "parse.h"
-#include "common.h"
+#include "../common/common.h"
 
 #define PATH_FAILURE (1)
 #define ID_FAILURE (2)

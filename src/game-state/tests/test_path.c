@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <criterion/criterion.h>
-#include "room.h"
-#include "game_state_common.h"
+#include "game-state/room.h"
+#include "game-state/game_state_common.h"
 #include "common-path.h"
 #include "common-room.h"
 

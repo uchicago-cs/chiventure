@@ -3,7 +3,7 @@
 #include <string.h>
 #include "game.pb-c.h"
 #include "save-int.h"
-#include "common.h"
+#include "common/common.h"
 
 // see save.h
 int save_attribute(item_t *i_t, attribute_t *a_t, Attribute *a)

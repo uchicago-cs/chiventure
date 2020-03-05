@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "load_room.h"
+#include "wdl/load_room.h"
 
 /*
  * add_rooms_check

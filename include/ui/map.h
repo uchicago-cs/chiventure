@@ -4,7 +4,7 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "ctx.h"
+#include "../common/ctx.h"
 
 // Forward declaration
 typedef struct chiventure_ctx chiventure_ctx_t;

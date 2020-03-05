@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "room.h"
+#include "game-state/room.h"
 
 // BASIC ROOM UNIT TESTS ------------------------------------------------------
 /* Tests init function of room */
