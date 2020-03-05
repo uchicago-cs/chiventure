@@ -1,13 +1,10 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <ncurses.h>
-#include <ctype.h>
 #include <stdbool.h>
-#include <signal.h>
 #include <assert.h>
 #include <locale.h>
+
 #include "ui/ui_ctx.h"
-#include "game-state/game.h"
 #include "ui/coordinate.h"
 #include "ui/window.h"
 #include "ui/print_functions.h"

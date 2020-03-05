@@ -1,9 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ncurses.h>
+
 #include "cli/cmd.h"
-#include "cli/shell.h"
 #include "cli/operations.h"
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"

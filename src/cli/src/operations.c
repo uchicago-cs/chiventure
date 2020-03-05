@@ -1,12 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
 #include "cli/operations.h"
-#include "cli/cmd.h"
 #include "ui/print_functions.h"
 #include "cli/shell.h"
-#include "game-state/room.h"
 #include "wdl/load_game.h"
 
 

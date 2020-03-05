@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "game.pb-c.h"
 #include "save-int.h"
 #include "common/common.h"

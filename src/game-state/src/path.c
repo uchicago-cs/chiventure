@@ -1,4 +1,5 @@
 #include <stdlib.h>
+
 #include "game-state/room.h"
 
 /* See room.h */

@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
+#include "libobj/parser.h"
 #include "wdl/parse.h"
 
 /* See load_room.h */

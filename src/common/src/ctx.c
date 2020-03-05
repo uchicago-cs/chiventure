@@ -1,6 +1,6 @@
 #include <stdlib.h>
+
 #include "common/ctx.h"
-#include "game-state/game.h"
 #include "ui/ui_ctx.h"
 #include "cli/cmd.h"
 #include "wdl/load_game.h"

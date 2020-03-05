@@ -1,4 +1,5 @@
 #include <stdlib.h>
+
 #include "common-item.h"
 #include "common-room.h"
 #include "common-path.h"

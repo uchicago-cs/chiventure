@@ -3,7 +3,6 @@
 
 #include "common/utlist.h"
 #include "action_management/actionmanagement.h"
-#include "action_management/action_structs.h"
 
 
 static action_type_t valid_actions[] =

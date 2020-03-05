@@ -1,13 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include <ncurses.h>
 #include <ctype.h>
-#include <stdbool.h>
 #include <signal.h>
 #include <string.h>
-#include "common/common.h"
+
 #include "common/ctx.h"
-#include "ui/ui.h"
 #include "ui/window.h"
 #include "ui/print_functions.h"
 #include "ui/ui_ctx.h"

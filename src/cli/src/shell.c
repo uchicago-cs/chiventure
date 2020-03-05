@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+
 #include "cli/shell.h"
 #include "ui/print_functions.h"
 
