@@ -1,7 +1,7 @@
 #ifndef PRINT_FUNCTIONS_H
 #define PRINT_FUNCTIONS_H
 
-#include "../common/ctx.h"
+#include "common/ctx.h"
 
 
 typedef struct window window_t;

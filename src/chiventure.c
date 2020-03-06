@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "../include/common/ctx.h"
-#include "../include/ui/ui.h"
+#include "common/ctx.h"
+#include "ui/ui.h"
 
 const char *banner =
     "    ________________________________________________________________________________________\n"

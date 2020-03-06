@@ -7,10 +7,10 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
-#include "../cli/parser.h"
-#include "../game-state/room.h"
-#include "../libobj/obj.h"
-#include "../game-state/game.h"
-#include "../common/common.h"
+#include "cli/parser.h"
+#include "game-state/room.h"
+#include "libobj/obj.h"
+#include "game-state/game.h"
+#include "common/common.h"
 
 #endif

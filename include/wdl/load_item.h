@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
-#include "../game-state/game.h"
+#include "game-state/game.h"
 #include "load_room.h"
 
 /* load_items

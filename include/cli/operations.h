@@ -1,11 +1,11 @@
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
-#include "../game-state/game.h"
-#include "../action_management/actionmanagement.h"
-#include "../ui/print_functions.h"
-#include "../checkpointing/save.h"
-#include "../checkpointing/load.h"
+#include "game-state/game.h"
+#include "action_management/actionmanagement.h"
+#include "ui/print_functions.h"
+#include "checkpointing/save.h"
+#include "checkpointing/load.h"
 /*
  * We list all demanded operations over here.
  * All meta operations must be defined here.

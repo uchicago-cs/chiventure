@@ -1,7 +1,7 @@
 #ifndef _INClUDE_SAMPLE_GAME_H
 #define _INClUDE_SAMPLE_GAME_H
 
-#include "../game-state/game.h"
+#include "game-state/game.h"
 
 /*
  * Creates a sample 1 player 2 room game struct

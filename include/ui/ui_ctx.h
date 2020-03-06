@@ -2,8 +2,8 @@
 #define UI_CTX_H
 
 #include "map.h"
-#include "../game-state/game.h"
-#include "../game-state/room.h"
+#include "game-state/game.h"
+#include "game-state/room.h"
 #include "window.h"
 #include "coordinate.h"
 

@@ -8,9 +8,9 @@
 
 #include <ncurses.h>
 #include "common.h"
-#include "../game-state/game.h"
-#include "../ui/ui_ctx.h"
-#include "../cli/cmd.h"
+#include "game-state/game.h"
+#include "ui/ui_ctx.h"
+#include "cli/cmd.h"
 
 // Forward declaration
 typedef struct ui_ctx ui_ctx_t;

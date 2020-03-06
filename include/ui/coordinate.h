@@ -10,11 +10,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include "../common/uthash.h"
-#include "../common/common.h"
-#include "../game-state/room.h"
-#include "../game-state/game.h"
-#include "../common/ctx.h"
+#include "common/uthash.h"
+#include "common/common.h"
+#include "game-state/room.h"
+#include "game-state/game.h"
+#include "common/ctx.h"
 
 // A coordinate in three-dimensional space
 typedef struct coord {

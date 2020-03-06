@@ -1,6 +1,6 @@
 #ifndef LOAD_H
 #define LOAD_H
-#include "../game-state/game.h"
+#include "game-state/game.h"
 
 /*
  * Unpacks the protofile and reloads all saved information into game structs
