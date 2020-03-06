@@ -1,18 +1,12 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include <ncurses.h>
-#include <ctype.h>
 #include <stdbool.h>
-#include <assert.h>
-#include <signal.h>
 #include <string.h>
-#include "window.h"
-#include "ctx.h"
-#include "print_functions.h"
-#include "cmd.h"
-#include "operations.h"
-#include "shell.h"
 #include <unistd.h>
+
+#include "common/ctx.h"
+#include "ui/print_functions.h"
+#include "cli/cmd.h"
+#include "cli/operations.h"
 
 // approximate length of chiventure banner
 #define BANNER_WIDTH (96)

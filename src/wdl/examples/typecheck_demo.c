@@ -1,5 +1,5 @@
-#include "parse.h"
-#include "validate.h"
+#include "wdl/parse.h"
+#include "wdl/validate.h"
 
 int main(int argc, char* argv[])
 {

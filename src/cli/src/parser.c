@@ -1,8 +1,8 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "parser.h"
+
+#include "cli/parser.h"
 
 /* See parser.h */
 char **parse(char *input)

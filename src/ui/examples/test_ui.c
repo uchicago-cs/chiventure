@@ -4,9 +4,9 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <signal.h>
-#include "window.h"
-#include "ui.h"
-#include "ctx.h"
+#include "ui/window.h"
+#include "ui/ui.h"
+#include "common/ctx.h"
 
 const char *banner =
     "    ________________________________________________________________________________________\n"

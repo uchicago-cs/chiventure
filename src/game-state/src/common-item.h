@@ -1,7 +1,7 @@
 #ifndef _COMMON_ITEM_H
 #define _COMMON_ITEM_H
 
-#include "item.h"
+#include "game-state/item.h"
 
 /* item_init() initializes an item struct with given values
     arguments are taken from WDL

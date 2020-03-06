@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "log_save.h"
+
+#include "checkpointing/log_save.h"
 
 
 /* See log_save.h */

@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "validate.h"
-#include "parse.h"
-#include "game.h"
-#include "load_game.h"
-#include "load_room.h"
-#include "load_item.h"
+
+#include "wdl/validate.h"
+#include "wdl/parse.h"
+#include "wdl/load_game.h"
+#include "wdl/load_room.h"
+#include "wdl/load_item.h"
 
 /*
  * load_wdl, function that loads a wdl into all the game-state structs

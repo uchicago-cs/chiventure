@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "string.h"
-#include "coordinate.h"
-#include "assert.h"
+#include <string.h>
+#include <assert.h>
+
+#include "ui/coordinate.h"
+
 
 coord_t *coord_new(int x, int y, int z)
 {

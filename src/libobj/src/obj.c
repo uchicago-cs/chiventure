@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "obj.h"
-#include "utlist.h"
+#include "libobj/obj.h"
+#include "common/utlist.h"
 
 /* Forward function declarations */
 obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create);

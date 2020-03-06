@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <assert.h>
-#include "ctx.h"
-#include "ui_ctx.h"
-#include "room.h"
+#include "common/ctx.h"
+#include "ui/ui_ctx.h"
+#include "game-state/room.h"
 
 /* Initializes the ncurses window
  *

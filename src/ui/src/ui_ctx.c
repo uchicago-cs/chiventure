@@ -1,17 +1,14 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <ncurses.h>
-#include <ctype.h>
 #include <stdbool.h>
-#include <signal.h>
 #include <assert.h>
 #include <locale.h>
-#include "ui_ctx.h"
-#include "game.h"
-#include "coordinate.h"
-#include "window.h"
-#include "print_functions.h"
-#include "map.h"
+
+#include "ui/ui_ctx.h"
+#include "ui/coordinate.h"
+#include "ui/window.h"
+#include "ui/print_functions.h"
+#include "ui/map.h"
 
 #define MAIN_WIN_NUM 1
 #define MAP_WIN_NUM 2
@@ -40,31 +37,6 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     assert(ui_ctx != NULL);
     assert(game != NULL);
 
-    setlocale(LC_ALL, "");
-
-    initscr();
-
-    int height = LINES / 2;
-    int width = COLS;
-
-    window_t *map_win = window_new(height, width, 0, 0, print_map, true);
-    window_t *main_win = window_new(height, width, 0, 0, print_info, true);
-    window_t *displayed_win = main_win;
-
-    window_t *cli_win = window_new(height, width, height, 0, print_cli, false);
-
-    keypad(cli_win->w, TRUE);
-    scrollok(cli_win->w, TRUE);
-    wmove(cli_win->w, 0,0);
-
-    ui_ctx->map_win = map_win;
-    ui_ctx->main_win = main_win;
-    ui_ctx->displayed_win = displayed_win;
-    ui_ctx->cli_win = cli_win;
-
-    ui_ctx->curr_page = MAIN_WIN_NUM;
-    ui_ctx->cli_top = 0;
-
     /* This field will be NULL if a logical coordinate
      * system cannot be assigned
      */
@@ -79,8 +51,6 @@ int ui_ctx_init(ui_ctx_t *ui_ctx, game_t *game)
     coord_t *initial_coord = coord_new(0, 0, 0);
     ui_ctx->player_loc = initial_coord;
 
-    ui_ctx->map = map_init();
-
     return SUCCESS;
 }
 
@@ -89,9 +59,6 @@ int ui_ctx_free(ui_ctx_t *ui_ctx)
 {
     assert(ui_ctx != NULL);
 
-    window_free(ui_ctx->map_win);
-    window_free(ui_ctx->main_win);
-    window_free(ui_ctx->cli_win);
     free(ui_ctx->player_loc);
 
     coord_record_t *coord_hash, *item, *temp;

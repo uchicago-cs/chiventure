@@ -7,9 +7,9 @@
 #include <string.h>
 #include <readline/readline.h>
 //#include <readline/history.h>
-#include "../include/cmd.h"
-#include "../include/shell.h"
-#include "ctx.h"
+#include "cli/cmd.h"
+#include "cli/shell.h"
+#include "common/ctx.h"
 
 
 #define BUFFER_SIZE 256
