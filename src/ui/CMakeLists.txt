@@ -1,5 +1,3 @@
-project(ui C)
-
 add_library(ui
             src/coordinate.c
             src/DFS.c

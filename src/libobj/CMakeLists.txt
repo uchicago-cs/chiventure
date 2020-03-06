@@ -1,6 +1,3 @@
-project(libobj C)
-
-# chiventure executable
 add_library(libobj
         src/obj.c
         src/parser.c

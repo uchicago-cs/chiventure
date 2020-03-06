@@ -1,5 +1,3 @@
-project(checkpointing C)
-
 set(PROTOBUF_DIRS ${CMAKE_CURRENT_BINARY_DIR}/protobuf
         ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/checkpointing/
         .)

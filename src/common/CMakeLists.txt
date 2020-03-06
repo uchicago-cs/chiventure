@@ -1,5 +1,3 @@
-project(common C)
-
 add_library(common
             src/ctx.c
             src/sample_game.c)

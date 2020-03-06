@@ -1,5 +1,3 @@
-project(action_management C)
-
 add_library(action_management
             src/actionmanagement.c
             src/get_actions.c)

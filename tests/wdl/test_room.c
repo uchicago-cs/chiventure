@@ -3,8 +3,9 @@
 #include <stdbool.h>
 #include "wdl/load_room.h"
 
-// TODO: This should not be hardcoded here
-#define ROOM_PATH "../src/wdl/examples/sample_yaml/connected_rooms.yaml"
+/* TODO: This should not be hardcoded here. Find a way to incorporate these
+ * files into the CMake-Criterion chain */
+#define ROOM_PATH "../../../tests/wdl/examples/connected_rooms.yaml"
 
 /*
  * add_rooms_check

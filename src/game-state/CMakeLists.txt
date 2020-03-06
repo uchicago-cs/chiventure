@@ -1,5 +1,3 @@
-project(game-state C)
-
 add_library(game-state
         src/game.c
         src/game_action.c

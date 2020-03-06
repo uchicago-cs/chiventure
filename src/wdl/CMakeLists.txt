@@ -1,5 +1,3 @@
-project(wdl C)
-
 add_library(wdl
             src/load_game.c
             src/load_item.c

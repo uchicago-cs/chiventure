@@ -6,7 +6,6 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
 find_package(Protobuf-c REQUIRED)
-find_package(Criterion REQUIRED)
 find_package(Curses REQUIRED)
 find_package(LibYAML REQUIRED)
 
@@ -38,27 +37,10 @@ set_target_properties(chiventure-bin
 
 
 # TESTS
+find_package(Criterion REQUIRED)
+enable_testing()
+add_subdirectory(tests)
 
-set(TEST_LIBS ${CRITERION_LIBRARY} ${PROTOBUF-C_LIBRARIES})
-
-file(GLOB_RECURSE TEST_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "tests/*.c")
-
-add_executable(test-chiventure ${TEST_SOURCES})
-
-target_link_libraries(test-chiventure ${TEST_LIBS})
-
-foreach(module ${CHIVENTURE_MODULES})
-    target_link_libraries(test-chiventure ${module})
-endforeach(module)
-
-
-# TODO: Checkpointing uses a private header file from game-state
-#       Whatever structs they use should be moved to their public
-#       header files. It also needs access to the protobuf files.
-target_include_directories(test-chiventure PRIVATE
-        src/game-state/src/
-        src/checkpointing/src/
-        ${CMAKE_CURRENT_BINARY_DIR}/src/checkpointing/protobuf/)
 
 
 
