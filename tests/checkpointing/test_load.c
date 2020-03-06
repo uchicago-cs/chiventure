@@ -2,9 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include "checkpointing/load.h"
-#include "game-state/game.h"
 #include "common-item.h"
+#include "load-int.h"
+#include "game.pb-c.h"
+
 
 Test(load, item)
 {

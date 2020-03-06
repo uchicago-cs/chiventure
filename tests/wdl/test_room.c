@@ -3,6 +3,9 @@
 #include <stdbool.h>
 #include "wdl/load_room.h"
 
+// TODO: This should not be hardcoded here
+#define ROOM_PATH "../src/wdl/examples/sample_yaml/connected_rooms.yaml"
+
 /*
  * add_rooms_check
  * helper functions for checking whether the designated rooms from
@@ -158,7 +161,7 @@ Test(rooms, add_connections_A_B)
     game_t *g = add_conns_check();
 
     // check connection from room A to room B
-    check_conns(g, "room A", "north", "room B");
+    check_conns(g, "room A", "NORTH", "room B");
 }
 
 /* check connection from room B to room C */
@@ -168,7 +171,7 @@ Test(rooms, add_connections_B_C)
     game_t *g = add_conns_check();
 
     // check connection from room B to room C
-    check_conns(g, "room B", "north", "room C");
+    check_conns(g, "room B", "NORTH", "room C");
 }
 
 /* check connection from room C to room A */
@@ -178,5 +181,5 @@ Test(rooms, add_connections_C_A)
     game_t *g = add_conns_check();
 
     // check connection from room B to room C
-    check_conns(g, "room C", "north", "room A");
+    check_conns(g, "room C", "NORTH", "room A");
 }

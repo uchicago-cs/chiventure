@@ -6,7 +6,7 @@
 #ifndef INCLUDE_VALIDATE_H
 #define INCLUDE_VALIDATE_H
 
-#include "../action_management/actionmanagement.h"
+#include "action_management/actionmanagement.h"
 #include "wdl_common.h"
 
 /* a doubly linked list of strings used to store approved actions

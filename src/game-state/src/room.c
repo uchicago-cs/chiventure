@@ -8,12 +8,11 @@
 int room_init(room_t *new_room, char *room_id, char *short_desc,
               char *long_desc)
 {
-
     assert(new_room != NULL);
 
-    strncpy(new_room->room_id, room_id, strlen(room_id));
-    strncpy(new_room->short_desc, short_desc, strlen(short_desc));
-    strncpy(new_room->long_desc, long_desc, strlen(long_desc));
+    strncpy(new_room->room_id, room_id, strlen(room_id)+1);
+    strncpy(new_room->short_desc, short_desc, strlen(short_desc)+1);
+    strncpy(new_room->long_desc, long_desc, strlen(long_desc)+1);
 
     return SUCCESS;
 }

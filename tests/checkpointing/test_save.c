@@ -3,10 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "save-int.h"
 #include "game.pb-c.h"
 #include "checkpointing/save.h"
-#include "game-state/game.h"
-#include "game-state/item.h"
 
 
 Test(save, item)
@@ -89,9 +88,7 @@ Test(save, room)
 
     Room *dorm = malloc(sizeof(Room));
     succ = save_room(room_t, dorm);
-    printf("starting room tests");
     cr_assert_eq(succ, 0, "save_room failed");
-    printf("passed");
     cr_assert_str_eq(dorm->room_id, "5", "save_room: saving room_id failed");
     cr_assert_str_eq(dorm->short_desc, "college dorm",
      "save_room: saving short_desc failed");

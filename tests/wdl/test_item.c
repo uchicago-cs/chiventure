@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "wdl/load_item.h"
+#include "test_wdl.h"
 
 void item_check(char *room, char *item, char *index)
 {
@@ -40,7 +41,7 @@ void item_check(char *room, char *item, char *index)
 
     while(action_ll != NULL)
     {
-        rc = allowed_action(i, obj_get_str(action_ll->obj, "action"));
+        rc = possible_action(i, obj_get_str(action_ll->obj, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
         action_ll = action_ll->next;
     }    
@@ -48,10 +49,10 @@ void item_check(char *room, char *item, char *index)
 
 Test(items, check_chair)
 {
-    item_check("room A", "chair", "0");
+    item_check("room A", "CHAIR", "0");
 }
 
 Test(items, check_table)
 {
-    item_check("room B", "table", "1");
+    item_check("room B", "TABLE", "1");
 }

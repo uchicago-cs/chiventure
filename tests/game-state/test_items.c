@@ -2,7 +2,6 @@
 #include <criterion/criterion.h>
 #include "game-state/item.h"
 
-#include "actionmanagement.c"
 #include "game-state/player.h"
 
 #include "common-item.h"

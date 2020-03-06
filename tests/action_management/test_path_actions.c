@@ -41,7 +41,7 @@ Test(path_actions, validate_path)
     action_type_t *action_go, *action_invalid;
 
     /* CREATE VARIABLE CONTENTS */
-    ctx_test = chiventure_ctx_new();
+    ctx_test = chiventure_ctx_new(NULL);
     game_test = game_new("This is a test game!");
     player_test = player_new("player", 1);
     room_origin = room_new("room_o", "origin room", "This is the room the player starts in.");

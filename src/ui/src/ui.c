@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <signal.h>
 #include <string.h>
+#include <locale.h>
 
 #include "common/ctx.h"
 #include "ui/window.h"
@@ -24,14 +25,34 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     ui_ctx_t *ui_ctx = ctx->ui_ctx;
     int ch;
 
-
     // starts curses mode
+    setlocale(LC_ALL, "");
     initscr();
     // pressed keys are not displayed in the window
     noecho();
     // height and width of the terminal window
     int width = COLS;
     int height = LINES /2;
+
+    window_t *map_win = window_new(height, width, 0, 0, print_map, true);
+    window_t *main_win = window_new(height, width, 0, 0, print_info, true);
+    window_t *displayed_win = main_win;
+
+    window_t *cli_win = window_new(height, width, height, 0, print_cli, false);
+
+    keypad(cli_win->w, TRUE);
+    scrollok(cli_win->w, TRUE);
+    wmove(cli_win->w, 0,0);
+
+    ui_ctx->map_win = map_win;
+    ui_ctx->main_win = main_win;
+    ui_ctx->displayed_win = displayed_win;
+    ui_ctx->cli_win = cli_win;
+
+    ui_ctx->curr_page = MAIN_WIN_NUM;
+    ui_ctx->cli_top = 0;
+
+    ui_ctx->map = map_init();
 
     map_t *map = ui_ctx->map;
     // Initializes the CLI window
@@ -140,4 +161,11 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
 
     // End curses mode
     endwin();
+}
+
+void stop_ui(chiventure_ctx_t *ctx)
+{
+    window_free(ctx->ui_ctx->map_win);
+    window_free(ctx->ui_ctx->main_win);
+    window_free(ctx->ui_ctx->cli_win);
 }

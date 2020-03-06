@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <string.h>
 #include "ui/coordinate.h"
-#include "game-state/game.h"
 
 // Checks that a given x and y-coordinate are allocated in memory within a
 // coordinate struct
