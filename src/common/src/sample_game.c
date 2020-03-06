@@ -1,10 +1,10 @@
-#include "sample_game.h"
-#include "game.h" // to get game_t
-#include "player.h" // to get player_t
-#include "item.h" // to get item_t
-#include "action_structs.h" // to get action_type_t
-#include "game_action.h" // to get game_action_t
-#include "actionmanagement.h" // for get_supported_actions
+#include "common/sample_game.h"
+#include "game-state/game.h" // to get game_t
+#include "game-state/player.h" // to get player_t
+#include "game-state/item.h" // to get item_t
+#include "action_management/action_structs.h" // to get action_type_t
+#include "game-state/game_action.h" // to get game_action_t
+#include "action_management/actionmanagement.h" // for get_supported_actions
 #include "string.h" // for strcmp
 
 

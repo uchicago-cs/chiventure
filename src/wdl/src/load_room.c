@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "load_room.h"
+
+#include "wdl/load_room.h"
 
 /* see load_rooms.h */
 int add_rooms_to_game(obj_t *doc, game_t *g)

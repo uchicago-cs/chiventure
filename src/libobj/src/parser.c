@@ -6,7 +6,7 @@
 /* Necessary includes to use YAML */
 #include <yaml.h>
 
-#include "parser.h"
+#include "libobj/parser.h"
 
 /* DEBUG is 0 normally, 1 to print debugging statements */
 #define DEBUG 0

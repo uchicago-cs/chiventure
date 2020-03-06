@@ -1,13 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "operations.h"
-#include "cmd.h"
-#include "print_functions.h"
-#include "shell.h"
-#include "room.h"
-#include "load_game.h"
+
+#include "cli/operations.h"
+#include "ui/print_functions.h"
+#include "cli/shell.h"
+#include "wdl/load_game.h"
 
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)

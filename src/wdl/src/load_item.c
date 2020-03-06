@@ -1,11 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "parse.h"
-#include "game.h"
-#include "item.h"
-#include "room.h"
-#include "load_item.h"
+
+#include "wdl/parse.h"
+#include "game-state/item.h"
 
 /*
  * get_game_action()

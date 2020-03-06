@@ -1,5 +1,6 @@
 #include <stdlib.h>
-#include "room.h"
+
+#include "game-state/room.h"
 
 /* See room.h */
 path_t *path_new(room_t *dest, char *direction)

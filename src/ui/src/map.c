@@ -1,12 +1,8 @@
-#include "map.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
-#include "room.h"
-#include "coordinate.h"
-#include "common.h"
-#include "ctx.h"
-#include "ui.h"
+
+#include "ui/map.h"
 
 void erase_ch(int y, int x)
 {

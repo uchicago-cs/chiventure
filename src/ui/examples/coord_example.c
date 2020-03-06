@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "coordinate.h"
+#include "ui/coordinate.h"
 #include "assert.h"
 
 /* open_ui_logfile():

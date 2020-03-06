@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
-#include "utlist.h"
-#include "actionmanagement.h"
-#include "action_structs.h"
+
+#include "common/utlist.h"
+#include "action_management/actionmanagement.h"
 
 
 static action_type_t valid_actions[] =

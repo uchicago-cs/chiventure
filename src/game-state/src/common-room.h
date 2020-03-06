@@ -1,7 +1,7 @@
 #ifndef _COMMON_ROOM_H
 #define _COMMON_ROOM_H
 
-#include "room.h"
+#include "game-state/room.h"
 
 /* Deletes a hashtable of rooms
  * Implemented with macros provided by uthash.h

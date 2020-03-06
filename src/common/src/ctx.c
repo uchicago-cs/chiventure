@@ -1,9 +1,9 @@
 #include <stdlib.h>
-#include "ctx.h"
-#include "game.h"
-#include "ui_ctx.h"
-#include "cmd.h"
-#include "load_game.h"
+
+#include "common/ctx.h"
+#include "ui/ui_ctx.h"
+#include "cli/cmd.h"
+#include "wdl/load_game.h"
 
 
 /* See ctx.h */
@@ -65,7 +65,6 @@ int chiventure_ctx_free(chiventure_ctx_t *ctx)
     assert(ctx != NULL);
 
     /* Add calls to component-specific freeing functions here */
-
     ui_ctx_free(ctx->ui_ctx);
 
     free(ctx);

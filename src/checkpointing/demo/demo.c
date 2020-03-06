@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "save.h"
-#include "load.h"
+#include "checkpointing/save.h"
+#include "checkpointing/load.h"
 
 int main(int argc, char *argv[])
 {

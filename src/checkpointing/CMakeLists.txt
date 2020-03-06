@@ -1,5 +1,3 @@
-project(checkpointing C)
-
 set(PROTOBUF_DIRS ${CMAKE_CURRENT_BINARY_DIR}/protobuf
         ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/checkpointing/
         .)
@@ -23,12 +21,6 @@ target_link_libraries(checkpointing ${PROTOBUF-C_LIBRARIES})
 #       header files.
 target_include_directories(checkpointing PRIVATE ../game-state/src/)
 
-# This is a temporary solution before the directories
-# are reorganized
-target_include_directories(checkpointing PRIVATE include/)
-foreach(module ${CHIVENTURE_MODULES})
-    target_include_directories(checkpointing PRIVATE ../${module}/include/)
-endforeach(module)
 
 
 

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "parser.h"
+#include "cli/parser.h"
 
 int main(int argc, char* argv[])
 {

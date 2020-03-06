@@ -1,6 +1,6 @@
-#include "game.h"
+#include "game-state/game.h"
 #include "common-room.h"
-#include "game_state_common.h"
+#include "game-state/game_state_common.h"
 #include "common-item.h"
 
 /* see game.h */

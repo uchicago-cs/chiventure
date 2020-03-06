@@ -1,14 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ncurses.h>
-#include <ctype.h>
-#include <stdbool.h>
 #include <assert.h>
-#include <signal.h>
-#include "window.h"
-//#include "ctx.h"
 
-
+#include "ui/window.h"
 
 
 /* see window.h */
