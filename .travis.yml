@@ -3,12 +3,14 @@ addons:
   apt:
     sources:
       - sourceline: 'ppa:snaipewastaken/ppa'
+      - sourceline: 'deb https://apt.kitware.com/ubuntu/ xenial main'
     packages:
       - libyaml-dev
       - protobuf-compiler
       - protobuf-c-compiler
       - criterion-dev
       - criterion
+      - cmake
 
 branches:
   only:
