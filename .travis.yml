@@ -4,6 +4,7 @@ addons:
     sources:
       - sourceline: 'ppa:snaipewastaken/ppa'
       - sourceline: 'deb https://apt.kitware.com/ubuntu/ xenial main'
+        key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
     packages:
       - libyaml-dev
       - protobuf-compiler
