@@ -19,7 +19,7 @@ If you are missing CMake, run
 sudo apt install cmake
 ```
 
-chiventure depends on `protobuf-c`, `LibYAML` (`Yaml`), and `Curses`. `cmake ..` will warn if any of these are not installed with an error of the form "Could NOT find <library>"
+chiventure depends on `protobuf-c`, `LibYAML` (`Yaml`), `Curses`, and `criterion`. `cmake ..` will warn if any of these are not installed with an error of the form "Could NOT find <library>"
 
 #### Installing `protobuf` and `protobuf-c`
 
@@ -71,4 +71,20 @@ sudo make install
 
 #### Installing `Curses`
 
+Curses is a terminal UI framework. On some linux distros, you can install it with
+```
+sudo apt-get install libncurses5-dev
+```
 
+Otherwise, you'll need to 
+
+#### Installing `criterion`
+
+(Criterion)[https://criterion.readthedocs.io/en/master/intro.html] is a testing framework for C/C++. You might be able to install it through apt with
+```
+sudo add-apt-repository ppa:snaipewastaken/ppa
+sudo apt-get update
+sudo apt-get install criterion-dev
+```
+
+Note: if you are on an unsupported ubuntu release for Criterion, you can try to add a different release repository to your apt sources. To do so, open software updater, click the "Other Software" tab, and click the "Add" button. Then, add the line `deb http://ppa.launchpad.net/snaipewastaken/ppa/ubuntu cosmic main` as the source. You should probably remove the source afterwards, since it's a different release.
