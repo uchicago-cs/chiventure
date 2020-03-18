@@ -25,7 +25,7 @@ Test(validate, game_type_check)
 {
     // obtain doc/game objects
     obj_t *doc = __get_doc_obj();
-    obj_t *game = obj_get_attr(doc, "GAME", false);
+    obj_t *game = obj_get_attr(doc, "GAME.0", false);
 
     bool rc = game_type_check(game);
     cr_assert_eq(rc, true, "game verification failed");
