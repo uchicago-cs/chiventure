@@ -116,7 +116,8 @@ item_hash_t* get_inventory(player_t* plyr)
 /* See player.h */
 int add_item_to_player(player_t *player, item_t *item)
 {
-    item_t* check;
+    item_t *check;
+
     HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
               check);
 
