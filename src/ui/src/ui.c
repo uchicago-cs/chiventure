@@ -72,6 +72,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
 
     // prints home screen
     print_homescreen(info, banner);
+    print_to_cli(ctx, ctx->game->start_desc);
     wrefresh(info->w);
 
     // prints the score and number of moves in the info window
