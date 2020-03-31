@@ -136,7 +136,8 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
 
         }
         curr_page = ui_ctx->curr_page;
-        // This conditional refreshes the non-CLI window
+
+        //This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM)
         {
             //window_print(ctx, info);
@@ -144,9 +145,9 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
         }
         else if (curr_page == MAP_WIN_NUM)
         {
-            wresize(info->w, 0, 0);
-            touchwin(info->w);
-            wrefresh(info->w);
+            // wresize(info->w, 0, 0);
+            // touchwin(info->w);
+            // wrefresh(info->w);
             int cli_top = ui_ctx->cli_top;
             if (map != NULL)
             {
