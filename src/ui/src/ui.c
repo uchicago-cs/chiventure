@@ -100,7 +100,9 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
             // redraws the info box
             box(info->w, 0, 0);
+            // The following line is commented out for now, since window_print does not print much
             //window_print(ctx, info);
+            // For now just continue showing the banner
             print_banner(info, banner);
             wrefresh(info->w);
         }
@@ -145,6 +147,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
         }
         else if (curr_page == MAP_WIN_NUM)
         {
+            // The following lines of code were commented out since they were causing issues with the map view
             // wresize(info->w, 0, 0);
             // touchwin(info->w);
             // wrefresh(info->w);
