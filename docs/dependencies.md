@@ -73,4 +73,4 @@ sudo apt-get update
 sudo apt-get install criterion-dev
 ```
 
-Note: if you are on an unsupported ubuntu release for Criterion, you can try to add a different release repository to your apt sources. To do so, open software updater, click the "Other Software" tab, and click the "Add" button. Then, add the line `deb http://ppa.launchpad.net/snaipewastaken/ppa/ubuntu cosmic main` as the source. You should probably remove the source afterwards, since it's a different release.
+Note: if you are on an unsupported ubuntu release for Criterion (like ubuntu 19), you can try to add a different release repository to your apt sources. To do so, open software updater, click the "Other Software" tab, and click the "Add" button. Then, add the line `deb http://ppa.launchpad.net/snaipewastaken/ppa/ubuntu cosmic main` (to add the Ubuntu 18 version) as the source. You should probably remove the source afterwards, since it's a different Ubuntu release and might cause issues the next time you use apt.
