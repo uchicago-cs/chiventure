@@ -19,11 +19,18 @@ If you are missing any of the libraries, see [dependencies.md](dependencies.md) 
 
 ## Running chiventure
 
-`./chiventure` will run chiventure
+To run run chiventure, build chiventure and then run
+```
+./chiventure
+```
 
 Once inside chiventure, you can type `HELP` for the list of available commands. In the future, you can load a game from inside chiventure with `LOAD <path_to_wdl_file>`
 
-`./chiventure <path_to_wdl_file>` will run chiventure with a given wdl file preloaded. Try `./chiventure ../tests/wdl/examples/connected_rooms.yaml` from inside the build directory
+To run chiventure with a given wdl file preloaded, run
+```./chiventure <path_to_wdl_file>``` 
+
+To try a sample game, from inside the build directory, run 
+```./chiventure ../tests/wdl/examples/connected_rooms.yaml```
 
 ## (For Game Makers) Making a Chiventure Game
 
