@@ -5,7 +5,7 @@ We use CMake to build chiventure. If you are missing CMake, run
 sudo apt install cmake
 ```
 
-chiventure depends on `protobuf-c`, `LibYAML` `Yaml`, `Curses`, and `criterion`. `cmake ..` will warn if any of these are not installed with an error of the form "Could NOT find <library>"
+chiventure depends on `protobuf-c`, `LibYAML` `Yaml`, `Curses`, and `criterion`. CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
 
 ## Installing `protobuf` and `protobuf-c`
 
