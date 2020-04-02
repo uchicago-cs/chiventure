@@ -93,7 +93,7 @@ set(PROTOBUF-C_LIBRARIES ${PROTOBUF-C_LIBRARY} )
 set(PROTOBUF-C_INCLUDE_DIRS ${PROTOBUF-C_INCLUDE_DIR})
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(protobuf-c  DEFAULT_MSG
+find_package_handle_standard_args(Protobuf-c  DEFAULT_MSG
         PROTOBUF-C_LIBRARY PROTOBUF-C_INCLUDE_DIR)
 
 mark_as_advanced(PROTOBUF-C_INCLUDE_DIR)
