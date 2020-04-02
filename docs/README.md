@@ -19,14 +19,7 @@ If you are missing any of the libraries, see [dependencies.md](dependencies.md) 
 
 ## Running chiventure
 
-To run run chiventure, build chiventure and then run
-```
-./chiventure
-```
-
-Once inside chiventure, you can type `HELP` for the list of available commands. In the future, you can load a game from inside chiventure with `LOAD_WDL <path_to_wdl_file>`
-
-To run chiventure with a given wdl file preloaded, run
+To run chiventure with a WDL file, run:
 ```
 ./chiventure <path_to_wdl_file>
 ``` 
@@ -36,11 +29,21 @@ To try a sample game, from inside the build directory, run
 ./chiventure ../tests/wdl/examples/connected_rooms.yaml
 ```
 
-## (For Game Makers) Making a Chiventure Game
+Once inside chiventure, you can type `HELP` for the list of available commands.
 
-To make a game in chiventure, see [wdl.md](wdl.md) for information on building individual components
+You can also run chiventure without specifying a WDL file:
 
-Example games can be found in /tests/wdl/examples/, such as [test.yaml](/tests/wdl/examples/test.yaml)
+```
+./chiventure
+```
+
+However, at the moment, it is not possible to load a WDL file from inside chiventure.
+
+## Writing a Chiventure Game
+
+To write a game in chiventure, see [wdl.md](wdl.md) for a specification of the WDL language.
+
+Example games can be found in `tests/wdl/examples/`, such as [test.yaml](/tests/wdl/examples/test.yaml)
 
 ## (For Developers) Component Overview
 
