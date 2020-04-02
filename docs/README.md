@@ -24,7 +24,7 @@ To run run chiventure, build chiventure and then run
 ./chiventure
 ```
 
-Once inside chiventure, you can type `HELP` for the list of available commands. In the future, you can load a game from inside chiventure with `LOAD <path_to_wdl_file>`
+Once inside chiventure, you can type `HELP` for the list of available commands. In the future, you can load a game from inside chiventure with `LOAD_WDL <path_to_wdl_file>`
 
 To run chiventure with a given wdl file preloaded, run
 ```
@@ -56,7 +56,7 @@ A game will have some state that chiventure needs to keep track of: rooms, objec
 
 #### Action Management
 
-During the game, a player will be able to perform actions (pushing, pulling, opening, closing, etc.) that will usually affect the state of the game in some way. This component is responsible for processing actions like “take the orb” (and checking whether it is possible to perform that action)
+During the game, a player will be able to perform actions (pushing, pulling, opening, closing, etc.) that will usually affect the state of the game in some way. This component is responsible for processing actions like “TAKE orb” (and checking whether it is possible to perform that action)
 
 #### Checkpointing
 
