@@ -15,7 +15,7 @@ cmake ..
 
 chiventure depends on `protobuf-c`, `LibYAML` (Yaml), `Curses`, and `criterion`. CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
 
-If you are missing any of the libraries, see [dependencies.md](dependencies.md) for information on how to install them
+If you are missing any of the libraries, see [dependencies.md](/docs/dependencies.md) for information on how to install them
 
 ## Running chiventure
 
@@ -41,11 +41,11 @@ However, at the moment, it is not possible to load a WDL file from inside chiven
 
 ## Writing a Chiventure Game
 
-To write a game in chiventure, see [wdl.md](wdl.md) for a specification of the WDL language.
+To write a game in chiventure, see [wdl.md](/docs/wdl.md) for a specification of the WDL language.
 
 Example games can be found in `tests/wdl/examples/`, such as [test.yaml](/tests/wdl/examples/test.yaml)
 
 ## Miscellaneous
 
-* [Developer Guidelines](developer.md)
-* [Actions Specification](actions.md)
+* [Developer Guidelines](/docs/developer.md)
+* [Actions Specification](/docs/actions.md)
