@@ -47,5 +47,6 @@ Example games can be found in `tests/wdl/examples/`, such as [test.yaml](/tests/
 
 ## Miscellaneous
 
+* [Documentation](/docs/README.md)
 * [Developer Guidelines](/docs/developer.md)
 * [Actions Specification](/docs/actions.md)
