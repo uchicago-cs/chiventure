@@ -26,7 +26,7 @@ To run chiventure with a WDL file, run:
 
 To try a sample game, from inside the build directory, run 
 ```
-./chiventure ../tests/wdl/examples/connected_rooms.yaml
+./chiventure ../tests/wdl/examples/connected_rooms.wdl
 ```
 
 Once inside chiventure, you can type `HELP` for the list of available commands.
@@ -43,7 +43,7 @@ However, at the moment, it is not possible to load a WDL file from inside chiven
 
 To write a game in chiventure, see [wdl.md](/docs/wdl.md) for a specification of the WDL language.
 
-Example games can be found in `tests/wdl/examples/`, such as [test.yaml](/tests/wdl/examples/test.yaml)
+Example games can be found in `tests/wdl/examples/`, such as [test.wdl](/tests/wdl/examples/test.wdl)
 
 ## Miscellaneous
 
