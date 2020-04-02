@@ -1,17 +1,27 @@
 # Dependencies
 
-We use CMake to build chiventure. If you are missing CMake, run 
-```
-sudo apt install cmake
-```
+chiventure requires the following software/libraries:
 
-chiventure depends on `protobuf-c`, `LibYAML` `Yaml`, `Curses`, and `criterion`. CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
+- [CMake](https://cmake.org) 3.10 or higher
+- [Protobuf](https://github.com/google/protobuf) 2.6.1 or higher
+- [protobuf-c](https://github.com/protobuf-c/protobuf-c) 1.2.1 or higher
+- [LibYAML](https://pyyaml.org/wiki/LibYAML) 0.2.2 or higher
+- [ncurses](https://invisible-island.net/ncurses/announce.html) 6.0 or higher, with support for wide characters (`ncursesw`)
+- [Criterion](https://github.com/Snaipe/Criterion) 2.3.1 or higher
+
+CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
+
+Right now, chiventure has only been tested on Linux. The following installation instructions are specifically for Ubuntu 16.04, and may require adjustments in other platforms.
+
+## Installing CMake
+
+Ubuntu 16.04 includes an older version of CMake, so you will need to follow the instructions in the [Kitware APT Repository](https://apt.kitware.com/) to install the latest version of CMake.
 
 ## Installing `protobuf` and `protobuf-c`
 
 [Protobuf](https://github.com/google/protobuf) (and [protobuf-c](https://github.com/protobuf-c/protobuf-c)) are data serialization libraries.
 
-On most UNIX systems, you should be able to install `protobuf` by running the following:
+Run the following to install `protobuf`:
 ```
 wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz
 tar xvzf protobuf-2.6.1.tar.gz
@@ -21,7 +31,7 @@ make
 sudo make install
 ```
 
-And `protobuf-c` by running the following:
+And the following to install `protobuf-c`:
 ```
 wget https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz
 tar xvzf protobuf-c-1.2.1.tar.gz
@@ -44,7 +54,7 @@ export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib
 
 ## Installing `LibYAML` 
 
-[LibYAML](https://pyyaml.org/wiki/LibYAML) is a YAML parser and emitter library
+[LibYAML](https://pyyaml.org/wiki/LibYAML) is a YAML parser and emitter library.
 
 To install, download the source package from [here](http://pyyaml.org/download/libyaml/yaml-0.2.2.tar.gz)
 
@@ -57,16 +67,16 @@ make
 sudo make install
 ```
 
-## Installing `Curses`
+## Installing `ncurses`
 
-Curses is a terminal UI framework. You can install it with
+Curses is a terminal UI framework. You can install it by running:
 ```
-sudo apt-get install libncurses5-dev
+sudo apt-get install libncurses5-dev libncursesw5-dev
 ```
 
 ## Installing `criterion`
 
-[Criterion](https://github.com/Snaipe/Criterion) is a testing framework for C/C++. You might be able to install it through apt with
+[Criterion](https://github.com/Snaipe/Criterion) is a testing framework for C/C++. You can install it by running the following:
 ```
 sudo add-apt-repository ppa:snaipewastaken/ppa
 sudo apt-get update
