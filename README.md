@@ -45,7 +45,7 @@ To write a game in chiventure, see [wdl.md](/docs/wdl.md) for a specification of
 
 Example games can be found in `tests/wdl/examples/`, such as [test.wdl](/tests/wdl/examples/test.wdl)
 
-## Miscellaneous
+## Developer Resources
 
 * [Documentation](/docs/README.md)
 * [Developer Guidelines](/docs/developer.md)
