@@ -1,4 +1,6 @@
-# chiventure Documentation
+# chiventure
+
+[![chiventure displaying in an old-school terminal](docs/chiventure-terminal.jpg)](https://www.youtube.com/watch?v=DGSXURPvRxY)
 
 chiventure is a text adventure game engine. In other words, chiventure is not an individual game but, rather, a platform that allows game authors to develop text adventure games using WDL (World Description Language) files.
 
