@@ -16,6 +16,16 @@ typedef struct window window_t;
  */
 void print_homescreen(window_t *win, const char *banner);
 
+/* print_banner
+ * Prints only the banner
+ *
+ * Parameters:
+ *   - win : window where the home screen should be printed
+ *   - banner : chiventure banner to display
+ * No value is returned
+ */
+void print_banner(window_t *win, const char *banner);
+
 
 /* print_info
  * Prints "Main Window"

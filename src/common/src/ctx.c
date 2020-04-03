@@ -33,7 +33,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, char *filepath)
 {
     assert(ctx != NULL);
 
-    char *desc = "Welcome to Chiventure";
+    char *desc = "No game has been loaded! Use the LOAD_WDL command to load a game.";
     game_t *game;
 
     if(filepath == NULL)

@@ -18,6 +18,7 @@ void print_homescreen(window_t *win, const char *banner)
     // hides cursor
     curs_set(0);
 
+
     // calculate the position of the banner so that is is approximately centered.
     // The -1 in the y position is to give space for the message below the banner
     // x_pos and y_pos indicate the x-y coordinates of the top left corner of the banner
@@ -27,6 +28,7 @@ void print_homescreen(window_t *win, const char *banner)
     {
         x_pos = 0;
     }
+
     // runs the animation of the banner (flashes a few times, the last couple a
     // a bit slower). usleep is used to control for how long the banner is on/off
     for (int i = 0; i < 7; i ++)
@@ -84,10 +86,40 @@ void print_homescreen(window_t *win, const char *banner)
 
     char help[] = "Type 'HELP' to show help menu";
     // similarly, as above, calculates where to place the message so it's centered
-    x_pos = COLS /2 - strlen(help) / 2;
+    int help_x_pos = COLS /2 - strlen(help) / 2;
 
-    mvwprintw(win->w, y_pos + 2, x_pos, help);
+    mvwprintw(win->w, y_pos + 2, help_x_pos, help);
+
     curs_set(1);
+}
+
+void print_banner(window_t *win, const char *banner)
+{
+
+    // calculate the position of the banner so that is is approximately centered.
+    // The -1 in the y position is to give space for the message below the banner
+    // x_pos and y_pos indicate the x-y coordinates of the top left corner of the banner
+    int x_pos = COLS / 2 - BANNER_WIDTH / 2;
+    int y_pos = LINES / 4 - BANNER_HEIGHT / 2 - 1;
+    if (x_pos < 0)
+    {
+        x_pos = 0;
+    }
+
+    int x = x_pos;
+    int y = y_pos;
+
+    int len = strlen(banner);
+    char temp[len];
+    strcpy(temp, banner);
+    char *str = strtok(temp, "\n");
+
+    while (str != NULL)
+    {
+        mvwprintw(win->w, y, x, str);
+        str = strtok(NULL, "\n");
+        y++;
+    }
 }
 
 /* see print_functions.h */
@@ -100,15 +132,17 @@ void print_info(chiventure_ctx_t *ctx, window_t *win)
 void print_cli(chiventure_ctx_t *ctx, window_t *win)
 {
     static bool first_run = true;
+    int x, y;
+    getyx(win->w, y, x);
 
     if (first_run)
     {
         first_run = false;
-        mvwprintw(win->w, 1, 2, "> ");
+        mvwprintw(win->w, y + 1, 2, "> ");
         return;
     }
     echo();
-    int x, y;
+    
     char input[80];
     int quit = 1;
     char *cmd_string;
@@ -156,6 +190,7 @@ void print_map(chiventure_ctx_t *ctx, window_t *win)
 void print_to_cli(chiventure_ctx_t *ctx, char *str)
 {
     int x, y, height;
+    static bool first_run = true;
 
     height = LINES / 2;
 
@@ -177,7 +212,12 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
 
     while (tmp != NULL)
     {
-        mvwprintw(cli, y, 3, tmp);
+        if(first_run) {
+            mvwprintw(cli, y + 1, 3, tmp);
+            first_run = false;
+        } else {
+            mvwprintw(cli, y, 3, tmp);
+        }
         tmp = strtok(NULL, "\n");
 
         getyx(cli, y, x);

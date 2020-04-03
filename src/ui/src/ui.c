@@ -72,6 +72,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
 
     // prints home screen
     print_homescreen(info, banner);
+    print_to_cli(ctx, ctx->game->start_desc);
     wrefresh(info->w);
 
     // prints the score and number of moves in the info window
@@ -99,7 +100,10 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
             // redraws the info box
             box(info->w, 0, 0);
-            window_print(ctx, info);
+            // The following line is commented out for now, since window_print does not print much
+            // window_print(ctx, info);
+            // For now just continue showing the banner
+            print_banner(info, banner);
             wrefresh(info->w);
         }
 
@@ -130,21 +134,23 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
         else if (isalnum(ch))
         {
             ungetch(ch);
-            window_print(ctx,  cli);
+            window_print(ctx, cli);
 
         }
         curr_page = ui_ctx->curr_page;
-        // This conditional refreshes the non-CLI window
+
+        //This conditional refreshes the non-CLI window
         if (curr_page == MAIN_WIN_NUM)
         {
-            window_print(ctx, info);
+            //window_print(ctx, info);
             mvwin(info->w, (ui_ctx->cli_top) * height, 0);
         }
         else if (curr_page == MAP_WIN_NUM)
         {
-            wresize(info->w, 0, 0);
-            touchwin(info->w);
-            wrefresh(info->w);
+            // The following lines of code were commented out since they were causing issues with the map view
+            // wresize(info->w, 0, 0);
+            // touchwin(info->w);
+            // wrefresh(info->w);
             int cli_top = ui_ctx->cli_top;
             if (map != NULL)
             {
