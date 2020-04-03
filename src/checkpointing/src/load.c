@@ -199,7 +199,7 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
         r_t->long_desc = NULL;
     }
 
-    int delete = delete_all_items(r_t->items);
+    int delete = delete_all_items(&r_t->items);
     if (delete != 0)
     {
         fprintf(stderr, "Failed to remove/ free item from room \n");

@@ -413,12 +413,12 @@ int item_free(item_t *item)
 }
 
 /* See common.h*/
-int delete_all_items(item_hash_t* items)
+int delete_all_items(item_hash_t** items)
 {
     item_t *current_item, *tmp;
-    HASH_ITER(hh, items, current_item, tmp)
+    HASH_ITER(hh, *items, current_item, tmp)
     {
-        HASH_DEL(items, current_item);  /* deletes (items advances to next) */
+        HASH_DEL(*items, current_item);  /* deletes (items advances to next) */
         item_free(current_item);             /* free it */
     }
     return SUCCESS;

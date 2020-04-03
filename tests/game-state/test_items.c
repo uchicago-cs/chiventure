@@ -903,7 +903,7 @@ Test(item, deletion_in_room)
     cr_assert_eq(item_add3, SUCCESS,
         "del_all_items test: item3 was not added!");
 
-    int del_items = delete_all_items(test_room->items);
+    int del_items = delete_all_items(&test_room->items);
     cr_assert_eq(del_items, SUCCESS,
         "del_all_items test: items were not successfully deleted!");
 
@@ -931,7 +931,7 @@ Test(item, deletion_in_player)
     cr_assert_eq(item_add3, SUCCESS,
         "del_all_items test: item3 was not added!");
 
-    int del_items = delete_all_items(test_player->inventory);
+    int del_items = delete_all_items(&test_player->inventory);
     cr_assert_eq(del_items, SUCCESS,
         "del_all_items test: items were not successfully deleted!");
 
