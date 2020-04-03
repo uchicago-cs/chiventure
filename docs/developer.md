@@ -31,6 +31,34 @@ file with the same name as a component. For example, for the `cli` component:
 
 This library must then be linked from the top-level `Makefile`
 
+## Component Overview
+
+Below is a high-level description of each major component in the `/src/` directory.
+
+#### WDL 
+
+chiventure has a “World Description Language” format that provides the specification of a single game. The WDL component is responsible for defining this language, and for parsing it. Files use the extension `<filename>.wdl`
+
+#### Game State
+
+A game will have some state that chiventure needs to keep track of: rooms, objects in rooms, players, non-player characters, etc. This component models this state, and provides interfaces for simple manipulations of the state of the game (e.g., placing an object in the player’s inventory)
+
+#### Action Management
+
+During the game, a player will be able to perform actions (pushing, pulling, opening, closing, etc.) that will usually affect the state of the game in some way. This component is responsible for processing actions like “TAKE orb” (and checking whether it is possible to perform that action)
+
+#### Checkpointing
+
+As the state of the game changes, chiventure checkpoints the game so we can resume it at a later time. This component is responsible for defining a file format for saving the state of the game, and providing interfaces for saving/loading this state
+
+#### CLI 
+
+This component will be responsible for providing a command prompt, and parsing the commands entered by the user, and using the game state to validate some commands
+
+#### UI
+
+This component is responsible for any non-CLI elements of the user interface, such as visualizing a map of the game or displaying graphics associated with individual rooms
+
 ## Style
 
 Your code must follow [this style guide](https://uchicago-cs.github.io/cmsc23300/style_guide.html) (used in CS 233, which also involves projects in C).

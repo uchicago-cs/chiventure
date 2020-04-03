@@ -5,7 +5,7 @@
 
 /* TODO: This should not be hardcoded here. Find a way to incorporate these
  * files into the CMake-Criterion chain */
-#define ROOM_PATH "../../../tests/wdl/examples/connected_rooms.yaml"
+#define ROOM_PATH "../../../tests/wdl/examples/connected_rooms.wdl"
 
 /*
  * add_rooms_check

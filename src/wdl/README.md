@@ -25,4 +25,4 @@ These are the current scripts:
 * `typecheck_demo.c`: First official test of our type-checking and printing functions. It takes in a YAML file, does basic type-checking and prints all content that is printable.
 
 These are the current YAML files:
-* `connected_rooms.yaml`: simple YAML file that contains rooms and connections
+* `connected_rooms.wdl`: simple YAML file that contains rooms and connections
