@@ -4,7 +4,7 @@
 
 GAME:
  - start: "room A"
-   intro: "This is a longer intro. One that hopefully creates line wrapping in ßthe terminal, so that I can see if I fixed my bug. Here's some extra just to be sure."
+   intro: "This is the intro"
    end:
      - in_room: "room C"
 
