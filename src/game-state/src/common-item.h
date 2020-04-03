@@ -20,11 +20,11 @@ int item_init(item_t *new_item, char *item_id,
 /* this has to be in the interface as room and player modules use this */
 /* delete_all_items() deletes and frees all items in a hash table
  * Parameters:
- *  hash table of items
+ *  Pointer to hash table of items
  * Returns:
  *  SUCCESS if successful
  */
-int delete_all_items(item_hash_t *items);
+int delete_all_items(item_hash_t **items);
 
 /* add_attribute_to_hash() adds an attribute to the item hash table
   Parameters:

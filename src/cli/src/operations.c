@@ -161,8 +161,9 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         do_item_action(action, curr_item, &str);
         if(strcmp(tokens[0], "TAKE") == 0)
         {
-            //Below adds items to a player's inventory, commented out for now until seg fault can be fixed
-            // add_item_to_player(game->curr_player, curr_item);
+            HASH_DEL(game->curr_room->items, curr_item);
+            add_item_to_player(game->curr_player, curr_item);
+            
         }
         return str;
     }

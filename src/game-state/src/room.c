@@ -50,7 +50,7 @@ int room_free(room_t *room)
     free(room->short_desc);
     free(room->long_desc);
     delete_all_paths(room->paths);
-    delete_all_items(room->items);
+    delete_all_items(&room->items);
     free(room);
     return SUCCESS;
 }
