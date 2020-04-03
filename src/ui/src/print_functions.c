@@ -132,15 +132,17 @@ void print_info(chiventure_ctx_t *ctx, window_t *win)
 void print_cli(chiventure_ctx_t *ctx, window_t *win)
 {
     static bool first_run = true;
+    int x, y;
+    getyx(win->w, y, x);
 
     if (first_run)
     {
         first_run = false;
-        mvwprintw(win->w, 1, 2, "> ");
+        mvwprintw(win->w, y, 2, "> ");
         return;
     }
     echo();
-    int x, y;
+    
     char input[80];
     int quit = 1;
     char *cmd_string;

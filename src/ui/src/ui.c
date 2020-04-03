@@ -101,7 +101,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
             // redraws the info box
             box(info->w, 0, 0);
             // The following line is commented out for now, since window_print does not print much
-            //window_print(ctx, info);
+            // window_print(ctx, info);
             // For now just continue showing the banner
             print_banner(info, banner);
             wrefresh(info->w);
@@ -134,7 +134,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
         else if (isalnum(ch))
         {
             ungetch(ch);
-            window_print(ctx,  cli);
+            window_print(ctx, cli);
 
         }
         curr_page = ui_ctx->curr_page;
