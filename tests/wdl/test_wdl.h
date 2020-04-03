@@ -3,6 +3,6 @@
 
 /* TODO: This should not be hardcoded here. Find a way to incorporate these
  * files into the CMake-Criterion chain */
-#define FILE_PATH "../../../tests/wdl/examples/test.yaml"
+#define FILE_PATH "../../../tests/wdl/examples/test.wdl"
 
 #endif //CHIVENTURE_TEST_WDL_H
