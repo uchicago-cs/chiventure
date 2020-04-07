@@ -142,7 +142,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
         return;
     }
     echo();
-    
+
     char input[80];
     int quit = 1;
     char *cmd_string;
@@ -165,7 +165,9 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     {
         do_cmd(c, &quit, ctx);
     }
-
+    if (cmd_string) {
+         free(cmd_string);
+     }
     getyx(win->w, y, x);
 
     // scrolls the screen up if there is no space to print the next line

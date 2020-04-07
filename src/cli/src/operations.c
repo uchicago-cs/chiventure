@@ -163,7 +163,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         {
             HASH_DEL(game->curr_room->items, curr_item);
             add_item_to_player(game->curr_player, curr_item);
-            
+
         }
         return str;
     }

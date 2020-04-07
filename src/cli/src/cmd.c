@@ -12,7 +12,9 @@
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
     lookup_t *t = malloc(sizeof(lookup_t));
-    t->name = command_name;
+    char *newname = malloc(sizeof(char) * strlen(command_name));
+    strcpy(newname, command_name);
+    t->name = newname;
     t->operation_type = associated_operation;
     t->action = action;
     HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
@@ -132,6 +134,8 @@ int lookup_t_free(lookup_t **t)
     {
         HASH_DEL(*t, current_user);
         free(current_user);
+        free(current_user->name);
+
     }
     return SUCCESS;
 }
