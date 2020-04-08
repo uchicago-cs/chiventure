@@ -165,6 +165,11 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     {
         do_cmd(c, &quit, ctx);
     }
+
+    /* Note: The following statement should be replaced by a logging function
+     * in order to properly implement the HIST command. Should take about
+     * half an hour, tops for someone who's experienced.
+     */
     if (cmd_string)
     {
         free(cmd_string);
