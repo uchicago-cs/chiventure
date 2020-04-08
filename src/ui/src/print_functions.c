@@ -165,9 +165,10 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     {
         do_cmd(c, &quit, ctx);
     }
-    if (cmd_string) {
-         free(cmd_string);
-     }
+    if (cmd_string)
+    {
+        free(cmd_string);
+    }
     getyx(win->w, y, x);
 
     // scrolls the screen up if there is no space to print the next line
@@ -214,10 +215,13 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
 
     while (tmp != NULL)
     {
-        if(first_run) {
+        if(first_run)
+        {
             mvwprintw(cli, y + 1, 3, tmp);
             first_run = false;
-        } else {
+        }
+        else
+        {
             mvwprintw(cli, y, 3, tmp);
         }
         tmp = strtok(NULL, "\n");
