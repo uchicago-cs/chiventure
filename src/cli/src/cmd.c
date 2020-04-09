@@ -12,7 +12,9 @@
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
     lookup_t *t = malloc(sizeof(lookup_t));
-    t->name = command_name;
+    char *newname = malloc(sizeof(char) * (strlen(command_name) + 1));
+    strcpy(newname, command_name);
+    t->name = newname;
     t->operation_type = associated_operation;
     t->action = action;
     HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
@@ -69,6 +71,7 @@ void delete_entry(char *command_name, lookup_t **table)
 {
     lookup_t *t = find_entry(command_name, table);
     HASH_DEL(*table, t);
+    free(t->name);
     free(t);
 }
 
@@ -131,7 +134,9 @@ int lookup_t_free(lookup_t **t)
     HASH_ITER(hh, *t, current_user, tmp)
     {
         HASH_DEL(*t, current_user);
+        free(current_user->name);
         free(current_user);
+
     }
     return SUCCESS;
 }
