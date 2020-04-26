@@ -4,10 +4,12 @@
 
 **i.e., where to put your files**
 
-The chiventure repository has three top-level directories:
+The chiventure repository has five top-level directories:
 
 - `src/`: Source code
+- `include/`: Shared include files
 - `docs/`: Documentation
+- `tests/`: Tests
 - `games/`: Sample games
 
 No other top-level directories can be created without prior discussion (ideally
@@ -18,18 +20,29 @@ directory inside `src/` (e.g., `src/ui/`, `src/wdl/`, etc.). Each component's
 directory *must* have the following subdirectories:
 
 - `src/`: Source code
-- `include/`: Header files exposing interfaces needed by other components
 - `examples/`: Example code that is specific to this component.
-- `tests/`: Unit tests for this component. 
+- `sandbox/`: Used for experimenting with code in the early stages of a 
+  component's development. This code can be merged into `dev` but is removed
+  before merging to `master`. It should be removed permanently once a
+  component matures (some of the code may be refactored into 
+  examples in the `examples/` directory)
+  
+Any header file that exposes an interface that will be used by another component
+**must** be placed in the top-level `include/` directory, inside a directory
+for the component it belongs to (e.g., `include/ui/`)
 
-The component directory must have a Makefile that generates a static library 
+We expect that all internal header files will be placed inside the component's
+`src/` directory, but an `include/` directory can also be created inside
+the component's directory it if helps to declutter the files in that component.  
+
+The component directory must have a CMake file that generates a static library 
 file with the same name as a component. For example, for the `cli` component:
 
 - Directory: `src/cli/`
-- Makefile: `src/cli/Makefile`
-- Library: `src/cli/cli.a`
+- CMake file: `src/cli/CMakeLists.txt`
+- Target Library: `libcli.a`
 
-This library must then be linked from the top-level `Makefile`
+This library must then be linked from the top-level CMake file.
 
 ## Component Overview
 
@@ -61,7 +74,7 @@ This component is responsible for any non-CLI elements of the user interface, su
 
 ## Style
 
-Your code must follow [this style guide](https://uchicago-cs.github.io/cmsc23300/style_guide.html) (used in CS 233, which also involves projects in C).
+Your code must follow the [Style Guide](https://uchicago-cs.github.io/dev-guide/style_guide.html) in the [UChicago CS Developer Guide](https://uchicago-cs.github.io/dev-guide) 
 
 ## Git branches
 
@@ -69,11 +82,24 @@ In general, we will be following Vincent Driessen's [git flow](https://nvie.com/
 
 There are a few modifications we will be making to Vincent's model:
 
-* As you read the article, whenever you see "merge to `master`", mentally replace that with "pull request to `master`".
-* We will not have release or hotfix branches.
-* Rather than one `dev` branch, each team will have their own: `actions/dev`, `checkpointing/dev`, `cli/dev`, `state/dev`, `ui/dev`, and `wdl/dev`.
-    * __Note:__ there is no hierarchy with branches; using `/` in branch names is just a convenient way to organize things.
-* Feature branches will be named similarly to the `dev` branches. For example, if some people from UI are working on a map view, the branch for that code might be `ui/map-view`. When that work is complete, they would send a PR to the `ui/dev` branch, that would only need review from a teammate. When the work is in a polished state and lives on `ui/dev`, they would send a PR to `master`.
-* Never merge branches across teams. e.g., never merge another team's `dev` branch into your team's `dev` branch, or another team's feature branch into your `dev` branch. Syncing up with other teams must always happen through `master`: you can (and should) merge changes from `master` into your `dev` branch. So, if another team has work you'd like to use in your own code, you must wait until their code makes it into `master`.
+* The `master` and `dev` branches are protected in our repository. The only
+  way to merge to them is via a pull request.
+* Any new code must be contributed by creating a feature branch from `dev` and
+  submitting a pull request from that branch into `dev`.
+* Feature branches should target incremental improvements to chiventure with
+  a single pull request at the end. They are not intended to be long-lived
+  branches that are merged into `dev` multiple times.
+* Feature branches should following the naming scheme `COMPONENT/DESCRIPTION`.
+  For example, if some people from UI are working on a map view, the branch for
+  that code might be `ui/map-view`. 
+* Only the senior developers can create a release branch to merge code
+  from `dev` into `master`.  
+* You are allowed (and encouraged) to merge changes from `dev` into a
+  feature branch you are working on (to pull in any new code you may need,
+  and to resolve integration issues before submitting a pull request). This does not require a pull request and can be done with `git merge`.  
+* Never merge a feature branch into another feature branch. If another
+  team is working on a feature you need, you must wait until they merge
+  it into `dev` (then, you can just merge those changes into your feature
+  branch).
 
 
