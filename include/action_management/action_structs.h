@@ -23,7 +23,8 @@ enum actions {
     CONSUME, // synonyms: "use" "drink" "eat"
 
     // KIND 2 ACTIONS - ACTION <path>
-    GO, // synonyms: "walk"
+    GO,
+    WALK
 
     /* KIND 3 ACTIONS - ACTION <item_item> */
     USE,
