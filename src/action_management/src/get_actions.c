@@ -19,7 +19,7 @@ static action_type_t valid_actions[] =
     {"CONSUME", ITEM},
     // KIND 2
     {"GO", PATH},
-    {"WALK", PATH}
+    {"WALK", PATH},
     // KIND 3
     {"USE", ITEM_ITEM},
     {"PUT", ITEM_ITEM}

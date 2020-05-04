@@ -24,7 +24,7 @@ enum actions {
 
     // KIND 2 ACTIONS - ACTION <path>
     GO,
-    WALK
+    WALK,
 
     /* KIND 3 ACTIONS - ACTION <item_item> */
     USE,
