@@ -55,7 +55,7 @@ Test(get_actions, search_success)
     cr_assert_neq(go, NULL,
                   "search_supported_actions returned a null for query \"go\".\n");
     cr_assert_neq(walk, NULL,
-                  "search_supported_actions returned a null for query \"use on\".\n");
+                  "search_supported_actions returned a null for query \"walk\".\n");
     cr_assert_neq(use, NULL,
                   "search_supported_actions returned a null for query \"use on\".\n");
 
