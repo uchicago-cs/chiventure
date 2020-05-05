@@ -10,10 +10,10 @@ int list_type_check(attr_list_t *ls, int(*validate)(obj_t*))
 {
     if (ls == NULL)
     {
-        return false; // if the function returns false, it will halt parsing
+        return FAILURE; // if the function returns FAILURE, it will halt parsing
     }
 
-    int result = true;
+    int result = SUCCESS;
     attr_list_t *curr = ls;
 
     while(curr != NULL)
@@ -60,7 +60,7 @@ void list_print(attr_list_t *ls, void (*print)(obj_t*))
  */
 attr_list_t *conditions_get_list(obj_t *obj)
 {
-    obj_t *conditions = obj_get_attr(obj, "conditions", false);
+    obj_t *conditions = obj_get_attr(obj, "conditions", FAILURE);
 
     if (conditions == NULL)
     {
@@ -80,7 +80,7 @@ attr_list_t *conditions_get_list(obj_t *obj)
  * - obj: a condition object
  *
  * returns:
- * - true if condition types match, else return false
+ * - SUCCESS if condition types match, else return FAILURE
  */
 int check_condition_attr(obj_t *obj)
 {
@@ -100,7 +100,7 @@ int check_condition_attr(obj_t *obj)
  * - obj: a connection object
  *
  * returns:
- * - true if attributes of all conditions match, else return false
+ * - SUCCESS if attributes of all conditions match, else return FAILURE
  */
 int condition_type_check(obj_t *obj)
 {
@@ -115,7 +115,7 @@ int condition_type_check(obj_t *obj)
 /* see validate.h */
 attr_list_t *connections_get_list(obj_t *obj)
 {
-    obj_t *connections = obj_get_attr(obj, "connections", false);
+    obj_t *connections = obj_get_attr(obj, "connections", FAILURE);
 
     if (connections == NULL)
     {
@@ -145,7 +145,7 @@ int check_connection_attr(obj_t *obj)
  * - obj: a room object
  *
  * returns:
- * - true if attributes of all connections match, else return false
+ * - SUCCESS if attributes of all connections match, else return FAILURE
  */
 int connection_type_check(obj_t *obj)
 {
@@ -168,7 +168,7 @@ int room_type_check(obj_t *obj)
     // verify each attribute
     int connections_ver = connection_type_check(obj);
 
-    if (id_ver == false)
+    if (id_ver == FAILURE)
     {
         fprintf(stderr, "id verification failed\n");
     }
@@ -215,8 +215,8 @@ int game_type_check(obj_t *obj)
  *  - str: the action to check
  *
  * returns
- *  - true if the action is valid
- *  - false if else
+ *  - SUCCESS if the action is valid
+ *  - FAILURE if else
  */
 int action_validate(char *str)
 {
@@ -229,12 +229,12 @@ int action_validate(char *str)
     {
         if (strcmp(curr->act->c_name, str) == 0)
         {
-            return true;
+            return SUCCESS;
         }
         curr = curr->next;
     }
 
-    return false;
+    return FAILURE;
 }
 
 void print_list(list_action_type_t *ls)
@@ -377,9 +377,9 @@ void print_game(obj_t *obj)
 void print_document(obj_t *obj)
 {
     // Extract individual objects
-    obj_t *room_obj = obj_get_attr(obj, "ROOMS", false);
-    obj_t *item_obj = obj_get_attr(obj, "ITEMS", false);
-    obj_t *game_obj = obj_get_attr(obj, "GAME", false);
+    obj_t *room_obj = obj_get_attr(obj, "ROOMS", FAILURE);
+    obj_t *item_obj = obj_get_attr(obj, "ITEMS", FAILURE);
+    obj_t *game_obj = obj_get_attr(obj, "GAME", FAILURE);
 
     // Extract list of rooms and items
     attr_list_t *rooms_ls = obj_list_attr(room_obj);
