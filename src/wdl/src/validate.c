@@ -10,7 +10,7 @@ int list_type_check(attr_list_t *ls, int(*validate)(obj_t*))
 {
     if (ls == NULL)
     {
-        return FAILURE; // if the function returns false, it will halt parsing
+        return FAILURE; // if the function returns FAILURE, it will halt parsing
     }
 
     int result = SUCCESS;
@@ -80,7 +80,7 @@ attr_list_t *conditions_get_list(obj_t *obj)
  * - obj: a condition object
  *
  * returns:
- * - SUCCESS if condition types match, else return false
+ * - SUCCESS if condition types match, else return FAILURE
  */
 int check_condition_attr(obj_t *obj)
 {
@@ -100,7 +100,7 @@ int check_condition_attr(obj_t *obj)
  * - obj: a connection object
  *
  * returns:
- * - SUCCESS if attributes of all conditions match, else return false
+ * - SUCCESS if attributes of all conditions match, else return FAILURE
  */
 int condition_type_check(obj_t *obj)
 {
@@ -145,7 +145,7 @@ int check_connection_attr(obj_t *obj)
  * - obj: a room object
  *
  * returns:
- * - SUCCESS if attributes of all connections match, else return false
+ * - SUCCESS if attributes of all connections match, else return FAILURE
  */
 int connection_type_check(obj_t *obj)
 {
