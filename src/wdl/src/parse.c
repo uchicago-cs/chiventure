@@ -66,7 +66,7 @@ attr_list_t *extract_objects(obj_t *obj, char *str)
         valid = list_type_check(ls, item_type_check);
     }
 
-    if (valid)
+    if (valid == SUCCESS)
     {
         return ls;
     }
@@ -108,7 +108,7 @@ attr_list_t *get_item_actions(obj_t *item)
     }
 
     valid = list_type_check(ls, action_type_check);
-    if (valid)
+    if (valid == SUCCESS)
     {
         return ls;
     }

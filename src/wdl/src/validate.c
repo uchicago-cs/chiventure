@@ -10,7 +10,7 @@ int list_type_check(attr_list_t *ls, int(*validate)(obj_t*))
 {
     if (ls == NULL)
     {
-        return FAILURE; // if the function returns FAILURE, it will halt parsing
+        return FAILURE; // if the function returns false, it will halt parsing
     }
 
     int result = SUCCESS;
@@ -60,7 +60,7 @@ void list_print(attr_list_t *ls, void (*print)(obj_t*))
  */
 attr_list_t *conditions_get_list(obj_t *obj)
 {
-    obj_t *conditions = obj_get_attr(obj, "conditions", FAILURE);
+    obj_t *conditions = obj_get_attr(obj, "conditions", false);
 
     if (conditions == NULL)
     {
@@ -80,7 +80,7 @@ attr_list_t *conditions_get_list(obj_t *obj)
  * - obj: a condition object
  *
  * returns:
- * - SUCCESS if condition types match, else return FAILURE
+ * - SUCCESS if condition types match, else return false
  */
 int check_condition_attr(obj_t *obj)
 {
@@ -89,7 +89,7 @@ int check_condition_attr(obj_t *obj)
     int state = (obj_get_type(obj, "state") == TYPE_STR);
     int value = (obj_get_type(obj, "value") == TYPE_STR);
 
-    return (id && state && value);
+    return !(id && state && value);
 }
 
 /* condition_type_check()
@@ -100,7 +100,7 @@ int check_condition_attr(obj_t *obj)
  * - obj: a connection object
  *
  * returns:
- * - SUCCESS if attributes of all conditions match, else return FAILURE
+ * - SUCCESS if attributes of all conditions match, else return false
  */
 int condition_type_check(obj_t *obj)
 {
@@ -115,7 +115,7 @@ int condition_type_check(obj_t *obj)
 /* see validate.h */
 attr_list_t *connections_get_list(obj_t *obj)
 {
-    obj_t *connections = obj_get_attr(obj, "connections", FAILURE);
+    obj_t *connections = obj_get_attr(obj, "connections", false);
 
     if (connections == NULL)
     {
@@ -134,7 +134,7 @@ int check_connection_attr(obj_t *obj)
     int id = (obj_get_type(obj, "to") == TYPE_STR);
     int direction = (obj_get_type(obj, "direction") == TYPE_STR);
 
-    return (id && direction);
+    return !(id && direction);
 }
 
 /* connection_type_check()
@@ -145,7 +145,7 @@ int check_connection_attr(obj_t *obj)
  * - obj: a room object
  *
  * returns:
- * - SUCCESS if attributes of all connections match, else return FAILURE
+ * - SUCCESS if attributes of all connections match, else return false
  */
 int connection_type_check(obj_t *obj)
 {
@@ -168,12 +168,12 @@ int room_type_check(obj_t *obj)
     // verify each attribute
     int connections_ver = connection_type_check(obj);
 
-    if (id_ver == FAILURE)
+    if (id_ver == false)
     {
         fprintf(stderr, "id verification failed\n");
     }
 
-    return (id_ver && short_ver && long_ver && connections_ver);
+    return !(id_ver && short_ver && long_ver && connections_ver);
 }
 
 // The following functions regard item type checking
@@ -187,7 +187,7 @@ int item_type_check(obj_t *obj)
     int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
     int in = (obj_get_type(obj, "in") == TYPE_STR);
 
-    return (id_ver && short_ver && long_ver && in);
+    return !(id_ver && short_ver && long_ver && in);
 }
 
 // The following functions regard game type checking
@@ -200,7 +200,7 @@ int game_type_check(obj_t *obj)
     int intro_ver = (obj_get_type(obj, "intro") == TYPE_STR);
     int end_ver = (obj_get_type(obj, "end.0.in_room") == TYPE_STR);
 
-    return (start_ver && intro_ver);
+    return !(start_ver && intro_ver);
 }
 
 
@@ -256,7 +256,7 @@ int action_type_check(obj_t *obj)
     int action_type = (obj_get_type(obj, "action") == TYPE_STR);
     int action_valid = action_validate(obj_get_str(obj, "action"));
 
-    return (action_type && action_valid);
+    return !(action_type && action_valid);
 }
 
 // The following are print functions to print out specific fields within a
@@ -377,9 +377,9 @@ void print_game(obj_t *obj)
 void print_document(obj_t *obj)
 {
     // Extract individual objects
-    obj_t *room_obj = obj_get_attr(obj, "ROOMS", FAILURE);
-    obj_t *item_obj = obj_get_attr(obj, "ITEMS", FAILURE);
-    obj_t *game_obj = obj_get_attr(obj, "GAME", FAILURE);
+    obj_t *room_obj = obj_get_attr(obj, "ROOMS", false);
+    obj_t *item_obj = obj_get_attr(obj, "ITEMS", false);
+    obj_t *game_obj = obj_get_attr(obj, "GAME", false);
 
     // Extract list of rooms and items
     attr_list_t *rooms_ls = obj_list_attr(room_obj);
