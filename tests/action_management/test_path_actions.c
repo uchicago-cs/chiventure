@@ -63,9 +63,12 @@ Test(path_actions, validate_path)
 
     /* SUCCESS TEST */
     check_do_path(ctx_test, action_go, path_north, room_north, SUCCESS);
-    check_do_path(ctx_test, action_walk, path_north, room_north, SUCCESS);
     // player should be in room_north
     check_do_path(ctx_test, action_go, path_origin, room_origin, SUCCESS);
+    // player should be in room_origin
+
+    check_do_path(ctx_test, action_walk, path_north, room_north, SUCCESS);
+    // player should be in room_north
     check_do_path(ctx_test, action_walk, path_origin, room_origin, SUCCESS);
     // player should be in room_origin
 
