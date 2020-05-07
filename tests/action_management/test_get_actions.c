@@ -47,6 +47,12 @@ Test(get_actions, search_success)
     go = search_supported_actions("GO");
     walk = search_supported_actions("WALK");
     use = search_supported_actions("USE");
+<<<<<<< HEAD
+=======
+    pick_up = search_supported_actions("PICKUP");
+    drink = search_supported_actions("DRINK");
+    eat = search_supported_actions("EAT");
+>>>>>>> action-management/synonyms
 
     cr_assert_neq(open, NULL,
                   "search_supported_actions returned a null for query \"open\".\n");
