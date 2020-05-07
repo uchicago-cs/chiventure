@@ -22,7 +22,6 @@ enum actions {
     PICKUP,
     DROP,
     CONSUME,
-    USE,
     DRINK,
     EAT,
 
