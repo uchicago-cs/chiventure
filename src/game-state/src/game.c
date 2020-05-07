@@ -96,6 +96,20 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 }
 
 /* See game.h */
+int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition)
+{
+    /* TODO */
+    return 1;
+}
+
+/* See game.h */
+bool end_conditions_met(game_t *game)
+{
+    /* TODO */
+    return false;
+}
+
+/* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
                       char* direction)
 {

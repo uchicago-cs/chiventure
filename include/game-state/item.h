@@ -155,6 +155,16 @@ typedef struct game_action {
     char* fail_str;
 } game_action_t;
 
+/* Deletes and frees all game_action_condition_ts from list starting at head
+ * 
+ * Parameters:
+ *  pointer to head of list
+ * 
+ * Returns:
+ *  SUCCESS if successful
+ */ 
+int delete_action_condition_llist(action_condition_list_t *head);
+
 
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
 
