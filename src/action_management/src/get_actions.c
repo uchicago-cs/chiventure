@@ -15,12 +15,8 @@ static action_type_t valid_actions[] =
     {"TURNON", ITEM},
     {"TURNOFF", ITEM},
     {"TAKE", ITEM},
-    {"PICK UP", ITEM},
     {"DROP", ITEM},
     {"CONSUME", ITEM},
-    {"USE", ITEM},
-    {"DRINK", ITEM},
-    {"EAT", ITEM},
     // KIND 2
     {"GO", PATH},
     {"WALK", PATH},

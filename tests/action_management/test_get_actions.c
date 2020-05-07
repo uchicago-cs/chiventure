@@ -5,7 +5,7 @@
 #include "action_management/actionmanagement.h"
 
 
-#define NUM_ACTIONS (17)
+#define NUM_ACTIONS (13)
 
 
 Test(get_actions, count)
@@ -41,15 +41,12 @@ action_type_t *search_supported_actions(char *query)
 /* Checks to see if the action list called can be iterated over using string */
 Test(get_actions, search_success)
 {
-    action_type_t *open, *consume, *go, *walk, *use, *pick_up, *drink, *eat;
+    action_type_t *open, *consume, *go, *walk, *use;
     open = search_supported_actions("OPEN");
     consume = search_supported_actions("CONSUME");
     go = search_supported_actions("GO");
     walk = search_supported_actions("WALK");
     use = search_supported_actions("USE");
-    pick_up = search_supported_actions("PICK UP");
-    drink = search_supported_actions("DRINK");
-    eat = search_supported_actions("EAT");
 
     cr_assert_neq(open, NULL,
                   "search_supported_actions returned a null for query \"open\".\n");
@@ -61,12 +58,6 @@ Test(get_actions, search_success)
                   "search_supported_actions returned a null for query \"walk\".\n");
     cr_assert_neq(use, NULL,
                   "search_supported_actions returned a null for query \"use on\".\n");
-    cr_assert_neq(pick_up, NULL,
-                  "search_supported_actions returned a null for query \"pick up\".\n");
-    cr_assert_neq(drink, NULL,
-                  "search_supported_actions returned a null for query \"drink\".\n");
-    cr_assert_neq(eat, NULL,
-                  "search_supported_actions returned a null for query \"eat\.\n");
 
     cr_assert_eq(open->kind, ITEM,
                  "Expected the action kind %d, but got action kind %d.\n",
@@ -83,18 +74,6 @@ Test(get_actions, search_success)
     cr_assert_eq(use->kind, ITEM_ITEM,
                  "Expected the action kind %d, but got action kind %d.\n",
                  ITEM_ITEM, use->kind);
-    cr_assert_eq(use->kind, ITEM,
-                 "Expected the action kind %d, but got action kind %d.\n",
-                 ITEM, use->kind);
-    cr_assert_eq(pick_up->kind, ITEM,
-                 "Expected the action kind %d, but got action kind %d.\n",
-                 ITEM, pick_up->kind);
-    cr_assert_eq(drink->kind, ITEM,
-                 "Expected the action kind %d, but got action kind %d.\n",
-                 ITEM, drink->kind);
-    cr_assert_eq(eat->kind, ITEM,
-                 "Expected the action kind %d, but got action kind %d.\n",
-                 ITEM, eat->kind);
 }
 
 
