@@ -19,7 +19,7 @@ enum actions {
     TURNON,
     TURNOFF,
     TAKE,
-    PICK UP,
+    PICKUP,
     DROP,
     CONSUME,
     USE,

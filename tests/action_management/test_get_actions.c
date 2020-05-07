@@ -47,7 +47,7 @@ Test(get_actions, search_success)
     go = search_supported_actions("GO");
     walk = search_supported_actions("WALK");
     use = search_supported_actions("USE");
-    pick_up = search_supported_actions("PICK UP");
+    pick_up = search_supported_actions("PICKUP");
     drink = search_supported_actions("DRINK");
     eat = search_supported_actions("EAT");
 
