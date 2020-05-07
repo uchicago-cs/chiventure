@@ -18,18 +18,12 @@ enum actions {
     PULL,
     TURNON,
     TURNOFF,
-<<<<<<< HEAD
-    TAKE, // synonyms: "pick up"
-    DROP,
-    CONSUME, // synonyms: "use" "drink" "eat"
-=======
     TAKE,
     PICKUP,
     DROP,
     CONSUME,
     DRINK,
     EAT,
->>>>>>> action-management/synonyms
 
     // KIND 2 ACTIONS - ACTION <path>
     GO,
