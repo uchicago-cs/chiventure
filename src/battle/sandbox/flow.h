@@ -5,15 +5,18 @@
 
 /* Starts the beginning of a game
  *  PARAMETERS:
- *  enemy: the stats and name of the enemy encountered
+ *  - player: player data
+ *  - enemy: enemy data
  *  OUTPUT:
  *  Returns 0 to show end of game
  */
-int start_game(enemy_t enemy);
+int start_game(player_t player, enemy_t enemy);
 
 /* Commences battle 
- * NO PARAMETERS
+ * PARAMETERS:
+ *  - player: player data
+ *  - enemy: enemy data
  * OUTPUT:
  * returns 1 when battle is over or 0 when still in progress
  */
-int battle();
+int battle(player_t player, enemy_t enemy);

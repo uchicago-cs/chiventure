@@ -7,6 +7,7 @@ int announce_game(enemy_t e) {
     return 1;
 }
 
+/* see feedback.h */
 int announce_attack(char* attack, enemy_t e) {
     if(e == NULL) {
         printf("You used %s!\n", attack);
@@ -18,6 +19,7 @@ int announce_attack(char* attack, enemy_t e) {
     return 0;
 }
 
+/* see feedback.h */
 int announce_damage(int d) {
     printf("It did %d damage!\n\n", d);
     return 1;
