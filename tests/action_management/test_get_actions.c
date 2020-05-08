@@ -5,7 +5,7 @@
 #include "action_management/actionmanagement.h"
 
 
-#define NUM_ACTIONS (13)
+#define NUM_ACTIONS (16)
 
 
 Test(get_actions, count)
@@ -41,7 +41,7 @@ action_type_t *search_supported_actions(char *query)
 /* Checks to see if the action list called can be iterated over using string */
 Test(get_actions, search_success)
 {
-    action_type_t *open, *consume, *go, *walk, *use;
+    action_type_t *open, *consume, *go, *walk, *use, pick_up, drink, eat;
     open = search_supported_actions("OPEN");
     consume = search_supported_actions("CONSUME");
     go = search_supported_actions("GO");
