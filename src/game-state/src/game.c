@@ -98,8 +98,28 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 /* See game.h */
 int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition)
 {
-    /* TODO */
-    return 1;
+    item_t *check_item;
+    HASH_FIND(hh, game->all_items, end_condition->item->item_id, 
+              strnlen(end_condition->item->item_id, MAX_ID_LEN), 
+              check_item);
+    if (check_item == NULL)
+    {
+        return FAILURE; // item not in game
+    }
+    
+    attribute_t *check_attribute;
+    check_attribute = get_attribute(end_condition->item, 
+                                    end_condition->attribute_to_check->attribute_key);
+    if (check_attribute == NULL || 
+        check_attribute != end_condition->attribute_to_check)
+    {
+        return FAILURE; // item does not possess attribute
+    }
+    
+    end_condition->next = game->end_conditions;
+    game->end_conditions = end_condition;
+    
+    return SUCCESS;
 }
 
 /* See game.h */
