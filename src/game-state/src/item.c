@@ -425,13 +425,6 @@ int delete_all_items(item_hash_t** items)
 }
 
 /* See item.h */
-int delete_action_condition_llist(action_condition_list_t *head)
-{
-    /* TODO */
-    return 1;
-}
-
-/* See item.h */
 attribute_list_t *get_all_attributes(item_t *item)
 {
     attribute_list_t *head = NULL;
