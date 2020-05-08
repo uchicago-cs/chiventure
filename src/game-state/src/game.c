@@ -125,8 +125,22 @@ int add_end_condition_to_game(game_t *game, game_action_condition_t *end_conditi
 /* See game.h */
 bool end_conditions_met(game_t *game)
 {
-    /* TODO */
-    return false;
+    if (game->end_conditions == NULL)
+    {
+        return true; // no conditions to check
+    }
+    
+    game_action_condition_t *iterator = game->end_conditions;
+    while (iterator != NULL)
+    {
+        if (!check_condition(iterator))
+        {
+            return false; // condition not yet met
+        }
+        iterator = iterator->next;
+    }
+    
+    return true; // all conditions met
 }
 
 /* See game.h */
