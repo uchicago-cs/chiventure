@@ -22,6 +22,7 @@ enum actions {
     PICKUP,
     DROP,
     CONSUME,
+    USE,
     DRINK,
     EAT,
 
@@ -30,7 +31,7 @@ enum actions {
     WALK,
 
     /* KIND 3 ACTIONS - ACTION <item_item> */
-    USE,
+    USE_ON,
     PUT
 };
 

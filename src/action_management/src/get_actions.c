@@ -18,13 +18,14 @@ static action_type_t valid_actions[] =
     {"PICKUP", ITEM},
     {"DROP", ITEM},
     {"CONSUME", ITEM},
+    {"USE", ITEM},
     {"DRINK", ITEM},
     {"EAT", ITEM},
     // KIND 2
     {"GO", PATH},
     {"WALK", PATH},
     // KIND 3
-    {"USE", ITEM_ITEM},
+    {"USE_ON", ITEM_ITEM},
     {"PUT", ITEM_ITEM}
 };
 
