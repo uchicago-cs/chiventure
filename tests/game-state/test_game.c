@@ -264,11 +264,75 @@ Test(game_end_condition, add_end_condition_to_game)
     
     int add_4 = add_end_condition_to_game(game, condition_4);
     cr_assert_eq(add_4, FAILURE, "add_end_condition_to_game() added an invalid condition (4)");
+
+    add_item_to_game(game, test_item_2);
+    int add_5 = add_end_condition_to_game(game, condition_4);
+    cr_assert_eq(add_5, SUCCESS, "add_end_condition_to_game() did not add condition_2");
 }
 
+/* Checks that end_conditions_met() properly assesses when 
+ * all end conditions of a game have been met 
+ */
 Test(game_end_condition, end_conditions_met)
 {
+    game_t *game = game_new("Welcome to Chiventure!");
     
+    bool test_1 = end_conditions_met(game);
+    cr_assert_eq(test_1, true, "end_conditions_met() does not return true when there are no end conditions");
+    
+    attribute_value_t expected;
+    expected.str_val = "Valid_Value";
+    
+    item_t *test_item_1 = item_new("test_item_1", 
+    "test item 1 for end conditions",
+    "item for testing end_conditions_met()");
+    set_str_attr(test_item_1, "Test_Attribute_1", "Invalid_Value_1");
+    add_item_to_game(game, test_item_1);
+
+    game_action_condition_t *condition_1 = malloc(sizeof(game_action_condition_t));
+    condition_1->item = test_item_1;
+    condition_1->attribute_to_check = get_attribute(test_item_1, "Test_Attribute_1");
+    condition_1->expected_value = expected;
+    add_end_condition_to_game(game, condition_1);
+    
+    item_t *test_item_2 = item_new("test_item_2", 
+    "test item 2 for end conditions",
+    "item for testing end_conditions_met()");
+    set_str_attr(test_item_2, "Test_Attribute_2", "Invalid_Value_2");
+    add_item_to_game(game, test_item_2);
+
+    game_action_condition_t *condition_2 = malloc(sizeof(game_action_condition_t));
+    condition_2->item = test_item_2;
+    condition_2->attribute_to_check = get_attribute(test_item_2, "Test_Attribute_2");
+    condition_2->expected_value = expected;
+    add_end_condition_to_game(game, condition_2);
+    
+    item_t *test_item_3 = item_new("test_item_3", 
+    "test item 3 for end conditions",
+    "item for testing end_conditions_met()");
+    set_str_attr(test_item_3, "Test_Attribute_3", "Invalid_Value_3");
+    add_item_to_game(game, test_item_3);
+    
+    game_action_condition_t *condition_3 = malloc(sizeof(game_action_condition_t));
+    condition_3->item = test_item_3;
+    condition_3->attribute_to_check = get_attribute(test_item_3, "Test_Attribute_3");
+    condition_3->expected_value = expected;
+    add_end_condition_to_game(game, condition_3);
+    
+    bool test_2 = end_conditions_met(game);
+    cr_assert_eq(test_2, false, "end_conditions_met() returns true when not all conditions are met");
+
+    set_str_attr(test_item_1, "Test_Attribute_1", "Valid_Value");
+    bool test_3 = end_conditions_met(game);
+    cr_assert_eq(test_3, false, "end_conditions_met() returns true when not all conditions are met");
+    
+    set_str_attr(test_item_3, "Test_Attribute_3", "Valid_Value");
+    bool test_4 = end_conditions_met(game);
+    cr_assert_eq(test_4, false, "end_conditions_met() returns true when not all conditions are met");
+
+    set_str_attr(test_item_2, "Test_Attribute_2", "Valid_Value");
+    bool test_5 = end_conditions_met(game);
+    cr_assert_eq(test_5, true, "end_conditions_met() does not return true when all end conditions are met");
 }
 
 Test(iter_macro, iter_rooms)
