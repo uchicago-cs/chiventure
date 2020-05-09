@@ -46,7 +46,7 @@ typedef struct npc {
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-npc_t *npc_init(npc_t *npc, int health);
+int npc_init(npc_t* npc, char* npc_id, int health);
 
 
 /*
