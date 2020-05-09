@@ -29,11 +29,12 @@ typedef struct
 } armor_t;
 
 
-typedef struct
+typedef struct _ilist_t ilist_t;
+struct _ilist_t
 {
 	item_t *item;
-    	struct ilist_t * next;
-} ilist_t;
+    	ilist_t *next;
+};
 
 typedef struct
 {
