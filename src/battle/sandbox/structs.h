@@ -22,6 +22,7 @@ typedef struct
         bool battle;
         int attack;
         int defense;
+	int hp;
 } item_t;
 
 typedef struct
