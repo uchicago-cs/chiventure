@@ -40,7 +40,10 @@ struct player_t
 struct enemy_t
 { 
     char *name;
-    stats_t *stats;
-}
+    struct stats_t *stats;
+    enum class cl;
+    ilist_t inventory;
+    ilist_t armor;
+};
 	
 #endif 
