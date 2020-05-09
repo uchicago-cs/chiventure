@@ -3,7 +3,7 @@
 #include "structs.h"
 
 
-void create_test_stats()
+stats_t * create_test_stats()
 {
 	stats_t *test_stats = malloc(sizeof(stats_t));
 	test_stats->speed = 30;
@@ -11,6 +11,7 @@ void create_test_stats()
 	test_stats->dexterity = 20;
 	test_stats->hp = 100;
 	test_stats->xp = 180;
+	return test_stats;
 }
 
 ilist_t *create_test_inventory()
@@ -82,7 +83,10 @@ player_t *create_test_player(ilist_t *inv, alist_t *arm)
 	return test_player;
 }
 
-
+stats_t *award_xp(stats_t *stats, int xp)
+{
+	return stats->xp + xp;
+}
 
 int main()
 {
