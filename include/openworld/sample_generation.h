@@ -72,4 +72,21 @@ bool enter_new_room(room_t *r1, room_t *r2);
  */
 int room_generate(game_t* gameOld, game_t* gameNew, room_t* addRoom);
 
+/*
+ * autogen_algorithm
+ * A wrapper function for the autogeneration algorithm design and 
+ * implementation in a separate module - TODO
+ * 
+ * parameters:
+ * - TODO
+ *
+ * side effects:
+ * - TODO
+ *
+ * returns:
+ * - TODO
+ * - todo
+ */
+int autogen_algorithm(void);
+
 #endif /* INCLUDE_SAMPLE_GENERATION_H */

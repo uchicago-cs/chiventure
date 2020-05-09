@@ -44,3 +44,9 @@ int room_generate(game_t* gameOld, game_t* gameNew, room_t* addRoom) {
 
     return 1; /* room not added */
 }
+
+int autogen_algorithm(void) {
+    /* TODO */
+
+    return 1; // Depends algorithm module to be created
+}
