@@ -21,10 +21,10 @@
 #include <stdbool.h>
 #include <assert.h>
 // INCLUDE HARD-CODE ROOMS AND AUTOGENERATION MODULE
-#include "game-state/game.h"
-#include "wdl/load_room.h"
-#include "game-state/game_state_common.h"
-#include "common/uthash.h"
+#include "../game-state/game.h"
+#include "../wdl/load_room.h"
+#include "../game-state/game_state_common.h"
+#include "../common/common.h"
 
 // ASSUME HARD-CODED ROOMS AVAILABLE FROM ANOTHER MODULE
 
