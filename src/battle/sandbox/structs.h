@@ -4,7 +4,7 @@
 #define STRUCTS_H
 
 
-struct stats_t
+typedef struct
 {       
         int speed;
         int strength;
@@ -13,7 +13,7 @@ struct stats_t
         int xp;
 } stats_t;
 
-struct item_t
+typedef struct
 {
         char* description;
         bool battle;
@@ -21,29 +21,42 @@ struct item_t
         int defense;
 } item_t;
 
-typedef struct _ilist_t ilist_t;
-struct _ilist_t
+typedef struct
 {
-	struct item_t *item;
+	char* description;
+	int defense;
+	int weight;
+} armor_t;
+
+
+typedef struct
+{
+	item_t *item;
     	struct ilist_t * next;
-};
+} ilist_t;
+
+typedef struct
+{
+	struct armor_t *armor;
+	struct alist_t *next;
+} alist_t;
 
 enum class{bard, cleric, paladin, wizard};
 
-struct player_t
+typedef struct
 {
         enum class cl;
         ilist_t inventory;
         ilist_t armor;
 } player_t;
 
-struct enemy_t
+typedef struct
 { 
     char *name;
-    struct stats_t *stats;
+    stats_t *stats;
     enum class cl;
     ilist_t inventory;
     ilist_t armor;
-};
+} enemy_t;
 	
 #endif 

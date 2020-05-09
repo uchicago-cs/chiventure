@@ -5,7 +5,7 @@
 
 void create_test_stats()
 {
-	struct stats_t *test_stats = malloc(sizeof(stats_t));
+	stats_t *test_stats = malloc(sizeof(stats_t));
 	test_stats->speed = 30;
 	test_stats->strength = 80;
 	test_stats->dexterity = 20;
@@ -21,7 +21,7 @@ void create_test_inventory()
 
 void create_test_player()
 {
-	struct player_t *test_player = malloc(sizeof(player_t));
+	player_t *test_player = malloc(sizeof(player_t));
 	test_player->cl = 3;
 //	test_player->inventory = NULL;
 //	test_player->armor = NULL;
