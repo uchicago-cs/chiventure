@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../../../include/openworld/sample_generation.h" // Need to fix: cannot open common/uthash.h for some reason
+#include "../../../include/openworld/sample_rooms.h" 
+#include "../../../include/openworld/sample_items.h"
 
 /* See sample_generation.h */
 bool enter_new_room(room_t *r1, room_t *r2) {
