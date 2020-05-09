@@ -15,6 +15,9 @@ typedef struct
 
 typedef struct
 {
+	int id;
+	int quantity;
+	int durability;
         char* description;
         bool battle;
         int attack;
