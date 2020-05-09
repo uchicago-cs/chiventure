@@ -19,13 +19,17 @@ ilist_t *create_test_inventory()
 	return inv_list;	
 }
 
-item_t *create_item(char* descrip, bool bat, int attack, int defense)
+item_t *create_item(int id, int quan, int durab, char* descrip, bool bat, int attack, int defense, int hp)
 {
 	item_t *new_item = (item_t*) malloc(sizeof(item_t));
+	new_item->id = id;
+	new_item->quantity = quan;
+	new_item->durability = durab;
 	strcpy(new_item->description, descrip);
 	new_item->battle = bat;
 	new_item->attack = attack;
 	new_item->defense = defense;
+	new_item->hp = hp;
 	return new_item;
 }
 
@@ -38,15 +42,67 @@ ilist_t *add_item_to_inventory(ilist_t *inv, item_t *item)
 	return inv;
 }
 
-void create_test_player()
+alist_t *create_test_armor()
 {
-	player_t *test_player = malloc(sizeof(player_t));
-	test_player->cl = 3;
-//	test_player->inventory = NULL;
-//	test_player->armor = NULL;
+        alist_t *arm_list = malloc(sizeof(alist_t));
+        return arm_list;
 }
+
+armor_t *create_armor(char* descrip, int defense, int weight)
+{
+        armor_t *new_armor = (armor_t*) malloc(sizeof(armor_t));
+        new_armor->defense = defense;
+        new_armor->weight = weight;
+        strcpy(new_armor->description, descrip);
+        return new_armor;
+}
+
+alist_t *add_armor(alist_t *arm, armor_t *armor)
+{
+        alist_t *new_armor = (alist_t*) malloc(sizeof(alist_t));
+        new_armor->armor = armor;
+        new_armor->next = arm;
+        arm = new_armor;
+        return arm;
+}
+
+bool item_battle(item_t *item)
+{
+	return item->battle;
+}
+
+
+
+player_t *create_test_player(ilist_t *inv, alist_t *arm) 
+{
+        player_t *test_player = malloc(sizeof(player_t));
+        test_player->cl = 3;
+        test_player->inventory = inv;
+        test_player->armor = arm;
+	return test_player;
+}
+
+
 
 int main()
 {
 	printf("Meow\n");
+	item_t *item1 = create_item(1,1,60,"sword", true, 15, 5, 0);
+	item_t *item2 = create_item(2,1,10,"cake", false, 0, 0, 5);
+	item_t *item3 = create_item(3,2,100, "healing potion", true, 0, 0, 5);
+	item_t *item4 = create_item(4,1,70, "shield", true, 5, 15, 0);
+	ilist_t *inv = create_test_inventory();
+	inv = add_item_to_inventory(inv,item1);
+	inv = add_item_to_inventory(inv,item2);
+	inv = add_item_to_inventory(inv,item3);
+	inv = add_item_to_inventory(inv,item4);
+	armor_t *arm1 = create_armor("helmet",1, 1);
+	armor_t *arm2 = create_armor("chest plate", 5, 3);
+	armor_t *arm3 = create_armor("boots",1,1);
+	alist_t *arm = create_test_armor();
+	arm = add_armor(arm,arm1);
+	arm = add_armor(arm,arm2);
+	arm = add_armor(arm,arm3);
+	player_t *player = create_test_player(inv, arm);
+
 }

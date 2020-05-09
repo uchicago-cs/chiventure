@@ -40,19 +40,20 @@ struct _ilist_t
     	ilist_t *next;
 };
 
-typedef struct
+typedef struct _alist_t alist_t;
+struct _alist_t
 {
-	struct armor_t *armor;
-	struct alist_t *next;
-} alist_t;
+	armor_t *armor;
+	alist_t *next;
+};
 
 enum class{bard, cleric, paladin, wizard};
 
 typedef struct
 {
         enum class cl;
-        ilist_t inventory;
-        ilist_t armor;
+        ilist_t *inventory;
+        alist_t *armor;
 } player_t;
 
 typedef struct
