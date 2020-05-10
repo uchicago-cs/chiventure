@@ -19,6 +19,12 @@
 
 int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, int choose_condition, int choose_effect)
 {
+    chiventure_ctx_t *ctx_test;
+    /*game_t *game_test;
+    ctx_test = chiventure_ctx_new(NULL);
+    game_test = game_new("Welcome to Chiventure!");
+    ctx_test->game = game_test;*/
+    
     action_type_t *a = action_type_new(act_name, kind);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
     item_t *indirect = item_new("indirect", "The indirect item", "The indirectmost object of interest");
@@ -74,14 +80,14 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     switch (choose_effect)
     {
     case 0:
-        rc = do_item_item_action(a, direct, indirect, &string);
+        rc = do_item_item_action(ctx_test, a, direct, indirect, &string);
         break;
     case 1:
         set_str_attr(indirect, "DUMMYATTR", "old");
         attr = get_attribute(indirect, "DUMMYATTR");
         value.str_val = "new";
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (strcmp(get_str_attr(indirect, "DUMMYATTR"), "new") == 0)
         {
             rc = SUCCESS;
@@ -94,7 +100,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         attr = get_attribute(indirect, "DUMMYATTR");
         value.int_val = 1;
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_int_attr(indirect, "DUMMYATTR") == 1)
         {
             rc = SUCCESS;
@@ -107,7 +113,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         attr = get_attribute(indirect, "DUMMYATTR");
         value.double_val = 1.0;
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_double_attr(indirect, "DUMMYATTR") == 1.0)
         {
             rc = SUCCESS;
@@ -120,7 +126,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         attr = get_attribute(indirect, "DUMMYATTR");
         value.char_val = 'b';
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_char_attr(indirect, "DUMMYATTR") == 'b')
         {
             rc = SUCCESS;
@@ -133,7 +139,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         attr = get_attribute(indirect, "DUMMYATTR");
         value.bool_val = true;
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_bool_attr(indirect, "DUMMYATTR") == true)
         {
             rc = SUCCESS;
@@ -142,10 +148,12 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     default:
-        rc = do_item_item_action(a, direct, indirect, &string);
+        rc = do_item_item_action(ctx_test, a, direct, indirect, &string);
         break;
     }
 
+    //chiventure_ctx_free(ctx_test);
+    //game_free(game_test);
     free(string);
     item_free(direct);
     item_free(indirect);
