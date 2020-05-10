@@ -7,26 +7,26 @@
 
 // BASIC ITEM FUNCTIONS -------------------------------------------------------
 /* see sample_items.h*/
-int item_init(item_t *new_item, char *item_key)
+int item_init(item_t *new_item, item_tag_t item_tag)
 {
 	assert(new_item != NULL);
-	switch (item_key) {
-	case "APPLE":
+	switch (item_tag) {
+	case APPLE:
 		new_item->item_tag = APPLE;
 		apple_t a;
 		new_item->item_type = a;
 		break;
-	case "BOOK":
+	case BOOK:
 		new_item->item_tag = BOOK;
 		book_t b;
 		new_item->item_type = b;
 		break;
-	case "COW":
+	case COW:
 		new_item->item_tag = COW;
 		cow_t c;
 		new_item->item_type = c;
 		break;
-	case "DOOR":
+	case DOOR:
 		new_item->item_tag = DOOR;
 		door_t d;
 		new_item->item_type = d;
@@ -41,15 +41,16 @@ int item_init(item_t *new_item, char *item_key)
 }
 
 /* see item.h */
-item_t *item_new(char *item_id)
+item_t *item_new(item_tag_t item_tag)
 {
 	item_t *new_item = (item_t*) malloc(sizeof(item_t));
 	memset(new_item, 0, sizeof(item_t));
 
-	int check = item_init(new_item, item_id);
+	int check = item_init(new_item, item_tag);
 
-	if (new_item == NULL || new_item->item_id == NULL ||
-		new_item.item_type == NULL)
+	if (new_item == NULL || new_item->item_tag == NULL ||
+		new_item->item.id == NULL|| new_item->short_desc||
+		new_item->long_desc == NULL)
 	{
 
 		return NULL; //item struct not properly malloced
@@ -73,7 +74,7 @@ char *get_sdesc_item(item_t *item)
 	{
 		return NULL;
 	}
-	return item.item_type->short_desc;
+	return item->short_desc;
 }
 
 /* see item.h */
@@ -83,7 +84,7 @@ char *get_ldesc_item(item_t *item)
 	{
 		return NULL;
 	}
-	return item.item_type->long_desc;
+	return item->long_desc;
 }
 
 
@@ -93,7 +94,9 @@ char *get_ldesc_item(item_t *item)
 int item_free(item_t *item)
 {
 	free(item->item_tag);
-	free(item.item_type);
+	free(item->item_id);
+	free(item->short_desc);
+	free(item->long_desc);
 	free(item);
 	return SUCCESS;
 }

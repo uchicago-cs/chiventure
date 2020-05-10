@@ -26,67 +26,17 @@ typedef struct attribute attribute_hash_t;
 
 typedef struct game_action game_action_hash_t;
 
-typedef struct apple {
-	UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
-	char item_id[] = "apple";
-	char short_desc[] = "A red apple";
-	char long_desc[] = "A juicy Red Delicious apple";
-	game_action_hash_t *actions;
-	attribute_hash_t *attributes; // a hashtable for all attributes
-} apple_t;
-
-typedef struct book {
-	UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
-	char item_id = "book";
-	char short_desc = "A big book";
-	char long_desc = "A simulation survival encyclopedia";
-	game_action_hash_t *actions;
-	attribute_hash_t *attributes; // a hashtable for all attributes
-} book_t;
-
-typedef struct cow {
-	UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
-	char item_id[] = "cow";
-	char short_desc[] = "A black and white cow";
-	char long_desc[] = "A black and white cow named Mavis";
-	game_action_hash_t *actions;
-	attribute_hash_t *attributes; // a hashtable for all attributes
-} cow_t;
-
-typedef struct door {
-	UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
-	char item_id[] = "door";
-	char short_desc[] = "A normal door";
-	char long_desc[] = "A wooden door with a worn doorknob";
-	game_action_hash_t *actions;
-	attribute_hash_t *attributes; // a hashtable for all attributes
-} door_t;
-
-typedef struct window {
-	UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
-	char item_id[] = "window";
-	char short_desc[] = "A normal window";
-	char long_desc[] = "A clean window with an operating handle";
-	game_action_hash_t *actions;
-	attribute_hash_t *attributes; // a hashtable for all attributes
-} window_t;
-
-typedef union item_type {
-	apple_t a;
-	book_t b;
-	cow_t c;
-	door_t d;
-	window_t w;
-}item_type_t;
-
-enum item_tag { APPLE, BOOK, COW, DOOR, WINDOW };
+typedef enum item_tag { APPLE, BOOK, COW, DOOR } item_tag_t;
 
 typedef struct item {
-	UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
-	enum item_tag item_tag;
-	item_type_t item_type;
-	game_action_hash_t *actions;
-	attribute_hash_t *attributes; // a hashtable for all attributes
+	UT_hash_handle hh;
+	item_tag_t item_tag;
+	char *item_id;
+	char *short_desc;
+	char *long_desc;
+//	game_action_hash_t *actions;
+//	attribute_hash_t *attributes; // a hashtable for all attribute
+
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are
@@ -106,7 +56,7 @@ typedef struct item_wrapped_for_llist {
 *  Returns:
 *    A pointer to a new item struct.
 */
-item_t *item_new(char *item_id);
+item_t *item_new(item_tag_t item_tag);
 
 /* item_init() initializes an item struct with given values
 arguments are taken from WDL
@@ -116,7 +66,7 @@ a unique item id
 Returns:
 FAILURE for failure, SUCCESS for success
 */
-int item_init(item_t *new_item, char *item_id);
+int item_init(item_t *new_item, item_tag_t item_tag);
 
 /* Get short description of item
 *

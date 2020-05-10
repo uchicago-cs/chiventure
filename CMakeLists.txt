@@ -24,6 +24,7 @@ add_subdirectory(src/game-state)
 add_subdirectory(src/libobj)
 add_subdirectory(src/ui)
 add_subdirectory(src/wdl)
+add_subdirectory(src/openworld)
 
 # chiventure executable
 add_executable(chiventure-bin src/chiventure.c)

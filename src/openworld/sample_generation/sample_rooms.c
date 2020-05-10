@@ -4,37 +4,42 @@
 #include "../../../include/openworld/sample_items.h"
 
 /* See room.h */
-int room_init(room_t *new_room, char *room_id)
+int room_init(room_t *new_room, room_tag_t room_tag)
 {
-	assert(new_room != NULL)
-	switch (room_id) {
-		case "LIBRARY":
+	assert(new_room != NULL);
+	switch (room_tag) {
+		case LIBRARY:
 			new_room->room_tag = LIBRARY;
-			library_t l;
-			new_room.room_type = l;
+			new_room->room_id = "library";
+			new_room->short_desc = "This is a library room with resources";
+			new_room->long_desc = "An old, dusty library with skill-boosting resources like books and potions";
+			new_room->items  = item_new(BOOK);
 			break;
-		case "DUNGEON":
+		case DUNGEON:
 			new_room->room_tag = DUNGEON;
-			dungeon_t d;
-			new_room.room_type = d;
+			new_room->room_id = "dungeon";
+			new_room->short_desc = "A dark dungeon";
+			new_room->long_desc = "A dank, dark dungeon with traps and enemies to battle";
+			new_room->items = item_new(APPLE);
 			break;
-		case "OPEN_FIELD":
+		case OPEN_FIELD:
 			new_room->room_tag = OPEN_FIELD;
-			open_field_t f;
-			new_room.room_type = f;
+			new_room->room_id = "open field";
+			new_room->short_desc = "An open field outside";
+			new_room->long_desc = "An open field with grass and a clear view";
+			new_room->items = item_new(COW);
 			break;
 		}
 	return SUCCESS;
 }
 
 
-room_t *room_new(char *room_id)
+room_t *room_new(room_tag_t room_tag)
 {
 
 	room_t *room = malloc(sizeof(room_t));
 	memset(room, 0, sizeof(room_t));
-
-	int check = room_init(room, room_id, short_desc, long_desc);
+	int check = room_init(room, room_tag);
 
 	if (room == NULL || room->room_tag == NULL ||
 		room->type == NULL)
@@ -56,7 +61,8 @@ room_t *room_new(char *room_id)
 int room_free(room_t *room)
 {
 	free(room->room_id);
-	free(room.room_type);
+	free(room->short_desc);
+	free(room->long_desc);
 	free(room);
 	return SUCCESS;
 }
@@ -65,13 +71,13 @@ int room_free(room_t *room)
 /* See room.h */
 char *get_sdesc(room_t *room)
 {
-	return room.room_type->short_desc;
+	return room->short_desc;
 }
 
 /* See room.h */
 char *get_ldesc(room_t *room)
 {
-	return room.room_type->long_desc;
+	return room->long_desc;
 }
 
 /* Get list (implemented with hashtable) of items in room
@@ -84,7 +90,7 @@ char *get_ldesc(room_t *room)
 */
 item_hash_t* list_items(room_t *room)
 {
-	return room.room_type->items;
+	return room->items;
 }
 
 /* Get list of paths from room
@@ -97,7 +103,7 @@ item_hash_t* list_items(room_t *room)
 */
 path_t *list_paths(room_t *room)
 {
-	return room.room_type->paths;
+	return room->paths;
 }
 
 /* FOR CLI
@@ -109,23 +115,7 @@ path_t *list_paths(room_t *room)
 item_t* get_item_in_room(room_t* room, char* item_id)
 {
 	item_t* return_value;
-	HASH_FIND(hh, room.room_type->items, item_id, strlen(item_id), return_value);
+	HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
 	return return_value;
 	//if it is NULL, return_value will be equal to NULL by default
-}
-
-
-/* See room.h */
-item_list_t *get_all_items_in_room(room_t *room)
-{
-	item_list_t *head = NULL;
-	item_t *ITTMP_ITEMRM, *curr_item;
-	item_list_t *tmp;
-	HASH_ITER(hh, room.room_type->items, curr_item, ITTMP_ITEMRM)
-	{
-		tmp = malloc(sizeof(item_list_t));
-		tmp->item = curr_item;
-		LL_APPEND(head, tmp);
-	}
-	return head;
 }

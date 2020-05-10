@@ -31,48 +31,16 @@ typedef struct path {
 * UTHASH macros as specified in src/common/include */
 typedef struct path path_hash_t;
 
-// LIBRARY STRUCT DEFINITION -----------------------------------------------------
-/* This struct represents a library.
+// ROOM STRUCT DEFINITION -----------------------------------------------------
+/* This struct represents a 3 types of rooms: library, dungeon, open field..
 * It contains:
+*      the room_tag (this is the enum type)
 *      the room_id
 *      short description
 *      long description
 *      a hashtable of items to be found there
 *      a hashtable of paths accessible from the room. */
-typedef struct library {
-	/* hh is used for hashtable, as provided in uthash.h */
-	char room_id[] = "library";
-	char short_desc[] = "A libary room with skill-boosting resources";
-	char long_desc[] = "A library with books, potions, and other skill-boosters";
-	path_hash_t *paths;
-	item_hash_t *items = { (book_t) b };
-} library_t;
-
-typedef struct dungeon {
-	/* hh is used for hashtable, as provided in uthash.h */
-	char room_id[] = "dungeon";
-	char short_desc[] = "A dark dungeon with enemies";
-	char long_desc[] = "A dank, dark dungeon with traps and enemies to battle";
-	path_hash_t *paths;
-	item_hash_t *items = { (apple_t) a };
-} dungeon_t;
-
-typedef struct open_field {
-	/* hh is used for hashtable, as provided in uthash.h */
-	char room_id[] = "field";
-	char short_desc[] = "An open field";
-	char long_desc[] = "An open field with grass and a clear view";
-	path_hash_t *paths;
-	item_hash_t *items = { (cow_t) c };
-} open_field_t;
-
-typedef union room_type {
-	library l;
-	dungeon d;
-	open_field f;
-}room_type_t;
-
-enum room_tag { LIBRARY, DUNGEON, OPEN_FIELD };
+typedef enum room_tag { LIBRARY, DUNGEON, OPEN_FIELD } room_tag_t;
 
 typedef struct room {
 	/* hh is used for hashtable, as provided in uthash.h */
@@ -105,7 +73,7 @@ typedef struct room_wrapped_for_llist {
 * Returns:
 *  a pointer to new room
 */
-room_t *room_new(char *room_id, char *short_desc, char *long_desc);
+room_t *room_new(room_tag_t room_tag);
 
 /* room_init() initializes a room struct with given values
 Parameters:
@@ -118,8 +86,7 @@ Returns:
 FAILURE for failure, SUCCESS for success
 */
 
-int room_init(room_t *new_room, char *room_id, char *short_desc,
-	char *long_desc);
+int room_init(room_t *new_room, room_tag_t room_tag);
 
 /* Frees the space in memory taken by given room
 *
@@ -182,16 +149,5 @@ path_t *list_paths(room_t *room);
 *   pointer to item, NULL if not foun
 */
 item_t* get_item_in_room(room_t* room, char* item_id);
-
-/*
-* Function to get a linked list (utlist) of all the items in the room
-*
-* Parameters:
-*  room
-*
-* Returns:
-*  linked list of pointers to items (the head element)
-*/
-item_list_t *get_all_items_in_room(room_t *room);
 
 #endif
