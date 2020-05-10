@@ -110,7 +110,15 @@ bool attack_item(item_t *item)
 	return (item->attack >= item->defense);
 }
 
-/**
+mlist_t *add_move(mlist_t *moves, move_t *move)
+{
+        mlist_t *new_move = (mlist_t*) malloc(sizeof(mlist_t));
+        new_move->move = move;
+        new_move->next = moves;
+        moves= new_move;
+        return moves;
+}
+
 mlist_t *enemy_moves(ilist_t *inv)
 {
 	mlist_t *moves = create_mlist();
@@ -119,13 +127,21 @@ mlist_t *enemy_moves(ilist_t *inv)
 	{
 		if(tmp->item->battle)
 		{
-			move_t *move = create move(tmp->item, attack_item(tmp->item), tmp->item->attack, tmp->item->defense),
-**/			//set
+			move_t *move = create_move(tmp->item, attack_item(tmp->item), tmp->item->attack, tmp->item->defense);
+			moves = add_move(moves, move);
+		}
+	tmp = tmp->next;
+	}
+	return moves;
+}
+		
+
 
 int main()
 {
 	printf("Meow\n");
-	item_t *item1 = create_item(1,1,60,"sword", true, 15, 5, 0);
+	item_t *item1 = create_item(1,1,60,"sword",true, 15, 5, 0);
+ printf("pls\n");
 	item_t *item2 = create_item(2,1,10,"cake", false, 0, 0, 5);
 	item_t *item3 = create_item(3,2,100, "healing potion", true, 0, 0, 5);
 	item_t *item4 = create_item(4,1,70, "shield", true, 5, 15, 0);
