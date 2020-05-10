@@ -4,7 +4,7 @@
 //#include "player_stats.h"
 
 
-/** dummy stats **/
+/** Makes duummy stats **/
 stats_t * create_test_stats()
 {
     stats_t *test_stats = malloc(sizeof(stats_t));
@@ -19,7 +19,7 @@ stats_t * create_test_stats()
 }
 
 
-/** make empty inventory list **/
+/** Make empty inventory list **/
 ilist_t *create_test_inventory()
 {
     ilist_t *inv_list = malloc(sizeof(ilist_t));
@@ -27,7 +27,7 @@ ilist_t *create_test_inventory()
 }
 
 
-/** package item info into item struct **/
+/** Package item info into item struct **/
 item_t *create_item(int id, int quan, int durab, char* descrip, bool bat, int attack, int defense, int hp)
 {
     item_t *new_item = (item_t*) malloc(sizeof(item_t));
@@ -50,7 +50,7 @@ item_t *create_item(int id, int quan, int durab, char* descrip, bool bat, int at
 }
 
 
-/** add item to inventory list **/
+/** Add item to inventory list **/
 ilist_t *add_item_to_inventory(ilist_t *inv, item_t *item)
 {
     ilist_t *new_item = (ilist_t*) malloc(sizeof(ilist_t));
@@ -63,7 +63,7 @@ ilist_t *add_item_to_inventory(ilist_t *inv, item_t *item)
 }
 
 
-/** make empty armor list **/
+/** Make empty armor list **/
 alist_t *create_test_armor()
 {
     alist_t *arm_list = malloc(sizeof(alist_t));
@@ -71,7 +71,7 @@ alist_t *create_test_armor()
 }
 
 
-/** package armor info into armor struct **/
+/** Package armor info into armor struct **/
 armor_t *create_armor(char* descrip, int defense, int weight)
 {
     armor_t *new_armor = (armor_t*) malloc(sizeof(armor_t));
@@ -86,7 +86,7 @@ armor_t *create_armor(char* descrip, int defense, int weight)
 }
 
 
-/** add armor to armor list **/
+/** Add armor to armor list **/
 alist_t *add_armor(alist_t *arm, armor_t *armor)
 {
     alist_t *new_armor = (alist_t*) malloc(sizeof(alist_t));
@@ -99,14 +99,14 @@ alist_t *add_armor(alist_t *arm, armor_t *armor)
 }
 
 
-/** determines if item can be used for battle **/
+/** Determines if item can be used for battle **/
 bool item_battle(item_t *item)
 {
     return item->battle;
 }
 
 
-/** creates a dummy player given an inventory and armor list **/
+/** Creates a dummy player given an inventory and armor list **/
 player_t *create_test_player(ilist_t *inv, alist_t *arm)
 {
     player_t *test_player = malloc(sizeof(player_t));
@@ -119,7 +119,7 @@ player_t *create_test_player(ilist_t *inv, alist_t *arm)
 }
 
 
-/** awards xp **/
+/** Awards xp **/
 stats_t *award_xp(stats_t *stats, int xp)
 {
     stats->xp += xp;
@@ -127,7 +127,7 @@ stats_t *award_xp(stats_t *stats, int xp)
 }
 
 
-/** creates empty move list **/
+/** Creates empty move list **/
 mlist_t *create_mlist()
 {
     mlist_t *mov_list = malloc(sizeof(mlist_t));
@@ -135,7 +135,7 @@ mlist_t *create_mlist()
 }
 
 
-/** packages move info into struct **/
+/** Packages move info into struct **/
 move_t *create_move(item_t *item, bool atk, int dmg, int df)
 {
     move_t *move = (move_t*) malloc(sizeof(move_t));
@@ -149,14 +149,14 @@ move_t *create_move(item_t *item, bool atk, int dmg, int df)
 }
 
 
-/** returns true if item is better for attack **/
+/** Returns true if item is better for attack **/
 bool attack_item(item_t *item)
 {
     return (item->attack >= item->defense);
 }
 
 
-/** adds move to movelist **/
+/** Adds move to movelist **/
 mlist_t *add_move(mlist_t *moves, move_t *move)
 {
     mlist_t *new_move = (mlist_t*) malloc(sizeof(mlist_t));
@@ -169,15 +169,15 @@ mlist_t *add_move(mlist_t *moves, move_t *move)
 }
 
 
-/** generates list of enemy moves based on their inventory **/
+/** Generates list of enemy moves based on their inventory **/
 mlist_t *enemy_moves(ilist_t *inv)
 {
     mlist_t *moves = create_mlist();
 
     ilist_t *tmp;
-    while(tmp)
+    while (tmp)
     {
-        if(tmp->item->battle)
+        if (tmp->item->battle)
 	{
 	    move_t *move = create_move(tmp->item, attack_item(tmp->item),
 	    tmp->item->attack, tmp->item->defense);
@@ -190,7 +190,7 @@ mlist_t *enemy_moves(ilist_t *inv)
 }
 
 
-/** uses helper functions to make dummy player and stats **/
+/** Uses helper functions to make dummy player and stats **/
 int main()
 {
     printf("Meow\n");
