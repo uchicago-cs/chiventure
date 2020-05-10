@@ -3,7 +3,7 @@
 #include "../../../include/openworld/sample_rooms.h" 
 #include "../../../include/openworld/sample_items.h"
 
-/* See room.h */
+/* See sample_rooms.h */
 int room_init(room_t *new_room, room_tag_t room_tag)
 {
 	assert(new_room != NULL);
@@ -12,14 +12,16 @@ int room_init(room_t *new_room, room_tag_t room_tag)
 			new_room->room_tag = LIBRARY;
 			new_room->room_id = "library";
 			new_room->short_desc = "This is a library room with resources";
-			new_room->long_desc = "An old, dusty library with skill-boosting resources like books and potions";
+			new_room->long_desc = "An old, dusty library with skill-boosting"
+									" resources like books and potions";
 			new_room->items  = item_new(BOOK);
 			break;
 		case DUNGEON:
 			new_room->room_tag = DUNGEON;
 			new_room->room_id = "dungeon";
 			new_room->short_desc = "A dark dungeon";
-			new_room->long_desc = "A dank, dark dungeon with traps and enemies to battle";
+			new_room->long_desc = "A dank, dark dungeon with traps"
+									" and enemies to battle";
 			new_room->items = item_new(APPLE);
 			break;
 		case OPEN_FIELD:
@@ -33,7 +35,7 @@ int room_init(room_t *new_room, room_tag_t room_tag)
 	return SUCCESS;
 }
 
-
+/* See sample_rooms.h */
 room_t *room_new(room_tag_t room_tag)
 {
 
@@ -58,7 +60,7 @@ room_t *room_new(room_tag_t room_tag)
 
 
 
-/* See room.h */
+/* See sample_rooms.h */
 int room_free(room_t *room)
 {
 	free(room->room_id);
@@ -69,39 +71,25 @@ int room_free(room_t *room)
 }
 
 
-/* See room.h */
+/* See sample_rooms.h */
 char *get_sdesc(room_t *room)
 {
 	return room->short_desc;
 }
 
-/* See room.h */
+/* See sample_rooms.h */
 char *get_ldesc(room_t *room)
 {
 	return room->long_desc;
 }
 
-/* Get list (implemented with hashtable) of items in room
-*
-* Parameters:
-*  pointer to room
-*
-* Returns:
-*  hashtable of items in room
-*/
+/* See sample_rooms.h */
 item_hash_t* list_items(room_t *room)
 {
 	return room->items;
 }
 
-/* Get list of paths from room
-*
-* Parameters:
-*  pointer to room
-*
-* Returns:
-*  pointer to hashtable of paths from room
-*/
+/* See sample_rooms.h */
 path_t *list_paths(room_t *room)
 {
 	return room->paths;

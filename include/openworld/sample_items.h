@@ -3,12 +3,6 @@
 
 #include "../game-state/game_state_common.h"
 #include "sample_items.h"
-//#include "../action_management/action_structs.h"
-
-//#include "../game-state/game.h"
-//#include "../wdl/load_room.h"
-//#include "../common/common.h"
-//#include "../common/uthash.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
 HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
@@ -53,19 +47,19 @@ typedef struct item_wrapped_for_llist {
 
 /* item_new() allocates a space for an item struct in memory
 *  Parameters:
-*    a unique item id
+*    item_tag_t item_tag which specifies item type
 *  Returns:
 *    A pointer to a new item struct.
 */
 item_t *item_new(item_tag_t item_tag);
 
 /* item_init() initializes an item struct with given values
-arguments are taken from WDL
-Parameters:
-a memory allocated new item pointer
-a unique item id
-Returns:
-FAILURE for failure, SUCCESS for success
+* arguments are taken from WDL
+* Parameters:
+* a memory allocated new item pointer
+* item_tag_t item_tag that specifies the kind of item
+* Returns:
+* FAILURE for failure, SUCCESS for success
 */
 int item_init(item_t *new_item, item_tag_t item_tag);
 

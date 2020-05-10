@@ -68,10 +68,7 @@ typedef struct room_wrapped_for_llist {
 /* Mallocs space for a new room
 *
 * Parameters:
-*  short string description
-*  long string description
-*  linked list of items in room
-*  linked list of exits accessible from room
+*  room_tag_t room_tag that specifies what kind of room
 *
 * Returns:
 *  a pointer to new room
@@ -79,14 +76,12 @@ typedef struct room_wrapped_for_llist {
 room_t *room_new(room_tag_t room_tag);
 
 /* room_init() initializes a room struct with given values
-Parameters:
-a memory allocated new room pointer
-a unique room id
-a short description of the room
-a long description of the room
-
-Returns:
-FAILURE for failure, SUCCESS for success
+* Parameters:
+* a memory allocated new room pointer
+* room_tag_t room_tag which specifies room type
+* 
+* Returns:
+* FAILURE for failure, SUCCESS for success
 */
 
 int room_init(room_t *new_room, room_tag_t room_tag);
@@ -142,15 +137,5 @@ item_hash_t* list_items(room_t *room);
 *  pointer to hashtable of paths from room
 */
 path_t *list_paths(room_t *room);
-
-/* Retrieves the pointer to an item contained within a room
-* Parameters:
-*   pointer to room
-*   string of item's id
-*
-* Returns:
-*   pointer to item, NULL if not foun
-*/
-item_t* get_item_in_room(room_t* room, char* item_id);
 
 #endif

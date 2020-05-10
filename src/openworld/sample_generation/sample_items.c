@@ -39,7 +39,7 @@ int item_init(item_t *new_item, item_tag_t item_tag)
 	return SUCCESS;
 }
 
-/* see item.h */
+/* see sample_items.h*/
 item_t *item_new(item_tag_t item_tag)
 {
 	item_t *new_item = (item_t*) malloc(sizeof(item_t));
@@ -65,7 +65,7 @@ item_t *item_new(item_tag_t item_tag)
 }
 
 
-/* see item.h */
+/* see sample_items.h*/
 char *get_sdesc_item(item_t *item)
 {
 	if (item == NULL)
@@ -75,7 +75,7 @@ char *get_sdesc_item(item_t *item)
 	return item->short_desc;
 }
 
-/* see item.h */
+/* see sample_items.h*/
 char *get_ldesc_item(item_t *item)
 {
 	if (item == NULL)
