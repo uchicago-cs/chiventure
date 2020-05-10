@@ -66,7 +66,7 @@ int enemy_use_item(enemy_t* e, player_t* p, int ID)
 		desired_item->quantity -= 1;
 		desired_item->durability -= 1;
 		hurt_player(desired_item->attack, player);
-		heal_enemy(desired_item->hp, enemy);			//heal enemy function for readability?
+		heal_enemy(desired_item->hp, enemy);
         return desired_item;
 	}
 }
