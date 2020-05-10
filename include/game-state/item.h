@@ -117,6 +117,21 @@ typedef struct attribute_wrapped_for_llist {
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
+typedef struct game_action_attribute_condition{
+
+} game_action_attribute_condition_t;
+
+typedef struct game_action_inventory_condition{
+
+} game_action_inventory_condition_t;
+
+typedef union condition_type{
+    game_action_attribute_condition_t attr_type;
+    game_action_inventory_condition_t inven_type;
+} condition_type_t;
+
+enum condition_tag {ATTRIBUTE,INVENTORY};
+
 typedef struct game_action_condition{
     item_t *item;
     attribute_t* attribute_to_check; //pointer to attribute
