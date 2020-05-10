@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "structs.h"
+#include "player_stats.h"
 
 
 stats_t * create_test_stats()
@@ -28,7 +29,10 @@ item_t *create_item(int id, int quan, int durab, char* descrip, bool bat, int at
 	new_item->durability = durab;
 	new_item->description = (char*) malloc(sizeof(char) * 25);
 	strcpy(new_item->description, descrip);
-	new_item->battle = bat;
+	new_item->id = ID;
+	new_item->quantity = quantity;
+	new_item->durability = durability;
+	new_item->battle = battle;
 	new_item->attack = attack;
 	new_item->defense = defense;
 	new_item->hp = hp;

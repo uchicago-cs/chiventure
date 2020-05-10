@@ -10,8 +10,16 @@ int start_game(player_t player, enemy_t enemy) {
     return 0;
 }
 
-int hurt_enemy(int damage, enemy_t e) {
+int hurt_enemy(int damage, *enemy_t e) {
     return e->stats.hp - damage;
+}
+
+int heal_enemy(int heal, *enemy_t *e) {
+    return e->stats.hp + heal;
+}
+
+int heal_player(int heal, player_t *p) {
+    return p->stats.hp - heal;
 }
 
 /* Helper function that uses the user's inputted attack
@@ -28,7 +36,7 @@ int use_attack(char* attack, enemy_t* enemy) {
     return 1;
 }
 
-int hurt_player(int damage, player_t player) {
+int hurt_player(int damage, player_t *player) {
     return player->stats.hp - damage; 
 }
 

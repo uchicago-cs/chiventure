@@ -55,6 +55,7 @@ typedef struct
         enum class cl;
         ilist_t *inventory;
         alist_t *armor;
+        stats_t *stats;
 } player_t;
 
 typedef struct
@@ -63,7 +64,7 @@ typedef struct
     stats_t *stats;
     enum class cl;
     ilist_t inventory;
-    ilist_t armor;
+    alist_t armor;
 } enemy_t;
 
 typedef struct
