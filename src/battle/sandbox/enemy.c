@@ -71,7 +71,7 @@ int enemy_use_item(enemy_t* e, player_t* p, int ID)
 	}
 }
 
-enemy_t* create_enemy_player(char* name, ilist_t* inv, alist_t* armor_list, stats_t* stats)
+enemy_t* create_enemy_player()
 {
 	enemy_t* enemy = malloc(sizeof(enemy_t));
 	enemy->name = "Hydra";
