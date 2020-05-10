@@ -10,6 +10,7 @@ typedef struct
         int strength;
         int dexterity;
         int hp;
+	int max_hp;
         int xp;
 } stats_t;
 
@@ -40,20 +41,21 @@ struct _ilist_t
     	ilist_t *next;
 };
 
-typedef struct
+typedef struct _alist_t alist_t;
+struct _alist_t
 {
-	struct armor_t *armor;
-	struct alist_t *next;
-} alist_t;
+	armor_t *armor;
+	alist_t *next;
+};
 
 enum class{bard, cleric, paladin, wizard};
 
 typedef struct
 {
         enum class cl;
-        ilist_t inventory;
-        alist_t armor;
-        stats_t stats;
+        ilist_t *inventory;
+        alist_t *armor;
+        stats_t *stats;
 } player_t;
 
 typedef struct
@@ -64,5 +66,21 @@ typedef struct
     ilist_t inventory;
     alist_t armor;
 } enemy_t;
+
+typedef struct
+{
+	item_t *item;
+	bool attack;
+	int damage;
+	int defense;
+} move_t;
+
+typedef struct _mlist_t mlist_t;
+struct _mlist_t
+{
+	move_t *move;
+	mlist_t *next;
+};
+	
 	
 #endif 

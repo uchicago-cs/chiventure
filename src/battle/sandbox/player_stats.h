@@ -12,9 +12,9 @@ item_t* new_item(int ID, int quantity, int durability,
 ilist_t *add_item_to_inventory(ilist_t *inv, item_t *item);
 
 /* Adds an item to a player's armor list */
-alist_t *add_armor_to_list(alist_t *alist, armor_t *armor)
+alist_t *add_armor(alist_t *arm, armor_t *armor)
 
 /* Creates new armor and initializes its parameters */
-armor_t* new_armor(char* description, int defense, int weight)
+armor_t *create_armor(char* descrip, int defense, int weight)
 
 #endif

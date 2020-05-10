@@ -95,8 +95,8 @@ alist_t* example_armor_list {
 	armor_t* iron_chestplate = new_armor("This heavy duty iron armor can protect you... but emphasis on the heavy...", 50, 30);
 	armor_t* leather_chestplate = new_armor("Readily available, readily pierceable...", 10, 5);
 	armor_t* chain_chestplate = new_armor("Good for protection, good for making noise", 30, 15);
-	add_armor_to_list(armor_list, iron_chestplate);
-	add_armor_to_list(armor_list, leather_chestplate);
-	add_armor_to_list(armor_list, chain_chestplate);
+	add_armor(armor_list, iron_chestplate);
+	add_armor(armor_list, leather_chestplate);
+	add_armor(armor_list, chain_chestplate);
 
 }
