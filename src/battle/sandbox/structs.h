@@ -41,6 +41,6 @@ struct enemy_t
 { 
     char *name;
     stats_t *stats;
-}
+};
 	
 #endif 
