@@ -43,7 +43,7 @@ int item_init(item_t *new_item, char *item_key)
 /* see item.h */
 item_t *item_new(char *item_id)
 {
-	item_t *new_item = malloc(sizeof(item_t));
+	item_t *new_item = (item_t*) malloc(sizeof(item_t));
 	memset(new_item, 0, sizeof(item_t));
 
 	int check = item_init(new_item, item_id);

@@ -4,7 +4,12 @@
 #include "../game-state/game_state_common.h"
 #include "../action_management/action_structs.h"
 
-#define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; 
+#include "../game-state/game.h"
+#include "../wdl/load_room.h"
+#include "../common/common.h"
+#include "../common/uthash.h"
+
+#define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
 HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
 #define ITER_ALL_ITEMS_IN_INVENTORY(player, curr_item) item_t *ITTMP_ITEMINV; \
 HASH_ITER(hh, (player)->inventory, (curr_item), ITTMP_ITEMINV)
