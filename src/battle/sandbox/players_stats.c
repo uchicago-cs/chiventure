@@ -26,6 +26,7 @@ item_t *create_item(int id, int quan, int durab, char* descrip, bool bat, int at
 	new_item->id = id;
 	new_item->quantity = quan;
 	new_item->durability = durab;
+	new_item->description = (char*) malloc(sizeof(char) * 25);
 	strcpy(new_item->description, descrip);
 	new_item->battle = bat;
 	new_item->attack = attack;
@@ -54,6 +55,7 @@ armor_t *create_armor(char* descrip, int defense, int weight)
         armor_t *new_armor = (armor_t*) malloc(sizeof(armor_t));
         new_armor->defense = defense;
         new_armor->weight = weight;
+	new_armor->description = (char*) malloc(sizeof(char) * 25);
         strcpy(new_armor->description, descrip);
         return new_armor;
 }
@@ -141,7 +143,6 @@ int main()
 {
 	printf("Meow\n");
 	item_t *item1 = create_item(1,1,60,"sword",true, 15, 5, 0);
- printf("pls\n");
 	item_t *item2 = create_item(2,1,10,"cake", false, 0, 0, 5);
 	item_t *item3 = create_item(3,2,100, "healing potion", true, 0, 0, 5);
 	item_t *item4 = create_item(4,1,70, "shield", true, 5, 15, 0);
