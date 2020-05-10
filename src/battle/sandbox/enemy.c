@@ -4,7 +4,7 @@
 #include "flow.h"
 #include "player_stats.h"
 
-//move to flow.c file??
+//move to flow.c file?
 /* see enemy.h */
 int goes_first(int difficulty)
 {
@@ -71,6 +71,29 @@ int enemy_use_item(enemy_t* e, player_t* p, int ID)
 	}
 }
 
+enemy_t* create_enemy_player(char* name, ilist_t* inv, alist_t* armor_list, stats_t* stats)
+{
+	enemy_t* enemy = malloc(sizeof(enemy_t));
+	enemy->name = "Hydra";
+	enemy->stats = create_enemy_stats();
+	enemy->inv = example_inventory();
+	enemy->armor = example_armor_list();
+	return enemy;
+}
+
+stats_t* create_enemy_stats()
+{
+    stats_t* test_stats = malloc(sizeof(stats_t));
+
+    test_stats->speed = 50;
+    test_stats->strength = 150;
+    test_stats->dexterity = 10;
+    test_stats->hp = 200;
+    test_stats->xp = 0;
+
+    return test_stats;
+}
+
 ilist_t* example_inventory()
 {
 	ilist_t* inventory = create_new_inventory();
@@ -88,9 +111,10 @@ ilist_t* example_inventory()
 	add_item_to_inventory(inventory, mace);
 	add_item_to_inventory(inventory, diamond_sword);
 	add_item_to_inventory(inventory, force_shield);
+	return inventory;
 }
 
-alist_t* example_armor_list {
+alist_t* example_armor_list() {
 	alist_t* armor_list = create_new_armor_list();
 	armor_t* iron_chestplate = new_armor("This heavy duty iron armor can protect you... but emphasis on the heavy...", 50, 30);
 	armor_t* leather_chestplate = new_armor("Readily available, readily pierceable...", 10, 5);
@@ -98,5 +122,5 @@ alist_t* example_armor_list {
 	add_armor(armor_list, iron_chestplate);
 	add_armor(armor_list, leather_chestplate);
 	add_armor(armor_list, chain_chestplate);
-
+	return armor_list;
 }

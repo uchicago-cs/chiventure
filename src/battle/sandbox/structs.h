@@ -33,14 +33,16 @@ enum class{bard, cleric, paladin, wizard};
 struct player_t
 {
         enum class cl;
-        ilist_t inventory;
-        ilist_t armor;
+        ilist_t *inventory;
+        alist_t *armor;
 } player_t;
 
 struct enemy_t
 { 
     char *name;
     stats_t *stats;
+    ilist_t *inventory;
+    alist_t *armor;
 }
 	
 #endif 
