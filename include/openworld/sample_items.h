@@ -2,12 +2,13 @@
 #define _ITEM_H
 
 #include "../game-state/game_state_common.h"
-#include "../action_management/action_structs.h"
+#include "sample_items.h"
+//#include "../action_management/action_structs.h"
 
-#include "../game-state/game.h"
-#include "../wdl/load_room.h"
-#include "../common/common.h"
-#include "../common/uthash.h"
+//#include "../game-state/game.h"
+//#include "../wdl/load_room.h"
+//#include "../common/common.h"
+//#include "../common/uthash.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
 HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)

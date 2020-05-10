@@ -42,7 +42,8 @@ room_t *room_new(room_tag_t room_tag)
 	int check = room_init(room, room_tag);
 
 	if (room == NULL || room->room_tag == NULL ||
-		room->type == NULL)
+		room->room_id == NULL || room->short_desc == NULL||
+		room->long_desc == NULL)
 	{
 		return NULL;
 	}
@@ -106,16 +107,3 @@ path_t *list_paths(room_t *room)
 	return room->paths;
 }
 
-/* FOR CLI
-* Implement a function that returns an item
-* given an item_ID as string and a pointer to the current room.
-*/
-
-/* see room.h */
-item_t* get_item_in_room(room_t* room, char* item_id)
-{
-	item_t* return_value;
-	HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
-	return return_value;
-	//if it is NULL, return_value will be equal to NULL by default
-}

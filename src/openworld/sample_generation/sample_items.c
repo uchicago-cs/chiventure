@@ -13,28 +13,27 @@ int item_init(item_t *new_item, item_tag_t item_tag)
 	switch (item_tag) {
 	case APPLE:
 		new_item->item_tag = APPLE;
-		apple_t a;
-		new_item->item_type = a;
+		new_item->item_id = "apple";
+		new_item->short_desc = "a red apple";
+		new_item->long_desc = "A juicy Red Delicious apple";
 		break;
 	case BOOK:
 		new_item->item_tag = BOOK;
-		book_t b;
-		new_item->item_type = b;
+		new_item->item_id = "book";
+		new_item->short_desc = "A big book";
+		new_item->long_desc = "A Simulation survival book";
 		break;
 	case COW:
 		new_item->item_tag = COW;
-		cow_t c;
-		new_item->item_type = c;
+		new_item->item_id = "cow";
+		new_item->short_desc = "A black and white cow";
+		new_item->long_desc ="A black and white cow called Mavis";
 		break;
 	case DOOR:
 		new_item->item_tag = DOOR;
-		door_t d;
-		new_item->item_type = d;
-		break;
-	case "WINDOW":
-		new_item->item_tag = WINDOW;
-		window_t w;
-		new_item->item_type = w;
+		new_item->item_id = "door";
+		new_item->short_desc = "a normal door";
+		new_item->long_desc = "A woooden door with a worn doorknob";
 		break;
 	}
 	return SUCCESS;
@@ -48,9 +47,8 @@ item_t *item_new(item_tag_t item_tag)
 
 	int check = item_init(new_item, item_tag);
 
-	if (new_item == NULL || new_item->item_tag == NULL ||
-		new_item->item.id == NULL|| new_item->short_desc||
-		new_item->long_desc == NULL)
+	if (new_item == NULL || new_item->item_id == NULL|| 
+		new_item->short_desc|| new_item->long_desc == NULL)
 	{
 
 		return NULL; //item struct not properly malloced
@@ -93,7 +91,6 @@ char *get_ldesc_item(item_t *item)
 /* See sample_items.h */
 int item_free(item_t *item)
 {
-	free(item->item_tag);
 	free(item->item_id);
 	free(item->short_desc);
 	free(item->long_desc);

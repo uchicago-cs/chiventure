@@ -45,8 +45,11 @@ typedef enum room_tag { LIBRARY, DUNGEON, OPEN_FIELD } room_tag_t;
 typedef struct room {
 	/* hh is used for hashtable, as provided in uthash.h */
 	UT_hash_handle hh;
-	enum room_tag room_tag;
-	room_type_t room_type;
+	room_tag_t room_tag;
+	char *room_id;
+	char *short_desc;
+	char *long_desc;
+	item_list_t *items;
 	path_hash_t *paths;
 } room_t;
 
