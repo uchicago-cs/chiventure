@@ -85,8 +85,42 @@ player_t *create_test_player(ilist_t *inv, alist_t *arm)
 
 stats_t *award_xp(stats_t *stats, int xp)
 {
-	return stats->xp + xp;
+	stats->xp += xp;
+	return stats;
 }
+
+mlist_t *create_mlist()
+{
+	mlist_t *mov_list = malloc(sizeof(mlist_t));
+        return mov_list;
+}
+
+move_t *create_move(item_t *item, bool atk, int dmg, int df)
+{
+	move_t *move = (move_t*) malloc(sizeof(move_t));
+	move->item = item;
+	move->attack = atk;
+	move->damage = dmg;
+	move->defense = df;
+	return move;
+}
+
+bool attack_item(item_t *item)
+{
+	return (item->attack >= item->defense);
+}
+
+/**
+mlist_t *enemy_moves(ilist_t *inv)
+{
+	mlist_t *moves = create_mlist();
+	ilist_t *tmp;
+	while(tmp)
+	{
+		if(tmp->item->battle)
+		{
+			move_t *move = create move(tmp->item, attack_item(tmp->item), tmp->item->attack, tmp->item->defense),
+**/			//set
 
 int main()
 {

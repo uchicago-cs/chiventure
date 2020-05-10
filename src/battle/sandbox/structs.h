@@ -10,6 +10,7 @@ typedef struct
         int strength;
         int dexterity;
         int hp;
+	int max_hp;
         int xp;
 } stats_t;
 
@@ -64,5 +65,21 @@ typedef struct
     ilist_t inventory;
     ilist_t armor;
 } enemy_t;
+
+typedef struct
+{
+	item_t *item;
+	bool attack;
+	int damage;
+	int defense;
+} move_t;
+
+typedef struct _mlist_t mlist_t;
+struct _mlist_t
+{
+	move_t *move;
+	mlist_t *next;
+};
+	
 	
 #endif 
