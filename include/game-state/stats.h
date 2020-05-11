@@ -3,24 +3,48 @@
 
 #include "game_state_common.h"
 
-/* stats for a player in the game */
+// STATS STRUCT DEFINITION -----------------------------------------------------
+/* This struct represents a stat of the player.
+ * It contains:
+ *      the name of the stat, 
+ *      which is also the key to the hashtable
+ *
+ *      the base value of the stat, 
+ *      whose final value will be multiplied by the modifier
+ *
+ *      cumulative modifiers from effects, set to 1 by default
+ * */
 typedef struct stats {
-    char *name; // key
-    double val;//base value
-    double modifier; //update the modifer each time an effect is visited
-    UT_hash_handle hh; // to make the struct hashable, as provided in uthash.h 
+    char *name; 
+    double val;
+    double modifier; 
+    UT_hash_handle hh; 
 } stats_t;
 
 typedef struct stats stats_hash_t;
 
-/* effects on a player */
+// EFFECTS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents an effect that changes player's stats.
+  * It contains:
+  *      the name of the effect,
+  *      which is also the key to the hashtable
+  *
+  *      a bool checking if the effect is activated
+  *
+  *      the duration of the effect
+  *
+  *      an array of stats affected by the effect
+  *
+  *      an array of modifiers affecting the stats,
+  *      whose index corresponds to that of the stats affected 
+  * */
 typedef struct effects{
-    char* name; // key
-    bool status; // whether the player is currently impacted by effect
-    double duration; // duration of effect
-    stats_t* affected; // stats the effect impacts
-    double modifier;
-    UT_hash_handle hh; // to make the struct hashable, as provided in uthash.h 
+    char* name; 
+    bool status; 
+    double duration; 
+    stats_t** affected; 
+    double* modifier;
+    UT_hash_handle hh; 
 } effects_t;
 
 typedef struct effects effects_hash_t;
