@@ -174,7 +174,7 @@ mlist_t *enemy_moves(ilist_t *inv)
 {
     mlist_t *moves = create_mlist();
 
-    ilist_t *tmp;
+    ilist_t *tmp = NULL;
     while (tmp)
     {
         if (tmp->item->battle)
