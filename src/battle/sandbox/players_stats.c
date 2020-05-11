@@ -5,7 +5,7 @@
 
 
 /** Makes duummy stats **/
-stats_t * create_test_stats()
+stats_t* create_test_stats()
 {
     stats_t *test_stats = malloc(sizeof(stats_t));
 
@@ -43,7 +43,7 @@ item_t *create_item(int id, int quan, int durab, char* descrip, bool bat, int at
     new_item->defense = defense;
     new_item->hp = hp;
 
-    new_item->description = (char*) malloc(sizeof(char) * 25);
+    new_item->description = (char*) malloc(sizeof(char) * 50);
     strcpy(new_item->description, descrip);
 
     return new_item;

@@ -63,8 +63,8 @@ typedef struct
     char *name;
     stats_t *stats;
     enum class cl;
-    ilist_t inventory;
-    alist_t armor;
+    ilist_t *inv;
+    alist_t *armor;
 } enemy_t;
 
 typedef struct
