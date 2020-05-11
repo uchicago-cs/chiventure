@@ -19,16 +19,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <assert.h>
 // INCLUDE HARD-CODE ROOMS AND AUTOGENERATION MODULE
 
 #include "sample_items.h"
 #include "sample_rooms.h"
 
-#include "../game-state/game.h"
-#include "../wdl/load_room.h"
 #include "../game-state/game_state_common.h"
-#include "../common/common.h"
+#include "../game-state/game.h"
+#include "../game-state/room.h"
+#include "../game-state/item.h"
 
 // ASSUME HARD-CODED ROOMS AVAILABLE FROM ANOTHER MODULE
 

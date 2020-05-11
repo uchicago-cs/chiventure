@@ -2,7 +2,7 @@ add_library(openworld
             sample_generation/sample_rooms.c
             sample_generation/sample_items.c)
 
-target_include_directories(openworld PRIVATE sample-generation/)
+target_include_directories(openworld PRIVATE sample_generation/)
 
 target_link_libraries(openworld wdl)
 target_link_libraries(openworld game-state)
