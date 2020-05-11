@@ -120,12 +120,12 @@ int delete_action_condition_llist(action_condition_list_t *conditions)
     game_action_condition_t *elt, *tmp;
     LL_FOREACH_SAFE(conditions, elt, tmp)
     {
-        switch (conditions->condition_tag)
+        switch (elt->condition_tag)
         {
         case (ATTRIBUTE):
-            free(conditions->condition.attr_type);
+            free(elt->condition.attr_type);
         case (INVENTORY):
-            free(conditions->condition.inven_type);
+            free(elt->condition.inven_type);
         }
         LL_DELETE(conditions, elt);
         free(elt);
