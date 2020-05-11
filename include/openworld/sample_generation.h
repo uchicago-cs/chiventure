@@ -5,7 +5,6 @@
  * sample_generation.h: This file: function prototypes and purposes from 
  * the functions defined in chiventure/src/sample_generation.c
  * 
- * Sprint 2: 
  * Create a high level room generation module that pulls the lower-level 
  * room generation modules together
  * 
