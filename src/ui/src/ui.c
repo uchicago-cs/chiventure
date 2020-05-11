@@ -20,14 +20,6 @@
 #define MIN_COLS 80
 #define MIN_ROWS 24
 
-void check_dimensions(int ncols, int nrows)
-{
-    if (ncols < MIN_COLS || nrows < MIN_ROWS) {
-        printf("UH OH SPAGHETTIO!")
-        endwin();
-    }
-}
-
 void start_ui(chiventure_ctx_t *ctx, const char *banner)
 {
     // prevents program from closing on CTRL+C
@@ -42,9 +34,12 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     // pressed keys are not displayed in the window
     noecho();
     // height and width of the terminal window
-    check_dimensions(COLS, LINES);
+    if (COLS < MIN_COLS || LINES < MIN_ROWS) {
+        print_to_cli(ctx, "UH OH SPAGHETTIO!\n");
+        endwin();
+    }
     int width = COLS;
-    int height = LINES /2;
+    int height = LINES / 2;
 
     window_t *map_win = window_new(height, width, 0, 0, print_map, true);
     window_t *main_win = window_new(height, width, 0, 0, print_info, true);
@@ -97,7 +92,10 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     while ((ch = wgetch(cli->w)) != 4)
     {
 
-        check_dimensions(COLS, LINES);
+        if (COLS < MIN_COLS || LINES < MIN_ROWS) {
+            print_to_cli(ctx, "UH OH SPAGHETTIO!\n");
+            endwin();
+        }
         height = LINES / 2;
         width = COLS;
 
