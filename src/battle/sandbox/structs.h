@@ -26,7 +26,7 @@ typedef struct _ilist_t ilist_t;
 struct _ilist_t
 {
 	struct item_t *item;
-    	struct ilist_t * next;
+    	struct ilist_t *next;
 };
 
 enum class{bard, cleric, paladin, wizard};
@@ -36,13 +36,16 @@ typedef struct player_t
         enum class cl;
         ilist_t inventory;
         ilist_t armor;
-        struct stats_t* stats;
+        struct stats_t *stats;
 } player_t;
 
 typedef struct enemy_t
 { 
-    char* name;
-    struct stats_t* stats;
+<<<<<<< HEAD
+    char *name;
+    struct stats_t *stats;
+    ilist_t *inventory;
+    alist_t *armor;
 } enemy_t;
 	
 #endif 
