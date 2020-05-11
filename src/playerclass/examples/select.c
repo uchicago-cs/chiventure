@@ -5,16 +5,12 @@
 #include "../../../include/game-state/player.h"
 #include "../../../include/common/utlist.h"
 
-typedef struct{
+typedef struct class{
     obj_t* info;
     // to be replaced with the stats_t object
     obj_t* stats;
+    struct class *next;
 } class_t;
-
-typedef struct class_list{
-    class_t* class;
-    class_list* next;
-} class_list;
 
 class_t* class_new(obj_t *info, obj_t *stats){
     class_t* class = (class_t*) malloc(sizeof(class_t));
@@ -31,33 +27,11 @@ int free_class(class_t* class){
     obj_free_all(class);
     return 0;
 }
-/*
-class_list* class_cons(class_t* class, class_list* list){
-    class_list* classlist = (class_list*) malloc(sizeof(class_list));
 
-    assert(classlist != NULL);
-
-    classlist->class = class;
-    classlist->next = list;
-
-    return classlist;
-}*/
-/*
-int free_class_list(class_list* list){
-    assert(list != NULL);
-    if(list->next == NULL){
-        free(list);
-    } else {
-        free_class_list(list->next);
-        free(list);
-    }
-    return 0;
-}*/
-
-int show_all_class(class_list* list){
+int show_all_class(class_t* list){
     if(list != NULL){
-        printf("Class: %s\n", list->class->info->id);
-        printf(obj_get_str(list->class->info, "shortdesc"));
+        printf("Class: %s\n", list->info->id);
+        printf(obj_get_str(list->info, "shortdesc"));
         show_all_class(list->next);
     }
     return 0;
@@ -66,7 +40,7 @@ int show_all_class(class_list* list){
 int show_class_info(class_t* class){
     assert(class != NULL);
     printf("Class: %s\n", class->info->id);
-    printf(obj_get_str(list->class->info, "longdesc"));
+    printf(obj_get_str(class->info, "longdesc"));
     return 0;
 }
 
@@ -158,16 +132,19 @@ int main(int argc, char *argv[])
 
     class_t* sorcerer;
     sorcerer = class_new(sorclass, sorstat);
+    player_t* player;
 
-    class_list* classlist = LL_PREPEND(NULL, warrior);
-    classlist = LL_PREPEND(classlist, monk);
-    classlist = LL_PREPEND(classlist, sorcerer);
+    // Setting up the list of classes loaded by Chiventure
+    class_t* classlist = warrior;
+    LL_PREPEND(classlist, monk);
+    LL_PREPEND(classlist, sorcerer);
 
+    // Starting the class selection
     show_all_class(classlist);
     printf("Showing detailed information of %s class.\n", sorcerer->info->id);
     show_class_info(sorcerer);
     printf("Are you sure you want to choose %s for your class?", sorcerer->info->id);
-    select_class(sorcerer);
+    select_class(player, sorcerer);
 
     free_class(sorcerer);
     free_class(warrior);
