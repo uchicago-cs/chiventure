@@ -66,7 +66,7 @@ int show_all_class(class_list* list){
 int show_class_info(class_t* class){
     assert(class != NULL);
     printf("Class: %s\n", class->info->id);
-    printf(obj_get_str(class->info, "longdesc"));
+    printf(obj_get_str(list->class->info, "longdesc"));
     return 0;
 }
 
@@ -78,8 +78,6 @@ int select_class(player_t* player, class_t* class){
     printf("Class set as %s\n", class->info->id);
     return 0;
 }
-
-class_list *head = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -161,17 +159,15 @@ int main(int argc, char *argv[])
     class_t* sorcerer;
     sorcerer = class_new(sorclass, sorstat);
 
-    class_list* classlist = (class_list*) malloc(sizeof(classlist));
-    classlist = LL_PREPEND(head, classlist);
+    class_list* classlist = LL_PREPEND(NULL, warrior);
     classlist = LL_PREPEND(classlist, monk);
     classlist = LL_PREPEND(classlist, sorcerer);
-    player_t* player;
 
     show_all_class(classlist);
     printf("Showing detailed information of %s class.\n", sorcerer->info->id);
     show_class_info(sorcerer);
     printf("Are you sure you want to choose %s for your class?", sorcerer->info->id);
-    select_class(player, sorcerer);
+    select_class(sorcerer);
 
     free_class(sorcerer);
     free_class(warrior);
