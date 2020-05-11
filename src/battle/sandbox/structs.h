@@ -41,11 +41,10 @@ typedef struct player_t
 
 typedef struct enemy_t
 { 
-<<<<<<< HEAD
     char *name;
     struct stats_t *stats;
     ilist_t *inventory;
-    alist_t *armor;
+    ilist_t *armor;
 } enemy_t;
 	
 #endif 
