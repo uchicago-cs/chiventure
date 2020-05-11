@@ -65,8 +65,7 @@
       ]
     }
   ], 
-  "GAME": [
-    {
+  "GAME": {
       "start": "room A", 
       "intro": "This is the intro", 
       "end": [
@@ -74,8 +73,7 @@
           "in_room": "room C"
         }
       ]
-    }
-  ], 
+  }, 
   "ROOMS": [
     {
       "connections": [
