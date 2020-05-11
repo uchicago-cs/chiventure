@@ -4,7 +4,7 @@
 #include "flow.h"
 #include "players_stats.h"
 
-//move to flow.c file?
+
 /* see enemy.h */
 int goes_first(int difficulty)
 {
@@ -29,7 +29,12 @@ int goes_first(int difficulty)
     }
 }
 
-//for use in the future when the list is implemented
+/* Creates a dumy armor list with hardcoded values
+ * 	Inputs:
+ * 		inventory - an player or enemy's inventory
+ * 		ID - the ID number of the desired item
+ * 	Outputs:
+ * 		temp->item - pointer to the desired item */
 item_t* find_item(ilist_t *inventory, int ID)
 {
 	ilist_t *temp = inventory;
@@ -49,7 +54,7 @@ item_t* find_item(ilist_t *inventory, int ID)
 	return NULL;
 }
 
-//place in battle flow?
+/* see enemy.h */
 item_t* enemy_use_item(enemy_t* e, int ID)
 {
 	if (e->inv == NULL)
@@ -72,6 +77,11 @@ item_t* enemy_use_item(enemy_t* e, int ID)
 	}
 }
 
+/* Creates a dummy stats struct with hardcoded values
+ * 	Inputs:
+ * 		None
+ * 	Outputs:
+ * 		test_stats - an initialized stats struct */
 stats_t* create_enemy_stats()
 {
     stats_t* test_stats = malloc(sizeof(stats_t));
@@ -85,6 +95,11 @@ stats_t* create_enemy_stats()
     return test_stats;
 }
 
+/* Creates a dummy inventory with hardcoded values
+ * 	Inputs:
+ * 		None
+ * 	Outputs:
+ * 		inventory - an initialized inventory */
 ilist_t* example_inventory()
 {
 	ilist_t* inventory = create_test_inventory();
@@ -105,6 +120,11 @@ ilist_t* example_inventory()
 	return inventory;
 }
 
+/* Creates a dummy armor list with hardcoded values
+ * 	Inputs:
+ * 		None
+ * 	Outputs:
+ * 		armor_list - an initialized armor_list */
 alist_t* example_armor_list() {
 	alist_t* armor_list = create_test_armor();
 	armor_t* iron_chestplate = create_armor("This heavy duty iron armor can protect you... but emphasis on the heavy...", 50, 30);
@@ -116,6 +136,7 @@ alist_t* example_armor_list() {
 	return armor_list;
 }
 
+/* see enemy.h */
 enemy_t* create_enemy_player()
 {
 	enemy_t* enemy = malloc(sizeof(enemy_t));
