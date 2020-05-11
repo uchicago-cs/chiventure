@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../structs.h"
+#include "structs.h"
 
 /*
  * Atomic Conditionals: functions to check different conditions of an action
