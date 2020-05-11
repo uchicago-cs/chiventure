@@ -176,4 +176,16 @@ int add_item_to_player(player_t *player, item_t *item);
  */
 item_list_t *get_all_items_in_inventory(player_t *player);
 
+/*
+ * Assigns a table of stats to a player
+ *
+ * Parameters:
+ *  player_id: the player's id
+ *  sh: the stats hashtable
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int assign_stats_player(char* player_id, stats_hash_t sh);
+
 #endif

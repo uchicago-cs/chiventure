@@ -66,7 +66,7 @@ int stats_init(stats_t *s, char* stats_name, int init);
  * Allocates a new stat
  *
  * Parameters:
- * stats_name: the unique string ID of the stat
+ * stats_name: the unique string ID to be given to the stat
  * init: starting value
  * 
  * Returns:
@@ -75,112 +75,91 @@ int stats_init(stats_t *s, char* stats_name, int init);
 stats_t *stats_new(char* stats_name, int init);
 
 /*
- * Assigns a table of stats to a player
+ * Changes the base value of a stat by the
+ * specified integer amount
  *
  * Parameters:
- *  player_id: the player's id
- *  sh: the stats hashtable
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int assign_stats(char* player_id, stats_hash_t sh);
-
-/*
- * Assigns a table of stats to a player
- *
- * Parameters:
- *  player_id: the player's id
- *  stat: the name of the stat
+ *  sh: the hash table of stats 
+ *  stat: the name/key of the stat
  *  change: the value to add to the stat
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int modify_stat(char* player_id, char* stat, int change);
+int modify_stat(stat_hash_t *sh, char* stat, int change);
 
 /*
  * function that gets integer value of a specified
- * stat of a player
+ * stats hash table, after calculation with modification
  *
  * Parameters:
- *  player_id: the player's id
+ *  sh: the stats hash table
  *  stat: the name of the stat
  *
  * Returns:
  *  integer value of a players stat
  */
-int get_stat(char* player_id, char* stat);
+int get_stat_current(stat_hash_t *sh, char* stat);
+
+/*
+ * function that gets integer base value of a specified
+ * stats hash table, i.e. before calculation with modification
+ *
+ * Parameters:
+ *  sh: the stats hash table
+ *  stat: the name of the stat
+ *
+ * Returns:
+ *  integer value of a players stat
+ */
+int get_stat(stat_hash_t *sh, char* stat);
+
 
 /*
  * function that gets integer value of  the modifier of 
- * a specified stat of a player
+ * a specified stat of a hashtable
  *
  * Parameters:
- *  player_id: the player's id
+ *  sh: the stats hash table
  *  stat: the name of the stat
  *
  * Returns:
  *  integer value of a players stat mod
  */
-int get_stat_mod(char* player_id, char* stat);
+int get_stat_mod(stat_hash_t *sh, char* stat);
 
 /*
- * Adds a stat to a player by adding it to just their
- * hash table
+ * Adds a stat to a stat hash table
  *
  * Parameters: 
- * player_id: the player's id
+ * sh: the stats hash table
  * s: pointer to a stats struct 
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int add_stat_player(char* player_id, stats_t *s);
+int add_stat(stats_hash_t *sh, stats_t *s);
 
 /*
- * Adds a stat to the game by adding 
- * it on every players stats hashtable
+ * Print the stats in a hashtable and their values/modifiers
  *
  * Parameters: 
- * s: pointer to a stats struct
- * 
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int add_stat_global(stats_t *s);
-
-/*
- * Displays a players stats
- *
- * Parameters: 
- * player_id: the player's ID
+ * sh: pointer to the stats hash table to be printed
  * 
  * Returns:
  *  Void
  */
-void display_stats(char* player_id);
+void display_stats(stats_hash_t *sh);
 
 /*
  * Frees a stats struct
  *
  * Parameters: 
- * s: pointer to the stats struct to be freed
+ * sh: pointer to the stats hash table to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats(stats *s);
-
-/*
- * Frees a stats struct
- *
- * Parameters: 
- * s: pointer to the stats struct to be freed
- * 
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int delete_stats(stats_hash_t *sh);
+int free_stats(stats_hash_t *sh);
 
 #endif
