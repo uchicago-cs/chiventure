@@ -125,7 +125,7 @@ typedef struct game_action_attribute_condition{
 } game_action_attribute_condition_t;
 
 typedef struct game_action_inventory_condition{
-    player_t *player_to_check;
+    //player_t *player_to_check;
     item_t *expected_item;
 } game_action_inventory_condition_t;
 
