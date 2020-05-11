@@ -5,7 +5,9 @@
 #include "../../../include/game-state/player.h"
 
 typedef struct{
-    obj_t class;
+    obj_t* info;
+    // to be replaced with the stats_t object
+    obj_t* stats;
 } class_t;
 
 typedef struct{
@@ -13,12 +15,13 @@ typedef struct{
     class_list* next;
 } class_list;
 
-class_t* class_new(obj_t obj){
+class_t* class_new(obj_t *info, obj_t *stats){
     class_t* class = (class_t*) malloc(sizeof(class_t));
     
     assert(class != NULL);
 
-    class->class = obj;
+    class->info = info;
+    class->stats = stats;
 
     return class;
 }
@@ -65,29 +68,99 @@ int select_class(player_t* player, class_t* class){
      * this function modifies the player or game struct to set
      * the player's class. */
     assert(class != NULL);
-    printf("Class set as %s\n", class->class.id);
+    printf("Class set as %s\n", class->info->id);
     return 0;
 }
 
 int main(int argc, char *argv[])
 {
-    obj_t* setclasswar;
+    // Warrior Class
+    obj_t* warclass;
+    obj_t* warstat;
 
-    setclasswar = obj_new("Warrior");
-    obj_set_str(setclasswar, "shortdesc", "Mechanically, the warrior focuses on \
+    warclass = obj_new("Warrior");
+    obj_set_str(warclass, "shortdesc", "Mechanically, the warrior focuses on \
     up-close physical damage with weapons and survives enemy attacks \
     using heavy armor.\n");
-    obj_set_str(setclasswar, "longdesc", "The warrior is the ultimate armor and \
+    obj_set_str(warclass, "longdesc", "The warrior is the ultimate armor and \
     weapons expert, relying on physical strength and years of training to \
     deal with any obstacle. Mechanically, the warrior \
     focuses on up-close physical damage with weapons and survives enemy \
     attacks using heavy armor.\n");
-    obj_set_str(setclasswar, "stats", "Warrior stats\n");
+    warstat = obj_new("Warrior stats");
+    obj_set_str(warstat, "HP", 25);
+    obj_set_str(warstat, "XP", 0);
+    obj_set_str(warstat, "speed", 10);
+    obj_set_str(warstat, "pdef", 15);
+    obj_set_str(warstat, "patk", 25);
+    obj_set_str(warstat, "ratk", 5);
+    obj_set_str(warstat, "mdef", 5);
+    obj_set_str(warstat, "matk", 5);
+    obj_set_str(warstat, "MP", 15);
 
     class_t* warrior;
-    warrior->class = *setclasswar;
+    warrior = class_new(warclass, warstat);
 
-    //Add more classes, functions, etc. 
+    // Monk Class
+    obj_t* monkclass;
+    obj_t* monkstat;
 
-    obj_free_all(setclasswar);
+    monkclass = obj_new("Monk");
+    obj_set_str(monkclass, "shortdesc", "A monk's true skill lies in dexterity \
+    and athletic training.\n");
+    obj_set_str(monkclass, "longdesc", "The monk is a martial arts master, \
+    experienced in direct hand-to-hand combat. Some monks may fight with a \
+    weapon, and others may learn to manipulate magic within the body, but a \
+    monk's true skill lies in dexterity and athletic training.\n");
+    monkstat = obj_new("Monk stats");
+    obj_set_str(monkstat, "HP", 22);
+    obj_set_str(monkstat, "XP", 0);
+    obj_set_str(monkstat, "speed", 14);
+    obj_set_str(monkstat, "pdef", 14);
+    obj_set_str(monkstat, "patk", 20);
+    obj_set_str(monkstat, "ratk", 8);
+    obj_set_str(monkstat, "mdef", 25);
+    obj_set_str(monkstat, "matk", 5);
+    obj_set_str(monkstat, "MP", 20);
+
+    class_t* monk;
+    monk = class_new(monkclass, monkstat);
+
+    // Sorcerer Class
+    obj_t* sorclass;
+    obj_t* sorstat;
+
+    sorclass = obj_new("Sorcerer");
+    obj_set_str(sorclass, "shortdesc", "The sorcerer is a pure spellcaster, \
+    useless at most physical tasks but extremely good at using magic.\n");
+    obj_set_str(sorclass, "longdesc", "Sorcerers spend their lives studying \
+    ancient magical tomes, arming themselves with spells and magical abilities \
+    for every situation. The sorcerer is a pure spellcaster, useless at most \
+    physical tasks but extremely good at using, detecting, and redirecting \
+    magic both in and out of combat.\n");
+    sorstat = obj_new("Monk stats");
+    obj_set_str(sorstat, "HP", 22);
+    obj_set_str(sorstat, "XP", 0);
+    obj_set_str(sorstat, "speed", 14);
+    obj_set_str(sorstat, "pdef", 14);
+    obj_set_str(sorstat, "patk", 20);
+    obj_set_str(sorstat, "ratk", 8);
+    obj_set_str(sorstat, "mdef", 25);
+    obj_set_str(sorstat, "matk", 5);
+    obj_set_str(sorstat, "MP", 20);
+
+    class_t* sorcerer;
+    sorcerer = class_new(sorclass, sorstat);
+
+    
+
+    free_class(sorcerer);
+    free_class(warrior);
+    free_class(monk);
+    obj_free_all(warclass);
+    obj_free_all(warstat);
+    obj_free_all(monkclass);
+    obj_free_all(monkstat);
+    obj_free_all(sorclass);
+    obj_free_all(sorstat);
 }
