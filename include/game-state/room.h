@@ -20,6 +20,8 @@ typedef struct path {
     /* direction (north/south/etc) as key */
     char *direction; // *letter case matters*
     struct room *dest;
+    /* conditions that must be met in order to be able to use the path */
+    list_action_type_t *answers;
     /* the door item in the path, which has to be
     open (attribute open is set true) to let through */
     item_t *through;
