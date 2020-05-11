@@ -1,6 +1,7 @@
 add_library(openworld
             sample_generation/sample_rooms.c
-            sample_generation/sample_items.c)
+            sample_generation/sample_items.c
+            sample_generation/sample_generation.c)
 
 target_include_directories(openworld PRIVATE sample_generation/)
 
