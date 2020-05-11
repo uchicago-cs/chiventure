@@ -25,6 +25,7 @@
 #include "sample_rooms.h"
 
 #include "../game-state/game_state_common.h"
+#include "../game-state/game_action.h"
 #include "../game-state/game.h"
 #include "../game-state/room.h"
 #include "../game-state/item.h"
