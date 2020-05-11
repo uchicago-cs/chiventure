@@ -171,7 +171,7 @@ control_block_t** controls);
  * Returns: 
  * - 0 if success, 1 if error occurs
  */  
-int branch_block_init(branch_block_t branch, (int num_conditionals, conditional_block_t**
+int branch_block_init(branch_block_t branch, int num_conditionals, conditional_block_t**
 conditionals, enum conditional_union_type conditional_union_type, int num_controls,
 control_block_t** controls);
 
