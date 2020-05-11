@@ -59,12 +59,18 @@ int enemy_attack(player_t* player, enemy_t* enemy) {
 
 /* see flow.h */
 int battle(player_t* player, enemy_t* enemy) {
-    char* attack;
+    int i;
+    char* attack = malloc(sizeof(char));;
     while(enemy->stats->hp > 0) {
         printf("Use Attack: ");
-        scanf("%s",attack);
-        use_attack(attack, enemy);
-        enemy_attack(player, enemy);
+        i = scanf("%s", attack);
+        if(i <= 0) {
+            fprintf(stderr, "scanf did not scan correctly\n");
+            exit(1);
+        } else {
+            use_attack(attack, enemy);
+            enemy_attack(player, enemy);
+        }
     }
     return 0; 
 }
