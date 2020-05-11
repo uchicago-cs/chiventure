@@ -4,54 +4,83 @@
 #define STRUCTS_H
 
 
-typedef struct stats_t
+typedef struct
 {       
         int speed;
         int strength;
         int dexterity;
         int hp;
+	int max_hp;
         int xp;
 } stats_t;
 
-struct item_t
+typedef struct
 {
+	int id;
+	int quantity;
+	int durability;
         char* description;
         bool battle;
         int attack;
         int defense;
+	int hp;
 } item_t;
+
+typedef struct
+{
+	char* description;
+	int defense;
+	int weight;
+} armor_t;
 
 
 typedef struct _ilist_t ilist_t;
 struct _ilist_t
 {
-	struct item_t *item;
-    	struct ilist_t *next;
+	item_t *item;
+    	ilist_t *next;
 };
 
 typedef struct _alist_t alist_t;
 struct _alist_t
 {
-	struct armor_t *armor;
-    	struct alist_t *next;
+	armor_t *armor;
+	alist_t *next;
 };
 
 enum class{bard, cleric, paladin, wizard};
 
-typedef struct player_t
+typedef struct
 {
         enum class cl;
-        ilist_t inventory;
-        ilist_t armor;
-        struct stats_t *stats;
+        ilist_t *inventory;
+        alist_t *armor;
+        stats_t *stats;
 } player_t;
 
-typedef struct enemy_t
+typedef struct
 { 
     char *name;
-    struct stats_t *stats;
-    ilist_t *inventory;
-    alist_t *armor;
+    stats_t *stats;
+    enum class cl;
+    ilist_t inventory;
+    alist_t armor;
 } enemy_t;
+
+typedef struct
+{
+	item_t *item;
+	bool attack;
+	int damage;
+	int defense;
+} move_t;
+
+typedef struct _mlist_t mlist_t;
+struct _mlist_t
+{
+	move_t *move;
+	mlist_t *next;
+};
+	
 	
 #endif 
