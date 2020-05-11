@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "../../../include/libobj/obj.h"
-#include "../../../include/game-state/player.h"
-#include "../../../include/common/utlist.h"
+#include "libobj/obj.h"
+#include "game-state/player.h"
+#include "common/utlist.h"
 
 typedef struct class{
     obj_t* info;
@@ -24,14 +24,16 @@ class_t* class_new(obj_t *info, obj_t *stats){
 }
 
 int free_class(class_t* class){
-    obj_free_all(class);
+    obj_free_all(class->info);
+    obj_free_all(class->stats);
+    free(class);
     return 0;
 }
 
 int show_all_class(class_t* list){
     if(list != NULL){
         printf("Class: %s\n", list->info->id);
-        printf(obj_get_str(list->info, "shortdesc"));
+        printf("%s", obj_get_str(list->info, "shortdesc"));
         show_all_class(list->next);
     }
     return 0;
@@ -40,7 +42,7 @@ int show_all_class(class_t* list){
 int show_class_info(class_t* class){
     assert(class != NULL);
     printf("Class: %s\n", class->info->id);
-    printf(obj_get_str(class->info, "longdesc"));
+    printf("%s", obj_get_str(class->info, "longdesc"));
     return 0;
 }
 
@@ -53,7 +55,7 @@ int select_class(player_t* player, class_t* class){
     return 0;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     // Warrior Class
     obj_t* warclass;
