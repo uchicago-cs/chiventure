@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "structs.h"
 #include "flow.h"
-#include "player_stats.h"
+#include "players_stats.h"
 
 //move to flow.c file?
 /* see enemy.h */

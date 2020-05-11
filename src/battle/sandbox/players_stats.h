@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <string.h>
+#include "structs.h"
 #ifndef PLAYERSTATS_H
 #define PLAYERSTATS_H
 

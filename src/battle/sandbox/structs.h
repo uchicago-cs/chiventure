@@ -44,7 +44,7 @@ typedef struct enemy_t
     char *name;
     struct stats_t *stats;
     ilist_t *inventory;
-    ilist_t *armor;
+    alist_t *armor;
 } enemy_t;
 	
 #endif 
