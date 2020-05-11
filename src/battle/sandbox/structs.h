@@ -29,6 +29,13 @@ struct _ilist_t
     	struct ilist_t *next;
 };
 
+typedef struct _alist_t alist_t;
+struct _alist_t
+{
+	struct armor_t *armor;
+    	struct alist_t *next;
+};
+
 enum class{bard, cleric, paladin, wizard};
 
 typedef struct player_t
