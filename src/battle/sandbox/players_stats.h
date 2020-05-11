@@ -5,9 +5,7 @@
 #define PLAYERSTATS_H
 
 /* Creates a new item and initializes its parameters */
-item_t* new_item(int ID, int quantity, int durability, 
-				char* description, bool battle, int attack,
-				int defense, int hp);
+item_t *create_item(int id, int quan, int durab, char* descrip, bool bat, int attack, int defense, int hp);
 
 /* Adds an item to a player's inventory */
 ilist_t *add_item_to_inventory(ilist_t *inv, item_t *item);

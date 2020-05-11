@@ -50,24 +50,24 @@ item_t* find_item(ilist_t *inventory, int ID)
 }
 
 //place in battle flow?
-item_t* enemy_use_item(enemy_t* e, player_t* p, int ID)
+item_t* enemy_use_item(enemy_t* e, int ID)
 {
 	if (e->inv == NULL)
 	{
 		fprintf(stderr, "Noooo! Your inventory is empty!");
+		return NULL;
 	}
 	item_t *desired_item = malloc(sizeof(item_t));
 	desired_item = find_item(e->inv, ID);
 	if (desired_item->quantity == 0)
 	{
 		fprintf(stderr, "ARGH!! You don't have any!");
+		return desired_item;
 	}
 	else
 	{
 		desired_item->quantity -= 1;
 		desired_item->durability -= 1;
-		hurt_player(desired_item->attack, p);
-		heal_enemy(desired_item->hp, e);
         return desired_item;
 	}
 }
@@ -88,14 +88,14 @@ stats_t* create_enemy_stats()
 ilist_t* example_inventory()
 {
 	ilist_t* inventory = create_test_inventory();
-	item_t* dagger = new_item(1, 1, 20, "A hearty dagger sure to take your breath away... for good",
+	item_t* dagger = create_item(1, 1, 20, "A hearty dagger sure to take your breath away... for good",
 	true, 20, 5, 0);
-	item_t* tea_leaves = new_item(2, 1, 1, "Make yourself a warm cup of tea to heal your wounds!", true,
+	item_t* tea_leaves = create_item(2, 1, 1, "Make yourself a warm cup of tea to heal your wounds!", true,
 	0, 0, 10);
-	item_t* medicine = new_item(3, 1, 1, "A first aid kit, straight from your doctor!", true, 0, 0, 30);
-	item_t* mace = new_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true, 0, -30, 0);
-	item_t* diamond_sword = new_item(5, 1, 50, "Brings quick death to those who dare battle you...", true, 20, 0, 0);
-	item_t* force_shield = new_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move", true, 0, 30, 5);
+	item_t* medicine = create_item(3, 1, 1, "A first aid kit, straight from your doctor!", true, 0, 0, 30);
+	item_t* mace = create_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true, 0, -30, 0);
+	item_t* diamond_sword = create_item(5, 1, 50, "Brings quick death to those who dare battle you...", true, 20, 0, 0);
+	item_t* force_shield = create_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move", true, 0, 30, 5);
 	add_item_to_inventory(inventory, dagger);
 	add_item_to_inventory(inventory, tea_leaves);
 	add_item_to_inventory(inventory, medicine);
@@ -107,9 +107,9 @@ ilist_t* example_inventory()
 
 alist_t* example_armor_list() {
 	alist_t* armor_list = create_test_armor();
-	armor_t* iron_chestplate = new_armor("This heavy duty iron armor can protect you... but emphasis on the heavy...", 50, 30);
-	armor_t* leather_chestplate = new_armor("Readily available, readily pierceable...", 10, 5);
-	armor_t* chain_chestplate = new_armor("Good for protection, good for making noise", 30, 15);
+	armor_t* iron_chestplate = create_armor("This heavy duty iron armor can protect you... but emphasis on the heavy...", 50, 30);
+	armor_t* leather_chestplate = create_armor("Readily available, readily pierceable...", 10, 5);
+	armor_t* chain_chestplate = create_armor("Good for protection, good for making noise", 30, 15);
 	add_armor(armor_list, iron_chestplate);
 	add_armor(armor_list, leather_chestplate);
 	add_armor(armor_list, chain_chestplate);
