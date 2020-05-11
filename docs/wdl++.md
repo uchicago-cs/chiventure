@@ -8,7 +8,7 @@ The new WDL++ specification stores game files as an archive (using `libzip`, hen
 
 An overview of the directory structure:
 
-<img src="wdz_structure.png" alt="An image of the directory structure of a .wdz file" style="zoom:40%;" />
+<img src="wdz_structure.png" alt="An image of the directory structure of a .wdz file" style="width:40%;" />
 
 Note that the names and file extensions, e.g.`bg_room_A.png`  or `snd_lose.wav` are placeholders for now. The asset file formats to be used will depend on the implementations of the graphics and audio teams down the line.
 
@@ -40,8 +40,8 @@ The top level is a JSON object:
 
 ```json
 "player": {
-    start_room: "my_room_id",
-    intro_text: "lorem ipsum dolor sit amet, welcome to the game",
+    "start_room": "my_room_id",
+    "intro_text": "lorem ipsum dolor sit amet, welcome to the game",
     ...
 }
 ```
