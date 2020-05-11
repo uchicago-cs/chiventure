@@ -33,7 +33,7 @@ int free_class(class_t* class){
 int show_all_class(class_t* list){
     if(list != NULL){
         printf("Class: %s\n", list->info->id);
-        printf("%s", obj_get_str(list->info, "shortdesc"));
+        printf("    %s\n", obj_get_str(list->info, "shortdesc"));
         show_all_class(list->next);
     }
     return 0;
@@ -42,7 +42,7 @@ int show_all_class(class_t* list){
 int show_class_info(class_t* class){
     assert(class != NULL);
     printf("Class: %s\n", class->info->id);
-    printf("%s", obj_get_str(class->info, "longdesc"));
+    printf("    %s\n", obj_get_str(class->info, "longdesc"));
     return 0;
 }
 
@@ -63,13 +63,13 @@ int main()
 
     warclass = obj_new("Warrior");
     obj_set_str(warclass, "shortdesc", "Mechanically, the warrior focuses on \
-    up-close physical damage with weapons and survives enemy attacks \
-    using heavy armor.\n");
+up-close physical damage with weapons and survives enemy attacks \
+using heavy armor.\n");
     obj_set_str(warclass, "longdesc", "The warrior is the ultimate armor and \
-    weapons expert, relying on physical strength and years of training to \
-    deal with any obstacle. Mechanically, the warrior \
-    focuses on up-close physical damage with weapons and survives enemy \
-    attacks using heavy armor.\n");
+weapons expert, relying on physical strength and years of training to \
+deal with any obstacle. Mechanically, the warrior \
+focuses on up-close physical damage with weapons and survives enemy \
+attacks using heavy armor.\n");
     warstat = obj_new("Warrior stats");
     obj_set_int(warstat, "HP", 25);
     obj_set_int(warstat, "XP", 0);
@@ -90,11 +90,11 @@ int main()
 
     monkclass = obj_new("Monk");
     obj_set_str(monkclass, "shortdesc", "A monk's true skill lies in dexterity \
-    and athletic training.\n");
+and athletic training.\n");
     obj_set_str(monkclass, "longdesc", "The monk is a martial arts master, \
-    experienced in direct hand-to-hand combat. Some monks may fight with a \
-    weapon, and others may learn to manipulate magic within the body, but a \
-    monk's true skill lies in dexterity and athletic training.\n");
+experienced in direct hand-to-hand combat. Some monks may fight with a \
+weapon, and others may learn to manipulate magic within the body, but a \
+monk's true skill lies in dexterity and athletic training.\n");
     monkstat = obj_new("Monk stats");
     obj_set_int(monkstat, "HP", 22);
     obj_set_int(monkstat, "XP", 0);
@@ -115,12 +115,12 @@ int main()
 
     sorclass = obj_new("Sorcerer");
     obj_set_str(sorclass, "shortdesc", "The sorcerer is a pure spellcaster, \
-    useless at most physical tasks but extremely good at using magic.\n");
+useless at most physical tasks but extremely good at using magic.\n");
     obj_set_str(sorclass, "longdesc", "Sorcerers spend their lives studying \
-    ancient magical tomes, arming themselves with spells and magical abilities \
-    for every situation. The sorcerer is a pure spellcaster, useless at most \
-    physical tasks but extremely good at using, detecting, and redirecting \
-    magic both in and out of combat.\n");
+ancient magical tomes, arming themselves with spells and magical abilities \
+for every situation. The sorcerer is a pure spellcaster, useless at most \
+physical tasks but extremely good at using, detecting, and redirecting \
+magic both in and out of combat.\n");
     sorstat = obj_new("Monk stats");
     obj_set_int(sorstat, "HP", 22);
     obj_set_int(sorstat, "XP", 0);
@@ -143,18 +143,13 @@ int main()
 
     // Starting the class selection
     show_all_class(classlist);
+    printf("\n");
     printf("Showing detailed information of %s class.\n", sorcerer->info->id);
     show_class_info(sorcerer);
-    printf("Are you sure you want to choose %s for your class?", sorcerer->info->id);
+    printf("Are you sure you want to choose %s for your class?\n", sorcerer->info->id);
     select_class(player, sorcerer);
 
     free_class(sorcerer);
     free_class(warrior);
     free_class(monk);
-    obj_free_all(warclass);
-    obj_free_all(warstat);
-    obj_free_all(monkclass);
-    obj_free_all(monkstat);
-    obj_free_all(sorclass);
-    obj_free_all(sorstat);
 }
