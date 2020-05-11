@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "../../../include/libobj/obj.h"
 #include "../../../include/game-state/player.h"
+#include "../../../include/common/utlist.h"
 
 typedef struct{
     obj_t* info;
@@ -10,7 +11,7 @@ typedef struct{
     obj_t* stats;
 } class_t;
 
-typedef struct{
+typedef struct class_list{
     class_t* class;
     class_list* next;
 } class_list;
@@ -30,7 +31,7 @@ int free_class(class_t* class){
     obj_free_all(class);
     return 0;
 }
-
+/*
 class_list* class_cons(class_t* class, class_list* list){
     class_list* classlist = (class_list*) malloc(sizeof(class_list));
 
@@ -40,8 +41,8 @@ class_list* class_cons(class_t* class, class_list* list){
     classlist->next = list;
 
     return classlist;
-}
-
+}*/
+/*
 int free_class_list(class_list* list){
     assert(list != NULL);
     if(list->next == NULL){
@@ -51,15 +52,21 @@ int free_class_list(class_list* list){
         free(list);
     }
     return 0;
-}
+}*/
 
 int show_all_class(class_list* list){
-    //TODO
+    if(list != NULL){
+        printf("Class: %s\n", list->class->info->id);
+        printf(obj_get_str(list->class->info, "shortdesc"));
+        show_all_class(list->next);
+    }
     return 0;
 }
 
 int show_class_info(class_t* class){
-    //TODO
+    assert(class != NULL);
+    printf("Class: %s\n", class->info->id);
+    printf(obj_get_str(list->class->info, "longdesc"));
     return 0;
 }
 
@@ -88,15 +95,15 @@ int main(int argc, char *argv[])
     focuses on up-close physical damage with weapons and survives enemy \
     attacks using heavy armor.\n");
     warstat = obj_new("Warrior stats");
-    obj_set_str(warstat, "HP", 25);
-    obj_set_str(warstat, "XP", 0);
-    obj_set_str(warstat, "speed", 10);
-    obj_set_str(warstat, "pdef", 15);
-    obj_set_str(warstat, "patk", 25);
-    obj_set_str(warstat, "ratk", 5);
-    obj_set_str(warstat, "mdef", 5);
-    obj_set_str(warstat, "matk", 5);
-    obj_set_str(warstat, "MP", 15);
+    obj_set_int(warstat, "HP", 25);
+    obj_set_int(warstat, "XP", 0);
+    obj_set_int(warstat, "speed", 10);
+    obj_set_int(warstat, "pdef", 15);
+    obj_set_int(warstat, "patk", 25);
+    obj_set_int(warstat, "ratk", 5);
+    obj_set_int(warstat, "mdef", 5);
+    obj_set_int(warstat, "matk", 5);
+    obj_set_int(warstat, "MP", 15);
 
     class_t* warrior;
     warrior = class_new(warclass, warstat);
@@ -113,15 +120,15 @@ int main(int argc, char *argv[])
     weapon, and others may learn to manipulate magic within the body, but a \
     monk's true skill lies in dexterity and athletic training.\n");
     monkstat = obj_new("Monk stats");
-    obj_set_str(monkstat, "HP", 22);
-    obj_set_str(monkstat, "XP", 0);
-    obj_set_str(monkstat, "speed", 14);
-    obj_set_str(monkstat, "pdef", 14);
-    obj_set_str(monkstat, "patk", 20);
-    obj_set_str(monkstat, "ratk", 8);
-    obj_set_str(monkstat, "mdef", 25);
-    obj_set_str(monkstat, "matk", 5);
-    obj_set_str(monkstat, "MP", 20);
+    obj_set_int(monkstat, "HP", 22);
+    obj_set_int(monkstat, "XP", 0);
+    obj_set_int(monkstat, "speed", 14);
+    obj_set_int(monkstat, "pdef", 14);
+    obj_set_int(monkstat, "patk", 20);
+    obj_set_int(monkstat, "ratk", 8);
+    obj_set_int(monkstat, "mdef", 25);
+    obj_set_int(monkstat, "matk", 5);
+    obj_set_int(monkstat, "MP", 20);
 
     class_t* monk;
     monk = class_new(monkclass, monkstat);
@@ -139,20 +146,28 @@ int main(int argc, char *argv[])
     physical tasks but extremely good at using, detecting, and redirecting \
     magic both in and out of combat.\n");
     sorstat = obj_new("Monk stats");
-    obj_set_str(sorstat, "HP", 22);
-    obj_set_str(sorstat, "XP", 0);
-    obj_set_str(sorstat, "speed", 14);
-    obj_set_str(sorstat, "pdef", 14);
-    obj_set_str(sorstat, "patk", 20);
-    obj_set_str(sorstat, "ratk", 8);
-    obj_set_str(sorstat, "mdef", 25);
-    obj_set_str(sorstat, "matk", 5);
-    obj_set_str(sorstat, "MP", 20);
+    obj_set_int(sorstat, "HP", 22);
+    obj_set_int(sorstat, "XP", 0);
+    obj_set_int(sorstat, "speed", 14);
+    obj_set_int(sorstat, "pdef", 14);
+    obj_set_int(sorstat, "patk", 20);
+    obj_set_int(sorstat, "ratk", 8);
+    obj_set_int(sorstat, "mdef", 25);
+    obj_set_int(sorstat, "matk", 5);
+    obj_set_int(sorstat, "MP", 20);
 
     class_t* sorcerer;
     sorcerer = class_new(sorclass, sorstat);
 
-    
+    class_list* classlist = LL_PREPEND(NULL, warrior);
+    classlist = LL_PREPEND(classlist, monk);
+    classlist = LL_PREPEND(classlist, sorcerer);
+
+    show_all_class(classlist);
+    printf("Showing detailed information of %s class.\n", sorcerer->info->id);
+    show_class_info(sorcerer);
+    printf("Are you sure you want to choose %s for your class?", sorcerer->info->id);
+    select_class(sorcerer);
 
     free_class(sorcerer);
     free_class(warrior);
