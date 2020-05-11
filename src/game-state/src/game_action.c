@@ -154,18 +154,6 @@ game_action_condition_t *attribute_condition_new(item_t *item_to_modify, attribu
     return condition_wrapper;
 }
 
-bool check_condition(game_action_condition_t *condition)
-{
-    switch (condition->condition_tag)
-    {
-    case (ATTRIBUTE):
-        return check_attribute_condition(condition->condition.attr_type);
-    case (INVENTORY):
-        //TODO
-        return false;
-    }
-}
-
 /* see game_action.h */
 bool check_attribute_condition(game_action_attribute_condition_t *condition)
 {
@@ -239,6 +227,18 @@ int all_conditions_met(item_t *item, char *action_name)
     }
 
     return SUCCESS;
+}
+
+bool check_condition(game_action_condition_t *condition)
+{
+    switch (condition->condition_tag)
+    {
+    case (ATTRIBUTE):
+        return check_attribute_condition(condition->condition.attr_type);
+    case (INVENTORY):
+        //TODO
+        return false;
+    }
 }
 
 // ------------------------------------- EFFECTS -------------------------------------

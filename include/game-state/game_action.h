@@ -98,7 +98,7 @@ int delete_action_condition_llist(action_condition_list_t *conditions);
  * Returns:
  *  NULL if item or attribute are NULL, the new condition if succcessful
  */
-game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
+game_action_condition_t *attribute_condition_new(item_t *item_to_modify, attribute_t *attribute,
 				       attribute_value_t new_value);
 
 /* check_condition() checks if the actual attribute of an item is equal
