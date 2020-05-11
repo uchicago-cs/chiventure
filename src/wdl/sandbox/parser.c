@@ -3,8 +3,7 @@
 #include <string.h>
 #include <assert.h>
 
-/* necessary includes to use JSON-C */
-#include <json-c/json.h>
+#include "parser.h"
 
 /* DEBUG is 0 normally, 1 to print debugging statements */
 #define DEBUG 1
@@ -20,7 +19,7 @@ int my_print(char *string) {
 
 }
 
-int main() {
+json_object *parse(char* filename) {
    FILE *fp;
    char buffer[4096];
    
@@ -34,7 +33,7 @@ int main() {
    struct json_object *intro;
 
    /* reads the input file */
-   fp = fopen("connected_rooms.json", "r");
+   fp = fopen(filename, "r");
    assert(fp);
    fread(buffer, 4096, 1, fp);
    fclose(fp);
@@ -55,5 +54,19 @@ int main() {
 
    my_print("Intro:");
    my_print((char*)json_object_get_string(intro));
+
+   return game_document;
+
+}
+
+int main(int argc, char **argv) {
+
+    if(argc > 1) {
+
+         parse(argv[1]);
+
+    }
+
+    return 0;
 
 }
