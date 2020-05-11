@@ -10,7 +10,7 @@
  *  OUTPUT:
  *  Returns 0 to show end of game
  */
-int start_game(player_t player, enemy_t enemy);
+int start_game(player_t *player, enemy_t *enemy);
 
 /* Commences battle 
  * PARAMETERS:
@@ -19,4 +19,4 @@ int start_game(player_t player, enemy_t enemy);
  * OUTPUT:
  * returns 1 when battle is over or 0 when still in progress
  */
-int battle(player_t player, enemy_t enemy);
+int battle(player_t *player, enemy_t *enemy);

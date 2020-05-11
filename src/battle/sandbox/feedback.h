@@ -6,7 +6,7 @@
  * RETURNS:
  *    1 indicating successful print
  */
-int announce_game(enemy_t e);
+int announce_game(enemy_t* e);
 
 /* Prints out the attack used
  * PARAMETERS:
@@ -15,7 +15,7 @@ int announce_game(enemy_t e);
  *  RETURNS:
  *    1 for success
  */
-int announce_attack(char* attack, enemy_t e);
+int announce_attack(char* attack, enemy_t* e);
 
 /* Prints out the amount of damage a move did
  * PARAMETERS:

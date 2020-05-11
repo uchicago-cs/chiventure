@@ -4,7 +4,7 @@
 #define STRUCTS_H
 
 
-struct stats_t
+typedef struct stats_t
 {       
         int speed;
         int strength;
@@ -21,6 +21,7 @@ struct item_t
         int defense;
 } item_t;
 
+
 typedef struct _ilist_t ilist_t;
 struct _ilist_t
 {
@@ -30,17 +31,18 @@ struct _ilist_t
 
 enum class{bard, cleric, paladin, wizard};
 
-struct player_t
+typedef struct player_t
 {
         enum class cl;
         ilist_t inventory;
         ilist_t armor;
+        struct stats_t* stats;
 } player_t;
 
-struct enemy_t
+typedef struct enemy_t
 { 
-    char *name;
-    stats_t *stats;
-};
+    char* name;
+    struct stats_t* stats;
+} enemy_t;
 	
 #endif 
