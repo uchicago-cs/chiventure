@@ -8,7 +8,7 @@ The new WDL++ specification stores game files as an archive (using `libzip`, hen
 
 An overview of the directory structure:
 
-<img src="wdz_structure.png" alt="An image of the directory structure of a .wdz file" style="width:40%;" />
+<img src="wdz_structure.png" alt="An image of the directory structure of a .wdz file" width="40%" />
 
 Note that the names and file extensions, e.g.`bg_room_A.png`  or `snd_lose.wav` are placeholders for now. The asset file formats to be used will depend on the implementations of the graphics and audio teams down the line.
 
@@ -115,13 +115,68 @@ where
 
 This file contains definitions for each of the game's "action sequences". (Essentially, functions that compose and sequence a set of atomic actions).
 
-Documentation WIP! TODO: Add JSON obj example, and a list of acceptable atomic actions  and syntax to use when defining action sequences.
+The top level is a JSON list of objects, where each object specifies an action:
+
+```json
+"actions": [
+    {
+        "id": "my_action_id",
+        "sequence": [
+            {"block": "block_here", "args": "args_here"}
+        ],
+        ...
+    }
+]
+```
+where
+- `id`: the ID of the action.
+- `sequence`: The sequence of atomic actions to be carried out (a list of acceptable atomic actions and their syntax can be found on the custom actions wiki page, but an abbreviated version follows)
+  - `block`: The name of the atomic action.
+  - `args`: The arguments to that atomic action.
+
+Acceptable Atomic Actions:
+TODO
+
+Documentation WIP! TODO: Add a list of acceptable atomic actions  and syntax to use when defining action sequences.
 
 ### `globalconditions.json`
 
-This file contains definitions for each of the game's "global conditions" (conditions that are checked after every player action and can trigger an action on fulfillment)
+This file contains definitions for each of the game's "global conditions" (conditions that are checked after every player action and can trigger an action on fulfillment).
 
-Documentation WIP
+The top level is a JSON list of objects, where each object specifies a condition:
+
+
+Documentation WIP 
+
+```json
+"globalconditions": [
+    {
+        "id": "my_condition_id",
+        "req_attributes": [
+            {"object_file": "object_file_here", "object_id": "object_id_here", 
+             "attribute_id": "attribute_id_here", "value": "value_here",}
+        ],
+        "met": "has_been_met?",
+        "actions": [
+            {"action_id": "action_id_here", "params": ""}
+        ]
+        ...
+    }
+]
+```
+
+where
+
+- `id` : The condition ID.
+- `req_attributes`: The list of attribute values that must be matched for the condition to be met.
+    - `object_file`: The file containing the object and attribute- e.g. `items.json`
+    - `object_id`: The ID of the object containing the attribute to be checked- e.g. `lever`
+    - `attribute_id`: The ID of the attribute to be checked- e.g. `pulled`
+    - `value`: The value that the attribute must have for the condition to pass- e.g. `yes`
+- `met`: A flag to note if the condition has been met. Valid values are `yes` or `no`.
+- `actions`: The list of actions to be carried out if the condition has been met- can be empty. 
+    - `action_id`: The ID of the action.
+    - `params`: The parameters to pass into the action (see Custom Actions documentation)
 
 ### `npcs.json`
 
@@ -145,7 +200,27 @@ Other files can be added by other teams, if the need arises to store more attrib
 
 ## Function interface
 
-The interface for other teams and feature branches to access WDL++ data.
+(WIP)
 
-Documentation WIP.
+The interface for other teams and feature branches to access WDL++ data. Our current prototype for the interface includes two functions:
+
+
+`object_t wdl_get_obj(objFile, objID)`
+
+Params:
+-`objFile` : The filename of the file containing the object- e.g. `items.json`
+-`objID` : The object ID within the specified file- e.g. `door`
+Returns:
+- The specified JSON object.
+
+`asset_t wdl_get_asset(assetType, assetName)`
+
+Params:
+- `assetType` : The type of the requested asset- e.g. `graphics` or `sounds`
+- `assetName` : The filename of the requested asset- e.g `bg_room_A.png`
+Returns:
+- The requested asset.
+
+These functions would allow other teams to interact with entire JSON objects within their code, adding and changing attributes as they see fit, as well as directly interacting with media assets within the .wdz file.
+
 
