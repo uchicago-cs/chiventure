@@ -1,5 +1,5 @@
-#ifndef _ITEM_H
-#define _ITEM_H
+#ifndef _SAMPLE_ITEM_H
+#define _SAMPLE_ITEM_H
 
 #include "../game-state/game_state_common.h"
 #include "sample_items.h"
@@ -95,4 +95,4 @@ int item_free(item_t *item_tofree);
 
 
 
-#endif
+#endif /* _SAMPLE_ITEM_H */

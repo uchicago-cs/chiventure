@@ -1,5 +1,5 @@
-#ifndef _ROOM_H
-#define _ROOM_H
+#ifndef _SAMPLE_ROOM_H
+#define _SAMPLE_ROOM_H
 
 #include "../game-state/game_state_common.h"
 #include "sample_items.h"
@@ -138,4 +138,4 @@ item_hash_t* list_items(room_t *room);
 */
 path_t *list_paths(room_t *room);
 
-#endif
+#endif /* _SAMPLE_ROOM_H */
