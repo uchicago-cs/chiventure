@@ -15,9 +15,8 @@ typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
     UT_hash_handle hh;
     char *player_id;
-    stats_t* level;
-    stats_t* health;
-    stats_t* xp;
+    stats_hash_t *player_stats;
+    effects_hash_t *player_effects;
     item_hash_t *inventory;
 } player_t;
 
