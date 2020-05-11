@@ -208,7 +208,9 @@ The interface for other teams and feature branches to access WDL++ data. Our cur
 `object_t wdl_get_obj(objFile, objID)`
 
 Params:
+
 -`objFile` : The filename of the file containing the object- e.g. `items.json`
+
 -`objID` : The object ID within the specified file- e.g. `door`
 
 Returns:
