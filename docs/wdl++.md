@@ -210,6 +210,7 @@ The interface for other teams and feature branches to access WDL++ data. Our cur
 Params:
 -`objFile` : The filename of the file containing the object- e.g. `items.json`
 -`objID` : The object ID within the specified file- e.g. `door`
+
 Returns:
 - The specified JSON object.
 
@@ -218,6 +219,7 @@ Returns:
 Params:
 - `assetType` : The type of the requested asset- e.g. `graphics` or `sounds`
 - `assetName` : The filename of the requested asset- e.g `bg_room_A.png`
+
 Returns:
 - The requested asset.
 
