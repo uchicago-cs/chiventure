@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "item.h"
 
 /* Struct to represent the type of a block */
 typedef union block {
@@ -52,23 +53,6 @@ typedef struct conditional_block {
     attribute_t* right;
 } conditional_block_t;
 
-/* A block that serves as a wrapper for a single primitive value */
-typedef union attribute_value {
-    double double_val;
-    char char_val;
-    bool bool_val;
-    char* str_val;
-    int int_val;
-} attribute_value_t;
-
-/* A block that contains a single primitive value, as well as the type 
-belonging to that value */
-typedef struct attribute {
-    attribute_value_t value;
-    attribute_type attribute_type;
-    char* name;
-} attribute_t;
-
 /* 
  * Allocates an AST block in the heap. 
  * 
@@ -79,7 +63,7 @@ typedef struct attribute {
  * Returns: 
  * - A block. 
  */
-AST_block_t AST_block_new(block_t block, enum block_type block_type);
+AST_block_t* AST_block_new(block_t block, enum block_type block_type);
 
 /* 
  * Initializes an AST block. 
@@ -89,9 +73,9 @@ AST_block_t AST_block_new(block_t block, enum block_type block_type);
  * - block, block_type: parameters that define the block
  * 
  * Returns: 
- * - 0 if success, 1 if error occurs
+ * - SUCCESS if success, FAILURE if error occurs
  */
-int AST_block_init(AST_block_t ast, block_t block, enum block_type block_type);
+int AST_block_init(AST_block_t *ast, block_t block, enum block_type block_type);
 
 /* 
  * Frees an AST block. 
@@ -102,7 +86,7 @@ int AST_block_init(AST_block_t ast, block_t block, enum block_type block_type);
  * Returns: 
  * - Always returns 0. 
  */
-int AST_block_free(AST_block_t ast);
+int AST_block_free(AST_block_t *ast);
 
 /* 
  * Allocates a control block in the heap. 
@@ -114,7 +98,7 @@ int AST_block_free(AST_block_t ast);
  * Returns: 
  * - A control block. 
  */  
-control_block_t control_block_new(enum control_type control_type, AST_block *next);
+control_block_t* control_block_new(enum control_type control_type, AST_block *next);
 
 /* 
  * Initializes a control block. 
@@ -124,9 +108,9 @@ control_block_t control_block_new(enum control_type control_type, AST_block *nex
  * - Control type, first AST block in sequence: parameters that define the control block
  * 
  * Returns: 
- * - 0 if success, 1 if error occurs
+ * - SUCCESS if success, FAILURE if error occurs
  */  
-int control_block_init(control_block_t control, enum control_type control_type,
+int control_block_init(control_block_t *control, enum control_type control_type,
 AST_block *next);
 
 /* 
@@ -138,7 +122,7 @@ AST_block *next);
  * Returns: 
  * - Always returns 0. 
  */  
-int control_block_free(control_block_t control);
+int control_block_free(control_block_t *control);
 
 /* 
  * Allocates a branch block in the heap. 
@@ -153,7 +137,7 @@ int control_block_free(control_block_t control);
  * Returns: 
  * - A branch block. 
  */  
-branch_block_t branch_block_new(int num_conditionals, conditional_block_t** 
+branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
 conditionals, enum conditional_union_type conditional_union_type, int num_controls, 
 control_block_t** controls);
 
@@ -169,9 +153,9 @@ control_block_t** controls);
  * - enum representing the conditional type   
  * 
  * Returns: 
- * - 0 if success, 1 if error occurs
+ * - SUCCESS if success, FAILURE if error occurs
  */  
-int branch_block_init(branch_block_t branch, int num_conditionals, conditional_block_t**
+int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t**
 conditionals, enum conditional_union_type conditional_union_type, int num_controls,
 control_block_t** controls);
 
@@ -184,7 +168,7 @@ control_block_t** controls);
  * Returns: 
  * - Always returns 0. 
  */  
-int branch_block_free(branch_block_t branch);
+int branch_block_free(branch_block_t *branch);
 
 /* 
  * Allocates an action block in the heap. 
@@ -198,7 +182,7 @@ int branch_block_free(branch_block_t branch);
  * Returns: 
  * - An action block. 
  */
-action_block_t action_block_new(enum action_type action_type, int num_args, 
+action_block_t* action_block_new(enum action_type action_type, int num_args, 
 attribute_t** args, AST_block *next);
 
 /* 
@@ -212,9 +196,9 @@ attribute_t** args, AST_block *next);
  * - enum representing the action type    
  * 
  * Returns: 
- * - 0 if success, 1 if error occurs
+ * - SUCCESS if success, FAILURE if error occurs
  */
-int action_block_init(action_block_t action, enum action_type action_type, int num_args, 
+int action_block_init(action_block_t *action, enum action_type action_type, int num_args, 
 attribute_t** args, AST_block *next);
 
 /* 
@@ -226,7 +210,7 @@ attribute_t** args, AST_block *next);
  * Returns: 
  * - Always returns 0. 
  */
-int action_block_free(action_block_t branch);  
+int action_block_free(action_block_t *branch);  
 
 /* 
  * Allocates a conditional block in the heap. 
@@ -239,7 +223,7 @@ int action_block_free(action_block_t branch);
  * Returns: 
  * - A conditional block. 
  */
-conditional_block_t conditional_block_new(enum conditional_type conditional_type, 
+conditional_block_t* conditional_block_new(enum conditional_type conditional_type, 
 attribute_t* left, attribute_t* right);
 
 /* 
@@ -252,9 +236,9 @@ attribute_t* left, attribute_t* right);
  * - enum representing the conditional type    
  * 
  * Returns: 
- * - 0 if success, 1 if error occurs
+ * - SUCCESS if success, FAILURE if error occurs
  */
-int conditional_block_init(conditional_block_t conditional, enum conditional_type 
+int conditional_block_init(conditional_block_t *conditional, enum conditional_type 
 conditional_type, attribute_t* left, attribute_t* right);
 
 /* 
@@ -266,7 +250,7 @@ conditional_type, attribute_t* left, attribute_t* right);
  * Returns: 
  * - Always returns 0. 
  */
-int conditional_block_free(conditional_block_t conditional);
+int conditional_block_free(conditional_block_t *conditional);
 
 /* 
  * Allocates an attribute in the heap. 
@@ -279,7 +263,7 @@ int conditional_block_free(conditional_block_t conditional);
  * Returns: 
  * - An attribute. 
  */
-attribute_t attribute_new(attribute_value_t value, enum attribute_type 
+attribute_t* attribute_new(attribute_value_t value, enum attribute_type 
 attribute_type, char *name);
 
 /* 
@@ -292,20 +276,9 @@ attribute_type, char *name);
  * - enum representing the attribute type    
  * 
  * Returns: 
- * - 0 if success, 1 if error occurs
+ * - SUCCESS if success, FAILURE if error occurs
  */
-int attribute_init(attribute_t attribute, attribute_value_t value, enum                  
+int attribute_init(attribute_t *attribute, attribute_value_t value, enum                  
 attribute_type attribute_type, char *name);
-
-/* 
- * Frees an attribute.
- * 
- * Parameters: 
- * - attribute. Must point to an attribute allocated with attribute_new. 
- * 
- * Returns: 
- * - Always returns 0. 
- */
-int attribute_free(attribute_t attribute);
 
 #endif /* INCLUDE_STRUCT_H_ */
