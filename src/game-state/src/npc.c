@@ -2,18 +2,19 @@
 #include "common-item.h"
 
 /* See npc.h */
-int npc_init(npc_t* npc, char* npc_id, int health)
+int npc_init(npc_t* npc, char* npc_id, int health, convo_t* dialogue)
 {
     assert(npc != NULL);
     strncpy(npc->npc_id, npc_id, strlen(npc_id));
     npc->health = health;
+    npc->dialogue = dialogue;
     npc->inventory = NULL;
 
     return SUCCESS;
 }
 
 /* See npc.h */
-npc_t *npc_new(char* npc_id, int health, char** dialogue_trees)
+npc_t *npc_new(char* npc_id, int health, convo_t* dialogue)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
