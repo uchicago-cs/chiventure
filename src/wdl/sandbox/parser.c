@@ -25,10 +25,10 @@ int add_rooms_to_game(json_object *rooms, game_t *g) {
 
     //initializes json_objects for use in making room_t
     int arr_len = json_object_array_length(rooms);
-    struct json_object room_obj;
-    struct json_object id_obj;
-    struct json_object long_desc_obj;
-    struct json_object short_desc_obj;
+    struct json_object *room_obj;
+    struct json_object *id_obj;
+    struct json_object *long_desc_obj;
+    struct json_object *short_desc_obj;
 
     //if room list is empty, return 1
     if(rooms != NULL) {
@@ -42,13 +42,13 @@ int add_rooms_to_game(json_object *rooms, game_t *g) {
         room_obj = json_object_array_get_idx(rooms, i);
 
         json_object_object_get_ex(room_obj, "id", &id_obj);
-        char *id = json_object_get_string(id_obj);
+        char *id = (char *) json_object_get_string(id_obj);
         
         json_object_object_get_ex(room_obj, "short_desc", &short_desc_obj);
-        char *short_desc = json_object_get_string(short_desc_obj);
+        char *short_desc = (char *) json_object_get_string(short_desc_obj);
 
-        json_object_object_get_ex(rooms_obj, "long_desc", &long_desc_obj);
-        char *long_desc = json_object_get_string(long_desc_obj);
+        json_object_object_get_ex(room_obj, "long_desc", &long_desc_obj);
+        char *long_desc = (char *) json_object_get_string(long_desc_obj);
 
         room_t *room = room_new(id, short_desc, long_desc);
 
@@ -88,10 +88,10 @@ game_t *parse_wdl(char* filename) {
     assert(game_obj);
 
     //gets the intro text for the game
-    json_object_object_get_ex(game, "intro", &intro_obj);
-    assert(intro_text);
+    json_object_object_get_ex(game_obj, "intro", &intro_obj);
+    assert(intro_obj);
 
-    char *intro = json_object_get_string(intro_obj);
+    char *intro = (char*) json_object_get_string(intro_obj);
 
     game_t *game = game_new(intro);
 

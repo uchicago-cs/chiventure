@@ -3,6 +3,7 @@
  */
 
 #include "game-state/game.h"
+#include "game-state/room.h"
 
 /* necessary includes to use JSON-C */
 #include <json-c/json.h>
