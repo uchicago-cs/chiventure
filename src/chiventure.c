@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
 
@@ -19,17 +20,22 @@ const char *banner =
 
 int main(int argc, char **argv)
 {
-    if(argc <= 1) 
-    {
-        chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+    int ncols = atoi(getenv("COLUMNS"));
+    int nrows = atoi(getenv("LINES"));
+    if (ncols < MIN_COLS || nrows < MIN_ROWS) {
+        printf("Chiventure prefers to be run in terminals of at least %d columns and %d rows. Please resize your terminal!\n", MIN_COLS, MIN_ROWS);
+    } else {
+        if (argc <= 1) {
+            chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+        }
+
+        chiventure_ctx_t *ctx = chiventure_ctx_new(argv[1]);
+
+        /* Add calls to component-specific initializations here */
+
+        start_ui(ctx, banner);
+
+        game_free(ctx->game);
     }
-
-    chiventure_ctx_t *ctx = chiventure_ctx_new(argv[1]);
-
-    /* Add calls to component-specific initializations here */
-
-    start_ui(ctx, banner);
-
-    game_free(ctx->game);
     return 0;
 }

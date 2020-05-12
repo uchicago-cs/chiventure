@@ -17,9 +17,6 @@
 #define MAP_WIN_NUM 2
 #define INV_WIN_NUM 3
 
-#define MIN_COLS 80
-#define MIN_ROWS 24
-
 void start_ui(chiventure_ctx_t *ctx, const char *banner)
 {
     // prevents program from closing on CTRL+C
