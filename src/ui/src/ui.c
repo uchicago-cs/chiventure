@@ -34,10 +34,6 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     // pressed keys are not displayed in the window
     noecho();
     // height and width of the terminal window
-    if (COLS < MIN_COLS || LINES < MIN_ROWS) {
-        print_to_cli(ctx, "UH OH SPAGHETTIO!\n");
-        endwin();
-    }
     int width = COLS;
     int height = LINES / 2;
 
@@ -88,13 +84,19 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     // refreshes both windows to show the above changes
     wrefresh(cli->w);
 
+    char* oops;
+    asprintf(&oops, "Oops! Change window back to width ≥ %d and height ≥ %d.", MIN_COLS, MIN_ROWS);
+    int no_oops = 1;
+
     // sample game loop. uses ctrl+D key to exit
     while ((ch = wgetch(cli->w)) != 4)
     {
 
-        if (COLS < MIN_COLS || LINES < MIN_ROWS) {
-            print_to_cli(ctx, "UH OH SPAGHETTIO!\n");
-            endwin();
+        if (no_oops && (COLS < MIN_COLS || LINES < MIN_ROWS)) {
+            no_oops = 0;
+            print_to_cli(ctx, oops);
+        } else if (COLS >= MIN_COLS && LINES >= MIN_ROWS) {
+            no_oops = 1;
         }
         height = LINES / 2;
         width = COLS;
