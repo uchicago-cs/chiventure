@@ -4,7 +4,6 @@
 #include <string.h>
 #include <locale.h>
 
-#include "ui/ui.h"
 #include "common/ctx.h"
 #include "ui/window.h"
 #include "ui/print_functions.h"
@@ -82,20 +81,10 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     // refreshes both windows to show the above changes
     wrefresh(cli->w);
 
-    char* oops;
-    asprintf(&oops, "Oops! Change window back to width ≥ %d and height ≥ %d.", MIN_COLS, MIN_ROWS);
-    int no_oops = 1;
-
     // sample game loop. uses ctrl+D key to exit
     while ((ch = wgetch(cli->w)) != 4)
     {
 
-        if (no_oops && (COLS < MIN_COLS || LINES < MIN_ROWS)) {
-            no_oops = 0;
-            print_to_cli(ctx, oops);
-        } else if (COLS >= MIN_COLS && LINES >= MIN_ROWS) {
-            no_oops = 1;
-        }
         height = LINES / 2;
         width = COLS;
 
