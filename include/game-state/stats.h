@@ -11,12 +11,15 @@
  *
  *      the base value of the stat, 
  *      whose final value will be multiplied by the modifier
- *
+ * 
+ *      the max value of the stat
+ * 
  *      cumulative modifiers from effects, set to 1 by default
  * */
 typedef struct stats {
-    char *name; 
+    char *name;
     double val;
+    double max;
     double modifier; 
     UT_hash_handle hh; 
 } stats_t;
@@ -33,7 +36,7 @@ typedef struct stats stats_hash_t;
   *
   *      the duration of the effect
   *
-  *      an array of stats affected by the effect
+  *      an array of the keys of stats affected by the effect
   *
   *      an array of modifiers affecting the stats,
   *      whose index corresponds to that of the stats affected 
@@ -42,7 +45,7 @@ typedef struct effects{
     char* name; 
     bool status; 
     double duration; 
-    stats_t** affected; 
+    char** affected;
     double* modifier;
     UT_hash_handle hh; 
 } effects_t;
