@@ -4,6 +4,7 @@
 #include <string.h>
 #include <locale.h>
 
+#include "ui/ui.h"
 #include "common/ctx.h"
 #include "ui/window.h"
 #include "ui/print_functions.h"

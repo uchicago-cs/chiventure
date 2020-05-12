@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 {
     struct winsize w;
     ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
-    int ncols = w.ws_row, nrows = w.ws_col;
+    int ncols = w.ws_col, nrows = w.ws_row;
     if (ncols < MIN_COLS || nrows < MIN_ROWS) {
         printf("Chiventure prefers to be run in terminals of at least %d columns and %d rows. Please resize your terminal!\n", MIN_COLS, MIN_ROWS);
     } else {
