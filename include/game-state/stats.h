@@ -89,7 +89,7 @@ stats_t *stats_new(char* stats_name, int init);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int modify_stat(stat_hash_t *sh, char* stat, int change);
+int modify_stat(stats_hash_t *sh, char* stat, int change);
 
 /*
  * function that gets integer value of a specified
@@ -102,7 +102,7 @@ int modify_stat(stat_hash_t *sh, char* stat, int change);
  * Returns:
  *  integer value of a players stat
  */
-int get_stat_current(stat_hash_t *sh, char* stat);
+int get_stat_current(stats_hash_t *sh, char* stat);
 
 /*
  * function that gets integer base value of a specified
@@ -115,7 +115,7 @@ int get_stat_current(stat_hash_t *sh, char* stat);
  * Returns:
  *  integer value of a players stat
  */
-int get_stat(stat_hash_t *sh, char* stat);
+int get_stat(stats_hash_t *sh, char* stat);
 
 
 /*
@@ -129,7 +129,7 @@ int get_stat(stat_hash_t *sh, char* stat);
  * Returns:
  *  integer value of a players stat mod
  */
-int get_stat_mod(stat_hash_t *sh, char* stat);
+int get_stat_mod(stats_hash_t *sh, char* stat);
 
 /*
  * Adds a stat to a stat hash table
