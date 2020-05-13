@@ -8,6 +8,7 @@
 
 #include "game_state_common.h"
 #include "item.h"
+#include "stats.h"
 
 
 /* A player in game */
