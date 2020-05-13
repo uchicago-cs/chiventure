@@ -63,7 +63,7 @@ typedef struct effects effects_hash_t;
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int stats_init(stats_t *s, char* stats_name, int init);
+int stats_init(stats_t *s, char *stats_name, double init);
 
 /*
  * Allocates a new stat
@@ -75,11 +75,11 @@ int stats_init(stats_t *s, char* stats_name, int init);
  * Returns:
  *  Pointer to allocated stats struct
  */
-stats_t *stats_new(char* stats_name, int init);
+stats_t *stats_new(char *stats_name, double init);
 
 /*
  * Changes the base value of a stat by the
- * specified integer amount
+ * specified double amount through addition
  *
  * Parameters:
  *  sh: the hash table of stats 
@@ -89,7 +89,7 @@ stats_t *stats_new(char* stats_name, int init);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int modify_stat(stat_hash_t *sh, char* stat, int change);
+int change_stat(stat_hash_t *sh, char *stat, double change);
 
 /*
  * function that gets integer value of a specified
@@ -100,9 +100,9 @@ int modify_stat(stat_hash_t *sh, char* stat, int change);
  *  stat: the name of the stat
  *
  * Returns:
- *  integer value of a players stat
+ *  double value of a players stat
  */
-int get_stat_current(stat_hash_t *sh, char* stat);
+double get_stat_current(stat_hash_t *sh, char* stat);
 
 /*
  * function that gets integer base value of a specified
@@ -113,9 +113,9 @@ int get_stat_current(stat_hash_t *sh, char* stat);
  *  stat: the name of the stat
  *
  * Returns:
- *  integer value of a players stat
+ *  double value of a players stat
  */
-int get_stat(stat_hash_t *sh, char* stat);
+double get_stat_max(stat_hash_t *sh, char* stat);
 
 
 /*
@@ -127,21 +127,22 @@ int get_stat(stat_hash_t *sh, char* stat);
  *  stat: the name of the stat
  *
  * Returns:
- *  integer value of a players stat mod
+ *  double value of a players stat mod
  */
-int get_stat_mod(stat_hash_t *sh, char* stat);
+double get_stat_mod(stat_hash_t *sh, char* stat);
 
 /*
  * Adds a stat to a stat hash table
  *
  * Parameters: 
  * sh: the stats hash table
- * s: pointer to a stats struct 
+ * stat_id: the name to be given to the stat
+ * init: the initial value of the stat
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int add_stat(stats_hash_t *sh, stats_t *s);
+int add_stat(stats_hash_t *sh, char *stat_id, double init);
 
 /*
  * Print the stats in a hashtable and their values/modifiers
@@ -150,9 +151,9 @@ int add_stat(stats_hash_t *sh, stats_t *s);
  * sh: pointer to the stats hash table to be printed
  * 
  * Returns:
- *  Void
+ *  string to be printed
  */
-void display_stats(stats_hash_t *sh);
+char* display_stats(stats_hash_t *sh);
 
 /*
  * Frees a stats struct
