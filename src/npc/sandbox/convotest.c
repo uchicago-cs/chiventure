@@ -118,23 +118,26 @@ void printNode(Node_t* n){
                 printEdge(n->connections[i]);
         printf("\n");
 }
-void printConvo(Convo_t* c){
+void printConvo(Convo_t* c)
+{
         for(int i = 0; i < (int)c->nodeCount; i++)
-                printNode(c->head[i]);
+        { 
+          printNode(c->head[i]);
+        }
 }
-
 /* 
  * A function to allocate a new Convo struct
  * Returns:
  *  - A pointer to the new Convo
  *
  */
-struct Convo* makeConvo()
+Convo_t* makeConvo()
 {
-        Convo_t* c = (Convo_t*)malloc(sizeof(Convo_t)
+        Convo_t* c = (Convo_t*) malloc(sizeof(Convo_t)
                         + MAXNODES * sizeof(Node_t*));
- c->nodeCount = 0;
+        c->nodeCount = 0;
         c->head[0] = NULL;
+	return c;
 }
 
 /*
@@ -302,7 +305,7 @@ int main()
      char* c1 = malloc(30 * sizeof(char));
      fgets(c1, 30, stdin);
 
-    Convo_t* ShowcaseConvo = makeConvo();
+    Convo_t* ShowcaseConvo = makeConvo(MAXNODES);
     //making nodes for the dialog
     Node_t* WellMet = makeNode(1, "Mhm fine, nice to meet you, now please turn around and get outta my house.  You can't come and go as you wish.");
     Node_t* PrivacyVio = makeNode(2, "Woah, hey, y-you can't just walk in here and poke around the place without consulting the owner!!  Shouldn't I at least know who you are?!");
