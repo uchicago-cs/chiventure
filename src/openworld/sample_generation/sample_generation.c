@@ -15,9 +15,6 @@
 #include <stdbool.h>
 #include "../../../include/openworld/sample_generation.h"
 
-#include "../../../include/openworld/sample_rooms.h" 
-#include "../../../include/openworld/sample_items.h"
-
 /* See sample_generation.h */
 bool enter_new_room(room_t *r1, room_t *r2) {
     // Check if they have the same hash handle pointer
@@ -25,17 +22,18 @@ bool enter_new_room(room_t *r1, room_t *r2) {
 }
 
 /* See sample_generation.h */
-int room_generate(game_t* gameOld, game_t* gameNew, room_t* addRoom) {
+int room_generate(room_t* roomOld, room_t* roomNew, room_t* addRoom) {
     /* BELOW: implement algo from autogenerate algorithm module */
-    if (enter_new_room(gameOld->curr_room, gameNew->curr_room)) {
+    if (enter_new_room(roomOld, roomNew)) { // Somehow modify the game states that hold these rooms, respectively
         /* BELOW: TO BE EDITED */
 
-        // Add addRoom to gameNew
-        assert(0 == add_room_to_game(gameNew, addRoom));
+        // Add addRoom to the game that has roomNew
+        // assert(0 == add_room_to_game(gameNew, addRoom)); // Maybe we could do something like this?
         
         // Add path from the current room to addRoom
+        // Use dependency from game-state/path.h for the following function:
         path_t* path_to_room = path_new(addRoom, "to new room");
-        assert (0 == add_path_to_room(gameNew->curr_room, path_to_room));
+        // assert (0 == add_path_to_room(gameNew->curr_room, path_to_room)); // Maybe we could do something like this?
 
         /* ABOVE: TO BE EDITED */
 
