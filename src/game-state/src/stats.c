@@ -22,21 +22,21 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 }
 
 /* See stats.h */
-int get_stat_current(stats_hash_t *sh, char *stat)
+double get_stat_current(stats_hash_t *sh, char *stat)
 {
     printf("get_stat_current: function not yet implemented\n");
     return 0; // still needs to be implemented
 }
 
 /* See stats.h */
-int get_stat_max(stats_hash_t *sh, char *stat)
+double get_stat_max(stats_hash_t *sh, char *stat)
 {
     printf("get_stat_max: function not yet implemented\n");
     return 0; // still needs to be implemented
 }
 
 /* See stats.h */
-int get_stat_mod(stats_hash_t *sh, char *stat)
+double get_stat_mod(stats_hash_t *sh, char *stat)
 {
     printf("get_stat_mod: function not yet implemented\n");
     return 0; // still needs to be implemented
@@ -53,7 +53,7 @@ int add_stat(stats_hash_t *sh, char *stat_id, double init)
 char* display_stats(stats_hash_t *s)
 {
     printf("display_stats: function not yet implemented\n");
-    return; // still needs to be implemented
+    return "0"; // still needs to be implemented
 }
 
 /* See stats.h */
