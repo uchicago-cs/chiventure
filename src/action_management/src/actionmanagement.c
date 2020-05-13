@@ -65,6 +65,7 @@ int action_type_free(action_type_t *a)
 int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_string)
 {
     assert(c);
+    assert(c->game);
     assert(a);
     assert(i);
     
@@ -193,6 +194,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string)
 {
     assert(c);
+    assert(c->game);
     assert(a);
     assert(direct);
     assert(indirect);
