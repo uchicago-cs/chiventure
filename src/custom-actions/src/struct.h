@@ -17,26 +17,59 @@ typedef union block {
     conditional_block_t conditional_block;
 } block_t;
 
+/* An enumeration type for an AST block */
+typedef enum {
+    CONTROL, 
+    BRANCH, 
+    ACTION, 
+    CONDITIONAL
+} block_type;
+
 /* Struct to contain a block, as well as its type */
 typedef struct AST_block {
     block_t block;
     enum block_type block_type;
 } AST_block_t;
 
-/* Sruct to conatin a control block, which introduces an action */
+/* An enumeration type for a control block */
+typedef enum {
+    IF/ELSE;
+    WHILE/ENDWHILE;
+    FOR/ENDFOR;
+} control_type;
+
+/* Struct to contain a control block, which introduces an action */
 typedef struct control_block {
     enum control_type control_type;
     AST_block* next;
 } control_block_t;
 
+/* An enumeration type for a conditional block */
+typedef enum {
+    EQ;
+    LT/GT;
+    LTE/GTE;
+    IN;
+} conditional_type;
+
 /* A block that holds pointers to both a control and a conditional block */
 typedef struct branch_block {
     int num_conditionals;
     conditional_block_t** conditionals;
-    enum conditional_union_type conditional_union_type;
+    enum conditional_type conditional_type;
     int num_controls;
     control_block_t** controls;
 } branch_block_t;
+
+/* An enumeration type for an action block */
+typedef enum {
+    SET;
+    SAY;
+    MOVE;
+    ADD/SUB/MULT/DIV;
+    GEN;
+    EXEC;
+} action_type;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
 typedef struct action_block {
@@ -138,7 +171,7 @@ int control_block_free(control_block_t *control);
  * - A branch block. 
  */  
 branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
-conditionals, enum conditional_union_type conditional_union_type, int num_controls, 
+conditionals, enum conditional_type conditional_type, int num_controls, 
 control_block_t** controls);
 
 /* 
@@ -156,7 +189,7 @@ control_block_t** controls);
  * - SUCCESS if success, FAILURE if error occurs
  */  
 int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t**
-conditionals, enum conditional_union_type conditional_union_type, int num_controls,
+conditionals, enum conditional_type conditional_type, int num_controls,
 control_block_t** controls);
 
 /* 

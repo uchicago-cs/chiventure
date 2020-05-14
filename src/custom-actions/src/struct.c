@@ -106,7 +106,7 @@ int control_block_free(control_block_t *control)
 
 /* See struct.h */
 branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
-conditionals, enum conditional_union_type conditional_union_type, int num_controls, 
+conditionals, enum conditional_type conditional_type, int num_controls, 
 control_block_t** controls)
 {
     return NULL;
@@ -114,7 +114,7 @@ control_block_t** controls)
 
 /* See struct.h */
 int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t**
-conditionals, enum conditional_union_type conditional_union_type, int num_controls,
+conditionals, enum conditional_type conditional_type, int num_controls,
 control_block_t** controls)
 {
     return 0;
