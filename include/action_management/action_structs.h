@@ -27,7 +27,9 @@ enum actions {
 
     /* KIND 3 ACTIONS - ACTION <item_item> */
     USE,
-    PUT
+    PUT,
+    // KIND 4
+    LUA
 };
 
 
@@ -35,7 +37,8 @@ enum actions {
 enum action_kind {
     ITEM = 1, // ACTION <item> i.e. Action Type 1
     PATH = 2, // ACTION <path i.e. Action Type 2
-    ITEM_ITEM = 3 // ACTION <item> <item> i.e. Action Type 3
+    ITEM_ITEM = 3, // ACTION <item> <item> i.e. Action Type 3
+    CSCRIPT = 4 // Custom scripts i.e. Action Type 4
 };
 
 

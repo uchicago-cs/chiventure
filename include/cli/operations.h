@@ -171,6 +171,12 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+////
+// temporary function for custom scripts (type 4)
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+////
+
 
 /* Validates an item is in a room, passes an action struct on to
  * action management's function that handles ACTION ITEM

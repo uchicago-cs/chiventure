@@ -21,7 +21,8 @@ static action_type_t valid_actions[] =
     {"GO", PATH},
     // KIND 3
     {"USE", ITEM_ITEM},
-    {"PUT", ITEM_ITEM}
+    {"PUT", ITEM_ITEM},
+    {"LUA", CSCRIPT}
 };
 
 

@@ -137,6 +137,12 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "specified item not found\n";
 }
 
+//KIND 4:   ACTION <item>
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    return "testing function! woohoo \n";
+}
+
 //KIND 1:   ACTION <item>
 char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
