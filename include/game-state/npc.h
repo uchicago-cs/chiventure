@@ -11,7 +11,7 @@ typedef struct npc {
     UT_hash_handle hh;
     char *npc_id;
     int health;
-    convo_t* dialogue; // placeholder for incoming dialogue module
+    convo_t *dialogue; // placeholder for incoming dialogue module
     item_hash_t *inventory;
 } npc_t;
 
@@ -34,7 +34,7 @@ typedef struct npc {
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_init(npc_t* npc, char* npc_id, int health, convo_t* dialogue);
+int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue);
 
 
 /*
@@ -49,7 +49,7 @@ int npc_init(npc_t* npc, char* npc_id, int health, convo_t* dialogue);
  * Returns:
  *  pointer to allocated npc
  */
- npc_t *npc_new(char* npc_id, int health, convo_t* dialogue);
+ npc_t *npc_new(char *npc_id, int health, convo_t *dialogue);
 
 
 /*
@@ -79,10 +79,10 @@ int get_npc_health(npc_t *npc);
  * Changes the health of the player
  *
  * Parameters:
- *  plyr: the player
+ *  npc: the npc
  *
  * Returns:
- *  int, remaining health
+ *  int, updated health
  */
 int change_npc_health(npc_t *npc, int change, int max);
 
@@ -114,7 +114,7 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  * Function to get a linked list (utlist) of all the items in the player's inventory
  *
  * Parameters:
- *  player
+ *  npc: the npc
  *
  * Returns:
  *  linked list of pointers to items (the head element)

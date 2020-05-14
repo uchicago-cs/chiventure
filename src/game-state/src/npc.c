@@ -2,7 +2,7 @@
 #include "common-item.h"
 
 /* See npc.h */
-int npc_init(npc_t* npc, char* npc_id, int health, convo_t* dialogue)
+int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue)
 {
     assert(npc != NULL);
     strncpy(npc->npc_id, npc_id, strlen(npc_id));
@@ -14,7 +14,7 @@ int npc_init(npc_t* npc, char* npc_id, int health, convo_t* dialogue)
 }
 
 /* See npc.h */
-npc_t *npc_new(char* npc_id, int health, convo_t* dialogue)
+npc_t *npc_new(char *npc_id, int health, convo_t *dialogue)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -33,27 +33,32 @@ npc_t *npc_new(char* npc_id, int health, convo_t* dialogue)
 
 
 /* See npc.h */
-int npc_free(npc_t* npc)
+int npc_free(npc_t *npc)
 {
     assert(npc != NULL);
 
     free(npc->npc_id);
     delete_all_items(&npc->inventory);
+    free(npc);
 
     return SUCCESS;
 }
 
 
 /* See npc.h */
-int get_npc_health(npc_t* npc)
+int get_npc_health(npc_t *npc)
 {
     return npc->health;
 }
 
 
 /* See npc.h */
-int change_npc_health(npc_t* npc, int change, int max)
+int change_npc_health(npc_t *npc, int change, int max)
 {
+    if ((npc->health + change) < 0)
+    {
+        npc->health = 0;
+    }
     if ((npc->health + change) < max)
     {
         npc->health += change;
