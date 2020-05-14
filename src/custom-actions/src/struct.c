@@ -12,38 +12,96 @@
 /* See struct.h */
 AST_block_t* AST_block_new(block_t block, enum block_type block_type)
 {
-    return NULL;
+    AST_block_t *ast;
+    int new_ast;
+
+    ast = malloc(sizeof(AST_block_t));
+
+    if (ast == NULL) 
+    {
+        error("Could not allocate memory");
+        return NULL;
+    }
+
+    new_ast = AST_block_init(ast, block, block_type);
+    if (new_ast != SUCCESS)
+    {
+        error("Could not initialize AST_block_t");
+        return NULL;
+    }
+
+    return ast; 
 }
 
 /* See struct.h */
 int AST_block_init(AST_block_t *ast, block_t block, enum block_type block_type)
 {
-    return 0;
+    assert(ast != NULL);
+    assert(block != NULL);
+    assert(block_type != NULL);
+
+    ast->block = block;
+    ast->block_type = block_type;
+
+    return SUCCESS; 
 }
 
 /* See struct.h */
 int AST_block_free(AST_block_t *ast)
 {
-    return 0;
+    assert(ast != NULL);
+
+    free(ast);
+
+    return SUCCESS;  
 }
 
 /* See struct.h */
 control_block_t* control_block_new(enum control_type control_type, AST_block *next)
 {
-    return NULL;
+    control_block_t *control;
+    int new_control;
+
+    control = malloc(sizeof(control_block_t));
+
+    if (control == NULL) 
+    {
+        error("Could not allocate memory");
+        return NULL;
+    }
+
+    new_control = control_block_init(control, control_type, next);
+    if (new_control != SUCCESS)
+    {
+        error("Could not intialize control_block_t");
+        return NULL;
+    }
+
+    return control;  
 }
 
 /* See struct.h */
 int control_block_init(control_block_t *control, enum control_type control_type,
 AST_block *next)
 {
-    return 0;
+    assert(control != NULL);
+    assert(control_type != NULL);
+    assert(next != NULL);
+
+    control->control_type = control_type;
+    control->next = next;
+
+    return SUCCESS; 
 }
 
 /* See struct.h */
 int control_block_free(control_block_t *control)
 {
-    return 0;
+    assert(control != NULL);
+
+    free(control);
+
+    return SUCCESS; 
 }
 
 /* See struct.h */
