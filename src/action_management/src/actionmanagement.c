@@ -59,7 +59,38 @@ int action_type_free(action_type_t *a)
 
 /* ========================================================================== */
 // if we only support custom scripts for Type 1 actions
-int do_lua_action(action_type_t *a, item_t *i, game *g, char **ret_string) {
+int do_lua_action(action_type_t *a, item_t *i, game_t *g, char **ret_string) {
+    // VALIDATION
+    assert(a);
+    assert(i);
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+    /* checks if the action type is the correct kind
+    if (possible_action(i, a->c_name) == FAILURE)
+    {
+        sprintf(string, "Action %s can't be requested with item %s",
+                a->c_name, i->item_id);
+        *ret_string = string;
+        return NOT_ALLOWED_DIRECT;
+    } 
+    */
+    
+    // game_action_t *game_act = get_action(i, a->c_name);
+    
+    /* check if all conditions are met
+    if (all_conditions_met(i, a->c_name) == FAILURE)
+    {
+        sprintf(string, "%s", game_act->fail_str);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
+    */
+
+    // RUN ACTION
+    // char* lua_script = game_act->lua_script;
+    printf("\n\nlua script will be printed here.\n");
+
+    return NOT_ALLOWED_DIRECT;
     
 }
 

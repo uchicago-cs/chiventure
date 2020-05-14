@@ -149,6 +149,7 @@ typedef struct game_action_effect action_effect_list_t;
 typedef struct game_action {
     UT_hash_handle hh;
     char* action_name;
+    char* lua_script;
     action_condition_list_t *conditions; //must be initialized to NULL
     action_effect_list_t *effects; //must be initialized to NULL
     char* success_str;

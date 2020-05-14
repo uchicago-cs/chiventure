@@ -169,7 +169,16 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         return "The object could not be found\n";
     }
     */
-    return "still undergoing implementation."
+
+    //////////////////////// TESTING 
+    action_type_t *action = find_action(tokens[0], table);
+    item_t *curr_item;
+    curr_item = get_item_in_room(game->curr_room, tokens[1]);
+    char *str;
+    do_lua_action(action, curr_item, game, &str);
+    ////////////////////////////////
+
+    return "\nstill undergoing implementation.";
 }
 
 //KIND 1:   ACTION <item>

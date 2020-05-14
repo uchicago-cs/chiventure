@@ -69,6 +69,9 @@ list_action_type_t *get_supported_actions();
 
 // =============================================================================
 
+// function that executes custom script functions
+int do_lua_action(action_type_t *a, item_t *i, game_t *g, char **ret_string);
+
 /* A function that executes KIND 1 actions (ACTION <item>)
  *
  * Parameters:

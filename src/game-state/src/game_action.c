@@ -11,6 +11,7 @@ int game_action_init(game_action_t *new_action, char *act_name,
         return FAILURE;
     }
     strncpy(new_action->action_name, act_name, strlen(act_name));
+    new_action->lua_script = NULL;
     new_action->conditions = NULL; //by UTLIST rules
     new_action->effects= NULL; //by UTLIST rules
     strncpy(new_action->success_str, success_str, strlen(success_str));
