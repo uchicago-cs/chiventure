@@ -58,6 +58,8 @@ lookup_t *find_entry(char *command_name, lookup_t **table)
 
 operation *find_operation(char *command_name, lookup_t **table)
 {
+    // printf("running find_operation\n");
+    // printf("Inputted command is %s\n", command_name);
     lookup_t *t;
     if((t = find_entry(command_name, table)))
     {

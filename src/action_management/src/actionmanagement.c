@@ -58,7 +58,10 @@ int action_type_free(action_type_t *a)
 
 
 /* ========================================================================== */
-
+// if we only support custom scripts for Type 1 actions
+int do_lua_action(action_type_t *a, item_t *i, game *g, char **ret_string) {
+    
+}
 
 /* KIND 1
  * See actionmanagement.h */

@@ -137,10 +137,39 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "specified item not found\n";
 }
 
-//KIND 4:   ACTION <item>
+//KIND 4:   Lua custom script: ACTION
 char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return "testing function! woohoo \n";
+    // VALIDATION
+    game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return ("Error! We need a loaded room to do the above action. \n");
+    }
+    lookup_t **table = ctx->table;
+    // extract item? depends on what team decides whether we should support custom scripts for just one type of actions
+    /* Assume Yes
+    if(tokens[1] == NULL)
+    {
+        return "You must identify an object to act on\n";
+    }
+    item_t *curr_item;
+    curr_item = get_item_in_room(game->curr_room, tokens[1]);
+
+    // RUN ACTION
+    if(curr_item != NULL)
+    {
+        action_type_t *action = find_action(tokens[0], table);
+        char *str;
+        do_lua_action(action, curr_item, game, &str); // TO-BE-IMPLEMENTED
+                                                      // pass action, item, player inventory, game state, and return string
+        return str;
+    } else {
+        return "The object could not be found\n";
+    }
+    */
+    return "still undergoing implementation."
 }
 
 //KIND 1:   ACTION <item>
