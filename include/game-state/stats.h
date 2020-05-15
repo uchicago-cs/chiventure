@@ -2,6 +2,7 @@
 #define _STATS_H
 
 #include "game_state_common.h"
+#include "uthash.h"
 
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
@@ -26,6 +27,22 @@ typedef struct stats {
 
 typedef struct stats stats_hash_t;
 
+// STAT_MOD STRUCT DEFINITION -----------------------------------------------------
+/* This struct represents a modification of a stat, contained inside some effect
+ * It contains:
+ *      the name of the stat, 
+ *      which is also the key to the hashtable
+ * 
+ *      the modifier of the effect on that stat 
+ * */
+typedef struct stat_mod {
+    char *stat_name;
+    double modifier;
+    struct stat_mod *next;
+} stat_mod;
+
+
+
 // EFFECTS STRUCT DEFINITION ----------------------------------------------------
  /* This struct represents an effect that changes player's stats.
   * It contains:
@@ -35,18 +52,15 @@ typedef struct stats stats_hash_t;
   *      a bool checking if the effect is activated
   *
   *      the duration of the effect
-  *
-  *      an array of the keys of stats affected by the effect
-  *
-  *      an array of modifiers affecting the stats,
-  *      whose index corresponds to that of the stats affected 
+  * 
+  *      a linked list, stat_mod, which contains the stats effected
+  *      and the modifier value for each stat
   * */
 typedef struct effects{
-    char* name; 
+    char *name; 
     bool status; 
-    double duration; 
-    char** affected;
-    double* modifier;
+    double duration;
+    stat_mod *stat_list;
     UT_hash_handle hh; 
 } effects_t;
 
@@ -119,7 +133,7 @@ double get_stat_max(stats_hash_t *sh, char* stat);
 
 
 /*
- * function that gets integer value of  the modifier of 
+ * function that gets integer value of the modifier of 
  * a specified stat of a hashtable
  *
  * Parameters:
@@ -137,7 +151,7 @@ double get_stat_mod(stats_hash_t *sh, char* stat);
  * Parameters: 
  * sh: the stats hash table
  * stat_id: the name to be given to the stat
- * init: the initial value of the stat
+ * init: the initial value of the stat, it is both the max and current val
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
