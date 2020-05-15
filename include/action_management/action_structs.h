@@ -42,10 +42,13 @@ enum action_kind {
 /* An action struct that contains the following:
  * - c_name: the 'canonical' string that should call the enum
  * - kind: an enumeration of the kind of action
+ * - trigger: the room_id of the room that requires the action to be done
+ *		before entry.
  */
 typedef struct {
     char *c_name; // e.g. "eat"
     enum action_kind kind; // e.g. KIND_1
+    char *trigger;
 } action_type_t;
 
 
