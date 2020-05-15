@@ -4,6 +4,12 @@
 #include "game-state/game.h"
 #include "common/ctx.h"
 
+/* Creates a chiventure context with a sample game
+ *
+ * Parameters: None
+ *
+ * Returns: a chiventure context
+ */
 chiventure_ctx_t *create_sample_ctx()
 {
     chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
@@ -14,7 +20,7 @@ chiventure_ctx_t *create_sample_ctx()
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     game->curr_room = room1;
-    create_connection(game, "room1", "room2", "north");
+    create_connection(game, "room1", "room2", "NORTH");
 
     /* Free default game and replace it with ours */
     game_free(ctx->game);
@@ -23,6 +29,18 @@ chiventure_ctx_t *create_sample_ctx()
     return ctx;
 }
 
+
+/* CLI callback that compares the produced output with an expected value
+ *
+ * Parameters:
+ *  - ctx: chiventure context
+ *  - outstr: The string printed out by the CLI
+ *  - args: The expected string
+ *
+ * Returns:
+ *  - An assertion will fail if outstr is not equal to args.
+ *    Otherwise, always returns CLI_CMD_SUCCESS.
+ */
 int test_callback(chiventure_ctx_t *ctx, char *outstr, void* args)
 {
     char *expected = (char*) args;
@@ -31,6 +49,7 @@ int test_callback(chiventure_ctx_t *ctx, char *outstr, void* args)
 
     return CLI_CMD_SUCCESS;
 }
+
 
 /* Creates a sample game and runs the LOOK command */
 Test(game, look)
@@ -43,6 +62,37 @@ Test(game, look)
     cr_assert_not_null(cmd, "cmd_from_string failed");
 
     do_cmd(cmd, test_callback, "Verily, this is the first room.", ctx);
+
+    free(cmd_str);
+    game_free(ctx->game);
+    chiventure_ctx_free(ctx);
+}
+
+
+/* Creates a sample game, runs the GO command and verifies that
+ * the player moved to a different room */
+Test(game, go)
+{
+    int quit;
+    chiventure_ctx_t *ctx = create_sample_ctx();
+
+    room_t *room1 = find_room_from_game(ctx->game, "room1");
+    cr_assert_not_null(room1, "Could not fetch room1 from game");
+    room_t *room2 = find_room_from_game(ctx->game, "room2");
+    cr_assert_not_null(room2, "Could not fetch room2 from game");
+
+    /* Check that the game is in the initial room */
+    cr_assert_eq(ctx->game->curr_room, room1);
+
+    char *cmd_str = strdup("GO NORTH");
+    cmd *cmd = cmd_from_string(cmd_str, ctx);
+    cr_assert_not_null(cmd, "cmd_from_string failed");
+
+    do_cmd(cmd, NULL, NULL, ctx);
+
+    /* Check that the game is in the initial room */
+    cr_assert_eq(ctx->game->curr_room, room2,
+                 "GO NORTH did not change the current room as expected");
 
     free(cmd_str);
     game_free(ctx->game);
