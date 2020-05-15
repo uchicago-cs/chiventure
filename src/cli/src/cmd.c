@@ -262,13 +262,19 @@ int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_c
     else
     {
         outstring = (*(c->func_of_cmd))(c->tokens, ctx);
-        if(outstring!=NULL)
+        if(callback_func)
         {
-            return callback_func(ctx, outstring, callback_args);
+            if (outstring != NULL)
+            {
+                return callback_func(ctx, outstring, callback_args);
+            } else
+            {
+                return CLI_CMD_SUCCESS_NOOUTPUT;
+            }
         }
         else
         {
-            return CLI_CMD_SUCCESS_NOOUTPUT;
+            return CLI_CMD_SUCCESS;
         }
     }
 }
