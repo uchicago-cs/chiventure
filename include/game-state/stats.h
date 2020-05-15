@@ -2,7 +2,6 @@
 #define _STATS_H
 
 #include "game_state_common.h"
-#include "uthash.h"
 
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
