@@ -19,7 +19,7 @@ character_t *character_new(char *name, char_t ct, stat_t *stats,
         return NULL;
     }
 
-    rc = character_init(name, ct, stats, moves, items, next);
+    rc = character_init(c, name, ct, stats, moves, items, next);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Could not initialize character\n");
@@ -47,7 +47,7 @@ int character_init(character_t *c, char *name, char_t type, stat_t *stats,
 }
 
 /* See battle_state.h */
-void free_character(character_t *c)
+int free_character(character_t *c)
 {
     assert(c != NULL);
 
@@ -55,7 +55,7 @@ void free_character(character_t *c)
     free(c->stats);
     free(c->moves);
     free(c->items);
-    free(c->next)
+    free(c->next);
     free(c);
 
     return SUCCESS;
@@ -86,7 +86,7 @@ battle_t *battle_new(character_t *p, character_t *ene,
 }
 
 /* See battle_state.h */
-int *battle_init(battle_t *b, character_t *p, character_t *ene,
+int battle_init(battle_t *b, character_t *p, character_t *ene,
     environment_t env, char_t t)
 {
     assert(b != NULL);
@@ -100,12 +100,12 @@ int *battle_init(battle_t *b, character_t *p, character_t *ene,
 }
 
 /* See battle_state.h */
-void free_battle(battle_t *b)
+int free_battle(battle_t *b)
 {
     assert(b != NULL);
 
-    character_free(b->player);
-    character_free(b->enemy);
+    free_character(b->player);
+    free_character(b->enemy);
     free(b);
 
     return SUCCESS;

@@ -89,7 +89,7 @@ int battle_init(battle_t *battle, character_t *player, character_t *enemy,
     environment_t environment, char_t turn);
 
 /* Frees a battle struct from memory */
-void free_battle(battle_t *battle);
+int free_battle(battle_t *battle);
 
 /* Initialize a character  struct
  * Parameters:
@@ -116,9 +116,9 @@ character_t *character_new(char *name, char_t type, stat_t *stats,
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int *character_init(character_t *character, char *name, char_t type,
+int character_init(character_t *character, char *name, char_t type,
      stat_t *stats, move_t *moves, item_t *items, character_t *next);
 
 /* Frees a character struct from memory */
-void free_character(character_t *character);
+int free_character(character_t *character);
 #endif

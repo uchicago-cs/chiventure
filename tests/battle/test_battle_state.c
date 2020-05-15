@@ -4,6 +4,7 @@
 #include <string.h>
 #include "battle/battle_state.h"
 
+/* Tests character_new() */
 Test(battle_state, character_new)
 {
     character_t *c;
@@ -12,11 +13,11 @@ Test(battle_state, character_new)
 
     cr_assert_not_null(c, "character_new() failed");
 
-    cr_assert_str_eq(c->x, "TestName", "character_new() didn't set name");
-    cr_assert_eq(c->y, PLAYER, "character_new() didn't set type");
+    cr_assert_str_eq(c->name, "TestName", "character_new() didn't set name");
+    cr_assert_eq(c->type, PLAYER, "character_new() didn't set type");
 }
 
-
+/* Tests character_init() */
 Test(battle_state, character_init)
 {
     character_t c;
@@ -30,6 +31,7 @@ Test(battle_state, character_init)
     cr_assert_eq(c.type, PLAYER, "character_new() didn't set type");
 }
 
+/* Tests free_character() */
 Test(battle_state, free_character)
 {
     character_t *c;
@@ -39,11 +41,12 @@ Test(battle_state, free_character)
 
     cr_assert_not_null(c, "character_new() failed");
 
-    rc = character_free(c);
+    rc = free_character(c);
 
     cr_assert_eq(rc, SUCCESS, "character_free() failed");
 }
 
+/* Tests battle_new() */
 Test(battle_state, battle_new)
 {
     battle_t *b;
@@ -60,7 +63,7 @@ Test(battle_state, battle_new)
     cr_assert_eq(b->turn, ENEMY, "character_new() didn't set turn");
 }
 
-
+/* Tests battle_init() */
 Test(battle_state, battle_init)
 {
     battle_t b;
@@ -78,6 +81,7 @@ Test(battle_state, battle_init)
     cr_assert_eq(b.turn, ENEMY, "character_new() didn't set turn");
 }
 
+/* Tests free_battle */
 Test(battle_state, free_battle)
 {
     battle_t *b;
@@ -89,7 +93,7 @@ Test(battle_state, free_battle)
 
     cr_assert_not_null(b, "battle_new() failed");
 
-    rc = battle_free(b);
+    rc = free_battle(b);
 
     cr_assert_eq(rc, SUCCESS, "battle_free() failed");
 }
