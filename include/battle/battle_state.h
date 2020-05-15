@@ -4,6 +4,8 @@
 #include "battle_structs.h"
 #include "common/utlist.h"
 #include "common/common.h"
+#include <stdbool.h>
+#include <string.h>
 
 /* An environment enum that contains the following:
  * ENV_GRASS: grass
@@ -45,7 +47,7 @@ typedef struct _character_t {
     stat_t *stats;
     move_t *moves;
     item_t *items;
-    character_t *next;
+    struct _character_t *next;
 } character_t;
 
 /* A battle struct that contains the following:
@@ -56,7 +58,7 @@ typedef struct _character_t {
  */
 typedef struct _battle_t {
     character_t *player;
-    character_t *enemies;
+    character_t *enemy;
     environment_t environment;
     char_t turn;
 } battle_t;
@@ -83,7 +85,7 @@ battle_t *battle_new(character_t *player, character_t *enemy,
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int battle_init(battle_t battle, character_t *player, character_t *enemy,
+int battle_init(battle_t *battle, character_t *player, character_t *enemy,
     environment_t environment, char_t turn);
 
 /* Frees a battle struct from memory */

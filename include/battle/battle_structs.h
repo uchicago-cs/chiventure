@@ -4,14 +4,26 @@
 #include <stdbool.h>
 #include <string.h>
 
+/* items stub */
+typedef struct _item_t{
+    int id;
+    int quantity;
+    int durability;
+    char* description;
+    bool battle;
+    int attack;
+    int defense;
+    int hp;
+    struct _item_t *next;
+} item_t;
+
 /* moves stub */
-typedef struct
-{
-	item_t *item;
-	bool attack;
-	int damage;
-	int defense;
-    move_t *next;
+typedef struct _move_t{
+    item_t *item;
+    bool attack;
+    int damage;
+    int defense;
+    struct _move_t *next;
 } move_t;
 
 /* stats stub */
@@ -21,28 +33,15 @@ typedef struct
     int strength;
     int dexterity;
     int hp;
-	int max_hp;
+    int max_hp;
     int xp;
-} stats_t;
-
-/* items stub */
-typedef struct
-{
-	int id;
-	int quantity;
-	int durability;
-    char* description;
-    bool battle;
-    int attack;
-    int defense;
-	int hp;
-    item_t *next;
-} item_t;
+} stat_t;
 
 /* class stub */
-enum class{bard, cleric, paladin, wizard};
+typedef enum _class_t{bard, cleric, paladin, wizard} class_t;
 
 
 
 
 #endif
+

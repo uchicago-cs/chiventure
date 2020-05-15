@@ -1,4 +1,4 @@
-set(TEST_EXE test-wdl)
+set(TEST_EXE test-battle)
 
 add_executable(${TEST_EXE}
         test_battle_state.c
