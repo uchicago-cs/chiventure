@@ -29,13 +29,12 @@ typedef struct stats stats_hash_t;
 // STAT_MOD STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a modification of a stat, contained inside some effect
  * It contains:
- *      the name of the stat, 
- *      which is also the key to the hashtable
+ *      the pointer to the stat
  * 
  *      the modifier of the effect on that stat 
  * */
 typedef struct stat_mod {
-    char *stat_name;
+    stats_t *stat;
     double modifier;
     struct stat_mod *next;
 } stat_mod;
