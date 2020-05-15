@@ -90,7 +90,7 @@ Test(game, go)
 
     do_cmd(cmd, NULL, NULL, ctx);
 
-    /* Check that the game is in the initial room */
+    /* Check that current room has changed */
     cr_assert_eq(ctx->game->curr_room, room2,
                  "GO NORTH did not change the current room as expected");
 
