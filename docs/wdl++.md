@@ -36,13 +36,15 @@ The JSON object structures for the pre-defined files are listed below.
 
 This file contains attributes for the game's player, as well as any other global game configuration attributes.
 
-The top level is a JSON object:
+The top level is a JSON object with a single `player` key:
 
 ```json
+{
 "player": {
     "start_room": "my_room_id",
     "intro_text": "lorem ipsum dolor sit amet, welcome to the game",
     ...
+}
 }
 ```
 
@@ -57,9 +59,10 @@ where
 
 This file contains attributes for each of the game's rooms.
 
-The top level is a JSON **list** of objects, where each object is an individual room:
+The top level is a JSON object with a single `rooms` key. Its value is a **list** of objects, where each object is an individual room:
 
 ```json
+{
 "rooms": [
     {
         "id": "my_room_id",
@@ -70,6 +73,7 @@ The top level is a JSON **list** of objects, where each object is an individual 
         ...
     }
 ]
+}
 ```
 
 where
@@ -85,9 +89,10 @@ where
 
 This file contains attributes for each of the game's items.
 
-The top level is a JSON list of objects, where each object is an individual item:
+The top level is a JSON object with a single `items` key. Its value is a list of objects, where each object is an individual item:
 
 ```json
+{
 "items": [
     {
         "id": "my_item_id",
@@ -99,6 +104,7 @@ The top level is a JSON list of objects, where each object is an individual item
         ...
     }
 ]
+}
 ```
 
 where
@@ -115,9 +121,10 @@ where
 
 This file contains definitions for each of the game's "action sequences". (Essentially, functions that compose and sequence a set of atomic actions).
 
-The top level is a JSON list of objects, where each object specifies an action:
+The top level is a JSON object with a single `actions` key. Its value is a list of objects, where each object specifies an action:
 
 ```json
+{
 "actions": [
     {
         "id": "my_action_id",
@@ -127,7 +134,9 @@ The top level is a JSON list of objects, where each object specifies an action:
         ...
     }
 ]
+}
 ```
+
 where
 - `id`: the ID of the action.
 - `sequence`: The sequence of atomic actions to be carried out (a list of acceptable atomic actions and their syntax can be found on the custom actions wiki page, but an abbreviated version follows)
@@ -143,8 +152,7 @@ Documentation WIP! TODO: Add a list of acceptable atomic actions  and syntax to 
 
 This file contains definitions for each of the game's "global conditions" (conditions that are checked after every player action and can trigger an action on fulfillment).
 
-The top level is a JSON list of objects, where each object specifies a condition:
-
+The top level is a JSON object with a single `globalconditions` key. Its value is a list of objects, where each object specifies a condition:
 
 Documentation WIP 
 
@@ -208,19 +216,22 @@ The interface for other teams and feature branches to access WDL++ data. Our cur
 `object_t wdl_get_obj(objFile, objID)`
 
 Params:
--`objFile` : The filename of the file containing the object- e.g. `items.json`
--`objID` : The object ID within the specified file- e.g. `door`
+
+- `objFile` : The filename of the file containing the object- e.g. `items.json`
+- `objID` : The object ID within the specified file- e.g. `door`
+
 Returns:
 - The specified JSON object.
 
 `asset_t wdl_get_asset(assetType, assetName)`
 
 Params:
+
 - `assetType` : The type of the requested asset- e.g. `graphics` or `sounds`
 - `assetName` : The filename of the requested asset- e.g `bg_room_A.png`
+
 Returns:
 - The requested asset.
 
 These functions would allow other teams to interact with entire JSON objects within their code, adding and changing attributes as they see fit, as well as directly interacting with media assets within the .wdz file.
-
 
