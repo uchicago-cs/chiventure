@@ -1,23 +1,38 @@
 #include "logic.h"
 
 /* check logic.h */
-int check_target(enemy_t *e) {
+int check_target(enemy_t *e) 
+{
     return 0;
 }
 
 /* check logic.h */
-double check_effectiveness(player_t *p, enemy_t *e, move_t *move) {
+double check_effectiveness(player_t *p, enemy_t *e, move_t *move) 
+{
     return 1.0;
 }
 
 /* check logic.h */
-int mod_stat(stats_t *stat) {
+int mod_stat(stats_t *stat) 
+{
     return 0;
 }
 
 /* check logic.h */
-int battle_over(player_t p, enemy_t *e) {
-    return 1;
+int battle_over(player_t p, enemy_t *e) 
+{
+    if(p->stats->hp <= 0)
+    {
+        return 1;
+    } 
+    else if(e->stats->hp <= 0)
+    {
+        return 2;
+    } 
+    else 
+    {
+        return 0;
+    }
 }
 
 /* check logic.h */

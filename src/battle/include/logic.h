@@ -32,10 +32,15 @@ double check_effectiveness(player_t *p, enemy_t *e, move_t *move);
  *
  * Parameters:
  * - stat: A given stat for either player or enemy
+ * - status: the given code for what to change
+ *   - 0: HP
+ *   - 1: STR
+ *   - 2: DEF
+ *   - 3: SPD
  * Returns:
  * - Returns 0 for success
  */
-int mod_stat(stats_t *stat);
+int mod_stat(stats_t *stat, int status);
 
 /*
  * Determines if a battle has reached its conclusion
@@ -44,7 +49,9 @@ int mod_stat(stats_t *stat);
  * - p: information about the player
  * - e: information about the enemy
  * Returns:
- * - 0 for game over, 1 for game still in play
+ * - 0 for game still in play
+ * - 1 for game over due to player
+ * - 2 for game over due to enemy
  */
 int battle_over(player_t p, enemy_t *e);
 
