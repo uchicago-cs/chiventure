@@ -157,6 +157,7 @@ The top level is a JSON object with a single `globalconditions` key. Its value i
 Documentation WIP 
 
 ```json
+{
 "globalconditions": [
     {
         "id": "my_condition_id",
@@ -171,6 +172,7 @@ Documentation WIP
         ...
     }
 ]
+}
 ```
 
 where
@@ -218,6 +220,7 @@ The interface for other teams and feature branches to access WDL++ data. Our cur
 Params:
 
 - `objFile` : The filename of the file containing the object- e.g. `items.json`
+
 - `objID` : The object ID within the specified file- e.g. `door`
 
 Returns:
