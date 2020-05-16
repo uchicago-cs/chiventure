@@ -16,11 +16,12 @@
 
 int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, int choose_condition, int choose_effect)
 {
-    chiventure_ctx_t *ctx_test;
-    //game_t *game_test;
-    ctx_test = chiventure_ctx_new(NULL);
-    //game_test = game_new("Welcome to Chiventure!");
-    //ctx_test->game = game_test;*/
+    chiventure_ctx_t *ctx_test = malloc(sizeof(chiventure_ctx_t));
+    //ctx_test = chiventure_ctx_new(NULL);
+    game_t *game = game_new("test");
+    ctx_test->game = game;
+    
+    printf("ctx: %p", ctx_test);
     
     action_type_t *a = action_type_new(act_name, kind);
     item_t *item = item_new("item", "The item item", "The itemmost object of interest");
@@ -142,8 +143,9 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
         break;
     }
 
-    chiventure_ctx_free(ctx_test);
-    //game_free(game_test);
+    //chiventure_ctx_free(ctx_test);
+    game_free(game);
+    free(ctx_test);
     free(string);
     item_free(item);
     action_type_free(a);
