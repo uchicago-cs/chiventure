@@ -6,7 +6,6 @@
 #include <stdio.h>
 
 
-
 int init_class(class_t *class, enum class cl, char* info, enum stats st, int bonus)
 {
     assert(class != NULL);
@@ -21,7 +20,7 @@ int init_class(class_t *class, enum class cl, char* info, enum stats st, int bon
 
     class->bonus = bonus;
 
-    return 1;
+    return 0;
 }
 
 

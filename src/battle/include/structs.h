@@ -1,16 +1,19 @@
 #include <stdbool.h>
 #include <string.h>
+//#include
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+
 typedef struct
-{       
-        int speed;
-        int strength;
-        int dexterity;
-        int hp;
-	int max_hp;
-        int xp;
+{
+    int speed;
+    int strength;
+    int dexterity;
+    int charisma;
+    int hp;
+    int max_hp;
+    int xp;
 } stats_t;
 
 typedef struct
@@ -18,10 +21,10 @@ typedef struct
 	int id;
 	int quantity;
 	int durability;
-        char* description;
-        bool battle;
-        int attack;
-        int defense;
+    char* description;
+    bool battle;
+    int attack;
+    int defense;
 	int hp;
 } item_t;
 
@@ -37,7 +40,7 @@ typedef struct _ilist_t ilist_t;
 struct _ilist_t
 {
 	item_t *item;
-    	ilist_t *next;
+    ilist_t *next;
 };
 
 typedef struct _alist_t alist_t;
@@ -47,21 +50,41 @@ struct _alist_t
 	alist_t *next;
 };
 
+
+/** Players get stat bonuses based on their class.
+This enum type is part of the class struct. Whichever stat
+is stored in class_t.st is increased by class_t.bonus **/
+enum stats{spd, str, dex, chrsma};
+
+/** Players can be one of four classes as outlined by the
+below enum type. **/
 enum class{bard, cleric, paladin, wizard};
+
+/** The player class struct, which includes the enum class, a short
+description of the class, which stat the class gets a bonus for, and
+how much that bonus is **/
+typedef struct
+{
+    enum class cl;
+    char *info;
+    enum stats st;
+    int bonus;
+} class_t;
+
 
 typedef struct
 {
-        enum class cl;
+        class_t cl;
         ilist_t *inventory;
         alist_t *armor;
         stats_t *stats;
 } player_t;
 
 typedef struct
-{ 
+{
     char *name;
     stats_t *stats;
-    enum class cl;
+    class_t cl;
     ilist_t *inv;
     alist_t *armor;
 } enemy_t;
@@ -80,6 +103,6 @@ struct _mlist_t
 	move_t *move;
 	mlist_t *next;
 };
-	
-	
-#endif 
+
+
+#endif
