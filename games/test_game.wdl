@@ -2,8 +2,7 @@
 # It contains 6 rooms - a central room, surrounded by 4 rooms on each cardinal side and one 
 # "secret" room underneath.
 # The game can currently only be won by going down from the central room, as the item
-# interaction is not functioning as intended.
-
+# interaction functionality does not exist yet.
 
 
 GAME:
@@ -65,224 +64,226 @@ ROOMS:
       direction: "UP"
  
 ITEMS:
-  - id: "SIGN"
-    short_desc: "A sign."
-    long_desc: "The sign reads: 'To leave this place, two levers must be pulled..'"
-    in: "white room"
-    actions:
-      - action: "TAKE"
-          text_fail: "you can't do that"
+ - id: "SIGN"
+   short_desc: "A sign."
+   long_desc: "The sign reads: 'To leave this place, two levers must be pulled..' (or, for now, just go down!)"
+   in: "white room"
+   actions:
+     - action: "TAKE"
+       text_success: "you weren't supposed to pick this up"
+       text_fail: "you can't do that"
 
-  - id: "BLUE SIGN"
-    short_desc: "A blue sign."
-    long_desc: "The sign reads: 'Don't pull this lever.'"
-    in: "blue room"
-    actions:
-      - action: "TAKE"
-          text_fail: "you can't do that"
+ - id: "BLUESIGN"
+   short_desc: "A blue sign."
+   long_desc: "The sign reads: 'Don't pull this lever.'"
+   in: "blue room"
+   actions:
+     - action: "TAKE"
+       text_success: "you weren't supposed to pick this up"
+       text_fail: "you can't do that"
 
-     
-  - id: "GREEN SIGN"
-    short_desc: "A green sign."
-    long_desc: "The sign reads: 'Don't pull this lever.'"
-    in: "green room"
-    actions:
-      - action: "TAKE"
-          text_fail: "you can't do that"
- 
-  - id: "PURPLE SIGN"
-    short_desc: "A purple sign."
-    long_desc: "The sign reads: 'Pull this lever if you want to escape.'"
-    in: "purple room"
-    actions:
-      - action: "TAKE"
-          text_fail: "you can't do that"
- 
-  - id: "RED SIGN"
-    short_desc: "A red sign."
-    long_desc: "The sign reads: 'Pull this lever if you want to escape.'"
-    in: "red room"
-    actions:
-      - action: "TAKE"
-          text_fail: "you can't do that"
- 
-  - id: "lever"
-    short_desc: "A lever."
-    long_desc: "A plain-looking lever."
-    in: "white room"
-    actions:
-      - action: "PULL"
-          conditions:
-            - blue_lever_pulled: no
-            - green_lever_pulled: no
-            - purple_lever_pulled: yes
-            - red_lever_pulled: yes
-          set:
-            - object: "TRAPDOOR"
-              attribute: locked
-              value: no
-          text_fail: "The lever is locked in place.."
-          text_success: "You pull the lever, and the trapdoor lock clicks open."
-      - action: "PUSH"
-          text_fail: "You should try pulling it instead."    
-   
-   
-  - id: "BLUE LEVER"
-    short_desc: "A blue lever."
-    long_desc: "A plain-looking blue lever."
-    in: "blue room"
-    actions:
-      - action: "PULL"
-          conditions:
-            - pulled: no
-          set:
-            - object: "LEVER"
-              attribute: blue_lever_pulled
-              value: yes
-            - object: "BLUE LEVER"
-              attribute: pulled
-              value: yes
-            - object: "BLUE LEVER"
-              attribute: pushed
-              value: no
-          text_success: "You pull the lever."
-          text_fail: "You have already pulled the lever."
-      - action: "PUSH"
-          conditions:
-            - pushed: no
-          set:
-            - object: "LEVER"
-              attribute: blue_lever_pulled
-              value: no
-            - object: "BLUE LEVER"
-              attribute: pushed
-              value: yes
-            - object: "BLUE LEVER"
-              attribute: pulled
-              value: no
-          text_success: "You push the lever back to its original position."
-          text_fail: "You have already pushed the lever."
-  - id: "GREEN LEVER"
-    short_desc: "A green lever."
-    long_desc: "A plain-looking green lever."
-    in: "green room"
-    actions:
-      - action: "PULL"
-          conditions:
-            - pulled: no
-          set:
-            - object: "LEVER"
-              attribute: green_lever_pulled
-              value: yes
-            - object: "GREEN LEVER"
-              attribute: pulled
-              value: yes
-            - object: "GREEN LEVER"
-              attribute: pushed
-              value: no
-          text_success: "You pull the lever."
-          text_fail: "You have already pulled the lever."
-      - action: "PUSH"
-          conditions:
-            - pushed: no
-          set:
-            - object: "LEVER"
-              attribute: green_lever_pulled
-              value: no
-            - object: "GREEN LEVER"
-              attribute: pushed
-              value: yes
-            - object: "GREEN LEVER"
-              attribute: pulled
-              value: no
-          text_success: "You push the lever back to its original position."
-          text_fail: "You have already pushed the lever."
-   
-  - id: "PURPLE LEVER"
-    short_desc: "A purple lever."
-    long_desc: "A plain-looking purple lever."
-    in: "purple room"
-    actions:
-      - action: "PULL"
-          conditions:
-            - pulled: no
-          set:
-            - object: "LEVER"
-              attribute: purple_lever_pulled
-              value: yes
-            - object: "PURPLE LEVER"
-              attribute: pulled
-              value: yes
-            - object: "PURPLE LEVER"
-              attribute: pushed
-              value: no
-          text_success: "You pull the lever."
-          text_fail: "You have already pulled the lever."
-      - action: "PUSH"
-          conditions:
-            - pushed: no
-          set:
-            - object: "LEVER"
-              attribute: purple_lever_pulled
-              value: no
-            - object: "PURPLE LEVER"
-              attribute: pushed
-              value: yes
-            - object: "PURPLE LEVER"
-              attribute: pulled
-              value: no
-          text_success: "You push the lever back to its original position."
-          text_fail: "You have already pushed the lever."
-   
-  - id: "RED LEVER"
-    short_desc: "A red lever."
-    long_desc: "A plain-looking red lever."
-    in: "red room"
-    actions:
-      - action: "PULL"
-          conditions:
-            - pulled: no
-          set:
-            - object: "LEVER"
-              attribute: red_lever_pulled
-              value: yes
-            - object: "RED LEVER"
-              attribute: pulled
-              value: yes
-            - object: "RED LEVER"
-              attribute: pushed
-              value: no
-          text_success: "You pull the lever."
-          text_fail: "You have already pulled the lever."
-      - action: "PUSH"
-          conditions:
-            - pushed: no
-          set:
-            - object: "LEVER"
-              attribute: red_lever_pulled
-              value: no
-            - object: "RED LEVER"
-              attribute: pushed
-              value: yes
-            - object: "RED LEVER"
-              attribute: pulled
-              value: no
-          text_success: "You push the lever back to its original position."
-          text_fail: "You have already pushed the lever."
-   
-  - id: "TRAPDOOR"
-    short_desc: "A trapdoor."
-    long_desc: "A strangely rustic and dusty trapdoor."
-    in: "white room"
-    actions:
-      - action: "GO"
-          conditions:
-            - locked: no
-          text_success: "You descend down the trapdoor.."
-          text_fail: "The trapdoor is locked."
-     
-   
- 
- ##note- update wdl.md to reflect updated language features/investigate discrepancies.
- 
- 
+    
+ - id: "GREENSIGN"
+   short_desc: "A green sign."
+   long_desc: "The sign reads: 'Don't pull this lever.'"
+   in: "green room"
+   actions:
+     - action: "TAKE"
+       text_success: "you weren't supposed to pick this up"
+       text_fail: "you can't do that"
+
+ - id: "PURPLESIGN"
+   short_desc: "A purple sign."
+   long_desc: "The sign reads: 'Pull this lever if you want to escape.'"
+   in: "purple room"
+   actions:
+     - action: "TAKE"
+       text_success: "you weren't supposed to pick this up"
+       text_fail: "you can't do that"
+
+ - id: "REDSIGN"
+   short_desc: "A red sign."
+   long_desc: "The sign reads: 'Pull this lever if you want to escape.'"
+   in: "red room"
+   actions:
+     - action: "TAKE"
+       text_success: "you weren't supposed to pick this up"
+       text_fail: "you can't do that"
+
+ - id: "lever"
+   short_desc: "A lever."
+   long_desc: "A plain-looking lever."
+   in: "white room"
+   actions:
+     - action: "PULL"
+         # - conditions:
+         #     - blue_lever_pulled: no
+         #     - green_lever_pulled: no
+         #     - purple_lever_pulled: yes
+         #     - red_lever_pulled: yes
+         # - set:
+         #     - object: "TRAPDOOR"
+         #       attribute: locked
+         #       value: no
+         text_success: "You pull the lever, and the trapdoor lock clicks open."
+         text_fail: "The lever is locked in place.."
+     - action: "PUSH"
+         text_success: "You should try pulling it instead."
+         text_fail: "You should try pulling it instead."
+  
+  
+ - id: "BLUELEVER"
+   short_desc: "A blue lever."
+   long_desc: "A plain-looking blue lever."
+   in: "blue room"
+   actions:
+     - action: "PULL"
+         # - conditions:
+         #     - pulled: no
+         # - set:
+         #     - object: "LEVER"
+         #       attribute: blue_lever_pulled
+         #       value: yes
+         #     - object: "BLUELEVER"
+         #       attribute: pulled
+         #       value: yes
+         #     - object: "BLUELEVER"
+         #       attribute: pushed
+         #       value: no
+         text_success: "You pull the lever."
+         text_fail: "You have already pulled the lever."
+     - action: "PUSH"
+         # - conditions:
+         #     - pushed: no
+         # - set:
+         #     - object: "LEVER"
+         #       attribute: blue_lever_pulled
+         #       value: no
+         #     - object: "BLUELEVER"
+         #       attribute: pushed
+         #       value: yes
+         #     - object: "BLUELEVER"
+         #       attribute: pulled
+         #       value: no
+         text_success: "You push the lever back to its original position."
+         text_fail: "You have already pushed the lever."
+ - id: "GREENLEVER"
+   short_desc: "A green lever."
+   long_desc: "A plain-looking green lever."
+   in: "green room"
+   actions:
+     - action: "PULL"
+         # - conditions:
+         #     - pulled: no
+         # - set:
+         #     - object: "LEVER"
+         #       attribute: green_lever_pulled
+         #       value: yes
+         #     - object: "GREENLEVER"
+         #       attribute: pulled
+         #       value: yes
+         #     - object: "GREENLEVER"
+         #       attribute: pushed
+         #       value: no
+       text_success: "You pull the lever."
+       text_fail: "You have already pulled the lever."
+     - action: "PUSH"
+         # - conditions:
+         #     - pushed: no
+         # - set:
+         #     - object: "LEVER"
+         #       attribute: green_lever_pulled
+         #       value: no
+         #     - object: "GREENLEVER"
+         #       attribute: pushed
+         #       value: yes
+         #     - object: "GREENLEVER"
+         #       attribute: pulled
+         #       value: no
+       text_success: "You push the lever back to its original position."
+       text_fail: "You have already pushed the lever."
+  
+ - id: "PURPLELEVER"
+   short_desc: "A purple lever."
+   long_desc: "A plain-looking purple lever."
+   in: "purple room"
+   actions:
+     - action: "PULL"
+         # - conditions:
+         #     - pulled: no
+         # - set:
+         #     - object: "LEVER"
+         #       attribute: purple_lever_pulled
+         #       value: yes
+         #     - object: "PURPLELEVER"
+         #       attribute: pulled
+         #       value: yes
+         #     - object: "PURPLELEVER"
+         #       attribute: pushed
+         #       value: no
+       text_success: "You pull the lever."
+       text_fail: "You have already pulled the lever."
+     - action: "PUSH"
+         # - conditions:
+         #     - pushed: no
+         # - set:
+         #     - object: "LEVER"
+         #       attribute: purple_lever_pulled
+         #       value: no
+         #     - object: "PURPLELEVER"
+         #       attribute: pushed
+         #       value: yes
+         #     - object: "PURPLELEVER"
+         #       attribute: pulled
+         #       value: no
+       text_success: "You push the lever back to its original position."
+       text_fail: "You have already pushed the lever."
+  
+ - id: "REDLEVER"
+   short_desc: "A red lever."
+   long_desc: "A plain-looking red lever."
+   in: "red room"
+   actions:
+     - action: "PULL"
+         # - conditions:
+         #     - pulled: no
+         # - set:
+         #     - object: "LEVER"
+         #       attribute: red_lever_pulled
+         #       value: yes
+         #     - object: "REDLEVER"
+         #       attribute: pulled
+         #       value: yes
+         #     - object: "REDLEVER"
+         #       attribute: pushed
+         #       value: no
+       text_success: "You pull the lever."
+       text_fail: "You have already pulled the lever."
+     - action: "PUSH"
+         # - conditions:
+         #     - pushed: no
+         # - set:
+         #     - object: "LEVER"
+         #       attribute: red_lever_pulled
+         #       value: no
+         #     - object: "REDLEVER"
+         #       attribute: pushed
+         #       value: yes
+         #     - object: "REDLEVER"
+         #       attribute: pulled
+         #       value: no
+       text_success: "You push the lever back to its original position."
+       text_fail: "You have already pushed the lever."
+  
+ - id: "TRAPDOOR"
+   short_desc: "A trapdoor."
+   long_desc: "A strangely rustic and dusty trapdoor."
+   in: "white room"
+   actions:
+     - action: "GO"
+         # - conditions:
+         #     - locked: no
+       text_success: "You descend down the trapdoor.."
+       text_fail: "The trapdoor is locked."
+    
+##note- update wdl.md to reflect updated language features/investigate discrepancies.
