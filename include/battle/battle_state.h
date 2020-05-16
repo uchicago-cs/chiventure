@@ -65,60 +65,76 @@ typedef struct _battle_t {
 
 /* Creates a new battle  struct
  * Parameters:
- * - player: a pointer to player character
- * - enemy: a pointer to enemy character/s
- * - environment: an environment enum
- * - turn: a char_t enum indicating the current turn
- * Return: a pointer to the new battle
+ * - p: a pointer to player character
+ * - ene: a pointer to enemy character/s
+ * - env: an environment enum
+ * - ct: a char_t enum indicating the current turn
+ * returns: a pointer to the new battle
  */
-battle_t *battle_new(character_t *player, character_t *enemy,
-    environment_t environment, char_t turn);
+battle_t *battle_new(character_t *p, character_t *ene,
+    environment_t env, char_t ct);
 
 /* Initialize a battle  struct
  * Parameters:
- * - battle: a pointer to a battle struct in memory
- * - player: a pointer to player character
- * - enemy: a pointer to enemy character/s
- * - environment: an environment enum
- * - turn: a char_t enum indicating the current turn
+ * - b: a pointer to a battle struct in memory
+ * - p: a pointer to player character
+ * - ene: a pointer to enemy character/s
+ * - env: an environment enum
+ * - ct: a char_t enum indicating the current turn
  * returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int battle_init(battle_t *battle, character_t *player, character_t *enemy,
-    environment_t environment, char_t turn);
+int battle_init(battle_t *b, character_t *p, character_t *ene,
+    environment_t env, char_t ct);
 
 /* Frees a battle struct from memory */
-int free_battle(battle_t *battle);
+int free_battle(battle_t *b);
 
 /* Initialize a character  struct
  * Parameters:
  * - name: name string
- * - char_type: char_t indicating character type
+ * - ct: char_t indicating character type
  * - stat_t: pointer to stats module (stub)
  * - move_t: pointer to moves module (stub)
  * - item_t: pointer to items module (stub)
  * - next: a pointer to a potential next character in a list
- * Return: a pointer to the new character
+ * returns: a pointer to the new character
  */
-character_t *character_new(char *name, char_t type, stat_t *stats,
+character_t *character_new(char *name, char_t ct, stat_t *stats,
     move_t *moves, item_t *items, character_t *next);
 
 /* Creates a new character  struct
  * Parameters:
- * - character: a pointer to character in memory
+ * - c: a pointer to character in memory
  * - name: name string
- * - char_type: char_t indicating character type
+ * - ct: char_t indicating character type
  * - stat_t: a pointer to stats module (stub)
  * - move_t: a pointer to moves module (stub)
  * - item_t: a pointer to items module (stub)
  * - next: a pointer to a potential next character in a list
+ * returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int character_init(character_t *character, char *name, char_t type,
+int character_init(character_t *c, char *name, char_t ct,
      stat_t *stats, move_t *moves, item_t *items, character_t *next);
 
-/* Frees a character struct from memory */
-int free_character(character_t *character);
+/* Frees a character struct from memory
+ * Parameters:
+ * - c: a pointer to character in memory
+ * returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int free_character(character_t *c);
+
+/* Frees a list of character structs from memory
+ * Parameters:
+ * - c: a pointer to character in memory
+ * returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int free_characters(character_t *c);
 #endif
