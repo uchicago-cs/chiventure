@@ -36,7 +36,8 @@ npc_t *npc_new(char *npc_id, int health, convo_t *dialogue)
 int npc_free(npc_t *npc)
 {
     assert(npc != NULL);
-
+    
+    // missing free_dialog function 
     free(npc->npc_id);
     delete_all_items(&npc->inventory);
     free(npc);

@@ -28,6 +28,8 @@ typedef struct npc {
  * Parameters:
  *  npc: an npc; must point to already allocated memory
  *  health: the starting health of the npc
+ *  npc_id: string referring to npc id; passed implicitly
+            from npc_new 
  *  dialogue: pointer to a convo struct for the npc
  *   // placeholder for incoming dialogue module
  *
@@ -76,7 +78,7 @@ int npc_free(npc_t *npc);
 int get_npc_health(npc_t *npc);
 
 /*
- * Changes the health of the player
+ * Changes the health of the npc 
  *
  * Parameters:
  *  npc: the npc
