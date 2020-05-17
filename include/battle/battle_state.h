@@ -93,13 +93,13 @@ int battle_init(battle_t *b, combatant_t *player, combatant_t *enemy,
 /* Frees a battle struct from memory */
 int battle_free(battle_t *b);
 
-/* Initialize a combatantstruct
+/* Initialize a combatant struct
  * Parameters:
  * - name: name string
  * - is_friendly: bool indicating character type
- * - stat_t: pointer to stats module (stub)
- * - move_t: pointer to moves module (stub)
- * - item_t: pointer to items module (stub)
+ * - stat_t: pointer to the stats of the combatant(stub)
+ * - move_t: pointer to the linked list of moves for the combatant (stub)
+ * - item_t: pointer to the linked list of items for the combatant (stub)
  * returns: a pointer to the new character
  */
 combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
@@ -107,12 +107,12 @@ combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
 
 /* Creates a new combatant struct
  * Parameters:
- * - c: a pointer to combatantin memory
+ * - c: a pointer to combatant in memory
  * - name: name string
  * - is_friendly: bool indicating character type
- * - stat_t: a pointer to stats module (stub)
- * - move_t: a pointer to moves module (stub)
- * - item_t: a pointer to items module (stub)
+ * - stat_t: a pointer to the stats of the combatant (stub)
+ * - move_t: a pointer to the linked list of moves for the combatant(stub)
+ * - item_t: a pointer to the linked list of items for the combatant (stub)
  * returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
