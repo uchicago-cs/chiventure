@@ -19,12 +19,7 @@
 
 int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, int choose_condition, int choose_effect)
 {
-    chiventure_ctx_t *ctx_test = malloc(sizeof(chiventure_ctx_t));
-    //ctx_test = chiventure_ctx_new(NULL);
-    game_t *game = game_new("test");
-    ctx_test->game = game;
-    
-    printf("ctx: %p", ctx_test);
+    chiventure_ctx_t *ctx_test = chiventure_ctx_new(NULL);
     
     action_type_t *a = action_type_new(act_name, kind);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
@@ -153,9 +148,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         break;
     }
 
-    //chiventure_ctx_free(ctx_test);
-    game_free(game);
-    free(ctx_test);
+    chiventure_ctx_free(ctx_test);
+    //game_free(game);
+    //free(ctx_test);
     free(string);
     item_free(direct);
     item_free(indirect);

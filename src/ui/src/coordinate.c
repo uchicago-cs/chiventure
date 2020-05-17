@@ -70,7 +70,7 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
         cr->r = r;
 
         HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
-        fclose(debug);
+        //fclose(debug); This line seems to be breaking the 3 tests
         return SUCCESS;
     }
     else
