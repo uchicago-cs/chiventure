@@ -3,9 +3,9 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-#include "lauxlib.h"
-#include "lua.h"
-#include "lualib.h"
+// #include "lauxlib.h"
+// #include "lua.h"
+// #include "lualib.h"
 
 /* File consisting of all custom pseudo-types created by Custom Scripts
    =========================================================================== */
@@ -185,6 +185,26 @@ string_t string_t_init(string_t it, char *s, char *luaDirectory);
  * - string from st
  */
 char* string_t_get(string_t st);
+
+
+/**
+ * string_is_lua() determines whether a string is a Lua directory string
+ * A lua directory string must start with LUA
+ * Parameters:
+ * - s: string to be investigated
+ * Returns:
+ * - boolean value (true = lua directory)
+ */
+bool string_is_lua(char* s);
+
+/**
+ * extra_lua(), given input is a Lua directory, extracts the Lua directory
+ * Parameters:
+ * - s: Lua directory string (includes "LUA " prefix)
+ * Returns:
+ * - String that is just the Lua directory
+ */
+char* extract_lua(char* s);
 
 
 #endif
