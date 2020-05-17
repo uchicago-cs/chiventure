@@ -23,6 +23,17 @@
 #include "sample_items.h"
 #include "sample_rooms.h"
 
+/* gencontext_t struct
+ * This struct will carry the info for the generation algorithm
+ * The struct contains: 
+ * - int level: this is the players current level
+ */
+typedef struct {
+ int level;
+} gencontext_t;
+
+
+
 // #include "../game-state/game_state_common.h"
 // #include "../game-state/game_action.h"
 // #include "../game-state/game.h"
