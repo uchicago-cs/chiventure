@@ -2,6 +2,7 @@
 #define _SAMPLE_ROOM_H
 
 #include "../game-state/game_state_common.h"
+#include "../game-state/game.h"
 #include "sample_items.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
@@ -97,6 +98,17 @@ int room_init(room_t *new_room, room_tag_t room_tag);
 
 int room_free(room_t *room);
 
+/* Adds an item to the given room
+*
+* Parameters:
+*  room struct
+*  item struct
+*
+* Returns:
+*  SUCCESS if successful, FAILURE if failed
+*/
+int add_item_to_room(room_t *room, item_t *item);
+
 /* Get short description of room
 *
 * Parameters:
@@ -137,5 +149,37 @@ item_hash_t* list_items(room_t *room);
 *  pointer to hashtable of paths from room
 */
 path_t *list_paths(room_t *room);
+
+/* Get list of all rooms created in a game
+*
+* Parameters:
+*  pointer to game struct
+*
+* Returns:
+*  pointer to list of rooms
+*/
+room_list_t* list_rooms(game* g);
+
+/* Get a randomly generated room with no inital parameters
+*  Will call on rand() function to randomly call on
+* one of the hard-coded rooms
+*
+* Parameters: n\a
+*
+* Returns:
+*  pointer to an initialized random room
+*/
+room_t* generate_room();
+
+/* Connect src room to dest room via a valid-exit item in src
+*
+* Parameters:
+*  two rooms: src, dest
+*
+* Returns:
+*  void, but edits path attributes in both rooms
+*/
+void connect_rooms(room_t* src, room_t* dest);
+
 
 #endif /* _SAMPLE_ROOM_H */

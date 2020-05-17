@@ -30,7 +30,7 @@ typedef struct item {
 	char *short_desc;
 	char *long_desc;
 //	game_action_hash_t *actions;
-//	attribute_hash_t *attributes; // a hashtable for all attribute
+	attribute_hash_t *attributes; // a hashtable for all attribute
 
 } item_t;
 
@@ -93,6 +93,81 @@ char *get_ldesc_item(item_t *item);
 */
 int item_free(item_t *item_tofree);
 
+// ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
+// values will be loaded from WDL/provided by action management
+typedef union attribute_value {
+	double double_val;
+	char char_val;
+	bool bool_val;
+	char* str_val;
+	int int_val;
+} attribute_value_t;
+
+enum attribute_tag { DOUBLE, BOOLE, CHARACTER, STRING, INTEGER } attribute_tag_t;
+
+typedef struct attribute {
+	UT_hash_handle hh;
+	char* attribute_key; // attribute name
+	enum attribute_tag attribute_tag;
+	attribute_value_t attribute_value;
+} attribute_t;
+
+typedef struct attribute_wrapped_for_llist {
+	struct attribute_wrapped_for_llist *next;
+	attribute_t *attribute;
+} attribute_list_t;
+
+/* attribute_init() initializes an attribute struct with given values
+* arguments are taken from WDL
+* Parameters:
+* a memory allocated new attribute pointer
+* char* attr_name that names the attribute
+* attribute_tag_t item_tag that specifies the kind of item
+* Returns:
+* FAILURE for failure, SUCCESS for success
+*/
+int attribute_init(attribute_t* new_attr, char* attr_name, attribute_tag_t* tag);
+
+/* attribute_new() allocates a space for an item struct in memory
+*  Parameters:
+*    char* attr_name that names the attribute
+*	 attribute_tag_t* tag that specifies the data type of attribute
+*  Returns:
+*    A pointer to a new attribute struct.
+*/
+attribute_t* attribute_new(char* attr_name, attribute_tag_t* tag)
+
+/* add_attribute_to_hash adds new attribute to hash table for search purposes
+* IDK WILL FLESH OUT THIS DESCRIPTION LATER ONCE I UNDERSTAND THE HASH SYSTEM
+*/
+int add_attribute_to_hash(item_t* item, attribute_t* new_attribute);
+
+/* set_int_attr() sets the value of an attribute of an item to the given int
+* Parameters:
+*  a pointer to the item
+*  the attribute with value to be changed
+*  the int attribute value to be set
+* Returns:
+*  SUCCESS if successful, FAILURE if failed
+*  returns SUCCESS if given value is already the attribute value
+*/
+int set_int_attr(item_t* item, char* attr_name, int value);
+
+/* set_exit_attr() sets the exit attribute validity for an item
+* Parameters:
+*  a pointer to the item
+* Returns:
+* "exit" attribute is 1 if item is DOOR, 0 otherwise
+*/
+int set_exit_attr(item_t* item);
+
+/* attribute_free() frees allocated space for an attribute struct in memory
+*  Parameters:
+*    a pointer to the attribute
+*  Returns:
+*    SUCCESS if successful, FAILURE if not
+*/
+int attribute_free(attribute_t* attr)
 
 
 #endif /* _SAMPLE_ITEM_H */
