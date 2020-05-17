@@ -25,10 +25,17 @@ int int_t_get(int_t it) {
     if (it.isInt) {
         return it.p.i;
     } else {
-        // run lua script (it.p.luaDirectory)
+        char *lua_path = it.p->luaDirectory;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path + ".lua");
+        lua_settop(L, 0);
+        lua_getglobal(L, lua_path);
+        lua_call(L, 0, 1);
+        int result = (int)lua_tointeger(L, -1);
+        lua_pop(L, 1);
+        return result;
     }
-    // temporary return
-    return it.p.i;
 }
 
 // see custom_types.h
@@ -54,10 +61,20 @@ bool bool_t_get(bool_t bt) {
     if (bt.isBool) {
         return bt.p.b;
     } else {
-        // run lua script (bt.p.luaDirectory)
+        char *lua_path = bt.p->luaDirectory;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path + ".lua");
+        lua_settop(L, 0);
+        lua_getglobal(L, lua_path);
+        lua_call(L, 0, 1);
+        int result = (int)lua_toboolean(L, -1);
+        lua_pop(L, 1);
+        if (result) 
+            return true;
+        else 
+            return false;
     }
-    // temporary return
-    return bt.p.b;
 }
 
 // see custom_types.h
@@ -83,8 +100,15 @@ char* string_t_get(string_t st) {
     if (st.isString) {
         return st.p.s;
     } else {
-        // run lua script (bt.p.luaDirectory)
+        char *lua_path = st.p->luaDirectory;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path + ".lua");
+        lua_settop(L, 0);
+        lua_getglobal(L, lua_path);
+        lua_call(L, 0, 1);
+        char *result = lua_tostring(L, -1);
+        lua_pop(L, 1);
+        return result;
     }
-    // temporary return
-    return st.p.s;
 }

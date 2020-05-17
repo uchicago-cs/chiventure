@@ -3,7 +3,9 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-
+#include "lauxlib.h"
+#include "lua.h"
+#include "lualib.h"
 
 /* File consisting of all custom pseudo-types created by Custom Scripts
    =========================================================================== */
