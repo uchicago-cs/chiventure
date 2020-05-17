@@ -14,12 +14,13 @@ typedef struct
     double hp;
     double max_hp;
     double xp;
+    unsigned int level;
 } stats_t;
 
 typedef struct
 {
-	int id;
-	int quantity;
+    int id;
+    int quantity;
     double durability;
     char* description;
     bool battle;
@@ -30,7 +31,7 @@ typedef struct
 
 typedef struct
 {
-	char* description;
+    char* description;
     double defense;
     double weight;
 } armor_t;
@@ -39,15 +40,15 @@ typedef struct
 typedef struct _ilist_t ilist_t;
 struct _ilist_t
 {
-	item_t *item;
+    item_t *item;
     ilist_t *next;
 };
 
 typedef struct _alist_t alist_t;
 struct _alist_t
 {
-	armor_t *armor;
-	alist_t *next;
+    armor_t *armor;
+    alist_t *next;
 };
 
 
@@ -74,10 +75,10 @@ typedef struct
 
 typedef struct
 {
-        class_t cl;
-        ilist_t *inventory;
-        alist_t *armor;
-        stats_t *stats;
+    class_t cl;
+    ilist_t *inventory;
+    alist_t *armor;
+    stats_t *stats;
 } player_t;
 
 typedef struct
@@ -91,17 +92,17 @@ typedef struct
 
 typedef struct
 {
-	item_t *item;
-	bool attack;
-	int damage;
-	int defense;
+    item_t *item;
+    bool attack;
+    int damage;
+    int defense;
 } move_t;
 
 typedef struct _mlist_t mlist_t;
 struct _mlist_t
 {
-	move_t *move;
-	mlist_t *next;
+    move_t *move;
+    mlist_t *next;
 };
 
 
