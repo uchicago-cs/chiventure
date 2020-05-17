@@ -14,127 +14,127 @@
  * ENV_WATER: water
  * (temporary values, to be developed at a later time)
  */
-typedef enum _environment_t {
-     ENV_GRASS = 0,
-     ENV_DESERT = 1,
-     ENV_SNOW = 2,
-     ENV_WATER = 3
+typedef enum environment {
+    ENV_NONE = -1,
+    ENV_GRASS = 0,
+    ENV_DESERT = 1,
+    ENV_SNOW = 2,
+    ENV_WATER = 3
 } environment_t;
 
-/* A character type enum that contains the following:
- * PLAYER: player
- * ENEMY: enemy/enemies
- * (temporary values, to be developed at a later time)
+/* A turn  enum that contains the following:
+ * PLAYER: player turn
+ * ENEMY: enemy/enemies turn
  */
-typedef enum char_t {
+typedef enum turn {
     PLAYER = 0,
     ENEMY = 1
-} char_t;
+} turn_t;
 
-/* A character struct that contains the following:
- * name: character name
- * char_type: character type, player or enemy
+/* A combatant struct that contains the following:
+ * name: combatant name
+ * is_friendly: whether combatant is the player or enemy
  * class: class type
  * stats: pointer to stats module (stub)
  * moves: pointer to moves module (stub)
  * items: pointer to items module (stub)
- * next: allows for character lists using utlist.h
+ * next: allows for combatant lists using utlist.h
+ * prev: allows for combatant lists using utlist.h
  */
-typedef struct _character_t {
+typedef struct combatant {
     char *name;
-    char_t type;
+    bool is_friendly;
     class_t class;
     stat_t *stats;
     move_t *moves;
     item_t *items;
-    struct _character_t *next;
-} character_t;
+    struct combatant *next;
+    struct combatant *prev;
+} combatant_t;
 
 /* A battle struct that contains the following:
- * - player: a character pointer, storing the player
- * - enemies: a character pointer, storing the enemy/enemies
+ * - player: a combatant pointer, storing the player
+ * - enemies: a combatant pointer, storing the enemy/enemies
  * - environment: stores battle environment
- * - turn: a char_t enum storing the current turn
+ * - turn: a turn_t enum storing the current turn
  */
-typedef struct _battle_t {
-    character_t *player;
-    character_t *enemy;
+typedef struct battle {
+    combatant_t *player;
+    combatant_t *enemy;
     environment_t environment;
-    char_t turn;
+    turn_t turn;
 } battle_t;
 
 /* Creates a new battle  struct
  * Parameters:
- * - p: a pointer to player character
- * - ene: a pointer to enemy character/s
+ * - player: a pointer to player combatant
+ * - enemy: a pointer to enemy combatant/s
  * - env: an environment enum
- * - ct: a char_t enum indicating the current turn
+ * - turn: a turn_t enum indicating the current turn
  * returns: a pointer to the new battle
  */
-battle_t *battle_new(character_t *p, character_t *ene,
-    environment_t env, char_t ct);
+battle_t *battle_new(combatant_t *player, combatant_t *enemy,
+    environment_t env, turn_t turn);
 
 /* Initialize a battle  struct
  * Parameters:
  * - b: a pointer to a battle struct in memory
- * - p: a pointer to player character
- * - ene: a pointer to enemy character/s
+ * - player: a pointer to player combatant
+ * - enemy: a pointer to enemy combatant/s
  * - env: an environment enum
- * - ct: a char_t enum indicating the current turn
+ * - turn: a turn_t enum indicating the current turn
  * returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int battle_init(battle_t *b, character_t *p, character_t *ene,
-    environment_t env, char_t ct);
+int battle_init(battle_t *b, combatant_t *player, combatant_t *enemy,
+    environment_t env, turn_t turn);
 
 /* Frees a battle struct from memory */
-int free_battle(battle_t *b);
+int battle_free(battle_t *b);
 
-/* Initialize a character  struct
+/* Initialize a combatantstruct
  * Parameters:
  * - name: name string
- * - ct: char_t indicating character type
+ * - is_friendly: bool indicating character type
  * - stat_t: pointer to stats module (stub)
  * - move_t: pointer to moves module (stub)
  * - item_t: pointer to items module (stub)
- * - next: a pointer to a potential next character in a list
  * returns: a pointer to the new character
  */
-character_t *character_new(char *name, char_t ct, stat_t *stats,
-    move_t *moves, item_t *items, character_t *next);
+combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
+    move_t *moves, item_t *items);
 
-/* Creates a new character  struct
+/* Creates a new combatant struct
  * Parameters:
- * - c: a pointer to character in memory
+ * - c: a pointer to combatantin memory
  * - name: name string
- * - ct: char_t indicating character type
+ * - is_friendly: bool indicating character type
  * - stat_t: a pointer to stats module (stub)
  * - move_t: a pointer to moves module (stub)
  * - item_t: a pointer to items module (stub)
- * - next: a pointer to a potential next character in a list
  * returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int character_init(character_t *c, char *name, char_t ct,
-     stat_t *stats, move_t *moves, item_t *items, character_t *next);
+int combatant_init(combatant_t *c, char *name, bool is_friendly,
+     stat_t *stats, move_t *moves, item_t *items);
 
-/* Frees a character struct from memory
+/* Frees a combatant struct from memory
  * Parameters:
- * - c: a pointer to character in memory
+ * - c: a pointer to combatant in memory
  * returns:
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int free_character(character_t *c);
+int combatant_free(combatant_t *c);
 
-/* Frees a list of character structs from memory
+/* Frees a list of combatant tructs from memory
  * Parameters:
- * - c: a pointer to character in memory
+ * - c: a pointer to combatant in memory
  * returns:
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int free_characters(character_t *c);
+int combatant_free_all(combatant_t *c);
 #endif

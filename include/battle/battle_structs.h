@@ -4,8 +4,11 @@
 #include <stdbool.h>
 #include <string.h>
 
+/* max name length */
+#define MAX_NAME_LEN (50)
+
 /* items stub */
-typedef struct _item_t{
+typedef struct item {
     int id;
     int quantity;
     int durability;
@@ -14,31 +17,39 @@ typedef struct _item_t{
     int attack;
     int defense;
     int hp;
-    struct _item_t *next;
+    struct item *next;
+    struct item *prev;
 } item_t;
 
 /* moves stub */
-typedef struct _move_t{
+typedef struct move {
     item_t *item;
     bool attack;
     int damage;
     int defense;
-    struct _move_t *next;
+    struct move *next;
+    struct move *prev;
 } move_t;
 
 /* stats stub */
-typedef struct
-{
+typedef struct stat {
     int speed;
     int strength;
     int dexterity;
     int hp;
     int max_hp;
     int xp;
+    struct stat *next;
+    struct stat *prev;
 } stat_t;
 
 /* class stub */
-typedef enum _class_t{bard, cleric, paladin, wizard} class_t;
+typedef enum class {
+    bard,
+    cleric,
+    paladin, 
+    wizard
+} class_t;
 
 
 

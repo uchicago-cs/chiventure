@@ -4,71 +4,60 @@
 #include <string.h>
 #include "battle/battle_state.h"
 
-/* Tests character_new() */
-Test(battle_state, character_new)
+/* Tests combatant_new() */
+Test(battle_state, combatant_new)
 {
-    character_t *c;
+    combatant_t *c;
 
-    c = character_new("character_new_Name",PLAYER, NULL, NULL, NULL, NULL);
+    c = combatant_new("combatant_new_Name", true, NULL, NULL, NULL);
 
-    cr_assert_not_null(c, "character_new() failed");
+    cr_assert_not_null(c, "combatant_new() failed");
 
-    cr_assert_str_eq(c->name, "character_new_Name", "character_new() didn't set name");
-    cr_assert_eq(c->type, PLAYER, "character_new() didn't set type");
+    cr_assert_str_eq(c->name, "combatant_new_Name", "combatant_new() didn't set name");
+    cr_assert_eq(c->is_friendly, true, "combatant_new() didn't set type");
 }
 
-/* Tests character_init() */
-Test(battle_state, character_init)
+/* Tests combatant_init() */
+Test(battle_state, combatant_init)
 {
-    character_t c;
+    combatant_t c;
     int rc;
 
-    rc = character_init(&c, "character_init_Name",PLAYER, NULL, NULL, NULL, NULL);
+    rc = combatant_init(&c, "combatant_init_Name",true, NULL, NULL, NULL);
 
-    cr_assert_eq(rc, SUCCESS, "character_unit() failed");
+    cr_assert_eq(rc, SUCCESS, "combatant_unit() failed");
 
-    cr_assert_str_eq(c.name, "character_init_Name", "character_new() didn't set name");
-    cr_assert_eq(c.type, PLAYER, "character_new() didn't set type");
+    cr_assert_str_eq(c.name, "combatant_init_Name", "combatant_new() didn't set name");
+    cr_assert_eq(c.is_friendly, true, "combatant_new() didn't set type");
 }
 
-/* Tests free_character() */
-Test(battle_state, free_character)
+/* Tests combatant_free() */
+Test(battle_state, combatant_free)
 {
-    character_t *c;
+    combatant_t *c;
     int rc;
 
-    c = character_new("free_character_Name",PLAYER, NULL, NULL, NULL, NULL);
+    c = combatant_new("combatant_free_Name", true, NULL, NULL, NULL);
 
-    cr_assert_not_null(c, "character_new() failed");
+    cr_assert_not_null(c, "combatant_new() failed");
 
-    rc = free_character(c);
+    rc = combatant_free(c);
 
-    cr_assert_eq(rc, SUCCESS, "character_free() failed");
+    cr_assert_eq(rc, SUCCESS, "combatant_free() failed");
 }
 
-/* Tests free_characters() */
-Test(battle_state, free_characters)
+/* Tests combatant_free_all() */
+Test(battle_state, combatant_free_all)
 {
-    character_t *c1;
-	character_t *c2;
-    int rc;
-
-    c2 = character_new("free_characters_Name2",PLAYER, NULL, NULL, NULL, NULL);
-    c1 = character_new("free_characters_Name1",PLAYER, NULL, NULL, NULL, c2);
-
-    cr_assert_not_null(c1, "character_new() failed");
-
-    rc = free_characters(c1);
-
-    cr_assert_eq(rc, SUCCESS, "characters_free() failed");
+    /* TODO */
 }
 
 /* Tests battle_new() */
 Test(battle_state, battle_new)
 {
     battle_t *b;
-    character_t *p = character_new("battle_new_Player",PLAYER, NULL, NULL, NULL, NULL);
-    character_t *e = character_new("battle_new_Enemy",ENEMY, NULL, NULL, NULL, NULL);
+    combatant_t *p = combatant_new("battle_new_Player", true, NULL, NULL, NULL);
+    combatant_t *e = combatant_new("battle_new_Enemy", true, NULL, NULL, NULL);
 
     b = battle_new(p, e, ENV_SNOW, ENEMY);
 
@@ -76,41 +65,41 @@ Test(battle_state, battle_new)
 
     cr_assert_not_null(b->player, "battle_new() didn't set player");
     cr_assert_not_null(b->enemy, "battle_new() didn't set enemy");
-    cr_assert_eq(b->environment, ENV_SNOW, "character_new() didn't set environment");
-    cr_assert_eq(b->turn, ENEMY, "character_new() didn't set turn");
+    cr_assert_eq(b->environment, ENV_SNOW, "battle_new() didn't set environment");
+    cr_assert_eq(b->turn, ENEMY, "battle_new() didn't set turn");
 }
 
 /* Tests battle_init() */
 Test(battle_state, battle_init)
 {
     battle_t b;
-    character_t *p = character_new("battle_init_Player",PLAYER, NULL, NULL, NULL, NULL);
-    character_t *e = character_new("battle_init_Enemy",ENEMY, NULL, NULL, NULL, NULL);
+    combatant_t *p = combatant_new("battle_init_Player", true, NULL, NULL, NULL);
+    combatant_t *e = combatant_new("battle_init_Enemy", true, NULL, NULL, NULL);
     int rc;
 
     rc = battle_init(&b, p, e, ENV_SNOW, ENEMY);
 
-    cr_assert_eq(rc, SUCCESS, "character_unit() failed");
+    cr_assert_eq(rc, SUCCESS, "combatant_init() failed");
 
-    cr_assert_not_null(b.player, "battle_new() didn't set player");
-    cr_assert_not_null(b.enemy, "battle_new() didn't set enemy");
-    cr_assert_eq(b.environment, ENV_SNOW, "character_new() didn't set environment");
-    cr_assert_eq(b.turn, ENEMY, "character_new() didn't set turn");
+    cr_assert_not_null(b.player, "battle_init() didn't set player");
+    cr_assert_not_null(b.enemy, "battle_init() didn't set enemy");
+    cr_assert_eq(b.environment, ENV_SNOW, "battle_init() didn't set environment");
+    cr_assert_eq(b.turn, ENEMY, "battle_init() didn't set turn");
 }
 
-/* Tests free_battle */
-Test(battle_state, free_battle)
+/* Tests battle_free */
+Test(battle_state, battle_free)
 {
     battle_t *b;
     int rc;
-    character_t *p = character_new("battle_new_Player",PLAYER, NULL, NULL, NULL, NULL);
-    character_t *e = character_new("battle_new_Enemy",ENEMY, NULL, NULL, NULL, NULL);
+    combatant_t *p = combatant_new("battle_new_Player", true, NULL, NULL, NULL);
+    combatant_t *e = combatant_new("battle_new_Enemy", false, NULL, NULL, NULL);
 
     b = battle_new(p, e, ENV_SNOW, ENEMY);
 
     cr_assert_not_null(b, "battle_new() failed");
 
-    rc = free_battle(b);
+    rc = battle_free(b);
 
     cr_assert_eq(rc, SUCCESS, "battle_free() failed");
 }

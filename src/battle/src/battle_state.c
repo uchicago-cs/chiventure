@@ -6,20 +6,20 @@
 
 
 /* See battle_state.h */
-character_t *character_new(char *name, char_t ct, stat_t *stats,
-    move_t *moves, item_t *items, character_t *next)
+combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
+    move_t *moves, item_t *items)
 {
-    character_t *c;
+    combatant_t *c;
     int rc;
-    c = malloc(sizeof(character_t));
+    c = calloc(1, sizeof(combatant_t));
 
     if(c == NULL)
     {
-        fprintf(stderr, "Could not allocate memory for character\n");
+        fprintf(stderr, "Could not allocate memory for combatant\n");
         return NULL;
     }
 
-    rc = character_init(c, name, ct, stats, moves, items, next);
+    rc = combatant_init(c, name, is_friendly, stats, moves, items);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Could not initialize character\n");
@@ -30,72 +30,50 @@ character_t *character_new(char *name, char_t ct, stat_t *stats,
 }
 
 /* See battle_state.h */
-int character_init(character_t *c, char *name, char_t ct, stat_t *stats,
-    move_t *moves, item_t *items, character_t *next)
+int combatant_init(combatant_t *c, char *name, bool is_friendly, stat_t *stats,
+    move_t *moves, item_t *items)
 {
     assert(c != NULL);
 
-    c->name = malloc(50);
-    strcpy(c->name, name);
-    c->type = ct;
+    c->name = calloc(MAX_NAME_LEN, sizeof(char));
+    strncpy(c->name, name, MAX_NAME_LEN);
+    c->is_friendly= is_friendly;
     c->stats = stats;
     c->moves = moves;
     c->items = items;
-    c->next = next;
+    c->next = NULL;
+    c->prev = NULL;
 
     return SUCCESS;
 }
 
 /* battle_state.h */
-int free_character(character_t *c)
+int combatant_free(combatant_t *c)
 {
 	assert(c != NULL);
 
-	if(c->next != NULL)
-	{
-		printf("moving\n");
-		character_t *next_c = c->next;
-		c->name = next_c->name;
-		c->stats = next_c->stats;
-		c->moves = next_c->moves;
-		c->items = next_c->items;
-		c->next = next_c->next;
-		return free_character(c->next);
-	}
-	else
-	{
-		printf("freeing char %s\n",c->name);
-		free(c->name);
-		free(c->stats);
-		free(c->moves);
-		free(c->items);
-		free(c);
-		return SUCCESS;
-	}
+	free(c->name);
+	free(c->stats);
+	free(c->moves);
+	free(c->items);
+	free(c);
+	return SUCCESS;
 }
 
 /* See battle_state.h */
-int free_characters(character_t *c)
+int combatant_free_all(combatant_t *c)
 {
-    if(c != NULL)
-	{
-    	free(c->name);
-    	free(c->stats);
-    	free(c->moves);
-    	free(c->items);
-    	int rc = free_characters(c->next);
-    	free(c);
-	}
-    return SUCCESS;
+    /* TODO */
+    return FAILURE;
 }
 
 /* See battle_state.h */
-battle_t *battle_new(character_t *p, character_t *ene,
-    environment_t env, char_t ct)
+battle_t *battle_new(combatant_t *player, combatant_t *enemy,
+    environment_t env, turn_t turn)
 {
     battle_t *b;
     int rc;
-    b = malloc(sizeof(battle_t));
+    b = calloc(1, sizeof(battle_t));
 
     if(b == NULL)
     {
@@ -103,7 +81,7 @@ battle_t *battle_new(character_t *p, character_t *ene,
         return NULL;
     }
 
-    rc = battle_init(b, p, ene, env, ct);
+    rc = battle_init(b, player, enemy, env, turn);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Could not initialize battle struct\n");
@@ -114,26 +92,26 @@ battle_t *battle_new(character_t *p, character_t *ene,
 }
 
 /* See battle_state.h */
-int battle_init(battle_t *b, character_t *p, character_t *ene,
-    environment_t env, char_t ct)
+int battle_init(battle_t *b, combatant_t *player, combatant_t *enemy,
+    environment_t env, turn_t turn)
 {
     assert(b != NULL);
 
-    b->player = p;
-    b->enemy = ene;
+    b->player = player;
+    b->enemy = enemy;
     b->environment = env;
-    b->turn = ct;
+    b->turn = turn;
 
     return SUCCESS;
 }
 
 /* See battle_state.h */
-int free_battle(battle_t *b)
+int battle_free(battle_t *b)
 {
     assert(b != NULL);
 
-    free_characters(b->player);
-    free_characters(b->enemy);
+    combatant_free(b->player);
+    combatant_free(b->enemy);
     free(b);
 
     return SUCCESS;
