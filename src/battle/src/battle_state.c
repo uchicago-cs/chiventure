@@ -63,8 +63,17 @@ int combatant_free(combatant_t *c)
 /* See battle_state.h */
 int combatant_free_all(combatant_t *c)
 {
-    /* TODO */
-    return FAILURE;
+    if(c != NULL)
+    {
+        combatant_t *elt;
+        combatant_t *tmp
+        DL_FOREACH_SAFE(head,elt,tmp)
+        {
+            DL_DELETE(head,elt);
+            combatant_free(elt);
+        }
+    }
+    return SUCCESS;
 }
 
 /* See battle_state.h */

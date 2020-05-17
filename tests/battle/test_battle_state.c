@@ -49,7 +49,18 @@ Test(battle_state, combatant_free)
 /* Tests combatant_free_all() */
 Test(battle_state, combatant_free_all)
 {
-    /* TODO */
+    combatant_t *c1;
+    combatant_t *c2;
+    int rc
+
+    c2 = combatant_new("combatant_free_Name1", true, NULL, NULL, NULL);
+    c1 = combatant_new("combatant_free_Name2", true, NULL, NULL, NULL);
+    DL_APPEND(c1, c2);
+
+    cr_assert_not_null(c, "combatant_new() failed");
+    rc = combatant_free_all(c);
+
+    cr_assert_eq(rc, SUCCESS, "combatant_free_all() failed");
 }
 
 /* Tests battle_new() */
