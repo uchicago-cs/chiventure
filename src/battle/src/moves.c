@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+/** See moves.h */
 int init_class(class_t *class, enum class cl, char* info, enum stats st, int bonus)
 {
     assert(class != NULL);
@@ -23,7 +23,7 @@ int init_class(class_t *class, enum class cl, char* info, enum stats st, int bon
     return 0;
 }
 
-
+/** See moves.h */
 class_t *new_class(enum class cl, char* info, enum stats st, int bonus)
 {
     class_t *class = (class_t*) malloc(sizeof(class_t));
@@ -37,7 +37,7 @@ class_t *new_class(enum class cl, char* info, enum stats st, int bonus)
 
     rc = init_class(class, cl, info, st, bonus);
 
-    if(rc != 1)
+    if(rc != 0)
     {
         fprintf(stderr,"Could not initialize class\n");
         return NULL;
@@ -46,21 +46,24 @@ class_t *new_class(enum class cl, char* info, enum stats st, int bonus)
     return class;
 }
 
-//Charismatic, always has a joke, song, or moving speech ready
-
-/**
-
-class struct should have
-    -enum class
-    -char *description
-    -enum stat (speed, dex, strength, intelligence)
-    -int amount modified
-
-**/
-
-//enum class{bard, cleric, paladin, wizard};
 
 int main()
 {
-    printf("MEOW\n");
+    //Creates test bard class
+    char* bard_des = "Charismatic, always has a joke, song, or moving speech ready";
+    class_t *test_bard = new_class(0, bard_des, 3, 2);
+
+    //Creates test cleric class
+    char* cleric_des = "Fueled by divine inspiration, devout to the craft";
+    class_t *test_cleric = new_class(1, cleric_des, 1, 2);
+
+    //Creates test paladin class
+    char* paladin_des = "Driven and committed to justice";
+    class_t *test_paladin = new_class(2, paladin_des, 2, 2);
+
+    //Creates test wizard class
+    char* wizard_des = "Draws power from nature";
+    class_t *test_wizard = new_class(3, wizard_des, 0, 2);
+
+    printf("Success\n");
 }
