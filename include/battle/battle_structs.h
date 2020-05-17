@@ -39,8 +39,6 @@ typedef struct stat {
     int hp;
     int max_hp;
     int xp;
-    struct stat *next;
-    struct stat *prev;
 } stat_t;
 
 /* class stub */
