@@ -23,7 +23,7 @@ bool enter_new_room(room_t *r1, room_t *r2) {
 
 /* See sample_generation.h */
 int room_generate(room_t* roomOld, game_t *gameNew, room_t *addRoom) {
-    /* BELOW: implement algo from autogenerate algorithm module */
+    /* Implement simple single-room autogeneration */
     if (enter_new_room(roomOld, gameNew->curr_room)) {
 
         // Add addRoom to gameNew
