@@ -21,6 +21,17 @@ int_t int_t_init(int_t it, int i, char* luaDirectory) {
 }
 
 // see custom_types.h
+int int_t_get(int_t it) {
+    if (it.isInt) {
+        return it.p.i;
+    } else {
+        // run lua script (it.p.luaDirectory)
+    }
+    // temporary return
+    return it.p.i;
+}
+
+// see custom_types.h
 bool_t bool_t_new(bool b, char *luaDirectory) {
      bool_t bt;
     return bool_t_init(bt, b, luaDirectory);
@@ -39,6 +50,17 @@ bool_t bool_t_init(bool_t bt, bool b, char *luaDirectory) {
 }
 
 // see custom_types.h
+bool bool_t_get(bool_t bt) {
+    if (bt.isBool) {
+        return bt.p.b;
+    } else {
+        // run lua script (bt.p.luaDirectory)
+    }
+    // temporary return
+    return bt.p.b;
+}
+
+// see custom_types.h
 string_t string_t_new(char *s, char *luaDirectory) {
     string_t st;
     return string_t_init(st, s, luaDirectory);
@@ -54,4 +76,15 @@ string_t string_t_init(string_t st, char *s, char *luaDirectory) {
         st.p.luaDirectory = luaDirectory;
     }
     return st;
+}
+
+// see custom_types.h
+char* string_t_get(string_t st) {
+    if (st.isString) {
+        return st.p.s;
+    } else {
+        // run lua script (bt.p.luaDirectory)
+    }
+    // temporary return
+    return st.p.s;
 }

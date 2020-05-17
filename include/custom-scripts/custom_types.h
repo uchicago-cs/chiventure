@@ -58,6 +58,16 @@ int_t int_t_init(int_t it, int i, char *luaDirectory);
 
 
 /**
+ * int_t_get() returns an int from a int_t struct
+ * Parameters:
+ * - it: an int_t
+ * Returns:
+ * - integer from it
+ */
+int int_t_get(int_t it);
+
+
+/**
  * A pseudo-bool type: underlying type is either a bool or a Lua script directory
  */
 typedef union pseudoBool {
@@ -104,6 +114,16 @@ bool_t bool_t_new(bool b, char *luaDirectory);
  * so copying is not costly
  */
 bool_t bool_t_init(bool_t bt, bool b, char *luaDirectory);
+
+
+/**
+ * bool_t_get() returns a bool from a bool_t struct
+ * Parameters:
+ * - bt: a bool_t
+ * Returns:
+ * - bool from bt
+ */
+bool bool_t_get(bool_t bt);
 
 
 /**
@@ -154,6 +174,15 @@ string_t string_t_new(char *s, char *luaDirectory);
  */
 string_t string_t_init(string_t it, char *s, char *luaDirectory);
 
+
+/**
+ * string_t_get() returns a string from a string_t struct
+ * Parameters:
+ * - st: a string_t
+ * Returns:
+ * - string from st
+ */
+char* string_t_get(string_t st);
 
 
 #endif
