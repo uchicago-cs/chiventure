@@ -1,7 +1,7 @@
-CL = gcc
+CC = gcc
 CFLAGS = -g -Wall -Werror
-SRC = test_room.c test_items.c test_generation.c
-EXE = openworld-test
+SRC = test_generation.c
+BIN = openworld-test
 
-openworld-test:
-	$(CL) -g -Wall $(SRC) -o $(EXE) 
+openworld-test: ../../include/openworld/sample_generation.h
+	$(CC) -g -Wall $(SRC) -o $(BIN)
