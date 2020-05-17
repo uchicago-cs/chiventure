@@ -55,11 +55,13 @@ typedef struct {
 /* A linked list struct that contains two components
  * - act: the data component
  * - next: the next item in the linked list
+ * - trigger: room_id of the room that requires this aciton as a condition
  * This struct is primarily used in the get_supported_actions function.
 */
 typedef struct list_act {
     action_type_t *act;
     struct list_act *next;
+    char *trigger;
 } list_action_type_t;
 
 #endif

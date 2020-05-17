@@ -3,14 +3,14 @@
 #include "game-state/room.h"
 
 /* See room.h */
-path_t *path_new(room_t *dest, char *direction, list_actiont_type_t *answers)
+path_t *path_new(room_t *dest, char *direction, list_actiont_type_t *conditions)
 {
 
     path_t *path = malloc(sizeof(path_t));
     memset(path, 0, sizeof(path_t));
     path->direction = malloc(MAX_ID_LEN * sizeof(char));
     path->dest = dest;
-    path->trigger = answers;
+    path->conditions = conditions;
     path->through = NULL;
     // will need a function to add item pointer to through
     strncpy(path->direction, direction, MAX_ID_LEN);

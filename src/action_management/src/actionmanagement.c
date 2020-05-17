@@ -16,7 +16,8 @@
 
 
 /* See actionmanagement.h */
-action_type_t *action_type_new(char *c_name, enum action_kind kind)
+action_type_t *action_type_new(char *c_name, enum action_kind kind, 
+				char *room_id)
 {
     action_type_t *a = malloc(sizeof(action_type_t));
 
@@ -26,7 +27,7 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind)
         return NULL;
     }
 
-    int new_a = action_type_init(a, c_name, kind);
+    int new_a = action_type_init(a, c_name, kind, room_id);
     if (new_a != SUCCESS)
     {
         fprintf(stderr, "Could not initialize action type %s", c_name);
@@ -38,11 +39,13 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind)
 
 
 /* See actionmanagement.h */
-int action_type_init(action_type_t *a, char *c_name, enum action_kind kind)
+int action_type_init(action_type_t *a, char *c_name, enum action_kind kind,
+			char *room_id)
 {
     assert(a);
     a->c_name = c_name;
     a->kind = kind;
+    a->trigger = room_id;
 
     return SUCCESS;
 }
