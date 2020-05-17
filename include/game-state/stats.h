@@ -32,10 +32,13 @@ typedef struct stats stats_hash_t;
  *      the pointer to the stat
  * 
  *      the modifier of the effect on that stat 
+ * 
+ *      the duration of the effect, an umber 
  * */
 typedef struct stat_mod {
     stats_t *stat;
     double modifier;
+    int duration;
     struct stat_mod *next;
 } stat_mod_t;
 
@@ -56,8 +59,7 @@ typedef struct stat_mod {
   * */
 typedef struct effects{
     char *name; 
-    bool status; 
-    double duration;
+    bool status;
     stat_mod_t *stat_list;
     UT_hash_handle hh; 
 } effects_t;
@@ -147,14 +149,13 @@ double get_stat_mod(stats_hash_t *sh, char* stat);
  * Adds a stat to a stat hash table
  *
  * Parameters: 
- * sh: the stats hash table
- * stat_id: the name to be given to the stat
- * init: the initial value of the stat, it is both the max and current val
+ * sh: the stats hash table of the player
+ * s: the stat to be added to the table
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int add_stat_player(stats_hash_t *sh, char *stat_id, double init);
+int add_stat_player(stats_hash_t *sh, stats_t s);
 
 /*
  * Print the stats in a hashtable and their values/modifiers
