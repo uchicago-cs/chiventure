@@ -32,12 +32,4 @@ int init_class(class_t *class, enum class cl, char* info, enum stats st, int bon
  class_t *new_class(enum class cl, char* info, enum stats st, int bonus);
 
 
-
-
-
-
-
-
-
-
 #endif
