@@ -28,8 +28,8 @@ game_t* create_sample_game()
     game_t *game = game_new("Welcome to sample game 1.0!\n");
 
     /* initialize sample rooms */
-    room_t *room1 = room_new("room1", "A small room", "A small room. There's a shiny orb in here.");
-    room_t *room2 = room_new("room2", "A slightly larger room", "A slightly larger room. There's a table in here.");
+    room_t *room1 = room_new("room1", string_t_new("A small room", NULL), string_t_new("A small room. There's a shiny orb in here.", NULL));
+    room_t *room2 = room_new("room2", string_t_new("A slightly larger room", NULL), string_t_new("A slightly larger room. There's a table in here.", NULL));
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     create_connection(game, "room1", "room2", "right");
@@ -78,7 +78,7 @@ game_t *create_sample_game_cp()
     char *room_id = "dorm";
     char *short_desc = "college dorm";
     char *long_desc = "there are clothes and empty ramen cups everywhere";
-    dorm_t = room_new(room_id, short_desc, long_desc);
+    dorm_t = room_new(room_id, string_t_new(short_desc, NULL), string_t_new(long_desc, NULL));
 
     // first room's items
     item_t *ramen_t;
@@ -100,7 +100,7 @@ game_t *create_sample_game_cp()
     char *d_room_id = "dungeon";
     char *d_short_desc = "dungeon";
     char *d_long_desc = "there are skull and bones in all the jail cells";
-    dungeon_t = room_new(d_room_id, d_short_desc, d_long_desc);
+    dungeon_t = room_new(d_room_id, string_t_new(d_short_desc, NULL), string_t_new(d_long_desc, NULL));
 
     // second room's items
     item_t *skull_t;
@@ -132,13 +132,13 @@ game_t *create_sample_game_gs()
     game_t *game = game_new("Welcome to sample game game-state!\n");
 
     /* initialize sample rooms */
-    room_t *room1 = room_new("ryerson","ryerson", "You are in a barn. There is nothing in the room. A path leads north.");
-    room_t *room2 = room_new("bartlett", "bartlett",
-                             "There is an apple in the room. An exit to the west and to the south.");
-    room_t *room3 = room_new("reg", "reg",
-                             "No apples. Exit to the east, and a road leads west. There is a path southwest.");
-    room_t *room4 = room_new("kersten", "kersten", "Wrong path mate, try again. Go back east.");
-    room_t *room5 = room_new("crerar", "crerar", "A borja screams at you. You're late.");
+    room_t *room1 = room_new("ryerson", string_t_new("ryerson", NULL), string_t_new("You are in a barn. There is nothing in the room. A path leads north.", NULL));
+    room_t *room2 = room_new("bartlett", string_t_new("bartlett", NULL),
+                             string_t_new("There is an apple in the room. An exit to the west and to the south.", NULL));
+    room_t *room3 = room_new("reg", string_t_new("reg", NULL),
+                             string_t_new("No apples. Exit to the east, and a road leads west. There is a path southwest.", NULL));
+    room_t *room4 = room_new("kersten", string_t_new("kersten", NULL), string_t_new("Wrong path mate, try again. Go back east.", NULL));
+    room_t *room5 = room_new("crerar",string_t_new( "crerar", NULL), string_t_new("A borja screams at you. You're late.", NULL));
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     add_room_to_game(game, room3);

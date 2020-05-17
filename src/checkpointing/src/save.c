@@ -167,22 +167,25 @@ int save_room(room_t *r_t, Room *r)
 
     r->room_id = r_t->room_id;
 
-    if (r_t->short_desc == NULL)
+    char *short_desc = string_t_get(r_t->short_desc);
+    char *long_desc = string_t_get(r_t->long_desc);
+
+    if (short_desc == NULL)
     {
         r->short_desc = NULL;
     }
     else
     {
-        r->short_desc = r_t->short_desc;
+        r->short_desc = short_desc;
     }
 
-    if (r_t->long_desc == NULL)
+    if (long_desc == NULL)
     {
         r->long_desc = NULL;
     }
     else
     {
-        r->long_desc = r_t->long_desc;
+        r->long_desc = long_desc;
     }
 
     item_list_t *all_items = get_all_items_in_room(r_t);

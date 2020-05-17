@@ -95,15 +95,16 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
 coord_record_t *get_test_coord_hash()
 {
     // Sample Rooms
-    room_t *room1 = room_new("One", "", "");
-    room_t *room2 = room_new("Two", "", "");
-    room_t *room3 = room_new("Three", "", "");
-    room_t *room4 = room_new("Four", "", "");
-    room_t *room5 = room_new("Five", "", "");
-    room_t *room6 = room_new("Six", "", "");
-    room_t *room7 = room_new("Seven", "", "");
-    room_t *room8 = room_new("Eight", "", "");
-    room_t *room9 = room_new("Nine", "", "");
+    string_t emptyString = string_t_new("", NULL);
+    room_t *room1 = room_new("One", emptyString, emptyString);
+    room_t *room2 = room_new("Two", emptyString, emptyString);
+    room_t *room3 = room_new("Three", emptyString, emptyString);
+    room_t *room4 = room_new("Four", emptyString, emptyString);
+    room_t *room5 = room_new("Five", emptyString, emptyString);
+    room_t *room6 = room_new("Six", emptyString, emptyString);
+    room_t *room7 = room_new("Seven", emptyString, emptyString);
+    room_t *room8 = room_new("Eight", emptyString, emptyString);
+    room_t *room9 = room_new("Nine", emptyString, emptyString);
 
     // Must set hash to NULL (see uthash documentation)
     coord_record_t *coordmap = NULL;

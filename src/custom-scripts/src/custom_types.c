@@ -122,7 +122,7 @@ char* string_t_get(string_t st) {
 
 // see custom_types.h
 bool string_is_lua(char* s) {
-    if (!(s)) {
+    if (!(s)) { // string is NULL
         return false;
     }
     if (s[0] == 'L' && s[1] == 'U' && s[2] == 'A' && s[3] == ' ') {

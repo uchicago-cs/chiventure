@@ -5,30 +5,30 @@
 #include "common-path.h"
 
 /* See room.h */
-int room_init(room_t *new_room, char *room_id, char *short_desc,
-              char *long_desc)
+int room_init(room_t *new_room, char *room_id, string_t short_desc,
+              string_t long_desc)
 {
     assert(new_room != NULL);
 
     strncpy(new_room->room_id, room_id, strlen(room_id)+1);
-    strncpy(new_room->short_desc, short_desc, strlen(short_desc)+1);
-    strncpy(new_room->long_desc, long_desc, strlen(long_desc)+1);
+    new_room->short_desc = short_desc;
+    new_room->long_desc = long_desc;
 
     return SUCCESS;
 }
 
-room_t *room_new(char *room_id, char *short_desc, char *long_desc)
+room_t *room_new(char *room_id, string_t short_desc, string_t long_desc)
 {
 
     room_t *room = malloc(sizeof(room_t));
     memset(room, 0, sizeof(room_t));
     room->room_id = malloc(MAX_ID_LEN);
-    room->short_desc = malloc(MAX_SDESC_LEN);
-    room->long_desc = malloc(MAX_LDESC_LEN);
+    // room->short_desc = malloc(MAX_SDESC_LEN);
+    // room->long_desc = malloc(MAX_LDESC_LEN);
     int check = room_init(room, room_id, short_desc, long_desc);
 
     if (room == NULL || room->room_id == NULL ||
-            room->short_desc == NULL || room->long_desc == NULL)
+            string_t_get(room->short_desc) == NULL || string_t_get(room->long_desc) == NULL)
     {
         return NULL;
     }
@@ -47,8 +47,8 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc)
 int room_free(room_t *room)
 {
     free(room->room_id);
-    free(room->short_desc);
-    free(room->long_desc);
+    // free(room->short_desc);
+    // free(room->long_desc);
     delete_all_paths(room->paths);
     delete_all_items(&room->items);
     free(room);
@@ -127,13 +127,13 @@ path_t *path_search(room_t *room, char* direction)
 /* See room.h */
 char *get_sdesc(room_t *room)
 {
-    return room->short_desc;
+    return string_t_get(room->short_desc);
 }
 
 /* See room.h */
 char *get_ldesc(room_t *room)
 {
-    return room->long_desc;
+    return string_t_get(room->long_desc);
 }
 
 /* Get list (implemented with hashtable) of items in room

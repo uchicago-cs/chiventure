@@ -160,7 +160,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     if (move == SUCCESS)
     {
         snprintf(string, BUFFER_SIZE, "Moved into %s. %s",
-                 room_dest->room_id, room_dest->long_desc);
+                 room_dest->room_id, string_t_get(room_dest->long_desc));
         *ret_string = string;
         return SUCCESS;
     }
