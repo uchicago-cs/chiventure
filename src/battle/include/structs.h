@@ -7,32 +7,32 @@
 
 typedef struct
 {
-    int speed;
-    int strength;
-    int dexterity;
-    int charisma;
-    int hp;
-    int max_hp;
-    int xp;
+    double speed;
+    double strength;
+    double dexterity;
+    double charisma;
+    double hp;
+    double max_hp;
+    double xp;
 } stats_t;
 
 typedef struct
 {
 	int id;
 	int quantity;
-	int durability;
+    double durability;
     char* description;
     bool battle;
-    int attack;
-    int defense;
-	int hp;
+    double attack;
+    double defense;
+    double hp;
 } item_t;
 
 typedef struct
 {
 	char* description;
-	int defense;
-	int weight;
+    double defense;
+    double weight;
 } armor_t;
 
 

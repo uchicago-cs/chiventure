@@ -7,38 +7,82 @@ int check_target(enemy_t *e)
 }
 
 /* check logic.h */
+/* Leaving this as return 1 so that for the future
+ * people can use class or any typing to determine effectiveness
+ */
 double check_effectiveness(player_t *p, enemy_t *e, move_t *move) 
 {
     return 1.0;
 }
 
-/* check logic.h */
-int mod_stat(stats_t *stat) 
+/* check logic.h 
+ *   - 0: HP
+ *   - 1: STR
+ *   - 2: DEF
+ *   - 3: SPD
+ * */
+int mod_stat(stats_t *stat, int status, double decrease)
 {
-    return 0;
+    switch(status)
+    {
+        case 0:
+            stat->hp =- decrease;
+            return 0;
+        case 1:
+            stat->strength =* decrease;
+            return 0;
+        case 2:
+            stat->defense =* decrease;
+            return 0;
+        case 3:
+            stat->speed =* decrease;
+            return 0;
+    }
+    return -1;
 }
 
 /* check logic.h */
 int battle_over(player_t p, enemy_t *e) 
 {
-    if(p->stats->hp <= 0)
+    if(e->stats->hp > 0 && p->stats->hp > 0)
+    {
+        return 0;
+    }
+    else if(e->stats->hp <= 0)
     {
         return 1;
     } 
-    else if(e->stats->hp <= 0)
+    else if(p->stats->hp <= 0)
     {
         return 2;
     } 
     else 
     {
-        return 0;
+        return -1;
     }
 }
 
 /* check logic.h */
-int goes_first(int difficulty)
+int goes_first(double p_speed, double e_speed)
 {
-    int r = rand() % 2; //random number generator
+    if(p_speed > e_speed) 
+    {
+        return 0;
+    }
+    else if(e_speed > p_speed) 
+    {
+        return 1;
+    }
+    else if(e_speed == p_speed)
+    {
+        int r = rand() % 1;
+        return r;
+    }
+    else
+    {
+        return -1;
+    }
+    /*int r = rand() % 2; //random number generator
     switch (difficulty)
     {
     case 1:
@@ -56,7 +100,7 @@ int goes_first(int difficulty)
     default:
         printf("Invalid difficulty!");
         return -1;
-    }
+    }*/
 }
 
 /* Creates a dumy armor list with hardcoded values

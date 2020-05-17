@@ -50,8 +50,9 @@ int mod_stat(stats_t *stat, int status);
  * - e: information about the enemy
  * Returns:
  * - 0 for game still in play
- * - 1 for game over due to player
- * - 2 for game over due to enemy
+ * - 1 for game over due to enemy
+ * - 2 for game over due to player
+ * - -1 for an error with not passing conditions
  */
 int battle_over(player_t p, enemy_t *e);
 
