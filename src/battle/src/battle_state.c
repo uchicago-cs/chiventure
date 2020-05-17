@@ -54,9 +54,23 @@ int combatant_free(combatant_t *c)
 
 	free(c->name);
 	free(c->stats);
-	free(c->moves);
-	free(c->items);
+
+    move_t *move_elt, *move_tmp;
+    DL_FOREACH_SAFE(c->moves, move_elt, move_tmp)
+    {
+        DL_DELETE(c->moves, move_elt);
+        free(move_elt);
+    }
+
+    item_t *item_elt, *item_tmp;
+    DL_FOREACH_SAFE(c->moves, item_elt, item_tmp)
+    {
+        DL_DELETE(c->moves, item_elt);
+        free(item_elt);
+    }
+
 	free(c);
+
 	return SUCCESS;
 }
 
@@ -65,11 +79,10 @@ int combatant_free_all(combatant_t *c)
 {
     if(c != NULL)
     {
-        combatant_t *elt;
-        combatant_t *tmp
-        DL_FOREACH_SAFE(head,elt,tmp)
+        combatant_t *elt, *tmp;
+        DL_FOREACH_SAFE(c, elt, tmp)
         {
-            DL_DELETE(head,elt);
+            DL_DELETE(c, elt);
             combatant_free(elt);
         }
     }

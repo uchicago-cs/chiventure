@@ -37,7 +37,7 @@ Test(battle_state, combatant_free)
     combatant_t *c;
     int rc;
 
-    c = combatant_new("combatant_free_Name", true, NULL, NULL, NULL);
+    c = combatant_new("combatant_free_Name", true, calloc(1, sizeof(stat_t)), NULL, NULL);
 
     cr_assert_not_null(c, "combatant_new() failed");
 
@@ -49,16 +49,19 @@ Test(battle_state, combatant_free)
 /* Tests combatant_free_all() */
 Test(battle_state, combatant_free_all)
 {
+    combatant_t *head = NULL;
     combatant_t *c1;
     combatant_t *c2;
-    int rc
+    int rc;
 
-    c2 = combatant_new("combatant_free_Name1", true, NULL, NULL, NULL);
-    c1 = combatant_new("combatant_free_Name2", true, NULL, NULL, NULL);
-    DL_APPEND(c1, c2);
+    c1 = combatant_new("combatant_free_Name2", true, calloc(1, sizeof(stat_t)), NULL, NULL);
+    c2 = combatant_new("combatant_free_Name1", true, calloc(1, sizeof(stat_t)), NULL, NULL);
+    DL_APPEND(head, c1);
+    DL_APPEND(head, c2);
 
-    cr_assert_not_null(c, "combatant_new() failed");
-    rc = combatant_free_all(c);
+    cr_assert_not_null(c1, "combatant_new() failed");
+    cr_assert_not_null(c2, "combatant_new() failed");
+    rc = combatant_free_all(head);
 
     cr_assert_eq(rc, SUCCESS, "combatant_free_all() failed");
 }
@@ -103,8 +106,8 @@ Test(battle_state, battle_free)
 {
     battle_t *b;
     int rc;
-    combatant_t *p = combatant_new("battle_new_Player", true, NULL, NULL, NULL);
-    combatant_t *e = combatant_new("battle_new_Enemy", false, NULL, NULL, NULL);
+    combatant_t *p = combatant_new("battle_new_Player", true, calloc(1, sizeof(stat_t)), NULL, NULL);
+    combatant_t *e = combatant_new("battle_new_Enemy", false, calloc(1, sizeof(stat_t)), NULL, NULL);
 
     b = battle_new(p, e, ENV_SNOW, ENEMY);
 
