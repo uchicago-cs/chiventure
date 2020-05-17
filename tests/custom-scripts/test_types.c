@@ -46,14 +46,31 @@ Test(custom_types, int_t_init_lua)
     cr_assert_eq(it.p.luaDirectory, "./testing.lua", "int_t_init: failed lua assignment");
 }
 
+/** Checks that the int_t struct returns the correct integer value (direct)
+ */
+Test(custom_types, int_t_get_int)
+{
+    int_t it = int_t_new(10, NULL);
+    int rv = int_t_get(it);
+    cr_assert_eq(rv, 10, "int_t_get: failed int direct retrieval");
+}
+
+
+/** Checks that the int_t struct returns the correct integer value (lua)
+ */
+Test(custom_types, int_t_get_lua)
+{
+    // TO-BE IMPLEMENTED
+}
+
 /** Checks that the bool_t struct contains the right data when passed
  * in a bool to bool_t_new()
  */
 Test(custom_types, bool_t_new_bool)
 {
-    bool_t bt = bool_t_new(true, NULL);
+    bool_t bt = bool_t_new(false, NULL);
     cr_assert_eq(bt.isBool, 1, "bool_t_new: failed isBool assignment");
-    cr_assert_eq(bt.p.b, true, "bool_t_new: failed integer assignment");
+    cr_assert_eq(bt.p.luaDirectory, false, "bool_t_new: failed bool assignment");
 }
 
 /** Checks that the bool_t struct contains the right data when passed
@@ -86,6 +103,23 @@ Test(custom_types, bool_t_init_lua)
     bt = bool_t_init(bt, false, "./testing.lua");
     cr_assert_eq(bt.isBool, 0, "bool_t_init: failed isBool assignment");
     cr_assert_eq(bt.p.luaDirectory, "./testing.lua", "bool_t_init: failed lua assignment");
+}
+
+/** Checks that the bool_t struct returns the correct boolean value (direct)
+ */
+Test(custom_types, bool_t_get_bool)
+{
+    bool_t bt = bool_t_new(true, NULL);
+    bool rv = bool_t_get(bt);
+    cr_assert_eq(rv, true, "bool_t_get: failed bool direct retrieval");
+}
+
+
+/** Checks that the bool_t struct returns the correct boolean value (lua)
+ */
+Test(custom_types, bool_t_get_lua)
+{
+    // TO-BE IMPLEMENTED
 }
 
 /** Checks that the string_t struct contains the right data when passed
@@ -128,6 +162,23 @@ Test(custom_types, string_t_init_lua)
     st = string_t_init(st, false, "./testing.lua");
     cr_assert_eq(st.isString, 0, "string_t_init: failed isString assignment");
     cr_assert_eq(st.p.luaDirectory, "./testing.lua", "string_t_init: failed lua assignment");
+}
+
+/** Checks that the string_t struct returns the correct string value (direct)
+ */
+Test(custom_types, string_t_get_string)
+{
+    string_t st = string_t_new("testing", NULL);
+    char *rv = string_t_get(st);
+    cr_assert_eq(rv, "testing", "string_t_get: failed string direct retrieval");
+}
+
+
+/** Checks that the string_t struct returns the correct stringe value (lua)
+ */
+Test(custom_types, string_t_get_lua)
+{
+    // TO-BE IMPLEMENTED
 }
 
 
