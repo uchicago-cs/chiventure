@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "wdl/load_room.h"
+#include "custom-scripts/custom_types.h"
 
 /* see load_rooms.h */
 int add_rooms_to_game(obj_t *doc, game_t *g)
@@ -25,6 +26,20 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
         char *id = obj_get_str(curr->obj, "id");
         char *short_desc = obj_get_str(curr->obj, "short_desc");
         char *long_desc = obj_get_str(curr->obj, "long_desc");
+
+        // Convert to string pseudo-type
+        string_t s_desc;
+        if (string_is_lua(short_desc)) { // Lua directory provided
+            s_desc = string_t_new(NULL, extract_lua(short_desc));
+        } else { // not Lua directory
+            s_desc = string_t_new(short_desc, NULL);
+        }
+        string_t l_desc;
+        if (string_is_lua(long_desc)) { // Lua directory provided
+            l_desc = string_t_new(NULL, extract_lua(long_desc));
+        } else { // not Lua directory
+            l_desc = string_t_new(long_desc, NULL);
+        }
 
         // create new game_state room
         room_t *room = room_new(id, short_desc, long_desc);
