@@ -12,7 +12,7 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
-set(CHIVENTURE_MODULES action_management checkpointing cli common game-state libobj ui wdl)
+set(CHIVENTURE_MODULES action_management checkpointing cli common custom-scripts game-state libobj ui wdl)
 
 include_directories(include/)
 
