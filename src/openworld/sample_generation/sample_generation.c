@@ -18,24 +18,21 @@
 /* See sample_generation.h */
 bool enter_new_room(room_t *r1, room_t *r2) {
     // Check if they have the same hash handle pointer
-    return (bool) (r1->hh.key == r2->hh.key);
-}
+    return (bool) (r1->hh.key != r2->hh.key);
+} // assumes that we locally keep track of two room states when game state changes
 
 /* See sample_generation.h */
-int room_generate(room_t* roomOld, room_t* roomNew, room_t* addRoom) {
+int room_generate(room_t* roomOld, game_t *gameNew, room_t *addRoom) {
     /* BELOW: implement algo from autogenerate algorithm module */
-    if (enter_new_room(roomOld, roomNew)) { // Somehow modify the game states that hold these rooms, respectively
-        /* BELOW: TO BE EDITED */
+    if (enter_new_room(roomOld, gameNew->curr_room)) {
 
-        // Add addRoom to the game that has roomNew
-        // assert(0 == add_room_to_game(gameNew, addRoom)); // Maybe we could do something like this?
+        // Add addRoom to gameNew
+        assert(0 == add_room_to_game(gameNew, addRoom));
         
         // Add path from the current room to addRoom
         // Use dependency from game-state/path.h for the following function:
         path_t* path_to_room = path_new(addRoom, "to new room");
-        // assert (0 == add_path_to_room(gameNew->curr_room, path_to_room)); // Maybe we could do something like this?
-
-        /* ABOVE: TO BE EDITED */
+        assert (0 == add_path_to_room(gameNew->curr_room, path_to_room));
 
         return 0; /* SUCCESS - room added */
     }
@@ -43,7 +40,7 @@ int room_generate(room_t* roomOld, room_t* roomNew, room_t* addRoom) {
     return 1; /* room not added */
 }
 
-int autogen_algorithm(void) {
+int autogen_algorithm(void) { // Save this for eventually adding multiple rooms at once
     /* TODO */
 
     /* Ideas: We should find a "random" library that pulls randomly from a 
