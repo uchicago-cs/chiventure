@@ -20,8 +20,8 @@
 #include <stdbool.h>
 // INCLUDE HARD-CODE ROOMS AND AUTOGENERATION MODULE
 
-#include "sample_items.h"
-#include "sample_rooms.h"
+// #include "sample_items.h"
+// #include "sample_rooms.h"
 
 /* gencontext_t struct
  * This struct will carry the info for the generation algorithm
@@ -34,11 +34,11 @@ typedef struct {
 
 
 
-// #include "../game-state/game_state_common.h"
-// #include "../game-state/game_action.h"
-// #include "../game-state/game.h"
-// #include "../game-state/room.h"
-// #include "../game-state/item.h"
+#include "../game-state/game_state_common.h"
+#include "../game-state/game_action.h"
+#include "../game-state/game.h"
+#include "../game-state/room.h"
+#include "../game-state/item.h"
 
 // ASSUME HARD-CODED ROOMS AVAILABLE FROM ANOTHER MODULE
 
@@ -65,27 +65,27 @@ bool enter_new_room(room_t *r1, room_t *r2);
 
 /*
  * room_generate
- * Given two room states and a room to add, add the room to the game holding 
- * the new room state (connected to the current room) if and only if the 
- * curr_room field is different between the two games
+ * Given an old room state, a current game state, and a room to add, add the room to the 
+ * the new game state (connected to the current room) if and only if the 
+ * curr_room field is different between the two games. Connect via path
  * 
- * Freeing roomOld from the old game state is to be handled outside 
+ * Freeing gameOld from the old game state is to be handled outside 
  * of this function
  * 
  * parameters:
- * - roomOld: a room pointer for the old room state
- * - roomNew: a room pointer for the old room state
+ * - roomOld: a room pointer for the old game state's curr_room
+ * - gameNew: a room pointer for the old game state
  * - addRoom: a room pointer for the room to add if a new room was entered
  *
  * side effects:
- * - Changes roomNew game to add a room to the list of all_rooms and edits the 
+ * - Changes gameNew to add a room to the list of all_rooms and edits the 
  *   current_room struct to have a path to the newly-added room
  *
  * returns:
  * - SUCCESS if the new room (addRoom) was added
  * - FAILURE if the new room (addRoom) was not added
  */
-int room_generate(room_t* roomOld, room_t* roomNew, room_t* addRoom);
+int room_generate(room_t *roomOld, game_t *gameNew, room_t *addRoom);
 
 /*
  * autogen_algorithm
