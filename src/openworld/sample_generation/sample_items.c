@@ -186,6 +186,18 @@ int set_exit_attr(item_t* item) {
 }
 
 /* see sample_item.h */
+int check_exit_attr(item_t* item) {
+	attribute_t* tmp = item->attributes;
+	while (while tmp != NULL) {
+		if (strcmp(tmp->attribute->attribute_key, "exit") == 0) {
+			return tmp->attribute->attribute_value;
+		}
+		tmp = tmp->next;
+	}
+	return 0;
+}
+
+/* see sample_item.h */
 int attribute_free(attribute_t* attr)
 {
 	free(attr->attribute_key);

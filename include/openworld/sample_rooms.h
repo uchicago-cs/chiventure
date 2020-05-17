@@ -11,19 +11,16 @@ HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
 // PATH STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a path from one room to another.
 * It contains:
-*      string direction of path (case-sensitive)
 *      the room_id of the destination room
 *      list of conditions that must be fulfilled to move to the room
 *      essentially, the list of conditions are the "answers"
 * */
 typedef struct path {
 	UT_hash_handle hh;
-	/* direction (north/south/etc) as key */
-	char *direction; // *letter case matters*
 	struct room *dest;
 	/* the door item in the path, which has to be
 	open (attribute open is set true) to let through */
-	item_t *through;
+	item_t *src_item;
 } path_t;
 
 /* This typedef is to distinguish between path_t pointers which are
@@ -170,6 +167,60 @@ room_list_t* list_rooms(game* g);
 *  pointer to an initialized random room
 */
 room_t* generate_room();
+
+/* path_init() initializes a path struct with given destination room and exit item
+* Parameters:
+* a memory allocated new room pointer
+* room_t pointer that specified destination
+* item_t pointer that specifies item to be used as exit
+*
+* Returns:
+* FAILURE for failure, SUCCESS for success
+*/
+int path_init(path_t* new_path, room_t* dest, item_t* exit);
+
+/* Mallocs space for a new path
+*
+* Parameters:
+* room_t pointer that specified destination
+* item_t pointer that specifies item to be used as exit
+*
+* Returns:
+*  a pointer to new path
+*/
+path_t* path_new(room_t* dest, item_t* exit);
+
+/* add_path_to_room updates path struct of a room if valid path
+*
+* Parameters:
+*  room_t* pointer as origin room, where the path->src_obj should be
+* path_t* pointer specifying path to be added
+*
+* Returns:
+*  1 for success, 0 for failure
+*/
+int add_path_to_room(room_t *room, path_t *path);
+
+/* Return the path in a given direction
+*
+* Parameters:
+* room_t* room with paths
+* char* direction specified
+*
+* Returns:
+* path_t* path (if one exists)
+*/
+path_t *path_search(room_t *room, char* direction);
+
+/* Given a path return its destination room
+*
+* Parameters:
+* path_t* pointer to path
+*
+* Returns:
+* room_t* pointer to destination room
+*/
+room_t *find_room_from_path(path_t *path);
 
 /* Connect src room to dest room via a valid-exit item in src
 *

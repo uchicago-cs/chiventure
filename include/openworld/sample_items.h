@@ -30,7 +30,7 @@ typedef struct item {
 	char *short_desc;
 	char *long_desc;
 //	game_action_hash_t *actions;
-	attribute_hash_t *attributes; // a hashtable for all attribute
+	attribute_list_t *attributes; // a hashtable for all attribute
 
 } item_t;
 
@@ -160,6 +160,14 @@ int set_int_attr(item_t* item, char* attr_name, int value);
 * "exit" attribute is 1 if item is DOOR, 0 otherwise
 */
 int set_exit_attr(item_t* item);
+
+/* check_exit_attr() checks the exit attribute validity for an item
+* Parameters:
+*  a pointer to the item
+* Returns:
+* 1 if true, 0 if false
+*/
+int check_exit_attr(item_t* item);
 
 /* attribute_free() frees allocated space for an attribute struct in memory
 *  Parameters:
