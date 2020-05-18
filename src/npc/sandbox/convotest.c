@@ -336,7 +336,7 @@ int main()
  * Initialize each node with it's primary NPC dialog
  */
     node_t *WellMet = make_node(1,
-	"Mhm fine, nice to meet you, now please turn around and "
+	"Mhm fine, that's wonderful, now go ahead and turn around and "
 	"get outta #my house#.  You can't #come and go# as you wish.",
 	MAX_EDGES);
     node_t *PrivacyVio = make_node(2,
@@ -375,7 +375,7 @@ int main()
 	"The owner? With the state of this place, I'd have pegged you "
 	"for more of a burglar, heh."));
     add_edge(PrivacyVio, make_edge(WellMet, "who you are", 
-	"Seems like I'm the home inspector."));
+	"Just someone looking for someone to talk to."));
     add_edge(PrivacyVio, make_edge(FightFlwr, "poke around", 
 	"Unperturbed by the smelly squatter, you continue rifling "
 	"for valuables in the piles. As you hum patronizingly, "
