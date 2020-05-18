@@ -46,8 +46,8 @@ skill_t* new_skill(char* name, unsigned int cur_level, unsigned int experience,
         exit(1);
     }
 
-    res->name = name;
-    res->description = description;
+    strcpy(res->name, name);
+    strcpy(res->description, description);
     res->cur_level = cur_level;
     res->experience = experience;
     res->execute_skill = given_skill;
@@ -201,7 +201,7 @@ int pop_passive_skill(allskills_t* list, skill_t* skill) {
 }
 
 
-// 
+//
 // int test_skill(int param1, int param2) {
 //     printf("Testing test_skill: %i, %i\n", param1, param2);
 //     return 0;
