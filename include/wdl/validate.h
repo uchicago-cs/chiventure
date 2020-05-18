@@ -39,9 +39,9 @@ attr_list_t *connections_get_list(obj_t *obj);
  * - obj: a connection object
  *
  * returns:
- * - true if connection types match, else return false
+ * - SUCCESS if connection types match, else return FAILURE
  */
-bool check_connection_attr(obj_t *obj);
+int check_connection_attr(obj_t *obj);
 
 /* print_item
  * prints the attributes associated with the item: id, short_desc, long_desc,
@@ -99,12 +99,12 @@ void print_game(obj_t *obj);
  *  - a function pointer to a type checking function
  *
  * returns:
- *  - true if all objects in the list pass the type checker
- *  - false if else
+ *  - SUCCESS if all objects in the list pass the type checker
+ *  - FAILURE if else
  *
  * note: behaviour is undefined if object and validation function do not match
  */
-bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*));
+int list_type_check(attr_list_t *ls, int(*validate)(obj_t*));
 
 /* list_print()
  * a function to automate printing objects;
@@ -133,7 +133,7 @@ void list_print(attr_list_t *ls, void(*print)(obj_t*));
  * - obj: object to verify (e.g. ROOMS)
  *
  * Returns:
- * - boolean indicating whether the object has correct attributes
+ * - SUCCESS or FAILURE based on whether the object has correct attributes
  *
  * Notes:
  * What we plan to do is first extract an object, such as the room object,
@@ -141,14 +141,14 @@ void list_print(attr_list_t *ls, void(*print)(obj_t*));
  * We will want to then validate each of the attributes by running type_check
  * with list_type_check
  */
-bool game_type_check(obj_t *obj);
+int game_type_check(obj_t *obj);
 
-bool room_type_check(obj_t *obj);
+int room_type_check(obj_t *obj);
 
-bool item_type_check(obj_t *obj);
+int item_type_check(obj_t *obj);
 
-bool player_type_check(obj_t *obj);
+int player_type_check(obj_t *obj);
 
-bool action_type_check(obj_t *obj);
+int action_type_check(obj_t *obj);
 
 #endif /* INCLUDE_VALIDATE_H */
