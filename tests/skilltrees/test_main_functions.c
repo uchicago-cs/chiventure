@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "skilltrees/skilltrees.h"
+// Not all functions are given to the .h file, as some should only be used
+// by the skilltrees team.
+#include "skilltrees/skilltrees.c"
 
 // Checks that create_skill_list correctly creates an empty list of active
 // and passive skills.
@@ -48,7 +51,7 @@ skill_t* create_dummy_skill()
     int (*skill_func)(int param1, int param2) = &test_skill;
 
     skill_t* skill = new_skill(name, cur_level, experience,
-                               description, &skill_func);
+                               description, skill_func);
     return skill;
 }
 
@@ -78,7 +81,7 @@ Test(skilltrees_main_functions, free_skill)
 
     cr_assert_not_null(skill, "new_skill() failed");
 
-    rc = free_skill(skill);
+    int rc = free_skill(skill);
 
     cr_assert_eq(rc, 0, "free_skill() failed");
 }
@@ -105,7 +108,7 @@ Test(skilltrees_main_functions, free_all_skills)
     allskills_t* skill_list = create_skill_list();
     cr_assert_not_null(skill_list, "create_skill_list() failed");
 
-    rc = free_all_skills(skill_list);
+    int rc = free_all_skills(skill_list);
 
     cr_assert_eq(rc, 0, "free_all_skills() failed.");
 }
