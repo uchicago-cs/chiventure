@@ -12,7 +12,7 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
-set(CHIVENTURE_MODULES action_management checkpointing cli common game-state libobj ui wdl)
+set(CHIVENTURE_MODULES action_management checkpointing cli common game-state libobj skilltrees ui wdl)
 
 include_directories(include/)
 
@@ -22,6 +22,7 @@ add_subdirectory(src/cli)
 add_subdirectory(src/common)
 add_subdirectory(src/game-state)
 add_subdirectory(src/libobj)
+add_subdirectory(src/skilltrees)
 add_subdirectory(src/ui)
 add_subdirectory(src/wdl)
 
