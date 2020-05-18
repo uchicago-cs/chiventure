@@ -46,8 +46,6 @@ skill_t* new_skill(char* name, unsigned int cur_level, unsigned int experience,
         exit(1);
     }
 
-    // strcpy(res->name, name);
-    // strcpy(res->description, description);
     res->name = strdup(name);
     res->description = strdup(description);
     res->cur_level = cur_level;
