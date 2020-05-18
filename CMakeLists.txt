@@ -13,13 +13,6 @@ set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
 find_package(Lua 5.3 REQUIRED) 
-set(Lua_INCLUDE_DIRS ${Lua_SOURCE_DIR} ${LUA_INCLUDE_DIR})
-add_definitions(-DLUA)
-
-include_directories(${INCLUDE_DIRS})
-
-target_link_libraries(PROJECT_NAME ${LUA_LIBRARY})
-
 
 set(CHIVENTURE_MODULES action_management checkpointing cli common custom-scripts game-state libobj ui wdl)
 

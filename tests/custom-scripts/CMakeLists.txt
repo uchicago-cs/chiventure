@@ -12,3 +12,10 @@ endforeach(module)
 
 add_test(NAME ${TEST_EXE}
          COMMAND ${TEST_EXE})
+
+add_library(tests-custom-scripts
+            test_types.c)
+
+target_link_libraries(tests-custom-scripts ${LUA_LIBRARIES})
+target_include_directories(tests-custom-scripts PRIVATE ${LUA_INCLUDE_DIR})
+target_include_directories(tests-custom-scripts PRIVATE tests/)
