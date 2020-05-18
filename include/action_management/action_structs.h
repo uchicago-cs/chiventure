@@ -18,13 +18,15 @@ enum actions {
     PULL,
     TURNON,
     TURNOFF,
-    TAKE,
+    TAKE,    // This action is legal but not implemented
     PICKUP,
     DROP,
     CONSUME,
+    /* These actions are legal but not implemented */
     USE,
     DRINK,
     EAT,
+    /* ^ These actions are legal but not implemented ^ */
 
     // KIND 2 ACTIONS - ACTION <path>
     GO,
