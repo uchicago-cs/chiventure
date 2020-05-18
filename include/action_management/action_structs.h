@@ -18,8 +18,8 @@ enum actions {
     PULL,
     TURNON,
     TURNOFF,
-    TAKE,    // This action is legal but not implemented
-    PICKUP,
+    TAKE,
+    PICKUP,  // This action is legal but not implemented
     DROP,
     CONSUME,
     /* These actions are legal but not implemented */
