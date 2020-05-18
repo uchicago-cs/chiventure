@@ -1,5 +1,7 @@
 #include <stdbool.h>
 #include <string.h>
+#include "utlist.h"
+
 //#include
 #ifndef STRUCTS_H
 #define STRUCTS_H
