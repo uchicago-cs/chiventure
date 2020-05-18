@@ -1,7 +1,8 @@
 #include "AI.h"
+#include "utlist.h"
 
 /* see AI.h */
-move_t* give_move(int difficulty, player_t* player)
+move_t* give_move(int difficulty, player_t* player, enemy_t* enemy)
 {
     if (difficulty == 1)
     {
@@ -18,28 +19,29 @@ move_t* give_move(int difficulty, player_t* player)
 }
 
 /* see AI.h */
-move_t* easy_move(player_t* player)
+move_t* easy_move(player_t* player, enemy_t* enemy)
 {
     return find_easy(player);
 }
 
 /* see AI.h */
-move_t* medium_move(player_t* player)
+move_t* medium_move(player_t* player, enemy_t* enemy)
 {
-    random =  rand() % 0 + 1;
-    if (random == 0)
+    int i, count, random;
+    LL_COUNT(enemy->moves, enemy->moves->move, count);
+    random = rand() % count + 1;
+    move_t* random_move = enemy->moves->move;
+    mlist_t* temp = enemy->moves;
+    for (i = 0; i < random; i++)
     {
-        return find_easy(player);
+        temp = temp->next;
     }
-    else
-    {
-        return  find_hard(player);
-    }
-    
+    random_move = temp->move;
+    return random_move;
 }
 
 /* see AI.h */
-move_t* hard_move(player_t* player)
+move_t* hard_move(player_t* player, enemy_t* enemy)
 {
     return find_hard(player);
 }
@@ -50,9 +52,24 @@ move_t* hard_move(player_t* player)
  *      player - the player the move is going to be used against
  * Outputs:
  *      move_t - the move to be used        */
-move_t* find_easy(player_t* player)
+move_t* find_easy(player_t* player, enemy_t* enemy)
 {
-    return;
+    move_t* weakest_move = enemy->moves->move;
+    mlist_t *temp;
+    for (temp = enemy->moves; temp != NULL; temp = temp->next)
+    {
+        if (temp->next == NULL)
+        {
+            return weakest_move;
+        }
+        double damage = damage(player, temp->move, enemy);
+        double next_damage = damage(player, temp->next->move, enemy);
+        else if (damage > next_damage)
+        {
+            weakest_move = temp->next->move;
+        }
+    }
+    return weakest_move;
 }
 
 /* Given a moves list, function will find the 
@@ -61,7 +78,30 @@ move_t* find_easy(player_t* player)
  *      player - the player the move is going to be used against
  * Outputs:
  *      move_t - the move to be used        */
-move_t* find_hard(player_t* player)
+move_t* find_hard(player_t* player, enemy_t* enemy)
 {
-    return;
+    move_t* hardest_move = enemy->moves->move;
+    mlist_t *temp;
+    for (temp = enemy->moves; temp != NULL; temp = temp->next)
+    {
+        if (temp->next == NULL)
+        {
+            return hardest_move;
+        }
+        double damage = damage(player, temp->move, enemy);
+        double next_damage = damage(player, temp->next->move, enemy);
+        else if (damage < next_damage)
+        {
+            hardest_move = temp->next->move;
+        }
+    }
+    return hardest_move;
+}
+
+/* see AI.h */
+double damage(player_t* player, move_t* move, enemy_t* enemy)
+{
+    double damage = 0.0;
+    damage = (((((2 * enemy->level) / 5) + 2) * move->damage * (enemy->strength / (player->defense + player->armor->defense))) / 50) + 2;
+    return damage;
 }
