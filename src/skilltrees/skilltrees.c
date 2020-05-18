@@ -201,16 +201,16 @@ int pop_passive_skill(allskills_t* list, skill_t* skill) {
 }
 
 
-
-int test_skill(int param1, int param2) {
-    printf("Testing test_skill: %i, %i\n", param1, param2);
-    return 0;
-}
-
-int main() {
-    char name[30] = "Hello";
-    char description[50] = "Skill description";
-    skill_t* our_struct = new_skill(name, 1, 0, description, &test_skill);
-    int res = our_struct->execute_skill(1, 2);
-    printf("Result: %i\n", res);
-}
+// 
+// int test_skill(int param1, int param2) {
+//     printf("Testing test_skill: %i, %i\n", param1, param2);
+//     return 0;
+// }
+//
+// int main() {
+//     char name[30] = "Hello";
+//     char description[50] = "Skill description";
+//     skill_t* our_struct = new_skill(name, 1, 0, description, &test_skill);
+//     int res = our_struct->execute_skill(1, 2);
+//     printf("Result: %i\n", res);
+// }
