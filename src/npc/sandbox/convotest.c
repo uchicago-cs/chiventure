@@ -317,15 +317,8 @@ int main()
      system("clear");
 
      print_red("\nWelcome to Chiventure's 'Dialog Module' Mockup!\n\n\n");
-     print_yellow("What's your name?");
-     printf("\n> ");
-     
-     name = malloc(30 * sizeof(char));
-     name = strtok(fgets(name, 30, stdin), "\n");
-     printf("Hello  ");
-     print_yellow(name);
-     
-     printf("\n\nAs the door creaks open, a strong musty scent smacks "
+
+     printf("As the door creaks open, a strong musty scent smacks "
 	    "you in the face, filled with tones of mildew and copper. "
 	    "You step into a disheveled room which, while bare in some areas, "
 	    "seems to have plenty of valuables stacked in others. "
@@ -382,7 +375,7 @@ int main()
 	"The owner? With the state of this place, I'd have pegged you "
 	"for more of a burglar, heh."));
     add_edge(PrivacyVio, make_edge(WellMet, "who you are", 
-	"Hey I'm dad."));
+	"Seems like I'm the home inspector."));
     add_edge(PrivacyVio, make_edge(FightFlwr, "poke around", 
 	"Unperturbed by the smelly squatter, you continue rifling "
 	"for valuables in the piles. As you hum patronizingly, "
