@@ -1,15 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/*
- * I'm using some defined maxes (max number of nodes in a convo, 
- * and max number of edges to a node)... Again, this is something
- * that is worth considering refactoring, but I wasn't sure how
- * else to allocate the memory for a node/convo (they have flexible
- * array variables).  This might be a problem for WDL, not sure.
- */
-#define MAXNODES 12
-#define MAXEDGES 6
 
 char *name;
 enum scene {wellMet, privacyVio, homeExpl, FightFlwr, FightStnd, Leave, ERROR};
@@ -36,7 +27,6 @@ char *scene_name(enum scene s){
 /*
  * Three functions to print given string in gold, yellow, or red respectively
  */
-
 void print_gold(char *str){
         printf("\033[0;33m");
         printf("%s", str);
@@ -129,10 +119,10 @@ void print_convo(convo_t *c)
  *  - A pointer to the new convo
  *
  */
-convo_t *make_convo()
+convo_t *make_convo(int max_nodes)
 {
         convo_t *c = (convo_t*) malloc(sizeof(convo_t)
-                        + MAXNODES  *sizeof(node_t*));
+                        + max_nodes * sizeof(node_t*));
         c->node_count = 0;
         c->head[0] = NULL;
 	return c;
@@ -143,14 +133,15 @@ convo_t *make_convo()
  * Parameters:
  *  - tag: a marker for the node's identity
  *  - dialog: a string of what the NPC says when the player reaches this node
+ *  - max_edges: the maximum number of edges that can be added
  * Returns:
  *  - A pointer to the new node
  *
  */
-node_t *make_node(enum scene tag, char *dialog)
+node_t *make_node(enum scene tag, char *dialog, int max_edges)
 {
         node_t *newnode = (node_t*)malloc(sizeof(node_t)
-                        + MAXEDGES  *sizeof(edge_t*));
+                        + max_edges * sizeof(edge_t*));
         newnode->tag = tag;
         newnode->dialog = dialog;
         newnode->connections[0] = NULL;
@@ -236,7 +227,7 @@ int read_input(node_t *n, char *input)
  */
 int traverse_edge(node_t *n)
 {
-    char *input = malloc(30  *sizeof(char));
+    char *input = malloc(30 * sizeof(char));
     fgets(input, 30, stdin);
     int index;
     index = read_input(n, input);
@@ -296,14 +287,20 @@ void run_convo(convo_t *c)
  */
 int main()
 {
+     static const int MAX_NODES = 12;
+     static const int MAX_EDGES = 6;
+
      system("clear");
+
      print_red("\nWelcome to Chiventure's 'Dialog Prototype' Showcase!\n\n\n");
      print_yellow("What's your name?");
      printf("\n> ");
-     name = malloc(30  *sizeof(char));
+     
+     name = malloc(30 * sizeof(char));
      name = strtok(fgets(name, 30, stdin), "\n");
      printf("Hello  ");
      print_yellow(name);
+     
      printf("\n\nAs the door creaks open, a strong musty scent smacks "
 	    "you in the face, filled with tones of mildew and copper. "
 	    "You step into a disheveled room which, while bare in some areas, "
@@ -313,10 +310,8 @@ int main()
 	    "alarmed by the unexpected guest. He looks upset with you.\n\n "
 	    "Hint-- try to 'talk to' or 'greet' shabby man (that's why "
 	    "you're here after all).\n\n> ");
-     char *c1 = malloc(30  *sizeof(char));
-     fgets(c1, 30, stdin);
 
-    convo_t *showcase_convo = make_convo(MAXNODES);
+    convo_t *showcase_convo = make_convo(MAX_NODES);
 
 
 /*
@@ -324,25 +319,31 @@ int main()
  */
     node_t *WellMet = make_node(1, 
 	"Mhm fine, nice to meet you, now please turn around and "
-	"get outta my house.  You can't come and go as you wish.");
+	"get outta my house.  You can't come and go as you wish.",
+	MAX_EDGES);
     node_t *PrivacyVio = make_node(2, 
 	"Woah, hey, y-you can't just walk in here and poke around "
 	"the place without consulting the owner!!  Shouldn't I at least "
-	"know who you are?!");
+	"know who you are?!",
+	MAX_EDGES);
     node_t *HomeExpl = make_node(3, 
 	"Yes, well, just because the door's unlocked and I'm a bit messy "
 	"don't make it public property. Now take off and leave, or else "
-	"I'm gonna force you to.");
+	"I'm gonna force you to.",
+	MAX_EDGES);
     node_t *FightStnd = make_node(4, 
 	"The last thing you heard before it all went dark was "
-	"'NOO MY PRESSED FLOWER COLLECTION'");
+	"'NOO MY PRESSED FLOWER COLLECTION'",
+	MAX_EDGES);
     node_t *FightFlwr = make_node(5, 
 	"As his arm flashes behind his back, "
-	"the robber raises a knife to you.");
+	"the robber raises a knife to you.",
+	MAX_EDGES);
     node_t *Leave = make_node(6, 
 	"As soon as your eyes glance to the doorway, the man's hands "
 	"are at your back ushering you away. The door snaps shut and "
-	"you hear the distinct click of a lock turning.");
+	"you hear the distinct click of a lock turning.",
+	MAX_EDGES);
 
 /*
  * Adding all edge options to each node:
