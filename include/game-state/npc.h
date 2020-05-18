@@ -67,7 +67,7 @@ int npc_free(npc_t *npc);
 
 
 /*
- * Returns the health of an npc
+ * Returns the health of an npc.
  *
  * Parameters:
  *  npc: the npc
@@ -77,8 +77,9 @@ int npc_free(npc_t *npc);
  */
 int get_npc_health(npc_t *npc);
 
+
 /*
- * Changes the health of the npc 
+ * Changes the health of the npc. 
  *
  * Parameters:
  *  npc: the npc
@@ -112,6 +113,7 @@ item_hash_t* get_npc_inventory(npc_t *npc);
  */
 int add_item_to_npc(npc_t *npc, item_t *item);
 
+
 /*
  * Function to get a linked list (utlist) of all the items in the player's inventory
  *
@@ -122,4 +124,6 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_inv_npc(npc_t *npc);
+
+
 #endif
