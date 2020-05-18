@@ -61,7 +61,6 @@ int free_skill(skill_t* skill) {
 }
 
 // Frees all active skills in the skill list.
-// Returns an error code.
 int free_active_skills(allskills_t* list) {
     for (unsigned int i = 0; i < list->cur_num_active; i++) {
         int status = free_skill(list->active_skills[i]);
@@ -74,7 +73,6 @@ int free_active_skills(allskills_t* list) {
 }
 
 // Frees all passive skills in the skill list.
-// Returns an error code.
 int free_passive_skills(allskills_t* list) {
     for (unsigned int i = 0; i < list->cur_num_passive; i++) {
         int status = free_skill(list->passive_skills[i]);

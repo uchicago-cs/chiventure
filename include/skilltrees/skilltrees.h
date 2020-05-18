@@ -39,6 +39,14 @@ int free_skill(skill_t* skill);
 // Returns the malloc'd list.
 allskills_t* create_skill_list();
 
+// Frees all active skills in the skill list.
+// Returns an error code.
+int free_active_skills(allskills_t* list);
+
+// Frees all passive skills in the skill list.
+// Returns an error code.
+int free_passive_skills(allskills_t* list);
+
 // Frees all skills in the skill list.
 // Returns an error code.
 int free_all_skills(allskills_t* list);
