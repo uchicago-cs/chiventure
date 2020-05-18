@@ -79,6 +79,7 @@ typedef struct
     ilist_t *inventory;
     alist_t *armor;
     stats_t *stats;
+    mlist_t *moves;
 } player_t;
 
 typedef struct
@@ -88,6 +89,7 @@ typedef struct
     class_t cl;
     ilist_t *inv;
     alist_t *armor;
+    mlist_t *moves;
 } enemy_t;
 
 typedef struct
