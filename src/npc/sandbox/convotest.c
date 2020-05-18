@@ -13,7 +13,7 @@
 
 char* name;
 enum scene {wellMet, privacyVio, homeExpl, FightFlwr, FightStnd, Leave, ERROR};
-char* sceneName(enum scene s){
+char* scene_name(enum scene s){
         switch(s){
         case 1:
                 return "WellMet";
@@ -37,21 +37,21 @@ char* sceneName(enum scene s){
  * Three functions to print given string in gold, yellow, or red respectively
  */
 
-void pGld(char* str){
+void print_gold(char* str){
         printf("\033[0;33m");
         printf("%s", str);
         printf("\033[0m");
         return;
 }
 
-void pYel(char* str){
+void print_yellow(char* str){
         printf("\033[1;33m");
         printf("%s", str);
         printf("\033[0m");
         return;
 }
 
-void pRed(char* str){
+void print_red(char* str){
         printf("\033[0;31m");
         printf("%s", str);
         printf("\033[0m");
@@ -105,24 +105,24 @@ typedef struct Edge{
  * of a given Edge, Node, or Convo.
  *
  */
-void printEdge(Edge_t* e){
+void print_edge(Edge_t* e){
         printf("TO:\n");// %s\n  '%s' : %s\n",
-        pGld(sceneName(e->toward->tag));
-        pRed(e->keyword);
-        pYel(e->quip);
+        print_gold(scene_name(e->toward->tag));
+        print_red(e->keyword);
+        print_yellow(e->quip);
 }
-void printNode(Node_t* n){
+void print_node(Node_t* n){
         printf("%s:\n\t%s\n Edges count: %d\n",
-                        sceneName(n->tag), n->dialog, n->connectionCount);
+                        scene_name(n->tag), n->dialog, n->connectionCount);
         for(int i = 0; i < (int)n->connectionCount; i++)
-                printEdge(n->connections[i]);
+                print_edge(n->connections[i]);
         printf("\n");
 }
-void printConvo(Convo_t* c)
+void print_convo(Convo_t* c)
 {
         for(int i = 0; i < (int)c->nodeCount; i++)
         { 
-          printNode(c->head[i]);
+          print_node(c->head[i]);
         }
 }
 /* 
@@ -131,7 +131,7 @@ void printConvo(Convo_t* c)
  *  - A pointer to the new Convo
  *
  */
-Convo_t* makeConvo()
+Convo_t* make_convo()
 {
         Convo_t* c = (Convo_t*) malloc(sizeof(Convo_t)
                         + MAXNODES * sizeof(Node_t*));
@@ -149,7 +149,7 @@ Convo_t* makeConvo()
  *  - A pointer to the new Node
  *
  */
-Node_t* makeNode(enum scene tag, char* dialog)
+Node_t* make_node(enum scene tag, char* dialog)
 {
         Node_t* newNode = (Node_t*)malloc(sizeof(Node_t)
                         + MAXEDGES * sizeof(Edge_t*));
@@ -166,7 +166,7 @@ Node_t* makeNode(enum scene tag, char* dialog)
  *  - n: the Node to be attached
  * Returns: Nothing
  */
-void addNode(Convo_t* c, Node_t* n)
+void add_node(Convo_t* c, Node_t* n)
 {
         c->head[c->nodeCount++] = n;
 }
@@ -182,7 +182,7 @@ void addNode(Convo_t* c, Node_t* n)
  *  - A pointer to the new Edge struct
  *
  */
-Edge_t* makeEdge(Node_t* toward, char* keyword, char* quip)
+Edge_t* make_edge(Node_t* toward, char* keyword, char* quip)
 {
         Edge_t* newEdge = (Edge_t*)malloc(sizeof(Edge_t));
         newEdge->toward = toward;
@@ -198,7 +198,7 @@ Edge_t* makeEdge(Node_t* toward, char* keyword, char* quip)
  * Returns: Nothing
  *
  */
-void addEdge(Node_t* n, Edge_t* edge)
+void add_edge(Node_t* n, Edge_t* edge)
 {
         n->connections[n->connectionCount] = edge;
         n->connectionCount++;
@@ -213,7 +213,7 @@ void addEdge(Node_t* n, Edge_t* edge)
  *  - Index of the matching edge, -1 if it doesn't match any of the keywords
  *
  */
-int readInput(Node_t* n, char* input)
+int read_input(Node_t* n, char* input)
 {
     int i;
     for (i = 0; i < (int) n->connectionCount; i++)
@@ -234,20 +234,20 @@ int readInput(Node_t* n, char* input)
  *  - index on success, -1 otherwise
  *
  */
-int traverseEdge(Node_t* n)
+int traverse_edge(Node_t* n)
 {
     char* input = malloc(30 * sizeof(char));
     fgets(input, 30, stdin);
     int index;
-    index = readInput(n, input);
+    index = read_input(n, input);
     if (index >= 0)
     {
-        pGld(n->connections[index]->quip);
+        print_gold(n->connections[index]->quip);
         n = n->connections[index]->toward;
-        pYel(n->dialog);
+        print_yellow(n->dialog);
         return index;
     } else {
-        pRed("invalid option, try again\n> ");
+        print_red("invalid option, try again\n> ");
         return -1;
     }
 }
@@ -260,10 +260,10 @@ int traverseEdge(Node_t* n)
  *  - Nothing
  *
  */
-void endConvo()
+void end_convo()
 {
-    pRed("Congrats on finishing the chiventure dialog showcase!\n");
-    pGld("Press ENTER to exit");
+    print_red("Congrats on finishing the chiventure dialog showcase!\n");
+    print_gold("Press ENTER to exit");
     getchar();
     exit(0);
 }
@@ -276,62 +276,62 @@ void endConvo()
  *  - Nothing, just runs through each node and asks for input
  *
  */
-void runConvo(Convo_t* c)
+void run_convo(Convo_t* c)
 {
-    pRed(c->head[0]->dialog);
+    print_red(c->head[0]->dialog);
     int i = 0;
     int index;
     while (c->head[i]->connectionCount != 0)
     {
-        index = traverseEdge(c->head[i]);
+        index = traverse_edge(c->head[i]);
         if (index != -1)
             c->head[i] = c->head[i]->connections[index]->toward;
     }
-    endConvo();
+    end_convo();
 }
 /*In main, we will refacotr the previous showcase prgram to use these new structs.
 */
 int main()
 {
      system("clear");
-     pRed("\nWelcome to Chiventure's 'Dialog Prototype' Showcase!\n\n\n");
-     pYel("What's your name?");
+     print_red("\nWelcome to Chiventure's 'Dialog Prototype' Showcase!\n\n\n");
+     print_yellow("What's your name?");
      printf("\n> ");
      name = malloc(30 * sizeof(char));
      name = strtok(fgets(name, 30, stdin), "\n");
      printf("Hello  ");
-     pYel(name);
+     print_yellow(name);
      printf("\n\nAs the door creaks open, a strong musty scent smacks you in the face, filled with tones of mildew and copper.  You step into a disheveled room which, while bare in some areas, seems to have plenty of valuables stacked in others.  You can see an antique clock and a faberge egg, just for starters.  A shabby man quickly rounds the corner into the room, alarmed by the unexpected guest.  He looks upset with you.\n\n Hint-- try to 'talk to' or 'greet' shabby man (that's why you're here after all). Or else, I suppose you could just leave, or 'attack' shabby man instead.\n\n> ");
      char* c1 = malloc(30 * sizeof(char));
      fgets(c1, 30, stdin);
 
-    Convo_t* ShowcaseConvo = makeConvo(MAXNODES);
+    Convo_t* ShowcaseConvo = make_convo(MAXNODES);
     //making nodes for the dialog
-    Node_t* WellMet = makeNode(1, "Mhm fine, nice to meet you, now please turn around and get outta my house.  You can't come and go as you wish.");
-    Node_t* PrivacyVio = makeNode(2, "Woah, hey, y-you can't just walk in here and poke around the place without consulting the owner!!  Shouldn't I at least know who you are?!");
-    Node_t* HomeExpl = makeNode(3, "Yes, well, just because the door's unlocked and I'm a bit messy don't make it public property. Now take off and leave, or else I'm gonna force you to.");
-    Node_t* FightStnd = makeNode(4, "The last thing you heard before it all went dark was 'NOO MY PRESSED FLOWER COLLECTION'");
-    Node_t* FightFlwr = makeNode(5, "As his arm flashes behind his back, the robber raises a knife to you.");
-    Node_t* Leave = makeNode(6, "As soon as your eyes glance to the doorway, the man's hands are at your back ushering you away.  The door snaps shut and you hear the distinct click of a lock turning.");
+    Node_t* WellMet = make_node(1, "Mhm fine, nice to meet you, now please turn around and get outta my house.  You can't come and go as you wish.");
+    Node_t* PrivacyVio = make_node(2, "Woah, hey, y-you can't just walk in here and poke around the place without consulting the owner!!  Shouldn't I at least know who you are?!");
+    Node_t* HomeExpl = make_node(3, "Yes, well, just because the door's unlocked and I'm a bit messy don't make it public property. Now take off and leave, or else I'm gonna force you to.");
+    Node_t* FightStnd = make_node(4, "The last thing you heard before it all went dark was 'NOO MY PRESSED FLOWER COLLECTION'");
+    Node_t* FightFlwr = make_node(5, "As his arm flashes behind his back, the robber raises a knife to you.");
+    Node_t* Leave = make_node(6, "As soon as your eyes glance to the doorway, the man's hands are at your back ushering you away.  The door snaps shut and you hear the distinct click of a lock turning.");
     //making edges for the showcase dialog
-    addEdge(WellMet, makeEdge(HomeExpl, "my house", "Shucks, seemed abandoned to me."));
-    addEdge(WellMet, makeEdge(HomeExpl, "come and go", "I'm not trying to take your home, I just thought it would be a place to rest in some shade for a bit."));
-    addEdge(PrivacyVio, makeEdge(HomeExpl, "the owner", "The owner? With the state of this place, I'd have pegged you for more of a burglar, heh."));
-    addEdge(PrivacyVio, makeEdge(WellMet, "who you are", "Hey I'm Dad"));
-    addEdge(PrivacyVio, makeEdge(FightFlwr, "poke around", "Unperturbed by the smelly squatter, you continue rifling for valuables in the piles. As you hum patronizingly, angry footsteps quickly approach your back."));
-    addEdge(HomeExpl, makeEdge(FightStnd, "door's unlocked", "You walk over and pop a squat on the couch. 'You know what they say, open home, open heart!"));
-    addEdge(HomeExpl, makeEdge(FightStnd, "bit messy", "Really doesn't smell too good either. In fact, the place is looking a bit ransacked--"));
-    addEdge(HomeExpl, makeEdge(FightStnd, "force", "Hey, give it your best shot."));
-    addEdge(HomeExpl, makeEdge(Leave, "leave", "Jeez fine.."));
+    add_edge(WellMet, make_edge(HomeExpl, "my house", "Shucks, seemed abandoned to me."));
+    add_edge(WellMet, make_edge(HomeExpl, "come and go", "I'm not trying to take your home, I just thought it would be a place to rest in some shade for a bit."));
+    add_edge(PrivacyVio, make_edge(HomeExpl, "the owner", "The owner? With the state of this place, I'd have pegged you for more of a burglar, heh."));
+    add_edge(PrivacyVio, make_edge(WellMet, "who you are", "Hey I'm Dad"));
+    add_edge(PrivacyVio, make_edge(FightFlwr, "poke around", "Unperturbed by the smelly squatter, you continue rifling for valuables in the piles. As you hum patronizingly, angry footsteps quickly approach your back."));
+    add_edge(HomeExpl, make_edge(FightStnd, "door's unlocked", "You walk over and pop a squat on the couch. 'You know what they say, open home, open heart!"));
+    add_edge(HomeExpl, make_edge(FightStnd, "bit messy", "Really doesn't smell too good either. In fact, the place is looking a bit ransacked--"));
+    add_edge(HomeExpl, make_edge(FightStnd, "force", "Hey, give it your best shot."));
+    add_edge(HomeExpl, make_edge(Leave, "leave", "Jeez fine.."));
     //adding nodes and edges to the dialog tree
-    addNode(ShowcaseConvo, WellMet);
-    addNode(ShowcaseConvo, PrivacyVio);
-    addNode(ShowcaseConvo, HomeExpl);
-    addNode(ShowcaseConvo, FightStnd);
-    addNode(ShowcaseConvo, FightFlwr);
-    addNode(ShowcaseConvo, Leave);
+    add_node(ShowcaseConvo, WellMet);
+    add_node(ShowcaseConvo, PrivacyVio);
+    add_node(ShowcaseConvo, HomeExpl);
+    add_node(ShowcaseConvo, FightStnd);
+    add_node(ShowcaseConvo, FightFlwr);
+    add_node(ShowcaseConvo, Leave);
 
-//    printConvo(ShowcaseConvo);
-    runConvo(ShowcaseConvo);
+//    print_convo(ShowcaseConvo);
+    run_convo(ShowcaseConvo);
 }
 
