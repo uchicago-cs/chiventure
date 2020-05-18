@@ -12,11 +12,12 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
-set(CHIVENTURE_MODULES action_management checkpointing cli common game-state libobj ui wdl)
+set(CHIVENTURE_MODULES action_management battle checkpointing cli common game-state libobj ui wdl)
 
 include_directories(include/)
 
 add_subdirectory(src/action_management)
+add_subdirectory(src/battle)
 add_subdirectory(src/checkpointing)
 add_subdirectory(src/cli)
 add_subdirectory(src/common)
@@ -40,8 +41,3 @@ set_target_properties(chiventure-bin
 find_package(Criterion REQUIRED)
 enable_testing()
 add_subdirectory(tests)
-
-
-
-
-
