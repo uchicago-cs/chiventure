@@ -233,12 +233,13 @@ int traverse_edge(node_t *n)
     index = read_input(n, input);
     if (index >= 0)
     {
-        print_gold(n->connections[index]->quip);
+        printf("%s\n\n", n->connections[index]->quip);
         n = n->connections[index]->toward;
-        print_yellow(n->dialog);
+        print_gold(n->dialog);
+	printf("\n\n> Talk about: ");
         return index;
     } else {
-        print_red("invalid option, try again\n> ");
+        print_gold("The hell you say?\n> Talk about: ");
         return -1;
     }
 }
@@ -269,14 +270,15 @@ void end_convo()
  */
 void run_convo(convo_t *c)
 {
-    print_red(c->head[0]->dialog);
-    int i = 0;
+    print_gold(c->head[0]->dialog);
+    printf("\n\n> Talk about: ");
+    int start_node = 0;
     int index;
-    while (c->head[i]->connection_count != 0)
+    while (c->head[start_node]->connection_count != 0)
     {
-        index = traverse_edge(c->head[i]);
+        index = traverse_edge(c->head[start_node]);
         if (index != -1)
-            c->head[i] = c->head[i]->connections[index]->toward;
+            c->head[start_node] = c->head[start_node]->connections[index]->toward;
     }
     end_convo();
 }
@@ -307,21 +309,22 @@ int main()
 	    "seems to have plenty of valuables stacked in others. "
 	    "You can see an antique clock and a faberge egg, just for "
 	    "starters. A shabby man quickly rounds the corner into the room, "
-	    "alarmed by the unexpected guest. He looks upset with you.\n\n "
-	    "Hint-- try to 'talk to' or 'greet' shabby man (that's why "
-	    "you're here after all).\n\n> ");
+	    "alarmed by the unexpected guest. He looks upset with you.\n\n");
+
+/*
+ * Starting to build the conversation structure:
+ */
 
     convo_t *showcase_convo = make_convo(MAX_NODES);
-
 
 /*
  * Initialize each node with it's primary NPC dialog
  */
-    node_t *WellMet = make_node(1, 
+    node_t *WellMet = make_node(1,
 	"Mhm fine, nice to meet you, now please turn around and "
 	"get outta my house.  You can't come and go as you wish.",
 	MAX_EDGES);
-    node_t *PrivacyVio = make_node(2, 
+    node_t *PrivacyVio = make_node(2,
 	"Woah, hey, y-you can't just walk in here and poke around "
 	"the place without consulting the owner!!  Shouldn't I at least "
 	"know who you are?!",
