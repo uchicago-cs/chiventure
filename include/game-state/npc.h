@@ -6,7 +6,8 @@
 #include "dialogue.h"
 
 /* A non-playable character in game */
-typedef struct npc {
+typedef struct npc 
+{
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
     char *npc_id;
