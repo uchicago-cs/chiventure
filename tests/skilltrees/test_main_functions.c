@@ -61,7 +61,7 @@ Test(skilltrees_main_functions, new_skill)
 
     cr_assert_str_eq("fireball", skill->name,
                      "new_skill() failed at creating the name. "
-                     "We wanted 'fireball', but we got %s", skill->name);
+                     "We wanted 'fireball', but we got '%s'", skill->name);
     cr_assert_str_eq("shoots fire but, like, super fast.", skill->description,
                      "new_skill() failed at creating the description.");
     cr_assert_eq(0, skill->cur_level,
