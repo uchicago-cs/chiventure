@@ -24,14 +24,14 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
     
     if(c == NULL)
     {
-        error("Could not allocate space for class_new.\n");
+        fprintf(stderr, "Could not allocate space for class_new.\n");
         return NULL;
     }
     
     rc = class_init(c, name, shortdesc, longdesc, attr, stat, skill, battle, action);
 
     if (rc == EXIT_FAILURE){
-        error("Could not initalize values for class_new.\n");
+        fprintf(stderr, "Could not initalize values for class_new.\n");
     }
 
     return c;
@@ -44,21 +44,21 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
 {
     if (class == NULL)
     {
-        error("Class to initialize in class_init is NULL.\n");
+        fprintf(stderr, "Class to initialize in class_init is NULL.\n");
         return EXIT_FAILURE;
     }
 
     class->name = (char*) calloc(MAX_NAME_LEN, sizeof(char));
     if (class->name == NULL)
     {
-        error("Could not allocate memory for name in class_init.\n");
+        fprintf(stderr, "Could not allocate memory for name in class_init.\n");
         return EXIT_FAILURE;
     }
     strncpy(class->name, name, MAX_NAME_LEN);
     class->shortdesc = (char*) calloc(MAX_SHORT_DESC_LEN, sizeof(char));
     if (class->name == NULL)
     {
-        error("Could not allocate memory for short description in \
+        fprintf(stderr, "Could not allocate memory for short description in \
 class_init.\n");
         return EXIT_FAILURE;
     }
@@ -66,7 +66,7 @@ class_init.\n");
     class->longdesc = (char*) calloc(MAX_LONG_DESC_LEN, sizeof(char));
     if (class->name == NULL)
     {
-        error("Could not allocate memory for long description in \
+        fprintf(stderr, "Could not allocate memory for long description in \
 class_init.\n");
         return EXIT_FAILURE;
     }
