@@ -43,7 +43,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
 }
 
 /* See stats.h */
-int add_stat_player(stats_hash_t *sh, stats_t s)
+int add_stat_player(stats_hash_t *sh, stats_t *s)
 {
     printf("add_stat: function not yet implemented\n");
     return 0; // still needs to be implemented
