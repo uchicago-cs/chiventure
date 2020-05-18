@@ -28,7 +28,7 @@ typedef struct allskills_t allskills_t;
 // Creates a new skill when given all of the parameters needed for a skill.
 // Returns a fully malloc'd skill.
 skill_t* new_skill(char* name, unsigned int cur_level, unsigned int experience,
-                   int (*given_skill)(int, int));
+                   char* description, int (*given_skill)(int, int));
 
 // Frees a skill.
 // Returns an error code.

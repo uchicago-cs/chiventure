@@ -13,8 +13,8 @@ allskills_t* create_skill_list() {
 
     res->cur_num_active = 0;
     res->cur_num_passive = 0;
-    res->cur_num_active = 5;
-    res->cur_num_passive = 5;
+    res->max_num_active = 5;
+    res->max_num_passive = 5;
     skill_t** active_skills = (skill_t**)malloc(5 * sizeof(skill_t*));
     if (active_skills == NULL) {
         fprintf(stderr, "Invalid memory allocation in create_skill_list #2");
@@ -38,7 +38,7 @@ allskills_t* create_skill_list() {
 
 // Creates a new skill structure.
 skill_t* new_skill(char* name, unsigned int cur_level, unsigned int experience,
-                   int (*given_skill)(int, int)) {
+                   char* description, int (*given_skill)(int, int)) {
 
     skill_t* res = (skill_t*)malloc(sizeof(skill_t));
     if (res == NULL) {
@@ -47,6 +47,7 @@ skill_t* new_skill(char* name, unsigned int cur_level, unsigned int experience,
     }
 
     res->name = name;
+    res->description = description;
     res->cur_level = cur_level;
     res->experience = experience;
     res->execute_skill = given_skill;
