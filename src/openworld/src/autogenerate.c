@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../../include/openworld/sample_generation.h"
+#include "../../../include/openworld/autogenerate.h"
 
 /* See autogenerate.h */
 bool any_paths(room_t *r) {
