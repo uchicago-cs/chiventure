@@ -58,7 +58,7 @@ typedef struct stat_mod {
   *      and the modifier value for each stat
   * */
 typedef struct effects{
-    stats_t *stat; 
+    char *name; 
     bool status;
     stat_mod_t *stat_list;
     UT_hash_handle hh; 
