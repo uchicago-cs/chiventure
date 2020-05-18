@@ -49,6 +49,18 @@ void print_red(char *str){
 }
 
 /*
+ * Prints a string in NPC dialog format: gold by default and yellow for
+ * text surrounded by #hashes# to denote dialog choices.
+ * Parameters:
+ *  - dialog: the string to be printed in NPC format
+ * Returns: nothing
+ */
+void npc_print(char *dialog)
+{
+	char divider = '#';
+}
+
+/*
  * A struct to represent a conversation.
  * Includes:
  *  - node_count: the number of nodes the convo currently has
@@ -236,10 +248,9 @@ int traverse_edge(node_t *n)
         printf("%s\n\n", n->connections[index]->quip);
         n = n->connections[index]->toward;
         print_gold(n->dialog);
-	printf("\n\n> Talk about: ");
         return index;
     } else {
-        print_gold("The hell you say?\n> Talk about: ");
+        print_gold("The hell you say?\n");
         return -1;
     }
 }
@@ -254,7 +265,7 @@ int traverse_edge(node_t *n)
  */
 void end_convo()
 {
-    print_red("Congrats on finishing the chiventure dialog showcase!\n");
+    print_red("\n\nCongrats on finishing the chiventure dialog showcase!\n");
     print_gold("Press ENTER to exit");
     getchar();
     exit(0);
@@ -270,12 +281,12 @@ void end_convo()
  */
 void run_convo(convo_t *c)
 {
-    print_gold(c->head[0]->dialog);
-    printf("\n\n> Talk about: ");
-    int start_node = 0;
+    int start_node = 1;
+    print_gold(c->head[start_node]->dialog);
     int index;
     while (c->head[start_node]->connection_count != 0)
     {
+    	printf("\n\n> Talk about: ");
         index = traverse_edge(c->head[start_node]);
         if (index != -1)
             c->head[start_node] = c->head[start_node]->connections[index]->toward;
