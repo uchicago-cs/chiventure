@@ -16,6 +16,17 @@ typedef struct classes {
 	char* type;
 } classes_t;
 
+void add_restrictions(item_t* item, classes_t* class) {
+	set_str_attr(item, "CLASS RESTRICTIONS", class->type)
+}
+
+bool get_restriction(item_t* item, classes_t class) {
+	class_restrict = get_str_attr(item, "CLASS RESTRICTIONS");
+	//PSEUDOCODE
+	if class->type in class_restrict:
+		return true
+	return false
+}
 
 void wand_restrictions() {
 	/* WAND RESTRICTIONS*/
