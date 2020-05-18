@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "utlist.h"
-#include "structs.h"
+#include "battle_structs.h"
 
 #ifndef AI_H
 #define AI_H

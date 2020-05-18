@@ -12,8 +12,9 @@
  * - e: information about the enemy
  * Returns:
  * - 0 for if targetable and 1 for not being targetable
- */
-int check_target(enemy_t *e);
+ *
+ * NOTE: Unsure of how this function will play into our code
+int check_target(enemy_t *e); */
 
 /*
  * Checks the move's effectiveness against a certain target
@@ -40,9 +41,9 @@ double check_effectiveness(player_t *p, enemy_t *e, move_t *move);
  * Returns:
  * - Returns 0 for success
  */
-int mod_stat(stats_t *stat, int status);
+int mod_stat(stats_t *stat, int status, double decrease);
 
-/*
+    /*
  * Determines if a battle has reached its conclusion
  *
  * Parameters:
@@ -54,7 +55,7 @@ int mod_stat(stats_t *stat, int status);
  * - 2 for game over due to player
  * - -1 for an error with not passing conditions
  */
-int battle_over(player_t p, enemy_t *e);
+int battle_over(player_t *p, enemy_t *e);
 
 /* Function detemines what player goes first
  *
@@ -64,7 +65,7 @@ int battle_over(player_t p, enemy_t *e);
  *      -1 - invalid input
  *      0 - user goes first
  *      1 - enemy goes first    */
-int goes_first(int difficulty);
+int goes_first(double p_speed, double e_speed);
 
 /* Uses the item with the given ID on the player
  *
@@ -74,6 +75,15 @@ int goes_first(int difficulty);
  *      ID - the ID of the item
  *  Outputs:
  *      returns item used    */
-int enemy_use_item(enemy_t *e, player_t *p, int ID);
+item_t *enemy_use_item(enemy_t *e, int ID);
+
+/* Awards xp to the player 
+ * Parameters:
+ *  - stats: stats of the player
+ *  - xp: amount of xp to be rewarded
+ * Returns:
+ *  0 for success
+ */
+    int award_xp(stats_t *stats, double xp);
 
 #endif
