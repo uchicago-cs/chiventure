@@ -3,7 +3,6 @@
 #include "string.h"
 #include "stdio.h"
 
-#define ID_SIZE 20
 
 /*
  * uthash.c
@@ -16,8 +15,12 @@
  * 
  */
 
-enum Namespace { action, object, npc, dialogue };
 
+/* --------- DEFINITIONS --------- */
+
+#define ID_SIZE 20
+
+enum Namespace { action, object, npc, dialogue };
 
 /*
  * hash struct
@@ -36,7 +39,7 @@ typedef struct hash {
  * essentially, a wrapper for id and namespace
  */
 typedef struct cmpkey {
-    char *id[ID_SIZE]; // item id, e.g. "villager"
+    char id[ID_SIZE]; // item id, e.g. "villager"
     enum Namespace n; // category, e.g. "npc"
  } cmpkey_t;
 
@@ -49,6 +52,7 @@ typedef struct cmphash {
     int *obj; // dummy ptr to actual object
     UT_hash_handle hh;
 } cmphash_t; 
+
 
 /* ------ SIMPLE HASH FUNCTIONS ------ */
 
@@ -214,7 +218,7 @@ void print_cmp(cmphash_t **h)
     cmphash_t *i;
     for (i = *h; i != NULL; i = i->hh.next)
     {
-        printf("namespace: %d, id: %s, obj: %d\n", i->key.n, i->key.id[0], *i->obj);
+        printf("namespace: %d, id: %s, obj: %d\n", i->key.n, i->key.id, *i->obj);
     }
     if (*h == NULL)
         printf("NULL\n");
