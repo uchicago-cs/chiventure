@@ -211,7 +211,8 @@ int test_skill(int param1, int param2) {
 
 int main() {
     char name[30] = "Hello";
-    skill_t* our_struct = new_skill(name, 1, 0, &test_skill);
+    char description[50] = "Skill description"
+    skill_t* our_struct = new_skill(name, 1, 0, description, &test_skill);
     int res = our_struct->execute_skill(1, 2);
     printf("Result: %i\n", res);
 }
