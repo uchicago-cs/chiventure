@@ -3,7 +3,6 @@ set(TEST_EXE test-game-state)
 add_executable(${TEST_EXE}
         test_game.c
         test_items.c
-        test_npc.c
         test_path.c
         test_player.c
         test_rooms.c
