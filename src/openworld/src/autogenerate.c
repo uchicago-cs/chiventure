@@ -25,7 +25,7 @@ bool any_paths(room_t *r) {
 room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec) {
 
     /* CHANGE THIS LATER TO BE UNIQUELY GENERATED TO BE DIFFERENT FROM ROOMS IN game */
-    char* room_id = (char*) malloc(3);
+    char* room_id = (char*) calloc(3, 1);
     // hi
     room_id[0] = 'h';
     room_id[1] = 'i';
