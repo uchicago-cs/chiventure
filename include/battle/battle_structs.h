@@ -39,6 +39,15 @@ typedef struct
 } armor_t;
 
 
+typedef struct
+{
+    item_t *item;
+    bool attack;
+    int damage;
+    int defense;
+} move_t;
+
+
 typedef struct _ilist_t ilist_t;
 struct _ilist_t
 {
@@ -72,7 +81,7 @@ typedef enum class
     cleric,
     paladin,
     wizard
-} class_t;
+};
 
 /** The player class struct, which includes the enum class, a short
 description of the class, which stat the class gets a bonus for, and
@@ -104,21 +113,6 @@ typedef struct
     alist_t *armor;
     mlist_t *moves;
 } enemy_t;
-
-typedef struct
-{
-    item_t *item;
-    bool attack;
-    int damage;
-    int defense;
-} move_t;
-
-typedef struct _mlist_t mlist_t;
-struct _mlist_t
-{
-    move_t *move;
-    mlist_t *next;
-};
 
 
 #endif

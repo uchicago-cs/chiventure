@@ -1,3 +1,5 @@
+#include "battle_structs.h"
+
 #ifndef MOVES_H
 #define MOVES_H
 

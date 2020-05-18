@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "moves.h"
+#include "../../include/battle/moves.h"
+//#include "../../include/battle/battle_structs.h"
 
 Test(moves, new)
 {
