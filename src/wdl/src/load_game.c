@@ -77,8 +77,8 @@ game_t *create_game(obj_t *doc)
         exit(0);
     }
 
-    bool check = game_type_check(game);
-    if (check == false)
+    int check = game_type_check(game);
+    if (check == FAILURE)
     {
         fprintf(stderr, "game object fails type checking\n");
         exit(0);
