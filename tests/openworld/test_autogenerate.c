@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../include/openworld/sample_generation.h"
+#include "../../include/openworld/autogenerate.h"
 
 /* Tests the functions in sample_generation.h */
 
@@ -30,7 +30,7 @@ Test(autogenerate, any_paths2)
     "anypaths(): Should have a path");
 }
 
-Test(autogenerate, any_paths2)
+Test(autogenerate, any_paths3)
 {
     room_t *sampleRoom1 = room_new("string1", "string2", "string3");
     cr_assert_not_null(sampleRoom1, "sampleRoom1 is NULL");

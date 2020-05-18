@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "gen_structs.h"
+#include "openworld/gen_structs.h"
 
 /* see gen_structs.h */
 int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist){

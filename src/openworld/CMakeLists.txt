@@ -1,8 +1,12 @@
-add_library(openworld
-            src/autogenerate.c
-            ../../../tests/openworld/test_autogenerate.c)
+#add_library(openworld
+#            src/autogenerate.c
+#            ../../../tests/openworld/test_autogenerate.c)
 
-target_include_directories(openworld PRIVATE sample_generation/)
+add_library(openworld
+	    src/autogenerate.c
+	    src/gen_structs.c)
+
+target_include_directories(openworld PRIVATE src/)
 
 target_link_libraries(openworld wdl)
 target_link_libraries(openworld game-state)

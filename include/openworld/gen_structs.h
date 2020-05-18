@@ -27,7 +27,7 @@
  * - item_hash_t *items: hash table of items in room
  * - path_hash_t *paths: hash table of paths in room
  */
-typedef struct {
+typedef struct roomspec {
     char *short_desc;
     char *long_desc;
     item_hash_t *items;
@@ -41,7 +41,7 @@ typedef struct {
  * - speclist_t *next: pointer to the next part of the list.
  */
 typedef struct speclist speclist_t;
-struct speclist{
+struct speclist {
     roomspec_t *spec;
     speclist_t *next;
 };
@@ -54,7 +54,7 @@ struct speclist{
  * - int numnpcs: the number of npcs that need to be generated into the room.
  * - speclist_t *speclist: the llist of roomspect_t that each hold the room info.
  */
-typedef struct {
+typedef struct gencontext {
     path_t *path;
     int level;
     int openpaths;

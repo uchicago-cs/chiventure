@@ -35,7 +35,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec) {
 }
 
 /* See autogenerate.h */
-int pop_speclist(speclist_t *context) {
+int pop_speclist(gencontext_t *context) {
     assert(context != NULL && "pop_speclist: Given context is NULL");
     assert(context->speclist != NULL && 
     "pop_speclist: Given context's speclist field is NULL");
@@ -45,26 +45,27 @@ int pop_speclist(speclist_t *context) {
 
     assert(SUCCESS == delete_all_paths(prev->spec->paths));
     assert(SUCCESS == delete_all_items(&prev->spec->items));
-    free(short_desc);
-    free(long_desc);
+    free(prev->spec->short_desc);
+    free(prev->spec->long_desc);
+    free(prev->spec);
     free(prev);
     return 0;
 }
 
 /* See autogenerate.h */
-int room_generate(game_t *game, speclist_t *context) {
+int room_generate(game_t *game, gencontext_t *context) {
     /* Implement simple single-room autogeneration */
     if (!any_paths(game->curr_room)) {
         speclist_t *prev = context->speclist;
-        room_t *newRoom = roomspec_to_room(prev->spec);
+        room_t *newRoom = roomspec_to_room(game, prev->spec);
         assert( 0 == pop_speclist(context));
 
         // Add addRoom to gameNew
         assert(0 == add_room_to_game(game, newRoom));
         
         // Add path from the current room to addRoom
-        path_t* path_to_room = path_new(addRoom, "to new room"); // For now
-        assert (0 == add_path_to_room(gameNew->curr_room, path_to_room));
+        path_t* path_to_room = path_new(newRoom, "to new room"); // For now
+        assert (0 == add_path_to_room(game->curr_room, path_to_room));
 
         return 0; /* SUCCESS - room added */
     }
