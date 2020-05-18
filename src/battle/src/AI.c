@@ -27,11 +27,11 @@ move_t* easy_move(player_t* player, enemy_t* enemy)
 /* see AI.h */
 move_t* medium_move(player_t* player, enemy_t* enemy)
 {
-    int i, count;
-    LL_COUNT(enemy->moves, m, count);
+    int i, count, random;
+    LL_COUNT(enemy->moves, enemy->moves->move, count);
     random = rand() % count + 1;
     move_t* random_move = enemy->moves->move;
-    mlist_t *temp = enemy->moves;
+    mlist_t* temp = enemy->moves;
     for (i = 0; i < random; i++)
     {
         temp = temp->next;
