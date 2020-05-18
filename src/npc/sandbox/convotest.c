@@ -4,48 +4,52 @@
 
 char *name;
 enum scene {wellMet, privacyVio, homeExpl, FightFlwr, FightStnd, Leave, ERROR};
-char *scene_name(enum scene s){
-        switch(s){
-        case 1:
-                return "WellMet";
-        case 2:
-                return "PrivacyVio";
-        case 3:
-                return "HomeExpl";
-        case 4:
-                return "FightFlwr";
-        case 5:
-                return "FightStnd";
-        case 6:
-                return "Leave";
-        default:
-                return "ERROR";
-        };
+char *scene_name(enum scene s)
+{
+	switch(s){
+	case 1:
+		return "WellMet";
+	case 2:
+		return "PrivacyVio";
+	case 3:
+		return "HomeExpl";
+	case 4:
+		return "FightFlwr";
+	case 5:
+		return "FightStnd";
+	case 6:
+		return "Leave";
+	default:
+		return "ERROR";
+	};
 }
 
 
 /*
  * Three functions to print given string in gold, yellow, or red respectively
  */
-void print_gold(char *str){
-        printf("\033[0;33m");
-        printf("%s", str);
-        printf("\033[0m");
-        return;
+void print_gold(char *str)
+{
+	printf("\033[0;33m");
+	printf("%s", str);
+	printf("\033[0m");
+	return;
 }
 
-void print_yellow(char *str){
-        printf("\033[1;33m");
-        printf("%s", str);
-        printf("\033[0m");
-        return;
+void print_yellow(char *str)
+{
+	printf("\033[1;33m");
+	printf("%s", str);
+	printf("\033[0m");
+	return;
 }
 
-void print_red(char *str){
-        printf("\033[0;31m");
-        printf("%s", str);
-        printf("\033[0m");
-        return;
+void print_red(char *str)
+{
+	printf("\033[0;31m");
+	printf("%s", str);
+	printf("\033[0m");
+	return;
 }
 
 /*
@@ -93,10 +97,10 @@ typedef struct convo{
  *
  */
 typedef struct node{
-        enum scene tag;
-        char *dialog;
+	enum scene tag;
+	char *dialog;
 	int connection_count;
-        struct edge *connections[];
+	struct edge *connections[];
 } node_t;
 
 /*
@@ -108,9 +112,9 @@ typedef struct node{
  *
  */
 typedef struct edge{
-        node_t *toward;
-        char *keyword;
-        char *quip;
+	node_t *toward;
+	char *keyword;
+	char *quip;
 } edge_t;
 
 /*
@@ -118,24 +122,31 @@ typedef struct edge{
  * of a given edge, node, or convo.
  *
  */
-void print_edge(edge_t *e){
-	        printf("TO: %s\n  '%s' : %s\n",
-				scene_name(e->toward->tag), e->keyword, e->quip);
+void print_edge(edge_t *e)
+{
+        printf("TO: %s\n  '%s' : %s\n", 
+			scene_name(e->toward->tag), e->keyword, e->quip);
 }
-void print_node(node_t *n){
+
+void print_node(node_t *n)
+{
         printf("%s:\n\t%s\n edges count: %d\n",
                         scene_name(n->tag), n->dialog, n->connection_count);
         for(int i = 0; i < (int)n->connection_count; i++)
-                print_edge(n->connections[i]);
+	{
+		print_edge(n->connections[i]);
+	}
         printf("\n");
 }
+
 void print_convo(convo_t *c)
 {
         for(int i = 0; i < (int)c->node_count; i++)
         { 
-          print_node(c->head[i]);
+		print_node(c->head[i]);
         }
 }
+
 /*
  * A function to allocate a new convo struct
  * Returns:
@@ -144,8 +155,8 @@ void print_convo(convo_t *c)
  */
 convo_t *make_convo(int max_nodes)
 {
-        convo_t *c = (convo_t*) malloc(sizeof(convo_t)
-                        + max_nodes * sizeof(node_t*));
+        convo_t *c = 
+		(convo_t*)malloc(sizeof(convo_t) + max_nodes * sizeof(node_t*));
         c->node_count = 0;
         c->head[0] = NULL;
 	return c;
@@ -163,13 +174,13 @@ convo_t *make_convo(int max_nodes)
  */
 node_t *make_node(enum scene tag, char *dialog, int max_edges)
 {
-        node_t *newnode = (node_t*)malloc(sizeof(node_t)
-                        + max_edges * sizeof(edge_t*));
-        newnode->tag = tag;
-        newnode->dialog = dialog;
-        newnode->connections[0] = NULL;
-        newnode->connection_count = 0;
-        return newnode;
+	node_t *newnode = (node_t*)malloc(sizeof(node_t)
+			+ max_edges * sizeof(edge_t*));
+	newnode->tag = tag;
+	newnode->dialog = dialog;
+	newnode->connections[0] = NULL;
+	newnode->connection_count = 0;
+	return newnode;
 }
 /*
  * Attaches a given node to the head list of a given convo.
@@ -180,7 +191,7 @@ node_t *make_node(enum scene tag, char *dialog, int max_edges)
  */
 void add_node(convo_t *c, node_t *n)
 {
-        c->head[c->node_count++] = n;
+	c->head[c->node_count++] = n;
 }
 
 /*
@@ -196,11 +207,11 @@ void add_node(convo_t *c, node_t *n)
  */
 edge_t *make_edge(node_t *toward, char *keyword, char *quip)
 {
-        edge_t *new_edge = (edge_t*)malloc(sizeof(edge_t));
-        new_edge->toward = toward;
-        new_edge->keyword = keyword;
-        new_edge->quip = quip;
-        return new_edge;
+	edge_t *new_edge = (edge_t*)malloc(sizeof(edge_t));
+	new_edge->toward = toward;
+	new_edge->keyword = keyword;
+	new_edge->quip = quip;
+	return new_edge;
 }
 /*
  * Attaches a given edge to the connections list of a given node.
@@ -212,7 +223,7 @@ edge_t *make_edge(node_t *toward, char *keyword, char *quip)
  */
 void add_edge(node_t *n, edge_t *edge)
 {
-        n->connections[n->connection_count++] = edge;
+	n->connections[n->connection_count++] = edge;
 }
 
 /*
@@ -226,18 +237,19 @@ void add_edge(node_t *n, edge_t *edge)
  */
 int read_input(node_t *n, char *input)
 {
-    int i;
-    char *adj_input = strtok(input, "\n");
-    if (adj_input == NULL)
-	    return -1;
-    for (i = 0; i < n->connection_count; i++)
-    {
-        if (!strcmp(adj_input, n->connections[i]->keyword))
-        {
-            return i;
-        }
-    }
-    return -1;
+	char *adj_input = strtok(input, "\n");
+	if (adj_input == NULL)
+	{
+		return -1;
+	}
+	for (int i = 0; i < n->connection_count; i++)
+	{
+		if (!strcmp(adj_input, n->connections[i]->keyword))
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
 /*
@@ -250,20 +262,21 @@ int read_input(node_t *n, char *input)
  */
 int traverse_edge(node_t *n)
 {
-    char *input = malloc(30 * sizeof(char));
-    fgets(input, 30, stdin);
-    int index;
-    index = read_input(n, input);
-    if (index >= 0)
-    {
-        printf("\n%s\n\n", n->connections[index]->quip);
-        n = n->connections[index]->toward;
-        npc_print(n->dialog);
-        return index;
-    } else {
-        print_gold("The hell you say?\n");
-        return -1;
-    }
+	int buffer_size = 30;
+	char *input = malloc(buffer_size * sizeof(char));
+	fgets(input, 30, stdin);
+	int index;
+	index = read_input(n, input);
+	if (index >= 0)
+	{
+		printf("\n%s\n\n", n->connections[index]->quip);
+		n = n->connections[index]->toward;
+		npc_print(n->dialog);
+		return index;
+	} else {
+		print_gold("The hell you say?\n");
+		return -1;
+	}
 }
 
 /*
@@ -276,10 +289,10 @@ int traverse_edge(node_t *n)
  */
 void end_convo()
 {
-    print_red("\n\nCongrats on finishing the chiventure dialog showcase!\n");
-    print_gold("Press ENTER to exit");
-    getchar();
-    exit(0);
+	print_red("\n\nCongrats on finishing the chiventure dialog showcase!\n");
+	print_gold("Press ENTER to exit");
+	getchar();
+	exit(0);
 }
 
 /*
@@ -292,17 +305,20 @@ void end_convo()
  */
 void run_convo(convo_t *c)
 {
-    int start_node = 1;
-    npc_print(c->head[start_node]->dialog);
-    int index;
-    while (c->head[start_node]->connection_count != 0)
-    {
-    	printf("\n\n> Talk about: ");
-        index = traverse_edge(c->head[start_node]);
-        if (index != -1)
-            c->head[start_node] = c->head[start_node]->connections[index]->toward;
-    }
-    end_convo();
+	int start_node = 1;
+	npc_print(c->head[start_node]->dialog);
+	int index;
+	while (c->head[start_node]->connection_count != 0)
+	{
+		printf("\n\n> Talk about: ");
+		index = traverse_edge(c->head[start_node]);
+		if (index != -1)
+		{
+			c->head[start_node] = 
+				c->head[start_node]->connections[index]->toward;
+		}
+	}
+	end_convo();
 }
 
 /* 
@@ -311,101 +327,101 @@ void run_convo(convo_t *c)
  */
 int main()
 {
-     static const int MAX_NODES = 12;
-     static const int MAX_EDGES = 6;
+	static const int MAX_NODES = 12;
+	static const int MAX_EDGES = 6;
 
-     system("clear");
+	system("clear");
 
-     print_red("\nWelcome to Chiventure's 'Dialog Module' Mockup!\n\n\n");
+	print_red("\nWelcome to Chiventure's 'Dialog Module' Mockup!\n\n\n");
 
-     printf("As the door creaks open, a strong musty scent smacks "
-	    "you in the face, filled with tones of mildew and copper. "
-	    "You step into a disheveled room which, while bare in some areas, "
-	    "seems to have plenty of valuables stacked in others. "
-	    "You can see an antique clock and a faberge egg, just for "
-	    "starters. A shabby man quickly rounds the corner into the room, "
-	    "alarmed by the unexpected guest. He looks upset with you.\n\n");
+	printf("As the door creaks open, a strong musty scent smacks "
+		"you in the face, filled with tones of mildew and copper. "
+		"You step into a disheveled room which, while bare in some "
+		"areas, seems to have plenty of valuables stacked in others. "
+		"You can see an antique clock and a faberge egg, just for "
+		"starters. A shabby man quickly rounds the corner into the room, "
+		"alarmed by the unexpected guest. He looks upset with you.\n\n");
 
 /*
  * Starting to build the conversation structure:
  */
 
-    convo_t *showcase_convo = make_convo(MAX_NODES);
+	convo_t *showcase_convo = make_convo(MAX_NODES);
 
 /*
  * Initialize each node with it's primary NPC dialog
  */
-    node_t *WellMet = make_node(1,
-	"Mhm fine, that's wonderful, now go ahead and turn around and "
-	"get outta #my house#.  You can't #come and go# as you wish.",
-	MAX_EDGES);
-    node_t *PrivacyVio = make_node(2,
-	"Woah, hey, y-you can't just walk in here and #poke around# "
-	"the place without consulting #the owner#!!  Shouldn't I at least "
-	"know #who you are#?!",
-	MAX_EDGES);
-    node_t *HomeExpl = make_node(3, 
-	"Yes, well, just because the #door's unlocked# and I'm a #bit "
-	"messy# don't make it public property. Now take off and #leave#, or "
-	"else I'm gonna #force# you to.",
-	MAX_EDGES);
-    node_t *FightStnd = make_node(4, 
-	"As his arm flashes behind his back, "
-	"the robber raises a knife to you.",
-	MAX_EDGES);
-    node_t *FightFlwr = make_node(5, 
-	"The last thing you heard before it all went dark was "
-	"'NOO MY PRESSED FLOWER COLLECTION'",
-	MAX_EDGES);
-    node_t *Leave = make_node(6, 
-	"As soon as your eyes glance to the doorway, the man's hands "
-	"are at your back ushering you away. The door snaps shut and "
-	"you hear the distinct click of a lock turning.",
-	MAX_EDGES);
+	node_t *WellMet = make_node(1,
+		"Mhm fine, that's wonderful, now go ahead and turn around and "
+		"get outta #my house#.  You can't #come and go# as you wish.",
+		MAX_EDGES);
+	node_t *PrivacyVio = make_node(2,
+		"Woah, hey, y-you can't just walk in here and #poke around# "
+		"the place without consulting #the owner#!!  Shouldn't I at "
+		"least know #who you are#?!",
+		MAX_EDGES);
+	node_t *HomeExpl = make_node(3, 
+		"Yes, well, just because the #door's unlocked# and I'm a #bit "
+		"messy# don't make it public property. Now take off and "
+		"#leave#, or else I'm gonna #force# you to.",
+		MAX_EDGES);
+	node_t *FightStnd = make_node(4, 
+		"As his arm flashes behind his back, "
+		"the robber raises a knife to you.",
+		MAX_EDGES);
+	node_t *FightFlwr = make_node(5, 
+		"The last thing you heard before it all went dark was "
+		"'NOO MY PRESSED FLOWER COLLECTION'",
+		MAX_EDGES);
+	node_t *Leave = make_node(6, 
+		"As soon as your eyes glance to the doorway, the man's hands "
+		"are at your back ushering you away. The door snaps shut and "
+		"you hear the distinct click of a lock turning.",
+		MAX_EDGES);
 
 /*
  * Adding all edge options to each node:
  */
-    add_edge(WellMet, make_edge(HomeExpl, "my house", 
-	"Shucks, seemed abandoned to me."));
-    add_edge(WellMet, make_edge(HomeExpl, "come and go", 
-	"I'm not trying to take your home, I just thought "
-	"it would be a place to rest in some shade for a bit."));
-    add_edge(PrivacyVio, make_edge(HomeExpl, "the owner", 
-	"The owner? With the state of this place, I'd have pegged you "
-	"for more of a burglar, heh."));
-    add_edge(PrivacyVio, make_edge(WellMet, "who you are", 
-	"Just someone looking for someone to talk to."));
-    add_edge(PrivacyVio, make_edge(FightFlwr, "poke around", 
-	"Unperturbed by the smelly squatter, you continue rifling "
-	"for valuables in the piles. As you hum patronizingly, "
-	"angry footsteps quickly approach your back."));
-    add_edge(HomeExpl, make_edge(FightStnd, "door's unlocked", 
-	"You walk over and pop a squat on the couch. "
-	"'You know what they say, open home, open heart!"));
-    add_edge(HomeExpl, make_edge(FightStnd, "bit messy", 
-	"Really doesn't smell too good either. In fact, the place "
-	"is looking a bit ransacked--"));
-    add_edge(HomeExpl, make_edge(FightStnd, "force", 
-	"Hey, give it your best shot."));
-    add_edge(HomeExpl, make_edge(Leave, "leave", 
-	"Jeez fine.."));
+	add_edge(WellMet, make_edge(HomeExpl, "my house", 
+		"Shucks, seemed abandoned to me."));
+	add_edge(WellMet, make_edge(HomeExpl, "come and go", 
+		"I'm not trying to take your home, I just thought "
+		"it would be a place to rest in some shade for a bit."));
+	add_edge(PrivacyVio, make_edge(HomeExpl, "the owner", 
+		"The owner? With the state of this place, I'd have pegged you "
+		"for more of a burglar, heh."));
+	add_edge(PrivacyVio, make_edge(WellMet, "who you are", 
+		"Just someone looking for someone to talk to."));
+	add_edge(PrivacyVio, make_edge(FightFlwr, "poke around", 
+		"Unperturbed by the smelly squatter, you continue rifling "
+		"for valuables in the piles. As you hum patronizingly, "
+		"angry footsteps quickly approach your back."));
+	add_edge(HomeExpl, make_edge(FightStnd, "door's unlocked", 
+		"You walk over and pop a squat on the couch. "
+		"'You know what they say, open home, open heart!"));
+	add_edge(HomeExpl, make_edge(FightStnd, "bit messy", 
+		"Really doesn't smell too good either. In fact, the place "
+		"is looking a bit ransacked--"));
+	add_edge(HomeExpl, make_edge(FightStnd, "force", 
+		"Hey, give it your best shot."));
+	add_edge(HomeExpl, make_edge(Leave, "leave", 
+		"Jeez fine.."));
 
 /*
  * Adding the nodes to the mockup:
  */
-    add_node(showcase_convo, WellMet);
-    add_node(showcase_convo, PrivacyVio);
-    add_node(showcase_convo, HomeExpl);
-    add_node(showcase_convo, FightStnd);
-    add_node(showcase_convo, FightFlwr);
-    add_node(showcase_convo, Leave);
+	add_node(showcase_convo, WellMet);
+	add_node(showcase_convo, PrivacyVio);
+	add_node(showcase_convo, HomeExpl);
+	add_node(showcase_convo, FightStnd);
+	add_node(showcase_convo, FightFlwr);
+	add_node(showcase_convo, Leave);
 
 /*
  * Functions for testing:
  */
 
-    //print_convo(showcase_convo);
-    run_convo(showcase_convo);
+	//print_convo(showcase_convo);
+	run_convo(showcase_convo);
 }
 
