@@ -3,6 +3,8 @@
 #include "string.h"
 #include "stdio.h"
 
+#define ID_SIZE 20
+
 /*
  * uthash.c
  * by: Elaine Wan
@@ -33,8 +35,8 @@ typedef struct hash {
  * compound key struct
  * essentially, a wrapper for id and namespace
  */
- typedef struct cmpkey {
-    char *id; // item id, e.g. "villager"
+typedef struct cmpkey {
+    char *id[ID_SIZE]; // item id, e.g. "villager"
     enum Namespace n; // category, e.g. "npc"
  } cmpkey_t;
 
@@ -152,11 +154,15 @@ void free_hash(hash_t **t)
  */
 cmphash_t *find_cmp(cmphash_t **h, enum Namespace name, char *newid)
 {
-    cmphash_t tmp;
+    /*cmphash_t tmp;
     memset(&tmp, 0, sizeof(cmphash_t)); // to accommodate padding in struct
-    tmp.key.id = newid;
-    tmp.key.n = name;
+    strcpy(tmp.key.id[0], newid);
+    tmp.key.n = name;*/
     cmphash_t *res;
+    cmpkey_t tmp;
+    memset(&tmp, 0, sizeof(tmp));
+    strcpy(tmp.id, newid);
+    tmp.n = name;
     // HASH_FIND(hh, records, &l.key, sizeof(record_key_t), p); (from uthash ex)
     HASH_FIND(hh, *h, &tmp, sizeof(cmpkey_t), res);
 
@@ -185,7 +191,6 @@ int add_cmp(cmphash_t **h, enum Namespace name, char *newid, int *o)
         memset(new, 0, sizeof(*new)); // to accommodate padding in struct
 
         new->key.n = name;
-        new->key.id = (char *)malloc(sizeof(char)*(strlen(newid)+1));
         strcpy(new->key.id, newid);
         new->obj = o;
 
@@ -209,7 +214,7 @@ void print_cmp(cmphash_t **h)
     cmphash_t *i;
     for (i = *h; i != NULL; i = i->hh.next)
     {
-        printf("namespace: %d, id: %s\n", i->key.n, i->key.id);
+        printf("namespace: %d, id: %s, obj: %d\n", i->key.n, i->key.id[0], *i->obj);
     }
     if (*h == NULL)
         printf("NULL\n");
