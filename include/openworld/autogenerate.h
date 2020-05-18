@@ -69,11 +69,11 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
 
 /*
  * pop_speclist
- * Given a context struct pointer (type speclist_t*), sets the head of the 
+ * Given a context struct pointer (type gencontext_t*), sets the head of the 
  * speclist field, pops the old head and frees it from the heap.
  * 
  * parameters:
- * - context: A pointer to a context struct (type speclist_t*). Not NULL.
+ * - context: A pointer to a context struct (type gencontext_t*). Not NULL.
  *
  * side effects:
  * - Frees a speclist pointer (and its contents) from the heap 
@@ -83,12 +83,12 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
  * - 0 if successful
  * - 1 if unsuccessful (error)
  */
-int pop_speclist(speclist_t *context);
+int pop_speclist(gencontext_t *context);
 
 
 /*
  * room_generate
- * Given a game pointer and a context struct (speclist_t*), generates a room 
+ * Given a game pointer and a context struct (gencontext_t*), generates a room 
  * based on the head node of the context struct and adds it to the game. Only 
  * does so if the current room has no paths (dead ends).
  * 
@@ -105,7 +105,7 @@ int pop_speclist(speclist_t *context);
  * - 0 if the new room was added (SUCCESS)
  * - 1 if the new room was not added (FAILURE)
  */
-int room_generate(game_t *game, speclist_t *context);
+int room_generate(game_t *game, gencontext_t *context);
 
 /*
  * autogen_algorithm

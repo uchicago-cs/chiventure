@@ -27,7 +27,7 @@
  * - item_hash_t *items: hash table of items in room
  * - path_hash_t *paths: hash table of paths in room
  */
-typedef struct {
+typedef struct roomspec {
     char *short_desc;
     char *long_desc;
     item_hash_t *items;
@@ -40,10 +40,11 @@ typedef struct {
  * - roomspec_t *spec: pointer to some room specification
  * - speclist_t *next: pointer to the next part of the list.
  */
-typedef struct {
+typedef struct speclist speclist_t;
+struct speclist {
     roomspec_t *spec;
     speclist_t *next;
-} speclist_t;
+};
         
 /* gencontext_t struct
  * This struct will carry the info for the generation algorithm
@@ -53,12 +54,12 @@ typedef struct {
  * - int numnpcs: the number of npcs that need to be generated into the room.
  * - speclist_t *speclist: the llist of roomspect_t that each hold the room info.
  */
-typedef struct {
+typedef struct gencontext {
     path_t *path;
     int level;
     int openpaths;
     int numnpcs;
-    specnode_t *speclist;
+    speclist_t *speclist;
 } gencontext_t;
 
 
