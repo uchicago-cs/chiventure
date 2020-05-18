@@ -5,7 +5,7 @@
 #include "skilltrees/skilltrees.h"
 // Not all functions are given to the .h file, as some should only be used
 // by the skilltrees team.
-#include "skilltrees/skilltrees.c"
+#include "../src/skilltrees/skilltrees.c"
 
 // Checks that create_skill_list correctly creates an empty list of active
 // and passive skills.
