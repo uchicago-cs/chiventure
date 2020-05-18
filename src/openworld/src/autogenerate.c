@@ -1,12 +1,12 @@
 /* Team RPG-Openworld
  * 
- * sample_generation.c: This file. Function definitions of the functions 
- * specified in chiventure/include/sample_generation.h
+ * autogenerate.c: This file. Function definitions of the functions 
+ * specified in chiventure/include/autogenerate.h
  * 
- * Create a high level room generation module that pulls the lower-level 
- * room generation modules together
+ * Room module that autogenerates string of rooms connected via paths when 
+ * a "dead-end" room is entered
  * 
- * See chiventure/include/sample_generation.h header file to see function 
+ * See chiventure/include/autogenerate.h header file to see function 
  * prototypes and purposes
  */
 
@@ -15,23 +15,55 @@
 #include <stdbool.h>
 #include "../../../include/openworld/sample_generation.h"
 
-/* See sample_generation.h */
-bool enter_new_room(room_t *r1, room_t *r2) {
-    // Check if they have the same hash handle pointer
-    return (bool) (r1->hh.key != r2->hh.key);
-} // assumes that we locally keep track of two room states when game state changes
+/* See autogenerate.h */
+bool any_paths(room_t *r) {
+    assert(r != NULL && "any_paths: Given room is NULL");
+    return (r->paths != NULL);
+}
 
-/* See sample_generation.h */
-int room_generate(room_t* roomOld, game_t *gameNew, room_t *addRoom) {
+/* See autogenerate.h */
+room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec) {
+
+    /* CHANGE THIS LATER TO BE UNIQUELY GENERATED TO BE DIFFERENT FROM ROOMS IN game */
+    char* room_id = (char*) malloc(3);
+    // hi
+    room_id[0] = 'h';
+    room_id[1] = 'i';
+    room_id[2] = '\0';
+
+    return room_new(room_id, roomspec->short_desc, roomspec->long_desc);
+}
+
+/* See autogenerate.h */
+int pop_speclist(speclist_t *context) {
+    assert(context != NULL && "pop_speclist: Given context is NULL");
+    assert(context->speclist != NULL && 
+    "pop_speclist: Given context's speclist field is NULL");
+
+    speclist_t *prev = context->speclist;
+    context->speclist = context->speclist->next; // Doesn't matter if next is NULL
+
+    assert(SUCCESS == delete_all_paths(prev->spec->paths));
+    assert(SUCCESS == delete_all_items(&prev->spec->items));
+    free(short_desc);
+    free(long_desc);
+    free(prev);
+    return 0;
+}
+
+/* See autogenerate.h */
+int room_generate(game_t *game, speclist_t *context) {
     /* Implement simple single-room autogeneration */
-    if (enter_new_room(roomOld, gameNew->curr_room)) {
+    if (!any_paths(game->curr_room)) {
+        speclist_t *prev = context->speclist;
+        room_t *newRoom = roomspec_to_room(prev->spec);
+        assert( 0 == pop_speclist(context));
 
         // Add addRoom to gameNew
-        assert(0 == add_room_to_game(gameNew, addRoom));
+        assert(0 == add_room_to_game(game, newRoom));
         
         // Add path from the current room to addRoom
-        // Use dependency from game-state/path.h for the following function:
-        path_t* path_to_room = path_new(addRoom, "to new room");
+        path_t* path_to_room = path_new(addRoom, "to new room"); // For now
         assert (0 == add_path_to_room(gameNew->curr_room, path_to_room));
 
         return 0; /* SUCCESS - room added */
@@ -40,6 +72,7 @@ int room_generate(room_t* roomOld, game_t *gameNew, room_t *addRoom) {
     return 1; /* room not added */
 }
 
+/* See autogenerate.h */
 int autogen_algorithm(void) { // Save this for eventually adding multiple rooms at once
     /* TODO */
 

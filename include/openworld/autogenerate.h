@@ -3,89 +3,109 @@
  * Sample-Generation header file
  * 
  * sample_generation.h: This file: function prototypes and purposes from 
- * the functions defined in chiventure/src/sample_generation.c
+ * the functions defined in chiventure/src/openworld/src/autogenerate.c
  * 
- * Create a high level room generation module that pulls the lower-level 
- * room generation modules together
+ * Room module that autogenerates string of rooms connected via paths when 
+ * a "dead-end" room is entered
  * 
- * See chiventure/include/sample_generation.c source code file to see function 
- * prototypes and purposes
+ * See sample_generation.c source code file to see function definitions
  */
 
-#ifndef INCLUDE_SAMPLE_GENERATION_H
-#define INCLUDE_SAMPLE_GENERATION_H
+#ifndef INCLUDE_AUTOGENERATE_H
+#define INCLUDE_AUTOGENERATE_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-// INCLUDE HARD-CODE ROOMS AND AUTOGENERATION MODULE
 
 // #include "sample_items.h"
 // #include "sample_rooms.h"
-
-/* gencontext_t struct
- * This struct will carry the info for the generation algorithm
- * The struct contains: 
- * - int level: this is the players current level
- */
-typedef struct {
- int level;
-} gencontext_t;
-
-
 
 #include "../game-state/game_state_common.h"
 #include "../game-state/game_action.h"
 #include "../game-state/game.h"
 #include "../game-state/room.h"
 #include "../game-state/item.h"
+#include "../openworld/gen_structs.h"
 
 // ASSUME HARD-CODED ROOMS AVAILABLE FROM ANOTHER MODULE
 
 /*
- * enter_new_room
- * Did the player move from one room to another in the same game?
- * Compares two rooms based on UT_hash_handle to see if they are different
- * Assume that the input rooms are from the same game in different states
+ * any_paths
+ * Are there any paths in the given room? Returns a boolean.
  * 
  * parameters:
- * - r1: a room pointer for input room 1 (old game state)
- * - g2: a room pointer for input room 2 (new game state, after entering room)
+ * - r: A room pointer for the input room. Should not be NULL.
  *
  * side effects:
- * - None. Does not alter room/game states. Just compares them to determine if 
- * a new room was entered. Assume old room state is saved on the heap before a 
- * path action is taken, so that they can be compared after a path action.
+ * - None. Does not alter room/game states. Just determines if the input 
+ *   rooms have any paths.
  *
  * returns:
- * - true if a new room was entered
- * - false if a new room was not entered
+ * - true if the room has one or more paths
+ * - false if the room has no paths
  */
-bool enter_new_room(room_t *r1, room_t *r2);
+bool any_paths(room_t *r);
+
+
+/*
+ * context_to_room
+ * Given a roomspec_t pointer (type roomspec_t*), returns 
+ * a room_t pointer generated from its specifications, with a room_id that 
+ * is uniquely generated from the given game (different from the game's rooms).
+ * 
+ * parameters:
+ * - game: A pointer to a game struct. Should not be NULL.
+ * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
+ *
+ * side effects:
+ * - Creates a new room_t pointer on the heap.
+ *
+ * returns:
+ * The generated room_t struct pointer.
+ */
+room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
+
+
+/*
+ * pop_speclist
+ * Given a context struct pointer (type speclist_t*), sets the head of the 
+ * speclist field, pops the old head and frees it from the heap.
+ * 
+ * parameters:
+ * - context: A pointer to a context struct (type speclist_t*). Not NULL.
+ *
+ * side effects:
+ * - Frees a speclist pointer (and its contents) from the heap 
+ *   (the list's head node).
+ *
+ * returns:
+ * - 0 if successful
+ * - 1 if unsuccessful (error)
+ */
+int pop_speclist(speclist_t *context);
+
 
 /*
  * room_generate
- * Given an old room state, a current game state, and a room to add, add the room to the 
- * the new game state (connected to the current room) if and only if the 
- * curr_room field is different between the two games. Connect via path
+ * Given a game pointer and a context struct (speclist_t*), generates a room 
+ * based on the head node of the context struct and adds it to the game. Only 
+ * does so if the current room has no paths (dead ends).
  * 
- * Freeing gameOld from the old game state is to be handled outside 
- * of this function
+ * Connects the newly-generated room to the old room via paths.
  * 
  * parameters:
- * - roomOld: a room pointer for the old game state's curr_room
- * - gameNew: a room pointer for the old game state
- * - addRoom: a room pointer for the room to add if a new room was entered
+ * * - game: A pointer to a game struct. Should not be NULL.
+ * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
  *
  * side effects:
- * - Changes gameNew to add a room to the list of all_rooms and edits the 
- *   current_room struct to have a path to the newly-added room
+ * - Changes input game to hold the newly generated room. Allocated on the heap
  *
  * returns:
- * - SUCCESS if the new room (addRoom) was added
- * - FAILURE if the new room (addRoom) was not added
+ * - 0 if the new room was added (SUCCESS)
+ * - 1 if the new room was not added (FAILURE)
  */
-int room_generate(room_t *roomOld, game_t *gameNew, room_t *addRoom);
+int room_generate(game_t *game, speclist_t *context);
 
 /*
  * autogen_algorithm
@@ -104,4 +124,4 @@ int room_generate(room_t *roomOld, game_t *gameNew, room_t *addRoom);
  */
 int autogen_algorithm(void);
 
-#endif /* INCLUDE_SAMPLE_GENERATION_H */
+#endif /* INCLUDE_AUTOGENERATE_H */
