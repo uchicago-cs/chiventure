@@ -8,35 +8,46 @@
 #include <stdbool.h>
 #include <string.h>
 
-/*
- * Allocates a new point in the heap.
- *
- * Parameters:
- *  - x,y: The coordinates of the point
- *
- * Returns:
- *  - A pointer to the point, or NULL if a point
- *    cannot be allocated
+
+/* Stub to hold information about a combatant that isn't
+ * yet readily available in the current chiventure
  */
-int battle_setup();
+typedef struct combatant_info {
+    stat_t *stats;
+    move_t *moves;
+    item_t *items;
+} combatant_info_t;
 
 /*
- * Allocates a new point in the heap.
+ * Sets up all necessary structs and details for a new battle
  *
  * Parameters:
- *  - x,y: The coordinates of the point
+ *  - g = the current game
+ *  - enemies = pointer to list of enemy/ies (stub for enemy NPCs)
+ *  - pinfo = pointer to player info (stats, moves, items stub)
  *
  * Returns:
- *  - A pointer to the point, or NULL if a point
- *    cannot be allocated
+ *  - SUCCESS if successful, FAILURE otherwise
+ */
+ int battle_setup(game_t *g, npc_t *enemies, combatant_info *pinfo, environment_t env);
+
+/*
+ * Sets up all combatant structs for a new battle
+ *
+ * Parameters:
+ *  - p = the current player
+ *  - enemies = list of enemies to be fought
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE otherwise
  */
 int set_combatants();
 
 /*
- * Allocates a new point in the heap.
+ * Sets up battle struct for a new battle
  *
  * Parameters:
- *  - x,y: The coordinates of the point
+ *  -
  *
  * Returns:
  *  - A pointer to the point, or NULL if a point
@@ -44,27 +55,8 @@ int set_combatants();
  */
 int set_battle();
 
-/*
- * Allocates a new point in the heap.
- *
- * Parameters:
- *  - x,y: The coordinates of the point
- *
- * Returns:
- *  - A pointer to the point, or NULL if a point
- *    cannot be allocated
- */
-int run_battle();
+/***** below: not yet to be implemented */
 
-/*
- * Allocates a new point in the heap.
- *
- * Parameters:
- *  - x,y: The coordinates of the point
- *
- * Returns:
- *  - A pointer to the point, or NULL if a point
- *    cannot be allocated
- */
-int battle_turn();
+// int run_battle();
 
+// int battle_turn();
