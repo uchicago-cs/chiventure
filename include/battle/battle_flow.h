@@ -19,44 +19,56 @@ typedef struct combatant_info {
 } combatant_info_t;
 
 /*
- * Sets up all necessary structs and details for a new battle
+ * Starts the battle, sets up structs, then runs a battle loop until finisheed
  *
  * Parameters:
- *  - g = the current game
+ *  - ctx = the current chiventure context
  *  - enemies = pointer to list of enemy/ies (stub for enemy NPCs)
+ *  - pinfo = pointer to player info (stats, moves, items stub)
+ *  - env = environment for the battle
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE otherwise
+ */
+ int start_battle(chiventure_ctx_t *ctx, npc_t *enemies, combatant_info_t *pinfo, environment_t env);
+
+/*
+ * Sets up the player's combatant_t struct for a new battle
+ *
+ * Parameters:
+ *  - p = the current player in the game_t struct
  *  - pinfo = pointer to player info (stats, moves, items stub)
  *
  * Returns:
- *  - SUCCESS if successful, FAILURE otherwise
+ *  - pointer to player's combatant_t struct initialized for new battle
  */
- int battle_setup(game_t *g, npc_t *enemies, combatant_info *pinfo, environment_t env);
+combatant_t *set_player(player_t *p, combatant_info_t *pinfo);
 
 /*
- * Sets up all combatant structs for a new battle
+ * Sets up all enemy combatant structs for a new battle
  *
  * Parameters:
- *  - p = the current player
- *  - enemies = list of enemies to be fought
+ *  - enemies = pointer to list of enemy/ies (stub for enemy NPCs)
  *
  * Returns:
- *  - SUCCESS if successful, FAILURE otherwise
+ *  - pointer to list of enemy's/enemies' combatant_t struct
  */
-int set_combatants();
+combatant_t *set_enemies(npc_t *enemies);
 
 /*
  * Sets up battle struct for a new battle
  *
  * Parameters:
- *  -
+ *  - player = pointer to player
+ *  - enemies = pointer to list of enemy/ies
+ *  - env = the environment for the battle
  *
  * Returns:
- *  - A pointer to the point, or NULL if a point
- *    cannot be allocated
+ *  - A pointer to new battle struct initialized for a new battle
+ *
  */
-int set_battle();
+battle_t *set_battle(combatant_t *player, combatant_t *enemies, environment_t env);
 
 /***** below: not yet to be implemented */
-
-// int run_battle();
 
 // int battle_turn();

@@ -15,28 +15,27 @@
 #include <string.h>
 
 /* see battle_flow.h */
-int battle_setup(game_t *g, npc_t *enemies, combatant_info_t *pinfo, environment_t env)
+int start_battle(chiventure_ctx_t *ctx, npc_t *enemies, combatant_info_t *pinfo, environment_t env)
 {
-    player_t* p = g->curr_player;
-    combatant_t* set_combatants(p,pinfo,enemies);
-    set_battle(env);
-};
+      game_t *g = ctx->game;
+      player_t *p = g->curr_player;
+
+      combatant_t *player  = set_player(p,pinfo);
+      combatant_t *enemies = set_enemies(enemies);
+      battle_t *b = set_battle(player,enemies,env);
+
+}
 
 /* see battle_flow.h */
-int set_combatants(player_t *p, combatant_info_t *pinfo, npc_t *enemies)
+combatant_t *set_enemies(npc_t *enemies)
 {
-  // Set the player
-
-
-  // Set the enemies
-
   return FAILURE;
 };
 
+/* see battle_flow.h */
 combatant_t *set_player(player_t *p, combatant_info_t *pinfo)
 {
     char* name = p->player_id;
-    char
     combatant_new(name,);
 }
 
