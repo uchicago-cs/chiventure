@@ -57,7 +57,18 @@ void print_red(char *str){
  */
 void npc_print(char *dialog)
 {
-	char divider = '#';
+	char *divider = "#";
+	char *to_print;
+	char *remaining = strdup(dialog);
+	int color = 1; /* Increments with each print, odd = gold even = yel */
+	while ((to_print = strtok_r(remaining, divider, &remaining)) != NULL)
+	{
+		if (color % 2 == 1)
+			print_gold(to_print);
+		else
+			print_yellow(to_print);
+		color++;
+	}
 }
 
 /*
@@ -245,9 +256,9 @@ int traverse_edge(node_t *n)
     index = read_input(n, input);
     if (index >= 0)
     {
-        printf("%s\n\n", n->connections[index]->quip);
+        printf("\n%s\n\n", n->connections[index]->quip);
         n = n->connections[index]->toward;
-        print_gold(n->dialog);
+        npc_print(n->dialog);
         return index;
     } else {
         print_gold("The hell you say?\n");
@@ -282,7 +293,7 @@ void end_convo()
 void run_convo(convo_t *c)
 {
     int start_node = 1;
-    print_gold(c->head[start_node]->dialog);
+    npc_print(c->head[start_node]->dialog);
     int index;
     while (c->head[start_node]->connection_count != 0)
     {
