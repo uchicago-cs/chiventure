@@ -15,39 +15,80 @@
 #include <string.h>
 
 /* see battle_flow.h */
-int start_battle(chiventure_ctx_t *ctx, npc_t *enemies, combatant_info_t *pinfo, environment_t env)
+int start_battle(chiventure_ctx_t *ctx, elist_t *enemynpcs, combatant_info_t *pinfo, environment_t env)
 {
-      game_t *g = ctx->game;
-      player_t *p = g->curr_player;
+    game_t *g = ctx->game;
+    player_t *player = g->curr_player;
 
-      combatant_t *player  = set_player(p,pinfo);
-      combatant_t *enemies = set_enemies(enemies);
-      battle_t *b = set_battle(player,enemies,env);
+    // Set player, enemies, and battle structs for a new battle
+    battle_t *b = set_battle(player,pinfo,enemynpcs,env);
 
+    return SUCCESS;
 }
 
 /* see battle_flow.h */
-combatant_t *set_enemies(npc_t *enemies)
+combatant_t *set_player(player_t *player, combatant_info_t *pinfo)
 {
-  return FAILURE;
-};
+    // Setting up arguments for combatant_new
+    char* name = player->player_id;
+    bool is_friendly = true;
+    class_t class = pinfo->class;
+    stat_t *stats = pinfo->stats;
+    move_t *moves = pinfo->moves;
+    item_t *items = pinfo->items;
+    combatant *prev = NULL; // Single player
+    combatant *next = NULL;
 
-/* see battle_flow.h */
-combatant_t *set_player(player_t *p, combatant_info_t *pinfo)
-{
-    char* name = p->player_id;
-    combatant_new(name,);
+    // Allocating new combatant_t for the player in memory
+    combatant_t *comb_player = combatant_new(name,is_friendly,class,stats,
+                                             moves,items,prev,next);
+
+    assert(comb_player != NULL);
+
+    return comb_player;
 }
 
 /* see battle_flow.h */
-int set_battle()
+combatant_t *set_enemies(elist_t *enemynpcs)
 {
-  battle_new();
-  return FAILURE;
+    combatant_t *comb_enemy = NULL;
+    combatant_t *next_enemy = NULL;
+
+    while (enemynpcs) {
+
+        enemynpc_t *e = enemynpcs->enemynpc;
+        char* name = e->npc_id;
+        bool is_friendly = false;
+        class_t class = e->class;
+        stat_t *stats = e->stats;
+        move_t *moves = e->moves;
+        item_t *items = e->items;
+        combatant *next = NULL;
+
+        next_enemy = combatant_new(name,is_friendly,class,stats,moves,items
+                                    comb_enemy,next);
+        assert(next_enemy != NULL);
+
+        comb_enemy->next = next_enemy;
+
+        comb_enemy = next_enemy;
+        enemynpcs = enemynpcs->next;
+    }
+
+    return comb_enemy;
 };
 
-int print_battle(combatant_t *enemy)
+/* see battle_flow.h */
+battle_t *set_battle(player_t *player, combatant_info_t *pinfo, elist_t *enemynpcs, environment_t env)
 {
-  print_to_cli("You begin a battle with %s",enemy);
-  return FAILURE;
+    combatant_t *comb_player  = set_player(player,pinfo);
+    combatant_t *comb_enemies = set_enemies(enemynpcs);
+
+    turn_t turn = PLAYER;
+
+    battle_t *b = battle_new(comb_player,comb_enemies,env,turn);
+
+    assert(b != NULL);
+
+    return b;
 };
