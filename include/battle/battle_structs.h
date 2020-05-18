@@ -29,8 +29,6 @@ typedef struct
     double attack;
     double defense;
     double hp;
-    struct item *next;
-    struct item *prev;
 } item_t;
 
 typedef struct
@@ -55,6 +53,12 @@ struct _alist_t
     alist_t *next;
 };
 
+typedef struct _mlist_t mlist_t;
+struct _mlist_t
+{
+    move_t *move;
+    mlist_t *next;
+};
 
 /** Players get stat bonuses based on their class.
 This enum type is part of the class struct. Whichever stat
@@ -88,6 +92,7 @@ typedef struct
     ilist_t *inventory;
     alist_t *armor;
     stats_t *stats;
+    mlist_t *moves;
 } player_t;
 
 typedef struct
@@ -97,6 +102,7 @@ typedef struct
     class_t cl;
     ilist_t *inv;
     alist_t *armor;
+    mlist_t *moves;
 } enemy_t;
 
 typedef struct
@@ -105,8 +111,6 @@ typedef struct
     bool attack;
     int damage;
     int defense;
-    struct move *next;
-    struct move *prev;
 } move_t;
 
 typedef struct _mlist_t mlist_t;
