@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "structs.h"
+#include "battle_structs.h"
 
 #ifndef LOGIC_H
 #define LOGIC_H
@@ -29,21 +29,6 @@ int check_target(enemy_t *e); */
 double check_effectiveness(player_t *p, enemy_t *e, move_t *move);
 
 /*
- * Modifies a certain STAT value
- *
- * Parameters:
- * - stat: A given stat for either player or enemy
- * - status: the given code for what to change
- *   - 0: HP
- *   - 1: STR
- *   - 2: DEF
- *   - 3: SPD
- * Returns:
- * - Returns 0 for success
- */
-int mod_stat(stats_t *stat, int status, double decrease);
-
-    /*
  * Determines if a battle has reached its conclusion
  *
  * Parameters:

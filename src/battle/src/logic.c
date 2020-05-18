@@ -1,10 +1,10 @@
 #include "logic.h"
 
-/* check logic.h */
+/* check logic.h 
 int check_target(enemy_t *e) 
 {
     return 0;
-}
+}*/
 
 /* check logic.h */
 /* Leaving this as return 1 so that for the future
@@ -15,34 +15,8 @@ double check_effectiveness(player_t *p, enemy_t *e, move_t *move)
     return 1.0;
 }
 
-/* check logic.h 
- *   - 0: HP
- *   - 1: STR
- *   - 2: DEF
- *   - 3: SPD
- * */
-int mod_stat(stats_t *stat, int status, double decrease)
-{
-    switch(status)
-    {
-        case 0:
-            stat->hp =- decrease;
-            return 0;
-        case 1:
-            stat->strength =* decrease;
-            return 0;
-        case 2:
-            stat->defense =* decrease;
-            return 0;
-        case 3:
-            stat->speed =* decrease;
-            return 0;
-    }
-    return -1;
-}
-
 /* check logic.h */
-int battle_over(player_t p, enemy_t *e) 
+int battle_over(player_t *p, enemy_t *e) 
 {
     if(e->stats->hp > 0 && p->stats->hp > 0)
     {
@@ -103,7 +77,7 @@ int goes_first(double p_speed, double e_speed)
     }*/
 }
 
-/* Creates a dumy armor list with hardcoded values
+/* Creates a dummy armor list with hardcoded values
  * 	Inputs:
  * 		inventory - an player or enemy's inventory
  * 		ID - the ID number of the desired item
@@ -151,9 +125,9 @@ item_t* enemy_use_item(enemy_t *e, int ID)
     }
 }
 
-/* Awards xp to the player
-stats_t *award_xp(stats_t *stats, int xp)
+/* see logic.h */
+int award_xp(stats_t *stats, double xp)
 {
     stats->xp += xp;
-    return stats;
-}*/
+    return 0;
+}
