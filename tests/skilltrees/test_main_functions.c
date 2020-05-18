@@ -32,7 +32,7 @@ Test(skilltrees_main_functions, create_skill_list)
 
 
 // This is a dummy skill used to test pointer functions for skills.
-int test_skill(int param1, int param2) {
+int dummy_skill(int param1, int param2) {
     return param1 + param2;
 }
 
@@ -45,7 +45,7 @@ skill_t* create_dummy_skill()
     char description[100] = "shoots fire but, like, super fast.";
     unsigned int cur_level = 0;
     unsigned int experience = 10;
-    int (*skill_func)(int param1, int param2) = &test_skill;
+    int (*skill_func)(int param1, int param2) = &dummy_skill;
 
     skill_t* skill = new_skill(name, cur_level, experience,
                                description, skill_func);
