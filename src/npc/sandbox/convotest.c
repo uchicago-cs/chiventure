@@ -294,7 +294,7 @@ int main()
 
      system("clear");
 
-     print_red("\nWelcome to Chiventure's 'Dialog Prototype' Showcase!\n\n\n");
+     print_red("\nWelcome to Chiventure's 'Dialog Module' Mockup!\n\n\n");
      print_yellow("What's your name?");
      printf("\n> ");
      
@@ -322,25 +322,25 @@ int main()
  */
     node_t *WellMet = make_node(1,
 	"Mhm fine, nice to meet you, now please turn around and "
-	"get outta my house.  You can't come and go as you wish.",
+	"get outta #my house#.  You can't #come and go# as you wish.",
 	MAX_EDGES);
     node_t *PrivacyVio = make_node(2,
-	"Woah, hey, y-you can't just walk in here and poke around "
-	"the place without consulting the owner!!  Shouldn't I at least "
-	"know who you are?!",
+	"Woah, hey, y-you can't just walk in here and #poke around# "
+	"the place without consulting #the owner#!!  Shouldn't I at least "
+	"know #who you are#?!",
 	MAX_EDGES);
     node_t *HomeExpl = make_node(3, 
-	"Yes, well, just because the door's unlocked and I'm a bit messy "
-	"don't make it public property. Now take off and leave, or else "
-	"I'm gonna force you to.",
+	"Yes, well, just because the #door's unlocked# and I'm a #bit "
+	"messy# don't make it public property. Now take off and #leave#, or "
+	"else I'm gonna #force# you to.",
 	MAX_EDGES);
     node_t *FightStnd = make_node(4, 
-	"The last thing you heard before it all went dark was "
-	"'NOO MY PRESSED FLOWER COLLECTION'",
-	MAX_EDGES);
-    node_t *FightFlwr = make_node(5, 
 	"As his arm flashes behind his back, "
 	"the robber raises a knife to you.",
+	MAX_EDGES);
+    node_t *FightFlwr = make_node(5, 
+	"The last thing you heard before it all went dark was "
+	"'NOO MY PRESSED FLOWER COLLECTION'",
 	MAX_EDGES);
     node_t *Leave = make_node(6, 
 	"As soon as your eyes glance to the doorway, the man's hands "
