@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "battle_structs.h"
+#include "battle/battle_structs.h"
+#include "battle/battle_state.h"
 
 #ifndef LOGIC_H
 #define LOGIC_H

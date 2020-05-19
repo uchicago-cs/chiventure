@@ -1,4 +1,4 @@
-#include "logic.h"
+#include "battle/logic.h"
 
 /* check logic.h 
 int check_target(enemy_t *e) 
@@ -39,18 +39,13 @@ int battle_over(player_t *p, enemy_t *e)
 /* check logic.h */
 int goes_first(double p_speed, double e_speed)
 {
-    if(p_speed > e_speed) 
+    if (p_speed > e_speed || e_speed == p_speed)
     {
         return 0;
     }
     else if(e_speed > p_speed) 
     {
         return 1;
-    }
-    else if(e_speed == p_speed)
-    {
-        int r = rand() % 1;
-        return r;
     }
     else
     {
