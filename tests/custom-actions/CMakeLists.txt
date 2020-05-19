@@ -1,7 +1,8 @@
 set(TEST_EXE test-custom-actions)
 
 add_executable(${TEST_EXE}
-        test_struct.c
+        test_ast_block_functions.c
+        test_control_block_functions.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
