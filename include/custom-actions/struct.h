@@ -19,27 +19,27 @@ typedef enum {
 
 /* An enumeration type for a control block */
 typedef enum {
-    IF-ELSE;
-    WHILE-ENDWHILE;
-    FOR-ENDFOR;
+    IFELSE,
+    WHILEENDWHILE,
+    FORENDFOR
 } control_type;
 
 /* An enumeration type for a conditional block */
 typedef enum {
-    EQ;
-    LT-GT;
-    LTE-GTE;
-    IN;
+    EQ,
+    LTGT,
+    LTEGTE,
+    IN
 } conditional_type;
 
 /* An enumeration type for an action block */
 typedef enum {
-    SET;
-    SAY;
-    MOVE;
-    ADD-SUB-MULT-DIV;
-    GEN;
-    EXEC;
+    SET,
+    SAY,
+    MOVE, 
+    ADDSUBMULTDIV, 
+    GEN, 
+    EXEC
 } action_type;
 
 /* A block that returns true or false, and contains an operator and two attributes */
