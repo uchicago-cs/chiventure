@@ -1,7 +1,7 @@
 .PHONY: clean all
 BIN = parsetojsonobj
 SRCS = parsetojsonobj.c
-OBJS = parsetojsonobj.c
+OBJS = parsetojsonobj.o
 
 CC = gcc
 CFLAGS = -g -O2 -Wall -Wextra -fPIC -c -I/usr/include/
