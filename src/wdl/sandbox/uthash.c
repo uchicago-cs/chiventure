@@ -13,6 +13,7 @@
  *  - add_item
  *  - find_item
  * 
+ * to run: clang -Wall uthash.c -o uthash
  */
 
 
@@ -20,14 +21,14 @@
 
 #define ID_SIZE 20
 
-enum Namespace { action, object, npc, dialogue };
+enum namespace { action, object, npc, dialogue };
 
 /*
  * hash struct
  * for simplicity's sake, using id as key for now
  */
 typedef struct hash {
-    enum Namespace n; // category, e.g. "npc"
+    enum namespace n; // category, e.g. "npc"
     char *id; // item id, e.g. "villager"
     int *obj; // dummy ptr to actual object
     UT_hash_handle hh;
@@ -40,7 +41,7 @@ typedef struct hash {
  */
 typedef struct cmpkey {
     char id[ID_SIZE]; // item id, e.g. "villager"
-    enum Namespace n; // category, e.g. "npc"
+    enum namespace n; // category, e.g. "npc"
  } cmpkey_t;
 
 /*
@@ -87,13 +88,13 @@ hash_t *find_item(hash_t **t, char *newid)
  * Returns:
  *  SUCCESS on completion
  */
-int add_item(hash_t **t, enum Namespace name, char *newid, int *o)
+int add_item(hash_t **t, enum namespace name, char *newid, int *o)
 {
     hash_t *new = find_item(t, newid); // see if key already exists in hash
     if (new == NULL) {
         new = malloc(sizeof(hash_t));
         new->n = name;
-        new->id = (char *)malloc(sizeof(char) * (strlen(newid)+1));
+        new->id = malloc(sizeof(char) * (strlen(newid) + 1));
         HASH_ADD_KEYPTR(hh, *t, newid, strlen(newid), new);
     }
     strcpy(new->id, newid);
@@ -151,23 +152,19 @@ void free_hash(hash_t **t)
  * Parameters:
  *  **h: double ptr to hash table of cmphash_t type
  *  *newid: key string (used for search)
- *  name: indicates Namespace (used for search)
+ *  name: indicates namespace (used for search)
  * 
  * Returns:
  *  ptr to item (NULL if none found)
  */
-cmphash_t *find_cmp(cmphash_t **h, enum Namespace name, char *newid)
+cmphash_t *find_cmp(cmphash_t **h, enum namespace name, char *newid)
 {
-    /*cmphash_t tmp;
-    memset(&tmp, 0, sizeof(cmphash_t)); // to accommodate padding in struct
-    strcpy(tmp.key.id[0], newid);
-    tmp.key.n = name;*/
     cmphash_t *res;
     cmpkey_t tmp;
     memset(&tmp, 0, sizeof(tmp));
     strcpy(tmp.id, newid);
     tmp.n = name;
-    // HASH_FIND(hh, records, &l.key, sizeof(record_key_t), p); (from uthash ex)
+
     HASH_FIND(hh, *h, &tmp, sizeof(cmpkey_t), res);
 
     return res;
@@ -187,11 +184,11 @@ cmphash_t *find_cmp(cmphash_t **h, enum Namespace name, char *newid)
  * Returns:
  *  SUCCESS on completion
  */
-int add_cmp(cmphash_t **h, enum Namespace name, char *newid, int *o)
+int add_cmp(cmphash_t **h, enum namespace name, char *newid, int *o)
 {
     cmphash_t *new = find_cmp(h, name, newid); // see if key already exists in hash
     if (new == NULL) {
-        new = (cmphash_t *)malloc(sizeof(cmphash_t));
+        new = malloc(sizeof(cmphash_t));
         memset(new, 0, sizeof(*new)); // to accommodate padding in struct
 
         new->key.n = name;
