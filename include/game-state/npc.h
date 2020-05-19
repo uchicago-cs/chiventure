@@ -6,7 +6,8 @@
 #include "dialogue.h"
 
 /* A non-playable character in game */
-typedef struct npc {
+typedef struct npc 
+{
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
     char *npc_id;
@@ -32,12 +33,15 @@ typedef struct npcs_in_room {
 
 typedef struct npcs_in_room npcs_in_room_hash_t;
 
+
 /*
  * Initializes an npc with given health.
  *
  * Parameters:
  *  npc: an npc; must point to already allocated memory
  *  health: the starting health of the npc
+ *  npc_id: string referring to npc id; passed implicitly
+            from npc_new 
  *  dialogue: pointer to a convo struct for the npc
  *   // placeholder for incoming dialogue module
  *
@@ -45,6 +49,7 @@ typedef struct npcs_in_room npcs_in_room_hash_t;
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue);
+
 
 /*
  * Initializes the struct that holds the npcs inside a certain room
@@ -57,6 +62,7 @@ int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
+
 
 /*
  * Allocates a new npc in the heap.
@@ -72,6 +78,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
  */
  npc_t *npc_new(char *npc_id, int health, convo_t *dialogue);
 
+
 /*
  * Allocates a new npcs_in_room struct in the heap
  *
@@ -83,6 +90,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
  */
  npcs_in_room_t *npcs_in_room_new(char* room_id);
 
+
 /*
  * Frees resources associated with an npc.
  *
@@ -93,6 +101,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
  *  SUCCESS if successful, FAILURE if an error occurs.
  */
 int npc_free(npc_t *npc);
+
 
 /*
  * Frees resources associated with an npcs_in_room struct
@@ -107,7 +116,7 @@ int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room);
 
 
 /*
- * Returns the health of an npc
+ * Returns the health of an npc.
  *
  * Parameters:
  *  npc: the npc
@@ -117,8 +126,20 @@ int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room);
  */
 int get_npc_health(npc_t *npc);
 
+
 /*
- * Changes the health of the npc 
+ * Returns the number of npcs in a room
+ *
+ * Parameters:
+ *  npcs_in_room: the struct holding the npcs in the room
+ *
+ * Returns:
+ *  int, the number of npcs in the room
+ */
+int get_num_of_npcs(npcs_in_room_t *npcs_in_room)
+
+/*
+ * Changes the health of the npc. 
  *
  * Parameters:
  *  npc: the npc
@@ -152,6 +173,7 @@ item_hash_t* get_npc_inventory(npc_t *npc);
  */
 int add_item_to_npc(npc_t *npc, item_t *item);
 
+
 /*
  * Function to get a linked list (utlist) of all the items in the player's inventory
  *
@@ -162,6 +184,7 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_inv_npc(npc_t *npc);
+
 
 /* Adds an npc to the given npcs_in_room
  *

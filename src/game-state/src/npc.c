@@ -92,6 +92,11 @@ int get_npc_health(npc_t *npc)
     return npc->health;
 }
 
+/* See npc.h */
+int get_num_of_npcs(npcs_in_room_t *npcs_in_room)
+{
+    return npcs_in_room->num_of_npcs;
+}
 
 /* See npc.h */
 int change_npc_health(npc_t *npc, int change, int max)
