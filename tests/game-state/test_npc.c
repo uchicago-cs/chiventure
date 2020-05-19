@@ -24,6 +24,8 @@ Test (npcs_in_room, new) {
 
     cr_assert_eq(npcs_in_room->room_id, "test_room",
                 "npcs_in_room_new() did not set room_id");
+	cr_assert_eq(npcs_in_room->num_of_npcs, 0,
+                "npcs_in_room_new() did not set num_of_npcs");		
 }
 
 Test (npc, init) {
@@ -44,7 +46,9 @@ Test (npcs_in_room, init) {
     cr_assert_eq(check, SUCCESS, "npcs_in_room_init() failed"); 
 
     cr_assert_eq(npcs_in_room.room_id, "test_room",
-                "npcs_in_room_new() did not set room_id");
+                "npcs_in_room_init() did not set room_id");
+	cr_assert_eq(npcs_in_room.num_of_npcs, 0,
+                "npcs_in_room_init() did not set num_of_npcs");
 }
 
 Test (npc, free)
@@ -140,8 +144,10 @@ Test (npc, get_all_items_inv_npc) {
 Test (npcs_in_room, add_npc_to_room) {
     npc_t *npc = npc_new("npc_test", 20, NULL); 
     npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
+	int num_of_npcs_initial = npcs_in_room->num_of_npcs;
 
     int check1 = add_npc_to_room(npcs_in_room, npc);
+	int num_of_npcs_final = npcs_int_room->num_of_npcs;
 
     cr_assert_eq(check1, SUCCESS, "add_npc_to_room() failed");
 
@@ -149,5 +155,9 @@ Test (npcs_in_room, add_npc_to_room) {
     HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
              check2);
 
-    cr_assert_not_null(check2, "add_npc_to_room() failed");
+    cr_assert_not_null(check2, "add_npc_to_room() failed,"
+								" could not find newly added npcs");
+
+	cr_assert_eq(num_of_npcs_initial+1,num_of_npcs_final,
+				 "add_npc_to_room() failed, incorrect number of npcs in room");
 }

@@ -27,6 +27,7 @@ typedef struct npcs_in_room {
     UT_hash_handle hh;
     char *room_id;
     npc_hash_t *npc_list; //hash table storing the npcs that are in the room
+    int num_of_npcs; //number of npcs in the room
 } npcs_in_room_t;
 
 typedef struct npcs_in_room npcs_in_room_hash_t;
