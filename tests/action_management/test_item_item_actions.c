@@ -149,8 +149,6 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     }
 
     chiventure_ctx_free(ctx_test);
-    //game_free(game);
-    //free(ctx_test);
     free(string);
     item_free(direct);
     item_free(indirect);
