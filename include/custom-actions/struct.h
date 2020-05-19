@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "item.h"
+#include "game-state/item.h"
 
 /* Struct to represent the type of a block */
 typedef union block {
