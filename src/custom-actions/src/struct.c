@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "struct.h"
-#include "item.h" 
+#include "game-state/item.h" 
 
 /* See struct.h */
 AST_block_t* AST_block_new(block_t block, enum block_type block_type)
