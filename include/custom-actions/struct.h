@@ -68,13 +68,13 @@ typedef struct action_block {
     enum action_type action_type;
     int num_args;
     attribute_t** args;
-    AST_block* next;
+    AST_block_t* next;
 } action_block_t;
 
 /* Struct to contain a control block, which introduces an action */
 typedef struct control_block {
     enum control_type control_type;
-    AST_block* next;
+    AST_block_t* next;
 } control_block_t;
 
 /* A block that holds pointers to both a control and a conditional block */
@@ -131,7 +131,7 @@ int AST_block_free(AST_block_t *ast);
  * Returns: 
  * - A control block. 
  */  
-control_block_t* control_block_new(enum control_type control_type, AST_block *next);
+control_block_t* control_block_new(enum control_type control_type, AST_block_t *next);
 
 /* 
  * Initializes a control block. 
@@ -144,7 +144,7 @@ control_block_t* control_block_new(enum control_type control_type, AST_block *ne
  * - SUCCESS if success, FAILURE if error occurs
  */  
 int control_block_init(control_block_t *control, enum control_type control_type,
-AST_block *next);
+AST_block_t *next);
 
 /* 
  * Frees a control block. 
@@ -216,7 +216,7 @@ int branch_block_free(branch_block_t *branch);
  * - An action block. 
  */
 action_block_t* action_block_new(enum action_type action_type, int num_args, 
-attribute_t** args, AST_block *next);
+attribute_t** args, AST_block_t *next);
 
 /* 
  * Initializes an action block. 
@@ -232,7 +232,7 @@ attribute_t** args, AST_block *next);
  * - SUCCESS if success, FAILURE if error occurs
  */
 int action_block_init(action_block_t *action, enum action_type action_type, int num_args, 
-attribute_t** args, AST_block *next);
+attribute_t** args, AST_block_t *next);
 
 /* 
  * Frees an action block. 
@@ -296,8 +296,8 @@ int conditional_block_free(conditional_block_t *conditional);
  * Returns: 
  * - An attribute. 
  */
-attribute_t* attribute_new(attribute_value_t value, enum attribute_type 
-attribute_type, char *name);
+attribute_t* attribute_new(attribute_value_t value, enum attribute_tag 
+attribute_tag, char *name);
 
 /* 
  * Initializes attribute. 
@@ -312,6 +312,6 @@ attribute_type, char *name);
  * - SUCCESS if success, FAILURE if error occurs
  */
 int attribute_init(attribute_t *attribute, attribute_value_t value, enum                  
-attribute_type attribute_type, char *name);
+attribute_tag attribute_tag, char *name);
 
 #endif /* INCLUDE_STRUCT_H_ */
