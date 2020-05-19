@@ -186,7 +186,7 @@ string_t string_t_init(string_t it, char *s, char *luaDirectory);
  * Returns:
  * - string from st
  */
-char* string_t_get(string_t st);
+const char* string_t_get(string_t st);
 
 
 #endif
