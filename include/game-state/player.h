@@ -190,6 +190,6 @@ item_list_t *get_all_items_in_inventory(player_t *player);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int assign_stats_player(player_t plyr, stats_hash_t *sh);
+int assign_stats_player(player_t *plyr, stats_hash_t *sh);
 
 #endif

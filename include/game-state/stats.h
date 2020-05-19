@@ -116,7 +116,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change);
  * Returns:
  *  double value of a players stat
  */
-double get_stat_current(stats_hash_t *sh, char* stat);
+double get_stat_current(stats_hash_t *sh, char *stat);
 
 /*
  * function that gets double base value of a specified stats 
@@ -129,7 +129,7 @@ double get_stat_current(stats_hash_t *sh, char* stat);
  * Returns:
  *  double max value of a players stat
  */
-double get_stat_max(stats_hash_t *sh, char* stat);
+double get_stat_max(stats_hash_t *sh, char *stat);
 
 
 /*
@@ -143,7 +143,7 @@ double get_stat_max(stats_hash_t *sh, char* stat);
  * Returns:
  *  double value of a players stat mod
  */
-double get_stat_mod(stats_hash_t *sh, char* stat);
+double get_stat_mod(stats_hash_t *sh, char *stat);
 
 /*
  * Adds a stat to a stat hash table
