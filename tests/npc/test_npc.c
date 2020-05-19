@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h> 
-#include "npc.h"
+#include "game-state/npc.h"
 #include "item.h"
 
 
