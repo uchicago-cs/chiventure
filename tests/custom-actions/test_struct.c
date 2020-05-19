@@ -23,7 +23,7 @@ Test(AST_block_t, new_CONTROL)
 Test(AST_block_t, new_BRANCH)
 {
     block_t block = branch_block;
-    enum block_type block_type = BLOCK;
+    enum block_type block_type = BRANCH;
 
     AST_block_t* new_ast = AST_block_new(block, block_type);
 
@@ -201,7 +201,7 @@ Test(control_block_t, new_IFELSE)
     cr_assert_eq(new_control->control_type, control_type, "control_block_new() didn't "
                 "set new_control->control_type");
 
-    control_block_free(new control);
+    control_block_free(new_control);
 }
 
 /* Checks that a new WHILEENDWHILE control block is created without interruption */
@@ -218,7 +218,7 @@ Test(control_block_t, new_WHILEENDWHILE)
     cr_assert_eq(new_control->control_type, control_type, "control_block_new() didn't "
                  "set new_control->control_type");
 
-    control_block_free(new control);
+    control_block_free(new_control);
 }
 
 /* Checks that a new FORENDFOR control block is created without interruption */
@@ -235,7 +235,7 @@ Test(control_block_t, new_FORENDFOR)
     cr_assert_eq(new_control->control_type, control_type, "control_block_new() didn't "
                  "set new_control->control_type");
 
-    control_block_free(new control);
+    control_block_free(new_control);
 }
 
 /* Checks that a new IFELSE control block is initialized without interruption */
