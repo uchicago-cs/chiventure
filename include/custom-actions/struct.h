@@ -10,7 +10,7 @@
 #include "game-state/item.h"
 
 /* An enumeration type for an AST block */
-typedef enum {
+typedef enum block_type {
     CONTROL, 
     BRANCH, 
     ACTION, 
@@ -18,14 +18,14 @@ typedef enum {
 } block_type;
 
 /* An enumeration type for a control block */
-typedef enum {
+typedef enum control_type {
     IFELSE,
     WHILEENDWHILE,
     FORENDFOR
 } control_type;
 
 /* An enumeration type for a conditional block */
-typedef enum {
+typedef enum conditional_type {
     EQ,
     LTGT,
     LTEGTE,
@@ -33,7 +33,7 @@ typedef enum {
 } conditional_type;
 
 /* An enumeration type for an action block */
-typedef enum {
+typedef enum action_type {
     SET,
     SAY,
     MOVE, 

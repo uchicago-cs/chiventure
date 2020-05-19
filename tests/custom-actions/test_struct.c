@@ -187,11 +187,11 @@ Test(AST_block_t, free_CONDITIONAL)
     cr_assert_eq(rc, SUCCESS, "AST_block_free() failed");
 }
 
-/* Checks that a new IF-ELSE control block is created without interruption */
-Test(control_block_t, new_IF-ELSE)
+/* Checks that a new IFELSE control block is created without interruption */
+Test(control_block_t, new_IFELSE)
 {
     AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = IF-ELSE;
+    enum control_type control_type = IFELSE;
 
     control_block_t* new_control = control_block_new(next, control_type);
 
@@ -204,11 +204,11 @@ Test(control_block_t, new_IF-ELSE)
     control_block_free(new control);
 }
 
-/* Checks that a new WHILE-ENDWHILE control block is created without interruption */
-Test(control_block_t, new_WHILE-ENDWHILE)
+/* Checks that a new WHILEENDWHILE control block is created without interruption */
+Test(control_block_t, new_WHILEENDWHILE)
 {
     AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = WHILE-ENDWHILE;
+    enum control_type control_type = WHILEENDWHILE;
 
     control_block_t* new_control = control_block_new(next, control_type);
 
@@ -221,11 +221,11 @@ Test(control_block_t, new_WHILE-ENDWHILE)
     control_block_free(new control);
 }
 
-/* Checks that a new FOR-ENDFOR control block is created without interruption */
-Test(control_block_t, new_FOR-ENDFOR)
+/* Checks that a new FORENDFOR control block is created without interruption */
+Test(control_block_t, new_FORENDFOR)
 {
     AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = FOR-ENDFOR;
+    enum control_type control_type = FORENDFOR;
 
     control_block_t* new_control = control_block_new(next, control_type);
 
@@ -238,13 +238,13 @@ Test(control_block_t, new_FOR-ENDFOR)
     control_block_free(new control);
 }
 
-/* Checks that a new IF-ELSE control block is initialized without interruption */
-Test(control_block_t, init_IF-ELSE)
+/* Checks that a new IFELSE control block is initialized without interruption */
+Test(control_block_t, init_IFELSE)
 {
     control_block_t control;
     int rc;
     AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = IF-ELSE;
+    enum control_type control_type = IFELSE;
 
     rc = control_block_init(&control, next, control_type);
 
@@ -254,13 +254,13 @@ Test(control_block_t, init_IF-ELSE)
                  "didn't set control.control_type");
 }
 
-/* Checks that a new WHILE-ENDWHILE control block is initialized without interruption */
-Test(control_block_t, init_WHILE-ENDWHILE)
+/* Checks that a new WHILEENDWHILE control block is initialized without interruption */
+Test(control_block_t, init_WHILEENDWHILE)
 {
     control_block_t control;
     int rc;
     AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = WHILE-ENDWHILE;
+    enum control_type control_type = WHILEENDWHILE;
 
     rc = control_block_init(&control, next, control_type);
 
@@ -270,13 +270,13 @@ Test(control_block_t, init_WHILE-ENDWHILE)
                  "didn't set control.control_type");
 }
 
-/* Checks that a new FOR-ENDFOR control block is initialized without interruption */
-Test(control_block_t, init_FOR-ENDFOR)
+/* Checks that a new FORENDFOR control block is initialized without interruption */
+Test(control_block_t, init_FORENDFOR)
 {
     control_block_t control;
     int rc;
     AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = FOR-ENDFOR;
+    enum control_type control_type = FORENDFOR;
 
     rc = control_block_init(&control, next, control_type);
 
@@ -287,14 +287,14 @@ Test(control_block_t, init_FOR-ENDFOR)
 }
 
 
-/* Checks that a new IF-ELSE control block is freed without interruption */
-Test(control_block_t, free_IF-ELSE)
+/* Checks that a new IFELSE control block is freed without interruption */
+Test(control_block_t, free_IFELSE)
 {
     control_block_t *control;
     int rc;
     AST_block_t *next = AST_block_new(control_block, CONTROL);
 
-    control = control_block_new(next, IF-ELSE);
+    control = control_block_new(next, IFELSE);
 
     cr_assert_not_null(control, "control_block_new() failed");
 
@@ -303,14 +303,14 @@ Test(control_block_t, free_IF-ELSE)
     cr_assert_eq(rc, SUCCESS, "control_block_free() failed");
 }
 
-/* Checks that a new WHILE-ENDWHILE control block is freed without interruption */
-Test(control_block_t, free_WHILE-ENDWHILE)
+/* Checks that a new WHILEENDWHILE control block is freed without interruption */
+Test(control_block_t, free_WHILEENDWHILE)
 {
     control_block_t *control;
     int rc;
     AST_block_t *next = AST_block_new(control_block, CONTROL);
 
-    control = control_block_new(next, WHILE-ENDWHILE);
+    control = control_block_new(next, WHILEENDWHILE);
 
     cr_assert_not_null(control, "control_block_new() failed");
 
@@ -319,14 +319,14 @@ Test(control_block_t, free_WHILE-ENDWHILE)
     cr_assert_eq(rc, SUCCESS, "control_block_free() failed");
 }
 
-/* Checks that a new FOR-ENDFOR control block is freed without interruption */
-Test(control_block_t, free_FOR-ENDFOR)
+/* Checks that a new FORENDFOR control block is freed without interruption */
+Test(control_block_t, free_FORENDFOR)
 {
     control_block_t *control;
     int rc;
     AST_block_t *next = AST_block_new(control_block, CONTROL);
 
-    control = control_block_new(next, FOR-ENDFOR);
+    control = control_block_new(next, FORENDFOR);
 
     cr_assert_not_null(control, "control_block_new() failed");
 
