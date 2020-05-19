@@ -9,14 +9,6 @@
 #include <stdio.h>
 #include "game-state/item.h"
 
-/* Struct to represent the type of a block */
-typedef union block {
-    control_block_t control_block;
-    branch_block_t branch_block;
-    action_block_t action_block;
-    conditional_block_t conditional_block;
-} block_t;
-
 /* An enumeration type for an AST block */
 typedef enum {
     CONTROL, 
@@ -25,51 +17,51 @@ typedef enum {
     CONDITIONAL
 } block_type;
 
-/* Struct to contain a block, as well as its type */
-typedef struct AST_block {
-    block_t block;
-    enum block_type block_type;
-} AST_block_t;
-
 /* An enumeration type for a control block */
 typedef enum {
-    IF/ELSE;
-    WHILE/ENDWHILE;
-    FOR/ENDFOR;
+    IF-ELSE;
+    WHILE-ENDWHILE;
+    FOR-ENDFOR;
 } control_type;
-
-/* Struct to contain a control block, which introduces an action */
-typedef struct control_block {
-    enum control_type control_type;
-    AST_block* next;
-} control_block_t;
 
 /* An enumeration type for a conditional block */
 typedef enum {
     EQ;
-    LT/GT;
-    LTE/GTE;
+    LT-GT;
+    LTE-GTE;
     IN;
 } conditional_type;
-
-/* A block that holds pointers to both a control and a conditional block */
-typedef struct branch_block {
-    int num_conditionals;
-    conditional_block_t** conditionals;
-    enum conditional_type conditional_type;
-    int num_controls;
-    control_block_t** controls;
-} branch_block_t;
 
 /* An enumeration type for an action block */
 typedef enum {
     SET;
     SAY;
     MOVE;
-    ADD/SUB/MULT/DIV;
+    ADD-SUB-MULT-DIV;
     GEN;
     EXEC;
 } action_type;
+
+/* A block that returns true or false, and contains an operator and two attributes */
+typedef struct conditional_block {
+    enum conditional_type conditional_type;
+    attribute_t* left;
+    attribute_t* right;
+} conditional_block_t;
+
+/* Struct to represent the type of a block */
+typedef union block {
+    control_block_t control_block;
+    branch_block_t branch_block;
+    action_block_t action_block;
+    conditional_block_t conditional_block;
+} block_t;
+
+/* Struct to contain a block, as well as its type */
+typedef struct AST_block {
+    block_t block;
+    enum block_type block_type;
+} AST_block_t;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
 typedef struct action_block {
@@ -79,12 +71,20 @@ typedef struct action_block {
     AST_block* next;
 } action_block_t;
 
-/* A block that returns true or false, and contains an operator and two attributes */
-typedef struct conditional_block {
+/* Struct to contain a control block, which introduces an action */
+typedef struct control_block {
+    enum control_type control_type;
+    AST_block* next;
+} control_block_t;
+
+/* A block that holds pointers to both a control and a conditional block */
+typedef struct branch_block {
+    int num_conditionals;
+    conditional_block_t** conditionals;
     enum conditional_type conditional_type;
-    attribute_t* left;
-    attribute_t* right;
-} conditional_block_t;
+    int num_controls;
+    control_block_t** controls;
+} branch_block_t;
 
 /* 
  * Allocates an AST block in the heap. 
