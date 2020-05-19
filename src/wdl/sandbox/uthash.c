@@ -21,14 +21,19 @@
 
 #define ID_SIZE 20
 
-enum namespace { action, object, npc, dialogue };
+typedef enum namespace { 
+    action, 
+    object, 
+    npc, 
+    dialogue 
+    } namespace_t;
 
 /*
  * hash struct
  * for simplicity's sake, using id as key for now
  */
 typedef struct hash {
-    enum namespace n; // category, e.g. "npc"
+    namespace_t n; // category, e.g. "npc"
     char *id; // item id, e.g. "villager"
     int *obj; // dummy ptr to actual object
     UT_hash_handle hh;
@@ -37,11 +42,11 @@ typedef struct hash {
 
 /*
  * compound key struct
- * essentially, a wrapper for id and namespace
+ * essentially, a wrapper for id and namespace_t
  */
 typedef struct cmpkey {
     char id[ID_SIZE]; // item id, e.g. "villager"
-    enum namespace n; // category, e.g. "npc"
+    namespace_t n; // category, e.g. "npc"
  } cmpkey_t;
 
 /*
@@ -88,7 +93,7 @@ hash_t *find_item(hash_t **t, char *newid)
  * Returns:
  *  SUCCESS on completion
  */
-int add_item(hash_t **t, enum namespace name, char *newid, int *o)
+int add_item(hash_t **t, namespace_t name, char *newid, int *o)
 {
     hash_t *new = find_item(t, newid); // see if key already exists in hash
     if (new == NULL) {
@@ -116,7 +121,7 @@ void print_hash(hash_t **t)
     hash_t *i;
     for (i = *t; i != NULL; i = i->hh.next)
     {
-        printf("namespace: %d, id: %s\n", i->n, i->id);
+        printf("namespace_t: %d, id: %s\n", i->n, i->id);
     }
     if (*t == NULL)
         printf("NULL\n");
@@ -152,12 +157,12 @@ void free_hash(hash_t **t)
  * Parameters:
  *  **h: double ptr to hash table of cmphash_t type
  *  *newid: key string (used for search)
- *  name: indicates namespace (used for search)
+ *  name: indicates namespace_t (used for search)
  * 
  * Returns:
  *  ptr to item (NULL if none found)
  */
-cmphash_t *find_cmp(cmphash_t **h, enum namespace name, char *newid)
+cmphash_t *find_cmp(cmphash_t **h, namespace_t name, char *newid)
 {
     cmphash_t *res;
     cmpkey_t tmp;
@@ -184,7 +189,7 @@ cmphash_t *find_cmp(cmphash_t **h, enum namespace name, char *newid)
  * Returns:
  *  SUCCESS on completion
  */
-int add_cmp(cmphash_t **h, enum namespace name, char *newid, int *o)
+int add_cmp(cmphash_t **h, namespace_t name, char *newid, int *o)
 {
     cmphash_t *new = find_cmp(h, name, newid); // see if key already exists in hash
     if (new == NULL) {
@@ -215,7 +220,7 @@ void print_cmp(cmphash_t **h)
     cmphash_t *i;
     for (i = *h; i != NULL; i = i->hh.next)
     {
-        printf("namespace: %d, id: %s, obj: %d\n", i->key.n, i->key.id, *i->obj);
+        printf("namespace_t: %d, id: %s, obj: %d\n", i->key.n, i->key.id, *i->obj);
     }
     if (*h == NULL)
         printf("NULL\n");
