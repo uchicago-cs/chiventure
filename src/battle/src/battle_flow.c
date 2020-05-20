@@ -57,6 +57,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         assert(comb_enemy != NULL);
 
         DL_APPEND(head,comb_enemy);
+        printf("celia\n");
     }
 
     return head;

@@ -80,7 +80,6 @@ Test(battle_flow, set_enemies)
 Test(battle_flow, set_battle)
 {
     player_t *ctx_player = player_new("set_battle_Name",100);
-    printf("hello?");
     combatant_info_t *pinfo = make_comb_info(NULL,NULL,NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name",NULL,NULL,NULL);
     environment_t env = ENV_DESERT;
