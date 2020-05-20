@@ -55,7 +55,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
 
         comb_enemy = combatant_new(name,is_friendly,stats,moves,items);
 
-        assert(next_enemy != NULL);
+        assert(comb_enemy != NULL);
 
         DL_APPEND(head,comb_enemy);
     }
