@@ -83,7 +83,9 @@ int get_npc_health(npc_t *npc);
  *
  * Parameters:
  *  npc: the npc
- *
+ *  change: the positive or negative change to be made to the health points
+ *  max: the maximum health the npc can achieve
+ * 
  * Returns:
  *  int, updated health
  */
