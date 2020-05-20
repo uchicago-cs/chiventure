@@ -1,9 +1,9 @@
+#ifndef BATTLE_LOGIC_H
+#define BATTLE_LOGIC_H
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "battle_structs.h"
-
-#ifndef LOGIC_H
-#define LOGIC_H
 
 /*
  * Checks the targets of a move to see if they exist and are targetable

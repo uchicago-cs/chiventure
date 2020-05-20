@@ -1,10 +1,11 @@
+#ifndef BATTLE_AI_H
+#define BATTLE_AI_H
+
 #include <stdlib.h>
 #include <stdio.h>
-#include "utlist.h"
+#include "common/utlist.h"
 #include "battle_structs.h"
 
-#ifndef AI_H
-#define AI_H
 
 /* Given a difficulty level and the player the move is going to be used 
  *      against, give_move returns a move
@@ -50,6 +51,6 @@ move_t* easy_move(player_t* player, enemy_t* enemy);
  *      move - the move being played
  * Outputs:
  *      damage - the damage dealt     */
-double damage(player_t* player, move_t* move, enemy_t* enemy;
+double damage(player_t* player, move_t* move, enemy_t* enemy);
 
 #endif

@@ -1,11 +1,11 @@
 #ifndef BATTLE_STATE_H
 #define BATTLE_STATE_H
 
-#include "battle_structs.h"
-#include "common/utlist.h"
-#include "common/common.h"
 #include <stdbool.h>
 #include <string.h>
+#include "battle_structs.h"
+#include "common/common.h"
+#include "common/utlist.h"
 
 /* An environment enum that contains the following:
  * ENV_GRASS: grass
@@ -45,7 +45,7 @@ typedef struct combatant {
     char *name;
     bool is_friendly;
     class_t class;
-    stat_t *stats;
+    stats_t *stats;
     move_t *moves;
     item_t *items;
     struct combatant *next;
@@ -97,12 +97,12 @@ int battle_free(battle_t *b);
  * Parameters:
  * - name: name string
  * - is_friendly: bool indicating character type
- * - stat_t: pointer to the stats of the combatant(stub)
+ * - stats_t: pointer to the stats of the combatant(stub)
  * - move_t: pointer to the linked list of moves for the combatant (stub)
  * - item_t: pointer to the linked list of items for the combatant (stub)
  * returns: a pointer to the new character
  */
-combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
+combatant_t *combatant_new(char *name, bool is_friendly, stats_t *stats,
     move_t *moves, item_t *items);
 
 /* Creates a new combatant struct
@@ -110,7 +110,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
  * - c: a pointer to combatant in memory
  * - name: name string
  * - is_friendly: bool indicating character type
- * - stat_t: a pointer to the stats of the combatant (stub)
+ * - stats_t: a pointer to the stats of the combatant (stub)
  * - move_t: a pointer to the linked list of moves for the combatant(stub)
  * - item_t: a pointer to the linked list of items for the combatant (stub)
  * returns:
@@ -118,7 +118,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
  * - FAILURE for unsuccessful init
  */
 int combatant_init(combatant_t *c, char *name, bool is_friendly,
-     stat_t *stats, move_t *moves, item_t *items);
+     stats_t *stats, move_t *moves, item_t *items);
 
 /* Frees a combatant struct from memory
  * Parameters:
@@ -137,4 +137,6 @@ int combatant_free(combatant_t *c);
  * - FAILURE for unsuccessful free
  */
 int combatant_free_all(combatant_t *c);
+
+
 #endif

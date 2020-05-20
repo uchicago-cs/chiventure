@@ -1,4 +1,7 @@
-#include "structs.h"
+#ifndef BATTLE_FEEDBACK_H
+#define BATTLE_FEEDBACK_H
+
+#include "battle_structs.h"
 
 /* Prints out the beginning of a game 
  * PARAMETERS:
@@ -24,3 +27,5 @@ int announce_attack(char *attack, enemy_t *e);
  *    1 for success
  */
 int announce_damage(int d);
+
+#endif

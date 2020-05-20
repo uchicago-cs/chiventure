@@ -1,13 +1,13 @@
+#ifndef BATTLE_STRUCTS_H
+#define BATTLE_STRUCTS_H
+
 #include <stdbool.h>
 #include <string.h>
-
-#ifndef STRUCTS_H
-#define STRUCTS_H
 
 /* max name length */
 #define MAX_NAME_LEN (50)
 
-typedef struct
+typedef struct stats
 {
     double speed;
     double strength;
@@ -19,7 +19,7 @@ typedef struct
     unsigned int level;
 } stats_t;
 
-typedef struct
+typedef struct item
 {
     int id;
     int quantity;
@@ -29,89 +29,79 @@ typedef struct
     double attack;
     double defense;
     double hp;
+    struct item *next;
+    struct item *prev;
 } item_t;
 
-typedef struct
+typedef struct armor
 {
     char* description;
     double defense;
     double weight;
+    struct armor *next;
+    struct armor *prev;
 } armor_t;
 
 
-typedef struct
+typedef struct move
 {
     item_t *item;
     bool attack;
     int damage;
     int defense;
+    struct move *next;
+    struct move *prev;
 } move_t;
-
-
-typedef struct _ilist_t ilist_t;
-struct _ilist_t
-{
-    item_t *item;
-    ilist_t *next;
-};
-
-typedef struct _alist_t alist_t;
-struct _alist_t
-{
-    armor_t *armor;
-    alist_t *next;
-};
-
-typedef struct _mlist_t mlist_t;
-struct _mlist_t
-{
-    move_t *move;
-    mlist_t *next;
-};
 
 /** Players get stat bonuses based on their class.
 This enum type is part of the class struct. Whichever stat
 is stored in class_t.st is increased by class_t.bonus **/
-enum stats{spd, str, dex, chrsma};
+typedef enum possible_stats
+{
+    spd,
+    str,
+    dex,
+    chrsma
+} possible_stats_t;
 
 /* class stub */
-typedef enum class
+typedef enum class_type
 {
     bard,
     cleric,
     paladin,
     wizard
-};
+} class_type_t;
 
 /** The player class struct, which includes the enum class, a short
 description of the class, which stat the class gets a bonus for, and
 how much that bonus is **/
-typedef struct
+typedef struct class
 {
-    enum class cl;
+    class_type_t cl;
     char *info;
-    enum stats st;
+    possible_stats_t st;
     int bonus;
 } class_t;
 
 
-typedef struct
+typedef struct player
 {
     class_t cl;
-    ilist_t *inventory;
-    alist_t *armor;
+    item_t *inventory;
+    armor_t *armors;
     stats_t *stats;
-    mlist_t *moves;
+    move_t *moves;
 } player_t;
 
-typedef struct
+typedef struct enemy
 {
     char *name;
-    stats_t *stats;
     class_t cl;
-    ilist_t *inv;
-    alist_t *armor;
-    mlist_t *moves;
+    item_t *inventory;
+    armor_t *armors;
+    stats_t *stats;
+    move_t *moves;
 } enemy_t;
 
 
