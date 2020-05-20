@@ -53,8 +53,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         b_item_t *items = enemy_elt->items;
         combatant_t *next = NULL;
 
-        comb_enemy = combatant_new(name,is_friendly,stats,moves,items
-                                    comb_enemy,next);
+        comb_enemy = combatant_new(name,is_friendly,stats,moves,items);
 
         assert(next_enemy != NULL);
 
