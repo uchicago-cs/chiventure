@@ -11,8 +11,8 @@
 #include "custom-actions/attribute_functions.h"
 
 /* See attribute_functions.h */
-attribute_t* attribute_new(attribute_value_t value, enum attribute_tag
-attribute_tag, char *name)
+attribute_t* attribute_new(UT_hash_handle hh, char *attribute_key, enum attribute_tag
+attribute_tag, attribute_value_t attribute_value)
 {
     attribute_t *attribute;
     int new_attribute;
@@ -25,7 +25,8 @@ attribute_tag, char *name)
         return NULL;
     }
 
-    new_attribute = attribute_init(attribute, value, attribute_tag, name);
+    new_attribute = attribute_init(attribute, hh, attribute_key, attribute_tag, 
+    attribute_value);
     if (new_attribute != SUCCESS) 
     {
         error("Could not initialize attribute");
@@ -36,17 +37,19 @@ attribute_tag, char *name)
 }
 
 /* See attribute_functions.h */
-int attribute_init(attribute_t *attribute, attribute_value_t value, enum 
-attribute_tag attribute_tag, char *name)
+int attribute_init(attribute_t *attribute, UT_hash_handle hh, char *attribute_key, 
+enum attribute_tag attribute_tag, attribute_value_t attribute_value)
 {
     assert(attribute != NULL);
-    assert(value != NULL);
+    assert(hh != NULL);
+    assert(attribute_key != NULL);
     assert(attribute_tag != NULL);
-    assert(name != NULL);
+    assert(attribute_value != NULL);
 
-    attribute->value = value;
+    attribute->hh = hh;
+    attribute->attribute_key = attribute_key;
     attribute->attribute_tag = attribute_tag;
-    attribute->name = name;
+    attribute->attribute_value = attribute_value;
 
     return SUCCESS;
 }

@@ -21,8 +21,8 @@
  * Returns: 
  * - An attribute. 
  */
-attribute_t* attribute_new(attribute_value_t value, enum attribute_tag 
-attribute_tag, char *name);
+attribute_t* attribute_new(UT_hash_handle hh, char *attribute_key, enum attribute_tag 
+attribute_tag, attribute_value_t attribute_value);
 
 /* 
  * Initializes attribute. 
@@ -36,7 +36,6 @@ attribute_tag, char *name);
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */
-int attribute_init(attribute_t *attribute, attribute_value_t value, enum                  
-attribute_tag attribute_tag, char *name);
+int attribute_init(attribute_t *attribute, UT_hash_handle hh, char *attribute_key, enum           attribute_tag attribute_tag, attribute_value_t attribute_value);
 
 #endif /* INCLUDE_ATTRIBUTE_FUNCTIONS_H */

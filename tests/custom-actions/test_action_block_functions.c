@@ -9,7 +9,7 @@ Test(action_block_t, new_SET)
 {
     enum action_type action_type = SET;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
@@ -32,7 +32,7 @@ Test(action_block_t, new_SAY)
 {   
     enum action_type action_type = SAY;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);;
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
@@ -55,7 +55,7 @@ Test(action_block_t, new_MOVE)
 {   
     enum action_type action_type = MOVE;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
@@ -78,7 +78,7 @@ Test(action_block_t, new_ADDSUBMULTDIV)
 {   
     enum action_type action_type = ADDSUBMULTDIV;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
@@ -101,7 +101,7 @@ Test(action_block_t, new_GEN)
 {   
     enum action_type action_type = GEN;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
@@ -124,7 +124,7 @@ Test(action_block_t, new_EXEC)
 {   
     enum action_type action_type = EXEC;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
@@ -149,7 +149,7 @@ Test(action_block_t, init_SET)
     int rc;
     enum action_type action_type = SET;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     rc = action_block_init(&action, action_type, num_args, *args, next);
@@ -170,7 +170,7 @@ Test(action_block_t, init_SAY)
     int rc;
     enum action_type action_type = SAY;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     rc = action_block_init(&action, action_type, num_args, *args, next);
@@ -191,7 +191,7 @@ Test(action_block_t, init_MOVE)
     int rc;
     enum action_type action_type = MOVE;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     rc = action_block_init(&action, action_type, num_args, *args, next);
@@ -212,7 +212,7 @@ Test(action_block_t, init_ADDSUBMULTDIV)
     int rc;
     enum action_type action_type = ADDSUBMULTDIV;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     rc = action_block_init(&action, action_type, num_args, *args, next);
@@ -254,7 +254,7 @@ Test(action_block_t, init_EXEC)
     int rc;
     enum action_type action_type = EXEC;
     int num_args = 1;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     rc = action_block_init(&action, action_type, num_args, *args, next);
@@ -273,7 +273,7 @@ Test(action_block_t, free_SET)
 {
     action_block_t *action;
     int rc;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     action = action_block_new(SET, 1, *args, next);
@@ -290,7 +290,7 @@ Test(action_block_t, free_SAY)
 {
     action_block_t *action;
     int rc;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     action = action_block_new(SAY, 1, *args, next);
@@ -307,7 +307,7 @@ Test(action_block_t, free_MOVE)
 {
     action_block_t *action;
     int rc;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     action = action_block_new(MOVE, 1, *args, next);
@@ -324,7 +324,7 @@ Test(action_block_t, free_ADDSUBMULTDIV)
 {
     action_block_t *action;
     int rc;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     action = action_block_new(ADDSUBMULTDIV, 1, *args, next);
@@ -341,7 +341,7 @@ Test(action_block_t, free_GEN)
 {
     action_block_t *action;
     int rc;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     action = action_block_new(GEN, 1, *args, next);
@@ -358,7 +358,7 @@ Test(action_block_t, free_EXEC)
 {
     action_block_t *action;
     int rc;
-    attribute_t **args = attribute_new(1, INTEGER, "attribute");
+    attribute_t **args = attribute_new(00, "attribute", INTEGER, 1);
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     action = action_block_new(EXEC, 1, *args, next);
