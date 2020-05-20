@@ -66,7 +66,7 @@ Test(battle_flow, set_enemies)
     cr_assert_str_eq(comb_enemy2->name, "set_enemies_Name2", "set_enemies() didn't set name");
     cr_assert_eq(comb_enemy2->is_friendly, false, "set_enemies() didn't set type");
     cr_assert_eq(comb_enemy2->next, NULL, "set_enemies() didn't set next");
-    cr_assert_not_null(comb_enemy2->prev, NULL, "set_enemies() didn't set prev");
+    cr_assert_not_null(comb_enemy2->prev, "set_enemies() didn't set prev");
 }
 
 /* Tests set_battle() */
@@ -77,7 +77,7 @@ Test(battle_flow, set_battle)
     npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name",NULL,NULL,NULL);
     environment_t env = ENV_DESERT;
 
-    battle_t *b = set_battle(ctx_player,pinfo,npc_enemies,env);
+    battle_t *b = set_battle(ctx_player,pinfo,npc_enemy,env);
 
     cr_assert_not_null(b, "set_battle() failed");
 
