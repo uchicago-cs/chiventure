@@ -16,12 +16,6 @@
 
 */
 
-/* CLASSES*/
-
-
-typedef struct classes {
-	char* type;
-} classes_t;
 
 int set_item_restriction(item_t* item, classes_t* class) {
 	if (item != NULL) && (class != NULL) {
