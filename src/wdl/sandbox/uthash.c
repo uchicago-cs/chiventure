@@ -150,7 +150,7 @@ void free_hash(hash_t **t)
 
 /* ------ COMPOUND HASH FUNCTIONS ------ */
 
-/* find_cmpd
+/* find_cmp
 
  * finds item in hash table with struct as key
  * 
@@ -176,7 +176,7 @@ cmphash_t *find_cmp(cmphash_t **h, namespace_t name, char *newid)
 }
 
 /* 
- * add_item
+ * add_cmp
  * 
  * allocates space for and adds item to cmphash_t table
  * 
@@ -206,7 +206,27 @@ int add_cmp(cmphash_t **h, namespace_t name, char *newid, int *o)
     return SUCCESS;
 }
 
-/* print_hash
+/* free_cmp
+ *
+ * deletes & frees hash table
+ * 
+ * Parameters:
+ *  **h: double ptr to cmphash_t table
+ * 
+ * Returns: SUCCESS if hash table deleted & items freed
+ */
+int free_cmp(cmphash_t **h)
+{
+    cmphash_t *curr, *tmp;
+    HASH_ITER(hh, *h, curr, tmp)
+    {
+        HASH_DEL(*h, curr);
+        free(curr);
+    }
+    return SUCCESS;
+}
+
+/* print_cmp
  *
  * prints all items in cmphash_t
  * 
@@ -273,7 +293,7 @@ int main()
     res = find_cmp(&test_cmp, 1, "CHAIR");
     print_cmp(&res);
 
-
+    free_cmp(&test_cmp);
 
     return 0;
 }
