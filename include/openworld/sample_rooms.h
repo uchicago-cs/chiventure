@@ -32,7 +32,7 @@ typedef enum fix_room_tag { BARN, CAFETERIA, CLASSROOM, CLOSET, DUNGEON, FIELD,
 typedef struct fix_room {
 	/* hh is used for hashtable, as provided in uthash.h */
 	UT_hash_handle hh;
-	room_tag_t room_tag;
+	fix_room_tag_t room_tag;
 	char *room_id;
 	char *short_desc;
 	char *long_desc;
@@ -48,7 +48,7 @@ typedef struct fix_room fixed_room_hash_t;
 
 typedef struct fix_room_wrapped_for_llist {
 	struct fix_room_wrapped_for_llist *next;
-	fixed_room_t *room;
+	fix_room_t *room;
 } fix_room_list_t;
 
 // ROOM FUNCTIONS -------------------------------------------------------------
@@ -60,7 +60,7 @@ typedef struct fix_room_wrapped_for_llist {
 * Returns:
 *  a pointer to new room
 */
-fix_room_t* fix_room_new(fix_room_tag_t room_tag);
+fix_room_t* fix_room_new(fix_room_tag_t room_tag, int items_wanted);
 
 /* room_init() initializes a room struct with given values
 * Parameters:
@@ -71,7 +71,7 @@ fix_room_t* fix_room_new(fix_room_tag_t room_tag);
 * FAILURE for failure, SUCCESS for success
 */
 
-int fix_room_init(fix_room_t *new_room, fix_room_tag_t room_tag);
+int fix_room_init(fix_room_t *new_room, fix_room_tag_t room_tag, int items_added);
 
 /* Frees the space in memory taken by given room
 *
@@ -93,7 +93,7 @@ int fix_room_free(fix_room_t *room);
 * Returns:
 *  SUCCESS if successful, FAILURE if failed
 */
-int add_item_to_room(fix_room_t *room, fix_item_t *item);
+int add_item_to_fix_room(fix_room_t *room, fix_item_t *item);
 
 // SPECIFIC ADD ITEM TO ROOM FUNCTIONS--------------------------
 /* Randomly picks and adds items to rooms based on the list
@@ -136,7 +136,7 @@ void add_items_to_throne(fix_room_t *room, int items_wanted);
 * Returns:
 *  short description string
 */
-char *get_sdesc(fix_room_t *room);
+char *get_sdesc_fix(fix_room_t *room);
 
 /* Get long description of room
 *
@@ -146,7 +146,7 @@ char *get_sdesc(fix_room_t *room);
 * Returns:
 *  long description string
 */
-char *get_ldesc(fix_room_t *room);
+char *get_ldesc_fix(fix_room_t *room);
 
 
 /* Get list (implemented with hashtable) of items in room

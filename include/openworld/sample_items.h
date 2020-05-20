@@ -21,33 +21,33 @@ typedef struct attribute attribute_hash_t;
 
 typedef struct game_action game_action_hash_t;
 
-typedef enum item_tag { APPLE, BOOK, COW, DOOR, EAGLE, FRUIT, GOLD, 
+typedef enum fix_item_tag { APPLE, BOOK, COW, DOOR, EAGLE, FRUIT, GOLD, 
 						HAT, ICE, JUG, KETTLE, LADDER, MIRROR,
 						NAIL, OLIVE, PENCIL, QUILL, RABBIT,
 						SCISSORS, TRAY, UMBRELLA, VIDEO, WATERCOLORS,
-						XYLOPHONE, YAM, ZEBRA} item_tag_t;
+						XYLOPHONE, YAM, ZEBRA} fix_item_tag_t;
 
-typedef struct item {
+typedef struct fix_item {
 	UT_hash_handle hh;
-	item_tag_t item_tag;
+	fix_item_tag_t item_tag;
 	char *item_id;
 	char *short_desc;
 	char *long_desc;
 //	game_action_hash_t *actions;
 	attribute_list_t *attributes; // a hashtable for all attribute
 
-} item_t;
+} fix_item_t;
 
 /* This typedef is to distinguish between item_t pointers which are
 * used to point to the item_t structs in the traditional sense,
 * and those which are used to hash item_t structs with the
 * UTHASH macros as specified in src/common/include */
-typedef struct item item_hash_t;
+typedef struct fix_item fix_item_hash_t;
 
-typedef struct item_wrapped_for_llist {
-	struct item_wrapped_for_llist *next;
-	item_t *item;
-} item_list_t;
+typedef struct fix_item_wrapped_for_llist {
+	struct fix_item_wrapped_for_llist *next;
+	fix_item_t *item;
+} fix_item_list_t;
 
 /* item_new() allocates a space for an item struct in memory
 *  Parameters:
@@ -55,7 +55,7 @@ typedef struct item_wrapped_for_llist {
 *  Returns:
 *    A pointer to a new item struct.
 */
-item_t *item_new(item_tag_t item_tag);
+fix_item_t *fix_item_new(fix_item_tag_t item_tag);
 
 /* item_init() initializes an item struct with given values
 * arguments are taken from WDL
@@ -65,7 +65,7 @@ item_t *item_new(item_tag_t item_tag);
 * Returns:
 * FAILURE for failure, SUCCESS for success
 */
-int item_init(item_t *new_item, item_tag_t item_tag);
+int fix_item_init(fix_item_t *new_item, fix_item_tag_t item_tag);
 
 /* Get short description of item
 *
@@ -76,7 +76,7 @@ int item_init(item_t *new_item, item_tag_t item_tag);
 *  short description string
 *  NULL if item is NULL
 */
-char *get_sdesc_item(item_t *item);
+char *get_sdesc_fix_item(fix_item_t *item);
 
 /* Get long description of item
 *
@@ -87,7 +87,7 @@ char *get_sdesc_item(item_t *item);
 *  long description string
 *  NULL if item is NULL
 */
-char *get_ldesc_item(item_t *item);
+char *get_ldesc_fix_item(fix_item_t *item);
 
 /* item_free() frees allocated space for an item struct in memory
 *  Parameters:
@@ -95,75 +95,8 @@ char *get_ldesc_item(item_t *item);
 *  Returns:
 *    SUCCESS if successful, FAILURE if not
 */
-int item_free(item_t *item_tofree);
+int fix_item_free(fix_item_t *item_tofree);
 
-// ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
-// values will be loaded from WDL/provided by action management
-typedef union attribute_value {
-	double double_val;
-	char char_val;
-	bool bool_val;
-	char* str_val;
-	int int_val;
-} attribute_value_t;
-
-enum attribute_tag { DOUBLE, BOOLE, CHARACTER, STRING, INTEGER } attribute_tag_t;
-
-typedef struct attribute {
-	UT_hash_handle hh;
-	char* attribute_key; // attribute name
-	enum attribute_tag attribute_tag;
-	attribute_value_t attribute_value;
-} attribute_t;
-
-typedef struct attribute_wrapped_for_llist {
-	struct attribute_wrapped_for_llist *next;
-	attribute_t *attribute;
-} attribute_list_t;
-
-/* attribute_init() initializes an attribute struct with given values
-* arguments are taken from WDL
-* Parameters:
-* a memory allocated new attribute pointer
-* char* attr_name that names the attribute
-* attribute_tag_t item_tag that specifies the kind of item
-* Returns:
-* FAILURE for failure, SUCCESS for success
-*/
-int attribute_init(attribute_t* new_attr, char* attr_name, attribute_tag_t* tag);
-
-/* attribute_new() allocates a space for an item struct in memory
-*  Parameters:
-*    char* attr_name that names the attribute
-*	 attribute_tag_t* tag that specifies the data type of attribute
-*  Returns:
-*    A pointer to a new attribute struct.
-*/
-attribute_t* attribute_new(char* attr_name, attribute_tag_t* tag)
-
-/* add_attribute_to_hash adds new attribute to hash table for search purposes
-* IDK WILL FLESH OUT THIS DESCRIPTION LATER ONCE I UNDERSTAND THE HASH SYSTEM
-*/
-int add_attribute_to_hash(item_t* item, attribute_t* new_attribute);
-
-/* set_int_attr() sets the value of an attribute of an item to the given int
-* Parameters:
-*  a pointer to the item
-*  the attribute with value to be changed
-*  the int attribute value to be set
-* Returns:
-*  SUCCESS if successful, FAILURE if failed
-*  returns SUCCESS if given value is already the attribute value
-*/
-int set_int_attr(item_t* item, char* attr_name, int value);
-
-/* attribute_free() frees allocated space for an attribute struct in memory
-*  Parameters:
-*    a pointer to the attribute
-*  Returns:
-*    SUCCESS if successful, FAILURE if not
-*/
-int attribute_free(attribute_t* attr)
 
 
 #endif /* _SAMPLE_ITEM_H */

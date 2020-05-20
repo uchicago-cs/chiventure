@@ -1,5 +1,7 @@
 add_library(openworld
             src/autogenerate.c
+	    sample_generation/sample_rooms.c
+	    sample_generation/sample_items.c
             ../../../tests/openworld/test_autogenerate.c)
 
 target_include_directories(openworld PRIVATE sample_generation/)
