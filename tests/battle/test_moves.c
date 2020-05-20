@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "moves.h"
+#include "../../include/battle/moves.h"
+//#include "../../include/battle/battle_structs.h"
 
 Test(moves, new)
 {
@@ -31,4 +32,9 @@ Test(moves, init)
     cr_assert_eq(rc, 0, "init_class() failed");
 
     cr_assert_eq(class.info, test_str, "init_class() didn't set info");
+}
+
+int main()
+{
+	;
 }

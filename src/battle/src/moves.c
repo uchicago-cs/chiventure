@@ -1,12 +1,13 @@
-#include "../include/structs.h"
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "battle/battle_structs.h"
 
 
 /** See moves.h */
+<<<<<<< HEAD
 int init_class(class_t *class, enum class cl, char* info, enum stats st, double bonus)
 {
     assert(class != NULL);
@@ -26,7 +27,7 @@ int init_class(class_t *class, enum class cl, char* info, enum stats st, double 
 
 
 /** See moves.h */
-class_t *new_class(enum class cl, char* info, enum stats st, double bonus)
+class_t *new_class(class_type_t cl, char* info, possible_stats_t st, double bonus)
 {
     class_t *class = (class_t*) malloc(sizeof(class_t));
     int rc;
@@ -48,6 +49,7 @@ class_t *new_class(enum class cl, char* info, enum stats st, double bonus)
     return class;
 }
 
+<<<<<<< HEAD
 
 /* Creates test bard class
  *
@@ -120,4 +122,22 @@ class_t *make_test_wizard()
 int main()
 {
     printf("Success\n");
+=======
+/** See moves.h */
+int init_class(class_t *class, class_type_t cl, char* info, possible_stats_t st, double bonus)
+{
+    assert(class != NULL);
+    assert(info != NULL);
+
+    class->cl = cl;
+
+    class->info = (char*) malloc(sizeof(char) * 100);
+    strcpy(class->info, info);
+
+    class->st = st;
+
+    class->bonus = bonus;
+
+    return 0;
+>>>>>>> a9f5948b47b93fef3d50cdc653dc8c9bc31e558c
 }
