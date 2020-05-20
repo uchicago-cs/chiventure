@@ -25,8 +25,8 @@ combatant_t *set_player(player_t *ctx_player, combatant_info_t *pinfo)
     stat_t *stats = pinfo->stats;
     move_t *moves = pinfo->moves;
     b_item_t *items = pinfo->items;
-    combatant *prev = NULL; // Single player
-    combatant *next = NULL;
+    combatant_t *prev = NULL; // Single player
+    combatant_t *next = NULL;
 
     // Allocating new combatant_t for the player in memory
     combatant_t *comb_player = combatant_new(name,is_friendly,stats,
@@ -53,7 +53,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         stat_t *stats = enemy_elt->stats;
         move_t *moves = enemy_elt->moves;
         b_item_t *items = enemy_elt->items;
-        combatant *next = NULL;
+        combatant_t *next = NULL;
 
         comb_enemy = combatant_new(name,is_friendly,stats,moves,items
                                     comb_enemy,next);
