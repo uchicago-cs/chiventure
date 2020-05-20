@@ -4,16 +4,6 @@
 #include <assert.h>
 #include "battle/battle_flow.h"
 
-#ifndef BATTLE_FLOW_H
-#define BATTLE_FLOW_H
-
-#include "battle_structs.h"
-#include "battle_state.h"
-#include "common/utlist.h"
-#include "common/common.h"
-#include <stdbool.h>
-#include <string.h>
-
 /* see battle_flow.h */
 int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, combatant_info_t *pinfo, environment_t env)
 {
