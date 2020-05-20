@@ -44,7 +44,6 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
     npc_enemy_t *enemy_elt, *enemy_tmp;
     DL_FOREACH_SAFE(npc_enemies, enemy_elt, enemy_tmp)
     {
-        DL_DELETE(npc_enemies, enemy_elt);
 
         char* name = enemy_elt->npc_id;
         bool is_friendly = false;
