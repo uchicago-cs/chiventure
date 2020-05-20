@@ -48,7 +48,7 @@ Test(battle_flow, set_player)
     cr_assert_eq(comb_player->prev, NULL, "set_player() didn't set prev");
 }
 
-/* Tests set_enemies() */
+/* Tests set_enemies()
 Test(battle_flow, set_enemies)
 {
     npc_enemy_t *head = NULL;
@@ -74,7 +74,7 @@ Test(battle_flow, set_enemies)
     cr_assert_eq(comb_enemy2->is_friendly, false, "set_enemies() didn't set type");
     cr_assert_eq(comb_enemy2->next, NULL, "set_enemies() didn't set next");
     cr_assert_not_null(comb_enemy2->prev, "set_enemies() didn't set prev");
-}
+} */
 
 /* Tests set_battle() */
 Test(battle_flow, set_battle)
