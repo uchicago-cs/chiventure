@@ -62,7 +62,7 @@ Test(battle_flow, set_enemies)
     combatant_t *comb_enemy1 = set_enemies(head);
 
     cr_assert_not_null(comb_enemy1, "set_enemies() failed");
-    /* cr_assert_str_eq(comb_enemy1->name, "set_enemies_Name1", "set_enemies() didn't set name"); */
+    cr_assert_str_eq(comb_enemy1->name, "set_enemies_Name2", "set_enemies() didn't set name");
     cr_assert_eq(comb_enemy1->is_friendly, false, "set_enemies() didn't set type");
     cr_assert_not_null(comb_enemy1->next, "set_enemies() didn't set next");
     cr_assert_eq(comb_enemy1->prev, NULL, "set_enemies() didn't set prev");
@@ -70,7 +70,7 @@ Test(battle_flow, set_enemies)
     combatant_t *comb_enemy2 = comb_enemy1->next;
 
     cr_assert_not_null(comb_enemy2, "set_enemies() failed");
-    cr_assert_str_eq(comb_enemy2->name, "set_enemies_Name2", "set_enemies() didn't set name");
+    cr_assert_str_eq(comb_enemy2->name, "set_enemies_Name1", "set_enemies() didn't set name");
     cr_assert_eq(comb_enemy2->is_friendly, false, "set_enemies() didn't set type");
     cr_assert_eq(comb_enemy2->next, NULL, "set_enemies() didn't set next");
     cr_assert_not_null(comb_enemy2->prev, "set_enemies() didn't set prev");

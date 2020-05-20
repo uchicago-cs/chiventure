@@ -39,7 +39,7 @@ combatant_t *set_player(player_t *ctx_player, combatant_info_t *pinfo)
 combatant_t *set_enemies(npc_enemy_t *npc_enemies)
 {
     combatant_t *head = NULL;
-    combatant_t *comb_enemy = NULL;
+    combatant_t *comb_enemy;
 
     npc_enemy_t *enemy_elt, *enemy_tmp;
     DL_FOREACH_SAFE(npc_enemies, enemy_elt, enemy_tmp)
@@ -51,7 +51,6 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         stat_t *stats = enemy_elt->stats;
         move_t *moves = enemy_elt->moves;
         b_item_t *items = enemy_elt->items;
-        combatant_t *next = NULL;
 
         comb_enemy = combatant_new(name,is_friendly,stats,moves,items);
 
