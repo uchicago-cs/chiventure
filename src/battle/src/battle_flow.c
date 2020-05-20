@@ -47,7 +47,6 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         DL_DELETE(npc_enemies, enemy_elt);
 
         char* name = enemy_elt->npc_id;
-        printf(name);
         bool is_friendly = false;
         stat_t *stats = enemy_elt->stats;
         move_t *moves = enemy_elt->moves;
@@ -59,7 +58,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
 
         DL_APPEND(head,comb_enemy);
     }
-
+    printf("HIEKEJ\n");
     return head;
 };
 
