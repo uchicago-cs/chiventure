@@ -94,5 +94,4 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies);
  */
 battle_t *set_battle(player_t *player, combatant_info_t *pinfo,
                       npc_enemy_t *npc_enemies, environment_t env);
-
 #endif
