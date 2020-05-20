@@ -113,7 +113,7 @@ Test(npc, get_npc_inventory)
       "get_npc_inventory() failed to return inventory");
 }
 
-
+/* Checks that add_item_to_npc adds item to the npc struct's inventory */
 Test(npc, add_item_to_npc)
 {
 	npc_t *npc = npc_new("1", 100);
@@ -126,39 +126,3 @@ Test(npc, add_item_to_npc)
     cr_assert_not_null(npc->inventory,
   				       "add_item_to_npc() failed to add item");
 }
-/*void insert(npc_t* npc, item_t* itm) 
-{
-	HASH_ADD_KEYPTR(hh, npc->inventory, item->item_id,
-                    strlen(item->item_id), item);
-}
-
-	
-Test (npc, add_item_to_npc) {
-	//NULL case 
-	item_t* itm = item_new("itm", "short desc", "longer description"); 
-	npc_t* npc = npc_new("npc_22", 20, NULL); 
-	int ret1 = add_item_to_npc(npc, itm); 
-	cr_assert_eq(ret1, SUCCESS, "add_item_to_npc() failed"); 
-
-	//non-NULL Success Case 
-	npc_t* npc2 = npc_new("npc_32", 40, NULL);
-	item_t* itm1 = item_new("itm1", "short desc 1", "longer description 1");
-    item_t* itm2 = item_new("itm2", "short desc 2", "longer description 2");
-    item_t* itm3 = item_new("itm3", "short desc 3", "longer description 3");
-	insert(npc2, itm1);
-    insert(npc2, itm3);
-	int ret2 = add_item_to_npc(npc, itm2);
-	cr_assert_eq(ret2, SUCCESS, "add_item_to_npc() failed");
-
-	// test failure case
-	npc_t* npc3 = npc_new("npc_32", 40, NULL);
-    item_t* itm4 = item_new("itm1", "short desc 1", "longer description 1");
-    item_t* itm5 = item_new("itm2", "short desc 2", "longer description 2");
-    item_t* itm6 = item_new("itm3", "short desc 3", "longer description 3");
-    insert(npc, itm1);
-    insert(npc, itm2);
-    insert(npc, itm3);
-    int ret3 = add_item_to_npc(npc, itm1);
-    cr_assert_eq(ret3, FAILURE, "add_item_to_npc() failed");
-	// testing hash items 	
-} */
