@@ -1,18 +1,17 @@
-
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
 #include "game-state/item.h"
-#include "class_item_restriction.c"
+#include "playerclass/class_item_restriction.h"
 
 /* HARDCODED ITEMS USED IN TESTS*/
 
 item_t* create_wand() {
 
-	item_t *wand = item_new("wand", "A stick used to conduct magic", "A stick of many possible materials – wood, metal, plastic – used by certain players to conduct magic");
+	item_t *wand = item_new("wand", "A stick used to conduct magic", "A stick of many possible materials  wood, metal, plastic  used by certain players to conduct magic");
 
-	item_init(wand, "wand", "A stick used to conduct magic","A stick of many possible materials – wood, metal, plastic – used by certain players to conduct magic");
+	item_init(wand, "wand", "A stick used to conduct magic","A stick of many possible materials – wood, metal, plastic  used by certain players to conduct magic");
 
 	return wand;
 }
@@ -32,6 +31,10 @@ item_t* create_bow() {
 
 	item_init(bow, "bow", "A bendy stick and string used in tandem with arrows", "A bendy stick and string used in tandem with arrows to make opponents and prey go 'OWEE'");
 }
+
+item_t* wand = create_wand();
+item_t* sword = create_sword();
+item_t* bow = create_bow();
 
 /*HARDCODED CLASSES*/
 
@@ -94,7 +97,7 @@ void_check_get_restriction(class_t* class, item_t* item, int expected) {
 Test(class_item_restriction, get_bow) {
 	void_check_get_restriction(ranger, wand, true);
 	void_check_get_restriction(druid, sword, true);
-	oid_check_get_restriction(ranger, sword, false);
+	void_check_get_restriction(ranger, sword, false);
 }
 
 

@@ -19,14 +19,14 @@
 
 int set_item_restriction(item_t* item, class_t* class) {
         if ((item != NULL) && (class != NULL)) {
-		set_str_attr(item, class->name, "true");
+		set_bool_attr(item, class->name, true);
 		return SUCCESS;
 	} else {
 		return FAILURE;
 	}
 }
 
-bool get_class_restricton(item_t* item, class_t class) {
+bool get_class_restricton(item_t* item, class_t* class) {
         if (get_str_attr(item, class->name)) {
 		return true;
 	}

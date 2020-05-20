@@ -6,6 +6,6 @@
 #include "game-state/item.h"
 
 
-int set_item_restriction(item_t* item, classes_t* class);
+int set_item_restriction(item_t* item, class_t* class);
 
-bool get_class_restricton(item_t* item, classes_t class);
+bool get_class_restricton(item_t* item, class_t class);

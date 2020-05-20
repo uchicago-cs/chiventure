@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/simrenk/CS/cs220/chiventure/src/playerclass/sandbox/player.c
+game-state/item.h
+/home/simrenk/CS/cs220/chiventure/src/playerclass/sandbox/game-state/item.h
+
