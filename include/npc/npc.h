@@ -109,7 +109,7 @@ item_hash_t* get_npc_inventory(npc_t *npc);
  *  item struct
  *
  * Returns:
- *  SUCCESS if successful, FAILURE if an error occured.
+ *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int add_item_to_npc(npc_t *npc, item_t *item);
 
