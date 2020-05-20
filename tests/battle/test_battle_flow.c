@@ -119,6 +119,6 @@ Test(battle_flow, start_battle)
 
     int rc2 = start_battle(ctx,npc_enemy,pinfo,env);
 
-    cr_assert_eq(rc,SUCCESS,"start_battle() failed");
+    cr_assert_eq(rc2,SUCCESS,"start_battle() failed");
 
 }

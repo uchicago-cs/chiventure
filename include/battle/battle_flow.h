@@ -5,6 +5,7 @@
 #include "battle_state.h"
 #include "common/utlist.h"
 #include "common/common.h"
+#include "common/ctx.h"
 #include <stdbool.h>
 #include <string.h>
 
