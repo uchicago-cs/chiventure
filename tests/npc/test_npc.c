@@ -121,6 +121,7 @@ Test(npc, add_item_to_npc)
 	npc = npc_new("npc_22", 100);
 	item = item_new("test_item", "item for npc testing",
   					"item for testing add_item_to_npc");
+	add_item_to_npc(npc, item);
 	
 	cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(item, "item_new() failed");
