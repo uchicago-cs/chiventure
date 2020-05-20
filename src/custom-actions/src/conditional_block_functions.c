@@ -14,19 +14,51 @@
 conditional_block_t* conditional_block_new(enum conditional_type conditional_type, 
 attribute_t* left, attribute_t* right)
 {
-    return NULL;
+    conditional_block_t *conditional;
+    int new_conditional;
+
+    conditional = malloc(sizeof(conditional_block_t));
+
+    if (conditional == NULL) 
+    {
+        error("Could not allocate memory");
+        return NULL;
+    }
+
+    new_conditional = conditional_block_init(conditional, conditional_type, left, 
+    right);
+    if (new_conditional != SUCCESS)
+    {
+        error("Could not initialize conditional_block_t");
+        return NULL;
+    }
+
+    return conditional; 
 }
 
 /* See conditional_block_functions.h */
 int conditional_block_init(conditional_block_t *conditional, enum conditional_type 
 conditional_type, attribute_t* left, attribute_t* right)
 {
-    return 0;
+    assert(conditional != NULL);
+    assert(conditional_type != NULL);
+    assert(left != NULL);
+    assert(right != NULL);
+
+    conditional->conditional_type = conditional_type;
+    conditional->left = left;
+    conditional->right = right;
+        
+    return SUCCESS; 
 }
 
 /* See conditional_block_functions.h */
 int conditional_block_free(conditional_block_t *conditional)
 {
-    return 0;
+    assert(conditional != NULL);
+        
+    free(conditional);
+
+    return SUCCESS; 
 }
 
