@@ -20,9 +20,9 @@ Test(custom_types, int_t_new_int)
  */
 Test(custom_types, int_t_new_lua)
 {
-    int_t it = int_t_new(0, "Lua_file/int_t_test.lua");
+    int_t it = int_t_new(0, "../../../tests/custom-scripts/Lua_file/int_t_test.lua");
     cr_assert_eq(it.isInt, 0, "int_t_new: failed isInt assignment");
-    cr_assert_eq(it.p.luaDirectory, "Lua_file/int_t_test.lua", "int_t_new: failed lua assignment");
+    cr_assert_eq(it.p.luaDirectory, "../../../tests/custom-scripts/Lua_file/int_t_test.lua", "int_t_new: failed lua assignment");
 }
 
 /** Checks that the int_t struct contains the right data when passed
@@ -42,9 +42,9 @@ Test(custom_types, int_t_init_int)
 Test(custom_types, int_t_init_lua)
 {
     int_t it;
-    it = int_t_init(it, 0, "Lua_file/int_t_test.lua");
+    it = int_t_init(it, 0, "../../../tests/custom-scripts/Lua_file/int_t_test.lua");
     cr_assert_eq(it.isInt, 0, "int_t_init: failed isInt assignment");
-    cr_assert_eq(it.p.luaDirectory, "Lua_file/int_t_test.lua", "int_t_init: failed lua assignment");
+    cr_assert_eq(it.p.luaDirectory, "../../../tests/custom-scripts/Lua_file/int_t_test.lua", "int_t_init: failed lua assignment");
 }
 
 /** Checks that the int_t struct returns the correct integer value (direct)
@@ -61,7 +61,7 @@ Test(custom_types, int_t_get_int)
  */
 Test(custom_types, int_t_get_lua)
 {
-    int_t it = int_t_new(10, "Lua_file/int_t_test.lua");
+    int_t it = int_t_new(10, "../../../tests/custom-scripts/Lua_file/int_t_test.lua");
     int rv = int_t_get (it);
     cr_assert_eq(rv, 15, "int_t_get: failed int Lua retrieval");
 }
@@ -81,9 +81,9 @@ Test(custom_types, bool_t_new_bool)
  */
 Test(custom_types, bool_t_new_lua)
 {
-    bool_t bt = bool_t_new(false, "Lua_file/bool_t_test.lua");
+    bool_t bt = bool_t_new(false, "../../../tests/custom-scripts/Lua_file/bool_t_test.lua");
     cr_assert_eq(bt.isBool, 0, "bool_t_new: failed isBool assignment");
-    cr_assert_eq(bt.p.luaDirectory, "Lua_file/bool_t_test.lua", "bool_t_new: failed lua assignment");
+    cr_assert_eq(bt.p.luaDirectory, "../../../tests/custom-scripts/Lua_file/bool_t_test.lua", "bool_t_new: failed lua assignment");
 }
 
 /** Checks that the bool_t struct contains the right data when passed
@@ -103,9 +103,9 @@ Test(custom_types, bool_t_init_int)
 Test(custom_types, bool_t_init_lua)
 {
     bool_t bt;
-    bt = bool_t_init(bt, false, "Lua_file/bool_t_test.lua");
+    bt = bool_t_init(bt, false, "../../../tests/custom-scripts/Lua_file/bool_t_test.lua");
     cr_assert_eq(bt.isBool, 0, "bool_t_init: failed isBool assignment");
-    cr_assert_eq(bt.p.luaDirectory, "Lua_file/bool_t_test.lua", "bool_t_init: failed lua assignment");
+    cr_assert_eq(bt.p.luaDirectory, "../../../tests/custom-scripts/Lua_file/bool_t_test.lua", "bool_t_init: failed lua assignment");
 }
 
 /** Checks that the bool_t struct returns the correct boolean value (direct)
@@ -122,7 +122,7 @@ Test(custom_types, bool_t_get_bool)
  */
 Test(custom_types, bool_t_get_lua)
 {
-    bool_t bt = bool_t_new(true, "Lua_file/bool_t_test.lua");
+    bool_t bt = bool_t_new(true, "../../../tests/custom-scripts/Lua_file/bool_t_test.lua");
     bool rv = bool_t_get(bt);
     cr_assert_eq((rv ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
 }
@@ -142,9 +142,9 @@ Test(custom_types, string_t_new_string)
  */
 Test(custom_types, string_t_new_lua)
 {
-    string_t st = string_t_new(NULL, "Lua_file/string_t_test.lua");
+    string_t st = string_t_new(NULL, "../../../tests/custom-scripts/Lua_file/string_t_test.lua");
     cr_assert_eq(st.isString, 0, "string_t_new: failed isString assignment");
-    cr_assert_eq(st.p.luaDirectory, "Lua_file/string_t_test.lua", "string_t_new: failed lua assignment");
+    cr_assert_eq(st.p.luaDirectory, "../../../tests/custom-scripts/Lua_file/string_t_test.lua", "string_t_new: failed lua assignment");
 }
 
 /** Checks that the string_t struct contains the right data when passed
@@ -164,9 +164,9 @@ Test(custom_types, string_t_init_int)
 Test(custom_types, string_t_init_lua)
 {
     string_t st;
-    st = string_t_init(st, false, "Lua_file/string_t_test.lua");
+    st = string_t_init(st, false, "../../../tests/custom-scripts/Lua_file/string_t_test.lua");
     cr_assert_eq(st.isString, 0, "string_t_init: failed isString assignment");
-    cr_assert_eq(st.p.luaDirectory, "Lua_file/string_t_test.lua", "string_t_init: failed lua assignment");
+    cr_assert_eq(st.p.luaDirectory, "../../../tests/custom-scripts/Lua_file/string_t_test.lua", "string_t_init: failed lua assignment");
 }
 
 /** Checks that the string_t struct returns the correct string value (direct)
@@ -183,7 +183,7 @@ Test(custom_types, string_t_get_string)
  */
 Test(custom_types, string_t_get_lua)
 {
-    string_t st = string_t_new("testing_failed", "Lua_file/string_t_test.lua");
+    string_t st = string_t_new("testing_failed", "../../../tests/custom-scripts/Lua_file/string_t_test.lua");
     const char *rv = string_t_get(st);
     int result = strcmp(rv, "testing_succeeded");
     cr_assert_eq(result, 0, "string_t_get: failed string Lua retrieval");
