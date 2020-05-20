@@ -58,7 +58,6 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
 
         DL_APPEND(head,comb_enemy);
     }
-    printf("HIEKEJ\n");
     return head;
 };
 
