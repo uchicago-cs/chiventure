@@ -62,9 +62,8 @@ typedef struct cmphash {
 
 /* ------ SIMPLE HASH FUNCTIONS ------ */
 
-/* find_item
-
- * finds item in hash table
+/* 
+ * find_item - finds item in hash table
  * 
  * Parameters:
  *  **t: double ptr to hash table
@@ -81,9 +80,7 @@ hash_t *find_item(hash_t **t, char *newid)
 }
 
 /* 
- * add_item
- * 
- * allocates space for and adds item to hash table
+ * add_item - allocates space for and adds item to hash table
  * 
  * Parameters:
  *  **t: double ptr to hash table
@@ -107,14 +104,13 @@ int add_item(hash_t **t, namespace_t name, char *newid, int *o)
     return SUCCESS;
 }
 
-/* print_hash
- *
- * prints all items in hash
+/* print_hash - prints all items in hash
  * 
  * Parameters:
  *  **t: double ptr to hash table
  * 
- * Returns: none - printed
+ * Returns: none
+ * 
  */
 void print_hash(hash_t **t)
 {
@@ -127,17 +123,17 @@ void print_hash(hash_t **t)
         printf("NULL\n");
 }
 
-/* free_hash
- *
- * deletes & frees hash table
+/* free_hash - deletes & frees hash table
  * 
  * Parameters:
  *  **t: double ptr to hash table
  * 
- * Returns: none - hash table deleted & items freed
+ * Returns: SUCCESS if hash freed complete
  */
 void free_hash(hash_t **t)
 {
+    if (t == NULL)
+        return FAILURE;
     hash_t *curr, *tmp;
     HASH_ITER(hh, *t, curr, tmp)
     {
@@ -145,14 +141,13 @@ void free_hash(hash_t **t)
         free(curr->id);
         free(curr);
     }
+    return SUCCESS;
 }
 
 
 /* ------ COMPOUND HASH FUNCTIONS ------ */
 
-/* find_cmp
-
- * finds item in hash table with struct as key
+/* find_cmp - finds item in hash table with struct as key
  * 
  * Parameters:
  *  **h: double ptr to hash table of cmphash_t type
@@ -175,10 +170,7 @@ cmphash_t *find_cmp(cmphash_t **h, namespace_t name, char *newid)
     return res;
 }
 
-/* 
- * add_cmp
- * 
- * allocates space for and adds item to cmphash_t table
+/* add_cmp - allocates space for and adds item to cmphash_t table
  * 
  * Parameters:
  *  **h: double ptr to hash table
@@ -193,9 +185,7 @@ int add_cmp(cmphash_t **h, namespace_t name, char *newid, int *o)
 {
     cmphash_t *new = find_cmp(h, name, newid); // see if key already exists in hash
     if (new == NULL) {
-        new = malloc(sizeof(cmphash_t));
-        memset(new, 0, sizeof(*new)); // to accommodate padding in struct
-
+        new = calloc(1, sizeof(cmphash_t));
         new->key.n = name;
         strcpy(new->key.id, newid);
         new->obj = o;
@@ -206,9 +196,7 @@ int add_cmp(cmphash_t **h, namespace_t name, char *newid, int *o)
     return SUCCESS;
 }
 
-/* free_cmp
- *
- * deletes & frees hash table
+/* free_cmp - deletes & frees hash table
  * 
  * Parameters:
  *  **h: double ptr to cmphash_t table
@@ -217,6 +205,8 @@ int add_cmp(cmphash_t **h, namespace_t name, char *newid, int *o)
  */
 int free_cmp(cmphash_t **h)
 {
+    if (h == NULL)
+        return FAILURE;
     cmphash_t *curr, *tmp;
     HASH_ITER(hh, *h, curr, tmp)
     {
@@ -226,14 +216,12 @@ int free_cmp(cmphash_t **h)
     return SUCCESS;
 }
 
-/* print_cmp
- *
- * prints all items in cmphash_t
+/* print_cmp -  prints all items in cmphash_t
  * 
  * Parameters:
  *  **h: double ptr to hash table
  * 
- * Returns: none - printed
+ * Returns: none
  */
 void print_cmp(cmphash_t **h)
 {
