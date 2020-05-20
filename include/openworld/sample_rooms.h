@@ -3,44 +3,33 @@
 
 #include "../game-state/game_state_common.h"
 #include "../game-state/game.h"
+#include "../game-state/room.h"
 #include "sample_items.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
 
-// PATH STRUCT DEFINITION -----------------------------------------------------
-/* This struct represents a path from one room to another.
-* It contains:
-*      the room_id of the destination room
-*      list of conditions that must be fulfilled to move to the room
-*      essentially, the list of conditions are the "answers"
-* */
-typedef struct path {
-	UT_hash_handle hh;
-	struct room *dest;
-	/* the door item in the path, which has to be
-	open (attribute open is set true) to let through */
-	item_t *src_item;
-} path_t;
-
-/* This typedef is to distinguish between path_t pointers which are
-* used to point to the path_t structs in the traditional sense,
-* and those which are used to hash path_t structs with the
-* UTHASH macros as specified in src/common/include */
-typedef struct path path_hash_t;
-
-// ROOM STRUCT DEFINITION -----------------------------------------------------
-/* This struct represents a 3 types of rooms: library, dungeon, open field..
-* It contains:
+// FIXED ROOM STRUCT DEFINITION -----------------------------------------------------
+/* This struct represents a 3 room themes: school, farmhouse, castle. Within these three
+*  "buckets", we have several fixed room types assigned to each:
+*	- school: classroom, closet, library, cafeteria, hallway
+*	- farmhouse: barn, field, hallway, kitchen, living room
+*	- castle: dungeon, hallway, library, throne room
+* Each fixed room contains:
 *      the room_tag (this is the enum type)
 *      the room_id
 *      short description
 *      long description
 *      a hashtable of items to be found there
-*      a hashtable of paths accessible from the room. */
-typedef enum room_tag { LIBRARY, DUNGEON, OPEN_FIELD } room_tag_t;
+*      a hashtable of paths accessible from the room. (see game-state/room.h)
+*/
 
-typedef struct room {
+typedef enum fix_room_bucket { SCHOOL, FARMHOUSE, CASTLE } fix_room_bucket;
+
+typedef enum fix_room_tag { BARN, CAFETERIA, CLASSROOM, CLOSET, DUNGEON, FIELD,
+							HALLWAY, KITCHEN, LIBRARY, LIVING_ROOM, THRONE_ROOM} fix_room_tag_t;
+
+typedef struct fix_room {
 	/* hh is used for hashtable, as provided in uthash.h */
 	UT_hash_handle hh;
 	room_tag_t room_tag;
@@ -49,18 +38,18 @@ typedef struct room {
 	char *long_desc;
 	item_list_t *items;
 	path_hash_t *paths;
-} room_t;
+} fix_room_t;
 
 /* This typedef is to distinguish between room_t pointers which are
 * used to point to the room_t structs in the traditional sense,
 * and those which are used to hash room_t structs with the
 * UTHASH macros as specified in src/common/include */
-typedef struct room room_hash_t;
+typedef struct fix_room fixed_room_hash_t;
 
-typedef struct room_wrapped_for_llist {
-	struct room_wrapped_for_llist *next;
-	room_t *room;
-} room_list_t;
+typedef struct fix_room_wrapped_for_llist {
+	struct fix_room_wrapped_for_llist *next;
+	fixed_room_t *room;
+} fix_room_list_t;
 
 // ROOM FUNCTIONS -------------------------------------------------------------
 /* Mallocs space for a new room
@@ -71,7 +60,7 @@ typedef struct room_wrapped_for_llist {
 * Returns:
 *  a pointer to new room
 */
-room_t *room_new(room_tag_t room_tag);
+fix_room_t* fix_room_new(fix_room_tag_t room_tag);
 
 /* room_init() initializes a room struct with given values
 * Parameters:
@@ -82,7 +71,7 @@ room_t *room_new(room_tag_t room_tag);
 * FAILURE for failure, SUCCESS for success
 */
 
-int room_init(room_t *new_room, room_tag_t room_tag);
+int fix_room_init(fix_room_t *new_room, fix_room_tag_t room_tag);
 
 /* Frees the space in memory taken by given room
 *
@@ -93,7 +82,7 @@ int room_init(room_t *new_room, room_tag_t room_tag);
 *  Always returns SUCCESS
 */
 
-int room_free(room_t *room);
+int fix_room_free(fix_room_t *room);
 
 /* Adds an item to the given room
 *
@@ -104,7 +93,40 @@ int room_free(room_t *room);
 * Returns:
 *  SUCCESS if successful, FAILURE if failed
 */
-int add_item_to_room(room_t *room, item_t *item);
+int add_item_to_room(fix_room_t *room, fix_item_t *item);
+
+// SPECIFIC ADD ITEM TO ROOM FUNCTIONS--------------------------
+/* Randomly picks and adds items to rooms based on the list
+*  of "appropriate" items to find in that room type
+*
+* Parameters:
+*  fix_room_t room of specific type needed by function,
+*	int items wanted to specify how many times to iterate adding items
+*
+* Returns:
+*  void
+*/
+void add_items_to_barn(fix_room_t *room, int items_wanted);
+
+void add_items_to_cafeteria(fix_room_t *room, int items_wanted);
+
+void add_items_to_classroom(fix_room_t *room, int items_wanted);
+
+void add_items_to_closet(fix_room_t *room, int items_wanted);
+
+void add_items_to_dungeon(fix_room_t *room, int items_wanted);
+
+void add_items_to_field(fix_room_t *room, int items_wanted);
+
+void add_items_to_hallway(fix_room_t *room, int items_wanted);
+
+void add_items_to_kitchen(fix_room_t *room, int items_wanted);
+
+void add_items_to_library(fix_room_t *room, int items_wanted);
+
+void add_items_to_living(fix_room_t *room, int items_wanted);
+
+void add_items_to_throne(fix_room_t *room, int items_wanted);
 
 /* Get short description of room
 *
@@ -114,7 +136,7 @@ int add_item_to_room(room_t *room, item_t *item);
 * Returns:
 *  short description string
 */
-char *get_sdesc(room_t *room);
+char *get_sdesc(fix_room_t *room);
 
 /* Get long description of room
 *
@@ -124,7 +146,7 @@ char *get_sdesc(room_t *room);
 * Returns:
 *  long description string
 */
-char *get_ldesc(room_t *room);
+char *get_ldesc(fix_room_t *room);
 
 
 /* Get list (implemented with hashtable) of items in room
@@ -135,7 +157,7 @@ char *get_ldesc(room_t *room);
 * Returns:
 *  hashtable of items in room
 */
-item_hash_t* list_items(room_t *room);	
+item_hash_t* list_items(fix_room_t *room);	
 
 /* Get list of paths from room
 *
@@ -145,17 +167,7 @@ item_hash_t* list_items(room_t *room);
 * Returns:
 *  pointer to hashtable of paths from room
 */
-path_t *list_paths(room_t *room);
-
-/* Get list of all rooms created in a game
-*
-* Parameters:
-*  pointer to game struct
-*
-* Returns:
-*  pointer to list of rooms
-*/
-room_list_t* list_rooms(game* g);
+path_t *list_paths(fix_room_t *room);
 
 /* Get a randomly generated room with no inital parameters
 *  Will call on rand() function to randomly call on
@@ -166,71 +178,6 @@ room_list_t* list_rooms(game* g);
 * Returns:
 *  pointer to an initialized random room
 */
-room_t* generate_room();
-
-/* path_init() initializes a path struct with given destination room and exit item
-* Parameters:
-* a memory allocated new room pointer
-* room_t pointer that specified destination
-* item_t pointer that specifies item to be used as exit
-*
-* Returns:
-* FAILURE for failure, SUCCESS for success
-*/
-int path_init(path_t* new_path, room_t* dest, item_t* exit);
-
-/* Mallocs space for a new path
-*
-* Parameters:
-* room_t pointer that specified destination
-* item_t pointer that specifies item to be used as exit
-*
-* Returns:
-*  a pointer to new path
-*/
-path_t* path_new(room_t* dest, item_t* exit);
-
-/* add_path_to_room updates path struct of a room if valid path
-*
-* Parameters:
-*  room_t* pointer as origin room, where the path->src_obj should be
-* path_t* pointer specifying path to be added
-*
-* Returns:
-*  1 for success, 0 for failure
-*/
-int add_path_to_room(room_t *room, path_t *path);
-
-/* Return the path in a given direction
-*
-* Parameters:
-* room_t* room with paths
-* char* direction specified
-*
-* Returns:
-* path_t* path (if one exists)
-*/
-path_t *path_search(room_t *room, char* direction);
-
-/* Given a path return its destination room
-*
-* Parameters:
-* path_t* pointer to path
-*
-* Returns:
-* room_t* pointer to destination room
-*/
-room_t *find_room_from_path(path_t *path);
-
-/* Connect src room to dest room via a valid-exit item in src
-*
-* Parameters:
-*  two rooms: src, dest
-*
-* Returns:
-*  void, but edits path attributes in both rooms
-*/
-void connect_rooms(room_t* src, room_t* dest);
-
+fix_room_t* generate_room();
 
 #endif /* _SAMPLE_ROOM_H */

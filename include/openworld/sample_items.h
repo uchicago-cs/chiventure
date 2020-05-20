@@ -21,7 +21,11 @@ typedef struct attribute attribute_hash_t;
 
 typedef struct game_action game_action_hash_t;
 
-typedef enum item_tag { APPLE, BOOK, COW, DOOR } item_tag_t;
+typedef enum item_tag { APPLE, BOOK, COW, DOOR, EAGLE, FRUIT, GOLD, 
+						HAT, ICE, JUG, KETTLE, LADDER, MIRROR,
+						NAIL, OLIVE, PENCIL, QUILL, RABBIT,
+						SCISSORS, TRAY, UMBRELLA, VIDEO, WATERCOLORS,
+						XYLOPHONE, YAM, ZEBRA} item_tag_t;
 
 typedef struct item {
 	UT_hash_handle hh;
@@ -152,22 +156,6 @@ int add_attribute_to_hash(item_t* item, attribute_t* new_attribute);
 *  returns SUCCESS if given value is already the attribute value
 */
 int set_int_attr(item_t* item, char* attr_name, int value);
-
-/* set_exit_attr() sets the exit attribute validity for an item
-* Parameters:
-*  a pointer to the item
-* Returns:
-* "exit" attribute is 1 if item is DOOR, 0 otherwise
-*/
-int set_exit_attr(item_t* item);
-
-/* check_exit_attr() checks the exit attribute validity for an item
-* Parameters:
-*  a pointer to the item
-* Returns:
-* 1 if true, 0 if false
-*/
-int check_exit_attr(item_t* item);
 
 /* attribute_free() frees allocated space for an attribute struct in memory
 *  Parameters:
