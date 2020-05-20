@@ -128,7 +128,7 @@ void print_hash(hash_t **t)
  * Parameters:
  *  **t: double ptr to hash table
  * 
- * Returns: SUCCESS if hash freed complete
+ * Returns: SUCCESS if hash freed complete, FAILURE if **t == NULL
  */
 void free_hash(hash_t **t)
 {
@@ -201,7 +201,7 @@ int add_cmp(cmphash_t **h, namespace_t name, char *newid, int *o)
  * Parameters:
  *  **h: double ptr to cmphash_t table
  * 
- * Returns: SUCCESS if hash table deleted & items freed
+ * Returns: SUCCESS if hash table deleted & items freed, else FAILURE
  */
 int free_cmp(cmphash_t **h)
 {
