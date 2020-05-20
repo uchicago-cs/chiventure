@@ -26,8 +26,8 @@ int set_item_restriction(item_t* item, class_t* class) {
 	}
 }
 
-bool get_class_restricton(item_t* item, class_t* class) {
-        if (get_str_attr(item, class->name)) {
+bool get_class_restriction(item_t* item, class_t* class) {
+        if (get_bool_attr(item, class->name)) {
 		return true;
 	}
 	return false;
