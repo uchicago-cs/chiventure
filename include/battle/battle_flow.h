@@ -17,8 +17,6 @@ typedef struct chiventure_ctx_battle {
     bool battle_mode;
 } chiventure_ctx_battle_t;
 
-
-
 /* Stub to hold information about a combatant that isn't
  * yet readily available in the current chiventure
  */
@@ -56,7 +54,8 @@ typedef struct npc_enemy {
  * Returns:
  *  - SUCCESS if successful, FAILURE otherwise
  */
- int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, combatant_info_t *pinfo, environment_t env);
+ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies,
+                  combatant_info_t *pinfo, environment_t env);
 
 /*
  * Sets up the player's combatant_t struct for a new battle
@@ -93,6 +92,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies);
  *  - A pointer to new battle struct initialized for a new battle
  *
  */
-battle_t *set_battle(player_t *player, combatant_info_t *pinfo, npc_enemy_t *npc_enemies, environment_t env);
+battle_t *set_battle(player_t *player, combatant_info_t *pinfo,
+                      npc_enemy_t *npc_enemies, environment_t env);
 
 #endif
