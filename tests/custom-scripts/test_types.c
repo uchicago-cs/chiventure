@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 #include "custom-scripts/custom_types.h"
 
 /** Checks that the int_t struct contains the right data when passed
@@ -113,7 +114,7 @@ Test(custom_types, bool_t_get_bool)
 {
     bool_t bt = bool_t_new(true, NULL);
     bool rv = bool_t_get(bt);
-    cr_assert_eq(rv, false, "bool_t_get: failed bool direct retrieval");
+    cr_assert_eq((rv ? 1 : 0), 1, "bool_t_get: failed bool direct retrieval");
 }
 
 
@@ -123,8 +124,7 @@ Test(custom_types, bool_t_get_lua)
 {
     bool_t bt = bool_t_new(true, "bool_t_test.lua");
     bool rv = bool_t_get(bt);
-    //printf(rv ? "true" : "false");
-    cr_assert_eq(rv, false, "bool_t_get: failed bool Lua retrieval");
+    cr_assert_eq((rv ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
 }
 
 /** Checks that the string_t struct contains the right data when passed
@@ -185,8 +185,8 @@ Test(custom_types, string_t_get_lua)
 {
     string_t st = string_t_new("testing_failed", "string_t_test.lua");
     const char *rv = string_t_get(st);
-    printf ("result is %s\n", rv);
-    cr_assert_eq(rv, "testing_succeeded", "string_t_get: failed string Lua retrieval");
+    int result = strcmp(rv, "testing_succeeded");
+    cr_assert_eq(result, 0, "string_t_get: failed string Lua retrieval");
 }
 
 
