@@ -6,8 +6,7 @@
 //TODO-#include "dialogue.h"
 
 /* A non-playable character in game */
-typedef struct npc 
-{
+typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
     char *npc_id;
@@ -52,7 +51,7 @@ int npc_init(npc_t *npc, char *npc_id, int health);
  * Returns:
  *  pointer to allocated npc
  */
- npc_t *npc_new(char *npc_id, int health);
+ npc_t* npc_new(char *npc_id, int health);
 
 
 /*
@@ -124,7 +123,7 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  * Returns:
  *  linked list of pointers to items (the head element)
  */
-item_list_t *get_all_items_in_inv_npc(npc_t *npc);
+item_list_t* get_all_items_in_inv_npc(npc_t *npc);
 
 
 #endif
