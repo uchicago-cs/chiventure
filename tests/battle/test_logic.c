@@ -147,5 +147,24 @@ Test(logic, same_speed)
     combatant_free(e);
 }
 
+Test(logic, find_item)
+{
 
+}
 
+Test(logic, do_not_find_item)
+{
+
+}
+
+Test(logic, award_xp)
+{
+    double xp_gain = 15;
+    stats_t *pstats = calloc(sizeof(stats_t));
+    pstats->xp = 100;
+    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    int res = award_xp(p->stats, xp_gain);
+
+    cr_assert_eq(res, 0, "award_xp did not return 0!");
+    cr_assert_eq(p->stats->xp, 115, "award_xp did not award xp correctly!");
+}
