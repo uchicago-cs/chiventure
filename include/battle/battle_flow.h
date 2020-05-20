@@ -16,25 +16,24 @@ typedef struct combatant_info {
     stat_t *stats;
     move_t *moves;
     item_t *items;
-    class_t class;
 } combatant_info_t;
 
 /* Stub for enemy npc */
-typedef struct enemynpc {
+typedef struct npc_enemy {
     char *npc_id;
     stats_t *stats;
     move_t *moves;
     item_t *items;
-    class_t class;
-} enemynpc_t;
+} npc_enemy_t;
 
 /* Stub to simulate NPC enemy, that will then later be converted to
  * the combatant struct specific to battle flow
  */
 typedef struct _elist_t elist_t;
-struct _ilist_t
+struct _elist_t
 {
-    enemynpc_t *enemynpc;
+    npc_enemy_t *npc_enemy;
+    elist_t *prev;
     elist_t *next;
 };
 
@@ -47,14 +46,14 @@ struct _ilist_t
  *
  * Parameters:
  *  - ctx = the current chiventure context
- *  - enemynpcs = pointer to list of enemy/ies (stub for enemy NPCs)
+ *  - npc_enemies = pointer to list of enemy/ies (stub for enemy NPCs)
  *  - pinfo = pointer to player info (stats, moves, items stub)
  *  - env = environment for the battle
  *
  * Returns:
  *  - SUCCESS if successful, FAILURE otherwise
  */
- int start_battle(chiventure_ctx_t *ctx, elist_t *enemynpcs, combatant_info_t *pinfo, environment_t env);
+ int start_battle(chiventure_ctx_t *ctx, elist_t *npc_enemies, combatant_info_t *pinfo, environment_t env);
 
 /*
  * Sets up the player's combatant_t struct for a new battle
@@ -77,7 +76,7 @@ combatant_t *set_player(player_t *player, combatant_info_t *pinfo);
  * Returns:
  *  - pointer to list of enemy's/enemies' combatant_t struct
  */
-combatant_t *set_enemies(elist_t *enemynpcs);
+combatant_t *set_enemies(elist_t *npc_enemies);
 
 /*
  * Sets up battle struct for a new battle
@@ -91,4 +90,4 @@ combatant_t *set_enemies(elist_t *enemynpcs);
  *  - A pointer to new battle struct initialized for a new battle
  *
  */
-battle_t *set_battle(player_t *player, combatant_info_t *pinfo, elist_t *enemynpcs, environment_t env);
+battle_t *set_battle(player_t *player, combatant_info_t *pinfo, elist_t *npc_enemies, environment_t env);

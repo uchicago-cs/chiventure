@@ -15,24 +15,23 @@
 #include <string.h>
 
 /* see battle_flow.h */
-int start_battle(chiventure_ctx_t *ctx, elist_t *enemynpcs, combatant_info_t *pinfo, environment_t env)
+int start_battle(chiventure_ctx_t *ctx, elist_t *npc_enemies, combatant_info_t *pinfo, environment_t env)
 {
     game_t *g = ctx->game;
     player_t *player = g->curr_player;
 
     // Set player, enemies, and battle structs for a new battle
-    battle_t *b = set_battle(player,pinfo,enemynpcs,env);
+    battle_t *b = set_battle(player,pinfo,npc_enemies,env);
 
     return SUCCESS;
 }
 
 /* see battle_flow.h */
-combatant_t *set_player(player_t *player, combatant_info_t *pinfo)
+combatant_t *set_player(player_t *ctx_player, combatant_info_t *pinfo)
 {
     // Setting up arguments for combatant_new
-    char* name = player->player_id;
+    char* name = ctx_player->player_id;
     bool is_friendly = true;
-    class_t class = pinfo->class;
     stat_t *stats = pinfo->stats;
     move_t *moves = pinfo->moves;
     item_t *items = pinfo->items;
@@ -40,7 +39,7 @@ combatant_t *set_player(player_t *player, combatant_info_t *pinfo)
     combatant *next = NULL;
 
     // Allocating new combatant_t for the player in memory
-    combatant_t *comb_player = combatant_new(name,is_friendly,class,stats,
+    combatant_t *comb_player = combatant_new(name,is_friendly,stats,
                                              moves,items,prev,next);
 
     assert(comb_player != NULL);
@@ -49,40 +48,39 @@ combatant_t *set_player(player_t *player, combatant_info_t *pinfo)
 }
 
 /* see battle_flow.h */
-combatant_t *set_enemies(elist_t *enemynpcs)
+combatant_t *set_enemies(elist_t *npc_enemies)
 {
+    combatant_t *head = NULL;
     combatant_t *comb_enemy = NULL;
-    combatant_t *next_enemy = NULL;
 
-    while (enemynpcs) {
+    elist_t *enemy_elt, *enemy_tmp;
+    DL_FOREACH_SAFE(npc_enemies, enemy_elt, enemy_tmp)
+    {
+        DL_DELETE(npc_enemies, enemy_elt);
 
-        enemynpc_t *e = enemynpcs->enemynpc;
-        char* name = e->npc_id;
+        char* name = enemy_elt->npc_id;
         bool is_friendly = false;
-        class_t class = e->class;
-        stat_t *stats = e->stats;
-        move_t *moves = e->moves;
-        item_t *items = e->items;
+        stat_t *stats = enemy_elt->stats;
+        move_t *moves = enemy_elt->moves;
+        item_t *items = enemy_elt->items;
         combatant *next = NULL;
 
-        next_enemy = combatant_new(name,is_friendly,class,stats,moves,items
+        comb_enemy = combatant_new(name,is_friendly,stats,moves,items
                                     comb_enemy,next);
+
         assert(next_enemy != NULL);
 
-        comb_enemy->next = next_enemy;
-
-        comb_enemy = next_enemy;
-        enemynpcs = enemynpcs->next;
+        DL_APPEND(head,comb_enemy);
     }
 
-    return comb_enemy;
+    return head;
 };
 
 /* see battle_flow.h */
-battle_t *set_battle(player_t *player, combatant_info_t *pinfo, elist_t *enemynpcs, environment_t env)
+battle_t *set_battle(player_t *ctx_player, combatant_info_t *pinfo, elist_t *npc_enemies, environment_t env)
 {
-    combatant_t *comb_player  = set_player(player,pinfo);
-    combatant_t *comb_enemies = set_enemies(enemynpcs);
+    combatant_t *comb_player  = set_player(ctx_player,pinfo);
+    combatant_t *comb_enemies = set_enemies(npc_enemies);
 
     turn_t turn = PLAYER;
 
