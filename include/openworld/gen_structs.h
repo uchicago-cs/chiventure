@@ -83,7 +83,7 @@ typedef struct gencontext {
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to initialize
  */
-int init_gencontext(gencontext_t *context, room_t *roomOld, room_t *addRoom, int level);
+int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist);
 
 /* gencontext_new
  * Creates a new gencontext_t* based off the given parameters.
@@ -98,7 +98,7 @@ int init_gencontext(gencontext_t *context, room_t *roomOld, room_t *addRoom, int
  * gencontext_t *contextnew - the new gencontext
  * NULL - if fails to create a new gencontext.
  */
-gencontext_t* gencontext_new(room_t *roomOld, room_t *addRoom, int level);
+gencontext_t* gencontext_new(path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist);
 
 /* gencontext_free
  * Frees a gencontext_t* and returns whether or not it was successful
@@ -182,8 +182,8 @@ int init_speclist(speclist_t *list, roomspec_t *spec);
  * - spec: the pointer to the roomspec_t
  *
  * returns:
- * SUCCESS - for SUCCESS
- * FAILURE - if failed to initialize
+ * speclist_t *listnew = the new speclist
+ * NULL - if failed to create a speclist
  */
 speclist_t* speclist_new(roomspec_t *spec);
 

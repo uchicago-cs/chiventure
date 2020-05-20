@@ -1,4 +1,5 @@
 add_library(openworld
+            src/gen_structs.c
             src/autogenerate.c
             ../../../tests/openworld/test_autogenerate.c)
 
