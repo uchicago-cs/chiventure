@@ -90,14 +90,14 @@ Test(battle_flow, set_battle)
     cr_assert_str_eq(b->player->name, "set_battle_Name", "set_battle() didn't set name");
     cr_assert_eq(b->player->is_friendly, true, "set_battle() didn't set type");
     cr_assert_eq(b->player->next, NULL, "set_battle() didn't set next");
-    cr_assert_not_null(b->player->prev, "set_battle() didn't set prev");
+    cr_assert_eq(b->player->prev, NULL, "set_battle() didn't set prev");
 
     // Check enemy field
     cr_assert_not_null(b->enemy, "set_battle() failed");
     cr_assert_str_eq(b->enemy->name, "set_battle_Name", "set_battle() didn't set name");
     cr_assert_eq(b->enemy->is_friendly, false, "set_battle() didn't set type");
     cr_assert_eq(b->enemy->next, NULL,"set_battle() didn't set next");
-    cr_assert_eq(b->enemy->prev, NULL, "set_battle() didn't set prev");
+    cr_assert_not_null(b->enemy->prev, "set_battle() didn't set prev");
 
     // Check environment field
     cr_assert_eq(b->environment, ENV_DESERT, "set_battle() didn't set next");
