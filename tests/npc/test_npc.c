@@ -115,7 +115,7 @@ Test(npc, get_npc_inventory)
 
 Test(npc, add_item_to_npc)
 {
-	npc_t *player = npc_new("1", 100);
+	npc_t *npc = npc_new("1", 100);
     item_t *new_item = item_new("test_item", "item for npc testing",
     "item for testing add_item_to_npc");
     add_item_to_npc(npc, new_item);
