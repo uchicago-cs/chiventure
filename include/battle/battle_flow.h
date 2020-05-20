@@ -36,8 +36,8 @@ typedef struct npc_enemy {
     stat_t *stats;
     move_t *moves;
     b_item_t *items;
-    struct npc_enemy_t *prev;
-    struct npc_enemy_t *next;
+    struct npc_enemy *prev;
+    struct npc_enemy *next;
 } npc_enemy_t;
 
 /*
