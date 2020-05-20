@@ -91,7 +91,7 @@ Test(npc, get_npc_inventory)
 {
   npc_t *npc1, *npc2;
   item_t *new_item;
-  item_hash_t *inv1, inv2;
+  item_hash_t *inv1, *inv2;
 
   npc1 = npc_new("npc_1",20);
   npc2 = npc_new("npc_2", 21);
