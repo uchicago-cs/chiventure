@@ -54,7 +54,7 @@ typedef struct combatant {
 
 /* A battle struct that contains the following:
  * - player: a combatant pointer, storing the player
- * - enemies: a combatant pointer, storing the enemy/enemies
+ * - enemy: a combatant pointer, storing the enemy/enemies
  * - environment: stores battle environment
  * - turn: a turn_t enum storing the current turn
  */
