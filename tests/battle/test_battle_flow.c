@@ -73,10 +73,11 @@ Test(battle_flow, set_enemies)
 Test(battle_flow, set_battle)
 {
     player_t *ctx_player = player_new("set_battle_Name",100);
+    combatant_info_t *pinfo = make_comb_info(NULL,NULL,NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name",NULL,NULL,NULL);
     environment_t env = ENV_DESERT;
 
-    battle_t *b = set_battle(ctx_player,npc_enemies,env);
+    battle_t *b = set_battle(ctx_player,pinfo,npc_enemies,env);
 
     cr_assert_not_null(b, "set_battle() failed");
 
