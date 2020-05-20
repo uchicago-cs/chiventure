@@ -25,6 +25,7 @@ Test (npc, init)
 	npc_t *npc; 
 	int res;
 	
+	npc = npc_new("test", 30);
 	res = npc_init(npc, "npc_22", 20); 
 	
 	cr_assert_eq(res, SUCCESS, "npc_init() failed"); 
