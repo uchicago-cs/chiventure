@@ -115,10 +115,10 @@ Test(npc, add_to_and_get_inventory)
                  "return NULL for empty inventory hash");
     cr_assert_eq(hash2, npc2->inventory,
                  "get_npc_inventory() failed to return inventory hash");
-    cr_assert_eq(list1, npc1->inventory, "get_npc_inventory() failed to "
+    cr_assert_eq(list1, NULL, "get_npc_inventory() failed to "
                  "return NULL for empty inventory list");
-    cr_assert_eq(list2, npc2->inventory,
-                 "get_npc_inventory() failed to return inventory list");
+    cr_assert_not_null(list2, "get_npc_inventory() failed to "
+	                          "return inventory list");
 }
 
 /* Checks that add_item_to_npc adds item to the npc struct's inventory 
