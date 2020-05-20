@@ -13,7 +13,7 @@ Test (npc, new)
     npc = npc_new("npc_22", 20);
 
     cr_assert_not_null(npc, "npc_new() failed");
-	
+
     cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0, 
                  "npc_new didn't set npc_id"); 
     cr_assert_eq(npc->health, 20, "npc_new() didn't set health"); 
@@ -24,12 +24,12 @@ Test (npc, init)
 { 
     npc_t *npc; 
     int res;
-	
+
     npc = npc_new("test", 30);
     res = npc_init(npc, "npc_22", 20); 
-	
+
     cr_assert_eq(res, SUCCESS, "npc_init() failed"); 
-	
+
     cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
                  "npc_22", "npc_init didn't set npc_id"); 
     cr_assert_eq(npc->health, 20, "npc_init didn't set health"); 
@@ -42,9 +42,9 @@ Test (npc, free)
     int res; 
 
     npc = npc_new("npc_22", 20);
-		
+
     cr_assert_not_null(npc, "npc_new() failed"); 
-	
+
     res = npc_free(npc); 
 
     cr_assert_eq(res, SUCCESS, "npc_free() failed"); 
@@ -80,7 +80,7 @@ Test (npc, change_npc_health)
     cr_assert_not_null(npc, "npc_new() failed");
 
     cr_assert_eq(health1, 100,
-	             "change_npc_health() increased health past max");
+                 "change_npc_health() increased health past max");
     cr_assert_eq(health2, 80, 
                  "change_npc_health() did not properly reduce health");
     cr_assert_eq(health3, 83, 
