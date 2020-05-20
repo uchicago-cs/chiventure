@@ -115,18 +115,15 @@ Test(npc, get_npc_inventory)
 
 Test(npc, add_item_to_npc)
 {
-	npc_t *npc;
-	item_t *item;
+	npc_t *player = npc_new("1", 100);
+    item_t *new_item = item_new("test_item", "item for npc testing",
+    "item for testing add_item_to_npc");
+    add_item_to_npc(npc, new_item);
 
-	npc = npc_new("npc_22", 100);
-	item = item_new("test_item", "item for npc testing",
-  					"item for testing add_item_to_npc");
-	add_item_to_npc(npc, item);
-	
-	cr_assert_not_null(npc, "npc_new() failed");
-    cr_assert_not_null(item, "item_new() failed");
+    cr_assert_not_null(npc, "npc_new() failed");
+    cr_assert_not_null(new_item, "item_new() failed");
     cr_assert_not_null(npc->inventory,
-					   "add_item_to_player() failed to add item");
+  				       "add_item_to_npc() failed to add item");
 }
 /*void insert(npc_t* npc, item_t* itm) 
 {
