@@ -9,7 +9,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-
 /* Stub, similar to chiventure_ctx_t except adding in battle mode component */
 typedef struct chiventure_ctx_battle {
     ui_ctx_t *ui_ctx;
@@ -18,13 +17,15 @@ typedef struct chiventure_ctx_battle {
     bool battle_mode;
 } chiventure_ctx_battle_t;
 
+
+
 /* Stub to hold information about a combatant that isn't
  * yet readily available in the current chiventure
  */
 typedef struct combatant_info {
     stat_t *stats;
     move_t *moves;
-    item_t *items;
+    b_item_t *items;
 } combatant_info_t;
 
 /* Stub to simulate NPC enemy, that will then later be converted to
@@ -34,7 +35,7 @@ typedef struct npc_enemy {
     char *npc_id;
     stats_t *stats;
     move_t *moves;
-    item_t *items;
+    b_item_t *items;
     struct npc_enemy_t *prev;
     struct npc_enemy_t *next;
 } npc_enemy_t;

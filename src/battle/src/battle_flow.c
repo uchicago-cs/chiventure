@@ -34,7 +34,7 @@ combatant_t *set_player(player_t *ctx_player, combatant_info_t *pinfo)
     bool is_friendly = true;
     stat_t *stats = pinfo->stats;
     move_t *moves = pinfo->moves;
-    item_t *items = pinfo->items;
+    b_item_t *items = pinfo->items;
     combatant *prev = NULL; // Single player
     combatant *next = NULL;
 
@@ -62,7 +62,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         bool is_friendly = false;
         stat_t *stats = enemy_elt->stats;
         move_t *moves = enemy_elt->moves;
-        item_t *items = enemy_elt->items;
+        b_item_t *items = enemy_elt->items;
         combatant *next = NULL;
 
         comb_enemy = combatant_new(name,is_friendly,stats,moves,items

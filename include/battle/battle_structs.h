@@ -8,7 +8,7 @@
 #define MAX_NAME_LEN (50)
 
 /* items stub */
-typedef struct item {
+typedef struct b_item {
     int id;
     int quantity;
     int durability;
@@ -19,7 +19,7 @@ typedef struct item {
     int hp;
     struct item *next;
     struct item *prev;
-} item_t;
+} b_item_t;
 
 /* moves stub */
 typedef struct move {
@@ -45,7 +45,7 @@ typedef struct stat {
 typedef enum class {
     bard,
     cleric,
-    paladin, 
+    paladin,
     wizard
 } class_t;
 
@@ -53,4 +53,3 @@ typedef enum class {
 
 
 #endif
-

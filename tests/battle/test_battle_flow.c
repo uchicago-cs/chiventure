@@ -5,7 +5,7 @@
 #include "battle/battle_flow.h"
 
 /* Sets up pointer to combatant_info_t struct, contains stubs for stats, moves, items */
-combatant_info_t *make_comb_info(stat_t *stats, move_t *moves, item_t* items)
+combatant_info_t *make_comb_info(stat_t *stats, move_t *moves, b_item_t* items)
 {
     combatant_info_t *cinfo = calloc(1,sizeof(combatant_info_t));
 
@@ -15,7 +15,7 @@ combatant_info_t *make_comb_info(stat_t *stats, move_t *moves, item_t* items)
 }
 
 /* Sets up pointer to npc enemy struct, stub for an npc representing the enemy */
-npc_enemy_t *make_npc_enemy(char* npc_id, stats_t *stats, move_t *moves, item_t* items)
+npc_enemy_t *make_npc_enemy(char* npc_id, stats_t *stats, move_t *moves, b_item_t* items)
 {
     npc_enemy_t *npc_e = calloc(1,sizeof(npc_enemy_t));
 
@@ -32,7 +32,7 @@ Test(battle_flow, set_player)
     player_t *ctx_player = player_new("set_player_Name",100);
     combatant_info_t *pinfo = make_comb_info(NULL,NULL,NULL);
 
-    comb_player = set_player(ctx_player,combatant_info_t);
+    comb_player = set_player(ctx_player,pinfo);
 
     cr_assert_not_null(comb_player, "set_player() failed");
     cr_assert_str_eq(comb_player->name, "set_player_Name", "set_player() didn't set name");
@@ -96,7 +96,7 @@ Test(battle_flow, set_battle)
     cr_assert_eq(b->enemy->prev, NULL, "set_battle() didn't set prev");
 
     // Check environment field
-    cr_assert_eq(b->env, ENV_DESERT, "set_battle() didn't set next");
+    cr_assert_eq(b->environment, ENV_DESERT, "set_battle() didn't set next");
 
     // Check turn field
     cr_assert_eq(b->turn, PLAYER, "set_battle() didn't set prev");
