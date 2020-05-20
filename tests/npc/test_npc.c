@@ -117,7 +117,7 @@ Test(npc, add_to_and_get_inventory)
                  "get_npc_inventory() failed to return inventory hash");
     cr_assert_eq(list1, NULL, "get_npc_inventory() failed to "
                  "return NULL for empty inventory list");
-    cr_assert_not_null(list2, "get_npc_inventory() failed to "
+    cr_assert_eq(list2, NULL, "get_npc_inventory() failed to "
 	                          "return inventory list");
 }
 
