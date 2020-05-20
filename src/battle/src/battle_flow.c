@@ -25,12 +25,10 @@ combatant_t *set_player(player_t *ctx_player, combatant_info_t *pinfo)
     stat_t *stats = pinfo->stats;
     move_t *moves = pinfo->moves;
     b_item_t *items = pinfo->items;
-    combatant_t *prev = NULL; // Single player
-    combatant_t *next = NULL;
 
     // Allocating new combatant_t for the player in memory
     combatant_t *comb_player = combatant_new(name,is_friendly,stats,
-                                             moves,items,prev,next);
+                                             moves,items);
 
     assert(comb_player != NULL);
 
