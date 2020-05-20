@@ -25,13 +25,13 @@ Test (npc, init)
 	npc_t *npc; 
 	int res;
 	
-	res = npc_init(&npc, "npc_22", 20); 
+	res = npc_init(npc, "npc_22", 20); 
 	
-	cr_assert_eq(init, SUCCESS, "npc_init() failed"); 
+	cr_assert_eq(res, SUCCESS, "npc_init() failed"); 
 	
 	cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
 				 "npc_22", "npc_init didn't set npc_id"); 
-	cr_assert_eq(npc.health, 20, "npc_init didn't set health"); 
+	cr_assert_eq(npc->health, 20, "npc_init didn't set health"); 
 } 
 
 /* Checks that npc_free() frees the given npc struct from memory */
@@ -57,7 +57,7 @@ Test(npc, get_npc_health)
 
 	npc = npc_new("npc_22", 20);
 
-	int = get_npc_health(npc);
+	health = get_npc_health(npc);
 
 	cr_assert_not_null(npc, "npc_new() failed");
 
@@ -72,10 +72,9 @@ Test (npc, change_npc_health)
 	int health1, health2, health3;
 
 	npc = npc_new("npc_22", 99); 
-	
-	int health1 = change_npc_health(npc, 2, 100); 
-	int health2 = change_npc_health(npc, -20, 100);
-  	int health3 = change_npc_health(npc, 3, 83);
+	health1 = change_npc_health(npc, 2, 100); 
+	health2 = change_npc_health(npc, -20, 100);
+  	health3 = change_npc_health(npc, 3, 83);
 
   	cr_assert_not_null(npc, "npc_new() failed");
 
@@ -97,20 +96,20 @@ Test(npc, get_npc_inventory)
   npc1 = npc_new("npc_1",20);
   npc2 = npc_new("npc_2", 21);
   new_item = item_new("test_item", "item for npc testing",
-  "item for testing get_inventory()");
+  "item for testing get_npc_inventory()");
   add_item_to_npc(npc2, new_item);
 
-  inv1 = get_inventory(npc1);
-  inv2 = get_inventory(npc2);
+  inv1 = get_npc_inventory(npc1);
+  inv2 = get_npc_inventory(npc2);
 
   cr_assert_not_null(npc1, "npc_new() failed on npc1");
   cr_assert_not_null(npc2, "npc_new() failed on npc2");
   cr_assert_not_null(new_item, "item_new() failed");
 
   cr_assert_eq(inv1, npc1->inventory,
-      "get_inventory() failed to return NULL for empty inventory");
+      "get_npc_inventory() failed to return NULL for empty inventory");
   cr_assert_eq(inv2, npc2->inventory,
-      "get_inventory() failed to return inventory");
+      "get_npc_inventory() failed to return inventory");
 }
 
 
