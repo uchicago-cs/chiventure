@@ -41,10 +41,9 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
     combatant_t *head = NULL;
     combatant_t *comb_enemy;
 
-    npc_enemy_t *enemy_elt, *enemy_tmp;
-    DL_FOREACH_SAFE(npc_enemies, enemy_elt, enemy_tmp)
+    npc_enemy_t *enemy_elt;
+    DL_FOREACH(npc_enemies, enemy_elt)
     {
-
         char* name = enemy_elt->npc_id;
         bool is_friendly = false;
         stat_t *stats = enemy_elt->stats;
