@@ -30,6 +30,7 @@ The JSON object structures for the pre-defined files are listed below.
 - List entries have one example element each to demonstrate what the type of an element should be.
 
 - An `...` indicates that other attributes (key-value pairs) can be specified for this object. This can be done by either game authors or other teams when implementing new features; these attributes will be carried into the C struct representation when the JSON object is read in (see <a href=#interface>Function interface</a>). For game authors, they will also be visible for referencing and setting in custom action sequences. (See documentation for Custom Actions).
+- Other than those categorized under `...`, a field is mandatory.
 - ID fields have a scope within their respective files only; there is no need to worry about name collisions between objects of different types. You can have a room *and* and an item with the same name, for example.
 
 ### `player.json`
@@ -70,6 +71,12 @@ The top level is a JSON object with a single `rooms` key. Its value is a **list*
         "long_desc": "This is a room long",
         "items": ["my_item_id_1"],
         "action_on_entry": "my_action_id",
+        "actions": [
+            {"call": "TYPE_ME", "action": "action_id", "params": ""}
+        ],
+        "connections": [
+            {"direction": "my_direction", "to": "next_room_id"}
+        ]
         ...
     }
 ]
@@ -83,7 +90,18 @@ where
 - `long_desc`: the long description that displays when the player looks around the room.
 - `items`: a list of item IDs of the items that are in the room.
 - `action_on_entry`: the ID of the action to execute when the player enters the room. 
+- `actions`: a list of JSON objects, where each object is an individual action call available for the room:
+  - `call`: the "command" that the user types to invoke the associated action. The command should be written like `TYPE_ME my_room_id`.
+  - `action`: the ID of the action that gets invoked when the player calls the above command.
+- `connections`: a list of JSON objects, where each object is a room that the player can reach from this one:
+  - `direction`: the direction (`north`/`south`/`east`/`west`/`up`/`down`) that leads to the new room
+  - `to`: the ID of the room that this one connects to in this direction.
 - other attributes that can go here:  A `can_enter` attribute to determine if player can enter the room, etc.
+
+Note that with a `can_enter` attribute PLUS the functionality of global conditionals (see below), one can
+effectively create **room entry conditions** based on states of attributes of other objects, or the state of 
+the player inventory, or anything else able to be checked by a conditional predicate.
+
 
 ### `items.json`
 
@@ -161,15 +179,9 @@ Documentation WIP
 "globalconditions": [
     {
         "id": "my_condition_id",
-        "req_attributes": [
-            {"object_file": "object_file_here", "object_id": "object_id_here", 
-             "attribute_id": "attribute_id_here", "value": "value_here",}
-        ],
-        "met": "has_been_met?",
-        "actions": [
-            {"action_id": "action_id_here", "params": ""}
-        ]
-        ...
+        "condition": "my_condition_string",
+        "actions": ["action_when_condition_is_met"],
+        "trigger_once_only": false
     }
 ]
 }
@@ -178,15 +190,11 @@ Documentation WIP
 where
 
 - `id` : The condition ID.
-- `req_attributes`: The list of attribute values that must be matched for the condition to be met.
-    - `object_file`: The file containing the object and attribute- e.g. `items.json`
-    - `object_id`: The ID of the object containing the attribute to be checked- e.g. `lever`
-    - `attribute_id`: The ID of the attribute to be checked- e.g. `pulled`
-    - `value`: The value that the attribute must have for the condition to pass- e.g. `yes`
-- `met`: A flag to note if the condition has been met. Valid values are `yes` or `no`.
+- `condition`: The condition string to check globally. **Note** that this condition string has the **same syntax** as the condition strings passed as arguments to `if` blocks in the `actions.json` action block sequences.
 - `actions`: The list of actions to be carried out if the condition has been met- can be empty. 
     - `action_id`: The ID of the action.
     - `params`: The parameters to pass into the action (see Custom Actions documentation)
+- `trigger_once_only`: a boolean to decide whether this global condition should still be checked once it has been satisfied at least once. `false` means check all the time, regardless of how many times it has been satisfied; `true` means the condition will no longer get checked once the condition has been met once.
 
 ### `npcs.json`
 
