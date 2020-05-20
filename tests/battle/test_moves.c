@@ -33,3 +33,8 @@ Test(moves, init)
 
     cr_assert_eq(class.info, test_str, "init_class() didn't set info");
 }
+
+int main()
+{
+	;
+}
