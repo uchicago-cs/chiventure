@@ -1,4 +1,4 @@
-#include "game-state/npc.h"
+#include "npc.h"
 #include "common-item.h"
 
 /* See npc.h */
@@ -14,7 +14,7 @@ int npc_init(npc_t *npc, char *npc_id, int health) //TODO-convo_t *dialogue)
 }
 
 /* See npc.h */
-npc_t *npc_new(char *npc_id, int health)
+npc_t* npc_new(char *npc_id, int health)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -31,7 +31,6 @@ npc_t *npc_new(char *npc_id, int health)
     return npc;
 }
 
-
 /* See npc.h */
 int npc_free(npc_t *npc)
 {
@@ -45,13 +44,11 @@ int npc_free(npc_t *npc)
     return SUCCESS;
 }
 
-
 /* See npc.h */
 int get_npc_health(npc_t *npc)
 {
     return npc->health;
 }
-
 
 /* See npc.h */
 int change_npc_health(npc_t *npc, int change, int max)
@@ -71,13 +68,11 @@ int change_npc_health(npc_t *npc, int change, int max)
     return npc->health;
 }
     
-
 /* See npc.h */
 item_hash_t* get_npc_inventory(npc_t *npc)
 {
     return npc->inventory;
 }
-
 
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
@@ -95,9 +90,8 @@ int add_item_to_npc(npc_t *npc, item_t *item)
     return SUCCESS;
 }
 
-
 /* See npc.h */
-item_list_t *get_all_items_in_inv_npc(npc_t *npc)
+item_list_t* get_all_items_in_inv_npc(npc_t *npc)
 {
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item;
