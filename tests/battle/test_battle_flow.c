@@ -9,7 +9,9 @@ combatant_info_t *make_comb_info(stat_t *stats, move_t *moves, b_item_t* items)
 {
     combatant_info_t *cinfo = calloc(1,sizeof(combatant_info_t));
 
-    cinfo = {stats, moves, items};
+    cinfo->stats = stats;
+    cinfo->moves = moves;
+    cinfo->items = items;
 
     return cinfo;
 }
@@ -19,7 +21,12 @@ npc_enemy_t *make_npc_enemy(char* npc_id, stats_t *stats, move_t *moves, b_item_
 {
     npc_enemy_t *npc_e = calloc(1,sizeof(npc_enemy_t));
 
-    npc_e = {npc_id, stats, moves, items, NULL, NULL};
+    npc_e->npc_id = npc_id;
+    npc_e->stats = stats;
+    npc_e->moves = moves;
+    npc_e->items = items;
+    npc_e->prev = NULL;
+    npc_e->next = NULL;
 
     return npc_e;
 }
