@@ -9,6 +9,14 @@
 #include <string.h>
 
 
+/* Stub, similar to chiventure_ctx_t except adding in battle mode component */
+typedef struct chiventure_ctx_battle {
+    ui_ctx_t *ui_ctx;
+    game_t *game;
+    lookup_t **table;
+    bool battle_mode;
+} chiventure_ctx_battle_t;
+
 /* Stub to hold information about a combatant that isn't
  * yet readily available in the current chiventure
  */
@@ -18,24 +26,17 @@ typedef struct combatant_info {
     item_t *items;
 } combatant_info_t;
 
-/* Stub for enemy npc */
+/* Stub to simulate NPC enemy, that will then later be converted to
+ * the combatant struct specific to battle flow
+ */
 typedef struct npc_enemy {
     char *npc_id;
     stats_t *stats;
     move_t *moves;
     item_t *items;
+    struct npc_enemy_t *prev;
+    struct npc_enemy_t *next;
 } npc_enemy_t;
-
-/* Stub to simulate NPC enemy, that will then later be converted to
- * the combatant struct specific to battle flow
- */
-typedef struct _elist_t elist_t;
-struct _elist_t
-{
-    npc_enemy_t *npc_enemy;
-    elist_t *prev;
-    elist_t *next;
-};
 
 /*
  * Starts the battle, sets up structs, then runs a battle loop until finished
@@ -53,7 +54,7 @@ struct _elist_t
  * Returns:
  *  - SUCCESS if successful, FAILURE otherwise
  */
- int start_battle(chiventure_ctx_t *ctx, elist_t *npc_enemies, combatant_info_t *pinfo, environment_t env);
+ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, combatant_info_t *pinfo, environment_t env);
 
 /*
  * Sets up the player's combatant_t struct for a new battle
@@ -76,7 +77,7 @@ combatant_t *set_player(player_t *player, combatant_info_t *pinfo);
  * Returns:
  *  - pointer to list of enemy's/enemies' combatant_t struct
  */
-combatant_t *set_enemies(elist_t *npc_enemies);
+combatant_t *set_enemies(npc_enemy_t *npc_enemies);
 
 /*
  * Sets up battle struct for a new battle
@@ -90,4 +91,4 @@ combatant_t *set_enemies(elist_t *npc_enemies);
  *  - A pointer to new battle struct initialized for a new battle
  *
  */
-battle_t *set_battle(player_t *player, combatant_info_t *pinfo, elist_t *npc_enemies, environment_t env);
+battle_t *set_battle(player_t *player, combatant_info_t *pinfo, npc_enemy_t *npc_enemies, environment_t env);

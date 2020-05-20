@@ -15,7 +15,7 @@
 #include <string.h>
 
 /* see battle_flow.h */
-int start_battle(chiventure_ctx_t *ctx, elist_t *npc_enemies, combatant_info_t *pinfo, environment_t env)
+int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, combatant_info_t *pinfo, environment_t env)
 {
     game_t *g = ctx->game;
     player_t *player = g->curr_player;
@@ -48,12 +48,12 @@ combatant_t *set_player(player_t *ctx_player, combatant_info_t *pinfo)
 }
 
 /* see battle_flow.h */
-combatant_t *set_enemies(elist_t *npc_enemies)
+combatant_t *set_enemies(npc_enemy_t *npc_enemies)
 {
     combatant_t *head = NULL;
     combatant_t *comb_enemy = NULL;
 
-    elist_t *enemy_elt, *enemy_tmp;
+    npc_enemy_t *enemy_elt, *enemy_tmp;
     DL_FOREACH_SAFE(npc_enemies, enemy_elt, enemy_tmp)
     {
         DL_DELETE(npc_enemies, enemy_elt);
@@ -77,7 +77,7 @@ combatant_t *set_enemies(elist_t *npc_enemies)
 };
 
 /* see battle_flow.h */
-battle_t *set_battle(player_t *ctx_player, combatant_info_t *pinfo, elist_t *npc_enemies, environment_t env)
+battle_t *set_battle(player_t *ctx_player, combatant_info_t *pinfo, npc_enemy_t *npc_enemies, environment_t env)
 {
     combatant_t *comb_player  = set_player(ctx_player,pinfo);
     combatant_t *comb_enemies = set_enemies(npc_enemies);
