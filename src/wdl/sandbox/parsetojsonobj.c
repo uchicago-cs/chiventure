@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #include "parsetojsonobj.h"
-#include <zlib.h>
+
 
 
 
@@ -12,7 +12,8 @@ int main() {
 
     //FILE *fp;
     //char buffer[4096];
-    ZZIP_DIR* dir = zzip_dir_open("game1.wdz",0);
+    int* p;
+    zip_t* dir = zip_open("game1.wdz", 0, p);
     printf(dir);
     /* 
     struct json_object *game_document;
