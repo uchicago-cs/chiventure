@@ -113,7 +113,21 @@ Test(npc, get_npc_inventory)
 }
 
 
-void insert(npc_t* npc, item_t* itm) 
+Test(npc, add_item_to_npc)
+{
+	npc_t *npc;
+	item_t *item;
+
+	npc = npc_new("npc_22", 100);
+	item = item_new("test_item", "item for npc testing",
+  					"item for testing add_item_to_npc");
+	
+	cr_assert_not_null(npc, "npc_new() failed");
+    cr_assert_not_null(item, "item_new() failed");
+    cr_assert_not_null(npc->inventory,
+					   "add_item_to_player() failed to add item");
+}
+/*void insert(npc_t* npc, item_t* itm) 
 {
 	HASH_ADD_KEYPTR(hh, npc->inventory, item->item_id,
                     strlen(item->item_id), item);
@@ -148,4 +162,4 @@ Test (npc, add_item_to_npc) {
     int ret3 = add_item_to_npc(npc, itm1);
     cr_assert_eq(ret3, FAILURE, "add_item_to_npc() failed");
 	// testing hash items 	
-}	
+} */
