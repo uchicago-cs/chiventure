@@ -66,7 +66,7 @@ Test(npc, get_npc_health)
 }
 
 /* Checks that an npc's health is changed by change_npc_health()
-both positively and negatively with a set maximum */
+   both positively and negatively with a set maximum */
 Test (npc, change_npc_health) 
 { 
 	npc_t *npc; 
@@ -88,11 +88,12 @@ Test (npc, change_npc_health)
 }
 
 /* Checks that get_inventory() returns the npc's inventory */
-Test(npc, get_npc_inventory)
+Test(npc, add_to_and_get_inventory)
 {
 	npc_t *npc1, *npc2;
     item_t *new_item;
-    item_hash_t *inv1, *inv2;
+    item_hash_t *hash1, *hash2;
+	item_list_t *list1, *list2;
 
     npc1 = npc_new("npc_1",20);
     npc2 = npc_new("npc_2", 21);
@@ -100,20 +101,28 @@ Test(npc, get_npc_inventory)
     					"item for testing get_npc_inventory()");
     add_item_to_npc(npc2, new_item);
 
-    inv1 = get_npc_inventory(npc1);
-    inv2 = get_npc_inventory(npc2);
+    hash1 = get_npc_inv_hash(npc1);
+    hash2 = get_npc_inv_hash(npc2);
+
+	list1 = get_npc_inv_list(npc1);
+	list2 = get_npc_inv_list(npc2);
 
     cr_assert_not_null(npc1, "npc_new() failed on npc1");
     cr_assert_not_null(npc2, "npc_new() failed on npc2");
     cr_assert_not_null(new_item, "item_new() failed");
 
-    cr_assert_eq(inv1, npc1->inventory, "get_npc_inventory() failed to "
-				 "return NULL for empty inventory");
-    cr_assert_eq(inv2, npc2->inventory,
-      			 "get_npc_inventory() failed to return inventory");
+    cr_assert_eq(hash1, npc1->inventory, "get_npc_inventory() failed to "
+				 "return NULL for empty inventory hash");
+    cr_assert_eq(hash2, npc2->inventory,
+      			 "get_npc_inventory() failed to return inventory hash");
+	cr_assert_eq(hash1, npc1->inventory, "get_npc_inventory() failed to "
+				 "return NULL for empty inventory list");
+    cr_assert_eq(hash2, npc2->inventory,
+      			 "get_npc_inventory() failed to return inventory list");
 }
 
-/* Checks that add_item_to_npc adds item to the npc struct's inventory */
+/* Checks that add_item_to_npc adds item to the npc struct's inventory 
+   by not returning NULL */
 Test(npc, add_item_to_npc)
 {
 	npc_t *npc = npc_new("1", 100);
