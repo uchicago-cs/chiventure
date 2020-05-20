@@ -56,6 +56,7 @@ wdl_action_block_t *wdl_action_block_new(char *block_name, char *block_parameter
 }
 
 
+/* See wdl_action_block_sequence.h for documentation */
 int wdl_action_sequence_free(wdl_action_sequence_t *action_seq)
 {
     if (action_seq == NULL)

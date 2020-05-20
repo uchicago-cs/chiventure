@@ -36,7 +36,7 @@ typedef struct wdl_action_sequence {
     // args: A string of space-separated action sequence arguments
     char *args;
     
-    // head_block: A pointer to the first action block in the sequence.
+    // head: A pointer to the first action block in the sequence.
     wdl_action_block_t *head;
 
 } wdl_action_sequence_t;
@@ -57,7 +57,7 @@ typedef struct wdl_action_block {
      */
     char *block_parameters;
 
-    // next_block: A pointer to the next action block, for use with utlist.
+    // next: A pointer to the next action block, for use with utlist.
     struct wdl_raw_action_block *next;
 
 } wdl_action_block_t;
