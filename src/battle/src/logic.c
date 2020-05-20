@@ -1,4 +1,5 @@
 #include "battle/logic.h"
+#include "common/utlist.h"
 
 /* check logic.h 
 int check_target(enemy_t *e) 
@@ -78,35 +79,33 @@ int goes_first(double p_speed, double e_speed)
  * 		ID - the ID number of the desired item
  * 	Outputs:
  * 		temp->item - pointer to the desired item */
-item_t *find_item(ilist_t *inventory, int ID)
+item_t *find_item(item_t *inventory, int ID)
 {
-    ilist_t *temp = inventory;
-    for (temp = inventory; temp != NULL; temp = temp->next)
+    item_t *temp;
+
+    DL_FOREACH(inventory, temp)
     {
-        if (temp->item->id == ID)
+        if (temp->id == ID)
         {
-            return temp->item;
-        }
-        else if ((temp->next == NULL) &&
-                 (temp->item->id != ID))
-        {
-            printf("\nError! You don't have any in inventory!");
-            return NULL;
+            return temp;
         }
     }
+
     return NULL;
 }
 
 /* see logic.h */
 item_t* enemy_use_item(enemy_t *e, int ID)
 {
-    if (e->inv == NULL)
+    if (e->inventory == NULL)
     {
         fprintf(stderr, "Noooo! Your inventory is empty!");
         return NULL;
     }
-    item_t *desired_item = malloc(sizeof(item_t));
-    desired_item = find_item(e->inv, ID);
+
+    item_t *desired_item = calloc(1, sizeof(item_t));
+    desired_item = find_item(e->inventory, ID);
+
     if (desired_item->quantity == 0)
     {
         fprintf(stderr, "ARGH!! You don't have any!");
