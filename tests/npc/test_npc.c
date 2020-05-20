@@ -107,18 +107,34 @@ Test(npc, add_to_and_get_inventory)
     list1 = get_npc_inv_list(npc1);
     list2 = get_npc_inv_list(npc2);
 
+    // Assert everything was made and malloced
     cr_assert_not_null(npc1, "npc_new() failed on npc1");
     cr_assert_not_null(npc2, "npc_new() failed on npc2");
     cr_assert_not_null(new_item, "item_new() failed");
 
-    cr_assert_eq(hash1, npc1->inventory, "get_npc_inventory() failed to "
-                 "return NULL for empty inventory hash");
+    // Check that inventory with added item is not NULL
+    cr_assert_not_null(npc2->inventory,
+                       "add_item_to_npc() failed to add item");
+
+    // Check inventory hashes
+    cr_assert_eq(hash1, npc1->inventory, "get_npc_inv_hash() failed to "
+                 "return NULL for empty inventory");
     cr_assert_eq(hash2, npc2->inventory,
-                 "get_npc_inventory() failed to return inventory hash");
-    cr_assert_eq(list1, NULL, "get_npc_inventory() failed to "
-                 "return NULL for empty inventory list");
+                 "get_npc_inv_hash() failed to return inventory");
+
+    // Check inventory lists
+    cr_assert_eq(list1, NULL, "get_npc_inv_list() failed to "
+                 "return NULL for empty inventory");
     cr_assert_not_null(list2, "get_npc_inventory() failed to "
-	                   "return inventory list");
+                       "return inventory list");
+
+    // Check that added item has correct fields
+    cr_assert_eq(strcmp(new_item->item_id, list2->item->item_id), 0,
+                 "add_item_to_npc() failed to add item (id is wrong)");
+    cr_assert_eq(strcmp(new_item->short_desc, list2->item->short_desc), 0,
+                 "add_item_to_npc() failed to add item (short desc is wrong)");
+    cr_assert_eq(strcmp(new_item->long_desc, list2->item->long_desc), 0,
+                 "add_item_to_npc() failed to add item (long desc is wrong)");
 }
 
 /* Checks that add_item_to_npc adds item to the npc struct's inventory 
