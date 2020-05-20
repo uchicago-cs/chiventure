@@ -26,7 +26,7 @@ typedef enum namespace {
     object, 
     npc, 
     dialogue 
-    } namespace_t;
+} namespace_t;
 
 /*
  * hash struct
