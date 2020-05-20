@@ -17,13 +17,13 @@ typedef struct b_item {
     int attack;
     int defense;
     int hp;
-    struct item *next;
-    struct item *prev;
+    struct b_item *next;
+    struct b_item *prev;
 } b_item_t;
 
 /* moves stub */
 typedef struct move {
-    item_t *item;
+    b_item_t *item;
     bool attack;
     int damage;
     int defense;
