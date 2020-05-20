@@ -118,7 +118,7 @@ Test(npc, add_to_and_get_inventory)
     cr_assert_eq(list1, NULL, "get_npc_inventory() failed to "
                  "return NULL for empty inventory list");
     cr_assert_not_null(list2, "get_npc_inventory() failed to "
-	                          "return inventory list");
+	                   "return inventory list");
 }
 
 /* Checks that add_item_to_npc adds item to the npc struct's inventory 
