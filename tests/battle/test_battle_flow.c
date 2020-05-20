@@ -17,7 +17,7 @@ combatant_info_t *make_comb_info(stat_t *stats, move_t *moves, b_item_t* items)
 }
 
 /* Sets up pointer to npc enemy struct, stub for an npc representing the enemy */
-npc_enemy_t *make_npc_enemy(char* npc_id, stats_t *stats, move_t *moves, b_item_t* items)
+npc_enemy_t *make_npc_enemy(char* npc_id, stat_t *stats, move_t *moves, b_item_t* items)
 {
     npc_enemy_t *npc_e = calloc(1,sizeof(npc_enemy_t));
 
