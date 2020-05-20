@@ -65,13 +65,14 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
 battle_t *set_battle(player_t *ctx_player, combatant_info_t *pinfo, npc_enemy_t *npc_enemies, environment_t env)
 {
     combatant_t *comb_player  = set_player(ctx_player,pinfo);
+    printf("1\n\n");
     combatant_t *comb_enemies = set_enemies(npc_enemies);
-
+    printf("2\n\n");
     turn_t turn = PLAYER;
-
+    printf("3\n\n");
     battle_t *b = battle_new(comb_player,comb_enemies,env,turn);
-
+    printf("4\n\n");
     assert(b != NULL);
-
+    printf("5\n\n");
     return b;
 };

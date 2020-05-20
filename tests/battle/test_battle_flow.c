@@ -83,11 +83,8 @@ Test(battle_flow, set_battle)
     combatant_info_t *pinfo = make_comb_info(NULL,NULL,NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name",NULL,NULL,NULL);
     environment_t env = ENV_DESERT;
-    printf("1 \n\n");
     battle_t *b = set_battle(ctx_player,pinfo,npc_enemy,env);
-    printf("2 \n\n");
     cr_assert_not_null(b, "set_battle() failed");
-    printf("3 \n\n");
     // Check player field
     cr_assert_not_null(b->player, "set_battle() failed");
     cr_assert_str_eq(b->player->name, "set_battle_Name", "set_battle() didn't set name");
