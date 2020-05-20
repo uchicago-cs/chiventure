@@ -1,4 +1,4 @@
-#include "npc.h"
+#include "game-state/npc.h"
 #include "common-item.h"
 
 /* See npc.h */
