@@ -66,12 +66,6 @@ int change_npc_health(npc_t *npc, int change, int max)
     }
     return npc->health;
 }
-    
-/* See npc.h */
-item_hash_t* get_npc_inventory(npc_t *npc)
-{
-    return npc->inventory;
-}
 
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
@@ -90,7 +84,13 @@ int add_item_to_npc(npc_t *npc, item_t *item)
 }
 
 /* See npc.h */
-item_list_t* get_all_items_in_inv_npc(npc_t *npc)
+item_hash_t* get_npc_inv_hash(npc_t *npc)
+{
+    return npc->inventory;
+}
+
+/* See npc.h */
+item_list_t* get_npc_inv_list(npc_t *npc)
 {
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item;
