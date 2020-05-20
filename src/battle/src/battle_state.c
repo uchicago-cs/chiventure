@@ -6,7 +6,7 @@
 
 
 /* See battle_state.h */
-combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
+combatant_t *combatant_new(char *name, bool is_friendly, stats_t *stats,
     move_t *moves, item_t *items)
 {
     combatant_t *c;
@@ -30,12 +30,12 @@ combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
 }
 
 /* See battle_state.h */
-int combatant_init(combatant_t *c, char *name, bool is_friendly, stat_t *stats,
+int combatant_init(combatant_t *c, char *name, bool is_friendly, stats_t *stats,
     move_t *moves, item_t *items)
 {
     assert(c != NULL);
 
-    c->name = calloc(MAX_NAME_LEN, sizeof(char));
+    c->name = calloc(MAX_NAME_LEN + 1, sizeof(char));
     strncpy(c->name, name, MAX_NAME_LEN);
     c->is_friendly= is_friendly;
     c->stats = stats;
@@ -63,9 +63,9 @@ int combatant_free(combatant_t *c)
     }
 
     item_t *item_elt, *item_tmp;
-    DL_FOREACH_SAFE(c->moves, item_elt, item_tmp)
+    DL_FOREACH_SAFE(c->items, item_elt, item_tmp)
     {
-        DL_DELETE(c->moves, item_elt);
+        DL_DELETE(c->items, item_elt);
         free(item_elt);
     }
 
