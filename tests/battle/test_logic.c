@@ -166,4 +166,3 @@ Test(logic, award_xp)
     cr_assert_eq(res, 0, "award_xp did not return 0!");
     cr_assert_eq(p->stats->xp, 115, "award_xp did not award xp correctly!");
 }
-© 2020 GitHub, Inc.
