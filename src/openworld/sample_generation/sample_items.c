@@ -37,7 +37,7 @@ int fix_item_init(fix_item_t *new_item, fix_item_tag_t item_tag)
 		new_item->item->long_desc = "A woooden door with a worn doorknob";
 		break;
 	case EAGLE:
-		new_item->item->item_tag = EAGLE;
+		new_item->item_tag = EAGLE;
 		new_item->item->item_id = "eagle";
 		new_item->item->short_desc = "a bald eagle";
 		new_item->item->long_desc = "A bald eagle calmly perched on a ledge nearby";
@@ -146,9 +146,9 @@ int fix_item_init(fix_item_t *new_item, fix_item_tag_t item_tag)
 		break;
 	case WATERCOLORS:
 		new_item->item_tag = WATERCOLORS;
-		new_item->item_id = "watercolors";
-		new_item->short_desc = "a set of watercolors with brush";
-		new_item->long_desc = "A set of used watercolors and dusty brush";
+		new_item->item->item_id = "watercolors";
+		new_item->item->short_desc = "a set of watercolors with brush";
+		new_item->item->long_desc = "A set of used watercolors and dusty brush";
 		break;
 	case XYLOPHONE:
 		new_item->item_tag = XYLOPHONE;
