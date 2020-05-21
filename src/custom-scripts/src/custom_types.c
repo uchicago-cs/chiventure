@@ -25,19 +25,18 @@ int int_t_get(int_t it) {
     if (it.isInt) {
         return it.p.i;
     } else {
-        // char *lua_path = it.p->luaDirectory;
-        // lua_State *L = luaL_newstate();
-        // luaL_openlibs(L);
-        // luaL_dofile(L, lua_path + ".lua");
-        // lua_settop(L, 0);
-        // lua_getglobal(L, lua_path);
-        // lua_call(L, 0, 1);
-        // int result = (int)lua_tointeger(L, -1);
-        // lua_pop(L, 1);
-        // return result;
+        char *lua_path = it.p.luaDirectory;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path);
+        lua_settop(L, 0);
+        lua_getglobal(L, "foo");
+        lua_call(L, 0, 1);
+        //lua_pcall(L, 0, 1, 0);
+        int result = (int)lua_tointeger(L, -1);
+        lua_pop(L, 1);
+        return result;
     }
-    // temporary
-    return it.p.i;
 }
 
 // see custom_types.h
@@ -63,23 +62,21 @@ bool bool_t_get(bool_t bt) {
     if (bt.isBool) {
         return bt.p.b;
     } else {
-        // char *lua_path = bt.p->luaDirectory;
-        // lua_State *L = luaL_newstate();
-        // luaL_openlibs(L);
-        // luaL_dofile(L, lua_path + ".lua");
-        // lua_settop(L, 0);
-        // lua_getglobal(L, lua_path);
-        // lua_call(L, 0, 1);
-        // int result = (int)lua_toboolean(L, -1);
-        // lua_pop(L, 1);
-        // if (result) 
-        //     return true;
-        // else 
-        //     return false;
+        char *lua_path = bt.p.luaDirectory;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path);
+        lua_settop(L, 0);
+        lua_getglobal(L, "foo");
+        lua_call(L, 0, 1);
+        //lua_pcall(L, 0, 1, 0);
+        int result = (int)lua_toboolean(L, -1);
+        lua_pop(L, 1);
+        if (result)
+            return true;
+        else
+            return false;
     }
-    // temporary
-    return bt.p.b;
-    
 }
 
 // see custom_types.h
@@ -101,20 +98,22 @@ string_t string_t_init(string_t st, char *s, char *luaDirectory) {
 }
 
 // see custom_types.h
-char* string_t_get(string_t st) {
+const char* string_t_get(string_t st) {
     if (st.isString) {
         return st.p.s;
     } else {
-        // char *lua_path = st.p->luaDirectory;
-        // lua_State *L = luaL_newstate();
-        // luaL_openlibs(L);
-        // luaL_dofile(L, lua_path + ".lua");
-        // lua_settop(L, 0);
-        // lua_getglobal(L, lua_path);
-        // lua_call(L, 0, 1);
-        // char *result = lua_tostring(L, -1);
-        // lua_pop(L, 1);
-        // return result;
+        char *lua_path = st.p.luaDirectory;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path);
+        lua_settop(L, 0);
+        lua_getglobal(L, "foo");
+        lua_call(L, 0, 1);
+        //lua_pcall(L, 0, 1, 0);
+        const char *result = lua_tostring(L, -1);
+        //printf ("Lua string is %s\n", result);
+        lua_pop(L, 1);
+        return result;
     }
     // temporary
     return st.p.s;

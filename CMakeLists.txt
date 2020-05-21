@@ -12,6 +12,8 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
+find_package(Lua 5.3 REQUIRED) 
+
 set(CHIVENTURE_MODULES action_management checkpointing cli common custom-scripts game-state libobj ui wdl)
 
 include_directories(include/)
