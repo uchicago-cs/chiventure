@@ -12,10 +12,12 @@ An overview of the directory structure:
 
 Note that the names and file extensions, e.g.`bg_room_A.png`  or `snd_lose.wav` are placeholders for now. The asset file formats to be used will depend on the implementations of the graphics and audio teams down the line.
 
-The top level contains two subdirectories:
+The game folder contains two subdirectories:
 
 - `assets` contains subdirectories which contain multimedia assets for the game.
 - `game` contains JSON objects that define objects of various types in the game.
+
+Note that the game folder is then wrapped in the zip archive. (in other words, the top level of the zip archive itself is not `assets/` and `game/`, but is `myGame/`, as shown in the diagram.)
 
 ### The `game` subdirectory
 
