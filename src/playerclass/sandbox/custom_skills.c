@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <stdbool.h>
 #include "common/utlist.h"
+#include "common/common.h"
 
 // enum for supported commands
 typedef enum {IF, ELSE, ENDIF, ADD, SUB} custom_command;
@@ -53,17 +54,26 @@ typedef struct {
     int mdef; // magic defense
     int matk; // magic attack
     int energy;
-} stats_stub;
+} stats_t;
 
 
 /* 
  * creates and initializes a new custom action
+ * 
+ * Parameters
+ *  - comm. the action command
+ *  - p1, p2. the parameters of the command (use NO_PARAM if there are none)
+ *  - p1_type, p2_type. the types of the parameters, either stats or integers
+ *
+ * Returns
+ *  - a pointer to a custom action struct
  */
 custom_action_t* action_new(custom_command comm, custom_param_t p1,
     custom_param_t p2, param_type p1_type, param_type p2_type) {
 
-    custom_action_t *act = malloc(sizeof(custom_action_t));
+    custom_action_t *act = calloc(1, sizeof(custom_action_t));
     assert(act != NULL);
+
     act->comm = comm;
     act->param1 = p1;
     act->p1_type = p1_type;
@@ -76,11 +86,20 @@ custom_action_t* action_new(custom_command comm, custom_param_t p1,
 
 /*
  * creates and initializes a new custom action block
+ * 
+ * Parameters
+ *  - act. the custom action to be added
+ *  - next. a pointer to the next action block in the sequence
+ *
+ * Returns
+ *  - a pointer to a custom block struct
  */
 custom_block_t* block_new(custom_action_t* act, custom_block_t* next) {
     assert(act != NULL);
-    custom_block_t *b = malloc(sizeof(custom_block_t));
+
+    custom_block_t *b = calloc(1, sizeof(custom_block_t));
     assert(b != NULL);
+
     b->action = act;
     b->next = next;
     return b;
@@ -89,12 +108,19 @@ custom_block_t* block_new(custom_action_t* act, custom_block_t* next) {
 
 /*
  * creates and initializes a stats struct
+ *
+ * Parameters
+ *  - hp, xp, sp, pdef, patk, ratk, mdef, matk, energy. The values of each stat
+ *
+ * Returns
+ *  - a pointer to a stats struct
  */
-stats_stub *stats_new(int hp, int xp, int sp, int pdef, int patk, int ratk,
+stats_t *stats_new(int hp, int xp, int sp, int pdef, int patk, int ratk,
     int mdef, int matk, int energy) {
 
-    stats_stub *st = malloc(sizeof(stats_stub));
+    stats_t *st = calloc(1, sizeof(stats_t));
     assert(st != NULL);
+
     st->health = hp;
     st->xp = xp;
     st->speed = sp;
@@ -111,8 +137,17 @@ stats_stub *stats_new(int hp, int xp, int sp, int pdef, int patk, int ratk,
 /* 
  * compares a stat with an integer constant
  * the only comparison supported is equality (==)
+ *
+ * Parameters
+ *  - stats. the stats struct to draw from for the comparison
+ *  - sp. specifies the stat that should be compared to
+ *  - to_compare. the value to comapre the stat with
+ *
+ * Returns
+ *  - true if the specified stat equals the given integer
+ *  - false if it does not or if the sp has value NO_PARAM
  */
-bool compare_stat(stats_stub* stats, stat_param sp, int to_compare) {
+bool compare_stat(stats_t* stats, stat_param sp, int to_compare) {
     assert(sp != NO_PARAM);
     assert(stats != NULL);
 
@@ -153,11 +188,17 @@ bool compare_stat(stats_stub* stats, stat_param sp, int to_compare) {
 
 
 /*
- * adds an integer to a specified stat in the stats struct
+ * adds an amount to a specified stat in the stats struct
  *
- * returns 0 on success, 1 on failure
+ * Parameters
+ *  - stats. the stat set we want to add to
+ *  - sp. specifies the stat we want to add to
+ *  - to_add. integer value to be added to a stat.
+ *
+ * Returns
+ *  - SUCCESS on success, FAILURE if sp has value NO_PARAM
  */
-int add_to_stat(stats_stub* stats, stat_param sp, int to_add) {
+int add_to_stat(stats_t* stats, stat_param sp, int to_add) {
     assert(stats != NULL);
     assert(sp != NO_PARAM);
 
@@ -190,9 +231,9 @@ int add_to_stat(stats_stub* stats, stat_param sp, int to_add) {
             stats->energy += to_add;
             break;
         default:
-            return 1;
+            return FAILURE;
     }
-    return 0;
+    return SUCCESS;
 }
 
 
@@ -201,18 +242,23 @@ int add_to_stat(stats_stub* stats, stat_param sp, int to_add) {
  * assumes the block is well-formed and valid
  * assumes that all actions in the block with parameters have a stat
  *      followed by an integer constant
- * 
- * returns 0 if all ADD and SUB actions in the block control flow were executed successfully
- * returns 1 if at least one such action failed
+ *
+ * Parameters
+ *  - stats. the stat set of the character doing the skill
+ *  - block. the list of actions that make up the skill
+ *
+ * Returns 
+ *  - SUCCESS if all ADD and SUB actions in the block control flow were executed successfully
+ *  - FAILURE if at least one such action failed
  */
-int execute(stats_stub* stats, custom_block_t* block) {
+int execute(stats_t* stats, custom_block_t* block) {
     assert(stats != NULL);
     assert(block != NULL);
 
     custom_block_t* curr;
     custom_action_t* curr_act;
     bool if_result = false;
-    int rc, status = 0;
+    int rc, status = SUCCESS;
 
     for (curr = block; curr != NULL; curr = curr->next) {
         curr_act = curr->action;
@@ -229,7 +275,7 @@ int execute(stats_stub* stats, custom_block_t* block) {
             rc = add_to_stat(stats, curr_act->param1.st,
                 - curr_act->param2.constant);
             if (rc)
-                status = 1;
+                status = FAILURE;
 
         } else if (curr_act->comm == IF) {
             /* evaluates an if action and, if false, skips to ELSE or ENDIF */
@@ -262,7 +308,11 @@ int execute(stats_stub* stats, custom_block_t* block) {
 /*
  * creates the custom action block for a sword swing skill
  * 
- * returns a hardcoded list
+ * Parameters
+ *  - none
+ *
+ * Returns
+ *  - a hardcoded custom block sequence
  */
 custom_block_t* create_swing_sword() {
     custom_block_t *head = NULL, *block;
@@ -297,8 +347,12 @@ custom_block_t* create_swing_sword() {
 
 /*
  * creates the custom action block for a fireball spell
+ *
+ * Parameters
+ *  - none
  * 
- * returns a hardcoded list
+ * Returns
+ *  - a hardcoded custom block sequence
  */
 custom_block_t* create_fireball_spell() {
     custom_block_t *head = NULL, *block;
@@ -316,6 +370,13 @@ custom_block_t* create_fireball_spell() {
     // do 9 damage
     p1.st = HEALTH;
     p2.constant = 9;
+    atomic_action = action_new(SUB, p1, p2, STAT, CONSTANT);
+    block = block_new(atomic_action, NULL);
+    LL_APPEND(head, block);
+
+    // remove 10 Magic Energy
+    p1.st = ENERG;
+    p2.constant = 10;
     atomic_action = action_new(SUB, p1, p2, STAT, CONSTANT);
     block = block_new(atomic_action, NULL);
     LL_APPEND(head, block);
@@ -347,8 +408,14 @@ custom_block_t* create_fireball_spell() {
 
 /*
  * prints the contents of a stats struct
+ *
+ * Parameters
+ *  - stats. the stats struct to print
+ *
+ * Returns
+ *  - none. prints out the contents of the struct
  */
-void print_stats(stats_stub* stats) {
+void print_stats(stats_t* stats) {
     assert(stats != NULL);
     printf("health: %d\n", stats->health);
     printf("xp: %d\n", stats->xp);
@@ -365,11 +432,14 @@ void print_stats(stats_stub* stats) {
 int main() {
     int rc;
     // irrelevant stats are set to 1
-    stats_stub *stats1 = stats_new(25, 1, 1, 1, 5, 1, 1, 1, 8);
-    stats_stub *stats2 = stats_new(25, 1, 1, 1, 1, 1, 1, 1, 10);
+    stats_t *stats1 = stats_new(25, 1, 1, 1, 5, 1, 1, 1, 8);
+    stats_t *stats2 = stats_new(25, 1, 1, 1, 1, 1, 1, 1, 10);
 
     custom_block_t *sword = create_swing_sword();
     custom_block_t *fireball = create_fireball_spell();
+
+    printf("Initial stats1\n");
+    print_stats(stats1);
 
     rc = execute(stats1, sword);
     printf("Sword swing status: %d\n", rc);
@@ -380,6 +450,9 @@ int main() {
     printf("Fireball status: %d\n", rc);
     printf("Stats1 ater fireball attempt\n");
     print_stats(stats1);
+
+    printf("\nInitial stats2\n");
+    print_stats(stats2);
 
     rc = execute(stats2, fireball);
     printf("Fireball status: %d\n", rc);
