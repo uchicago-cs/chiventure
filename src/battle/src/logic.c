@@ -2,7 +2,7 @@
 #include "common/utlist.h"
 
 /* check logic.h 
-int check_target(enemy_t *e) 
+int check_target(combatant_t *e) 
 {
     return 0;
 }*/
@@ -11,13 +11,20 @@ int check_target(enemy_t *e)
 /* Leaving this as return 1 so that for the future
  * people can use class or any typing to determine effectiveness
  */
-double check_effectiveness(player_t *p, enemy_t *e, move_t *move)
+double check_effectiveness(combatant_t *p, combatant_t *e, move_t *move)
 {
     return 1.0;
 }
 
+/* see logic.h */
+int award_xp(stat_t *stats, double xp)
+{
+    stats->xp += xp;
+    return 0;
+}
+
 /* check logic.h */
-int battle_over(player_t *p, enemy_t *e)
+int battle_over(combatant_t *p, combatant_t *e)
 {
     if (e->stats->hp > 0 && p->stats->hp > 0)
     {
@@ -95,7 +102,7 @@ item_t *find_item(item_t *inventory, int ID)
 }
 
 /* see logic.h */
-item_t *enemy_use_item(enemy_t *e, int ID)
+item_t *enemy_use_item(combatant_t *e, int ID)
 {
     if (e->inventory == NULL)
     {
@@ -119,9 +126,4 @@ item_t *enemy_use_item(enemy_t *e, int ID)
     }
 }
 
-/* see logic.h */
-int award_xp(stats_t *stats, double xp)
-{
-    stats->xp += xp;
-    return 0;
-}
+

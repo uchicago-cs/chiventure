@@ -15,7 +15,7 @@
  * - 0 for if targetable and 1 for not being targetable
  *
  * NOTE: Unsure of how this function will play into our code
-int check_target(enemy_t *e); */
+int check_target(combatant_t *e); */
 
 /*
  * Checks the move's effectiveness against a certain target
@@ -27,7 +27,7 @@ int check_target(enemy_t *e); */
  * Returns:
  * - an effectiveness value (either 0.5, 1, 1.5, or 2.0)
  */
-double check_effectiveness(player_t *p, enemy_t *e, move_t *move);
+double check_effectiveness(combatant_t *p, combatant_t *e, move_t *move);
 
 /*
  * Determines if a battle has reached its conclusion
@@ -41,7 +41,7 @@ double check_effectiveness(player_t *p, enemy_t *e, move_t *move);
  * - 2 for game over due to player
  * - -1 for an error with not passing conditions
  */
-int battle_over(player_t *p, enemy_t *e);
+int battle_over(combatant_t *p, combatant_t *e);
 
 /* Function detemines what player goes first
  *
@@ -61,7 +61,7 @@ int goes_first(double p_speed, double e_speed);
  *      ID - the ID of the item
  *  Outputs:
  *      returns item used    */
-item_t *enemy_use_item(enemy_t *e, int ID);
+item_t *enemy_use_item(combatant_t *e, int ID);
 
 /* Awards xp to the player 
  * Parameters:
@@ -70,6 +70,6 @@ item_t *enemy_use_item(enemy_t *e, int ID);
  * Returns:
  *  0 for success
  */
-int award_xp(stats_t *stats, double xp);
+int award_xp(stat_t *stats, double xp);
 
 #endif

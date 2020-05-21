@@ -1,6 +1,9 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include "battle/battle_structs.h"
+#include "battle/battle_state.h"
 #include "battle/logic.h"
 
 /* 
@@ -9,9 +12,9 @@
  */
 Test(logic, battle_over_by_player)
 {
-    stats_t *pstats = calloc(sizeof(stats_t));
+    stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 0;
-    stats_t *estats = calloc(sizeof(stats_t));
+    stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 10;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
@@ -33,9 +36,9 @@ Test(logic, battle_over_by_player)
  */
 Test(logic, battle_over_by_enemy)
 {
-    stats_t *pstats = calloc(sizeof(stats_t));
+    stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
-    stats_t *estats = calloc(sizeof(stats_t));
+    stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 0;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
@@ -55,11 +58,11 @@ Test(logic, battle_over_by_enemy)
  * this tests if battle_over detects if the 
  * battle is not over
  */
-Test(logic, battle_over_by_enemy)
+Test(logic, battle__not_over)
 {
-    stats_t *pstats = calloc(sizeof(stats_t));
+    stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
-    stats_t *estats = calloc(sizeof(stats_t));
+    stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 10;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
@@ -81,9 +84,9 @@ Test(logic, battle_over_by_enemy)
  */
 Test(logic, enemy_goes_first)
 {
-    stats_t *pstats = calloc(sizeof(stats_t));
+    stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 25;
-    stats_t *estats = calloc(sizeof(stats_t));
+    stat_t *estats = calloc(1, sizeof(stat_t));
     estats->speed = 50;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
@@ -105,9 +108,9 @@ Test(logic, enemy_goes_first)
  */
 Test(logic, player_goes_first)
 {
-    stats_t *pstats = calloc(sizeof(stats_t));
+    stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 50;
-    stats_t *estats = calloc(sizeof(stats_t));
+    stat_t *estats = calloc(1, sizeof(stat_t));
     estats->speed = 25;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
@@ -129,9 +132,9 @@ Test(logic, player_goes_first)
  */
 Test(logic, same_speed)
 {
-    stats_t *pstats = calloc(sizeof(stats_t));
+    stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 50;
-    stats_t *estats = calloc(sizeof(stats_t));
+    stat_t *estats = calloc(1, sizeof(stat_t));
     estats->speed = 50;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
@@ -158,7 +161,7 @@ Test(logic, do_not_find_item)
 Test(logic, award_xp)
 {
     double xp_gain = 15;
-    stats_t *pstats = calloc(sizeof(stats_t));
+    stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->xp = 100;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     int res = award_xp(p->stats, xp_gain);
