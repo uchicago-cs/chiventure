@@ -5,7 +5,6 @@ add_library(common
 
 target_link_libraries(common ${LUA_LIBRARIES})
 target_include_directories(common PRIVATE ${LUA_INCLUDE_DIR})
-target_include_directories(common PRIVATE src/)
 
 target_include_directories(common PRIVATE src/)
 

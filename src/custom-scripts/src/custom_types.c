@@ -1,4 +1,4 @@
-//#include "custom-scripts/custom_types.h"
+#include "custom-scripts/custom_types.h"
 #include "common/custom_types.h"
 
 // Basic new and initialization functions
