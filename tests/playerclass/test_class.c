@@ -4,11 +4,10 @@
 #include <criterion/criterion.h>
 #include "playerclass/class.h"
 
-/* Tests class_new */
-Test(test_class, new)
+class_t* generate_test_class()
 {
     class_t* c;
-    char* name, *shortdesc, *longdesc;
+    char *name, *shortdesc, *longdesc;
 
     name = "Warrior";
     shortdesc = "Mechanically, the warrior focuses on up-close physical "
@@ -22,6 +21,26 @@ Test(test_class, new)
 
     c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL, NULL, NULL);
 
+}
+
+/* Tests class_new */
+Test(test_class, new)
+{
+    class_t* c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
+
+    c = generate_test_class();
+
     cr_assert_not_null(c, "class_new failed");
     cr_assert_str_eq(c->name, name, "class_new didn't set name");
     cr_assert_str_eq(c->shortdesc, shortdesc, "class_new didn't set "
@@ -34,7 +53,7 @@ Test(test_class, new)
 Test(test_class, init)
 {
     class_t c;
-    char* name, *shortdesc, *longdesc;
+    char *name, *shortdesc, *longdesc;
     int rc;
 
     name = "Warrior";
@@ -61,20 +80,9 @@ Test(test_class, init)
 Test(test_class, free)
 {
     class_t *c;
-    char* name, *shortdesc, *longdesc;
     int rc;
 
-    name = "Warrior";
-    shortdesc = "Mechanically, the warrior focuses on up-close physical "
-                "damage with weapons and survives enemy attacks "
-                "using heavy armor.\n";
-    longdesc = "The warrior is the ultimate armor and weapons expert,"
-                " relying on physical strength and years of training to "
-                "deal with any obstacle. Mechanically, the warrior focuses "
-                "on up-close physical damage with weapons and survives enemy "
-                "attacks using heavy armor.\n";
-
-    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL, NULL, NULL);
+    c = generate_test_class();
 
     cr_assert_not_null(c, "class_new failed");
 
