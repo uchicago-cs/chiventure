@@ -16,7 +16,7 @@ Test (npc, new)
 	cr_assert_eq(npc->health, 20, "npc_new() didn't set health"); 
 }
 
-
+/*checks new() of npcs_in_room struct */
 Test (npcs_in_room, new) {
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
@@ -40,6 +40,7 @@ Test (npc, init)
 	cr_assert_eq(npc.health, 20, "npc_init didn't set health"); 
 } 
 
+/* checks initialization of npcs_in_room struct */
 Test (npcs_in_room, init) {
     npcs_in_room_t *npcs_in_room;
     int check = npcs_in_room_init(&npcs_in_room, "test_room");
@@ -64,6 +65,7 @@ Test (npc, free)
 	cr_assert_eq(ret, SUCCESS, "npc_free() failed"); 
 }
 
+/* Checks freeing of npcs_in_room struct */
 Test (npcs_in_room, free)
 { 
 	npcs_in_room_t *npcs_in_room; 
@@ -108,10 +110,10 @@ Test (npc, add_item_to_npc) {
 	//non-NULL Success Case 
 	npc_t* npc2 = npc_new("npc_32", 40, NULL);
 	item_t* itm1 = item_new("itm1", "short desc 1", "longer description 1");
-    item_t* itm2 = item_new("itm2", "short desc 2", "longer description 2");
-    item_t* itm3 = item_new("itm3", "short desc 3", "longer description 3");
+	item_t* itm2 = item_new("itm2", "short desc 2", "longer description 2");
+	item_t* itm3 = item_new("itm3", "short desc 3", "longer description 3");
 	insert(npc2, itm1);
-    insert(npc2, itm3);
+	insert(npc2, itm3);
 	int ret2 = add_item_to_npc(npc, itm2);
 	cr_assert_eq(ret2, SUCCESS, "add_item_to_npc() failed");
 
@@ -132,6 +134,7 @@ Test (npc, get_all_items_inv_npc) {
         // equivalency test 
 } 
 
+/* Tests add_npc_to_room function */
 Test (npcs_in_room, add_npc_to_room) {
     npc_t *npc = npc_new("npc_test", 20, NULL); 
     npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
@@ -153,6 +156,7 @@ Test (npcs_in_room, add_npc_to_room) {
 				 "add_npc_to_room() failed, incorrect number of npcs in room");
 }
 
+/* tests the get_num_of_npcs function */
 Test (npcs_in_room, get_num_of_npcs)
 {
 	npcs_in_room_t *npcs_in_room;
