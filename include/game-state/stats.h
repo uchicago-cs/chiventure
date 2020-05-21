@@ -62,7 +62,7 @@ typedef struct effects{
     bool status;
     stat_mod_t *stat_list;
     UT_hash_handle hh; 
-} effects_t;
+} stat_effect_t;
 
 typedef struct effects effects_hash_t;
 
