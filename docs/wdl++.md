@@ -181,7 +181,7 @@ Documentation WIP
 "globalconditions": [
     {
         "id": "my_condition_id",
-        "condition": "my_condition_string",
+        "condition": ["my_condition_string_1"],
         "actions": ["action_when_condition_is_met"],
         "trigger_once_only": false
     }
@@ -192,7 +192,8 @@ Documentation WIP
 where
 
 - `id` : The condition ID.
-- `condition`: The condition string to check globally. **Note** that this condition string has the **same syntax** as the condition strings passed as arguments to `if` blocks in the `actions.json` action block sequences.
+- `conditions`: A list of conditions (as strings) to check globally.
+  **Note** that each condition string has the **same syntax** as the condition strings passed as arguments to `if` blocks in the `actions.json` action block sequences.
 - `actions`: The list of actions to be carried out if the condition has been met- can be empty. 
     - `action_id`: The ID of the action.
     - `params`: The parameters to pass into the action (see Custom Actions documentation)
@@ -225,23 +226,24 @@ Other files can be added by other teams, if the need arises to store more attrib
 The interface for other teams and feature branches to access WDL++ data. Our current prototype for the interface includes two functions:
 
 
-`object_t wdl_get_obj(objFile, objID)`
+`wdl_object_t *wdl_get_obj(char *obj_type, char *obj_id)`
 
 Params:
 
-- `objFile` : The filename of the file containing the object- e.g. `items.json`
+- `obj_type` : The type (category) of the object to get. e.g. `"items"`. 
+Corresponds to the file to look in, e.g. `items.json` in this example.
 
-- `objID` : The object ID within the specified file- e.g. `door`
+- `obj_id` : The object ID within the specified file. e.g. `door`
 
 Returns:
-- The specified JSON object.
+- The specified game object structure (TBD).
 
-`asset_t wdl_get_asset(assetType, assetName)`
+`wdl_asset_t *wdl_get_asset(char *asset_type, char *asset_name)`
 
 Params:
 
-- `assetType` : The type of the requested asset- e.g. `graphics` or `sounds`
-- `assetName` : The filename of the requested asset- e.g `bg_room_A.png`
+- `asset_type` : The type of the requested asset. e.g. `graphics` or `sounds`
+- `asset_name` : The filename of the requested asset. e.g `bg_room_A.png`
 
 Returns:
 - The requested asset.
