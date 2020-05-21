@@ -1,7 +1,8 @@
 set(TEST_EXE test-openworld)
 
 add_executable(${TEST_EXE}
-        test_autogenerate.c
+	
+#        test_autogenerate.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
