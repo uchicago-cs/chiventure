@@ -116,20 +116,20 @@ ITEMS:
    in: "white room"
    actions:
      - action: "PULL"
-         # - conditions:
-         #     - blue_lever_pulled: no
-         #     - green_lever_pulled: no
-         #     - purple_lever_pulled: yes
-         #     - red_lever_pulled: yes
-         # - set:
-         #     - object: "TRAPDOOR"
-         #       attribute: locked
-         #       value: no
-         text_success: "You pull the lever, and the trapdoor lock clicks open."
-         text_fail: "The lever is locked in place.."
+       # - conditions:
+       #     - blue_lever_pulled: no
+       #     - green_lever_pulled: no
+       #     - purple_lever_pulled: yes
+       #     - red_lever_pulled: yes
+       # - set:
+       #     - object: "TRAPDOOR"
+       #       attribute: locked
+       #       value: no
+       text_success: "You pull the lever, and the trapdoor lock clicks open."
+       text_fail: "The lever is locked in place.."
      - action: "PUSH"
-         text_success: "You should try pulling it instead."
-         text_fail: "You should try pulling it instead."
+       text_success: "You should try pulling it instead."
+       text_fail: "You should try pulling it instead."
   
   
  - id: "BLUELEVER"
@@ -138,68 +138,68 @@ ITEMS:
    in: "blue room"
    actions:
      - action: "PULL"
-         # - conditions:
-         #     - pulled: no
-         # - set:
-         #     - object: "LEVER"
-         #       attribute: blue_lever_pulled
-         #       value: yes
-         #     - object: "BLUELEVER"
-         #       attribute: pulled
-         #       value: yes
-         #     - object: "BLUELEVER"
-         #       attribute: pushed
-         #       value: no
-         text_success: "You pull the lever."
-         text_fail: "You have already pulled the lever."
+       # - conditions:
+       #     - pulled: no
+       # - set:
+       #     - object: "LEVER"
+       #       attribute: blue_lever_pulled
+       #       value: yes
+       #     - object: "BLUELEVER"
+       #       attribute: pulled
+       #       value: yes
+       #     - object: "BLUELEVER"
+       #       attribute: pushed
+       #       value: no
+       text_success: "You pull the lever."
+       text_fail: "You have already pulled the lever."
      - action: "PUSH"
-         # - conditions:
-         #     - pushed: no
-         # - set:
-         #     - object: "LEVER"
-         #       attribute: blue_lever_pulled
-         #       value: no
-         #     - object: "BLUELEVER"
-         #       attribute: pushed
-         #       value: yes
-         #     - object: "BLUELEVER"
-         #       attribute: pulled
-         #       value: no
-         text_success: "You push the lever back to its original position."
-         text_fail: "You have already pushed the lever."
+       # - conditions:
+       #     - pushed: no
+       # - set:
+       #     - object: "LEVER"
+       #       attribute: blue_lever_pulled
+       #       value: no
+       #     - object: "BLUELEVER"
+       #       attribute: pushed
+       #       value: yes
+       #     - object: "BLUELEVER"
+       #       attribute: pulled
+       #       value: no
+       text_success: "You push the lever back to its original position."
+       text_fail: "You have already pushed the lever."
  - id: "GREENLEVER"
    short_desc: "A green lever."
    long_desc: "A plain-looking green lever."
    in: "green room"
    actions:
      - action: "PULL"
-         # - conditions:
-         #     - pulled: no
-         # - set:
-         #     - object: "LEVER"
-         #       attribute: green_lever_pulled
-         #       value: yes
-         #     - object: "GREENLEVER"
-         #       attribute: pulled
-         #       value: yes
-         #     - object: "GREENLEVER"
-         #       attribute: pushed
-         #       value: no
+       # - conditions:
+       #     - pulled: no
+       # - set:
+       #     - object: "LEVER"
+       #       attribute: green_lever_pulled
+       #       value: yes
+       #     - object: "GREENLEVER"
+       #       attribute: pulled
+       #       value: yes
+       #     - object: "GREENLEVER"
+       #       attribute: pushed
+       #       value: no
        text_success: "You pull the lever."
        text_fail: "You have already pulled the lever."
      - action: "PUSH"
-         # - conditions:
-         #     - pushed: no
-         # - set:
-         #     - object: "LEVER"
-         #       attribute: green_lever_pulled
-         #       value: no
-         #     - object: "GREENLEVER"
-         #       attribute: pushed
-         #       value: yes
-         #     - object: "GREENLEVER"
-         #       attribute: pulled
-         #       value: no
+       # - conditions:
+       #     - pushed: no
+       # - set:
+       #     - object: "LEVER"
+       #       attribute: green_lever_pulled
+       #       value: no
+       #     - object: "GREENLEVER"
+       #       attribute: pushed
+       #       value: yes
+       #     - object: "GREENLEVER"
+       #       attribute: pulled
+       #       value: no
        text_success: "You push the lever back to its original position."
        text_fail: "You have already pushed the lever."
   
