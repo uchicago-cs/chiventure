@@ -5,7 +5,7 @@
 #include "battle/battle_flow.h"
 
 /* Stub for the player_new function in player.h game-state module */
-combatant_info_t *player_new(char* p_id, stat_t *stats, move_t *moves, item_t* items)
+player_t *player_new(char* p_id, stat_t *stats, move_t *moves, item_t* items)
 {
       player_t *plyr = calloc(1,sizeof(player_t));
       assert(plyr != NULL);
