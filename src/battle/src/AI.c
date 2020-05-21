@@ -120,8 +120,8 @@ move_t* find_hard(combatant_t* player, combatant_t* enemy)
 double damage(combatant_t* player, move_t* move, combatant_t* enemy)
 {
     double dmg, power, enemy_strength, defense;
-    stats_t* e_stats = enemy->stats;
-    stats_t* p_stats = player->stats;
+    stat_t* e_stats = enemy->stats;
+    stat_t* p_stats = player->stats;
     
     //Inquire about armor
     defense = (double) p_stats->defense + (double) player->armor->defense;
