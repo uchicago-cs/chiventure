@@ -1,7 +1,6 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "custom-actions/branch_block_structs.h"
 #include "custom-actions/branch_block_functions.h"
 
 /* Checks that a new branch block with conditional type EQ is created 
@@ -23,15 +22,15 @@ Test(branch_block_t, new_EQ)
     cr_assert_not_null(new_branch, "branch_block_new() failed");
 
     cr_assert_eq(new_branch->num_conditionals, num_conditionals, "branch_block_new() "
-                 "didn't set new_branch->num_conditionals");
+                "didn't set new_branch->num_conditionals");
     cr_assert_eq(new_branch->conditional_type, conditional_type, "branch_block_new() "
-                 "didn't set new_branch->conditional_type");
+                "didn't set new_branch->conditional_type");
     cr_assert_eq(new_branch->conditionals, conditionals, "branch_block_new() didn't "
-                 "set new_branch->conditionals");
+                "set new_branch->conditionals");
     cr_assert_eq(new_branch->num_controls, num_controls, "branch_block_new() didn't "
-                 "set new_branch->num_controls");
+                "set new_branch->num_controls");
     cr_assert_eq(new_branch->controls, controls, "branch_block_new() didn't set "
-                 "new_branch->controls");
+                "new_branch->controls");
     
     branch_block_free(new_branch);
 }
@@ -55,15 +54,15 @@ Test(branch_block_t, new_LTGT)
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
     cr_assert_eq(new_branch->num_conditionals, num_conditionals, "branch_block_new() "
-                 "didn't set new_branch->num_conditionals");
+                "didn't set new_branch->num_conditionals");
     cr_assert_eq(new_branch->conditional_type, conditional_type, "branch_block_new() "
-                 "didn't set new_branch->conditional_type");
+                "didn't set new_branch->conditional_type");
     cr_assert_eq(new_branch->conditionals, conditionals, "branch_block_new() didn't "
-                 "set new_branch->conditionals");
+                "set new_branch->conditionals");
     cr_assert_eq(new_branch->num_controls, num_controls, "branch_block_new() didn't "
-                 "set new_branch->num_controls");
+                "set new_branch->num_controls");
     cr_assert_eq(new_branch->controls, controls, "branch_block_new() didn't set "
-                 "new_branch->controls");
+                "new_branch->controls");
     
     branch_block_free(new_branch);
 }
@@ -87,15 +86,15 @@ Test(branch_block_t, new_LTEGTE)
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
     cr_assert_eq(new_branch->num_conditionals, num_conditionals, "branch_block_new() "
-                 "didn't set new_branch->num_conditionals");
+                "didn't set new_branch->num_conditionals");
     cr_assert_eq(new_branch->conditional_type, conditional_type, "branch_block_new() "
-                 "didn't set new_branch->conditional_type");
+                "didn't set new_branch->conditional_type");
     cr_assert_eq(new_branch->conditionals, conditionals, "branch_block_new() didn't "
-                 "set new_branch->conditionals");
+                "set new_branch->conditionals");
     cr_assert_eq(new_branch->num_controls, num_controls, "branch_block_new() didn't "
-                 "set new_branch->num_controls");
+                "set new_branch->num_controls");
     cr_assert_eq(new_branch->controls, controls, "branch_block_new() didn't set "
-                 "new_branch->controls");
+                "new_branch->controls");
     
     branch_block_free(new_branch);
 }
@@ -119,15 +118,15 @@ Test(branch_block_t, new_IN)
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
     cr_assert_eq(new_branch->num_conditionals, num_conditionals, "branch_block_new() "
-                 "didn't set new_branch->num_conditionals");
+                "didn't set new_branch->num_conditionals");
     cr_assert_eq(new_branch->conditional_type, conditional_type, "branch_block_new() "
-                 "didn't set new_branch->conditional_type");
+                "didn't set new_branch->conditional_type");
     cr_assert_eq(new_branch->conditionals, conditionals, "branch_block_new() didn't "
-                 "set new_branch->conditionals");
+                "set new_branch->conditionals");
     cr_assert_eq(new_branch->num_controls, num_controls, "branch_block_new() didn't "
-                 "set new_branch->num_controls");
+                "set new_branch->num_controls");
     cr_assert_eq(new_branch->controls, controls, "branch_block_new() didn't set "
-                 "new_branch->controls");
+                "new_branch->controls");
     
     branch_block_free(new_branch);
 }
@@ -148,19 +147,19 @@ Test(branch_block_t, init_EQ)
     control_block_t** controls = control_block_new(IFELSE, next);
 
     rc = branch_block_init(&branch, num_conditionals, conditional_type, 
-         *conditionals, num_controls, *controls);
+                            *conditionals, num_controls, *controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
-                 "didn't set new_branch.num_conditionals");
+                "didn't set new_branch.num_conditionals");
     cr_assert_eq(branch.conditional_type, conditional_type, "branch_block_init() "
-                 "didn't set branch.conditional_type");
+                "didn't set branch.conditional_type");
     cr_assert_eq(branch.conditionals, conditionals, "branch_block_init() didn't "
-                 "set branch.conditionals");
+                "set branch.conditionals");
     cr_assert_eq(branch.num_controls, num_controls, "branch_block_init() didn't "
-                 "set branch.num_controls");
+                "set branch.num_controls");
     cr_assert_eq(branch.controls, controls, "branch_block_init() didn't set "
-                 "branch.controls"); 
+                "branch.controls"); 
 }
 
 /* Checks that a new branch block with conditional type LTGT is initialized without 
@@ -179,19 +178,19 @@ Test(branch_block_t, init_LTGT)
     control_block_t** controls = control_block_new(IFELSE, next);
 
     rc = branch_block_init(&branch, num_conditionals, conditional_type,
-         *conditionals, num_controls, *controls);
+                            *conditionals, num_controls, *controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
-                 "didn't set new_branch.num_conditionals");
+                "didn't set new_branch.num_conditionals");
     cr_assert_eq(branch.conditional_type, conditional_type, "branch_block_init() "
-                 "didn't set branch.conditional_type");
+                "didn't set branch.conditional_type");
     cr_assert_eq(branch.conditionals, conditionals, "branch_block_init() didn't "
-                 "set branch.conditionals");
+                "set branch.conditionals");
     cr_assert_eq(branch.num_controls, num_controls, "branch_block_init() didn't "
-                 "set branch.num_controls");
+                "set branch.num_controls");
     cr_assert_eq(branch.controls, controls, "branch_block_init() didn't set "
-                 "branch.controls");
+                "branch.controls");
 }
 
 /* Checks that a new branch block with conditional type LTEGTE is initialized without 
@@ -210,19 +209,19 @@ Test(branch_block_t, init_LTEGTE)
     control_block_t** controls = control_block_new(IFELSE, next);
 
     rc = branch_block_init(&branch, num_conditionals, conditional_type,
-         *conditionals, num_controls, *controls);
+                            *conditionals, num_controls, *controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
-                 "didn't set new_branch.num_conditionals");
+                "didn't set new_branch.num_conditionals");
     cr_assert_eq(branch.conditional_type, conditional_type, "branch_block_init() "
-                 "didn't set branch.conditional_type");
+                "didn't set branch.conditional_type");
     cr_assert_eq(branch.conditionals, conditionals, "branch_block_init() didn't "
-                 "set branch.conditionals");
+                "set branch.conditionals");
     cr_assert_eq(branch.num_controls, num_controls, "branch_block_init() didn't "
-                 "set branch.num_controls");
+                "set branch.num_controls");
     cr_assert_eq(branch.controls, controls, "branch_block_init() didn't set "
-                 "branch.controls");
+                "branch.controls");
 }
 
 /* Checks that a new branch block with conditional type IN is initialized without 
@@ -241,19 +240,19 @@ Test(branch_block_t, init_IN)
     control_block_t** controls = control_block_new(IFELSE, next);
 
     rc = branch_block_init(&branch, num_conditionals, conditional_type,
-         *conditionals, num_controls, *controls);
+                            *conditionals, num_controls, *controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
-                 "didn't set new_branch.num_conditionals");
+                "didn't set new_branch.num_conditionals");
     cr_assert_eq(branch.conditional_type, conditional_type, "branch_block_init() "
-                 "didn't set branch.conditional_type");
+                "didn't set branch.conditional_type");
     cr_assert_eq(branch.conditionals, conditionals, "branch_block_init() didn't "
-                 "set branch.conditionals");
+                "set branch.conditionals");
     cr_assert_eq(branch.num_controls, num_controls, "branch_block_init() didn't "
-                 "set branch.num_controls");
+                "set branch.num_controls");
     cr_assert_eq(branch.controls, controls, "branch_block_init() didn't set "
-                 "branch.controls");
+                "branch.controls");
 }
 
 /* Checks that a new branch block with conditional type EQ is freed without 
@@ -272,7 +271,7 @@ Test(branch_block_t, free_EQ)
     control_block_t** controls = control_block_new(IFELSE, next);
     
     branch = branch_block_new(num_conditionals, conditional_type, *conditionals, 
-             num_controls, controls);
+                                num_controls, controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
     
@@ -297,7 +296,7 @@ Test(branch_block_t, free_LTGT)
     control_block_t** controls = control_block_new(IFELSE, next);
 
     branch = branch_block_new(num_conditionals, conditional_type, *conditionals,
-             num_controls, controls);
+                                num_controls, controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
 
@@ -322,7 +321,7 @@ Test(branch_block_t, free_LTEGTE)
     control_block_t** controls = control_block_new(IFELSE, next);
 
     branch = branch_block_new(num_conditionals, conditional_type, *conditionals,
-             num_controls, controls);
+                                num_controls, controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
 
@@ -347,7 +346,7 @@ Test(branch_block_t, free_IN)
     control_block_t** controls = control_block_new(IFELSE, next);
 
     branch = branch_block_new(num_conditionals, conditional_type, *conditionals,
-             num_controls, controls);
+                                num_controls, controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
 

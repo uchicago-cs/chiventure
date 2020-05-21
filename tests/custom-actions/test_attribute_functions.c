@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "game-state/item.h"
-#include "custom-actions/struct.h"
 #include "custom-actions/attribute_functions.h"
 
 /* Checks that a new attribute with type DOUBLE is created without interruption */
@@ -20,11 +19,11 @@ Test(attribute_t, new_DOUBLE)
 
     cr_assert_eq(new_attribute->hh, hh, "attribute_new() didn't set new_attribute->hh");
     cr_assert_eq(new_attribute->attribute_key, attribute_key, "attribute_new() didn't "
-                 "set new_attribute->attribute_key");
+                "set new_attribute->attribute_key");
     cr_assert_eq(new_attribute->attribute_tag, attribute_tag, "attribute_new() didn't "
-                 "set new_attribute->attribute_tag");
+                "set new_attribute->attribute_tag");
     cr_assert_eq(new_attribute->attribute_value, attribute_value, "attribute_new() didn't "
-                 "set new_attribute->attribute_value");
+                "set new_attribute->attribute_value");
 
     attribute_free(new_attribute);
 }
@@ -44,11 +43,11 @@ Test(attribute_t, new_CHARACTER)
     
     cr_assert_eq(new_attribute->hh, hh, "attribute_new() didn't set new_attribute->hh");
     cr_assert_eq(new_attribute->attribute_key, attribute_key, "attribute_new() didn't "
-                 "set new_attribute->attribute_key");
+                "set new_attribute->attribute_key");
     cr_assert_eq(new_attribute->attribute_tag, attribute_tag, "attribute_new() didn't "
-                 "set new_attribute->attribute_tag");
+                "set new_attribute->attribute_tag");
     cr_assert_eq(new_attribute->attribute_value, attribute_value, "attribute_new() didn't "
-                 "set new_attribute->attribute_value");
+                "set new_attribute->attribute_value");
     
     attribute_free(new_attribute);
 }
@@ -68,11 +67,11 @@ Test(attribute_t, new_BOOLE)
     
     cr_assert_eq(new_attribute->hh, hh, "attribute_new() didn't set new_attribute->hh");
     cr_assert_eq(new_attribute->attribute_key, attribute_key, "attribute_new() didn't "
-                 "set new_attribute->attribute_key");
+                "set new_attribute->attribute_key");
     cr_assert_eq(new_attribute->attribute_tag, attribute_tag, "attribute_new() didn't "
-                 "set new_attribute->attribute_tag");
+                "set new_attribute->attribute_tag");
     cr_assert_eq(new_attribute->attribute_value, attribute_value, "attribute_new() didn't "
-                 "set new_attribute->attribute_value");
+                "set new_attribute->attribute_value");
     
     attribute_free(new_attribute);
 }
@@ -92,11 +91,11 @@ Test(attribute_t, new_STRING)
     
     cr_assert_eq(new_attribute->hh, hh, "attribute_new() didn't set new_attribute->hh");
     cr_assert_eq(new_attribute->attribute_key, attribute_key, "attribute_new() didn't "
-                 "set new_attribute->attribute_key");
+                "set new_attribute->attribute_key");
     cr_assert_eq(new_attribute->attribute_tag, attribute_tag, "attribute_new() didn't "
-                 "set new_attribute->attribute_tag");
+                "set new_attribute->attribute_tag");
     cr_assert_eq(new_attribute->attribute_value, attribute_value, "attribute_new() didn't "
-                 "set new_attribute->attribute_value");
+                "set new_attribute->attribute_value");
     
     attribute_free(new_attribute);
 }
@@ -116,11 +115,11 @@ Test(attribute_t, new_INTEGER)
     
     cr_assert_eq(new_attribute->hh, hh, "attribute_new() didn't set new_attribute->hh");
     cr_assert_eq(new_attribute->attribute_key, attribute_key, "attribute_new() didn't "
-                 "set new_attribute->attribute_key");
+                "set new_attribute->attribute_key");
     cr_assert_eq(new_attribute->attribute_tag, attribute_tag, "attribute_new() didn't "
-                 "set new_attribute->attribute_tag");
+                "set new_attribute->attribute_tag");
     cr_assert_eq(new_attribute->attribute_value, attribute_value, "attribute_new() didn't "
-                 "set new_attribute->attribute_value");
+                "set new_attribute->attribute_value");
     
     attribute_free(new_attribute);
 }
@@ -140,11 +139,11 @@ Test(attribute_t, init_DOUBLE)
     cr_assert_eq(rc, SUCCESS, "attribute_init() failed");
     cr_assert_eq(attribute.hh, hh, "attribute_init() didn't set attribute.hh");
     cr_assert_eq(attribute.attribute_key, attribute_key, "attribute_init() didn't "
-                 "set attribute.attribute_key");
+                "set attribute.attribute_key");
     cr_assert_eq(attribute.attribute_tag, attribute_tag, "attribute_init() didn't "
-                 "set attribute.attribute_tag");
+                "set attribute.attribute_tag");
     cr_assert_eq(attribute.attribute_value, attribute_value, "attribute_init() didn't "
-                 "set attribute.attribute_value");
+                "set attribute.attribute_value");
 }
 
 /* Checks that a new attribute with type CHARACTER is intialized without interruption */
@@ -162,11 +161,11 @@ Test(attribute_t, init_CHARACTER)
     cr_assert_eq(rc, SUCCESS, "attribute_init() failed");
     cr_assert_eq(attribute.hh, hh, "attribute_init() didn't set attribute.hh");
     cr_assert_eq(attribute.attribute_key, attribute_key, "attribute_init() didn't "
-                 "set attribute.attribute_key");
+                "set attribute.attribute_key");
     cr_assert_eq(attribute.attribute_tag, attribute_tag, "attribute_init() didn't "
-                 "set attribute.attribute_tag");
+                "set attribute.attribute_tag");
     cr_assert_eq(attribute.attribute_value, attribute_value, "attribute_init() didn't "
-                 "set attribute.attribute_value");
+                "set attribute.attribute_value");
 }
 
 /* Checks that a new attribute with type BOOLE is intialized without interruption */
@@ -184,11 +183,11 @@ Test(attribute_t, init_BOOLE)
     cr_assert_eq(rc, SUCCESS, "attribute_init() failed");
     cr_assert_eq(attribute.hh, hh, "attribute_init() didn't set attribute.hh");
     cr_assert_eq(attribute.attribute_key, attribute_key, "attribute_init() didn't "
-                 "set attribute.attribute_key");
+                "set attribute.attribute_key");
     cr_assert_eq(attribute.attribute_tag, attribute_tag, "attribute_init() didn't "
-                 "set attribute.attribute_tag");
+                "set attribute.attribute_tag");
     cr_assert_eq(attribute.attribute_value, attribute_value, "attribute_init() didn't "
-                 "set attribute.attribute_value");
+                "set attribute.attribute_value");
 }
 
 /* Checks that a new attribute with type STRING is intialized without interruption */
@@ -206,11 +205,11 @@ Test(attribute_t, init_STRING)
     cr_assert_eq(rc, SUCCESS, "attribute_init() failed");
     cr_assert_eq(attribute.hh, hh, "attribute_init() didn't set attribute.hh");
     cr_assert_eq(attribute.attribute_key, attribute_key, "attribute_init() didn't "
-                 "set attribute.attribute_key");
+                "set attribute.attribute_key");
     cr_assert_eq(attribute.attribute_tag, attribute_tag, "attribute_init() didn't "
-                 "set attribute.attribute_tag");
+                "set attribute.attribute_tag");
     cr_assert_eq(attribute.attribute_value, attribute_value, "attribute_init() didn't "
-                 "set attribute.attribute_value");
+                "set attribute.attribute_value");
 }
 
 /* Checks that a new attribute with type INTEGER is intialized without interruption */
@@ -228,9 +227,9 @@ Test(attribute_t, init_INTEGER)
     cr_assert_eq(rc, SUCCESS, "attribute_init() failed");
     cr_assert_eq(attribute.hh, hh, "attribute_init() didn't set attribute.hh");
     cr_assert_eq(attribute.attribute_key, attribute_key, "attribute_init() didn't "
-                 "set attribute.attribute_key");
+                "set attribute.attribute_key");
     cr_assert_eq(attribute.attribute_tag, attribute_tag, "attribute_init() didn't "
-                 "set attribute.attribute_tag");
+                "set attribute.attribute_tag");
     cr_assert_eq(attribute.attribute_value, attribute_value, "attribute_init() didn't "
-                 "set attribute.attribute_value");
+                "set attribute.attribute_value");
 } 

@@ -1,7 +1,6 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "custom-actions/struct.h"
 #include "custom-actions/control_block_functions.h"
 
 /* Checks that a new IFELSE control block is created without interruption */
@@ -33,7 +32,7 @@ Test(control_block_t, new_WHILEENDWHILE)
 
     cr_assert_eq(new_control->next, next, "control_block_new() didn't set new_control->next");
     cr_assert_eq(new_control->control_type, control_type, "control_block_new() didn't "
-                 "set new_control->control_type");
+                "set new_control->control_type");
 
     control_block_free(new_control);
 }
@@ -50,7 +49,7 @@ Test(control_block_t, new_FORENDFOR)
 
     cr_assert_eq(new_control->next, next, "control_block_new() didn't set new_control->next");
     cr_assert_eq(new_control->control_type, control_type, "control_block_new() didn't "
-                 "set new_control->control_type");
+                "set new_control->control_type");
 
     control_block_free(new_control);
 }
@@ -68,7 +67,7 @@ Test(control_block_t, init_IFELSE)
     cr_assert_eq(rc, SUCCESS, "control_block_init() failed");
     cr_assert_eq(control.next, next, "control_block_init() didn't set control.next");
     cr_assert_eq(control.control_type, control_type, "control_block_init()"
-                 "didn't set control.control_type");
+                "didn't set control.control_type");
 }
 
 /* Checks that a new WHILEENDWHILE control block is initialized without interruption */
@@ -84,7 +83,7 @@ Test(control_block_t, init_WHILEENDWHILE)
     cr_assert_eq(rc, SUCCESS, "control_block_init() failed");
     cr_assert_eq(control.next, next, "control_block_init() didn't set control.next");
     cr_assert_eq(control.control_type, control_type, "control_block_init()"
-                 "didn't set control.control_type");
+                "didn't set control.control_type");
 }
 
 /* Checks that a new FORENDFOR control block is initialized without interruption */
@@ -100,7 +99,7 @@ Test(control_block_t, init_FORENDFOR)
     cr_assert_eq(rc, SUCCESS, "control_block_init() failed");
     cr_assert_eq(control.next, next, "control_block_init() didn't set control.next");
     cr_assert_eq(control.control_type, control_type, "control_block_init()"
-                 "didn't set control.control_type");
+                "didn't set control.control_type");
 }
 
 

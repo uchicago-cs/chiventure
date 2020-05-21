@@ -1,7 +1,6 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "custom-actions/conditional_block_structs.h"
 #include "custom-actions/conditional_block_functions.h"
 
 /* Checks that a new conditional block with type EQ is created without interruption */
@@ -12,16 +11,16 @@ Test(conditional_block_t, new_EQ)
     attribute_t* right = attribute_new(01, "attribute2", INTEGER, 2);
 
     conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
-    left, right);
+                                                                left, right);
 
     cr_assert_not_null(new_conditional, "conditional_block_new() failed");
 
     cr_assert_eq(new_conditional->conditional_type, conditional_type, "conditional_block_new() "
-                 "didn't set new_conditional->conditional_type");
+                "didn't set new_conditional->conditional_type");
     cr_assert_eq(new_conditional->left, left, "conditional_block_new() didn't set "
-                 "new_conditional->left");
+                "new_conditional->left");
     cr_assert_eq(new_conditional->right, right, "conditional_block_new() didn't set "
-                 "new_conditional->right");
+                "new_conditional->right");
 
     conditional_block_free(new_conditional);
 }
@@ -35,16 +34,16 @@ Test(conditional_block_t, new_LTGT)
     attribute_t* right = attribute_new(01, "attribute2", INTEGER, 2);
     
     conditional_block_t* new_conditional = conditional_block_new(conditional_type,
-    left, right);
+                                                                left, right);
     
     cr_assert_not_null(new_conditional, "conditional_block_new() failed");
     
     cr_assert_eq(new_conditional->conditional_type, conditional_type, "conditional_block_new() "
-                 "didn't set new_conditional->conditional_type");
+                "didn't set new_conditional->conditional_type");
     cr_assert_eq(new_conditional->left, left, "conditional_block_new() didn't set "
-                 "new_conditional->left");
+                "new_conditional->left");
     cr_assert_eq(new_conditional->right, right, "conditional_block_new() didn't set "
-                 "new_conditional->right");
+                "new_conditional->right");
     
     conditional_block_free(new_conditional);
 }
@@ -58,16 +57,16 @@ Test(conditional_block_t, new_LTEGTE)
     attribute_t* right = attribute_new(01, "attribute2", INTEGER, 2);
     
     conditional_block_t* new_conditional = conditional_block_new(conditional_type,
-    left, right);
+                                                                left, right);
     
     cr_assert_not_null(new_conditional, "conditional_block_new() failed");
     
     cr_assert_eq(new_conditional->conditional_type, conditional_type, "conditional_block_new() "
-                 "didn't set new_conditional->conditional_type");
+                "didn't set new_conditional->conditional_type");
     cr_assert_eq(new_conditional->left, left, "conditional_block_new() didn't set "
-                 "new_conditional->left");
+                "new_conditional->left");
     cr_assert_eq(new_conditional->right, right, "conditional_block_new() didn't set "
-                 "new_conditional->right");
+                "new_conditional->right");
     
     conditional_block_free(new_conditional);
 }
@@ -81,16 +80,16 @@ Test(conditional_block_t, new_IN)
     attribute_t* right = attribute_new(01, "attribute2", INTEGER, 2);
     
     conditional_block_t* new_conditional = conditional_block_new(conditional_type,
-    left, right);
+                                                                left, right);
     
     cr_assert_not_null(new_conditional, "conditional_block_new() failed");
     
     cr_assert_eq(new_conditional->conditional_type, conditional_type, "conditional_block_new() "
-                 "didn't set new_conditional->conditional_type");
+                "didn't set new_conditional->conditional_type");
     cr_assert_eq(new_conditional->left, left, "conditional_block_new() didn't set "
-                 "new_conditional->left");
+                "new_conditional->left");
     cr_assert_eq(new_conditional->right, right, "conditional_block_new() didn't set "
-                 "new_conditional->right");
+                "new_conditional->right");
     
     conditional_block_free(new_conditional);
 }
@@ -108,11 +107,11 @@ Test(conditional_block_t, init_EQ)
 
     cr_assert_eq(rc, SUCCESS, "conditional_block_init() failed");
     cr_assert_eq(conditional.conditional_type, conditional_type, "conditional_block_init() "
-                 "didn't set conditional.conditional_type");
+                "didn't set conditional.conditional_type");
     cr_assert_eq(conditional.left, left, "conditional_block_init() didn't set "
-                 "conditional.left");
+                "conditional.left");
     cr_assert_eq(conditional.right, right, "conditional_block_init() didn't set "
-                 "conditional.right");
+                "conditional.right");
 }
 
 /* Checks that a new conditional block with type LTGT is initialized without interruption */
@@ -128,11 +127,11 @@ Test(conditional_block_t, init_LTGT)
 
     cr_assert_eq(rc, SUCCESS, "conditional_block_init() failed");
     cr_assert_eq(conditional.conditional_type, conditional_type, "conditional_block_init() "
-                 "didn't set conditional.conditional_type");
+                "didn't set conditional.conditional_type");
     cr_assert_eq(conditional.left, left, "conditional_block_init() didn't set "
-                 "conditional.left");
+                "conditional.left");
     cr_assert_eq(conditional.right, right, "conditional_block_init() didn't set "
-                 "conditional.right");
+                "conditional.right");
 }
 
 /* Checks that a new conditional block with type LTEGTE is initialized without interruption */
@@ -148,11 +147,11 @@ Test(conditional_block_t, init_LTEGTE)
 
     cr_assert_eq(rc, SUCCESS, "conditional_block_init() failed");
     cr_assert_eq(conditional.conditional_type, conditional_type, "conditional_block_init() "
-                 "didn't set conditional.conditional_type");
+                "didn't set conditional.conditional_type");
     cr_assert_eq(conditional.left, left, "conditional_block_init() didn't set "
-                 "conditional.left");
+                "conditional.left");
     cr_assert_eq(conditional.right, right, "conditional_block_init() didn't set "
-                 "conditional.right");
+                "conditional.right");
 }
 
 /* Checks that a new conditional block with type IN is initialized without interruption */
@@ -168,11 +167,11 @@ Test(conditional_block_t, init_IN)
 
     cr_assert_eq(rc, SUCCESS, "conditional_block_init() failed");
     cr_assert_eq(conditional.conditional_type, conditional_type, "conditional_block_init() "
-                 "didn't set conditional.conditional_type");
+                "didn't set conditional.conditional_type");
     cr_assert_eq(conditional.left, left, "conditional_block_init() didn't set "
-                 "conditional.left");
+                "conditional.left");
     cr_assert_eq(conditional.right, right, "conditional_block_init() didn't set "
-                 "conditional.right");
+                "conditional.right");
 }
 
 /* Checks that a new conditional block with type EQ is freed without interruption */
