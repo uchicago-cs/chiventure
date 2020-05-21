@@ -1,5 +1,6 @@
 CC = gcc
 BIN = custom_skills
+SRCS = custom_skills.c custom_skills_main.c
 RM = rm -f
 INCLUDE = -I ../../../include
 CFLAGS = -g -O2 $(INCLUDE)
@@ -9,10 +10,7 @@ SFLAGS = -L$(LIBPATH)$(UTLIST) -lcommon
 
 .PHONY = all
 all: 
-		$(CC) $(BIN).c $(CFLAGS) $(SFLAGS) -o $(BIN) 
-
-#$(BIN).o: $(BIN).c
-#		$(CC) $(CFLAGS) $@ $(patsubst %.o, %.c, $@)
+		$(CC) $(SRCS) $(CFLAGS) $(SFLAGS) -o $(BIN) 
 
 .PHONY = clean
 clean:
