@@ -31,7 +31,11 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec) {
     room_id[1] = 'i';
     room_id[2] = '\0';
 
-    return room_new(room_id, roomspec->short_desc, roomspec->long_desc);
+    room_t *res = room_new(room_id, roomspec->short_desc, roomspec->long_desc);
+    res->items = roomspec->items;
+    res->paths = roomspec->paths;
+
+    return res;
 }
 
 /* See autogenerate.h */
@@ -43,12 +47,16 @@ int pop_speclist(gencontext_t *context) {
     speclist_t *prev = context->speclist;
     context->speclist = context->speclist->next; // Doesn't matter if next is NULL
 
-    assert(SUCCESS == delete_all_paths(prev->spec->paths));
-    assert(SUCCESS == delete_all_items(&prev->spec->items));
-    free(prev->spec->short_desc);
-    free(prev->spec->long_desc);
-    free(prev->spec);
-    free(prev);
+    if (prev->spec->paths == NULL) goto fin;
+    else delete_all_paths(prev->spec->paths);
+    if (prev->spec->items == NULL) goto fin;
+    delete_all_items(&prev->spec->items);
+
+    fin:
+        free(prev->spec->short_desc);
+        free(prev->spec->long_desc);
+        free(prev->spec);
+        free(prev);
     return 0;
 }
 
