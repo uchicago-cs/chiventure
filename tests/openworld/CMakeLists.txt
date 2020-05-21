@@ -1,6 +1,8 @@
 set(TEST_EXE test-openworld)
 
 add_executable(${TEST_EXE}
+		test_rooms.c 
+		test_items.c
         test_autogenerate.c
         main.c)
 

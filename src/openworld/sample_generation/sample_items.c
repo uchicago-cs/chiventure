@@ -175,13 +175,13 @@ int fix_item_init(fix_item_t *new_item, fix_item_tag_t item_tag)
 /* see sample_items.h*/
 fix_item_t *fix_item_new(fix_item_tag_t item_tag)
 {
-	fix_item_t *new_item = (fix_item_t*) malloc(sizeof(fix_item_t));
+	fix_item_t *new_item = (fix_item_t*)malloc(sizeof(fix_item_t));
 	memset(new_item, 0, sizeof(fix_item_t));
 
 	int check = fix_item_init(new_item, item_tag);
 
-	if (new_item == NULL || new_item->item_id == NULL|| 
-		new_item->short_desc|| new_item->long_desc == NULL)
+	if (new_item == NULL || new_item->item_id == NULL ||
+		new_item->short_desc || new_item->long_desc == NULL)
 	{
 
 		return NULL; //item struct not properly malloced
@@ -196,7 +196,6 @@ fix_item_t *fix_item_new(fix_item_tag_t item_tag)
 	return new_item;
 
 }
-
 
 /* see sample_items.h*/
 char *get_sdesc_fix_item(fix_item_t *item)
@@ -218,9 +217,7 @@ char *get_ldesc_fix_item(fix_item_t *item)
 	return item->long_desc;
 }
 
-
 // FREEING AND DELETION FUNCTIONS ---------------------------------------------
-
 /* See sample_items.h */
 int fix_item_free(fix_item_t *item)
 {
