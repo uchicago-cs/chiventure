@@ -1,14 +1,32 @@
 /* 
- * Basic functions for action blocks to be used in custom-actions implementation. 
+ * Basic functions and structs for action blocks to be used 
+ * in custom-actions implementation. 
  *
  * Please see "action_block_functions.h" for function documentation.
  */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "custom-actions/action_block_structs.h"
 #include "game-state/item.h"
 #include "custom-actions/action_block_functions.h"
+
+/* See action_block_functions.h */
+typedef enum action_type {
+    SET,
+    SAY,
+    MOVE, 
+    ADDSUBMULTDIV, 
+    GEN, 
+    EXEC
+} action_type;
+
+/* See action_block_functions.h */
+typedef struct action_block {
+    enum action_type action_type;
+    int num_args;
+    attribute_t** args;
+    AST_block_t* next;
+} action_block_t;
 
 /* See action_block_functions.h */
 action_block_t* action_block_new(enum action_type action_type, int num_args, 

@@ -1,14 +1,27 @@
 /* 
- * Basic functions for control blocks to be used in custom-actions implementation. 
+ * Basic functions and structs for control blocks 
+ * to be used in custom-actions implementation. 
  * 
  * Please see "control_block_functions.h" for function documentation. 
  */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "custom-actions/control_block_structs.h"
 #include "game-state/item.h"
 #include "custom-actions/control_block_functions.h"
+
+/* See control_block_functions.h */
+typedef enum control_type {
+    IFELSE,
+    WHILEENDWHILE,
+    FORENDFOR
+} control_type;
+
+/* See control_block_functions.h */
+typedef struct control_block {
+    enum control_type control_type;
+    AST_block_t* next;
+} control_block_t;
 
 /* See control_block_functions.h */
 control_block_t* control_block_new(enum control_type control_type, AST_block *next)

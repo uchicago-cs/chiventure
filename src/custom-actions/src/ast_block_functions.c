@@ -1,14 +1,36 @@
 /* 
- * Basic functions for ast blocks to be used in custom-actions implementation. 
+ * Basic functions and structs for ast blocks to be used 
+ * in custom-actions implementation. 
  * 
  * Please see "ast_block_functions.h" for function documentation. 
  */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "custom-actions/ast_block_structs.h"
 #include "game-state/item.h" 
 #include "custom-actions/ast_block_functions.h"
+
+/* See ast_block_functions.h */
+typedef enum block_type {
+    CONTROL, 
+    BRANCH, 
+    ACTION, 
+    CONDITIONAL
+} block_type;
+
+/* See ast_block_functions.h */
+typedef union block {
+    control_block_t control_block;
+    branch_block_t branch_block;
+    action_block_t action_block;
+    conditional_block_t conditional_block;
+} block_t;
+
+/* See ast_block_functions.h */
+typedef struct AST_block {
+    block_t block;
+    enum block_type block_type;
+} AST_block_t;
 
 /* See ast_block_functions.h */
 AST_block_t* AST_block_new(block_t block, enum block_type block_type)

@@ -1,14 +1,29 @@
 /* 
- * Basic functions for conditional blocks to be used in custom-actions implementation. 
+ * Basic functions and structs for conditional blocks to be 
+ * used in custom-actions implementation. 
  * 
  * Please see "conditional_block_functions.h" for function documentation. 
  */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "custom-actions/conditional_block_structs.h"
 #include "game-state/item.h" 
 #include "custom-actions/conditional_block_functions.h"
+
+/* See conditional_block_functions.h */
+typedef enum conditional_type {
+    EQ,
+    LTGT,
+    LTEGTE,
+    IN
+} conditional_type;
+
+/* See conditional_block_functions.h */
+typedef struct conditional_block {
+    enum conditional_type conditional_type;
+    attribute_t* left;
+    attribute_t* right;
+} conditional_block_t;
 
 /* See conditional_block_functions.h */
 conditional_block_t* conditional_block_new(enum conditional_type conditional_type, 
