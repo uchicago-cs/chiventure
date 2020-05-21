@@ -20,7 +20,7 @@ typedef struct player {
 /* Stub for the game_t struct in game-state */
 typedef struct game {
     // Would have other fields (eg hash tables for players, rooms, items)
-    player_t curr_player;
+    player_t *curr_player;
 } game_t;
 
 /* Stub, similar to chiventure_ctx_t except adding in battle mode component */
