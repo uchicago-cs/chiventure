@@ -34,7 +34,7 @@ typedef struct fix_item {
 	char *short_desc;
 	char *long_desc;
 //	game_action_hash_t *actions;
-	attribute_list_t *attributes; // a hashtable for all attribute
+//	attribute_list_t *attributes; // a hashtable for all attribute
 
 } fix_item_t;
 
