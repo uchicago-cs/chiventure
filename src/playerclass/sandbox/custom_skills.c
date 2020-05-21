@@ -83,6 +83,7 @@ custom_block_t* block_new(custom_action_t* act, custom_block_t* next) {
     return b;
 }
 
+
 /*
  * creates the custom action block for a sword swing skill
  * 
@@ -109,7 +110,7 @@ custom_block_t* create_swing_sword() {
     block = block_new(atomic_action, NULL);
     LL_APPEND(head, block);
 
-    // end the if
+    // end the if block
     p1.st = NO_PARAM;
     p2.st = NO_PARAM;
     atomic_action = action_new(ENDIF, p1, p2, NONE, NONE);
@@ -118,6 +119,56 @@ custom_block_t* create_swing_sword() {
 
     return head;
 }
+
+/*
+ * creates the custom action block for a fireball spell
+ * 
+ * returns a hardcoded list
+ */
+custom_block_t* create_fireball_spell() {
+    custom_block_t *head = NULL, *block;
+    custom_action_t *atomic_action;
+    custom_param_t p1;
+    custom_param_t p2;
+
+    // skill requires 10 Magic Energy
+    p1.st = ENERG;
+    p2.constant = 10;
+    atomic_action = action_new(IF, p1, p2, STAT, CONSTANT);
+    block = block_new(atomic_action, NULL);
+    LL_APPEND(head, block);
+
+    // do 9 damage
+    p1.st = HEALTH;
+    p2.constant = 9;
+    atomic_action = action_new(SUB, p1, p2, STAT, CONSTANT);
+    block = block_new(atomic_action, NULL);
+    LL_APPEND(head, block);
+
+    // else
+    p1.st = NO_PARAM;
+    p2.st = NO_PARAM;
+    atomic_action = action_new(ELSE, p1, p2, NONE, NONE);
+    block = block_new(atomic_action, NULL);
+    LL_APPEND(head, block);
+
+    // recover 2 energy
+    p1.st = ENERG;
+    p2.constant = 2;
+    atomic_action = action_new(ADD, p1, p2, STAT, CONSTANT);
+    block = block_new(atomic_action, NULL);
+    LL_APPEND(head, block);
+
+    // end the if block
+    p1.st = NO_PARAM;
+    p2.st = NO_PARAM;
+    atomic_action = action_new(ENDIF, p1, p2, NONE, NONE);
+    block = block_new(atomic_action, NULL);
+    LL_APPEND(head, block);
+
+    return head;
+}
+
 
 int main() {
 
