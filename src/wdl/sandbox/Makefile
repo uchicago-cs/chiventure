@@ -19,5 +19,9 @@ $(OBJS): %.o:%.c
 		$(CC) $(CFLAGS) -o $@ $(patsubst %.o, %.c, $@)
 
 clean:
+<<<<<<< HEAD
 		$(RM) ${OBJS} $(BIN)
                           
+=======
+	$(RM) ${OBJS} $(BIN)
+>>>>>>> 1b810da2ad42231b94e40420aa0efdcb4fb2ffce
