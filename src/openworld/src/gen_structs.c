@@ -47,7 +47,7 @@ gencontext_t* gencontext_new(path_t *path, int level, int openpaths, int numnpcs
 int gencontext_free(gencontext_t *context){
 
     if (context == NULL)
-	return FAILURE;
+	    return FAILURE;
 
     free(context);
     return SUCCESS;
@@ -57,7 +57,7 @@ int gencontext_free(gencontext_t *context){
 int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_hash_t *items, path_hash_t *paths){
     
     if (spec == NULL)
-	return FAILURE;
+	    return FAILURE;
 
     spec->short_desc = short_desc;
     spec->long_desc = long_desc;
@@ -69,11 +69,10 @@ int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_hash
 /* see gen_structs.h */
 roomspec_t* roomspec_new(char *short_desc, char *long_desc, item_hash_t *items, path_hash_t *paths){
 
-    roomspec_t *roomspecnew = malloc(sizeof(roomspec_t));
-    roomspecnew->short_desc = short_desc;
-    roomspecnew->long_desc = long_desc;
-    roomspecnew->items = items;
-    roomspecnew->paths = paths;
+    roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
+
+    init_roomspec(roomspecnew, short_desc, long_desc, items, paths);
+    
     return roomspecnew;
 }
 
@@ -91,7 +90,7 @@ int roomspec_free(roomspec_t *spec){
 int init_speclist(speclist_t *list, roomspec_t *spec){
 
     if (list == NULL)
-	return FAILURE;
+	    return FAILURE;
 
     list->spec = spec;
     list->next = NULL;
@@ -101,9 +100,10 @@ int init_speclist(speclist_t *list, roomspec_t *spec){
 /* see gen_structs.h */
 speclist_t* speclist_new(roomspec_t *spec){
 
-    speclist_t *listnew = malloc(sizeof(speclist_t));
-    listnew->spec = spec;
-    listnew->next = NULL;
+    speclist_t *listnew = calloc(1, sizeof(speclist_t));
+    
+    init_speclist(listnew, spec);
+
     return listnew;
 }
 
