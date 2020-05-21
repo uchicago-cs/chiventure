@@ -110,7 +110,7 @@ ITEMS:
        text_success: "you weren't supposed to pick this up"
        text_fail: "you can't do that"
 
- - id: "lever"
+ - id: "LEVER"
    short_desc: "A lever."
    long_desc: "A plain-looking lever."
    in: "white room"
