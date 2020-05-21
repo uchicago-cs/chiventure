@@ -1,5 +1,5 @@
 /* 
- * Functions to be used in conditional_block_t implementation
+ * Functions and structs to be used in conditional_block_t implementation
  */
 
 #ifndef INCLUDE_CONDITIONAL_BLOCK_FUNCTIONS_H
@@ -8,7 +8,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/struct.h"
+
+/* An enumeration type for a conditional block */
+typedef enum conditional_type;
+
+/* A block that returns true or false, and contains an operator and two attributes */
+typedef struct conditional_block;
 
 /* 
  * Allocates a conditional block in the heap. 

@@ -1,5 +1,5 @@
 /* 
- * Functions to be used in branch_block_t implementation
+ * Functions and structs to be used in branch_block_t implementation
  */
 
 #ifndef INCLUDE_BRANCH_BLOCK_FUNCTIONS_H
@@ -8,7 +8,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/struct.h"
+#include "custom-actions/conditional_block_functions.h"
+#include "custom-actions/control_block_functions.h"
+
+/* A block that holds pointers to both a control and a conditional block */
+typedef struct branch_block;
 
 /* 
  * Allocates a branch block in the heap. 

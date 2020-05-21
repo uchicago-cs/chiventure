@@ -1,5 +1,5 @@
 /* 
- * Functions to be used in control_block_t implementation
+ * Functions and structs to be used in control_block_t implementation
  */
 
 #ifndef INCLUDE_CONTROL_BLOCK_FUNCTIONS_H
@@ -8,7 +8,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/struct.h"
+#include "custom-actions/ast_block_functions.h"
+
+/* An enumeration type for a control block */
+typedef enum control_type;
+
+/* Struct to contain a control block, which introduces an action */
+typedef struct control_block;
 
 /* 
  * Allocates a control block in the heap. 

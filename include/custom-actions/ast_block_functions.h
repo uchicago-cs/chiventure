@@ -1,5 +1,5 @@
 /* 
- * Functions to be used in AST_block_t implementation
+ * Functions and structs to be used in AST_block_t implementation
  */
 
 #ifndef INCLUDE_AST_BLOCK_FUNCTIONS_H
@@ -8,7 +8,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/struct.h"
+#include "custom-actions/control_block_functions.h"
+#include "custom-actions/branch_block_functions.h"
+#include "custom-actions/conditional_block_functions.h"
+#include "custom-actions/action_block_functions.h"
+
+/* An enumeration type for an AST block */
+typedef enum block_type;
+
+/* Struct to represent the type of a block */
+typedef union block;
+
+/* Struct to contain a block, as well as its type */
+typedef struct AST_block;
 
 /* 
  * Allocates an AST block in the heap. 

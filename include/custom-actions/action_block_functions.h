@@ -1,5 +1,5 @@
 /* 
- * Functions to be used in action_block_t implementation
+ * Functions and structs to be used in action_block_t implementation
  */
 
 #ifndef INCLUDE_ACTION_BLOCK_FUNCTIONS_H
@@ -8,7 +8,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/struct.h"
+#include "custom-actions/ast_block_functions.h"
+
+/* An enumeration type for an action block */
+typedef enum action_type;
+
+/* A block that holds an action, as well as corresponding attributes and actions */
+typedef struct action_block;
 
 /* 
  * Allocates an action block in the heap. 
