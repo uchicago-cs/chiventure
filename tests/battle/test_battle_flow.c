@@ -4,22 +4,25 @@
 #include <string.h>
 #include "battle/battle_flow.h"
 
-/* Sets up pointer to combatant_info_t struct, contains stubs for stats, moves, items */
-combatant_info_t *make_comb_info(stat_t *stats, move_t *moves, b_item_t* items)
+/* Stub for the player_new function in player.h game-state module */
+combatant_info_t *player(char* p_id, stat_t *stats, move_t *moves, item_t* items)
 {
-    combatant_info_t *cinfo = calloc(1,sizeof(combatant_info_t));
+      player_t *plyr = calloc(1,sizeof(player_t));
+      assert(plyr != NULL);
 
-    cinfo->stats = stats;
-    cinfo->moves = moves;
-    cinfo->items = items;
+      plyr->player_id = p_id;
+      plyr->stats = stats;
+      plyr->moves = moves;
+      plyr->items = items;
 
-    return cinfo;
+      return plyr;
 }
 
 /* Sets up pointer to npc enemy struct, stub for an npc representing the enemy */
-npc_enemy_t *make_npc_enemy(char* npc_id, stat_t *stats, move_t *moves, b_item_t* items)
+npc_enemy_t *make_npc_enemy(char* npc_id, stat_t *stats, move_t *moves, item_t* items)
 {
     npc_enemy_t *npc_e = calloc(1,sizeof(npc_enemy_t));
+    assert(npc_e != NULL);
 
     npc_e->npc_id = npc_id;
     npc_e->stats = stats;
@@ -36,7 +39,7 @@ Test(battle_flow, set_player)
 {
     combatant_t *comb_player;
 
-    player_t *ctx_player = player_new("set_player_Name",100);
+    player_t *ctx_player = player_new("set_player_Name",NULL,NULL,NULL);
     combatant_info_t *pinfo = make_comb_info(NULL,NULL,NULL);
 
     comb_player = set_player(ctx_player,pinfo);
@@ -79,11 +82,10 @@ Test(battle_flow, set_enemies)
 /* Tests set_battle() */
 Test(battle_flow, set_battle)
 {
-    player_t *ctx_player = player_new("set_battle_Name",100);
-    combatant_info_t *pinfo = make_comb_info(NULL,NULL,NULL);
+    player_t *ctx_player = player_new("set_battle_Name",NULL,NULL,NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name",NULL,NULL,NULL);
     environment_t env = ENV_DESERT;
-    battle_t *b = set_battle(ctx_player,pinfo,npc_enemy,env);
+    battle_t *b = set_battle(ctx_player,npc_enemy,env);
     cr_assert_not_null(b, "set_battle() failed");
     // Check player field
     cr_assert_not_null(b->player, "set_battle() failed");
@@ -111,19 +113,15 @@ Test(battle_flow, start_battle)
 {
     chiventure_ctx_battle_t *ctx = calloc(1,sizeof(chiventure_ctx_battle_t));
     game_t *g = game_new("start_battle_Start_Desc");
-    player_t *ctx_player = player_new("start_battle_Name",100);
-    int rc1 = set_curr_player(g,ctx_player);
+    player_t *ctx_player = player_new("start_battle_Name",NULL,NULL,NULL);
+    g->curr_player = ctx_player;
     ctx->game = g;
     ctx->battle_mode = true;
-    ctx->ui_ctx = NULL;
-    ctx->table = NULL;
-
     npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name",NULL,NULL,NULL);
-    combatant_info_t *pinfo = make_comb_info(NULL,NULL,NULL);
     environment_t env = ENV_SNOW;
 
-    int rc2 = start_battle(ctx,npc_enemy,pinfo,env);
+    int rc = start_battle(ctx,npc_enemy,env);
 
-    cr_assert_eq(rc2,SUCCESS,"start_battle() failed");
+    cr_assert_eq(rc,SUCCESS,"start_battle() failed");
 
 }

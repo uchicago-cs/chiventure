@@ -47,7 +47,7 @@ typedef struct combatant {
     class_t class;
     stat_t *stats;
     move_t *moves;
-    b_item_t *items;
+    item_t *items;
     struct combatant *next;
     struct combatant *prev;
 } combatant_t;
@@ -99,11 +99,11 @@ int battle_free(battle_t *b);
  * - is_friendly: bool indicating character type
  * - stat_t: pointer to the stats of the combatant(stub)
  * - move_t: pointer to the linked list of moves for the combatant (stub)
- * - b_item_t: pointer to the linked list of items for the combatant (stub)
+ * - item_t: pointer to the linked list of items for the combatant (stub)
  * returns: a pointer to the new character
  */
 combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
-    move_t *moves, b_item_t *items);
+    move_t *moves, item_t *items);
 
 /* Creates a new combatant struct
  * Parameters:
@@ -112,13 +112,13 @@ combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
  * - is_friendly: bool indicating character type
  * - stat_t: a pointer to the stats of the combatant (stub)
  * - move_t: a pointer to the linked list of moves for the combatant(stub)
- * - b_item_t: a pointer to the linked list of items for the combatant (stub)
+ * - item_t: a pointer to the linked list of items for the combatant (stub)
  * returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
 int combatant_init(combatant_t *c, char *name, bool is_friendly,
-     stat_t *stats, move_t *moves, b_item_t *items);
+     stat_t *stats, move_t *moves, item_t *items);
 
 /* Frees a combatant struct from memory
  * Parameters:

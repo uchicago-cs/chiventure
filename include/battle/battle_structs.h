@@ -8,7 +8,7 @@
 #define MAX_NAME_LEN (50)
 
 /* items stub */
-typedef struct b_item {
+typedef struct item {
     int id;
     int quantity;
     int durability;
@@ -17,13 +17,13 @@ typedef struct b_item {
     int attack;
     int defense;
     int hp;
-    struct b_item *next;
-    struct b_item *prev;
-} b_item_t;
+    struct item *next;
+    struct item *prev;
+} item_t;
 
 /* moves stub */
 typedef struct move {
-    b_item_t *item;
+    item_t *item;
     bool attack;
     int damage;
     int defense;
