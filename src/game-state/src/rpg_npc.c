@@ -1,8 +1,8 @@
   
-#include "game-state/rpg_npc.h"
+#include "game-state/npc.h"
 #include "common-item.h"
 
-/* See rpg_npc.h */
+/* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue, stats_hash_t *stats)
 {
     assert(npc != NULL);
@@ -15,7 +15,7 @@ int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue, stats_hash
     return SUCCESS;
 }
 
-/* See rpg_npc.h */
+/* See npc.h */
 npc_t *npc_new(char *npc_id, int health, convo_t *dialogue, stats_hash_t *stats)
 {
     npc_t *npc;
@@ -31,4 +31,85 @@ npc_t *npc_new(char *npc_id, int health, convo_t *dialogue, stats_hash_t *stats)
     }
 
     return npc;
+}
+
+/* See npc.h */
+int npc_free(npc_t *npc)
+{
+    assert(npc != NULL);
+    
+    // missing free_dialog function 
+    free(npc->npc_id);
+    delete_all_items(&npc->inventory);
+    free(npc);
+
+    return SUCCESS;
+}
+
+/* See npc.h */
+int get_npc_health(npc_t *npc)
+{
+    return npc->health;
+}
+
+/* See npc.h */
+int get_num_of_npcs(npcs_in_room_t *npcs_in_room)
+{
+    return npcs_in_room->num_of_npcs;
+}
+
+/* See npc.h */
+int change_npc_health(npc_t *npc, int change, int max)
+{
+    if ((npc->health + change) < 0)
+    {
+        npc->health = 0;
+    }
+    if ((npc->health + change) < max)
+    {
+        npc->health += change;
+    }
+    else
+    {
+        npc->health = max;
+    }
+    return npc->health;
+}
+
+/* See npc.h */
+item_hash_t* get_npc_inventory(npc_t *npc)
+{
+    return npc->inventory;
+}
+
+
+/* See npc.h */
+int add_item_to_npc(npc_t *npc, item_t *item)
+{
+    item_t *check;
+    HASH_FIND(hh, npc->inventory, item->item_id, strlen(item->item_id),
+              check);
+    
+    if (check != NULL)
+    {
+        return FAILURE; //this item id is already in use
+    }
+    HASH_ADD_KEYPTR(hh, npc->inventory, item->item_id,
+                    strlen(item->item_id), item);
+    return SUCCESS;
+}
+
+/* See npc.h */
+item_list_t *get_all_items_in_inv_npc(npc_t *npc)
+{
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, npc->inventory, curr_item, ITTMP_ITEMRM)
+    {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
+    }
+    return head;
 }
