@@ -13,8 +13,8 @@ Test(AST_block_t, new_CONTROL)
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
-    cr_assert_eq(new_ast->block, control_block, "AST_block_new() didn't set new_ast->block");
-    cr_assert_eq(new_ast->block_type, CONTROL, "AST_block_new() didn't set new_ast->block_type");
+    cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
+    cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
 
     AST_block_free(new_ast);
 }
@@ -29,8 +29,8 @@ Test(AST_block_t, new_BRANCH)
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
-    cr_assert_eq(new_ast->block, branch_block, "AST_block_new() didn't set new_ast->block");
-    cr_assert_eq(new_ast->block_type, BRANCH, "AST_block_new() didn't set new_ast->block_type");
+    cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
+    cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
 
     AST_block_free(new_ast);
 }
@@ -45,8 +45,8 @@ Test(AST_block_t, new_ACTION)
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
-    cr_assert_eq(new_ast->block, action_block, "AST_block_new() didn't set new_ast->block");
-    cr_assert_eq(new_ast->block_type, ACTION, "AST_block_new() didn't set new_ast->block_type");
+    cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
+    cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
 
     AST_block_free(new_ast);
 }
@@ -61,8 +61,8 @@ Test(AST_block_t, new_CONDITIONAL)
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
-    cr_assert_eq(new_ast->block, conditional_block, "AST_block_new() didn't set new_ast->block");
-    cr_assert_eq(new_ast->block_type, CONDITIONAL, "AST_block_new() didn't set " 
+    cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
+    cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set " 
                 "new_ast->block_type");
 
     AST_block_free(new_ast);
@@ -79,8 +79,8 @@ Test(AST_block_t, init_CONTROL)
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(ast.block, control_block, "AST_block_init() didn't set ast.block");
-    cr_assert_eq(ast.block_type, CONTROL, "AST_block_init() didn't set ast.block_type");
+    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast.block");
+    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast.block_type");
 }
 
 /* Checks that a new AST block with branch type is initialized without interruption */
@@ -94,8 +94,8 @@ Test(AST_block_t, init_BRANCH)
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(ast.block, branch_block, "AST_block_init() didn't set ast.block");
-    cr_assert_eq(ast.block_type, BRANCH, "AST_block_init() didn't set ast.block_type");
+    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast.block");
+    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast.block_type");
 }
 
 /* Checks that a new AST block with action type is initialized without interruption */
@@ -109,8 +109,8 @@ Test(AST_block_t, init_ACTION)
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(ast.block, action_block, "AST_block_init() didn't set ast.block");
-    cr_assert_eq(ast.block_type, ACTION, "AST_block_init() didn't set ast.block_type");
+    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast.block");
+    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast.block_type");
 }
 
 /* Checks that a new AST block with conditional type is initialized without interruption */
@@ -124,8 +124,8 @@ Test(AST_block_t, init_CONDITIONAL)
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(ast.block, conditional_block, "AST_block_init() didn't set ast.block");
-    cr_assert_eq(ast.block_type, CONDITIONAL, "AST_block_init() didn't set ast.block_type");
+    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast.block");
+    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast.block_type");
 }
 
 /* Checks that a new AST block with control type is freed without interruption */
