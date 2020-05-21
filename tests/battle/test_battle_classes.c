@@ -38,6 +38,7 @@ Test(class, init)
 }
 
 
+/* Test make_test_bard */
 Test(class, bard)
 {
     class_t *bard = make_test_bard();
@@ -51,6 +52,54 @@ Test(class, bard)
     cr_assert_eq(bard->st, 3, "make_test_bard() didn't set stat bonus type”);
 
     cr_assert_eq(bard->bonus, 2.0, "make_test_bard() didn't set stat bonus value”);
+}
+
+
+/* Test make_test_cleric */
+{
+    class_t *cleric = make_test_cleric();
+    
+    cr_assert_eq(cleric->cl, 1, "make_test_cleric() didn't set class type");
+
+    cr_assert_eq(cleric->info,
+                 "Fueled by divine inspiration, devout to the craft",
+                 "make_test_cleric() didn't set class info);
+   
+    cr_assert_eq(cleric->st, 1, "make_test_cleric() didn't set stat bonus type”);
+
+    cr_assert_eq(bard->bonus, 2.0, "make_test_cleric() didn't set stat bonus value”);
+}
+
+
+/* Test make_test_paladin */
+{
+    class_t *paladin = make_test_paladin();
+    
+    cr_assert_eq(paladin->cl, 2, "make_test_paladin() didn't set class type");
+
+    cr_assert_eq(paladin->info,
+                 "Driven and committed to justice",
+                 "make_test_paladin() didn't set class info);
+   
+    cr_assert_eq(paladin->st, 2, "make_test_paladin() didn't set stat bonus type”);
+
+    cr_assert_eq(paladin->bonus, 2.0, "make_test_paladin() didn't set stat bonus value”);
+}
+
+
+/* Test make_test_wizard */
+{
+    class_t *wizard = make_test_wizard();
+    
+    cr_assert_eq(wizard->cl, 3, "make_test_wizard() didn't set class type");
+
+    cr_assert_eq(wizard->info,
+                 "Draws power from nature",
+                 "make_test_wizard() didn't set class info);
+   
+    cr_assert_eq(wizard->st, 0, "make_test_wizard() didn't set stat bonus type”);
+
+    cr_assert_eq(wizard->bonus, 2.0, "make_test_wizard() didn't set stat bonus value”);
 }
 
 
