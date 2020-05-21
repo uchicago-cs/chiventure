@@ -5,7 +5,7 @@
 #include "battle/battle_flow.h"
 
 /* Stub for the player_new function in player.h game-state module */
-combatant_info_t *player(char* p_id, stat_t *stats, move_t *moves, item_t* items)
+combatant_info_t *player_new(char* p_id, stat_t *stats, move_t *moves, item_t* items)
 {
       player_t *plyr = calloc(1,sizeof(player_t));
       assert(plyr != NULL);
@@ -16,6 +16,16 @@ combatant_info_t *player(char* p_id, stat_t *stats, move_t *moves, item_t* items
       plyr->items = items;
 
       return plyr;
+}
+
+/* Stub for the game_new function in game.h game-state module */
+game_t *game_new()
+{
+      game_t *g = calloc(1,sizeof(game_t));
+      assert(g != NULL);
+      g->curr_player = NULL;
+
+      return g;
 }
 
 /* Sets up pointer to npc enemy struct, stub for an npc representing the enemy */
@@ -112,7 +122,7 @@ Test(battle_flow, set_battle)
 Test(battle_flow, start_battle)
 {
     chiventure_ctx_battle_t *ctx = calloc(1,sizeof(chiventure_ctx_battle_t));
-    game_t *g = game_new("start_battle_Start_Desc");
+    game_t *g = game_new();
     player_t *ctx_player = player_new("start_battle_Name",NULL,NULL,NULL);
     g->curr_player = ctx_player;
     ctx->game = g;
