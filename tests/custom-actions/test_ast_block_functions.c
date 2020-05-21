@@ -62,8 +62,8 @@ Test(AST_block_t, new_CONDITIONAL)
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
     cr_assert_eq(new_ast->block, conditional_block, "AST_block_new() didn't set new_ast->block");
-    cr_assert_eq(new_ast->block_type, CONDITIONAL, "AST_block_new() didn't set 
-                new_ast->block_type");
+    cr_assert_eq(new_ast->block_type, CONDITIONAL, "AST_block_new() didn't set " 
+                "new_ast->block_type");
 
     AST_block_free(new_ast);
 }
