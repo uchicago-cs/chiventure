@@ -15,11 +15,11 @@ Test(item, new1)
 
 	cr_assert_not_null(i, "fix_item_new() failed");
 
-	cr_assert_str_eq(i->item_id, "apple", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(i->item->item_id, "apple", "fix_item_new() didn't set item_id");
 	cr_assert_eq(i->item_tag, APPLE, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(i->long_desc, "A juicy Red Delicious apple", 
+	cr_assert_str_eq(i->item->long_desc, "A juicy Red Delicious apple", 
 		"fix_item_new() didn't set long_desc");
-	cr_assert_str_eq(i->short_desc, "a red apple", 
+	cr_assert_str_eq(i->item->short_desc, "a red apple", 
 		"fix_item_new() didn't set short_desc");
 }
 
@@ -32,11 +32,11 @@ Test(item, new2)
 
 	cr_assert_not_null(i, "fix_item_new() failed");
 
-	cr_assert_str_eq(i->item_id, "kettle", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(i->item->item_id, "kettle", "fix_item_new() didn't set item_id");
 	cr_assert_eq(i->item_tag, KETTLE, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(i->long_desc, "A black kettle on a stove",
+	cr_assert_str_eq(i->item->long_desc, "A black kettle on a stove",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_str_eq(i->short_desc, "a black kettle",
+	cr_assert_str_eq(i->item->short_desc, "a black kettle",
 		"fix_item_new() didn't set short_desc");
 }
 
@@ -50,11 +50,11 @@ Test(item, init1)
 
 	cr_assert_eq(rc, SUCCESS, "fix_item_init() failed");
 
-	cr_assert_str_eq(i->item_id, "apple", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(i->item->item_id, "apple", "fix_item_new() didn't set item_id");
 	cr_assert_eq(i->item_tag, APPLE, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(i->long_desc, "A juicy Red Delicious apple",
+	cr_assert_str_eq(i->item->long_desc, "A juicy Red Delicious apple",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_str_eq(i->short_desc, "a red apple",
+	cr_assert_str_eq(i->item->short_desc, "a red apple",
 		"fix_item_new() didn't set short_desc");
 }
 
@@ -68,11 +68,11 @@ Test(item, init2)
 
 	cr_assert_eq(rc, SUCCESS, "fix_item_init() failed");
 
-	cr_assert_str_eq(i->item_id, "kettle", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(i->item->item_id, "kettle", "fix_item_new() didn't set item_id");
 	cr_assert_eq(i->item_tag, KETTLE, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(i->long_desc, "A black kettle on a stove",
+	cr_assert_str_eq(i->item->long_desc, "A black kettle on a stove",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_str_eq(i->short_desc, "a black kettle",
+	cr_assert_str_eq(i->item->short_desc, "a black kettle",
 		"fix_item_new() didn't set short_desc");
 }
 

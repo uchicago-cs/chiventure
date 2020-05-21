@@ -2,6 +2,7 @@
 #define _SAMPLE_ITEM_H
 
 #include "../game-state/game_state_common.h"
+#include "../game-state/item.h"
 #include "sample_items.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
@@ -28,26 +29,9 @@ typedef enum fix_item_tag { APPLE, BOOK, COW, DOOR, EAGLE, FRUIT, GOLD,
 						XYLOPHONE, YAM, ZEBRA} fix_item_tag_t;
 
 typedef struct fix_item {
-	UT_hash_handle hh;
 	fix_item_tag_t item_tag;
-	char *item_id;
-	char *short_desc;
-	char *long_desc;
-//	game_action_hash_t *actions;
-//	attribute_list_t *attributes; // a hashtable for all attribute
-
+	item_t* item;
 } fix_item_t;
-
-/* This typedef is to distinguish between item_t pointers which are
-* used to point to the item_t structs in the traditional sense,
-* and those which are used to hash item_t structs with the
-* UTHASH macros as specified in src/common/include */
-typedef struct fix_item fix_item_hash_t;
-
-typedef struct fix_item_wrapped_for_llist {
-	struct fix_item_wrapped_for_llist *next;
-	fix_item_t *item;
-} fix_item_list_t;
 
 /* item_new() allocates a space for an item struct in memory
 *  Parameters:
