@@ -35,8 +35,8 @@ typedef struct obj
         int  i;
         char *s;
         char *lua;
-    }
-}
+    } data;
+} obj_t;
 
 
 /**
@@ -83,7 +83,7 @@ obj_t obj_t_char(char c);
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-obj_t obj_t_int(int c);
+obj_t obj_t_int(int i);
 
 /**
  * obj_t_str() creates an obj_t struct containing a string
