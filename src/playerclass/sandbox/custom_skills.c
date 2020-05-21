@@ -87,6 +87,27 @@ custom_block_t* block_new(custom_action_t* act, custom_block_t* next) {
 }
 
 
+/*
+ * creates and initializes a stats struct
+ */
+stats_stub *stats_new(int hp, int xp, int sp, int pdef, int patk, int ratk,
+    int mdef, int matk, int energy) {
+
+    stats_stub *st = malloc(sizeof(stats_stub));
+    assert(st != NULL);
+    st->health = hp;
+    st->xp = xp;
+    st->speed = sp;
+    st->pdef = pdef;
+    st->patk = patk;
+    st->ratk = ratk;
+    st->mdef = mdef;
+    st->matk = matk;
+    st->energy = energy;
+    return st;
+}
+
+
 /* 
  * compares a stat with an integer constant
  * the only comparison supported is equality (==)
@@ -180,6 +201,9 @@ int add_to_stat(stats_stub* stats, stat_param sp, int to_add) {
  * assumes the block is well-formed and valid
  * assumes that all actions in the block with parameters have a stat
  *      followed by an integer constant
+ * 
+ * returns 0 if all ADD and SUB actions in the block control flow were executed successfully
+ * returns 1 if at least one such action failed
  */
 int execute(stats_stub* stats, custom_block_t* block) {
     assert(stats != NULL);
@@ -220,6 +244,15 @@ int execute(stats_stub* stats, custom_block_t* block) {
                     curr_act = curr->action;
                 }
             }
+
+        } else if (curr_act->comm == ELSE && if_result) {
+            /* skips to ENDIF when it reaches an else branch 
+             * after doing the if branch
+             */
+            while (curr_act != NULL && curr_act->comm != ENDIF) {
+                    curr = curr->next;
+                    curr_act = curr->action;
+                }
         }
     }
     return status;
@@ -312,6 +345,44 @@ custom_block_t* create_fireball_spell() {
 }
 
 
-int main() {
+/*
+ * prints the contents of a stats struct
+ */
+void print_stats(stats_stub* stats) {
+    assert(stats != NULL);
+    printf("health: %d\n", stats->health);
+    printf("xp: %d\n", stats->xp);
+    printf("speed: %d\n", stats->speed);
+    printf("phys. def.: %d\n", stats->pdef);
+    printf("phys. atk.: %d\n", stats->patk);
+    printf("ranged atk.: %d\n", stats->ratk);
+    printf("magic def.: %d\n", stats->mdef);
+    printf("magic atk.: %d\n", stats->matk);
+    printf("energy: %d\n\n", stats->energy);
+}
 
+
+int main() {
+    int rc;
+    // irrelevant stats are set to 1
+    stats_stub *stats1 = stats_new(25, 1, 1, 1, 5, 1, 1, 1, 8);
+    stats_stub *stats2 = stats_new(25, 1, 1, 1, 1, 1, 1, 1, 10);
+
+    custom_block_t *sword = create_swing_sword();
+    custom_block_t *fireball = create_fireball_spell();
+
+    rc = execute(stats1, sword);
+    printf("Sword swing status: %d\n", rc);
+    printf("Stats1 after swinging a sword\n");
+    print_stats(stats1);
+
+    rc = execute(stats1, fireball);
+    printf("Fireball status: %d\n", rc);
+    printf("Stats1 ater fireball attempt\n");
+    print_stats(stats1);
+
+    rc = execute(stats2, fireball);
+    printf("Fireball status: %d\n", rc);
+    printf("Stats2 ater fireball\n");
+    print_stats(stats2);
 }
