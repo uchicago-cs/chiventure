@@ -11,82 +11,82 @@ int fix_room_init(fix_room_t *new_room, fix_room_tag_t room_tag, int items_wante
 		int rc;
 		case BARN:
 			new_room->room_tag = BARN;
-			new_room->room_id = "barn";
-			new_room->short_desc = "A red barn";
-			new_room->long_desc = "A red barn with stables inside";
-			add_items_to_barn(new_room, items_wanted);
+			new_room->room->room_id = "barn";
+			new_room->room->short_desc = "A red barn";
+			new_room->room->long_desc = "A red barn with stables inside";
+			add_item_to_fix_room(new_room, items_wanted, BARN);
 			break;
 		case CAFETERIA:
 			new_room->room_tag = CAFETERIA;
-			new_room->room_id = "cafeteria";
-			new_room->short_desc = "A grungy cafeteria";
-			new_room->long_desc = "A messy high school cafeteria with trays and tables out";
-			add_items_to_cafeteria(new_room, items_wanted);
+			new_room->room->room_id = "cafeteria";
+			new_room->room->short_desc = "A grungy cafeteria";
+			new_room->room->long_desc = "A messy high school cafeteria with trays and tables out";
+			add_item_to_fix_room(new_room, items_wanted, CAFETERIA);
 			break;
 		case CLASSROOM:
 			new_room->room_tag = CLASSROOM;
-			new_room->room_id = "classroom";
-			new_room->short_desc = "A medium-sized classroom with 30 desks";
-			new_room->long_desc = "A geography teacher's classroom with 30 desks";
-			add_items_to_classroom(new_room, items_wanted);
+			new_room->room->room_id = "classroom";
+			new_room->room->short_desc = "A medium-sized classroom with 30 desks";
+			new_room->room->long_desc = "A geography teacher's classroom with 30 desks";
+			add_item_to_fix_room(new_room, items_wanted, CLASSROOM);
 			break;
 		case CLOSET:
 			new_room->room_tag = CLOSET;
-			new_room->room_id = "closet";
-			new_room->short_desc = "A broom closet";
-			new_room->long_desc = "A small broom closet with supplies";
-			add_items_to_closet(new_room, items_wanted);
+			new_room->room->room_id = "closet";
+			new_room->room->short_desc = "A broom closet";
+			new_room->room->long_desc = "A small broom closet with supplies";
+			add_item_to_fix_room(new_room, items_wanted, CLOSET);
 			break;
 		case DUNGEON:
 			new_room->room_tag = DUNGEON;
-			new_room->room_id = "dungeon";
-			new_room->short_desc = "A dark dungeon";
-			new_room->long_desc = "A dank, dark dungeon with traps"
+			new_room->room->room_id = "dungeon";
+			new_room->room->short_desc = "A dark dungeon";
+			new_room->room->long_desc = "A dank, dark dungeon with traps"
 				" and enemies to battle";
-			add_items_to_dungeon(new_room, items_wanted);
+			add_item_to_fix_room(new_room, items_wanted, DUNGEON);
 			break;
 		case FIELD:
 			new_room->room_tag = FIELD;
-			new_room->room_id = "open field";
-			new_room->short_desc = "An open field outside";
-			new_room->long_desc = "An open field with grass and a clear view";
-			add_items_to_field(new_room, items_wanted);
+			new_room->room->room_id = "open field";
+			new_room->room->short_desc = "An open field outside";
+			new_room->room->long_desc = "An open field with grass and a clear view";
+			add_item_to_fix_room(new_room, items_wanted, FIELD);
 			break;
 		case HALLWAY:
 			new_room->room_tag = HALLWAY;
-			new_room->room_id = "hallway";
-			new_room->short_desc = "A well-lit hallway";
-			new_room->long_desc = "A sterile, white hallway with no windows";
-			add_items_to_hallway(new_room, items_wanted);
+			new_room->room->room_id = "hallway";
+			new_room->room->short_desc = "A well-lit hallway";
+			new_room->room->long_desc = "A sterile, white hallway with no windows";
+			add_item_to_fix_room(new_room, items_wanted, HALLWAY);
 			break;
 		case KITCHEN:
 			new_room->room_tag = KITCHEN;
-			new_room->room_id = "kitchen";
-			new_room->short_desc = "A 60s era (outdated) kitchen";
-			new_room->long_desc = "An outdated kitchen with obvious wear-and-tear";
-			add_items_to_kitchen(new_room, items_wanted);
+			new_room->room->room_id = "kitchen";
+			new_room->room->short_desc = "A 60s era (outdated) kitchen";
+			new_room->room->long_desc = "An outdated kitchen with obvious wear-and-tear";
+			add_item_to_fix_room(new_room, items_wanted, KITCHEN);
 			break;
 		case LIBRARY:
 			new_room->room_tag = LIBRARY;
-			new_room->room_id = "library";
-			new_room->short_desc = "This is a library room with resources";
-			new_room->long_desc = "An old, dusty library with skill-boosting"
+			new_room->room->room_id = "library";
+			new_room->room->short_desc = "This is a library room with resources";
+			new_room->room->long_desc = "An old, dusty library with skill-boosting"
 									" resources like books and potions";
-			add_items_to_library(new_room, items_wanted);
+			add_item_to_fix_room(new_room, items_wanted, LIBRARY);
 			break;
 		case LIVING_ROOM:
 			new_room->room_tag = LIVING_ROOM;
-			new_room->room_id = "living room";
-			new_room->short_desc = "A living room with basic items";
-			new_room->long_desc = "A plain, unremarkable living room";
-			add_items_to_living(new_room, items_wanted);
+			new_room->room->room_id = "living room";
+			new_room->room->short_desc = "A living room with basic items";
+			new_room->room->long_desc = "A plain, unremarkable living room";
+			add_items_to_fix_room(new_room, items_wanted, LIVING_ROOM);
 			break;
 		case THRONE_ROOM:
 			new_room->room_tag = THRONE_ROOM;
-			new_room->room_id = "throne room";
-			new_room->short_desc = "This is a throne room";
-			new_room->long_desc = "A regal throne room decked out with lavish items";
-			add_items_to_throne(new_room, items_wanted);
+			new_room->room->room_id = "throne room";
+			new_room->room->short_desc = "This is a throne room";
+			new_room->room->long_desc = "A regal throne room decked out with lavish items";
+			add_item_to_fix_room(new_room, items_wanted, THRONE_ROOM);
 			break;
 
 		}
@@ -100,8 +100,8 @@ fix_room_t *fix_room_new(fix_room_tag_t room_tag, int items_wanted)
 	memset(room, 0, sizeof(fix_room_t));
 	int check = fix_room_init(room, room_tag, items_wanted);
 
-	if (room == NULL || room->room_id == NULL 
-		|| room->short_desc == NULL|| room->long_desc == NULL)
+	if (room == NULL || room->room->room_id == NULL 
+		|| room->room->short_desc == NULL|| room->room->long_desc == NULL)
 	{
 		return NULL;
 	}
@@ -117,171 +117,115 @@ fix_room_t *fix_room_new(fix_room_tag_t room_tag, int items_wanted)
 /* See sample_rooms.h */
 int fix_room_free(fix_room_t *room)
 {
-	free(room->room_id);
-	free(room->short_desc);
-	free(room->long_desc);
+	free(room->room->room_id);
+	free(room->room->short_desc);
+	free(room->room->long_desc);
+	free(room->room);
 	free(room);
 	return SUCCESS;
 }
 
 /* See sample_room.h */
-int add_item_to_fix_room(fix_room_t *room, fix_item_t *item)
+int add_item_to_fix_room(fix_room_t *room, int items_wanted)
 {
-	fix_item_t* check;
-//	HASH_FIND(hh, room->items, item->item_id, strlen(item->item_id), check);
+	fix_item_tag_t* avail;
+	int rc, i, length = 0;
 
-	if (check != NULL)
-	{
-		return FAILURE; //this item id is already in use.
+	switch (room->room_tag) {
+		case BARN:
+			avail[9] = { APPLE, COW, DOOR, FRUIT, LADDER, NAIL,
+			RABBIT, YAM, ZEBRA };
+			length = 9;
+			break;
+		case CAFETERIA:
+			avail[9] = { APPLE, DOOR, FRUIT, ICE, JUG, KETTLE,
+				OLIVE, TRAY, YAM };
+			length = 9;
+			break;
+		case CLASSROOM:
+			avail[10] = { BOOK, DOOR, HAT, PENCIL, QUILL, VIDEO,
+				SCISSORS, TRAY, WATERCOLORS, XYLOPHONE };
+			length = 10;
+			break;
+		case CLOSET:
+			avail[8] = { GOLD, HAT, ICE, JUG, LADDER, NAIL,
+				TRAY, UMBRELLA };
+			length = 8;
+			break;
+		case DUNGEON:
+			avail[4] = { DOOR, GOLD, LADDER, NAIL };
+			length = 4;
+			break;
+		case FIELD:
+			avail[7] = { APPLE, COW, EAGLE, RABBIT, NAIL,
+				YAM, ZEBRA };
+			length = 7;
+			break;
+		case HALLWAY:
+			avail[4] = { DOOR, MIRROR, LADDER, NAIL };
+			length = 4;
+			break;
+		case KITCHEN:
+			avail[10] = { APPLE, DOOR, FRUIT, ICE, JUG, KETTLE,
+				OLIVE, SCISSORS, TRAY, YAM };
+			length = 10;
+			break;
+		case LIBRARY:
+			avail[11] = { BOOK, DOOR, GOLD, LADDER, MIRROR,
+				PENCIL, QUILL, SCISSORS, VIDEO,
+				WATERCOLORS, XYLOPHONE };
+			length = 11;
+			break;
+		case LIVING_ROOM:
+			avail[8] = { BOOK, DOOR, FRUIT, MIRROR, UMBRELLA,
+				VIDEO, WATERCOLORS, XYLOPHONE };
+			length = 8;
+			break;
+		case THRONE_ROOM:
+			avail[5] = { DOOR, GOLD, HAT, MIRROR, QUILL };
+			length = 5;
+			break;
 	}
-//	HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id),
-//		item);
+
+	for (i = 0; i < length; i++) {
+		fix_item_t* item = fix_item_new(avail[rand() % length]);
+
+		fix_item_t* check;
+		HASH_FIND(hh, room->room->items, item->item-s>item_id,
+			strlen(item->item->item_id), check);
+
+		if (check != NULL)
+		{
+			return FAILURE; //this item id is already in use.
+		}
+		HASH_ADD_KEYPTR(hh, room->room->items, item->item->item_id,
+			strlen(item->item->item_id), item);
+	}
 	return SUCCESS;
-
-}
-
-/* See sample_room.h */
-int add_items_to_barn(fix_room_t *room, int item) {
-	//can add apple, cow, fruit, ladder, nail, rabbit, yam, zebra
-	fix_item_tag_t avail[9] = { APPLE, COW, DOOR, FRUIT, LADDER, NAIL,
-						 RABBIT, YAM, ZEBRA };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 9]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_cafeteria(fix_room_t *room, int item) {
-	fix_item_tag_t avail[9] = { APPLE, DOOR, FRUIT, ICE, JUG, KETTLE, 
-						OLIVE, TRAY, YAM };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 9]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_classroom(fix_room_t *room, int item) {
-	fix_item_tag_t avail[10] = { BOOK, DOOR, HAT, PENCIL, QUILL, VIDEO,
-						SCISSORS, TRAY, WATERCOLORS, XYLOPHONE };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 10]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_closet(fix_room_t *room, int item) {
-	fix_item_tag_t avail[8] = { GOLD, HAT, ICE, JUG, LADDER, NAIL,
-							TRAY, UMBRELLA };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 8]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_dungeon(fix_room_t *room, int item) {
-	fix_item_tag_t avail[4] = { DOOR, GOLD, LADDER, NAIL};
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 4]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_field(fix_room_t *room, int item) {
-	fix_item_tag_t avail[7] = { APPLE, COW, EAGLE, RABBIT, NAIL,
-						YAM, ZEBRA };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 7]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_hallway(fix_room_t *room, int item) {
-	fix_item_tag_t avail[4] = { DOOR, MIRROR, LADDER, NAIL };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 4]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_kitchen(fix_room_t *room, int item) {
-	fix_item_tag_t avail[10] = { APPLE, DOOR, FRUIT, ICE, JUG, KETTLE,
-							OLIVE, SCISSORS, TRAY, YAM };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 10]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_library(fix_room_t *room, int item) {
-	fix_item_tag_t avail[11] = { BOOK, DOOR, GOLD, LADDER, MIRROR, 
-						PENCIL, QUILL, SCISSORS, VIDEO,
-						WATERCOLORS, XYLOPHONE };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 11]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_living(fix_room_t *room, int item) {
-	fix_item_tag_t avail[8] = { BOOK, DOOR, FRUIT, MIRROR, UMBRELLA, 
-						VIDEO, WATERCOLORS, XYLOPHONE };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 8]));
-	}
-	return rc;
-}
-
-/* See sample_room.h */
-int add_items_to_throne(fix_room_t *room, int item) {
-	fix_item_tag_t avail[5] = { DOOR, GOLD, HAT, MIRROR, QUILL };
-	int i = 0, rc;
-	for (i = 0; i < item; i++) {
-		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 5]));
-	}
-	return rc;
 }
 
 /* See sample_rooms.h */
 char *get_sdesc_fix(fix_room_t *room)
 {
-	return room->short_desc;
+	return room->room->short_desc;
 }
 
 /* See sample_rooms.h */
 char *get_ldesc_fix(fix_room_t *room)
 {
-	return room->long_desc;
+	return room->room->long_desc;
 }
 
 /* See sample_rooms.h */
-item_list_t* list_fix_items(fix_room_t *room)
+item_hash_t* list_fix_items(fix_room_t *room)
 {
-	return room->items;
+	return room->room->items;
 }
 
 /* See sample_rooms.h */
-path_t *list_fix_paths(fix_room_t *room)
+path_hash_t *list_fix_paths(fix_room_t *room)
 {
-	return room->paths;
+	return room->room->paths;
 }
 
 /* See sample_rooms.h */
@@ -289,6 +233,5 @@ fix_room_t* generate_room() {
 	int key = (rand()) % 11;
 	int items_wanted = (rand())%5;
 	return fix_room_new(key, items_wanted);
-
 }
 

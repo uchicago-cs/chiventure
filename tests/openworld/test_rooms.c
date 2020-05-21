@@ -15,13 +15,13 @@ Test(room, new1_0)
 
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	cr_assert_str_eq(r->room_id, "barn", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(r->room->room_id, "barn", "fix_item_new() didn't set item_id");
 	cr_assert_eq(r->room_tag, BARN, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(r->short_desc, "A red barn",
+	cr_assert_str_eq(r->room->short_desc, "A red barn",
 		"fix_item_new() didn't set shor_desc");
-	cr_assert_str_eq(r->long_desc, "A red barn with stables inside",
+	cr_assert_str_eq(r->room->long_desc, "A red barn with stables inside",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_null(r->items, "fix_item_new() didn't set 0 items");
+	cr_assert_null(r->room->items, "fix_item_new() didn't set 0 items");
 }
 
 /* Test fix_item_new function for BARN, 5 items */
@@ -34,17 +34,17 @@ Test(room, new1_5)
 	cr_assert_not_null(r, "fix_room_new() failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
 
-	cr_assert_str_eq(r->room_id, "barn", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(r->room->room_id, "barn", "fix_item_new() didn't set item_id");
 	cr_assert_eq(r->room_tag, BARN, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(r->short_desc, "A red barn",
+	cr_assert_str_eq(r->room->short_desc, "A red barn",
 		"fix_item_new() didn't set shor_desc");
-	cr_assert_str_eq(r->long_desc, "A red barn with stables inside",
+	cr_assert_str_eq(r->room->long_desc, "A red barn with stables inside",
 		"fix_item_new() didn't set long_desc");
 	cr_assert_eq(tally, 5, "fix_item_new() didn't set 5 items");
 }
@@ -58,13 +58,13 @@ Test(room, new2_0)
 
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	cr_assert_str_eq(r->room_id, "throne room", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(r->room->room_id, "throne room", "fix_item_new() didn't set item_id");
 	cr_assert_eq(r->room_tag, THRONE_ROOM, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(r->short_desc, "This is a throne room",
+	cr_assert_str_eq(r->room->short_desc, "This is a throne room",
 		"fix_item_new() didn't set shor_desc");
-	cr_assert_str_eq(r->long_desc, "A regal throne room decked out with lavish items",
+	cr_assert_str_eq(r->room->long_desc, "A regal throne room decked out with lavish items",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_null(r->items, "fix_item_new() didn't set 0 items");
+	cr_assert_null(r->room->items, "fix_item_new() didn't set 0 items");
 }
 
 /* Test fix_item_new function for THRONE_ROOM, 5 items */
@@ -77,17 +77,17 @@ Test(room, new2_5)
 	cr_assert_not_null(r, "fix_room_new() failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
 
-	cr_assert_str_eq(r->room_id, "throne room", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(r->room->room_id, "throne room", "fix_item_new() didn't set item_id");
 	cr_assert_eq(r->room_tag, THRONE_ROOM, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(r->short_desc, "This is a throne room",
+	cr_assert_str_eq(r->room->short_desc, "This is a throne room",
 		"fix_item_new() didn't set shor_desc");
-	cr_assert_str_eq(r->long_desc, "A regal throne room decked out with lavish items",
+	cr_assert_str_eq(r->room->long_desc, "A regal throne room decked out with lavish items",
 		"fix_item_new() didn't set long_desc");
 	cr_assert_eq(tally, 5, "fix_item_new() didn't set 5 items");
 }
@@ -101,13 +101,13 @@ Test(room, init1_0)
 
 	cr_assert_eq(rc, SUCCESS, "fix_room_init() failed");
 
-	cr_assert_str_eq(r->room_id, "barn", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(r->room->room_id, "barn", "fix_item_new() didn't set item_id");
 	cr_assert_eq(r->room_tag, BARN, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(r->short_desc, "A red barn",
+	cr_assert_str_eq(r->room->short_desc, "A red barn",
 		"fix_item_new() didn't set shor_desc");
-	cr_assert_str_eq(r->long_desc, "A red barn with stables inside",
+	cr_assert_str_eq(r->room->long_desc, "A red barn with stables inside",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_null(r->items, "fix_item_new() didn't set 0 items");
+	cr_assert_null(r->room->items, "fix_item_new() didn't set 0 items");
 }
 
 /* Test fix_item_init function for BARN, 5 items */
@@ -120,17 +120,17 @@ Test(room, init1_5)
 	cr_assert_eq(rc, SUCCESS, "fix_room_init() failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
 
-	cr_assert_str_eq(r->room_id, "barn", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(r->room->room_id, "barn", "fix_item_new() didn't set item_id");
 	cr_assert_eq(r->room_tag, BARN, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(r->short_desc, "A red barn",
+	cr_assert_str_eq(r->room->short_desc, "A red barn",
 		"fix_item_new() didn't set shor_desc");
-	cr_assert_str_eq(r->long_desc, "A red barn with stables inside",
+	cr_assert_str_eq(r->room->long_desc, "A red barn with stables inside",
 		"fix_item_new() didn't set long_desc");
 	cr_assert_eq(tally, 5, "fix_item_new() didn't set 5 items");
 }
@@ -144,13 +144,13 @@ Test(room, init2_0)
 
 	cr_assert_eq(rc, SUCCESS, "fix_item_init() failed");
 
-	cr_assert_str_eq(r->room_id, "throne room", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(r->room->room_id, "throne room", "fix_item_new() didn't set item_id");
 	cr_assert_eq(r->room_tag, THRONE_ROOM, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(r->short_desc, "This is a throne room",
+	cr_assert_str_eq(r->room->short_desc, "This is a throne room",
 		"fix_item_new() didn't set shor_desc");
-	cr_assert_str_eq(r->long_desc, "A regal throne room decked out with lavish items",
+	cr_assert_str_eq(r->room->long_desc, "A regal throne room decked out with lavish items",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_null(r->items, "fix_item_new() didn't set 0 items");
+	cr_assert_null(r->room->items, "fix_item_new() didn't set 0 items");
 }
 
 /* Test fix_item_init function for THRONE_ROOM, 5 items */
@@ -164,17 +164,17 @@ Test(room, init2_5)
 	cr_assert_eq(rc, SUCCESS, "fix_item_init() failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
 
-	cr_assert_str_eq(r->room_id, "throne room", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(r->room->room_id, "throne room", "fix_item_new() didn't set item_id");
 	cr_assert_eq(r->room_tag, THRONE_ROOM, "fix_item_new() didn't set item_tag");
-	cr_assert_str_eq(r->short_desc, "This is a throne room",
+	cr_assert_str_eq(r->room->short_desc, "This is a throne room",
 		"fix_item_new() didn't set shor_desc");
-	cr_assert_str_eq(r->long_desc, "A regal throne room decked out with lavish items",
+	cr_assert_str_eq(r->room->long_desc, "A regal throne room decked out with lavish items",
 		"fix_item_new() didn't set long_desc");
 	cr_assert_eq(tally, 5, "fix_item_new() didn't set 5 items");
 }
@@ -209,24 +209,7 @@ Test(room, free2)
 	cr_assert_eq(rc, SUCCESS, "fix_room_free() failed");
 }
 
-/* Test add_item_to_fix_room */
-Test(room, add_gen_item) {
-	fix_room_t* r;
-	fix_item_t* i;
-	int rc;
-
-	i = fix_item_new(APPLE);
-	cr_assert_not_null(i, "fix_room_new() failed");
-
-	r = fix_room_new(BARN, 0);
-	cr_assert_not_null(r, "fix_room_new() failed");
-
-	rc = add_item_to_fix_room(r, i);
-	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() failed");
-
-}
-
-/* Test add_item_to_barn for 2 items */
+/* Test add_item for BARN for 2 items */
 Test(room, add_barn_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -235,20 +218,20 @@ Test(room, add_barn_item) {
 	r = fix_room_new(BARN, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_barn(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_item_to_barn() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for BARN failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_item_to_barn() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
-/* Test add_item_to_cafeteria for 2 items */
+/* Test add_item for CAFETERIA for 2 items */
 Test(room, add_cafeteria_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -257,20 +240,20 @@ Test(room, add_cafeteria_item) {
 	r = fix_room_new(CAFETERIA, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_cafeteria(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_cafeteria() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for CAFETERIA failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_cafeteria() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
-/* Test add_item_to_classroom for 2 items */
+/* Test add_item for CLASSROOM for 2 items */
 Test(room, add_classroom_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -279,20 +262,19 @@ Test(room, add_classroom_item) {
 	r = fix_room_new(CLASSROOM, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_classroom(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_classroom() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for CLASSROOM failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_classroom() did not add specified items");
-
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 }
 
-/* Test add_item_to_closet for 2 items */
+/* Test add_item for CLOSET for 2 items */
 Test(room, add_closet_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -301,20 +283,20 @@ Test(room, add_closet_item) {
 	r = fix_room_new(CLOSET, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_closet(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_closet() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for CLOSET failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_closet() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
-/* Test add_item_to_dungeon for 2 items */
+/* Test add_item for DUNGEON for 2 items */
 Test(room, add_dungeon_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -323,20 +305,20 @@ Test(room, add_dungeon_item) {
 	r = fix_room_new(DUNGEON, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_dungeon(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_dungeon() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for DUNGEON failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_dungeon() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
-/* Test add_item_to_field for 2 items */
+/* Test add_item for FIELD for 2 items */
 Test(room, add_field_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -345,42 +327,42 @@ Test(room, add_field_item) {
 	r = fix_room_new(FIELD, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_dungeon(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_field() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for FIELD failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_field() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
-/* Test add_item_to_hallway for 2 items */
+/* Test add_item for HALLWAY for 2 items */
 Test(room, add_hallway_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
 	int rc;
 
-	r = fix_room_new(HALLWAY, 0);
+	r = fix_room_new(FIELD, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_dungeon(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_hallway() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for FIELD failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_hallway() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
-/* Test add_item_to_kitchen for 2 items */
+/* Test add_item for KITCHEN for 2 items */
 Test(room, add_kitchen_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -389,20 +371,20 @@ Test(room, add_kitchen_item) {
 	r = fix_room_new(KITCHEN, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_dungeon(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_kitchen() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for KITCHEN failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_kitchen() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
-/* Test add_item_to_library for 2 items */
+/* Test add_item for LIBRARY for 2 items */
 Test(room, add_library_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -411,20 +393,20 @@ Test(room, add_library_item) {
 	r = fix_room_new(LIBRARY, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_dungeon(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_library() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for LIBRARY failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_library() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
-/* Test add_item_to_living for 2 items */
+/* Test add_item for LIVING_ROOM for 2 items */
 Test(room, add_living_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -433,20 +415,20 @@ Test(room, add_living_item) {
 	r = fix_room_new(LIVING_ROOM, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_living(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_living() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for LIVING_ROOM failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_living() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
-/* Test add_item_to_throne for 2 items */
+/* Test add_item for THRONE_ROOM for 2 items */
 Test(room, add_throne_item) {
 	fix_room_t* r;
 	int item_numbers = 2;
@@ -455,16 +437,16 @@ Test(room, add_throne_item) {
 	r = fix_room_new(THRONE_ROOM, 0);
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	rc = add_items_to_throne(r, item_numbers);
-	cr_assert_eq(rc, SUCCESS, "add_items_to_throne() failed");
+	rc = add_item_to_fix_room(r, items_wanted);
+	cr_assert_eq(rc, SUCCESS, "add_item_to_fix_room() for THRONE_ROOM failed");
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
 	}
-	cr_assert_eq(tally, item_numbers, "add_items_to_throne() did not add specified items");
+	cr_assert_eq(tally, item_numbers, "add_item_to_fix_room() did not add specified items");
 
 }
 
@@ -505,10 +487,10 @@ Test(room, ldesc1) {
 
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	char* ret = get_sdesc_fix(r);
+	char* ret = get_ldesc_fix(r);
 
 	cr_assert_str_eq(ret, "A geography teacher's classroom with 30 desks",
-		"get_sdesc_fix_item() failed");
+		"get_ldesc_fix_item() failed");
 
 }
 
@@ -520,10 +502,10 @@ Test(room, ldesc2) {
 
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	char* ret = get_sdesc_fix(r);
+	char* ret = get_ldesc_fix(r);
 
 	cr_assert_str_eq(ret, "A sterile, white hallway with no windows", 
-		"get_sdesc_fix_item() failed");
+		"get_ldesc_fix_item() failed");
 
 }
 
@@ -533,11 +515,11 @@ Test(room, item_list1) {
 
 	r = fix_room_new(HALLWAY, 0);
 
-	item_list_t* llist = list_items(r);
+	item_hash_t* llist = list_items(r);
 
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	cr_assert_null(r, "list_fix_items() failed");
+	cr_assert_null(llist, "list_fix_items() failed");
 }
 
 /* Test list_fix_items for room with 5 items */
@@ -548,10 +530,10 @@ Test(room, item_list2) {
 
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	item_list_t* llist = list_items(r);
+	item_hash_t* llist = list_items(r);
 
 	int tally = 0;
-	item_list_t* tmp = r->items;
+	item_hash_t* tmp = r->room->items;
 	while (tmp != NULL) {
 		tally++;
 		tmp = tmp->next;
@@ -568,7 +550,7 @@ Test(room, path_list1) {
 
 	cr_assert_not_null(r, "fix_room_new() failed");
 
-	path_t* paths = list_fix_paths(r);
+	path_hash_t* paths = list_fix_paths(r);
 
 	cr_assert_null(paths, "list_paths() failed");
 }

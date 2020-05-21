@@ -2,7 +2,6 @@
 #define _SAMPLE_ROOM_H
 
 #include "../game-state/game_state_common.h"
-#include "../game-state/game.h"
 #include "../game-state/room.h"
 #include "sample_items.h"
 
@@ -30,14 +29,8 @@ typedef enum fix_room_tag { BARN, CAFETERIA, CLASSROOM, CLOSET, DUNGEON, FIELD,
 							HALLWAY, KITCHEN, LIBRARY, LIVING_ROOM, THRONE_ROOM} fix_room_tag_t;
 
 typedef struct fix_room {
-	/* hh is used for hashtable, as provided in uthash.h */
-	UT_hash_handle hh;
 	fix_room_tag_t room_tag;
-	char *room_id;
-	char *short_desc;
-	char *long_desc;
-	item_list_t *items;
-	path_hash_t *paths;
+	room_t* room;
 } fix_room_t;
 
 /* This typedef is to distinguish between room_t pointers which are
@@ -87,46 +80,15 @@ int fix_room_free(fix_room_t *room);
 /* Adds an item to the given room
 *
 * Parameters:
-*  room struct
-*  item struct
+*  fix_room_t room of specific type needed by function,
+*  int items wanted to specify how many times to iterate adding items
+*  room tag is used to specify the appropriate subset of items that we
+*		can choose from
 *
 * Returns:
 *  SUCCESS if successful, FAILURE if failed
 */
-int add_item_to_fix_room(fix_room_t *room, fix_item_t *item);
-
-// SPECIFIC ADD ITEM TO ROOM FUNCTIONS--------------------------
-/* Randomly picks and adds items to rooms based on the list
-*  of "appropriate" items to find in that room type
-*
-* Parameters:
-*  fix_room_t room of specific type needed by function,
-*	int items wanted to specify how many times to iterate adding items
-*
-* Returns:
-*  void
-*/
-int add_items_to_barn(fix_room_t *room, int items_wanted);
-
-int add_items_to_cafeteria(fix_room_t *room, int items_wanted);
-
-int add_items_to_classroom(fix_room_t *room, int items_wanted);
-
-int add_items_to_closet(fix_room_t *room, int items_wanted);
-
-int add_items_to_dungeon(fix_room_t *room, int items_wanted);
-
-int add_items_to_field(fix_room_t *room, int items_wanted);
-
-int add_items_to_hallway(fix_room_t *room, int items_wanted);
-
-int add_items_to_kitchen(fix_room_t *room, int items_wanted);
-
-int add_items_to_library(fix_room_t *room, int items_wanted);
-
-int add_items_to_living(fix_room_t *room, int items_wanted);
-
-int add_items_to_throne(fix_room_t *room, int items_wanted);
+int add_item_to_fix_room(fix_room_t *room, int items_wanted);
 
 /* Get short description of room
 *
@@ -156,7 +118,7 @@ char *get_ldesc_fix(fix_room_t *room);
 * Returns:
 *  hashtable of items in room
 */
-item_list_t* list_items(fix_room_t *room);	
+item_hash_t* list_items(fix_room_t *room);	
 
 /* Get list of paths from room
 *
@@ -166,7 +128,7 @@ item_list_t* list_items(fix_room_t *room);
 * Returns:
 *  pointer to hashtable of paths from room
 */
-path_t *list_fix_paths(fix_room_t *room);
+path_hash_t *list_fix_paths(fix_room_t *room);
 
 /* Get a randomly generated room with no inital parameters
 *  Will call on rand() function to randomly call on
