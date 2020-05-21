@@ -9,12 +9,15 @@
 #include "playerclass/class_structs.h"
 
 /* 
- * Allocates memory for a new player class. 
+ * Allocates memory for a new player class. Only creates a deep copies of the 
+ * strings name, short description, and long description.
  * 
  * Parameters:
  *  - name, shortdesc, longdesc: Name and descriptions of the class
  *  - attr: the attributes of the class
  *  - stat: the stats of the class
+ *  - battle: the battle/combat actions of the class
+ *  - action: the noncombat actions of the class
  * 
  * Returns:
  *  - a pointer to the allocated class memory
@@ -25,13 +28,16 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
                    battle_t* battle, action_t* action);
 
 /* 
- * Initializes values for a player class. 
+ * Initializes values for a player class. Only creates a deep copies of the 
+ * strings name, short description, and long description.
  * 
  * Parameters:
  *  - class: a pointer to the class to be initialized
  *  - name, shortdesc, longdesc: Name and descriptions of the class
  *  - attr: the attributes of the class
  *  - stat: the stats of the class
+ *  - battle: the battle/combat actions of the class
+ *  - action: the noncombat actions of the class
  * 
  * Returns:
  *  - EXIT_SUCCESS on successful initialization
