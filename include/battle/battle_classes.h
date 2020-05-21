@@ -1,19 +1,9 @@
 #ifndef BATTLE_CLASSES_H
 #define BATTLE_CLASSES_H
 
-/** The player class struct, which includes the enum class, a short
-description of the class, which stat the class gets a bonus for, and
-how much that bonus is **/
-typedef struct class
-{
-    class_type_t cl;
-    char *info;
-    possible_stats_t st;
-    int bonus;
-} class_t;
+#include <stdbool.h>
+#include <string.h>
 
-
-/* class stub */
 typedef enum class_type
 {
     bard,
@@ -33,5 +23,18 @@ typedef enum possible_stats
     dex,
     chrsma
 } possible_stats_t;
+
+
+/** The player class struct, which includes the enum class, a short
+description of the class, which stat the class gets a bonus for, and
+how much that bonus is **/
+typedef struct class
+{
+    class_type_t cl;
+    char *info;
+    possible_stats_t st;
+    int bonus;
+} class_t;
+
 
 #endif
