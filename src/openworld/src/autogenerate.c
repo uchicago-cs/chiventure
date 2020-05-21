@@ -50,7 +50,7 @@ int pop_speclist(gencontext_t *context) {
     if (prev->spec->paths == NULL) goto fin;
     else delete_all_paths(prev->spec->paths);
     if (prev->spec->items == NULL) goto fin;
-    delete_all_items(&prev->spec->items);
+    else delete_all_items(&prev->spec->items);
 
     fin:
         free(prev->spec->short_desc);
