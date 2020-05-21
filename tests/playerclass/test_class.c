@@ -4,6 +4,13 @@
 #include <criterion/criterion.h>
 #include "playerclass/class.h"
 
+/* Creates a sample class for testing 
+ * 
+ * Parameters: none
+ * 
+ * Returns: a class
+ */
+
 class_t* generate_test_class()
 {
     class_t* c;
