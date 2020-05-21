@@ -50,9 +50,8 @@ Test(battle_flow, set_player)
     combatant_t *comb_player;
 
     player_t *ctx_player = player_new("set_player_Name",NULL,NULL,NULL);
-    combatant_info_t *pinfo = make_comb_info(NULL,NULL,NULL);
 
-    comb_player = set_player(ctx_player,pinfo);
+    comb_player = set_player(ctx_player);
 
     cr_assert_not_null(comb_player, "set_player() failed");
     cr_assert_str_eq(comb_player->name, "set_player_Name", "set_player() didn't set name");
