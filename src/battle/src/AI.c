@@ -1,9 +1,17 @@
 #include "AI.h"
-#include "utlist.h"
+#include <math.h>
 
 /* see AI.h */
-move_t* give_move(int difficulty, player_t* player, enemy_t* enemy)
+move_t* give_move(int difficulty, combatant_t* player, combatant_t* enemy)
 {
+    if (player->is_friendly != true)
+    {
+        fprintf(stderr, "Error! Player is not friendly!");
+    }
+    if (enemy->is_friendly != false)
+    {
+        fprintf(stderr, "Error! Enemy is friendly!");
+    }
     if (difficulty == 1)
     {
         return easy_move(player, enemy);
@@ -19,23 +27,27 @@ move_t* give_move(int difficulty, player_t* player, enemy_t* enemy)
 }
 
 /* see AI.h */
-move_t* easy_move(player_t* player, enemy_t* enemy)
+move_t* easy_move(combatant_t* player, combatant_t* enemy)
 {
     return find_easy(player, enemy);
 }
 
 /* see AI.h */
-move_t* medium_move(player_t* player, enemy_t* enemy)
+move_t* medium_move(combatant_t* player, combatant_t* enemy)
 {
     int i, count, random;
-    move_t *elem;
+    move_t *move_struct;
 
-    DL_COUNT(enemy->moves, elem, count);
+    DL_COUNT(enemy->moves, move_struct, count);
     random = rand() % count + 1;
 
     move_t* random_move = enemy->moves;
     for (i = 0; i < random; i++)
     {
+        if (random_move->next == NULL)
+        {
+            return random_move;
+        }
         random_move = random_move->next;
     }
 
@@ -43,7 +55,7 @@ move_t* medium_move(player_t* player, enemy_t* enemy)
 }
 
 /* see AI.h */
-move_t* hard_move(player_t* player, enemy_t* enemy)
+move_t* hard_move(combatant_t* player, combatant_t* enemy)
 {
     return find_hard(player, enemy);
 }
@@ -54,7 +66,7 @@ move_t* hard_move(player_t* player, enemy_t* enemy)
  *      player - the player the move is going to be used against
  * Outputs:
  *      move_t - the move to be used        */
-move_t* find_easy(player_t* player, enemy_t* enemy)
+move_t* find_easy(combatant_t* player, combatant_t* enemy)
 {
     move_t* weakest_move = enemy->moves;
     move_t *temp;
@@ -82,7 +94,7 @@ move_t* find_easy(player_t* player, enemy_t* enemy)
  *      player - the player the move is going to be used against
  * Outputs:
  *      move_t - the move to be used        */
-move_t* find_hard(player_t* player, enemy_t* enemy)
+move_t* find_hard(combatant_t* player, combatant_t* enemy)
 {
     move_t* strongest_move = enemy->moves;
     move_t *temp;
@@ -105,12 +117,20 @@ move_t* find_hard(player_t* player, enemy_t* enemy)
 }
 
 /* see AI.h */
-double damage(player_t* player, move_t* move, enemy_t* enemy)
+double damage(combatant_t* player, move_t* move, combatant_t* enemy)
 {
-    double dmg = 0.0;
-    stats_t *enemy_stat = enemy->stats;
-    stats_t *player_stat = player->stats;
+    double dmg, power, enemy_strength, defense;
+    stats_t* e_stats = enemy->stats;
+    stats_t* p_stats = player->stats;
+    
+    //Inquire about armor
+    defense = (double) p_stats->defense + (double) player->armor->defense;
+    power = (double) move->damage;
 
-    // dmg = (((((2 * enemy_stat->level) / 5) + 2) * move->damage * (enemy_stat->strength / (player_stat->defense + player->armor->defense))) / 50) + 2;
+    
+    dmg = ((2.0 * (double) e_stats->level) / 5.0) + 2.0;
+    dmg *= ((power * ((double) e_stats->strength / defense)) / 50.0) + 2.0;
+
+    floor(dmg);
     return dmg;
 }

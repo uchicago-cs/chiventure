@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "common/utlist.h"
+#include "battle_state.h"
 #include "battle_structs.h"
 
 
@@ -15,7 +16,7 @@
  *      enemy - the enemy using the move
  * Outputs:
  *      move_t - the move to be used        */
-move_t* give_move(int difficulty, player_t* player, enemy_t* enemy);
+move_t* give_move(int difficulty, combatant_t* player, combatant_t* enemy);
 
 /* Given the player the move is going to be used against, 
  *          easy_move returns the move that will deal the lighest damage
@@ -24,7 +25,7 @@ move_t* give_move(int difficulty, player_t* player, enemy_t* enemy);
  *      enemy - the enemy using the move
  * Outputs:
  *      move_t - the move to be used        */
-move_t* easy_move(player_t* player, enemy_t* enemy);
+move_t* easy_move(combatant_t* player, combatant_t* enemy);
 
 /* Given the player the move is going to be used against, 
  *          medium_move returns a random move
@@ -33,7 +34,7 @@ move_t* easy_move(player_t* player, enemy_t* enemy);
  *      enemy - the enemy using the move
  * Outputs:
  *      move_t - the move to be used        */
-move_t* easy_move(player_t* player, enemy_t* enemy);
+move_t* medium_move(combatant_t* player, combatant_t* enemy);
 
 /* Given the player the move is going to be used against, 
  *          hard_move returns the move that will deal the most damage
@@ -42,7 +43,7 @@ move_t* easy_move(player_t* player, enemy_t* enemy);
  *      enemy - the enemy using the move
  * Outputs:
  *      move_t - the move to be used        */
-move_t* easy_move(player_t* player, enemy_t* enemy);
+move_t* hard_move(combatant_t* player, combatant_t* enemy);
 
 /* Function returns the damage dealt to a player
  * Inputs:
@@ -51,6 +52,6 @@ move_t* easy_move(player_t* player, enemy_t* enemy);
  *      move - the move being played
  * Outputs:
  *      damage - the damage dealt     */
-double damage(player_t* player, move_t* move, enemy_t* enemy);
+double damage(combatant_t* player, move_t* move, combatant_t* enemy);
 
 #endif
