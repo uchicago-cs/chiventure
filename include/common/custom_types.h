@@ -3,9 +3,11 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-// #include "lauxlib.h"
-// #include "lua.h"
-// #include "lualib.h"
+#include <stdlib.h>
+#include <string.h>
+#include "lauxlib.h"
+#include "lua.h"
+#include "lualib.h"
 
 /* File consisting of all custom pseudo-types created by Custom Scripts
    =========================================================================== */
@@ -184,7 +186,7 @@ string_t string_t_init(string_t it, char *s, char *luaDirectory);
  * Returns:
  * - string from st
  */
-char* string_t_get(string_t st);
+const char* string_t_get(string_t st);
 
 
 /**

@@ -8,7 +8,3 @@ add_library(game-state
 
 target_include_directories(game-state PRIVATE src/)
 
-
-
-
-
