@@ -343,4 +343,16 @@ int delete_attribute_llist(attribute_list_t *head);
  */
 int delete_item_llist(item_list_t *head);
 
+/*
+ * Function to delete all given hashed items
+ *
+ * Parameters:
+ *  items - of type item_hash_t**
+ *
+ * Returns:
+ * - 0 if success
+ * - 1 if failure
+ */
+int delete_all_items(item_hash_t** items);
+
 #endif
