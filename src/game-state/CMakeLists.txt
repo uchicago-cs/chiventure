@@ -6,5 +6,7 @@ add_library(game-state
         src/player.c
         src/room.c)
 
+target_link_libraries(game-state ${LUA_LIBRARIES})
+target_include_directories(game-state PRIVATE ${LUA_INCLUDE_DIR})
 target_include_directories(game-state PRIVATE src/)
 

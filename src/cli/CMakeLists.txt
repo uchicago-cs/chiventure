@@ -4,6 +4,8 @@ add_library(cli
             src/parser.c
             src/shell.c)
 
+target_link_libraries(cli ${LUA_LIBRARIES})
+target_include_directories(cli PRIVATE ${LUA_INCLUDE_DIR})
 target_include_directories(cli PRIVATE src/)
 
 target_link_libraries(cli checkpointing)

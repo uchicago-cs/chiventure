@@ -11,6 +11,8 @@ add_library(checkpointing
             ${PROTO_SRCS}
             ${PROTO_HDRS} src/save-int.h)
 
+target_link_libraries(checkpointing ${LUA_LIBRARIES})
+target_include_directories(checkpointing PRIVATE ${LUA_INCLUDE_DIR})
 target_include_directories(checkpointing PRIVATE ${PROTOBUF_DIRS})
 target_include_directories(checkpointing PRIVATE src/)
 

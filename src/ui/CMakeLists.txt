@@ -7,6 +7,8 @@ add_library(ui
             src/ui_ctx.c
             src/window.c)
 
+target_link_libraries(ui ${LUA_LIBRARIES})
+target_include_directories(ui PRIVATE ${LUA_INCLUDE_DIR})
 target_include_directories(ui PRIVATE src/)
 
 target_link_libraries(ui ${CURSES_LIBRARIES})
