@@ -15,11 +15,11 @@ Test(item, new1)
 
 	cr_assert_not_null(i, "fix_item_new() failed");
 
-	cr_assert_eq(i->item_id, "apple", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(i->item_id, "apple", "fix_item_new() didn't set item_id");
 	cr_assert_eq(i->item_tag, APPLE, "fix_item_new() didn't set item_tag");
-	cr_assert_eq(i->long_desc, "A juicy Red Delicious apple", 
+	cr_assert_str_eq(i->long_desc, "A juicy Red Delicious apple", 
 		"fix_item_new() didn't set long_desc");
-	cr_assert_eq(i->short_desc, "a red apple", 
+	cr_assert_str_eq(i->short_desc, "a red apple", 
 		"fix_item_new() didn't set short_desc");
 }
 
@@ -32,11 +32,11 @@ Test(item, new2)
 
 	cr_assert_not_null(i, "fix_item_new() failed");
 
-	cr_assert_eq(i->item_id, "kettle", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(i->item_id, "kettle", "fix_item_new() didn't set item_id");
 	cr_assert_eq(i->item_tag, KETTLE, "fix_item_new() didn't set item_tag");
-	cr_assert_eq(i->long_desc, "A black kettle on a stove",
+	cr_assert_str_eq(i->long_desc, "A black kettle on a stove",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_eq(i->short_desc, "a black kettle",
+	cr_assert_str_eq(i->short_desc, "a black kettle",
 		"fix_item_new() didn't set short_desc");
 }
 
@@ -50,11 +50,11 @@ Test(item, init1)
 
 	cr_assert_eq(rc, SUCCESS, "fix_item_init() failed");
 
-	cr_assert_eq(i->item_id, "apple", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(i->item_id, "apple", "fix_item_new() didn't set item_id");
 	cr_assert_eq(i->item_tag, APPLE, "fix_item_new() didn't set item_tag");
-	cr_assert_eq(i->long_desc, "A juicy Red Delicious apple",
+	cr_assert_str_eq(i->long_desc, "A juicy Red Delicious apple",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_eq(i->short_desc, "a red apple",
+	cr_assert_str_eq(i->short_desc, "a red apple",
 		"fix_item_new() didn't set short_desc");
 }
 
@@ -68,11 +68,11 @@ Test(item, init2)
 
 	cr_assert_eq(rc, SUCCESS, "fix_item_init() failed");
 
-	cr_assert_eq(i->item_id, "kettle", "fix_item_new() didn't set item_id");
+	cr_assert_str_eq(i->item_id, "kettle", "fix_item_new() didn't set item_id");
 	cr_assert_eq(i->item_tag, KETTLE, "fix_item_new() didn't set item_tag");
-	cr_assert_eq(i->long_desc, "A black kettle on a stove",
+	cr_assert_str_eq(i->long_desc, "A black kettle on a stove",
 		"fix_item_new() didn't set long_desc");
-	cr_assert_eq(i->short_desc, "a black kettle",
+	cr_assert_str_eq(i->short_desc, "a black kettle",
 		"fix_item_new() didn't set short_desc");
 }
 
@@ -116,7 +116,7 @@ Test(item, sdesc1) {
 
 	char* ret = get_sdesc_fix_item(i);
 
-	cr_assert_eq(ret, "a red apple", "get_sdesc_fix_item() failed");
+	cr_assert_str_eq(ret, "a red apple", "get_sdesc_fix_item() failed");
 
 }
 
@@ -130,7 +130,7 @@ Test(item, sdesc2) {
 
 	char* ret = get_sdesc_fix_item(i);
 
-	cr_assert_eq(ret, "a black kettle", "get_sdesc_fix_item() failed");
+	cr_assert_str_eq(ret, "a black kettle", "get_sdesc_fix_item() failed");
 
 }
 
@@ -144,7 +144,7 @@ Test(item, ldesc1) {
 
 	char* ret = get_ldesc_fix_item(i);
 
-	cr_assert_eq(ret, "A juicy Red Delicious apple", 
+	cr_assert_str_eq(ret, "A juicy Red Delicious apple", 
 		"get_ldesc_fix_item() failed");
 
 }
@@ -159,6 +159,6 @@ Test(item, ldesc2) {
 
 	char* ret = get_sdesc_fix_item(i);
 
-	cr_assert_eq(ret, "A black kettle on a stove", "get_ldesc_fix_item() failed");
+	cr_assert_str_eq(ret, "A black kettle on a stove", "get_ldesc_fix_item() failed");
 
 }

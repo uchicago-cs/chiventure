@@ -106,27 +106,27 @@ int add_item_to_fix_room(fix_room_t *room, fix_item_t *item);
 * Returns:
 *  void
 */
-void add_items_to_barn(fix_room_t *room, int items_wanted);
+int add_items_to_barn(fix_room_t *room, int items_wanted);
 
-void add_items_to_cafeteria(fix_room_t *room, int items_wanted);
+int add_items_to_cafeteria(fix_room_t *room, int items_wanted);
 
-void add_items_to_classroom(fix_room_t *room, int items_wanted);
+int add_items_to_classroom(fix_room_t *room, int items_wanted);
 
-void add_items_to_closet(fix_room_t *room, int items_wanted);
+int add_items_to_closet(fix_room_t *room, int items_wanted);
 
-void add_items_to_dungeon(fix_room_t *room, int items_wanted);
+int add_items_to_dungeon(fix_room_t *room, int items_wanted);
 
-void add_items_to_field(fix_room_t *room, int items_wanted);
+int add_items_to_field(fix_room_t *room, int items_wanted);
 
-void add_items_to_hallway(fix_room_t *room, int items_wanted);
+int add_items_to_hallway(fix_room_t *room, int items_wanted);
 
-void add_items_to_kitchen(fix_room_t *room, int items_wanted);
+int add_items_to_kitchen(fix_room_t *room, int items_wanted);
 
-void add_items_to_library(fix_room_t *room, int items_wanted);
+int add_items_to_library(fix_room_t *room, int items_wanted);
 
-void add_items_to_living(fix_room_t *room, int items_wanted);
+int add_items_to_living(fix_room_t *room, int items_wanted);
 
-void add_items_to_throne(fix_room_t *room, int items_wanted);
+int add_items_to_throne(fix_room_t *room, int items_wanted);
 
 /* Get short description of room
 *
@@ -147,7 +147,6 @@ char *get_sdesc_fix(fix_room_t *room);
 *  long description string
 */
 char *get_ldesc_fix(fix_room_t *room);
-
 
 /* Get list (implemented with hashtable) of items in room
 *

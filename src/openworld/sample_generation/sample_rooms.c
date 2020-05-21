@@ -56,8 +56,7 @@ int fix_room_init(fix_room_t *new_room, fix_room_tag_t room_tag, int items_wante
 			new_room->room_tag = HALLWAY;
 			new_room->room_id = "hallway";
 			new_room->short_desc = "A well-lit hallway";
-			new_room->long_desc = "A dank, dark dungeon with traps"
-				" and enemies to battle";
+			new_room->long_desc = "A sterile, white hallway with no windows";
 			add_items_to_hallway(new_room, items_wanted);
 			break;
 		case KITCHEN:
@@ -141,113 +140,124 @@ int add_item_to_fix_room(fix_room_t *room, fix_item_t *item)
 
 }
 
-void add_items_to_barn(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_barn(fix_room_t *room, int item) {
 	//can add apple, cow, fruit, ladder, nail, rabbit, yam, zebra
 	fix_item_tag_t avail[9] = { APPLE, COW, DOOR, FRUIT, LADDER, NAIL,
 						 RABBIT, YAM, ZEBRA };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 9]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 9]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_cafeteria(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_cafeteria(fix_room_t *room, int item) {
 	fix_item_tag_t avail[9] = { APPLE, DOOR, FRUIT, ICE, JUG, KETTLE, 
 						OLIVE, TRAY, YAM };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 9]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 9]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_classroom(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_classroom(fix_room_t *room, int item) {
 	fix_item_tag_t avail[10] = { BOOK, DOOR, HAT, PENCIL, QUILL, VIDEO,
 						SCISSORS, TRAY, WATERCOLORS, XYLOPHONE };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 10]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 10]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_closet(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_closet(fix_room_t *room, int item) {
 	fix_item_tag_t avail[8] = { GOLD, HAT, ICE, JUG, LADDER, NAIL,
 							TRAY, UMBRELLA };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 8]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 8]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_dungeon(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_dungeon(fix_room_t *room, int item) {
 	fix_item_tag_t avail[4] = { DOOR, GOLD, LADDER, NAIL};
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 4]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 4]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_field(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_field(fix_room_t *room, int item) {
 	fix_item_tag_t avail[7] = { APPLE, COW, EAGLE, RABBIT, NAIL,
 						YAM, ZEBRA };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 7]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 7]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_hallway(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_hallway(fix_room_t *room, int item) {
 	fix_item_tag_t avail[4] = { DOOR, MIRROR, LADDER, NAIL };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 4]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 4]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_kitchen(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_kitchen(fix_room_t *room, int item) {
 	fix_item_tag_t avail[10] = { APPLE, DOOR, FRUIT, ICE, JUG, KETTLE,
 							OLIVE, SCISSORS, TRAY, YAM };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 10]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 10]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_library(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_library(fix_room_t *room, int item) {
 	fix_item_tag_t avail[11] = { BOOK, DOOR, GOLD, LADDER, MIRROR, 
 						PENCIL, QUILL, SCISSORS, VIDEO,
 						WATERCOLORS, XYLOPHONE };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 11]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 11]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_living(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_living(fix_room_t *room, int item) {
 	fix_item_tag_t avail[8] = { BOOK, DOOR, FRUIT, MIRROR, UMBRELLA, 
 						VIDEO, WATERCOLORS, XYLOPHONE };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 8]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 8]));
 	}
-	return;
+	return rc;
 }
 
-void add_items_to_throne(fix_room_t *room, int item) {
+/* See sample_room.h */
+int add_items_to_throne(fix_room_t *room, int item) {
 	fix_item_tag_t avail[5] = { DOOR, GOLD, HAT, MIRROR, QUILL };
 	int i = 0, rc;
 	for (i = 0; i < item; i++) {
-		add_item_to_fix_room(room, fix_item_new(avail[rand() % 5]));
+		rc = add_item_to_fix_room(room, fix_item_new(avail[rand() % 5]));
 	}
-	return;
+	return rc;
 }
 
 /* See sample_rooms.h */
@@ -273,7 +283,6 @@ path_t *list_paths(fix_room_t *room)
 {
 	return room->paths;
 }
-
 
 /* See sample_rooms.h */
 fix_room_t* generate_room() {
