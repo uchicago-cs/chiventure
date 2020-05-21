@@ -2,7 +2,7 @@
 #define _ROOM_H
 
 #include "game_state_common.h"
-#include "custom-scripts/custom_types.h"
+#include "common/custom_types.h"
 #include "item.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
