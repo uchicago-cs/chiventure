@@ -8,20 +8,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-/* Stub, similar to chiventure_ctx_t except adding in battle mode component */
-typedef struct chiventure_ctx_battle {
-    // would have UI context here
-    game_t *game;
-    // would have lookup table here
-    bool battle_mode;
-} chiventure_ctx_battle_t;
-
-/* Stub for the game_t struct in game-state */
-typedef struct game {
-    // Would have other fields (eg hash tables for players, rooms, items)
-    player_t curr_player;
-} game_t;
-
 /* Stub for the player struct in game-state */
 typedef struct player {
     // Other fields: hash handle, inventory, other stats
@@ -30,6 +16,20 @@ typedef struct player {
     move_t *moves;
     item_t *items;
 } player_t;
+
+/* Stub for the game_t struct in game-state */
+typedef struct game {
+    // Would have other fields (eg hash tables for players, rooms, items)
+    player_t curr_player;
+} game_t;
+
+/* Stub, similar to chiventure_ctx_t except adding in battle mode component */
+typedef struct chiventure_ctx_battle {
+    // would have UI context here
+    game_t *game;
+    // would have lookup table here
+    bool battle_mode;
+} chiventure_ctx_battle_t;
 
 /* Stub to simulate NPC enemy, that will then later be converted to
  * the combatant struct specific to battle flow
