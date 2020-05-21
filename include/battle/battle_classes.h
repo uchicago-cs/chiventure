@@ -54,4 +54,37 @@ typedef struct class
 } class_t;
 
 
+/* 
+ * Allocates a class 
+ *
+ * Parameters: 
+ * - cl: a class type
+ * - info: a short description of the class 
+ * - st: the stat that the class receives a bonus for 
+ * - bonus: the amount added to the designated stat 
+ * 
+ * Returns:
+ * -A pointer to the class, or NULL if a class
+ *  cannot be allocated 
+/* 
+class_t *new_class(class_type_t cl, char* info, 
+		   possible_stats_t st, double bonus);
+
+
+/* 
+ * Initializes a class 
+ *
+ * Parameters: 
+ * - class: A class. Must point to allocated memory. 
+ * - cl: a class type
+ * - info: a short description of the class 
+ * - st: the stat that the class receives a bonus for 
+ * - bonus: the amount added to the designated stat 
+ * 
+ * Returns:
+ * - 0 for success, 1 if an error occurs 
+/*  
+int init_class(class_t *class, class_type_t cl, char* info, 
+	       possible_stats_t st, double bonus);
+
 #endif
