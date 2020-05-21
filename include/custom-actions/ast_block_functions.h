@@ -14,13 +14,13 @@
 #include "custom-actions/action_block_functions.h"
 
 /* An enumeration type for an AST block */
-typedef enum block_type;
+typedef enum block_type block_type;
 
 /* Struct to represent the type of a block */
-typedef union block;
+typedef union block block_t;
 
 /* Struct to contain a block, as well as its type */
-typedef struct AST_block;
+typedef struct AST_block AST_block_t;
 
 /* 
  * Allocates an AST block in the heap. 

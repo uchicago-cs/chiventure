@@ -12,7 +12,7 @@
 #include "custom-actions/control_block_functions.h"
 
 /* A block that holds pointers to both a control and a conditional block */
-typedef struct branch_block;
+typedef struct branch_block branch_block_t;
 
 /* 
  * Allocates a branch block in the heap. 

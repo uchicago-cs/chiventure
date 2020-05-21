@@ -10,10 +10,10 @@
 #include "game-state/item.h"
 
 /* An enumeration type for a conditional block */
-typedef enum conditional_type;
+typedef enum conditional_type conditional_type;
 
 /* A block that returns true or false, and contains an operator and two attributes */
-typedef struct conditional_block;
+typedef struct conditional_block conditional_block_t;
 
 /* 
  * Allocates a conditional block in the heap. 

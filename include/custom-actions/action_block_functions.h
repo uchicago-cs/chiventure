@@ -11,10 +11,10 @@
 #include "custom-actions/ast_block_functions.h"
 
 /* An enumeration type for an action block */
-typedef enum action_type;
+typedef enum action_type action_type;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
-typedef struct action_block;
+typedef struct action_block action_block_t;
 
 /* 
  * Allocates an action block in the heap. 
