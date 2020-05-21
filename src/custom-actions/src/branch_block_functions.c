@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "custom-actions/struct.h"
+#include "custom-actions/branch_block_structs.h"
 #include "game-state/item.h"
 #include "custom-actions/branch_block_functions.h"
 

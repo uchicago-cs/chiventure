@@ -6,7 +6,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "custom-actions/struct.h"
 #include "game-state/item.h"
 #include "custom-actions/attribute_functions.h"
 

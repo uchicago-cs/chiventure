@@ -4,13 +4,14 @@
  * Please see "ast_block_structs.h" for struct documentation
  */
 
-#ifndef INCLUDE_STRUCT_H_
-#define INCLUDE_STRUCT_H_
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
 #include "custom-actions/ast_block_structs.h"
+#include "custom-actions/control_block_structs.h"
+#include "custom-actions/conditional_block_structs.h"
+#include "custom-actions/branch_block_structs.h"
+#include "custom-actions/action_block_structs.h"
 
 /* An enumeration type for an AST block */
 typedef enum block_type {
@@ -34,4 +35,4 @@ typedef struct AST_block {
     enum block_type block_type;
 } AST_block_t;
 
-#endif /* INCLUDE_STRUCT_H_ */
+

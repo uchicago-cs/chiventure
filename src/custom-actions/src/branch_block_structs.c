@@ -4,9 +4,6 @@
  * Please see "branch_block_structs.h" for struct documentation
  */
 
-#ifndef INCLUDE_STRUCT_H_
-#define INCLUDE_STRUCT_H_
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
@@ -23,4 +20,4 @@ typedef struct branch_block {
     control_block_t** controls;
 } branch_block_t;
 
-#endif /* INCLUDE_STRUCT_H_ */
+

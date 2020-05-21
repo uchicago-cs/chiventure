@@ -4,12 +4,10 @@
  * Please see "conditional_block_structs.h" for struct documentation
  */
 
-#ifndef INCLUDE_STRUCT_H_
-#define INCLUDE_STRUCT_H_
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
+#include "custom-actions/conditional_branch_structs.h"
 
 /* An enumeration type for a conditional block */
 typedef enum conditional_type {
@@ -26,4 +24,4 @@ typedef struct conditional_block {
     attribute_t* right;
 } conditional_block_t;
 
-#endif /* INCLUDE_STRUCT_H_ */
+

@@ -4,13 +4,9 @@
  * Please see "action_block_structs.h" for struct documentation
  */
 
-#ifndef INCLUDE_STRUCT_H_
-#define INCLUDE_STRUCT_H_
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/attribute_structs.h"
 #include "custom-actions/ast_block_structs.h"
 
 /* An enumeration type for an action block */
@@ -31,4 +27,4 @@ typedef struct action_block {
     AST_block_t* next;
 } action_block_t;
 
-#endif /* INCLUDE_STRUCT_H_ */
+
