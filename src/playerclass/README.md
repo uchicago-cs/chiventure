@@ -18,6 +18,8 @@ Data Structures
         - battle_t* Combat Actions
         - action_t* Non-combat Actions
 
+    *** Currently the stats_t, battle_t, and action_t parts of the class_t struct are stubbed out and do NOT function with other modules ***
+
 Modules
 
 class
