@@ -58,16 +58,16 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     class->shortdesc = (char*) calloc(MAX_SHORT_DESC_LEN, sizeof(char));
     if (class->name == NULL)
     {
-        fprintf(stderr, "Could not allocate memory for short description in \
-class_init.\n");
+        fprintf(stderr, "Could not allocate memory for short description in "
+                        "class_init.\n");
         return EXIT_FAILURE;
     }
     strncpy(class->shortdesc, shortdesc, MAX_SHORT_DESC_LEN);
     class->longdesc = (char*) calloc(MAX_LONG_DESC_LEN, sizeof(char));
     if (class->name == NULL)
     {
-        fprintf(stderr, "Could not allocate memory for long description in \
-class_init.\n");
+        fprintf(stderr, "Could not allocate memory for long description in "
+                        "class_init.\n");
         return EXIT_FAILURE;
     }
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);

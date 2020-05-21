@@ -11,23 +11,23 @@ Test(test_class, new)
     char* name, *shortdesc, *longdesc;
 
     name = "Warrior";
-    shortdesc = "Mechanically, the warrior focuses on \
-up-close physical damage with weapons and survives enemy attacks \
-using heavy armor.\n";
-    longdesc = "The warrior is the ultimate armor and \
-weapons expert, relying on physical strength and years of training to \
-deal with any obstacle. Mechanically, the warrior \
-focuses on up-close physical damage with weapons and survives enemy \
-attacks using heavy armor.\n";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
 
     c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL, NULL, NULL);
 
     cr_assert_not_null(c, "class_new failed");
     cr_assert_str_eq(c->name, name, "class_new didn't set name");
-    cr_assert_str_eq(c->shortdesc, shortdesc, "class_new didn't set \
-short description");
-    cr_assert_str_eq(c->longdesc, longdesc, "class_new didn't set long \
-description");
+    cr_assert_str_eq(c->shortdesc, shortdesc, "class_new didn't set "
+                                              "short description");
+    cr_assert_str_eq(c->longdesc, longdesc, "class_new didn't set long "
+                                            "description");
 }
 
 /* Tests class_init */
@@ -38,23 +38,23 @@ Test(test_class, init)
     int rc;
 
     name = "Warrior";
-    shortdesc = "Mechanically, the warrior focuses on \
-up-close physical damage with weapons and survives enemy attacks \
-using heavy armor.\n";
-    longdesc = "The warrior is the ultimate armor and \
-weapons expert, relying on physical strength and years of training to \
-deal with any obstacle. Mechanically, the warrior \
-focuses on up-close physical damage with weapons and survives enemy \
-attacks using heavy armor.\n";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
 
     rc = class_init(&c, name, shortdesc, longdesc, NULL, NULL, NULL, NULL, NULL);
 
     cr_assert_eq(rc, EXIT_SUCCESS, "class_init failed");
     cr_assert_str_eq(c.name, name, "class_init didn't set name");
-    cr_assert_str_eq(c.shortdesc, shortdesc, "class_init didn't set \
-short description");
-    cr_assert_str_eq(c.longdesc, longdesc, "class_init didn't set long \
-description");
+    cr_assert_str_eq(c.shortdesc, shortdesc, "class_init didn't set "
+                                             "short description");
+    cr_assert_str_eq(c.longdesc, longdesc, "class_init didn't set long "
+                                           "description");
 }
 
 /* Tests class_free */
@@ -65,14 +65,14 @@ Test(test_class, free)
     int rc;
 
     name = "Warrior";
-    shortdesc = "Mechanically, the warrior focuses on \
-up-close physical damage with weapons and survives enemy attacks \
-using heavy armor.\n";
-    longdesc = "The warrior is the ultimate armor and \
-weapons expert, relying on physical strength and years of training to \
-deal with any obstacle. Mechanically, the warrior \
-focuses on up-close physical damage with weapons and survives enemy \
-attacks using heavy armor.\n";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
 
     c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL, NULL, NULL);
 
