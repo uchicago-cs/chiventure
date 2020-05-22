@@ -34,6 +34,52 @@ typedef struct npcs_in_room {
 
 typedef struct npcs_in_room npcs_in_room_hash_t;
 
+/* the hash table that holds the time that the npc should be staying in each room */
+typedef struct time_in_room {
+    UT_hash_handle hh;
+    char *room_id;
+    int sec;
+} time_in_room_t;
+
+/* this is to make the struct hashable */
+typedef struct time_in_room time_in_room_hash_t;
+
+/* struct for the definite path movement for npcs */
+typedef struct mov_def {
+    path_llist_t *npc_path;
+} mov_def_t;
+
+/* the struct for the indefinite path movement for npcs */
+typedef struct mov_indef {
+    path_llist_t *npc_path;
+    time_in_room_hash_t *room_time;
+} mov_indef_t;
+
+/* the union that holds either the definite or indefinite movement */
+typedef union npc_mov_types {
+    mov_def_t *mov_def;
+    mov_indef_t *mov_indef;
+} npc_mov_types_u;
+
+typedef enum mov_type {
+   MOV_DEF, MOV_INDEF
+} mov_type_e;
+
+/* the main struct that deals with the movement of an npc */
+typedef struct npc_mov {
+    char *npc_id;
+    npc_mov_types_u *npc_mov_type;
+    mov_type_e mov_type; //an enum saying which type of movement the npc is doing, this is purely to simplyify the implementation
+    char *track;
+} npc_mov_t;
+
+/*
+ * create llist for all the 1-1 paths for a single npc
+ * path reversal
+ * time in a room
+ * types of npc movement
+ */
+
 /*
  * Initializes an npc with given health.
  *
@@ -196,5 +242,41 @@ item_list_t *get_all_items_in_inv_npc(npc_t *npc);
  *  SUCCESS if successful, FAILURE if an error occured.
  */
 int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
+
+/* extend_path_def()
+ * adds a room to the path that the npc will travel through, ONLY when the npc is has a definite path
+ * this essentially changes the destination point of the path
+ * returns SUCCESS or FAILURE
+ */
+int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
+
+/* extend_path_indef()
+ * adds a room to the path that the npc will travel through, ONLY when the npc is has a indefinite path
+ * returns SUCCESS or FAILURE
+ */
+int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time);
+
+/* reverse_path()
+ * reverses the path, so that the npc goes back to where it started
+ * returns SUCCESS or FAILURE
+ */
+int reverse_path(npt_mov_t  *npc_mov);
+
+/* change_time_in_room()
+ * changes the time spent in a certain room by and npc, ONLY Possible when the npc has an indeinfite path
+ * returns SUCCESS or FAILURE
+ */
+int change_time_in_room(npc_mov_t  *npc_mov, room_t *room_to_change, int time);
+
+/* track_room()
+ * returns the room_id of the room that the npc is currently in
+ */
+char* track_room(npc_mov_t *npc_mov);
+
+/* auto_gen_movement()
+ * automatically allows npcs to randomly move through adjacent rooms,
+ * while spending an arbitrary time in each room
+ */
+npc_mov_t *auto_gen_movement(npc_t *npc, room_t *starting_room);
 
 #endif
