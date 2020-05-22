@@ -41,6 +41,7 @@ typedef struct item_wrapped_for_llist {
     item_t *item;
 } item_list_t;
 
+
 /* item_new() allocates a space for an item struct in memory
 *  Parameters:
 *    a unique item id, sdesc, ldesc
@@ -114,6 +115,17 @@ typedef struct attribute_wrapped_for_llist {
     struct attribute_wrapped_for_llist *next;
     attribute_t *attribute;
 } attribute_list_t;
+
+/* linked list which can be added as an attribute */
+typedef struct llist {
+    //type of the attribute
+    enum attribute_tag attribute_tag;
+    attribute_value_t attribute_value;
+
+    struct llist *next;
+    struct llist *prev;
+
+} llist_t;
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 
@@ -259,6 +271,17 @@ int set_bool_attr(item_t* item, char* attr_name, bool value);
  */
 int set_act_attr(item_t* item, char* attr_name, action_type_t *value);
 
+/* set_llist_attr() sets the value of an attribute of an item to the given list
+ * Parameters:
+ *  a pointer to the item
+ *  the attribute name with value to be changed
+ *  the linked list value to be set
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ *  returns SUCCESS if given value is already the attribute value
+ */
+int set_llist_attr(item_t* item, char* attr_name, llist_t* llist)
+
 // ATTRIBUTE GET FUNCTIONS --------------------------------------------
 // the following functions allow their users to get (read: retrieve)
 // attributes associated with an item using the name of the attribute
@@ -308,6 +331,19 @@ char get_char_attr(item_t *item, char* attr_name);
  */
 bool get_bool_attr(item_t *item, char* attr_name);
 
+/* get_llist_attr() returns the head of the llist attribute of an item
+ * Parameters:
+ *  a pointer to the item
+ *  attribute name
+ *  attribute_tag 
+ *  attribute_value
+ *  attribute_tag and value need to be specified beforehand bc llist can contain any attribute_tag/value
+ *
+ * Returns:
+ *  the bool value associated with the attribute
+ */
+bool get_llist_attr(item_t *item, char* attr_name,  enum attribute_tag attribute_tag, attribute_value_t attribute_value);
+
 //ATTRIBUTE LIST FUNCTIONS
 /*
  * Function to get a linked list (utlist) of all the attributes in the item
@@ -342,5 +378,41 @@ int delete_attribute_llist(attribute_list_t *head);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int delete_item_llist(item_list_t *head);
+
+/*
+ * Mallocs a new linked list
+ *
+ * Parameters:
+ * - attribute_tag - data for llist  
+ * - attribute_value - data for llist
+ *
+ * Returns:
+ * - llist head
+ */
+llist_t* llist_new(enum attribute_tag attribute_tag, attribute_value_t attribute_value);
+
+/*
+ * Initializes a linked list
+ *
+ * Parameters:
+ * - llist to be initialized
+ * - attribute_tag - data for llist  
+ * - attribute_value - data for llist
+ *
+ * Returns:
+ * - llist head
+ */
+llist_t* llist_init(llist_t* llist, enum attribute_tag attribute_tag, attribute_value_t attribute_value);
+
+/*
+ * Initializes a linked list
+ *
+ * Parameters:
+ * - llist to be freed
+ *
+ * Returns:
+ * - void
+ */
+void llist_free(llist_t*  ll);
 
 #endif

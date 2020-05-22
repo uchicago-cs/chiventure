@@ -3,6 +3,7 @@
 
 #include "game-state/item.h"
 #include "game-state/game_action.h"
+#include "common/utlist.h"
 
 
 // BASIC ITEM FUNCTIONS -------------------------------------------------------
@@ -217,6 +218,26 @@ int set_bool_attr(item_t* item, char* attr_name, bool value)
     }
 }
 
+/* See item.h */
+int set_llist_attr(item_t* item, char* attr_name, llist_t* llist)
+{
+    attribute_t* res = get_attribute(item, attr_name);
+
+    if (res == NULL)
+    {
+        attribute_t* new_attribute = malloc(sizeof(attribute_t));
+        new_attribute->attribute_tag = llist->attribute_tag;
+        new_attribute->attribute_value = llist->attribute_value;
+        new_attribute->attribute_key = strndup(attr_name, 100);
+        int rv = add_attribute_to_hash(item, new_attribute);
+        return rv;
+    }
+    else if (res != NULL)
+    {
+        res->attribute_value = llist->attribute_value;
+        return SUCCESS;
+    }
+}
 
 // TYPE-SPECIFIC GET_ATTR FUNCTIONS -------------------------------------------
 /* see item.h */
@@ -300,6 +321,20 @@ bool get_bool_attr(item_t *item, char* attr_name)
     return res->attribute_value.bool_val;
 }
 
+/* see item.h */
+bool get_llist_attr(item_t *item, char* attr_name, enum attribute_tag attribute_tag, attribute_value_t attribute_value)
+{
+    attribute_t* res = get_attribute(item, attr_name);
+    if (res == NULL)
+    {
+        return NULL;
+    }
+    if (res->attribute_tag != attribute_tag)
+    {
+        return NULL; 
+    }
+    return res->attribute_value.attribute_value;
+}
 
 // ---------------------------------------------------------------------------
 
@@ -461,4 +496,54 @@ int delete_item_llist(item_list_t *head)
         free(elt);
     }
     return SUCCESS;
+}
+
+/* See item.h */
+llist_t* llist_new(enum attribute_tag attribute_tag, attribute_value_t attribute_value)
+{
+    llist_t* llist;
+    int rc;
+
+    llist = malloc(sizeof(llist_t));
+
+    if(llist == NULL)
+    {
+        error("Could not allocate memory");
+        return NULL;
+    }
+
+    rc = llist_init(llist, attribute_tag, attribute_value);
+    if(rc != SUCCESS)
+    {
+        error("Could not initialize linked list");
+        return NULL;
+    }
+
+    return llist;
+}
+
+/* See item.h */
+llist_t* llist_init(llist_t* llist, enum attribute_tag attribute_tag, attribute_value_t attribute_value)
+{
+    assert(attribute_tag != NULL);
+    assert(attribute_value != NULL);
+
+    llist_t* head = llist;
+    llist->attribute_tag = attribute_tag;
+    llist->attribute_value = attribute_value;
+    llist->prev = NULL;
+    llist->next = NULL;
+
+    return head;
+}
+
+
+/* See item.h */
+void llist_free(llist_t*  ll) {
+    llist* store_pointer;
+    while (ll) {
+        store_pointer = ll->next;
+        free(ll); 
+        ll = store_pointer;
+    }
 }
