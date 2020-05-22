@@ -205,9 +205,9 @@ Test(logic, find_item)
     item_t *i1;
     item_t *i2;
 
-    item_t *i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(item_t));
     i1->id = 100;
-    item_t *i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(item_t));
     i2->id = 101;
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
@@ -222,9 +222,9 @@ Test(logic, do_not_find_item)
     item_t *i1;
     item_t *i2;
 
-    item_t *i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(item_t));
     i1->id = 100;
-    item_t *i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(item_t));
     i2->id = 101;
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
@@ -241,7 +241,7 @@ Test(logic, consume_an_item)
     pstats->defense = 15;
     pstats->strength = 15;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
-    cr_assert_not_null(c, "combatant_new() failed");
+    cr_assert_not_null(p, "combatant_new() failed");
 
     item_t *i1 = calloc(1, sizeof(item_t));
     i1->id = 100;
@@ -287,7 +287,7 @@ Test(logic, uses_item_correctly)
     pstats->defense = 15;
     pstats->strength = 15;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
-    cr_assert_not_null(c, "combatant_new() failed");
+    cr_assert_not_null(p, "combatant_new() failed");
 
     int res = player_use_item(p, head, 100);
 
@@ -310,13 +310,14 @@ Test(logic, no_more_items)
     item_t *i1;
     item_t *i2;
 
-    item_t *i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(item_t));
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 0;
-    item_t *i2 = calloc(1, sizeof(item_t));
+
+    i2 = calloc(1, sizeof(item_t));
     i2->id = 101;
     i1->attack = 0;
     i1->defense = 0;
@@ -331,7 +332,7 @@ Test(logic, no_more_items)
     pstats->defense = 15;
     pstats->strength = 15;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
-    cr_assert_not_null(c, "combatant_new() failed");
+    cr_assert_not_null(p, "combatant_new() failed");
 
     int res = player_use_item(p, head, 100);
 
