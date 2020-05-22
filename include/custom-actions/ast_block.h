@@ -2,8 +2,8 @@
  * Functions and structs to be used in AST_block_t implementation
  */
 
-#ifndef INCLUDE_AST_BLOCK_FUNCTIONS_H
-#define INCLUDE_AST_BLOCK_FUNCTIONS_H
+#ifndef INCLUDE_AST_BLOCK_H
+#define INCLUDE_AST_BLOCK_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -53,4 +53,4 @@ int AST_block_init(AST_block_t *ast, block_t block, enum block_type block_type);
  */
 int AST_block_free(AST_block_t *ast);
 
-#endif /* INCLUDE_AST_BLOCK_FUNCTIONS_H */
+#endif /* INCLUDE_AST_BLOCK_H */
