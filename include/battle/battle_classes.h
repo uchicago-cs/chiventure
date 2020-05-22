@@ -66,7 +66,7 @@ typedef struct class
  * Returns:
  * -A pointer to the class, or NULL if a class
  *  cannot be allocated 
-/* 
+ */ 
 class_t *new_class(class_type_t cl, char* info, 
 		   possible_stats_t st, double bonus);
 
@@ -83,7 +83,7 @@ class_t *new_class(class_type_t cl, char* info,
  * 
  * Returns:
  * - 0 for success, 1 if an error occurs 
-/*  
+ */  
 int init_class(class_t *class, class_type_t cl, char* info, 
 	       possible_stats_t st, double bonus);
 
