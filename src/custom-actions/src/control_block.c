@@ -45,8 +45,7 @@ control_block_t* control_block_new(enum control_type control_type, AST_block_t *
 int control_block_init(control_block_t *control, enum control_type control_type,
 AST_block_t *next)
 {
-    assert(control != NULL);
-    //assert(control_type != NULL);
+    assert(control != NULL); 
     assert(next != NULL);
 
     control->control_type = control_type;

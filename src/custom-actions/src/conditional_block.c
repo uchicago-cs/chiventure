@@ -48,7 +48,6 @@ int conditional_block_init(conditional_block_t *conditional, enum conditional_ty
 conditional_type, attribute_t* left, attribute_t* right)
 {
     assert(conditional != NULL);
-    //assert(conditional_type != NULL);
     assert(left != NULL);
     assert(right != NULL);
 

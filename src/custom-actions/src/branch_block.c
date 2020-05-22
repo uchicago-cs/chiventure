@@ -52,10 +52,9 @@ conditionals, enum conditional_type conditional_type, int num_controls,
 control_block_t** controls)
 {
     assert(branch != NULL);
-    //assert(num_conditionals != NULL);
-    assert(conditionals != NULL);
-    //assert(conditional_type != NULL);
-    //assert(num_controls != NULL);
+    assert(num_conditionals > 0);
+    assert(conditionals != NULL); 
+    assert(num_controls > 0);
     assert(controls != NULL);
 
     branch->num_conditionals = num_conditionals;

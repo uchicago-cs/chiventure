@@ -55,9 +55,7 @@ AST_block_t* AST_block_new(block_t block, enum block_type block_type)
 /* See ast_block.h */
 int AST_block_init(AST_block_t *ast, block_t block, enum block_type block_type)
 {
-    assert(ast != NULL);
-//    assert(block != NULL);
-//    assert(block_type != NULL);
+    assert(ast != NULL); 
 
     ast->block = block;
     ast->block_type = block_type;

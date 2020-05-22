@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/attribute_functions.h"
+#include "../include/attribute_functions.h"
 
 /* See attribute_functions.h */
 attribute_t* attribute_new(UT_hash_handle hh, char *attribute_key, enum attribute_tag
@@ -39,11 +39,8 @@ attribute_tag, attribute_value_t attribute_value)
 int attribute_init(attribute_t *attribute, UT_hash_handle hh, char *attribute_key, 
 enum attribute_tag attribute_tag, attribute_value_t attribute_value)
 {
-    assert(attribute != NULL);
-    //assert(hh != NULL);
-    assert(attribute_key != NULL);
-    //assert(attribute_tag != NULL);
-    //assert(attribute_value != NULL);
+    assert(attribute != NULL); 
+    assert(attribute_key != NULL); 
 
     attribute->hh = hh;
     attribute->attribute_key = attribute_key;

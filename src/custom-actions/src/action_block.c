@@ -47,9 +47,8 @@ attribute_t** args, AST_block_t *next)
 int action_block_init(action_block_t *action, enum action_type action_type, 
 int num_args, attribute_t** args, AST_block_t *next)
 {
-    assert(action != NULL);
-//    assert(action_type != NULL//);
-//    assert(num_args != NULL);
+    assert(action != NULL); 
+    assert(num_args > 0);
     assert(args != NULL);
     assert(next != NULL);
 
