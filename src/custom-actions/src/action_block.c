@@ -10,7 +10,7 @@
 #include "game-state/item.h"
 #include "custom-actions/action_block.h"
 
-/* See action_block_functions.h */
+/* See action_block.h */
 typedef enum action_type {
     SET,
     SAY,
@@ -20,7 +20,7 @@ typedef enum action_type {
     EXEC
 } action_type;
 
-/* See action_block_functions.h */
+/* See action_block.h */
 typedef struct action_block {
     enum action_type action_type;
     int num_args;
@@ -28,7 +28,7 @@ typedef struct action_block {
     AST_block_t* next;
 } action_block_t;
 
-/* See action_block_functions.h */
+/* See action_block.h */
 action_block_t* action_block_new(enum action_type action_type, int num_args, 
 attribute_t** args, AST_block_t *next)
 {
@@ -53,7 +53,7 @@ attribute_t** args, AST_block_t *next)
     return action
 }
 
-/* See action_block_functions.h */
+/* See action_block.h */
 int action_block_init(action_block_t *action, enum action_type action_type, 
 int num_args, attribute_t** args, AST_block_t *next)
 {
@@ -71,7 +71,7 @@ int num_args, attribute_t** args, AST_block_t *next)
     return SUCCESS;
 }
 
-/* See action_block_functions.h */
+/* See action_block.h */
 int action_block_free(action_block_t *action)
 {
     assert(action != NULL);
