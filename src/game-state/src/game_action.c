@@ -156,7 +156,7 @@ game_action_condition_t *attribute_condition_new(item_t *item_to_modify, attribu
     return condition_wrapper;
 }
 
-/* see game_action.h */
+/* helper for check_condition */
 bool check_attribute_condition(game_action_attribute_condition_t *condition)
 {
     //check if NULL attribute, return true if true
@@ -208,6 +208,19 @@ bool check_attribute_condition(game_action_attribute_condition_t *condition)
 }
 
 /* see game_action.h */
+bool check_condition(game_action_condition_t *condition)
+{
+    switch (condition->condition_tag)
+    {
+    case (ATTRIBUTE):
+        return check_attribute_condition(condition->condition.attr_type);
+    case (INVENTORY):
+        //TODO
+        return false;
+    }
+}
+
+/* see game_action.h */
 int all_conditions_met(item_t *item, char *action_name)
 {
     //call allowed action to see if the action exists
@@ -229,18 +242,6 @@ int all_conditions_met(item_t *item, char *action_name)
     }
 
     return SUCCESS;
-}
-
-bool check_condition(game_action_condition_t *condition)
-{
-    switch (condition->condition_tag)
-    {
-    case (ATTRIBUTE):
-        return check_attribute_condition(condition->condition.attr_type);
-    case (INVENTORY):
-        //TODO
-        return false;
-    }
 }
 
 // ------------------------------------- EFFECTS -------------------------------------
