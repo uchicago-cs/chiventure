@@ -20,7 +20,7 @@ attribute_tag, attribute_value_t attribute_value)
 
     if (attribute == NULL)
     {
-        error("Could not allocate memory");
+        fprintf(stderr,"Could not allocate memory");
         return NULL;
     }
 
@@ -28,7 +28,7 @@ attribute_tag, attribute_value_t attribute_value)
     attribute_value);
     if (new_attribute != SUCCESS) 
     {
-        error("Could not initialize attribute");
+        fprintf(stderr,"Could not initialize attribute");
         return NULL;
     }
 
@@ -40,10 +40,10 @@ int attribute_init(attribute_t *attribute, UT_hash_handle hh, char *attribute_ke
 enum attribute_tag attribute_tag, attribute_value_t attribute_value)
 {
     assert(attribute != NULL);
-    assert(hh != NULL);
+    //assert(hh != NULL);
     assert(attribute_key != NULL);
-    assert(attribute_tag != NULL);
-    assert(attribute_value != NULL);
+    //assert(attribute_tag != NULL);
+    //assert(attribute_value != NULL);
 
     attribute->hh = hh;
     attribute->attribute_key = attribute_key;

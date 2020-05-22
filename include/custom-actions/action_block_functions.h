@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "game-state/item.h"
 #include "custom-actions/ast_block_functions.h"
+#include "custom-actions/conditional_block_functions.h"
 
 /* An enumeration type for an action block */
 typedef enum action_type action_type;

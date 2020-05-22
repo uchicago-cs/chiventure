@@ -8,10 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/control_block_functions.h"
-#include "custom-actions/branch_block_functions.h"
-#include "custom-actions/conditional_block_functions.h"
-#include "custom-actions/action_block_functions.h"
 
 /* An enumeration type for an AST block */
 typedef enum block_type block_type;

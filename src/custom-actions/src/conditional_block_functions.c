@@ -9,15 +9,6 @@
 #include <stdio.h>
 #include "game-state/item.h" 
 #include "custom-actions/conditional_block_functions.h"
-
-/* See conditional_block_functions.h */
-typedef enum conditional_type {
-    EQ,
-    LTGT,
-    LTEGTE,
-    IN
-} conditional_type;
-
 /* See conditional_block_functions.h */
 typedef struct conditional_block {
     enum conditional_type conditional_type;

@@ -10,7 +10,14 @@
 #include "game-state/item.h"
 
 /* An enumeration type for a conditional block */
-typedef enum conditional_type conditional_type;
+typedef enum conditional_type {
+    EQ,
+    LTGT,
+    LTEGTE,
+    IN
+} conditional_type;
+
+
 
 /* A block that returns true or false, and contains an operator and two attributes */
 typedef struct conditional_block conditional_block_t;

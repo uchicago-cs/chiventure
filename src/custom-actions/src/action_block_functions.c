@@ -29,8 +29,9 @@ typedef struct action_block {
 } action_block_t;
 
 /* See action_block_functions.h */
-action_block_t* action_block_new(enum action_type action_type, int num_args, 
-attribute_t** args, AST_block_t *next)
+action_block_t* action_block_new(enum action_type action_type, 
+                                 int num_args, attribute_t** args, 
+                                 AST_block_t *next)
 {
     action_block_t *action;
     int new_action;
@@ -39,18 +40,18 @@ attribute_t** args, AST_block_t *next)
 
     if (action == NULL)
     {
-        error("Could not allocate memory");
+        fprintf(stderr, "Error: Could not allocate memory\n");
         return NULL;
     }
 
     new_action = action_block_init(action, action_type, num_args, args, next);
     if (new_action != SUCCESS) 
     {
-        error("Could not initialize action_block_t");
+        fprintf(stderr, "Error: Could not initialize action_block_t\n");
         return NULL;    
     }
 
-    return action
+    return action;
 }
 
 /* See action_block_functions.h */
@@ -58,8 +59,8 @@ int action_block_init(action_block_t *action, enum action_type action_type,
 int num_args, attribute_t** args, AST_block_t *next)
 {
     assert(action != NULL);
-    assert(action_type != NULL);
-    assert(num_args != NULL);
+//    assert(action_type != NULL//);
+//    assert(num_args != NULL);
     assert(args != NULL);
     assert(next != NULL);
 

@@ -9,6 +9,10 @@
 #include <stdio.h>
 #include "game-state/item.h" 
 #include "custom-actions/ast_block_functions.h"
+#include "custom-actions/branch_block_functions.h"
+#include "custom-actions/conditional_block_functions.h"
+#include "custom-actions/control_block_functions.h"
+#include "custom-actions/action_block_functions.h"
 
 /* See ast_block_functions.h */
 typedef enum block_type {
@@ -20,10 +24,10 @@ typedef enum block_type {
 
 /* See ast_block_functions.h */
 typedef union block {
-    control_block_t control_block;
-    branch_block_t branch_block;
-    action_block_t action_block;
-    conditional_block_t conditional_block;
+    control_block_t *control_block;
+    branch_block_t *branch_block;
+    action_block_t *action_block;
+    conditional_block_t *conditional_block;
 } block_t;
 
 /* See ast_block_functions.h */
@@ -42,14 +46,14 @@ AST_block_t* AST_block_new(block_t block, enum block_type block_type)
 
     if (ast == NULL) 
     {
-        error("Could not allocate memory");
+        fprintf(stderr, "Could not allocate memory");
         return NULL;
     }
 
     new_ast = AST_block_init(ast, block, block_type);
     if (new_ast != SUCCESS)
     {
-        error("Could not initialize AST_block_t");
+        fprintf(stderr, "Could not initialize AST_block_t");
         return NULL;
     }
 
@@ -60,8 +64,8 @@ AST_block_t* AST_block_new(block_t block, enum block_type block_type)
 int AST_block_init(AST_block_t *ast, block_t block, enum block_type block_type)
 {
     assert(ast != NULL);
-    assert(block != NULL);
-    assert(block_type != NULL);
+//    assert(block != NULL);
+//    assert(block_type != NULL);
 
     ast->block = block;
     ast->block_type = block_type;

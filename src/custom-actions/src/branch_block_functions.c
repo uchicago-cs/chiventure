@@ -14,7 +14,7 @@
 typedef struct branch_block {
     int num_conditionals;
     conditional_block_t** conditionals;
-    enum conditional_type conditional_type;
+    conditional_type conditional_type;
     int num_controls;
     control_block_t** controls;
 } branch_block_t;
@@ -31,7 +31,7 @@ control_block_t** controls)
 
     if (branch == NULL)
     {
-        error("Could not allocate memory");
+        fprintf(stderr,"Could not allocate memory");
         return NULL;
     }
 
@@ -39,7 +39,7 @@ control_block_t** controls)
     conditional_type, num_controls, controls);
     if (new_branch != SUCCESS)
     {
-        error("Could not initialize branch_block_t");
+        fprintf(stderr,"Could not initialize branch_block_t");
         return NULL;
     }
 
@@ -52,10 +52,10 @@ conditionals, enum conditional_type conditional_type, int num_controls,
 control_block_t** controls)
 {
     assert(branch != NULL);
-    assert(num_conditionals != NULL);
+    //assert(num_conditionals != NULL);
     assert(conditionals != NULL);
-    assert(conditional_type != NULL);
-    assert(num_controls != NULL);
+    //assert(conditional_type != NULL);
+    //assert(num_controls != NULL);
     assert(controls != NULL);
 
     branch->num_conditionals = num_conditionals;
