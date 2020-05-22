@@ -56,7 +56,7 @@ int goes_first(double p_speed, double e_speed);
  *   2 - item does not exist or the player does not have any more
  *   -1 - something went wrong with the conditions
  */
-int *player_use_item(item_t *inv, int ID);
+int player_use_item(combatant_t *c, item_t *inv, int ID);
 
 /* Awards xp to the player 
  * Parameters:

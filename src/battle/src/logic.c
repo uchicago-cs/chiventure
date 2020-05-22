@@ -88,7 +88,7 @@ int consume_item(combatant_t *c, item_t *item)
 }
 
 /* see logic.h */
-int *player_use_item(combatant_t *c, item_t *inv, int ID)
+int player_use_item(combatant_t *c, item_t *inv, int ID)
 {
     if (inv == NULL)
     {
@@ -103,13 +103,9 @@ int *player_use_item(combatant_t *c, item_t *inv, int ID)
     }
 
     consume_item(c, item);
+    item->quantity -= 1;
     
-    if(res == 0)
-    {
-        item->quantity -= 1;
-        return 0;
-    }
-    return -1;
+    return 0;
 }
 
 /* see logic.h */
