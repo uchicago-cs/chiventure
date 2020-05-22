@@ -16,7 +16,7 @@
  * Returns: a pointer to the newly allocated quest, with default status of 2 (not started.
  */
 quest_t *quest_new(UT_hash_handle hh, char *quest_id, 
-                   achievement_llist_t achievement_list, item_t *reward);
+                   achievement_llist_t *achievement_list, item_t *reward);
 
 
 /* Initialize an already allocated quest struct

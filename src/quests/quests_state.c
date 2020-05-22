@@ -7,7 +7,7 @@
 
 /* Refer to quests_state.h */
 quest_t *quest_new(UT_hash_handle hh, char *quest_id, 
-                   achievement_llist_t achievement_list, item_t *reward) 
+                   achievement_llist_t *achievement_list, item_t *reward) 
 {
     quest_t *q;
     int rc;
@@ -18,7 +18,7 @@ quest_t *quest_new(UT_hash_handle hh, char *quest_id,
         return NULL;
     }
 
-    rc = quest_init(hh, quest_id, achievement_list, reward, 2);
+    rc = quest_init(q, hh, quest_id, achievement_list, reward, 2);
     if(rc != SUCCESS){
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;

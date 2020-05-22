@@ -1,7 +1,7 @@
 #ifndef QUESTS_STRUCTS_H
 #define QUESTS_STRUCTS_H
 
-// REMEMBER TO INCLUDE ANY ADDITIONAL RELEVANT FILES
+// REMEMBER TO INCLUDE ANY ADDITIONAL RELEVANT FILES (NPC)
 #include "game-state/item.h"
 #include "common/common.h"
 #include "common/utlist.h"

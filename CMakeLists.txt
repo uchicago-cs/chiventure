@@ -22,6 +22,7 @@ add_subdirectory(src/cli)
 add_subdirectory(src/common)
 add_subdirectory(src/game-state)
 add_subdirectory(src/libobj)
+add_subdirectory(src/quests)
 add_subdirectory(src/ui)
 add_subdirectory(src/wdl)
 
