@@ -2,17 +2,24 @@
  * Functions and structs to be used in action_block_t implementation
  */
 
-#ifndef INCLUDE_ACTION_BLOCK_FUNCTIONS_H
-#define INCLUDE_ACTION_BLOCK_FUNCTIONS_H
+#ifndef INCLUDE_ACTION_BLOCK_H
+#define INCLUDE_ACTION_BLOCK_H
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/ast_block_functions.h"
-#include "custom-actions/conditional_block_functions.h"
+#include "ast_block.h"
+#include "conditional_block.h"
 
 /* An enumeration type for an action block */
-typedef enum action_type action_type;
+typedef enum action_type {
+    SET,
+    SAY,
+    MOVE, 
+    ADDSUBMULTDIV, 
+    GEN, 
+    EXEC
+} action_type;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
 typedef struct action_block action_block_t;
@@ -59,4 +66,4 @@ attribute_t** args, AST_block_t *next);
  */
 int action_block_free(action_block_t *branch);  
 
-#endif /* INCLUDE_ACTION_BLOCK_FUNCTIONS_H */
+#endif /* INCLUDE_ACTION_BLOCK_H */

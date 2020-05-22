@@ -2,16 +2,20 @@
  * Functions and structs to be used in control_block_t implementation
  */
 
-#ifndef INCLUDE_CONTROL_BLOCK_FUNCTIONS_H
-#define INCLUDE_CONTROL_BLOCK_FUNCTIONS_H
+#ifndef INCLUDE_CONTROL_BLOCK_H
+#define INCLUDE_CONTROL_BLOCK_H
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/ast_block_functions.h"
+#include "ast_block.h"
 
 /* An enumeration type for a control block */
-typedef enum control_type control_type;
+typedef enum control_type {
+    IFELSE,
+    WHILEENDWHILE,
+    FORENDFOR
+} control_type;
 
 /* Struct to contain a control block, which introduces an action */
 typedef struct control_block control_block_t;
@@ -52,4 +56,4 @@ AST_block_t *next);
  */  
 int control_block_free(control_block_t *control);
 
-#endif /* INCLUDE_CONTROL_BLOCK_FUNCTIONS_H */
+#endif /* INCLUDE_CONTROL_BLOCK_H */

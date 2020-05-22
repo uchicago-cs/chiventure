@@ -2,15 +2,20 @@
  * Functions and structs to be used in AST_block_t implementation
  */
 
-#ifndef INCLUDE_AST_BLOCK_FUNCTIONS_H
-#define INCLUDE_AST_BLOCK_FUNCTIONS_H
+#ifndef INCLUDE_AST_BLOCK_H
+#define INCLUDE_AST_BLOCK_H
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
 
 /* An enumeration type for an AST block */
-typedef enum block_type block_type;
+typedef enum block_type {
+    CONTROL, 
+    BRANCH, 
+    ACTION, 
+    CONDITIONAL
+} block_type;
 
 /* Struct to represent the type of a block */
 typedef union block block_t;
@@ -53,4 +58,4 @@ int AST_block_init(AST_block_t *ast, block_t block, enum block_type block_type);
  */
 int AST_block_free(AST_block_t *ast);
 
-#endif /* INCLUDE_AST_BLOCK_FUNCTIONS_H */
+#endif /* INCLUDE_AST_BLOCK_H */

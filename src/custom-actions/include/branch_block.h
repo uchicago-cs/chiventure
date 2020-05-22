@@ -2,14 +2,14 @@
  * Functions and structs to be used in branch_block_t implementation
  */
 
-#ifndef INCLUDE_BRANCH_BLOCK_FUNCTIONS_H
-#define INCLUDE_BRANCH_BLOCK_FUNCTIONS_H
+#ifndef INCLUDE_BRANCH_BLOCK_H
+#define INCLUDE_BRANCH_BLOCK_H
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/conditional_block_functions.h"
-#include "custom-actions/control_block_functions.h"
+#include "conditional_block.h"
+#include "control_block.h"
 
 /* A block that holds pointers to both a control and a conditional block */
 typedef struct branch_block branch_block_t;
@@ -60,4 +60,4 @@ control_block_t** controls);
  */  
 int branch_block_free(branch_block_t *branch);
 
-#endif /* INCLUDE_BRANCH_BLOCK_FUNCTIONS_H */
+#endif /* INCLUDE_BRANCH_BLOCK_H */

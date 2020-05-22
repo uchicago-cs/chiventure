@@ -2,15 +2,15 @@
  * Basic functions and structs for branch blocks to be 
  * used in custom-actions implementation. 
  * 
- * Please see "branch_block_functions.h" for function documentation. 
+ * Please see "branch_blocks.h" for function documentation. 
  */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/branch_block_functions.h"
+#include "../include/branch_block.h"
 
-/* See branch_block_functions.h */
+/* See branch_block.h */
 typedef struct branch_block {
     int num_conditionals;
     conditional_block_t** conditionals;
@@ -19,7 +19,7 @@ typedef struct branch_block {
     control_block_t** controls;
 } branch_block_t;
 
-/* See branch_block_functions.h */
+/* See branch_block.h */
 branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
 conditionals, enum conditional_type conditional_type, int num_controls, 
 control_block_t** controls)
@@ -46,7 +46,7 @@ control_block_t** controls)
     return branch;
 }
     
-/* See branch_block_functions.h */
+/* See branch_block.h */
 int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t**
 conditionals, enum conditional_type conditional_type, int num_controls,
 control_block_t** controls)
@@ -67,7 +67,7 @@ control_block_t** controls)
     return SUCCESS; 
 }
 
-/* See branch_block_functions.h */
+/* See branch_block.h */
 int branch_block_free(branch_block_t *branch)
 {
     assert(branch != NULL);

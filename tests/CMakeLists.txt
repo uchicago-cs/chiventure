@@ -1,7 +1,7 @@
 add_subdirectory(action_management)
 add_subdirectory(checkpointing)
 add_subdirectory(cli)
-add_subdirectory(custom-actions)
+#add_subdirectory(custom-actions)
 add_subdirectory(game-state)
 add_subdirectory(ui)
 add_subdirectory(wdl)
