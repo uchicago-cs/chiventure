@@ -54,7 +54,6 @@ int goes_first(double p_speed, double e_speed);
  *   0 - successfully used item
  *   1 - there is nothing in the inventory
  *   2 - item does not exist or the player does not have any more
- *   -1 - something went wrong with the conditions
  */
 int player_use_item(combatant_t *c, item_t *inv, int ID);
 
