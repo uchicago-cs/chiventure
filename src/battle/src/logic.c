@@ -6,7 +6,7 @@ int check_target(battle_t *b, char *target)
 {
     while(b->enemy != NULL)
     {
-        if (b->enemy->name == target)
+        if (strcmp(b->enemy->name, target))
         {
             return 0;
         }
