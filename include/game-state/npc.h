@@ -15,6 +15,7 @@ typedef struct npc
     int health;
     convo_t *dialogue; // placeholder for incoming dialogue module
     item_hash_t *inventory;
+    npc_mov_t *movement;
 } npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
@@ -23,7 +24,8 @@ typedef struct npc
 * UTHASH macros as specified in src/common/include */
  typedef struct npc npc_hash_t;
 
-/* Struct for addings npcs to rooms */
+
+/* Struct for adding npcs to rooms */
 typedef struct npcs_in_room {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
@@ -33,6 +35,7 @@ typedef struct npcs_in_room {
 } npcs_in_room_t;
 
 typedef struct npcs_in_room npcs_in_room_hash_t;
+
 
 /* the hash table that holds the time that the npc should be staying in each room */
 typedef struct time_in_room {
@@ -44,16 +47,22 @@ typedef struct time_in_room {
 /* this is to make the struct hashable */
 typedef struct time_in_room time_in_room_hash_t;
 
-/* struct for the definite path movement for npcs */
+/* struct for the definite path movement for npcs 
+ * (when a path is defined - when the NPC has a role to play)
+ */
 typedef struct mov_def {
     path_llist_t *npc_path;
 } mov_def_t;
 
-/* the struct for the indefinite path movement for npcs */
+/* the struct for the indefinite path movement for npcs 
+ * (when the NPC is meant to move through the world without an interactive purpose,
+ *     and only to improve authenticity and user experience)
+ */
 typedef struct mov_indef {
     path_llist_t *npc_path;
     time_in_room_hash_t *room_time;
 } mov_indef_t;
+
 
 /* the union that holds either the definite or indefinite movement */
 typedef union npc_mov_types {
@@ -65,13 +74,15 @@ typedef enum mov_type {
    MOV_DEF, MOV_INDEF
 } mov_type_e;
 
+
 /* the main struct that deals with the movement of an npc */
 typedef struct npc_mov {
     char *npc_id;
     npc_mov_types_u *npc_mov_type;
-    mov_type_e mov_type; //an enum saying which type of movement the npc is doing, this is purely to simplyify the implementation
+    mov_type_e mov_type; //an enum saying which type of movement the npc is doing, this is purely to simplify the implementation
     char *track;
 } npc_mov_t;
+
 
 /*
  * create llist for all the 1-1 paths for a single npc
