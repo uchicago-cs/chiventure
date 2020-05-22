@@ -24,18 +24,13 @@ typedef struct stats {
 
 // skilltrees stub
 typedef struct skilltree {
-    obj_t* skill;
+    obj_t* skilltree;
 } skilltree_t;
 
-// combat actions stub
-typedef struct battle {
-    obj_t* battle;
-} battle_t;
-
-//noncombat actions stub
-typedef struct action {
-    obj_t* action;
-} action_t;
+// actions stub
+typedef struct skill {
+    obj_t* skill;
+} skill_t;
 
 /* A player class struct storing the name, descriptions, attributes, 
  * and stats */
@@ -56,13 +51,13 @@ typedef struct class {
     stats_t* stats;
 
     // Class skilltree
-    skilltree_t* skill;
+    skilltree_t* skilltree;
 
     // Class combat actions
-    battle_t* battle;
+    skill_t* combat;
 
     // Class noncombat actions
-    action_t* action;
+    skill_t* noncombat;
 
 } class_t;
 

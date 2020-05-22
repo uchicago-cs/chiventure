@@ -14,13 +14,13 @@
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_t* stat, skilltree_t* skill,
-                   battle_t* battle, action_t* action)
+                   obj_t* attr, stats_t* stat, skilltree_t* skilltree,
+                   skill_t* combat, skill_t* noncombat)
 {
     int rc;
-    class_t* c = (class_t*) malloc(
-        sizeof(class_t)
-    );
+    class_t* c;
+    
+    c = (class_t*) calloc(1, sizeof(class_t));
     
     if(c == NULL)
     {
@@ -28,7 +28,7 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
         return NULL;
     }
     
-    rc = class_init(c, name, shortdesc, longdesc, attr, stat, skill, battle, action);
+    rc = class_init(c, name, shortdesc, longdesc, attr, stat, skilltree, combat, noncombat);
 
     if (rc == EXIT_FAILURE){
         fprintf(stderr, "Could not initalize values for class_new.\n");
@@ -39,8 +39,8 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
 
 /* See class.h */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_t* stat, skilltree_t* skill,
-                   battle_t* battle, action_t* action)
+                   obj_t* attr, stats_t* stat, skilltree_t* skilltree,
+                   skill_t* combat, skill_t* noncombat)
 {
     if (class == NULL)
     {
@@ -48,14 +48,15 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
         return EXIT_FAILURE;
     }
 
-    class->name = (char*) calloc(MAX_NAME_LEN, sizeof(char));
+    class->name = (char*) calloc(MAX_NAME_LEN + 1, sizeof(char));
     if (class->name == NULL)
     {
         fprintf(stderr, "Could not allocate memory for name in class_init.\n");
         return EXIT_FAILURE;
     }
     strncpy(class->name, name, MAX_NAME_LEN);
-    class->shortdesc = (char*) calloc(MAX_SHORT_DESC_LEN, sizeof(char));
+
+    class->shortdesc = (char*) calloc(MAX_SHORT_DESC_LEN + 1, sizeof(char));
     if (class->name == NULL)
     {
         fprintf(stderr, "Could not allocate memory for short description in "
@@ -63,7 +64,8 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
         return EXIT_FAILURE;
     }
     strncpy(class->shortdesc, shortdesc, MAX_SHORT_DESC_LEN);
-    class->longdesc = (char*) calloc(MAX_LONG_DESC_LEN, sizeof(char));
+
+    class->longdesc = (char*) calloc(MAX_LONG_DESC_LEN + 1, sizeof(char));
     if (class->name == NULL)
     {
         fprintf(stderr, "Could not allocate memory for long description in "
@@ -71,11 +73,12 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
         return EXIT_FAILURE;
     }
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
+    
     class->attributes = attr;
     class->stats = stat;
-    class->skill = skill;
-    class->battle = battle;
-    class->action = action;
+    class->skilltree = skilltree;
+    class->combat = combat;
+    class->noncombat = noncombat;
 
     return EXIT_SUCCESS;
 }
