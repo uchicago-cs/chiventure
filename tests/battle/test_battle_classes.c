@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "../../include/battle/moves.h"
-//#include "../../include/battle/battle_structs.h"
+#include "../../include/battle/battle_classes.h"
 
 
 /* Tests new_class() */
