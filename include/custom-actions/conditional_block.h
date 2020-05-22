@@ -2,8 +2,8 @@
  * Functions and structs to be used in conditional_block_t implementation
  */
 
-#ifndef INCLUDE_CONDITIONAL_BLOCK_FUNCTIONS_H
-#define INCLUDE_CONDITIONAL_BLOCK_FUNCTIONS_H
+#ifndef INCLUDE_CONDITIONAL_BLOCK_H
+#define INCLUDE_CONDITIONAL_BLOCK_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -55,4 +55,4 @@ conditional_type, attribute_t* left, attribute_t* right);
  */
 int conditional_block_free(conditional_block_t *conditional);
 
-#endif /* INCLUDE_CONDITIONAL_BLOCK_FUNCTIONS_H */
+#endif /* INCLUDE_CONDITIONAL_BLOCK_H */
