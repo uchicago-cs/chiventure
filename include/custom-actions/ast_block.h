@@ -10,7 +10,12 @@
 #include "game-state/item.h"
 
 /* An enumeration type for an AST block */
-typedef enum block_type block_type;
+typedef enum block_type {
+    CONTROL, 
+    BRANCH, 
+    ACTION, 
+    CONDITIONAL
+} block_type;
 
 /* Struct to represent the type of a block */
 typedef union block block_t;

@@ -11,7 +11,14 @@
 #include "custom-actions/ast_block.h"
 
 /* An enumeration type for an action block */
-typedef enum action_type action_type;
+typedef enum action_type {
+    SET,
+    SAY,
+    MOVE, 
+    ADDSUBMULTDIV, 
+    GEN, 
+    EXEC
+} action_type;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
 typedef struct action_block action_block_t;

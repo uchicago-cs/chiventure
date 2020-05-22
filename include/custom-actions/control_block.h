@@ -11,7 +11,11 @@
 #include "custom-actions/ast_block.h"
 
 /* An enumeration type for a control block */
-typedef enum control_type control_type;
+typedef enum control_type {
+    IFELSE,
+    WHILEENDWHILE,
+    FORENDFOR
+} control_type;
 
 /* Struct to contain a control block, which introduces an action */
 typedef struct control_block control_block_t;
