@@ -177,4 +177,16 @@ int add_item_to_player(player_t *player, item_t *item);
  */
 item_list_t *get_all_items_in_inventory(player_t *player);
 
+/*
+ * Returns if the item is in the player's inventory
+ *
+ * Parameters:
+ *  player struct
+ *  item struct
+ *
+ * Returns:
+ *  true if item is inventory, false otherwise
+ */
+bool item_in_inventory(player_t *player, item_t *item);
+
 #endif
