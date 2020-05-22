@@ -28,7 +28,7 @@ attribute_t* left, attribute_t* right)
 
     if (conditional == NULL) 
     {
-        error("Could not allocate memory");
+        fprintf(stderr,"Could not allocate memory");
         return NULL;
     }
 
@@ -36,7 +36,7 @@ attribute_t* left, attribute_t* right)
     right);
     if (new_conditional != SUCCESS)
     {
-        error("Could not initialize conditional_block_t");
+        fprintf(stderr,"Could not initialize conditional_block_t");
         return NULL;
     }
 
@@ -48,7 +48,7 @@ int conditional_block_init(conditional_block_t *conditional, enum conditional_ty
 conditional_type, attribute_t* left, attribute_t* right)
 {
     assert(conditional != NULL);
-    assert(conditional_type != NULL);
+    //assert(conditional_type != NULL);
     assert(left != NULL);
     assert(right != NULL);
 
