@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "../../src/battle/src/battle_classes.c"
 #include "../../include/battle/battle_classes.h"
 
 
@@ -16,7 +17,7 @@ Test(class, new)
 
     cr_assert_not_null(class, "new_class() failed");
 
-    cr_assert_eq(class->info, test_str, "new_class() didn't set info");
+    cr_assert_str_eq(class->info, test_str, "new_class() didn't set info");
 }
 
 
@@ -33,7 +34,7 @@ Test(class, init)
 
     cr_assert_eq(rc, 0, "init_class() failed");
 
-    cr_assert_eq(class.info, test_str, "init_class() didn't set info");
+    cr_assert_str_eq(class.info, test_str, "init_class() didn't set info");
 }
 
 
@@ -44,13 +45,13 @@ Test(class, bard)
     
     cr_assert_eq(bard->cl, 0, "make_test_bard() didn't set class type");
 
-    cr_assert_eq(bard->info,
+    cr_assert_str_eq(bard->info,
                  "Charismatic, always has a joke, song, or moving speech ready", 
 		 "make_test_bard() didn't set class info");
    
     cr_assert_eq(bard->st, 3, "make_test_bard() didn't set stat bonus type");
 
-    cr_assert_eq(bard.bonus, 2.0, "make_test_bard() didn't set stat bonus value");
+    cr_assert_eq(bard->bonus, 2.0, "make_test_bard() didn't set stat bonus value");
 }
 
 
@@ -61,13 +62,13 @@ Test(class, cleric)
     
     cr_assert_eq(cleric->cl, 1, "make_test_cleric() didn't set class type");
 
-    cr_assert_eq(cleric->info,
+    cr_assert_str_eq(cleric->info,
                  "Fueled by divine inspiration, devout to the craft",
                  "make_test_cleric() didn't set class info");
    
     cr_assert_eq(cleric->st, 1, "make_test_cleric() didn't set stat bonus type");
 
-    cr_assert_eq(cleric.bonus, 2.0, "make_test_cleric() didn't set stat bonus value");
+    cr_assert_eq(cleric->bonus, 2.0, "make_test_cleric() didn't set stat bonus value");
 }
 
 
@@ -78,13 +79,13 @@ Test(class, paladin)
     
     cr_assert_eq(paladin->cl, 2, "make_test_paladin() didn't set class type");
 
-    cr_assert_eq(paladin->info,
+    cr_assert_str_eq(paladin->info,
                  "Driven and committed to justice",
                  "make_test_paladin() didn't set class info");
    
     cr_assert_eq(paladin->st, 2, "make_test_paladin() didn't set stat bonus type");
 
-    cr_assert_eq(paladin.bonus, 2.0, "make_test_paladin() didn't set stat bonus value");
+    cr_assert_eq(paladin->bonus, 2.0, "make_test_paladin() didn't set stat bonus value");
 }
 
 
@@ -95,13 +96,13 @@ Test(class, wizard)
     
     cr_assert_eq(wizard->cl, 3, "make_test_wizard() didn't set class type");
 
-    cr_assert_eq(wizard->info,
+    cr_assert_str_eq(wizard->info,
                  "Draws power from nature",
                  "make_test_wizard() didn't set class info");
    
     cr_assert_eq(wizard->st, 0, "make_test_wizard() didn't set stat bonus type");
 
-    cr_assert_eq(wizard.bonus, 2.0, "make_test_wizard() didn't set stat bonus value");
+    cr_assert_eq(wizard->bonus, 2.0, "make_test_wizard() didn't set stat bonus value");
 }
 
 
