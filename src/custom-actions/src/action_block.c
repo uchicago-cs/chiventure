@@ -2,13 +2,13 @@
  * Basic functions and structs for action blocks to be used 
  * in custom-actions implementation. 
  *
- * Please see "action_block_functions.h" for function documentation.
+ * Please see "action_block.h" for function documentation.
  */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "custom-actions/action_block_functions.h"
+#include "custom-actions/action_block.h"
 
 /* See action_block_functions.h */
 typedef enum action_type {
