@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "src/custom-actions/include/action_block.h"
+#include "chiventure/src/custom-actions/include/action_block.h"
 
 /* Checks that a new action block with SET type is created without interruption */
 Test(action_block_t, new_SET)

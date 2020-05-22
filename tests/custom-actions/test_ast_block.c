@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "src/custom-actions/include/ast_block.h"
+#include "chiventure/src/custom-actions/include/ast_block.h"
 
 /* Checks that a new AST block with control type is created without interruption */
 Test(AST_block_t, new_CONTROL)
