@@ -11,16 +11,6 @@
 #include "custom-actions/action_block.h"
 
 /* See action_block.h */
-typedef enum action_type {
-    SET,
-    SAY,
-    MOVE, 
-    ADDSUBMULTDIV, 
-    GEN, 
-    EXEC
-} action_type;
-
-/* See action_block.h */
 typedef struct action_block {
     enum action_type action_type;
     int num_args;

@@ -11,13 +11,6 @@
 #include "custom-actions/control_block.h"
 
 /* See control_block.h */
-typedef enum control_type {
-    IFELSE,
-    WHILEENDWHILE,
-    FORENDFOR
-} control_type;
-
-/* See control_block.h */
 typedef struct control_block {
     enum control_type control_type;
     AST_block_t* next;

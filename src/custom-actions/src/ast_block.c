@@ -15,14 +15,6 @@
 #include "custom-actions/control_block.h"
 
 /* See ast_block.h */
-typedef enum block_type {
-    CONTROL, 
-    BRANCH, 
-    ACTION, 
-    CONDITIONAL
-} block_type;
-
-/* See ast_block.h */
 typedef union block {
     control_block_t control_block;
     branch_block_t branch_block;
