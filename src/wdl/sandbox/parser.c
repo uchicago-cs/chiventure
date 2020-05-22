@@ -9,15 +9,15 @@
 /* DEBUG is 0 normally, 1 to print debugging statements */
 #define DEBUG 1
 
+/* Maximum number of bytes in a file parser can parse */
+#define MAX_BYTES 4096
+
 /* Helper function: to print debugging statements only when debugging */
 int my_print(char *string) {
-    
     if (DEBUG) {
         printf("%s\n",string);
     }
-
     return 0;
-
 }
 
 
@@ -62,7 +62,7 @@ int add_rooms_to_game(json_object *rooms, game_t *g) {
 
 game_t *parse_wdl(char* filename) {
     FILE *fp;
-    char buffer[4096];
+    char buffer[MAX_BYTES];
     
     /* The main json_objects for storing top level information*/
     struct json_object *game_document;
@@ -74,7 +74,7 @@ game_t *parse_wdl(char* filename) {
     /* reads the input file */
     fp = fopen(filename, "r");
     assert(fp);
-    fread(buffer, 4096, 1, fp);
+    fread(buffer, MAX_BYTES, 1, fp);
     fclose(fp);
 
     game_document = json_tokener_parse(buffer);
