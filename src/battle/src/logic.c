@@ -56,12 +56,14 @@ int goes_first(double p_speed, double e_speed)
     }
 }
 
-/* Creates a dummy armor list with hardcoded values
+/* 
+ * Finds the desired item to be used
  * 	Inputs:
  * 		inventory - an player or enemy's inventory
  * 		ID - the ID number of the desired item
  * 	Outputs:
- * 		temp->item - pointer to the desired item */
+ * 		temp->item - pointer to the desired item 
+ */
 item_t *find_item(item_t *inventory, int ID)
 {
     item_t *temp;
@@ -77,30 +79,38 @@ item_t *find_item(item_t *inventory, int ID)
     return NULL;
 }
 
-/* see logic.h 
-item_t *player_use_item(combatant_t *p, int ID)
+int consume_item(combatant_t *c, item_t *item)
 {
-    if (p->inventory == NULL)
+    c->stats->hp += item->hp;
+    c->stats->strength += item->attack;
+    c->stats->defense += item->defense;
+    return 0;
+}
+
+/* see logic.h */
+int *player_use_item(combatant_t *c, item_t *inv, int ID)
+{
+    if (inv == NULL)
     {
-        fprintf(stderr, "Noooo! Your inventory is empty!");
-        return NULL;
+        return 1;
+    }
+    
+    item_t *item = find_item(inv, ID);
+    
+    if(item == NULL || item->quantity == 0)
+    {
+        return 2;
     }
 
-    item_t *desired_item = calloc(1, sizeof(item_t));
-    desired_item = find_item(e->inventory, ID);
-
-    if (desired_item->quantity == 0)
+    consume_item(c, item);
+    
+    if(res == 0)
     {
-        fprintf(stderr, "ARGH!! You don't have any!");
-        return desired_item;
+        item->quantity -= 1;
+        return 0;
     }
-    else
-    {
-        desired_item->quantity -= 1;
-        desired_item->durability -= 1;
-        return desired_item;
-    }
-}*/
+    return -1;
+}
 
 /* see logic.h */
 int award_xp(stat_t *stats, double xp)

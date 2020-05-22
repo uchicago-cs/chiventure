@@ -31,24 +31,32 @@ int check_target(battle_t *b, char *target);
  */
 int battle_over(combatant_t *p, combatant_t *e);
 
-/* Function detemines what player goes first
+/* 
+Function detemines what player goes first
  *
- *  Inputs: 
- *      difficulty: difficulty level of the game
+ *  Parameters: 
+ *  - difficulty: difficulty level of the game
  *  Outputs:
- *      -1 - invalid input
- *      0 - user goes first
- *      1 - enemy goes first    */
+ *  -1 - invalid input
+ *  0 - user goes first
+ *  1 - enemy goes first    
+ */
 int goes_first(double p_speed, double e_speed);
 
 /* Uses the item with the given ID on the player
+ * ! Currently assumes that this is a battle item !
  *
- *  Inputs: 
- *      p - the player using the item
- *      ID - the ID of the item
+ *  Parameters: 
+ *   c - combatant information
+ *   inv - inventory of the player
+ *   ID - the ID of the item
  *  Outputs:
- *      returns item used    */
-item_t *player_use_item(combatant_t *p, int ID);
+ *   0 - successfully used item
+ *   1 - there is nothing in the inventory
+ *   2 - item does not exist or the player does not have any more
+ *   -1 - something went wrong with the conditions
+ */
+int *player_use_item(item_t *inv, int ID);
 
 /* Awards xp to the player 
  * Parameters:
