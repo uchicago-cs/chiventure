@@ -36,17 +36,17 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id)
 int room_generate(game_t *game, gencontext_t *context, char *room_id)
 {
     /* Implement simple single-room autogeneration */
-    if (!any_paths(game->curr_room) && context->open_paths == 0) 
+    if (!any_paths(game->curr_room)) 
     {
         // Adds one generated room from the head of the speclist only
         room_t *new_room = roomspec_to_room(game, context->speclist->spec, room_id);
 
         // Add addRoom to gameNew
-        assert(0 == add_room_to_game(game, new_room));
+        assert(SUCCESS == add_room_to_game(game, new_room));
         
         // Add path from the current room to addRoom
         path_t* path_to_room = path_new(new_room, "to new room"); // For now
-        assert (0 == add_path_to_room(game->curr_room, path_to_room));
+        assert(SUCCESS == add_path_to_room(game->curr_room, path_to_room));
 
         return SUCCESS; /* room added */
     }

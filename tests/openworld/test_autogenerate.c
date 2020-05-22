@@ -206,10 +206,98 @@ Test(autogenerate, roomspec_to_room4)
     cr_assert_eq(t2, true, "room->paths not set by roomspec_to_room()");
 }
 
+/* Checks that room_generate returns FAILURE when the current room of the 
+ * game has a single outward path (i.e. not a dead end) */
+Test(autogenerate, room_generate_failure_one)
+{
+    game_t *g = game_new("start desc");
+    g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
+
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    // Test Case 1: Game with 1 outward path in its current room
+    path_t *outward_path = path_new(sample_room1, "outward path to sample_room1");
+    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, outward_path), 
+        "Could not add outward_path, which leads to sample_room1");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "to sample_room1");
+
+    roomspec_t *sample_roomspec = roomspec_new("short_desc", "long_desc", sample_item, path_to_room);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    speclist_t *sample_speclist = speclist_new(sample_roomspec);
+    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
+
+    room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "to sample_room2");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, 0, sample_speclist);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    // Test 1 for a game with 1 outward path in its curr_room field
+    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, "room_id"), 
+        "room_generate() returned SUCCESS when it should have returned FAILURE");
+}
+
+/* Checks that room_generate returns FAILURE when the current room of the 
+ * game has two or more outward paths (i.e. not a dead end) */
+Test(autogenerate, room_generate_failure_multiple)
+{
+    game_t *g = game_new("start desc");
+    g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
+
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "to sample_room1");
+
+    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_to_room), 
+        "Could not add path_to_room (path), which leads to sample_room1");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    roomspec_t *sample_roomspec = roomspec_new("short_desc", "long_desc", sample_item, path_to_room);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    speclist_t *sample_speclist = speclist_new(sample_roomspec);
+    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
+
+    room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "to sample_room2");
+
+    // Test Case 1: Game with 2 outward paths in its current room
+    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_to_room2), 
+        "Could not add path_to_room2, which leads to sample_room2");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 2, 0, sample_speclist);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    // Test 1 for a game with 2 outward paths in its curr_room field
+    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, "room_id"), 
+        "room_generate(): game has 2 outward paths in curr_room, should have returned FAILURE");
+
+    path_t *outward_path3 = path_new(sample_room1, "outward path to sample_room1");
+
+    // Test Case 2: Game with 3 outward paths in its current room
+    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, outward_path3), 
+        "Could not add path_to_room2, which leads to sample_room2");
+
+    // Test 2 for a game with 3 outward paths in its curr_room field
+    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, "room_id"), 
+        "room_generate(): game has 3 outward paths in curr_room, should have returned FAILURE");
+}
+
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id, 
  * room_generate correctly creates a room from the head of the context 
  * and adds it to the game via a path (only if game->curr_room is a dead end) */
-Test(autogenerate, room_generate_success1)
+Test(autogenerate, room_generate_success_one)
 {
     game_t *g = game_new("start desc");
     g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
@@ -236,7 +324,87 @@ Test(autogenerate, room_generate_success1)
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, "room_id"), 
-        "room_generate() failed when it should have succeeded");
+        "room_generate() returned FAILURE when it should have returned SUCCESS");
 }
 
-// FAILURE CASE with 1, another one with 2, TWO ROOM CASE, THREE ROOM CASE
+/* 2 roomspec case: Checks that, given a game, context (gencontext_t), and room_id, 
+ * room_generate correctly creates a room from the head of the context 
+ * and adds it to the game via a path (only if game->curr_room is a dead end) */
+Test(autogenerate, room_generate_success_two)
+{
+    game_t *g = game_new("start desc");
+    g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "to sample_room1");
+
+    roomspec_t *sample_roomspec = roomspec_new("short_desc", "long_desc", sample_item, path_to_room);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    roomspec_t *sample_roomspec2 = roomspec_new("short_desc", "long_desc", sample_item, path_to_room);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    speclist_t *sample_speclist = speclist_new(sample_roomspec);
+    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
+
+    room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "to sample_room2");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 0, 0, sample_speclist);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    // 2 Roomspec case - should still work
+    DL_APPEND(sample_gencontext->speclist, speclist_new(sample_roomspec2));
+
+    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, "room_id"), 
+        "room_generate() returned FAILURE when it should have returned SUCCESS");
+}
+
+/* 3 roomspec case: Checks that, given a game, context (gencontext_t), and room_id, 
+ * room_generate correctly creates a room from the head of the context 
+ * and adds it to the game via a path (only if game->curr_room is a dead end) */
+Test(autogenerate, room_generate_success_three)
+{
+    game_t *g = game_new("start desc");
+    g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "to sample_room1");
+
+    roomspec_t *sample_roomspec = roomspec_new("short_desc", "long_desc", sample_item, path_to_room);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    roomspec_t *sample_roomspec2 = roomspec_new("short_desc", "long_desc", sample_item, path_to_room);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    roomspec_t *sample_roomspec3 = roomspec_new("short_desc", "long_desc", sample_item, path_to_room);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    speclist_t *sample_speclist = speclist_new(sample_roomspec);
+    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
+
+    room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "to sample_room2");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 0, 0, sample_speclist);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    // 3 Roomspec case - should still work
+    DL_APPEND(sample_gencontext->speclist, speclist_new(sample_roomspec2));
+    DL_APPEND(sample_gencontext->speclist, speclist_new(sample_roomspec3));
+
+    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, "room_id"), 
+        "room_generate() returned FAILURE when it should have returned SUCCESS");
+}
