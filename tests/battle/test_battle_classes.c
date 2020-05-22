@@ -50,7 +50,7 @@ Test(class, bard)
    
     cr_assert_eq(bard->st, 3, "make_test_bard() didn't set stat bonus type");
 
-    cr_assert_eq(bard->bonus, 2.0, "make_test_bard() didn't set stat bonus value");
+    cr_assert_eq(bard.bonus, 2.0, "make_test_bard() didn't set stat bonus value");
 }
 
 
@@ -67,7 +67,7 @@ Test(class, cleric)
    
     cr_assert_eq(cleric->st, 1, "make_test_cleric() didn't set stat bonus type");
 
-    cr_assert_eq(bard->bonus, 2.0, "make_test_cleric() didn't set stat bonus value");
+    cr_assert_eq(cleric.bonus, 2.0, "make_test_cleric() didn't set stat bonus value");
 }
 
 
@@ -84,7 +84,7 @@ Test(class, paladin)
    
     cr_assert_eq(paladin->st, 2, "make_test_paladin() didn't set stat bonus type");
 
-    cr_assert_eq(paladin->bonus, 2.0, "make_test_paladin() didn't set stat bonus value");
+    cr_assert_eq(paladin.bonus, 2.0, "make_test_paladin() didn't set stat bonus value");
 }
 
 
@@ -101,7 +101,7 @@ Test(class, wizard)
    
     cr_assert_eq(wizard->st, 0, "make_test_wizard() didn't set stat bonus type");
 
-    cr_assert_eq(wizard->bonus, 2.0, "make_test_wizard() didn't set stat bonus value");
+    cr_assert_eq(wizard.bonus, 2.0, "make_test_wizard() didn't set stat bonus value");
 }
 
 
