@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "custom-actions/action_block.h"
+#include "src/custom-actions/include/action_block.h"
 
 /* Checks that a new action block with SET type is created without interruption */
 Test(action_block_t, new_SET)
@@ -12,7 +12,7 @@ Test(action_block_t, new_SET)
     AST_block_t *next = AST_block_new(action_block, ACTION);
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
-    *args, next);
+                                                    *args, next);
 
     cr_assert_not_null(new_action, "action_block_new() failed");
 
@@ -35,7 +35,7 @@ Test(action_block_t, new_SAY)
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
-    *args, next);
+                                                    *args, next);
     
     cr_assert_not_null(new_action, "action_block_new() failed");
     
@@ -58,7 +58,7 @@ Test(action_block_t, new_MOVE)
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
-    *args, next);
+                                                    *args, next);
     
     cr_assert_not_null(new_action, "action_block_new() failed");
     
@@ -81,7 +81,7 @@ Test(action_block_t, new_ADDSUBMULTDIV)
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
-    *args, next);
+                                                    *args, next);
     
     cr_assert_not_null(new_action, "action_block_new() failed");
     
@@ -104,7 +104,7 @@ Test(action_block_t, new_GEN)
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
-    *args, next);
+                                                    *args, next);
     
     cr_assert_not_null(new_action, "action_block_new() failed");
     
@@ -127,7 +127,7 @@ Test(action_block_t, new_EXEC)
     AST_block_t *next = AST_block_new(action_block, ACTION);
     
     action_block_t* new_action = action_block_new(action_type, num_args,
-    *args, next);
+                                                    *args, next);
     
     cr_assert_not_null(new_action, "action_block_new() failed");
     
