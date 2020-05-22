@@ -11,22 +11,27 @@
 int main() {
 
     //FILE *fp;
-    //char buffer[4096];
-    int* p;
+   // char buffer[4096];
+    int* p = malloc(sizeof(int));
     zip_t* dir = zip_open("game1.wdz", 0, p);
-    printf(dir);
+   // zip_name_locate(dir, "actions.json", 0);
+   zip_file_t* file = zip_fopen(dir, "game1/game/items.json", 0);
+   assert(file);
+   // zip_close(dir);
+    
     /* 
     struct json_object *game_document;
     struct json_object *game_obj;
     struct json_object *rooms_obj;
     struct json_object *items_obj;
     struct json_object *intro_obj;
-
-    fp = fopen(filename, "r");
-    assert(fp);
-    fread(buffer, 4096, 1, fp);
-    fclose(fp);
-
+    */
+    char* name = malloc(sizeof(char)*100);
+    name = zip_get_name(dir, 7,0);
+   // zip_int64_t chars =  zip_fread(file, buffer, 4096);
+    printf("Name is: %s", name);
+   // zip_fclose(file);
+    /*
     game_document = json_tokener_parse(buffer);
     
     assert(game_document);

@@ -7,7 +7,6 @@ CC = gcc
 CFLAGS = -g -O2 -Wall -Wextra -fPIC -c -I /usr/include/
 RM = rm -f
 DYN_LDFLAGS = -L /usr/lib/x86_64-linux-gnu/ -Wl,-rpath=/usr/lib/x86_64-linux-gnu/
-
 LDLIBS = -lzip
 LD_LIBRARY_PATH = /usr/lib/x86_64-linux-gnu/
 
@@ -17,11 +16,3 @@ $(BIN): parsetojsonobj.o
 
 $(OBJS): %.o:%.c
 		$(CC) $(CFLAGS) -o $@ $(patsubst %.o, %.c, $@)
-
-clean:
-<<<<<<< HEAD
-		$(RM) ${OBJS} $(BIN)
-                          
-=======
-	$(RM) ${OBJS} $(BIN)
->>>>>>> 1b810da2ad42231b94e40420aa0efdcb4fb2ffce
