@@ -2,18 +2,10 @@
 #include "common/utlist.h"
 
 /* check logic.h 
-int check_target(combatant_t *e) 
+ ensures that the enemy exists */
+int check_target(battle_t *b, combatant_t *e)
 {
     return 0;
-}*/
-
-/* check logic.h */
-/* Leaving this as return 1 so that for the future
- * people can use class or any typing to determine effectiveness
- */
-double check_effectiveness(combatant_t *p, combatant_t *e, move_t *move)
-{
-    return 1.0;
 }
 
 /* see logic.h */
@@ -59,25 +51,6 @@ int goes_first(double p_speed, double e_speed)
     {
         return -1;
     }
-    /*int r = rand() % 2; //random number generator
-    switch (difficulty)
-    {
-    case 1:
-        return 0;
-        break;
-    case 2:
-        if (r == 0)
-            return 0;
-        else
-            return 1;
-        break;
-    case 3:
-        return 1;
-        break;
-    default:
-        printf("Invalid difficulty!");
-        return -1;
-    }*/
 }
 
 /* Creates a dummy armor list with hardcoded values
@@ -102,7 +75,7 @@ item_t *find_item(item_t *inventory, int ID)
 }
 
 /* see logic.h */
-item_t *enemy_use_item(combatant_t *e, int ID)
+item_t *player_use_item(combatant_t *e, int ID)
 {
     if (e->inventory == NULL)
     {

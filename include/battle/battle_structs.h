@@ -24,6 +24,7 @@ typedef struct item {
 /* moves stub */
 typedef struct move {
     item_t *item;
+    int ID;
     bool attack;
     int damage;
     int defense;
@@ -35,10 +36,12 @@ typedef struct move {
 typedef struct stat {
     int speed;
     int strength;
+    int defense;
     int dexterity;
     int hp;
     int max_hp;
     int xp;
+    int level;
 } stat_t;
 
 /* class stub */
