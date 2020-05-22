@@ -131,6 +131,5 @@ double damage(combatant_t* player, move_t* move, combatant_t* enemy)
     dmg = ((2.0 * (double) e_stats->level) / 5.0) + 2.0;
     dmg *= ((power * ((double) e_stats->strength / defense)) / 50.0) + 2.0;
 
-    floor(dmg);
     return dmg;
 }

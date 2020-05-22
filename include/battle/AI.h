@@ -45,6 +45,22 @@ move_t* medium_move(combatant_t* player, combatant_t* enemy);
  *      move_t - the move to be used        */
 move_t* hard_move(combatant_t* player, combatant_t* enemy);
 
+/* Given a moves list, function will find the 
+ *      move dealing the least damage
+ * Inputs:
+ *      player - the player the move is going to be used against
+ * Outputs:
+ *      move_t - the move to be used        */
+move_t* find_easy(combatant_t* player, combatant_t* enemy);
+
+/* Given a moves list, function will find the 
+ *      move dealing the most damage
+ * Inputs:
+ *      player - the player the move is going to be used against
+ * Outputs:
+ *      move_t - the move to be used        */
+move_t* find_hard(combatant_t* player, combatant_t* enemy);
+
 /* Function returns the damage dealt to a player
  * Inputs:
  *      player - the player the move is going to be used against
