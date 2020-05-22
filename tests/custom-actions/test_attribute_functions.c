@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "game-state/item.h"
-#include "custom-actions/attribute_functions.h"
+#include "src/custom-actions/include/attribute_functions.h"
 
 /* Checks that a new attribute with type DOUBLE is created without interruption */
 Test(attribute_t, new_DOUBLE)
@@ -13,7 +13,7 @@ Test(attribute_t, new_DOUBLE)
     attribute_value_t attribute_value = 0;
 
     attribute_t new_attribute = attribute_new(hh, attribute_key, 
-    attribute_tag, attribute_value);
+                                                attribute_tag, attribute_value);
 
     cr_assert_not_null(new_attribute, "attribute_new failed");
 
@@ -37,7 +37,7 @@ Test(attribute_t, new_CHARACTER)
     attribute_value_t attribute_value = "s";
     
     attribute_t new_attribute = attribute_new(hh, attribute_key,
-    attribute_tag, attribute_value);
+                                                attribute_tag, attribute_value);
     
     cr_assert_not_null(new_attribute, "attribute_new failed");
     
@@ -61,7 +61,7 @@ Test(attribute_t, new_BOOLE)
     attribute_value_t attribute_value = 0;
     
     attribute_t new_attribute = attribute_new(hh, attribute_key,
-    attribute_tag, attribute_value);
+                                                attribute_tag, attribute_value);
     
     cr_assert_not_null(new_attribute, "attribute_new failed");
     
@@ -85,7 +85,7 @@ Test(attribute_t, new_STRING)
     attribute_value_t attribute_value = "string";
     
     attribute_t new_attribute = attribute_new(hh, attribute_key,
-    attribute_tag, attribute_value);
+                                                attribute_tag, attribute_value);
     
     cr_assert_not_null(new_attribute, "attribute_new failed");
     
@@ -109,7 +109,7 @@ Test(attribute_t, new_INTEGER)
     attribute_value_t attribute_value = 0;
     
     attribute_t new_attribute = attribute_new(hh, attribute_key,
-    attribute_tag, attribute_value);
+                                                attribute_tag, attribute_value);
     
     cr_assert_not_null(new_attribute, "attribute_new failed");
     
