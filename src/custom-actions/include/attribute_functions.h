@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-//#include "custom-actions/struct.h"
 
 /* 
  * Allocates an attribute in the heap. 
