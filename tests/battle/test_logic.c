@@ -230,7 +230,7 @@ Test(logic, do_not_find_item)
     DL_APPEND(head, i2);
 
     item_t *found = find_item(head, 102);
-    cr_assert_not_null(found, "find_item() failed!");
+    cr_assert_null(found, "find_item() failed!");
 }
 
 Test(logic, consume_an_item)
@@ -272,11 +272,12 @@ Test(logic, uses_item_correctly)
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 1;
+
     i2 = calloc(1, sizeof(item_t));
     i2->id = 101;
-    i1->attack = 0;
-    i1->defense = 0;
-    i1->hp = 20;
+    i2->attack = 0;
+    i2->defense = 0;
+    i2->hp = 20;
     i2->quantity = 2;
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
@@ -319,9 +320,9 @@ Test(logic, no_more_items)
 
     i2 = calloc(1, sizeof(item_t));
     i2->id = 101;
-    i1->attack = 0;
-    i1->defense = 0;
-    i1->hp = 20;
+    i2->attack = 0;
+    i2->defense = 0;
+    i2->hp = 20;
     i2->quantity = 2;
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
