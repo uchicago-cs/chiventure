@@ -1,3 +1,0 @@
-/home/simrenk/CS/cs220/chiventure/src/CMakeFiles/rebuild_cache.dir
-/home/simrenk/CS/cs220/chiventure/src/CMakeFiles/playerclass.dir
-/home/simrenk/CS/cs220/chiventure/src/CMakeFiles/edit_cache.dir

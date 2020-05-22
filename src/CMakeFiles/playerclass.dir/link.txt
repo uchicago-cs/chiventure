@@ -1,2 +1,0 @@
-/usr/bin/ar qc libplayerclass.a  CMakeFiles/playerclass.dir/sandbox/player.c.o
-/usr/bin/ranlib libplayerclass.a
