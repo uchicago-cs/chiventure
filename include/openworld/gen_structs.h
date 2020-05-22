@@ -11,8 +11,8 @@
  * See chiventure/src/openworld/gen_structs.c source code to see implementation.
  */
 
-#include "../game-state/game_state_common.h"
-#include "../game-state/game.h"
+#include "game-state/game_state_common.h"
+#include "game-state/game.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -40,25 +40,26 @@ typedef struct roomspec {
  * - roomspec_t *spec: pointer to some room specification
  * - speclist_t *next: pointer to the next part of the list.
  */
-typedef struct speclist {
+typedef struct speclist speclist_t;
+struct speclist {
     roomspec_t *spec;
     speclist_t *next;
     speclist_t *prev;
-} speclist_t;
+};
         
 /* gencontext_t struct
  * This struct will carry the info for the generation algorithm
  * The struct contains: 
  * - int level: this is the players current level
- * - int openpaths: the number of openpaths that need to be generated in the room.
- * - int numnpcs: the number of npcs that need to be generated into the room.
+ * - int open_paths: the number of open_paths that need to be generated in the room.
+ * - int num_npcs: the number of npcs that need to be generated into the room.
  * - speclist_t *speclist: the llist of roomspect_t that each hold the room info.
  */
 typedef struct gencontext {
     path_t *path;
     int level;
-    int openpaths;
-    int numnpcs;
+    int open_paths;
+    int num_npcs;
     speclist_t *speclist;
 } gencontext_t;
 
@@ -75,30 +76,30 @@ typedef struct gencontext {
  * parameters:
  * - context: the gencontext* struct that we are initializing.
  * - level: stores the players level.
- * - openpaths: number of open paths to generate in the room
- * - numnpcs: the number of npcs to generate in the room
+ * - open_paths: number of open paths to generate in the room
+ * - num_npcs: the number of npcs to generate in the room
  * - speclist: the speclist we are choosing our roomspec from
  * 
  * returns:
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to initialize
  */
-int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist);
+int init_gencontext(gencontext_t *context, path_t *path, int level, int open_paths, int num_npcs, speclist_t *speclist);
 
 /* gencontext_new
  * Creates a new gencontext_t* based off the given parameters.
  *
  * parameters: 
  * - level: stores the players level.
- * - openpaths: number of open paths to generate in the room
- * - numnpcs: the number of npcs to generate in the room
+ * - open_paths: number of open paths to generate in the room
+ * - num_npcs: the number of npcs to generate in the room
  * - speclist: the speclist we are choosing our roomspec from
  * 
  * returns:
  * gencontext_t *contextnew - the new gencontext
  * NULL - if fails to create a new gencontext.
  */
-gencontext_t* gencontext_new(path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist);
+gencontext_t *gencontext_new(path_t *path, int level, int open_paths, int num_npcs, speclist_t *speclist);
 
 /* gencontext_free
  * Frees a gencontext_t* and returns whether or not it was successful
@@ -185,7 +186,7 @@ int init_speclist(speclist_t *list, roomspec_t *spec);
  * speclist_t *listnew = the new speclist
  * NULL - if failed to create a speclist
  */
-speclist_t* speclist_new(roomspec_t *spec);
+speclist_t *speclist_new(roomspec_t *spec);
 
 /* speclist_free
  * Free's a speclist_t struct and returns whether or not it was successful
