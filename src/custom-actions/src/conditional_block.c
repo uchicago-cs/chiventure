@@ -2,15 +2,15 @@
  * Basic functions and structs for conditional blocks to be 
  * used in custom-actions implementation. 
  * 
- * Please see "conditional_block_functions.h" for function documentation. 
+ * Please see "conditional_block.h" for function documentation. 
  */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h" 
-#include "custom-actions/conditional_block_functions.h"
+#include "custom-actions/conditional_blocks.h"
 
-/* See conditional_block_functions.h */
+/* See conditional_block.h */
 typedef enum conditional_type {
     EQ,
     LTGT,
@@ -18,14 +18,14 @@ typedef enum conditional_type {
     IN
 } conditional_type;
 
-/* See conditional_block_functions.h */
+/* See conditional_block.h */
 typedef struct conditional_block {
     enum conditional_type conditional_type;
     attribute_t* left;
     attribute_t* right;
 } conditional_block_t;
 
-/* See conditional_block_functions.h */
+/* See conditional_block.h */
 conditional_block_t* conditional_block_new(enum conditional_type conditional_type, 
 attribute_t* left, attribute_t* right)
 {
@@ -51,7 +51,7 @@ attribute_t* left, attribute_t* right)
     return conditional; 
 }
 
-/* See conditional_block_functions.h */
+/* See conditional_block.h */
 int conditional_block_init(conditional_block_t *conditional, enum conditional_type 
 conditional_type, attribute_t* left, attribute_t* right)
 {
@@ -67,7 +67,7 @@ conditional_type, attribute_t* left, attribute_t* right)
     return SUCCESS; 
 }
 
-/* See conditional_block_functions.h */
+/* See conditional_block.h */
 int conditional_block_free(conditional_block_t *conditional)
 {
     assert(conditional != NULL);
