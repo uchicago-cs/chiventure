@@ -55,6 +55,7 @@ Test(class, bard)
 
 
 /* Test make_test_cleric */
+Test(class, cleric)
 {
     class_t *cleric = make_test_cleric();
     
@@ -71,6 +72,7 @@ Test(class, bard)
 
 
 /* Test make_test_paladin */
+Test(class, paladin)
 {
     class_t *paladin = make_test_paladin();
     
@@ -87,6 +89,7 @@ Test(class, bard)
 
 
 /* Test make_test_wizard */
+Test(class, wizard)
 {
     class_t *wizard = make_test_wizard();
     
