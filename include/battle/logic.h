@@ -10,24 +10,12 @@
  * Checks the targets of a move to see if they exist and are targetable
  *
  * Parameters:
- * - e: information about the enemy
+ * - b: information about the battle
+ * - target: name of the person
  * Returns:
- * - 0 for if targetable and 1 for not being targetable
- *
- * NOTE: Unsure of how this function will play into our code
-int check_target(combatant_t *e); */
-
-/*
- * Checks the move's effectiveness against a certain target
- *
- * Parameters:
- * - p: information about the player
- * - e: information about the enemy
- * - move: information about the inputted move
- * Returns:
- * - an effectiveness value (either 0.5, 1, 1.5, or 2.0)
+ * - 0 for if targetable and 1 for not being targetable/not found
  */
-double check_effectiveness(combatant_t *p, combatant_t *e, move_t *move);
+int check_target(battle_t *b, char *target);
 
 /*
  * Determines if a battle has reached its conclusion

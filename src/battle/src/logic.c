@@ -1,11 +1,21 @@
 #include "battle/logic.h"
 #include "common/utlist.h"
 
-/* check logic.h 
- ensures that the enemy exists */
-int check_target(battle_t *b, combatant_t *e)
+/* check logic.h */
+int check_target(battle_t *b, char *target)
 {
-    return 0;
+    while(b->enemy != NULL)
+    {
+        if (b->enemy->name == target)
+        {
+            return 0;
+        }
+        else
+        {
+            b->enemy = b->enemy->next;
+        }
+    }
+    return 1;
 }
 
 /* check logic.h */
