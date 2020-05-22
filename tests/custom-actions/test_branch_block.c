@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "custom-actions/branch_block.h"
+#include "src/custom-actions/include/branch_block.h"
 
 /* Checks that a new branch block with conditional type EQ is created 
 without interruption */
@@ -17,7 +17,7 @@ Test(branch_block_t, new_EQ)
     control_block_t** controls = control_block_new(IFELSE, next);
 
     branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type, 
-    conditionals, num_controls, controls);
+                                                    conditionals, num_controls, controls);
 
     cr_assert_not_null(new_branch, "branch_block_new() failed");
 
@@ -49,7 +49,7 @@ Test(branch_block_t, new_LTGT)
     control_block_t** controls = control_block_new(IFELSE, next);
     
     branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type,
-    conditionals, num_controls, controls);
+                                                    conditionals, num_controls, controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
@@ -81,7 +81,7 @@ Test(branch_block_t, new_LTEGTE)
     control_block_t** controls = control_block_new(IFELSE, next);
     
     branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type,
-    conditionals, num_controls, controls);
+                                                    conditionals, num_controls, controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
@@ -113,7 +113,7 @@ Test(branch_block_t, new_IN)
     control_block_t** controls = control_block_new(IFELSE, next);
     
     branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type,
-    conditionals, num_controls, controls);
+                                                    conditionals, num_controls, controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
