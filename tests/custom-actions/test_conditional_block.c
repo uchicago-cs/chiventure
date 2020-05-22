@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "custom-actions/conditional_block_functions.h"
+#include "custom-actions/conditional_block.h"
 
 /* Checks that a new conditional block with type EQ is created without interruption */
 Test(conditional_block_t, new_EQ)
