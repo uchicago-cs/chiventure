@@ -56,14 +56,8 @@ int goes_first(double p_speed, double e_speed)
     }
 }
 
-/* 
- * Finds the desired item to be used
- * 	Inputs:
- * 		inventory - an player or enemy's inventory
- * 		ID - the ID number of the desired item
- * 	Outputs:
- * 		temp->item - pointer to the desired item 
- */
+
+/* see logic.h */
 item_t *find_item(item_t *inventory, int ID)
 {
     item_t *temp;
@@ -79,6 +73,7 @@ item_t *find_item(item_t *inventory, int ID)
     return NULL;
 }
 
+/* see logic.h */
 int consume_item(combatant_t *c, item_t *item)
 {
     c->stats->hp += item->hp;

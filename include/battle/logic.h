@@ -36,12 +36,32 @@ Function detemines what player goes first
  *
  *  Parameters: 
  *  - difficulty: difficulty level of the game
- *  Outputs:
+ *  Returns:
  *  -1 - invalid input
  *  0 - user goes first
  *  1 - enemy goes first    
  */
 int goes_first(double p_speed, double e_speed);
+
+/* 
+ * Finds the desired item to be used
+ * 	Parameters:
+ *   inventory - an player or enemy's inventory
+ * 	 ID - the ID number of the desired item
+ * 	Returns:
+ * 	 temp->item - pointer to the desired item 
+ */
+item_t *find_item(item_t *inventory, int ID);
+
+/*
+ * Consumes an item for the said combatant
+ * Parameters:
+ *  c - information about the combatant
+ *  item - the item to be consumed
+ * Returns:
+ *  Always returns 0
+ */
+int consume_item(combatant_t *c, item_t *item);
 
 /* Uses the item with the given ID on the player
  * ! Currently assumes that this is a battle item !
@@ -50,7 +70,7 @@ int goes_first(double p_speed, double e_speed);
  *   c - combatant information
  *   inv - inventory of the player
  *   ID - the ID of the item
- *  Outputs:
+ *  Returns:
  *   0 - successfully used item
  *   1 - there is nothing in the inventory
  *   2 - item does not exist or the player does not have any more

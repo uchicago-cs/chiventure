@@ -266,13 +266,13 @@ Test(logic, uses_item_correctly)
     item_t *i1;
     item_t *i2;
 
-    item_t *i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(item_t));
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 1;
-    item_t *i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(item_t));
     i2->id = 101;
     i1->attack = 0;
     i1->defense = 0;
