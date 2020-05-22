@@ -5,8 +5,8 @@
  * sample_generation.h: This file: function prototypes and purposes from 
  * the functions defined in chiventure/src/openworld/src/autogenerate.c
  * 
- * Room module that autogenerates string of rooms connected via paths when 
- * a "dead-end" room is entered
+ * Room module that autogenerates and adds room to a game when a "dead end" 
+ * is reached (i.e. no outward paths from the current room)
  * 
  * See sample_generation.c source code file to see function definitions
  */
@@ -28,7 +28,7 @@
 
 /*
  * any_paths
- * Are there any paths in the given room? Returns a boolean.
+ * Are there any outward paths in the given room? Returns a boolean.
  * 
  * parameters:
  * - r: A room pointer for the input room. Should not be NULL.
@@ -68,7 +68,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id);
  * room_generate
  * Given a game pointer and a context struct (gencontext_t*), generates a room 
  * based on the head node only of the context struct and adds it to the game. Only 
- * does so if the current room has no paths (dead ends).
+ * does so if the current room has no outward paths (dead end).
  * 
  * Connects the newly-generated room to the old room via paths.
  * 

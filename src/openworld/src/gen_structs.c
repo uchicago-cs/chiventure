@@ -111,9 +111,12 @@ int init_speclist(speclist_t *list, roomspec_t *spec)
 	    return FAILURE;
     }
 
-    speclist_t *s = speclist_new(spec);
+    list->spec = spec;
+    speclist_t *head = NULL;
 
-    DL_APPEND(list, s);
+    DL_APPEND(head, list);
+    assert(list == head);
+
     return SUCCESS;
 }
 
