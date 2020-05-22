@@ -150,13 +150,13 @@ Test(logic, same_speed)
     combatant_free(e);
 }
 
-Test(logic, find_item)
+/*Test(logic, find_item)
 {
 }
 
 Test(logic, do_not_find_item)
 {
-}
+}*/
 
 Test(logic, award_xp)
 {

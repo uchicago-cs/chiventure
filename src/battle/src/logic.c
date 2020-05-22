@@ -8,13 +8,6 @@ int check_target(battle_t *b, combatant_t *e)
     return 0;
 }
 
-/* see logic.h */
-int award_xp(stat_t *stats, double xp)
-{
-    stats->xp += xp;
-    return 0;
-}
-
 /* check logic.h */
 int battle_over(combatant_t *p, combatant_t *e)
 {
@@ -99,4 +92,9 @@ item_t *player_use_item(combatant_t *e, int ID)
     }
 }
 
-
+/* see logic.h */
+int award_xp(stat_t *stats, double xp)
+{
+    stats->xp += xp;
+    return 0;
+}
