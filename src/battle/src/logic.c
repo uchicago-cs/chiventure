@@ -77,7 +77,7 @@ item_t *find_item(item_t *inventory, int ID)
     return NULL;
 }
 
-/* see logic.h */
+/* see logic.h 
 item_t *player_use_item(combatant_t *p, int ID)
 {
     if (p->inventory == NULL)
@@ -100,7 +100,7 @@ item_t *player_use_item(combatant_t *p, int ID)
         desired_item->durability -= 1;
         return desired_item;
     }
-}
+}*/
 
 /* see logic.h */
 int award_xp(stat_t *stats, double xp)
