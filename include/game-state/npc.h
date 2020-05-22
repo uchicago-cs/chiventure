@@ -4,6 +4,7 @@
 #include "game_state_common.h"
 #include "item.h"
 #include "dialogue.h"
+#include "room.h"
 
 /* A non-playable character in game */
 typedef struct npc 
@@ -33,6 +34,49 @@ typedef struct npcs_in_room {
 
 typedef struct npcs_in_room npcs_in_room_hash_t;
 
+
+
+typedef struct time_in_room {
+    UT_hash_handle hh;
+    int sec;
+    char *room_id;
+} time_in_room_t;
+
+typedef struct time_in_room time_in_room_hash_t;
+
+typedef struct mov_def {
+    path_llist_t *npc_path;
+} mov_def_t;
+
+
+typedef struct mov_indef {
+    //UT_hash_handle hh;
+    path_llist_t *npc_path;
+    time_in_room_hash_t *room_time;
+} mov_indef_t;
+
+typedef union npc_mov_types {
+    mov_def_t *mov_def;
+    mov_indef_t *mov_indef;
+} npc_mov_types_u;
+
+typedef struct npc_mov {
+    char *npc_id;
+    //path_llist_t *npc_path;
+    npc_mov_types_u *mov_type;
+    char *track;
+} npc_mov_t;
+
+
+
+
+
+/*
+ * create llist for all the 1-1 paths for a single npc
+ * path reversal
+ * time in a room
+ * types of npc movement
+ */
 
 /*
  * Initializes an npc with given health.
