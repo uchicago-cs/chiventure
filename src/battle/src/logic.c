@@ -78,9 +78,9 @@ item_t *find_item(item_t *inventory, int ID)
 }
 
 /* see logic.h */
-item_t *player_use_item(combatant_t *e, int ID)
+item_t *player_use_item(combatant_t *p, int ID)
 {
-    if (e->inventory == NULL)
+    if (p->inventory == NULL)
     {
         fprintf(stderr, "Noooo! Your inventory is empty!");
         return NULL;

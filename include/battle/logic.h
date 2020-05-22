@@ -44,12 +44,11 @@ int goes_first(double p_speed, double e_speed);
 /* Uses the item with the given ID on the player
  *
  *  Inputs: 
- *      e - the enemy using the item
- *      p - the player being attacked
+ *      p - the player using the item
  *      ID - the ID of the item
  *  Outputs:
  *      returns item used    */
-item_t *enemy_use_item(combatant_t *e, int ID);
+item_t *player_use_item(combatant_t *p, int ID);
 
 /* Awards xp to the player 
  * Parameters:
