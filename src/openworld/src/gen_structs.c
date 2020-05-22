@@ -37,7 +37,7 @@ int init_gencontext(gencontext_t *context, path_t *path, int level, int open_pat
 gencontext_t *gencontext_new(path_t *path, int level, int open_paths, int num_npcs, speclist_t *speclist)
 {
 
-    gencontext_t *context_new = calloc(1, sizeof(gencontext_t));
+    gencontext_t *context_new = (gencontext_t*) calloc(1, sizeof(gencontext_t));
     assert(context_new != NULL);
     context_new->path = path;
     context_new->level = level;
@@ -81,7 +81,7 @@ int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_hash
 roomspec_t *roomspec_new(char *short_desc, char *long_desc, item_hash_t *items, path_hash_t *paths)
 {
 
-    roomspec_t *roomspec_new = calloc(1, sizeof(roomspec_t));
+    roomspec_t *roomspec_new = (roomspec_t*) calloc(1, sizeof(roomspec_t));
     assert(roomspec_new != NULL);
 
     init_roomspec(roomspec_new, short_desc, long_desc, items, paths);
@@ -124,7 +124,7 @@ int init_speclist(speclist_t *list, roomspec_t *spec)
 speclist_t *speclist_new(roomspec_t *spec)
 {
 
-    speclist_t *list_new = calloc(1, sizeof(speclist_t));
+    speclist_t *list_new = (speclist_t*) calloc(1, sizeof(speclist_t));
     assert(list_new != NULL);
     
     init_speclist(list_new, spec);

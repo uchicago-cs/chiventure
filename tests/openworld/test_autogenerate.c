@@ -212,6 +212,7 @@ Test(autogenerate, roomspec_to_room4)
 Test(autogenerate, room_generate_success1)
 {
     game_t *g = game_new("start desc");
+    g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
 
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
 
@@ -226,10 +227,16 @@ Test(autogenerate, room_generate_success1)
     speclist_t *sample_speclist = speclist_new(sample_roomspec);
     cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
 
-    // gencontext_t *sample_gencontext = gencontext_new(NULL, 5, 0, 0, sample_speclist);
-    // cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+    room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
 
-    // cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, "room_id"));
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "to sample_room2");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 0, 0, sample_speclist);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, "room_id"), 
+        "room_generate() failed when it should have succeeded");
 }
 
 // FAILURE CASE with 1, another one with 2, TWO ROOM CASE, THREE ROOM CASE
