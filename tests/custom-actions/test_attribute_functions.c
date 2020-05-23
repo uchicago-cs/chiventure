@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "game-state/item.h"
-#include "src/custom-actions/include/attribute_functions.h"
+#include "attribute_functions.h"
 
 /* Checks that a new attribute with type DOUBLE is created without interruption */
 Test(attribute_t, new_DOUBLE)
