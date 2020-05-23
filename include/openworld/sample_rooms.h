@@ -6,18 +6,17 @@
 #include "sample_items.h"
 #include "gen_structs.h"
 
-/*Get_desc returns the descriptive strings for a default (or unknown) room
+/*Get_allowed_rooms returns an array of roomspec_t for a default (or unknown) room
 * for DEFAULT rooms: give as input the themed room "bucket". This can be
 * 'school', 'farmhouse', or 'castle'. In each of these three themed "buckets"
-* there are 6 different room types that can be assigned. Randomly pick one of
-* these appropriate rooms, and return the hard-coded array of strings it 
-* corresponds to: { room_id, short_desc, long_desc }
+* there are 5 different room types that can be assigned. Return the hard-coded 
+* strings it corresponds to { room_name, short_desc, long_desc } in roomspec.
 *
 * for UNKNOWN rooms: this means either the given "bucket" is not recognized
 * as one of the three already defined. "bucket" cannot be NULL. In this case,
 * bucket is still a string, so use this as the room_id assignment instead.
 * Also assign short_desc, long_desc to the given sh_desc and l_desc strings
-* respectively.
+* respectively. Return a singuar roomspec with this information
 *
 * Input: 
 *	- char *bucket: the string naming the theme of a set of rooms
@@ -26,11 +25,12 @@
 *	-- note: if bucket is defined, it doesn't matter what sh_desc, l_desc are.
 *			we already have fixed definitions for the rooms in this theme.--
 * Output:
-*	- char **: an array of 3 strings in the following order: {room_id, 
-*				short_desc, long_desc}
+*	- roomspec **: an array of roomspecs with 3 hardcoded strings in a roomspec
+*					in the following order: {room_id, short_desc, long_desc}
 *
 */
-char **get_desc(char *bucket, char *sh_desc, char *l_desc);
+roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
+	item_list_t *llist);
 
 
 /*make_default_rooms adds all the defined default rooms for a themed 

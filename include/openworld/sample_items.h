@@ -49,6 +49,6 @@ item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count);
 * Output:
 *	- an updated llist
 */
-item_list_t* get_allowed_items(char *name, item_list_t *llist);
+item_list_t* make_default_items(char *name, item_list_t *llist);
 
 #endif /* _SAMPLE_ITEM_H */
