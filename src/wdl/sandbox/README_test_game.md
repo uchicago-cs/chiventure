@@ -1,7 +1,7 @@
 ## Documentation for `test_game`
 
 As part of the WDL++ spec, I've written a test game in the new format 
-to demonstrate some of the core functionality such as actions, items, 
+to mock up some of the core functionality such as actions, items, 
 rooms, and conditionals. Specifically, actions make full use of the 
 custom actions interface, with action sequences taking parameters. 
 RPG features are not present as they are very much works in progress.
