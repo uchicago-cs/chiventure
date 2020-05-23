@@ -12,7 +12,7 @@
     {
         "id": "sign",
         "short_desc": "A sign.",
-        "long_desc": "The sign reads: 'To leave this place, two levers must be pulled...'",
+        "long_desc": "The sign reads: 'To leave this place, two levers must be pulled to open a secret room...'",
         "actions": []
     },
     {
@@ -53,7 +53,8 @@
         "short_desc": "A blue lever.",
         "long_desc": "A plain-looking blue lever.",
         "actions": [
-            {"call": "pull", "action_id": "action_normal_pull", "params": "1"}
+            {"call": "pull", "action_id": "action_normal_pull", "params": "1"},
+            {"call": "pull", "action_id": "action_normal_push", "params": "1"}
         ],
         "pulled": false
     },
@@ -62,7 +63,8 @@
         "short_desc": "A green lever.",
         "long_desc": "A plain-looking green lever.",
         "actions": [
-            {"call": "pull", "action_id": "action_normal_pull", "params": "2"}
+            {"call": "pull", "action_id": "action_normal_pull", "params": "2"},
+            {"call": "pull", "action_id": "action_normal_push", "params": "2"}
         ],
         "pulled": false
     },
@@ -71,7 +73,8 @@
         "short_desc": "A red lever.",
         "long_desc": "A plain-looking red lever.",
         "actions": [
-            {"call": "pull", "action_id": "action_normal_pull", "params": "3"}
+            {"call": "pull", "action_id": "action_normal_pull", "params": "3"},
+            {"call": "pull", "action_id": "action_normal_push", "params": "3"}
         ],
         "pulled": false
     },
@@ -80,7 +83,8 @@
         "short_desc": "A purple lever.",
         "long_desc": "A plain-looking purple lever.",
         "actions": [
-            {"call": "pull", "action_id": "action_normal_pull", "params": "4"}
+            {"call": "pull", "action_id": "action_normal_pull", "params": "4"},
+            {"call": "push", "action_id": "action_normal_push", "params": "4"}
         ],
         "pulled": false
     }

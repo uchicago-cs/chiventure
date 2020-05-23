@@ -43,6 +43,26 @@
         ]
     },
     {
+        "id": "action_normal_push <lever_num>",
+        "sequence": [
+            {"block":"if", "params":"eq lever_num 1"},
+                {"block":"set", "params":"bluelever.pulled false"},
+            {"block":"else", "params":""},
+                {"block":"if", "params":"eq lever_num 2"},
+                    {"block":"set", "params":"greenlever.pulled false"},
+                {"block":"else", "params":""},
+                    {"block":"if", "params":"eq lever_num 3"},
+                        {"block":"set", "params":"redlever.pulled false"},
+                    {"block":"else", "params":""},
+                        {"block":"if", "params":"eq lever_num 4"},
+                            {"block":"set", "params":"purplelever.pulled false"},
+                        {"block":"endif", "params":""},
+                    {"block":"endif", "params":""},
+                {"block":"endif", "params":""},
+            {"block":"endif", "params":""}
+        ]
+    },
+    {
         "id": "action_unlock_secretroom",
         "sequence": [
             {"block":"say", "params":"'You hear a loud clink echoing from the white room.'"},
