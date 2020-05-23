@@ -63,14 +63,17 @@ Test(inventory, add_has_remove) {
                        "A skill that allows a player to unlock a locked door",
                        &effect_unlock);
     cr_assert_not_null(skill1, "skill_new() failed");
+
     skill2 = skill_new(DEFUSE_BOMB, ACTIVE, "Defuse bomb",
                        "A skill that allows a player to defuse a bomb",
                        &effect_defuse_bomb);
     cr_assert_not_null(skill2, "skill_new() failed");
+
     skill3 = skill_new(CHOP_TREE, ACTIVE, "Chop tree",
                        "A skill that allows a player to chop down a tree",
                        &effect_chop_tree);
     cr_assert_not_null(skill3, "skill_new() failed");
+
     skill4 = skill_new(INNER_PEACE, PASSIVE, "Inner peace",
                        "A skill that allows a player to maintain inner peace",
                        &effect_inner_peace);
@@ -81,7 +84,6 @@ Test(inventory, add_has_remove) {
 
     add1 = inventory_skill_add(inventory, skill1);
     cr_assert_eq(add1, SUCCESS, "inventory_skill_add() failed");
-    cr_assert_not_null(inventory->active[0], "inventory_skill_add() failed");/*
     cr_assert_eq(inventory->active[0]->sid, UNLOCK_DOOR, "inventory_skill_add() failed");
 
     add2 = inventory_skill_add(inventory, skill2);
@@ -114,5 +116,5 @@ Test(inventory, add_has_remove) {
     cr_assert_eq(rem3, FAILURE, "inventory_skill_remove() failed");
 
     rem4 = inventory_skill_remove(inventory, skill4);
-    cr_assert_eq(rem4, SUCCESS, "inventory_skill_remove() failed");*/
+    cr_assert_eq(rem4, SUCCESS, "inventory_skill_remove() failed");
 }
