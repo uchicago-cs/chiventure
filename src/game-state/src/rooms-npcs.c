@@ -1,7 +1,7 @@
 #include "game-state/rooms-npcs.h"
 
 /* See npc.h */
-int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id) {
+int npc_room_init(npcs_in_room_t *npcs_in_room, string_t room_id) {
     assert(npcs_in_room != NULL);
 
     strncpy(npcs_in_room->room_id,room_id,strlen(room_id)+1);
@@ -12,7 +12,7 @@ int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id) {
 }
 
 /* See npc.h */
-int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
+int npc_mov_init(npc_mov_t *npc_mov, string_t npc_id, npc_mov_type_e mov_type,
                 long room_id)
 {
     assert(npc_mov != NULL);
@@ -25,7 +25,7 @@ int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
 }
 
 /* See npc.h */
-npcs_in_room_t *npcs_in_room_new(char* room_id){
+npcs_in_room_t *npcs_in_room_new(string_t room_id){
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = malloc(sizeof(npcs_in_room_t));
     memset(npcs_in_room, 0, sizeof(npcs_in_room_t));
