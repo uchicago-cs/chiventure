@@ -9,11 +9,11 @@ Test(AST_block_t, new_CONTROL)
     block_t* block = control_block;
     enum block_type block_type = CONTROL;
 
-    AST_block_t* new_ast = AST_block_new(*block, block_type);
+    AST_block_t* new_ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
-    cr_assert_eq(new_ast.block, block, "AST_block_new() didn't set new_ast->block");
+    cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
 
     AST_block_free(new_ast);
