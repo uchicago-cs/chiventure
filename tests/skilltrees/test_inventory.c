@@ -73,22 +73,22 @@ Test(inventory, skill_add) {
     // Initialize the skills
     init1 = skill_init(&skill1, UNLOCK_DOOR, ACTIVE, "Unlock door",
                        "A skill that allows a player to unlock a locked door",
-                       &effect_unlock);
+                       1, 0, &effect_unlock);
     cr_assert_eq(init1, SUCCESS, "skill_init() failed to initialize skill");
 
     init2 = skill_init(&skill2, DEFUSE_BOMB, ACTIVE, "Defuse bomb",
                        "A skill that allows a player to defuse a bomb",
-                       &effect_defuse_bomb);
+                       1, 0, &effect_defuse_bomb);
     cr_assert_eq(init2, SUCCESS, "skill_init() failed to initialize skill");
 
     init3 = skill_init(&skill3, CHOP_TREE, ACTIVE, "Chop tree",
                        "A skill that allows a player to chop down a tree",
-                       &effect_chop_tree);
+                       1, 0, &effect_chop_tree);
     cr_assert_eq(init3, SUCCESS, "skill_init() failed to initialize skill");
 
     init4 = skill_init(&skill4, INNER_PEACE, PASSIVE, "Inner peace",
                        "A skill that allows a player to maintain inner peace",
-                       &effect_inner_peace);
+                       1, 0, &effect_inner_peace);
     cr_assert_eq(init4, SUCCESS, "skill_init() failed to initialize skill");
 
     // Initialize the inventory
@@ -125,22 +125,22 @@ Test(inventory, skill_remove) {
     // Initialize the skills
     init1 = skill_init(&skill1, UNLOCK_DOOR, ACTIVE, "Unlock door",
                        "A skill that allows a player to unlock a locked door",
-                       &effect_unlock);
+                       1, 0, &effect_unlock);
     cr_assert_eq(init1, SUCCESS, "skill_init() failed to initialize skill");
 
     init2 = skill_init(&skill2, DEFUSE_BOMB, ACTIVE, "Defuse bomb",
                        "A skill that allows a player to defuse a bomb",
-                       &effect_defuse_bomb);
+                       1, 0, &effect_defuse_bomb);
     cr_assert_eq(init2, SUCCESS, "skill_init() failed to initialize skill");
 
     init3 = skill_init(&skill3, CHOP_TREE, ACTIVE, "Chop tree",
                        "A skill that allows a player to chop down a tree",
-                       &effect_chop_tree);
+                       1, 0, &effect_chop_tree);
     cr_assert_eq(init3, SUCCESS, "skill_init() failed to initialize skill");
 
     init4 = skill_init(&skill4, INNER_PEACE, PASSIVE, "Inner peace",
                        "A skill that allows a player to maintain inner peace",
-                       &effect_inner_peace);
+                       1, 0, &effect_inner_peace);
     cr_assert_eq(init4, SUCCESS, "skill_init() failed to initialize skill");
 
     // Initialize the inventory
@@ -153,9 +153,6 @@ Test(inventory, skill_remove) {
 
     add2 = inventory_skill_add(inventory, &skill2);
     cr_assert_eq(add2, SUCCESS, "inventory_skill_add() failed");
-
-    add3 = inventory_skill_add(inventory, &skill3);
-    cr_assert_eq(add3, FAILURE, "inventory_skill_add() surpassed max active skills");
 
     add4 = inventory_skill_add(inventory, &skill4);
     cr_assert_eq(add4, SUCCESS, "inventory_skill_add() failed");
@@ -181,31 +178,31 @@ Test(inventory, skill_remove) {
 }
 
 /* Checks the search for a skill in a skill inventory */
-Test(inventory, skill_remove) {
+Test(inventory, has_skill) {
     skill_t skill1, skill2, skill3, skill4;
     int init1, init2, init3, init4;
     int add1, add2, add3, add4;
-    int rem1, rem2, rem3, rem4;
+    int has1, has2, has3;
 
     // Initialize the skills
     init1 = skill_init(&skill1, UNLOCK_DOOR, ACTIVE, "Unlock door",
                        "A skill that allows a player to unlock a locked door",
-                       &effect_unlock);
+                       1, 0, &effect_unlock);
     cr_assert_eq(init1, SUCCESS, "skill_init() failed to initialize skill");
 
     init2 = skill_init(&skill2, DEFUSE_BOMB, ACTIVE, "Defuse bomb",
                        "A skill that allows a player to defuse a bomb",
-                       &effect_defuse_bomb);
+                       1, 0, &effect_defuse_bomb);
     cr_assert_eq(init2, SUCCESS, "skill_init() failed to initialize skill");
 
     init3 = skill_init(&skill3, CHOP_TREE, ACTIVE, "Chop tree",
                        "A skill that allows a player to chop down a tree",
-                       &effect_chop_tree);
+                       1, 0, &effect_chop_tree);
     cr_assert_eq(init3, SUCCESS, "skill_init() failed to initialize skill");
 
     init4 = skill_init(&skill4, INNER_PEACE, PASSIVE, "Inner peace",
                        "A skill that allows a player to maintain inner peace",
-                       &effect_inner_peace);
+                       1, 0, &effect_inner_peace);
     cr_assert_eq(init4, SUCCESS, "skill_init() failed to initialize skill");
 
     // Initialize the inventory
@@ -218,9 +215,6 @@ Test(inventory, skill_remove) {
 
     add2 = inventory_skill_add(inventory, &skill2);
     cr_assert_eq(add2, SUCCESS, "inventory_skill_add() failed");
-
-    add3 = inventory_skill_add(inventory, &skill3);
-    cr_assert_eq(add3, FAILURE, "inventory_skill_add() surpassed max active skills");
 
     add4 = inventory_skill_add(inventory, &skill4);
     cr_assert_eq(add4, SUCCESS, "inventory_skill_add() failed");
