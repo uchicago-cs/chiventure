@@ -6,7 +6,11 @@
 /* Checks that a new AST block with control type is created without interruption */
 Test(AST_block_t, new_CONTROL)
 {
-    block_t *block = control_block;
+    block_t b;
+    block_t *block;
+    
+    b = control_block;
+    block = &b;
     enum block_type block_type = CONTROL;
 
     AST_block_t* new_ast = AST_block_new(block, block_type);
