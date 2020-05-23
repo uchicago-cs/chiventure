@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../../../include/common/utlist.h"
 #include "../../../include/openworld/sample_rooms.h" 
 
 /* see sample_rooms.h */
@@ -46,7 +47,7 @@ roomspec_t **get_allowed_room(char *bucket, char *sh_desc, char *l_desc,
 		farm_rooms[1] = roomspec_new("open field",
 			"An open field outside",
 			"An open field with grass and a clear view",
-			get_allowed_items("open field", llist), NULL, NULL)
+			get_allowed_items("open field", llist), NULL, NULL);
 		farm_rooms[2] = roomspec_new("kitchen", "A 60s era (outdated) kitchen",
 			"An outdated kitchen with obvious wear-and-tear",
 			get_allowed_items("kitchen", llist), NULL, NULL);
@@ -88,19 +89,19 @@ roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
 	int i = 0;
 
 	while (rooms[i] != NULL) {
-		//count number of allowed items
-		unsigned int count = LL_COUNT(rooms[i]->allowed_items);
+		int counter;
 		item_list_t *allowed = get_allowed_items(rooms[i]->room_name, items);
+		LL_COUNT(allowed, allowed, counter);
 		//generate actual item list from allowed items
-		for (unsigned int i = 0; i < count; i++) {
+//		for (unsigned int i = 0; i < counter; i++) {
 			//append this to item_hash_t for this room spec
-			LL_APPEND(rooms[i]->allowed_items, allowed->item);
+			LL_APPEND(rooms[i]->allowed_items, allowed);
 			HASH_ADD_STR(hash, room_name, rooms[i]);
 			//iterate to next allowed item
-			rooms[i]->allowed_items = rooms[i]->allowed_items->next;
-			allowed = allowed->next;
-		}
-		i++;
+//			rooms[i]->allowed_items = rooms[i]->allowed_items->next;
+//			allowed = allowed->next;
+//		}
+//		i++;
 	}
 	return hash;
 }

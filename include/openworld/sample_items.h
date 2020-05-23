@@ -31,7 +31,7 @@ void item_list_free(item_list_t *llist);
 * Output:
 *	- item_list_t: an  updated item list
 */
-item_list_t *add_items_to_llist(item_list_t *llist, char **ids, int count);
+item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count);
 
 /* get_allowed_items returns the subset of defined default items
 * that are allowed for a given room name. If the room name doesn't

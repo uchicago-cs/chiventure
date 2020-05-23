@@ -53,13 +53,13 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 				"A bowl of fruit resting on a surface");
 			barn_ids[3] = item_new("ladder", "a wood ladder",
 				"A wooden ladder with 5 rungs resting against a door");
-			bar_ids[4] = item_new("yam", "a rotting yam",
+			barn_ids[4] = item_new("yam", "a rotting yam",
 				"A singular rotting yam with flies flying around");
 
 			return add_items_to_llist(llist, barn_ids, 5);
 		}
 		else if (!strcmp(name, "cafeteria")) {
-			item_t *cafe_ids = calloc(5, sizeof(item_t*));
+			item_t **cafe_ids = calloc(5, sizeof(item_t*));
 			cafe_ids[0] = item_new("apple", "a red apple",
 				"A juicy Red Delicious apple");
 			cafe_ids[1] = item_new("fruit", "a bowl of fruit",
@@ -73,7 +73,7 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 			return add_items_to_llist(llist, cafe_ids, 5);
 		}
 		else if (!strcmp(name, "classroom")) {
-			item_t *class_ids = calloc(5, sizeof(item_t*)); 
+			item_t **class_ids = calloc(5, sizeof(item_t*)); 
 			class_ids[0] = item_new("book", "A big book",
 				"A Simulation survival book");
 			class_ids[1] = item_new("door", "a normal door",
@@ -88,7 +88,7 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 			return add_items_to_llist(llist, class_ids, 5);
 		}
 		else if (!strcmp(name, "closet")) {
-			item_t *closet_ids = calloc(5, sizeof(item_t*));
+			item_t **closet_ids = calloc(5, sizeof(item_t*));
 			closet_ids[0] = item_new("hat", "a top hat",
 				"A black top hat with a monogrammed A.L.");
 			closet_ids[1] = item_new("jug", "a brown jug",
@@ -102,7 +102,7 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 			return add_items_to_llist(llist, closet_ids, 5);
 		}
 		else if (!strcmp(name, "dungeon")) {
-			item_t *dungeon_ids = calloc(5, sizeof(item_t*)); 
+			item_t **dungeon_ids = calloc(5, sizeof(item_t*)); 
 			dungeon_ids[0] = item_new("door", "a normal door",
 				"A wooden door with a worn doorknob");
 			dungeon_ids[1] = item_new("gold", "three gold coins",
@@ -111,12 +111,12 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 				"A black top hat with a monogrammed A.L.");
 			dungeon_ids[3] = item_new("ladder", "a wood ladder",
 				"A wooden ladder with 5 rungs resting against a door");
-			dungone_ids[4] = item_new("nail", "a normal nail",
+			dungeon_ids[4] = item_new("nail", "a normal nail",
 				"A regular metail nail");
 			return add_items_to_llist(llist, dungeon_ids, 5);
 		}
 		else if (!strcmp(name, "field")) {
-			item_t *field_ids = calloc(5, sizeof(item_t*)); 
+			item_t **field_ids = calloc(5, sizeof(item_t*)); 
 			field_ids[0] = item_new("cow", "A black and white cow",
 				"A black and white cow called Mavis");
 			field_ids[1] = item_new("eagle", "a bald eagle",
@@ -125,13 +125,12 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 				"A live, fluffy white rabbit hiding in the corner");
 			field_ids[3] = item_new("yam", "a rotting yam",
 				"A singular rotting yam with flies flying around");
-
 			field_ids[4] = item_new("zebra", "a small zebra",
 				"A small zebra calmly munching on some grass");
 			return add_items_to_llist(llist, field_ids, 5);
 		}
 		else if (!strcmp(name, "hallway")) {
-			item_t *hall_ids = calloc(5, sizeof(item_t*));
+			item_t **hall_ids = calloc(5, sizeof(item_t*));
 			hall_ids[0] = item_new("door", "a normal door",
 				"A wooden door with a worn doorknob");
 			hall_ids[1] = item_new("mirror", "an oval mirror",
@@ -145,7 +144,7 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 			return add_items_to_llist(llist, hall_ids, 5);
 		}
 		else if (!strcmp(name, "kitchen")) {
-			item_t *kitchen_ids = calloc(5, sizeof(item_t*));
+			item_t **kitchen_ids = calloc(5, sizeof(item_t*));
 			kitchen_ids[0] = item_new("apple", "a red apple",
 				"A juicy Red Delicious apple");
 			kitchen_ids[1] = item_new("kettle", "a black kettle",
@@ -154,11 +153,12 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 				"A singular, unrefrigerated black olive");
 			kitchen_ids[3] = item_new("tray", "a red plastic tray",
 				"A red plastic tray with some dried ketchup stains");
-			kitchen_ids[4] = yam;
+			kitchen_ids[4] = item_new("yam", "a rotting yam",
+				"A singular rotting yam with flies flying around");
 			return add_items_to_llist(llist, kitchen_ids, 5);
 		}
 		else if (!strcmp(name, "library")) {
-			item_t *library_ids = calloc(5, sizeof(item_t*));
+			item_t **library_ids = calloc(5, sizeof(item_t*));
 			library_ids[0] = item_new("book", "A big book",
 				"A Simulation survival book");
 			library_ids[1] = item_new("ladder", "a wood ladder",
@@ -172,7 +172,7 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 			return add_items_to_llist(llist, library_ids, 5);
 		}
 		else if (!strcmp(name, "living room")) {
-			item_t *living_ids = calloc(5, sizeof(item_t*));
+			item_t **living_ids = calloc(5, sizeof(item_t*));
 			living_ids[0] = item_new("book", "A big book",
 				"A Simulation survival book");
 			living_ids[1] = item_new("door", "a normal door",
@@ -187,7 +187,7 @@ item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 			return add_items_to_llist(llist, living_ids, 5);
 		}
 		else if (!strcmp(name, "throne room")) {
-			item_t *throne_ids = calloc(5, sizeof(item_t*));
+			item_t **throne_ids = calloc(5, sizeof(item_t*));
 			throne_ids[0] = item_new("gold", "three gold coins",
 				"Three shiny gold coins the size of your eye");
 			throne_ids[1] = item_new("hat", "a top hat",
