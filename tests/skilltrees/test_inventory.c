@@ -10,7 +10,7 @@
 #include "skilltrees/inventory.h"
 
 /* Example skill effect function */
-char* effect_unlock_door(char* args) {
+char* effect_unlock(char* args) {
     char* s = strdup(args);
     char* msg = "unlocked the door!";
     unsigned int rlen = strlen(s) + strlen(msg) + 2;
@@ -61,7 +61,7 @@ Test(inventory, add_has_remove) {
 
     init1 = skill_init(&skill1, UNLOCK_DOOR, ACTIVE, "Unlock door",
                     "A skill that allows a player to unlock a locked door",
-                    1, 0, &effect_unlock_door);
+                    1, 0, &effect_unlock);
     cr_assert_eq(init1, SUCCESS, "skill_init() failed");
     init2 = skill_init(&skill2, DEFUSE_BOMB, ACTIVE, "Defuse bomb",
                     "A skill that allows a player to defuse a bomb",
@@ -76,23 +76,23 @@ Test(inventory, add_has_remove) {
                     1, 0, &effect_inner_peace);
     cr_assert_eq(init4, SUCCESS, "skill_init() failed");
 
-    inventory* inventory = inventory_new(2, 5);
+    inventory_t* inventory = inventory_new(2, 5);
     cr_assert_not_null(inventory, "inventory_new() failed");
 
     add1 = inventory_skill_add(inventory, &skill1);
     cr_assert_eq(add1, SUCCESS, "inventory_skill_add() failed");
-    cr_assert_eq(inventory->active[0].sid, UNLOCK_DOOR, "inventory_skill_add() failed");
+    cr_assert_eq(inventory->active[0]->sid, UNLOCK_DOOR, "inventory_skill_add() failed");
 
     add2 = inventory_skill_add(inventory, &skill2);
     cr_assert_eq(add2, SUCCESS, "inventory_skill_add() failed");
-    cr_assert_eq(inventory->active[1].sid, DEFUSE_BOMB, "inventory_skill_add() failed");
+    cr_assert_eq(inventory->active[1]->sid, DEFUSE_BOMB, "inventory_skill_add() failed");
 
     add3 = inventory_skill_add(inventory, &skill3);
     cr_assert_eq(add3, FAILURE, "inventory_skill_add() failed");
 
     add4 = inventory_skill_add(inventory, &skill4);
     cr_assert_eq(add4, SUCCESS, "inventory_skill_add() failed");
-    cr_assert_eq(inventory->passive[0].sid, INNER_PEACE, "inventory_skill_add() failed");
+    cr_assert_eq(inventory->passive[0]->sid, INNER_PEACE, "inventory_skill_add() failed");
 
     has1 = inventory_has_skill(inventory, &skill4);
     cr_assert_eq(has1, 0, "inventory_has_skill() failed");
