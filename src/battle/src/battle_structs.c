@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "battle/battle_flow.h"
+#include "battle/battle_structs.h"
 
 /* Stub for the player_new function in player.h game-state module */
 player_t *player_new(char* p_id, stat_t *stats, move_t *moves, item_t* items)
@@ -16,16 +17,6 @@ player_t *player_new(char* p_id, stat_t *stats, move_t *moves, item_t* items)
       plyr->items = items;
 
       return plyr;
-}
-
-/* Stub for the game_new function in game.h game-state module */
-game_t *game_new()
-{
-      game_t *g = calloc(1, sizeof(game_t));
-      assert(g != NULL);
-      g->curr_player = NULL;
-
-      return g;
 }
 
 /* Sets up pointer to npc struct, stub for an npc representing the enemy */
@@ -42,4 +33,14 @@ npc_enemy_t *make_npc_enemy(char* npc_id, stat_t *stats, move_t *moves, item_t* 
     npc_e->next = NULL;
 
     return npc_e;
+}
+
+/* Stub for the game_new function in game.h game-state module */
+game_t *game_new()
+{
+      game_t *g = calloc(1, sizeof(game_t));
+      assert(g != NULL);
+      g->curr_player = NULL;
+
+      return g;
 }

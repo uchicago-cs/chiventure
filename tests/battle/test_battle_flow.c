@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "battle/battle_flow.h"
+#include "battle/battle_structs.h"
 
 /* Tests set_player() */
 Test(battle_flow, set_player)
@@ -23,14 +24,13 @@ Test(battle_flow, set_player)
 /* Tests set_enemies() with 1 enemy */
 Test(battle_flow, set_one_enemy)
 {
-    npc_enemy_t *e = make_npc_enemy("set_one_enemy_Name", NULL, NULL, NULL);
+    npc_enemy_t *comb_enemy = make_npc_enemy("set_one_enemy_Name", NULL, NULL, NULL);
 
-    cr_assert_not_null(e, "set_enemies() failed");
-    cr_assert_not_null(comb_enemy1, "set_enemies() failed");
-    cr_assert_str_eq(comb_enemy1->name, "set_one_enemy_Name", "set_enemies() didn't set name");
-    cr_assert_eq(comb_enemy1->is_friendly, false, "set_enemies() didn't set type");
-    cr_assert_not_null(comb_enemy1->next, "set_enemies() didn't set next");
-    cr_assert_not_null(comb_enemy1->prev, "set_enemies() didn't set prev");
+    cr_assert_not_null(comb_enemy, "set_enemies() failed");
+    cr_assert_str_eq(comb_enemy->name, "set_one_enemy_Name", "set_enemies() didn't set name");
+    cr_assert_eq(comb_enemy->is_friendly, false, "set_enemies() didn't set type");
+    cr_assert_eq(comb_enemy->next, NULL, "set_enemies() didn't set next");
+    cr_assert_eq(comb_enemy->prev, NULL, "set_enemies() didn't set prev");
 }
 
 
@@ -42,8 +42,8 @@ Test(battle_flow, set_two_enemies)
     npc_enemy_t *e2 = make_npc_enemy("set_two_enemies_Name1", NULL, NULL, NULL);
     DL_APPEND(head, e1);
     DL_APPEND(head, e2);
-    cr_assert_not_null(e1, "set_enemies() failed");
-    cr_assert_not_null(e2, "set_enemies() failed");
+    cr_assert_not_null(e1, "make_npc_enemy() failed");
+    cr_assert_not_null(e2, "make_npc_enemy() failed");
 
     // Check first enemy
     combatant_t *comb_enemy1 = set_enemies(head);
@@ -101,7 +101,7 @@ Test(battle_flow, start_battle)
     player_t *ctx_player = player_new("start_battle_Name", NULL, NULL, NULL);
     g->curr_player = ctx_player;
     ctx->game = g;
-    ctx->battle_mode = true;
+    ctx->in_battle = true;
     npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL);
     environment_t env = ENV_SNOW;
 
