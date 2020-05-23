@@ -20,7 +20,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
         return NULL;
     }
 
-    rc = skill_init(skill, sid, type, name, desc, 0, 0, effect);
+    rc = skill_init(skill, sid, type, name, desc, 1, 0, effect);
     if (rc) {
         fprintf(stderr, "skill_new: could not initialize skill\n");
         return NULL;
