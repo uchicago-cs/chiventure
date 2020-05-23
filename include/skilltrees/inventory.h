@@ -95,8 +95,8 @@ int inventory_skill_remove(inventory_t* inventory, skill_t* skill);
  *  - skill: A skill
  *
  * Returns:
- *  - If in the inventory, the position of the skill in the inventory;
- *    -1 otherwise
+ *  - The position of the skill in the inventory, -1 if the skill is not in the
+ *    inventory
  */
 int inventory_has_skill(inventory_t* inventory, skill_t* skill);
 

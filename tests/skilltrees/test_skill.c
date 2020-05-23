@@ -9,13 +9,12 @@
 #include <string.h>
 #include "skilltrees/skill.h"
 
-/* Example skill effect function */
+/* Example skill effect function, matching the format of `effect_t` */
 char* effect_unlock_door(char* args) {
-    char* s = strdup(args);
     char* msg = "unlocked the door!";
-    unsigned int rlen = strlen(s) + strlen(msg) + 2;
+    unsigned int rlen = strlen(args) + strlen(msg) + 2;
     char* res = (char*)malloc(sizeof(char) * rlen);
-    sprintf(res, "%s %s", s, msg);
+    sprintf(res, "%s %s", args, msg);
     return res;
 }
 
@@ -27,13 +26,13 @@ Test(skill, new) {
                       "A skill that allows a player to unlock a locked door",
                       &effect_unlock_door);
 
-    cr_assert_not_null(skill, "skill_new() failed");
+    cr_assert_not_null(skill, "skill_new() failed to allocate memory");
 
     cr_assert_eq(skill->sid, UNLOCK_DOOR, "skill_new() didn't set sid");
     cr_assert_eq(skill->type, ACTIVE, "skill_new() didn't set type");
     cr_assert_str_eq(skill->name, "Unlock door", "skill_new() didn't set name");
     cr_assert_str_eq(skill->desc, "A skill that allows a player to unlock a locked door",
-                 "skill_new() didn't set description");
+                     "skill_new() didn't set description");
     cr_assert_eq(skill->level, 1, "skill_new() didn't set level");
     cr_assert_eq(skill->xp, 0, "skill_new() didn't set xp");
     cr_assert_not_null(skill->effect, "skill_new() didn't set effect");
@@ -48,16 +47,16 @@ Test(skill, init) {
                     "A skill that allows a player to unlock a locked door",
                     1, 0, &effect_unlock_door);
 
-    cr_assert_eq(rc, SUCCESS, "skill_init() failed");
+    cr_assert_eq(rc, SUCCESS, "skill_init() failed to initialize skill");
 
-    cr_assert_eq(skill.sid, UNLOCK_DOOR, "skill_new() didn't set sid");
-    cr_assert_eq(skill.type, ACTIVE, "skill_new() didn't set type");
-    cr_assert_str_eq(skill.name, "Unlock door", "skill_new() didn't set name");
+    cr_assert_eq(skill.sid, UNLOCK_DOOR, "skill_init() didn't set sid");
+    cr_assert_eq(skill.type, ACTIVE, "skill_init() didn't set type");
+    cr_assert_str_eq(skill.name, "Unlock door", "skill_init() didn't set name");
     cr_assert_str_eq(skill.desc, "A skill that allows a player to unlock a locked door",
-                 "skill_new() didn't set description");
-    cr_assert_eq(skill.level, 1, "skill_new() didn't set level");
-    cr_assert_eq(skill.xp, 0, "skill_new() didn't set xp");
-    cr_assert_not_null(skill.effect, "skill_new() didn't set effect");
+                     "skill_init() didn't set description");
+    cr_assert_eq(skill.level, 1, "skill_init() didn't set level");
+    cr_assert_eq(skill.xp, 0, "skill_init() didn't set xp");
+    cr_assert_not_null(skill.effect, "skill_init() didn't set effect");
 }
 
 /* Checks the freeing of a skill */

@@ -102,7 +102,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
  *  - name: The name of the skill
  *  - desc: The description of the skill
  *  - level: The skill level
- *  - xp: The xp points associated with the skill
+ *  - xp: The experience points associated with the skill
  *  - effect: The skill effect
  *
  * Returns:
