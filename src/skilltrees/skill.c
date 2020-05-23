@@ -8,7 +8,7 @@
 #include <string.h>
 #include "skilltrees/skill.h"
 
-/* See skills.h */
+/* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    effect_t effect) {
     skill_t* skill;
@@ -29,7 +29,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
     return skill;
 }
 
-/* See skills.h */
+/* See skill.h */
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                effect_t effect) {
@@ -46,7 +46,7 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
     return SUCCESS;
 }
 
-/* See skills.h */
+/* See skill.h */
 int skill_free(skill_t* skill) {
     assert(skill != NULL);
 
@@ -57,7 +57,7 @@ int skill_free(skill_t* skill) {
     return SUCCESS;
 }
 
-/* See skills.h */
+/* See skill.h */
 char* skill_execute(skill_t* skill, char* args) {
     assert(skill != NULL && args != NULL);
 
