@@ -4,8 +4,8 @@
 /* check logic.h */
 int check_target(battle_t *b, char *target)
 {
-    combatant_t temp;, temp
-    DL_FOREACH(b->enemy)
+    combatant_t *temp;
+    DL_FOREACH(b->enemy, temp)
     {
         if (strcmp(temp->name, target))
         {
