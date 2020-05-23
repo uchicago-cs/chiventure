@@ -6,14 +6,23 @@
 /* Checks that a new AST block with control type is created without interruption */
 Test(AST_block_t, new_CONTROL)
 {
+<<<<<<< HEAD
     block_t block = control_block; 
     enum block_type block_type = CONTROL;
 
     AST_block_t* new_ast = AST_block_new(&block, block_type);
+=======
+    block_t block = control_block;
+    block_t *b;
+    b = &block;
+    enum block_type block_type = CONTROL;
+
+    AST_block_t* new_ast = AST_block_new(b, block_type);
+>>>>>>> c6bad64e17e706e9ef559a5d2dafa11e75dcaae0
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
-    cr_assert_eq(new_ast.block, block, "AST_block_new() didn't set new_ast->block");
+    cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
 
     AST_block_free(new_ast);
