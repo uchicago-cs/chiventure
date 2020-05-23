@@ -10,7 +10,7 @@ Test(battle_flow, set_player)
 {
     combatant_t *comb_player;
 
-    player_t *ctx_player = player_new("set_player_Name", NULL, NULL, NULL);
+    player_t *ctx_player = new_ctx_player("set_player_Name", NULL, NULL, NULL);
 
     comb_player = set_player(ctx_player);
 
@@ -67,7 +67,7 @@ Test(battle_flow, set_two_enemies)
 /* Tests set_battle() */
 Test(battle_flow, set_battle)
 {
-    player_t *ctx_player = player_new("set_battle_Name", NULL, NULL, NULL);
+    player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -97,8 +97,8 @@ Test(battle_flow, set_battle)
 Test(battle_flow, start_battle)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = game_new();
-    player_t *ctx_player = player_new("start_battle_Name", NULL, NULL, NULL);
+    game_t *g = new_game();
+    player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL);
     g->curr_player = ctx_player;
     ctx->game = g;
     ctx->in_battle = true;

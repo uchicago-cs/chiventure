@@ -4,13 +4,13 @@
 #include <string.h>
 #include "battle/battle_structs.h"
 
-/* Tests player_new() */
-Test(battle_structs, player_new)
+/* Tests new_ctx_player() */
+Test(battle_structs, new_ctx_player)
 {
-    player_t *ctx_player = player_new("player_new_Name", NULL, NULL, NULL);
+    player_t *ctx_player = new_ctx_player("new_ctx_player_Name", NULL, NULL, NULL);
 
-    cr_assert_not_null(ctx_player, "player_new() failed");
-    cr_assert_str_eq(ctx_player->player_id, "player_new_Name", "player_new() didn't set id");
+    cr_assert_not_null(ctx_player, "new_ctx_player() failed");
+    cr_assert_str_eq(ctx_player->player_id, "new_ctx_player_Name", "new_ctx_player() didn't set id");
 }
 
 /* Tests make_npc_enemy() with 1 enemy */
@@ -49,10 +49,10 @@ Test(battle_structs, set_two_npc_enemies)
     cr_assert_eq(npc_e2->prev, npc_e1, "make_npc_enemy() didn't set prev");
 }
 
-/* Tests game_new() */
-Test(battle_structs, game_new)
+/* Tests new_game() */
+Test(battle_structs, new_game)
 {
-    game_t *g = game_new();
+    game_t *g = new_game();
 
     cr_assert_not_null(g, "game_new() failed");
     cr_assert_eq(g->curr_player, NULL, "game_new() failed");
