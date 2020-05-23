@@ -69,7 +69,7 @@ int inventory_skill_add(inventory_t* inventory, skill_t* skill) {
                 return FAILURE;
             }
             inventory->active[inventory->nactive] = skill;
-            inventory->active += 1;
+            inventory->nactive += 1;
             return SUCCESS;
         case PASSIVE:
             if (inventory->npassive >= inventory->max_passive) {
@@ -77,7 +77,7 @@ int inventory_skill_add(inventory_t* inventory, skill_t* skill) {
                 return FAILURE;
             }
             inventory->passive[inventory->npassive] = skill;
-            inventory->passive += 1;
+            inventory->npassive += 1;
             return SUCCESS;
         default:
             fprintf(stderr, "inventory_skill_add: not a valid skill type\n");
