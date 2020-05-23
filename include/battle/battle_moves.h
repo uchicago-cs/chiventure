@@ -31,13 +31,15 @@ typedef struct move {
     struct move *prev;
 } move_t;
 
-test_move_bard();
 
-test_move_cleric();
+move_t *test_move_bard();
 
-test_move_paladin();
+move_t *test_move_cleric();
 
-test_move_wizard();
+move_t *test_move_paladin();
+
+move_t *test_move_wizard();
+
 
 #endif
 
