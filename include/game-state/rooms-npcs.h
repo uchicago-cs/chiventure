@@ -3,23 +3,20 @@
 
 #include "game_state_common.h"
 #include "item.h"
-#include "dialogue.h"
 #include "room.h"
 #include "npc.h"
 
 
-/* Struct for adding and handling npcs to rooms */
+/* Struct for adding and handling npcs in rooms */
 typedef struct npcs_in_room {
     UT_hash_handle hh;
-    long room_id;
+    char* room_id;
     npc_hash_t *npc_list; //hash table storing the npcs in the room
     int num_of_npcs; //number of npcs in the room
 } npcs_in_room_t;
 
 /* To make the struct hashable */
 typedef struct npcs_in_room npcs_in_room_hash_t;
-
-
 
 /* Struct to encapsulate the time an NPC should stay in that particular room and the room details */
 typedef struct time_in_room {
@@ -31,20 +28,22 @@ typedef struct time_in_room {
 /* To make the struct hashable */
 typedef struct time_in_room time_in_room_hash_t;
 
+
 /* 
  * Struct for the definite path movement for npcs 
- *  Definite path: when the NPC has a certain start and end with a 
- *    role to play in the destination room
+ * Definite path: when the NPC has a certain start and end with a 
+ * role to play in the destination room
  */
 typedef struct mov_def {
     room_list_t *npc_path;
 } mov_def_t;
 
+
 /* 
  * Struct for the indefinite path movement for npcs 
- *  Inefinite path: when the NPC has a certain start and end without 
- *    role to play - ie exists for user experience or authenticity,
- *    not interaction with the player
+ *  Inefinite path: this is the second case when an
+ * npc is simply moving through the map but without
+ * a definite end point.
  */
 typedef struct mov_indef {
     room_list_t *npc_path;
@@ -64,38 +63,45 @@ enum mov_type { MOV_DEF, MOV_INDEF }; //def is 0, indef is 1
 typedef enum mov_type npc_mov_type_e;
 
 
-/* Struct that encapsulates aspects of NPC movement */
+/* Struct that deals with NPC movement for both types of npc movements */
 typedef struct npc_mov {
-    char *npc_id; //the NPC being considered - for testing and ease of understanding
-    npc_mov_type_u *npc_mov_type; //union type of movement
+    char *npc_id; //the NPC being considered
+    npc_mov_type_u *npc_mov_type; //union with the structs for both mov types
     npc_mov_type_e mov_type; //enum type of movement
-    long track; //tracker variable that returns current room id
+    char* track; //tracker variable that returns current room id
 } npc_mov_t;
 
-
-
-/*
- * Tasks for npc movement:
- *  create llist for all the 1-1 paths for a single npc
- *  path reversal
- *  time in a room
- *  types of npc movement
-*/
-
-
-//spawning fns
 
 /*
  * Initializes the struct that holds the npcs inside a certain room
  *
  * Parameters:
- *  npcs_in_room: the npcs in a certain room; must point to already allocated memory
- *  room_id: the id of the room you are referring to
+ *  npcs_in_room: the npcs in a certain room; must point to already 
+ *                allocated memory
+ *  room: the room that the npc will start in
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
+int npcs_in_room_init(npcs_in_room_t *npcs_in_room, room_t *room);
+
+
+/*
+ * Initializes the struct that handles the movement of an npc
+ *
+ * Parameters:
+ *  npc_mov: the id of the npc that is being addressed; must point to already
+ *            allocated memory
+ *  npc_id:  the npc that is being referred to; must ppint to allocated
+ *          memory
+ *  mov_type: the tpye of movement that the npc will have
+ *  room: the room that the npc will start in
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
+                room_t *room);
 
 
 /*
@@ -111,6 +117,21 @@ npcs_in_room_t *npcs_in_room_new(char* room_id);
 
 
 /*
+ * Allocates a new npc_mov struct in the heap
+ *
+ * Parameters:
+ *  npc_id:  the id of the npc that is being referred to; must ppint to allocated
+ *          memory
+ *  mov_type: the tpye of movement that the npc will have
+ *  room_id: the room that the npc will begin in
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+npc_mov_t *npc_mov_new(char* npc_id, npc_mov_type_e mov_type, long room_id);
+
+
+/*
  * Frees resources associated with an npcs_in_room struct
  *
  * Parameters:
@@ -120,6 +141,18 @@ npcs_in_room_t *npcs_in_room_new(char* room_id);
  *  SUCCESS if successful, FAILURE if an error occurs.
  */
 int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room);
+
+
+/*
+ * Frees resources associated with an npc_mov struct
+ *
+ * Parameters:
+ * npc_mov: the npc_mov struct to be freed
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurs.
+ */
+int npc_mov_free(npc_mov_t *npc_mov);
 
 
 /*
@@ -144,11 +177,6 @@ int get_num_of_npcs(npcs_in_room_t *npcs_in_room);
  *  SUCCESS if successful, FAILURE if an error occured.
  */
 int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
-
-
-
-//movement fns
-
 
 /* 
  * Adds a room to the path of definite NPC movement - changes destination of the NPC

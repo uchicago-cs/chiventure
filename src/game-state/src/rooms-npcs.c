@@ -1,9 +1,7 @@
 #include "game-state/rooms-npcs.h"
 
-//spawning fns
-
 /* See npc.h */
-int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id){
+int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id) {
     assert(npcs_in_room != NULL);
 
     strncpy(npcs_in_room->room_id,room_id,strlen(room_id)+1);
@@ -13,6 +11,18 @@ int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id){
     return SUCCESS;
 }
 
+/* See npc.h */
+int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
+                long room_id)
+{
+    assert(npc_mov != NULL);
+
+    strncpy(npcs_in_room->npc_id,room_id,strlen(room_id)+1);
+    npcs_in_room->npc_list = NULL;
+    npcs_in_room->num_of_npcs = 0;
+
+    return SUCCESS;
+}
 
 /* See npc.h */
 npcs_in_room_t *npcs_in_room_new(char* room_id){
@@ -63,10 +73,6 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc){
 
     return SUCCESS;
 }
-
-
-//movement fns
-
 
 /* See npc.h */
 int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add){
