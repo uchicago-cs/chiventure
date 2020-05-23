@@ -1,12 +1,12 @@
 #ifndef BATTLE_FLOW_H
 #define BATTLE_FLOW_H
 
-#include "battle_structs.h"
-#include "battle_state.h"
-#include "common/utlist.h"
-#include "common/common.h"
 #include <stdbool.h>
 #include <string.h>
+#include "battle_state.h"
+#include "battle_structs.h"
+#include "common/common.h"
+#include "common/utlist.h"
 
 /* Stub for the player struct in game-state */
 typedef struct player {
@@ -23,12 +23,15 @@ typedef struct game {
     player_t *curr_player;
 } game_t;
 
-/* Stub, similar to chiventure_ctx_t except adding in battle mode component */
+/* Stub, similar to chiventure_ctx_t except adding in_battle, which
+ * marks whether or not a battle is in progress (true if in progress,
+ * false if not)
+ */
 typedef struct chiventure_ctx_battle {
     // would have UI context here
     game_t *game;
     // would have lookup table here
-    bool battle_mode;
+    bool in_battle;
 } chiventure_ctx_battle_t;
 
 /* Stub to simulate NPC enemy, that will then later be converted to

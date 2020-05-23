@@ -1,7 +1,7 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "battle/battle_flow.h"
 
 /* see battle_flow.h */
@@ -11,7 +11,7 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environ
     player_t *player = g->curr_player;
 
     // Set player, enemies, and battle structs for a new battle
-    battle_t *b = set_battle(player,npc_enemies,env);
+    battle_t *b = set_battle(player, npc_enemies, env);
 
     return SUCCESS;
 }
@@ -27,8 +27,8 @@ combatant_t *set_player(player_t *ctx_player)
     item_t *items = ctx_player->items;
 
     // Allocating new combatant_t for the player in memory
-    combatant_t *comb_player = combatant_new(name,is_friendly,stats,
-                                             moves,items);
+    combatant_t *comb_player = combatant_new(name, is_friendly, stats,
+                                             moves, items);
 
     assert(comb_player != NULL);
 
@@ -50,11 +50,11 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         move_t *moves = enemy_elt->moves;
         item_t *items = enemy_elt->items;
 
-        comb_enemy = combatant_new(name,is_friendly,stats,moves,items);
+        comb_enemy = combatant_new(name, is_friendly, stats, moves, items);
 
         assert(comb_enemy != NULL);
 
-        DL_APPEND(head,comb_enemy);
+        DL_APPEND(head, comb_enemy);
     }
     return head;
 };
@@ -67,7 +67,7 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment
 
     turn_t turn = PLAYER;
 
-    battle_t *b = battle_new(comb_player,comb_enemies,env,turn);
+    battle_t *b = battle_new(comb_player, comb_enemies, env, turn);
 
     assert(b != NULL);
 
