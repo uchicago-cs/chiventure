@@ -19,7 +19,7 @@ move_t *test_move_bard()
 {
     move_t* move = (move_t*) malloc(sizeof(move_t);
     
-    move->info = (char*) malloc(sizeof(char) * 100);
+    move->info = (char*) malloc(sizeof(char) * 100));
     strcpy(move->info, "Diss track");
     
     move->id = 100;
@@ -47,7 +47,7 @@ move_t *test_move_cleric()
 {
     move_t* move = (move_t*) malloc(sizeof(move_t);
     
-    move->info = (char*) malloc(sizeof(char) * 100);
+    move->info = (char*) malloc(sizeof(char) * 100));
     strcpy(move->info, "Divine smite");
     
     move->id = 110;
@@ -73,7 +73,7 @@ move_t *test_move_cleric()
  */
 move_t *test_move_paladin()
 {
-    move_t* move = (move_t*) malloc(sizeof(move_t);
+    move_t* move = (move_t*) malloc(sizeof(move_t));
     
     move->info = (char*) malloc(sizeof(char) * 100);
     strcpy(move->info, "360 no scope");
@@ -101,7 +101,7 @@ move_t *test_move_paladin()
  */
 move_t *test_move_wizard()
 {
-    move_t* move = (move_t*) malloc(sizeof(move_t);
+    move_t* move = (move_t*) malloc(sizeof(move_t));
     
     move->info = (char*) malloc(sizeof(char) * 100);
     strcpy(move->info, "Magic, betches");
