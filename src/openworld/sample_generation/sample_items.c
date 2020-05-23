@@ -39,7 +39,7 @@ item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count) {
 }
 
 /* see sample_items.h */
-item_list_t* make_defaut_items(char *name, item_list_t *llist) {
+item_list_t* make_default_items(char *name, item_list_t *llist) {
 	int rc;
 
 		assert(name != NULL);

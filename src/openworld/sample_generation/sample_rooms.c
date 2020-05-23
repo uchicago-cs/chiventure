@@ -5,7 +5,10 @@
 #include "../../../include/common/uthash.h"
 #include "../../../include/openworld/sample_rooms.h" 
 #include "../../../include/openworld/sample_items.h"
+//#include "../../../include/openworld/gen_structs.h"
+
 /* see sample_rooms.h */
+
 roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 	item_list_t *llist) {
 
