@@ -3,15 +3,8 @@
 #            ../../../tests/openworld/test_autogenerate.c)
 
 add_library(openworld
-<<<<<<< HEAD
-            src/autogenerate.c
 	    sample_generation/sample_rooms.c
-	    sample_generation/sample_items.c
-            ../../../tests/openworld/test_autogenerate.c)
-=======
-	    src/autogenerate.c
-	    src/gen_structs.c)
->>>>>>> 8ef40519ca7be2e9161d8eec254101580c64d749
+	    sample_generation/sample_items.c)
 
 target_include_directories(openworld PRIVATE src/)
 

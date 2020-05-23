@@ -130,40 +130,40 @@ item_list_t *add_items_to_llist(item_list_t *llist, char **ids, int count) {
 item_list_t* get_allowed_items(char *name, item_list_t *llist) {
 
 	assert(name != NULL);
-	switch (name) {
-	case !strcmp(name, "barn"):
-		return add_items_to_llist(llist, { "apple","cow", "door", "fruit",
+	
+	if( !strcmp(name, "barn")){
+		return add_items_to_llist(llist, char *b[9] = { "apple","cow", "door", "fruit",
 			"ladder", "nail", "rabbit", "yam", "zebra" }, 9);
-	case !strcmp(name, "cafeteria"):
+	} else if ( !strcmp(name, "cafeteria")){
 		return add_items_to_llist(llist, { "apple","door", "fruit", "ice",
 			"jug", "kettle", "olive", "tray", "yam" }, 9);
-	case !strcmp(name, "classroom"):
+	} else if ( !strcmp(name, "classroom")){
 		return add_items_to_llist(llist, { "book","door", "hat", "pencil",
 			"quill", "video", "scissors", "watercolors", "xylophone" }, 9);
-	case !strcmp(name, "closet"):
+	} else if ( !strcmp(name, "closet")){
 		return add_items_to_llist(llist, { "gold","hat", "ice", "jug",
 			"ladder", "nail", "tray", "umbrella" }, 8);
-	case !strcmp(name, "dungeon"):
+	} else if ( !strcmp(name, "dungeon")){
 		return add_items_to_llist(llist, { "door","gold", "ladder", "nail" }, 4);
-	case !strcmp(name, "field"):
+	} else if ( !strcmp(name, "field")){
 		return add_items_to_llist(llist, { "apple","cow", "eqgle", "rabbit",
 			"yam", "nail", "zebra" }, 7);
-	case !strcmp(name, "hallway"):
+	} else if ( !strcmp(name, "hallway")){
 		return add_items_to_llist(llist, { "door","mirror", "ladder", "nail" }, 4);
-	case !strcmp(name, "kitchen"):
+	} else if ( !strcmp(name, "kitchen")){
 		return add_items_to_llist(llist, { "apple","door", "ice", "fruit",
 			"jug", "kettle", "olive", "scissors", "tray", "yam" }, 9);
-	case !strcmp(name, "library"):
+	} else if ( !strcmp(name, "library")){
 		return add_items_to_llist(llist, { "book","door", "gold", "ladder",
 			"mirror", "pencil", "quill", "scissors", "video",
 			"watercolors", "xylophone" }, 11);
-	case !strcmp(name, "living room"):
+	} else if ( !strcmp(name, "living room")){
 		return add_items_to_llist(llist, { "book","door", "fruit", "umbrella",
 			"mirror", "video", "watercolors", "xylophone" }, 8);
-	case !strcmp(name, "throne room"):
+	} else if ( !strcmp(name, "throne room")){
 		return add_items_to_llist(llist, { "door","gold", "hat", "mirror",
 			"quill" }, 5);
-	default:
+	} else{
 		return items;
 	}
 

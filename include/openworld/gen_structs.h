@@ -13,6 +13,7 @@
 
 #include "../game-state/game_state_common.h"
 #include "../game-state/game.h"
+#include "../game-state/item.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -28,15 +29,13 @@
  * - path_hash_t *paths: hash table of paths in room
  */
 typedef struct roomspec {
-	char *room_name; //key of hash table
+    char *room_name; //key of hash table
     char *short_desc;
     char *long_desc;
-
-	item_list_t *allowed_items;
+    item_list_t *allowed_items;
     item_hash_t *items;
     path_hash_t *paths;
-
-	UT_hash_handle hh; 
+   UT_hash_handle hh; 
 } roomspec_t;
 
 /* speclist_t struct
@@ -49,7 +48,7 @@ typedef struct speclist {
     roomspec_t *spec;
     struct speclist_t *prev;
     struct speclist_t *next;
-}speclist_t;
+} speclist_t;
         
 /* gencontext_t struct
  * This struct will carry the info for the generation algorithm
@@ -149,7 +148,8 @@ int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_hash
  * roomspec_t *roomspecnew - the new roomspec
  * NULL - if fails to create a new roomspec.
  */
-roomspec_t* roomspec_new(char *short_desc, char *long_desc, item_hash_t *items, path_hash_t *paths);
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, 
+	item_list_t *allowed, item_hash_t *items, path_hash_t *paths);
 
 /* roomspec_free
  * Frees a gencontext_t* and returns whether or not it was succesful.
