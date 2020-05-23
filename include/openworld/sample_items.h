@@ -25,7 +25,7 @@ void item_list_free(item_list_t *llist);
 * of n descriptor strings. 
 * Input:
 *	- item_list_t *llist: a current list of items
-*	- char **ids: an array of item_id strings 
+*	- item_t **ids: an array of items 
 *	- count: the length of ids
 *
 * Output:

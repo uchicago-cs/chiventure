@@ -24,28 +24,45 @@ Test(item, free_list) {
 Test(item, add_list_empty) {
 	item_list_t *llist = item_list_new();
 	cr_assert_not_null(llist, "item_list_new failed");
+
 	llist = add_items_to_llist(llist,item_new("baby", "baby", "baby"), 1);
+
 	cr_assert_not_null(llist, "add_items_to_llist failed");
-	cr_assert_str_eq(llist->item->item_id, "baby", "additems_to_llist failed");
+	cr_assert_str_eq(llist->item->item_id, "baby", "add_items_to_llist failed");
 	cr_assert_null(llist->next, "add_items_to_llist failed");
 }
 
 /* Test add_items_to_llist on nonempty list */
 Test(item, add_list_not_empty) {
 	item_list_t *llist = item_list_new();
+
 	cr_assert_not_null(llist, "item_list_new failed");
+
 	llist->item = item_new("babies", "babies", "babies");
-	cr_assert_not_null(llist, "item_new failed");	
-	llist = add_items_to_llist(llist, { { "baby", "baby", "baby" } }, 1);
-	cr_assert_not_null(llist, "add_items_to_llist failed")
+	cr_assert_not_null(llist->item, "item_new failed");	
+	cr_assert_null(llist->next, "item_list_new failed");
+
+	llist = add_items_to_llist(llist, item_new("baby", "baby", "baby"), 1);
+	cr_assert_not_null(llist, "add_items_to_llist failed");
+
+	cr_assert_str_eq(llist->item->item_id, "babies", "add_items_to_llist failed");
+	cr_assert_not_null(llist->next, "add_items_to_llist failed");
+	cr_assert_str_eq(llist->item->item_id, "baby", "add_items_to_llist failed");
+	cr_assert_null(llist->next, "add_items_to_llist failed");
 }
 
 /* test get_allowed_items on defined room type with empty list */
 Test(item, allowed_dungeon_empty){
+	item_t **dungeon_ids = { item_new("door", "a normal door",
+		"A wooden door with a worn doorknob"), item_new("gold", "three gold coins",
+			"Three shiny gold coins the size of your eye"), item_new("hat", "a top hat",
+				"A black top hat with a monogrammed A.L."), item_new("ladder", "a wood ladder",
+					"A wooden ladder with 5 rungs resting against a door"), item_new("nail", "a normal nail",
+						"A regular metail nail") };
+
 	item_list_t *llist = item_list_new();
 	cr_assert_not_null(llist, "item_list_new failed");
-	llist = add_items_to_llist(llist, 
-		{ "door","gold", "ladder", "nail" }, 4);
+	llist = add_items_to_llist(llist, dungeon_ids, 5);
 	cr_assert_not_null(llist, "add_items_to_llist failed");
 
 	item_list_t *ret = get_allowed_items("dungeon", item_list_new());
@@ -56,25 +73,38 @@ Test(item, allowed_dungeon_empty){
 		"get_allowed_items failed");
 	cr_assert_str_eq(ret->next->item->item_id, "gold", 
 		"get_allowed_items failed");
-	cr_assert_str_eq(ret->next->next->item->item_id, "ladder", 
+	cr_assert_str_eq(ret->next->next->item->item_id, "hat", 
 		"get_allowed_items failed");
-	cr_assert_str_eq(ret->next->next->next->item->item_id, "nail", 
+	cr_assert_str_eq(ret->next->next->next->item->item_id, "ladder", 
+		"get_allowed_items failed");
+	cr_assert_str_eq(ret->next->next->next->next->item->item_id, "nail",
+		"get_allowed_items failed");
+	cr_assert_null(ret->next->next->next->next->next,
 		"get_allowed_items failed");
 }
 
 /* Test get_allowed_items on defined room type with nonempty list */
 Test(item, allowed_dungeon_not_empty){
+	item_t **dungeon_ids = { item_new("door", "a normal door",
+		"A wooden door with a worn doorknob"), item_new("gold", "three gold coins",
+		"Three shiny gold coins the size of your eye"), item_new("hat", "a top hat",
+		"A black top hat with a monogrammed A.L."), item_new("ladder", "a wood ladder",
+		"A wooden ladder with 5 rungs resting against a door"), item_new("nail", "a normal nail",
+		"A regular metail nail") };
+
+	item_t **items = { item_new("parrot") };
+
 	item_list_t *llist = item_list_new();
 	cr_assert_not_null(llist, "item_list_new failed");
-	llist = add_items_to_llist(llist,
-		{ "parrot", "door","gold", "ladder", "nail" }, 4);
+	llist = add_items_to_llist(llist, dungeon_ids, 5);
 	cr_assert_not_null(llist, "add_items_to_llist failed");
 
-	item_list_t *l = add_items_to_llist(item_list_new(), { "parrot" }, 1);
+	item_list_t *l = add_items_to_llist(item_list_new(), items, 1);
 	cr_assert_not_null(l, "add_items_to_llist failed");
 
 	item_list_t *ret = get_allowed_items("dungeon", l);
 	cr_assert_not_null(ret, "get_allowed_items failed");
+
 
 	cr_assert_str_eq(ret->item->item_id, "parrot",
 		"get_allowed_items failed");
@@ -82,9 +112,13 @@ Test(item, allowed_dungeon_not_empty){
 		"get_allowed_items failed");
 	cr_assert_str_eq(ret->next->next->item->item_id, "gold",
 		"get_allowed_items failed");
-	cr_assert_str_eq(ret->next->next->next->item->item_id, "ladder",
+	cr_assert_str_eq(ret->next->next->next->item->item_id, "hat",
 		"get_allowed_items failed");
-	cr_assert_str_eq(ret->next->next->next->next->item->item_id, "nail",
+	cr_assert_str_eq(ret->next->next->next->next->item->item_id, "ladder",
+		"get_allowed_items failed");
+	cr_assert_str_eq(ret->next->next->next->next->next->item->item_id, "nail",
+		"get_allowed_items failed");
+	cr_assert_null(ret->next->next->next->next->next->next,
 		"get_allowed_items failed");
 }
 
@@ -99,10 +133,10 @@ Test(item, allowed_pharmacy_empty) {
 
 /* Test get_allowed_items on undefined room type and nonempty list */
 Test(item, allowed_pharmacy_not_empty){
+	item_t **items = { item_new("parrot") };
 	item_list_t *llist = item_list_new();
 	cr_assert_not_null(llist, "item_list_new failed");
-	llist = add_items_to_llist(llist,
-		{ "parrot", "door" }, 2);
+	llist = add_items_to_llist(llist, items, 1);
 	cr_assert_not_null(llist, "add_items_to_llist failed");
 
 	item_list_t *ret = get_allowed_items("pharmacy", llist);
@@ -110,6 +144,5 @@ Test(item, allowed_pharmacy_not_empty){
 
 	cr_assert_str_eq(ret->item->item_id, "parrot",
 		"get_allowed_items failed");
-	cr_assert_str_eq(ret->next->item->item_id, "door",
-		"get_allowed_items failed");
+	cr_assert_null(ret->next, "get_allowed_items" failed);
 }
