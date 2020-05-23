@@ -40,11 +40,11 @@ typedef struct roomspec {
  * - roomspec_t *spec: pointer to some room specification
  * - speclist_t *next: pointer to the next part of the list.
  */
-typedef struct speclist speclist_t;
-struct speclist {
+typedef struct speclist {
     roomspec_t *spec;
-    speclist_t *next;
-};
+    struct speclist_t *prev;
+    struct speclist_t *next;
+}speclist_t;
         
 /* gencontext_t struct
  * This struct will carry the info for the generation algorithm
