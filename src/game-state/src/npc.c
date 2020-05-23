@@ -14,18 +14,6 @@ int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue)
 }
 
 /* See npc.h */
-int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
-{
-    assert(npcs_in_room != NULL);
-
-    strncpy(npcs_in_room->room_id,room_id,strlen(room_id)+1);
-    npcs_in_room->npc_list = NULL;
-    npcs_in_room->num_of_npcs = 0;
-
-    return SUCCESS;
-}
-
-/* See npc.h */
 npc_t *npc_new(char *npc_id, int health, convo_t *dialogue)
 {
     npc_t *npc;
@@ -43,25 +31,6 @@ npc_t *npc_new(char *npc_id, int health, convo_t *dialogue)
     return npc;
 }
 
-/* See npc.h */
- npcs_in_room_t *npcs_in_room_new(char* room_id)
- {
-    npcs_in_room_t *npcs_in_room;
-    npcs_in_room = malloc(sizeof(npcs_in_room_t));
-    memset(npcs_in_room, 0, sizeof(npcs_in_room_t));
-    npcs_in_room->room_id = room_id;
-    npcs_in_room->num_of_npcs = 0;
-    
-    int check = npcs_in_room_init(npcs_in_room, room_id);
-
-    if (npcs_in_room == NULL || npcs_in_room->room_id == NULL || check != SUCCESS)
-    {
-        return NULL;
-    }
-
-    return npcs_in_room;
- }
-
 
 /* See npc.h */
 int npc_free(npc_t *npc)
@@ -76,15 +45,6 @@ int npc_free(npc_t *npc)
     return SUCCESS;
 }
 
-/* See npc.h */
-int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room)
-{
-    free(npcs_in_room->room_id);
-    free(npcs_in_room->npc_list);
-    free(npcs_in_room->num_of_npcs);
-    free(npcs_in_room);
-    return SUCCESS;
-}
 
 /* See npc.h */
 int get_npc_health(npc_t *npc)
@@ -92,11 +52,6 @@ int get_npc_health(npc_t *npc)
     return npc->health;
 }
 
-/* See npc.h */
-int get_num_of_npcs(npcs_in_room_t *npcs_in_room)
-{
-    return npcs_in_room->num_of_npcs;
-}
 
 /* See npc.h */
 int change_npc_health(npc_t *npc, int change, int max)
@@ -154,22 +109,4 @@ item_list_t *get_all_items_in_inv_npc(npc_t *npc)
         LL_APPEND(head, tmp);
     }
     return head;
-}
-
-/* See npc.h */
-int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
-{
-    npc_t *check;
-    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
-             check);
- 
-    if (check != NULL)
-    {
-        return FAILURE; //this item id is already in use
-    }
-    HASH_ADD_KEYPTR(hh, npcs_in_room->npc_list, npc->npc_id,
-                    strlen(npc->npc_id), npc);
-    npcs_in_room->num_of_npcs++;
-
-    return SUCCESS;
 }

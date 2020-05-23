@@ -15,7 +15,6 @@ typedef struct npc
     int health;
     convo_t *dialogue; // placeholder for incoming dialogue module
     item_hash_t *inventory;
-    npc_mov_t *movement;
 } npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
@@ -25,71 +24,6 @@ typedef struct npc
  typedef struct npc npc_hash_t;
 
 
-/* Struct for adding npcs to rooms */
-typedef struct npcs_in_room {
-    /* hh is used for hashtable, as provided in uthash.h */
-    UT_hash_handle hh;
-    char *room_id;
-    npc_hash_t *npc_list; //hash table storing the npcs that are in the room
-    int num_of_npcs; //number of npcs in the room
-} npcs_in_room_t;
-
-typedef struct npcs_in_room npcs_in_room_hash_t;
-
-
-/* the hash table that holds the time that the npc should be staying in each room */
-typedef struct time_in_room {
-    UT_hash_handle hh;
-    char *room_id;
-    int sec;
-} time_in_room_t;
-
-/* this is to make the struct hashable */
-typedef struct time_in_room time_in_room_hash_t;
-
-/* struct for the definite path movement for npcs 
- * (when a path is defined - when the NPC has a role to play)
- */
-typedef struct mov_def {
-    path_llist_t *npc_path;
-} mov_def_t;
-
-/* the struct for the indefinite path movement for npcs 
- * (when the NPC is meant to move through the world without an interactive purpose,
- *     and only to improve authenticity and user experience)
- */
-typedef struct mov_indef {
-    path_llist_t *npc_path;
-    time_in_room_hash_t *room_time;
-} mov_indef_t;
-
-
-/* the union that holds either the definite or indefinite movement */
-typedef union npc_mov_types {
-    mov_def_t *mov_def;
-    mov_indef_t *mov_indef;
-} npc_mov_types_u;
-
-typedef enum mov_type {
-   MOV_DEF, MOV_INDEF
-} mov_type_e;
-
-
-/* the main struct that deals with the movement of an npc */
-typedef struct npc_mov {
-    char *npc_id;
-    npc_mov_types_u *npc_mov_type;
-    mov_type_e mov_type; //an enum saying which type of movement the npc is doing, this is purely to simplify the implementation
-    char *track;
-} npc_mov_t;
-
-
-/*
- * create llist for all the 1-1 paths for a single npc
- * path reversal
- * time in a room
- * types of npc movement
- */
 
 /*
  * Initializes an npc with given health.
@@ -109,19 +43,6 @@ int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue);
 
 
 /*
- * Initializes the struct that holds the npcs inside a certain room
- *
- * Parameters:
- *  npcs_in_room: the npcs in a certain room; must point to already allocated memory
- *  room_id: the id of the room you are referring to
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
-
-
-/*
  * Allocates a new npc in the heap.
  *
  * Parameters:
@@ -137,18 +58,6 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
 
 
 /*
- * Allocates a new npcs_in_room struct in the heap
- *
- * Parameters:
- *  room_id: the unique id of the room
- *
- * Returns:
- *  pointer to allocated npcs_in_room struct
- */
- npcs_in_room_t *npcs_in_room_new(char* room_id);
-
-
-/*
  * Frees resources associated with an npc.
  *
  * Parameters:
@@ -158,18 +67,6 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
  *  SUCCESS if successful, FAILURE if an error occurs.
  */
 int npc_free(npc_t *npc);
-
-
-/*
- * Frees resources associated with an npcs_in_room struct
- *
- * Parameters:
- * npcs_in_room: the npcs_in_room struct to be freed
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if an error occurs.
- */
-int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room);
 
 
 /*
@@ -231,8 +128,7 @@ item_hash_t* get_npc_inventory(npc_t *npc);
 int add_item_to_npc(npc_t *npc, item_t *item);
 
 
-/*
- * Function to get a linked list (utlist) of all the items in the player's inventory
+/* Function to get a linked list (utlist) of all the items in the player's inventory
  *
  * Parameters:
  *  npc: the npc
@@ -243,21 +139,15 @@ int add_item_to_npc(npc_t *npc, item_t *item);
 item_list_t *get_all_items_in_inv_npc(npc_t *npc);
 
 
-/* Adds an npc to the given npcs_in_room
- *
+/* 
+ * Adds a room to the path of definite NPC movement - changes destination of the NPC
+ * 
  * Parameters:
- *  npcs_in_room_t: pointer to the npcs_in_room struct
- *  npc_t: pointer to an npc
- *
+ *  npc_mov: the NPC movement struct
+ *  room_to_add: the room that has to be added to the path
+ * 
  * Returns:
- *  SUCCESS if successful, FAILURE if an error occured.
- */
-int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
-
-/* extend_path_def()
- * adds a room to the path that the npc will travel through, ONLY when the npc is has a definite path
- * this essentially changes the destination point of the path
- * returns SUCCESS or FAILURE
+ *  SUCCESS (1) if successful, FAILURE (0) if error occured.
  */
 int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
 
