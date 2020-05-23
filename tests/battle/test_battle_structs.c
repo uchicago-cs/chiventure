@@ -37,14 +37,12 @@ Test(battle_structs, set_two_npc_enemies)
     // Check first npc enemy
     cr_assert_not_null(npc_e1, "make_npc_enemy() failed");
     cr_assert_str_eq(npc_e1->name, "set_two_enemies_Name1", "make_npc_enemy() didn't set name");
-    cr_assert_eq(npc_e1->is_friendly, false, "make_npc_enemy() didn't set type");
     cr_assert_eq(npc_e1->next, npc_e2, "make_npc_enemy() didn't set next");
     cr_assert_not_null(npc_e1->prev, "make_npc_enemy() didn't set prev");
 
     // Check second npc enemy
     cr_assert_not_null(npc_e2, "make_npc_enemy() failed");
     cr_assert_str_eq(npc_e2->name, "set_two_enemies_Name2", "make_npc_enemy() didn't set name");
-    cr_assert_eq(npc_e2->is_friendly, false, "make_npc_enemy() didn't set type");
     cr_assert_eq(npc_e2->next, NULL, "make_npc_enemy() didn't set next");
     cr_assert_eq(npc_e2->prev, npc_e1, "make_npc_enemy() didn't set prev");
 }
