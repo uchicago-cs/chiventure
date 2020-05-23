@@ -30,8 +30,8 @@ Test(battle_structs, make_one_npc_enemy)
 Test(battle_structs, set_two_npc_enemies)
 {
     npc_enemy_t *head = NULL;
-    npc_enemy_t *npc_e1 = make_npc_enemy("set_two_enemies_Name2", NULL, NULL, NULL);
-    npc_enemy_t *npc_e2 = make_npc_enemy("set_two_enemies_Name1", NULL, NULL, NULL);
+    npc_enemy_t *npc_e1 = make_npc_enemy("set_two_enemies_Name1", NULL, NULL, NULL);
+    npc_enemy_t *npc_e2 = make_npc_enemy("set_two_enemies_Name2", NULL, NULL, NULL);
     DL_APPEND(head, npc_e1);
     DL_APPEND(head, npc_e2);
 

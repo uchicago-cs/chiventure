@@ -32,7 +32,7 @@ Test(battle_flow, set_one_enemy)
     cr_assert_str_eq(comb_enemy->name, "set_one_enemy_Name", "set_enemies() didn't set name");
     cr_assert_eq(comb_enemy->is_friendly, false, "set_enemies() didn't set type");
     cr_assert_eq(comb_enemy->next, NULL, "set_enemies() didn't set next");
-    cr_assert_eq(comb_enemy->prev, NULL, "set_enemies() didn't set prev");
+    cr_assert_not_null(comb_enemy->prev, "set_enemies() didn't set prev");
 }
 
 
