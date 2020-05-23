@@ -58,6 +58,13 @@ int skill_free(skill_t* skill) {
 }
 
 /* See skilltrees.h */
+char* skill_execute(skill_t* skill, char* args) {
+    assert(skill != NULL && args != NULL);
+
+    return (*(skill->effect))(args);
+}
+
+/* See skilltrees.h */
 skill_inventory_t* skill_inventory_new(unsigned int max_active,
                                        unsigned int max_passive) {
     skill_inventory_t* inventory;

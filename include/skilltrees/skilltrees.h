@@ -7,14 +7,22 @@
 
 /* Unique skill IDs for each skill */
 typedef enum sid {
+    // Example 1
     UNLOCK_DOOR,
+
+    // Example 2
     DEFUSE_BOMB,
+
 } sid_t;
 
 /* Skill type */
 typedef enum skill_type {
+    // Denotes active skill
     ACTIVE,
+
+    // Denotes passive skill
     PASSIVE,
+
 } skill_type_t;
 
 /*
@@ -126,6 +134,19 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
 int skill_free(skill_t* skill);
 
 /*
+ * Executes the effect of a skill.
+ *
+ * Parameters:
+ *  - skill: A skill
+ *  - args: A string argument for the skill effect function
+ *
+ * Returns:
+ *  - A string that describes the consequence(s) of the skill execution for the
+ *    CLI
+ */
+char* skill_execute(skill_t* skill, char* args);
+
+/*
  * Allocates a new skill inventory in the heap.
  *
  * Parameters:
@@ -187,9 +208,6 @@ int skill_remove(skill_inventory_t* inventory, skill_t* skill);
  *    -1 otherwise
  */
 int has_skill(skill_inventory_t* inventory, skill_t* skill);
-
-// Functions needed in regards to this:
-// 5) Activate passive skills — Activates all passive skills in the inventory
 
 
 // // Overall skill tree, shared by every player:
