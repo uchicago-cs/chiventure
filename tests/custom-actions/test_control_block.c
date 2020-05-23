@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "src/custom-actions/include/control_block.h"
+#include "control_block.h"
 
 /* Checks that a new IFELSE control block is created without interruption */
 Test(control_block_t, new_IFELSE)
