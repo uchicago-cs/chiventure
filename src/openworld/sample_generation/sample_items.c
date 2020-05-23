@@ -4,93 +4,6 @@
 #include "../../../include/openworld/sample_items.h"
 
 /* see sample_items.h */
-char **get_desc_item(char *name) {
-	asser(name != NULL);
-	switch (name) {
-	case !strcmp(name, "apple"):
-		return { "apple", "a red apple",
-			"A juicy Red Delicious apple" };
-	case !strcmp(name, "book"):
-		return { "book", "A big book",
-			"A Simulation survival book" };
-	case !strcmp(name, "cow"):
-		return { "cow", "A black and white cow",
-			"A black and white cow called Mavis" };
-	case !strcmp(name, "door"):
-		return { "door", "a normal door",
-			"A wooden door with a worn doorknob" };
-	case !strcmp(name, "eagle"):
-		return { "eagle", "a bald eagle",
-			"A bald eagle calmly perched on a ledge nearby" };
-	case !strcmp(name, "fruit"):
-		return { "fruit", "a bowl of fruit",
-			"A bowl of fruit resting on a surface" };
-	case !strcmp(name, "apple"):
-	{"gold", "three gold coins",
-		"Three shiny gold coins the size of your eye"};
-	case !strcmp(name, "apple"):
-		return { "hat", "a top hat",
-			"A black top hat with a monogrammed A.L." };
-	case !strcmp(name, "apple"):
-		return { "ice", "a bag of ice",
-			"A bag of crunchy ice" };
-	case !strcmp(name, "apple"):
-		return { "jug", "a brown jug",
-			"A brown jug with something inside" };
-	case !strcmp(name, "apple"):
-		return { "kettle", "a black kettle",
-			"A black kettle on a stove" };
-	case !strcmp(name, "apple"):
-		return { "ladder", "a wood ladder",
-			"A wooden ladder with 5 rungs resting against a door" };
-	case !strcmp(name, "apple"):
-		return { "mirror", "an oval mirror",
-			"A dusty oval mirror with one big crack" };
-	case !strcmp(name, "apple"):
-		return { "nail", "a normal nail",
-			"A regular metail nail" };
-	case !strcmp(name, "apple"):
-		return { "olive", "a black olive",
-			"A singular, unrefrigerated black olive" };
-	case !strcmp(name, "apple"):
-		return { "pencil", "a no.2 pencil",
-			"A sharpened no.2 yellow pencil" };
-	case !strcmp(name, "apple"):
-		return { "quill", "a quail quill",
-			"A quail quill in a pot of black ink" };
-	case !strcmp(name, "apple"):
-		return { "rabbit", "a white rabbit",
-			"A live, fluffy white rabbit hiding in the corner" };
-	case !strcmp(name, "apple"):
-		return { "scissors", "a pair of scissors",
-			"A pair of blue left-handed scissors" };
-	case !strcmp(name, "apple"):
-		return { "tray", "a red plastic tray",
-			"A red plastic tray with some dried ketchup stains" };
-	case !strcmp(name, "apple"):
-		return { "umbrella", "a black umbrella",
-			"A black polyester umbrella with M.P. initials" };
-	case !strcmp(name, "apple"):
-		return { "video", "a dvd video",
-			"A DVD video with an illegible label" };
-	case !strcmp(name, "apple"):
-		return { "watercolors", "a set of watercolors with brush",
-			"A set of used watercolors and dusty brush" };
-	case !strcmp(name, "apple"):
-		return { "xylophone", "a colorful xylophone",
-			"A children's xylophone with a pair of mallets" };
-	case !strcmp(name, "apple"):
-		return { "yam", "a rotting yam",
-			"A singular rotting yam with flies flying around" };
-	case !strcmp(name, "apple"):
-		return { "zebra", "a small zebra",
-			"A small zebra calmly munching on some grass" };
-	default:
-		return { name, NULL, NULL };
-	}
-}
-
-/* see sample_items.h */
 item_list_t *item_list_new() {
 	item_list_t *llist = calloc(1, sizeof(item_list_t));
 	llist->item = NULL;
@@ -108,7 +21,7 @@ void item_list_free(item_list_t *llist) {
 }
 
 /* see sample_items.h */
-item_list_t *add_items_to_llist(item_list_t *llist, char **ids, int count) {
+item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count) {
 	if (llist == NULL) {
 		llist = item_list_new();
 	}
@@ -118,8 +31,7 @@ item_list_t *add_items_to_llist(item_list_t *llist, char **ids, int count) {
 		tmp = tmp->next;
 	}
 	for (int i = 0; i < count; i++) {
-		char **details = get_desc_item(ids[i]);
-		tmp->item = item_new(details[0], details[1], details[2]);
+		tmp->item = ids[i];
 		tmp->next = item_list_new();
 		tmp = tmp->next;
 	}
@@ -128,45 +40,117 @@ item_list_t *add_items_to_llist(item_list_t *llist, char **ids, int count) {
 
 /* see sample_items.h */
 item_list_t* get_allowed_items(char *name, item_list_t *llist) {
+	int rc;
 
-	assert(name != NULL);
-	
-	if( !strcmp(name, "barn")){
-		return add_items_to_llist(llist, char *b[9] = { "apple","cow", "door", "fruit",
-			"ladder", "nail", "rabbit", "yam", "zebra" }, 9);
-	} else if ( !strcmp(name, "cafeteria")){
-		return add_items_to_llist(llist, { "apple","door", "fruit", "ice",
-			"jug", "kettle", "olive", "tray", "yam" }, 9);
-	} else if ( !strcmp(name, "classroom")){
-		return add_items_to_llist(llist, { "book","door", "hat", "pencil",
-			"quill", "video", "scissors", "watercolors", "xylophone" }, 9);
-	} else if ( !strcmp(name, "closet")){
-		return add_items_to_llist(llist, { "gold","hat", "ice", "jug",
-			"ladder", "nail", "tray", "umbrella" }, 8);
-	} else if ( !strcmp(name, "dungeon")){
-		return add_items_to_llist(llist, { "door","gold", "ladder", "nail" }, 4);
-	} else if ( !strcmp(name, "field")){
-		return add_items_to_llist(llist, { "apple","cow", "eqgle", "rabbit",
-			"yam", "nail", "zebra" }, 7);
-	} else if ( !strcmp(name, "hallway")){
-		return add_items_to_llist(llist, { "door","mirror", "ladder", "nail" }, 4);
-	} else if ( !strcmp(name, "kitchen")){
-		return add_items_to_llist(llist, { "apple","door", "ice", "fruit",
-			"jug", "kettle", "olive", "scissors", "tray", "yam" }, 9);
-	} else if ( !strcmp(name, "library")){
-		return add_items_to_llist(llist, { "book","door", "gold", "ladder",
-			"mirror", "pencil", "quill", "scissors", "video",
-			"watercolors", "xylophone" }, 11);
-	} else if ( !strcmp(name, "living room")){
-		return add_items_to_llist(llist, { "book","door", "fruit", "umbrella",
-			"mirror", "video", "watercolors", "xylophone" }, 8);
-	} else if ( !strcmp(name, "throne room")){
-		return add_items_to_llist(llist, { "door","gold", "hat", "mirror",
-			"quill" }, 5);
-	} else{
-		return items;
-	}
+		item_t *apple = item_new("apple", "a red apple",
+			"A juicy Red Delicious apple");
+		item_t *book = item_new("book", "A big book",
+			"A Simulation survival book");
+		item_t *cow = item_new("cow", "A black and white cow",
+			"A black and white cow called Mavis");
+		item_t *door = item_new("door", "a normal door",
+			"A wooden door with a worn doorknob");
+		item_t *eagle = item_new("eagle", "a bald eagle",
+			"A bald eagle calmly perched on a ledge nearby");
+		item_t *fruit = item_new("fruit", "a bowl of fruit",
+			"A bowl of fruit resting on a surface");
+		item_t *gold = item_new("gold", "three gold coins",
+			"Three shiny gold coins the size of your eye");
+		item_t *hat = item_new("hat", "a top hat",
+			"A black top hat with a monogrammed A.L.");
+		item_t *ice = item_new("ice", "a bag of ice",
+			"A bag of crunchy ice");
+		item_t *jug = item_new("jug", "a brown jug",
+			"A brown jug with something inside");
+		item_t *kettle = item_new("kettle", "a black kettle",
+			"A black kettle on a stove");
+		item_t *ladder = item_new("ladder", "a wood ladder",
+			"A wooden ladder with 5 rungs resting against a door");
+		item_t *mirror = item_new("mirror", "an oval mirror",
+			"A dusty oval mirror with one big crack");
+		item_t *nail = item_new("nail", "a normal nail",
+			"A regular metail nail");
+		item_t *olive = item_new("olive", "a black olive",
+			"A singular, unrefrigerated black olive");
+		item_t *pencil = item_new("pencil", "a no.2 pencil",
+			"A sharpened no.2 yellow pencil");
+		item_t *quill = item_new("quill", "a quail quill",
+			"A quail quill in a pot of black ink");
+		item_t *rabbit = item_new("rabbit", "a white rabbit",
+			"A live, fluffy white rabbit hiding in the corner");
+		item_t *scissors = item_new("scissors", "a pair of scissors",
+			"A pair of blue left-handed scissors");
+		item_t *tray = item_new("tray", "a red plastic tray",
+			"A red plastic tray with some dried ketchup stains");
+		item_t *umbrella = item_new("umbrella", "a black umbrella",
+			"A black polyester umbrella with M.P. initials");
+		item_t *video = item_new("video", "a dvd video",
+			"A DVD video with an illegible label");
+		item_t *watercolors = item_new("watercolors",
+			"a set of watercolors with brush",
+			"A set of used watercolors and dusty brush");
+		item_t *xylophone = item_new("xylophone", "a colorful xylophone",
+			"A children's xylophone with a pair of mallets");
+		item_t *yam = item_new("yam", "a rotting yam",
+			"A singular rotting yam with flies flying around");
+		item_t *zebra = item_new("zebra", "a small zebra",
+			"A small zebra calmly munching on some grass");
 
+		assert(name != NULL);
+		if (!strcmp(name, "barn")) {
+			item_t *barn_ids[9] = { apple, cow, door, fruit, ladder,
+			nail, rabbit, yam, zebra };
+			return add_items_to_llist(llist, barn_ids, 9);
+		}
+		else if (!strcmp(name, "cafeteria")) {
+			item_t *cafe_ids[9] = { apple, door, fruit, ice, jug,
+			kettle, olive, tray, yam };
+			return add_items_to_llist(llist, cafe_ids, 9);
+		}
+		else if (!strcmp(name, "classroom")) {
+			item_t *class_ids[9] = { book, door, hat, pencil, quill,
+			video, scissors, watercolors, xylophone };
+			return add_items_to_llist(llist, class_ids, 9);
+		}
+		else if (!strcmp(name, "closet")) {
+			item_t *closet_ids[8] = { gold, hat, ice, jug, ladder,
+			nail, tray, umbrella };
+			return add_items_to_llist(llist, closet_ids, 8);
+		}
+		else if (!strcmp(name, "dungeon")) {
+			item_t *dungeon_ids[4] = { door, gold, ladder, nail };
+			return add_items_to_llist(llist, dungeon_ids, 4);
+		}
+		else if (!strcmp(name, "field")) {
+			item_t *field_ids[7] = { apple, cow, eagle, rabbit, yam, nail, zebra };
+			return add_items_to_llist(llist, field_ids, 7);
+		}
+		else if (!strcmp(name, "hallway")) {
+			item_t *hall_ids[4] = { door, mirror, ladder, nail };
+			return add_items_to_llist(llist, hall_ids, 4);
+		}
+		else if (!strcmp(name, "kitchen")) {
+			item_t *kitchen_ids[9] = { apple, door, ice, fruit, jub, kettle,
+			olive, scissors, tray, yam };
+			return add_items_to_llist(llist, kitchen_ids, 10);
+		}
+		else if (!strcmp(name, "library")) {
+			item_t *library_ids[11] = { book, door, gold, ladder, mirror,pencil,
+			quill, scissors, video, watercolors, xylophone };
+			return add_items_to_llist(llist, library_ids, 11);
+		}
+		else if (!strcmp(name, "living room")) {
+			item_t *living_ids[8] = { book, door, fruit, umbrella,
+			mirror, video, watercolors, xylophone };
+			return add_items_to_llist(llist, living_ids, 8);
+		}
+		else if (!strcmp(name, "throne room")) {
+			item_t *throne_ids[5] = { door, gold, hat, mirror, quill };
+			return add_items_to_llist(llist, {throne_ids, 5);
+		}
+		else {
+			return llist;
+		}
 }
 
 

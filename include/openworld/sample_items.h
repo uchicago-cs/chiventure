@@ -5,18 +5,6 @@
 #include "../game-state/item.h"
 #include "sample_items.h"
 
-/*get_desc_item returns {item_id, short_desc, long_desc} given
-* an item name. If it is one of the default item names then 
-* return the default description strings, else return the name
-* and set short_desc, long_desc to NULL (to hopefully be filled
-* later down the line).
-* Input:
-*	- char *name: the name of the item
-* Output:
-*	- char **: an array of strings formatted as {item_id, short_desc, long_desc}
-*/
-char **get_desc_item(char *name);
-
 /* item_list_new creates a new item_list_t struct
 * (Surprisingly this isn't in game-state/item.h,
 * but I use item_list_t's in my functions later on,
