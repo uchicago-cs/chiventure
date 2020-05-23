@@ -4,15 +4,12 @@
 /* check logic.h */
 int check_target(battle_t *b, char *target)
 {
-    while(b->enemy != NULL)
+    combatant_t temp;, temp
+    DL_FOREACH(b->enemy)
     {
-        if (strcmp(b->enemy->name, target))
+        if (strcmp(temp->name, target))
         {
             return 0;
-        }
-        else
-        {
-            b->enemy = b->enemy->next;
         }
     }
     return 1;
