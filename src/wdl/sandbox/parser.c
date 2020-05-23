@@ -74,7 +74,7 @@ game_t *parse_wdl(char* filename) {
     /* reads the input file */
     fp = fopen(filename, "r");
     assert(fp);
-    int bytesparsed = fread(buffer, MAX_BYTES, 1, fp);
+    int bytesparsed = fread(buffer, 1, MAX_BYTES, fp);
 
     if (bytesparsed == 0){
         printf("File is empty");
@@ -108,15 +108,29 @@ game_t *parse_wdl(char* filename) {
 
 int main(int argc, char **argv) {
 
+    game_t *game;
+
     if(argc > 1) {
 
-         parse_wdl(argv[1]);
-         return 0;
+         game = parse_wdl(argv[1]);
     } else {
         printf("Need arguments to parse\n");
         return 1;
     }
 
-    
+    printf("Start Description:\n%s\n\n",game->start_desc);
+
+    room_list_t *rooms = get_all_rooms(game);
+    room_t *room;
+
+    printf("List of rooms:\n");
+    while(rooms->next)
+    {
+        room = rooms->room;
+        printf("%s:\n",room->room_id);
+        printf("  Short description: %s\n",room->short_desc);
+        printf("  Long description: %s\n\n",room->long_desc);
+        rooms = rooms->next;
+    }
 
 }
