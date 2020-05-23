@@ -18,6 +18,12 @@ typedef enum sid {
     // Example 2
     DEFUSE_BOMB,
 
+    // Example 3
+    CHOP_TREE,
+
+    // Example 4
+    INNER_PEACE,
+
 } sid_t;
 
 /* Skill type */

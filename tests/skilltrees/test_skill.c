@@ -9,7 +9,8 @@
 #include <string.h>
 #include "skilltrees/skill.h"
 
-char* unlock_door_effect(char* args) {
+/* Example skill effect function */
+char* effect_unlock_door(char* args) {
     char* s = strdup(args);
     char* msg = "unlocked the door!";
     unsigned int rlen = strlen(s) + strlen(msg) + 2;
@@ -18,12 +19,13 @@ char* unlock_door_effect(char* args) {
     return res;
 }
 
+/* Checks the allocation and initialization of a skill */
 Test(skill, new) {
     skill_t* skill;
 
     skill = skill_new(UNLOCK_DOOR, ACTIVE, "Unlock door",
                       "A skill that allows a player to unlock a locked door",
-                      &unlock_door_effect);
+                      &effect_unlock_door);
 
     cr_assert_not_null(skill, "skill_new() failed");
 
@@ -37,13 +39,14 @@ Test(skill, new) {
     cr_assert_not_null(skill->effect, "skill_new() didn't set effect");
 }
 
+/* Checks the initialization of a skill */
 Test(skill, init) {
     skill_t skill;
     int rc;
 
     rc = skill_init(&skill, UNLOCK_DOOR, ACTIVE, "Unlock door",
                     "A skill that allows a player to unlock a locked door",
-                    1, 0, &unlock_door_effect);
+                    1, 0, &effect_unlock_door);
 
     cr_assert_eq(rc, SUCCESS, "skill_init() failed");
 
@@ -57,13 +60,14 @@ Test(skill, init) {
     cr_assert_not_null(skill.effect, "skill_new() didn't set effect");
 }
 
+/* Checks the freeing of a skill */
 Test(skill, free) {
     skill_t* skill;
     int rc;
 
     skill = skill_new(UNLOCK_DOOR, ACTIVE, "Unlock door",
                       "A skill that allows a player to unlock a locked door",
-                      &unlock_door_effect);
+                      &effect_unlock_door);
 
     cr_assert_not_null(skill, "skill_new() failed");
 
@@ -72,17 +76,19 @@ Test(skill, free) {
     cr_assert_eq(rc, SUCCESS, "skill_free() failed");
 }
 
+/* Checks the execution of a skill */
 Test(skill, execute) {
-    skill_t* skill;
+    skill_t skill;
+    int rc;
     char* consequence;
 
-    skill = skill_new(UNLOCK_DOOR, ACTIVE, "Unlock door",
-                      "A skill that allows a player to unlock a locked door",
-                      &unlock_door_effect);
+    rc = skill_init(&skill, UNLOCK_DOOR, ACTIVE, "Unlock door",
+                    "A skill that allows a player to unlock a locked door",
+                    1, 0, &effect_unlock_door);
 
-    cr_assert_not_null(skill, "skill_new() failed");
+    cr_assert_eq(rc, SUCCESS, "skill_init() failed");
 
-    consequence = skill_execute(skill, "Jackie");
+    consequence = skill_execute(&skill, "Jackie");
 
     cr_assert_str_eq(consequence, "Jackie unlocked the door!", "skill_execute() failed");
 }
