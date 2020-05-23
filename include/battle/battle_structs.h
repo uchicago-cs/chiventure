@@ -34,11 +34,13 @@ typedef struct move {
 /* stats stub */
 typedef struct stat {
     int speed;
+    int defense;
     int strength;
     int dexterity;
     int hp;
     int max_hp;
     int xp;
+    int level;
 } stat_t;
 
 /* class stub */
