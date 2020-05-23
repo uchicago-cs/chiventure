@@ -3,12 +3,13 @@
  */
 
 #include <criterion/criterion.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "skill.h"
+#include "skilltrees/skill.h"
 
-char* unlock_door(char* args) {
+char* unlock_door_effect(char* args) {
     char* s = strdup(args);
     char* msg = "unlocked the door!";
     unsigned int rlen = strlen(s) + strlen(msg) + 2;
@@ -22,7 +23,7 @@ Test(skill, new) {
 
     skill = skill_new(UNLOCK_DOOR, ACTIVE, "Unlock door",
                       "A skill that allows a player to unlock a locked door",
-                      &unlock_door);
+                      &unlock_door_effect);
 
     cr_assert_not_null(skill, "skill_new() failed");
 
@@ -42,7 +43,7 @@ Test(skill, init) {
 
     rc = skill_init(&skill, UNLOCK_DOOR, ACTIVE, "Unlock door",
                     "A skill that allows a player to unlock a locked door",
-                    &unlock_door);
+                    1, 0, &unlock_door_effect);
 
     cr_assert_eq(rc, SUCCESS, "skill_init() failed");
 
@@ -62,7 +63,7 @@ Test(skill, free) {
 
     skill = skill_new(UNLOCK_DOOR, ACTIVE, "Unlock door",
                       "A skill that allows a player to unlock a locked door",
-                      &unlock_door);
+                      &unlock_door_effect);
 
     cr_assert_not_null(skill, "skill_new() failed");
 
@@ -77,7 +78,7 @@ Test(skill, execute) {
 
     skill = skill_new(UNLOCK_DOOR, ACTIVE, "Unlock door",
                       "A skill that allows a player to unlock a locked door",
-                      &unlock_door);
+                      &unlock_door_effect);
 
     cr_assert_not_null(skill, "skill_new() failed");
 
