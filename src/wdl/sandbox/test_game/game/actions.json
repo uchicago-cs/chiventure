@@ -69,6 +69,13 @@
             {"block":"else", "params":""},
             {"block":"endif", "params":""}
         ]
+    },
+    {
+        "id": "action_win_game",
+        "sequence":[
+            {"block":"say", "params":"'You found the secret room. You win!'"},
+            {"block":"wingame", "params":""}
+        ]
     }
 ]
 }

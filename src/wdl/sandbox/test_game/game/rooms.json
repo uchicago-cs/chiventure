@@ -70,7 +70,7 @@
             {"direction": "up", "to": "whiteroom"}
         ],
         "can_enter": false,
-        "text_failure": "Couldn't go downwards. Did you try out those levers the sign was talking about?"
+        "text_no_entry": "Couldn't go downwards. Did you try out those levers the sign was talking about?"
     }
 ]
 }
