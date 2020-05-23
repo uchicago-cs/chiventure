@@ -16,4 +16,8 @@ int main(int argc, char *argv[])
 
     criterion_finalize(tests);
     return result;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 8ef40519ca7be2e9161d8eec254101580c64d749

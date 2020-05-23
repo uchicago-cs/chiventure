@@ -12,7 +12,11 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
+<<<<<<< HEAD
 set(CHIVENTURE_MODULES action_management checkpointing cli common game-state libobj ui wdl openworld)
+=======
+set(CHIVENTURE_MODULES action_management checkpointing cli common game-state libobj openworld ui wdl)
+>>>>>>> 8ef40519ca7be2e9161d8eec254101580c64d749
 
 include_directories(include/)
 
@@ -22,9 +26,9 @@ add_subdirectory(src/cli)
 add_subdirectory(src/common)
 add_subdirectory(src/game-state)
 add_subdirectory(src/libobj)
+add_subdirectory(src/openworld)
 add_subdirectory(src/ui)
 add_subdirectory(src/wdl)
-add_subdirectory(src/openworld)
 
 # chiventure executable
 add_executable(chiventure-bin src/chiventure.c)
