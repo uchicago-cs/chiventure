@@ -14,12 +14,13 @@ int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue)
 }
 
 /* See npc.h */
-int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
+int npcs_in_room_init(npcs_in_room_t *npcs_in_room, long room_id,
+                      char* room_name)
 {
     assert(npcs_in_room != NULL);
 
     strncpy(npcs_in_room->room_name,room_name,strlen(room_name)+1);
-    npcs_in_room->room_id = 0;
+    npcs_in_room->room_id = room_id;
     npcs_in_room->npc_list = NULL;
     npcs_in_room->num_of_npcs = 0;
 
@@ -27,7 +28,7 @@ int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
 }
 
 /* See npc.h */
-npc_t *npc_new(char *npc_id, int health, convo_t *dialogue)
+npc_t *npc_new(char *npc_id, long health, convo_t *dialogue)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -45,15 +46,10 @@ npc_t *npc_new(char *npc_id, int health, convo_t *dialogue)
 }
 
 /* See npc.h */
- npcs_in_room_t *npcs_in_room_new(long room_id, char *room_name)
+npcs_in_room_t *npcs_in_room_new(long room_id, char* room_name)
  {
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = malloc(sizeof(npcs_in_room_t));
-    memset(npcs_in_room, 0, sizeof(npcs_in_room_t));
-
-    npcs_in_room->room_name = room_name;
-    npcs_in_room->room_id = room_id;
-    npcs_in_room->num_of_npcs = 0;
     
     int check = npcs_in_room_init(npcs_in_room, room_id);
 
@@ -82,6 +78,8 @@ int npc_free(npc_t *npc)
 /* See npc.h */
 int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room)
 {
+    assert(npcs_in_room != NULL);
+
     free(npcs_in_room->room_id);
     free(npcs_in_room->room_name);
     free(npcs_in_room->npc_list);
@@ -169,7 +167,7 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
  
     if (check != NULL)
     {
-        return FAILURE; //this item id is already in use
+        return FAILURE; //this npc is already in the room
     }
     HASH_ADD_KEYPTR(hh, npcs_in_room->npc_list, npc->npc_id,
                     strlen(npc->npc_id), npc);

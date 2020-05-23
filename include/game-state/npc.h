@@ -62,7 +62,8 @@ int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
+int npcs_in_room_init(npcs_in_room_t *npcs_in_room, long room_id,
+                      char* room_name);
 
 
 /*
@@ -89,7 +90,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id);
  * Returns:
  *  pointer to allocated npcs_in_room struct
  */
- npcs_in_room_t *npcs_in_room_new(char* room_id);
+ npcs_in_room_t *npcs_in_room_new(long room_id, char* room_name);
 
 
 /*
