@@ -1,3 +1,8 @@
+/*
+ * Module for class-item restrictions. Provides functionality for
+ * restricting a class from using a specific item and checking
+ * whether or not a class is restricted from item usage. 
+*/
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -11,15 +16,20 @@
  * - item_t* item: item to which class attribute is being added
  * - class_t* class: class which is restricted from using item
  * Return:
- *- int: SUCCESS if successful, FAILURE if not
+ *- int: 
+ *   - SUCCESS if successful
+ *   - FAILURE if not
  */
 int set_item_restriction(item_t* item, class_t* class);
 
 /*Given an item and a class, returns whether or not that class is restricted from using item
-* Parameters:                                                                                                                                                                                     
-* - item_t* item: item being checked                                                                                                                                     
+* Parameters:
+* - item_t* item: item being checked for class restrictions
 * - class_t* class: class being checked
-* Return:                                                                                                                                                                                          
-*- bool: true if restricted, false if not
+*
+* Return:
+* - bool: 
+*    - true if restricted
+*    - false if not
 */
 bool get_class_restriction(item_t* item, class_t* class);
