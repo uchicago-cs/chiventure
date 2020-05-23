@@ -30,13 +30,13 @@ int add_rooms_to_game(json_object *rooms, game_t *g) {
     struct json_object *long_desc_obj;
     struct json_object *short_desc_obj;
 
-    //if room list is empty, return 1
-    if(rooms != NULL) {
+    /*if room list is empty, return 1*/
+    if(rooms == NULL) {
         fprintf(stderr, "rooms list is empty\n");
         return FAILURE;
     }
 
-    //for loops list of rooms, creates a new game_struct room, add room to game
+    /*for loops list of rooms, creates a new game_struct room, add room to game*/
     for (int i = 0; i < arr_len; i++) {
 
         room_obj = json_object_array_get_idx(rooms, i);
@@ -79,7 +79,7 @@ game_t *parse_wdl(char* filename) {
     if (bytesparsed == 0){
         printf("File is empty");
     }
-    
+
     fclose(fp);
 
     game_document = json_tokener_parse(buffer);
@@ -92,7 +92,7 @@ game_t *parse_wdl(char* filename) {
 
     assert(game_obj);
 
-    //gets the intro text for the game
+    /*gets the intro text for the game*/
     json_object_object_get_ex(game_obj, "intro", &intro_obj);
     assert(intro_obj);
 
