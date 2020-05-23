@@ -24,7 +24,9 @@ Test(battle_flow, set_player)
 /* Tests set_enemies() with 1 enemy */
 Test(battle_flow, set_one_enemy)
 {
-    npc_enemy_t *comb_enemy = make_npc_enemy("set_one_enemy_Name", NULL, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("set_one_enemy_Name", NULL, NULL, NULL);
+
+    combatant_t *comb_enemy = set_enemies(npc_enemy);
 
     cr_assert_not_null(comb_enemy, "set_enemies() failed");
     cr_assert_str_eq(comb_enemy->name, "set_one_enemy_Name", "set_enemies() didn't set name");
