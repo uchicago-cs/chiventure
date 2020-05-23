@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "openworld/gen_structs.h"
+#include "../../../include/openworld/gen_structs.h"
 
 /* see gen_structs.h */
 int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist){
@@ -67,11 +67,14 @@ int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_hash
 }
 
 /* see gen_structs.h */
-roomspec_t* roomspec_new(char *short_desc, char *long_desc, item_hash_t *items, path_hash_t *paths){
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, 
+	item_list_t *allowed, item_hash_t *items, path_hash_t *paths){
 
     roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
+	roomspecnew->room_name = room_name;
     roomspecnew->short_desc = short_desc;
     roomspecnew->long_desc = long_desc;
+	roomspecnew->allowed_items = allowed;
     roomspecnew->items = items;
     roomspecnew->paths = paths;
     return roomspecnew;

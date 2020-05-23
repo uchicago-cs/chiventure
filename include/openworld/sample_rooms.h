@@ -4,141 +4,61 @@
 #include "../game-state/game_state_common.h"
 #include "../game-state/room.h"
 #include "sample_items.h"
+#include "gen_structs.h"
 
-#define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
-HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
-
-// FIXED ROOM STRUCT DEFINITION -----------------------------------------------------
-/* This struct represents a 3 room themes: school, farmhouse, castle. Within these three
-*  "buckets", we have several fixed room types assigned to each:
-*	- school: classroom, closet, library, cafeteria, hallway
-*	- farmhouse: barn, field, hallway, kitchen, living room
-*	- castle: dungeon, hallway, library, throne room
-* Each fixed room contains:
-*      the room_tag (this is the enum type)
-*      the room_id
-*      short description
-*      long description
-*      a hashtable of items to be found there
-*      a hashtable of paths accessible from the room. (see game-state/room.h)
+/*Get_desc returns the descriptive strings for a default (or unknown) room
+* for DEFAULT rooms: give as input the themed room "bucket". This can be
+* 'school', 'farmhouse', or 'castle'. In each of these three themed "buckets"
+* there are 6 different room types that can be assigned. Randomly pick one of
+* these appropriate rooms, and return the hard-coded array of strings it 
+* corresponds to: { room_id, short_desc, long_desc }
+*
+* for UNKNOWN rooms: this means either the given "bucket" is not recognized
+* as one of the three already defined. "bucket" cannot be NULL. In this case,
+* bucket is still a string, so use this as the room_id assignment instead.
+* Also assign short_desc, long_desc to the given sh_desc and l_desc strings
+* respectively.
+*
+* Input: 
+*	- char *bucket: the string naming the theme of a set of rooms
+*	- char *sh_desc: an optional input, will be used as short_desc
+*	- char *l_desc: an optional input, will be used as l_desc
+*	-- note: if bucket is defined, it doesn't matter what sh_desc, l_desc are.
+*			we already have fixed definitions for the rooms in this theme.--
+* Output:
+*	- char **: an array of 3 strings in the following order: {room_id, 
+*				short_desc, long_desc}
+*
 */
+char **get_desc(char *bucket, char *sh_desc, char *l_desc);
 
-typedef enum fix_room_bucket { SCHOOL, FARMHOUSE, CASTLE } fix_room_bucket;
 
-typedef enum fix_room_tag { BARN, CAFETERIA, CLASSROOM, CLOSET, DUNGEON, FIELD,
-							HALLWAY, KITCHEN, LIBRARY, LIVING_ROOM, THRONE_ROOM} fix_room_tag_t;
-
-typedef struct fix_room {
-	fix_room_tag_t room_tag;
-	room_t* room;
-} fix_room_t;
-
-/* This typedef is to distinguish between room_t pointers which are
-* used to point to the room_t structs in the traditional sense,
-* and those which are used to hash room_t structs with the
-* UTHASH macros as specified in src/common/include */
-typedef struct fix_room fixed_room_hash_t;
-
-typedef struct fix_room_wrapped_for_llist {
-	struct fix_room_wrapped_for_llist *next;
-	fix_room_t *room;
-} fix_room_list_t;
-
-// ROOM FUNCTIONS -------------------------------------------------------------
-/* Mallocs space for a new room
+/*make_default_rooms adds all the defined default rooms for a themed 
+* "bucket" (a name for a group of related rooms). In the case where the 
+* "bucket" IS NOT part of the default definitions, there are optional
+* parameters for a short_desc, long_desc that will be used to define a
+* new roomspec. In the case where "bucket" IS part of the default
+* definitions (i.e. "bucket" is "school", "farmhouse", "castle"), then 
+* add all the related rooms and all their related items to the roomspec hash.
+* First, load an array of arrays of all the string descriptions for all the 
+* related rooms to the "bucket". Then, assign each set of string descriptions
+* to a  new roomspec, and assign all their allowed items to the hash as well.
+* Iterate through all the appropriate rooms and all their allowed items. 
 *
-* Parameters:
-*  room_tag_t room_tag that specifies what kind of room
+* Input:
+*	- char *bucket: the string identifier for the theme of the set of rooms
+*					if bucket is not already defined in default, just create
+*					one room called bucket and add it to the hash.
+*	- char *sh_desc: if "bucket" is part of default definitions, this parameter
+*					is not necessary, and it can be NULL. (Will be disregarded anyway).
+*					if "bucket" IS NOT part of default defn, use this as a room
+*					short_desc.
+*	- char *l_desc: similar purpose to sh_desc but for long_desc
 *
-* Returns:
-*  a pointer to new room
+* Output:
+*	- roomspec_t updated hash
 */
-fix_room_t* fix_room_new(fix_room_tag_t room_tag, int items_wanted);
-
-/* room_init() initializes a room struct with given values
-* Parameters:
-* a memory allocated new room pointer
-* room_tag_t room_tag which specifies room type
-* 
-* Returns:
-* FAILURE for failure, SUCCESS for success
-*/
-
-int fix_room_init(fix_room_t *new_room, fix_room_tag_t room_tag, int items_added);
-
-/* Frees the space in memory taken by given room
-*
-* Parameters:
-*  pointer to the room struct to be freed
-*
-* Returns:
-*  Always returns SUCCESS
-*/
-
-int fix_room_free(fix_room_t *room);
-
-/* Adds an item to the given room
-*
-* Parameters:
-*  fix_room_t room of specific type needed by function,
-*  int items wanted to specify how many times to iterate adding items
-*  room tag is used to specify the appropriate subset of items that we
-*		can choose from
-*
-* Returns:
-*  SUCCESS if successful, FAILURE if failed
-*/
-int add_item_to_fix_room(fix_room_t *room, int items_wanted);
-
-/* Get short description of room
-*
-* Parameters:
-*  pointer to room
-*
-* Returns:
-*  short description string
-*/
-char *get_sdesc_fix(fix_room_t *room);
-
-/* Get long description of room
-*
-* Parameters:
-*  pointer to room
-*
-* Returns:
-*  long description string
-*/
-char *get_ldesc_fix(fix_room_t *room);
-
-/* Get list (implemented with hashtable) of items in room
-*
-* Parameters:
-*  pointer to room
-*
-* Returns:
-*  hashtable of items in room
-*/
-item_hash_t* list_items(fix_room_t *room);	
-
-/* Get list of paths from room
-*
-* Parameters:
-*  pointer to room
-*
-* Returns:
-*  pointer to hashtable of paths from room
-*/
-path_hash_t *list_fix_paths(fix_room_t *room);
-
-/* Get a randomly generated room with no inital parameters
-*  Will call on rand() function to randomly call on
-* one of the hard-coded rooms
-*
-* Parameters: n\a
-*
-* Returns:
-*  pointer to an initialized random room
-*/
-fix_room_t* generate_room();
+roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
+	item_list_t *items);
 
 #endif /* _SAMPLE_ROOM_H */

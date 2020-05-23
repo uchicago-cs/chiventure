@@ -28,10 +28,15 @@
  * - path_hash_t *paths: hash table of paths in room
  */
 typedef struct roomspec {
+	char *room_name; //key of hash table
     char *short_desc;
     char *long_desc;
+
+	item_list_t *allowed_items;
     item_hash_t *items;
     path_hash_t *paths;
+
+	UT_hash_handle hh; 
 } roomspec_t;
 
 /* speclist_t struct
