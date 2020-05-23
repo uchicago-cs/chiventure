@@ -4,7 +4,7 @@
 #include "../../../include/common/utlist.h"
 #include "../../../include/common/uthash.h"
 #include "../../../include/openworld/sample_rooms.h" 
-
+#include "../../../include/openworld/sample_items.h"
 /* see sample_rooms.h */
 roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 	item_list_t *llist) {
@@ -30,7 +30,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 		roomspec_t **school_rooms = calloc(5, sizeof(roomspec_t*));
 		school_rooms[0] = roomspec_new("cafeteria", "A grungy cafeteria",
 			"A messy high school cafeteria with trays and tables out",
-			get_allowed_items("cafeteria", llist), NULL, NULL);
+			make_default_items("cafeteria", llist), NULL, NULL);
 		school_rooms[1] = roomspec_new("classroom",
 			"A medium-sized classroom with 30 desks",
 			"A geography teacher's classroom with 30 desks",
