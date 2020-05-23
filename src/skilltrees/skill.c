@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
-#include "skills.h"
+#include "skilltrees/skill.h"
 
 /* See skills.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,

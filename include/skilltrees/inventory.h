@@ -5,8 +5,8 @@
 #ifndef INCLUDE_INVENTORY_H_
 #define INCLUDE_INVENTORY_H_
 
-#include "common.h"
-#include "skill.h"
+#include "common/common.h"
+#include "skilltrees/skill.h"
 
 /* ======================= */
 /* === DATA STRUCTURES === */

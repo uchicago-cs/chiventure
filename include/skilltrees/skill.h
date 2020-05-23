@@ -5,7 +5,7 @@
 #ifndef INCLUDE_SKILL_H_
 #define INCLUDE_SKILL_H_
 
-#include "common.h"
+#include "common/common.h"
 
 /* ======================= */
 /* === DATA STRUCTURES === */

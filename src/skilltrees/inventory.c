@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "inventory.h"
+#include "skilltrees/inventory.h"
 
 /* See inventory.h */
 inventory_t* inventory_new(unsigned int max_active, unsigned int max_passive) {
