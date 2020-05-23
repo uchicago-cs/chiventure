@@ -47,10 +47,12 @@ Test (npcs_in_room, init) {
      
     cr_assert_eq(check, SUCCESS, "npcs_in_room_init() failed"); 
 
-    cr_assert_eq(npcs_in_room.room_id, "test_room",
+    cr_assert_eq(npcs_in_room.room_name, "test_room",
                 "npcs_in_room_init() did not set room_id");
 	cr_assert_eq(npcs_in_room.num_of_npcs, 0,
                 "npcs_in_room_init() did not set num_of_npcs");
+	cr_assert_eq(npcs_in_room.room_id, 0,
+                "npcs_in_room_init() did not set room_id");
 }
 
 Test (npc, free)
@@ -156,8 +158,8 @@ Test (npcs_in_room, add_npc_to_room) {
 				 "add_npc_to_room() failed, incorrect number of npcs in room");
 }
 
-/* tests the get_num_of_npcs function */
-Test (npcs_in_room, get_num_of_npcs)
+/* tests the npcs_in_room_get_number function */
+Test (npcs_in_room, npcs_in_room_get_number)
 {
 	npcs_in_room_t *npcs_in_room;
 	npcs_in_room = npcs_in_room_new("test_room");
@@ -171,5 +173,5 @@ Test (npcs_in_room, get_num_of_npcs)
 
 	cr_assert_eq(added_npc2, SUCCESS, "add_npc_to_room() failed");
 
-	cr_asser_eq(npcs_in_room->2,2,"get_num_of_npcs() failed.");
+	cr_asser_eq(npcs_in_room->2,2,"npcs_in_room_get_number() failed.");
 }

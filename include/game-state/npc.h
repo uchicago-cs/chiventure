@@ -27,7 +27,8 @@ typedef struct npc
 typedef struct npcs_in_room {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
-    char *room_id;
+    long room_id;
+    char *room_name;
     npc_hash_t *npc_list; //hash table storing the npcs that are in the room
     int num_of_npcs; //number of npcs in the room
 } npcs_in_room_t;
@@ -136,7 +137,7 @@ int get_npc_health(npc_t *npc);
  * Returns:
  *  int, the number of npcs in the room
  */
-int get_num_of_npcs(npcs_in_room_t *npcs_in_room);
+int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room);
 
 /*
  * Changes the health of the npc. 

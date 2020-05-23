@@ -18,7 +18,8 @@ int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
 {
     assert(npcs_in_room != NULL);
 
-    strncpy(npcs_in_room->room_id,room_id,strlen(room_id)+1);
+    strncpy(npcs_in_room->room_name,room_name,strlen(room_name)+1);
+    npcs_in_room->room_id = 0;
     npcs_in_room->npc_list = NULL;
     npcs_in_room->num_of_npcs = 0;
 
@@ -44,17 +45,19 @@ npc_t *npc_new(char *npc_id, int health, convo_t *dialogue)
 }
 
 /* See npc.h */
- npcs_in_room_t *npcs_in_room_new(char* room_id)
+ npcs_in_room_t *npcs_in_room_new(long room_id, char *room_name)
  {
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = malloc(sizeof(npcs_in_room_t));
     memset(npcs_in_room, 0, sizeof(npcs_in_room_t));
+
+    npcs_in_room->room_name = room_name;
     npcs_in_room->room_id = room_id;
     npcs_in_room->num_of_npcs = 0;
     
     int check = npcs_in_room_init(npcs_in_room, room_id);
 
-    if (npcs_in_room == NULL || npcs_in_room->room_id == NULL || check != SUCCESS)
+    if (npcs_in_room == NULL || npcs_in_room->room_id == 0 || check != SUCCESS)
     {
         return NULL;
     }
@@ -80,6 +83,7 @@ int npc_free(npc_t *npc)
 int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room)
 {
     free(npcs_in_room->room_id);
+    free(npcs_in_room->room_name);
     free(npcs_in_room->npc_list);
     free(npcs_in_room->num_of_npcs);
     free(npcs_in_room);
@@ -93,7 +97,7 @@ int get_npc_health(npc_t *npc)
 }
 
 /* See npc.h */
-int get_num_of_npcs(npcs_in_room_t *npcs_in_room)
+int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room)
 {
     return npcs_in_room->num_of_npcs;
 }
