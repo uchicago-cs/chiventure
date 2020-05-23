@@ -22,7 +22,7 @@ int set_item_restriction(item_t* item, class_t* class) {
          set_bool_attr(item, class->name, true);
 	 return SUCCESS;
      } else {
-         error("Item or Class provided are NULL");
+       fprintf(stderr, "Item or Class provided are NULL");
 	 return FAILURE;
      }
 }
