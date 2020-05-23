@@ -7,7 +7,7 @@
 
 
 /* DEBUG is 0 normally, 1 to print debugging statements */
-#define DEBUG 1
+#define DEBUG 0
 
 /* Maximum number of bytes in a file parser can parse */
 #define MAX_BYTES 4096
@@ -74,7 +74,12 @@ game_t *parse_wdl(char* filename) {
     /* reads the input file */
     fp = fopen(filename, "r");
     assert(fp);
-    fread(buffer, MAX_BYTES, 1, fp);
+    int bytesparsed = fread(buffer, MAX_BYTES, 1, fp);
+
+    if (bytesparsed == 0){
+        printf("File is empty");
+    }
+    
     fclose(fp);
 
     game_document = json_tokener_parse(buffer);
@@ -106,9 +111,12 @@ int main(int argc, char **argv) {
     if(argc > 1) {
 
          parse_wdl(argv[1]);
-
+         return 0;
+    } else {
+        printf("Need arguments to parse\n");
+        return 1;
     }
 
-    return 0;
+    
 
 }
