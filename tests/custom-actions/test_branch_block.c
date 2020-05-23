@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "src/custom-actions/include/branch_block.h"
+#include "branch_block.h"
 
 /* Checks that a new branch block with conditional type EQ is created 
 without interruption */
