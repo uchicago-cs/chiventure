@@ -75,12 +75,14 @@ The top level is a JSON object with a single `rooms` key. Its value is a **list*
         "action_on_entry": "my_action_id",
         "actions": [
             {"call": "TYPE_ME", "action": "action_id", "params": ""}
+            ...
         ],
         "connections": [
             {"direction": "my_direction", "to": "next_room_id"}
+            ...
         ]
-        ...
     }
+    ...
 ]
 }
 ```
@@ -120,9 +122,10 @@ The top level is a JSON object with a single `items` key. Its value is a list of
         "long_desc": "This is an item long",
         "actions": [
             {"call": "TYPE_ME", "action": "action_id", "params": ""}
-        ],
-        ...
+            ...
+        ]
     }
+    ...
 ]
 }
 ```
@@ -150,9 +153,10 @@ The top level is a JSON object with a single `actions` key. Its value is a list 
         "id": "my_action_id",
         "sequence": [
             {"block": "block_here", "args": "args_here"}
-        ],
-        ...
+            ...
+        ]
     }
+    ...
 ]
 }
 ```
@@ -185,6 +189,7 @@ Documentation WIP
         "actions": ["action_when_condition_is_met"],
         "trigger_once_only": false
     }
+    ...
 ]
 }
 ```
@@ -203,11 +208,65 @@ where
 
 This file contains attributes for each of the game's NPCs (non-player characters).
 
+
+```json
+{
+"npcs": [
+    {
+        "id": "npc_id",
+        "location": "enter room here",
+        "actions": [
+            {"call": "TYPE_ME", "action": "action_id", "params": ""}
+            ...
+        ]
+        "stats" : [
+            {"stat_id": "stat_id_here", "stat_value": "stat_val_here"}
+            ...
+        ]
+    }
+    ...
+]
+}
+```
+
+
 Documentation WIP (and dependent on NPC teams!)
 
 ### `dialogtree.json`
 
 This file contains attributes for the game's dialog trees.
+
+
+```json
+{
+"conversations": [
+    {
+        "id": "conversation_id_here",
+        "actions": [
+            {"call": "TYPE_ME", "action": "action_id", "params": ""}
+            ...
+        ]
+        
+        "nodes": [
+            {
+                "node_id": "node_id_here",
+                "dialog_string": "dialog_here",
+                "edges": [
+                    {
+                        "keyword": "keyword_here",
+                        "quip": "player_quip_here",
+                        "node_destination": "node_destination_here"
+                    }
+                    ...
+                ]
+            }
+            ...
+        ]
+    }
+    ...
+]
+}
+```
 
 Documentation WIP (and dependent on NPC teams!)
 
