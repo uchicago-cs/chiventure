@@ -103,10 +103,6 @@ item_hash_t *get_default_items() {
 		"A singular, unrefrigerated black olive");
 	HASH_ADD_STR(hash, item_id, olive);
 
-	item_t *quill = item_new("quill", "a quail quill",
-		"A quail quill in a pot of black ink");
-	HASH_ADD_STR(hash, item_id, quill);
-
 	item_t *video = item_new("video", "a dvd video",
 		"A DVD video with an illegible label");
 	HASH_ADD_STR(hash, item_id, video);
