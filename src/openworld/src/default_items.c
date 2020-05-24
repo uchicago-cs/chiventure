@@ -3,6 +3,8 @@
 
 #include "../../../include/openworld/default_items.h"
 #include "../../../include/common/uthash.h"
+#include "../../../include/common/room.h"
+#include "../../../include/game-state/room.h"
 
 /* see default_items.h */
 item_hash_t *get_default_items() {
@@ -65,83 +67,3 @@ item_hash_t *get_default_items() {
 		"A DVD video with an illegible label"));
 	return hash;
 }
-
-/* see default_items.h
-item_hash_t* make_default_items(char *name) {
-
-		assert(name != NULL);
-		item_hash_t *default_items = get_default_items();
-		item_hash_t *room_items, *items;
-
-		item_t *a, *b, *c, *d, *e;
-		HASH_ADD_STR(room_items, room_id, {
-			HASH_FIND_STR(default_items, "apple", a),
-			HASH_FIND_STR(default_items, "cow", b),
-			HASH_FIND_STR(default_items, "rabbit", c)
-			HASH_FIND_STR(default_items, "fruit", d)
-			HASH_FIND_STR(default_items, "yam", e) });
-		HASH_ADD_STR(room_items, "cafeteria", {
-			HASH_FIND_STR(default_items, "apple", a),
-			HASH_FIND_STR(default_items, "fruit", b),
-			HASH_FIND_STR(default_items, "tray", c)
-			HASH_FIND_STR(default_items, "ice", d)
-			HASH_FIND_STR(default_items, "yam", e) });
-		HASH_ADD_STR(room_items, "classroom", {
-			HASH_FIND_STR(default_items, "book", a),
-			HASH_FIND_STR(default_items, "door", b),
-			HASH_FIND_STR(default_items, "pencil", c)
-			HASH_FIND_STR(default_items, "watercolors", d)
-			HASH_FIND_STR(default_items, "video", e) });
-		HASH_ADD_STR(room_items, "closet", {
-			HASH_FIND_STR(default_items, "door", a),
-			HASH_FIND_STR(default_items, "nail", b),
-			HASH_FIND_STR(default_items, "mirror", c)
-			HASH_FIND_STR(default_items, "jug", d)
-			HASH_FIND_STR(default_items, "hat", e) });
-		HASH_ADD_STR(room_items, "dungeon", {
-			HASH_FIND_STR(default_items, "gold", a),
-			HASH_FIND_STR(default_items, "hat", b),
-			HASH_FIND_STR(default_items, "nail", c)
-			HASH_FIND_STR(default_items, "door", d)
-			HASH_FIND_STR(default_items, "jug", e) });
-		HASH_ADD_STR(room_items, "field", {
-			HASH_FIND_STR(default_items, "eagle", a),
-			HASH_FIND_STR(default_items, "cow", b),
-			HASH_FIND_STR(default_items, "rabbit", c)
-			HASH_FIND_STR(default_items, "zebra", d)
-			HASH_FIND_STR(default_items, "apple", e) });
-		HASH_ADD_STR(room_items, "hallway", {
-			HASH_FIND_STR(default_items, "door", a),
-			HASH_FIND_STR(default_items, "nail", b),
-			HASH_FIND_STR(default_items, "fruit", c)
-			HASH_FIND_STR(default_items, "tray", d)
-			HASH_FIND_STR(default_items, "book", e) });
-		HASH_ADD_STR(room_items, "kitchen", {
-			HASH_FIND_STR(default_items, "olive", a),
-			HASH_FIND_STR(default_items, "ice", b),
-			HASH_FIND_STR(default_items, "jug", c)
-			HASH_FIND_STR(default_items, "apple", d)
-			HASH_FIND_STR(default_items, "yam", e) });
-		HASH_ADD_STR(room_items, "library", {
-			HASH_FIND_STR(default_items, "book", a),
-			HASH_FIND_STR(default_items, "quill", b),
-			HASH_FIND_STR(default_items, "pencil", c)
-			HASH_FIND_STR(default_items, "video", d)
-			HASH_FIND_STR(default_items, "mirror", e) });
-		HASH_ADD_STR(room_items, "living room", {
-			HASH_FIND_STR(default_items, "watercolors", a),
-			HASH_FIND_STR(default_items, "video", b),
-			HASH_FIND_STR(default_items, "xylophone", c)
-			HASH_FIND_STR(default_items, "hat", d)
-			HASH_FIND_STR(default_items, "mirror", e) });
-		HASH_ADD_STR(room_items, "throne room", {
-			HASH_FIND_STR(default_items, "gold", a),
-			HASH_FIND_STR(default_items, "mirror", b),
-			HASH_FIND_STR(default_items, "door", c)
-			HASH_FIND_STR(default_items, "hat", d)
-			HASH_FIND_STR(default_items, "jug", e) });
-
-		return HASH_FIND_STR(room_items, name, items);
-}
-*/
-

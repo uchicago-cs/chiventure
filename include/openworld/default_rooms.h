@@ -6,6 +6,8 @@
 #include "default_items.h"
 #include "gen_structs.h"
 
+
+
 /*Get_allowed_rooms returns an array of roomspec_t for a default (or unknown) room
 * for DEFAULT rooms: give as input the themed room "bucket". This can be
 * 'school', 'farmhouse', or 'castle'. In each of these three themed "buckets"
