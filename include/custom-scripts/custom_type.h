@@ -19,13 +19,15 @@ typedef enum datatype
     TYPE_CHAR = 2,
     TYPE_INT = 3,
     TYPE_STR = 4,
-    TYPE_LUA = 5,
 } datatype_t;
 
 typedef struct obj
 {
     // Type of underlying data
     datatype_t type;
+
+    // Whether this data will be represented by a Lua script
+    bool is_lua;
 
     // Data associated with the object
     union
@@ -53,62 +55,53 @@ obj_t obj_t_new();
  * obj_t_bool() creates an obj_t struct containing a boolean
  * Parameters:
  * - bool value to be stored
+ * - Lua script (NULL if no script to be specified)
  * Returns:
  * - obj_t object struct containing the bool
  * 
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-obj_t obj_t_bool(bool b);
+obj_t obj_t_bool(bool b, char *lua);
 
 /**
  * obj_t_char() creates an obj_t struct containing a char
  * Parameters:
  * - char value to be stored
+ *  - Lua script (NULL if no script to be specified)
  * Returns:
  * - obj_t object struct containing the char
  * 
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-obj_t obj_t_char(char c);
+obj_t obj_t_char(char c, char *lua);
 
 /**
  * obj_t_int() creates an obj_t struct containing a int
  * Parameters:
  * - char value to be stored
+ *  - Lua script (NULL if no script to be specified)
  * Returns:
  * - obj_t object struct containing the int
  * 
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-obj_t obj_t_int(int i);
+obj_t obj_t_int(int i, char *lua);
 
 /**
  * obj_t_str() creates an obj_t struct containing a string
  * Parameters:
  * - char value to be stored
+ *  - Lua script (NULL if no script to be specified)
  * Returns:
  * - obj_t object struct containing the str
  * 
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-obj_t obj_t_str(char *s);
-
-/**
- * obj_t_lua() creates an obj_t struct containing a Lua directory
- * Parameters:
- * - char value to be stored
- * Returns:
- * - obj_t object struct containing the Lua directory
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
- */
-obj_t obj_t_lua(char *lua);
-
+obj_t obj_t_str(char *s, char *lua);
 
 /**
  * bool_t_get() returns a bool from an obj_t struct
@@ -153,7 +146,6 @@ const char* string_t_get(obj_t ot);
  * Returns:
  * - Lua directory from ot
  */
-const char* lua_t_get(obj_t ot);
 
 ///////
 
