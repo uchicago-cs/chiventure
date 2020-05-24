@@ -3,7 +3,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "struct.h"
+#include "custom-actions\action_block.h"
+#include "custom-actions\ast_block.h"
+#include "custom-actions\attribute_block.h"
+#include "custom-actions\branch_block.h"
+#include "custom-actions\conditional_block.h"
+#include "custom-actions\control_block.h"
 
 /* A custom action struct. Contains the blocks and conditionals
  * for a single custom action. (?)
@@ -24,7 +29,7 @@ typedef struct custom_action custom_action_t;
  * - NULL if no such action_name custom action exists in game
  * 
  */
-custom_action_t *search_for_custom_action(char *action_name, game *game);
+custom_action_t *search_for_custom_action(char *action_name, game_t *game);
 
 /* 
  * Given a custom action and its corresponding arguments, 
@@ -60,7 +65,7 @@ int do_custom_action(custom_action_t *action, char **args, int num_args);
  * - custom_action_t* A pointer to the compiled custom action if successful
  * - NULL if there was an error parsing the json
  */
-custom_action_t *compile_custom_action(json_dict_obj *json, game *game);
+custom_action_t *compile_custom_action(json_dict_obj *json, game_t *game);
 
 /*
  * Free a custom action and all its associated structs

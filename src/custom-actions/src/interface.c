@@ -6,11 +6,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "interface.h"
-#include "struct.h"
+#include "custom-actions\interface.h"
 
 /* See interface.h */
-custom_action_t *search_for_custom_action(char *action_name, game *game)
+custom_action_t *search_for_custom_action(char *action_name, game_t *game)
 {
     return NULL;
 }
@@ -22,7 +21,7 @@ int do_custom_action(custom_action_t *action, char **args, int num_args)
 }
 
 /* See interface.h */
-custom_action_t *compile_custom_action(json_dict_obj *json, game *game)
+custom_action_t *compile_custom_action(json_dict_obj *json, game_t *game)
 {
     return NULL;
 }
