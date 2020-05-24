@@ -6,23 +6,33 @@
 #include "../../../include/openworld/default_rooms.h" 
 #include "../../../include/openworld/default_items.h"
 
+item_list_t *llist_new(item_t* item){
+	item_list_t* llist = calloc(1, sizeof(item_list_t));
+	llist->item =item;
+	llist->next = NULL;
+	return llist;
+}
+
 /* see default_rooms.h */
-roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
+roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
+item_list_t *allowed) {
 
 	assert(bucket != NULL);
-	item_hash_t *default_items = get_default_items();
-	char *a;
+	item_hash_t *def = get_default_items();
+	item_t *nail, *mirror, *jug, *hat;
 	//these types of rooms are shared by more than one themed room group
 
 	//CLOSET
 	roomspec_t *closet = roomspec_new("closet", "A broom closet",
 		"A small broom closet with supplies",
-		NULL, NULL, NULL);
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "door", a));
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "nail", a));
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "mirror",a));
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "jug",a));
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "hat",a));
+		allowed, NULL, NULL);
+	item_t *door;
+	HASH_FIND_STR(def, "door", door);
+	LL_APPEND(closet->allowed_items, llist_new(door));
+	LL_APPEND(closet->allowed_items, HASH_FIND_STR(def, "nail", nail));
+	LL_APPEND(closet->allowed_items, HASH_FIND_STR(def, "mirror", mirror));
+	LL_APPEND(closet->allowed_items, HASH_FIND_STR(def, "jug", jug));
+	LL_APPEND(closet->allowed_items, HASH_FIND_STR(def, "hat", hat));
 
 	//HALLWAY
 	roomspec_t *hallway = roomspec_new("hallway", "A well-lit hallway",
@@ -162,11 +172,12 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 }
 
 /* see default_rooms.h */
-roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc) {
+roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
+	item_list_t *allowed) {
 
 	roomspec_t *hash = NULL;
 	//get allowed rooms and defined descriptions
-	roomspec_t **rooms = get_allowed_rooms(bucket, sh_desc, l_desc);
+	roomspec_t **rooms = get_allowed_rooms(bucket, sh_desc, l_desc, allowed);
 
 	int i = 0;
 	while (rooms[i] != NULL) {
