@@ -1,8 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../src/custom-actions/include/custom-actions-cond.h"
-
+#include "custom-actions-cond.h"
 
 /* Enumerative type for numerically comparative conditions */
 typedef enum {
@@ -30,7 +29,6 @@ attribute_t *attribute_new(enum attribute_tag tag, attribute_value_t value) {
         exit(1);
     }
 
-    res->hh = 0;
     res->attribute_key = NULL;
     res->attribute_tag = tag;
     res->attribute_value = value;
@@ -38,7 +36,7 @@ attribute_t *attribute_new(enum attribute_tag tag, attribute_value_t value) {
 
 
 /* Checks that check_eq() fails when given attributes with conflicting types */
-Test(custom-actions-cond, equals_fail)
+Test(custom_actions_cond, equals_fail)
 {
     attribute_value_t v1, v2;
     attribute_t *a1, *a2;
@@ -123,7 +121,7 @@ void test_eq(double d1, double d2, int exp1, bool b1, bool b2, int exp2,
 
 
 /* Testing check_eq() for each type of attribute when true */
-Test(custom-actions-cond, equals)
+Test(custom_actions_cond, equals)
 {
     test_eq(2.0, 2.0, 0,
             true, true, 0,
@@ -134,7 +132,7 @@ Test(custom-actions-cond, equals)
 
 
 /* Testing check_eq() for each type of attribute when false */
-Test(custom-actions-cond, not_equals)
+Test(custom_actions_cond, not_equals)
 {
     test_eq(1.0, 2.0, 1,
             true, false, 1,
@@ -149,7 +147,7 @@ Test(custom-actions-cond, not_equals)
  *
  * Note: characters are being considered as numerical
  */
-Test(custom-actions-cond, num_comp_fail)
+Test(custom_actions_cond, num_comp_fail)
 {
     attribute_value_t v0, v1, v2, v3, v4, v5;
     attribute_t *a0, *a1, *a2, *a3, *a4, *a5;
@@ -245,10 +243,6 @@ void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
                  ret[exp2], ret[rc2]);
     cr_assert_eq(rc3, exp3, "expected %s but check_eq() returned %s",
                  ret[exp3], ret[rc3]);
-    cr_assert_eq(rc4, exp4, "expected %s but check_eq() returned %s",
-                 ret[exp4], ret[rc4]);
-    cr_assert_eq(rc5, exp5, "expected %s but check_eq() returned %s",
-                 ret[exp5], ret[rc5]);
 
     attribute_free(a0);
     attribute_free(a1);
@@ -260,7 +254,7 @@ void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
 
 
 /* Testing check_lt() for each attribute type when true */
-Test(custom-actions-cond, less_than)
+Test(custom_actions_cond, less_than)
 {
     test_comp(1.0, 2.0, 0,
               'a', 'b', 0,
@@ -269,7 +263,7 @@ Test(custom-actions-cond, less_than)
 
 
 /* Testing check_lt() for each attribute type when false */
-Test(custom-actions-cond, not_less_than)
+Test(custom_actions_cond, not_less_than)
 {
     test_comp(1.0, 1.0, 1,
               'b', 'a', 1,
@@ -278,7 +272,7 @@ Test(custom-actions-cond, not_less_than)
 
 
 /* Testing check_gt() for each attribute type when true */
-Test(custom-actions-cond, greater_than)
+Test(custom_actions_cond, greater_than)
 {
     test_comp(2.0, 1.0, 0,
               'b', 'a', 0,
@@ -287,7 +281,7 @@ Test(custom-actions-cond, greater_than)
 
 
 /* Testing check_gt() for each attribute type when false */
-Test(custom-actions-cond, not_greater_than)
+Test(custom_actions_cond, not_greater_than)
 {
     test_comp(1.0, 2.0, 1,
               'a', 'b', 1,
@@ -296,7 +290,7 @@ Test(custom-actions-cond, not_greater_than)
 
 
 /* Testing check_lte() for each attribute type when true */
-Test(custom-actions-cond, less_than_eq)
+Test(custom_actions_cond, less_than_eq)
 {
     test_comp(1.0, 2.0, 0,
               'a', 'a', 0,
@@ -305,7 +299,7 @@ Test(custom-actions-cond, less_than_eq)
 
 
 /* Testing check_lte() for each attribute type when false */
-Test(custom-actions-cond, not_less_than_eq)
+Test(custom_actions_cond, not_less_than_eq)
 {
     test_comp(2.0, 1.0, 1,
               'b', 'a', 1,
@@ -314,7 +308,7 @@ Test(custom-actions-cond, not_less_than_eq)
 
 
 /* Testing check_gte() for each attribute type when true */
-Test(custom-actions-cond, greater_than_eq)
+Test(custom_actions_cond, greater_than_eq)
 {
     test_comp(2.0, 1.0, 0,
               'b', 'a', 0,
@@ -323,7 +317,7 @@ Test(custom-actions-cond, greater_than_eq)
 
 
 /* Testing check_gte() for each attribute type when false */
-Test(custom-actions-cond, not_greater_than_eq)
+Test(custom_actions_cond, not_greater_than_eq)
 {
     test_comp(1.0, 2.0, 1,
               'a', 'b', 1,

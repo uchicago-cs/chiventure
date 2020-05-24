@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/custom-actions-common.h"
 #include "../../../include/game-state/item.h"
+#include "../include/custom-actions-common.h"
 
 
 /*
@@ -16,7 +16,7 @@ typedef enum {
     GT,
     LTE,
     GTE
-} num_comp;
+} num_comp_t;
 
 
 /* See custom-actions-cond.h */
@@ -26,26 +26,28 @@ int check_eq(attribute_t *a1, attribute_t *a2)
         return FAILURE;
     }
 
+    int cmp;
+
     switch (a1->attribute_tag) {
 
         case DOUBLE:
-            int cmp = (a1->attribute_value.double_val == a2->attribute_value.double_val);
+            cmp = (a1->attribute_value.double_val == a2->attribute_value.double_val);
             return cmp ? TRUE : FALSE;
 
         case BOOLE:
-            int cmp = (a1->attribute_value.bool_val == a2->attribute_value.bool_val);
+            cmp = (a1->attribute_value.bool_val == a2->attribute_value.bool_val);
             return cmp ? TRUE : FALSE;
 
         case CHARACTER:
-            int cmp = (a1->attribute_value.char_val == a2->attribute_value.char_val);
+            cmp = (a1->attribute_value.char_val == a2->attribute_value.char_val);
             return cmp ? TRUE : FALSE;
 
         case STRING:
-            int strcmp = strcmp(a1->attribute_value.str_val, a2->attribute_value.str_val);
-            return strcmp ? FALSE : TRUE;
+            cmp = strcmp(a1->attribute_value.str_val, a2->attribute_value.str_val);
+            return cmp ? FALSE : TRUE;
         
         default:
-            int cmp = (a1->attribute_value.int_val == a2->attribute_value.int_val);
+            cmp = (a1->attribute_value.int_val == a2->attribute_value.int_val);
             return cmp ? TRUE : FALSE;
     }
 }
@@ -60,25 +62,27 @@ int check_eq(attribute_t *a1, attribute_t *a2)
  * Returns:
  *  - TRUE/FALSE int status code
  */
-int int_comp(attribute_t *a1, attribute_t *a2, num_comp op)
+int int_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
 {
+    int cmp;
+    
     switch (op) {
 
         case LT:
-            int lt = (a1->attribute_value.int_val < a2->attribute_value.int_val);
-            return lt ? TRUE : FALSE;
+            cmp = (a1->attribute_value.int_val < a2->attribute_value.int_val);
+            return cmp ? TRUE : FALSE;
         
         case GT:
-            int gt = (a1->attribute_value.int_val > a2->attribute_value.int_val);
-            return gt ? TRUE : FALSE;
+            cmp = (a1->attribute_value.int_val > a2->attribute_value.int_val);
+            return cmp ? TRUE : FALSE;
 
         case LTE:
-            int lte = (a1->attribute_value.int_val <= a2->attribute_value.int_val);
-            return lte ? TRUE : FALSE;
+            cmp = (a1->attribute_value.int_val <= a2->attribute_value.int_val);
+            return cmp ? TRUE : FALSE;
 
         default:
-            int gte = (a1->attribute_value.int_val >= a2->attribute_value.int_val);
-            return gte ? TRUE : FALSE;
+            cmp = (a1->attribute_value.int_val >= a2->attribute_value.int_val);
+            return cmp ? TRUE : FALSE;
     }
 }
 
@@ -92,25 +96,27 @@ int int_comp(attribute_t *a1, attribute_t *a2, num_comp op)
  * Returns:
  *  - TRUE/FALSE int status code
  */
-int double_comp(attribute_t *a1, attribute_t *a2, num_comp op)
+int double_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
 {
+    int cmp;
+    
     switch (op) {
 
         case LT:
-            int lt = (a1->attribute_value.double_val < a2->attribute_value.double_val);
-            return lt ? TRUE : FALSE;
+            cmp = (a1->attribute_value.double_val < a2->attribute_value.double_val);
+            return cmp ? TRUE : FALSE;
         
         case GT:
-            int gt = (a1->attribute_value.double_val > a2->attribute_value.double_val);
-            return gt ? TRUE : FALSE;
+            cmp = (a1->attribute_value.double_val > a2->attribute_value.double_val);
+            return cmp ? TRUE : FALSE;
 
         case LTE:
-            int lte = (a1->attribute_value.double_val <= a2->attribute_value.double_val);
-            return lte ? TRUE : FALSE;
+            cmp = (a1->attribute_value.double_val <= a2->attribute_value.double_val);
+            return cmp ? TRUE : FALSE;
 
         default:
-            int gte = (a1->attribute_value.double_val >= a2->attribute_value.double_val);
-            return gte ? TRUE : FALSE;
+            cmp = (a1->attribute_value.double_val >= a2->attribute_value.double_val);
+            return cmp ? TRUE : FALSE;
     }
 }
 
@@ -125,25 +131,27 @@ int double_comp(attribute_t *a1, attribute_t *a2, num_comp op)
  *  - TRUE/FALSE int status code
  */
 
-int char_comp(attribute_t *a1, attribute_t *a2, num_comp op)
+int char_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
 {
+    int cmp;
+
     switch (op) {
 
         case LT:
-            int lt = (a1->attribute_value.char_val < a2->attribute_value.char_val);
-            return lt ? TRUE : FALSE;
+            cmp = (a1->attribute_value.char_val < a2->attribute_value.char_val);
+            return cmp ? TRUE : FALSE;
         
         case GT:
-            int gt = (a1->attribute_value.char_val > a2->attribute_value.char_val);
-            return gt ? TRUE : FALSE;
+            cmp = (a1->attribute_value.char_val > a2->attribute_value.char_val);
+            return cmp ? TRUE : FALSE;
 
         case LTE:
-            int lte = (a1->attribute_value.char_val <= a2->attribute_value.char_val);
-            return lte ? TRUE : FALSE;
+            cmp = (a1->attribute_value.char_val <= a2->attribute_value.char_val);
+            return cmp ? TRUE : FALSE;
 
         default:
-            int gte = (a1->attribute_value.char_val >= a2->attribute_value.char_val);
-            return gte ? TRUE : FALSE;
+            cmp = (a1->attribute_value.char_val >= a2->attribute_value.char_val);
+            return cmp ? TRUE : FALSE;
     }
 }
 
@@ -158,13 +166,13 @@ int char_comp(attribute_t *a1, attribute_t *a2, num_comp op)
  *  - TRUE/FALSE int status code
  *  - FAILURE status code if attribute types cannot be compared
  */
-int num_comp(attribute_t *a1, attribute_t *a2, num_comp op)
+int num_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
 {
     if (a1->attribute_tag != a2->attribute_tag) {
         return FAILURE;
     }
 
-    if (a1->attribute_tag == BOOLEAN || a1->attribute_tag == STRING) {
+    if (a1->attribute_tag == BOOLE || a1->attribute_tag == STRING) {
         return FAILURE;
     }
 

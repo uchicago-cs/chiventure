@@ -1,8 +1,8 @@
 #ifndef CUSTOM_ACTIONS_COND_H
 #define CUSTOM_ACTIONS_COND_H
 
-#include "custom-actions-common.h"
 #include "../../../include/game-state/item.h"
+#include "custom-actions-common.h"
 
 
 /*
