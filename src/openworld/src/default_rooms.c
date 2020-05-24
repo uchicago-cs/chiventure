@@ -25,7 +25,7 @@ item_list_t *allowed) {
 
 	item_t *door, *nail, *mirror, *jug, *hat,
 		*fruit, *tray, *book, *quill, *pencil,
-		*video, *mirror;
+		*video;
 
 	//CLOSET
 	roomspec_t *closet = roomspec_new("closet", "A broom closet",
@@ -64,7 +64,7 @@ item_list_t *allowed) {
 	LL_APPEND(library->allowed_items, llist_new(quill));
 	HASH_FIND_STR(def, "pencil", pencil);
 	LL_APPEND(library->allowed_items, llist_new(pencil));
-	HASH_FIND_STR(def, "video" video);
+	HASH_FIND_STR(def, "video", video);
 	LL_APPEND(library->allowed_items, llist_new(video));
 	HASH_FIND_STR(def, "mirror", mirror);
 	LL_APPEND(library->allowed_items, llist_new(mirror));
@@ -88,11 +88,11 @@ item_list_t *allowed) {
 			"A messy high school cafeteria with trays and tables out",
 			allowed, NULL, NULL);
 		HASH_FIND_STR(def, "apple", apple);
-		LL_APPEND(school_rooms[3]->allowed_items, apple);
+		LL_APPEND(school_rooms[3]->allowed_items, llist_new(apple));
 		LL_APPEND(school_rooms[3]->allowed_items, llist_new(fruit));
 		HASH_FIND_STR(def, "tray", tray);
 		LL_APPEND(school_rooms[3]->allowed_items, llist_new(tray));
-		HASH_FIND_STR(def, "ice", ice)
+		HASH_FIND_STR(def, "ice", ice);
 		LL_APPEND(school_rooms[3]->allowed_items, llist_new(ice));
 		HASH_FIND_STR(def, "yam", yam);
 		LL_APPEND(school_rooms[3]->allowed_items, llist_new(yam));
@@ -110,7 +110,7 @@ item_list_t *allowed) {
 		HASH_FIND_STR(def, "watercolors", watercolors);
 		LL_APPEND(school_rooms[4]->allowed_items, llist_new(watercolors));
 		HASH_FIND_STR(def, "video", video);
-		LL_APPEND(school_rooms[4]->allowed_items, llist_new(videos));
+		LL_APPEND(school_rooms[4]->allowed_items, llist_new(video));
 		return school_rooms;
 	}
 	else if (!strcmp(bucket, "farmhouse")) {
@@ -194,7 +194,7 @@ item_list_t *allowed) {
 		HASH_FIND_STR(def, "ladder", ladder);
 		LL_APPEND(castle_rooms[3]->allowed_items,llist_new(ladder));
 		LL_APPEND(castle_rooms[3]->allowed_items, llist_new(book));
-		HASH_FIND_STR(def, "gold" gold);
+		HASH_FIND_STR(def, "gold", gold);
 		LL_APPEND(castle_rooms[3]->allowed_items, llist_new(gold));
 		HASH_FIND_STR(def, "yam", yam);
 		LL_APPEND(castle_rooms[3]->allowed_items, llist_new(yam));
@@ -226,10 +226,8 @@ roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
 	roomspec_t *hash = NULL;
 	//get allowed rooms and defined descriptions
 	roomspec_t **rooms = get_allowed_rooms(bucket, sh_desc, l_desc, allowed);
-
 	int i = 0;
-	while (rooms[i] != NULL) {
-		//already adding allowed items when I initialize rooms
+	while(rooms[i] != NULL && rooms[i]->room_name != NULL){
 		HASH_ADD_STR(hash, room_name, rooms[i]);
 		i++;
 	}

@@ -7,21 +7,20 @@
 
 /* Tests get_allowed_items for defined room */
 Test(room, get_allowed_defn){
-	roomspec_t **rooms = get_allowed_rooms("school", NULL, NULL, NULL);
-	printf("yes actually testing");	
+	roomspec_t **rooms = get_allowed_rooms("school", NULL, NULL, NULL);	
 	cr_assert_not_null(rooms, "get_allowed_rooms failed");
 
-	cr_assert_str_eq(rooms[0]->room_name, "cafeteria",
+	cr_assert_str_eq(rooms[0]->room_name, "closet",
 		"get_allowed_rooms failed");
-	cr_assert_str_eq(rooms[1]->room_name, "classroom",
+	cr_assert_str_eq(rooms[1]->room_name, "hallway",
 		"get_allowed_rooms failed");
-	cr_assert_str_eq(rooms[2]->room_name, "closet",
+	cr_assert_str_eq(rooms[2]->room_name, "library",
 		"get_allowed_rooms failed");
-	cr_assert_str_eq(rooms[3]->room_name, "hallway",
+	cr_assert_str_eq(rooms[3]->room_name, "cafeteria",
 		"get_alowed_rooms failed");
-	cr_assert_str_eq(rooms[4]->room_name, "library",
+	cr_assert_str_eq(rooms[4]->room_name, "classroom",
 		"get_alllowed_rooms failed");
-	cr_assert_str_eq(rooms[0]->allowed_items->item->item_id, "apple",
+	cr_assert_str_eq(rooms[0]->allowed_items->item->item_id, "door",
 		"get_allowed_rooms failed");
 }
 
@@ -58,22 +57,31 @@ Test(room, make_default_defn){
 	roomspec_t *hash = make_default_room("school", NULL, NULL, NULL);
 	cr_assert_not_null(hash, "make_default_room failed");
 
-	printf("%s\n", hash->room_name);
-	printf("%s\n", hash->items->item_id);
-	/*
-	cr_assert_str_eq(hash->room_name, "cafeteria",
-		"get_allowed_rooms failed");
-	cr_assert_str_eq(hash->, "cafeteria",
-		"get_allowed_rooms failed");
-	cr_assert_str_eq(rooms[1]->room_name, "classroom",
-		"get_allowed_rooms failed");
-	cr_assert_str_eq(rooms[2]->room_name, "closet",
-		"get_allowed_rooms failed");
-	cr_assert_str_eq(rooms[3]->room_name, "hallway",
-		"get_alowed_rooms failed");
-	cr_assert_str_eq(rooms[4]->room_name, "library",
-		"get_alllowed_rooms failed");
-	*/
+	roomspec_t *r1, *r2, *r3, *r4, *r5;
+	HASH_FIND_STR(hash, "closet", r1);
+	HASH_FIND_STR(hash, "cafeteria", r2);
+	HASH_FIND_STR(hash, "classroom", r3);
+	HASH_FIND_STR(hash, "hallway", r4);
+	HASH_FIND_STR(hash, "library", r5);
+
+	cr_assert_not_null(r1, "make_default_room failed");
+	cr_assert_not_null(r2, "make_default_room failed");
+	cr_assert_not_null(r3, "make_default_room failed");
+	cr_assert_not_null(r4, "maske_default_room failed");
+	cr_assert_not_null(r5, "make_default_room failed");
+
+	//check that items got assigned to rooms
+	cr_assert_str_eq(r1->allowed_items->item->item_id, "door", 
+		"make_default_room failed");
+	cr_assert_str_eq(r2->allowed_items->item->item_id, "apple",
+		"make_default_room failed");
+	cr_assert_str_eq(r3->allowed_items->item->item_id, "book",
+		"make_default_room failed");
+	cr_assert_str_eq(r4->allowed_items->item->item_id, "door",
+		"make_default_room failed");
+//	cr_assert_str_eq(r5->allowed_items->item->item_id, "book",
+		//"make_default_room failed");
+	
 
 }
 
@@ -83,7 +91,12 @@ Test(room, make_default_undef_bogus) {
 		"long bogus", NULL);
 	cr_assert_not_null(hash, "make_default_room failed");
 
-	printf("%s\n", hash->room_name);
-	printf("%s\n", hash->items->item_id);
+	roomspec_t *r;
+	HASH_FIND_STR(hash, "pharmacy", r);
 
+	cr_assert_not_null(hash, "make_default_room failed");
+	cr_assert_str_eq(r->short_desc, "short bogus",
+		"make_default_room failed");
+	cr_assert_str_eq(r->long_desc, "long bogus",
+		"make_default_room failed");
 }
