@@ -16,7 +16,7 @@
 #include "../../../include/openworld/gen_structs.h"
 
 /* see gen_structs.h */
-int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist){
+int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths, speclist_t *speclist){
     
     if (context == NULL)
         return FAILURE;
@@ -24,20 +24,19 @@ int init_gencontext(gencontext_t *context, path_t *path, int level, int openpath
     context->path = path;
     context->level = level;
     context->openpaths = openpaths;
-    context->numnpcs = numnpcs;
     context->speclist = speclist;
+ 
     return SUCCESS;
 }
 
 
 /* see gen_structs.h */
-gencontext_t* gencontext_new(path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist){
+gencontext_t* gencontext_new(path_t *path, int level, int openpaths, speclist_t *speclist){
 
     gencontext_t *contextnew = calloc(1, sizeof(gencontext_t));
     contextnew->path = path;
     contextnew->level = level;
     contextnew->openpaths = openpaths;
-    contextnew->numnpcs = numnpcs;
     contextnew->speclist = speclist;
     return contextnew;
 }
@@ -54,21 +53,20 @@ int gencontext_free(gencontext_t *context){
 }
 
 /* see gen_structs.h */
-int init_roomspec(roomspec_t *spec, npc_t *possible_npcs, char *short_desc, char *long_desc, item_hash_t *items, path_hash_t *paths){
+int init_roomspec(roomspec_t *spec,char *short_desc, char *long_desc, item_hash_t *items, path_hash_t *paths){
     
     if (spec == NULL)
 	return FAILURE;
 
     spec->short_desc = short_desc;
     spec->long_desc = long_desc;
-    spec->possible_npcs = possible_npcs;
     spec->items = items;
     spec->paths = paths;
     return SUCCESS;
 }
 
 /* see gen_structs.h */
-roomspec_t* roomspec_new(npc_t *possible_npcs, char *room_name, char *short_desc, char *long_desc, 
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, 
 	item_list_t *allowed, item_hash_t *items, path_hash_t *paths){
 
     roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
@@ -76,7 +74,6 @@ roomspec_t* roomspec_new(npc_t *possible_npcs, char *room_name, char *short_desc
     roomspecnew->short_desc = short_desc;
     roomspecnew->long_desc = long_desc;
 	roomspecnew->allowed_items = allowed;
-    roomspecnew->possible_npcs = possible_npcs;
     roomspecnew->items = items;
     roomspecnew->paths = paths;
     return roomspecnew;

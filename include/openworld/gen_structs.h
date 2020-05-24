@@ -35,8 +35,7 @@ typedef struct roomspec {
     item_list_t *allowed_items;
     item_hash_t *items;
     path_hash_t *paths;
-   UT_hash_handle hh;
-   npc_t *possible_npcs; 
+   UT_hash_handle hh; 
 } roomspec_t;
 
 /* speclist_t struct
@@ -63,7 +62,6 @@ typedef struct gencontext {
     path_t *path;
     int level;
     int openpaths;
-    int numnpcs;
     speclist_t *speclist;
 } gencontext_t;
 
@@ -88,7 +86,7 @@ typedef struct gencontext {
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to initialize
  */
-int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist);
+int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths,  speclist_t *speclist);
 
 /* gencontext_new
  * Creates a new gencontext_t* based off the given parameters.
@@ -103,7 +101,7 @@ int init_gencontext(gencontext_t *context, path_t *path, int level, int openpath
  * gencontext_t *contextnew - the new gencontext
  * NULL - if fails to create a new gencontext.
  */
-gencontext_t* gencontext_new(path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist);
+gencontext_t* gencontext_new(path_t *path, int level, int openpaths, speclist_t *speclist);
 
 /* gencontext_free
  * Frees a gencontext_t* and returns whether or not it was successful

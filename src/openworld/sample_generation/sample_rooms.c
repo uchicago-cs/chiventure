@@ -83,35 +83,15 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 }
 
 /* see sample_rooms.h */
-roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc, npc_t *possible_npcs, item_list_t *items) {
+roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
+	item_list_t *items) {
 	roomspec_t *hash = NULL;
 
 	//get allowed rooms and defined descriptions
 	roomspec_t **rooms = get_allowed_rooms(bucket, sh_desc, l_desc, items);
 
 	int i = 0;
-	while (desc[i] != NULL) {
-		item_list_t *allowed = get_allowed_items(desc[i][0], items);
 
-		//create the new roomspec that's eventually added to hash at end
-		roomspec_t *match = roomspec_new(possible_npcs-> desc[i][0], desc[i][1],
-			desc[i][2], allowed, NULL, NULL);
-
-		//count number of allowed items
-		unsigned int count = DL_COUNT(match->allowed_items);
-
-		//generate actual item list from allowed items
-		for (unsigned int i = 0; i < count; i++) {
-			//get the item description strings given an id  from allowed items
-			char **details = get_desc_item(match->allowed_items->item->item_id);
-			//add the "random" item details from allowed_items to a new item
-			item_t *new_item = item_new(details[0], details[1], details[2]);
-			//append this to item_hash_t for this room spec
-			DL_APPEND(match->allowed_items, new_item);
-			HASH_ADD_STR(hash, room_name, match);
-			match->allowed_items = match->allowed_items->next;
-		}
-		i++;
 	while (rooms[i] != NULL) {
 		int counter;
 		item_list_t *allowed = make_default_items(rooms[i]->room_name, items);
