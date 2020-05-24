@@ -9,7 +9,7 @@ typedef enum {
     GT,
     LTE,
     GTE
-} num_comp;
+} num_comp_t;
 
 
 /* attribute_new - allocates new attribute structure
@@ -192,7 +192,7 @@ Test(custom_actions_cond, num_comp_fail)
  * Note: op argument used to select specific comparative operator
  */
 void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
-               int i1, int i2, int exp3, num_comp op)
+               int i1, int i2, int exp3, num_comp_t op)
 {
     char ret[3][8] = {"TRUE", "FALSE", "FAILURE"};
     attribute_value_t v0, v1, v2, v3, v4, v5;
