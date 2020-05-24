@@ -121,7 +121,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         if(game != NULL)
         {
-            return string_t_get(game->curr_room->long_desc);
+            return str_t_get(game->curr_room->long_desc);
         }
         else
         {

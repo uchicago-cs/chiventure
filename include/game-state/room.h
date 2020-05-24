@@ -2,7 +2,8 @@
 #define _ROOM_H
 
 #include "game_state_common.h"
-#include "custom-scripts/custom_types.h"
+//#include "custom-scripts/custom_types.h"
+#include "custom-scripts/custom_type.h"
 #include "item.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
@@ -44,8 +45,8 @@ typedef struct room {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
     char *room_id;
-    string_t short_desc;
-    string_t long_desc;
+    object_t short_desc;
+    object_t long_desc;
     item_hash_t *items;
     path_hash_t *paths;
 } room_t;
@@ -73,7 +74,7 @@ typedef struct room_wrapped_for_llist {
  * Returns:
  *  a pointer to new room
  */
-room_t *room_new(char *room_id, string_t short_desc, string_t long_desc);
+room_t *room_new(char *room_id, object_t short_desc, object_t long_desc);
 
 /* room_init() initializes a room struct with given values
   Parameters:
@@ -86,8 +87,8 @@ room_t *room_new(char *room_id, string_t short_desc, string_t long_desc);
     FAILURE for failure, SUCCESS for success
 */
 
-int room_init(room_t *new_room, char *room_id, string_t short_desc,
-    string_t long_desc);
+int room_init(room_t *new_room, char *room_id, object_t short_desc,
+    object_t long_desc);
 
 /* Frees the space in memory taken by given room
  *

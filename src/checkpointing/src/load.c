@@ -183,30 +183,31 @@ int load_room(Room *r, room_t *r_t, item_t **all_items, int all_items_len)
 
     if (r->short_desc != NULL)
     {
+
         char *short_desc = strdup(r->short_desc);
         if (string_is_lua(short_desc)) {
-            r_t->short_desc = string_t_init(r_t->short_desc, NULL, short_desc);
+            r_t->short_desc = obj_t_str(NULL, short_desc);
         } else {
-            r_t->short_desc = string_t_init(r_t->short_desc, short_desc, NULL);
+            r_t->short_desc = obj_t_str(short_desc, NULL);
         }
     }
     else
     {
-        r_t->short_desc = string_t_init(r_t->short_desc, NULL, NULL);
+        r_t->short_desc = obj_t_str(NULL, NULL);
     }
 
     if (r->long_desc != NULL)
     {
         char *long_desc = strdup(r->long_desc);
         if (string_is_lua(long_desc)) {
-            r_t->long_desc = string_t_init(r_t->long_desc, NULL, long_desc);
+            r_t->long_desc = obj_t_str(NULL, long_desc);
         } else {
-            r_t->long_desc = string_t_init(r_t->long_desc, long_desc, NULL);
+            r_t->long_desc = obj_t_str(long_desc, NULL);
         }
     }
     else
     {
-        r_t->long_desc = string_t_init(r_t->long_desc, NULL, NULL);
+        r_t->long_desc = obj_t_str(NULL, NULL);
     }
 
     int delete = delete_all_items(&r_t->items);

@@ -5,8 +5,8 @@
 #include "common-path.h"
 
 /* See room.h */
-int room_init(room_t *new_room, char *room_id, string_t short_desc,
-              string_t long_desc)
+int room_init(room_t *new_room, char *room_id, object_t short_desc,
+              object_t long_desc)
 {
     assert(new_room != NULL);
 
@@ -17,7 +17,7 @@ int room_init(room_t *new_room, char *room_id, string_t short_desc,
     return SUCCESS;
 }
 
-room_t *room_new(char *room_id, string_t short_desc, string_t long_desc)
+room_t *room_new(char *room_id, object_t short_desc, object_t long_desc)
 {
 
     room_t *room = malloc(sizeof(room_t));
@@ -28,7 +28,7 @@ room_t *room_new(char *room_id, string_t short_desc, string_t long_desc)
     int check = room_init(room, room_id, short_desc, long_desc);
 
     if (room == NULL || room->room_id == NULL ||
-            string_t_get(room->short_desc) == NULL || string_t_get(room->long_desc) == NULL)
+            str_t_get(room->short_desc) == NULL || str_t_get(room->long_desc) == NULL)
     {
         return NULL;
     }
@@ -127,13 +127,13 @@ path_t *path_search(room_t *room, char* direction)
 /* See room.h */
 char *get_sdesc(room_t *room)
 {
-    return string_t_get(room->short_desc);
+    return str_t_get(room->short_desc);
 }
 
 /* See room.h */
 char *get_ldesc(room_t *room)
 {
-    return string_t_get(room->long_desc);
+    return str_t_get(room->long_desc);
 }
 
 /* Get list (implemented with hashtable) of items in room

@@ -95,7 +95,7 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
 coord_record_t *get_test_coord_hash()
 {
     // Sample Rooms
-    string_t emptyString = string_t_new("", NULL);
+    object_t emptyString = obj_t_str("", NULL);
     room_t *room1 = room_new("One", emptyString, emptyString);
     room_t *room2 = room_new("Two", emptyString, emptyString);
     room_t *room3 = room_new("Three", emptyString, emptyString);

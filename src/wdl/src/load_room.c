@@ -28,17 +28,17 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
         char *long_desc = obj_get_str(curr->obj, "long_desc");
 
         // Convert to string pseudo-type
-        string_t s_desc;
+        object_t s_desc;
         if (string_is_lua(short_desc)) { // Lua directory provided
-            s_desc = string_t_new(NULL, short_desc);
+            s_desc = obj_t_str(NULL, short_desc);
         } else { // not Lua directory
-            s_desc = string_t_new(short_desc, NULL);
+            s_desc = obj_t_str(short_desc, NULL);
         }
-        string_t l_desc;
+        object_t l_desc;
         if (string_is_lua(long_desc)) { // Lua directory provided
-            l_desc = string_t_new(NULL, long_desc);
+            l_desc = obj_t_str(NULL, long_desc);
         } else { // not Lua directory
-            l_desc = string_t_new(long_desc, NULL);
+            l_desc = obj_t_str(long_desc, NULL);
         }
 
         // create new game_state room

@@ -167,8 +167,8 @@ int save_room(room_t *r_t, Room *r)
 
     r->room_id = r_t->room_id;
 
-    char *short_desc = string_t_get(r_t->short_desc);
-    char *long_desc = string_t_get(r_t->long_desc);
+    char *short_desc = str_t_get(r_t->short_desc);
+    char *long_desc = str_t_get(r_t->long_desc);
 
     if (short_desc == NULL)
     {
