@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "common/utlist.h"
+#include "../../../include/npc/dialogue.h"
 
 /*
- * Three functions to print given string in gold, yellow, or red respectively
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
 void print_gold(char *str)
 {
@@ -30,11 +32,7 @@ void print_red(char *str)
 }
 
 /*
- * Prints a string in NPC dialog format: gold by default and yellow for
- * text surrounded by #hashes# to denote dialog choices.
- * Parameters:
- *  - dialog: the string to be printed in NPC format
- * Returns: nothing
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
 void npc_print(char *dialog)
 {
@@ -52,104 +50,40 @@ void npc_print(char *dialog)
 }
 
 /*
- * A struct to represent a conversation.
- * Includes:
- *  - node_count: the number of nodes the convo currently has
- *  - head[]: an array of node pointers (list of included nodes)
- *
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
-typedef struct convo {
-    int node_count;
-    struct node *head[];
-} convo_t;
-
-/*
- * A struct to represent one scene in a conversation.
- * Includes:
- *  - tag: a marker of which node this is
- *  - dialog: a string of what the NPC says on arriving at the node
- *  - connection_count: the number of connections the node currently has
- *  - connections[]: an array of edge pointers (list of attached edges)
- *
- */
-typedef struct node {
-    enum scene tag;
-    char *dialog;
-    int connection_count;
-    struct edge *connections[];
-} node_t;
-
-/*
- * A struct to represent an edge to a node (Note: does not include source node)
- * Includes:
- *  - toward: points toward which node traversing this edge leads to
- *  - keyword: a string that the user's input must match to enter the edge
- *  - quip: a string of what the player's character says if they enter the edge
- *
- */
-typedef struct edge {
-    node_t *toward;
-    char *keyword;
-    char *quip;
-} edge_t;
-
-/*
- * A function to allocate a new convo struct
- * Returns:
- *  - A pointer to the new convo
- *
- */
-convo_t *make_convo(int max_nodes)
+convo_t *make_convo()
 {
-    convo_t *c = (convo_t*)malloc(sizeof(convo_t) +
-                                  max_nodes * sizeof(node_t*));
+    convo_t *c = (convo_t*)malloc(sizeof(convo_t));
     c->node_count = 0;
-    c->head[0] = NULL;
+    c->nodes = NULL;
     return c;
 }
 
 /*
- * A function to allocate and initialize a new node struct
- * Parameters:
- *  - tag: a marker for the node's identity
- *  - dialog: a string of what the NPC says when the player reaches this node
- *  - max_edges: the maximum number of edges that can be added
- * Returns:
- *  - A pointer to the new node
- *
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
-node_t *make_node(enum scene tag, char *dialog, int max_edges)
+node_t *make_node(int node_id, char *dialog, int max_edges)
 {
-    node_t *newnode = (node_t*)malloc(sizeof(node_t)
-                                      + max_edges * sizeof(edge_t*));
-    newnode->tag = tag;
+    node_t *newnode = (node_t*)malloc(sizeof(node_t));
+    newnode->node_id = node_id;
     newnode->dialog = dialog;
-    newnode->connections[0] = NULL;
     newnode->connection_count = 0;
+    newnode->edges = NULL;
     return newnode;
-}
-/*
- * Attaches a given node to the head list of a given convo.
- * Parameters:
- *  - c: the convo that the node is to be attached to
- *  - n: the node to be attached
- * Returns: Nothing
- */
-void add_node(convo_t *c, node_t *n)
-{
-    c->head[c->node_count++] = n;
 }
 
 /*
- * Allocates and initializes an edge struct
- * Parameters:
- *  - toward: the node that traversing this edge will bring you to
- *  - keyword: a string that the user's input must match to enter the edge
- *  - quip: a string of what the player character should say
- *    when this edge is traversed
- * Returns:
- *  - A pointer to the new edge struct
- *
+ * See chiventure/include/npc/dialogue.h for full function explanations
+ */
+void add_node(convo_t *c, node_t *n)
+{
+    DL_APPEND(c->nodes, n);
+    c->node_count++;
+}
+
+/*
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
 edge_t *make_edge(node_t *toward, char *keyword, char *quip)
 {
@@ -159,27 +93,18 @@ edge_t *make_edge(node_t *toward, char *keyword, char *quip)
     new_edge->quip = quip;
     return new_edge;
 }
+
 /*
- * Attaches a given edge to the connections list of a given node.
- * Parameters:
- *  - n: the node that the edge is to be attached to
- *  - edge: the (previously-made) edge to be attached
- * Returns: Nothing
- *
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
 void add_edge(node_t *n, edge_t *edge)
 {
-    n->connections[n->connection_count++] = edge;
+    DL_APPEND(n->edges, edge);
+    n->connection_count++;
 }
 
 /*
- * Compares the input to the keyword and returns index of matching edge
- * Parameters:
- *  - n: the node that player is currently on
- *  - input: the player-inputted command
- * Returns:
- *  - Index of the matching edge, -1 if it doesn't match any of the keywords
- *
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
 int read_input(node_t *n, char *input)
 {
@@ -196,12 +121,7 @@ int read_input(node_t *n, char *input)
 }
 
 /*
- * Traverses to the edge specified by the inputted index
- * Parameters:
- *  - n: the node that the player is currently on
- * Returns:
- *  - index on success, -1 otherwise
- *
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
 int traverse_edge(node_t *n)
 {
@@ -222,12 +142,7 @@ int traverse_edge(node_t *n)
 }
 
 /*
- * Ends the conversation
- * Parameters:
- *  - None
- * Returns:
- *  - Nothing
- *
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
 void end_convo()
 {
@@ -238,12 +153,7 @@ void end_convo()
 }
 
 /*
- * Runs the entire conversation until it reaches an end
- * Parameters:
- *  - c: A conversation
- * Returns:
- *  - Nothing, just runs through each node and asks for input
- *
+ * See chiventure/include/npc/dialogue.h for full function explanations
  */
 void run_convo(convo_t *c)
 {
