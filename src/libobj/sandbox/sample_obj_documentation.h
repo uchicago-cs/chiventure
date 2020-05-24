@@ -2,6 +2,8 @@
 
 #include "common/uthash.h"
 
+#define MAXLEN_ID 60 // ID strings for objects
+
 /*
  * objtype_t: possible types of objects. 
  * each corresponds to a file within a .wdz archive within the game/ subfolder.
