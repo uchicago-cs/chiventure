@@ -5,15 +5,13 @@
 
 /* Checks that a new IFELSE control block is created without interruption */
 Test(control_block_t, new_IFELSE)
-{
-    AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = IFELSE;
+{ 
+    control_type_t control_type = IFELSE;
 
-    control_block_t* new_control = control_block_new(control_type, next);
+    control_block_t* new_control = control_block_new(control_type);
 
     cr_assert_not_null(new_control, "control_block_new failed");
-
-    cr_assert_eq(new_control->next, next, "control_block_new() didn't set new_control->next");
+ 
     cr_assert_eq(new_control->control_type, control_type, "control_block_new() didn't "
                 "set new_control->control_type");
 
@@ -22,15 +20,13 @@ Test(control_block_t, new_IFELSE)
 
 /* Checks that a new WHILEENDWHILE control block is created without interruption */
 Test(control_block_t, new_WHILEENDWHILE)
-{
-    AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = WHILEENDWHILE;
+{ 
+    control_type_t control_type = WHILEENDWHILE;
 
-    control_block_t* new_control = control_block_new(control_type, next);
+    control_block_t* new_control = control_block_new(control_type);
 
     cr_assert_not_null(new_control, "control_block_new failed");
-
-    cr_assert_eq(new_control->next, next, "control_block_new() didn't set new_control->next");
+ 
     cr_assert_eq(new_control->control_type, control_type, "control_block_new() didn't "
                 "set new_control->control_type");
 
@@ -39,15 +35,13 @@ Test(control_block_t, new_WHILEENDWHILE)
 
 /* Checks that a new FORENDFOR control block is created without interruption */
 Test(control_block_t, new_FORENDFOR)
-{
-    AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = FORENDFOR;
+{ 
+    control_type_t control_type = FORENDFOR;
 
-    control_block_t* new_control = control_block_new(control_type, next);
+    control_block_t* new_control = control_block_new(control_type);
 
     cr_assert_not_null(new_control, "control_block_new failed");
-
-    cr_assert_eq(new_control->next, next, "control_block_new() didn't set new_control->next");
+ 
     cr_assert_eq(new_control->control_type, control_type, "control_block_new() didn't "
                 "set new_control->control_type");
 
@@ -59,13 +53,11 @@ Test(control_block_t, init_IFELSE)
 {
     control_block_t control;
     int rc;
-    AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = IFELSE;
+    control_type_t control_type = IFELSE;
 
-    rc = control_block_init(&control, control_type, next);
+    rc = control_block_init(&control, control_type);
 
-    cr_assert_eq(rc, SUCCESS, "control_block_init() failed");
-    cr_assert_eq(control.next, next, "control_block_init() didn't set control.next");
+    cr_assert_eq(rc, SUCCESS, "control_block_init() failed"); 
     cr_assert_eq(control.control_type, control_type, "control_block_init()"
                 "didn't set control.control_type");
 }
@@ -74,14 +66,12 @@ Test(control_block_t, init_IFELSE)
 Test(control_block_t, init_WHILEENDWHILE)
 {
     control_block_t control;
-    int rc;
-    AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = WHILEENDWHILE;
+    int rc; 
+    control_type_t control_type = WHILEENDWHILE;
 
-    rc = control_block_init(&control, control_type, next);
+    rc = control_block_init(&control, control_type);
 
-    cr_assert_eq(rc, SUCCESS, "control_block_init() failed");
-    cr_assert_eq(control.next, next, "control_block_init() didn't set control.next");
+    cr_assert_eq(rc, SUCCESS, "control_block_init() failed"); 
     cr_assert_eq(control.control_type, control_type, "control_block_init()"
                 "didn't set control.control_type");
 }
@@ -90,14 +80,12 @@ Test(control_block_t, init_WHILEENDWHILE)
 Test(control_block_t, init_FORENDFOR)
 {
     control_block_t control;
-    int rc;
-    AST_block_t *next = AST_block_new(control_block, CONTROL);
-    enum control_type control_type = FORENDFOR;
+    int rc; 
+    control_type_t control_type = FORENDFOR;
 
-    rc = control_block_init(&control, control_type, next);
+    rc = control_block_init(&control, control_type);
 
-    cr_assert_eq(rc, SUCCESS, "control_block_init() failed");
-    cr_assert_eq(control.next, next, "control_block_init() didn't set control.next");
+    cr_assert_eq(rc, SUCCESS, "control_block_init() failed"); 
     cr_assert_eq(control.control_type, control_type, "control_block_init()"
                 "didn't set control.control_type");
 }
@@ -107,10 +95,10 @@ Test(control_block_t, init_FORENDFOR)
 Test(control_block_t, free_IFELSE)
 {
     control_block_t *control;
-    int rc;
-    AST_block_t *next = AST_block_new(control_block, CONTROL);
+    control_type_t control_type = IFELSE;
+    int rc; 
 
-    control = control_block_new(IFELSE, next);
+    control = control_block_new(control_type);
 
     cr_assert_not_null(control, "control_block_new() failed");
 
@@ -123,10 +111,10 @@ Test(control_block_t, free_IFELSE)
 Test(control_block_t, free_WHILEENDWHILE)
 {
     control_block_t *control;
+    control_type_t control_type = WHILEENDWHILE;
     int rc;
-    AST_block_t *next = AST_block_new(control_block, CONTROL);
-
-    control = control_block_new(WHILEENDWHILE, next);
+    
+    control = control_block_new(control_type);
 
     cr_assert_not_null(control, "control_block_new() failed");
 
@@ -139,10 +127,10 @@ Test(control_block_t, free_WHILEENDWHILE)
 Test(control_block_t, free_FORENDFOR)
 {
     control_block_t *control;
-    int rc;
-    AST_block_t *next = AST_block_new(control_block, CONTROL);
+    control_type_t control_type = FORENDFOR;
+    int rc; 
 
-    control = control_block_new(FORENDFOR, next);
+    control = control_block_new(control_type);
 
     cr_assert_not_null(control, "control_block_new() failed");
 
