@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "battle/battle_state.h"
+#include "common/utlist.h"
 
 /* Tests combatant_new() */
 Test(battle_state, combatant_new)
@@ -107,9 +108,13 @@ Test(battle_state, battle_free)
     battle_t *b;
     int rc;
     combatant_t *p = combatant_new("battle_new_Player", true, calloc(1, sizeof(stat_t)), NULL, NULL);
-    combatant_t *e = combatant_new("battle_new_Enemy", false, calloc(1, sizeof(stat_t)), NULL, NULL);
+    combatant_t *e1 = combatant_new("battle_new_Enemy", false, calloc(1, sizeof(stat_t)), NULL, NULL);
+    combatant_t *e2 = combatant_new("battle_new_Enemy", false, calloc(1, sizeof(stat_t)), NULL, NULL);
 
-    b = battle_new(p, e, ENV_SNOW, ENEMY);
+    combatant_t *e = NULL;
+    DL_APPEND(e1, e2);
+
+    b = battle_new(p, e1, ENV_SNOW, ENEMY);
 
     cr_assert_not_null(b, "battle_new() failed");
 

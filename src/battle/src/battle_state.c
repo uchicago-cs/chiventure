@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include "battle/battle_state.h"
+#include "common/utlist.h"
 
 
 /* See battle_state.h */
@@ -35,7 +36,7 @@ int combatant_init(combatant_t *c, char *name, bool is_friendly, stat_t *stats,
 {
     assert(c != NULL);
 
-    c->name = calloc(MAX_NAME_LEN, sizeof(char));
+    c->name = calloc(MAX_NAME_LEN + 1, sizeof(char));
     strncpy(c->name, name, MAX_NAME_LEN);
     c->is_friendly= is_friendly;
     c->stats = stats;
@@ -50,10 +51,20 @@ int combatant_init(combatant_t *c, char *name, bool is_friendly, stat_t *stats,
 /* battle_state.h */
 int combatant_free(combatant_t *c)
 {
-	assert(c != NULL);
+	if (c == NULL)
+    {
+        return SUCCESS;
+    }
 
-	free(c->name);
-	free(c->stats);
+    if (c->name)
+    {
+        free(c->name);
+    }
+
+    if (c->stats)
+    {
+        free(c->stats);
+    }
 
     move_t *move_elt, *move_tmp;
     DL_FOREACH_SAFE(c->moves, move_elt, move_tmp)
@@ -63,9 +74,9 @@ int combatant_free(combatant_t *c)
     }
 
     item_t *item_elt, *item_tmp;
-    DL_FOREACH_SAFE(c->moves, item_elt, item_tmp)
+    DL_FOREACH_SAFE(c->items, item_elt, item_tmp)
     {
-        DL_DELETE(c->moves, item_elt);
+        DL_DELETE(c->items, item_elt);
         free(item_elt);
     }
 
@@ -77,14 +88,11 @@ int combatant_free(combatant_t *c)
 /* See battle_state.h */
 int combatant_free_all(combatant_t *c)
 {
-    if(c != NULL)
+    combatant_t *elt, *tmp;
+    DL_FOREACH_SAFE(c, elt, tmp)
     {
-        combatant_t *elt, *tmp;
-        DL_FOREACH_SAFE(c, elt, tmp)
-        {
-            DL_DELETE(c, elt);
-            combatant_free(elt);
-        }
+        DL_DELETE(c, elt);
+        combatant_free(elt);
     }
     return SUCCESS;
 }
@@ -132,8 +140,9 @@ int battle_free(battle_t *b)
 {
     assert(b != NULL);
 
-    combatant_free(b->player);
-    combatant_free(b->enemy);
+    combatant_free_all(b->player);
+    combatant_free_all(b->enemy);
+
     free(b);
 
     return SUCCESS;
