@@ -114,7 +114,7 @@ Test(custom_type, obj_t_new_str_lua)
 Test(custom_type, obj_t_get_bool)
 {
     obj_t ot = obj_t_bool(true, NULL)
-    bool rv = int_t_get(ot);
+    bool rv = bool_t_get(ot);
     cr_assert_eq(rv, true, "obj_t_get_bool: failed bool direct retrieval");
 }
 
@@ -134,7 +134,7 @@ Test(custom_type, obj_t_get_bool_lua)
 Test(custom_type, obj_t_get_char)
 {
     obj_t ot = obj_t_char('a', NULL)
-    char rv = int_t_get(ot);
+    char rv = char_t_get(ot);
     cr_assert_eq(rv, 'a', "obj_t_get_char: failed char direct retrieval");
 }
 
@@ -174,7 +174,7 @@ Test(custom_type, obj_t_get_int_lua)
 Test(custom_type, obj_t_get_str)
 {
     obj_t ot = obj_t_str('testing', NULL)
-    char *rv = int_t_get(ot);
+    char *rv = str_t_get(ot);
     cr_assert_eq(rv, 'testing', "obj_t_get_str: failed str direct retrieval");
 }
 
