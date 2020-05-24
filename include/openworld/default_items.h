@@ -3,35 +3,13 @@
 
 #include "../game-state/game_state_common.h"
 #include "../game-state/item.h"
+#include "../../../include/common/uthash.h"
 #include "default_items.h"
 
-/* item_list_new creates a new item_list_t struct
-* (Surprisingly this isn't in game-state/item.h,
-* but I use item_list_t's in my functions later on,
-* so this had to be made. Short and sweet).
-* Input: none
-* Output: a calloc-ed empty item_list_t
+/*get_default_items() returns all the default defined
+* items in a hash table.
 */
-item_list_t *item_list_new();
-
-/* item_list_free frees an item_list_t struct
-* the complementary function to item_list_new.
-* Input: a item_list_t*
-* Output: none
-*/
-void item_list_free(item_list_t *llist);
-
-/*add_items_to_llist adds n items to the linked list given a set
-* of n descriptor strings. 
-* Input:
-*	- item_list_t *llist: a current list of items
-*	- item_t **ids: an array of items 
-*	- count: the length of ids
-*
-* Output:
-*	- item_list_t: an  updated item list
-*/
-item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count);
+item_hash_t *get_default_items();
 
 /* make_default_items returns the subset of defined default items
 * that are allowed for a given room name. If the room name doesn't
@@ -44,11 +22,11 @@ item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count);
 *
 * Input:
 *	- char *name: room name
-*	- item_list_t *llist: an empty (or not empty) list of items
+*	- item_hash_t *llist: an empty (or not empty) list of items
 *
 * Output:
 *	- an updated llist
 */
-item_list_t* make_default_items(char *name, item_list_t *llist);
+item_hash_t *make_default_items(char *name, item_hash_t *hash);
 
 #endif /* _DEFAULT_ITEM_H */

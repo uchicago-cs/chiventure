@@ -2,191 +2,145 @@
 #include <string.h>
 
 #include "../../../include/openworld/default_items.h"
+#include "../../../include/common/uthash.h"
 
-/* see sample_items.h */
-item_list_t *item_list_new() {
-	item_list_t *llist = calloc(1, sizeof(item_list_t));
-	llist->item = NULL;
-	llist->next = NULL;
-	return llist;
+/* see default_items.h */
+item_hash_t *get_default_items() {
+	item_hash_t *hash = NULL;
+	HASH_ADD_STR(hash, "apple", item_new("apple", "a red apple",
+		"A juicy Red Delicious apple"));
+	HASH_ADD_STR(hash, "cow", item_new("cow", "A black and white cow",
+		"A black and white cow called Mavis"));
+	HASH_ADD_STR(hash, "fruit", item_new("fruit", "a bowl of fruit",
+		"A bowl of fruit resting on a surface"));
+	HASH_ADD_STR(hash, "ladder", item_new("ladder", "a wood ladder",
+		"A wooden ladder with 5 rungs resting against a door");
+	HASH_ADD_STR(hash, "yam", item_new("yam", "a rotting yam",
+		"A singular rotting yam with flies flying around"));
+	HASH_ADD_STR(hash, "ice", item_new("ice", "a bag of ice", 
+		"A bag of crunchy ice"));
+	HASH_ADD_STR(hash, "jug", item_new("jug", "a brown jug", 
+		"A brown jug with something inside"));
+	HASH_ADD_STR(hash, "tray", item_new("tray", "a red plastic tray",
+		"A red plastic tray with some dried ketchup stains"));
+	HASH_ADD_STR(hash, "book", item_new("book", "A big book",
+		"A Simulation survival book"));
+	HASH_ADD_STR(hash, "door", item_new("door", "a normal door",
+		"A wooden door with a worn doorknob"));
+	HASH_ADD_STR(hash, "pencil", item_new("pencil", "a no.2 pencil",
+		"A sharpened no.2 yellow pencil"));
+	HASH_ADD_STR(hash, "quill", item_new("quill", "a quail quill",
+		"A quail quill in a pot of black ink"));
+	HASH_ADD_STR(hash, "watercolors", item_new("watercolors",
+		"a set of watercolors with brush",
+		"A set of used watercolors and dusty brush"));
+	HASH_ADD_STR(hash, "hat", item_new("hat", "a top hat",
+		"A black top hat with a monogrammed A.L."));
+	HASH_ADD_STR(hash, "nail", item_new("nail", "a normal nail",
+		"A regular metail nail"));
+	HASH_ADD_STR(hash, "gold", item_new("gold", "three gold coins",
+		"Three shiny gold coins the size of your eye"));
+	HASH_ADD_STR(hash, "eagle", item_new("eagle", "a bald eagle",
+		"A bald eagle calmly perched on a ledge nearby"));
+	HASH_ADD_STR(hash, "umbrella", item_new("umbrella", "a black umbrella",
+		"A black polyester umbrella with M.P. initials"));
+	HASH_ADD_STR(hash, "rabbit", item_new("rabbit", "a white rabbit",
+		"A live, fluffy white rabbit hiding in the corner"));
+	HASH_ADD_STR(hash, "zebra", item_new("zebra", "a small zebra",
+		"A small zebra calmly munching on some grass"));
+	HASH_ADD_STR(hash, "mirror", item_new("mirror", "an oval mirror",
+		"A dusty oval mirror with one big crack"));
+	HASH_ADD_STR(hash, "kettle", item_new("kettle", "a black kettle",
+		"A black kettle on a stove"));
+	HASH_ADD_STR(hash, "olive", item_new("olive", "a black olive",
+		"A singular, unrefrigerated black olive"));
+	HASH_ADD_STR(hash, "quill", item_new("quill", "a quail quill",
+		"A quail quill in a pot of black ink"));
+	HASH_ADD_STR(hash, "video", item_new("video", "a dvd video",
+		"A DVD video with an illegible label"));
+	HASH_ADD_STR(hash, "xylophone", item_new("xylophone", "a colorful xylophone",
+		"A children's xylophone with a pair of mallets"));
+	HASH_ADD_STR(hash, "video", item_new("video", "a dvd video",
+		"A DVD video with an illegible label"));
+	return hash;
 }
 
-/* see sample_items.h */
-void item_list_free(item_list_t *llist) {
-	while (llist->next != NULL) {
-		free(llist->item);
-		llist = llist->next;
-	}
-	free(llist);
-}
+/* see default_items.h */
+item_list_t* make_default_items(char *name) {
 
-/* see sample_items.h */
-item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count) {
-	if (llist == NULL) {
-		llist = item_list_new();
-	}
-	item_list_t *tmp = llist;
-	//traverse to the end of the list in case
-	while (tmp->item != NULL) {
-		tmp = tmp->next;
-	}
-	for (int i = 0; i < count; i++) {
-		tmp->item = ids[i];
-		tmp->next = item_list_new();
-		tmp = tmp->next;
-	}
-	return llist;
-}
-
-/* see sample_items.h */
-item_list_t* make_default_items(char *name, item_list_t *llist) {
 		assert(name != NULL);
-		if (!strcmp(name, "barn")){
-			item_t *barn_ids[5] = { item_new("apple", "a red apple", 
-						"A juicy Red Delicious apple"),
-				item_new("cow", "A black and white cow", 
-						"A black and white cow called Mavis"),
-				item_new("fruit", "a bowl of fruit", 
-						"A bowl of fruit resting on a surface"),
-				item_new("ladder", "a wood ladder", 
-						"A wooden ladder with 5 rungs resting against a door"),
-				item_new("yam", "a rotting yam", 
-						"A singular rotting yam with flies flying around") };
-			return add_items_to_llist(llist, barn_ids, 5);
-		}
-		else if (!strcmp(name, "cafeteria")) {
-			item_t *cafe_ids[5] = { item_new ("apple", "a red apple", 
-						"A juicy Red Delicious apple"),
-				item_new("fruit", "a bowl of fruit",
-					"A bowl of fruit resting on a surface"),
-				item_new("ice", "a bag of ice", "A bag of crunchy ice"),
-				item_new("jug", "a brown jug", "A brown jug with something inside"),
-				item_new("tray", "a red plastic tray",
-					"A red plastic tray with some dried ketchup stains")};
-			return add_items_to_llist(llist, cafe_ids, 5);
-		}
-		else if (!strcmp(name, "classroom")) {
-			item_t *class_ids[5] = { item_new("book", "A big book",
-				"A Simulation survival book"),
-				item_new("door", "a normal door",
-				"A wooden door with a worn doorknob"),
-				item_new("pencil", "a no.2 pencil",
-				"A sharpened no.2 yellow pencil"),
-				item_new("quill", "a quail quill",
-				"A quail quill in a pot of black ink"),
-				item_new("watercolors",
-				"a set of watercolors with brush",
-				"A set of used watercolors and dusty brush") };
-			return add_items_to_llist(llist, class_ids, 5);
-		}
-		else if (!strcmp(name, "closet")) {
-			item_t *closet_ids[5] = { item_new("hat", "a top hat",
-				"A black top hat with a monogrammed A.L."),
-				item_new("jug", "a brown jug",
-				"A brown jug with something inside"),
-				item_new("ladder", "a wood ladder",
-				"A wooden ladder with 5 rungs resting against a door"),
-				item_new("nail", "a normal nail",
-				"A regular metail nail"),
-				item_new("umbrella", "a black umbrella",
-				"A black polyester umbrella with M.P. initials") };
-			return add_items_to_llist(llist, closet_ids, 5);
-		}
-		else if (!strcmp(name, "dungeon")) {
-			item_t *dungeon_ids[5] = { item_new("door", "a normal door",
-				"A wooden door with a worn doorknob"),
-				item_new("gold", "three gold coins",
-				"Three shiny gold coins the size of your eye"),
-				item_new("hat", "a top hat",
-				"A black top hat with a monogrammed A.L."),
-				item_new("ladder", "a wood ladder",
-				"A wooden ladder with 5 rungs resting against a door"),
-				item_new("nail", "a normal nail",
-				"A regular metail nail") };
-			return add_items_to_llist(llist, dungeon_ids, 5);
-		}
-		else if (!strcmp(name, "field")) {
-			item_t *field_ids[5] = { item_new("cow", "A black and white cow",
-				"A black and white cow called Mavis"),
-				item_new("eagle", "a bald eagle",
-				"A bald eagle calmly perched on a ledge nearby"),
-				item_new("rabbit", "a white rabbit",
-				"A live, fluffy white rabbit hiding in the corner"),
-				item_new("yam", "a rotting yam",
-				"A singular rotting yam with flies flying around"),
-				item_new("zebra", "a small zebra",
-				"A small zebra calmly munching on some grass") };
-			return add_items_to_llist(llist, field_ids, 5);
-		}
-		else if (!strcmp(name, "hallway")) {
-			item_t *hall_ids[5] = { item_new("door", "a normal door",
-				"A wooden door with a worn doorknob"),
-				item_new("mirror", "an oval mirror",
-				"A dusty oval mirror with one big crack"),
-				item_new("ladder", "a wood ladder",
-				"A wooden ladder with 5 rungs resting against a door"),
-				item_new("hat", "a top hat",
-				"A black top hat with a monogrammed A.L."),
-				item_new("nail", "a normal nail",
-				"A regular metail nail") };
-			return add_items_to_llist(llist, hall_ids, 5);
-		}
-		else if (!strcmp(name, "kitchen")) {
-			item_t *kitchen_ids[5] = { item_new("apple", "a red apple",
-				"A juicy Red Delicious apple"),
-				item_new("kettle", "a black kettle",
-				"A black kettle on a stove"),
-				item_new("olive", "a black olive",
-				"A singular, unrefrigerated black olive"),
-				item_new("tray", "a red plastic tray",
-				"A red plastic tray with some dried ketchup stains"),
-				item_new("yam", "a rotting yam",
-				"A singular rotting yam with flies flying around") };
-			return add_items_to_llist(llist, kitchen_ids, 5);
-		}
-		else if (!strcmp(name, "library")) {
-			item_t *library_ids[5] = { item_new("book", "A big book",
-				"A Simulation survival book"),
-				item_new("ladder", "a wood ladder",
-				"A wooden ladder with 5 rungs resting against a door"),
-				item_new("mirror", "an oval mirror",
-				"A dusty oval mirror with one big crack"),
-				item_new("quill", "a quail quill",
-				"A quail quill in a pot of black ink"),
-				item_new("video", "a dvd video",
-				"A DVD video with an illegible label") };
-			return add_items_to_llist(llist, library_ids, 5);
-		}
-		else if (!strcmp(name, "living room")) {
-			item_t *living_ids[5] = { item_new("book", "A big book",
-				"A Simulation survival book"),
-				item_new("door", "a normal door",
-				"A wooden door with a worn doorknob"),
-				item_new("umbrella", "a black umbrella",
-				"A black polyester umbrella with M.P. initials"),
-				item_new("watercolors",
-				"a set of watercolors with brush",
-				"A set of used watercolors and dusty brush"),
-				item_new("xylophone", "a colorful xylophone",
-				"A children's xylophone with a pair of mallets") };
-			return add_items_to_llist(llist, living_ids, 5);
-		}
-		else if (!strcmp(name, "throne room")) {
-			item_t *throne_ids[5] = { item_new("gold", "three gold coins",
-				"Three shiny gold coins the size of your eye"),
-				item_new("hat", "a top hat",
-				"A black top hat with a monogrammed A.L."),
-				item_new("mirror", "an oval mirror",
-				"A dusty oval mirror with one big crack"),
-				item_new("quill", "a quail quill",
-				"A quail quill in a pot of black ink"),
-				item_new("door", "a normal door",
-				"A wooden door with a worn doorknob") };
-			return add_items_to_llist(llist, throne_ids, 5);
-		}
-		else {
-			return llist;
-		}
+		item_hash_t *default_items = get_default_items();
+		item_hash_t *room_items, *items;
+
+		item_t *a, *b, *c, *d, *e;
+		HASH_ADD_STR(room_items, "barn", {
+			HASH_FIND_STR(default_items, "apple", a),
+			HASH_FIND_STR(default_items, "cow", b),
+			HASH_FIND_STR(default_items, "rabbit", c)
+			HASH_FIND_STR(default_items, "fruit", d)
+			HASH_FIND_STR(default_items, "yam", e) };
+		HASH_ADD_STR(room_items, "cafeteria", {
+			HASH_FIND_STR(default_items, "apple", a),
+			HASH_FIND_STR(default_items, "fruit", b),
+			HASH_FIND_STR(default_items, "tray", c)
+			HASH_FIND_STR(default_items, "ice", d)
+			HASH_FIND_STR(default_items, "yam", e) };
+		HASH_ADD_STR(room_items, "classroom", {
+			HASH_FIND_STR(default_items, "book", a),
+			HASH_FIND_STR(default_items, "door", b),
+			HASH_FIND_STR(default_items, "pencil", c)
+			HASH_FIND_STR(default_items, "watercolors", d)
+			HASH_FIND_STR(default_items, "video", e) };
+		HASH_ADD_STR(room_items, "closet", {
+			HASH_FIND_STR(default_items, "door", a),
+			HASH_FIND_STR(default_items, "nail", b),
+			HASH_FIND_STR(default_items, "mirror", c)
+			HASH_FIND_STR(default_items, "jug", d)
+			HASH_FIND_STR(default_items, "hat", e) };
+		HASH_ADD_STR(room_items, "dungeon", {
+			HASH_FIND_STR(default_items, "gold", a),
+			HASH_FIND_STR(default_items, "hat", b),
+			HASH_FIND_STR(default_items, "nail", c)
+			HASH_FIND_STR(default_items, "door", d)
+			HASH_FIND_STR(default_items, "jug", e) };
+		HASH_ADD_STR(room_items, "field", {
+			HASH_FIND_STR(default_items, "eagle", a),
+			HASH_FIND_STR(default_items, "cow", b),
+			HASH_FIND_STR(default_items, "rabbit", c)
+			HASH_FIND_STR(default_items, "zebra", d)
+			HASH_FIND_STR(default_items, "apple", e) };
+		HASH_ADD_STR(room_items, "hallway", {
+			HASH_FIND_STR(default_items, "door", a),
+			HASH_FIND_STR(default_items, "nail", b),
+			HASH_FIND_STR(default_items, "fruit", c)
+			HASH_FIND_STR(default_items, "tray", d)
+			HASH_FIND_STR(default_items, "book", e) };
+		HASH_ADD_STR(room_items, "kitchen", {
+			HASH_FIND_STR(default_items, "olive", a),
+			HASH_FIND_STR(default_items, "ice", b),
+			HASH_FIND_STR(default_items, "jug", c)
+			HASH_FIND_STR(default_items, "apple", d)
+			HASH_FIND_STR(default_items, "yam", e) };
+		HASH_ADD_STR(room_items, "library", {
+			HASH_FIND_STR(default_items, "book", a),
+			HASH_FIND_STR(default_items, "quill", b),
+			HASH_FIND_STR(default_items, "pencil", c)
+			HASH_FIND_STR(default_items, "video", d)
+			HASH_FIND_STR(default_items, "mirror", e) };
+		HASH_ADD_STR(room_items, "living room", {
+			HASH_FIND_STR(default_items, "watercolors", a),
+			HASH_FIND_STR(default_items, "video", b),
+			HASH_FIND_STR(default_items, "xylophone", c)
+			HASH_FIND_STR(default_items, "hat", d)
+			HASH_FIND_STR(default_items, "mirror", e) };
+		HASH_ADD_STR(room_items, "throne room", {
+			HASH_FIND_STR(default_items, "gold", a),
+			HASH_FIND_STR(default_items, "mirror", b),
+			HASH_FIND_STR(default_items, "door", c)
+			HASH_FIND_STR(default_items, "hat", d)
+			HASH_FIND_STR(default_items, "jug", e) };
+
+		return HASH_FIND_STR(room_items, name, items);
 }
 
 

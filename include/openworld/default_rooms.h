@@ -29,8 +29,7 @@
 *					in the following order: {room_id, short_desc, long_desc}
 *
 */
-roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
-	item_list_t *llist);
+roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc);
 
 
 /*make_default_rooms adds all the defined default rooms for a themed 
@@ -58,7 +57,6 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 * Output:
 *	- roomspec_t updated hash
 */
-roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
-	item_list_t *items);
+roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc);
 
 #endif /* _DEFAULT_ROOM_H */
