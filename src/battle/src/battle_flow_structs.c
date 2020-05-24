@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "battle/battle_flow.h"
-#include "battle/battle_structs.h"
+#include "battle/battle_flow_structs.h"
 
 /* Stub for the player_new function in player.h game-state module */
 player_t *new_ctx_player(char* p_id, stat_t *stats, move_t *moves, item_t* items)

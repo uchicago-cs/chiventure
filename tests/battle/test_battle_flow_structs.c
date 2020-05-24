@@ -2,11 +2,10 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "battle/battle_flow.h"
-#include "battle/battle_structs.h"
+#include "battle/battle_flow_structs.h"
 
 /* Tests new_ctx_player() */
-Test(battle_structs, new_ctx_player)
+Test(battle_flow_structs, new_ctx_player)
 {
     player_t *ctx_player = new_ctx_player("new_ctx_player_Name", NULL, NULL, NULL);
 
@@ -15,7 +14,7 @@ Test(battle_structs, new_ctx_player)
 }
 
 /* Tests make_npc_enemy() with 1 enemy */
-Test(battle_structs, make_one_npc_enemy)
+Test(battle_flow_structs, make_one_npc_enemy)
 {
     npc_enemy_t *npc_enemy = make_npc_enemy("make_one_npc_enemy_Name", NULL, NULL, NULL);
 
@@ -27,7 +26,7 @@ Test(battle_structs, make_one_npc_enemy)
 
 
 /* Tests make_npc_enemy() with 2 enemies */
-Test(battle_structs, set_two_npc_enemies)
+Test(battle_flow_structs, set_two_npc_enemies)
 {
     npc_enemy_t *head = NULL;
     npc_enemy_t *npc_e1 = make_npc_enemy("set_two_enemies_Name1", NULL, NULL, NULL);
@@ -49,7 +48,7 @@ Test(battle_structs, set_two_npc_enemies)
 }
 
 /* Tests new_game() */
-Test(battle_structs, new_game)
+Test(battle_flow_structs, new_game)
 {
     game_t *g = new_game();
 

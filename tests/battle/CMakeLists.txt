@@ -3,7 +3,7 @@ set(TEST_EXE test-battle)
 add_executable(${TEST_EXE}
         test_battle_state.c
         test_battle_flow.c
-        test_battle_structs.c
+        test_battle_flow_structs.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
