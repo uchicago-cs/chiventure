@@ -1,20 +1,19 @@
-//#include "custom-scripts/custom_type.h"
 #include "custom-scripts/custom_type.h"
 
 // see custom_type.h
-obj_t obj_t_new()
+object_t obj_t_new()
 {
-    obj_t ot;
-    ot.type = TYPE_NONE;
+    object_t ot;
+    ot.type = NONE_TYPE;
     ot.is_lua = false;
     return ot;
 }
 
 // see custom_type.h
-obj_t obj_t_bool(bool b, char *lua)
+object_t obj_t_bool(bool b, char *lua)
 {
-    obj_t ot = obj_t_new();
-    ot.type = TYPE_BOOL;
+    object_t ot = obj_t_new();
+    ot.type = BOOL_TYPE;
     if (lua) {
         ot.is_lua = true;
         ot.data.lua = lua;
@@ -25,10 +24,10 @@ obj_t obj_t_bool(bool b, char *lua)
 }
 
 // see custom_type.h
-obj_t obj_t_char(char c, char *lua)
+object_t obj_t_char(char c, char *lua)
 {
-    obj_t ot = obj_t_new();
-    ot.type = TYPE_CHAR;
+    object_t ot = obj_t_new();
+    ot.type = CHAR_TYPE;
     if (lua) {
         ot.is_lua = true;
         ot.data.lua = lua;
@@ -39,10 +38,10 @@ obj_t obj_t_char(char c, char *lua)
 }
 
 // see custom_type.h
-obj_t obj_t_int(int i, char *lua)
+object_t obj_t_int(int i, char *lua)
 {
-    obj_t ot = obj_t_new();
-    ot.type = TYPE_INT;
+    object_t ot = obj_t_new();
+    ot.type = INT_TYPE;
     if (lua) {
         ot.is_lua = true;
         ot.data.lua = lua;
@@ -53,10 +52,10 @@ obj_t obj_t_int(int i, char *lua)
 }
 
 // see custom_type.h
-obj_t obj_t_str(char *s, char *lua)
+object_t obj_t_str(char *s, char *lua)
 {
-    obj_t ot = obj_t_new();
-    ot.type = TYPE_STR;
+    object_t ot = obj_t_new();
+    ot.type = STR_TYPE;
     if (lua) {
         ot.is_lua = true;
         ot.data.lua = lua;
@@ -68,8 +67,8 @@ obj_t obj_t_str(char *s, char *lua)
 
 
 // see custom_types.h
-bool bool_t_get(obj_t ot) {
-    assert(ot.type == TYPE_BOOL);
+bool bool_t_get(object_t ot) {
+    assert(ot.type == BOOL_TYPE);
     if (ot.is_lua) {
         char *lua_path = ot.data.lua;
         lua_State *L = luaL_newstate();
@@ -93,8 +92,8 @@ bool bool_t_get(obj_t ot) {
 
 
 // see custom_types.h
-char char_t_get(obj_t ot) {
-    assert(ot.type == TYPE_CHAR);
+char char_t_get(object_t ot) {
+    assert(ot.type == CHAR_TYPE);
     if (ot.is_lua) {
         char *lua_path = ot.data.lua;
         lua_State *L = luaL_newstate();
@@ -114,8 +113,8 @@ char char_t_get(obj_t ot) {
 }
 
 // see custom_types.h
-int int_t_get(obj_t ot) {
-    assert(ot.type == TYPE_INT);
+int int_t_get(object_t ot) {
+    assert(ot.type == INT_TYPE);
     if (ot.is_lua) {
         char *lua_path = ot.data.lua;
         lua_State *L = luaL_newstate();
@@ -134,8 +133,8 @@ int int_t_get(obj_t ot) {
 }
 
 // see custom_types.h
-char* str_t_get(obj_t ot) {
-    assert(ot.type == TYPE_STR);
+char* str_t_get(object_t ot) {
+    assert(ot.type == STR_TYPE);
     if (ot.is_lua) {
         char *lua_path = st.p.luaDirectory;
         lua_State *L = luaL_newstate();
@@ -152,4 +151,21 @@ char* str_t_get(obj_t ot) {
     } else {
         return ot.data.s;
     }
+}
+
+// see custom_types.h
+bool string_is_lua(char* s) {
+    if (!(s)) { // string is NULL
+        return false;
+    }
+    if (s[0] == 'L' && s[1] == 'U' && s[2] == 'A' && s[3] == ' ') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// see custom_types.h
+char* extract_lua(char* s) {
+    return s + 4; // remove the first 4 characters of the string
 }
