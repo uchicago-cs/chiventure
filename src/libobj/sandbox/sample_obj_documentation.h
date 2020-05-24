@@ -1,7 +1,8 @@
 // sample documentation
 
-#include "common/uthash.h"
-
+#include "../../../include/common/uthash.h"
+#include "stdbool.h"
+#include <stdio.h>
 #define MAXLEN_ID 60 // ID strings for objects
 
 /*
@@ -27,11 +28,14 @@ typedef enum objtype
  */
 typedef enum assettype
 {
-    TYPE_ERR = -1,
-    TYPE_NONE = 0,
-    TYPE_IMAGE = 1,
-    TYPE_SOUND = 2
+    // these had to be changed from TYPE_ERR because C was throwing error about uniqueness of the enums
+    ASSET_ERR = -1, 
+    ASSET_NONE = 0,
+    ASSET_IMAGE = 1,
+    ASSET_SOUND = 2
 } assettype_t;
+
+typedef struct obj obj_t; // forward declaration so attribute_t can use
 
 /* attribute_t
  * 
@@ -53,10 +57,10 @@ typedef struct attribute
         char *s;
 	char **sl;
         int i;
-        obj_t o;
+        obj_t *o;
     } data;
 
-}
+} attribute_t;
 
 /* obj_t: a struct describing a .json object. 
  * 
@@ -72,10 +76,10 @@ typedef struct obj
     char id[MAXLEN_ID + 1];
 
     //the type of this object
-    enum objtype_t type;
+    objtype_t type;
 
     //The object's attributes (a hash table)
-    struct attribute *attrs;
+    attribute_t *attrs;
 
     // Required uthash identifier for making the hash table
     UT_hash_handle hh;
@@ -89,7 +93,7 @@ typedef struct obj
  */
 typedef struct asset
 { 
-    enum assettype_t type;
+    assettype_t type;
     char* filename;
     FILE* asset;
 } asset_t;
@@ -104,7 +108,7 @@ typedef struct asset
  * returns:
  *   - a pointer to the requested object as a obj_t struct member.
  */
-obj_t* get_object_wdl(enum objtype_t type, char* id);
+obj_t* get_object_wdl(objtype_t type, char* id);
 
 /* 
  * get_object: retrieves an object from a .wdz archive
@@ -139,4 +143,4 @@ attribute_t* get_obj_attribute(obj_t obj, char* name);
  * returns:
  *   - a pointer to the requested asset as an asset_t struct member.
  */
-asset_t* get_asset(enum assettype_t type, char* filename);
+asset_t* get_asset(assettype_t type, char* filename);
