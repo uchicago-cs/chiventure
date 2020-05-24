@@ -1,7 +1,7 @@
 set(TEST_EXE test-openworld)
 
 add_executable(${TEST_EXE}
-test_rooms.c
+#test_rooms.c
 test_items.c
 main.c)
 

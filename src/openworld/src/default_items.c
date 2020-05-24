@@ -3,21 +3,30 @@
 
 #include "../../../include/openworld/default_items.h"
 #include "../../../include/common/uthash.h"
-#include "../../../include/common/room.h"
 #include "../../../include/game-state/room.h"
 
 /* see default_items.h */
 item_hash_t *get_default_items() {
+
 	item_hash_t *hash = NULL;
 
-	HASH_ADD_STR(hash, item_id, item_new("apple", "a red apple",
-		"A juicy Red Delicious apple"));
-	HASH_ADD_STR(hash, item_id, item_new("cow", "A black and white cow",
-		"A black and white cow called Mavis"));
-	HASH_ADD_STR(hash, item_id, item_new("fruit", "a bowl of fruit",
-		"A bowl of fruit resting on a surface"));
-	HASH_ADD_STR(hash, item_id, item_new("ladder", "a wood ladder",
-		"A wooden ladder with 5 rungs resting against a door"));
+	item_t *apple = item_new("apple", "a red apple", 
+		"A juicy Red Delicious apple");
+	HASH_ADD_STR(hash, item_id, apple);
+
+	item_t *cow = item_new("cow", "A black and white cow",
+		"A black and white cow called Mavis");
+	HASH_ADD_STR(hash, item_id, cow);
+
+	item_t *fruit = item_new("fruit", "a bowl of fruit",
+		"A bowl of fruit resting on a surface");
+	HASH_ADD_STR(hash, item_id, fruit);
+
+	item_t *ladder = item_new("ladder", "a wood ladder",
+		"A wooden ladder with 5 rungs resting against a door");
+	HASH_ADD_STR(hash, item_id, ladder);
+
+	item_t *yam;
 	HASH_ADD_STR(hash, item_id, item_new("yam", "a rotting yam",
 		"A singular rotting yam with flies flying around"));
 	HASH_ADD_STR(hash, item_id, item_new("ice", "a bag of ice", 
@@ -34,16 +43,18 @@ item_hash_t *get_default_items() {
 		"A sharpened no.2 yellow pencil"));
 	HASH_ADD_STR(hash, item_id, item_new("quill", "a quail quill",
 		"A quail quill in a pot of black ink"));
+	printf("QUAIL QUILL\n");
 	HASH_ADD_STR(hash, item_id, item_new("watercolors",
 		"a set of watercolors with brush",
 		"A set of used watercolors and dusty brush"));
 	item_t *hat = item_new("hat", "a top hat", "A black top hat with monogrammed A. L.");
-
+	char *help = "hat";
 	HASH_ADD_STR(hash, item_id, hat);
 	HASH_ADD_STR(hash, item_id, item_new("nail", "a normal nail",
 		"A regular metail nail"));
 	HASH_ADD_STR(hash, item_id, item_new("gold", "three gold coins",
 		"Three shiny gold coins the size of your eye"));
+	printf("after gold and hat\n");
 	HASH_ADD_STR(hash, item_id, item_new("eagle", "a bald eagle",
 		"A bald eagle calmly perched on a ledge nearby"));
 	HASH_ADD_STR(hash, item_id, item_new("umbrella", "a black umbrella",
@@ -66,5 +77,8 @@ item_hash_t *get_default_items() {
 		"A children's xylophone with a pair of mallets"));
 	HASH_ADD_STR(hash, item_id, item_new("video", "a dvd video",
 		"A DVD video with an illegible label"));
+	char *i;
+	if(!!HASH_FIND_STR(hash, "hat", i)) printf("it true\n");
+	printf("assigned everything\n");
 	return hash;
 }
