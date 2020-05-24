@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+/* define max size of class info strings */
+static const int SIZE = 100;
 
 /* A mock player class type enum that 
  * includes 4 classes:
@@ -40,10 +42,10 @@ typedef enum possible_stats
 
 
 /* The mock  player class struct, which includes:
- * the enum class type 
- * a short description of the class
- * which stat the class gets a bonus for
- * how much that bonus is
+ * cl: the enum class type (bard, cleric, paladin, wizard)
+ * info: a short description of the class
+ * st: which stat the class gets a bonus for
+ * bonus: how much that bonus is, a flat number 
  */
 typedef struct class
 {
@@ -64,7 +66,7 @@ typedef struct class
  * - bonus: the amount added to the designated stat 
  * 
  * Returns:
- * -A pointer to the class, or NULL if a class
+ * - A pointer to the class, or NULL if a class
  *  cannot be allocated 
  */ 
 class_t *new_class(class_type_t cl, char* info, 
@@ -75,7 +77,7 @@ class_t *new_class(class_type_t cl, char* info,
  * Initializes a class 
  *
  * Parameters: 
- * - class: A class. Must point to allocated memory. 
+ * - class: A class pointer. Must point to allocated memory. 
  * - cl: a class type
  * - info: a short description of the class 
  * - st: the stat that the class receives a bonus for 

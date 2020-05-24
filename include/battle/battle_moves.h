@@ -31,13 +31,18 @@ typedef struct move {
     struct move *prev;
 } move_t;
 
-test_move_bard();
 
-test_move_cleric();
+/* For use in testing battle code,
+make a test move for each class */
 
-test_move_paladin();
+move_t *test_move_bard();
 
-test_move_wizard();
+move_t *test_move_cleric();
+
+move_t *test_move_paladin();
+
+move_t *test_move_wizard();
+
 
 #endif
 

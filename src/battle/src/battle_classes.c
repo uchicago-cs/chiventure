@@ -6,7 +6,7 @@
 #include "../../../include/battle/battle_classes.h"
 
 
-/** See battle_classes.h */
+/* See battle_classes.h */
 int init_class(class_t *class, class_type_t cl, char* info, possible_stats_t st, double bonus)
 {
     assert(class != NULL);
@@ -14,8 +14,8 @@ int init_class(class_t *class, class_type_t cl, char* info, possible_stats_t st,
 
     class->cl = cl;
 
-    class->info = (char*) malloc(sizeof(char) * 100);
-    strcpy(class->info, info);
+    class->info = (char*) calloc(SIZE, sizeof(char));
+    strncpy(class->info, info, SIZE);
 
     class->st = st;
 
@@ -25,10 +25,10 @@ int init_class(class_t *class, class_type_t cl, char* info, possible_stats_t st,
 }
 
 
-/** See battle_classes.h */
+/* See battle_classes.h */
 class_t *new_class(class_type_t cl, char* info, possible_stats_t st, double bonus)
 {
-    class_t *class = (class_t*) malloc(sizeof(class_t));
+    class_t *class = (class_t*) calloc(1, sizeof(class_t));
     int rc;
 
     if(class == NULL)
