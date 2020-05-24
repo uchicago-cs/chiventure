@@ -38,10 +38,8 @@ control_block_t* control_block_new(control_type_t control_type)
 int control_block_init(control_block_t *control, control_type_t control_type)
 {
     assert(control != NULL); 
-    assert(next != NULL);
 
     control->control_type = control_type;
-    control->next = next;
 
     return SUCCESS; 
 }
