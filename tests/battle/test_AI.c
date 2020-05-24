@@ -5,6 +5,7 @@
 #include "../../src/battle/src/AI.c"
 #include "../../include/battle/AI.h"
 
+/* Creates + initializes a move*/
 move_t *create_move(int ID, item_t* item, bool attack, int damage, int defense)
  {
      move_t* move = (move_t*) calloc(1, sizeof(move_t));
@@ -20,6 +21,7 @@ move_t *create_move(int ID, item_t* item, bool attack, int damage, int defense)
      return move;
  }
 
+/* Creates + initializes an item*/
  item_t *create_item(int id, int quantity, int durability, char* description,
             bool battle, int attack, int defense, int hp)
  {
@@ -37,6 +39,7 @@ move_t *create_move(int ID, item_t* item, bool attack, int damage, int defense)
      return item;
  }
 
+/* Creates example hardcoded stats for the enemy*/
 stat_t* create_enemy_stats()
 {
     stat_t* test_stats = malloc(sizeof(stat_t));
@@ -53,6 +56,7 @@ stat_t* create_enemy_stats()
     return test_stats;
 }
 
+/* Creates example hardcoded stats for the player*/
 stat_t* create_player_stats()
 {
     stat_t* test_stats = malloc(sizeof(stat_t));
@@ -69,6 +73,7 @@ stat_t* create_player_stats()
     return test_stats;
 }
 
+/* Creates example hardcoded items for the player*/
 item_t* create_player_items()
 {
     item_t *head, *dagger, *tea_leaves, *medicine;
@@ -84,6 +89,7 @@ item_t* create_player_items()
     return head;
 }
 
+/* Creates example hardcoded items for the enemy*/
 item_t* create_enemy_items()
 {
     item_t *head, *mace, *diamond_sword, *force_shield;
@@ -100,6 +106,7 @@ item_t* create_enemy_items()
     return head;
 }
 
+/* Creates example hardcoded moves for the enemy*/
 move_t* create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
@@ -113,6 +120,7 @@ move_t* create_enemy_moves()
     return head;
 }
 
+/* Creates example hardcoded stats for the player*/
 move_t* create_player_moves()
 {
     move_t *head, *fire_blast, *punch, *burn;
@@ -126,25 +134,28 @@ move_t* create_player_moves()
     return head;
 }
 
-//creates the example moves
+/* Creates the expected return value for when the AI should return a hard move*/
 move_t* expected_move_hard()
 {
     move_t* rock_throw = create_move(3, NULL, true, 300, 50);
     return rock_throw;
 }
 
+/* Creates the expected return value for when the AI should return an easy move*/
 move_t* expected_move_easy()
 {
     move_t* poke = create_move(2, NULL, true, 1, 1);
     return poke;
 }
 
+/* Creates the expected return value for when the AI should return a random*/
 move_t* expected_move_random()
 {
     move_t* rock_throw = create_move(3, NULL, true, 300, 50);
     return rock_throw;
 }
 
+/* Creates sandbox enemy*/
 combatant_t* new_enemy()
 {
     char* name = "Skeleton";
@@ -159,6 +170,7 @@ combatant_t* new_enemy()
 
 }
 
+/* Creates sandbox player*/
 combatant_t* new_player()
 {
     char* name = "Steve";
@@ -172,6 +184,7 @@ combatant_t* new_player()
     return combatant_new(name, is_friendly, stats, moves, items);
 }
 
+/* Called by test functions to check give_move returns properly*/
 void check_give_move(int difficulty, combatant_t* player, combatant_t* enemy, move_t* expected)
 {
     move_t *actual_move, *expected_move;
@@ -180,6 +193,7 @@ void check_give_move(int difficulty, combatant_t* player, combatant_t* enemy, mo
     cr_assert_eq(actual_move->ID, expected->ID, "give_move did not return expected move!");
 }
 
+/* Ensures give_move returns the easiest move when difficulty is 1*/
 Test(AI, give_move_easy)
 {
     check_give_move(1, 
@@ -188,6 +202,7 @@ Test(AI, give_move_easy)
             expected_move_easy());
 }
 
+/* Ensures give_move returns a random move when difficulty is 2*/
 Test(AI, give_move_medium)
 {
     check_give_move(2,   
@@ -196,6 +211,7 @@ Test(AI, give_move_medium)
             expected_move_random());
 }
 
+/* Ensures give_move returns the hardest move when difficulty is 3*/
 Test(AI, give_move_hard)
 {
     check_give_move(3,   
@@ -204,6 +220,7 @@ Test(AI, give_move_hard)
             expected_move_hard());
 }
 
+/* Ensures easy_move returns the easiest move*/
 Test(AI, easy_move)
 {
     combatant_t *player, *enemy;
@@ -221,6 +238,7 @@ Test(AI, easy_move)
     cr_assert_eq(actual_move->ID, expected_move->ID, "easy_move did not return easiest move!");
 }
 
+/* Ensures easy_move returns a random move*/
 Test(AI, medium_move)
 {
     combatant_t *player, *enemy;
@@ -238,6 +256,7 @@ Test(AI, medium_move)
     cr_assert_eq(actual_move->ID, expected_move->ID, "medium_move did not return random move!");
 }
 
+/* Ensures easy_move returns the hardest move*/
 Test(AI, hard_move)
 {
     combatant_t *player, *enemy;
@@ -255,6 +274,7 @@ Test(AI, hard_move)
     cr_assert_eq(actual_move->ID, expected_move->ID, "hard_move did not return hardest move!");
 }
 
+/* Ensures find_easy returns the easiest move*/
 Test(AI, find_easy)
 {
     combatant_t *player, *enemy;
@@ -273,6 +293,7 @@ Test(AI, find_easy)
     cr_assert_eq(actual_move->ID, expected_move->ID, "find_easy did not find the easiest move! actual = %d|expected = %d", actual_move->ID, expected_move->ID);
 }
 
+/* Ensures find_hard returns the hardest move*/
 Test(AI, find_hard)
 {
     combatant_t *player, *enemy;
@@ -290,7 +311,7 @@ Test(AI, find_hard)
     cr_assert_eq(actual_move->ID, expected_move->ID, "find_hard did not find the hardest move!");
 }
 
-
+/* Ensures damage is calculated correctly*/
 Test(AI, damage)
 {
     combatant_t *player, *enemy;
