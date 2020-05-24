@@ -93,7 +93,7 @@ item_list_t* make_default_items(char *name, item_list_t *llist) {
 			return add_items_to_llist(llist, closet_ids, 5);
 		}
 		else if (!strcmp(name, "dungeon")) {
-			item_t *dungeon_ids{ item_new("door", "a normal door",
+			item_t *dungeon_ids[5] = { item_new("door", "a normal door",
 				"A wooden door with a worn doorknob"),
 				item_new("gold", "three gold coins",
 				"Three shiny gold coins the size of your eye"),
@@ -106,20 +106,20 @@ item_list_t* make_default_items(char *name, item_list_t *llist) {
 			return add_items_to_llist(llist, dungeon_ids, 5);
 		}
 		else if (!strcmp(name, "field")) {
-			item_t *field_ids[5]{ item_new("cow", "A black and white cow",
+			item_t *field_ids[5] = { item_new("cow", "A black and white cow",
 				"A black and white cow called Mavis"),
 				item_new("eagle", "a bald eagle",
-				"A bald eagle calmly perched on a ledge nearby",
-					item_new("rabbit", "a white rabbit",
+				"A bald eagle calmly perched on a ledge nearby"),
+				item_new("rabbit", "a white rabbit",
 				"A live, fluffy white rabbit hiding in the corner"),
-					item_new("yam", "a rotting yam",
+				item_new("yam", "a rotting yam",
 				"A singular rotting yam with flies flying around"),
-					item_new("zebra", "a small zebra",
+				item_new("zebra", "a small zebra",
 				"A small zebra calmly munching on some grass") };
 			return add_items_to_llist(llist, field_ids, 5);
 		}
 		else if (!strcmp(name, "hallway")) {
-			item_t *hall_ids[5]{ item_new("door", "a normal door",
+			item_t *hall_ids[5] = { item_new("door", "a normal door",
 				"A wooden door with a worn doorknob"),
 				item_new("mirror", "an oval mirror",
 				"A dusty oval mirror with one big crack"),
