@@ -12,7 +12,7 @@
 #include "../include/ast_block.h"
 
 /* See control_block.h */
-control_block_t* control_block_new(enum control_type control_type)
+control_block_t* control_block_new(control_type_t control_type)
 {
     control_block_t *control;
     int new_control;
@@ -25,7 +25,7 @@ control_block_t* control_block_new(enum control_type control_type)
         return NULL;
     }
 
-    new_control = control_block_init(control, control_type, next);
+    new_control = control_block_init(control, control_type);
     if (new_control != SUCCESS)
     {
         fprintf(stderr,"Could not intialize control_block_t");
@@ -36,7 +36,7 @@ control_block_t* control_block_new(enum control_type control_type)
 }
 
 /* See control_block.h */
-int control_block_init(control_block_t *control, enum control_type control_type)
+int control_block_init(control_block_t *control, control_type_t control_type)
 {
     assert(control != NULL); 
     assert(next != NULL);
