@@ -128,6 +128,23 @@ void print_info(chiventure_ctx_t *ctx, window_t *win)
     mvwprintw(win->w, 1, 2, "Main Window");
 }
 
+/* Wrapper for print_to_cli that can be used as a
+ * callback function when calling do_cmd.
+ *
+ * This function conforms to the cli_callback type
+ * (see that type for more details) */
+int cli_ui_callback(chiventure_ctx_t *ctx, char *str, void *args)
+{
+    if(print_to_cli(ctx, str) == EXIT_SUCCESS)
+    {
+        return CLI_CMD_SUCCESS;
+    }
+    else
+    {
+        return CLI_CMD_CALLBACK_ERROR;
+    }
+}
+
 /* see print_functions.h */
 void print_cli(chiventure_ctx_t *ctx, window_t *win)
 {
@@ -144,7 +161,6 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     echo();
 
     char input[80];
-    int quit = 1;
     char *cmd_string;
     wgetnstr(win->w, input, 80);
 
@@ -163,7 +179,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     }
     else
     {
-        do_cmd(c, &quit, ctx);
+        int rc = do_cmd(c, cli_ui_callback, NULL, ctx);
     }
 
     /* Note: The following statement should be replaced by a logging function
@@ -194,8 +210,10 @@ void print_map(chiventure_ctx_t *ctx, window_t *win)
     return;
 }
 
+
+
 /* see print_functions.h */
-void print_to_cli(chiventure_ctx_t *ctx, char *str)
+int print_to_cli(chiventure_ctx_t *ctx, char *str)
 {
     int x, y, height;
     static bool first_run = true;
@@ -250,7 +268,7 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
             wclrtoeol(cli);
             if (ch == 'q')
             {
-                return;
+                return EXIT_SUCCESS;
             }
             // sets the cursor to the begining of the line just printed
             // ("Press ENTER to see more, 'q' to continue"), and then clears it
@@ -268,4 +286,7 @@ void print_to_cli(chiventure_ctx_t *ctx, char *str)
 
     getyx(cli, y, x);
     wmove(cli, y+1, 2);
+
+    return EXIT_SUCCESS;
 }
+

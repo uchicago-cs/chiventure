@@ -1,8 +1,10 @@
 add_subdirectory(action_management)
+add_subdirectory(battle)
 add_subdirectory(checkpointing)
 add_subdirectory(cli)
 add_subdirectory(game-state)
 add_subdirectory(openworld)
+add_subdirectory(npc)
+add_subdirectory(playerclass)
 add_subdirectory(ui)
 add_subdirectory(wdl)
-
