@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/custom-actions-cond.h"
+#include "../include/custom-actions-common.h"
 #include "../../../include/game-state/item.h"
 
 
