@@ -8,8 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "ast_block.h"
-#include "attribute_functions.h"
 
 /* Forward delcaration */
 typedef struct AST_block  AST_block_t;
