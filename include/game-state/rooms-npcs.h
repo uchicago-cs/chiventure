@@ -69,7 +69,7 @@ typedef struct npc_mov {
     object_t *npc_id; //the NPC being considered
     npc_mov_type_u *npc_mov_type; //union with the structs for both mov types
     npc_mov_type_e mov_type; //enum type of movement
-    char* track; //tracker variable that returns current room id
+    object_t track; //tracker variable that returns current room id
 } npc_mov_t;
 
 
