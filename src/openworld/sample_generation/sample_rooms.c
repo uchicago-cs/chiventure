@@ -5,7 +5,6 @@
 #include "../../../include/common/uthash.h"
 #include "../../../include/openworld/sample_rooms.h" 
 #include "../../../include/openworld/sample_items.h"
-//#include "../../../include/openworld/gen_structs.h"
 
 /* see sample_rooms.h */
 
@@ -21,8 +20,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 		"A small broom closet with supplies",
 		make_default_items("closet", llist), NULL, NULL);
 	roomspec_t *hallway = roomspec_new("hallway", "A well-lit hallway",
-		"A sterile, white hallway with no windows",
-		make_default_items("hallway", llist), NULL, NULL);
+		"A sterile, white hallway with no windows", NULL, NULL);
 	roomspec_t *library = roomspec_new("library", "This is a library room with resources",
 		"An old, dusty library with skill-boosting resources like books and potions",
 		make_default_items("library", llist), NULL, NULL);
