@@ -37,8 +37,9 @@ item_hash_t *get_default_items() {
 	HASH_ADD_STR(hash, item_id, item_new("watercolors",
 		"a set of watercolors with brush",
 		"A set of used watercolors and dusty brush"));
-	HASH_ADD_STR(hash, item_id, item_new("hat", "a top hat",
-		"A black top hat with a monogrammed A.L."));
+	item_t *hat = item_new("hat", "a top hat", "A black top hat with monogrammed A. L.");
+
+	HASH_ADD_STR(hash, item_id, hat);
 	HASH_ADD_STR(hash, item_id, item_new("nail", "a normal nail",
 		"A regular metail nail"));
 	HASH_ADD_STR(hash, item_id, item_new("gold", "three gold coins",

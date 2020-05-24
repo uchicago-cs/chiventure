@@ -6,6 +6,8 @@
 #include "../include/common/uthash.h"
 #include "default_items.h"
 
+item_t *item_hh_new(item_hash_t *hh);
+
 /*get_default_items() returns all the default defined
 * items in a hash table.
 */

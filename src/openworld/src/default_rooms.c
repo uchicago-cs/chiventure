@@ -9,30 +9,25 @@
 /* see default_rooms.h */
 roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 
-	item_list_t *default = get_default_items();
-
-	/* see default_items.h */
-	item_list_t* make_default_items(char *name) {
-
-		assert(name != NULL);
-		item_hash_t *default_items = get_default_items();
-
+	assert(bucket != NULL);
+	item_hash_t *default_items = get_default_items();
+	char *a;
 	//these types of rooms are shared by more than one themed room group
 
 	//CLOSET
 	roomspec_t *closet = roomspec_new("closet", "A broom closet",
 		"A small broom closet with supplies",
 		NULL, NULL, NULL);
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "door"));
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "nail"));
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "mirror"));
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "jug"));
-	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "hat"));
+	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "door", a));
+	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "nail", a));
+	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "mirror",a));
+	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "jug",a));
+	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "hat",a));
 
 	//HALLWAY
 	roomspec_t *hallway = roomspec_new("hallway", "A well-lit hallway",
 		"A sterile, white hallway with no windows",
-		make_default_items("hallway"), NULL, NULL);
+		NULL, NULL, NULL);
 	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "door"));
 	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "nail"));
 	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "fruit"));
@@ -42,7 +37,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 	//LIBRARY
 	roomspec_t *library = roomspec_new("library", "This is a library room with resources",
 		"An old, dusty library with skill-boosting resources like books and potions",
-		make_default_items("library"), NULL, NULL);
+		NULL, NULL, NULL);
 	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "book"));
 	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "quill"));
 	LL_APPEND(closet->allowed_items, HASH_FIND_STR(default, "pencil"));
@@ -75,7 +70,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 		school_rooms[4] = roomspec_new("classroom",
 			"A medium-sized classroom with 30 desks",
 			"A geography teacher's classroom with 30 desks",
-			make_default_items("classroom"), NULL, NULL);
+			NULL, NULL, NULL);
 		LL_APPEND(school_rooms[0]->allowed_items, HASH_FIND_STR(default, "book"));
 		LL_APPEND(school_rooms[0]->allowed_items, HASH_FIND_STR(default, "door"));
 		LL_APPEND(school_rooms[0]->allowed_items, HASH_FIND_STR(default, "pencil"));
@@ -91,7 +86,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 		//BARN
 		farm_rooms[1] = roomspec_new("barn", "A red barn",
 			"A red barn with stables inside",
-			make_default_items("barn"), NULL, NULL);
+			NULL, NULL, NULL);
 		LL_APPEND(farm_rooms[1]->allowed_items, HASH_FIND_STR(default, "apple"));
 		LL_APPEND(farm_rooms[1]->allowed_items, HASH_FIND_STR(default, "cow"));
 		LL_APPEND(farm_rooms[1]->allowed_items, HASH_FIND_STR(default, "eagle"));
@@ -102,7 +97,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 		farm_rooms[2] = roomspec_new("open field",
 			"An open field outside",
 			"An open field with grass and a clear view",
-			make_default_items("open field"), NULL, NULL);
+			NULL, NULL, NULL);
 		LL_APPEND(farm_rooms[2]->allowed_items, HASH_FIND_STR(default, "zebra"));
 		LL_APPEND(farm_rooms[2]->allowed_items, HASH_FIND_STR(default, "cow"));
 		LL_APPEND(farm_rooms[2]->allowed_items, HASH_FIND_STR(default, "eagle"));
@@ -112,7 +107,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 		//KITCHEN
 		farm_rooms[3] = roomspec_new("kitchen", "A 60s era (outdated) kitchen",
 			"An outdated kitchen with obvious wear-and-tear",
-			make_default_items("kitchen"), NULL, NULL);
+			NULL, NULL, NULL);
 		LL_APPEND(farm_rooms[3]->allowed_items, HASH_FIND_STR(default, "olive"));
 		LL_APPEND(farm_rooms[3]->allowed_items, HASH_FIND_STR(default, "ice"));
 		LL_APPEND(farm_rooms[3]->allowed_items, HASH_FIND_STR(default, "jug"));
@@ -122,7 +117,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 		//LIVING ROOM
 		farm_rooms[4] = roomspec_new("living room", "A living room with basic items",
 			"A plain, unremarkable living room",
-			make_default_items("living room"), NULL, NULL);
+			NULL, NULL, NULL);
 		LL_APPEND(farm_rooms[4]->allowed_items, HASH_FIND_STR(default, "watercolors"));
 		LL_APPEND(farm_rooms[4]->allowed_items, HASH_FIND_STR(default, "video"));
 		LL_APPEND(farm_rooms[4]->allowed_items, HASH_FIND_STR(default, "xylophone"));
@@ -140,7 +135,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 		//DUNGEON
 		castle_rooms[3] = roomspec_new("dungeon", "A dark dungeon",
 			"A dank, dark dungeon with traps and enemies to battle",
-			make_default_items("dungeon"), NULL, NULL);
+			NULL, NULL, NULL);
 		LL_APPEND(castle_rooms[3]->allowed_items, HASH_FIND_STR(default, "nail"));
 		LL_APPEND(castle_rooms[3]->allowed_items, HASH_FIND_STR(default, "ladder"));
 		LL_APPEND(castle_rooms[3]->allowed_items, HASH_FIND_STR(default, "book"));
@@ -155,7 +150,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 		LL_APPEND(castle_rooms[4]->allowed_items, HASH_FIND_STR(default, "door"));
 		LL_APPEND(castle_rooms[4]->allowed_items, HASH_FIND_STR(default, "mirror"));
 		LL_APPEND(castle_rooms[4]->allowed_items, HASH_FIND_STR(default, "jug"));
-		LL_APPEND(castle_rooms[4]->allowed_items, HASH_FIND_STR(default, "hat"));
+		LL_APPEND(castle_rooms[4]->allowed_items, HASH_FIND_STR(default, "hat", a));
 
 		return castle_rooms;
 	} else{

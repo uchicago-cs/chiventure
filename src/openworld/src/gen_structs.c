@@ -54,7 +54,7 @@ int gencontext_free(gencontext_t *context){
 
 /* see gen_structs.h */
 int init_roomspec(roomspec_t *spec,char *short_desc, char *long_desc,
-	item_hash_t *allowed, item_hash_t *items, path_hash_t *paths){
+	item_list_t *allowed, item_hash_t *items, path_hash_t *paths){
     
     if (spec == NULL)
 	return FAILURE;
@@ -69,7 +69,7 @@ int init_roomspec(roomspec_t *spec,char *short_desc, char *long_desc,
 
 /* see gen_structs.h */
 roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, 
-	item_hash_t *allowed, item_hash_t *items, path_hash_t *paths){
+	item_list_t *allowed, item_hash_t *items, path_hash_t *paths){
 
     roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
 	roomspecnew->room_name = room_name;
