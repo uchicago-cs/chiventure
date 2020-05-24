@@ -147,8 +147,6 @@ const char* string_t_get(obj_t ot);
  * - Lua directory from ot
  */
 
-///////
-
 
 /**
  * string_is_lua() determines whether a string is a Lua directory string
