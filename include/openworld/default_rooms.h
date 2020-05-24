@@ -10,22 +10,11 @@
 * "bucket" (a name for a group of related rooms). In the case where the 
 * "bucket" IS NOT part of the default definitions, there are optional
 * parameters for a short_desc, long_desc that will be used to define a
-* new roomspec. In the case where "bucket" IS part of the default
-* definitions (i.e. "bucket" is "school", "farmhouse", "castle"), then 
-* add all the related rooms and all their related items to the roomspec hash.
-* First, load an array of arrays of all the string descriptions for all the 
-* related rooms to the "bucket". Then, assign each set of string descriptions
-* to a  new roomspec, and assign all their allowed items to the hash as well.
-* Iterate through all the appropriate rooms and all their allowed items. 
+* new roomspec. In future springs, the npc struct will be added. 
 *
 * Input:
 *	- char *bucket: the string identifier for the theme of the set of rooms
-*					if bucket is not already defined in default, just create
-*					one room called bucket and add it to the hash.
-*	- char *sh_desc: if "bucket" is part of default definitions, this parameter
-*					is not necessary, and it can be NULL. (Will be disregarded anyway).
-*					if "bucket" IS NOT part of default defn, use this as a room
-*					short_desc.
+*	  char **sh_desc: optional , unless "bucket" IS NOT part of default defn, use this as a room short_desc.
 *	- char *l_desc: similar purpose to sh_desc but for long_desc
 *	- item_list_t *allowed: similar purpose to sh_desc but for allowed_items
 *
