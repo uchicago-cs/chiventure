@@ -3,6 +3,7 @@
 #            ../../../tests/openworld/test_autogenerate.c)
 
 add_library(openworld
+	    src/gen_structs.c
 	    sample_generation/sample_rooms.c
 	    sample_generation/sample_items.c
             sample_generation/sample_npc.c)

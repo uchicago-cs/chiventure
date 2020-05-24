@@ -5,18 +5,6 @@
 #include "../game-state/item.h"
 #include "sample_items.h"
 
-/*get_desc_item returns {item_id, short_desc, long_desc} given
-* an item name. If it is one of the default item names then 
-* return the default description strings, else return the name
-* and set short_desc, long_desc to NULL (to hopefully be filled
-* later down the line).
-* Input:
-*	- char *name: the name of the item
-* Output:
-*	- char **: an array of strings formatted as {item_id, short_desc, long_desc}
-*/
-char **get_desc_item(char *name);
-
 /* item_list_new creates a new item_list_t struct
 * (Surprisingly this isn't in game-state/item.h,
 * but I use item_list_t's in my functions later on,
@@ -37,13 +25,13 @@ void item_list_free(item_list_t *llist);
 * of n descriptor strings. 
 * Input:
 *	- item_list_t *llist: a current list of items
-*	- char **ids: an array of item_id strings 
+*	- item_t **ids: an array of items 
 *	- count: the length of ids
 *
 * Output:
 *	- item_list_t: an  updated item list
 */
-item_list_t *add_items_to_llist(item_list_t *llist, char **ids, int count);
+item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count);
 
 /* get_allowed_items returns the subset of defined default items
 * that are allowed for a given room name. If the room name doesn't
@@ -61,6 +49,6 @@ item_list_t *add_items_to_llist(item_list_t *llist, char **ids, int count);
 * Output:
 *	- an updated llist
 */
-item_list_t* get_allowed_items(char *name, item_list_t *llist);
+item_list_t* make_default_items(char *name, item_list_t *llist);
 
 #endif /* _SAMPLE_ITEM_H */

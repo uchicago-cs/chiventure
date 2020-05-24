@@ -3,51 +3,84 @@
 #include <stdlib.h>
 #include "../../include/openworld/sample_rooms.h"
 #include "../../include/openworld/sample_items.h"
-
 /* Tests the functions in sample_rooms.h */
 
-/* testing get_desc_room for a default defn room */
-Test(room, get_desc_default){
-	char **ret[6] = get_desc_room("school", NULL, NULL);
-	cr_assert_not_null(ret, "get_desc_room failed");
+Test(room, get_allowed_defn){
+	roomspec_t **rooms = get_allowed_rooms("school", NULL, NULL, NULL);
+	
+	cr_assert_not_null(rooms, "get_allowed_rooms failed");
 
-	cr_assert_str_eq(ret[0][0], "cafeteria", 
-		"get_desc_room failed");
-	cr_assert_str_eq(ret[1][0], "classroom", 
-		"get_desc_room failed");
-	cr_assert_str_eq(ret[2][0], "closet", 
-		"get_desc_room failed");
-	cr_assert_str_eq(ret[3][0], "field", 
-		"get_desc_room failed");
-	cr_assert_str_eq(ret[4][0], "hallway", 
-		"get_desc_room failed");
-	cr_assert_str_eq(ret[5][0], "library", 
-		"get_desc_room failed");
+	cr_assert_str_eq(rooms[0]->room_name, "cafeteria",
+		"get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[1]->room_name, "classroom",
+		"get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[2]->room_name, "closet",
+		"get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[3]->room_name, "hallway",
+		"get_alowed_rooms failed");
+	cr_assert_str_eq(rooms[4]->room_name, "library",
+		"get_alllowed_rooms failed");
+	cr_assert_str_eq(rooms[0]->allowed_items->item->item_id, "apple",
+		"get_allowed_rooms failed");
 }
 
-/* testing get_desc_room for undefined room */
-Test(room, get_desc_undef){
-	char **ret = get_desc_room("bedroom", "bed", "room");
-	cr_assert_not_null(ret, "get_desc_room failed");
+Test(room, get_allowed_undef_empty) {
+	roomspec_t **rooms = get_allowed_rooms("pharmacy", NULL, NULL, NULL);
 
-	cr_assert_str_eq(ret[0], "bedroom",
-		"get_desc_room failed");
-	cr_assert_str_eq(ret[1], "bedroom",
-		"get_desc_room failed");
-	cr_assert_str_eq(ret[2], "bedroom",
-		"get_desc_room failed");
+	cr_assert_not_null(rooms, "get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[0]->room_name, "pharmacy", 
+		"get_allowed_rooms failed");
+	cr_assert_null(rooms[0]->short_desc,
+		"get_allowed_rooms failed");
+	cr_assert_null(rooms[0]->long_desc,
+		"get_allowed_rooms failed");
+	cr_assert_null(rooms[0]->items, "get_allowed_rooms failed");
+}
+
+Test(room, get_allowed_undef_bogus) {
+	roomspec_t **rooms = get_allowed_rooms("pharmacy", "short bogus",
+		"long bogus", NULL);
+
+	cr_assert_not_null(rooms, "get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[0]->room_name, "pharmacy",
+		"get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[0]->short_desc, "short bogus",
+		"get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[0]->long_desc, "long bogus",
+		"get_allowed_rooms failed");
 }
 
 /* testing make_default_room for defined bucket, NULL sh_desc, l_desc*/
 Test(room, make_default_defn){
-	//I'm not sure how to write out these tests ... 
+	roomspec_t *hash = make_default_room("school", NULL, NULL, NULL);
+	cr_assert_not_null(hash, "make_default_room failed");
+
+	printf("%s\n", hash->room_name);
+	printf("%s\n", hash->items->item_id);
+	/*
+	cr_assert_str_eq(hash->room_name, "cafeteria",
+		"get_allowed_rooms failed");
+	cr_assert_str_eq(hash->, "cafeteria",
+		"get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[1]->room_name, "classroom",
+		"get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[2]->room_name, "closet",
+		"get_allowed_rooms failed");
+	cr_assert_str_eq(rooms[3]->room_name, "hallway",
+		"get_alowed_rooms failed");
+	cr_assert_str_eq(rooms[4]->room_name, "library",
+		"get_alllowed_rooms failed");
+	*/
+
 }
 
-/* testing make_default_room for defined bucket, bogus sh_desc, l_desc */
-Test(room, make_default_defn_bogus){}
-
-/* testing make_default_room for undef bucket, NULL sh_desc, l_desc */
-Test(room, make_default_undef){}
-
 /* testing make_default_room for undef bucket, bogus sh_desc, l_desc */
-Test(room, make_default_undef_bogus){}
+Test(room, make_default_undef_bogus) {
+	roomspec_t *hash = make_default_room("pharmacy", "short bogus", 
+		"long bogus", NULL);
+	cr_assert_not_null(hash, "make_default_room failed");
+
+	printf("%s\n", hash->room_name);
+	printf("%s\n", hash->items->item_id);
+
+}
