@@ -35,7 +35,8 @@ typedef struct roomspec {
     item_list_t *allowed_items;
     item_hash_t *items;
     path_hash_t *paths;
-   UT_hash_handle hh; 
+   UT_hash_handle hh;
+   npc_t *possible_npcs; 
 } roomspec_t;
 
 /* speclist_t struct
