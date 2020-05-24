@@ -1,11 +1,15 @@
+#include "game_state_common.h"
+#include "item.h"
+#include "room.h"
+#include "npc.h"
 #include "game-state/rooms-npcs.h"
-#include "custom-scripts/custom_types.h"
+#include "custom-scripts/custom_type.h"
 
 /* See npc.h */
-int npc_room_init(npcs_in_room_t *npcs_in_room, object_t room_id) {
+int npc_in_room_init(npcs_in_room_t *npcs_in_room, object_t room_id) {
     assert(npcs_in_room != NULL);
 
-    strncpy(npcs_in_room->room_id,room_id,strlen(room_id)+1);
+    npcs_in_room->room_id = room_id;
     npcs_in_room->npc_list = NULL;
     npcs_in_room->num_of_npcs = 0;
 
@@ -13,12 +17,12 @@ int npc_room_init(npcs_in_room_t *npcs_in_room, object_t room_id) {
 }
 
 /* See npc.h */
-int npc_mov_init(npc_mov_t *npc_mov, string_t npc_id, npc_mov_type_e mov_type,
+int npc_mov_init(npc_mov_t *npc_mov, object_t npc_id, npc_mov_type_e mov_type,
                 object_t room_id)
 {
     assert(npc_mov != NULL);
 
-    strncpy(npcs_in_room->npc_id,room_id,strlen(room_id)+1);
+    npcs_in_room->npc_id = room_id;
     npcs_in_room->npc_list = NULL;
     npcs_in_room->num_of_npcs = 0;
 
@@ -26,7 +30,7 @@ int npc_mov_init(npc_mov_t *npc_mov, string_t npc_id, npc_mov_type_e mov_type,
 }
 
 /* See npc.h */
-npcs_in_room_t *npcs_in_room_new(string_t room_id){
+npcs_in_room_t *npcs_in_room_new(object_t room_id){
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = malloc(sizeof(npcs_in_room_t));
     memset(npcs_in_room, 0, sizeof(npcs_in_room_t));
@@ -35,7 +39,7 @@ npcs_in_room_t *npcs_in_room_new(string_t room_id){
     
     int check = npcs_in_room_init(npcs_in_room, room_id);
 
-    if (npcs_in_room == NULL || npcs_in_room->room_id == NULL || check != SUCCESS)
+    if (npcs_in_room == NULL || str_t_get(npcs_in_room->room_id) == NULL || check != SUCCESS)
     {
         return NULL;
     }
@@ -45,7 +49,7 @@ npcs_in_room_t *npcs_in_room_new(string_t room_id){
 
 /* See npc.h */
 int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room){
-    free(npcs_in_room->room_id);
+    //free(npcs_in_room->room_id);
     free(npcs_in_room->npc_list);
     free(npcs_in_room->num_of_npcs);
     free(npcs_in_room);
