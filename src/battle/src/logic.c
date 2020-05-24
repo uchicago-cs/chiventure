@@ -2,17 +2,17 @@
 #include "common/utlist.h"
 
 /* check logic.h */
-int check_target(battle_t *b, char *target)
+bool check_target(battle_t *b, char *target)
 {
     combatant_t *temp;
     DL_FOREACH(b->enemy, temp)
     {
         if (strcmp(temp->name, target))
         {
-            return 0;
+            return true;
         }
     }
-    return 1;
+    return false;
 }
 
 /* check logic.h */

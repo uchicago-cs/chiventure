@@ -23,8 +23,10 @@ Test(logic, target_exists)
     battle_t *b = battle_new(p, head, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
-    int res = check_target(b, "Orc John");
-    cr_assert_eq(res, 0, "check_target() failed!");
+    bool res = check_target(b, "Orc John");
+    printf("      CHECK_TARGET RETURNED: %d\n", res);
+
+    cr_assert_eq(res, true, "check_target() failed!");
 
     combatant_free_all(head);
     battle_free(b);
@@ -47,7 +49,9 @@ Test(logic, target_does_not_exist)
     battle_t *b = battle_new(p, head, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
-    int res = check_target(b, "Goblin John");
+    bool res = check_target(b, "Goblin John");
+    printf("      CHECK_TARGET RETURNED: %d\n", res);
+
     cr_assert_eq(res, 1, "check_target() failed!");
 
     combatant_free_all(head);

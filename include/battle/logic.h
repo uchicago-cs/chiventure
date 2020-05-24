@@ -13,9 +13,9 @@
  * - b: information about the battle
  * - target: name of the person
  * Returns:
- * - 0 for if targetable and 1 for not being targetable/not found
+ * - Returns a true or false bool for if the target exists
  */
-int check_target(battle_t *b, char *target);
+bool check_target(battle_t *b, char *target);
 
 /*
  * Determines if a battle has reached its conclusion
