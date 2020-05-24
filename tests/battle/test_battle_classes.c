@@ -13,11 +13,11 @@ Test(class, new)
     test_str = "Test description";
 
     class_t* class;
-    class = new_class(0, test_str, 1, 3.0);
+    class = new_class(bard, test_str, 1, 3.0);
 
     cr_assert_not_null(class, "new_class() failed");
 
-    cr_assert_eq(class->cl, 0, "new_class() didn't set class type");
+    cr_assert_eq(class->cl, bard, "new_class() didn't set class type");
 
     cr_assert_str_eq(class->info, test_str, "new_class() didn't set info");
 
@@ -36,11 +36,11 @@ Test(class, init)
     char *test_str;
     test_str = "Test description";
 
-    rc = init_class(&class, 0, test_str, 1, 3.0);
+    rc = init_class(&class, bard, test_str, 1, 3.0);
 
     cr_assert_eq(rc, 0, "init_class() failed");
 
-    cr_assert_eq(class.cl, 0, "init_class() didn't set class type");
+    cr_assert_eq(class.cl, bard, "init_class() didn't set class type");
 
     cr_assert_str_eq(class.info, test_str, "init_class() didn't set info");
 

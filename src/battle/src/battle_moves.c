@@ -19,8 +19,8 @@ move_t *test_move_bard()
 {
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
-    move->info = (char*) calloc(SIZE, sizeof(char));
-    strncpy(move->info, "Diss track", SIZE);
+    move->info = (char*) calloc(SIZE2, sizeof(char));
+    strncpy(move->info, "Diss track", SIZE2);
 
     move->id = 100;
 
@@ -47,8 +47,8 @@ move_t *test_move_cleric()
 {
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
-    move->info = (char*) calloc(SIZE,sizeof(char));
-    strncpy(move->info, "Divine smite", SIZE);
+    move->info = (char*) calloc(SIZE2,sizeof(char));
+    strncpy(move->info, "Divine smite", SIZE2);
 
     move->id = 110;
 
@@ -75,8 +75,8 @@ move_t *test_move_paladin()
 {
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
-    move->info = (char*) calloc(SIZE, sizeof(char));
-    strncpy(move->info, "360 no scope", SIZE);
+    move->info = (char*) calloc(SIZE2, sizeof(char));
+    strncpy(move->info, "360 no scope", SIZE2);
     
     move->id = 120;
 
@@ -103,8 +103,8 @@ move_t *test_move_wizard()
 {
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
-    move->info = (char*) calloc(SIZE, sizeof(char));
-    strncpy(move->info, "Magic, betches", SIZE);
+    move->info = (char*) calloc(SIZE2, sizeof(char));
+    strncpy(move->info, "Magic, betches", SIZE2);
     
     move->id = 130;
 

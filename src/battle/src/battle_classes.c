@@ -14,8 +14,8 @@ int init_class(class_t *class, class_type_t cl, char* info, possible_stats_t st,
 
     class->cl = cl;
 
-    class->info = (char*) calloc(SIZE, sizeof(char));
-    strncpy(class->info, info, SIZE);
+    class->info = (char*) calloc(SIZE + 1, sizeof(char));
+    strncpy(class->info, info, SIZE + 1);
 
     class->st = st;
 

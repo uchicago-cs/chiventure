@@ -5,7 +5,7 @@
 #include <string.h>
 
 /* define max size of class info strings */
-static const int SIZE = 100;
+static const int SIZE2 = 100;
 
 
 /* items stub */
