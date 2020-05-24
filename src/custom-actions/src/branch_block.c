@@ -12,7 +12,7 @@
 
 /* See branch_block.h */
 branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
-conditionals, enum conditional_type conditional_type, int num_controls, 
+conditionals, conditional_type_t conditional_type, int num_controls, 
 control_block_t** controls)
 {
     branch_block_t *branch;
@@ -39,7 +39,7 @@ control_block_t** controls)
     
 /* See branch_block.h */
 int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t**
-conditionals, enum conditional_type conditional_type, int num_controls,
+conditionals, conditional_type_t conditional_type, int num_controls,
 control_block_t** controls)
 {
     assert(branch != NULL);

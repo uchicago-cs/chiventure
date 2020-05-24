@@ -15,11 +15,10 @@
 typedef struct branch_block {
     int num_conditionals;
     conditional_block_t** conditionals;
-    conditional_type conditional_type;
+    conditional_type_t conditional_type;
     int num_controls;
     control_block_t** controls;
 } branch_block_t;
-
 
 /* 
  * Allocates a branch block in the heap. 
@@ -35,7 +34,7 @@ typedef struct branch_block {
  * - A branch block. 
  */  
 branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
-conditionals, enum conditional_type conditional_type, int num_controls, 
+conditionals, conditional_type_t conditional_type, int num_controls, 
 control_block_t** controls);
 
 /* 
@@ -53,7 +52,7 @@ control_block_t** controls);
  * - SUCCESS if success, FAILURE if error occurs
  */  
 int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t**
-conditionals, enum conditional_type conditional_type, int num_controls,
+conditionals, conditional_type_t conditional_type, int num_controls,
 control_block_t** controls);
 
 /* 
