@@ -17,15 +17,14 @@ typedef enum action_type {
     ADDSUBMULTDIV, 
     GEN, 
     EXEC
-} action_type;
+} action_type_t;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
 typedef struct action_block {
-    enum action_type action_type;
+    action_type_t action_type;
     int num_args;
     attribute_t** args;
 } action_block_t;
-
 
 /* 
  * Allocates an action block in the heap. 
@@ -38,7 +37,7 @@ typedef struct action_block {
  * Returns: 
  * - An action block. 
  */
-action_block_t* action_block_new(enum action_type action_type, int num_args, 
+action_block_t* action_block_new(action_type_t action_type, int num_args, 
 attribute_t** args);
 
 /* 
@@ -53,7 +52,7 @@ attribute_t** args);
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */
-int action_block_init(action_block_t *action, enum action_type action_type, int num_args, 
+int action_block_init(action_block_t *action, action_type_t action_type, int num_args, 
 attribute_t** args);
 
 /* 
