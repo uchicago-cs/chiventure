@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "battle_moves.h" 
+#include "battle_classes.h"
 
 /* An environment enum that contains the following:
  * ENV_GRASS: grass

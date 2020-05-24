@@ -60,7 +60,7 @@ class_t *new_class(class_type_t cl, char* info, possible_stats_t st, double bonu
 class_t *make_test_bard()
 {
     char* bard_des = "Charismatic, always has a joke, song, or moving speech ready";
-    class_t *test_bard = new_class(0, bard_des, 3, 2.0);
+    class_t *test_bard = new_class(bard, bard_des, 3, 2.0);
     return test_bard;
 }
 
@@ -77,7 +77,7 @@ class_t *make_test_bard()
 class_t *make_test_cleric()
 {
     char* cleric_des = "Fueled by divine inspiration, devout to the craft";
-    class_t *test_cleric = new_class(1, cleric_des, 1, 2.0);
+    class_t *test_cleric = new_class(cleric, cleric_des, 1, 2.0);
     return test_cleric;
 }
 
@@ -94,7 +94,7 @@ class_t *make_test_cleric()
 class_t *make_test_paladin()
 {
     char* paladin_des = "Driven and committed to justice";
-    class_t *test_paladin = new_class(2, paladin_des, 2, 2.0);
+    class_t *test_paladin = new_class(paladin, paladin_des, 2, 2.0);
     return test_paladin;
 }
 
@@ -111,7 +111,7 @@ class_t *make_test_paladin()
 class_t *make_test_wizard()
 {
     char* wizard_des = "Draws power from nature";
-    class_t *test_wizard = new_class(3, wizard_des, 0, 2.0);
+    class_t *test_wizard = new_class(wizard, wizard_des, 0, 2.0);
     return test_wizard;
 }
 

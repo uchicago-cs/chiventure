@@ -17,16 +17,6 @@ typedef struct stat {
     int xp;
 } stat_t;
 
-/* class stub */
-typedef enum class {
-    bard,
-    cleric,
-    paladin, 
-    wizard
-} class_t;
-
-
-
 
 #endif
 

@@ -17,19 +17,11 @@
   */
 move_t *test_move_bard()
 {
-<<<<<<< HEAD
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
     move->info = (char*) calloc(SIZE, sizeof(char));
     strncpy(move->info, "Diss track", SIZE);
 
-=======
-    move_t* move = (move_t*) malloc(sizeof(move_t));
-    
-    move->info = (char*) malloc(sizeof(char) * 100);
-    strcpy(move->info, "Diss track");
-    
->>>>>>> 5413e47396586b8381f9c7306edf668ed22b4af3
     move->id = 100;
 
     move->item = NULL;
@@ -53,19 +45,11 @@ move_t *test_move_bard()
  */
 move_t *test_move_cleric()
 {
-<<<<<<< HEAD
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
     move->info = (char*) calloc(SIZE,sizeof(char));
     strncpy(move->info, "Divine smite", SIZE);
 
-=======
-    move_t* move = (move_t*) malloc(sizeof(move_t));
-    
-    move->info = (char*) malloc(sizeof(char) * 100);
-    strcpy(move->info, "Divine smite");
-    
->>>>>>> 5413e47396586b8381f9c7306edf668ed22b4af3
     move->id = 110;
 
     move->item = NULL;
@@ -89,19 +73,11 @@ move_t *test_move_cleric()
  */
 move_t *test_move_paladin()
 {
-<<<<<<< HEAD
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
     move->info = (char*) calloc(SIZE, sizeof(char));
     strncpy(move->info, "360 no scope", SIZE);
-
-=======
-    move_t* move = (move_t*) malloc(sizeof(move_t));
     
-    move->info = (char*) malloc(sizeof(char) * 100);
-    strcpy(move->info, "360 no scope");
-    
->>>>>>> 5413e47396586b8381f9c7306edf668ed22b4af3
     move->id = 120;
 
     move->item = NULL;
@@ -125,19 +101,11 @@ move_t *test_move_paladin()
  */
 move_t *test_move_wizard()
 {
-<<<<<<< HEAD
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
     move->info = (char*) calloc(SIZE, sizeof(char));
     strncpy(move->info, "Magic, betches", SIZE);
-
-=======
-    move_t* move = (move_t*) malloc(sizeof(move_t));
     
-    move->info = (char*) malloc(sizeof(char) * 100);
-    strcpy(move->info, "Magic, betches");
-    
->>>>>>> 5413e47396586b8381f9c7306edf668ed22b4af3
     move->id = 130;
 
     move->item = NULL;

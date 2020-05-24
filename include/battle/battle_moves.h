@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include <string.h>
 
+/* define max size of class info strings */
+static const int SIZE = 100;
+
+
 /* items stub */
 typedef struct item {
     int id;

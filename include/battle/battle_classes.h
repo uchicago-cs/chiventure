@@ -89,4 +89,18 @@ class_t *new_class(class_type_t cl, char* info,
 int init_class(class_t *class, class_type_t cl, char* info, 
 	       possible_stats_t st, double bonus);
 
+
+/* Initializes one hard-coded test class 
+for each of the four class */
+
+class_t *make_test_bard();
+
+class_t *make_test_cleric();
+
+class_t *make_test_paladin();
+
+class_t *make_test_wizard();
+
+
+
 #endif
