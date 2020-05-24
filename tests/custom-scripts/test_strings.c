@@ -41,3 +41,5 @@ Test(custom_types, extract_lua)
     char* res2 = extract_lua(s2);
     cr_assert_str_eq(res2, "./", "extract_lua: failed to extract Lua script dir");
 }
+
+#endif
