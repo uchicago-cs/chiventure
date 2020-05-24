@@ -3,7 +3,7 @@
 
 #include "../game-state/game_state_common.h"
 #include "../game-state/item.h"
-#include "../../../include/common/uthash.h"
+#include "../include/common/uthash.h"
 #include "default_items.h"
 
 /*get_default_items() returns all the default defined
@@ -27,6 +27,6 @@ item_hash_t *get_default_items();
 * Output:
 *	- an updated llist
 */
-item_hash_t *make_default_items(char *name, item_hash_t *hash);
+item_hash_t *make_default_items(char *name);
 
 #endif /* _DEFAULT_ITEM_H */

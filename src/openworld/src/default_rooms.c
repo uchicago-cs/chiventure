@@ -79,13 +79,13 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc) {
 /* see default_rooms.h */
 roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc) {
 
-	roomspec_t **hash = NULL;
+	roomspec_t *hash = NULL;
 	//get allowed rooms and defined descriptions
 	roomspec_t **rooms = get_allowed_rooms(bucket, sh_desc, l_desc);
 
 	int i = 0;
 	while (rooms[i] != NULL) {
-		room[i]->allowed_items = make_default_items(rooms[i]->room_name);
+		rooms[i]->allowed_items = make_default_items(rooms[i]->room_name);
 		HASH_ADD_STR(hash, room_name, rooms[i]);
 		i++;
 	}
