@@ -11,7 +11,7 @@
 #include "../include/action_block.h"
 
 /* See action_block.h */
-action_block_t* action_block_new(enum action_type action_type, int num_args, 
+action_block_t* action_block_new(action_type_t action_type, int num_args, 
 attribute_t** args)
 {
     action_block_t *action;
@@ -36,7 +36,7 @@ attribute_t** args)
 }
 
 /* See action_block.h */
-int action_block_init(action_block_t *action, enum action_type action_type, 
+int action_block_init(action_block_t *action, action_type_t action_type, 
 int num_args, attribute_t** args)
 {
     assert(action != NULL); 
