@@ -193,7 +193,8 @@ int execute(stats_t* stats, custom_block_t* block) {
                 curr_act->param2.constant);
 
             if (!if_result) {
-                // skip over the rest of the if section
+                /* skip over any commands contingent on the if statement
+                 * when the condition is false */
                 while (curr_act != NULL && curr_act->comm != ELSE && 
                     curr_act->comm != ENDIF) {
                     curr = curr->next;
@@ -203,8 +204,7 @@ int execute(stats_t* stats, custom_block_t* block) {
 
         } else if (curr_act->comm == ELSE && if_result) {
             /* skips to ENDIF when it reaches an else branch 
-             * after doing the if branch
-             */
+             * after doing the if branch */
             while (curr_act != NULL && curr_act->comm != ENDIF) {
                     curr = curr->next;
                     curr_act = curr->action;
