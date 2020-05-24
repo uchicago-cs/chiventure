@@ -1,9 +1,9 @@
-#ifndef _SAMPLE_ROOM_H
-#define _SAMPLE_ROOM_H
+#ifndef _DEFAULT_ROOM_H
+#define _DEFAULT_ROOM_H
 
 #include "../game-state/game_state_common.h"
 #include "../game-state/room.h"
-#include "sample_items.h"
+#include "default_items.h"
 #include "gen_structs.h"
 
 /*Get_allowed_rooms returns an array of roomspec_t for a default (or unknown) room
@@ -61,4 +61,4 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
 	item_list_t *items);
 
-#endif /* _SAMPLE_ROOM_H */
+#endif /* _DEFAULT_ROOM_H */

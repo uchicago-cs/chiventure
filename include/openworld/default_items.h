@@ -1,9 +1,9 @@
-#ifndef _SAMPLE_ITEM_H
-#define _SAMPLE_ITEM_H
+#ifndef _DEFAULT_ITEM_H
+#define _DEFAULT_ITEM_H
 
 #include "../game-state/game_state_common.h"
 #include "../game-state/item.h"
-#include "sample_items.h"
+#include "default_items.h"
 
 /* item_list_new creates a new item_list_t struct
 * (Surprisingly this isn't in game-state/item.h,
@@ -33,7 +33,7 @@ void item_list_free(item_list_t *llist);
 */
 item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count);
 
-/* get_allowed_items returns the subset of defined default items
+/* make_default_items returns the subset of defined default items
 * that are allowed for a given room name. If the room name doesn't
 * have any default approved items, return the original item list.
 * However, if the room name does have approved items, then add
@@ -51,4 +51,4 @@ item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count);
 */
 item_list_t* make_default_items(char *name, item_list_t *llist);
 
-#endif /* _SAMPLE_ITEM_H */
+#endif /* _DEFAULT_ITEM_H */

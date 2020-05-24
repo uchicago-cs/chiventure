@@ -3,12 +3,10 @@
 
 #include "../../../include/common/utlist.h"
 #include "../../../include/common/uthash.h"
-#include "../../../include/openworld/sample_rooms.h" 
-#include "../../../include/openworld/sample_items.h"
-//#include "../../../include/openworld/gen_structs.h"
+#include "../../../include/openworld/default_rooms.h" 
+#include "../../../include/openworld/default_items.h"
 
-/* see sample_rooms.h */
-
+/* see default_rooms.h */
 roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 	item_list_t *llist) {
 
@@ -82,7 +80,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 	}
 }
 
-/* see sample_rooms.h */
+/* see default_rooms.h */
 roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
 	item_list_t *items) {
 	roomspec_t *hash = NULL;

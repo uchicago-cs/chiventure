@@ -1,10 +1,11 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../include/openworld/sample_rooms.h"
-#include "../../include/openworld/sample_items.h"
-/* Tests the functions in sample_rooms.h */
+#include "../../include/openworld/default_rooms.h"
+#include "../../include/openworld/default_items.h"
+/* Tests the functions in default_rooms.h */
 
+/* Tests get_allowed_items for defined room */
 Test(room, get_allowed_defn){
 	roomspec_t **rooms = get_allowed_rooms("school", NULL, NULL, NULL);
 	
@@ -24,6 +25,7 @@ Test(room, get_allowed_defn){
 		"get_allowed_rooms failed");
 }
 
+/* Tests get_allowed_items for undefined empty room */
 Test(room, get_allowed_undef_empty) {
 	roomspec_t **rooms = get_allowed_rooms("pharmacy", NULL, NULL, NULL);
 
@@ -37,6 +39,7 @@ Test(room, get_allowed_undef_empty) {
 	cr_assert_null(rooms[0]->items, "get_allowed_rooms failed");
 }
 
+/* Tests get_allowed_items for undefined room with input strings */
 Test(room, get_allowed_undef_bogus) {
 	roomspec_t **rooms = get_allowed_rooms("pharmacy", "short bogus",
 		"long bogus", NULL);

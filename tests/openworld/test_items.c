@@ -1,10 +1,10 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../include/openworld/sample_items.h"
+#include "../../include/openworld/default_items.h"
 
 
-/* Tests the functions in sample_items.h */
+/* Tests the functions in default_items.h */
 
 /* Test item_list_new */
 Test(item, new_list){

@@ -1,7 +1,7 @@
 /* Implementations of the item struct */
 #include <string.h>
 
-#include "../../../include/openworld/sample_items.h"
+#include "../../../include/openworld/default_items.h"
 
 /* see sample_items.h */
 item_list_t *item_list_new() {
@@ -40,22 +40,24 @@ item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count) {
 
 /* see sample_items.h */
 item_list_t* make_default_items(char *name, item_list_t *llist) {
-	int rc;
-
 		assert(name != NULL);
 		if (!strcmp(name, "barn")){
 			item_t **barn_ids = calloc(5, sizeof(item_t*));
-			barn_ids[0] = item_new("apple", "a red apple",
-				"A juicy Red Delicious apple");
-			barn_ids[1] = item_new("cow", "A black and white cow",
-				"A black and white cow called Mavis");
-			barn_ids[2] = item_new("fruit", "a bowl of fruit",
-				"A bowl of fruit resting on a surface");
-			barn_ids[3] = item_new("ladder", "a wood ladder",
-				"A wooden ladder with 5 rungs resting against a door");
-			barn_ids[4] = item_new("yam", "a rotting yam",
-				"A singular rotting yam with flies flying around");
-
+		//	barn_ids[0] = item_new("apple", "a red apple",
+		//		"A juicy Red Delicious apple");
+		//	barn_ids[1] = item_new("cow", "A black and white cow",
+		//		"A black and white cow called Mavis");
+		//	barn_ids[2] = item_new("fruit", "a bowl of fruit",
+		//		"A bowl of fruit resting on a surface");
+		//	barn_ids[3] = item_new("ladder", "a wood ladder",
+		//		"A wooden ladder with 5 rungs resting against a door");
+		//	barn_ids[4] = item_new("yam", "a rotting yam",
+		//		"A singular rotting yam with flies flying around");
+			**barn_ids[5] = { item_new("apple", "a red apple", "A juicy Red Delicious apple"),
+				item_new("cow", "A black and white cow", "A black and white cow called Mavis"),
+				item_new("fruit", "a bowl of fruit", "A bowl of fruit resting on a surface"),
+				item_new("ladder", "a wood ladder", "A wooden ladder with 5 rungs resting against a door"),
+				item_new("yam", "a rotting yam", "A singular rotting yam with flies flying around") };
 			return add_items_to_llist(llist, barn_ids, 5);
 		}
 		else if (!strcmp(name, "cafeteria")) {
