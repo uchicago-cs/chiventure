@@ -32,6 +32,9 @@ typedef struct move {
 } move_t;
 
 
+/* For use in testing battle code,
+make a test move for each class */
+
 move_t *test_move_bard();
 
 move_t *test_move_cleric();

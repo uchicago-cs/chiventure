@@ -14,7 +14,7 @@ int init_class(class_t *class, class_type_t cl, char* info, possible_stats_t st,
 
     class->cl = cl;
 
-    class->info = (char*) calloc(sizeof(char) * SIZE);
+    class->info = (char*) calloc(SIZE, sizeof(char));
     strcpy(class->info, info);
 
     class->st = st;
@@ -28,7 +28,7 @@ int init_class(class_t *class, class_type_t cl, char* info, possible_stats_t st,
 /* See battle_classes.h */
 class_t *new_class(class_type_t cl, char* info, possible_stats_t st, double bonus)
 {
-    class_t *class = (class_t*) calloc(sizeof(class_t));
+    class_t *class = (class_t*) calloc(1, sizeof(class_t));
     int rc;
 
     if(class == NULL)

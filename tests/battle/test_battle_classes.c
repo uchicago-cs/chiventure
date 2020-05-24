@@ -17,7 +17,13 @@ Test(class, new)
 
     cr_assert_not_null(class, "new_class() failed");
 
+    cr_assert_eq(class->cl, 0, "new_class() didn't set class type");
+
     cr_assert_str_eq(class->info, test_str, "new_class() didn't set info");
+
+    cr_assert_eq(class->st, 1, "new_class() didn't set stat bonus type");
+
+    cr_assert_eq(class->bonus, 3.0, "new_class() didn't set stat bonus value");
 }
 
 
@@ -34,7 +40,13 @@ Test(class, init)
 
     cr_assert_eq(rc, 0, "init_class() failed");
 
+    cr_assert_eq(class.cl, 0, "init_class() didn't set class type");
+
     cr_assert_str_eq(class.info, test_str, "init_class() didn't set info");
+
+    cr_assert_eq(class.st, 1, "init_class() didn't set stat bonus type");
+
+    cr_assert_eq(class.bonus, 3.0, "init_class() didn't set stat bonus value");
 }
 
 
