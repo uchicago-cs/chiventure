@@ -17,13 +17,12 @@ achievement_t *achievement_new(mission_u *mission);
 /* Creates a new quest struct (allocates memory)
  * 
  * Parameters:
- * - hh: UT_hash_handle
  * - quest_id: string for the specific quest_id 
  * - achievement_list:  linked list struct holding a list of achievements that
  *                       make up a quest
  * - reward: reward of the quest is an item
  * 
- * Returns: a pointer to the newly allocated quest, with default status of 2
+ * Returns: a pointer to the newly allocated quest, with default status of 0
  *         (not started.
  */
 quest_t *quest_new(char *quest_id, achievement_llist_t *achievement_list,

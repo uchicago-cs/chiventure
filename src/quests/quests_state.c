@@ -21,7 +21,7 @@ achievement_t *achievement_new(mission_u *mission)
 }
 
 /* Refer to quests_state.h */
-quest_t *quest_new(char *quest_id, achievement_llist_t *achievement_list,
+quest_t *quest_new(long quest_id, achievement_llist_t *achievement_list,
                    item_t *reward) 
 {
     quest_t *q;
@@ -33,7 +33,7 @@ quest_t *quest_new(char *quest_id, achievement_llist_t *achievement_list,
         return NULL;
     }
 
-    rc = quest_init(q, quest_id, achievement_list, reward, 2);
+    rc = quest_init(q, quest_id, achievement_list, reward, 0);
     if(rc != SUCCESS){
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
@@ -54,13 +54,10 @@ int achievement_init(achievement_t *achievement, mission_u *mission)
 }
 
 /* Refer to quests_state.h */
-int quest_init(quest_t *q, char *quest_id, achievement_llist_t *achievement_list,
+int quest_init(quest_t *q, long quest_id, achievement_llist_t *achievement_list,
                 item_t *reward, int status)
 {
     assert(q != NULL);
-    assert(quest_id != NULL);
-    assert(achievement_list != NULL);
-    assert(reward != NULL);
 
     q->quest_id = quest_id;
     q->achievement_list = achievement_list;

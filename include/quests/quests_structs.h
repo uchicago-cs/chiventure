@@ -45,9 +45,9 @@ typedef struct quest  {
     long int quest_id;
     achievement_llist_t *achievement_list;    //linked list struct holding a list of achievements that make up a quest
     item_t *reward;    //reward of the quest is an item
-    int status;    /* 0: quest has been completed
+    int status;    /* 0: quest has not been started
                     * 1: quest has been started but not completed
-                    * 2: quest has not been started
+                    * 2: quest has been completed
                     */
  } quest_t;
 
