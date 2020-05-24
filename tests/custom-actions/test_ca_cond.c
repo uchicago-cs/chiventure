@@ -3,15 +3,6 @@
 #include <stdbool.h>
 #include "custom-actions-cond.h"
 
-/* Enumerative type for numerically comparative conditions */
-typedef enum {
-    LT,
-    GT,
-    LTE,
-    GTE
-} num_comp_t;
-
-
 /* attribute_new - allocates new attribute structure
  *
  * Arguments:

@@ -1,22 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../../include/game-state/item.h"
-#include "../include/custom-actions-common.h"
-
+#include "game-state/item.h"
+#include "custom-actions-common.h"
+#include "custom-actions-cond.h"
 
 /*
  * Atomic Conditionals: functions to check different conditions of an action
  */ 
-
-
-/* Enumerative type for numerically comparative conditions */
-typedef enum {
-    LT,
-    GT,
-    LTE,
-    GTE
-} num_comp_t;
 
 
 /* See custom-actions-cond.h */

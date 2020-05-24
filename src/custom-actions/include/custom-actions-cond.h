@@ -1,8 +1,16 @@
 #ifndef CUSTOM_ACTIONS_COND_H
 #define CUSTOM_ACTIONS_COND_H
 
-#include "../../../include/game-state/item.h"
+#include "game-state/item.h"
 #include "custom-actions-common.h"
+
+/* Enumerative type for numerically comparative conditions */
+typedef enum {
+    LT,
+    GT,
+    LTE,
+    GTE
+} num_comp_t;
 
 
 /*
