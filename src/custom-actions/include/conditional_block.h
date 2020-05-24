@@ -19,7 +19,12 @@ typedef enum conditional_type {
 
 
 /* A block that returns true or false, and contains an operator and two attributes */
-typedef struct conditional_block conditional_block_t;
+typedef struct conditional_block {
+    enum conditional_type conditional_type;
+    attribute_t* left;
+    attribute_t* right;
+} conditional_block_t;
+
 
 /* 
  * Allocates a conditional block in the heap. 

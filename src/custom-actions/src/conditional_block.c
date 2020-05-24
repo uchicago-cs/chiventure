@@ -11,13 +11,6 @@
 #include "../include/conditional_block.h"
 
 /* See conditional_block.h */
-typedef struct conditional_block {
-    enum conditional_type conditional_type;
-    attribute_t* left;
-    attribute_t* right;
-} conditional_block_t;
-
-/* See conditional_block.h */
 conditional_block_t* conditional_block_new(enum conditional_type conditional_type, 
 attribute_t* left, attribute_t* right)
 {

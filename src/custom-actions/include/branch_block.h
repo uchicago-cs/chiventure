@@ -12,7 +12,14 @@
 #include "control_block.h"
 
 /* A block that holds pointers to both a control and a conditional block */
-typedef struct branch_block branch_block_t;
+typedef struct branch_block {
+    int num_conditionals;
+    conditional_block_t** conditionals;
+    conditional_type conditional_type;
+    int num_controls;
+    control_block_t** controls;
+} branch_block_t;
+
 
 /* 
  * Allocates a branch block in the heap. 

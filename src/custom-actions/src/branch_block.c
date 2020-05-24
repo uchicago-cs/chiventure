@@ -11,15 +11,6 @@
 #include "../include/branch_block.h"
 
 /* See branch_block.h */
-typedef struct branch_block {
-    int num_conditionals;
-    conditional_block_t** conditionals;
-    conditional_type conditional_type;
-    int num_controls;
-    control_block_t** controls;
-} branch_block_t;
-
-/* See branch_block.h */
 branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
 conditionals, enum conditional_type conditional_type, int num_controls, 
 control_block_t** controls)

@@ -11,14 +11,6 @@
 #include "../include/action_block.h"
 
 /* See action_block.h */
-typedef struct action_block {
-    enum action_type action_type;
-    int num_args;
-    attribute_t** args;
-    AST_block_t* next;
-} action_block_t;
-
-/* See action_block.h */
 action_block_t* action_block_new(enum action_type action_type, int num_args, 
 attribute_t** args, AST_block_t *next)
 {

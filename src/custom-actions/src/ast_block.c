@@ -8,28 +8,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h" 
-#include "../include/ast_block.h"
-#include "../include/action_block.h"
-#include "../include/branch_block.h"
-#include "../include/conditional_block.h"
-#include "../include/control_block.h"
+#include "ast_block.h"
 
 /* See ast_block.h */
-typedef union block {
-    control_block_t *control_block;
-    branch_block_t *branch_block;
-    action_block_t *action_block;
-    conditional_block_t *conditional_block;
-} block_t;
-
-/* See ast_block.h */
-typedef struct AST_block {
-    block_t block;
-    enum block_type block_type;
-} AST_block_t;
-
-/* See ast_block.h */
-AST_block_t* AST_block_new(block_t block, enum block_type block_type)
+AST_block_t* AST_block_new(block_t* block, enum block_type block_type)
 {
     AST_block_t *ast;
     int new_ast;
@@ -53,7 +35,7 @@ AST_block_t* AST_block_new(block_t block, enum block_type block_type)
 }
 
 /* See ast_block.h */
-int AST_block_init(AST_block_t *ast, block_t block, enum block_type block_type)
+int AST_block_init(AST_block_t *ast, block_t* block, enum block_type block_type)
 {
     assert(ast != NULL); 
 

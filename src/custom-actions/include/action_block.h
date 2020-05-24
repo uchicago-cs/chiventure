@@ -8,8 +8,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "ast_block.h"
-#include "conditional_block.h"
+
+/* Forward delcaration */
+typedef struct AST_block  AST_block_t;
 
 /* An enumeration type for an action block */
 typedef enum action_type {
@@ -22,7 +23,13 @@ typedef enum action_type {
 } action_type;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
-typedef struct action_block action_block_t;
+typedef struct action_block {
+    enum action_type action_type;
+    int num_args;
+    attribute_t** args;
+    AST_block_t* next;
+} action_block_t;
+
 
 /* 
  * Allocates an action block in the heap. 
