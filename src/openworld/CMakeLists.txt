@@ -5,8 +5,9 @@
 add_library(openworld
 	    src/gen_structs.c
 	    sample_generation/sample_rooms.c
-	    sample_generation/sample_items.c
-            sample_generation/sample_npc.c)
+	    sample_generation/sample_items.c)
+#            sample_generation/sample_npc.c)
+
 target_include_directories(openworld PRIVATE src/)
 
 target_link_libraries(openworld wdl)
