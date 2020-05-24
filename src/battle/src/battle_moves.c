@@ -6,7 +6,7 @@
 #include "../../../include/battle/battle_moves.h"
 
 
- /* Creates test move for bard 
+ /* Creates test move for bard
   *
   * Parameters:
   *  none, values are hard coded in
@@ -17,11 +17,11 @@
   */
 move_t *test_move_bard()
 {
-    move_t* move = (move_t*) malloc(sizeof(move_t);
-    
-    move->info = (char*) malloc(sizeof(char) * 100);
-    strcpy(move->info, "Diss track");
-    
+    move_t* move = (move_t*) calloc(1, sizeof(move_t));
+
+    move->info = (char*) calloc(SIZE, sizeof(char));
+    strncpy(move->info, "Diss track", SIZE);
+
     move->id = 100;
 
     move->item = NULL;
@@ -34,7 +34,7 @@ move_t *test_move_bard()
 }
 
 
-/* Creates test move for cleric 
+/* Creates test move for cleric
  *
  * Parameters:
  *  none, values are hard coded in
@@ -45,11 +45,11 @@ move_t *test_move_bard()
  */
 move_t *test_move_cleric()
 {
-    move_t* move = (move_t*) malloc(sizeof(move_t);
-    
-    move->info = (char*) malloc(sizeof(char) * 100);
-    strcpy(move->info, "Divine smite");
-    
+    move_t* move = (move_t*) calloc(1, sizeof(move_t));
+
+    move->info = (char*) calloc(SIZE,sizeof(char));
+    strncpy(move->info, "Divine smite", SIZE);
+
     move->id = 110;
 
     move->item = NULL;
@@ -62,7 +62,7 @@ move_t *test_move_cleric()
 }
 
 
-/* Creates test move for paladin 
+/* Creates test move for paladin
  *
  * Parameters:
  *  none, values are hard coded in
@@ -73,11 +73,11 @@ move_t *test_move_cleric()
  */
 move_t *test_move_paladin()
 {
-    move_t* move = (move_t*) malloc(sizeof(move_t);
-    
-    move->info = (char*) malloc(sizeof(char) * 100);
-    strcpy(move->info, "360 no scope");
-    
+    move_t* move = (move_t*) calloc(1, sizeof(move_t));
+
+    move->info = (char*) calloc(SIZE, sizeof(char));
+    strncpy(move->info, "360 no scope", SIZE);
+
     move->id = 120;
 
     move->item = NULL;
@@ -90,7 +90,7 @@ move_t *test_move_paladin()
 }
 
 
-/* Creates test move for wizard 
+/* Creates test move for wizard
  *
  * Parameters:
  *  none, values are hard coded in
@@ -101,11 +101,11 @@ move_t *test_move_paladin()
  */
 move_t *test_move_wizard()
 {
-    move_t* move = (move_t*) malloc(sizeof(move_t);
-    
-    move->info = (char*) malloc(sizeof(char) * 100);
-    strcpy(move->info, "Magic, betches");
-    
+    move_t* move = (move_t*) calloc(1, sizeof(move_t));
+
+    move->info = (char*) calloc(SIZE, sizeof(char));
+    strncpy(move->info, "Magic, betches", SIZE);
+
     move->id = 130;
 
     move->item = NULL;

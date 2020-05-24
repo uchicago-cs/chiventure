@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include "battle/battle_state.h"
+#include "../../include/battle/battle_classes.h"
 
 
 /* See battle_state.h */
