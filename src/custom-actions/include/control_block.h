@@ -14,11 +14,11 @@ typedef enum control_type {
     IFELSE,
     WHILEENDWHILE,
     FORENDFOR
-} control_type;
+} control_type_t;
 
 /* Struct to contain a control block, which introduces an action */
 typedef struct control_block {
-    enum control_type control_type;
+    control_type_t control_type;
 } control_block_t;
 
 /* 
@@ -30,7 +30,7 @@ typedef struct control_block {
  * Returns: 
  * - A control block. 
  */  
-control_block_t* control_block_new(enum control_type control_type);
+control_block_t* control_block_new(control_type_t control_type);
 
 /* 
  * Initializes a control block. 
@@ -42,7 +42,7 @@ control_block_t* control_block_new(enum control_type control_type);
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */  
-int control_block_init(control_block_t *control, enum control_type control_type);
+int control_block_init(control_block_t *control, control_type_t control_type);
 
 /* 
  * Frees a control block. 
