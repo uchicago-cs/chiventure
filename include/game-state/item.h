@@ -21,6 +21,15 @@ typedef struct attribute attribute_hash_t;
 
 typedef struct game_action game_action_hash_t;
 
+typedef struct item {
+    UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
+    char *item_id;
+    char *short_desc;
+    char *long_desc;
+    game_action_hash_t *actions;
+    attribute_hash_t *attributes; // a hashtable for all attributes
+} item_t;
+
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
@@ -31,15 +40,6 @@ typedef struct player {
     int xp;
     item_hash_t *inventory;
 } player_t;
-
-typedef struct item {
-    UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
-    char *item_id;
-    char *short_desc;
-    char *long_desc;
-    game_action_hash_t *actions;
-    attribute_hash_t *attributes; // a hashtable for all attributes
-} item_t;
 
 /* This typedef is to distinguish between item_t pointers which are
 * used to point to the item_t structs in the traditional sense,
