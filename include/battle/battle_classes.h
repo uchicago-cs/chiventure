@@ -16,10 +16,10 @@ static const int SIZE = 100;
  */
 typedef enum class_type
 {
-    bard,
-    cleric,
-    paladin,
-    wizard
+    BARD,
+    CLERIC,
+    PALADIN,
+    WIZARD
 } class_type_t;
 
 
@@ -34,10 +34,10 @@ typedef enum class_type
  */
 typedef enum possible_stats
 {
-    spd,
-    str,
-    dex,
-    chrsma
+    SPD,
+    STR,
+    DEX,
+    CHRSMA
 } possible_stats_t;
 
 
