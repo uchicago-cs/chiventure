@@ -7,7 +7,7 @@ CC = gcc
 CFLAGS = -g -O2 -Wall -Wextra -fPIC -c -I /usr/include/
 RM = rm -f
 DYN_LDFLAGS = -L /usr/lib/x86_64-linux-gnu/ -Wl,-rpath=/usr/lib/x86_64-linux-gnu/
-LDLIBS = -lzip
+LDLIBS = -lzip -ljson-c
 LD_LIBRARY_PATH = /usr/lib/x86_64-linux-gnu/
 
 
