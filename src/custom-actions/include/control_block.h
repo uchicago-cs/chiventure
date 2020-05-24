@@ -9,33 +9,28 @@
 #include <stdio.h>
 #include "game-state/item.h"
 
-/* Forward delcaration */
-typedef struct AST_block  AST_block_t;
-
 /* An enumeration type for a control block */
 typedef enum control_type {
     IFELSE,
     WHILEENDWHILE,
     FORENDFOR
-} control_type;
+} control_type_t;
 
 /* Struct to contain a control block, which introduces an action */
 typedef struct control_block {
-    enum control_type control_type;
-    AST_block_t* next;
+    control_type_t control_type;
 } control_block_t;
 
 /* 
  * Allocates a control block in the heap. 
  * 
  * Parameters: 
- * - pointer to the first AST block in the sequence 
  * - enum representing the control type 
  * 
  * Returns: 
  * - A control block. 
  */  
-control_block_t* control_block_new(enum control_type control_type, AST_block_t *next);
+control_block_t* control_block_new(control_type_t control_type);
 
 /* 
  * Initializes a control block. 
@@ -47,8 +42,7 @@ control_block_t* control_block_new(enum control_type control_type, AST_block_t *
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */  
-int control_block_init(control_block_t *control, enum control_type control_type,
-AST_block_t *next);
+int control_block_init(control_block_t *control, control_type_t control_type);
 
 /* 
  * Frees a control block. 

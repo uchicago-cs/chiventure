@@ -34,6 +34,7 @@ typedef union block {
 typedef struct AST_block {
     block_t *block;
     enum block_type block_type;
+    AST_block_t *next;
 } AST_block_t;
 
 
@@ -47,7 +48,7 @@ typedef struct AST_block {
  * Returns: 
  * - A block. 
  */
-AST_block_t* AST_block_new(block_t *block, enum block_type block_type);
+AST_block_t* AST_block_new(enum block_type block_type);
 
 /* 
  * Initializes an AST block. 

@@ -9,9 +9,6 @@
 #include <stdio.h>
 #include "game-state/item.h"
 
-/* Forward delcaration */
-typedef struct AST_block  AST_block_t;
-
 /* An enumeration type for an action block */
 typedef enum action_type {
     SET,
@@ -27,7 +24,6 @@ typedef struct action_block {
     enum action_type action_type;
     int num_args;
     attribute_t** args;
-    AST_block_t* next;
 } action_block_t;
 
 
@@ -37,14 +33,13 @@ typedef struct action_block {
  * Parameters: 
  * - integer containing the number of arguments 
  * - pointer to a list of attributes 
- * - pointer to the first AST block in the sequence 
  * - enum representing the action type 
  * 
  * Returns: 
  * - An action block. 
  */
 action_block_t* action_block_new(enum action_type action_type, int num_args, 
-attribute_t** args, AST_block_t *next);
+attribute_t** args);
 
 /* 
  * Initializes an action block. 
@@ -53,14 +48,13 @@ attribute_t** args, AST_block_t *next);
  * - action block. Must point to already allocated memory.  
  * - integer containing the number of arguments 
  * - pointer to a list of attributes 
- * - pointer to the first AST block in the sequence 
  * - enum representing the action type    
  * 
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */
 int action_block_init(action_block_t *action, enum action_type action_type, int num_args, 
-attribute_t** args, AST_block_t *next);
+attribute_t** args);
 
 /* 
  * Frees an action block. 
@@ -71,6 +65,6 @@ attribute_t** args, AST_block_t *next);
  * Returns: 
  * - Always returns 0. 
  */
-int action_block_free(action_block_t *branch);  
+int action_block_free(action_block_t *action);  
 
 #endif /* INCLUDE_ACTION_BLOCK_H */

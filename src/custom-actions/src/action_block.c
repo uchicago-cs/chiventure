@@ -12,7 +12,7 @@
 
 /* See action_block.h */
 action_block_t* action_block_new(enum action_type action_type, int num_args, 
-attribute_t** args, AST_block_t *next)
+attribute_t** args)
 {
     action_block_t *action;
     int new_action;
@@ -25,7 +25,7 @@ attribute_t** args, AST_block_t *next)
         return NULL;
     }
 
-    new_action = action_block_init(action, action_type, num_args, args, next);
+    new_action = action_block_init(action, action_type, num_args, args);
     if (new_action != SUCCESS) 
     {
         fprintf(stderr, "Error: Could not initialize action_block_t\n");
@@ -37,17 +37,15 @@ attribute_t** args, AST_block_t *next)
 
 /* See action_block.h */
 int action_block_init(action_block_t *action, enum action_type action_type, 
-int num_args, attribute_t** args, AST_block_t *next)
+int num_args, attribute_t** args)
 {
     assert(action != NULL); 
     assert(num_args > 0);
     assert(args != NULL);
-    assert(next != NULL);
 
     action->action_type = action_type;
     action->num_args = num_args;
     action->args = args;
-    action->next = next;
 
     return SUCCESS;
 }
