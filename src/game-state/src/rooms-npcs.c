@@ -1,4 +1,5 @@
 #include "game-state/rooms-npcs.h"
+#include "custom-scripts/custom_types.h"
 
 /* See npc.h */
 int npc_room_init(npcs_in_room_t *npcs_in_room, string_t room_id) {
