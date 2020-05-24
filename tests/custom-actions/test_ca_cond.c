@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "custom-actions-cond.h"
+#include "../src/custom-actions/include/custom-actions-cond.h"
 
 /* attribute_new - allocates new attribute structure
  *
@@ -41,7 +41,7 @@ Test(custom_actions_cond, equals_fail)
 
     rc = check_eq(a1, a2);
 
-    cr_assert_eq(rc, FAILURE, "check_eq() failed to recognize conflicting "
+    cr_assert_eq(rc, FAIL, "check_eq() failed to recognize conflicting "
                               "types");
 
     attribute_free(a1);
@@ -54,7 +54,7 @@ void test_eq(double d1, double d2, int exp1, bool b1, bool b2, int exp2,
              char c1, char c2, int exp3, char* s1, char* s2, int exp4,
              int i1, int i2, int exp5)
 {
-    char ret[3][8] = {"TRUE", "FALSE", "FAILURE"};
+    char ret[3][8] = {"TRUE", "FALSE", "FAIL"};
     attribute_value_t v0, v1, v2, v3, v4, v5, v6, v7, v8, v9;
     attribute_t *a0, *a1, *a2, *a3, *a4, *a5, *a6, *a7, *a8, *a9;
     int rc1, rc2, rc3, rc4, rc5;
@@ -152,7 +152,7 @@ Test(custom_actions_cond, num_comp_fail)
     v5.bool_val = true;
 
     a0 = attribute_new(DOUBLE, v0);
-    a1 = attribute_new(DOUBLE, v1);
+    a1 = attribute_new(INTEGER, v1);
     a2 = attribute_new(STRING, v2);
     a3 = attribute_new(STRING, v3);
     a4 = attribute_new(BOOLE, v4);
@@ -162,11 +162,11 @@ Test(custom_actions_cond, num_comp_fail)
     rc2 = check_lt(a2, a3);
     rc3 = check_lt(a4, a5);
 
-    cr_assert_eq(rc1, FAILURE, "numerical comparisons fail to recognize "
-                               "conflicting types");
-    cr_assert_eq(rc2, FAILURE, "numerical comparisons fail to recognize "
+    cr_assert_eq(rc1, FAIL, "numerical comparisons fail to recognize "
+                               "conflicting types %d, rc1");
+    cr_assert_eq(rc2, FAIL, "numerical comparisons fail to recognize "
                                "invalid string type");
-    cr_assert_eq(rc3, FAILURE, "numerical comparisons fail to recognize "
+    cr_assert_eq(rc3, FAIL, "numerical comparisons fail to recognize "
                                "invalid boolean type");
 
     attribute_free(a0);
@@ -185,7 +185,7 @@ Test(custom_actions_cond, num_comp_fail)
 void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
                int i1, int i2, int exp3, num_comp_t op)
 {
-    char ret[3][8] = {"TRUE", "FALSE", "FAILURE"};
+    char ret[3][8] = {"TRUE", "FALSE", "FAIL"};
     attribute_value_t v0, v1, v2, v3, v4, v5;
     attribute_t *a0, *a1, *a2, *a3, *a4, *a5;
     int rc1, rc2, rc3;

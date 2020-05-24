@@ -14,7 +14,7 @@
 int check_eq(attribute_t *a1, attribute_t *a2)
 {
     if (a1->attribute_tag != a2->attribute_tag) {
-        return FAILURE;
+        return FAIL;
     }
 
     int cmp;
@@ -22,19 +22,23 @@ int check_eq(attribute_t *a1, attribute_t *a2)
     switch (a1->attribute_tag) {
 
         case DOUBLE:
-            cmp = (a1->attribute_value.double_val == a2->attribute_value.double_val);
+            cmp = (a1->attribute_value.double_val ==
+                   a2->attribute_value.double_val);
             return cmp ? TRUE : FALSE;
 
         case BOOLE:
-            cmp = (a1->attribute_value.bool_val == a2->attribute_value.bool_val);
+            cmp = (a1->attribute_value.bool_val ==
+                   a2->attribute_value.bool_val);
             return cmp ? TRUE : FALSE;
 
         case CHARACTER:
-            cmp = (a1->attribute_value.char_val == a2->attribute_value.char_val);
+            cmp = (a1->attribute_value.char_val ==
+                   a2->attribute_value.char_val);
             return cmp ? TRUE : FALSE;
 
         case STRING:
-            cmp = strcmp(a1->attribute_value.str_val, a2->attribute_value.str_val);
+            cmp = strcmp(a1->attribute_value.str_val,
+                         a2->attribute_value.str_val);
             return cmp ? FALSE : TRUE;
         
         default:
@@ -94,19 +98,23 @@ int double_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
     switch (op) {
 
         case LT:
-            cmp = (a1->attribute_value.double_val < a2->attribute_value.double_val);
+            cmp = (a1->attribute_value.double_val <
+                   a2->attribute_value.double_val);
             return cmp ? TRUE : FALSE;
         
         case GT:
-            cmp = (a1->attribute_value.double_val > a2->attribute_value.double_val);
+            cmp = (a1->attribute_value.double_val >
+                   a2->attribute_value.double_val);
             return cmp ? TRUE : FALSE;
 
         case LTE:
-            cmp = (a1->attribute_value.double_val <= a2->attribute_value.double_val);
+            cmp = (a1->attribute_value.double_val <=
+                   a2->attribute_value.double_val);
             return cmp ? TRUE : FALSE;
 
         default:
-            cmp = (a1->attribute_value.double_val >= a2->attribute_value.double_val);
+            cmp = (a1->attribute_value.double_val >=
+                   a2->attribute_value.double_val);
             return cmp ? TRUE : FALSE;
     }
 }
@@ -129,19 +137,23 @@ int char_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
     switch (op) {
 
         case LT:
-            cmp = (a1->attribute_value.char_val < a2->attribute_value.char_val);
+            cmp = (a1->attribute_value.char_val <
+                   a2->attribute_value.char_val);
             return cmp ? TRUE : FALSE;
         
         case GT:
-            cmp = (a1->attribute_value.char_val > a2->attribute_value.char_val);
+            cmp = (a1->attribute_value.char_val >
+                   a2->attribute_value.char_val);
             return cmp ? TRUE : FALSE;
 
         case LTE:
-            cmp = (a1->attribute_value.char_val <= a2->attribute_value.char_val);
+            cmp = (a1->attribute_value.char_val <=
+                   a2->attribute_value.char_val);
             return cmp ? TRUE : FALSE;
 
         default:
-            cmp = (a1->attribute_value.char_val >= a2->attribute_value.char_val);
+            cmp = (a1->attribute_value.char_val >=
+                   a2->attribute_value.char_val);
             return cmp ? TRUE : FALSE;
     }
 }
@@ -155,16 +167,16 @@ int char_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
  *
  * Returns:
  *  - TRUE/FALSE int status code
- *  - FAILURE status code if attribute types cannot be compared
+ *  - FAIL status code if attribute types cannot be compared
  */
 int num_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
 {
     if (a1->attribute_tag != a2->attribute_tag) {
-        return FAILURE;
+        return FAIL;
     }
 
     if (a1->attribute_tag == BOOLE || a1->attribute_tag == STRING) {
-        return FAILURE;
+        return FAIL;
     }
 
     switch (a1->attribute_tag) {
