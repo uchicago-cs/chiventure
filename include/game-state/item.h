@@ -3,7 +3,6 @@
 
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
-//#include "player.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
 HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
@@ -21,6 +20,17 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 typedef struct attribute attribute_hash_t;
 
 typedef struct game_action game_action_hash_t;
+
+/* A player in game */
+typedef struct player {
+    /* hh is used for hashtable, as provided in uthash.h*/
+    UT_hash_handle hh;
+    char *player_id;
+    int level;
+    int health;
+    int xp;
+    item_hash_t *inventory;
+} player_t;
 
 typedef struct item {
     UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)

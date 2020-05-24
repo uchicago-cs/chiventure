@@ -9,18 +9,6 @@
 #include "game_state_common.h"
 #include "item.h"
 
-
-/* A player in game */
-typedef struct player {
-    /* hh is used for hashtable, as provided in uthash.h*/
-    UT_hash_handle hh;
-    char *player_id;
-    int level;
-    int health;
-    int xp;
-    item_hash_t *inventory;
-} player_t;
-
 /* This typedef is to distinguish between player_t pointers which are 
 * used to point to the player_t structs themselves, and those which are used
 * to hash player_t structs with the UTHASH macros as specified
