@@ -207,6 +207,11 @@ bool check_attribute_condition(game_action_attribute_condition_t *condition)
     return false;
 }
 
+bool check_inventory_condition(game_action_inventory_condition_t *condition)
+{
+    return item_in_inventory(condition->player_to_check, condition->expected_item);
+}
+
 /* see game_action.h */
 bool check_condition(game_action_condition_t *condition)
 {
@@ -215,8 +220,7 @@ bool check_condition(game_action_condition_t *condition)
     case (ATTRIBUTE):
         return check_attribute_condition(condition->condition.attr_type);
     case (INVENTORY):
-        //TODO
-        return false;
+        return check_inventory_condition(condition->condition.inven_type);
     }
 }
 
