@@ -5,6 +5,7 @@
 #include "game-state/item.h"
 #include "common/common.h"
 #include "common/utlist.h"
+#include "game-state/npc.h"
 
 /* 
  * This union represents the mission.
@@ -27,7 +28,6 @@ typedef struct achievement {
     bool completed;
 } achievement_t;
 
-
 /* 
  * This is a linked list struct of achievements.
  */
@@ -42,7 +42,7 @@ typedef struct achievement_llist {
  */
 typedef struct quest  {
     UT_hash_handle hh;
-    char* quest_id;
+    long int quest_id;
     achievement_llist_t *achievement_list;    //linked list struct holding a list of achievements that make up a quest
     item_t *reward;    //reward of the quest is an item
     int status;    /* 0: quest has been completed
