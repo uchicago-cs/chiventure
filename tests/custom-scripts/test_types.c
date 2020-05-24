@@ -123,6 +123,9 @@ Test(custom_type, obj_t_get_bool)
  */
 Test(custom_type, obj_t_get_bool_lua)
 {
+    obj_t ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_t_test.lua");
+    bool rv = bool_t_get(ot);
+    cr_assert_eq((rv ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
 
 }
 
@@ -140,7 +143,9 @@ Test(custom_type, obj_t_get_char)
  */
 Test(custom_type, obj_t_get_char_lua)
 {
-
+    obj_t ot = obj_t_char('a', "../../../tests/custom-scripts/Lua_file/char_t_test.lua");
+    char rv = int_t_get(ot);
+    cr_assert_eq(rv, 'b', "obj_t_get_char: failed char direct retrieval");
 }
 
 
@@ -158,7 +163,9 @@ Test(custom_type, obj_t_get_int)
  */
 Test(custom_type, obj_t_get_int_lua)
 {
-
+    obj_t ot = int_t_new(10, "../../../tests/custom-scripts/Lua_file/int_t_test.lua");
+    int rv = int_t_get (ot);
+    cr_assert_eq(rv, 15, "int_t_get: failed int Lua retrieval");
 }
 
 
@@ -175,7 +182,10 @@ Test(custom_type, obj_t_get_str)
  */
 Test(custom_type, obj_t_get_str_lua)
 {
-
+    obj_t  ot = obj_t_str("testing_failed", "../../../tests/custom-scripts/Lua_file/string_t_test.lua");
+    const char *rv = string_t_get(ot);
+    int result = strcmp(rv, "testing_succeeded");
+    cr_assert_eq(result, 0, "string_t_get: failed string Lua retrieval");
 }
 
 

@@ -139,33 +139,6 @@ int int_t_get(obj_t ot);
  */
 const char* string_t_get(obj_t ot);
 
-/**
- * lua_t_get() returns a Lua directory from an obj_t struct
- * Parameters:
- * - ot: an obj_t
- * Returns:
- * - Lua directory from ot
- */
-
-
-/**
- * string_is_lua() determines whether a string is a Lua directory string
- * A lua directory string must start with LUA
- * Parameters:
- * - s: string to be investigated
- * Returns:
- * - boolean value (true = lua directory)
- */
-bool string_is_lua(char* s);
-
-/**
- * extra_lua(), given input is a Lua directory, extracts the Lua directory
- * Parameters:
- * - s: Lua directory string (includes "LUA " prefix)
- * Returns:
- * - String that is just the Lua directory
- */
-char* extract_lua(char* s);
 
 
 #endif

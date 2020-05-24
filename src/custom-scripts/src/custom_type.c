@@ -71,8 +71,22 @@ obj_t obj_t_str(char *s, char *lua)
 bool bool_t_get(obj_t ot) {
     assert(ot.type == TYPE_BOOL);
     if (ot.is_lua) {
-        // return using lua script
-    } else {
+        char *lua_path = ot.data.lua;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path);
+        lua_settop(L, 0);
+        lua_getglobal(L, "foo");
+        lua_call(L, 0, 1);
+        //lua_pcall(L, 0, 1, 0);
+        int result = (int)lua_toboolean(L, -1);
+        lua_pop(L, 1);
+        if (result)
+            return true;
+        else
+            return false;
+    } 
+    else {
         return ot.data.b;
     }
 }
@@ -82,7 +96,18 @@ bool bool_t_get(obj_t ot) {
 char char_t_get(obj_t ot) {
     assert(ot.type == TYPE_CHAR);
     if (ot.is_lua) {
-        // return using lua script
+        char *lua_path = ot.data.lua;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path);
+        lua_settop(L, 0);
+        lua_getglobal(L, "foo");
+        lua_call(L, 0, 1);
+        //lua_pcall(L, 0, 1, 0);
+        const char *result = lua_tostring(L, -1);
+        //printf ("Lua string is %s\n", result);
+        lua_pop(L, 1);
+        return *result;
     } else {
         return ot.data.c;
     }
@@ -92,7 +117,17 @@ char char_t_get(obj_t ot) {
 int int_t_get(obj_t ot) {
     assert(ot.type == TYPE_INT);
     if (ot.is_lua) {
-        // return using lua script
+        char *lua_path = ot.data.lua;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path);
+        lua_settop(L, 0);
+        lua_getglobal(L, "foo");
+        lua_call(L, 0, 1);
+        //lua_pcall(L, 0, 1, 0);
+        int result = (int)lua_tointeger(L, -1);
+        lua_pop(L, 1);
+        return result;
     } else {
         return ot.data.i;
     }
@@ -102,27 +137,19 @@ int int_t_get(obj_t ot) {
 char* str_t_get(obj_t ot) {
     assert(ot.type == TYPE_STR);
     if (ot.is_lua) {
-        // return using lua script
+        char *lua_path = st.p.luaDirectory;
+        lua_State *L = luaL_newstate();
+        luaL_openlibs(L);
+        luaL_dofile(L, lua_path);
+        lua_settop(L, 0);
+        lua_getglobal(L, "foo");
+        lua_call(L, 0, 1);
+        //lua_pcall(L, 0, 1, 0);
+        const char *result = lua_tostring(L, -1);
+        //printf ("Lua string is %s\n", result);
+        lua_pop(L, 1);
+        return result;
     } else {
         return ot.data.s;
     }
-}
-
-
-
-// see custom_types.h
-bool string_is_lua(char* s) {
-    if (!(s)) { // string is NULL
-        return false;
-    }
-    if (s[0] == 'L' && s[1] == 'U' && s[2] == 'A' && s[3] == ' ') {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-// see custom_types.h
-char* extract_lua(char* s) {
-    return s + 4; // remove the first 4 characters of the string
 }
