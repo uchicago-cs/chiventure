@@ -6,7 +6,7 @@
 #include "../../../include/openworld/default_rooms.h" 
 #include "../../../include/openworld/default_items.h"
 
-/* helper function solely to initialize an
+/* Mini-helper function solely to initialize an
 * item list given an item found in the hash
 */
 item_list_t *llist_new(item_t* item){
@@ -56,7 +56,8 @@ item_list_t *allowed) {
 	LL_APPEND(hallway->allowed_items, llist_new(book));
 
 	//LIBRARY
-	roomspec_t *library = roomspec_new("library", "This is a library room with resources",
+	roomspec_t *library = roomspec_new("library", 
+		"This is a library room with resources",
 		"An old, dusty library with skill-boosting resources like books and potions",
 		allowed, NULL, NULL);
 	LL_APPEND(library->allowed_items, llist_new(book));
@@ -162,7 +163,8 @@ item_list_t *allowed) {
 		LL_APPEND(farm_rooms[3]->allowed_items,llist_new(tray));
 
 		//LIVING ROOM
-		farm_rooms[4] = roomspec_new("living room", "A living room with basic items",
+		farm_rooms[4] = roomspec_new("living room", 
+			"A living room with basic items",
 			"A plain, unremarkable living room",
 			allowed, NULL, NULL);
 		HASH_FIND_STR(def, "watercolors", watercolors);
@@ -200,7 +202,8 @@ item_list_t *allowed) {
 		LL_APPEND(castle_rooms[3]->allowed_items, llist_new(yam));
 
 		//THRONE ROOM
-		castle_rooms[4] = roomspec_new("throne room", "This is a throne room",
+		castle_rooms[4] = roomspec_new("throne room", 
+			"This is a throne room",
 			"A regal throne room decked out with lavish items",
 			allowed, NULL, NULL);
 		LL_APPEND(castle_rooms[4]->allowed_items, llist_new(gold));

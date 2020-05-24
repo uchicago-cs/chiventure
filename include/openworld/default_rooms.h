@@ -12,13 +12,13 @@
 * for DEFAULT rooms: give as input the themed room "bucket". This can be
 * 'school', 'farmhouse', or 'castle'. In each of these three themed "buckets"
 * there are 5 different room types that can be assigned. Return the hard-coded 
-* strings it corresponds to { room_name, short_desc, long_desc } in roomspec.
+* roomspec it corresponds to { room_name, short_desc, long_desc, allowed }.
 *
 * for UNKNOWN rooms: this means either the given "bucket" is not recognized
 * as one of the three already defined. "bucket" cannot be NULL. In this case,
 * bucket is still a string, so use this as the room_id assignment instead.
-* Also assign short_desc, long_desc to the given sh_desc and l_desc strings
-* respectively. Return a singuar roomspec with this information
+* Also assign short_desc, long_desc, allowed to the given sh_desc,l_desc, allowed,
+* respectively. Return a singuar roomspec with this information.
 *
 * Input: 
 *	- char *bucket: the string naming the theme of a set of rooms
@@ -27,8 +27,7 @@
 *	-- note: if bucket is defined, it doesn't matter what sh_desc, l_desc are.
 *			we already have fixed definitions for the rooms in this theme.--
 * Output:
-*	- roomspec **: an array of roomspecs with 3 hardcoded strings in a roomspec
-*					in the following order: {room_id, short_desc, long_desc}
+*	- roomspec **: an array of roomspecs
 *
 */
 roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
@@ -56,6 +55,7 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 *					if "bucket" IS NOT part of default defn, use this as a room
 *					short_desc.
 *	- char *l_desc: similar purpose to sh_desc but for long_desc
+*	- item_list_t *allowed: similar purpose to sh_desc but for allowed_items
 *
 * Output:
 *	- roomspec_t updated hash
