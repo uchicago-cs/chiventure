@@ -28,13 +28,122 @@ int check_eq(attribute_t *a1, attribute_t *a2)
 
     switch (a1->attribute_tag) {
 
+        case DOUBLE:
+            int cmp = (a1->attribute_value.double_val == a2->attribute_value.double_val);
+            return cmp ? TRUE : FALSE;
+
+        case BOOLE:
+            int cmp = (a1->attribute_value.bool_val == a2->attribute_value.bool_val);
+            return cmp ? TRUE : FALSE;
+
+        case CHARACTER:
+            int cmp = (a1->attribute_value.char_val == a2->attribute_value.char_val);
+            return cmp ? TRUE : FALSE;
+
         case STRING:
-            int strcmp = strcmp(a1->attribute_value, a2->attribute_value);
+            int strcmp = strcmp(a1->attribute_value.str_val, a2->attribute_value.str_val);
             return strcmp ? FALSE : TRUE;
         
         default:
-            int cmp = (a1->attribute_value == a2->attribute_value);
+            int cmp = (a1->attribute_value.int_val == a2->attribute_value.int_val);
             return cmp ? TRUE : FALSE;
+    }
+}
+
+
+/* int_comp - compares two attributes with values of type int
+ *
+ * Arguments:
+ *  - a1, a2: attributes to be compared
+ *  - op: comparative operator to be used
+ *
+ * Returns:
+ *  - TRUE/FALSE int status code
+ */
+int int_comp(attribute_t *a1, attribute_t *a2, num_comp op)
+{
+    switch (op) {
+
+        case LT:
+            int lt = (a1->attribute_value.int_val < a2->attribute_value.int_val);
+            return lt ? TRUE : FALSE;
+        
+        case GT:
+            int gt = (a1->attribute_value.int_val > a2->attribute_value.int_val);
+            return gt ? TRUE : FALSE;
+
+        case LTE:
+            int lte = (a1->attribute_value.int_val <= a2->attribute_value.int_val);
+            return lte ? TRUE : FALSE;
+
+        default:
+            int gte = (a1->attribute_value.int_val >= a2->attribute_value.int_val);
+            return gte ? TRUE : FALSE;
+    }
+}
+
+
+/* double_comp - compares two attributes with values of type double
+ *
+ * Arguments:
+ *  - a1, a2: attributes to be compared
+ *  - op: comparative operator to be used
+ *
+ * Returns:
+ *  - TRUE/FALSE int status code
+ */
+int double_comp(attribute_t *a1, attribute_t *a2, num_comp op)
+{
+    switch (op) {
+
+        case LT:
+            int lt = (a1->attribute_value.double_val < a2->attribute_value.double_val);
+            return lt ? TRUE : FALSE;
+        
+        case GT:
+            int gt = (a1->attribute_value.double_val > a2->attribute_value.double_val);
+            return gt ? TRUE : FALSE;
+
+        case LTE:
+            int lte = (a1->attribute_value.double_val <= a2->attribute_value.double_val);
+            return lte ? TRUE : FALSE;
+
+        default:
+            int gte = (a1->attribute_value.double_val >= a2->attribute_value.double_val);
+            return gte ? TRUE : FALSE;
+    }
+}
+
+
+/* char_comp - compares two attributes with values of type char
+ *
+ * Arguments:
+ *  - a1, a2: attributes to be compared
+ *  - op: comparative operator to be used
+ *
+ * Returns:
+ *  - TRUE/FALSE int status code
+ */
+
+int char_comp(attribute_t *a1, attribute_t *a2, num_comp op)
+{
+    switch (op) {
+
+        case LT:
+            int lt = (a1->attribute_value.char_val < a2->attribute_value.char_val);
+            return lt ? TRUE : FALSE;
+        
+        case GT:
+            int gt = (a1->attribute_value.char_val > a2->attribute_value.char_val);
+            return gt ? TRUE : FALSE;
+
+        case LTE:
+            int lte = (a1->attribute_value.char_val <= a2->attribute_value.char_val);
+            return lte ? TRUE : FALSE;
+
+        default:
+            int gte = (a1->attribute_value.char_val >= a2->attribute_value.char_val);
+            return gte ? TRUE : FALSE;
     }
 }
 
@@ -59,23 +168,16 @@ int num_comp(attribute_t *a1, attribute_t *a2, num_comp op)
         return FAILURE;
     }
 
-    switch (op) {
+    switch (a1->attribute_tag) {
 
-        case LT:
-            int lt = (a1->attribute_value < a2->attribute_value);
-            return lt ? TRUE : FALSE;
+        case INTEGER:
+            return int_comp(a1, a2, op);
         
-        case GT:
-            int gt = (a1->attribute_value > a2->attribute_value);
-            return gt ? TRUE : FALSE;
-
-        case LTE:
-            int lte = (a1->attribute_value <= a2->attribute_value);
-            return lte ? TRUE : FALSE;
+        case DOUBLE:
+            return double_comp(a1, a2, op);
 
         default:
-            int gte = (a1->attribute_value >= a2->attribute_value);
-            return gte ? TRUE : FALSE;
+            return char_comp(a1, a2, op);
     }
 }
 
