@@ -30,17 +30,6 @@ typedef struct item {
     attribute_hash_t *attributes; // a hashtable for all attributes
 } item_t;
 
-/* A player in game */
-typedef struct player {
-    /* hh is used for hashtable, as provided in uthash.h*/
-    UT_hash_handle hh;
-    char *player_id;
-    int level;
-    int health;
-    int xp;
-    item_hash_t *inventory;
-} player_t;
-
 /* This typedef is to distinguish between item_t pointers which are
 * used to point to the item_t structs in the traditional sense,
 * and those which are used to hash item_t structs with the
@@ -51,6 +40,17 @@ typedef struct item_wrapped_for_llist {
     struct item_wrapped_for_llist *next;
     item_t *item;
 } item_list_t;
+
+/* A player in game */
+typedef struct player {
+    /* hh is used for hashtable, as provided in uthash.h*/
+    UT_hash_handle hh;
+    char *player_id;
+    int level;
+    int health;
+    int xp;
+    item_hash_t *inventory;
+} player_t;
 
 /* item_new() allocates a space for an item struct in memory
 *  Parameters:
