@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include "game-state/item.h"
 #include "../include/control_block.h"
-#include "../include/ast_block.h"
 
 /* See control_block.h */
 control_block_t* control_block_new(control_type_t control_type)
