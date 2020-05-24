@@ -99,8 +99,9 @@ int check_gte(attribute_t *a1, attribute_t *a2);
  * Returns:
  *  - TRUE/FALSE int status code
  *  - FAILURE status code if invalid input
+ *
+ * int check_in(attribute_t *a, item_t *c); TO BE IMPLEMENTED
  */
-int check_in(attribute_t *a, item_t *c);
 
 
 #endif /* CUSTOM_ACTIONS_COND_H */

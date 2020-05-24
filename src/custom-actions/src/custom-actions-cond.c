@@ -210,8 +210,7 @@ int check_gte(attribute_t *a1, attribute_t *a2)
 }
 
 
-/* See custom-actions-cond.h */
-int check_in(attribute_t *a, item_t *c)
-{
-        return 0;
-}
+/* To be implemented:
+ *
+ * int check_in(attribute_t *a, item_t *c)
+ */
