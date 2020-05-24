@@ -2,7 +2,7 @@
 #define _ROOMS_NPCS_H
 
 #include "game_state_common.h"
-#include "custom-scripts/custom_types.h"
+#include "custom-scripts/custom_type.h"
 #include "item.h"
 #include "room.h"
 #include "npc.h"
@@ -11,7 +11,7 @@
 /* Struct for adding and handling npcs in rooms */
 typedef struct npcs_in_room {
     UT_hash_handle hh;
-    string_t room_id;
+    object_t room_id;
     npc_hash_t *npc_list; //hash table storing the npcs in the room
     int num_of_npcs; //number of npcs in the room
 } npcs_in_room_t;
@@ -66,7 +66,7 @@ typedef enum mov_type npc_mov_type_e;
 
 /* Struct that deals with NPC movement for both types of npc movements */
 typedef struct npc_mov {
-    string_t *npc_id; //the NPC being considered
+    object_t *npc_id; //the NPC being considered
     npc_mov_type_u *npc_mov_type; //union with the structs for both mov types
     npc_mov_type_e mov_type; //enum type of movement
     char* track; //tracker variable that returns current room id
@@ -101,7 +101,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, room_t *room);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_mov_init(npc_mov_t *npc_mov, string_t npc_id, npc_mov_type_e mov_type,
+int npc_mov_init(npc_mov_t *npc_mov, object_t npc_id, npc_mov_type_e mov_type,
                 room_t *room);
 
 
@@ -114,7 +114,7 @@ int npc_mov_init(npc_mov_t *npc_mov, string_t npc_id, npc_mov_type_e mov_type,
  * Returns:
  *  pointer to allocated npcs_in_room struct
  */
-npcs_in_room_t *npcs_in_room_new(string_t room_id);
+npcs_in_room_t *npcs_in_room_new(object_t room_id);
 
 
 /*
@@ -129,7 +129,7 @@ npcs_in_room_t *npcs_in_room_new(string_t room_id);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-npc_mov_t *npc_mov_new(string_t npc_id, npc_mov_type_e mov_type, long room_id);
+npc_mov_t *npc_mov_new(object_t npc_id, npc_mov_type_e mov_type, object_t room_id);
 
 
 /*
