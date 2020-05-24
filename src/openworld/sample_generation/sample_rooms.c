@@ -53,8 +53,7 @@ char ***get_desc_room(char *bucket, char *sh_desc, char *l_desc) {
 }
 
 /* see sample_rooms.h */
-roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
-	item_list_t *items) {
+roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc, npc_t *possible_npcs, item_list_t *items) {
 	roomspec_t *hash = NULL;
 
 	//get room name and defined descriptions
@@ -66,7 +65,7 @@ roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
 		item_list_t *allowed = get_allowed_items(desc[i][0], items);
 
 		//create the new roomspec that's eventually added to hash at end
-		roomspec_t *match = roomspec_new(desc[i][0], desc[i][1],
+		roomspec_t *match = roomspec_new(possible_npcs-> desc[i][0], desc[i][1],
 			desc[i][2], allowed, NULL, NULL);
 
 		//count number of allowed items
