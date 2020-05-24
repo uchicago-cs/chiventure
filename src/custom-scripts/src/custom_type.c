@@ -1,5 +1,5 @@
-//#include "custom-scripts/custom_types.h"
-#include "custom-scripts/custom_types.h"
+//#include "custom-scripts/custom_type.h"
+#include "custom-scripts/custom_type.h"
 
 // see custom_type.h
 obj_t obj_t_new()
