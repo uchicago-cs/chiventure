@@ -49,6 +49,13 @@ typedef struct node {
     edge_list_t *edges;
 } node_t;
 
+/*
+ * A doubly-linked list of nodes for containing all involved nodes in a convo
+ * Includes:
+ *  - cur_node: Points to the location of the node currently focused on
+ *  - prev: A pointer to the previous entry in the list, NULL if none left
+ *  - next: A pointer to the next entry in the list, NULL if none left
+ */
 typedef struct node_list {
     node_t *cur_node;
     struct node_list *prev;
@@ -69,6 +76,13 @@ typedef struct edge {
     char *quip;
 } edge_t;
 
+/*
+ * A doubly-linked list of edges for containing all potential paths for a node
+ * Includes:
+ *  - cur_edge: Points to the location of the edge currently focused on
+ *  - prev: A pointer to the previous entry in the list, NULL if none left
+ *  - next: A pointer to the next entry in the list, NULL if none left
+ */
 typedef struct edge_list {
     edge_t *cur_edge;
     struct edge_list *prev;
