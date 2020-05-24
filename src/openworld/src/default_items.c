@@ -42,36 +42,27 @@ item_list_t *add_items_to_llist(item_list_t *llist, item_t **ids, int count) {
 item_list_t* make_default_items(char *name, item_list_t *llist) {
 		assert(name != NULL);
 		if (!strcmp(name, "barn")){
-			item_t **barn_ids = calloc(5, sizeof(item_t*));
-		//	barn_ids[0] = item_new("apple", "a red apple",
-		//		"A juicy Red Delicious apple");
-		//	barn_ids[1] = item_new("cow", "A black and white cow",
-		//		"A black and white cow called Mavis");
-		//	barn_ids[2] = item_new("fruit", "a bowl of fruit",
-		//		"A bowl of fruit resting on a surface");
-		//	barn_ids[3] = item_new("ladder", "a wood ladder",
-		//		"A wooden ladder with 5 rungs resting against a door");
-		//	barn_ids[4] = item_new("yam", "a rotting yam",
-		//		"A singular rotting yam with flies flying around");
-			**barn_ids[5] = { item_new("apple", "a red apple", "A juicy Red Delicious apple"),
-				item_new("cow", "A black and white cow", "A black and white cow called Mavis"),
-				item_new("fruit", "a bowl of fruit", "A bowl of fruit resting on a surface"),
-				item_new("ladder", "a wood ladder", "A wooden ladder with 5 rungs resting against a door"),
-				item_new("yam", "a rotting yam", "A singular rotting yam with flies flying around") };
+			item_t *barn_ids[5] = { item_new("apple", "a red apple", 
+						"A juicy Red Delicious apple"),
+				item_new("cow", "A black and white cow", 
+						"A black and white cow called Mavis"),
+				item_new("fruit", "a bowl of fruit", 
+						"A bowl of fruit resting on a surface"),
+				item_new("ladder", "a wood ladder", 
+						"A wooden ladder with 5 rungs resting against a door"),
+				item_new("yam", "a rotting yam", 
+						"A singular rotting yam with flies flying around") };
 			return add_items_to_llist(llist, barn_ids, 5);
 		}
 		else if (!strcmp(name, "cafeteria")) {
-			item_t **cafe_ids = calloc(5, sizeof(item_t*));
-			cafe_ids[0] = item_new("apple", "a red apple",
-				"A juicy Red Delicious apple");
-			cafe_ids[1] = item_new("fruit", "a bowl of fruit",
-				"A bowl of fruit resting on a surface");
-			cafe_ids[2] = item_new("ice", "a bag of ice",
-				"A bag of crunchy ice");
-			cafe_ids[3] = item_new("jug", "a brown jug",
-				"A brown jug with something inside");
-			cafe_ids[4] = item_new("tray", "a red plastic tray",
-				"A red plastic tray with some dried ketchup stains");
+			item_t *cafe_ids[5] = { item_new ("apple", "a red apple", 
+						"A juicy Red Delicious apple"),
+				item_new("fruit", "a bowl of fruit",
+					"A bowl of fruit resting on a surface"),
+				item_new("ice", "a bag of ice", "A bag of crunchy ice"),
+				item_new("jug", "a brown jug", "A brown jug with something inside"),
+				item_new("tray", "a red plastic tray",
+					"A red plastic tray with some dried ketchup stains")};
 			return add_items_to_llist(llist, cafe_ids, 5);
 		}
 		else if (!strcmp(name, "classroom")) {

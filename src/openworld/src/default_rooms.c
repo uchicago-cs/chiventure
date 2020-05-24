@@ -29,16 +29,17 @@ roomspec_t **get_allowed_rooms(char *bucket, char *sh_desc, char *l_desc,
 
 	if (!strcmp(bucket, "school")) {
 		roomspec_t **school_rooms = calloc(5, sizeof(roomspec_t*));
-		school_rooms[0] = roomspec_new("cafeteria", "A grungy cafeteria",
-			"A messy high school cafeteria with trays and tables out",
-			make_default_items("cafeteria", llist), NULL, NULL);
-		school_rooms[1] = roomspec_new("classroom",
-			"A medium-sized classroom with 30 desks",
-			"A geography teacher's classroom with 30 desks",
-			make_default_items("classroom", llist), NULL, NULL);
-		school_rooms[2] = closet;
-		school_rooms[3] = hallway;
-		school_rooms[4] = library;
+//		school_rooms[0] = roomspec_new("cafeteria", "A grungy cafeteria",
+//			"A messy high school cafeteria with trays and tables out",
+//			make_default_items("cafeteria", llist), NULL, NULL);
+//		school_rooms[1] = roomspec_new("classroom",
+//			"A medium-sized classroom with 30 desks",
+//			"A geography teacher's classroom with 30 desks",
+//			make_default_items("classroom", llist), NULL, NULL);
+//		school_rooms[2] = closet;
+//		school_rooms[3] = hallway;
+//		school_rooms[4] = library;
+//		roomspec_t *school_rooms[5] = {closet, closet, closet, closet, closet};
 		return school_rooms;
 	}
 	else if (!strcmp(bucket, "farmhouse")) {

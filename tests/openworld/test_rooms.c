@@ -8,7 +8,7 @@
 /* Tests get_allowed_items for defined room */
 Test(room, get_allowed_defn){
 	roomspec_t **rooms = get_allowed_rooms("school", NULL, NULL, NULL);
-	
+	printf("yes actually testing");	
 	cr_assert_not_null(rooms, "get_allowed_rooms failed");
 
 	cr_assert_str_eq(rooms[0]->room_name, "cafeteria",
