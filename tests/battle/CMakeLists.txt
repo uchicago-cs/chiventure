@@ -1,6 +1,7 @@
 set(TEST_EXE test-battle)
 
 add_executable(${TEST_EXE}
+        test_AI.c
         test_battle_state.c
         main.c)
 

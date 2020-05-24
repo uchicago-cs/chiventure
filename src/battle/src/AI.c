@@ -1,4 +1,4 @@
-#include "AI.h"
+#include "../../../include/battle/AI.h"
 #include <math.h>
 
 /* see AI.h */
@@ -70,19 +70,21 @@ move_t* find_easy(combatant_t* player, combatant_t* enemy)
 {
     move_t* weakest_move = enemy->moves;
     move_t *temp;
+    double least_damage = 10000;
 
     DL_FOREACH(enemy->moves, temp)
     {
-        double least_damage = 0;
+        
         double cur_damage = damage(player, temp, enemy);
 
-        if (temp->next == NULL)
+        if (temp == NULL)
         {
             return weakest_move;
         }
         else if (cur_damage < least_damage)
         {
             weakest_move = temp;
+            least_damage = cur_damage;
         }
     }
     return weakest_move;
@@ -98,19 +100,21 @@ move_t* find_hard(combatant_t* player, combatant_t* enemy)
 {
     move_t* strongest_move = enemy->moves;
     move_t *temp;
+    double most_damage = 0;
 
     DL_FOREACH(enemy->moves, temp)
     {
-        double most_damage = 0;
+        
         double cur_damage = damage(player, temp, enemy);
 
-        if (temp->next == NULL)
+        if (temp == NULL)
         {
             return strongest_move;
         }
         else if (cur_damage > most_damage)
         {
             strongest_move = temp;
+            most_damage = cur_damage;
         }
     }
     return strongest_move;
@@ -119,17 +123,20 @@ move_t* find_hard(combatant_t* player, combatant_t* enemy)
 /* see AI.h */
 double damage(combatant_t* player, move_t* move, combatant_t* enemy)
 {
-    double dmg, power, enemy_strength, defense;
+    double dmg, power, enemy_strength, defense, level;
     stat_t* e_stats = enemy->stats;
     stat_t* p_stats = player->stats;
     
     //Inquire about armor
-    defense = (double) p_stats->defense + (double) player->armor->defense;
+    defense = (double) p_stats->defense;
     power = (double) move->damage;
+    enemy_strength = (double) e_stats->strength;
+    level = (double) e_stats->level;
 
     
-    dmg = ((2.0 * (double) e_stats->level) / 5.0) + 2.0;
-    dmg *= ((power * ((double) e_stats->strength / defense)) / 50.0) + 2.0;
+    dmg = ((2.0 * level) / 5.0);
+    dmg *= ((power * (enemy_strength / defense)) / 50.0) + 2.0;
 
+    floor(dmg);
     return dmg;
 }
