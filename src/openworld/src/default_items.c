@@ -66,131 +66,122 @@ item_list_t* make_default_items(char *name, item_list_t *llist) {
 			return add_items_to_llist(llist, cafe_ids, 5);
 		}
 		else if (!strcmp(name, "classroom")) {
-			item_t **class_ids = calloc(5, sizeof(item_t*)); 
-			class_ids[0] = item_new("book", "A big book",
-				"A Simulation survival book");
-			class_ids[1] = item_new("door", "a normal door",
-				"A wooden door with a worn doorknob");
-			class_ids[2] = item_new("pencil", "a no.2 pencil",
-				"A sharpened no.2 yellow pencil");
-			class_ids[3] = item_new("quill", "a quail quill",
-				"A quail quill in a pot of black ink");
-			class_ids[4] = item_new("watercolors",
+			item_t *class_ids[5] = { item_new("book", "A big book",
+				"A Simulation survival book"),
+				item_new("door", "a normal door",
+				"A wooden door with a worn doorknob"),
+				item_new("pencil", "a no.2 pencil",
+				"A sharpened no.2 yellow pencil"),
+				item_new("quill", "a quail quill",
+				"A quail quill in a pot of black ink"),
+				item_new("watercolors",
 				"a set of watercolors with brush",
-				"A set of used watercolors and dusty brush");
+				"A set of used watercolors and dusty brush") };
 			return add_items_to_llist(llist, class_ids, 5);
 		}
 		else if (!strcmp(name, "closet")) {
-			item_t **closet_ids = calloc(5, sizeof(item_t*));
-			closet_ids[0] = item_new("hat", "a top hat",
-				"A black top hat with a monogrammed A.L.");
-			closet_ids[1] = item_new("jug", "a brown jug",
-				"A brown jug with something inside");
-			closet_ids[2] = item_new("ladder", "a wood ladder",
-				"A wooden ladder with 5 rungs resting against a door");
-			closet_ids[3] = item_new("nail", "a normal nail",
-				"A regular metail nail");
-			closet_ids[4] = item_new("umbrella", "a black umbrella",
-				"A black polyester umbrella with M.P. initials");
+			item_t *closet_ids[5] = { item_new("hat", "a top hat",
+				"A black top hat with a monogrammed A.L."),
+				item_new("jug", "a brown jug",
+				"A brown jug with something inside"),
+				item_new("ladder", "a wood ladder",
+				"A wooden ladder with 5 rungs resting against a door"),
+				item_new("nail", "a normal nail",
+				"A regular metail nail"),
+				item_new("umbrella", "a black umbrella",
+				"A black polyester umbrella with M.P. initials") };
 			return add_items_to_llist(llist, closet_ids, 5);
 		}
 		else if (!strcmp(name, "dungeon")) {
-			item_t **dungeon_ids = calloc(5, sizeof(item_t*)); 
-			dungeon_ids[0] = item_new("door", "a normal door",
-				"A wooden door with a worn doorknob");
-			dungeon_ids[1] = item_new("gold", "three gold coins",
-				"Three shiny gold coins the size of your eye");
-			dungeon_ids[2] = item_new("hat", "a top hat",
-				"A black top hat with a monogrammed A.L.");
-			dungeon_ids[3] = item_new("ladder", "a wood ladder",
-				"A wooden ladder with 5 rungs resting against a door");
-			dungeon_ids[4] = item_new("nail", "a normal nail",
-				"A regular metail nail");
+			item_t *dungeon_ids{ item_new("door", "a normal door",
+				"A wooden door with a worn doorknob"),
+				item_new("gold", "three gold coins",
+				"Three shiny gold coins the size of your eye"),
+				item_new("hat", "a top hat",
+				"A black top hat with a monogrammed A.L."),
+				item_new("ladder", "a wood ladder",
+				"A wooden ladder with 5 rungs resting against a door"),
+				item_new("nail", "a normal nail",
+				"A regular metail nail") };
 			return add_items_to_llist(llist, dungeon_ids, 5);
 		}
 		else if (!strcmp(name, "field")) {
-			item_t **field_ids = calloc(5, sizeof(item_t*)); 
-			field_ids[0] = item_new("cow", "A black and white cow",
-				"A black and white cow called Mavis");
-			field_ids[1] = item_new("eagle", "a bald eagle",
-				"A bald eagle calmly perched on a ledge nearby");
-			field_ids[2] = item_new("rabbit", "a white rabbit",
-				"A live, fluffy white rabbit hiding in the corner");
-			field_ids[3] = item_new("yam", "a rotting yam",
-				"A singular rotting yam with flies flying around");
-			field_ids[4] = item_new("zebra", "a small zebra",
-				"A small zebra calmly munching on some grass");
+			item_t *field_ids[5]{ item_new("cow", "A black and white cow",
+				"A black and white cow called Mavis"),
+				item_new("eagle", "a bald eagle",
+				"A bald eagle calmly perched on a ledge nearby",
+					item_new("rabbit", "a white rabbit",
+				"A live, fluffy white rabbit hiding in the corner"),
+					item_new("yam", "a rotting yam",
+				"A singular rotting yam with flies flying around"),
+					item_new("zebra", "a small zebra",
+				"A small zebra calmly munching on some grass") };
 			return add_items_to_llist(llist, field_ids, 5);
 		}
 		else if (!strcmp(name, "hallway")) {
-			item_t **hall_ids = calloc(5, sizeof(item_t*));
-			hall_ids[0] = item_new("door", "a normal door",
-				"A wooden door with a worn doorknob");
-			hall_ids[1] = item_new("mirror", "an oval mirror",
-				"A dusty oval mirror with one big crack");
-			hall_ids[2] = item_new("ladder", "a wood ladder",
-				"A wooden ladder with 5 rungs resting against a door");
-			hall_ids[3] = item_new("hat", "a top hat",
-				"A black top hat with a monogrammed A.L.");
-			hall_ids[4] = item_new("nail", "a normal nail",
-				"A regular metail nail");
+			item_t *hall_ids[5]{ item_new("door", "a normal door",
+				"A wooden door with a worn doorknob"),
+				item_new("mirror", "an oval mirror",
+				"A dusty oval mirror with one big crack"),
+				item_new("ladder", "a wood ladder",
+				"A wooden ladder with 5 rungs resting against a door"),
+				item_new("hat", "a top hat",
+				"A black top hat with a monogrammed A.L."),
+				item_new("nail", "a normal nail",
+				"A regular metail nail") };
 			return add_items_to_llist(llist, hall_ids, 5);
 		}
 		else if (!strcmp(name, "kitchen")) {
-			item_t **kitchen_ids = calloc(5, sizeof(item_t*));
-			kitchen_ids[0] = item_new("apple", "a red apple",
-				"A juicy Red Delicious apple");
-			kitchen_ids[1] = item_new("kettle", "a black kettle",
-				"A black kettle on a stove");
-			kitchen_ids[2] = item_new("olive", "a black olive",
-				"A singular, unrefrigerated black olive");
-			kitchen_ids[3] = item_new("tray", "a red plastic tray",
-				"A red plastic tray with some dried ketchup stains");
-			kitchen_ids[4] = item_new("yam", "a rotting yam",
-				"A singular rotting yam with flies flying around");
+			item_t *kitchen_ids[5] = { item_new("apple", "a red apple",
+				"A juicy Red Delicious apple"),
+				item_new("kettle", "a black kettle",
+				"A black kettle on a stove"),
+				item_new("olive", "a black olive",
+				"A singular, unrefrigerated black olive"),
+				item_new("tray", "a red plastic tray",
+				"A red plastic tray with some dried ketchup stains"),
+				item_new("yam", "a rotting yam",
+				"A singular rotting yam with flies flying around") };
 			return add_items_to_llist(llist, kitchen_ids, 5);
 		}
 		else if (!strcmp(name, "library")) {
-			item_t **library_ids = calloc(5, sizeof(item_t*));
-			library_ids[0] = item_new("book", "A big book",
-				"A Simulation survival book");
-			library_ids[1] = item_new("ladder", "a wood ladder",
-				"A wooden ladder with 5 rungs resting against a door");
-			library_ids[2] = item_new("mirror", "an oval mirror",
-				"A dusty oval mirror with one big crack");
-			library_ids[3] = item_new("quill", "a quail quill",
-				"A quail quill in a pot of black ink");
-			library_ids[4] = item_new("video", "a dvd video",
-				"A DVD video with an illegible label");
+			item_t *library_ids[5] = { item_new("book", "A big book",
+				"A Simulation survival book"),
+				item_new("ladder", "a wood ladder",
+				"A wooden ladder with 5 rungs resting against a door"),
+				item_new("mirror", "an oval mirror",
+				"A dusty oval mirror with one big crack"),
+				item_new("quill", "a quail quill",
+				"A quail quill in a pot of black ink"),
+				item_new("video", "a dvd video",
+				"A DVD video with an illegible label") };
 			return add_items_to_llist(llist, library_ids, 5);
 		}
 		else if (!strcmp(name, "living room")) {
-			item_t **living_ids = calloc(5, sizeof(item_t*));
-			living_ids[0] = item_new("book", "A big book",
-				"A Simulation survival book");
-			living_ids[1] = item_new("door", "a normal door",
-				"A wooden door with a worn doorknob");
-			living_ids[2] = item_new("umbrella", "a black umbrella",
-				"A black polyester umbrella with M.P. initials");
-			living_ids[3] = item_new("watercolors",
+			item_t *living_ids[5] = { item_new("book", "A big book",
+				"A Simulation survival book"),
+				item_new("door", "a normal door",
+				"A wooden door with a worn doorknob"),
+				item_new("umbrella", "a black umbrella",
+				"A black polyester umbrella with M.P. initials"),
+				item_new("watercolors",
 				"a set of watercolors with brush",
-				"A set of used watercolors and dusty brush");
-			living_ids[4] = item_new("xylophone", "a colorful xylophone",
-				"A children's xylophone with a pair of mallets");
+				"A set of used watercolors and dusty brush"),
+				item_new("xylophone", "a colorful xylophone",
+				"A children's xylophone with a pair of mallets") };
 			return add_items_to_llist(llist, living_ids, 5);
 		}
 		else if (!strcmp(name, "throne room")) {
-			item_t **throne_ids = calloc(5, sizeof(item_t*));
-			throne_ids[0] = item_new("gold", "three gold coins",
-				"Three shiny gold coins the size of your eye");
-			throne_ids[1] = item_new("hat", "a top hat",
-				"A black top hat with a monogrammed A.L.");
-			throne_ids[2] = item_new("mirror", "an oval mirror",
-				"A dusty oval mirror with one big crack");
-			throne_ids[3] = item_new("quill", "a quail quill",
-				"A quail quill in a pot of black ink");
-			throne_ids[4] = item_new("door", "a normal door",
-				"A wooden door with a worn doorknob");
+			item_t *throne_ids[5] = { item_new("gold", "three gold coins",
+				"Three shiny gold coins the size of your eye"),
+				item_new("hat", "a top hat",
+				"A black top hat with a monogrammed A.L."),
+				item_new("mirror", "an oval mirror",
+				"A dusty oval mirror with one big crack"),
+				item_new("quill", "a quail quill",
+				"A quail quill in a pot of black ink"),
+				item_new("door", "a normal door",
+				"A wooden door with a worn doorknob") };
 			return add_items_to_llist(llist, throne_ids, 5);
 		}
 		else {
