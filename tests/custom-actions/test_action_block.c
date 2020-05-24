@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "action_block.h"
+#include "ast_block.h"
+#include "attribute_functions.h"
 
 /* Checks that a new action block with SET type is created without interruption */
 Test(action_block_t, new_SET)
