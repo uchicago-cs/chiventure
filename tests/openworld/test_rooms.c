@@ -8,7 +8,7 @@
 
 /* testing make_default_room for defined bucket, NULL sh_desc, l_desc*/
 Test(room, make_default_defn){
-	roomspec_t *hash = make_default_room("school", NULL , NULL, NULL);
+	roomspec_t *hash = make_default_room(NULL, "school", NULL , NULL, NULL);
 	cr_assert_not_null(hash, "make_default_room failed");
 
 	roomspec_t *r1, *r2, *r3, *r4, *r5, *r6;
@@ -43,7 +43,7 @@ Test(room, make_default_defn){
 
 /* testing make_default_room for undef bucket, bogus sh_desc, l_desc */
 Test(room, make_default_undef_bogus) {
-	roomspec_t *hash = make_default_room("pharmacy", "short bogus", 
+	roomspec_t *hash = make_default_room(NULL, "pharmacy", "short bogus", 
 		"long bogus", NULL);
 	cr_assert_not_null(hash, "make_default_room failed");
 

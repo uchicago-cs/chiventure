@@ -30,7 +30,7 @@ item_list_t *allowed) {
 		*video;
 
 	//CLOSET
-	roomspec_t *closet = roomspec_new("closet", "A broom closet",
+	roomspec_t *closet = roomspec_new(get_generic_npcs(),"closet", "A broom closet",
 		"A small broom closet with supplies",
 		allowed, NULL, NULL);
 	HASH_FIND_STR(def, "door", door);
@@ -45,7 +45,7 @@ item_list_t *allowed) {
 	LL_APPEND(closet->allowed_items, llist_new(hat));
 
 	//HALLWAY
-	roomspec_t *hallway = roomspec_new("hallway", "A well-lit hallway",
+	roomspec_t *hallway = roomspec_new(get_hostile_npcs(),"hallway", "A well-lit hallway",
 		"A sterile, white hallway with no windows",
 		allowed, NULL, NULL);
 	LL_APPEND(hallway->allowed_items, llist_new(door));
@@ -58,7 +58,7 @@ item_list_t *allowed) {
 	LL_APPEND(hallway->allowed_items, llist_new(book));
 
 	//LIBRARY
-	roomspec_t *library = roomspec_new("library", 
+	roomspec_t *library = roomspec_new(get_friendly_npcs(),"library", 
 		"This is a library room with resources",
 		"An old, dusty library with skill-boosting resources like books and potions",
 		allowed, NULL, NULL);
@@ -77,7 +77,7 @@ item_list_t *allowed) {
 			*watercolors, *video;
 
 		//CAFETERIA
-		roomspec_t *cafeteria = roomspec_new("cafeteria", "A grungy cafeteria",
+		roomspec_t *cafeteria = roomspec_new(get_friendly_npcs(),"cafeteria", "A grungy cafeteria",
 			"A messy high school cafeteria with trays and tables out",
 			allowed, NULL, NULL);
 		HASH_FIND_STR(def, "apple", apple);
@@ -91,7 +91,7 @@ item_list_t *allowed) {
 		LL_APPEND(cafeteria->allowed_items, llist_new(yam));
 
 		//CLASSROOM
-		roomspec_t *classroom = roomspec_new("classroom",
+		roomspec_t *classroom = roomspec_new(get_generic_npcs(),"classroom",
 			"A medium-sized classroom with 30 desks",
 			"A geography teacher's classroom with 30 desks",
 			allowed, NULL, NULL);
@@ -118,7 +118,7 @@ item_list_t *allowed) {
 			*hat, *mirror;
 
 		//BARN
-		roomspec_t *barn = roomspec_new("barn", "A red barn",
+		roomspec_t *barn = roomspec_new(get_friendly_npcs(),"barn", "A red barn",
 			"A red barn with stables inside",
 			allowed, NULL, NULL);
 		HASH_FIND_STR(def, "apple", apple);
@@ -133,7 +133,7 @@ item_list_t *allowed) {
 		LL_APPEND(barn->allowed_items, llist_new(yam));
 
 		//OPEN FIELD
-		roomspec_t *field = roomspec_new("open field",
+		roomspec_t *field = roomspec_new(get_friendly_npcs(),"open field",
 			"An open field outside",
 			"An open field with grass and a clear view",
 			allowed, NULL, NULL);
@@ -145,7 +145,7 @@ item_list_t *allowed) {
 		LL_APPEND(field->allowed_items, llist_new(apple));
 
 		//KITCHEN
-		roomspec_t *kitchen = roomspec_new("kitchen", "A 60s era (outdated) kitchen",
+		roomspec_t *kitchen = roomspec_new(get_generic_npcs(),"kitchen", "A 60s era (outdated) kitchen",
 			"An outdated kitchen with obvious wear-and-tear",
 			allowed, NULL, NULL);
 		HASH_FIND_STR(def, "olive", olive);
@@ -157,7 +157,7 @@ item_list_t *allowed) {
 		LL_APPEND(kitchen->allowed_items,llist_new(tray));
 
 		//LIVING ROOM
-		roomspec_t *living = roomspec_new("living room", 
+		roomspec_t *living = roomspec_new(get_generic_npcs(),"living room", 
 			"A living room with basic items",
 			"A plain, unremarkable living room",
 			allowed, NULL, NULL);
@@ -183,7 +183,7 @@ item_list_t *allowed) {
 		item_t *ladder, *gold, *yam;
 
 		//DUNGEON
-		roomspec_t *dungeon = roomspec_new("dungeon", "A dark dungeon",
+		roomspec_t *dungeon = roomspec_new(get_hostile_npcs(), "dungeon", "A dark dungeon",
 			"A dank, dark dungeon with traps and enemies to battle",
 			allowed, NULL, NULL);
 		LL_APPEND(dungeon->allowed_items, llist_new(nail));
@@ -196,7 +196,7 @@ item_list_t *allowed) {
 		LL_APPEND(dungeon->allowed_items, llist_new(yam));
 
 		//THRONE ROOM
-		roomspec_t *throne = roomspec_new("throne room", 
+		roomspec_t *throne = roomspec_new(get_hostile_npcs(),"throne room", 
 			"This is a throne room",
 			"A regal throne room decked out with lavish items",
 			allowed, NULL, NULL);
