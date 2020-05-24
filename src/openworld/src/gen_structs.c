@@ -24,20 +24,18 @@ int init_gencontext(gencontext_t *context, path_t *path, int level, int openpath
     context->path = path;
     context->level = level;
     context->openpaths = openpaths;
-    context->numnpcs = numnpcs;
     context->speclist = speclist;
     return SUCCESS;
 }
 
 
 /* see gen_structs.h */
-gencontext_t* gencontext_new(path_t *path, int level, int openpaths, int numnpcs, speclist_t *speclist){
+gencontext_t* gencontext_new(path_t *path, int level, int openpaths, speclist_t *speclist){
 
     gencontext_t *contextnew = calloc(1, sizeof(gencontext_t));
     contextnew->path = path;
     contextnew->level = level;
     contextnew->openpaths = openpaths;
-    contextnew->numnpcs = numnpcs;
     contextnew->speclist = speclist;
     return contextnew;
 }

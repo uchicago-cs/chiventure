@@ -62,7 +62,6 @@ typedef struct gencontext {
     path_t *path;
     int level;
     int openpaths;
-    int numnpcs;
     speclist_t *speclist;
 } gencontext_t;
 
