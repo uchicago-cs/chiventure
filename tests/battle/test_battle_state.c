@@ -107,14 +107,17 @@ Test(battle_state, battle_free)
 {
     battle_t *b;
     int rc;
-    combatant_t *p = combatant_new("battle_new_Player", true, calloc(1, sizeof(stat_t)), NULL, NULL);
+    combatant_t *p = NULL;
+    combatant_t *p1 = combatant_new("battle_new_Player", true, calloc(1, sizeof(stat_t)), NULL, NULL);
     combatant_t *e1 = combatant_new("battle_new_Enemy", false, calloc(1, sizeof(stat_t)), NULL, NULL);
     combatant_t *e2 = combatant_new("battle_new_Enemy", false, calloc(1, sizeof(stat_t)), NULL, NULL);
 
+    DL_APPEND(p, p1);
     combatant_t *e = NULL;
-    DL_APPEND(e1, e2);
+    DL_APPEND(e, e1);
+    DL_APPEND(e, e2);
 
-    b = battle_new(p, e1, ENV_SNOW, ENEMY);
+    b = battle_new(p, e, ENV_SNOW, ENEMY);
 
     cr_assert_not_null(b, "battle_new() failed");
 

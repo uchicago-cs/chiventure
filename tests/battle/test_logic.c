@@ -1,26 +1,30 @@
 #include <criterion/criterion.h>
-#include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include "battle/battle_structs.h"
 #include "battle/battle_state.h"
+#include "battle/battle_structs.h"
 #include "battle/logic.h"
 
 Test(logic, target_exists)
 {
+    combatant_t *phead = NULL;
     combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL);
-    combatant_t *head = NULL;
+    DL_APPEND(phead, p);
+    
+    combatant_t *ehead = NULL;
     combatant_t *c1;
     combatant_t *c2;
 
-    c1 = combatant_new("Goblin Gary", true, calloc(1, sizeof(stat_t)), NULL, NULL);
-    c2 = combatant_new("Orc John", true, calloc(1, sizeof(stat_t)), NULL, NULL);
-    DL_APPEND(head, c1);
-    DL_APPEND(head, c2);
+    c1 = combatant_new("Goblin Gary", false, calloc(1, sizeof(stat_t)), NULL, NULL);
+    c2 = combatant_new("Orc John", false, calloc(1, sizeof(stat_t)), NULL, NULL);
+    DL_APPEND(ehead, c1);
+    DL_APPEND(ehead, c2);
     cr_assert_not_null(c1, "combatant_new() failed");
     cr_assert_not_null(c2, "combatant_new() failed");
 
-    battle_t *b = battle_new(p, head, ENV_NONE, PLAYER);
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
     bool res = check_target(b, "Orc John");
@@ -28,33 +32,34 @@ Test(logic, target_exists)
 
     cr_assert_eq(res, true, "check_target() failed!");
 
-    combatant_free_all(head);
     battle_free(b);
 }
 
 Test(logic, target_does_not_exist)
 {
+    combatant_t* phead = NULL;
     combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL);
-    combatant_t *head = NULL;
+    DL_APPEND(phead, p);
+    
+    combatant_t *ehead = NULL;
     combatant_t *c1;
     combatant_t *c2;
 
-    c1 = combatant_new("Goblin Gary", true, calloc(1, sizeof(stat_t)), NULL, NULL);
-    c2 = combatant_new("Orc John", true, calloc(1, sizeof(stat_t)), NULL, NULL);
-    DL_APPEND(head, c1);
-    DL_APPEND(head, c2);
+    c1 = combatant_new("Goblin Gary", false, calloc(1, sizeof(stat_t)), NULL, NULL);
+    c2 = combatant_new("Orc John", false, calloc(1, sizeof(stat_t)), NULL, NULL);
+    DL_APPEND(ehead, c1);
+    DL_APPEND(ehead, c2);
     cr_assert_not_null(c1, "combatant_new() failed");
     cr_assert_not_null(c2, "combatant_new() failed");
 
-    battle_t *b = battle_new(p, head, ENV_NONE, PLAYER);
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
     bool res = check_target(b, "Goblin John");
     printf("      CHECK_TARGET RETURNED: %d\n", res);
 
-    cr_assert_eq(res, 1, "check_target() failed!");
+    cr_assert_eq(res, false, "check_target() failed!");
 
-    combatant_free_all(head);
     battle_free(b);
 }
 
