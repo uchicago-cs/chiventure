@@ -9,14 +9,11 @@
 convo_t *
 convo_init (int num_nodes, int num_edges)
 {
-  convo_t *c = malloc (104);
-  /* TODO: Fix memory allocation
-           and problems associated 
-	   with flexible member arrays */
+  convo_t *c = malloc (sizeof(convo_t) + num_nodes * sizeof(node_t*));
   c->node_count = 0;
   
   for (int i = 0; i < num_nodes; ++i){
-    c->head[i] = calloc (1, sizeof (*c->head[i]));
+    c->head[i] = calloc (1, (sizeof(c) * num_nodes) + sizeof(*c->head[i]));
   }
     
   for (int j = 0, k = 0; k < num_edges && j < num_nodes; ++k) {
