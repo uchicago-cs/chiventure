@@ -117,9 +117,13 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
             if (((game->final_room != NULL && game->final_room == game->curr_room) || 
-                game->final_room == NULL) && end_conditions_met(game))
+                  game->final_room == NULL) && end_conditions_met(game))
             {
-                sprintf(string, " Congratulations, you've won the game! Press ctrl+D to quit.");
+                /* Final room exists and currently in that room
+                 * or there is no final room.
+                 * Either way, all end conditions are met */
+                sprintf(string, " Congratulations, you've won the game! "
+                        "Press ctrl+D to quit.");
             }
             *ret_string = string;
             return SUCCESS;
@@ -264,8 +268,11 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
             if (((game->final_room != NULL && game->final_room == game->curr_room) || 
-                game->final_room == NULL) && end_conditions_met(game))
+                  game->final_room == NULL) && end_conditions_met(game))
             {
+                /* Final room exists and currently in that room
+                 * or there is no final room.
+                 * Either way, all end conditions are met */
                 sprintf(string, " Congratulations, you've won the game! Press ctrl+D to quit.");
             }
             *ret_string = string;
