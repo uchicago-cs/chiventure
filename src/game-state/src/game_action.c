@@ -208,6 +208,24 @@ bool check_attribute_condition(game_action_attribute_condition_t *condition)
     return false;
 }
 
+game_action_condition_t *inventory_condition_new(player_t *player, item_t *expected_item)
+{
+    if(player == NULL || expected_item == NULL)
+    {
+        return NULL;
+    }
+
+    game_action_inventory_condition_t *new_condition = malloc(sizeof(game_action_inventory_condition_t));
+    new_condition->player_to_check = player;
+    new_condition->expected_item = expected_item;
+
+    game_action_condition_t *condition_wrapper = malloc(sizeof(game_action_condition_t));
+    condition_wrapper->condition.inven_type = new_condition;
+    condition_wrapper->condition_tag = INVENTORY;
+
+    return condition_wrapper;
+}
+
 bool check_inventory_condition(game_action_inventory_condition_t *condition)
 {
     return item_in_inventory(condition->player_to_check, condition->expected_item);
