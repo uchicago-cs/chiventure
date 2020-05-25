@@ -6,6 +6,7 @@
 #include "room.h"
 #include "item.h"
 #include "game_action.h"
+#include "stats.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
@@ -38,6 +39,9 @@ typedef struct game {
 
     /* pointer to current player struct */
     player_t *curr_player;
+
+    /* pointer to global stats hashtable*/
+    global_stats_hash_t *curr_stats
 
     /* starting string description to be presented at beginning of game */
     char *start_desc;

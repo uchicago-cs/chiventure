@@ -33,7 +33,7 @@ typedef struct stats stats_hash_t;
  * 
  *      the modifier of the effect on that stat 
  * 
- *      the duration of the effect, an umber 
+ *      the duration of the effect, an number 
  * */
 typedef struct stat_mod {
     stats_t *stat;
@@ -66,6 +66,21 @@ typedef struct effects{
 
 typedef struct effects effects_hash_t;
 
+// GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents the global table that keeps track of all stats available.
+  * It contains:
+  *      the name of the stat,
+  *      which is also the key to the hashtable
+  *
+  *      the maximal value a stat could have
+  * */
+typedef struct global_stats{
+    char *name;
+    double max;
+    UT_hash_handle hh; 
+} stat_global_t;
+
+typedef struct global_stats global_stats_hash_t;
 /*
  * Initializes a Stat with specified value and modifier 0
  *
