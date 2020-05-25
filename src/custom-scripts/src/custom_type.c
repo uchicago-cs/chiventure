@@ -103,7 +103,7 @@ char char_t_get(object_t ot) {
         lua_pcall(L, 0, 1, 0);
         const char *result = lua_tostring(L, -1);
         lua_pop(L, 1);
-        char *result1 = strdup (result);
+        char *result1 = strdup(result);
         return *result1;
     } else {
         return ot.data.c;
@@ -142,7 +142,7 @@ char* str_t_get(object_t ot) {
         lua_pcall(L, 0, 1, 0);
         const char *result = lua_tostring(L, -1);
         lua_pop(L, 1);
-        char *result1 = strdup (result);
+        char *result1 = strdup(result);
         return result1;
     } else {
         return ot.data.s;
