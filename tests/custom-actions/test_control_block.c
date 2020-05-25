@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "control_block.h"
+#include "ast_block.h"
 
 /* Checks that a new IFELSE control block is created without interruption */
 Test(control_block_t, new_IFELSE)
