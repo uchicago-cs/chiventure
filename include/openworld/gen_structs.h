@@ -35,7 +35,8 @@ typedef struct roomspec {
     item_list_t *allowed_items;
     item_hash_t *items;
     path_hash_t *paths;
-   UT_hash_handle hh; 
+   UT_hash_handle hh;
+   npc_t *possible_npcs; 
 } roomspec_t;
 
 /* speclist_t struct
@@ -132,7 +133,7 @@ int gencontext_free(gencontext_t *context);
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to initialize
  */
-int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc,
+int init_roomspec(npc_t *possible_npcs, roomspec_t *spec, char *short_desc, char *long_desc,
 	item_list_t *allowed, item_hash_t *items, path_hash_t *paths);
 
 /* roomspec_new
@@ -148,7 +149,7 @@ int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc,
  * roomspec_t *roomspecnew - the new roomspec
  * NULL - if fails to create a new roomspec.
  */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, 
+roomspec_t* roomspec_new(npc_t *possible_npcs,char *room_name, char *short_desc, char *long_desc, 
 	item_list_t *allowed, item_hash_t *items, path_hash_t *paths);
 
 /* roomspec_free

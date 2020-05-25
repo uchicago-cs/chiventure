@@ -3,6 +3,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+/* 
+  Classification of the type of NPC characters to be found
+  within the rooms. Where friendly means NPC doesn't engage in fights, 
+ Hostile means engages in fights, and generic means can engage in fights
+*/
+
 typedef enum npc_classification {
     NPC_GENERIC = -1,
     NPC_HOSTILE = 0,
@@ -10,6 +16,9 @@ typedef enum npc_classification {
 } npc_classification_t;
 
 
+/* NPC mock struct that contains the bare minimum to add a NPC in a 
+  openworld room.Consists of player level, NPC type, and item inventory
+*/
 typedef struct npc
 {
     int level;
@@ -19,22 +28,23 @@ typedef struct npc
     struct npc *prev;
 } npc_t;
 
-/* Will get a linked list of hostile npcs
- * makes 2-3 npcs that are hostile and return them 
+/* Will get a linked list of hostile npcs and includes the items that
+ * each NPC carries with them  makes 3 npcs that are hostile and return them 
  * as a linked list
  */
 npc_t *get_hostile_npcs();
 
 
 /*
- * makes 2-3 npcs that are friendly and return them 
+ * makes 3 npcs that are friendly and includes the items that           
+  each NPC carries with them. Returns NPC as a 
  * as a linked list
  */
 npc_t *get_friendly_npcs();
 
 
 
-/* * makes 2-3 npcs that are generic and return them 
+/* * makes 3 npcs that are generic and return them 
  * as a linked list
  */
 npc_t *get_generic_npcs();
