@@ -232,10 +232,4 @@ int reverse_path(npt_mov_t *npc_mov);
  */
 char* track_room(npc_mov_t *npc_mov);
 
-/* auto_gen_movement()
- * automatically allows npcs to randomly move through adjacent rooms,
- * while spending an arbitrary time in each room
- */
-npc_mov_t *auto_gen_movement(npc_t *npc, room_t *starting_room);
-
 #endif

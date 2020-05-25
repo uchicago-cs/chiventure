@@ -131,3 +131,77 @@ Test (npcs_in_room, get_num_of_npcs)
 	cr_asser_eq(npcs_in_room->2,2,"get_num_of_npcs() failed.");
 }
 
+/* Tests register_time_in_room function */
+Test(npc_mov, register_time_in_room)
+{
+    room_t *test_room = room_new("test_room", "test", "test test");
+    npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
+    int time = 60;
+
+    int check1 = register_time_in_room(npc_mov, test_room, time);
+
+    cr_assert_eq(check1, SUCCESS, "register_time_in_room() failed");
+
+    time_in_room_hash_t  *indef_hash = 
+                            npc_mov->npc_mov_type->mov_indef->room_time;
+
+    time_in_room_t *check2;
+    
+    HASH_FIND(hh, indef_hash, "test_room", strlen("test_room"), check2);
+
+    cr_assert_eq(check2->room_id, "test_room",
+                "register_time_in_room() did not set room_id");
+    cr_assert_eq(check2->room_id, time,
+                "register_time_in_room() did not set time");
+}
+
+/* Tests extend_path_def fucntion */
+Test(npc_mov, extend_path_def)
+{
+    room_t *test_room = room_new("test_room", "test", "test test");
+    npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
+    room_t *room_to_add = room_new("room_to_add", "add", "added room");
+
+    int check1 = extend_path_def(npc_mov, room_to_add);
+
+    cr_assert_eq(check1, SUCCESS, "extend_path_def() failed");
+}
+
+/* Tests extend_path_indef function */
+Test(npc_mov, extend_path_indef)
+{
+    room_t *test_room = room_new("test_room", "test", "test test");
+    npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
+    room_t *room_to_add = room_new("room_to_add", "add", "added room");
+
+    int check1 = extend_path_indef(npc_mov, room_to_add);
+
+    cr_assert_eq(check1, SUCCESS, "extend_path_indef() failed");
+}
+
+/*Tets track_room function */
+Test(npc_mov, track_room)
+{
+    room_t *test_room = room_new("test_room", "test", "test test");
+    npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
+
+    char* room_id_track = track_room(npc_mov);
+
+    cr_assert_eq(room_id_track, "test_roo ", "track_room() failed");
+}
+
+/* Tests reverse_path function */
+Test(npc_mov, reverse_path)
+{
+    room_t *test_room = room_new("test_room", "test", "test test");
+    npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
+    room_t *room_to_add = room_new("room_to_add", "add", "added room");
+
+    int check1 = extend_path_def(npc_mov, room_to_add);
+
+    cr_assert_eq(check1, SUCCESS, "extend_path_indef() failed");
+
+    int check2 = reverse_path(npc_mov);
+
+    cr_assert_eq(check2, SUCCESS, "reverse_path() failed");
+}
