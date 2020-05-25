@@ -22,6 +22,6 @@
 *	- roomspec_t updated hash
 */
 roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
-                              item_list_t *allowed);
+                              item_hash_t *allowed);
 
 #endif /* _DEFAULT_ROOM_H */
