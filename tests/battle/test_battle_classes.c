@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "../../include/battle/battle_classes.h"
+#include "battle/battle_classes.h"
 #include "../../src/battle/src/battle_classes.c"
 
 
 /* Tests new_class() */
-Test(class, new)
+Test(battle_classes, new)
 {
     char *test_str;
     test_str = "Test description";
@@ -22,7 +22,7 @@ Test(class, new)
 
 
 /* Tests init_class() */
-Test(class, init)
+Test(battle_classes, init)
 {
     class_t class;
     int rc;
@@ -38,7 +38,7 @@ Test(class, init)
 }
 
 /* tests that memory allocated for class has been freed */
-Test(class, free)
+Test(battle_classes, free)
 {
     class_t *class;
     int rc;
@@ -56,7 +56,7 @@ Test(class, free)
 }
 
 /* Test make_test_bard */
-Test(class, bard)
+Test(battle_classes, bard)
 {
     class_t *bard = make_test_bard();
 
@@ -76,7 +76,7 @@ Test(class, bard)
 
 
 /* Test make_test_cleric */
-Test(class, cleric)
+Test(battle_classes, cleric)
 {
     class_t *cleric = make_test_cleric();
 
@@ -96,7 +96,7 @@ Test(class, cleric)
 
 
 /* Test make_test_paladin */
-Test(class, paladin)
+Test(battle_classes, paladin)
 {
     class_t *paladin = make_test_paladin();
 
@@ -116,7 +116,7 @@ Test(class, paladin)
 
 
 /* Test make_test_wizard */
-Test(class, wizard)
+Test(battle_classes, wizard)
 {
     class_t *wizard = make_test_wizard();
 

@@ -1,6 +1,8 @@
 #ifndef BATTLE_CLASSES_H
 #define BATTLE_CLASSES_H
 
+#include "common/utlist.h"
+#include "common/common.h"
 #include <stdbool.h>
 #include <string.h>
 
