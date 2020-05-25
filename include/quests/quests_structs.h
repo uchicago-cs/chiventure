@@ -25,7 +25,7 @@ typedef union mission {
  */
 typedef struct achievement {
     mission_u mission;
-    bool completed;
+    bool completed;     //0 is not completed, 1 is completed
 } achievement_t;
 
 /* 

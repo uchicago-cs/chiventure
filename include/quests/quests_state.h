@@ -25,7 +25,7 @@ achievement_t *achievement_new(mission_u *mission);
  * Returns: a pointer to the newly allocated quest, with default status of 0
  *         (not started.
  */
-quest_t *quest_new(char *quest_id, achievement_llist_t *achievement_list,
+quest_t *quest_new(long int quest_id, achievement_llist_t *achievement_list,
                     item_t *reward);
 
 /* Initialize an already allocated achievement struct
@@ -53,7 +53,7 @@ int achievement_init(achievement_t *achievement, mission_u *mission);
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int quest_init(quest_t *q, char *quest_id, 
+int quest_init(quest_t *q, long int quest_id, 
                achievement_llist_t *achievement_list, item_t *reward, int status);
 
 /* 
