@@ -178,8 +178,8 @@ skill_t** prereqs_all(tree_t* tree, sid_t sid, unsigned int* nprereqs) {
         return NULL;
     }
 
-    *nprereqs = tree->branch[pos]->nprereqs;
-    return tree->branch[pos]->prereqs;
+    *nprereqs = tree->branches[pos]->nprereqs;
+    return tree->branches[pos]->prereqs;
 }
 
 /* See skilltree.h */
