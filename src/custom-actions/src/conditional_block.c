@@ -12,7 +12,36 @@
 #include "../include/ast_block.h"
 
 /* See conditional_block.h */
-ast_block_t* conditional_block_new(conditional_type_t conditional_type, 
+conditional_block_t* conditional_block_new(conditional_type_t conditional_type, 
+attribute_t* left, attribute_t* right)
+{
+    ast_block_t *ast;
+    conditional_block_t *conditional;
+    int new_conditional;
+    block_type_t block_type = CONDITIONAL;
+
+    conditional = malloc(sizeof(conditional_block_t));
+    ast = malloc(sizeof(ast_block_t));
+
+    if (conditional == NULL) 
+    {
+        fprintf(stderr,"Could not allocate memory");
+        return NULL;
+    }
+
+    new_conditional = conditional_block_init(conditional, conditional_type, left, 
+    right);
+    if (new_conditional != SUCCESS)
+    {
+        fprintf(stderr,"Could not initialize conditional_block_t");
+        return NULL;
+    }
+
+    return conditional;
+}
+
+/* See conditional_block.h */
+AST_block_t* AST_conditional_block_new(conditional_type_t conditional_type, 
 attribute_t* left, attribute_t* right)
 {
     ast_block_t *ast;
