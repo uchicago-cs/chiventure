@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "../include/branch_block.h"
-#include "../include/ast_block.h"
+#include "branch_block.h"
+#include "ast_block.h"
 
 /* See branch_block.h */
 branch_block_t* branch_branch_block_new(int num_conditionals, conditional_block_t** 
@@ -66,7 +66,9 @@ control_block_t** controls)
         return NULL;
     }
 
-    ast = AST_block_new(branch, block_type);
+    block_t *block = malloc(sizeof(block));
+    block->branch_block = branch;
+    ast = AST_block_new(block, block_type);
     return ast;
 }
     
