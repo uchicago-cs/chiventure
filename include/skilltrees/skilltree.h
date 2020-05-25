@@ -231,7 +231,7 @@ skill_t** prereqs_missing(tree_t* tree, inventory_t* inventory, sid_t sid,
  *  - inventory: A player's skill inventory
  *
  * Returns:
- *  - 0 on success, 1 if an error occurs
+ *  - None
  */
 int levels_update(tree_t* tree, inventory_t* inventory);
 

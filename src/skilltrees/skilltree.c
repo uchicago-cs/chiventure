@@ -174,7 +174,7 @@ skill_t** prereqs_all(tree_t* tree, sid_t sid, unsigned int* nprereqs) {
 
     int pos = tree_has_branch(tree, sid);
     if (pos == -1) {
-        fprintf(stderr, "prereqs_all: branch is not in tree");
+        fprintf(stderr, "prereqs_all: branch is not in tree\n");
         return NULL;
     }
 
@@ -194,9 +194,37 @@ skill_t** prereqs_missing(tree_t* tree, inventory_t* inventory, sid_t sid,
     return NULL;
 }
 
+int level_update(tree_t* tree, skill_t* skill) {
+    assert(tree != NULL && skill != NULL);
+
+    int pos = tree_has_branch(tree, skill->sid);
+    if (pos == -1) {
+        fprintf(stderr, "level_update: branch is not in tree\n");
+        return FAILURE;
+    }
+
+    if (skill->xp >= tree->branches[pos]->min_xp) {
+        skill->xp -= tree->branches[pos]->min_xp;
+        skill->level += 1;
+        return SUCCESS;
+    }
+
+    return FAILURE;
+}
+
 /* See skilltree.h */
-int levels_update(tree_t* tree, inventory_t* inventory) {
-    return 0;
+void levels_update(tree_t* tree, inventory_t* inventory) {
+    assert(tree != NULL && inventory != NULL);
+
+    unsigned int i;
+
+    for (i = 0; i < inventory->nactive; i++) {
+        level_update(tree, inventory->active[i]);
+    }
+
+    for (i = 0; i < inventory->npassive; i++) {
+        level_update(tree, inventory->passive[i]);
+    }
 }
 
 /* See skilltree.h */
