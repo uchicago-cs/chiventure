@@ -17,8 +17,10 @@ AST_block_t* control_block_new(control_type_t control_type)
     ast_block_t *ast;
     control_block_t *control;
     int new_control;
+    block_type_t block_type = CONTROL;
 
     control = malloc(sizeof(control_block_t));
+    ast = malloc(sizeof(ast_block_t));
 
     if (control == NULL) 
     {
@@ -33,7 +35,7 @@ AST_block_t* control_block_new(control_type_t control_type)
         return NULL;
     }
 
-    ast = ast_block_new(control, control_type);
+    ast = ast_block_new(control, block_type);
     return ast;
 }
 
