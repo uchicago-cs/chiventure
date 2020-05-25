@@ -15,13 +15,13 @@
 action_block_t* action_action_block_new(action_type_t action_type, int num_args, 
 attribute_t** args)
 {
-    ast_block_t *ast;
+    AST_block_t *ast;
     action_block_t *action;
     int new_action;
     block_type_t block_type = ACTION;
 
     action = malloc(sizeof(action_block_t));
-    ast = malloc(sizeof(ast_block_t));
+    ast = malloc(sizeof(AST_block_t));
 
     if (action == NULL)
     {
@@ -43,13 +43,13 @@ attribute_t** args)
 AST_block_t* AST_action_block_new(action_type_t action_type, int num_args, 
 attribute_t** args)
 {
-    ast_block_t *ast;
+    AST_block_t *ast;
     action_block_t *action;
     int new_action;
     block_type_t block_type = ACTION;
 
     action = malloc(sizeof(action_block_t));
-    ast = malloc(sizeof(ast_block_t));
+    ast = malloc(sizeof(AST_block_t));
 
     if (action == NULL)
     {
@@ -64,7 +64,7 @@ attribute_t** args)
         return NULL;    
     }
     
-    ast = ast_block_new(action, block_type);
+    ast = AST_block_new(action, block_type);
     return ast;
 }
 
