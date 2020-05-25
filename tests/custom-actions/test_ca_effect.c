@@ -1,10 +1,14 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../src/custom-actions/include/custom-actions-effect.h"
+#include "custom-actions-effect.h"
 
 
 /* attribute_new - allocates new attribute structure
+ * 
+ * Note: this is just a helper to allocate attribute structures with the
+ *  necessary information for the tests in this file because there is no
+ *  attribute_new function provided in game-state/item.h
  *
  * Arguments:
  *  - tag: type of attribute value
