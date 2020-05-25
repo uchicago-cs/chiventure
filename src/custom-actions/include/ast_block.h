@@ -13,13 +13,16 @@
 #include "conditional_block.h"
 #include "control_block.h"
 
+/* Forward declaration */
+typedef struct AST_block AST_block_t;
+
 /* An enumeration type for an AST block */
 typedef enum block_type {
     CONTROL, 
     BRANCH, 
     ACTION, 
     CONDITIONAL
-} block_type;
+} block_type_t;
 
 /* Struct to represent the type of a block */
 typedef union block {
@@ -33,7 +36,7 @@ typedef union block {
 /* Struct to contain a block, as well as its type */
 typedef struct AST_block {
     block_t *block;
-    enum block_type block_type;
+    block_type_t block_type;
     AST_block_t *next;
 } AST_block_t;
 
@@ -48,7 +51,7 @@ typedef struct AST_block {
  * Returns: 
  * - A block. 
  */
-AST_block_t* AST_block_new(enum block_type block_type);
+AST_block_t* AST_block_new(block_type_t block_type);
 
 /* 
  * Initializes an AST block. 
@@ -60,7 +63,7 @@ AST_block_t* AST_block_new(enum block_type block_type);
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */
-int AST_block_init(AST_block_t *ast, block_t *block, enum block_type block_type);
+int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type, AST_block_t *next);
 
 /* 
  * Frees an AST block. 
