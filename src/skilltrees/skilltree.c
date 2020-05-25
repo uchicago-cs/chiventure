@@ -72,9 +72,11 @@ int branch_prereq_remove(branch_t* branch, skill_t* skill) {
     unsigned int i;
 
     for (i = 0; i < branch->nprereqs; i++) {
-        if (branch->prereqs[i]->sid == skill->sid) {
-            branch->prereqs[i] = NULL;
-            return SUCCESS;
+        if (branch->prereqs[i]) {
+            if (branch->prereqs[i]->sid == skill->sid) {
+                branch->prereqs[i] = NULL;
+                return SUCCESS;
+            }
         }
     }
 
@@ -124,11 +126,10 @@ int tree_branch_add(tree_t* tree, branch_t* branch) {
     assert(tree != NULL && branch != NULL);
 
     unsigned int i;
-    branch_t* b;
 
     for (i = 0; i < tree->nbranches; i++) {
-        if ((b = tree->branches[i]) == NULL) {
-            b = branch;
+        if (tree->branches[i] == NULL) {
+            tree->branches[i] = branch;
             return SUCCESS;
         }
     }

@@ -112,10 +112,12 @@ Test(skilltree, branch_prereq_remove) {
     // Remove the prerequisites from the skill branch
     rem1 = branch_prereq_remove(branch, &skill1);
     cr_assert_eq(rem1, SUCCESS, "branch_prereq_remove() failed");
+    cr_assert_null(branch->prereqs[0], "branch_prereq_remove() failed to remove prereq")
 
     rem2 = branch_prereq_remove(branch, &skill2);
-    cr_assert_eq(rem2, SUCCESS, "branch_prereq_remove() failed");/*
+    cr_assert_eq(rem2, SUCCESS, "branch_prereq_remove() failed");
+    cr_assert_null(branch->prereqs[1], "branch_prereq_remove() failed to remove prereq")
 
     rem3 = branch_prereq_remove(branch, &skill3);
-    cr_assert_eq(rem3, FAILURE, "branch_prereq_remove() returned a false success");*/
+    cr_assert_eq(rem3, FAILURE, "branch_prereq_remove() returned a false success");
 }
