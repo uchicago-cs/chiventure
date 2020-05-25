@@ -351,16 +351,20 @@ Test(AST_block_t, free_CONDITIONAL)
     conditional_type_t conditional_type = EQ;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
-    char *item_id1 = "01";
-    char *short_desc1 = "01";
-    char *long_desc1 = "0001";
-    char *item_id2 = "02";
-    char *short_desc2 = "02";
-    char *long_desc2 = "0002";
-    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
-    attribute_t* left = get_attribute(item_1, attr_name1);
-    attribute_t* right = get_attribute(item_2, attr_name2);
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = attr_name1;
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = attr_name2;
+    right->attribute_tag = attribute_tag ;
+    right->attribute_value = attribute_value;
 
     ast = AST_conditional_block_new(conditional_type, left, right);
 
