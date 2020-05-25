@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "game-state/stats.h"
 
+<<<<<<< HEAD
 /* Checks that stats_global_new() mallocs memory for a stats_global struct*/
 /* and initializes it with a stat's name and the maximal value*/
 Test(stats, stats_global_new){
@@ -15,6 +16,8 @@ Test(stats, stats_global_new){
     cr_assert_eq(stat->max, 100, 
     "stats_global_new() failed to set the maximal stat value correctly");
 }
+=======
+>>>>>>> eee554cd27200fe94a417717d147d1ace36c6c5c
 
 /* Checks that stats_new() mallocs memory for a stat struct
 and initializes it with the pointer to the global stat and a starting value */
