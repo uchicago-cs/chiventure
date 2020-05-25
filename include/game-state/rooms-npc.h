@@ -21,8 +21,8 @@ typedef struct npcs_in_room npcs_in_room_hash_t;
 /* Struct to encapsulate the time an NPC should stay in that particular room and the room details */
 typedef struct time_in_room {
     UT_hash_handle hh;
-    long room_id;
-    int sec; //time the NPC shoudl stay in this particular room
+    char* room_id;
+    int time; //time in seconds the NPC will stay in this particular room
 } time_in_room_t;
 
 /* To make the struct hashable */
@@ -123,12 +123,12 @@ npcs_in_room_t *npcs_in_room_new(char* room_id);
  *  npc_id:  the id of the npc that is being referred to; must ppint to allocated
  *          memory
  *  mov_type: the tpye of movement that the npc will have
- *  room_id: the room that the npc will begin in
+ *  room: the room that the npc will begin in
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-npc_mov_t *npc_mov_new(char* npc_id, npc_mov_type_e mov_type, long room_id);
+npc_mov_t *npc_mov_new(char* npc_id, npc_mov_type_e mov_type, room_t *room);
 
 
 /*
@@ -178,6 +178,21 @@ int get_num_of_npcs(npcs_in_room_t *npcs_in_room);
  */
 int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
 
+
+/* registers a time spent in a specific room in the hash table,
+ * if the room is not yet in the hash table it will create a new entry
+ * 
+ * Parameters:
+ * npc_mov: the npc_mov struct
+ * room: the room  to be  registered
+ * time: the time to be spent in that room in seconds
+ * 
+ * Returns:
+ * SUCCESS if successful, FAILURE if an error occured.
+ */
+int register_time_in_room(npc_mov_t *npc_mov, room_t *room, int time);
+
+
 /* 
  * Adds a room to the path of definite NPC movement - changes destination of the NPC
  * 
@@ -186,7 +201,7 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
  *  room_to_add: the room that has to be added to the path
  * 
  * Returns:
- *  1 for success, 0 for error.failure
+ *  SUCCESS if successful, FAILURE if an error occured.
  */
 int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
 
@@ -200,31 +215,21 @@ int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
  *  time: the time the NPC has to stay in that room
  * 
  * Returns:
- *  1 for success, 0 for error.failure
+ * SUCCESS if successful, FAILURE if an error occured.
  */
 int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time);
 
-/* reverse_path()
- * reverses the path, so that the npc goes back to where it started
+/* reverses the path, so that the npc goes back to where it started
+ * this is only for definite  movement paths, because indef will naturally
+ * move back and forth
+ * 
  * returns SUCCESS or FAILURE
  */
-int reverse_path(npc_mov_t  *npc_mov);
+int reverse_path(npt_mov_t *npc_mov);
 
-/* change_time_in_room()
- * changes the time spent in a certain room by and npc, ONLY Possible when the npc has an indeinfite path
- * returns SUCCESS or FAILURE
- */
-int change_time_in_room(npc_mov_t  *npc_mov, room_t *room_to_change, int time);
-
-/* track_room()
- * returns the room_id of the room that the npc is currently in
+/* 
+ * returns the room that the npc is currently in as a room_id
  */
 char* track_room(npc_mov_t *npc_mov);
-
-/* auto_gen_movement()
- * automatically allows npcs to randomly move through adjacent rooms,
- * while spending an arbitrary time in each room
- */
-npc_mov_t *auto_gen_movement(npc_t *npc, room_t *starting_room);
 
 #endif
