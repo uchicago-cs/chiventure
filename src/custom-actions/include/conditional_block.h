@@ -8,7 +8,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "ast_block.h"
+
+/* Forward declaration */
+typedef struct AST_block AST_block_t;
 
 /* An enumeration type for a conditional block */
 typedef enum conditional_type {

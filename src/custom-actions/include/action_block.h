@@ -11,7 +11,7 @@
 #include "ast_block.h"
 
 /* Forward declaration */
-typedef struct AST_block_t AST_block;
+typedef struct AST_block AST_block_t;
 
 /* An enumeration type for an action block */
 typedef enum action_type {

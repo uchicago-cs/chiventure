@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "../include/ast_block.h"
-#include "../include/action_block.h"
+#include "ast_block.h"
+#include "action_block.h"
 
 /* See action_block.h */
 action_block_t* action_block_new(action_enum_t action_type, int num_args, 
@@ -39,7 +39,7 @@ attribute_t** args)
 
 /* See action_block.h */
 AST_block_t* AST_action_block_new(action_enum_t action_type, int num_args, 
-attribute_t** args)
+                                  attribute_t** args)
 {
     AST_block_t *ast;
     action_block_t *action;
@@ -62,13 +62,15 @@ attribute_t** args)
         return NULL;    
     }
     
-    ast = AST_block_new(action, block_type);
+    block_t* block = malloc(sizeof(block));
+    block->action_block = action;
+    ast = AST_block_new(block, block_type);
     return ast;
 }
 
 /* See action_block.h */
 int action_block_init(action_block_t *action, action_enum_t action_type, 
-int num_args, attribute_t** args)
+                      int num_args, attribute_t** args)
 {
     assert(action != NULL); 
     assert(num_args > 0);

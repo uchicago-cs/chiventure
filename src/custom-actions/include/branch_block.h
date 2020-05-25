@@ -10,7 +10,9 @@
 #include "game-state/item.h"
 #include "conditional_block.h"
 #include "control_block.h"
-#include "ast_block.h"
+
+/* Forward declaration */
+typedef struct AST_block AST_block_t;
 
 /* A block that holds pointers to both a control and a conditional block */
 typedef struct branch_block {
