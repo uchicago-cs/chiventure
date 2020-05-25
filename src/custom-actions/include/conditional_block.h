@@ -15,12 +15,12 @@ typedef enum conditional_type {
     LTGT,
     LTEGTE,
     IN
-} conditional_type;
+} conditional_type_t;
 
 
 /* A block that returns true or false, and contains an operator and two attributes */
 typedef struct conditional_block {
-    enum conditional_type conditional_type;
+    conditional_type_t conditional_type;
     attribute_t* left;
     attribute_t* right;
 } conditional_block_t;
@@ -37,7 +37,7 @@ typedef struct conditional_block {
  * Returns: 
  * - A conditional block. 
  */
-conditional_block_t* conditional_block_new(enum conditional_type conditional_type, 
+conditional_block_t* conditional_block_new(conditional_type_t conditional_type, 
 attribute_t* left, attribute_t* right);
 
 /* 
@@ -52,7 +52,7 @@ attribute_t* left, attribute_t* right);
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */
-int conditional_block_init(conditional_block_t *conditional, enum conditional_type 
+int conditional_block_init(conditional_block_t *conditional, conditional_type_t 
 conditional_type, attribute_t* left, attribute_t* right);
 
 /* 
