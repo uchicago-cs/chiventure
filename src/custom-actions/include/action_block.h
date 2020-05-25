@@ -22,7 +22,7 @@ typedef enum action_type {
 
 /* A block that holds an action, as well as corresponding attributes and actions */
 typedef struct action_block {
-    action_type_t action_type;
+    action_enum_t action_type;
     int num_args;
     attribute_t** args;
 } action_block_t;
@@ -38,7 +38,7 @@ typedef struct action_block {
  * Returns: 
  * - An action block. 
  */
-AST_block_t* action_block_new(action_type_t action_type, int num_args, 
+AST_block_t* action_block_new(action_enum_t action_type, int num_args, 
 attribute_t** args);
 
 /* 
