@@ -169,7 +169,9 @@ Test(action_block_t, new_ast_SET)
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                      *args);
-    AST_block_t* ast = AST_block_new(new_action, block_type);
+    block_t *block;
+    block->action_block = new_action;
+    AST_block_t* ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(ast, "ast_action_block_new() failed");
 
@@ -194,7 +196,9 @@ Test(action_block_t, new_ast_SAY)
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                      *args);
-    AST_block_t* ast = AST_block_new(new_action, block_type);
+    block_t *block;
+    block->action_block = new_action;
+    AST_block_t* ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -219,7 +223,9 @@ Test(action_block_t, new_ast_MOVE)
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                      args);
-    AST_block_t* ast = AST_block_new(new_action, block_type);
+    block_t *block;
+    block->action_block = new_action;
+    AST_block_t* ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -244,7 +250,9 @@ Test(action_block_t, new_ast_ADDSUBMULTDIV)
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                      args);
-    AST_block_t* ast = AST_block_new(new_action, block_type);
+    block_t *block;
+    block->action_block = new_action;
+    AST_block_t* ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -269,7 +277,9 @@ Test(action_block_t, new_ast_GEN)
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                      args);
-    AST_block_t* ast = AST_block_new(new_action, block_type);
+    block_t *block;
+    block->action_block = new_action;
+    AST_block_t* ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -294,7 +304,9 @@ Test(action_block_t, new_ast_EXEC)
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                      args);
-    AST_block_t* ast = AST_block_new(new_action, block_type);
+    block_t *block;
+    block->action_block = new_action;
+    AST_block_t* ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
