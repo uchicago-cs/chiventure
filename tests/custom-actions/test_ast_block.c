@@ -71,13 +71,16 @@ Test(AST_block_t, new_BRANCH)
 Test(AST_block_t, new_ACTION)
 {
     action_enum_t action_type = SET;
-    int num_args = 1;
     char *attr_name1 = "attribute1";
-    char *item_id1 = "01";
-    char *short_desc1 = "01";
-    char *long_desc1 = "0001";
-    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t *args = get_attribute(item_1, attr_name1);
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *args = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    args->hh = hh;
+    args->attribute_key = attr_name1;
+    args->attribute_tag = attribute_tag;
+    args->attribute_value = attribute_value;
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     &args);
@@ -101,16 +104,20 @@ Test(AST_block_t, new_CONDITIONAL)
     conditional_type_t conditional_type = EQ;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
-    char *item_id1 = "01";
-    char *short_desc1 = "01";
-    char *long_desc1 = "0001";
-    char *item_id2 = "02";
-    char *short_desc2 = "02";
-    char *long_desc2 = "0002";
-    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
-    attribute_t* left = get_attribute(item_1, attr_name1);
-    attribute_t* right = get_attribute(item_2, attr_name2);
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = attr_name1;
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = attr_name2;
+    right->attribute_tag = attribute_tag ;
+    right->attribute_value = attribute_value;
 
     conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
                                                                 left, right);
@@ -154,16 +161,20 @@ Test(AST_block_t, init_BRANCH)
     conditional_type_t conditional_type = EQ;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
-    char *item_id1 = "01";
-    char *short_desc1 = "01";
-    char *long_desc1 = "0001";
-    char *item_id2 = "02";
-    char *short_desc2 = "02";
-    char *long_desc2 = "0002";
-    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
-    attribute_t* left = get_attribute(item_1, attr_name1);
-    attribute_t* right = get_attribute(item_2, attr_name2);
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = attr_name1;
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = attr_name2;
+    right->attribute_tag = attribute_tag ;
+    right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
     control_type_t control_type = IFELSE;
@@ -190,11 +201,15 @@ Test(AST_block_t, init_ACTION)
     action_enum_t action_type = SET;
     int num_args = 1;
     char *attr_name1 = "attribute1";
-    char *item_id1 = "01";
-    char *short_desc1 = "01";
-    char *long_desc1 = "0001";
-    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t *args = get_attribute(item_1, attr_name1);
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *args = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    args->hh = hh;
+    args->attribute_key = attr_name1;
+    args>attribute_tag = attribute_tag;
+    args->attribute_value = attribute_value;
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     &args);
@@ -217,16 +232,20 @@ Test(AST_block_t, init_CONDITIONAL)
     conditional_type_t conditional_type = EQ;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
-    char *item_id1 = "01";
-    char *short_desc1 = "01";
-    char *long_desc1 = "0001";
-    char *item_id2 = "02";
-    char *short_desc2 = "02";
-    char *long_desc2 = "0002";
-    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
-    attribute_t* left = get_attribute(item_1, attr_name1);
-    attribute_t* right = get_attribute(item_2, attr_name2);
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = attr_name1;
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = attr_name2;
+    right->attribute_tag = attribute_tag ;
+    right->attribute_value = attribute_value;
 
     conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
                                                                 left, right);
@@ -267,16 +286,20 @@ Test(AST_block_t, free_BRANCH)
     conditional_type_t conditional_type = EQ;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
-    char *item_id1 = "01";
-    char *short_desc1 = "01";
-    char *long_desc1 = "0001";
-    char *item_id2 = "02";
-    char *short_desc2 = "02";
-    char *long_desc2 = "0002";
-    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
-    attribute_t* left = get_attribute(item_1, attr_name1);
-    attribute_t* right = get_attribute(item_2, attr_name2);
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = attr_name1;
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = attr_name2;
+    right->attribute_tag = attribute_tag ;
+    right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
     control_type_t control_type = IFELSE;
@@ -298,14 +321,17 @@ Test(AST_block_t, free_ACTION)
     AST_block_t* ast;
     int rc;
     action_enum_t action_type = SET;
-    int num_args = 1;
     char *attr_name1 = "attribute1";
-    char *item_id1 = "01";
-    char *short_desc1 = "01";
-    char *long_desc1 = "0001";
-    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t *args = get_attribute(item_1, attr_name1);
-
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *args = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    args->attribute_key = attr_name1;
+    args->attribute_tag = attribute_tag;
+    args->attribute_value = attribute_value;
+   
     ast = AST_action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
