@@ -2,19 +2,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "branch_block.h"
+#incldue "item.h"
 
 /* Checks that a new branch block with conditional type EQ is created 
 without interruption */
 Test(branch_block_t, new_EQ)
 {
     int num_conditionals = 1;
-    enum conditional_type conditional_type = EQ;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = EQ;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
 
     branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type, 
                                                     conditionals, num_controls, controls);
@@ -40,13 +51,23 @@ without interruption */
 Test(branch_block_t, new_LTGT)
 {   
     int num_conditionals = 1;
-    enum conditional_type conditional_type = LTGT;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = LTGT;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
     
     branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type,
                                                     conditionals, num_controls, controls);
@@ -72,13 +93,23 @@ without interruption */
 Test(branch_block_t, new_LTEGTE)
 {   
     int num_conditionals = 1;
-    enum conditional_type conditional_type = LTEGTE;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = LTEGTE;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
     
     branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type,
                                                     conditionals, num_controls, controls);
@@ -104,13 +135,23 @@ without interruption */
 Test(branch_block_t, new_IN)
 {   
     int num_conditionals = 1;
-    enum conditional_type conditional_type = IN;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = IN;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
     
     branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type,
                                                     conditionals, num_controls, controls);
@@ -138,13 +179,23 @@ Test(branch_block_t, init_EQ)
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
-    enum conditional_type conditional_type = EQ;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = EQ;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
 
     rc = branch_block_init(&branch, num_conditionals, conditional_type, 
                             *conditionals, num_controls, *controls);
@@ -169,13 +220,23 @@ Test(branch_block_t, init_LTGT)
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
-    enum conditional_type conditional_type = LTGT;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = LTGT;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
 
     rc = branch_block_init(&branch, num_conditionals, conditional_type,
                             *conditionals, num_controls, *controls);
@@ -200,13 +261,23 @@ Test(branch_block_t, init_LTEGTE)
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
-    enum conditional_type conditional_type = LTEGTE;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = LTEGTE;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
 
     rc = branch_block_init(&branch, num_conditionals, conditional_type,
                             *conditionals, num_controls, *controls);
@@ -231,13 +302,23 @@ Test(branch_block_t, init_IN)
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
-    enum conditional_type conditional_type = IN;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = IN;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
 
     rc = branch_block_init(&branch, num_conditionals, conditional_type,
                             *conditionals, num_controls, *controls);
@@ -262,13 +343,23 @@ Test(branch_block_t, free_EQ)
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
-    enum conditional_type conditional_type = EQ;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = EQ;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
     
     branch = branch_block_new(num_conditionals, conditional_type, *conditionals, 
                                 num_controls, controls);
@@ -287,13 +378,23 @@ Test(branch_block_t, free_LTGT)
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
-    enum conditional_type conditional_type = LTGT;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = LTGT;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
 
     branch = branch_block_new(num_conditionals, conditional_type, *conditionals,
                                 num_controls, controls);
@@ -312,13 +413,23 @@ Test(branch_block_t, free_LTEGTE)
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
-    enum conditional_type conditional_type = LTEGTE;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = LTEGTE;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
 
     branch = branch_block_new(num_conditionals, conditional_type, *conditionals,
                                 num_controls, controls);
@@ -337,13 +448,23 @@ Test(branch_block_t, free_IN)
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
-    enum conditional_type conditional_type = IN;
-    attribute_t* left = attribute_new(00, "attribute", INTEGER, 1);
-    attribute_t* right = attribute_new(01, "attribute", INTEGER, 2);
+    conditional_type_t conditional_type = IN;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    AST_block_t* next = AST_block_new(control_block, CONTROL);
-    control_block_t** controls = control_block_new(IFELSE, next);
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
 
     branch = branch_block_new(num_conditionals, conditional_type, *conditionals,
                                 num_controls, controls);
