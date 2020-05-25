@@ -71,6 +71,7 @@ Test(AST_block_t, new_BRANCH)
 Test(AST_block_t, new_ACTION)
 {
     action_enum_t action_type = SET;
+    int num_args = 1;
     char *attr_name1 = "attribute1";
     enum attribute_tag attribute_tag = INTEGER;
     attribute_value_t attribute_value;
@@ -208,7 +209,7 @@ Test(AST_block_t, init_ACTION)
     UT_hash_handle hh = hh;
     args->hh = hh;
     args->attribute_key = attr_name1;
-    args>attribute_tag = attribute_tag;
+    args->attribute_tag = attribute_tag;
     args->attribute_value = attribute_value;
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
@@ -327,7 +328,7 @@ Test(AST_block_t, free_ACTION)
     attribute_value.int_val = 1;
     attribute_t *args = malloc(sizeof(attribute_t));
     UT_hash_handle hh = hh;
-    left->hh = hh;
+    args->hh = hh;
     args->attribute_key = attr_name1;
     args->attribute_tag = attribute_tag;
     args->attribute_value = attribute_value;
