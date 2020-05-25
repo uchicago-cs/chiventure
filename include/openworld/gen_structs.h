@@ -134,7 +134,7 @@ int gencontext_free(gencontext_t *context);
  * FAILURE - if failed to initialize
  */
 int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc,
-                  item_list_t *allowed, item_hash_t *items, path_hash_t *paths);
+                  item_list_t *allowed, path_hash_t *paths);
 
 /* roomspec_new
  * Creates a new roomspec_t* based off the given parameters.
@@ -150,7 +150,7 @@ int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc,
  * NULL - if fails to create a new roomspec.
  */
 roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc,
-                         item_list_t *allowed, item_hash_t *items, path_hash_t *paths);
+                         item_list_t *allowed, path_hash_t *paths);
 
 /* roomspec_free
  * Frees a gencontext_t* and returns whether or not it was succesful.
