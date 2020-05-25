@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "openworld/gen_structs.h"
+#include "common/utlist.h"
 
 /* see gen_structs.h */
 int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist){
@@ -47,7 +48,7 @@ gencontext_t* gencontext_new(path_t *open_paths, int level, int num_open_paths, 
 int gencontext_free(gencontext_t *context){
 
     if (context == NULL)
-	return FAILURE;
+        return FAILURE;
 
     free(context);
     return SUCCESS;
@@ -60,7 +61,7 @@ int roomspec_free(roomspec_t *spec){
         return FAILURE;
 
     if (spec->short_desc){
-	free(spec->short_desc);
+        free(spec->short_desc);
     }
 
     if (spec->long_desc){
@@ -75,17 +76,18 @@ int roomspec_free(roomspec_t *spec){
 int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_hash_t *items){
     
     if (spec == NULL)
-	return FAILURE;
+        return FAILURE;
 
     spec->short_desc = calloc(MAX_SDESC_LEN + 1, sizeof(char));
     if (spec->short_desc == NULL){
-	roomspec_free(spec);
-	fprintf(stderr, "calloc failed to allocate space for spec's short_desc. \n");
-	return FAILURE;
+        roomspec_free(spec);
+        fprintf(stderr, "calloc failed to allocate space for spec's short_desc. \n");
+        return FAILURE;
     }
 
     spec->long_desc = calloc(MAX_LDESC_LEN + 1, sizeof(char));
     if (spec->long_desc == NULL){
+        free(spec->short_desc);
         roomspec_free(spec);
         fprintf(stderr, "calloc failed to allocate space for spec's short_desc. \n");
         return FAILURE;
@@ -107,15 +109,18 @@ roomspec_t* roomspec_new(char *short_desc, char *long_desc, item_hash_t *items){
         return NULL;
     }
 
-    init_roomspec(roomspecnew, short_desc, long_desc, items);
-    return roomspecnew;
+    int check = init_roomspec(roomspecnew, short_desc, long_desc, items);
+    if (check != FAILURE){
+        return roomspecnew;
+    }
+    return NULL;
 }
 
 /* see gen_structs.h */
 int init_speclist(speclist_t *list, roomspec_t *spec){
 
     if (list == NULL)
-	return FAILURE;
+        return FAILURE;
     
     list->spec = spec;
     list->prev = NULL;
@@ -129,7 +134,7 @@ speclist_t* speclist_new(roomspec_t *spec){
     speclist_t *listnew = calloc(1, sizeof(speclist_t));
     
     if (listnew == NULL){
-	fprintf(stderr, "calloc failed to allocate space for listnew. \n");
+        fprintf(stderr, "calloc failed to allocate space for listnew. \n");
         return NULL;
     }
    
@@ -141,7 +146,7 @@ speclist_t* speclist_new(roomspec_t *spec){
 int speclist_free(speclist_t *list){
     
     if (list == NULL)
-	return FAILURE;
+        return FAILURE;
 
     free(list);
     return SUCCESS;	
@@ -151,8 +156,9 @@ int speclist_free(speclist_t *list){
 int speclist_free_all(speclist_t *list){
 
     if (list == NULL)
-	return FAILURE;
+        return FAILURE;
 
+    /*
     speclist_t *tmp, *ptmp;
     int check = 0;
 
@@ -165,4 +171,11 @@ int speclist_free_all(speclist_t *list){
     }
 
     return speclist_free(list);
+    */
+    speclist_t *elt, *tmp;
+    DL_FOREACH_SAFE(list, elt, tmp){
+        DL_DELETE(list, elt);
+        speclist_free(elt);
+    }
+    return SUCCESS;
 }
