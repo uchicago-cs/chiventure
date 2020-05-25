@@ -78,7 +78,7 @@ int game_action_free(game_action_t *action_tofree);
  *  ACTION_NULL if specified action does not exist in first item
  *  ITEM_MODIFY_NULL if second item ID does not exist
  */
-int add_action_condition(item_t *item, game_action_t *action, item_t *cond_item, 
+int add_action_condition(game_action_t *action, item_t *cond_item, 
 			 attribute_t *cond_attribute, attribute_value_t cond_value);
 
 /* delete_action_condition_llist frees a linked list of action conditions
