@@ -11,7 +11,7 @@ int set_item_restriction(item_t* item, class_t* class) {
     return SUCCESS;
     } else {
         fprintf(stderr, "Item or Class provided are NULL");
-	    return FAILURE;
+        return FAILURE;
     }
 }
 
