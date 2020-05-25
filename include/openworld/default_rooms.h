@@ -1,9 +1,9 @@
 #ifndef _DEFAULT_ROOM_H
 #define _DEFAULT_ROOM_H
 
-#include "../game-state/game_state_common.h"
-#include "../game-state/room.h"
 #include "default_items.h"
+#include "game-state/game_state_common.h"
+#include "game-state/room.h"
 #include "gen_structs.h"
 
 /*make_default_rooms adds all the defined default rooms+items for a themed
