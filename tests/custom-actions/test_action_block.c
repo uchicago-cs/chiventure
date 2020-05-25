@@ -186,7 +186,7 @@ Test(action_block_t, new_EXEC)
 }
 
 /* Checks that a new action AST block with SET type is created without interruption */
-Test(action_block_t, new_ast_SET)
+Test(AST_action_block_t, new_ast_SET)
 {
     action_enum_t action_type = SET;
     int num_args = 1;
@@ -205,13 +205,13 @@ Test(action_block_t, new_ast_SET)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(block, block_type);
 
-    cr_assert_not_null(ast, "ast_action_block_new() failed");
+    cr_assert_not_null(ast, "AST_action_block_new() failed");
 
-    cr_assert_eq(ast->block, new_action, "ast_action_block_new() didn't set "
+    cr_assert_eq(ast->block, new_action, "AST_action_block_new() didn't set "
                 "ast->block");
-    cr_assert_eq(ast->block_type, block_type, "ast_action_block_new() didn't set "
+    cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
     
     action_block_free(new_action);
@@ -219,7 +219,7 @@ Test(action_block_t, new_ast_SET)
 }
 
 /* Checks that a new action AST block with SAY type is created without interruption */
-Test(action_block_t, new_ast_SAY)
+Test(AST_action_block_t, new_ast_SAY)
 {   
     action_enum_t action_type = SAY;
     int num_args = 1;
@@ -238,7 +238,7 @@ Test(action_block_t, new_ast_SAY)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -252,7 +252,7 @@ Test(action_block_t, new_ast_SAY)
 }
 
 /* Checks that a new action AST block with MOVE type is created without interruption */
-Test(action_block_t, new_ast_MOVE)
+Test(AST_action_block_t, new_ast_MOVE)
 {   
     action_enum_t action_type = MOVE;
     int num_args = 1;
@@ -271,7 +271,7 @@ Test(action_block_t, new_ast_MOVE)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -285,7 +285,7 @@ Test(action_block_t, new_ast_MOVE)
 }
 
 /* Checks that a new action AST block with ADDSUBMULTDIV type is created without interruption */
-Test(action_block_t, new_ast_ADDSUBMULTDIV)
+Test(AST_action_block_t, new_ast_ADDSUBMULTDIV)
 {   
     action_enum_t action_type = ADDSUBMULTDIV;
     int num_args = 1;
@@ -304,7 +304,7 @@ Test(action_block_t, new_ast_ADDSUBMULTDIV)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -318,7 +318,7 @@ Test(action_block_t, new_ast_ADDSUBMULTDIV)
 }
 
 /* Checks that a new action AST block with GEN type is created without interruption */
-Test(action_block_t, new_ast_GEN)
+Test(AST_action_block_t, new_ast_GEN)
 {   
     action_enum_t action_type = GEN;
     int num_args = 1;
@@ -337,7 +337,7 @@ Test(action_block_t, new_ast_GEN)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -351,7 +351,7 @@ Test(action_block_t, new_ast_GEN)
 }
 
 /* Checks that a new action AST block with EXEC type is created without interruption */
-Test(action_block_t, new_ast_EXEC)
+Test(AST_action_block_t, new_ast_EXEC)
 {   
     action_enum_t action_type = EXEC;
     int num_args = 1;
@@ -370,7 +370,7 @@ Test(action_block_t, new_ast_EXEC)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
