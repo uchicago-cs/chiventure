@@ -1,8 +1,8 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "control_block.h"
-#include "ast_block.h"
+#include "../src/custom-actions/include/control_block.h"
+#include "../src/custom-actions/include/ast_block.h"
 
 /* Checks that a new IFELSE control block is created without interruption */
 Test(control_block_t, new_IFELSE)
@@ -66,7 +66,7 @@ Test(control_block_t, new_AST_IFELSE)
                 "set new_ast->block_type");
 
     control_block_free(new_control);
-    ast_block_free(new_ast)
+    AST_block_free(new_ast);
 }
 
 /* Checks that a new AST FORENDFOR control block is created without interruption */
@@ -86,7 +86,7 @@ Test(control_block_t, new_AST_FORENDFOR)
                 "set new_ast->block_type");
 
     control_block_free(new_control);
-    ast_block_free(new_ast)
+    AST_block_free(new_ast);
 }
 
 /* Checks that a new AST WHILEENDWHILE control block is created without interruption */
@@ -106,7 +106,7 @@ Test(control_block_t, new_AST_WHILEENDWHILE)
                 "set new_ast->block_type");
 
     control_block_free(new_control);
-    ast_block_free(new_ast)
+    AST_block_free(new_ast);
 }
 
 /* Checks that a new IFELSE control block is initialized without interruption */
