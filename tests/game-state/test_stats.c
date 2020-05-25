@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "game-state/stats.h"
 
+
 /* Checks that stats_new() mallocs memory for a stat struct
 and initializes it with a the stat's name and a starting value */
 Test(stats_init, new)

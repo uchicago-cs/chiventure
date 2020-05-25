@@ -74,26 +74,13 @@ typedef struct effects effects_hash_t;
   *
   *      the maximal value a stat could have
   * */
-typedef struct global_stats{
+typedef struct stats_global{
     char *name;
     double max;
     UT_hash_handle hh; 
 } stat_global_t;
 
-typedef struct global_stats global_stats_hash_t;
-
-/*
- * Initializes a Stat with specified value and modifier 0
- *
- * Parameters:
- *  s: A stats struct Must point to already allocated memory.
- *  stat: the pointer to the global stat struct
- *  init: starting value
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int stats_init(stats_t *s, stats_global_t *stat, double init);
+typedef struct stats_global stats_global_hash_t;
 
 
 /*
@@ -108,8 +95,21 @@ int stats_init(stats_t *s, stats_global_t *stat, double init);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 
-int global_stats_init(global_stats *s, char *name, double max);
+int global_stats_init(stats_global_t *s, char *name, double max);
 
+
+/*
+ * Initializes a Stat with specified value and modifier 0
+ *
+ * Parameters:
+ *  s: A stats struct Must point to already allocated memory.
+ *  stat: the pointer to the global stat struct
+ *  init: starting value
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int stats_init(stats_t *s, stats_global_t *stat, double init);
 
 /*
  * Allocates a new global stat
@@ -233,6 +233,6 @@ int free_stats(stats_hash_t *sh);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_global_stats(global_stats_hash_t* gsh);
+int free_stats_global(stats_global_hash_t* gsh);
 
 #endif
