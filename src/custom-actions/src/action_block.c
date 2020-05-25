@@ -8,10 +8,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
+#include "../include/ast_block.h"
 #include "../include/action_block.h"
 
 /* See action_block.h */
-action_block_t* action_action_block_new(action_type_t action_type, int num_args, 
+action_block_t* action_block_new(action_enum_t action_type, int num_args, 
 attribute_t** args)
 {
     action_block_t *action;
