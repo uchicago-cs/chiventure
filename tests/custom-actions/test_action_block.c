@@ -29,7 +29,7 @@ Test(action_block_t, new_SET)
                 "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
                 "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+    cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                 "new_action->args");
     
     action_block_free(new_action);
@@ -59,7 +59,7 @@ Test(action_block_t, new_SAY)
                 "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
                 "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+    cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                 "new_action->args");
     
     action_block_free(new_action);
@@ -89,7 +89,7 @@ Test(action_block_t, new_MOVE)
                 "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
                 "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+    cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                 "new_action->args");
     
     action_block_free(new_action);
@@ -119,7 +119,7 @@ Test(action_block_t, new_ADDSUBMULTDIV)
                 "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
                 "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+    cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                 "new_action->args");
     
     action_block_free(new_action);
@@ -149,7 +149,7 @@ Test(action_block_t, new_GEN)
                 "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
                 "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+    cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                 "new_action->args");
     
     action_block_free(new_action);
@@ -179,7 +179,7 @@ Test(action_block_t, new_EXEC)
                 "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
                 "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+    cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                 "new_action->args");
     
     action_block_free(new_action);
@@ -408,7 +408,7 @@ Test(action_block_t, init_SET)
                 "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
                 "action.num_args");
-    cr_assert_eq(action.args, args, "action_block_init() didn't set action.args");
+    cr_assert_eq(action.args, &args, "action_block_init() didn't set action.args");
 }
 
 /* Checks that a new action block with SAY type is initialized without interruption */
@@ -436,7 +436,7 @@ Test(action_block_t, init_SAY)
                 "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
                 "action.num_args");
-    cr_assert_eq(action.args, args, "action_block_init() didn't set action.args");
+    cr_assert_eq(action.args, &args, "action_block_init() didn't set action.args");
 }
 
 /* Checks that a new action block with MOVE type is initialized without interruption */
@@ -464,7 +464,7 @@ Test(action_block_t, init_MOVE)
                 "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
                 "action.num_args");
-    cr_assert_eq(action.args, args, "action_block_init() didn't set action.args");
+    cr_assert_eq(action.args, &args, "action_block_init() didn't set action.args");
 }
 
 /* Checks that a new action block with ADDSUBMULTDIV type is initialized without interruption */
@@ -492,7 +492,7 @@ Test(action_block_t, init_ADDSUBMULTDIV)
                 "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
                 "action.num_args");
-    cr_assert_eq(action.args, args, "action_block_init() didn't set action.args");
+    cr_assert_eq(action.args, &args, "action_block_init() didn't set action.args");
 }
 
 /* Checks that a new action block with GEN type is initialized without interruption */
@@ -520,7 +520,7 @@ Test(action_block_t, init_GEN)
                 "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
                 "action.num_args");
-    cr_assert_eq(action.args, args, "action_block_init() didn't set action.args");
+    cr_assert_eq(action.args, &args, "action_block_init() didn't set action.args");
 }
 
 /* Checks that a new action block with EXEC type is initialized without interruption */
@@ -548,7 +548,7 @@ Test(action_block_t, init_EXEC)
                 "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
                 "action.num_args");
-    cr_assert_eq(action.args, args, "action_block_init() didn't set action.args");
+    cr_assert_eq(action.args, &args, "action_block_init() didn't set action.args");
 }
 
 /* Checks that a new action block with SET type is freed without interruption */
