@@ -166,13 +166,13 @@ Test(AST_block_t, init_BRANCH)
     block_t *block;
     block_type_t block_type = BRANCH;
     block->branch_block = new_branch;
-    AST_block_t ast = AST_block_new(block, block_type);
+    AST_block_t ast;
     
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(AST_block_t->block, block, "AST_block_init() didn't set ast->block");
-    cr_assert_eq(AST_block_t->block_type, block_type, "AST_block_init() didn't set ast->block_type");
+    cr_assert_eq(ast->block, block, "AST_block_init() didn't set ast->block");
+    cr_assert_eq(ast->block_type, block_type, "AST_block_init() didn't set ast->block_type");
 }
 
 /* Checks that a new AST block with action type is initialized without interruption */
@@ -193,13 +193,13 @@ Test(AST_block_t, init_ACTION)
     block_t *block;
     block_type_t block_type = ACTION;
     block->action_block = new_action;
-    AST_block_t ast; = AST_block_new(block, block_type);
+    AST_block_t ast; 
 
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(ast->block, block, "AST_block_init() didn't set ast->block");
-    cr_assert_eq(ast->block_type, block_type, "AST_block_init() didn't set ast->block_type");
+    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
+    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast->block_type");
 }
 
 /* Checks that a new AST block with conditional type is initialized without interruption */
@@ -224,8 +224,8 @@ Test(AST_block_t, init_CONDITIONAL)
                                                                 left, right);
     block_t *block;
     block_type_t block_type = CONDITIONAL;
-    block->condiitonal_block = new_conditional;
-    AST_block_t ast; = AST_block_new(block, block_type);
+    block->conditional_block = new_conditional;
+    AST_block_t ast;
 
     rc = AST_block_init(&ast, block, block_type);
 
@@ -271,11 +271,11 @@ Test(AST_block_t, free_BRANCH)
     attribute_t* right = get_attribute(item_2, attr_name2);
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
+    control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
 
     ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                conditional_type num_controls, &controls);
+                                conditional_type, num_controls, &controls);
 
     cr_assert_not_null(ast, "AST_branch_block_new() failed");
 
