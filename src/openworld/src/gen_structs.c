@@ -13,18 +13,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../../include/openworld/gen_structs.h"
+
+#include "openworld/gen_structs.h"
+#include "common/utlist.h"
 
 /* see gen_structs.h */
-int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths, speclist_t *speclist)
-{
-
+int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist){
     if (context == NULL)
         return FAILURE;
 
-    context->path = path;
     context->level = level;
-    context->openpaths = openpaths;
+    context->open_paths = open_paths;
+    context->num_open_paths = num_open_paths;
     context->speclist = speclist;
 
     return SUCCESS;
@@ -32,17 +32,18 @@ int init_gencontext(gencontext_t *context, path_t *path, int level, int openpath
 
 
 /* see gen_structs.h */
-gencontext_t* gencontext_new(path_t *path, int level, int openpaths, speclist_t *speclist)
-{
+gencontext_t* gencontext_new(path_t *open_paths, int level, int num_open_paths, speclist_t *speclist){
 
     gencontext_t *contextnew = calloc(1, sizeof(gencontext_t));
-    contextnew->path = path;
-    contextnew->level = level;
-    contextnew->openpaths = openpaths;
-    contextnew->speclist = speclist;
+     
+    if (contextnew == NULL){
+        fprintf(stderr, "calloc failed to allocate space for contextnew. \n");
+        return NULL;
+    }
+
+    init_gencontext(contextnew, open_paths, level, num_open_paths, speclist);
     return contextnew;
 }
-
 
 /* see gen_structs.h */
 int gencontext_free(gencontext_t *context)
@@ -55,44 +56,64 @@ int gencontext_free(gencontext_t *context)
     return SUCCESS;
 }
 
-/* see gen_structs.h */
-int init_roomspec(roomspec_t *spec,char *short_desc, char *long_desc,
-                  item_list_t *allowed, path_hash_t *paths)
-{
+	/* see gen_structs.h */
+int roomspec_free(roomspec_t *spec){
 
     if (spec == NULL)
         return FAILURE;
 
-    spec->short_desc = short_desc;
-    spec->long_desc = long_desc;
-    spec->allowed_items = allowed;
-    spec->paths = paths;
+    if (spec->short_desc){
+        free(spec->short_desc);
+    }
+
+    if (spec->long_desc){
+        free(spec->long_desc);
+    }
+
+    free(spec);
+
+    return SUCCESS;
+}
+
+/* see gen_structs.h */
+int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_list_t *items){
+    
+    if (spec == NULL)
+        return FAILURE;
+
+    spec->short_desc = calloc(MAX_SDESC_LEN + 1, sizeof(char));
+    if (spec->short_desc == NULL){
+        roomspec_free(spec);
+        fprintf(stderr, "calloc failed to allocate space for spec's short_desc. \n");
+        return FAILURE;
+    }
+
+    spec->long_desc = calloc(MAX_LDESC_LEN + 1, sizeof(char));
+    if (spec->long_desc == NULL){
+        free(spec->short_desc);
+        roomspec_free(spec);
+        fprintf(stderr, "calloc failed to allocate space for spec's short_desc. \n");
+        return FAILURE;
+    }
+
+    strncpy(spec->short_desc, short_desc, MAX_SDESC_LEN);
+    strncpy(spec->long_desc, long_desc, MAX_LDESC_LEN);   
+    spec->items = items;
     return SUCCESS;
 }
 
 /* see gen_structs.h */
 roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc,
-                         item_list_t *allowed, path_hash_t *paths)
+	item_list_t *allowed, path_hash_t *paths)
 {
 
-    roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
-    roomspecnew->room_name = room_name;
-    roomspecnew->short_desc = short_desc;
-    roomspecnew->long_desc = long_desc;
-    roomspecnew->allowed_items = allowed;
-    roomspecnew->paths = paths;
-    return roomspecnew;
-}
-
-/* see gen_structs.h */
-int roomspec_free(roomspec_t *spec)
-{
-
-    if (spec == NULL)
-        return FAILURE;
-
-    free(spec);
-    return SUCCESS;
+	roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
+	roomspecnew->room_name = room_name;
+	roomspecnew->short_desc = short_desc;
+	roomspecnew->long_desc = long_desc;
+	roomspecnew->allowed_items = allowed;
+	roomspecnew->paths = paths;
+	return roomspecnew;
 }
 
 /* see gen_structs.h */
@@ -113,9 +134,13 @@ speclist_t* speclist_new(roomspec_t *spec)
 {
 
     speclist_t *listnew = calloc(1, sizeof(speclist_t));
-    listnew->spec = spec;
-    listnew->prev = NULL;
-    listnew->next = NULL;
+    
+    if (listnew == NULL){
+        fprintf(stderr, "calloc failed to allocate space for listnew. \n");
+        return NULL;
+    }
+   
+    init_speclist(listnew, spec); 
     return listnew;
 }
 
@@ -127,5 +152,19 @@ int speclist_free(speclist_t *list)
         return FAILURE;
 
     free(list);
+    return SUCCESS;
+}
+
+/* see gen_structs.h */
+int speclist_free_all(speclist_t *list){
+
+    if (list == NULL)
+        return FAILURE;
+
+    speclist_t *elt, *tmp;
+    DL_FOREACH_SAFE(list, elt, tmp){
+        DL_DELETE(list, elt);
+        speclist_free(elt);
+    }
     return SUCCESS;
 }

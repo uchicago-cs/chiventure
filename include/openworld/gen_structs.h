@@ -10,6 +10,7 @@
  *
  * See chiventure/src/openworld/gen_structs.c source code to see implementation.
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -33,9 +34,11 @@ typedef struct roomspec {
     char *room_name; //key of hash table
     char *short_desc;
     char *long_desc;
+
     item_list_t *allowed_items;
     path_hash_t *paths;
     UT_hash_handle hh;
+
 } roomspec_t;
 
 /* speclist_t struct
@@ -53,13 +56,23 @@ typedef struct speclist {
 /* gencontext_t struct
  * This struct will carry the info for the generation algorithm
  * The struct contains:
+=======
+    struct speclist *prev;
+    struct speclist *next;
+}speclist_t;
+        
+/* gencontext_t struct
+ * This struct will carry the info for the generation algorithm
+ * The struct contains:
+ * - path_t *open_paths: the open path we are connecting the room to; 
+>>>>>>> d8d3fc79866ec300d73726d49a41de09a0e39682
  * - int level: this is the players current level
- * - int openpaths: the number of openpaths that need to be generated in the room.
- * - int numnpcs: the number of npcs that need to be generated into the room.
+ * - int num_open_paths: the number of openpaths that need to be generated in the room.
  * - speclist_t *speclist: the llist of roomspect_t that each hold the room info.
  */
 typedef struct gencontext {
-    path_t *path;
+    path_t *open_paths;
+    int num_open_paths;
     int level;
     int openpaths;
     speclist_t *speclist;
@@ -86,8 +99,7 @@ typedef struct gencontext {
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to initialize
  */
-int init_gencontext(gencontext_t *context, path_t *path, 
-	int level, int openpaths,  speclist_t *speclist);
+int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist);
 
 /* gencontext_new
  * Creates a new gencontext_t* based off the given parameters.
@@ -102,7 +114,8 @@ int init_gencontext(gencontext_t *context, path_t *path,
  * gencontext_t *contextnew - the new gencontext
  * NULL - if fails to create a new gencontext.
  */
-gencontext_t* gencontext_new(path_t *path, int level, int openpaths, speclist_t *speclist);
+
+gencontext_t* gencontext_new(path_t *open_paths, int level, int num_openpaths, speclist_t *speclist);
 
 /* gencontext_free
  * Frees a gencontext_t* and returns whether or not it was successful
@@ -127,7 +140,6 @@ int gencontext_free(gencontext_t *context);
  * - short_desc: the short description
  * - long_desc: the long description
  * - items: ptr to the hash table of the items
- * - paths: ptr to the hash table of paths.
  *
  * returns:
  * SUCCESS - for SUCCESS
@@ -143,8 +155,12 @@ int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc,
  * - short_desc: the short description
  * - long_desc: the long description
  * - items: ptr to the hash table of the items
+<<<<<<< HEAD
  * - paths: ptr to the hash table of paths.
  *
+=======
+ * 
+>>>>>>> d8d3fc79866ec300d73726d49a41de09a0e39682
  * returns:
  * roomspec_t *roomspecnew - the new roomspec
  * NULL - if fails to create a new roomspec.
@@ -204,3 +220,16 @@ speclist_t* speclist_new(roomspec_t *spec);
  * FAILURE - if failed to free
  */
 int speclist_free(speclist_t *list);
+
+/* speclist_free_all 
+ * Free's all speclist's from the given list
+ * However, this function will not free the roomspec's inside of speclist
+ *
+ * parameters:
+ * - list: the speclist we are freeing from and onward.
+ *
+ * returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to free 
+ */ 
+int speclist_free_all(speclist_t *list);
