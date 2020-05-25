@@ -164,6 +164,6 @@ int array_element_add(void** array, unsigned int alen, void* element);
 /*
  *
  */
-int array_has_sid(void** array, unsigned int alen, sid_t sid);
+int list_has_skill(skill_t** list, unsigned int llen, sid_t sid);
 
 #endif /* INCLUDE_STDST_H_ */
