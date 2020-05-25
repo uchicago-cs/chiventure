@@ -172,17 +172,11 @@ Test(action_block_t, new_ast_SET)
                                                     *args);
     ast_block_t* ast = ast_block_new(new_action, block_type);
 
-    cr_assert_not_null(ast, "action_block_new() failed");
+    cr_assert_not_null(ast, "ast_action_block_new() failed");
 
-    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                "didn't set new_action->action_type");
-    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
-                "new_action->args");
-    cr_assert_eq(ast->block, new_action, "action_block_new() didn't set "
+    cr_assert_eq(ast->block, new_action, "ast_action_block_new() didn't set "
                 "ast->block");
-    cr_assert_eq(ast->block_type, block_type, "action_block_new() didn't set "
+    cr_assert_eq(ast->block_type, block_type, "ast_action_block_new() didn't set "
                 "ast->block_type");
 }
 
@@ -203,17 +197,11 @@ Test(action_block_t, new_ast_SAY)
                                                     *args);
     ast_block_t* ast = ast_block_new(new_action, block_type);
 
-    cr_assert_not_null(ast, "action_block_new() failed");
+    cr_assert_not_null(ast, "AST_action_block_new() failed");
 
-    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                "didn't set new_action->action_type");
-    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
-                "new_action->args");
-    cr_assert_eq(ast->block, new_action, "action_block_new() didn't set "
+    cr_assert_eq(ast->block, new_action, "AST_action_block_new() didn't set "
                 "ast->block");
-    cr_assert_eq(ast->block_type, block_type, "action_block_new() didn't set "
+    cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
 }
 
@@ -234,17 +222,11 @@ Test(action_block_t, new_ast_MOVE)
                                                     *args);
     ast_block_t* ast = ast_block_new(new_action, block_type);
 
-    cr_assert_not_null(ast, "action_block_new() failed");
+    cr_assert_not_null(ast, "AST_action_block_new() failed");
 
-    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                "didn't set new_action->action_type");
-    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
-                "new_action->args");
-    cr_assert_eq(ast->block, new_action, "action_block_new() didn't set "
+    cr_assert_eq(ast->block, new_action, "AST_action_block_new() didn't set "
                 "ast->block");
-    cr_assert_eq(ast->block_type, block_type, "action_block_new() didn't set "
+    cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
 }
 
@@ -265,17 +247,11 @@ Test(action_block_t, new_ast_ADDSUBMULTDIV)
                                                     *args);
     ast_block_t* ast = ast_block_new(new_action, block_type);
 
-    cr_assert_not_null(ast, "action_block_new() failed");
+    cr_assert_not_null(ast, "AST_action_block_new() failed");
 
-    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                "didn't set new_action->action_type");
-    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
-                "new_action->args");
-    cr_assert_eq(ast->block, new_action, "action_block_new() didn't set "
+    cr_assert_eq(ast->block, new_action, "AST_action_block_new() didn't set "
                 "ast->block");
-    cr_assert_eq(ast->block_type, block_type, "action_block_new() didn't set "
+    cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
 }
 
@@ -296,17 +272,11 @@ Test(action_block_t, new_ast_GEN)
                                                     *args);
     ast_block_t* ast = ast_block_new(new_action, block_type);
 
-    cr_assert_not_null(ast, "action_block_new() failed");
+    cr_assert_not_null(ast, "AST_action_block_new() failed");
 
-    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                "didn't set new_action->action_type");
-    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
-                "new_action->args");
-    cr_assert_eq(ast->block, new_action, "action_block_new() didn't set "
+    cr_assert_eq(ast->block, new_action, "AST_action_block_new() didn't set "
                 "ast->block");
-    cr_assert_eq(ast->block_type, block_type, "action_block_new() didn't set "
+    cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
 }
 
@@ -327,17 +297,11 @@ Test(action_block_t, new_ast_EXEC)
                                                     *args);
     ast_block_t* ast = ast_block_new(new_action, block_type);
 
-    cr_assert_not_null(ast, "action_block_new() failed");
+    cr_assert_not_null(ast, "AST_action_block_new() failed");
 
-    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                "didn't set new_action->action_type");
-    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                "set new_action->num_args");
-    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
-                "new_action->args");
-    cr_assert_eq(ast->block, new_action, "action_block_new() didn't set "
+    cr_assert_eq(ast->block, new_action, "AST_action_block_new() didn't set "
                 "ast->block");
-    cr_assert_eq(ast->block_type, block_type, "action_block_new() didn't set "
+    cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
 }
 
