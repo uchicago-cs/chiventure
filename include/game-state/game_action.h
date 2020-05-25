@@ -81,6 +81,23 @@ int game_action_free(game_action_t *action_tofree);
 int add_action_condition(game_action_t *action, item_t *cond_item, 
 			 attribute_t *cond_attribute, attribute_value_t cond_value);
 
+/* add_action_condition() creates a new condition for an item's action and
+ * adds to the action's condition list
+ * Parameters:
+ *  a pointer to the item the action is being performed on
+ *  a pointer to the action to which the condition is being added
+ *  a pointer to the item specified in the action condition
+ *  a pointer to the attribute of the item specified in action condition that needs to be validated
+ *  the value of the above attribute that needs to be validated
+ * Returns:
+ *  SUCCESS upon SUCCESS
+ *  ITEM_SRC_NULL if first item ID does not exist
+ *  ACTION_NULL if specified action does not exist in first item
+ *  ITEM_MODIFY_NULL if second item ID does not exist
+ */
+int add_action_condition(game_action_t *action, item_t *cond_item, 
+			 attribute_t *cond_attribute, attribute_value_t cond_value);
+
 /* delete_action_condition_llist frees a linked list of action conditions
  * Parameters:
  *  linked list of conditions

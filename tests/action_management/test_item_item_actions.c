@@ -47,25 +47,25 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         set_int_attr(indirect, "DUMMYCONDITON", 0);
         attr = get_attribute(indirect, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(direct, ga, indirect, attr, value);
+        add_action_condition(ga, indirect, attr, value);
         break;
     case 2:
         set_int_attr(direct, "DUMMYCONDITON", 1);
         attr = get_attribute(direct, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(direct, ga, direct, attr, value);
+        add_action_condition(ga, direct, attr, value);
         break;
     case 3:
         set_int_attr(indirect, "DUMMYCONDITON", 0);
         attr = get_attribute(indirect, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(direct, ga, indirect, attr, value);
+        add_action_condition(ga, indirect, attr, value);
         break;
     case 4:
         set_int_attr(indirect, "DUMMYCONDITON", 1);
         attr = get_attribute(indirect, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(direct, ga, indirect, attr, value);
+        add_action_condition(xga, indirect, attr, value);
         break;
     default:
         break;
