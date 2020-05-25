@@ -38,7 +38,21 @@ typedef struct conditional_block {
  * Returns: 
  * - A conditional block. 
  */
-AST_block_t* conditional_block_new(conditional_type_t conditional_type, 
+conditional_block_t* conditional_block_new(conditional_type_t conditional_type, 
+attribute_t* left, attribute_t* right);
+
+/* 
+ * Allocates an AST type conditional block in the heap. 
+ * 
+ * Parameters: 
+ * - pointer to a "left" attribute
+ * - pointer to a "right" attribute 
+ * - enum representing the conditional type 
+ * 
+ * Returns: 
+ * - A conditional block. 
+ */
+AST_block_t* AST_conditional_block_new(conditional_type_t conditional_type, 
 attribute_t* left, attribute_t* right);
 
 /* 
