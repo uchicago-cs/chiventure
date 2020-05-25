@@ -178,13 +178,14 @@ int get_num_of_npcs(npcs_in_room_t *npcs_in_room);
 int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
 
 
-/* registers a time spent in a specific room in the hash table,
- * if the room is not yet in the hash table it will create a new entry
+/* 
+ * Registers a time spent in a specific room in the hash table,
+ *  - if the room is not yet in the hash table it will create a new entry
  * 
  * Parameters:
- * npc_mov: the npc_mov struct
- * room: the room  to be  registered
- * time: the time to be spent in that room in seconds
+ *  npc_mov: the npc_mov struct
+ *  room: the room  to be  registered
+ *  time: the time to be spent in that room in seconds
  * 
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occured.
