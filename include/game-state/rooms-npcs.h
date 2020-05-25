@@ -217,7 +217,7 @@ int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
  * Returns:
  * SUCCESS if successful, FAILURE if an error occured.
  */
-room_list_t* extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time);
+int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time);
 
 /* reverses the path, so that the npc goes back to where it started
  * this is only for definite  movement paths, because indef will naturally
