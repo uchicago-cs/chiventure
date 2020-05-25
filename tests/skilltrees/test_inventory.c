@@ -44,6 +44,7 @@ Test(inventory, free) {
 Test(inventory, skill_add) {
     skill_t skill1, skill2, skill3, skill4;
     int init1, init2, init3, init4;
+    inventory_t* inventory;
     int add1, add2, add3, add4;
 
     // Initialize the skills
@@ -68,7 +69,7 @@ Test(inventory, skill_add) {
     cr_assert_eq(init4, SUCCESS, "skill_init() failed to initialize skill");
 
     // Initialize the inventory
-    inventory_t* inventory = inventory_new(2, 5);
+    inventory = inventory_new(2, 5);
     cr_assert_not_null(inventory, "inventory_new() failed");
 
     // Add the skills to the inventory
@@ -95,6 +96,7 @@ Test(inventory, skill_add) {
 Test(inventory, skill_remove) {
     skill_t skill1, skill2, skill3, skill4;
     int init1, init2, init3, init4;
+    inventory_t* inventory;
     int add1, add2, add3, add4;
     int rem1, rem2, rem3, rem4;
 
@@ -120,7 +122,7 @@ Test(inventory, skill_remove) {
     cr_assert_eq(init4, SUCCESS, "skill_init() failed to initialize skill");
 
     // Initialize the inventory
-    inventory_t* inventory = inventory_new(2, 5);
+    inventory = inventory_new(2, 5);
     cr_assert_not_null(inventory, "inventory_new() failed");
 
     // Add the skills to the inventory
@@ -157,6 +159,7 @@ Test(inventory, skill_remove) {
 Test(inventory, has_skill) {
     skill_t skill1, skill2, skill3, skill4;
     int init1, init2, init3, init4;
+    inventory_t* inventory;
     int add1, add2, add3, add4;
     int has1, has2, has3;
 
@@ -182,7 +185,7 @@ Test(inventory, has_skill) {
     cr_assert_eq(init4, SUCCESS, "skill_init() failed to initialize skill");
 
     // Initialize the inventory
-    inventory_t* inventory = inventory_new(2, 5);
+    inventory = inventory_new(2, 5);
     cr_assert_not_null(inventory, "inventory_new() failed");
 
     // Add the skills to the inventory
