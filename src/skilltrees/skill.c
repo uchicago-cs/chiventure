@@ -10,7 +10,7 @@
 
 /* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
-                   effect_t effect) {
+                   skill_effect_t effect) {
     skill_t* skill;
     int rc;
 
@@ -32,7 +32,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 /* See skill.h */
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
-               effect_t effect) {
+               skill_effect_t effect) {
     assert(skill != NULL);
 
     skill->sid = sid;

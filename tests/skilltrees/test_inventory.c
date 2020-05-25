@@ -8,31 +8,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "skilltrees/inventory.h"
-
-/* Example skill effect function */
-char* effect_unlock(char* args) {
-    char* s = strdup(args);
-    char* msg = "unlocked the door!";
-    unsigned int rlen = strlen(s) + strlen(msg) + 2;
-    char* res = (char*)malloc(sizeof(char) * rlen);
-    sprintf(res, "%s %s", s, msg);
-    return res;
-}
-
-/* Another example skill effect function */
-char* effect_defuse_bomb(char* args) {
-    return "Bomb defused!";
-}
-
-/* A third example skill effect function */
-char* effect_chop_tree(char* args) {
-    return "Tree chopped!";
-}
-
-/* A fourth example skill effect function */
-char* effect_inner_peace(char* args) {
-    return "Maintaining inner peace.";
-}
+#include "effect_t.h"
 
 /* Checks the allocation and initialization of a skill inventory */
 Test(inventory, new) {
@@ -73,7 +49,7 @@ Test(inventory, skill_add) {
     // Initialize the skills
     init1 = skill_init(&skill1, UNLOCK_DOOR, ACTIVE, "Unlock door",
                        "A skill that allows a player to unlock a locked door",
-                       1, 0, &effect_unlock);
+                       1, 0, &effect_unlock_door);
     cr_assert_eq(init1, SUCCESS, "skill_init() failed to initialize skill");
 
     init2 = skill_init(&skill2, DEFUSE_BOMB, ACTIVE, "Defuse bomb",
@@ -125,7 +101,7 @@ Test(inventory, skill_remove) {
     // Initialize the skills
     init1 = skill_init(&skill1, UNLOCK_DOOR, ACTIVE, "Unlock door",
                        "A skill that allows a player to unlock a locked door",
-                       1, 0, &effect_unlock);
+                       1, 0, &effect_unlock_door);
     cr_assert_eq(init1, SUCCESS, "skill_init() failed to initialize skill");
 
     init2 = skill_init(&skill2, DEFUSE_BOMB, ACTIVE, "Defuse bomb",
@@ -187,7 +163,7 @@ Test(inventory, has_skill) {
     // Initialize the skills
     init1 = skill_init(&skill1, UNLOCK_DOOR, ACTIVE, "Unlock door",
                        "A skill that allows a player to unlock a locked door",
-                       1, 0, &effect_unlock);
+                       1, 0, &effect_unlock_door);
     cr_assert_eq(init1, SUCCESS, "skill_init() failed to initialize skill");
 
     init2 = skill_init(&skill2, DEFUSE_BOMB, ACTIVE, "Defuse bomb",

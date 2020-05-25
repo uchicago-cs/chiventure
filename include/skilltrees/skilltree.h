@@ -36,7 +36,7 @@ typedef struct branch {
     sid_t sid;
 
     // The list of prerequisite skills to acquire skill `sid`
-    skill_t** prerequisites;
+    skill_t** prereqs;
 
     // The number of prerequisite skills
     unsigned int nprereqs;
@@ -66,98 +66,11 @@ typedef struct tree {
 /* === FUNCTIONS === */
 /* ================= */
 /*
- * Allocates a new (empty) skill prerequisites list in the heap.
- *
- * Parameters:
- *  - nprepreqs: The number of prerequisite skills
- *
- * Returns:
- *  - A pointer to the list, or NULL if the list cannot be allocated
- */
-skill_t** prereqs_new(unsigned int nprereqs);
-
-/*
- * Frees the resources associated with a skill prerequisites list.
- *
- * Parameters:
- *  - prereqs: The list of prerequisite skills
- *  - nprepreqs: The number of prerequisite skills
- *
- * Returns:
- *  - Always returns 0
- */
-int prereqs_free(skill_t** prereqs, unsigned int nprereqs);
-
-/*
- * Adds a skill to a prerequisite skills list.
- *
- * Parameters:
- *  - prereqs: A skill prerequisite skills list
- *  - skill: A skill
- *
- * Returns:
- *  - 0 on success, 1 if an error occurs
- */
-int prereq_skill_add(skill_t** prereqs, skill_t* skill);
-
-/*
- * Removes a skill from a prerequisite skills list.
- *
- * Parameters:
- *  - prereqs: A skill prerequisite skills list
- *  - skill: A skill
- *
- * Returns:
- *  - 0 on success, 1 if an error occurs
- */
-int prereq_skill_remove(skill_t** prereqs, skill_t* skill);
-
-/*
- * Returns all prerequisites for a skill.
- *
- * Parameters:
- *  - tree: A skill tree
- *  - skill: A skill
- *  - nprepreqs: A pointer to the number of prerequisites
- *
- * Returns:
- *  - A pointer to the list, or NULL if an error occurs
- */
-skill_t** prereqs_all(tree_t* tree, skill_t* skill, unsigned int* nprereqs);
-
-/*
- * Returns all prerequisites for a skill acquired by a player.
- *
- * Parameters:
- *  - tree: A skill tree
- *  - skill: A skill
- *  - nprepreqs: A pointer to the number of prerequisites acquired
- *
- * Returns:
- *  - A pointer to the list, or NULL if an error occurs
- */
-skill_t** prereqs_acquired(tree_t* tree, skill_t* skill, unsigned int* nprereqs);
-
-/*
- * Returns all prerequisites for a skill missing by a player.
- *
- * Parameters:
- *  - tree: A skill tree
- *  - skill: A skill
- *  - nprepreqs: A pointer to the number of prerequisites missing
- *
- * Returns:
- *  - A pointer to the list, or NULL if an error occurs
- */
-skill_t** prereqs_missing(tree_t* tree, skill_t* skill, unsigned int* nprereqs);
-
-/*
  * Allocates a new skill branch in the heap.
  *
  * Parameters:
  *  - sid: The skill ID that uniquely identifies the skill
- *  - prereqs: The prerequisite skills to acquire the skill
- *  - nprepreqs: A pointer to the number of prerequisites
+ *  - nprepreqs: The number of prerequisite skills to acquire the skill
  *  - max_level: The maximum level to which the skill can be upgraded
  *  - min_xp: The number of experience points needed to level up
  *
@@ -165,31 +78,14 @@ skill_t** prereqs_missing(tree_t* tree, skill_t* skill, unsigned int* nprereqs);
  *  - A pointer to the skill branch, or NULL if a skill branch cannot be
  *    allocated
  */
-branch_t* branch_new(sid_t sid, skill_t** prereqs, unsigned int nprereqs,
-                     unsigned int max_level, unsigned int min_xp);
-
-/*
- * Initializes a skill tree branch.
- *
- * Parameters:
- *  - sid: The skill ID that uniquely identifies the skill
- *  - prereqs: The prerequisite skills to acquire the skill
- *  - nprepreqs: A pointer to the number of prerequisites
- *  - max_level: The maximum level to which the skill can be upgraded
- *  - min_xp: The number of experience points needed to level up
- *
- * Returns:
- *  - 0 on success, 1 if an error occurs
- */
-int branch_init(branch_t* branch, sid_t sid, skill_t** prereqs,
-                unsigned int nprereqs, unsigned int max_level,
-                unsigned int min_xp);
+ branch_t* branch_new(sid_t sid, unsigned int nprereqs, unsigned int max_level,
+                      unsigned int min_xp);
 
 /*
  * Frees the resources associated with a skill tree branch.
  *
  * Parameters:
- *  - branch: A branch. Must point to skill allocated with branch_new
+ *  - branch: A skill branch. Must point to branch allocated with branch_new
  *
  * Returns:
  *  - Always returns 0
@@ -197,15 +93,40 @@ int branch_init(branch_t* branch, sid_t sid, skill_t** prereqs,
 int branch_free(branch_t* branch);
 
 /*
+ * Adds a prerequisite skill to a skill branch.
+ *
+ * Parameters:
+ *  - branch: A skill branch
+ *  - skill: A skill
+ *
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int branch_prereq_add(branch_t* branch, skill_t* prereq);
+
+/*
+ * Removes a prerequisite skill from a skill branch.
+ *
+ * Parameters:
+ *  - branch: A skill branch
+ *  - skill: A skill
+ *
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int branch_prereq_remove(branch_t* branch, skill_t* prereq);
+
+/*
  * Allocates a new (empty) skill tree in the heap.
  *
  * Parameters:
+ *  - tid: The skill tree ID that uniquely identifies the skill tree
  *  - nbranches: The number of branches to allocate in the skill tree
  *
  * Returns:
  *  - A pointer to the skill tree, or NULL if the skill tree cannot be allocated
  */
-tree_t* tree_new(unsigned int nbranches);
+tree_t* tree_new(tid_t tid, unsigned int nbranches);
 
 /*
  * Frees the resources associated with a skill tree.
@@ -219,11 +140,11 @@ tree_t* tree_new(unsigned int nbranches);
 int tree_free(tree_t* tree);
 
 /*
- * Adds a branch to a skill tree.
+ * Adds a skill branch to a skill tree.
  *
  * Parameters:
  *  - tree: A skill tree
- *  - branch: A branch
+ *  - branch: A skill branch
  *
  * Returns:
  *  - 0 on success, 1 if an error occurs
@@ -231,11 +152,11 @@ int tree_free(tree_t* tree);
 int tree_branch_add(tree_t* tree, branch_t* branch);
 
 /*
- * Removes a branch from a skill tree.
+ * Removes a skill branch from a skill tree.
  *
  * Parameters:
  *  - tree: A skill tree
- *  - branch: A branch
+ *  - branch: A skill branch
  *
  * Returns:
  *  - 0 on success, 1 if an error occurs
@@ -243,19 +164,67 @@ int tree_branch_add(tree_t* tree, branch_t* branch);
 int tree_branch_remove(tree_t* tree, branch_t* branch);
 
 /*
- * Updates a skill level, if ready to be leveled-up.
+ * Searches for a skill branch in a skill tree.
  *
  * Parameters:
  *  - tree: A skill tree
- *  - inventory: A player's skill inventory
+ *  - sid: A skill ID that uniquely identifies the skill branch
  *
  * Returns:
- *  - 0 on success, 1 if an error occurs
+ *  - The position of the branch in the skill tree, -1 if the tree does not have
+ *    a branch that corresponds to skill ID `sid`
  */
-int skill_level_update(tree_t* tree, inventory_t* inventory);
+int tree_has_branch(tree_t* tree, sid_t sid);
 
 /*
- * Adds a skill to a player's inventory, if the player has all the prerequisites
+ * Returns all prerequisite skills for a given skill.
+ *
+ * Parameters:
+ *  - tree: A skill tree
+ *  - sid: A skill ID
+ *  - nprereqs: An out parameter. The number of prerequisite skills in the list
+ *
+ * Returns:
+ *  - A pointer to the list of all prerequisite skills, NULL if an error occurs
+ */
+skill_t** prereqs_all(tree_t* tree, sid_t sid, unsigned int* nprereqs);
+
+/*
+ * Returns prerequisite skills already acquired by a player for a given skill.
+ *
+ * Parameters:
+ *  - tree: A skill tree
+ *  - inventory: A player's skill inventory
+ *  - sid: A skill ID
+ *  - nprereqs: An out parameter. The number of acquired prerequisite skills in
+ *              the list
+ *
+ * Returns:
+ *  - A pointer to the list of acquired prerequisite skills, NULL if an error
+ *    occurs
+ */
+skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
+                           unsigned int* nacquired);
+
+/*
+ * Returns prerequisite skills already missing by a player for a given skill.
+ *
+ * Parameters:
+ *  - tree: A skill tree
+ *  - inventory: A player's skill inventory
+ *  - sid: A skill ID
+ *  - nprereqs: An out parameter. The number of missing prerequisite skills in
+ *              the list
+ *
+ * Returns:
+ *  - A pointer to the list of missing prerequisite skills, NULL if an error
+ *    occurs
+ */
+skill_t** prereqs_missing(tree_t* tree, inventory_t* inventory, sid_t sid,
+                          unsigned int* nmissing);
+
+/*
+ * Updates levels of all skills in an inventory.
  *
  * Parameters:
  *  - tree: A skill tree
@@ -264,6 +233,20 @@ int skill_level_update(tree_t* tree, inventory_t* inventory);
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int skill_acquire(tree_t* tree, inventory_t* inventory);
+int levels_update(tree_t* tree, inventory_t* inventory);
+
+/*
+ * Adds a skill to an inventory, if the inventory contains all its prerequisite
+ * skills
+ *
+ * Parameters:
+ *  - tree: A skill tree
+ *  - inventory: A player's skill inventory
+ *  - sid: A skill ID
+ *
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int inventory_skill_acquire(tree_t* tree, inventory_t* inventory, sid_t sid);
 
 #endif /* INCLUDE_SKILLTREE_H_ */

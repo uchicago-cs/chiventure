@@ -4,4 +4,5 @@ include_directories(../../include/)
 
 add_library(skilltrees STATIC
             skill.c
-            inventory.c)
+            inventory.c
+            skilltree.c)

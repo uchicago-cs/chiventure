@@ -6,17 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
 #include "skilltrees/skill.h"
-
-/* Example skill effect function, matching the format of `effect_t` */
-char* effect_unlock_door(char* args) {
-    char* msg = "unlocked the door!";
-    unsigned int rlen = strlen(args) + strlen(msg) + 2;
-    char* res = (char*)malloc(sizeof(char) * rlen);
-    sprintf(res, "%s %s", args, msg);
-    return res;
-}
+#include "effect_t.h"
 
 /* Checks the allocation and initialization of a skill */
 Test(skill, new) {

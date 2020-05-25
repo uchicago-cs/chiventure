@@ -46,7 +46,7 @@ typedef enum skill_type {
  * Returns:
  *  - A string describing the consequence of the skill execution, for the CLI
  */
-typedef char* (*effect_t)(char*);
+typedef char* (*skill_effect_t)(char*);
 
 /* An INDIVIDUAL skill, belonging to a player */
 typedef struct skill {
@@ -69,7 +69,7 @@ typedef struct skill {
     unsigned int xp;
 
     // The pointer to the function that will execute the skill effect
-    effect_t effect;
+    skill_effect_t effect;
 
 } skill_t;
 
@@ -90,7 +90,7 @@ typedef struct skill {
  *  - A pointer to the skill, or NULL if a skill cannot be allocated
  */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
-                   effect_t effect);
+                   skill_effect_t effect);
 
 /*
  * Initializes a skill.
@@ -110,7 +110,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
  */
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
-               effect_t effect);
+               skill_effect_t effect);
 
 /*
  * Frees the resources associated with a skill.

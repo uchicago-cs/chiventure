@@ -90,7 +90,7 @@ int inventory_skill_remove(inventory_t* inventory, skill_t* skill) {
     assert(inventory != NULL && skill != NULL);
 
     int pos = inventory_has_skill(inventory, skill);
-    if (pos < 0) {
+    if (pos == -1) {
         fprintf(stderr, "inventory_skill_remove: skill is not in inventory\n");
         return FAILURE;
     }
