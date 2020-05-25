@@ -17,7 +17,7 @@
  *      cumulative modifiers from effects, set to 1 by default
  * */
 typedef struct stats {
-    stats_global_t *name;
+    stats_global_t *global;
     double val;
     double max;
     double modifier; 
@@ -74,26 +74,13 @@ typedef struct effects effects_hash_t;
   *
   *      the maximal value a stat could have
   * */
-typedef struct global_stats{
+typedef struct stats_global{
     char *name;
     double max;
     UT_hash_handle hh; 
 } stat_global_t;
 
-typedef struct global_stats global_stats_hash_t;
-
-/*
- * Initializes a Stat with specified value and modifier 0
- *
- * Parameters:
- *  s: A stats struct Must point to already allocated memory.
- *  stat: the pointer to the global stat struct
- *  init: starting value
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int stats_init(stats_t *s, stats_global_t *stat, double init);
+typedef struct stats_global stats_global_hash_t;
 
 
 /*
@@ -108,8 +95,21 @@ int stats_init(stats_t *s, stats_global_t *stat, double init);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 
-int global_stats_init(global_stats *s, char *name, double max);
+int stats_global_init(stats_global_t *s, char *name, double max);
 
+
+/*
+ * Initializes a Stat with specified value and modifier 0
+ *
+ * Parameters:
+ *  s: A stats struct Must point to already allocated memory.
+ *  stat: the pointer to the global stat struct
+ *  init: starting value
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int stats_init(stats_t *s, stats_global_t *stat, double init);
 
 /*
  * Allocates a new global stat
@@ -214,25 +214,25 @@ int add_stat_player(stats_hash_t *sh, stats_t *s);
 char *display_stats(stats_hash_t *sh);
 
 /*
- * Frees a stats hash table
+ * Frees a stat
  *
  * Parameters: 
- * sh: pointer to the stats hash table to be freed
+ * sh: pointer to the stat to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats(stats_hash_t *sh);
+int free_stats(stats_t *stat);
 
 /*
- * Frees a global stats hash table
+ * Frees a global stat
  *
  * Parameters: 
- * gsh: pointer to the global stats hash table to be freed
+ * gsh: pointer to the global statto be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_global_stats(global_stats_hash_t* gsh);
+int free_stats_global(stats_global_t* stat);
 
 #endif
