@@ -165,7 +165,7 @@ Test(conditional_block_t, new_AST_EQ)
                 "new_ast->block_type");
 
     conditional_block_free(new_conditional);
-    ast_block_free(new_ast);
+    AST_block_free(new_ast);
 }
 
 /* Checks that a new AST conditional block with type IN is created without interruption */
@@ -200,7 +200,7 @@ Test(conditional_block_t, new_AST_IN)
                 "new_ast->block_type");
 
     conditional_block_free(new_conditional);
-    ast_block_free(new_ast);
+    AST_block_free(new_ast);
 }
 
 /* Checks that a new AST conditional block with type LTGT is created without interruption */
@@ -235,7 +235,7 @@ Test(conditional_block_t, new_AST_LTGT)
                 "new_ast->block_type");
 
     conditional_block_free(new_conditional);
-    ast_block_free(new_ast);
+    AST_block_free(new_ast);
 }
 
 /* Checks that a new AST conditional block with type LTEGTE is created without interruption */
@@ -270,7 +270,7 @@ Test(conditional_block_t, new_AST_LTEGTE)
                 "new_ast->block_type");
 
     conditional_block_free(new_conditional);
-    ast_block_free(new_ast);
+    AST_block_free(new_ast);
 }
 
 /* Checks that a new conditional block with type EQ is initialized without interruption */
