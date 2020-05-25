@@ -42,7 +42,7 @@ AST_block_t* AST_action_block_new(action_enum_t action_type, int num_args,
 attribute_t** args)
 {
     AST_block_t *ast;
-    action_block_t *action;
+    block_t *action;
     int new_action;
     block_type_t block_type = ACTION;
 
