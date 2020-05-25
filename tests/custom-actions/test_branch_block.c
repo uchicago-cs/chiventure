@@ -636,7 +636,7 @@ Test(branch_block_t, free_LTEGTE)
     int rc;
     int num_conditionals = 1;
     conditional_type_t conditional_type = LTEGTE;
-    cchar *attr_name1 = "attribute1";
+    char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
     attribute_value_t attribute_value;
