@@ -16,6 +16,156 @@ Test(action_block_t, new_SET)
     char *long_desc1 = "0001";
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t **args = get_attribute(item_1, attr_name1);
+
+    action_block_t* new_action = action_block_new(action_type, num_args, 
+                                                    *args);
+
+    cr_assert_not_null(ast, "action_block_new() failed");
+
+    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
+                "didn't set new_action->action_type");
+    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
+                "set new_action->num_args");
+    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+                "new_action->args");
+}
+
+/* Checks that a new action block with SAY type is created without interruption */
+Test(action_block_t, new_SAY)
+{
+    action_enum_t action_type = SAY;
+    int num_args = 1;
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
+
+    action_block_t* new_action = action_block_new(action_type, num_args, 
+                                                    *args);
+
+    cr_assert_not_null(ast, "action_block_new() failed");
+
+    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
+                "didn't set new_action->action_type");
+    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
+                "set new_action->num_args");
+    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+                "new_action->args");
+}
+
+/* Checks that a new action block with MOVE type is created without interruption */
+Test(action_block_t, new_MOVE)
+{
+    action_enum_t action_type = MOVE;
+    int num_args = 1;
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
+
+    action_block_t* new_action = action_block_new(action_type, num_args, 
+                                                    *args);
+
+    cr_assert_not_null(ast, "action_block_new() failed");
+
+    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
+                "didn't set new_action->action_type");
+    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
+                "set new_action->num_args");
+    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+                "new_action->args");
+}
+
+/* Checks that a new action block with ADDSUBMULTDIV type is created without interruption */
+Test(action_block_t, new_ADDSUBMULTDIV)
+{
+    action_enum_t action_type = ADDSUBMULTDIV;
+    int num_args = 1;
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
+
+    action_block_t* new_action = action_block_new(action_type, num_args, 
+                                                    *args);
+
+    cr_assert_not_null(ast, "action_block_new() failed");
+
+    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
+                "didn't set new_action->action_type");
+    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
+                "set new_action->num_args");
+    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+                "new_action->args");
+}
+
+/* Checks that a new action block with GEN type is created without interruption */
+Test(action_block_t, new_GEN)
+{
+    action_enum_t action_type = GEN;
+    int num_args = 1;
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
+
+    action_block_t* new_action = action_block_new(action_type, num_args, 
+                                                    *args);
+
+    cr_assert_not_null(ast, "action_block_new() failed");
+
+    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
+                "didn't set new_action->action_type");
+    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
+                "set new_action->num_args");
+    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+                "new_action->args");
+}
+
+/* Checks that a new action block with EXEC type is created without interruption */
+Test(action_block_t, new_EXEC)
+{
+    action_enum_t action_type = EXEC;
+    int num_args = 1;
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
+
+    action_block_t* new_action = action_block_new(action_type, num_args, 
+                                                    *args);
+
+    cr_assert_not_null(ast, "action_block_new() failed");
+
+    cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
+                "didn't set new_action->action_type");
+    cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
+                "set new_action->num_args");
+    cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
+                "new_action->args");
+}
+
+/* Checks that a new action AST block with SET type is created without interruption */
+Test(action_block_t, new_ast_SET)
+{
+    action_enum_t action_type = SET;
+    int num_args = 1;
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
     block_type_t block_type = ACTION;
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
@@ -36,8 +186,8 @@ Test(action_block_t, new_SET)
                 "ast->block_type");
 }
 
-/* Checks that a new action block with SAY type is created without interruption */
-Test(action_block_t, new_SAY)
+/* Checks that a new action AST block with SAY type is created without interruption */
+Test(action_block_t, new_ast_SAY)
 {   
     action_enum_t action_type = SAY;
     int num_args = 1;
@@ -67,8 +217,8 @@ Test(action_block_t, new_SAY)
                 "ast->block_type");
 }
 
-/* Checks that a new action block with MOVE type is created without interruption */
-Test(action_block_t, new_MOVE)
+/* Checks that a new action AST block with MOVE type is created without interruption */
+Test(action_block_t, new_ast_MOVE)
 {   
     action_enum_t action_type = MOVE;
     int num_args = 1;
@@ -98,8 +248,8 @@ Test(action_block_t, new_MOVE)
                 "ast->block_type");
 }
 
-/* Checks that a new action block with ADDSUBMULTDIV type is created without interruption */
-Test(action_block_t, new_ADDSUBMULTDIV)
+/* Checks that a new action AST block with ADDSUBMULTDIV type is created without interruption */
+Test(action_block_t, new_ast_ADDSUBMULTDIV)
 {   
     action_enum_t action_type = ADDSUBMULTDIV;
     int num_args = 1;
@@ -129,8 +279,8 @@ Test(action_block_t, new_ADDSUBMULTDIV)
                 "ast->block_type");
 }
 
-/* Checks that a new action block with GEN type is created without interruption */
-Test(action_block_t, new_GEN)
+/* Checks that a new action AST block with GEN type is created without interruption */
+Test(action_block_t, new_ast_GEN)
 {   
     action_enum_t action_type = GEN;
     int num_args = 1;
@@ -160,8 +310,8 @@ Test(action_block_t, new_GEN)
                 "ast->block_type");
 }
 
-/* Checks that a new action block with EXEC type is created without interruption */
-Test(action_block_t, new_EXEC)
+/* Checks that a new action AST block with EXEC type is created without interruption */
+Test(action_block_t, new_ast_EXEC)
 {   
     action_enum_t action_type = EXEC;
     int num_args = 1;
