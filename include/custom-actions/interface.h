@@ -3,12 +3,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "custom-actions\action_block.h"
-#include "custom-actions\ast_block.h"
-#include "custom-actions\attribute_block.h"
-#include "custom-actions\branch_block.h"
-#include "custom-actions\conditional_block.h"
-#include "custom-actions\control_block.h"
+#include "action_block.h"
+#include "ast_block.h"
+#include "attribute_functions.h"
+#include "branch_block.h"
+#include "conditional_block.h"
+#include "control_block.h"
 
 /* A custom action struct. Contains the blocks and conditionals
  * for a single custom action. (?)
