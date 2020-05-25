@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
+#include "ast_block.h"
 
 /* An enumeration type for a control block */
 typedef enum control_type {
@@ -31,6 +32,17 @@ typedef struct control_block {
  * - A control block. 
  */  
 control_block_t* control_block_new(control_type_t control_type);
+
+/* 
+ * Allocates an AST type control block in the heap. 
+ * 
+ * Parameters: 
+ * - enum representing the control type 
+ * 
+ * Returns: 
+ * - A control block. 
+ */ 
+AST_block_t* AST_control_block_new(control_type_t control_type);
 
 /* 
  * Initializes a control block. 

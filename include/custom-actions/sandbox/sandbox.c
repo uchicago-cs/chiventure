@@ -1,6 +1,12 @@
 // A developor tool for creating and testing custom actions 
 // without the need to run the whole game.
 
+// This code does not need to be, and should not be peer reviewed. Ideally it will never be
+// a part of the final product. The only reason I'm uploading this is there's too many
+// issues with other aspects of the project for the sandbox executable 
+// (which is supposed to be the deliverable) to even compile, and I need to prove I worked
+// on something.
+
 #include "custom-actions\custom_actions_common.h"
 #include "custom-actions\interface.h"
 
@@ -84,34 +90,34 @@ int main(int argc, char *argv[]) {
         /* input processing begins */
 
         // input: load actions <filename>
-        if((strcmp(token[0],"load") == 0) && (strcmp(token[1],"actions") == 0)) {
+        if((strcmp(input2[0],"load") == 0) && (strcmp(input2[1],"actions") == 0)) {
             printf("There is currently no functionality to load a json file, or at least none implemented through WDL's interface. Thanks for trying though.\n");
         }
 
         // input:search action <action name>
-        else if((strcmp(token[0],"search") == 0) && (strcmp(token[1],"action") == 0)) {
-            custom_action_t *customaction = search_for_custom_action(token[2],game);
+        else if((strcmp(input2[0],"search") == 0) && (strcmp(input2[1],"action") == 0)) {
+            custom_action_t *customaction = search_for_custom_action(input2[2],game);
             if(customaction == NULL) {
-                printf("Custom action %s not found\n", token[2]);
+                printf("Custom action %s not found\n", input2[2]);
             } else {
-                printf("Custom action %s found\n", token[2]);
+                printf("Custom action %s found\n", input2[2]);
             }
         }
 
         // input: get player <level/xp/health/stats>
-        else if((strcmp(token[0],"get") == 0) && (strcmp(token[1],"player") == 0)) {
+        else if((strcmp(input2[0],"get") == 0) && (strcmp(input2[1],"player") == 0)) {
             level = get_level(player);
             xp = get_xp(player);
             health = get_health(player);
-            if(strcmp(token[2],"stats") == 0) printf("%s (Level %d) has %d health and %d xp\n", name, health, xp);
-            else if(strcmp(token[2],"health") == 0) printf("%s has %d health\n", name, health);
-            else if(strcmp(token[2],"xp") == 0) printf("%s has %d xp\n", name, xp);
-            else if(strcmp(token[2],"level") == 0) printf("%s is level %d\n", name, level);
+            if(strcmp(input2[2],"stats") == 0) printf("%s (Level %d) has %d health and %d xp\n", name, health, xp);
+            else if(strcmp(input2[2],"health") == 0) printf("%s has %d health\n", name, health);
+            else if(strcmp(input2[2],"xp") == 0) printf("%s has %d xp\n", name, xp);
+            else if(strcmp(input2[2],"level") == 0) printf("%s is level %d\n", name, level);
             else printf("Request get player understood, but parameter was not. Please reread sandbox.txt and try again.\n");
         }
 
         // input: exit
-        else if(strcmp(token[0],"exit") == 0) {
+        else if(strcmp(input2[0],"exit") == 0) {
             printf("Exiting sandbox\n");
             break;
         }

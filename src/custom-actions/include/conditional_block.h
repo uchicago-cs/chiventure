@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
+#include "ast_block.h"
 
 /* An enumeration type for a conditional block */
 typedef enum conditional_type {
@@ -17,14 +18,12 @@ typedef enum conditional_type {
     IN
 } conditional_type_t;
 
-
 /* A block that returns true or false, and contains an operator and two attributes */
 typedef struct conditional_block {
     conditional_type_t conditional_type;
     attribute_t* left;
     attribute_t* right;
 } conditional_block_t;
-
 
 /* 
  * Allocates a conditional block in the heap. 
@@ -38,6 +37,20 @@ typedef struct conditional_block {
  * - A conditional block. 
  */
 conditional_block_t* conditional_block_new(conditional_type_t conditional_type, 
+attribute_t* left, attribute_t* right);
+
+/* 
+ * Allocates an AST type conditional block in the heap. 
+ * 
+ * Parameters: 
+ * - pointer to a "left" attribute
+ * - pointer to a "right" attribute 
+ * - enum representing the conditional type 
+ * 
+ * Returns: 
+ * - A conditional block. 
+ */
+AST_block_t* AST_conditional_block_new(conditional_type_t conditional_type, 
 attribute_t* left, attribute_t* right);
 
 /* 

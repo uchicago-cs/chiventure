@@ -1,5 +1,5 @@
 CC = gcc
-INCLUDE = -I ..\..\..\include
+INCLUDE = -I ..\..\..\include -I ..\include
 SRC = ..\src\interface.c ..\..\game-state\src\game.c ..\..\game-state\src\player.c 
 FILE = ..\..\..\include\custom-actions\sandbox\sandbox.c
 

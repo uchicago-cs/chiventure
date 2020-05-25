@@ -8,16 +8,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
+#include "../include/ast_block.h"
 #include "../include/action_block.h"
 
 /* See action_block.h */
-action_block_t* action_block_new(action_type_t action_type, int num_args, 
+action_block_t* action_action_block_new(action_type_t action_type, int num_args, 
 attribute_t** args)
 {
+    ast_block_t *ast;
     action_block_t *action;
     int new_action;
+    block_type_t block_type = ACTION;
 
     action = malloc(sizeof(action_block_t));
+    ast = malloc(sizeof(ast_block_t));
 
     if (action == NULL)
     {
@@ -31,8 +35,37 @@ attribute_t** args)
         fprintf(stderr, "Error: Could not initialize action_block_t\n");
         return NULL;    
     }
-
+    
     return action;
+}
+
+/* See action_block.h */
+AST_block_t* AST_action_block_new(action_type_t action_type, int num_args, 
+attribute_t** args)
+{
+    ast_block_t *ast;
+    action_block_t *action;
+    int new_action;
+    block_type_t block_type = ACTION;
+
+    action = malloc(sizeof(action_block_t));
+    ast = malloc(sizeof(ast_block_t));
+
+    if (action == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory\n");
+        return NULL;
+    }
+
+    new_action = action_block_init(action, action_type, num_args, args);
+    if (new_action != SUCCESS) 
+    {
+        fprintf(stderr, "Error: Could not initialize action_block_t\n");
+        return NULL;    
+    }
+    
+    ast = ast_block_new(action, block_type);
+    return ast;
 }
 
 /* See action_block.h */

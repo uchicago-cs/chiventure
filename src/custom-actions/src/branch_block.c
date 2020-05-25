@@ -9,16 +9,20 @@
 #include <stdio.h>
 #include "game-state/item.h"
 #include "../include/branch_block.h"
+#include "../include/ast_block.h"
 
 /* See branch_block.h */
-branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
+branch_block_t* branch_branch_block_new(int num_conditionals, conditional_block_t** 
 conditionals, conditional_type_t conditional_type, int num_controls, 
 control_block_t** controls)
 {
+    ast_block_t *ast;
     branch_block_t *branch;
     int new_branch;
+    block_type_t block_type = BRANCH;
 
     branch = malloc(sizeof(branch_block_t));
+    ast = malloc(sizeof(ast_block_t));
 
     if (branch == NULL)
     {
@@ -35,6 +39,37 @@ control_block_t** controls)
     }
 
     return branch;
+}
+
+/* See branch_block.h */
+AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** 
+conditionals, conditional_type_t conditional_type, int num_controls, 
+control_block_t** controls)
+{
+    ast_block_t *ast;
+    branch_block_t *branch;
+    int new_branch;
+    block_type_t block_type = BRANCH;
+
+    branch = malloc(sizeof(branch_block_t));
+    ast = malloc(sizeof(ast_block_t));
+
+    if (branch == NULL)
+    {
+        fprintf(stderr,"Could not allocate memory");
+        return NULL;
+    }
+
+    new_branch = branch_block_init(branch, num_conditionals, conditionals, 
+    conditional_type, num_controls, controls);
+    if (new_branch != SUCCESS)
+    {
+        fprintf(stderr,"Could not initialize branch_block_t");
+        return NULL;
+    }
+
+    ast = ast_block_new(branch, block_type);
+    return ast;
 }
     
 /* See branch_block.h */

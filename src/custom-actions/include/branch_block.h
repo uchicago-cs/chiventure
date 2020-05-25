@@ -10,6 +10,7 @@
 #include "game-state/item.h"
 #include "conditional_block.h"
 #include "control_block.h"
+#include "ast_block.h"
 
 /* A block that holds pointers to both a control and a conditional block */
 typedef struct branch_block {
@@ -34,6 +35,23 @@ typedef struct branch_block {
  * - A branch block. 
  */  
 branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
+conditionals, conditional_type_t conditional_type, int num_controls, 
+control_block_t** controls);
+
+/* 
+ * Allocates an AST type branch block in the heap. 
+ * 
+ * Parameters: 
+ * - integer containing the number of conditional blocks
+ * - pointer to a list of conditional blocks
+ * - integer for the number of control blocks
+ * - pointer to a list of control blocks 
+ * - enum representing the conditional type 
+ * 
+ * Returns: 
+ * - A branch block. 
+ */  
+AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** 
 conditionals, conditional_type_t conditional_type, int num_controls, 
 control_block_t** controls);
 
