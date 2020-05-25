@@ -27,7 +27,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id)
 {
     room_t *res = room_new(room_id, roomspec->short_desc, roomspec->long_desc);
     res->items = roomspec->items;
-    res->paths = roomspec->paths;
+    res->paths = NULL;
 
     return res;
 }
