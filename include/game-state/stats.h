@@ -6,7 +6,7 @@
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
- *      the name of the stat, 
+ *      a pointer to the global stat, 
  *      which is also the key to the hashtable
  *
  *      the base value of the stat, 
@@ -17,7 +17,7 @@
  *      cumulative modifiers from effects, set to 1 by default
  * */
 typedef struct stats {
-    char *name;
+    stats_global_t *name;
     double val;
     double max;
     double modifier; 
@@ -81,30 +81,60 @@ typedef struct global_stats{
 } stat_global_t;
 
 typedef struct global_stats global_stats_hash_t;
+
 /*
  * Initializes a Stat with specified value and modifier 0
  *
  * Parameters:
  *  s: A stats struct Must point to already allocated memory.
- *  stats_name: the unique string ID of the stat
+ *  stat: the pointer to the global stat struct
  *  init: starting value
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int stats_init(stats_t *s, char *stats_name, double init);
+int stats_init(stats_t *s, stats_global_t *stat, double init);
+
+
+/*
+ * Initializes a global stat with max value stated
+ *
+ * Parameters:
+ *  s: A global stat struct Must point to already allocated memory.
+ *  name: the unique string ID that the stat has
+ *  max: maximal value of the stat
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+
+int global_stats_init(global_stats *s, char *name, double max);
+
+
+/*
+ * Allocates a new global stat
+ *
+ * Parameters:
+ * name: the unique string ID to be given to the stat
+ * max: maximal value this stat could have
+ * 
+ * Returns:
+ *  Pointer to allocated global stats struct
+ */
+
+stats_global_t* stats_global_new(char *name, double max);
 
 /*
  * Allocates a new stat
  *
  * Parameters:
- * stats_name: the unique string ID to be given to the stat
+ * stats_name: the pointer to the global stat struct.
  * init: starting value
  * 
  * Returns:
  *  Pointer to allocated stats struct
  */
-stats_t *stats_new(char *stats_name, double init);
+stats_t *stats_new(global *stat, double init);
 
 /*
  * Changes the base value of a stat by the
@@ -193,5 +223,16 @@ char *display_stats(stats_hash_t *sh);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int free_stats(stats_hash_t *sh);
+
+/*
+ * Frees a global stats hash table
+ *
+ * Parameters: 
+ * gsh: pointer to the global stats hash table to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int free_global_stats(global_stats_hash_t* gsh);
 
 #endif
