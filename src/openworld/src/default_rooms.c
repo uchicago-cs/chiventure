@@ -30,8 +30,9 @@ roomspec_t *make_default_room(char *bucket,
     roomspec_t *hash = NULL;
 
     assert(bucket != NULL);
-    if ((!strcmp(bucket, "school")) && (!strcmp(bucket, "farmhouse"))
-            && (!strcmp(bucket, "castle"))) {
+    if ((!!strcmp(bucket, "school")) && (!!strcmp(bucket, "farmhouse"))
+            && (!!strcmp(bucket, "castle"))) {
+	printf("OTHER CASE\n");
         roomspec_t *room = roomspec_new(bucket, sh_desc, l_desc, NULL);
         //now add to hash
         HASH_ADD_STR(hash, room_name, room);
@@ -54,11 +55,11 @@ roomspec_t *make_default_room(char *bucket,
         roomspec_t *hallway = roomspec_new("hallway", "A well-lit hallway",
                                            "A sterile, white hallway with no windows",
                                            NULL);
-        copy_item_to_hash(hall->items, def, "door");
-        copy_item_to_hash(hall->items, def, "nail");
-        copy_item_to_hash(hall->items, def, "fruit");
-        copy_item_to_hash(hall->items, def, "tray");
-        copy_item_to_hash(hall->items, def, "book");
+        copy_item_to_hash(hallway->items, def, "door");
+        copy_item_to_hash(hallway->items, def, "nail");
+        copy_item_to_hash(hallway->items, def, "fruit");
+        copy_item_to_hash(hallway->items, def, "tray");
+        copy_item_to_hash(hallway->items, def, "book");
 
         //LIBRARY
         item_hash_t *libr_items = NULL;
@@ -68,10 +69,10 @@ roomspec_t *make_default_room(char *bucket,
                                            " skill-boosting resources like books and potions",
                                            NULL);
         copy_item_to_hash(library->items, def, "book");
-        copy_item_to_hash(hall->items, def, "quill");
-        copy_item_to_hash(hall->items, def, "pencil");
-        copy_item_to_hash(hall->items, def, "video");
-        copy_item_to_hash(hall->items, def, "mirror");
+        copy_item_to_hash(library->items, def, "quill");
+        copy_item_to_hash(library->items, def, "pencil");
+        copy_item_to_hash(library->items, def, "video");
+        copy_item_to_hash(library->items, def, "mirror");
 
         if (!strcmp(bucket, "school")) {
             //CAFETERIA
@@ -92,12 +93,12 @@ roomspec_t *make_default_room(char *bucket,
                                                  " with 30 desks",
                                                  "A geography teacher's"
                                                  " classroom with 30 desks",
-                                                 class_items);
+                                                 NULL);
             copy_item_to_hash(classroom->items, def, "book");
-            copy_item_to_hash(cafeteria->items, def, "door");
-            copy_item_to_hash(cafeteria->items, def, "pencil");
-            copy_item_to_hash(cafeteria->items, def, "watercolors");
-            copy_item_to_hash(cafeteria->items, def, "video");
+            copy_item_to_hash(classroom->items, def, "door");
+            copy_item_to_hash(classroom->items, def, "pencil");
+            copy_item_to_hash(classroom->items, def, "watercolors");
+            copy_item_to_hash(classroom->items, def, "video");
 
             //now add all the roomspecs to the hash
             HASH_ADD_STR(hash, room_name, closet);
@@ -190,7 +191,7 @@ roomspec_t *make_default_room(char *bucket,
             HASH_ADD_STR(hash, room_name, throne);
 
         }
-        free_item_hash(def);
+        free_item_hash(def, def);
     }
     return hash;
 }

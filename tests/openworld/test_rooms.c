@@ -36,11 +36,13 @@ Test(room, make_default_defn)
     cr_assert_str_eq(r5->room_name, "hallway");
 
     //make sure items are assigned to rooms (and not empty)
-    cr_assert_not_null(r1->items);
-    cr_assert_not_null(r2->items);
-    cr_assert_not_null(r3->items);
-    cr_assert_not_null(r4->items);
-    cr_assert_not_null(r5->items);
+    item_t *libr, *clas, *clos, *cafe, *hall;
+    HASH_FIND_STR(r1->items,"book", libr);
+    cr_assert_not_null(libr);
+ //   cr_assert_not_null(r2->items);
+ //   cr_assert_not_null(r3->items);
+ //   cr_assert_not_null(r4->items);
+  //  cr_assert_not_null(r5->items);
 }
 
 /* testing make_default_room for undef bucket, bogus sh_desc, l_desc */

@@ -3,8 +3,9 @@
 #include "game-state/room.h"
 #include "openworld/default_items.h"
 
+
 /* see default_items.h */
-int free_item_hash(item_hash_t *hh)
+int free_item_hash(item_hash_t *hh, item_hash_t *def)
 {
     item_hash_t *elem, *tmp;
     HASH_ITER(hh, def, elem, tmp) {

@@ -9,7 +9,7 @@
 /* free_item_hash iterates through
 *  all entries in the hash and frees the struct.
 */
-int free_item_hash(item_hash_t *hh)
+int free_item_hash(item_hash_t *hh, item_hash_t *def);
 
 /*get_default_items() returns all the default defined
 * items in a hash table.
