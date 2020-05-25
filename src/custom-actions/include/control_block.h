@@ -31,7 +31,18 @@ typedef struct control_block {
  * Returns: 
  * - A control block. 
  */  
-AST_block_t* control_block_new(control_type_t control_type);
+control_block_t* control_block_new(control_type_t control_type);
+
+/* 
+ * Allocates an AST type control block in the heap. 
+ * 
+ * Parameters: 
+ * - enum representing the control type 
+ * 
+ * Returns: 
+ * - A control block. 
+ */ 
+AST_block_t* AST_control_block_new(control_type_t control_type);
 
 /* 
  * Initializes a control block. 
