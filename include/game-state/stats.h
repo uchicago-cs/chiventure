@@ -95,11 +95,7 @@ typedef struct stats_global stats_global_hash_t;
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 
-<<<<<<< HEAD
 int stats_global_init(stats_global_t *s, char *name, double max);
-=======
-int global_stats_init(stats_global_t *s, char *name, double max);
->>>>>>> eee554cd27200fe94a417717d147d1ace36c6c5c
 
 
 /*
@@ -237,10 +233,6 @@ int free_stats(stats_t *stat);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-<<<<<<< HEAD
 int free_stats_global(stats_global_t* stat);
-=======
-int free_stats_global(stats_global_hash_t* gsh);
->>>>>>> eee554cd27200fe94a417717d147d1ace36c6c5c
 
 #endif
