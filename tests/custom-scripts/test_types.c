@@ -107,7 +107,6 @@ Test(custom_type, obj_t_new_str_lua)
 }
 
 
-
 /** Checks that the object_t struct returns the correct bool value (direct)
  */
 Test(custom_type, obj_t_get_bool)
