@@ -158,8 +158,10 @@ int tree_has_branch(tree_t* tree, sid_t sid) {
     unsigned int i;
 
     for (i = 0; i < tree->nbranches; i++) {
-        if (tree->branches[i]->sid == sid) {
-            return i;
+        if (tree->branches[i]) {
+            if (tree->branches[i]->sid == sid) {
+                return i;
+            }
         }
     }
 
