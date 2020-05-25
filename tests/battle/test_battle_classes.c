@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "battle/battle_classes.h"
+#include "../../include/battle/battle_classes.h"
+#include "../../src/battle/src/battle_classes.c"
 
-/* define max size of class info strings */
-static const int MAX_CLASS_INFO_LEN = 100;
 
 /* Tests new_class() */
 Test(class, new)

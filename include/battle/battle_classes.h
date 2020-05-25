@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include <string.h>
 
+/* define max size of class info strings */
+static const int MAX_CLASS_INFO_LEN = 100;
+
 
 /* A mock player class type enum that
  * includes 4 classes:

@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "battle/battle_classes.h"
+#include "../../../include/battle/battle_classes.h"
 
 
 /* See battle_classes.h */
