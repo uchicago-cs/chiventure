@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "../../src/battle/src/AI.c"
-#include "../../include/battle/AI.h"
+#include "battle/AI.h"
 
 /* Creates + initializes a move*/
 move_t *create_move(int ID, item_t* item, bool attack, int damage, int defense)
@@ -42,7 +41,7 @@ move_t *create_move(int ID, item_t* item, bool attack, int damage, int defense)
 /* Creates example hardcoded stats for the enemy*/
 stat_t* create_enemy_stats()
 {
-    stat_t* test_stats = malloc(sizeof(stat_t));
+    stat_t* test_stats = calloc(1, sizeof(stat_t));
 
     test_stats->speed = 50;
     test_stats->defense = 20;
@@ -59,7 +58,7 @@ stat_t* create_enemy_stats()
 /* Creates example hardcoded stats for the player*/
 stat_t* create_player_stats()
 {
-    stat_t* test_stats = malloc(sizeof(stat_t));
+    stat_t* test_stats = calloc(1, sizeof(stat_t));
 
     test_stats->speed = 50;
     test_stats->defense = 30;

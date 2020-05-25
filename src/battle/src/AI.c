@@ -1,4 +1,4 @@
-#include "../../../include/battle/AI.h"
+#include "battle/AI.h"
 #include <math.h>
 
 /* see AI.h */
@@ -60,12 +60,7 @@ move_t* hard_move(combatant_t* player, combatant_t* enemy)
     return find_hard(player, enemy);
 }
 
-/* Given a moves list, function will find the 
- *      move dealing the least damage
- * Inputs:
- *      player - the player the move is going to be used against
- * Outputs:
- *      move_t - the move to be used        */
+/* see AI.h */
 move_t* find_easy(combatant_t* player, combatant_t* enemy)
 {
     move_t* weakest_move = enemy->moves;
@@ -90,12 +85,7 @@ move_t* find_easy(combatant_t* player, combatant_t* enemy)
     return weakest_move;
 }
 
-/* Given a moves list, function will find the 
- *      move dealing the most damage
- * Inputs:
- *      player - the player the move is going to be used against
- * Outputs:
- *      move_t - the move to be used        */
+/* see AI.h */
 move_t* find_hard(combatant_t* player, combatant_t* enemy)
 {
     move_t* strongest_move = enemy->moves;
