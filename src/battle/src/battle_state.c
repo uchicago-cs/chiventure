@@ -147,4 +147,3 @@ int battle_free(battle_t *b)
 
     return SUCCESS;
 }
-
