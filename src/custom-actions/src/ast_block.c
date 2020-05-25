@@ -11,7 +11,7 @@
 #include "ast_block.h"
 
 /* See ast_block.h */
-AST_block_t* AST_block_new(block_t* block, enum block_type block_type)
+AST_block_t* AST_block_new(block_type_t block_type, AST_block_t *next)
 {
     AST_block_t *ast;
     int new_ast;
@@ -24,7 +24,7 @@ AST_block_t* AST_block_new(block_t* block, enum block_type block_type)
         return NULL;
     }
 
-    new_ast = AST_block_init(ast, block, block_type);
+    new_ast = AST_block_init(ast, block_type, next);
     if (new_ast != SUCCESS)
     {
         fprintf(stderr, "Could not initialize AST_block_t");
@@ -35,13 +35,14 @@ AST_block_t* AST_block_new(block_t* block, enum block_type block_type)
 }
 
 /* See ast_block.h */
-int AST_block_init(AST_block_t *ast, block_t* block, enum block_type block_type)
+int AST_block_init(AST_block_t *ast, block_type_t block_type, AST_block_t *next)
 {
     assert(ast != NULL); 
 
-    ast->block = block;
     ast->block_type = block_type;
-
+    switch(ast->block_type)
+    {
+        case control_block: control_block_new(
     return SUCCESS; 
 }
 
