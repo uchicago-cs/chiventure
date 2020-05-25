@@ -4,6 +4,17 @@
 #include "openworld/default_items.h"
 
 /* see default_items.h */
+int free_item_hash(item_hash_t *hh)
+{
+    item_hash_t *elem, *tmp;
+    HASH_ITER(hh, def, elem, tmp) {
+        HASH_DELETE(hh, def, elem); // remove from hashtable
+        item_free(elem); // free the item
+    }
+    return SUCCESS;
+}
+
+/* see default_items.h */
 item_hash_t *get_default_items()
 {
 

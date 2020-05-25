@@ -6,6 +6,17 @@
 #include "game-state/room.h"
 #include "gen_structs.h"
 
+/* copy_item_to_hash is a helper function to deep copy
+*  items from the src hash to the dest hash using name
+*  as the key for lookup.
+*  Input:
+*  - item_hash_t *dst, *src: the source and destination hash tables
+*  - char *name: the key for look up
+*  Output: SUCCESS or FAILURE
+*/
+int copy_item_to_hash(item_hash_t *dst, item_hash_t *src, char *name);
+
+
 /*make_default_rooms adds all the defined default rooms+items for a themed
 * "bucket" (a name for a group of related rooms). In the case where the
 * "bucket" IS NOT part of the default definitions, there are optional
