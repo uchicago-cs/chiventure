@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdbool.h>
 #include <math.h>
 #include "skilltrees/skilltree.h"
 
@@ -49,20 +50,35 @@ int branch_free(branch_t* branch) {
     return SUCCESS;
 }
 
-/* See skilltree.h */
-int branch_prereq_add(branch_t* branch, skill_t* skill) {
-    assert(branch != NULL && skill != NULL);
+int list_skill_add(skill_t** list, unsigned int llen, skill_t* skill) {
+    assert(list != NULL && skill != NULL);
 
     unsigned int i;
 
-    for (i = 0; i < branch->nprereqs; i++) {
-        if (branch->prereqs[i] == NULL) {
-            branch->prereqs[i] = skill;
+    for (i = 0; i < llen, i++) {
+        if (list[i] == NULL) {
+            list[i] = skill;
             return SUCCESS;
         }
     }
 
+    fprintf(stderr, "list_skill_add: failed to add skill to list\n");
     return FAILURE;
+}
+
+/* See skilltree.h */
+int branch_prereq_add(branch_t* branch, skill_t* skill) {
+    assert(branch != NULL && skill != NULL);
+
+    int rc;
+
+    rc = list_skill_add(branch->prereqs, branch->nprereqs, skill);
+    if (rc) {
+        fprintf(stderr, "branch_prereq_add: failed to add prerequisite to branch\n");
+        return FAILURE;
+    }
+
+    return SUCCESS;
 }
 
 /* See skilltree.h */
@@ -185,7 +201,44 @@ skill_t** prereqs_all(tree_t* tree, sid_t sid, unsigned int* nprereqs) {
 /* See skilltree.h */
 skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
                            unsigned int* nacquired) {
-    return NULL;
+    assert(tree != NULL && inventory != NULL);
+
+    unsigned int nprereqs;
+    skill_t** prereqs = prereqs_all(tree, sid, &nprereqs);
+
+    unsigned int i;
+    sid_t prereq;
+    skill_type_t type;
+    int pos;
+
+    skill_t** acquired;
+    *nacquired = 0;
+
+    for (i = 0; i < nprereqs; i++) {
+        prereq = prereqs[i]->sid;
+        type = prereqs[i]->type;
+        if (pos = inventory_has_skill(inventory, prereq, type)) {
+            (*nacquired)++;
+            if (i == 0) {
+                acquired = (skill_t**)malloc(sizeof(skill_t*));
+            } else {
+                acquired = (skill_t**)realloc(sizeof(skill_t*) * (*nacquired));
+            }
+            switch (type) {
+                case ACTIVE:
+                    list_skill_add(acquired, (*nacquired), inventory->active[pos]);
+                    break;
+                case PASSIVE:
+                    list_skill_add(acquired, (*nacquired), inventory->passive[pos]);
+                    break;
+                default:
+                    fprintf(stderr, "prereqs_acquired: not a valid skill type\n");
+                    return NULL;
+            }
+        }
+    }
+
+    return acquired;
 }
 
 /* See skilltree.h */
