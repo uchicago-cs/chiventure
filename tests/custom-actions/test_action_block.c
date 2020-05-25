@@ -10,11 +10,12 @@ Test(action_block_t, new_SET)
 {
     action_type_t action_type = SET;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     *args);
@@ -34,11 +35,12 @@ Test(action_block_t, new_SAY)
 {   
     action_type_t action_type = SAY;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     *args);
@@ -58,11 +60,12 @@ Test(action_block_t, new_MOVE)
 {   
     action_type_t action_type = MOVE;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     *args);
@@ -82,11 +85,12 @@ Test(action_block_t, new_ADDSUBMULTDIV)
 {   
     action_type_t action_type = ADDSUBMULTDIV;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     *args);
@@ -106,11 +110,12 @@ Test(action_block_t, new_GEN)
 {   
     action_type_t action_type = GEN;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     *args);
@@ -130,11 +135,12 @@ Test(action_block_t, new_EXEC)
 {   
     action_type_t action_type = EXEC;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     *args);
@@ -155,11 +161,13 @@ Test(action_block_t, init_SET)
     action_block_t action;
     int rc;
     action_type_t action_type = SET;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    int num_args = 1;
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     rc = action_block_init(&action, action_type, num_args, *args);
 
@@ -178,11 +186,13 @@ Test(action_block_t, init_SAY)
     int rc;
     action_type_t action_type = SAY;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
+
 
     rc = action_block_init(&action, action_type, num_args, *args);
 
@@ -201,11 +211,12 @@ Test(action_block_t, init_MOVE)
     int rc;
     action_type_t action_type = MOVE;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     rc = action_block_init(&action, action_type, num_args, *args);
 
@@ -224,11 +235,12 @@ Test(action_block_t, init_ADDSUBMULTDIV)
     int rc;
     action_type_t action_type = ADDSUBMULTDIV;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     rc = action_block_init(&action, action_type, num_args, *args);
 
@@ -247,11 +259,12 @@ Test(action_block_t, init_GEN)
     int rc;
     action_type_t action_type = GEN;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     rc = action_block_init(&action, action_type, num_args, *args);
 
@@ -270,11 +283,12 @@ Test(action_block_t, init_EXEC)
     int rc;
     int num_args = 1;
     action_type_t action_type = EXEC;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     rc = action_block_init(&action, action_type, num_args, *args);
 
@@ -293,11 +307,12 @@ Test(action_block_t, free_SET)
     action_type_t action_type = SET;
     int rc;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action = action_block_new(action_type, num_args, *args);
 
@@ -315,11 +330,12 @@ Test(action_block_t, free_SAY)
     action_type_t action_type = SAY;
     int rc;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action = action_block_new(action_type, num_args, *args);
 
@@ -337,11 +353,12 @@ Test(action_block_t, free_MOVE)
     action_type_t action_type = MOVE;
     int rc;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action = action_block_new(action_type, num_args, *args);
 
@@ -359,12 +376,13 @@ Test(action_block_t, free_ADDSUBMULTDIV)
     action_type_t action_type = ADDSUBMULTDIV;
     int rc;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
-
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
+    
     action = action_block_new(action_type, num_args, *args);
 
     cr_assert_not_null(action, "action_block_new() failed");
@@ -381,11 +399,12 @@ Test(action_block_t, free_GEN)
     action_type_t action_type = GEN;
     int rc;
     int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action = action_block_new(action_type, num_args, *args);
 
@@ -402,12 +421,13 @@ Test(action_block_t, free_EXEC)
     action_block_t *action;
     action_type_t action_type = EXEC;
     int rc;
-    int num_args = 1;
-    UT_hash_handle hh = __;
-    attribute_value_t int_val = 1;
-    enum attribute_tag attribute_tag = INTEGER
-    char *name = "attribute"
-    attribute_t **args = attribute_new(hh, name, attribute_tag, int_val);
+   int num_args = 1;
+    char *attr_name1 = "attribute1";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    attribute_t **args = get_attribute(item_1, attr_name1);
 
     action = action_block_new(action_type, num_args, *args);
 
