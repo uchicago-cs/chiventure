@@ -33,8 +33,7 @@ Test(AST_block_t, new_BRANCH)
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value->int_val = 1;
+    attribute_value_t attribute_value = 1;
     attribute_t *left;
     UT_hash_handle hh = hh;
     left->hh = hh;
