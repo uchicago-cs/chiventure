@@ -2,7 +2,7 @@ set(TEST_EXE test-battle)
 
 add_executable(${TEST_EXE}
         test_battle_state.c
-        test_logic.c
+        test_battle_logic.c
         test_battle_flow.c
         test_battle_flow_structs.c
         main.c)
