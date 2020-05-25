@@ -44,7 +44,7 @@ typedef struct game {
     player_t *curr_player;
 
     /* pointer to global stats hashtable*/
-    global_stats_hash_t *curr_stats
+    stats_global_hash_t *curr_stats
 
     /* starting string description to be presented at beginning of game */
     char *start_desc;
