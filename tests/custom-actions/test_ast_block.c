@@ -11,9 +11,11 @@
 Test(AST_block_t, new_CONTROL)
 {
     control_type_t control_type = IFELSE;
-
-    AST_block_t* new_ast = AST_control_block_new(control_type);
-    control_block_t* new_control = control_block_new(control_type);
+    block_t *block;
+    block->control_block = control_block_new(control_type);
+    block_type_t block_type = CONTROL;
+    
+    AST_block_t* new_ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
@@ -49,8 +51,10 @@ Test(AST_block_t, new_BRANCH)
     branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, conditional_type, 
                                                     num_controls, &controls);
 
-    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                                    conditional_type, num_controls, &controls);
+    block_t *block;
+    block->branch_block = new_branch;
+    block_type_t block_type = BRANCH;
+    AST_block_t* new_ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
@@ -76,7 +80,10 @@ Test(AST_block_t, new_ACTION)
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     &args);
 
-    AST_block_t* new_ast = AST_action_block_new(action_type, num_args, &args);
+    block_t *block;
+    block->action_block = new_action;
+    block_type_t block_type = ACTION;
+    AST_block_t* new_ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
