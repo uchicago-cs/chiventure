@@ -2,12 +2,9 @@ set(TEST_EXE test-battle)
 
 add_executable(${TEST_EXE}
         test_battle_state.c
-<<<<<<< HEAD
         test_logic.c
-=======
         test_battle_flow.c
         test_battle_flow_structs.c
->>>>>>> origin/dev
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
