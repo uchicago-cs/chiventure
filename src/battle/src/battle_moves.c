@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdbool.h>
-#include "../../../include/battle/battle_moves.h"
+#include "battle/battle_moves.h"
 
 
  /* Creates test move for bard

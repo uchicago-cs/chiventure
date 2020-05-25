@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "../../src/battle/src/battle_moves.c"
-#include "../../include/battle/battle_moves.h"
+#include "battle/battle_moves.h"
 
 
 /* Tests test_move_bard */
