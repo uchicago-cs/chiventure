@@ -59,6 +59,14 @@ int roomspec_free(roomspec_t *spec){
     if (spec == NULL)
         return FAILURE;
 
+    if (spec->short_desc){
+	free(spec->short_desc);
+    }
+
+    if (spec->long_desc){
+        free(spec->long_desc);
+    }
+
     free(spec);
     return SUCCESS;
 }
