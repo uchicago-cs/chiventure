@@ -1,4 +1,4 @@
-#include "battle/logic.h"
+#include "battle/battle_logic.h"
 #include "common/utlist.h"
 
 /* check logic.h */
@@ -37,20 +37,19 @@ int battle_over(combatant_t *p, combatant_t *e)
 }
 
 /* check logic.h */
-int goes_first(double p_speed, double e_speed)
+bool goes_first(battle_t *b)
 {
-    if (p_speed > e_speed || e_speed == p_speed)
+    combatant_t *temp;
+    DL_FOREACH(b->enemy, temp)
     {
-        return 0;
+        if (b->player->stats->speed > temp->stats->speed 
+            || 
+            b->player->stats->speed == temp->stats->speed)
+        {
+            return true;
+        }
     }
-    else if (e_speed > p_speed)
-    {
-        return 1;
-    }
-    else
-    {
-        return -1;
-    }
+    return false; 
 }
 
 

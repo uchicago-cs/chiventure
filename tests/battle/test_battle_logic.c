@@ -5,7 +5,7 @@
 #include <string.h>
 #include "battle/battle_state.h"
 #include "battle/battle_structs.h"
-#include "battle/logic.h"
+#include "battle/battle_logic.h"
 
 Test(logic, target_exists)
 {
