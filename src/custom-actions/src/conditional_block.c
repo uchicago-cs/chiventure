@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h" 
-#include "../include/conditional_block.h"
-#include "../include/ast_block.h"
+#include "conditional_block.h"
+#include "ast_block.h"
 
 /* See conditional_block.h */
 conditional_block_t* conditional_block_new(conditional_type_t conditional_type, 
@@ -64,7 +64,9 @@ attribute_t* left, attribute_t* right)
         return NULL;
     }
 
-    ast = AST_block_new(conditional, block_type);
+    block_t *block = malloc(sizeof(block));
+    block->conditional_block = conditional;
+    ast = AST_block_new(block, block_type);
     return ast;
 }
 
