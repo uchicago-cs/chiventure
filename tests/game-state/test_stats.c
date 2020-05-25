@@ -31,7 +31,5 @@ Test(stats_new, init){
 Test(free_stats, free){
     stats_t* stat = stats_new("health", 100);
     cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
-    
-    
-    
 }
+
