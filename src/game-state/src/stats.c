@@ -45,8 +45,17 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
 /* See stats.h */
 int add_stat_player(stats_hash_t *sh, stats_t *s)
 {
-    printf("add_stat: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    stats_t *check;
+    
+    HASH_FIND(hh, sh, s->global, sizeof(stats_global_t), check);
+
+    if (check != NULL)
+    {
+        return FAILURE;
+    }
+    HASH_ADD_KEYPTR(hh, sh, s->global, sizeof(stats_global_t), s);
+    return SUCCESS;
+
 }
 
 /* See stats.h */
