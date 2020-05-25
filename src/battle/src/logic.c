@@ -7,7 +7,7 @@ bool check_target(battle_t *b, char *target)
     combatant_t *temp;
     DL_FOREACH(b->enemy, temp)
     {
-        if (strcmp(temp->name, target))
+        if (strncmp(temp->name, target, MAX_NAME_LEN))
         {
             return true;
         }
