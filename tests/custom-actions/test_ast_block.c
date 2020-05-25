@@ -2,19 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ast_block.h"
+#include "control_block.h"
+#include "branch_block.h"
+#include "conditional_block.h"
+#include "branch_block.h"
 
 /* Checks that a new AST block with control type is created without interruption */
 Test(AST_block_t, new_CONTROL)
 {
-    block_type_t block_type = CONTROL;
-    AST_block_t* next = AST_block_new(block_type);
+    control_type_t control_type = IFELSE;
 
-    AST_block_t* new_ast = AST_block_new(block_type, next);
+    AST_block_t* new_ast = control_block_new(control_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
-    cr_assert_eq(new_ast->next, next, "AST_block_new() didn't set new_ast->next");
-    cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
+    cr_assert_eq(new_ast->block_type, CONTROL, "AST_block_new() didn't set new_ast->block_type");
 
     AST_block_free(new_ast);
 }
@@ -22,10 +24,11 @@ Test(AST_block_t, new_CONTROL)
 /* Checks that a new AST block with branch type is created without interruption */
 Test(AST_block_t, new_BRANCH)
 {
-    block_type_t block_type = BRANCH;
-    AST_block_t* next = AST_block_new(block_type);
+    int num_conditionals = 1;
+    int num_controls = 1;
+    
 
-    AST_block_t* new_ast = AST_block_new(block_type, next);
+    AST_block_t* new_ast = branch_block_new(block_type, next);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
