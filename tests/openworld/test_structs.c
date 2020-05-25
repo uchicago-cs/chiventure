@@ -151,11 +151,11 @@ Test(speclist, free_all){
     cr_assert_not_null(list1, "failed to create new speclist_t\n");
     cr_assert_not_null(list2, "failed to create new speclist_t\n");
 
-    list->next = list1;
-    list1->prev = list;
-    list1->next = list2;
-    list2->next = NULL;
-    list2->prev = list1;
+    speclist_t *head = NULL;
+ 
+    DL_APPEND(head, list);
+    DL_APPEND(head, list1);
+    DL_APPEND(head, list2);
 
     int check = speclist_free_all(list);
 
