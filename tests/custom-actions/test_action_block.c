@@ -27,6 +27,8 @@ Test(action_block_t, new_SET)
                 "set new_action->num_args");
     cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
                 "new_action->args");
+    
+    action_block_free(new_action);
 }
 
 /* Checks that a new action block with SAY type is created without interruption */
@@ -51,6 +53,8 @@ Test(action_block_t, new_SAY)
                 "set new_action->num_args");
     cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
                 "new_action->args");
+    
+    action_block_free(new_action);
 }
 
 /* Checks that a new action block with MOVE type is created without interruption */
@@ -75,6 +79,8 @@ Test(action_block_t, new_MOVE)
                 "set new_action->num_args");
     cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
                 "new_action->args");
+    
+    action_block_free(new_action);
 }
 
 /* Checks that a new action block with ADDSUBMULTDIV type is created without interruption */
@@ -99,6 +105,8 @@ Test(action_block_t, new_ADDSUBMULTDIV)
                 "set new_action->num_args");
     cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
                 "new_action->args");
+    
+    action_block_free(new_action);
 }
 
 /* Checks that a new action block with GEN type is created without interruption */
@@ -123,6 +131,8 @@ Test(action_block_t, new_GEN)
                 "set new_action->num_args");
     cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
                 "new_action->args");
+    
+    action_block_free(new_action);
 }
 
 /* Checks that a new action block with EXEC type is created without interruption */
@@ -147,6 +157,8 @@ Test(action_block_t, new_EXEC)
                 "set new_action->num_args");
     cr_assert_eq(new_action->args, args, "action_block_new() didn't set "
                 "new_action->args");
+    
+    action_block_free(new_action);
 }
 
 /* Checks that a new action AST block with SET type is created without interruption */
@@ -173,6 +185,9 @@ Test(action_block_t, new_ast_SET)
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "ast_action_block_new() didn't set "
                 "ast->block_type");
+    
+    action_block_free(new_action);
+    AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with SAY type is created without interruption */
@@ -199,6 +214,9 @@ Test(action_block_t, new_ast_SAY)
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
+    
+    action_block_free(new_action);
+    AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with MOVE type is created without interruption */
@@ -225,6 +243,9 @@ Test(action_block_t, new_ast_MOVE)
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
+    
+    action_block_free(new_action);
+    AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with ADDSUBMULTDIV type is created without interruption */
@@ -251,6 +272,9 @@ Test(action_block_t, new_ast_ADDSUBMULTDIV)
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
+    
+    action_block_free(new_action);
+    AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with GEN type is created without interruption */
@@ -277,6 +301,9 @@ Test(action_block_t, new_ast_GEN)
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
+    
+    action_block_free(new_action);
+    AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with EXEC type is created without interruption */
@@ -303,6 +330,9 @@ Test(action_block_t, new_ast_EXEC)
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
+    
+    action_block_free(new_action);
+    AST_block_free(ast);
 }
 
 /* Checks that a new action block with SET type is initialized without interruption */
