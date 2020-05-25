@@ -35,5 +35,5 @@ int free_custom_action(custom_action_t *action)
 /* See interface.h */
 char *get_custom_action_name(custom_action_t *action)
 {
-    return ' ';
+    return " ";
 }
