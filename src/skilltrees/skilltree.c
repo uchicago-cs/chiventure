@@ -198,6 +198,10 @@ skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
         if (pos = inventory_has_skill(inventory, prereq, type)) {
             (*nacquired)++;
             acquired = (skill_t**)realloc(acquired, sizeof(skill_t*) * (*nacquired));
+            if (acquired == NULL) {
+                fprintf(stderr, "prereqs_acquired: failed to reallocate acquired\n");
+                return NULL;
+            }
             switch (type) {
                 case ACTIVE:
                     array_element_add(acquired, (*nacquired), inventory->active[pos]);
@@ -218,7 +222,36 @@ skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
 /* See skilltree.h */
 skill_t** prereqs_missing(tree_t* tree, inventory_t* inventory, sid_t sid,
                           unsigned int* nmissing) {
-    return NULL;
+    assert(tree != NULL && inventory != NULL);
+
+    unsigned int nprereqs;
+    skill_t** prereqs = prereqs_all(tree, sid, &nprereqs);
+
+    unsigned int nacquired;
+    skill_t** acquired = prereqs_acquired(tree, inventory, sid, &nacquired);
+
+    unsigned int i;
+    sid_t prereq;
+    int pos;
+
+    skill_t** missing;
+    *nmissing = 0;
+
+    for (i = 0; i < nprereqs; i++) {
+        prereq = prereqs[i]->sid;
+        pos = list_has_skill(acquired, nacquired, prereq);
+        if (pos == -1) {
+            (*nmissing)++;
+            missing = (skill_t**)realloc(missing, sizeof(skill_t*) * (*nmissing));
+            if (missing == NULL) {
+                fprintf(stderr, "prereqs_missing: failed to reallocate missing\n");
+                return NULL;
+            }
+            array_element_add(missing, (*nmissing), prereqs[i]);
+        }
+    }
+
+    return missing;
 }
 
 /* HELPER FUNCTION */
