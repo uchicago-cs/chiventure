@@ -1,6 +1,6 @@
 #include "game-state/rooms-npcs.h"
 
-/* See npc.h */
+/* See rooms-npcs.h */
 int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id) {
     assert(npcs_in_room != NULL);
 
@@ -11,7 +11,7 @@ int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id) {
     return SUCCESS;
 }
 
-/* See npc.h */
+/* See rooms-npcs.h */
 int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
                 long room_id)
 {
@@ -24,7 +24,7 @@ int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
     return SUCCESS;
 }
 
-/* See npc.h */
+/* See rooms-npcs.h */
 npcs_in_room_t *npcs_in_room_new(char* room_id){
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = malloc(sizeof(npcs_in_room_t));
@@ -42,7 +42,7 @@ npcs_in_room_t *npcs_in_room_new(char* room_id){
 }
 
 
-/* See npc.h */
+/* See rooms-npcs.h */
 int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room){
     free(npcs_in_room->room_id);
     free(npcs_in_room->npc_list);
@@ -52,13 +52,13 @@ int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room){
 }
 
 
-/* See npc.h */
+/* See rooms-npcs.h */
 int get_num_of_npcs(npcs_in_room_t *npcs_in_room){
     return npcs_in_room->num_of_npcs;
 }
 
 
-/* See npc.h */
+/* See rooms-npcs.h */
 int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc){
     npc_t *check;
     HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
@@ -74,7 +74,7 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc){
     return SUCCESS;
 }
 
-/* See npc.h */
+/* See rooms-npcs.h */
 int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add){
     //npc_mov_type_e mov_type = npc_mov->mov_type;
     //mov_def_t *mov_def = npc_mov->npc_mov_type_u->mov_def;
@@ -93,7 +93,7 @@ int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add){
 }
     
 
-/* See npc.h */
+/* See rooms-npcs.h */
 int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time){
     //npc_mov_type_e mov_type = npc_mov->mov_type;
     //mov_def_t *mov_def = npc_mov->npc_mov_type_u->mov_def;

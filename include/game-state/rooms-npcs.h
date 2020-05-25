@@ -202,13 +202,13 @@ int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
  * Returns:
  *  1 for success, 0 for error.failure
  */
-room_list_t* extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time);
+int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time);
 
 /* reverse_path()
  * reverses the path, so that the npc goes back to where it started
  * returns SUCCESS or FAILURE
  */
-int reverse_path(npt_mov_t  *npc_mov);
+int reverse_path(npc_mov_t  *npc_mov);
 
 /* change_time_in_room()
  * changes the time spent in a certain room by and npc, ONLY Possible when the npc has an indeinfite path
