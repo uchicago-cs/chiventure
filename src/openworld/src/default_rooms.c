@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include "common/utlist.h"
-#include "uthash.h"
+#include "common/uthash.h"
 #include "openworld/default_items.h"
 #include "openworld/default_rooms.h"
 
@@ -36,7 +36,7 @@ roomspec_t *make_default_room(char *bucket,
     roomspec_t *closet = roomspec_new("closet",
                                       "A broom closet",
                                       "A small broom closet with supplies",
-                                      allowed, NULL, NULL);
+                                      allowed, NULL);
     HASH_FIND_STR(def, "door", door);
     LL_APPEND(closet->allowed_items, llist_new(door));
     HASH_FIND_STR(def, "nail", nail);
@@ -51,7 +51,7 @@ roomspec_t *make_default_room(char *bucket,
     //HALLWAY
     roomspec_t *hallway = roomspec_new("hallway", "A well-lit hallway",
                                        "A sterile, white hallway with no windows",
-                                       allowed, NULL, NULL);
+                                       allowed, NULL);
     LL_APPEND(hallway->allowed_items, llist_new(door));
     LL_APPEND(hallway->allowed_items, llist_new(nail));
     HASH_FIND_STR(def, "fruit", fruit);
@@ -66,7 +66,7 @@ roomspec_t *make_default_room(char *bucket,
                                        "This is a library room with resources",
                                        "An old, dusty library with"
                                        " skill-boosting resources like books and potions",
-                                       allowed, NULL, NULL);
+                                       allowed, NULL);
     LL_APPEND(library->allowed_items, llist_new(book));
     HASH_FIND_STR(def, "quill", quill);
     LL_APPEND(library->allowed_items, llist_new(quill));
@@ -86,7 +86,7 @@ roomspec_t *make_default_room(char *bucket,
                                              "A grungy cafeteria",
                                              "A messy high school"
                                              " cafeteria with trays and tables out",
-                                             allowed, NULL, NULL);
+                                             allowed, NULL);
         HASH_FIND_STR(def, "apple", apple);
         LL_APPEND(cafeteria->allowed_items, llist_new(apple));
         LL_APPEND(cafeteria->allowed_items, llist_new(fruit));
@@ -103,7 +103,7 @@ roomspec_t *make_default_room(char *bucket,
                                              " with 30 desks",
                                              "A geography teacher's"
                                              " classroom with 30 desks",
-                                             allowed, NULL, NULL);
+                                             allowed, NULL);
         HASH_FIND_STR(def, "book", book);
         LL_APPEND(classroom->allowed_items, llist_new(book));
         LL_APPEND(classroom->allowed_items, llist_new(door));
@@ -128,7 +128,7 @@ roomspec_t *make_default_room(char *bucket,
         //BARN
         roomspec_t *barn = roomspec_new("barn", "A red barn",
                                         "A red barn with stables inside",
-                                        allowed, NULL, NULL);
+                                        allowed, NULL);
         HASH_FIND_STR(def, "apple", apple);
         LL_APPEND(barn->allowed_items, llist_new(apple));
         HASH_FIND_STR(def, "cow", cow);
@@ -145,7 +145,7 @@ roomspec_t *make_default_room(char *bucket,
                                          "An open field outside",
                                          "An open field with grass"
                                          " and a clear view",
-                                         allowed, NULL, NULL);
+                                         allowed, NULL);
         HASH_FIND_STR(def, "zebra", zebra);
         LL_APPEND(field->allowed_items, llist_new(zebra));
         LL_APPEND(field->allowed_items, llist_new(cow));
@@ -158,7 +158,7 @@ roomspec_t *make_default_room(char *bucket,
                                            "A 60s era (outdated) kitchen",
                                            "An outdated kitchen with obvious"
                                            " wear-and-tear",
-                                           allowed, NULL, NULL);
+                                           allowed, NULL);
         HASH_FIND_STR(def, "olive", olive);
         LL_APPEND(kitchen->allowed_items, llist_new(olive));
         HASH_FIND_STR(def, "ice", ice);
@@ -171,7 +171,7 @@ roomspec_t *make_default_room(char *bucket,
         roomspec_t *living = roomspec_new("living room",
                                           "A living room with basic items",
                                           "A plain, unremarkable living room",
-                                          allowed, NULL, NULL);
+                                          allowed, NULL);
         HASH_FIND_STR(def, "watercolors", watercolors);
         LL_APPEND(living->allowed_items, llist_new(watercolors));
         HASH_FIND_STR(def, "video", video);
@@ -198,7 +198,7 @@ roomspec_t *make_default_room(char *bucket,
                                            "A dark dungeon",
                                            "A dank, dark dungeon with traps"
                                            " and enemies to battle",
-                                           allowed, NULL, NULL);
+                                           allowed, NULL);
         LL_APPEND(dungeon->allowed_items, llist_new(nail));
         HASH_FIND_STR(def, "ladder", ladder);
         LL_APPEND(dungeon->allowed_items,llist_new(ladder));
@@ -213,7 +213,7 @@ roomspec_t *make_default_room(char *bucket,
                                           "This is a throne room",
                                           "A regal throne room decked out "
                                           "with lavish items",
-                                          allowed, NULL, NULL);
+                                          allowed, NULL);
         LL_APPEND(throne->allowed_items, llist_new(gold));
         LL_APPEND(throne->allowed_items, llist_new(door));
         LL_APPEND(throne->allowed_items, llist_new(mirror));
@@ -229,7 +229,7 @@ roomspec_t *make_default_room(char *bucket,
 
     } else {
         roomspec_t *room = roomspec_new(bucket, sh_desc, l_desc,
-                                        allowed, NULL, NULL);
+                                        allowed, NULL);
 
         //now add to hash
         HASH_ADD_STR(hash, room_name, room);
