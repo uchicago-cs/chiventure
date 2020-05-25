@@ -111,9 +111,9 @@ move_t* create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = create_move(1, NULL, true, 100, 20);
-	poke = create_move(2, NULL, true, 1, 1);
-	rock_throw = create_move(3, NULL, true, 300, 20);
+    earthquake = create_move(1, NULL, true, 100, 0);
+	poke = create_move(2, NULL, true, 40, 0);
+	rock_throw = create_move(3, NULL, true, 90, 0);
     DL_APPEND(head, earthquake);
     DL_APPEND(head, poke);
     DL_APPEND(head, rock_throw);
@@ -123,35 +123,35 @@ move_t* create_enemy_moves()
 /* Creates example hardcoded stats for the player*/
 move_t* create_player_moves()
 {
-    move_t *head, *fire_blast, *punch, *burn;
+    move_t *head, *fire_blast, *punch, *blaze_kick;
     head = NULL;
-    fire_blast = create_move(4, NULL, true, 100, 50);
-	punch = create_move(5, NULL, true, 20, 20);
-	burn = create_move(6, NULL, true, 1, 2);
+    fire_blast = create_move(4, NULL, true, 100, 0);
+	punch = create_move(5, NULL, true, 20, 0);
+	blaze_kick = create_move(6, NULL, true, 60, 0);
     DL_APPEND(head, fire_blast);
     DL_APPEND(head, punch);
-    DL_APPEND(head, burn);
+    DL_APPEND(head, blaze_kick);
     return head;
 }
 
 /* Creates the expected return value for when the AI should return a hard move*/
 move_t* expected_move_hard()
 {
-    move_t* rock_throw = create_move(3, NULL, true, 300, 50);
-    return rock_throw;
+    move_t* earthquake = create_move(1, NULL, true, 100, 0);
+    return earthquake;
 }
 
 /* Creates the expected return value for when the AI should return an easy move*/
 move_t* expected_move_easy()
 {
-    move_t* poke = create_move(2, NULL, true, 1, 1);
+    move_t* poke = create_move(2, NULL, true, 40, 0);
     return poke;
 }
 
 /* Creates the expected return value for when the AI should return a random*/
 move_t* expected_move_random()
 {
-    move_t* rock_throw = create_move(3, NULL, true, 300, 50);
+    move_t* rock_throw = create_move(3, NULL, true, 90, 0);
     return rock_throw;
 }
 
@@ -290,7 +290,7 @@ Test(AI, find_easy)
     cr_assert_not_null(enemy, "combatant_new() failed");
 
 
-    cr_assert_eq(actual_move->ID, expected_move->ID, "find_easy did not find the easiest move! actual = %d|expected = %d", actual_move->ID, expected_move->ID);
+    cr_assert_eq(actual_move->ID, expected_move->ID, "find_easy did not find the easiest move!");
 }
 
 /* Ensures find_hard returns the hardest move*/
@@ -321,11 +321,11 @@ Test(AI, damage)
     enemy = new_enemy();
     move = expected_move_hard();
 
-    double expected = 64.0;
+    double expected = 24.0;
     double actual = damage(player, move, enemy);
 
     cr_assert_not_null(player, "combatant_new() failed");
     cr_assert_not_null(enemy, "combatant_new() failed");
 
-    cr_assert_float_eq(actual, expected, 1E-6);
+    cr_assert_float_eq(actual, expected, 1E-6, "Expected %.2f damage but calculated %.2f damage", expected, actual);
 }
