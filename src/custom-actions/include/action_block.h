@@ -67,7 +67,7 @@ attribute_t** args);
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */
-int action_block_init(action_block_t *action, action_type_t action_type, int num_args, 
+int action_block_init(action_block_t *action, action_enum_t action_type, int num_args, 
 attribute_t** args);
 
 /* 
