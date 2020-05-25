@@ -12,7 +12,7 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
-set(CHIVENTURE_MODULES action_management battle checkpointing cli common game-state libobj playerclass npc ui wdl)
+set(CHIVENTURE_MODULES action_management battle checkpointing cli common game-state libobj skilltrees openworld playerclass npc ui wdl)
 
 include_directories(include/)
 
@@ -24,6 +24,7 @@ add_subdirectory(src/common)
 add_subdirectory(src/game-state)
 add_subdirectory(src/libobj)
 add_subdirectory(src/openworld)
+add_subdirectory(src/skilltrees)
 add_subdirectory(src/npc)
 add_subdirectory(src/playerclass)
 add_subdirectory(src/ui)
