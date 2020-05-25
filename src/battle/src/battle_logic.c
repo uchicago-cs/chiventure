@@ -37,21 +37,21 @@ int battle_over(combatant_t *p, combatant_t *e)
 }
 
 /* check logic.h */
-bool goes_first(battle_t *b)
+int goes_first(double p_speed, double e_speed)
 {
-    combatant_t *temp;
-    DL_FOREACH(b->enemy, temp)
+    if (p_speed > e_speed || e_speed == p_speed)
     {
-        if (b->player->stats->speed > temp->stats->speed 
-            || 
-            b->player->stats->speed == temp->stats->speed)
-        {
-            return true;
-        }
+        return 0;
     }
-    return false; 
+    else if (e_speed > p_speed)
+    {
+        return 1;
+    }
+    else
+    {
+        return -1;
+    }
 }
-
 
 /* see logic.h */
 item_t *find_item(item_t *inventory, int ID)
