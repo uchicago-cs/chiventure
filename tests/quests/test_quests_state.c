@@ -8,7 +8,10 @@
 /* Tests init function for achievement struct */
 Test(achievement, init)
 {
-	achievement_t *achievement;
+	item_t *item_1 = item_new("foo", "foo foo",
+    "foo test foo");
+
+    achievement_t *achievement = achievement_new(item_1);
     
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
