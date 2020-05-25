@@ -56,6 +56,15 @@ int main() {
 
         name = zip_get_name(dir, i,0);
         //Some way to check for .json and other types of files
+            //If it is JSON
+            //Parse into a JSON file
+            json_object_object_foreach(THEJSONOBJ, key, val ){
+                json_object_get_type (val)
+                //Test each scenario, if val is int, double, another object, string, array
+                //And then add that object
+                printf("For each is working, key is %s\n and the value type is %d \n", key, json_object_get_type(val));
+
+            }	
         free(name)
     }
 
