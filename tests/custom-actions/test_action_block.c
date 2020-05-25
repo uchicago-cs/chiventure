@@ -390,7 +390,7 @@ Test(action_block_t, init_ADDSUBMULTDIV)
     char *short_desc1 = "01";
     char *long_desc1 = "0001";
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t **args = get_attribute(item_1, attr_name1);
+    attribute_t *args = get_attribute(item_1, attr_name1);
 
     rc = action_block_init(&action, action_type, num_args, &args);
 
@@ -414,7 +414,7 @@ Test(action_block_t, init_GEN)
     char *short_desc1 = "01";
     char *long_desc1 = "0001";
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t **args = get_attribute(item_1, attr_name1);
+    attribute_t *args = get_attribute(item_1, attr_name1);
 
     rc = action_block_init(&action, action_type, num_args, &args);
 
