@@ -5,9 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <stdbool.h>
-#include <math.h>
-#include "skilltrees/skilltree.h"
+#include "skilltrees/stdst.h"
 
 /* See skilltree.h */
 branch_t* branch_new(sid_t sid, unsigned int nprereqs, unsigned int max_level,
@@ -50,38 +48,6 @@ int branch_free(branch_t* branch) {
     return SUCCESS;
 }
 
-int list_skill_add(skill_t** list, unsigned int llen, skill_t* skill) {
-    assert(list != NULL && skill != NULL);
-
-    unsigned int i;
-
-    for (i = 0; i < llen; i++) {
-        if (list[i] == NULL) {
-            list[i] = skill;
-            return SUCCESS;
-        }
-    }
-
-    fprintf(stderr, "list_skill_add: failed to add skill to list\n");
-    return FAILURE;
-}
-
-int array_element_add(void** array, unsigned int alen, void* element) {
-    assert(array != NULL && element != NULL);
-
-    unsigned int i;
-
-    for (i = 0; i < alen; i++) {
-        if (array[i] == NULL) {
-            array[i] = element;
-            return SUCCESS;
-        }
-    }
-
-    fprintf(stderr, "array_element_add: failed to array element\n");
-    return FAILURE;
-}
-
 /* See skilltree.h */
 int branch_prereq_add(branch_t* branch, skill_t* skill) {
     assert(branch != NULL && skill != NULL);
@@ -90,7 +56,7 @@ int branch_prereq_add(branch_t* branch, skill_t* skill) {
 
     rc = array_element_add(branch->prereqs, branch->nprereqs, skill);
     if (rc) {
-        fprintf(stderr, "branch_prereq_add: failed to add prerequisite to branch\n");
+        fprintf(stderr, "branch_prereq_add: failed to add prerequisite\n");
         return FAILURE;
     }
 
@@ -101,7 +67,7 @@ int branch_prereq_add(branch_t* branch, skill_t* skill) {
 int branch_prereq_remove(branch_t* branch, skill_t* skill) {
     assert(branch != NULL && skill != NULL);
 
-    int pos = list_has_skill(branch->prereqs, branch->nprereqs, skill->sid);
+    int pos = array_has_sid(branch->prereqs, branch->nprereqs, skill->sid);
     if (pos == -1) {
         fprintf(stderr, "branch_prereq_remove: prequisite is not in branch\n");
         return FAILURE;
@@ -154,16 +120,15 @@ int tree_free(tree_t* tree) {
 int tree_branch_add(tree_t* tree, branch_t* branch) {
     assert(tree != NULL && branch != NULL);
 
-    unsigned int i;
+    int rc;
 
-    for (i = 0; i < tree->nbranches; i++) {
-        if (tree->branches[i] == NULL) {
-            tree->branches[i] = branch;
-            return SUCCESS;
-        }
+    rc = array_element_add(tree->branches, tree->nbranches, branch);
+    if (rc) {
+        fprintf(stderr, "tree_branch_add: failed to add tree branch\n");
+        return FAILURE;
     }
 
-    return FAILURE;
+    return SUCCESS;
 }
 
 /* See skilltree.h */
@@ -184,17 +149,7 @@ int tree_branch_remove(tree_t* tree, branch_t* branch) {
 int tree_has_branch(tree_t* tree, sid_t sid) {
     assert(tree != NULL);
 
-    unsigned int i;
-
-    for (i = 0; i < tree->nbranches; i++) {
-        if (tree->branches[i]) {
-            if (tree->branches[i]->sid == sid) {
-                return i;
-            }
-        }
-    }
-
-    return -1;
+    return array_has_sid(tree->branches, tree->nbranches, sid);
 }
 
 /* See skilltree.h */
@@ -232,17 +187,13 @@ skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
         type = prereqs[i]->type;
         if (pos = inventory_has_skill(inventory, prereq, type)) {
             (*nacquired)++;
-            if (i == 0) {
-                acquired = (skill_t**)malloc(sizeof(skill_t*));
-            } else {
-                acquired = (skill_t**)realloc(acquired, sizeof(skill_t*) * (*nacquired));
-            }
+            acquired = (skill_t**)realloc(acquired, sizeof(skill_t*) * (*nacquired));
             switch (type) {
                 case ACTIVE:
-                    list_skill_add(acquired, (*nacquired), inventory->active[pos]);
+                    array_element_add(acquired, (*nacquired), inventory->active[pos]);
                     break;
                 case PASSIVE:
-                    list_skill_add(acquired, (*nacquired), inventory->passive[pos]);
+                    array_element_add(acquired, (*nacquired), inventory->passive[pos]);
                     break;
                 default:
                     fprintf(stderr, "prereqs_acquired: not a valid skill type\n");

@@ -5,66 +5,8 @@
 #ifndef INCLUDE_SKILLTREE_H_
 #define INCLUDE_SKILLTREE_H_
 
-#include "common/common.h"
-#include "skilltrees/skill.h"
-#include "skilltrees/inventory.h"
+#include "skilltrees/stdst.h"
 
-/* ======================= */
-/* === DATA STRUCTURES === */
-/* ======================= */
-/* Unique tree IDs for each tree */
-typedef enum tid {
-    // Example 1
-    HEALTH,
-
-    // Example 2
-    COMBAT,
-
-    // Example 3
-    CHARMS,
-
-    // Example 4
-    POTIONS,
-
-} tid_t;
-
-/* Skill branch, contains general information about an acquirable skill in a
- * game
- */
-typedef struct branch {
-    // The skill ID that uniquely identifies the skill
-    sid_t sid;
-
-    // The list of prerequisite skills to acquire skill `sid`
-    skill_t** prereqs;
-
-    // The number of prerequisite skills
-    unsigned int nprereqs;
-
-    // The maximum level to which the skill can be upgraded
-    unsigned int max_level;
-
-    // The number of experience points needed to level up
-    unsigned int min_xp;
-
-} branch_t;
-
-/* Skill tree, contains all skill branches in a game */
-typedef struct tree {
-    // The tree ID that uniquely identifies the tree
-    tid_t tid;
-
-    // The list of tree branches
-    branch_t** branches;
-
-    // The number of tree branches
-    unsigned int nbranches;
-
-} tree_t;
-
-/* ================= */
-/* === FUNCTIONS === */
-/* ================= */
 /*
  * Allocates a new skill branch in the heap.
  *

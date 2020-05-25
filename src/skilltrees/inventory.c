@@ -114,31 +114,15 @@ int inventory_skill_remove(inventory_t* inventory, skill_t* skill) {
     }
 }
 
-int list_has_skill(skill_t** list, unsigned int llen, sid_t sid) {
-    assert(list != NULL);
-
-    unsigned int i;
-
-    for (i = 0; i < llen; i++) {
-        if (list[i]) {
-            if (list[i]->sid == sid) {
-                return i;
-            }
-        }
-    }
-
-    return -1;
-}
-
 /* See inventory.h */
 int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type) {
     assert(inventory != NULL);
 
     switch (type) {
         case ACTIVE:
-            return list_has_skill(inventory->active, inventory->nactive, sid);
+            return array_has_sid(inventory->active, inventory->nactive, sid);
         case PASSIVE:
-            return list_has_skill(inventory->passive, inventory->npassive, sid);
+            return array_has_sid(inventory->passive, inventory->npassive, sid);
         default:
             fprintf(stderr, "inventory_has_skill: not a valid skill type\n");
             return -1;

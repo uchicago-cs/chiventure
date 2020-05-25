@@ -5,77 +5,8 @@
 #ifndef INCLUDE_SKILL_H_
 #define INCLUDE_SKILL_H_
 
-#include "common/common.h"
+#include "skilltrees/stdst.h"
 
-/* ======================= */
-/* === DATA STRUCTURES === */
-/* ======================= */
-/* Unique skill IDs for each skill */
-typedef enum sid {
-    // Example 1
-    UNLOCK_DOOR,
-
-    // Example 2
-    DEFUSE_BOMB,
-
-    // Example 3
-    CHOP_TREE,
-
-    // Example 4
-    INNER_PEACE,
-
-} sid_t;
-
-/* Skill type */
-typedef enum skill_type {
-    // Denotes active skill
-    ACTIVE,
-
-    // Denotes passive skill
-    PASSIVE,
-
-} skill_type_t;
-
-/*
- * Skill effect function type
- *
- * Parameters:
- *  - Contained within a string for function pointer uniformity. Each skill
- *    effect function can read the string for parameters using sscanf.
- *
- * Returns:
- *  - A string describing the consequence of the skill execution, for the CLI
- */
-typedef char* (*skill_effect_t)(char*);
-
-/* An INDIVIDUAL skill, belonging to a player */
-typedef struct skill {
-    // The skill ID that uniquely identifies the skill
-    sid_t sid;
-
-    // The skill type
-    skill_type_t type;
-
-    // The name of the skill
-    char* name;
-
-    // The description of the skill
-    char* desc;
-
-    // The player's current level of the skill
-    unsigned int level;
-
-    // The player's current experience points associated with the skill
-    unsigned int xp;
-
-    // The pointer to the function that will execute the skill effect
-    skill_effect_t effect;
-
-} skill_t;
-
-/* ================= */
-/* === FUNCTIONS === */
-/* ================= */
 /*
  * Allocates a new skill in the heap.
  *
