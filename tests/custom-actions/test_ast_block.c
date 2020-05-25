@@ -321,6 +321,7 @@ Test(AST_block_t, free_ACTION)
 {
     AST_block_t* ast;
     int rc;
+    int num_args = 1;
     action_enum_t action_type = SET;
     char *attr_name1 = "attribute1";
     enum attribute_tag attribute_tag = INTEGER;
