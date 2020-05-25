@@ -23,13 +23,13 @@ Test(branch_block_t, new_EQ)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
 
-    branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type, 
-                                                    conditionals, num_controls, controls);
+    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
+                                                    conditional_type,num_controls, &controls);
 
     cr_assert_not_null(new_branch, "branch_block_new() failed");
 
@@ -65,13 +65,13 @@ Test(branch_block_t, new_LTGT)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
     
-    branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type,
-                                                    conditionals, num_controls, controls);
+    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, 
+                                                    conditional_type, num_controls, &controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
@@ -107,13 +107,13 @@ Test(branch_block_t, new_LTEGTE)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
     
-    branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type,
-                                                    conditionals, num_controls, controls);
+    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, 
+                                                    conditional_type, num_controls, controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
@@ -149,13 +149,13 @@ Test(branch_block_t, new_IN)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
     
-    branch_block_t* new_branch = branch_block_new(num_conditionals, conditional_type,
-                                                    conditionals, num_controls, controls);
+    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, 
+                                                    conditional_type, num_controls, &controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
@@ -192,17 +192,17 @@ Test(branch_block_t, new_AST_EQ)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
     block_type_t block_type = BRANCH;
     
-    branch_block_t* new_branch(num_conditional, conditional_type, 
-                                                    conditionals, num_controls, controls);
+    branch_block_t* new_branch = (num_conditionals, &conditionals, 
+                                    conditional_type, num_controls, &controls);
     
-    AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
-                                                    conditionals, num_controls, controls);
+    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
+                                                    conditional_type, num_controls, &controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
@@ -232,17 +232,17 @@ Test(branch_block_t, new_AST_LTGT)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
     block_type_t block_type = BRANCH;
     
-    branch_block_t* new_branch(num_conditional, conditional_type, 
-                                                    conditionals, num_controls, controls);
+    branch_block_t* new_branch = (num_conditionals, &conditionals, 
+                                    conditional_type, num_controls, &controls);
     
-    AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
-                                                    conditionals, num_controls, controls);
+    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
+                                                    conditional_type, num_controls, &controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
@@ -272,17 +272,17 @@ Test(branch_block_t, new_AST_LTEGTE)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
     control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_block_t* controls = control_block_new(control_type);
     block_type_t block_type = BRANCH;
     
-    branch_block_t* new_branch(num_conditional, conditional_type, 
-                                                    conditionals, num_controls, controls);
+    branch_block_t* new_branch = (num_conditionals, &conditionals, 
+                                    conditional_type, num_controls, &controls);
     
-    AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
-                                                    conditionals, num_controls, controls);
+    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
+                                                    conditional_type, num_controls, &controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
@@ -312,17 +312,17 @@ Test(branch_block_t, new_AST_IN)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
     block_type_t block_type = BRANCH;
     
-    branch_block_t* new_branch(num_conditional, conditional_type, 
-                                                    conditionals, num_controls, controls);
+    branch_block_t* new_branch = (num_conditionals, &conditionals, 
+                                    conditional_type, num_controls, &controls);
     
-    AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
-                                                    conditionals, num_controls, controls);
+    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
+                                                    conditional_type, num_controls, &controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
@@ -354,13 +354,13 @@ Test(branch_block_t, init_EQ)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
     control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_block_t* controls = control_block_new(control_type);
 
-    rc = branch_block_init(&branch, num_conditionals, conditional_type, 
-                            *conditionals, num_controls, *controls);
+    rc = branch_block_init(&branch, num_conditionals, conditionals, conditional_type, 
+                            num_controls, controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
@@ -395,13 +395,13 @@ Test(branch_block_t, init_LTGT)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
 
-    rc = branch_block_init(&branch, num_conditionals, conditional_type,
-                            *conditionals, num_controls, *controls);
+    rc = branch_block_init(&branch, num_conditionals, conditionals, conditional_type, 
+                            num_controls, controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
@@ -436,13 +436,13 @@ Test(branch_block_t, init_LTEGTE)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
 
-    rc = branch_block_init(&branch, num_conditionals, conditional_type,
-                            *conditionals, num_controls, *controls);
+    rc = branch_block_init(&branch, num_conditionals, conditionals, conditional_type, 
+                            num_controls, controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
@@ -477,13 +477,13 @@ Test(branch_block_t, init_IN)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
 
-    rc = branch_block_init(&branch, num_conditionals, conditional_type,
-                            *conditionals, num_controls, *controls);
+    rc = branch_block_init(&branch, num_conditionals, conditionals, conditional_type, 
+                            num_controls, controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
@@ -518,12 +518,12 @@ Test(branch_block_t, free_EQ)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
     
-    branch = branch_block_new(num_conditionals, conditional_type, *conditionals, 
+    branch = branch_block_new(num_conditionals, conditionals, conditional_type,  
                                 num_controls, controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
@@ -553,12 +553,12 @@ Test(branch_block_t, free_LTGT)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
 
-    branch = branch_block_new(num_conditionals, conditional_type, *conditionals,
+    branch = branch_block_new(num_conditionals, conditionals, conditional_type
                                 num_controls, controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
@@ -588,12 +588,12 @@ Test(branch_block_t, free_LTEGTE)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
 
-    branch = branch_block_new(num_conditionals, conditional_type, *conditionals,
+    branch = branch_block_new(num_conditionals, conditionals, conditional_type
                                 num_controls, controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
@@ -623,12 +623,12 @@ Test(branch_block_t, free_IN)
     item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
     attribute_t* left = get_attribute(item_1, attr_name1);
     attribute_t* right = get_attribute(item_2, attr_name2);
-    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     int num_controls = 1;
-    control_type_t control_type = IFELSE
-    control_block_t** controls = control_block_new(control_type);
+    control_type_t control_type = IFELSE;
+    control_block_t* controls = control_block_new(control_type);
 
-    branch = branch_block_new(num_conditionals, conditional_type, *conditionals,
+    branch = branch_block_new(num_conditionals, conditionals, conditional_type
                                 num_controls, controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
