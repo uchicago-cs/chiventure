@@ -66,13 +66,29 @@ int list_skill_add(skill_t** list, unsigned int llen, skill_t* skill) {
     return FAILURE;
 }
 
+int array_element_add(void** array, unsigned int alen, void* element) {
+    assert(array != NULL && element != NULL);
+
+    unsigned int i;
+
+    for (i = 0; i < alen; i++) {
+        if (array[i] == NULL) {
+            array[i] = element;
+            return SUCCESS;
+        }
+    }
+
+    fprintf(stderr, "array_element_add: failed to array element\n");
+    return FAILURE;
+}
+
 /* See skilltree.h */
 int branch_prereq_add(branch_t* branch, skill_t* skill) {
     assert(branch != NULL && skill != NULL);
 
     int rc;
 
-    rc = list_skill_add(branch->prereqs, branch->nprereqs, skill);
+    rc = array_element_add(branch->prereqs, branch->nprereqs, skill);
     if (rc) {
         fprintf(stderr, "branch_prereq_add: failed to add prerequisite to branch\n");
         return FAILURE;
@@ -85,18 +101,15 @@ int branch_prereq_add(branch_t* branch, skill_t* skill) {
 int branch_prereq_remove(branch_t* branch, skill_t* skill) {
     assert(branch != NULL && skill != NULL);
 
-    unsigned int i;
-
-    for (i = 0; i < branch->nprereqs; i++) {
-        if (branch->prereqs[i]) {
-            if (branch->prereqs[i]->sid == skill->sid) {
-                branch->prereqs[i] = NULL;
-                return SUCCESS;
-            }
-        }
+    int pos = list_has_skill(branch->prereqs, branch->nprereqs, skill->sid);
+    if (pos == -1) {
+        fprintf(stderr, "branch_prereq_remove: prequisite is not in branch\n");
+        return FAILURE;
     }
 
-    return FAILURE;
+    branch->prereqs[pos] = NULL;
+
+    return SUCCESS;
 }
 
 /* See skilltree.h */
