@@ -11,7 +11,7 @@
 Test(AST_block_t, new_CONTROL)
 {
     control_type_t control_type = IFELSE;
-    block_t *block;
+    block_t *block = malloc(sizeof(block_t));
     block->control_block = control_block_new(control_type);
     block_type_t block_type = CONTROL;
     
@@ -54,7 +54,7 @@ Test(AST_block_t, new_BRANCH)
     branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, conditional_type, 
                                                     num_controls, &controls);
 
-    block_t *block;
+    block_t *block = malloc(sizeof(block_t));
     block->branch_block = new_branch;
     block_type_t block_type = BRANCH;
     AST_block_t* new_ast = AST_block_new(block, block_type);
@@ -82,7 +82,7 @@ Test(AST_block_t, new_ACTION)
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     &args);
 
-    block_t *block;
+    block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
     block_type_t block_type = ACTION;
     AST_block_t* new_ast = AST_block_new(block, block_type);
@@ -114,7 +114,7 @@ Test(AST_block_t, new_CONDITIONAL)
 
     conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
                                                                 left, right);
-    block_t *block;
+    block_t *block = malloc(sizeof(block_t));
     block->conditional_block = new_conditional;
     block_type_t block_type = CONDITIONAL;
     AST_block_t* new_ast = AST_block_new(block, block_type);
@@ -135,7 +135,7 @@ Test(AST_block_t, init_CONTROL)
     int rc;
     control_type_t control_type = IFELSE;
     control_block_t* new_control = control_block_new(control_type);
-    block_t *block;
+    block_t *block = malloc(sizeof(block_t));
     block->control_block = new_control;
     block_type_t block_type = CONTROL;
 
@@ -171,7 +171,7 @@ Test(AST_block_t, init_BRANCH)
 
     branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
                                                     conditional_type, num_controls, &controls);
-    block_t *block;
+    block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
     block->branch_block = new_branch;
     AST_block_t ast;
@@ -198,7 +198,7 @@ Test(AST_block_t, init_ACTION)
 
     action_block_t* new_action = action_block_new(action_type, num_args, 
                                                     &args);
-    block_t *block;
+    block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
     block->action_block = new_action;
     AST_block_t ast; 
@@ -230,7 +230,7 @@ Test(AST_block_t, init_CONDITIONAL)
 
     conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
                                                                 left, right);
-    block_t *block;
+    block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
     block->conditional_block = new_conditional;
     AST_block_t ast;
