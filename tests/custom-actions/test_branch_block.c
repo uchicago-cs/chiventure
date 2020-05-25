@@ -212,6 +212,7 @@ Test(branch_block_t, new_AST_EQ)
                 "ast->block_type");
     
     branch_block_free(new_branch);
+    AST_block_free(ast);
 }
 
 /* Checks that a new AST branch block with conditional type LTGT is created 
@@ -252,6 +253,7 @@ Test(branch_block_t, new_AST_LTGT)
                 "ast->block_type");
     
     branch_block_free(new_branch);
+    AST_block_free(ast);
 }
 
 /* Checks that a new AST branch block with conditional type LTEGTE is created 
@@ -292,6 +294,7 @@ Test(branch_block_t, new_AST_LTEGTE)
                 "ast->block_type");
     
     branch_block_free(new_branch);
+    AST_block_free(ast);
 }
 
 /* Checks that a new AST branch block with conditional type IN is created 
@@ -332,6 +335,7 @@ Test(branch_block_t, new_AST_IN)
                 "ast->block_type");
     
     branch_block_free(new_branch);
+    AST_block_free(ast);
 }
 
 /* Checks that a new branch block with conditional type EQ is initialized without 
