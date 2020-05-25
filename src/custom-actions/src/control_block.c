@@ -12,7 +12,34 @@
 #include "../include/control_block.h"
 
 /* See control_block.h */
-AST_block_t* control_block_new(control_type_t control_type)
+control_block_t* control_block_new(control_type_t control_type)
+{
+    ast_block_t *ast;
+    control_block_t *control;
+    int new_control;
+    block_type_t block_type = CONTROL;
+
+    control = malloc(sizeof(control_block_t));
+    ast = malloc(sizeof(ast_block_t));
+
+    if (control == NULL) 
+    {
+        fprintf(stderr,"Could not allocate memory");
+        return NULL;
+    }
+
+    new_control = control_block_init(control, control_type);
+    if (new_control != SUCCESS)
+    {
+        fprintf(stderr,"Could not intialize control_block_t");
+        return NULL;
+    }
+
+    return control;
+}
+
+/* See control_block.h */
+AST_block_t* AST_control_block_new(control_type_t control_type)
 {
     ast_block_t *ast;
     control_block_t *control;
