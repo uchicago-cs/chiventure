@@ -14,7 +14,7 @@
 *
 * Input:
 *	- char *bucket: the string identifier for the theme of the set of rooms
-*	  char **sh_desc: optional , unless "bucket" IS NOT part of default defn, use this as a room short_desc.
+*	  char **sh_desc: optional , unless "bucket" IS NOT default defn, use as a room short_desc.
 *	- char *l_desc: similar purpose to sh_desc but for long_desc
 *	- item_list_t *allowed: similar purpose to sh_desc but for allowed_items
 *
