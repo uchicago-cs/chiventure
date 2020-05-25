@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "../include/ast_block.h"
-#include "../include/control_block.h"
+#include "ast_block.h"
+#include "control_block.h"
 
 /* See control_block.h */
 control_block_t* control_block_new(control_type_t control_type)
@@ -61,7 +61,9 @@ AST_block_t* AST_control_block_new(control_type_t control_type)
         return NULL;
     }
 
-    ast = AST_block_new(control, block_type);
+    block_t *block = malloc(sizeof(block));
+    block->control_block = control;
+    ast = AST_block_new(block, block_type);
     return ast;
 }
 
