@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "../include/ast_block.h"
 #include "../include/action_block.h"
 
 /* See action_block.h */
