@@ -5,19 +5,19 @@
 #include <string.h>
 
 
-/* A mock player class type enum that 
+/* A mock player class type enum that
  * includes 4 classes:
  * bard
- * cleric 
- * paladin 
- * wizard 
+ * cleric
+ * paladin
+ * wizard
  */
 typedef enum class_type
 {
-    bard,
-    cleric,
-    paladin,
-    wizard
+    CLASS_BARD,
+    CLASS_CLERIC,
+    CLASS_PALADIN,
+    CLASS_WIZARD
 } class_type_t;
 
 
@@ -28,63 +28,76 @@ typedef enum class_type
  * speed (spd)
  * strength (str)
  * dexterity (dex)
- * charisma (chrsma) 
+ * charisma (chrsma)
  */
 typedef enum possible_stats
 {
-    spd,
-    str,
-    dex,
-    chrsma
+    STAT_SPEED,
+    STAT_STRENGTH,
+    STAT_DEXTERITY,
+    STAT_CHARISMA
 } possible_stats_t;
 
 
 /* The mock  player class struct, which includes:
- * the enum class type 
+ * the enum class type
  * a short description of the class
  * which stat the class gets a bonus for
  * how much that bonus is
  */
 typedef struct class
 {
-    class_type_t cl;
+    class_type_t class_type;
     char *info;
-    possible_stats_t st;
+    possible_stats_t stats;
     int bonus;
 } class_t;
 
 
-/* 
- * Allocates a class 
+/*
+ * Allocates a class
  *
- * Parameters: 
+ * Parameters:
  * - cl: a class type
- * - info: a short description of the class 
- * - st: the stat that the class receives a bonus for 
- * - bonus: the amount added to the designated stat 
- * 
+ * - info: a short description of the class
+ * - st: the stat that the class receives a bonus for
+ * - bonus: the amount added to the designated stat
+ *
  * Returns:
  * -A pointer to the class, or NULL if a class
- *  cannot be allocated 
- */ 
-class_t *new_class(class_type_t cl, char* info, 
-		   possible_stats_t st, double bonus);
+ *  cannot be allocated
+ */
+class_t *new_class(class_type_t class_type, char* info,
+		   possible_stats_t stats, double bonus);
 
 
-/* 
- * Initializes a class 
+/*
+ * Initializes a class
  *
- * Parameters: 
- * - class: A class. Must point to allocated memory. 
+ * Parameters:
+ * - class: A class. Must point to allocated memory.
  * - cl: a class type
- * - info: a short description of the class 
- * - st: the stat that the class receives a bonus for 
- * - bonus: the amount added to the designated stat 
- * 
+ * - info: a short description of the class
+ * - st: the stat that the class receives a bonus for
+ * - bonus: the amount added to the designated stat
+ *
  * Returns:
- * - 0 for success, 1 if an error occurs 
- */  
-int init_class(class_t *class, class_type_t cl, char* info, 
-	       possible_stats_t st, double bonus);
+ * - 0 for success, 1 if an error occurs
+ */
+int init_class(class_t *class, class_type_t class_type, char* info,
+	       possible_stats_t stats, double bonus);
+
+/*
+* Frees the resources associated with a class
+* 
+* Note: It will not free the substructs associated with the class.
+*
+* Parameters:
+*  - class: A class pointer. Must point to a class allocated with new_class
+*
+* Returns:
+*  - Always returns 0.
+*/
+int class_free(class_t *class);
 
 #endif
