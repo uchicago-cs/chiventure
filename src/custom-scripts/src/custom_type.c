@@ -76,8 +76,7 @@ bool bool_t_get(object_t ot) {
         luaL_dofile(L, lua_path);
         lua_settop(L, 0);
         lua_getglobal(L, "foo");
-        lua_call(L, 0, 1);
-        //lua_pcall(L, 0, 1, 0);
+        lua_pcall(L, 0, 1, 0);
         int result = (int)lua_toboolean(L, -1);
         lua_pop(L, 1);
         if (result)
@@ -101,12 +100,11 @@ char char_t_get(object_t ot) {
         luaL_dofile(L, lua_path);
         lua_settop(L, 0);
         lua_getglobal(L, "foo");
-        lua_call(L, 0, 1);
-        //lua_pcall(L, 0, 1, 0);
+        lua_pcall(L, 0, 1, 0);
         const char *result = lua_tostring(L, -1);
-        //printf ("Lua string is %s\n", result);
         lua_pop(L, 1);
-        return *result;
+        char *result1 = strdup (result);
+        return *result1;
     } else {
         return ot.data.c;
     }
@@ -122,8 +120,7 @@ int int_t_get(object_t ot) {
         luaL_dofile(L, lua_path);
         lua_settop(L, 0);
         lua_getglobal(L, "foo");
-        lua_call(L, 0, 1);
-        //lua_pcall(L, 0, 1, 0);
+        lua_pcall(L, 0, 1, 0);
         int result = (int)lua_tointeger(L, -1);
         lua_pop(L, 1);
         return result;
@@ -142,12 +139,11 @@ char* str_t_get(object_t ot) {
         luaL_dofile(L, lua_path);
         lua_settop(L, 0);
         lua_getglobal(L, "foo");
-        lua_call(L, 0, 1);
-        //lua_pcall(L, 0, 1, 0);
+        lua_pcall(L, 0, 1, 0);
         const char *result = lua_tostring(L, -1);
-        //printf ("Lua string is %s\n", result);
         lua_pop(L, 1);
-        return result;
+        char *result1 = strdup (result);
+        return result1;
     } else {
         return ot.data.s;
     }
