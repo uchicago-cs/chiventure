@@ -77,11 +77,18 @@ int roomspec_free(roomspec_t *spec)
 }
 
 /* see gen_structs.h */
-int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_hash_t *items)
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
 {
 
     if (spec == NULL)
         return FAILURE;
+
+   spec->room_name = calloc(MAX_SDESC_LEN + 1, sizeof(char));
+   if (spec->room_name == NULL){
+        roomspec_free(spec);
+        fprintf(stderr, "calloc failed to allocate space for spec's room name.\n");
+        return FAILURE;
+   }
 
     spec->short_desc = calloc(MAX_SDESC_LEN + 1, sizeof(char));
     if (spec->short_desc == NULL) {
@@ -98,6 +105,7 @@ int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_hash
         return FAILURE;
     }
 
+    strncpy(spec->room_name, room_name, MAX_SDESC_LEN);
     strncpy(spec->short_desc, short_desc, MAX_SDESC_LEN);
     strncpy(spec->long_desc, long_desc, MAX_LDESC_LEN);
     spec->items = items;
@@ -105,7 +113,7 @@ int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc, item_hash
 }
 
 /* see gen_structs.h */
-roomspec_t* roomspec_new(char *short_desc, char *long_desc, item_hash_t *items)
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
 {
 
     roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
@@ -115,7 +123,7 @@ roomspec_t* roomspec_new(char *short_desc, char *long_desc, item_hash_t *items)
         return NULL;
     }
 
-    int check = init_roomspec(roomspecnew, short_desc, long_desc, items);
+    int check = init_roomspec(roomspecnew, room_name, short_desc, long_desc, items);
     if (check != FAILURE) {
         return roomspecnew;
     }

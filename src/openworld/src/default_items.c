@@ -9,6 +9,10 @@ item_hash_t *get_default_items()
 
     item_hash_t *hash = NULL;
 
+    item_t *hat = item_new("hat", "a top hat",
+                           "A black top hat with monogrammed A. L.");
+    HASH_ADD_STR(hash, item_id, hat);
+
     item_t *apple = item_new("apple", "a red apple",
                              "A juicy Red Delicious apple");
     HASH_ADD_STR(hash, item_id, apple);
@@ -62,10 +66,6 @@ item_hash_t *get_default_items()
                                    "Used watercolors and dusty brush");
     HASH_ADD_STR(hash, item_id, watercolors);
 
-    item_t *hat = item_new("hat", "a top hat",
-                           "A black top hat with monogrammed A. L.");
-    HASH_ADD_STR(hash, item_id, hat);
-
     item_t *nail = item_new("nail", "a normal nail",
                             "A regular metail nail");
     HASH_ADD_STR(hash, item_id, nail);
@@ -109,6 +109,11 @@ item_hash_t *get_default_items()
     item_t *xylophone = item_new("xylophone", "a colorful xylophone",
                                  "A children's xylophone with a pair of mallets");
     HASH_ADD_STR(hash, item_id, xylophone);
+
+    printf("here in ITEMS\n");
+    item_t *tmp;
+    HASH_FIND_STR(hash, "hat", tmp);
+    printf("looking at %s\n", tmp->item_id);
 
     return hash;
 }

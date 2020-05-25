@@ -15,50 +15,60 @@ roomspec_t *make_default_room(char *bucket,
     roomspec_t *hash = NULL;
 
     assert(bucket != NULL);
-    item_hash_t *def = get_default_items();
+    if ((!strcmp(bucket, "school")) && (!strcmp(bucket, "farmhouse"))
+         && (!strcmp(bucket, "castle"))) {
+        roomspec_t *room = roomspec_new(bucket, sh_desc, l_desc, NULL);
 
-    item_t *door, *nail, *mirror, *jug, *hat,
+        //now add to hash
+        HASH_ADD_STR(hash, room_name, room);
+	return hash;
+
+    }
+ 
+    item_hash_t *def = get_default_items();
+   
+    item_t *door, *mirror, *jug, *hat, 
            *fruit, *tray, *book, *quill, *pencil,
-           *video;
+           *video, *nail;
 
     //CLOSET
     item_hash_t *closet_items = NULL;
     roomspec_t *closet = roomspec_new("closet",
                                       "A broom closet",
                                       "A small broom closet with supplies",
-                                      closet_items, NULL);
+                                      closet_items);
+
     HASH_FIND_STR(def, "door", door);
     HASH_ADD_STR(closet_items, item_id, door);
-    HASH_FIND_STR(def, "nail", nail);
-    HASH_ADD_STR(closet_items, item_id, nail);
+    HASH_FIND_STR(def, "tray", tray);
+    HASH_ADD_STR(closet_items, item_id, tray);
     HASH_FIND_STR(def, "mirror", mirror);
     HASH_ADD_STR(closet_items, item_id, mirror);
     HASH_FIND_STR(def, "jug", jug);
     HASH_ADD_STR(closet_items, item_id, jug);
     HASH_FIND_STR(def, "hat", hat);
     HASH_ADD_STR(closet_items, item_id, hat);
-
+    printf("TESTING\n");
     //HALLWAY
     item_hash_t *hall_items = NULL;
     roomspec_t *hallway = roomspec_new("hallway", "A well-lit hallway",
                                        "A sterile, white hallway with no windows",
-                                       hall_items, NULL);
+                                       hall_items);
     HASH_ADD_STR(hall_items, item_id, door);
+    HASH_FIND_STR(def, "nail", nail);
     HASH_ADD_STR(hall_items, item_id, nail);
     HASH_FIND_STR(def, "fruit", fruit);
     HASH_ADD_STR(hall_items, item_id, fruit);
-    HASH_FIND_STR(def, "tray", tray);
     HASH_ADD_STR(hall_items, item_id, tray);
     HASH_FIND_STR(def, "book", book);
     HASH_ADD_STR(hall_items, item_id, book);
-
     //LIBRARY
     item_hash_t *libr_items = NULL;
     roomspec_t *library = roomspec_new("library",
                                        "This is a library room with resources",
                                        "An old, dusty library with"
                                        " skill-boosting resources like books and potions",
-                                       libr_items, NULL);
+                                       libr_items);
     HASH_ADD_STR(libr_items, item_id, book);
     HASH_FIND_STR(def, "quill", quill);
     HASH_ADD_STR(libr_items, item_id, quill);
@@ -66,7 +76,6 @@ roomspec_t *make_default_room(char *bucket,
     HASH_ADD_STR(libr_items, item_id, pencil);
     HASH_FIND_STR(def, "video", video);
     HASH_ADD_STR(libr_items, item_id, video);
-    HASH_FIND_STR(def, "mirror", mirror);
     HASH_ADD_STR(libr_items, item_id, mirror);
 
     if (!strcmp(bucket, "school")) {
@@ -79,7 +88,7 @@ roomspec_t *make_default_room(char *bucket,
                                              "A grungy cafeteria",
                                              "A messy high school"
                                              " cafeteria with trays and tables out",
-                                             allowed, NULL);
+                                             cafe_items);
         HASH_FIND_STR(def, "apple", apple);
         HASH_ADD_STR(cafe_items, item_id, apple);
         HASH_ADD_STR(cafe_items, item_id, fruit);
@@ -96,7 +105,7 @@ roomspec_t *make_default_room(char *bucket,
                                              " with 30 desks",
                                              "A geography teacher's"
                                              " classroom with 30 desks",
-                                             class_items, NULL);
+                                             class_items);
         HASH_ADD_STR(class_items, item_id, book);
         HASH_ADD_STR(cafe_items, item_id, door);
         HASH_ADD_STR(cafe_items, item_id, pencil);
@@ -113,14 +122,13 @@ roomspec_t *make_default_room(char *bucket,
         HASH_ADD_STR(hash, room_name, classroom);
     } else if (!strcmp(bucket, "farmhouse")) {
         item_t *apple, *cow, *eagle, *rabbit, *yam, *zebra,
-               *olive, *ice, *watercolors, *xylophone, *video,
-               *hat, *mirror;
+               *olive, *ice, *watercolors, *xylophone, *video, *mirror;
         item_hash_t *barn_items = NULL, *field_items = NULL,
                      *kitch_items = NULL, *living_items = NULL;
         //BARN
         roomspec_t *barn = roomspec_new("barn", "A red barn",
                                         "A red barn with stables inside",
-                                        barn_items, NULL);
+                                        barn_items);
         HASH_FIND_STR(def, "apple", apple);
         HASH_ADD_STR(barn_items, item_id, apple);
         HASH_FIND_STR(def, "cow", cow);
@@ -137,7 +145,7 @@ roomspec_t *make_default_room(char *bucket,
                                          "An open field outside",
                                          "An open field with grass"
                                          " and a clear view",
-                                         field_items, NULL);
+                                         field_items);
         HASH_FIND_STR(def, "zebra", zebra);
         HASH_ADD_STR(field_items, item_id, zebra);
         HASH_ADD_STR(barn_items, item_id, cow);
@@ -150,7 +158,7 @@ roomspec_t *make_default_room(char *bucket,
                                            "A 60s era (outdated) kitchen",
                                            "An outdated kitchen with obvious"
                                            " wear-and-tear",
-                                           kitch_items, NULL);
+                                           kitch_items);
         HASH_FIND_STR(def, "olive", olive);
         HASH_ADD_STR(kitch_items, item_id, olive);
         HASH_FIND_STR(def, "ice", ice);
@@ -163,14 +171,13 @@ roomspec_t *make_default_room(char *bucket,
         roomspec_t *living = roomspec_new("living room",
                                           "A living room with basic items",
                                           "A plain, unremarkable living room",
-                                          allowed, NULL);
+                                          living_items);
         HASH_FIND_STR(def, "watercolors", watercolors);
         HASH_ADD_STR(living_items, item_id, watercolors);
         HASH_FIND_STR(def, "video", video);
         HASH_ADD_STR(living_items, item_id, video);
         HASH_FIND_STR(def, "xylophone", xylophone);
         HASH_ADD_STR(living_items, item_id, xylophone);
-        HASH_FIND_STR(def, "hat", hat);
         HASH_ADD_STR(living_items, item_id, hat);
         HASH_ADD_STR(living_items, item_id, mirror);
 
@@ -181,7 +188,7 @@ roomspec_t *make_default_room(char *bucket,
         HASH_ADD_STR(hash, room_name, kitchen);
         HASH_ADD_STR(hash, room_name, living);
 
-    } else if(!strcmp(bucket, "castle")) {
+    } else {
         item_t *ladder, *gold, *yam;
         item_hash_t *dungeon_items = NULL, *throne_items = NULL;
 
@@ -190,7 +197,7 @@ roomspec_t *make_default_room(char *bucket,
                                            "A dark dungeon",
                                            "A dank, dark dungeon with traps"
                                            " and enemies to battle",
-                                           dungeon_items, NULL);
+                                           dungeon_items);
         HASH_ADD_STR(dungeon_items, item_id, nail);
         HASH_ADD_STR(dungeon_items, item_id, book);
         HASH_FIND_STR(def, "ladder", ladder);
@@ -205,7 +212,7 @@ roomspec_t *make_default_room(char *bucket,
                                           "This is a throne room",
                                           "A regal throne room decked out "
                                           "with lavish items",
-                                          throne_items, NULL);
+                                          throne_items);
         HASH_ADD_STR(throne_items, item_id, gold);
         HASH_ADD_STR(throne_items, item_id, door);
         HASH_ADD_STR(throne_items, item_id, mirror);
@@ -219,14 +226,9 @@ roomspec_t *make_default_room(char *bucket,
         HASH_ADD_STR(hash, room_name, dungeon);
         HASH_ADD_STR(hash, room_name, throne);
 
-    } else {
-        roomspec_t *room = roomspec_new(bucket, sh_desc, l_desc,
-                                        NULL, NULL);
-
-        //now add to hash
-        HASH_ADD_STR(hash, room_name, room);
-
     }
     return hash;
 }
+
+
 
