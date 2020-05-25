@@ -25,14 +25,14 @@ custom_action_t* action_new(custom_command comm, custom_param_t p1,
 
 
 /* see custom_skills.h */
-custom_block_t* block_new(custom_action_t* act, custom_block_t* next) {
+custom_block_t* block_new(custom_action_t* act) {
     assert(act != NULL);
 
     custom_block_t *b = calloc(1, sizeof(custom_block_t));
     assert(b != NULL);
 
     b->action = act;
-    b->next = next;
+    b->next = NULL;
     return b;
 }
 
@@ -168,10 +168,19 @@ int execute(stats_t* stats, custom_block_t* block) {
     custom_block_t* curr;
     custom_action_t* curr_act;
     bool if_result = false;
+    bool in_ignored_if = false;
     int rc, status = SUCCESS;
 
-    for (curr = block; curr != NULL; curr = curr->next) {
+    DL_FOREACH(block, curr) {
         curr_act = curr->action;
+
+        /* controls skipping over statements in false if blocks
+         * and statements in else blocks where the if statement was true */
+        if (curr_act->comm == ENDIF || curr_act->comm == ELSE) {
+            in_ignored_if = false;
+        } else if (in_ignored_if) {
+            continue;
+        }
 
         if (curr_act->comm == ADD) {
             /* handles ADD actions */
@@ -184,8 +193,9 @@ int execute(stats_t* stats, custom_block_t* block) {
             /* handles SUB actions - just adds a negative number */
             rc = add_to_stat(stats, curr_act->param1.st,
                 - curr_act->param2.constant);
-            if (rc)
+            if (rc) {
                 status = FAILURE;
+            }
 
         } else if (curr_act->comm == IF) {
             /* evaluates an if action and, if false, skips to ELSE or ENDIF */
@@ -195,20 +205,13 @@ int execute(stats_t* stats, custom_block_t* block) {
             if (!if_result) {
                 /* skip over any commands contingent on the if statement
                  * when the condition is false */
-                while (curr_act != NULL && curr_act->comm != ELSE && 
-                    curr_act->comm != ENDIF) {
-                    curr = curr->next;
-                    curr_act = curr->action;
-                }
+                in_ignored_if = true;
             }
 
         } else if (curr_act->comm == ELSE && if_result) {
             /* skips to ENDIF when it reaches an else branch 
              * after doing the if branch */
-            while (curr_act != NULL && curr_act->comm != ENDIF) {
-                    curr = curr->next;
-                    curr_act = curr->action;
-                }
+            in_ignored_if = true;
         }
     }
     return status;

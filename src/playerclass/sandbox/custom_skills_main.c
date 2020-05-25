@@ -24,23 +24,23 @@ custom_block_t* create_swing_sword() {
     p1.st = PATK;
     p2.constant = 5;
     atomic_action = action_new(IF, p1, p2, STAT, CONSTANT);
-    block = block_new(atomic_action, NULL);
-    LL_APPEND(head, block);
+    block = block_new(atomic_action);
+    DL_APPEND(head, block);
 
     // if it is, reduce health by 3
     // (the player's health because this doesn't support multiple sets of stats)
     p1.st = HEALTH;
     p2.constant = 3;
     atomic_action = action_new(SUB, p1, p2, STAT, CONSTANT);
-    block = block_new(atomic_action, NULL);
-    LL_APPEND(head, block);
+    block = block_new(atomic_action);
+    DL_APPEND(head, block);
 
     // end the if block
     p1.st = NO_PARAM;
     p2.st = NO_PARAM;
     atomic_action = action_new(ENDIF, p1, p2, NONE, NONE);
-    block = block_new(atomic_action, NULL);
-    LL_APPEND(head, block);
+    block = block_new(atomic_action);
+    DL_APPEND(head, block);
 
     return head;
 }
@@ -64,43 +64,43 @@ custom_block_t* create_fireball_spell() {
     p1.st = ENERG;
     p2.constant = 10;
     atomic_action = action_new(IF, p1, p2, STAT, CONSTANT);
-    block = block_new(atomic_action, NULL);
-    LL_APPEND(head, block);
+    block = block_new(atomic_action);
+    DL_APPEND(head, block);
 
     // do 9 damage
     p1.st = HEALTH;
     p2.constant = 9;
     atomic_action = action_new(SUB, p1, p2, STAT, CONSTANT);
-    block = block_new(atomic_action, NULL);
-    LL_APPEND(head, block);
+    block = block_new(atomic_action);
+    DL_APPEND(head, block);
 
     // remove 10 Magic Energy
     p1.st = ENERG;
     p2.constant = 10;
     atomic_action = action_new(SUB, p1, p2, STAT, CONSTANT);
-    block = block_new(atomic_action, NULL);
-    LL_APPEND(head, block);
+    block = block_new(atomic_action);
+    DL_APPEND(head, block);
 
     // else
     p1.st = NO_PARAM;
     p2.st = NO_PARAM;
     atomic_action = action_new(ELSE, p1, p2, NONE, NONE);
-    block = block_new(atomic_action, NULL);
-    LL_APPEND(head, block);
+    block = block_new(atomic_action);
+    DL_APPEND(head, block);
 
     // recover 2 energy
     p1.st = ENERG;
     p2.constant = 2;
     atomic_action = action_new(ADD, p1, p2, STAT, CONSTANT);
-    block = block_new(atomic_action, NULL);
-    LL_APPEND(head, block);
+    block = block_new(atomic_action);
+    DL_APPEND(head, block);
 
     // end the if block
     p1.st = NO_PARAM;
     p2.st = NO_PARAM;
     atomic_action = action_new(ENDIF, p1, p2, NONE, NONE);
-    block = block_new(atomic_action, NULL);
-    LL_APPEND(head, block);
+    block = block_new(atomic_action);
+    DL_APPEND(head, block);
 
     return head;
 }

@@ -43,6 +43,7 @@ typedef struct {
 typedef struct _custom_block {
     custom_action_t* action;
     struct _custom_block* next;
+    struct _custom_block* prev;
 } custom_block_t;
 
 // this is a stub struct to represent stats
@@ -84,7 +85,7 @@ custom_action_t* action_new(custom_command comm, custom_param_t p1,
  * Returns
  *  - a pointer to a custom block struct
  */
-custom_block_t* block_new(custom_action_t* act, custom_block_t* next);
+custom_block_t* block_new(custom_action_t* act);
 
 
 /*
