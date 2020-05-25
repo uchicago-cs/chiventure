@@ -65,8 +65,7 @@ Test(action_block_t, new_MOVE)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     *args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(new_action, "action_block_new() failed");
 
@@ -90,8 +89,7 @@ Test(action_block_t, new_ADDSUBMULTDIV)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     *args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(new_action, "action_block_new() failed");
 
@@ -115,8 +113,7 @@ Test(action_block_t, new_GEN)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     *args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(new_action, "action_block_new() failed");
 
@@ -140,8 +137,7 @@ Test(action_block_t, new_EXEC)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     *args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(new_action, "action_block_new() failed");
 
@@ -166,8 +162,7 @@ Test(action_block_t, new_ast_SET)
     attribute_t *args = get_attribute(item_1, attr_name1);
     block_type_t block_type = ACTION;
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     *args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block;
     block->action_block = new_action;
     AST_block_t* ast = AST_block_new(block, block_type);
@@ -193,8 +188,7 @@ Test(action_block_t, new_ast_SAY)
     attribute_t *args = get_attribute(item_1, attr_name1);
     block_type_t block_type = ACTION;
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     *args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block;
     block->action_block = new_action;
     AST_block_t* ast = AST_block_new(block, block_type);
@@ -220,8 +214,7 @@ Test(action_block_t, new_ast_MOVE)
     attribute_t *args = get_attribute(item_1, attr_name1);
     block_type_t block_type = ACTION;
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block;
     block->action_block = new_action;
     AST_block_t* ast = AST_block_new(block, block_type);
@@ -247,8 +240,7 @@ Test(action_block_t, new_ast_ADDSUBMULTDIV)
     attribute_t *args = get_attribute(item_1, attr_name1);
     block_type_t block_type = ACTION;
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block;
     block->action_block = new_action;
     AST_block_t* ast = AST_block_new(block, block_type);
@@ -274,8 +266,7 @@ Test(action_block_t, new_ast_GEN)
     attribute_t *args = get_attribute(item_1, attr_name1);
     block_type_t block_type = ACTION;
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block;
     block->action_block = new_action;
     AST_block_t* ast = AST_block_new(block, block_type);
@@ -301,8 +292,7 @@ Test(action_block_t, new_ast_EXEC)
     attribute_t *args = get_attribute(item_1, attr_name1);
     block_type_t block_type = ACTION;
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block;
     block->action_block = new_action;
     AST_block_t* ast = AST_block_new(block, block_type);
@@ -329,7 +319,7 @@ Test(action_block_t, init_SET)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t *args = get_attribute(item_1, attr_name1);
 
-    rc = action_block_init(&action, action_type, num_args, args);
+    rc = action_block_init(&action, action_type, num_args, &args);
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
@@ -354,7 +344,7 @@ Test(action_block_t, init_SAY)
     attribute_t *args = get_attribute(item_1, attr_name1);
 
 
-    rc = action_block_init(&action, action_type, num_args, args);
+    rc = action_block_init(&action, action_type, num_args, &args);
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
@@ -378,7 +368,7 @@ Test(action_block_t, init_MOVE)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t *args = get_attribute(item_1, attr_name1);
 
-    rc = action_block_init(&action, action_type, num_args, *args);
+    rc = action_block_init(&action, action_type, num_args, &args);
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
@@ -402,7 +392,7 @@ Test(action_block_t, init_ADDSUBMULTDIV)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t **args = get_attribute(item_1, attr_name1);
 
-    rc = action_block_init(&action, action_type, num_args, *args);
+    rc = action_block_init(&action, action_type, num_args, &args);
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
@@ -426,7 +416,7 @@ Test(action_block_t, init_GEN)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t **args = get_attribute(item_1, attr_name1);
 
-    rc = action_block_init(&action, action_type, num_args, *args);
+    rc = action_block_init(&action, action_type, num_args, &args);
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
@@ -450,7 +440,7 @@ Test(action_block_t, init_EXEC)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t **args = get_attribute(item_1, attr_name1);
 
-    rc = action_block_init(&action, action_type, num_args, *args);
+    rc = action_block_init(&action, action_type, num_args, &args);
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
@@ -472,9 +462,9 @@ Test(action_block_t, free_SET)
     char *short_desc1 = "01";
     char *long_desc1 = "0001";
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t **args = get_attribute(item_1, attr_name1);
+    attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action = action_block_new(action_type, num_args, *args);
+    action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(action, "action_block_new() failed");
 
@@ -495,9 +485,9 @@ Test(action_block_t, free_SAY)
     char *short_desc1 = "01";
     char *long_desc1 = "0001";
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t **args = get_attribute(item_1, attr_name1);
+    attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action = action_block_new(action_type, num_args, *args);
+    action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(action, "action_block_new() failed");
 
@@ -518,9 +508,9 @@ Test(action_block_t, free_MOVE)
     char *short_desc1 = "01";
     char *long_desc1 = "0001";
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t **args = get_attribute(item_1, attr_name1);
+    attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action = action_block_new(action_type, num_args, *args);
+    action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(action, "action_block_new() failed");
 
@@ -541,9 +531,9 @@ Test(action_block_t, free_ADDSUBMULTDIV)
     char *short_desc1 = "01";
     char *long_desc1 = "0001";
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t **args = get_attribute(item_1, attr_name1);
+    attribute_t *args = get_attribute(item_1, attr_name1);
     
-    action = action_block_new(action_type, num_args, *args);
+    action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(action, "action_block_new() failed");
 
@@ -564,9 +554,9 @@ Test(action_block_t, free_GEN)
     char *short_desc1 = "01";
     char *long_desc1 = "0001";
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t **args = get_attribute(item_1, attr_name1);
+    attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action = action_block_new(action_type, num_args, *args);
+    action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(action, "action_block_new() failed");
 
@@ -587,9 +577,9 @@ Test(action_block_t, free_EXEC)
     char *short_desc1 = "01";
     char *long_desc1 = "0001";
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
-    attribute_t **args = get_attribute(item_1, attr_name1);
+    attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action = action_block_new(action_type, num_args, *args);
+    action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(action, "action_block_new() failed");
 
