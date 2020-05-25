@@ -19,7 +19,6 @@ control_block_t* control_block_new(control_type_t control_type)
     block_type_t block_type = CONTROL;
 
     control = malloc(sizeof(control_block_t));
-    ast = malloc(sizeof(AST_block_t));
 
     if (control == NULL) 
     {
