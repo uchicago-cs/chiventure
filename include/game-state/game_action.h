@@ -90,7 +90,7 @@ int add_action_condition(item_t *item, game_action_t *action, item_t *cond_item,
  */
 int delete_action_condition_llist(action_condition_list_t *conditions);
 
-/* condition_new() creates a new condition in an item with given inputs
+/* attribute_condition_new() creates a new attribute condition in an item with given inputs
  * Parameters:
  *  a pointer to the item to be modified
  *  a pointer to the attribute
@@ -100,6 +100,16 @@ int delete_action_condition_llist(action_condition_list_t *conditions);
  */
 game_action_condition_t *attribute_condition_new(item_t *item_to_modify, attribute_t *attribute,
 				       attribute_value_t new_value);
+
+
+/* invetory_condition_new() creates a new inventory condition in an item with given inputs
+ * Parameters:
+ *  a pointer to the player whose inventory to check
+ *  a pointer to the item
+ * Returns:
+ *  NULL if player or item are NULL, the new condition if succcessful
+ */
+game_action_condition_t *inventory_condition_new(player_t *player, item_t *expected_item);
 
 /* check_condition() checks if the actual attribute of an item is equal
  * to the desired attribute

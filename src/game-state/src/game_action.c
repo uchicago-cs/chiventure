@@ -208,9 +208,10 @@ bool check_attribute_condition(game_action_attribute_condition_t *condition)
     return false;
 }
 
+/* see game_action.h */
 game_action_condition_t *inventory_condition_new(player_t *player, item_t *expected_item)
 {
-    if(player == NULL || expected_item == NULL)
+    if (player == NULL || expected_item == NULL)
     {
         return NULL;
     }
@@ -226,6 +227,7 @@ game_action_condition_t *inventory_condition_new(player_t *player, item_t *expec
     return condition_wrapper;
 }
 
+/* helper for check_condition */
 bool check_inventory_condition(game_action_inventory_condition_t *condition)
 {
     return item_in_inventory(condition->player_to_check, condition->expected_item);
