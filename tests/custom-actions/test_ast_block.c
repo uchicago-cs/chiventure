@@ -41,7 +41,7 @@ Test(AST_block_t, new_BRANCH)
     left->attribute_key = attr_name1;
     left->attribute_tag = attribute_tag;
     left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute));
+    attribute_t *right = malloc(sizeof(attribute_t));
     right->hh = hh;
     right->attribute_key = attr_name2;
     right->attribute_tag = attribute_tag ;
