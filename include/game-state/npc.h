@@ -82,17 +82,6 @@ int get_npc_health(npc_t *npc);
 
 
 /*
- * Returns the number of npcs in a room
- *
- * Parameters:
- *  npcs_in_room: the struct holding the npcs in the room
- *
- * Returns:
- *  int, the number of npcs in the room
- */
-int get_num_of_npcs(npcs_in_room_t *npcs_in_room);
-
-/*
  * Changes the health of the npc. 
  *
  * Parameters:
@@ -137,47 +126,5 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_inv_npc(npc_t *npc);
-
-
-/* 
- * Adds a room to the path of definite NPC movement - changes destination of the NPC
- * 
- * Parameters:
- *  npc_mov: the NPC movement struct
- *  room_to_add: the room that has to be added to the path
- * 
- * Returns:
- *  SUCCESS (1) if successful, FAILURE (0) if error occured.
- */
-int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
-
-/* extend_path_indef()
- * adds a room to the path that the npc will travel through, ONLY when the npc is has a indefinite path
- * returns SUCCESS or FAILURE
- */
-int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time);
-
-/* reverse_path()
- * reverses the path, so that the npc goes back to where it started
- * returns SUCCESS or FAILURE
- */
-int reverse_path(npt_mov_t  *npc_mov);
-
-/* change_time_in_room()
- * changes the time spent in a certain room by and npc, ONLY Possible when the npc has an indeinfite path
- * returns SUCCESS or FAILURE
- */
-int change_time_in_room(npc_mov_t  *npc_mov, room_t *room_to_change, int time);
-
-/* track_room()
- * returns the room_id of the room that the npc is currently in
- */
-char* track_room(npc_mov_t *npc_mov);
-
-/* auto_gen_movement()
- * automatically allows npcs to randomly move through adjacent rooms,
- * while spending an arbitrary time in each room
- */
-npc_mov_t *auto_gen_movement(npc_t *npc, room_t *starting_room);
 
 #endif
