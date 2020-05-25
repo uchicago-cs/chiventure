@@ -20,6 +20,7 @@ achievement_t *achievement_new(mission_u *mission)
     return achievement;
 }
 
+
 /* Refer to quests_state.h */
 quest_t *quest_new(long quest_id, achievement_llist_t *achievement_list,
                    item_t *reward) 
@@ -41,6 +42,7 @@ quest_t *quest_new(long quest_id, achievement_llist_t *achievement_list,
 
     return q;
 }
+
 
 /* Refer to quests_state.h */
 int achievement_init(achievement_t *achievement, mission_u *mission)

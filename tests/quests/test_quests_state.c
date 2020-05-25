@@ -8,14 +8,18 @@
 /* Tests init function for achievement struct */
 Test(achievement, init)
 {
-	achievement_t *achievement = malloc(sizeof(achievement_t));
+	achievement_t *achievement;
+    
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
 
 	int check = achievement_init(achievement, item_to_get);
 
+    cr_assert_srt_eq(achievement->mission->item_id, "test_item", 
+                     "achievement_init did not set mission name");
 	cr_assert_eq(check, SUCCESS, "achievement_init() test has failed!");
 }
+
 
 /* Tests init function for quest struct */
 Test(quest, init)
@@ -26,6 +30,8 @@ Test(quest, init)
 
 	int check = quest_init(q, 1, NULL, reward, 0);
 
+    cr_assert_srt_eq(q->reward->short_desc, "item for testing", 
+                     "quest_init did not set mission name");
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
 }
 
@@ -36,6 +42,9 @@ Test(achievement, new)
     "test item for item_new()");
 	achievement_t* achievement = achievement_new(item_to_get);
 
+
+    cr_assert_srt_eq(achievement->mission->long_desc, "test item for item_new()", 
+                     "achievement_new did not set mission name");
 	cr_assert_not_null(achivement, "achievement_new() test has failed!");
     cr_assert_eq(achievement->mission, item_to_get, "achievement_new()"
                 "did not initialize the item");
