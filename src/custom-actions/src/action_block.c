@@ -11,13 +11,15 @@
 #include "../include/action_block.h"
 
 /* See action_block.h */
-action_block_t* action_block_new(action_type_t action_type, int num_args, 
+ast_block_t* action_block_new(action_type_t action_type, int num_args, 
 attribute_t** args)
 {
+    ast_block_t *ast;
     action_block_t *action;
     int new_action;
 
     action = malloc(sizeof(action_block_t));
+    ast = malloc(sizeof(ast_block_t));
 
     if (action == NULL)
     {
@@ -31,8 +33,9 @@ attribute_t** args)
         fprintf(stderr, "Error: Could not initialize action_block_t\n");
         return NULL;    
     }
-
-    return action;
+    
+    ast = ast_block_new(action, action_type);
+    return ast;
 }
 
 /* See action_block.h */
