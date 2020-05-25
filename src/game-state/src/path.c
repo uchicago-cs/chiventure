@@ -39,3 +39,16 @@ int delete_all_paths(path_hash_t* paths)
     }
     return SUCCESS;
 }
+
+/* See room.h */
+int remove_condition(path_t *path, action_type_t *a)
+{
+    int check;
+    check = delete_action(path->conditions, *a);
+    if (path->conditions == NULL) {
+	set_bool_attr(path->through, "OPEN", true);
+    }
+    a->trigger = 0;
+    return check;
+}
+
