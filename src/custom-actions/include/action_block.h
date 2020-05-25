@@ -52,7 +52,7 @@ attribute_t** args);
  * Returns: 
  * - An action block. 
  */
-AST_block_t* action_block_new(action_enum_t action_type, int num_args, 
+AST_block_t* AST_action_block_new(action_enum_t action_type, int num_args, 
 attribute_t** args);
 
 /* 
