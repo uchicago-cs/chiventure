@@ -6,18 +6,14 @@
 /* Checks that a new AST block with control type is created without interruption */
 Test(AST_block_t, new_CONTROL)
 {
-    block_t *b;
-    block_t *block;
-    
-    b = control_block;
-    block = &b;
-    enum block_type block_type = CONTROL;
+    block_type_t block_type = CONTROL;
+    AST_block_t* next = AST_block_new(block_type);
 
-    AST_block_t* new_ast = AST_block_new(block, block_type);
+    AST_block_t* new_ast = AST_block_new(block_type, next);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
-    cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
+    cr_assert_eq(new_ast->next, next, "AST_block_new() didn't set new_ast->next");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
 
     AST_block_free(new_ast);
@@ -26,14 +22,14 @@ Test(AST_block_t, new_CONTROL)
 /* Checks that a new AST block with branch type is created without interruption */
 Test(AST_block_t, new_BRANCH)
 {
-    block_t block = branch_block;
-    enum block_type block_type = BRANCH;
+    block_type_t block_type = BRANCH;
+    AST_block_t* next = AST_block_new(block_type);
 
-    AST_block_t* new_ast = AST_block_new(block, block_type);
+    AST_block_t* new_ast = AST_block_new(block_type, next);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
-    cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
+    cr_assert_eq(new_ast->next, next, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
 
     AST_block_free(new_ast);
