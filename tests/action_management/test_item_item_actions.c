@@ -65,7 +65,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         set_int_attr(indirect, "DUMMYCONDITON", 1);
         attr = get_attribute(indirect, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(xga, indirect, attr, value);
+        add_action_condition(ga, indirect, attr, value);
         break;
     default:
         break;
