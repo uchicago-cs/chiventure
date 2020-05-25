@@ -5,9 +5,6 @@
 #include <string.h>
 #include "battle_classes.h"
 
-/* define max size of class info strings */
-static const int SIZE2 = 100;
-
 
 /* items stub */
 typedef struct item {
