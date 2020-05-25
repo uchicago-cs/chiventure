@@ -51,7 +51,7 @@ control_block_t** controls);
  * Returns: 
  * - A branch block. 
  */  
-AST_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
+AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** 
 conditionals, conditional_type_t conditional_type, int num_controls, 
 control_block_t** controls);
 
