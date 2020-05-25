@@ -21,8 +21,6 @@ Test(AST_block_t, new_CONTROL)
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
-
-    AST_block_free(new_ast);
 }
 
 /* Checks that a new AST block with branch type is created without interruption */
@@ -63,8 +61,6 @@ Test(AST_block_t, new_BRANCH)
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
-
-    AST_block_free(new_ast);
 }
 
 /* Checks that a new AST block with action type is created without interruption */
