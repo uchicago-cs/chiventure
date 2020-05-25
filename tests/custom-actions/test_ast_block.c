@@ -35,13 +35,13 @@ Test(AST_block_t, new_BRANCH)
     enum attribute_tag attribute_tag = INTEGER;
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
-    attribute_t *left;
+    attribute_t *left = malloc(sizeof(attribute_t));
     UT_hash_handle hh = hh;
     left->hh = hh;
     left->attribute_key = attr_name1;
     left->attribute_tag = attribute_tag;
     left->attribute_value = attribute_value;
-    attribute_t *right;
+    attribute_t *right = malloc(sizeof(attribute));
     right->hh = hh;
     right->attribute_key = attr_name2;
     right->attribute_tag = attribute_tag ;
