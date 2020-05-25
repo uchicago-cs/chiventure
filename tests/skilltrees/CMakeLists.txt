@@ -1,8 +1,10 @@
 set(TEST_EXE test-skilltrees)
 
 add_executable(${TEST_EXE}
+        effect_t.c
         test_skill.c
         test_inventory.c
+        test_skilltree.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
