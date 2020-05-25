@@ -1,9 +1,9 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../src/custom-actions/include/conditional_block.h"
+#include "conditional_block.h"
 #include "game-state/item.h"
-#include "../src/custom-actions/include/ast_block.h"
+#include "ast_block.h"
 
 /* Checks that a new conditional block with type EQ is created without interruption */
 Test(conditional_block_t, new_EQ)
