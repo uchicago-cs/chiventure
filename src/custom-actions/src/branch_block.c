@@ -9,16 +9,20 @@
 #include <stdio.h>
 #include "game-state/item.h"
 #include "../include/branch_block.h"
+#include "../include/ast_block.h"
 
 /* See branch_block.h */
-branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
+ast_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
 conditionals, conditional_type_t conditional_type, int num_controls, 
 control_block_t** controls)
 {
+    ast_block_t *ast;
     branch_block_t *branch;
     int new_branch;
+    block_type_t block_type = BRANCH;
 
     branch = malloc(sizeof(branch_block_t));
+    ast = malloc(sizeof(ast_block_t));
 
     if (branch == NULL)
     {
@@ -34,7 +38,7 @@ control_block_t** controls)
         return NULL;
     }
 
-    return branch;
+    ast = ast_block_new(branch, block_type);
 }
     
 /* See branch_block.h */
