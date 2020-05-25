@@ -55,10 +55,17 @@ typedef struct attribute
         bool b;
         char c;
         char *s;
-	char **sl;
+	    char **sl;
         int i;
         obj_t *o;
     } data;
+
+    /* 
+     * Next attribute, in the case where this is a utlist of attributes.
+     * This adds support for lists with different-typed elements as an attribute.
+     * Will be NULL for standalone attributes not part of a list.
+     */
+    struct attribute *next;
 
 } attribute_t;
 
