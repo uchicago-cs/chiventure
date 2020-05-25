@@ -39,7 +39,7 @@ Test(action_block_t, new_SET)
 /* Checks that a new action block with SAY type is created without interruption */
 Test(action_block_t, new_SAY)
 {   
-    action_type_t action_type = SAY;
+    action_enum_t action_type = SAY;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -70,7 +70,7 @@ Test(action_block_t, new_SAY)
 /* Checks that a new action block with MOVE type is created without interruption */
 Test(action_block_t, new_MOVE)
 {   
-    action_type_t action_type = MOVE;
+    action_enum_t action_type = MOVE;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -101,7 +101,7 @@ Test(action_block_t, new_MOVE)
 /* Checks that a new action block with ADDSUBMULTDIV type is created without interruption */
 Test(action_block_t, new_ADDSUBMULTDIV)
 {   
-    action_type_t action_type = ADDSUBMULTDIV;
+    action_enum_t action_type = ADDSUBMULTDIV;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -132,7 +132,7 @@ Test(action_block_t, new_ADDSUBMULTDIV)
 /* Checks that a new action block with GEN type is created without interruption */
 Test(action_block_t, new_GEN)
 {   
-    action_type_t action_type = GEN;
+    action_enum_t action_type = GEN;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -163,7 +163,7 @@ Test(action_block_t, new_GEN)
 /* Checks that a new action block with EXEC type is created without interruption */
 Test(action_block_t, new_EXEC)
 {   
-    action_type_t action_type = EXEC;
+    action_enum_t action_type = EXEC;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -196,7 +196,7 @@ Test(action_block_t, init_SET)
 {
     action_block_t action;
     int rc;
-    action_type_t action_type = SET;
+    action_enum_t action_type = SET;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -220,7 +220,7 @@ Test(action_block_t, init_SAY)
 {
     action_block_t action;
     int rc;
-    action_type_t action_type = SAY;
+    action_enum_t action_type = SAY;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -245,7 +245,7 @@ Test(action_block_t, init_MOVE)
 {
     action_block_t action;
     int rc;
-    action_type_t action_type = MOVE;
+    action_enum_t action_type = MOVE;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -269,7 +269,7 @@ Test(action_block_t, init_ADDSUBMULTDIV)
 {
     action_block_t action;
     int rc;
-    action_type_t action_type = ADDSUBMULTDIV;
+    action_enum_t action_type = ADDSUBMULTDIV;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -293,7 +293,7 @@ Test(action_block_t, init_GEN)
 {
     action_block_t action;
     int rc;
-    action_type_t action_type = GEN;
+    action_enum_t action_type = GEN;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
@@ -318,7 +318,7 @@ Test(action_block_t, init_EXEC)
     action_block_t action;
     int rc;
     int num_args = 1;
-    action_type_t action_type = EXEC;
+    action_enum_t action_type = EXEC;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
     char *short_desc1 = "01";
@@ -340,7 +340,7 @@ Test(action_block_t, init_EXEC)
 Test(action_block_t, free_SET)
 {
     action_block_t *action;
-    action_type_t action_type = SET;
+    action_enum_t action_type = SET;
     int rc;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -363,7 +363,7 @@ Test(action_block_t, free_SET)
 Test(action_block_t, free_SAY)
 {
     action_block_t *action;
-    action_type_t action_type = SAY;
+    action_enum_t action_type = SAY;
     int rc;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -386,7 +386,7 @@ Test(action_block_t, free_SAY)
 Test(action_block_t, free_MOVE)
 {
     action_block_t *action;
-    action_type_t action_type = MOVE;
+    action_enum_t action_type = MOVE;
     int rc;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -409,7 +409,7 @@ Test(action_block_t, free_MOVE)
 Test(action_block_t, free_ADDSUBMULTDIV)
 {
     action_block_t *action;
-    action_type_t action_type = ADDSUBMULTDIV;
+    action_enum_t action_type = ADDSUBMULTDIV;
     int rc;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -432,7 +432,7 @@ Test(action_block_t, free_ADDSUBMULTDIV)
 Test(action_block_t, free_GEN)
 {
     action_block_t *action;
-    action_type_t action_type = GEN;
+    action_enum_t action_type = GEN;
     int rc;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -455,9 +455,9 @@ Test(action_block_t, free_GEN)
 Test(action_block_t, free_EXEC)
 {
     action_block_t *action;
-    action_type_t action_type = EXEC;
+    action_enum_t action_type = EXEC;
     int rc;
-   int num_args = 1;
+    int num_args = 1;
     char *attr_name1 = "attribute1";
     char *item_id1 = "01";
     char *short_desc1 = "01";
