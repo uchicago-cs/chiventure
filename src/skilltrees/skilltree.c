@@ -55,7 +55,7 @@ int list_skill_add(skill_t** list, unsigned int llen, skill_t* skill) {
 
     unsigned int i;
 
-    for (i = 0; i < llen, i++) {
+    for (i = 0; i < llen; i++) {
         if (list[i] == NULL) {
             list[i] = skill;
             return SUCCESS;
@@ -222,7 +222,7 @@ skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
             if (i == 0) {
                 acquired = (skill_t**)malloc(sizeof(skill_t*));
             } else {
-                acquired = (skill_t**)realloc(sizeof(skill_t*) * (*nacquired));
+                acquired = (skill_t**)realloc(acquired, sizeof(skill_t*) * (*nacquired));
             }
             switch (type) {
                 case ACTIVE:

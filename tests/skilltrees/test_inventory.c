@@ -199,12 +199,12 @@ Test(inventory, has_skill) {
     cr_assert_eq(add4, SUCCESS, "inventory_skill_add() failed");
 
     // Search the inventory for skills
-    has1 = inventory_has_skill(inventory, &skill4);
+    has1 = inventory_has_skill(inventory, skill4.sid, skill4.type);
     cr_assert_eq(has1, 0, "inventory_has_skill() failed");
 
-    has2 = inventory_has_skill(inventory, &skill3);
+    has2 = inventory_has_skill(inventory, skill3.sid, skill3.type);
     cr_assert_eq(has2, -1, "inventory_has_skill() failed");
 
-    has3 = inventory_has_skill(inventory, &skill2);
+    has3 = inventory_has_skill(inventory, skill2.sid, skill2.type);
     cr_assert_eq(has3, 1, "inventory_has_skill() failed");
 }
