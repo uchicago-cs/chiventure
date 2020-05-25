@@ -17,8 +17,7 @@ Test(action_block_t, new_SET)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     *args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(new_action, "action_block_new() failed");
 
@@ -42,8 +41,7 @@ Test(action_block_t, new_SAY)
     item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
     attribute_t *args = get_attribute(item_1, attr_name1);
 
-    action_block_t* new_action = action_block_new(action_type, num_args, 
-                                                     *args);
+    action_block_t* new_action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(new_action, "action_block_new() failed");
 
