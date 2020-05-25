@@ -17,7 +17,7 @@
  *      cumulative modifiers from effects, set to 1 by default
  * */
 typedef struct stats {
-    stats_global_t *name;
+    stats_global_t *global;
     double val;
     double max;
     double modifier; 
@@ -95,7 +95,7 @@ typedef struct stats_global stats_global_hash_t;
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 
-int global_stats_init(stats_global_t *s, char *name, double max);
+int stats_global_init(stats_global_t *s, char *name, double max);
 
 
 /*
@@ -214,25 +214,25 @@ int add_stat_player(stats_hash_t *sh, stats_t *s);
 char *display_stats(stats_hash_t *sh);
 
 /*
- * Frees a stats hash table
+ * Frees a stat
  *
  * Parameters: 
- * sh: pointer to the stats hash table to be freed
+ * sh: pointer to the stat to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats(stats_hash_t *sh);
+int free_stats(stats_t *stat);
 
 /*
- * Frees a global stats hash table
+ * Frees a global stat
  *
  * Parameters: 
- * gsh: pointer to the global stats hash table to be freed
+ * gsh: pointer to the global statto be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats_global(stats_global_hash_t* gsh);
+int free_stats_global(stats_global_t* stat);
 
 #endif
