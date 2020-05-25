@@ -45,18 +45,6 @@ int inventory_free(inventory_t* inventory);
 int inventory_skill_add(inventory_t* inventory, skill_t* skill);
 
 /*
- * Removes a skill from a player's skill inventory.
- *
- * Parameters:
- *  - inventory: A skill inventory
- *  - skill: A skill
- *
- * Returns:
- *  - 0 on success, 1 if an error occurs
- */
-int inventory_skill_remove(inventory_t* inventory, skill_t* skill);
-
-/*
  * Searches for a skill in a player's skill inventory.
  *
  * Parameters:
@@ -68,5 +56,17 @@ int inventory_skill_remove(inventory_t* inventory, skill_t* skill);
  *    inventory
  */
 int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type);
+
+/*
+ * Removes a skill from a player's skill inventory.
+ *
+ * Parameters:
+ *  - inventory: A skill inventory
+ *  - skill: A skill
+ *
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int inventory_skill_remove(inventory_t* inventory, skill_t* skill);
 
 #endif /* INCLUDE_INVENTORY_H_ */

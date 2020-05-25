@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "skilltrees/skill.h"
+#include "skilltrees/inventory.h"
 #include "skilltrees/skilltree.h"
 #include "effect_t.h"
 

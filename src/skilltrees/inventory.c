@@ -86,6 +86,21 @@ int inventory_skill_add(inventory_t* inventory, skill_t* skill) {
 }
 
 /* See inventory.h */
+int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type) {
+    assert(inventory != NULL);
+
+    switch (type) {
+        case ACTIVE:
+            return list_has_skill(inventory->active, inventory->nactive, sid);
+        case PASSIVE:
+            return list_has_skill(inventory->passive, inventory->npassive, sid);
+        default:
+            fprintf(stderr, "inventory_has_skill: not a valid skill type\n");
+            return -1;
+    }
+}
+
+/* See inventory.h */
 int inventory_skill_remove(inventory_t* inventory, skill_t* skill) {
     assert(inventory != NULL && skill != NULL);
 
@@ -111,20 +126,5 @@ int inventory_skill_remove(inventory_t* inventory, skill_t* skill) {
         default:
             fprintf(stderr, "inventory_skill_remove: not a valid skill type\n");
             return FAILURE;
-    }
-}
-
-/* See inventory.h */
-int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type) {
-    assert(inventory != NULL);
-
-    switch (type) {
-        case ACTIVE:
-            return list_has_skill(inventory->active, inventory->nactive, sid);
-        case PASSIVE:
-            return list_has_skill(inventory->passive, inventory->npassive, sid);
-        default:
-            fprintf(stderr, "inventory_has_skill: not a valid skill type\n");
-            return -1;
     }
 }

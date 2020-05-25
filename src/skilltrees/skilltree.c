@@ -132,20 +132,6 @@ int tree_branch_add(tree_t* tree, branch_t* branch) {
 }
 
 /* See skilltree.h */
-int tree_branch_remove(tree_t* tree, branch_t* branch) {
-    assert(tree != NULL && branch != NULL);
-
-    int pos = tree_has_branch(tree, branch->sid);
-    if (pos == -1) {
-        fprintf(stderr, "tree_branch_remove: branch is not in tree\n");
-        return FAILURE;
-    }
-
-    tree->branches[pos] = NULL;
-    return SUCCESS;
-}
-
-/* See skilltree.h */
 int tree_has_branch(tree_t* tree, sid_t sid) {
     assert(tree != NULL);
 
@@ -160,6 +146,20 @@ int tree_has_branch(tree_t* tree, sid_t sid) {
     }
 
     return -1;
+}
+
+/* See skilltree.h */
+int tree_branch_remove(tree_t* tree, branch_t* branch) {
+    assert(tree != NULL && branch != NULL);
+
+    int pos = tree_has_branch(tree, branch->sid);
+    if (pos == -1) {
+        fprintf(stderr, "tree_branch_remove: branch is not in tree\n");
+        return FAILURE;
+    }
+
+    tree->branches[pos] = NULL;
+    return SUCCESS;
 }
 
 /* See skilltree.h */
@@ -221,6 +221,7 @@ skill_t** prereqs_missing(tree_t* tree, inventory_t* inventory, sid_t sid,
     return NULL;
 }
 
+/* HELPER FUNCTION */
 int level_update(tree_t* tree, skill_t* skill) {
     assert(tree != NULL && skill != NULL);
 

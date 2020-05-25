@@ -94,18 +94,6 @@ int tree_free(tree_t* tree);
 int tree_branch_add(tree_t* tree, branch_t* branch);
 
 /*
- * Removes a skill branch from a skill tree.
- *
- * Parameters:
- *  - tree: A skill tree
- *  - branch: A skill branch
- *
- * Returns:
- *  - 0 on success, 1 if an error occurs
- */
-int tree_branch_remove(tree_t* tree, branch_t* branch);
-
-/*
  * Searches for a skill branch in a skill tree.
  *
  * Parameters:
@@ -117,6 +105,18 @@ int tree_branch_remove(tree_t* tree, branch_t* branch);
  *    a branch that corresponds to skill ID `sid`
  */
 int tree_has_branch(tree_t* tree, sid_t sid);
+
+/*
+ * Removes a skill branch from a skill tree.
+ *
+ * Parameters:
+ *  - tree: A skill tree
+ *  - branch: A skill branch
+ *
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int tree_branch_remove(tree_t* tree, branch_t* branch);
 
 /*
  * Returns all prerequisite skills for a given skill.
