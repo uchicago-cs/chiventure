@@ -92,6 +92,10 @@ game_t *parse_wdl(char* filename) {
 
     assert(game_obj);
 
+    json_object_object_foreach(game_obj, key, val ){
+        printf("For each is working, key is %s\n and the value type is %d \n", key, json_object_get_type(val));
+    }		
+
     /*gets the intro text for the game*/
     json_object_object_get_ex(game_obj, "intro", &intro_obj);
     assert(intro_obj);
