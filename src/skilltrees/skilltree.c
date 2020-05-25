@@ -67,7 +67,7 @@ int branch_prereq_add(branch_t* branch, skill_t* skill) {
 int branch_prereq_remove(branch_t* branch, skill_t* skill) {
     assert(branch != NULL && skill != NULL);
 
-    int pos = array_has_sid(branch->prereqs, branch->nprereqs, skill->sid);
+    int pos = list_has_skill(branch->prereqs, branch->nprereqs, skill->sid);
     if (pos == -1) {
         fprintf(stderr, "branch_prereq_remove: prequisite is not in branch\n");
         return FAILURE;
@@ -149,7 +149,17 @@ int tree_branch_remove(tree_t* tree, branch_t* branch) {
 int tree_has_branch(tree_t* tree, sid_t sid) {
     assert(tree != NULL);
 
-    return array_has_sid(tree->branches, tree->nbranches, sid);
+    unsigned int i;
+
+    for (i = 0; i < tree->nbranches; i++) {
+        if (tree->branches[i]) {
+            if (tree->branches[i]->sid == sid) {
+                return i;
+            }
+        }
+    }
+
+    return -1;
 }
 
 /* See skilltree.h */

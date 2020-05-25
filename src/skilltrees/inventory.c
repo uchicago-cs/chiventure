@@ -120,9 +120,9 @@ int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type) {
 
     switch (type) {
         case ACTIVE:
-            return array_has_sid(inventory->active, inventory->nactive, sid);
+            return list_has_skill(inventory->active, inventory->nactive, sid);
         case PASSIVE:
-            return array_has_sid(inventory->passive, inventory->npassive, sid);
+            return list_has_skill(inventory->passive, inventory->npassive, sid);
         default:
             fprintf(stderr, "inventory_has_skill: not a valid skill type\n");
             return -1;
