@@ -17,26 +17,26 @@
 int set_attr(attribute_t *a1, attribute_t *a2)
 {
     if (a1->attribute_tag != a2->attribute_tag) {
-        return FAIL;
+        return FAILS;
     }
 
     switch (a1->attribute_tag) {
 
         case DOUBLE:
             a1->attribute_value.double_val = a2->attribute_value.double_val;
-            return SUCCESS;
+            return SUCCEEDS;
         case BOOLE:
             a1->attribute_value.bool_val = a2->attribute_value.bool_val;
-            return SUCCESS;
+            return SUCCEEDS;
         case CHARACTER:
             a1->attribute_value.char_val = a2->attribute_value.char_val;
-            return SUCCESS;
+            return SUCCEEDS;
         case STRING:
             a1->attribute_value.str_val = a2->attribute_value.str_val;
-            return SUCCESS;
+            return SUCCEEDS;
         default:
             a1->attribute_value.int_val = a2->attribute_value.int_val;
-            return SUCCESS;
+            return SUCCEEDS;
     }
 }
 
@@ -61,12 +61,15 @@ void double_arithmetic(attribute_t *a1, attribute_t *a2, attribute_t *a3,
         case ADD:
             a3->attribute_value.double_val =
                 a1->attribute_value.double_val + a2->attribute_value.double_val;
+            break;
         case SUB:
             a3->attribute_value.double_val =
                 a1->attribute_value.double_val - a2->attribute_value.double_val;
+            break;
         case MULT:
             a3->attribute_value.double_val =
                 a1->attribute_value.double_val * a2->attribute_value.double_val;
+            break;
         default:
             a3->attribute_value.double_val =
                 a1->attribute_value.double_val / a2->attribute_value.double_val;
@@ -94,12 +97,15 @@ void int_arithmetic(attribute_t *a1, attribute_t *a2, attribute_t *a3,
         case ADD:
             a3->attribute_value.int_val =
                 a1->attribute_value.int_val + a2->attribute_value.int_val;
+            break;
         case SUB:
             a3->attribute_value.int_val =
                 a1->attribute_value.int_val - a2->attribute_value.int_val;
+            break;
         case MULT:
             a3->attribute_value.int_val =
                 a1->attribute_value.int_val * a2->attribute_value.int_val;
+            break;
         default:
             a3->attribute_value.int_val =
                 a1->attribute_value.int_val / a2->attribute_value.int_val;
@@ -116,17 +122,17 @@ void int_arithmetic(attribute_t *a1, attribute_t *a2, attribute_t *a3,
  *  - op: type of arithmetic operation
  *  
  * Returns:
- *  - SUCCESS/FAIL int status code
+ *  - SUCCEEDS/FAILS int status code
  */
 int attr_arithmetic(attribute_t *a1, attribute_t *a2, attribute_t *a3,
                     arithmetic_op_t op)
 {
     if (a1->attribute_tag != a2->attribute_tag) {
-        return FAIL;
+        return FAILS;
     }
 
     if (a1->attribute_tag != INTEGER && a1->attribute_tag != DOUBLE) {
-        return FAIL;
+        return FAILS;
     }
 
     a3->attribute_tag = a1->attribute_tag;
@@ -135,10 +141,10 @@ int attr_arithmetic(attribute_t *a1, attribute_t *a2, attribute_t *a3,
 
         case DOUBLE:
             double_arithmetic(a1, a2, a3, op);
-            return SUCCESS;
+            return SUCCEEDS;
         default:
             int_arithmetic(a1, a2, a3, op);
-            return SUCCESS;
+            return SUCCEEDS;
     }
 }
 
@@ -175,21 +181,21 @@ int div_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3)
 int gen_attrval(int min, int max, attribute_t *a)
 {
     if (a->attribute_tag != INTEGER && a->attribute_tag != DOUBLE) {
-        return FAIL;
+        return FAILS;
     }
 
-    int rand;
+    int val;
 
-    rand = (rand() % (max - min + 1)) + min;
+    val = (rand() % (max - min + 1)) + min;
 
     switch (a->attribute_tag) {
 
         case DOUBLE:
-            a->attribute_value.double_val = rand;
-            return SUCCESS;
+            a->attribute_value.double_val = val;
+            return SUCCEEDS;
         default:
-            a->attribute_value.int_val = rand;
-            return SUCCESS;
+            a->attribute_value.int_val = val;
+            return SUCCEEDS;
     }
 }
 

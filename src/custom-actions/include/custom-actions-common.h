@@ -3,7 +3,7 @@
 
 #define TRUE 0
 #define FALSE 1
-#define FAIL 2
-#define SUCCESS 3
+#define SUCCEEDS 2
+#define FAILS 3
 
 #endif /* CUSTOM_ACTIONS_COMMON_H */

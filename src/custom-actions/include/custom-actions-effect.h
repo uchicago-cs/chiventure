@@ -31,9 +31,9 @@ typedef enum {
  *  - a2: attribute of desired value
  *
  * Returns
- *  - SUCCESS/FAIL int status code
+ *  - SUCCEEDS/FAILS int status code
  */
-int set_attr(attribute_t *a1, attribut_t *a2);
+int set_attr(attribute_t *a1, attribute_t *a2);
 
 
 /* add_attr - store sum of first two attributes in third attribute
@@ -45,7 +45,7 @@ int set_attr(attribute_t *a1, attribut_t *a2);
  *  - a3: attribute in which to store sum value
  *
  * Returns
- *  - SUCCESS/FAIL int status code
+ *  - SUCCEEDS/FAILS int status code
  */
 int add_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
 
@@ -60,7 +60,7 @@ int add_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
  *  - a3: attribute in which to store difference
  *
  * Returns
- *  - SUCCESS/FAIL int status code
+ *  - SUCCEEDS/FAILS int status code
  */
 int sub_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
 
@@ -74,7 +74,7 @@ int sub_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
  *  - a3: attribute in which to store product
  *
  * Returns
- *  - SUCCESS/FAIL int status code
+ *  - SUCCEEDS/FAILS int status code
  */
 int mult_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
 
@@ -89,7 +89,7 @@ int mult_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
  *  - a3: attribute in which to store quotient
  *
  * Returns
- *  - SUCCESS/FAIL int status code
+ *  - SUCCEEDS/FAILS int status code
  */
 int div_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
 
@@ -103,7 +103,7 @@ int div_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
  *  - a: attribute in which random value will be stored
  *
  * Returns
- *  - SUCCESS/FAIL int status code
+ *  - SUCCEEDS/FAILS int status code
  */
 int gen_attrval(int min, int max, attribute_t *a);
 
@@ -117,7 +117,7 @@ int gen_attrval(int min, int max, attribute_t *a);
  *  - a: attribute containing string with phrase to say
  *
  * Returns
- *  - SUCCESS/FAIL int status code
+ *  - SUCCEEDS/FAILS int status code
  *
  * int say_phrase(attribute_t *a);
  *
@@ -130,7 +130,7 @@ int gen_attrval(int min, int max, attribute_t *a);
  *  - r: destination room
  *
  * Returns
- *  - SUCCESS/FAIL int status code
+ *  - SUCCEEDS/FAILS int status code
  * 
  * int move_player(player_t *p, room_t *r);
  */
