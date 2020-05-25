@@ -27,7 +27,7 @@ Test(gencontext, init){
     gencontext_t *context = calloc(1, sizeof(gencontext_t));
     
     if (context == NULL){
-	fprintf(stderr, "failed to calloc for context. \n");
+        fprintf(stderr, "failed to calloc for context. \n");
     }
 
     int check = init_gencontext(context, path, 10, 10, NULL);
@@ -68,7 +68,7 @@ Test(roomspec, init1){
     roomspec_t *spec = calloc(1, sizeof(roomspec_t));
    
     if (spec == NULL){
-	fprintf(stderr, "failed to calloc for spec. \n");
+        fprintf(stderr, "failed to calloc for spec. \n");
     }
 
     int check = init_roomspec(spec, "short desc", "long desc", NULL);
