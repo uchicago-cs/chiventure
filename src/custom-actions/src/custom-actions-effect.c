@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "game-state/item.h"
-#include "custom-actions-common.h"
 #include "custom-actions-effect.h"
 
 
