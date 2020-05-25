@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include "action_block.h"
 #include "ast_block.h"
-#include "attribute_functions.h"
 #include "branch_block.h"
 #include "conditional_block.h"
 #include "control_block.h"
+#include "game-state/game.h"
 
 /* A custom action struct. Contains the blocks and conditionals
  * for a single custom action. (?)
