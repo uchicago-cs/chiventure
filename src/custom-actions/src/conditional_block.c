@@ -15,13 +15,11 @@
 conditional_block_t* conditional_block_new(conditional_type_t conditional_type, 
 attribute_t* left, attribute_t* right)
 {
-    ast_block_t *ast;
     conditional_block_t *conditional;
     int new_conditional;
     block_type_t block_type = CONDITIONAL;
 
     conditional = malloc(sizeof(conditional_block_t));
-    ast = malloc(sizeof(ast_block_t));
 
     if (conditional == NULL) 
     {
@@ -44,13 +42,13 @@ attribute_t* left, attribute_t* right)
 AST_block_t* AST_conditional_block_new(conditional_type_t conditional_type, 
 attribute_t* left, attribute_t* right)
 {
-    ast_block_t *ast;
+    AST_block_t *ast;
     conditional_block_t *conditional;
     int new_conditional;
     block_type_t block_type = CONDITIONAL;
 
     conditional = malloc(sizeof(conditional_block_t));
-    ast = malloc(sizeof(ast_block_t));
+    ast = malloc(sizeof(AST_block_t));
 
     if (conditional == NULL) 
     {
@@ -66,7 +64,7 @@ attribute_t* left, attribute_t* right)
         return NULL;
     }
 
-    ast = ast_block_new(conditional, block_type);
+    ast = AST_block_new(conditional, block_type);
     return ast;
 }
 
