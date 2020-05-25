@@ -3,9 +3,9 @@
 #            ../../../tests/openworld/test_autogenerate.c)
 
 add_library(openworld
-	    src/gen_structs.c
-	    src/default_rooms.c
-	    src/default_items.c)
+            src/gen_structs.c
+            src/default_rooms.c
+            src/default_items.c)
 
 target_include_directories(openworld PRIVATE src/)
 

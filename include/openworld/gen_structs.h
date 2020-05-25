@@ -1,41 +1,41 @@
 /* Team RPG-Openworld
- * 
+ *
  * Gen-Structs header file
- * 
+ *
  * gen_structs.h: This file: contains all of the necessary high level structs
- * that are necessary for generating a room. 
- * 
- * Create the generation structs that will contain the necessary info for 
+ * that are necessary for generating a room.
+ *
+ * Create the generation structs that will contain the necessary info for
  * autogenerating a room
- * 
+ *
  * See chiventure/src/openworld/gen_structs.c source code to see implementation.
  */
-
-#include "../game-state/game_state_common.h"
-#include "../game-state/game.h"
-#include "../game-state/item.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "game-state/game.h"
+#include "game-state/game_state_common.h"
+#include "game-state/item.h"
 
 /* -- STRUCTS -- */
 
 /* roomspec_t struct
  * This struct will carry the necessary info for creating a room.
  * The struct contains:
+ * - char *room_name: the room name and hash table key
  * - char *short_desc: short description for room
  * - char *long_desc: long description for room
- * - item_hash_t *items: hash table of items in room
+ * - item_hash_t *allowed_items: hash table of allowed items in room
  * - path_hash_t *paths: hash table of paths in room
+ * - UT_hash_handle hhL: Makes the roomspec hash
  */
 typedef struct roomspec {
     char *room_name; //key of hash table
     char *short_desc;
     char *long_desc;
     item_list_t *allowed_items;
-    item_hash_t *items;
     path_hash_t *paths;
-   UT_hash_handle hh; 
+    UT_hash_handle hh;
 } roomspec_t;
 
 /* speclist_t struct
@@ -49,10 +49,10 @@ typedef struct speclist {
     struct speclist_t *prev;
     struct speclist_t *next;
 } speclist_t;
-        
+
 /* gencontext_t struct
  * This struct will carry the info for the generation algorithm
- * The struct contains: 
+ * The struct contains:
  * - int level: this is the players current level
  * - int openpaths: the number of openpaths that need to be generated in the room.
  * - int numnpcs: the number of npcs that need to be generated into the room.
@@ -73,7 +73,7 @@ typedef struct gencontext {
 
 /* init_gencontext
  * Initializes a gencontext_t struct with the given paramaters. The gencontext
- * must be pointing to some valid memory. 
+ * must be pointing to some valid memory.
  *
  * parameters:
  * - context: the gencontext* struct that we are initializing.
@@ -81,22 +81,23 @@ typedef struct gencontext {
  * - openpaths: number of open paths to generate in the room
  * - numnpcs: the number of npcs to generate in the room
  * - speclist: the speclist we are choosing our roomspec from
- * 
+ *
  * returns:
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to initialize
  */
-int init_gencontext(gencontext_t *context, path_t *path, int level, int openpaths,  speclist_t *speclist);
+int init_gencontext(gencontext_t *context, path_t *path, 
+	int level, int openpaths,  speclist_t *speclist);
 
 /* gencontext_new
  * Creates a new gencontext_t* based off the given parameters.
  *
- * parameters: 
+ * parameters:
  * - level: stores the players level.
  * - openpaths: number of open paths to generate in the room
  * - numnpcs: the number of npcs to generate in the room
  * - speclist: the speclist we are choosing our roomspec from
- * 
+ *
  * returns:
  * gencontext_t *contextnew - the new gencontext
  * NULL - if fails to create a new gencontext.
@@ -108,7 +109,7 @@ gencontext_t* gencontext_new(path_t *path, int level, int openpaths, speclist_t 
  *
  * parameters:
  * - context: gencontext_t* that we are attempting to fre
- * 
+ *
  * returns:
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to free
@@ -119,11 +120,11 @@ int gencontext_free(gencontext_t *context);
 
 /* init_roomspec
  * Initializes a roomspec_t struct with the given paramaters. The roomspec
- * must be pointing to some valid memory. 
+ * must be pointing to some valid memory.
  *
  * parameters:
  * - spec: the pointer to the roomspec_t we are initializing
- * - short_desc: the short description 
+ * - short_desc: the short description
  * - long_desc: the long description
  * - items: ptr to the hash table of the items
  * - paths: ptr to the hash table of paths.
@@ -133,30 +134,30 @@ int gencontext_free(gencontext_t *context);
  * FAILURE - if failed to initialize
  */
 int init_roomspec(roomspec_t *spec, char *short_desc, char *long_desc,
-	item_list_t *allowed, item_hash_t *items, path_hash_t *paths);
+                  item_list_t *allowed, item_hash_t *items, path_hash_t *paths);
 
 /* roomspec_new
  * Creates a new roomspec_t* based off the given parameters.
  *
  * parameters:
- * - short_desc: the short description 
+ * - short_desc: the short description
  * - long_desc: the long description
  * - items: ptr to the hash table of the items
  * - paths: ptr to the hash table of paths.
- * 
+ *
  * returns:
  * roomspec_t *roomspecnew - the new roomspec
  * NULL - if fails to create a new roomspec.
  */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, 
-	item_list_t *allowed, item_hash_t *items, path_hash_t *paths);
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc,
+                         item_list_t *allowed, item_hash_t *items, path_hash_t *paths);
 
 /* roomspec_free
  * Frees a gencontext_t* and returns whether or not it was succesful.
  *
  * parameters:
  * - spec: roomspec_t* that we are attempting to free
- * 
+ *
  * returns:
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to free
@@ -167,7 +168,7 @@ int roomspec_free(roomspec_t *spec);
 
 /* init_speclist
  * Initializes a speclist_t struct with the given paramaters. The speclist
- * must be pointing to some valid memory. 
+ * must be pointing to some valid memory.
  *
  * parameters:
  * - list: the pointer to the speclist_t we are initializing
