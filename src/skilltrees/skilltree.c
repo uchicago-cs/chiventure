@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "skilltrees/stdst.h"
+#include "skilltrees/skilltree.h"
 
 /* See skilltree.h */
 branch_t* branch_new(sid_t sid, unsigned int nprereqs, unsigned int max_level,

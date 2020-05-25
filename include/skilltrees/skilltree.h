@@ -6,6 +6,8 @@
 #define INCLUDE_SKILLTREE_H_
 
 #include "skilltrees/stdst.h"
+#include "skilltrees/skill.h"
+#include "skilltrees/inventory.h"
 
 /*
  * Allocates a new skill branch in the heap.

@@ -6,6 +6,7 @@
 #define INCLUDE_INVENTORY_H_
 
 #include "skilltrees/stdst.h"
+#include "skilltrees/skill.h"
 
 /*
  * Allocates a new (empty) skill inventory in the heap.
