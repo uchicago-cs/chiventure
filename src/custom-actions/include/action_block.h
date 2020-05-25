@@ -10,6 +10,9 @@
 #include "game-state/item.h"
 #include "ast_block.h"
 
+/* Forward declaration */
+typedef struct AST_block_t AST_block;
+
 /* An enumeration type for an action block */
 typedef enum action_type {
     SET,
