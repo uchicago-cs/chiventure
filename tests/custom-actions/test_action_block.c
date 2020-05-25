@@ -1,8 +1,8 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../src/custom-actions/include/action_block.h"
-#include "../src/custom-actions/include/ast_block.h"
+#include "action_block.h"
+#include "ast_block.h"
 #include "game-state/item.h"
 
 /* Checks that a new action block with SET type is created without interruption */
