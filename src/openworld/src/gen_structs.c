@@ -158,20 +158,6 @@ int speclist_free_all(speclist_t *list){
     if (list == NULL)
         return FAILURE;
 
-    /*
-    speclist_t *tmp, *ptmp;
-    int check = 0;
-
-    for(tmp = list; tmp != NULL; tmp = tmp->next){
-	ptmp = tmp;	
-        check = speclist_free(ptmp);
-        if (check == FAILURE){
-   	    return check;
-        }
-    }
-
-    return speclist_free(list);
-    */
     speclist_t *elt, *tmp;
     DL_FOREACH_SAFE(list, elt, tmp){
         DL_DELETE(list, elt);
