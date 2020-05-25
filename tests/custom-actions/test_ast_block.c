@@ -1,11 +1,11 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../src/custom-actions/include/ast_block.h"
-#include "../src/custom-actions/include/control_block.h"
-#include "../src/custom-actions/include/branch_block.h"
-#include "../src/custom-actions/include/conditional_block.h"
-#include "../src/custom-actions/include/branch_block.h"
+#include "ast_block.h"
+#include "control_block.h"
+#include "branch_block.h"
+#include "conditional_block.h"
+#include "branch_block.h"
 
 /* Checks that a new AST block with control type is created without interruption */
 Test(AST_block_t, new_CONTROL)
