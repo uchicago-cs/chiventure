@@ -108,7 +108,7 @@ Test(AST_block_t, new_CONDITIONAL)
                                                                 left, right);
     block_t *block;
     block->conditional_block = new_conditional;
-    block->block_type = CONDITIONAL;
+    block_type_t block_type = CONDITIONAL;
     AST_block_t* new_ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
@@ -134,14 +134,13 @@ Test(AST_block_t, init_CONTROL)
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast.block");
-    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast.block_type");
+    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
+    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast->block_type");
 }
 
 /* Checks that a new AST block with branch type is initialized without interruption */
 Test(AST_block_t, init_BRANCH)
 {
-    AST_block_t ast;
     int rc;
     int num_conditionals = 1;
     conditional_type_t conditional_type = EQ;
@@ -167,19 +166,18 @@ Test(AST_block_t, init_BRANCH)
     block_t *block;
     block_type_t block_type = BRANCH;
     block->branch_block = new_branch;
-    AST_block_t* ast = AST_block_new(block, block_type);
+    AST_block_t ast = AST_block_new(block, block_type);
     
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast.block");
-    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast.block_type");
+    cr_assert_eq(AST_block_t->block, block, "AST_block_init() didn't set ast->block");
+    cr_assert_eq(AST_block_t->block_type, block_type, "AST_block_init() didn't set ast->block_type");
 }
 
 /* Checks that a new AST block with action type is initialized without interruption */
 Test(AST_block_t, init_ACTION)
 {
-    AST_block_t ast;
     int rc;
     action_enum_t action_type = SET;
     int num_args = 1;
@@ -195,19 +193,18 @@ Test(AST_block_t, init_ACTION)
     block_t *block;
     block_type_t block_type = ACTION;
     block->action_block = new_action;
-    AST_block_t* ast = AST_block_new(block, block_type);
+    AST_block_t ast; = AST_block_new(block, block_type);
 
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast.block");
-    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast.block_type");
+    cr_assert_eq(ast->block, block, "AST_block_init() didn't set ast->block");
+    cr_assert_eq(ast->block_type, block_type, "AST_block_init() didn't set ast->block_type");
 }
 
 /* Checks that a new AST block with conditional type is initialized without interruption */
 Test(AST_block_t, init_CONDITIONAL)
 {
-    AST_block_t ast;
     int rc;
     conditional_type_t conditional_type = EQ;
     char *attr_name1 = "attribute1";
@@ -228,13 +225,13 @@ Test(AST_block_t, init_CONDITIONAL)
     block_t *block;
     block_type_t block_type = CONDITIONAL;
     block->condiitonal_block = new_conditional;
-    AST_block_t* ast = AST_block_new(block, block_type);
+    AST_block_t ast; = AST_block_new(block, block_type);
 
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
-    cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast.block");
-    cr_assert_eq(ast.block_type, block_type, "AST_block_init() didn't set ast.block_type");
+    cr_assert_eq(ast->block, block, "AST_block_init() didn't set ast->block");
+    cr_assert_eq(ast->block_type, block_type, "AST_block_init() didn't set ast->block_type");
 }
 
 /* Checks that a new AST block with control type is freed without interruption */
