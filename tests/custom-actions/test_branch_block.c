@@ -1,9 +1,9 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "branch_block.h"
-#include "item.h"
-#include "ast_block.h"
+#include "../src/custom-actions/include/branch_block.h"
+#include "game-state/item.h"
+#include "../src/custom-actions/include/ast_block.h"
 
 /* Checks that a new branch block with conditional type EQ is created 
 without interruption */
