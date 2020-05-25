@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
+#include "ast_block.h"
 
 /* An enumeration type for a conditional block */
 typedef enum conditional_type {
@@ -37,7 +38,7 @@ typedef struct conditional_block {
  * Returns: 
  * - A conditional block. 
  */
-conditional_block_t* conditional_block_new(conditional_type_t conditional_type, 
+AST_block_t* conditional_block_new(conditional_type_t conditional_type, 
 attribute_t* left, attribute_t* right);
 
 /* 
