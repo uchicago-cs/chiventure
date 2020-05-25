@@ -233,7 +233,7 @@ skill_t** prereqs_missing(tree_t* tree, inventory_t* inventory, sid_t sid,
  * Returns:
  *  - None
  */
-int levels_update(tree_t* tree, inventory_t* inventory);
+void levels_update(tree_t* tree, inventory_t* inventory);
 
 /*
  * Adds a skill to an inventory, if the inventory contains all its prerequisite
