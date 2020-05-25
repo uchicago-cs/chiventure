@@ -196,13 +196,17 @@ Test(branch_block_t, new_AST_EQ)
     int num_controls = 1;
     control_type_t control_type = IFELSE
     control_block_t** controls = control_block_new(control_type);
+    block_type_t block_type = CONDITIONAL;
+    
+    conditional_block_t* new_conditional(num_conditional, conditional_type, 
+                                                    conditionals, num_controls, controls);
     
     AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
                                                     conditionals, num_controls, controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
-    cr_assert_eq(ast->block, new_action, "AST_branch_block_new() didn't set "
+    cr_assert_eq(ast->block, new_conditional, "AST_branch_block_new() didn't set "
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "AST_branch_block_new() didn't set "
                 "ast->block_type");
@@ -232,13 +236,17 @@ Test(branch_block_t, new_AST_LTGT)
     int num_controls = 1;
     control_type_t control_type = IFELSE
     control_block_t** controls = control_block_new(control_type);
+    block_type_t block_type = CONDITIONAL;
+    
+    conditional_block_t* new_conditional(num_conditional, conditional_type, 
+                                                    conditionals, num_controls, controls);
     
     AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
                                                     conditionals, num_controls, controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
-    cr_assert_eq(ast->block, new_action, "AST_branch_block_new() didn't set "
+    cr_assert_eq(ast->block, new_conditional, "AST_branch_block_new() didn't set "
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "AST_branch_block_new() didn't set "
                 "ast->block_type");
@@ -268,13 +276,17 @@ Test(branch_block_t, new_AST_LTEGTE)
     int num_controls = 1;
     control_type_t control_type = IFELSE
     control_block_t** controls = control_block_new(control_type);
+    block_type_t block_type = CONDITIONAL;
+    
+    conditional_block_t* new_conditional(num_conditional, conditional_type, 
+                                                    conditionals, num_controls, controls);
     
     AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
                                                     conditionals, num_controls, controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
-    cr_assert_eq(ast->block, new_action, "AST_branch_block_new() didn't set "
+    cr_assert_eq(ast->block, new_conditional, "AST_branch_block_new() didn't set "
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "AST_branch_block_new() didn't set "
                 "ast->block_type");
@@ -304,13 +316,17 @@ Test(branch_block_t, new_AST_IN)
     int num_controls = 1;
     control_type_t control_type = IFELSE
     control_block_t** controls = control_block_new(control_type);
+    block_type_t block_type = CONDITIONAL;
+    
+    conditional_block_t* new_conditional(num_conditional, conditional_type, 
+                                                    conditionals, num_controls, controls);
     
     AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
                                                     conditionals, num_controls, controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
-    cr_assert_eq(ast->block, new_action, "AST_branch_block_new() didn't set "
+    cr_assert_eq(ast->block, new_conditional, "AST_branch_block_new() didn't set "
                 "ast->block");
     cr_assert_eq(ast->block_type, block_type, "AST_branch_block_new() didn't set "
                 "ast->block_type");
