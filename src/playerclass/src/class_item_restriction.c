@@ -9,7 +9,7 @@
 int set_item_restriction(item_t* item, class_t* class) {
     if ((item != NULL) && (class != NULL)) {
         set_bool_attr(item, class->name, true);
-    return SUCCESS;
+        return SUCCESS;
     } else {
         fprintf(stderr, "Item or Class provided are NULL");
         return FAILURE;
