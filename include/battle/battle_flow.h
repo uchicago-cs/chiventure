@@ -3,48 +3,11 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include "battle_flow_structs.h"
 #include "battle_state.h"
 #include "battle_structs.h"
 #include "common/common.h"
 #include "common/utlist.h"
-
-/* Stub for the player struct in game-state */
-typedef struct player {
-    // Other fields: hash handle, inventory, other stats
-    char *player_id;
-    stat_t *stats;
-    move_t *moves;
-    item_t *items;
-} player_t;
-
-/* Stub for the game_t struct in game-state */
-typedef struct game {
-    // Would have other fields (eg hash tables for players, rooms, items)
-    player_t *curr_player;
-} game_t;
-
-/* Stub, similar to chiventure_ctx_t except adding in_battle, which
- * marks whether or not a battle is in progress (true if in progress,
- * false if not)
- */
-typedef struct chiventure_ctx_battle {
-    // would have UI context here
-    game_t *game;
-    // would have lookup table here
-    bool in_battle;
-} chiventure_ctx_battle_t;
-
-/* Stub to simulate NPC enemy, that will then later be converted to
- * the combatant struct specific to battle flow
- */
-typedef struct npc_enemy {
-    char *npc_id;
-    stat_t *stats;
-    move_t *moves;
-    item_t *items;
-    struct npc_enemy *prev;
-    struct npc_enemy *next;
-} npc_enemy_t;
 
 /*
  * Starts the battle, sets up structs, then runs a battle loop until finished

@@ -1,5 +1,5 @@
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#ifndef BATTLE_STRUCTS_H
+#define BATTLE_STRUCTS_H
 
 #include <stdbool.h>
 #include <string.h>

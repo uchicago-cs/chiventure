@@ -1,3 +1,6 @@
+#ifndef BATTLE_FLOW_STRUCTS_H
+#define BATTLE_FLOW_STRUCTS_H
+
 #include <stdbool.h>
 #include <string.h>
 #include "battle_state.h"
@@ -75,3 +78,4 @@ npc_enemy_t *make_npc_enemy(char* npc_id, stat_t *stats, move_t *moves, item_t* 
  * Returns: a newly allocated game_t with no current player 
  */
 game_t *new_game();
+#endif

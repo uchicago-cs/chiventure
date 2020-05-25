@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "battle/battle_flow.h"
+#include "battle/battle_flow_structs.h"
 #include "battle/battle_structs.h"
 
 /* Tests set_player() */
