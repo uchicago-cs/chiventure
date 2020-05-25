@@ -48,6 +48,66 @@ Test(control_block_t, new_FORENDFOR)
     control_block_free(new_control);
 }
 
+/* Checks that a new AST IFELSE control block is created without interruption */
+Test(control_block_t, new_AST_IFELSE)
+{ 
+    control_type_t control_type = IFELSE;
+    block_type_t block_type = CONTROL;
+
+    control_block_t* new_control = control_block_new(control_type);
+    AST_block_t* new_ast = AST_control_block_new(control_type);
+
+    cr_assert_not_null(new_ast, "AST_control_block_new failed");
+ 
+    cr_assert_eq(new_ast->block, new_control, "AST_control_block_new() didn't "
+                "set new_ast->block");
+    cr_assert_eq(new_ast->block_type, block_type, "AST_control_block_new() didn't "
+                "set new_ast->block_type");
+
+    control_block_free(new_control);
+    ast_block_free(new_ast)
+}
+
+/* Checks that a new AST FORENDFOR control block is created without interruption */
+Test(control_block_t, new_AST_FORENDFOR)
+{ 
+    control_type_t control_type = FORENDFOR;
+    block_type_t block_type = CONTROL;
+
+    control_block_t* new_control = control_block_new(control_type);
+    AST_block_t* new_ast = AST_control_block_new(control_type);
+
+    cr_assert_not_null(new_ast, "AST_control_block_new failed");
+ 
+    cr_assert_eq(new_ast->block, new_control, "AST_control_block_new() didn't "
+                "set new_ast->block");
+    cr_assert_eq(new_ast->block_type, block_type, "AST_control_block_new() didn't "
+                "set new_ast->block_type");
+
+    control_block_free(new_control);
+    ast_block_free(new_ast)
+}
+
+/* Checks that a new AST WHILEENDWHILE control block is created without interruption */
+Test(control_block_t, new_AST_WHILEENDWHILE)
+{ 
+    control_type_t control_type = WHILEENDWHILE;
+    block_type_t block_type = CONTROL;
+
+    control_block_t* new_control = control_block_new(control_type);
+    AST_block_t* new_ast = AST_control_block_new(control_type);
+
+    cr_assert_not_null(new_ast, "AST_control_block_new failed");
+ 
+    cr_assert_eq(new_ast->block, new_control, "AST_control_block_new() didn't "
+                "set new_ast->block");
+    cr_assert_eq(new_ast->block_type, block_type, "AST_control_block_new() didn't "
+                "set new_ast->block_type");
+
+    control_block_free(new_control);
+    ast_block_free(new_ast)
+}
+
 /* Checks that a new IFELSE control block is initialized without interruption */
 Test(control_block_t, init_IFELSE)
 {
