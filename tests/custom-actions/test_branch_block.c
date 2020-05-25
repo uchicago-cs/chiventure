@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "branch_block.h"
-#incldue "item.h"
+#include "item.h"
+#include "ast_block.h"
 
 /* Checks that a new branch block with conditional type EQ is created 
 without interruption */
@@ -168,6 +169,151 @@ Test(branch_block_t, new_IN)
                 "set new_branch->num_controls");
     cr_assert_eq(new_branch->controls, controls, "branch_block_new() didn't set "
                 "new_branch->controls");
+    
+    branch_block_free(new_branch);
+}
+
+
+/* Checks that a new AST branch block with conditional type EQ is created 
+without interruption */
+Test(branch_block_t, new_AST_EQ)
+{
+    int num_conditionals = 1;
+    conditional_type_t conditional_type = EQ;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
+    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    int num_controls = 1;
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
+    
+    AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
+                                                    conditionals, num_controls, controls);
+
+    cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
+
+    cr_assert_eq(ast->block, new_action, "AST_branch_block_new() didn't set "
+                "ast->block");
+    cr_assert_eq(ast->block_type, block_type, "AST_branch_block_new() didn't set "
+                "ast->block_type");
+    
+    branch_block_free(new_branch);
+}
+
+/* Checks that a new AST branch block with conditional type LTGT is created 
+without interruption */
+Test(branch_block_t, new_AST_LTGT)
+{
+    int num_conditionals = 1;
+    conditional_type_t conditional_type = LTGT;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
+    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    int num_controls = 1;
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
+    
+    AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
+                                                    conditionals, num_controls, controls);
+
+    cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
+
+    cr_assert_eq(ast->block, new_action, "AST_branch_block_new() didn't set "
+                "ast->block");
+    cr_assert_eq(ast->block_type, block_type, "AST_branch_block_new() didn't set "
+                "ast->block_type");
+    
+    branch_block_free(new_branch);
+}
+
+/* Checks that a new AST branch block with conditional type LTEGTE is created 
+without interruption */
+Test(branch_block_t, new_AST_LTEGTE)
+{
+    int num_conditionals = 1;
+    conditional_type_t conditional_type = LTEGTE;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
+    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    int num_controls = 1;
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
+    
+    AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
+                                                    conditionals, num_controls, controls);
+
+    cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
+
+    cr_assert_eq(ast->block, new_action, "AST_branch_block_new() didn't set "
+                "ast->block");
+    cr_assert_eq(ast->block_type, block_type, "AST_branch_block_new() didn't set "
+                "ast->block_type");
+    
+    branch_block_free(new_branch);
+}
+
+/* Checks that a new AST branch block with conditional type IN is created 
+without interruption */
+Test(branch_block_t, new_AST_IN)
+{
+    int num_conditionals = 1;
+    conditional_type_t conditional_type = IN;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    char *item_id1 = "01";
+    char *short_desc1 = "01";
+    char *long_desc1 = "0001";
+    char *item_id2 = "02";
+    char *short_desc2 = "02";
+    char *long_desc2 = "0002";
+    item_t *item_1 = item_new(item_id1, short_desc1, long_desc1);
+    item_t *item_2 = item_new(item_id2, short_desc2, long_desc2);
+    attribute_t* left = get_attribute(item_1, attr_name1);
+    attribute_t* right = get_attribute(item_2, attr_name2);
+    conditional_block_t** conditionals = conditional_block_new(conditional_type, left, right);
+    int num_controls = 1;
+    control_type_t control_type = IFELSE
+    control_block_t** controls = control_block_new(control_type);
+    
+    AST_block_t* new_ast = AST_branch_block_new(num_conditional, conditional_type, 
+                                                    conditionals, num_controls, controls);
+
+    cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
+
+    cr_assert_eq(ast->block, new_action, "AST_branch_block_new() didn't set "
+                "ast->block");
+    cr_assert_eq(ast->block_type, block_type, "AST_branch_block_new() didn't set "
+                "ast->block_type");
     
     branch_block_free(new_branch);
 }
