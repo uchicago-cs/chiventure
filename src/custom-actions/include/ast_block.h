@@ -29,13 +29,11 @@ typedef union block {
     conditional_block_t *conditional_block;
 } block_t;
 
-
 /* Struct to contain a block, as well as its type */
 typedef struct AST_block {
     block_t *block;
     block_type_t block_type;
 } AST_block_t;
-
 
 /* 
  * Allocates an AST block in the heap. 
