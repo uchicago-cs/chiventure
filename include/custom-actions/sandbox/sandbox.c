@@ -1,6 +1,12 @@
 // A developor tool for creating and testing custom actions 
 // without the need to run the whole game.
 
+// This code does not need to be, and should not be peer reviewed. Ideally it will never be
+// a part of the final product. The only reason I'm uploading this is there's too many
+// issues with other aspects of the project for the sandbox executable 
+// (which is supposed to be the deliverable) to even compile, and I need to prove I worked
+// on something.
+
 #include "custom-actions\custom_actions_common.h"
 #include "custom-actions\interface.h"
 
