@@ -205,7 +205,7 @@ Test(AST_action_block_t, new_ast_SET)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_action_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -238,7 +238,7 @@ Test(AST_action_block_t, new_ast_SAY)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_action_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -271,7 +271,7 @@ Test(AST_action_block_t, new_ast_MOVE)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_action_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -304,7 +304,7 @@ Test(AST_action_block_t, new_ast_ADDSUBMULTDIV)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_action_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -337,7 +337,7 @@ Test(AST_action_block_t, new_ast_GEN)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_action_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
@@ -370,7 +370,7 @@ Test(AST_action_block_t, new_ast_EXEC)
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
     block_t *block = malloc(sizeof(block_t));
     block->action_block = new_action;
-    AST_block_t* ast = AST_action_block_new(block, block_type);
+    AST_block_t* ast = AST_action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
