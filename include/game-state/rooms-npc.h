@@ -1,5 +1,5 @@
-#ifndef _ROOMS_NPCS_H
-#define _ROOMS_NPCS_H
+#ifndef _ROOMS_NPC_H
+#define _ROOMS_NPC_H
 
 #include "game_state_common.h"
 #include "item.h"
@@ -92,7 +92,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, room_t *room);
  * Parameters:
  *  npc_mov: the id of the npc that is being addressed; must point to already
  *            allocated memory
- *  npc_id:  the npc that is being referred to; must ppint to allocated
+ *  npc_id: the npc that is being referred to; must ppint to allocated
  *          memory
  *  mov_type: the tpye of movement that the npc will have
  *  room: the room that the npc will start in
@@ -100,8 +100,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, room_t *room);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
-                room_t *room);
+int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type, room_t *room);
 
 
 /*
@@ -188,7 +187,7 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
  * time: the time to be spent in that room in seconds
  * 
  * Returns:
- * SUCCESS if successful, FAILURE if an error occured.
+ *  SUCCESS if successful, FAILURE if an error occured.
  */
 int register_time_in_room(npc_mov_t *npc_mov, room_t *room, int time);
 
@@ -205,6 +204,7 @@ int register_time_in_room(npc_mov_t *npc_mov, room_t *room, int time);
  */
 int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
 
+
 /* 
  * Adds a room to the path of indefinite NPC movement (not the corresponding time)
     - changes destination of the NPC
@@ -215,21 +215,35 @@ int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
  *  time: the time the NPC has to stay in that room
  * 
  * Returns:
- * SUCCESS if successful, FAILURE if an error occured.
+ *  SUCCESS if successful, FAILURE if an error occured.
  */
 int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time);
 
-/* reverses the path, so that the npc goes back to where it started
- * this is only for definite  movement paths, because indef will naturally
- * move back and forth
+
+/* 
+ * Returns the room that the npc is currently in 
+ *
+ * Parameters:
+ *  npc_mov: the NPC movement struct
+ *
+ * Returns:
+ *  The room the NPC is in as a char*, NULL if error.
+ */
+char* track_room(npc_mov_t *npc_mov);
+
+
+/* 
+ * Reverses the path, so that the npc goes back to where it started
+ *  - this is only for definite  movement paths, because indef will naturally
+ *    move back and forth
  * 
- * returns SUCCESS or FAILURE
+ * Parameters:
+ *  npc_mov: the NPC movement struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occured.
  */
 int reverse_path(npt_mov_t *npc_mov);
 
-/* 
- * returns the room that the npc is currently in as a room_id
- */
-char* track_room(npc_mov_t *npc_mov);
 
 #endif

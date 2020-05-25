@@ -4,7 +4,8 @@
 #include "rooms-npc.h"
 #include "rooms.h"
 
-/* tests new() of npcs_in_room struct */
+
+/* Tests new() of npcs_in_room struct */
 Test (npcs_in_room, new) {
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
@@ -17,7 +18,8 @@ Test (npcs_in_room, new) {
                 "npcs_in_room_new() did not set num_of_npcs");		
 }
 
-/* tests new() of npc_mov struct */
+
+/* Tests new() of npc_mov struct */
 Test (npc_mov, new) {
     npc_mov_t *npc_mov;
     room_t *test_room;
@@ -36,6 +38,7 @@ Test (npc_mov, new) {
                 "npc_mov_new() did not set track");		
 }
 
+
 /* Tests initialization of npcs_in_room struct */
 Test (npcs_in_room, init) {
     npcs_in_room_t *npcs_in_room = malloc(sizeof(npcs_in_room_t));
@@ -48,6 +51,7 @@ Test (npcs_in_room, init) {
 	cr_assert_eq(npcs_in_room.num_of_npcs, 0,
                 "npcs_in_room_init() did not set num_of_npcs");
 }
+
 
 /* Tests initialization of npc_mov struct */
 Test (npc_mov, init) {
@@ -68,9 +72,9 @@ Test (npc_mov, init) {
                 "npc_mov_new() did not set track");	    
 }
 
+
 /* Tests freeing of npcs_in_room struct */
-Test (npcs_in_room, free)
-{ 
+Test (npcs_in_room, free) { 
 	npcs_in_room_t *npcs_in_room; 
 	int check; 
 	npcs_in_room =  npcs_in_room_new("test_room");
@@ -79,9 +83,9 @@ Test (npcs_in_room, free)
 	cr_assert_eq(check, SUCCESS, "npcs_in_room_free() failed"); 
 }
 
+
 /* Tests freeing of npcs_in_room struct */
-Test (npc_mov, free)
-{ 
+Test (npc_mov, free) { 
 	npc_mov_t *npc_mov; 
 	int check; 
 	npc_mov =  npc_new("test_room");
@@ -113,9 +117,9 @@ Test (npcs_in_room, add_npc_to_room) {
 				 "add_npc_to_room() failed, incorrect number of npcs in room");
 }
 
-/* tests the get_num_of_npcs function */
-Test (npcs_in_room, get_num_of_npcs)
-{
+
+/* Tests the get_num_of_npcs function */
+Test (npcs_in_room, get_num_of_npcs) {
 	npcs_in_room_t *npcs_in_room;
 	npcs_in_room = npcs_in_room_new("test_room");
 	npc_t *test_npc1 = npc_new("test_npc1", 20, NULL);
@@ -131,9 +135,9 @@ Test (npcs_in_room, get_num_of_npcs)
 	cr_asser_eq(npcs_in_room->2,2,"get_num_of_npcs() failed.");
 }
 
+
 /* Tests register_time_in_room function */
-Test(npc_mov, register_time_in_room)
-{
+Test(npc_mov, register_time_in_room) {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
     int time = 60;
@@ -155,9 +159,9 @@ Test(npc_mov, register_time_in_room)
                 "register_time_in_room() did not set time");
 }
 
+
 /* Tests extend_path_def fucntion */
-Test(npc_mov, extend_path_def)
-{
+Test(npc_mov, extend_path_def) {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
     room_t *room_to_add = room_new("room_to_add", "add", "added room");
@@ -167,9 +171,9 @@ Test(npc_mov, extend_path_def)
     cr_assert_eq(check1, SUCCESS, "extend_path_def() failed");
 }
 
+
 /* Tests extend_path_indef function */
-Test(npc_mov, extend_path_indef)
-{
+Test(npc_mov, extend_path_indef) {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
     room_t *room_to_add = room_new("room_to_add", "add", "added room");
@@ -179,9 +183,9 @@ Test(npc_mov, extend_path_indef)
     cr_assert_eq(check1, SUCCESS, "extend_path_indef() failed");
 }
 
-/*Tets track_room function */
-Test(npc_mov, track_room)
-{
+
+/* Tests track_room function */
+Test(npc_mov, track_room) {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
 
@@ -190,9 +194,9 @@ Test(npc_mov, track_room)
     cr_assert_eq(room_id_track, "test_roo ", "track_room() failed");
 }
 
+
 /* Tests reverse_path function */
-Test(npc_mov, reverse_path)
-{
+Test(npc_mov, reverse_path) {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new("test_npc", INDEF_PATH, "test_room");
     room_t *room_to_add = room_new("room_to_add", "add", "added room");
