@@ -168,7 +168,16 @@ int tree_has_branch(tree_t* tree, sid_t sid) {
 
 /* See skilltree.h */
 skill_t** prereqs_all(tree_t* tree, sid_t sid, unsigned int* nprereqs) {
-    return NULL;
+    assert(tree != NULL);
+
+    int pos = tree_has_branch(tree, sid);
+    if (pos == -1) {
+        fprintf(stderr, "prereqs_all: branch is not in tree");
+        return NULL;
+    }
+
+    *nprereqs = tree->branch[pos]->nprereqs;
+    return tree->branch[pos]->prereqs;
 }
 
 /* See skilltree.h */
