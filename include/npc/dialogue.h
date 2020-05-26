@@ -1,7 +1,13 @@
+#ifndef _DIALOGUE_H
+#define _DIALOGUE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "common/utlist.h"
+
+
+// BASIC PRINTING FUNCTIONS ---------------------------------------------------
 
 /*
  * Three functions to print given string in gold, yellow, or red respectively
@@ -16,16 +22,19 @@ void print_red(char *str);
  * Prints a string in NPC dialog format: gold by default and yellow for
  * text surrounded by #hashes# to denote dialog choices.
  * Parameters:
- *  - dialog: the string to be printed in NPC format
+ *  - dialogue: the string to be printed in NPC format
  * Returns: nothing
  */
-void npc_print(char *dialog);
+void npc_print(char *dialogue);
+
+
+// DIALOGUE STRUCTURE DEFINITION ----------------------------------------------
 
 /*
  * A struct to represent a conversation.
  * Includes:
  *  - node_count: the number of nodes the convo currently has
- *  - head[]: an array of node pointers (list of included nodes)
+ *  - nodes: a linked list of node pointers (list of included nodes)
  *
  */
 typedef struct convo {
@@ -36,31 +45,18 @@ typedef struct convo {
 /*
  * A struct to represent one scene in a conversation.
  * Includes:
- *  - tag: a marker of which node this is
- *  - dialog: a string of what the NPC says on arriving at the node
+ *  - node_id: a marker of which node this is
+ *  - dialogue: a string of what the NPC says on arriving at the node
  *  - connection_count: the number of connections the node currently has
- *  - connections[]: an array of edge pointers (list of attached edges)
+ *  - edges: a linked list of edge pointers (list of attached edges)
  *
  */
 typedef struct node {
     int node_id;
-    char *dialog;
+    char *dialogue;
     int connection_count;
     edge_list_t *edges;
 } node_t;
-
-/*
- * A doubly-linked list of nodes for containing all involved nodes in a convo
- * Includes:
- *  - cur_node: Points to the location of the node currently focused on
- *  - prev: A pointer to the previous entry in the list, NULL if none left
- *  - next: A pointer to the next entry in the list, NULL if none left
- */
-typedef struct node_list {
-    node_t *cur_node;
-    struct node_list *prev;
-    struct node_list *next;
-} node_list_t;
 
 /*
  * A struct to represent an edge to a node (Note: does not include source node)
@@ -77,6 +73,19 @@ typedef struct edge {
 } edge_t;
 
 /*
+ * A doubly-linked list of nodes for containing all involved nodes in a convo
+ * Includes:
+ *  - cur_node: Points to the location of the node currently focused on
+ *  - prev: A pointer to the previous entry in the list, NULL if none left
+ *  - next: A pointer to the next entry in the list, NULL if none left
+ */
+typedef struct node_list {
+    node_t *cur_node;
+    struct node_list *prev;
+    struct node_list *next;
+} node_list_t;
+
+/*
  * A doubly-linked list of edges for containing all potential paths for a node
  * Includes:
  *  - cur_edge: Points to the location of the edge currently focused on
@@ -88,6 +97,9 @@ typedef struct edge_list {
     struct edge_list *prev;
     struct edge_list *next;
 } edge_list_t;
+
+
+// DIALOGUE BASIC FUNCTIONS ---------------------------------------------------
 
 /*
  * A function to allocate a new convo struct
@@ -182,3 +194,5 @@ void end_convo();
  *
  */
 void run_convo(convo_t *c);
+
+#endif
