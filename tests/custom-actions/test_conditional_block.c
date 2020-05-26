@@ -170,21 +170,21 @@ Test(conditional_block_t, new_AST_EQ)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     block_type_t block_type = CONDITIONAL;
-    
-    conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
-                                                                left, right);
-
+   
     AST_block_t* new_ast = AST_conditional_block_new(conditional_type, 
                                                                 left, right);
 
     cr_assert_not_null(new_ast, "AST_conditional_block_new() failed");
 
-    cr_assert_eq(new_ast->block, new_conditional, "AST_conditional_block_new() "
-                "didn't set new_ast->block");
+    cr_assert_eq(new_ast->block->conditional_block->conditional_type, conditional_type, "AST_conditional_block_new() "
+                "didn't set new_ast->block->conditional_block->conditional_type");
+    cr_assert_eq(new_ast->block->conditional_block->left, left, "AST_conditional_block_new() didn't set "
+                "new_ast->block->conditional_block->left");
+    cr_assert_eq(new_ast->block->conditional_block->right, right, "AST_conditional_block_new() didn't set "
+                "new_ast->block->conditional_block->right");
     cr_assert_eq(new_ast->block_type, block_type, "AST_conditional_block_new() didn't set "
                 "new_ast->block_type");
 
-    conditional_block_free(new_conditional);
     AST_block_free(new_ast);
 }
 
@@ -210,20 +210,20 @@ Test(conditional_block_t, new_AST_IN)
     right->attribute_value = attribute_value;
     block_type_t block_type = CONDITIONAL;
     
-    conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
-                                                                left, right);
-
     AST_block_t* new_ast = AST_conditional_block_new(conditional_type, 
                                                                 left, right);
 
     cr_assert_not_null(new_ast, "AST_conditional_block_new() failed");
 
-    cr_assert_eq(new_ast->block, new_conditional, "AST_conditional_block_new() "
-                "didn't set new_ast->block");
+    cr_assert_eq(new_ast->block->conditional_block->conditional_type, conditional_type, "AST_conditional_block_new() "
+                "didn't set new_ast->block->conditional_block->conditional_type");
+    cr_assert_eq(new_ast->block->conditional_block->left, left, "AST_conditional_block_new() didn't set "
+                "new_ast->block->conditional_block->left");
+    cr_assert_eq(new_ast->block->conditional_block->right, right, "AST_conditional_block_new() didn't set "
+                "new_ast->block->conditional_block->right");
     cr_assert_eq(new_ast->block_type, block_type, "AST_conditional_block_new() didn't set "
                 "new_ast->block_type");
 
-    conditional_block_free(new_conditional);
     AST_block_free(new_ast);
 }
 
@@ -249,20 +249,20 @@ Test(conditional_block_t, new_AST_LTGT)
     right->attribute_value = attribute_value;
     block_type_t block_type = CONDITIONAL;
     
-    conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
-                                                                left, right);
-
     AST_block_t* new_ast = AST_conditional_block_new(conditional_type, 
                                                                 left, right);
 
     cr_assert_not_null(new_ast, "AST_conditional_block_new() failed");
 
-    cr_assert_eq(new_ast->block, new_conditional, "AST_conditional_block_new() "
-                "didn't set new_ast->block");
+    cr_assert_eq(new_ast->block->conditional_block->conditional_type, conditional_type, "AST_conditional_block_new() "
+                "didn't set new_ast->block->conditional_block->conditional_type");
+    cr_assert_eq(new_ast->block->conditional_block->left, left, "AST_conditional_block_new() didn't set "
+                "new_ast->block->conditional_block->left");
+    cr_assert_eq(new_ast->block->conditional_block->right, right, "AST_conditional_block_new() didn't set "
+                "new_ast->block->conditional_block->right");
     cr_assert_eq(new_ast->block_type, block_type, "AST_conditional_block_new() didn't set "
                 "new_ast->block_type");
 
-    conditional_block_free(new_conditional);
     AST_block_free(new_ast);
 }
 
@@ -288,20 +288,20 @@ Test(conditional_block_t, new_AST_LTEGTE)
     right->attribute_value = attribute_value;
     block_type_t block_type = CONDITIONAL;
     
-    conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
-                                                                left, right);
-
     AST_block_t* new_ast = AST_conditional_block_new(conditional_type, 
                                                                 left, right);
 
     cr_assert_not_null(new_ast, "AST_conditional_block_new() failed");
 
-    cr_assert_eq(new_ast->block, new_conditional, "AST_conditional_block_new() "
-                "didn't set new_ast->block");
+    cr_assert_eq(new_ast->block->conditional_block->conditional_type, conditional_type, "AST_conditional_block_new() "
+                "didn't set new_ast->block->conditional_block->conditional_type");
+    cr_assert_eq(new_ast->block->conditional_block->left, left, "AST_conditional_block_new() didn't set "
+                "new_ast->block->conditional_block->left");
+    cr_assert_eq(new_ast->block->conditional_block->right, right, "AST_conditional_block_new() didn't set "
+                "new_ast->block->conditional_block->right");
     cr_assert_eq(new_ast->block_type, block_type, "AST_conditional_block_new() didn't set "
                 "new_ast->block_type");
 
-    conditional_block_free(new_conditional);
     AST_block_free(new_ast);
 }
 
