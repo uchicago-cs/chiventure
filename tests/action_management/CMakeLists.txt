@@ -2,6 +2,7 @@ set(TEST_EXE test-action_management)
 
 add_executable(${TEST_EXE}
         test_action_new_init_free.c
+	test_delete_action.c
         test_get_actions.c
         test_item_actions.c
         test_item_item_actions.c
