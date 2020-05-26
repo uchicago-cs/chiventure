@@ -31,7 +31,6 @@ Test(battle_logic, target_exists)
     cr_assert_not_null(b, "battle_new() failed");
 
     bool res = check_target(b, "Orc John");
-    printf("      CHECK_TARGET RETURNED: %d\n", res);
 
     cr_assert_eq(res, true, "check_target() failed!");
 
@@ -63,7 +62,6 @@ Test(battle_logic, target_does_not_exist)
     cr_assert_not_null(b, "battle_new() failed");
 
     bool res = check_target(b, "Goblin John");
-    printf("      CHECK_TARGET RETURNED: %d\n", res);
 
     cr_assert_eq(res, false, "check_target() failed!");
 
@@ -173,7 +171,7 @@ Test(battle_logic, enemy_goes_first)
     battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
-    turnt_t res = goes_first(b);
+    turn_t res = goes_first(b);
 
     cr_assert_eq(res, ENEMY, "goes_first() failed!");
 
