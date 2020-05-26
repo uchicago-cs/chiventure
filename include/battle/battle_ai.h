@@ -6,6 +6,8 @@
 #include "common/utlist.h"
 #include "battle_state.h"
 #include "battle_structs.h"
+#include "battle_moves.h"
+#include "battle_classes.h"
 
 
 /* Given a difficulty level, the player the move is going to be used 

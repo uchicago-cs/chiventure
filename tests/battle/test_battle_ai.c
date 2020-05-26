@@ -159,7 +159,7 @@ combatant_t* new_enemy()
 {
     char* name = "Skeleton";
     bool is_friendly = false;
-    class_t class = bard;
+    class_t *class = make_test_bard();
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
     item_t *items = create_enemy_items();
@@ -174,7 +174,7 @@ combatant_t* new_player()
 {
     char* name = "Steve";
     bool is_friendly = true;
-    class_t class = bard;
+    class_t *class = make_test_cleric();
     stat_t *stats = create_player_stats();
     move_t *moves = create_player_moves();
     item_t *items = create_player_items();

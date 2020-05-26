@@ -21,8 +21,10 @@ typedef struct item {
     struct item *prev;
 } item_t;
 
+
 /* moves stub */
 typedef struct move {
+    char *info;
     int id;
     item_t *item;
     bool attack;
