@@ -1,0 +1,207 @@
+==24992== Memcheck, a memory error detector
+==24992== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==24992== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==24992== Command: ./test
+==24992== Parent PID: 27601
+==24992== 
+--24992-- 
+--24992-- Valgrind options:
+--24992--    --leak-check=full
+--24992--    --show-leak-kinds=all
+--24992--    --track-origins=yes
+--24992--    --verbose
+--24992--    --log-file=valgrind-out.txt
+--24992-- Contents of /proc/version:
+--24992--   Linux version 4.15.0-70-generic (buildd@lgw01-amd64-057) (gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.12)) #79~16.04.1-Ubuntu SMP Tue Nov 12 14:01:10 UTC 2019
+--24992-- 
+--24992-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-avx-bmi
+--24992-- Page sizes: currently 4096, max supported 4096
+--24992-- Valgrind library directory: /usr/lib/valgrind
+--24992-- Reading syms from /home/sadrac/tests/test
+--24992-- Reading syms from /lib/x86_64-linux-gnu/ld-2.23.so
+--24992--   Considering /lib/x86_64-linux-gnu/ld-2.23.so ..
+--24992--   .. CRC mismatch (computed 10d8ea02 wanted 4fdda1aa)
+--24992--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.23.so ..
+--24992--   .. CRC is valid
+--24992-- Reading syms from /usr/lib/valgrind/memcheck-amd64-linux
+--24992--   Considering /usr/lib/valgrind/memcheck-amd64-linux ..
+--24992--   .. CRC mismatch (computed eea41ea9 wanted 2009db78)
+--24992--    object doesn't have a symbol table
+--24992--    object doesn't have a dynamic symbol table
+--24992-- Scheduler: using generic scheduler lock implementation.
+--24992-- Reading suppressions file: /usr/lib/valgrind/default.supp
+==24992== embedded gdbserver: reading from /tmp/user/17116/vgdb-pipe-from-vgdb-to-24992-by-sadrac-on-???
+==24992== embedded gdbserver: writing to   /tmp/user/17116/vgdb-pipe-to-vgdb-from-24992-by-sadrac-on-???
+==24992== embedded gdbserver: shared mem   /tmp/user/17116/vgdb-pipe-shared-mem-vgdb-24992-by-sadrac-on-???
+==24992== 
+==24992== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==24992== don't want to do, unless you know exactly what you're doing,
+==24992== or are doing some strange experiment):
+==24992==   /usr/lib/valgrind/../../bin/vgdb --pid=24992 ...command...
+==24992== 
+==24992== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==24992==   /path/to/gdb ./test
+==24992== and then give GDB the following command
+==24992==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=24992
+==24992== --pid is optional if only one valgrind process is running
+==24992== 
+--24992-- REDIR: 0x401cf10 (ld-linux-x86-64.so.2:strlen) redirected to 0x3809e181 (???)
+--24992-- Reading syms from /usr/lib/valgrind/vgpreload_core-amd64-linux.so
+--24992--   Considering /usr/lib/valgrind/vgpreload_core-amd64-linux.so ..
+--24992--   .. CRC mismatch (computed 2567ccf6 wanted 49420590)
+--24992--    object doesn't have a symbol table
+--24992-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so
+--24992--   Considering /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so ..
+--24992--   .. CRC mismatch (computed 0e27c9a8 wanted ac585421)
+--24992--    object doesn't have a symbol table
+==24992== WARNING: new redirection conflicts with existing -- ignoring it
+--24992--     old: 0x0401cf10 (strlen              ) R-> (0000.0) 0x3809e181 ???
+--24992--     new: 0x0401cf10 (strlen              ) R-> (2007.0) 0x04c31020 strlen
+--24992-- REDIR: 0x401b860 (ld-linux-x86-64.so.2:index) redirected to 0x4c30bc0 (index)
+--24992-- REDIR: 0x401ba80 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4c320d0 (strcmp)
+--24992-- REDIR: 0x401dc70 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4c35270 (mempcpy)
+--24992-- Reading syms from /lib/x86_64-linux-gnu/libc-2.23.so
+--24992--   Considering /lib/x86_64-linux-gnu/libc-2.23.so ..
+--24992--   .. CRC mismatch (computed 10016417 wanted 1f868c97)
+--24992--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.23.so ..
+--24992--   .. CRC is valid
+--24992-- REDIR: 0x4ec9a00 (libc.so.6:strcasecmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--24992-- REDIR: 0x4ec5280 (libc.so.6:strcspn) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--24992-- REDIR: 0x4ecbcf0 (libc.so.6:strncasecmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--24992-- REDIR: 0x4ec76f0 (libc.so.6:strpbrk) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--24992-- REDIR: 0x4ec7a80 (libc.so.6:strspn) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--24992-- REDIR: 0x4ec914b (libc.so.6:memcpy@GLIBC_2.2.5) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--24992-- REDIR: 0x4ec7400 (libc.so.6:rindex) redirected to 0x4c308a0 (rindex)
+--24992-- REDIR: 0x4ed0760 (libc.so.6:strchrnul) redirected to 0x4c34da0 (strchrnul)
+--24992-- REDIR: 0x4ebe130 (libc.so.6:malloc) redirected to 0x4c2db20 (malloc)
+--24992-- REDIR: 0x4ec93b0 (libc.so.6:__GI_mempcpy) redirected to 0x4c34fa0 (__GI_mempcpy)
+--24992-- REDIR: 0x4ec5720 (libc.so.6:strlen) redirected to 0x4c30f60 (strlen)
+--24992-- REDIR: 0x4ece470 (libc.so.6:__GI_memcpy) redirected to 0x4c32b00 (__GI_memcpy)
+--24992-- REDIR: 0x4ec8860 (libc.so.6:memchr) redirected to 0x4c32170 (memchr)
+--24992-- REDIR: 0x4ec3cd0 (libc.so.6:strcmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--24992-- REDIR: 0x4ed9570 (libc.so.6:__strcmp_sse2_unaligned) redirected to 0x4c31f90 (strcmp)
+--24992-- REDIR: 0x4ebe4f0 (libc.so.6:free) redirected to 0x4c2ed80 (free)
+==24992== 
+==24992== HEAP SUMMARY:
+==24992==     in use at exit: 1,337 bytes in 23 blocks
+==24992==   total heap usage: 25 allocs, 2 frees, 3,385 bytes allocated
+==24992== 
+==24992== Searching for pointers to 23 not-freed blocks
+==24992== Checked 62,440 bytes
+==24992== 
+==24992== 24 bytes in 1 blocks are still reachable in loss record 1 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400CB2: make_edge (in /home/sadrac/tests/test)
+==24992==    by 0x40101D: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 24 bytes in 1 blocks are still reachable in loss record 2 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400CB2: make_edge (in /home/sadrac/tests/test)
+==24992==    by 0x401045: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 24 bytes in 1 blocks are still reachable in loss record 3 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400CB2: make_edge (in /home/sadrac/tests/test)
+==24992==    by 0x40106D: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 24 bytes in 1 blocks are still reachable in loss record 4 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400CB2: make_edge (in /home/sadrac/tests/test)
+==24992==    by 0x401095: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 24 bytes in 1 blocks are still reachable in loss record 5 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400CB2: make_edge (in /home/sadrac/tests/test)
+==24992==    by 0x4010BD: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 24 bytes in 1 blocks are still reachable in loss record 6 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400CB2: make_edge (in /home/sadrac/tests/test)
+==24992==    by 0x4010E5: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 24 bytes in 1 blocks are still reachable in loss record 7 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400CB2: make_edge (in /home/sadrac/tests/test)
+==24992==    by 0x40110D: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 24 bytes in 1 blocks are still reachable in loss record 8 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400CB2: make_edge (in /home/sadrac/tests/test)
+==24992==    by 0x401135: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 24 bytes in 1 blocks are still reachable in loss record 9 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400CB2: make_edge (in /home/sadrac/tests/test)
+==24992==    by 0x40115D: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 30 bytes in 1 blocks are possibly lost in loss record 10 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400DB4: traverse_edge (in /home/sadrac/tests/test)
+==24992==    by 0x400ED2: run_convo (in /home/sadrac/tests/test)
+==24992==    by 0x4011ED: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 60 bytes in 2 blocks are definitely lost in loss record 11 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400DB4: traverse_edge (in /home/sadrac/tests/test)
+==24992==    by 0x400ED2: run_convo (in /home/sadrac/tests/test)
+==24992==    by 0x4011ED: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 72 bytes in 1 blocks are still reachable in loss record 12 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400C31: make_node (in /home/sadrac/tests/test)
+==24992==    by 0x400F7C: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 72 bytes in 1 blocks are still reachable in loss record 13 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400C31: make_node (in /home/sadrac/tests/test)
+==24992==    by 0x400F97: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 72 bytes in 1 blocks are still reachable in loss record 14 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400C31: make_node (in /home/sadrac/tests/test)
+==24992==    by 0x400FB2: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 72 bytes in 1 blocks are still reachable in loss record 15 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400C31: make_node (in /home/sadrac/tests/test)
+==24992==    by 0x400FCD: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 72 bytes in 1 blocks are still reachable in loss record 16 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400C31: make_node (in /home/sadrac/tests/test)
+==24992==    by 0x400FE8: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 72 bytes in 1 blocks are still reachable in loss record 17 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400C31: make_node (in /home/sadrac/tests/test)
+==24992==    by 0x401003: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 104 bytes in 1 blocks are still reachable in loss record 18 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x400BEA: make_convo (in /home/sadrac/tests/test)
+==24992==    by 0x400F61: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 145 bytes in 1 blocks are definitely lost in loss record 19 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x4EC5489: strdup (strdup.c:42)
+==24992==    by 0x400A38: npc_print (in /home/sadrac/tests/test)
+==24992==    by 0x400EAA: run_convo (in /home/sadrac/tests/test)
+==24992==    by 0x4011ED: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== 350 bytes in 3 blocks are definitely lost in loss record 20 of 20
+==24992==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==24992==    by 0x4EC5489: strdup (strdup.c:42)
+==24992==    by 0x400A38: npc_print (in /home/sadrac/tests/test)
+==24992==    by 0x400E3F: traverse_edge (in /home/sadrac/tests/test)
+==24992==    by 0x400ED2: run_convo (in /home/sadrac/tests/test)
+==24992==    by 0x4011ED: main (in /home/sadrac/tests/test)
+==24992== 
+==24992== LEAK SUMMARY:
+==24992==    definitely lost: 555 bytes in 6 blocks
+==24992==    indirectly lost: 0 bytes in 0 blocks
+==24992==      possibly lost: 30 bytes in 1 blocks
+==24992==    still reachable: 752 bytes in 16 blocks
+==24992==         suppressed: 0 bytes in 0 blocks
+==24992== 
+==24992== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+==24992== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
