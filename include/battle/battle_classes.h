@@ -1,25 +1,28 @@
 #ifndef BATTLE_CLASSES_H
 #define BATTLE_CLASSES_H
 
+#include "common/utlist.h"
+#include "common/common.h"
 #include <stdbool.h>
 #include <string.h>
 
 /* define max size of class info strings */
 static const int MAX_CLASS_INFO_LEN = 100;
 
-/* A mock player class type enum that 
+
+/* A mock player class type enum that
  * includes 4 classes:
  * bard
- * cleric 
- * paladin 
- * wizard 
+ * cleric
+ * paladin
+ * wizard
  */
 typedef enum class_type
 {
-    BARD,
-    CLERIC,
-    PALADIN,
-    WIZARD
+    CLASS_BARD,
+    CLASS_CLERIC,
+    CLASS_PALADIN,
+    CLASS_WIZARD
 } class_type_t;
 
 
@@ -30,14 +33,14 @@ typedef enum class_type
  * speed (spd)
  * strength (str)
  * dexterity (dex)
- * charisma (chrsma) 
+ * charisma (chrsma)
  */
 typedef enum possible_stats
 {
-    SPD,
-    STR,
-    DEX,
-    CHRSMA
+    STAT_SPEED,
+    STAT_STRENGTH,
+    STAT_DEXTERITY,
+    STAT_CHARISMA
 } possible_stats_t;
 
 
@@ -49,45 +52,44 @@ typedef enum possible_stats
  */
 typedef struct class
 {
-    class_type_t cl;
+    class_type_t class_type;
     char *info;
-    possible_stats_t st;
+    possible_stats_t stats;
     int bonus;
 } class_t;
 
 
-/* 
- * Allocates a class 
+/*
+ * Allocates a class
  *
- * Parameters: 
+ * Parameters:
  * - cl: a class type
- * - info: a short description of the class 
- * - st: the stat that the class receives a bonus for 
- * - bonus: the amount added to the designated stat 
- * 
+ * - info: a short description of the class
+ * - st: the stat that the class receives a bonus for
+ * - bonus: the amount added to the designated stat
+ *
  * Returns:
- * - A pointer to the class, or NULL if a class
- *  cannot be allocated 
- */ 
-class_t *new_class(class_type_t cl, char* info, 
-		   possible_stats_t st, double bonus);
+ * -A pointer to the class, or NULL if a class
+ *  cannot be allocated
+ */
+class_t *new_class(class_type_t class_type, char* info,
+                   possible_stats_t stats, double bonus);
 
-
-/* 
- * Initializes a class 
+/*
+ * Initializes a class
  *
  * Parameters: 
  * - class: A class pointer. Must point to allocated memory. 
  * - cl: a class type
- * - info: a short description of the class 
- * - st: the stat that the class receives a bonus for 
- * - bonus: the amount added to the designated stat 
- * 
+ * - info: a short description of the class
+ * - st: the stat that the class receives a bonus for
+ * - bonus: the amount added to the designated stat
+ *
  * Returns:
- * - 0 for success, 1 if an error occurs 
- */  
-int init_class(class_t *class, class_type_t cl, char* info, 
-	       possible_stats_t st, double bonus);
+ * - 0 for success, 1 if an error occurs
+ */
+int init_class(class_t *class, class_type_t class_type, char* info,
+	       possible_stats_t stats, double bonus);
 
 
 /* Initializes one hard-coded test class 
