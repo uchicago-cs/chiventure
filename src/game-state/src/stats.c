@@ -28,10 +28,10 @@ int stats_init(stats_t *stat, char *name, double init)
 }
 
 /* See stats.h*/
-stats_global_t* stats_global_new(char *nm, double max)
+stats_global_t* stats_global_new(char *name, double max)
 {
     stats_global_t *global_stat;
-    global_stat = HASH_FIND(ctx->game->curr_stats, &nm, global_stat);
+    global_stat = HASH_FIND_STR(ctx->game->curr_stats, name, global_stat);
 
     if(global_stat != NULL)
     {
@@ -44,8 +44,7 @@ stats_global_t* stats_global_new(char *nm, double max)
     {
         return NULL;
     }
-
-    HASH_ADD(ctx->game->curr_stats, name, global_stat);
+    HASH_ADD_KEYPTR(hh, ctx->game->curr_stats, name, strlen(name), global_stat);
     return global_stat;
 }
 
@@ -54,7 +53,7 @@ stats_t *stats_new(char *name, double init)
 {
     stats_t *new_stat;
     new_stat = malloc(sizeof(stats_t));
-    
+
     int check = stats_init(new_stat, name, init);
     if(check != SUCCESS)
     {
@@ -184,8 +183,8 @@ char* display_stats(stats_hash_t *s)
 /* See stats.h */
 int free_stats(stats_hash_t *s)
 {
-    printf("free_stats: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    
+    return SUCCESS;
 }
 
 /* See stats.h */

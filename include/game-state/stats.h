@@ -109,7 +109,7 @@ typedef struct effects effects_hash_t;
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 
-int stats_global_init(stats_global_t *s, char *nm, double max);
+int stats_global_init(stats_global_t *s, char *name, double max);
 
 
 /*
