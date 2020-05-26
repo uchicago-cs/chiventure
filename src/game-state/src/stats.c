@@ -18,10 +18,10 @@ int stats_init(stats_t *stat, char *name, double init)
     
     stats_global_t *global_stat;
     HASH_FIND(ctx->game->curr_stats, &name, global_stat);
-    assert(global_stat != NULL)
-    stat->global = global_stat
+    assert(global_stat != NULL);
+    stat->global = global_stat;
 
-    stat->val = init
+    stat->val = init;
     stat->max = init;
     stat->modifier = 1;
     return SUCCESS;
