@@ -268,9 +268,9 @@ Test(AST_action_block_t, new_ast_MOVE)
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
-    cr_assert_eq(ast->block->action_block.action_type, action_type, "AST_action_block_new() didn't set "
+    cr_assert_eq(ast->block->action_block->action_type, action_type, "AST_action_block_new() didn't set "
                 "ast->block->action_block->action_type");
-    cr_assert_eq(ast->block->action_block.num_args, num_args, "AST_action_block_new() didn't set "
+    cr_assert_eq(ast->block->action_block->num_args, num_args, "AST_action_block_new() didn't set "
                 "ast->block->action_block->num_args");
     cr_assert_eq(ast->block->action_block->args, &args, "AST_action_block_new() didn't set "
                 "ast->block->action_block->args");
