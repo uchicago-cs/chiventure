@@ -23,7 +23,7 @@ Test(stats, stats_new){
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
 
-    stats_t *stat = stats_new(stat_global, 100);
+    stats_t *stat = stats_new("health", 100);
     cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
     cr_assert_eq(strcmp(stat-> global -> name,
         "health"), 0,
@@ -55,7 +55,7 @@ Test(stats, init){
         "stats_global_new() failed. Health stat is NULL");
 
     stats_t* stat;
-    int ret_val = stats_init(stat,stat_global, 100);
+    int ret_val = stats_init(stat, "health", 100);
     cr_assert_eq(ret_val, SUCCESS, "stats_init() failed to return SUCCESS");
 
     cr_assert_not_null(stat, "stats_init() failed. Health stat is NULL");
@@ -75,7 +75,7 @@ Test(stats, free){
     stats_global_t* stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
 
-    stats_t* stat = stats_new(stat_global, 100);
+    stats_t* stat = stats_new("health", 100);
     cr_assert_not_null(stat, "stats_new() failed. Player health stat is NULL");
     
     int ret_val = free_stats(stat);
