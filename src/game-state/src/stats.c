@@ -116,29 +116,44 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
 /* See stats.h */
 int change_stat(stats_hash_t *sh, char *stat, double change)
 {
-    printf("change_stat: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        printf("Insert valid hash table");
+        exit(1);
+    }
+
+    sh -> stat.val = sh -> stat.val + change;
+    return 0;
 }
 
 /* See stats.h */
 double get_stat_current(stats_hash_t *sh, char *stat)
 {
-    printf("get_stat_current: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        printf("Insert valid hash table");
+        exit(1);
+    }
+
+    return sh -> stat.val;
 }
 
 /* See stats.h */
 double get_stat_max(stats_hash_t *sh, char *stat)
 {
-    printf("get_stat_max: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        printf("Insert valid hash table");
+    }
+
+    return sh -> stat.max;
 }
 
 /* See stats.h */
 double get_stat_mod(stats_hash_t *sh, char *stat)
 {
-    printf("get_stat_mod: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        printf("Insert valid hash table");
+    }
+
+    return sh -> stat.modifier;
 }
 
 /* See stats.h */
