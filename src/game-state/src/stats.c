@@ -73,11 +73,8 @@ char* display_stats(stats_hash_t *s)
 
     for (stat = stat->hh.next; stat != NULL; stat = stat->hh.next)
     {
+        strcat(list, ", ");
         strcat(list, stat->global->name);
-        if (stat->hh.next != NULL)
-        {
-            strcat(list, ", ");
-        }
     }
 
     char *display = strdup(list);
