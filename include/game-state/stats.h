@@ -124,7 +124,7 @@ int stats_global_init(stats_global_t *s, char *name, double max);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int stats_init(stats_t *s, char *stats_name, double init);
+int stats_init(stats_t *stat, char *name, double init);
 
 /*
  * Allocates a new global stat
@@ -143,13 +143,13 @@ stats_global_t *stats_global_new(char *name, double max);
  * Allocates a new stat
  *
  * Parameters:
- * stat: the pointer to the global stat struct.
- * init: starting value
+ * stats_name: the pointer to the global stat struct.
+ * init: starting value and max value
  * 
  * Returns:
  *  Pointer to allocated stats struct
  */
-stats_t *stats_new(char *stats_name, double init);
+stats_t *stats_new(char *name, double init);
 
 /*
  * Initializes a global effect struct
