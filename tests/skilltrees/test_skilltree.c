@@ -28,7 +28,7 @@ Test(skilltree, branch_free) {
     branch_t* branch;
     int rc;
 
-    branch = branch_new(UNLOCK_DOOR, 0, 10, 100);
+    branch = branch_new(UNLOCK_DOOR, 0, 10, 42, 100);
 
     cr_assert_not_null(branch, "branch_new() failed to allocate memory");
 
@@ -60,7 +60,7 @@ Test(skilltree, branch_prereq_add) {
     cr_assert_eq(init3, SUCCESS, "skill_init() failed to initialize skill");
 
     // Initialize the skill branch
-    branch = branch_new(CHOP_TREE, 2, 10, 100);
+    branch = branch_new(CHOP_TREE, 2, 10, 42, 100);
     cr_assert_not_null(branch, "branch_new() failed to allocate memory");
 
     // Add the prerequisites to the skill branch
@@ -100,7 +100,7 @@ Test(skilltree, branch_prereq_remove) {
     cr_assert_eq(init3, SUCCESS, "skill_init() failed to initialize skill");
 
     // Initialize the skill branch
-    branch = branch_new(CHOP_TREE, 2, 10, 100);
+    branch = branch_new(CHOP_TREE, 2, 10, 42, 100);
     cr_assert_not_null(branch, "branch_new() failed to allocate memory");
 
     // Add the prerequisites to the skill branch
@@ -126,7 +126,7 @@ Test(skilltree, branch_prereq_remove) {
 Test(skilltree, tree_new) {
     tree_t* tree;
 
-    tree = tree_new(HEALTH, 5, "tree_name",);
+    tree = tree_new(HEALTH, 5, "tree_name");
 
     cr_assert_not_null(tree, "tree_new() failed to allocate memory");
 
@@ -139,7 +139,7 @@ Test(skilltree, tree_free) {
     tree_t* tree;
     int rc;
 
-    tree = tree_new(HEALTH, 5);
+    tree = tree_new(HEALTH, 5, "tree_name");
 
     cr_assert_not_null(tree, "tree_new() failed to allocate memory");
 
@@ -154,17 +154,17 @@ Test(skilltree, tree_branch_add) {
     int add1, add2, add3;
 
     // Initialize the branches
-    branch1 = branch_new(UNLOCK_DOOR, 0, 10, 100);
+    branch1 = branch_new(UNLOCK_DOOR, 0, 10, 42, 100);
     cr_assert_not_null(branch1, "branch_new() failed to allocate memory");
 
-    branch2 = branch_new(DEFUSE_BOMB, 0, 10, 100);
+    branch2 = branch_new(DEFUSE_BOMB, 0, 10, 42, 100);
     cr_assert_not_null(branch2, "branch_new() failed to allocate memory");
 
-    branch3 = branch_new(CHOP_TREE, 0, 10, 100);
+    branch3 = branch_new(CHOP_TREE, 0, 10, 42, 100);
     cr_assert_not_null(branch3, "branch_new() failed to allocate memory");
 
     // Initialize the tree
-    tree = tree_new(HEALTH, 2);
+    tree = tree_new(HEALTH, 2, "tree_name");
     cr_assert_not_null(tree, "tree_new() failed to allocate memory");
 
     // Add the branches to the tree
@@ -187,17 +187,17 @@ Test(skilltree, tree_branch_remove) {
     int rem1, rem2, rem3;
 
     // Initialize the branches
-    branch1 = branch_new(UNLOCK_DOOR, 0, 10, 100);
+    branch1 = branch_new(UNLOCK_DOOR, 0, 10, 42, 100);
     cr_assert_not_null(branch1, "branch_new() failed to allocate memory");
 
-    branch2 = branch_new(DEFUSE_BOMB, 0, 10, 100);
+    branch2 = branch_new(DEFUSE_BOMB, 0, 10, 42, 100);
     cr_assert_not_null(branch2, "branch_new() failed to allocate memory");
 
-    branch3 = branch_new(CHOP_TREE, 0, 10, 100);
+    branch3 = branch_new(CHOP_TREE, 0, 10, 42, 100);
     cr_assert_not_null(branch3, "branch_new() failed to allocate memory");
 
     // Initialize the tree
-    tree = tree_new(HEALTH, 2);
+    tree = tree_new(HEALTH, 2, "tree_name");
     cr_assert_not_null(tree, "tree_new() failed to allocate memory");
 
     // Add the branches to the tree
@@ -229,17 +229,17 @@ Test(skilltree, tree_has_branch) {
     int has1, has2, has3;
 
     // Initialize the branches
-    branch1 = branch_new(UNLOCK_DOOR, 0, 10, 100);
+    branch1 = branch_new(UNLOCK_DOOR, 0, 10, 42, 100);
     cr_assert_not_null(branch1, "branch_new() failed to allocate memory");
 
-    branch2 = branch_new(DEFUSE_BOMB, 0, 10, 100);
+    branch2 = branch_new(DEFUSE_BOMB, 0, 10, 42, 100);
     cr_assert_not_null(branch2, "branch_new() failed to allocate memory");
 
-    branch3 = branch_new(CHOP_TREE, 0, 10, 100);
+    branch3 = branch_new(CHOP_TREE, 0, 10, 42, 100);
     cr_assert_not_null(branch3, "branch_new() failed to allocate memory");
 
     // Initialize the tree
-    tree = tree_new(HEALTH, 2);
+    tree = tree_new(HEALTH, 2, "tree_name");
     cr_assert_not_null(tree, "tree_new() failed to allocate memory");
 
     // Add the branches to the tree
