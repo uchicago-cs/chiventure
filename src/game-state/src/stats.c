@@ -1,14 +1,14 @@
 #include "game-state/stats.h"
 
 /* See stats.h */
-int stats_init(stats_t *s, char *stats_name, double init)
+int stats_init(stats_t *s, stats_global_t *stats_name, double init)
 {
     printf("stats_init: function not yet implemented\n");
     return 0; // still needs to be implemented
 }
 
 /* See stats.h */
-stats_t *stats_new(char *stats_name, double init)
+stats_t *stats_new(stats_global_t *stats_name, double init)
 {
     printf("stats_new: function not yet implemented\n");
     return 0; // still needs to be implemented
@@ -62,14 +62,15 @@ char* display_stats(stats_hash_t *s)
 {
     stats_t *stat;
     int size = 20 * HASH_COUNT(s);
-    char list[size] = "";
+    char list[size];
+    list = "";
     
     for (stat = s; stat != NULL; stat = stat->hh.next)
     {
         strcat(list, stat->global->name);
         if (stat->hh.next != NULL)
         {
-            strcat(list, ", ")
+            strcat(list, ", ");
         }
     }
 
