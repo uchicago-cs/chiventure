@@ -9,7 +9,7 @@
 Test(move, bard)
 {
     move_t *move = test_move_bard();
-    
+
     cr_assert_str_eq(move->info, "Diss track", "test_move_bard() didn't set class info");
 
     cr_assert_eq(move->id, 100, "test_move_bard() didn't set id");
@@ -28,7 +28,7 @@ Test(move, bard)
 Test(move, cleric)
 {
     move_t *move = test_move_cleric();
-    
+
     cr_assert_str_eq(move->info, "Divine smite", "test_move_cleric() didn't set class info");
 
     cr_assert_eq(move->id, 110, "test_move_cleric() didn't set id");
@@ -47,7 +47,7 @@ Test(move, cleric)
 Test(move, paladin)
 {
     move_t *move = test_move_paladin();
-    
+
     cr_assert_str_eq(move->info, "360 no scope", "test_move_paladin() didn't set class info");
 
     cr_assert_eq(move->id, 120, "test_move_paladin() didn't set id");
@@ -66,7 +66,7 @@ Test(move, paladin)
 Test(move, wizard)
 {
     move_t *move = test_move_wizard();
-    
+
     cr_assert_str_eq(move->info, "Magic, betches", "test_move_wizard() didn't set class info");
 
     cr_assert_eq(move->id, 130, "test_move_wizard() didn't set id");
