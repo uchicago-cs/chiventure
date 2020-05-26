@@ -3,10 +3,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "battle/battle_classes.h"
+#include "../../src/battle/src/battle_classes.c"
 
 
 /* Tests new_class() */
-Test(battle_classes, new_class)
+Test(battle_classes, new)
 {
     char *test_str;
     test_str = "Test description";
@@ -21,7 +22,7 @@ Test(battle_classes, new_class)
 
 
 /* Tests init_class() */
-Test(battle_classes, init_class)
+Test(battle_classes, init)
 {
     class_t class;
     int rc;
@@ -37,7 +38,7 @@ Test(battle_classes, init_class)
 }
 
 /* tests that memory allocated for class has been freed */
-Test(battle_classes, class_free)
+Test(battle_classes, free)
 {
     class_t *class;
     int rc;

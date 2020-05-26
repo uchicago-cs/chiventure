@@ -105,16 +105,4 @@ int init_class(class_t *class, class_type_t class_type, char* info,
 */
 int class_free(class_t *class);
 
-
-/* The functions below make a hard coded test class for each of the 
-four class types, see battle_classes.c for full comments */
-
-class_t *make_test_bard();
-
-class_t *make_test_cleric();
-
-class_t *make_test_paladin();
-
-class_t *make_test_wizard();
-
 #endif
