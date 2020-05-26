@@ -3,6 +3,23 @@
 
 #include "game_state_common.h"
 
+// GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents the global table that keeps track of all stats available.
+  * It contains:
+  *      the name of the stat,
+  *      which is also the key to the hashtable
+  *
+  *      the maximal value a stat could have
+  * */
+typedef struct stats_global{
+    char *name;
+    double max;
+    UT_hash_handle hh; 
+} stats_global_t;
+
+typedef struct stats_global stats_global_hash_t;
+
+
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
@@ -40,7 +57,7 @@ typedef struct stat_mod {
     double modifier;
     int duration;
     struct stat_mod *next;
-} stat_mod_t;
+} stats_mod_t;
 
 
 
@@ -60,27 +77,13 @@ typedef struct stat_mod {
 typedef struct effects{
     char *name; 
     bool status;
-    stat_mod_t *stat_list;
+    stats_mod_t *stat_list;
     UT_hash_handle hh; 
 } stat_effect_t;
 
 typedef struct effects effects_hash_t;
 
-// GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
- /* This struct represents the global table that keeps track of all stats available.
-  * It contains:
-  *      the name of the stat,
-  *      which is also the key to the hashtable
-  *
-  *      the maximal value a stat could have
-  * */
-typedef struct stats_global{
-    char *name;
-    double max;
-    UT_hash_handle hh; 
-} stat_global_t;
 
-typedef struct stats_global stats_global_hash_t;
 
 
 /*
@@ -134,7 +137,7 @@ stats_global_t* stats_global_new(char *name, double max);
  * Returns:
  *  Pointer to allocated stats struct
  */
-stats_t *stats_new(global *stat, double init);
+stats_t *stats_new(stats_global_t *stat, double init);
 
 /*
  * Changes the base value of a stat by the
@@ -222,7 +225,7 @@ char *display_stats(stats_hash_t *sh);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats(stats_t *stat);
+int free_stats(stats_hash_t *s);
 
 /*
  * Frees a global stat
@@ -233,6 +236,6 @@ int free_stats(stats_t *stat);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats_global(stats_global_t* stat);
+int free_stats_global(stats_global_hash_t* gsh);
 
 #endif
