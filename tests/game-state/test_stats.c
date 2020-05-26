@@ -24,7 +24,7 @@ Test (stats, add_stat_player)
     cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
 
     stats_t *test;
-    HASH_FIND(hh, sh, g, sizeof(stats_global_t), test);
+    HASH_FIND(hh, sh, &g, sizeof(stats_global_t), test);
 
     cr_assert_not_null(test, "add_stat_player did not add the stat");
 }
@@ -49,7 +49,7 @@ Test(stats, display_stat)
     cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
 
     stats_t *test;
-    HASH_FIND(hh, sh, health, sizeof(stats_global_t), test);
+    HASH_FIND(hh, sh, &health, sizeof(stats_global_t), test);
 
     cr_assert_not_null(test, "add_stat_player did not add the stat");
 
@@ -63,12 +63,12 @@ Test(stats, display_stat)
     s2.max = 50;
     s2.modifier = 0.9;
 
-    int rc = add_stat_player(sh, &s2);
+    rc = add_stat_player(sh, &s2);
 
     cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
 
     stats_t *test2;
-    HASH_FIND(hh, sh, speed, sizeof(stats_global_t), test);
+    HASH_FIND(hh, sh, &speed, sizeof(stats_global_t), test);
 
     cr_assert_not_null(test2, "add_stat_player did not add the stat");
 
