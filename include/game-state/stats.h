@@ -20,6 +20,28 @@ typedef struct stats_global{
 typedef struct stats_global stats_global_hash_t;
 
 
+// EFFECTS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents an effect that changes player's stats.
+  * It contains:
+  *      the name of the effect,
+  *      which is also the key to the hashtable
+  *
+  *      a bool checking if the effect is activated
+  *
+  *      the duration of the effect
+  * 
+  *      a linked list, stat_mod, which contains the stats effected
+  *      and the modifier value for each stat
+  * */
+typedef struct effects{
+    effects_global_t *glob_effects;
+    char *name; 
+    stats_mod_t *stat_list;
+    UT_hash_handle hh; 
+} stat_effect_t;
+
+typedef struct effects effects_hash_t;
+
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
@@ -60,14 +82,23 @@ typedef struct stat_mod {
 } stats_mod_t;
 
 
+// GLOBAL EFFECTS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents the effects table that keeps track of all available effects
+  * It contains:
+  *      the name of the effect,
+  *      which is also the key to the hashtable
+  * */
+typedef struct effects_global{
+    char *name;
+    UT_hash_handle hh; 
+} effects_global_t;
+typedef struct effects_global effects_global_hash_t;
 
 // EFFECTS STRUCT DEFINITION ----------------------------------------------------
  /* This struct represents an effect that changes player's stats.
   * It contains:
   *      the name of the effect,
   *      which is also the key to the hashtable
-  *
-  *      a bool checking if the effect is activated
   *
   *      the duration of the effect
   * 
@@ -76,15 +107,10 @@ typedef struct stat_mod {
   * */
 typedef struct effects{
     char *name; 
-    bool status;
     stats_mod_t *stat_list;
     UT_hash_handle hh; 
 } stat_effect_t;
-
 typedef struct effects effects_hash_t;
-
-
-
 
 /*
  * Initializes a global stat with max value stated
