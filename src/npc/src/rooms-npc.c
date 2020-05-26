@@ -1,5 +1,5 @@
 #include "npc/rooms-npc.h"
-
+#include "common-item.h"
 
 /* See rooms-npc.h */
 int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id,
