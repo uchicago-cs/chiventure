@@ -5,17 +5,27 @@
 /* See stats.h*/
 int stats_global_init(stats_global_t *s, char *name, double max)
 {
-    printf("stats_global_init: function net yet implemented\n");
-    return 0;// still needs to be implemented
+    assert(s != NULL);
+    strncpy(s->name, name, strlen(name));
+    s->max = max;
+    return SUCCESS;
 }
-
-
 
 /* See stats.h */
 int stats_init(stats_t *stat, char *name, double init)
 {
-    printf("stats_init: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    assert(stat != NULL);
+    
+    stats_global_t *global_stat;
+    // HASH_FIND(, &name, global_stat); need to find context struct
+    assert(global_stat != NULL)
+    stat->global = global_stat
+
+    strncpy(stat->name, name, strlen(name));
+    stat->val = init
+    stat->max = init;
+    stat->modifier = 1;
+    return SUCCESS;
 }
 
 /* See stats.h*/
