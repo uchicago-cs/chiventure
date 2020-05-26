@@ -8,6 +8,7 @@
 
 #include "game_state_common.h"
 #include "item.h"
+#include "stats.h"
 
 
 /* A player in game */
@@ -18,6 +19,8 @@ typedef struct player {
     int level;
     int health;
     int xp;
+    stats_hash_t *player_stats;
+    effects_hash_t *player_effects;
     item_hash_t *inventory;
 } player_t;
 
@@ -176,5 +179,17 @@ int add_item_to_player(player_t *player, item_t *item);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_inventory(player_t *player);
+
+/*
+ * Assigns a table of stats to a player
+ *
+ * Parameters:
+ *  player: the players
+ *  sh: the stats hashtable
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int assign_stats_player(player_t *plyr, stats_hash_t *sh);
 
 #endif
