@@ -23,7 +23,7 @@
  *    allocated
  */
  branch_t* branch_new(sid_t sid, unsigned int nprereqs, unsigned int max_level,
-                      unsigned int min_xp);
+                      unsigned int size, unsigned int min_xp);
 
 /*
  * Frees the resources associated with a skill tree branch.
@@ -70,7 +70,7 @@ int branch_prereq_remove(branch_t* branch, skill_t* prereq);
  * Returns:
  *  - A pointer to the skill tree, or NULL if the skill tree cannot be allocated
  */
-tree_t* tree_new(tid_t tid, unsigned int nbranches);
+tree_t* tree_new(tid_t tid, unsigned int nbranches, char* name);
 
 /*
  * Frees the resources associated with a skill tree.
