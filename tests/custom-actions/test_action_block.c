@@ -263,18 +263,20 @@ Test(AST_action_block_t, new_ast_MOVE)
     args->attribute_tag = attribute_tag;
     args->attribute_value = attribute_value;
     block_type_t block_type = ACTION;
-
-    action_block_t* new_action = action_block_new(action_type, num_args, &args);
+    
     AST_block_t* ast = AST_action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
-    cr_assert_eq(ast->block->action_block, new_action, "AST_action_block_new() didn't set "
-                "ast->block->action_block");
+    cr_assert_eq(ast->block->action_block.action_type, action_type, "AST_action_block_new() didn't set "
+                "ast->block->action_block.action_type");
+    cr_assert_eq(ast->block->action_block.num_args, num_args, "AST_action_block_new() didn't set "
+                "ast->block->action_block.num_args");
+    cr_assert_eq(ast->block->action_block->args, &args, "AST_action_block_new() didn't set "
+                "ast->block->action_block->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                 "ast->block_type");
     
-    action_block_free(new_action);
     AST_block_free(ast);
 }
 
