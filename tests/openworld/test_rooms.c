@@ -9,7 +9,7 @@
 /* testing copy_item_to_hash for item id */
 Test(room, copy_apple){
     item_hash_t *def = get_default_items();
-    item_hash_t *tmp;
+    item_hash_t *tmp = NULL;
     item_t *item;
     int rc;
 
@@ -23,7 +23,7 @@ Test(room, copy_apple){
 /* testing copy_item_to_hash for short desc/long desc */
 Test(room, copy_book){
     item_hash_t *def = get_default_items();
-    item_hash_t *tmp;
+    item_hash_t *tmp = NULL;
     item_t *item;
     int rc;
 
