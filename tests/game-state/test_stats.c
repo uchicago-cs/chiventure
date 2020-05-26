@@ -56,7 +56,7 @@ Test(stats, init){
 
     stats_t* stat;
     int ret_val = stats_init(stat,stat_global, 100);
-    cr_assert_eq(ret_val, SUCCESS, "stats_init() failed to return SUCCESS")
+    cr_assert_eq(ret_val, SUCCESS, "stats_init() failed to return SUCCESS");
 
     cr_assert_not_null(stat, "stats_init() failed. Health stat is NULL");
     
