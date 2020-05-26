@@ -289,6 +289,22 @@ void levels_update(tree_t* tree, inventory_t* inventory) {
 }
 
 /* See skilltree.h */
-int inventory_skill_acquire(tree_t* tree, inventory_t* inventory, sid_t sid) {
-    return 0;
+int inventory_skill_acquire(tree_t* tree, inventory_t* inventory, skill_t* skill) {
+    assert(tree != NULL && inventory != NULL && skill != NULL);
+
+    unsigned int nmissing;
+    skill_t** missing = prereqs_missing(tree, inventory, skill->sid, &nmissing);
+    int rc;
+
+    if (nmissing == 0) {
+        rc = inventory_skill_add(inventory, skill);
+        if (rc) {
+            fprintf(stderr, "inventory_skill_acquire: failed to acquire skill\n");
+            return FAILURE;
+        }
+        return SUCCESS;
+    }
+
+    fprintf(stderr, "inventory_skill_acquire: missing prerequisites\n");
+    return FAILURE;
 }
