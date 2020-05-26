@@ -20,11 +20,15 @@ Test (stats, add_stat_player)
     s.max = 75;
     s.modifier = 1.1;
 
-    int rc = add_stat_player(&sh, &s);
-
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
-
-    cr_assert_not_null(sh, "add_stat_player did not add the stat");
+    stats_t *stat = stats_new("health", 100);
+    cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
+    cr_assert_eq(strcmp(stat-> global -> name,
+        "health"), 0,
+        "stats_new() failed to link the global stat pointer");
+    cr_assert_eq(stat->val, 100, 
+        "stats_new() failed to set the starting stat value");
+    cr_assert_leq(stat->val, stat->global->max, 
+        "stat base value exceeds maximal value.");
 }
 
 /* Checks that display_stat returns the correct list of stats */
@@ -89,7 +93,7 @@ Test(stats, init){
         "stats_global_new() failed. Health stat is NULL");
 
     stats_t* stat;
-    int ret_val = stats_init(stat,stat_global, 100);
+    int ret_val = stats_init(stat, "health", 100);
     cr_assert_eq(ret_val, SUCCESS, "stats_init() failed to return SUCCESS");
 
     cr_assert_not_null(stat, "stats_init() failed. Health stat is NULL");
@@ -110,8 +114,11 @@ Test (stats, effect_global_new)
 {
     effects_global_t *effect = global_effect_new("health");
 
-    cr_assert_not_null(effect, "global_effect_new failed");
-    cr_assert_str_eq(effect->name, "health", "global_effect_new did not set name");
+    stats_t* stat = stats_new("health", 100);
+    cr_assert_not_null(stat, "stats_new() failed. Player health stat is NULL");
+    
+    int ret_val = free_stats(stat);
+    cr_assert_eq (ret_val, SUCCESS, "free_stats() failed to return SUCCESS");
 }
 
 /* Checks that effect_init correctly initializes an effect struct */
