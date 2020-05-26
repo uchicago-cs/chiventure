@@ -7,7 +7,7 @@
 #include "conditional_block.h"
 #include "branch_block.h"
 
-/* Checks that a new AST block with control type is created without interruption */
+/* /* Checks that a new AST block with control type is created without interruption */
 Test(AST_block_t, new_CONTROL)
 {
     control_type_t control_type = IFELSE;
@@ -373,4 +373,4 @@ Test(AST_block_t, free_CONDITIONAL)
     rc = AST_block_free(ast);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_free() failed");
-}
+} */
