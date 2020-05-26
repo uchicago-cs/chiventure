@@ -83,6 +83,27 @@ Test (stats, effect_global_init)
     cr_assert_not_null(effect.name, "global_effect_init did not set effect name");
     cr_assert_str_eq(effect.name, "health", "global_effect_init did not set name");
 }
+Test(stats, init){
+    stats_global_t* stat_global = stats_global_new("health", 100);
+    cr_assert_not_null(stat_global, 
+        "stats_global_new() failed. Health stat is NULL");
+
+    stats_t* stat;
+    int ret_val = stats_init(stat,stat_global, 100);
+    cr_assert_eq(ret_val, SUCCESS, "stats_init() failed to return SUCCESS");
+
+    cr_assert_not_null(stat, "stats_init() failed. Health stat is NULL");
+    
+    cr_assert_eq(strcmp(stat->global->name,
+        "health"), 0,
+        "stats_init() failed to set the starting stat name");
+    cr_assert_eq(stat->val, 100, 
+        "stats_new() failed to set the starting stat value");
+    cr_assert_eq(stat->modifier, 0, 
+        "stats_new() failed be set the modifier to 0");
+    cr_assert_leq(stat->val, stat->global->max, 
+        "stat base value exceeds maximal value");
+}
 
 /* Checks that global_effect_new correctly creates a new global effect struct */
 Test (stats, effect_global_new)

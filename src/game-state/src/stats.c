@@ -2,15 +2,31 @@
 #define MIN_STRING_LENGTH 2
 #define MAX_NAME_LENGTH 50
 
+/* See stats.h*/
+int stats_global_init(stats_global_t *s, char *name, double max)
+{
+    printf("stats_global_init: function net yet implemented\n");
+    return 0;// still needs to be implemented
+}
+
+
+
 /* See stats.h */
-int stats_init(stats_t *s, char *stats_name, double init)
+int stats_init(stats_t *s, stats_global_t *stat, double init)
 {
     printf("stats_init: function not yet implemented\n");
     return 0; // still needs to be implemented
 }
 
+/* See stats.h*/
+stats_global_t* stats_global_new(char *name, double max)
+{
+    printf("stats_global_new: function net yet implemented\n");
+    return 0; // still needs to be implemented
+}
+
 /* See stats.h */
-stats_t *stats_new(char *stats_name, double init)
+stats_t *stats_new(stats_global_t *stat, double init)
 {
     printf("stats_new: function not yet implemented\n");
     return 0; // still needs to be implemented
