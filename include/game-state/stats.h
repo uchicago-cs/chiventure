@@ -36,8 +36,9 @@ typedef struct effects_global effects_global_hash_t;
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
- *      a pointer to the global stat, 
- *      which is also the key to the hashtable
+ *      the name of the stat which is also the key of the hashtable
+ *      
+ *      a pointer to the corresponding global stat
  *
  *      the base value of the stat, 
  *      whose final value will be multiplied by the modifier
