@@ -62,9 +62,15 @@ char* display_stats(stats_hash_t *s)
 {
     stats_t *stat;
     int size = 2 + (20 * HASH_COUNT(s));
-    char list[size] = "";
+    char list[size];
     
-    for (stat = s; stat != NULL; stat = stat->hh.next)
+    stat = s;
+    if (stat != NULL) 
+    {
+        strcpy(list, stat->global->name);
+    }
+
+    for (stat = stat->hh.next; stat != NULL; stat = stat->hh.next)
     {
         strcat(list, stat->global->name);
         if (stat->hh.next != NULL)
