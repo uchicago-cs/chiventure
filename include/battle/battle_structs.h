@@ -24,7 +24,7 @@ typedef struct item {
 /* moves stub */
 typedef struct move {
     item_t *item;
-    int ID;
+    int id;
     bool attack;
     int damage;
     int defense;
