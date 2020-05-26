@@ -53,7 +53,7 @@ int add_stat_player(stats_hash_t *sh, stats_t *s)
     {
         return FAILURE;
     }
-    HASH_ADD_PTR(hh, sh, s->global, s);
+    HASH_ADD_PTR(sh, s->global, s);
     return SUCCESS;
 }
 
