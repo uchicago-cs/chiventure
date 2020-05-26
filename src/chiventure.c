@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
 
@@ -19,8 +21,15 @@ const char *banner =
 
 int main(int argc, char **argv)
 {
-    if(argc <= 1) 
-    {
+    struct winsize w;
+    ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
+    int ncols = w.ws_col, nrows = w.ws_row;
+    if (ncols < MIN_COLS || nrows < MIN_ROWS) {
+        fprintf(stderr, "Chiventure prefers to run in terminals of at least %d columns and %d rows. Please resize your terminal!\n", MIN_COLS, MIN_ROWS);
+        exit(1);
+    }
+    
+    if (argc <= 1) {
         chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
     }
 

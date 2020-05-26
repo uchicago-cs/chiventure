@@ -144,3 +144,10 @@ item_list_t *get_all_items_in_inventory(player_t *player)
     }
     return head;
 }
+
+/* See player.h */
+int assign_stats_player(player_t *plyr, stats_hash_t *sh)
+{
+    printf("assign_stats_player: function not yet implemented\n");
+    return 0; // still needs to be implemented
+}
