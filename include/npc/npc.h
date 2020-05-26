@@ -3,7 +3,7 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
-#include "room.h"
+#include "game-state/room.h"
 //TODO-#include "dialogue.h"
 
 // NPC STRUCTURE DEFINITION + BASIC FUNCTIONS ---------------------------------
