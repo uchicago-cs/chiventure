@@ -75,7 +75,7 @@ typedef struct gencontext {
 * must be pointing to some valid memory.
 *
 * parameters:
-* - context: the gencontext* struct that we are initializing.
+i* - context: the gencontext* struct that we are initializing.
 * - level: stores the players level.
 * - openpaths: number of open paths to generate in the room
 * - numnpcs: the number of npcs to generate in the room
@@ -122,6 +122,7 @@ int gencontext_free(gencontext_t *context);
 *
 * parameters:
 * - spec: the pointer to the roomspec_t we are initializing
+* - room_name: the room name
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
@@ -136,6 +137,7 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * Creates a new roomspec_t* based off the given parameters.
 *
 * parameters:
+* - room_name: the room name
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items

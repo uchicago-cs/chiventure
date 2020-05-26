@@ -124,10 +124,10 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
     }
 
     int check = init_roomspec(roomspecnew, room_name, short_desc, long_desc, items);
-    if (check != FAILURE) {
-        return roomspecnew;
+    if (check == FAILURE) {
+        return NULL;
     }
-    return NULL;
+    return roomspecnew;
 }
 
 /* see gen_structs.h */
