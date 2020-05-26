@@ -68,7 +68,6 @@ typedef struct {
 typedef struct list_act {
     action_type_t *act;
     struct list_act *next;
-    char *trigger;
 } list_action_type_t;
 
 #endif

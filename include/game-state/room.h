@@ -3,6 +3,7 @@
 
 #include "game_state_common.h"
 #include "item.h"
+#include "actionmanagement.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
@@ -215,5 +216,17 @@ item_t* get_item_in_room(room_t* room, char* item_id);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_room(room_t *room);
+
+/*
+ * Removes an action from list of conditions, called when action's completed
+ * 
+ * Parameters:
+ * - path
+ * - action_type_t: completed action that acts as condition for path
+ *
+ * Returns:
+ * int SUCCESS when action's removed from linked list
+ */
+int remove_condition(path_t *path, action_type_t *a);
 
 #endif

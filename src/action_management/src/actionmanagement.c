@@ -17,7 +17,7 @@
 
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind, 
-				char *room_id)
+				char *trigger)
 {
     action_type_t *a = malloc(sizeof(action_type_t));
 
@@ -27,7 +27,7 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind,
         return NULL;
     }
 
-    int new_a = action_type_init(a, c_name, kind, room_id);
+    int new_a = action_type_init(a, c_name, kind, trigger);
     if (new_a != SUCCESS)
     {
         fprintf(stderr, "Could not initialize action type %s", c_name);
@@ -40,12 +40,12 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind,
 
 /* See actionmanagement.h */
 int action_type_init(action_type_t *a, char *c_name, enum action_kind kind,
-			char *room_id)
+			char *trigger)
 {
     assert(a);
     a->c_name = c_name;
     a->kind = kind;
-    a->trigger = room_id;
+    a->trigger = trigger;
 
     return SUCCESS;
 }
@@ -284,3 +284,38 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     }
     return FAILURE;
 }
+
+/* See actionmanagement.c */
+int add_action(list_action_type_t *act, action_type_t *a)
+{
+    a->next = &act;
+    act = &a;
+    return SUCCESS;
+}
+
+/* See actionmanagement.c */
+int delete_action(list_action_type_t *act, action_type_t *a)
+{
+    struct list_action_type_t *temp, *prev;
+    temp = &act;
+
+    if (temp != NULL && temp->act == a)
+    {
+	&act = temp->next;
+	return SUCCESS;
+    }
+
+    while (temp != NULL && temp->act != a)
+    {
+	prev = temp;
+	temp = temp->next;
+    }
+
+    if (temp != NULL)
+    {
+	prev->next = temp->next;
+    }
+
+    return SUCCESS;
+}
+
