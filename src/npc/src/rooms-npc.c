@@ -1,4 +1,4 @@
-#include "game-state/rooms-npcs.h"
+#include "npc/rooms-npc.h"
 
 
 /* See rooms-npc.h */
