@@ -201,7 +201,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int add_stat_player(stats_hash_t *sh, stats_t *s);
+int add_stat_player(stats_hash_t **sh, stats_t *s);
 
 /*
  * Print the stats in a hashtable and their values/modifiers
