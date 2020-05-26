@@ -61,9 +61,8 @@ int add_stat_player(stats_hash_t *sh, stats_t *s)
 char* display_stats(stats_hash_t *s)
 {
     stats_t *stat;
-    int size = 20 * HASH_COUNT(s);
-    char list[size];
-    list = "";
+    int size = 2 + (20 * HASH_COUNT(s));
+    char list[size] = "";
     
     for (stat = s; stat != NULL; stat = stat->hh.next)
     {
