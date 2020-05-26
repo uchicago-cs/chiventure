@@ -103,14 +103,31 @@ char* display_stats(stats_hash_t *s)
 }
 
 /* See stats.h */
-int free_stats(stats_hash_t *s)
+int free_stats(stats_hash_t *sh)
 {
-    
+    stats_t *current, *next;
+    for(current = sh->hh.next; current != NULL; current = next) 
+    {
+        next = current->hh.next;
+        HASH_DEL(sh, current);
+        free(current);
+    }
+    HASH_DEL(sh, sh);
+    free(sh);
     return SUCCESS;
 }
 
 int free_stats_global(stats_global_hash_t* gsh)
 {
-    printf("free_stats_global: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    stats_global_t *current, *next;
+    for(current = gsh->hh.next; current != NULL; next = current->hh.next) 
+    {
+        HASH_DEL(gsh, current);
+        free(current);
+        current = next;
+    }
+    HASH_DEL(gsh, gsh);
+    free(gsh);
+    return SUCCESS;
+}
 }

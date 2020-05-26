@@ -226,7 +226,7 @@ char *display_stats(stats_hash_t *sh);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats(stats_hash_t *s);
+int free_stats(stats_hash_t *sh);
 
 /*
  * Frees a global stat
