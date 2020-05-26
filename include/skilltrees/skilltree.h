@@ -16,6 +16,7 @@
  *  - sid: The skill ID that uniquely identifies the skill
  *  - nprepreqs: The number of prerequisite skills to acquire the skill
  *  - max_level: The maximum level to which the skill can be upgraded
+ *  - size: The size of the branch, designed for the graphics team.
  *  - min_xp: The number of experience points needed to level up
  *
  * Returns:
@@ -66,6 +67,7 @@ int branch_prereq_remove(branch_t* branch, skill_t* prereq);
  * Parameters:
  *  - tid: The skill tree ID that uniquely identifies the skill tree
  *  - nbranches: The number of branches to allocate in the skill tree
+ *  - name: The name of the tree.
  *
  * Returns:
  *  - A pointer to the skill tree, or NULL if the skill tree cannot be allocated
@@ -129,9 +131,13 @@ int tree_branch_remove(tree_t* tree, branch_t* branch);
  *  - nprereqs: An out parameter. The number of prerequisite skills in the list
  *
  * Returns:
- *  - A pointer to the list of all prerequisite skills, NULL if an error occurs
+ *  - A pointer to the list of all prerequisite skills. This is null both if
+      there is a bug, and if there are no prerequisite skills to point to
+    - The out parameter nprereqs. This is how to differentiate between error
+      and no prereqs -- nprereqs will be negative if there is an error, 0 if
+      there are no prereqs.
  */
-skill_t** prereqs_all(tree_t* tree, sid_t sid, unsigned int* nprereqs);
+skill_t** prereqs_all(tree_t* tree, sid_t sid, int* nprereqs);
 
 /*
  * Returns prerequisite skills already acquired by a player for a given skill.
@@ -144,11 +150,14 @@ skill_t** prereqs_all(tree_t* tree, sid_t sid, unsigned int* nprereqs);
  *              the list
  *
  * Returns:
- *  - A pointer to the list of acquired prerequisite skills, NULL if an error
- *    occurs
+ *  - A pointer to the list of all prerequisite skills. This is null both if
+      there is a bug, and if there are no prerequisite skills to point to
+    - The out parameter nprereqs. This is how to differentiate between error
+      and no prereqs -- nprereqs will be negative if there is an error, 0 if
+      there are no prereqs.
  */
 skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
-                           unsigned int* nacquired);
+                           int* nacquired);
 
 /*
  * Returns prerequisite skills already missing by a player for a given skill.
@@ -161,11 +170,14 @@ skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
  *              the list
  *
  * Returns:
- *  - A pointer to the list of missing prerequisite skills, NULL if an error
- *    occurs
+ *  - A pointer to the list of all prerequisite skills. This is null both if
+      there is a bug, and if there are no prerequisite skills to point to
+    - The out parameter nprereqs. This is how to differentiate between error
+      and no prereqs -- nprereqs will be negative if there is an error, 0 if
+      there are no prereqs.
  */
 skill_t** prereqs_missing(tree_t* tree, inventory_t* inventory, sid_t sid,
-                          unsigned int* nmissing);
+                          int* nmissing);
 
 /*
  * Updates levels of all skills in an inventory.

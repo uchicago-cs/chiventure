@@ -166,12 +166,13 @@ int tree_branch_remove(tree_t* tree, branch_t* branch) {
 }
 
 /* See skilltree.h */
-skill_t** prereqs_all(tree_t* tree, sid_t sid, unsigned int* nprereqs) {
+skill_t** prereqs_all(tree_t* tree, sid_t sid, int* nprereqs) {
     assert(tree != NULL);
 
     int pos = tree_has_branch(tree, sid);
     if (pos == -1) {
         fprintf(stderr, "prereqs_all: branch is not in tree\n");
+        *nprereqs = -1;
         return NULL;
     }
 
@@ -181,7 +182,7 @@ skill_t** prereqs_all(tree_t* tree, sid_t sid, unsigned int* nprereqs) {
 
 /* See skilltree.h */
 skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
-                           unsigned int* nacquired) {
+                           int* nacquired) {
     assert(tree != NULL && inventory != NULL);
 
     unsigned int nprereqs;
@@ -203,6 +204,7 @@ skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
             acquired = (skill_t**)realloc(acquired, sizeof(skill_t*) * (*nacquired));
             if (acquired == NULL) {
                 fprintf(stderr, "prereqs_acquired: failed to reallocate acquired\n");
+                *nacquired = -1;
                 return NULL;
             }
             switch (type) {
@@ -214,6 +216,7 @@ skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
                     break;
                 default:
                     fprintf(stderr, "prereqs_acquired: not a valid skill type\n");
+                    *nacquired = -1;
                     return NULL;
             }
         }
@@ -224,7 +227,7 @@ skill_t** prereqs_acquired(tree_t* tree, inventory_t* inventory, sid_t sid,
 
 /* See skilltree.h */
 skill_t** prereqs_missing(tree_t* tree, inventory_t* inventory, sid_t sid,
-                          unsigned int* nmissing) {
+                          int* nmissing) {
     assert(tree != NULL && inventory != NULL);
 
     unsigned int nprereqs;
@@ -248,6 +251,7 @@ skill_t** prereqs_missing(tree_t* tree, inventory_t* inventory, sid_t sid,
             missing = (skill_t**)realloc(missing, sizeof(skill_t*) * (*nmissing));
             if (missing == NULL) {
                 fprintf(stderr, "prereqs_missing: failed to reallocate missing\n");
+                *nmissing = -1;
                 return NULL;
             }
             array_element_add(missing, (*nmissing), prereqs[i]);
