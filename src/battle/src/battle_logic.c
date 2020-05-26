@@ -1,7 +1,7 @@
 #include "battle/battle_logic.h"
 #include "common/utlist.h"
 
-/* check logic.h */
+/* check battle_logic.h */
 bool check_target(battle_t *b, char *target)
 {
     combatant_t *temp;
@@ -15,7 +15,7 @@ bool check_target(battle_t *b, char *target)
     return false;
 }
 
-/* check logic.h */
+/* check battle_logic.h */
 int battle_over(combatant_t *p, combatant_t *e)
 {
     if (e->stats->hp > 0 && p->stats->hp > 0)
@@ -36,31 +36,29 @@ int battle_over(combatant_t *p, combatant_t *e)
     }
 }
 
-/* check logic.h */
-int goes_first(double p_speed, double e_speed)
+/* check battle_logic.h */
+turn_t goes_first(battle_t *b)
 {
-    if (p_speed > e_speed || e_speed == p_speed)
+    combatant_t *temp;
+    DL_FOREACH(b->enemy, temp)
     {
-        return 0;
+        if (b->player->stats->speed > temp->stats->speed ||
+            b->player->stats->speed == temp->stats->speed)
+        {
+            return PLAYER;
+        }
     }
-    else if (e_speed > p_speed)
-    {
-        return 1;
-    }
-    else
-    {
-        return -1;
-    }
+    return ENEMY;
 }
 
-/* see logic.h */
-item_t *find_item(item_t *inventory, int ID)
+/* see battle_logic.h */
+item_t *find_item(item_t *inventory, int id)
 {
     item_t *temp;
 
     DL_FOREACH(inventory, temp)
     {
-        if (temp->id == ID)
+        if (temp->id == id)
         {
             return temp;
         }
@@ -69,7 +67,7 @@ item_t *find_item(item_t *inventory, int ID)
     return NULL;
 }
 
-/* see logic.h */
+/* see battle_logic.h */
 int consume_item(combatant_t *c, item_t *item)
 {
     c->stats->hp += item->hp;
@@ -78,15 +76,15 @@ int consume_item(combatant_t *c, item_t *item)
     return 0;
 }
 
-/* see logic.h */
-int player_use_item(combatant_t *c, item_t *inv, int ID)
+/* see battle_logic.h */
+int player_use_item(combatant_t *c, item_t *inv, int id)
 {
     if (inv == NULL)
     {
         return 1;
     }
     
-    item_t *item = find_item(inv, ID);
+    item_t *item = find_item(inv, id);
     
     if(item == NULL || item->quantity == 0)
     {
@@ -99,7 +97,7 @@ int player_use_item(combatant_t *c, item_t *inv, int ID)
     return 0;
 }
 
-/* see logic.h */
+/* see battle_logic.h */
 int award_xp(stat_t *stats, double xp)
 {
     stats->xp += xp;
