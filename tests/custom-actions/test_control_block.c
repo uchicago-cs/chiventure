@@ -59,7 +59,7 @@ Test(control_block_t, new_AST_IFELSE)
 
     cr_assert_not_null(new_ast, "AST_control_block_new failed");
  
-    cr_assert_eq(new_ast->block->control_block, control_type, "AST_control_block_new() didn't "
+    cr_assert_eq(new_ast->block->control_block->control_type, control_type, "AST_control_block_new() didn't "
                 "set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_control_block_new() didn't "
                 "set new_ast->block_type");
@@ -77,7 +77,7 @@ Test(control_block_t, new_AST_FORENDFOR)
 
     cr_assert_not_null(new_ast, "AST_control_block_new failed");
  
-    cr_assert_eq(new_ast->block->control_block, control_type, "AST_control_block_new() didn't "
+    cr_assert_eq(new_ast->block->control_block->control_type, control_type, "AST_control_block_new() didn't "
                 "set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_control_block_new() didn't "
                 "set new_ast->block_type");
@@ -95,7 +95,7 @@ Test(control_block_t, new_AST_WHILEENDWHILE)
 
     cr_assert_not_null(new_ast, "AST_control_block_new failed");
  
-    cr_assert_eq(new_ast->block->control_block, control_type, "AST_control_block_new() didn't "
+    cr_assert_eq(new_ast->block->control_block->control_type, control_type, "AST_control_block_new() didn't "
                 "set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_control_block_new() didn't "
                 "set new_ast->block_type");
