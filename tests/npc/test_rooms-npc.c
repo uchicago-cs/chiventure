@@ -2,18 +2,22 @@
 #include <stdlib.h>
 #include <stdbool.h> 
 #include "rooms-npc.h"
-#include "rooms.h"
+#include "room.h"
 
 
 /* Tests new() of npcs_in_room struct */
 Test (npcs_in_room, new) {
     npcs_in_room_t *npcs_in_room;
-    npcs_in_room = npcs_in_room_new("test_room");
+    npcs_in_room = npcs_in_room_new(1,"test_room");
 
     cr_assert_not_null(npcs_in_room, "npcs_in_room_new() failed");
 
-    cr_assert_eq(npcs_in_room->room_id, "test_room",
+    cr_assert_eq(npcs_in_room->room_id, 1,
                 "npcs_in_room_new() did not set room_id");
+
+	cr_assert_eq(npcs_in_room->room_name, "test_room",
+                "npcs_in_room_new() did not set room_id");
+
 	cr_assert_eq(npcs_in_room->num_of_npcs, 0,
                 "npcs_in_room_new() did not set num_of_npcs");		
 }
@@ -41,13 +45,17 @@ Test (npc_mov, new) {
 
 /* Tests initialization of npcs_in_room struct */
 Test (npcs_in_room, init) {
-    npcs_in_room_t *npcs_in_room = malloc(sizeof(npcs_in_room_t));
-    int check = npcs_in_room_init(npcs_in_room, "test_room");
+    npcs_in_room_t *npcs_in_room;
+    int check = npcs_in_room_init(&npcs_in_room, 1, "test_room");
      
     cr_assert_eq(check, SUCCESS, "npcs_in_room_init() failed"); 
 
-    cr_assert_eq(npcs_in_room.room_id, "test_room",
+	cr_assert_eq(npcs_in_room.room_id, 1,
                 "npcs_in_room_init() did not set room_id");
+
+    cr_assert_eq(npcs_in_room.room_name, "test_room",
+                "npcs_in_room_init() did not set room_id");
+
 	cr_assert_eq(npcs_in_room.num_of_npcs, 0,
                 "npcs_in_room_init() did not set num_of_npcs");
 }
@@ -94,11 +102,10 @@ Test (npc_mov, free) {
 	cr_assert_eq(check, SUCCESS, "npc_mov_free() failed"); 
 }
 
-
 /* Tests add_npc_to_room function */
 Test (npcs_in_room, add_npc_to_room) {
     npc_t *npc = npc_new("npc_test", 20, NULL); 
-    npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
+    npcs_in_room_t *npcs_in_room = npcs_in_room_new(1, "test_room");
 	int num_of_npcs_initial = npcs_in_room->num_of_npcs;
 
     int check1 = add_npc_to_room(npcs_in_room, npc);
@@ -117,11 +124,11 @@ Test (npcs_in_room, add_npc_to_room) {
 				 "add_npc_to_room() failed, incorrect number of npcs in room");
 }
 
-
-/* Tests the get_num_of_npcs function */
-Test (npcs_in_room, get_num_of_npcs) {
+/* tests the npcs_in_room_get_number function */
+Test (npcs_in_room, npcs_in_room_get_number)
+{
 	npcs_in_room_t *npcs_in_room;
-	npcs_in_room = npcs_in_room_new("test_room");
+	npcs_in_room = npcs_in_room_new(1, "test_room");
 	npc_t *test_npc1 = npc_new("test_npc1", 20, NULL);
 	int added_npc1 = add_npc_to_room(npcs_in_room,test_npc1);
 
@@ -132,7 +139,7 @@ Test (npcs_in_room, get_num_of_npcs) {
 
 	cr_assert_eq(added_npc2, SUCCESS, "add_npc_to_room() failed");
 
-	cr_asser_eq(npcs_in_room->2,2,"get_num_of_npcs() failed.");
+	cr_asser_eq(npcs_in_room->2,2,"npcs_in_room_get_number() failed.");
 }
 
 

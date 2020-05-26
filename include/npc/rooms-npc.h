@@ -163,7 +163,7 @@ int npc_mov_free(npc_mov_t *npc_mov);
  * Returns:
  *  int, the number of npcs in the room
  */
-int get_num_of_npcs(npcs_in_room_t *npcs_in_room);
+int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room);
 
 
 /* Adds an npc to the given npcs_in_room

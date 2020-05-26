@@ -1,27 +1,26 @@
-#include "game-state/npc.h"
+#include "npc/npc.h"
 #include "common-item.h"
-
 /* See npc.h */
-int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue)
+int npc_init(npc_t *npc, char *npc_id, int health) //TODO-convo_t *dialogue)
 {
     assert(npc != NULL);
     strncpy(npc->npc_id, npc_id, strlen(npc_id));
     npc->health = health;
-    npc->dialogue = dialogue;
+    //TODO-npc->dialogue = dialogue;
     npc->inventory = NULL;
 
     return SUCCESS;
 }
 
 /* See npc.h */
-npc_t *npc_new(char *npc_id, int health, convo_t *dialogue)
+npc_t* npc_new(char *npc_id, int health)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
     memset(npc, 0, sizeof(npc_t));
     npc->npc_id = malloc(MAX_ID_LEN);
 
-    int check = npc_init(npc, npc_id, health);
+    int check = npc_init(npc, npc_id, health); //TODO-dialogue
 
     if (npc == NULL || npc->npc_id == NULL || check != SUCCESS)
     {
@@ -31,13 +30,12 @@ npc_t *npc_new(char *npc_id, int health, convo_t *dialogue)
     return npc;
 }
 
-
 /* See npc.h */
 int npc_free(npc_t *npc)
 {
     assert(npc != NULL);
     
-    // missing free_dialog function 
+    // TODO-free_dialog(npc->dialogue);
     free(npc->npc_id);
     delete_all_items(&npc->inventory);
     free(npc);
@@ -45,13 +43,11 @@ int npc_free(npc_t *npc)
     return SUCCESS;
 }
 
-
 /* See npc.h */
 int get_npc_health(npc_t *npc)
 {
     return npc->health;
 }
-
 
 /* See npc.h */
 int change_npc_health(npc_t *npc, int change, int max)
@@ -70,14 +66,6 @@ int change_npc_health(npc_t *npc, int change, int max)
     }
     return npc->health;
 }
-    
-
-/* See npc.h */
-item_hash_t* get_npc_inventory(npc_t *npc)
-{
-    return npc->inventory;
-}
-
 
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
@@ -95,9 +83,14 @@ int add_item_to_npc(npc_t *npc, item_t *item)
     return SUCCESS;
 }
 
+/* See npc.h */
+item_hash_t* get_npc_inv_hash(npc_t *npc)
+{
+    return npc->inventory;
+}
 
 /* See npc.h */
-item_list_t *get_all_items_in_inv_npc(npc_t *npc)
+item_list_t* get_npc_inv_list(npc_t *npc)
 {
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item;

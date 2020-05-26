@@ -2,10 +2,13 @@
 
 
 /* See rooms-npc.h */
-int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id) {
+int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id,
+                      char* room_name)
+{
     assert(npcs_in_room != NULL);
 
-    strncpy(npcs_in_room->room_id,room_id,strlen(room_id)+1);
+    strncpy(npcs_in_room->room_name,room_name,strlen(room_name)+1);
+    npcs_in_room->room_id = room_id;
     npcs_in_room->npc_list = NULL;
     npcs_in_room->num_of_npcs = 0;
 
@@ -15,7 +18,7 @@ int npc_room_init(npcs_in_room_t *npcs_in_room, char* room_id) {
 
 /* See rooms-npc.h */
 int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
-                long room_id) {
+                char* room_id) {
     assert(npc_mov != NULL);
 
     strncpy(npc_mov->npc_id,npc_id,strlen(npc_id)+1);
@@ -37,19 +40,20 @@ int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
 
 
 /* See rooms-npc.h */
-npcs_in_room_t* npcs_in_room_new(char* room_id) {
+npcs_in_room_t *npcs_in_room_new(long room_id, char* room_name)
+ {
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = malloc(sizeof(npcs_in_room_t));
     
     int check = npcs_in_room_init(npcs_in_room, room_id);
 
-    if (npcs_in_room == NULL || npcs_in_room->room_id == NULL || check != SUCCESS)
+    if (npcs_in_room == NULL || npcs_in_room->room_id == 0 || check != SUCCESS)
     {
         return NULL;
     }
-    return npcs_in_room;
-}
 
+    return npcs_in_room;
+ }
 
 /* See rooms-npc.h */
 npc_mov_t* npc_mov_new(char* npc_id, npc_mov_type_e mov_type, room_t* room) {
@@ -65,8 +69,12 @@ npc_mov_t* npc_mov_new(char* npc_id, npc_mov_type_e mov_type, room_t* room) {
 
 
 /* See rooms-npc.h */
-int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room) {
+int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room)
+{
+    assert(npcs_in_room != NULL);
+
     free(npcs_in_room->room_id);
+    free(npcs_in_room->room_name);
     free(npcs_in_room->npc_list);
     free(npcs_in_room->num_of_npcs);
     free(npcs_in_room);
@@ -76,6 +84,9 @@ int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room) {
 
 /* See rooms-npc.h */
 int npc_mov_free(npc_mov_t *npc_mov) {
+
+    assert(npc_mov != NULL);
+
     free(npc_mov->npc_mov_type->mov_def);
     free(npc_mov->track);
     free(npc_mov->npc_id);
@@ -84,19 +95,22 @@ int npc_mov_free(npc_mov_t *npc_mov) {
 
 
 /* See rooms-npc.h */
-int get_num_of_npcs(npcs_in_room_t *npcs_in_room) {
+int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room)
+{
     return npcs_in_room->num_of_npcs;
 }
 
 
 /* See rooms-npc.h */
-int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc) {
+int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
+{
     npc_t *check;
-    HASH_FIND(hh, npcs_in_room->npc_list, &npc->npc_id, strlen(npc->npc_id),
+    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
              check);
  
-    if (check != NULL){
-        return FAILURE; //this item id is already in use
+    if (check != NULL)
+    {
+        return FAILURE; //this npc is already in the room
     }
     HASH_ADD_KEYPTR(hh, npcs_in_room->npc_list, npc->npc_id,
                     strlen(npc->npc_id), npc);
@@ -104,7 +118,6 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc) {
 
     return SUCCESS;
 }
-
 
 /* See rooms-npc.h */
 int register_time_in_room(npc_mov_t *npc_mov, room_t *room, int time) {
