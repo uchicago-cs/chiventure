@@ -14,7 +14,7 @@
 *  - char *name: the key for look up
 *  Output: SUCCESS or FAILURE
 */
-int copy_item_to_hash(item_hash_t *dst, item_hash_t *src, char *name);
+int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name);
 
 
 /*make_default_rooms adds all the defined default rooms+items for a themed

@@ -3,18 +3,6 @@
 #include "game-state/room.h"
 #include "openworld/default_items.h"
 
-
-/* see default_items.h */
-int free_item_hash(item_hash_t *hh, item_hash_t *def)
-{
-    item_hash_t *elem, *tmp;
-    HASH_ITER(hh, def, elem, tmp) {
-        HASH_DELETE(hh, def, elem); // remove from hashtable
-        item_free(elem); // free the item
-    }
-    return SUCCESS;
-}
-
 /* see default_items.h */
 item_hash_t *get_default_items()
 {
@@ -121,11 +109,6 @@ item_hash_t *get_default_items()
     item_t *xylophone = item_new("xylophone", "a colorful xylophone",
                                  "A children's xylophone with a pair of mallets");
     HASH_ADD_STR(hash, item_id, xylophone);
-
-    printf("here in ITEMS\n");
-    item_t *tmp;
-    HASH_FIND_STR(hash, "hat", tmp);
-    printf("looking at %s\n", tmp->item_id);
 
     return hash;
 }

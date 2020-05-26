@@ -7,18 +7,19 @@
 #include "openworld/default_rooms.h"
 
 /* see default_rooms.h */
-int copy_item_to_hash(item_hash_t *dst, item_hash_t *src, char *name)
+int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name)
 {
-    item_t *old_item = NULL;
+    item_t *old_item;
     HASH_FIND_STR(src, name, old_item);
     if (old_item == NULL) {
         return FAILURE;
     }
+
     item_t *new_item = item_new(old_item->item_id, old_item->short_desc, old_item->long_desc);
     if (new_item == NULL) {
         return FAILURE;
     }
-    HASH_ADD_STR(dst, item_id, new_item);
+    HASH_ADD_STR(*dst, item_id, new_item);
     return SUCCESS;
 }
 
@@ -28,11 +29,12 @@ roomspec_t *make_default_room(char *bucket,
 {
 
     roomspec_t *hash = NULL;
+    int rc;
 
     assert(bucket != NULL);
+
     if ((!!strcmp(bucket, "school")) && (!!strcmp(bucket, "farmhouse"))
             && (!!strcmp(bucket, "castle"))) {
-	printf("OTHER CASE\n");
         roomspec_t *room = roomspec_new(bucket, sh_desc, l_desc, NULL);
         //now add to hash
         HASH_ADD_STR(hash, room_name, room);
@@ -45,21 +47,21 @@ roomspec_t *make_default_room(char *bucket,
                                           "A broom closet",
                                           "A small broom closet with supplies",
                                           NULL);
-        copy_item_to_hash(closet->items, def, "door");
-        copy_item_to_hash(closet->items, def, "tray");
-        copy_item_to_hash(closet->items, def, "mirror");
-        copy_item_to_hash(closet->items, def, "jug");
-        copy_item_to_hash(closet->items, def, "hat");
+        copy_item_to_hash(&closet->items, def, "door");	
+        copy_item_to_hash(&closet->items, def, "tray");
+        copy_item_to_hash(&closet->items, def, "mirror");
+        copy_item_to_hash(&closet->items, def, "jug");
+        copy_item_to_hash(&closet->items, def, "hat");
 
         //HALLWAY
         roomspec_t *hallway = roomspec_new("hallway", "A well-lit hallway",
                                            "A sterile, white hallway with no windows",
-                                           NULL);
-        copy_item_to_hash(hallway->items, def, "door");
-        copy_item_to_hash(hallway->items, def, "nail");
-        copy_item_to_hash(hallway->items, def, "fruit");
-        copy_item_to_hash(hallway->items, def, "tray");
-        copy_item_to_hash(hallway->items, def, "book");
+                                          NULL);
+        copy_item_to_hash(&hallway->items, def, "door");
+        copy_item_to_hash(&hallway->items, def, "nail");
+        copy_item_to_hash(&hallway->items, def, "fruit");
+        copy_item_to_hash(&hallway->items, def, "tray");
+        copy_item_to_hash(&hallway->items, def, "book");
 
         //LIBRARY
         item_hash_t *libr_items = NULL;
@@ -68,11 +70,11 @@ roomspec_t *make_default_room(char *bucket,
                                            "An old, dusty library with"
                                            " skill-boosting resources like books and potions",
                                            NULL);
-        copy_item_to_hash(library->items, def, "book");
-        copy_item_to_hash(library->items, def, "quill");
-        copy_item_to_hash(library->items, def, "pencil");
-        copy_item_to_hash(library->items, def, "video");
-        copy_item_to_hash(library->items, def, "mirror");
+        copy_item_to_hash(&library->items, def, "book");
+        copy_item_to_hash(&library->items, def, "quill");
+        copy_item_to_hash(&library->items, def, "pencil");
+        copy_item_to_hash(&library->items, def, "video");
+        copy_item_to_hash(&library->items, def, "mirror");
 
         if (!strcmp(bucket, "school")) {
             //CAFETERIA
@@ -81,11 +83,11 @@ roomspec_t *make_default_room(char *bucket,
                                                  "A messy high school"
                                                  " cafeteria with trays and tables out",
                                                  NULL);
-            copy_item_to_hash(cafeteria->items, def, "apple");
-            copy_item_to_hash(cafeteria->items, def, "tray");
-            copy_item_to_hash(cafeteria->items, def, "ice");
-            copy_item_to_hash(cafeteria->items, def, "fruit");
-            copy_item_to_hash(cafeteria->items, def, "yam");
+            copy_item_to_hash(&cafeteria->items, def, "apple");
+            copy_item_to_hash(&cafeteria->items, def, "tray");
+            copy_item_to_hash(&cafeteria->items, def, "ice");
+            copy_item_to_hash(&cafeteria->items, def, "fruit");
+            copy_item_to_hash(&cafeteria->items, def, "yam");
 
             //CLASSROOM
             roomspec_t *classroom = roomspec_new("classroom",
@@ -94,11 +96,11 @@ roomspec_t *make_default_room(char *bucket,
                                                  "A geography teacher's"
                                                  " classroom with 30 desks",
                                                  NULL);
-            copy_item_to_hash(classroom->items, def, "book");
-            copy_item_to_hash(classroom->items, def, "door");
-            copy_item_to_hash(classroom->items, def, "pencil");
-            copy_item_to_hash(classroom->items, def, "watercolors");
-            copy_item_to_hash(classroom->items, def, "video");
+            copy_item_to_hash(&classroom->items, def, "book");
+            copy_item_to_hash(&classroom->items, def, "door");
+            copy_item_to_hash(&classroom->items, def, "pencil");
+            copy_item_to_hash(&classroom->items, def, "watercolors");
+            copy_item_to_hash(&classroom->items, def, "video");
 
             //now add all the roomspecs to the hash
             HASH_ADD_STR(hash, room_name, closet);
@@ -111,11 +113,11 @@ roomspec_t *make_default_room(char *bucket,
             roomspec_t *barn = roomspec_new("barn", "A red barn",
                                             "A red barn with stables inside",
                                             NULL);
-            copy_item_to_hash(barn->items, def, "apple");
-            copy_item_to_hash(barn->items, def, "cow");
-            copy_item_to_hash(barn->items, def, "eagle");
-            copy_item_to_hash(barn->items, def, "rabbit");
-            copy_item_to_hash(barn->items, def, "yam");
+            copy_item_to_hash(&barn->items, def, "apple");
+            copy_item_to_hash(&barn->items, def, "cow");
+            copy_item_to_hash(&barn->items, def, "eagle");
+            copy_item_to_hash(&barn->items, def, "rabbit");
+            copy_item_to_hash(&barn->items, def, "yam");
 
             //OPEN FIELD
             roomspec_t *field = roomspec_new("open field",
@@ -123,11 +125,11 @@ roomspec_t *make_default_room(char *bucket,
                                              "An open field with grass"
                                              " and a clear view",
                                              NULL);
-            copy_item_to_hash(field->items, def, "apple");
-            copy_item_to_hash(field->items, def, "zebra");
-            copy_item_to_hash(field->items, def, "cow");
-            copy_item_to_hash(field->items, def, "eagle");
-            copy_item_to_hash(field->items, def, "rabbit");
+            copy_item_to_hash(&field->items, def, "apple");
+            copy_item_to_hash(&field->items, def, "zebra");
+            copy_item_to_hash(&field->items, def, "cow");
+            copy_item_to_hash(&field->items, def, "eagle");
+            copy_item_to_hash(&field->items, def, "rabbit");
 
             //KITCHEN
             roomspec_t *kitchen = roomspec_new("kitchen",
@@ -135,22 +137,22 @@ roomspec_t *make_default_room(char *bucket,
                                                "An outdated kitchen with obvious"
                                                " wear-and-tear",
                                                NULL);
-            copy_item_to_hash(kitchen->items, def, "ice");
-            copy_item_to_hash(kitchen->items, def, "jug");
-            copy_item_to_hash(kitchen->items, def, "olive");
-            copy_item_to_hash(kitchen->items, def, "tray");
-            copy_item_to_hash(kitchen->items, def, "yam");
+            copy_item_to_hash(&kitchen->items, def, "ice");
+            copy_item_to_hash(&kitchen->items, def, "jug");
+            copy_item_to_hash(&kitchen->items, def, "olive");
+            copy_item_to_hash(&kitchen->items, def, "tray");
+            copy_item_to_hash(&kitchen->items, def, "yam");
 
             //LIVING ROOM
             roomspec_t *living = roomspec_new("living room",
                                               "A living room with basic items",
                                               "A plain, unremarkable living room",
                                               NULL);
-            copy_item_to_hash(living->items, def, "watercolors");
-            copy_item_to_hash(living->items, def, "video");
-            copy_item_to_hash(living->items, def, "xylophone");
-            copy_item_to_hash(living->items, def, "hat");
-            copy_item_to_hash(living->items, def, "mirror");
+            copy_item_to_hash(&living->items, def, "watercolors");
+            copy_item_to_hash(&living->items, def, "video");
+            copy_item_to_hash(&living->items, def, "xylophone");
+            copy_item_to_hash(&living->items, def, "hat");
+            copy_item_to_hash(&living->items, def, "mirror");
 
             //now add to hash
             HASH_ADD_STR(hash, room_name, closet);
@@ -165,11 +167,11 @@ roomspec_t *make_default_room(char *bucket,
                                                "A dank, dark dungeon with traps"
                                                " and enemies to battle",
                                                NULL);
-            copy_item_to_hash(dungeon->items, def, "nail");
-            copy_item_to_hash(dungeon->items, def, "book");
-            copy_item_to_hash(dungeon->items, def, "ladder");
-            copy_item_to_hash(dungeon->items, def, "gold");
-            copy_item_to_hash(dungeon->items, def, "yam");
+            copy_item_to_hash(&dungeon->items, def, "nail");
+            copy_item_to_hash(&dungeon->items, def, "book");
+            copy_item_to_hash(&dungeon->items, def, "ladder");
+            copy_item_to_hash(&dungeon->items, def, "gold");
+            copy_item_to_hash(&dungeon->items, def, "yam");
 
             //THRONE ROOM
             roomspec_t *throne = roomspec_new("throne room",
@@ -177,11 +179,11 @@ roomspec_t *make_default_room(char *bucket,
                                               "A regal throne room decked out "
                                               "with lavish items",
                                               NULL);
-            copy_item_to_hash(throne->items, def, "gold");
-            copy_item_to_hash(throne->items, def, "door");
-            copy_item_to_hash(throne->items, def, "mirror");
-            copy_item_to_hash(throne->items, def, "jug");
-            copy_item_to_hash(throne->items, def, "hat");
+            copy_item_to_hash(&throne->items, def, "gold");
+            copy_item_to_hash(&throne->items, def, "door");
+            copy_item_to_hash(&throne->items, def, "mirror");
+            copy_item_to_hash(&throne->items, def, "jug");
+            copy_item_to_hash(&throne->items, def, "hat");
 
             //Now add to hash
             HASH_ADD_STR(hash, room_name, closet);
@@ -191,7 +193,13 @@ roomspec_t *make_default_room(char *bucket,
             HASH_ADD_STR(hash, room_name, throne);
 
         }
-        free_item_hash(def, def);
+
+        item_hash_t *elem, *tmp;
+        HASH_ITER(hh, def, elem, tmp) {
+            HASH_DELETE(hh, def, elem); // remove from hashtable
+            item_free(elem); // free the item
+        }
+        free(def);
     }
     return hash;
 }

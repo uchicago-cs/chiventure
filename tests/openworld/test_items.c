@@ -5,7 +5,8 @@
 #include "openworld/default_items.h"
 
 /* Tests the functions in default_items.h */
-//printf("out here");
+
+/* testing get_default_items for hat */
 Test(item, default_hat)
 {
     item_hash_t *def = get_default_items();
@@ -22,6 +23,7 @@ Test(item, default_hat)
                      "get_default_items(hat) wrong item id");
 }
 
+/* testing get_default_items for gold */
 Test(item, default_gold)
 {
     item_hash_t *def = get_default_items();
@@ -39,6 +41,7 @@ Test(item, default_gold)
                      "get_default_items(gold) wrong long desc");
 }
 
+/* test get_default_items for kettle */
 Test(item, default_kettle)
 {
     item_hash_t *def = get_default_items();
