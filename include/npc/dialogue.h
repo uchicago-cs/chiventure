@@ -107,7 +107,7 @@ typedef struct edge_list {
  *  - A pointer to the new convo
  *
  */
-convo_t *make_convo(int max_nodes);
+convo_t *new_convo();
 
 /*
  * A function to allocate and initialize a new node struct
@@ -119,7 +119,7 @@ convo_t *make_convo(int max_nodes);
  *  - A pointer to the new node
  *
  */
-node_t *make_node(enum scene tag, char *dialog, int max_edges);
+node_t *make_node(int node_id, char *dialog, int max_edges);
 
 /*
  * Attaches a given node to the head list of a given convo.

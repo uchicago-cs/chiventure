@@ -52,7 +52,7 @@ void npc_print(char *dialog)
 /*
  * See chiventure/include/npc/dialogue.h for full function explanations
  */
-convo_t *make_convo()
+convo_t *new_convo()
 {
     convo_t *c = (convo_t*)malloc(sizeof(convo_t));
     c->node_count = 0;
