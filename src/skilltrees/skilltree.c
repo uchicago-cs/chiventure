@@ -9,7 +9,7 @@
 
 /* See skilltree.h */
 branch_t* branch_new(sid_t sid, unsigned int nprereqs, unsigned int max_level,
-                     unsigned int min_xp) {
+                     unsigned int size, unsigned int min_xp) {
     branch_t* branch;
     skill_t** prereqs;
     unsigned int i;
@@ -32,6 +32,7 @@ branch_t* branch_new(sid_t sid, unsigned int nprereqs, unsigned int max_level,
     branch->sid = sid;
     branch->prereqs = prereqs;
     branch->nprereqs = nprereqs;
+    branch->size = size;
     branch->max_level = max_level;
     branch->min_xp = min_xp;
 
@@ -79,7 +80,7 @@ int branch_prereq_remove(branch_t* branch, skill_t* skill) {
 }
 
 /* See skilltree.h */
-tree_t* tree_new(tid_t tid, unsigned int nbranches) {
+tree_t* tree_new(tid_t tid, unsigned int nbranches, char* name) {
     tree_t* tree;
     branch_t** branches;
     unsigned int i;
@@ -102,6 +103,7 @@ tree_t* tree_new(tid_t tid, unsigned int nbranches) {
     tree->tid = tid;
     tree->branches = branches;
     tree->nbranches = nbranches;
+    tree->name = strdup(name);
 
     return tree;
 }
@@ -111,6 +113,7 @@ int tree_free(tree_t* tree) {
     assert(tree != NULL);
 
     free(tree->branches);
+    free(tree->name);
     free(tree);
 
     return SUCCESS;

@@ -12,7 +12,7 @@
 Test(skilltree, branch_new) {
     branch_t* branch;
 
-    branch = branch_new(UNLOCK_DOOR, 0, 10, 100);
+    branch = branch_new(UNLOCK_DOOR, 0, 10, 42, 100);
 
     cr_assert_not_null(branch, "branch_new() failed to allocate memory");
 
@@ -20,6 +20,7 @@ Test(skilltree, branch_new) {
     cr_assert_not_null(branch->prereqs, "branch_new() didn't allocate prereqs array");
     cr_assert_eq(branch->nprereqs, 0, "branch_new() didn't set nprereqs");
     cr_assert_eq(branch->max_level, 10, "branch_new() didn't set max_level");
+    cr_assert_eq(branch->size, 42, "branch_new() didn't set size");
     cr_assert_eq(branch->min_xp, 100, "branch_new() didn't set min_xp");
 }
 
@@ -125,7 +126,7 @@ Test(skilltree, branch_prereq_remove) {
 Test(skilltree, tree_new) {
     tree_t* tree;
 
-    tree = tree_new(HEALTH, 5);
+    tree = tree_new(HEALTH, 5, "tree_name",);
 
     cr_assert_not_null(tree, "tree_new() failed to allocate memory");
 
