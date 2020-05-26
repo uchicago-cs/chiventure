@@ -61,6 +61,9 @@ There is also a time_start field, but it does not have specific functionalily ri
 
         /* pointer to room that, when entered, ends the game */
         room_t *final_room;
+        
+        /* list of end conditions that, when all are met, ends the game */
+        action_condition_list_t *end_conditions;
 
         /* pointer to current player struct */
         room_t *curr_player;
@@ -113,6 +116,24 @@ Given the pointer to another room, changes the current room in game-state.
     - SUCCESS if successful, FAILURE if failed
 
  Adds the final_room field to the given game struct
+ 
+    int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition);
++  Parameters:
+    - game struct
+    - pointer to end condition
++  Returns:
+    - SUCCESS if successful, FAILURE if failed
+
+Adds an end condition to the list end_conditions in the given game struct
+
+    bool end_conditions_met(game_t *game);
++  Parameters:
+    - game struct
++  Returns:
+    - true if either all end conditions have attributes with expected values or if no end conditions exist
+    - false if the attribute of at least one end condition is not expected value
+
+Checks if all end conditions in a given game struct have been met
 
 
 
