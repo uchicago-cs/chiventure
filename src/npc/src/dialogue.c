@@ -34,11 +34,11 @@ void print_red(char *str)
 /*
  * See chiventure/include/npc/dialogue.h for full function explanations
  */
-void npc_print(char *dialog)
+void npc_print(char *dialogue)
 {
     char *divider = "#";
     char *to_print;
-    char *remaining = strdup(dialog);
+    char *remaining = strdup(dialogue);
     int color = 1; /* Increments with each print; odd = gold, even = yel */
     while ((to_print = strtok_r(remaining, divider, &remaining)) != NULL) {
         if (color % 2 == 1)
@@ -63,11 +63,11 @@ convo_t *new_convo()
 /*
  * See chiventure/include/npc/dialogue.h for full function explanations
  */
-node_t *make_node(int node_id, char *dialog, int max_edges)
+node_t *make_node(int node_id, char *dialogue, int max_edges)
 {
     node_t *newnode = (node_t*)malloc(sizeof(node_t));
     newnode->node_id = node_id;
-    newnode->dialog = dialog;
+    newnode->dialogue = dialogue;
     newnode->connection_count = 0;
     newnode->edges = NULL;
     return newnode;
@@ -133,7 +133,7 @@ int traverse_edge(node_t *n)
     if (index >= 0) {
         printf("\n%s\n\n", n->connections[index]->quip);
         n = n->connections[index]->toward;
-        npc_print(n->dialog);
+        npc_print(n->dialogue);
         return index;
     } else {
         print_gold("What?\n");
@@ -146,7 +146,7 @@ int traverse_edge(node_t *n)
  */
 void end_convo()
 {
-    print_red("\n\nCongrats on finishing the chiventure dialog showcase!\n");
+    print_red("\n\nCongrats on finishing the chiventure dialogue showcase!\n");
     print_gold("Press ENTER to exit");
     getchar();
     exit(0);
@@ -158,7 +158,7 @@ void end_convo()
 void run_convo(convo_t *c)
 {
     int start_node = 1;
-    npc_print(c->head[start_node]->dialog);
+    npc_print(c->head[start_node]->dialogue);
     int index;
     while (c->head[start_node]->connection_count != 0) {
         printf("\n\n> Talk about: ");

@@ -19,8 +19,8 @@ void print_yellow(char *str);
 void print_red(char *str);
 
 /*
- * Prints a string in NPC dialog format: gold by default and yellow for
- * text surrounded by #hashes# to denote dialog choices.
+ * Prints a string in NPC dialogue format: gold by default and yellow for
+ * text surrounded by #hashes# to denote dialogue choices.
  * Parameters:
  *  - dialogue: the string to be printed in NPC format
  * Returns: nothing
@@ -107,19 +107,19 @@ typedef struct edge_list {
  *  - A pointer to the new convo
  *
  */
-convo_t *new_convo();
+convo_t *convo_new();
 
 /*
  * A function to allocate and initialize a new node struct
  * Parameters:
  *  - tag: a marker for the node's identity
- *  - dialog: a string of what the NPC says when the player reaches this node
+ *  - dialogue: a string of what the NPC says when the player reaches this node
  *  - max_edges: the maximum number of edges that can be added
  * Returns:
  *  - A pointer to the new node
  *
  */
-node_t *make_node(int node_id, char *dialog, int max_edges);
+node_t *make_node(int node_id, char *dialogue, int max_edges);
 
 /*
  * Attaches a given node to the head list of a given convo.
@@ -166,7 +166,7 @@ int read_input(node_t *n, char *input);
 
 /*
  * Asks for input and traverses to the edge specified by the input's index
- * Prints player quip, moves to new node, and prints npc's dialog at that node
+ * Prints player quip, moves to new node, prints npc's dialogue at that node
  * Parameters:
  *  - n: the node that the player is currently on
  * Returns:
