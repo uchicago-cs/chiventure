@@ -23,8 +23,9 @@ typedef struct stats_global stats_global_hash_t;
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
- *      a pointer to the global stat, 
- *      which is also the key to the hashtable
+ *      the name of the stat which is also the key of the hashtable
+ *      
+ *      a pointer to the corresponding global stat
  *
  *      the base value of the stat, 
  *      whose final value will be multiplied by the modifier
@@ -34,6 +35,7 @@ typedef struct stats_global stats_global_hash_t;
  *      cumulative modifiers from effects, set to 1 by default
  * */
 typedef struct stats {
+    char *name;
     stats_global_t *global;
     double val;
     double max;
@@ -217,7 +219,7 @@ int add_stat_player(stats_hash_t *sh, stats_t *s);
 char *display_stats(stats_hash_t *sh);
 
 /*
- * Frees a stat
+ * Frees a stat table
  *
  * Parameters: 
  * sh: pointer to the stat to be freed
