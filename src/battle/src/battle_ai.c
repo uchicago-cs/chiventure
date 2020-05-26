@@ -1,7 +1,7 @@
-#include "battle/AI.h"
+#include "battle/battle_ai.h"
 #include <math.h>
 
-/* see AI.h */
+/* See battle_ai.h */
 move_t* give_move(int difficulty, combatant_t* player, combatant_t* enemy)
 {
     if (player->is_friendly != true)
@@ -26,13 +26,13 @@ move_t* give_move(int difficulty, combatant_t* player, combatant_t* enemy)
     }
 }
 
-/* see AI.h */
+/* See battle_ai.h */
 move_t* easy_move(combatant_t* player, combatant_t* enemy)
 {
     return find_easy(player, enemy);
 }
 
-/* see AI.h */
+/* See battle_ai.h */
 move_t* medium_move(combatant_t* player, combatant_t* enemy)
 {
     int i, count, random;
@@ -54,13 +54,13 @@ move_t* medium_move(combatant_t* player, combatant_t* enemy)
     return random_move;
 }
 
-/* see AI.h */
+/* See battle_ai.h */
 move_t* hard_move(combatant_t* player, combatant_t* enemy)
 {
     return find_hard(player, enemy);
 }
 
-/* see AI.h */
+/* See battle_ai.h */
 move_t* find_easy(combatant_t* player, combatant_t* enemy)
 {
     move_t* weakest_move = enemy->moves;
@@ -85,7 +85,7 @@ move_t* find_easy(combatant_t* player, combatant_t* enemy)
     return weakest_move;
 }
 
-/* see AI.h */
+/* See battle_ai.h */
 move_t* find_hard(combatant_t* player, combatant_t* enemy)
 {
     move_t* strongest_move = enemy->moves;
@@ -110,7 +110,7 @@ move_t* find_hard(combatant_t* player, combatant_t* enemy)
     return strongest_move;
 }
 
-/* see AI.h */
+/* See battle_ai.h */
 double damage(combatant_t* player, move_t* move, combatant_t* enemy)
 {
     double dmg, power, enemy_strength, defense, level;

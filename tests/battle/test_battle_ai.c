@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle/AI.h"
+#include "battle/battle_ai.h"
 
 /* Creates + initializes a move*/
-move_t *create_move(int ID, item_t* item, bool attack, int damage, int defense)
+move_t *create_move(int id, item_t* item, bool attack, int damage, int defense)
  {
      move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
-     move->ID = ID;
+     move->id = id;
 
      move->item = item;
 
@@ -189,11 +189,11 @@ void check_give_move(int difficulty, combatant_t* player, combatant_t* enemy, mo
     move_t *actual_move, *expected_move;
     actual_move = give_move(difficulty, player, enemy);
 
-    cr_assert_eq(actual_move->ID, expected->ID, "give_move did not return expected move!");
+    cr_assert_eq(actual_move->id, expected->id, "give_move did not return expected move!");
 }
 
 /* Ensures give_move returns the easiest move when difficulty is 1*/
-Test(AI, give_move_easy)
+Test(battle_ai, give_move_easy)
 {
     check_give_move(1, 
             new_player(),
@@ -202,7 +202,7 @@ Test(AI, give_move_easy)
 }
 
 /* Ensures give_move returns a random move when difficulty is 2*/
-Test(AI, give_move_medium)
+Test(battle_ai, give_move_medium)
 {
     check_give_move(2,   
             new_player(),
@@ -211,7 +211,7 @@ Test(AI, give_move_medium)
 }
 
 /* Ensures give_move returns the hardest move when difficulty is 3*/
-Test(AI, give_move_hard)
+Test(battle_ai, give_move_hard)
 {
     check_give_move(3,   
             new_player(),
@@ -220,7 +220,7 @@ Test(AI, give_move_hard)
 }
 
 /* Ensures easy_move returns the easiest move*/
-Test(AI, easy_move)
+Test(battle_ai, easy_move)
 {
     combatant_t *player, *enemy;
     move_t *expected_move, *actual_move;
@@ -234,11 +234,11 @@ Test(AI, easy_move)
     cr_assert_not_null(player, "combatant_new() failed");
     cr_assert_not_null(enemy, "combatant_new() failed");
 
-    cr_assert_eq(actual_move->ID, expected_move->ID, "easy_move did not return easiest move!");
+    cr_assert_eq(actual_move->id, expected_move->id, "easy_move did not return easiest move!");
 }
 
 /* Ensures easy_move returns a random move*/
-Test(AI, medium_move)
+Test(battle_ai, medium_move)
 {
     combatant_t *player, *enemy;
     move_t *expected_move, *actual_move;
@@ -252,11 +252,11 @@ Test(AI, medium_move)
     cr_assert_not_null(player, "combatant_new() failed");
     cr_assert_not_null(enemy, "combatant_new() failed");
 
-    cr_assert_eq(actual_move->ID, expected_move->ID, "medium_move did not return random move!");
+    cr_assert_eq(actual_move->id, expected_move->id, "medium_move did not return random move!");
 }
 
 /* Ensures easy_move returns the hardest move*/
-Test(AI, hard_move)
+Test(battle_ai, hard_move)
 {
     combatant_t *player, *enemy;
     move_t *expected_move, *actual_move;
@@ -270,11 +270,11 @@ Test(AI, hard_move)
     cr_assert_not_null(player, "combatant_new() failed");
     cr_assert_not_null(enemy, "combatant_new() failed");
 
-    cr_assert_eq(actual_move->ID, expected_move->ID, "hard_move did not return hardest move!");
+    cr_assert_eq(actual_move->id, expected_move->id, "hard_move did not return hardest move!");
 }
 
 /* Ensures find_easy returns the easiest move*/
-Test(AI, find_easy)
+Test(battle_ai, find_easy)
 {
     combatant_t *player, *enemy;
     move_t *expected_move, *actual_move;
@@ -289,11 +289,11 @@ Test(AI, find_easy)
     cr_assert_not_null(enemy, "combatant_new() failed");
 
 
-    cr_assert_eq(actual_move->ID, expected_move->ID, "find_easy did not find the easiest move!");
+    cr_assert_eq(actual_move->id, expected_move->id, "find_easy did not find the easiest move!");
 }
 
 /* Ensures find_hard returns the hardest move*/
-Test(AI, find_hard)
+Test(battle_ai, find_hard)
 {
     combatant_t *player, *enemy;
     move_t *expected_move, *actual_move;
@@ -307,11 +307,11 @@ Test(AI, find_hard)
     cr_assert_not_null(player, "combatant_new() failed");
     cr_assert_not_null(enemy, "combatant_new() failed");
 
-    cr_assert_eq(actual_move->ID, expected_move->ID, "find_hard did not find the hardest move!");
+    cr_assert_eq(actual_move->id, expected_move->id, "find_hard did not find the hardest move!");
 }
 
 /* Ensures damage is calculated correctly*/
-Test(AI, damage)
+Test(battle_ai, damage)
 {
     combatant_t *player, *enemy;
     move_t* move;

@@ -1,5 +1,5 @@
 add_library(battle
-            src/AI.c
+            src/battle_ai.c
             src/battle_state.c
             src/battle_flow.c
             src/battle_flow_structs.c)
