@@ -120,3 +120,5 @@ class_t *make_test_wizard()
                                      STAT_SPEED, 2.0);
     return test_wizard;
 }
+
+
