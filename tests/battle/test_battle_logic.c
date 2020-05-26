@@ -3,11 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "battle/battle_logic.h"
 #include "battle/battle_state.h"
 #include "battle/battle_structs.h"
-#include "battle/battle_logic.h"
 
-Test(logic, target_exists)
+/*
+ * This tests to ensure that a target exists within a list of targets
+ */
+Test(battle_logic, target_exists)
 {
     combatant_t *phead = NULL;
     combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL);
@@ -35,7 +38,11 @@ Test(logic, target_exists)
     battle_free(b);
 }
 
-Test(logic, target_does_not_exist)
+/*
+ * This tests to ensure that a target is not found when it does not exist 
+ * within a list of targets
+ */
+Test(battle_logic, target_does_not_exist)
 {
     combatant_t* phead = NULL;
     combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL);
@@ -67,7 +74,7 @@ Test(logic, target_does_not_exist)
  * this tests if battle_over detects if the 
  * battle is over because of the player 
  */
-Test(logic, battle_over_by_player)
+Test(battle_logic, battle_over_by_player)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 0;
@@ -91,7 +98,7 @@ Test(logic, battle_over_by_player)
  * this tests if battle_over detects if the 
  * battle is over because of the enemy
  */
-Test(logic, battle_over_by_enemy)
+Test(battle_logic, battle_over_by_enemy)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
@@ -115,7 +122,7 @@ Test(logic, battle_over_by_enemy)
  * this tests if battle_over detects if the 
  * battle is not over
  */
-Test(logic, battle_not_over)
+Test(battle_logic, battle_not_over)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
@@ -139,31 +146,52 @@ Test(logic, battle_not_over)
  * Tests goes_first to see if it detects that the enemy
  * is faster than the player 
  */
-Test(logic, enemy_goes_first)
+Test(battle_logic, enemy_goes_first)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 25;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->speed = 50;
+    stat_t *estats2 = calloc(1, sizeof(stat_t));
+    estats2->speed = 15;
+
+    combatant_t *phead = NULL;
+    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    DL_APPEND(phead, p);
+
+    combatant_t *ehead = NULL;
+    combatant_t *c1;
+    combatant_t *c2;
+
+    c1 = combatant_new("Goblin Gary", false, estats2, NULL, NULL);
+    c2 = combatant_new("Orc John", false, estats, NULL, NULL);
+    DL_APPEND(ehead, c1);
+    DL_APPEND(ehead, c2);
+    cr_assert_not_null(c1, "combatant_new() failed");
+    cr_assert_not_null(c2, "combatant_new() failed");
+
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
+    cr_assert_not_null(b, "battle_new() failed");
+
+    
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
 
     cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
 
-    int res = goes_first(p->stats->speed, e->stats->speed);
+    turnt_t res = goes_first(b);
 
-    cr_assert_eq(res, 1, "goes_first() failed!");
+    cr_assert_eq(res, ENEMY, "goes_first() failed!");
 
-    combatant_free(p);
-    combatant_free(e);
+    battle_free(b);
 }
 
 /* 
  * Tests goes_first to see if it detects that the player
  * is faster than the enemy 
  */
-Test(logic, player_goes_first)
+Test(battle_logic, player_goes_first)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 50;
@@ -187,7 +215,7 @@ Test(logic, player_goes_first)
  * Since the player and enemy can have the same speed,
  * then the player will go first
  */
-Test(logic, same_speed)
+Test(battle_logic, same_speed)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 50;
@@ -207,7 +235,10 @@ Test(logic, same_speed)
     combatant_free(e);
 }
 
-Test(logic, find_item)
+/*
+ * Finds an item according to it's id number within a list of items (inventory)
+ */
+Test(battle_logic, find_item)
 {
     
     item_t *head = NULL;
@@ -225,7 +256,10 @@ Test(logic, find_item)
     cr_assert_eq(found->id, 100, "find_item() failed!");
 }
 
-Test(logic, do_not_find_item)
+/*
+ * Searches for an item that does not exist in a list of items (inventory)
+ */
+Test(battle_logic, do_not_find_item)
 {
     item_t *head = NULL;
     item_t *i1;
@@ -242,7 +276,13 @@ Test(logic, do_not_find_item)
     cr_assert_null(found, "find_item() failed!");
 }
 
-Test(logic, consume_an_item)
+/*
+ * this tests to see if the player tries consuming an item, 
+ * then it should do two things:
+ * 1. Find the item and mark it as found and used
+ * 2. make changes to status as seen fit
+ */
+Test(battle_logic, consume_an_item)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
@@ -269,7 +309,11 @@ Test(logic, consume_an_item)
     free(i1);
 }
 
-Test(logic, uses_item_correctly)
+/*
+ * This is simialr to the test above except there are now two items in
+ * the player's inventory that the function has to go through
+ */
+Test(battle_logic, uses_item_correctly)
 {
     item_t *head = NULL;
     item_t *i1;
@@ -308,13 +352,19 @@ Test(logic, uses_item_correctly)
     cr_assert_eq(i1->quantity, 0, "player_use_item() failed for item quantity!");
 }
 
-Test(logic, inventory_empty)
+/*
+ * Ensures that nothing is done if the player has an empty inventory
+ */
+Test(battle_logic, inventory_empty)
 {
     int res = player_use_item(NULL, NULL, 100);
     cr_assert_eq(res, 1, "player_use_item() has failed!");
 }
 
-Test(logic, no_more_items)
+/*
+ * Attempts to use an item but there is no more of that said item
+ */
+Test(battle_logic, no_more_items)
 {
     item_t *head = NULL;
     item_t *i1;
@@ -349,7 +399,10 @@ Test(logic, no_more_items)
     cr_assert_eq(res, 2, "player_use_item() has failed!");
 }
 
-Test(logic, award_xp)
+/*
+ * This check to see if xp is awarded correctly at the end of a battle
+ */
+Test(battle_logic, award_xp)
 {
     double xp_gain = 15;
     stat_t *pstats = calloc(1, sizeof(stat_t));
