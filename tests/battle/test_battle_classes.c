@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "battle/battle_classes.h"
-#include "../../src/battle/src/battle_classes.c"
 
 
 /* Tests new_class() */
@@ -13,11 +12,18 @@ Test(battle_classes, new)
     test_str = "Test description";
 
     class_t* class;
+
     class = new_class(CLASS_BARD, test_str, STAT_STRENGTH, 3.0);
 
     cr_assert_not_null(class, "new_class() failed");
 
+    cr_assert_eq(class->class_type, CLASS_BARD, "new_class() didn't set class type");
+
     cr_assert_str_eq(class->info, test_str, "new_class() didn't set info");
+
+    cr_assert_eq(class->stats, STAT_STRENGTH, "new_class() didn't set stat bonus type");
+
+    cr_assert_eq(class->bonus, 3.0, "new_class() didn't set stat bonus value");
 }
 
 
@@ -34,7 +40,13 @@ Test(battle_classes, init)
 
     cr_assert_eq(rc, 0, "init_class() failed");
 
+    cr_assert_eq(class.class_type, CLASS_BARD, "init_class() didn't set class type");
+
     cr_assert_str_eq(class.info, test_str, "init_class() didn't set info");
+
+    cr_assert_eq(class.stats, STAT_STRENGTH, "init_class() didn't set stat bonus type");
+
+    cr_assert_eq(class.bonus, 3.0, "init_class() didn't set stat bonus value");
 }
 
 
@@ -43,8 +55,13 @@ Test(battle_classes, bard)
 {
     class_t *bard = make_test_bard();
 
-    cr_assert_eq(bard->class_type, CLASS_BARD,
-                 "make_test_bard() didn't set class type");
+    cr_assert_eq(bard->class_type, CLASS_BARD, "make_test_bard() didn't set class type");
+
+    cr_assert_str_eq(bard->info,
+                 "Charismatic, always has a joke, song, or moving speech ready",
+		 "make_test_bard() didn't set class info");
+
+    cr_assert_eq(bard->stats, STAT_CHARISMA, "make_test_bard() didn't set stat bonus type");
 
     cr_assert_str_eq
     (bard->info, "Charismatic, always has a joke, song, or moving speech ready",
