@@ -10,9 +10,7 @@
 /* Checks that a new AST block with control type is created without interruption */
 Test(AST_block_t, new_CONTROL)
 {
-    control_type_t control_type = IFELSE;
     block_t *block = malloc(sizeof(block_t));
-    block->control_block = control_block_new(control_type);
     block_type_t block_type = CONTROL;
     
     AST_block_t* new_ast = AST_block_new(block, block_type);
