@@ -181,9 +181,17 @@ char* display_stats(stats_hash_t *s)
 }
 
 /* See stats.h */
-int free_stats(stats_hash_t *s)
+int free_stats(stats_hash_t *sh)
 {
-    
+    stats_t *current, *next;
+    for(current = sh->hh.next; current != NULL; current = next) 
+    {
+        next = current->hh.next;
+        HASH_DEL(sh, current);
+        free(current);
+    }
+    HASH_DEL(sh, sh);
+    free(sh);
     return SUCCESS;
 }
 
