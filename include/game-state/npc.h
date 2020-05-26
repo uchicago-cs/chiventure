@@ -11,8 +11,8 @@ typedef struct npc
 {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
-    char *npc_id;
-    int health;
+    stats_t *stats; 
+    stat_effect_t *effects;
     convo_t *dialogue; // placeholder for incoming dialogue module
     item_hash_t *inventory;
 } npc_t;
@@ -36,11 +36,10 @@ typedef struct npcs_in_room {
 typedef struct npcs_in_room npcs_in_room_hash_t;
 
 /*
- * Initializes an npc with given health.
+ * Initializes an npc (currently with an empty stats/effect table)
  *
  * Parameters:
  *  npc: an npc; must point to already allocated memory
- *  health: the starting health of the npc
  *  npc_id: string referring to npc id; passed implicitly
             from npc_new 
  *  dialogue: pointer to a convo struct for the npc
@@ -49,7 +48,7 @@ typedef struct npcs_in_room npcs_in_room_hash_t;
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue);
+int npc_init(npc_t *npc, char *npc_id, convo_t *dialogue);
 
 
 /*
@@ -71,14 +70,13 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, long room_id,
  *
  * Parameters:
  *  npc_id: the unique string ID of the npc
- *  health: the starting health of the npc
  *  dialogue: pointer to convo struct for the npc
  *   // placeholder for incoming dialogue module
  *
  * Returns:
  *  pointer to allocated npc
  */
- npc_t *npc_new(char *npc_id, int health, convo_t *dialogue);
+ npc_t *npc_new(char *npc_id, convo_t *dialogue);
 
 
 /*
@@ -118,18 +116,6 @@ int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room);
 
 
 /*
- * Returns the health of an npc.
- *
- * Parameters:
- *  npc: the npc
- *
- * Returns:
- *  int, the npc's health
- */
-int get_npc_health(npc_t *npc);
-
-
-/*
  * Returns the number of npcs in a room
  *
  * Parameters:
@@ -139,17 +125,6 @@ int get_npc_health(npc_t *npc);
  *  int, the number of npcs in the room
  */
 int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room);
-
-/*
- * Changes the health of the npc. 
- *
- * Parameters:
- *  npc: the npc
- *
- * Returns:
- *  int, updated health
- */
-int change_npc_health(npc_t *npc, int change, int max);
 
 
 /*

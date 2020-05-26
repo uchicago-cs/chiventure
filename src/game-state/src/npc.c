@@ -2,11 +2,12 @@
 #include "common-item.h"
 
 /* See npc.h */
-int npc_init(npc_t *npc, char *npc_id, int health, convo_t *dialogue)
+int npc_init(npc_t *npc, char *npc_id, convo_t *dialogue)
 {
     assert(npc != NULL);
     strncpy(npc->npc_id, npc_id, strlen(npc_id));
-    npc->health = health;
+    npc->stats = NULL;
+    npc->effects = NULL;
     npc->dialogue = dialogue;
     npc->inventory = NULL;
 
@@ -28,14 +29,14 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, long room_id,
 }
 
 /* See npc.h */
-npc_t *npc_new(char *npc_id, long health, convo_t *dialogue)
+npc_t *npc_new(char *npc_id, convo_t *dialogue)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
     memset(npc, 0, sizeof(npc_t));
     npc->npc_id = malloc(MAX_ID_LEN);
 
-    int check = npc_init(npc, npc_id, health);
+    int check = npc_init(npc, npc_id, dialogue);
 
     if (npc == NULL || npc->npc_id == NULL || check != SUCCESS)
     {
@@ -88,34 +89,11 @@ int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room)
     return SUCCESS;
 }
 
-/* See npc.h */
-int get_npc_health(npc_t *npc)
-{
-    return npc->health;
-}
 
 /* See npc.h */
 int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room)
 {
     return npcs_in_room->num_of_npcs;
-}
-
-/* See npc.h */
-int change_npc_health(npc_t *npc, int change, int max)
-{
-    if ((npc->health + change) < 0)
-    {
-        npc->health = 0;
-    }
-    if ((npc->health + change) < max)
-    {
-        npc->health += change;
-    }
-    else
-    {
-        npc->health = max;
-    }
-    return npc->health;
 }
     
 
