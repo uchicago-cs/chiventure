@@ -159,11 +159,13 @@ typedef struct tree {
 /*
  *
  */
+ // COMMENT NEEDS TO BE ADDED - What does this function do?
 int array_element_add(void** array, unsigned int alen, void* element);
 
 /*
  *
  */
+ // COMMENT NEEDS TO BE ADDED - What does this function do?
 int list_has_skill(skill_t** list, unsigned int llen, sid_t sid);
 
 #endif /* INCLUDE_STDST_H_ */

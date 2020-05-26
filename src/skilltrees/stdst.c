@@ -7,7 +7,7 @@
 #include <assert.h>
 #include "skilltrees/stdst.h"
 
-/* See helpers.h */
+/* See stdst.h */
 int array_element_add(void** array, unsigned int alen, void* element) {
     assert(array != NULL && element != NULL);
 
@@ -24,7 +24,7 @@ int array_element_add(void** array, unsigned int alen, void* element) {
     return FAILURE;
 }
 
-/* See helpers.h */
+/* See stdst.h */
 int list_has_skill(skill_t** list, unsigned int llen, sid_t sid) {
     assert(list != NULL);
 
