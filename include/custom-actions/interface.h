@@ -10,6 +10,10 @@
 #include "control_block.h"
 #include "game-state/game.h"
 
+typedef struct {
+    int x;
+} json_dict_obj;
+
 /* A custom action struct. Contains the blocks and conditionals
  * for a single custom action. (?)
  */
