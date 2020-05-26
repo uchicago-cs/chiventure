@@ -24,7 +24,7 @@ Test (stats, add_stat_player)
     cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
 
     stats_t *test;
-    HASH_FIND(hh, sh, &g, sizeof(stats_global_t), test);
+    HASH_FIND(hh, sh, s.global, sizeof(stats_global_t), test);
 
     cr_assert_not_null(test, "add_stat_player did not add the stat");
 }
