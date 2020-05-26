@@ -1,10 +1,10 @@
 #ifndef BATTLE_LOGIC_H
 #define BATTLE_LOGIC_H
 
-#include <stdlib.h>
 #include <stdio.h>
-#include "battle/battle_structs.h"
+#include <stdlib.h>
 #include "battle/battle_state.h"
+#include "battle/battle_structs.h"
 
 /*
  * Checks the targets of a move to see if they exist and are targetable
