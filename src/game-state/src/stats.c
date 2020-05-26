@@ -15,7 +15,7 @@ int stats_init(stats_t *stat, char *name, double init)
     assert(stat != NULL);
     
     stats_global_t *global_stat;
-    HASH_FIND(ctx->game->curr_stats, &name, global_stat);
+    HASH_FIND_STR(ctx->game->curr_stats, name, global_stat);
     assert(global_stat != NULL);
     stat->global = global_stat;
 
@@ -129,5 +129,4 @@ int free_stats_global(stats_global_hash_t* gsh)
     HASH_DEL(gsh, gsh);
     free(gsh);
     return SUCCESS;
-}
 }
