@@ -6,7 +6,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
 {
     assert(npcs_in_room != NULL);
 
-    strncpy(npcs_in_room->room_id,room_id,strlen(room_id));
+    strncpy(npcs_in_room->room_id, room_id, strlen(room_id));
     npcs_in_room->npc_list = NULL;
     npcs_in_room->num_of_npcs = 0;
 

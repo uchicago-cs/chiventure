@@ -126,7 +126,7 @@ Test (npcs_in_room, add_npc_to_room)
     cr_assert_not_null(check2, "add_npc_to_room() failed,"
 								" could not find newly added npcs");
 
-	cr_assert_eq(num_of_npcs_initial+1,num_of_npcs_final,
+	cr_assert_eq(num_of_npcs_initial+1, num_of_npcs_final,
 				 "add_npc_to_room() failed, incorrect number of npcs in room");
 }
 
