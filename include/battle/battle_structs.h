@@ -1,5 +1,5 @@
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#ifndef BATTLE_STRUCTS_H
+#define BATTLE_STRUCTS_H
 
 #include <stdbool.h>
 #include <string.h>
@@ -45,7 +45,7 @@ typedef struct stat {
 typedef enum class {
     bard,
     cleric,
-    paladin, 
+    paladin,
     wizard
 } class_t;
 
@@ -53,4 +53,3 @@ typedef enum class {
 
 
 #endif
-

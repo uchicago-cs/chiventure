@@ -1,12 +1,12 @@
-set(TEST_EXE test-battle)
+set(TEST_EXE test-custom-actions)
 
 add_executable(${TEST_EXE}
-        test_battle_state.c
-        test_battle_flow.c
-        test_battle_flow_structs.c
+        test_ca_cond.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
+
+target_include_directories(${TEST_EXE} PRIVATE ${CMAKE_SOURCE_DIR}/src/custom-actions/include/)
 
 foreach(module ${CHIVENTURE_MODULES})
     target_link_libraries(${TEST_EXE} ${module})
