@@ -1,237 +1,153 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h> 
-#include "npc.h"
-#include "item.h"
+#include "npc/npc.h"
+#include "game-state/item.h"
 
 
+/* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test (npc, new) 
 {
-	npc_t *npc; 
-<<<<<<< HEAD
-	npc = npc_new("npc_22", 20, NULL, NULL);
-=======
-	npc = npc_new("npc_22", 20, NULL);
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
+    npc_t *npc; 
 
-	cr_assert_not_null(npc, "npc_new() failed");
-	
-	cr_assert_eq(npc->npc_id, "npc_new didn't set npc_id"); 
-	cr_assert_eq(npc->health, 20, "npc_new() didn't set health"); 
+    npc = npc_new("npc_22", 20, NULL);
+
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0, 
+                 "npc_new didn't set npc_id"); 
+    cr_assert_eq(npc->health, 20, "npc_new() didn't set health"); 
 }
 
-<<<<<<< HEAD
-=======
-/*checks new() of npcs_in_room struct */
-Test (npcs_in_room, new) {
-    npcs_in_room_t *npcs_in_room;
-    npcs_in_room = npcs_in_room_new(1,"test_room");
-
-    cr_assert_not_null(npcs_in_room, "npcs_in_room_new() failed");
-
-    cr_assert_eq(npcs_in_room->room_id, 1,
-                "npcs_in_room_new() did not set room_id");
-
-	cr_assert_eq(npcs_in_room->room_name, "test_room",
-                "npcs_in_room_new() did not set room_id");
-
-	cr_assert_eq(npcs_in_room->num_of_npcs, 0,
-                "npcs_in_room_new() did not set num_of_npcs");		
-}
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
-
+/* Checks that npc_init() initialized the fields in the new npc struct */
 Test (npc, init) 
 { 
-	npc_t *npc; 
-<<<<<<< HEAD
-	int init = npc_init(&npc, "npc_22", 20, NULL, NULL); 
-=======
-	int init = npc_init(&npc, "npc_22", 20); 
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
-	
-	cr_assert_eq(init, SUCCESS, "npc_init() failed"); 
-	
-	cr_assert_eq(npc.npc_id, "npc_22", "npc_init didn't set npc_id"); 
-	cr_assert_eq(npc.health, 20, "npc_init didn't set health"); 
-} 
+    npc_t *npc; 
+    int res;
 
-<<<<<<< HEAD
-=======
-/* checks initialization of npcs_in_room struct */
-Test (npcs_in_room, init) {
-    npcs_in_room_t *npcs_in_room;
-    int check = npcs_in_room_init(&npcs_in_room, 1, "test_room");
-     
-    cr_assert_eq(check, SUCCESS, "npcs_in_room_init() failed"); 
+    npc = npc_new("test", 30, NULL);
+    res = npc_init(npc, "npc_22", 20, NULL); 
 
-	cr_assert_eq(npcs_in_room.room_id, 1,
-                "npcs_in_room_init() did not set room_id");
+    cr_assert_eq(res, SUCCESS, "npc_init() failed"); 
 
-    cr_assert_eq(npcs_in_room.room_name, "test_room",
-                "npcs_in_room_init() did not set room_id");
-
-	cr_assert_eq(npcs_in_room.num_of_npcs, 0,
-                "npcs_in_room_init() did not set num_of_npcs");
+    cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
+                 "npc_22", "npc_init didn't set npc_id"); 
+    cr_assert_eq(npc->health, 20, "npc_init didn't set health"); 
 }
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
 
+/* Checks that npc_free() frees the given npc struct from memory */
 Test (npc, free)
 { 
-	npc_t *npc; 
-	int ret; 
-<<<<<<< HEAD
-	npc =  npc_new("npc_22", 20, NULL, NULL);
-=======
-	npc =  npc_new("npc_22", 20, NULL);
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
-		
-	cr_assert_not_null(npc, "npc_free() failed"); 
-	
-	ret = npc_free(npc); 
-	cr_assert_eq(ret, SUCCESS, "npc_free() failed"); 
+    npc_t *npc;
+    int res; 
+
+    npc = npc_new("npc_22", 20, NULL);
+
+    cr_assert_not_null(npc, "npc_new() failed"); 
+
+    res = npc_free(npc); 
+
+    cr_assert_eq(res, SUCCESS, "npc_free() failed"); 
 }
 
-<<<<<<< HEAD
-=======
-/* Checks freeing of npcs_in_room struct */
-Test (npcs_in_room, free)
-{ 
-	npcs_in_room_t *npcs_in_room; 
-	int check; 
-	npcs_in_room =  npc_new("test_room");
-		
-	cr_assert_not_null(npcs_in_room, "npcs_in_room_free() failed"); 
-	
-	check = npcs_in_room_free(npcs_in_room); 
-	cr_assert_eq(check, SUCCESS, "npcs_in_room_free() failed"); 
-}
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
+/* Checks that get_health() returns the health of the npc */
+Test(npc, get_npc_health)
+{
+    npc_t *npc;
+    int health;
 
+    npc = npc_new("npc_22", 20, NULL);
+
+    health = get_npc_health(npc);
+
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    cr_assert_eq(health, 20, "get_npc_health() returned incorrect health");
+}
+
+/* Checks that an npc's health is changed by change_npc_health()
+   both positively and negatively with a set maximum */
 Test (npc, change_npc_health) 
-{ 
-	npc_t *npc; 
-<<<<<<< HEAD
-	npc = npc_new("npc_22", 20, NULL, NULL); 
-=======
-	npc = npc_new("npc_22", 20, NULL); 
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
-	
-	int ret1 = change_npc_health(npc, 20, 50); 
-	cr_assert_eq(ret1, 40, "change_npc_health() did not change the value correctly"); 
-	
-	npc = npc_free(npc); 
-<<<<<<< HEAD
-	npc = npc_new("npc_32", 40, NULL, NULL); 
-=======
-	npc = npc_new("npc_32", 40, NULL); 
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
-
-	int ret2 = change_npc_health(npc, 20, 50); 
-	cr_assert_eq(ret2, 50, "change_npc_health() did not change the value correctly");
-}	 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
-void insert(npc_t* npc, item_t* itm) 
 {
-	HASH_ADD_KEYPTR(hh, npc->inventory, item->item_id,
-                    strlen(item->item_id), item);
+    npc_t *npc; 
+    int health1, health2, health3;
+
+    npc = npc_new("npc_22", 99, NULL); 
+    health1 = change_npc_health(npc, 2, 100); 
+    health2 = change_npc_health(npc, -20, 100);
+    health3 = change_npc_health(npc, 3, 83);
+
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    cr_assert_eq(health1, 100,
+                 "change_npc_health() increased health past max");
+    cr_assert_eq(health2, 80, 
+                 "change_npc_health() did not properly reduce health");
+    cr_assert_eq(health3, 83, 
+                 "change_npc_health() did not properly add health");
 }
 
-	
-Test (npc, add_item_to_npc) {
-	//NULL case 
-	item_t* itm = item_new("itm", "short desc", "longer description"); 
-<<<<<<< HEAD
-	npc_t* npc = npc_new("npc_22", 20, NULL, NULL); 
-=======
-	npc_t* npc = npc_new("npc_22", 20, NULL); 
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
-	int ret1 = add_item_to_npc(npc, itm); 
-	cr_assert_eq(ret1, SUCCESS, "add_item_to_npc() failed"); 
-
-	//non-NULL Success Case 
-<<<<<<< HEAD
-	npc_t* npc2 = npc_new("npc_32", 40, NULL, NULL);
-	item_t* itm1 = item_new("itm1", "short desc 1", "longer description 1");
-    item_t* itm2 = item_new("itm2", "short desc 2", "longer description 2");
-    item_t* itm3 = item_new("itm3", "short desc 3", "longer description 3");
-	insert(npc2, itm1);
-    insert(npc2, itm3);
-=======
-	npc_t* npc2 = npc_new("npc_32", 40, NULL);
-	item_t* itm1 = item_new("itm1", "short desc 1", "longer description 1");
-	item_t* itm2 = item_new("itm2", "short desc 2", "longer description 2");
-	item_t* itm3 = item_new("itm3", "short desc 3", "longer description 3");
-	insert(npc2, itm1);
-	insert(npc2, itm3);
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
-	int ret2 = add_item_to_npc(npc, itm2);
-	cr_assert_eq(ret2, SUCCESS, "add_item_to_npc() failed");
-
-	// test failure case
-<<<<<<< HEAD
-	npc_t* npc3 = npc_new("npc_32", 40, NULL, NULL);
-=======
-	npc_t* npc3 = npc_new("npc_32", 40, NULL);
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
-    item_t* itm4 = item_new("itm1", "short desc 1", "longer description 1");
-    item_t* itm5 = item_new("itm2", "short desc 2", "longer description 2");
-    item_t* itm6 = item_new("itm3", "short desc 3", "longer description 3");
-    insert(npc, itm1);
-    insert(npc, itm2);
-    insert(npc, itm3);
-    int ret3 = add_item_to_npc(npc, itm1);
-    cr_assert_eq(ret3, FAILURE, "add_item_to_npc() failed");
-	// testing hash items 	
-}	
-
-Test (npc, get_all_items_inv_npc) {
-        // equivalency test 
-<<<<<<< HEAD
-} 
-=======
-} 
-
-/* Tests add_npc_to_room function */
-Test (npcs_in_room, add_npc_to_room) {
-    npc_t *npc = npc_new("npc_test", 20, NULL); 
-    npcs_in_room_t *npcs_in_room = npcs_in_room_new(1, "test_room");
-	int num_of_npcs_initial = npcs_in_room->num_of_npcs;
-
-    int check1 = add_npc_to_room(npcs_in_room, npc);
-	int num_of_npcs_final = npcs_int_room->num_of_npcs;
-
-    cr_assert_eq(check1, SUCCESS, "add_npc_to_room() failed");
-
-    npc_t *check2;
-    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
-             check2);
-
-    cr_assert_not_null(check2, "add_npc_to_room() failed,"
-								" could not find newly added npcs");
-
-	cr_assert_eq(num_of_npcs_initial+1,num_of_npcs_final,
-				 "add_npc_to_room() failed, incorrect number of npcs in room");
-}
-
-/* tests the npcs_in_room_get_number function */
-Test (npcs_in_room, npcs_in_room_get_number)
+/* Checks that get_inventory() returns the npc's inventory */
+Test(npc, add_to_and_get_inventory)
 {
-	npcs_in_room_t *npcs_in_room;
-	npcs_in_room = npcs_in_room_new(1, "test_room");
-	npc_t *test_npc1 = npc_new("test_npc1", 20, NULL);
-	int added_npc1 = add_npc_to_room(npcs_in_room,test_npc1);
+    npc_t *npc1, *npc2;
+    item_t *new_item;
+    item_hash_t *hash1, *hash2;
+    item_list_t *list1, *list2;
 
-	cr_assert_eq(added_npc1, SUCCESS, "add_npc_to_room() failed");
+    npc1 = npc_new("npc_1",20);
+    npc2 = npc_new("npc_2", 21);
+    new_item = item_new("test_item", "item for npc testing",
+                        "item for testing get_npc_inventory()");
+    add_item_to_npc(npc2, new_item);
 
-	npc_t *test_npc2 = npc_new("test_npc2", 40, NULL);
-	int added_npc2 = add_npc_to_room(npcs_in_room,test_npc2);
+    hash1 = get_npc_inv_hash(npc1);
+    hash2 = get_npc_inv_hash(npc2);
 
-	cr_assert_eq(added_npc2, SUCCESS, "add_npc_to_room() failed");
+    list1 = get_npc_inv_list(npc1);
+    list2 = get_npc_inv_list(npc2);
 
-	cr_asser_eq(npcs_in_room->2,2,"npcs_in_room_get_number() failed.");
+    // Assert everything was made and malloced
+    cr_assert_not_null(npc1, "npc_new() failed on npc1");
+    cr_assert_not_null(npc2, "npc_new() failed on npc2");
+    cr_assert_not_null(new_item, "item_new() failed");
+
+    // Check that inventory with added item is not NULL
+    cr_assert_not_null(npc2->inventory,
+                       "add_item_to_npc() failed to add item");
+
+    // Check inventory hashes
+    cr_assert_eq(hash1, npc1->inventory, "get_npc_inv_hash() failed to "
+                 "return NULL for empty inventory");
+    cr_assert_eq(hash2, npc2->inventory,
+                 "get_npc_inv_hash() failed to return inventory");
+
+    // Check inventory lists
+    cr_assert_eq(list1, NULL, "get_npc_inv_list() failed to "
+                 "return NULL for empty inventory");
+    cr_assert_not_null(list2, "get_npc_inventory() failed to "
+                       "return inventory list");
+
+    // Check that added item has correct fields
+    cr_assert_eq(strcmp(new_item->item_id, list2->item->item_id), 0,
+                 "add_item_to_npc() failed to add item (id is wrong)");
+    cr_assert_eq(strcmp(new_item->short_desc, list2->item->short_desc), 0,
+                 "add_item_to_npc() failed to add item (short desc is wrong)");
+    cr_assert_eq(strcmp(new_item->long_desc, list2->item->long_desc), 0,
+                 "add_item_to_npc() failed to add item (long desc is wrong)");
 }
->>>>>>> 0b4d69f5aa0164f82845e43acd9dceaf6347047c
+
+/* Checks that add_item_to_npc adds item to the npc struct's inventory 
+   by not returning NULL */
+Test(npc, add_item_to_npc)
+{
+    npc_t *npc = npc_new("1", 100);
+    item_t *new_item = item_new("test_item", "item for npc testing",
+                                "item for testing add_item_to_npc");
+    add_item_to_npc(npc, new_item);
+
+    cr_assert_not_null(npc, "npc_new() failed");
+    cr_assert_not_null(new_item, "item_new() failed");
+    cr_assert_not_null(npc->inventory,
+	                   "add_item_to_npc() failed to add item");
+}
