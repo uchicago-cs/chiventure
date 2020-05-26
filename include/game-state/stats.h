@@ -3,6 +3,23 @@
 
 #include "game_state_common.h"
 
+// GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents the global table that keeps track of all stats available.
+  * It contains:
+  *      the name of the stat,
+  *      which is also the key to the hashtable
+  *
+  *      the maximal value a stat could have
+  * */
+typedef struct stats_global{
+    char *name;
+    double max;
+    UT_hash_handle hh; 
+} stats_global_t;
+
+typedef struct stats_global stats_global_hash_t;
+
+
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
@@ -66,22 +83,6 @@ typedef struct effects{
 
 typedef struct effects effects_hash_t;
 
-// GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
- /* This struct represents the global table that keeps track of all stats available.
-  * It contains:
-  *      the name of the stat,
-  *      which is also the key to the hashtable
-  *
-  *      the maximal value a stat could have
-  * */
-typedef struct stats_global{
-    char *name;
-    double max;
-    UT_hash_handle hh; 
-} stats_global_t;
-
-typedef struct stats_global stats_global_hash_t;
-
 
 /*
  * Initializes a global stat with max value stated
@@ -134,7 +135,7 @@ stats_global_t* stats_global_new(char *name, double max);
  * Returns:
  *  Pointer to allocated stats struct
  */
-stats_t *stats_new(global *stat, double init);
+stats_t *stats_new(stats_global_t *stat, double init);
 
 /*
  * Changes the base value of a stat by the
