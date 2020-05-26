@@ -97,7 +97,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 
 /* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
-                      char* direction)
+                      char* direction, list_action_type_t* conditions)
 {
     room_t *src = find_room_from_game(game, src_room);
     if (src == NULL)
@@ -109,7 +109,7 @@ int create_connection(game_t *game, char* src_room, char* to_room,
     {
         return ROOM_DEST_NULL;
     }
-    path_t *connection = path_new(to, direction);
+    path_t *connection = path_new(to, direction, conditions);
     int check = add_path_to_room(src, connection);
     return check;
 }

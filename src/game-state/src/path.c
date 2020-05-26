@@ -3,7 +3,7 @@
 #include "game-state/room.h"
 
 /* See room.h */
-path_t *path_new(room_t *dest, char *direction, list_actiont_type_t *conditions)
+path_t *path_new(room_t *dest, char *direction, list_action_type_t *conditions)
 {
 
     path_t *path = malloc(sizeof(path_t));

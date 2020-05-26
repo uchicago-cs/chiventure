@@ -148,6 +148,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room);
 *  source room_id (a string, i.e. char*)
 *  destination room_id (a string, i.e. char*)
 *  string direction
+*  list of conditions
 *
 * Returns:
 *  SUCCESS upon success, FAILURE upon add_path failure
@@ -158,7 +159,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room);
 * AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
 int create_connection(game_t *game, char* src_room, char* dest_room,
-    char* direction);
+    char* direction, list_action_type_t* act);
 
 /*
 *
