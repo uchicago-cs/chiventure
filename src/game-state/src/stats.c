@@ -21,7 +21,6 @@ int stats_init(stats_t *stat, char *name, double init)
     assert(global_stat != NULL)
     stat->global = global_stat
 
-    strncpy(stat->name, name, strlen(name));
     stat->val = init
     stat->max = init;
     stat->modifier = 1;
@@ -53,8 +52,23 @@ stats_global_t* stats_global_new(char *nm, double max)
 /* See stats.h */
 stats_t *stats_new(char *name, double init)
 {
-    printf("stats_new: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    stats_global_t *global_stat;
+    global_stat = HASH_FIND(ctx->game->curr_stats, &nm, global_stat);
+
+    if(global_stat != NULL)
+    {
+        return global_stat; //stat_id is already in use
+    }
+
+    global_stat = malloc(sizeof(global_stat));
+    int check = stats_global_init(global_stat, name, max);
+    if(check != SUCCESS)
+    {
+        return NULL;
+    }
+
+    HASH_ADD(ctx->game->curr_stats, name, global_stat);
+    return global_stat;
 }
 
 /* See stats.h */
