@@ -2,16 +2,19 @@
 #include <stdlib.h>
 #include <stdbool.h> 
 #include "npc/rooms-npc.h"
+#include "npc/npc.h"
 #include "game-state/room.h"
 
-
 /* Tests new() of npcs_in_room struct */
-Test (npcs_in_room, new) {
+Test (npcs_in_room, new)
+{
     npcs_in_room_t *npcs_in_room;
+
     npcs_in_room = npcs_in_room_new("test_room");
 
     cr_assert_not_null(npcs_in_room, "npcs_in_room_new() failed");
 
+    
     cr_assert_eq(npcs_in_room->room_id, "test_room",
                 "npcs_in_room_new() did not set room_id");
 
@@ -21,7 +24,8 @@ Test (npcs_in_room, new) {
 
 
 /* Tests new() of npc_mov struct */
-Test (npc_mov, new) {
+Test (npc_mov, new)
+{
     npc_mov_t *npc_mov;
     room_t *test_room;
     test_room = room_new("test_room", "test", "test test");
@@ -41,7 +45,8 @@ Test (npc_mov, new) {
 
 
 /* Tests initialization of npcs_in_room struct */
-Test (npcs_in_room, init) {
+Test (npcs_in_room, init)
+{
     npcs_in_room_t *npcs_in_room;
     int check = npcs_in_room_init(npcs_in_room, "test_room");
      
@@ -56,7 +61,8 @@ Test (npcs_in_room, init) {
 
 
 /* Tests initialization of npc_mov struct */
-Test (npc_mov, init) {
+Test (npc_mov, init)
+{
     npc_mov_t *npc_mov = malloc(sizeof(npc_mov_t));
     room_t *test_room;
     test_room = room_new("test_room", "test", "test test");
@@ -76,7 +82,8 @@ Test (npc_mov, init) {
 
 
 /* Tests freeing of npcs_in_room struct */
-Test (npcs_in_room, free) { 
+Test (npcs_in_room, free) 
+{ 
 	npcs_in_room_t *npcs_in_room;
 	int check; 
 	npcs_in_room =  npcs_in_room_new("test_room");
@@ -87,19 +94,22 @@ Test (npcs_in_room, free) {
 
 
 /* Tests freeing of npcs_in_room struct */
-Test (npc_mov, free) { 
+Test (npc_mov, free)
+{ 
 	npc_mov_t *npc_mov; 
     room_t *test_room;
+    int check; 
+
     test_room = room_new("test_room", "test", "test test");
     npc_mov = npc_mov_new("test_npc", MOV_DEF, test_room);
-	int check; 
 	
 	check = npc_mov_free(npc_mov); 
 	cr_assert_eq(check, SUCCESS, "npc_mov_free() failed"); 
 }
 
 /* Tests add_npc_to_room function */
-Test (npcs_in_room, add_npc_to_room) {
+Test (npcs_in_room, add_npc_to_room)
+{
     npc_t *npc = npc_new("npc_test", 20); 
     npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
 	int num_of_npcs_initial = npcs_in_room->num_of_npcs;

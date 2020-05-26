@@ -6,7 +6,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
 {
     assert(npcs_in_room != NULL);
 
-    strncpy(npcs_in_room->room_id,room_id,strlen(room_id)+1);
+    strncpy(npcs_in_room->room_id,room_id,strlen(room_id));
     npcs_in_room->npc_list = NULL;
     npcs_in_room->num_of_npcs = 0;
 
@@ -21,7 +21,7 @@ int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type,
 
     strncpy(npc_mov->npc_id,npc_id,strlen(npc_id)+1);
     npc_mov->mov_type = mov_type;
-    strncpy(npc_mov->track,room->room_id,strlen(npc_id)+1);
+    strncpy(npc_mov->track,room->room_id,strlen(npc_id));
 
     room_list_t* room_to_add = malloc(sizeof(room_list_t));
     room_to_add->next  = NULL;
