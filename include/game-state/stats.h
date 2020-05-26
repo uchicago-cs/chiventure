@@ -78,7 +78,7 @@ typedef struct stats_global{
     char *name;
     double max;
     UT_hash_handle hh; 
-} stat_global_t;
+} stats_global_t;
 
 typedef struct stats_global stats_global_hash_t;
 
