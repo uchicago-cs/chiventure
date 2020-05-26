@@ -38,26 +38,6 @@ Test(battle_classes, init)
 }
 
 
-/* tests that memory allocated for class has been freed */
-/* temp broke 
-Test(battle_classes, free)
-{
-    class_t *class;
-    int rc;
-
-    char *test_str;
-    test_str = "Test description";
-
-    class = new_class(CLASS_BARD, test_str, STAT_STRENGTH, 3.0);
-
-    cr_assert_not_null(class, "new_class() failed");
-
-    rc = class_free(class);
-
-    cr_assert_eq(rc, 0, "class_free() failed");
-}
-*/
-
 /* Test make_test_bard */
 Test(battle_classes, bard)
 {

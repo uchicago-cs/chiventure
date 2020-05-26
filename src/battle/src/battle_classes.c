@@ -51,19 +51,6 @@ class_t *new_class(class_type_t class_type, char* info,
 }
 
 
-/* See battle_classes.h */
-/* temp broken
-int class_free(class_t *class)
-{
-    assert(class != NULL);
-
-    free(class);
-
-    return 0;
-}
-*/
-
-
 /* Creates test bard class
  *
  * Parameters:

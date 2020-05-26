@@ -92,17 +92,4 @@ class_t *new_class(class_type_t class_type, char* info,
 int init_class(class_t *class, class_type_t class_type, char* info,
 	       possible_stats_t stats, double bonus);
 
-/*
-* Frees the resources associated with a class
-* 
-* Note: It will not free the substructs associated with the class.
-*
-* Parameters:
-*  - class: A class pointer. Must point to a class allocated with new_class
-*
-* Returns:
-*  - Always returns 0.
-*/
-int class_free(class_t *class);
-
 #endif
