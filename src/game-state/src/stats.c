@@ -38,7 +38,7 @@ stats_global_t* stats_global_new(char *nm, double max)
         return global_stat; //stat_id is already in use
     }
 
-    global_stat = malloc(sizeof(global_stat));
+    global_stat = malloc(sizeof(stats_global_t));
     int check = stats_global_init(global_stat, name, max);
     if(check != SUCCESS)
     {
@@ -52,23 +52,15 @@ stats_global_t* stats_global_new(char *nm, double max)
 /* See stats.h */
 stats_t *stats_new(char *name, double init)
 {
-    stats_global_t *global_stat;
-    global_stat = HASH_FIND(ctx->game->curr_stats, &nm, global_stat);
-
-    if(global_stat != NULL)
-    {
-        return global_stat; //stat_id is already in use
-    }
-
-    global_stat = malloc(sizeof(global_stat));
-    int check = stats_global_init(global_stat, name, max);
+    stats_t *new_stat;
+    new_stat = malloc(sizeof(stats_t));
+    
+    int check = stats_init(new_stat, name, init);
     if(check != SUCCESS)
     {
         return NULL;
     }
-
-    HASH_ADD(ctx->game->curr_stats, name, global_stat);
-    return global_stat;
+    return new_stat;
 }
 
 /* See stats.h */
