@@ -223,17 +223,17 @@ Test(branch_block_t, new_AST_EQ)
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
-    cr_assert_eq(ast->block->branch_block->num_conditionals, num_conditionals, "AST_branch_block_new() didn't set "
+    cr_assert_eq(new_ast->block->branch_block->num_conditionals, num_conditionals, "AST_branch_block_new() didn't set "
                 "ast->block->branch_block->num_conditionals");
-    cr_assert_eq(ast->block->branch_block->conditionals, &conditionals, "AST_branch_block_new() didn't set "
+    cr_assert_eq(new_ast->block->branch_block->conditionals, &conditionals, "AST_branch_block_new() didn't set "
                 "ast->block->branch_block->conditionals");
-    cr_assert_eq(ast->block->branch_block->conditional_type, conditional_type, "AST_branch_block_new() didn't set "
+    cr_assert_eq(new_ast->block->branch_block->conditional_type, conditional_type, "AST_branch_block_new() didn't set "
                 "ast->block->branch_block->conditional_type");
-    cr_assert_eq(ast->block->branch_block->num_controls, num_controls, "AST_branch_block_new() didn't set "
+    cr_assert_eq(new_ast->block->branch_block->num_controls, num_controls, "AST_branch_block_new() didn't set "
                 "ast->block->branch_block->num_controls");
-    cr_assert_eq(ast->block->branch_block->controls, &controls, "AST_branch_block_new() didn't set "
+    cr_assert_eq(new_ast->block->branch_block->controls, &controls, "AST_branch_block_new() didn't set "
                 "ast->block->branch_block->controls");
-    cr_assert_eq(ast->block_type, block_type, "AST_branch_block_new() didn't set "
+    cr_assert_eq(new_ast->block_type, block_type, "AST_branch_block_new() didn't set "
                 "ast->block_type");
     
     AST_block_free(new_ast);
