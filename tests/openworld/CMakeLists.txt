@@ -1,8 +1,9 @@
 set(TEST_EXE test-openworld)
 
 add_executable(${TEST_EXE}
-        test_structs.c
-        main.c)
+test_rooms.c
+test_items.c
+main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
 
