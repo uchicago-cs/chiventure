@@ -42,13 +42,12 @@ turn_t goes_first(battle_t *b)
     combatant_t *temp;
     DL_FOREACH(b->enemy, temp)
     {
-        if (b->player->stats->speed > temp->stats->speed ||
-            b->player->stats->speed == temp->stats->speed)
+        if (b->player->stats->speed < temp->stats->speed)
         {
-            return PLAYER;
+            return ENEMY;
         }
     }
-    return ENEMY;
+    return PLAYER;
 }
 
 /* see battle_logic.h */

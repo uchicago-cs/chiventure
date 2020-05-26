@@ -157,28 +157,21 @@ Test(battle_logic, enemy_goes_first)
 
     combatant_t *phead = NULL;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    cr_assert_not_null(p, "combatant_new() failed");
     DL_APPEND(phead, p);
 
     combatant_t *ehead = NULL;
     combatant_t *c1;
     combatant_t *c2;
-
     c1 = combatant_new("Goblin Gary", false, estats2, NULL, NULL);
     c2 = combatant_new("Orc John", false, estats, NULL, NULL);
-    DL_APPEND(ehead, c1);
-    DL_APPEND(ehead, c2);
     cr_assert_not_null(c1, "combatant_new() failed");
     cr_assert_not_null(c2, "combatant_new() failed");
+    DL_APPEND(ehead, c1);
+    DL_APPEND(ehead, c2);
 
     battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
-
-    
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
-    combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
-
-    cr_assert_not_null(p, "combatant_new() failed");
-    cr_assert_not_null(e, "combatant_new() failed");
 
     turnt_t res = goes_first(b);
 
@@ -197,18 +190,32 @@ Test(battle_logic, player_goes_first)
     pstats->speed = 50;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->speed = 25;
+    stat_t *estats2 = calloc(1, sizeof(stat_t));
+    estats2->speed = 15;
+
+    combatant_t *phead = NULL;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
-    combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
-
     cr_assert_not_null(p, "combatant_new() failed");
-    cr_assert_not_null(e, "combatant_new() failed");
+    DL_APPEND(phead, p);
 
-    int res = goes_first(p->stats->speed, e->stats->speed);
+    combatant_t *ehead = NULL;
+    combatant_t *c1;
+    combatant_t *c2;
+    c1 = combatant_new("Goblin Gary", false, estats, NULL, NULL);
+    c2 = combatant_new("Orc John", false, estats2, NULL, NULL);
+    cr_assert_not_null(c1, "combatant_new() failed");
+    cr_assert_not_null(c2, "combatant_new() failed");
+    DL_APPEND(ehead, c1);
+    DL_APPEND(ehead, c2);
 
-    cr_assert_eq(res, 0, "goes_first() failed!");
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
+    cr_assert_not_null(b, "battle_new() failed");
 
-    combatant_free(p);
-    combatant_free(e);
+    turn_t res = goes_first(b);
+
+    cr_assert_eq(res, PLAYER, "goes_first() failed!");
+
+    battle_free(b);
 }
 
 /* 
@@ -221,18 +228,32 @@ Test(battle_logic, same_speed)
     pstats->speed = 50;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->speed = 50;
+    stat_t *estats2 = calloc(1, sizeof(stat_t));
+    estats2->speed = 45;
+
+    combatant_t *phead = NULL;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
-    combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
-
     cr_assert_not_null(p, "combatant_new() failed");
-    cr_assert_not_null(e, "combatant_new() failed");
+    DL_APPEND(phead, p);
 
-    int res = goes_first(p->stats->speed, e->stats->speed);
+    combatant_t *ehead = NULL;
+    combatant_t *c1;
+    combatant_t *c2;
+    c1 = combatant_new("Goblin Gary", false, estats, NULL, NULL);
+    c2 = combatant_new("Orc John", false, estats2, NULL, NULL);
+    cr_assert_not_null(c1, "combatant_new() failed");
+    cr_assert_not_null(c2, "combatant_new() failed");
+    DL_APPEND(ehead, c1);
+    DL_APPEND(ehead, c2);
 
-    cr_assert_eq(res, 0, "goes_first() failed!");
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
+    cr_assert_not_null(b, "battle_new() failed");
 
-    combatant_free(p);
-    combatant_free(e);
+    turn_t res = goes_first(b);
+
+    cr_assert_eq(res, PLAYER, "goes_first() failed!");
+
+    battle_free(b);
 }
 
 /*
