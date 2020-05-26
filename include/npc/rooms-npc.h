@@ -1,10 +1,10 @@
 #ifndef _ROOMS_NPC_H
 #define _ROOMS_NPC_H
 
-#include "game_state_common.h"
-#include "item.h"
-#include "room.h"
-#include "npc.h"
+#include "game-state/game_state_common.h"
+#include "game-state/item.h"
+#include "game-state/room.h"
+#include "game-state/npc.h"
 
 
 /* Struct for adding and handling npcs in rooms */
