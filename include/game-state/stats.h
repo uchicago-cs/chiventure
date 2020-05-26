@@ -110,7 +110,7 @@ typedef struct effects effects_hash_t;
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 
-int stats_global_init(stats_global_t *s, char *name, double max);
+int stats_global_init(stats_global_t *s, char *nm, double max);
 
 
 /*
@@ -127,14 +127,15 @@ int stats_global_init(stats_global_t *s, char *name, double max);
 int stats_init(stats_t *stat, char *name, double init);
 
 /*
- * Allocates a new global stat
+ * Allocates a new global stat, and adds it to the global hash table
  *
  * Parameters:
  * name: the unique string ID to be given to the stat
  * max: maximal value this stat could have
  * 
  * Returns:
- *  Pointer to allocated global stats struct
+ *  Pointer to allocated global stats struct, returns NULL if failed.
+ *  If struct already exists, returns existing struct and does not overwrite
  */
 
 stats_global_t *stats_global_new(char *name, double max);

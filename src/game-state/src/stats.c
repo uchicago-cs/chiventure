@@ -17,7 +17,7 @@ int stats_init(stats_t *stat, char *name, double init)
     assert(stat != NULL);
     
     stats_global_t *global_stat;
-    // HASH_FIND(, &name, global_stat); need to find context struct
+    HASH_FIND(ctx->game->curr_stats, &name, global_stat);
     assert(global_stat != NULL)
     stat->global = global_stat
 
@@ -29,10 +29,25 @@ int stats_init(stats_t *stat, char *name, double init)
 }
 
 /* See stats.h*/
-stats_global_t* stats_global_new(char *name, double max)
+stats_global_t* stats_global_new(char *nm, double max)
 {
-    printf("stats_global_new: function net yet implemented\n");
-    return 0; // still needs to be implemented
+    stats_global_t *global_stat;
+    global_stat = HASH_FIND(ctx->game->curr_stats, &nm, global_stat);
+
+    if(global_stat != NULL)
+    {
+        return global_stat; //stat_id is already in use
+    }
+
+    global_stat = malloc(sizeof(global_stat));
+    int check = stats_global_init(global_stat, name, max);
+    if(check != SUCCESS)
+    {
+        return NULL;
+    }
+
+    HASH_ADD(ctx->game->curr_stats, name, global_stat);
+    return global_stat;
 }
 
 /* See stats.h */
