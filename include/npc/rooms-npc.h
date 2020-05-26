@@ -83,7 +83,7 @@ typedef struct npc_mov {
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npcs_in_room_init(npcs_in_room_t *npcs_in_room, room_t *room);
+int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char *room_id);
 
 
 /*
@@ -139,7 +139,7 @@ npc_mov_t *npc_mov_new(char* npc_id, npc_mov_type_e mov_type, room_t *room);
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurs.
  */
-int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room);
+int npcs_in_room_free(npcs_in_room_t *npcs_in_room);
 
 
 /*
@@ -244,7 +244,7 @@ char* track_room(npc_mov_t *npc_mov);
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occured.
  */
-int reverse_path(npt_mov_t *npc_mov);
+int reverse_path(npc_mov_t *npc_mov);
 
 
 #endif
