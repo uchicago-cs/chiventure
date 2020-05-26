@@ -191,6 +191,6 @@ void levels_update(tree_t* tree, inventory_t* inventory);
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int inventory_skill_acquire(tree_t* tree, inventory_t* inventory, sid_t sid);
+int inventory_skill_acquire(tree_t* tree, inventory_t* inventory, skill_t* skill);
 
 #endif /* INCLUDE_SKILLTREE_H_ */
