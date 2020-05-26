@@ -4,6 +4,7 @@ add_executable(${TEST_EXE}
         test_battle_ai.c
         test_battle_state.c
 	test_battle_classes.c
+        test_battle_moves.c
         test_battle_flow.c
         test_battle_flow_structs.c
         main.c)

@@ -30,10 +30,10 @@ typedef enum class_type
  * This enum type is part of the class struct. Whichever stat
  * is stored in class_t.st is increased by class_t.bonus
  * includes the following mock stats:
- * speed (spd)
- * strength (str)
- * dexterity (dex)
- * charisma (chrsma)
+ * speed
+ * strength
+ * dexterity 
+ * charisma 
  */
 typedef enum possible_stats
 {
@@ -45,10 +45,10 @@ typedef enum possible_stats
 
 
 /* The mock  player class struct, which includes:
- * the enum class type
- * a short description of the class
- * which stat the class gets a bonus for
- * how much that bonus is
+ * class_type: the enum class type (bard, cleric, paladin, wizard)
+ * info: a short description of the class
+ * stats: which stat the class gets a bonus for
+ * bonus: how much that bonus is, a flat number 
  */
 typedef struct class
 {
@@ -63,9 +63,9 @@ typedef struct class
  * Allocates a class
  *
  * Parameters:
- * - cl: a class type
+ * - class_type: an enum class type
  * - info: a short description of the class
- * - st: the stat that the class receives a bonus for
+ * - stats: the stat that the class receives a bonus for
  * - bonus: the amount added to the designated stat
  *
  * Returns:
@@ -73,17 +73,16 @@ typedef struct class
  *  cannot be allocated
  */
 class_t *new_class(class_type_t class_type, char* info,
-		   possible_stats_t stats, double bonus);
-
+                   possible_stats_t stats, double bonus);
 
 /*
  * Initializes a class
  *
- * Parameters:
- * - class: A class. Must point to allocated memory.
- * - cl: a class type
+ * Parameters: 
+ * - class: A class pointer. Must point to allocated memory. 
+ * - class_type: an enum class type
  * - info: a short description of the class
- * - st: the stat that the class receives a bonus for
+ * - stats: the stat that the class receives a bonus for
  * - bonus: the amount added to the designated stat
  *
  * Returns:
@@ -91,5 +90,19 @@ class_t *new_class(class_type_t class_type, char* info,
  */
 int init_class(class_t *class, class_type_t class_type, char* info,
 	       possible_stats_t stats, double bonus);
+
+
+/* Initializes one hard-coded test class 
+for each of the four class */
+
+class_t *make_test_bard();
+
+class_t *make_test_cleric();
+
+class_t *make_test_paladin();
+
+class_t *make_test_wizard();
+
+
 
 #endif

@@ -1,11 +1,10 @@
-#ifndef BATTLE_STRUCTS_H
-#define BATTLE_STRUCTS_H
+#ifndef BATTLE_MOVES_H
+#define BATTLE_MOVES_H
 
 #include <stdbool.h>
 #include <string.h>
+#include "battle_classes.h"
 
-/* max name length */
-#define MAX_NAME_LEN (50)
 
 /* items stub */
 typedef struct item {
@@ -21,8 +20,10 @@ typedef struct item {
     struct item *prev;
 } item_t;
 
+
 /* moves stub */
 typedef struct move {
+    char *info;
     int id;
     item_t *item;
     bool attack;
@@ -32,17 +33,18 @@ typedef struct move {
     struct move *prev;
 } move_t;
 
-/* stats stub */
-typedef struct stat {
-    int speed;
-    int defense;
-    int strength;
-    int dexterity;
-    int hp;
-    int max_hp;
-    int xp;
-    int level;
-} stat_t;
+
+/* For use in testing battle code,
+make a test move for each class */
+
+move_t *test_move_bard();
+
+move_t *test_move_cleric();
+
+move_t *test_move_paladin();
+
+move_t *test_move_wizard();
 
 
 #endif
+
