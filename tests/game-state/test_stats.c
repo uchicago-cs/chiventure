@@ -89,3 +89,31 @@ Test(stats,global_free){
     int ret_val = free_stats_global(stat);
     cr_assert_eq(ret_val, SUCCESS, "free_stats_global() failed to return SUCCESS");
 }
+
+Test(stats, change_stat) {
+    stats_global_t* stat_global = stats_global_new("health", 100);
+    cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
+
+    stats_t* stat = stats_new("health", 100);
+    cr_assert_not_null(stat, "stats_new() failed. Player health stat is NULL");
+
+    stat -> global = stat_global;
+    stat -> val = 3.0;
+    stat -> max = 5.0;
+    stat -> modifier = 1.0;
+
+
+
+}
+
+Test(stats, get_mod) {
+
+}
+
+Test(stats, get_max) {
+
+}
+
+Test(stats, -----) {
+
+}
