@@ -132,7 +132,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
 
 /*
- * Function that deletes a node in list_action_type_t struct
+ * Function that deletes a node in list_action_type_t
  * 
  * Paramters:
  * - action_type_t: action to be deleted
@@ -141,7 +141,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
  * Returns:
  * - int SUCCESS when node is removed
  */
-int delete_node(list_action_type_t *act, action_type_t);
+int delete_action(list_action_type_t *act, action_type_t *a);
 
 
 #endif

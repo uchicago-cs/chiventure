@@ -261,6 +261,14 @@ int do_item_item_action(action_type_t *a, item_t *direct,
 }
 
 /* See actionmanagement.c */
+int add_action(list_action_type_t *act, action_type_t *a)
+{
+    a->next = &act;
+    act = &a;
+    return SUCCESS;
+}
+
+/* See actionmanagement.c */
 int delete_action(list_action_type_t *act, action_type_t *a)
 {
     struct list_action_type_t *temp, *prev;
