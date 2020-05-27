@@ -1,5 +1,5 @@
-#include "sample_obj_documentation.h"
-#include "../../../include/common/common.h"
+#include "../../src/libobj/sandbox/sample_obj_documentation.h"
+#include "../common/common.h"
 
 #ifndef INCLUDE_OBJ_STORE_H
 #define INCLUDE_OBJ_STORE_H
@@ -39,23 +39,25 @@ objstore_t *new_objstore(obj_t *o);
  * find_objstore: finds objstore item containing object with given type & id
  *
  * params: 
+ *   - obj_store: double ptr to hash
  *   - type: the type of the object corresponding to its .wdz subfile.
  *   - id: the object's id.
  * 
  * returns:
  *   - a pointer to the requested objstore item
  */
-objstore_t* find_objstore(objtype_t type, char* id);
+objstore_t* find_objstore(objstore_t **obj_store, objtype_t type, char* id);
 
 /* 
  * add_obj: given unique object, add to obj_store hash table 
  *          (else modify existing item to point to new object)
  *
  * params:
+ *   - obj_store: double ptr to hash
  *   - o: object to add to hash
- * returns: SUCCESS on completion, else FAILURE
+ * returns: SUCCESS on completion
  */
-int add_objstore(obj_t *o);
+int add_objstore(objstore_t **obj_store, obj_t *o);
 
 /*
  * free_objstore: frees a given objstore struct
