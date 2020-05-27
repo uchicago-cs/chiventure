@@ -51,7 +51,7 @@ int combatant_init(combatant_t *c, char *name, bool is_friendly, stat_t *stats,
 /* battle_state.h */
 int combatant_free(combatant_t *c)
 {
-	if (c == NULL)
+    if (c == NULL)
     {
         return SUCCESS;
     }
