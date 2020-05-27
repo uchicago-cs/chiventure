@@ -51,7 +51,7 @@ int add_objstore(objstore_t **obj_store, obj_t *o)
 /* See obj_store.h for documentation */
 int free_objstore(objstore_t **obj_store, objstore_t *store)
 {
-    //HASH_DEL(*obj_store, store);
+    HASH_DEL(*obj_store, store);
     free(store);
     return SUCCESS;
 }
