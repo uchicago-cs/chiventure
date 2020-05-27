@@ -40,7 +40,7 @@ typedef struct npc npc_hash_t;
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
-int npc_init(npc_t *npc, char *npc_id, int health);
+int npc_init(npc_t *npc, char *npc_id, int health, stats_t *stats);
 
 
 /*
@@ -56,7 +56,7 @@ int npc_init(npc_t *npc, char *npc_id, int health);
  * Returns:
  *  pointer to allocated npc
  */
- npc_t* npc_new(char *npc_id, int health);
+ npc_t* npc_new(char *npc_id, int health, stats_t *stats);
 
 
 /*
