@@ -35,6 +35,9 @@ typedef struct game {
 
     /* pointer to room that, when entered, ends the game */
     room_t *final_room;
+    
+    /* list of end conditions that, when all are met, ends the game */
+    action_condition_list_t *end_conditions;
 
     /* pointer to current player struct */
     player_t *curr_player;
@@ -140,6 +143,29 @@ int add_item_to_game(game_t *game, item_t *item);
  *  SUCCESS if successful, FAILURE if failed
  */
 int add_final_room_to_game(game_t *game, room_t *final_room);
+
+/* Adds an end condition to the given game
+ * 
+ * Parameters:
+ *  game struct
+ *  end condition struct
+ * 
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition);
+
+/* Checks if all end conditions in a given game have been met
+ * 
+ * Parameters:
+ *  game struct
+ * 
+ * Returns: 
+ *  true if either all end conditions have attributes with expected values
+ *  or if no end conditions exist
+ *  false if the attribute of at least one end condition is not expected value
+ */ 
+bool end_conditions_met(game_t *game);
 
 /*
 * Function to connect two rooms
@@ -258,7 +284,7 @@ item_list_t *get_all_items_in_game(game_t *game);
 * - ATTRIBUTE_NULL if attribute is null
 */
 int add_effect(game_t *game, char* action_name, char* item_src_name,
-	       char* item_modify_name, char* attribute_name, attribute_value_t new_value);
+           char* item_modify_name, char* attribute_name, attribute_value_t new_value);
 
 /* add_condition creates a game_action_condition_t struct and adds it to the action pointed to
  * Parameters:
@@ -278,7 +304,7 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
  * - ATTRIBUTE_NULL if attribute is null
  */
 int add_condition(game_t *game, char *action_name, char *item_src_name,
-		  char *item_modify_name, char *attribute_name, attribute_value_t new_value);
+          char *item_modify_name, char *attribute_name, attribute_value_t new_value);
 
 #endif
 

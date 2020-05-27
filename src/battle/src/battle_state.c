@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include "battle/battle_classes.h"
 #include "battle/battle_state.h"
-
 
 /* See battle_state.h */
 combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
@@ -138,4 +138,3 @@ int battle_free(battle_t *b)
 
     return SUCCESS;
 }
-

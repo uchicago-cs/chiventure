@@ -2,7 +2,6 @@
 #define CUSTOM_ACTIONS_COMMON_H
 
 #define TRUE 0
-#define FALSE 1
 #define SUCCEEDS 2
 #define FAILS 3
 
