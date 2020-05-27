@@ -246,7 +246,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 /* =================================== */
 
 /* See cmd.h */
-void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx)
+int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_ctx_t *ctx)
 {
     char *outstring;
     /*
@@ -255,16 +255,26 @@ void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx)
      */
     if (strcmp(cmd_name_tos(c),"QUIT")==0)
     {
-        *quit=0;
         (*(c->func_of_cmd))(c->tokens, ctx);
+
+        return CLI_CMD_SUCCESS_QUIT;
     }
     else
     {
         outstring = (*(c->func_of_cmd))(c->tokens, ctx);
-        if(outstring!=NULL)
+        if(callback_func)
         {
-            print_to_cli(ctx, outstring);
+            if (outstring != NULL)
+            {
+                return callback_func(ctx, outstring, callback_args);
+            } else
+            {
+                return CLI_CMD_SUCCESS_NOOUTPUT;
+            }
+        }
+        else
+        {
+            return CLI_CMD_SUCCESS;
         }
     }
-    return;
 }
