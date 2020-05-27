@@ -59,6 +59,9 @@ typedef struct attribute
         int i;
         obj_t *o;
     } data;
+    
+    // Required uthash identifier for making the hash table
+    UT_hash_handle hh;
 
 } attribute_t;
 
@@ -81,8 +84,6 @@ typedef struct obj
     //The object's attributes (a hash table)
     attribute_t *attrs;
 
-    // Required uthash identifier for making the hash table
-    UT_hash_handle hh;
 } obj_t;
 
 /* asset_t: a struct describing a media asset.
