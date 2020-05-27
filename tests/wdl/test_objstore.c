@@ -11,7 +11,7 @@ Test(objstore, new_failure)
 
 Test(objstore, new_success)
 {
-    obj_t *test;
+    obj_t *test = malloc(sizeof(obj_t));
     strcpy(test->id, "villager");
     test->type = 6;
     objstore_t *res = new_objstore(test);
@@ -27,7 +27,7 @@ Test(objstore, find_failure)
 
 Test(objstore, find_success)
 {
-    obj_t *test;
+    obj_t *test = malloc(sizeof(obj_t));
     strcpy(test->id, "villager");
     test->type = 6;
     test->attrs = NULL;
@@ -41,7 +41,7 @@ Test(objstore, find_success)
 
 Test(objstore, add_new)
 {  
-    obj_t *test;
+    obj_t *test = malloc(sizeof(obj_t));
     strcpy(test->id, "villager");
     test->type = 6;
     objstore_t *res = NULL;
@@ -53,14 +53,16 @@ Test(objstore, add_new)
 Test(objstore, add_replace)
 {
     // if key is not unique, add_objstore will replace o value with given value
-    obj_t *old;
+    obj_t *old = malloc(sizeof(obj_t));
     strcpy(old->id, "villager");
     old->type = 6;
+    old->attrs = malloc(sizeof(attribute_t));
     strcpy(old->attrs->id, "health");
 
-    obj_t *new;
+    obj_t *new = malloc(sizeof(obj_t));
     strcpy(new->id, "villager");
     new->type = 6;
+    new->attrs = malloc(sizeof(attribute_t));
     strcpy(new->attrs->id, "mana");
 
     objstore_t *res = NULL;
