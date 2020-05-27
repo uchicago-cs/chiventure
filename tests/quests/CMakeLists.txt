@@ -1,4 +1,4 @@
-set(TEST_EXE test-battle)
+set(TEST_EXE test-quests)
 
 add_executable(${TEST_EXE}
         test_quests_state.c

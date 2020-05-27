@@ -5,7 +5,7 @@
 #include "game-state/item.h"
 #include "common/common.h"
 #include "common/utlist.h"
-#include "game-state/npc.h"
+#include "npc/npc.h"
 
 /* 
  * This union represents the mission.
@@ -14,17 +14,17 @@
  *       a struct in future implementations.
  *
  */
-typedef union mission {
+typedef struct mission {
     item_t *item_to_collect;
     npc_t *npc_to_meet;
-} mission_u;
+} mission_t;
 
 
 /* 
  * This union represents an achievement.
  */
 typedef struct achievement {
-    mission_u mission;
+    mission_t *mission;
     bool completed;     //0 is not completed, 1 is completed
 } achievement_t;
 

@@ -10,17 +10,18 @@ Test(achievement, init)
 {
 	item_t *item_1 = item_new("foo", "foo foo",
     "foo test foo");
+    mission_t *mission = mission_new(item_1,NULL);
 
-    achievement_t *achievement = achievement_new(item_1);
+    achievement_t *achievement = achievement_new(mission);
     
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
 
-	int check = achievement_init(achievement, item_to_get);
+	int check = achievement_init(achievement, mission);
 
-    cr_assert_str_eq(achievement->mission.item_id, "test_item", 
+    cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item", 
                      "achievement_init did not set mission name");
-    cr_assert_str_eq(achievement->completed, 0, 
+    cr_assert_eq(achievement->completed, 0, 
                      "achievement_init did not initialize completed bool");
 	cr_assert_eq(check, SUCCESS, "achievement_init() test has failed!");
 }
@@ -49,14 +50,14 @@ Test(achievement, new)
 {
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
-	achievement_t* achievement = achievement_new(item_to_get);
+    mission_t *mission = mission_new(item_to_get, NULL);
+	achievement_t* achievement = achievement_new(mission);
 
-	cr_assert_not_null(achivement, "achievement_new() test has failed!");
-    cr_assert_str_eq(achievement->mission.item_id, "test_item", 
+	cr_assert_not_null(achievement, "achievement_new() test has failed!");
+    cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item", 
                      "achievement_init did not set mission name");
-    cr_assert_str_eq(achievement->completed, 0, 
+    cr_assert_eq(achievement->completed, 0, 
                      "achievement_init did not initialize completed bool");
-	cr_assert_eq(check, SUCCESS, "achievement_init() test has failed!");
 }
 
 /* Tests new quest malloc (new uses init) */
@@ -68,14 +69,14 @@ Test(quest, new)
 
 	cr_assert_not_null(q, "quest_new() test has failed!");
 
-    cr_assert_eq(quest->quest_id, 1, "achievement_new()"
+    cr_assert_eq(q->quest_id, 1, "achievement_new()"
                 "did not initialize the quest_id");
-    cr_assert_eq(quest->achievement_list, NULL, "achievement_new()"
+    cr_assert_eq(q->achievement_list, NULL, "achievement_new()"
                 "did not initialize the achievement list");
-    cr_assert_str_eq(quest->reward->item_id, "test_item", "achievement_new()"
-                "did not initialize the reward item");)
-    cr_assert_eq(quest->status, 0, "achievement_new()"
-                "did not initialize the status");)
+    cr_assert_str_eq(q->reward->item_id, "test_item", "achievement_new()"
+                "did not initialize the reward item");
+    cr_assert_eq(q->status, 0, "achievement_new()"
+                "did not initialize the status");
 }
 
 
@@ -84,7 +85,9 @@ Test(achievement, free)
 {
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
-	achievement_t* achievement_to_free = achievement_new(item_to_get);
+    mission_t *mission = mission_new(item_to_get, NULL);
+
+	achievement_t* achievement_to_free = achievement_new(mission);
 
 	cr_assert_not_null(achievement_to_free, "achievement_free(): room is null");
 
@@ -102,7 +105,7 @@ Test(quest, free)
 
 	cr_assert_not_null(q_to_free, "quest_free(): room is null");
 
-	int freed = quest_free(quest_to_free);
+	int freed = quest_free(q_to_free);
 
 	cr_assert_eq(freed, SUCCESS, "quest_free() test has failed!");
 }
