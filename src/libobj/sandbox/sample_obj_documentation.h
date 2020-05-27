@@ -39,14 +39,14 @@ typedef struct obj obj_t; // forward declaration so attribute_t can use
 
  
 //data stored in the attribute
-union attr_data {
+typedef union attrdata {
     bool b;
     char c;
     char *s;
     char **sl;
     int i;
     obj_t *o;
-};
+} attrdata_t;
 
 /* attribute_t
  * 
@@ -60,7 +60,7 @@ typedef struct attribute
     //the id for the attribute
     char id[MAXLEN_ID + 1];
 
-    union attr_data data;
+    attrdata_t data;
     
     // Required uthash identifier for making the hash table
     UT_hash_handle hh;
