@@ -410,7 +410,8 @@ Test(battle_logic, uses_item_correctly)
  */
 Test(battle_logic, inventory_empty)
 {
-    int res = use_item(NULL, 100);
+    combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL);
+    int res = use_item(p, 100);
     cr_assert_eq(res, FAILURE, "use_item() has failed!");
 }
 
