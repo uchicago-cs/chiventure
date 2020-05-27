@@ -1,26 +1,28 @@
 #include "npc/npc.h"
 #include "common-item.h"
 /* See npc.h */
-int npc_init(npc_t *npc, char *npc_id, int health) //TODO-convo_t *dialogue)
+int npc_init(npc_t *npc, char *npc_id, int health, class_t *class) //TODO-convo_t *dialogue)
 {
     assert(npc != NULL);
     strncpy(npc->npc_id, npc_id, strlen(npc_id));
     npc->health = health;
     //TODO-npc->dialogue = dialogue;
     npc->inventory = NULL;
+    npc->class = class;
 
     return SUCCESS;
 }
 
 /* See npc.h */
-npc_t* npc_new(char *npc_id, int health)
+npc_t* npc_new(char *npc_id, int health, class_t *class)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
     memset(npc, 0, sizeof(npc_t));
     npc->npc_id = malloc(MAX_ID_LEN);
+    npc->class = malloc(sizeof(class_t));
 
-    int check = npc_init(npc, npc_id, health); //TODO-dialogue
+    int check = npc_init(npc, npc_id, health, class); //TODO-dialogue
 
     if (npc == NULL || npc->npc_id == NULL || check != SUCCESS)
     {
@@ -37,6 +39,7 @@ int npc_free(npc_t *npc)
     
     // TODO-free_dialog(npc->dialogue);
     free(npc->npc_id);
+    free(npc->class);
     delete_all_items(&npc->inventory);
     free(npc);
 

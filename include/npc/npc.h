@@ -4,6 +4,7 @@
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 //TODO-#include "dialogue.h"
+#include "playerclass/class_structs.h"
 
 /* A non-playable character in game */
 typedef struct npc {
@@ -13,6 +14,7 @@ typedef struct npc {
     int health;
     // convo_t *dialogue;  placeholder for incoming dialogue module
     item_hash_t *inventory;
+    class_t *class; // pointer to an existing playerclass struct 
 } npc_t;
 
 
@@ -30,14 +32,15 @@ typedef struct npc npc_hash_t;
  *  npc: an npc; must point to already allocated memory
  *  health: the starting health of the npc
  *  npc_id: string referring to npc id; passed implicitly
- *          from npc_new 
+ *          from npc_new
+ *  class: a pointer to an existing class_t struct defining the class of the npc
  *  TODO-dialogue: pointer to a convo struct for the npc
  *   // placeholder for incoming dialogue module
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
-int npc_init(npc_t *npc, char *npc_id, int health);
+int npc_init(npc_t *npc, char *npc_id, int health, class_t *class);
 
 
 /*
@@ -46,13 +49,14 @@ int npc_init(npc_t *npc, char *npc_id, int health);
  * Parameters:
  *  npc_id: the unique string ID of the npc
  *  health: the starting health of the npc
+ *  class: a pointer to an existing class_t struct defining the class of the npc
  *  TODO-dialogue: pointer to convo struct for the npc
  *   // placeholder for incoming dialogue module
  *
  * Returns:
  *  pointer to allocated npc
  */
- npc_t* npc_new(char *npc_id, int health);
+ npc_t* npc_new(char *npc_id, int health, class_t *class);
 
 
 /*
