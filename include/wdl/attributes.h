@@ -32,7 +32,7 @@
  *   - data: atrr data
  * returns: ptr to new attribute_t
  */
-attribute_t *new_attr(char *id, data d);
+attribute_t *new_attr(char *id, union data d);
 
 /* find_attr - given id, find attribute in hash
  *
@@ -51,7 +51,7 @@ attribute_t *find_attr(attribute_t **attrs, char *id);
  *   - data: atrr data
  * returns: SUCCESS on completion, else FAILURE
  */
-int add_attr(attribute_t **attrs, char *id, data d);
+int add_attr(attribute_t **attrs, char *id, union data d);
 
 /* free_attr - frees & deletes attr from hash table
  *

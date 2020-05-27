@@ -1,7 +1,7 @@
 #include "../../../include/wdl/attributes.h"
 
 /* See attributes.h for documentation */
-attribute_t *new_attr(char *id, data d)
+attribute_t *new_attr(char *id, union data d)
 {
     if (id == NULL) {
         return NULL;
@@ -11,7 +11,7 @@ attribute_t *new_attr(char *id, data d)
     memset(new, 0, sizeof(*new)); // to accommodate padding in struct
 
     strcpy(new->id, id);
-    new->data = data;
+    new->data_t = d;
     return new;
 }
 
@@ -28,18 +28,18 @@ attribute_t *find_attr(attribute_t **attrs, char *id)
 }
 
 /* See attributes.h for documentation */
-int add_attr(attribute_t **attrs, char *id, data d)
+int add_attr(attribute_t **attrs, char *id, union data d)
 {
     if (id == NULL) {
         return FAILURE;
     }
-    attribute_t *new = find_objstore(attrs, id); // see if key already exists in hash
+    attribute_t *new = find_attr(attrs, id); // see if key already exists in hash
     if (new == NULL) {
         new =  new_attr(id, d);
         if (new == NULL) return FAILURE;
         HASH_ADD(hh, *attrs, id, sizeof(id), new);
     } else {
-        new->o = o;
+        new->data = d;
     }
     return SUCCESS;
 }
@@ -47,6 +47,6 @@ int add_attr(attribute_t **attrs, char *id, data d)
 /* See attributes.h for documentation */
 int *free_attr(attribute_t **attrs, attribute_t *a)
 {
-    HASH_DEL(attrs, a);
+    // HASH_DEL(attrs, a);
     free(a);
 }
