@@ -362,9 +362,11 @@ Test(autogenerate, room_generate_success_two)
     // 2 Roomspec case - should still work
     speclist_t *tail = speclist_new(sample_roomspec2);
     cr_assert_not_null(tail, "Could not create new speclist");
+
     // Doubly linked
-    tail->prev = sample_gencontext->speclist;
-    sample_gencontext->speclist->next = tail;
+    speclist_t *head = NULL;
+    DL_APPEND(head, sample_gencontext->speclist);
+    DL_APPEND(sample_gencontext->speclist, tail);
 
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext), 
         "room_generate() returned FAILURE when it should have returned SUCCESS");
@@ -412,10 +414,10 @@ Test(autogenerate, room_generate_success_three)
     cr_assert_not_null(tail, "Could not create new speclist");
     
     // Doubly linked
-    mid->prev = sample_gencontext->speclist;
-    sample_gencontext->speclist->next = mid;
-    tail->prev = mid;
-    mid->next = tail;
+    speclist_t *head = NULL;
+    DL_APPEND(head, sample_gencontext->speclist);
+    DL_APPEND(sample_gencontext->speclist, mid);
+    DL_APPEND(sample_gencontext->speclist, tail);
 
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext), 
         "room_generate() returned FAILURE when it should have returned SUCCESS");
