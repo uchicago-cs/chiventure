@@ -1,12 +1,11 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "common/utlist.h"
-#include "../../../include/npc/dialogue.h"
+#include "../../../include/npc/dialogue.h"*/
+#include "npc/dialogue.h"
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
+/* See dialogue.h */
 void print_gold(char *str)
 {
     printf("\033[0;33m");
@@ -31,9 +30,7 @@ void print_red(char *str)
     return;
 }
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
+/* See dialogue.h */
 void npc_print(char *dialogue)
 {
     char *divider = "#";
@@ -49,10 +46,8 @@ void npc_print(char *dialogue)
     }
 }
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
-convo_t *new_convo()
+/* See dialogue.h */
+convo_t *convo_new()
 {
     convo_t *c = (convo_t*)malloc(sizeof(convo_t));
     c->node_count = 0;
@@ -60,17 +55,43 @@ convo_t *new_convo()
     return c;
 }
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
-node_t *make_node(int node_id, char *dialogue, int max_edges)
+/* See dialogue.h */
+int convo_free(convo_t *c)
 {
-    node_t *newnode = (node_t*)malloc(sizeof(node_t));
-    newnode->node_id = node_id;
-    newnode->dialogue = dialogue;
-    newnode->connection_count = 0;
-    newnode->edges = NULL;
-    return newnode;
+    //TODO-delete_all_nodes(c->nodes);
+    free(c);
+    return SUCCESS;
+}
+
+/* See dialogue.h */
+int node_init(node_t *n, char *node_id, char *dialogue)
+{
+    assert(n != NULL);
+    strncpy(n->node_id, node_id, strlen(node_id));
+    strncpy(n->dialogue, dialogue, strlen(dialogue));
+    n->connection_count = 0;
+    n->edges = NULL;
+
+    return SUCCESS;
+}
+
+/* See dialogue.h */
+node_t *node_new(char *node_id, char *dialogue, int max_edges)
+{
+    node_t *n = (node_t*)malloc(sizeof(node_t));
+    memset(n, 0, sizeof(node_t));
+    n->node_id = (char*)malloc(MAX_ID_LEN);
+    n->dialogue = (char*)malloc(MAX_DIA_LEN);
+
+    int check = node_init(n, node_id, dialogue);
+    
+    if (n == NULL || n->node_id == NULL || 
+        n->dialogue == NULL || check != SUCCESS)
+    {
+        return NULL;
+    }
+
+    return n;
 }
 
 /*

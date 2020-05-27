@@ -1,10 +1,9 @@
 #ifndef _DIALOGUE_H
 #define _DIALOGUE_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "common/utlist.h"
+#include "game-state/game_state_common.h"
+
+#define MAX_DIA_LEN 500
 
 
 // BASIC PRINTING FUNCTIONS ---------------------------------------------------
@@ -32,10 +31,10 @@ void npc_print(char *dialogue);
 
 /*
  * A struct to represent a conversation.
+ * 
  * Includes:
  *  - node_count: the number of nodes the convo currently has
  *  - nodes: a linked list of node pointers (list of included nodes)
- *
  */
 typedef struct convo {
     int node_count;
@@ -44,27 +43,27 @@ typedef struct convo {
 
 /*
  * A struct to represent one scene in a conversation.
+ * 
  * Includes:
  *  - node_id: a marker of which node this is
  *  - dialogue: a string of what the NPC says on arriving at the node
  *  - connection_count: the number of connections the node currently has
  *  - edges: a linked list of edge pointers (list of attached edges)
- *
  */
 typedef struct node {
-    int node_id;
+    char* node_id;
     char *dialogue;
     int connection_count;
     edge_list_t *edges;
 } node_t;
 
 /*
- * A struct to represent an edge to a node (Note: does not include source node)
+ * A struct to represent an edge to a node (note: does not include source node).
+ * 
  * Includes:
  *  - toward: points toward which node traversing this edge leads to
  *  - keyword: a string that the user's input must match to enter the edge
  *  - quip: a string of what the player's character says if they enter the edge
- *
  */
 typedef struct edge {
     node_t *toward;
@@ -73,7 +72,8 @@ typedef struct edge {
 } edge_t;
 
 /*
- * A doubly-linked list of nodes for containing all involved nodes in a convo
+ * A doubly-linked list of nodes for containing all involved nodes in a convo.
+ * 
  * Includes:
  *  - cur_node: Points to the location of the node currently focused on
  *  - prev: A pointer to the previous entry in the list, NULL if none left
@@ -86,7 +86,8 @@ typedef struct node_list {
 } node_list_t;
 
 /*
- * A doubly-linked list of edges for containing all potential paths for a node
+ * A doubly-linked list of edges for containing all potential paths for a node.
+ * 
  * Includes:
  *  - cur_edge: Points to the location of the edge currently focused on
  *  - prev: A pointer to the previous entry in the list, NULL if none left
@@ -99,27 +100,107 @@ typedef struct edge_list {
 } edge_list_t;
 
 
-// DIALOGUE BASIC FUNCTIONS ---------------------------------------------------
+// STRUCT FUNCTIONS -----------------------------------------------------------
 
 /*
- * A function to allocate a new convo struct
+ * Allocates a new npc in the heap.
+ * 
+ * Parameters: None
+ * 
  * Returns:
- *  - A pointer to the new convo
- *
+ *  - pointer to the new, empty convo
  */
 convo_t *convo_new();
 
 /*
- * A function to allocate and initialize a new node struct
- * Parameters:
- *  - tag: a marker for the node's identity
- *  - dialogue: a string of what the NPC says when the player reaches this node
- *  - max_edges: the maximum number of edges that can be added
- * Returns:
- *  - A pointer to the new node
+ * Frees resources associated with a convo.
  *
+ * Parameters:
+ *  - c: the convo to be freed
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
  */
-node_t *make_node(int node_id, char *dialogue, int max_edges);
+int convo_free(convo_t *c);
+
+/*
+ * Initializes the given node with given parameters.
+ *
+ * Parameters:
+ *  - n: a node; must point to already allocated memory
+ *  - node_id: a string referencing the node's identity
+ *  - dialogue: a string of what the NPC says when the player reaches this node
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
+int node_init(node_t *n, char *node_id, char *dialogue);
+
+/*
+ * Allocates a new node on the heap.
+ * 
+ * Parameters:
+ *  - node_id: a string referencing the node's identity
+ *  - dialogue: a string of what the NPC says when the player reaches this node
+ * 
+ * Returns:
+ *  - pointer to the new node
+ */
+node_t *node_new(char *node_id, char *dialogue);
+
+/*
+ * Frees resources associated with a node.
+ *
+ * Parameters:
+ *  - n: the node to be freed
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
+ */
+int node_free(node_t *n);
+
+/*
+ * Initializes the given edge with given parameters.
+ *
+ * Parameters:
+ *  - e: an edge; must point to already allocated memory
+ *  - toward: the node that traversing this edge will bring you to
+ *  - keyword: a string that the user's input must match to enter the edge
+ *  - quip: a string of what the player character should say
+ *          when this edge is traversed
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
+int edge_init(edge_t *ee, node_t *toward, char *keyword, char *quip);
+
+/*
+ * Allocates a new edge struct on the heap.
+ * 
+ * Parameters:
+ *  - toward: the node that traversing this edge will bring you to
+ *  - keyword: a string that the user's input must match to enter the edge
+ *  - quip: a string of what the player character should say
+ *    when this edge is traversed
+ * 
+ * Returns:
+ *  - pointer to the new edge struct
+ */
+edge_t *edge_new(node_t *toward, char *keyword, char *quip);
+
+/*
+ * Frees resources associated with an edge.
+ *
+ * Parameters:
+ *  - e: the edge to be freed
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
+ */
+int edge_free(edge_t *e);
+
+
+// DIALOGUE BUILDING FUNCTIONS ------------------------------------------------
 
 /*
  * Attaches a given node to the head list of a given convo.
@@ -129,19 +210,6 @@ node_t *make_node(int node_id, char *dialogue, int max_edges);
  * Returns: Nothing
  */
 void add_node(convo_t *c, node_t *n);
-
-/*
- * Allocates and initializes an edge struct
- * Parameters:
- *  - toward: the node that traversing this edge will bring you to
- *  - keyword: a string that the user's input must match to enter the edge
- *  - quip: a string of what the player character should say
- *    when this edge is traversed
- * Returns:
- *  - A pointer to the new edge struct
- *
- */
-edge_t *make_edge(node_t *toward, char *keyword, char *quip);
 
 /*
  * Attaches a given edge to the connections list of a given node.
@@ -195,4 +263,8 @@ void end_convo();
  */
 void run_convo(convo_t *c);
 
+
+// LINKED LIST FUNCTIONS ------------------------------------------------------
+
+int delete_all_nodes(node_list_t *nodes);
 #endif
