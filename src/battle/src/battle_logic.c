@@ -75,24 +75,24 @@ int consume_item(combatant_t *c, item_t *item)
 }
 
 /* see battle_logic.h */
-int player_use_item(combatant_t *c, item_t *inv, int id)
+int player_use_item(combatant_t *c, int id);
 {
-    if (inv == NULL)
+    if (c->items == NULL)
     {
-        return 1;
+        return FAILURE;
     }
     
-    item_t *item = find_item(inv, id);
+    item_t *item = find_item(c->items, id);
     
     if(item == NULL || item->quantity == 0)
     {
-        return 2;
+        return FAILURE;
     }
 
     consume_item(c, item);
     item->quantity -= 1;
     
-    return 0;
+    return SUCCESS;
 }
 
 /* see battle_logic.h */

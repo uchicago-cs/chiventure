@@ -69,21 +69,18 @@ int consume_item(combatant_t *c, item_t *item);
  *
  *  Parameters: 
  *   c - combatant information
- *   inv - inventory of the player
  *   id - the number id of the item
  *  Returns:
- *   0 - successfully used item
- *   1 - there is nothing in the inventory
- *   2 - item does not exist or the player does not have any more
+ *   SUCCESS or FAILURE
  */
-int player_use_item(combatant_t *c, item_t *inv, int id);
+int player_use_item(combatant_t *c,int id);
 
 /* Awards xp to the player 
  * Parameters:
  *  - stats: stats of the player
  *  - xp: amount of xp to be rewarded
  * Returns:
- *  0 for success
+ *  Always returns 0
  */
 int award_xp(stat_t *stats, double xp);
 
