@@ -69,16 +69,39 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
  * 
  * parameters:
  * - game: A pointer to a game struct. Should not be NULL.
- * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
+ * - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
  *
  * side effects:
  * - Changes input game to hold the newly generated room. Allocated on the heap
  *
  * returns:
- * - SUCCESS if the new room was added (SUCCESS)
- * - FAILURE if the new room was not added (FAILURE)
+ * - SUCCESS if the new room was generated and added (SUCCESS)
+ * - FAILURE if the new room was not generated/added (FAILURE)
  */
 int room_generate(game_t *game, gencontext_t *context);
+
+
+/*
+ * multi_room_generate
+ * Iterate through all the rooms of the speclist field of the given context 
+ * (gencontext_t pointer) and create a "domain" of rooms around the current 
+ * room. Only succeeds when the current room has no outward paths, i.e. is 
+ * a "dead end".
+ * 
+ * Connects the newly-generated room to the old room via paths.
+ * 
+ * parameters:
+ * - game: A pointer to a game struct. Should not be NULL.
+ * - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
+ *
+ * side effects:
+ * - Changes input game to hold the newly generated room(s). Allocated on the heap
+ *
+ * returns:
+ * - SUCCESS if the new rooms were generated and added (SUCCESS)
+ * - FAILURE if the new rooms were not generated/added (FAILURE)
+ */
+int multi_room_generate(game_t *game, gencontext_t *context);
 
 
 #endif /* INCLUDE_AUTOGENERATE_H */

@@ -312,6 +312,7 @@ Test(autogenerate, room_generate_success_one)
     roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
+    // 1 roomspec case
     speclist_t *sample_speclist = speclist_new(sample_roomspec);
     cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
 
@@ -359,7 +360,7 @@ Test(autogenerate, room_generate_success_two)
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
-    // 2 Roomspec case - should still work
+    // 2 roomspec case
     speclist_t *tail = speclist_new(sample_roomspec2);
     cr_assert_not_null(tail, "Could not create new speclist");
 
@@ -407,7 +408,7 @@ Test(autogenerate, room_generate_success_three)
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
-    // 3 Roomspec case - should still work
+    // 3 roomspec case
     speclist_t *mid = speclist_new(sample_roomspec2);
     cr_assert_not_null(mid, "Could not create new speclist");
     speclist_t *tail = speclist_new(sample_roomspec3);
@@ -421,4 +422,191 @@ Test(autogenerate, room_generate_success_three)
 
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext), 
         "room_generate() returned FAILURE when it should have returned SUCCESS");
+}
+
+/* Checks that multi_room_generate returns FAILURE if the current room of the 
+ * given game is not a dead end, i.e. there are outward paths */
+Test(autogenerate, invalid_multi_room)
+{
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    room_t *sample_room2 = room_new("anotherString1", "anotherString2", "anotherString3");
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "to sample_room2");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "to sample_room1");
+    assert (SUCCESS == add_path_to_room(sample_room2, path_to_room));
+
+    cr_assert_eq(any_paths(sample_room2), true, 
+        "sample_room2 should have a path");
+
+    game_t *g = game_new("start desc");
+
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    speclist_t *sample_speclist = speclist_new(sample_roomspec);
+    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    // Ensure game->curr_room has paths
+    g->curr_room = sample_room2;
+
+    cr_assert_eq(FAILURE, multi_room_generate(g, sample_gencontext));
+}
+
+/* Checks that multi_room_generate successfully generates/adds rooms from a 
+ * context (gencontext_t) struct's speclist field when one room is requested */
+Test(autogenerate, valid_multi_room1)
+{
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    room_t *sample_room2 = room_new("anotherString1", "anotherString2", "anotherString3");
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "to sample_room2");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "to sample_room1");
+    assert (SUCCESS == add_path_to_room(sample_room2, path_to_room));
+
+    cr_assert_eq(any_paths(sample_room2), true, 
+        "sample_room2 should have a path");
+
+    game_t *g = game_new("start desc");
+
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    // 1 roomspec case
+    speclist_t *sample_speclist = speclist_new(sample_roomspec);
+    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    // Ensure game->curr_room does not have paths
+    g->curr_room = sample_room1;
+
+    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext));
+}
+
+/* Checks that multi_room_generate successfully generates/adds rooms from a 
+ * context (gencontext_t) struct's speclist field when two rooms are requested */
+Test(autogenerate, valid_multi_room2)
+{
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    room_t *sample_room2 = room_new("anotherString1", "anotherString2", "anotherString3");
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "to sample_room2");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "to sample_room1");
+    assert (SUCCESS == add_path_to_room(sample_room2, path_to_room));
+
+    cr_assert_eq(any_paths(sample_room2), true, 
+        "sample_room2 should have a path");
+
+    game_t *g = game_new("start desc");
+
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    speclist_t *sample_speclist = speclist_new(sample_roomspec);
+    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    roomspec_t *sample_roomspec2 = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    // 2 roomspec case
+    speclist_t *tail = speclist_new(sample_roomspec2);
+    cr_assert_not_null(tail, "Could not create new speclist");
+    
+    // Doubly linked
+    speclist_t *head = NULL;
+    DL_APPEND(head, sample_gencontext->speclist);
+    DL_APPEND(sample_gencontext->speclist, tail);
+
+    // Ensure game->curr_room does not have paths
+    g->curr_room = sample_room1;
+
+    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext));
+}
+
+/* Checks that multi_room_generate successfully generates/adds rooms from a 
+ * context (gencontext_t) struct's speclist field when multiple (3) rooms are requested */
+Test(autogenerate, valid_multi_room3)
+{
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    room_t *sample_room2 = room_new("anotherString1", "anotherString2", "anotherString3");
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "to sample_room2");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "to sample_room1");
+    assert (SUCCESS == add_path_to_room(sample_room2, path_to_room));
+
+    cr_assert_eq(any_paths(sample_room2), true, 
+        "sample_room2 should have a path");
+
+    game_t *g = game_new("start desc");
+
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    speclist_t *sample_speclist = speclist_new(sample_roomspec);
+    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    roomspec_t *sample_roomspec2 = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    roomspec_t *sample_roomspec3 = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    // 3 roomspec case
+    speclist_t *mid = speclist_new(sample_roomspec2);
+    cr_assert_not_null(mid, "Could not create new speclist");
+    speclist_t *tail = speclist_new(sample_roomspec3);
+    cr_assert_not_null(tail, "Could not create new speclist");
+    
+    // Doubly linked
+    speclist_t *head = NULL;
+    DL_APPEND(head, sample_gencontext->speclist);
+    DL_APPEND(sample_gencontext->speclist, mid);
+    DL_APPEND(sample_gencontext->speclist, tail);
+
+    // Ensure game->curr_room does not have paths
+    g->curr_room = sample_room1;
+
+    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext));
 }

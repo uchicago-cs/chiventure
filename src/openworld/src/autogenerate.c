@@ -45,11 +45,37 @@ int room_generate(game_t *game, gencontext_t *context)
         assert(SUCCESS == add_room_to_game(game, new_room));
         
         // Add path from the current room to addRoom
-        path_t* path_to_room = path_new(new_room, "to new room"); // For now
+        path_t* path_to_room = path_new(new_room, context->speclist->spec->room_name);
         assert(SUCCESS == add_path_to_room(game->curr_room, path_to_room));
 
         return SUCCESS; /* room added */
     }
 
     return FAILURE; /* room not added */
+}
+
+/* See autogenerate.h */
+int multi_room_generate(game_t *game, gencontext_t *context)
+{
+    /* If game->curr_room is not a dead end or there are no roomspec_t elements 
+     * in context->speclist, then do not autogenerate */
+    if (any_paths(game->curr_room) || context->speclist == NULL)
+    {
+        return FAILURE;
+    }
+
+    // Save the head of the context's speclist
+    speclist_t *speclist_head = context->speclist;
+
+    while (context->speclist != NULL) {
+        room_generate(game, context);
+
+        // Go to next roomspec in context->speclist
+        context->speclist = context->speclist->next;
+    }
+
+    // Restore the original head of context->speclist
+    context->speclist = speclist_head;
+
+    return SUCCESS;
 }
