@@ -59,6 +59,9 @@ int inventory_free(inventory_t* inventory) {
 }
 
 /* See inventory.h */
+// NOTE TO DEVELOPERS OF SKILLTREES: We should reimplement the realloc, adding
+// in the idea of a 'maximum amount of skills [as a cap]', into this code.
+// We should realloc every time a new skill is added.
 int inventory_skill_add(inventory_t* inventory, skill_t* skill) {
     assert(inventory != NULL && skill != NULL);
 
@@ -101,6 +104,9 @@ int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type) {
 }
 
 /* See inventory.h */
+// NOTE TO DEVELOPERS OF SKILLTREES: We should reimplement the realloc, adding
+// in the idea of a 'maximum amount of skills [as a cap]', into this code.
+// We should realloc every time a skill is removed.
 int inventory_skill_remove(inventory_t* inventory, skill_t* skill) {
     assert(inventory != NULL && skill != NULL);
 
