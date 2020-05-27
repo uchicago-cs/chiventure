@@ -4,6 +4,8 @@
 #include "game-state/game_state_common.h"
 
 #define MAX_DIA_LEN 500
+#define MAX_KEY_LEN 30
+#define MAX_QUIP_LEN 50
 
 
 // BASIC PRINTING FUNCTIONS ---------------------------------------------------
@@ -172,7 +174,7 @@ int node_free(node_t *n);
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int edge_init(edge_t *ee, node_t *toward, char *keyword, char *quip);
+int edge_init(edge_t *e, node_t *toward, char *keyword, char *quip);
 
 /*
  * Allocates a new edge struct on the heap.
@@ -267,4 +269,6 @@ void run_convo(convo_t *c);
 // LINKED LIST FUNCTIONS ------------------------------------------------------
 
 int delete_all_nodes(node_list_t *nodes);
+
+int delete_all_edges(edge_list_t *edges);
 #endif

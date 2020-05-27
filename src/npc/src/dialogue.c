@@ -5,6 +5,7 @@
 #include "../../../include/npc/dialogue.h"*/
 #include "npc/dialogue.h"
 
+// BASIC PRINTING FUNCTIONS ---------------------------------------------------
 /* See dialogue.h */
 void print_gold(char *str)
 {
@@ -46,6 +47,7 @@ void npc_print(char *dialogue)
     }
 }
 
+// STRUCT FUNCTIONS -----------------------------------------------------------
 /* See dialogue.h */
 convo_t *convo_new()
 {
@@ -76,7 +78,7 @@ int node_init(node_t *n, char *node_id, char *dialogue)
 }
 
 /* See dialogue.h */
-node_t *node_new(char *node_id, char *dialogue, int max_edges)
+node_t *node_new(char *node_id, char *dialogue)
 {
     node_t *n = (node_t*)malloc(sizeof(node_t));
     memset(n, 0, sizeof(node_t));
@@ -94,39 +96,77 @@ node_t *node_new(char *node_id, char *dialogue, int max_edges)
     return n;
 }
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
+/* See dialogue.h */
+int node_free(node_t *n)
+{
+    assert(n != NULL);
+
+    free(n->node_id);
+    free(n->dialogue);
+    //TODO-delete_all_edges(n->edges);
+    free(n);
+
+    return SUCCESS;
+}
+
+/* See dialogue.h */
+int edge_init(edge_t *e, node_t *toward, char *keyword, char *quip)
+{
+    assert(e != NULL);
+    strncpy(e->keyword, keyword, strlen(keyword));
+    strncpy(e->quip, quip, strlen(qui[]));
+    e->toward = toward;
+
+    return SUCCESS;
+}
+
+/* See dialogue.h */
+edge_t *edge_new(node_t *toward, char *keyword, char *quip)
+{
+    edge_t *e = (edge_t*)malloc(sizeof(edge_t));
+    memset(e, 0, sizeof(edge_t));
+    e->keyword = (char*)malloc(MAX_KEY_LEN);
+    e->quip = (char*)malloc(MAX_QUIP_LEN);
+
+    int check = edge_init(e, toward, keyword, quip);
+    
+    if (e == NULL || e->keyword == NULL || 
+        e->quip == NULL || check != SUCCESS)
+    {
+        return NULL;
+    }
+
+    return e;
+}
+
+/* See dialogue.h */
+int edge_free(edge_t *e)
+{
+    assert(e != NULL);
+
+    free(e->keyword);
+    free(e->quip);
+    node_free(e->toward);
+
+    return SUCCESS;
+}
+
+// DIALOGUE BUILDING FUNCTIONS ------------------------------------------------
+/* See dialogue.h */
 void add_node(convo_t *c, node_t *n)
 {
     DL_APPEND(c->nodes, n);
     c->node_count++;
 }
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
-edge_t *make_edge(node_t *toward, char *keyword, char *quip)
-{
-    edge_t *new_edge = (edge_t*)malloc(sizeof(edge_t));
-    new_edge->toward = toward;
-    new_edge->keyword = keyword;
-    new_edge->quip = quip;
-    return new_edge;
-}
-
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
+/* See dialogue.h */
 void add_edge(node_t *n, edge_t *edge)
 {
     DL_APPEND(n->edges, edge);
     n->connection_count++;
 }
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
+/* See dialogue.h */
 int read_input(node_t *n, char *input)
 {
     char *adj_input = strtok(input, "\n");
@@ -141,9 +181,7 @@ int read_input(node_t *n, char *input)
     return -1;
 }
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
+/* See dialogue.h */
 int traverse_edge(node_t *n)
 {
     int buffer_size = 30;
@@ -162,9 +200,7 @@ int traverse_edge(node_t *n)
     }
 }
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
+/* See dialogue.h */
 void end_convo()
 {
     print_red("\n\nCongrats on finishing the chiventure dialogue showcase!\n");
@@ -173,9 +209,7 @@ void end_convo()
     exit(0);
 }
 
-/*
- * See chiventure/include/npc/dialogue.h for full function explanations
- */
+/* See dialogue.h */
 void run_convo(convo_t *c)
 {
     int start_node = 1;
