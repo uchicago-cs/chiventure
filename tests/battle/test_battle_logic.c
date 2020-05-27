@@ -111,11 +111,15 @@ Test(battle_logic, battle_over_by_enemy)
     pstats->hp = 10;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 0;
+    stat_t *estats1 = calloc(1, sizeof(stat_t));
+    estats1->hp = 0;
+    stat_t *estats2 = calloc(1, sizeof(stat_t));
+    estats2->hp = 0;
 
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
-    combatant_t *e1 = combatant_new("Enemy", false, estats, NULL, NULL);
-    combatant_t *e2 = combatant_new("Enemy", false, estats, NULL, NULL);
+    combatant_t *e1 = combatant_new("Enemy", false, estats1, NULL, NULL);
+    combatant_t *e2 = combatant_new("Enemy", false, estats2, NULL, NULL);
 
     cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
@@ -149,13 +153,16 @@ Test(battle_logic, battle_not_over)
     pstats->hp = 10;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 15;
+	stat_t *estats1 = calloc(1, sizeof(stat_t));
+    estats1->hp = 12;
+    stat_t *estats2 = calloc(1, sizeof(stat_t));
+    estats2->hp = 13;
 
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
-    combatant_t *e1 = combatant_new("Enemy", false, estats, NULL, NULL);
-    combatant_t *e2 = combatant_new("Enemy", false, estats, NULL, NULL);
-
-    cr_assert_not_null(p, "combatant_new() failed");
+    combatant_t *e1 = combatant_new("Enemy", false, estats1, NULL, NULL);
+    combatant_t *e2 = combatant_new("Enemy", false, estats2, NULL, NULL);
+   	cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
     cr_assert_not_null(e1, "combatant_new() failed");
     cr_assert_not_null(e2, "combatant_new() failed");
@@ -171,7 +178,7 @@ Test(battle_logic, battle_not_over)
 
     cr_assert_eq(res, BATTLE_IN_PROGRESS, "battle_over() failed!");
 
-    battle_free(b);
+    //battle_free(b);
 }
 
 /* 
