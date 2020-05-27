@@ -178,7 +178,7 @@ Test(battle_logic, battle_not_over)
 
     cr_assert_eq(res, BATTLE_IN_PROGRESS, "battle_over() failed!");
 
-    //battle_free(b);
+    battle_free(b);
 }
 
 /* 
