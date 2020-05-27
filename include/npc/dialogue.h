@@ -56,7 +56,7 @@ typedef struct node {
     char* node_id;
     char *dialogue;
     int connection_count;
-    edge_list_t *edges;
+    edge_hash_t *edges;
 } node_t;
 
 /*
@@ -68,6 +68,7 @@ typedef struct node {
  *  - quip: a string of what the player's character says if they enter the edge
  */
 typedef struct edge {
+    UT_hash_handle hh;
     node_t *toward;
     char *keyword;
     char *quip;
@@ -87,6 +88,11 @@ typedef struct node_list {
     struct node_list *next;
 } node_list_t;
 
+/* This typedef is to distinguish between npc_t pointers which are
+ * used to point to the npc_t structs in the traditional sense,
+ * and those which are used to hash npc_t structs with the
+ * UTHASH macros as specified in src/common/include */
+typedef struct edge edge_hash_t;
 /*
  * A doubly-linked list of edges for containing all potential paths for a node.
  * 
@@ -95,11 +101,11 @@ typedef struct node_list {
  *  - prev: A pointer to the previous entry in the list, NULL if none left
  *  - next: A pointer to the next entry in the list, NULL if none left
  */
-typedef struct edge_list {
+/*typedef struct edge_list {
     edge_t *cur_edge;
     struct edge_list *prev;
     struct edge_list *next;
-} edge_list_t;
+} edge_list_t;*/
 
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
@@ -234,7 +240,7 @@ int append_node(convo_t *c, node_t *n);
  * Returns: Nothing
  *
  */
-void add_edge(node_t *n, edge_t *edge);
+int add_edge(node_t *n, edge_t *edge);
 
 /*
  * Compares the input to the keyword and returns index of matching edge
@@ -281,7 +287,7 @@ void run_convo(convo_t *c);
 
 // LINKED LIST FUNCTIONS ------------------------------------------------------
 
-int node_cmp(node_t *n1, node_t *n2);
+int node_cmp(node_t *n1, node_t *n2); 
 
 int delete_all_nodes(node_list_t *nodes);
 

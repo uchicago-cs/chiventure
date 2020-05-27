@@ -153,6 +153,7 @@ int edge_free(edge_t *e)
 
 // DIALOGUE BUILDING FUNCTIONS ------------------------------------------------
 
+/* See dialogue.h */
 int node_cmp(node_t *n1, node_t *n2)
 {
     return (strcmp(n1->node_id, n2->node_id));
@@ -200,6 +201,21 @@ int append_node(convo_t *c, node_t *n)
     return SUCCESS;
 }
 
+/* See dialogue.h */
+int add_edge(node_t *n, edge_t *edge)
+{
+    edge_t *check;
+    HASH_FIND(hh, npc->inventory, item->item_id, strlen(item->item_id),
+              check);
+    
+    if (check != NULL)
+    {
+        return FAILURE; //this item id is already in use
+    }
+    HASH_ADD_KEYPTR(hh, npc->inventory, item->item_id,
+                    strlen(item->item_id), item);
+    return SUCCESS;
+}
 
 /* Pre-DL-lists artifact code
 //See dialogue.h
