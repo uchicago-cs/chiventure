@@ -17,19 +17,22 @@
  */
 bool check_target(battle_t *b, char *target);
 
+typedef enum battle_status
+{
+    BATTLE_IN_PROGRESS,
+    BATTLE_VICTOR_PLAYER,
+    BATTLE_VICTOR_ENEMY
+} battle_status_t;
+
 /*
  * Determines if a battle has reached its conclusion
  *
  * Parameters:
- * - p: information about the player
- * - e: information about the enemy
+ * - b: information about the battle
  * Returns:
- * - 0 for game still in play
- * - 1 for game over due to enemy
- * - 2 for game over due to player
- * - -1 for an error with not passing conditions
+ *  A battle status based on the combatants of the battle
  */
-int battle_over(combatant_t *p, combatant_t *e);
+battle_status_t battle_over(battle_t *b);
 
 /* 
  * Function detemines if the player goes first

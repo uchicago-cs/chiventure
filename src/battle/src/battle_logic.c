@@ -16,24 +16,23 @@ bool check_target(battle_t *b, char *target)
 }
 
 /* check battle_logic.h */
-int battle_over(combatant_t *p, combatant_t *e)
+battle_status_t battle_over(battle_t *b)
 {
-    if (e->stats->hp > 0 && p->stats->hp > 0)
+    if(b->player->stats->hp <= 0)
     {
-        return 0;
+        return BATTLE_VICTOR_ENEMY;
     }
-    else if (e->stats->hp <= 0)
+
+    combatant_t *temp;
+    DL_FOREACH(b->enemy, temp)
     {
-        return 1;
+        if(temp->stats->hp > 0)
+        {
+            return BATTLE_IN_PROGRESS;
+        }
     }
-    else if (p->stats->hp <= 0)
-    {
-        return 2;
-    }
-    else
-    {
-        return -1;
-    }
+
+    return BATTLE_VICTOR_PLAYER;
 }
 
 /* check battle_logic.h */
