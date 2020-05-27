@@ -58,9 +58,21 @@ convo_t *convo_new()
 }
 
 /* See dialogue.h */
+int delete_all_nodes(node_list_t *nodes)
+{
+    node_list_t *elt, *tmp;
+    DL_FOREACH_SAFE(nodes, elt, tmp)
+    {
+        DL_DELETE(nodes, elt);
+        free(elt);
+    }
+    return SUCCESS;
+}
+
+/* See dialogue.h */
 int convo_free(convo_t *c)
 {
-    //TODO-delete_all_nodes(c->nodes);
+    delete_all_nodes(c->nodes);
     free(c);
     return SUCCESS;
 }
@@ -97,13 +109,25 @@ node_t *node_new(char *node_id, char *dialogue)
 }
 
 /* See dialogue.h */
+int delete_all_edges(edge_hash_t *edges)
+{
+    edge_t *cur_edge, *tmp;
+    HASH_ITER(hh, edges, cur_edge, tmp)
+    {
+        HASH_DEL(edges, cur_edge);
+        edge_free(cur_edge);
+    }
+    return SUCCESS;
+}
+
+/* See dialogue.h */
 int node_free(node_t *n)
 {
     assert(n != NULL);
 
     free(n->node_id);
     free(n->dialogue);
-    //TODO-free edges
+    delete_all_edges(n->edges);
     free(n);
 
     return SUCCESS;
