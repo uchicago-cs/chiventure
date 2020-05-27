@@ -46,7 +46,7 @@ objstore_t *new_objstore(obj_t *o);
  * returns:
  *   - a pointer to the requested objstore item
  */
-objstore_t* find_objstore(objstore_t **obj_store, objtype_t type, char* id);
+objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type);
 
 /* 
  * add_obj: given unique object, add to obj_store hash table 

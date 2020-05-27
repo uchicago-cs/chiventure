@@ -18,7 +18,7 @@ objstore_t *new_objstore(obj_t *o)
 }
 
 /* See obj_store.h for documentation */
-objstore_t* find_objstore(objstore_t **obj_store, objtype_t type, char* id)
+objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type)
 {
     objstore_t *res;
     objkey_t tmp;
@@ -34,7 +34,10 @@ objstore_t* find_objstore(objstore_t **obj_store, objtype_t type, char* id)
 /* See obj_store.h for documentation */
 int add_objstore(objstore_t **obj_store, obj_t *o)
 {
-    objstore_t *new = find_objstore(obj_store, o->type, o->id); // see if key already exists in hash
+    if (o == NULL) {
+        return FAILURE;
+    }
+    objstore_t *new = find_objstore(obj_store, o->id, o->type); // see if key already exists in hash
     if (new == NULL) {
         new =  new_objstore(o);
         if (new == NULL) return FAILURE;

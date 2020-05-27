@@ -21,7 +21,7 @@ Test(objstore, new_success)
 Test(objstore, find_failure)
 {
     objstore_t *test = NULL;
-    objstore_t *res = find_objstore(&test, 2, "Room B");
+    objstore_t *res = find_objstore(&test, "Room B", 2);
     cr_assert_null(res, "find_objstore() failed - returned value when NULL expected");
 }
 
@@ -36,11 +36,32 @@ Test(objstore, find_success)
     add_objstore(&store, test);
     cr_assert_not_null(store, "add_objstore() failed");
 
-    objstore_t *res = find_objstore(&store, 6, "villager");
+    objstore_t *res = find_objstore(&store, "villager", 6);
     cr_assert_not_null(res, "find_objstore() failed - returned NULL when value expected");
 }
 
 Test(objstore, add_new)
+{
+    obj_t *old = malloc(sizeof(obj_t));
+    strcpy(old->id, "villager");
+    old->type = 6;
+    old->attrs = malloc(sizeof(attribute_t));
+
+    obj_t *new = malloc(sizeof(obj_t));
+    strcpy(new->id, "robber");
+    new->type = 6;
+    new->attrs = malloc(sizeof(attribute_t));
+
+    objstore_t *store = NULL;
+    add_objstore(&store, old);
+    add_objstore(&store, new);
+
+    objstore_t *res = find_objstore(&store, new->id, new->type);
+
+    cr_assert_not_null(res, "add_objstore() failed to add obj to nonempty hash");
+}
+
+Test(objstore, add_new_empty)
 {  
     obj_t *test = malloc(sizeof(obj_t));
     strcpy(test->id, "villager");
@@ -48,7 +69,16 @@ Test(objstore, add_new)
     objstore_t *res = NULL;
     add_objstore(&res, test);
 
-    cr_assert_not_null(test, "add_objstore() failed to add item");
+    cr_assert_not_null(res, "add_objstore() failed to add item");
+}
+
+Test(objstore, add_NULL)
+{  
+    obj_t *obj = NULL;
+    objstore_t *store = NULL;
+    int res = add_objstore(&store, obj);
+
+    cr_assert_eq(res, FAILURE, "add_objstore() added NULL object");
 }
 
 Test(objstore, add_replace)
