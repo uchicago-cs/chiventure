@@ -17,7 +17,7 @@ typedef enum action_type {
     SET,
     SAY,
     MOVE, 
-    ADDSUBMULTDIV, 
+    ARITHMETIC, 
     GEN, 
     EXEC
 } action_enum_t;
