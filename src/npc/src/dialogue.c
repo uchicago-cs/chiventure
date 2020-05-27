@@ -103,7 +103,7 @@ int node_free(node_t *n)
 
     free(n->node_id);
     free(n->dialogue);
-    //TODO-delete_all_edges(n->edges);
+    //TODO-free edges
     free(n);
 
     return SUCCESS;
@@ -114,7 +114,7 @@ int edge_init(edge_t *e, node_t *toward, char *keyword, char *quip)
 {
     assert(e != NULL);
     strncpy(e->keyword, keyword, strlen(keyword));
-    strncpy(e->quip, quip, strlen(qui[]));
+    strncpy(e->quip, quip, strlen(quip));
     e->toward = toward;
 
     return SUCCESS;
@@ -176,6 +176,7 @@ int prepend_node(convo_t *c, node_t *n)
     list->prev = NULL;
 
     DL_PREPEND(c->nodes, list);
+    c->node_count++;
 
     return SUCCESS;
 }
@@ -197,24 +198,81 @@ int append_node(convo_t *c, node_t *n)
     list->prev = NULL;
 
     DL_APPEND(c->nodes, list);
+    c->node_count++;
 
     return SUCCESS;
 }
 
 /* See dialogue.h */
-int add_edge(node_t *n, edge_t *edge)
+int add_edge(node_t *n, edge_t *e)
 {
     edge_t *check;
-    HASH_FIND(hh, npc->inventory, item->item_id, strlen(item->item_id),
-              check);
+    HASH_FIND(hh, n->edges, e->keyword, strlen(e->keyword), check);
     
     if (check != NULL)
     {
-        return FAILURE; //this item id is already in use
+        return FAILURE; //this keyword is already in use
     }
-    HASH_ADD_KEYPTR(hh, npc->inventory, item->item_id,
-                    strlen(item->item_id), item);
+    HASH_ADD_KEYPTR(hh, n->edges, e->keyword, strlen(e->keyword), e);
+    n->connection_count++;
+
     return SUCCESS;
+}
+
+/* See dialogue.h */
+edge_t *read_input(node_t *n, char *input)
+{
+    char *adj_input = strtok(input, "\n");
+    edge_t *res;
+
+    HASH_FIND(hh, n->edges, adj_input, strlen(adj_input), res);
+
+    return res;
+}
+
+/* See dialogue.h */
+node_t *traverse_edge(node_t *n)
+{
+    char *input = malloc(MAX_KEY_LEN);
+    fgets(input, MAX_KEY_LEN, stdin);
+
+    edge_t *e;
+    e = read_input(n, input);
+
+    if (e != NULL) {
+        printf("\n%s\n\n", e->quip);
+        n = e->toward;
+        npc_print(n->dialogue);
+        return n;
+    } else {
+        print_gold("What?\n");
+        return NULL;
+    }
+}
+
+/* See dialogue.h */
+void end_convo()
+{
+    print_red("\n\nCongrats on finishing the chiventure dialogue showcase!\n");
+    print_gold("Press ENTER to exit");
+    getchar();
+    exit(0);
+}
+
+/* See dialogue.h */
+void run_convo(convo_t *c)
+{
+    npc_print(c->nodes->cur_node->dialogue);
+    node_t *cur;
+    while (c->nodes->cur_node->connection_count != 0) {
+        printf("\n\n> Talk about: ");
+        cur = traverse_edge(c->nodes->cur_node);
+        if (cur != NULL) {
+            c->nodes->cur_node =
+                c->nodes->cur_node->edges->toward;
+        }
+    }
+    end_convo();
 }
 
 /* Pre-DL-lists artifact code

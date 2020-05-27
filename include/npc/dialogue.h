@@ -63,15 +63,15 @@ typedef struct node {
  * A struct to represent an edge to a node (note: does not include source node).
  * 
  * Includes:
- *  - toward: points toward which node traversing this edge leads to
  *  - keyword: a string that the user's input must match to enter the edge
  *  - quip: a string of what the player's character says if they enter the edge
+ *  - toward: points toward which node traversing this edge leads to
  */
 typedef struct edge {
     UT_hash_handle hh;
-    node_t *toward;
     char *keyword;
     char *quip;
+    node_t *toward;
 } edge_t;
 
 /*
@@ -233,36 +233,39 @@ int prepend_node(convo_t *c, node_t *n);
 int append_node(convo_t *c, node_t *n);
 
 /*
- * Attaches a given edge to the connections list of a given node.
+ * Attaches a given edge to the edges hashtable of the given node.
+ * 
  * Parameters:
  *  - n: the node that the edge is to be attached to
- *  - edge: the (previously-made) edge to be attached
- * Returns: Nothing
- *
+ *  - e: the edge to be attached
+ * 
+ * Returns: None
  */
-int add_edge(node_t *n, edge_t *edge);
+int add_edge(node_t *n, edge_t *e);
 
 /*
- * Compares the input to the keyword and returns index of matching edge
+ * Compares the input to the keyword and returns index of matching edge.
+ * 
  * Parameters:
  *  - n: the node that player is currently on
  *  - input: the player-inputted command
+ * 
  * Returns:
  *  - Index of the matching edge, -1 if it doesn't match any of the keywords
- *
  */
-int read_input(node_t *n, char *input);
+edge_t *read_input(node_t *n, char *input);
 
 /*
- * Asks for input and traverses to the edge specified by the input's index
- * Prints player quip, moves to new node, prints npc's dialogue at that node
+ * Asks for input and traverses to the edge specified by the input's index.
+ * Prints player quip, moves to new node, prints npc's dialogue at that node.
+ * 
  * Parameters:
  *  - n: the node that the player is currently on
+ * 
  * Returns:
- *  - index of new current node on success, -1 otherwise
- *
+ *  - pointer to the new curent node on success, NULL otherwise
  */
-int traverse_edge(node_t *n);
+node_t *traverse_edge(node_t *n);
 
 /*
  * Ends the conversation
@@ -291,5 +294,4 @@ int node_cmp(node_t *n1, node_t *n2);
 
 int delete_all_nodes(node_list_t *nodes);
 
-int delete_all_edges(edge_list_t *edges);
 #endif
