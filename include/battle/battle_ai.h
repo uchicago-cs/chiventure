@@ -9,6 +9,11 @@
 #include "battle_moves.h"
 #include "battle_classes.h"
 
+typedef enum difficulty {
+    BATTLE_AI_BEST = 0,
+    BATTLE_AI_RANDOM = 1
+} difficulty_t;
+
 
 /* Given a difficulty level, the player the move is going to be used 
  *      against, and the enemy, give_move returns a move
@@ -18,42 +23,17 @@
  *      enemy - the enemy using the move
  * Outputs:
  *      move_t - the move to be used        */
-move_t* give_move(int difficulty, combatant_t* player, combatant_t* enemy);
+move_t* give_move(difficulty_t difficulty, combatant_t* player, combatant_t* enemy);
+
 
 /* Given the player the move is going to be used against and the enemy,
- *          easy_move returns the move that will deal the lighest damage
+ *          find_random returns a random move
  * Inputs:
  *      player - the player the move is going to be used against
  *      enemy - the enemy using the move
  * Outputs:
  *      move_t - the move to be used        */
-move_t* easy_move(combatant_t* player, combatant_t* enemy);
-
-/* Given the player the move is going to be used against, 
- *          medium_move returns a random move
- * Inputs:
- *      player - the player the move is going to be used against
- *      enemy - the enemy using the move
- * Outputs:
- *      move_t - the move to be used        */
-move_t* medium_move(combatant_t* player, combatant_t* enemy);
-
-/* Given the player the move is going to be used against, 
- *          hard_move returns the move that will deal the most damage
- * Inputs:
- *      player - the player the move is going to be used against
- *      enemy - the enemy using the move
- * Outputs:
- *      move_t - the move to be used        */
-move_t* hard_move(combatant_t* player, combatant_t* enemy);
-
-/* Given a moves list, function will find the 
- *      move dealing the least damage
- * Inputs:
- *      player - the player the move is going to be used against
- * Outputs:
- *      move_t - the move to be used        */
-move_t* find_easy(combatant_t* player, combatant_t* enemy);
+move_t* find_random(combatant_t* player, combatant_t* enemy);
 
 /* Given a moves list, function will find the 
  *      move dealing the most damage
@@ -61,7 +41,7 @@ move_t* find_easy(combatant_t* player, combatant_t* enemy);
  *      player - the player the move is going to be used against
  * Outputs:
  *      move_t - the move to be used        */
-move_t* find_hard(combatant_t* player, combatant_t* enemy);
+move_t* find_greedy(combatant_t* player, combatant_t* enemy);
 
 /* Function returns the damage dealt to a player
  * Inputs:

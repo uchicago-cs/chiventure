@@ -2,7 +2,7 @@
 #include <math.h>
 
 /* See battle_ai.h */
-move_t* give_move(int difficulty, combatant_t* player, combatant_t* enemy)
+move_t* give_move(difficulty_t difficulty, combatant_t* player, combatant_t* enemy)
 {
     if (player->is_friendly != true)
     {
@@ -12,28 +12,22 @@ move_t* give_move(int difficulty, combatant_t* player, combatant_t* enemy)
     {
         fprintf(stderr, "Error! Enemy is friendly!");
     }
-    if (difficulty == 1)
+    if (difficulty == BATTLE_AI_BEST)
     {
-        return easy_move(player, enemy);
+        return find_greedy(player, enemy);
     }
-    else if (difficulty == 2)
+    else if (difficulty == BATTLE_AI_RANDOM)
     {
-        return medium_move(player, enemy);
+        return find_random(player, enemy);
     }
     else
     {
-        return hard_move(player, enemy);
+        fprintf(stderr, "Not implemented yet!");
     }
 }
 
 /* See battle_ai.h */
-move_t* easy_move(combatant_t* player, combatant_t* enemy)
-{
-    return find_easy(player, enemy);
-}
-
-/* See battle_ai.h */
-move_t* medium_move(combatant_t* player, combatant_t* enemy)
+move_t* find_random(combatant_t* player, combatant_t* enemy)
 {
     int i, count, random;
     move_t *move_struct;
@@ -55,42 +49,11 @@ move_t* medium_move(combatant_t* player, combatant_t* enemy)
 }
 
 /* See battle_ai.h */
-move_t* hard_move(combatant_t* player, combatant_t* enemy)
-{
-    return find_hard(player, enemy);
-}
-
-/* See battle_ai.h */
-move_t* find_easy(combatant_t* player, combatant_t* enemy)
-{
-    move_t* weakest_move = enemy->moves;
-    move_t *temp;
-    double least_damage = 10000;
-
-    DL_FOREACH(enemy->moves, temp)
-    {
-        
-        double cur_damage = damage(player, temp, enemy);
-
-        if (temp == NULL)
-        {
-            return weakest_move;
-        }
-        else if (cur_damage < least_damage)
-        {
-            weakest_move = temp;
-            least_damage = cur_damage;
-        }
-    }
-    return weakest_move;
-}
-
-/* See battle_ai.h */
-move_t* find_hard(combatant_t* player, combatant_t* enemy)
+move_t* find_greedy(combatant_t* player, combatant_t* enemy)
 {
     move_t* strongest_move = enemy->moves;
     move_t *temp;
-    double most_damage = 0;
+    double most_damage = 0.0;
 
     DL_FOREACH(enemy->moves, temp)
     {
@@ -117,7 +80,7 @@ double damage(combatant_t* player, move_t* move, combatant_t* enemy)
     stat_t* e_stats = enemy->stats;
     stat_t* p_stats = player->stats;
     
-    //Inquire about armor
+
     defense = (double) p_stats->defense;
     power = (double) move->damage;
     enemy_strength = (double) e_stats->strength;
