@@ -50,7 +50,7 @@ typedef struct attribute
     char id[MAXLEN_ID + 1];
     
     //data stored in the attribute
-    union
+    typedef union data
     {
         bool b;
         char c;
@@ -58,7 +58,7 @@ typedef struct attribute
 	    char **sl;
         int i;
         obj_t *o;
-    } data;
+    } data_t;
     
     // Required uthash identifier for making the hash table
     UT_hash_handle hh;
