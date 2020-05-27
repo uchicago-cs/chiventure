@@ -74,46 +74,66 @@ Test(battle_logic, target_does_not_exist)
  */
 Test(battle_logic, battle_over_by_player)
 {
+    combatant_t *phead = NULL;
+    combatant_t *ehead = NULL;
+
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 0;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 10;
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
-
     cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
 
-    int res = battle_over(p, e);
+    DL_APPEND(phead, p);
+    DL_APPEND(ehead, e);
 
-    cr_assert_eq(res, 2, "battle_over() failed!");
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
 
-    combatant_free(p);
-    combatant_free(e);
+    battle_status_t res = battle_over(b);
+
+    cr_assert_eq(res, BATTLE_VICTOR_ENEMY, "battle_over() failed!");
+
+    battle_free(b);
 }
 
 /* 
  * this tests if battle_over detects if the 
- * battle is over because of the enemy
+ * battle is over because of the enemy at 0 hp
  */
 Test(battle_logic, battle_over_by_enemy)
 {
+    combatant_t *phead = NULL;
+    combatant_t *ehead = NULL;
+
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 0;
+
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
+    combatant_t *e1 = combatant_new("Enemy", false, estats, NULL, NULL);
+    combatant_t *e2 = combatant_new("Enemy", false, estats, NULL, NULL);
 
     cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
+    cr_assert_not_null(e1, "combatant_new() failed");
+    cr_assert_not_null(e2, "combatant_new() failed");
 
-    int res = battle_over(p, e);
+    DL_APPEND(phead, p);
+    DL_APPEND(ehead, e);
+    DL_APPEND(ehead, e1);
+    DL_APPEND(ehead, e2);
 
-    cr_assert_eq(res, 1, "battle_over() failed!");
+    battle_t *b = battle_new(phead, ehead, ENV_WATER, PLAYER);
 
-    combatant_free(p);
-    combatant_free(e);
+    battle_status_t res = battle_over(b);
+
+    cr_assert_eq(res, BATTLE_VICTOR_PLAYER, "battle_over() failed!");
+
+    battle_free(b);
 }
 
 /* 
@@ -122,22 +142,36 @@ Test(battle_logic, battle_over_by_enemy)
  */
 Test(battle_logic, battle_not_over)
 {
+    combatant_t *phead = NULL;
+    combatant_t *ehead = NULL;
+
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     stat_t *estats = calloc(1, sizeof(stat_t));
-    estats->hp = 10;
+    estats->hp = 15;
+
     combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
+    combatant_t *e1 = combatant_new("Enemy", false, estats, NULL, NULL);
+    combatant_t *e2 = combatant_new("Enemy", false, estats, NULL, NULL);
 
     cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
+    cr_assert_not_null(e1, "combatant_new() failed");
+    cr_assert_not_null(e2, "combatant_new() failed");
 
-    int res = battle_over(p, e);
+    DL_APPEND(phead, p);
+    DL_APPEND(ehead, e);
+    DL_APPEND(ehead, e1);
+    DL_APPEND(ehead, e2);
 
-    cr_assert_eq(res, 0, "battle_over() failed!");
+    battle_t *b = battle_new(phead, ehead, ENV_WATER, PLAYER);
 
-    combatant_free(p);
-    combatant_free(e);
+    battle_status_t res = battle_over(b);
+
+    cr_assert_eq(res, BATTLE_IN_PROGRESS, "battle_over() failed!");
+
+    battle_free(b);
 }
 
 /* 
@@ -359,16 +393,16 @@ Test(battle_logic, uses_item_correctly)
     pstats->max_hp = 25;
     pstats->defense = 15;
     pstats->strength = 15;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, pstats, NULL, head);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res = player_use_item(p, head, 100);
+    int res = use_item(p, 100);
 
-    cr_assert_eq(res, 0, "player_use_item() does not return 0!");
-    cr_assert_eq(p->stats->hp, 25, "player_use_item() failed for hp!");
-    cr_assert_eq(p->stats->defense, 15, "player_use_item() failed for defense!");
-    cr_assert_eq(p->stats->strength, 15, "player_use_item() failed for strength!");
-    cr_assert_eq(i1->quantity, 0, "player_use_item() failed for item quantity!");
+    cr_assert_eq(res, SUCCESS, "use_item() failed!");
+    cr_assert_eq(p->stats->hp, 25, "use_item() failed for hp!");
+    cr_assert_eq(p->stats->defense, 15, "use_item() failed for defense!");
+    cr_assert_eq(p->stats->strength, 15, "use_item() failed for strength!");
+    cr_assert_eq(i1->quantity, 0, "use_item() failed for item quantity!");
 }
 
 /*
@@ -376,8 +410,8 @@ Test(battle_logic, uses_item_correctly)
  */
 Test(battle_logic, inventory_empty)
 {
-    int res = player_use_item(NULL, NULL, 100);
-    cr_assert_eq(res, 1, "player_use_item() has failed!");
+    int res = use_item(NULL, 100);
+    cr_assert_eq(res, FAILURE, "use_item() has failed!");
 }
 
 /*
@@ -410,12 +444,12 @@ Test(battle_logic, no_more_items)
     pstats->max_hp = 25;
     pstats->defense = 15;
     pstats->strength = 15;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, pstats, NULL, head);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res = player_use_item(p, head, 100);
+    int res = use_item(p, 100);
 
-    cr_assert_eq(res, 2, "player_use_item() has failed!");
+    cr_assert_eq(res, FAILURE, "use_item() has failed!");
 }
 
 /*
