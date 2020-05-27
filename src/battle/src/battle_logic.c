@@ -75,7 +75,7 @@ int consume_item(combatant_t *c, item_t *item)
 }
 
 /* see battle_logic.h */
-int player_use_item(combatant_t *c, int id);
+int use_item(combatant_t *c, int id);
 {
     if (c->items == NULL)
     {

@@ -73,7 +73,7 @@ int consume_item(combatant_t *c, item_t *item);
  *  Returns:
  *   SUCCESS or FAILURE
  */
-int player_use_item(combatant_t *c,int id);
+int use_item(combatant_t *c,int id);
 
 /* Awards xp to the player 
  * Parameters:
