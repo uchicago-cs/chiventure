@@ -34,6 +34,7 @@ Test(objstore, find_success)
 
     objstore_t *store = NULL;
     add_objstore(&store, test);
+    cr_assert_not_null(store, "add_objstore() failed");
 
     objstore_t *res = find_objstore(&store, 6, "villager");
     cr_assert_not_null(res, "find_objstore() failed - returned NULL when value expected");
@@ -71,4 +72,17 @@ Test(objstore, add_replace)
 
     cr_assert_eq(strcmp(res->o->attrs->id, new->attrs->id), 0, "add_objstore() failed to replace item with same key");
     
+}
+
+Test(objstore, free)
+{
+    obj_t *obj = malloc(sizeof(obj_t));
+    strcpy(obj->id, "villager");
+    obj->type = 6;
+
+    objstore_t *store = new_objstore(obj);
+    cr_assert_not_null(store, "new_objstore() failed");
+
+    int res = free_objstore(store);
+    cr_assert_eq(res, SUCCESS, "free_objstore() failed");
 }
