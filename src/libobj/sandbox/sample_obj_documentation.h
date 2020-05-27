@@ -37,6 +37,17 @@ typedef enum assettype
 
 typedef struct obj obj_t; // forward declaration so attribute_t can use
 
+ 
+//data stored in the attribute
+union attr_data {
+    bool b;
+    char c;
+    char *s;
+    char **sl;
+    int i;
+    obj_t *o;
+};
+
 /* attribute_t
  * 
  * params:
@@ -48,27 +59,11 @@ typedef struct attribute
 {
     //the id for the attribute
     char id[MAXLEN_ID + 1];
-    
-    //data stored in the attribute
-    union
-    {
-        bool b;
-        char c;
-        char *s;
-	char **sl;
-        int i;
-        obj_t *o;
-    } data;
+
+    union attr_data data;
     
     // Required uthash identifier for making the hash table
     UT_hash_handle hh;
-
-    /* 
-     * Next attribute, in the case where this is a utlist of attributes.
-     * This adds support for lists with different-typed elements as an attribute.
-     * Will be NULL for standalone attributes not part of a list.
-     */
-    struct attribute *next;
 
 } attribute_t;
 
