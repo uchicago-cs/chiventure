@@ -84,9 +84,9 @@ Test(autogenerate, any_paths4)
  * room pointer with NULL paths and items fields */
 Test(autogenerate, roomspec_to_room1)
 {
-    roomspec_t *r = roomspec_new("short desc", "long desc", NULL);
+    roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", NULL);
     game_t *g = game_new("start desc");
-    room_t *room = roomspec_to_room(g, r, "room_id");
+    room_t *room = roomspec_to_room(g, r);
 
     cr_assert_not_null(room, "roomspec_new(): The returned room is NULL");
     cr_assert_not_null(room->room_id, "roomspec_new(): room_id field is NULL");
@@ -98,7 +98,7 @@ Test(autogenerate, roomspec_to_room1)
     cr_assert_eq(strcmp(room->long_desc, "long desc"), 0, 
         "roomspec_to_room(): short desc not set");
 
-    cr_assert_eq(strcmp(room->room_id, "room_id"), 0, "roomspec_new(): room_id not set");
+    cr_assert_eq(strcmp(room->room_id, "sample room name"), 0, "roomspec_new(): room_id not set");
 
     bool t1, t2;
     t1 = (room->items == NULL);
@@ -117,9 +117,9 @@ Test(autogenerate, roomspec_to_room2)
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
 
-    roomspec_t *r = roomspec_new("short desc", "long desc", NULL);
+    roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", NULL);
     game_t *g = game_new("start desc");
-    room_t *room = roomspec_to_room(g, r, "room_id");
+    room_t *room = roomspec_to_room(g, r);
 
     cr_assert_not_null(room, "roomspec_new(): The returned room is NULL");
     cr_assert_not_null(room->room_id, "roomspec_new(): room_id field is NULL");
@@ -131,7 +131,7 @@ Test(autogenerate, roomspec_to_room2)
     cr_assert_eq(strcmp(room->long_desc, "long desc"), 0, 
         "roomspec_to_room(): short desc not set");
 
-    cr_assert_eq(strcmp(room->room_id, "room_id"), 0, "roomspec_new(): room_id not set");
+    cr_assert_eq(strcmp(room->room_id, "sample room name"), 0, "roomspec_new(): room_id not set");
 
     bool t1, t2;
     t1 = (room->items == NULL);
@@ -147,9 +147,9 @@ Test(autogenerate, roomspec_to_room3)
 {   
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
 
-    roomspec_t *r = roomspec_new("short desc", "long desc", sample_item);
+    roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", sample_item);
     game_t *g = game_new("start desc");
-    room_t *room = roomspec_to_room(g, r, "room_id");
+    room_t *room = roomspec_to_room(g, r);
 
     cr_assert_not_null(room, "roomspec_new(): The returned room is NULL");
     cr_assert_not_null(room->room_id, "roomspec_new(): room_id field is NULL");
@@ -161,7 +161,7 @@ Test(autogenerate, roomspec_to_room3)
     cr_assert_eq(strcmp(room->long_desc, "long desc"), 0, 
         "roomspec_to_room(): short desc not set");
 
-    cr_assert_eq(strcmp(room->room_id, "room_id"), 0, "roomspec_new(): room_id not set");
+    cr_assert_eq(strcmp(room->room_id, "sample room name"), 0, "roomspec_new(): room_id not set");
 
     bool t1, t2;
     t1 = (room->items == sample_item);
@@ -182,9 +182,9 @@ Test(autogenerate, roomspec_to_room4)
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
 
-    roomspec_t *r = roomspec_new("short desc", "long desc", sample_item);
+    roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", sample_item);
     game_t *g = game_new("start desc");
-    room_t *room = roomspec_to_room(g, r, "one more");
+    room_t *room = roomspec_to_room(g, r);
 
     cr_assert_not_null(room, "roomspec_new(): The returned room is NULL");
     cr_assert_not_null(room->room_id, "roomspec_new(): room_id field is NULL");
@@ -196,7 +196,7 @@ Test(autogenerate, roomspec_to_room4)
     cr_assert_eq(strcmp(room->long_desc, "long desc"), 0, 
         "roomspec_to_room(): short desc not set");
 
-    cr_assert_eq(strcmp(room->room_id, "one more"), 0, "roomspec_new(): room_id not set");
+    cr_assert_eq(strcmp(room->room_id, "sample room name"), 0, "roomspec_new(): room_id not set");
 
     bool t1, t2;
     t1 = (room->items == sample_item);
@@ -225,7 +225,7 @@ Test(autogenerate, room_generate_failure_one)
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
 
-    roomspec_t *sample_roomspec = roomspec_new("short_desc", "long_desc", sample_item);
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
     speclist_t *sample_speclist = speclist_new(sample_roomspec);
@@ -240,7 +240,7 @@ Test(autogenerate, room_generate_failure_one)
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
     // Test 1 for a game with 1 outward path in its curr_room field
-    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, "room_id"), 
+    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext), 
         "room_generate() returned SUCCESS when it should have returned FAILURE");
 }
 
@@ -261,7 +261,7 @@ Test(autogenerate, room_generate_failure_multiple)
 
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
 
-    roomspec_t *sample_roomspec = roomspec_new("short_desc", "long_desc", sample_item);
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
     speclist_t *sample_speclist = speclist_new(sample_roomspec);
@@ -280,7 +280,7 @@ Test(autogenerate, room_generate_failure_multiple)
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
     // Test 1 for a game with 2 outward paths in its curr_room field
-    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, "room_id"), 
+    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext), 
         "room_generate(): game has 2 outward paths in curr_room, should have returned FAILURE");
 
     path_t *outward_path3 = path_new(sample_room1, "outward path to sample_room1");
@@ -290,7 +290,7 @@ Test(autogenerate, room_generate_failure_multiple)
         "Could not add path_to_room2, which leads to sample_room2");
 
     // Test 2 for a game with 3 outward paths in its curr_room field
-    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, "room_id"), 
+    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext), 
         "room_generate(): game has 3 outward paths in curr_room, should have returned FAILURE");
 }
 
@@ -309,7 +309,7 @@ Test(autogenerate, room_generate_success_one)
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
 
-    roomspec_t *sample_roomspec = roomspec_new("short_desc", "long_desc", sample_item);
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
     speclist_t *sample_speclist = speclist_new(sample_roomspec);
@@ -323,7 +323,7 @@ Test(autogenerate, room_generate_success_one)
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, "room_id"), 
+    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext), 
         "room_generate() returned FAILURE when it should have returned SUCCESS");
 }
 
@@ -342,10 +342,10 @@ Test(autogenerate, room_generate_success_two)
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
 
-    roomspec_t *sample_roomspec = roomspec_new("short_desc", "long_desc", sample_item);
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
-    roomspec_t *sample_roomspec2 = roomspec_new("short_desc", "long_desc", sample_item);
+    roomspec_t *sample_roomspec2 = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
     speclist_t *sample_speclist = speclist_new(sample_roomspec);
@@ -366,7 +366,7 @@ Test(autogenerate, room_generate_success_two)
     tail->prev = sample_gencontext->speclist;
     sample_gencontext->speclist->next = tail;
 
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, "room_id"), 
+    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext), 
         "room_generate() returned FAILURE when it should have returned SUCCESS");
 }
 
@@ -385,13 +385,13 @@ Test(autogenerate, room_generate_success_three)
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
 
-    roomspec_t *sample_roomspec = roomspec_new("short_desc", "long_desc", sample_item);
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
-    roomspec_t *sample_roomspec2 = roomspec_new("short_desc", "long_desc", sample_item);
+    roomspec_t *sample_roomspec2 = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
-    roomspec_t *sample_roomspec3 = roomspec_new("short_desc", "long_desc", sample_item);
+    roomspec_t *sample_roomspec3 = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
     speclist_t *sample_speclist = speclist_new(sample_roomspec);
@@ -417,6 +417,6 @@ Test(autogenerate, room_generate_success_three)
     tail->prev = mid;
     mid->next = tail;
 
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, "room_id"), 
+    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext), 
         "room_generate() returned FAILURE when it should have returned SUCCESS");
 }

@@ -33,7 +33,6 @@ typedef struct roomspec {
     char *short_desc;
     char *long_desc;
     item_hash_t *items;
-
     UT_hash_handle hh;    
 } roomspec_t;
 

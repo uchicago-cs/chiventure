@@ -49,7 +49,6 @@ bool any_paths(room_t *r);
  * parameters:
  * - game: A pointer to a game struct. Should not be NULL.
  * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
- * - room_id: String for the room_id of the return room
  *
  * side effects:
  * - Creates a new room_t pointer on the heap.
@@ -57,7 +56,7 @@ bool any_paths(room_t *r);
  * returns:
  * The generated room_t struct pointer.
  */
-room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id);
+room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
 
 
 /*
@@ -71,7 +70,6 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id);
  * parameters:
  * - game: A pointer to a game struct. Should not be NULL.
  * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
- * - room_id: String for the room_id of the return room
  *
  * side effects:
  * - Changes input game to hold the newly generated room. Allocated on the heap
@@ -80,7 +78,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id);
  * - SUCCESS if the new room was added (SUCCESS)
  * - FAILURE if the new room was not added (FAILURE)
  */
-int room_generate(game_t *game, gencontext_t *context, char *room_id);
+int room_generate(game_t *game, gencontext_t *context);
 
 
 #endif /* INCLUDE_AUTOGENERATE_H */
