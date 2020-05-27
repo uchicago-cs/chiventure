@@ -37,6 +37,8 @@ int set_attr(attribute_t *a1, attribute_t *a2)
         case INTEGER:
             a1->attribute_value.int_val = a2->attribute_value.int_val;
             return SUCCEEDS;
+        default:
+            return FAILS;
     }
 }
 
