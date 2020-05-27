@@ -35,18 +35,22 @@ battle_status_t battle_over(battle_t *b)
     return BATTLE_VICTOR_PLAYER;
 }
 
-/* check battle_logic.h */
+/*
+ * A helper function to goes_first that allows us to sort out the order
+ * in which everyone goes
+ */
+int compare_speeds(int speed1, int speed2) 
+{
+    return speed1 - speed2;
+}
+
+/* check battle_logic.h 
+ * The hope is that this function returns a linked list based on compare_speeds
+ */
 turn_t goes_first(battle_t *b)
 {
-    combatant_t *temp;
-    DL_FOREACH(b->enemy, temp)
-    {
-        if (b->player->stats->speed < temp->stats->speed)
-        {
-            return ENEMY;
-        }
-    }
-    return PLAYER;
+    void (*cmp)(int) = &compare_speeds;
+    DL_SORT(head, cmp);
 }
 
 /* see battle_logic.h */
