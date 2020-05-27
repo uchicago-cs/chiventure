@@ -4,33 +4,6 @@
 #include "custom-actions-effect.h"
 
 
-/* attribute_new - allocates new attribute structure
- * 
- * Note: this is just a helper to allocate attribute structures with the
- *  necessary information for the tests in this file because there is no
- *  attribute_new function provided in game-state/item.h
- *
- * Arguments:
- *  - tag: type of attribute value
- *  - value: attribute value
- *
- * Returns:
- *  - pointer to attribute
- */
-attribute_t *attribute_new(enum attribute_tag tag, attribute_value_t value) {
-
-    attribute_t *res = (attribute_t*) malloc(sizeof(attribute_t));
-    if (!res) {
-        fprintf(stderr, "attribute_new: failed to allocate attribute");
-        exit(1);
-    }
-
-    res->attribute_key = NULL;
-    res->attribute_tag = tag;
-    res->attribute_value = value;
-}
-
-
 /* Test that set_attr() fails when given non-matching types */
 Test(custom_actions_effect, set_fail)
 {

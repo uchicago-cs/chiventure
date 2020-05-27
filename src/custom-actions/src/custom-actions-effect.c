@@ -34,7 +34,7 @@ int set_attr(attribute_t *a1, attribute_t *a2)
         case STRING:
             a1->attribute_value.str_val = a2->attribute_value.str_val;
             return SUCCEEDS;
-        default:
+        case INTEGER:
             a1->attribute_value.int_val = a2->attribute_value.int_val;
             return SUCCEEDS;
     }
@@ -70,7 +70,7 @@ void double_arithmetic(attribute_t *a1, attribute_t *a2, attribute_t *a3,
             a3->attribute_value.double_val =
                 a1->attribute_value.double_val * a2->attribute_value.double_val;
             break;
-        default:
+        case DIV:
             a3->attribute_value.double_val =
                 a1->attribute_value.double_val / a2->attribute_value.double_val;
     }
@@ -106,7 +106,7 @@ void int_arithmetic(attribute_t *a1, attribute_t *a2, attribute_t *a3,
             a3->attribute_value.int_val =
                 a1->attribute_value.int_val * a2->attribute_value.int_val;
             break;
-        default:
+        case DIV:
             a3->attribute_value.int_val =
                 a1->attribute_value.int_val / a2->attribute_value.int_val;
     }
@@ -131,10 +131,6 @@ int attr_arithmetic(attribute_t *a1, attribute_t *a2, attribute_t *a3,
         return FAILS;
     }
 
-    if (a1->attribute_tag != INTEGER && a1->attribute_tag != DOUBLE) {
-        return FAILS;
-    }
-
     a3->attribute_tag = a1->attribute_tag;
 
     switch (a1->attribute_tag) {
@@ -142,9 +138,11 @@ int attr_arithmetic(attribute_t *a1, attribute_t *a2, attribute_t *a3,
         case DOUBLE:
             double_arithmetic(a1, a2, a3, op);
             return SUCCEEDS;
-        default:
+        case INTEGER:
             int_arithmetic(a1, a2, a3, op);
             return SUCCEEDS;
+        default:
+            return FAILS;
     }
 }
 
@@ -180,10 +178,6 @@ int div_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3)
 /* See custom-actions-effect.h */
 int gen_attrval(int min, int max, attribute_t *a)
 {
-    if (a->attribute_tag != INTEGER && a->attribute_tag != DOUBLE) {
-        return FAILS;
-    }
-
     int val;
 
     val = (rand() % (max - min + 1)) + min;
@@ -193,9 +187,11 @@ int gen_attrval(int min, int max, attribute_t *a)
         case DOUBLE:
             a->attribute_value.double_val = val;
             return SUCCEEDS;
-        default:
+        case INTEGER:
             a->attribute_value.int_val = val;
             return SUCCEEDS;
+        default:
+            return FAILS;
     }
 }
 
