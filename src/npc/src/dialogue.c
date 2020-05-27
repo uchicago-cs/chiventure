@@ -152,21 +152,71 @@ int edge_free(edge_t *e)
 }
 
 // DIALOGUE BUILDING FUNCTIONS ------------------------------------------------
+
+int node_cmp(node_t *n1, node_t *n2)
+{
+    return (strcmp(n1->node_id, n2->node_id));
+}
+
 /* See dialogue.h */
+int prepend_node(convo_t *c, node_t *n)
+{
+    node_list_t *check;
+    DL_SEARCH(c->nodes, check, n, node_cmp);
+
+    if (check != NULL)
+    {
+        return FAILURE; //this node id is already in use
+    }
+    
+    node_list_t *list;
+    list->cur_node = n;
+    list->next = NULL;
+    list->prev = NULL;
+
+    DL_PREPEND(c->nodes, list);
+
+    return SUCCESS;
+}
+
+/* See dialogue.h */
+int append_node(convo_t *c, node_t *n)
+{
+    node_list_t *check;
+    DL_SEARCH(c->nodes, check, n, node_cmp);
+
+    if (check != NULL)
+    {
+        return FAILURE; //this node id is already in use
+    }
+    
+    node_list_t *list;
+    list->cur_node = n;
+    list->next = NULL;
+    list->prev = NULL;
+
+    DL_APPEND(c->nodes, list);
+
+    return SUCCESS;
+}
+
+
+/* Pre-DL-lists artifact code
+//See dialogue.h
 void add_node(convo_t *c, node_t *n)
 {
     DL_APPEND(c->nodes, n);
     c->node_count++;
 }
 
-/* See dialogue.h */
+//See dialogue.h
 void add_edge(node_t *n, edge_t *edge)
 {
     DL_APPEND(n->edges, edge);
     n->connection_count++;
 }
 
-/* See dialogue.h */
+//See dialogue.h
 int read_input(node_t *n, char *input)
 {
     char *adj_input = strtok(input, "\n");
@@ -181,7 +231,7 @@ int read_input(node_t *n, char *input)
     return -1;
 }
 
-/* See dialogue.h */
+//See dialogue.h
 int traverse_edge(node_t *n)
 {
     int buffer_size = 30;
@@ -200,7 +250,7 @@ int traverse_edge(node_t *n)
     }
 }
 
-/* See dialogue.h */
+//See dialogue.h
 void end_convo()
 {
     print_red("\n\nCongrats on finishing the chiventure dialogue showcase!\n");
@@ -209,7 +259,7 @@ void end_convo()
     exit(0);
 }
 
-/* See dialogue.h */
+//See dialogue.h
 void run_convo(convo_t *c)
 {
     int start_node = 1;
@@ -225,3 +275,4 @@ void run_convo(convo_t *c)
     }
     end_convo();
 }
+*/

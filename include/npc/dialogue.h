@@ -205,13 +205,26 @@ int edge_free(edge_t *e);
 // DIALOGUE BUILDING FUNCTIONS ------------------------------------------------
 
 /*
- * Attaches a given node to the head list of a given convo.
+ * Prepends the given node before the head of the node-list of the given convo.
+ * 
  * Parameters:
  *  - c: the convo that the node is to be attached to
  *  - n: the node to be attached
- * Returns: Nothing
+ * 
+ * Returns: None
  */
-void add_node(convo_t *c, node_t *n);
+int prepend_node(convo_t *c, node_t *n);
+
+/*
+ * Appends the given node to the end of the node-list of the given convo.
+ * 
+ * Parameters:
+ *  - c: the convo that the node is to be attached to
+ *  - n: the node to be attached
+ * 
+ * Returns: None
+ */
+int append_node(convo_t *c, node_t *n);
 
 /*
  * Attaches a given edge to the connections list of a given node.
@@ -267,6 +280,8 @@ void run_convo(convo_t *c);
 
 
 // LINKED LIST FUNCTIONS ------------------------------------------------------
+
+int node_cmp(node_t *n1, node_t *n2);
 
 int delete_all_nodes(node_list_t *nodes);
 
