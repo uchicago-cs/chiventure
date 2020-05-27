@@ -3,10 +3,27 @@
 
 #include "game_state_common.h"
 
+// GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents the global table that keeps track of all stats available.
+  * It contains:
+  *      the name of the stat,
+  *      which is also the key to the hashtable
+  *
+  *      the maximal value a stat could have
+  * */
+typedef struct stats_global{
+    char *name;
+    double max;
+    UT_hash_handle hh; 
+} stats_global_t;
+
+typedef struct stats_global stats_global_hash_t;
+
+
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
- *      the name of the stat, 
+ *      a pointer to the global stat, 
  *      which is also the key to the hashtable
  *
  *      the base value of the stat, 
@@ -17,7 +34,7 @@
  *      cumulative modifiers from effects, set to 1 by default
  * */
 typedef struct stats {
-    char *name;
+    stats_global_t *global;
     double val;
     double max;
     double modifier; 
@@ -33,7 +50,7 @@ typedef struct stats stats_hash_t;
  * 
  *      the modifier of the effect on that stat 
  * 
- *      the duration of the effect, an umber 
+ *      the duration of the effect, an number 
  * */
 typedef struct stat_mod {
     stats_t *stat;
