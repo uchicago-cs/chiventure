@@ -20,6 +20,21 @@ Test(objstore, new_success)
 
 Test(objstore, find_failure)
 {
+    obj_t *test = malloc(sizeof(obj_t));
+    strcpy(test->id, "villager");
+    test->type = 6;
+    test->attrs = NULL;
+
+    objstore_t *store = NULL;
+    add_objstore(&store, test);
+    cr_assert_not_null(store, "add_objstore() failed");
+
+    objstore_t *res = find_objstore(&store, "robber", 6);
+    cr_assert_null(res, "find_objstore() failed - returned value when NULL expected");
+}
+
+Test(objstore, find_failure_empty)
+{
     objstore_t *test = NULL;
     objstore_t *res = find_objstore(&test, "Room B", 2);
     cr_assert_null(res, "find_objstore() failed - returned value when NULL expected");
