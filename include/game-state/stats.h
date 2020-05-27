@@ -20,6 +20,19 @@ typedef struct stats_global{
 typedef struct stats_global stats_global_hash_t;
 
 
+// GLOBAL EFFECTS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents the effects table that keeps track of all available effects
+  * It contains:
+  *      the name of the effect,
+  *      which is also the key to the hashtable
+  * */
+typedef struct effects_global{
+    char *name;
+    UT_hash_handle hh; 
+} effects_global_t;
+typedef struct effects_global effects_global_hash_t;
+
+
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
