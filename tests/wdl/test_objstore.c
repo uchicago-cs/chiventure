@@ -128,6 +128,24 @@ Test(objstore, free)
     objstore_t *store = new_objstore(obj);
     cr_assert_not_null(store, "new_objstore() failed");
 
-    int res = free_objstore(store);
+    int res = free_objstore(&store, store);
     cr_assert_eq(res, SUCCESS, "free_objstore() failed");
+}
+
+Test(objstore, free_all)
+{
+    obj_t *old = malloc(sizeof(obj_t));
+    strcpy(old->id, "villager");
+    old->type = 6;
+
+    obj_t *new = malloc(sizeof(obj_t));
+    strcpy(new->id, "robber");
+    new->type = 6;
+
+    objstore_t *store = NULL;
+    add_objstore(&store, old);
+    add_objstore(&store, new);
+
+    int res = free_all(&store);
+    cr_assert_eq(res, SUCCESS, "free_all() failed");
 }

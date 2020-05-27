@@ -1,8 +1,8 @@
 #include "../../src/libobj/sandbox/sample_obj_documentation.h"
 #include "../common/common.h"
 
-#ifndef INCLUDE_OBJ_STORE_H
-#define INCLUDE_OBJ_STORE_H
+#ifndef INCLUDE_OBJSTORE_H
+#define INCLUDE_OBJSTORE_H
 
 /* key_t: key struct for hash table - a wrapper for id and type of obj
  * params:
@@ -60,12 +60,21 @@ objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type);
 int add_objstore(objstore_t **obj_store, obj_t *o);
 
 /*
- * free_objstore: frees a given objstore struct
+ * free_objstore: deletes & frees a given objstore struct
  * 
  * params:
  *   - store - objstore item
  * returns: SUCCESS
  */
-int free_objstore(objstore_t *store);
+int free_objstore(objstore_t **obj_store, objstore_t *store);
+
+/* 
+ * free_all: deletes & frees entire objectstore_t hash (including objects)
+ * 
+ * params:
+ *   - object_store - objstore hash
+ * returns: SUCCESS
+ */
+int free_all(objstore_t **object_store);
 
 #endif
