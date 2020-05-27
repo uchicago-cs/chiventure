@@ -10,7 +10,7 @@ Test (npc, new)
 {
     npc_t *npc; 
 
-    npc = npc_new("npc_22", 20);
+    npc = npc_new("npc_22", 20, NULL);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
@@ -25,8 +25,8 @@ Test (npc, init)
     npc_t *npc; 
     int res;
 
-    npc = npc_new("test", 30);
-    res = npc_init(npc, "npc_22", 20); 
+    npc = npc_new("test", 30, NULL);
+    res = npc_init(npc, "npc_22", 20, NULL); 
 
     cr_assert_eq(res, SUCCESS, "npc_init() failed"); 
 
@@ -41,7 +41,7 @@ Test (npc, free)
     npc_t *npc;
     int res; 
 
-    npc = npc_new("npc_22", 20);
+    npc = npc_new("npc_22", 20, NULL);
 
     cr_assert_not_null(npc, "npc_new() failed"); 
 
@@ -56,7 +56,7 @@ Test(npc, get_npc_health)
     npc_t *npc;
     int health;
 
-    npc = npc_new("npc_22", 20);
+    npc = npc_new("npc_22", 20, NULL);
 
     health = get_npc_health(npc);
 
@@ -72,7 +72,7 @@ Test (npc, change_npc_health)
     npc_t *npc; 
     int health1, health2, health3;
 
-    npc = npc_new("npc_22", 99); 
+    npc = npc_new("npc_22", 99, NULL); 
     health1 = change_npc_health(npc, 2, 100); 
     health2 = change_npc_health(npc, -20, 100);
     health3 = change_npc_health(npc, 3, 83);
