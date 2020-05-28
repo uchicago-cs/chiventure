@@ -71,3 +71,19 @@ Test(dialogue, node_free)
 
     cr_assert_eq(res, SUCCESS, "node_free() failed");
 }
+
+Test(dialogue, prepend_node)
+{
+    convo_t *c;
+    node_t *n1, *n2;
+    int res1, res2;
+
+    c = convo_new();
+    n1 = node_new("1test node", "Here we have some test dialogue!");
+    n2 = node_new("2test node", "This is the second testing dialogue.");
+
+    cr_assert_not_null(c, "convo_new() failed");
+    cr_assert_not_null(n1, "node_new() failed");
+    cr_assert_not_null(n2, "node_new() failed");
+
+}
