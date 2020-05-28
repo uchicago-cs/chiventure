@@ -29,7 +29,7 @@ branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** con
     }
 
     new_branch = branch_block_init(branch, num_conditionals, conditionals, 
-    conditional_type, num_controls, controls);
+                                   conditional_type, num_controls, controls);
     if (new_branch != SUCCESS)
     {
         fprintf(stderr,"Could not initialize branch_block_t");
@@ -59,7 +59,7 @@ AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** co
     }
 
     new_branch = branch_block_init(branch, num_conditionals, conditionals, 
-    conditional_type, num_controls, controls);
+                                   conditional_type, num_controls, controls);
     if (new_branch != SUCCESS)
     {
         fprintf(stderr,"Could not initialize branch_block_t");
