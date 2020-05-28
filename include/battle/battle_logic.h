@@ -13,9 +13,9 @@
  * - b: information about the battle
  * - target: name of the person
  * Returns:
- * - Returns a true or false bool for if the target exists
+ * - Returns the combatant selected
  */
-bool check_target(battle_t *b, char *target);
+combatant_t *check_target(battle_t *b, char *target);
 
 typedef enum battle_status
 {
@@ -47,10 +47,10 @@ turn_t goes_first(battle_t *b);
 /* 
  * Finds the desired item to be used
  * 	Parameters:
- *   inventory - an player or enemy's inventory
- * 	 id - the id number of the desired item
+ *    inventory - an player or enemy's inventory
+ *    id - the id number of the desired item
  * 	Returns:
- * 	 returns a pointer to the desired item 
+ *    Returns a pointer to the desired item 
  */
 item_t *find_item(item_t *inventory, int id);
 

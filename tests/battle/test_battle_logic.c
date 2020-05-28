@@ -30,9 +30,9 @@ Test(battle_logic, target_exists)
     battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
-    bool res = check_target(b, "Orc John");
+    combatant_t *res = check_target(b, "Orc John");
 
-    cr_assert_eq(res, true, "check_target() failed!");
+    cr_assert_not_null(res, "check_target() failed!");
 
     battle_free(b);
 }
@@ -61,9 +61,9 @@ Test(battle_logic, target_does_not_exist)
     battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
-    bool res = check_target(b, "Goblin John");
+    combatant_t *res = check_target(b, "Goblin John");
 
-    cr_assert_eq(res, false, "check_target() failed!");
+    cr_assert_not_null(res, "check_target() failed!");
 
     battle_free(b);
 }
