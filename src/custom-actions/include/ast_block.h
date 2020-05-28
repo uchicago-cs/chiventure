@@ -39,7 +39,7 @@ typedef struct AST_block {
  * Allocates an AST block in the heap. 
  * 
  * Parameters: 
- * - block: either a control, branch, action or conditional block 
+ * - block: pointer to either a control, branch, action or conditional block 
  * - enum representing the type of block
  * 
  * Returns: 
@@ -52,7 +52,8 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type);
  * 
  * Parameters: 
  * - AST block. Must point to already allocated memory. 
- * - block, block_type: parameters that define the block
+ * - block: pointer to either a control, branch, action or conditional block 
+ * - enum representing the type of block
  * 
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
