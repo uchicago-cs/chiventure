@@ -162,7 +162,7 @@ Test(battle_logic, battle_not_over)
     combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
     combatant_t *e1 = combatant_new("Enemy", false, estats1, NULL, NULL);
     combatant_t *e2 = combatant_new("Enemy", false, estats2, NULL, NULL);
-   	cr_assert_not_null(p, "combatant_new() failed");
+    cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
     cr_assert_not_null(e1, "combatant_new() failed");
     cr_assert_not_null(e2, "combatant_new() failed");
