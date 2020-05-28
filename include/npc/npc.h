@@ -12,7 +12,7 @@ typedef struct npc {
     UT_hash_handle hh;
     char *npc_id;
     stats_t *stats;
-    stats_effect_t *effects;
+    stat_effect_t *effects;
     // convo_t *dialogue;  placeholder for incoming dialogue module
     item_hash_t *inventory;
 } npc_t;
