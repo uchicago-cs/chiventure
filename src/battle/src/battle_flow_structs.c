@@ -26,7 +26,7 @@ npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t 
     assert(npc_e != NULL);
 
     npc_e->npc_id = npc_id;
-    ctx_player->class = class;
+    npc_e->class = class;
     npc_e->stats = stats;
     npc_e->moves = moves;
     npc_e->items = items;

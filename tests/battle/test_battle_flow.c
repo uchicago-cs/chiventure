@@ -12,7 +12,7 @@ Test(battle_flow, set_player)
 {
     combatant_t *comb_player;
 
-    player_t *ctx_player = new_ctx_player("set_player_Name", NULL, NULL, NULL);
+    player_t *ctx_player = new_ctx_player("set_player_Name", NULL, NULL, NULL, NULL);
 
     comb_player = set_player(ctx_player);
 
@@ -26,7 +26,7 @@ Test(battle_flow, set_player)
 /* Tests set_enemies() with 1 enemy */
 Test(battle_flow, set_one_enemy)
 {
-    npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name", NULL, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name", NULL, NULL, NULL, NULL);
     combatant_t *comb_enemy = set_enemies(npc_enemy);
 
     cr_assert_not_null(comb_enemy, "set_enemies() failed");
@@ -41,8 +41,8 @@ Test(battle_flow, set_one_enemy)
 Test(battle_flow, set_two_enemies)
 {
     npc_enemy_t *head = NULL;
-    npc_enemy_t *e1 = make_npc_enemy("enemy_name", NULL, NULL, NULL);
-    npc_enemy_t *e2 = make_npc_enemy("enemy_name2", NULL, NULL, NULL);
+    npc_enemy_t *e1 = make_npc_enemy("enemy_name", NULL, NULL, NULL, NULL);
+    npc_enemy_t *e2 = make_npc_enemy("enemy_name2", NULL, NULL, NULL, NULL);
     DL_APPEND(head, e1);
     DL_APPEND(head, e2);
     cr_assert_not_null(e1, "make_npc_enemy() failed");
@@ -70,8 +70,8 @@ Test(battle_flow, set_two_enemies)
 /* Tests set_battle() */
 Test(battle_flow, set_battle)
 {
-    player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL);
-    npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL);
+    player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
@@ -101,11 +101,11 @@ Test(battle_flow, start_battle)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL);
+    player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
     g->curr_player = ctx_player;
     ctx->game = g;
     ctx->in_battle = true;
-    npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, NULL);
     environment_t env = ENV_SNOW;
 
     int rc = start_battle(ctx, npc_enemy, env);
