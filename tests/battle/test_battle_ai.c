@@ -143,7 +143,9 @@ move_t* expected_move_greedy()
 /* Creates the expected return value for when the AI should return a random*/
 move_t* expected_move_random()
 {
-    move_t* rock_throw = create_move(3, NULL, true, 90, 0);
+    srand(1);
+    int randomish = rand() % 3 + 1;
+    move_t* rock_throw = create_move(randomish, NULL, true, 90, 0);
     return rock_throw;
 }
 

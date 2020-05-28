@@ -36,7 +36,7 @@ move_t* find_random(combatant_t* player, combatant_t* enemy)
     random = rand() % count + 1;
 
     move_t* random_move = enemy->moves;
-    for (i = 0; i < random; i++)
+    for (i = 0; i < random - 1; i++)
     {
         if (random_move->next == NULL)
         {
