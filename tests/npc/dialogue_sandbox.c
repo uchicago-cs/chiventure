@@ -1,4 +1,4 @@
-#include "../../../include/npc/dialogue.h"
+#include "../../include/npc/dialogue.h"
 
 /*
  * Builds an in-memory fake game mock-up
