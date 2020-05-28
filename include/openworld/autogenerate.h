@@ -79,7 +79,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
 * - SUCCESS if the new room was generated and added (SUCCESS)
 * - FAILURE if the new room was not generated/added (FAILURE)
 */
-int room_generate(game_t *game, gencontext_t *context);
+int room_generate(game_t *game, gencontext_t *context, char *bucket);
 
 
 /*
@@ -105,7 +105,7 @@ int room_generate(game_t *game, gencontext_t *context);
 
 roomspec_t *random_room_content(speclist_t *spec);
 
-int multi_room_generate(game_t *game, gencontext_t *context);
+int multi_room_generate(game_t *game, gencontext_t *context, char *bucket);
 
 roomspec_t *random_room_lookup(speclist_t *spec);
 
@@ -113,6 +113,6 @@ item_hash_t *random_items(roomspec_t *room);
 
 int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters);
 
-int speclist_from_hash(speclist_t **spec, roomspec_t *hash, int num_items);
+speclist_t *speclist_from_hash(roomspec_t *hash);
 
 #endif /* INCLUDE_AUTOGENERATE_H */

@@ -17,6 +17,9 @@
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
 
+#ifndef GEN_STRUCTS_H
+#define GEN_STRUCTS_H
+
 /* -- STRUCTS -- */
 
 /* roomspec_t struct
@@ -212,3 +215,5 @@ int speclist_free(speclist_t *list);
 * FAILURE - if failed to free
 */
 int speclist_free_all(speclist_t *list);
+
+#endif

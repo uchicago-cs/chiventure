@@ -18,6 +18,7 @@
 #include "game-state/room.h"
 #include "openworld/autogenerate.h"
 #include "openworld/gen_structs.h"
+#include "openworld/default_rooms.h"
 
 /* See autogenerate.h */
 bool any_paths(room_t *r)
@@ -37,13 +38,15 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec)
 }
 
 /* See autogenerate.h */
-int room_generate(game_t *game, gencontext_t *context)
+int room_generate(game_t *game, gencontext_t *context, char *bucket)
 {
 	/* Implement simple single-room autogeneration */
 	if (!any_paths(game->curr_room))
 	{
+		roomspec_t *hash = make_default_room(bucket, NULL, NULL);
+		context->speclist = speclist_from_hash(hash);
 		// Specify roomspec content from speclist
-		roomspec *r = random_room_content(context->spec);
+		roomspec_t *r = random_room_content(context->speclist);
 		// Adds one generated room from the head of the speclist only
 		room_t *new_room = roomspec_to_room(game, r);
 
@@ -61,7 +64,7 @@ int room_generate(game_t *game, gencontext_t *context)
 }
 
 /* See autogenerate.h */
-int multi_room_generate(game_t *game, gencontext_t *context)
+int multi_room_generate(game_t *game, gencontext_t *context, char *bucket)
 {
 	/* If game->curr_room is not a dead end or there are no roomspec_t elements
 	* in context->speclist, then do not autogenerate */
@@ -74,7 +77,7 @@ int multi_room_generate(game_t *game, gencontext_t *context)
 	speclist_t *speclist_head = context->speclist;
 
 	while (context->speclist != NULL) {
-		room_generate(game, context);
+		room_generate(game, context, bucket);
 
 		// Go to next roomspec in context->speclist
 		context->speclist = context->speclist->next;
@@ -97,18 +100,18 @@ roomspec_t *random_room_content(speclist_t *spec) {
 /* See autogenerate.h */
 roomspec_t *random_room_lookup(speclist_t *spec) {
 	int count;
-	roomspec_t *tmp, *random = NULL;
+	speclist_t *tmp, *random = NULL;
 
 	DL_COUNT(spec, tmp, random);
 	int idx = rand() % count, i = 0;
 
 	DL_FOREACH(spec, tmp) {
 		if (i == idx) {
-			item_hash_t *items = random_items(tmp);
-			room_t *r = room_new(spec->spec->room_name,
-				spec->spec->short_desc,
-				spec->spec->long_desc,
-				items, NULL);
+			item_hash_t *items = random_items(tmp->spec);
+			roomspec_t *r = roomspec_new(tmp->spec->room_name,
+				tmp->spec->short_desc,
+				tmp->spec->long_desc,
+				items);
 			return r;
 		}
 		i++;
@@ -136,9 +139,9 @@ int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters) {
 	int idx = rand() % count;
 	int i = 0;
 
-	HASH_ITER(src, src, current, tmp) {
+	HASH_ITER(hh, src, current, tmp) {
 		if (i = idx) {
-			int rc = copy_item_to_hash(dst, src, tmp->item_id);
+			int rc = copy_item_to_hash(&dst, src, tmp->item_id);
 			return SUCCESS;
 		}
 		i++;
@@ -148,19 +151,17 @@ int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters) {
 }
 
 /* See autogenerate.h */
-int speclist_from_hash(speclist_t **spec, roomspec_t *hash, int num_items) {
+speclist_t *speclist_from_hash(roomspec_t *hash) {
 	if (hash == NULL) {
-		return FAILURE;
+		return NULL;
 	}
 	else {
-		if (spec == NULL) {
-			speclist *sp;
-			*sp = speclist_new
-		}
+		speclist_t *spec = speclist_new(NULL);
 		roomspec_t *current_room = NULL, *tmp = NULL;
-		HASH_ITER(hash->hh, hash, current_room, tmp) {
-			DL_APPEND(spec, current_room);
+		HASH_ITER(hh, hash, current_room, tmp) {
+			speclist_t *s = speclist_new(current_room);
+			DL_APPEND(spec, s);
 		}
+		return spec;
 	}
-	return SUCCESS;
 }

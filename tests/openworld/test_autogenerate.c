@@ -5,7 +5,7 @@
 
 /* Tests the functions in sample_generation.h */
 
-/* Checks that a given room correctly interpreted as having no paths */
+/* Checks that a given room correctly interpreted as having no paths 
 Test(autogenerate, any_paths1)
 {
     room_t *sample_room1 = room_new("string1", "string2", "string3");
@@ -13,9 +13,9 @@ Test(autogenerate, any_paths1)
     cr_assert_eq(any_paths(sample_room1), false, 
         "anypaths(): Should not have any paths");
 }
-
+*/
 /* Checks that a room with one path is correctly interpreted as having 
- * one or more paths (any_paths() -> true) */
+ * one or more paths (any_paths() -> true) 
 Test(autogenerate, any_paths2)
 {
     room_t *sample_room1 = room_new("string1", "string2", "string3");
@@ -28,10 +28,10 @@ Test(autogenerate, any_paths2)
 
     cr_assert_eq(any_paths(sample_room2), true, 
         "anypaths(): Should have a path");
-}
+}*/
 
 /* Checks that a room with two paths is correctly interpreted as having 
- * one or more paths (any_paths() -> true) */
+ * one or more paths (any_paths() -> true) 
 Test(autogenerate, any_paths3)
 {
     room_t *sample_room1 = room_new("string1", "string2", "string3");
@@ -50,10 +50,10 @@ Test(autogenerate, any_paths3)
 
     cr_assert_eq(any_paths(sample_room2), true, 
         "anypaths(): Should have paths");
-}
+}*/
 
 /* Checks that a room with multiple (3) paths is correctly interpreted as 
- * having one or more paths (any_paths() -> true) */
+ * having one or more paths (any_paths() -> true) 
 Test(autogenerate, any_paths4)
 {
     room_t *sample_room1 = room_new("string1", "string2", "string3");
@@ -78,10 +78,10 @@ Test(autogenerate, any_paths4)
 
     cr_assert_eq(any_paths(sample_room2), true, 
         "anypaths(): Should have paths");
-}
+}*/
 
 /* Checks that, given a roomspec pointer, roomspec_to_room correctly returns a 
- * room pointer with NULL paths and items fields */
+ * room pointer with NULL paths and items fields 
 Test(autogenerate, roomspec_to_room1)
 {
     roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", NULL);
@@ -106,10 +106,10 @@ Test(autogenerate, roomspec_to_room1)
 
     cr_assert_eq(t1, true, "room->items not set by roomspec_to_room()");
     cr_assert_eq(t2, true, "room->paths not set by roomspec_to_room()");
-}
+}*/
 
 /* Checks that, given a roomspec pointer, roomspec_to_room correctly returns a 
- * room pointer with paths field not NULL */
+ * room pointer with paths field not NULL 
 Test(autogenerate, roomspec_to_room2)
 {   
     room_t *sample_room1 = room_new("string1", "string2", "string3");
@@ -140,9 +140,9 @@ Test(autogenerate, roomspec_to_room2)
     cr_assert_eq(t1, true, "room->items not set by roomspec_to_room()");
     cr_assert_eq(t2, true, "room->paths not set by roomspec_to_room()");
 }
-
+*/
 /* Checks that, given a roomspec pointer, roomspec_to_room correctly returns a 
- * room pointer with items field not NULL */
+ * room pointer with items field not NULL 
 Test(autogenerate, roomspec_to_room3)
 {   
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
@@ -170,9 +170,9 @@ Test(autogenerate, roomspec_to_room3)
     cr_assert_eq(t1, true, "room->items not set by roomspec_to_room()");
     cr_assert_eq(t2, true, "room->paths not set by roomspec_to_room()");
 }
-
+*/
 /* Checks that, given a roomspec pointer, roomspec_to_room correctly returns a 
- * room pointer with paths and items fields not NULL */
+ * room pointer with paths and items fields not NULL 
 Test(autogenerate, roomspec_to_room4)
 {   
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
@@ -204,10 +204,10 @@ Test(autogenerate, roomspec_to_room4)
 
     cr_assert_eq(t1, true, "room->items not set by roomspec_to_room()");
     cr_assert_eq(t2, true, "room->paths not set by roomspec_to_room()");
-}
+}*/
 
 /* Checks that room_generate returns FAILURE when the current room of the 
- * game has a single outward path (i.e. not a dead end) */
+ * game has a single outward path (i.e. not a dead end) 
 Test(autogenerate, room_generate_failure_one)
 {
     game_t *g = game_new("start desc");
@@ -243,9 +243,9 @@ Test(autogenerate, room_generate_failure_one)
     cr_assert_eq(FAILURE, room_generate(g, sample_gencontext), 
         "room_generate() returned SUCCESS when it should have returned FAILURE");
 }
-
+*/
 /* Checks that room_generate returns FAILURE when the current room of the 
- * game has two or more outward paths (i.e. not a dead end) */
+ * game has two or more outward paths (i.e. not a dead end) 
 Test(autogenerate, room_generate_failure_multiple)
 {
     game_t *g = game_new("start desc");
@@ -293,10 +293,10 @@ Test(autogenerate, room_generate_failure_multiple)
     cr_assert_eq(FAILURE, room_generate(g, sample_gencontext), 
         "room_generate(): game has 3 outward paths in curr_room, should have returned FAILURE");
 }
-
+*/
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id, 
  * room_generate correctly creates a room from the head of the context 
- * and adds it to the game via a path (only if game->curr_room is a dead end) */
+ * and adds it to the game via a path (only if game->curr_room is a dead end) 
 Test(autogenerate, room_generate_success_one)
 {
     game_t *g = game_new("start desc");
@@ -327,10 +327,10 @@ Test(autogenerate, room_generate_success_one)
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext), 
         "room_generate() returned FAILURE when it should have returned SUCCESS");
 }
-
+*/
 /* 2 roomspec case: Checks that, given a game, context (gencontext_t), and room_id, 
  * room_generate correctly creates a room from the head of the context 
- * and adds it to the game via a path (only if game->curr_room is a dead end) */
+ * and adds it to the game via a path (only if game->curr_room is a dead end) 
 Test(autogenerate, room_generate_success_two)
 {
     game_t *g = game_new("start desc");
@@ -372,10 +372,10 @@ Test(autogenerate, room_generate_success_two)
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext), 
         "room_generate() returned FAILURE when it should have returned SUCCESS");
 }
-
+*/
 /* 3 roomspec case: Checks that, given a game, context (gencontext_t), and room_id, 
  * room_generate correctly creates a room from the head of the context 
- * and adds it to the game via a path (only if game->curr_room is a dead end) */
+ * and adds it to the game via a path (only if game->curr_room is a dead end) 
 Test(autogenerate, room_generate_success_three)
 {
     game_t *g = game_new("start desc");
@@ -423,9 +423,9 @@ Test(autogenerate, room_generate_success_three)
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext), 
         "room_generate() returned FAILURE when it should have returned SUCCESS");
 }
-
+*/
 /* Checks that multi_room_generate returns FAILURE if the current room of the 
- * given game is not a dead end, i.e. there are outward paths */
+ * given game is not a dead end, i.e. there are outward paths 
 Test(autogenerate, invalid_multi_room)
 {
     room_t *sample_room1 = room_new("string1", "string2", "string3");
@@ -462,9 +462,9 @@ Test(autogenerate, invalid_multi_room)
 
     cr_assert_eq(FAILURE, multi_room_generate(g, sample_gencontext));
 }
-
+*/
 /* Checks that multi_room_generate successfully generates/adds rooms from a 
- * context (gencontext_t) struct's speclist field when one room is requested */
+ * context (gencontext_t) struct's speclist field when one room is requested 
 Test(autogenerate, valid_multi_room1)
 {
     room_t *sample_room1 = room_new("string1", "string2", "string3");
@@ -502,9 +502,9 @@ Test(autogenerate, valid_multi_room1)
 
     cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext));
 }
-
+*/
 /* Checks that multi_room_generate successfully generates/adds rooms from a 
- * context (gencontext_t) struct's speclist field when two rooms are requested */
+ * context (gencontext_t) struct's speclist field when two rooms are requested 
 Test(autogenerate, valid_multi_room2)
 {
     room_t *sample_room1 = room_new("string1", "string2", "string3");
@@ -553,9 +553,9 @@ Test(autogenerate, valid_multi_room2)
 
     cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext));
 }
-
+*/
 /* Checks that multi_room_generate successfully generates/adds rooms from a 
- * context (gencontext_t) struct's speclist field when multiple (3) rooms are requested */
+ * context (gencontext_t) struct's speclist field when multiple (3) rooms are requested 
 Test(autogenerate, valid_multi_room3)
 {
     room_t *sample_room1 = room_new("string1", "string2", "string3");
@@ -609,4 +609,4 @@ Test(autogenerate, valid_multi_room3)
     g->curr_room = sample_room1;
 
     cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext));
-}
+}*/
