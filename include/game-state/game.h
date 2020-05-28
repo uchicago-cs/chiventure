@@ -6,6 +6,7 @@
 #include "room.h"
 #include "item.h"
 #include "game_action.h"
+#include "stats.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
@@ -41,6 +42,9 @@ typedef struct game {
 
     /* pointer to current player struct */
     player_t *curr_player;
+
+    /* an iteratable hashtable of effects */
+    effects_global_hash_t *all_effects;
 
     /* starting string description to be presented at beginning of game */
     char *start_desc;
@@ -154,6 +158,17 @@ int add_final_room_to_game(game_t *game, room_t *final_room);
  *  SUCCESS if successful, FAILURE if failed
  */ 
 int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition);
+
+/* Adds a global effect to the given game
+ * 
+ * Parameters:
+ *  game struct
+ *  global effect struct
+ * 
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int add_effect_to_game(game_t *game, effects_global_t *effect);
 
 /* Checks if all end conditions in a given game have been met
  * 
