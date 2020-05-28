@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include "playerclass/class_structs.h"
 
 /* max name length */
 #define MAX_NAME_LEN (50)
@@ -40,16 +41,6 @@ typedef struct stat {
     int max_hp;
     int xp;
 } stat_t;
-
-/* class stub */
-typedef enum class {
-    bard,
-    cleric,
-    paladin,
-    wizard
-} class_t;
-
-
 
 
 #endif
