@@ -14,9 +14,9 @@ int init_class(class_t *class, class_type_t class_type, char* info,
     assert(info != NULL);
 
     class->class_type = class_type;
-
-    class->info = (char*) calloc(MAX_CLASS_INFO_LEN, sizeof(char));
-    strncpy(class->info, info, MAX_CLASS_INFO_LEN);
+  
+    class->info = (char*) calloc(MAX_CLASS_INFO_LEN + 1, sizeof(char));
+    strncpy(class->info, info, MAX_CLASS_INFO_LEN + 1);
 
     class->stats = stats;
 
@@ -64,6 +64,7 @@ class_t *make_test_bard()
 {
     char* bard_des = "Charismatic, always has a joke, song, or moving speech ready";
     class_t *test_bard = new_class(CLASS_BARD, bard_des, STAT_CHARISMA, 2.0);
+  
     return test_bard;
 }
 
@@ -118,6 +119,7 @@ class_t *make_test_wizard()
     char* wizard_des = "Draws power from nature";
     class_t *test_wizard = new_class(CLASS_WIZARD, wizard_des,
                                      STAT_SPEED, 2.0);
+  
     return test_wizard;
 }
 

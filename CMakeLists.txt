@@ -12,6 +12,7 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
+
 set(CHIVENTURE_MODULES action_management battle checkpointing cli common custom-actions game-state libobj npc openworld playerclass skilltrees ui wdl)
 
 include_directories(include/)
