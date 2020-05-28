@@ -86,4 +86,5 @@ Test(dialogue, prepend_node)
     cr_assert_not_null(n1, "node_new() failed");
     cr_assert_not_null(n2, "node_new() failed");
 
+    res1 = prepend_node(c, n1);
 }

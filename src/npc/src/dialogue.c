@@ -184,7 +184,31 @@ int node_cmp(node_list_t *n1, node_list_t *n2)
 }
 
 /* See dialogue.h */
+//both versions of this function make tests crash, no idea why
 int prepend_node(convo_t *c, node_t *n)
+{
+    node_list_t *list, *tmp;
+    
+    tmp = c->nodes;
+    while (tmp != NULL)
+    {
+        if (strncmp(tmp->cur_node->node_id, n->node_id, MAX_ID_LEN) == 0)
+        {
+            return FAILURE; //this node id is already in use
+        }
+        tmp = tmp->next;
+    }
+
+    list->cur_node = n;
+    list->next = NULL;
+    list->prev = NULL;
+    DL_PREPEND(c->nodes, list);
+    c->node_count++;
+
+    return SUCCESS;
+}
+
+/*int prepend_node(convo_t *c, node_t *n)
 {
     node_list_t *check, *list;
     list->cur_node = n;
@@ -201,7 +225,7 @@ int prepend_node(convo_t *c, node_t *n)
     c->node_count++;
 
     return SUCCESS;
-}
+}*/
 
 /* See dialogue.h */
 int append_node(convo_t *c, node_t *n)
