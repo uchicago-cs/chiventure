@@ -105,14 +105,66 @@ int room_generate(game_t *game, gencontext_t *context, char *bucket);
 
 roomspec_t *random_room_content(speclist_t *spec);
 
+/* waiting for bryan to add his comments */
 int multi_room_generate(game_t *game, gencontext_t *context, char *bucket);
 
+/*
+* random_room_lookup
+* Iterate through all the rooms of the speclist a "random" number of times
+* and returns one of these roomspecs.
+*
+* parameters:
+* - speclist_t *spec: the speclist from which to pull a roomspec
+*
+* returns:
+* - NULL if failure
+* - roomspec_t* new roomspec from the speclist
+*/
 roomspec_t *random_room_lookup(speclist_t *spec);
 
+/*
+* random_items
+* Adds 0-6 "random" items to the roomspec given. Uses the roomspec's
+* allowed items hash to pull the acceptable items.
+*
+* parameters:
+* - room: A single roomspec with a item_hash of ALL allowed items.
+*
+* returns:
+* - NULL if failure
+* - item_hash_t* new item hash
+*/
 item_hash_t *random_items(roomspec_t *room);
 
+/*
+* random_item_lookup
+* Iterate through the src item hash table num_iters times and copy that
+* item to the dst item hash. This is a helper function for random_items
+* hence why it is called random_item_lookup.
+*
+* parameters:
+* - item_hash_t *dst is where you want to store the item you just found
+* - item_hash_t *src is where you're looking up the item
+* - num_iters is how many times you'll iterate through src to settle on an item.
+*
+* returns:
+* - SUCCESS if the new rooms were generated and added (SUCCESS)
+* - FAILURE if the new rooms were not generated/added (FAILURE)
+*/
 int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters);
 
+/*
+* speclist_from_hash
+* Iterate through all the rooms in a roomspec hash and append them to a 
+* new speclist in a doulbly linked list.
+*
+* parameters:
+* - hash: a roomspec hash that has multiple roomspecs
+*
+* returns:
+* - NULL if hash is NULL
+* - speclist_t* a new speclist with all the roomspecs stored in hash copied
+*/
 speclist_t *speclist_from_hash(roomspec_t *hash);
 
 #endif /* INCLUDE_AUTOGENERATE_H */
