@@ -63,7 +63,7 @@ quest_t *quest_new(long quest_id, achievement_llist_t *achievement_list,
 int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet)
 {
     assert(mission != NULL);
-    
+
     mission->item_to_collect = item_to_collect;
     mission->npc_to_meet = npc_to_meet;
 
