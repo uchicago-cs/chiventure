@@ -178,9 +178,9 @@ int edge_free(edge_t *e)
 // DIALOGUE BUILDING FUNCTIONS ------------------------------------------------
 
 /* See dialogue.h */
-int node_cmp(node_t *n1, node_t *n2)
+int node_cmp(node_list_t *n1, node_list_t *n2)
 {
-    return (strcmp(n1->node_id, n2->node_id));
+    return (strcmp(n1->cur_node->node_id, n2->cur_node->node_id));
 }
 
 /* See dialogue.h */
