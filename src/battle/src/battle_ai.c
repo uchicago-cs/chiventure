@@ -2,7 +2,7 @@
 #include <math.h>
 
 /* See battle_ai.h */
-move_t* give_move(difficulty_t difficulty, combatant_t* player, combatant_t* enemy)
+move_t* give_move(combatant_t* player, combatant_t* enemy, difficulty_t difficulty)
 {
     if (player->is_friendly != true)
     {
@@ -12,17 +12,17 @@ move_t* give_move(difficulty_t difficulty, combatant_t* player, combatant_t* ene
     {
         fprintf(stderr, "Error! Enemy is friendly!");
     }
-    if (difficulty == BATTLE_AI_BEST)
+    switch (difficulty)
     {
-        return find_greedy(player, enemy);
-    }
-    else if (difficulty == BATTLE_AI_RANDOM)
-    {
-        return find_random(player, enemy);
-    }
-    else
-    {
-        fprintf(stderr, "Not implemented yet!");
+    case BATTLE_AI_GREEDY:
+        return (find_greedy(player, enemy));
+        break;
+    case BATTLE_AI_RANDOM:
+        return (find_random(player, enemy));
+        break;
+    default:
+        fprintf(stderr, "Error!");
+        break;
     }
 }
 

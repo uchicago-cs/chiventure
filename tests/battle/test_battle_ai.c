@@ -179,10 +179,10 @@ combatant_t* new_player()
 }
 
 /* Called by test functions to check give_move returns properly*/
-void check_give_move(difficulty_t difficulty, combatant_t* player, combatant_t* enemy, move_t* expected)
+void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t difficulty, move_t* expected)
 {
     move_t *actual_move, *expected_move;
-    actual_move = give_move(difficulty, player, enemy);
+    actual_move = give_move(player, enemy, difficulty);
 
     cr_assert_eq(actual_move->id, expected->id, "give_move did not return expected move!");
 }
@@ -190,18 +190,18 @@ void check_give_move(difficulty_t difficulty, combatant_t* player, combatant_t* 
 /* Ensures give_move returns a random move when enum is BATTLE_AI_RANDOM*/
 Test(battle_ai, give_move_random)
 {
-    check_give_move(BATTLE_AI_RANDOM,   
-            new_player(),
+    check_give_move(new_player(),
             new_enemy(),
+            BATTLE_AI_RANDOM,
             expected_move_random());
 }
 
 /* Ensures give_move returns the hardest move when enum is BATTLE_AI_BEST*/
 Test(battle_ai, give_move_greedy)
 {
-    check_give_move(BATTLE_AI_BEST,   
-            new_player(),
+    check_give_move(new_player(),
             new_enemy(),
+            BATTLE_AI_GREEDY,
             expected_move_greedy());
 }
 

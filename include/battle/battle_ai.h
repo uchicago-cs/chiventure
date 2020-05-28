@@ -10,7 +10,7 @@
 #include "battle_classes.h"
 
 typedef enum difficulty {
-    BATTLE_AI_BEST = 0,
+    BATTLE_AI_GREEDY = 0,
     BATTLE_AI_RANDOM = 1
 } difficulty_t;
 
@@ -23,7 +23,7 @@ typedef enum difficulty {
  *      enemy - the enemy using the move
  * Outputs:
  *      move_t - the move to be used        */
-move_t* give_move(difficulty_t difficulty, combatant_t* player, combatant_t* enemy);
+move_t* give_move(combatant_t* player, combatant_t* enemy, difficulty_t difficulty);
 
 
 /* Given the player the move is going to be used against and the enemy,
