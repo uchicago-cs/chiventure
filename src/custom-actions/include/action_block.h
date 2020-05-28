@@ -52,7 +52,7 @@ action_block_t* action_block_new(action_enum_t action_type, int num_args,
  * - pointer to a list of attributes 
  * 
  * Returns: 
- * - An action block. 
+ * - An AST block. 
  */
 AST_block_t* AST_action_block_new(action_enum_t action_type, int num_args, 
                                   attribute_t** args);
