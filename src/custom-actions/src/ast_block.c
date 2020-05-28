@@ -48,7 +48,32 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type)
 int AST_block_free(AST_block_t *ast)
 {
     assert(ast != NULL);
-
+    switch(ast->block_type) 
+    {
+        case control_block: 
+            if (ast->control_block != NULL) 
+            {
+                control_block_free(ast->control_block);
+            }
+            break;
+        case action_block:
+            if (ast->action_block != NULL)
+            {
+                action_block_free(ast->action_block);
+            }
+            break;
+        case conditional_block:
+            if (ast->conditional_block != NULL)
+            {
+                conditional_block_free(ast->conditional_block);
+            }
+            break;
+        default:
+            if (ast->branch_block != NULL)
+            {
+                branch_block_free(ast->branch_block);
+            }
+    }
     free(ast);
 
     return SUCCESS;  
