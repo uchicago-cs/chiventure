@@ -87,7 +87,10 @@ int action_block_init(action_block_t *action, action_enum_t action_type,
 int action_block_free(action_block_t *action)
 {
     assert(action != NULL);
-
+    for (int n = 0, n < action->num_args, n++)
+    {
+        attribute_free(action->args[n]);
+    }
     free(action);
 
     return SUCCESS;
