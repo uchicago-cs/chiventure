@@ -13,7 +13,7 @@
 
 /* See action_block.h */
 action_block_t* action_block_new(action_enum_t action_type, int num_args, 
-attribute_t** args)
+                                 attribute_t** args)
 {
     action_block_t *action;
     int new_action;
@@ -62,7 +62,7 @@ AST_block_t* AST_action_block_new(action_enum_t action_type, int num_args,
         return NULL;    
     }
     
-    block_t* block = malloc(sizeof(block));
+    block_t* block = malloc(sizeof(block_t));
     block->action_block = action;
     ast = AST_block_new(block, block_type);
     return ast;
