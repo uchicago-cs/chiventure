@@ -207,7 +207,8 @@ int edge_free(edge_t *e);
  *  - c: the convo that the node is to be attached to
  *  - n: the node to be attached
  * 
- * Returns: None
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
  */
 int prepend_node(convo_t *c, node_t *n);
 
@@ -218,7 +219,8 @@ int prepend_node(convo_t *c, node_t *n);
  *  - c: the convo that the node is to be attached to
  *  - n: the node to be attached
  * 
- * Returns: None
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
  */
 int append_node(convo_t *c, node_t *n);
 
@@ -229,7 +231,8 @@ int append_node(convo_t *c, node_t *n);
  *  - n: the node that the edge is to be attached to
  *  - e: the edge to be attached
  * 
- * Returns: None
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
  */
 int add_edge(node_t *n, edge_t *e);
 
@@ -241,7 +244,7 @@ int add_edge(node_t *n, edge_t *e);
  *  - input: the player-inputted command
  * 
  * Returns:
- *  - Index of the matching edge, -1 if it doesn't match any of the keywords
+ *  - pointer to the matching edge on success, NULL otherwise
  */
 edge_t *read_input(node_t *n, char *input);
 
