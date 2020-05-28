@@ -13,10 +13,8 @@
 /* See ast_block.h */
 AST_block_t* AST_block_new(block_t *block, block_type_t block_type)
 {
-    AST_block_t *ast;
+    AST_block_t *ast = malloc(sizeof(AST_block_t));
     int new_ast;
-
-    ast = malloc(sizeof(AST_block_t));
 
     if (ast == NULL) 
     {
@@ -38,6 +36,7 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type)
 int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type)
 {
     assert(ast != NULL); 
+    assert(block != NULL);
 
     ast->block = block;
     ast->block_type = block_type;
