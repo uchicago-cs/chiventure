@@ -5,7 +5,7 @@
 
 #define MAX_DIA_LEN 500
 #define MAX_KEY_LEN 30
-#define MAX_QUIP_LEN 50
+#define MAX_QUIP_LEN 100
 
 
 // BASIC PRINTING FUNCTIONS ---------------------------------------------------

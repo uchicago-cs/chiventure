@@ -189,7 +189,7 @@ int prepend_node(convo_t *c, node_t *n)
 {
     node_list_t *list, *tmp;
     
-    tmp = c->nodes;
+    /*tmp = c->nodes;
     while (tmp != NULL)
     {
         if (strncmp(tmp->cur_node->node_id, n->node_id, MAX_ID_LEN) == 0)
@@ -197,7 +197,7 @@ int prepend_node(convo_t *c, node_t *n)
             return FAILURE; //this node id is already in use
         }
         tmp = tmp->next;
-    }
+    }*/
 
     list->cur_node = n;
     list->next = NULL;
