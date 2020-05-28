@@ -4,33 +4,6 @@
 #include "custom-actions-cond.h"
 
 
-/* attribute_new - allocates new attribute structure
- *
- * Note: this is just a helper to allocate attribute structures with the
- *  necessary information for the tests in this file because there is no
- *  attribute_new function provided in game-state/item.h
- *
- * Arguments:
- *  - tag: type of attribute value
- *  - value: attribute value
- *
- * Returns:
- *  - pointer to attribute
- */
-attribute_t *attribute_new(enum attribute_tag tag, attribute_value_t value) {
-
-    attribute_t *res = (attribute_t*) malloc(sizeof(attribute_t));
-    if (!res) {
-        fprintf(stderr, "attribute_new: failed to allocate attribute");
-        exit(1);
-    }
-
-    res->attribute_key = NULL;
-    res->attribute_tag = tag;
-    res->attribute_value = value;
-}
-
-
 /* Checks that check_eq() fails when given attributes with conflicting types */
 Test(custom_actions_cond, equals_fail)
 {
@@ -46,7 +19,7 @@ Test(custom_actions_cond, equals_fail)
 
     rc = check_eq(a1, a2);
 
-    cr_assert_eq(rc, FAIL, "check_eq() failed to recognize conflicting "
+    cr_assert_eq(rc, FAILS, "check_eq() failed to recognize conflicting "
                               "types");
 
     attribute_free(a1);
@@ -59,7 +32,7 @@ void test_eq(double d1, double d2, int exp1, bool b1, bool b2, int exp2,
              char c1, char c2, int exp3, char* s1, char* s2, int exp4,
              int i1, int i2, int exp5)
 {
-    char ret[3][8] = {"TRUE", "FALSE", "FAIL"};
+    char ret[3][8] = {"TRUE", "FALSE", "FAILS"};
     attribute_value_t v0, v1, v2, v3, v4, v5, v6, v7, v8, v9;
     attribute_t *a0, *a1, *a2, *a3, *a4, *a5, *a6, *a7, *a8, *a9;
     int rc1, rc2, rc3, rc4, rc5;
@@ -167,11 +140,11 @@ Test(custom_actions_cond, num_comp_fail)
     rc2 = check_lt(a2, a3);
     rc3 = check_lt(a4, a5);
 
-    cr_assert_eq(rc1, FAIL, "numerical comparisons fail to recognize "
+    cr_assert_eq(rc1, FAILS, "numerical comparisons fail to recognize "
                                "conflicting types %d, rc1");
-    cr_assert_eq(rc2, FAIL, "numerical comparisons fail to recognize "
+    cr_assert_eq(rc2, FAILS, "numerical comparisons fail to recognize "
                                "invalid string type");
-    cr_assert_eq(rc3, FAIL, "numerical comparisons fail to recognize "
+    cr_assert_eq(rc3, FAILS, "numerical comparisons fail to recognize "
                                "invalid boolean type");
 
     attribute_free(a0);
@@ -190,7 +163,7 @@ Test(custom_actions_cond, num_comp_fail)
 void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
                int i1, int i2, int exp3, num_comp_t op)
 {
-    char ret[3][8] = {"TRUE", "FALSE", "FAIL"};
+    char ret[3][8] = {"TRUE", "FALSE", "FAILS"};
     attribute_value_t v0, v1, v2, v3, v4, v5;
     attribute_t *a0, *a1, *a2, *a3, *a4, *a5;
     int rc1, rc2, rc3;
