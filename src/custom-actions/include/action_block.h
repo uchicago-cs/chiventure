@@ -44,7 +44,8 @@ action_block_t* action_block_new(action_enum_t action_type, int num_args,
                                  attribute_t** args);
 
 /* 
- * Allocates an AST type action block in the heap. 
+ * Allocates an AST type action block in the heap, and allocates an action block 
+ * and type within the AST block. 
  * 
  * Parameters: 
  * - enum representing the action type 
