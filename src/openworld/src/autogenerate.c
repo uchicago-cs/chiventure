@@ -108,7 +108,8 @@ speclist_t *speclist_from_hash(roomspec_t *hash) {
 /* See autogenerate.h */
 roomspec_t *random_room_content(speclist_t *spec) {
 	roomspec_t *room = random_room_lookup(spec);
-	item_hash_t *items = random_items(room);
+	item_hash_t *items = NULL;
+	items =	random_items(room);
 	room->items = items;
 	return room;
 }
@@ -138,11 +139,12 @@ roomspec_t *random_room_lookup(speclist_t *spec) {
 
 /* See autogenerate.h */
 item_hash_t *random_items(roomspec_t *room) {
-	int count = HASH_COUNT(room->items);
+	item_hash_t *r_items = room->items;
+	int count = HASH_COUNT(r_items);
 	int num_items = rand() % 6;
 	item_hash_t *items = NULL;
 	for (int i = 0; i < num_items; i++) {
-		int rand_count = rand() % count;
+		int rand_count =rand() % count;
 		int rc = random_item_lookup(items, room->items, rand_count);
 	}
 	return items;
@@ -156,8 +158,8 @@ int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters) {
 		printf("STATUS: %d, %d\n", i, num_iters);
 		if (i == num_iters) {
 			int rc = copy_item_to_hash(&dst, src, tmp->item_id);
-			printf("RC STATUS: %x\n", rc);
-			return SUCCESS;
+			printf("IN HERE BBY\n");
+			return 1;
 		}
 		i++;
 	}

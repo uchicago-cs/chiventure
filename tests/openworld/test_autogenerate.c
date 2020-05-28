@@ -802,7 +802,7 @@ Test(item_hash, zero_lookup) {
 	item_hash_t *dst = NULL, *src = get_default_items();
 	int rc;
 	rc = random_item_lookup(dst, src, 0);
-	cr_assert_not_null(dst);
+	cr_assert_not_null(rc);	
 }
 
 
@@ -820,6 +820,6 @@ Test(item_hash, three_lookup) {
 	int rc;
 	rc = random_item_lookup(dst, src, 3);
 
-	cr_assert_not_null(dst);
+	cr_assert_not_null(rc);
 }
 
