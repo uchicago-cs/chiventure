@@ -4,19 +4,43 @@
 #include "npc/npc.h"
 #include "game-state/item.h"
 
+/* Creates a sample class. Taken from test_class.c */
+class_t* generate_test_class()
+{
+    class_t* c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL, NULL, NULL);
+
+}
+
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test (npc, new) 
 {
     npc_t *npc; 
 
-    npc = npc_new("npc_22", 20, NULL);
+    c = generate_test_class();
+
+    npc = npc_new("npc_22", 20, c);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
     cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0, 
                  "npc_new didn't set npc_id"); 
     cr_assert_eq(npc->health, 20, "npc_new() didn't set health"); 
+    cr_assert_str_eq(npc->class->shortdesc, 
+                     shortdesc, "npc_new didn't set short description for class");
 }
 
 /* Checks that npc_init() initialized the fields in the new npc struct */
@@ -26,13 +50,18 @@ Test (npc, init)
     int res;
 
     npc = npc_new("test", 30, NULL);
-    res = npc_init(npc, "npc_22", 20, NULL); 
+
+    c = generate_test_class();
+
+    res = npc_init(npc, "npc_22", 20, c); 
 
     cr_assert_eq(res, SUCCESS, "npc_init() failed"); 
 
     cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
                  "npc_22", "npc_init didn't set npc_id"); 
-    cr_assert_eq(npc->health, 20, "npc_init didn't set health"); 
+    cr_assert_eq(npc->health, 20, "npc_init didn't set health");
+    cr_assert_str_eq(npc->class->shortdesc, 
+                     shortdesc, "npc_new didn't set short description for class"); 
 }
 
 /* Checks that npc_free() frees the given npc struct from memory */
