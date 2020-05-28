@@ -90,7 +90,7 @@ typedef struct stat_mod {
   * */
 typedef struct effects{
     effects_global_t *global;
-    stats_mod_t *stat_list;
+    stat_mod_t *stat_list;
     UT_hash_handle hh; 
 } stat_effects_t;
 
@@ -160,7 +160,7 @@ stats_t *stats_new(char *stats_name, double init);
  * Returns:
  *   - SUCCESS on success, FAILURE if an error occurs.
  */
-int global_effect_init(effect_global_t *effect, char *effect_name);
+int global_effect_init(effects_global_t *effect, char *effect_name);
 
 /*
  * Allocates a new global effect
@@ -171,7 +171,7 @@ int global_effect_init(effect_global_t *effect, char *effect_name);
  * Returns:
  *   - Pointer to allocated global effects struct
  */
-global_effect_t *global_effect_new(char *effect_name);
+effects_global_t *global_effect_new(char *effect_name);
 
 /*
  * Initializes a player effect struct
@@ -183,7 +183,7 @@ global_effect_t *global_effect_new(char *effect_name);
  * Returns:
  *   - SUCCESS on success, FAILURE if an error occurs.
  */
-int effect_init(stat_effects_t *effect, global_effect_t *global);
+int effect_init(stat_effects_t *effect, effects_global_t *global);
 
 /*
  * Allocates a new player effect struct
@@ -194,7 +194,7 @@ int effect_init(stat_effects_t *effect, global_effect_t *global);
  * Returns:
  *   - Pointer to allocated player effects struct
  */
-stat_effects_t *effect_new(global_effect_t *global);
+stat_effects_t *effect_new(effects_global_t *global);
 
 /*
  * Changes the base value of a stat by the
@@ -337,6 +337,6 @@ int global_effect_free(effects_global_t *effect);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int delete_all_global_effects(global_effects_hash_t *effects);
+int delete_all_global_effects(effects_global_hash_t *effects);
 
 #endif

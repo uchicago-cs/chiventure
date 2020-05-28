@@ -20,7 +20,7 @@ stats_t *stats_new(char *stats_name, double init)
 int global_effect_init(effects_global_t *effect, char *effect_name)
 {
     assert(effect != NULL);
-    strdup(effect->name, effect_name);
+    effect->name = strdup(effect_name);
 
     return SUCCESS;
 }
@@ -28,7 +28,7 @@ int global_effect_init(effects_global_t *effect, char *effect_name)
 /* See stats.h */
 effects_global_t *global_effect_new(char *effect_name)
 {
-    effects_global_t *effect = malloc(sizeof(global_effect_t));
+    effects_global_t *effect = malloc(sizeof(effects_global_t));
 
     int check = global_effect_init(effect, effect_name);
 
@@ -41,7 +41,7 @@ effects_global_t *global_effect_new(char *effect_name)
 }
 
 /* See stats.h */
-int effect_init(stat_effects_t *effect, global_effect_t *global)
+int effect_init(stat_effects_t *effect, effects_global_t *global)
 {
     assert(effect != NULL);
 
@@ -52,7 +52,7 @@ int effect_init(stat_effects_t *effect, global_effect_t *global)
 }
 
 /* See stats.h */
-stat_effects_t *effect_new(global_effect_t *global)
+stat_effects_t *effect_new(effects_global_t *global)
 {
     stat_effects_t *effect = malloc(sizeof(stat_effects_t));
 
@@ -146,11 +146,11 @@ int effect_free(stat_effects_t *effect)
     assert(effect != NULL);
 
     stat_mod_t *current, *next;
-    current = effects->stat_list;
+    current = effect->stat_list;
 
     while(current != NULL)
     {
-        next = effects->stat_list->next;
+        next = effect->stat_list->next;
         free(current);
         current = next;
     }
@@ -161,7 +161,7 @@ int effect_free(stat_effects_t *effect)
 /* See stats.h */
 int delete_all_effects(effects_hash_t *effects)
 {
-    stats_effect_t *current_effect, *tmp;
+    stat_effects_t *current_effect, *tmp;
 
     HASH_ITER(hh, effects, current_effect, tmp)
     {
@@ -173,7 +173,7 @@ int delete_all_effects(effects_hash_t *effects)
 }
 
 /* See stats.h */
-int global_effect_free(stat_effects_t *effect)
+int global_effect_free(effects_global_t *effect)
 {
     assert(effect != NULL);
 
@@ -184,7 +184,7 @@ int global_effect_free(stat_effects_t *effect)
 }
 
 /* See stats.h */
-int delete_all_global_effects(global_effects_hash_t *effects)
+int delete_all_global_effects(effects_global_hash_t *effects)
 {
     effects_global_t *current_effect, *tmp;
     HASH_ITER(hh, effects, current_effect, tmp)
