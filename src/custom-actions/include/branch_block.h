@@ -51,7 +51,7 @@ branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** con
  * - pointer to a list of control blocks 
  * 
  * Returns: 
- * - A branch block. 
+ * - An AST block. 
  */  
 AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** conditionals, 
                                   conditional_type_t conditional_type, int num_controls, 
