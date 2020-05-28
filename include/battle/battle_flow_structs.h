@@ -49,35 +49,35 @@ typedef struct npc_enemy {
     struct npc_enemy *next;
 } npc_enemy_t;
 
-/* Stub for the player_new function in player.h game-state module 
- * 
- * Parameters: 
- *     - p_id: player id 
+/* Stub for the player_new function in player.h game-state module
+ *
+ * Parameters:
+ *     - p_id: player id
  *     - stats: player stats stub
  *     - moves: player moves stub
  *     - items: player items stub
- * 
+ *
  * Returns: a newly allocated player_t with p_id, stats, moves, items
  */
-player_t *new_ctx_player(char* p_id, stat_t *stats, move_t *moves, item_t* items);
+player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, item_t* items);
 
 /* Sets up pointer to npc struct, stub for an npc representing the enemy
- * 
- * Parameters: 
- *     - npc_id: npc id 
+ *
+ * Parameters:
+ *     - npc_id: npc id
  *     - stats: npc stats stub
  *     - moves: npc moves stub
  *     - items: npc items stub
- * 
+ *
  * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, items
  */
-npc_enemy_t *make_npc_enemy(char* npc_id, stat_t *stats, move_t *moves, item_t* items);
+npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, item_t* items);
 
 /* Stub for the game_new function in game.h game-state module
- * 
- * Parameters: None 
- * 
- * Returns: a newly allocated game_t with no current player 
+ *
+ * Parameters: None
+ *
+ * Returns: a newly allocated game_t with no current player
  */
 game_t *new_game();
 #endif
