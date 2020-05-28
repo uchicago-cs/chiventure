@@ -11,7 +11,7 @@
   *
   *      the global maximal value a stat could have
   * */
-typedef struct stats_global{
+typedef struct stats_global {
     char *name;
     double max;
     UT_hash_handle hh; 
@@ -50,7 +50,7 @@ typedef struct stats stats_hash_t;
  * 
  *      the modifier of the effect on that stat 
  * 
- *      the duration of the effect, an number 
+ *      the duration of the effect, an int 
  * */
 typedef struct stat_mod {
     stats_t *stat;
@@ -129,7 +129,7 @@ stats_global_t *stats_global_new(char *name, double max);
  * Allocates a new stat
  *
  * Parameters:
- * stats_name: the pointer to the global stat struct.
+ * stat: the pointer to the global stat struct.
  * init: starting value
  * 
  * Returns:
@@ -204,7 +204,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat);
 int add_stat_player(stats_hash_t **sh, stats_t *s);
 
 /*
- * Print the stats in a hashtable and their values/modifiers
+ * Print a list of the stats in a hashtable
  *
  * Parameters: 
  * sh: pointer to the stats hash table to be printed
@@ -218,7 +218,7 @@ char *display_stats(stats_hash_t *sh);
  * Frees a stat
  *
  * Parameters: 
- * sh: pointer to the stat to be freed
+ * stat: pointer to the stat to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
@@ -234,6 +234,6 @@ int free_stats(stats_t *stat);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats_global(stats_global_t* stat);
+int free_stats_global(stats_global_t *stat);
 
 #endif

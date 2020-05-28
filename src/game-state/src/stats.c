@@ -1,6 +1,6 @@
 #include "game-state/stats.h"
 #define MIN_STRING_LENGTH 2
-#define MAX_NAME_LENGTH 20
+#define MAX_NAME_LENGTH 50
 
 /* See stats.h */
 int stats_init(stats_t *s, stats_global_t *stats_name, double init)
