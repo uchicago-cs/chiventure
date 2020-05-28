@@ -38,7 +38,6 @@ typedef struct stat {
     int speed;
     int defense;
     int strength;
-    int defense;
     int dexterity;
     int hp;
     int max_hp;
