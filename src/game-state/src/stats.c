@@ -17,6 +17,56 @@ stats_t *stats_new(char *stats_name, double init)
 }
 
 /* See stats.h */
+int global_effect_init(effects_global_t *effect, char *effect_name)
+{
+    assert(effect != NULL);
+    strdup(effect->name, effect_name);
+
+    return SUCCESS;
+}
+
+/* See stats.h */
+effects_global_t *global_effect_new(char *effect_name)
+{
+    effects_global_t *effect = malloc(sizeof(global_effect_t));
+
+    int check = global_effect_init(effect, effect_name);
+
+    if (check != SUCCESS || effect == NULL || effect->name == NULL)
+    {
+        return NULL;
+    }
+
+    return effect;
+}
+
+/* See stats.h */
+int effect_init(stat_effects_t *effect, global_effect_t *global)
+{
+    assert(effect != NULL);
+
+    effect->global = global;
+    effect->stat_list = NULL;
+
+    return SUCCESS;
+}
+
+/* See stats.h */
+stat_effects_t *effect_new(global_effect_t *global)
+{
+    stat_effects_t *effect = malloc(sizeof(stat_effects_t));
+
+    int check = effect_init(effect, global);
+    
+    if(check != SUCCESS || effect == NULL || effect->global == NULL)
+    {
+        return NULL;
+    }
+
+    return effect;
+}
+
+/* See stats.h */
 int change_stat(stats_hash_t *sh, char *stat, double change)
 {
     printf("change_stat: function not yet implemented\n");
@@ -88,4 +138,60 @@ int free_stats(stats_hash_t *s)
 {
     printf("free_stats: function not yet implemented\n");
     return 0; // still needs to be implemented
+}
+
+/* See stats.h */
+int effect_free(stat_effects_t *effect)
+{
+    assert(effect != NULL);
+
+    stat_mod_t *current, *next;
+    current = effects->stat_list;
+
+    while(current != NULL)
+    {
+        next = effects->stat_list->next;
+        free(current);
+        current = next;
+    }
+
+    free(effect);
+}
+
+/* See stats.h */
+int delete_all_effects(effects_hash_t *effects)
+{
+    stats_effect_t *current_effect, *tmp;
+
+    HASH_ITER(hh, effects, current_effect, tmp)
+    {
+        HASH_DEL(effects, current_effect);
+        effect_free(current_effect);
+    }
+
+    return SUCCESS;
+}
+
+/* See stats.h */
+int global_effect_free(stat_effects_t *effect)
+{
+    assert(effect != NULL);
+
+    free(effect->name);
+    free(effect);
+
+    return SUCCESS;
+}
+
+/* See stats.h */
+int delete_all_global_effects(global_effects_hash_t *effects)
+{
+    effects_global_t *current_effect, *tmp;
+    HASH_ITER(hh, effects, current_effect, tmp)
+    {
+        HASH_DEL(effects, current_effect);
+        global_effect_free(current_effect);
+    }
+
+    return SUCCESS;
 }
