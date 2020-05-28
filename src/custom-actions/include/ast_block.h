@@ -43,7 +43,7 @@ typedef struct AST_block {
  * - enum representing the type of block
  * 
  * Returns: 
- * - A block. 
+ * - An AST block. 
  */
 AST_block_t* AST_block_new(block_t *block, block_type_t block_type);
 
