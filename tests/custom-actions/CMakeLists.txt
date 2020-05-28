@@ -1,6 +1,7 @@
 set(TEST_EXE test-custom-actions)
 
 add_executable(${TEST_EXE}
+        test_ca_effect.c
         test_ca_cond.c
         main.c)
 
