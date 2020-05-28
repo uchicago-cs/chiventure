@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "custom-actions\interface.h"
+#include "custom-actions/interface.h"
 
 /* See interface.h */
 custom_action_t *search_for_custom_action(char *action_name, game_t *game)
