@@ -1,5 +1,5 @@
 add_library(custom-actions
-            src/custom-actions-effect.c
-            src/custom-actions-cond.c)
+            src/ast_block.c
+            src/control_block.c)
 
 target_include_directories(custom-actions PRIVATE include/)
