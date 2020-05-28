@@ -7,12 +7,12 @@
 // (which is supposed to be the deliverable) to even compile, and I need to prove I worked
 // on something.
 
-#include "custom-actions\custom_actions_common.h"
-#include "custom-actions\interface.h"
+#include "custom-actions/custom_actions_common.h"
+#include "custom-actions/interface.h"
 
-#include "game-state\game_state_common.h"
-#include "game-state\player.h"
-#include "game-state\game.h"
+#include "game-state/game_state_common.h"
+#include "game-state/player.h"
+#include "game-state/game.h"
 
 /* Creates a player given a name and health */
 player_t* createPlayer(char *name, int health) {
@@ -109,7 +109,8 @@ int main(int argc, char *argv[]) {
             level = get_level(player);
             xp = get_xp(player);
             health = get_health(player);
-            if(strcmp(input2[2],"stats") == 0) printf("%s (Level %d) has %d health and %d xp\n", name, health, xp);
+            if(strcmp(input2[2],"stats") == 0) 
+                printf("%s (Level %d) has %d health and %d xp\n", name, level, health, xp);
             else if(strcmp(input2[2],"health") == 0) printf("%s has %d health\n", name, health);
             else if(strcmp(input2[2],"xp") == 0) printf("%s has %d xp\n", name, xp);
             else if(strcmp(input2[2],"level") == 0) printf("%s is level %d\n", name, level);
