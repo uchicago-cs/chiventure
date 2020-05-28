@@ -13,7 +13,7 @@
 
 /* See conditional_block.h */
 conditional_block_t* conditional_block_new(conditional_type_t conditional_type, 
-attribute_t* left, attribute_t* right)
+                                           attribute_t* left, attribute_t* right)
 {
     conditional_block_t *conditional;
     int new_conditional;
@@ -40,7 +40,7 @@ attribute_t* left, attribute_t* right)
 
 /* See conditional_block.h */
 AST_block_t* AST_conditional_block_new(conditional_type_t conditional_type, 
-attribute_t* left, attribute_t* right)
+                                       attribute_t* left, attribute_t* right)
 {
     AST_block_t *ast;
     conditional_block_t *conditional;
@@ -72,7 +72,7 @@ attribute_t* left, attribute_t* right)
 
 /* See conditional_block.h */
 int conditional_block_init(conditional_block_t *conditional, conditional_type_t 
-conditional_type, attribute_t* left, attribute_t* right)
+                           conditional_type, attribute_t* left, attribute_t* right)
 {
     assert(conditional != NULL);
     assert(left != NULL);
