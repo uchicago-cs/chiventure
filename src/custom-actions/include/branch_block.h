@@ -76,7 +76,7 @@ int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_
                       control_block_t** controls);
 
 /* 
- * Frees a branch block. 
+ * Frees a branch block, as well as the conditional and control blocks nested within it. 
  * 
  * Parameters: 
  * - branch block. Must point to a branch block allocated with branch_block_new. 
