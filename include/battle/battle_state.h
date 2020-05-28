@@ -104,8 +104,8 @@ int battle_free(battle_t *b);
  * - item_t: pointer to the linked list of items for the combatant (stub)
  * returns: a pointer to the new character
  */
-combatant_t *combatant_new(char *name, bool is_friendly, class_t *class, 
-	     stat_t *stats, move_t *moves, item_t *items);
+combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
+             stat_t *stats, move_t *moves, item_t *items);
 
 /* Creates a new combatant struct
  * Parameters:

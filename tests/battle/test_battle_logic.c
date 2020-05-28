@@ -153,7 +153,7 @@ Test(battle_logic, battle_not_over)
     pstats->hp = 10;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 15;
-	stat_t *estats1 = calloc(1, sizeof(stat_t));
+    stat_t *estats1 = calloc(1, sizeof(stat_t));
     estats1->hp = 12;
     stat_t *estats2 = calloc(1, sizeof(stat_t));
     estats2->hp = 13;
