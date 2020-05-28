@@ -280,7 +280,7 @@ void run_convo(convo_t *c);
 
 // LINKED LIST FUNCTIONS ------------------------------------------------------
 
-int node_cmp(node_t *n1, node_t *n2); 
+int node_cmp(node_list_t *n1, node_list_t *n2); 
 
 int delete_all_nodes(node_list_t *nodes);
 

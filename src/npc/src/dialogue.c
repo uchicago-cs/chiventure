@@ -186,18 +186,16 @@ int node_cmp(node_list_t *n1, node_list_t *n2)
 /* See dialogue.h */
 int prepend_node(convo_t *c, node_t *n)
 {
-    node_list_t *check;
-    DL_SEARCH(c->nodes, check, n, node_cmp);
+    node_list_t *check, *list;
+    list->cur_node = n;
+    list->next = NULL;
+    list->prev = NULL;
+    DL_SEARCH(c->nodes, check, list, node_cmp);
 
     if (check != NULL)
     {
         return FAILURE; //this node id is already in use
     }
-    
-    node_list_t *list;
-    list->cur_node = n;
-    list->next = NULL;
-    list->prev = NULL;
 
     DL_PREPEND(c->nodes, list);
     c->node_count++;
