@@ -42,7 +42,7 @@ control_block_t* control_block_new(control_type_t control_type);
  * - enum representing the control type 
  * 
  * Returns: 
- * - A control block. 
+ * - An AST block. 
  */ 
 AST_block_t* AST_control_block_new(control_type_t control_type);
 
