@@ -50,7 +50,8 @@ int inventory_free(skill_inventory_t* inventory) {
 int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
     assert(inventory != NULL && skill != NULL);
 
-    skill_t** a = inventory->active, p = inventory->passive;
+    skill_t** a = inventory->active;
+    skill_t** p = inventory->passive;
 
     switch (skill->type) {
         case ACTIVE:
@@ -103,7 +104,8 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill) {
         return FAILURE;
     }
 
-    skill_t** a = inventory->active, p = inventory->passive;
+    skill_t** a = inventory->active;
+    skill_t** p = inventory->passive;
 
     switch (skill->type) {
         case ACTIVE:

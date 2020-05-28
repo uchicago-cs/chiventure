@@ -158,9 +158,11 @@ typedef enum tid {
 
 } tid_t;
 
-/* Skill node, contains general information about an acquirable skill in a game
+/* Skill node forward declaration, contains general information about an acquirable skill in a game
  */
-typedef struct skill_node {
+typedef struct skill_node skill_node_t;
+
+struct skill_node {
     // The skill represented by the skill node
     skill_t* skill;
 
@@ -174,7 +176,7 @@ typedef struct skill_node {
     // The size of the skill node, for the graphics team
     unsigned int size;
 
-} skill_node_t;
+};
 
 /* Skill tree, contains all skill nodes in a game */
 typedef struct skill_tree {

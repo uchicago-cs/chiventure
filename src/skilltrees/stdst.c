@@ -8,7 +8,7 @@
 #include "skilltrees/stdst.h"
 
 /* See stdst.h */
-int array_element_add(void** array, unsigned int alen, void* element) {
+void** array_element_add(void** array, unsigned int alen, void* element) {
     assert(array != NULL && element != NULL);
 
     unsigned int i;
