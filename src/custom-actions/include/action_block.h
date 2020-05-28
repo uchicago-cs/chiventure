@@ -33,44 +33,44 @@ typedef struct action_block {
  * Allocates an action block in the heap. 
  * 
  * Parameters: 
+ * - enum representing the action type 
  * - integer containing the number of arguments 
  * - pointer to a list of attributes 
- * - enum representing the action type 
  * 
  * Returns: 
  * - An action block. 
  */
 action_block_t* action_block_new(action_enum_t action_type, int num_args, 
-attribute_t** args);
+                                 attribute_t** args);
 
 /* 
  * Allocates an AST type action block in the heap. 
  * 
  * Parameters: 
+ * - enum representing the action type 
  * - integer containing the number of arguments 
  * - pointer to a list of attributes 
- * - enum representing the action type 
  * 
  * Returns: 
  * - An action block. 
  */
 AST_block_t* AST_action_block_new(action_enum_t action_type, int num_args, 
-attribute_t** args);
+                                  attribute_t** args);
 
 /* 
  * Initializes an action block. 
  * 
  * Parameters: 
  * - action block. Must point to already allocated memory.  
+ * - enum representing the action type
  * - integer containing the number of arguments 
- * - pointer to a list of attributes 
- * - enum representing the action type    
+ * - pointer to a list of attributes   
  * 
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */
 int action_block_init(action_block_t *action, action_enum_t action_type, int num_args, 
-attribute_t** args);
+                      attribute_t** args);
 
 /* 
  * Frees an action block. 
