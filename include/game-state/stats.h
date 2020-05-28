@@ -74,7 +74,7 @@ typedef struct stat_mod {
 
 
 
-// EFFECTS STRUCT DEFINITION ----------------------------------------------------
+//// EFFECTS STRUCT DEFINITION ----------------------------------------------------
  /* This struct represents an effect that changes player's stats.
   * It contains:
   *      the name of the effect,
@@ -88,9 +88,8 @@ typedef struct stat_mod {
   *      and the modifier value for each stat
   * */
 typedef struct effects{
-    char *name; 
-    bool status;
-    stat_mod_t *stat_list;
+    effects_global_t *global;
+    stats_mod_t *stat_list;
     UT_hash_handle hh; 
 } stat_effect_t;
 
@@ -120,6 +119,40 @@ int stats_init(stats_t *s, char *stats_name, double init);
  *  Pointer to allocated stats struct
  */
 stats_t *stats_new(char *stats_name, double init);
+
+/*
+ * Initializes a global effect struct
+ *
+ * Parameters:
+ *   - effect: a global effect struct (must already be allocated in memory)
+ *   - effect_name: the unique string ID to be given to the effect
+ * 
+ * Returns:
+ *   - SUCCESS on success, FAILURE if an error occurs.
+ */
+int *global_effect_init(effect_global_t *effect, char *effect_name);
+
+/*
+ * Allocates a new global effect
+ *
+ * Parameters:
+ *   - effect_name: the unique string ID to be given to the effect
+ * 
+ * Returns:
+ *   - Pointer to allocated global effects struct
+ */
+global_effect_t *global_effect_new(char *effect_name);
+
+/*
+ * Allocates a new player effect struct
+ *
+ * Parameters:
+ *   - global: a pointer to a global effect (already allocated)
+ * 
+ * Returns:
+ *   - Pointer to allocated player effects struct
+ */
+stat_effect_t *effect_new(global_effect_t *global);
 
 /*
  * Changes the base value of a stat by the
@@ -208,5 +241,16 @@ char *display_stats(stats_hash_t *sh);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int free_stats(stats_hash_t *sh);
+
+/*
+ * Frees a global effects hash table
+ *
+ * Parameters: 
+ * eh: pointer to the stats hash table to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int free_global_effects(global_effects_hash_t *eh);
 
 #endif
