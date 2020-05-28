@@ -1,7 +1,8 @@
 #include "npc/npc.h"
 #include "common-item.h"
+
 /* See npc.h */
-int npc_init(npc_t *npc, char *npc_id, int health, class_t *class) //TODO-convo_t *dialogue)
+int npc_init(npc_t *npc, char *npc_id, int health, class_t *class, stats_t *stats) //TODO-convo_t *dialogue)
 {
     assert(npc != NULL);
     strncpy(npc->npc_id, npc_id, strlen(npc_id));
@@ -9,12 +10,13 @@ int npc_init(npc_t *npc, char *npc_id, int health, class_t *class) //TODO-convo_
     //TODO-npc->dialogue = dialogue;
     npc->inventory = NULL;
     npc->class = class;
+    npc->stats = stats;
 
     return SUCCESS;
 }
 
 /* See npc.h */
-npc_t* npc_new(char *npc_id, int health, class_t *class)
+npc_t* npc_new(char *npc_id, int health, class_t *class, stats_t *stats)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));

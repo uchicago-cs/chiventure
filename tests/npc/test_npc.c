@@ -124,8 +124,8 @@ Test(npc, add_to_and_get_inventory)
     item_hash_t *hash1, *hash2;
     item_list_t *list1, *list2;
 
-    npc1 = npc_new("npc_1",20);
-    npc2 = npc_new("npc_2", 21);
+    npc1 = npc_new("npc_1",20, NULL);
+    npc2 = npc_new("npc_2", 21, NULL);
     new_item = item_new("test_item", "item for npc testing",
                         "item for testing get_npc_inventory()");
     add_item_to_npc(npc2, new_item);
@@ -170,7 +170,7 @@ Test(npc, add_to_and_get_inventory)
    by not returning NULL */
 Test(npc, add_item_to_npc)
 {
-    npc_t *npc = npc_new("1", 100);
+    npc_t *npc = npc_new("1", 100, NULL);
     item_t *new_item = item_new("test_item", "item for npc testing",
                                 "item for testing add_item_to_npc");
     add_item_to_npc(npc, new_item);

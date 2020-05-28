@@ -3,6 +3,7 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
+#include "game-state/stats.h"
 //TODO-#include "dialogue.h"
 #include "playerclass/class_structs.h"
 
@@ -90,6 +91,9 @@ int get_npc_health(npc_t *npc);
  *  npc: the npc
  *  change: the positive or negative change to be made to the health points
  *  max: the maximum health the npc can achieve
+ *  
+ *  The change has a minimum value of 0  
+ *  The change has a maximum value of max
  * 
  * Returns:
  *  int, updated health
