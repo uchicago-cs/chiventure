@@ -95,15 +95,11 @@ speclist_t *speclist_from_hash(roomspec_t *hash) {
 		return NULL;
 	}
 	else {
-		speclist_t *spec = speclist_new(NULL);
+		speclist_t *spec = NULL;
 		roomspec_t *current_room = NULL, *tmp = NULL;
 		HASH_ITER(hh, hash, current_room, tmp) {
 			speclist_t *s = speclist_new(current_room);
-			if (spec->spec == NULL){
-				spec = s;
-			}else {
-				DL_APPEND(spec, s);
-			}
+			DL_APPEND(spec, s);
 		}
 		return spec;
 	}
@@ -120,14 +116,15 @@ roomspec_t *random_room_content(speclist_t *spec) {
 /* See autogenerate.h */
 roomspec_t *random_room_lookup(speclist_t *spec) {
 	int count;
-	speclist_t *tmp, *random = NULL;
+	speclist_t *tmp = NULL, *random = NULL;
 
-	DL_COUNT(spec, tmp, random);
+	DL_COUNT(spec, tmp, count);
 	int idx = rand() % count, i = 0;
 
 	DL_FOREACH(spec, tmp) {
 		if (i == idx) {
-			item_hash_t *items = random_items(tmp->spec);
+			item_hash_t *items =  NULL;
+			items = random_items(tmp->spec);
 			roomspec_t *r = roomspec_new(tmp->spec->room_name,
 				tmp->spec->short_desc,
 				tmp->spec->long_desc,
@@ -154,14 +151,12 @@ item_hash_t *random_items(roomspec_t *room) {
 /* See autogenerate.h */
 int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters) {
 	item_hash_t *current = NULL, *tmp = NULL;
-
-	int count = HASH_COUNT(src);
-	int idx = rand() % count;
 	int i = 0;
-
 	HASH_ITER(hh, src, current, tmp) {
-		if (i = idx) {
+		printf("STATUS: %d, %d\n", i, num_iters);
+		if (i == num_iters) {
 			int rc = copy_item_to_hash(&dst, src, tmp->item_id);
+			printf("RC STATUS: %x\n", rc);
 			return SUCCESS;
 		}
 		i++;
