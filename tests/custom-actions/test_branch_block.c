@@ -33,7 +33,7 @@ Test(branch_block_t, new_EQ)
     control_block_t* controls = control_block_new(control_type);
 
     branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
-                                                    conditional_type,num_controls, &controls);
+                                                  conditional_type,num_controls, &controls);
 
     cr_assert_not_null(new_branch, "branch_block_new() failed");
 
@@ -79,7 +79,7 @@ Test(branch_block_t, new_LTGT)
     control_block_t* controls = control_block_new(control_type);
     
     branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, 
-                                                    conditional_type, num_controls, &controls);
+                                                  conditional_type, num_controls, &controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
@@ -125,7 +125,7 @@ Test(branch_block_t, new_LTEGTE)
     control_block_t* controls = control_block_new(control_type);
     
     branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, 
-                                                    conditional_type, num_controls, &controls);
+                                                  conditional_type, num_controls, &controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
@@ -171,7 +171,7 @@ Test(branch_block_t, new_IN)
     control_block_t* controls = control_block_new(control_type);
     
     branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, 
-                                                    conditional_type, num_controls, &controls);
+                                                  conditional_type, num_controls, &controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
     
@@ -219,7 +219,7 @@ Test(branch_block_t, new_AST_EQ)
     block_type_t block_type = BRANCH;
     
     AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                                    conditional_type, num_controls, &controls);
+                                                conditional_type, num_controls, &controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
@@ -268,7 +268,7 @@ Test(branch_block_t, new_AST_LTGT)
     block_type_t block_type = BRANCH;
     
     AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                                    conditional_type, num_controls, &controls);
+                                                conditional_type, num_controls, &controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
@@ -317,7 +317,7 @@ Test(branch_block_t, new_AST_LTEGTE)
     block_type_t block_type = BRANCH;
     
     AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                                    conditional_type, num_controls, &controls);
+                                                conditional_type, num_controls, &controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
@@ -366,7 +366,7 @@ Test(branch_block_t, new_AST_IN)
     block_type_t block_type = BRANCH;
     
     AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                                    conditional_type, num_controls, &controls);
+                                                conditional_type, num_controls, &controls);
 
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
@@ -416,7 +416,7 @@ Test(branch_block_t, init_EQ)
     control_block_t* controls = control_block_new(control_type);
 
     rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
-                            num_controls, &controls);
+                           num_controls, &controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
@@ -461,7 +461,7 @@ Test(branch_block_t, init_LTGT)
     control_block_t* controls = control_block_new(control_type);
 
     rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
-                            num_controls, &controls);
+                           num_controls, &controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
@@ -506,7 +506,7 @@ Test(branch_block_t, init_LTEGTE)
     control_block_t* controls = control_block_new(control_type);
 
     rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
-                            num_controls, &controls);
+                           num_controls, &controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
@@ -551,7 +551,7 @@ Test(branch_block_t, init_IN)
     control_block_t* controls = control_block_new(control_type);
 
     rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
-                            num_controls, &controls);
+                           num_controls, &controls);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
     cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
@@ -596,7 +596,7 @@ Test(branch_block_t, free_EQ)
     control_block_t* controls = control_block_new(control_type);
     
     branch = branch_block_new(num_conditionals, &conditionals, conditional_type,  
-                                num_controls, &controls);
+                              num_controls, &controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
     
@@ -635,7 +635,7 @@ Test(branch_block_t, free_LTGT)
     control_block_t* controls = control_block_new(control_type);
 
     branch = branch_block_new(num_conditionals, &conditionals, conditional_type,
-                                num_controls, &controls);
+                              num_controls, &controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
 
@@ -674,7 +674,7 @@ Test(branch_block_t, free_LTEGTE)
     control_block_t* controls = control_block_new(control_type);
 
     branch = branch_block_new(num_conditionals, &conditionals, conditional_type,
-                                num_controls, &controls);
+                              num_controls, &controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
 
@@ -713,7 +713,7 @@ Test(branch_block_t, free_IN)
     control_block_t* controls = control_block_new(control_type);
 
     branch = branch_block_new(num_conditionals, &conditionals, conditional_type,
-                                num_controls, &controls);
+                              num_controls, &controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
 
