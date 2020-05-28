@@ -28,7 +28,8 @@ typedef enum objtype
  */
 typedef enum assettype
 {
-    // these had to be changed from TYPE_ERR because C was throwing error about uniqueness of the enums
+    // these had to be changed from TYPE_ERR because C was throwing error
+    // about uniqueness of the enums
     ASSET_ERR = -1, 
     ASSET_NONE = 0,
     ASSET_IMAGE = 1,
@@ -37,30 +38,30 @@ typedef enum assettype
 
 typedef struct obj obj_t; // forward declaration so attribute_t can use
 
+/* 
+ * a union representing the information that can be stored in an attribute
+ */
+union
+{
+    bool b;
+    char c;
+    char *s;
+    char **sl;
+    int i;
+    obj_t *o;
+} data;
+
 /* attribute_t
  * 
  * params:
  *   - id: the attribute's id.
  *   - data: the information stored in the attribute.
- *   -
+ *   - hh: Required ithash indentifier for making the hash table
  */
 typedef struct attribute
 {
-    //the id for the attribute
     char id[MAXLEN_ID + 1];
     
-    //data stored in the attribute
-    union
-    {
-        bool b;
-        char c;
-        char *s;
-	char **sl;
-        int i;
-        obj_t *o;
-    } data;
-    
-    // Required uthash identifier for making the hash table
     UT_hash_handle hh;
 
 } attribute_t;
@@ -68,10 +69,9 @@ typedef struct attribute
 /* obj_t: a struct describing a .json object. 
  * 
  * params:
- *   - type: the type of the object corresponding to its .wdz subfile.
  *   - id: the object's id.
- *   - hh: the uthash hash handle of the object.
- *   - attributelist: a linked list of the object's attributes.
+ *   - type: the type of the object corresponding to its .wdz subfile.
+ *   - attrs: a hashtable of the object's attributes.
  */
 typedef struct obj
 {
@@ -121,7 +121,6 @@ obj_t* get_object_wdl(objtype_t type, char* id);
  * returns:
  *   - a pointer to the requested object as a obj_t struct member.
  */
-    
 obj_t* get_object(char* type, char* id);
 
 /* get_obj_attribute: retrieve an attribute from an object
