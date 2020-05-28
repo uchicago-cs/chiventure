@@ -8,24 +8,20 @@
 /* Tests init function for achievement struct */
 Test(achievement, init)
 {
-	item_t *item_1 = item_new("foo", "foo foo",
-    "foo test foo");
-    mission_t *mission = mission_new(item_1,NULL);
+	item_t *item_to_get = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    mission_t *mission = mission_new(item_to_get, NULL);
 
     achievement_t *achievement = achievement_new(mission);
-    
-    item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
 
 	int check = achievement_init(achievement, mission);
 
-    cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item", 
+    cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item",
                      "achievement_init did not set mission name");
-    cr_assert_eq(achievement->completed, 0, 
+    cr_assert_eq(achievement->completed, 0,
                      "achievement_init did not initialize completed bool");
 	cr_assert_eq(check, SUCCESS, "achievement_init() test has failed!");
 }
-
 
 /* Tests init function for quest struct */
 Test(quest, init)
@@ -36,12 +32,12 @@ Test(quest, init)
 
 	int check = quest_init(q, 1, NULL, reward, 0);
 
-    cr_assert_str_eq(q->reward->item_id, "test_item", 
+    cr_assert_str_eq(q->reward->item_id, "test_item",
                      "quest_init did not set item_id");
-    cr_assert_null(q->achievement_list, 
-                     "quest_init did not set achievement_list"); 
+    cr_assert_null(q->achievement_list,
+                     "quest_init did not set achievement_list");
     cr_assert_eq(q->quest_id, 1,  "quest_init did not set quest_id");
-    cr_assert_eq(q->status, 0,  "quest_init did not set status");            
+    cr_assert_eq(q->status, 0,  "quest_init did not set status");
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
 }
 
@@ -78,7 +74,6 @@ Test(quest, new)
     cr_assert_eq(q->status, 0, "achievement_new()"
                 "did not initialize the status");
 }
-
 
 /* Tests achievement_free function */
 Test(achievement, free)
