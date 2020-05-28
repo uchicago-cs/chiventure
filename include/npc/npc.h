@@ -10,7 +10,8 @@ typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
     char *npc_id;
-    int health;
+    stats_t *stats;
+    stats_effect_t *effects;
     // convo_t *dialogue;  placeholder for incoming dialogue module
     item_hash_t *inventory;
 } npc_t;
@@ -24,11 +25,10 @@ typedef struct npc npc_hash_t;
 
 
 /*
- * Initializes an npc with given health.
+ * Initializes an npc with an empty stats/effects table.
  *
  * Parameters:
  *  npc: an npc; must point to already allocated memory
- *  health: the starting health of the npc
  *  npc_id: string referring to npc id; passed implicitly
  *          from npc_new 
  *  TODO-dialogue: pointer to a convo struct for the npc
@@ -37,7 +37,7 @@ typedef struct npc npc_hash_t;
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
-int npc_init(npc_t *npc, char *npc_id, int health);
+int npc_init(npc_t *npc, char *npc_id);
 
 
 /*
@@ -52,7 +52,7 @@ int npc_init(npc_t *npc, char *npc_id, int health);
  * Returns:
  *  pointer to allocated npc
  */
- npc_t* npc_new(char *npc_id, int health);
+ npc_t* npc_new(char *npc_id);
 
 
 /*
@@ -65,32 +65,6 @@ int npc_init(npc_t *npc, char *npc_id, int health);
  *  SUCCESS if successful, FAILURE if an error occurs
  */
 int npc_free(npc_t *npc);
-
-
-/*
- * Returns the health of an npc.
- *
- * Parameters:
- *  npc: the npc
- *
- * Returns:
- *  the npc's health
- */
-int get_npc_health(npc_t *npc);
-
-
-/*
- * Changes the health of the npc. 
- *
- * Parameters:
- *  npc: the npc
- *  change: the positive or negative change to be made to the health points
- *  max: the maximum health the npc can achieve
- * 
- * Returns:
- *  int, updated health
- */
-int change_npc_health(npc_t *npc, int change, int max);
 
 
 /* 
