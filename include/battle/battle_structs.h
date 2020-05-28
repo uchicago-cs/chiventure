@@ -5,8 +5,6 @@
 #include <string.h>
 #include "playerclass/class_structs.h"
 
-/* max name length */
-#define MAX_NAME_LEN (50)
 
 /* items stub */
 typedef struct item {
