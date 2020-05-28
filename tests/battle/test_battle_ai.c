@@ -78,11 +78,11 @@ item_t* create_player_items()
     item_t *head, *dagger, *tea_leaves, *medicine;
     head = NULL;
     dagger = create_item(1, 1, 20, "A hearty dagger sure to take your breath away... for good",
-	true, 20, 5, 0);
-	tea_leaves = create_item(2, 1, 1, "Make yourself a warm cup of tea to heal your wounds!", true,
-	0, 0, 10);
-	medicine = create_item(3, 1, 1, "A first aid kit, straight from your doctor!", true, 0, 0, 30);
-	DL_APPEND(head, dagger);
+    true, 20, 5, 0);
+    tea_leaves = create_item(2, 1, 1, "Make yourself a warm cup of tea to heal your wounds!", true,
+    0, 0, 10);
+    medicine = create_item(3, 1, 1, "A first aid kit, straight from your doctor!", true, 0, 0, 30);
+    DL_APPEND(head, dagger);
     DL_APPEND(head, tea_leaves);
     DL_APPEND(head, medicine);
     return head;
@@ -95,9 +95,9 @@ item_t* create_enemy_items()
     head = NULL;
     mace = create_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true, 
         0, -30, 0);
-	diamond_sword = create_item(5, 1, 50, "Brings quick death to those who dare battle you...", 
+    diamond_sword = create_item(5, 1, 50, "Brings quick death to those who dare battle you...", 
         true, 20, 0, 0);
-	force_shield = create_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move", 
+    force_shield = create_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move", 
         true, 0, 30, 5);
     DL_APPEND(head, mace);
     DL_APPEND(head, diamond_sword);
@@ -111,8 +111,8 @@ move_t* create_enemy_moves()
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
     earthquake = create_move(1, NULL, true, 100, 0);
-	poke = create_move(2, NULL, true, 40, 0);
-	rock_throw = create_move(3, NULL, true, 90, 0);
+    poke = create_move(2, NULL, true, 40, 0);
+    rock_throw = create_move(3, NULL, true, 90, 0);
     DL_APPEND(head, earthquake);
     DL_APPEND(head, poke);
     DL_APPEND(head, rock_throw);
@@ -125,8 +125,8 @@ move_t* create_player_moves()
     move_t *head, *fire_blast, *punch, *blaze_kick;
     head = NULL;
     fire_blast = create_move(4, NULL, true, 100, 0);
-	punch = create_move(5, NULL, true, 20, 0);
-	blaze_kick = create_move(6, NULL, true, 60, 0);
+    punch = create_move(5, NULL, true, 20, 0);
+    blaze_kick = create_move(6, NULL, true, 60, 0);
     DL_APPEND(head, fire_blast);
     DL_APPEND(head, punch);
     DL_APPEND(head, blaze_kick);
@@ -140,11 +140,11 @@ move_t* expected_move_greedy()
     return earthquake;
 }
 
-/* Creates the expected return value for when the AI should return a random*/
+/* Creates the expected return value for when the AI should return a random move*/
 move_t* expected_move_random()
 {
     srand(1);
-    int randomish = rand() % 3 + 1;
+    int randomish = rand() % 3;
     move_t* rock_throw = create_move(randomish, NULL, true, 90, 0);
     return rock_throw;
 }

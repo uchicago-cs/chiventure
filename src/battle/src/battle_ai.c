@@ -29,7 +29,25 @@ move_t* give_move(combatant_t* player, combatant_t* enemy, difficulty_t difficul
 /* See battle_ai.h */
 move_t* find_random(combatant_t* player, combatant_t* enemy)
 {
-    int i, count, random;
+    int count;
+    move_t *temp;
+    move_t *random_move = NULL;
+
+    DL_COUNT(enemy->moves, temp, count);
+    int index = rand() % count;
+
+    int i = 0;
+    DL_FOREACH(enemy->moves, temp)
+    {
+        i++;
+        if (i == index)
+        {
+            random_move = temp;
+        }
+        
+    }
+    return random_move;
+    /*int i, count, random;
     move_t *move_struct;
 
     DL_COUNT(enemy->moves, move_struct, count);
@@ -45,7 +63,7 @@ move_t* find_random(combatant_t* player, combatant_t* enemy)
         random_move = random_move->next;
     }
 
-    return random_move;
+    return random_move;*/
 }
 
 /* See battle_ai.h */
@@ -64,7 +82,7 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
         {
             return strongest_move;
         }
-        else if (cur_damage > most_damage)
+        else if (cur_damage >= most_damage)
         {
             strongest_move = temp;
             most_damage = cur_damage;
