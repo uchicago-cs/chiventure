@@ -26,7 +26,7 @@ typedef enum {
  *
  * Returns:
  *  - TRUE/FALSE int status code
- *  - FAIL status code if attribute types cannot be compared
+ *  - FAILS status code if attribute types cannot be compared
  */
 int check_eq(attribute_t *a1, attribute_t *a2);
 
@@ -42,7 +42,7 @@ int check_eq(attribute_t *a1, attribute_t *a2);
  *
  * Returns:
  *  - TRUE/FALSE int status code
- *  - FAIL status code if attribute types cannot be compared
+ *  - FAILS status code if attribute types cannot be compared
  */
 int check_lt(attribute_t *a1, attribute_t *a2);
 
@@ -58,7 +58,7 @@ int check_lt(attribute_t *a1, attribute_t *a2);
  *
  * Returns:
  *  - TRUE/FALSE int status code
- *  - FAIL status code if attribute types cannot be compared
+ *  - FAILS status code if attribute types cannot be compared
  */
 int check_gt(attribute_t *a1, attribute_t *a2);
 
@@ -75,7 +75,7 @@ int check_gt(attribute_t *a1, attribute_t *a2);
  *
  * Returns:
  *  - TRUE/FALSE int status code
- *  - FAIL status code if attribute types cannot be compared
+ *  - FAILS status code if attribute types cannot be compared
  */
 int check_lte(attribute_t *a1, attribute_t *a2);
 
@@ -92,7 +92,7 @@ int check_lte(attribute_t *a1, attribute_t *a2);
  *
  * Returns:
  *  - TRUE/FALSE int status code
- *  - FAIL status code if attribute types cannot be compared
+ *  - FAILS status code if attribute types cannot be compared
  */
 int check_gte(attribute_t *a1, attribute_t *a2);
 
@@ -106,7 +106,7 @@ int check_gte(attribute_t *a1, attribute_t *a2);
  *
  * Returns:
  *  - TRUE/FALSE int status code
- *  - FAIL status code if invalid input
+ *  - FAILS status code if invalid input
  *
  * int check_in(attribute_t *a, item_t *c); TO BE IMPLEMENTED
  */
