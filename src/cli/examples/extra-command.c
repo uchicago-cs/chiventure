@@ -36,7 +36,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "TASTE" with the rock.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(rock, "TASTE", "It has gravel-ey bouquet.", "You can't taste the rock.");
+    add_action(rock, "TASTE", "It has a gravel-ey bouquet.", "You can't taste the rock.");
 
     /* Free default game and replace it with ours */
     game_free(ctx->game);
