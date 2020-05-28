@@ -29,16 +29,16 @@ typedef struct branch_block {
  * Parameters: 
  * - integer containing the number of conditional blocks
  * - pointer to a list of conditional blocks
+ * - enum representing the conditional type 
  * - integer for the number of control blocks
  * - pointer to a list of control blocks 
- * - enum representing the conditional type 
  * 
  * Returns: 
  * - A branch block. 
  */  
-branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** 
-conditionals, conditional_type_t conditional_type, int num_controls, 
-control_block_t** controls);
+branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** conditionals, 
+                                 conditional_type_t conditional_type, int num_controls, 
+                                 control_block_t** controls);
 
 /* 
  * Allocates an AST type branch block in the heap. 
@@ -46,16 +46,16 @@ control_block_t** controls);
  * Parameters: 
  * - integer containing the number of conditional blocks
  * - pointer to a list of conditional blocks
+ * - enum representing the conditional type 
  * - integer for the number of control blocks
  * - pointer to a list of control blocks 
- * - enum representing the conditional type 
  * 
  * Returns: 
  * - A branch block. 
  */  
-AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** 
-conditionals, conditional_type_t conditional_type, int num_controls, 
-control_block_t** controls);
+AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** conditionals, 
+                                  conditional_type_t conditional_type, int num_controls, 
+                                  control_block_t** controls);
 
 /* 
  * Initializes a branch block. 
@@ -64,16 +64,16 @@ control_block_t** controls);
  * - branch block. Must point to already allocated memory.  
  * - integer containing the number of conditional blocks
  * - pointer to a list of conditional blocks
+ * - enum representing the conditional type  
  * - integer for the number of control blocks
- * - pointer to a list of control blocks 
- * - enum representing the conditional type   
+ * - pointer to a list of control blocks  
  * 
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */  
-int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t**
-conditionals, conditional_type_t conditional_type, int num_controls,
-control_block_t** controls);
+int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t** conditionals, 
+                      conditional_type_t conditional_type, int num_controls,
+                      control_block_t** controls);
 
 /* 
  * Frees a branch block. 
