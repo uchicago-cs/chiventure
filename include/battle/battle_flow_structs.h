@@ -13,6 +13,7 @@
 typedef struct player {
     // Other fields: hash handle, inventory, other stats
     char *player_id;
+    class_t *class;
     stat_t *stats;
     move_t *moves;
     item_t *items;
@@ -40,6 +41,7 @@ typedef struct chiventure_ctx_battle {
  */
 typedef struct npc_enemy {
     char *npc_id;
+    class_t *class;
     stat_t *stats;
     move_t *moves;
     item_t *items;

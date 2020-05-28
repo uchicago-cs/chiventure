@@ -29,8 +29,6 @@ Test(battle_flow, set_one_enemy)
     npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name", NULL, NULL, NULL);
     combatant_t *comb_enemy = set_enemies(npc_enemy);
 
-    printf("%s\n", comb_enemy->name);
-
     cr_assert_not_null(comb_enemy, "set_enemies() failed");
     cr_assert_str_eq(comb_enemy->name, "enemy_name", "set_enemies() didn't set name");
     cr_assert_eq(comb_enemy->is_friendly, false, "set_enemies() didn't set type");

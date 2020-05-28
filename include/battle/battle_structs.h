@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "playerclass/class_structs.h"
+#include "playerclass/class.h"
 
 
 /* items stub */
