@@ -4,7 +4,7 @@
  * Builds an in-memory fake game mock-up
  * to be run through and then executes functions to explore it
  */
-int main()
+int dia_main()
 {
     system("clear");
 
@@ -22,7 +22,7 @@ int main()
      * Starting to build the conversation structure:
      */
 
-    convo_t *showcase_convo = convo();
+    convo_t *showcase_convo = convo_new();
 
     /*
      * Initialize each node with it's primary NPC dialog
@@ -81,12 +81,12 @@ int main()
     /*
      * Adding the nodes to the mockup:
      */
-    node_append(showcase_convo, WellMet);
-    node_append(showcase_convo, PrivacyVio);
-    node_append(showcase_convo, HomeExpl);
-    node_append(showcase_convo, FightStnd);
-    node_append(showcase_convo, FightFlwr);
-    node_append(showcase_convo, Leave);
+    append_node(showcase_convo, WellMet);
+    append_node(showcase_convo, PrivacyVio);
+    append_node(showcase_convo, HomeExpl);
+    append_node(showcase_convo, FightStnd);
+    append_node(showcase_convo, FightFlwr);
+    append_node(showcase_convo, Leave);
 
     /*
      * Functions for testing:
