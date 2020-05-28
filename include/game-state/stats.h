@@ -9,7 +9,7 @@
   *      the name of the stat,
   *      which is also the key to the hashtable
   *
-  *      the maximal value a stat could have
+  *      the global maximal value a stat could have
   * */
 typedef struct stats_global{
     char *name;
@@ -29,7 +29,7 @@ typedef struct stats_global stats_global_hash_t;
  *      the base value of the stat, 
  *      whose final value will be multiplied by the modifier
  * 
- *      the max value of the stat
+ *      the max value of the stat for the player (should not exceed global max)
  * 
  *      cumulative modifiers from effects, set to 1 by default
  * */
@@ -123,7 +123,7 @@ int stats_init(stats_t *s, stats_global_t *stat, double init);
  *  Pointer to allocated global stats struct
  */
 
-stats_global_t* stats_global_new(char *name, double max);
+stats_global_t *stats_global_new(char *name, double max);
 
 /*
  * Allocates a new stat
@@ -229,7 +229,7 @@ int free_stats(stats_t *stat);
  * Frees a global stat
  *
  * Parameters: 
- * gsh: pointer to the global statto be freed
+ * stat: pointer to the global stat to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.

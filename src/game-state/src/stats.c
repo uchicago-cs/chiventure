@@ -1,4 +1,6 @@
 #include "game-state/stats.h"
+#define MIN_STRING_LENGTH 2
+#define MAX_NAME_LENGTH 20
 
 /* See stats.h */
 int stats_init(stats_t *s, stats_global_t *stats_name, double init)
@@ -62,7 +64,7 @@ int add_stat_player(stats_hash_t **sh, stats_t *s)
 char* display_stats(stats_hash_t *s)
 {
     stats_t *stat;
-    int size = 2 + (20 * HASH_COUNT(s));
+    int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(s));
     char list[size];
     
     stat = s;
