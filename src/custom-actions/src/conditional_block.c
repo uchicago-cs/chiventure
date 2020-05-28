@@ -89,7 +89,9 @@ conditional_type, attribute_t* left, attribute_t* right)
 int conditional_block_free(conditional_block_t *conditional)
 {
     assert(conditional != NULL);
-        
+    
+    attribute_free(left);
+    attribute_free(right);
     free(conditional);
 
     return SUCCESS; 
