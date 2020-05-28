@@ -84,8 +84,8 @@ Test(autogenerate, any_paths4)
 }
 
 /* Checks that, given a roomspec pointer, roomspec_to_room correctly returns a 
- * room pointer with NULL paths and items fields 
-Test(autogenerate, roomspec_to_room1)*/
+ * room pointer with NULL paths and items fields */
+Test(autogenerate, roomspec_to_room1)
 {
     roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", NULL);
     game_t *g = game_new("start desc");
@@ -556,7 +556,7 @@ Test(autogenerate, valid_multi_room2)
 
     cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school"));
 }
-*/
+
 /* Checks that multi_room_generate successfully generates/adds rooms from a 
  * context (gencontext_t) struct's speclist field when multiple (3) rooms are requested */
 Test(autogenerate, valid_multi_room3)
@@ -616,7 +616,7 @@ Test(autogenerate, valid_multi_room3)
 
 /* testing speclist_from_hash for school bucket*/
 Test(speclist, school_hash){
-	roomspec_t *hash = make_default_rooms("school");
+	roomspec_t *hash = make_default_room("school", NULL, NULL);
 	speclist_t *spec = speclist_from_hash(hash);
 	cr_assert_not_null(spec);
 
@@ -636,7 +636,7 @@ Test(speclist, school_hash){
 
 /* testing speclist_from_hash for farmhouse bucket*/
 Test(speclist, farm_hash) {
-	roomspec_t *hash = make_default_rooms("farmhouse");
+	roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
 	speclist_t *spec = speclist_from_hash(hash);
 	cr_assert_not_null(spec);
 
@@ -656,7 +656,7 @@ Test(speclist, farm_hash) {
 
 /* testing speclist_from_hash for castle bucket*/
 Test(speclist, castle_hash) {
-	roomspec_t *hash = make_default_rooms("castle");
+	roomspec_t *hash = make_default_room("castle", NULL, NULL);
 	speclist_t *spec = speclist_from_hash(hash);
 	cr_assert_not_null(spec);
 
@@ -676,7 +676,7 @@ Test(speclist, castle_hash) {
 
 /* testing random room lookup for school speclist*/
 Test(speclist, school_lookup) {
-	roomspec_t *hash = make_default_rooms("school");
+	roomspec_t *hash = make_default_room("school", NULL, NULL);
 	speclist_t *spec = speclist_from_hash(hash);
 	cr_assert_not_null(spec);
 
@@ -700,7 +700,7 @@ Test(speclist, school_lookup) {
 
 /* testing random room lookup for farmhouse speclist*/
 Test(speclist, farm_lookup) {
-	roomspec_t *hash = make_default_rooms("farmhouse");
+	roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
 	speclist_t *spec = speclist_from_hash(hash);
 	cr_assert_not_null(spec);
 
@@ -721,7 +721,7 @@ Test(speclist, farm_lookup) {
 
 /* testing random room lookup for castle speclist*/
 Test(speclist, castle_lookup) {
-	roomspec_t *hash = make_default_rooms("castle");
+	roomspec_t *hash = make_default_room("castle", NULL, NULL);
 	speclist_t *spec = speclist_from_hash(hash);
 	cr_assert_not_null(spec);
 
@@ -742,65 +742,64 @@ Test(speclist, castle_lookup) {
 
 /* testing random_items for barn roomspec*/
 Test(roomspec, barn_item) {
-	roomspec_t *hash = make_default_rooms("farmhouse");
+	roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
 	roomspec_t *r = NULL;
 	HASH_FIND_STR(hash, "barn", r);
 
 	item_hash_t *items = random_items(r);
 	if (items != NULL) {
-		cr_assert_not_null(item->item_id);
-		if (!strcmp(item->item_id, "apple") ||
-			!strcmp(item->item_id, "cow") ||
-			!strcmp(item->item_id, "eagle") ||
-			!strcmp(item->item_id, "rabbit") ||
-			!strcmp(item->item_id, "yam")) {
-			cr_assert_str_eq(spec->spec->room_name, "rabbit");
+		cr_assert_not_null(items->item_id);
+		if (!strcmp(items->item_id, "apple") ||
+			!strcmp(items->item_id, "cow") ||
+			!strcmp(items->item_id, "eagle") ||
+			!strcmp(items->item_id, "rabbit") ||
+			!strcmp(items->item_id, "yam")) {
+			cr_assert_str_eq(items->item_id, "rabbit");
 		}
 	}
 }
 
-
 /* testing random_items for classroom roomspec*/
 Test(roomspec, class_item) {
-	roomspec_t *hash = make_default_rooms("school");
+	roomspec_t *hash = make_default_room("school",NULL, NULL);
 	roomspec_t *r = NULL;
 	HASH_FIND_STR(hash, "classroom", r);
 
 	item_hash_t *items = random_items(r);
 	if (items != NULL) {
-		cr_assert_not_null(item->item_id);
-		if (!strcmp(item->item_id, "book") ||
-			!strcmp(item->item_id, "door") ||
-			!strcmp(item->item_id, "pencil") ||
-			!strcmp(item->item_id, "watercolors") ||
-			!strcmp(item->item_id, "video")) {
-			cr_assert_str_eq(spec->spec->room_name, "pencil");
+		cr_assert_not_null(items->item_id);
+		if (!strcmp(items->item_id, "book") ||
+			!strcmp(items->item_id, "door") ||
+			!strcmp(items->item_id, "pencil") ||
+			!strcmp(items->item_id, "watercolors") ||
+			!strcmp(items->item_id, "video")) {
+			cr_assert_str_eq(items->item_id, "pencil");
 		}
 	}
 }
 
 /* testing random_items for throne room roomspec*/
 Test(roomspec, throne_item) {
-	roomspec_t *hash = make_default_rooms("castle");
+	roomspec_t *hash = make_default_room("castle", NULL, NULL);
 	roomspec_t *r = NULL;
 	HASH_FIND_STR(hash, "throne room", r);
 
 	item_hash_t *items = random_items(r);
 	if (items != NULL) {
-		cr_assert_not_null(item->item_id);
-		if (!strcmp(item->item_id, "nail") ||
-			!strcmp(item->item_id, "book") ||
-			!strcmp(item->item_id, "ladder") ||
-			!strcmp(item->item_id, "gold") ||
-				!strcmp(item->item_id, "yam")) {
-			cr_assert_str_eq(spec->spec->room_name, "yam");
+		cr_assert_not_null(items->item_id);
+		if (!strcmp(items->item_id, "nail") ||
+			!strcmp(items->item_id, "book") ||
+			!strcmp(items->item_id, "ladder") ||
+			!strcmp(items->item_id, "gold") ||
+				!strcmp(items->item_id, "yam")) {
+			cr_assert_str_eq(items->item_id, "yam");
 		}
 	}
 }
 
 /* testing random_item_lookup for 0 iterations*/
 Test(item_hash, zero_lookup) {
-	item_hash_t *dst = NULL, *src = make_default_items();
+	item_hash_t *dst = NULL, *src = get_default_items();
 	cr_assert_null(dst);
 	int rc;
 	rc = random_item_lookup(dst, src, 0);
@@ -809,8 +808,8 @@ Test(item_hash, zero_lookup) {
 
 
 /* testing random_item_lookup for 1 iteration*/
-Test(item_hash, zero_lookup) {
-	item_hash_t *dst = NULL, *src = make_default_items();
+Test(item_hash, one_lookup) {
+	item_hash_t *dst = NULL, *src = get_default_items();
 	cr_assert_null(dst);
 	int rc;
 	rc = random_item_lookup(dst, src, 1);
@@ -818,8 +817,8 @@ Test(item_hash, zero_lookup) {
 }
 
 /* testing random_item_lookup for 3 iterations*/
-Test(item_hash, zero_lookup) {
-	item_hash_t *dst = NULL, *src = make_default_items();
+Test(item_hash, three_lookup) {
+	item_hash_t *dst = NULL, *src = get_default_items();
 	cr_assert_null(dst);
 	int rc;
 	rc = random_item_lookup(dst, src, 3);

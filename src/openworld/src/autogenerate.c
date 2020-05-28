@@ -99,7 +99,11 @@ speclist_t *speclist_from_hash(roomspec_t *hash) {
 		roomspec_t *current_room = NULL, *tmp = NULL;
 		HASH_ITER(hh, hash, current_room, tmp) {
 			speclist_t *s = speclist_new(current_room);
-			DL_APPEND(spec, s);
+			if (spec->spec == NULL){
+				spec = s;
+			}else {
+				DL_APPEND(spec, s);
+			}
 		}
 		return spec;
 	}
