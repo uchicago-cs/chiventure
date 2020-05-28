@@ -21,6 +21,7 @@
 
 #include "game-state/game.h"
 #include "gen_structs.h"
+#include "default_rooms.h"
 
 
 /*
@@ -109,6 +110,20 @@ roomspec_t *random_room_content(speclist_t *spec);
 int multi_room_generate(game_t *game, gencontext_t *context, char *bucket);
 
 /*
+* speclist_from_hash
+* Iterate through all the rooms in a roomspec hash and append them to a
+* new speclist in a doulbly linked list.
+*
+* parameters:
+* - hash: a roomspec hash that has multiple roomspecs
+*
+* returns:
+* - NULL if hash is NULL
+* - speclist_t* a new speclist with all the roomspecs stored in hash copied
+*/
+speclist_t *speclist_from_hash(roomspec_t *hash);
+
+/*
 * random_room_lookup
 * Iterate through all the rooms of the speclist a "random" number of times
 * and returns one of these roomspecs.
@@ -152,19 +167,5 @@ item_hash_t *random_items(roomspec_t *room);
 * - FAILURE if the new rooms were not generated/added (FAILURE)
 */
 int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters);
-
-/*
-* speclist_from_hash
-* Iterate through all the rooms in a roomspec hash and append them to a 
-* new speclist in a doulbly linked list.
-*
-* parameters:
-* - hash: a roomspec hash that has multiple roomspecs
-*
-* returns:
-* - NULL if hash is NULL
-* - speclist_t* a new speclist with all the roomspecs stored in hash copied
-*/
-speclist_t *speclist_from_hash(roomspec_t *hash);
 
 #endif /* INCLUDE_AUTOGENERATE_H */

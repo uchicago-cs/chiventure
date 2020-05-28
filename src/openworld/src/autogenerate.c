@@ -90,6 +90,22 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *bucket)
 }
 
 /* See autogenerate.h */
+speclist_t *speclist_from_hash(roomspec_t *hash) {
+	if (hash == NULL) {
+		return NULL;
+	}
+	else {
+		speclist_t *spec = speclist_new(NULL);
+		roomspec_t *current_room = NULL, *tmp = NULL;
+		HASH_ITER(hh, hash, current_room, tmp) {
+			speclist_t *s = speclist_new(current_room);
+			DL_APPEND(spec, s);
+		}
+		return spec;
+	}
+}
+
+/* See autogenerate.h */
 roomspec_t *random_room_content(speclist_t *spec) {
 	roomspec_t *room = random_room_lookup(spec);
 	item_hash_t *items = random_items(room);
@@ -148,20 +164,4 @@ int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters) {
 	}
 
 	return FAILURE;
-}
-
-/* See autogenerate.h */
-speclist_t *speclist_from_hash(roomspec_t *hash) {
-	if (hash == NULL) {
-		return NULL;
-	}
-	else {
-		speclist_t *spec = speclist_new(NULL);
-		roomspec_t *current_room = NULL, *tmp = NULL;
-		HASH_ITER(hh, hash, current_room, tmp) {
-			speclist_t *s = speclist_new(current_room);
-			DL_APPEND(spec, s);
-		}
-		return spec;
-	}
 }
