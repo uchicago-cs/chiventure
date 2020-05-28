@@ -22,7 +22,7 @@ typedef struct
  */
 typedef struct custom_action
 {
-    char *action;
+    char *action_name;
     char *context;
     char *item;
     char *class;
