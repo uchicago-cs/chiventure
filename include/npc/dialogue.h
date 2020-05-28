@@ -31,17 +31,29 @@ void npc_print(char *dialogue);
 
 // DIALOGUE STRUCTURE DEFINITION ----------------------------------------------
 
+/* Forward Declaration */
+typedef struct node node_t;
+
 /*
- * A struct to represent a conversation.
+ * A struct to represent an edge to a node (note: does not include source node).
  * 
  * Includes:
- *  - node_count: the number of nodes the convo currently has
- *  - nodes: a linked list of node pointers (list of included nodes)
+ *  - keyword: a string that the user's input must match to enter the edge
+ *  - quip: a string of what the player's character says if they enter the edge
+ *  - toward: points toward which node traversing this edge leads to
  */
-typedef struct convo {
-    int node_count;
-    node_list_t *nodes;
-} convo_t;
+typedef struct edge {
+    UT_hash_handle hh;
+    char *keyword;
+    char *quip;
+    node_t *toward;
+} edge_t;
+
+/* This typedef is to distinguish between npc_t pointers which are
+ * used to point to the npc_t structs in the traditional sense,
+ * and those which are used to hash npc_t structs with the
+ * UTHASH macros as specified in src/common/include */
+typedef struct edge edge_hash_t;
 
 /*
  * A struct to represent one scene in a conversation.
@@ -60,21 +72,6 @@ typedef struct node {
 } node_t;
 
 /*
- * A struct to represent an edge to a node (note: does not include source node).
- * 
- * Includes:
- *  - keyword: a string that the user's input must match to enter the edge
- *  - quip: a string of what the player's character says if they enter the edge
- *  - toward: points toward which node traversing this edge leads to
- */
-typedef struct edge {
-    UT_hash_handle hh;
-    char *keyword;
-    char *quip;
-    node_t *toward;
-} edge_t;
-
-/*
  * A doubly-linked list of nodes for containing all involved nodes in a convo.
  * 
  * Includes:
@@ -88,24 +85,17 @@ typedef struct node_list {
     struct node_list *next;
 } node_list_t;
 
-/* This typedef is to distinguish between npc_t pointers which are
- * used to point to the npc_t structs in the traditional sense,
- * and those which are used to hash npc_t structs with the
- * UTHASH macros as specified in src/common/include */
-typedef struct edge edge_hash_t;
 /*
- * A doubly-linked list of edges for containing all potential paths for a node.
+ * A struct to represent a conversation.
  * 
  * Includes:
- *  - cur_edge: Points to the location of the edge currently focused on
- *  - prev: A pointer to the previous entry in the list, NULL if none left
- *  - next: A pointer to the next entry in the list, NULL if none left
+ *  - node_count: the number of nodes the convo currently has
+ *  - nodes: a linked list of node pointers (list of included nodes)
  */
-/*typedef struct edge_list {
-    edge_t *cur_edge;
-    struct edge_list *prev;
-    struct edge_list *next;
-} edge_list_t;*/
+typedef struct convo {
+    int node_count;
+    node_list_t *nodes;
+} convo_t;
 
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
