@@ -63,7 +63,7 @@ Test(battle_logic, target_does_not_exist)
 
     combatant_t *res = check_target(b, "Goblin John");
 
-    cr_assert_not_null(res, "check_target() failed!");
+    cr_assert_null(res, "check_target() failed!");
 
     battle_free(b);
 }
