@@ -8,39 +8,21 @@
 #include "skilltrees/inventory.h"
 
 /* See inventory.h */
-inventory_t* inventory_new(unsigned int max_active, unsigned int max_passive) {
-    inventory_t* inventory;
-    skill_t** active;
-    skill_t** passive;
-    unsigned int i;
+skill_inventory_t* inventory_new(unsigned int max_active,
+                                 unsigned int max_passive) {
+    assert(!(max_active == 0 && max_passive == 0));
 
-    inventory = (inventory_t*)malloc(sizeof(inventory_t));
+    skill_inventory_t* inventory;
+    inventory = (skill_inventory_t*)malloc(sizeof(skill_inventory_t));
     if (inventory == NULL) {
-        fprintf(stderr, "inventory_new: could not allocate memory\n");
-        return NULL;
-    }
-    active = (skill_t**)malloc(sizeof(skill_t*) * max_active);
-    if (active == NULL) {
-        fprintf(stderr, "inventory_new: could not allocate memory\n");
-        return NULL;
-    }
-    passive = (skill_t**)malloc(sizeof(skill_t*) * max_passive);
-    if (passive == NULL) {
-        fprintf(stderr, "inventory_new: could not allocate memory\n");
+        fprintf(stderr, "inventory_new: memory allocation failed\n");
         return NULL;
     }
 
-    for (i = 0; i < max_active; i++) {
-        active[i] = NULL;
-    }
-    for (i = 0; i < max_passive; i++) {
-        passive[i] = NULL;
-    }
-
-    inventory->active = active;
+    inventory->active = NULL;
     inventory->nactive = 0;
     inventory->max_active = max_active;
-    inventory->passive = passive;
+    inventory->passive = NULL;
     inventory->npassive = 0;
     inventory->max_passive = max_passive;
 
@@ -48,22 +30,27 @@ inventory_t* inventory_new(unsigned int max_active, unsigned int max_passive) {
 }
 
 /* See inventory.h */
-int inventory_free(inventory_t* inventory) {
+int inventory_free(skill_inventory_t* inventory) {
     assert(inventory != NULL);
 
-    free(inventory->active);
-    free(inventory->passive);
+    if (inventory->nactive > 0) {
+        free(inventory->active);
+    }
+
+    if (inventory->npassive > 0) {
+        free(inventory->passive);
+    }
+
     free(inventory);
 
     return SUCCESS;
 }
 
 /* See inventory.h */
-// NOTE TO DEVELOPERS OF SKILLTREES: We should reimplement the realloc, adding
-// in the idea of a 'maximum amount of skills [as a cap]', into this code.
-// We should realloc every time a new skill is added.
-int inventory_skill_add(inventory_t* inventory, skill_t* skill) {
+int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
     assert(inventory != NULL && skill != NULL);
+
+    skill_t** a = inventory->active, p = inventory->passive;
 
     switch (skill->type) {
         case ACTIVE:
@@ -71,25 +58,28 @@ int inventory_skill_add(inventory_t* inventory, skill_t* skill) {
                 fprintf(stderr, "inventory_skill_add: at max active skills\n");
                 return FAILURE;
             }
-            inventory->active[inventory->nactive] = skill;
             inventory->nactive += 1;
+            a = (skill_t**)realloc(a, sizeof(skill_t*) * inventory->nactive);
+            a[inventory->nactive] = skill;
             return SUCCESS;
         case PASSIVE:
             if (inventory->npassive >= inventory->max_passive) {
                 fprintf(stderr, "inventory_skill_add: at max passive skills\n");
                 return FAILURE;
             }
-            inventory->passive[inventory->npassive] = skill;
             inventory->npassive += 1;
+            p = (skill_t**)realloc(p, sizeof(skill_t*) * inventory->npassive);
+            p[inventory->npassive] = skill;
             return SUCCESS;
         default:
-            fprintf(stderr, "inventory_skill_add: not a valid skill type\n");
+            fprintf(stderr, "inventory_skill_add: invalid skill type\n");
             return FAILURE;
     }
 }
 
 /* See inventory.h */
-int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type) {
+int inventory_has_skill(skill_inventory_t* inventory, sid_t sid,
+                        skill_type_t type) {
     assert(inventory != NULL);
 
     switch (type) {
@@ -98,39 +88,45 @@ int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type) {
         case PASSIVE:
             return list_has_skill(inventory->passive, inventory->npassive, sid);
         default:
-            fprintf(stderr, "inventory_has_skill: not a valid skill type\n");
+            fprintf(stderr, "inventory_has_skill: invalid skill type\n");
             return -1;
     }
 }
 
 /* See inventory.h */
-// NOTE TO DEVELOPERS OF SKILLTREES: We should reimplement the realloc, adding
-// in the idea of a 'maximum amount of skills [as a cap]', into this code.
-// We should realloc every time a skill is removed.
-int inventory_skill_remove(inventory_t* inventory, skill_t* skill) {
+int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill) {
     assert(inventory != NULL && skill != NULL);
 
     int pos = inventory_has_skill(inventory, skill->sid, skill->type);
     if (pos == -1) {
-        fprintf(stderr, "inventory_skill_remove: skill is not in inventory\n");
+        fprintf(stderr, "inventory_skill_remove: skill not in inventory\n");
         return FAILURE;
     }
 
+    skill_t** a = inventory->active, p = inventory->passive;
+
     switch (skill->type) {
         case ACTIVE:
-            inventory->active[pos] = NULL;
+            a[pos] = NULL;
             inventory->nactive -= 1;
-            inventory->active[pos] = inventory->active[inventory->nactive];
-            inventory->active[inventory->nactive] = NULL;
+            a[pos] = a[inventory->nactive];
+            a[inventory->nactive] = NULL;
+            a = (skill_t**)realloc(a, sizeof(skill_t*) * inventory->nactive);
             return SUCCESS;
         case PASSIVE:
-            inventory->passive[pos] = NULL;
+            p[pos] = NULL;
             inventory->npassive -= 1;
-            inventory->passive[pos] = inventory->passive[inventory->npassive];
-            inventory->passive[inventory->npassive] = NULL;
+            p[pos] = p[inventory->npassive];
+            p[inventory->npassive] = NULL;
+            p = (skill_t**)realloc(p, sizeof(skill_t*) * inventory->npassive);
             return SUCCESS;
         default:
-            fprintf(stderr, "inventory_skill_remove: not a valid skill type\n");
+            fprintf(stderr, "inventory_skill_remove: invalid skill type\n");
             return FAILURE;
     }
+}
+
+/* See inventory.h */
+void skill_levels_update(skill_inventory_t* inventory) {
+    assert(inventory != NULL);
 }

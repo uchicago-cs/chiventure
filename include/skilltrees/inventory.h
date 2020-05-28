@@ -19,7 +19,8 @@
  *  - A pointer to the skill inventory, or NULL if the skill inventory cannot be
  *    allocated
  */
-inventory_t* inventory_new(unsigned int max_active, unsigned int max_passive);
+skill_inventory_t* inventory_new(unsigned int max_active,
+                                 unsigned int max_passive);
 
 /*
  * Frees the resources associated with a skill inventory.
@@ -31,7 +32,7 @@ inventory_t* inventory_new(unsigned int max_active, unsigned int max_passive);
  * Returns:
  *  - Always returns 0
  */
-int inventory_free(inventory_t* inventory);
+int inventory_free(skill_inventory_t* inventory);
 
 /*
  * Adds a skill to a player's skill inventory.
@@ -43,20 +44,22 @@ int inventory_free(inventory_t* inventory);
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int inventory_skill_add(inventory_t* inventory, skill_t* skill);
+int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill);
 
 /*
  * Searches for a skill in a player's skill inventory.
  *
  * Parameters:
  *  - inventory: A skill inventory
- *  - skill: A skill
+ *  - sid: A skill ID
+ *  - type: The skill type
  *
  * Returns:
  *  - The position of the skill in the inventory, -1 if the skill is not in the
  *    inventory
  */
-int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type);
+int inventory_has_skill(skill_inventory_t* inventory, sid_t sid,
+                        skill_type_t type);
 
 /*
  * Removes a skill from a player's skill inventory.
@@ -68,6 +71,20 @@ int inventory_has_skill(inventory_t* inventory, sid_t sid, skill_type_t type);
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int inventory_skill_remove(inventory_t* inventory, skill_t* skill);
+int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill);
+
+/*
+ * Updates levels of all skills in an inventory.
+ *
+ * Parameters:
+ *  - inventory: A player's skill inventory
+ *
+ * Returns:
+ *  - None
+ *
+ * NOTE TO DEVELOPERS: the notion of SUCCESS vs. FAILURE seems ambiguous in the
+ * context of this function, hence the use of a `void` return type
+ */
+void skill_levels_update(skill_inventory_t* inventory);
 
 #endif /* INCLUDE_INVENTORY_H_ */

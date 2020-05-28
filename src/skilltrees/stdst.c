@@ -16,12 +16,12 @@ int array_element_add(void** array, unsigned int alen, void* element) {
     for (i = 0; i < alen; i++) {
         if (array[i] == NULL) {
             array[i] = element;
-            return SUCCESS;
+            return array;
         }
     }
 
-    fprintf(stderr, "array_element_add: failed to add array element\n");
-    return FAILURE;
+    fprintf(stderr, "array_element_add: addition failed\n");
+    return NULL;
 }
 
 /* See stdst.h */

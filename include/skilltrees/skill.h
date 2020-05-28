@@ -15,25 +15,30 @@
  *  - type: The skill type, ACTIVE or PASSIVE
  *  - name: The name of the skill
  *  - desc: The description of the skill
+ *  - max_level: The maximum level to which the skill can be upgraded
+ *  - min_xp: The minimum number of experience points needed to level up
  *  - effect: The skill effect
  *
  * Returns:
  *  - A pointer to the skill, or NULL if a skill cannot be allocated
  */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
+                   unsigned int max_level, unsigned int min_xp,
                    skill_effect_t effect);
 
 /*
  * Initializes a skill.
  *
  * Parameters:
- *  - skill: A skill. Must point to skill allocated with skill_new
+ *  - skill: A skill. Must pointer to skill allocated with skill_new
  *  - sid: The skill ID that uniquely identifies the skill
  *  - type: The skill type, ACTIVE or PASSIVE
  *  - name: The name of the skill
  *  - desc: The description of the skill
- *  - level: The skill level
- *  - xp: The experience points associated with the skill
+ *  - level: The player's current level of the skill
+ *  - xp: The player's current experience points associated with the skill
+ *  - max_level: The maximum level to which the skill can be upgraded
+ *  - min_xp: The minimum number of experience points needed to level up
  *  - effect: The skill effect
  *
  * Returns:
@@ -41,6 +46,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
  */
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
+               unsigned int max_level, unsigned int min_xp,
                skill_effect_t effect);
 
 /*
@@ -59,7 +65,8 @@ int skill_free(skill_t* skill);
  *
  * Parameters:
  *  - skill: A skill
- *  - args: A string argument for the skill effect function
+ *  - args: Arguments for the skill effect function, contained in a
+ *          space-separated string
  *
  * Returns:
  *  - A string that describes the consequence(s) of the skill execution for the

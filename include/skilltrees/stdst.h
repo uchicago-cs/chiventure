@@ -12,26 +12,34 @@
 /* ============================= */
 
 /* Unique skill IDs for each skill
-/* This enum we're defining here isn't supposed to limit the possible skill
-/* types, but instead is an example of how other groups would define their own
-/* unique skill ids.
-/* For instance, we define our example skills starting at 1001 because
-/* skilltrees has access to the first 1000 skills, and another team would have
-/* access to the next 1000 (so 2001, 2002, etc), to avoid overlap.
-*/
-// Add size_t comment.
+ *
+ * Note: This enum does not limit the number of skill IDs possible (at least,
+ * within the range of the data type int...). The sid_t type is meant to be akin
+ * to the C library size_t data type that is returned when calling functions
+ * like sizeof(); it is merely an integer type, but we distinguish it from an
+ * integer for clarity.
+ *
+ * Moreover, we do not expect individual enums to be defined for each skill as
+ * written below (e.g. UNLOCK_DOOR, DEFUSE_BOMB, etc.), as updating the enums as
+ * such would require frequently changing the code written here. The enums that
+ * are explicitly defined within sid_t below are for testing purposes.
+ *
+ * In order to prevent skill enumeration overlap, we envision assigning each
+ * chiventure team a range of 1000 IDs (e.g. rpg-battle is entitled to sid_t
+ * 2000-2999).
+ */
 typedef enum sid {
     // Example 1
-    UNLOCK_DOOR=1001,
+    UNLOCK_DOOR = 1000,
 
     // Example 2
-    DEFUSE_BOMB=1002,
+    DEFUSE_BOMB = 1001,
 
     // Example 3
-    CHOP_TREE=1003,
+    CHOP_TREE = 1002,
 
     // Example 4
-    INNER_PEACE=1004,
+    INNER_PEACE = 1003,
 
 } sid_t;
 
@@ -72,26 +80,15 @@ typedef struct skill {
     char* desc;
 
     // The player's current level of the skill
-    unsigned int level;  // Maximum level was recently removed. Why is that?
-                         // How would we figure out if a skill can level up,
-                         // or if it is at its maximum and thus can't level up,
-                         // unless we have it in the skill struct? Is it
-                         // efficient to have to search through the entire skill
-                         // tree to figure out if something can be level'd up
-                         // or not?
+    unsigned int level;
 
     // The player's current experience points associated with the skill
-    unsigned int xp;  // If this is an integer, how do we figure out what the
-                      // required experience is until the next level? Is it
-                      // 100? If so, does that mean we can't make it harder
-                      // on our end to get to the next level? Implementing a
-                      // total xp to next level requirement would help solve
-                      // this problem.
+    unsigned int xp;
 
     // The maximum level to which the skill can be upgraded
     unsigned int max_level;
 
-    // The number of experience points needed to level up
+    // The minimum number of experience points needed to level up
     unsigned int min_xp;
 
     // The pointer to the function that will execute the skill effect
@@ -103,7 +100,7 @@ typedef struct skill {
 /* === INVENTORY DATA STRUCTURES === */
 /* ================================= */
 /* ALL the skills belonging to a player */
-typedef struct inventory {
+typedef struct skill_inventory {
     // An array of active skills belonging to a player
     skill_t** active;
 
@@ -124,83 +121,104 @@ typedef struct inventory {
     // (This field helps to enforce skill tree balancing)
     unsigned int max_passive;
 
-} inventory_t;
+} skill_inventory_t;
 
 /* ================================== */
 /* === SKILL TREE DATA STRUCTURES === */
 /* ================================== */
-/* Unique tree IDs for each tree */
-/* This enum we're defining here isn't supposed to limit the possible tree
-/* types, but instead is an example of how other groups would define their own
-/* unique skill ids.
-/* For instance, we define our example trees starting at 1001 because
-/* skilltrees has access to the first 1000 trees, and another team would have
-/* access to the next 1000 (so 2001, 2002, etc), to avoid overlap.
-*/
-// Add size_t comment.
+/* Unique tree IDs for each tree
+ *
+ * Note: This enum does not limit the number of tree IDs possible (at least,
+ * within the range of the data type int...). The tid_t type is meant to be akin
+ * to the C library size_t data type that is returned when calling functions
+ * like sizeof(); it is merely an integer type, but we distinguish it from an
+ * integer for clarity.
+ *
+ * Moreover, we do not expect individual enums to be defined for each tree as
+ * written below (e.g. HEALTH, COMBAT, etc.), as updating the enums as such
+ * would require frequently changing the code written here. The enums that are
+ * explicitly defined within tid_t below are for testing purposes.
+ *
+ * In order to prevent tree enumeration overlap, we envision assigning each
+ * chiventure team a range of 1000 IDs (e.g. rpg-battle is entitled to tid_t
+ * 2000-2999).
+ */
 typedef enum tid {
     // Example 1
-    HEALTH,
+    HEALTH = 1000,
 
     // Example 2
-    COMBAT,
+    COMBAT = 1001,
 
     // Example 3
-    CHARMS,
+    CHARMS = 1002,
 
     // Example 4
-    POTIONS,
+    POTIONS = 1003,
 
 } tid_t;
 
-/* Skill branch, contains general information about an acquirable skill in a
- * game
+/* Skill node, contains general information about an acquirable skill in a game
  */
-typedef struct branch {
-    // The skill identified with the branch
+typedef struct skill_node {
+    // The skill represented by the skill node
     skill_t* skill;
 
-    // Points to a list of prerequisites immediately preceeding this level in
-    // the tree.
-    branch_t** prereqs;
+    // Points to a list of prerequisites immediately preceeding the level in the
+    // tree, in which the skill node presides
+    skill_node_t** prereqs;
 
-    // The number of prerequisite branches
+    // The number of prerequisite skill nodes
     unsigned int nprereqs;
 
-    // Size of the branch — for the graphics team, purely visual.
+    // The size of the skill node, for the graphics team
     unsigned int size;
 
-} branch_t;
+} skill_node_t;
 
-/* Skill tree, contains all skill branches in a game */
-typedef struct tree {
-    // The tree ID that uniquely identifies the tree
+/* Skill tree, contains all skill nodes in a game */
+typedef struct skill_tree {
+    // The tree ID that uniquely identifies the skill tree
     tid_t tid;
 
-    // Name of the tree for the graphics team.
+    // The name of the skill tree
     char* name;
 
-    // The list of tree branches
-    branch_t** branches;
+    // The list of tree nodes
+    skill_node_t** nodes;
 
-    // The number of tree branches
-    unsigned int nbranches;
+    // The number of tree nodes
+    unsigned int nnodes;
 
-} tree_t;
+} skill_tree_t;
 
 /* ======================== */
 /* === COMMON FUNCTIONS === */
 /* ======================== */
 /*
+ * A helper function. Adds an arbitrary array element to an array, by pointer.
  *
+ * Parameters:
+ *  - array: The array
+ *  - alen: The length of the array
+ *  - element: The element to add to the array
+ *
+ * Returns:
+ *  - A pointer to the updated array, NULL if an error occurs
  */
- // COMMENT NEEDS TO BE ADDED - What does this function do?
-int array_element_add(void** array, unsigned int alen, void* element);
+void** array_element_add(void** array, unsigned int alen, void* element);
 
 /*
+ * A helper function. Searches a list of skills for a given skill, by sid_t.
  *
+ * Parameters:
+ *  - list: The skill array
+ *  - llen: The length of the skill list
+ *  - sid: The skill ID of the skill to search for
+ *
+ * Returns:
+ *  - The position of the skill in the list, -1 if the skill is not in the list
  */
- // COMMENT NEEDS TO BE ADDED - What does this function do?
 int list_has_skill(skill_t** list, unsigned int llen, sid_t sid);
 
 #endif /* INCLUDE_STDST_H_ */
