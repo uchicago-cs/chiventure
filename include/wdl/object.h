@@ -1,4 +1,4 @@
-// sample documentation
+// Documentation for objects to store parsed information from WDL
 
 #include "../../../include/common/uthash.h"
 #include "stdbool.h"
