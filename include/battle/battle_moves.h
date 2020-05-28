@@ -3,8 +3,9 @@
 
 #include <stdbool.h>
 #include <string.h>
-#include "battle_classes.h"
+#include "playerclass/class_structs.h"
 
+#define MAX_CLASS_INFO_LEN (100)
 
 /* items stub */
 typedef struct item {
