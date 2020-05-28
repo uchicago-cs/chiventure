@@ -5,6 +5,10 @@
 #include <string.h>
 #include "battle_classes.h"
 #include "battle_structs.h"
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/dev
 
 /* For use in testing battle code,
 make a test move for each class */
