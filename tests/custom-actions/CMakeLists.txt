@@ -1,8 +1,8 @@
 set(TEST_EXE test-custom-actions)
 
 add_executable(${TEST_EXE}
-        test_control_block.c
-        test_ast_block.c
+        test_conditional_block.c
+        test_action_block.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
