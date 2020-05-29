@@ -8,14 +8,35 @@
 /* Tests combatant_new() */
 Test(battle_state, combatant_new)
 {
+    class_t* test_class = class_new("Bard", "Music boi", "Charismatic, always
+                                    has a joke or song ready", NULL, NULL, NULL,
+                                    NULL, NULL);
+
     combatant_t *c;
 
-    c = combatant_new("combatant_new_Name", true, NULL, NULL, NULL, NULL);
+    c = combatant_new("combatant_new_Name", true, test_class, NULL, NULL, NULL);
 
     cr_assert_not_null(c, "combatant_new() failed");
 
     cr_assert_str_eq(c->name, "combatant_new_Name", "combatant_new() didn't set name");
     cr_assert_eq(c->is_friendly, true, "combatant_new() didn't set type");
+
+    cr_assert_str_eq(c->class->name, "Bard",
+                     "set_player() didn't set class name");
+    cr_assert_str_eq(c->class->shortdesc, "Music boi",
+                     "set_player() didn't set class short description");
+    cr_assert_str_eq(c->class->longdesc,
+                     "Charismatic, always has a joke or song ready",
+                     "set_player() didn't set class short description");
+
+    cr_assert_null(c->attr, "set_player() didn't set class attribute");
+    cr_assert_null(c->stat, "set_player() didn't set class stats");
+    cr_assert_null(c->skilltree,
+                   "set_player() didn't set class skilltree");
+    cr_assert_null(c->combat,
+                   "set_player() didn't set class skills for combat");
+    cr_assert_null(c->noncombat,
+                   "set_player() didn't set class skills for noncombat");
 }
 
 /* Tests combatant_init() */

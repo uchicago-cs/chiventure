@@ -12,7 +12,12 @@ Test(battle_flow, set_player)
 {
     combatant_t *comb_player;
 
-    player_t *ctx_player = new_ctx_player("set_player_Name", NULL, NULL, NULL, NULL);
+    class_t* test_class = class_new("Bard", "Music boi", "Charismatic, always
+                                    has a joke or song ready", NULL, NULL, NULL,
+                                    NULL, NULL);
+
+    player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
+                                           NULL, NULL, NULL);
 
     comb_player = set_player(ctx_player);
 
@@ -21,12 +26,35 @@ Test(battle_flow, set_player)
     cr_assert_eq(comb_player->is_friendly, true, "set_player() didn't set type");
     cr_assert_eq(comb_player->next, NULL, "set_player() didn't set next");
     cr_assert_eq(comb_player->prev, NULL, "set_player() didn't set prev");
+
+    cr_assert_str_eq(comb_player->class->name, "Bard",
+                     "set_player() didn't set class name");
+    cr_assert_str_eq(comb_player->class->shortdesc, "Music boi",
+                     "set_player() didn't set class short description");
+    cr_assert_str_eq(comb_player->class->longdesc,
+                     "Charismatic, always has a joke or song ready",
+                     "set_player() didn't set class short description");
+
+    cr_assert_null(comb_player->attr, "set_player() didn't set class attribute");
+    cr_assert_null(comb_player->stat, "set_player() didn't set class stats");
+    cr_assert_null(comb_player->skilltree,
+                   "set_player() didn't set class skilltree");
+    cr_assert_null(comb_player->combat,
+                   "set_player() didn't set class skills for combat");
+    cr_assert_null(comb_player->noncombat,
+                   "set_player() didn't set class skills for noncombat");
 }
 
 /* Tests set_enemies() with 1 enemy */
 Test(battle_flow, set_one_enemy)
 {
-    npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name", NULL, NULL, NULL, NULL);
+    class_t* test_class = class_new("Bard", "Music boi", "Charismatic, always
+                                    has a joke or song ready", NULL, NULL, NULL,
+                                    NULL, NULL);
+
+    npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name",
+                                            test_class, NULL, NULL, NULL);
+
     combatant_t *comb_enemy = set_enemies(npc_enemy);
 
     cr_assert_not_null(comb_enemy, "set_enemies() failed");
@@ -34,6 +62,23 @@ Test(battle_flow, set_one_enemy)
     cr_assert_eq(comb_enemy->is_friendly, false, "set_enemies() didn't set type");
     cr_assert_eq(comb_enemy->next, NULL, "set_enemies() didn't set next");
     cr_assert_not_null(comb_enemy->prev, "set_enemies() didn't set prev");
+
+    cr_assert_str_eq(comb_enemy->class->name, "Bard",
+                     "set_player() didn't set class name");
+    cr_assert_str_eq(comb_enemy->class->shortdesc, "Music boi",
+                     "set_player() didn't set class short description");
+    cr_assert_str_eq(comb_enemy->class->longdesc,
+                     "Charismatic, always has a joke or song ready",
+                     "set_player() didn't set class short description");
+
+    cr_assert_null(comb_enemy->attr, "set_player() didn't set class attribute");
+    cr_assert_null(comb_enemy->stat, "set_player() didn't set class stats");
+    cr_assert_null(comb_enemy->skilltree,
+                   "set_player() didn't set class skilltree");
+    cr_assert_null(comb_enemy->combat,
+                   "set_player() didn't set class skills for combat");
+    cr_assert_null(comb_enemy->noncombat,
+                   "set_player() didn't set class skills for noncombat");
 }
 
 

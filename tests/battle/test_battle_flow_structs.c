@@ -7,10 +7,32 @@
 /* Tests new_ctx_player() */
 Test(battle_flow_structs, new_ctx_player)
 {
-    player_t *ctx_player = new_ctx_player("new_ctx_player_Name", NULL, NULL, NULL, NULL);
+    class_t* test_class = class_new("Bard", "Music boi", "Charismatic, always
+                                    has a joke or song ready", NULL, NULL, NULL,
+                                    NULL, NULL);
+
+    player_t *ctx_player = new_ctx_player("new_ctx_player_Name", test_class,
+                                          NULL, NULL, NULL);
 
     cr_assert_not_null(ctx_player, "new_ctx_player() failed");
     cr_assert_str_eq(ctx_player->player_id, "new_ctx_player_Name", "new_ctx_player() didn't set id");
+
+    cr_assert_str_eq(ctx_player->class->name, "Bard",
+                     "set_player() didn't set class name");
+    cr_assert_str_eq(ctx_player->class->shortdesc, "Music boi",
+                     "set_player() didn't set class short description");
+    cr_assert_str_eq(ctx_player->class->longdesc,
+                     "Charismatic, always has a joke or song ready",
+                     "set_player() didn't set class short description");
+
+    cr_assert_null(ctx_player->attr, "set_player() didn't set class attribute");
+    cr_assert_null(ctx_player->stat, "set_player() didn't set class stats");
+    cr_assert_null(ctx_player->skilltree,
+                   "set_player() didn't set class skilltree");
+    cr_assert_null(ctx_player->combat,
+                   "set_player() didn't set class skills for combat");
+    cr_assert_null(ctx_player->noncombat,
+                   "set_player() didn't set class skills for noncombat");
 }
 
 /* Tests make_npc_enemy() with 1 enemy */
