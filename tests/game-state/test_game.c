@@ -278,7 +278,7 @@ Test(game_end_condition, end_conditions_met)
     game_t *game = game_new("Welcome to Chiventure!");
     
     bool test_1 = end_conditions_met(game);
-    cr_assert_eq(test_1, true, "end_conditions_met() does not return true when there are no end conditions");
+    cr_assert_eq(test_1, false, "end_conditions_met() does not return false when there are no end conditions");
     
     attribute_value_t expected;
     expected.str_val = "Valid_Value";

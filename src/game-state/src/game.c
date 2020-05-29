@@ -127,7 +127,7 @@ bool end_conditions_met(game_t *game)
 {
     if (game->end_conditions == NULL)
     {
-        return true; // no conditions to check
+        return false; // no conditions to check
     }
     
     game_action_condition_t *iterator = game->end_conditions;
@@ -141,6 +141,13 @@ bool end_conditions_met(game_t *game)
     }
     
     return true; // all conditions met
+}
+
+/* See game.h */
+bool is_game_over(game_t *game)
+{
+    /* TODO */
+    return false;
 }
 
 /* See game.h */
