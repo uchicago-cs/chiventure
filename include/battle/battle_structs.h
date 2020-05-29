@@ -3,9 +3,9 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include "playerclass/class_structs.h"
+#include "playerclass/class.h"
 
-/* max name length */
-#define MAX_NAME_LEN (50)
 
 /* items stub */
 typedef struct item {
@@ -36,8 +36,8 @@ typedef struct move {
 /* stats stub */
 typedef struct stat {
     int speed;
-    int strength;
     int defense;
+    int strength;
     int dexterity;
     int hp;
     int max_hp;
