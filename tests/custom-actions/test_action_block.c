@@ -95,10 +95,10 @@ Test(action_block_t, new_MOVE)
     action_block_free(new_action);
 }
 
-/* Checks that a new action block with ADDSUBMULTDIV type is created without interruption */
-Test(action_block_t, new_ADDSUBMULTDIV)
+/* Checks that a new action block with ARITHMETIC type is created without interruption */
+Test(action_block_t, new_ARITHMETIC)
 {
-    action_enum_t action_type = ADDSUBMULTDIV;
+    action_enum_t action_type = ARITHMETIC;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     enum attribute_tag attribute_tag = INTEGER;
@@ -284,10 +284,10 @@ Test(AST_action_block_t, new_ast_MOVE)
     AST_block_free(ast);
 }
 
-/* Checks that a new action AST block with ADDSUBMULTDIV type is created without interruption */
-Test(AST_action_block_t, new_ast_ADDSUBMULTDIV)
+/* Checks that a new action AST block with ARITHMETIC type is created without interruption */
+Test(AST_action_block_t, new_ast_ARITHMETIC)
 {   
-    action_enum_t action_type = ADDSUBMULTDIV;
+    action_enum_t action_type = ARITHMETIC;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     enum attribute_tag attribute_tag = INTEGER;
@@ -467,12 +467,12 @@ Test(action_block_t, init_MOVE)
     cr_assert_eq(action.args, &args, "action_block_init() didn't set action.args");
 }
 
-/* Checks that a new action block with ADDSUBMULTDIV type is initialized without interruption */
-Test(action_block_t, init_ADDSUBMULTDIV)
+/* Checks that a new action block with ARITHMETIC type is initialized without interruption */
+Test(action_block_t, init_ARITHMETIC)
 {
     action_block_t action;
     int rc;
-    action_enum_t action_type = ADDSUBMULTDIV;
+    action_enum_t action_type = ARITHMETIC;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     enum attribute_tag attribute_tag = INTEGER;
@@ -632,11 +632,11 @@ Test(action_block_t, free_MOVE)
     cr_assert_eq(rc, SUCCESS, "action_block_free() failed");
 }
 
-/* Checks that a new action block with ADDSUBMULTDIV type is freed without interruption */
-Test(action_block_t, free_ADDSUBMULTDIV)
+/* Checks that a new action block with ARITHMETIC type is freed without interruption */
+Test(action_block_t, free_ARITHMETIC)
 {
     action_block_t *action;
-    action_enum_t action_type = ADDSUBMULTDIV;
+    action_enum_t action_type = ARITHMETIC;
     int rc;
     int num_args = 1;
     char *attr_name1 = "attribute1";
