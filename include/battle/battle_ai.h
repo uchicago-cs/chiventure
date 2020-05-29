@@ -7,7 +7,6 @@
 #include "battle_state.h"
 #include "battle_structs.h"
 #include "battle_moves.h"
-#include "battle_classes.h"
 
 typedef enum difficulty {
     BATTLE_AI_GREEDY = 0,
