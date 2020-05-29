@@ -3,21 +3,39 @@
 
 #include "game_state_common.h"
 
+// GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents the global table that keeps track of all stats available.
+  * It contains:
+  *      the name of the stat,
+  *      which is also the key to the hashtable
+  *
+  *      the global maximal value a stat could have
+  * */
+typedef struct stats_global {
+    char *name;
+    double max;
+    UT_hash_handle hh; 
+} stats_global_t;
+
+typedef struct stats_global stats_global_hash_t;
+
+
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
- *      the name of the stat, 
+ *      a pointer to the global stat, 
  *      which is also the key to the hashtable
  *
  *      the base value of the stat, 
  *      whose final value will be multiplied by the modifier
  * 
- *      the max value of the stat
+ *      the max value of the stat for the player (should not exceed global max)
  * 
  *      cumulative modifiers from effects, set to 1 by default
  * */
 typedef struct stats {
-    char *name;
+    char *key; //key for hashtable (same as global stat name)
+    stats_global_t *global;
     double val;
     double max;
     double modifier; 
@@ -33,7 +51,7 @@ typedef struct stats stats_hash_t;
  * 
  *      the modifier of the effect on that stat 
  * 
- *      the duration of the effect, an umber 
+ *      the duration of the effect, an int 
  * */
 typedef struct stat_mod {
     stats_t *stat;
@@ -66,12 +84,28 @@ typedef struct effects{
 
 typedef struct effects effects_hash_t;
 
+
+/*
+ * Initializes a global stat with max value stated
+ *
+ * Parameters:
+ *  s: A global stat struct Must point to already allocated memory.
+ *  name: the unique string ID that the stat has
+ *  max: maximal value of the stat
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+
+int stats_global_init(stats_global_t *s, char *name, double max);
+
+
 /*
  * Initializes a Stat with specified value and modifier 0
  *
  * Parameters:
  *  s: A stats struct Must point to already allocated memory.
- *  stats_name: the unique string ID of the stat
+ *  stat: the pointer to the global stat struct
  *  init: starting value
  *
  * Returns:
@@ -80,10 +114,23 @@ typedef struct effects effects_hash_t;
 int stats_init(stats_t *s, char *stats_name, double init);
 
 /*
+ * Allocates a new global stat
+ *
+ * Parameters:
+ * name: the unique string ID to be given to the stat
+ * max: maximal value this stat could have
+ * 
+ * Returns:
+ *  Pointer to allocated global stats struct
+ */
+
+stats_global_t *stats_global_new(char *name, double max);
+
+/*
  * Allocates a new stat
  *
  * Parameters:
- * stats_name: the unique string ID to be given to the stat
+ * stat: the pointer to the global stat struct.
  * init: starting value
  * 
  * Returns:
@@ -155,10 +202,10 @@ double get_stat_mod(stats_hash_t *sh, char *stat);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int add_stat_player(stats_hash_t *sh, stats_t *s);
+int add_stat_player(stats_hash_t **sh, stats_t *s);
 
 /*
- * Print the stats in a hashtable and their values/modifiers
+ * Print a list of the stats in a hashtable
  *
  * Parameters: 
  * sh: pointer to the stats hash table to be printed
@@ -172,11 +219,22 @@ char *display_stats(stats_hash_t *sh);
  * Frees a stats hash table
  *
  * Parameters: 
- * sh: pointer to the stats hash table to be freed
+ * stat: pointer to the stats hashtable to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats(stats_hash_t *sh);
+int free_stats(stats_hash_t *stat);
+
+/*
+ * Frees a global stat hashtable
+ *
+ * Parameters: 
+ * stat: pointer to the global stat hashtable to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int free_stats_global(stats_global_hash_t *stat);
 
 #endif
