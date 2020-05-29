@@ -1,4 +1,5 @@
 add_library(custom-actions
+            src/ast_block.c
             src/action_block.c
             src/conditional_block.c)
 
