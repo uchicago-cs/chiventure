@@ -49,15 +49,15 @@ int AST_block_free(AST_block_t *ast)
 {
     assert(ast != NULL);
     switch(ast->block_type) 
-    {
+   /* {
         case CONTROL: 
             if (ast->block->control_block != NULL) 
             {
                 control_block_free(ast->block->control_block);
             }
             break;
-    }
-/* Cases to add once additional block types have been finished
+    } */
+/* Cases to add once additional block types have been finished */
         case ACTION:
             if (ast->block->action_block != NULL)
             {
@@ -70,7 +70,7 @@ int AST_block_free(AST_block_t *ast)
                 conditional_block_free(ast->block->conditional_block);
             }
             break;
-        case BRANCH:
+    /*    case BRANCH:
             if (ast->block->branch_block != NULL)
             {
                 branch_block_free(ast->block->branch_block);
