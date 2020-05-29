@@ -65,18 +65,27 @@ object_t *obj_t_str(char *s, char *lua)
     return ot;
 }
 
-
-// see custom_types.h
-bool bool_t_get(object_t *ot) {
-    assert(ot->type == BOOL_TYPE);
-    if (ot->is_lua) {
-        char *lua_path = ot->data.lua;
+/**
+ * Helper function for the getter functions below
+ * Calls the Lua function in the directory specified, stores the data
+ * in the Lua virtual stack for the getter functions to extract and return
+ */
+lua_State *callLua(char *lua_path) {
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
         luaL_dofile(L, lua_path);
         lua_settop(L, 0);
         lua_getglobal(L, "foo");
         lua_pcall(L, 0, 1, 0);
+        return L;
+}
+
+// see custom_types.h
+bool bool_t_get(object_t *ot) {
+    assert(ot->type == BOOL_TYPE);
+    if (ot->is_lua) {
+        char *lua_path = ot->data.lua;
+        lua_State *L = callLua(lua_path);
         int result = (int)lua_toboolean(L, -1);
         lua_pop(L, 1);
         if (result)
@@ -89,18 +98,12 @@ bool bool_t_get(object_t *ot) {
     }
 }
 
-
 // see custom_types.h
 char char_t_get(object_t *ot) {
     assert(ot->type == CHAR_TYPE);
     if (ot->is_lua) {
         char *lua_path = ot->data.lua;
-        lua_State *L = luaL_newstate();
-        luaL_openlibs(L);
-        luaL_dofile(L, lua_path);
-        lua_settop(L, 0);
-        lua_getglobal(L, "foo");
-        lua_pcall(L, 0, 1, 0);
+        lua_State *L = callLua(lua_path);
         const char *result = lua_tostring(L, -1);
         lua_pop(L, 1);
         char *result1 = strdup(result);
@@ -115,12 +118,7 @@ int int_t_get(object_t *ot) {
     assert(ot->type == INT_TYPE);
     if (ot->is_lua) {
         char *lua_path = ot->data.lua;
-        lua_State *L = luaL_newstate();
-        luaL_openlibs(L);
-        luaL_dofile(L, lua_path);
-        lua_settop(L, 0);
-        lua_getglobal(L, "foo");
-        lua_pcall(L, 0, 1, 0);
+        lua_State *L = callLua(lua_path);
         int result = (int)lua_tointeger(L, -1);
         lua_pop(L, 1);
         return result;
@@ -134,12 +132,7 @@ char* str_t_get(object_t *ot) {
     assert(ot->type == STR_TYPE);
     if (ot->is_lua) {
         char *lua_path = ot->data.lua;
-        lua_State *L = luaL_newstate();
-        luaL_openlibs(L);
-        luaL_dofile(L, lua_path);
-        lua_settop(L, 0);
-        lua_getglobal(L, "foo");
-        lua_pcall(L, 0, 1, 0);
+        lua_State *L = callLua(lua_path);
         const char *result = lua_tostring(L, -1);
         lua_pop(L, 1);
         char *result1 = strdup(result);
