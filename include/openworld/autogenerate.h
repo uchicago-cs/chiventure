@@ -166,6 +166,6 @@ item_hash_t *random_items(roomspec_t *room);
 * - SUCCESS if the new rooms were generated and added (SUCCESS)
 * - FAILURE if the new rooms were not generated/added (FAILURE)
 */
-int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters);
+int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
 
 #endif /* INCLUDE_AUTOGENERATE_H */

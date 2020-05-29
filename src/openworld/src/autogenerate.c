@@ -46,7 +46,7 @@ int room_generate(game_t *game, gencontext_t *context, char *bucket)
 		roomspec_t *hash = make_default_room(bucket, NULL, NULL);
 		context->speclist = speclist_from_hash(hash);
 		// Specify roomspec content from speclist
-		roomspec_t *r = random_room_content(context->speclist);
+		roomspec_t *r = random_room_lookup(context->speclist);
 		// Adds one generated room from the head of the speclist only
 		room_t *new_room = roomspec_to_room(game, r);
 
@@ -106,15 +106,6 @@ speclist_t *speclist_from_hash(roomspec_t *hash) {
 }
 
 /* See autogenerate.h */
-roomspec_t *random_room_content(speclist_t *spec) {
-	roomspec_t *room = random_room_lookup(spec);
-	item_hash_t *items = NULL;
-	items =	random_items(room);
-	room->items = items;
-	return room;
-}
-
-/* See autogenerate.h */
 roomspec_t *random_room_lookup(speclist_t *spec) {
 	int count;
 	speclist_t *tmp = NULL, *random = NULL;
@@ -124,42 +115,37 @@ roomspec_t *random_room_lookup(speclist_t *spec) {
 
 	DL_FOREACH(spec, tmp) {
 		if (i == idx) {
-			item_hash_t *items =  NULL;
-			items = random_items(tmp->spec);
-			roomspec_t *r = roomspec_new(tmp->spec->room_name,
-				tmp->spec->short_desc,
-				tmp->spec->long_desc,
-				items);
-			return r;
+			//reassign the items
+			item_hash_t *items = random_items(tmp->spec);
+			return tmp->spec;
 		}
 		i++;
 	}
 	return NULL;
 }
 
+
 /* See autogenerate.h */
 item_hash_t *random_items(roomspec_t *room) {
+	if (room == NULL) return NULL;
 	item_hash_t *r_items = room->items;
-	int count = HASH_COUNT(r_items);
-	int num_items = rand() % 6;
+	int count = HASH_COUNT(room->items);
+	int num_items = rand() % 6, num_iters = rand() % count;
 	item_hash_t *items = NULL;
 	for (int i = 0; i < num_items; i++) {
-		int rand_count =rand() % count;
-		int rc = random_item_lookup(items, room->items, rand_count);
+		int rc = random_item_lookup(&items, room->items, num_iters);
 	}
 	return items;
 }
 
 /* See autogenerate.h */
-int random_item_lookup(item_hash_t *dst, item_hash_t *src, int num_iters) {
+int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters) {
 	item_hash_t *current = NULL, *tmp = NULL;
 	int i = 0;
 	HASH_ITER(hh, src, current, tmp) {
-		printf("STATUS: %d, %d\n", i, num_iters);
 		if (i == num_iters) {
-			int rc = copy_item_to_hash(&dst, src, tmp->item_id);
-			printf("IN HERE BBY\n");
-			return 1;
+			copy_item_to_hash(dst, src, tmp->item_id);
+			return SUCCESS;
 		}
 		i++;
 	}

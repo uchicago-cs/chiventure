@@ -643,10 +643,10 @@ Test(speclist, farm_hash) {
 	speclist_t *tmp = spec;
 
 	while (tmp != NULL) {
-		if (!strcmp(spec->spec->room_name, "barn") ||
-			!strcmp(spec->spec->room_name, "closet") ||
-			!strcmp(spec->spec->room_name, "kitchen") ||
-			!strcmp(spec->spec->room_name, "living room") ||
+		if (!strcmp(spec->spec->room_name, "barn") &&
+			!strcmp(spec->spec->room_name, "closet") &&
+			!strcmp(spec->spec->room_name, "kitchen") &&
+			!strcmp(spec->spec->room_name, "living room") &&
 			!strcmp(spec->spec->room_name, "open field")) {
 			cr_assert_str_neq(spec->spec->room_name, "barn");
 		}
@@ -663,10 +663,10 @@ Test(speclist, castle_hash) {
 	speclist_t *tmp = spec;
 
 	while (tmp != NULL) {
-		if (!strcmp(spec->spec->room_name, "throne room") ||
-			!strcmp(spec->spec->room_name, "closet") ||
-			!strcmp(spec->spec->room_name, "dungeon") ||
-			!strcmp(spec->spec->room_name, "hallway") ||
+		if (!strcmp(spec->spec->room_name, "throne room") &&
+			!strcmp(spec->spec->room_name, "closet") &&
+			!strcmp(spec->spec->room_name, "dungeon") &&
+			!strcmp(spec->spec->room_name, "hallway") &&
 			!strcmp(spec->spec->room_name, "library")) {
 			cr_assert_str_neq(spec->spec->room_name, "throne room");
 		}
@@ -686,10 +686,10 @@ Test(speclist, school_lookup) {
 	cr_assert_not_null(r->short_desc);
 	cr_assert_not_null(r->long_desc);
 
-	if (!strcmp(r->room_name, "classroom") ||
-		!strcmp(r->room_name, "closet") ||
-		!strcmp(r->room_name, "cafeteria") ||
-		!strcmp(r->room_name, "hallway") ||
+	if (!strcmp(r->room_name, "classroom") &&
+		!strcmp(r->room_name, "closet") &&
+		!strcmp(r->room_name, "cafeteria") &&
+		!strcmp(r->room_name, "hallway") &&
 		!strcmp(r->room_name, "library")) {
 		//bogus error code if doesn't match any of the 5 room types
 		cr_assert_str_neq(r->room_name, "classroom");
@@ -710,10 +710,10 @@ Test(speclist, farm_lookup) {
 	cr_assert_not_null(r->short_desc);
 	cr_assert_not_null(r->long_desc);
 
-	if (!strcmp(r->room_name, "barn") ||
-		!strcmp(r->room_name, "closet") ||
-		!strcmp(r->room_name, "kitchen") ||
-		!strcmp(r->room_name, "living room") ||
+	if (!strcmp(r->room_name, "barn") &&
+		!strcmp(r->room_name, "closet") &&
+		!strcmp(r->room_name, "kitchen") &&
+		!strcmp(r->room_name, "living room") &&
 		!strcmp(r->room_name, "open field")) {
 		cr_assert_str_neq(r->room_name, "barn");
 	}
@@ -731,10 +731,10 @@ Test(speclist, castle_lookup) {
 	cr_assert_not_null(r->short_desc);
 	cr_assert_not_null(r->long_desc);
 
-	if (!strcmp(r->room_name, "throne room") ||
-		!strcmp(r->room_name, "closet") ||
-		!strcmp(r->room_name, "dungeon") ||
-		!strcmp(r->room_name, "hallway") ||
+	if (!strcmp(r->room_name, "throne room") &&
+		!strcmp(r->room_name, "closet") &&
+		!strcmp(r->room_name, "dungeon") &&
+		!strcmp(r->room_name, "hallway") &&
 		!strcmp(r->room_name, "library")) {
 		cr_assert_str_neq(r->room_name, "throne room");
 	}
@@ -749,10 +749,10 @@ Test(roomspec, barn_item) {
 	item_hash_t *items = random_items(r);
 	if (items != NULL) {
 		cr_assert_not_null(items->item_id);
-		if (!strcmp(items->item_id, "apple") ||
-			!strcmp(items->item_id, "cow") ||
-			!strcmp(items->item_id, "eagle") ||
-			!strcmp(items->item_id, "rabbit") ||
+		if (!strcmp(items->item_id, "apple") &&
+			!strcmp(items->item_id, "cow") &&
+			!strcmp(items->item_id, "eagle") &&
+			!strcmp(items->item_id, "rabbit") &&
 			!strcmp(items->item_id, "yam")) {
 			cr_assert_str_neq(items->item_id, "rabbit");
 		}
@@ -768,10 +768,10 @@ Test(roomspec, class_item) {
 	item_hash_t *items = random_items(r);
 	if (items != NULL) {
 		cr_assert_not_null(items->item_id);
-		if (!strcmp(items->item_id, "book") ||
-			!strcmp(items->item_id, "door") ||
-			!strcmp(items->item_id, "pencil") ||
-			!strcmp(items->item_id, "watercolors") ||
+		if (!strcmp(items->item_id, "book") &&
+			!strcmp(items->item_id, "door") &&
+			!strcmp(items->item_id, "pencil") &&
+			!strcmp(items->item_id, "watercolors") &&
 			!strcmp(items->item_id, "video")) {
 			cr_assert_str_neq(items->item_id, "pencil");
 		}
@@ -787,10 +787,10 @@ Test(roomspec, throne_item) {
 	item_hash_t *items = random_items(r);
 	if (items != NULL) {
 		cr_assert_not_null(items->item_id);
-		if (!strcmp(items->item_id, "nail") ||
-			!strcmp(items->item_id, "book") ||
-			!strcmp(items->item_id, "ladder") ||
-			!strcmp(items->item_id, "gold") ||
+		if (!strcmp(items->item_id, "nail") &&
+			!strcmp(items->item_id, "book") &&
+			!strcmp(items->item_id, "ladder") &&
+			!strcmp(items->item_id, "gold") &&
 				!strcmp(items->item_id, "yam")) {
 			cr_assert_str_neq(items->item_id, "yam");
 		}
@@ -801,8 +801,8 @@ Test(roomspec, throne_item) {
 Test(item_hash, zero_lookup) {
 	item_hash_t *dst = NULL, *src = get_default_items();
 	int rc;
-	rc = random_item_lookup(dst, src, 0);
-	cr_assert_not_null(rc);	
+	rc = random_item_lookup(&dst, src, 0);
+	cr_assert_not_null(dst);	
 }
 
 
@@ -810,16 +810,16 @@ Test(item_hash, zero_lookup) {
 Test(item_hash, one_lookup) {
 	item_hash_t *dst = NULL, *src = get_default_items();
 	int rc;
-	rc = random_item_lookup(dst, src, 1);
-	cr_assert(rc);
+	rc = random_item_lookup(&dst, src, 1);
+	cr_assert_not_null(dst);
 }
 
 /* testing random_item_lookup for 3 iterations*/
 Test(item_hash, three_lookup) {
 	item_hash_t *dst = NULL, *src = get_default_items();
 	int rc;
-	rc = random_item_lookup(dst, src, 3);
+	rc = random_item_lookup(&dst, src, 3);
 
-	cr_assert_not_null(rc);
+	cr_assert_not_null(dst);
 }
 
