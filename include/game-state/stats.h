@@ -110,7 +110,7 @@ int stats_global_init(stats_global_t *s, char *name, double max);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int stats_init(stats_t *s, stats_global_t *stat, double init);
+int stats_init(stats_t *s, char *stats_name, double init);
 
 /*
  * Allocates a new global stat
@@ -135,7 +135,7 @@ stats_global_t *stats_global_new(char *name, double max);
  * Returns:
  *  Pointer to allocated stats struct
  */
-stats_t *stats_new(stats_global_t *stat, double init);
+stats_t *stats_new(char *stats_name, double init);
 
 /*
  * Changes the base value of a stat by the
@@ -215,25 +215,25 @@ int add_stat_player(stats_hash_t **sh, stats_t *s);
 char *display_stats(stats_hash_t *sh);
 
 /*
- * Frees a stat
+ * Frees a stats hash table
  *
  * Parameters: 
- * stat: pointer to the stat to be freed
+ * stat: pointer to the stats hashtable to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats(stats_t *stat);
+int free_stats(stats_hash_t *stat);
 
 /*
- * Frees a global stat
+ * Frees a global stat hashtable
  *
  * Parameters: 
- * stat: pointer to the global stat to be freed
+ * stat: pointer to the global stat hashtable to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats_global(stats_global_t *stat);
+int free_stats_global(stats_global_hash_t *stat);
 
 #endif

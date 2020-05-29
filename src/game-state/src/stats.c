@@ -3,14 +3,14 @@
 #define MAX_NAME_LENGTH 50
 
 /* See stats.h */
-int stats_init(stats_t *s, stats_global_t *stats_name, double init)
+int stats_init(stats_t *s, char *stats_name, double init)
 {
     printf("stats_init: function not yet implemented\n");
     return 0; // still needs to be implemented
 }
 
 /* See stats.h */
-stats_t *stats_new(stats_global_t *stats_name, double init)
+stats_t *stats_new(char *stats_name, double init)
 {
     printf("stats_new: function not yet implemented\n");
     return 0; // still needs to be implemented
