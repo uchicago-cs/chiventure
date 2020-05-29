@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <readline/readline.h>
+#include <ui/print_functions.h>
 //#include <readline/history.h>
 #include "cli/cmd.h"
 #include "cli/shell.h"
@@ -33,13 +34,13 @@ char *trim_newline(char *s)
 int main()
 {
     chiventure_ctx_t *ctx = chiventure_ctx_new();
-    int quit = 1;
+    bool quit = false;
     char *cmd_string;
     greet(ctx);
     //rl_bind_key('\t', rl_complete); // Configure readline to auto-complete paths when the tab key is hit.
     //using_history();
 
-    while (quit)
+    while (!quit)
     {
         // Display prompt and read input
         char *input = readline("chiventure (enter HELP for help)> ");
@@ -58,7 +59,11 @@ int main()
         }
         else
         {
-            do_cmd(c,&quit, ctx);
+            int rc = do_cmd(c, print_to_cli, ctx);
+            if (rc == CLI_CMD_SUCCESS_QUIT)
+            {
+                quit = true;
+            }
             // Add valid input to readline history.
             // add_history(input);
         }
