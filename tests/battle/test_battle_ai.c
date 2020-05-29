@@ -4,6 +4,69 @@
 #include <string.h>
 #include "battle/battle_ai.h"
 
+
+
+/* See battle_classes.h */
+class_t *new_class(class_type_t class_type, char* info,
+                   possible_stats_t stats, double bonus)
+{
+    class_t *class = (class_t*) calloc(1, sizeof(class_t));
+    int rc;
+
+    if(class == NULL)
+    {
+        fprintf(stderr,"Could not allocate memory\n");
+        return NULL;
+    }
+
+    rc = init_class(class, class_type, info, stats, bonus);
+
+    if(rc != 0)
+    {
+        fprintf(stderr,"Could not initialize class\n");
+        return NULL;
+    }
+
+    return class;
+}
+
+
+/* Creates test bard class
+ *
+ * Parameters:
+ *  none, values are hard coded in
+ *
+ * Returns:
+ *  - A pointer to a test class
+ *
+ */
+class_t *make_test_bard()
+{
+    char* bard_des = "Charismatic, always has a joke, song, or moving speech ready";
+    class_t *test_bard = new_class(CLASS_BARD, bard_des, STAT_CHARISMA, 2.0);
+  
+    return test_bard;
+}
+
+
+/* Creates test cleric class
+ *
+ * Parameters:
+ *  none, values are hard coded in
+ *
+ * Returns:
+ *  - A pointer to a test class
+ *
+ */
+class_t *make_test_cleric()
+{
+    char* cleric_des = "Fueled by divine inspiration, devout to the craft";
+    class_t *test_cleric = new_class(CLASS_CLERIC, cleric_des,
+                                     STAT_STRENGTH, 2.0);
+    return test_cleric;
+}
+
+
 /* Creates + initializes a move*/
 move_t *create_move(int id, item_t* item, bool attack, int damage, int defense)
  {
