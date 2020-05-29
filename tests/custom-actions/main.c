@@ -7,6 +7,9 @@
 int main(int argc, char *argv[])
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/dev
     struct criterion_test_set *tests = criterion_initialize();
 
     criterion_options.jobs = 1;
@@ -17,6 +20,7 @@ int main(int argc, char *argv[])
 
     criterion_finalize(tests);
     return result;
+<<<<<<< HEAD
 =======
         struct criterion_test_set *tests = criterion_initialize();
 
@@ -28,5 +32,7 @@ int main(int argc, char *argv[])
 
         criterion_finalize(tests);
         return result;
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev
 }

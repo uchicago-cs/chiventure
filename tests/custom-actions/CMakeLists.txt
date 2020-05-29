@@ -2,13 +2,19 @@ set(TEST_EXE test-custom-actions)
 
 add_executable(${TEST_EXE}
 <<<<<<< HEAD
+<<<<<<< HEAD
         test_action_block.c
         test_conditional_block.c
+=======
+>>>>>>> origin/dev
         test_control_block.c
         test_branch_block.c
         test_ast_block.c
+<<<<<<< HEAD
 =======
         test_ca_cond.c
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev
         main.c)
 
