@@ -100,7 +100,7 @@ int branch_block_free(branch_block_t *branch)
     if (branch->num_conditionals > 0)
     {
        assert(branch->conditionals != NULL);
-       for (int n = 0; n < branch->num_conditionals, n++)
+       for (int n = 0; n < branch->num_conditionals; n++)
        {
            conditional_block_free(branch->conditionals[n]);
        }
@@ -108,7 +108,7 @@ int branch_block_free(branch_block_t *branch)
     if (branch->num_controls > 0)
     {
         assert(branch->controls != NULL);
-        for (int n = 0; n < branch->num_controls, n++)
+        for (int n = 0; n < branch->num_controls; n++)
         {
             control_block_free(branch->controls[n]);
         }
