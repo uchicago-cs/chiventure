@@ -90,8 +90,8 @@ int conditional_block_free(conditional_block_t *conditional)
 {
     assert(conditional != NULL);
     
-    attribute_free(left);
-    attribute_free(right);
+    attribute_free(conditional->left);
+    attribute_free(conditional->right);
     free(conditional);
 
     return SUCCESS; 
