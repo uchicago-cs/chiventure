@@ -12,9 +12,9 @@ Test(battle_flow, set_player)
 {
     combatant_t *comb_player;
 
-    class_t* test_class = class_new("Bard", "Music boi", "Charismatic, always
-                                    has a joke or song ready", NULL, NULL, NULL,
-                                    NULL, NULL);
+    class_t* test_class = class_new("Bard", "Music boi",
+                                    "Charismatic, always has a joke or song ready",
+                                    NULL, NULL, NULL, NULL, NULL);
 
     player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
                                            NULL, NULL, NULL);
@@ -35,22 +35,22 @@ Test(battle_flow, set_player)
                      "Charismatic, always has a joke or song ready",
                      "set_player() didn't set class short description");
 
-    cr_assert_null(comb_player->attr, "set_player() didn't set class attribute");
-    cr_assert_null(comb_player->stat, "set_player() didn't set class stats");
-    cr_assert_null(comb_player->skilltree,
+    cr_assert_null(comb_player->class->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(comb_player->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(comb_player->class->skilltree,
                    "set_player() didn't set class skilltree");
-    cr_assert_null(comb_player->combat,
+    cr_assert_null(comb_player->class->combat,
                    "set_player() didn't set class skills for combat");
-    cr_assert_null(comb_player->noncombat,
+    cr_assert_null(comb_player->class->noncombat,
                    "set_player() didn't set class skills for noncombat");
 }
 
 /* Tests set_enemies() with 1 enemy */
 Test(battle_flow, set_one_enemy)
 {
-    class_t* test_class = class_new("Bard", "Music boi", "Charismatic, always
-                                    has a joke or song ready", NULL, NULL, NULL,
-                                    NULL, NULL);
+    class_t* test_class = class_new("Bard", "Music boi",
+                                    "Charismatic, always has a joke or song ready",
+                                     NULL, NULL, NULL, NULL, NULL);
 
     npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name",
                                             test_class, NULL, NULL, NULL);
@@ -71,13 +71,13 @@ Test(battle_flow, set_one_enemy)
                      "Charismatic, always has a joke or song ready",
                      "set_player() didn't set class short description");
 
-    cr_assert_null(comb_enemy->attr, "set_player() didn't set class attribute");
-    cr_assert_null(comb_enemy->stat, "set_player() didn't set class stats");
-    cr_assert_null(comb_enemy->skilltree,
+    cr_assert_null(comb_enemy->class->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(comb_enemy->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(comb_enemy->class->skilltree,
                    "set_player() didn't set class skilltree");
-    cr_assert_null(comb_enemy->combat,
+    cr_assert_null(comb_enemy->class->combat,
                    "set_player() didn't set class skills for combat");
-    cr_assert_null(comb_enemy->noncombat,
+    cr_assert_null(comb_enemy->class->noncombat,
                    "set_player() didn't set class skills for noncombat");
 }
 
