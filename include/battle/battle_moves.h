@@ -6,7 +6,6 @@
 #include "battle_classes.h"
 #include "battle_structs.h"
 
-
 /* For use in testing battle code,
 make a test move for each class */
 
