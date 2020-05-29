@@ -53,6 +53,7 @@ typedef struct npc_enemy {
  *
  * Parameters:
  *     - p_id: player id
+ *     - class: pointer to player_class struct
  *     - stats: player stats stub
  *     - moves: player moves stub
  *     - items: player items stub
@@ -65,6 +66,7 @@ player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *move
  *
  * Parameters:
  *     - npc_id: npc id
+ *     - class: pointer to player_class struct
  *     - stats: npc stats stub
  *     - moves: npc moves stub
  *     - items: npc items stub

@@ -30,7 +30,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
 }
 
 /* See battle_state.h */
-int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class, 
+int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class,
     stat_t *stats, move_t *moves, item_t *items)
 {
     assert(c != NULL);
@@ -85,9 +85,9 @@ int combatant_free(combatant_t *c)
         free(item_elt);
     }
 
-        free(c);
+    free(c);
 
-        return SUCCESS;
+    return SUCCESS;
 }
 
 /* See battle_state.h */
