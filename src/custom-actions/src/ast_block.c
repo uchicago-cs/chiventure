@@ -48,7 +48,7 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type)
 int AST_block_free(AST_block_t *ast)
 {
     assert(ast != NULL);
-    switch(ast->block_type) 
+    switch(ast->block_type) {
    /* {
         case CONTROL: 
             if (ast->block->control_block != NULL) 
@@ -69,7 +69,7 @@ int AST_block_free(AST_block_t *ast)
             {
                 conditional_block_free(ast->block->conditional_block);
             }
-            break;
+            break; }
     /*    case BRANCH:
             if (ast->block->branch_block != NULL)
             {
