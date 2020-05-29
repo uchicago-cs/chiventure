@@ -158,7 +158,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         action_type_t *action = find_action(tokens[0], table);
         char *str;
-        do_item_action(action, curr_item, &str);
+        do_item_action(ctx, action, curr_item, &str);
         if(strcmp(tokens[0], "TAKE") == 0)
         {
             HASH_DEL(game->curr_room->items, curr_item);
@@ -228,7 +228,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     action_type_t *action = find_action(tokens[0], table);
 
     char *str;
-    do_item_item_action(action, item1, item2, &str);
+    do_item_item_action(ctx, action, item1, item2, &str);
     return str;
 }
 

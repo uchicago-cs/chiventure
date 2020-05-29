@@ -1,0 +1,101 @@
+{
+"actions": [
+    {
+        "id": "action_push_fail",
+        "sequence": [
+            {"block":"say", "params":"'That didn't work. Try pulling the lever instead.'"}
+        ]
+    },
+    {
+        "id": "action_special_pull",
+        "sequence": [
+            {"block":"if", "params":"eq purplelever.pulled true"},
+                {"block":"if", "params":"eq redlever.pulled true"},
+                    {"block":"if", "params":"eq bluelever.pulled false"},
+                        {"block":"if", "params":"eq purplelever.pulled false"},
+                            {"block":"say", "params":"'The lever was pulled, and the room blew up into smithereens!'"},
+                            {"block":"say", "params":"'Looks like you didn't need to pull this lever to go down into the secret room after all...'"},
+                            {"block":"losegame", "params": ""},
+                        {"block":"endif", "params":""},
+                    {"block":"endif", "params":""},
+                {"block":"endif", "params":""},
+            {"block":"endif", "params":""}
+        ]
+    },
+    {
+        "id": "action_normal_pull <lever_num>",
+        "sequence": [
+            {"block":"if", "params":"eq lever_num 1"},
+                {"block":"set", "params":"bluelever.pulled true"},
+            {"block":"else", "params":""},
+                {"block":"if", "params":"eq lever_num 2"},
+                    {"block":"set", "params":"greenlever.pulled true"},
+                {"block":"else", "params":""},
+                    {"block":"if", "params":"eq lever_num 3"},
+                        {"block":"set", "params":"redlever.pulled true"},
+                    {"block":"else", "params":""},
+                        {"block":"if", "params":"eq lever_num 4"},
+                            {"block":"set", "params":"purplelever.pulled true"},
+                        {"block":"endif", "params":""},
+                    {"block":"endif", "params":""},
+                {"block":"endif", "params":""},
+            {"block":"endif", "params":""}
+        ]
+    },
+    {
+        "id": "action_normal_push <lever_num>",
+        "sequence": [
+            {"block":"if", "params":"eq lever_num 1"},
+                {"block":"set", "params":"bluelever.pulled false"},
+            {"block":"else", "params":""},
+                {"block":"if", "params":"eq lever_num 2"},
+                    {"block":"set", "params":"greenlever.pulled false"},
+                {"block":"else", "params":""},
+                    {"block":"if", "params":"eq lever_num 3"},
+                        {"block":"set", "params":"redlever.pulled false"},
+                    {"block":"else", "params":""},
+                        {"block":"if", "params":"eq lever_num 4"},
+                            {"block":"set", "params":"purplelever.pulled false"},
+                        {"block":"endif", "params":""},
+                    {"block":"endif", "params":""},
+                {"block":"endif", "params":""},
+            {"block":"endif", "params":""}
+        ]
+    },
+    {
+        "id": "action_unlock_secretroom",
+        "sequence": [
+            {"block":"say", "params":"'You hear a loud clink echoing from the white room.'"},
+            {"block":"set", "params":"secretroom.can_enter true"},
+            {"block":"set", "params":"trapdoor.open true"}
+        ]
+    },
+    {
+        "id": "action_trapdoor_open",
+        "sequence": [
+            {"block":"if", "params":"eq self.open false"},
+                {"block":"say", "params":"'The trapdoor doesn't budge.'"},
+            {"block":"else", "params":""},
+                {"block":"say", "params":"'The trapdoor is already open. So that's what that noise was!"},
+            {"block":"endif", "params":""}
+        ]
+    },
+    {
+        "id": "action_whiteroom_enter",
+        "sequence":[
+            {"block":"if", "params":"eq secretroom.can_enter true"},
+                {"block":"say", "params":"'Aha, looks like the room below is now accessible through the trapdoor!'"},
+                {"block":"say", "params":"'The lever looks like it's unlocked too. I wonder what it does.'"},
+            {"block":"else", "params":""},
+            {"block":"endif", "params":""}
+        ]
+    },
+    {
+        "id": "action_win_game",
+        "sequence":[
+            {"block":"say", "params":"'You found the secret room. You win!'"},
+            {"block":"wingame", "params":""}
+        ]
+    }
+]
+}
