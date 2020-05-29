@@ -46,3 +46,12 @@ set_target_properties(chiventure-bin
 find_package(Criterion REQUIRED)
 enable_testing()
 add_subdirectory(tests)
+
+
+# EXAMPLES
+add_custom_target(examples)
+foreach(module ${CHIVENTURE_MODULES})
+    if(TARGET ${module}-examples)
+        add_dependencies(examples ${module}-examples)
+    endif()
+endforeach(module)
