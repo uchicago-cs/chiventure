@@ -162,22 +162,24 @@ Test(dialogue, add_edge)
     cr_assert_eq(res, SUCCESS, "add_edge() failed");
 }
 
-/* This test fails. If you remove the assertions, it warns that the test
- * "crashed during its setup or teardown" so it is a problem with prepend.
+/* Checks that prepend_node() prepends a node onto the convo's list */
 Test(dialogue, prepend_node)
 {
     convo_t *c;
-    node_t *n1, *n2;
-    int res1, res2;
+    node_t *n1, *n2, *n3;
+    int res1, res2, res3;
 
     c = convo_new();
     n1 = node_new("1test node", "Here we have some test dialogue!");
     n2 = node_new("2test node", "This is the second testing dialogue.");
+    n3 = node_new("1test node", "This node has the same id as the first.");
 
     cr_assert_not_null(c, "convo_new() failed");
     cr_assert_not_null(n1, "node_new() failed");
     cr_assert_not_null(n2, "node_new() failed");
+    cr_assert_not_null(n3, "node_new() failed");
 
+    // Prepend node onto NULL list
     res1 = prepend_node(c, n1);
 
     cr_assert_eq(res1, SUCCESS, "prepend_node() failed to prepend on NULL");
@@ -187,12 +189,15 @@ Test(dialogue, prepend_node)
     cr_assert_eq(strncmp(c->nodes->cur_node->dialogue,
                          "Here we have some test dialogue!", MAX_DIA_LEN),
                  0, "prepended node has incorrect dialogue");
-    
+    cr_assert_eq(c->node_count, 1, "prepend_node() did not increase "
+                                   "node_count to 1");
+
+    // Prepend node onto existing node
     res2 = prepend_node(c, n2);
 
     cr_assert_eq(res2, SUCCESS, "prepend_node() failed to prepend on "
-                 "existing node");
-     cr_assert_eq(strncmp(c->nodes->cur_node->node_id,
+                                "existing node");
+    cr_assert_eq(strncmp(c->nodes->cur_node->node_id,
                          "2test node", MAX_ID_LEN),
                  0, "prepended node has incorrect node_id");
     cr_assert_eq(strncmp(c->nodes->cur_node->dialogue,
@@ -206,4 +211,75 @@ Test(dialogue, prepend_node)
     cr_assert_eq(strncmp(c->nodes->next->cur_node->dialogue,
                  "Here we have some test dialogue!", MAX_DIA_LEN), 0,
                  "second node in list has incorrect dialogue");
-} */
+    cr_assert_eq(c->node_count, 2, "prepend_node() did not increase "
+                                   "node_count to 2");
+
+    // Try to prepend node with identical ID (checks for FAILURE)
+    res3 = prepend_node(c, n3);
+
+    cr_assert_eq(res3, FAILURE, "prepend_node() prepended a node with a "
+                                "repeated node_id");
+    cr_assert_eq(c->node_count, 2, "prepend_node() did increased node_count "
+                                   "to 3 on failure");
+}
+
+/* Checks that append_node() prepends a node onto the convo's list */
+Test(dialogue, append_node)
+{
+    convo_t *c;
+    node_t *n1, *n2, *n3;
+    int res1, res2, res3;
+
+    c = convo_new();
+    n1 = node_new("1test node", "Here we have some test dialogue!");
+    n2 = node_new("2test node", "This is the second testing dialogue.");
+    n3 = node_new("1test node", "This node has the same id as the first.");
+
+    cr_assert_not_null(c, "convo_new() failed");
+    cr_assert_not_null(n1, "node_new() failed");
+    cr_assert_not_null(n2, "node_new() failed");
+    cr_assert_not_null(n3, "node_new() failed");
+
+    // Append node onto NULL list
+    res1 = append_node(c, n1);
+
+    cr_assert_eq(res1, SUCCESS, "prepend_node() failed to prepend on NULL");
+    cr_assert_eq(strncmp(c->nodes->cur_node->node_id,
+                         "1test node", MAX_ID_LEN),
+                 0, "prepended node has incorrect node_id");
+    cr_assert_eq(strncmp(c->nodes->cur_node->dialogue,
+                         "Here we have some test dialogue!", MAX_DIA_LEN),
+                 0, "prepended node has incorrect dialogue");
+    cr_assert_eq(c->node_count, 1, "prepend_node() did not increase "
+                                   "node_count to 1");
+
+    // Append node onto existing node
+    res2 = append_node(c, n2);
+
+    cr_assert_eq(res2, SUCCESS, "append_node() failed to append on "
+                                "existing node");
+    cr_assert_eq(strncmp(c->nodes->cur_node->node_id,
+                         "1test node", MAX_ID_LEN),
+                 0, "first node in list has incorrect node_id");
+    cr_assert_eq(strncmp(c->nodes->cur_node->dialogue,
+                         "Here we have some test dialogue!", MAX_DIA_LEN),
+                 0, "first node in list has incorrect dialogue");
+
+    cr_assert_not_null(c->nodes->next, "node list has NULL second element");
+    cr_assert_eq(strncmp(c->nodes->next->cur_node->node_id,
+                 "2test node", MAX_ID_LEN), 0,
+                 "appended node has incorrect node_id");
+    cr_assert_eq(strncmp(c->nodes->next->cur_node->dialogue,
+                 "This is the second testing dialogue.", MAX_DIA_LEN), 0,
+                 "appended node has incorrect dialogue");
+    cr_assert_eq(c->node_count, 2, "append_node() did not increase "
+                                   "node_count to 2");
+
+    // Try to append node with identical ID (checks for FAILURE)
+    res3 = append_node(c, n3);
+
+    cr_assert_eq(res3, FAILURE, "append_node() appended a node with a "
+                                "repeated node_id");
+    cr_assert_eq(c->node_count, 2, "append_node() did increased node_count "
+                                   "to 3 on failure");
+}
