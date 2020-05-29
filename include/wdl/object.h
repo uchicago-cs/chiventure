@@ -1,8 +1,7 @@
 // Documentation for objects to store parsed information from WDL
 
+#include "wdl/wdl_common.h"
 #include "common/uthash.h"
-#include "stdbool.h"
-#include <stdio.h>
 #define MAXLEN_ID 60 // ID strings for objects
 
 /*
@@ -97,18 +96,6 @@ typedef struct asset
     //a pointer to the asset file
     FILE* asset;
 } asset_t;
-
-/* NOTE: MOVE THIS OUT OF HEADER UPON IMPLEMENTATION
- * get_object_wdl: (MEANT FOR WDL TEAM) retrieves an object from a .wdz archive.
- *
- * params: 
- *   - type: the type of the object corresponding to its .wdz subfile.
- *   - id: the object's id.
- * 
- * returns:
- *   - a pointer to the requested object as a obj_t struct member.
- */
-obj_t* get_object_wdl(objtype_t type, char* id);
 
 /* 
  * get_object: retrieves an object from a .wdz archive
