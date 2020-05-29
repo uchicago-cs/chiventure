@@ -1,6 +1,11 @@
 set(TEST_EXE test-battle)
 
 add_executable(${TEST_EXE}
+        test_battle_classes.c
+        test_battle_flow.c
+        test_battle_flow_structs.c
+        test_battle_logic.c
+        test_battle_moves.c
         test_battle_state.c
         main.c)
 
