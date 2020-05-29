@@ -47,23 +47,6 @@ move_t* find_random(combatant_t* player, combatant_t* enemy)
         
     }
     return random_move;
-    /*int i, count, random;
-    move_t *move_struct;
-
-    DL_COUNT(enemy->moves, move_struct, count);
-    random = rand() % count + 1;
-
-    move_t* random_move = enemy->moves;
-    for (i = 0; i < random - 1; i++)
-    {
-        if (random_move->next == NULL)
-        {
-            return random_move;
-        }
-        random_move = random_move->next;
-    }
-
-    return random_move;*/
 }
 
 /* See battle_ai.h */
