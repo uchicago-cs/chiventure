@@ -14,6 +14,7 @@ Test (stats, add_stat_player)
     g.max = 100;
 
     stats_t s;
+    s.key = "health";
     s.global = &g;
     s.val = 50;
     s.max = 75;
@@ -36,6 +37,7 @@ Test(stats, display_stat)
     health.max = 100;
 
     stats_t s1;
+    s1.key = "health";
     s1.global = &health;
     s1.val = 50;
     s1.max = 75;
@@ -51,6 +53,7 @@ Test(stats, display_stat)
     speed.max = 100;
 
     stats_t s2;
+    s2.key = "speed";
     s2.global = &speed;
     s2.val = 25;
     s2.max = 50;
