@@ -23,7 +23,7 @@ obj_t* get_object(char* type, char* id)
 }
 
 //See wdl/object.h for documentation
-obj_t* get_obj_attribute(obj_t obj, char* name)
+attribute_t* get_obj_attribute(obj_t obj, char* name)
 {
     return NULL;
 }

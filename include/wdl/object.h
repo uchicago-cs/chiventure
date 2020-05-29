@@ -1,6 +1,8 @@
 // Documentation for objects to store parsed information from WDL
 
-#include "wdl/wdl_common.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
 #include "common/uthash.h"
 #define MAXLEN_ID 60 // ID strings for objects
 
@@ -53,7 +55,7 @@ union attr_data
 /*
  * attribute_t: the attributes stored within an object
  */
-typedef struct attribute
+typedef struct attr
 {
     //the attribute's id.
     char id[MAXLEN_ID + 1];
