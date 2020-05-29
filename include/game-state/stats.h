@@ -1,6 +1,7 @@
 #ifndef _STATS_H
 #define _STATS_H
 
+#include "common/ctx.h"
 #include "game_state_common.h"
 
 // GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
@@ -126,7 +127,7 @@ int stats_init(stats_t *stat, char *name, double init);
  *  If struct already exists, returns existing struct and does not overwrite
  */
 
-stats_global_t* stats_global_new(char *name, double max);
+stats_global_t* stats_global_new(chiventure_ctx_t *ctx, char *name, double max);
 
 /*
  * Allocates a new stat
@@ -138,7 +139,7 @@ stats_global_t* stats_global_new(char *name, double max);
  * Returns:
  *  Pointer to allocated stats struct
  */
-stats_t *stats_new(char *name, double init);
+stats_t *stats_new(chiventure_ctx_t *ctx, char *name, double init);
 
 /*
  * Changes the base value of a stat by the

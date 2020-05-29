@@ -13,11 +13,6 @@ int stats_global_init(stats_global_t *s, char *name, double max)
 int stats_init(stats_t *stat, char *name, double init)
 {
     assert(stat != NULL);
-    
-    stats_global_t *global_stat;
-    HASH_FIND_STR(ctx->game->curr_stats, name, global_stat);
-    assert(global_stat != NULL);
-    stat->global = global_stat;
 
     stat->val = init;
     stat->max = init;
@@ -26,10 +21,10 @@ int stats_init(stats_t *stat, char *name, double init)
 }
 
 /* See stats.h*/
-stats_global_t* stats_global_new(char *name, double max)
+stats_global_t* stats_global_new(chiventure_ctx_t *ctx, char *name, double max)
 {
     stats_global_t *global_stat;
-    global_stat = HASH_FIND_STR(ctx->game->curr_stats, name, global_stat);
+    HASH_FIND_STR(ctx->game->curr_stats, name, global_stat);
 
     if(global_stat != NULL)
     {
@@ -47,16 +42,23 @@ stats_global_t* stats_global_new(char *name, double max)
 }
 
 /* See stats.h */
-stats_t *stats_new(char *name, double init)
+stats_t *stats_new(chiventure_ctx_t *ctx, char *name, double init)
 {
+    stats_global_t *global_stat;
     stats_t *new_stat;
+
+    HASH_FIND_STR(ctx->game->curr_stats, name, global_stat);
+    assert(global_stat != NULL);
+
     new_stat = malloc(sizeof(stats_t));
 
     int check = stats_init(new_stat, name, init);
+    new_stat->global = global_stat;
     if(check != SUCCESS)
     {
         return NULL;
     }
+
     return new_stat;
 }
 
