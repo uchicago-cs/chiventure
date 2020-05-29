@@ -1,6 +1,6 @@
 // Documentation for objects to store parsed information from WDL
 
-#include "../../../include/common/uthash.h"
+#include "common/uthash.h"
 #include "stdbool.h"
 #include <stdio.h>
 #define MAXLEN_ID 60 // ID strings for objects
@@ -41,7 +41,7 @@ typedef struct obj obj_t; // forward declaration so attribute_t can use
 /* 
  * a union representing the information that can be stored in an attribute
  */
-union
+union attr_data
 {
     bool b;
     char c;
@@ -49,29 +49,26 @@ union
     char **sl;
     int i;
     obj_t *o;
-} data;
+};
 
-/* attribute_t
- * 
- * params:
- *   - id: the attribute's id.
- *   - data: the information stored in the attribute.
- *   - hh: Required ithash indentifier for making the hash table
+/*
+ * attribute_t: the attributes stored within an object
  */
 typedef struct attribute
 {
+    //the attribute's id.
     char id[MAXLEN_ID + 1];
-    
+   
+    //the information stored in the attribute
+    union attr_data data;
+
+    //Required uthash indentifier for making the hash table
     UT_hash_handle hh;
 
 } attribute_t;
 
-/* obj_t: a struct describing a .json object. 
- * 
- * params:
- *   - id: the object's id.
- *   - type: the type of the object corresponding to its .wdz subfile.
- *   - attrs: a hashtable of the object's attributes.
+/*
+ * obj_t: a struct describing a .json object.
  */
 typedef struct obj
 {
@@ -86,20 +83,22 @@ typedef struct obj
 
 } obj_t;
 
-/* asset_t: a struct describing a media asset.
- * params:
- *   - type: the type of the asset corresponding to its .wdz subfolder.
- *   - filename: the asset's filename.
- *   - asset: a pointer to the asset file.
+/*
+ * asset_t: a struct describing a media asset.
  */
 typedef struct asset
 { 
+    //the type of the asset corresonding to its .wdz subfolder
     assettype_t type;
+
+    //the asset's filename
     char* filename;
+
+    //a pointer to the asset file
     FILE* asset;
 } asset_t;
 
-/*
+/* NOTE: MOVE THIS OUT OF HEADER UPON IMPLEMENTATION
  * get_object_wdl: (MEANT FOR WDL TEAM) retrieves an object from a .wdz archive.
  *
  * params: 
