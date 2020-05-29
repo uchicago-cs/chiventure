@@ -33,6 +33,7 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
     if (new_item == NULL || new_item->item_id == NULL ||
             new_item->short_desc == NULL || new_item->long_desc == NULL)
     {
+
         return NULL; //item struct not properly malloced
 
     }
