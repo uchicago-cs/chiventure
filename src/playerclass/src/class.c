@@ -14,8 +14,8 @@
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_t* stat, skilltree_t* skilltree,
-                   skill_t* combat, skill_t* noncombat)
+                   obj_t* attr, stats_hash_t* stat, effects_hash_t* effect,
+		   skilltree_t* skilltree, skill_t* combat, skill_t* noncombat)
 {
     int rc;
     class_t* c;
@@ -28,7 +28,7 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
         return NULL;
     }
     
-    rc = class_init(c, name, shortdesc, longdesc, attr, stat, skilltree, combat, noncombat);
+    rc = class_init(c, name, shortdesc, longdesc, attr, stat, effect, skilltree, combat, noncombat);
 
     if (rc == EXIT_FAILURE){
         fprintf(stderr, "Could not initalize values for class_new.\n");
@@ -39,8 +39,8 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
 
 /* See class.h */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_t* stat, skilltree_t* skilltree,
-                   skill_t* combat, skill_t* noncombat)
+	       obj_t* attr, stats_hash_t* stat, effects_hash_t* effect,
+	       skilltree_t* skilltree, skill_t* combat, skill_t* noncombat)
 {
     if (class == NULL)
     {
@@ -76,6 +76,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     
     class->attributes = attr;
     class->stats = stat;
+    class->effects = effect;
     class->skilltree = skilltree;
     class->combat = combat;
     class->noncombat = noncombat;
