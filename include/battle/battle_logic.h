@@ -46,10 +46,10 @@ turn_t goes_first(battle_t *b);
 
 /* 
  * Finds the desired item to be used
- * 	Parameters:
+ * Parameters:
  *    inventory - an player or enemy's inventory
  *    id - the id number of the desired item
- * 	Returns:
+ * Returns:
  *    Returns a pointer to the desired item 
  */
 item_t *find_item(item_t *inventory, int id);
