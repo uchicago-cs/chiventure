@@ -5,67 +5,12 @@
 #include "battle/battle_ai.h"
 
 
-
-/* See battle_classes.h */
-class_t *new_class(class_type_t class_type, char* info,
-                   possible_stats_t stats, double bonus)
+class_t *create_test_class()
 {
-    class_t *class = (class_t*) calloc(1, sizeof(class_t));
-    int rc;
-
-    if(class == NULL)
-    {
-        fprintf(stderr,"Could not allocate memory\n");
-        return NULL;
-    }
-
-    rc = init_class(class, class_type, info, stats, bonus);
-
-    if(rc != 0)
-    {
-        fprintf(stderr,"Could not initialize class\n");
-        return NULL;
-    }
-
-    return class;
+    class_t* test_class = class_new("Bard", "Music boi",
+                                    "Charismatic, always has a joke or song ready",
+                                    NULL, NULL, NULL, NULL, NULL);
 }
-
-
-/* Creates test bard class
- *
- * Parameters:
- *  none, values are hard coded in
- *
- * Returns:
- *  - A pointer to a test class
- *
- */
-class_t *make_test_bard()
-{
-    char* bard_des = "Charismatic, always has a joke, song, or moving speech ready";
-    class_t *test_bard = new_class(CLASS_BARD, bard_des, STAT_CHARISMA, 2.0);
-  
-    return test_bard;
-}
-
-
-/* Creates test cleric class
- *
- * Parameters:
- *  none, values are hard coded in
- *
- * Returns:
- *  - A pointer to a test class
- *
- */
-class_t *make_test_cleric()
-{
-    char* cleric_des = "Fueled by divine inspiration, devout to the craft";
-    class_t *test_cleric = new_class(CLASS_CLERIC, cleric_des,
-                                     STAT_STRENGTH, 2.0);
-    return test_cleric;
-}
-
 
 /* Creates + initializes a move*/
 move_t *create_move(int id, item_t* item, bool attack, int damage, int defense)
@@ -113,7 +58,7 @@ stat_t* create_enemy_stats()
     test_stats->hp = 200;
     test_stats->max_hp = 200;
     test_stats->xp = 0;
-    test_stats->level = 5; 
+    test_stats->level = 5;
 
     return test_stats;
 }
@@ -156,11 +101,11 @@ item_t* create_enemy_items()
 {
     item_t *head, *mace, *diamond_sword, *force_shield;
     head = NULL;
-    mace = create_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true, 
+    mace = create_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true,
         0, -30, 0);
-    diamond_sword = create_item(5, 1, 50, "Brings quick death to those who dare battle you...", 
+    diamond_sword = create_item(5, 1, 50, "Brings quick death to those who dare battle you...",
         true, 20, 0, 0);
-    force_shield = create_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move", 
+    force_shield = create_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move",
         true, 0, 30, 5);
     DL_APPEND(head, mace);
     DL_APPEND(head, diamond_sword);
@@ -217,7 +162,7 @@ combatant_t* new_enemy()
 {
     char* name = "Skeleton";
     bool is_friendly = false;
-    class_t *class = make_test_bard();
+    class_t *class = create_test_class();
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
     item_t *items = create_enemy_items();
@@ -232,7 +177,8 @@ combatant_t* new_player()
 {
     char* name = "Steve";
     bool is_friendly = true;
-    class_t *class = make_test_cleric();
+
+    class_t *class = create_test_class();
     stat_t *stats = create_player_stats();
     move_t *moves = create_player_moves();
     item_t *items = create_player_items();
