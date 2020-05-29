@@ -1,9 +1,9 @@
 /*      
-  * Basic functions and structs for control blocks      
-  * to be used in custom-actions implementation.        
-  *         
-  * Please see "control_block.h" for function documentation.        
-  */        
+ * Basic functions and structs for control blocks      
+ * to be used in custom-actions implementation.        
+ *         
+ * Please see "control_block.h" for function documentation.        
+ */        
 
 #include <stdlib.h>       
 #include <stdio.h>     
