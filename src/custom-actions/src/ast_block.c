@@ -48,16 +48,14 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type)
 int AST_block_free(AST_block_t *ast)
 {
     assert(ast != NULL);
-    switch(ast->block_type) {
-   /* {
+    switch(ast->block_type) 
+    {
         case CONTROL: 
             if (ast->block->control_block != NULL) 
             {
                 control_block_free(ast->block->control_block);
             }
             break;
-    } */
-/* Cases to add once additional block types have been finished */
         case ACTION:
             if (ast->block->action_block != NULL)
             {
