@@ -12,17 +12,15 @@ int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name)
     item_t *old_item;
     HASH_FIND_STR(src, name, old_item);
     if (old_item == NULL) {
-	printf("FIRST FAILURE\n");
         return FAILURE;
     } 
-//    printf("made it past the first FAIL\n");
+
     item_t *new_item = item_new(old_item->item_id, old_item->short_desc, old_item->long_desc);
     if (new_item == NULL) {
-	printf("SECOND FAILURE\n");
         return FAILURE;
 
     }
-//    printf("SECOND FAIL\n");
+
     HASH_ADD_STR(*dst, item_id, new_item);
     return SUCCESS;
 }

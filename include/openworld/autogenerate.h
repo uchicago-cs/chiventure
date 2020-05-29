@@ -82,7 +82,6 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
 */
 int room_generate(game_t *game, gencontext_t *context, char *bucket);
 
-
 /*
 * multi_room_generate
 * Iterate through all the rooms of the speclist field of the given context
@@ -103,10 +102,6 @@ int room_generate(game_t *game, gencontext_t *context, char *bucket);
 * - SUCCESS if the new rooms were generated and added (SUCCESS)
 * - FAILURE if the new rooms were not generated/added (FAILURE)
 */
-
-roomspec_t *random_room_content(speclist_t *spec);
-
-/* waiting for bryan to add his comments */
 int multi_room_generate(game_t *game, gencontext_t *context, char *bucket);
 
 /*

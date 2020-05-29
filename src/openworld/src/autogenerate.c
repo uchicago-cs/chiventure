@@ -115,8 +115,8 @@ roomspec_t *random_room_lookup(speclist_t *spec) {
 
 	DL_FOREACH(spec, tmp) {
 		if (i == idx) {
-			//reassign the items
 			item_hash_t *items = random_items(tmp->spec);
+			tmp->spec->items = items;
 			return tmp->spec;
 		}
 		i++;
