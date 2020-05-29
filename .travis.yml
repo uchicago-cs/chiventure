@@ -30,4 +30,5 @@ script:
   - cd build
   - cmake ..
   - make
+  - make examples
   - ctest --extra-verbose
