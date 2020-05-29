@@ -13,15 +13,15 @@
 Test(battle_logic, target_exists)
 {
     combatant_t *phead = NULL;
-    combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL, NULL);
     DL_APPEND(phead, p);
-    
+
     combatant_t *ehead = NULL;
     combatant_t *c1;
     combatant_t *c2;
 
-    c1 = combatant_new("Goblin Gary", false, calloc(1, sizeof(stat_t)), NULL, NULL);
-    c2 = combatant_new("Orc John", false, calloc(1, sizeof(stat_t)), NULL, NULL);
+    c1 = combatant_new("Goblin Gary", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
+    c2 = combatant_new("Orc John", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
     DL_APPEND(ehead, c1);
     DL_APPEND(ehead, c2);
     cr_assert_not_null(c1, "combatant_new() failed");
@@ -38,21 +38,21 @@ Test(battle_logic, target_exists)
 }
 
 /*
- * This tests to ensure that a target is not found when it does not exist 
+ * This tests to ensure that a target is not found when it does not exist
  * within a list of targets
  */
 Test(battle_logic, target_does_not_exist)
 {
     combatant_t* phead = NULL;
-    combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL, NULL);
     DL_APPEND(phead, p);
-    
+
     combatant_t *ehead = NULL;
     combatant_t *c1;
     combatant_t *c2;
 
-    c1 = combatant_new("Goblin Gary", false, calloc(1, sizeof(stat_t)), NULL, NULL);
-    c2 = combatant_new("Orc John", false, calloc(1, sizeof(stat_t)), NULL, NULL);
+    c1 = combatant_new("Goblin Gary", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
+    c2 = combatant_new("Orc John", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
     DL_APPEND(ehead, c1);
     DL_APPEND(ehead, c2);
     cr_assert_not_null(c1, "combatant_new() failed");
@@ -68,9 +68,9 @@ Test(battle_logic, target_does_not_exist)
     battle_free(b);
 }
 
-/* 
- * this tests if battle_over detects if the 
- * battle is over because of the player 
+/*
+ * this tests if battle_over detects if the
+ * battle is over because of the player
  */
 Test(battle_logic, battle_over_by_player)
 {
@@ -81,8 +81,8 @@ Test(battle_logic, battle_over_by_player)
     pstats->hp = 0;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 10;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
-    combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL);
+    combatant_t *e = combatant_new("Enemy", false, NULL, estats, NULL, NULL);
     cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
 
@@ -98,8 +98,8 @@ Test(battle_logic, battle_over_by_player)
     battle_free(b);
 }
 
-/* 
- * this tests if battle_over detects if the 
+/*
+ * this tests if battle_over detects if the
  * battle is over because of the enemy at 0 hp
  */
 Test(battle_logic, battle_over_by_enemy)
@@ -116,10 +116,10 @@ Test(battle_logic, battle_over_by_enemy)
     stat_t *estats2 = calloc(1, sizeof(stat_t));
     estats2->hp = 0;
 
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
-    combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
-    combatant_t *e1 = combatant_new("Enemy", false, estats1, NULL, NULL);
-    combatant_t *e2 = combatant_new("Enemy", false, estats2, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL);
+    combatant_t *e = combatant_new("Enemy", false, NULL, estats, NULL, NULL);
+    combatant_t *e1 = combatant_new("Enemy", false, NULL, estats1, NULL, NULL);
+    combatant_t *e2 = combatant_new("Enemy", false, NULL, estats2, NULL, NULL);
 
     cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
@@ -140,8 +140,8 @@ Test(battle_logic, battle_over_by_enemy)
     battle_free(b);
 }
 
-/* 
- * this tests if battle_over detects if the 
+/*
+ * this tests if battle_over detects if the
  * battle is not over
  */
 Test(battle_logic, battle_not_over)
@@ -153,15 +153,15 @@ Test(battle_logic, battle_not_over)
     pstats->hp = 10;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 15;
-	stat_t *estats1 = calloc(1, sizeof(stat_t));
+    stat_t *estats1 = calloc(1, sizeof(stat_t));
     estats1->hp = 12;
     stat_t *estats2 = calloc(1, sizeof(stat_t));
     estats2->hp = 13;
 
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
-    combatant_t *e = combatant_new("Enemy", false, estats, NULL, NULL);
-    combatant_t *e1 = combatant_new("Enemy", false, estats1, NULL, NULL);
-    combatant_t *e2 = combatant_new("Enemy", false, estats2, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL);
+    combatant_t *e = combatant_new("Enemy", false, NULL, estats, NULL, NULL);
+    combatant_t *e1 = combatant_new("Enemy", false, NULL, estats1, NULL, NULL);
+    combatant_t *e2 = combatant_new("Enemy", false, NULL, estats2, NULL, NULL);
     cr_assert_not_null(p, "combatant_new() failed");
     cr_assert_not_null(e, "combatant_new() failed");
     cr_assert_not_null(e1, "combatant_new() failed");
@@ -181,9 +181,9 @@ Test(battle_logic, battle_not_over)
     battle_free(b);
 }
 
-/* 
+/*
  * Tests goes_first to see if it detects that the enemy
- * is faster than the player 
+ * is faster than the player
  */
 Test(battle_logic, enemy_goes_first)
 {
@@ -195,15 +195,15 @@ Test(battle_logic, enemy_goes_first)
     estats2->speed = 15;
 
     combatant_t *phead = NULL;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL);
     cr_assert_not_null(p, "combatant_new() failed");
     DL_APPEND(phead, p);
 
     combatant_t *ehead = NULL;
     combatant_t *c1;
     combatant_t *c2;
-    c1 = combatant_new("Goblin Gary", false, estats2, NULL, NULL);
-    c2 = combatant_new("Orc John", false, estats, NULL, NULL);
+    c1 = combatant_new("Goblin Gary", false, NULL, estats2, NULL, NULL);
+    c2 = combatant_new("Orc John", false, NULL, estats, NULL, NULL);
     cr_assert_not_null(c1, "combatant_new() failed");
     cr_assert_not_null(c2, "combatant_new() failed");
     DL_APPEND(ehead, c1);
@@ -219,9 +219,9 @@ Test(battle_logic, enemy_goes_first)
     battle_free(b);
 }
 
-/* 
+/*
  * Tests goes_first to see if it detects that the player
- * is faster than the enemy 
+ * is faster than the enemy
  */
 Test(battle_logic, player_goes_first)
 {
@@ -233,15 +233,15 @@ Test(battle_logic, player_goes_first)
     estats2->speed = 15;
 
     combatant_t *phead = NULL;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL);
     cr_assert_not_null(p, "combatant_new() failed");
     DL_APPEND(phead, p);
 
     combatant_t *ehead = NULL;
     combatant_t *c1;
     combatant_t *c2;
-    c1 = combatant_new("Goblin Gary", false, estats, NULL, NULL);
-    c2 = combatant_new("Orc John", false, estats2, NULL, NULL);
+    c1 = combatant_new("Goblin Gary", false, NULL, estats, NULL, NULL);
+    c2 = combatant_new("Orc John", false, NULL, estats2, NULL, NULL);
     cr_assert_not_null(c1, "combatant_new() failed");
     cr_assert_not_null(c2, "combatant_new() failed");
     DL_APPEND(ehead, c1);
@@ -257,7 +257,7 @@ Test(battle_logic, player_goes_first)
     battle_free(b);
 }
 
-/* 
+/*
  * Since the player and enemy can have the same speed,
  * then the player will go first
  */
@@ -271,15 +271,15 @@ Test(battle_logic, same_speed)
     estats2->speed = 45;
 
     combatant_t *phead = NULL;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL);
     cr_assert_not_null(p, "combatant_new() failed");
     DL_APPEND(phead, p);
 
     combatant_t *ehead = NULL;
     combatant_t *c1;
     combatant_t *c2;
-    c1 = combatant_new("Goblin Gary", false, estats, NULL, NULL);
-    c2 = combatant_new("Orc John", false, estats2, NULL, NULL);
+    c1 = combatant_new("Goblin Gary", false, NULL, estats, NULL, NULL);
+    c2 = combatant_new("Orc John", false, NULL, estats2, NULL, NULL);
     cr_assert_not_null(c1, "combatant_new() failed");
     cr_assert_not_null(c2, "combatant_new() failed");
     DL_APPEND(ehead, c1);
@@ -300,7 +300,7 @@ Test(battle_logic, same_speed)
  */
 Test(battle_logic, find_item)
 {
-    
+
     item_t *head = NULL;
     item_t *i1;
     item_t *i2;
@@ -337,7 +337,7 @@ Test(battle_logic, do_not_find_item)
 }
 
 /*
- * this tests to see if the player tries consuming an item, 
+ * this tests to see if the player tries consuming an item,
  * then it should do two things:
  * 1. Find the item and mark it as found and used
  * 2. make changes to status as seen fit
@@ -349,7 +349,7 @@ Test(battle_logic, consume_an_item)
     pstats->max_hp = 20;
     pstats->defense = 15;
     pstats->strength = 15;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL);
     cr_assert_not_null(p, "combatant_new() failed");
 
     item_t *i1 = calloc(1, sizeof(item_t));
@@ -400,7 +400,7 @@ Test(battle_logic, uses_item_correctly)
     pstats->max_hp = 25;
     pstats->defense = 15;
     pstats->strength = 15;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, head);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, head);
     cr_assert_not_null(p, "combatant_new() failed");
 
     int res = use_item(p, 100);
@@ -417,7 +417,7 @@ Test(battle_logic, uses_item_correctly)
  */
 Test(battle_logic, inventory_empty)
 {
-    combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL, NULL);
     int res = use_item(p, 100);
     cr_assert_eq(res, FAILURE, "use_item() has failed!");
 }
@@ -452,7 +452,7 @@ Test(battle_logic, no_more_items)
     pstats->max_hp = 25;
     pstats->defense = 15;
     pstats->strength = 15;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, head);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, head);
     cr_assert_not_null(p, "combatant_new() failed");
 
     int res = use_item(p, 100);
@@ -465,12 +465,33 @@ Test(battle_logic, no_more_items)
  */
 Test(battle_logic, award_xp)
 {
+    class_t* test_class = class_new("Bard", "Music boi",
+				    "Charismatic, always has a joke or song ready",
+				    NULL, NULL, NULL, NULL, NULL);
+
     double xp_gain = 15;
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->xp = 100;
-    combatant_t *p = combatant_new("Player", true, pstats, NULL, NULL);
+    combatant_t *p = combatant_new("Player", true, test_class, pstats, NULL, NULL);
     int res = award_xp(p->stats, xp_gain);
 
     cr_assert_eq(res, 0, "award_xp() did not return 0!");
     cr_assert_eq(p->stats->xp, 115, "award_xp() did not award xp correctly!");
+
+    cr_assert_str_eq(p->class->name, "Bard",
+                     "set_player() didn't set class name");
+    cr_assert_str_eq(p->class->shortdesc, "Music boi",
+                     "set_player() didn't set class short description");
+    cr_assert_str_eq(p->class->longdesc,
+                     "Charismatic, always has a joke or song ready",
+                     "set_player() didn't set class short description");
+
+    cr_assert_null(p->class->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(p->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(p->class->skilltree,
+                   "set_player() didn't set class skilltree");
+    cr_assert_null(p->class->combat,
+                   "set_player() didn't set class skills for combat");
+    cr_assert_null(p->class->noncombat,
+                   "set_player() didn't set class skills for noncombat");
 }
