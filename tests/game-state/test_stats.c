@@ -9,7 +9,7 @@
 /* Checks that stats_global_new() mallocs memory for a stats_global struct*/
 /* and initializes it with a stat's name and the maximal value*/
 Test(stats, stats_global_new){
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+    chiventure_ctx_t *ctx = chiventure_ctx_new();
     stats_global_t *stat = stats_global_new(ctx, "health", 100);
     cr_assert_not_null(stat, "stats_global_new() failed. Health stat is NULL");
     cr_assert_eq(strcmp(stat->name,
@@ -22,7 +22,7 @@ Test(stats, stats_global_new){
 /* Checks that stats_new() mallocs memory for a stat struct
 and initializes it with the pointer to the global stat and a starting value */
 Test(stats, stats_new){
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+    chiventure_ctx_t *ctx = chiventure_ctx_new();
     stats_global_t *stat_global = stats_global_new(ctx, "health", 100);
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
@@ -54,7 +54,7 @@ Test(stats, global_init){
 }
 
 Test(stats, init){
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+    chiventure_ctx_t *ctx = chiventure_ctx_new();
     stats_global_t *stat_global = stats_global_new(ctx, "health", 100);
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
@@ -77,7 +77,7 @@ Test(stats, init){
 }
 
 Test(stats, free){
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+    chiventure_ctx_t *ctx = chiventure_ctx_new();
     stats_global_t* stat_global = stats_global_new(ctx, "health", 100);
     cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
 
@@ -89,7 +89,7 @@ Test(stats, free){
 }
 
 Test(stats,global_free){
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+    chiventure_ctx_t *ctx = chiventure_ctx_new();
     stats_global_t* stat = stats_global_new (ctx, "health",100);
     cr_assert_not_null(stat, "stats_global_new() failed. Global health stat is NULL");
 
