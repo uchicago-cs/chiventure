@@ -174,9 +174,9 @@ bool end_conditions_met(game_t *game);
  * 
  * Returns:
  *   true if one of the following cases is true:
- *   1. a final room is entered and all end conditions are met
- *   2. no end conditions exist, but a final room is entered
- *   3. no final room exists, but all end conditions are met
+ *    1. a final room is entered and all end conditions are met
+ *    2. no end conditions exist, but a final room is entered
+ *    3. no final room exists, but all end conditions are met
  *   false under all other cases
  */
 bool is_game_over(game_t *game);
