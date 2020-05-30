@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 #include "wdl/object.h"
 #include "common/common.h"
-=======
-#include "../../src/libobj/sandbox/sample_obj_documentation.h"
-#include "../common/common.h"
->>>>>>> d131d490b8cc815c8a34e483c850b2bb3ed1bd3f
 
 #ifndef INCLUDE_OBJSTORE_H
 #define INCLUDE_OBJSTORE_H
