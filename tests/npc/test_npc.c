@@ -102,7 +102,7 @@ Test(npc, get_npc_health)
     npc_t *npc;
     int health;
 
-    npc = npc_new("npc_22", 20, NULL);
+    npc = npc_new("npc_22", "short", "long", 20, NULL);
 
     health = get_npc_health(npc);
 
@@ -118,7 +118,7 @@ Test (npc, change_npc_health)
     npc_t *npc; 
     int health1, health2, health3;
 
-    npc = npc_new("npc_22", 99, NULL); 
+    npc = npc_new("npc_22", "short", "long", 99, NULL); 
     health1 = change_npc_health(npc, 2, 100); 
     health2 = change_npc_health(npc, -20, 100);
     health3 = change_npc_health(npc, 3, 83);
@@ -141,8 +141,8 @@ Test(npc, add_to_and_get_inventory)
     item_hash_t *hash1, *hash2;
     item_list_t *list1, *list2;
 
-    npc1 = npc_new("npc_1",20, NULL);
-    npc2 = npc_new("npc_2", 21, NULL);
+    npc1 = npc_new("npc_1", "short", "long", 20, NULL);
+    npc2 = npc_new("npc_2", "short", "long", 21, NULL);
     new_item = item_new("test_item", "item for npc testing",
                         "item for testing get_npc_inventory()");
     add_item_to_npc(npc2, new_item);
@@ -187,7 +187,7 @@ Test(npc, add_to_and_get_inventory)
    by not returning NULL */
 Test(npc, add_item_to_npc)
 {
-    npc_t *npc = npc_new("1", 100, NULL);
+    npc_t *npc = npc_new("1", "short", "long", 100, NULL);
     item_t *new_item = item_new("test_item", "item for npc testing",
                                 "item for testing add_item_to_npc");
     add_item_to_npc(npc, new_item);

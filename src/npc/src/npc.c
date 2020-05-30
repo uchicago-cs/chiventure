@@ -68,7 +68,7 @@ char* get_sdesc_npc(npc_t *npc)
 }
 
 /* See npc.h */
-char* get_sdesc_npc(npc_t *npc)
+char* get_ldesc_npc(npc_t *npc)
 {
     if (npc == NULL)
     {
