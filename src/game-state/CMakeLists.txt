@@ -4,7 +4,8 @@ add_library(game-state
         src/item.c
         src/path.c
         src/player.c
-        src/room.c)
+        src/room.c
+        src/stats.c)
 
 target_include_directories(game-state PRIVATE src/)
 
