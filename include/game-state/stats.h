@@ -197,7 +197,7 @@ int effect_init(stat_effect_t *effect, effects_global_t *global);
  * Returns:
  *   - Pointer to allocated player effects struct
  */
-stat_effect_t *effect_new(effects_global_t *global);
+stat_effect_t *stat_effect_new(effects_global_t *global);
 
 /*
  * Changes the base value of a stat by the

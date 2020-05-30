@@ -108,15 +108,15 @@ Test (stats, stat_effect_init)
     cr_assert_eq(effect.global, global, "effect_init did not set global pointer");
 }
 
-/* Checks that effect_new correctly creates a new player effect */
+/* Checks that stat_effect_new correctly creates a new player effect */
 Test (stats, stat_effect_new)
 {
     effects_global_t *global = global_effect_new("health");
     cr_assert_not_null(global, "global_effect_new failed");
 
-    stat_effect_t *effect = effect_new(global);
+    stat_effect_t *effect = stat_effect_new(global);
 
-    cr_assert_not_null(effect, "effect_new failed");
-    cr_assert_str_eq(effect->key, global->name, "effect_new did not set key");
-    cr_assert_eq(effect->global, global, "effect_new did not set global pointer");
+    cr_assert_not_null(effect, "stat_effect_new failed");
+    cr_assert_str_eq(effect->key, global->name, "stat_effect_new did not set key");
+    cr_assert_eq(effect->global, global, "stat_effect_new did not set global pointer");
 }
