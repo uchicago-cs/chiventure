@@ -2,31 +2,38 @@
 #include "game-state/item.h"
 
 /* See npc.h */
-int npc_init(npc_t *npc, char *npc_id, int health, stats_t *stats) //TODO-convo_t *dialogue)
+int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
+             int health, stats_t *stats) //TODO-convo_t *dialogue)
 {
     assert(npc != NULL);
-    strncpy(npc->npc_id, npc_id, strlen(npc_id));
+    strcpy(npc->npc_id, npc_id);
+    strcpy(npc->short_desc, short_desc);
+    strcpy(npc->long_desc, long_desc);
     npc->health = health;
     //TODO-npc->dialogue = dialogue;
     npc->inventory = NULL;
     npc->stats = stats;
     
-
     return SUCCESS;
 }
 
 /* See npc.h */
-npc_t* npc_new(char *npc_id, int health, stats_t *stats)
+ npc_t* npc_new(char *npc_id, char *short_desc, char *long_desc, 
+                int health, stats_t *stats)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
     memset(npc, 0, sizeof(npc_t));
     npc->npc_id = malloc(MAX_ID_LEN);
+    npc->short_desc = malloc(MAX_SDESC_LEN);
+    npc->long_desc = malloc(MAX_LDESC_LEN);
     npc->stats = malloc(sizeof(stats));
 
-    int check = npc_init(npc, npc_id, health, stats); //TODO-dialogue
+    int check = npc_init(npc, npc_id, short_desc, long_desc, health, stats); 
+                         //TODO-dialogue
 
-    if (npc == NULL || npc->npc_id == NULL || check != SUCCESS)
+    if (npc == NULL || npc->npc_id == NULL || npc->short_desc == NULL ||
+        npc->long_desc == NULL || npc->stats == NULL || check != SUCCESS)
     {
         return NULL;
     }
@@ -41,12 +48,17 @@ int npc_free(npc_t *npc)
     
     // TODO-free_dialog(npc->dialogue);
     free(npc->npc_id);
+    free(npc->short_desc);
+    free(npc->long_desc);
     free(npc->stats);
     delete_all_items(&npc->inventory);
     free(npc);
 
     return SUCCESS;
 }
+
+/* See npc.h */
+
 
 /* See npc.h */
 int get_npc_health(npc_t *npc)
