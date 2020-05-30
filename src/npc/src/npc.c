@@ -32,8 +32,8 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     int check = npc_init(npc, npc_id, short_desc, long_desc, health, stats); 
                          //TODO-dialogue
 
-    if (npc == NULL || npc->npc_id == NULL || npc->short_desc == NULL ||
-        npc->long_desc == NULL || npc->stats == NULL || check != SUCCESS)
+    if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
+        npc->long_desc == NULL || check != SUCCESS)
     {
         return NULL;
     }
@@ -41,7 +41,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     return npc;
 }
 
-/* See npc.h */
+/* See npc.h  */
 int npc_free(npc_t *npc)
 {
     assert(npc != NULL);

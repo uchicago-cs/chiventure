@@ -89,9 +89,9 @@ Test(npc, get_ldesc_npc)
     cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
                  "npc_new didn't set long_desc");
 
-    get = get_sdesc_npc(npc);
+    get = get_ldesc_npc(npc);
 
-    cr_assert_not_null(get, "get_sdesc_npc() failed");
+    cr_assert_not_null(get, "get_ldesc_npc() failed");
     cr_assert_eq(strncmp(get, "tall man", MAX_LDESC_LEN), 0, 
                  "get_ldesc_npc() didn't get npc's long_desc");
 }
