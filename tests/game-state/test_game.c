@@ -387,19 +387,28 @@ Test(game_end_condition, is_game_over)
     cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
                  "end conditions have been met & no final room exists");
     
+    /* Test game w/ final room and end conditions */
+    add_final_room_to_game(game, test_room1);
+    set_str_attr(test_item, "Test_Attribute", unexpected.str_val);
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "player has yet to reach final room & "
+                 "end conditions have not been met");
+    move_room(game, test_room1);
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "player has reached final room but "
+                 "end conditions have not been met");
+    move_room(game, test_room2);
+    set_str_attr(test_item, "Test_Attribute", expected.str_val);
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "end conditions have been met but "
+                 "player has yet to reach final room");
+    move_room(game, test_room1);
+    cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
+                 "end conditions have been met and "
+                 "player has reached final room");
     
-    // set final room to room1 (not in)
-    // set end condition to not expected
-    // test - game w/ both, neither met
-    // move to final room
-    // test - game w/ both, final room in
-    // move out of final room
-    // set end condition to expected
-    // test - game w/ both, end condition met
-    // move to final room
-    // test - game w/ both, both met
-    
-    // free everything
+    item_free(test_item);
+    game_free(game);
 }
 
 Test(iter_macro, iter_rooms)
