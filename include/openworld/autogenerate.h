@@ -19,7 +19,7 @@
 #include <stdbool.h>
 
 #include "game-state/game.h"
-#include "gen_structs.h"
+#include "default_rooms.h"
 
 
 /*
@@ -49,6 +49,7 @@ bool any_paths(room_t *r);
  * parameters:
  * - game: A pointer to a game struct. Should not be NULL.
  * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
+ * - room_id: A unique room_id string for the to-be-generated room.
  *
  * side effects:
  * - Creates a new room_t pointer on the heap.
@@ -56,7 +57,7 @@ bool any_paths(room_t *r);
  * returns:
  * The generated room_t struct pointer.
  */
-room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
+room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id);
 
 
 /*
@@ -70,6 +71,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
  * parameters:
  * - game: A pointer to a game struct. Should not be NULL.
  * - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
+ * - room_id: A unique room_id string for the to-be-generated room.
  *
  * side effects:
  * - Changes input game to hold the newly generated room. Allocated on the heap
@@ -78,7 +80,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
  * - SUCCESS if the new room was generated and added (SUCCESS)
  * - FAILURE if the new room was not generated/added (FAILURE)
  */
-int room_generate(game_t *game, gencontext_t *context);
+int room_generate(game_t *game, gencontext_t *context, char *room_id);
 
 
 /*
@@ -93,6 +95,7 @@ int room_generate(game_t *game, gencontext_t *context);
  * parameters:
  * - game: A pointer to a game struct. Should not be NULL.
  * - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
+ * - room_id: A unique room_id string for the to-be-generated room.
  *
  * side effects:
  * - Changes input game to hold the newly generated room(s). Allocated on the heap
@@ -101,7 +104,7 @@ int room_generate(game_t *game, gencontext_t *context);
  * - SUCCESS if the new rooms were generated and added (SUCCESS)
  * - FAILURE if the new rooms were not generated/added (FAILURE)
  */
-int multi_room_generate(game_t *game, gencontext_t *context);
+int multi_room_generate(game_t *game, gencontext_t *context, char *room_id);
 
 
 #endif /* INCLUDE_AUTOGENERATE_H */

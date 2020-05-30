@@ -23,23 +23,28 @@ bool any_paths(room_t *r)
 }
 
 /* See autogenerate.h */
-room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec)
+room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id)
 {
-    room_t *res = room_new(roomspec->room_name, roomspec->short_desc, roomspec->long_desc);
-    res->items = roomspec->items;
+    room_t *res = room_new(room_id, roomspec->short_desc, roomspec->long_desc);
+
+    item_hash_t *current, *tmp;
+    HASH_ITER(roomspec->hh, roomspec->items, current, tmp) {
+        assert(SUCCESS == copy_item_to_hash(&res->items, roomspec->items, roomspec->room_name));
+    }
+    // res->items = roomspec->items;
     res->paths = NULL;
 
     return res;
 }
 
 /* See autogenerate.h */
-int room_generate(game_t *game, gencontext_t *context)
+int room_generate(game_t *game, gencontext_t *context, char *room_id)
 {
     /* Implement simple single-room autogeneration */
     if (!any_paths(game->curr_room)) 
     {
         // Adds one generated room from the head of the speclist only
-        room_t *new_room = roomspec_to_room(game, context->speclist->spec);
+        room_t *new_room = roomspec_to_room(game, context->speclist->spec, room_id);
 
         // Add addRoom to gameNew
         assert(SUCCESS == add_room_to_game(game, new_room));
@@ -55,7 +60,7 @@ int room_generate(game_t *game, gencontext_t *context)
 }
 
 /* See autogenerate.h */
-int multi_room_generate(game_t *game, gencontext_t *context)
+int multi_room_generate(game_t *game, gencontext_t *context, char *room_id)
 {
     /* If game->curr_room is not a dead end or there are no roomspec_t elements 
      * in context->speclist, then do not autogenerate */
@@ -64,18 +69,12 @@ int multi_room_generate(game_t *game, gencontext_t *context)
         return FAILURE;
     }
 
-    // Save the head of the context's speclist
-    speclist_t *speclist_head = context->speclist;
-
-    while (context->speclist != NULL) {
-        room_generate(game, context);
-
-        // Go to next roomspec in context->speclist
-        context->speclist = context->speclist->next;
+    // Iterate through the speclist field, generating and adding rooms for each
+    speclist_t *tmp;
+    DL_FOREACH(context->speclist, tmp)
+    {
+        room_generate(game, context, room_id);
     }
-
-    // Restore the original head of context->speclist
-    context->speclist = speclist_head;
 
     return SUCCESS;
 }
