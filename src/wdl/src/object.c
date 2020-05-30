@@ -1,5 +1,23 @@
 #include "wdl/object.h"
 
+/* See wdl/object.h for documentation */
+object_t* new_object(char *id)
+{
+    return NULL;
+}
+
+/* See wdl/object.h for documentation */
+int init_object(object_t *obj, char *id)
+{
+    return 0;
+}
+
+/* See wdl/object.h for documentation */
+int obj_free(object_t *obj)
+{
+    return 0;
+}
+
 /*
  * Helper function for
  * get_object_wdl: retrieves an object from a .wdz archive.
@@ -11,13 +29,13 @@
  * returns:
  *   - a pointer to the requested object as a obj_t struct member.
  */
-obj_t* get_object_wdl(objtype_t type, char* id)
+object_t* get_object_wdl(objtype_t type, char* id)
 {
     return NULL;
 }
 
 /* See wdl/object.h for documentation */
-obj_t* get_object(char* type, char* id)
+object_t* get_object(char* type, char* id)
 {
     return NULL;
 }
