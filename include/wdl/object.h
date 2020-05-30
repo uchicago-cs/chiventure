@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "common/uthash.h"
+#include "common/utlist"
 #define MAXLEN_ID 60 // ID strings for objects
 
 /*
@@ -39,55 +40,31 @@ typedef enum assettype
 
 typedef struct obj obj_t; // forward declaration so attribute_t can use
 
-<<<<<<< HEAD:src/libobj/sandbox/sample_obj_documentation.h
- 
-//data stored in the attribute
-typedef union attrdata {
-=======
 /* 
  * a union representing the information that can be stored in an attribute
  */
 union attr_data
 {
->>>>>>> wdl/libobj-interface:include/wdl/object.h
     bool b;
     char c;
     char *s;
     char **sl;
     int i;
     obj_t *o;
-<<<<<<< HEAD:src/libobj/sandbox/sample_obj_documentation.h
-} attrdata_t;
-
-/* attribute_t
- * 
- * params:
- *   - id: the attribute's id.
- *   - data: the information stored in the attribute.
- *   -
-=======
 };
 
 /*
  * attribute_t: the attributes stored within an object
->>>>>>> wdl/libobj-interface:include/wdl/object.h
  */
 typedef struct attr
 {
     //the attribute's id.
     char id[MAXLEN_ID + 1];
-<<<<<<< HEAD:src/libobj/sandbox/sample_obj_documentation.h
-
-    attrdata_t data;
-    
-    // Required uthash identifier for making the hash table
-=======
    
     //the information stored in the attribute
     union attr_data data;
 
     //Required uthash indentifier for making the hash table
->>>>>>> wdl/libobj-interface:include/wdl/object.h
     UT_hash_handle hh;
 
 } attribute_t;

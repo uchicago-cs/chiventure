@@ -1,7 +1,7 @@
 #include "wdl/attributes.h"
 
 /* See attributes.h for documentation */
-attribute_t *new_attr(char *id, attrdata_t d)
+attribute_t *new_attr(char *id, union attr_data d, attribute_t *next, attribute_t *prev)
 {
     if (id == NULL) {
         return NULL;
@@ -12,6 +12,8 @@ attribute_t *new_attr(char *id, attrdata_t d)
 
     strcpy(new->id, id);
     new->data = d;
+    new->prev = NULL;
+    new->next = NULL;
     return new;
 }
 
@@ -28,20 +30,26 @@ attribute_t *find_attr(attribute_t **attrs, char *id)
 }
 
 /* See attributes.h for documentation */
-int add_attr(attribute_t **attrs, char *id, attrdata_t d)
+int add_attr(attribute_t **attrs, char *id, union attr_data d)
 {
     if (id == NULL) {
         return FAILURE;
     }
     attribute_t *new = find_attr(attrs, id); // see if key already exists in hash
     if (new == NULL) {
-        new =  new_attr(id, d);
+        new =  new_attr(id, d, next, prev);
         if (new == NULL) return FAILURE;
         HASH_ADD(hh, *attrs, id, sizeof(id), new);
     } else {
         new->data = d;
     }
     return SUCCESS;
+}
+
+attribute_t *append_attr(attribute_t *head, attribute_t *new)
+{
+    DL_APPEND(head, new);
+    return head;
 }
 
 /* See attributes.h for documentation */

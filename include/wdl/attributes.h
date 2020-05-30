@@ -1,4 +1,4 @@
-#include "../../src/libobj/sandbox/sample_obj_documentation.h"
+#include "wdl/object.h"
 #include "common/common.h"
 
 #ifndef INCLUDE_ATTRIBUTES_H
@@ -34,7 +34,7 @@ typedef struct attribute
  *   - data: atrr data
  * returns: ptr to new attribute_t
  */
-attribute_t *new_attr(char *id, attrdata_t d);
+attribute_t *new_attr(char *id, union attr_data d);
 
 /* find_attr - given id, find attribute in hash
  *
@@ -53,7 +53,15 @@ attribute_t *find_attr(attribute_t **attrs, char *id);
  *   - data: atrr data
  * returns: SUCCESS on completion, else FAILURE
  */
-int add_attr(attribute_t **attrs, char *id, attrdata_t d);
+int add_attr(attribute_t **attrs, char *id, union attr_data d);
+
+/* append_attr - appends attr to head of attr list
+ * 
+ * params:
+ *   - head: ptr to head of list
+ *   - new: element to be appended
+ */
+attribute_t *append_attr(attribute_t *head, attribute_t *new);
 
 /* free_attr - frees & deletes attr from hash table
  *
