@@ -1,4 +1,4 @@
-#include "../../../include/wdl/attributes.h"
+#include "wdl/attributes.h"
 
 /* See attributes.h for documentation */
 attribute_t *new_attr(char *id, attrdata_t d)

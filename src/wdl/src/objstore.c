@@ -1,4 +1,4 @@
-#include "../../../include/wdl/objstore.h"
+#include "wdl/objstore.h"
 
 // objstore_t *obj_store = NULL;
 

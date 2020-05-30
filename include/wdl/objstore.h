@@ -1,5 +1,5 @@
 #include "../../src/libobj/sandbox/sample_obj_documentation.h"
-#include "../common/common.h"
+#include "common/common.h"
 
 #ifndef INCLUDE_OBJ_STORE_H
 #define INCLUDE_OBJ_STORE_H

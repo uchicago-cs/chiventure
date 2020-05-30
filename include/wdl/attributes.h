@@ -1,5 +1,5 @@
 #include "../../src/libobj/sandbox/sample_obj_documentation.h"
-#include "../common/common.h"
+#include "common/common.h"
 
 #ifndef INCLUDE_ATTRIBUTES_H
 #define INCLUDE_ATTRIBUTES_H
