@@ -3,7 +3,9 @@ add_library(wdl
             src/load_item.c
             src/load_room.c
             src/parse.c
-            src/validate.c)
+            src/validate.c
+            src/load_wdz.c
+            src/miniz-zip.c)
 
 target_include_directories(wdl PRIVATE src/)
 
