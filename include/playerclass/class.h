@@ -24,9 +24,9 @@
  *  - a pointer to the allocated class memory
  *  - NULL on error
  */
-class_t* class_new(char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_t* stat, skilltree_t* skilltree,
-                   skill_t* combat, skill_t* noncombat);
+class_t* class_new(char* name, char* shortdesc, char* longdesc, obj_t* attr,
+                   stats_stub_t* stat, skilltree_stub_t* skilltree,
+                   skill_inventory_t* combat, skill_inventory_t* noncombat);
 
 /* 
  * Initializes values for a player class. Only creates a deep copies of the 
@@ -46,8 +46,8 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
  *  - EXIT_FAILURE otherwise
  */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
-               obj_t* attr, stats_t* stat, skilltree_t* skilltree,
-               skill_t* combat, skill_t* noncombat);
+               obj_t* attr, stats_stub_t* stat, skilltree_stub_t* skilltree,
+               skill_inventory_t* combat, skill_inventory_t* noncombat);
 
 /*
  * Frees a class and strings created by class_new.

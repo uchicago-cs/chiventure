@@ -7,6 +7,7 @@
 
 #include "libobj/obj.h"
 #include "common/utlist.h"
+#include "skilltrees/skilltrees.h"
 
 // max name length
 #define MAX_NAME_LEN (20)
@@ -18,19 +19,15 @@
 #define MAX_LONG_DESC_LEN (300)
 
 // playerstats stub
-typedef struct stats {
+typedef struct stats_stub {
     obj_t* stat;
-} stats_t;
+} stats_stub_t;
 
 // skilltrees stub
-typedef struct skilltree {
+typedef struct skilltree_stub {
     obj_t* skilltree;
-} skilltree_t;
+} skilltree_stub_t;
 
-// actions stub
-typedef struct skill {
-    obj_t* skill;
-} skill_t;
 
 /* A player class struct storing the name, descriptions, attributes, 
  * and stats */
@@ -48,16 +45,16 @@ typedef struct class {
     obj_t* attributes;
 
     // All the stats of the class
-    stats_t* stats;
+    stats_stub_t* stats;
 
     // Class skilltree
-    skilltree_t* skilltree;
+    skilltree_stub_t* skilltree;
 
     // Class combat actions
-    skill_t* combat;
+    skill_inventory_t* combat;
 
     // Class noncombat actions
-    skill_t* noncombat;
+    skill_inventory_t* noncombat;
 
 } class_t;
 

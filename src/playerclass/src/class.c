@@ -14,8 +14,8 @@
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_t* stat, skilltree_t* skilltree,
-                   skill_t* combat, skill_t* noncombat)
+                   obj_t* attr, stats_stub_t* stat, skilltree_stub_t* skilltree,
+                   skill_inventory_t* combat, skill_inventory_t* noncombat)
 {
     int rc;
     class_t* c;
@@ -39,8 +39,8 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
 
 /* See class.h */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_t* stat, skilltree_t* skilltree,
-                   skill_t* combat, skill_t* noncombat)
+                   obj_t* attr, stats_stub_t* stat, skilltree_stub_t* skilltree,
+                   skill_inventory_t* combat, skill_inventory_t* noncombat)
 {
     if (class == NULL)
     {
