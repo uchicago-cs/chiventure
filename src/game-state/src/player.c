@@ -44,7 +44,7 @@ int player_free(player_t* plyr)
     assert(plyr != NULL);
 
     free(plyr->player_id);
-    //delete_all_items(&(plyr->inventory));
+    delete_all_items(&(plyr->inventory));
 
     free(plyr);
 
