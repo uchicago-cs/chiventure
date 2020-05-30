@@ -58,7 +58,24 @@ int npc_free(npc_t *npc)
 }
 
 /* See npc.h */
+char* get_sdesc_npc(npc_t *npc)
+{
+    if (npc == NULL)
+    {
+        return NULL;
+    }
+    return npc->short_desc;
+}
 
+/* See npc.h */
+char* get_sdesc_npc(npc_t *npc)
+{
+    if (npc == NULL)
+    {
+        return NULL;
+    }
+    return npc->long_desc;
+}
 
 /* See npc.h */
 int get_npc_health(npc_t *npc)
