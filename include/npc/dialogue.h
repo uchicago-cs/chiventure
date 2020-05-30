@@ -22,9 +22,11 @@ void print_red(char *str);
 /*
  * Prints a string in NPC dialogue format: gold by default and yellow for
  * text surrounded by #hashes# to denote dialogue choices.
+ * 
  * Parameters:
  *  - dialogue: the string to be printed in NPC format
- * Returns: nothing
+ * 
+ * Returns: None
  */
 void npc_print(char *dialogue);
 
