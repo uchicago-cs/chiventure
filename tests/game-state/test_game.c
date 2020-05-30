@@ -335,6 +335,71 @@ Test(game_end_condition, end_conditions_met)
     cr_assert_eq(test_5, true, "end_conditions_met() does not return true when all end conditions are met");
 }
 
+/* Checks that is_game_over properly assess when
+ * a chiventure game is over.
+ */ 
+Test(game_end_condition, is_game_over)
+{
+    /* Initialization */
+    bool test;
+    game_t *game = game_new("Welcome to Chiventure!");
+    
+    attribute_value_t expected, unexpected;
+    expected.str_val = "Valid_Value";
+    unexpected.str_val = "Invalid_Value";
+    
+    item_t *test_item = item_new("test_item", 
+    "test item for is_game_over",
+    "item for testing is_game_over()");
+    set_str_attr(test_item, "Test_Attribute", unexpected.str_val);
+    add_item_to_game(game, test_item);
+    
+    game_action_condition_t *condition = malloc(sizeof(game_action_condition_t));
+    condition->item = test_item;
+    condition->attribute_to_check = get_attribute(test_item, "Test_Attribute");
+    condition->expected_value = expected;
+    
+    room_t *test_room1 = room_new("test_room1", "room1 short", "room1 long long long");
+    room_t *test_room2 = room_new("test_room2", "room2 short", "room2 long long long");
+    
+    add_item_to_game(game, test_item);
+    add_room_to_game(game, test_room1);
+    add_room_to_game(game, test_room2);
+    game->curr_room = test_room1;
+    
+    /* Test game w/ no final room or end conditions */
+    test = is_game_over(game);
+    cr_assert_eq(test, false, "is_game_over() returns true no final room or "
+                 "end conditions exist");
+
+    
+    
+    // add two rooms to game, set one as cur room & one as final room
+    // test - game w/ final room but not in
+    // move to final room
+    // test - game w/ final room, in
+    
+    // set final room to NULL
+    // do a printf here initially just to be safe
+    // add end condition to game
+    // test - game w/ end condition not met
+    // set end condition to expected
+    // test - game w/ end condition met
+    
+    // set final room to room1 (not in)
+    // set end condition to not expected
+    // test - game w/ both, neither met
+    // move to final room
+    // test - game w/ both, final room in
+    // move out of final room
+    // set end condition to expected
+    // test - game w/ both, end condition met
+    // move to final room
+    // test - game w/ both, both met
+    
+    // free everything
+}
+
 Test(iter_macro, iter_rooms)
 {
     game_t *game = game_new("Welcome to Chiventure!");

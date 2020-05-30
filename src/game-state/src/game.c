@@ -146,15 +146,15 @@ bool end_conditions_met(game_t *game)
 /* See game.h */
 bool is_game_over(game_t *game)
 {
-    bool case1, case2, case3;
+    bool end_case1, end_case2, end_case3;
     
-    case1 = game->final_room != NULL && game->final_room == game->curr_room && 
+    end_case1 = game->final_room != NULL && game->final_room == game->curr_room && 
             end_conditions_met(game);
-    case2 = game->final_room != NULL && game->final_room == game->curr_room && 
+    end_case2 = game->final_room != NULL && game->final_room == game->curr_room && 
             game->end_conditions == NULL;
-    case3 = game->final_room == NULL && end_conditions_met(game);
+    end_case3 = game->final_room == NULL && end_conditions_met(game);
     
-    return case1 || case2 || case3;
+    return end_case1 || end_case2 || end_case3;
 }
 
 /* See game.h */
