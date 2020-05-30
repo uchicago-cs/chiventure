@@ -41,8 +41,11 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     value.int_val = 1;
     add_action_effect(ga, indirect, attr, value);
 
+    player_t *player = player_new("player1", 20);
+
     switch (choose_condition)
     {
+    // Attribute conditional tests
     case 1:
         set_int_attr(indirect, "DUMMYCONDITON", 0);
         attr = get_attribute(indirect, "DUMMYCONDITON");
@@ -62,6 +65,32 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         add_action_condition(ga, indirect, attr, value);
         break;
     case 4:
+        set_int_attr(indirect, "DUMMYCONDITON", 1);
+        attr = get_attribute(indirect, "DUMMYCONDITON");
+        value.int_val = 0;
+        add_action_condition(ga, indirect, attr, value);
+        break;
+    
+    // Inventory conditional tests
+    case 5:
+        set_int_attr(indirect, "DUMMYCONDITON", 0);
+        attr = get_attribute(indirect, "DUMMYCONDITON");
+        value.int_val = 0;
+        add_action_condition(ga, indirect, attr, value);
+        break;
+    case 6:
+        set_int_attr(direct, "DUMMYCONDITON", 1);
+        attr = get_attribute(direct, "DUMMYCONDITON");
+        value.int_val = 0;
+        add_action_condition(ga, direct, attr, value);
+        break;
+    case 7:
+        set_int_attr(indirect, "DUMMYCONDITON", 0);
+        attr = get_attribute(indirect, "DUMMYCONDITON");
+        value.int_val = 0;
+        add_action_condition(ga, indirect, attr, value);
+        break;
+    case 8:
         set_int_attr(indirect, "DUMMYCONDITON", 1);
         attr = get_attribute(indirect, "DUMMYCONDITON");
         value.int_val = 0;
@@ -151,6 +180,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     item_free(indirect);
     action_type_free(a);
     game_action_free(ga);
+    player_free(player);
 
     return rc;
 }
