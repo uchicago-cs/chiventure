@@ -66,6 +66,14 @@ typedef struct attr
     //Required uthash indentifier for making the hash table
     UT_hash_handle hh;
 
+    /* 
+     * Next attribute, in the case where this is a utlist of attributes.
+     * This adds support for lists with different-typed elements as an attribute.
+     * Will be NULL for standalone attributes not part of a list.
+     */
+    struct attr *next;
+    struct attr *prev;
+
 } attribute_t;
 
 /*
