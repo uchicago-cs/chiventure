@@ -41,7 +41,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     value.int_val = 1;
     add_action_effect(ga, indirect, attr, value);
 
-    player_t *player = player_new("player1", 20);
+    char *player_id = malloc(sizeof(char) * 8);
+    strcpy(player_id, "player1");
+    player_t *player = player_new(player_id, 20);
 
     switch (choose_condition)
     {
@@ -166,7 +168,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     item_free(indirect);
     action_type_free(a);
     game_action_free(ga);
-    //player_free(player);
+    player_free(player);
 
     return rc;
 }
