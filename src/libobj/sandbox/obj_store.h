@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-#include "wdl/object.h"
-#include "common/common.h"
-=======
-#include "../../src/libobj/sandbox/sample_obj_documentation.h"
-#include "../common/common.h"
->>>>>>> d131d490b8cc815c8a34e483c850b2bb3ed1bd3f
+#include "sample_obj_documentation.h"
+#include "../../../include/common/common.h"
 
-#ifndef INCLUDE_OBJSTORE_H
-#define INCLUDE_OBJSTORE_H
+#ifndef INCLUDE_OBJ_STORE_H
+#define INCLUDE_OBJ_STORE_H
 
 /* key_t: key struct for hash table - a wrapper for id and type of obj
  * params:
@@ -31,6 +26,18 @@ typedef struct objstore {
     UT_hash_handle hh;
 } objstore_t; 
 
+/*
+ * find_objstore: finds objstore item containing object with given type & id
+ *
+ * params: 
+ *   - type: the type of the object corresponding to its .wdz subfile.
+ *   - id: the object's id.
+ * 
+ * returns:
+ *   - a pointer to the requested objstore item
+ */
+objstore_t* find_objstore(objtype_t type, char* id);
+
 /* 
  * objstore_new: given type, id, and pointer to object, allocate and init objstore item
  *
@@ -40,46 +47,23 @@ typedef struct objstore {
  */
 objstore_t *new_objstore(obj_t *o);
 
-/*
- * find_objstore: finds objstore item containing object with given type & id
- *
- * params: 
- *   - obj_store: double ptr to hash
- *   - type: the type of the object corresponding to its .wdz subfile.
- *   - id: the object's id.
- * 
- * returns:
- *   - a pointer to the requested objstore item
- */
-objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type);
-
 /* 
  * add_obj: given unique object, add to obj_store hash table 
  *          (else modify existing item to point to new object)
  *
  * params:
- *   - obj_store: double ptr to hash
  *   - o: object to add to hash
- * returns: SUCCESS on completion
+ * returns: SUCCESS on completion, else FAILURE
  */
-int add_objstore(objstore_t **obj_store, obj_t *o);
+int add_objstore(obj_t *o);
 
 /*
- * free_objstore: deletes & frees a given objstore struct
+ * free_objstore: frees a given objstore struct
  * 
  * params:
  *   - store - objstore item
  * returns: SUCCESS
  */
-int free_objstore(objstore_t **obj_store, objstore_t *store);
-
-/* 
- * free_all: deletes & frees entire objectstore_t hash (including objects)
- * 
- * params:
- *   - object_store - objstore hash
- * returns: SUCCESS
- */
-int free_all(objstore_t **object_store);
+int free_objstore(objstore_t *store);
 
 #endif
