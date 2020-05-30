@@ -11,6 +11,8 @@ typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
     char *npc_id;
+    char *short_desc;
+    char *long_desc;
     int health;
     // convo_t *dialogue;  placeholder for incoming dialogue module
     item_hash_t *inventory;
@@ -40,7 +42,8 @@ typedef struct npc npc_hash_t;
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
-int npc_init(npc_t *npc, char *npc_id, int health, stats_t *stats);
+int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
+             int health, stats_t *stats);
 
 
 /*
@@ -56,7 +59,8 @@ int npc_init(npc_t *npc, char *npc_id, int health, stats_t *stats);
  * Returns:
  *  pointer to allocated npc
  */
- npc_t* npc_new(char *npc_id, int health, stats_t *stats);
+npc_t* npc_new(char *npc_id, char *short_desc, char *long_desc, 
+                int health, stats_t *stats);
 
 
 /*
@@ -69,6 +73,30 @@ int npc_init(npc_t *npc, char *npc_id, int health, stats_t *stats);
  *  SUCCESS if successful, FAILURE if an error occurs
  */
 int npc_free(npc_t *npc);
+
+
+/* 
+ * Gets short description of npc.
+ *
+ * Parameters:
+ *  npc: the npc
+ *
+ * Returns:
+ *  short description string, NULL if npc is NULL
+ */
+char* get_sdesc_npc(npc_t *npc);
+
+
+/* 
+ * Gets long description of npc.
+ *
+ * Parameters:
+ *  npc: the npc
+ *
+ * Returns:
+ *  long description string, NULL if npc is NULL
+ */
+char* get_ldesc_npc(npc_t *npc);
 
 
 /*
