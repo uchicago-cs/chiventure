@@ -342,48 +342,4 @@ int global_effect_free(effects_global_t *effect);
  */
 int delete_all_global_effects(effects_global_hash_t *effects);
 
-/*
- * Frees a single player effects struct
- *
- * Parameters: 
- * effects: pointer to the effects struct to be freed
- * 
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int effect_free(stat_effect_t *effect);
-
-/*
- * Frees a player effects hash table
- *
- * Parameters: 
- * effects: pointer to the effects hash table to be freed
- * 
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int delete_all_effects(effects_hash_t *effects);
-
-/*
- * Frees a single global effect struct
- *
- * Parameters: 
- * effect: pointer to an effect struct
- * 
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int global_effect_free(effects_global_t *effect);
-
-/*
- * Frees a global effects hash table
- *
- * Parameters: 
- * effects: pointer to the effects hash table to be freed
- * 
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int delete_all_global_effects(effects_global_hash_t *effects);
-
 #endif
