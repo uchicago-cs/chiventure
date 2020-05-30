@@ -45,6 +45,7 @@ int effect_init(stat_effects_t *effect, effects_global_t *global)
 {
     assert(effect != NULL);
 
+    effect->key = strdup(global->name);
     effect->global = global;
     effect->stat_list = NULL;
 
@@ -154,6 +155,8 @@ int effect_free(stat_effects_t *effect)
         free(current);
         current = next;
     }
+
+    free(effect->key);
 
     free(effect);
 }

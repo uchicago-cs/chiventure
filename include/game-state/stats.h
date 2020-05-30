@@ -81,6 +81,8 @@ typedef struct stat_mod {
   *      the name of the effect,
   *      which is also the key to the hashtable
   *
+  *      a pointer to the related global effect
+  *
   *      a bool checking if the effect is activated
   *
   *      the duration of the effect
@@ -89,6 +91,7 @@ typedef struct stat_mod {
   *      and the modifier value for each stat
   * */
 typedef struct effects{
+    char *key; //key for hashtable (should be same as name of effect)
     effects_global_t *global;
     stat_mod_t *stat_list;
     UT_hash_handle hh; 
