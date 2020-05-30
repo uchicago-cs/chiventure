@@ -83,6 +83,24 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         add_item_to_player(player, direct);
         add_action_inventory_condition(ga, player, indirect);
         break;
+
+    // Testing multiple conditions
+    case 7:
+        add_item_to_player(player, direct);
+        add_action_inventory_condition(ga, player, direct);
+
+        set_int_attr(indirect, "DUMMYCONDITON", 0);
+        attr = get_attribute(indirect, "DUMMYCONDITON");
+        value.int_val = 0;
+        add_action_condition(ga, indirect, attr, value);
+        break;
+    case 8:
+        add_item_to_player(player, direct);
+        add_action_inventory_condition(ga, player, direct);
+
+        add_item_to_player(player, indirect);
+        add_action_inventory_condition(ga, player, indirect);
+        break;
     default:
         break;
     }
@@ -295,7 +313,7 @@ Test(item_item_actions, inv_conditions_met)
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 5, 0);
 
     cr_assert_eq(rc, SUCCESS,
-                 "execute_do_item_item_action returned %d for conditons met for indirect item attribute, expected SUCCESS (0)", rc);
+                 "execute_do_item_item_action returned %d for conditons met for item in inventory, expected SUCCESS (0)", rc);
 }
 
 Test(item_item_actions, inv_conditions_not_met)
@@ -303,5 +321,20 @@ Test(item_item_actions, inv_conditions_not_met)
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 6, 0);
 
     cr_assert_eq(rc, CONDITIONS_NOT_MET,
-                 "execute_do_item_item_action returned %d for conditons not met for indirect item attribute, expected CONDITIONS_NOT_MET (4)", rc);
+                 "execute_do_item_item_action returned %d for conditons not met for item in inventory, expected CONDITIONS_NOT_MET (4)", rc);
+}
+Test(item_item_actions, attr_and_inv_conditions_met)
+{
+    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 7, 0);
+
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for attribute and inventory conditons met, expected SUCCESS (0)", rc);
+}
+
+Test(item_item_actions, two_inv_conditions_met)
+{
+    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 7, 0);
+
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for two inventory conditons met, expected SUCCESS (0)", rc);
 }
