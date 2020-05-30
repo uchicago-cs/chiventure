@@ -1,5 +1,6 @@
 #include "../../include/npc/dialogue.h"
 
+const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 /*
  * Builds an in-memory fake game mock-up
  * to be run through and then executes functions to explore it
@@ -8,7 +9,7 @@ int dia_main()
 {
     system("clear");
 
-    print_red("\nWelcome to Chiventure's 'Dialog Module' Mockup!\n\n\n");
+    print_red("\nWelcome to Chiventure's 'Dialogue Module' Mockup!\n\n\n");
 
     printf("As the door creaks open, a strong musty scent smacks "
            "you in the face, filled with tones of mildew and copper. "
