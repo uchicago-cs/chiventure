@@ -370,7 +370,7 @@ Test(game_end_condition, is_game_over)
     cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
                  "no final room or end conditions exist");
     
-    /* Test game w/final room but no end conditions */
+    /* Test game w/ final room but no end conditions */
     add_final_room_to_game(game, test_room2);
     cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
                  "player has yet to reach final room & no end conditions exist");
@@ -378,12 +378,15 @@ Test(game_end_condition, is_game_over)
     cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
                  "player has reached final room & no end conditions exist");
     
-    // set final room to NULL
-    // do a printf here initially just to be safe
-    // add end condition to game
-    // test - game w/ end condition not met
-    // set end condition to expected
-    // test - game w/ end condition met
+    /* Test game w/ end conditions but no final room */
+    game->final_room = NULL;
+    add_end_condition_to_game(game, condition);
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "end conditions have not been met & no final room exists");
+    set_str_attr(test_item, "Test_Attribute", expected.str_val);
+    cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
+                 "end conditions have been met & no final room exists");
+    
     
     // set final room to room1 (not in)
     // set end condition to not expected
