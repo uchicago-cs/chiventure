@@ -41,7 +41,7 @@ effects_global_t *global_effect_new(char *effect_name)
 }
 
 /* See stats.h */
-int effect_init(stat_effects_t *effect, effects_global_t *global)
+int effect_init(stat_effect_t *effect, effects_global_t *global)
 {
     assert(effect != NULL);
 
@@ -53,9 +53,9 @@ int effect_init(stat_effects_t *effect, effects_global_t *global)
 }
 
 /* See stats.h */
-stat_effects_t *effect_new(effects_global_t *global)
+stat_effect_t *effect_new(effects_global_t *global)
 {
-    stat_effects_t *effect = malloc(sizeof(stat_effects_t));
+    stat_effect_t *effect = malloc(sizeof(stat_effect_t));
 
     int check = effect_init(effect, global);
     
@@ -142,7 +142,7 @@ int free_stats(stats_hash_t *s)
 }
 
 /* See stats.h */
-int effect_free(stat_effects_t *effect)
+int effect_free(stat_effect_t *effect)
 {
     assert(effect != NULL);
 
@@ -164,7 +164,7 @@ int effect_free(stat_effects_t *effect)
 /* See stats.h */
 int delete_all_effects(effects_hash_t *effects)
 {
-    stat_effects_t *current_effect, *tmp;
+    stat_effect_t *current_effect, *tmp;
 
     HASH_ITER(hh, effects, current_effect, tmp)
     {

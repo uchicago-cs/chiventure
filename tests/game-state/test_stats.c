@@ -99,7 +99,7 @@ Test (stats, stat_effect_init)
     effects_global_t *global = global_effect_new("speed");
     cr_assert_not_null(global, "global_effect_new failed");
 
-    stat_effects_t effect;
+    stat_effect_t effect;
 
     int rc = effect_init(&effect, global);
 
@@ -114,7 +114,7 @@ Test (stats, stat_effect_new)
     effects_global_t *global = global_effect_new("health");
     cr_assert_not_null(global, "global_effect_new failed");
 
-    stats_effect_t *effect = effect_new(global);
+    stat_effect_t *effect = effect_new(global);
 
     cr_assert_not_null(effect, "effect_new failed");
     cr_assert_str_eq(effect->key, global->name, "effect_new did not set key");
