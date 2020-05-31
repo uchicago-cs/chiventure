@@ -260,11 +260,12 @@ int add_edge(node_t *n, edge_t *e);
  * Parameters:
  *  - n: the node that player is currently on
  *  - input: the player-inputted command
+ *  - farewell: ending string of convo
  * 
  * Returns:
  *  - pointer to the matching edge on success, NULL otherwise
  */
-edge_t *read_input(node_t *n, char *input);
+edge_t *read_input(node_t *n, char *input, char *farewell);
 
 /*
  * Asks for input and traverses to the edge specified by the input's index.
@@ -272,20 +273,22 @@ edge_t *read_input(node_t *n, char *input);
  * 
  * Parameters:
  *  - n: the node that the player is currently on
+ *  - farewell: ending string of convo
  * 
  * Returns:
  *  - pointer to the new curent node on success, NULL otherwise
  */
-node_t *traverse_edge(node_t *n);
+node_t *traverse_edge(node_t *n, char *farewell);
 
 /*
  * Ends the conversation, exiting npc dialogue mode.
  * 
- * Parameters: None.
+ * Parameters:
+ *  - farewell: ending string of convo
  * 
  * Returns: None.
  */
-void end_convo();
+void end_convo(char *farewell);
 
 /*
  * Runs the entire conversation until it reaches an end.
