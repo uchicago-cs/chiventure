@@ -39,7 +39,7 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
 
 /* See class.h */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
-	       obj_t* attr, stats_hash_t* stat, effects_hash_t* effect,
+               obj_t* attr, stats_hash_t* stat, effects_hash_t* effect,
                skilltree_t* skilltree, skill_t* combat, skill_t* noncombat)
 {
     if (class == NULL)
