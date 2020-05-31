@@ -50,7 +50,7 @@ Test(battle_flow, set_one_enemy)
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-				    NULL, NULL, NULL, NULL, NULL, NULL);
+                                    NULL, NULL, NULL, NULL, NULL, NULL);
 
     npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name",
                                             test_class, NULL, NULL, NULL);
