@@ -147,7 +147,10 @@ Test(autogenerate, roomspec_to_room3)
 {   
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
 
-    roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", sample_item);
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
+
+    roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", sample_room1->items);
     game_t *g = game_new("start desc");
     room_t *room = roomspec_to_room(g, r, "sample_room_id");
 
@@ -164,7 +167,7 @@ Test(autogenerate, roomspec_to_room3)
     cr_assert_eq(strcmp(room->room_id, "sample_room_id"), 0, "roomspec_new(): room_id not set");
 
     bool t1, t2;
-    t1 = (room->items == sample_item);
+    t1 = (room->items != sample_room1->items); // Deep copy
     t2 = (room->paths == NULL);
 
     cr_assert_eq(t1, true, "room->items not set by roomspec_to_room()");
@@ -178,11 +181,12 @@ Test(autogenerate, roomspec_to_room4)
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
 
     room_t *sample_room1 = room_new("string1", "string2", "string3");
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
 
-    roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", sample_item);
+    roomspec_t *r = roomspec_new("sample room name", "short desc", "long desc", sample_room1->items);
     game_t *g = game_new("start desc");
     room_t *room = roomspec_to_room(g, r, "sample_room_id");
 
@@ -199,7 +203,7 @@ Test(autogenerate, roomspec_to_room4)
     cr_assert_eq(strcmp(room->room_id, "sample_room_id"), 0, "roomspec_new(): room_id not set");
 
     bool t1, t2;
-    t1 = (room->items == sample_item);
+    t1 = (room->items != sample_item); // Deep copy
     t2 = (room->paths == NULL);
 
     cr_assert_eq(t1, true, "room->items not set by roomspec_to_room()");
@@ -306,6 +310,8 @@ Test(autogenerate, room_generate_success_one)
 
     room_t *sample_room1 = room_new("string1", "string2", "string3");
 
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
+
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
 
@@ -339,6 +345,8 @@ Test(autogenerate, room_generate_success_two)
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
 
     room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
@@ -384,6 +392,8 @@ Test(autogenerate, room_generate_success_three)
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
 
     room_t *sample_room1 = room_new("string1", "string2", "string3");
+
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "to sample_room1");
@@ -487,6 +497,8 @@ Test(autogenerate, valid_multi_room1)
 
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
 
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
+
     roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
@@ -526,6 +538,8 @@ Test(autogenerate, valid_multi_room2)
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
 
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
@@ -577,6 +591,8 @@ Test(autogenerate, valid_multi_room3)
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
 
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
