@@ -13,7 +13,7 @@ typedef struct move_list {
     char* spell;
     int damage;
     int id;
-    struct class_list *next;
+    struct move_list *next;
 } move_list_t;
 
 /* Returns a hard-coded linked list with the class, spell name, damage, 
@@ -43,6 +43,7 @@ move_list_t* move_list() {
     bardlist->spell = "Diss Track";
     bardlist->damage = 8;
     bardlist->id = 0;
+    bardlist->next = NULL;
     
     // Wizard
 
