@@ -12,7 +12,8 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environ
 
     // Set player, enemies, and battle structs for a new battle
     battle_t *b = set_battle(player, npc_enemies, env);
-
+    
+    g->battle = b;
     return SUCCESS;
 }
 
@@ -57,7 +58,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         DL_APPEND(head, comb_enemy);
     }
     return head;
-};
+}
 
 /* see battle_flow.h */
 battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment_t env)
@@ -72,4 +73,61 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment
     assert(b != NULL);
 
     return b;
-};
+}
+
+/* see battle_flow.h */
+chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
+{
+    battle_t *b = ctx->game->battle;
+
+    /* the following 3 if statements are stubs, error handling must be clarified
+       with custom actions at a later date */
+    if(ctx == NULL)
+    {
+        return NULL;
+    }
+
+    if(move == NULL)
+    {
+        return ctx;
+    }
+
+    if(target == NULL)
+    {
+        return ctx;
+    }
+
+    combatant_t *enemy = check_target(b, target);
+    if(enemy == NULL)
+    {
+        /* print stub: should tell player that their target was invalid
+           battle_flow then returns the original, unmodified ctx and waits
+           for the next move */
+        return ctx;
+    }
+
+    /* move stub, battle_flow should call either a custom action block or a
+       function that works with a move_t struct */
+    b->enemy->stats->hp -= move->damage;
+
+    if(battle_over(b) == BATTLE_VICTOR_PLAYER)
+    {
+        /* print stub: should tell player they won */
+        award_xp(b->player->stats, 2.0);    
+
+        return NULL;
+    }
+
+    move_t *enemy_move = give_move(b->player, b->enemy, BATTLE_AI_GREEDY);
+    /* move stub, battle_flow should call either a custom action block or a
+       function that works with a move_t struct */
+    b->player->stats->hp -= move->damage;
+
+    if(battle_over(b) == BATTLE_VICTOR_ENEMY)
+    {
+        /* print stub: should tell player they lost */
+        return NULL;
+    }
+
+    return ctx;
+}
