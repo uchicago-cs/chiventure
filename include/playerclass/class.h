@@ -27,7 +27,7 @@
  */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
                    obj_t* attr, stats_hash_t* stat, effects_hash_t* effect,
-		   skilltree_t* skilltree, skill_t* combat, skill_t* noncombat);
+                   skilltree_t* skilltree, skill_t* combat, skill_t* noncombat);
 
 /* 
  * Initializes values for a player class. Only creates a deep copies of the 
@@ -49,7 +49,7 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
  */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
                obj_t* attr, stats_hash_t* stat, effects_hash_t* effect,
-	       skilltree_t* skilltree, skill_t* combat, skill_t* noncombat);
+               skilltree_t* skilltree, skill_t* combat, skill_t* noncombat);
 
 /*
  * Frees a class and strings created by class_new.
