@@ -6,6 +6,7 @@
 #define MAX_DIA_LEN 500
 #define MAX_KEY_LEN 30
 #define MAX_QUIP_LEN 100
+#define MAX_FW_LEN 50
 
 
 // BASIC PRINTING FUNCTIONS ---------------------------------------------------
@@ -26,7 +27,7 @@ void print_red(char *str);
  * Parameters:
  *  - dialogue: the string to be printed in NPC format
  * 
- * Returns: None
+ * Returns: None.
  */
 void npc_print(char *dialogue);
 
@@ -91,10 +92,12 @@ typedef struct node_list {
  * A struct to represent a conversation.
  * 
  * Includes:
+ *  - farewell: string that prints when the conversation is ended
  *  - node_count: the number of nodes the convo currently has
  *  - nodes: a linked list of node pointers (list of included nodes)
  */
 typedef struct convo {
+    char *farewell;
     int node_count;
     node_list_t *nodes;
 } convo_t;
@@ -103,14 +106,27 @@ typedef struct convo {
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
 /*
- * Allocates a new npc in the heap.
+ * Initializes the given node with given parameters.
+ *
+ * Parameters:
+ *  - c: a convo; must point to already allocated memory
+ *  - farewell: string that prints when the conversation is ended
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
+int convo_init(convo_t *c, char *farewell);
+
+/*
+ * Allocates a new convo in the heap.
  * 
- * Parameters: None
+ * Parameters: 
+ *  - farewell: string that prints when the conversation is ended
  * 
  * Returns:
  *  - pointer to the new, empty convo
  */
-convo_t *convo_new();
+convo_t *convo_new(char *farewell);
 
 /*
  * Frees resources associated with a convo.

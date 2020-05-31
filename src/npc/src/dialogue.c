@@ -44,11 +44,31 @@ void npc_print(char *dialogue)
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 /* See dialogue.h */
-convo_t *convo_new()
+int convo_init(convo_t *c, char *farewell)
 {
-    convo_t *c = (convo_t*)malloc(sizeof(convo_t));
+    assert(c != NULL);
+    strcpy(c->farewell, farewell);
     c->node_count = 0;
     c->nodes = NULL;
+
+    return SUCCESS;
+}
+
+/* See dialogue.h */
+convo_t *convo_new(char *farewell)
+{
+    convo_t *c;
+    c = (convo_t*)malloc(sizeof(convo_t));
+    memset(c, 0, sizeof(convo_t));
+    c->farewell = (char*)malloc(MAX_FW_LEN);
+
+    int check = convo_init(c, farewell);
+
+    if (c == NULL || c->farewell == NULL || check != SUCCESS)
+    {
+        return NULL;
+    }
+
     return c;
 }
 
@@ -67,6 +87,7 @@ int delete_all_nodes(node_list_t *nodes)
 /* See dialogue.h */
 int convo_free(convo_t *c)
 {
+    free(c->farewell);
     delete_all_nodes(c->nodes);
     free(c);
     return SUCCESS;
