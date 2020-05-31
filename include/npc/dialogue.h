@@ -11,7 +11,7 @@
 // BASIC PRINTING FUNCTIONS ---------------------------------------------------
 
 /*
- * Three functions to print given string in gold, yellow, or red respectively
+ * Three functions to print given string in gold, yellow, or red respectively.
  */
 void print_gold(char *str);
 
@@ -263,30 +263,60 @@ edge_t *read_input(node_t *n, char *input);
 node_t *traverse_edge(node_t *n);
 
 /*
- * Ends the conversation
- * Parameters:
- *  - None
- * Returns:
- *  - Nothing
- *
+ * Ends the conversation, exiting npc dialogue mode.
+ * 
+ * Parameters: None.
+ * 
+ * Returns: None.
  */
 void end_convo();
 
 /*
- * Runs the entire conversation until it reaches an end
+ * Runs the entire conversation until it reaches an end.
+ * 
  * Parameters:
- *  - c: A conversation
- * Returns:
- *  - Nothing, just runs through each node and asks for input
- *
+ *  - c: the conversation to be run
+ * 
+ * Returns: None.
  */
 void run_convo(convo_t *c);
 
 
 // LINKED LIST FUNCTIONS ------------------------------------------------------
 
+/*
+ * Helper function to compare if two node lists are the same based on the
+ * current node's node_id.
+ * 
+ * Parameters:
+ *  - n1, n2: the two node lists to be compared
+ * 
+ * Returns:
+ *  - 0 if the node_ids are the same, -1 and 1 in accordance with strcmp
+ */ 
 int node_cmp(node_list_t *n1, node_list_t *n2); 
 
+/*
+ * Deletes and frees all nodes in a list of nodes, and the list itself.
+ * 
+ * Parameters:
+ *  - nodes: the list of nodes to be deleted
+ * 
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
+ */ 
 int delete_all_nodes(node_list_t *nodes);
+
+/*
+ * Deletes and frees all edges in a hash table, and the hash table itself.
+ * 
+ * Parameters:
+ *  - edges: the hash table of edges to be deleted
+ * 
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
+ */ 
+int delete_all_edges(edge_hash_t *edges);
+
 
 #endif

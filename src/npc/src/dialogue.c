@@ -52,7 +52,7 @@ convo_t *convo_new()
     return c;
 }
 
-/* See dialogue.h */
+/* See LINKED LIST FUNCTIONS section of dialogue.h */
 int delete_all_nodes(node_list_t *nodes)
 {
     node_list_t *elt, *tmp;
@@ -103,7 +103,7 @@ node_t *node_new(char *node_id, char *dialogue)
     return n;
 }
 
-/* See dialogue.h */
+/* See LINKED LIST FUNCTIONS section of dialogue.h */
 int delete_all_edges(edge_hash_t *edges)
 {
     edge_t *cur_edge, *tmp;
@@ -171,7 +171,7 @@ int edge_free(edge_t *e)
 }
 
 // DIALOGUE BUILDING FUNCTIONS ------------------------------------------------
-/* See dialogue.h */
+/* See LINKED LIST FUNCTIONS section of dialogue.h */
 int node_cmp(node_list_t *n1, node_list_t *n2)
 {
     return (strcmp(n1->cur_node->node_id, n2->cur_node->node_id));
