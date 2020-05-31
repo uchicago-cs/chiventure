@@ -23,6 +23,7 @@ typedef struct player {
 typedef struct game {
     // Would have other fields (eg hash tables for players, rooms, items)
     player_t *curr_player;
+    battle_t *battle;
 } game_t;
 
 /* Stub, similar to chiventure_ctx_t except adding in_battle, which
