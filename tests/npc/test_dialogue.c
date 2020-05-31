@@ -7,9 +7,11 @@ Test(dialogue, convo_new)
 {
     convo_t *c;
 
-    c = convo_new();
+    c = convo_new("Talk to you later.");
 
     cr_assert_not_null(c, "convo_new() failed");
+    cr_assert_eq(strncmp(c->farewell, "Talk to you later.", MAX_FW_LEN), 
+                 0, "convo_new didn't set farewell");
 }
 
 /* Checks that convo_free() frees the given convo struct from memory */
@@ -18,7 +20,7 @@ Test(dialogue, convo_free)
     convo_t *c;
     int res;
 
-    c = convo_new();
+    c = convo_new("Bye!");
     
     cr_assert_not_null(c, "convo_new() failed");
 
@@ -169,7 +171,7 @@ Test(dialogue, prepend_node)
     node_t *n1, *n2, *n3;
     int res1, res2, res3;
 
-    c = convo_new();
+    c = convo_new("Later loser.");
     n1 = node_new("1test node", "Here we have some test dialogue!");
     n2 = node_new("2test node", "This is the second testing dialogue.");
     n3 = node_new("1test node", "This node has the same id as the first.");
@@ -230,7 +232,7 @@ Test(dialogue, append_node)
     node_t *n1, *n2, *n3;
     int res1, res2, res3;
 
-    c = convo_new();
+    c = convo_new("TTFN!");
     n1 = node_new("1test node", "Here we have some test dialogue!");
     n2 = node_new("2test node", "This is the second testing dialogue.");
     n3 = node_new("1test node", "This node has the same id as the first.");
