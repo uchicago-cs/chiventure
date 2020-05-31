@@ -12,8 +12,9 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
+find_package(Lua 5.3 REQUIRED) 
 
-set(CHIVENTURE_MODULES action_management battle checkpointing cli common custom-actions game-state libobj npc openworld playerclass skilltrees ui wdl)
+set(CHIVENTURE_MODULES action_management battle checkpointing cli common custom-actions custom-scripts game-state libobj quests npc openworld playerclass skilltrees ui wdl)
 
 include_directories(include/)
 
@@ -23,8 +24,10 @@ add_subdirectory(src/checkpointing)
 add_subdirectory(src/cli)
 add_subdirectory(src/common)
 add_subdirectory(src/custom-actions)
+add_subdirectory(src/custom-scripts)
 add_subdirectory(src/game-state)
 add_subdirectory(src/libobj)
+add_subdirectory(src/quests)
 add_subdirectory(src/npc)
 add_subdirectory(src/openworld)
 add_subdirectory(src/skilltrees)
@@ -47,3 +50,12 @@ set_target_properties(chiventure-bin
 find_package(Criterion REQUIRED)
 enable_testing()
 add_subdirectory(tests)
+
+
+# EXAMPLES
+add_custom_target(examples)
+foreach(module ${CHIVENTURE_MODULES})
+    if(TARGET ${module}-examples)
+        add_dependencies(examples ${module}-examples)
+    endif()
+endforeach(module)
