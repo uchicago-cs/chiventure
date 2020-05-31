@@ -73,30 +73,13 @@ objtype getobj_type(char* name){
     return TYPE_NONE
 }
 
-int main() {
+int parse(const char *zipdirname) {
 
     char game_buffer[MAX_BYTES];
     //This pointer will hold an int value if zip_t fails.
     int* p = malloc(sizeof(int));
-    zip_t* dir = zip_open("game1.wdz", 0, p);
-
-    struct json_object *actions_obj;
-    struct json_object *globalconditions_obj;
-    struct json_object *items_obj;
-    struct json_object *player_obj;
-    struct json_object *rooms_obj;
-
-    makejsonobj(actions_obj, "game1/game/actions.json", dir);
-    assert(actions_obj)
-    json_object_object_get_ex(action_list, "actions", &actions_obj);
-    assert(action_list)
-
-    makejsonobj(globalconditions_obj, "game1/game/globalconditions.json", dir);
-    makejsonobj(items_obj, "game1/game/items.json", dir);
-    makejsonobj(player_obj, "game1/game/player.json", dir);
-    makejsonobj(rooms_obj, "game1/game/rooms.json", dir);
-    
-
+    zip_t* dir = zip_open(filename, 0, p);
+    assert(dir);
 
     
     /*
