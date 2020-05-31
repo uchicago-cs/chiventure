@@ -2,12 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include "battle/battle_classes.h"
 #include "battle/battle_state.h"
 #include "common/utlist.h"
 
 /* See battle_state.h */
-combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
-             stat_t *stats, move_t *moves, item_t *items)
+combatant_t *combatant_new(char *name, bool is_friendly, stat_t *stats,
+    move_t *moves, item_t *items)
 {
     combatant_t *c;
     int rc;
@@ -19,7 +20,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
         return NULL;
     }
 
-    rc = combatant_init(c, name, is_friendly, class, stats, moves, items);
+    rc = combatant_init(c, name, is_friendly, stats, moves, items);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Could not initialize character\n");
@@ -30,15 +31,14 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
 }
 
 /* See battle_state.h */
-int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class,
-    stat_t *stats, move_t *moves, item_t *items)
+int combatant_init(combatant_t *c, char *name, bool is_friendly, stat_t *stats,
+    move_t *moves, item_t *items)
 {
     assert(c != NULL);
 
     c->name = calloc(MAX_NAME_LEN + 1, sizeof(char));
     strncpy(c->name, name, MAX_NAME_LEN);
     c->is_friendly= is_friendly;
-    c->class = class;
     c->stats = stats;
     c->moves = moves;
     c->items = items;
@@ -61,11 +61,6 @@ int combatant_free(combatant_t *c)
         free(c->name);
     }
 
-    if(c->class)
-    {
-        class_free(c->class);
-    }
-
     if (c->stats)
     {
         free(c->stats);
@@ -85,9 +80,9 @@ int combatant_free(combatant_t *c)
         free(item_elt);
     }
 
-    free(c);
+	free(c);
 
-    return SUCCESS;
+	return SUCCESS;
 }
 
 /* See battle_state.h */
