@@ -19,7 +19,7 @@
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_stub_t* stat)
+                   obj_t* attr, stats_hash_t* stat, effects_hash_t* effect)
 {
     int rc;
     class_t* c;
@@ -32,7 +32,7 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
         return NULL;
     }
     
-    rc = class_init(c, name, shortdesc, longdesc, attr, stat);
+    rc = class_init(c, name, shortdesc, longdesc, attr, stat, effect);
 
     if (rc == EXIT_FAILURE){
         fprintf(stderr, "Could not initalize values for class_new.\n");
@@ -85,7 +85,7 @@ int class_skills_init(class_t* class)
 
 /* See class.h */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_stub_t* stat)
+               obj_t* attr, stats_hash_t* stat, effects_hash_t* effect)
 {
     if (class == NULL)
     {
@@ -126,7 +126,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
 
     class->attributes = attr;
     class->stats = stat;
-    
+    class->effects = effect;
     return EXIT_SUCCESS;
 }
 

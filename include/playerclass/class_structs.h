@@ -5,9 +5,10 @@
 #ifndef CLASS_STRUCTS_H
 #define CLASS_STRUCTS_H
 
-#include "libobj/obj.h"
 #include "common/utlist.h"
 #include "skilltrees/skilltrees.h"
+#include "game-state/stats.h"
+#include "libobj/obj.h"
 
 // max name length
 #define MAX_NAME_LEN (20)
@@ -17,11 +18,6 @@
 
 // max long description length
 #define MAX_LONG_DESC_LEN (300)
-
-// playerstats stub
-typedef struct stats_stub {
-    obj_t* stat;
-} stats_stub_t;
 
 // skilltrees stub
 typedef struct skilltree_stub {
@@ -45,7 +41,10 @@ typedef struct class {
     obj_t* attributes;
 
     // All the stats of the class
-    stats_stub_t* stats;
+    stats_hash_t* stats;
+
+    // Effects/temporary status on the class
+    effects_hash_t* effects;
 
     // Class skilltree
     skilltree_stub_t* skilltree;

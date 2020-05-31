@@ -10,7 +10,7 @@ Test(battle_state, combatant_new)
 {
     class_t* test_class = class_new("Bard", "Music boi",
 				    "Charismatic, always has a joke or song ready",
-				    NULL, NULL);
+				    NULL, NULL, NULL);
 
     combatant_t *c;
 

@@ -26,7 +26,7 @@ class_t* generate_test_class()
                 "on up-close physical damage with weapons and survives enemy "
                 "attacks using heavy armor.\n";
 
-    c = class_new(name, shortdesc, longdesc, NULL, NULL);
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
 
 }
 
@@ -73,7 +73,7 @@ Test(test_class, init)
                 "on up-close physical damage with weapons and survives enemy "
                 "attacks using heavy armor.\n";
 
-    rc = class_init(&c, name, shortdesc, longdesc, NULL, NULL);
+    rc = class_init(&c, name, shortdesc, longdesc, NULL, NULL, NULL);
 
     cr_assert_eq(rc, EXIT_SUCCESS, "class_init failed");
     cr_assert_str_eq(c.name, name, "class_init didn't set name");
