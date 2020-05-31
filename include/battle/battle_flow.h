@@ -6,6 +6,8 @@
 #include "battle_flow_structs.h"
 #include "battle_state.h"
 #include "battle_structs.h"
+#include "battle_ai.h"
+#include "battle_logic.h"
 #include "common/common.h"
 #include "common/utlist.h"
 
