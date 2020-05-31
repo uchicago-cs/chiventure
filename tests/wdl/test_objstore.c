@@ -125,7 +125,7 @@ Test(objstore, free)
     strcpy(obj->id, "villager");
     obj->type = 6;
 
-    objstore_t *store = NULL
+    objstore_t *store = NULL;
     add_objstore(&store, obj);
     cr_assert_not_null(store, "add_objstore() failed");
 
