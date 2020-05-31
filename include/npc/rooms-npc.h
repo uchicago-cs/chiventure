@@ -55,22 +55,21 @@ typedef struct mov_indef {
 typedef union npc_mov_type {
     mov_def_t *mov_def;
     mov_indef_t *mov_indef;
-} npc_mov_type_u;
+} npc_mov_type_t;
 
 /* Enum to define NPC movement type - to simplify implementation */
 enum mov_type { MOV_DEF, MOV_INDEF }; //def is 0, indef is 1
 
-typedef enum mov_type npc_mov_type_e;
+typedef enum mov_type npc_mov_enum_t;
 
 
 /* Struct that deals with NPC movement for both types of npc movements */
 typedef struct npc_mov {
     char *npc_id; //the NPC being considered
-    npc_mov_type_u *npc_mov_type; //union with the structs for both mov types
-    npc_mov_type_e mov_type; //enum type of movement
-    char* track; //tracker variable that returns current room id
+    npc_mov_type_t npc_mov_type; //union with the structs for both mov types
+    npc_mov_enum_t mov_type; //enum type of movement
+    char *track; //tracker variable that returns current room id
 } npc_mov_t;
-
 
 /*
  * Initializes the struct that holds the npcs inside a certain room
@@ -100,7 +99,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char *room_id);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_type_e mov_type, room_t *room);
+int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type, room_t *room);
 
 
 /*
@@ -127,7 +126,7 @@ npcs_in_room_t *npcs_in_room_new(char* room_id);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-npc_mov_t *npc_mov_new(char* npc_id, npc_mov_type_e mov_type, room_t *room);
+npc_mov_t *npc_mov_new(char* npc_id, npc_mov_enum_t mov_type, room_t *room);
 
 
 /*

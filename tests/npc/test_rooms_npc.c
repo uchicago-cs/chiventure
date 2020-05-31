@@ -14,7 +14,7 @@ Test (npcs_in_room, new)
 
     cr_assert_not_null(npcs_in_room, "npcs_in_room_new() failed");
 
-    cr_assert_eq(npcs_in_room->room_id, "test_room",
+    cr_assert_str_eq(npcs_in_room->room_id, "test_room",
                 "npcs_in_room_new() did not set room_id");
 
     cr_assert_eq(npcs_in_room->num_of_npcs, 0,
@@ -32,13 +32,11 @@ Test (npc_mov, new)
 
     cr_assert_not_null(npc_mov, "npc_mov_new() failed");
 
-    cr_assert_eq(npc_mov->npc_id, "test_npc",
+    cr_assert_str_eq(npc_mov->npc_id, "test_npc",
                 "npc_mov_new() did not set npc_id");
-    cr_assert_not_null(npc_mov->npc_mov_type->mov_def->npc_path,
-                "npc_mov_new() did not set npc_path");
     cr_assert_eq(npc_mov->mov_type, MOV_DEF,
                 "npc_mov_new() did not set mov_type");
-    cr_assert_eq(npc_mov->track, "test_room",
+    cr_assert_str_eq(npc_mov->track, "test_room",
                 "npc_mov_new() did not set track");
 }
 
@@ -46,12 +44,13 @@ Test (npc_mov, new)
 /* Tests initialization of npcs_in_room struct */
 Test (npcs_in_room, init)
 {
-    npcs_in_room_t *npcs_in_room;
-    int check = npcs_in_room_init(npcs_in_room, "test_room");
+    npcs_in_room_t *npcs_in_room = npcs_in_room_new("test room");
+
+    int check = npcs_in_room_init(npcs_in_room, "test_room2");
 
     cr_assert_eq(check, SUCCESS, "npcs_in_room_init() failed");
 
-    cr_assert_eq(npcs_in_room->room_id, "test_room",
+    cr_assert_str_eq(npcs_in_room->room_id, "test_room2",
                 "npcs_in_room_init() did not set room_id");
 
     cr_assert_eq(npcs_in_room->num_of_npcs, 0,
@@ -62,20 +61,20 @@ Test (npcs_in_room, init)
 /* Tests initialization of npc_mov struct */
 Test (npc_mov, init)
 {
-    npc_mov_t *npc_mov = malloc(sizeof(npc_mov_t));
-    room_t *test_room;
-    test_room = room_new("test_room", "test", "test test");
-    int check = npc_mov_init(npc_mov,"test_npc", MOV_DEF, test_room);
+    room_t *test_room1 = room_new("test_room1", "test1", "test test1");
+    npc_mov_t *npc_mov = npc_mov_new("test_npc1", MOV_DEF, test_room1);
+    
+    room_t *test_room2;
+    test_room2 = room_new("test_room", "test", "test test");
+    int check = npc_mov_init(npc_mov,"test_npc2", MOV_DEF, test_room2);
 
     cr_assert_eq(check, SUCCESS, "npc_mov_init() failed");
 
-    cr_assert_eq(npc_mov->npc_id, "test_npc",
+    cr_assert_str_eq(npc_mov->npc_id, "test_npc2",
                 "npc_mov_new() did not set npc_id");
-    cr_assert_not_null(npc_mov->npc_mov_type->mov_def->npc_path,
-                "npc_mov_new() did not set npc_path");
     cr_assert_eq(npc_mov->mov_type, MOV_DEF,
                 "npc_mov_new() did not set mov_type");
-    cr_assert_eq(npc_mov->track, "test_room",
+    cr_assert_str_eq(npc_mov->track, "test_room1",
                 "npc_mov_new() did not set track");
 }
 
@@ -109,8 +108,8 @@ Test (npc_mov, free)
 /* Tests add_npc_to_room function */
 Test (npcs_in_room, add_npc_to_room)
 {
-    stats_t *stats = stats_new("npc_test_stat", 20);
-    npc_t *npc = npc_new("npc_test", 100, stats);
+    //stats_t *stats = stats_new("npc_test_stat", 20);
+    npc_t *npc = npc_new("npc_test", 100, NULL);
     npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
     int num_of_npcs_initial = npcs_in_room->num_of_npcs;
 
@@ -162,13 +161,13 @@ Test(npc_mov, register_time_in_room) {
     cr_assert_eq(check1, SUCCESS, "register_time_in_room() failed");
 
     time_in_room_hash_t  *indef_hash =
-                            npc_mov->npc_mov_type->mov_indef->room_time;
+                            npc_mov->npc_mov_type.mov_indef->room_time;
 
     time_in_room_t *check2;
 
     HASH_FIND(hh, indef_hash, "test_room", strlen("test_room"), check2);
 
-    cr_assert_eq(check2->room_id, "test_room",
+    cr_assert_str_eq(check2->room_id, "test_room",
                 "register_time_in_room() did not set room_id");
     cr_assert_eq(check2->room_id, time,
                 "register_time_in_room() did not set time");
@@ -206,7 +205,7 @@ Test(npc_mov, track_room) {
 
     char* room_id_track = track_room(npc_mov);
 
-    cr_assert_eq(room_id_track, "test_room", "track_room() failed");
+    cr_assert_str_eq(room_id_track, "test_room", "track_room() failed");
 }
 
 
