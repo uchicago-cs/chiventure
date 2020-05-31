@@ -142,9 +142,10 @@ int free_stats(stats_hash_t *s)
 }
 
 /* See stats.h */
-int effect_free(stat_effect_t *effect)
+int delete_single_effect(stat_effect_t *effect, effects_hash_t *hash)
 {
     assert(effect != NULL);
+    HASH_DEL(hash, effect);
 
     stat_mod_t *current, *next;
     current = effect->stat_list;
@@ -168,17 +169,18 @@ int delete_all_effects(effects_hash_t *effects)
 
     HASH_ITER(hh, effects, current_effect, tmp)
     {
-        HASH_DEL(effects, current_effect);
-        effect_free(current_effect);
+        effect_free(current_effect, effects);
     }
 
     return SUCCESS;
 }
 
 /* See stats.h */
-int global_effect_free(effects_global_t *effect)
+int delete_single_global_effect(effects_global_t *effect, 
+                                effects_global_hash_t *hash)
 {
     assert(effect != NULL);
+    HASH_DEL(hash, effect);
 
     free(effect->name);
     free(effect);
@@ -192,8 +194,7 @@ int delete_all_global_effects(effects_global_hash_t *effects)
     effects_global_t *current_effect, *tmp;
     HASH_ITER(hh, effects, current_effect, tmp)
     {
-        HASH_DEL(effects, current_effect);
-        global_effect_free(current_effect);
+        global_effect_free(current_effect, effects);
     }
 
     return SUCCESS;

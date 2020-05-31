@@ -26,7 +26,7 @@ typedef struct stats_global stats_global_hash_t;
   *      the name of the effect,
   *      which is also the key to the hashtable
   * */
-typedef struct effects_global{
+typedef struct effects_global {
     char *name;
     UT_hash_handle hh; 
 } effects_global_t;
@@ -75,20 +75,17 @@ typedef struct stat_mod {
 
 
 
-//// EFFECTS STRUCT DEFINITION ----------------------------------------------------
+// EFFECTS STRUCT DEFINITION ----------------------------------------------------
  /* This struct represents an effect that changes player's stats.
   * It contains:
   *      the name of the effect,
   *      which is also the key to the hashtable
   *
   *      a pointer to the related global effect
-  *
-  *      a bool checking if the effect is activated
-  *
-  *      the duration of the effect
   * 
-  *      a linked list, stat_mod, which contains the stats effected
-  *      and the modifier value for each stat
+  *      a linked list, stat_mod_t, which contains the stats effected
+  *      and the modifier value for each stat (an empty list means the 
+  *      the effect is turned off)
   * */
 typedef struct effects{
     char *key; //key for hashtable (should be same as name of effect)
@@ -307,7 +304,7 @@ int free_stats_global(stats_global_hash_t *stat);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int effect_free(stat_effect_t *effect);
+int delete_single_effect(stat_effect_t *effect, effects_hash_t *hash);
 
 /*
  * Frees a player effects hash table
@@ -329,7 +326,8 @@ int delete_all_effects(effects_hash_t *effects);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int global_effect_free(effects_global_t *effect);
+int delete_single_global_effect(effects_global_t *effect, 
+                                effects_global_hash_t *hash);
 
 /*
  * Frees a global effects hash table
