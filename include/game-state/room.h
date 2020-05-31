@@ -226,4 +226,14 @@ item_list_t *get_all_items_in_room(room_t *room);
  */
 int delete_all_paths(path_hash_t *paths);
 
+/* Deletes a hashtable of rooms
+ * Implemented with macros provided by uthash.h
+ *
+ * Parameters:
+ *  hashtable of rooms that need to be deleted
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int delete_all_rooms(room_hash_t* rooms);
+
 #endif
