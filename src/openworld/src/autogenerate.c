@@ -48,10 +48,33 @@ int room_generate(game_t *game, gencontext_t *context, char *room_id)
 
         // Add addRoom to gameNew
         assert(SUCCESS == add_room_to_game(game, new_room));
+
+        char directions[3][6];
+        strncpy(directions[0], "NORTH", 6);
+        strncpy(directions[1], "SOUTH", 6);
+        strncpy(directions[2], "EAST", 5);
+        strncpy(directions[3], "WEST", 5);
         
         // Add path from the current room to addRoom
-        path_t* path_to_room = path_new(new_room, context->speclist->spec->room_name);
+        unsigned int random_index = rand() % 4;
+
+        // Random direction for the path
+        path_t* path_to_room = path_new(new_room, directions[random_index]);
         assert(SUCCESS == add_path_to_room(game->curr_room, path_to_room));
+
+        // Opposite direction
+        if (random_index == 0 || random_index == 2)
+        {
+            random_index++;
+        }
+        else
+        {
+            random_index--;
+        }
+
+        // Add the opposite path to the game
+        path_t* path_to_room2 = path_new(game->curr_room, directions[random_index]);
+        assert(SUCCESS == add_path_to_room(new_room, path_to_room));
 
         return SUCCESS; /* room added */
     }
