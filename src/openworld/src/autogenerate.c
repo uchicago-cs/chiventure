@@ -29,7 +29,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id)
 
     item_hash_t *current = NULL, *tmp = NULL;
     // attribute_list_t *item_attributes; // ???
-    UT_hash_handle hh;
+    // UT_hash_handle hh; // ???
     HASH_ITER(hh, roomspec->items, current, tmp) {
         assert(SUCCESS == copy_item_to_hash(&res->items, roomspec->items, roomspec->room_name));
     }
