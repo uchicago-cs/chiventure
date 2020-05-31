@@ -155,7 +155,7 @@ char *get_ldesc(room_t *room);
  * Returns:
  *  a pointer to new path
  */
-path_t *path_new(room_t *dest, char *direction, char* room_id);
+path_t *path_new(room_t *dest, char *direction, list_action_type_t *conditions);
 
 /* Frees the space in memory taken by given path
  *

@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "action_management/actionmanagement.h"
+#include "game-state/game_action.h"
 #include "action_management/action_structs.h"
 
 /* helper function that creates the same list to test and takes in the 

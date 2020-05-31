@@ -268,29 +268,4 @@ int add_action(list_action_type_t *act, action_type_t *a)
     return SUCCESS;
 }
 
-/* See actionmanagement.c */
-int delete_action(list_action_type_t *act, action_type_t *a)
-{
-    struct list_action_type_t *temp, *prev;
-    temp = &act;
-
-    if (temp != NULL && temp->act == a)
-    {
-	&act = temp->next;
-	return SUCCESS;
-    }
-
-    while (temp != NULL && temp->act != a)
-    {
-	prev = temp;
-	temp = temp->next;
-    }
-
-    if (temp != NULL)
-    {
-	prev->next = temp->next;
-    }
-
-    return SUCCESS;
-}
 

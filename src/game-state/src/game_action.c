@@ -222,6 +222,34 @@ int all_conditions_met(item_t* item, char* action_name)
     return SUCCESS;
 }
 
+
+/* See game_action.h */
+int delete_action(list_action_type_t *act, action_type_t *a)
+{   
+    struct list_action_type_t *temp, *prev;
+    temp = &act;
+    
+    if (temp != NULL && temp->act == a)
+    {
+        &act = temp->next;
+        return SUCCESS;
+    }
+
+    while (temp != NULL && temp->act != a)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp != NULL)
+    {
+        prev->next = temp->next;
+    }
+    
+    return SUCCESS;
+}   
+
+
 // ------------------------------------- EFFECTS -------------------------------------
 
 /* see game_action.h */
