@@ -1,30 +1,10 @@
 /*
  * Class list to integrate with battle systems. 
+ * See class-list.h for more information.
  */
+#include "class-list.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include "common/utlist.h"
-#include "playerclass/class.h"
-#include "playerclass/class_structs.h"
-
-typedef struct move_list {
-    class_t* class;
-    char* spell;
-    int damage;
-    int id;
-    struct move_list *next;
-} move_list_t;
-
-/* Returns a hard-coded linked list with the class, spell name, damage, 
- * and id number of the spell. 
- * 
- * Parameters:
- * - none
- * 
- * Returns:
- * - move_list_t* linked list with the class, spell, damage, and id number
- */ 
+/* see class-list.h */
 move_list_t* move_list() {
 
     // Bard
@@ -39,7 +19,7 @@ move_list_t* move_list() {
         exit(1);
     }
     
-    bardlist->class = bard;
+    bardlist->c = bard;
     bardlist->spell = "Diss Track";
     bardlist->damage = 8;
     bardlist->id = 0;
@@ -57,7 +37,7 @@ move_list_t* move_list() {
         exit(1);
     }
     
-    wizardlist->class = wizard;
+    wizardlist->c = wizard;
     wizardlist->spell = "Fireball";
     wizardlist->damage = 10;
     wizardlist->id = 1;
@@ -76,7 +56,7 @@ move_list_t* move_list() {
         exit(1);
     }
     
-    knightlist->class = knight;
+    knightlist->c = knight;
     knightlist->spell = "Sword Slash";
     knightlist->damage = 9;
     knightlist->id = 2;
