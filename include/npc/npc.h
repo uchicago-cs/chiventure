@@ -3,6 +3,7 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
+#include "game-state/stats.h"
 //TODO-#include "dialogue.h"
 
 /* A non-playable character in game */
@@ -13,6 +14,7 @@ typedef struct npc {
     int health;
     // convo_t *dialogue;  placeholder for incoming dialogue module
     item_hash_t *inventory;
+    stats_t *stats; // pointer to an existing stats struct
 } npc_t;
 
 
@@ -31,13 +33,14 @@ typedef struct npc npc_hash_t;
  *  health: the starting health of the npc
  *  npc_id: string referring to npc id; passed implicitly
  *          from npc_new 
+ *  stats: pointer to an existing stats struct
  *  TODO-dialogue: pointer to a convo struct for the npc
  *   // placeholder for incoming dialogue module
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
-int npc_init(npc_t *npc, char *npc_id, int health);
+int npc_init(npc_t *npc, char *npc_id, int health, stats_t *stats);
 
 
 /*
@@ -46,13 +49,14 @@ int npc_init(npc_t *npc, char *npc_id, int health);
  * Parameters:
  *  npc_id: the unique string ID of the npc
  *  health: the starting health of the npc
+ *  stats: pointer to an existing stats struct
  *  TODO-dialogue: pointer to convo struct for the npc
  *   // placeholder for incoming dialogue module
  *
  * Returns:
  *  pointer to allocated npc
  */
- npc_t* npc_new(char *npc_id, int health);
+ npc_t* npc_new(char *npc_id, int health, stats_t *stats);
 
 
 /*
@@ -86,6 +90,9 @@ int get_npc_health(npc_t *npc);
  *  npc: the npc
  *  change: the positive or negative change to be made to the health points
  *  max: the maximum health the npc can achieve
+ *  
+ *  The change has a minimum value of 0  
+ *  The change has a maximum value of max
  * 
  * Returns:
  *  int, updated health
