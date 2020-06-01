@@ -102,14 +102,9 @@ item_hash_t* get_npc_inv_hash(npc_t *npc)
 /* See npc.h */
 item_list_t* get_npc_inv_list(npc_t *npc)
 {
-    item_list_t *head = NULL;
-    item_t *ITTMP_ITEMRM, *curr_item;
-    item_list_t *tmp;
-    HASH_ITER(hh, npc->inventory, curr_item, ITTMP_ITEMRM)
-    {
-        tmp = malloc(sizeof(item_list_t));
-        tmp->item = curr_item;
-        LL_APPEND(head, tmp);
-    }
+    item_list_t *head;
+    
+    head = get_all_items_in_hash(&(npc->inventory));
+    
     return head;
 }

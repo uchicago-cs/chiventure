@@ -202,14 +202,9 @@ room_t *find_room_from_dir(room_t *curr, char* direction)
 /* See room.h */
 item_list_t *get_all_items_in_room(room_t *room)
 {
-    item_list_t *head = NULL;
-    item_t *ITTMP_ITEMRM, *curr_item;
-    item_list_t *tmp;
-    HASH_ITER(hh, room->items, curr_item, ITTMP_ITEMRM)
-    {
-        tmp = malloc(sizeof(item_list_t));
-        tmp->item = curr_item;
-        LL_APPEND(head, tmp);
-    }
+    item_list_t *head;
+    
+    head = get_all_items_in_hash(&(room->items));
+    
     return head;
 }

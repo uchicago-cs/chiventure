@@ -85,6 +85,21 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
 }
 
 /* See item.h */
+item_list_t *get_all_items_in_hash(item_hash_t **ht)
+{
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, *ht, curr_item, ITTMP_ITEMRM)
+    {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
+    }
+    return head;
+}
+
+/* See item.h */
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
 {
     HASH_DEL(*(ht), old_item);
