@@ -16,7 +16,7 @@ int stats_init(stats_t *stat, char *name, double init)
 {
     assert(stat != NULL);
 
-    strncpy(stat->name, name, strlen(name));
+    strncpy(stat->key, name, strlen(name));
     stat->val = init;
     stat->max = init;
     stat->modifier = 1;

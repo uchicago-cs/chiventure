@@ -36,7 +36,7 @@ typedef struct stats_global stats_global_hash_t;
  *      cumulative modifiers from effects, set to 1 by default
  * */
 typedef struct stats {
-    char *name; //key for hashtable (same as global stat name)
+    char *key; //key for hashtable (same as global stat name)
     stats_global_t *global;
     double val;
     double max;
