@@ -55,7 +55,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id)
 int room_generate(game_t *game, gencontext_t *context, char *room_id)
 {
     // 2D array of possible directions
-    char directions[3][6];
+    char directions[4][6];
     strncpy(directions[0], "NORTH", 6);
     strncpy(directions[1], "EAST", 5);
     strncpy(directions[2], "SOUTH", 6);
