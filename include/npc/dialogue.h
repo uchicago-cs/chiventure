@@ -68,7 +68,7 @@ typedef struct edge edge_hash_t;
  *  - edges: a linked list of edge pointers (list of attached edges)
  */
 typedef struct node {
-    char* node_id;
+    char *node_id;
     char *dialogue;
     int connection_count;
     edge_hash_t *edges;

@@ -1,4 +1,4 @@
-#include "../../include/npc/dialogue.h"
+#include "npc/dialogue.h"
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 /*
