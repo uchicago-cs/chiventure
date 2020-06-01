@@ -1,226 +1,208 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../../include/common/utlist.h"
-#include "../../../include/common/uthash.h"
-#include "../../../include/openworld/default_rooms.h" 
-#include "../../../include/openworld/default_items.h"
+#include "common/utlist.h"
+#include "common/uthash.h"
+#include "openworld/default_items.h"
+#include "openworld/default_rooms.h"
 
-/* Mini-helper function solely to initialize an
-* item list given an item found in the hash
-*/
-item_list_t *llist_new(item_t* item){
-	item_list_t* llist = calloc(1, sizeof(item_list_t));
-	llist->item =item;
-	llist->next = NULL;
-	return llist;
+/* see default_rooms.h */
+int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name)
+{
+    item_t *old_item;
+    HASH_FIND_STR(src, name, old_item);
+    if (old_item == NULL) {
+        return FAILURE;
+    }
+
+    item_t *new_item = item_new(old_item->item_id, old_item->short_desc, old_item->long_desc);
+    if (new_item == NULL) {
+        return FAILURE;
+    }
+    HASH_ADD_STR(*dst, item_id, new_item);
+    return SUCCESS;
 }
 
 /* see default_rooms.h */
-roomspec_t *make_default_room(char *bucket, char *sh_desc, char *l_desc,
-item_list_t *allowed) {
+roomspec_t *make_default_room(npc_t *possible_npcs,char *bucket,
+                              char *sh_desc, char *l_desc)
+{
 
-	roomspec_t *hash = NULL;
+    roomspec_t *hash = NULL;
+    int rc;
 
-	assert(bucket != NULL);
-	item_hash_t *def = get_default_items();
+    assert(bucket != NULL);
 
-	item_t *door, *nail, *mirror, *jug, *hat,
-		*fruit, *tray, *book, *quill, *pencil,
-		*video;
+    if ((!!strcmp(bucket, "school")) && (!!strcmp(bucket, "farmhouse"))
+            && (!!strcmp(bucket, "castle"))) {
+        roomspec_t *room = roomspec_new(get_friendly_npcs(),bucket, sh_desc, l_desc, NULL);
+        //now add to hash
+        HASH_ADD_STR(hash, room_name, room);
+    } else {
 
-	//CLOSET
-	roomspec_t *closet = roomspec_new(get_generic_npcs(),"closet", "A broom closet",
-		"A small broom closet with supplies",
-		allowed, NULL, NULL);
-	HASH_FIND_STR(def, "door", door);
-	LL_APPEND(closet->allowed_items, llist_new(door));
-	HASH_FIND_STR(def, "nail", nail);
-	LL_APPEND(closet->allowed_items, llist_new(nail));
-	HASH_FIND_STR(def, "mirror", mirror);
-	LL_APPEND(closet->allowed_items, llist_new(mirror));
-	HASH_FIND_STR(def, "jug", jug);
-	LL_APPEND(closet->allowed_items, llist_new(jug));
-	HASH_FIND_STR(def, "hat", hat);
-	LL_APPEND(closet->allowed_items, llist_new(hat));
+        item_hash_t *def = get_default_items();
 
-	//HALLWAY
-	roomspec_t *hallway = roomspec_new(get_hostile_npcs(),"hallway", "A well-lit hallway",
-		"A sterile, white hallway with no windows",
-		allowed, NULL, NULL);
-	LL_APPEND(hallway->allowed_items, llist_new(door));
-	LL_APPEND(hallway->allowed_items, llist_new(nail));
-	HASH_FIND_STR(def, "fruit", fruit);
-	LL_APPEND(hallway->allowed_items, llist_new(fruit));
-	HASH_FIND_STR(def, "tray", tray);
-	LL_APPEND(hallway->allowed_items, llist_new(tray));
-	HASH_FIND_STR(def, "book", book);
-	LL_APPEND(hallway->allowed_items, llist_new(book));
+        //CLOSET
+        roomspec_t *closet = roomspec_new(get_friendly_npcs(),"closet",
+                                          "A broom closet",
+                                          "A small broom closet with supplies",
+                                          NULL);
+        copy_item_to_hash(&closet->items, def, "door");	
+        copy_item_to_hash(&closet->items, def, "tray");
+        copy_item_to_hash(&closet->items, def, "mirror");
+        copy_item_to_hash(&closet->items, def, "jug");
+        copy_item_to_hash(&closet->items, def, "hat");
 
-	//LIBRARY
-	roomspec_t *library = roomspec_new(get_friendly_npcs(),"library", 
-		"This is a library room with resources",
-		"An old, dusty library with skill-boosting resources like books and potions",
-		allowed, NULL, NULL);
-	LL_APPEND(library->allowed_items, llist_new(book));
-	HASH_FIND_STR(def, "quill", quill);
-	LL_APPEND(library->allowed_items, llist_new(quill));
-	HASH_FIND_STR(def, "pencil", pencil);
-	LL_APPEND(library->allowed_items, llist_new(pencil));
-	HASH_FIND_STR(def, "video", video);
-	LL_APPEND(library->allowed_items, llist_new(video));
-	HASH_FIND_STR(def, "mirror", mirror);
-	LL_APPEND(library->allowed_items, llist_new(mirror));
+        //HALLWAY
+        roomspec_t *hallway = roomspec_new(get_friendly_npcs(),"hallway", "A well-lit hallway",
+                                           "A sterile, white hallway with no windows",
+                                          NULL);
+        copy_item_to_hash(&hallway->items, def, "door");
+        copy_item_to_hash(&hallway->items, def, "nail");
+        copy_item_to_hash(&hallway->items, def, "fruit");
+        copy_item_to_hash(&hallway->items, def, "tray");
+        copy_item_to_hash(&hallway->items, def, "book");
 
-	if (!strcmp(bucket, "school")) {
-		item_t *apple, *tray, *ice, *yam, *book, *pencil,
-			*watercolors, *video;
+        //LIBRARY
+        item_hash_t *libr_items = NULL;
+        roomspec_t *library = roomspec_new(get_friendly_npcs(),"library",
+                                           "This is a library room with resources",
+                                           "An old, dusty library with"
+                                           " skill-boosting resources like books and potions",
+                                           NULL);
+        copy_item_to_hash(&library->items, def, "book");
+        copy_item_to_hash(&library->items, def, "quill");
+        copy_item_to_hash(&library->items, def, "pencil");
+        copy_item_to_hash(&library->items, def, "video");
+        copy_item_to_hash(&library->items, def, "mirror");
 
-		//CAFETERIA
-		roomspec_t *cafeteria = roomspec_new(get_friendly_npcs(),"cafeteria", "A grungy cafeteria",
-			"A messy high school cafeteria with trays and tables out",
-			allowed, NULL, NULL);
-		HASH_FIND_STR(def, "apple", apple);
-		LL_APPEND(cafeteria->allowed_items, llist_new(apple));
-		LL_APPEND(cafeteria->allowed_items, llist_new(fruit));
-		HASH_FIND_STR(def, "tray", tray);
-		LL_APPEND(cafeteria->allowed_items, llist_new(tray));
-		HASH_FIND_STR(def, "ice", ice);
-		LL_APPEND(cafeteria->allowed_items, llist_new(ice));
-		HASH_FIND_STR(def, "yam", yam);
-		LL_APPEND(cafeteria->allowed_items, llist_new(yam));
+        if (!strcmp(bucket, "school")) {
+            //CAFETERIA
+            roomspec_t *cafeteria = roomspec_new(get_friendly_npcs(),"cafeteria",
+                                                 "A grungy cafeteria",
+                                                 "A messy high school"
+                                                 " cafeteria with trays and tables out",
+                                                 NULL);
+            copy_item_to_hash(&cafeteria->items, def, "apple");
+            copy_item_to_hash(&cafeteria->items, def, "tray");
+            copy_item_to_hash(&cafeteria->items, def, "ice");
+            copy_item_to_hash(&cafeteria->items, def, "fruit");
+            copy_item_to_hash(&cafeteria->items, def, "yam");
 
-		//CLASSROOM
-		roomspec_t *classroom = roomspec_new(get_generic_npcs(),"classroom",
-			"A medium-sized classroom with 30 desks",
-			"A geography teacher's classroom with 30 desks",
-			allowed, NULL, NULL);
-		HASH_FIND_STR(def, "book", book);
-		LL_APPEND(classroom->allowed_items, llist_new(book));
-		LL_APPEND(classroom->allowed_items, llist_new(door));
-		HASH_FIND_STR(def, "pencil", pencil);
-		LL_APPEND(classroom->allowed_items, llist_new(pencil));
-		HASH_FIND_STR(def, "watercolors", watercolors);
-		LL_APPEND(classroom->allowed_items, llist_new(watercolors));
-		HASH_FIND_STR(def, "video", video);
-		LL_APPEND(classroom->allowed_items, llist_new(video));
-		
-		//now add all the roomspecs to the hash
-		HASH_ADD_STR(hash, room_name, closet);
-		HASH_ADD_STR(hash, room_name, library);
-		HASH_ADD_STR(hash, room_name, hallway);
-		HASH_ADD_STR(hash, room_name, cafeteria);
-		HASH_ADD_STR(hash, room_name, classroom);
-	}
-	else if (!strcmp(bucket, "farmhouse")) {
-		item_t *apple, *cow, *eagle, *rabbit, *yam, *zebra,
-			*olive, *ice, *watercolors, *xylophone, *video,
-			*hat, *mirror;
+            //CLASSROOM
+            roomspec_t *classroom = roomspec_new(get_generic_npcs(),"classroom",
+                                                 "A medium-sized classroom"
+                                                 " with 30 desks",
+                                                 "A geography teacher's"
+                                                 " classroom with 30 desks",
+                                                 NULL);
+            copy_item_to_hash(&classroom->items, def, "book");
+            copy_item_to_hash(&classroom->items, def, "door");
+            copy_item_to_hash(&classroom->items, def, "pencil");
+            copy_item_to_hash(&classroom->items, def, "watercolors");
+            copy_item_to_hash(&classroom->items, def, "video");
 
-		//BARN
-		roomspec_t *barn = roomspec_new(get_friendly_npcs(),"barn", "A red barn",
-			"A red barn with stables inside",
-			allowed, NULL, NULL);
-		HASH_FIND_STR(def, "apple", apple);
-		LL_APPEND(barn->allowed_items, llist_new(apple));
-		HASH_FIND_STR(def, "cow", cow);
-		LL_APPEND(barn->allowed_items, llist_new(cow));
-		HASH_FIND_STR(def, "eagle", eagle);
-		LL_APPEND(barn->allowed_items, llist_new(eagle));
-		HASH_FIND_STR(def, "rabbit", rabbit);
-		LL_APPEND(barn->allowed_items, llist_new(rabbit));
-		HASH_FIND_STR(def, "yam", yam);
-		LL_APPEND(barn->allowed_items, llist_new(yam));
+            //now add all the roomspecs to the hash
+            HASH_ADD_STR(hash, room_name, closet);
+            HASH_ADD_STR(hash, room_name, library);
+            HASH_ADD_STR(hash, room_name, hallway);
+            HASH_ADD_STR(hash, room_name, cafeteria);
+            HASH_ADD_STR(hash, room_name, classroom);
+        } else if (!strcmp(bucket, "farmhouse")) {
+            //BARN
+            roomspec_t *barn = roomspec_new(get_friendly_npcs(),"barn", "A red barn",
+                                            "A red barn with stables inside",
+                                            NULL);
+            copy_item_to_hash(&barn->items, def, "apple");
+            copy_item_to_hash(&barn->items, def, "cow");
+            copy_item_to_hash(&barn->items, def, "eagle");
+            copy_item_to_hash(&barn->items, def, "rabbit");
+            copy_item_to_hash(&barn->items, def, "yam");
 
-		//OPEN FIELD
-		roomspec_t *field = roomspec_new(get_friendly_npcs(),"open field",
-			"An open field outside",
-			"An open field with grass and a clear view",
-			allowed, NULL, NULL);
-		HASH_FIND_STR(def, "zebra", zebra);
-		LL_APPEND(field->allowed_items, llist_new(zebra));
-		LL_APPEND(field->allowed_items, llist_new(cow));
-		LL_APPEND(field->allowed_items, llist_new(eagle));
-		LL_APPEND(field->allowed_items, llist_new(rabbit));
-		LL_APPEND(field->allowed_items, llist_new(apple));
+            //OPEN FIELD
+            roomspec_t *field = roomspec_new(get_generic_npcs(), "open field",
+                                             "An open field outside",
+                                             "An open field with grass"
+                                             " and a clear view",
+                                             NULL);
+            copy_item_to_hash(&field->items, def, "apple");
+            copy_item_to_hash(&field->items, def, "zebra");
+            copy_item_to_hash(&field->items, def, "cow");
+            copy_item_to_hash(&field->items, def, "eagle");
+            copy_item_to_hash(&field->items, def, "rabbit");
 
-		//KITCHEN
-		roomspec_t *kitchen = roomspec_new(get_generic_npcs(),"kitchen", "A 60s era (outdated) kitchen",
-			"An outdated kitchen with obvious wear-and-tear",
-			allowed, NULL, NULL);
-		HASH_FIND_STR(def, "olive", olive);
-		LL_APPEND(kitchen->allowed_items, llist_new(olive));
-		HASH_FIND_STR(def, "ice", ice);
-		LL_APPEND(kitchen->allowed_items, llist_new(ice));
-		LL_APPEND(kitchen->allowed_items, llist_new(jug));
-		LL_APPEND(kitchen->allowed_items, llist_new(yam));
-		LL_APPEND(kitchen->allowed_items,llist_new(tray));
+            //KITCHEN
+            roomspec_t *kitchen = roomspec_new(get_generic_npcs(),"kitchen",
+                                               "A 60s era (outdated) kitchen",
+                                               "An outdated kitchen with obvious"
+                                               " wear-and-tear",
+                                               NULL);
+            copy_item_to_hash(&kitchen->items, def, "ice");
+            copy_item_to_hash(&kitchen->items, def, "jug");
+            copy_item_to_hash(&kitchen->items, def, "olive");
+            copy_item_to_hash(&kitchen->items, def, "tray");
+            copy_item_to_hash(&kitchen->items, def, "yam");
 
-		//LIVING ROOM
-		roomspec_t *living = roomspec_new(get_generic_npcs(),"living room", 
-			"A living room with basic items",
-			"A plain, unremarkable living room",
-			allowed, NULL, NULL);
-		HASH_FIND_STR(def, "watercolors", watercolors);
-		LL_APPEND(living->allowed_items, llist_new(watercolors));
-		HASH_FIND_STR(def, "video", video);
-		LL_APPEND(living->allowed_items, llist_new(video));
-		HASH_FIND_STR(def, "xylophone", xylophone);
-		LL_APPEND(living->allowed_items, llist_new(xylophone));
-		HASH_FIND_STR(def, "hat", hat);
-		LL_APPEND(living->allowed_items, llist_new(hat));
-		HASH_FIND_STR(def, "mirror", mirror);
-		LL_APPEND(living->allowed_items, llist_new(mirror));
+            //LIVING ROOM
+            roomspec_t *living = roomspec_new(get_friendly_npcs(),"living room",
+                                              "A living room with basic items",
+                                              "A plain, unremarkable living room",
+                                              NULL);
+            copy_item_to_hash(&living->items, def, "watercolors");
+            copy_item_to_hash(&living->items, def, "video");
+            copy_item_to_hash(&living->items, def, "xylophone");
+            copy_item_to_hash(&living->items, def, "hat");
+            copy_item_to_hash(&living->items, def, "mirror");
 
-		//now add to hash
-		HASH_ADD_STR(hash, room_name, closet);
-		HASH_ADD_STR(hash, room_name, barn);
-		HASH_ADD_STR(hash, room_name, field);
-		HASH_ADD_STR(hash, room_name, kitchen);
-		HASH_ADD_STR(hash, room_name, living);
+            //now add to hash
+            HASH_ADD_STR(hash, room_name, closet);
+            HASH_ADD_STR(hash, room_name, barn);
+            HASH_ADD_STR(hash, room_name, field);
+            HASH_ADD_STR(hash, room_name, kitchen);
+            HASH_ADD_STR(hash, room_name, living);
+        } else {
+            //DUNGEON
+            roomspec_t *dungeon = roomspec_new(get_hostile_npcs(),"dungeon",
+                                               "A dark dungeon",
+                                               "A dank, dark dungeon with traps"
+                                               " and enemies to battle",
+                                               NULL);
+            copy_item_to_hash(&dungeon->items, def, "nail");
+            copy_item_to_hash(&dungeon->items, def, "book");
+            copy_item_to_hash(&dungeon->items, def, "ladder");
+            copy_item_to_hash(&dungeon->items, def, "gold");
+            copy_item_to_hash(&dungeon->items, def, "yam");
 
-	} else if(!strcmp(bucket, "castle")) {	
-		item_t *ladder, *gold, *yam;
+            //THRONE ROOM
+            roomspec_t *throne = roomspec_new(get_hostile_npcs(),"throne room",
+                                              "This is a throne room",
+                                              "A regal throne room decked out "
+                                              "with lavish items",
+                                              NULL);
+            copy_item_to_hash(&throne->items, def, "gold");
+            copy_item_to_hash(&throne->items, def, "door");
+            copy_item_to_hash(&throne->items, def, "mirror");
+            copy_item_to_hash(&throne->items, def, "jug");
+            copy_item_to_hash(&throne->items, def, "hat");
 
-		//DUNGEON
-		roomspec_t *dungeon = roomspec_new(get_hostile_npcs(), "dungeon", "A dark dungeon",
-			"A dank, dark dungeon with traps and enemies to battle",
-			allowed, NULL, NULL);
-		LL_APPEND(dungeon->allowed_items, llist_new(nail));
-		HASH_FIND_STR(def, "ladder", ladder);
-		LL_APPEND(dungeon->allowed_items,llist_new(ladder));
-		LL_APPEND(dungeon->allowed_items, llist_new(book));
-		HASH_FIND_STR(def, "gold", gold);
-		LL_APPEND(dungeon->allowed_items, llist_new(gold));
-		HASH_FIND_STR(def, "yam", yam);
-		LL_APPEND(dungeon->allowed_items, llist_new(yam));
+            //Now add to hash
+            HASH_ADD_STR(hash, room_name, closet);
+            HASH_ADD_STR(hash, room_name, hallway);
+            HASH_ADD_STR(hash, room_name, library);
+            HASH_ADD_STR(hash, room_name, dungeon);
+            HASH_ADD_STR(hash, room_name, throne);
 
-		//THRONE ROOM
-		roomspec_t *throne = roomspec_new(get_hostile_npcs(),"throne room", 
-			"This is a throne room",
-			"A regal throne room decked out with lavish items",
-			allowed, NULL, NULL);
-		LL_APPEND(throne->allowed_items, llist_new(gold));
-		LL_APPEND(throne->allowed_items, llist_new(door));
-		LL_APPEND(throne->allowed_items, llist_new(mirror));
-		LL_APPEND(throne->allowed_items, llist_new(jug));
-		LL_APPEND(throne->allowed_items, llist_new(hat));
+        }
 
-		//Now add to hash
-		HASH_ADD_STR(hash, room_name, closet);
-		HASH_ADD_STR(hash, room_name, hallway);
-		HASH_ADD_STR(hash, room_name, library);
-		HASH_ADD_STR(hash, room_name, dungeon);
-		HASH_ADD_STR(hash, room_name, throne);
-
-	} else{
-		roomspec_t *room = roomspec_new(bucket, sh_desc, l_desc,
-			allowed, NULL, NULL);
-		
-		//now add to hash
-		HASH_ADD_STR(hash, room_name, room);
-		
-	}
-	return hash;
+        item_hash_t *elem, *tmp;
+        HASH_ITER(hh, def, elem, tmp) {
+            HASH_DELETE(hh, def, elem); // remove from hashtable
+            item_free(elem); // free the item
+        }
+        free(def);
+    }
+    return hash;
 }
+
+
 

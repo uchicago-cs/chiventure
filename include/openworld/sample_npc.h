@@ -1,4 +1,6 @@
-#include "sample_rooms.h"
+#ifndef _SAMPLE_NPC_H
+#define _SAMPLE_NPC_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -44,8 +46,10 @@ npc_t *get_friendly_npcs();
 
 
 
-/* * makes 3 npcs that are generic and return them 
+/* makes 3 npcs that are generic and return them 
  * as a linked list
  */
 npc_t *get_generic_npcs();
 
+
+#endif
