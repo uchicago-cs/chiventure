@@ -137,8 +137,8 @@ int skill_tree_node_remove(skill_tree_t* tree, skill_node_t* node) {
         return FAILURE;
     }
 
-    rc = skill_node_free(tree->nodes[pos]);
-    if (rc) {
+    int rc = skill_node_free(tree->nodes[pos]);
+    if (rc == FAILURE) {
         fprintf(stderr, "skill_tree_node_remove: freeing failed\n");
         return FAILURE;
     }
@@ -168,7 +168,7 @@ skill_t** skill_prereqs_acquired(skill_tree_t* tree,
     assert(tree != NULL && inventory != NULL);
 
     unsigned int nprereqs;
-    skill_t** prereqs = skill_prereqs_all(tree, sid, &nprereqs);
+    skill_node_t** prereqs = skill_prereqs_all(tree, sid, &nprereqs);
 
     if (nprereqs == -1) {
         fprintf(stderr, "skill_prereqs_acquired: node is not in tree\n");
@@ -186,8 +186,8 @@ skill_t** skill_prereqs_acquired(skill_tree_t* tree,
     *nacquired = 0;
 
     for (unsigned int i = 0; i < nprereqs; i++) {
-        sid_t prereq = prereqs[i]->sid;
-        skill_type_t type = prereqs[i]->type;
+        sid_t prereq = prereqs[i]->skill->sid;
+        skill_type_t type = prereqs[i]->skill->type;
         int pos = inventory_has_skill(inventory, prereq, type);
         if (pos >= 0) {
             // Inventory has this skill, so we have to add it to the list of
@@ -232,7 +232,7 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
     assert(tree != NULL && inventory != NULL);
 
     unsigned int nprereqs;
-    skill_t** prereqs = skill_prereqs_all(tree, sid, &nprereqs);
+    skill_node_t** prereqs = skill_prereqs_all(tree, sid, &nprereqs);
 
     if (nprereqs == -1) {
         fprintf(stderr, "skill_prereqs_missing: node is not in tree\n");
@@ -250,14 +250,14 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
     *nmissing = 0;
 
     for (unsigned int i = 0; i < nprereqs; i++) {
-        sid_t prereq = prereqs[i]->sid;
-        skill_type_t type = prereqs[i]->type;
+        sid_t prereq = prereqs[i]->skill->sid;
+        skill_type_t type = prereqs[i]->skill->type;
         int pos = inventory_has_skill(inventory, prereq, type);
         if (pos == -1) {
             // Inventory doesn't have this skill, so we have to add it to the
             // list of non-acquired skills.
             void** res = array_element_add((void**)missing, (*nmissing),
-                                           (void*)prereqs[i]);
+                                           (void*)prereqs[i]->skill);
             if (res == NULL) {
                 fprintf(stderr, "skill_prereqs_missing: adding skill failed\n");
                 *nmissing = -4;
