@@ -5,9 +5,10 @@
 #include <string.h>
 #include "playerclass/class_structs.h"
 #include "battle_structs.h"
+#include "battle_flow_structs.h"
 
 
-/** INsert ingo here"
+/** INsert ingo here */
 player_t *add_class_move(player_t *player);
 
 

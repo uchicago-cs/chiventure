@@ -2,7 +2,7 @@
  * Class list to integrate with battle systems. 
  * See class-list.h for more information.
  */
-#include "class-list.h"
+#include "battle/class_list.h"
 
 /* see class-list.h */
 move_list_t* move_list() {

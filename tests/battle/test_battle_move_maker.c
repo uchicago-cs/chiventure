@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "battle/battle_moves.h"
+#include <string.h>
+#include "battle/battle_move_maker.h"
+#include "battle/class_list.h"
 
 
 Test(class_moves, bard)
@@ -11,10 +13,12 @@ Test(class_moves, bard)
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL, NULL, NULL, NULL);
 
+	printf("are we here\n");
+
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
-    player_t ret_player = *add_class_move(player_t *player);
+    player_t *ret_player = add_class_move(player);
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
@@ -43,7 +47,7 @@ Test(class_moves, wizard)
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
-    player_t ret_player = *add_class_move(player_t *player);
+    player_t *ret_player = add_class_move(player);
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
@@ -73,7 +77,7 @@ Test(class_moves, knight)
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
-    player_t ret_player = *add_class_move(player_t *player);
+    player_t *ret_player = add_class_move(player);
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
