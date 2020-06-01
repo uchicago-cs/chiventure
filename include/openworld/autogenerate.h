@@ -23,24 +23,6 @@
 
 
 /*
- * any_paths
- * Are there any outward paths in the given room? Returns a boolean.
- * 
- * parameters:
- * - r: A room pointer for the input room. Should not be NULL.
- *
- * side effects:
- * - None. Does not alter room/game states. Just determines if the input 
- *   rooms have any paths.
- *
- * returns:
- * - true if the room has one or more paths
- * - false if the room has no paths
- */
-bool any_paths(room_t *r);
-
-
-/*
  * path_exists_in_dir
  * Is there any path in the given room that exists in the given direction?
  * Return a boolean.
@@ -68,7 +50,6 @@ bool path_exists_in_dir(room_t *r, char *direction);
  * is uniquely generated from the given game (different from the game's rooms).
  * 
  * parameters:
- * - game: A pointer to a game struct. Should not be NULL.
  * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
  * - room_id: A unique room_id string for the to-be-generated room.
  *
@@ -78,20 +59,18 @@ bool path_exists_in_dir(room_t *r, char *direction);
  * returns:
  * The generated room_t struct pointer.
  */
-room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id);
+room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id);
 
 
 /*
  * room_generate
- * Given a game pointer and a context struct (gencontext_t*), generates a room 
- * based on the head node only of the context struct and adds it to the game. Only 
- * does so if the current room has no outward paths (dead end).
+ * Generates a room based on the given speclist and adds it to the game.
  * 
- * Connects the newly-generated room to the old room via paths.
+ * Checks to see if path direction is available.
  * 
  * parameters:
  * - game: A pointer to a game struct. Should not be NULL.
- * - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
+ * - context: A pointer to a gencontext_t (type speclist_t*). Not NULL.
  * - room_id: A unique room_id string for the to-be-generated room.
  *
  * side effects:
@@ -101,7 +80,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id);
  * - SUCCESS if the new room was generated and added (SUCCESS)
  * - FAILURE if the new room was not generated/added (FAILURE)
  */
-int room_generate(game_t *game, gencontext_t *context, char *room_id);
+int room_generate(game_t *game, gencontext_t *gencontext, char *room_id);
 
 
 /*

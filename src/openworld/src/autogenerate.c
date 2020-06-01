@@ -16,13 +16,6 @@
 #include "openworld/autogenerate.h"
 
 /* See autogenerate.h */
-bool any_paths(room_t *r)
-{
-    assert(r != NULL && "any_paths: Given room is NULL");
-    return (r->paths != NULL);
-}
-
-/* See autogenerate.h */
 bool path_exists_in_dir(room_t *r, char *direction)
 {
     // No paths case
@@ -34,7 +27,7 @@ bool path_exists_in_dir(room_t *r, char *direction)
     path_hash_t *current, *tmp;
     HASH_ITER(hh, r->paths, current, tmp) {
         // If the path has the given direction, return true
-        if (strcmp(current->direction, direction), 0)
+        if (strcmp(current->direction, direction) == 0)
         {
             return true;
         }
@@ -43,7 +36,7 @@ bool path_exists_in_dir(room_t *r, char *direction)
 }
 
 /* See autogenerate.h */
-room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id)
+room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id)
 {
     room_t *res = room_new(room_id, roomspec->short_desc, roomspec->long_desc);
 
@@ -85,7 +78,7 @@ int room_generate(game_t *game, gencontext_t *context, char *room_id)
         }
         
         // Adds one generated room from the head of context->speclist only
-        room_t *new_room = roomspec_to_room(game, context->speclist->spec, room_id);
+        room_t *new_room = roomspec_to_room(context->speclist->spec, room_id);
         assert(SUCCESS == add_room_to_game(game, new_room));
 
         // Path to the generated room
@@ -108,7 +101,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id)
 {
     /* If game->curr_room is not a dead end or there are no roomspec_t elements 
      * in context->speclist, then do not autogenerate */
-    if (any_paths(game->curr_room) || context->speclist == NULL)
+    if (context->speclist == NULL)
     {
         return FAILURE;
     }

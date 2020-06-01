@@ -214,18 +214,6 @@ item_t* get_item_in_room(room_t* room, char* item_id);
  */
 item_list_t *get_all_items_in_room(room_t *room);
 
-/*
- * Function to delete all given hashed paths
- *
- * Parameters:
- *  paths - of type path_hash_t*
- *
- * Returns:
- * - 0 if success
- * - 1 if failure
- */
-int delete_all_paths(path_hash_t *paths);
-
 /* Deletes a hashtable of rooms
  * Implemented with macros provided by uthash.h
  *
