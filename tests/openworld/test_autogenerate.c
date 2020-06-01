@@ -5,6 +5,118 @@
 
 /* Tests the functions in sample_generation.h */
 
+/* Checks that room with no paths returns false for path_exists_in_dir() */
+Test(autogenerate, path_exists_in_dir_none)
+{
+    room_t *room = room_new("string1", "string2", "string3");
+    
+    cr_assert_eq(false, path_exists_in_dir(room, "NORTH"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_dir(room, "EAST"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_dir(room, "SOUTH"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_dir(room, "WEST"), "Expected false but got true");
+}
+
+/* Checks that room with a path in a given direction is determined as such */
+Test(autogenerate, path_exists_in_dir_one_true)
+{
+    room_t *room = room_new("string1", "string2", "string3");
+    room_t *dest_room = room_new("string1", "string2", "string3");
+
+    // Path to dest_room
+    path_t* path1 = path_new(dest_room, "NORTH");
+
+    cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
+
+    cr_assert_eq(true, path_exists_in_dir(room, "NORTH"), "Expected true but got false");
+    cr_assert_eq(false, path_exists_in_dir(room, "EAST"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_dir(room, "SOUTH"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_dir(room, "WEST"), "Expected false but got true");
+}
+
+/* Checks that room with a path in a different direction is determined as such, i.e. 
+ * if the existing direction is different from all valid directions (NORTH, EAST, SOUTH, WEST) */
+
+Test(autogenerate, path_exists_in_dir_false)
+{
+    room_t *room = room_new("string1", "string2", "string3");
+    room_t *dest_room = room_new("string1", "string2", "string3");
+
+    // Path to dest_room
+    path_t* path1 = path_new(dest_room, "DIFFERENT");
+
+    cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
+
+    cr_assert_eq(false, path_exists_in_dir(room, "NORTH"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_dir(room, "EAST"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_dir(room, "SOUTH"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_dir(room, "WEST"), "Expected false but got true");
+}
+
+/* Checks that room with paths in every direction returns true, so long as 
+ * the given direction is valid */
+Test(autogenerate, path_exists_in_dir_one_all_true)
+{
+    room_t *room = room_new("string1", "string2", "string3");
+    room_t *dest_room1 = room_new("string1", "string2", "string3");
+    room_t *dest_room2 = room_new("string1", "string2", "string3");
+    room_t *dest_room3 = room_new("string1", "string2", "string3");
+    room_t *dest_room4 = room_new("string1", "string2", "string3");
+
+    // Paths to destination rooms (dest_roomX, where X is a number 1 <= X <= 4)
+    path_t* path1 = path_new(dest_room1, "NORTH");
+    path_t* path2 = path_new(dest_room2, "EAST");
+    path_t* path3 = path_new(dest_room3, "SOUTH");
+    path_t* path4 = path_new(dest_room4, "WEST");
+
+    // Add all the paths to the test room
+    cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
+    cr_assert_eq(SUCCESS, add_path_to_room(room, path2), "Could not add path to room");
+    cr_assert_eq(SUCCESS, add_path_to_room(room, path3), "Could not add path to room");
+    cr_assert_eq(SUCCESS, add_path_to_room(room, path4), "Could not add path to room");
+
+    // Valid directions tests
+    cr_assert_eq(true, path_exists_in_dir(room, "NORTH"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_dir(room, "EAST"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_dir(room, "SOUTH"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_dir(room, "WEST"), "Expected true but got false");
+
+    // Invalid direction test
+    cr_assert_eq(false, path_exists_in_dir(room, "NOT A DIRECTION"), "Expected false but got true");
+}
+
+/* The tests above are checked, but for 2 or 3 valid paths */
+Test(autogenerate, path_exists_in_dir_mid)
+{
+    room_t *room = room_new("string1", "string2", "string3");
+    room_t *dest_room1 = room_new("string1", "string2", "string3");
+    room_t *dest_room2 = room_new("string1", "string2", "string3");
+    room_t *dest_room3 = room_new("string1", "string2", "string3");
+
+    // 2 paths
+    path_t* path1 = path_new(dest_room1, "NORTH");
+    path_t* path2 = path_new(dest_room2, "EAST");
+    cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
+    cr_assert_eq(SUCCESS, add_path_to_room(room, path2), "Could not add path to room");
+
+    // Valid directions tests
+    cr_assert_eq(true, path_exists_in_dir(room, "NORTH"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_dir(room, "EAST"), "Expected true but got false");
+    cr_assert_eq(false, path_exists_in_dir(room, "SOUTH"), "Expected true but got false");
+    cr_assert_eq(false, path_exists_in_dir(room, "WEST"), "Expected false but got true");
+
+    // Add a third path
+    path_t* path3 = path_new(dest_room3, "SOUTH");
+    cr_assert_eq(SUCCESS, add_path_to_room(room, path3), "Could not add path to room");
+    cr_assert_eq(true, path_exists_in_dir(room, "SOUTH"), "Expected true but got false");
+
+    // The first two paths should remain (should still get true)
+    cr_assert_eq(true, path_exists_in_dir(room, "NORTH"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_dir(room, "EAST"), "Expected true but got false");
+
+    // Invalid direction test
+    cr_assert_eq(false, path_exists_in_dir(room, "NOT A DIRECTION"), "Expected false but got true");
+}
+
 /* Checks that, given a roomspec pointer, roomspec_to_room correctly returns a 
  * room pointer with NULL paths and items fields */
 Test(autogenerate, roomspec_to_room1)
