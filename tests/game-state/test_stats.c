@@ -37,7 +37,7 @@ Test(stats, stats_new){
         "stat base value exceeds maximal value.");
 }
 Test(stats, global_init){
-    stats_global_t *global_stat = malloc(sizeof(global_stat_t));
+    stats_global_t *global_stat = malloc(sizeof(stats_global_t));
     
     int ret_val = stats_global_init(global_stat, "health", 100);
     
