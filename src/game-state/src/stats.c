@@ -57,7 +57,7 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
 {
     stat_effect_t *effect = malloc(sizeof(stat_effect_t));
 
-    int check = effect_init(effect, global);
+    int check = stat_effect_init(effect, global);
     
     if(check != SUCCESS || effect == NULL || effect->global == NULL)
     {
@@ -167,7 +167,7 @@ int delete_all_stat_effects(effects_hash_t *effects)
 
     HASH_ITER(hh, effects, current_effect, tmp)
     {
-        delete_single_effect(current_effect, effects);
+        delete_single_stat_effect(current_effect, effects);
     }
 
     return SUCCESS;
