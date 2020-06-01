@@ -101,11 +101,11 @@ Test (stats, stat_effect_init)
 
     stat_effect_t *effect;
 
-    int rc = effect_init(effect, global);
+    int rc = stat_effect_init(effect, global);
 
-    cr_assert_eq(rc, SUCCESS, "effect_init failed");
-    cr_assert_str_eq(effect->key, global->name, "effect_init did not set key");
-    cr_assert_eq(effect->global, global, "effect_init did not set global pointer");
+    cr_assert_eq(rc, SUCCESS, "stat_effect_init failed");
+    cr_assert_str_eq(effect->key, global->name, "stat_effect_init did not set key");
+    cr_assert_eq(effect->global, global, "stat_effect_init did not set global pointer");
 }
 
 /* Checks that stat_effect_new correctly creates a new player effect */

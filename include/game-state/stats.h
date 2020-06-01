@@ -183,7 +183,7 @@ effects_global_t *global_effect_new(char *effect_name);
  * Returns:
  *   - SUCCESS on success, FAILURE if an error occurs.
  */
-int effect_init(stat_effect_t *effect, effects_global_t *global);
+int stat_effect_init(stat_effect_t *effect, effects_global_t *global);
 
 /*
  * Allocates a new player effect struct
@@ -296,15 +296,17 @@ int free_stats(stats_hash_t *stat);
 int free_stats_global(stats_global_hash_t *stat);
 
 /*
- * Frees a single player effects struct
+ * Deletes a single player effects struct from a hash table,
+ * then frees the struct
  *
  * Parameters: 
  * effects: pointer to the effects struct to be freed
+ * hash: pointer to the hash table containing the effect to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int delete_single_effect(stat_effect_t *effect, effects_hash_t *hash);
+int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash);
 
 /*
  * Frees a player effects hash table
@@ -315,13 +317,15 @@ int delete_single_effect(stat_effect_t *effect, effects_hash_t *hash);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int delete_all_effects(effects_hash_t *effects);
+int delete_all_stat_effects(effects_hash_t *effects);
 
 /*
- * Frees a single global effect struct
+ * Deletes a single global effect struct from a hash table,
+ * then frees it
  *
  * Parameters: 
- * effect: pointer to an effect struct
+ * effect: pointer to a global effect struct to be freed
+ * hash: pointer to hash table containing global effect to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
