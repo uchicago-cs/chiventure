@@ -353,10 +353,9 @@ Test(game_end_condition, is_game_over)
     set_str_attr(test_item, "Test_Attribute", unexpected.str_val);
     add_item_to_game(game, test_item);
     
-    game_action_condition_t *condition = malloc(sizeof(game_action_condition_t));
-    condition->item = test_item;
-    condition->attribute_to_check = get_attribute(test_item, "Test_Attribute");
-    condition->expected_value = expected;
+    game_action_condition_t *condition;
+    condition = condition_new(test_item, get_attribute(test_item, "Test_Attribute"),
+                              expected);
     
     room_t *test_room1 = room_new("test_room1", "room1 short", "room1 long long long");
     room_t *test_room2 = room_new("test_room2", "room2 short", "room2 long long long");
