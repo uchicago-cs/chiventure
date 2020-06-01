@@ -280,7 +280,7 @@ int add_condition(game_t *game, char* action_name, char* item_src_name,
     {
         return ATTRIBUTE_NULL;
     }
-    int check = add_action_condition(action,
+    int check = add_action_attribute_condition(action,
                                      item_modify, attribute, new_value);
 
     return check;
