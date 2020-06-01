@@ -83,6 +83,15 @@ Test(test_class, init)
                                            "description");
 }
 
+Test(test_class, skills_init)
+{
+    class_t* c = generate_test_class();
+
+    cr_assert_not_null(c->skilltree, "class_skills_init didn't set skilltree");
+    cr_assert_not_null(c->combat, "class_skills_init didn't set combat");
+    cr_assert_not_null(c->noncombat, "class_skills_init didn't set noncombat");
+}
+
 /* Tests class_free */
 Test(test_class, free)
 {

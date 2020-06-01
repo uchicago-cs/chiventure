@@ -63,6 +63,12 @@ int class_skills_init(class_t* class)
                         "in class_skills_init\n");
         return EXIT_FAILURE;
     }
+    if (combat == NULL || noncombat == NULL)
+    {
+        fprintf(stderr, "Could not allocate memory for skill inventories"
+                        "in class_skills_init\n");
+        return EXIT_FAILURE;
+    }
     class->skilltree = tree;
     class->combat = combat;
     class->noncombat = noncombat;
