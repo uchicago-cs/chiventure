@@ -43,8 +43,8 @@ stats_global_t* stats_global_new(stats_global_hash_t *gsh, char *name, double ma
         return NULL;
     }
     if(gsh != NULL)
-    {
-        HASH_ADD_KEYPTR(hh, gsh, name, strlen(name), global_stat);
+    {    
+        HASH_ADD_KEYPTR(hh, gsh, global_stat->name, strlen(global_stat->name), global_stat);
     }
     return global_stat;
 }
