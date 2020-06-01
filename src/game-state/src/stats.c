@@ -169,7 +169,7 @@ int delete_all_effects(effects_hash_t *effects)
 
     HASH_ITER(hh, effects, current_effect, tmp)
     {
-        effect_free(current_effect, effects);
+        delete_single_effect(current_effect, effects);
     }
 
     return SUCCESS;
@@ -194,7 +194,7 @@ int delete_all_global_effects(effects_global_hash_t *effects)
     effects_global_t *current_effect, *tmp;
     HASH_ITER(hh, effects, current_effect, tmp)
     {
-        global_effect_free(current_effect, effects);
+        delete_single_global_effect(current_effect, effects);
     }
 
     return SUCCESS;
