@@ -230,13 +230,13 @@ double get_stat_mod(stats_hash_t *sh, char *stat);
  * Adds a stat to a stat hash table
  *
  * Parameters: 
- * sh: the stats hash table of the player
+ * sh: the stats hash table of the player/npc
  * s: the stat to be added to the table
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int add_stat_player(stats_hash_t **sh, stats_t *s);
+int add_stat(stats_hash_t **sh, stats_t *s);
 
 /*
  * Print a list of the stats in a hashtable
@@ -260,22 +260,12 @@ char *display_stats(stats_hash_t *sh);
  */
 int free_stats(stats_hash_t *stat);
 
-/*
- * Frees a global stat hashtable
- *
- * Parameters: 
- * stat: pointer to the global stat hashtable to be freed
- * 
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int free_stats_global(stats_global_hash_t *stat);
 
 /*
- * Frees a global stat
+ * Frees the global stat hashtable
  *
  * Parameters: 
- * gsh: pointer to the global statto be freed
+ * gsh: pointer to the global stat hash table.
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
