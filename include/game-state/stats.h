@@ -129,7 +129,7 @@ int stats_init(stats_t *stat, char *name, double init);
  *  If struct already exists, returns existing struct and does not overwrite
  */
 
-stats_global_t* stats_global_new(stats_global_hash_t gsh, char *name, double max);
+stats_global_t* stats_global_new(stats_global_hash_t *gsh, char *name, double max);
 
 /*
  * Allocates a new stat
@@ -141,7 +141,7 @@ stats_global_t* stats_global_new(stats_global_hash_t gsh, char *name, double max
  * Returns:
  *  Pointer to allocated stats struct
  */
-stats_t *stats_new(stats_global_hash_t gsh, char *name, double init);
+stats_t *stats_new(stats_global_hash_t *gsh, char *name, double init);
 
 /*
  * Changes the base value of a stat by the
