@@ -60,12 +60,12 @@ Test(objstore, add_new)
     object_t *old = malloc(sizeof(object_t));
     strcpy(old->id, "villager");
     old->type = 6;
-    old->attrs = malloc(sizeof(attribute_t));
+    old->attrs = malloc(sizeof(obj_attr_t));
 
     object_t *new = malloc(sizeof(object_t));
     strcpy(new->id, "robber");
     new->type = 6;
-    new->attrs = malloc(sizeof(attribute_t));
+    new->attrs = malloc(sizeof(obj_attr_t));
 
     objstore_t *store = NULL;
     add_objstore(&store, old);
@@ -102,13 +102,13 @@ Test(objstore, add_replace)
     object_t *old = malloc(sizeof(object_t));
     strcpy(old->id, "villager");
     old->type = 6;
-    old->attrs = malloc(sizeof(attribute_t));
+    old->attrs = malloc(sizeof(obj_attr_t));
     strcpy(old->attrs->id, "health");
 
     object_t *new = malloc(sizeof(object_t));
     strcpy(new->id, "villager");
     new->type = 6;
-    new->attrs = malloc(sizeof(attribute_t));
+    new->attrs = malloc(sizeof(obj_attr_t));
     strcpy(new->attrs->id, "mana");
 
     objstore_t *res = NULL;
