@@ -16,6 +16,7 @@
  *  - name, shortdesc, longdesc: Name and descriptions of the class
  *  - attr: the attributes of the class
  *  - stat: the stats of the class
+ *  - effect: temporary stats of the class
  *  - skilltree: the skilltree of the class
  *  - combat: the battle/combat actions of the class
  *  - noncombat: the noncombat actions of the class
@@ -25,8 +26,8 @@
  *  - NULL on error
  */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_t* stat, skilltree_t* skilltree,
-                   skill_t* combat, skill_t* noncombat);
+                   obj_t* attr, stats_hash_t* stat, effects_hash_t* effect,
+                   skilltree_t* skilltree, skill_t* combat, skill_t* noncombat);
 
 /* 
  * Initializes values for a player class. Only creates a deep copies of the 
@@ -37,6 +38,7 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
  *  - name, shortdesc, longdesc: Name and descriptions of the class
  *  - attr: the attributes of the class
  *  - stat: the stats of the class
+ *  - effect: temporary stats of the class
  *  - skilltree: the skilltree of the class
  *  - combat: the battle/combat actions of the class
  *  - noncombat: the noncombat actions of the class
@@ -46,8 +48,8 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
  *  - EXIT_FAILURE otherwise
  */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
-               obj_t* attr, stats_t* stat, skilltree_t* skilltree,
-               skill_t* combat, skill_t* noncombat);
+               obj_t* attr, stats_hash_t* stat, effects_hash_t* effect,
+               skilltree_t* skilltree, skill_t* combat, skill_t* noncombat);
 
 /*
  * Frees a class and strings created by class_new.

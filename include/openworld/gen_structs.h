@@ -30,6 +30,7 @@ typedef struct roomspec {
     char *room_name;
     char *short_desc;
     char *long_desc;
+    int num_built;
     item_hash_t *items;
     npc_t *possible_npcs;
     UT_hash_handle hh;    
@@ -144,7 +145,7 @@ int init_roomspec(npc_t *possible_npcs, roomspec_t *spec, char *room_name, char 
 * roomspec_t *roomspecnew - the new roomspec
 * NULL - if fails to create a new roomspec.
 */
-roomspec_t* roomspec_new( npc_t *possible_npcs,char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
+roomspec_t* roomspec_new(npc_t *possible_npcs,char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
 
 /* roomspec_free
 * Frees a gencontext_t* and returns whether or not it was succesful.

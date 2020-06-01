@@ -14,7 +14,7 @@
 int check_eq(attribute_t *a1, attribute_t *a2)
 {
     if (a1->attribute_tag != a2->attribute_tag) {
-        return FAIL;
+        return FAILS;
     }
 
     int cmp;
@@ -167,16 +167,16 @@ int char_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
  *
  * Returns:
  *  - TRUE/FALSE int status code
- *  - FAIL status code if attribute types cannot be compared
+ *  - FAILS status code if attribute types cannot be compared
  */
 int num_comp(attribute_t *a1, attribute_t *a2, num_comp_t op)
 {
     if (a1->attribute_tag != a2->attribute_tag) {
-        return FAIL;
+        return FAILS;
     }
 
     if (a1->attribute_tag == BOOLE || a1->attribute_tag == STRING) {
-        return FAIL;
+        return FAILS;
     }
 
     switch (a1->attribute_tag) {
@@ -225,3 +225,18 @@ int check_gte(attribute_t *a1, attribute_t *a2)
  *
  * int check_in(attribute_t *a, item_t *c)
  */
+
+
+/* See custom-actions-common.h */
+attribute_t *attribute_new(enum attribute_tag tag, attribute_value_t value) {
+
+    attribute_t *res = (attribute_t*) malloc(sizeof(attribute_t));
+    if (!res) {
+        fprintf(stderr, "attribute_new: failed to allocate attribute");
+        exit(1);
+    }
+
+    res->attribute_key = NULL;
+    res->attribute_tag = tag;
+    res->attribute_value = value;
+}

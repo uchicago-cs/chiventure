@@ -1,5 +1,8 @@
 #include <string.h>
-#include "openworld/include/sample_npc.h"
+#include "common/uthash.h"
+#include "common/utlist.h"
+#include "game-state/item.h"
+#include "openworld/sample_npc.h"
 
 
 /* See sample_npc.h */
@@ -12,8 +15,8 @@ npc_t *get_hostile_npcs()
     item_t *potion_item = item_new("healing potion","a green potion ", "a healing potion made for you!");
 
     // assasin
-    HASH_ADD_STR(inventory_assasin, item_id,potion_item);
     item_hash_t *inventory_assasin = NULL;
+    HASH_ADD_STR(inventory_assasin, item_id,potion_item);
     item_t *rifle_item = item_new("rifle", "sharp rifle", "Level 1 rifle");
     HASH_ADD_STR(inventory_assasin, item_id,rifle_item);
     item_t *knife_item = item_new("knife", "knife", "sharp silver kitchen knife");
@@ -31,7 +34,7 @@ npc_t *get_hostile_npcs()
     wizard->level = 2;
     wizard->inventory = inventory_wizard;
     wizard->classification = NPC_HOSTILE;
-    DL_APPEND(merchant_list, wizard);
+    DL_APPEND(hostile_list, wizard);
 
     npc_t *assasin = calloc(1, sizeof(npc_t));
     assasin->level = 3;
@@ -69,9 +72,9 @@ npc_t *get_friendly_npcs()
     // librarian
     item_hash_t *inventory_librarian = NULL;
     item_t *book_item = item_new("book", "a blue book", "a book of knowlege");
-    HASH_ADD_STR(inventory_friend, item_id,book_item);
+    HASH_ADD_STR(inventory_librarian, item_id,book_item);
     item_t *pencil_item = item_new("pencils","yellow pencil", "Non-lethal weapon" );
-    HASH_ADD_STR(inventory_friend, item_id, pencil_item);
+    HASH_ADD_STR(inventory_librarian, item_id, pencil_item);
 
     npc_t *friendly_list = NULL;
     npc_t *librarian = calloc(1, sizeof(npc_t));
