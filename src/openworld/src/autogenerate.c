@@ -38,7 +38,7 @@ bool path_exists_in_dir(room_t *r, char *direction)
 /* See autogenerate.h */
 room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id)
 {
-    room_t *res = room_new(room_id, roomspec->short_desc, roomspec->long_desc);
+    room_t *res = room_new(roomspec->possible_npcs,room_id, roomspec->short_desc, roomspec->long_desc);
 
     item_hash_t *current, *tmp;
     HASH_ITER(hh, roomspec->items, current, tmp) {
