@@ -263,9 +263,15 @@ int add_edge(node_t *n, edge_t *e)
 }
 
 /* See dialogue.h */
-edge_t *read_input(node_t *n, char *input)
+edge_t *read_input(node_t *n, char *input, char *farewell)
 {
     char *adj_input = strtok(input, "\n");
+
+    if (strcmp(adj_input, "ignore") == 0)
+    {
+        end_convo(farewell);
+    }
+
     edge_t *res;
 
     HASH_FIND(hh, n->edges, adj_input, strlen(adj_input), res);
@@ -274,13 +280,13 @@ edge_t *read_input(node_t *n, char *input)
 }
 
 /* See dialogue.h */
-node_t *traverse_edge(node_t *n)
+node_t *traverse_edge(node_t *n, char *farewell)
 {
     char *input = malloc(MAX_KEY_LEN);
     fgets(input, MAX_KEY_LEN, stdin);
 
     edge_t *e;
-    e = read_input(n, input);
+    e = read_input(n, input, farewell);
 
     if (e != NULL) {
         printf("\n%s\n\n", e->quip);
@@ -294,11 +300,10 @@ node_t *traverse_edge(node_t *n)
 }
 
 /* See dialogue.h */
-void end_convo()
+void end_convo(char *farewell)
 {
-    print_red("\n\nCongrats on finishing the chiventure dialogue showcase!\n");
-    print_gold("Press ENTER to exit");
-    getchar();
+    npc_print(farewell);
+    printf("\n");
     exit(0);
 }
 
@@ -306,14 +311,15 @@ void end_convo()
 void run_convo(convo_t *c)
 {
     npc_print(c->nodes->cur_node->dialogue);
+    npc_print("Or, you could #ignore# me.");
     node_t *cur;
     while (c->nodes->cur_node->connection_count != 0) {
         printf("\n\n> Talk about: ");
-        cur = traverse_edge(c->nodes->cur_node);
+        cur = traverse_edge(c->nodes->cur_node, c->farewell);
         if (cur != NULL) {
             c->nodes->cur_node =
                 c->nodes->cur_node->edges->toward;
         }
     }
-    end_convo();
+    end_convo(c->farewell);
 }
