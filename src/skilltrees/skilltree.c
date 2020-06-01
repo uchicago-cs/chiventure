@@ -103,7 +103,7 @@ int skill_tree_free(skill_tree_t* tree) {
 int skill_tree_node_add(skill_tree_t* tree, skill_node_t* node) {
     assert(tree != NULL && node != NULL);
 
-    int rc = array_element_add(tree->nodes, tree->nnodes, node);
+    int rc = array_element_add((void**)tree->nodes, tree->nnodes, (void*)node);
     if (rc) {
         fprintf(stderr, "skill_tree_node_add: failed to add node\n");
         return FAILURE;
@@ -194,12 +194,12 @@ skill_t** skill_prereqs_acquired(skill_tree_t* tree,
             // acquired skills.
             switch (type) {
                 case ACTIVE:
-                    array_element_add(acquired, (*nacquired),
-                                      inventory->active[pos]);
+                    array_element_add((void**)acquired, (*nacquired),
+                                      (void*)inventory->active[pos]);
                     break;
                 case PASSIVE:
-                    array_element_add(acquired, (*nacquired),
-                                      inventory->passive[pos]);
+                    array_element_add((void**)acquired, (*nacquired),
+                                      (void*)inventory->passive[pos]);
                     break;
                 default:
                     fprintf(stderr, "prereqs_acquired: not valid skill type\n");
@@ -249,8 +249,7 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
         if (pos == -1) {
             // Inventory doesn't have this skill, so we have to add it to the
             // list of non-acquired skills.
-            array_element_add(missing, (*nmissing),
-                              prereqs[i]);
+            array_element_add((void**)missing, (*nmissing), (void*)prereqs[i]);
             (*nmissing)++;
         }
     }
