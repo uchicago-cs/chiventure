@@ -131,9 +131,9 @@ Test(stats, display_stat)
     s1.max = 75;
     s1.modifier = 1.1;
 
-    int rc = add_stat_player(&sh, &s1);
+    int rc = add_stat(&sh, &s1);
 
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
+    cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
 
     stats_global_t speed;
@@ -147,9 +147,9 @@ Test(stats, display_stat)
     s2.max = 50;
     s2.modifier = 0.9;
 
-    rc = add_stat_player(&sh, &s2);
+    rc = add_stat(&sh, &s2);
 
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
+    cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
     char *list = display_stats(sh);
 
