@@ -146,7 +146,7 @@ int free_stats(stats_hash_t *sh)
     return SUCCESS;
 }
 
-int free_stats_global(stats_global_hash_t* gsh)
+int free_stats_global(stats_global_hash_t *gsh)
 {
     stats_global_t *current, *next;
     for(current = gsh->hh.next; current != NULL; next = current->hh.next) 

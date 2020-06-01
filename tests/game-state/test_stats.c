@@ -3,14 +3,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "game-state/stats.h"
-#include "common/ctx.h"
 
 
 /* Checks that stats_global_new() mallocs memory for a stats_global struct*/
 /* and initializes it with a stat's name and the maximal value*/
 Test(stats, stats_global_new){
-    chiventure_ctx_t *ctx = chiventure_ctx_new();
-    stats_global_t *stat = stats_global_new(ctx, "health", 100);
+    stats_global_t *stat = stats_global_new(NULL, "health", 100);
     cr_assert_not_null(stat, "stats_global_new() failed. Health stat is NULL");
     cr_assert_eq(strcmp(stat->name,
         "health"), 0,
