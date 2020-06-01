@@ -26,7 +26,7 @@ int stats_init(stats_t *stat, char *name, double init)
 stats_global_t* stats_global_new(stats_global_hash_t *gsh, char *name, double max)
 {
     stats_global_t *global_stat = NULL;
-    if{gsh != NULL)
+    if(gsh != NULL)
     {
         HASH_FIND_STR(gsh, name, global_stat);
            if(global_stat != NULL)
