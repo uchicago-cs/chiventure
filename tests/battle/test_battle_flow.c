@@ -162,17 +162,43 @@ Test(battle_flow, start_battle)
 /* Tests print_start_battle() */
 Test(battle_flow, print_start_battle)
 {
+    // Setting up a battle with set_battle
+    player_t *ctx_player = new_ctx_player("player_name", NULL, NULL, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, NULL, NULL, NULL);
+    environment_t env = ENV_DESERT;
+    battle_t *b = set_battle(ctx_player, npc_enemy, env);
+    cr_assert_not_null(b, "set_battle() failed");
+    b->player->stats->hp = 100;
+    b->enemy->stats->hp = 80;
 
+    // Setting up malloced strings - Taken from actionmanagement.c and
+    // test_path_actions.c in action management tests
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+    char *ret_string = malloc(BUFFER_SIZE);
+
+
+    int rc = print_start_battle(b, string, &ret_string);
+
+    cr_assert_eq(rc, SUCCESS, "print_start_battle() failed");
+
+    char *expected_string = "You have encountered Bob!\n\n
+                             Let the battle begin!\n
+                             \| Your HP\: 100\n
+                             \| Bob's HP\: 80\n";
+    cr_expect_eq(ret_string, expected_string, "print_start_battle() failed");
 }
 
-/* Tests print_battle_move() */
+/* Tests print_battle_move()
 Test(battle_flow, print_battle_move)
 {
 
 }
+*/
 
-/* Tests print_battle_winner() */
+/* Tests print_battle_winner()
 Test(battle_flow, print_battle_winner)
 {
 
 }
+*/
