@@ -74,6 +74,7 @@ int AST_block_free(AST_block_t *ast)
                 branch_block_free(ast->block->branch_block);
             }
     }
+    free(ast->block);
     free(ast);
 
     return SUCCESS;  
