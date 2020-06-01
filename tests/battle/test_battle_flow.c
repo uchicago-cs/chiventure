@@ -167,9 +167,9 @@ Test(battle_flow, init_battle_flow)
     stat_t *pstats = calloc(1, sizeof(size_t));
     pstats->hp = 20;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
-    g->curr_player = ctx_player;
+    g->player = ctx_player;
     ctx->game = g;
-    ctx->in_battle = true;
+    ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
@@ -193,9 +193,9 @@ Test(battle_flow, do_damage_battle_flow)
     stat_t *pstats = calloc(1, sizeof(size_t));
     pstats->hp = 20;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
-    g->curr_player = ctx_player;
+    g->player = ctx_player;
     ctx->game = g;
-    ctx->in_battle = true;
+    ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
@@ -223,9 +223,9 @@ Test(battle_flow, battle_over_by_player)
     stat_t *pstats = calloc(1, sizeof(size_t));
     pstats->hp = 20;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
-    g->curr_player = ctx_player;
+    g->player = ctx_player;
     ctx->game = g;
-    ctx->in_battle = true;
+    ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
@@ -254,9 +254,9 @@ Test(battle_flow, battle_over_by_enemy)
     stat_t *pstats = calloc(1, sizeof(size_t));
     pstats->hp = 100;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
-    g->curr_player = ctx_player;
+    g->player = ctx_player;
     ctx->game = g;
-    ctx->in_battle = true;
+    ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
