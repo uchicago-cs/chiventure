@@ -16,43 +16,6 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environ
     return SUCCESS;
 }
 
-int print_start_battle(battle_t *b, char *string, char **ret_string)
-{
-    sprintf(string, "You have encountered %s!\n\n
-                    Let the battle begin!\n
-                    \| Your HP\: %d\n
-                    \| %s's HP\: %d\n",enemy_name, player_hp, enemy_hp);
-
-    *ret_string = string;
-
-    return SUCCESS;
-}
-
-int print_move(battle_t *b, move_t move, char *string, char **ret_string)
-{
-    sprintf(string, "You used %s! It did %d damage.\n
-            \| Your HP\: %d\n
-            \| %s's HP\: %d\n", move_name, damage, enemy_name, player_hp, enemy_hp);
-
-    *ret_string = string;
-
-    return SUCCESS;
-}
-
-int print_winner(combatant_t *c, int xp, char *string, char **ret_string)
-{
-    if (c->is_friendly == TRUE)
-    {
-        sprintf(string,"You've won! You gain %d XP!\n",xp);
-    } else {
-        sprintf(string,"%s has won...\n",c->name);
-    }
-
-    *ret_string = string;
-
-    return SUCCESS;
-}
-
 /* see battle_flow.h */
 combatant_t *set_player(player_t *ctx_player)
 {
@@ -112,3 +75,61 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment
 
     return b;
 };
+
+/* see battle_flow.h */
+int print_start_battle(battle_t *b, char *string, char **ret_string)
+{
+    char *enemy_name = b->enemy->name;
+    int player_hp = b->player->stats->hp;
+    int enemy_hp = b->enemy->stats->hp;
+
+    sprintf(string, "You have encountered %s!\n\n
+                    Let the battle begin!\n
+                    \| Your HP\: %d\n
+                    \| %s's HP\: %d\n", enemy_name, player_hp, enemy_hp);
+
+    *ret_string = string;
+
+    return SUCCESS;
+}
+
+/* see battle_flow.h */
+int print_battle_move(battle_t *b, turn_t turn, move_t move, char *string, char **ret_string)
+{
+    char *move_name = move->info;
+    int damage = move->damage;
+    int player_hp = b->player->stats->hp;
+    int enemy_hp = b->enemy->stats->hp;
+    char* combatant_name;
+    if (turn == PLAYER)
+    {
+        combatant_name = "You";
+    } else
+    {
+        combatant_name = b->enemy->name;
+    }
+
+    sprintf(string, "%s used %s! It did %d damage.\n
+            \| Your HP\: %d\n
+            \| %s's HP\: %d\n", combatant_name, move_name, damage, player_hp, enemy_hp);
+
+    *ret_string = string;
+
+    return SUCCESS;
+}
+
+/* see battle_flow.h */
+int print_battle_winner(battle_status_t status, int xp, char *string, char **ret_string)
+{
+    if (status == BATTLE_VICTOR_PLAYER)
+    {
+        sprintf(string,"You've won! You gain %d XP!\n",xp);
+    } else if (status == BATTLE_VICTOR_ENEMY)
+    {
+        sprintf(string,"You lost...\n",c->name);
+    }
+
+    *ret_string = string;
+
+    return SUCCESS;
+}

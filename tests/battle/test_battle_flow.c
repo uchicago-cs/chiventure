@@ -158,3 +158,21 @@ Test(battle_flow, start_battle)
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
 
 }
+
+/* Tests print_start_battle() */
+Test(battle_flow, print_start_battle)
+{
+
+}
+
+/* Tests print_battle_move() */
+Test(battle_flow, print_battle_move)
+{
+
+}
+
+/* Tests print_battle_winner() */
+Test(battle_flow, print_battle_winner)
+{
+
+}
