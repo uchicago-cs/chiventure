@@ -9,23 +9,6 @@
   *      the name of the stat,
   *      which is also the key to the hashtable
   *
-  *      the maximal value a stat could have
-  * */
-typedef struct stats_global{
-    char *name;
-    double max;
-    UT_hash_handle hh; 
-} stats_global_t;
-
-typedef struct stats_global stats_global_hash_t;
-
-
-// GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
- /* This struct represents the global table that keeps track of all stats available.
-  * It contains:
-  *      the name of the stat,
-  *      which is also the key to the hashtable
-  *
   *      the global maximal value a stat could have
   * */
 typedef struct stats_global {
