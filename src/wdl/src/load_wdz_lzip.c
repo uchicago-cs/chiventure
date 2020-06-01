@@ -91,6 +91,7 @@ int populate_objstore_from_wdz
     if (n_entries <= 0) // negative number means error, 0 means empty zip
     {
         *n_jsons = 0;
+        zip_close(wdz);
         return FAILURE;
     }
     
@@ -116,6 +117,8 @@ int populate_objstore_from_wdz
 
     *n_jsons = count;
 
+    zip_close(wdz);
+    
     return SUCCESS;   
 }
 
