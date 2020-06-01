@@ -300,7 +300,7 @@ int free_stats_global(stats_global_hash_t *stat);
  * then frees the struct
  *
  * Parameters: 
- * effects: pointer to the effects struct to be freed
+ * effect: pointer to the effects struct to be freed
  * hash: pointer to the hash table containing the effect to be freed
  * 
  * Returns:
