@@ -135,6 +135,7 @@ stats_global_t* stats_global_new(stats_global_hash_t *gsh, char *name, double ma
  * Allocates a new stat
  *
  * Parameters:
+ * gsh: the global stats table
  * stat: the pointer to the global stat struct.
  * init: starting value
  * 
