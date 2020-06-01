@@ -10,7 +10,7 @@
 Test(stats, stats_global_new){
     
     stats_global_t *ghs, *global_stat;
-    global_stat = stats_global_new(gsh, "health", 100);
+    global_stat = stats_global_new(ghs, "health", 100);
     cr_assert_not_null(global_stat, "stats_global_new() failed. Health stat is NULL");
     cr_assert_eq(strcmp(global_stat->name,
         "health"), 0,
