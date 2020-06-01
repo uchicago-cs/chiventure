@@ -41,6 +41,27 @@ bool any_paths(room_t *r);
 
 
 /*
+ * path_exists_in_dir
+ * Is there any path in the given room that exists in the given direction?
+ * Return a boolean.
+ * 
+ * parameters:
+ * - r: A room pointer for the input room. Should not be NULL.
+ * - direction: A string specifying the direction to check for 
+ *              ("NORTH", "EAST", SOUTH", or "WEST")
+ *
+ * side effects:
+ * - None. Does not alter room/game states. Just determines if the input 
+ *   room has any paths in the given direction.
+ *
+ * returns:
+ * - true if the room has a path with in the given direction
+ * - false if the room has no paths in the give direction
+ */
+bool path_exists_in_dir(room_t *r, char *direction);
+
+
+/*
  * context_to_room
  * Given a roomspec_t pointer (type roomspec_t*), returns 
  * a room_t pointer generated from its specifications, with a room_id that 

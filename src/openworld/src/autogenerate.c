@@ -23,6 +23,26 @@ bool any_paths(room_t *r)
 }
 
 /* See autogenerate.h */
+bool path_exists_in_dir(room_t *r, char *direction)
+{
+    // No paths case
+    if (r->paths == NULL)
+    {
+        return false;
+    }
+
+    path_hash_t *current, *tmp;
+    HASH_ITER(hh, r->paths, current, tmp) {
+        // If the path has the given direction, return true
+        if (strcmp(current->direction, direction), 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+/* See autogenerate.h */
 room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id)
 {
     room_t *res = room_new(room_id, roomspec->short_desc, roomspec->long_desc);
@@ -40,46 +60,47 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec, char *room_id)
 /* See autogenerate.h */
 int room_generate(game_t *game, gencontext_t *context, char *room_id)
 {
-    /* Implement simple single-room autogeneration */
-    if (!any_paths(game->curr_room)) 
-    {
-        // Adds one generated room from the head of the speclist only
-        room_t *new_room = roomspec_to_room(game, context->speclist->spec, room_id);
+    // 2D array of possible directions
+    char directions[3][6];
+    strncpy(directions[0], "NORTH", 6);
+    strncpy(directions[1], "EAST", 5);
+    strncpy(directions[2], "SOUTH", 6);
+    strncpy(directions[3], "WEST", 5);
 
-        // Add addRoom to gameNew
+    // Random initial direction
+    unsigned int first_direction = rand() % 4;
+
+    // Bump directions index by 1 if a path with that direction already exists
+    unsigned int bump;
+    for (bump = 0; bump < 4; bump++)
+    {
+        // Forwards direction + bump
+        int forwards = (first_direction + bump) % 4;
+
+        // If path in that direction exists in game->curr_room, bump. Else, create the path
+        if (path_exists_in_dir(game->curr_room, directions[forwards]))
+        {
+            // Bump if the room already has a path in the given direction
+            continue;
+        }
+        
+        // Adds one generated room from the head of context->speclist only
+        room_t *new_room = roomspec_to_room(game, context->speclist->spec, room_id);
         assert(SUCCESS == add_room_to_game(game, new_room));
 
-        char directions[3][6];
-        strncpy(directions[0], "NORTH", 6);
-        strncpy(directions[1], "SOUTH", 6);
-        strncpy(directions[2], "EAST", 5);
-        strncpy(directions[3], "WEST", 5);
-        
-        // Add path from the current room to addRoom
-        unsigned int random_index = rand() % 4;
-
-        // Random direction for the path
-        path_t* path_to_room = path_new(new_room, directions[random_index]);
+        // Path to the generated room
+        path_t* path_to_room = path_new(new_room, directions[forwards]);
         assert(SUCCESS == add_path_to_room(game->curr_room, path_to_room));
 
-        // Opposite direction
-        if (random_index == 0 || random_index == 2)
-        {
-            random_index++;
-        }
-        else
-        {
-            random_index--;
-        }
-
-        // Add the opposite path to the game
-        path_t* path_to_room2 = path_new(game->curr_room, directions[random_index]);
+        // Path for the opposite direction
+        unsigned int backwards = (forwards + 2) % 4;
+        path_t* path_to_room2 = path_new(game->curr_room, directions[backwards]);
         assert(SUCCESS == add_path_to_room(new_room, path_to_room));
 
-        return SUCCESS; /* room added */
+        return SUCCESS; // Room was generated
     }
 
-    return FAILURE; /* room not added */
+    return FAILURE; // Room was not generated
 }
 
 /* See autogenerate.h */
