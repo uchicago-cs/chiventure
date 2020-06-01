@@ -9,7 +9,7 @@ move_list_t* move_list() {
 
     // Bard
 
-    class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL, NULL, NULL);
+    class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL, NULL, NULL, NULL);
     move_list_t* bardlist;
 
     bardlist = (move_list_t*) calloc(1, sizeof(move_list_t));
@@ -24,10 +24,11 @@ move_list_t* move_list() {
     bardlist->damage = 8;
     bardlist->id = 0;
     bardlist->next = NULL;
+    bardlist->prev = NULL;
     
     // Wizard
 
-    class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, NULL, NULL);
+    class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, NULL, NULL, NULL);
     move_list_t* wizardlist;
 
     wizardlist = (move_list_t*) calloc(1, sizeof(move_list_t));
@@ -42,11 +43,11 @@ move_list_t* move_list() {
     wizardlist->damage = 10;
     wizardlist->id = 1;
     
-    LL_PREPEND(wizardlist, bardlist);
+    DL_PREPEND(bardlist, wizardlist);
     
     // Knight
 
-    class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL, NULL, NULL);
+    class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL, NULL, NULL, NULL);
     move_list_t* knightlist;
 
     knightlist = (move_list_t*) calloc(1, sizeof(move_list_t));
@@ -61,7 +62,7 @@ move_list_t* move_list() {
     knightlist->damage = 9;
     knightlist->id = 2;
 
-    LL_PREPEND(bardlist, knightlist);
+    DL_PREPEND(wizardlist, knightlist);
 
     return knightlist;
 }

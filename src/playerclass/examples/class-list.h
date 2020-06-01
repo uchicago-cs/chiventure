@@ -13,6 +13,7 @@ typedef struct move_list {
     char* spell;
     int damage;
     int id;
+    struct move_list *prev;
     struct move_list *next;
 } move_list_t;
 
