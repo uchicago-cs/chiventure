@@ -1,7 +1,5 @@
 #include "wdl/objstore.h"
 
-// objstore_t *obj_store = NULL;
-
 /* See obj_store.h for documentation */
 objstore_t *new_objstore(obj_t *o)
 {
