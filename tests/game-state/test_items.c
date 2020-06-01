@@ -95,6 +95,20 @@ Test(item, add_item_to_hash)
  * item linked list from an item hashtable */
 Test(item, get_all_items_in_hash)
 {
+    item_hash_t *ht = NULL;
+    item_t *test_item1 = item_new("item1", "short", "long");
+    item_t *test_item2 = item_new("item2", "short", "long");
+    
+    item_list_t *list = get_all_items_in_hash(&ht);
+    cr_assert_eq(list, NULL, "get_all_items_in_hash did not return NULL for "
+                 "empty hashtable");
+    
+    add_item_to_hash(&ht, test_item1);
+    add_item_to_hash(&ht, test_item2);
+    list = get_all_items_in_hash(&ht);
+    
+    cr_assert_not_null(list, "get_all_items_in_hash returned NULL for "
+                       "non-empty hashtable");
     
 }
 
