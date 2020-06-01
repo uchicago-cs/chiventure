@@ -75,5 +75,5 @@ Test(battle_flow_structs, new_game)
     game_t *g = new_game();
 
     cr_assert_not_null(g, "game_new() failed");
-    cr_assert_eq(g->curr_player, NULL, "game_new() failed");
+    cr_assert_eq(g->player, NULL, "game_new() failed");
 }
