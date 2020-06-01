@@ -8,13 +8,13 @@
 int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environment_t env)
 {
     game_t *g = ctx->game;
-    player_t *player = g->player;
+    ctx->status = BATTLE_IN_PROGRESS;
+    player_t *player = g->curr_player;
 
     // Set player, enemies, and battle structs for a new battle
     battle_t *b = set_battle(player, npc_enemies, env);
-
+    
     g->battle = b;
-    ctx->status = BATTLE_IN_PROGRESS;
     return SUCCESS;
 }
 
@@ -78,7 +78,6 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment
     return b;
 }
 
-
 /* see battle_flow.h */
 chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 {
@@ -100,9 +99,8 @@ chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move,
     {
         return NULL;
     }
-    
+
     combatant_t *enemy = check_target(b, target);
-    
     if(enemy == NULL)
     {
         /* print stub: should tell player that their target was invalid
@@ -116,11 +114,11 @@ chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move,
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
     {
-        /* print stub: should tel player they won */
+        /* print stub: should tell player they won */
         award_xp(b->player->stats, 2.0);
         ctx->status = BATTLE_VICTOR_PLAYER;
 
-        return ctx;
+        return NULL;
     }
 
     move_t *enemy_move = give_move(b->player, b->enemy, BATTLE_AI_GREEDY);
@@ -131,7 +129,7 @@ chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move,
     {
         /* print stub: should tell player they lost */
         ctx->status = BATTLE_VICTOR_ENEMY;
-        return ctx;
+        return NULL;
     }
 
     return ctx;

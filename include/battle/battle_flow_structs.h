@@ -8,6 +8,7 @@
 #include "battle_logic.h"
 #include "common/common.h"
 #include "common/utlist.h"
+#include "battle/battle_logic.h"
 
 
 /* Stub for the player struct in game-state */
@@ -23,7 +24,7 @@ typedef struct player {
 /* Stub for the game_t struct in game-state */
 typedef struct game {
     // Would have other fields (eg hash tables for players, rooms, items)
-    player_t *player;
+    player_t *curr_player;
     battle_t *battle;
 } game_t;
 
@@ -35,7 +36,7 @@ typedef struct chiventure_ctx_battle {
     // would have UI context here
     game_t *game;
     // would have lookup table here
-    battle_status_t status;
+    battle_status_t *status;
 } chiventure_ctx_battle_t;
 
 /* Stub to simulate NPC enemy, that will then later be converted to

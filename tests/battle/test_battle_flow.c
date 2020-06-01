@@ -158,3 +158,122 @@ Test(battle_flow, start_battle)
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
 
 }
+
+/* this tests to see if it returns a ctx_battle */
+Test(battle_flow, init_battle_flow)
+{
+    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    game_t *g = new_game();
+    stat_t *pstats = calloc(sizeof(size_t));c
+    pstats->hp = 20;
+    player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
+    g->curr_player = ctx_player;
+    ctx->game = g;
+    ctx->in_battle = true;
+    stat_t *estats = calloc(sizeof(size_t));
+    estats->hp = 20;
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
+    environment_t env = ENV_WATER;
+
+    int rc = start_battle(ctx, npc_enemy, env);
+    cr_assert_eq(rc, SUCCESS, "start_battle() failed");
+
+    move_t *move = calloc(sizeof(move_t));
+    move->damage = 10;
+
+    ctx = battle_flow(ctx, move, "Enemy");
+    cr_assert_not_null(ctx, "battle_flow() returned NULL");
+}
+
+/* this tests to see if battle_flow does damage to the enemy */
+Test(battle_flow, do_damage_battle_flow)
+{
+    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    game_t *g = new_game();
+    stat_t *pstats = calloc(sizeof(size_t));
+    pstats->hp = 20;
+    player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
+    g->curr_player = ctx_player;
+    ctx->game = g;
+    ctx->in_battle = true;
+    stat_t *estats = calloc(sizeof(size_t));
+    estats->hp = 20;
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
+    environment_t env = ENV_WATER;
+
+    int rc = start_battle(ctx, npc_enemy, env);
+    cr_assert_eq(rc, SUCCESS, "start_battle() failed");
+
+    move_t *move = calloc(sizeof(move_t));
+    move->damage = 10;
+
+    ctx = battle_flow(ctx, move, "Enemy");
+    cr_assert_not_null(ctx, "battle_flow returned NULL");
+    cr_assert_eq(ctx->game->battle->enemy->stats->hp,
+                 10, 
+                 "battle_flow() did not compute damage correctly");
+    cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
+                 "battle_flow() failed: battle is not in progress");
+}
+
+Test(battle_flow, battle_over_by_player)
+{
+    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    game_t *g = new_game();
+    stat_t *pstats = calloc(sizeof(size_t));
+    pstats->hp = 20;
+    player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
+    g->curr_player = ctx_player;
+    ctx->game = g;
+    ctx->in_battle = true;
+    stat_t *estats = calloc(sizeof(size_t));
+    estats->hp = 20;
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
+    environment_t env = ENV_WATER;
+
+    int rc = start_battle(ctx, npc_enemy, env);
+    cr_assert_eq(rc, SUCCESS, "start_battle() failed");
+
+    move_t *move = calloc(sizeof(move_t));
+    move->damage = 10;
+    ctx = battle_flow(ctx, move, "Enemy");
+    cr_assert_not_null(ctx, "battle_flow returned NULL");
+    ctx = battle_flow(ctx, move, "Enemy");
+    cr_assert_not_null(ctx, "battle_flow returned NULL");
+    cr_assert_eq(ctx->game->battle->enemy->stats->hp,
+                 0,
+                 "battle_flow() did not compute damage correctly");
+    cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER,
+                 "battle_flow() failed: battle is not over due to player");
+}
+
+Test(battle_flow, battle_over_by_enemy)
+{
+    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    game_t *g = new_game();
+    stat_t *pstats = calloc(sizeof(size_t));
+    pstats->hp = 100;
+    player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
+    g->curr_player = ctx_player;
+    ctx->game = g;
+    ctx->in_battle = true;
+    stat_t *estats = calloc(sizeof(size_t));
+    estats->hp = 20;
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
+    environment_t env = ENV_WATER;
+
+    int rc = start_battle(ctx, npc_enemy, env);
+    cr_assert_eq(rc, SUCCESS, "start_battle() failed");
+
+    move_t *move = calloc(sizeof(move_t));
+    move->damage = 10;
+    ctx = battle_flow(ctx, move, "Enemy");
+    cr_assert_not_null(ctx, "battle_flow returned NULL");
+    ctx = battle_flow(ctx, move, "Enemy");
+    cr_assert_not_null(ctx, "battle_flow returned NULL");
+    cr_assert_eq(ctx->game->battle->enemy->stats->hp,
+                 0,
+                 "battle_flow() did not compute damage correctly");
+    cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
+                 "battle_flow() failed: enemy was not delcared the winner");
+}

@@ -6,8 +6,8 @@
 #include "common/utlist.h"
 
 /* See battle_state.h */
-combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
-             stat_t *stats, move_t *moves, item_t *items)
+combatant_t *combatant_new(char *name, bool is_friendly, class_t *class, stat_t *stats,
+    move_t *moves, item_t *items)
 {
     combatant_t *c;
     int rc;
@@ -30,8 +30,8 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
 }
 
 /* See battle_state.h */
-int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class,
-    stat_t *stats, move_t *moves, item_t *items)
+int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class, stat_t *stats,
+    move_t *moves, item_t *items)
 {
     assert(c != NULL);
 
@@ -61,14 +61,14 @@ int combatant_free(combatant_t *c)
         free(c->name);
     }
 
-    if(c->class)
-    {
-        class_free(c->class);
-    }
-
     if (c->stats)
     {
         free(c->stats);
+    }
+
+    if (c->class)
+    {
+        free(c->class);
     }
 
     move_t *move_elt, *move_tmp;
@@ -85,9 +85,9 @@ int combatant_free(combatant_t *c)
         free(item_elt);
     }
 
-    free(c);
+	free(c);
 
-    return SUCCESS;
+	return SUCCESS;
 }
 
 /* See battle_state.h */
