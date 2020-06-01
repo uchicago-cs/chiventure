@@ -1,7 +1,7 @@
 #ifndef _STATS_H
 #define _STATS_H
 
-#include "common/ctx.h"
+
 
 // GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
  /* This struct represents the global table that keeps track of all stats available.
@@ -117,9 +117,10 @@ int stats_global_init(stats_global_t *s, char *name, double max);
 int stats_init(stats_t *stat, char *name, double init);
 
 /*
- * Allocates a new global stat, and adds it to the global hash table
+ * Allocates a new global stat and adds it to the global stat table
  *
  * Parameters:
+ * gsh: The global stat table
  * name: the unique string ID to be given to the stat
  * max: maximal value this stat could have
  * 
@@ -128,7 +129,7 @@ int stats_init(stats_t *stat, char *name, double init);
  *  If struct already exists, returns existing struct and does not overwrite
  */
 
-stats_global_t* stats_global_new(chiventure_ctx_t *ctx, char *name, double max);
+stats_global_t* stats_global_new(stats_global_hash_t gsh, char *name, double max);
 
 /*
  * Allocates a new stat
@@ -140,7 +141,7 @@ stats_global_t* stats_global_new(chiventure_ctx_t *ctx, char *name, double max);
  * Returns:
  *  Pointer to allocated stats struct
  */
-stats_t *stats_new(chiventure_ctx_t *ctx, char *name, double init);
+stats_t *stats_new(stats_global_hash_t gsh, char *name, double init);
 
 /*
  * Changes the base value of a stat by the
