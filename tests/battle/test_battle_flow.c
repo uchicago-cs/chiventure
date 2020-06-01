@@ -186,7 +186,7 @@ Test(battle_flow, print_start_battle)
                             "Let the battle begin!\n"
                             "-- Your HP: 100\n"
                             "-- Bob's HP: 80\n";
-    cr_expect_eq(ret_string, expected_string, "print_start_battle() failed");
+    cr_expect_eq(string, expected_string, "print_start_battle() failed");
 
     free(string);
 }
