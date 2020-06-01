@@ -5,22 +5,23 @@
 
 #include "load_wdz_internal.h"
 
-#include "wdl/wdl_common.h"
-
-#define MAX_GAME_OBJ_TYPE_LENGTH 32
+#include "wdl/wdl_common.h" // to get obj_t
 
 
 obj_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
 {
-    // duimmy function for now.
+    // dummy function for now.
+    // Waiting on new obj_t implementation before we can write this conversion! 
     return NULL;
 }
 
 
 int add_objstore(objstore_t *obj_store, obj_t *game_obj)
 {
+    // dummy function for now.
     return FAILURE;
 }
+
 
 /* See load_wdz_internal.h */
 bool filename_extension_is(const char *ext, const char *str)
@@ -33,80 +34,62 @@ bool filename_extension_is(const char *ext, const char *str)
 }
 
 
-
-int get_filename_from_path(const char *path_and_name, char *just_name_here)
-{
-    const char *name_and_ext = strrchr(path_and_name, '/');
-    if (!name_and_ext)
-    {
-        name_and_ext = path_and_name;
-    }
-    const char *file_extension_dot = strrchr(name_and_ext, '.');
-    if (!file_extension_dot)
-    {
-        char *cpy = strncpy(just_name_here, name_and_ext, MAX_GAME_OBJ_TYPE_LENGTH);
-        if (!cpy) 
-        {
-            return FAILURE;
-        }
-    }
-    else
-    {
-        char *cpy = strncpy(just_name_here, name_and_ext, strlen(name_and_ext) -  strlen(file_extension_dot));
-        if (!cpy)
-        {
-            return FAILURE;
-        }
-    }
-    return SUCCESS;
-}
-
-
 /* See load_wdz_internal.h */
 int load_game_objects_from_json_object
 (
     objstore_t *obj_store, 
-    json_object *j_obj,
-    const char *j_path_and_name
+    json_object *j_obj
 )
 {
-    if (!obj_store)
-    {
-        return FAILURE;
-    }
+    // // Commenting this out because we don't have an objstore right now
+    // // so this is always NULL.
+    // if (!obj_store)
+    // {
+    //     return FAILURE;
+    // }
     if (!j_obj)
     {
         return FAILURE;
     }
-    if (!j_path_and_name)
+
+    json_object_object_foreach(j_obj, j_name, j_value)
     {
-        return FAILURE;
-    } 
-    char j_name[MAX_GAME_OBJ_TYPE_LENGTH];
-    int bad_filename = get_filename_from_path(j_path_and_name, j_name);
-    if (bad_filename)
-    {
-        return FAILURE;
-    }
-    json_object *j_game_objs_j_arr;
-    json_object_object_get_ex(j_obj, j_name, &j_game_objs_j_arr);
-    if (json_object_is_type(j_game_objs_j_arr, json_type_array))
-    {
-        int n_objects = json_object_array_length(j_game_objs_j_arr);
-        for (int i = 0; i < n_objects; i++) // for each json_object in the array
+        if (json_object_is_type(j_value, json_type_array))
         {
-            json_object *j_game_obj = json_object_array_get_idx(j_game_objs_j_arr, i);
-            obj_t *game_obj = convert_j_obj_to_game_obj(j_game_obj, j_name);
-            // ^^^ waiting for obj_t implementation before we can write this conversion! 
-            if (!game_obj) 
+            int n_objects = json_object_array_length(j_value);
+            for (int i = 0; i < n_objects; i++) // for each json_object in the array
+            {
+                json_object *j_game_obj = json_object_array_get_idx(j_value, i);
+                obj_t *game_obj = convert_j_obj_to_game_obj(j_game_obj, j_name);
+                if (!game_obj) 
+                {
+                    return FAILURE;
+                }
+                add_objstore(obj_store, game_obj);
+            }
+            return SUCCESS;
+        }
+        else if (json_object_is_type(j_value, json_type_object))
+        {
+            // The only file with an object-type value as top-level
+            // is players.json. Other special cases can go here, but unlikely.
+            printf("Found player object.\n");
+            json_object *j_player_obj; 
+            json_object_object_get_ex(j_value, j_name, &j_player_obj);
+            obj_t *player = convert_j_obj_to_game_obj(j_player_obj, j_name);
+            if (!player)
             {
                 return FAILURE;
             }
-            add_objstore(obj_store, game_obj);
+            add_objstore(obj_store, player);
+            return SUCCESS;
         }
-        return SUCCESS;
+        else 
+        {
+            return FAILURE;
+        }
     }
-    return FAILURE;
+    // If no return yet by now then it failed.
+    return FAILURE;    
 }
-
 
