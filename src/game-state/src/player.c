@@ -116,18 +116,11 @@ item_hash_t* get_inventory(player_t* plyr)
 /* See player.h */
 int add_item_to_player(player_t *player, item_t *item)
 {
-    item_t *check;
-
-    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
-              check);
-
-    if (check != NULL)
-    {
-        return FAILURE; //this item id is already in use.
-    }
-    HASH_ADD_KEYPTR(hh, player->inventory, item->item_id,
-                    strlen(item->item_id), item);
-    return SUCCESS;
+    int rc;
+    
+    rc = add_item_to_hash(&(player->inventory), item);
+    
+    return rc;
 }
 
 /* See player.h */

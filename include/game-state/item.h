@@ -91,6 +91,17 @@ char *get_sdesc_item(item_t *item);
  */
 char *get_ldesc_item(item_t *item);
 
+/* Adds an item to a hashtable of items
+ * 
+ * Parameters:
+ *  hashtable of items
+ *  item to add to hashtable
+ * 
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int add_item_to_hash(item_hash_t **ht, item_t *new_item);
+
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {

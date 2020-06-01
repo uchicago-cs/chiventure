@@ -67,6 +67,23 @@ char *get_ldesc_item(item_t *item)
     return item->long_desc;
 }
 
+/* See item.h */
+int add_item_to_hash(item_hash_t **ht, item_t *new_item)
+{
+    item_t *check;
+    
+    HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //this item id is already in use.
+    }
+    HASH_ADD_KEYPTR(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN),
+                    new_item);
+
+    return SUCCESS;
+}
+
 // ATTRIBUTE MANIPULATION FUNCTIONS -------------------------------------------
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute)
