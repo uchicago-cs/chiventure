@@ -101,6 +101,8 @@ int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string, char
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
     char* enemy_name = b->enemy->name;
+    char* combatant_name;
+    
     if (turn == PLAYER)
     {
         combatant_name = "You";
