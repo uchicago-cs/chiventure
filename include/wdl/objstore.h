@@ -24,7 +24,7 @@ typedef struct objstore {
     objkey_t key;
 
     // pointer to object
-    obj_t *o; 
+    object_t *o; 
 
     // required for hash struct
     UT_hash_handle hh;
@@ -38,7 +38,7 @@ typedef struct objstore {
  *   - o: ptr to object
  * returns: ptr to new objstore item
  */
-objstore_t *new_objstore(obj_t *o);
+objstore_t *new_objstore(object_t *o);
 
 /*
  * find_objstore: finds objstore item containing object with given type & id
@@ -62,7 +62,7 @@ objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type);
  *   - o: object to add to hash
  * returns: SUCCESS on completion
  */
-int add_objstore(objstore_t **obj_store, obj_t *o);
+int add_objstore(objstore_t **obj_store, object_t *o);
 
 /*
  * free_objstore: deletes & frees a given objstore struct
