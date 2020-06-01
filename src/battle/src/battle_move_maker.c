@@ -23,13 +23,16 @@ player_t *add_class_move(player_t *player)
         {
             if(strcmp(tmp->c->name, "Bard"))
             {
+		printf("%s", tmp->spell);
+		ret_move = move_new(tmp->spell, tmp->id, NULL, true, tmp->damage, 0);
+	/**
                 ret_move->item = NULL;
                 ret_move->id = tmp->id;
                 ret_move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
                 strncpy(ret_move->info, tmp->spell, MAX_MOVE_INFO_LEN + 1);
                 ret_move->attack = true;
                 ret_move->damage = tmp->damage;
-                ret_move->defense = 0;
+                ret_move->defense = 0; **/
                 DL_PREPEND(player->moves, ret_move);
                 return player;
 

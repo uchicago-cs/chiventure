@@ -9,6 +9,14 @@
 /* defines max length of class info */
 #define MAX_MOVE_INFO_LEN (100)
 
+move_t *move_new(char* info, int id, item_t *items, bool attack,
+                 int damage, int defense);
+
+int move_init(move_t *move, char* info, int id, item_t *items, bool attack,
+                 int damage, int defense);
+
+int move_free(move_t *move);
+
 /* For use in testing battle code,
 make a test move for each class */
 
