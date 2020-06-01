@@ -25,7 +25,7 @@ Test(stats, stats_new){
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
 
-    stats_t *stat = stats_new(stats_global_t, "health", 100);
+    stats_t *stat = stats_new(stat_global, "health", 100);
     cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
     cr_assert_eq(strcmp(stat-> global -> name,
         "health"), 0,
@@ -92,9 +92,9 @@ Test(stats,global_free){
     cr_assert_eq(ret_val, SUCCESS, "free_stats_global() failed to return SUCCESS");
 }
 
-/* Checks that add_stat_player correctly adds a new stat 
+/* Checks that add_stat correctly adds a new stat 
    to a hash table*/
-Test (stats, add_stat_player)
+Test (stats, add_stat)
 {
     stats_hash_t *sh = NULL;
     stats_global_t g;
@@ -108,11 +108,11 @@ Test (stats, add_stat_player)
     s.max = 75;
     s.modifier = 1.1;
 
-    int rc = add_stat_player(&sh, &s);
+    int rc = add_stat(&sh, &s);
 
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
+    cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
-    cr_assert_not_null(sh, "add_stat_player did not add the stat");
+    cr_assert_not_null(sh, "add_stat did not add the stat");
 }
 
 /* Checks that display_stat returns the correct list of stats */
