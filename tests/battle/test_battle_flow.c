@@ -174,19 +174,23 @@ Test(battle_flow, print_start_battle)
     b->player->stats->hp = 100;
     b->enemy->stats->hp = 80;
 
+    printf("1\n");
     // Setting up malloced string - Taken from actionmanagement.c
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
-
+    printf("2\n");
     int rc = print_start_battle(b, string);
-
+    printf("3\n");
     cr_assert_eq(rc, SUCCESS, "print_start_battle() failed");
 
     char *expected_string = "You have encountered Bob!\n\n"
                             "Let the battle begin!\n"
                             "-- Your HP: 100\n"
                             "-- Bob's HP: 80\n";
+    printf("4\n");
     cr_expect_eq(string, expected_string, "print_start_battle() failed");
+
+    printf("5\n");
 
     free(string);
 }
