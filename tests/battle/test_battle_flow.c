@@ -171,30 +171,29 @@ Test(battle_flow, print_start_battle)
     b->player->stats->hp = 100;
     b->enemy->stats->hp = 80;
 
-    // Setting up malloced strings - Taken from actionmanagement.c and
-    // test_path_actions.c in action management tests
+    // Setting up malloced string - Taken from actionmanagement.c
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
-    char *ret_string = malloc(BUFFER_SIZE);
-
 
     int rc = print_start_battle(b, string, &ret_string);
 
     cr_assert_eq(rc, SUCCESS, "print_start_battle() failed");
 
-    char *expected_string = "You have encountered Bob!\n\n
-                             Let the battle begin!\n
-                             \| Your HP\: 100\n
-                             \| Bob's HP\: 80\n";
+    char *expected_string = "You have encountered Bob!\n\n"
+                            "Let the battle begin!\n"
+                            "-- Your HP\: 100\n"
+                            "-- Bob's HP\: 80\n";
     cr_expect_eq(ret_string, expected_string, "print_start_battle() failed");
+
+    free(string);
 }
 
-/* Tests print_battle_move()
+/* Tests print_battle_move() */
 Test(battle_flow, print_battle_move)
 {
 
 }
-*/
+
 
 /* Tests print_battle_winner()
 Test(battle_flow, print_battle_winner)

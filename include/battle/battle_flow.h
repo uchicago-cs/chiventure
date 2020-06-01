@@ -90,7 +90,7 @@ int print_start_battle(battle_t *b, char *string, char **ret_string);
  * Parameters:
  *  - b = pointer to the battle
  *  - turn = whose turn it is for this move
- *  - move = the move being used
+ *  - move = pointer to the move being used
  *  - string = malloced string used in actionmanagement.c for sprintf
  *  - ret_string = the return string that will store the message
  *
@@ -98,7 +98,7 @@ int print_start_battle(battle_t *b, char *string, char **ret_string);
  *  - SUCCESS if successful, FAILURE otherwise
  *
  */
- int print_battle_move(battle_t *b, turn_t turn, move_t move, char *string, char **ret_string);
+ int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string, char **ret_string);
 
 /*
  * Stores the message to be printed at the end of the battle in the return

@@ -83,10 +83,10 @@ int print_start_battle(battle_t *b, char *string, char **ret_string)
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
 
-    sprintf(string, "You have encountered %s!\n\n
-                    Let the battle begin!\n
-                    \| Your HP\: %d\n
-                    \| %s's HP\: %d\n", enemy_name, player_hp, enemy_hp);
+    sprintf(string, "You have encountered %s!\n\n"
+                    "Let the battle begin!\n"
+                    "-- Your HP\: %d\n"
+                    "-- %s's HP\: %d\n", enemy_name, player_hp, enemy_hp);
 
     *ret_string = string;
 
@@ -94,7 +94,7 @@ int print_start_battle(battle_t *b, char *string, char **ret_string)
 }
 
 /* see battle_flow.h */
-int print_battle_move(battle_t *b, turn_t turn, move_t move, char *string, char **ret_string)
+int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string, char **ret_string)
 {
     char *move_name = move->info;
     int damage = move->damage;
@@ -109,9 +109,10 @@ int print_battle_move(battle_t *b, turn_t turn, move_t move, char *string, char 
         combatant_name = b->enemy->name;
     }
 
-    sprintf(string, "%s used %s! It did %d damage.\n
-            \| Your HP\: %d\n
-            \| %s's HP\: %d\n", combatant_name, move_name, damage, player_hp, enemy_hp);
+    sprintf(string, "%s used %s! It did %d damage.\n"
+                    "-- Your HP\: %d\n"
+                    "-- %s's HP\: %d\n",
+                    combatant_name, move_name, damage, player_hp, enemy_hp);
 
     *ret_string = string;
 
