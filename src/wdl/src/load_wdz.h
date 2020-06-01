@@ -1,7 +1,8 @@
-#include "common/common.h"
-#include <json-c/json.h>
-#include "wdl/miniz-zip/zip.h"
+#ifndef LOADWDZ_PUBLIC_HEADER
+#define LOADWDZ_PUBLIC_HEADER
 
+#include <stdlib.h>
+#include <stdio.h>
 
 // Dummy forward declarations. Will replace with the proper objstore_t
 // and obj_t included from the correct modules later.
@@ -30,3 +31,4 @@ int populate_objstore_from_wdz
     char *wdz_name
 );
 
+#endif /* LOADWDZ_PUBLIC_HEADER */

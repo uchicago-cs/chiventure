@@ -4,8 +4,8 @@ add_library(wdl
             src/load_room.c
             src/parse.c
             src/validate.c
-            src/load_wdz.c
-            src/miniz-zip.c)
+            src/load_wdz_common.c
+            src/load_wdz_lzip.c)
 
 target_include_directories(wdl PRIVATE src/)
 target_include_directories(wdl PRIVATE ${LIBZIP_INCLUDE_DIR})

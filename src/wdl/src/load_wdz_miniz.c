@@ -1,28 +1,14 @@
+/* 
+ * Flag to use miniz-based zip library for this file.
+ * See the common header load_wdz.h
+ */
+#define _LOADWDZ_USING_MINIZ
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "load_wdz.h"
-
-/* 
- * filename_extension_is: Checks if a filename string has a certain extension
- * 
- * parameters:
- *  - ext: the extension string to check. For instance, "json" or "png"
- *  - str: the filename string to check for extension.
- * 
- * returns:
- *  - true if the filename contains the extension
- *  - false otherwise.
- */
-bool filename_extension_is(const char *ext, const char *str)
-{
-    char *dot_and_ext = strrchr(str, '.');
-    if (dot_and_ext) // if there was a period
-    {
-        return (strncmp(dot_and_ext + 1, ext, strlen(ext)) == 0);
-    }
-}
+#include "load_wdz_internal.h"
 
 
 struct json_object *get_json_obj_from_entryopened_wdz
@@ -62,35 +48,6 @@ struct json_object *get_json_obj_from_entryopened_wdz
 }
 
 
-int load_game_objects_from_json_object
-(
-    objstore_t *obj_store, 
-    json_object *j_obj,
-    const char *j_name
-)
-{
-    json_object *j_game_objs_j_arr;
-    json_object_object_get_ex(j_obj, j_name, &j_game_objs_j_arr);
-    if (json_object_is_type(j_game_objs_j_arr, json_type_array))
-    {
-        int n_objects = json_object_array_length(j_game_objs_j_arr);
-        for (int i = 0; i < n_objects; i++) // for each json_object in the array
-        {
-            json_object *j_game_obj = json_object_array_get_idx(j_game_objs_j_arr, i);
-            obj_t *game_obj = convert_j_obj_to_game_obj(j_game_obj, j_name);
-            // ^^^ waiting for obj_t implementation before we can write this conversion! 
-            if (!game_obj) 
-            {
-                return FAILURE;
-            }
-            add_objstore(obj_store, game_obj);
-        }
-        return SUCCESS;
-    }
-    return FAILURE;
-}
-
-
 int populate_objstore_from_wdz
 (
     objstore_t *obj_store,
@@ -120,10 +77,10 @@ int populate_objstore_from_wdz
         zip_entry_openbyindex(wdz, i);
         { // Within the context of this opened entry...
             struct json_object *j_obj = get_json_obj_from_entryopened_wdz(wdz);
-            const char *j_name = zip_entry_name(wdz);
+            const char *j_path_and_name = zip_entry_name(wdz);
             if (j_obj)
             {
-                load_game_objects_from_json_object(obj_store, j_obj, j_name);
+                load_game_objects_from_json_object(obj_store, j_obj, j_path_and_name);
                 // increment the current number of json files.
                 count++;
             }
@@ -132,7 +89,7 @@ int populate_objstore_from_wdz
     }
 
     *n_jsons = count;
-
+    zip_close(wdz);
     return SUCCESS;   
 }
 
