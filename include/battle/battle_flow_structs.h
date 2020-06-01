@@ -5,6 +5,7 @@
 #include <string.h>
 #include "battle_state.h"
 #include "battle_structs.h"
+#include "battle_logic.h"
 #include "common/common.h"
 #include "common/utlist.h"
 
@@ -23,6 +24,7 @@ typedef struct player {
 typedef struct game {
     // Would have other fields (eg hash tables for players, rooms, items)
     player_t *curr_player;
+    battle_t *battle;
 } game_t;
 
 /* Stub, similar to chiventure_ctx_t except adding in_battle, which
@@ -33,7 +35,7 @@ typedef struct chiventure_ctx_battle {
     // would have UI context here
     game_t *game;
     // would have lookup table here
-    bool in_battle;
+    battle_status_t status;
 } chiventure_ctx_battle_t;
 
 /* Stub to simulate NPC enemy, that will then later be converted to
