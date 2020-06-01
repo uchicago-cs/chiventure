@@ -1,6 +1,7 @@
 set(TEST_EXE test-custom-actions)
 
 add_executable(${TEST_EXE}
+        test_branch_block.c
         test_conditional_block.c
         test_action_block.c
         test_control_block.c
