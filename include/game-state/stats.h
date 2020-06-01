@@ -131,19 +131,6 @@ int stats_init(stats_t *stat, char *name, double init);
 stats_global_t* stats_global_new(chiventure_ctx_t *ctx, char *name, double max);
 
 /*
- * Allocates a new global stat
- *
- * Parameters:
- * name: the unique string ID to be given to the stat
- * max: maximal value this stat could have
- * 
- * Returns:
- *  Pointer to allocated global stats struct
- */
-
-stats_global_t *stats_global_new(char *name, double max);
-
-/*
  * Allocates a new stat
  *
  * Parameters:
