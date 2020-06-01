@@ -14,6 +14,7 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environ
     battle_t *b = set_battle(player, npc_enemies, env);
 
     g->battle = b;
+    ctx->status = BATTLE_IN_PROGRESS;
     return SUCCESS;
 }
 
