@@ -5,27 +5,42 @@
 #define INCLUDE_ATTRIBUTES_H
 
 /* 
-union attr_data {
+/* 
+ * a union representing the information that can be stored in an attribute
+ 
+union attr_data
+{
     bool b;
     char c;
     char *s;
-    char **sl;
     int i;
     obj_t *o;
 };
 
-typedef struct attribute
+/*
+ * attribute_t: the attributes stored within an object
+ 
+typedef struct attr
 {
-    //the id for the attribute
+    //the attribute's id.
     char id[MAXLEN_ID + 1];
-    
-    //data stored in the attribute
+   
+    //the information stored in the attribute
     union attr_data data;
-    
-    // Required uthash identifier for making the hash table
+
+    //next attribute in list if attribute is list of things
+    struct attr *next;
+
+    //prev attribute in list if attribute is list of things
+    struct attr *prev;
+
+    //Required uthash indentifier for making the hash table
     UT_hash_handle hh;
 
-} attribute_t; */
+} obj_attr_t; 
+*/
+
+/* ---------- HASH FUNCTIONS ---------- */
 
 /* new_attr - allocates and inits an attr_t
  *
@@ -70,5 +85,10 @@ attribute_t *append_attr(attribute_t *head, attribute_t *new);
  * returns: SUCCESS
  */
 int free_attr(attribute_t **attrs, attribute_t *a);
+
+
+/* ---------- INTERFACE FUNCTIONS ---------- */
+
+
 
 #endif
