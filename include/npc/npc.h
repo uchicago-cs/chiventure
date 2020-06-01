@@ -3,7 +3,7 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
-#include "game-state/stats.h"
+//#include "game-state/stats.h"
 //TODO-#include "dialogue.h"
 #include "playerclass/class_structs.h"
 
