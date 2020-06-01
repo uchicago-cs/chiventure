@@ -89,7 +89,7 @@ typedef struct obj
     objtype_t type;
 
     //The object's attributes (a hash table)
-    attribute_t *attrs;
+    obj_attr_t *attrs;
 
 } object_t;
 
@@ -167,7 +167,7 @@ object_t* get_object(char* type, char* id);
  * returns:
  *   - a pointer to the requested attribute as an attribute_t struct member
  */
-obj_attr_t* get_obj_attribute(obj_t obj, char* name);
+obj_attr_t* get_obj_attribute(object_t* obj, char* name);
 
 /* get_asset: retrieves an asset from a .wdz archive
  *
