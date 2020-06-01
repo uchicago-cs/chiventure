@@ -94,13 +94,25 @@ char *get_ldesc_item(item_t *item);
 /* Adds an item to a hashtable of items
  * 
  * Parameters:
- *  hashtable of items
+ *  pointer to hashtable of items
  *  item to add to hashtable
  * 
  * Returns: 
  *  SUCCESS if successful, FAILURE if failed
  */ 
 int add_item_to_hash(item_hash_t **ht, item_t *new_item);
+
+/* Removes an item from a hashtable of items
+ * Note that the memory associated with this item is not freed
+ * 
+ * Parameters:
+ *  pointer to hashtable of items
+ *  item to add to hashtable
+ * 
+ * Return:
+ *  SUCCESS if successful, FAILURES if failed
+ */ 
+int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management

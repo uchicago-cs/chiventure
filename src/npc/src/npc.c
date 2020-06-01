@@ -83,6 +83,17 @@ int add_item_to_npc(npc_t *npc, item_t *item)
 }
 
 /* See npc.h */
+int remove_item_from_npc(npc_t *npc, item_t *item)
+{
+    int rc;
+    
+    rc = add_item_to_hash(&(npc->inventory), item);
+    
+    return rc;
+}
+
+
+/* See npc.h */
 item_hash_t* get_npc_inv_hash(npc_t *npc)
 {
     return npc->inventory;

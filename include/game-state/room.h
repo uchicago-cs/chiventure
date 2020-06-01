@@ -110,6 +110,18 @@ int room_free(room_t *room);
  */
 int add_item_to_room(room_t *room, item_t *item);
 
+/* Removes an item from the given room
+ * Note that the memory associated with this item is not freed
+ * 
+ * Parameters:
+ *  room struct
+ *  item struct
+ * 
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int remove_item_from_room(room_t *room, item_t *item);
+
 /* Adds a path to the given room
  *
  * Parameters:

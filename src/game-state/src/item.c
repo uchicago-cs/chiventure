@@ -84,6 +84,13 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
     return SUCCESS;
 }
 
+/* See item.h */
+int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
+{
+    HASH_DEL(*(ht), old_item);
+    return SUCCESS;
+}
+
 // ATTRIBUTE MANIPULATION FUNCTIONS -------------------------------------------
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute)

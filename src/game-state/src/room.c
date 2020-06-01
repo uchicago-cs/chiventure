@@ -67,6 +67,16 @@ int add_item_to_room(room_t *room, item_t *item)
 }
 
 /* See room.h */
+int remove_item_from_room(room_t *room, item_t *item)
+{
+    int rc;
+    
+    rc = remove_item_from_hash(&(room->items), item);
+    
+    return rc;
+}
+
+/* See room.h */
 int add_path_to_room(room_t *room, path_t *path)
 {
     path_t *s;
