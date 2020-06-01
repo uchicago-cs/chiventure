@@ -7,6 +7,9 @@
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_structs.h"
 
+
+#define BUFFER_SIZE(100)
+
 /* Tests set_player() */
 Test(battle_flow, set_player)
 {
@@ -175,7 +178,7 @@ Test(battle_flow, print_start_battle)
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
 
-    int rc = print_start_battle(b, string, &ret_string);
+    int rc = print_start_battle(b, string);
 
     cr_assert_eq(rc, SUCCESS, "print_start_battle() failed");
 
