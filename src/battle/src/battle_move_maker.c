@@ -25,6 +25,7 @@ player_t *add_class_move(player_t *player)
             {
                 ret_move->item = NULL;
                 ret_move->id = tmp->id;
+                ret_move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
                 strncpy(ret_move->info, tmp->spell, MAX_MOVE_INFO_LEN + 1);
                 ret_move->attack = true;
                 ret_move->damage = tmp->damage;
@@ -43,6 +44,7 @@ player_t *add_class_move(player_t *player)
             {
                 ret_move->item = NULL;
                 ret_move->id = tmp->id;
+                ret_move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
                 strncpy(ret_move->info, tmp->spell, MAX_MOVE_INFO_LEN + 1);
                 ret_move->attack = true;
                 ret_move->damage = tmp->damage;
@@ -61,6 +63,7 @@ player_t *add_class_move(player_t *player)
             {
                 ret_move->item = NULL;
                 ret_move->id = tmp->id;
+                ret_move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
                 strncpy(ret_move->info, tmp->spell, MAX_MOVE_INFO_LEN + 1);
                 ret_move->attack = true;
                 ret_move->damage = tmp->damage;

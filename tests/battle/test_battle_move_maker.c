@@ -13,9 +13,8 @@ Test(class_moves, bard)
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL, NULL, NULL, NULL);
 
-	printf("are we here\n");
 
-    player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
+    player_t *player = new_ctx_player("name", test_class,
                                           NULL, NULL, NULL);
 
     player_t *ret_player = add_class_move(player);
