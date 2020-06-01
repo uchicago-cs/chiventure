@@ -75,7 +75,7 @@ typedef struct attr
     //Required uthash indentifier for making the hash table
     UT_hash_handle hh;
 
-} attribute_t;
+} obj_attr_t;
 
 /*
  * obj_t: a struct describing a .json object.
@@ -167,7 +167,7 @@ object_t* get_object(char* type, char* id);
  * returns:
  *   - a pointer to the requested attribute as an attribute_t struct member
  */
-attribute_t* get_obj_attribute(obj_t obj, char* name);
+obj_attr_t* get_obj_attribute(obj_t obj, char* name);
 
 /* get_asset: retrieves an asset from a .wdz archive
  *

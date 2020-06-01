@@ -1,3 +1,7 @@
+/*
+ * This is currently skeleton code that needs to be expanded.
+ */
+
 #include "wdl/object.h"
 
 /* See wdl/object.h for documentation */
@@ -41,7 +45,7 @@ object_t* get_object(char* type, char* id)
 }
 
 /* See wdl/object.h for documentation */
-attribute_t* get_obj_attribute(obj_t obj, char* name)
+obj_attr_t* get_obj_attribute(obj_t* obj, char* name)
 {
     return NULL;
 }
