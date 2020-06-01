@@ -34,7 +34,7 @@ typedef struct chiventure_ctx_battle {
     // would have UI context here
     game_t *game;
     // would have lookup table here
-    bool in_battle;
+    battle_status_t status;
 } chiventure_ctx_battle_t;
 
 /* Stub to simulate NPC enemy, that will then later be converted to
