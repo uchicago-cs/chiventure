@@ -148,10 +148,13 @@ bool is_game_over(game_t *game)
 {
     bool end_case1, end_case2, end_case3;
     
+    /* end_case1: Both a final room and end conditions exist */
     end_case1 = game->final_room != NULL && game->final_room == game->curr_room && 
             end_conditions_met(game);
+    /* end_case2: A final room exists, but end conditions do not */
     end_case2 = game->final_room != NULL && game->final_room == game->curr_room && 
             game->end_conditions == NULL;
+    /* end_case3: End conditions exist, but a final room does not */
     end_case3 = game->final_room == NULL && end_conditions_met(game);
     
     return end_case1 || end_case2 || end_case3;
