@@ -8,7 +8,7 @@
 #include "battle/battle_structs.h"
 
 
-#define BUFFER_SIZE(100)
+#define BUFFER_SIZE (100)
 
 /* Tests set_player() */
 Test(battle_flow, set_player)
