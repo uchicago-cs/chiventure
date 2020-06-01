@@ -9,12 +9,13 @@
 /* and initializes it with a stat's name and the maximal value*/
 Test(stats, stats_global_new){
     
-    stats_global_t *stat = stats_global_new(NULL, "health", 100);
-    cr_assert_not_null(stat, "stats_global_new() failed. Health stat is NULL");
-    cr_assert_eq(strcmp(stat->name,
+    stats_global_t *ghs, *global_stat
+    global_stat = stats_global_new(gsh, "health", 100);
+    cr_assert_not_null(global_stat, "stats_global_new() failed. Health stat is NULL");
+    cr_assert_eq(strcmp(global_stat->name,
         "health"), 0,
         "stats_new() failed to set stat name to health");
-    cr_assert_eq(stat->max, 100, 
+    cr_assert_eq(global_stat->max, 100, 
     "stats_global_new() failed to set the maximal stat value correctly");
 }
 
@@ -36,19 +37,20 @@ Test(stats, stats_new){
         "stat base value exceeds maximal value.");
 }
 Test(stats, global_init){
-    stats_global_t *stat;
+    stats_global_t *global_stat = malloc(sizeof(global_stat));
     
-    int ret_val = stats_global_init(stat, "health", 100);
+    int ret_val = stats_global_init(global_stat, "health", 100);
     
     cr_assert_eq(ret_val, SUCCESS, "stats_global_init() failed to return SUCCESS");
     
-    cr_assert_not_null(stat, "stats_global_init() failed. Health stat is NULL");
+    cr_assert_not_null(global_stat, "stats_global_init() failed. Health stat is NULL");
     
-    cr_assert_eq(strcmp(stat->name,
+    cr_assert_eq(strcmp(global_stat->name,
         "health"), 0,
         "stats_global_init() failed to set the starting stat name");
-    cr_assert_eq(stat->max, 100, 
+    cr_assert_eq(global_stat->max, 100, 
         "stats_global_init() failed to set the maximal value");
+    free(global_stat);
 }
 
 Test(stats, init){
