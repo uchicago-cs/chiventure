@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
-#include "game-state/game.h"
 
  /*
  * load_wdl, loads a wdl specified internally into all game-state structs
