@@ -7,6 +7,7 @@
 #define _PLAYER_H
 
 #include "game_state_common.h"
+#include "stats.h"
 #include "item.h"
 
 
