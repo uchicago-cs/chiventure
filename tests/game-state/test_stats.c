@@ -37,7 +37,7 @@ Test(stats, stats_new){
         "stat base value exceeds maximal value.");
 }
 Test(stats, global_init){
-    stats_global_t *global_stat = malloc(sizeof(global_stat));
+    stats_global_t *global_stat = malloc(sizeof(global_stat_t));
     
     int ret_val = stats_global_init(global_stat, "health", 100);
     
@@ -58,7 +58,7 @@ Test(stats, init){
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
 
-    stats_t* stat;
+    stats_t* stat = malloc(sizeof(stats_t));
     int ret_val = stats_init(stat, "health", 100);
     cr_assert_eq(ret_val, SUCCESS, "stats_init() failed to return SUCCESS");
 
@@ -73,6 +73,7 @@ Test(stats, init){
         "stats_init() failed be set the modifier to 0");
     cr_assert_leq(stat->val, stat->global->max, 
         "stat base value exceeds maximal value");
+    free(stat);
 }
 
 Test(stats, free){
