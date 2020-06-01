@@ -165,11 +165,25 @@ int add_end_condition_to_game(game_t *game, game_action_condition_t *end_conditi
  *  game struct
  * 
  * Returns: 
- *  true if either all end conditions have attributes with expected values
+ *  true if all end conditions have attributes with expected values
+ *  false either if the attribute of at least one end condition is not expected value
  *  or if no end conditions exist
- *  false if the attribute of at least one end condition is not expected value
  */ 
 bool end_conditions_met(game_t *game);
+
+/* Checks if a chiventure game is over
+ * 
+ * Parameters:
+ *   game struct
+ * 
+ * Returns:
+ *   true if one of the following cases is true:
+ *    1. a final room is entered and all end conditions are met
+ *    2. no end conditions exist, but a final room is entered
+ *    3. no final room exists, but all end conditions are met
+ *   false under all other cases
+ */
+bool is_game_over(game_t *game);
 
 /*
 * Function to connect two rooms
