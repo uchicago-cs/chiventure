@@ -86,7 +86,7 @@ int print_start_battle(battle_t *b, char *string, char **ret_string)
     sprintf(string, "You have encountered %s!\n\n"
                     "Let the battle begin!\n"
                     "-- Your HP: %d\n"
-                    "-- %s's HP: %d\n", enemy_name, player_hp, enemy_hp);
+                    "-- %s's HP: %d\n", enemy_name, player_hp, enemy_name, enemy_hp);
 
     *ret_string = string;
 
@@ -100,18 +100,18 @@ int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string, char
     int damage = move->damage;
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
-    char* combatant_name;
+    char* enemy_name = b->enemy->name;
     if (turn == PLAYER)
     {
         combatant_name = "You";
     } else
     {
-        combatant_name = b->enemy->name;
+        combatant_name = enemy_name;
     }
 
     sprintf(string, "%s used %s! It did %d damage.\n"
                     "-- Your HP: %d\n"
-                    "-- %s's HP: %d\n", combatant_name, move_name, damage,
+                    "-- %s's HP: %d\n", combatant_name, move_name, damage, enemy_name,
                     enemy_hp, player_hp);
 
 
