@@ -77,7 +77,7 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment
 };
 
 /* see battle_flow.h */
-int print_start_battle(battle_t *b, char *string, char **ret_string)
+int print_start_battle(battle_t *b, char *string)
 {
     char *enemy_name = b->enemy->name;
     int player_hp = b->player->stats->hp;
@@ -88,13 +88,11 @@ int print_start_battle(battle_t *b, char *string, char **ret_string)
                     "-- Your HP: %d\n"
                     "-- %s's HP: %d\n", enemy_name, player_hp, enemy_name, enemy_hp);
 
-    *ret_string = string;
-
     return SUCCESS;
 }
 
 /* see battle_flow.h */
-int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string, char **ret_string)
+int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string)
 {
     char *move_name = move->info;
     int damage = move->damage;
@@ -102,7 +100,7 @@ int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string, char
     int enemy_hp = b->enemy->stats->hp;
     char* enemy_name = b->enemy->name;
     char* combatant_name;
-    
+
     if (turn == PLAYER)
     {
         combatant_name = "You";
@@ -113,17 +111,14 @@ int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string, char
 
     sprintf(string, "%s used %s! It did %d damage.\n"
                     "-- Your HP: %d\n"
-                    "-- %s's HP: %d\n", combatant_name, move_name, damage, enemy_name,
-                    enemy_hp, player_hp);
-
-
-    *ret_string = string;
+                    "-- %s's HP: %d\n", combatant_name, move_name, damage, enemy_hp,
+                    enemy_name, player_hp);
 
     return SUCCESS;
 }
 
 /* see battle_flow.h */
-int print_battle_winner(battle_status_t status, int xp, char *string, char **ret_string)
+int print_battle_winner(battle_status_t status, int xp, char *string)
 {
     if (status == BATTLE_VICTOR_PLAYER)
     {
@@ -132,8 +127,6 @@ int print_battle_winner(battle_status_t status, int xp, char *string, char **ret
     {
         sprintf(string,"You lost...\n");
     }
-
-    *ret_string = string;
 
     return SUCCESS;
 }

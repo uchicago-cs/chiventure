@@ -81,7 +81,7 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies,
  *  - SUCCESS if successful, FAILURE otherwise
  *
  */
-int print_start_battle(battle_t *b, char *string, char **ret_string);
+int print_start_battle(battle_t *b, char *string);
 
 /*
  * Stores the message to be printed at the end of a move in the return
@@ -99,7 +99,7 @@ int print_start_battle(battle_t *b, char *string, char **ret_string);
  *  - SUCCESS if successful, FAILURE otherwise
  *
  */
- int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string, char **ret_string);
+ int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string);
 
 /*
  * Stores the message to be printed at the end of the battle in the return
@@ -117,6 +117,6 @@ int print_start_battle(battle_t *b, char *string, char **ret_string);
  *  - SUCCESS if successful, FAILURE otherwise
  *
  */
- int print_battle_winner(battle_status_t status, int xp, char *string, char **ret_string);
+ int print_battle_winner(battle_status_t status, int xp, char *string);
 
 #endif
