@@ -91,12 +91,12 @@ chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move,
 
     if(move == NULL)
     {
-        return ctx;
+        return NULL;
     }
 
     if(target == NULL)
     {
-        return ctx;
+        return NULL;
     }
 
     combatant_t *enemy = check_target(b, target);
@@ -105,12 +105,12 @@ chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move,
         /* print stub: should tell player that their target was invalid
            battle_flow then returns the original, unmodified ctx and waits
            for the next move */
-        return ctx;
+        return NULL;
     }
 
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
-    b->enemy->stats->hp -= move->damage;
+    enemy->stats->hp -= move->damage;
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
     {
