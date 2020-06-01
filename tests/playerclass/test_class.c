@@ -83,6 +83,7 @@ Test(test_class, init)
                                            "description");
 }
 
+/* Tests class_skills_init */
 Test(test_class, skills_init)
 {
     class_t* c = generate_test_class();
