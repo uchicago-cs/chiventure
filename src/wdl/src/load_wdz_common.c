@@ -5,6 +5,8 @@
 
 #include "load_wdz_internal.h"
 
+#include "wdl/wdl_common.h"
+
 #define MAX_GAME_OBJ_TYPE_LENGTH 32
 
 

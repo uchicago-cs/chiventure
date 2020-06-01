@@ -10,8 +10,8 @@
 
 #include "load_wdz_internal.h"
 
-// maximum buffer size for json file, in bytes
-#define MAXBUFSIZE ((zip_int64_t)4194304)
+// maximum buffer size for json file, in bytes. This is currently set to 2 MiB.
+#define MAXBUFSIZE ((zip_int64_t)0x200000)
 
 
 struct json_object *get_json_obj_from_zip_file_entry
@@ -31,23 +31,24 @@ struct json_object *get_json_obj_from_zip_file_entry
         return NULL;
     }
 
-    void *buf;
+    char *buf = malloc(MAXBUFSIZE * sizeof(char));
+    printf("Filename: %s\n", entry_name);
     zip_fread(curr_file, buf, MAXBUFSIZE);
 
     if (!buf)
     {
-        fprintf(stderr, "Opened zip entry but unable to read contents");
+        fprintf(stderr, "Opened zip entry but unable to read contents\n");
         return NULL;
     }    
 
     // buf now contains the raw JSON. Use parser to convert into json obj.
     // debug!!!
-    printf((char *)buf);
+    printf("%s\n", (char *)buf);
     struct json_object *result = json_tokener_parse((char *)buf);
 
     // buf was allocated inside zip_entry_read, so now we free it
     free(buf);
-
+    printf("%s\n", result ? "JSON successfully parsed." : "JSON object is null!");
     return result;
 }
 
@@ -76,7 +77,7 @@ int populate_objstore_from_wdz
         return FAILURE;
     }
     
-    zip_int64_t count;
+    zip_int64_t count = 0;
     
     for (zip_int64_t i = 0; i < n_entries; i++) // foreach file in zip,
     {
