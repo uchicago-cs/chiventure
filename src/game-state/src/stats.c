@@ -16,6 +16,7 @@ int stats_init(stats_t *stat, char *name, double init)
 {
     assert(stat != NULL);
 
+    strncpy(stat->name, name, strlen(name));
     stat->val = init;
     stat->max = init;
     stat->modifier = 1;
@@ -56,6 +57,10 @@ stats_t *stats_new(stats_global_hash_t *gsh, char *name, double init)
 
     HASH_FIND_STR(gsh, name, global_stat);
     assert(global_stat != NULL);
+    if(strcmp(global_stat->name, name))
+    {
+        return NULL; // no such global stat
+    }
 
     new_stat = malloc(sizeof(stats_t));
 
