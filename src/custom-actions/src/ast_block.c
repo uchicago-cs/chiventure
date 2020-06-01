@@ -56,8 +56,6 @@ int AST_block_free(AST_block_t *ast)
                 control_block_free(ast->block->control_block);
             }
             break;
-    }
-/* Cases to add once additional block types have been finished
         case ACTION:
             if (ast->block->action_block != NULL)
             {
@@ -69,13 +67,14 @@ int AST_block_free(AST_block_t *ast)
             {
                 conditional_block_free(ast->block->conditional_block);
             }
-            break;
+            break; }
+    /*  Code will be added once branch_block.c is implemented 
         case BRANCH:
             if (ast->block->branch_block != NULL)
             {
                 branch_block_free(ast->block->branch_block);
             }
-*/
+    */
     free(ast);
 
     return SUCCESS;  

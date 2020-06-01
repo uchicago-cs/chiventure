@@ -1,4 +1,6 @@
 #include "game-state/stats.h"
+#define MIN_STRING_LENGTH 2
+#define MAX_NAME_LENGTH 50
 
 /* See stats.h*/
 int stats_global_init(stats_global_t *s, char *name, double max)
@@ -91,17 +93,42 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
 }
 
 /* See stats.h */
-int add_stat_player(stats_hash_t *sh, stats_t *s)
+int add_stat_player(stats_hash_t **sh, stats_t *s)
 {
-    printf("add_stat: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    stats_t *check;
+    
+    HASH_FIND(hh, *sh, s->key, strlen(s->key), check);
+
+    if (check != NULL)
+    {
+        return FAILURE;
+    }
+
+    HASH_ADD_KEYPTR(hh, *sh, s->key, strlen(s->key), s);
+    return SUCCESS;
 }
 
 /* See stats.h */
 char* display_stats(stats_hash_t *s)
 {
-    printf("display_stats: function not yet implemented\n");
-    return "0"; // still needs to be implemented
+    stats_t *stat;
+    int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(s));
+    char list[size];
+    
+    stat = s;
+    if (stat != NULL) 
+    {
+        strcpy(list, stat->global->name);
+    }
+
+    for (stat = stat->hh.next; stat != NULL; stat = stat->hh.next)
+    {
+        strcat(list, ", ");
+        strcat(list, stat->global->name);
+    }
+
+    char *display = strdup(list);
+    return display;
 }
 
 /* See stats.h */

@@ -1,5 +1,5 @@
 #include "npc/npc.h"
-#include "common-item.h"
+#include "game-state/item.h"
 
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, int health, stats_t *stats) //TODO-convo_t *dialogue)
