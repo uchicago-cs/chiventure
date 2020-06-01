@@ -148,11 +148,13 @@ skill_t** skill_prereqs_all(skill_tree_t* tree, sid_t sid, int* nprereqs);
  *              the list
  *
  * Returns:
- *  - A pointer to the list of acquired prerequisite skills, NULL if there are
+ *  - A pointer to the list of missing prerequisite skills, NULL if there are
  *    none or an error occurs.
- *  - To distinguish between no acquired prerequisites and errors, the out-
- *    parameter `nacquired` is updated to 0 when there are no acquired
- *    prerequisites, and is updated to -1 if an error has occurred
+ *  - To distinguish between no missing prerequisites and errors, the out-
+ *    parameter `nmissing` is updated to 0 when there are no missing
+ *    prerequisites, is updated to -1 if the node is not in the tree,
+ *    -2 if a malloc error occured, and -3 if a skill is found to be something
+ *    other than a passive or active skill.
  */
 skill_t** skill_prereqs_acquired(skill_tree_t* tree,
                                  skill_inventory_t* inventory, sid_t sid,
@@ -173,7 +175,8 @@ skill_t** skill_prereqs_acquired(skill_tree_t* tree,
  *    none or an error occurs.
  *  - To distinguish between no missing prerequisites and errors, the out-
  *    parameter `nmissing` is updated to 0 when there are no missing
- *    prerequisites, and is updated to -1 if an error has occurred
+ *    prerequisites, is updated to -1 if the node is not in the tree, and
+ *    -2 if a malloc error occured.
  */
 skill_t** skill_prereqs_missing(skill_tree_t* tree,
                                 skill_inventory_t* inventory, sid_t sid,
