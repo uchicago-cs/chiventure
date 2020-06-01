@@ -107,6 +107,7 @@ int skill_tree_node_add(skill_tree_t* tree, skill_node_t* node) {
     if (rc) {
         fprintf(stderr, "skill_tree_node_add: failed to add node\n");
         return FAILURE;
+    }
     return SUCCESS;
 }
 
@@ -116,7 +117,7 @@ int skill_tree_has_node(skill_tree_t* tree, sid_t sid) {
 
     for (unsigned int i = 0; i < tree->nnodes; i++) {
         if (tree->nodes[i]) {
-            if (tree->nodes[i]->sid == sid) {
+            if (tree->nodes[i]->skill->sid == sid) {
                 return i;
             }
         }
@@ -129,7 +130,7 @@ int skill_tree_has_node(skill_tree_t* tree, sid_t sid) {
 int skill_tree_node_remove(skill_tree_t* tree, skill_node_t* node) {
     assert(tree != NULL && node != NULL);
 
-    int pos = skill_tree_has_node(tree, node->sid);
+    int pos = skill_tree_has_node(tree, node->skill->sid);
 
     if (pos == -1) {
         fprintf(stderr, "skill_tree_node_remove: node is not in tree\n");
