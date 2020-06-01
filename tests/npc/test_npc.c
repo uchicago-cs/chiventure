@@ -149,5 +149,22 @@ Test(npc, add_item_to_npc)
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(new_item, "item_new() failed");
     cr_assert_not_null(npc->inventory,
-	                   "add_item_to_npc() failed to add item");
+                       "add_item_to_npc() failed to add item");
+}
+
+/* Checks that remove_item_from_npc properly removes items */
+Test(npc, remove_item_from_npc)
+{
+    npc_t *npc = npc_new("npc", 100, NULL);
+    item_t *test_item = item_new("item", "short", "long");
+    int rc;
+    
+    rc = add_item_to_npc(npc, test_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
+                 "add an item to npc");
+    
+    rc = remove_item_from_npc(npc, test_item);
+    printf("%d\n", rc);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_npc failed to "
+                 "remove an item from npc");
 }

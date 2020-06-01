@@ -87,7 +87,7 @@ int remove_item_from_npc(npc_t *npc, item_t *item)
 {
     int rc;
     
-    rc = add_item_to_hash(&(npc->inventory), item);
+    rc = remove_item_from_hash(&(npc->inventory), item);
     
     return rc;
 }

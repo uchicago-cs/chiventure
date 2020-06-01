@@ -188,6 +188,22 @@ Test(player, add_item_to_player)
       "add_item_to_player() failed to add item");
 }
 
+/* Checks that remove_item_from_player properly removes items */
+Test(player, remove_item_from_player)
+{
+    player_t *player = player_new("player", 100);
+    item_t *test_item = item_new("item", "short", "long");
+    int rc;
+    
+    rc = add_item_to_player(player, test_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to "
+                 "add an item to player");
+    
+    rc = remove_item_from_player(player, test_item);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_player failed to "
+                 "remove an item from player");
+}
+
 /* Checks that delete_all_players successfully
 empties the game's player hash table */
 Test(player, delete_all_players)
