@@ -8,7 +8,6 @@
 
 #include "game_state_common.h"
 #include "item.h"
-#include "stats.h"
 
 
 /* A player in game */
@@ -19,8 +18,6 @@ typedef struct player {
     int level;
     int health;
     int xp;
-    stats_hash_t *player_stats;
-    effects_hash_t *player_effects;
     item_hash_t *inventory;
 } player_t;
 
