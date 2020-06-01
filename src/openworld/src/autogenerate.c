@@ -45,6 +45,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id)
         assert(SUCCESS == copy_item_to_hash(&res->items, roomspec->items, current->item_id));
     }
 
+    roomspec->num_built++;
     res->paths = NULL;
 
     return res;
@@ -108,9 +109,14 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id)
 
     // Iterate through the speclist field, generating and adding rooms for each
     speclist_t *tmp;
+    char buff[MAX_SDESC_LEN + 1] = {0}; // Will hold unique room_id
     DL_FOREACH(context->speclist, tmp)
     {
-        room_generate(game, context, room_id);
+        // Append num_built value to the roomspec's room_name
+        snprintf(buff, MAX_SDESC_LEN, "%s%d", tmp->spec->room_name, tmp->spec->num_built);
+
+        // Increments tmp->spec->num_built
+        room_generate(game, context, buff);
     }
 
     return SUCCESS;

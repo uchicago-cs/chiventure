@@ -44,10 +44,12 @@ bool path_exists_in_dir(room_t *r, char *direction);
 
 
 /*
- * context_to_room
+ * roomspec_to_room
  * Given a roomspec_t pointer (type roomspec_t*), returns 
  * a room_t pointer generated from its specifications, with a room_id that 
  * is uniquely generated from the given game (different from the game's rooms).
+ * 
+ * Increments the num_built field of the given roomspec by 1
  * 
  * parameters:
  * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
