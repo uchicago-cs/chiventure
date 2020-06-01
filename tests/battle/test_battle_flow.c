@@ -181,8 +181,8 @@ Test(battle_flow, print_start_battle)
 
     char *expected_string = "You have encountered Bob!\n\n"
                             "Let the battle begin!\n"
-                            "-- Your HP\: 100\n"
-                            "-- Bob's HP\: 80\n";
+                            "-- Your HP: 100\n"
+                            "-- Bob's HP: 80\n";
     cr_expect_eq(ret_string, expected_string, "print_start_battle() failed");
 
     free(string);
