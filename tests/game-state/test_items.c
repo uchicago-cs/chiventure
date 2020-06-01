@@ -85,10 +85,12 @@ Test(item, add_item_to_hash)
     int rc;
     
     rc = add_item_to_hash(&ht, test_item);
-    cr_assert_eq(rc, SUCCESS, "add_item_to_hash failed to add an item to hashtable");
+    cr_assert_eq(rc, SUCCESS, "add_item_to_hash failed to "
+                 "add an item to hashtable");
     
     rc = add_item_to_hash(&ht, test_item);
-    cr_assert_eq(rc, FAILURE, "add_item_to_hash added duplicate item to hashtable");
+    cr_assert_eq(rc, FAILURE, "add_item_to_hash added duplicate "
+                 "item to hashtable");
 }
 
 /* Checks that get_all_items_in_hash returns the expected 
@@ -106,17 +108,25 @@ Test(item, get_all_items_in_hash)
     add_item_to_hash(&ht, test_item1);
     add_item_to_hash(&ht, test_item2);
     list = get_all_items_in_hash(&ht);
-    
     cr_assert_not_null(list, "get_all_items_in_hash returned NULL for "
                        "non-empty hashtable");
-    
 }
 
 /* Checks that remove_item_from_hash properly removes items 
  * from an item hashtable. */
 Test(item, remove_item_from_hash)
 {
+    item_hash_t *ht = NULL;
+    item_t *test_item = item_new("item", "short", "long");
+    int rc;
     
+    rc = add_item_to_hash(&ht, test_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_hash failed to "
+                 "add an item to hashtable");
+    
+    rc = remove_item_from_hash(&ht, test_item);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
+                 "remove an item from hashtable");
 }
 
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
