@@ -103,9 +103,7 @@ int skill_tree_free(skill_tree_t* tree) {
 int skill_tree_node_add(skill_tree_t* tree, skill_node_t* node) {
     assert(tree != NULL && node != NULL);
 
-    int rc;
-
-    rc = array_element_add(tree->nodes, tree->nnodes, node);
+    int rc = array_element_add(tree->nodes, tree->nnodes, node);
     if (rc) {
         fprintf(stderr, "skill_tree_node_add: failed to add node\n");
         return FAILURE;
@@ -177,7 +175,7 @@ skill_t** skill_prereqs_acquired(skill_tree_t* tree,
         return NULL;
     }
 
-    skill_t** acquired = (skill_t**)malloc(prereqs * sizeof(skill_t*));
+    skill_t** acquired = (skill_t**)malloc(nprereqs * sizeof(skill_t*));
     if (acquired == NULL) {
         fprintf(stderr, "skill_prereqs_acquired: mallocing acquired failed\n");
         *nacquired = -2;
@@ -234,7 +232,7 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
         return NULL;
     }
 
-    skill_t** missing = (skill_t**)malloc(prereqs * sizeof(skill_t*));
+    skill_t** missing = (skill_t**)malloc(nprereqs * sizeof(skill_t*));
     if (missing == NULL) {
         fprintf(stderr,"skill_prereqs_missing: malloc missing skills failed\n");
         *nmissing = -2;
