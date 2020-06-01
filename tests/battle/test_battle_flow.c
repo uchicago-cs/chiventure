@@ -171,6 +171,7 @@ Test(battle_flow, print_start_battle)
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
+    printf("0\n");
     b->player->stats->hp = 100;
     b->enemy->stats->hp = 80;
 
