@@ -16,6 +16,43 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environ
     return SUCCESS;
 }
 
+int print_start_battle(battle_t *b, char *string, char **ret_string)
+{
+    sprintf(string, "You have encountered %s!\n\n
+                    Let the battle begin!\n
+                    \| Your HP\: %d\n
+                    \| %s's HP\: %d\n",enemy_name, player_hp, enemy_hp);
+
+    *ret_string = string;
+
+    return SUCCESS;
+}
+
+int print_move(battle_t *b, move_t move, char *string, char **ret_string)
+{
+    sprintf(string, "You used %s! It did %d damage.\n
+            \| Your HP\: %d\n
+            \| %s's HP\: %d\n", move_name, damage, enemy_name, player_hp, enemy_hp);
+
+    *ret_string = string;
+
+    return SUCCESS;
+}
+
+int print_winner(combatant_t *c, int xp, char *string, char **ret_string)
+{
+    if (c->is_friendly == TRUE)
+    {
+        sprintf(string,"You've won! You gain %d XP!\n",xp);
+    } else {
+        sprintf(string,"%s has won...\n",c->name);
+    }
+
+    *ret_string = string;
+
+    return SUCCESS;
+}
+
 /* see battle_flow.h */
 combatant_t *set_player(player_t *ctx_player)
 {
