@@ -19,7 +19,7 @@ player_t *add_class_move(player_t *player)
 
     if(!(strcmp(player->class->name, "Bard")))
     {
-        DL_FOREACH(moves, tmp)
+        LL_FOREACH(moves, tmp)
         {
             if(strcmp(tmp->c->name, "Bard"))
             {
@@ -38,7 +38,7 @@ player_t *add_class_move(player_t *player)
     }
     else if(!(strcmp(player->class->name, "Wizard")))
     {
-        DL_FOREACH(moves, tmp)
+        LL_FOREACH(moves, tmp)
         {
             if(strcmp(tmp->c->name, "Wizard"))
             {
@@ -57,7 +57,7 @@ player_t *add_class_move(player_t *player)
     }
     else if(!(strcmp(player->class->name, "Knight")))
     {
-        DL_FOREACH(moves, tmp)
+        LL_FOREACH(moves, tmp)
         {
             if(strcmp(tmp->c->name, "Knight"))
             {
