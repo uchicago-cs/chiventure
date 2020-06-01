@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include "battle/battle_classes.h"
 #include "battle/battle_state.h"
 #include "common/utlist.h"
 
