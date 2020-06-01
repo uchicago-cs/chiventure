@@ -88,5 +88,4 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies,
  */
 chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
 
-
 #endif

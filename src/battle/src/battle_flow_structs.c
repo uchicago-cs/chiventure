@@ -41,7 +41,8 @@ game_t *new_game()
 {
       game_t *g = calloc(1, sizeof(game_t));
       assert(g != NULL);
-      g->curr_player = NULL;
+      g->player = NULL;
+      g->battle = NULL;
 
       return g;
 }

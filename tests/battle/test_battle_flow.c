@@ -147,9 +147,9 @@ Test(battle_flow, start_battle)
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
     player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
-    g->curr_player = ctx_player;
+    g->player = ctx_player;
     ctx->game = g;
-    ctx->in_battle = true;
+    ctx->status = BATTLE_IN_PROGRESS;
     npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, NULL);
     environment_t env = ENV_SNOW;
 
