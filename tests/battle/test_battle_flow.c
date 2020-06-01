@@ -164,13 +164,13 @@ Test(battle_flow, init_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    stat_t *pstats = calloc(sizeof(size_t));c
+    stat_t *pstats = calloc(1, sizeof(size_t));
     pstats->hp = 20;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
     g->curr_player = ctx_player;
     ctx->game = g;
     ctx->in_battle = true;
-    stat_t *estats = calloc(sizeof(size_t));
+    stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
     environment_t env = ENV_WATER;
@@ -178,7 +178,7 @@ Test(battle_flow, init_battle_flow)
     int rc = start_battle(ctx, npc_enemy, env);
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
 
-    move_t *move = calloc(sizeof(move_t));
+    move_t *move = calloc(1, sizeof(move_t));
     move->damage = 10;
 
     ctx = battle_flow(ctx, move, "Enemy");
@@ -190,13 +190,13 @@ Test(battle_flow, do_damage_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    stat_t *pstats = calloc(sizeof(size_t));
+    stat_t *pstats = calloc(1, sizeof(size_t));
     pstats->hp = 20;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
     g->curr_player = ctx_player;
     ctx->game = g;
     ctx->in_battle = true;
-    stat_t *estats = calloc(sizeof(size_t));
+    stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
     environment_t env = ENV_WATER;
@@ -204,7 +204,7 @@ Test(battle_flow, do_damage_battle_flow)
     int rc = start_battle(ctx, npc_enemy, env);
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
 
-    move_t *move = calloc(sizeof(move_t));
+    move_t *move = calloc(1, sizeof(move_t));
     move->damage = 10;
 
     ctx = battle_flow(ctx, move, "Enemy");
@@ -220,13 +220,13 @@ Test(battle_flow, battle_over_by_player)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    stat_t *pstats = calloc(sizeof(size_t));
+    stat_t *pstats = calloc(1, sizeof(size_t));
     pstats->hp = 20;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
     g->curr_player = ctx_player;
     ctx->game = g;
     ctx->in_battle = true;
-    stat_t *estats = calloc(sizeof(size_t));
+    stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
     environment_t env = ENV_WATER;
@@ -234,7 +234,7 @@ Test(battle_flow, battle_over_by_player)
     int rc = start_battle(ctx, npc_enemy, env);
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
 
-    move_t *move = calloc(sizeof(move_t));
+    move_t *move = calloc(1, sizeof(move_t));
     move->damage = 10;
     ctx = battle_flow(ctx, move, "Enemy");
     cr_assert_not_null(ctx, "battle_flow returned NULL");
@@ -251,13 +251,13 @@ Test(battle_flow, battle_over_by_enemy)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    stat_t *pstats = calloc(sizeof(size_t));
+    stat_t *pstats = calloc(1, sizeof(size_t));
     pstats->hp = 100;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
     g->curr_player = ctx_player;
     ctx->game = g;
     ctx->in_battle = true;
-    stat_t *estats = calloc(sizeof(size_t));
+    stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
     environment_t env = ENV_WATER;
@@ -265,7 +265,7 @@ Test(battle_flow, battle_over_by_enemy)
     int rc = start_battle(ctx, npc_enemy, env);
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
 
-    move_t *move = calloc(sizeof(move_t));
+    move_t *move = calloc(1, sizeof(move_t));
     move->damage = 10;
     ctx = battle_flow(ctx, move, "Enemy");
     cr_assert_not_null(ctx, "battle_flow returned NULL");
