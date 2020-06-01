@@ -131,10 +131,20 @@ typedef struct game_action_condition{
 */
 typedef struct game_action_condition action_condition_list_t;
 
+/*
+ * This struct defines a custom action by an action_type and several 
+ *  attribute parameters.
+ */
+typedef struct action_block {
+    enum action_type action_type;
+    int num_args;
+    attribute_t** args;
+} action_block_t;
+
 typedef struct game_action_effect{
     item_t *item;
-    attribute_t* attribute_to_modify;
-    attribute_value_t new_value;
+    player_t *target;
+    action_block *action_block;
     struct game_action_effect *next; //mandatory for utlist macros
 } game_action_effect_t;
 
