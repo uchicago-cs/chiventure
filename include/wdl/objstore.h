@@ -1,29 +1,34 @@
-#include "../../src/libobj/sandbox/sample_obj_documentation.h"
+#include "wdl/object.h"
 #include "common/common.h"
 
-#ifndef INCLUDE_OBJ_STORE_H
-#define INCLUDE_OBJ_STORE_H
+#ifndef INCLUDE_OBJSTORE_H
+#define INCLUDE_OBJSTORE_H
 
-/* key_t: key struct for hash table - a wrapper for id and type of obj
- * params:
- *   - id: the id of the object
- *   - type: the type of the object
+/* 
+ * key_t: key struct for hash table - a wrapper for id and type of obj
  */
 typedef struct objkey {
-    char id[MAXLEN_ID]; // item id, e.g. "villager"
-    objtype_t type; // category, e.g. "npc"
+    // the id of the object, e.g. "villager"
+    char id[MAXLEN_ID];
+
+    // type: the type of the object
+    objtype_t type;
+
  } objkey_t;
 
-/* objstore_t: hash table for storing objects parsed from WDL++ format
- * params:
- *   - key: key of hash, containing id and type of object
- *   - obj: pointer to object
- *   - hh: needed for hash struct
+/* 
+ * objstore_t: hash table for storing objects parsed from WDL++ format
  */
 typedef struct objstore {
+    // key of hash, containing id and type of object
     objkey_t key;
+
+    // pointer to object
     obj_t *o; 
+
+    // required for hash struct
     UT_hash_handle hh;
+
 } objstore_t; 
 
 /* 
@@ -60,12 +65,21 @@ objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type);
 int add_objstore(objstore_t **obj_store, obj_t *o);
 
 /*
- * free_objstore: frees a given objstore struct
+ * free_objstore: deletes & frees a given objstore struct
  * 
  * params:
  *   - store - objstore item
  * returns: SUCCESS
  */
-int free_objstore(objstore_t *store);
+int free_objstore(objstore_t **obj_store, objstore_t *store);
+
+/* 
+ * free_all: deletes & frees entire objectstore_t hash (including objects)
+ * 
+ * params:
+ *   - object_store - objstore hash
+ * returns: SUCCESS
+ */
+int free_all(objstore_t **object_store);
 
 #endif

@@ -1,6 +1,9 @@
 #include "wdl/objstore.h"
+<<<<<<< HEAD
 
 // objstore_t *obj_store = NULL;
+=======
+>>>>>>> wdl/libobj-hash
 
 /* See obj_store.h for documentation */
 objstore_t *new_objstore(obj_t *o)
@@ -49,8 +52,23 @@ int add_objstore(objstore_t **obj_store, obj_t *o)
 }
 
 /* See obj_store.h for documentation */
-int free_objstore(objstore_t *store)
+int free_objstore(objstore_t **obj_store, objstore_t *store)
 {
+    HASH_DEL(*obj_store, store);
     free(store);
+    return SUCCESS;
+}
+
+/* See obj_store.h for documentation */
+int free_all(objstore_t **obj_store)
+{
+    if (obj_store == NULL) {
+        return FAILURE;
+    }
+    objstore_t *curr, *tmp;
+    HASH_ITER(hh, *obj_store, curr, tmp)
+    {
+        free_objstore(obj_store, curr);
+    }
     return SUCCESS;
 }
