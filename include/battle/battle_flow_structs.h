@@ -8,6 +8,7 @@
 #include "battle_logic.h"
 #include "common/common.h"
 #include "common/utlist.h"
+#include "battle/battle_logic.h"
 
 
 /* Stub for the player struct in game-state */
