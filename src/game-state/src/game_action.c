@@ -90,7 +90,7 @@ int possible_action(item_t *item, char *action_name)
 // ------------------------------------- CONDITIONS -------------------------------------
 
 /* see game_action.h */
-int add_action_condition(game_action_t *action, item_t *cond_item,
+int add_action_attribute_condition(game_action_t *action, item_t *cond_item,
                          attribute_t *cond_attribute, attribute_value_t cond_value)
 {
     if (cond_item == NULL)
