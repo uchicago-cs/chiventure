@@ -19,6 +19,12 @@
 // max long description length
 #define MAX_LONG_DESC_LEN (300)
 
+/* define constants for how many skills a class can have
+ * in their current active and passive skill lists
+ * numbers are utterly arbitrary */ 
+#define MAX_ACTIVE_SKILLS (10)
+#define MAX_PASSIVE_SKILLS (10)
+
 // skilltrees stub
 typedef struct skilltree_stub {
     obj_t* skilltree;

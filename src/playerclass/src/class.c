@@ -12,10 +12,6 @@
 #include "playerclass/class.h"
 #include "common/utlist.h"
 
-/* define constants for how many skills a class can have in their active skill lists
- * numbers are utterly arbitrary */ 
-#define MAX_ACTIVE_SKILLS (10)
-#define MAX_PASSIVE_SKILLS (10)
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
