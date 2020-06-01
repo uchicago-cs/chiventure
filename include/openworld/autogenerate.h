@@ -1,4 +1,3 @@
-
 /* Team RPG-Openworld
 *
 * Sample-Generation header file
@@ -39,18 +38,20 @@
 * - true if the room has one or more paths
 * - false if the room has no paths
 */
-bool any_paths(room_t *r);
+bool path_exists_in_dir(room_t *r, char *direction);
 
 
 /*
-* context_to_room
+* roomspec_to_room
 * Given a roomspec_t pointer (type roomspec_t*), returns
 * a room_t pointer generated from its specifications, with a room_id that
 * is uniquely generated from the given game (different from the game's rooms).
 *
+* Increments the num_built field of the given roomspec by 1
+*
 * parameters:
-* - game: A pointer to a game struct. Should not be NULL.
 * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
+* - room_id: A unique room_id string for the to-be-generated room.
 *
 * side effects:
 * - Creates a new room_t pointer on the heap.
@@ -58,20 +59,19 @@ bool any_paths(room_t *r);
 * returns:
 * The generated room_t struct pointer.
 */
-room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
+room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id);
 
 
 /*
 * room_generate
-* Given a game pointer and a context struct (gencontext_t*), generates a room
-* based on the head node only of the context struct and adds it to the game. Only
-* does so if the current room has no outward paths (dead end).
+* Generates a room based on the given speclist and adds it to the game.
 *
-* Connects the newly-generated room to the old room via paths.
+* Checks to see if path direction is available.
 *
 * parameters:
 * - game: A pointer to a game struct. Should not be NULL.
-* - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
+* - context: A pointer to a gencontext_t (type speclist_t*). Not NULL.
+* - room_id: A unique room_id string for the to-be-generated room.
 *
 * side effects:
 * - Changes input game to hold the newly generated room. Allocated on the heap
@@ -80,7 +80,7 @@ room_t* roomspec_to_room(game_t *game, roomspec_t *roomspec);
 * - SUCCESS if the new room was generated and added (SUCCESS)
 * - FAILURE if the new room was not generated/added (FAILURE)
 */
-int room_generate(game_t *game, gencontext_t *context, char *bucket);
+int room_generate(game_t *game, gencontext_t *gencontext, char *room_id);
 
 /*
 * multi_room_generate
@@ -94,6 +94,7 @@ int room_generate(game_t *game, gencontext_t *context, char *bucket);
 * parameters:
 * - game: A pointer to a game struct. Should not be NULL.
 * - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
+* - room_id: A unique room_id string for the to-be-generated room.
 *
 * side effects:
 * - Changes input game to hold the newly generated room(s). Allocated on the heap
@@ -102,7 +103,7 @@ int room_generate(game_t *game, gencontext_t *context, char *bucket);
 * - SUCCESS if the new rooms were generated and added (SUCCESS)
 * - FAILURE if the new rooms were not generated/added (FAILURE)
 */
-int multi_room_generate(game_t *game, gencontext_t *context, char *bucket);
+int multi_room_generate(game_t *game, gencontext_t *context, char *room_id);
 
 /*
 * speclist_from_hash
@@ -164,3 +165,5 @@ item_hash_t *random_items(roomspec_t *room);
 int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
 
 #endif /* INCLUDE_AUTOGENERATE_H */
+
+
