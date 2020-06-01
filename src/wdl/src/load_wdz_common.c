@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "load_wdz_internal.h"
+#include "wdl/load_wdz_internal.h"
 
 #include "wdl/wdl_common.h" // to get obj_t
 

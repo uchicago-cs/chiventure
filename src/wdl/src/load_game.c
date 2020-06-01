@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "load_wdz_internal.h"
+#include "wdl/load_wdz_internal.h"
 
 #include "wdl/validate.h"
 #include "wdl/parse.h"

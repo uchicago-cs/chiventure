@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "load_wdz_internal.h"
+#include "wdl/load_wdz_internal.h"
 
 // maximum buffer size for json file, in bytes. This is currently set to 2 MiB.
 #define MAXBUFSIZE ((zip_int64_t)0x200000)
