@@ -1,5 +1,5 @@
-#ifndef BATTLE_FLOW_H
-#define BATTLE_FLOW_H
+#ifndef BATTLE_PRINT_H
+#define BATTLE_PRINT_H
 
 #include <stdbool.h>
 #include <string.h>
