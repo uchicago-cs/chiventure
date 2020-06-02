@@ -49,10 +49,40 @@ typedef struct npc_action {
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
+/*
+ * Allocates a new npc_action in the heap.
+ *
+ * Parameters:
+ *    - c_name: The name of the npc action e.g ignore,give
+ *    - kind: whether the action involves just the NPC, an NPC and an item, or an NPC and two items
+ *
+ * Returns:
+ *    - A pointer to the npc_action, or NULL if an npc_action
+ *        cannot be allocated
+ */
 npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind);
 
+/*
+ * Initializes the constituents of an npc_action
+ *
+ * Parameters:
+ *    - a: An npc_action pointer. Must point to already allocated memory.
+ *    - c_name: The name of the npc_action
+ *. -kind: the kind of npc-action involved ie just NPC, or NPC and items to be given or taken
+ * Returns:
+ *    - 0 on success, 1 if an error occurs.
+ */
 int npc_action_init(npc_action_t *a, char *c_name, enum npc_action_kind kind);
 
+/*
+ * Frees the resources associated with an npc_action
+ *
+ * Parameters:
+ *    - a: An npc_action. Must point to an npc_action allocated with npc_action_new
+ *
+ * Returns:
+ *    - Always returns 0.
+ */
 int npc_action_free(npc_action_t *a);
 
 #endif
