@@ -173,7 +173,6 @@ Test(battle_flow, print_start_battle)
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
-    printf("0\n");
     b->player->stats->hp = 100;
     b->enemy->stats->hp = 100;
 
@@ -190,7 +189,7 @@ Test(battle_flow, print_start_battle)
                             "-- Bob's HP: 100\n";
     cr_expect_str_eq(string, expected_string, "print_start_battle() failed to set string");
 
-    printf(string);
+    printf("%s",string);
     free(string);
 }
 
@@ -227,7 +226,7 @@ Test(battle_flow, print_player_move)
 
     cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string");
 
-    printf(string);
+    printf("%s",string);
     free(string);
 }
 
@@ -265,7 +264,7 @@ Test(battle_flow, print_enemy_move)
 
     cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string");
 
-    printf(string);
+    printf("%s",string);
     free(string);
 }
 
@@ -286,7 +285,7 @@ Test(battle_flow, print_player_winner)
     char *expected_string = "You've won! You gain 2 XP!\n";
     cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
 
-    printf(string);
+    printf("%s",string);
     free(string);
 }
 
@@ -306,6 +305,6 @@ Test(battle_flow, print_enemy_winner)
     char *expected_string = "You lost...\n";
     cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
 
-    printf(string);
+    printf("%s",string);
     free(string);
 }
