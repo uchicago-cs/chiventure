@@ -127,7 +127,7 @@ Test(autogenerate, roomspec_to_room1)
     room_t *room = roomspec_to_room(r, "sample_room_id");
 
     cr_assert_not_null(room, "roomspec_new(): The returned room is NULL");
-   cr_assert_not_null(room->room_id, "roomspec_new(): room_id field is NULL");
+    cr_assert_not_null(room->room_id, "roomspec_new(): room_id field is NULL");
 
     // Hash handle and room_id fields will be unique
     cr_assert_eq(strcmp(room->short_desc, "short desc"), 0,
@@ -253,7 +253,7 @@ Test(autogenerate, roomspec_to_room4)
 Test(autogenerate, room_generate_failure)
 {
     game_t *g = game_new("start desc");
-   g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
+    g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
 
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
     item_t *sample_item2 = item_new("item_id", "short_desc", "long_desc");
@@ -509,7 +509,7 @@ Test(autogenerate, valid_multi_room1)
     room_t *sample_room2 = room_new("anotherString1", "anotherString2", "anotherString3");
 
     // Path to sample_room2
-   path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
 
     // Path to sample_room1
     path_t* path_to_room = path_new(sample_room1, "NORTH");
@@ -637,7 +637,7 @@ Test(autogenerate, valid_multi_room3)
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
     // 3 roomspec case
-   speclist_t *mid = speclist_new(sample_roomspec2);
+    speclist_t *mid = speclist_new(sample_roomspec2);
     cr_assert_not_null(mid, "Could not create new speclist");
     speclist_t *tail = speclist_new(sample_roomspec3);
     cr_assert_not_null(tail, "Could not create new speclist");
@@ -657,7 +657,8 @@ Test(autogenerate, valid_multi_room3)
 Test(speclist, school_hash)
 {
     roomspec_t *hash = make_default_room("school", NULL, NULL);
-    speclist_t *spec = speclist_from_hash(hash);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
 
     speclist_t *tmp = spec;
@@ -678,7 +679,8 @@ Test(speclist, school_hash)
 Test(speclist, farm_hash)
 {
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
-    speclist_t *spec = speclist_from_hash(hash);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
 
     speclist_t *tmp = spec;
@@ -699,7 +701,8 @@ Test(speclist, farm_hash)
 Test(speclist, castle_hash)
 {
     roomspec_t *hash = make_default_room("castle", NULL, NULL);
-    speclist_t *spec = speclist_from_hash(hash);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
 
     speclist_t *tmp = spec;
@@ -720,7 +723,8 @@ Test(speclist, castle_hash)
 Test(speclist, school_lookup)
 {
     roomspec_t *hash = make_default_room("school", NULL, NULL);
-    speclist_t *spec = speclist_from_hash(hash);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
 
     roomspec_t *r = random_room_lookup(spec);
@@ -745,7 +749,8 @@ Test(speclist, school_lookup)
 Test(speclist, farm_lookup)
 {
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
-    speclist_t *spec = speclist_from_hash(hash);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
 
     roomspec_t *r = random_room_lookup(spec);
@@ -767,7 +772,8 @@ Test(speclist, farm_lookup)
 Test(speclist, castle_lookup)
 {
     roomspec_t *hash = make_default_room("castle", NULL, NULL);
-    speclist_t *spec = speclist_from_hash(hash);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
 
     roomspec_t *r = random_room_lookup(spec);
@@ -848,7 +854,8 @@ Test(roomspec, throne_item)
 /* testing random_item_lookup for 0 iterations*/
 Test(item_hash, zero_lookup)
 {
-    item_hash_t *dst = NULL, *src = get_default_items();
+    item_hash_t *dst = NULL;
+    item_hash_t *src = get_default_items();
     int rc;
     rc = random_item_lookup(&dst, src, 0);
     cr_assert_not_null(dst);
@@ -858,7 +865,8 @@ Test(item_hash, zero_lookup)
 /* testing random_item_lookup for 1 iteration*/
 Test(item_hash, one_lookup)
 {
-    item_hash_t *dst = NULL, *src = get_default_items();
+    item_hash_t *dst = NULL;
+    item_hash_t *src = get_default_items();
     int rc;
     rc = random_item_lookup(&dst, src, 1);
     cr_assert_not_null(dst);
@@ -867,7 +875,8 @@ Test(item_hash, one_lookup)
 /* testing random_item_lookup for 3 iterations*/
 Test(item_hash, three_lookup)
 {
-    item_hash_t *dst = NULL, *src = get_default_items();
+    item_hash_t *dst = NULL;
+    item_hash_t *src = get_default_items();
     int rc;
     rc = random_item_lookup(&dst, src, 3);
 

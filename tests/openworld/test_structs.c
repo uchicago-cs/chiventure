@@ -57,8 +57,9 @@ Test(gencontext, free)
 
 /* Tests the roomspec_new function to validate that a roomspec
  * can be made successfully. */
-Test(roomspec, new1){
- 
+Test(roomspec, new1)
+{
+
     roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");

@@ -126,9 +126,9 @@ int room_generate(game_t *game, gencontext_t *context, char *room_id)
             // Bump if the room already has a path in the given direction
             continue;
         }
-     
-		//create new combination of rooms/items from randomly picked roomspec
-		roomspec_t *r = copy_room(room_id, context->speclist);
+
+        //create new combination of rooms/items from randomly picked roomspec
+        roomspec_t *r = copy_room(room_id, context->speclist);
 
         // Adds one generated room from the head of context->speclist only
         room_t *new_room = roomspec_to_room(r, room_id);
@@ -174,37 +174,42 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id)
 /* See autogenerate.h */
 int speclist_from_hash(speclist_t **orig, roomspec_t *hash)
 {
-	speclist_t *spec = NULL;
-	roomspec_t *current_room = NULL;
-	roomspec_t *tmp = NULL;
+    speclist_t *spec = NULL;
+    roomspec_t *current_room = NULL;
+    roomspec_t *tmp = NULL;
 
     HASH_ITER(hh, hash, current_room, tmp) {
         speclist_t *s = speclist_new(current_room);
         DL_APPEND(spec, s);
     }
 
-	DL_APPEND(*orig, spec);
-    return spec;
+    DL_APPEND(*orig, spec);
+    return SUCCESS;
 }
 
 /* See autogenerate.h */
-roomspec_t *copy_room(char *name, speclist_t* spec) {
-	char *spliced = NULL;
+roomspec_t *copy_room(char *room_id, speclist_t* spec)
+{
+    char *spliced = NULL;
 
-	spliced = str_slice(room_id, 0, strlen(room_id) - 2);
+    spliced = str_slice(room_id, 0, strlen(room_id) - 2);
+    roomspec_t *hash = make_default_room(spliced, NULL, NULL);
 
-	roomspec_t *hash = make_default_room(spliced, NULL, NULL);
-	int rc = speclist_from_hash(&spec, hash);
-	// Specify roomspec content from speclist
-	roomspec_t *r = random_room_lookup(spec);
+    int rc = speclist_from_hash(&spec, hash);
+    // Specify roomspec content from speclist
+    roomspec_t *r = random_room_lookup(spec);
+
+    return r;
 }
 
 /* See autogenerate.h */
 roomspec_t *random_room_lookup(speclist_t *spec)
 {
     int count;
-	speclist_t *tmp = NULL;
-	speclist_t *random = NULL;
+    speclist_t *tmp = NULL;
+    speclist_t *random = NULL;
+
+    char *spliced = NULL;
 
     DL_COUNT(spec, tmp, count);
     int idx = rand() % count, i = 0;
@@ -223,14 +228,13 @@ roomspec_t *random_room_lookup(speclist_t *spec)
 /* See autogenerate.h */
 item_hash_t *random_items(roomspec_t *room)
 {
-	if (room == NULL) {
-		return NULL;
-	}
+    if (room == NULL) {
+        return NULL;
+    }
 
-	int count = HASH_COUNT(room->items);
-	int num_items = rand() % 6, num_iters = rand() % count;
+    int count = HASH_COUNT(room->items);
+    int num_items = rand() % 6, num_iters = rand() % count;
 
-    item_hash_t *r_items = room->items;
     item_hash_t *items = NULL;
 
     for (int i = 0; i < num_items; i++) {
@@ -243,11 +247,11 @@ item_hash_t *random_items(roomspec_t *room)
 /* See autogenerate.h */
 int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 {
-	item_hash_t *current = NULL;
-	item_hash_t *tmp = NULL;
+    item_hash_t *current = NULL;
+    item_hash_t *tmp = NULL;
 
     int i = 0;
-	
+
     HASH_ITER(hh, src, current, tmp) {
         if (i == num_iters) {
             copy_item_to_hash(dst, src, tmp->item_id);
@@ -258,5 +262,5 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 
     return FAILURE;
 }
-                                                                                
+
 
