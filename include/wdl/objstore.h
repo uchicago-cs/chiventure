@@ -8,10 +8,10 @@
  * key_t: key struct for hash table - a wrapper for id and type of obj
  */
 typedef struct objkey {
-    // the id of the object, e.g. "villager"
+    /* the id of the object, e.g. "villager" */
     char id[MAXLEN_ID];
 
-    // type: the type of the object
+    /* type: the type of the object */
     objtype_t type;
 
  } objkey_t;
@@ -20,13 +20,13 @@ typedef struct objkey {
  * objstore_t: hash table for storing objects parsed from WDL++ format
  */
 typedef struct objstore {
-    // key of hash, containing id and type of object
+    /* key of hash, containing id and type of object */
     objkey_t key;
 
-    // pointer to object
+    /* pointer to object */
     object_t *o; 
 
-    // required for hash struct
+    /* required for hash struct */
     UT_hash_handle hh;
 
 } objstore_t; 
