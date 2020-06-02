@@ -12,21 +12,19 @@ int move_init(move_t *move, char* info, int id, item_t *items, bool attack,
 {
     assert(move != NULL);
 
-    move_t* moves = calloc(1, sizeof(move_t));
+    move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
+    strncpy(move->info, info, MAX_MOVE_INFO_LEN + 1);
 
-    moves->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
-    strncpy(moves->info, info, MAX_MOVE_INFO_LEN + 1);
+    move->id = id;
 
-    moves->id = id;
+    move->item = items;
 
-    moves->item = items;
+    move->attack = attack;
+    move->damage = damage;
+    move->defense = defense;
 
-    moves->attack = attack;
-    moves->damage = damage;
-    moves->defense = defense;
-
-    moves->next = NULL;
-    moves->prev = NULL;
+    move->next = NULL;
+    move->prev = NULL;
 
     return SUCCESS;
 }
@@ -63,11 +61,6 @@ int move_free(move_t *move)
     if (move == NULL)
     {
         return SUCCESS;
-    }
-
-    if (move->info)
-    {
-        free(move->info);
     }
 
     item_t *item_elt, *item_tmp;

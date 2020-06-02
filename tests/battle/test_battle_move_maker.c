@@ -12,11 +12,13 @@ Test(class_moves, bard)
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL, NULL, NULL, NULL);
-
+    
     move_t *moves = move_new("This is a test string", 0, NULL, false, 0, 0);
 
     player_t *player = new_ctx_player("name", test_class,
-                                          NULL, moves, NULL);
+                                          NULL, NULL, NULL);
+
+    DL_PREPEND(player->moves, moves);
 
     player_t *ret_player = add_class_move(player);
 
