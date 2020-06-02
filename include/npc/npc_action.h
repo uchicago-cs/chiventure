@@ -49,10 +49,40 @@ typedef struct npc_action {
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
+/*
+ * Allocates a new npc_action in the heap
+ *
+ * Parameters:
+ *  - c_name: the name of the action
+ *  - kind: the kind of action
+ * 
+ * Returns:
+ *  - Pointer to allocated npc_action
+ */
 npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind);
 
+/*
+ * Initializes an npc with given health
+ *
+ * Parameters:
+ *  - a: an npc action; must point to already allocated memory
+ *  - c_name: the name of the action
+ *  - kind: the kind of action
+ *
+ * Returns:
+ *  - SUCESS on sucess, FAILURE if an error occurs
+ */
 int npc_action_init(npc_action_t *a, char *c_name, enum npc_action_kind kind);
 
+/*
+ * Frees resources associated with an npc
+ *
+ * Paremeters:
+ *  - a: npc_action to be freed
+ *
+ * Returns:
+ *  - SUCESS on sucess, FAILURE if an error occurs
+ */
 int npc_action_free(npc_action_t *a);
 
 #endif
