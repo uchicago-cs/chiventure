@@ -112,4 +112,12 @@ ITEMS:
        text_success: "You take the fork."
        text_fail: "You can't take the fork."
 
- # add identical fork to show item stacking
+ # Uncomment everything below once item stacking is supported
+ #- id: "FORK"
+ #  short_desc: "A fork."
+ #  long_desc: "A fork. There's nothing remarkably special about it."
+ #  in: "kitchen"
+ #  actions:
+ #    - action: "TAKE"
+ #      text_success: "You take the fork."
+ #      text_fail: "You can't take the fork."
