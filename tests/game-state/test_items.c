@@ -4,8 +4,8 @@
 
 #include "game-state/player.h"
 
-#include "common-item.h"
-#include "common-room.h"
+#include "game-state/item.h"
+#include "game-state/room.h"
 
 // BASIC ITEM UNIT TESTS ------------------------------------------------------
 
