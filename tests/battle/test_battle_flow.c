@@ -190,7 +190,7 @@ Test(battle_flow, print_start_battle)
                             "-- Bob's HP: 100\n";
     cr_expect_str_eq(string, expected_string, "print_start_battle() failed to set string");
 
-    print(string);
+    printf(string);
     free(string);
 }
 
@@ -227,7 +227,7 @@ Test(battle_flow, print_player_move)
 
     cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string");
 
-    print(string);
+    printf(string);
     free(string);
 }
 
@@ -265,7 +265,7 @@ Test(battle_flow, print_enemy_move)
 
     cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string");
 
-    print(string);
+    printf(string);
     free(string);
 }
 
@@ -286,7 +286,7 @@ Test(battle_flow, print_player_winner)
     char *expected_string = "You've won! You gain 2 XP!\n";
     cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
 
-    print(string);
+    printf(string);
     free(string);
 }
 
@@ -306,6 +306,6 @@ Test(battle_flow, print_enemy_winner)
     char *expected_string = "You lost...\n";
     cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
 
-    print(string);
+    printf(string);
     free(string);
 }
