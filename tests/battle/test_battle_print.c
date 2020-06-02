@@ -22,7 +22,7 @@ Test(battle_print, print_start_battle)
     b->player->stats->hp = 100;
     b->enemy->stats->hp = 100;
 
-    char* string = print_start_battle(b, string);
+    char* string = print_start_battle(b);
     cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You have encountered Bob!\n\n"
@@ -54,7 +54,7 @@ Test(battle_print, print_player_move)
     move->info = "Punch";
     b->player->moves = move;
 
-    char* string = print_battle_move(b, PLAYER, move, string);
+    char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You used Punch! It did 2 damage.\n"
@@ -86,7 +86,7 @@ Test(battle_print, print_enemy_move)
     move->info = "Laugh";
     b->player->moves = move;
 
-    char* string = print_battle_move(b, ENEMY, move, string);
+    char* string = print_battle_move(b, ENEMY, move);
     cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "Bob used Laugh! It did 99 damage.\n"
@@ -105,7 +105,7 @@ Test(battle_print, print_player_winner)
     battle_status_t status = BATTLE_VICTOR_PLAYER;
     int xp = 2;
 
-    char* string = print_battle_winner(status, xp, string);
+    char* string = print_battle_winner(status, xp);
     cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You've won! You gain 2 XP!\n";
@@ -120,9 +120,9 @@ Test(battle_print, print_enemy_winner)
     battle_status_t status = BATTLE_VICTOR_ENEMY;
     int xp = 2;
 
-    char* string = print_battle_winner(status, xp, string);
+    char* string = print_battle_winner(status, xp);
     cr_assert_not_null(string, "print_start_battle() failed");
-    
+
     char *expected_string = "You lost...\n";
     cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
 

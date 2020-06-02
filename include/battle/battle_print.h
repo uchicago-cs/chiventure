@@ -53,5 +53,5 @@ char *print_start_battle(battle_t *b);
  *  - calloced string with the message about the end of thee battle
  *
  */
-char *print_battle_winner(battle_status_t status, int xp, char *string);
+char *print_battle_winner(battle_status_t status, int xp);
  #endif
