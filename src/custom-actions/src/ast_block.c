@@ -67,14 +67,14 @@ int AST_block_free(AST_block_t *ast)
             {
                 conditional_block_free(ast->block->conditional_block);
             }
-            break; }
-    /*  Code will be added once branch_block.c is implemented 
+            break; 
         case BRANCH:
             if (ast->block->branch_block != NULL)
             {
                 branch_block_free(ast->block->branch_block);
             }
-    */
+    }
+    free(ast->block);
     free(ast);
 
     return SUCCESS;  

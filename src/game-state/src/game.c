@@ -1,7 +1,7 @@
 #include "game-state/game.h"
-#include "common-room.h"
+#include "game-state/room.h"
 #include "game-state/game_state_common.h"
-#include "common-item.h"
+#include "game-state/item.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -144,7 +144,7 @@ bool end_conditions_met(game_t *game)
 {
     if (game->end_conditions == NULL)
     {
-        return true; // no conditions to check
+        return false; // no conditions to check
     }
     
     game_action_condition_t *iterator = game->end_conditions;
@@ -158,6 +158,23 @@ bool end_conditions_met(game_t *game)
     }
     
     return true; // all conditions met
+}
+
+/* See game.h */
+bool is_game_over(game_t *game)
+{
+    bool end_case1, end_case2, end_case3;
+    
+    /* end_case1: Both a final room and end conditions exist */
+    end_case1 = game->final_room != NULL && game->final_room == game->curr_room && 
+            end_conditions_met(game);
+    /* end_case2: A final room exists, but end conditions do not */
+    end_case2 = game->final_room != NULL && game->final_room == game->curr_room && 
+            game->end_conditions == NULL;
+    /* end_case3: End conditions exist, but a final room does not */
+    end_case3 = game->final_room == NULL && end_conditions_met(game);
+    
+    return end_case1 || end_case2 || end_case3;
 }
 
 /* See game.h */
