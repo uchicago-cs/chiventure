@@ -1,11 +1,166 @@
 #include "npc/dialogue.h"
 
-const char *banner = "THIS IS AN EXAMPLE PROGRAM";
+
+// BASIC PRINTING FUNCTIONS ---------------------------------------------------
+
+/*
+ * Three functions to print given string in gold, yellow, or red respectively.
+ */
+void print_gold(char *str)
+{
+    printf("\033[0;33m");
+    printf("%s", str);
+    printf("\033[0m");
+    return;
+}
+
+void print_yellow(char *str)
+{
+    printf("\033[1;33m");
+    printf("%s", str);
+    printf("\033[0m");
+    return;
+}
+
+void print_red(char *str)
+{
+    printf("\033[0;31m");
+    printf("%s", str);
+    printf("\033[0m");
+    return;
+}
+
+/*
+ * Prints a string in NPC dialogue format: gold by default and yellow for
+ * text surrounded by #hashes# to denote dialogue choices.
+ * 
+ * Parameters:
+ *  - dialogue: the string to be printed in NPC format
+ * 
+ * Returns: None.
+ */
+void npc_print(char *dialogue)
+{
+    char *divider = "#";
+    char *to_print;
+    char *remaining = strdup(dialogue);
+    int color = 1; /* Increments with each print; odd = gold, even = yel */
+    while ((to_print = strtok_r(remaining, divider, &remaining)) != NULL) {
+        if (color % 2 == 1)
+            print_gold(to_print);
+        else
+            print_yellow(to_print);
+        color++;
+    }
+}
+
+
+// DIALOGUE TRAVERSAL FUNCTIONS -----------------------------------------------
+
+/*
+ * Compares the input to the keyword and returns index of matching edge.
+ * 
+ * Parameters:
+ *  - n: the node that player is currently on
+ *  - input: the player-inputted command
+ *  - farewell: ending string of convo
+ * 
+ * Returns:
+ *  - pointer to the matching edge on success, NULL otherwise
+ */
+edge_t *read_input(node_t *n, char *input, char *farewell)
+{
+    char *adj_input = strtok(input, "\n");
+
+    if (strcmp(adj_input, "ignore") == 0)
+    {
+        end_convo(farewell);
+    }
+
+    edge_t *res;
+
+    HASH_FIND(hh, n->edges, adj_input, strlen(adj_input), res);
+
+    return res;
+}
+
+/*
+ * Asks for input and traverses to the edge specified by the input's index.
+ * Prints player quip, moves to new node, prints npc's dialogue at that node.
+ * 
+ * Parameters:
+ *  - n: the node that the player is currently on
+ *  - farewell: ending string of convo
+ * 
+ * Returns:
+ *  - pointer to the new curent node on success, NULL otherwise
+ */
+node_t *traverse_edge(node_t *n, char *farewell)
+{
+    char *input = malloc(MAX_KEY_LEN);
+    fgets(input, MAX_KEY_LEN, stdin);
+
+    edge_t *e;
+    e = read_input(n, input, farewell);
+
+    if (e != NULL) {
+        printf("\n%s\n\n", e->quip);
+        n = e->toward;
+        npc_print(n->dialogue);
+        return n;
+    } else {
+        print_gold("What?\n");
+        return NULL;
+    }
+}
+
+/*
+ * Ends the conversation, exiting npc dialogue mode.
+ * 
+ * Parameters:
+ *  - farewell: ending string of convo
+ * 
+ * Returns: None.
+ */
+void end_convo(char *farewell)
+{
+    npc_print(farewell);
+    printf("\n");
+    exit(0);
+}
+
+/*
+ * Runs the entire conversation until it reaches an end.
+ * 
+ * Parameters:
+ *  - c: the conversation to be run
+ * 
+ * Returns: None.
+ */
+void run_convo(convo_t *c)
+{
+    npc_print(c->nodes->cur_node->dialogue);
+    npc_print("Or, you could #ignore# me.");
+    node_t *cur;
+    while (c->nodes->cur_node->connection_count != 0) {
+        printf("\n\n> Talk about: ");
+        cur = traverse_edge(c->nodes->cur_node, c->farewell);
+        if (cur != NULL) {
+            c->nodes->cur_node =
+                c->nodes->cur_node->edges->toward;
+        }
+    }
+    end_convo(c->farewell);
+}
+
+
+// EXAMPLE PROGRAM ------------------------------------------------------------
+
 /*
  * Builds an in-memory fake game mock-up
  * to be run through and then executes functions to explore it
  */
-int dia_main()
+int main()
 {
     system("clear");
 
@@ -23,14 +178,14 @@ int dia_main()
      * Starting to build the conversation structure:
      */
 
-    convo_t *showcase_convo = convo_new();
+    convo_t *showcase_convo = convo_new("See ya later.");
 
     /*
      * Initialize each node with it's primary NPC dialog
      */
     node_t *WellMet = node_new("WellMet",
            "Mhm fine, that's wonderful, now go ahead and turn around and "
-           "get outta #my house#.  You can't #come and go# as you wish.");
+           "get outta #my house#. You can't #come and go# as you wish.");
     node_t *PrivacyVio = node_new("PrivacyVio",
            "Woah, hey, y-you can't just walk in here and #poke around# "
            "the place without consulting #the owner#!!  Shouldn't I at "

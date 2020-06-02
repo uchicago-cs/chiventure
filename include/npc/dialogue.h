@@ -9,29 +9,6 @@
 #define MAX_FW_LEN 50
 
 
-// BASIC PRINTING FUNCTIONS ---------------------------------------------------
-
-/*
- * Three functions to print given string in gold, yellow, or red respectively.
- */
-void print_gold(char *str);
-
-void print_yellow(char *str);
-
-void print_red(char *str);
-
-/*
- * Prints a string in NPC dialogue format: gold by default and yellow for
- * text surrounded by #hashes# to denote dialogue choices.
- * 
- * Parameters:
- *  - dialogue: the string to be printed in NPC format
- * 
- * Returns: None.
- */
-void npc_print(char *dialogue);
-
-
 // DIALOGUE STRUCTURE DEFINITION ----------------------------------------------
 
 /* Forward Declaration */
@@ -253,52 +230,6 @@ int append_node(convo_t *c, node_t *n);
  *  - SUCCESS if successful, FAILURE if an error occurs
  */
 int add_edge(node_t *n, edge_t *e);
-
-/*
- * Compares the input to the keyword and returns index of matching edge.
- * 
- * Parameters:
- *  - n: the node that player is currently on
- *  - input: the player-inputted command
- *  - farewell: ending string of convo
- * 
- * Returns:
- *  - pointer to the matching edge on success, NULL otherwise
- */
-edge_t *read_input(node_t *n, char *input, char *farewell);
-
-/*
- * Asks for input and traverses to the edge specified by the input's index.
- * Prints player quip, moves to new node, prints npc's dialogue at that node.
- * 
- * Parameters:
- *  - n: the node that the player is currently on
- *  - farewell: ending string of convo
- * 
- * Returns:
- *  - pointer to the new curent node on success, NULL otherwise
- */
-node_t *traverse_edge(node_t *n, char *farewell);
-
-/*
- * Ends the conversation, exiting npc dialogue mode.
- * 
- * Parameters:
- *  - farewell: ending string of convo
- * 
- * Returns: None.
- */
-void end_convo(char *farewell);
-
-/*
- * Runs the entire conversation until it reaches an end.
- * 
- * Parameters:
- *  - c: the conversation to be run
- * 
- * Returns: None.
- */
-void run_convo(convo_t *c);
 
 
 // LINKED LIST FUNCTIONS ------------------------------------------------------
