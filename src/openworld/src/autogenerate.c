@@ -93,8 +93,12 @@ room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id)
     room_t *res = room_new(room_id, roomspec->short_desc, roomspec->long_desc);
 
     item_hash_t *current, *tmp;
+	char buff[MAX_SDESC_LEN + 1] = { 0 }; // Will hold unique room_id
+
     HASH_ITER(hh, roomspec->items, current, tmp) {
         assert(SUCCESS == copy_item_to_hash(&res->items, roomspec->items, current->item_id));
+		// Append num_built value to the roomspec's room_name
+		snprintf(buff, MAX_SDESC_LEN, "%s%d", tmp->spec->room_name, tmp->spec->num_built);
     }
 
     roomspec->num_built++;
@@ -104,7 +108,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id)
 }
 
 /* See autogenerate.h */
-int room_generate(game_t *game, gencontext_t *context, char *room_id)
+int room_generate(game_t *game, gencontext_t *context, roomspec_t *rspec)
 {
     // 2D array of possible directions
     char directions[4][6];
@@ -160,12 +164,11 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id)
 
     // Iterate through the speclist field, generating and adding rooms for each
     speclist_t *tmp;
-    char buff[MAX_SDESC_LEN + 1] = { 0 }; // Will hold unique room_id
+
     DL_FOREACH(context->speclist, tmp) {
-        // Append num_built value to the roomspec's room_name
-        snprintf(buff, MAX_SDESC_LEN, "%s%d", tmp->spec->room_name, tmp->spec->num_built);
+		roomspec_t *rspec = copy_room(room_id, context->speclist);
         // Increments tmp->spec->num_built
-        room_generate(game, context, buff);
+        room_generate(game, context, rspec);
     }
 
     return SUCCESS;
@@ -190,6 +193,13 @@ int speclist_from_hash(speclist_t **orig, roomspec_t *hash)
 /* See autogenerate.h */
 roomspec_t *copy_room(char *room_id, speclist_t* spec)
 {
+	roomspec_t *hash = make_default_room(room_id, NULL, NULL);
+
+	int rc = speclist_from_hash(&spec, hash);
+	// Specify roomspec content from speclist
+	roomspec_t *r = random_room_lookup(spec);
+	return r;
+	/*
     char *spliced = NULL;
 
     spliced = str_slice(room_id, 0, strlen(room_id) - 2);
@@ -200,6 +210,7 @@ roomspec_t *copy_room(char *room_id, speclist_t* spec)
     roomspec_t *r = random_room_lookup(spec);
 
     return r;
+	*/
 }
 
 /* See autogenerate.h */

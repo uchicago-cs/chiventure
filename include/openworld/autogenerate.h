@@ -74,7 +74,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id);
 * parameters:
 * - game: A pointer to a game struct. Should not be NULL.
 * - context: A pointer to a gencontext_t (type speclist_t*). Not NULL.
-* - room_id: A unique room_id string for the to-be-generated room.
+* - rspec: A unique roomspec for the to-be-generated room.
 *
 * side effects:
 * - Changes input game to hold the newly generated room. Allocated on the heap
@@ -83,7 +83,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id);
 * - SUCCESS if the new room was generated and added (SUCCESS)
 * - FAILURE if the new room was not generated/added (FAILURE)
 */
-int room_generate(game_t *game, gencontext_t *gencontext, char *room_id);
+int room_generate(game_t *game, gencontext_t *gencontext, roomspec_t *rspec);
 
 /*
 * multi_room_generate
