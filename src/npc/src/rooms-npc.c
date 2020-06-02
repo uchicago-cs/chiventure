@@ -5,7 +5,7 @@
 int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
 {
     assert(npcs_in_room != NULL);
-    strncpy(npcs_in_room->room_id, room_id, strlen(room_id));
+    strncpy(npcs_in_room->room_id, room_id, MAX_ID_LEN);
     npcs_in_room->npc_list = NULL;
     npcs_in_room->num_of_npcs = 0;
 
@@ -19,9 +19,9 @@ int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type,
 {
     char* room_id  = room->room_id;
     assert(npc_mov != NULL);
-    strncpy(npc_mov->npc_id,npc_id,strlen(npc_id));
+    strncpy(npc_mov->npc_id,npc_id, MAX_ID_LEN);
     npc_mov->mov_type = mov_type;
-    strncpy(npc_mov->track,room_id,strlen(room_id));
+    strncpy(npc_mov->track,room_id, MAX_ID_LEN);
 
     room_list_t* room_to_add = malloc(sizeof(room_list_t));
     room_to_add->next = NULL;
@@ -155,26 +155,21 @@ int register_time_in_room(npc_mov_t *npc_mov, room_t *room, int time)
 
     time_in_room_t *new_time_in_room;
     new_time_in_room = malloc(sizeof(time_in_room_t));
+    memset(new_time_in_room, 0, sizeof(time_in_room_t));
+    new_time_in_room->room_id = malloc(MAX_ID_LEN);
     strcpy(new_time_in_room->room_id, room->room_id); 
     new_time_in_room->time = time;
 
-    HASH_REPLACE_PTR(npc_mov->npc_mov_type.mov_indef->room_time,
-                    room_id, new_time_in_room, return_time);
+    HASH_REPLACE(hh, npc_mov->npc_mov_type.mov_indef->room_time,
+                    room_id, strlen(room->room_id), 
+                    new_time_in_room, return_time);
     
     free(return_time);
-    /*
-   if (return_time != NULL)
-   {
-       
-   }
-   else
-   {
-       HASH_ADD_KEYPTR(hh, npc_mov->npc_mov_type.mov_indef->room_time,
-                    room->room_id,strlen(room->room_id), new_time_in_room);
-   }
-   */
+
+    HASH_ADD_KEYPTR(hh, npc_mov->npc_mov_type.mov_indef->room_time,
+            room->room_id, strlen(room->room_id), new_time_in_room);
    
-   return SUCCESS;
+    return SUCCESS;
 }
 
 
@@ -225,20 +220,18 @@ char* track_room(npc_mov_t *npc_mov) {
 
 /* See rooms-npc.h */
 int reverse_path(npc_mov_t *npc_mov) {
-    int type = npc_mov->mov_type;
 
-    if (type != 1)
-        return FAILURE;
-    else
-    {
-        room_list_t *reversed_path = malloc(sizeof(room_list_t));
+    assert(npc_mov->mov_type == MOV_DEF);
 
-        room_list_t *def_path = npc_mov->npc_mov_type.mov_def->npc_path;
-        room_list_t *tmp;
-        LL_FOREACH(def_path, tmp) {
-            LL_PREPEND(reversed_path, tmp);
-        }
-        free(def_path);
-        npc_mov->npc_mov_type.mov_def->npc_path = reversed_path;
+    room_list_t *reversed_path_head = NULL;
+
+    room_list_t *def_path = npc_mov->npc_mov_type.mov_def->npc_path;
+    room_list_t *tmp;
+    LL_FOREACH(def_path, tmp) {
+        LL_PREPEND(reversed_path_head, tmp);
     }
+    free(def_path);
+    npc_mov->npc_mov_type.mov_def->npc_path = reversed_path_head;
+
+    return SUCCESS;
 }
