@@ -28,6 +28,8 @@ move_list_t* new_move_list(class_t* c, char* spell, int damage, int id) {
 /* see class-list.h */
 move_list_t* move_list() {
 
+    move_list_t *head = NULL;
+
     // Bard
 
     class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL, NULL, NULL, NULL);
@@ -37,15 +39,15 @@ move_list_t* move_list() {
 
     class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, NULL, NULL, NULL);
     move_list_t* wizardlist = new_move_list(wizard, "Fireball", 10, 1);
-
-    DL_PREPEND(bardlist, wizardlist);
     
     // Knight
 
     class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL, NULL, NULL, NULL);
     move_list_t* knightlist = new_move_list(knight, "Sword Slash", 9, 2);
 
-    DL_PREPEND(wizardlist, knightlist);
+    DL_APPEND(head, bardlist);
+    DL_APPEND(head, wizardlist);
+    DL_APPEND(head, knightlist);
 
-    return knightlist;
+    return head;
 }
