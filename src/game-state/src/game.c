@@ -123,6 +123,23 @@ int add_end_condition_to_game(game_t *game, game_action_condition_t *end_conditi
 }
 
 /* See game.h */
+int add_effect_to_game(game_t *game, effects_global_t *effect)
+{
+    effects_global_t *check;
+    HASH_FIND(hh, game->all_effects, effect->name, 
+              strlen(effect->name), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //the effect already exists in the game
+    }
+
+    HASH_ADD_KEYPTR(hh, game->all_effects, effect->name,
+                    strlen(effect->name), effect);
+    return SUCCESS;
+}
+
+/* See game.h */
 bool end_conditions_met(game_t *game)
 {
     if (game->end_conditions == NULL)
