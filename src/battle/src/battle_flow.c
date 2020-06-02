@@ -112,8 +112,8 @@ int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string)
     sprintf(string, "%s used %s! It did %d damage.\n"
                     "-- Your HP: %d\n"
                     "-- %s's HP: %d\n",
-                    combatant_name, move_name, damage, enemy_hp,
-                    enemy_name, player_hp);
+                    combatant_name, move_name, damage, player_hp,
+                    enemy_name, enemy_hp);
 
     return SUCCESS;
 }
