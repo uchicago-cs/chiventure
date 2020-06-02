@@ -17,6 +17,21 @@ player_t *add_class_move(player_t *player)
 
     move_t *ret_move;
 
+    char *player_class_name = player->class->name;
+
+    LL_FOREACH(moves, tmp)
+    {
+        if(!(strcmp(player_class_name, tmp->c->name)))
+        {
+            ret_move = move_new(tmp->spell, tmp->id, NULL, true, tmp->damage, 0);
+            DL_PREPEND(player->moves, ret_move);
+            return player;
+        }
+    }
+    return player;
+}
+
+/**
     if(!(strcmp(player->class->name, "Bard")))
     {
         LL_FOREACH(moves, tmp)
@@ -25,14 +40,14 @@ player_t *add_class_move(player_t *player)
             {
 		printf("%s", tmp->spell);
 		ret_move = move_new(tmp->spell, tmp->id, NULL, true, tmp->damage, 0);
-	/**
+
                 ret_move->item = NULL;
                 ret_move->id = tmp->id;
                 ret_move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
                 strncpy(ret_move->info, tmp->spell, MAX_MOVE_INFO_LEN + 1);
                 ret_move->attack = true;
                 ret_move->damage = tmp->damage;
-                ret_move->defense = 0; **/
+                ret_move->defense = 0;
                 DL_PREPEND(player->moves, ret_move);
                 return player;
 
@@ -82,3 +97,4 @@ player_t *add_class_move(player_t *player)
         return player;
     }
 }
+**/
