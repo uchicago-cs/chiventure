@@ -1,7 +1,7 @@
 #include "game-state/game.h"
-#include "common-room.h"
+#include "game-state/room.h"
 #include "game-state/game_state_common.h"
-#include "common-item.h"
+#include "game-state/item.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -96,6 +96,71 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 }
 
 /* See game.h */
+int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition)
+{
+    item_t *check_item;
+    HASH_FIND(hh, game->all_items, end_condition->item->item_id, 
+              strnlen(end_condition->item->item_id, MAX_ID_LEN), 
+              check_item);
+    if (check_item == NULL)
+    {
+        return FAILURE; // item not in game
+    }
+    
+    attribute_t *check_attribute;
+    check_attribute = get_attribute(end_condition->item, 
+                                    end_condition->attribute_to_check->attribute_key);
+    if (check_attribute == NULL || 
+        check_attribute != end_condition->attribute_to_check)
+    {
+        return FAILURE; // item does not possess attribute
+    }
+    
+    end_condition->next = game->end_conditions;
+    game->end_conditions = end_condition;
+    
+    return SUCCESS;
+}
+
+/* See game.h */
+bool end_conditions_met(game_t *game)
+{
+    if (game->end_conditions == NULL)
+    {
+        return false; // no conditions to check
+    }
+    
+    game_action_condition_t *iterator = game->end_conditions;
+    while (iterator != NULL)
+    {
+        if (!check_condition(iterator))
+        {
+            return false; // condition not yet met
+        }
+        iterator = iterator->next;
+    }
+    
+    return true; // all conditions met
+}
+
+/* See game.h */
+bool is_game_over(game_t *game)
+{
+    bool end_case1, end_case2, end_case3;
+    
+    /* end_case1: Both a final room and end conditions exist */
+    end_case1 = game->final_room != NULL && game->final_room == game->curr_room && 
+            end_conditions_met(game);
+    /* end_case2: A final room exists, but end conditions do not */
+    end_case2 = game->final_room != NULL && game->final_room == game->curr_room && 
+            game->end_conditions == NULL;
+    /* end_case3: End conditions exist, but a final room does not */
+    end_case3 = game->final_room == NULL && end_conditions_met(game);
+    
+    return end_case1 || end_case2 || end_case3;
+}
+
+/* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
                       char* direction)
 {
@@ -179,6 +244,7 @@ int game_free(game_t *game)
 {
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
+    delete_action_condition_llist(game->end_conditions);
     free(game->start_desc);
     free(game);
     return SUCCESS;
