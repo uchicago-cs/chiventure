@@ -180,6 +180,7 @@ Test(battle_flow, print_start_battle)
     // Setting up malloced string - Taken from actionmanagement.c
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
+
     int rc = print_start_battle(b, string);
     cr_assert_eq(rc, SUCCESS, "print_start_battle() failed");
 
@@ -216,6 +217,7 @@ Test(battle_flow, print_player_move)
     // Setting up malloced string - Taken from actionmanagement.c
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
+
     int rc = print_battle_move(b, PLAYER, move, string);
     cr_assert_eq(rc, SUCCESS, "print_player_move() failed");
 
@@ -252,6 +254,7 @@ Test(battle_flow, print_enemy_move)
     // Setting up malloced string - Taken from actionmanagement.c
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
+
     int rc = print_battle_move(b, ENEMY, move, string);
     cr_assert_eq(rc, SUCCESS, "print_player_move() failed");
 
@@ -265,9 +268,42 @@ Test(battle_flow, print_enemy_move)
 }
 
 
-/* Tests print_battle_winner() 
-Test(battle_flow, print_battle_winner)
+/* Tests print_battle_winner() when player wins */
+Test(battle_flow, print_player_winner)
 {
+    battle_status_t status = BATTLE_VICTOR_PLAYER;
+    int xp = 2;
 
+    // Setting up malloced string - Taken from actionmanagement.c
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
+    int rc = print_battle_winner(status, xp, string);
+    cr_assert_eq(rc, SUCCESS, "print_player_winner() failed");
+
+    char *expected_string = "You've won! You gain 2 XP!\n";
+    cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
+
+    free(string);
 }
-*/
+
+/* Tests print_battle_winner() when enemy wins */
+Test(battle_flow, print_enemy_winner)
+{
+    battle_status_t status = BATTLE_VICTOR_ENEMY;
+    int xp = 2;
+
+    // Setting up malloced string - Taken from actionmanagement.c
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
+
+
+    int rc = print_battle_winner(battle_status_t status, int xp, char *string);
+    cr_assert_eq(rc, SUCCESS, "print_player_winner() failed");
+
+    char *expected_string = "You lost...\n";
+    cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
+
+    free(string);
+}
