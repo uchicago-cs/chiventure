@@ -22,7 +22,7 @@ char *print_start_battle(battle_t *b)
                     "-- Your HP: %d\n"
                     "-- %s's HP: %d\n", enemy_name, player_hp, enemy_name, enemy_hp);
 
-    return SUCCESS;
+    return string;
 }
 
 /* see battle_print.h */
