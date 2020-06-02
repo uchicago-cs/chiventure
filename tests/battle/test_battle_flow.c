@@ -299,7 +299,7 @@ Test(battle_flow, print_enemy_winner)
 
 
 
-    int rc = print_battle_winner(battle_status_t status, int xp, char *string);
+    int rc = print_battle_winner(status, xp, string);
     cr_assert_eq(rc, SUCCESS, "print_player_winner() failed");
 
     char *expected_string = "You lost...\n";
