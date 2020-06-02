@@ -191,7 +191,7 @@ Test(battle_flow, print_start_battle)
                             "-- Your HP: 100\n"
                             "-- Bob's HP: 80\n";
     printf("4\n");
-    cr_expect_eq(string, expected_string, "print_start_battle() failed");
+    cr_expect_eq(string, expected_string, "print_start_battle() failed to set string");
 
     printf("5\n");
 
