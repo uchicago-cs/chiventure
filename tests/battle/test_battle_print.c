@@ -11,7 +11,7 @@
 #define BUFFER_SIZE (100)
 
 /* Tests print_start_battle() */
-Test(battle_flow, print_start_battle)
+Test(battle_print, print_start_battle)
 {
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
@@ -41,7 +41,7 @@ Test(battle_flow, print_start_battle)
 }
 
 /* Tests print_battle_move() on a player move */
-Test(battle_flow, print_player_move)
+Test(battle_print, print_player_move)
 {
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
@@ -77,7 +77,7 @@ Test(battle_flow, print_player_move)
 }
 
 /* Tests print_battle_move() on an enemy move */
-Test(battle_flow, print_enemy_move)
+Test(battle_print, print_enemy_move)
 {
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
@@ -114,7 +114,7 @@ Test(battle_flow, print_enemy_move)
 
 
 /* Tests print_battle_winner() when player wins */
-Test(battle_flow, print_player_winner)
+Test(battle_print, print_player_winner)
 {
     battle_status_t status = BATTLE_VICTOR_PLAYER;
     int xp = 2;
@@ -133,7 +133,7 @@ Test(battle_flow, print_player_winner)
 }
 
 /* Tests print_battle_winner() when enemy wins */
-Test(battle_flow, print_enemy_winner)
+Test(battle_print, print_enemy_winner)
 {
     battle_status_t status = BATTLE_VICTOR_ENEMY;
     int xp = 2;

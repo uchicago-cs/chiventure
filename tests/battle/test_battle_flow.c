@@ -8,7 +8,7 @@
 #include "battle/battle_structs.h"
 
 /* Tests set_player() */
-Test(battle_print, set_player)
+Test(battle_flow, set_player)
 {
     combatant_t *comb_player;
 
@@ -46,7 +46,7 @@ Test(battle_print, set_player)
 }
 
 /* Tests set_enemies() with 1 enemy */
-Test(battle_print, set_one_enemy)
+Test(battle_flow, set_one_enemy)
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
@@ -83,7 +83,7 @@ Test(battle_print, set_one_enemy)
 
 
 /* Tests set_enemies() with 2 enemies */
-Test(battle_print, set_two_enemies)
+Test(battle_flow, set_two_enemies)
 {
     npc_enemy_t *head = NULL;
     npc_enemy_t *e1 = make_npc_enemy("enemy_name", NULL, NULL, NULL, NULL);
@@ -113,7 +113,7 @@ Test(battle_print, set_two_enemies)
 }
 
 /* Tests set_battle() */
-Test(battle_print, set_battle)
+Test(battle_flow, set_battle)
 {
     player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL);
@@ -142,7 +142,7 @@ Test(battle_print, set_battle)
 }
 
 /* Tests start_battle() */
-Test(battle_print, start_battle)
+Test(battle_flow, start_battle)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
