@@ -278,7 +278,7 @@ Test(game_end_condition, end_conditions_met)
     game_t *game = game_new("Welcome to Chiventure!");
     
     bool test_1 = end_conditions_met(game);
-    cr_assert_eq(test_1, true, "end_conditions_met() does not return true when there are no end conditions");
+    cr_assert_eq(test_1, false, "end_conditions_met() does not return false when there are no end conditions");
     
     attribute_value_t expected;
     expected.str_val = "Valid_Value";
@@ -333,6 +333,110 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_2, "Test_Attribute_2", "Valid_Value");
     bool test_5 = end_conditions_met(game);
     cr_assert_eq(test_5, true, "end_conditions_met() does not return true when all end conditions are met");
+}
+
+/* Helper function for is_game_over_tests to setup initial game */
+game_t* setup_is_game_over_test(bool has_final_room, bool has_end_conditions)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    
+    attribute_value_t expected, unexpected;
+    expected.str_val = "Valid_Value";
+    unexpected.str_val = "Invalid_Value";
+    
+    item_t *test_item = item_new("test_item", 
+    "test item for is_game_over",
+    "item for testing is_game_over()");
+    set_str_attr(test_item, "Test_Attribute", unexpected.str_val);
+    add_item_to_game(game, test_item);
+    
+    room_t *test_room1 = room_new("test_room1", "room1 short", "room1 long long long");
+    room_t *test_room2 = room_new("test_room2", "room2 short", "room2 long long long");
+    
+    add_item_to_game(game, test_item);
+    add_room_to_game(game, test_room1);
+    add_room_to_game(game, test_room2);
+    game->curr_room = test_room1;
+    
+    if (has_end_conditions)
+    {
+        game_action_condition_t *condition;
+        condition = condition_new(test_item, get_attribute(test_item, "Test_Attribute"),
+                                  expected);
+        add_end_condition_to_game(game, condition);
+    }
+    
+    if (has_final_room)
+    {
+        add_final_room_to_game(game, test_room2);
+    }
+    
+    return game;
+}
+
+/* Checks that is_game_over properly returns false for a neverending game
+ * ie when a game has no final room or end conditions */
+Test(game_end_condition, is_game_over_neverending)
+{
+    game_t *game = setup_is_game_over_test(false, false);
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "no final room or end conditions exist");
+}
+
+/* Checks that is_game_over properly assesses when a game with
+ * end conditions but no final room is over */
+Test(game_end_condition, is_game_over_end_conditions)
+{
+    game_t *game = setup_is_game_over_test(false, true);
+    
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "end conditions have not been met & no final room exists");
+    item_t *item = get_item_from_game(game, "test_item");
+    set_str_attr(item, "Test_Attribute", "Valid_Value");
+    cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
+                 "end conditions have been met & no final room exists");
+}
+
+/* Checks that is_game_over properly assesses when a game with
+ * a final room but no end conditions is over */
+Test(game_end_condition, is_game_over_final_room)
+{
+    game_t *game = setup_is_game_over_test(true, false);
+    
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "player has yet to reach final room & no end conditions exist");
+    move_room(game, game->final_room);
+    cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
+                 "player has reached final room & no end conditions exist");
+}
+
+/* Checks that is_game_over properly assesses when a game with
+ * both a final room and end conditions is over */
+Test(game_end_condition, is_game_over_end_conditions_final_room)
+{
+    game_t *game = setup_is_game_over_test(true, true);
+    
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "player has yet to reach final room & "
+                 "end conditions have not been met");
+    
+    move_room(game, game->final_room);
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "player has reached final room but "
+                 "end conditions have not been met");
+    
+    room_t *room = find_room_from_game(game, "test_room1");
+    move_room(game, room);
+    item_t *item = get_item_from_game(game, "test_item");
+    set_str_attr(item, "Test_Attribute", "Valid_Value");
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "end conditions have been met but "
+                 "player has yet to reach final room");
+    
+    move_room(game, game->final_room);
+    cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
+                 "end conditions have been met and "
+                 "player has reached final room");
 }
 
 Test(iter_macro, iter_rooms)
@@ -429,6 +533,18 @@ Test(iter, get_all_rooms) {
     cr_assert_eq(cnt, 3, "wrong room counts");
     cr_assert_eq(delete_room_llist(list), SUCCESS, "delete llist failed");
     game_free(game);
+}
+
+/* Checks that add_effect_to_game() adds a global effect to the
+game struct's player hash table */
+Test(game_stat_effects, add_effect_to_game)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    effects_global_t *effect = global_effect_new("health");
+    int rc = add_effect_to_game(game, effect);
+
+    cr_assert_eq(rc, SUCCESS, "add_effect_to_game failed");
+    cr_assert_not_null(game->all_effects, "effect not added to all_effects");
 }
 /*
 //untested
