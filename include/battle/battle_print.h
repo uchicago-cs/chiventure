@@ -16,14 +16,12 @@
  *
  * Parameters:
  *  - b = pointer to the battle
- *  - string = malloced string used in actionmanagement.c for sprintf
- *  - ret_string = the return string that will store the message
  *
  * Returns:
- *  - SUCCESS if successful, FAILURE otherwise
+ *  - calloced string with the message about the start of the battle
  *
  */
-int print_start_battle(battle_t *b, char *string);
+char *print_start_battle(battle_t *b);
 
 /*
  * Stores the message to be printed at the end of a move in the return
@@ -34,14 +32,12 @@ int print_start_battle(battle_t *b, char *string);
  *  - b = pointer to the battle
  *  - turn = whose turn it is for this move
  *  - move = pointer to the move being used
- *  - string = malloced string used in actionmanagement.c for sprintf
- *  - ret_string = the return string that will store the message
  *
  * Returns:
- *  - SUCCESS if successful, FAILURE otherwise
+ *  - calloced string with the message about the recent move
  *
  */
- int print_battle_move(battle_t *b, turn_t turn, move_t *move, char *string);
+ char *print_battle_move(battle_t *b, turn_t turn, move_t *move);
 
 /*
  * Stores the message to be printed at the end of the battle in the return
@@ -52,12 +48,10 @@ int print_start_battle(battle_t *b, char *string);
  *  - status = status of the finished battle. Only pass BATTLE_VICTOR_PLAYER or
  *             BATTLE_VICTOR_ENEMY
  *  - xp = amount of xp to be awarded to the player if they win
- *  - string = malloced string used in actionmanagement.c for sprintf
- *  - ret_string = the return string that will store the message
  *
  * Returns:
- *  - SUCCESS if successful, FAILURE otherwise
+ *  - calloced string with the message about the end of thee battle
  *
  */
- int print_battle_winner(battle_status_t status, int xp, char *string);
+char *print_battle_winner(battle_status_t status, int xp, char *string);
  #endif

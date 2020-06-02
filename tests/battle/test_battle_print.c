@@ -8,8 +8,6 @@
 #include "battle/battle_print.h"
 #include "battle/battle_structs.h"
 
-#define BUFFER_SIZE (100)
-
 /* Tests print_start_battle() */
 Test(battle_print, print_start_battle)
 {
@@ -24,12 +22,8 @@ Test(battle_print, print_start_battle)
     b->player->stats->hp = 100;
     b->enemy->stats->hp = 100;
 
-    // Setting up malloced string - Taken from actionmanagement.c
-    char *string = malloc(BUFFER_SIZE);
-    memset(string, 0, BUFFER_SIZE);
-
-    int rc = print_start_battle(b, string);
-    cr_assert_eq(rc, SUCCESS, "print_start_battle() failed");
+    char* string = print_start_battle(b, string);
+    cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You have encountered Bob!\n\n"
                             "Let the battle begin!\n"
@@ -60,12 +54,8 @@ Test(battle_print, print_player_move)
     move->info = "Punch";
     b->player->moves = move;
 
-    // Setting up malloced string - Taken from actionmanagement.c
-    char *string = malloc(BUFFER_SIZE);
-    memset(string, 0, BUFFER_SIZE);
-
-    int rc = print_battle_move(b, PLAYER, move, string);
-    cr_assert_eq(rc, SUCCESS, "print_player_move() failed");
+    char* string = print_battle_move(b, PLAYER, move, string);
+    cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You used Punch! It did 2 damage.\n"
                             "-- Your HP: 100\n"
@@ -96,12 +86,8 @@ Test(battle_print, print_enemy_move)
     move->info = "Laugh";
     b->player->moves = move;
 
-    // Setting up malloced string - Taken from actionmanagement.c
-    char *string = malloc(BUFFER_SIZE);
-    memset(string, 0, BUFFER_SIZE);
-
-    int rc = print_battle_move(b, ENEMY, move, string);
-    cr_assert_eq(rc, SUCCESS, "print_player_move() failed");
+    char* string = print_battle_move(b, ENEMY, move, string);
+    cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "Bob used Laugh! It did 99 damage.\n"
                             "-- Your HP: 1\n"
@@ -119,12 +105,8 @@ Test(battle_print, print_player_winner)
     battle_status_t status = BATTLE_VICTOR_PLAYER;
     int xp = 2;
 
-    // Setting up malloced string - Taken from actionmanagement.c
-    char *string = malloc(BUFFER_SIZE);
-    memset(string, 0, BUFFER_SIZE);
-
-    int rc = print_battle_winner(status, xp, string);
-    cr_assert_eq(rc, SUCCESS, "print_player_winner() failed");
+    char* string = print_battle_winner(status, xp, string);
+    cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You've won! You gain 2 XP!\n";
     cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
@@ -138,13 +120,9 @@ Test(battle_print, print_enemy_winner)
     battle_status_t status = BATTLE_VICTOR_ENEMY;
     int xp = 2;
 
-    // Setting up malloced string - Taken from actionmanagement.c
-    char *string = malloc(BUFFER_SIZE);
-    memset(string, 0, BUFFER_SIZE);
-
-    int rc = print_battle_winner(status, xp, string);
-    cr_assert_eq(rc, SUCCESS, "print_player_winner() failed");
-
+    char* string = print_battle_winner(status, xp, string);
+    cr_assert_not_null(string, "print_start_battle() failed");
+    
     char *expected_string = "You lost...\n";
     cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
 
