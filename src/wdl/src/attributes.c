@@ -1,13 +1,16 @@
 #include "wdl/attributes.h"
 
+
+/* ---------- HASH FUNCTIONS ---------- */
+
 /* See attributes.h for documentation */
-attribute_t *new_attr(char *id, union attr_data d, attribute_t *next, attribute_t *prev)
+obj_attr_t *new_attr(char *id, union attr_data d, obj_attr_t *next, obj_attr_t *prev)
 {
     if (id == NULL) {
         return NULL;
     }
 
-    attribute_t *new = malloc(sizeof(attribute_t));
+    obj_attr_t *new = malloc(sizeof(obj_attr_t));
     memset(new, 0, sizeof(*new)); // to accommodate padding in struct
 
     strcpy(new->id, id);
@@ -18,9 +21,9 @@ attribute_t *new_attr(char *id, union attr_data d, attribute_t *next, attribute_
 }
 
 /* See attributes.h for documentation */
-attribute_t *find_attr(attribute_t **attrs, char *id)
+obj_attr_t *find_attr(obj_attr_t **attrs, char *id)
 {
-    attribute_t *res;
+    obj_attr_t *res;
     char tmp[MAXLEN_ID];
     strcpy(tmp, id);
 
@@ -30,12 +33,12 @@ attribute_t *find_attr(attribute_t **attrs, char *id)
 }
 
 /* See attributes.h for documentation */
-int add_attr(attribute_t **attrs, char *id, union attr_data d)
+int add_attr(obj_attr_t **attrs, char *id, union attr_data d)
 {
     if (id == NULL) {
         return FAILURE;
     }
-    attribute_t *new = find_attr(attrs, id); // see if key already exists in hash
+    obj_attr_t *new = find_attr(attrs, id); // see if key already exists in hash
     if (new == NULL) {
         new =  new_attr(id, d, next, prev);
         if (new == NULL) return FAILURE;
@@ -46,16 +49,39 @@ int add_attr(attribute_t **attrs, char *id, union attr_data d)
     return SUCCESS;
 }
 
-attribute_t *append_attr(attribute_t *head, attribute_t *new)
+obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new)
 {
     DL_APPEND(head, new);
     return head;
 }
 
 /* See attributes.h for documentation */
-int free_attr(attribute_t **attrs, attribute_t *a)
+int free_attr(obj_attr_t **attrs, obj_attr_t *a)
 {
     // HASH_DEL(attrs, a);
     free(a);
     return SUCCESS;
+}
+
+
+/* ---------- INTERFACE FUNCTIONS ---------- */
+
+char *get_attr_id(obj_attr_t *attr)
+{
+    return attr->id;
+}
+
+union attr_data *get_attr_data(obj_attr_t *attr)
+{
+    return attr->data;
+}
+
+obj_attr_t *get_next_attr(obj_attr_t *attr)
+{
+    return attr->next;
+}
+
+obj_attr_t *get_prev_attr(obj_attr_t *attr)
+{
+    return attr->prev;
 }

@@ -14,11 +14,11 @@ union attr_data
     char c;
     char *s;
     int i;
-    obj_t *o;
+    object_t *o;
 };
 
 /*
- * attribute_t: the attributes stored within an object
+ * obj_attr_t: the attributes stored within an object
  
 typedef struct attr
 {
@@ -47,28 +47,28 @@ typedef struct attr
  * params:
  *   - id: attr id
  *   - data: atrr data
- * returns: ptr to new attribute_t
+ * returns: ptr to new obj_attr_t
  */
-attribute_t *new_attr(char *id, union attr_data d);
+obj_attr_t *new_attr(char *id, union attr_data d);
 
 /* find_attr - given id, find attribute in hash
  *
  * params:
- *   - attrs: attribute_t hash
+ *   - attrs: obj_attr_t hash
  *   - id: attr id
  * returns: ptr to attribute if found, else NULL
  */
-attribute_t *find_attr(attribute_t **attrs, char *id);
+obj_attr_t *find_attr(obj_attr_t **attrs, char *id);
 
 /* add_attr - if attr is unique, add new attr. else, update attr data.
  *
  * params:
- *   - attrs: attribute_t hash
+ *   - attrs: obj_attr_t hash
  *   - id: attr id
  *   - data: atrr data
  * returns: SUCCESS on completion, else FAILURE
  */
-int add_attr(attribute_t **attrs, char *id, union attr_data d);
+int add_attr(obj_attr_t **attrs, char *id, union attr_data d);
 
 /* append_attr - appends attr to head of attr list
  * 
@@ -76,7 +76,7 @@ int add_attr(attribute_t **attrs, char *id, union attr_data d);
  *   - head: ptr to head of list
  *   - new: element to be appended
  */
-attribute_t *append_attr(attribute_t *head, attribute_t *new);
+obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new);
 
 /* free_attr - frees & deletes attr from hash table
  *
@@ -84,11 +84,15 @@ attribute_t *append_attr(attribute_t *head, attribute_t *new);
  *   - attr: attribute
  * returns: SUCCESS
  */
-int free_attr(attribute_t **attrs, attribute_t *a);
+int free_attr(obj_attr_t **attrs, obj_attr_t *a);
 
 
 /* ---------- INTERFACE FUNCTIONS ---------- */
 
-
+/* the following functions get elements from a given attr */
+char *get_attr_id(obj_attr_t *attr);
+union attr_data *get_attr_data(obj_attr_t *attr);
+obj_attr_t *get_next_attr(obj_attr_t *attr);
+obj_attr_t *get_prev_attr(obj_attr_t *attr);
 
 #endif

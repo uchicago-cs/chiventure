@@ -1,9 +1,4 @@
 #include "wdl/objstore.h"
-<<<<<<< HEAD
-
-// objstore_t *obj_store = NULL;
-=======
->>>>>>> wdl/libobj-hash
 
 /* See obj_store.h for documentation */
 objstore_t *new_objstore(obj_t *o)
