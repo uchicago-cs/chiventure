@@ -169,7 +169,7 @@ Test(battle_flow, print_start_battle)
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, NULL, enemy_stats, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, NULL);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
