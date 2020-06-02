@@ -24,19 +24,22 @@
 
 
 /*
-* any_paths
-* Are there any outward paths in the given room? Returns a boolean.
+* path_exists_in_dir
+* Is there any path in the given room that exists in the given direction?
+* Return a boolean.
 *
 * parameters:
 * - r: A room pointer for the input room. Should not be NULL.
+* - direction: A string specifying the direction to check for
+*              ("NORTH", "EAST", SOUTH", or "WEST")
 *
 * side effects:
 * - None. Does not alter room/game states. Just determines if the input
-*   rooms have any paths.
+*   room has any paths in the given direction.
 *
 * returns:
-* - true if the room has one or more paths
-* - false if the room has no paths
+* - true if the room has a path with in the given direction
+* - false if the room has no paths in the give direction
 */
 bool path_exists_in_dir(room_t *r, char *direction);
 
@@ -107,8 +110,8 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id);
 
 /*
 * speclist_from_hash
-* Iterate through all the rooms in a roomspec hash and append them to a
-* new speclist in a doulbly linked list.
+* Iterate through all the rooms in a roomspec hash and append them to
+* original speclist in a doulbly linked list.
 *
 * parameters:
 * - hash: a roomspec hash that has multiple roomspecs
@@ -117,7 +120,9 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id);
 * - NULL if hash is NULL
 * - speclist_t* a new speclist with all the roomspecs stored in hash copied
 */
-speclist_t *speclist_from_hash(roomspec_t *hash);
+int speclist_from_hash(speclist_t **orig, roomspec_t *hash);
+
+roomspec_t *copy_room(char *name, speclist_t* spec);
 
 /*
 * random_room_lookup
@@ -150,8 +155,7 @@ item_hash_t *random_items(roomspec_t *room);
 /*
 * random_item_lookup
 * Iterate through the src item hash table num_iters times and copy that
-* item to the dst item hash. This is a helper function for random_items
-* hence why it is called random_item_lookup.
+* item to the dst item hash. This is a helper function for random_items.
 *
 * parameters:
 * - item_hash_t *dst is where you want to store the item you just found
@@ -159,8 +163,8 @@ item_hash_t *random_items(roomspec_t *room);
 * - num_iters is how many times you'll iterate through src to settle on an item.
 *
 * returns:
-* - SUCCESS if the new rooms were generated and added (SUCCESS)
-* - FAILURE if the new rooms were not generated/added (FAILURE)
+* - SUCCESS if items allowed in a room could be found (SUCCESS)
+* - FAILURE if items allowed in a room could not be found (FAILURE)
 */
 int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
 
