@@ -1,9 +1,7 @@
 #include <string.h>
-#include <ui/ui.h>
 #include <stdio.h>
 #include "game-state/game.h"
 #include "game-state/room.h"
-#include "common/ctx.h"
 #include "raylib.h"
 
 /* Create a sample map for a chiventure game
@@ -23,8 +21,6 @@ int main(void)
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
-
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
 
     game_t *game = game_new("Welcome to Chiventure!");
     room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
@@ -69,9 +65,7 @@ int main(void)
     //--------------------------------------------------------------------------------------
       // Close window and OpenGL context
     //-----------------
-    ctx->game = game;
 
-    game_free(ctx->game);
 
     return 0;
 }
