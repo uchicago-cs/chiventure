@@ -166,8 +166,10 @@ Test(battle_flow, start_battle)
 Test(battle_flow, print_start_battle)
 {
     // Setting up a battle with set_battle
-    player_t *ctx_player = new_ctx_player("player_name", NULL, NULL, NULL, NULL);
-    npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, NULL, NULL, NULL);
+    stat_t *player_stats = calloc(1,sizeof(stat_t));
+    stat_t *enemy_stats = calloc(1,sizeof(stat_t));
+    player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, NULL, enemy_stats, NULL);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
@@ -196,12 +198,12 @@ Test(battle_flow, print_start_battle)
     free(string);
 }
 
-/* Tests print_battle_move() */
+/* Tests print_battle_move() *
 Test(battle_flow, print_battle_move)
 {
 
 }
-
+*/
 
 /* Tests print_battle_winner()
 Test(battle_flow, print_battle_winner)
