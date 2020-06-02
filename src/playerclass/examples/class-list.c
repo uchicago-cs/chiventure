@@ -4,63 +4,46 @@
  */
 #include "class-list.h"
 
+#define MAX_SPELL_DESC_LEN (50)
+
+/* See class-list.h */
+move_list_t* new_move_list(class_t* c, char* spell, int damage, int id) {
+    
+    move_list_t* list = (move_list_t*) calloc(1, sizeof(move_list_t));
+
+    if (list == NULL) {
+        fprintf(stderr, "Could not allocate memory for new_move_list()");
+        exit(1);
+    }
+
+    list->c = c;
+    list->spell = strdup(spell);
+    list->damage = damage;
+    list->id = id;
+    list->next = NULL;
+    list->prev = NULL;
+}
+
+
 /* see class-list.h */
 move_list_t* move_list() {
 
     // Bard
 
     class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL, NULL, NULL, NULL);
-    move_list_t* bardlist;
+    move_list_t* bardlist = new_move_list(bard, "Diss Track", 8, 0);
 
-    bardlist = (move_list_t*) calloc(1, sizeof(move_list_t));
-
-    if (bardlist == NULL){
-        fprintf(stderr, "Could not allocate memory for move_list()");
-        exit(1);
-    }
-    
-    bardlist->c = bard;
-    bardlist->spell = "Diss Track";
-    bardlist->damage = 8;
-    bardlist->id = 0;
-    bardlist->next = NULL;
-    bardlist->prev = NULL;
-    
     // Wizard
 
     class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, NULL, NULL, NULL);
-    move_list_t* wizardlist;
+    move_list_t* wizardlist = new_move_list(wizard, "Fireball", 10, 1);
 
-    wizardlist = (move_list_t*) calloc(1, sizeof(move_list_t));
-
-    if (wizardlist == NULL){
-        fprintf(stderr, "Could not allocate memory for move_list()");
-        exit(1);
-    }
-    
-    wizardlist->c = wizard;
-    wizardlist->spell = "Fireball";
-    wizardlist->damage = 10;
-    wizardlist->id = 1;
-    
     DL_PREPEND(bardlist, wizardlist);
     
     // Knight
 
     class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL, NULL, NULL, NULL);
-    move_list_t* knightlist;
-
-    knightlist = (move_list_t*) calloc(1, sizeof(move_list_t));
-
-    if (knightlist == NULL){
-        fprintf(stderr, "Could not allocate memory for move_list()");
-        exit(1);
-    }
-    
-    knightlist->c = knight;
-    knightlist->spell = "Sword Slash";
-    knightlist->damage = 9;
-    knightlist->id = 2;
+    move_list_t* knightlist = new_move_list(knight, "Sword Slash", 9, 2);
 
     DL_PREPEND(wizardlist, knightlist);
 
