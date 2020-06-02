@@ -8,6 +8,8 @@
 #include "battle/battle_print.h"
 #include "battle/battle_structs.h"
 
+#define BUFFER_SIZE (100)
+
 /* Tests print_start_battle() */
 Test(battle_flow, print_start_battle)
 {
