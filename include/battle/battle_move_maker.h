@@ -8,7 +8,13 @@
 #include "battle_flow_structs.h"
 #include "battle_moves.h"
 
-/** INsert ingo here */
+ /* Packages class-specific move from player class's linked list 
+ into battle move struct, adds this move to the input player's move list 
+ * Parameters:
+ * - player: a pointer to the player we want to get class-specific moves for 
+ * Returns:
+ * - player: the input player with correct move added to move list 
+ */
 player_t *add_class_move(player_t *player);
 
 
