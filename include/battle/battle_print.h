@@ -39,6 +39,19 @@ char *print_start_battle(battle_t *b);
  */
  char *print_battle_move(battle_t *b, turn_t turn, move_t *move);
 
+ /*
+  * Prints a list of the enemy HP to string
+  *
+  * Parameters:
+  *  - b = pointer to the battle
+  *  - string = the string to which the hp will be printed to 
+  *
+  * Returns:
+  *  - SUCCESS if successfully printed HP, FAILURE otherwise
+  *
+  */
+ int *print_hp(battle_t* b, char* string)
+
 /*
  * Stores the message to be printed at the end of the battle in the return
  * string, mirroring the preparation of the return string in action-management.

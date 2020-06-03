@@ -18,9 +18,29 @@ char *print_start_battle(battle_t *b)
     memset(string, 0, BUFFER_SIZE);
 
     sprintf(string, "You have encountered %s!\n\n"
-                    "Let the battle begin!\n"
-                    "-- Your HP: %d\n"
-                    "-- %s's HP: %d\n", enemy_name, player_hp, enemy_name, enemy_hp);
+                    "Let the battle begin!\n",
+                    enemy_name);
+
+    int rc = print_hp(b,string);
+
+    return string;
+}
+
+/* see battle_print.h */
+int *print_hp(battle_t* b, char* string)
+{
+    combatant_t *player_hp = b->player->stats->hp;
+    string += sprintf(string, "-- Your HP: %d\n", player_hp);
+
+    combatant_t *enemies = b->enemy;
+    combatant_t *enemy_elt;
+    DL_FOREACH(enemies, enemy_elt)
+    {
+        char* name = enemy_elt->name;
+        char* enemy_hp = enemy_elt->stats->hp;
+
+        string += sprintf(string, "-- %s's HP: %d\n", name, enemy_hp);
+    }
 
     return string;
 }
@@ -47,11 +67,10 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
 
-    sprintf(string, "%s used %s! It did %d damage.\n"
-                    "-- Your HP: %d\n"
-                    "-- %s's HP: %d\n",
-                    combatant_name, move_name, damage, player_hp,
-                    enemy_name, enemy_hp);
+    sprintf(string, "%s used %s! It did %d damage.\n",
+                    combatant_name, move_name, damage);
+
+    int rc = print_hp(b,string);
 
     return string;
 }
@@ -68,7 +87,7 @@ char *print_battle_winner(battle_status_t status, int xp)
         sprintf(string,"You've won! You gain %d XP!\n",xp);
     } else if (status == BATTLE_VICTOR_ENEMY)
     {
-        sprintf(string,"You lost...\n");
+        sprintf(string,"You have been DEFEATED.\n");
     }
 
     return string;
