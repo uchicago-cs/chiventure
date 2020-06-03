@@ -5,7 +5,7 @@
 int convo_init(convo_t *c, char *farewell)
 {
     assert(c != NULL);
-    strcpy(c->farewell, farewell);
+    strncpy(c->farewell, farewell, strlen(farewell));
     c->node_count = 0;
     c->nodes = NULL;
 
@@ -16,8 +16,7 @@ int convo_init(convo_t *c, char *farewell)
 convo_t *convo_new(char *farewell)
 {
     convo_t *c;
-    c = (convo_t*)malloc(sizeof(convo_t));
-    memset(c, 0, sizeof(convo_t));
+    c = calloc(1, sizeof(convo_t));
     c->farewell = (char*)malloc(MAX_FW_LEN);
 
     int check = convo_init(c, farewell);
@@ -66,10 +65,10 @@ int node_init(node_t *n, char *node_id, char *dialogue)
 /* See dialogue.h */
 node_t *node_new(char *node_id, char *dialogue)
 {
-    node_t *n = (node_t*)malloc(sizeof(node_t));
-    memset(n, 0, sizeof(node_t));
-    n->node_id = (char*)malloc(MAX_ID_LEN);
-    n->dialogue = (char*)malloc(MAX_DIA_LEN);
+    node_t *n;
+    n = calloc(1, sizeof(node_t));
+    n->node_id = calloc(1, MAX_ID_LEN);
+    n->dialogue = calloc(1, MAX_DIA_LEN);
 
     int check = node_init(n, node_id, dialogue);
     
@@ -121,10 +120,10 @@ int edge_init(edge_t *e, node_t *toward, char *keyword, char *quip)
 /* See dialogue.h */
 edge_t *edge_new(node_t *toward, char *keyword, char *quip)
 {
-    edge_t *e = (edge_t*)malloc(sizeof(edge_t));
-    memset(e, 0, sizeof(edge_t));
-    e->keyword = (char*)malloc(MAX_KEY_LEN);
-    e->quip = (char*)malloc(MAX_QUIP_LEN);
+    edge_t *e;
+    e = calloc(1, sizeof(edge_t));
+    e->keyword = calloc(1, MAX_KEY_LEN);
+    e->quip = calloc(1, MAX_QUIP_LEN);
 
     int check = edge_init(e, toward, keyword, quip);
     

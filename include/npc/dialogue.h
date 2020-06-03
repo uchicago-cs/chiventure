@@ -4,9 +4,9 @@
 #include "game-state/game_state_common.h"
 
 #define MAX_DIA_LEN 500
-#define MAX_KEY_LEN 30
-#define MAX_QUIP_LEN 100
-#define MAX_FW_LEN 50
+#define MAX_KEY_LEN 50
+#define MAX_QUIP_LEN 250
+#define MAX_FW_LEN 100
 
 
 // DIALOGUE STRUCTURE DEFINITION ----------------------------------------------

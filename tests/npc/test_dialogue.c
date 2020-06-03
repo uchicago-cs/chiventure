@@ -154,7 +154,6 @@ Test(dialogue, add_edge)
 {
     node_t *n;
     edge_t *e;
-    edge_hash_t *hash;
     int res;
 
     n = node_new("toward test", "When the user says hi I say hello!");

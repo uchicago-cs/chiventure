@@ -58,6 +58,21 @@ void npc_print(char *dialogue)
 // DIALOGUE TRAVERSAL FUNCTIONS -----------------------------------------------
 
 /*
+ * Ends the conversation, exiting npc dialogue mode.
+ * 
+ * Parameters:
+ *  - farewell: ending string of convo
+ * 
+ * Returns: None.
+ */
+void end_convo(char *farewell)
+{
+    npc_print(farewell);
+    printf("\n");
+    exit(0);
+}
+
+/*
  * Compares the input to the keyword and returns index of matching edge.
  * 
  * Parameters:
@@ -108,25 +123,12 @@ node_t *traverse_edge(node_t *n, char *farewell)
         n = e->toward;
         npc_print(n->dialogue);
         return n;
-    } else {
+    } 
+    else 
+    {
         print_gold("What?\n");
         return NULL;
     }
-}
-
-/*
- * Ends the conversation, exiting npc dialogue mode.
- * 
- * Parameters:
- *  - farewell: ending string of convo
- * 
- * Returns: None.
- */
-void end_convo(char *farewell)
-{
-    npc_print(farewell);
-    printf("\n");
-    exit(0);
 }
 
 /*
@@ -142,10 +144,12 @@ void run_convo(convo_t *c)
     npc_print(c->nodes->cur_node->dialogue);
     npc_print("Or, you could #ignore# me.");
     node_t *cur;
-    while (c->nodes->cur_node->connection_count != 0) {
+    while (c->nodes->cur_node->connection_count != 0) 
+    {
         printf("\n\n> Talk about: ");
         cur = traverse_edge(c->nodes->cur_node, c->farewell);
-        if (cur != NULL) {
+        if (cur != NULL) 
+        {
             c->nodes->cur_node =
                 c->nodes->cur_node->edges->toward;
         }
