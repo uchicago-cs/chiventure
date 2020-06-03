@@ -467,7 +467,7 @@ Test(battle_logic, award_xp)
 {
     class_t* test_class = class_new("Bard", "Music boi",
 				    "Charismatic, always has a joke or song ready",
-				    NULL, NULL, NULL, NULL, NULL, NULL);
+				    NULL, NULL, NULL);
 
     double xp_gain = 15;
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -488,10 +488,4 @@ Test(battle_logic, award_xp)
 
     cr_assert_null(p->class->attributes, "set_player() didn't set class attribute");
     cr_assert_null(p->class->stats, "set_player() didn't set class stats");
-    cr_assert_null(p->class->skilltree,
-                   "set_player() didn't set class skilltree");
-    cr_assert_null(p->class->combat,
-                   "set_player() didn't set class skills for combat");
-    cr_assert_null(p->class->noncombat,
-                   "set_player() didn't set class skills for noncombat");
 }
