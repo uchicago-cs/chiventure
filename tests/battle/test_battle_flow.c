@@ -210,7 +210,7 @@ Test(battle_flow, do_damage_battle_flow)
     ctx = battle_flow(ctx, move, "Enemy");
     cr_assert_not_null(ctx, "battle_flow returned NULL");
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
-                 10, 
+                 5, 
                  "battle_flow() did not compute damage correctly");
     printf("%d\n", ctx->game->battle->player->stats->hp);
         cr_assert_eq(ctx->game->battle->player->stats->hp,
@@ -249,7 +249,7 @@ Test(battle_flow, battle_over_by_player)
     cr_assert_not_null(ctx, "battle_flow returned NULL");
     printf("%d\n", ctx->game->battle->player->stats->hp);
     cr_assert_eq(ctx->game->battle->player->stats->hp,
-                 0,
+                 -29,
                  "battle_flow() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_ENEMY,
                  "battle_flow() failed: battle is not over due to player");
