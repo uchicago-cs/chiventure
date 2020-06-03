@@ -1,6 +1,22 @@
 #include "custom-scripts/custom_type.h"
 
 // see custom_type.h
+arg_t *arg_t_new() {
+    arg_t *arg = (arg_t*)malloc(sizeof(arg_t));
+    arg->type = NONE_TYPE;
+    arg->next = NULL;
+    return arg;
+}
+
+// see custom_type.h
+arg_t *arg_t_bool(bool b) {
+    arg_t arg = arg_t_new();
+    arg->type = BOOL_TYPE;
+    arg->data.b = b;
+    return arg;
+}
+
+// see custom_type.h
 object_t *obj_t_new()
 {
     object_t *ot = (object_t*)malloc(sizeof(object_t));

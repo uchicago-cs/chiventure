@@ -22,6 +22,25 @@ typedef enum data_type
     STR_TYPE = 4,
 } data_type_t;
 
+typedef struct arg_t
+{
+    // Type of underlying data
+    data_type_t type;
+    
+    // Data associated with the argument
+    union
+    {
+        bool b;
+        char c;
+        int  i;
+        char *s;
+        char *lua;
+    } data;
+
+    // Pointer to the next argument
+    struct arg_t *next;
+} arg_t;
+
 typedef struct obj_t
 {
     // Type of underlying data
@@ -39,16 +58,44 @@ typedef struct obj_t
         char *s;
         char *lua;
     } data;
+
+    // Linked list of arguments
+    arg_t *args;
 } object_t;
+
+/**
+ * arg_t_new() creates an empty arg_t struct
+ * Returns:
+ * - pointer to an empty argument struct
+ */
+
+arg_t *arg_t_new();
+
+/**
+ * arg_t_bool() creates an arg_t struct containing a boolean
+ * Parameters:
+ * - bool value to be stored in the argument
+ * Returns:
+ * - pointer to an argument struct containing the bool
+ */
+
+arg_t *arg_t_bool(bool b);
+
+/**
+ * arg_t_add() adds an arg_t struct to the end of the arg_t linked list
+ * Parameters:
+ * - argument struct to be added
+ * Returns:
+ * - head element of the linked list
+ */
+
+arg_t *arg_t_add(bool );
 
 
 /**
  * obj_t_new() creates an empty object_t struct
  * Returns:
  * - pointer to an empty object struct
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_new();
 
@@ -59,9 +106,6 @@ object_t *obj_t_new();
  * - Lua script (NULL if no script to be specified)
  * Returns:
  * - pointer to an object struct containing the bool
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_bool(bool b, char *lua);
 
@@ -72,9 +116,6 @@ object_t *obj_t_bool(bool b, char *lua);
  *  - Lua script (NULL if no script to be specified)
  * Returns:
  * - pointer to an object struct containing the char
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_char(char c, char *lua);
 
@@ -85,9 +126,6 @@ object_t *obj_t_char(char c, char *lua);
  *  - Lua script (NULL if no script to be specified)
  * Returns:
  * - pointer to an object struct containing the int
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_int(int i, char *lua);
 
@@ -98,9 +136,6 @@ object_t *obj_t_int(int i, char *lua);
  *  - Lua script (NULL if no script to be specified)
  * Returns:
  * - pointer to an object struct containing the str
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_str(char *s, char *lua);
 
