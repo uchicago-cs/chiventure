@@ -3,7 +3,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include "common/common.h"
 #include "common/uthash.h"
+#include "common/utlist.h"
+
+#ifndef INCLUDE_OBJECT_H
+#define INCLUDE_OBJECT_H
+
 #define MAXLEN_ID 60 // ID strings for objects
 
 /*
@@ -29,8 +35,6 @@ typedef enum objtype
  */
 typedef enum assettype
 {
-    // these had to be changed from TYPE_ERR because C was throwing error
-    // about uniqueness of the enums
     ASSET_ERR = -1, 
     ASSET_NONE = 0,
     ASSET_IMAGE = 1,
@@ -47,7 +51,6 @@ union attr_data
     bool b;
     char c;
     char *s;
-    char **sl;
     int i;
     obj_t *o;
 };
@@ -63,10 +66,16 @@ typedef struct attr
     //the information stored in the attribute
     union attr_data data;
 
+    //next attribute in list if attribute is list of things
+    struct attr *next;
+
+    //prev attribute in list if attribute is list of things
+    struct attr *prev;
+
     //Required uthash indentifier for making the hash table
     UT_hash_handle hh;
 
-} attribute_t;
+} obj_attr_t;
 
 /*
  * obj_t: a struct describing a .json object.
@@ -80,9 +89,9 @@ typedef struct obj
     objtype_t type;
 
     //The object's attributes (a hash table)
-    attribute_t *attrs;
+    obj_attr_t *attrs;
 
-} obj_t;
+} object_t;
 
 /*
  * asset_t: a struct describing a media asset.
@@ -99,6 +108,44 @@ typedef struct asset
     FILE* asset;
 } asset_t;
 
+/*
+ * Creates a new object with an identifier id
+ *
+ * params:
+ *   - id: The id for the object
+ *
+ * returns:
+ *   - A pointer to the newly created and initialized object on success
+ *   - NULL on error
+ *
+ */
+object_t *new_object(char *id);
+
+/*
+ * Initializes a new object with indentifier id
+ *
+ * params:
+ *   - obj: The object to initialize
+ *   - id: The id for the object
+ *
+ * returns:
+ *   - SUCCESS on successful initialization
+ *   - FAILURE otherwise
+ *
+ */
+int init_object(object_t *obj, char *id);
+
+/*
+ * Frees an object
+ *
+ * params:
+ *   - obj: The object to free
+ *
+ * returns:
+ *   - always returns SUCCESS
+ */
+int obj_free(object_t *obj);
+
 /* 
  * get_object: retrieves an object from a .wdz archive
  *
@@ -109,7 +156,7 @@ typedef struct asset
  * returns:
  *   - a pointer to the requested object as a obj_t struct member.
  */
-obj_t* get_object(char* type, char* id);
+object_t* get_object(char* type, char* id);
 
 /* get_obj_attribute: retrieve an attribute from an object
  *
@@ -120,7 +167,7 @@ obj_t* get_object(char* type, char* id);
  * returns:
  *   - a pointer to the requested attribute as an attribute_t struct member
  */
-attribute_t* get_obj_attribute(obj_t obj, char* name);
+obj_attr_t* get_obj_attribute(object_t* obj, char* name);
 
 /* get_asset: retrieves an asset from a .wdz archive
  *
@@ -132,3 +179,5 @@ attribute_t* get_obj_attribute(obj_t obj, char* name);
  *   - a pointer to the requested asset as an asset_t struct member.
  */
 asset_t* get_asset(assettype_t type, char* filename);
+
+#endif /* INCLUDE_OBJECT_H */

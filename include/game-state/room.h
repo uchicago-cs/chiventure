@@ -214,4 +214,14 @@ item_t* get_item_in_room(room_t* room, char* item_id);
  */
 item_list_t *get_all_items_in_room(room_t *room);
 
+/* Deletes a hashtable of rooms
+ * Implemented with macros provided by uthash.h
+ *
+ * Parameters:
+ *  hashtable of rooms that need to be deleted
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int delete_all_rooms(room_hash_t* rooms);
+
 #endif
