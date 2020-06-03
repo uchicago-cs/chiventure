@@ -31,7 +31,7 @@ int print_hp(battle_t* b, char* string)
 {
     int player_hp = b->player->stats->hp;
     string += sprintf(string, "-- Your HP: %d\n", player_hp);
-
+    print("%s",string);
     combatant_t *enemies = b->enemy;
     combatant_t *enemy_elt;
     DL_FOREACH(enemies, enemy_elt)
@@ -40,8 +40,9 @@ int print_hp(battle_t* b, char* string)
         int enemy_hp = enemy_elt->stats->hp;
 
         string += sprintf(string, "-- %s's HP: %d\n", name, enemy_hp);
+        print("%s",string);
     }
-
+    print("%s",string);
     return SUCCESS;
 }
 
