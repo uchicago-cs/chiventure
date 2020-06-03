@@ -4,7 +4,7 @@
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "game-state/stats.h"
-//TODO-#include "dialogue.h"
+#include "npc/dialogue.h"
 
 /* A non-playable character in game */
 typedef struct npc {
@@ -14,7 +14,7 @@ typedef struct npc {
     char *short_desc;
     char *long_desc;
     int health;
-    // convo_t *dialogue;  placeholder for incoming dialogue module
+    convo_t *dialogue;
     item_hash_t *inventory;
     stats_t *stats; // pointer to an existing stats struct
 } npc_t;
