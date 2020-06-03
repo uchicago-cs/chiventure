@@ -4,16 +4,13 @@
 #include <stdio.h>
 #define MAX_INPUT_CHARS     9
 
-typedef struct _cmd
-{
+typedef struct _cmd {
 	char *cmd;
 	char *action;
 }cmd_t;
 
-int cmd_init(cmd_t *c, char *cmd1, char *action)
-{
-    if (c != NULL)
-	{
+int cmd_init(cmd_t *c, char *cmd1, char *action) {
+    if (c != NULL) {
     	c->cmd = cmd1;
     	c->action = action;
 
@@ -25,8 +22,7 @@ int cmd_init(cmd_t *c, char *cmd1, char *action)
 	}
 }
 
-cmd_t* cmd_new(char *cmd1, char *action)
-{
+cmd_t* cmd_new(char *cmd1, char *action) {
     cmd_t *c;
     int rc;
 
@@ -52,9 +48,7 @@ char *see = "You see a small green leaf on the path.";
 char *grab = "grab";
 char *leaf = "You grab a leaf from the path.";
 
-int main()
-{
-
+int main() {
 	//initializing test commands
 	cmd_t *look_cmd = cmd_new(look, see);
 	cmd_t *grab_cmd = cmd_new(grab, leaf);
@@ -84,25 +78,20 @@ int main()
 	Rectangle output = { 10, ScreenHeight - 140, ScreenWidth, 120 };
 	char *output_text = "You see a path. There is a hollow log on the ground.";
 
-
    	int framesCounter = 0;
-
-    	SetTargetFPS(10);
+    SetTargetFPS(10);
 
 	//loop to produce window of image and text box
-	while (!WindowShouldClose())
-	{
-	if (CheckCollisionPointRec(GetMousePosition(), window)) mouseOnText = true;
+	while (!WindowShouldClose()) {
+		if (CheckCollisionPointRec(GetMousePosition(), window)) mouseOnText = true;
         else mouseOnText = false;
 
-        if (mouseOnText)
-        {
+        if (mouseOnText) {
             // Get pressed key (character) on the queue
             int key = GetKeyPressed();
 
             // Check if more characters have been pressed on the same frame
-            while (key > 0)
-            {
+            while (key > 0) {
                 // NOTE: Only allow keys in range [32..125]
                 if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS))
                 {
@@ -125,25 +114,18 @@ int main()
       	if (mouseOnText) framesCounter++;
         else framesCounter = 0;
 
-	if (IsKeyPressed(KEY_ENTER))
-	{
-		if (strcmp(name, look_cmd->cmd) == 0)
-		{
+	if (IsKeyPressed(KEY_ENTER)) {
+		if (strcmp(name, look_cmd->cmd) == 0) 
 			output_text = look_cmd->action;
-
-		}
-		else if (strcmp(name, grab_cmd->cmd) == 0)
-		{
+		else if (strcmp(name, grab_cmd->cmd) == 0) 
 			output_text = grab_cmd->action;
-		}
 
 		// erases text in the text input, clearing the screen
 		int length = letterCount;
-			for(int i = 0; i < length; i++)
-			{
-				letterCount--;
-				name[letterCount] = '\0';
-			}
+		for(int i = 0; i < length; i++) {
+			letterCount--;
+			name[letterCount] = '\0';
+		}
 			
 		if (letterCount < 0) letterCount = 0;
 	}
@@ -151,8 +133,8 @@ int main()
 		//Draw Image
 		BeginDrawing();
 
-			ClearBackground(RAYWHITE);
-			DrawTexture(texture, ScreenWidth/2 - texture.width/2,
+		ClearBackground(RAYWHITE);
+		DrawTexture(texture, ScreenWidth/2 - texture.width/2,
 					0, WHITE);
 
 			DrawRectangleRec(textBox, WHITE);
@@ -161,30 +143,19 @@ int main()
 
 			DrawRectangleLines(0, ScreenHeight - 150, ScreenWidth, 150, BLACK);
 
-			
-			//if mouse is on window, textbox outline  will change to red, otherwise
-			//the outline will be darkgray
 			if (mouseOnText) {
 				DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
-				if (((framesCounter / 5)%2) == 0) {
+				if (((framesCounter / 5)%2) == 0)
 					DrawText("_", textBox.x + 5 + MeasureText(name, 21), textBox.y + 10, 20, DARKGRAY);
-				}
 			}
             DrawText(name, textBox.x + 5, textBox.y + 8, 20, BLACK);
 
 		Font test = GetFontDefault();
-
 		DrawTextRec(test, output_text, output, 20, 5, true, BLACK);
-
 		EndDrawing();
-
-
 	}
 
 	UnloadTexture(texture);
-
 	CloseWindow();
-
 	return 0;
-
 }
