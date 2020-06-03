@@ -62,10 +62,14 @@ int action_type_free(action_type_t *a)
 
 /* KIND 1
  * See actionmanagement.h */
-int do_item_action(action_type_t *a, item_t *i, char **ret_string)
+int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_string)
 {
+    assert(c);
+    assert(c->game);
     assert(a);
     assert(i);
+    
+    game_t *game = c->game;
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -112,6 +116,11 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
         {
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
+            if (is_game_over(game))
+            {
+                sprintf(string, " Congratulations, you've won the game! "
+                        "Press ctrl+D to quit.");
+            }
             *ret_string = string;
             return SUCCESS;
         }
@@ -157,16 +166,16 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     /* PERFORM ACTION */
     int move = move_room(g, room_dest);
 
-    if (move == SUCCESS)
-    {
-        snprintf(string, BUFFER_SIZE, "Moved into %s. %s",
-                 room_dest->room_id, room_dest->long_desc);
+    if (is_game_over(g)) {
+        sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
+                 room_dest->room_id);
         *ret_string = string;
         return SUCCESS;
     }
-    else if (move == FINAL_ROOM) {
-        sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
-                 room_dest->room_id);
+    else if (move == SUCCESS || move == FINAL_ROOM)
+    {
+        snprintf(string, BUFFER_SIZE, "Moved into %s. %s",
+                 room_dest->room_id, room_dest->long_desc);
         *ret_string = string;
         return SUCCESS;
     }
@@ -181,12 +190,16 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 
 /* KIND 3
  * See actionmanagement.h */
-int do_item_item_action(action_type_t *a, item_t *direct,
+int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string)
 {
+    assert(c);
+    assert(c->game);
     assert(a);
     assert(direct);
     assert(indirect);
+    
+    game_t *game = c->game;
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
 
@@ -250,6 +263,10 @@ int do_item_item_action(action_type_t *a, item_t *direct,
         {
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
+            if (is_game_over(game))
+            {
+                sprintf(string, " Congratulations, you've won the game! Press ctrl+D to quit.");
+            }
             *ret_string = string;
             return SUCCESS;
         }

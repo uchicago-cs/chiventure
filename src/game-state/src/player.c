@@ -1,5 +1,5 @@
 #include "game-state/player.h"
-#include "common-item.h"
+#include "game-state/item.h"
 
 /* See player.h */
 int player_init(player_t* plyr, char* player_id, int health)
@@ -143,4 +143,11 @@ item_list_t *get_all_items_in_inventory(player_t *player)
         LL_APPEND(head, tmp);
     }
     return head;
+}
+
+/* See player.h */
+int assign_stats_player(player_t *plyr, stats_hash_t *sh)
+{
+    printf("assign_stats_player: function not yet implemented\n");
+    return 0; // still needs to be implemented
 }

@@ -1,11 +1,11 @@
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#ifndef BATTLE_STRUCTS_H
+#define BATTLE_STRUCTS_H
 
 #include <stdbool.h>
 #include <string.h>
+#include "playerclass/class_structs.h"
+#include "playerclass/class.h"
 
-/* max name length */
-#define MAX_NAME_LEN (50)
 
 /* items stub */
 typedef struct item {
@@ -24,6 +24,8 @@ typedef struct item {
 /* moves stub */
 typedef struct move {
     item_t *item;
+    int id;
+    char* info;
     bool attack;
     int damage;
     int defense;
@@ -34,23 +36,14 @@ typedef struct move {
 /* stats stub */
 typedef struct stat {
     int speed;
+    int defense;
     int strength;
     int dexterity;
     int hp;
     int max_hp;
     int xp;
+    int level;
 } stat_t;
-
-/* class stub */
-typedef enum class {
-    bard,
-    cleric,
-    paladin, 
-    wizard
-} class_t;
-
-
 
 
 #endif
-
