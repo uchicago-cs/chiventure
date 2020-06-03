@@ -98,24 +98,21 @@ int room_generate(game_t *game, gencontext_t *context, roomspec_t *rspec)
     return FAILURE; // Room was not generated
 }
 
-/* See autogenerate.h */
-int multi_room_generate(game_t *game, gencontext_t *context, char *room_id)
+int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms)
 {
     /* If game->curr_room is not a dead end or there are no roomspec_t elements
     * in context->speclist, then do not autogenerate */
     if (context->speclist == NULL) {
         return FAILURE;
     }
-
     // Iterate through the speclist field, generating and adding rooms for each
     speclist_t *tmp;
-
-    DL_FOREACH(context->speclist, tmp) {
-	roomspec_t *rspec = copy_room(room_id, context->speclist);
+    for (int i = 0; i < num_rooms; i++)
+    {
+        roomspec_t *rspec = random_room_lookup(context->speclist);
         // Increments tmp->spec->num_built
         room_generate(game, context, rspec);
     }
-
     return SUCCESS;
 }
 
@@ -136,17 +133,6 @@ int speclist_from_hash(speclist_t **orig, roomspec_t *hash)
 }
 
 /* See autogenerate.h */
-roomspec_t *copy_room(char *room_id, speclist_t* spec)
-{
-	roomspec_t *hash = make_default_room(room_id, NULL, NULL);
-
-	int rc = speclist_from_hash(&spec, hash);
-	// Specify roomspec content from speclist
-	roomspec_t *r = random_room_lookup(spec);
-	return r;
-}
-
-/* See autogenerate.h */
 roomspec_t *random_room_lookup(speclist_t *spec)
 {
     int count;
@@ -160,8 +146,6 @@ roomspec_t *random_room_lookup(speclist_t *spec)
 
     DL_FOREACH(spec, tmp) {
         if (i == idx) {
-            item_hash_t *items = random_items(tmp->spec);
-            tmp->spec->items = items;
             return tmp->spec;
         }
         i++;

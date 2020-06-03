@@ -287,7 +287,7 @@ Test(autogenerate, room_generate_success_one)
 
 
 	//create roomspec
-    roomspec_t *rspec = copy_room("school", sample_gencontext->speclist);
+    roomspec_t *rspec = random_room_lookup(sample_speclist);
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 }
@@ -337,8 +337,7 @@ Test(autogenerate, room_generate_success_two)
 
 
 	//create roomspec
-	roomspec_t *rspec = copy_room("school", sample_gencontext->speclist);
-
+    roomspec_t *rspec = random_room_lookup(sample_speclist);
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 }
@@ -393,8 +392,7 @@ Test(autogenerate, room_generate_success_three)
     DL_APPEND(sample_gencontext->speclist, tail);
 
 	//create roomspec
-	roomspec_t *rspec = copy_room("school", sample_gencontext->speclist);
-
+    roomspec_t *rspec = random_room_lookup(sample_speclist);
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 }
@@ -431,7 +429,7 @@ Test(autogenerate, invalid_multi_room)
     // Ensure game->curr_room does not have paths
     g->curr_room = sample_room1;
 
-    cr_assert_eq(FAILURE, multi_room_generate(g, sample_gencontext, "school"),
+    cr_assert_eq(FAILURE, multi_room_generate(g, sample_gencontext, "school", 1),
                  "multi_room_generate() returned SUCCESS instead of FAILURE");
 }
 
@@ -470,7 +468,7 @@ Test(autogenerate, valid_multi_room1)
 
     // Ensure game->curr_room does not have paths
     g->curr_room = sample_room1;
-    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school"),
+    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school",  1),
                  "multi_room_generate() returned FAILURE instead of SUCCESS");
 }
 
@@ -529,7 +527,7 @@ Test(autogenerate, valid_multi_room2)
     DL_APPEND(sample_gencontext->speclist, mid);
     DL_APPEND(sample_gencontext->speclist, tail);
 
-    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school"),
+    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school", 2),
                  "multi_room_generate() returned FAILURE instead of SUCCESS");
 }
 
@@ -585,7 +583,7 @@ Test(autogenerate, valid_multi_room3)
 
     // Ensure game->curr_room does not have paths
     g->curr_room = sample_room1;
-    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school"));
+    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school", 3));
 }
 
 /* testing speclist_from_hash for school bucket*/

@@ -96,7 +96,8 @@ int room_generate(game_t *game, gencontext_t *gencontext, roomspec_t *rspec);
 * parameters:
 * - game: A pointer to a game struct. Should not be NULL.
 * - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
-* - room_id: A unique room_id string for the to-be-generated room.
+* - room_id: A unique room_id string for the to-be-generated room.i
+* - num_iters: specifies how many new rooms will be generated
 *
 * side effects:
 * - Changes input game to hold the newly generated room(s). Allocated on the heap
@@ -105,7 +106,7 @@ int room_generate(game_t *game, gencontext_t *gencontext, roomspec_t *rspec);
 * - SUCCESS if the new rooms were generated and added (SUCCESS)
 * - FAILURE if the new rooms were not generated/added (FAILURE)
 */
-int multi_room_generate(game_t *game, gencontext_t *context, char *room_id);
+int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_iters);
 
 /*
 * speclist_from_hash
