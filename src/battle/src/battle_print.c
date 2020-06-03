@@ -27,7 +27,7 @@ char *print_start_battle(battle_t *b)
 }
 
 /* see battle_print.h */
-int *print_hp(battle_t* b, char* string)
+int print_hp(battle_t* b, char* string)
 {
     combatant_t *player_hp = b->player->stats->hp;
     string += sprintf(string, "-- Your HP: %d\n", player_hp);

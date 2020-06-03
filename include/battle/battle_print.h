@@ -50,7 +50,7 @@ char *print_start_battle(battle_t *b);
   *  - SUCCESS if successfully printed HP, FAILURE otherwise
   *
   */
- int *print_hp(battle_t* b, char* string);
+ int print_hp(battle_t* b, char* string);
 
 /*
  * Stores the message to be printed at the end of the battle in the return
