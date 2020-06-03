@@ -22,6 +22,8 @@ typedef enum data_type
     STR_TYPE = 4,
 } data_type_t;
 
+// ============================================================================
+
 typedef struct arg_t
 {
     // Type of underlying data
@@ -40,6 +42,60 @@ typedef struct arg_t
     // Pointer to the next argument
     struct arg_t *next;
 } arg_t;
+
+
+/**
+ * arg_t_new() creates an empty arg_t struct
+ * Returns:
+ * - pointer to an empty argument struct
+ */
+arg_t *arg_t_new();
+
+/**
+ * arg_t_bool() creates an arg_t struct containing a boolean
+ * Parameters:
+ * - bool value to be stored in the argument
+ * Returns:
+ * - pointer to an argument struct containing the bool
+ */
+arg_t *arg_t_bool(bool b);
+
+/**
+ * arg_t_bool() creates an arg_t struct containing a char
+ * Parameters:
+ * - char value to be stored in the argument
+ * Returns:
+ * - pointer to an argument struct containing the char
+ */
+arg_t *arg_t_char(char c);
+
+/**
+ * arg_t_bool() creates an arg_t struct containing a int
+ * Parameters:
+ * - int value to be stored in the argument
+ * Returns:
+ * - pointer to an argument struct containing the int
+ */
+arg_t *arg_t_int(int i);
+
+/**
+ * arg_t_bool() creates an arg_t struct containing a string
+ * Parameters:
+ * - string to be stored in the argument
+ * Returns:
+ * - pointer to an argument struct containing the string
+ */
+arg_t *arg_t_str(char *s);
+
+/**
+ * arg_t_add() adds an arg_t struct to the end of the arg_t linked list
+ * Parameters:
+ * - head of the arg_t linked list
+ * - arg_t struct to be added
+ */
+arg_t *arg_t_add(arg_t *head, arg_t *add);
+
+// ============================================================================
 
 typedef struct obj_t
 {
@@ -62,32 +118,6 @@ typedef struct obj_t
     // Linked list of arguments
     arg_t *args;
 } object_t;
-
-/**
- * arg_t_new() creates an empty arg_t struct
- * Returns:
- * - pointer to an empty argument struct
- */
-
-arg_t *arg_t_new();
-
-/**
- * arg_t_bool() creates an arg_t struct containing a boolean
- * Parameters:
- * - bool value to be stored in the argument
- * Returns:
- * - pointer to an argument struct containing the bool
- */
-
-arg_t *arg_t_bool(bool b);
-
-/**
- * arg_t_add() adds an arg_t struct to the end of the arg_t linked list
- * Parameters:
- * - head of the arg_t linked list
- * - arg_t struct to be added
- */
-arg_t *arg_t_add(arg_t *head, arg_t *add);
 
 /**
  * obj_t_new() creates an empty object_t struct
@@ -115,7 +145,7 @@ object_t *obj_t_bool(bool b, char *lua, arg_t* head);
  * Returns:
  * - pointer to an object struct containing the char
  */
-object_t *obj_t_char(char c, char *lua);
+object_t *obj_t_char(char c, char *lua, arg_t* head);
 
 /**
  * obj_t_int() creates an object_t struct containing a int
@@ -125,7 +155,7 @@ object_t *obj_t_char(char c, char *lua);
  * Returns:
  * - pointer to an object struct containing the int
  */
-object_t *obj_t_int(int i, char *lua);
+object_t *obj_t_int(int i, char *lua, arg_t* head);
 
 /**
  * obj_t_str() creates an object_t struct containing a string
@@ -135,7 +165,9 @@ object_t *obj_t_int(int i, char *lua);
  * Returns:
  * - pointer to an object struct containing the str
  */
-object_t *obj_t_str(char *s, char *lua);
+object_t *obj_t_str(char *s, char *lua, arg_t* head);
+
+// ============================================================================
 
 /**
  * bool_t_get() returns a bool from an object_t struct

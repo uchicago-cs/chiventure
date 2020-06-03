@@ -17,6 +17,30 @@ arg_t *arg_t_bool(bool b) {
 }
 
 // see custom_type.h
+arg_t *arg_t_char(char c) {
+    arg_t *arg = arg_t_new();
+    arg->type = CHAR_TYPE;
+    arg->data.c = c;
+    return arg;
+}
+
+// see custom_type.h
+arg_t *arg_t_int(int i) {
+    arg_t *arg = arg_t_new();
+    arg->type = INT_TYPE;
+    arg->data.i = i;
+    return arg;
+}
+
+// see custom_type.h
+arg_t *arg_t_str(char *s) {
+    arg_t *arg = arg_t_new();
+    arg->type = STR_TYPE;
+    arg->data.s = s;
+    return arg;
+}
+
+// see custom_type.h
 arg_t *arg_t_add(arg_t *head, arg_t *add) {
     arg_t *temp = head;
     // iterating over linked list to last node
@@ -26,6 +50,8 @@ arg_t *arg_t_add(arg_t *head, arg_t *add) {
     temp->next = add;
     return head;
 }
+
+// ============================================================================
 
 // see custom_type.h
 object_t *obj_t_new()
@@ -53,13 +79,14 @@ object_t *obj_t_bool(bool b, char *lua, arg_t* head)
 }
 
 // see custom_type.h
-object_t *obj_t_char(char c, char *lua)
+object_t *obj_t_char(char c, char *lua, arg_t* head)
 {
     object_t *ot = obj_t_new();
     ot->type = CHAR_TYPE;
     if (lua) {
         ot->is_lua = true;
         ot->data.lua = lua;
+        ot->args = head;
     } else {
         ot->data.c = c;
     }
@@ -67,13 +94,14 @@ object_t *obj_t_char(char c, char *lua)
 }
 
 // see custom_type.h
-object_t *obj_t_int(int i, char *lua)
+object_t *obj_t_int(int i, char *lua, arg_t* head)
 {
     object_t *ot = obj_t_new();
     ot->type = INT_TYPE;
     if (lua) {
         ot->is_lua = true;
         ot->data.lua = lua;
+        ot->args = head;
     } else {
         ot->data.i = i;
     }
@@ -81,28 +109,37 @@ object_t *obj_t_int(int i, char *lua)
 }
 
 // see custom_type.h
-object_t *obj_t_str(char *s, char *lua)
+object_t *obj_t_str(char *s, char *lua, arg_t* head)
 {
     object_t *ot = obj_t_new();
     ot->type = STR_TYPE;
     if (lua) {
         ot->is_lua = true;
         ot->data.lua = lua;
+        ot->args = head;
     } else {
         ot->data.s = s;
     }
     return ot;
 }
 
+// ============================================================================
+
 /**
  * Helper function used to push the arguments in the linked list
  * to the Lua vritual stack
- * Returns the number of arguments in the linked list
+ * Parameters:
+ * - the Lua state created
+ * - the object containing the argument linked list
+ * Returns:
+ * - the number of arguments in the linked list
  */
 int push_args(lua_State *L, object_t* ot) {
-    int count = 0;
+    int count = 0; // number of arguments in linked list
     arg_t *head = ot->args;
     data_type_t type = ot->type;
+
+    // push arguments one-by-one
     while (head != NULL) {
         // incrememnt argument count
         count++;
@@ -117,11 +154,23 @@ int push_args(lua_State *L, object_t* ot) {
                 break;
             }
             case CHAR_TYPE:
+            {
+                char c = head->data.c;
+                lua_pushlstring(L, &c, 1);
                 break;
+            }
             case INT_TYPE:
+            {
+                int i = head->data.i;
+                lua_pushboolean(L, i); // pushboolean is used to push ints too
                 break;
+            }
             case STR_TYPE:
+            {
+                char *s = head->data.s;
+                lua_pushstring(L, s);
                 break;
+            }
             default: // NONE_TYPE
                 break;
         }
@@ -137,6 +186,12 @@ int push_args(lua_State *L, object_t* ot) {
  * Helper function for the getter functions below
  * Calls the Lua function in the directory specified, stores the data
  * in the Lua virtual stack for the getter functions to extract and return
+ * Parameters:
+ * - the object_t struct that contains the argument list to be passed to Lua
+ * - the Lua script directory
+ * Returns:
+ * - the Lua state with the return value of the Lua script extracted and placed
+ *   in the virtual stack
  */
 lua_State *callLua(object_t *ot, char *lua_path) {
     lua_State *L = luaL_newstate();
@@ -150,7 +205,7 @@ lua_State *callLua(object_t *ot, char *lua_path) {
     // sets virtual stack top to index 0
     lua_settop(L, 0);
 
-    // push functions and arguments
+    // push functions and arguments and call function
     lua_getglobal(L, "foo");
     int num_args = push_args(L, ot);
     lua_pcall(L, num_args, 1, 0);
