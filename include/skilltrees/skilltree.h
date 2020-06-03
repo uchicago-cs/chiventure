@@ -21,7 +21,7 @@
  *  - A pointer to the skill node, or NULL if a skill node cannot be
  *    allocated
  */
- skill_node_t* skill_node_new(skill_t* skill, unsigned int nprereqs,
+ skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
                               unsigned int size);
 
 /*
@@ -65,12 +65,12 @@ int node_prereq_remove(skill_node_t* node, skill_node_t* prereq);
  * Parameters:
  *  - tid: The tree ID that uniquely identifies the skill tree
  *  - name: The name of the skill tree
- *  - nnodes: The number of tree nodes in the skill tree
+ *  - num_nodes: The number of tree nodes in the skill tree
  *
  * Returns:
  *  - A pointer to the skill tree, or NULL if the skill tree cannot be allocated
  */
-skill_tree_t* skill_tree_new(tid_t tid, char* name, unsigned int nnodes);
+skill_tree_t* skill_tree_new(tid_t tid, char* name, unsigned int num_nodes);
 
 /*
  * Frees the resources associated with a skill tree.
@@ -126,16 +126,18 @@ int skill_tree_node_remove(skill_tree_t* tree, skill_node_t* node);
  * Parameters:
  *  - tree: A skill tree
  *  - sid: A skill ID
- *  - nprereqs: An out-parameter. The number of prerequisite skills in the list
+ *  - num_prereq_skills: An out-parameter. The number of prerequisite skills in
+ *    the list
  *
  * Returns:
  *  - A pointer to the list of all prerequisite skills, NULL if there are none
  *    or an error occurs.
  *  - To distinguish between no prerequisites and errors, the out-parameter
- *    `nprereqs` is updated to 0 when there are no prerequisites, and is
- *    updated to -1 if an error has occurred
+ *    `num_prereq_skills` is updated to 0 when there are no prerequisites, and
+ *    is updated to -1 if an error has occurred
  */
-skill_t** skill_prereqs_all(skill_tree_t* tree, sid_t sid, int* nprereqs);
+skill_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
+                                int* num_prereq_skills);
 
 /*
  * Returns prerequisite skills already acquired by a player for a given skill.
@@ -144,19 +146,19 @@ skill_t** skill_prereqs_all(skill_tree_t* tree, sid_t sid, int* nprereqs);
  *  - tree: A skill tree
  *  - inventory: A player's skill inventory
  *  - sid: A skill ID
- *  - nacquired: An out-parameter. The number of acquired prerequisite skills in
+ *  - num_acquired_prereqs: An out-parameter. The number of acquired prerequisite skills in
  *              the list
  *
  * Returns:
  *  - A pointer to the list of acquired prerequisite skills, NULL if there are
  *    none or an error occurs.
  *  - To distinguish between no acquired prerequisites and errors, the out-
- *    parameter `nacquired` is updated to 0 when there are no acquired
+ *    parameter `num_acquired_prereqs` is updated to 0 when there are no acquired
  *    prerequisites, and is updated to -1 if an error has occurred
  */
-skill_t** skill_prereqs_acquired(skill_tree_t* tree,
-                                 skill_inventory_t* inventory, sid_t sid,
-                                 int* nacquired);
+skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+                                     skill_inventory_t* inventory, sid_t sid,
+                                     int* num_acquired_prereqs);
 
 /*
  * Returns prerequisite skills missing by a player for a given skill.
@@ -165,7 +167,7 @@ skill_t** skill_prereqs_acquired(skill_tree_t* tree,
  *  - tree: A skill tree
  *  - inventory: A player's skill inventory
  *  - sid: A skill ID
- *  - nacquired: An out-parameter. The number of missing prerequisite skills in
+ *  - num_acquired_prereqs: An out-parameter. The number of missing prerequisite skills in
  *              the list
  *
  * Returns:

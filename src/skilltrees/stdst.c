@@ -8,12 +8,12 @@
 #include "skilltrees/stdst.h"
 
 /* See stdst.h */
-void** array_element_add(void** array, unsigned int alen, void* element) {
+void** array_element_add(void** array, unsigned int array_len, void* element) {
     assert(array != NULL && element != NULL);
 
     unsigned int i;
 
-    for (i = 0; i < alen; i++) {
+    for (i = 0; i < array_len; i++) {
         if (array[i] == NULL) {
             array[i] = element;
             return array;
@@ -25,12 +25,12 @@ void** array_element_add(void** array, unsigned int alen, void* element) {
 }
 
 /* See stdst.h */
-int list_has_skill(skill_t** list, unsigned int llen, sid_t sid) {
+int list_has_skill(skill_t** list, unsigned int list_len, sid_t sid) {
     assert(list != NULL);
 
     unsigned int i;
 
-    for (i = 0; i < llen; i++) {
+    for (i = 0; i < list_len; i++) {
         if (list[i]) {
             if (list[i]->sid == sid) {
                 return i;
