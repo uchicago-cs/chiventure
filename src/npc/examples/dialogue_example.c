@@ -62,13 +62,17 @@ void npc_print(char *dialogue)
  * 
  * Parameters:
  *  - farewell: ending string of convo
+ *  - say: true if farewell should print, false otherwise
  * 
  * Returns: None.
  */
-void end_convo(char *farewell)
+void end_convo(char *farewell, bool say)
 {
-    npc_print(farewell);
-    printf("\n");
+    if (say)
+    {
+        npc_print(farewell);
+        printf("\n");
+    }
     exit(0);
 }
 
@@ -89,7 +93,7 @@ edge_t *read_input(node_t *n, char *input, char *farewell)
 
     if (strcmp(adj_input, "ignore") == 0)
     {
-        end_convo(farewell);
+        end_convo(farewell, true);
     }
 
     edge_t *res;
@@ -142,7 +146,7 @@ node_t *traverse_edge(node_t *n, char *farewell)
 void run_convo(convo_t *c)
 {
     npc_print(c->nodes->cur_node->dialogue);
-    npc_print("Or, you could #ignore# me.");
+    npc_print(" Or, you could #ignore# me.");
     node_t *cur;
     while (c->nodes->cur_node->connection_count != 0) 
     {
@@ -154,7 +158,7 @@ void run_convo(convo_t *c)
                 c->nodes->cur_node->edges->toward;
         }
     }
-    end_convo(c->farewell);
+    end_convo(c->farewell, false);
 }
 
 
