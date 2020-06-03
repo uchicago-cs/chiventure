@@ -164,7 +164,7 @@ Test(battle_flow, init_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    stat_t *pstats = calloc(1, sizeof(size_t));
+    stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 20;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
     g->player = ctx_player;
@@ -210,7 +210,7 @@ Test(battle_flow, do_damage_battle_flow)
     ctx = battle_flow(ctx, move, "Enemy");
     cr_assert_not_null(ctx, "battle_flow returned NULL");
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
-                 5, 
+                 10, 
                  "battle_flow() did not compute damage correctly");
     printf("%d\n", ctx->game->battle->player->stats->hp);
         cr_assert_eq(ctx->game->battle->player->stats->hp,
