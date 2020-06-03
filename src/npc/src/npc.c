@@ -1,6 +1,5 @@
 #include "npc/npc.h"
 #include "common-item.h"
-
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, int health) //TODO-convo_t *dialogue)
 {
