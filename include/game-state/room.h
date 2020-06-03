@@ -3,7 +3,6 @@
 
 #include "game_state_common.h"
 #include "item.h"
-#include "action_management/actionmanagement.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
@@ -155,7 +154,7 @@ char *get_ldesc(room_t *room);
  * Returns:
  *  a pointer to new path
  */
-path_t *path_new(room_t *dest, char *direction, char* room_id);
+path_t *path_new(room_t *dest, char *direction);
 
 /* Frees the space in memory taken by given path
  *
@@ -166,6 +165,17 @@ path_t *path_new(room_t *dest, char *direction, char* room_id);
  *  SUCCESS if successful, FAILURE if failed
  */
 int path_free(path_t *path);
+
+/* Adds a list of conditions to the path struct
+ * 
+ * Parameters:
+ *  pointer to the path struct
+ *  list of conditions
+ *
+ * Returns:
+ *  SUCCESS if successful
+ */
+int path_new_conditions(path_t *path, list_action_type_t *act);
 
 
 /* Returns path given room and direction

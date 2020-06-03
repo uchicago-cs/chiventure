@@ -185,7 +185,7 @@ bool end_conditions_met(game_t *game);
 * AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
 int create_connection(game_t *game, char* src_room, char* dest_room,
-    char* direction, list_action_type_t* act);
+    			char* direction);
 
 /*
 *

@@ -24,8 +24,7 @@ typedef struct chiventure_ctx chiventure_ctx_t;
  * Returns:
  * - a pointer to a new action type struct
  */
-action_type_t *action_type_new(char *c_name, enum action_kind kind, 
-				char *trigger);
+action_type_t *action_type_new(char *c_name, enum action_kind kind);
 
 
 /*
@@ -41,8 +40,7 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind,
  * - 0 if success, 1 if an error occurs
  * - an error message in stderr if the action type struct is not initialized
  */
-int action_type_init(action_type_t *a, char *c_name, enum action_kind kind,
-			char *trigger);
+int action_type_init(action_type_t *a, char *c_name, enum action_kind kind);
 
 /*
  * A function that frees the resources associated with an action type struct
@@ -132,18 +130,6 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
  */
 int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
-
-/*
- * Function that deletes a node in list_action_type_t
- * 
- * Paramters:
- * - action_type_t: action to be deleted
- * - list_action_type_t: list to remove action from
- *
- * Returns:
- * - int SUCCESS when node is removed
- */
-int delete_action(list_action_type_t *act, action_type_t *a);
 
 
 #endif

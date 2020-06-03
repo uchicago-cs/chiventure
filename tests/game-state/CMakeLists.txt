@@ -1,6 +1,7 @@
 set(TEST_EXE test-game-state)
 
 add_executable(${TEST_EXE}
+	test_delete_action.c
         test_game.c
         test_items.c
         test_path.c

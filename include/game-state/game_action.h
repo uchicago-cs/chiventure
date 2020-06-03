@@ -123,6 +123,19 @@ bool check_condition(game_action_condition_t *condition);
 int all_conditions_met(item_t* item, char* action_name);
 
 
+/*
+ * Function that deletes a node in list_action_type_t
+ * 
+ * Paramters:
+ * - action_type_t: action to be deleted
+ * - list_action_type_t: list to remove action from
+ *
+ * Returns:
+ * - int SUCCESS when node is removed
+ */
+int delete_action(list_action_type_t *act, action_type_t *a);
+
+
 // ------------------------- EFFECT FUNCTIONS ------------------------------
 
 

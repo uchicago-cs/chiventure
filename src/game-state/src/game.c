@@ -145,7 +145,7 @@ bool end_conditions_met(game_t *game)
 
 /* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
-                      char* direction, list_action_type_t* conditions)
+			char* direction)
 {
     room_t *src = find_room_from_game(game, src_room);
     if (src == NULL)
@@ -157,7 +157,7 @@ int create_connection(game_t *game, char* src_room, char* to_room,
     {
         return ROOM_DEST_NULL;
     }
-    path_t *connection = path_new(to, direction, conditions);
+    path_t *connection = path_new(to, direction);
     int check = add_path_to_room(src, connection);
     return check;
 }
