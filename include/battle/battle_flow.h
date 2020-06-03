@@ -83,9 +83,9 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies,
  *  - target: name of target
  *
  * Returns:
- *  - A pointer to the modified chiventure battle context, the battle_status
- *    variable will be set to false if a battle has ended as a result of the 
- *    last turn
+ *  - A pointer to the modified chiventure battle context, the status
+ *    variable within the ctx_battle will update as seen fit
+ *    aka whether it is in progress or if there was a victor
  */
 chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
 
