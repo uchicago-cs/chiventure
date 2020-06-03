@@ -44,13 +44,13 @@ char *print_start_battle(battle_t *b);
   *
   * Parameters:
   *  - b = pointer to the battle
-  *  - string = the string to which the hp will be printed to 
+  *  - string = the string to which the hp will be printed to
   *
   * Returns:
   *  - SUCCESS if successfully printed HP, FAILURE otherwise
   *
   */
- int *print_hp(battle_t* b, char* string)
+ int *print_hp(battle_t* b, char* string);
 
 /*
  * Stores the message to be printed at the end of the battle in the return
