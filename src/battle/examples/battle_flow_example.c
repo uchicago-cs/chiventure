@@ -1,6 +1,6 @@
-#include "battle/battle_state.h"
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
+#include "battle/battle_state.h"
 
 
 int main()

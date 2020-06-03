@@ -3,11 +3,11 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include "battle_ai.h"
 #include "battle_flow_structs.h"
+#include "battle_logic.h"
 #include "battle_state.h"
 #include "battle_structs.h"
-#include "battle_ai.h"
-#include "battle_logic.h"
 #include "common/common.h"
 #include "common/utlist.h"
 
@@ -83,8 +83,9 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies,
  *  - target: name of target
  *
  * Returns:
- *  - A pointer to the modified chiventure battle context, the in_battle bool
- *    will be set to false if a battle has ended as a result of the last turn
+ *  - A pointer to the modified chiventure battle context, the battle_status
+ *    variable will be set to false if a battle has ended as a result of the 
+ *    last turn
  */
 chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
 
