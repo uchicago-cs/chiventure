@@ -79,7 +79,7 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment
 }
 
 /* see battle_flow.h */
-chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
+int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 {
     battle_t *b = ctx->game->battle;
 
@@ -87,17 +87,17 @@ chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move,
        with custom actions at a later date */
     if(ctx == NULL)
     {
-        return NULL;
+        return FAILURE;
     }
 
     if(move == NULL)
     {
-        return NULL;
+        return FAILURE;
     }
 
     if(target == NULL)
     {
-        return NULL;
+        return FAILURE;
     }
     combatant_t *enemy = check_target(b, target);
     
@@ -106,7 +106,7 @@ chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move,
         /* print stub: should tell player that their target was invalid
            battle_flow then returns the original, unmodified ctx and waits
            for the next move */
-        return NULL;
+        return FAILURE;
     }
     
     /* move stub, battle_flow should call either a custom action block or a
@@ -119,7 +119,7 @@ chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move,
         award_xp(b->player->stats, 2.0);
         ctx->status = BATTLE_VICTOR_PLAYER;
 
-        return ctx;
+        return SUCCESS;
     }
 
     move_t *enemy_move = give_move(b->player, b->enemy, BATTLE_AI_GREEDY);
@@ -131,8 +131,8 @@ chiventure_ctx_battle_t *battle_flow(chiventure_ctx_battle_t *ctx, move_t *move,
     {
         /* print stub: should tell player they lost */
         ctx->status = BATTLE_VICTOR_ENEMY;
-        return ctx;
+        return SUCCESS;
     }
 
-    return ctx;
+    return SUCCESS;
 }

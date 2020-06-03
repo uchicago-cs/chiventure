@@ -160,7 +160,7 @@ Test(battle_flow, start_battle)
 }
 
 /* this tests to see if it returns a ctx_battle */
-Test(battle_flow, return_not_null_battle_flow)
+Test(battle_flow, return_success_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
@@ -181,8 +181,8 @@ Test(battle_flow, return_not_null_battle_flow)
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 10;
 
-    ctx = battle_flow(ctx, move, "Enemy");
-    cr_assert_not_null(ctx, "battle_flow() returned NULL");
+    int res = battle_flow(ctx, move, "Enemy");
+    cr_assert_eq(res, SUCCESS, "battle_flow() returned FAILURE");
 }
 
 /* this tests to see if battle_flow does damage to the enemy */
@@ -207,8 +207,8 @@ Test(battle_flow, do_damage_battle_flow)
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 10;
 
-    ctx = battle_flow(ctx, move, "Enemy");
-    cr_assert_not_null(ctx, "battle_flow returned NULL");
+    int res = battle_flow(ctx, move, "Enemy");
+    cr_assert_eq(res, SUCCESS, "battle_flow failed!");
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  10, 
                  "battle_flow() did not compute damage correctly");
@@ -243,9 +243,9 @@ Test(battle_flow, battle_over_by_player)
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 10;
     ctx = battle_flow(ctx, move, "Enemy");
-    cr_assert_not_null(ctx, "battle_flow returned NULL");
-    ctx = battle_flow(ctx, move, "Enemy");
-    cr_assert_not_null(ctx, "battle_flow returned NULL");
+    cr_assert_not_null(ctx, "battle_flow() returned NULL");
+    int res = battle_flow(ctx, move, "Enemy");
+    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
     cr_assert_eq(ctx->game->battle->player->stats->hp,
                  -29,
                  "battle_flow() did not compute damage correctly");
@@ -278,8 +278,8 @@ Test(battle_flow, battle_over_by_enemy)
     move->damage = 10;
     ctx = battle_flow(ctx, move, "Enemy");
     cr_assert_not_null(ctx, "battle_flow returned NULL");
-    ctx = battle_flow(ctx, move, "Enemy");
-    cr_assert_not_null(ctx, "battle_flow returned NULL");
+    int res = battle_flow(ctx, move, "Enemy");
+    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  0,
                  "battle_flow() did not compute damage correctly");
