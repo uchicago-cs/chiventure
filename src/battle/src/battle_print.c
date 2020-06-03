@@ -30,7 +30,7 @@ char *print_start_battle(battle_t *b)
 int print_hp(battle_t* b, char* string)
 {
     int player_hp = b->player->stats->hp;
-    string += sprintf(string, "-- Your HP: %d\n", player_hp);
+    sprintf(string + strlen(string), "-- Your HP: %d\n", player_hp);
     printf("%s",string);
     combatant_t *enemies = b->enemy;
     combatant_t *enemy_elt;
@@ -39,7 +39,7 @@ int print_hp(battle_t* b, char* string)
         char* name = enemy_elt->name;
         int enemy_hp = enemy_elt->stats->hp;
 
-        string += sprintf(string, "-- %s's HP: %d\n", name, enemy_hp);
+        sprintf(string + strlen(string), "-- %s's HP: %d\n", name, enemy_hp);
         printf("%s",string);
     }
     printf("%s",string);
