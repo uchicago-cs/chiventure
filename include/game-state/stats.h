@@ -274,6 +274,35 @@ int add_stat_player(stats_hash_t **sh, stats_t *s);
 char *display_stats(stats_hash_t *sh);
 
 /*
+ * Adds an effect to an effects hash table
+ *
+ * Parameters: 
+ * hash: pointer to effects hash table
+ * effect: pointer to effect to be added
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int add_stat_effect(effects_hash_t *hash, stat_effect_t *effect);
+
+/*
+ * Applies an effect on a player
+ *
+ * Parameters: 
+ * hash: effects hash table of player
+ * effect: pointer to effect to be applied
+ * stats: array of the player's stats to be impacted
+ * intensities: array of modifiers for each stat
+ * durations: array of durations for the effect on each stat
+ * num_stats: number of stats to be impacted
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int apply_effect(effects_hash_t *hash, stat_effect_t  *effect, stats_t **stats, 
+                 double *intensities, int *durations, int num_stats);
+
+/*
  * Frees a stats hash table
  *
  * Parameters: 

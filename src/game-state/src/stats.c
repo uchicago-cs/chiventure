@@ -135,6 +135,60 @@ char* display_stats(stats_hash_t *s)
 }
 
 /* See stats.h */
+int add_stat_effect(effects_hash_t *hash, stat_effect_t *effect) {
+    stat_effect_t *check;
+    HASH_FIND(hh, hash, effect->key, strlen(effect->key), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //the effect already exists in the player hash table
+    }
+
+    HASH_ADD_KEYPTR(hh, hash, effect->key, strlen(effect->key), effect);
+    return SUCCESS;
+}
+
+/* Compares two stat_mod_t struct for equality
+ *
+ * Parameters: 
+ * - mod1, mod2: two stat_mod_t structs
+ *
+ * Returns:
+ * 1 when equal, 0 when not equal
+ */
+int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2) {
+    return strcmp(m1->stat->key, m2->stat->key);
+}
+
+/* See stats.h */
+int apply_effect(effects_hash_t *hash, stat_effect_t  *effect, stats_t **stats, 
+                 double *intensities, int *durations, int num_stats) {
+    stat_effect_t *check;
+    HASH_FIND(hh, hash, effect->key, strlen(effect->key), check);
+
+    if (check == NULL) {
+        add_stat_effect(hash, effect);
+    }
+    stat_mod_t *new, tmp;
+    int i;
+    for (i = 0; i < num_stats; i++) {
+        stats[i]->modifier *= intensities[i];
+        new = malloc(sizeof(stat_mod_t));
+        new->stat = stats[i];
+        new->modifier = intensities[i];
+        new->duration = durations[i];
+        LL_SEARCH(effect->stat_list, tmp, new, stat_mod_equal);
+        if (elt != NULL) {
+            element->stat_list->modifier = new->modifier;
+            element->stat_list->duration = new->duration;
+            free(new);
+        } else {
+            LL_APPEND(element->stat_list, new);
+        }
+    }
+}
+
+/* See stats.h */
 int free_stats(stats_hash_t *s)
 {
     printf("free_stats: function not yet implemented\n");
