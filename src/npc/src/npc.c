@@ -1,16 +1,16 @@
 #include "npc/npc.h"
 #include "game-state/item.h"
 
+// STRUCT FUNCTIONS -----------------------------------------------------------
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             int health, stats_t *stats) //TODO-convo_t *dialogue)
+             int health, stats_t *stats)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
     strcpy(npc->short_desc, short_desc);
     strcpy(npc->long_desc, long_desc);
     npc->health = health;
-    //TODO-npc->dialogue = dialogue;
     npc->inventory = NULL;
     npc->stats = stats;
     
@@ -30,7 +30,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->stats = malloc(sizeof(stats));
 
     int check = npc_init(npc, npc_id, short_desc, long_desc, health, stats); 
-                         //TODO-dialogue
+
 
     if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
         npc->long_desc == NULL || check != SUCCESS)
@@ -46,7 +46,7 @@ int npc_free(npc_t *npc)
 {
     assert(npc != NULL);
     
-    // TODO-free_dialog(npc->dialogue);
+    convo_free(npc->dialogue);
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
@@ -57,6 +57,7 @@ int npc_free(npc_t *npc)
     return SUCCESS;
 }
 
+// "GET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
 char* get_sdesc_npc(npc_t *npc)
 {
@@ -83,6 +84,28 @@ int get_npc_health(npc_t *npc)
     return npc->health;
 }
 
+/* See npc.h */
+item_hash_t* get_npc_inv_hash(npc_t *npc)
+{
+    return npc->inventory;
+}
+
+/* See npc.h */
+item_list_t* get_npc_inv_list(npc_t *npc)
+{
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, npc->inventory, curr_item, ITTMP_ITEMRM)
+    {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
+    }
+    return head;
+}
+
+// "SET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
 int change_npc_health(npc_t *npc, int change, int max)
 {
@@ -117,23 +140,11 @@ int add_item_to_npc(npc_t *npc, item_t *item)
     return SUCCESS;
 }
 
-/* See npc.h */
-item_hash_t* get_npc_inv_hash(npc_t *npc)
-{
-    return npc->inventory;
-}
 
 /* See npc.h */
-item_list_t* get_npc_inv_list(npc_t *npc)
+int add_convo_to_npc(npc_t *npc, convo_t *c)
 {
-    item_list_t *head = NULL;
-    item_t *ITTMP_ITEMRM, *curr_item;
-    item_list_t *tmp;
-    HASH_ITER(hh, npc->inventory, curr_item, ITTMP_ITEMRM)
-    {
-        tmp = malloc(sizeof(item_list_t));
-        tmp->item = curr_item;
-        LL_APPEND(head, tmp);
-    }
-    return head;
+    assert(npc != NULL && c != NULL);
+
+    npc->dialogue = c;
 }
