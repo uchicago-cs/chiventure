@@ -244,7 +244,7 @@ Test(battle_flow, battle_over_by_player)
     move->damage = 10;
     int res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
-    int res = battle_flow(ctx, move, "Enemy");
+    res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
     cr_assert_eq(ctx->game->battle->player->stats->hp,
                  -29,
@@ -278,7 +278,7 @@ Test(battle_flow, battle_over_by_enemy)
     move->damage = 10;
     int res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
-    int res = battle_flow(ctx, move, "Enemy");
+    res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  0,
