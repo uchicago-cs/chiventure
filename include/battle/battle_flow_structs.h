@@ -3,12 +3,11 @@
 
 #include <stdbool.h>
 #include <string.h>
-#include "battle_logic.h"
-#include "battle_state.h"
-#include "battle_structs.h"
 #include "common/common.h"
 #include "common/utlist.h"
-
+#include "battle/battle_logic.h" 
+#include "battle_state.h"
+#include "battle_structs.h"
 
 /* Stub for the player struct in game-state */
 typedef struct player {
@@ -27,8 +26,9 @@ typedef struct game {
     battle_t *battle;
 } game_t;
 
-/* Stub, similar to chiventure_ctx_t except adding battle_status, which
- * marks the status of the battle
+/* Stub, similar to chiventure_ctx_t except adding status, which
+ * is an enum that gives the current status of the game 
+ * (see logic.h for details)
  */
 typedef struct chiventure_ctx_battle {
     // would have UI context here
