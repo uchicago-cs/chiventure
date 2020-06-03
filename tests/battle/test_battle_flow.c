@@ -212,22 +212,29 @@ Test(battle_flow, do_damage_battle_flow)
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  10, 
                  "battle_flow() did not compute damage correctly");
+    printf("%d\n", ctx->game->battle->player->stats->hp);
+        cr_assert_eq(ctx->game->battle->player->stats->hp,
+                     10,
+                     "battle_flow() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow() failed: battle is not in progress");
 }
 
+/*
+ * Testing if the enemy is determiend as the winner if the player is defeated
+ */
 Test(battle_flow, battle_over_by_player)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
     stat_t *pstats = calloc(1, sizeof(size_t));
-    pstats->hp = 20;
+    pstats->hp = 1;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(size_t));
-    estats->hp = 20;
+    estats->hp = 100;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
     environment_t env = ENV_WATER;
 
@@ -240,13 +247,17 @@ Test(battle_flow, battle_over_by_player)
     cr_assert_not_null(ctx, "battle_flow returned NULL");
     ctx = battle_flow(ctx, move, "Enemy");
     cr_assert_not_null(ctx, "battle_flow returned NULL");
-    cr_assert_eq(ctx->game->battle->enemy->stats->hp,
+    printf("%d\n", ctx->game->battle->player->stats->hp);
+    cr_assert_eq(ctx->game->battle->player->stats->hp,
                  0,
                  "battle_flow() did not compute damage correctly");
-    cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER,
+    cr_assert_eq(ctx->status, BATTLE_VICTOR_ENEMY,
                  "battle_flow() failed: battle is not over due to player");
 }
 
+/*
+ * Testing if the player is determiend as the winner if the enemy is defeated
+ */
 Test(battle_flow, battle_over_by_enemy)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
@@ -275,5 +286,5 @@ Test(battle_flow, battle_over_by_enemy)
                  0,
                  "battle_flow() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
-                 "battle_flow() failed: enemy was not delcared the winner");
+                 "battle_flow() failed: enemy was not declared the winner");
 }
