@@ -123,8 +123,8 @@ Test(battle_print, print_enemy_winner)
     char* string = print_battle_winner(status, xp);
     cr_assert_not_null(string, "print_start_battle() failed");
 
-    char *expected_string = "You lost...\n";
-    cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
+    char *expected_string = "You have been defeated!\n";
+    cr_expect_str_eq(string, expected_string, "print_enemy_winner() failed to set string");
 
     free(string);
 }
