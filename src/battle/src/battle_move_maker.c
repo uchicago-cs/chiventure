@@ -4,8 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "battle/battle_move_maker.h"
-#include "battle/class_list.h"
-
+#include "../../playerclass/examples/class-list.c"
 
 player_t *add_class_move(player_t *player)
 {

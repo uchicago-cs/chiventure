@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "playerclass/class_structs.h"
+#include "../../src/playerclass/examples/class-list.h"
 #include "battle_structs.h"
 #include "battle_flow_structs.h"
 #include "battle_moves.h"
