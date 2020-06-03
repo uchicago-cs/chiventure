@@ -87,8 +87,7 @@ arg_t *arg_t_bool(bool b);
  * - head of the arg_t linked list
  * - arg_t struct to be added
  */
-void arg_t_add(arg_t *head, arg_t *add);
-
+arg_t *arg_t_add(arg_t *head, arg_t *add);
 
 /**
  * obj_t_new() creates an empty object_t struct

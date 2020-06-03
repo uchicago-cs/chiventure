@@ -17,13 +17,14 @@ arg_t *arg_t_bool(bool b) {
 }
 
 // see custom_type.h
-void arg_t_add(arg_t *head, arg_t *add) {
+arg_t *arg_t_add(arg_t *head, arg_t *add) {
     arg_t *temp = head;
     // iterating over linked list to last node
     while(temp->next) {
         temp = temp->next;
     }
     temp->next = add;
+    return head;
 }
 
 // see custom_type.h
@@ -110,7 +111,8 @@ int push_args(lua_State *L, object_t* ot) {
         switch(type) {
             case BOOL_TYPE:
             {
-                int b = ot->data.b; // pushboolean requires int
+                int b = head->data.b; // pushboolean requires int
+                printf("arg = %d\n", b);
                 lua_pushboolean(L, b);
                 break;
             }
@@ -163,6 +165,7 @@ bool bool_t_get(object_t *ot) {
         char *lua_path = ot->data.lua;
         lua_State *L = callLua(ot, lua_path);
         int result = (int)lua_toboolean(L, -1);
+        printf("result = %d\n", result);
         lua_pop(L, 1);
         if (result)
             return true;

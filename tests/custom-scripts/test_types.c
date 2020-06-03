@@ -124,7 +124,28 @@ Test(custom_type, obj_t_get_bool_lua)
     object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua", NULL);
     bool rv = bool_t_get(ot);
     cr_assert_eq((rv ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
+}
 
+/** Checks that the object_t struct returns the correct bool value (lua)
+ *  When arguments are passed into the script
+ */
+Test(custom_type, obj_t_get_bool_lua_args)
+{
+    arg_t *args = arg_t_add(arg_t_add(arg_t_bool(true), arg_t_bool(true)), arg_t_bool(true));
+    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua", args);
+    bool rv = bool_t_get(ot);
+    cr_assert_eq((rv ? 1 : 0), 1, "bool_t_get: failed bool Lua retrieval");
+}
+
+/** Checks that the object_t struct returns the correct bool value (lua)
+ *  When arguments are passed into the script
+ */
+Test(custom_type, obj_t_get_bool_lua_args2)
+{
+    arg_t *args = arg_t_add(arg_t_add(arg_t_bool(true), arg_t_bool(false)), arg_t_bool(true));
+    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua", args);
+    bool rv = bool_t_get(ot);
+    cr_assert_eq((rv ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
 }
 
 /** Checks that the object_t struct returns the correct char value (direct)
