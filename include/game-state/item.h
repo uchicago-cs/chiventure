@@ -94,7 +94,7 @@ char *get_ldesc_item(item_t *item);
 /* Adds an item to a hashtable of items
  * 
  * Parameters:
- *  pointer to hashtable of items
+ *  pointer to hashtable of items (pointer necessary for uthash to work)
  *  item to add to hashtable
  * 
  * Returns: 
@@ -105,7 +105,7 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item);
 /* Function to get a linked list (utlist) of all the items in a hashtable
  *
  * Parameters:
- *  pointer to hashtable of items
+ *  pointer to hashtable of items (pointer necessary for uthash to work)
  *
  * Returns:
  *  linked list of pointers to items (the head element)
@@ -117,7 +117,7 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht);
  * Note that the memory associated with this item is not freed
  * 
  * Parameters:
- *  pointer to hashtable of items
+ *  pointer to hashtable of items (pointer necessary for uthash to work)
  *  item to add to hashtable
  * 
  * Return:

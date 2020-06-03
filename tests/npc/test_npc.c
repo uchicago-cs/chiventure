@@ -164,7 +164,6 @@ Test(npc, remove_item_from_npc)
                  "add an item to npc");
     
     rc = remove_item_from_npc(npc, test_item);
-    printf("%d\n", rc);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_npc failed to "
                  "remove an item from npc");
 }
