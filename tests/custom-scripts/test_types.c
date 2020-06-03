@@ -19,7 +19,7 @@ Test(custom_type, obj_t_new)
  */
 Test(custom_type, obj_t_new_bool)
 {
-    object_t *ot = obj_t_bool(true, NULL);
+    object_t *ot = obj_t_bool(true, NULL, NULL);
     cr_assert_eq(ot->type, BOOL_TYPE, "obj_t_bool: failed type assignment");
     cr_assert_eq(ot->is_lua, false, "obj_t_bool: failed is_lua assignment");
     cr_assert_eq(ot->data.b, true, "obj_t_bool: failed bool assignment");
@@ -30,7 +30,7 @@ Test(custom_type, obj_t_new_bool)
  */
 Test(custom_type, obj_t_new_bool_lua)
 {   
-    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua");
+    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua", NULL);
     cr_assert_eq(ot->type, BOOL_TYPE, "obj_t_bool: failed type assignment");
     cr_assert_eq(ot->is_lua, true, "obj_t_bool: failed is_lua assignment");
     cr_assert_eq(ot->data.lua, "../../../tests/custom-scripts/Lua_file/bool_test.lua",
@@ -111,7 +111,7 @@ Test(custom_type, obj_t_new_str_lua)
  */
 Test(custom_type, obj_t_get_bool)
 {
-    object_t *ot = obj_t_bool(true, NULL);
+    object_t *ot = obj_t_bool(true, NULL, NULL);
     bool rv = bool_t_get(ot);
     cr_assert_eq(rv, true, "obj_t_get_bool: failed bool direct retrieval");
 }
@@ -121,7 +121,7 @@ Test(custom_type, obj_t_get_bool)
  */
 Test(custom_type, obj_t_get_bool_lua)
 {
-    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua");
+    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua", NULL);
     bool rv = bool_t_get(ot);
     cr_assert_eq((rv ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
 

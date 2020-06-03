@@ -84,12 +84,10 @@ arg_t *arg_t_bool(bool b);
 /**
  * arg_t_add() adds an arg_t struct to the end of the arg_t linked list
  * Parameters:
- * - argument struct to be added
- * Returns:
- * - head element of the linked list
+ * - head of the arg_t linked list
+ * - arg_t struct to be added
  */
-
-arg_t *arg_t_add(bool );
+void arg_t_add(arg_t *head, arg_t *add);
 
 
 /**
@@ -104,10 +102,11 @@ object_t *obj_t_new();
  * Parameters:
  * - bool value to be stored
  * - Lua script (NULL if no script to be specified)
+ * - argument linked list to be passed to Lua if applicable
  * Returns:
  * - pointer to an object struct containing the bool
  */
-object_t *obj_t_bool(bool b, char *lua);
+object_t *obj_t_bool(bool b, char *lua, arg_t* head);
 
 /**
  * obj_t_char() creates an object_t struct containing a char
