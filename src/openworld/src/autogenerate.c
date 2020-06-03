@@ -20,55 +20,6 @@
 #include "openworld/gen_structs.h"
 #include "openworld/default_rooms.h"
 
-/*      HELPER FUNCTION TO SPLICE INTEGER FROM END
-*       source: stackoverflow.com
- *      Remove given section from string. Negative len means remove
- *      everything up to the end.
- */
-char *str_slice(char str[], int slice_from, int slice_to)
-{
-    // if a string is empty, returns nothing
-    if (str[0] == '\0')
-        return NULL;
-
-    char *buffer;
-    size_t str_len, buffer_len;
-
-    // for negative indexes "slice_from" must be less "slice_to"
-    if (slice_to < 0 && slice_from < slice_to) {
-        str_len = strlen(str);
-
-        // if "slice_to" goes beyond permissible limits
-        if (abs(slice_to) > str_len - 1)
-            return NULL;
-
-        // if "slice_from" goes beyond permissible limits
-        if (abs(slice_from) > str_len)
-            slice_from = (-1) * str_len;
-
-        buffer_len = slice_to - slice_from;
-        str += (str_len + slice_from);
-
-        // for positive indexes "slice_from" must be more "slice_to"
-    } else if (slice_from >= 0 && slice_to > slice_from) {
-        str_len = strlen(str);
-
-        // if "slice_from" goes beyond permissible limits
-        if (slice_from > str_len - 1)
-            return NULL;
-
-        buffer_len = slice_to - slice_from;
-        str += slice_from;
-
-        // otherwise, returns NULL
-    } else
-        return NULL;
-
-    buffer = calloc(buffer_len, sizeof(char));
-    strncpy(buffer, str, buffer_len);
-    return buffer;
-}
-
 /* See autogenerate.h */
 bool path_exists_in_dir(room_t *r, char *direction)
 {
@@ -88,22 +39,18 @@ bool path_exists_in_dir(room_t *r, char *direction)
 }
 
 /* See autogenerate.h */
-room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id)
+room_t* roomspec_to_room(roomspec_t *roomspec)
 {
-    room_t *res = room_new(room_id, roomspec->short_desc, roomspec->long_desc);
-
-    item_hash_t *current, *tmp;
-	char buff[MAX_SDESC_LEN + 1] = { 0 }; // Will hold unique room_id
-
-    HASH_ITER(hh, roomspec->items, current, tmp) {
-        assert(SUCCESS == copy_item_to_hash(&res->items, roomspec->items, current->item_id));
-		// Append num_built value to the roomspec's room_name
-		snprintf(buff, MAX_SDESC_LEN, "%s%d", tmp->spec->room_name, tmp->spec->num_built);
-    }
-
+    // moved- generate the unique room id here and pass it to the room; don't mess with the roomspec
+    char buff[MAX_SDESC_LEN + 1] = { 0 }; // Will hold unique room_id
+    snprintf(buff, MAX_SDESC_LEN, "%s%d", roomspec->room_name, roomspec->num_built);
+    
     roomspec->num_built++;
+    
+    room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc); // new- we use buff for the room name instead
+    res->items = random_items(roomspec); // new- instead of taking all the items, just take a few of them
+    
     res->paths = NULL;
-
     return res;
 }
 
@@ -132,10 +79,8 @@ int room_generate(game_t *game, gencontext_t *context, roomspec_t *rspec)
         }
 
         //create new combination of rooms/items from randomly picked roomspec
-        roomspec_t *r = copy_room(room_id, context->speclist);
-
         // Adds one generated room from the head of context->speclist only
-        room_t *new_room = roomspec_to_room(r, room_id);
+        room_t *new_room = roomspec_to_room(rspec);
         assert(SUCCESS == add_room_to_game(game, new_room));
 
         // Path to the generated room
@@ -166,7 +111,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id)
     speclist_t *tmp;
 
     DL_FOREACH(context->speclist, tmp) {
-		roomspec_t *rspec = copy_room(room_id, context->speclist);
+	roomspec_t *rspec = copy_room(room_id, context->speclist);
         // Increments tmp->spec->num_built
         room_generate(game, context, rspec);
     }
@@ -199,18 +144,6 @@ roomspec_t *copy_room(char *room_id, speclist_t* spec)
 	// Specify roomspec content from speclist
 	roomspec_t *r = random_room_lookup(spec);
 	return r;
-	/*
-    char *spliced = NULL;
-
-    spliced = str_slice(room_id, 0, strlen(room_id) - 2);
-    roomspec_t *hash = make_default_room(spliced, NULL, NULL);
-
-    int rc = speclist_from_hash(&spec, hash);
-    // Specify roomspec content from speclist
-    roomspec_t *r = random_room_lookup(spec);
-
-    return r;
-	*/
 }
 
 /* See autogenerate.h */
@@ -247,11 +180,10 @@ item_hash_t *random_items(roomspec_t *room)
     int num_items = rand() % 6, num_iters = rand() % count;
 
     item_hash_t *items = NULL;
-
     for (int i = 0; i < num_items; i++) {
         int rc = random_item_lookup(&items, room->items, num_iters);
     }
-
+    if (items == NULL) return NULL;
     return items;
 }
 

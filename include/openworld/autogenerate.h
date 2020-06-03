@@ -54,7 +54,6 @@ bool path_exists_in_dir(room_t *r, char *direction);
 *
 * parameters:
 * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
-* - room_id: A unique room_id string for the to-be-generated room.
 *
 * side effects:
 * - Creates a new room_t pointer on the heap.
@@ -62,7 +61,7 @@ bool path_exists_in_dir(room_t *r, char *direction);
 * returns:
 * The generated room_t struct pointer.
 */
-room_t* roomspec_to_room(roomspec_t *roomspec, char *room_id);
+room_t* roomspec_to_room(roomspec_t *roomspec);
 
 
 /*
