@@ -29,7 +29,7 @@ char *print_start_battle(battle_t *b)
 /* see battle_print.h */
 int print_hp(battle_t* b, char* string)
 {
-    combatant_t *player_hp = b->player->stats->hp;
+    int player_hp = b->player->stats->hp;
     string += sprintf(string, "-- Your HP: %d\n", player_hp);
 
     combatant_t *enemies = b->enemy;
@@ -37,7 +37,7 @@ int print_hp(battle_t* b, char* string)
     DL_FOREACH(enemies, enemy_elt)
     {
         char* name = enemy_elt->name;
-        char* enemy_hp = enemy_elt->stats->hp;
+        int enemy_hp = enemy_elt->stats->hp;
 
         string += sprintf(string, "-- %s's HP: %d\n", name, enemy_hp);
     }
