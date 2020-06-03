@@ -66,10 +66,8 @@ int class_skills_init(class_t* class)
     if (combat == NULL || noncombat == NULL)
     {
         fprintf(stderr, "Could not allocate memory for skill inventories"
-                        "in class_skills_init\n");
-        return EXIT_FAILURE;
+                        "in class_skills_init\n", );
     }
-    
     class->skilltree = tree;
     class->combat = combat;
     class->noncombat = noncombat;
@@ -155,6 +153,10 @@ int class_free(class_t* class)
     }
     if (class->skilltree != NULL)
     {
+        if (class->skilltree->skilltree != NULL)
+        {
+            obj_free(class->skilltree->skilltree);
+        }
         free(class->skilltree); // stub placeholder free
     }
     if (class->combat != NULL)
