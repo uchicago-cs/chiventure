@@ -160,7 +160,7 @@ Test(battle_flow, start_battle)
 }
 
 /* this tests to see if it returns a ctx_battle */
-Test(battle_flow, init_battle_flow)
+Test(battle_flow, return_not_null_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
