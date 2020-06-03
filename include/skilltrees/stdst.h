@@ -190,7 +190,7 @@ typedef struct skill_tree {
     skill_node_t** nodes;
 
     // The number of tree nodes
-    unsigned int nnodes;
+    unsigned int num_nodes;
 
 } skill_tree_t;
 
