@@ -46,7 +46,10 @@ int npc_free(npc_t *npc)
 {
     assert(npc != NULL);
     
-    convo_free(npc->dialogue);
+    if (npc->dialogue != NULL)
+    {
+        convo_free(npc->dialogue);
+    }
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
