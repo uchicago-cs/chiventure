@@ -34,6 +34,73 @@ Test(battle_print, print_start_battle)
     free(string);
 }
 
+/* Tests print_hp() for battle against one enemy */
+Test(battle_print, print_hp_one_enemy)
+{
+    /* Setting up a battle with set_battle */
+    stat_t *player_stats = calloc(1,sizeof(stat_t));
+    stat_t *enemy_stats = calloc(1,sizeof(stat_t));
+    player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, NULL);
+    environment_t env = ENV_DESERT;
+    battle_t *b = set_battle(ctx_player, npc_enemy, env);
+    cr_assert_not_null(b, "set_battle() failed");
+    b->player->stats->hp = 89;
+    b->enemy->stats->hp = 64;
+
+    /* Set up string to store message in */
+    char* string = calloc(1, BUFFER_SIZE);
+
+    /* Test print_hp() */
+    int rc = print_hp(b, string);
+    cr_assert_eq(rc, SUCCESS, "print_hp() failed");
+
+    char *expected_string = "-- Your HP: 89\n"
+                            "-- Bob's HP: 64\n";
+
+    cr_expect_str_eq(string, expected_string, "print_hp() failed to set string");
+
+    free(string);
+}
+
+/* Tests print_hp() for battle against two enemies */
+Test(battle_print, print_hp_two_enemies)
+{
+    /* Setting up a battle with set_battle */
+    stat_t *player_stats = calloc(1,sizeof(stat_t));
+    stat_t *e1_stats = calloc(1,sizeof(stat_t));
+    stat_t *e2_stats = calloc(1,sizeof(stat_t));
+    player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    npc_enemy_t *head = NULL;
+    npc_enemy_t *e1 = make_npc_enemy("Bob", NULL, e1_stats, NULL, NULL);
+    npc_enemy_t *e2 = make_npc_enemy("Annie", NULL, e2_stats, NULL, NULL);
+    DL_APPEND(head, e1);
+    DL_APPEND(head, e2);
+    cr_assert_not_null(e1, "make_npc_enemy() failed");
+    cr_assert_not_null(e2, "make_npc_enemy() failed");
+    environment_t env = ENV_DESERT;
+    battle_t *b = set_battle(ctx_player, head, env);
+    cr_assert_not_null(b, "set_battle() failed");
+    b->player->stats->hp = 89;
+    b->enemy->stats->hp = 64;
+    b->next->enemy->stats->hp = 75;
+
+    /* Set up string to store message in */
+    char* string = calloc(1, BUFFER_SIZE);
+
+    /* Test print_hp() */
+    int rc = print_hp(b, string);
+    cr_assert_eq(rc, SUCCESS, "print_hp() failed");
+
+    char *expected_string = "-- Your HP: 89\n"
+                            "-- Bob's HP: 64\n"
+                            "-- Annie's HP: 75\n";
+
+    cr_expect_str_eq(string, expected_string, "print_hp() failed to set string");
+
+    free(string);
+}
+
 /* Tests print_battle_move() on a player move */
 Test(battle_print, print_player_move)
 {
