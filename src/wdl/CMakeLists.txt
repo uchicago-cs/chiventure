@@ -8,9 +8,10 @@ add_library(wdl
             src/wdlparser.c)
 
 target_include_directories(wdl PRIVATE src/)
+target_include_directories(wdl PRIVATE ${LIBZIP_INCLUDE_DIR})
+target_include_directories(wdl PRIVATE ${JSONC_INCLUDE_DIR})
 
-target_link_libraries(wdl libobj)
-target_link_libraries(wdl ${JSONC_LIBRARIES} ${LIBZIP_LIBRARIES})
+target_link_libraries(wdl libobj ${JSONC_LIBRARIES} ${LIBZIP_LIBRARIES})
 
 
 
