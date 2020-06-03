@@ -1,7 +1,7 @@
 .PHONY: clean all
-BIN = parsetojsonobj
-SRCS = parsetojsonobj.c
-OBJS = parsetojsonobj.o
+BIN = wdlparser
+SRCS = wdlparser.c
+OBJS = wdlparser.o
 
 CC = gcc
 CFLAGS = -g -O2 -Wall -Wextra -fPIC -c -I /usr/include/
@@ -11,7 +11,7 @@ LDLIBS = -ljson-c -lzip
 LD_LIBRARY_PATH = /usr/lib/x86_64-linux-gnu/
 
 
-$(BIN): parsetojsonobj.o
+$(BIN): wdlparser.o
 		$(CC) $(DYN_LDFAGS) $^ -o $@ $(LDLIBS)
 
 $(OBJS): %.o:%.c
