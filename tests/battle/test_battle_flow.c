@@ -242,8 +242,8 @@ Test(battle_flow, battle_over_by_player)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 10;
-    ctx = battle_flow(ctx, move, "Enemy");
-    cr_assert_not_null(ctx, "battle_flow() returned NULL");
+    int res = battle_flow(ctx, move, "Enemy");
+    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
     int res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
     cr_assert_eq(ctx->game->battle->player->stats->hp,
@@ -276,8 +276,8 @@ Test(battle_flow, battle_over_by_enemy)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 10;
-    ctx = battle_flow(ctx, move, "Enemy");
-    cr_assert_not_null(ctx, "battle_flow returned NULL");
+    int res = battle_flow(ctx, move, "Enemy");
+    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
     int res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
