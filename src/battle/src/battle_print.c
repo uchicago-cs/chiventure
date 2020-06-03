@@ -29,9 +29,10 @@ char *print_start_battle(battle_t *b)
 /* see battle_print.h */
 int print_hp(battle_t* b, char* string)
 {
+    int slen = strlen(string);
+
     int player_hp = b->player->stats->hp;
-    sprintf(string + strlen(string), "-- Your HP: %d\n", player_hp);
-    printf("%s",string);
+    slen += sprintf(string + slen, "-- Your HP: %d\n", player_hp);
     combatant_t *enemies = b->enemy;
     combatant_t *enemy_elt;
     DL_FOREACH(enemies, enemy_elt)
@@ -39,10 +40,8 @@ int print_hp(battle_t* b, char* string)
         char* name = enemy_elt->name;
         int enemy_hp = enemy_elt->stats->hp;
 
-        sprintf(string + strlen(string), "-- %s's HP: %d\n", name, enemy_hp);
-        printf("%s",string);
+        slen += sprintf(string + slen, "-- %s's HP: %d\n", name, enemy_hp);
     }
-    printf("%s",string);
     return SUCCESS;
 }
 
