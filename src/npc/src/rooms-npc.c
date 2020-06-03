@@ -75,7 +75,7 @@ npc_mov_t* npc_mov_new(char* npc_id, npc_mov_enum_t mov_type, room_t* room)
     if (mov_type == NPC_MOV_DEFINITE)
     {
         npc_mov->npc_mov_type.npc_mov_definite = malloc(sizeof(npc_mov_definite_t));
-        memset(npc_mov->npc_mov_type.movnpc_mov_definite_def, 0, sizeof(npc_mov_definite_t));
+        memset(npc_mov->npc_mov_type.npc_mov_definite, 0, sizeof(npc_mov_definite_t));
 
     }
     else if (mov_type == NPC_MOV_INDEFINITE )
