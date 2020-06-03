@@ -7,6 +7,8 @@ set(CMAKE_BUILD_TYPE Debug)
 
 find_package(Protobuf-c REQUIRED)
 find_package(LibYAML REQUIRED)
+find_package(JSON-C REQUIRED)
+find_package(LibZIP REQUIRED)
 
 set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
