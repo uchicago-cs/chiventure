@@ -42,7 +42,7 @@ int *print_hp(battle_t* b, char* string)
         string += sprintf(string, "-- %s's HP: %d\n", name, enemy_hp);
     }
 
-    return string;
+    return SUCCESS;
 }
 
 /* see battle_print.h */
