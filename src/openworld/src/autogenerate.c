@@ -44,12 +44,12 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     // moved- generate the unique room id here and pass it to the room; don't mess with the roomspec
     char buff[MAX_SDESC_LEN + 1] = { 0 }; // Will hold unique room_id
     snprintf(buff, MAX_SDESC_LEN, "%s%d", roomspec->room_name, roomspec->num_built);
-    
+
     roomspec->num_built++;
-    
+
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc); // new- we use buff for the room name instead
     res->items = random_items(roomspec); // new- instead of taking all the items, just take a few of them
-    
+
     res->paths = NULL;
     return res;
 }
@@ -107,8 +107,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
     }
     // Iterate through the speclist field, generating and adding rooms for each
     speclist_t *tmp;
-    for (int i = 0; i < num_rooms; i++)
-    {
+    for (int i = 0; i < num_rooms; i++) {
         roomspec_t *rspec = random_room_lookup(context->speclist);
         // Increments tmp->spec->num_built
         room_generate(game, context, rspec);
