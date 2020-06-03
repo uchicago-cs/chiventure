@@ -137,12 +137,14 @@ object_t *obj_t_str(char *s, char *lua, arg_t* head)
 int push_args(lua_State *L, object_t* ot) {
     int count = 0; // number of arguments in linked list
     arg_t *head = ot->args;
-    data_type_t type = ot->type;
 
     // push arguments one-by-one
     while (head != NULL) {
         // incrememnt argument count
         count++;
+        
+        // identify type of argument
+        data_type_t type = head->type;
 
         // push argument to virtual stack
         switch(type) {
