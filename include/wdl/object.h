@@ -41,42 +41,6 @@ typedef enum assettype
     ASSET_SOUND = 2
 } assettype_t;
 
-typedef struct obj obj_t; // forward declaration so attribute_t can use
-
-/* 
- * a union representing the information that can be stored in an attribute
- */
-union attr_data
-{
-    bool b;
-    char c;
-    char *s;
-    int i;
-    obj_t *o;
-};
-
-/*
- * attribute_t: the attributes stored within an object
- */
-typedef struct attr
-{
-    //the attribute's id.
-    char id[MAXLEN_ID + 1];
-   
-    //the information stored in the attribute
-    union attr_data data;
-
-    //next attribute in list if attribute is list of things
-    struct attr *next;
-
-    //prev attribute in list if attribute is list of things
-    struct attr *prev;
-
-    //Required uthash indentifier for making the hash table
-    UT_hash_handle hh;
-
-} obj_attr_t;
-
 /*
  * obj_t: a struct describing a .json object.
  */
