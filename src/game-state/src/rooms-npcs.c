@@ -6,6 +6,12 @@
 #include "custom-scripts/custom_type.h"
 
 /* See npc.h */
+
+/*Object_t Description: object_t is the generic custom scripts struct 
+that can hold a variety of different types including "char*".*/
+
+/*Changes to Room_ID: We are using this struct to modify the room_id 
+which will enable custom scripts and lua files to be loaded*/ 
 int npc_in_room_init(npcs_in_room_t *npcs_in_room, object_t room_id) {
     assert(npcs_in_room != NULL);
 
@@ -17,6 +23,8 @@ int npc_in_room_init(npcs_in_room_t *npcs_in_room, object_t room_id) {
 }
 
 /* See npc.h */
+/*Changes to Room_ID: We are using this struct to modify the room_id 
+which will enable custom scripts and lua files to be loaded*/ 
 int npc_mov_init(npc_mov_t *npc_mov, object_t npc_id, npc_mov_type_e mov_type,
                 object_t room_id)
 {
@@ -30,6 +38,8 @@ int npc_mov_init(npc_mov_t *npc_mov, object_t npc_id, npc_mov_type_e mov_type,
 }
 
 /* See npc.h */
+/*Changes to Room_ID: We are using this struct to modify the room_id 
+which will enable custom scripts and lua files to be loaded*/ 
 npcs_in_room_t *npcs_in_room_new(object_t room_id){
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = malloc(sizeof(npcs_in_room_t));
@@ -45,7 +55,6 @@ npcs_in_room_t *npcs_in_room_new(object_t room_id){
     }
     return npcs_in_room;
 }
-
 
 /* See npc.h */
 int npcs_in_room_free(npcs_in_roomt_t *npcs_in_room){
