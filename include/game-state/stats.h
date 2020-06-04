@@ -273,6 +273,16 @@ int add_stat_player(stats_hash_t **sh, stats_t *s);
  */
 char *display_stats(stats_hash_t *sh);
 
+/* Compares two stat_mod_t struct for equality
+ *
+ * Parameters: 
+ * - mod1, mod2: two stat_mod_t structs
+ *
+ * Returns:
+ * 0 when equal, nonzero value when not equal
+ */
+int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2);
+
 /*
  * Adds an effect to an effects hash table
  *
@@ -283,7 +293,7 @@ char *display_stats(stats_hash_t *sh);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int add_stat_effect(effects_hash_t *hash, stat_effect_t *effect);
+int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect);
 
 /*
  * Applies an effect on a player

@@ -135,16 +135,16 @@ char* display_stats(stats_hash_t *s)
 }
 
 /* See stats.h */
-int add_stat_effect(effects_hash_t *hash, stat_effect_t *effect) {
+int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect) {
     stat_effect_t *check;
-    HASH_FIND(hh, hash, effect->key, strlen(effect->key), check);
+    HASH_FIND(hh, *hash, effect->key, strlen(effect->key), check);
 
     if (check != NULL)
     {
         return FAILURE; //the effect already exists in the player hash table
     }
 
-    HASH_ADD_KEYPTR(hh, hash, effect->key, strlen(effect->key), effect);
+    HASH_ADD_KEYPTR(hh, *hash, effect->key, strlen(effect->key), effect);
     return SUCCESS;
 }
 
@@ -167,8 +167,9 @@ int apply_effect(effects_hash_t *hash, stat_effect_t  *effect, stats_t **stats,
     HASH_FIND(hh, hash, effect->key, strlen(effect->key), check);
 
     if (check == NULL) {
-        add_stat_effect(hash, effect);
+        add_stat_effect(&hash, effect);
     }
+
     stat_mod_t *new, *tmp;
     int i;
     for (i = 0; i < num_stats; i++) {
@@ -186,6 +187,8 @@ int apply_effect(effects_hash_t *hash, stat_effect_t  *effect, stats_t **stats,
             LL_APPEND(effect->stat_list, new);
         }
     }
+
+    return SUCCESS;
 }
 
 /* See stats.h */
