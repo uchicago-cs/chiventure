@@ -2,10 +2,11 @@
 #include "game-state/item.h"
 
 /* See npc.h */
-int npc_init(npc_t *npc, char *npc_id, int health, class_t *class) //TODO-convo_t *dialogue)
+int npc_init(npc_t *npc, object_t *npc_id, int health, class_t *class) //TODO-convo_t *dialogue)
 {
     assert(npc != NULL);
-    strncpy(npc->npc_id, npc_id, strlen(npc_id));
+    npc->npc_id = npc_id;
+    //strncpy(npc->npc_id, npc_id, strlen(npc_id));
     npc->health = health;
     //TODO-npc->dialogue = dialogue;
     npc->inventory = NULL;
@@ -15,7 +16,7 @@ int npc_init(npc_t *npc, char *npc_id, int health, class_t *class) //TODO-convo_
 }
 
 /* See npc.h */
-npc_t* npc_new(char *npc_id, int health, class_t *class)
+npc_t* npc_new(object_t *npc_id, int health, class_t *class)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
