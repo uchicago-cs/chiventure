@@ -105,7 +105,7 @@ typedef struct skill_inventory {
     skill_t** active;
 
     // The number of active skills belonging to a player
-    unsigned int nactive;
+    unsigned int num_active;
 
     // The maximum number of active skills a player can possess
     // (This field helps to enforce skill tree balancing)
@@ -115,7 +115,7 @@ typedef struct skill_inventory {
     skill_t** passive;
 
     // The number of passive skills belonging to a player
-    unsigned int npassive;
+    unsigned int num_passive;
 
     // The maximum number of passive skills a player can possess
     // (This field helps to enforce skill tree balancing)
@@ -171,7 +171,7 @@ struct skill_node {
     skill_node_t** prereqs;
 
     // The number of prerequisite skill nodes
-    unsigned int nprereqs;
+    unsigned int num_prereq_skills;
 
     // The size of the skill node, for the graphics team
     unsigned int size;
@@ -190,7 +190,7 @@ typedef struct skill_tree {
     skill_node_t** nodes;
 
     // The number of tree nodes
-    unsigned int nnodes;
+    unsigned int num_nodes;
 
 } skill_tree_t;
 
@@ -202,25 +202,25 @@ typedef struct skill_tree {
  *
  * Parameters:
  *  - array: The array
- *  - alen: The length of the array
+ *  - array_len: The length of the array
  *  - element: The element to add to the array
  *
  * Returns:
  *  - A pointer to the updated array, NULL if an error occurs
  */
-void** array_element_add(void** array, unsigned int alen, void* element);
+void** array_element_add(void** array, unsigned int array_len, void* element);
 
 /*
  * A helper function. Searches a list of skills for a given skill, by sid_t.
  *
  * Parameters:
  *  - list: The skill array
- *  - llen: The length of the skill list
+ *  - list_len: The length of the skill list
  *  - sid: The skill ID of the skill to search for
  *
  * Returns:
  *  - The position of the skill in the list, -1 if the skill is not in the list
  */
-int list_has_skill(skill_t** list, unsigned int llen, sid_t sid);
+int list_has_skill(skill_t** list, unsigned int list_len, sid_t sid);
 
 #endif /* INCLUDE_STDST_H_ */

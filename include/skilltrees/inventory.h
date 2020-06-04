@@ -80,11 +80,8 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill);
  *  - inventory: A player's skill inventory
  *
  * Returns:
- *  - None
- *
- * NOTE TO DEVELOPERS: the notion of SUCCESS vs. FAILURE seems ambiguous in the
- * context of this function, hence the use of a `void` return type
+ *  - 0 on success, 1 if an error occurs
  */
-void skill_levels_update(skill_inventory_t* inventory);
+int inventory_skill_levels_update(skill_inventory_t* inventory);
 
 #endif /* INCLUDE_INVENTORY_H_ */
