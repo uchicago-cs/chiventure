@@ -5,12 +5,20 @@
 #include "game-state/item.h"
 //TODO-#include "dialogue.h"
 #include "playerclass/class_structs.h"
+#include "custom-scripts/custom_type.h"
 
 /* A non-playable character in game */
+
+/*Object_t Description: object_t is the generic custom scripts struct 
+that can hold a variety of different types including "char *".*/
+
+/*Changes to Room_ID: We are using this struct to modify the npc_id 
+which will enable custom scripts and lua files to be loaded*/
+
 typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
-    char *npc_id;
+    object_t *npc_id;
     int health;
     // convo_t *dialogue;  placeholder for incoming dialogue module
     item_hash_t *inventory;
@@ -40,7 +48,7 @@ typedef struct npc npc_hash_t;
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
-int npc_init(npc_t *npc, char *npc_id, int health, class_t *class);
+int npc_init(npc_t *npc, object_t *npc_id, int health, class_t *class);
 
 
 /*
@@ -56,7 +64,7 @@ int npc_init(npc_t *npc, char *npc_id, int health, class_t *class);
  * Returns:
  *  pointer to allocated npc
  */
- npc_t* npc_new(char *npc_id, int health, class_t *class);
+ npc_t* npc_new(object_t *npc_id, int health, class_t *class);
 
 
 /*
