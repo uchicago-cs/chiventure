@@ -101,14 +101,13 @@ char* parse(const char *zipdirname) {
                     //Parse into a JSON file
                     struct json_object *THEJSONOBJ;
                     makejsonobj(THEJSONOBJ, name, dir);
+                    assert(THEJSONOBJ);
 
                     //Get objtype e type using its name
                     objtype_t filetype = get_objtype(name);
 
                     //Gets each object in the .json file (Such as actions.json) and adds to obj_store
                     json_object_object_foreach(THEJSONOBJ, key, val){
-                        printf("The value is: %s\n", json_object_to_json_string_ext(val, 0));
-                        return (char *) json_object_to_json_string_ext(val, 0);
                         /*Planning on making this an object function*/
                         if (json_object_is_type(val, json_type_boolean )	){
                             //add boolean attribute with id key and objtype filetype

@@ -3,5 +3,9 @@
 #include <wdl/objstore.h>
 
 
-//Include directories that make it possible to add objects
+void makejsonobj(struct json_object *jobject, const char* filename, zip_t* dir);
+
+objtype_t get_objtype(const char* name);
+
+char* parse(const char *zipdirname);
 
