@@ -41,13 +41,13 @@ int set_item_attributes(chiventure_ctx_t *ctx)
             item = get_item_in_room(dining_room, "BREAD");
             break;
         case 1:
-            item = get_item_in_room(dining_room, "SPAGHETTI");
-            break;
-        case 2:
             item = get_item_in_room(dining_room, "SALAD");
             break;
-        case 3: 
+        case 2:
             item = get_item_in_room(dining_room, "WATER");
+            break;
+        case 3: 
+            item = get_item_in_room(dining_room, "SPAGHETTI");
             break;
         default:
             break;
@@ -87,11 +87,43 @@ int set_item_attributes(chiventure_ctx_t *ctx)
 /* Hard codes end conditions in the sample game */
 int add_end_conditions(chiventure_ctx_t *ctx)
 {
-    /* TODO:
-     * Add end conditions for each food item - "consumed" must be true 
-     * Spaghetti, bread, salad, water*/
+    game_t *game = ctx->game;
+    attribute_value_t val_true;
+    val_true.bool_val = true;
+    attribute_value_t val_false;
+    val_false.bool_val = false;
+    room_t *dining_room = find_room_from_game(game, "dining room");
     
-    return 1;
+    /* Add end condition that "CONSUMED" must equal true for all food items */
+    for (int i = 0; i < 4; i++)
+    {
+        item_t *item;
+        switch (i)
+        {
+        case 0:
+            item = get_item_in_room(dining_room, "BREAD");
+            break;
+        case 1:
+            item = get_item_in_room(dining_room, "SALAD");
+            break;
+        case 2:
+            item = get_item_in_room(dining_room, "WATER");
+            break;
+        case 3: 
+            item = get_item_in_room(dining_room, "SPAGHETTI");
+            break;
+        default:
+            break;
+        }
+        
+        add_item_to_game(game, item); // necessary for add_end_condition_to_game
+        attribute_t *attr = get_attribute(item, "CONSUMED");
+        game_action_condition_t *new_condition = condition_new(item, attr, val_true);
+        add_end_condition_to_game(game, new_condition);
+    }
+    
+    
+    return 0;
 }
 
 /* Hard codes inventory conditions in the sample game */
