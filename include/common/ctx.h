@@ -28,7 +28,9 @@ typedef struct chiventure_ctx {
  * Allocates and initializes a new chiventure context.
  *
  * Parameters:
- *  - game: The game to be run in this context (can be NULL)
+ *  - game: The game to be run in this context.
+ *          If NULL, an empty game is created that simply
+ *          warns the user they need to load a game.
  *
  * Returns:
  *  - A pointer to the context, or NULL if it cannot be allocated
@@ -41,7 +43,9 @@ chiventure_ctx_t* chiventure_ctx_new(game_t *game);
  *
  * Parameters:
  *  - ctx: A chiventure context. Must already point to allocated memory
- *  - game: The game to be run in this context (can be NULL)
+ *  - game: The game to be run in this context.
+ *          If NULL, an empty game is created that simply
+ *          warns the user they need to load a game.
  *
  * Returns:
  *  - 0 on success, 1 if an error occurs.
