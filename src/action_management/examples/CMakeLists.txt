@@ -10,6 +10,6 @@ foreach(example ${ACTION_MANAGEMENT_EXAMPLES})
     endforeach(module)
 endforeach(example)
 
-add_custom_target(action-management-examples
+add_custom_target(action_management-examples
         DEPENDS ${ACTION_MANAGEMENT_EXAMPLES})
 

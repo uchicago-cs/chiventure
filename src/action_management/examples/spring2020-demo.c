@@ -4,9 +4,6 @@
  *  - End conditions
  *  - Inventory conditons
  *  - Conditional connections between rooms
- * 
- * Additionally, the CLI is monkeypatched to accept "CONSUME", "DRINK",
- * and "USE" as synonyms for "EAT"
  */
 
 #include <stdio.h>
@@ -144,13 +141,6 @@ int add_conditional_room_connections(chiventure_ctx_t *ctx)
     return 1;
 }
 
-/* Hardcodes CLI support for eat synonyms in the sample game */
-int add_eat_synonyms(chiventure_ctx_t *ctx)
-{
-    /* TODO */
-    return 1;
-}
-
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = chiventure_ctx_new("../src/action_management/"
@@ -160,7 +150,6 @@ int main(int argc, char **argv)
     add_end_conditions(ctx);
     add_inventory_conditions(ctx);
     add_conditional_room_connections(ctx);
-    add_eat_synonyms(ctx);
 
     start_ui(ctx, banner);
 
