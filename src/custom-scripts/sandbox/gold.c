@@ -1,4 +1,3 @@
-#include "lauxlib.h"
 #include <stdlib.h> 
 #include "lua.h"
 #include "lualib.h"
