@@ -6,6 +6,7 @@
 #include "battle/battle_move_maker.h"
 #include "../../playerclass/examples/class-list.c"
 
+/* See battle_move_maker.h */
 player_t *add_class_move(player_t *player)
 {
     move_list_t *moves = move_list();
