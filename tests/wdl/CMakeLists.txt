@@ -22,3 +22,4 @@ target_link_libraries(${TEST_EXE} ${JSONC_LIBRARIES} ${LIBZIP_LIBRARIES})
 
 target_include_directories(${TEST_EXE} PRIVATE ${LIBZIP_INCLUDE_DIR})
 target_include_directories(${TEST_EXE} PRIVATE ${JSONC_INCLUDE_DIR})
+target_include_directories(${TEST_EXE} PRIVATE ${CMAKE_SOURCE_DIR}/src/wdl/src/)

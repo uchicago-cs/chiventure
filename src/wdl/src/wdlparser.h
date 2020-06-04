@@ -7,5 +7,5 @@ void makejsonobj(struct json_object *jobject, const char* filename, zip_t* dir);
 
 objtype_t get_objtype(const char* name);
 
-int parse(const char *zipdirname);
+int parse_wdz(const char *zipdirname);
 

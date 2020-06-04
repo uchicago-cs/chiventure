@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <unistd.h>
+
 
 #include "wdlparser.h"
 #define MAX_DIRECTORY_LENGTH 100
-#define MAX_BYTES 4096
+#define MAX_BYTES 4096000
 
 void jsonobj_to_obj(struct json_object *jobject, char* key, struct json_object *val, objtype_t filetype){
     if (json_object_is_type(val, json_type_boolean )	){
@@ -94,13 +96,18 @@ objtype_t get_objtype(const char* name){
     }
     return TYPE_NONE; }
 
-int parse(const char *zipdirname) {
+int parse_wdz(const char *zipdirname) {
     printf("In here\n");
 
     char game_buffer[MAX_BYTES];
     //This pointer will hold an int value if zip_t fails.
     int* p = malloc(sizeof(int));
+    if (getcwd(game_buffer, sizeof(game_buffer)) != NULL) {
+       printf("Current working dir: %s\n", game_buffer);
+    }
+    
     zip_t* dir = zip_open(zipdirname, 0, p);
+    
     assert(dir);
 
     
