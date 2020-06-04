@@ -2,24 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#define MAX_INPUT_CHARS     9
+#define MAX_INPUT_CHARS 20
 
 typedef struct _cmd {
 	char *cmd;
 	char *action;
-}cmd_t;
+} cmd_t;
 
 int cmd_init(cmd_t *c, char *cmd1, char *action) {
-    if (c != NULL) {
-    	c->cmd = cmd1;
-    	c->action = action;
-
-    	return 1;
+    if (c == NULL) {
+    	printf("error\n");
 	}
-
-	else {
-		printf("error\n");
-	}
+	
+	c->cmd = cmd1;
+    c->action = action;
+    return 1;
 }
 
 cmd_t* cmd_new(char *cmd1, char *action) {
@@ -28,13 +25,13 @@ cmd_t* cmd_new(char *cmd1, char *action) {
 
     c = malloc(sizeof(cmd_t));
 
-    if(c == NULL) {
+    if (c == NULL) {
         printf("Could not allocate memory");
         return NULL;
     }
 
     rc = cmd_init(c, cmd1, action);
-    if(rc != 1) {
+    if (rc != 1) {
         printf("Could not initialize cmd\n");
         return NULL;
     }
@@ -42,13 +39,14 @@ cmd_t* cmd_new(char *cmd1, char *action) {
     return c;
 }
 
-char *look = "look";
-char *see = "You see a small green leaf on the path.";
-
-char *grab = "grab";
-char *leaf = "You grab a leaf from the path.";
-
 int main() {
+
+	char *look = "look";
+	char *see = "You see a small green leaf on the path.";
+
+	char *grab = "grab";
+	char *leaf = "You grab a leaf from the path.";
+
 	//initializing test commands
 	cmd_t *look_cmd = cmd_new(look, see);
 	cmd_t *grab_cmd = cmd_new(grab, leaf);
@@ -66,16 +64,24 @@ int main() {
 	Texture2D texture = LoadTextureFromImage(room);
 
 	//creating a rectangle the size of the window
-	Rectangle window = { 0, 0, 1200, 700 };
-
+	int WindowWidth = 1200;
+	int WindowHeight = 700;
+	Rectangle window = { 0, 0, WindowWidth, WindowHeight };
+	
 	//initializing input text box
 	char name[MAX_INPUT_CHARS + 1] = "\0";
 	int letterCount = 0;
-	Rectangle textBox = { 0, ScreenHeight - 30, 225, 30 };
+	int textBoxY = ScreenHeight - 30;
+	int textBoxWidth = 225;
+	int textBoxHeight = 30;
+
+	Rectangle textBox = { 0, textBoxY, textBoxWidth, textBoxHeight };
 	bool mouseOnText = false;
 
 	//initializing output text box
-	Rectangle output = { 10, ScreenHeight - 140, ScreenWidth, 120 };
+	int outputX = 10;
+	int outputHeight = 120;
+	Rectangle output = { outputX, ScreenHeight - 140, ScreenWidth, outputHeight };
 	char *output_text = "You see a path. There is a hollow log on the ground.";
 
    	int framesCounter = 0;
@@ -83,12 +89,14 @@ int main() {
 
 	//loop to produce window of image and text box
 	while (!WindowShouldClose()) {
-		if (CheckCollisionPointRec(GetMousePosition(), window)) mouseOnText = true;
-        else mouseOnText = false;
+		if (CheckCollisionPointRec(GetMousePosition(), window)) 
+			mouseOnText = true;
+        else 
+			mouseOnText = false;
 
         if (mouseOnText) {
             // Get pressed key (character) on the queue
-            int key = GetKeyPressed();
+        	int key = GetKeyPressed();
 
             // Check if more characters have been pressed on the same frame
             while (key > 0) {
@@ -102,8 +110,7 @@ int main() {
                 key = GetKeyPressed();  // Check next character in the queue
             }
 
-            if (IsKeyPressed(KEY_BACKSPACE))
-            {
+            if (IsKeyPressed(KEY_BACKSPACE)) {
                 letterCount--;
                 name[letterCount] = '\0';
 
@@ -111,24 +118,25 @@ int main() {
             }
         }
 
-      	if (mouseOnText) framesCounter++;
-        else framesCounter = 0;
+		if (mouseOnText) framesCounter++;
+		else framesCounter = 0;
 
-	if (IsKeyPressed(KEY_ENTER)) {
-		if (strcmp(name, look_cmd->cmd) == 0) 
-			output_text = look_cmd->action;
-		else if (strcmp(name, grab_cmd->cmd) == 0) 
-			output_text = grab_cmd->action;
+		if (IsKeyPressed(KEY_ENTER)) {
+			if (strcmp(name, look_cmd->cmd) == 0) 
+				output_text = look_cmd->action;
+			else if (strcmp(name, grab_cmd->cmd) == 0) 
+				output_text = grab_cmd->action;
 
-		// erases text in the text input, clearing the screen
-		int length = letterCount;
-		for(int i = 0; i < length; i++) {
-			letterCount--;
-			name[letterCount] = '\0';
+			// erases text in the text input, clearing the screen
+			int length = letterCount;
+			for(int i = 0; i < length; i++) {
+				letterCount--;
+				name[letterCount] = '\0';
+			}
+				
+			if (letterCount < 0) 
+				letterCount = 0;
 		}
-			
-		if (letterCount < 0) letterCount = 0;
-	}
 
 		//Draw Image
 		BeginDrawing();
@@ -136,23 +144,21 @@ int main() {
 		ClearBackground(RAYWHITE);
 		DrawTexture(texture, ScreenWidth/2 - texture.width/2,
 					0, WHITE);
+		DrawRectangleRec(textBox, WHITE);
+		DrawRectangle(0, ScreenHeight - 150, ScreenWidth, 120, WHITE);
+		DrawRectangleLines(0, ScreenHeight - 150, ScreenWidth, 150, BLACK);
 
-			DrawRectangleRec(textBox, WHITE);
+		if (mouseOnText) {
+			DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 
-			DrawRectangle(0, ScreenHeight - 150, ScreenWidth, 120, WHITE);
-
-			DrawRectangleLines(0, ScreenHeight - 150, ScreenWidth, 150, BLACK);
-
-			if (mouseOnText) {
-				DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
-				if (((framesCounter / 5)%2) == 0)
-					DrawText("_", textBox.x + 5 + MeasureText(name, 21), textBox.y + 10, 20, DARKGRAY);
-			}
-            DrawText(name, textBox.x + 5, textBox.y + 8, 20, BLACK);
-
+			if (((framesCounter / 5)%2) == 0)
+				DrawText("_", textBox.x + 5 + MeasureText(name, 21), textBox.y + 10, 20, DARKGRAY);
+		}
+    
+		DrawText(name, textBox.x + 5, textBox.y + 8, 20, BLACK);
 		Font test = GetFontDefault();
 		DrawTextRec(test, output_text, output, 20, 5, true, BLACK);
-		EndDrawing();
+		EndDrawing(); 
 	}
 
 	UnloadTexture(texture);
