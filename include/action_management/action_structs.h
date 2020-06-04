@@ -46,16 +46,21 @@ enum action_kind {
 };
 
 
+/* Forward room declaration */
+typedef struct room room_t;
+
+
 /* An action struct that contains the following:
  * - c_name: the 'canonical' string that should call the enum
  * - kind: an enumeration of the kind of action
- * - trigger: the room_id of the room that requires the action to be done
- *		before entry.
+ * - room: the room that requires the action to be done before entry.
+ * - direction: direction of path.
  */
 typedef struct {
     char *c_name; // e.g. "eat"
     enum action_kind kind; // e.g. KIND_1
-    char *trigger;
+    room_t *room;
+    char *direction;
 } action_type_t;
 
 

@@ -55,7 +55,8 @@ int remove_condition(path_t *path, action_type_t *a)
     if (path->conditions == NULL) {
 	set_bool_attr(path->through, "OPEN", true);
     }
-    a->trigger = 0;
+    a->room = NULL;
+    a->direction = NULL;
     return check;
 }
 

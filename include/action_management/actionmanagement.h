@@ -58,12 +58,14 @@ int action_type_free(action_type_t *a);
  *
  * Parameters:
  * - a: An action type struct. Must point to action type struct allocated by action_type_new
- * - trigger: room_id of room that it's a condition to
+ * - room: room that action is a condition to
+ * - direction: direction of room
  *
  * Returns:
  * - SUCCESS if success
  */
-int action_type_new_trigger(action_type_t *a, char *trigger);
+int action_type_init_room_direction(action_type_t *a, room_t *room, 
+					char *direction);
 
 
 // =============================================================================

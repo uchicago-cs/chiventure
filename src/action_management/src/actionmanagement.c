@@ -43,7 +43,8 @@ int action_type_init(action_type_t *a, char *c_name, enum action_kind kind)
     assert(a);
     a->c_name = c_name;
     a->kind = kind;
-    a->trigger = NULL;
+    a->room = NULL;
+    a->direction = NULL;
 
     return SUCCESS;
 }
@@ -59,9 +60,10 @@ int action_type_free(action_type_t *a)
 
 
 /* See actionmanagement.h */
-int action_type_new_trigger(action_type_t *a, char *trigger)
+int action_type_new_trigger(action_type_t *a, room_t *room, char *direction)
 {
-    a->trigger = trigger;
+    a->room = room;
+    a->direction = direction;
     return SUCCESS;
 }
 
