@@ -72,7 +72,7 @@ objtype_t get_objtype(const char* name){
     }
     return TYPE_NONE; }
 
-int parse(const char *zipdirname) {
+char* parse(const char *zipdirname) {
 
     char game_buffer[MAX_BYTES];
     //This pointer will hold an int value if zip_t fails.
@@ -107,6 +107,8 @@ int parse(const char *zipdirname) {
 
                     //Gets each object in the .json file (Such as actions.json) and adds to obj_store
                     json_object_object_foreach(THEJSONOBJ, key, val){
+                        printf("The value is: %s\n", json_object_to_json_string_ext(val, 0));
+                        return (char *) json_object_to_json_string_ext(val, 0);
                         /*Planning on making this an object function*/
                         if (json_object_is_type(val, json_type_boolean )	){
                             //add boolean attribute with id key and objtype filetype
