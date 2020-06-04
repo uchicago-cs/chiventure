@@ -15,12 +15,17 @@ static action_type_t valid_actions[] =
     {"TURNON", ITEM},
     {"TURNOFF", ITEM},
     {"TAKE", ITEM},
+    {"PICKUP", ITEM},
     {"DROP", ITEM},
     {"CONSUME", ITEM},
+    {"USE", ITEM},
+    {"DRINK", ITEM},
+    {"EAT", ITEM},
     // KIND 2
     {"GO", PATH},
+    {"WALK", PATH},
     // KIND 3
-    {"USE", ITEM_ITEM},
+    {"USE_ON", ITEM_ITEM},
     {"PUT", ITEM_ITEM}
 };
 
@@ -36,7 +41,7 @@ list_action_type_t *get_supported_actions()
     {
         list_action_type_t *add = (list_action_type_t*)malloc(sizeof(list_action_type_t));
         action_type_t *add_data = action_type_new(valid_actions[i].c_name,
-                                  valid_actions[i].kind);
+                                  valid_actions[i].kind, 0);
         add->act = add_data;
         LL_PREPEND(temp,add);
         temp = add;
