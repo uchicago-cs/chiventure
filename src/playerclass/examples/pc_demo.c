@@ -10,12 +10,9 @@
 
 void main()
 {
-    player_t* player1 =  new_ctx_player("player1", class_t *class, stat_t *stats, move_t *moves, item_t* items);
+    move_list_t* classlist = move_list();
 
-    player1_mod = build_moves(player1);
-
-    while (player1_mod->moves) {
-      printf("%s,", player1_mod->moves->info);
-      player->moves = player->moves->next;
-    }
+    fprintf(stdout, "Please choose a class from the the following list:\n");
+    
+    
 }
