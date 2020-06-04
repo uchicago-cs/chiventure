@@ -33,7 +33,7 @@ move_list_t* move_list() {
     // Bard
 
     class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL);
-    move_list_t* bardlist = new_move_list(bard, "Diss Track", 15, 0);
+    move_list_t* bardlist = new_move_list(bard, "Diss Track", 8, 0);
 
     // Wizard
 
