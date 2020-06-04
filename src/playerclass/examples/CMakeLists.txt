@@ -5,10 +5,10 @@ add_library(playerclass_examples
 
 target_include_directories(playerclass_examples PRIVATE src/)
 
-set(PLAYERCLASS_EXAMPLES playerclass_examples)
+set(PLAYERCLASS_EXAMPLES pc_demo)
 
-add_executable(pc_demo.c
-              )
+add_executable(pc_demo
+               pc_demo.c)
 
 # Link with chiventure libraries
 foreach(example ${PLAYERCLASS_EXAMPLES})

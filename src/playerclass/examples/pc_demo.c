@@ -17,7 +17,6 @@
 #include "playerclass/class_structs.h"
 #include "demo-functions.h"
 #include "class-list.h"
-#include "../../battle/examples/battle_move_maker.h"
 
 void main()
 {
@@ -30,4 +29,6 @@ void main()
     class_show(classlist->c);
 
     fprintf(stdout, "Proceeding with battle.\n");
+    
+    fprintf(stdout, "***Battle occurs here***\n");
 }
