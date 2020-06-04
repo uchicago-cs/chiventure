@@ -4,7 +4,7 @@
 /* ---------- HASH FUNCTIONS ---------- */
 
 /* See attributes.h for documentation */
-obj_attr_t *new_attr(char *id, union attr_data d, obj_attr_t *next, obj_attr_t *prev)
+obj_attr_t *new_attr(char *id, union attr_data d)
 {
     if (id == NULL) {
         return NULL;
