@@ -119,38 +119,6 @@ typedef struct attribute_wrapped_for_llist {
 } attribute_list_t;
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
-
-typedef struct game_action_attribute_condition{
-    item_t *item;
-    attribute_t *attribute_to_check; //pointer to attribute
-    attribute_value_t expected_value;
-} game_action_attribute_condition_t;
-
-typedef struct game_action_inventory_condition{
-    player_t *player_to_check;
-    item_t *expected_item;
-} game_action_inventory_condition_t;
-
-typedef union condition_type{
-    game_action_attribute_condition_t* attr_type;
-    game_action_inventory_condition_t* inven_type;
-} condition_type_t;
-
-enum condition_tag {ATTRIBUTE,INVENTORY};
-
-typedef struct game_action_condition{
-    condition_type_t condition;
-    enum condition_tag condition_tag;
-    struct game_action_condition *next;
-} game_action_condition_t;
-
-/* This typedef is to distinguish between game_action_condition_t
-* pointers which are used to point to the game_action_condition_t structs
-* in the traditional sense, and those which are used to enable UTLIST functionality
-* on the game_action_condition_t structs as specified in src/common/include
-*/
-typedef struct game_action_condition action_condition_list_t;
-
 typedef struct game_action_effect{
     item_t *item;
     attribute_t* attribute_to_modify;
