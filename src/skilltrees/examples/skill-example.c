@@ -57,7 +57,7 @@ skill_inventory_t* knight_inventory() {
 
     skill_t* sword_slash = skill_new(2, ACTIVE, "Sword Slash", "A Knight attack that deals 9 damage.", 2, 5, effect_sword_slash);
 
-    inventory_skill_add(wizard_inventory, sword_slash);
+    inventory_skill_add(knight_inventory, sword_slash);
 
     return knight_inventory;
 }
