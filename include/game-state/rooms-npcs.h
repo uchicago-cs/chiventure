@@ -11,7 +11,11 @@
 /* Struct for adding and handling npcs in rooms */
 typedef struct npcs_in_room {
     UT_hash_handle hh;
-    object_t room_id;
+    /*Object_t Description: object_t is the generic custom scripts struct that 
+   can hold a variety of different types including "char*".*/
+   /*Changes to Room_ID: We are using this struct to modify the room_id 
+   which will enable custom scripts and lua files to be loaded*/
+    object_t room_id;    
     npc_hash_t *npc_list; //hash table storing the npcs in the room
     int num_of_npcs; //number of npcs in the room
 } npcs_in_room_t;
@@ -66,9 +70,13 @@ typedef enum mov_type npc_mov_type_e;
 
 /* Struct that deals with NPC movement for both types of npc movements */
 typedef struct npc_mov {
+    /*Changes to npc_ID: We are using this struct to modify the room_id 
+   which will enable custom scripts and lua files to be loaded*/
     object_t *npc_id; //the NPC being considered
     npc_mov_type_u *npc_mov_type; //union with the structs for both mov types
     npc_mov_type_e mov_type; //enum type of movement
+    /*Changes to track: We are using this struct to modify the track 
+   which will enable custom scripts and lua files to be loaded*/
     object_t track; //tracker variable that returns current room id
 } npc_mov_t;
 
@@ -101,6 +109,8 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, room_t *room);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
+/*Changes to npc_ID: We are using this struct to modify the npc_id 
+   which will enable custom scripts and lua files to be loaded*/
 int npc_mov_init(npc_mov_t *npc_mov, object_t npc_id, npc_mov_type_e mov_type,
                 room_t *room);
 
@@ -114,6 +124,8 @@ int npc_mov_init(npc_mov_t *npc_mov, object_t npc_id, npc_mov_type_e mov_type,
  * Returns:
  *  pointer to allocated npcs_in_room struct
  */
+/*Changes to room_id: We are using this struct to modify the room_id 
+   which will enable custom scripts and lua files to be loaded*/
 npcs_in_room_t *npcs_in_room_new(object_t room_id);
 
 
@@ -129,6 +141,10 @@ npcs_in_room_t *npcs_in_room_new(object_t room_id);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
+/*Changes to npc_ID: We are using this struct to modify the npc_id 
+   which will enable custom scripts and lua files to be loaded*/
+/*Changes to room_id: We are using this struct to modify the room_id 
+   which will enable custom scripts and lua files to be loaded*/
 npc_mov_t *npc_mov_new(object_t npc_id, npc_mov_type_e mov_type, object_t room_id);
 
 
