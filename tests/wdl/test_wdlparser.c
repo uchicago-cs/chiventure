@@ -1,6 +1,6 @@
 #include <criterion/criterion.h>
 #include "test_wdl.h"
-#include "wdl/wdlparser.h"
+#include "../../src/wdl/src/wdlparser.h"
 
 Test(wdlparser, for_each)
 {
