@@ -17,10 +17,10 @@ typedef struct npc {
     /* string identifier of the npc, <21 chars */
     char *npc_id;
 
-    /* short description of npc, <51 chars */
+    /* short description of the npc, <51 chars */
     char *short_desc;
 
-    /* long description of npc, <301 chars */
+    /* long description of the npc, <301 chars */
     char *long_desc;
 
     int health;
@@ -74,7 +74,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  * Returns:
  *  pointer to allocated npc
  */
-npc_t* npc_new(char *npc_id, char *short_desc, char *long_desc, 
+npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc, 
                int health, stats_t *stats);
 
 /*
@@ -99,7 +99,7 @@ int npc_free(npc_t *npc);
  * Returns:
  *  short description string, NULL if npc is NULL
  */
-char* get_sdesc_npc(npc_t *npc);
+char *get_sdesc_npc(npc_t *npc);
 
 /* 
  * Gets long description of npc.
@@ -110,7 +110,7 @@ char* get_sdesc_npc(npc_t *npc);
  * Returns:
  *  long description string, NULL if npc is NULL
  */
-char* get_ldesc_npc(npc_t *npc);
+char *get_ldesc_npc(npc_t *npc);
 
 /*
  * Returns the health of an npc.
@@ -132,7 +132,7 @@ int get_npc_health(npc_t *npc);
  * Returns:
  *  hashtable of items, the inventory
  */
-item_hash_t* get_npc_inv_hash(npc_t *npc);
+item_hash_t *get_npc_inv_hash(npc_t *npc);
 
 /*
  * Function to get a linked list (utlist) of all items in the npc's inventory.
@@ -143,7 +143,7 @@ item_hash_t* get_npc_inv_hash(npc_t *npc);
  * Returns:
  *  linked list of pointers to items (the head element)
  */
-item_list_t* get_npc_inv_list(npc_t *npc);
+item_list_t *get_npc_inv_list(npc_t *npc);
 
 
 // "SET" FUNCTIONS ------------------------------------------------------------

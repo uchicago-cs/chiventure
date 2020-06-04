@@ -18,8 +18,8 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 }
 
 /* See npc.h */
- npc_t* npc_new(char *npc_id, char *short_desc, char *long_desc, 
-                int health, stats_t *stats)
+npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc, 
+               int health, stats_t *stats)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -59,7 +59,7 @@ int npc_free(npc_t *npc)
 
 // "GET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
-char* get_sdesc_npc(npc_t *npc)
+char *get_sdesc_npc(npc_t *npc)
 {
     if (npc == NULL)
     {
@@ -69,7 +69,7 @@ char* get_sdesc_npc(npc_t *npc)
 }
 
 /* See npc.h */
-char* get_ldesc_npc(npc_t *npc)
+char *get_ldesc_npc(npc_t *npc)
 {
     if (npc == NULL)
     {
@@ -85,13 +85,13 @@ int get_npc_health(npc_t *npc)
 }
 
 /* See npc.h */
-item_hash_t* get_npc_inv_hash(npc_t *npc)
+item_hash_t *get_npc_inv_hash(npc_t *npc)
 {
     return npc->inventory;
 }
 
 /* See npc.h */
-item_list_t* get_npc_inv_list(npc_t *npc)
+item_list_t *get_npc_inv_list(npc_t *npc)
 {
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item;
