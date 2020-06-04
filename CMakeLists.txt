@@ -12,13 +12,9 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
-<<<<<<< HEAD
-set(CHIVENTURE_MODULES action_management checkpointing cli common game-state libobj ui wdl)
-=======
 find_package(Lua 5.3 REQUIRED) 
 
 set(CHIVENTURE_MODULES action_management battle checkpointing cli common custom-actions custom-scripts game-state libobj quests npc openworld playerclass skilltrees ui wdl)
->>>>>>> dev
 
 include_directories(include/)
 
