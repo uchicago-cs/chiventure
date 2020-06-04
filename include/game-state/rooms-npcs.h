@@ -15,7 +15,7 @@ typedef struct npcs_in_room {
    can hold a variety of different types including "char*".*/
    /*Changes to Room_ID: We are using this struct to modify the room_id 
    which will enable custom scripts and lua files to be loaded*/
-    object_t room_id;    
+    object_t *room_id;    
     npc_hash_t *npc_list; //hash table storing the npcs in the room
     int num_of_npcs; //number of npcs in the room
 } npcs_in_room_t;
@@ -77,7 +77,7 @@ typedef struct npc_mov {
     npc_mov_type_e mov_type; //enum type of movement
     /*Changes to track: We are using this struct to modify the track 
    which will enable custom scripts and lua files to be loaded*/
-    object_t track; //tracker variable that returns current room id
+    object_t *track; //tracker variable that returns current room id
 } npc_mov_t;
 
 
@@ -111,7 +111,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, room_t *room);
  */
 /*Changes to npc_ID: We are using this struct to modify the npc_id 
    which will enable custom scripts and lua files to be loaded*/
-int npc_mov_init(npc_mov_t *npc_mov, object_t npc_id, npc_mov_type_e mov_type,
+int npc_mov_init(npc_mov_t *npc_mov, object_t *npc_id, npc_mov_type_e mov_type,
                 room_t *room);
 
 
@@ -126,7 +126,7 @@ int npc_mov_init(npc_mov_t *npc_mov, object_t npc_id, npc_mov_type_e mov_type,
  */
 /*Changes to room_id: We are using this struct to modify the room_id 
    which will enable custom scripts and lua files to be loaded*/
-npcs_in_room_t *npcs_in_room_new(object_t room_id);
+npcs_in_room_t *npcs_in_room_new(object_t *room_id);
 
 
 /*
@@ -145,7 +145,7 @@ npcs_in_room_t *npcs_in_room_new(object_t room_id);
    which will enable custom scripts and lua files to be loaded*/
 /*Changes to room_id: We are using this struct to modify the room_id 
    which will enable custom scripts and lua files to be loaded*/
-npc_mov_t *npc_mov_new(object_t npc_id, npc_mov_type_e mov_type, object_t room_id);
+npc_mov_t *npc_mov_new(object_t *npc_id, npc_mov_type_e mov_type, object_t *room_id);
 
 
 /*
