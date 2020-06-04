@@ -1,5 +1,4 @@
 #include "npc/npc.h"
-#include "game-state/item.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 /* See npc.h */
@@ -142,7 +141,6 @@ int add_item_to_npc(npc_t *npc, item_t *item)
                     strlen(item->item_id), item);
     return SUCCESS;
 }
-
 
 /* See npc.h */
 int add_convo_to_npc(npc_t *npc, convo_t *c)
