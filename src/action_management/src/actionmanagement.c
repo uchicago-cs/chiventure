@@ -58,6 +58,14 @@ int action_type_free(action_type_t *a)
 }
 
 
+/* See actionmanagement.h */
+int action_type_new_trigger(action_type_t *a, char *trigger)
+{
+    a->trigger = trigger;
+    return SUCCESS;
+}
+
+
 /* ========================================================================== */
 
 

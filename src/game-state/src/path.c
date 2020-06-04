@@ -19,6 +19,13 @@ path_t *path_new(room_t *dest, char *direction)
 }
 
 /* See room.h */
+int path_new_conditions(path_t *path, list_action_type_t *act)
+{
+    path->conditions = act;
+    return SUCCESS;
+}    
+
+/* See room.h */
 int path_free(path_t *path)
 {
     free(path->direction);
