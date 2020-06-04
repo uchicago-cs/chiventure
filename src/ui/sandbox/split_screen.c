@@ -4,10 +4,12 @@
 #include <stdio.h>
 #define MAX_INPUT_CHARS 20
 
-// This sandbox example is demonstrating code that can simulate components in chiventure like
-// the command line interface (CLI) and the ability to take in user input. This code is also 
-// an example of splitting the screen for viewing the CLI and graphics uploaded by the user at
-// the same time.
+/* 	Sandbox Example Summary:
+ *	This sandbox example is demonstrating code that can simulate components in chiventure like
+ *  	the command line interface (CLI) and the ability to take in user input. This code is also 
+ *	an example of splitting the screen for viewing the CLI and graphics uploaded by the user at
+ *	the same time
+ */
 
 typedef struct _cmd {
 	char *cmd;
