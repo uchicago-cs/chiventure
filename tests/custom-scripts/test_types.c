@@ -226,3 +226,24 @@ Test(custom_type, obj_t_get_str_lua)
     int result = strcmp(rv, "testing_succeeded");
     cr_assert_eq(result, 0, "string_t_get: failed string Lua retrieval");
 }
+
+// ============================================================================
+
+/** 
+* Checks that the arg_t struct  contains the right data when arg_t_new() is called
+*/
+
+Test(custom_type, arg_t_new)
+{
+    arg_t *at = arg_t_new();
+    cr_assert_eq(at->type, NONE_TYPE, "obj_t_new: failed type assignment");
+    cr_assert_eq(at->is_lua, false, "obj_t_new: failed is_lua assignment");
+}
+
+Test(custom_type, arg_t_bool)
+{
+    arg_t *at = arg_t_bool(true, NULL, NULL);
+    cr_assert_eq(at->type, BOOL_TYPE, "obj_t_bool: failed type assignment");
+    cr_assert_eq(at->is_lua, false, "obj_t_bool: failed is_lua assignment");
+    cr_assert_eq(at->data.b, true, "obj_t_bool: failed bool assignment");
+}
