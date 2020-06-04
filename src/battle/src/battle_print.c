@@ -33,7 +33,7 @@ int print_hp(battle_t* b, char* string)
     int player_hp = b->player->stats->hp;
     slen += snprintf(string + slen, BUFFER_SIZE, "-- Your HP: %d\n", player_hp);
 
-    slen += snprintf(string + slen, BUFFER_SIZE, "ENEMY HP\n", name, enemy_hp);
+    slen += snprintf(string + slen, BUFFER_SIZE, "ENEMY HP\n");
     combatant_t *enemies = b->enemy;
     combatant_t *enemy_elt;
     DL_FOREACH(enemies, enemy_elt)
