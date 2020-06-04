@@ -27,7 +27,7 @@ class_t* generate_test_class()
 
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
-Test (npc, new)
+Test(npc, new)
 {
     class_t* c;
     npc_t *npc;
@@ -46,7 +46,7 @@ Test (npc, new)
 }
 
 /* Checks that npc_init() initialized the fields in the new npc struct */
-Test (npc, init)
+Test(npc, init)
 {
     class_t* c;
     npc_t *npc;
@@ -68,7 +68,7 @@ Test (npc, init)
 }
 
 /* Checks that npc_free() frees the given npc struct from memory */
-Test (npc, free)
+Test(npc, free)
 {
     npc_t *npc;
     int res;
@@ -99,7 +99,7 @@ Test(npc, get_npc_health)
 
 /* Checks that an npc's health is changed by change_npc_health()
    both positively and negatively with a set maximum */
-Test (npc, change_npc_health)
+Test(npc, change_npc_health) 
 {
     npc_t *npc;
     int health1, health2, health3;
