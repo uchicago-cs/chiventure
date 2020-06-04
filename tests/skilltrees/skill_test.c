@@ -6,3 +6,11 @@
 #include "skilltrees/skill.h"
 #include "skilltrees/stdst.h"
 #include "skilltrees/inventory.h"
+#include "effect_t.h"
+
+Test(blahw, aw)
+{
+    cr_assert_eq(1, 1,
+                 "skil pass");
+
+}
