@@ -38,6 +38,13 @@ int main(void)
     create_connection(game, "room3", "room4", "NORTH");
     create_connection(game, "room3", "room5", "SOUTH");
 
+    /* build 5 room map connection */
+    create_connection(game, "room1", "room2", "WEST");
+    create_connection(game, "room2", "room3", "EAST");
+    create_connection(game, "room3", "room2", "WEST");
+    create_connection(game, "room3", "room4", "NORTH");
+    create_connection(game, "room3", "room5", "SOUTH");
+
     while (!WindowShouldClose())   
     {
         BeginDrawing();
