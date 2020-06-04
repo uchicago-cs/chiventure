@@ -8,7 +8,9 @@ target_include_directories(playerclass_examples PRIVATE src/)
 set(PLAYERCLASS_EXAMPLES pc_demo)
 
 add_executable(pc_demo
-               pc_demo.c)
+               pc_demo.c
+               demo-functions.c
+               class-list.c )
 
 # Link with chiventure libraries
 foreach(example ${PLAYERCLASS_EXAMPLES})

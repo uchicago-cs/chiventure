@@ -13,7 +13,7 @@ void class_show(class_t* c)
         exit(1);
     }
         fprintf(stdout, "Class info:\n");
-        frpintf(stdout, "    Name: %s\n", c->name);
+        fprintf(stdout, "    Name: %s\n", c->name);
         fprintf(stdout, "    Short Description: %s\n", c->shortdesc);
         fprintf(stdout, "    Long Description: %s\n", c->longdesc);
 }
@@ -34,6 +34,6 @@ void list_class_show(move_list_t* m)
         class_show(tmp->c);
         fprintf(stdout, "    Special Skill: %s\n", tmp->spell);
         fprintf(stdout, "    Skill Damage: %d\n", tmp->damage);
-        frpintf(stdout, "    Skill id: %d\n", tmp->id);
+        fprintf(stdout, "    Skill id: %d\n", tmp->id);
     }
 }
