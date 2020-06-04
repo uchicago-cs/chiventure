@@ -72,7 +72,7 @@ ITEMS:
    actions:
      - action: "EAT"
        text_success: "You eat the spaghetti. You feel quite satisfied."
-       text_fail: "You are unable to eat the spaghetti without a fork."
+       text_fail: "You cannot eat the spaghetti."
        # inventory condition: fork is in inventory
 
  - id: "BREAD"
@@ -91,7 +91,7 @@ ITEMS:
    actions:
      - action: "EAT"
        text_success: "You eat the salad. You feel quite satisfied."
-       text_fail: "You are unable to eat the salad without a fork."
+       text_fail: "You cannot eat the salad."
        # inventory condition: fork is in inventory
 
  - id: "WATER"
