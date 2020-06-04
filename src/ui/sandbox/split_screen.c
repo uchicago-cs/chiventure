@@ -6,20 +6,20 @@
 
 /* 	Sandbox Example Summary:
  *	This sandbox example is demonstrating code that can simulate components in chiventure like
- *  	the command line interface (CLI) and the ability to take in user input. This code is also 
+ *  the command line interface (CLI) and the ability to take in user input. This code is also 
  *	an example of splitting the screen for viewing the CLI and graphics uploaded by the user at
  *	the same time
  */
-
 typedef struct _cmd {
 	char *cmd;
 	char *action;
 } cmd_t;
 
 int cmd_init(cmd_t *c, char *cmd1, char *action) {
-    if (c == NULL) {
-    	printf("error\n");
+	if (c == NULL){
+		printf("error\n");
 	}
+	
 	
 	c->cmd = cmd1;
     c->action = action;
@@ -88,11 +88,12 @@ int main() {
 	//initializing output text box
 	int outputX = 10;
 	int outputHeight = 120;
-	Rectangle output = { outputX, ScreenHeight - 140, ScreenWidth, outputHeight };
+	int heightbuf = 140;
+	Rectangle output = { outputX, ScreenHeight - heightbuf, ScreenWidth, outputHeight };
 	char *output_text = "You see a path. There is a hollow log on the ground.";
 
    	int framesCounter = 0;
-    SetTargetFPS(10);
+	   SetTargetFPS(10);
 
 	//loop to produce window of image and text box
 	while (!WindowShouldClose()) {
@@ -120,11 +121,13 @@ int main() {
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 letterCount--;
                 name[letterCount] = '\0';
-
-                if (letterCount < 0) letterCount = 0;
+				
+				if (letterCount < 0){
+					letterCount = 0;
+				} 
             }
         }
-
+		
 		if (mouseOnText) framesCounter++;
 		else framesCounter = 0;
 
@@ -147,22 +150,27 @@ int main() {
 
 		//Draw Image
 		BeginDrawing();
+		int heightbuf2 = 150;
 
 		ClearBackground(RAYWHITE);
 		DrawTexture(texture, ScreenWidth/2 - texture.width/2,
 					0, WHITE);
 		DrawRectangleRec(textBox, WHITE);
-		DrawRectangle(0, ScreenHeight - 150, ScreenWidth, 120, WHITE);
-		DrawRectangleLines(0, ScreenHeight - 150, ScreenWidth, 150, BLACK);
+		DrawRectangle(0, ScreenHeight - heightbuf2, ScreenWidth, 120, WHITE);
+		DrawRectangleLines(0, ScreenHeight - heightbuf2, ScreenWidth, 150, BLACK);
 
 		if (mouseOnText) {
 			DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
-
 			if (((framesCounter / 5)%2) == 0)
-				DrawText("_", textBox.x + 5 + MeasureText(name, 21), textBox.y + 10, 20, DARKGRAY);
+			{
+								DrawText("_", textBox.x + 5 + MeasureText(name, 21), textBox.y + 10, 20, DARKGRAY);
+	
+			}
 		}
+		int xbuf = 5;
+		int ybuf = 8;
     
-		DrawText(name, textBox.x + 5, textBox.y + 8, 20, BLACK);
+		DrawText(name, textBox.x + xbuf, textBox.y + ybuf, 20, BLACK);
 		Font test = GetFontDefault();
 		DrawTextRec(test, output_text, output, 20, 5, true, BLACK);
 		EndDrawing(); 
