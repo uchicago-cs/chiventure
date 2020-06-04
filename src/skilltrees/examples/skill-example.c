@@ -43,7 +43,7 @@ skill_inventory_t* bard_inventory() {
 skill_inventory_t* wizard_inventory() {
     skill_inventory_t* wizard_inventory = inventory_new(1, 0);
 
-    skill_t* fireball = skill_new(1, ACTIVE, "Fireball", "A Wizard attack spell that deals 10 damage and increases defense by 1.", 2, 5, effect_fireball);
+    skill_t* fireball = skill_new(1, ACTIVE, "Fireball", "A Wizard attack spell that deals 10 damage.", 2, 5, effect_fireball);
 
     inventory_skill_add(wizard_inventory, fireball);
 
@@ -55,7 +55,7 @@ skill_inventory_t* wizard_inventory() {
 skill_inventory_t* knight_inventory() {
     skill_inventory_t* knight_inventory = inventory_new(1, 0);
 
-    skill_t* sword_slash = skill_new(2, ACTIVE, "Sword Slash", "A Knight attack that deals 9 damage and increases defense by 2.", 2, 5, effect_sword_slash);
+    skill_t* sword_slash = skill_new(2, ACTIVE, "Sword Slash", "A Knight attack that deals 9 damage.", 2, 5, effect_sword_slash);
 
     inventory_skill_add(wizard_inventory, sword_slash);
 
