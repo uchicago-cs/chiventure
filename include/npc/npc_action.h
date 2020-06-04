@@ -46,43 +46,113 @@ typedef struct npc_action {
     enum npc_action_kind kind;
 } npc_action_t;
 
+/* A linked list struct that contains the following:
+ * - action: the NPC action at the head of the list
+ * - next: the next item in the linked list
+ */
+typedef struct list_npc_action {
+    npc_action_t *action;
+    struct list_npc_action *next;
+} list_npc_action_t;
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
 /*
- * Allocates a new npc_action in the heap
+ * Allocates a new npc_action in the heap.
  *
  * Parameters:
- *  - c_name: the name of the action
- *  - kind: the kind of action
- * 
+ *    - c_name: The name of the npc action e.g ignore,give
+ *    - kind: whether the action involves just the NPC, an NPC and an item, or an NPC and two items
+ *
  * Returns:
- *  - Pointer to allocated npc_action
+ *    - A pointer to the npc_action, or NULL if an npc_action
+ *      cannot be allocated
  */
 npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind);
 
 /*
- * Initializes an npc with given health
+ * Initializes the constituents of an npc_action
  *
  * Parameters:
- *  - a: an npc action; must point to already allocated memory
- *  - c_name: the name of the action
- *  - kind: the kind of action
- *
+ *    - a: An npc_action pointer. Must point to already allocated memory.
+ *    - c_name: The name of the npc_action
+ *    -kind: the kind of npc-action involved ie just NPC, or NPC and items to be given or taken
  * Returns:
- *  - SUCESS on sucess, FAILURE if an error occurs
+ *    - 0 on success, 1 if an error occurs.
  */
 int npc_action_init(npc_action_t *a, char *c_name, enum npc_action_kind kind);
 
 /*
- * Frees resources associated with an npc
+ * Frees the resources associated with an npc_action
  *
- * Paremeters:
- *  - a: npc_action to be freed
+ * Parameters:
+ *    - a: An npc_action. Must point to an npc_action allocated with npc_action_new
  *
  * Returns:
- *  - SUCESS on sucess, FAILURE if an error occurs
+ *    - Always returns 0.
  */
 int npc_action_free(npc_action_t *a);
+
+/*
+ * A function that returns a linked list of all supported NPC actions
+ *
+ * Parameters:
+ *  - none
+ *
+ * Returns:
+ *  - a linked list of all NPC actions
+ */
+list_npc_action_t *get_npc_actions();
+
+/* A function that executes KIND 4 actions (ACTION <npc>)
+ *
+ * Parameters:
+ * - c: A context struct encapsulating the shared state in chiventure
+ * - a: An NPC action type struct
+ * - npc: An npc struct
+ * - 7 if an effect for the action wasn't applied, failure string as an out parameter
+ * - 7 if an effect for the action wasn't applied, failure string as an out parameter
+ * - ret_string: A pointer to a string describing the result of the function
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ *
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
+ * - NOT_ALLOWED_DIRECT if the action can't be done on the NPC, failure string as an out parameter
+ */
+int do_npc_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, char **ret_string);
+
+/* A function that executes KIND 5 actions (ACTION <npc> <item>)
+ *
+ * Parameters:
+ * - c: A context struct encapsulating the shared state in chiventure
+ * - a: An NPC action type struct
+ * - npc: An npc struct
+ * - i: An item struct
+ * - ret_string: A pointer to a string describing the result of the function
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ *
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
+ * - NOT_ALLOWED_DIRECT if the action can't be done on the NPC, failure string as an out parameter
+ * - 6 if conditions for the action haven't been met, failure string as an out parameter
+ * - 7 if an effect for the action wasn't applied, failure string as an out parameter  
+ */
+int do_npc_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *i, char **ret_string);
+
+/* 
+ * A function that executes KIND 6 actions (ACTION <npc> <item> <item>)
+ * 
+ * Parameters:
+ *  - c: A context struct encapsulating the shared state in chiventure
+ *  - a: An NPC action type struct
+ *  - npc: An npc struct
+ *  - direct: An item struct containing the direct object (the "actor")
+ *  - indirect: An item struct containing the indirect object (the "actee")
+ *  - ret_string: A pointer to a string describing the result of the function
+ *    - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ */
+int do_npc_item_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string);
 
 #endif
