@@ -125,6 +125,23 @@ int add_item_to_player(player_t *player, item_t *item)
     {
         return FAILURE; //this item id is already in use.
     }
+
+    if (item->stat_effects != NULL) {
+        stat_effect_t *current, *tmp;
+        stat_mod_t *elt;
+        stats_t *check;
+        HASH_ITER(hh, item->stat_effects, current, tmp) {
+            LL_FOREACH(current->stat_list, elt) {
+                HASH_FIND(hh, player->player_stats, elt->stat->key, 
+                          strlen(elt->stat->key), check);
+                if (check != NULL) {
+                    apply_effect(player->player_effects, current, &check,
+                                 &elt->modifier, &elt->duration, 1);
+                }
+            }
+        }
+    }
+
     HASH_ADD_KEYPTR(hh, player->inventory, item->item_id,
                     strlen(item->item_id), item);
     return SUCCESS;

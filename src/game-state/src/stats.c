@@ -154,7 +154,7 @@ int add_stat_effect(effects_hash_t *hash, stat_effect_t *effect) {
  * - mod1, mod2: two stat_mod_t structs
  *
  * Returns:
- * 1 when equal, 0 when not equal
+ * 0 when equal, nonzero value when not equal
  */
 int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2) {
     return strcmp(m1->stat->key, m2->stat->key);
@@ -169,7 +169,7 @@ int apply_effect(effects_hash_t *hash, stat_effect_t  *effect, stats_t **stats,
     if (check == NULL) {
         add_stat_effect(hash, effect);
     }
-    stat_mod_t *new, tmp;
+    stat_mod_t *new, *tmp;
     int i;
     for (i = 0; i < num_stats; i++) {
         stats[i]->modifier *= intensities[i];
@@ -178,12 +178,12 @@ int apply_effect(effects_hash_t *hash, stat_effect_t  *effect, stats_t **stats,
         new->modifier = intensities[i];
         new->duration = durations[i];
         LL_SEARCH(effect->stat_list, tmp, new, stat_mod_equal);
-        if (elt != NULL) {
-            element->stat_list->modifier = new->modifier;
-            element->stat_list->duration = new->duration;
+        if (tmp != NULL) {
+            effect->stat_list->modifier = new->modifier;
+            effect->stat_list->duration = new->duration;
             free(new);
         } else {
-            LL_APPEND(element->stat_list, new);
+            LL_APPEND(effect->stat_list, new);
         }
     }
 }
