@@ -83,9 +83,12 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     }
 
     // use representative c_name for action synonyms
-    if(a->c_name == "PICKUP") {
+    if(a->c_name == "PICKUP") 
+    {
         a->c_name = "TAKE";
-    } else if(a->c_name == "USE" || a->c_name == "EAT" || a->c_name == "DRINK") {
+    } 
+    else if(a->c_name == "USE" || a->c_name == "EAT" || a->c_name == "DRINK")
+    {
         a->c_name = "CONSUME";
     }
 
