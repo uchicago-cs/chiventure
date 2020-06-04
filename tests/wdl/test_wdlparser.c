@@ -4,6 +4,7 @@
 
 Test(wdlparser, for_each)
 {
-    char* val = parse("../../../src/wdl/examples/wdz/test_game/test_game.wdz");
-    cr_assert_eq(val, "action", "val is %s instead of 'actions'", val);
+    char *path = strdup("../../../src/wdl/examples/wdz/test_game/test_game.wdz");
+    int val = parse(path);
+    cr_assert_eq(val, 5, "val is %d instead of 5", val);
 }

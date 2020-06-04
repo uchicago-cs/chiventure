@@ -7,6 +7,27 @@
 #define MAX_DIRECTORY_LENGTH 100
 #define MAX_BYTES 4096
 
+void jsonobj_to_obj(struct json_object *jobject, char* key, struct json_object *val, objtype_t filetype){
+    if (json_object_is_type(val, json_type_boolean )	){
+        //add boolean attribute with id key and objtype filetype
+    }
+    else if (json_object_is_type(val, json_type_int )	){
+        //add int attribute with id key and objtype filetype
+    }
+    else if (json_object_is_type(val, json_type_double )	){
+        //add double attribute with id key and objtype filetype
+    }
+    else if (json_object_is_type(val, json_type_string )	){
+        //add string attribute with id key and objtype filetype
+    }
+    else if (json_object_is_type(val, json_type_array )	){
+        //add array attribute with id key and objtype filetype
+    }
+    else if (json_object_is_type(val, json_type_object )	){
+        //add object with id key and objtype filetype
+        //will need to make this object (a json object) in a libobj
+    }
+}
 
 void makejsonobj(struct json_object *jobject, const char* filename, zip_t* dir){
     zip_file_t* zipfile = zip_fopen(dir, filename, 0);
@@ -16,6 +37,7 @@ void makejsonobj(struct json_object *jobject, const char* filename, zip_t* dir){
     if(chars == 0){
         printf("Tried making a JSON obj but file is empty! \n");
     }
+    printf("Buffer is: %s", buffer);
     jobject = json_tokener_parse(buffer);
     assert(jobject);
     free(buffer);
@@ -72,7 +94,8 @@ objtype_t get_objtype(const char* name){
     }
     return TYPE_NONE; }
 
-char* parse(const char *zipdirname) {
+int parse(const char *zipdirname) {
+    printf("In here\n");
 
     char game_buffer[MAX_BYTES];
     //This pointer will hold an int value if zip_t fails.
@@ -101,33 +124,15 @@ char* parse(const char *zipdirname) {
                     //Parse into a JSON file
                     struct json_object *THEJSONOBJ;
                     makejsonobj(THEJSONOBJ, name, dir);
-                    assert(THEJSONOBJ);
 
                     //Get objtype e type using its name
                     objtype_t filetype = get_objtype(name);
 
                     //Gets each object in the .json file (Such as actions.json) and adds to obj_store
                     json_object_object_foreach(THEJSONOBJ, key, val){
+                        //ERROR WITH USING JSONOBJ HERE - not sure of type of jsonobj or any other information about ti
                         /*Planning on making this an object function*/
-                        if (json_object_is_type(val, json_type_boolean )	){
-                            //add boolean attribute with id key and objtype filetype
-                        }
-                        else if (json_object_is_type(val, json_type_int )	){
-                            //add int attribute with id key and objtype filetype
-                        }
-                        else if (json_object_is_type(val, json_type_double )	){
-                            //add double attribute with id key and objtype filetype
-                        }
-                        else if (json_object_is_type(val, json_type_string )	){
-                            //add string attribute with id key and objtype filetype
-                        }
-                        else if (json_object_is_type(val, json_type_array )	){
-                            //add array attribute with id key and objtype filetype
-                        }
-                        else if (json_object_is_type(val, json_type_object )	){
-                            //add object with id key and objtype filetype
-                            //will need to make this object (a json object) in a libobj
-                        }
+                        jsonobj_to_obj(THEJSONOBJ, key, val, filetype);
 
                     }	
                 }
