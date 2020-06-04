@@ -9,7 +9,7 @@
 #include "cli/operations.h"
 
 // approximate length of chiventure banner
-#define BANNER_WIDTH (96)
+#define BANNER_WIDTH (COLS > 100 ? 96 : 78)
 #define BANNER_HEIGHT (12)
 
 /* see print_functions.h */
@@ -17,7 +17,6 @@ void print_homescreen(window_t *win, const char *banner)
 {
     // hides cursor
     curs_set(0);
-
 
     // calculate the position of the banner so that is is approximately centered.
     // The -1 in the y position is to give space for the message below the banner
@@ -95,7 +94,6 @@ void print_homescreen(window_t *win, const char *banner)
 
 void print_banner(window_t *win, const char *banner)
 {
-
     // calculate the position of the banner so that is is approximately centered.
     // The -1 in the y position is to give space for the message below the banner
     // x_pos and y_pos indicate the x-y coordinates of the top left corner of the banner

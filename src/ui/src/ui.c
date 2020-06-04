@@ -32,7 +32,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     noecho();
     // height and width of the terminal window
     int width = COLS;
-    int height = LINES /2;
+    int height = LINES / 2;
 
     window_t *map_win = window_new(height, width, 0, 0, print_map, true);
     window_t *main_win = window_new(height, width, 0, 0, print_info, true);
