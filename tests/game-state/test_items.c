@@ -87,10 +87,26 @@ Test(item, add_item_to_hash)
     rc = add_item_to_hash(&ht, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_hash failed to "
                  "add an item to hashtable");
+}
+
+/* Checks that add_item_to_hash properly adds duplicate items
+ * to the item hashtable */
+Test(item, add_item_to_hash_duplicate_items)
+{
+    item_hash_t *ht = NULL;
+    item_t *test_item1 = item_new("item", "short", "long");
+    item_t *test_item2 = item_new("item", "short", "long");
+    int rc;
     
-    rc = add_item_to_hash(&ht, test_item);
-    cr_assert_eq(rc, FAILURE, "add_item_to_hash added duplicate "
-                 "item to hashtable");
+    rc = add_item_to_hash(&ht, test_item1);
+    
+    rc = add_item_to_hash(&ht, test_item1);
+    cr_assert_eq(rc, FAILURE, "add_item_to_hash added item with same "
+                 "memory address as another item to hashtable");
+    
+    rc = add_item_to_hash(&ht, test_item2);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_hash did not add item with same "
+                 "item id as another item to hashtable");
 }
 
 /* Checks that get_all_items_in_hash returns the expected 
@@ -112,6 +128,30 @@ Test(item, get_all_items_in_hash)
                        "non-empty hashtable");
 }
 
+/* Checks that get_all_items_in_hash returns a linked list
+ * with duplicate items if duplicate items exist in an
+ * item hashtable */
+Test(item, get_all_items_in_hash_duplicate_items)
+{
+    item_hash_t *ht = NULL;
+    item_t *test_item1 = item_new("item1", "short", "long");
+    item_t *test_item2 = item_new("item1", "short", "long");
+    item_list_t *list, *elt;
+    int count = 0;
+    
+    add_item_to_hash(&ht, test_item1);
+    add_item_to_hash(&ht, test_item2);
+    list = get_all_items_in_hash(&ht);
+    
+    LL_FOREACH(list, elt)
+    {
+        count++;
+    }
+    
+    cr_assert_eq(count, 2, "get_all_items_in_hash did not add duplicate "
+                 "items to linked list");
+}
+
 /* Checks that remove_item_from_hash properly removes items 
  * from an item hashtable. */
 Test(item, remove_item_from_hash)
@@ -127,6 +167,37 @@ Test(item, remove_item_from_hash)
     rc = remove_item_from_hash(&ht, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
+}
+
+/* Checks that remove_item_from_hash properly only removes one
+ * duplicate item at a time if duplicate items exist in an
+ * item hashtable */
+Test(item, remove_item_from_hash_duplicate_items)
+{
+    item_hash_t *ht = NULL;
+    item_t *test_item1 = item_new("item", "short", "long");
+    item_t *test_item2 = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
+    
+    add_item_to_hash(&ht, test_item1);
+    add_item_to_hash(&ht, test_item2);
+    
+    rc = remove_item_from_hash(&ht, test_item1);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
+                 "remove an item from hashtable");
+    
+    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    cr_assert_not_null(check, "remove_item_from_hash removed both "
+                       "duplicate items from hashtable");
+    
+    rc = remove_item_from_hash(&ht, test_item2);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
+                 "remove an item from hashtable");
+    
+    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    cr_assert_eq(check, NULL, "remove_item_from_hash failed to remove both "
+                       "duplicate items from hashtable");
 }
 
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
