@@ -3,7 +3,6 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
-//#include "game-state/stats.h"
 //TODO-#include "dialogue.h"
 #include "playerclass/class_structs.h"
 
@@ -15,7 +14,7 @@ typedef struct npc {
     int health;
     // convo_t *dialogue;  placeholder for incoming dialogue module
     item_hash_t *inventory;
-    class_t *class; // pointer to an existing playerclass struct 
+    class_t *class; 
 } npc_t;
 
 
