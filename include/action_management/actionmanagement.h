@@ -64,8 +64,7 @@ int action_type_free(action_type_t *a);
  * Returns:
  * - SUCCESS if success
  */
-int action_type_init_room_direction(action_type_t *a, room_t *room, 
-					char *direction);
+int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction);
 
 
 // =============================================================================

@@ -5,6 +5,7 @@
 
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
+#include "game-state/room.h"
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (2)
@@ -60,7 +61,7 @@ int action_type_free(action_type_t *a)
 
 
 /* See actionmanagement.h */
-int action_type_new_trigger(action_type_t *a, room_t *room, char *direction)
+int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
 {
     a->room = room;
     a->direction = direction;
@@ -125,6 +126,13 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         }
         else
         {
+	    //remove action from any conditions
+	    path_t *closed_path;
+	    int condition;
+	    closed_path = path_search(a->room,a->direction);
+	    condition = remove_condition(closed_path,a);
+	    //if (condition == FAILURE)
+
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
             if (((game->final_room != NULL && game->final_room == game->curr_room) || 
