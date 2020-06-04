@@ -8,7 +8,7 @@
 #include "battle/battle_print.h"
 #include "battle/battle_structs.h"
 
-#define BUFFER_SIZE (100) // copied from actionmanagement.c
+#define BUFFER_SIZE (200) // copied from actionmanagement.c, changed to 200
 
 /* Tests print_start_battle() */
 Test(battle_print, print_start_battle)
@@ -130,8 +130,8 @@ Test(battle_print, print_player_move)
     cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You used Punch! It did 2 damage.\n"
-                            "ENEMY HP\n"
                             "-- Your HP: 100\n"
+                            "ENEMY HP\n"
                             "-- Bob's HP: 98\n";
 
     cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string");
@@ -163,8 +163,8 @@ Test(battle_print, print_enemy_move)
     cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "Bob used Laugh! It did 99 damage.\n"
-                            "ENEMY HP\n"
                             "-- Your HP: 1\n"
+                            "ENEMY HP\n"
                             "-- Bob's HP: 100\n";
 
     cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string");

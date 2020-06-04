@@ -4,7 +4,7 @@
 #include <string.h>
 #include "battle/battle_print.h"
 
-#define BUFFER_SIZE (100) // copied from actionmanagement.c
+#define BUFFER_SIZE (200) // copied from actionmanagement.c, changed to 200
 
 /* see battle_print.h */
 char *print_start_battle(battle_t *b)
