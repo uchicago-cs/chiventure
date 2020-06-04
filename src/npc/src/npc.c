@@ -1,5 +1,4 @@
 #include "npc/npc.h"
-#include "game-state/item.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 /* See npc.h */
@@ -46,7 +45,10 @@ int npc_free(npc_t *npc)
 {
     assert(npc != NULL);
     
-    convo_free(npc->dialogue);
+    if (npc->dialogue != NULL)
+    {
+        convo_free(npc->dialogue);
+    }
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
@@ -139,7 +141,6 @@ int add_item_to_npc(npc_t *npc, item_t *item)
                     strlen(item->item_id), item);
     return SUCCESS;
 }
-
 
 /* See npc.h */
 int add_convo_to_npc(npc_t *npc, convo_t *c)
