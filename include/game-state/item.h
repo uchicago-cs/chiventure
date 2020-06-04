@@ -3,6 +3,7 @@
 
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
+#include "condition.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
 HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
@@ -137,7 +138,7 @@ typedef struct game_action_effect action_effect_list_t;
 typedef struct game_action {
     UT_hash_handle hh;
     char* action_name;
-    action_condition_list_t *conditions; //must be initialized to NULL
+    condition_list_t *conditions; //must be initialized to NULL
     action_effect_list_t *effects; //must be initialized to NULL
     char* success_str;
     char* fail_str;

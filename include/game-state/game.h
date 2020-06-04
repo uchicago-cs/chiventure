@@ -5,6 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
+#include "condition.h"
 #include "game_action.h"
 #include "stats.h"
 
@@ -38,7 +39,7 @@ typedef struct game {
     room_t *final_room;
     
     /* list of end conditions that, when all are met, ends the game */
-    action_condition_list_t *end_conditions;
+    condition_list_t *end_conditions;
 
     /* pointer to current player struct */
     player_t *curr_player;
@@ -157,7 +158,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room);
  * Returns: 
  *  SUCCESS if successful, FAILURE if failed
  */ 
-int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition);
+int add_end_condition_to_game(game_t *game, condition_t *end_condition);
 
 /* Checks if all end conditions in a given game have been met
  * 

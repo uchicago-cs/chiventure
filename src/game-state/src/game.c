@@ -96,7 +96,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 }
 
 /* See game.h */
-int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition)
+int add_end_condition_to_game(game_t *game, condition_t *end_condition)
 {
     item_t *check_item;
     HASH_FIND(hh, game->all_items, end_condition->item->item_id, 
@@ -125,22 +125,7 @@ int add_end_condition_to_game(game_t *game, game_action_condition_t *end_conditi
 /* See game.h */
 bool end_conditions_met(game_t *game)
 {
-    if (game->end_conditions == NULL)
-    {
-        return false; // no conditions to check
-    }
-    
-    game_action_condition_t *iterator = game->end_conditions;
-    while (iterator != NULL)
-    {
-        if (!check_condition(iterator))
-        {
-            return false; // condition not yet met
-        }
-        iterator = iterator->next;
-    }
-    
-    return true; // all conditions met
+    return all_conditions_met(game->end_conditions);
 }
 
 /* See game.h */
@@ -244,7 +229,7 @@ int game_free(game_t *game)
 {
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
-    delete_action_condition_llist(game->end_conditions);
+    delete_condition_llist(game->end_conditions);
     free(game->start_desc);
     free(game);
     return SUCCESS;
