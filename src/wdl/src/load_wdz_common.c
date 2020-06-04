@@ -6,12 +6,24 @@
 #include "wdl/load_wdz_internal.h"
 
 #include "wdl/wdl_common.h" // to get obj_t
+#include "wdl/objstore.h"
 
 
-obj_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
+object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
 {
-    // dummy function for now.
-    // Waiting on new obj_t implementation before we can write this conversion! 
+    object_t* retobject = malloc(sizeof(object_t));
+    /* Loops through all attributes in the object*/
+    json_object_object_foreach(j_game_obj, attr_name, j_value)
+    {
+        if (attr_name == "id"){
+            strcpy(retobject->id, json_object_get_string(j_value));
+        } else{
+            //Gets type of the object and sets objtype_t based on value returned by 
+            //json_type json_object_get_type (j_value)	
+
+        }
+
+    }
     return NULL;
 }
 
