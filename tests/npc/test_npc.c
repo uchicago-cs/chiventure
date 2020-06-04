@@ -1,53 +1,85 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
-#include <stdbool.h> 
+#include <stdbool.h>
 #include "npc/npc.h"
 #include "game-state/item.h"
+#include "playerclass/class.h"
+
+/* Creates a sample class. Taken from test_class.c */
+class_t* generate_test_class()
+{
+    class_t* c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+
+}
 
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
-Test (npc, new) 
+Test(npc, new)
 {
-    npc_t *npc; 
+    class_t* c;
+    npc_t *npc;
+
+    c = generate_test_class();
+
+    npc = npc_new("npc_22", 20, c);
+
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
+                 "npc_new didn't set npc_id");
+    cr_assert_eq(npc->health, 20, "npc_new() didn't set health");
+    cr_assert_str_eq(npc->class->shortdesc,
+                     c->shortdesc, "npc_new didn't set short description for class");
+}
+
+/* Checks that npc_init() initialized the fields in the new npc struct */
+Test(npc, init)
+{
+    class_t* c;
+    npc_t *npc;
+    int res;
+
+    npc = npc_new("test", 30, NULL);
+
+    c = generate_test_class();
+
+    res = npc_init(npc, "npc_22", 20, c);
+
+    cr_assert_eq(res, SUCCESS, "npc_init() failed");
+
+    cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
+                 "npc_22", "npc_init didn't set npc_id");
+    cr_assert_eq(npc->health, 20, "npc_init didn't set health");
+    cr_assert_str_eq(npc->class->shortdesc,
+                     c->shortdesc, "npc_new didn't set short description for class");
+}
+
+/* Checks that npc_free() frees the given npc struct from memory */
+Test(npc, free)
+{
+    npc_t *npc;
+    int res;
 
     npc = npc_new("npc_22", 20, NULL);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
-    cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0, 
-                 "npc_new didn't set npc_id"); 
-    cr_assert_eq(npc->health, 20, "npc_new() didn't set health"); 
-}
+    res = npc_free(npc);
 
-/* Checks that npc_init() initialized the fields in the new npc struct */
-Test (npc, init) 
-{ 
-    npc_t *npc; 
-    int res;
-
-    npc = npc_new("test", 30, NULL);
-    res = npc_init(npc, "npc_22", 20, NULL); 
-
-    cr_assert_eq(res, SUCCESS, "npc_init() failed"); 
-
-    cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
-                 "npc_22", "npc_init didn't set npc_id"); 
-    cr_assert_eq(npc->health, 20, "npc_init didn't set health"); 
-}
-
-/* Checks that npc_free() frees the given npc struct from memory */
-Test (npc, free)
-{ 
-    npc_t *npc;
-    int res; 
-
-    npc = npc_new("npc_22", 20, NULL);
-
-    cr_assert_not_null(npc, "npc_new() failed"); 
-
-    res = npc_free(npc); 
-
-    cr_assert_eq(res, SUCCESS, "npc_free() failed"); 
+    cr_assert_eq(res, SUCCESS, "npc_free() failed");
 }
 
 /* Checks that get_health() returns the health of the npc */
@@ -67,13 +99,13 @@ Test(npc, get_npc_health)
 
 /* Checks that an npc's health is changed by change_npc_health()
    both positively and negatively with a set maximum */
-Test (npc, change_npc_health) 
+Test(npc, change_npc_health) 
 {
-    npc_t *npc; 
+    npc_t *npc;
     int health1, health2, health3;
 
-    npc = npc_new("npc_22", 99, NULL); 
-    health1 = change_npc_health(npc, 2, 100); 
+    npc = npc_new("npc_22", 99, NULL);
+    health1 = change_npc_health(npc, 2, 100);
     health2 = change_npc_health(npc, -20, 100);
     health3 = change_npc_health(npc, 3, 83);
 
@@ -81,9 +113,9 @@ Test (npc, change_npc_health)
 
     cr_assert_eq(health1, 100,
                  "change_npc_health() increased health past max");
-    cr_assert_eq(health2, 80, 
+    cr_assert_eq(health2, 80,
                  "change_npc_health() did not properly reduce health");
-    cr_assert_eq(health3, 83, 
+    cr_assert_eq(health3, 83,
                  "change_npc_health() did not properly add health");
 }
 
@@ -149,5 +181,5 @@ Test(npc, add_item_to_npc)
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(new_item, "item_new() failed");
     cr_assert_not_null(npc->inventory,
-	                   "add_item_to_npc() failed to add item");
+                       "add_item_to_npc() failed to add item");
 }

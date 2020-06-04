@@ -9,7 +9,7 @@ class_t *create_test_class()
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                     NULL, NULL, NULL, NULL, NULL, NULL);
+                                    NULL, NULL, NULL);
 }
 
 /* Creates + initializes a move*/
