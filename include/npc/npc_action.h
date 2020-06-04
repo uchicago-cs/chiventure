@@ -4,7 +4,7 @@
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "npc/npc.h"
-
+#include "common/utlist.h"
 
 // NPC ACTION STRUCTURE DEFINITION --------------------------------------------
 

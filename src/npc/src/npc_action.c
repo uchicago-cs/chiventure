@@ -42,3 +42,39 @@ int npc_action_free(npc_action_t *a)
     free(a);
     return SUCCESS;
 }
+
+static npc_action_t valid_actions[] =
+{
+    //KIND 4
+    {"TALK_TO", NPC},
+    {"IGNORE", NPC},
+    //{"ATTACK", NPC},
+
+    //KIND 5
+    {"GIVE", NPC_ITEM},
+    {"STEAL", NPC_ITEM},
+
+    //KIND 6
+    {"TRADE", NPC_ITEM_ITEM},
+    {"BUY", NPC_ITEM_ITEM}
+};
+
+static int NUM_ACTIONS = sizeof(valid_actions) / sizeof(npc_action_t);
+
+/* See npc_action.h */
+list_npc_action_t *get_npc_actions()
+{
+    list_npc_action_t *tmp = NULL;
+    for (int i = 0; i < NUM_ACTIONS; i++)
+    {
+        list_npc_action_t *add = (list_npc_action_t*)malloc(sizeof(list_npc_action_t));
+        npc_action_t *add_data = npc_action_new(valid_actions[i].c_name, valid_actions[i].kind);
+        add->act = add_data;
+        LL_PREPEND(tmp, add);
+        tmp = add;
+    }
+    return tmp;
+}
+
+
+
