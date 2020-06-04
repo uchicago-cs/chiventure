@@ -117,7 +117,23 @@ item_hash_t* get_inventory(player_t* plyr)
 int add_item_to_player(player_t *player, item_t *item)
 {
     int rc;
-    
+
+    if (item->stat_effects != NULL) {
+        stat_effect_t *current, *tmp;
+        stat_mod_t *elt;
+        stats_t *check;
+        HASH_ITER(hh, item->stat_effects, current, tmp) {
+            LL_FOREACH(current->stat_list, elt) {
+                HASH_FIND(hh, player->player_stats, elt->stat->key, 
+                          strlen(elt->stat->key), check);
+                if (check != NULL) {
+                    apply_effect(player->player_effects, current, &check,
+                                 &elt->modifier, &elt->duration, 1);
+                }
+            }
+        }
+    }
+
     rc = add_item_to_hash(&(player->inventory), item);
     
     return rc;
@@ -131,6 +147,12 @@ int remove_item_from_player(player_t *player, item_t *item)
     rc = remove_item_from_hash(&(player->inventory), item);
     
     return rc;
+    if (check != NULL)
+    {
+        return FAILURE; //this item id is already in use.
+    }
+
+    return SUCCESS;
 }
 
 /* See player.h */

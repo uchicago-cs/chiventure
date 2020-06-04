@@ -3,6 +3,7 @@
 
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
+#include "game-state/stats.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
 HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
@@ -28,6 +29,7 @@ typedef struct item {
     char *long_desc;
     game_action_hash_t *actions;
     attribute_hash_t *attributes; // a hashtable for all attributes
+    effects_hash_t *stat_effects; // hashtable of effects item can have (set to NULL if no effects)
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are

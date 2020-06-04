@@ -15,6 +15,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc,
     strcpy(new_item->item_id, item_id);
     strcpy(new_item->short_desc, short_desc);
     strcpy(new_item->long_desc, long_desc);
+    new_item->stat_effects = NULL;
 
     return SUCCESS;
 }
@@ -456,6 +457,9 @@ int item_free(item_t *item)
     free(item->long_desc);
     delete_all_attributes(item->attributes);
     // uthash_free(item->attributes, HASH_SIZE);
+    if (item->stat_effects != NULL) {
+        delete_all_stat_effects(item->stat_effects);
+    }
     free(item);
     return SUCCESS;
 }
