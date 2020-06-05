@@ -93,7 +93,8 @@ char *get_sdesc_item(item_t *item);
 char *get_ldesc_item(item_t *item);
 
 /* Adds an item to a hashtable of items,
- * as long as the item does not already exist in hashtable
+ * as long as the new item does not have the same memory address
+ * as another item in the hashtable
  * 
  * Parameters:
  *  pointer to hashtable of items (pointer necessary for uthash to work)

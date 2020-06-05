@@ -77,8 +77,7 @@ return long description");
  for NULL item");
 }
 
-/* Checks that add_item_to_hash adds item to an item hashtable as expected.
- * Also ensures that adding an item twice returns FAILURE */
+/* Checks that add_item_to_hash adds item to an item hashtable as expected. */
 Test(item, add_item_to_hash)
 {
     item_hash_t *ht = NULL;
@@ -121,8 +120,10 @@ Test(item, get_all_items_in_hash)
     item_hash_t *ht = NULL;
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item2", "short", "long");
+    item_list_t *list, *iter;
+    int count = 0;
     
-    item_list_t *list = get_all_items_in_hash(&ht);
+    list = get_all_items_in_hash(&ht);
     cr_assert_eq(list, NULL, "get_all_items_in_hash did not return NULL for "
                  "empty hashtable");
     
@@ -132,8 +133,6 @@ Test(item, get_all_items_in_hash)
     cr_assert_not_null(list, "get_all_items_in_hash returned NULL for "
                        "non-empty hashtable");
     
-    item_list_t *iter;
-    int count = 0;
     LL_FOREACH(list, iter)
     {
         count++;
@@ -151,14 +150,14 @@ Test(item, get_all_items_in_hash_duplicate_items)
     item_hash_t *ht = NULL;
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item1", "short", "long");
-    item_list_t *list, *elt;
+    item_list_t *list, *iter;
     int count = 0;
     
     add_item_to_hash(&ht, test_item1);
     add_item_to_hash(&ht, test_item2);
     list = get_all_items_in_hash(&ht);
     
-    LL_FOREACH(list, elt)
+    LL_FOREACH(list, iter)
     {
         count++;
     }
