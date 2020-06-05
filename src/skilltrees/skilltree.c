@@ -169,16 +169,16 @@ skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
                                      int* num_acquired_prereqs) {
     assert(tree != NULL && inventory != NULL);
 
-    unsigned int nprereqs;
-    skill_node_t** prereqs = get_all_skill_prereqs(tree, sid, &nprereqs);
+    unsigned int num_prereqs;
+    skill_node_t** prereqs = get_all_skill_prereqs(tree, sid, &num_prereqs);
 
-    if (nprereqs == -1) {
+    if (num_prereqs == -1) {
         fprintf(stderr, "get_acquired_skill_prereqs: node is not in tree\n");
         *num_acquired_prereqs = -1;
         return NULL;
     }
 
-    skill_node_t** acquired = (skill_node_t**)malloc(nprereqs*sizeof(skill_t*));
+    skill_node_t** acquired = (skill_node_t**)malloc(num_prereqs*sizeof(skill_t*));
     if (acquired == NULL) {
         fprintf(stderr, "get_acquired_skill_prereqs: malloc acquired failed\n");
         *num_acquired_prereqs = -2;
@@ -187,7 +187,7 @@ skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
 
     *num_acquired_prereqs = 0;
 
-    for (unsigned int i = 0; i < nprereqs; i++) {
+    for (unsigned int i = 0; i < num_prereqs; i++) {
         sid_t prereq = prereqs[i]->skill->sid;
         skill_type_t type = prereqs[i]->skill->type;
         int pos = inventory_has_skill(inventory, prereq, type);
@@ -230,47 +230,47 @@ skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
 /* See skilltree.h */
 skill_t** skill_prereqs_missing(skill_tree_t* tree,
                                skill_inventory_t* inventory, sid_t sid,
-                               int* nmissing) {
+                               int* num_missing) {
     assert(tree != NULL && inventory != NULL);
 
-    unsigned int nprereqs;
-    skill_node_t** prereqs = get_all_skill_prereqs(tree, sid, &nprereqs);
+    unsigned int num_prereqs;
+    skill_node_t** prereqs = get_all_skill_prereqs(tree, sid, &num_prereqs);
 
-    if (nprereqs == -1) {
+    if (num_prereqs == -1) {
         fprintf(stderr, "skill_prereqs_missing: node is not in tree\n");
-        *nmissing = -1;
+        *num_missing = -1;
         return NULL;
     }
 
-    skill_t** missing = (skill_t**)malloc(nprereqs * sizeof(skill_t*));
+    skill_t** missing = (skill_t**)malloc(num_prereqs * sizeof(skill_t*));
     if (missing == NULL) {
         fprintf(stderr,"skill_prereqs_missing: malloc missing skills failed\n");
-        *nmissing = -2;
+        *num_missing = -2;
         return NULL;
     }
 
-    *nmissing = 0;
+    *num_missing = 0;
 
-    for (unsigned int i = 0; i < nprereqs; i++) {
+    for (unsigned int i = 0; i < num_prereqs; i++) {
         sid_t prereq = prereqs[i]->skill->sid;
         skill_type_t type = prereqs[i]->skill->type;
         int pos = inventory_has_skill(inventory, prereq, type);
         if (pos == -1) {
             // Inventory doesn't have this skill, so we have to add it to the
             // list of non-acquired skills.
-            void** res = array_element_add((void**)missing, (*nmissing),
+            void** res = array_element_add((void**)missing, (*num_missing),
                                            (void*)prereqs[i]->skill);
             if (res == NULL) {
                 fprintf(stderr, "skill_prereqs_missing: adding skill failed\n");
-                *nmissing = -4;
+                *num_missing = -4;
                 return NULL;
             }
-            (*nmissing)++;
+            (*num_missing)++;
         }
     }
 
     // Make sure we return null if there were no skills already acquired.
-    if ((*nmissing) == 0) {
+    if ((*num_missing) == 0) {
         return NULL;
     } else {
         return missing;
@@ -282,11 +282,11 @@ int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
                            skill_t* skill) {
     assert(tree != NULL && inventory != NULL && skill != NULL);
 
-    unsigned int nmissing;
+    unsigned int num_missing;
     skill_t** missing = skill_prereqs_missing(tree, inventory, skill->sid,
-                                              &nmissing);
+                                              &num_missing);
 
-    if (nmissing == 0) {
+    if (num_missing == 0) {
         int rc = inventory_skill_add(inventory, skill);
         if (rc) {
             fprintf(stderr, "inventory_skill_acquire: did not acquire skill\n");
