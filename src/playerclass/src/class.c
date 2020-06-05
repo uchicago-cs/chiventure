@@ -52,8 +52,8 @@ int class_skills_init(class_t* class)
     skill_inventory_t *combat, *noncombat;
     skilltree_stub_t *tree;
 
-    combat = skill_inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
-    noncombat = skill_inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
+    combat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
+    noncombat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
     // stub placeholder allocation
     tree = calloc(1, sizeof(skilltree_stub_t));
 
@@ -161,11 +161,11 @@ int class_free(class_t* class)
     }
     if (class->combat != NULL)
     {
-        skill_inventory_free(class->combat);
+        inventory_free(class->combat);
     }
     if (class->noncombat != NULL)
     {
-        skill_inventory_free(class->noncombat);
+        inventory_free(class->noncombat);
     }
 
     free(class);

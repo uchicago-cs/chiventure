@@ -1,6 +1,7 @@
 add_library(npc
-            src/dialogue.c
-            src/npc.c)
+            src/npc.c
+            src/rooms-npc.c
+            src/dialogue.c)
 
 target_include_directories(npc PRIVATE src/)
 
