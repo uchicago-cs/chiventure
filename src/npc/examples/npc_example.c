@@ -180,7 +180,7 @@ chiventure_ctx_t *create_sample_ctx()
             "You step into a disheveled room which seems to have stacks of valuables. "
             "A shabby man quickly rounds the corner into the room, "
             "alarmed by the unexpected guest. He looks upset with you.", 20, NULL);
-    add_npc_to_game(game, jim);
+    //add_npc_to_game(game, jim);
     convo_t *c = create_sample_convo();
     add_convo_to_npc(jim, c);
 
