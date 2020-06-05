@@ -236,14 +236,51 @@ Test(custom_type, obj_t_get_str_lua)
 Test(custom_type, arg_t_new)
 {
     arg_t *at = arg_t_new();
-    cr_assert_eq(at->type, NONE_TYPE, "obj_t_new: failed type assignment");
-    cr_assert_eq(at->is_lua, false, "obj_t_new: failed is_lua assignment");
+    cr_assert_eq(at->type, NONE_TYPE, "arg_t_new: failed type assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_new: failed is_lua assignment");
 }
 
-Test(custom_type, arg_t_bool)
+/** 
+* Checks that the arg_t struct  contains a boolean value when arg_t_bool() is called
+*/
+Test(custom_type, arg_t_new_bool)
 {
-    arg_t *at = arg_t_bool(true, NULL, NULL);
-    cr_assert_eq(at->type, BOOL_TYPE, "obj_t_bool: failed type assignment");
-    cr_assert_eq(at->is_lua, false, "obj_t_bool: failed is_lua assignment");
-    cr_assert_eq(at->data.b, true, "obj_t_bool: failed bool assignment");
+    arg_t *at = arg_t_bool(true);
+    cr_assert_eq(at->type, BOOL_TYPE, "arg_t_bool: failed type assignment");
+    cr_assert_eq(at->data.b, true, "arg_t_bool: failed bool assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_bool next failed assignment");
 }
+
+/** 
+* Checks that the arg_t struct  contains a char value when arg_t_char() is called
+*/
+Test(custom_type, arg_t_new_char)
+{
+    arg_t *at = arg_t_char('a');
+    cr_assert_eq(at->type, CHAR_TYPE, "arg_t__char: failed type assignment");
+    cr_assert_eq(at->data.c, 'a', "arg_t_char: failed char assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_char next failed assignment");
+}
+
+/** 
+* Checks that the arg_t struct contains a int value when arg_t_int() is called
+*/
+Test(custom_type, arg_t_new_int)
+{
+    arg_t *at = arg_t_int(10);
+    cr_assert_eq(at->type, INT_TYPE, "arg_t_int: failed type assignment");
+    cr_assert_eq(at->data.i, 10, "arg_t_int: failed integer assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_int next failed assignment");
+}
+
+/** 
+* Checks that the arg_t struct  contains a string  value when arg_t_str() is called
+*/
+Test(custom_type, arg_t_new_str)
+{
+    arg_t *at = arg_t_int("testing");
+    cr_assert_eq(at->type, STR_TYPE, "arg_t_str: failed type assignment");
+    cr_assert_eq(at->data.s, "testing", "arg_t_str: failed integer assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_str next failed assignment");
+}
+
