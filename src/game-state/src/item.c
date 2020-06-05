@@ -67,6 +67,54 @@ char *get_ldesc_item(item_t *item)
     return item->long_desc;
 }
 
+/* See item.h */
+int add_item_to_hash(item_hash_t **ht, item_t *new_item)
+{
+    item_t *check;
+    
+    HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //this item id is already in use.
+    }
+    HASH_ADD_KEYPTR(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN),
+                    new_item);
+
+    return SUCCESS;
+}
+
+/* See item.h */
+item_list_t *get_all_items_in_hash(item_hash_t **ht)
+{
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item;
+    item_list_t *tmp;
+    HASH_ITER(hh, *ht, curr_item, ITTMP_ITEMRM)
+    {
+        tmp = malloc(sizeof(item_list_t));
+        tmp->item = curr_item;
+        LL_APPEND(head, tmp);
+    }
+    return head;
+}
+
+/* See item.h */
+int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
+{
+    item_t *check;
+    
+    HASH_FIND(hh, *ht, old_item->item_id, strnlen(old_item->item_id, MAX_ID_LEN), check);
+    
+    // Only deletes if item exists in hashtable
+    if (check != NULL)
+    {
+        HASH_DEL(*(ht), old_item);
+    }
+    
+    return SUCCESS;
+}
+
 // ATTRIBUTE MANIPULATION FUNCTIONS -------------------------------------------
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute)
@@ -418,7 +466,7 @@ int delete_all_items(item_hash_t** items)
     item_t *current_item, *tmp;
     HASH_ITER(hh, *items, current_item, tmp)
     {
-        HASH_DEL(*items, current_item);  /* deletes (items advances to next) */
+        remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
         item_free(current_item);             /* free it */
     }
     return SUCCESS;
