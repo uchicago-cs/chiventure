@@ -147,22 +147,6 @@ int remove_item_from_player(player_t *player, item_t *item)
     rc = remove_item_from_hash(&(player->inventory), item);
     
     return rc;
-    if (check != NULL)
-    {
-        return FAILURE; //this item id is already in use.
-    }
-
-    return SUCCESS;
-}
-
-/* See player.h */
-int remove_item_from_player(player_t *player, item_t *item)
-{
-    int rc;
-    
-    rc = remove_item_from_hash(&(player->inventory), item);
-    
-    return rc;
 }
 
 /* See player.h */
