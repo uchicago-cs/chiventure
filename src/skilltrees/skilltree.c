@@ -102,48 +102,199 @@ int skill_tree_free(skill_tree_t* tree) {
 
 /* See skilltree.h */
 int skill_tree_node_add(skill_tree_t* tree, skill_node_t* node) {
-    /* TO DO */
-    return 0;
+    assert(tree != NULL && node != NULL);
+
+    void** res = array_element_add((void**)tree->nodes, tree->num_nodes, (void*)node);
+    if (res == NULL) {
+        fprintf(stderr, "skill_tree_node_add: failed to add node\n");
+        return FAILURE;
+    }
+    return SUCCESS;
 }
 
 /* See skilltree.h */
 int skill_tree_has_node(skill_tree_t* tree, sid_t sid) {
-    /* TO DO */
-    return 0;
+    assert(tree != NULL);
+
+    for (unsigned int i = 0; i < tree->num_nodes; i++) {
+        if (tree->nodes[i]) {
+            if (tree->nodes[i]->skill->sid == sid) {
+                return i;
+            }
+        }
+    }
+    // Failed to find node.
+    return -1;
 }
 
 /* See skilltree.h */
 int skill_tree_node_remove(skill_tree_t* tree, skill_node_t* node) {
-    /* TO DO */
-    return 0;
+    assert(tree != NULL && node != NULL);
+
+    int pos = skill_tree_has_node(tree, node->skill->sid);
+
+    if (pos == -1) {
+        fprintf(stderr, "skill_tree_node_remove: node is not in tree\n");
+        return FAILURE;
+    }
+
+    int rc = skill_node_free(tree->nodes[pos]);
+    if (rc == FAILURE) {
+        fprintf(stderr, "skill_tree_node_remove: freeing failed\n");
+        return FAILURE;
+    }
+
+    return SUCCESS;
 }
 
 /* See skilltree.h */
-skill_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
+skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
                                 int* num_prereq_skills) {
-    /* TO DO */
-    return NULL;
+    assert(tree != NULL);
+
+    int pos = skill_tree_has_node(tree, sid);
+    if (pos == -1) {
+        fprintf(stderr, "get_all_skill_prereqs: node is not in tree\n");
+        *num_prereq_skills = -1;
+        return NULL;
+    }
+
+    *num_prereq_skills = tree->nodes[pos]->num_prereq_skills;
+    return tree->nodes[pos]->prereqs;
 }
 
 /* See skilltree.h */
-skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
                                      skill_inventory_t* inventory, sid_t sid,
                                      int* num_acquired_prereqs) {
-    /* TO DO */
-    return NULL;
+    assert(tree != NULL && inventory != NULL);
+
+    unsigned int num_prereqs;
+    skill_node_t** prereqs = get_all_skill_prereqs(tree, sid, &num_prereqs);
+
+    if (num_prereqs == -1) {
+        fprintf(stderr, "get_acquired_skill_prereqs: node is not in tree\n");
+        *num_acquired_prereqs = -1;
+        return NULL;
+    }
+
+    skill_node_t** acquired = (skill_node_t**)malloc(num_prereqs*sizeof(skill_t*));
+    if (acquired == NULL) {
+        fprintf(stderr, "get_acquired_skill_prereqs: malloc acquired failed\n");
+        *num_acquired_prereqs = -2;
+        return NULL;
+    }
+
+    *num_acquired_prereqs = 0;
+
+    for (unsigned int i = 0; i < num_prereqs; i++) {
+        sid_t prereq = prereqs[i]->skill->sid;
+        skill_type_t type = prereqs[i]->skill->type;
+        int pos = inventory_has_skill(inventory, prereq, type);
+        if (pos >= 0) {
+            // Inventory has this skill, so we have to add it to the list of
+            // acquired skills.
+            void** res;
+            switch (type) {
+                case ACTIVE:
+                    res = array_element_add((void**)acquired, (*num_acquired_prereqs),
+                                            (void*)inventory->active[pos]);
+                    break;
+                case PASSIVE:
+                    res = array_element_add((void**)acquired, (*num_acquired_prereqs),
+                                            (void*)inventory->passive[pos]);
+                    break;
+                default:
+                    fprintf(stderr,
+                            "get_acquired_skill_prereqs: not valid skill type\n");
+                    *num_acquired_prereqs = -3;
+                    return NULL;
+            }
+            if (res == NULL) {
+                fprintf(stderr,"get_acquired_skill_prereqs: adding skill failed\n");
+                *num_acquired_prereqs = -4;
+                return NULL;
+            }
+            (*num_acquired_prereqs)++;
+        }
+    }
+
+    // Make sure we return null if there were no skills already acquired.
+    if ((*num_acquired_prereqs) == 0) {
+        return NULL;
+    } else {
+        return acquired;
+    }
 }
 
 /* See skilltree.h */
 skill_t** skill_prereqs_missing(skill_tree_t* tree,
                                skill_inventory_t* inventory, sid_t sid,
-                               int* nmissing) {
-    /* TO DO */
-    return NULL;
+                               int* num_missing) {
+    assert(tree != NULL && inventory != NULL);
+
+    unsigned int num_prereqs;
+    skill_node_t** prereqs = get_all_skill_prereqs(tree, sid, &num_prereqs);
+
+    if (num_prereqs == -1) {
+        fprintf(stderr, "skill_prereqs_missing: node is not in tree\n");
+        *num_missing = -1;
+        return NULL;
+    }
+
+    skill_t** missing = (skill_t**)malloc(num_prereqs * sizeof(skill_t*));
+    if (missing == NULL) {
+        fprintf(stderr,"skill_prereqs_missing: malloc missing skills failed\n");
+        *num_missing = -2;
+        return NULL;
+    }
+
+    *num_missing = 0;
+
+    for (unsigned int i = 0; i < num_prereqs; i++) {
+        sid_t prereq = prereqs[i]->skill->sid;
+        skill_type_t type = prereqs[i]->skill->type;
+        int pos = inventory_has_skill(inventory, prereq, type);
+        if (pos == -1) {
+            // Inventory doesn't have this skill, so we have to add it to the
+            // list of non-acquired skills.
+            void** res = array_element_add((void**)missing, (*num_missing),
+                                           (void*)prereqs[i]->skill);
+            if (res == NULL) {
+                fprintf(stderr, "skill_prereqs_missing: adding skill failed\n");
+                *num_missing = -4;
+                return NULL;
+            }
+            (*num_missing)++;
+        }
+    }
+
+    // Make sure we return null if there were no skills already acquired.
+    if ((*num_missing) == 0) {
+        return NULL;
+    } else {
+        return missing;
+    }
 }
 
 /* See skilltree.h */
 int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
                            skill_t* skill) {
-    /* TO DO */
-    return 0;
+    assert(tree != NULL && inventory != NULL && skill != NULL);
+
+    unsigned int num_missing;
+    skill_t** missing = skill_prereqs_missing(tree, inventory, skill->sid,
+                                              &num_missing);
+
+    if (num_missing == 0) {
+        int rc = inventory_skill_add(inventory, skill);
+        if (rc) {
+            fprintf(stderr, "inventory_skill_acquire: did not acquire skill\n");
+            return FAILURE;
+        }
+        return SUCCESS;
+    }
+
+    fprintf(stderr, "inventory_skill_acquire: missing prerequisites\n");
+    return FAILURE;
 }
