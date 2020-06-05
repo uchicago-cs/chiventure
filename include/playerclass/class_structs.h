@@ -1,12 +1,12 @@
-/* 
+/*
  * Defines a player class struct to store base class information.
- */ 
+ */
 
 #ifndef CLASS_STRUCTS_H
 #define CLASS_STRUCTS_H
 
 #include "common/utlist.h"
-#include "skilltrees/skilltrees.h"
+#include "skilltrees/inventory.h"
 #include "game-state/stats.h"
 #include "libobj/obj.h"
 
@@ -21,7 +21,7 @@
 
 /* define constants for how many skills a class can have
  * in their current active and passive skill lists
- * numbers are utterly arbitrary */ 
+ * numbers are utterly arbitrary */
 #define MAX_ACTIVE_SKILLS (10)
 #define MAX_PASSIVE_SKILLS (10)
 
@@ -31,7 +31,7 @@ typedef struct skilltree_stub {
 } skilltree_stub_t;
 
 
-/* A player class struct storing the name, descriptions, attributes, 
+/* A player class struct storing the name, descriptions, attributes,
  * and stats */
 typedef struct class {
     // Name of the class
