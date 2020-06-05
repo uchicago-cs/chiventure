@@ -33,7 +33,7 @@ int print_hp(battle_t* b, char* string)
     int slen = strnlen(string);
     int n;
 
-    char *temp[BUFFER_SIZE + 1];
+    char temp[BUFFER_SIZE + 1];
 
     n = snprintf(temp, BUFFER_SIZE, "-- Your HP: %d\n", player_hp);
     strncat(string, temp, BUFFER_SIZE - slen);
