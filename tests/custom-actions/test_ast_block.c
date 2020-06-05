@@ -106,7 +106,7 @@ Test(AST_block_t, init_CONTROL)
     int num_AST = 1;
     AST_block_t **next;
 
-    rc = AST_block_init(&ast, block, block_type, num_AST, *next);
+    rc = AST_block_init(&ast, block, block_type, num_AST, next);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -116,13 +116,14 @@ Test(AST_block_t, init_CONTROL)
 /* Checks that a new AST block with branch type is initialized without interruption */
 Test(AST_block_t, init_BRANCH)
 {
+    AST_block_t ast;
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
     int num_AST = 1;
     AST_block_t **next;
 
-    rc = AST_block_init(&ast, block, block_type, num_AST, *next);
+    rc = AST_block_init(&ast, block, block_type, num_AST, next);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -132,13 +133,14 @@ Test(AST_block_t, init_BRANCH)
 /* Checks that a new AST block with action type is initialized without interruption */
 Test(AST_block_t, init_ACTION)
 {
+    AST_block_t ast;
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
     int num_AST = 1;
     AST_block_t **next;
 
-    rc = AST_block_init(&ast, block, block_type, num_AST, *next);
+    rc = AST_block_init(&ast, block, block_type, num_AST, next);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -148,13 +150,14 @@ Test(AST_block_t, init_ACTION)
 /* Checks that a new AST block with conditional type is initialized without interruption */
 Test(AST_block_t, init_CONDITIONAL)
 {
+    AST_block_t ast;
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
     int num_AST = 1;
     AST_block_t **next;
 
-    rc = AST_block_init(&ast, block, block_type, num_AST, *next);
+    rc = AST_block_init(&ast, block, block_type, num_AST, next);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
