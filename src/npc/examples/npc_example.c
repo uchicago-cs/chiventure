@@ -9,15 +9,10 @@ const char *banner = "THIS IS AN NPC EXAMPLE PROGRAM";
 /* Creates a sample convo */
 convo_t *create_sample_convo()
 {
-    /*
-     * Starting to build the conversation structure:
-     */
-
+    // Starting to build the conversation structure
     convo_t *showcase_convo = convo_new("See ya later, sucker.");
 
-    /*
-     * Initialize each node with it's primary NPC dialog
-     */
+    // Initialize each node with its NPC dialogue
     node_t *Root = node_new("Root", "Well, what do you want? To #talk#, "
            "#leave#, or continue to #break in#?");
     node_t *WellMet = node_new("WellMet",
@@ -42,9 +37,7 @@ convo_t *create_sample_convo()
            "are at your back ushering you away. The door snaps shut and "
            "you hear the distinct click of a lock turning.");
 
-    /*
-     * Adding all edge options to each node:
-     */
+    // Adding all edge options to each node
     add_edge(Root, edge_new(WellMet, "talk", "I just want to talk."));
     add_edge(Root, edge_new(Leave, "leave", "Wait, this isn't my house!"));
     add_edge(Root, edge_new(PrivacyVio, "break in",
@@ -75,9 +68,7 @@ convo_t *create_sample_convo()
     add_edge(HomeExpl, edge_new(Leave, "leave",
                       "Jeez fine.."));
 
-    /*
-     * Adding the nodes to the mockup:
-     */
+    // Adding the nodes to the example
     append_node(showcase_convo, Root);
     append_node(showcase_convo, WellMet);
     append_node(showcase_convo, PrivacyVio);
