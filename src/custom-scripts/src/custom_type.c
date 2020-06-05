@@ -141,20 +141,3 @@ char* str_t_get(object_t *ot) {
         return ot->data.s;
     }
 }
-
-// see custom_types.h
-bool string_is_lua(char* s) {
-    if (!(s)) { // string is NULL
-        return false;
-    }
-    if (s[0] == 'L' && s[1] == 'U' && s[2] == 'A' && s[3] == ' ') {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-// see custom_types.h
-char* extract_lua(char* s) {
-    return s + 4; // remove the first 4 characters of the string
-}
