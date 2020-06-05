@@ -3,28 +3,24 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle/battle_move_maker.h"
+#include "battle_move_maker.h"
 #include "../../playerclass/examples/class-list.h"
 
 /* See battle_move_maker.h */
-player_t *add_class_move(player_t *player)
+player_t *build_moves(player_t *player)
 {
     move_list_t *moves = move_list();
-
     move_list_t *tmp;
-
     player_t *ret_player;
-
     move_t *ret_move;
-
     char *player_class_name = player->class->name;
 
-    LL_FOREACH(moves, tmp)
+    DL_FOREACH(moves, tmp)
     {
-        if(!(strcmp(player_class_name, tmp->c->name)))
+        if(!(strncmp(player_class_name, tmp->c->name, MAX_NAME_LEN)))
         {
             ret_move = move_new(tmp->spell, tmp->id, NULL, true, tmp->damage, 0);
-            DL_PREPEND(player->moves, ret_move);
+            DL_APPEND(player->moves, ret_move);
             return player;
         }
     }

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle/battle_move_maker.h"
+#include "../../src/battle/examples/battle_move_maker.h"
 #include "playerclass/class.h"
 
 Test(class_moves, bard)
@@ -14,7 +14,7 @@ Test(class_moves, bard)
     
     player_t *player = new_ctx_player("name", test_class,
                                           NULL, NULL, NULL);
-    player_t *ret_player = add_class_move(player);
+    player_t *ret_player = build_moves(player);
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
@@ -43,7 +43,7 @@ Test(class_moves, wizard)
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
-    player_t *ret_player = add_class_move(player);
+    player_t *ret_player = build_moves(player);
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
@@ -73,7 +73,7 @@ Test(class_moves, knight)
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
-    player_t *ret_player = add_class_move(player);
+    player_t *ret_player = build_moves(player);
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
