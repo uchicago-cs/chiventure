@@ -10,43 +10,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-/* An environment enum that contains the following:
- * ENV_GRASS: grass
- * ENV_DESERT: desert
- * ENV_SNOW: snow
- * ENV_WATER: water
- * (temporary values, to be developed at a later time)
- */
-typedef enum environment {
-    ENV_NONE = -1,
-    ENV_GRASS = 0,
-    ENV_DESERT = 1,
-    ENV_SNOW = 2,
-    ENV_WATER = 3
-} environment_t;
-
-/* A turn  enum that contains the following:
- * PLAYER: player turn
- * ENEMY: enemy/enemies turn
- */
-typedef enum turn {
-    PLAYER = 0,
-    ENEMY = 1
-} turn_t;
-
-/* A battle struct that contains the following:
- * - player: a combatant pointer, storing the player
- * - enemy: a combatant pointer, storing the enemy/enemies
- * - environment: stores battle environment
- * - turn: a turn_t enum storing the current turn
- */
-typedef struct battle {
-    combatant_t *player;
-    combatant_t *enemy;
-    environment_t environment;
-    turn_t turn;
-} battle_t;
-
 /* Creates a new battle  struct
  * Parameters:
  * - player: a pointer to player combatant
