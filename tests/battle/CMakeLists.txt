@@ -6,6 +6,7 @@ add_executable(${TEST_EXE}
         test_battle_flow_structs.c
         test_battle_logic.c
         test_battle_moves.c
+        test_battle_move_maker.c
         test_battle_print.c
         test_battle_state.c
         main.c)
