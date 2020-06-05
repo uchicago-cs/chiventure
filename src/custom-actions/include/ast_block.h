@@ -36,6 +36,7 @@ typedef struct AST_block AST_block_t;
 typedef struct AST_block {
     block_t *block;
     block_type_t block_type;
+    int num_AST;
     AST_block_t **next;
 } AST_block_t;
 
@@ -45,12 +46,14 @@ typedef struct AST_block {
  * Parameters: 
  * - block: pointer to either a control, branch, action or conditional block 
  * - enum representing the type of block
+ * - integer showing how many AST blocks are within the sequence
  * - pointer to a list of AST blocks
  * 
  * Returns: 
  * - An AST block. 
  */
-AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t **next);
+AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST, 
+                           AST_block_t **next);
 
 /* 
  * Initializes an AST block. 
@@ -59,13 +62,14 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t 
  * - AST block. Must point to already allocated memory. 
  * - block: pointer to either a control, branch, action or conditional block 
  * - enum representing the type of block
+ * - integer showing how many AST blocks are within the sequence
  * - pointer to a list of AST blocks
  * 
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */
 int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type, 
-                   AST_block_t **next);
+                   int num_AST, AST_block_t **next);
 
 /* 
  * Frees an AST block. 

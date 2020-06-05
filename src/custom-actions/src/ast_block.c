@@ -11,7 +11,8 @@
 #include "ast_block.h"
 
 /* See ast_block.h */
-AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t **next)
+AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST, 
+                           AST_block_t **next)
 {
     AST_block_t *ast = malloc(sizeof(AST_block_t));
     int new_ast;
@@ -22,7 +23,7 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t 
         return NULL;
     }
 
-    new_ast = AST_block_init(ast, block, block_type, *next);
+    new_ast = AST_block_init(ast, block, block_type, num_AST, *next);
     if (new_ast != SUCCESS)
     {
         fprintf(stderr, "Could not initialize AST_block_t");
@@ -33,13 +34,16 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t 
 }
 
 /* See ast_block.h */
-int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type, AST_block_t **next)
+int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type,
+                   int num_AST, AST_block_t **next)
 {
     assert(ast != NULL); 
     assert(block != NULL);
-    
+    assert(num_AST > 0);
+ 
     ast->block = block;
     ast->block_type = block_type;
+    ast->num_AST = num_AST;
     ast->next = *next;
 
     return SUCCESS; 
@@ -74,6 +78,11 @@ int AST_block_free(AST_block_t *ast)
             {
                 branch_block_free(ast->block->branch_block);
             }
+    }
+    if (ast->num_AST > 1) {
+        for (int n = 0; n < ast->num_AST - 1; n++) {
+            AST_block_free(ast->next[n]);
+        }
     }
     free(ast);
 
