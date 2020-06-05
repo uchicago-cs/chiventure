@@ -20,6 +20,8 @@
 #include "openworld/gen_structs.h"
 #include "openworld/default_rooms.h"
 
+#define MAX_RAND_ITEMS (6)
+
 /* See autogenerate.h */
 bool path_exists_in_dir(room_t *r, char *direction)
 {
