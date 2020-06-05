@@ -10,6 +10,7 @@ target_link_libraries(cli checkpointing)
 target_link_libraries(cli action_management)
 target_link_libraries(cli ui)
 target_link_libraries(cli game-state)
+target_link_libraries(cli wdl)
 target_link_libraries(cli common)
 
 # EXAMPLES

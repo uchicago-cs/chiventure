@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include "ui/ui_ctx.h"
 #include "ui/coordinate.h"
 
 
