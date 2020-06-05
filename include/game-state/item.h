@@ -28,6 +28,7 @@ typedef struct item {
     char *long_desc;
     game_action_hash_t *actions;
     attribute_hash_t *attributes; // a hashtable for all attributes
+    struct item *next; // points to item w/ identical id, if it exists
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are
@@ -430,6 +431,6 @@ int delete_all_attributes(attribute_hash_t *attributes);
     FAILURE for failure, SUCCESS for success
 */
 int game_action_init(game_action_t *new_action, char *act_name, 
-		     char* success_str, char* fail_str);
+             char* success_str, char* fail_str);
 
 #endif

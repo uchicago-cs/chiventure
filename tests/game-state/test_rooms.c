@@ -64,8 +64,9 @@ Test(room_item, add_item_to_room)
 }
 
 /* Tests add_item_to_room
-* Adds two duplicate items and fail
-*/
+ * Adds two duplicate items, succeeding only if items 
+ * have different memory addresses
+ */
 Test(room_item, add_duplicate_item_to_room)
 {
     room_t *new_room = room_new("test_room", "room for testing",
@@ -79,8 +80,11 @@ Test(room_item, add_duplicate_item_to_room)
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
 
     int check = add_item_to_room(new_room, test_item2);
-    cr_assert_eq(check, FAILURE,
-        "add_dup_item_to_room() test: duplicate item added");
+    cr_assert_eq(check, SUCCESS, "duplicate item not added to room correctly");
+    
+    check = add_item_to_room(new_room, test_item2);
+    cr_assert_eq(check, FAILURE, "item at same memory address as item "
+                 "already in room added again to room");
 
 }
 

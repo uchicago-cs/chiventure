@@ -73,11 +73,19 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
     item_t *check;
     
     HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
-
-    if (check != NULL)
+    
+    // Same memory address
+    if (check == new_item)
     {
-        return FAILURE; //this item id is already in use.
+        return FAILURE;
     }
+    else if (check != NULL)
+    {
+        // Same item id, not same memory address
+        HASH_DEL(*ht, check);
+        new_item->next = check;
+    }
+    
     HASH_ADD_KEYPTR(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN),
                     new_item);
 
