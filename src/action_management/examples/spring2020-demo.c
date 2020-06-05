@@ -143,8 +143,8 @@ int add_conditional_room_connections(chiventure_ctx_t *ctx)
 
 int main(int argc, char **argv)
 {
-    chiventure_ctx_t *ctx = chiventure_ctx_new("../src/action_management/"
-                                               "examples/test_game.wdl");
+    game_t *game = load_wdl("../src/action_management/examples/test_game.wdl");
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     set_item_attributes(ctx);
     add_end_conditions(ctx);
@@ -153,6 +153,6 @@ int main(int argc, char **argv)
 
     start_ui(ctx, banner);
 
-    game_free(ctx->game);
+    game_free(game);
     return 0;
 }
