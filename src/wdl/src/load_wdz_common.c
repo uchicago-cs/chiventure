@@ -65,6 +65,7 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
 
     /* First set the game object type (e.g. a room, or an item */
     game_obj->type = match_j_name_to_game_obj_type(j_name);
+    
     /* Loops through all attributes in the object */
     json_object_object_foreach(j_game_obj, attr_name, j_value)
     {
@@ -75,6 +76,11 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
         else
         {
             // awaiting add_attr functions to add a new attribute to object here.
+            //Gets type of the object and sets objtype_t based on value returned by 
+            //json_type json_object_get_type (j_value)
+            if (json_object_is_type(j_value, json_type_boolean)) {
+                
+            }
         }
 
     }
