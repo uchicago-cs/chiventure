@@ -311,3 +311,16 @@ Test(custom_type, arg_t_new_str)
     cr_assert_eq(at->data.s, "testing", "arg_t_str: failed integer assignment");
     cr_assert_eq(at->next, NULL, "arg_t_str next failed assignment");
 }
+
+/** 
+* Checks that the arg_t_add successfully adds arg_t structs to the linked list
+*/
+Test(custom_type, arg_t_add_new)
+{
+    arg_t *head = arg_t_new();
+    arg_t *end = arg_t_new();
+    cr_assert_eq(head->next, NULL, "arg_t next failed assignment");
+    head = arg_t_add(head, end);
+    cr_assert_not_null(head->next);
+}
+
