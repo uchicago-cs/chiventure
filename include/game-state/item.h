@@ -91,7 +91,8 @@ char *get_sdesc_item(item_t *item);
  */
 char *get_ldesc_item(item_t *item);
 
-/* Adds an item to a hashtable of items
+/* Adds an item to a hashtable of items,
+ * as long as the item does not already exist in hashtable
  * 
  * Parameters:
  *  pointer to hashtable of items (pointer necessary for uthash to work)
@@ -121,7 +122,7 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht);
  *  item to add to hashtable
  * 
  * Return:
- *  SUCCESS if successful, FAILURES if failed
+ *  SUCCESS if successful, FAILURE if failed
  */ 
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
 
@@ -430,6 +431,6 @@ int delete_all_attributes(attribute_hash_t *attributes);
     FAILURE for failure, SUCCESS for success
 */
 int game_action_init(game_action_t *new_action, char *act_name, 
-		     char* success_str, char* fail_str);
+             char* success_str, char* fail_str);
 
 #endif

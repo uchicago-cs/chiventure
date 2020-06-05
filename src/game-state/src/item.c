@@ -102,7 +102,16 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
 /* See item.h */
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
 {
-    HASH_DEL(*(ht), old_item);
+    item_t *check;
+    
+    HASH_FIND(hh, *ht, old_item->item_id, strnlen(old_item->item_id, MAX_ID_LEN), check);
+    
+    // Only deletes if item exists in hashtable
+    if (check != NULL)
+    {
+        HASH_DEL(*(ht), old_item);
+    }
+    
     return SUCCESS;
 }
 
