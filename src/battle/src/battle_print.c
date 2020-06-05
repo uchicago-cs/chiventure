@@ -30,7 +30,7 @@ int print_hp(battle_t* b, char* string)
 {
     int player_hp = b->player->stats->hp;
 
-    int slen = strnlen(string);
+    int slen = strnlen(string, BUFFER_SIZE + 1);
     int n;
 
     char temp[BUFFER_SIZE + 1];
