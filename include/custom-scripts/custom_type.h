@@ -43,7 +43,6 @@ typedef struct arg_t
     struct arg_t *next;
 } arg_t;
 
-
 /**
  * arg_t_new() creates an empty arg_t struct
  * Returns:

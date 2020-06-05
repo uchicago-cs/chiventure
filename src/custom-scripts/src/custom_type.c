@@ -175,13 +175,11 @@ int push_args(lua_State *L, object_t* ot) {
             default: // NONE_TYPE
                 break;
         }
-
         // move to next argument
         head = head->next;
     }
     return count;
 }
-
 
 /**
  * Helper function for the getter functions below
