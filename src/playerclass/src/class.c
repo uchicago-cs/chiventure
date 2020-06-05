@@ -1,8 +1,8 @@
-/* 
+/*
  * Defines a player class struct to store base class information.
- * 
+ *
  * For more information see class.h
- */ 
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,15 +19,15 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
 {
     int rc;
     class_t* c;
-    
+
     c = (class_t*) calloc(1, sizeof(class_t));
-    
+
     if(c == NULL)
     {
         fprintf(stderr, "Could not allocate space for class_new.\n");
         return NULL;
     }
-    
+
     rc = class_init(c, name, shortdesc, longdesc, attr, stat, effect);
 
     if (rc == EXIT_FAILURE){
@@ -79,7 +79,7 @@ int class_skills_init(class_t* class)
      *  - designate some skills as baseline and automatically add them
      *    to the relevant skill inventories
      */
-    
+
     return EXIT_SUCCESS;
 }
 
@@ -119,7 +119,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
         return EXIT_FAILURE;
     }
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
-    
+
     if (class_skills_init(class) == EXIT_FAILURE)
     {
         return EXIT_FAILURE;
@@ -133,7 +133,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
 
 /* See class.h */
 int class_free(class_t* class)
-{    
+{
     if (class == NULL)
     {
         return EXIT_SUCCESS;
