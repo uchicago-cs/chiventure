@@ -26,46 +26,54 @@ char* class_execute_skill(char* sk) {
 
 /* see class_skills.h */
 int get_default_ranger(class_t* class) {
-
+    /* TODO */
+    return SUCCESS;
 }
 
 /* see class_skills.h */
 int get_default_rogue(class_t* class) {
-
+    /* TODO */
+    return SUCCESS;
 }
 
 /* see class_skills.h */
 int get_default_monk(class_t* class) {
-
+    /* TODO */
+    return SUCCESS;
 }
 
 /* see class_skills.h */
 int get_default_sorcerer(class_t* class) {
-
+    /* TODO */
+    return SUCCESS;
 }
 
 /* see class_skills.h */
 int get_default_druid(class_t* class) {
-
+    /* TODO */
+    return SUCCESS;
 }
 
 /* see class_skills.h */
 int get_default_elementalist(class_t* class) {
-
+    /* TODO */
+    return SUCCESS;
 }
 
 /* see class_skills.h */
 int get_default_bard(class_t* class) {
-
-    return 0;
+    /* TODO */
+    return SUCCESS;
 }
 
 /* see class_skills.h */
 int get_default_wizard(class_t* class) {
-
+    /* TODO */
+    return SUCCESS;
 }
 
 /* see class_skills.h */
 int get_default_knight(class_t* class) {
-
+    /* TODO */
+    return SUCCESS;
 }
