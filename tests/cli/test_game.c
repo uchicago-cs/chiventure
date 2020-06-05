@@ -12,8 +12,6 @@
  */
 chiventure_ctx_t *create_sample_ctx()
 {
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
-
     game_t *game = game_new("Welcome to Chiventure!");
     room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
     room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
@@ -22,9 +20,8 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
 
-    /* Free default game and replace it with ours */
-    game_free(ctx->game);
-    ctx->game = game;
+    /* Create context */
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
 }
