@@ -71,7 +71,7 @@ AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** co
 
     block_t *block = malloc(sizeof(block));
     block->branch_block = branch;
-    ast = AST_block_new(block, block_type);
+    ast = AST_block_new(block, block_type, num_AST, next);
     return ast;
 }
     
