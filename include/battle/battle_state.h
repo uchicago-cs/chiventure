@@ -1,6 +1,7 @@
 #ifndef BATTLE_STATE_H
 #define BATTLE_STATE_H
 
+#include "battle_ai.h"
 #include "battle_moves.h"
 #include "battle_structs.h"
 #include "common/utlist.h"
