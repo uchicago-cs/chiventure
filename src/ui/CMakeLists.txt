@@ -11,7 +11,8 @@ target_include_directories(ui PRIVATE src/)
 
 target_link_libraries(ui ${CURSES_LIBRARIES})
 
-
+add_subdirectory(examples
+                 EXCLUDE_FROM_ALL)
 
 
 
