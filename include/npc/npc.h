@@ -22,6 +22,7 @@ typedef struct npc {
     int health;
     // convo_t *dialogue;  placeholder for incoming dialogue module
     item_hash_t *inventory;
+    /* pointer to an existing class struct */
     class_t *class; 
 } npc_t;
 
@@ -119,6 +120,20 @@ int change_npc_health(npc_t *npc, int change, int max);
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int add_item_to_npc(npc_t *npc, item_t *item);
+
+
+/* 
+ * Removes the given item from the given npc.
+ * Note that the memory associated with this item is not freed
+ * 
+ * Parameters:
+ *  npc: the npc from whom to remove the item
+ *  item: the item
+ * 
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int remove_item_from_npc(npc_t *npc, item_t *item);
 
 
 /*
