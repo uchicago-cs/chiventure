@@ -77,7 +77,8 @@ return long description");
  for NULL item");
 }
 
-/* Checks that add_item_to_hash adds item to an item hashtable as expected */
+/* Checks that add_item_to_hash adds item to an item hashtable as expected.
+ * Also ensures that adding an item twice returns FAILURE */
 Test(item, add_item_to_hash)
 {
     item_hash_t *ht = NULL;
@@ -130,6 +131,16 @@ Test(item, get_all_items_in_hash)
     list = get_all_items_in_hash(&ht);
     cr_assert_not_null(list, "get_all_items_in_hash returned NULL for "
                        "non-empty hashtable");
+    
+    item_list_t *iter;
+    int count = 0;
+    LL_FOREACH(list, iter)
+    {
+        count++;
+    }
+    
+    cr_assert_eq(count, 2, "get_all_items_in_hash did not include all items "
+                 "in returned list.");
 }
 
 /* Checks that get_all_items_in_hash returns a linked list
