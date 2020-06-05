@@ -49,8 +49,10 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
 
     roomspec->num_built++;
 
-    room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc); // new- we use buff for the room name instead
-    res->items = random_items(roomspec); // new- instead of taking all the items, just take a few of them
+    // we use buff for the room name instead
+    room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
+    // instead of taking all the items, just take a few of them
+    res->items = random_items(roomspec);
 
     res->paths = NULL;
     return res;
@@ -120,16 +122,13 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 /* See autogenerate.h */
 int speclist_from_hash(speclist_t **orig, roomspec_t *hash)
 {
-    speclist_t *spec = NULL;
     roomspec_t *current_room = NULL;
     roomspec_t *tmp = NULL;
 
     HASH_ITER(hh, hash, current_room, tmp) {
         speclist_t *s = speclist_new(current_room);
-        DL_APPEND(spec, s);
+        DL_APPEND(*orig, s);
     }
-
-    DL_APPEND(*orig, spec);
     return SUCCESS;
 }
 
@@ -139,8 +138,6 @@ roomspec_t *random_room_lookup(speclist_t *spec)
     int count;
     speclist_t *tmp = NULL;
     speclist_t *random = NULL;
-
-    char *spliced = NULL;
 
     DL_COUNT(spec, tmp, count);
     int idx = rand() % count, i = 0;
