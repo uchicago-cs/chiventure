@@ -148,14 +148,16 @@ void run_convo(convo_t *c)
     npc_print(c->nodes->cur_node->dialogue);
     npc_print(" Or, you could #ignore# me.");
     node_t *cur;
+    printf("\n\n%d\n\n", c->nodes->cur_node->connection_count);
     while (c->nodes->cur_node->connection_count != 0) 
     {
+        printf("\nCurrent node is %s\n", c->nodes->cur_node->node_id);
         printf("\n\n> Talk about: ");
+        printf("\n%d\n", c->nodes->cur_node->connection_count);
         cur = traverse_edge(c->nodes->cur_node, c->farewell);
         if (cur != NULL) 
         {
-            c->nodes->cur_node =
-                c->nodes->cur_node->edges->toward;
+            c->nodes->cur_node = cur;
         }
     }
     end_convo(c->farewell, false);
@@ -191,6 +193,8 @@ int main()
     /*
      * Initialize each node with it's primary NPC dialog
      */
+    node_t *Root = node_new("Root", "Well, what do you want? To #talk#, "
+           "#leave#, or continue to #break in#?");
     node_t *WellMet = node_new("WellMet",
            "Mhm fine, that's wonderful, now go ahead and turn around and "
            "get outta #my house#. You can't #come and go# as you wish.");
@@ -216,6 +220,10 @@ int main()
     /*
      * Adding all edge options to each node:
      */
+    add_edge(Root, edge_new(WellMet, "talk", "I just want to talk."));
+    add_edge(Root, edge_new(Leave, "leave", "Wait, this isn't my house!"));
+    add_edge(Root, edge_new(PrivacyVio, "break in",
+                            "I think I'll have a quick look around."));
     add_edge(WellMet, edge_new(HomeExpl, "my house",
                       "Shucks, seemed abandoned to me."));
     add_edge(WellMet, edge_new(HomeExpl, "come and go",
@@ -245,6 +253,7 @@ int main()
     /*
      * Adding the nodes to the mockup:
      */
+    append_node(showcase_convo, Root);
     append_node(showcase_convo, WellMet);
     append_node(showcase_convo, PrivacyVio);
     append_node(showcase_convo, HomeExpl);
