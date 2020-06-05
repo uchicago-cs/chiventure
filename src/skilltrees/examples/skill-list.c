@@ -2,7 +2,7 @@
  * Class list to integrate with battle systems. 
  * See class-list.h for more information.
  */
-#include "class-list.h"
+#include "skilltrees/skill-list.h"
 
 #define MAX_SPELL_DESC_LEN (50)
 
