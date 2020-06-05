@@ -290,6 +290,23 @@ Test(autogenerate, room_generate_success_one)
     roomspec_t *rspec = random_room_lookup(spec);
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
+
+    path_hash_t *current, *tmp;
+    room_t *new_room;
+    HASH_ITER(hh, g->curr_room->paths, current, tmp) {
+        // current is an outward path from curr_room
+        new_room = current->dest;
+        break;
+    }
+
+    current = NULL;
+    tmp = NULL;
+    unsigned int count = 0;
+    HASH_ITER(hh, new_room->paths, current, tmp) {
+        count++;
+    }
+
+    cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
 }
 
 /* 2 roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
@@ -340,6 +357,23 @@ Test(autogenerate, room_generate_success_two)
     roomspec_t *rspec = random_room_lookup(spec);
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
+
+    path_hash_t *current, *tmp;
+    room_t *new_room;
+    HASH_ITER(hh, g->curr_room->paths, current, tmp) {
+        // current is an outward path from curr_room
+        new_room = current->dest;
+        break;
+    }
+
+    current = NULL;
+    tmp = NULL;
+    unsigned int count = 0;
+    HASH_ITER(hh, new_room->paths, current, tmp) {
+        count++;
+    }
+
+    cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
 }
 
 /* 3 roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
@@ -396,6 +430,23 @@ Test(autogenerate, room_generate_success_three)
     roomspec_t *rspec = random_room_lookup(spec);
     cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
+
+    path_hash_t *current, *tmp;
+    room_t *new_room;
+    HASH_ITER(hh, g->curr_room->paths, current, tmp) {
+        // current is an outward path from curr_room
+        new_room = current->dest;
+        break;
+    }
+
+    current = NULL;
+    tmp = NULL;
+    unsigned int count = 0;
+    HASH_ITER(hh, new_room->paths, current, tmp) {
+        count++;
+    }
+
+    cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
 }
 
 /* Checks that multi_room_generate returns FAILURE if the current room of the
