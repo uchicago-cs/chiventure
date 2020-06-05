@@ -52,7 +52,7 @@ Test(battle_print, print_hp_one_enemy)
     b->enemy->stats->hp = 64;
 
     /* Set up string to store message in */
-    char* string = calloc(1, BUFFER_SIZE);
+    char* string = calloc(BUFFER_SIZE + 1, sizeof(char));
 
     /* Test print_hp() */
     int rc = print_hp(b, string);
@@ -90,7 +90,7 @@ Test(battle_print, print_hp_two_enemies)
     b->enemy->next->stats->hp = 75;
 
     /* Set up string to store message in */
-    char* string = calloc(1, BUFFER_SIZE);
+    char* string = calloc(BUFFER_SIZE + 1, sizeof(char));
 
     /* Test print_hp() */
     int rc = print_hp(b, string);
