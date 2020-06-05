@@ -133,7 +133,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
 	    condition = remove_condition(closed_path,a);
 	    if (condition != SUCCESS)
 	    {
-		sprintf(string, "condition was not removed")
+		sprintf(string, "condition was not removed");
 	    }
 
             // successfully carried out action
@@ -195,7 +195,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     condition = remove_condition(closed_path,a);
     if (condition != SUCCESS)
     {
-        sprintf(string, "condition was not removed")
+        sprintf(string, "condition was not removed");
     }
 
     if (is_game_over(g)) {
@@ -300,7 +300,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
             condition = remove_condition(closed_path,a);
             if (condition != SUCCESS)
             {
-                sprintf(string, "condition was not removed")
+                sprintf(string, "condition was not removed");
             }
 
             // successfully carried out action
@@ -316,28 +316,4 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     return FAILURE;
 }
 
-int delete_action(list_action_type_t *act, action_type_t *a)
-{
-    list_action_type_t *temp, *prev;
-    temp = act;
-
-    if (temp != NULL && temp->act == a)
-    {
-	act = temp->next;
-	return SUCCESS;
-    }
-
-    while (temp != NULL && temp->act != a)
-    {
-	prev = temp;
-	temp = temp->next;
-    }
-
-    if (temp != NULL)
-    {
-	prev->next = temp->next;
-    }
-
-    return SUCCESS;
-}
 

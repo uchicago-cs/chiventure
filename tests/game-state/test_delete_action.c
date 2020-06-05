@@ -2,35 +2,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/game_action.h"
-#include "action_management/action_structs.h"
+#include "action_management/actionmanagement.h"
 
 /* helper function that creates the same list to test and takes in the 
  * action to delete as a parameter
  */
-int delete_helper(action_type_t *a)
+int delete_helper(list_action_type_t *act, action_type_t *a)
 {
-    struct action_type_t *eat, *go, *open;
-    eat = action_type_new("eat", ITEM, 0);
-    go = action_type_new("go", PATH, 0);
-    open = action_type_new("openn", ITEM, 0);
-
-    //organize action_types into a linked list
-    struct list_action_type_t *first, *second, *last, *temp;
-    last->act = open;
-    last->next = NULL;
-    second->act = go;
-    second->next = last;
-    first->act = eat;
-    first->next = second;
-
     int rc;
-    rc = delete_action(first_condition, a);
+    rc = delete_action(act, a);
 
-    //go through each item to make sure ut's not there
-    temp = &first
+    //go through each item to make sure it's not there
+    list_action_type_t *temp;
+    temp = act;
     while (temp != NULL)
     {
-	cr_assert_not_eq(temp, a, "delete_action() didn't remove action");
+	cr_assert_neq(temp, a, "delete_action() didn't remove action");
     }
 
     return SUCCESS;
@@ -39,21 +26,63 @@ int delete_helper(action_type_t *a)
 /* checks if delete_action can delete the first node */
 Test(delete_action,delete_first)
 {   
+    action_type_t *eat, *go, *open;
+    eat = action_type_new("eat", ITEM);
+    go = action_type_new("go", PATH);
+    open = action_type_new("open", ITEM);
+
+    //organize action_types into a linked list
+    list_action_type_t *first, *second, *last;
+    last->act = open;
+    last->next = NULL;
+    second->act = go;
+    second->next = last;
+    first->act = eat;
+    first->next = second;
+
     int rc;
-    rc = delete_helper(eat);
+    rc = delete_helper(first, eat);
 }
 
 /* checks if delete_action can delete the middle node */
 Test(delete_action,delete_middle)
 {   
+    action_type_t *eat, *go, *open;
+    eat = action_type_new("eat", ITEM);
+    go = action_type_new("go", PATH);
+    open = action_type_new("open", ITEM);
+
+    //organize action_types into a linked list
+    list_action_type_t *first, *second, *last;
+    last->act = open;
+    last->next = NULL;
+    second->act = go;
+    second->next = last;
+    first->act = eat;
+    first->next = second;
+
     int rc;
-    rc = delete_helper(go);
+    rc = delete_helper(first, go);
 }
 
 /* checks if delete_action can delete the last node */
 Test(delete_action,delete_last)
 {   
+    action_type_t *eat, *go, *open;
+    eat = action_type_new("eat", ITEM);
+    go = action_type_new("go", PATH);
+    open = action_type_new("open", ITEM);
+
+    //organize action_types into a linked list
+    list_action_type_t *first, *second, *last;
+    last->act = open;
+    last->next = NULL;
+    second->act = go;
+    second->next = last;
+    first->act = eat;
+    first->next = second;
+
     int rc;
-    rc = delete_helper(open);
+    rc = delete_helper(first, open);
 }
 
