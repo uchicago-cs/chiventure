@@ -150,6 +150,17 @@ stats_global_t *stats_global_new(char *name, double max);
  */
 stats_t *stats_new(char *stats_name, double init);
 
+/*
+ * Allocates a new stat_mod struct
+ *
+ * Parameters:
+ * stat: the pointer to a stat struct.
+ * modifier: modifier for the stat
+ * duration: duration an effect with this stat_mod should last
+ * 
+ * Returns:
+ *  Pointer to allocated stat_mod struct
+ */
 stat_mod_t *stat_mod_new(stats_t *stat, double modifier, int duration);
 
 /*

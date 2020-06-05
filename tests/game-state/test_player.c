@@ -220,8 +220,10 @@ Test(player, add_item_effect_to_player)
 
   add_item_to_player(player, new_item);
 
-  cr_assert_not_null(e1->stat_list, "add_item did not add stat_mod to effect");
-  cr_assert_eq(player->player_stats->modifier, 1.125, "add_item did not update modifier");
+  cr_assert_not_null(e1->stat_list, 
+                     "add_item did not add stat_mod to effect");
+  cr_assert_eq(player->player_stats->modifier, 1.125, 
+               "add_item did not update modifier");
 
 }
 

@@ -156,14 +156,7 @@ int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect) {
     return SUCCESS;
 }
 
-/* Compares two stat_mod_t struct for equality
- *
- * Parameters: 
- * - mod1, mod2: two stat_mod_t structs
- *
- * Returns:
- * 0 when equal, nonzero value when not equal
- */
+/* See stats.h */
 int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2) {
     return strcmp(m1->stat->key, m2->stat->key);
 }
