@@ -7,6 +7,7 @@
 
 #include "common/utlist.h"
 #include "skilltrees/inventory.h"
+#include "skilltrees/skilltree.h"
 #include "game-state/stats.h"
 #include "libobj/obj.h"
 
@@ -25,10 +26,9 @@
 #define MAX_ACTIVE_SKILLS (10)
 #define MAX_PASSIVE_SKILLS (10)
 
-// skilltrees stub
-typedef struct skilltree_stub {
-    obj_t* skilltree;
-} skilltree_stub_t;
+/* max number of skills in a class' skilltree
+ * number is utterly arbitrary */
+#define MAX_SKILLS_IN_TREE (5)
 
 
 /* A player class struct storing the name, descriptions, attributes, 
@@ -53,7 +53,7 @@ typedef struct class {
     effects_hash_t* effects;
 
     // Class skilltree
-    skilltree_stub_t* skilltree;
+    skill_tree_t* skilltree;
 
     // Class combat actions
     skill_inventory_t* combat;

@@ -57,6 +57,7 @@ int get_default_elementalist(class_t* class) {
 /* see class_skills.h */
 int get_default_bard(class_t* class) {
 
+    return 0;
 }
 
 /* see class_skills.h */

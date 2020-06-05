@@ -5,7 +5,8 @@
 #define CLASS_SKILLS_H
 
 #include "playerclass/class.h"
-#include "skilltrees/skilltrees.h"
+#include "skilltrees/inventory.h"
+#include "skilltrees/skilltree.h"
 
 /*
  * fills in the skill-related structs of a class with the default skills
