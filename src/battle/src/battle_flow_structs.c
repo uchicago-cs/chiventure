@@ -20,7 +20,7 @@ player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *move
 }
 
 /* Sets up pointer to npc struct, stub for an npc representing the enemy */
-npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, item_t* items)
+npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, item_t* items,difficulty_t ai)
 {
     npc_enemy_t *npc_e = calloc(1, sizeof(npc_enemy_t));
     assert(npc_e != NULL);
@@ -30,6 +30,7 @@ npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t 
     npc_e->stats = stats;
     npc_e->moves = moves;
     npc_e->items = items;
+    npc_e->ai = ai;
     npc_e->prev = NULL;
     npc_e->next = NULL;
 

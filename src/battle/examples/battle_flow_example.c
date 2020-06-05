@@ -23,7 +23,7 @@ int main()
     DL_APPEND(e_moves, e_move1);
     DL_APPEND(e_moves, e_move2);
     npc_enemy_t *e = NULL;
-    DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, e_moves, NULL));
+    DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, e_moves, NULL, BATTLE_AI_GREEDY));
 
     chiventure_ctx_battle_t *ctx = 
         (chiventure_ctx_battle_t*) calloc(1, sizeof(chiventure_ctx_battle_t));

@@ -31,7 +31,7 @@ combatant_t *set_player(player_t *ctx_player)
 
     // Allocating new combatant_t for the player in memory
     combatant_t *comb_player = combatant_new(name, is_friendly, class, stats,
-                                             moves, items);
+                                             moves, items, NONE);
 
     assert(comb_player != NULL);
 
@@ -53,8 +53,9 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         stat_t *stats = enemy_elt->stats;
         move_t *moves = enemy_elt->moves;
         item_t *items = enemy_elt->items;
+        difficulty_t ai = enemy_elt->ai;
 
-        comb_enemy = combatant_new(name, is_friendly, class, stats, moves, items);
+        comb_enemy = combatant_new(name, is_friendly, class, stats, moves, items, ai);
 
         assert(comb_enemy != NULL);
 
@@ -122,13 +123,13 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
         return SUCCESS;
     }
 
-    move_t *enemy_move = give_move(b->player, b->enemy, BATTLE_AI_GREEDY);
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
-    
-    if(b->enemy->moves != NULL)
+    move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
+
+    if(enemy_move != NULL)
     {
-        b->player->stats->hp -= b->enemy->moves->damage;
+        b->player->stats->hp -= enemy_move->damage;
     }
     else
     {

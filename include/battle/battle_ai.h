@@ -8,12 +8,6 @@
 #include "battle_structs.h"
 #include "battle_moves.h"
 
-typedef enum difficulty {
-    BATTLE_AI_GREEDY = 0,
-    BATTLE_AI_RANDOM = 1
-} difficulty_t;
-
-
 /* Given a difficulty level, the player the move is going to be used 
  *      against, and the enemy, give_move returns a move
  * Inputs:

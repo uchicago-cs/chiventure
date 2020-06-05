@@ -7,7 +7,7 @@
 
 /* See battle_state.h */
 combatant_t *combatant_new(char *name, bool is_friendly, class_t *class, stat_t *stats,
-    move_t *moves, item_t *items)
+    move_t *moves, item_t *items, difficulty_t ai)
 {
     combatant_t *c;
     int rc;
@@ -19,7 +19,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class, stat_t 
         return NULL;
     }
 
-    rc = combatant_init(c, name, is_friendly, class, stats, moves, items);
+    rc = combatant_init(c, name, is_friendly, class, stats, moves, items, ai);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Could not initialize character\n");
@@ -31,7 +31,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class, stat_t 
 
 /* See battle_state.h */
 int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class, stat_t *stats,
-    move_t *moves, item_t *items)
+    move_t *moves, item_t *items, difficulty_t ai)
 {
     assert(c != NULL);
 
@@ -42,6 +42,7 @@ int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class,
     c->stats = stats;
     c->moves = moves;
     c->items = items;
+    c->ai = ai;
     c->next = NULL;
     c->prev = NULL;
 

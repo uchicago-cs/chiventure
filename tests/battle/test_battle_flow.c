@@ -47,13 +47,14 @@ Test(battle_flow, set_one_enemy)
                                      NULL, NULL, NULL);
 
     npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name",
-                                            test_class, NULL, NULL, NULL);
+                                            test_class, NULL, NULL, NULL, BATTLE_AI_GREEDY);
 
     combatant_t *comb_enemy = set_enemies(npc_enemy);
 
     cr_assert_not_null(comb_enemy, "set_enemies() failed");
     cr_assert_str_eq(comb_enemy->name, "enemy_name", "set_enemies() didn't set name");
     cr_assert_eq(comb_enemy->is_friendly, false, "set_enemies() didn't set type");
+    cr_assert_eq(comb_enemy->ai, BATTLE_AI_GREEDY, "set_enemies() didn't set ai");
     cr_assert_eq(comb_enemy->next, NULL, "set_enemies() didn't set next");
     cr_assert_not_null(comb_enemy->prev, "set_enemies() didn't set prev");
 
@@ -74,8 +75,8 @@ Test(battle_flow, set_one_enemy)
 Test(battle_flow, set_two_enemies)
 {
     npc_enemy_t *head = NULL;
-    npc_enemy_t *e1 = make_npc_enemy("enemy_name", NULL, NULL, NULL, NULL);
-    npc_enemy_t *e2 = make_npc_enemy("enemy_name2", NULL, NULL, NULL, NULL);
+    npc_enemy_t *e1 = make_npc_enemy("enemy_name", NULL, NULL, NULL, NULL, BATTLE_AI_GREEDY);
+    npc_enemy_t *e2 = make_npc_enemy("enemy_name2", NULL, NULL, NULL, NULL, BATTLE_AI_RANDOM);
     DL_APPEND(head, e1);
     DL_APPEND(head, e2);
     cr_assert_not_null(e1, "make_npc_enemy() failed");
@@ -87,6 +88,7 @@ Test(battle_flow, set_two_enemies)
     cr_assert_not_null(comb_enemy1, "set_enemies() failed");
     cr_assert_str_eq(comb_enemy1->name, "enemy_name", "set_enemies() didn't set name");
     cr_assert_eq(comb_enemy1->is_friendly, false, "set_enemies() didn't set type");
+    cr_assert_eq(comb_enemy1->ai, BATTLE_AI_GREEDY, "set_enemies() didn't set first ai");
     cr_assert_not_null(comb_enemy1->next, "set_enemies() didn't set next");
     cr_assert_not_null(comb_enemy1->prev, "set_enemies() didn't set prev");
 
@@ -96,6 +98,7 @@ Test(battle_flow, set_two_enemies)
     cr_assert_not_null(comb_enemy2, "set_enemies() failed");
     cr_assert_str_eq(comb_enemy2->name, "enemy_name2", "set_enemies() didn't set name");
     cr_assert_eq(comb_enemy2->is_friendly, false, "set_enemies() didn't set type");
+    cr_assert_eq(comb_enemy2->ai, BATTLE_AI_RANDOM, "set_enemies() didn't set second type");
     cr_assert_eq(comb_enemy2->next, NULL, "set_enemies() didn't set next");
     cr_assert_not_null(comb_enemy2->prev, "set_enemies() didn't set prev");
 }
@@ -104,7 +107,7 @@ Test(battle_flow, set_two_enemies)
 Test(battle_flow, set_battle)
 {
     player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
-    npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL, NONE);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
@@ -138,7 +141,7 @@ Test(battle_flow, start_battle)
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
-    npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, NULL, NONE);
     environment_t env = ENV_SNOW;
 
     int rc = start_battle(ctx, npc_enemy, env);
@@ -160,7 +163,8 @@ Test(battle_flow, return_success_battle_flow)
     ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), 
+        NULL, BATTLE_AI_GREEDY);
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
@@ -186,7 +190,8 @@ Test(battle_flow, do_damage_battle_flow)
     ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), 
+        NULL, BATTLE_AI_GREEDY);
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
@@ -222,7 +227,8 @@ Test(battle_flow, battle_over_by_player)
     ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 100;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), 
+        NULL, BATTLE_AI_GREEDY);
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
@@ -256,7 +262,8 @@ Test(battle_flow, battle_over_by_enemy)
     ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(size_t));
     estats->hp = 20;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, test_move_bard(), 
+    NULL, BATTLE_AI_GREEDY);
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
