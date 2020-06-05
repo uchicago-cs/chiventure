@@ -70,16 +70,20 @@ char *get_ldesc_item(item_t *item)
 /* See item.h */
 int add_item_to_hash(item_hash_t **ht, item_t *new_item)
 {
-    item_t *check;
+    item_t *check, *itr;
     
     HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
     
     // Same memory address
-    if (check == new_item)
+    LL_FOREACH(check, itr)
     {
-        return FAILURE;
+        if (itr == new_item)
+        {
+            return FAILURE;
+        }
     }
-    else if (check != NULL)
+    
+    if (check != NULL)
     {
         // Same item id, not same memory address
         HASH_DEL(*ht, check);
@@ -96,13 +100,16 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
 item_list_t *get_all_items_in_hash(item_hash_t **ht)
 {
     item_list_t *head = NULL;
-    item_t *ITTMP_ITEMRM, *curr_item;
+    item_t *ITTMP_ITEMRM, *curr_item, *dup_item;
     item_list_t *tmp;
     HASH_ITER(hh, *ht, curr_item, ITTMP_ITEMRM)
     {
-        tmp = malloc(sizeof(item_list_t));
-        tmp->item = curr_item;
-        LL_APPEND(head, tmp);
+        LL_FOREACH(curr_item, dup_item)
+        {
+            tmp = malloc(sizeof(item_list_t));
+            tmp->item = dup_item;
+            LL_APPEND(head, tmp);
+        }
     }
     return head;
 }
