@@ -54,7 +54,7 @@ Test(npc, init)
     class_t* c;
     npc_t *npc;
     int res;
-
+  
     npc = npc_new("test", "woman", "short woman", 30, NULL);
   
     c = generate_test_class();
@@ -87,6 +87,7 @@ Test(npc, free)
     res = npc_free(npc);
 
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
+
 }
 
 /* Checks that get_sdesc_npc() returns the short description of the npc */
@@ -148,6 +149,7 @@ Test(npc, change_npc_health)
 {
     npc_t *npc;
     int health1, health2, health3;
+
 
     npc = npc_new("npc_22", "short", "long", 99, NULL); 
     health1 = change_npc_health(npc, 2, 100); 
