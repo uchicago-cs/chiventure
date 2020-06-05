@@ -92,6 +92,8 @@ arg_t *arg_t_str(char *s);
  * Parameters:
  * - head of the arg_t linked list
  * - arg_t struct to be added
+ * Returns:
+ * - head of the arg_t linked list
  */
 arg_t *arg_t_add(arg_t *head, arg_t *add);
 

@@ -137,7 +137,6 @@ object_t *obj_t_str(char *s, char *lua, arg_t* head)
 int push_args(lua_State *L, object_t* ot) {
     int count = 0; // number of arguments in linked list
     arg_t *head = ot->args;
-    printf("running push args\n");
     if (head == NULL) {
     }
     // push arguments one-by-one
@@ -164,7 +163,6 @@ int push_args(lua_State *L, object_t* ot) {
             case INT_TYPE:
             {
                 int i = head->data.i;
-                printf("arg = %d\n", i);
                 lua_pushnumber(L, i);
                 break;
             }
@@ -210,7 +208,6 @@ lua_State *callLua(object_t *ot, char *lua_path) {
 
     // push functions and arguments and call function
     lua_getglobal(L, "foo");
-    printf("calling push_args\n");
     int num_args = push_args(L, ot);
     lua_pcall(L, num_args, 1, 0);
 
@@ -224,7 +221,6 @@ bool bool_t_get(object_t *ot) {
         char *lua_path = ot->data.lua;
         lua_State *L = callLua(ot, lua_path);
         int result = (int)lua_toboolean(L, -1);
-        printf("result = %d\n", result);
         lua_pop(L, 1);
         if (result)
             return true;

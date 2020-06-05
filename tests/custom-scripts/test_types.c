@@ -6,6 +6,82 @@
 #include "custom-scripts/custom_type.h"
 
 /** 
+* Checks that the arg_t struct contains the right data when arg_t_new() is called
+*/
+Test(custom_type, arg_t_new)
+{
+    arg_t *at = arg_t_new();
+    cr_assert_eq(at->type, NONE_TYPE, "arg_t_new: failed type assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_new: failed is_lua assignment");
+}
+
+/** 
+* Checks that the arg_t struct contains a boolean value when arg_t_bool() is called
+*/
+Test(custom_type, arg_t_new_bool)
+{
+    arg_t *at = arg_t_bool(true);
+    cr_assert_eq(at->type, BOOL_TYPE, "arg_t_bool: failed type assignment");
+    cr_assert_eq(at->data.b, true, "arg_t_bool: failed bool assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_bool next failed assignment");
+}
+
+/** 
+* Checks that the arg_t struct contains a char value when arg_t_char() is called
+*/
+Test(custom_type, arg_t_new_char)
+{
+    arg_t *at = arg_t_char('a');
+    cr_assert_eq(at->type, CHAR_TYPE, "arg_t_char: failed type assignment");
+    cr_assert_eq(at->data.c, 'a', "arg_t_char: failed char assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_char next failed assignment");
+}
+
+/** 
+* Checks that the arg_t struct contains a int value when arg_t_int() is called
+*/
+Test(custom_type, arg_t_new_int)
+{
+    arg_t *at = arg_t_int(10);
+    cr_assert_eq(at->type, INT_TYPE, "arg_t_int: failed type assignment");
+    cr_assert_eq(at->data.i, 10, "arg_t_int: failed integer assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_int next failed assignment");
+}
+
+/** 
+* Checks that the arg_t struct  contains a string  value when arg_t_str() is called
+*/
+Test(custom_type, arg_t_new_str)
+{
+    arg_t *at = arg_t_str("testing");
+    cr_assert_eq(at->type, STR_TYPE, "arg_t_str: failed type assignment");
+    cr_assert_eq(at->data.s, "testing", "arg_t_str: failed integer assignment");
+    cr_assert_eq(at->next, NULL, "arg_t_str next failed assignment");
+}
+
+/** 
+* Checks that the arg_t_add correctly adds arg_t structs to the linked list
+*/
+Test(custom_type, arg_t_add)
+{
+    arg_t *head = arg_t_str("I am head");
+    arg_t *second = arg_t_int(2);
+    arg_t *third = arg_t_char('3');
+    arg_t *end = arg_t_bool(true);
+    head = arg_t_add(head, second);
+    head = arg_t_add(head, third);
+    head = arg_t_add(head, end);
+
+    cr_assert_str_eq(head->data.s, "I am head", "arg_t_add: failed head initialization");
+    cr_assert_eq(head->next->data.i, 2, "arg_t_add: failed arg_t addition");
+    cr_assert_eq(head->next->next->data.c, '3', "arg_t_add: failed arg_t addition");
+    cr_assert_eq(head->next->next->next->data.b, true, "arg_t_add: failed arg_t addition");
+    cr_assert_null(head->next->next->next->next, "arg_t_add: failed to terminate linked list");
+}
+
+// ============================================================================
+
+/** 
  * Checks that the object_t struct contains the right data when obj_t_new() called
  */
 Test(custom_type, obj_t_new)
@@ -242,7 +318,7 @@ Test(custom_type, obj_t_get_str)
 {
     object_t *ot = obj_t_str("testing", NULL, NULL);
     char *rv = str_t_get(ot);
-    cr_assert_eq(rv, "testing", "obj_t_get_str: failed str direct retrieval");
+    cr_assert_str_eq(rv, "testing", "obj_t_get_str: failed str direct retrieval");
 }
 
 /** 
@@ -252,75 +328,20 @@ Test(custom_type, obj_t_get_str_lua)
 {
     object_t *ot = obj_t_str("testing_failed", "../../../tests/custom-scripts/Lua_file/string_test.lua", NULL);
     char *rv = str_t_get(ot);
-    int result = strcmp(rv, "testing_succeeded");
-    cr_assert_eq(result, 0, "string_t_get: failed string Lua retrieval");
-}
-
-// ============================================================================
-
-/** 
-* Checks that the arg_t struct contains the right data when arg_t_new() is called
-*/
-Test(custom_type, arg_t_new)
-{
-    arg_t *at = arg_t_new();
-    cr_assert_eq(at->type, NONE_TYPE, "arg_t_new: failed type assignment");
-    cr_assert_eq(at->next, NULL, "arg_t_new: failed is_lua assignment");
+    cr_assert_str_eq(rv, "testing_succeeded", "string_t_get: failed string Lua retrieval");
 }
 
 /** 
-* Checks that the arg_t struct contains a boolean value when arg_t_bool() is called
-*/
-Test(custom_type, arg_t_new_bool)
+ * Checks that the object_t struct returns the correct string (lua)
+ * When arguments are passed in Lua
+ */
+Test(custom_type, obj_t_get_str_lua_args)
 {
-    arg_t *at = arg_t_bool(true);
-    cr_assert_eq(at->type, BOOL_TYPE, "arg_t_bool: failed type assignment");
-    cr_assert_eq(at->data.b, true, "arg_t_bool: failed bool assignment");
-    cr_assert_eq(at->next, NULL, "arg_t_bool next failed assignment");
-}
+    arg_t *args = arg_t_add(arg_t_str("Test "), arg_t_str("passes!"));
+    object_t *ot = obj_t_str(" ", "../../../tests/custom-scripts/Lua_file/string_test_args.lua", args);
+    char *rv = str_t_get(ot);
+    // int equal = strcmp(rv, "Test passes!");
+    // cr_assert_eq(equal, 0, "obj_t_get_int: failed string direct retrieval");
+    cr_assert_str_eq(rv, "Test passes!", "obj_t_get_int: failed string direct retrieval");
 
-/** 
-* Checks that the arg_t struct contains a char value when arg_t_char() is called
-*/
-Test(custom_type, arg_t_new_char)
-{
-    arg_t *at = arg_t_char('a');
-    cr_assert_eq(at->type, CHAR_TYPE, "arg_t_char: failed type assignment");
-    cr_assert_eq(at->data.c, 'a', "arg_t_char: failed char assignment");
-    cr_assert_eq(at->next, NULL, "arg_t_char next failed assignment");
 }
-
-/** 
-* Checks that the arg_t struct contains a int value when arg_t_int() is called
-*/
-Test(custom_type, arg_t_new_int)
-{
-    arg_t *at = arg_t_int(10);
-    cr_assert_eq(at->type, INT_TYPE, "arg_t_int: failed type assignment");
-    cr_assert_eq(at->data.i, 10, "arg_t_int: failed integer assignment");
-    cr_assert_eq(at->next, NULL, "arg_t_int next failed assignment");
-}
-
-/** 
-* Checks that the arg_t struct  contains a string  value when arg_t_str() is called
-*/
-Test(custom_type, arg_t_new_str)
-{
-    arg_t *at = arg_t_str("testing");
-    cr_assert_eq(at->type, STR_TYPE, "arg_t_str: failed type assignment");
-    cr_assert_eq(at->data.s, "testing", "arg_t_str: failed integer assignment");
-    cr_assert_eq(at->next, NULL, "arg_t_str next failed assignment");
-}
-
-/** 
-* Checks that the arg_t_add successfully adds arg_t structs to the linked list
-*/
-Test(custom_type, arg_t_add_new)
-{
-    arg_t *head = arg_t_new();
-    arg_t *end = arg_t_new();
-    cr_assert_eq(head->next, NULL, "arg_t next failed assignment");
-    head = arg_t_add(head, end);
-    cr_assert_not_null(head->next);
-}
-
