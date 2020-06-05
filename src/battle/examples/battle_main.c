@@ -1,3 +1,4 @@
+#include "battle_flow.h"
 
 void read_move(char *move, chiventure_ctx_battle_t *ctx)
 {
