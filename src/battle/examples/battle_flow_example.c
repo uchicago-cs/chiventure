@@ -38,11 +38,19 @@ int main()
 
     while(ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     {
-        ctx = battle_flow(ctx, test_move_bard(), "Goblin");
-        printf("Turn %d: \n",turn);
-        printf("    p | hp: %d\n", ctx->game->battle->player->stats->hp);
-        printf("    e | hp: %d\n\n", ctx->game->battle->enemy->stats->hp);
-        turn++;
+        int res = battle_flow(ctx, test_move_bard(), "Goblin");
+        if(res == FAILURE)
+        {
+            fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
+            ctx = NULL;
+        }
+        else
+        {
+            printf("Turn %d: \n",turn);
+            printf("    p | hp: %d\n", ctx->game->battle->player->stats->hp);
+            printf("    e | hp: %d\n\n", ctx->game->battle->enemy->stats->hp);
+            turn++;
+        }
     }
     int winner = battle_over(ctx->game->battle);
     switch (winner) {

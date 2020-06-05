@@ -125,7 +125,15 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
     move_t *enemy_move = give_move(b->player, b->enemy, BATTLE_AI_GREEDY);
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
-    b->player->stats->hp -= enemy_move->damage;
+    
+    if(b->enemy->moves != NULL)
+    {
+        b->player->stats->hp -= b->enemy->moves->damage;
+    }
+    else
+    {
+        return FAILURE;
+    }
     
     if(battle_over(b) == BATTLE_VICTOR_ENEMY)
     {

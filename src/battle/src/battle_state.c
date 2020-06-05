@@ -85,9 +85,9 @@ int combatant_free(combatant_t *c)
         free(item_elt);
     }
 
-	free(c);
+    free(c);
 
-	return SUCCESS;
+    return SUCCESS;
 }
 
 /* See battle_state.h */
