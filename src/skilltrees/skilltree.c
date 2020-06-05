@@ -267,7 +267,7 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
             }
             (*num_missing)++;
         }
-    }*/
+    }
 
     // Make sure we return null if there were no skills already acquired.
     if ((*num_missing) == 0) {
