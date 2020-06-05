@@ -1,9 +1,7 @@
-set(TEST_EXE test-npc)
+set(TEST_EXE test-skilltrees)
 
 add_executable(${TEST_EXE}
-        test_dialogue.c
-        test_npc.c
-        test_rooms_npc.c
+        effect_t.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})

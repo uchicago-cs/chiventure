@@ -6,7 +6,7 @@
 #define CLASS_STRUCTS_H
 
 #include "common/utlist.h"
-#include "skilltrees/skilltrees.h"
+#include "skilltrees/inventory.h"
 #include "game-state/stats.h"
 #include "libobj/obj.h"
 
