@@ -148,7 +148,7 @@ int skill_tree_node_remove(skill_tree_t* tree, skill_node_t* node) {
 }
 
 /* See skilltree.h */
-skill_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
+skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
                                 int* num_prereq_skills) {
     assert(tree != NULL);
 
@@ -164,7 +164,7 @@ skill_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
 }
 
 /* See skilltree.h */
-skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
                                      skill_inventory_t* inventory, sid_t sid,
                                      int* num_acquired_prereqs) {
     assert(tree != NULL && inventory != NULL);
