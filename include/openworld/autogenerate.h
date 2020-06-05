@@ -33,10 +33,6 @@
 * - direction: A string specifying the direction to check for
 *              ("NORTH", "EAST", SOUTH", or "WEST")
 *
-* side effects:
-* - None. Does not alter room/game states. Just determines if the input
-*   room has any paths in the given direction.
-*
 * returns:
 * - true if the room has a path with in the given direction
 * - false if the room has no paths in the give direction
@@ -54,9 +50,6 @@ bool path_exists_in_dir(room_t *r, char *direction);
 *
 * parameters:
 * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
-*
-* side effects:
-* - Creates a new room_t pointer on the heap.
 *
 * returns:
 * The generated room_t struct pointer.
@@ -97,7 +90,7 @@ int room_generate(game_t *game, gencontext_t *gencontext, roomspec_t *rspec);
 * - game: A pointer to a game struct. Should not be NULL.
 * - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
 * - room_id: A unique room_id string for the to-be-generated room.i
-* - num_iters: specifies how many new rooms will be generated
+* - num_rooms: specifies how many new rooms will be generated
 *
 * side effects:
 * - Changes input game to hold the newly generated room(s). Allocated on the heap
@@ -106,12 +99,12 @@ int room_generate(game_t *game, gencontext_t *gencontext, roomspec_t *rspec);
 * - SUCCESS if the new rooms were generated and added (SUCCESS)
 * - FAILURE if the new rooms were not generated/added (FAILURE)
 */
-int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_iters);
+int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms);
 
 /*
 * speclist_from_hash
 * Iterate through all the rooms in a roomspec hash and append them to
-* original speclist in a doulbly linked list.
+* original speclist in a doubly linked list.
 *
 * parameters:
 * - hash: a roomspec hash that has multiple roomspecs
@@ -121,8 +114,6 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 * - speclist_t* a new speclist with all the roomspecs stored in hash copied
 */
 int speclist_from_hash(speclist_t **orig, roomspec_t *hash);
-
-roomspec_t *copy_room(char *name, speclist_t* spec);
 
 /*
 * random_room_lookup

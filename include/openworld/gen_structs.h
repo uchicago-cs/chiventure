@@ -28,6 +28,7 @@
 * - char *room_name: room name and hash key
 * - char *short_desc: short description for room
 * - char *long_desc: long description for room
+* - int num_built: how many rooms of this type have been already built. An identifier.
 * - item_hash_t *items: hash table of items in room
 * - UT_hash_handle hh: hash handle for room spec
 */
