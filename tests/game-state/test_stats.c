@@ -82,8 +82,6 @@ Test (stats, effect_global_init)
     cr_assert_eq(rc, SUCCESS, "global_effect_init failed");
     cr_assert_not_null(effect->name, "global_effect_init did not set effect name");
     cr_assert_str_eq(effect->name, "health", "global_effect_init did not set name");
-
-    free(effect);
 }
 
 /* Checks that global_effect_new correctly creates a new global effect struct */
