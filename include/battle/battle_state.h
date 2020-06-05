@@ -2,6 +2,7 @@
 #define BATTLE_STATE_H
 
 #include "battle/battle_ai.h"
+#include "battle/battle_common.h"
 #include "battle/battle_moves.h"
 #include "battle/battle_structs.h"
 #include "common/utlist.h"
@@ -44,7 +45,8 @@ typedef enum turn {
  * next: allows for combatant lists using utlist.h
  * prev: allows for combatant lists using utlist.h
  */
-typedef struct combatant {
+typedef struct combatant
+{
     char *name;
     bool is_friendly;
     class_t *class;
