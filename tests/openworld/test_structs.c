@@ -56,7 +56,7 @@ Test(gencontext, free){
  * can be made successfully. */
 Test(roomspec, new1){
  
-    roomspec_t *spec = roomspec_new(get_hostile_npcs(),"short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new(get_hostile_npcs(),"you forgot a string", "short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 }
@@ -71,7 +71,7 @@ Test(roomspec, init1){
         fprintf(stderr, "failed to calloc for spec. \n");
     }
 
-    int check = init_roomspec(get_hostile_npcs(), spec,"short desc", "long desc", NULL);
+    int check = init_roomspec(get_hostile_npcs(), spec,"insert room name","short desc", "long desc", NULL);
    
     cr_assert_eq(check, SUCCESS, "failed to initialize a roomspec_t\n");
 }
@@ -80,7 +80,7 @@ Test(roomspec, init1){
  * freed successfully. */
 Test(roomspec, free1){
 
-    roomspec_t *spec = roomspec_new(get_hostile_npcs(), "short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new(get_hostile_npcs(),"you forgot a string", "short desc", "long desc", NULL);
 
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
@@ -95,7 +95,7 @@ Test(roomspec, free1){
  * be made successfully. */
 Test(speclist, new2){
 
-    roomspec_t *spec = roomspec_new(get_hostile_npcs(),"short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new(get_hostile_npcs(),"room_Name", "short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
@@ -108,7 +108,7 @@ Test(speclist, new2){
  * be initialized successfully. */
 Test(speclist, init2){
 
-    roomspec_t *spec = roomspec_new(get_hostile_npcs(),"short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new(get_hostile_npcs(),"room_name","short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
@@ -127,7 +127,7 @@ Test(speclist, init2){
  * be freed successfully. */
 Test(speclist, free2){
 
-    roomspec_t *spec = roomspec_new(get_hostile_npcs(),"short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new(get_hostile_npcs(),"room_name","short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
