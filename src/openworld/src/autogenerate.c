@@ -92,7 +92,7 @@ int room_generate(game_t *game, gencontext_t *context, roomspec_t *rspec)
         // Path for the opposite direction
         unsigned int backwards = (forwards + 2) % 4;
         path_t* path_to_room2 = path_new(game->curr_room, directions[backwards]);
-        assert(SUCCESS == add_path_to_room(new_room, path_to_room));
+        assert(SUCCESS == add_path_to_room(new_room, path_to_room2));
 
         return SUCCESS; // Room was generated
     }
