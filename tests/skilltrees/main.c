@@ -4,9 +4,6 @@
 #include <criterion/options.h>
 #include <criterion/output.h>
 
-//isaac can you read me
-
-
 int main(int argc, char *argv[])
 {
     struct criterion_test_set *tests = criterion_initialize();
