@@ -161,11 +161,11 @@ int class_free(class_t* class)
     }
     if (class->combat != NULL)
     {
-        skill_inventory_free(class->combat);
+        inventory_free(class->combat);
     }
     if (class->noncombat != NULL)
     {
-        skill_inventory_free(class->noncombat);
+        inventory_free(class->noncombat);
     }
 
     free(class);
