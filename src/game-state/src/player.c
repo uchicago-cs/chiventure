@@ -1,5 +1,5 @@
 #include "game-state/player.h"
-#include "common-item.h"
+#include "game-state/item.h"
 
 /* See player.h */
 int player_init(player_t* plyr, char* player_id, int health)
