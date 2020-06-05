@@ -54,12 +54,7 @@ int set_item_attributes(chiventure_ctx_t *ctx)
         attribute_t *attr = get_attribute(item, "CONSUMED");
         game_action_t *act = get_action(item, "EAT");
 
-        // add_action_condition(item, act, item, attr, val_false);
-        // ^ returns ROOM_NULL >:(
-        // Seems to be exact same problem detailed in issue #612
-    
-        game_action_condition_t *new_condition = condition_new(item, attr, val_false);
-        LL_APPEND(act->conditions, new_condition);
+        add_action_condition(item, act, item, attr, val_false);
         add_action_effect(act, item, attr, val_true);
     }
     
@@ -71,11 +66,8 @@ int set_item_attributes(chiventure_ctx_t *ctx)
     set_bool_attr(door, "OPEN", false);
     attribute_t *attr = get_attribute(door, "OPEN");
     game_action_t *act = get_action(door, "OPEN");
-    // add_action_condition(door, act, door, attr, val_false);
-    // ^ returns ROOM_NULL >:(
-    // Seems to be exact same problem detailed in issue #612
-    game_action_condition_t *new_condition = condition_new(door, attr, val_false);
-    LL_APPEND(act->conditions, new_condition);
+
+    add_action_condition(door, act, door, attr, val_false);
     add_action_effect(act, door, attr, val_true);
     
     return 0;
