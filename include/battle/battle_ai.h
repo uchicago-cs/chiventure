@@ -3,10 +3,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "battle/battle_flow_structs.h"
+#include "battle/battle_state.h"
+#include "battle/battle_structs.h"
+#include "battle/battle_moves.h"
 #include "common/utlist.h"
-#include "battle_state.h"
-#include "battle_structs.h"
-#include "battle_moves.h"
 
 /* AI move strategy options */
 typedef enum difficulty

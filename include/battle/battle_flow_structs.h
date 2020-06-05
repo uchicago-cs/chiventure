@@ -6,8 +6,8 @@
 #include "common/common.h"
 #include "common/utlist.h"
 #include "battle/battle_logic.h" 
-#include "battle_state.h"
-#include "battle_structs.h"
+#include "battle/battle_state.h"
+#include "battle/battle_structs.h"
 
 /* Stub for the player struct in game-state */
 typedef struct player {
