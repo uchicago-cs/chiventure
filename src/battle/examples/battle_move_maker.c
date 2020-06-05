@@ -21,7 +21,6 @@ player_t *build_moves(player_t *player)
         {
             ret_move = move_new(tmp->spell, tmp->id, NULL, true, tmp->damage, 0);
             DL_APPEND(player->moves, ret_move);
-            return player;
         }
     }
     return player;
