@@ -89,6 +89,7 @@ Test(custom_type, obj_t_new)
     object_t *ot = obj_t_new();
     cr_assert_eq(ot->type, NONE_TYPE, "obj_t_new: failed type assignment");
     cr_assert_eq(ot->is_lua, false, "obj_t_new: failed is_lua assignment");
+    cr_assert_null(ot->args, "obj_t_new: failed args null initialization");
 }
 
 /** 
@@ -101,6 +102,7 @@ Test(custom_type, obj_t_new_bool)
     cr_assert_eq(ot->type, BOOL_TYPE, "obj_t_bool: failed type assignment");
     cr_assert_eq(ot->is_lua, false, "obj_t_bool: failed is_lua assignment");
     cr_assert_eq(ot->data.b, true, "obj_t_bool: failed bool assignment");
+    cr_assert_null(ot->args, "obj_t_bool: failed args null initialization");
 }
 
 /** 
@@ -109,11 +111,19 @@ Test(custom_type, obj_t_new_bool)
  */
 Test(custom_type, obj_t_new_bool_lua)
 {   
-    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua", NULL);
+    // Lua without arguments
+    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua", 
+        NULL);
     cr_assert_eq(ot->type, BOOL_TYPE, "obj_t_bool: failed type assignment");
     cr_assert_eq(ot->is_lua, true, "obj_t_bool: failed is_lua assignment");
     cr_assert_eq(ot->data.lua, "../../../tests/custom-scripts/Lua_file/bool_test.lua",
         "obj_t_bool: failed Lua assignment");
+    cr_assert_null(ot->args, "obj_t_bool: failed args null initialization");
+    
+    // Lua with arguments
+    object_t *ot2 = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua",
+        arg_t_bool(true));
+    cr_assert_not_null(ot2->args, "obj_t_bool: failed args null assignment");
 }
 
 /** 
@@ -126,6 +136,8 @@ Test(custom_type, obj_t_new_char)
     cr_assert_eq(ot->type, CHAR_TYPE, "obj_t_char: failed type assignment");
     cr_assert_eq(ot->is_lua, false, "obj_t_char: failed is_lua assignment");
     cr_assert_eq(ot->data.c, 'a', "obj_t_char: failed char assignment");
+    cr_assert_null(ot->args, "obj_t_char: failed args null initialization");
+
 }
 
 /** 
@@ -134,11 +146,18 @@ Test(custom_type, obj_t_new_char)
  */
 Test(custom_type, obj_t_new_char_lua)
 {   
-    object_t *ot = obj_t_char('a', "../../../tests/custom-scripts/Lua_file/char_test.lua", NULL);
+    // Lua with arguments
+    object_t *ot = obj_t_char('a', "../../../tests/custom-scripts/Lua_file/char_test.lua", 
+        NULL);
     cr_assert_eq(ot->type, CHAR_TYPE, "obj_t_char: failed type assignment");
     cr_assert_eq(ot->is_lua, true, "obj_t_char: failed is_lua assignment");
     cr_assert_eq(ot->data.lua, "../../../tests/custom-scripts/Lua_file/char_test.lua",
         "obj_t_char: failed Lua assignment");
+
+    // Lua with arguments
+    object_t *ot2 = obj_t_char('a', "../../../tests/custom-scripts/Lua_file/char_test.lua",
+        arg_t_bool(true));
+    cr_assert_not_null(ot2->args, "obj_t_char: failed args null assignment");
 }
 
 /** 
@@ -159,11 +178,19 @@ Test(custom_type, obj_t_new_int)
  */
 Test(custom_type, obj_t_new_int_lua)
 {   
-    object_t *ot = obj_t_int(10, "../../../tests/custom-scripts/Lua_file/int_test.lua", NULL);
+    // Lua without arguments
+    object_t *ot = obj_t_int(10, "../../../tests/custom-scripts/Lua_file/int_test.lua", 
+        NULL);
     cr_assert_eq(ot->type, INT_TYPE, "obj_t_int: failed type assignment");
     cr_assert_eq(ot->is_lua, true, "obj_t_int: failed is_lua assignment");
     cr_assert_eq(ot->data.lua, "../../../tests/custom-scripts/Lua_file/int_test.lua",
         "obj_t_int: failed Lua assignment");
+    cr_assert_null(ot->args, "obj_t_int: failed args null initialization");
+    
+    // Lua with arguments
+    object_t *ot2 = obj_t_int(10, "../../../tests/custom-scripts/Lua_file/int_test.lua",
+        arg_t_bool(true));
+    cr_assert_not_null(ot2->args, "obj_t_int: failed args null assignment");
 }
 
 /** 
@@ -184,11 +211,19 @@ Test(custom_type, obj_t_new_str)
  */
 Test(custom_type, obj_t_new_str_lua)
 {   
-    object_t *ot = obj_t_str("testing", "../../../tests/custom-scripts/Lua_file/string_test.lua", NULL);
+    // Lua without arguments
+    object_t *ot = obj_t_str("testing", "../../../tests/custom-scripts/Lua_file/string_test.lua",
+        NULL);
     cr_assert_eq(ot->type, STR_TYPE, "obj_t_str: failed type assignment");
     cr_assert_eq(ot->is_lua, true, "obj_t_str: failed is_lua assignment");
     cr_assert_eq(ot->data.lua, "../../../tests/custom-scripts/Lua_file/string_test.lua",
         "obj_t_str: failed Lua assignment");
+    cr_assert_null(ot->args, "obj_t_str: failed args null initialization");
+    
+    // Lua with arguments
+    object_t *ot2 = obj_t_str("testing", "../../../tests/custom-scripts/Lua_file/string_test.lua",
+        arg_t_bool(true));
+    cr_assert_not_null(ot2->args, "obj_t_str: failed args null assignment");
 }
 
 // ============================================================================
@@ -203,13 +238,13 @@ Test(custom_type, obj_t_get_bool)
     cr_assert_eq(rv, true, "obj_t_get_bool: failed bool direct retrieval");
 }
 
-
 /** 
  * Checks that the object_t struct returns the correct bool value (lua)
  */
 Test(custom_type, obj_t_get_bool_lua)
 {
-    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua", NULL);
+    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test.lua", 
+        NULL);
     bool rv = bool_t_get(ot);
     cr_assert_eq((rv ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
 }
@@ -221,12 +256,14 @@ Test(custom_type, obj_t_get_bool_lua)
 Test(custom_type, obj_t_get_bool_lua_args)
 {
     arg_t *args = arg_t_add(arg_t_add(arg_t_bool(true), arg_t_bool(true)), arg_t_bool(true));
-    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua", args);
+    object_t *ot = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua", 
+        args);
     bool rv = bool_t_get(ot);
     cr_assert_eq((rv ? 1 : 0), 1, "bool_t_get: failed bool Lua retrieval");
 
     arg_t *args2 = arg_t_add(arg_t_add(arg_t_bool(true), arg_t_bool(false)), arg_t_bool(true));
-    object_t *ot2 = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua", args2);
+    object_t *ot2 = obj_t_bool(true, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua", 
+        args2);
     bool rv2 = bool_t_get(ot2);
     cr_assert_eq((rv2 ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
 }
@@ -258,17 +295,20 @@ Test(custom_type, obj_t_get_char_lua)
 Test(custom_type, obj_t_get_char_lua_args)
 {
     arg_t *args = arg_t_add(arg_t_char('a'), arg_t_char('Z'));
-    object_t *ot = obj_t_char('q', "../../../tests/custom-scripts/Lua_file/char_test_args.lua", args);
+    object_t *ot = obj_t_char('q', 
+        "../../../tests/custom-scripts/Lua_file/char_test_args.lua", args);
     char rv = char_t_get(ot);
     cr_assert_eq(rv, 'c', "obj_t_get_char: failed char direct retrieval");
 
     arg_t *args2 = arg_t_add(arg_t_char('Z'), arg_t_char('b'));
-    object_t *ot2 = obj_t_char('q', "../../../tests/custom-scripts/Lua_file/char_test_args.lua", args2);
+    object_t *ot2 = obj_t_char('q', 
+        "../../../tests/custom-scripts/Lua_file/char_test_args.lua", args2);
     char rv2 = char_t_get(ot2);
     cr_assert_eq(rv2, 'd', "obj_t_get_char: failed char direct retrieval");
 
     arg_t *args3 = arg_t_add(arg_t_char('a'), arg_t_char('b'));
-    object_t *ot3 = obj_t_char('q', "../../../tests/custom-scripts/Lua_file/char_test_args.lua", args3);
+    object_t *ot3 = obj_t_char('q', 
+        "../../../tests/custom-scripts/Lua_file/char_test_args.lua", args3);
     char rv3 = char_t_get(ot3);
     cr_assert_eq(rv3, 'e', "obj_t_get_char: failed char direct retrieval");
 }
@@ -300,13 +340,15 @@ Test(custom_type, obj_t_get_int_lua)
 Test(custom_type, obj_t_get_int_lua_args)
 {
     arg_t *args = arg_t_add(arg_t_int(5), arg_t_int(10));
-    object_t *ot = obj_t_int(99, "../../../tests/custom-scripts/Lua_file/int_test_args.lua", args);
+    object_t *ot = obj_t_int(99, 
+        "../../../tests/custom-scripts/Lua_file/int_test_args.lua", args);
     int rv = int_t_get(ot);
     cr_assert_eq(rv, 15, "obj_t_get_int: failed int direct retrieval");
 
     // Arguments of an object don't have to be of the same type!
     arg_t *args2 = arg_t_add(arg_t_char('X'), arg_t_char('Y'));
-    object_t *ot2 = obj_t_int(99, "../../../tests/custom-scripts/Lua_file/int_test_args.lua", args2);
+    object_t *ot2 = obj_t_int(99,
+        "../../../tests/custom-scripts/Lua_file/int_test_args.lua", args2);
     int rv2 = int_t_get(ot2);
     cr_assert_eq(rv2, 100, "obj_t_get_int: failed int direct retrieval");
 }
@@ -326,7 +368,8 @@ Test(custom_type, obj_t_get_str)
  */
 Test(custom_type, obj_t_get_str_lua)
 {
-    object_t *ot = obj_t_str("testing_failed", "../../../tests/custom-scripts/Lua_file/string_test.lua", NULL);
+    object_t *ot = obj_t_str("testing_failed", "../../../tests/custom-scripts/Lua_file/string_test.lua", 
+        NULL);
     char *rv = str_t_get(ot);
     cr_assert_str_eq(rv, "testing_succeeded", "string_t_get: failed string Lua retrieval");
 }
@@ -338,10 +381,9 @@ Test(custom_type, obj_t_get_str_lua)
 Test(custom_type, obj_t_get_str_lua_args)
 {
     arg_t *args = arg_t_add(arg_t_str("Test "), arg_t_str("passes!"));
-    object_t *ot = obj_t_str(" ", "../../../tests/custom-scripts/Lua_file/string_test_args.lua", args);
+    object_t *ot = obj_t_str(" ", "../../../tests/custom-scripts/Lua_file/string_test_args.lua", 
+        args);
     char *rv = str_t_get(ot);
-    // int equal = strcmp(rv, "Test passes!");
-    // cr_assert_eq(equal, 0, "obj_t_get_int: failed string direct retrieval");
     cr_assert_str_eq(rv, "Test passes!", "obj_t_get_int: failed string direct retrieval");
 
 }
