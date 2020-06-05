@@ -66,7 +66,7 @@ Test (npc_mov, init)
 {
     room_t *test_room1 = room_new("test_room1", "test1", "test test1");
     npc_mov_t *npc_mov = npc_mov_new("test_npc1", NPC_MOV_DEFINITE, test_room1);
-    
+
     room_t *test_room2;
     test_room2 = room_new("test_room", "test", "test test");
     int check = npc_mov_init(npc_mov,"test_npc2", NPC_MOV_DEFINITE, test_room2);
@@ -113,7 +113,7 @@ Test (npc_mov, free)
 Test (npcs_in_room, add_npc_to_room)
 {
     //stats_t *stats = stats_new("npc_test_stat", 20);
-    npc_t *npc = npc_new("npc_test", 100, NULL);
+    npc_t *npc = npc_new("npc_test", "test npc", "test npc", 100, NULL);
     npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
     int num_of_npcs_initial = npcs_in_room->num_of_npcs;
 
@@ -142,12 +142,12 @@ Test (npcs_in_room, npcs_in_room_get_number)
 {
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
-    npc_t *test_npc1 = npc_new("test_npc1", 100, NULL);
+    npc_t *test_npc1 = npc_new("test_npc1", "test npc", "test npc", 100, NULL);
     int added_npc1 = add_npc_to_room(npcs_in_room,test_npc1);
 
     cr_assert_eq(added_npc1, SUCCESS, "add_npc_to_room() failed");
 
-    npc_t *test_npc2 = npc_new("test_npc2", 100, NULL);
+    npc_t *test_npc2 = npc_new("test_npc2", "test npc", "test npc", 100, NULL);
     int added_npc2 = add_npc_to_room(npcs_in_room,test_npc2);
 
     cr_assert_eq(added_npc2, SUCCESS, "add_npc_to_room() failed");
@@ -157,7 +157,7 @@ Test (npcs_in_room, npcs_in_room_get_number)
 
 
 /* Tests register_npc_room_time function */
-Test(npc_mov, register_npc_room_time) 
+Test(npc_mov, register_npc_room_time)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_INDEFINITE, test_room);
@@ -166,12 +166,12 @@ Test(npc_mov, register_npc_room_time)
     int check1 = register_npc_room_time(npc_mov, test_room, time);
 
     cr_assert_eq(check1, SUCCESS, "register_npc_room_time() failed");
-    
+
     npc_room_time_t *check2;
 
-    
+
     HASH_FIND(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
-                 test_room->room_id, strlen(test_room->room_id), 
+                 test_room->room_id, strlen(test_room->room_id),
                  check2);
 
     cr_assert_not_null(check2, "register_npc_room_time() failed");
@@ -197,7 +197,7 @@ Test(npc_mov, extend_path_def)
 
 
 /* Tests extend_path_indef function */
-Test(npc_mov, extend_path_indef) 
+Test(npc_mov, extend_path_indef)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_INDEFINITE, test_room);
@@ -210,7 +210,7 @@ Test(npc_mov, extend_path_indef)
 
 
 /* Tests track_room function */
-Test(npc_mov, track_room) 
+Test(npc_mov, track_room)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_INDEFINITE, test_room);
@@ -222,7 +222,7 @@ Test(npc_mov, track_room)
 
 
 /* Tests reverse_path function */
-Test(npc_mov, reverse_path) 
+Test(npc_mov, reverse_path)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_DEFINITE, test_room);
