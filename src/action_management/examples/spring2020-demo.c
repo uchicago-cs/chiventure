@@ -52,7 +52,7 @@ int set_item_attributes(chiventure_ctx_t *ctx)
         
         set_bool_attr(item, "CONSUMED", false);
         attribute_t *attr = get_attribute(item, "CONSUMED");
-        game_action_t *act = get_action(item, "EAT");
+        game_action_t *act = get_action(item, "CONSUME");
 
         add_action_condition(item, act, item, attr, val_false);
         add_action_effect(act, item, attr, val_true);

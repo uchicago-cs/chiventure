@@ -70,7 +70,7 @@ ITEMS:
    long_desc: "A plate of spaghetti with meatballs. It still looks nice and warm."
    in: "dining room"
    actions:
-     - action: "EAT"
+     - action: "CONSUME"
        text_success: "You eat the spaghetti. You feel quite satisfied."
        text_fail: "You cannot eat the spaghetti."
        # inventory condition: fork is in inventory
@@ -80,7 +80,7 @@ ITEMS:
    long_desc: "A piece of garlic bread. The perfect compliment to spaghetti with meatballs."
    in: "dining room"
    actions:
-     - action: "EAT"
+     - action: "CONSUME"
        text_success: "You eat the bread. You feel quite satisfied."
        text_fail: "You cannot eat the bread."
 
@@ -89,7 +89,7 @@ ITEMS:
    long_desc: "A side salad. Nothing remarkably special about it."
    in: "dining room"
    actions:
-     - action: "EAT"
+     - action: "CONSUME"
        text_success: "You eat the salad. You feel quite satisfied."
        text_fail: "You cannot eat the salad."
        # inventory condition: fork is in inventory
@@ -99,7 +99,7 @@ ITEMS:
    long_desc: "A glass of water. There's a few ice cubes floating around inside."
    in: "dining room"
    actions:
-     - action: "EAT"
+     - action: "CONSUME"
        text_success: "You drink the water. You feel quite satisfied."
        text_fail: "You cannot drink the water."
       
