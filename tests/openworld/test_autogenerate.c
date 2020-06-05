@@ -462,7 +462,7 @@ Test(autogenerate, valid_multi_room1)
 
     cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
-    roomspec_t *sample_roomspec = make_default_room("school", NULL, NULL);
+    roomspec_t *sample_roomspec = random_room_lookup(spec);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
     // 1 roomspec case
