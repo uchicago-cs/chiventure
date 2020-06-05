@@ -67,6 +67,14 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
     return effect;
 }
 
+stat_mod_t *stat_mod_new(stats_t *stat, double modifier, int duration) {
+    stat_mod_t *s = malloc(sizeof(stat_mod_t));
+    s->stat = stat;
+    s->modifier = modifier;
+    s->duration = duration;
+    return s;
+}
+
 /* See stats.h */
 int change_stat(stats_hash_t *sh, char *stat, double change)
 {
@@ -165,22 +173,21 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
                  double *intensities, int *durations, int num_stats) {
                      
     add_stat_effect(hash, effect);
+    stat_effect_t *player_effect;
+    HASH_FIND(hh, *hash, effect->key, strlen(effect->key), player_effect);
 
     stat_mod_t *new, *tmp;
     int i;
     for (i = 0; i < num_stats; i++) {
         stats[i]->modifier *= intensities[i];
-        new = malloc(sizeof(stat_mod_t));
-        new->stat = stats[i];
-        new->modifier = intensities[i];
-        new->duration = durations[i];
-        LL_SEARCH(effect->stat_list, tmp, new, stat_mod_equal);
+        stat_mod_t *new = stat_mod_new(stats[i], intensities[i], durations[i]);
+        LL_SEARCH(player_effect->stat_list, tmp, new, stat_mod_equal);
         if (tmp != NULL) {
             tmp->modifier = new->modifier;
             tmp->duration = new->duration;
             free(new);
         } else {
-            LL_APPEND(effect->stat_list, new);
+            LL_APPEND(player_effect->stat_list, new);
         }
     }
 
