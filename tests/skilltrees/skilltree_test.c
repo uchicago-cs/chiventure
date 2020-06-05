@@ -49,7 +49,7 @@ Test(skilltree_tests, skill_node_free_test)
     cr_assert_eq(ret, 0, "Error: failed test skill_node_free_test\n");
 }
 
-/* Tests node_prereq_add on a valid case. */
+/* Tests node_prereq_add on a valid case. *//*
 Test(skilltree_tests, node_prereq_add_safe)
 {
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -62,7 +62,7 @@ Test(skilltree_tests, node_prereq_add_safe)
     cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_add_safe\n");
 }
 
-/* Tests node_prereq_add when the prereq list is full. */
+/* Tests node_prereq_add when the prereq list is full. *//*
 Test(skilltree_tests, node_prereq_add_full)
 {
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -79,7 +79,7 @@ Test(skilltree_tests, node_prereq_add_full)
     cr_assert_eq(ret, FAILURE, "Error: failed test node_prereq_add_full\n");
 }
 
-/* Tests node_prereq_remove on a valid case. */
+/* Tests node_prereq_remove on a valid case. *//*
 Test(skilltree_tests, node_prereq_remove_safe)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -100,7 +100,7 @@ Test(skilltree_tests, node_prereq_remove_safe)
 
 }
 
-/* Tests node_prereq_remove on a prereq that doesn't exist. */
+/* Tests node_prereq_remove on a prereq that doesn't exist. *//*
 Test(skilltree_tests, node_prereq_remove_missing)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -139,7 +139,7 @@ Test(skilltree_tests, skill_tree_free_test)
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_free_test\n");
 }
 
-/* Tests skill_tree_node_add on a valid case. */
+/* Tests skill_tree_node_add on a valid case. *//*
 Test(skilltree_tests, skill_tree_node_add_safe)
 {
     skill_tree_t* tree = skill_tree_new(1002, "this tree", 2);
@@ -150,7 +150,7 @@ Test(skilltree_tests, skill_tree_node_add_safe)
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_add_safe\n");
 }
 
-/* Tests skill_tree_node_add when the skill tree is full. */
+/* Tests skill_tree_node_add when the skill tree is full. *//*
 Test(skilltree_tests, skill_tree_node_add_full)
 {
     skill_tree_t* tree = skill_tree_new(1002, "this tree", 1);
@@ -165,7 +165,7 @@ Test(skilltree_tests, skill_tree_node_add_full)
     cr_assert_eq(ret, FAILURE, "Error: failed test skill_tree_node_add_full\n");
 }
 
-/* Tests skill_tree_node_remove in a valid case. */
+/* Tests skill_tree_node_remove in a valid case. *//*
 Test(skilltree_tests, skill_tree_node_remove_safe)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -187,7 +187,7 @@ Test(skilltree_tests, skill_tree_node_remove_safe)
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_remove_safe\n");
 }
 
-/* Tests skill_tree_node_remove on a node that is missing. */
+/* Tests skill_tree_node_remove on a node that is missing. *//*
 Test(skilltree_tests, skill_tree_node_remove_missing)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -208,7 +208,7 @@ Test(skilltree_tests, skill_tree_node_remove_missing)
     cr_assert_eq(ret, 1, "Error: failed test skill_tree_node_remove_missing\n");
 }
 
-/* Tests skill_tree_has_node with a node that exists. */
+/* Tests skill_tree_has_node with a node that exists. *//*
 Test(skilltree_tests, skill_tree_has_node_has)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -229,7 +229,7 @@ Test(skilltree_tests, skill_tree_has_node_has)
   cr_assert_eq(ret, 0, "Error: failed test skill_tree_has_node_has\n");
 }
 
-/* Tests skill_tree_has_node on a node that it doesn't have. */
+/* Tests skill_tree_has_node on a node that it doesn't have. *//*
 Test(skilltree_tests, skill_tree_has_node_has_not)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -250,7 +250,7 @@ Test(skilltree_tests, skill_tree_has_node_has_not)
   cr_assert_eq(ret, -1, "Error: failed test skill_tree_has_node_has_not\n");
 }
 
-/* Tests get_all_skill_prereqs on a valid case. */
+/* Tests get_all_skill_prereqs on a valid case. *//*
 Test(skilltree_tests, get_all_skill_prereqs_safe)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -278,7 +278,7 @@ Test(skilltree_tests, get_all_skill_prereqs_safe)
     "Error: failed test get_all_skill_prereqs_safe\n");
 }
 
-/* Tests get_all_skill_prereqs for empty prereq list. */
+/* Tests get_all_skill_prereqs for empty prereq list. *//*
 Test(skilltree_tests, get_all_skill_prereqs_empty)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -303,7 +303,7 @@ Test(skilltree_tests, get_all_skill_prereqs_empty)
       "Error: failed test get_all_skill_prereqs_empty\n");
 }
 
-/* Tests get_acquired_skill_prereqs with no prereqs. */
+/* Tests get_acquired_skill_prereqs with no prereqs. *//*
 Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -324,7 +324,7 @@ Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs)
       "Error: failed test get_acquired_skill_prereqs_no_prereqs\n");
 }
 
-/* Tests get_acquired_skill_prereqs on a valid case. */
+/* Tests get_acquired_skill_prereqs on a valid case. *//*
 Test(skilltree_tests, get_acquired_skill_prereqs_safe)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -351,7 +351,7 @@ Test(skilltree_tests, get_acquired_skill_prereqs_safe)
     "Error: failed test get_acquired_skill_prereqs_safe\n");
 }
 
-/* Tests skill_prereqs_missing on a case with no missing prereqs. */
+/* Tests skill_prereqs_missing on a case with no missing prereqs. *//*
 Test(skilltree_tests, skill_prereqs_missing_none)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -372,7 +372,7 @@ Test(skilltree_tests, skill_prereqs_missing_none)
       "Error: failed test skill_prereqs_missing_none\n");
 }
 
-/* Tests skill_prereqs_missing on a case with missing prereqs. */
+/* Tests skill_prereqs_missing on a case with missing prereqs. *//*
 Test(skilltree_tests, skill_prereqs_missing_some)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -398,7 +398,7 @@ Test(skilltree_tests, skill_prereqs_missing_some)
     "Error: failed test skill_prereqs_missing_some\n");
 }
 
-/* Tests inventory_skill_acquire on a skill with satisfied prereqs. */
+/* Tests inventory_skill_acquire on a skill with satisfied prereqs. *//*
 Test(skilltree_tests, inventory_skill_acquire_has)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -425,7 +425,7 @@ Test(skilltree_tests, inventory_skill_acquire_has)
       "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
 }
 
-/* Tests inventory_skill_acquire on a skill with missing prereqs. */
+/* Tests inventory_skill_acquire on a skill with missing prereqs. *//*
 Test(skilltree_tests, inventory_skill_acquire_has_not)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
