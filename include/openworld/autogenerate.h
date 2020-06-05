@@ -22,6 +22,8 @@
 #include "gen_structs.h"
 #include "default_rooms.h"
 
+#define MAX_RAND_ITEMS (6)
+
 /*
 * path_exists_in_dir
 * Is there any path in the given room that exists in the given direction?
