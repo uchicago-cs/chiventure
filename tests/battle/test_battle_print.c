@@ -8,8 +8,6 @@
 #include "battle/battle_print.h"
 #include "battle/battle_structs.h"
 
-#define BUFFER_SIZE (200) // copied from actionmanagement.c, changed to 200
-
 /* Tests print_start_battle() */
 Test(battle_print, print_start_battle)
 {
@@ -52,7 +50,7 @@ Test(battle_print, print_hp_one_enemy)
     b->enemy->stats->hp = 64;
 
     /* Set up string to store message in */
-    char* string = calloc(BUFFER_SIZE + 1, sizeof(char));
+    char* string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     /* Test print_hp() */
     int rc = print_hp(b, string);
@@ -90,7 +88,7 @@ Test(battle_print, print_hp_two_enemies)
     b->enemy->next->stats->hp = 75;
 
     /* Set up string to store message in */
-    char* string = calloc(BUFFER_SIZE + 1, sizeof(char));
+    char* string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     /* Test print_hp() */
     int rc = print_hp(b, string);

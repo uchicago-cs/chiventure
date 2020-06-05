@@ -10,6 +10,8 @@
 #include "common/common.h"
 #include "common/utlist.h"
 
+#define BATTLE_BUFFER_SIZE (200) // copied from actionmanagement.c, changed to 200
+
 /*
  * Stores the message to be printed at the start of the battle in the return
  * string
