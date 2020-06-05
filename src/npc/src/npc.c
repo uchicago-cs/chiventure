@@ -136,7 +136,7 @@ int add_item_to_npc(npc_t *npc, item_t *item)
     return rc;
 }
 
-/* See npc.h */\
+/* See npc.h */
 int remove_item_from_npc(npc_t *npc, item_t *item)
 {
     int rc;

@@ -232,7 +232,7 @@ Test(npc, add_item_to_npc)
 /* Checks that remove_item_from_npc properly removes items */
 Test(npc, remove_item_from_npc)
 {
-    npc_t *npc = npc_new("npc", 100, NULL);
+    npc_t *npc = npc_new("npc", "short", "long", 100, NULL);
     item_t *test_item = item_new("item", "short", "long");
     int rc;
     
