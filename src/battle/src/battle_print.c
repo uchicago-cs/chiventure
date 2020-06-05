@@ -13,7 +13,7 @@ char *print_start_battle(battle_t *b)
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
 
-    char *string = calloc(1, BUFFER_SIZE);
+    char *string = calloc(BUFFER_SIZE + 1, sizeof(char));
 
     snprintf(string, BUFFER_SIZE, "You have encountered %s!\n\n"
                     "Let the battle begin!\n",
@@ -28,12 +28,21 @@ char *print_start_battle(battle_t *b)
 /* see battle_print.h */
 int print_hp(battle_t* b, char* string)
 {
-    int slen = strlen(string);
-
     int player_hp = b->player->stats->hp;
-    slen += snprintf(string + slen, BUFFER_SIZE, "-- Your HP: %d\n", player_hp);
 
-    slen += snprintf(string + slen, BUFFER_SIZE, "ENEMY HP\n");
+    int slen = strnlen(string);
+    int n;
+
+    char *temp[BUFFER_SIZE + 1];
+
+    n = snprintf(temp, BUFFER_SIZE, "-- Your HP: %d\n", player_hp);
+    strncat(string, temp, BUFFER_SIZE - slen);
+    slen += n;
+
+    snprintf(temp, BUFFER_SIZE, "ENEMY HP\n");
+    strncat(string, temp, BUFFER_SIZE - slen);
+    slen += n;
+
     combatant_t *enemies = b->enemy;
     combatant_t *enemy_elt;
     DL_FOREACH(enemies, enemy_elt)
@@ -41,7 +50,9 @@ int print_hp(battle_t* b, char* string)
         char* name = enemy_elt->name;
         int enemy_hp = enemy_elt->stats->hp;
 
-        slen += snprintf(string + slen, BUFFER_SIZE, "-- %s's HP: %d\n", name, enemy_hp);
+        n = snprintf(temp, BUFFER_SIZE, "-- %s's HP: %d\n", name, enemy_hp);
+        strncat(string, temp, BUFFER_SIZE - slen);
+        slen += n;
     }
 
     return SUCCESS;
@@ -65,7 +76,7 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
         combatant_name = enemy_name;
     }
 
-    char *string = calloc(1, BUFFER_SIZE);
+    char *string = calloc(BUFFER_SIZE + 1, sizeof(char));
 
     snprintf(string, BUFFER_SIZE, "%s used %s! It did %d damage.\n",
                     combatant_name, move_name, damage);
@@ -79,7 +90,7 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 /* see battle_print.h */
 char *print_battle_winner(battle_status_t status, int xp)
 {
-    char *string = calloc(1, BUFFER_SIZE);
+    char *string = calloc(BUFFER_SIZE + 1, sizeof(char));
 
     if (status == BATTLE_VICTOR_PLAYER)
     {
