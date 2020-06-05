@@ -82,6 +82,16 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         return WRONG_KIND;
     }
 
+    /* use representative c_name for action synonyms */
+    if(a->c_name == "PICKUP") 
+    {
+        a->c_name = "TAKE";
+    } 
+    else if(a->c_name == "USE" || a->c_name == "EAT" || a->c_name == "DRINK")
+    {
+        a->c_name = "CONSUME";
+    }
+
     // checks if the action is possible
     if (possible_action(i, a->c_name) == FAILURE)
     {
@@ -116,12 +126,8 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         {
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
-            if (((game->final_room != NULL && game->final_room == game->curr_room) || 
-                  game->final_room == NULL) && end_conditions_met(game))
+            if (is_game_over(game))
             {
-                /* Final room exists and currently in that room
-                 * or there is no final room.
-                 * Either way, all end conditions are met */
                 sprintf(string, " Congratulations, you've won the game! "
                         "Press ctrl+D to quit.");
             }
@@ -170,7 +176,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     /* PERFORM ACTION */
     int move = move_room(g, room_dest);
 
-    if (move == FINAL_ROOM && end_conditions_met(g)) {
+    if (is_game_over(g)) {
         sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
                  room_dest->room_id);
         *ret_string = string;
@@ -267,12 +273,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         {
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
-            if (((game->final_room != NULL && game->final_room == game->curr_room) || 
-                  game->final_room == NULL) && end_conditions_met(game))
+            if (is_game_over(game))
             {
-                /* Final room exists and currently in that room
-                 * or there is no final room.
-                 * Either way, all end conditions are met */
                 sprintf(string, " Congratulations, you've won the game! Press ctrl+D to quit.");
             }
             *ret_string = string;
