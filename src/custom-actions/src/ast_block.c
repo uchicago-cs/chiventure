@@ -23,7 +23,7 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST,
         return NULL;
     }
 
-    new_ast = AST_block_init(ast, block, block_type, num_AST, **next);
+    new_ast = AST_block_init(ast, block, block_type, num_AST, next);
     if (new_ast != SUCCESS)
     {
         fprintf(stderr, "Could not initialize AST_block_t");
