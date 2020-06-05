@@ -3,7 +3,6 @@
 
 #include "game_state_common.h"
 #include "item.h"
-#include "action_management/actionmanagement.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
@@ -155,7 +154,7 @@ char *get_ldesc(room_t *room);
  * Returns:
  *  a pointer to new path
  */
-path_t *path_new(room_t *dest, char *direction, list_action_type_t *conditions);
+path_t *path_new(room_t *dest, char *direction);
 
 /* Frees the space in memory taken by given path
  *
@@ -166,6 +165,17 @@ path_t *path_new(room_t *dest, char *direction, list_action_type_t *conditions);
  *  SUCCESS if successful, FAILURE if failed
  */
 int path_free(path_t *path);
+
+/* Adds a list of conditions to the path struct
+ * 
+ * Parameters:
+ *  pointer to the path struct
+ *  list of conditions
+ *
+ * Returns:
+ *  SUCCESS if successful
+ */
+int path_new_conditions(path_t *path, list_action_type_t *act);
 
 
 /* Returns path given room and direction
@@ -228,5 +238,15 @@ item_list_t *get_all_items_in_room(room_t *room);
  * int SUCCESS when action's removed from linked list
  */
 int remove_condition(path_t *path, action_type_t *a);
+
+/* Deletes a hashtable of rooms
+ * Implemented with macros provided by uthash.h
+ *
+ * Parameters:
+ *  hashtable of rooms that need to be deleted
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int delete_all_rooms(room_hash_t* rooms);
 
 #endif

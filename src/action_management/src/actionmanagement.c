@@ -5,6 +5,7 @@
 
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
+#include "game-state/room.h"
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (2)
@@ -16,8 +17,7 @@
 
 
 /* See actionmanagement.h */
-action_type_t *action_type_new(char *c_name, enum action_kind kind, 
-				char *trigger)
+action_type_t *action_type_new(char *c_name, enum action_kind kind)
 {
     action_type_t *a = malloc(sizeof(action_type_t));
 
@@ -27,7 +27,7 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind,
         return NULL;
     }
 
-    int new_a = action_type_init(a, c_name, kind, trigger);
+    int new_a = action_type_init(a, c_name, kind);
     if (new_a != SUCCESS)
     {
         fprintf(stderr, "Could not initialize action type %s", c_name);
@@ -39,13 +39,13 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind,
 
 
 /* See actionmanagement.h */
-int action_type_init(action_type_t *a, char *c_name, enum action_kind kind,
-			char *trigger)
+int action_type_init(action_type_t *a, char *c_name, enum action_kind kind)
 {
     assert(a);
     a->c_name = c_name;
     a->kind = kind;
-    a->trigger = trigger;
+    a->room = NULL;
+    a->direction = NULL;
 
     return SUCCESS;
 }
@@ -56,6 +56,15 @@ int action_type_free(action_type_t *a)
 {
     assert(a);
     free(a);
+    return SUCCESS;
+}
+
+
+/* See actionmanagement.h */
+int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
+{
+    a->room = room;
+    a->direction = direction;
     return SUCCESS;
 }
 
@@ -117,14 +126,17 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         }
         else
         {
+	    //remove action from any conditions
+	    path_t *closed_path;
+	    int condition;
+	    closed_path = path_search(a->room,a->direction);
+	    condition = remove_condition(closed_path,a);
+	    //if (condition == FAILURE)
+
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
-            if (((game->final_room != NULL && game->final_room == game->curr_room) || 
-                  game->final_room == NULL) && end_conditions_met(game))
+            if (is_game_over(game))
             {
-                /* Final room exists and currently in that room
-                 * or there is no final room.
-                 * Either way, all end conditions are met */
                 sprintf(string, " Congratulations, you've won the game! "
                         "Press ctrl+D to quit.");
             }
@@ -173,7 +185,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     /* PERFORM ACTION */
     int move = move_room(g, room_dest);
 
-    if (move == FINAL_ROOM && end_conditions_met(g)) {
+    if (is_game_over(g)) {
         sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
                  room_dest->room_id);
         *ret_string = string;
@@ -270,12 +282,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         {
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
-            if (((game->final_room != NULL && game->final_room == game->curr_room) || 
-                  game->final_room == NULL) && end_conditions_met(game))
+            if (is_game_over(game))
             {
-                /* Final room exists and currently in that room
-                 * or there is no final room.
-                 * Either way, all end conditions are met */
                 sprintf(string, " Congratulations, you've won the game! Press ctrl+D to quit.");
             }
             *ret_string = string;
@@ -285,16 +293,6 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     return FAILURE;
 }
 
-/* See actionmanagement.c */
-<<<<<<< HEAD
-int add_action(list_action_type_t *act, action_type_t *a)
-{
-    a->next = &act;
-    act = &a;
-    return SUCCESS;
-}
-
-=======
 int delete_action(list_action_type_t *act, action_type_t *a)
 {
     list_action_type_t *temp, *prev;
@@ -319,5 +317,4 @@ int delete_action(list_action_type_t *act, action_type_t *a)
 
     return SUCCESS;
 }
->>>>>>> fc1db533cabd1d628b4ef9d4e6c1df4df532e40f
 

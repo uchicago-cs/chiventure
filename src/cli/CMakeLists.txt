@@ -12,10 +12,6 @@ target_link_libraries(cli ui)
 target_link_libraries(cli game-state)
 target_link_libraries(cli common)
 
-# TODO: Checkpointing (which CLI depends on) uses a private header file
-#       from game-state. See TODO in checkpointing CMakeLists.txt
-target_include_directories(cli PRIVATE ../game-state/src/)
-
 # EXAMPLES
 add_subdirectory(examples
                  EXCLUDE_FROM_ALL)

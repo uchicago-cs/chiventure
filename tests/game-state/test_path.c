@@ -2,8 +2,7 @@
 #include <criterion/criterion.h>
 #include "game-state/room.h"
 #include "game-state/game_state_common.h"
-#include "common-path.h"
-#include "common-room.h"
+#include "game-state/path.h"
 
 
 // BASIC PATH UNIT TESTS ------------------------------------------------------
@@ -12,7 +11,7 @@ Test(path, new)
 {
     room_t *new_room = room_new("test_room", "room for testing",
     "room to test path_new()");
-    path_t *new_path = path_new(new_room, "north", NULL);
+    path_t *new_path = path_new(new_room, "north");
 
     cr_assert_not_null(new_path, "path_new() test 1 has failed!");
 
@@ -24,7 +23,7 @@ Test(path, free)
 {
     room_t *test_dest = room_new("test_dest", "room for testing",
     "room to test path_free");
-    path_t *path_tofree = path_new(test_dest, "west", NULL);
+    path_t *path_tofree = path_new(test_dest, "west");
 
     int freed = path_free(path_tofree);
 
@@ -52,7 +51,7 @@ Test(path, add_to_room)
 Test(path, add_to_null_room)
 {
     room_t *test_room = NULL;
-    path_t *test_path = path_new(test_room, "east", NULL);
+    path_t *test_path = path_new(test_room, "east");
 
     cr_assert_not_null(test_path,
         "add_path_to_room() test: path initialization failed!");
@@ -84,7 +83,7 @@ Test(path, search)
 {
     room_t *test_room = room_new("test_room", "room for testing",
     "testing path_search()");
-    path_t *test_path = path_new(test_room, "south", NULL);
+    path_t *test_path = path_new(test_room, "south");
 
     int added = add_path_to_room(test_room, test_path);
     cr_assert_eq(added, SUCCESS,
@@ -114,7 +113,7 @@ Test(path, find_room)
 {
     room_t *test_room = room_new("test_room", "room for testing",
     "room for testing find_room_from_path()");
-    path_t *test_path = path_new(test_room, "north", NULL);
+    path_t *test_path = path_new(test_room, "north");
 
     room_t *found_room = find_room_from_path(test_path);
 
@@ -144,7 +143,7 @@ Test(path, del_all)
 {
     room_t *test_room = room_new("test_room", "room for testing",
     "item for testing del_all_paths function");
-    path_t *test_path1 = path_new(test_room, "north", NULL);
+    path_t *test_path1 = path_new(test_room, "north");
     path_t *test_path2 = path_new(test_room, "east");
     path_t *test_path3 = path_new(test_room, "south");
 

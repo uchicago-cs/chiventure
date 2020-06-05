@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #include "checkpointing/load.h"
-#include "common-item.h"
+#include "game-state/item.h"
 #include "load-int.h"
 #include "game.pb-c.h"
 

@@ -75,7 +75,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
             char *direction = obj_get_str(conn_curr->obj, "direction");
 
             // add connection to room in game
-            int result = create_connection(g, id, to, direction, NULL);
+            int result = create_connection(g, id, to, direction);
 
             // if result is 1, then id doesn't exist, if result is 2, then
             // connection id (to) doesn't exist

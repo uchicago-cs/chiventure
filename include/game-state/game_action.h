@@ -1,3 +1,5 @@
+#ifndef _GAME_ACTION_H
+#define _GAME_ACTION_H
 
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
@@ -136,6 +138,19 @@ bool check_condition(game_action_condition_t *condition);
 int all_conditions_met(item_t* item, char* action_name);
 
 
+/*
+ * Function that deletes a node in list_action_type_t
+ * 
+ * Paramters:
+ * - action_type_t: action to be deleted
+ * - list_action_type_t: list to remove action from
+ *
+ * Returns:
+ * - int SUCCESS when node is removed
+ */
+int delete_action(list_action_type_t *act, action_type_t *a);
+
+
 // ------------------------- EFFECT FUNCTIONS ------------------------------
 
 
@@ -182,4 +197,47 @@ int do_effect(game_action_effect_t *effect);
  */
 int do_all_effects(item_t* item, char* action_name);
 
+/* action_init() initializes an action struct with given values
+   arguments are taken from action management
+ Parameters:
+    a memory allocated new action pointer
+    an action name
+    an action type struct
+ Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int game_action_init(game_action_t *new_action, char *act_name, 
+		     char* success_str, char* fail_str);
 
+/* game_action_new() allocates a space for an action struct in memory and
+* assigns given values to struct fields
+*  Parameters:
+*    action name
+*    a success string
+*    a failure string
+*  Returns:
+*    A pointer to a new action struct.
+*/
+game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str);
+
+/* do_effect() performs given effect
+ *
+ * Parameters:
+ *   pointer to an action effect
+ * Returns:
+ *   SUCCESS upon success, FAILURE upon failure
+ */
+int do_effect(game_action_effect_t *effect);
+
+/* create_effect creates an effect_t struct with the given inputs
+ * Parameters:
+ *  pointer to item to modify
+ *  pointer to attribute_t
+ *  attribute_value_t
+ * Returns:
+ * NULL or game_action_effect_t
+ */
+game_action_effect_t *effect_new(item_t *item_to_modify, 
+				 attribute_t *attribute, attribute_value_t new_value);
+
+#endif

@@ -109,6 +109,7 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
     strncpy(spec->short_desc, short_desc, MAX_SDESC_LEN);
     strncpy(spec->long_desc, long_desc, MAX_LDESC_LEN);
     spec->items = items;
+    spec->num_built = 0;
     return SUCCESS;
 }
 

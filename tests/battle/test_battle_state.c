@@ -10,7 +10,7 @@ Test(battle_state, combatant_new)
 {
     class_t* test_class = class_new("Bard", "Music boi",
 				    "Charismatic, always has a joke or song ready",
-				    NULL, NULL, NULL, NULL, NULL);
+				    NULL, NULL, NULL);
 
     combatant_t *c;
 
@@ -31,12 +31,6 @@ Test(battle_state, combatant_new)
 
     cr_assert_null(c->class->attributes, "set_player() didn't set class attribute");
     cr_assert_null(c->class->stats, "set_player() didn't set class stats");
-    cr_assert_null(c->class->skilltree,
-                   "set_player() didn't set class skilltree");
-    cr_assert_null(c->class->combat,
-                   "set_player() didn't set class skills for combat");
-    cr_assert_null(c->class->noncombat,
-                   "set_player() didn't set class skills for noncombat");
 }
 
 /* Tests combatant_init() */

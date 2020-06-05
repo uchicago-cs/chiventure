@@ -1,6 +1,7 @@
 set(TEST_EXE test-npc)
 
 add_executable(${TEST_EXE}
+        test_dialogue.c
         test_npc.c
         main.c)
 

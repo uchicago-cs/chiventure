@@ -1,5 +1,4 @@
 #include "game-state/game_action.h"
-#include "common-game-action.h"
 
 /* See common_game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name,
@@ -225,13 +224,13 @@ int all_conditions_met(item_t* item, char* action_name)
 
 /* See game_action.h */
 int delete_action(list_action_type_t *act, action_type_t *a)
-{   
-    struct list_action_type_t *temp, *prev;
-    temp = &act;
-    
+{
+    list_action_type_t *temp, *prev;
+    temp = act;
+
     if (temp != NULL && temp->act == a)
     {
-        &act = temp->next;
+        act = temp->next;
         return SUCCESS;
     }
 
@@ -245,9 +244,8 @@ int delete_action(list_action_type_t *act, action_type_t *a)
     {
         prev->next = temp->next;
     }
-    
     return SUCCESS;
-}   
+}
 
 
 // ------------------------------------- EFFECTS -------------------------------------

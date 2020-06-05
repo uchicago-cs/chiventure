@@ -16,10 +16,6 @@ target_include_directories(checkpointing PRIVATE src/)
 
 target_link_libraries(checkpointing ${PROTOBUF-C_LIBRARIES})
 
-# TODO: Checkpointing uses a private header file from game-state
-#       Whatever structs they use should be moved to their public
-#       header files.
-target_include_directories(checkpointing PRIVATE ../game-state/src/)
 
 
 
