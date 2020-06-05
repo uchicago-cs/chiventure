@@ -1,4 +1,13 @@
 #include "npc/npc_action.h"
+#include "npc/npc_game_action.h"
+
+#define BUFFER_SIZE (100)
+#define WRONG_KIND (2)
+#define NOT_ALLOWED_DIRECT (3)
+#define NOT_ALLOWED_INDIRECT (4)
+#define NOT_ALLOWED_PATH (5)
+#define CONDITIONS_NOT_MET (6)
+#define EFFECT_NOT_APPLIED (7)
 
 /* See npc_action.h */
 npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind)
@@ -76,5 +85,23 @@ list_npc_action_t *get_npc_actions()
     return tmp;
 }
 
+/* KIND 4
+ * See npc_action.h */
+int do_npc_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, char **ret_string)
+{
+    //TODO
+}
 
+/* KIND 5
+ * See npc_action.h */
+int do_npc_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *i, char **ret_string)
+{
+    //TODO
+}
 
+/* KIND 6
+ * See npc_action.h */
+ int do_npc_item_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string)
+{
+     //TODO
+}
