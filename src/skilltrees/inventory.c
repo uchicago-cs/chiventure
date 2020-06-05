@@ -20,10 +20,10 @@ skill_inventory_t* inventory_new(unsigned int max_active,
     }
 
     inventory->active = NULL;
-    inventory->nactive = 0;
+    inventory->num_active = 0;
     inventory->max_active = max_active;
     inventory->passive = NULL;
-    inventory->npassive = 0;
+    inventory->num_passive = 0;
     inventory->max_passive = max_passive;
 
     return inventory;
@@ -33,11 +33,11 @@ skill_inventory_t* inventory_new(unsigned int max_active,
 int inventory_free(skill_inventory_t* inventory) {
     assert(inventory != NULL);
 
-    if (inventory->nactive > 0) {
+    if (inventory->num_active > 0) {
         free(inventory->active);
     }
 
-    if (inventory->npassive > 0) {
+    if (inventory->num_passive > 0) {
         free(inventory->passive);
     }
 
@@ -55,22 +55,22 @@ int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
 
     switch (skill->type) {
         case ACTIVE:
-            if (inventory->nactive >= inventory->max_active) {
+            if (inventory->num_active >= inventory->max_active) {
                 fprintf(stderr, "inventory_skill_add: at max active skills\n");
                 return FAILURE;
             }
-            inventory->nactive += 1;
-            a = (skill_t**)realloc(a, sizeof(skill_t*) * inventory->nactive);
-            a[inventory->nactive] = skill;
+            inventory->num_active += 1;
+            a = (skill_t**)realloc(a, sizeof(skill_t*) * inventory->num_active);
+            a[inventory->num_active] = skill;
             return SUCCESS;
         case PASSIVE:
-            if (inventory->npassive >= inventory->max_passive) {
+            if (inventory->num_passive >= inventory->max_passive) {
                 fprintf(stderr, "inventory_skill_add: at max passive skills\n");
                 return FAILURE;
             }
-            inventory->npassive += 1;
-            p = (skill_t**)realloc(p, sizeof(skill_t*) * inventory->npassive);
-            p[inventory->npassive] = skill;
+            inventory->num_passive += 1;
+            p = (skill_t**)realloc(p, sizeof(skill_t*) * inventory->num_passive);
+            p[inventory->num_passive] = skill;
             return SUCCESS;
         default:
             fprintf(stderr, "inventory_skill_add: invalid skill type\n");
@@ -85,9 +85,9 @@ int inventory_has_skill(skill_inventory_t* inventory, sid_t sid,
 
     switch (type) {
         case ACTIVE:
-            return list_has_skill(inventory->active, inventory->nactive, sid);
+            return list_has_skill(inventory->active, inventory->num_active, sid);
         case PASSIVE:
-            return list_has_skill(inventory->passive, inventory->npassive, sid);
+            return list_has_skill(inventory->passive, inventory->num_passive, sid);
         default:
             fprintf(stderr, "inventory_has_skill: invalid skill type\n");
             return -1;
@@ -110,17 +110,17 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill) {
     switch (skill->type) {
         case ACTIVE:
             a[pos] = NULL;
-            inventory->nactive -= 1;
-            a[pos] = a[inventory->nactive];
-            a[inventory->nactive] = NULL;
-            a = (skill_t**)realloc(a, sizeof(skill_t*) * inventory->nactive);
+            inventory->num_active -= 1;
+            a[pos] = a[inventory->num_active];
+            a[inventory->num_active] = NULL;
+            a = (skill_t**)realloc(a, sizeof(skill_t*) * inventory->num_active);
             return SUCCESS;
         case PASSIVE:
             p[pos] = NULL;
-            inventory->npassive -= 1;
-            p[pos] = p[inventory->npassive];
-            p[inventory->npassive] = NULL;
-            p = (skill_t**)realloc(p, sizeof(skill_t*) * inventory->npassive);
+            inventory->num_passive -= 1;
+            p[pos] = p[inventory->num_passive];
+            p[inventory->num_passive] = NULL;
+            p = (skill_t**)realloc(p, sizeof(skill_t*) * inventory->num_passive);
             return SUCCESS;
         default:
             fprintf(stderr, "inventory_skill_remove: invalid skill type\n");
@@ -129,6 +129,8 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill) {
 }
 
 /* See inventory.h */
-void skill_levels_update(skill_inventory_t* inventory) {
+int inventory_skill_levels_update(skill_inventory_t* inventory) {
     assert(inventory != NULL);
+    /* TO DO */
+    return 0;
 }

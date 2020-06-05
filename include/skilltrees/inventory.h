@@ -8,6 +8,33 @@
 #include "skilltrees/stdst.h"
 #include "skilltrees/skill.h"
 
+/* ================================= */
+/* === INVENTORY DATA STRUCTURES === */
+/* ================================= */
+/* ALL the skills belonging to a player */
+typedef struct skill_inventory {
+    // An array of active skills belonging to a player
+    skill_t** active;
+
+    // The number of active skills belonging to a player
+    unsigned int num_active;
+
+    // The maximum number of active skills a player can possess
+    // (This field helps to enforce skill tree balancing)
+    unsigned int max_active;
+
+    // An array of passive skills belonging to a player
+    skill_t** passive;
+
+    // The number of passive skills belonging to a player
+    unsigned int num_passive;
+
+    // The maximum number of passive skills a player can possess
+    // (This field helps to enforce skill tree balancing)
+    unsigned int max_passive;
+
+} skill_inventory_t;
+
 /*
  * Allocates a new (empty) skill inventory in the heap.
  *
@@ -80,11 +107,8 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill);
  *  - inventory: A player's skill inventory
  *
  * Returns:
- *  - None
- *
- * NOTE TO DEVELOPERS: the notion of SUCCESS vs. FAILURE seems ambiguous in the
- * context of this function, hence the use of a `void` return type
+ *  - 0 on success, 1 if an error occurs
  */
-void skill_levels_update(skill_inventory_t* inventory);
+int inventory_skill_levels_update(skill_inventory_t* inventory);
 
 #endif /* INCLUDE_INVENTORY_H_ */
