@@ -7,7 +7,7 @@ int npc_init(npc_t *npc, object_t *npc_id, char *short_desc, char *long_desc,
              int health, class_t *class)
 {
     assert(npc != NULL);
-    strcpy(npc->npc_id, npc_id);
+    npc->npc_id = npc_id;
     strcpy(npc->short_desc, short_desc);
     strcpy(npc->long_desc, long_desc);
     npc->health = health;
