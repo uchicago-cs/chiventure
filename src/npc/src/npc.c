@@ -3,7 +3,7 @@
 // STRUCT FUNCTIONS -----------------------------------------------------------
 /* See npc.h */
 
-int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
+int npc_init(npc_t *npc, object_t *npc_id, char *short_desc, char *long_desc,
              int health, class_t *class)
 {
     assert(npc != NULL);
@@ -18,7 +18,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 }
 
 /* See npc.h */
-npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc, 
+npc_t *npc_new(object_t *npc_id, char *short_desc, char *long_desc, 
                int health, class_t *class)
 {
     npc_t *npc;
