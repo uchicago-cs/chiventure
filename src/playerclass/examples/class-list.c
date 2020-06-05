@@ -33,19 +33,19 @@ move_list_t* move_list() {
     // Bard
 
     class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL, NULL, NULL, NULL);
-    skill_inventory_t* bard_inv = bard_inventory();
+    skill_inventory_t *bard_inv = bard_inventory();
     move_list_t* bardlist = new_move_list(bard, bard_inv->active[0]);
 
     // Wizard
 
     class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, NULL, NULL, NULL);
-    skill_inventory_t* wizard_inv = wizard_inventory();
+    skill_inventory_t *wizard_inv = wizard_inventory();
     move_list_t* wizardlist = new_move_list(wizard, wizard_inv->active[0]);
     
     // Knight
 
     class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL, NULL, NULL, NULL);
-    skill_inventory_t* knight_inv = knight_inventory();
+    skill_inventory_t *knight_inv = knight_inventory();
     move_list_t* knightlist = new_move_list(knight, knight_inv->active[0]);
 
     DL_APPEND(head, bardlist);
