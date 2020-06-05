@@ -178,7 +178,7 @@ skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
         return NULL;
     }
 
-    skill_t** acquired = (skill_t**)malloc(nprereqs * sizeof(skill_t*));
+    skill_node_t** acquired = (skill_t**)malloc(nprereqs * sizeof(skill_t*));
     if (acquired == NULL) {
         fprintf(stderr, "get_acquired_skill_prereqs: mallocing acquired failed\n");
         *num_acquired_prereqs = -2;
