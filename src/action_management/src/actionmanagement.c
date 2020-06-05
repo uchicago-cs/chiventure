@@ -82,7 +82,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         return WRONG_KIND;
     }
 
-    // use representative c_name for action synonyms
+    /* use representative c_name for action synonyms */
     if(a->c_name == "PICKUP") 
     {
         a->c_name = "TAKE";
