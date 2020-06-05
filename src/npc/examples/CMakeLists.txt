@@ -5,7 +5,7 @@ add_executable(convo
                ../src/dialogue.c)
 
 # Link with chiventure libraries
-foreach(example ${CLI_EXAMPLES})
+foreach(example ${NPC_EXAMPLES})
     foreach(module ${CHIVENTURE_MODULES})
         target_link_libraries(${example} ${module})
     endforeach(module)
