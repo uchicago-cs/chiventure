@@ -30,7 +30,7 @@ typedef struct npc {
 
     /* pointer to inventory hashtable */
     item_hash_t *inventory;
-    
+
     /* pointer to an existing class struct */
     class_t *class; 
 } npc_t;

@@ -2,7 +2,6 @@
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 /* See npc.h */
-
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
              int health, class_t *class)
 {
