@@ -12,6 +12,9 @@ addons:
       - criterion-dev
       - criterion
       - cmake
+      - liblua5.3-0
+      - liblua5.3-dev
+      - lua5.3
 
 branches:
   only:
@@ -27,4 +30,5 @@ script:
   - cd build
   - cmake ..
   - make
+  - make examples
   - ctest --extra-verbose

@@ -27,8 +27,8 @@ Test(validate, game_type_check)
     obj_t *doc = __get_doc_obj();
     obj_t *game = obj_get_attr(doc, "GAME.0", false);
 
-    bool rc = game_type_check(game);
-    cr_assert_eq(rc, true, "game verification failed");
+    int rc = game_type_check(game);
+    cr_assert_eq(rc, SUCCESS, "game verification failed");
 }
 
 /* tests whether the room fields are valid */
@@ -38,8 +38,8 @@ Test(validate, room_type_check)
     obj_t *doc = __get_doc_obj();
     attr_list_t *rooms = obj_list_attr(obj_get_attr(doc, "ROOMS", false));
 
-    bool rc = list_type_check(rooms, room_type_check);
-    cr_assert_eq(rc, true, "rooms verification failed");
+    int rc = list_type_check(rooms, room_type_check);
+    cr_assert_eq(rc, SUCCESS, "rooms verification failed");
 }
 
 /* tests whether the item fields are valid */
@@ -49,6 +49,6 @@ Test(validate, item_type_check)
     obj_t *doc = __get_doc_obj();
     attr_list_t *items = obj_list_attr(obj_get_attr(doc, "ITEMS", false));
 
-    bool rc = list_type_check(items, item_type_check);
-    cr_assert_eq(rc, true, "items verification failed");
+    int rc = list_type_check(items, item_type_check);
+    cr_assert_eq(rc, SUCCESS, "items verification failed");
 }

@@ -16,7 +16,7 @@ Test(lookup, new)
 /* Checks if a lookup table is be successfully initialized */
 Test(lookup, init)
 {
-    lookup_t *l;
+    lookup_t *l = NULL;
     int rc;
 
     rc = lookup_t_init(&l);

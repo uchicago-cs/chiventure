@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include "ui/ui_ctx.h"
 #include "ui/coordinate.h"
 
 
@@ -70,7 +71,12 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
         cr->r = r;
 
         HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
-        fclose(debug);
+        
+        /* This line caused tests in test_item_action.c and 
+         * test_item_item_actions.c to fail for unknown reasons; 
+         * see issue #621 */
+        //fclose(debug);
+        
         return SUCCESS;
     }
     else

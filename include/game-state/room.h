@@ -110,6 +110,18 @@ int room_free(room_t *room);
  */
 int add_item_to_room(room_t *room, item_t *item);
 
+/* Removes an item from the given room
+ * Note that the memory associated with this item is not freed
+ * 
+ * Parameters:
+ *  room struct
+ *  item struct
+ * 
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int remove_item_from_room(room_t *room, item_t *item);
+
 /* Adds a path to the given room
  *
  * Parameters:
@@ -213,5 +225,15 @@ item_t* get_item_in_room(room_t* room, char* item_id);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_room(room_t *room);
+
+/* Deletes a hashtable of rooms
+ * Implemented with macros provided by uthash.h
+ *
+ * Parameters:
+ *  hashtable of rooms that need to be deleted
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int delete_all_rooms(room_hash_t* rooms);
 
 #endif

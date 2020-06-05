@@ -2,7 +2,7 @@
 #define LOAD_INT_H
 #include "checkpointing/load.h"
 #include "game.pb-c.h"
-#include "common-item.h"
+#include "game-state/item.h"
 #include "action_management/actionmanagement.h"
 
 

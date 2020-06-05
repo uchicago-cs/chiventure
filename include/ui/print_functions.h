@@ -2,6 +2,7 @@
 #define PRINT_FUNCTIONS_H
 
 #include "common/ctx.h"
+#include "ui/ui_ctx.h"
 
 
 typedef struct window window_t;
@@ -62,15 +63,15 @@ void print_map(chiventure_ctx_t *ctx, window_t *win);
 
 
 /* print_to_cli
- * prints the given string the CLI window
+ * prints the given string the CLI window.
  *
  * Parameters:
- *    - ctx : chiventure context struct
- *    - str : message to be printed
+ *    - ctx: chiventure context struct
+ *    - str: message to be printed
  *
- * No value is returned
+ * Returns:
+ *  - Always returns 0
  */
-void print_to_cli(chiventure_ctx_t *ctx, char *str);
-
+int print_to_cli(chiventure_ctx_t *ctx, char *str);
 
 #endif

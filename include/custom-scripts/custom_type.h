@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "lauxlib.h"
 #include "lua.h"
 #include "lualib.h"
@@ -44,12 +45,12 @@ typedef struct obj_t
 /**
  * obj_t_new() creates an empty object_t struct
  * Returns:
- * - object_t empty object struct
+ * - pointer to an empty object struct
  * 
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-object_t obj_t_new();
+object_t *obj_t_new();
 
 /**
  * obj_t_bool() creates an object_t struct containing a boolean
@@ -57,12 +58,12 @@ object_t obj_t_new();
  * - bool value to be stored
  * - Lua script (NULL if no script to be specified)
  * Returns:
- * - object_t object struct containing the bool
+ * - pointer to an object struct containing the bool
  * 
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-object_t obj_t_bool(bool b, char *lua);
+object_t *obj_t_bool(bool b, char *lua);
 
 /**
  * obj_t_char() creates an object_t struct containing a char
@@ -70,12 +71,12 @@ object_t obj_t_bool(bool b, char *lua);
  * - char value to be stored
  *  - Lua script (NULL if no script to be specified)
  * Returns:
- * - object_t object struct containing the char
+ * - pointer to an object struct containing the char
  * 
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-object_t obj_t_char(char c, char *lua);
+object_t *obj_t_char(char c, char *lua);
 
 /**
  * obj_t_int() creates an object_t struct containing a int
@@ -83,12 +84,12 @@ object_t obj_t_char(char c, char *lua);
  * - char value to be stored
  *  - Lua script (NULL if no script to be specified)
  * Returns:
- * - object_t object struct containing the int
+ * - pointer to an object struct containing the int
  * 
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-object_t obj_t_int(int i, char *lua);
+object_t *obj_t_int(int i, char *lua);
 
 /**
  * obj_t_str() creates an object_t struct containing a string
@@ -96,12 +97,12 @@ object_t obj_t_int(int i, char *lua);
  * - char value to be stored
  *  - Lua script (NULL if no script to be specified)
  * Returns:
- * - object_t object struct containing the str
+ * - pointer to an object struct containing the str
  * 
  * Chose not to use pointer return type because data type is small,
  * so copying is not costly
  */
-object_t obj_t_str(char *s, char *lua);
+object_t *obj_t_str(char *s, char *lua);
 
 /**
  * bool_t_get() returns a bool from an object_t struct
@@ -110,7 +111,7 @@ object_t obj_t_str(char *s, char *lua);
  * Returns:
  * - bool from ot
  */
-bool bool_t_get(object_t ot);
+bool bool_t_get(object_t *ot);
 
 /**
  * char_t_get() returns a char from an object_t struct
@@ -119,7 +120,7 @@ bool bool_t_get(object_t ot);
  * Returns:
  * - char from ot
  */
-char char_t_get(object_t ot);
+char char_t_get(object_t *ot);
 
 /**
  * int_t_get() returns an int from an object_t struct
@@ -128,7 +129,7 @@ char char_t_get(object_t ot);
  * Returns:
  * - integer from ot
  */
-int int_t_get(object_t ot);
+int int_t_get(object_t *ot);
 
 /**
  * string_t_get() returns a string from an object_t struct
@@ -137,7 +138,7 @@ int int_t_get(object_t ot);
  * Returns:
  * - string from ot
  */
-const char* str_t_get(object_t ot);
+char* str_t_get(object_t *ot);
 
 /**
  * string_is_lua() determines whether a string is a Lua directory string
