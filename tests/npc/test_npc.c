@@ -54,7 +54,7 @@ Test(npc, init)
     class_t* c;
     npc_t *npc;
     int res;
-
+  
     npc = npc_new("test", "woman", "short woman", 30, NULL);
   
     c = generate_test_class();
@@ -87,6 +87,7 @@ Test(npc, free)
     res = npc_free(npc);
 
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
+
 }
 
 /* Checks that get_sdesc_npc() returns the short description of the npc */
@@ -148,6 +149,7 @@ Test(npc, change_npc_health)
 {
     npc_t *npc;
     int health1, health2, health3;
+
 
     npc = npc_new("npc_22", "short", "long", 99, NULL); 
     health1 = change_npc_health(npc, 2, 100); 
@@ -227,4 +229,20 @@ Test(npc, add_item_to_npc)
     cr_assert_not_null(new_item, "item_new() failed");
     cr_assert_not_null(npc->inventory,
                        "add_item_to_npc() failed to add item");
+}
+
+/* Checks that remove_item_from_npc properly removes items */
+Test(npc, remove_item_from_npc)
+{
+    npc_t *npc = npc_new("npc", "short", "long", 100, NULL);
+    item_t *test_item = item_new("item", "short", "long");
+    int rc;
+    
+    rc = add_item_to_npc(npc, test_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
+                 "add an item to npc");
+    
+    rc = remove_item_from_npc(npc, test_item);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_npc failed to "
+                 "remove an item from npc");
 }
