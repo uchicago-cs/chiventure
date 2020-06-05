@@ -123,11 +123,28 @@ int add_end_condition_to_game(game_t *game, game_action_condition_t *end_conditi
 }
 
 /* See game.h */
+int add_effect_to_game(game_t *game, effects_global_t *effect)
+{
+    effects_global_t *check;
+    HASH_FIND(hh, game->all_effects, effect->name, 
+              strlen(effect->name), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //the effect already exists in the game
+    }
+
+    HASH_ADD_KEYPTR(hh, game->all_effects, effect->name,
+                    strlen(effect->name), effect);
+    return SUCCESS;
+}
+
+/* See game.h */
 bool end_conditions_met(game_t *game)
 {
     if (game->end_conditions == NULL)
     {
-        return true; // no conditions to check
+        return false; // no conditions to check
     }
     
     game_action_condition_t *iterator = game->end_conditions;
@@ -141,6 +158,23 @@ bool end_conditions_met(game_t *game)
     }
     
     return true; // all conditions met
+}
+
+/* See game.h */
+bool is_game_over(game_t *game)
+{
+    bool end_case1, end_case2, end_case3;
+    
+    /* end_case1: Both a final room and end conditions exist */
+    end_case1 = game->final_room != NULL && game->final_room == game->curr_room && 
+            end_conditions_met(game);
+    /* end_case2: A final room exists, but end conditions do not */
+    end_case2 = game->final_room != NULL && game->final_room == game->curr_room && 
+            game->end_conditions == NULL;
+    /* end_case3: End conditions exist, but a final room does not */
+    end_case3 = game->final_room == NULL && end_conditions_met(game);
+    
+    return end_case1 || end_case2 || end_case3;
 }
 
 /* See game.h */
