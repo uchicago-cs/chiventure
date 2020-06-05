@@ -204,6 +204,12 @@ Test(item, remove_item_from_hash_duplicate_items)
     HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
     cr_assert_not_null(check, "remove_item_from_hash removed both "
                        "duplicate items from hashtable");
+
+    cr_assert_eq(test_item2->next, NULL, "remove_item_from_hash failed to "
+                 "remove an item from hashtable");
+    
+    cr_assert_eq(check, test_item2, "remove_item_from_hash removed wrong "
+                 "duplicate item from hashtable");
     
     rc = remove_item_from_hash(&ht, test_item2);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "

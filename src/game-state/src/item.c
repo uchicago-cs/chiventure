@@ -124,7 +124,43 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
     // Only deletes if item exists in hashtable
     if (check != NULL)
     {
-        HASH_DEL(*(ht), old_item);
+        if (check == old_item && old_item->next != NULL)
+        {
+            /* Multiple identical item ids;
+             * item to delete is head of linked list */
+            //item_t *temp = NULL;
+            //temp = old_item->next;
+            HASH_DEL(*ht, old_item);
+            add_item_to_hash(ht, old_item->next);
+        }
+        else if (check == old_item)
+        {
+            /* Item to delete is only item w/ id in hashtable */
+            HASH_DEL(*ht, old_item);
+        }
+        else
+        {
+            item_t *prev, *curr;
+            prev = check;
+            curr = check->next;
+            bool found = false;
+            while (curr != NULL && !found)
+            {
+                if (curr == old_item)
+                {
+                    /* Multiple identical item ids;
+                     * item to delete might be found later in linked list.
+                     * Note that if same memory address is not found,
+                     * no items will be removed */
+                    prev->next = curr->next;
+                    found = true;
+                }
+                
+                prev = prev->next;
+                curr = curr->next;
+            }
+        }
+        //HASH_DEL(*(ht), old_item);
     }
     
     return SUCCESS;
