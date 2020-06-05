@@ -3,8 +3,8 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
-#include "game-state/stats.h"
 #include "npc/dialogue.h"
+#include "playerclass/class_structs.h"
 
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
@@ -30,9 +30,9 @@ typedef struct npc {
 
     /* pointer to inventory hashtable */
     item_hash_t *inventory;
-
-    /* pointer to an existing stats struct */
-    stats_t *stats;
+    
+    /* pointer to an existing class struct */
+    class_t *class; 
 } npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
@@ -53,13 +53,13 @@ typedef struct npc npc_hash_t;
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
  *  health: the starting health of the npc
- *  stats: pointer to an existing stats struct
+ *  class: a pointer to an existing class_t struct defining the class of the npc
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             int health, stats_t *stats);
+             int health, class_t *class);
 
 /*
  * Allocates a new npc in the heap.
@@ -69,13 +69,13 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
  *  health: the starting health of the npc
- *  stats: pointer to an existing stats struct
+ *  class: a pointer to an existing class_t struct defining the class of the npc
  *
  * Returns:
  *  pointer to allocated npc
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc, 
-               int health, stats_t *stats);
+               int health, class_t *class);
 
 /*
  * Frees resources associated with an npc.

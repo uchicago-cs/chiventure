@@ -17,8 +17,6 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
 {
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
-
     game_t *game = game_new("Welcome to Chiventure!");
 
     /* Create two rooms (room1 and room2). room1 is the initial room */
@@ -38,9 +36,8 @@ chiventure_ctx_t *create_sample_ctx()
      * It has no conditions, so it should succeed unconditionally. */
     add_action(rock, "TASTE", "It has a gravel-ey bouquet.", "You can't taste the rock.");
 
-    /* Free default game and replace it with ours */
-    game_free(ctx->game);
-    ctx->game = game;
+    /* Create context */
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
 }

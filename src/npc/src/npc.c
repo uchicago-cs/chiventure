@@ -2,8 +2,9 @@
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 /* See npc.h */
+
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             int health, stats_t *stats)
+             int health, class_t *class)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
@@ -11,14 +12,14 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     strcpy(npc->long_desc, long_desc);
     npc->health = health;
     npc->inventory = NULL;
-    npc->stats = stats;
-    
+    npc->class = class;
+
     return SUCCESS;
 }
 
 /* See npc.h */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc, 
-               int health, stats_t *stats)
+               int health, class_t *class)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -26,10 +27,9 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->npc_id = malloc(MAX_ID_LEN);
     npc->short_desc = malloc(MAX_SDESC_LEN);
     npc->long_desc = malloc(MAX_LDESC_LEN);
-    npc->stats = malloc(sizeof(stats));
+    npc->class = malloc(sizeof(class_t));
 
-    int check = npc_init(npc, npc_id, short_desc, long_desc, health, stats); 
-
+    int check = npc_init(npc, npc_id, short_desc, long_desc, health, class); 
 
     if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
         npc->long_desc == NULL || check != SUCCESS)
@@ -52,7 +52,7 @@ int npc_free(npc_t *npc)
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    free(npc->stats);
+    free(npc->class);
     delete_all_items(&npc->inventory);
     free(npc);
 
