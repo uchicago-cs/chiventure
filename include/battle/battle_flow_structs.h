@@ -3,11 +3,12 @@
 
 #include <stdbool.h>
 #include <string.h>
-#include "common/common.h"
-#include "common/utlist.h"
+#include "battle/battle_common.h"
 #include "battle/battle_logic.h" 
 #include "battle/battle_state.h"
 #include "battle/battle_structs.h"
+#include "common/common.h"
+#include "common/utlist.h"
 
 /* Stub for the player struct in game-state */
 typedef struct player {
