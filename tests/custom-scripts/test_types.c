@@ -284,3 +284,17 @@ Test(custom_type, arg_t_new_str)
     cr_assert_eq(at->next, NULL, "arg_t_str next failed assignment");
 }
 
+
+/** 
+* Checks that the arg_t struct can add an arg_t struct at the end  when arg_t_add() is called
+*/
+
+Test(custom_type, arg_t_add_new)
+{
+arg_t *head = arg_t_new();
+arg_t *end = arg_t_new();
+
+cr_assert_null(head->next, NULL, "arg_t nextfailed assignment");
+head = arg_t_add(head, end);
+cr_assert_not_null(head->next);
+}
