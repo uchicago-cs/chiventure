@@ -5,33 +5,80 @@
 
 #include "wdl/load_wdz_internal.h"
 
-#include "wdl/wdl_common.h" // to get obj_t
-#include "wdl/objstore.h"
+#define SAME_STRING(s1, s2) (strcmp(s1, s2) == (0))
+#define TYPE_PLAYER_STR "player"
+#define TYPE_ROOM_STR "rooms"
+#define TYPE_ITEM_STR "items"
+#define TYPE_ACTION_STR "actions"
+#define TYPE_GCONDITION_STR "globalconditions"
+#define TYPE_DIALOG_STR "dialog"
+#define TYPE_NPC_STR "npcs"
+
+objtype_t match_j_name_to_game_obj_type(char *j_name)
+{
+    objtype_t game_obj_type;
+    if (SAME_STRING(j_name, TYPE_PLAYER_STR))  
+    {
+        game_obj_type = TYPE_PLAYER;
+    }
+    else if (SAME_STRING(j_name, TYPE_ROOM_STR))    
+    {
+        game_obj_type = TYPE_ROOM;
+    }
+    else if (SAME_STRING(j_name, TYPE_ITEM_STR))    
+    {
+        game_obj_type = TYPE_ITEM;
+    }
+    else if (SAME_STRING(j_name, TYPE_ACTION_STR))  
+    {
+        game_obj_type = TYPE_ACTION;
+    }
+    else if (SAME_STRING(j_name, TYPE_GCONDITION_STR))  
+    {
+        game_obj_type = TYPE_GCONDITION;
+    }
+    else if (SAME_STRING(j_name, TYPE_NPC_STR))
+    {
+        game_obj_type = TYPE_NPC;
+    }
+    else if (SAME_STRING(j_name, TYPE_DIALOG_STR))  
+    {
+        game_obj_type = TYPE_DIALOG;
+    }
+    else
+    {
+        game_obj_type = TYPE_UNDEFINED;
+    }
+    
+    return game_obj_type;
+}
 
 
 object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
 {
-    object_t* retobject = malloc(sizeof(object_t));
-    /* Loops through all attributes in the object*/
+    object_t* game_obj = malloc(sizeof(object_t));
+    if (!game_obj)
+    {
+        fprintf(stderr, "Unable to allocate memory for game object\n");
+        return NULL;
+    }
+
+    /* First set the game object type (e.g. a room, or an item */
+    game_obj->type = match_j_name_to_game_obj_type(j_name);
+    /* Loops through all attributes in the object */
     json_object_object_foreach(j_game_obj, attr_name, j_value)
     {
-        if (attr_name == "id"){
-            strcpy(retobject->id, json_object_get_string(j_value));
-        } else{
-            //Gets type of the object and sets objtype_t based on value returned by 
-            //json_type json_object_get_type (j_value)	
-
+        if (strcmp(attr_name, "id") == 0)
+        {
+            strcpy(game_obj->id, json_object_get_string(j_value));
+        } 
+        else
+        {
+            // awaiting add_attr functions to add a new attribute to object here.
         }
 
     }
     return NULL;
-}
-
-
-int add_objstore(objstore_t *obj_store, obj_t *game_obj)
-{
-    // dummy function for now.
-    return FAILURE;
 }
 
 
@@ -53,8 +100,9 @@ int load_game_objects_from_json_object
     json_object *j_obj
 )
 {
-    // // Commenting this out because we don't have an objstore right now
-    // // so this is always NULL.
+    // // Commenting this out because while we have objstore_t init ready,
+    // // it still depends on object_t init, which always returns NULL,
+    // // so the objstore ends up always NULL.
     // if (!obj_store)
     // {
     //     return FAILURE;
@@ -72,12 +120,13 @@ int load_game_objects_from_json_object
             for (int i = 0; i < n_objects; i++) // for each json_object in the array
             {
                 json_object *j_game_obj = json_object_array_get_idx(j_value, i);
-                obj_t *game_obj = convert_j_obj_to_game_obj(j_game_obj, j_name);
+                object_t *game_obj = convert_j_obj_to_game_obj(j_game_obj, j_name);
                 if (!game_obj) 
                 {
-                    return FAILURE;
+                    fprintf(stderr, "Couldn't convert json object %s[%d] into game object\n", j_name, i);
+                    continue;
                 }
-                add_objstore(obj_store, game_obj);
+                add_objstore(&obj_store, game_obj);
             }
             return SUCCESS;
         }
@@ -85,15 +134,15 @@ int load_game_objects_from_json_object
         {
             // The only file with an object-type value as top-level
             // is players.json. Other special cases can go here, but unlikely.
-            printf("Found player object.\n");
-            json_object *j_player_obj; 
-            json_object_object_get_ex(j_value, j_name, &j_player_obj);
-            obj_t *player = convert_j_obj_to_game_obj(j_player_obj, j_name);
+            
+            object_t *player = convert_j_obj_to_game_obj(j_value, j_name);
+            printf("Parsed player json.\n");
+
             if (!player)
             {
                 return FAILURE;
             }
-            add_objstore(obj_store, player);
+            add_objstore(&obj_store, player);
             return SUCCESS;
         }
         else 

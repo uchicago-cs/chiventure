@@ -17,7 +17,7 @@ int init_object(object_t *obj, char *id)
 }
 
 /* See wdl/object.h for documentation */
-int obj_free(object_t *obj)
+int object_free(object_t *obj)
 {
     return 0;
 }

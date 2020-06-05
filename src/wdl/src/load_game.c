@@ -19,7 +19,6 @@
  */
 game_t *load_wdl(char *path_to_yaml)
 {
-
     // WDZ loading monkeypatch.
     // Intercepts chiventure if wdz file is passed in as CLI argument, 
     // and prints JSON contents for debug.
@@ -29,7 +28,21 @@ game_t *load_wdl(char *path_to_yaml)
         int n_jsons = 0;
         printf("Detected wdz file. Attempting to load wdz and printing the json files...\n");
         printf("Note that loading wdz is not functional right now.\n");
-        populate_objstore_from_wdz(NULL, &n_jsons, path_to_yaml);
+        object_t *obj_store_init_obj = new_object("__empty__");
+        /* commenting all this out because new_object always returns NULL for now. */
+        // if (!obj_store_init_obj) 
+        // {
+        //     fprintf(stderr,"could not allocate dummy object for objstore\n");
+        //     return NULL;
+        // }
+        // // ideally this should be handled by new_object itself
+        // obj_store_init_obj->type = TYPE_OTHER;
+        objstore_t *obj_store = new_objstore(obj_store_init_obj);
+
+        populate_objstore_from_wdz(obj_store, &n_jsons, path_to_yaml);
+        
+        /* commenting this out for now because new_object always returns NULL for now. */
+        //free_objstore(&obj_store, find_objstore(&obj_store, "__empty__", TYPE_OTHER));
         printf("Number of JSON files found: %d\n", n_jsons);
         return NULL;
     }

@@ -18,8 +18,8 @@
  */
 typedef enum objtype
 {
-    TYPE_ERR = -1,
-    TYPE_NONE = 0,
+    TYPE_UNDEFINED = -1,
+    TYPE_OTHER = 0,
     TYPE_PLAYER = 1,
     TYPE_ROOM = 2,
     TYPE_ITEM = 3,
@@ -41,7 +41,7 @@ typedef enum assettype
     ASSET_SOUND = 2
 } assettype_t;
 
-typedef struct obj obj_t; // forward declaration so attribute_t can use
+typedef struct object object_t; // forward declaration so attribute_t can use
 
 /* 
  * a union representing the information that can be stored in an attribute
@@ -52,7 +52,7 @@ union attr_data
     char c;
     char *s;
     int i;
-    obj_t *o;
+    object_t *o;
 };
 
 /*
@@ -78,9 +78,9 @@ typedef struct attr
 } obj_attr_t;
 
 /*
- * obj_t: a struct describing a .json object.
+ * object_t: a struct describing a .json object.
  */
-typedef struct obj
+typedef struct object
 {
     // The id used to identify this object
     char id[MAXLEN_ID + 1];
@@ -144,7 +144,7 @@ int init_object(object_t *obj, char *id);
  * returns:
  *   - always returns SUCCESS
  */
-int obj_free(object_t *obj);
+int object_free(object_t *obj);
 
 /* 
  * get_object: retrieves an object from a .wdz archive
@@ -154,7 +154,7 @@ int obj_free(object_t *obj);
  *   - id: the object's id
  * 
  * returns:
- *   - a pointer to the requested object as a obj_t struct member.
+ *   - a pointer to the requested object as a object_t struct member.
  */
 object_t* get_object(char* type, char* id);
 

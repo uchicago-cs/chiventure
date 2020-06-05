@@ -16,6 +16,8 @@
 
 #include "wdl/load_wdz_internal.h"
 
+#define GAME_DIR "game/"
+
 // maximum buffer size for json file, in bytes. This is currently set to 2 MiB.
 #define MAXBUFSIZE ((zip_int64_t)0x200000)
 
@@ -102,6 +104,13 @@ int populate_objstore_from_wdz
         zip_file_t *curr_file = zip_fopen_index(wdz, i, 0);
         { // Within the context of this opened entry...
             const char *j_path_and_name = zip_get_name(wdz, i, 0);
+            
+            // check for actual correct path game_name/game/ before reading
+            if (strncmp(strchr(j_path_and_name, '/') + 1, GAME_DIR, strlen(GAME_DIR)))
+            {
+                continue;
+            }
+
             struct json_object *j_obj = 
                 get_json_obj_from_zip_file_entry(curr_file, j_path_and_name);
             

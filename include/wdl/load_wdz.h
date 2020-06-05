@@ -4,11 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// Dummy forward declarations. Will replace with the proper objstore_t
-// and obj_t included from the correct modules later.
-typedef int objstore_t;
-//typedef int obj_t; // commenting this out to not conflict with old libobj obj_t
-
+#include "wdl/objstore.h"
 
 /* 
  * populate_objstore_from_wdz:
