@@ -2,6 +2,7 @@
 #define PRINT_FUNCTIONS_H
 
 #include "common/ctx.h"
+#include "ui/ui_ctx.h"
 
 
 typedef struct window window_t;
