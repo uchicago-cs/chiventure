@@ -149,8 +149,8 @@ Test (stats, apply_effect)
     stats_t s1;
     s1.key = "health";
     s1.global = &health;
-    s1.val = 50;
-    s1.max = 75;
+    s1.val = 50.0;
+    s1.max = 75.0;
     s1.modifier = 0.75;  
 
     stats_global_t speed;
@@ -168,23 +168,25 @@ Test (stats, apply_effect)
     double intensities[] = {2.0, 0.5};
     int durations[] = {2, 5};
 
-    int rc = apply_effect(hash, effect, stats, 
+    int rc = apply_effect(&hash, effect, stats, 
                           intensities, durations, 2);
     
     cr_assert_eq(rc, SUCCESS, "apply_effect failed");
     cr_assert_eq(s1.modifier, 1.5, "apply_effect did not update s1 modifier");
     cr_assert_eq(s2.modifier, 0.5, "apply_effect did not update s2 modifier");
 
-    /*cr_assert_not_null(hash, "apply_effect did not add effect to hash");*/
+    cr_assert_not_null(hash, "apply_effect did not add effect to hash");
 
-    stat_mod_t *tmp1, *tmp2, *l1, *l2;
-    l1->stat = &s1;
-    LL_SEARCH(effect->stat_list, tmp1, l1, stat_mod_equal);
+    stat_mod_t *tmp1, *tmp2, l1, l2;
+    l1.stat = &s1;
+    LL_SEARCH(effect->stat_list, tmp1, &l1, stat_mod_equal);
     cr_assert_not_null(tmp1, "apply_effect did not add s1 to stat_mod_t list");
+    cr_assert_str_eq(tmp1->stat->key, l1.stat->key, "fail");
 
-    l2->stat = &s2;
-    LL_SEARCH(effect->stat_list, tmp2, l2, stat_mod_equal);
+    l2.stat = &s2;
+    LL_SEARCH(effect->stat_list, tmp2, &l2, stat_mod_equal);
     cr_assert_not_null(tmp2, "apply_effect did not add s2 to stat_mod_t list");
+    cr_assert_str_eq(tmp2->stat->key, l2.stat->key, "fail");
 
     cr_assert_eq(tmp1->modifier, intensities[0], 
                  "apply_effect did not set stat_mod modifier");
@@ -193,7 +195,7 @@ Test (stats, apply_effect)
 
     cr_assert_eq(tmp1->duration, durations[0], 
                  "apply_effect did not set stat_mod duration");
-    cr_assert_eq(tmp2->modifier, durations[1], 
+    cr_assert_eq(tmp2->duration, durations[1], 
                  "apply_effect did not set stat_mod duration");
 
 }
