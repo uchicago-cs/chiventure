@@ -161,7 +161,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         do_item_action(ctx, action, curr_item, &str);
         if(strcmp(tokens[0], "TAKE") == 0 || strcmp(tokens[0], "PICKUP") == 0)
         {
-            HASH_DEL(game->curr_room->items, curr_item);
+            remove_item_from_room(game->curr_room, curr_item);
             add_item_to_player(game->curr_player, curr_item);
 
         }

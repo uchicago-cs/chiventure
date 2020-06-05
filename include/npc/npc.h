@@ -176,6 +176,19 @@ int change_npc_health(npc_t *npc, int change, int max);
  */
 int add_item_to_npc(npc_t *npc, item_t *item);
 
+/* 
+ * Removes the given item from the given npc.
+ * Note that the memory associated with this item is not freed
+ * 
+ * Parameters:
+ *  npc: the npc from whom to remove the item
+ *  item: the item
+ * 
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int remove_item_from_npc(npc_t *npc, item_t *item);
+
 /*
  * Adds the given convo to the given npc.
  * 
