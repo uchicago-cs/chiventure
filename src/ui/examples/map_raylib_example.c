@@ -9,6 +9,10 @@ int main(void)
 {
     const int screenWidth = 800;
     const int screenHeight = 450;
+    const int roomHeight = 130;
+    const int roomWidth = 180;
+    int centerYPos, centerXPos, radius;
+    int posX = screenWidth/4, posY = 170;
 
     InitWindow(screenWidth, screenHeight, "Chiventure 5 Room Map Example");
 
@@ -38,45 +42,52 @@ int main(void)
     create_connection(game, "room3", "room4", "NORTH");
     create_connection(game, "room3", "room5", "SOUTH");
 
-    /* build 5 room map connection */
-    create_connection(game, "room1", "room2", "WEST");
-    create_connection(game, "room2", "room3", "EAST");
-    create_connection(game, "room3", "room2", "WEST");
-    create_connection(game, "room3", "room4", "NORTH");
-    create_connection(game, "room3", "room5", "SOUTH");
-
     while (!WindowShouldClose())   
     {
         BeginDrawing();
 
-            ClearBackground(BLACK);
+        ClearBackground(BLACK);
+
+        posY = 170; //starting map Y position
             
-            if (game->curr_room != NULL)
-            {
-                DrawRectangle(screenWidth/4*2 - 90, 170, 180, 130, RED);
-                DrawCircle(screenWidth/4*2, screenWidth/4*2 - 160, 15, WHITE);
-            }
+        if (game->curr_room != NULL)
+        {
+            centerXPos = screenWidth/4*2;
+            centerYPos = screenWidth/4*2 - 160;
+            radius = 15;
 
-            /*starting at a room, draw a room that either exists near it in any direction */
-            if (find_room_from_dir(room1 , "WEST") != NULL)
-            {
-                DrawRectangle(screenWidth/4 - 70, 170, 180, 130, BLUE);
-            }
+            DrawRectangle(screenWidth/4*2 - 90, 170, roomWidth, roomHeight, RED);
+            DrawCircle(centerXPos, centerYPos, radius, WHITE);
+        }
 
-            if (find_room_from_dir(game->curr_room, "EAST") != NULL)
-            {
-                DrawRectangle(screenWidth/4 + 290, 170, 180, 130, GREEN);       
-            }
+        /*starting at a room, draw a room that either exists near it in any direction */
+        if (find_room_from_dir(room1 , "WEST") != NULL)
+        {
+            posX = screenWidth/4 - 70;
+
+            DrawRectangle(posX, posY, roomWidth, roomHeight, BLUE);
+        }
+
+        posX = screenWidth/4 + 290;
+
+        if (find_room_from_dir(game->curr_room, "EAST") != NULL)
+        {
+            DrawRectangle(posX, posY, roomWidth, roomHeight, GREEN);       
+        }
             
-            if (find_room_from_dir(room3, "NORTH") != NULL)
-            {
-                DrawRectangle(screenWidth/4 + 290, 40, 180, 130, GOLD);       
-            }
+        if (find_room_from_dir(room3, "NORTH") != NULL)
+        {
+            posY = 40;
 
-            if (find_room_from_dir(room3, "SOUTH") != NULL)
-            {
-                DrawRectangle(screenWidth/4 + 290, 300, 180, 130, GRAY);       
-            }
+            DrawRectangle(posX, posY, roomWidth, roomHeight, GOLD);       
+        }
+
+        if (find_room_from_dir(room3, "SOUTH") != NULL)
+        {
+            posY = 300;
+
+            DrawRectangle(posX, posY, roomWidth, roomHeight, GRAY);       
+        }
 
         EndDrawing();
     }
