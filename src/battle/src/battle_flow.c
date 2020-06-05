@@ -31,7 +31,7 @@ combatant_t *set_player(player_t *ctx_player)
 
     // Allocating new combatant_t for the player in memory
     combatant_t *comb_player = combatant_new(name, is_friendly, class, stats,
-                                             moves, items, NONE);
+                                             moves, items, BATTLE_AI_NONE);
 
     assert(comb_player != NULL);
 
