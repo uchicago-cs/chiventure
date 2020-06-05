@@ -1,6 +1,8 @@
 #ifndef BATTLE_COMMON_H
 #define BATTLE_COMMON_H
 
+#include "battle/battle_structs.h"
+
 /* AI move strategy options */
 typedef enum difficulty
 {
