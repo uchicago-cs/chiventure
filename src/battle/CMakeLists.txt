@@ -7,7 +7,7 @@ add_library(battle
             src/battle_flow_structs.c
             src/battle_moves.c
             src/battle_state.c
-            ../playerclass/examples/class-list.c)
+            ../playerclass/examples/class-list.c
             src/battle_print.c
             src/battle_state.c)
 
