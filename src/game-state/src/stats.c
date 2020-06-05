@@ -161,14 +161,10 @@ int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2) {
 }
 
 /* See stats.h */
-int apply_effect(effects_hash_t *hash, stat_effect_t  *effect, stats_t **stats, 
+int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats, 
                  double *intensities, int *durations, int num_stats) {
-    stat_effect_t *check;
-    HASH_FIND(hh, hash, effect->key, strlen(effect->key), check);
-
-    if (check == NULL) {
-        add_stat_effect(&hash, effect);
-    }
+                     
+    add_stat_effect(hash, effect);
 
     stat_mod_t *new, *tmp;
     int i;
@@ -180,8 +176,8 @@ int apply_effect(effects_hash_t *hash, stat_effect_t  *effect, stats_t **stats,
         new->duration = durations[i];
         LL_SEARCH(effect->stat_list, tmp, new, stat_mod_equal);
         if (tmp != NULL) {
-            effect->stat_list->modifier = new->modifier;
-            effect->stat_list->duration = new->duration;
+            tmp->modifier = new->modifier;
+            tmp->duration = new->duration;
             free(new);
         } else {
             LL_APPEND(effect->stat_list, new);

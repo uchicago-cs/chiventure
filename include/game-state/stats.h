@@ -309,7 +309,7 @@ int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int apply_effect(effects_hash_t *hash, stat_effect_t  *effect, stats_t **stats, 
+int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats, 
                  double *intensities, int *durations, int num_stats);
 
 /*
