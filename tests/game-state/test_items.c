@@ -102,11 +102,15 @@ Test(item, add_item_to_hash_duplicate_items)
     
     rc = add_item_to_hash(&ht, test_item1);
     cr_assert_eq(rc, FAILURE, "add_item_to_hash added item with same "
-                 "memory address as another item to hashtable");
+                 "memory address as head item to hashtable");
     
     rc = add_item_to_hash(&ht, test_item2);
     cr_assert_eq(rc, SUCCESS, "add_item_to_hash did not add item with same "
                  "item id as another item to hashtable");
+    
+    rc = add_item_to_hash(&ht, test_item1);
+    cr_assert_eq(rc, FAILURE, "add_item_to_hash added item with same "
+                 "memory address as non-head item to hashtable");
 }
 
 /* Checks that get_all_items_in_hash returns the expected 
