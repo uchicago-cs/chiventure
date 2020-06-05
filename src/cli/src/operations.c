@@ -159,7 +159,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         action_type_t *action = find_action(tokens[0], table);
         char *str;
         do_item_action(ctx, action, curr_item, &str);
-        if(strcmp(tokens[0], "TAKE") == 0)
+        if(strcmp(tokens[0], "TAKE") == 0 || strcmp(tokens[0], "PICKUP") == 0)
         {
             remove_item_from_room(game->curr_room, curr_item);
             add_item_to_player(game->curr_player, curr_item);
