@@ -101,13 +101,12 @@ bool check_condition(condition_t *condition);
 
 /* all_conditions_met() checks if all of the conditions of an action are met
  * Parameters:
- *  a pointer to the item to check
- *  the action
+ *  a pointer to the head of a condition list
  * Returns:
  *  TRUE if all conditions are met, FALSE if not
  *  2 if action not possible
  */
-bool all_conditions_met(condition_list_t *cond_list);
+int all_conditions_met(condition_list_t *cond_list);
 
 
 #endif

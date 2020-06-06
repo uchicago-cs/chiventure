@@ -197,21 +197,21 @@ bool check_condition(condition_t *condition)
 }
 
 /* see game_action.h */
-bool all_conditions_met(condition_list_t *cond_list)
+int all_conditions_met(condition_list_t *cond_list)
 {
     if (cond_list == NULL)
     {
-        return false; // no conditions to check
+        return FAILURE; // no conditions to check
     }
     condition_t *tmp = cond_list;
     while (tmp != NULL) // iterate through all conditions
     {
         if (!(check_condition(tmp)))
         {
-            return false;
+            return FAILURE;
         }
         tmp = tmp->next;
     }
     // all conditions met
-    return true;
+    return SUCCESS;
 }
