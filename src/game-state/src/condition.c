@@ -42,7 +42,7 @@ int valid_inven_condition(game_t *game, inventory_condition_t *condition)
               check_player);
     if(check_player == NULL)
     {
-        return ATTRIBUTE_NULL; // player not in game
+        return PLAYER_NULL; // player not in game
     }
 
     return SUCCESS;
@@ -57,7 +57,7 @@ int valid_condition(game_t *game, condition_t *condition)
         return valid_attr_condition(game, condition->cond.attr_type);
         break;
     case (INVENTORY):
-        return valid_attr_condition(game, condition->cond.inven_type);
+        return valid_inven_condition(game, condition->cond.inven_type);
         break;
     default:
         // should never get to here
