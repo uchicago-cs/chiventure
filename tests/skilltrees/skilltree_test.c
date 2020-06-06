@@ -70,7 +70,7 @@ Test(skilltree_tests, skill_tree_free_test)
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_free_test\n");
 }
 
-///fails
+/*Tests after this line fail and are skipped.*/
 
 /* Tests node_prereq_add on a valid case. */
 Test(skilltree_tests, node_prereq_add_safe, .description = "Fails & Skipped", .disabled = true)
