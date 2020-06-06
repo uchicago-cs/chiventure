@@ -134,6 +134,7 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
              * item to delete is head of linked list */
             HASH_DEL(*ht, old_item);
             add_item_to_hash(ht, old_item->next);
+            old_item->next = NULL;
         }
         else if (check == old_item)
         {
@@ -155,6 +156,7 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
                      * Note that if same memory address is not found,
                      * no items will be removed */
                     prev->next = curr->next;
+                    curr->next = NULL;
                     found = true;
                 }
                 

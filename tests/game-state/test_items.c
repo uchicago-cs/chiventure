@@ -243,6 +243,8 @@ Test(item, remove_item_from_hash_duplicate_items)
                  "item from hashtable");
     cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
                  "remove a duplicate item id from hashtable");
+    cr_assert_eq(test_item2->next, NULL, "remove_item_from_hash failed to "
+                 "update the removed item");
     
     /* Remove duplicate item not in hashtable */
     remove_item_from_hash(&ht, test_item2);
@@ -277,6 +279,8 @@ Test(item, remove_item_from_hash_duplicate_items)
                  "duplicate item from hashtable");
     cr_assert_eq(check->next, test_item2, "remove_item_from_hash did remove "
                  "duplicate item from middle of list properly");
+    cr_assert_eq(test_item1->next, NULL, "remove_item_from_hash failed to "
+                 "update the removed item");
 }
 
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------

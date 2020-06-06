@@ -158,12 +158,23 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         action_type_t *action = find_action(tokens[0], table);
         char *str;
-        do_item_action(ctx, action, curr_item, &str);
-        if(strcmp(tokens[0], "TAKE") == 0 || strcmp(tokens[0], "PICKUP") == 0)
+        bool action_success = false;
+        
+        /* Loops through items with identical ids 
+         * until action success or all items fail */
+        while (!action_success && curr_item != NULL)
         {
-            remove_item_from_room(game->curr_room, curr_item);
-            add_item_to_player(game->curr_player, curr_item);
-
+            int rc = do_item_action(ctx, action, curr_item, &str);
+            if (rc == SUCCESS)
+            {
+                action_success = true;
+                if(strcmp(tokens[0], "TAKE") == 0 || strcmp(tokens[0], "PICKUP") == 0)
+                {
+                    remove_item_from_room(game->curr_room, curr_item);
+                    add_item_to_player(game->curr_player, curr_item);
+                }
+            }
+            curr_item = curr_item->next;
         }
         return str;
     }
@@ -225,10 +236,28 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         return "The object(s) could not be found";
     }
+    
     action_type_t *action = find_action(tokens[0], table);
-
     char *str;
-    do_item_item_action(ctx, action, item1, item2, &str);
+    bool action_success = false;
+    
+    /* Loops through items with identical ids 
+     * until action succeeds or all items fail */
+    while (!action_success && item1 != NULL)
+    {
+        item_t *item2_iter = item2;
+        while (!action_success && item2_iter != NULL)
+        {
+            int rc = do_item_item_action(ctx, action, item1, item2_iter, &str);
+            if (rc == SUCCESS)
+            {
+                action_success = true;
+            }
+            item2_iter = item2_iter->next;
+        }
+        item1 = item1->next;
+    }
+    
     return str;
 }
 
