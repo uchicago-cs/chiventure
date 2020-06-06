@@ -148,12 +148,9 @@ void run_convo(convo_t *c)
     npc_print(c->nodes->cur_node->dialogue);
     npc_print(" Or, you could #ignore# me.");
     node_t *cur;
-    printf("\n\n%d\n\n", c->nodes->cur_node->connection_count);
     while (c->nodes->cur_node->connection_count != 0) 
     {
-        printf("\nCurrent node is %s\n", c->nodes->cur_node->node_id);
         printf("\n\n> Talk about: ");
-        printf("\n%d\n", c->nodes->cur_node->connection_count);
         cur = traverse_edge(c->nodes->cur_node, c->farewell);
         if (cur != NULL) 
         {
@@ -233,7 +230,7 @@ int main()
                       "The owner? With the state of this place, "
 		      "I'd have pegged you for more of a burglar, heh."));
     add_edge(PrivacyVio, edge_new(WellMet, "who you are",
-                      "Just someone looking for someone to talk to."));
+                      "Just looking for someone to talk to."));
     add_edge(PrivacyVio, edge_new(FightFlwr, "poke around",
                       "Unperturbed by the smelly squatter, you continue "
 		      "rifling for valuables in the piles. As you hum "
@@ -264,6 +261,5 @@ int main()
     /*
      * Functions for testing:
      */
-
     run_convo(showcase_convo);
 }
