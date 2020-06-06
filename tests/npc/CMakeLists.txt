@@ -1,7 +1,9 @@
 set(TEST_EXE test-npc)
 
 add_executable(${TEST_EXE}
+        test_dialogue.c
         test_npc.c
+        test_rooms_npc.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})

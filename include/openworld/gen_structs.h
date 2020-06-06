@@ -1,4 +1,3 @@
-
 /* gen_structs.h: This file: contains all of the necessary high level structs
 * that are necessary for generating a room.
 *

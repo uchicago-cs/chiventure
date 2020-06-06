@@ -3,6 +3,7 @@ set(TEST_EXE test-wdl)
 add_executable(${TEST_EXE}
         test_game.c
         test_item.c
+        test_objstore.c
         test_room.c
         test_validation.c
         main.c)

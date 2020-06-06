@@ -18,7 +18,9 @@ int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name)
     item_t *new_item = item_new(old_item->item_id, old_item->short_desc, old_item->long_desc);
     if (new_item == NULL) {
         return FAILURE;
+
     }
+
     HASH_ADD_STR(*dst, item_id, new_item);
     return SUCCESS;
 }
@@ -47,7 +49,7 @@ roomspec_t *make_default_room(npc_t *possible_npcs,char *bucket,
                                           "A broom closet",
                                           "A small broom closet with supplies",
                                           NULL);
-        copy_item_to_hash(&closet->items, def, "door");	
+        copy_item_to_hash(&closet->items, def, "door");
         copy_item_to_hash(&closet->items, def, "tray");
         copy_item_to_hash(&closet->items, def, "mirror");
         copy_item_to_hash(&closet->items, def, "jug");
@@ -56,7 +58,7 @@ roomspec_t *make_default_room(npc_t *possible_npcs,char *bucket,
         //HALLWAY
         roomspec_t *hallway = roomspec_new(get_friendly_npcs(),"hallway", "A well-lit hallway",
                                            "A sterile, white hallway with no windows",
-                                          NULL);
+                                           NULL);
         copy_item_to_hash(&hallway->items, def, "door");
         copy_item_to_hash(&hallway->items, def, "nail");
         copy_item_to_hash(&hallway->items, def, "fruit");

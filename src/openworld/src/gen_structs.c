@@ -83,12 +83,12 @@ int init_roomspec(npc_t *possible_npcs, roomspec_t *spec, char *room_name, char 
     if (spec == NULL)
         return FAILURE;
 
-   spec->room_name = calloc(MAX_SDESC_LEN + 1, sizeof(char));
-   if (spec->room_name == NULL){
+    spec->room_name = calloc(MAX_SDESC_LEN + 1, sizeof(char));
+    if (spec->room_name == NULL) {
         roomspec_free(spec);
         fprintf(stderr, "calloc failed to allocate space for spec's room name.\n");
         return FAILURE;
-   }
+    }
 
     spec->short_desc = calloc(MAX_SDESC_LEN + 1, sizeof(char));
     if (spec->short_desc == NULL) {

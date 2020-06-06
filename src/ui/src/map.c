@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <ncurses.h>
 
+#include "ui/ui_ctx.h"
+#include "ui/coordinate.h"
 #include "ui/map.h"
 
 void erase_ch(int y, int x)
