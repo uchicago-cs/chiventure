@@ -27,7 +27,7 @@ Test(battle_logic, target_exists)
     cr_assert_not_null(c1, "combatant_new() failed");
     cr_assert_not_null(c2, "combatant_new() failed");
 
-    battle_t *b = battle_new(phead, ehead, ENV_BATTLE_AI_NONE, PLAYER);
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
     combatant_t *res = check_target(b, "Orc John");
@@ -58,7 +58,7 @@ Test(battle_logic, target_does_not_exist)
     cr_assert_not_null(c1, "combatant_new() failed");
     cr_assert_not_null(c2, "combatant_new() failed");
 
-    battle_t *b = battle_new(phead, ehead, ENV_BATTLE_AI_NONE, PLAYER);
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
     combatant_t *res = check_target(b, "Goblin John");
@@ -89,7 +89,7 @@ Test(battle_logic, battle_over_by_player)
     DL_APPEND(phead, p);
     DL_APPEND(ehead, e);
 
-    battle_t *b = battle_new(phead, ehead, ENV_BATTLE_AI_NONE, PLAYER);
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
 
     battle_status_t res = battle_over(b);
 
@@ -209,7 +209,7 @@ Test(battle_logic, enemy_goes_first)
     DL_APPEND(ehead, c1);
     DL_APPEND(ehead, c2);
 
-    battle_t *b = battle_new(phead, ehead, ENV_BATTLE_AI_NONE, PLAYER);
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
     turn_t res = goes_first(b);
@@ -247,7 +247,7 @@ Test(battle_logic, player_goes_first)
     DL_APPEND(ehead, c1);
     DL_APPEND(ehead, c2);
 
-    battle_t *b = battle_new(phead, ehead, ENV_BATTLE_AI_NONE, PLAYER);
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
     turn_t res = goes_first(b);
@@ -285,7 +285,7 @@ Test(battle_logic, same_speed)
     DL_APPEND(ehead, c1);
     DL_APPEND(ehead, c2);
 
-    battle_t *b = battle_new(phead, ehead, ENV_BATTLE_AI_NONE, PLAYER);
+    battle_t *b = battle_new(phead, ehead, ENV_NONE, PLAYER);
     cr_assert_not_null(b, "battle_new() failed");
 
     turn_t res = goes_first(b);
