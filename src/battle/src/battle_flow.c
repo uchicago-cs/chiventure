@@ -86,17 +86,7 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 
     /* the following 3 if statements are stubs, error handling must be clarified
        with custom actions at a later date */
-    if(ctx == NULL)
-    {
-        return FAILURE;
-    }
-
-    if(move == NULL)
-    {
-        return FAILURE;
-    }
-
-    if(target == NULL)
+    if (ctx == NULL || move == NULL || target == NULL)
     {
         return FAILURE;
     }
