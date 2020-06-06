@@ -19,10 +19,13 @@
 
 void start_ui(chiventure_ctx_t *ctx, const char *banner)
 {
+    /* Create UI context */
+    ui_ctx_t *ui_ctx = ui_ctx_new(ctx->game);
+    ctx->ui_ctx = ui_ctx;
+
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
 
-    ui_ctx_t *ui_ctx = ctx->ui_ctx;
     int ch;
 
     // starts curses mode
@@ -167,6 +170,9 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
 
     // End curses mode
     endwin();
+
+    /* Free UI context */
+    ui_ctx_free(ctx->ui_ctx);
 }
 
 void stop_ui(chiventure_ctx_t *ctx)
