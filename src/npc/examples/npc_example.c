@@ -103,11 +103,8 @@ char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     return "As the door creaks open, a strong musty scent smacks "
            "you in the face, filled with tones of mildew and copper. "
-           "You step into a disheveled room which seems to be stacked "
-           "with valuables. You can see an antique clock and a faberge "
-           "egg, just for starters. A shabby man quickly rounds the corner "
-           "into the room, alarmed by the unexpected guest. He looks "
-           "upset with you. Would you like to #engage#?";
+           "In steps a shabby man, alarmed by the unexpected guest. "
+           "He looks upset with you. Would you like to #engage#?";
 }
     
 /* Defines a new CLI operation that starts a conversation with Jim */
@@ -167,19 +164,33 @@ chiventure_ctx_t *create_sample_ctx()
 
     game_t *game = game_new("Welcome to Chiventure!");
 
-    /* Create two rooms (room1 and room2). room1 is the initial room */
-    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
-    room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
+    /* Create the initial room */
+    room_t *room1 = room_new("room1", "This is room 1", 
+                             "The first room in this house is disheveled, "
+                             "yet seems to be stacked with valuables. "
+                             "You spot a faberge egg and an antique "
+                             "clock, for starters.");
     add_room_to_game(game, room1);
-    add_room_to_game(game, room2);
     game->curr_room = room1;
-    create_connection(game, "room1", "room2", "NORTH");
+
+    /* Create two items */
+    item_t *egg = item_new("EGG", "It is a faberge egg.",
+                           "The jewelled artifact shimmers through a thick "
+                           "layer of dust. It looks far too expensive for "
+                           "its surroundings.");
+    add_item_to_room(room1, egg);
+
+    item_t *clock = item_new("CLOCK", "It is an antique grandfather clock.",
+                             "The clocks hands are stuck at precisely 8:52. "
+                             "It towers over everything but you.");
+    add_item_to_room(room1, clock);
 
     /* Create one npc */
-    npc_t *jim = npc_new("jim", "Jim is a shabby man who lives in a shabby house.", 
-            "You step into a disheveled room which seems to have stacks of valuables. "
-            "A shabby man quickly rounds the corner into the room, "
-            "alarmed by the unexpected guest. He looks upset with you.", 20, NULL);
+    npc_t *jim = npc_new("jim", 
+                         "Jim is a shabby man who lives in a shabby house.", 
+                         "Jim looks just as suspicious as his house. His "
+                         "beard appears to be half shaved, and his eyes "
+                         "constantly dart all around.", 20, NULL);
     //add_npc_to_game(game, jim);
     convo_t *c = create_sample_convo();
     add_convo_to_npc(jim, c);

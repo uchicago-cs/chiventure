@@ -3,9 +3,7 @@
 
 // BASIC PRINTING FUNCTIONS ---------------------------------------------------
 
-/*
- * Three functions to print given string in gold, yellow, or red respectively.
- */
+// Three functions to print given string in gold, yellow, or red respectively.
 void print_gold(char *str)
 {
     printf("\033[0;33m");
@@ -181,15 +179,10 @@ int main()
            "starters. A shabby man quickly rounds the corner into the room, "
            "alarmed by the unexpected guest. He looks upset with you.\n\n");
 
-    /*
-     * Starting to build the conversation structure:
-     */
-
+    // Starting to build the conversation structure
     convo_t *showcase_convo = convo_new("See ya later.");
 
-    /*
-     * Initialize each node with it's primary NPC dialog
-     */
+    // Initialize each node with its NPC dialogue
     node_t *Root = node_new("Root", "Well, what do you want? To #talk#, "
            "#leave#, or continue to #break in#?");
     node_t *WellMet = node_new("WellMet",
@@ -214,9 +207,7 @@ int main()
            "are at your back ushering you away. The door snaps shut and "
            "you hear the distinct click of a lock turning.");
 
-    /*
-     * Adding all edge options to each node:
-     */
+    // Adding all edge options to each node
     add_edge(Root, edge_new(WellMet, "talk", "I just want to talk."));
     add_edge(Root, edge_new(Leave, "leave", "Wait, this isn't my house!"));
     add_edge(Root, edge_new(PrivacyVio, "break in",
@@ -247,9 +238,7 @@ int main()
     add_edge(HomeExpl, edge_new(Leave, "leave",
                       "Jeez fine.."));
 
-    /*
-     * Adding the nodes to the mockup:
-     */
+    // Adding the nodes to the mockup
     append_node(showcase_convo, Root);
     append_node(showcase_convo, WellMet);
     append_node(showcase_convo, PrivacyVio);
@@ -258,8 +247,6 @@ int main()
     append_node(showcase_convo, FightFlwr);
     append_node(showcase_convo, Leave);
 
-    /*
-     * Functions for testing:
-     */
+    // Runs the conversation
     run_convo(showcase_convo);
 }
