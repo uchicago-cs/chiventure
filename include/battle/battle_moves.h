@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "playerclass/class_structs.h"
+#include "battle/battle_common.h"
 #include "battle_structs.h"
 
 /* defines max length of class info */
