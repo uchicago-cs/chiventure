@@ -3,6 +3,7 @@
 
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
+#include "condition.h"
 #include "item.h"
 
 
