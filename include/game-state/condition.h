@@ -4,9 +4,10 @@
 #include "game_state_common.h"
 #include "player.h"
 #include "item.h"
+#include "game.h"
 
-/* Forward declaration. Full typedef can be found in game.c */
-typedef struct game game_t;
+// /* Forward declaration. Full typedef can be found in game.c */
+// typedef struct game game_t;
 
 
 typedef struct attribute_condition{
