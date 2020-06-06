@@ -3,8 +3,8 @@ set(TEST_EXE test-skilltrees)
 add_executable(${TEST_EXE}
         effect_t.c
         inventory_test.c
-        skill_test.c 
-        skilltree_test.c 
+        skill_test.c
+        skilltree_test.c
         stdst_test.c
         main.c)
 

@@ -20,10 +20,6 @@ Test(inventory_tests, inventory_new_test)
         "Error: failed test inventory_new_test on inventory->num_passive\n");
     cr_assert_eq(inventory->max_passive, 4,
         "Error: failed test inventory_new_test on inventory->max_passive\n");
-    cr_assert_null(inventory->active,
-        "Error: failed test inventory_new_test on inventory->active\n");
-    cr_assert_null(inventory->passive,
-        "Error: failed test inventory_new_test on inventory->passive\n");
 }
 /* Tests inventory_free. */
 Test(inventory_tests, inventory_free_test)
@@ -93,29 +89,9 @@ Test(inventory_tests, inventory_skill_add_invalid)
     cr_assert_eq(ret,FAILURE,"Error: failed test inventory_skill_add_invalid");
 }
 
-/* Tests inventory_has_skill on active skill that inventory has. */
-Test(inventory_tests, inventory_has_skill_has_active)
-{
-  skill_inventory_t* inventory = inventory_new(1,1);
-  skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, effect_defuse_bomb);
-  inventory_skill_add(inventory, bomb);
-  int ret = inventory_has_skill(inventory, 1000, ACTIVE);
-  cr_assert_neq(ret, -1,
-    "Error: failed test inventory_has_skill_has_active\n");
-}
 
-/* Tests inventory_has_skill on a passive skill it has. */
-Test(inventory_tests, inventory_has_skill_has_passive)
-{
-  skill_inventory_t* inventory = inventory_new(1,1);
-  skill_t* bomb = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
-      2, 5, effect_defuse_bomb);
-  inventory_skill_add(inventory, bomb);
-  int ret = inventory_has_skill(inventory, 1000, PASSIVE);
-  cr_assert_neq(ret, -1,
-    "Error: failed test inventory_has_skill_has_passive\n");
-}
+
+
 
 /*Tests inventory_has_skill on passive skill it does not have. */
 Test(inventory_tests, inventory_has_skill_has_not_passive)
@@ -161,35 +137,4 @@ Test(inventory_tests, inventory_skill_remove_has_not)
   int ret = inventory_skill_remove(inventory, bomb);
   cr_assert_eq(ret, FAILURE,
     "Error: failed test inventory_has_skill_has_not\n");
-}
-
-/* Tests inventory_skill_remove on an active skill that is had. */
-Test(inventory_tests, inventory_skill_remove_has_active)
-{
-  skill_inventory_t* inventory = inventory_new(1,1);
-  skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, effect_defuse_bomb);
-  inventory_skill_add(inventory, bomb);
-  int ret = inventory_skill_remove(inventory, bomb);
-  cr_assert_eq(ret, SUCCESS,
-    "Error: failed test inventory_has_skill_has_active\n");
-}
-
-/* Tests inventory_skill_remove on a pasive skill that is had. */
-Test(inventory_tests, inventory_skill_remove_has_passive)
-{
-  skill_inventory_t* inventory = inventory_new(1,1);
-  skill_t* bomb = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
-      2, 5, effect_defuse_bomb);
-  inventory_skill_add(inventory, bomb);
-  int ret = inventory_skill_remove(inventory, bomb);
-  cr_assert_eq(ret, SUCCESS,
-    "Error: failed test inventory_has_skill_has_passive\n");
-}
-
-/*Tests inventory_skill_levels_update. */
-Test(inventory_tests, inventory_skill_levels_update_test)
-{
-  /* Function documentation and implementation are both incomplete,
-  function is not testable in current state. */
 }
