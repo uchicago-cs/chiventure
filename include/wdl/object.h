@@ -41,7 +41,7 @@ typedef enum assettype
     ASSET_SOUND = 2
 } assettype_t;
 
-typedef struct obj obj_t; // forward declaration so attribute_t can use
+typedef struct obj object_t; // forward declaration so attribute_t can use
 
 /* 
  * a union representing the information that can be stored in an attribute
@@ -119,7 +119,7 @@ typedef struct asset
  *   - NULL on error
  *
  */
-object_t *new_object(char *id);
+object_t *new_object(char *id, objtype type);
 
 /*
  * Initializes a new object with indentifier id
@@ -133,7 +133,7 @@ object_t *new_object(char *id);
  *   - FAILURE otherwise
  *
  */
-int init_object(object_t *obj, char *id);
+int init_object(object_t *obj, char *id, objtype type);
 
 /*
  * Frees an object

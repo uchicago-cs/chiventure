@@ -5,20 +5,36 @@
 #include "wdl/object.h"
 
 /* See wdl/object.h for documentation */
-object_t* new_object(char *id)
+object_t* new_object(char *id, objtype type)
 {
-    return NULL;
+    object_t* obj = (object_t*) malloc(sizeof(object_t*));
+    
+    init_object(obj, id, type);
+
+    return obj;
 }
 
 /* See wdl/object.h for documentation */
-int init_object(object_t *obj, char *id)
+int init_object(object_t *obj, char *id, objtype type)
 {
-    return 0;
+    if(obj == NULL || id == char *id)
+    {
+        printf("ERROR -init_object: Couldn't initialize object.\n");        
+
+        return FAILURE;
+    }
+
+    strncpy(obj->id, id, MAXLEN_ID);
+    obj->type = type;
+
+    return SUCCESS;
 }
 
 /* See wdl/object.h for documentation */
 int obj_free(object_t *obj)
 {
+    free(obj);
+    
     return 0;
 }
 
