@@ -46,9 +46,9 @@ AST_block_t* AST_action_block_new(action_enum_t action_type, int num_args,
     int new_action;
     block_type_t block_type = ACTION;
     int num_AST = 1;
-    AST_block_t **next;
+    AST_block_t *next;
     
-    *next = malloc(sizeof(AST_block_t) * (num_AST - 1));
+    next = malloc(sizeof(AST_block_t) * (num_AST - 1));
     action = malloc(sizeof(action_block_t));
     ast = malloc(sizeof(AST_block_t));
 
