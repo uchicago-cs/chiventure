@@ -10,6 +10,7 @@
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
+#include <wdl/load_game.h>
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
