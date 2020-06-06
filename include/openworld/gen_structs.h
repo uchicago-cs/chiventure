@@ -1,4 +1,8 @@
-/* gen_structs.h: This file: contains all of the necessary high level structs
+/* Team RPG-Openworld
+*
+* Gen-Structs header file
+*
+* gen_structs.h: This file: contains all of the necessary high level structs
 * that are necessary for generating a room.
 *
 * Create the generation structs that will contain the necessary info for
@@ -6,14 +10,17 @@
 *
 * See chiventure/src/openworld/gen_structs.c source code to see implementation.
 */
-#ifndef _GEN_STRUCTS_H
-#define _GEN_STRUCTS_H
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
-#include "sample_npc.h"
+#include "default_npcs.h"
+
+#ifndef GEN_STRUCTS_H
+#define GEN_STRUCTS_H
+
 /* -- STRUCTS -- */
 
 /* roomspec_t struct
@@ -22,17 +29,19 @@
 * - char *room_name: room name and hash key
 * - char *short_desc: short description for room
 * - char *long_desc: long description for room
+* - int num_built: how many rooms of this type have been already built. An identifier.
 * - item_hash_t *items: hash table of items in room
+* - npc_t *npcs: doubly linked list of the npcs
 * - UT_hash_handle hh: hash handle for room spec
 */
 typedef struct roomspec {
-    char *room_name;
-    char *short_desc;
-    char *long_desc;
-    int num_built;
-    item_hash_t *items;
-    npc_t *possible_npcs;
-    UT_hash_handle hh;    
+	char *room_name;
+	char *short_desc;
+	char *long_desc;
+	int num_built;
+	item_hash_t *items;
+	npc_t *npcs;
+	UT_hash_handle hh;
 } roomspec_t;
 
 /* speclist_t struct
@@ -42,9 +51,9 @@ typedef struct roomspec {
 * - speclist_t *next: pointer to the next part of the list.
 */
 typedef struct speclist {
-    roomspec_t *spec;
-    struct speclist *prev;
-    struct speclist *next;
+	roomspec_t *spec;
+	struct speclist *prev;
+	struct speclist *next;
 } speclist_t;
 
 /* gencontext_t struct
@@ -56,10 +65,10 @@ typedef struct speclist {
 * - speclist_t *speclist: the llist of roomspect_t that each hold the room info.
 */
 typedef struct gencontext {
-    path_t *open_paths;
-    int num_open_paths;
-    int level;
-    speclist_t *speclist;
+	path_t *open_paths;
+	int num_open_paths;
+	int level;
+	speclist_t *speclist;
 } gencontext_t;
 
 
@@ -129,7 +138,7 @@ int gencontext_free(gencontext_t *context);
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_roomspec(npc_t *possible_npcs, roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, npc_t *npcs);
 
 /* roomspec_new
 * Creates a new roomspec_t* based off the given parameters.
@@ -144,7 +153,7 @@ int init_roomspec(npc_t *possible_npcs, roomspec_t *spec, char *room_name, char 
 * roomspec_t *roomspecnew - the new roomspec
 * NULL - if fails to create a new roomspec.
 */
-roomspec_t* roomspec_new(npc_t *possible_npcs,char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, npc_t *npcs);
 
 /* roomspec_free
 * Frees a gencontext_t* and returns whether or not it was succesful.
@@ -211,4 +220,5 @@ int speclist_free(speclist_t *list);
 * FAILURE - if failed to free
 */
 int speclist_free_all(speclist_t *list);
+
 #endif

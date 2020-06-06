@@ -2,8 +2,8 @@ add_library(openworld
             src/autogenerate.c
             src/default_rooms.c
             src/default_items.c
-            src/gen_structs.c
-            src/sample_npc.c)
+	        src/default_npcs.c
+            src/gen_structs.c)
 
 target_include_directories(openworld PRIVATE src/)
 
