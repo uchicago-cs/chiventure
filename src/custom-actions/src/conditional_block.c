@@ -69,7 +69,7 @@ AST_block_t* AST_conditional_block_new(conditional_type_t conditional_type,
 
     block_t *block = malloc(sizeof(block));
     block->conditional_block = conditional;
-    ast = AST_block_new(block, block_type, num_AST, next);
+    ast = AST_block_new(block, block_type, num_AST, &next);
     return ast;
 }
 
