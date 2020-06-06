@@ -2,7 +2,6 @@
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 /* See npc.h */
-
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
              int health, class_t *class)
 {
@@ -129,18 +128,23 @@ int change_npc_health(npc_t *npc, int change, int max)
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
 {
-    item_t *check;
-    HASH_FIND(hh, npc->inventory, item->item_id, strlen(item->item_id),
-              check);
+    int rc;
     
-    if (check != NULL)
-    {
-        return FAILURE; //this item id is already in use
-    }
-    HASH_ADD_KEYPTR(hh, npc->inventory, item->item_id,
-                    strlen(item->item_id), item);
-    return SUCCESS;
+    rc = add_item_to_hash(&(npc->inventory), item);
+    
+    return rc;
 }
+
+/* See npc.h */
+int remove_item_from_npc(npc_t *npc, item_t *item)
+{
+    int rc;
+    
+    rc = remove_item_from_hash(&(npc->inventory), item);
+    
+    return rc;
+}
+
 
 /* See npc.h */
 int add_convo_to_npc(npc_t *npc, convo_t *c)

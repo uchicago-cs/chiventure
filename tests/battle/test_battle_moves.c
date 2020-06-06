@@ -5,6 +5,73 @@
 #include "battle/battle_moves.h"
 
 
+/* Tests move_init */
+Test(move, init)
+{
+    move_t move;
+    int rc;
+
+    rc = move_init(&move, "Diss track", 1, NULL, true, 10, 0);
+
+    cr_assert_eq(rc, SUCCESS, "move_init() failed");
+
+    cr_assert_str_eq(move.info, "Diss track",
+                     "move_new() didn't set move info");
+
+    cr_assert_null(move.item, "move_new() didn't set item to NULL");
+
+    cr_assert_eq(move.id, 1, "move_new() didn't set move id");
+
+    cr_assert_eq(move.attack, true, "move_new() didn't set type");
+
+    cr_assert_eq(move.damage, 10, "move_new() didn't set move damage");
+
+    cr_assert_eq(move.defense, 0, "move_new() didn't set move defense");
+}
+
+/* Tests move_new */
+Test(move, new)
+{
+    move_t *move = move_new("Diss track", 1, NULL, true, 10, 0);
+
+    cr_assert_not_null(move, "move_new() failed");
+
+    cr_assert_str_eq(move->info, "Diss track",
+                     "move_new() didn't set move info");
+
+    cr_assert_null(move->item, "move_new() didn't set item to NULL");
+
+    cr_assert_eq(move->id, 1, "move_new() didn't set move id");
+
+    cr_assert_eq(move->attack, true, "move_new() didn't set type");
+
+    cr_assert_eq(move->damage, 10, "move_new() didn't set move damage");
+
+    cr_assert_eq(move->defense, 0, "move_new() didn't set move defense");
+
+}
+
+
+
+/* Tests move_free */
+Test(move, free)
+{
+    move_t *move;
+    int rc;
+
+    move = move_new("Diss track", 1, NULL, true, 10, 0);
+
+    cr_assert_not_null(move, "move_new() failed");
+
+    rc = move_free(move);
+
+    cr_assert_null(move->item, "move_free didn't free move items");
+
+    cr_assert_eq(rc, SUCCESS, "move_free() failed");
+}
+
+
+
 /* Tests test_move_bard */
 Test(move, bard)
 {
