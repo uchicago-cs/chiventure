@@ -66,12 +66,12 @@ int delete_condition_llist(condition_list_t *conditions);
 /* attribute_condition_new() creates a new attribute condition in an item with given inputs
  * Parameters:
  *  a pointer to the item to be modified
- *  a pointer to the attribute
+ *  a string representing name of the attribute to add a condition on
  *  the desired value of the attribute
  * Returns:
  *  NULL if item or attribute are NULL, the new condition if succcessful
  */
-condition_t *attribute_condition_new(item_t *item_to_modify, attribute_t *attribute,
+condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_name,
 				       attribute_value_t new_value);
 
 

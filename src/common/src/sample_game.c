@@ -2,6 +2,7 @@
 #include "game-state/game.h" // to get game_t
 #include "game-state/player.h" // to get player_t
 #include "game-state/item.h" // to get item_t
+#include "game-state/condition.h" // for conditions
 #include "action_management/action_structs.h" // to get action_type_t
 #include "game-state/game_action.h" // to get game_action_t
 #include "action_management/actionmanagement.h" // for get_supported_actions
@@ -188,8 +189,10 @@ game_t *create_sample_game_gs()
     set_str_attr(apple, "ripeness", "very_sour");
     attribute_value_t ripe;
     ripe.str_val = "ripe";
+
     /* conditions */
-    add_condition(game, "CONSUME", "apple", "apple", "ripeness", ripe);
+    condition_t *cond = attribute_condition_new(apple, "ripeness", ripe);
+    add_condition(game, actiontype_consume, cond);
 
     /* add items to room */
     add_item_to_room(room2, apple);
