@@ -37,7 +37,7 @@ Test(AST_block_t, new_BRANCH)
     int num_AST2 = 1;
     AST_block_t** test;
     AST_block_t** next;
-    *next = AST_block_new(block, block_type2, num_AST2, test);
+    next = AST_block_new(block, block_type2, num_AST2, test);
     
     AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, next);
 
@@ -61,7 +61,7 @@ Test(AST_block_t, new_ACTION)
     int num_AST2 = 1;
     AST_block_t** test;
     AST_block_t** next;
-    *next = AST_block_new(block, block_type2, num_AST2, test);
+    next = AST_block_new(block, block_type2, num_AST2, test);
     
     AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, next);
 
@@ -85,7 +85,7 @@ Test(AST_block_t, new_CONDITIONAL)
     int num_AST2 = 1;
     AST_block_t** test;
     AST_block_t** next;
-    *next = AST_block_new(block, block_type2, num_AST2, test);
+    next = AST_block_new(block, block_type2, num_AST2, test);
     
     AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, next);
 
