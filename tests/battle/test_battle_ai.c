@@ -184,7 +184,7 @@ combatant_t* new_player()
     item_t *items = create_player_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, class, stats, moves, items, NONE);
+    return combatant_new(name, is_friendly, class, stats, moves, items, BATTLE_AI_NONE);
 }
 
 /* Called by test functions to check give_move returns properly*/

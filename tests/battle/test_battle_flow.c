@@ -107,7 +107,7 @@ Test(battle_flow, set_two_enemies)
 Test(battle_flow, set_battle)
 {
     player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
-    npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL, NONE);
+    npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
@@ -141,7 +141,7 @@ Test(battle_flow, start_battle)
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
-    npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, NULL, NONE);
+    npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_SNOW;
 
     int rc = start_battle(ctx, npc_enemy, env);

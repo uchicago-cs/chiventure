@@ -32,17 +32,17 @@ move_list_t* move_list() {
 
     // Bard
 
-    class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL, NULL, NULL, NULL);
+    class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL);
     move_list_t* bardlist = new_move_list(bard, "Diss Track", 8, 0);
 
     // Wizard
 
-    class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, NULL, NULL, NULL);
+    class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
     move_list_t* wizardlist = new_move_list(wizard, "Fireball", 10, 1);
     
     // Knight
 
-    class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL, NULL, NULL, NULL);
+    class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL);
     move_list_t* knightlist = new_move_list(knight, "Sword Slash", 9, 2);
 
     DL_APPEND(head, bardlist);

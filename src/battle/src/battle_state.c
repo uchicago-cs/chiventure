@@ -69,7 +69,7 @@ int combatant_free(combatant_t *c)
 
     if (c->class)
     {
-        free(c->class);
+        class_free(c->class);
     }
 
     move_t *move_elt, *move_tmp;

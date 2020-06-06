@@ -3,11 +3,12 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include "battle/battle_common.h"
+#include "battle/battle_logic.h" 
+#include "battle/battle_state.h"
+#include "battle/battle_structs.h"
 #include "common/common.h"
 #include "common/utlist.h"
-#include "battle/battle_logic.h" 
-#include "battle_state.h"
-#include "battle_structs.h"
 
 /* Stub for the player struct in game-state */
 typedef struct player {
@@ -76,7 +77,7 @@ player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *move
  * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, items
  */
 npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, 
-item_t* items, difficulty_t ai);
+                            item_t* items, difficulty_t ai);
 
 /* Stub for the game_new function in game.h game-state module
  *

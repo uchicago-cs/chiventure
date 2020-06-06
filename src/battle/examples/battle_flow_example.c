@@ -52,18 +52,18 @@ int main()
             turn++;
         }
     }
-    int winner = battle_over(ctx->game->battle);
+    battle_status_t winner = battle_over(ctx->game->battle);
     switch (winner) {
-        case 0:
+        case BATTLE_IN_PROGRESS:
             fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
             break;
-        case 1:
+        case BATTLE_VICTOR_PLAYER:
             fprintf(stderr, "SUCCESS: battle flow loop exited and player won\n");
             break;
-        case 2:
+        case BATTLE_VICTOR_ENEMY:
             fprintf(stderr, "SUCCESS: battle flow loop exited and enemy won\n");
             break;
-        case 3:
+        case NO_BATTLE:
             fprintf(stderr, "ERROR, battle should not return as no_battle");
     }
 }
