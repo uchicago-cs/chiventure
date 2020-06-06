@@ -1,3 +1,21 @@
+/*
+ * This example program runs a full instance of chiventure with an in-memory game.
+ * The CLI is monkey-patched to accept functions that serve to showcase dialogue.
+ * Unfortunately, we did not have time to integrate the dialogue module with the
+ * UI/CLI of chiventure, though the backend is functional, as this will show.
+ *
+ *  - OBSERVE: This is a CLI-level operation that prints out the description of
+ *             the created NPC. Someday, we hope chiventure will allow the look
+ *             operation to take an NPC and return its description, though at
+ *             the moment it is only compatible with items.
+ *  - ENGAGE/TALK/HOUSE/MESSY:
+ *             These are CLI-level operations that print a player quip (except
+ *             on Root) and return an NPC dialogue to be printed to the CLI.
+ *             They utlize the backend of the dialogue module while printing to
+ *             chiventure's CLI. For a more thorough example of what dialogue
+ *             should eventually look like in chiventure, see dialogue_example. 
+ */
+
 #include <stdio.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
