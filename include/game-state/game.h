@@ -319,6 +319,7 @@ item_list_t *get_all_items_in_game(game_t *game);
 int add_effect(game_t *game, char* action_name, char* item_src_name,
            char* item_modify_name, char* attribute_name, attribute_value_t new_value);
 
+//TODO: Change description of this
 /* add_condition creates a game_action_condition_t struct and adds it to the action pointed to
  * Parameters:
  * - game_t *game
@@ -336,7 +337,7 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
  * - ATTRIBUTE_NULL if attribute is null
  * - PLAYER_NULL if player is null
  */
-int add_condition(game_t *game, game_action_t *action, condition_t *condition)
+int add_condition(game_t *game, game_action_t *action, condition_t *condition);
 
 #endif
 
