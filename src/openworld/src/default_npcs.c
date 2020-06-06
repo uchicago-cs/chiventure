@@ -2,7 +2,7 @@
 #include "common/uthash.h"
 #include "common/utlist.h"
 #include "game-state/item.h"
-#include "openworld/sample_npc.h"
+#include "openworld/default_npcs.h"
 
 /* See sample_npc.h */
 npc_t *get_hostile_npcs()

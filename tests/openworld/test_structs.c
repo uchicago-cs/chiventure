@@ -60,7 +60,7 @@ Test(gencontext, free)
 Test(roomspec, new1)
 {
 
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL, NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 }
@@ -76,7 +76,7 @@ Test(roomspec, init1)
         fprintf(stderr, "failed to calloc for spec. \n");
     }
 
-    int check = init_roomspec(spec, "room_name", "short desc", "long desc", NULL);
+    int check = init_roomspec(spec, "room_name", "short desc", "long desc", NULL, NULL);
 
     cr_assert_eq(check, SUCCESS, "failed to initialize a roomspec_t\n");
 }
@@ -86,7 +86,7 @@ Test(roomspec, init1)
 Test(roomspec, free1)
 {
 
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL, NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
@@ -101,7 +101,7 @@ Test(roomspec, free1)
 Test(speclist, new2)
 {
 
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL, NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
@@ -115,7 +115,7 @@ Test(speclist, new2)
 Test(speclist, init2)
 {
 
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL, NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
@@ -135,7 +135,7 @@ Test(speclist, init2)
 Test(speclist, free2)
 {
 
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
+    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL, NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 

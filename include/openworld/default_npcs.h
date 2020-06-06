@@ -1,5 +1,5 @@
-#ifndef _SAMPLE_NPC_H
-#define _SAMPLE_NPC_H
+#ifndef _DEFAULT_NPCS_H
+#define _DEFAULT_NPCS_H
 
 #include <stdio.h>
 #include <stdlib.h>

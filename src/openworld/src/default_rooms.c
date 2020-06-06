@@ -37,7 +37,7 @@ roomspec_t *make_default_room(char *bucket,
 
     if ((!!strcmp(bucket, "school")) && (!!strcmp(bucket, "farmhouse"))
             && (!!strcmp(bucket, "castle"))) {
-        roomspec_t *room = roomspec_new(bucket, sh_desc, l_desc, NULL, NULL, NULL);
+        roomspec_t *room = roomspec_new(bucket, sh_desc, l_desc, NULL, NULL);
         //now add to hash
         HASH_ADD_STR(hash, room_name, room);
     } else {

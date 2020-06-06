@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
+#include "default_npcs.h"
 
 #ifndef GEN_STRUCTS_H
 #define GEN_STRUCTS_H
@@ -39,7 +40,7 @@ typedef struct roomspec {
     char *long_desc;
     int num_built;
     item_hash_t *items;
-	npt_t *npcs;
+    npc_t *npcs;
     UT_hash_handle hh;
 } roomspec_t;
 

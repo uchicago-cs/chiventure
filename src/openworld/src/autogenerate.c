@@ -52,7 +52,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
     // instead of taking all the items, just take a few of them
     res->items = random_items(roomspec);
-	res->npcs = random_npcs(roomspec);
+    //res->npcs = random_npcs(roomspec);
     res->paths = NULL;
     return res;
 }
@@ -198,17 +198,20 @@ npc_t *random_npcs(roomspec_t *room)
 	int num_items = rand() % MAX_NPCS;
 
 	//assuming that npcs are not automatically assinged to rooms
-	npc_t hostiles = get_hostile_npcs();
-	npc_t friendlies = get_friendly_npcs();
-	npc_t generic = get_generic_npcs();
+	npc_t *hostiles = get_hostile_npcs();
+	npc_t *friendlies = get_friendly_npcs();
+	npc_t *generic = get_generic_npcs();
 
 	npc_t *combo = NULL;
 
+	strcat(room->long_desc, "These npcs are in the room: ");
 	for (int i = 0; i < num_items; i++) {
 		random_npc_lookup(&combo, hostiles, rand() % MAX_NPCS);
 		random_npc_lookup(&combo, friendlies, rand() % MAX_NPCS);
 		random_npc_lookup(&combo, generic, rand() % MAX_NPCS);
+		strcat(room->long_desc, "hostile, friendly, generic, ");
 	}
+	strcat(room->long_desc, ".\n");
 
 	if (combo == NULL) return NULL;
 	return combo;
@@ -217,12 +220,11 @@ npc_t *random_npcs(roomspec_t *room)
 /* See autogenerate.h */
 int random_npc_lookup(npc_t **dst, npc_t *src, int num_iters)
 {
-	npc_t *current = NULL;
 	npc_t *tmp = NULL;
 
 	int i = 0;
 
-	DL_FOREACH(src, current, tmp) {
+	DL_FOREACH(src, tmp) {
 		if (i == num_iters) {
 				if (tmp == NULL) {
 					return FAILURE;
