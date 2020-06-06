@@ -96,7 +96,9 @@ Test(item, add_item_to_hash_duplicate_items)
     item_hash_t *ht = NULL;
     item_t *test_item1 = item_new("item", "short", "long");
     item_t *test_item2 = item_new("item", "short", "long");
+    item_t *check, *iter;
     int rc;
+    int count = 0;
     
     rc = add_item_to_hash(&ht, test_item1);
     
@@ -111,6 +113,14 @@ Test(item, add_item_to_hash_duplicate_items)
     rc = add_item_to_hash(&ht, test_item1);
     cr_assert_eq(rc, FAILURE, "add_item_to_hash added item with same "
                  "memory address as non-head item to hashtable");
+    
+    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    LL_FOREACH(check, iter)
+    {
+        count++;
+    }
+    cr_assert_eq(count, 2, "add_item_to_hash did not add items with same "
+                 "item ids correctly.");
 }
 
 /* Checks that get_all_items_in_hash returns the expected 
@@ -150,6 +160,7 @@ Test(item, get_all_items_in_hash_duplicate_items)
     item_hash_t *ht = NULL;
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item1", "short", "long");
+    item_t *test_item3 = item_new("item3", "short", "long");
     item_list_t *list, *iter;
     int count = 0;
     
@@ -161,9 +172,19 @@ Test(item, get_all_items_in_hash_duplicate_items)
     {
         count++;
     }
-    
     cr_assert_eq(count, 2, "get_all_items_in_hash did not add duplicate "
                  "items to linked list");
+    
+    add_item_to_hash(&ht, test_item3);
+    list = get_all_items_in_hash(&ht);
+    count = 0;
+    
+    LL_FOREACH(list, iter)
+    {
+        count++;
+    }
+    cr_assert_eq(count, 3, "get_all_items_in_hash did not include all items "
+                 "in returned list");
 }
 
 /* Checks that remove_item_from_hash properly removes items 
@@ -171,14 +192,27 @@ Test(item, get_all_items_in_hash_duplicate_items)
 Test(item, remove_item_from_hash)
 {
     item_hash_t *ht = NULL;
-    item_t *test_item = item_new("item", "short", "long");
+    item_t *test_item1 = item_new("item1", "short", "long");
+    item_t *test_item2 = item_new("item2", "short", "long");
     int rc;
+    item_list_t *list, *iter;
+    int count = 0;
     
-    rc = add_item_to_hash(&ht, test_item);
+    rc = add_item_to_hash(&ht, test_item1);
     cr_assert_eq(rc, SUCCESS, "add_item_to_hash failed to "
                  "add an item to hashtable");
     
-    rc = remove_item_from_hash(&ht, test_item);
+    remove_item_from_hash(&ht, test_item2);
+    list = get_all_items_in_hash(&ht);
+    count = 0;
+    LL_FOREACH(list, iter)
+    {
+        count++;
+    }
+    cr_assert_eq(count, 1, "remove_item_from_hash did not properly handle case "
+                 "where item not in hash was passed to be removed");
+    
+    rc = remove_item_from_hash(&ht, test_item1);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
 }
@@ -191,33 +225,58 @@ Test(item, remove_item_from_hash_duplicate_items)
     item_hash_t *ht = NULL;
     item_t *test_item1 = item_new("item", "short", "long");
     item_t *test_item2 = item_new("item", "short", "long");
+    item_t *test_item3 = item_new("item", "short", "long");
     item_t *check = NULL;
     int rc;
     
     add_item_to_hash(&ht, test_item1);
     add_item_to_hash(&ht, test_item2);
     
-    rc = remove_item_from_hash(&ht, test_item1);
-    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
-                 "remove an item from hashtable");
-    
-    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
-    cr_assert_not_null(check, "remove_item_from_hash removed both "
-                       "duplicate items from hashtable");
-
-    cr_assert_eq(test_item2->next, NULL, "remove_item_from_hash failed to "
-                 "remove an item from hashtable");
-    
-    cr_assert_eq(check, test_item2, "remove_item_from_hash removed wrong "
-                 "duplicate item from hashtable");
-    
+    /* Remove head of duplicate items */
     rc = remove_item_from_hash(&ht, test_item2);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
-    
     HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
-    cr_assert_eq(check, NULL, "remove_item_from_hash failed to remove both "
+    cr_assert_not_null(check, "remove_item_from_hash removed both "
                        "duplicate items from hashtable");
+    cr_assert_eq(check, test_item1, "remove_item_from_hash removed wrong "
+                 "item from hashtable");
+    cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
+                 "remove a duplicate item id from hashtable");
+    
+    /* Remove duplicate item not in hashtable */
+    remove_item_from_hash(&ht, test_item2);
+    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    cr_assert_not_null(check, "remove_item_from_hash did not properly handle "
+                       "case where duplicate item not in hash was passed to "
+                       "be removed");
+    
+    /* Remove last duplicate item */
+    add_item_to_hash(&ht, test_item2);
+    rc = remove_item_from_hash(&ht, test_item1);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
+                 "remove an item from hashtable");
+    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    cr_assert_not_null(check, "remove_item_from_hash removed both "
+                       "duplicate items from hashtable");
+    cr_assert_eq(check, test_item2, "remove_item_from_hash removed wrong "
+                 "duplicate item from hashtable");
+    cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
+                 "remove a duplicate item id from hashtable");
+    
+    /* >2 duplicate items, remove middle item */
+    add_item_to_hash(&ht, test_item1);
+    add_item_to_hash(&ht, test_item3);
+    rc = remove_item_from_hash(&ht, test_item1);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
+                 "remove an item from hashtable");
+    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    cr_assert_not_null(check, "remove_item_from_hash removed all "
+                       "duplicate items from hashtable");
+    cr_assert_eq(check, test_item3, "remove_item_from_hash removed wrong "
+                 "duplicate item from hashtable");
+    cr_assert_eq(check->next, test_item2, "remove_item_from_hash did remove "
+                 "duplicate item from middle of list properly");
 }
 
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------

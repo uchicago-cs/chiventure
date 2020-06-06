@@ -74,7 +74,7 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
     
     HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
     
-    // Same memory address
+    /* Same memory address */
     LL_FOREACH(check, itr)
     {
         if (itr == new_item)
@@ -85,7 +85,7 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
     
     if (check != NULL)
     {
-        // Same item id, not same memory address
+        /* Same item id, not same memory address */
         HASH_DEL(*ht, check);
         new_item->next = check;
     }
@@ -102,8 +102,11 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item, *dup_item;
     item_list_t *tmp;
+    
     HASH_ITER(hh, *ht, curr_item, ITTMP_ITEMRM)
     {
+        /* Only iterates once if item id has no duplicates,
+         * but iterates through all duplicates if they exist */
         LL_FOREACH(curr_item, dup_item)
         {
             tmp = malloc(sizeof(item_list_t));
@@ -111,6 +114,7 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
             LL_APPEND(head, tmp);
         }
     }
+    
     return head;
 }
 
@@ -128,8 +132,6 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
         {
             /* Multiple identical item ids;
              * item to delete is head of linked list */
-            //item_t *temp = NULL;
-            //temp = old_item->next;
             HASH_DEL(*ht, old_item);
             add_item_to_hash(ht, old_item->next);
         }
@@ -160,7 +162,6 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
                 curr = curr->next;
             }
         }
-        //HASH_DEL(*(ht), old_item);
     }
     
     return SUCCESS;
