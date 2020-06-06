@@ -1,7 +1,69 @@
 #include "game-state/condition.h"
 #include "game-state/item.h"
 #include "game-state/player.h"
+#include "game-state/game.h"
 
+/* helper for valid_condition */
+int valid_attr_condition(game_t *game, attribute_condition_t *condition)
+{
+    item_t *check_item;
+    HASH_FIND(hh, game->all_items, condition->item->item_id,
+              strnlen(condition->item->item_id, MAX_ID_LEN),
+              check_item);
+    if (check_item == NULL)
+    {
+        return FAILURE; // item not in game
+    }
+
+    attribute_t *check_attribute;
+    check_attribute = get_attribute(condition->item,
+                                    condition->attribute_to_check->attribute_key);
+    if (check_attribute == NULL ||
+        check_attribute != condition->attribute_to_check)
+    {
+        return FAILURE; // item does not possess attribute
+    }
+    return SUCCESS;
+}
+
+int valid_inven_condition(game_t *game, inventory_condition_t *condition)
+{
+    item_t *check_item;
+    HASH_FIND(hh, game->all_items, condition->expected_item->item_id,
+              strnlen(condition->expected_item->item_id, MAX_ID_LEN),
+              check_item);
+    if (check_item == NULL)
+    {
+        return FAILURE; // item not in game
+    }
+
+    player_t *check_player;
+    HASH_FIND(hh, game->all_players, condition->player_to_check->player_id,
+              strnlen(condition->player_to_check->player_id, MAX_ID_LEN),
+              check_player);
+    if(check_player == NULL)
+    {
+        return FAILURE; // player not in game
+    }
+
+    return SUCCESS;
+}
+
+int valid_condition(game_t *game, condition_t *condition)
+{
+    switch (condition->condition_tag)
+    {
+    case (ATTRIBUTE):
+        return valid_attr_condition(game, condition->cond.attr_type);
+        break;
+    case (INVENTORY):
+        return valid_attr_condition(game, condition->cond.inven_type);
+        break;
+    default:
+        // should never get to here
+        return -1;
+    }
+}
 
 /* see condition.h */
 int delete_condition_llist(condition_list_t *conditions)
@@ -24,23 +86,22 @@ int delete_condition_llist(condition_list_t *conditions)
     return SUCCESS;
 }
 
-
 /* see game_action.h */
 condition_t *attribute_condition_new(item_t *item_to_modify, attribute_t *attribute,
-                                                 attribute_value_t new_value)
+                                     attribute_value_t new_value)
 {
     if (item_to_modify == NULL || attribute == NULL)
     {
         return NULL;
     }
 
-    attribute_condition_t *new_condition = malloc(sizeof(game_action_attribute_condition_t));
+    attribute_condition_t *new_condition = malloc(sizeof(attribute_condition_t));
     new_condition->item = item_to_modify;
     new_condition->attribute_to_check = attribute;
     new_condition->expected_value = new_value;
 
-    condition_t *condition_wrapper = malloc(sizeof(game_action_condition_t));
-    condition_wrapper->condition.attr_type = new_condition;
+    condition_t *condition_wrapper = malloc(sizeof(condition_t));
+    condition_wrapper->cond.attr_type = new_condition;
     condition_wrapper->condition_tag = ATTRIBUTE;
 
     return condition_wrapper;
@@ -109,8 +170,8 @@ condition_t *inventory_condition_new(player_t *player, item_t *expected_item)
     new_condition->player_to_check = player;
     new_condition->expected_item = expected_item;
 
-    condition_t *condition_wrapper = malloc(sizeof(game_action_condition_t));
-    condition_wrapper->condition.inven_type = new_condition;
+    condition_t *condition_wrapper = malloc(sizeof(condition_t));
+    condition_wrapper->cond.inven_type = new_condition;
     condition_wrapper->condition_tag = INVENTORY;
 
     return condition_wrapper;
@@ -137,7 +198,8 @@ bool check_condition(condition_t *condition)
 /* see game_action.h */
 bool all_conditions_met(condition_list_t *cond_list)
 {
-    if(cond_list == NULL){
+    if (cond_list == NULL)
+    {
         return false; // no conditions to check
     }
     condition_t *tmp = cond_list;
@@ -145,10 +207,10 @@ bool all_conditions_met(condition_list_t *cond_list)
     {
         if (!(check_condition(tmp)))
         {
-            return FALSE;
+            return false;
         }
         tmp = tmp->next;
     }
     // all conditions met
-    return TRUE;
+    return true;
 }

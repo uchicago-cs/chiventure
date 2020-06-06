@@ -37,7 +37,7 @@ typedef struct condition{
 */
 typedef struct condition condition_list_t;
 
-/* delete_action_condition_llist frees a linked list of action conditions
+/* delete_condition_llist frees a linked list of action conditions
  * Parameters:
  *  linked list of conditions
  *
@@ -83,10 +83,10 @@ bool check_condition(condition_t *condition);
  *  a pointer to the item to check
  *  the action
  * Returns:
- *  SUCCESS if all conditions are met, FAILURE if not
+ *  TRUE if all conditions are met, FALSE if not
  *  2 if action not possible
  */
-int all_conditions_met(condition_list_t *cond_list);
+bool all_conditions_met(condition_list_t *cond_list);
 
 
 #endif

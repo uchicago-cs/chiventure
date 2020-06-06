@@ -87,10 +87,6 @@ int possible_action(item_t *item, char *action_name)
 
 // ------------------------------------- CONDITIONS -------------------------------------
 
-bool is_possible_condition(game_action_condition_t *condition){
-    
-}
-
 /* see game_action.h */
 int add_action_attribute_condition(game_action_t *action, item_t *cond_item,
                          attribute_t *cond_attribute, attribute_value_t cond_value)
@@ -105,7 +101,7 @@ int add_action_attribute_condition(game_action_t *action, item_t *cond_item,
         return ACTION_NULL;
     }
 
-    game_action_condition_t *new_condition = attribute_condition_new(cond_item, cond_attribute, cond_value);
+    condition_t *new_condition = attribute_condition_new(cond_item, cond_attribute, cond_value);
 
     LL_APPEND(action->conditions, new_condition);
 
@@ -131,7 +127,7 @@ int add_action_inventory_condition(game_action_t *action, player_t *player,
         return ACTION_NULL;
     }
 
-    game_action_condition_t *new_condition = inventory_condition_new(player, item);
+    condition_t *new_condition = inventory_condition_new(player, item);
 
     LL_APPEND(action->conditions, new_condition);
 

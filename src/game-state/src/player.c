@@ -157,6 +157,7 @@ bool item_in_inventory(player_t *player, item_t *item)
     }
     return false;
 }
+
 /* See player.h */
 int assign_stats_player(player_t *plyr, stats_hash_t *sh)
 {
