@@ -50,15 +50,6 @@ ITEMS:
    long_desc: "A fork. There's nothing remarkably special about it."
    in: "kitchen"
    actions:
-     - action: "EAT"
-       text_success: "You eat the fork."
-       text_fail: "You can't eat the fork."
-
- - id: "FORK"
-   short_desc: "A fork."
-   long_desc: "A fork. There's nothing remarkably special about it."
-   in: "kitchen"
-   actions:
      - action: "OPEN"
        text_success: "You open the fork."
        text_fail: "You can't open the fork."
@@ -104,18 +95,39 @@ ITEMS:
    long_desc: "A fork. There's nothing remarkably special about it."
    in: "kitchen"
    actions:
-     - action: "DRINK"
-       text_success: "You drink the fork."
-       text_fail: "You can't drink the fork."
+     - action: "CONSUME"
+       text_success: "You consume the fork."
+       text_fail: "You can't cpnsume the fork."
 
  - id: "FORK"
    short_desc: "A fork."
    long_desc: "A fork. There's nothing remarkably special about it."
    in: "kitchen"
    actions:
-     - action: "CLOSE"
-       text_success: "You close the fork."
-       text_fail: "You can't close the fork."
+     - action: "TURNON"
+       text_success: "You turn on the fork."
+       text_fail: "You can't turn on the fork."
      - action: "TAKE"
        text_success: "You take the fork."
        text_fail: "You can't take the fork."
+
+ - id: "FORK"
+   short_desc: "A fork."
+   long_desc: "A fork. There's nothing remarkably special about it."
+   in: "kitchen"
+   actions:
+     - action: "TURNOFF"
+       text_success: "You turn off the fork."
+       text_fail: "You can't turn off the fork."
+     - action: "TAKE"
+       text_success: "You take the fork."
+       text_fail: "You can't take the fork."
+
+ - id: "TABLE"
+   short_desc: "A table."
+   long_desc: "A table. There's nothing remarkably special about it."
+   in: "kitchen"
+   actions:
+     - action: "PUSH"
+       text_success: "You push the table."
+       text_fail: "You can't push the table."

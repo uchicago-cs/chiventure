@@ -6,6 +6,8 @@
 #include "cli/shell.h"
 #include "wdl/load_game.h"
 
+#define BUFFER_SIZE (100)
+
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -132,7 +134,21 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
     if(curr_item != NULL)
     {
-        return curr_item->long_desc;
+        char *string = malloc(BUFFER_SIZE);
+        sprintf(string, "%s", curr_item->long_desc);
+        if (curr_item->next != NULL)
+        {
+            int count = 0;
+            item_t *iter;
+            LL_FOREACH(curr_item, iter)
+            {
+                count++;
+            }
+            char *count_str = malloc(BUFFER_SIZE);
+            sprintf(count_str, " There are %d of these in this room.", count);
+            string = strcat(string, count_str);
+        }
+        return string;
     }
     return "specified item not found\n";
 }
