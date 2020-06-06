@@ -93,7 +93,7 @@ int main() {
 	char *output_text = "You see a path. There is a hollow log on the ground.";
 
    	int framesCounter = 0;
-	SetTargetFPS(10);
+	   SetTargetFPS(10);
 
 	//loop to produce window of image and text box
 	while (!WindowShouldClose()) {
@@ -121,11 +121,13 @@ int main() {
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 letterCount--;
                 name[letterCount] = '\0';
+				
 				if (letterCount < 0){
 					letterCount = 0;
 				} 
             }
         }
+		
 		if (mouseOnText) framesCounter++;
 		else framesCounter = 0;
 
@@ -161,7 +163,8 @@ int main() {
 			DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 			if (((framesCounter / 5)%2) == 0)
 			{
-				DrawText("_", textBox.x + 5 + MeasureText(name, 21), textBox.y + 10, 20, DARKGRAY);
+								DrawText("_", textBox.x + 5 + MeasureText(name, 21), textBox.y + 10, 20, DARKGRAY);
+	
 			}
 		}
 		int xbuf = 5;
