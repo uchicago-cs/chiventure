@@ -38,6 +38,59 @@ int obj_free(object_t *obj)
     return 0;
 }
 
+/* see wdl/object.h for documentation */
+asset_t new_asset(assettype_t type, char* filename, FILE* file)
+{
+    asset_t asset = malloc(sizeof(asset_t));
+    if (asset == NULL)
+    {
+        printf("ERROR - new_asset: Could not allocate memory for asset.\n");
+        return NULL;
+    }
+    if (asset->type == NULL)
+    {
+        printf("ERROR - new_asset: Could not allocate memory for asset.\n");
+        return NULL;
+    }
+    if (asset->filename == NULL)
+    {
+        printf("ERROR - new_asset: Could not allocate memory for asset.\n");
+        return NULL;
+    }
+    if (init_asset(asset, type, filename, file) != EXIT_SUCCESS)
+    {
+        printf("ERROR - new_asset: Could not allocate memory for asset.\n");
+        free_asset(asset);
+        return NULL;
+    }
+    return asset;
+}
+
+/* see wdl/object.h for documentation */
+int init_asset(asset_t *asset, assettype_t type, char* filename, FILE* file)
+{
+    if (asset == NULL || filename == NULL)
+    {
+        printf("ERROR - init_asset: could not initialize asset.\n");
+        return EXIT_FAILURE;
+    }
+    asset->type = type;
+    asset->filename = filename;
+    asset->asset = file;
+
+    return EXIT_SUCCESS; 
+}
+
+/* see wdl/object.h for documentation */
+int free_asset(asset_t *asset)
+{
+    if (asset->asset != NULL)
+    {
+        fclose(asset->asset);
+    }
+    free(asset);
+    return EXIT_SUCCESS;
+}
 /*
  * Helper function for
  * get_object_wdl: retrieves an object from a .wdz archive.
