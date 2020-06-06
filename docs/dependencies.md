@@ -8,7 +8,7 @@ chiventure requires the following software/libraries:
 - [LibYAML](https://pyyaml.org/wiki/LibYAML) 0.2.2 or higher
 - [ncurses](https://invisible-island.net/ncurses/announce.html) 6.0 or higher, with support for wide characters (`ncursesw`)
 - [Criterion](https://github.com/Snaipe/Criterion) 2.3.1 or higher
-- [Lua](https://www.lua.org/) 5.3 or 
+- [Lua](https://www.lua.org/) 5.3 or higher   
 
 CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
 
