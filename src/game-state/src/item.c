@@ -74,11 +74,11 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
     
     HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
     
-    /* Same memory address */
     LL_FOREACH(check, itr)
     {
         if (itr == new_item)
         {
+            /* Same memory address */
             return FAILURE;
         }
     }
@@ -105,8 +105,8 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
     
     HASH_ITER(hh, *ht, curr_item, ITTMP_ITEMRM)
     {
-        /* Only iterates once if item id has no duplicates,
-         * but iterates through all duplicates if they exist */
+        /* If item id has no duplicates - only iterates once
+         * If more than one identical id - iterates through all */
         LL_FOREACH(curr_item, dup_item)
         {
             tmp = malloc(sizeof(item_list_t));
@@ -146,8 +146,7 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
             item_t *prev, *curr;
             prev = check;
             curr = check->next;
-            bool found = false;
-            while (curr != NULL && !found)
+            while (curr != NULL)
             {
                 if (curr == old_item)
                 {
@@ -157,7 +156,6 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
                      * no items will be removed */
                     prev->next = curr->next;
                     curr->next = NULL;
-                    found = true;
                 }
                 
                 prev = prev->next;

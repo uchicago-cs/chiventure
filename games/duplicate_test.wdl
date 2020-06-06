@@ -1,6 +1,4 @@
-# Test game for chiventure - meant to be used with spring2020-demo,
-# which takes this game and dump some more things in it that are
-# currently not specified by WDL
+# Test game for chiventure - focuses on testing/demonstrating item stacking
 
 
 GAME:
@@ -131,3 +129,6 @@ ITEMS:
      - action: "PUSH"
        text_success: "You push the table."
        text_fail: "You can't push the table."
+     - action: "TAKE"
+       text_success: "You take the table."
+       text_fail: "You can't take the table."
