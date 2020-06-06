@@ -98,6 +98,17 @@ int add_action_inventory_condition(game_action_t *action, player_t *player,
                                     item_t *item);
 
 
+/* add_action_condition() adds the given condition to the action's linkedlist of
+ * conditions
+ * Parameters:
+ *   a pointer to the action to add to
+ *   the condition
+ * Returns:
+ *   SUCCESS upon SUCCESS
+ *   ACTION_NULL if action does not exist
+ */
+int add_action_condition(game_action_t *action, condition_t *condition);
+
 // ------------------------- EFFECT FUNCTIONS ------------------------------
 
 

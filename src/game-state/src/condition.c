@@ -1,8 +1,5 @@
 #include "game-state/condition.h"
-#include "game-state/game_state_common.h"
-#include "game-state/item.h"
-#include "game-state/player.h"
-#include "game-state/game.h"
+
 
 /* helper for valid_condition */
 int valid_attr_condition(game_t *game, attribute_condition_t *condition)
