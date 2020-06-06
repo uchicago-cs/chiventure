@@ -92,3 +92,102 @@ int action_block_free(action_block_t *action)
 
     return SUCCESS;
 }
+
+
+/* See action_block.h */
+int exec_action_block(action_block_t *a)
+{
+    int rc;
+
+    switch (a->action_type) {
+
+        case SET:
+
+            if (a->num_args != 2) {
+                return FAILURE;
+            }
+            rc = set_attr(a->args[0], a->args[1]);
+            if (rc == 2) {
+                return SUCCESS;
+            } else {
+                return FAILURE;
+            }
+
+        case ADD:
+
+            if (a->num_args != 3) {
+                return FAILURE;
+            }
+            rc = add_attr(a->args[0], a->args[1], a->args[2]);
+            if (rc == 2) {
+                return SUCCESS;
+            } else {
+                return FAILURE;
+            }
+
+
+        case SUBTRACT:
+
+            if (a->num_args != 3) {
+                return FAILURE;
+            }
+            rc = sub_attr(a->args[0], a->args[1], a->args[2]);
+            if (rc == 2) {
+                return SUCCESS;
+            } else {
+                return FAILURE;
+            }
+
+
+        case MULTIPLY:
+
+            if (a->num_args != 3) {
+                return FAILURE;
+            }
+            rc = mult_attr(a->args[0], a->args[1], a->args[2]);
+            if (rc == 2) {
+                return SUCCESS;
+            } else {
+                return FAILURE;
+            }
+
+
+        case DIVIDE:
+
+            if (a->num_args != 3) {
+                return FAILURE;
+            }
+            rc = div_attr(a->args[0], a->args[1], a->args[2]);
+            if (rc == 2) {
+                return SUCCESS;
+            } else {
+                return FAILURE;
+            }
+
+
+        case GEN:
+
+            if (a->num_args != 3) {
+                return FAILURE;
+            }
+
+            if (a->args[0]->attribute_tag != INTEGER ||
+                a->args[1]->attribute_tag != INTEGER) {
+                return FAILURE;
+            }
+
+            rc = gen_attrval(a->args[0]->attribute_value.int_val,
+                             a->args[1]->attribute_value.int_val,
+                             a->args[2]);
+            if (rc == 2) {
+                return SUCCESS;
+            } else {
+                return FAILURE;
+            }
+
+
+        default:
+
+            return FAILURE;
+    }
+}
