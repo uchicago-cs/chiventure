@@ -75,13 +75,13 @@ Test(stats, display_stat)
 /* Checks that global_effect_init correctly initializes a global effect struct */
 Test (stats, effect_global_init)
 {
-    effects_global_t *effect;
+    effects_global_t effect;
 
-    int rc = global_effect_init(effect, "health");
+    int rc = global_effect_init(&effect, "health");
 
     cr_assert_eq(rc, SUCCESS, "global_effect_init failed");
-    cr_assert_not_null(effect->name, "global_effect_init did not set effect name");
-    cr_assert_str_eq(effect->name, "health", "global_effect_init did not set name");
+    cr_assert_not_null(effect.name, "global_effect_init did not set effect name");
+    cr_assert_str_eq(effect.name, "health", "global_effect_init did not set name");
 }
 
 /* Checks that global_effect_new correctly creates a new global effect struct */
@@ -99,13 +99,13 @@ Test (stats, stat_effect_init)
     effects_global_t *global = global_effect_new("speed");
     cr_assert_not_null(global, "global_effect_new failed");
 
-    stat_effect_t *effect;
+    stat_effect_t effect;
 
-    int rc = stat_effect_init(effect, global);
+    int rc = stat_effect_init(&effect, global);
 
     cr_assert_eq(rc, SUCCESS, "stat_effect_init failed");
-    cr_assert_str_eq(effect->key, global->name, "stat_effect_init did not set key");
-    cr_assert_eq(effect->global, global, "stat_effect_init did not set global pointer");
+    cr_assert_str_eq(effect.key, global->name, "stat_effect_init did not set key");
+    cr_assert_eq(effect.global, global, "stat_effect_init did not set global pointer");
 }
 
 /* Checks that stat_effect_new correctly creates a new player effect */
