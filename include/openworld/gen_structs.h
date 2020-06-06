@@ -31,17 +31,17 @@
 * - char *long_desc: long description for room
 * - int num_built: how many rooms of this type have been already built. An identifier.
 * - item_hash_t *items: hash table of items in room
-* - npc_t *npcs: doubly linked list of the npcs 
+* - npc_t *npcs: doubly linked list of the npcs
 * - UT_hash_handle hh: hash handle for room spec
 */
 typedef struct roomspec {
-    char *room_name;
-    char *short_desc;
-    char *long_desc;
-    int num_built;
-    item_hash_t *items;
-    npc_t *npcs;
-    UT_hash_handle hh;
+	char *room_name;
+	char *short_desc;
+	char *long_desc;
+	int num_built;
+	item_hash_t *items;
+	npc_t *npcs;
+	UT_hash_handle hh;
 } roomspec_t;
 
 /* speclist_t struct
@@ -51,9 +51,9 @@ typedef struct roomspec {
 * - speclist_t *next: pointer to the next part of the list.
 */
 typedef struct speclist {
-    roomspec_t *spec;
-    struct speclist *prev;
-    struct speclist *next;
+	roomspec_t *spec;
+	struct speclist *prev;
+	struct speclist *next;
 } speclist_t;
 
 /* gencontext_t struct
@@ -65,10 +65,10 @@ typedef struct speclist {
 * - speclist_t *speclist: the llist of roomspect_t that each hold the room info.
 */
 typedef struct gencontext {
-    path_t *open_paths;
-    int num_open_paths;
-    int level;
-    speclist_t *speclist;
+	path_t *open_paths;
+	int num_open_paths;
+	int level;
+	speclist_t *speclist;
 } gencontext_t;
 
 

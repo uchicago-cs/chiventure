@@ -167,5 +167,3 @@ npc_t *random_npcs(roomspec_t *room);
 int random_npc_lookup(npc_t **dst, npc_t *src, int num_iters);
 
 #endif /* INCLUDE_AUTOGENERATE_H */
-
-
