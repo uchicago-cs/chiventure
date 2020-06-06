@@ -65,7 +65,7 @@ int main() {
     InitWindow(ScreenWidth, ScreenHeight, "load image sandbox program");
 
     //loading the texture into memory
-    Image room = LoadImage("example3.png");
+    Image room = LoadImage("images/example3.png");
 
     //converting the image to a texture for raylib in VRAM
     Texture2D texture = LoadTextureFromImage(room);
@@ -87,9 +87,10 @@ int main() {
 
     //initializing output text box
     int outputX = 10;
-    int outputHeight = 120;
-    Rectangle output = { outputX, ScreenHeight - 140, ScreenWidth, outputHeight };
-    char *output_text = "You see a path. There is a hollow log on the ground.";
+	int outputHeight = 120;
+	int heightbuf = 140;
+	Rectangle output = { outputX, ScreenHeight - heightbuf, ScreenWidth, outputHeight };
+	char *output_text = "You see a path. There is a hollow log on the ground.";
 
     int framesCounter = 0;
     SetTargetFPS(10);
@@ -147,24 +148,31 @@ int main() {
 
         //Draw Image
         BeginDrawing();
+        int heightbuf2 = 150;
 
         ClearBackground(RAYWHITE);
         DrawTexture(texture, ScreenWidth/2 - texture.width/2,
                     0, WHITE);
         DrawRectangleRec(textBox, WHITE);
-        DrawRectangle(0, ScreenHeight - 150, ScreenWidth, 120, WHITE);
-        DrawRectangleLines(0, ScreenHeight - 150, ScreenWidth, 150, BLACK);
+        DrawRectangle(0, ScreenHeight - heightbuf2, ScreenWidth, 120, WHITE);
+		DrawRectangleLines(0, ScreenHeight - heightbuf2, ScreenWidth, 150, BLACK);
+
+        int xbuf = 5;
+		int ybuf = 8;
+        int lineIndictorY = textBox.y + 10;
+        int lineIndictorX = textBox.x + xbuf + MeasureText(name, 21);
 
         if (mouseOnText) {
             DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 
             if (((framesCounter / 5)%2) == 0)
-                DrawText("_", textBox.x + 5 + MeasureText(name, 21), textBox.y + 10, 20, DARKGRAY);
+                DrawText("_", lineIndictorX, lineIndictorY, 20, DARKGRAY);
         }
     
-        DrawText(name, textBox.x + 5, textBox.y + 8, 20, BLACK);
+        DrawText(name, textBox.x + xbuf, textBox.y + ybuf, 20, BLACK);
         Font test = GetFontDefault();
         DrawTextRec(test, output_text, output, 20, 5, true, BLACK);
+
         EndDrawing(); 
     }
 
