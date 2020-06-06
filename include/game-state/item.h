@@ -3,7 +3,6 @@
 
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
-#include "condition.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
 HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
