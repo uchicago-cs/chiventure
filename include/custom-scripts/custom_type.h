@@ -36,10 +36,10 @@ typedef struct arg_t
         char c;
         int  i;
         char *s;
-        char *lua;
     } data;
 
-    // Pointer to the next argument
+    // Pointer to the previous and next arguments
+    struct arg_t *prev;
     struct arg_t *next;
 } arg_t;
 

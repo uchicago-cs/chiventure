@@ -4,6 +4,7 @@
 arg_t *arg_t_new() {
     arg_t *arg = (arg_t*)malloc(sizeof(arg_t));
     arg->type = NONE_TYPE;
+    arg->prev = NULL;
     arg->next = NULL;
     return arg;
 }
@@ -42,13 +43,18 @@ arg_t *arg_t_str(char *s) {
 
 // see custom_type.h
 arg_t *arg_t_add(arg_t *head, arg_t *add) {
-    arg_t *temp = head;
-    // iterating over linked list to last node
-    while(temp->next) {
-        temp = temp->next;
+    if (add == NULL) {
+        return head;
+    } else {
+        arg_t *temp = head;
+        // iterating over linked list to last node
+        while(temp->next) {
+            temp = temp->next;
+        }
+        temp->next = add;
+        temp->next->prev = temp;
+        return head;
     }
-    temp->next = add;
-    return head;
 }
 
 // ============================================================================
