@@ -19,6 +19,8 @@
 #include "openworld/autogenerate.h"
 #include "openworld/gen_structs.h"
 #include "openworld/default_rooms.h"
+#define MAX_RAND_ITEMS (6)
+#define MAX_RAND_NPCS (3)
 
 /* See autogenerate.h */
 bool path_exists_in_dir(room_t *r, char *direction)
@@ -186,3 +188,54 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 
     return FAILURE;
 }
+
+/* See autogenerate.h */
+roomspec_t *random_npcs(roomspec_t *room, npc_t * npcs)
+{
+    if (room == NULL)
+        return NULL;
+    if(room->possible_npcs == NULL)
+        return NULL;
+
+    int i;
+    int count = 0;
+    // count the number of npcs but wait i don't think i need this 
+    /*for(i = 0; i <= num_iters; i++)
+        { 
+            if(npcs)
+                count++;
+        }
+    */
+    int num_npcs = rand() % MAX_RAND_NPCS; // max is 3
+    int num_iters = rand() % count; // how do i get the count? 
+
+    for (int i = 0; i < num_npcs; i++)
+    {
+        int rc = random_npc_lookup(&num_npcs, num_iters);
+    } 
+   
+   return room->possible_npcs
+}
+
+/* See autogenerate.h */
+
+int random_npc_lookup(roomspec_t *room, int num_iters)
+{
+    int i;
+    int count = 0;
+    roomspec_t *npcs = room->possible_npcs->classification;
+    if (npcs == NULL)
+        return 0;
+
+    for(i = 0; i <= num_iters; i++)
+    { 
+        if(i == num_iterate)
+    {
+        // is this neccessary?
+        copy_item_to_hash();
+        return SUCCESS;
+    }
+         i++;    
+    }
+        return count;
+} 
