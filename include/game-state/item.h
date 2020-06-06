@@ -11,8 +11,10 @@ HASH_ITER(hh, (player)->inventory, (curr_item), ITTMP_ITEMINV)
 #define ITER_ALL_ATTRIBUTES(item, curr_attr) attribute_t *ITTMP_ATTR; \
 HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 
-/* Forward declaration */
+/* Forward declaration. Full typedef can be found in player.h */
 typedef struct player player_t;
+/* Forward declaration. Full typedef can be found in condition.c */
+typedef struct condition condition_list_t;
 
 // ITEM STRUCTURE DEFINITION + BASIC FUNCTIONS --------------------------------
 
