@@ -129,3 +129,39 @@ int quest_free(quest_t *q)
 
     return SUCCESS;
 }
+
+/* Refer to quests_state.h */
+int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add)
+{
+    assert(quest != NULL);
+
+    quest->achievement_list->next = quest->achievement_list->achievement;
+    quest->achievement_list->achievement = achievement_to_add;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int start_quest(quest_t *quest)
+{
+    assert(quest != NULL);
+
+    quest->status = 1;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int quest_status(quest_t *quest)
+{
+    return quest->status;
+}
+
+/* Refer quests_state.h */
+item_t *quest_completed(quest_t *quest)
+{
+    if (quest->status == 0) {
+        return quest->reward;
+    }
+    // How do we deal with the case when the quest has not been completed?
+}
