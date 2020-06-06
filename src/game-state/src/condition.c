@@ -1,4 +1,5 @@
 #include "game-state/condition.h"
+#include "game-state/game.h"
 
 
 /* helper for valid_condition */
