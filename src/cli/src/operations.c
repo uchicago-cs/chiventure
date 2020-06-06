@@ -246,7 +246,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded player to check inventory.\n";
     }
-    item_t *t;
+    item_list_t *t;
     int i = 0;
     ITER_ALL_ITEMS_IN_INVENTORY(game->curr_player, t)
     {
@@ -263,7 +263,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         // sprintf(str, "%d", i);
         // print_to_cli(ctx, str);
 
-        print_to_cli(ctx, t->item_id);
+        print_to_cli(ctx, t->item->item_id);
     }
     return "This was your inventory";
 }
