@@ -134,6 +134,19 @@ int add_action_inventory_condition(game_action_t *action, player_t *player,
     return SUCCESS;
 }
 
+/* see game_action.h */
+int add_action_condition(game_action_t *action, condition_t *condition)
+{
+    if(action == NULL)
+    {
+        return ACTION_NULL;
+    }
+
+    LL_APPEND(action->conditions, condition);
+
+    return SUCCESS;
+}
+
 
 // ------------------------------------- EFFECTS -------------------------------------
 

@@ -1,4 +1,5 @@
 #include "game-state/condition.h"
+#include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "game-state/player.h"
 #include "game-state/game.h"
@@ -12,7 +13,7 @@ int valid_attr_condition(game_t *game, attribute_condition_t *condition)
               check_item);
     if (check_item == NULL)
     {
-        return FAILURE; // item not in game
+        return ITEM_MODIFY_NULL; // item not in game
     }
 
     attribute_t *check_attribute;
@@ -21,11 +22,12 @@ int valid_attr_condition(game_t *game, attribute_condition_t *condition)
     if (check_attribute == NULL ||
         check_attribute != condition->attribute_to_check)
     {
-        return FAILURE; // item does not possess attribute
+        return ATTRIBUTE_NULL; // item does not possess attribute
     }
     return SUCCESS;
 }
 
+/* helper for valid_condition */
 int valid_inven_condition(game_t *game, inventory_condition_t *condition)
 {
     item_t *check_item;
@@ -34,7 +36,7 @@ int valid_inven_condition(game_t *game, inventory_condition_t *condition)
               check_item);
     if (check_item == NULL)
     {
-        return FAILURE; // item not in game
+        return ITEM_MODIFY_NULL; // item not in game
     }
 
     player_t *check_player;
@@ -43,12 +45,13 @@ int valid_inven_condition(game_t *game, inventory_condition_t *condition)
               check_player);
     if(check_player == NULL)
     {
-        return FAILURE; // player not in game
+        return ATTRIBUTE_NULL; // player not in game
     }
 
     return SUCCESS;
 }
 
+/* see condition.h */
 int valid_condition(game_t *game, condition_t *condition)
 {
     switch (condition->condition_tag)
