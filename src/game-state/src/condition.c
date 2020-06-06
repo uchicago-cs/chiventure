@@ -5,10 +5,8 @@
 /* helper for valid_condition */
 int valid_attr_condition(game_t *game, attribute_condition_t *condition)
 {
-    item_t *check_item;
-    HASH_FIND(hh, game->all_items, condition->item->item_id,
-              strnlen(condition->item->item_id, MAX_ID_LEN),
-              check_item);
+
+    item_t *check_item = get_item_from_game(game, condition->item->item_id);
     if (check_item == NULL)
     {
         return ITEM_MODIFY_NULL; // item not in game
@@ -28,19 +26,14 @@ int valid_attr_condition(game_t *game, attribute_condition_t *condition)
 /* helper for valid_condition */
 int valid_inven_condition(game_t *game, inventory_condition_t *condition)
 {
-    item_t *check_item;
-    HASH_FIND(hh, game->all_items, condition->expected_item->item_id,
-              strnlen(condition->expected_item->item_id, MAX_ID_LEN),
-              check_item);
+
+    item_t *check_item = get_item_from_game(game, condition->expected_item->item_id);
     if (check_item == NULL)
     {
         return ITEM_MODIFY_NULL; // item not in game
     }
 
-    player_t *check_player;
-    HASH_FIND(hh, game->all_players, condition->player_to_check->player_id,
-              strnlen(condition->player_to_check->player_id, MAX_ID_LEN),
-              check_player);
+    player_t *check_player = get_player(game, condition->player_to_check->player_id);
     if(check_player == NULL)
     {
         return PLAYER_NULL; // player not in game
