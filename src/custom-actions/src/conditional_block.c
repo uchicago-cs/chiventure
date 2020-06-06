@@ -46,7 +46,7 @@ AST_block_t* AST_conditional_block_new(conditional_type_t conditional_type,
     conditional_block_t *conditional;
     int new_conditional;
     block_type_t block_type = CONDITIONAL;
-    int num_AST;
+    int num_AST = 1;
     AST_block_t **next;
   
     *next = malloc(sizeof(AST_block_t) * (num_AST - 1));
