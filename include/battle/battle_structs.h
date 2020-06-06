@@ -12,6 +12,7 @@ typedef struct item {
     int id;
     int quantity;
     int durability;
+    char* name;
     char* description;
     bool battle;
     int attack;
