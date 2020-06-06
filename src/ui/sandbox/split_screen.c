@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 #define MAX_INPUT_CHARS 20
+#define POS_ZERO 0
 
 /* 	Sandbox Example Summary:
  *	This sandbox example is demonstrating code that can simulate components in chiventure like
@@ -73,7 +74,7 @@ int main() {
     //creating a rectangle the size of the window
     int WindowWidth = 1200;
     int WindowHeight = 700;
-    Rectangle window = { 0, 0, WindowWidth, WindowHeight };
+    Rectangle window = { POS_ZERO, POS_ZERO, WindowWidth, WindowHeight };
     
     //initializing input text box
     char name[MAX_INPUT_CHARS + 1] = "\0";
@@ -82,7 +83,7 @@ int main() {
     int textBoxWidth = 225;
     int textBoxHeight = 30;
 
-    Rectangle textBox = { 0, textBoxY, textBoxWidth, textBoxHeight };
+    Rectangle textBox = { POS_ZERO, textBoxY, textBoxWidth, textBoxHeight };
     bool mouseOnText = false;
 
     //initializing output text box
@@ -149,34 +150,37 @@ int main() {
         //Draw Image
         BeginDrawing();
         int heightbuf2 = 150;
+        int rectHeight = 120;
 
         ClearBackground(RAYWHITE);
-        DrawTexture(texture, ScreenWidth/2 - texture.width/2,
-                    0, WHITE);
+        DrawTexture(texture, ScreenWidth/2 - texture.width/2, POS_ZERO, WHITE);
         DrawRectangleRec(textBox, WHITE);
-        DrawRectangle(0, ScreenHeight - heightbuf2, ScreenWidth, 120, WHITE);
-        DrawRectangleLines(0, ScreenHeight - heightbuf2, ScreenWidth, 150, BLACK);
+        DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
+        DrawRectangleLines(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, heightbuf2, BLACK);
 
         int xbuf = 5;
         int ybuf = 8;
         int lineIndictorY = textBox.y + 10;
         int lineIndictorX = textBox.x + xbuf + MeasureText(name, 21);
+        int fontSize = 20;
+        int fontSpacing = 5;
 
         if (mouseOnText) {
             DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 
             if (((framesCounter / 5)%2) == 0)
-                DrawText("_", lineIndictorX, lineIndictorY, 20, DARKGRAY);
+                DrawText("_", lineIndictorX, lineIndictorY, fontSize, DARKGRAY);
         }
     
-        DrawText(name, textBox.x + xbuf, textBox.y + ybuf, 20, BLACK);
+        DrawText(name, textBox.x + xbuf, textBox.y + ybuf, fontSize, BLACK);
         Font test = GetFontDefault();
-        DrawTextRec(test, output_text, output, 20, 5, true, BLACK);
+        DrawTextRec(test, output_text, output, fontSize, fontSpacing, true, BLACK);
 
         EndDrawing(); 
     }
 
     UnloadTexture(texture);
     CloseWindow();
+
     return 0;
 }
