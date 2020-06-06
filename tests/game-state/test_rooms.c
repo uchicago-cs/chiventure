@@ -120,15 +120,24 @@ Test(room_item, remove_item_from_room)
 {
     room_t *room = room_new("room", "short", "long");
     item_t *test_item = item_new("item", "short", "long");
+    item_t *dup_item = item_new("item", "short", "long");
+    item_list_t *item_list;
     int rc;
     
     rc = add_item_to_room(room, test_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
+                 "add an item to room");
+    rc = add_item_to_room(room, dup_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
                  "add an item to room");
     
     rc = remove_item_from_room(room, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_room failed to "
                  "remove an item from room");
+    
+    item_list = get_all_items_in_room(room);
+    cr_assert_not_null(item_list, "remove_item_from_room removed "
+                       "both identical items from room");
 }
 
 /* Checks if sdesc is correctly returned
