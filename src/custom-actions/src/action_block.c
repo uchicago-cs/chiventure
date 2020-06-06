@@ -67,7 +67,7 @@ AST_block_t* AST_action_block_new(action_enum_t action_type, int num_args,
     
     block_t* block = malloc(sizeof(block));
     block->action_block = action;
-    ast = AST_block_new(block, block_type, num_AST, next);
+    ast = AST_block_new(block, block_type, num_AST, &next);
     return ast;
 }
 
