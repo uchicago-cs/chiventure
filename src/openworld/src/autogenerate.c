@@ -19,6 +19,7 @@
 #include "openworld/autogenerate.h"
 #include "openworld/gen_structs.h"
 #include "openworld/default_rooms.h"
+#include "openworld/default_npcs.h"
 
 /* See autogenerate.h */
 bool path_exists_in_dir(room_t *r, char *direction)
@@ -51,7 +52,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
     // instead of taking all the items, just take a few of them
     res->items = random_items(roomspec);
-
+	res->npcs = random_npcs(roomspec);
     res->paths = NULL;
     return res;
 }
@@ -185,6 +186,60 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
     }
 
     return FAILURE;
+}
+
+/* See autogenerate.h */
+npc_t *random_npcs(roomspec_t *room)
+{
+	if (room == NULL) {
+		return NULL;
+	}
+
+	int num_items = rand() % MAX_NPCS;
+
+	//assuming that npcs are not automatically assinged to rooms
+	npc_t hostiles = get_hostile_npcs();
+	npc_t friendlies = get_friendly_npcs();
+	npc_t generic = get_generic_npcs();
+
+	npc_t *combo = NULL;
+
+	for (int i = 0; i < num_items; i++) {
+		random_npc_lookup(&combo, hostiles, rand() % MAX_NPCS);
+		random_npc_lookup(&combo, friendlies, rand() % MAX_NPCS);
+		random_npc_lookup(&combo, generic, rand() % MAX_NPCS);
+	}
+
+	if (combo == NULL) return NULL;
+	return combo;
+}
+
+/* See autogenerate.h */
+int random_npc_lookup(npc_t **dst, npc_t *src, int num_iters)
+{
+	npc_t *current = NULL;
+	npc_t *tmp = NULL;
+
+	int i = 0;
+
+	DL_FOREACH(src, current, tmp) {
+		if (i == num_iters) {
+				if (tmp == NULL) {
+					return FAILURE;
+				}
+
+				npc_t *new_item = calloc(1, sizeof(npc_t));
+				new_item->level = tmp->level;
+				new_item->inventory = tmp->inventory;
+				new_item->classification = tmp->classification;
+				DL_APPEND(*dst, new_item);
+
+				return SUCCESS;
+		}
+		i++;
+	}
+
+	return FAILURE;
 }
 
 

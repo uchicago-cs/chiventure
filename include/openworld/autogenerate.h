@@ -21,8 +21,10 @@
 #include "game-state/game.h"
 #include "gen_structs.h"
 #include "default_rooms.h"
+#include "default_npcs.h"
 
 #define MAX_RAND_ITEMS (6)
+#define MAX_NPCS (3)
 
 /*
 * path_exists_in_dir
@@ -159,6 +161,10 @@ item_hash_t *random_items(roomspec_t *room);
 * - FAILURE if items allowed in a room could not be found (FAILURE)
 */
 int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
+
+npc_t *random_npcs(roomspec_t *room);
+
+int random_npc_lookup(npc_t **dst, npc_t *src, int num_iters);
 
 #endif /* INCLUDE_AUTOGENERATE_H */
 

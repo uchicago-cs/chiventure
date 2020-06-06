@@ -77,7 +77,7 @@ int roomspec_free(roomspec_t *spec)
 }
 
 /* see gen_structs.h */
-int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, npc_t *npcs)
 {
 
     if (spec == NULL)
@@ -109,12 +109,13 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
     strncpy(spec->short_desc, short_desc, MAX_SDESC_LEN);
     strncpy(spec->long_desc, long_desc, MAX_LDESC_LEN);
     spec->items = items;
+	spec->npcs = npcs;
     spec->num_built = 0;
     return SUCCESS;
 }
 
 /* see gen_structs.h */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, npc_t *npcs)
 {
 
     roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
@@ -124,7 +125,7 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
         return NULL;
     }
 
-    int check = init_roomspec(roomspecnew, room_name, short_desc, long_desc, items);
+    int check = init_roomspec(roomspecnew, room_name, short_desc, long_desc, items, npcs);
     if (check == FAILURE) {
         return NULL;
     }
