@@ -1,12 +1,8 @@
-set(TEST_EXE test-openworld)
+set(TEST_EXE test-skilltrees)
 
 add_executable(${TEST_EXE}
-    test_autogenerate.c
-    test_items.c
-    test_rooms.c
-    test_structs.c
-    main.c)
-
+        effect_t.c
+        main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
 
