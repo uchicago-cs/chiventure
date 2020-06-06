@@ -534,6 +534,18 @@ Test(iter, get_all_rooms) {
     cr_assert_eq(delete_room_llist(list), SUCCESS, "delete llist failed");
     game_free(game);
 }
+
+/* Checks that add_effect_to_game() adds a global effect to the
+game struct's player hash table */
+Test(game_stat_effects, add_effect_to_game)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    effects_global_t *effect = global_effect_new("health");
+    int rc = add_effect_to_game(game, effect);
+
+    cr_assert_eq(rc, SUCCESS, "add_effect_to_game failed");
+    cr_assert_not_null(game->all_effects, "effect not added to all_effects");
+}
 /*
 //untested
 //doesn't need testing

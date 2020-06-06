@@ -14,20 +14,21 @@ Data Structures
         - char* Short Description
         - char* Long Description
         - obj_t* Array of attributes
-        - stats_t* Base Stats
+        - stats_hash_t* Base Stats
+        - effects_hash_t* Stat Effects
         - skilltree_t* Skilltree
-        - skill_t* Combat Actions
-        - skill_t* Non-combat Actions
+        - skill_inventory_t* Combat Actions
+        - skill_inventory_t* Non-combat Actions
 
-    *** Currently the stats_t, skilltree_t, and skill_t parts of the class_t struct are stubbed out and do NOT function with other modules ***
+    *** Currently the skilltree_t part of the class_t struct is stubbed out and do NOT function with other modules ***
 
 Modules
 
 class
 
     Create a new playerclass
-        class_t* = class_new(char* name, char* shortdesc, char* longdesc, obj_t* attr, stats_t* stat, skilltree_t* skilltree, skill_t* combat, skill_t* noncombat);
+        class_t* = class_new(char* name, char* shortdesc, char* longdesc, obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);
     Initialize values inside the playerclass
-        class_t* = class_init(class_t* class, char* name, char* shortdesc, char* longdesc, obj_t* attr, stats_t* stat, skilltree_t* skilltree, skill_t* combat, skill_t* noncombat);
+        class_t* = class_init(class_t* class, char* name, char* shortdesc, char* longdesc, obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);
     Free a playerclass
         void class_free(class_t* c);

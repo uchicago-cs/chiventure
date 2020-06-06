@@ -168,6 +168,18 @@ item_hash_t* get_inventory(player_t *plyr);
  */
 int add_item_to_player(player_t *player, item_t *item);
 
+/* Removes an item from the given player
+ * Note that the memory associated with this item is not freed
+ * 
+ * Parameters:
+ *  player struct
+ *  item struct
+ * 
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int remove_item_from_player(player_t *player, item_t *item);
+
 /*
  * Function to get a linked list (utlist) of all the items in the player's inventory
  *

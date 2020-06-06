@@ -95,6 +95,41 @@ char *get_sdesc_item(item_t *item);
  */
 char *get_ldesc_item(item_t *item);
 
+/* Adds an item to a hashtable of items,
+ * as long as the item does not already exist in hashtable
+ * 
+ * Parameters:
+ *  pointer to hashtable of items (pointer necessary for uthash to work)
+ *  item to add to hashtable
+ * 
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int add_item_to_hash(item_hash_t **ht, item_t *new_item);
+
+/* Function to get a linked list (utlist) of all the items in a hashtable
+ *
+ * Parameters:
+ *  pointer to hashtable of items (pointer necessary for uthash to work)
+ *
+ * Returns:
+ *  linked list of pointers to items (the head element)
+ */ 
+item_list_t *get_all_items_in_hash(item_hash_t **ht);
+
+
+/* Removes an item from a hashtable of items
+ * Note that the memory associated with this item is not freed
+ * 
+ * Parameters:
+ *  pointer to hashtable of items (pointer necessary for uthash to work)
+ *  item to add to hashtable
+ * 
+ * Return:
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
+
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
@@ -385,6 +420,6 @@ int delete_all_attributes(attribute_hash_t *attributes);
     FAILURE for failure, SUCCESS for success
 */
 int game_action_init(game_action_t *new_action, char *act_name, 
-		     char* success_str, char* fail_str);
+             char* success_str, char* fail_str);
 
 #endif
