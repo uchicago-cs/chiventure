@@ -90,9 +90,10 @@ int delete_condition_llist(condition_list_t *conditions)
 }
 
 /* see game_action.h */
-condition_t *attribute_condition_new(item_t *item_to_modify, attribute_t *attribute,
+condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_name,
                                      attribute_value_t new_value)
 {
+    attribute_t *attribute = get_attribute(item_to_modify, attribute_name);
     if (item_to_modify == NULL || attribute == NULL)
     {
         return NULL;
