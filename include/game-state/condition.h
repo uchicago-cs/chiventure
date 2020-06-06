@@ -4,7 +4,7 @@
 #include "game_state_common.h"
 #include "player.h"
 #include "item.h"
-#include "game-state/game.h"
+#include "game.h"
 
 
 typedef struct attribute_condition{
