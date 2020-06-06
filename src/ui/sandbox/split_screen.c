@@ -87,10 +87,10 @@ int main() {
 
     //initializing output text box
     int outputX = 10;
-	int outputHeight = 120;
-	int heightbuf = 140;
-	Rectangle output = { outputX, ScreenHeight - heightbuf, ScreenWidth, outputHeight };
-	char *output_text = "You see a path. There is a hollow log on the ground.";
+    int outputHeight = 120;
+    int heightbuf = 140;
+    Rectangle output = { outputX, ScreenHeight - heightbuf, ScreenWidth, outputHeight };
+    char *output_text = "You see a path. There is a hollow log on the ground.";
 
     int framesCounter = 0;
     SetTargetFPS(10);
@@ -155,10 +155,10 @@ int main() {
                     0, WHITE);
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(0, ScreenHeight - heightbuf2, ScreenWidth, 120, WHITE);
-		DrawRectangleLines(0, ScreenHeight - heightbuf2, ScreenWidth, 150, BLACK);
+        DrawRectangleLines(0, ScreenHeight - heightbuf2, ScreenWidth, 150, BLACK);
 
         int xbuf = 5;
-		int ybuf = 8;
+        int ybuf = 8;
         int lineIndictorY = textBox.y + 10;
         int lineIndictorX = textBox.x + xbuf + MeasureText(name, 21);
 
