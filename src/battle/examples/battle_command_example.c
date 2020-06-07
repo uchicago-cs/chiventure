@@ -69,7 +69,6 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             printf("%s\n", action_string);
         }
         res = battle_flow(ctx, player_move, args[4]);
-        invalid_move = 0;
     }
     else if ((strncmp(args[0], "MOVE", MAXLEN) == 0) 
             && (strncmp(args[1], "LIST", MAXLEN) == 0))
