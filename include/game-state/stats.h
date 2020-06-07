@@ -21,6 +21,19 @@ typedef struct stats_global {
 typedef struct stats_global stats_global_hash_t;
 
 
+// GLOBAL EFFECTS STRUCT DEFINITION ----------------------------------------------------
+ /* This struct represents the effects table that keeps track of all available effects
+  * It contains:
+  *      the name of the effect,
+  *      which is also the key to the hashtable
+  * */
+typedef struct effects_global {
+    char *name;
+    UT_hash_handle hh; 
+} effects_global_t;
+typedef struct effects_global effects_global_hash_t;
+
+
 // STATS STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a stat of the player.
  * It contains:
@@ -71,17 +84,16 @@ typedef struct stat_mod {
   *      the name of the effect,
   *      which is also the key to the hashtable
   *
-  *      a bool checking if the effect is activated
-  *
-  *      the duration of the effect
+  *      a pointer to the related global effect
   * 
-  *      a linked list, stat_mod, which contains the stats effected
-  *      and the modifier value for each stat
+  *      a linked list, stat_mod_t, which contains the stats effected
+  *      and the modifier value for each stat (an empty list means the 
+  *      the effect is turned off)
   * */
 typedef struct effects{
-    char *name; 
-    bool status;
-    stats_mod_t *stat_list;
+    char *key; //key for hashtable (should be same as name of effect)
+    effects_global_t *global;
+    stat_mod_t *stat_list;
     UT_hash_handle hh; 
 } stat_effect_t;
 
@@ -144,6 +156,52 @@ stats_global_t* stats_global_new(stats_global_hash_t *gsh, char *name, double ma
  *  Pointer to allocated stats struct
  */
 stats_t *stats_new(stats_global_hash_t *gsh, char *name, double init);
+
+/*
+ * Initializes a global effect struct
+ *
+ * Parameters:
+ *   - effect: a global effect struct (must already be allocated in memory)
+ *   - effect_name: the unique string ID to be given to the effect
+ * 
+ * Returns:
+ *   - SUCCESS on success, FAILURE if an error occurs.
+ */
+int global_effect_init(effects_global_t *effect, char *effect_name);
+
+/*
+ * Allocates a new global effect
+ *
+ * Parameters:
+ *   - effect_name: the unique string ID to be given to the effect
+ * 
+ * Returns:
+ *   - Pointer to allocated global effects struct
+ */
+effects_global_t *global_effect_new(char *effect_name);
+
+/*
+ * Initializes a player effect struct
+ *
+ * Parameters:
+ *   - effect: a player effect struct (must already be allocated in memory)
+ *   - global: a pointer to a global effect
+ * 
+ * Returns:
+ *   - SUCCESS on success, FAILURE if an error occurs.
+ */
+int stat_effect_init(stat_effect_t *effect, effects_global_t *global);
+
+/*
+ * Allocates a new player effect struct
+ *
+ * Parameters:
+ *   - global: a pointer to a global effect (already allocated)
+ * 
+ * Returns:
+ *   - Pointer to allocated player effects struct
+ */
+stat_effect_t *stat_effect_new(effects_global_t *global);
 
 /*
  * Changes the base value of a stat by the
@@ -244,5 +302,54 @@ int free_stats(stats_hash_t *stat);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int free_stats_global(stats_global_hash_t* gsh);
+
+/*
+ * Deletes a single player effects struct from a hash table,
+ * then frees the struct
+ *
+ * Parameters: 
+ * effect: pointer to the effects struct to be freed
+ * hash: pointer to the hash table containing the effect to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash);
+
+/*
+ * Frees a player effects hash table
+ *
+ * Parameters: 
+ * effects: pointer to the effects hash table to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int delete_all_stat_effects(effects_hash_t *effects);
+
+/*
+ * Deletes a single global effect struct from a hash table,
+ * then frees it
+ *
+ * Parameters: 
+ * effect: pointer to a global effect struct to be freed
+ * hash: pointer to hash table containing global effect to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int delete_single_global_effect(effects_global_t *effect, 
+                                effects_global_hash_t *hash);
+
+/*
+ * Frees a global effects hash table
+ *
+ * Parameters: 
+ * effects: pointer to the effects hash table to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int delete_all_global_effects(effects_global_hash_t *effects);
 
 #endif
