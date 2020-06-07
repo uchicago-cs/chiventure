@@ -5,8 +5,7 @@
 #include "game-state/stats.h"
 #include "common/ctx.h"
 
-/* forward declaration to avoid circular dependency bug*/
-typdef struct chiventure_ctx chiventure_ctx_t;
+
 
 
 Test(stats, global_init){
