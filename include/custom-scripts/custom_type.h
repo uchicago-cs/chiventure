@@ -171,6 +171,48 @@ object_t *obj_t_str(char *s, char *lua, arg_t* head);
 // ============================================================================
 
 /**
+ * obj_add_arg_bool adds a bool to the argument linked list of the object_t
+ * Parameters:
+ * - the object whose argument list is to be added to
+ * - the boolean to be added
+ * Returns:
+ * - the updated object
+ */
+object_t *obj_add_arg_bool(object_t *obj, bool b);
+
+/**
+ * obj_add_arg_char adds a char to the argument linked list of the object_t
+ * Parameters:
+ * - the object whose argument list is to be added to
+ * - the char to be added
+ * Returns:
+ * - the updated object
+ */
+object_t *obj_add_arg_char(object_t *obj, char c);
+
+/**
+ * obj_add_arg_int adds a int to the argument linked list of the object_t
+ * Parameters:
+ * - the object whose argument list is to be added to
+ * - the int to be added
+ * Returns:
+ * - the updated object
+ */
+object_t *obj_add_arg_int(object_t *obj, int i);
+
+/**
+ * obj_add_arg_str adds a string to the argument linked list of the object_t
+ * Parameters:
+ * - the object whose argument list is to be added to
+ * - the string to be added
+ * Returns:
+ * - the updated object
+ */
+object_t *obj_add_arg_str(object_t *obj, char *s);
+
+// ============================================================================
+
+/**
  * bool_t_get() returns a bool from an object_t struct
  * Parameters:
  * - ot: an obj_t

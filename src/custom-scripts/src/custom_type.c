@@ -45,6 +45,8 @@ arg_t *arg_t_str(char *s) {
 arg_t *arg_t_add(arg_t *head, arg_t *add) {
     if (add == NULL) {
         return head;
+    } else if (head == NULL) {
+        return add;
     } else {
         arg_t *temp = head;
         // iterating over linked list to last node
@@ -55,6 +57,36 @@ arg_t *arg_t_add(arg_t *head, arg_t *add) {
         temp->next->prev = temp;
         return head;
     }
+}
+
+// ============================================================================
+
+// see custom_type.h
+object_t *obj_add_arg_bool(object_t *ot, bool b) {
+    arg_t *add = arg_t_bool(b);
+    ot->args = arg_t_add(ot->args, add);
+    return ot;
+}
+
+// see custom_type.h
+object_t *obj_add_arg_char(object_t *ot, char c) {
+    arg_t *add = arg_t_char(c);
+    ot->args = arg_t_add(ot->args, add);
+    return ot;
+}
+
+// see custom_type.h
+object_t *obj_add_arg_int(object_t *ot, int i) {
+    arg_t *add = arg_t_int(i);
+    ot->args = arg_t_add(ot->args, add);
+    return ot;
+}
+
+// see custom_type.h
+object_t *obj_add_arg_str(object_t *ot, char *s) {
+    arg_t *add = arg_t_str(s);
+    ot->args = arg_t_add(ot->args, add);
+    return ot;
 }
 
 // ============================================================================

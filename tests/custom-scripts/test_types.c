@@ -64,13 +64,12 @@ Test(custom_type, arg_t_new_str)
 */
 Test(custom_type, arg_t_add)
 {
-    arg_t *head = arg_t_str("I am head");
-    arg_t *second = arg_t_int(2);
-    arg_t *third = arg_t_char('3');
-    arg_t *end = arg_t_bool(true);
-    head = arg_t_add(head, second);
-    head = arg_t_add(head, third);
-    head = arg_t_add(head, end);
+    object_t *ot = obj_t_bool(true, NULL, NULL);
+    ot = obj_add_arg_str(ot, "I am head");
+    ot = obj_add_arg_int(ot, 2);
+    ot = obj_add_arg_char(ot, '3');
+    ot = obj_add_arg_bool(ot, true);
+    arg_t *head = ot->args;
 
     cr_assert_str_eq(head->data.s, "I am head", "arg_t_add: failed head initialization");
     cr_assert_eq(head->next->data.i, 2, "arg_t_add: failed arg_t addition");
@@ -84,15 +83,13 @@ Test(custom_type, arg_t_add)
 */
 Test(custom_type, arg_t_add_prev)
 {
-    arg_t *head = arg_t_str("I am head");
-    arg_t *second = arg_t_int(2);
-    arg_t *third = arg_t_char('3');
-    arg_t *fourth = arg_t_bool(true);
-    head = arg_t_add(head, second);
-    head = arg_t_add(head, third);
-    head = arg_t_add(head, fourth);
-
-    arg_t *end = head->next->next->next;
+    object_t *ot = obj_t_bool(true, NULL, NULL);
+    ot = obj_add_arg_str(ot, "I am head");
+    ot = obj_add_arg_int(ot, 2);
+    ot = obj_add_arg_char(ot, '3');
+    ot = obj_add_arg_bool(ot, true);
+    arg_t *end = ot->args->next->next->next;
+    
     cr_assert_eq(end->prev->data.c, '3', "arg_t_add: failed arg_t addition (prev)");
     cr_assert_eq(end->prev->prev->data.i, 2, "arg_t_add: failed arg_t addition (prev)");
     cr_assert_str_eq(end->prev->prev->prev->data.s, "I am head", "arg_t_add: failed arg_t addition (prev)");
