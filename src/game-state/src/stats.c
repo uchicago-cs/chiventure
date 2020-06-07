@@ -195,6 +195,8 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
     }
 
     return SUCCESS;
+}
+
 char *display_stat_effects(effects_hash_t *hash)
 {
     stat_effect_t *effect, *tmp;
