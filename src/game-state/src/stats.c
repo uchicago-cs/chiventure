@@ -6,7 +6,7 @@
 int stats_global_init(stats_global_t *s, char *name, double max)
 {
     assert(s != NULL);
-    s->name = strndup(name);
+    s->name = strdup(name);
     s->max = max;
     return SUCCESS;
 }
