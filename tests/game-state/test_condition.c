@@ -80,11 +80,30 @@ Test(condition, valid_condition)
     cr_assert_eq(valid, ITEM_MODIFY_NULL, "valid_condition() expected ITEM_MODIFY_NULL(3) "
     "but instead got %i", valid);
 
+    // SUCCESS
     add_item_to_game(game, item);
+    cr_assert_eq(valid, SUCCESS, "valid_condition() expected ITEM_MODIFY_NULL(0) "
+    "but instead got %i", valid);
+
+
+    // ATTRIBUTE_NULL
     condition_1->cond.attr_type->attribute_to_check = NULL;
     valid = valid_condition(game, condition_1);
     cr_assert_eq(valid, ATTRIBUTE_NULL, "valid_condition() expected ATTRIBUTE_NULL(5) "
     "but instead got %i", valid);
 
+    // CONDITION_NULL
+    player_t *player = player_new("test", 1);
+
+    condition_t *condition_2 = inventory_condition_new(player, item);
+
+    int valid = valid_condition(game, condition_2);
+    cr_assert_eq(valid, PLAYER_NULL, "valid_condiiton() expected PLAYER_NULL(6) "
+    "but instead got %i", valid);
+
+    // CONDITION_NULL
+    int valid = valid_condition(game, NULL);
+    cr_assert_eq(valid, CONDITION_NULL, "valid_condiiton() expected CONDITION_NULL(7) "
+    "but instead got %i", valid);
 
 }
