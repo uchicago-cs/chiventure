@@ -97,12 +97,12 @@ Test(condition, valid_condition)
 
     condition_t *condition_2 = inventory_condition_new(player, item);
 
-    int valid = valid_condition(game, condition_2);
+    valid = valid_condition(game, condition_2);
     cr_assert_eq(valid, PLAYER_NULL, "valid_condiiton() expected PLAYER_NULL(6) "
     "but instead got %i", valid);
 
     // CONDITION_NULL
-    int valid = valid_condition(game, NULL);
+    valid = valid_condition(game, NULL);
     cr_assert_eq(valid, CONDITION_NULL, "valid_condiiton() expected CONDITION_NULL(7) "
     "but instead got %i", valid);
 
