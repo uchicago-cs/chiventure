@@ -18,7 +18,7 @@ Test(condition, new_attr_condition)
 
     cr_assert_not_null(condition, "attribute_condition_new() failed");
     
-    cr_assert_not_null(condition->cond, "attribute_condition_new() failed to "
+    cr_assert_not_null(condition->cond.attr_type, "attribute_condition_new() failed to "
     "create the appropriate condition type");
 }
 
