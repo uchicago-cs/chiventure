@@ -7,7 +7,8 @@
 
 
 
-Test(stats, global_init){
+Test(stats, global_init)
+{
     stats_global_t *global_stat = malloc(sizeof(stats_global_t));
     
     int ret_val = stats_global_init(global_stat, "health", 100);
@@ -23,7 +24,8 @@ Test(stats, global_init){
     free_stats_global(global_stat);
 }
 
-Test(stats, stats_init){
+Test(stats, stats_init)
+{
     stats_global_t *stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
@@ -50,12 +52,13 @@ Test(stats, stats_init){
 
 /* Checks that stats_global_new() mallocs memory for a stats_global struct*/
 /* and initializes it with a stat's name and the maximal value*/
-Test(stats, stats_global_new){
+Test(stats, stats_global_new)
+{
     
     stats_global_t *global_stat;
     global_stat = stats_global_new("health", 100);
     cr_assert_not_null(global_stat, "stats_global_new() failed. Health stat is NULL");
-    cr_assert_eq(global_stat->name, "health",
+    cr_assert_str_eq(global_stat->name, "health",
         "stats_global_new() failed to set stat name to health");
     cr_assert_eq(global_stat->max, 100, 
     "stats_global_new() failed to set the maximal stat value correctly");
@@ -64,14 +67,15 @@ Test(stats, stats_global_new){
 
 /* Checks that stats_new() mallocs memory for a stat struct
 and initializes it with the pointer to the global stat and a starting value */
-Test(stats, stats_new){
+Test(stats, stats_new)
+{
     stats_global_t *stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
 
     stats_t *stat = stats_new(stat_global, 100);
     cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
-    cr_assert_eq(stat-> global->name, "health",
+    cr_assert_str_eq(stat->global->name, "health",
         "stats_new() failed to link the global stat pointer");
     cr_assert_eq(stat->val, 100, 
         "stats_new() failed to set the starting stat value");
@@ -82,7 +86,8 @@ Test(stats, stats_new){
 }
 
 
-Test(stats, free){
+Test(stats, free)
+{
     stats_global_t *stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
 
@@ -94,13 +99,41 @@ Test(stats, free){
     free_stats_global(stat_global);
 }
 
-Test(stats, global_free){
+Test(stats, global_free)
+{
     stats_global_t *stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
 
     int ret_val = free_stats_global(stat_global);
     cr_assert_eq(ret_val, SUCCESS, "free_stats_global() failed to return SUCCESS");
 }
+
+
+Test(stats, free_table)
+{
+    stats_hash_t *sh = NULL;
+
+    stats_global_t *gs1 = stats_global_new("health", 100);
+    cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
+    stats_global_t *gs2 = stats_global_new("speed", 100);
+    cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
+
+    stats_t* stat1 = stats_new(gs1, 50);
+    cr_assert_not_null(stat, "stats_new() failed. Player health stat is NULL");
+    stats_t* stat2 = stats_new(gs1, 50);
+    cr_assert_not_null(stat, "stats_new() failed. Player health stat is NULL");
+
+    add_stat(&sh, stat_1);
+    add_stat(&sh, stat_2);
+    
+    int ret_val = free_stats_table(sh);
+    cr_assert_eq (ret_val, SUCCESS, "free_stats_table() failed to return SUCCESS");
+
+
+    free_stats_global(gs1);
+    free_stats_global(gs2);
+}
+
 
 /* Checks that add_stat correctly adds a new stat
    to a hash table*/
@@ -109,11 +142,9 @@ Test (stats, add_stat)
     stats_hash_t *sh = NULL;
 
     stats_global_t *health = stats_global_new("health", 100);
-
     stats_t *s = stats_new(health, 75);
 
     int rc = add_stat(&sh, s);
-
     cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
     cr_assert_not_null(sh, "add_stat did not add the stat");
@@ -125,20 +156,15 @@ Test(stats, display_stat)
     stats_hash_t *sh = NULL;
 
     stats_global_t *health = stats_global_new("health", 100);
-
     stats_t *s1 = stats_new(health, 75);
 
     int rc = add_stat(&sh, s1);
-
     cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
-
     stats_global_t *speed = stats_global_new("speed", 100);
-
     stats_t *s2 = stats_new(speed, 50);
 
     rc = add_stat(&sh, s2);
-
     cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
     char *list = display_stats(sh);
