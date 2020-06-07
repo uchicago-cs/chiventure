@@ -1,9 +1,8 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
+#include "battle/battle_moves.h"
 #include "battle/battle_print.h"
 #include "battle/battle_state.h"
-
-#define MAX_NAME_MOVE_LEN (20)
 
 int read_move(char *fst, char *snd, char *move_name, char *act,
               char *enemy_name, chiventure_ctx_battle_t *ctx)
