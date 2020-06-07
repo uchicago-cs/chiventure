@@ -1,3 +1,5 @@
+include_directories(../../../include/)
+
 set(SKILLTREES_EXAMPLES skilltrees_presentation)
 
 add_executable(skilltrees_presentation
