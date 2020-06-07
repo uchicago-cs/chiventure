@@ -278,3 +278,51 @@ int main(int argc, char **argv)
     return 0;
 }
 
+char *add_player_stat(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+
+    if(tokens[2] != NULL)
+    {
+        return "I do not know what you mean.";
+    }
+    if(tokens[1] == NULL)
+    {
+        return "You must identify a stat to add\n";
+    }
+
+    global_stat_t *check, *global = global_stat_new(tokens[1]);
+    HASH_FIND(hh, game->curr_stats, global->name, strlen(global->name), check);
+    
+    if (check = NULL)
+    {
+        return "This stat does not exist in the game."
+    }
+
+    stat_t *stat = stat_new(global);
+    add_stat(&game->curr_player->player_stats, stat);
+    return "The stat has been added."
+
+}
+
+int main(int argc, char **argv)
+{
+    chiventure_ctx_t *ctx = create_sample_ctx();
+
+    /* Monkeypatch the CLI to add the new operations
+     * (not handled by action management, as that code
+     * currently only supports items) */
+    add_entry("DISPLAY STATS", print_player_stats, NULL, ctx->table);
+    add_entry("DISPLAY EFFECTS", print_player_effects, NULL, ctx->table);
+    add_entry("GLOBAL STATS", print_global_stats, NULL, ctx->table);
+    add_entry("GLOBAL EFFECTS", print_global_effects, NULL, ctx->table);
+    add_entry("ADD STAT", add_player_stat, NULL, ctx->table);
+
+    /* Start chiventure */
+    start_ui(ctx, banner);
+
+    game_free(ctx->game);
+
+    return 0;
+}
+
