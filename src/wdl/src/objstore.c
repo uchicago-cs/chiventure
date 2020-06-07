@@ -82,10 +82,7 @@ int free_all_objstore(objstore_t **obj_store)
  */
 object_t* get_object_wdl(objstore** ht, objtype_t type, char* id)
 {
-    objstore_t *objs = malloc(sizeof(objstore_t*));
-    object_t *obj = malloc(sizeof(object_t*));
-
-    objs = find_objstore(ht, type, id);
+    object_t *objs = find_objstore(ht, type, id);
 
     obj = objs->o;
 
