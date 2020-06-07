@@ -47,7 +47,7 @@ typedef struct AST_block {
  * - block: pointer to either a control, branch, action or conditional block 
  * - enum representing the type of block
  * - integer showing how many AST blocks are within the sequence
- * - pointer to a list of AST blocks
+ * - pointer to a list of the subsequent AST blocks within the sequence
  * 
  * Returns: 
  * - An AST block. 
@@ -63,7 +63,7 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST,
  * - block: pointer to either a control, branch, action or conditional block 
  * - enum representing the type of block
  * - integer showing how many AST blocks are within the sequence
- * - pointer to a list of AST blocks
+ * - pointer to a list of the subsequent AST blocks within the sequence
  * 
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
