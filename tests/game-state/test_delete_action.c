@@ -17,7 +17,7 @@ int delete_helper(list_action_type_t *act, action_type_t *a)
     temp = act;
     while (temp != NULL)
     {
-	cr_assert_neq(temp, a, "delete_action() didn't remove action");
+	cr_assert_neq(temp->act, a, "delete_action() didn't remove action");
     }
 
     return SUCCESS;
