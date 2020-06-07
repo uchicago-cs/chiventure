@@ -167,11 +167,6 @@ int main()
                 continue;
             }
             // otherwise, handle input
-            printf("command: %s\n", buf);
-            for (int i = 0; i < MAX_ARGS; i++)
-            {
-                printf("arg %d: %s\n", i, args[i]);
-            }
             res = read_move(args, ctx);
             printf("read move returned: %d\n", res);
         }
