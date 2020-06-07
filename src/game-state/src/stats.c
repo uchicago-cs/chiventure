@@ -11,66 +11,46 @@ int stats_global_init(stats_global_t *s, char *name, double max)
     return SUCCESS;
 }
 
-/* See stats.h */
-int stats_init(stats_t *stat, char *name, double init)
-{
-    assert(stat != NULL);
-
-    stat->key = strdup(name);
-    stat->val = init;
-    stat->max = init;
-    stat->modifier = 1;
-    return SUCCESS;
-}
-
 /* See stats.h*/
-stats_global_t* stats_global_new(stats_global_hash_t *gsh, char *name, double max)
+stats_global_t* stats_global_new(char *name, double max)
 {
     stats_global_t *global_stat;
-    if(gsh != NULL)
-    {
-        HASH_FIND_STR(gsh, name, global_stat);
-           if(global_stat != NULL)
-            {
-                return global_stat; //stat_id is already in use
-            }
-    }
-
     global_stat = malloc(sizeof(stats_global_t));
+
     int check = stats_global_init(global_stat, name, max);
     if(check != SUCCESS)
     {
         return NULL;
     }
-    if(gsh != NULL)
-    {    
-        HASH_ADD_KEYPTR(hh, gsh, global_stat->name, strlen(global_stat->name), global_stat);
-    }
+
     return global_stat;
 }
 
 /* See stats.h */
-stats_t *stats_new(stats_global_hash_t *gsh, char *name, double init)
+int stats_init(stats_t *stat, stats_global_t *global_stat, double init)
 {
-    stats_global_t *global_stat;
+    assert(stat != NULL);
+
+    stat->key = strdup(global_stat->name);
+    stat->val = init;
+    stat->max = init;
+    stat->global = global_stat;
+    stat->modifier = 1;
+    return SUCCESS;
+}
+
+/* See stats.h */
+stats_t *stats_new(stats_global_t *global_stat, double init)
+{
     stats_t *new_stat;
-
-    HASH_FIND_STR(gsh, name, global_stat);
-    assert(global_stat != NULL);
-    if(strcmp(global_stat->name, name))
-    {
-        return NULL; // no such global stat
-    }
-
     new_stat = malloc(sizeof(stats_t));
 
-    int check = stats_init(new_stat, name, init);
-    new_stat->global = global_stat;
+    int check = stats_init(new_stat, global_stat, init);
+
     if(check != SUCCESS)
     {
         return NULL;
     }
-
     return new_stat;
 }
 

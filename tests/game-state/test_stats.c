@@ -24,7 +24,7 @@ Test(stats, global_init){
     free(global_stat);
 }
 
-Test(stats, init){
+Test(stats, stats_init){
     stats_global_t *stat_global = stats_global_new(NULL, "health", 100);
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
@@ -37,7 +37,10 @@ Test(stats, init){
     
     cr_assert_eq(strcmp(stat->global->name,
         "health"), 0,
-        "stats_init() failed to set the starting stat name");
+        "stats_init() failed to set the pointer to the global stat");
+    cr_assert_eq(strcmp(stat->key,
+        "health"), 0,
+        "stats_init() failed to set the key");
     cr_assert_eq(stat->val, 100, 
         "stats_init() failed to set the starting stat value");
     cr_assert_eq(stat->modifier, 0, 
