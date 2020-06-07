@@ -82,9 +82,9 @@ Test(condition, valid_condition)
 
     // SUCCESS
     add_item_to_game(game, item);
-    cr_assert_eq(valid, SUCCESS, "valid_condition() expected ITEM_MODIFY_NULL(0) "
+    valid = valid_condition(game, condition_1);
+    cr_assert_eq(valid, SUCCESS, "valid_condition() expected SUCCESS(0) "
     "but instead got %i", valid);
-
 
     // ATTRIBUTE_NULL
     condition_1->cond.attr_type->attribute_to_check = NULL;
