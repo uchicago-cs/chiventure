@@ -128,6 +128,17 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht);
  */ 
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
 
+/* Adds a stat effect to an item
+ * 
+ * Parameters:
+ *  pointer to an item
+ *  effect to add to item
+ * 
+ * Return:
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+ int add_effect_to_item(item_t *item, stat_effect_t *effect);
+
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {

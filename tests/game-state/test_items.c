@@ -140,6 +140,18 @@ Test(item, remove_item_from_hash)
                  "remove an item from hashtable");
 }
 
+/* Checks that add_effect_to_items() adds a sat effect to an item */
+Test(item, add_effect_to_item)
+{
+    item_t *item = item_new("item", "short", "long");
+    effects_global_t *global = global_effect_new("health");
+    stat_effect_t *effect = stat_effect_new(global);
+    int rc = add_effect_to_item(item, effect);
+
+    cr_assert_eq(rc, SUCCESS, "add_effect_to_game failed");
+    cr_assert_not_null(item->stat_effects, "effect not added to all_effects");
+}
+
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
 
 /* Checks adding attribute to item hash */

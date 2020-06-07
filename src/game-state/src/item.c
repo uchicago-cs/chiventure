@@ -116,6 +116,22 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
     return SUCCESS;
 }
 
+int add_effect_to_item(item_t *item, stat_effect_t *effect)
+{
+    stat_effect_t *check;
+    HASH_FIND(hh, item->stat_effects, effect->key, 
+              strlen(effect->key), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //the effect already exists in the game
+    }
+
+    HASH_ADD_KEYPTR(hh, item->stat_effects, effect->key, 
+              strlen(effect->key), effect);
+    return SUCCESS;
+}
+
 // ATTRIBUTE MANIPULATION FUNCTIONS -------------------------------------------
 /* see common-item.h */
 int add_attribute_to_hash(item_t* item, attribute_t* new_attribute)
