@@ -22,7 +22,7 @@ typedef struct custom_action {
     char *item;
     char *type;
     AST_block_t *head;
-    ut_hash_handle hh;
+    UT_hash_handle hh;
 } custom_action_t;
 
 /*
@@ -40,7 +40,7 @@ typedef struct custom_action {
  * - A custom action. 
  */
 custom_action_t* custom_action_new(char *action_name, char *context, char *item,
-                                   char *type, AST_block_t *head, ut_hash_handle hh);
+                                   char *type, AST_block_t *head, UT_hash_handle hh);
 
 /*
  * Initializes a custom action. 
@@ -58,7 +58,7 @@ custom_action_t* custom_action_new(char *action_name, char *context, char *item,
  * - an integer, SUCCESS if success, FAILURE if error occurs
  */
 int custom_action_init(custom_action_t *action, char *action_name, char *context, 
-                       char *item, char *type, AST_block_t *head, ut_hash_handle hh);
+                       char *item, char *type, AST_block_t *head, UT_hash_handle hh);
 
 /*
  * Frees a custom action. 
