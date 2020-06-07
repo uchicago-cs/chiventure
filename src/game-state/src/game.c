@@ -309,7 +309,7 @@ int add_condition(game_t *game, game_action_t *action, condition_t *condition)
         return ACTION_NULL;
     }
 
-    int valid = valid_condition(condition);
+    int valid = valid_condition(game, condition);
     if(valid == SUCCESS){
         int check = add_action_condition(action, condition);
 
