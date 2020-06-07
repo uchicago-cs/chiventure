@@ -10,6 +10,7 @@
 #include "game-state/item.h"
 #include "ast_block.h"
 #include "action_block.h"
+#include "custom-actions-effect.h"
 
 /* See action_block.h */
 action_block_t* action_block_new(action_enum_t action_type, int num_args, 
@@ -98,96 +99,51 @@ int action_block_free(action_block_t *action)
 int exec_action_block(action_block_t *a)
 {
     int rc;
+    unsigned n;
 
     switch (a->action_type) {
 
         case SET:
-
-            if (a->num_args != 2) {
-                return FAILURE;
-            }
-            rc = set_attr(a->args[0], a->args[1]);
-            if (rc == 2) {
-                return SUCCESS;
-            } else {
-                return FAILURE;
-            }
-
+            n = 2;
         case ADD:
-
-            if (a->num_args != 3) {
-                return FAILURE;
-            }
-            rc = add_attr(a->args[0], a->args[1], a->args[2]);
-            if (rc == 2) {
-                return SUCCESS;
-            } else {
-                return FAILURE;
-            }
-
-
         case SUBTRACT:
-
-            if (a->num_args != 3) {
-                return FAILURE;
-            }
-            rc = sub_attr(a->args[0], a->args[1], a->args[2]);
-            if (rc == 2) {
-                return SUCCESS;
-            } else {
-                return FAILURE;
-            }
-
-
         case MULTIPLY:
-
-            if (a->num_args != 3) {
-                return FAILURE;
-            }
-            rc = mult_attr(a->args[0], a->args[1], a->args[2]);
-            if (rc == 2) {
-                return SUCCESS;
-            } else {
-                return FAILURE;
-            }
-
-
         case DIVIDE:
-
-            if (a->num_args != 3) {
-                return FAILURE;
-            }
-            rc = div_attr(a->args[0], a->args[1], a->args[2]);
-            if (rc == 2) {
-                return SUCCESS;
-            } else {
-                return FAILURE;
-            }
-
-
         case GEN:
-
-            if (a->num_args != 3) {
-                return FAILURE;
-            }
-
-            if (a->args[0]->attribute_tag != INTEGER ||
-                a->args[1]->attribute_tag != INTEGER) {
-                return FAILURE;
-            }
-
-            rc = gen_attrval(a->args[0]->attribute_value.int_val,
-                             a->args[1]->attribute_value.int_val,
-                             a->args[2]);
-            if (rc == 2) {
-                return SUCCESS;
-            } else {
-                return FAILURE;
-            }
-
-
+            n = 3;
         default:
-
             return FAILURE;
     }
+
+    if (a->num_args != n) {
+        return FAILURE;
+    }
+
+    switch (a->action_type) {
+        
+        case SET:
+            rc = set_attr(a->args[0], a->args[1]);
+            break;
+        case ADD:
+            rc = add_attr(a->args[0], a->args[1], a->args[2]);
+            break;
+        case SUBTRACT:
+            rc = sub_attr(a->args[0], a->args[1], a->args[2]);
+            break;
+        case MULTIPLY:
+            rc = mult_attr(a->args[0], a->args[1], a->args[2]);
+            break;
+        case DIVISION:
+            rc = div_attr(a->args[0], a->args[1], a->args[2]);
+            break;
+        case GEN:
+             rc = gen_attrval(a->args[0]->attribute_value.int_val,
+                             a->args[1]->attribute_value.int_val,
+                             a->args[2]);
+             break;
+        default:
+             return FAILURE;
+    }
+
+    return (rc == 2) ? SUCCESS : FAILURE;
 }
