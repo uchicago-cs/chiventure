@@ -5,6 +5,7 @@
 #include "battle/battle_state.h"
 
 #define MAX_MOVE_NAME_LEN (100)
+#define MAX_COMMAND_LINE_LENGTH (20)
 
 int print_move_info(chiventure_ctx_battle_t *ctx, char *move_name)
 {
@@ -114,8 +115,6 @@ int main()
     DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, e_moves, NULL, BATTLE_AI_GREEDY));
     player_t *p = new_ctx_player("John", NULL, p_stats, NULL, NULL); // need to make moves
 
-
-
     chiventure_ctx_battle_t *ctx =
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
 
@@ -127,13 +126,10 @@ int main()
     start_battle(ctx, e, ENV_GRASS);
     int turn = 1;
     printf("\nWelcome to the Battle! Let's get this started!\n\n");
-    char *fst = calloc(strlen("MOVE") + 1, sizeof(char));
-    char *snd = calloc(strlen("USE") + 1, sizeof(char));
-    char *move_name = calloc(MAX_MOVE_NAME_LEN + 1, sizeof(char));
-    char *act = calloc(strlen("ON") + 1, sizeof(char));
-    char *enemy_name = calloc(MAX_NAME_LEN + 1, sizeof(char));
+    
     char *hp_string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     hp_string = print_start_battle(ctx->game->battle);
+
     while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     {
         printf("Turn %d:\n", turn);
@@ -141,11 +137,20 @@ int main()
         printf("What will you do?\n");
         printf("> ");
         // int rc = scanf("%s %s %s %s %s", fst, snd, move_name, act, enemy_name);
-        // this is going to become fgets, then what is inputted into fgets then will go into sscanf and make an array of 
-        // strings and put that into read_move
-        read_move(fst, snd, move_name, act, enemy_name, ctx);
-        printf("\n");
-    }
+        char* command_input;
+        while (fgets(command_input, MAX_COMMAND_LINE_LENGTH - 1, stdin))
+        {
+            char *p = command_input;
+            if (*p == '\n')
+                break;
+        }
+        printf("%s",command_input);
+
+            // this is going to become fgets, then what is inputted into fgets then will go into sscanf and make an array of
+            // strings and put that into read_move
+            read_move(fst, snd, move_name, act, enemy_name, ctx);
+            printf("\n");
+        }
 
     battle_status_t winner = battle_over(ctx->game->battle);
 
