@@ -143,15 +143,17 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
  */
 int start_quest(quest_t *quest);
 
+int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met);
+
 /* Checks the status of a quest
  *
  * Parameter:
  * - quest: pointer to quest_t
  * 
  * Returns: status code for various status in the quest:
- * 0: quest has been completed
+ * 0: quest has not been started
  * 1: quest has been started but not completed
- * 2: quest has not been started
+ * 2: quest has been completed
  */
 int quest_status(quest_t *quest);
 
@@ -162,7 +164,9 @@ int quest_status(quest_t *quest);
  * - quest: pointer to quest_t
  * 
  * Returns:
- * - an item (possible to be added into the inventory of the player
+ * - an item (possible to be added into the inventory of the player)
+ * - If the quest is not completed the function will return a null pointer
+ * - The status of the quest should first be checked before this function is called
  */
 item_t *quest_completed(quest_t *quest);
 

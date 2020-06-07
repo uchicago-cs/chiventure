@@ -135,8 +135,14 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add)
 {
     assert(quest != NULL);
 
-    quest->achievement_list->next = quest->achievement_list->achievement;
-    quest->achievement_list->achievement = achievement_to_add;
+    achievement_llist_t *achievement_to_add_llist;
+    achievement_to_add_llist = malloc(sizeof(achievement_llist_t));
+    achievement_to_add_llist->next = NULL;
+    achievement_to_add_llist->achievement = achievement_to_add;
+
+    achievement_llist_t *head = quest->achievement_list;
+    
+    LL_APPEND(head,achievement_to_add_llist);
 
     return SUCCESS;
 }
@@ -152,6 +158,49 @@ int start_quest(quest_t *quest)
 }
 
 /* Refer to quests_state.h */
+int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
+{
+    achievement_llist_t *head = quest->achievement_list;
+    achievement_llist_t *incomplete_achievement;
+
+    LL_SEARCH_SCALAR(head,incomplete_achievement,
+                    achievement->completed,0);
+
+
+    mission_t* mission = incomplete_achievement->achievement->mission;
+
+    if (((strcmp(mission->item_to_collect->item_id,item_collected->item_id)) == 0) &&
+        ((strcmp(mission->npc_to_meet->npc_id,npc_met->npc_id)) == 0))
+    {
+        quest->achievement_list->achievement->completed = 1;
+        return SUCCESS;
+    }
+    else
+    {
+        return FAILURE;
+    }
+}
+
+int is_quest_completed(quest_t *quest)
+{
+    achievement_llist_t *head = quest->achievement_list;
+    achievement_llist_t *incomplete_achievement;
+
+    LL_SEARCH_SCALAR(head,incomplete_achievement,
+                    achievement->completed,0);
+
+    if(incomplete_achievement == NULL)
+    {
+        quest->status = 2;
+        return SUCCESS;
+    }
+    else
+    {
+        return FAILURE;
+    }
+}
+
+/* Refer to quests_state.h */
 int quest_status(quest_t *quest)
 {
     return quest->status;
@@ -160,8 +209,8 @@ int quest_status(quest_t *quest)
 /* Refer quests_state.h */
 item_t *quest_completed(quest_t *quest)
 {
-    if (quest->status == 0) {
+    if (quest_status(quest) == 2)
         return quest->reward;
-    }
-    // How do we deal with the case when the quest has not been completed?
+    else
+        return NULL;
 }
