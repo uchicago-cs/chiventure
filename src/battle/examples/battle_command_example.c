@@ -25,9 +25,9 @@ int print_move_info(chiventure_ctx_battle_t *ctx, char *move_name)
     move_t *temp;
     DL_FOREACH(ctx->game->player->moves, temp)
     {
-        if (strncmp(temp->name, move_name, MAX_MOVE_NAME_LEN) == 0)
+        if (strncmp(temp->info, move_name, MAX_MOVE_NAME_LEN) == 0)
         {
-            printf("%s: %s\n", temp->name, temp->info);
+            printf("%s\n", temp->info);
             printf("\n");
             return SUCCESS;
         }
@@ -50,7 +50,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         move_t *player_move = temp;
         DL_FOREACH(ctx->game->battle->player->moves, temp)
         {
-            if (strncmp(temp->name, args[2], MAX_MOVE_NAME_LEN) == 0)
+            if (strncmp(temp->info, args[2], MAX_MOVE_NAME_LEN) == 0)
             {
                 player_move = temp;
             }
@@ -88,7 +88,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("MOVES LIST\n");
         DL_FOREACH(ctx->game->battle->player->moves, temp)
         {
-            printf("%s\n", temp->name);
+            printf("%s\n", temp->info);
         }
         printf("\n");
         return SUCCESS;
