@@ -40,7 +40,7 @@ cmd_t* cmd_new(char *cmd1, char *action) {
     }
 
     rc = cmd_init(c, cmd1, action);
-    if (rc != 1) {
+    if (rc != 0) {
         printf("Could not initialize cmd\n");
         return NULL;
     }
