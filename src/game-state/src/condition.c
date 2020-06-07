@@ -13,6 +13,9 @@ int valid_attr_condition(game_t *game, attribute_condition_t *condition)
     }
 
     attribute_t *check_attribute;
+    if(condition->attribute_to_check == NULL){
+        return ATTRIBUTE_NULL;
+    }
     check_attribute = get_attribute(condition->item,
                                     condition->attribute_to_check->attribute_key);
     if (check_attribute == NULL ||
