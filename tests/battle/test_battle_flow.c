@@ -184,6 +184,7 @@ Test(battle_flow, return_success_battle_flow)
 }
 
 /* this tests to see if battle_flow does damage to the enemy */
+/*
 Test(battle_flow, do_damage_battle_flow)
 {
     printf("do_damage, p:20 e:20\n");
@@ -226,17 +227,18 @@ Test(battle_flow, do_damage_battle_flow)
 
     expected_hp = player->stats->hp -
                   damage(player, give_move(player, enemy,enemy->ai), enemy);
-    /* note: this hp value relies on player class implementation of move_list() */
+    // note: this hp value relies on player class implementation of move_list()
     cr_assert_eq(player->stats->hp,
                  expected_hp,
                  "battle_flow() did not compute damage correctly, %d",ctx->game->battle->player->stats->hp);
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow() failed: battle is not in progress");
-}
+}*/
 
 /*
  * Testing if the enemy is determiend as the winner if the player is defeated
  */
+/*
 Test(battle_flow, battle_over_by_player)
 {
     printf("battle_over_player, p:1, e:100\n");
@@ -275,17 +277,18 @@ Test(battle_flow, battle_over_by_player)
     int expected_hp = player->stats->hp -
                       2 * damage(player, give_move(player, enemy,enemy->ai), enemy);
 
-    /* note: this hp value relies on player class implementation of move_list */
+    // note: this hp value relies on player class implementation of move_list 
     cr_assert_eq(player->stats->hp,
                  expected_hp,
                  "battle_flow() did not compute damage correctly, %d",ctx->game->battle->player->stats->hp);
     cr_assert_eq(ctx->status, BATTLE_VICTOR_ENEMY,
                  "battle_flow() failed: battle is not over due to player");
-}
+}*/
 
 /*
  * Testing if the player is determiend as the winner if the enemy is defeated
  */
+/*
 Test(battle_flow, battle_over_by_enemy)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
@@ -321,4 +324,4 @@ Test(battle_flow, battle_over_by_enemy)
                  "battle_flow() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
                  "battle_flow() failed: enemy was not declared the winner");
-}
+}*/

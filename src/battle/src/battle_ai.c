@@ -75,21 +75,21 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
 }
 
 /* See battle_ai.h */
-double damage(combatant_t* player, move_t* move, combatant_t* enemy)
+double damage(combatant_t* target, move_t* move, combatant_t* source)
 {
-    double dmg, power, enemy_strength, defense, level;
-    stat_t* e_stats = enemy->stats;
-    stat_t* p_stats = player->stats;
+    double dmg, power, src_strength, tar_defense, src_level;
+    stat_t* src_stats = source->stats;
+    stat_t* tar_stats = target->stats;
     
 
-    defense = (double) p_stats->defense;
+    tar_defense = (double) tar_stats->defense;
     power = (double) move->damage;
-    enemy_strength = (double) e_stats->strength;
-    level = (double) e_stats->level;
+    src_strength = (double) src_stats->strength;
+    src_level = (double) src_stats->level;
 
     
-    dmg = ((2.0 * level) / 5.0);
-    dmg *= ((power * (enemy_strength / defense)) / 2.0) + 2.0;
+    dmg = ((2.0 * src_level) / 5.0);
+    dmg *= ((power * (src_strength / tar_defense)) / 50.0) + 2.0;
 
     floor(dmg);
     return dmg;
