@@ -136,8 +136,6 @@ int main()
     char *move_name = calloc(MAX_MOVE_NAME_LEN + 1, sizeof(char));
     char *act = calloc(strlen("ON") + 1, sizeof(char));
     char *enemy_name = calloc(MAX_NAME_LEN + 1, sizeof(char));
-    char *start_string = print_start_battle(ctx->game->battle);
-    printf("%s\n", start_string);
     char *hp_string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
