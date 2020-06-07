@@ -5,7 +5,9 @@
 #include "battle/battle_state.h"
 
 #define MAX_MOVE_NAME_LEN (100)
-#define MAX_COMMAND_LINE_LENGTH (20)
+#define MAX_COMMAND_LINE_LENGTH (100)
+#define MAXLEN (100)
+#define MAX_ARGS (5)
 
 int print_move_info(chiventure_ctx_battle_t *ctx, char *move_name)
 {
@@ -23,80 +25,83 @@ int print_move_info(chiventure_ctx_battle_t *ctx, char *move_name)
     }
 }
 
-int read_move(char *fst, char *snd, char *move_name, char *act,
-              char *enemy_name, chiventure_ctx_battle_t *ctx)
+int read_move(char **args, chiventure_ctx_battle_t *ctx)
 {
-    int invalid_move = 1;
     int res;
     char *action_string;
-    while (invalid_move)
+    if ((strncmp(args[0], "MOVE", MAXLEN) == 0) 
+        && (strncmp(args[1], "USE", 4) == 0) 
+        && (strncmp(args[3], "ON", 3) == 0))
     {
-        if ((strncmp(fst, "MOVE", 5) == 0) && (strncmp(snd, "USE", 4) == 0) && (strncmp(act, "ON", 3) == 0))
+        printf("Determined command as MOVE USE, and it using the %s move", 
+                args[2]);
+        move_t *temp;
+        move_t *player_move = temp;
+        DL_FOREACH(ctx->game->player->moves, temp)
         {
-            //check if move exists?
-            // run below if move exists
-            printf("Determined command as MOVE USE, and it using the %s move", 
-                    move_name);
-            move_t *temp;
-            move_t *player_move = temp;
-            DL_FOREACH(ctx->game->player->moves, temp)
+            if (strncmp(temp->name, args[2], MAX_MOVE_NAME_LEN) == 0)
             {
-                if (strncmp(temp->name, move_name, MAX_MOVE_NAME_LEN) == 0)
-                {
-                    player_move = temp;
-                }
-                printf("Couldn't find the move you were looking for!\n");
-                return FAILURE;
+                player_move = temp;
             }
-            if (goes_first(ctx->game->battle) == PLAYER)
-            {
-                action_string = print_battle_move(ctx->game->battle,
-                                                  PLAYER, player_move);
-                printf("%s\n", action_string);
-                move_t *enemy_move = give_move(ctx->game->battle->player, 
-                                               ctx->game->battle->enemy, 
-                                               ctx->game->battle->enemy->ai);
-                action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
-                printf("%s\n", action_string);
-            }
-            else
-            {
-                action_string = print_battle_move(ctx->game->battle,
-                                                  PLAYER, player_move);
-                printf("%s\n", action_string);
-                move_t *enemy_move = give_move(ctx->game->battle->player,
-                                               ctx->game->battle->enemy,
-                                               ctx->game->battle->enemy->ai);
-                action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
-                printf("%s\n", action_string);
-            }
-            res = battle_flow(ctx, player_move, enemy_name);
-            invalid_move = 0;
+            printf("Couldn't find the move you were looking for!\n");
+            return FAILURE;
         }
-        else if ((strncmp(fst, "MOVE", 5) == 0) && (strncmp(snd, "LIST", 5) == 0))
+        if (goes_first(ctx->game->battle) == PLAYER)
         {
-            move_t *temp;
-            printf("MOVES LIST\n");
-            DL_FOREACH(ctx->game->player->moves, temp)
-            {
-                printf("%s\n", temp->name);
-            }
-            printf("\n");
-            return SUCCESS;
-        }
-        else if ((strncmp(fst, "MOVE", 5) == 0) && (strncmp(snd, "INFO", 4) == 0))
-        {
-            res = print_move_info(ctx, move_name);
-            return res;
+            action_string = print_battle_move(ctx->game->battle,
+                                                PLAYER, player_move);
+            printf("%s\n", action_string);
+            move_t *enemy_move = give_move(ctx->game->battle->player, 
+                                            ctx->game->battle->enemy, 
+                                            ctx->game->battle->enemy->ai);
+            action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
+            printf("%s\n", action_string);
         }
         else
         {
-            printf("Invalid Move. Please try again... \n");
-            int rc = scanf("%s %s %s %s %s", fst, snd, move_name, act, enemy_name);
-            printf("\n");
+            action_string = print_battle_move(ctx->game->battle,
+                                                PLAYER, player_move);
+            printf("%s\n", action_string);
+            move_t *enemy_move = give_move(ctx->game->battle->player,
+                                            ctx->game->battle->enemy,
+                                            ctx->game->battle->enemy->ai);
+            action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
+            printf("%s\n", action_string);
         }
+        res = battle_flow(ctx, player_move, args[4]);
+        invalid_move = 0;
+    }
+    else if ((strncmp(args[0], "MOVE", MAXLEN) == 0) 
+            && (strncmp(args[1], "LIST", MAXLEN) == 0))
+    {
+        move_t *temp;
+        printf("MOVES LIST\n");
+        DL_FOREACH(ctx->game->player->moves, temp)
+        {
+            printf("%s\n", temp->name);
+        }
+        printf("\n");
+        return SUCCESS;
+    }
+    else if ((strncmp(args[0], "MOVE", 5) == 0) && (strncmp(args[1], "INFO", 4) == 0))
+    {
+        res = print_move_info(ctx, args[2]);
+        return res;
+    }
+    else
+    {
+        return FAILURE;
     }
     return res;
+}
+
+int parse_command(char **out, char *input)
+{
+    for (int i = 0; i < MAX_ARGS; i++)
+    {
+        out[i] = calloc(MAXLEN + 1, sizeof(char));
+    }
+    return sscanf(input, " %s %s %s %s %s ", out[0], out[1], out[2], out[3], out[4]);
 }
 
 int main()
@@ -130,28 +135,39 @@ int main()
     char *hp_string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     hp_string = print_start_battle(ctx->game->battle);
 
+    char buf[MAXLEN + 1] = {0};
+    char **args = calloc(MAX_ARGS, sizeof(char *));
+    int num_args;
+    int res;
     while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     {
         printf("Turn %d:\n", turn);
         printf("%s\n", hp_string);
         printf("What will you do?\n");
-        printf("> ");
-        // int rc = scanf("%s %s %s %s %s", fst, snd, move_name, act, enemy_name);
-        char* command_input = (char*)calloc(5, sizeof(char));
-        while (fgets(command_input, MAX_COMMAND_LINE_LENGTH - 1, stdin))
+        while (true)
         {
-            char *p = command_input;
-            printf("%s", p);
-            if (*p == '\n')
+            // Get the input
+            printf("> ");
+            if (!fgets(buf, MAXLEN, stdin))
+            {
                 break;
+            }
+            // parse the input
+            num_args = parse_command(args, buf);
+            // ignore empty line
+            if (num_args == 0 || buf[0] == '\n')
+            {
+                continue;
+            }
+            // otherwise, handle input
+            printf("command: %s\n", buf);
+            for (int i = 0; i < MAX_ARGS; i++)
+            {
+                printf("arg %d: %s\n", i, args[i]);
+            }
         }
-
-            // this is going to become fgets, then what is inputted into fgets then will go into sscanf and make an array of
-            // strings and put that into read_move
-            // read_move(fst, snd, move_name, act, enemy_name, ctx);
-            printf("\n");
+        res = read_move(args, ctx);
     }
-
     battle_status_t winner = battle_over(ctx->game->battle);
 
     char *win_string = print_battle_winner(ctx->status, 20);
@@ -170,4 +186,10 @@ int main()
     case NO_BATTLE:
         fprintf(stderr, "ERROR, battle should not return as no_battle");
     }
+    for (int i = 0; i < MAX_ARGS; i++)
+    {
+        free(args[i]);
+    }
+    free(args);
+    return 0;
 }
