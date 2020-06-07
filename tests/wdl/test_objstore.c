@@ -150,3 +150,13 @@ Test(objstore, free_all)
     int res = free_all(&store);
     cr_assert_eq(res, SUCCESS, "free_all() failed");
 }
+
+Test(objstore, get_failure)
+{
+
+}
+
+Test(objstore, get_success)
+{
+
+}
