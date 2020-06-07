@@ -3,6 +3,7 @@
 
 #include "game_state_common.h"
 
+
 // GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
  /* This struct represents the global table that keeps track of all stats available.
   * It contains:
