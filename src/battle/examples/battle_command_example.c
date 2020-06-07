@@ -90,7 +90,7 @@ int read_move(char *fst, char *snd, char *move_name, char *act,
         }
         else
         {
-            printf("Invalid Move. Please try again... n");
+            printf("Invalid Move. Please try again... \n");
             int rc = scanf("%s %s %s %s %s", fst, snd, move_name, act, enemy_name);
             printf("\n");
         }
