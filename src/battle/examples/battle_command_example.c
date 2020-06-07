@@ -144,6 +144,7 @@ int main()
         printf("Turn %d:\n", turn);
         printf("%s\n", hp_string);
         printf("What will you do?\n");
+        print("> ");
         int rc = scanf("%s %s %s %s %s", fst, snd, move_name, act, enemy_name);
         read_move(fst, snd, move_name, act, enemy_name, ctx);
         printf("\n");
