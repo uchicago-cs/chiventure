@@ -1,5 +1,4 @@
 #include "game-state/game_action.h"
-#include "common-game-action.h"
 
 /* See common_game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name,

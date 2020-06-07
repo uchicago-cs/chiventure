@@ -18,15 +18,22 @@ enum actions {
     PULL,
     TURNON,
     TURNOFF,
-    TAKE, // synonyms: "pick up"
+    TAKE,
+    PICKUP,  // This action is legal but not implemented
     DROP,
-    CONSUME, // synonyms: "use" "drink" "eat"
+    CONSUME,
+    /* These actions are legal but not implemented */
+    USE,
+    DRINK,
+    EAT,
+    /* ^ These actions are legal but not implemented ^ */
 
     // KIND 2 ACTIONS - ACTION <path>
-    GO, // synonyms: "walk"
+    GO,
+    WALK,
 
     /* KIND 3 ACTIONS - ACTION <item_item> */
-    USE,
+    USE_ON,
     PUT
 };
 

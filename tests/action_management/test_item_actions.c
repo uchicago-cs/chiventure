@@ -16,6 +16,8 @@
 
 int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, int choose_condition, int choose_effect)
 {
+    chiventure_ctx_t *ctx_test = chiventure_ctx_new(NULL);
+  
     action_type_t *a = action_type_new(act_name, kind);
     item_t *item = item_new("item", "The item item", "The itemmost object of interest");
     add_action(item, allowed_act_name, "success1", "fail1");
@@ -54,14 +56,14 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     switch (choose_effect)
     {
     case 0:
-        rc = do_item_action(a, item, &string);
+        rc = do_item_action(ctx_test, a, item, &string);
         break;
     case 1:
         set_str_attr(item, "DUMMYATTR", "old");
         attr = get_attribute(item, "DUMMYATTR");
         value.str_val = "new";
         add_action_effect(ga, item, attr, value);
-        do_item_action(a, item, &string);
+        do_item_action(ctx_test, a, item, &string);
         if (strcmp(get_str_attr(item, "DUMMYATTR"), "new") == 0)
         {
             rc = SUCCESS;
@@ -76,7 +78,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
         attr = get_attribute(item, "DUMMYATTR");
         value.int_val = 1;
         add_action_effect(ga, item, attr, value);
-        do_item_action(a, item, &string);
+        do_item_action(ctx_test, a, item, &string);
         if (get_int_attr(item, "DUMMYATTR") == 1)
         {
             rc = SUCCESS;
@@ -91,7 +93,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
         attr = get_attribute(item, "DUMMYATTR");
         value.double_val = 1.0;
         add_action_effect(ga, item, attr, value);
-        do_item_action(a, item, &string);
+        do_item_action(ctx_test, a, item, &string);
         if (get_double_attr(item, "DUMMYATTR") == 1.0)
         {
             rc = SUCCESS;
@@ -106,7 +108,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
         attr = get_attribute(item, "DUMMYATTR");
         value.char_val = 'b';
         add_action_effect(ga, item, attr, value);
-        do_item_action(a, item, &string);
+        do_item_action(ctx_test, a, item, &string);
         if (get_char_attr(item, "DUMMYATTR") == 'b')
         {
             rc = SUCCESS;
@@ -121,7 +123,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
         attr = get_attribute(item, "DUMMYATTR");
         value.bool_val = true;
         add_action_effect(ga, item, attr, value);
-        do_item_action(a, item, &string);
+        do_item_action(ctx_test, a, item, &string);
         if (get_bool_attr(item, "DUMMYATTR") == true)
         {
             rc = SUCCESS;
@@ -132,10 +134,11 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
         }
         break;
     default:
-        rc = do_item_action(a, item, &string);
+        rc = do_item_action(ctx_test, a, item, &string);
         break;
     }
 
+    chiventure_ctx_free(ctx_test);
     free(string);
     item_free(item);
     action_type_free(a);

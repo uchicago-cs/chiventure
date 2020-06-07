@@ -6,14 +6,14 @@
 // The following functions assist with iterating through lists of objects
 
 /* see validate.h */
-bool list_type_check(attr_list_t *ls, bool(*validate)(obj_t*))
+int list_type_check(attr_list_t *ls, int(*validate)(obj_t*))
 {
     if (ls == NULL)
     {
-        return false; // if the function returns false, it will halt parsing
+        return FAILURE; // if the function returns FAILURE, it will halt parsing
     }
 
-    bool result = true;
+    int result = SUCCESS;
     attr_list_t *curr = ls;
 
     while(curr != NULL)
@@ -80,16 +80,16 @@ attr_list_t *conditions_get_list(obj_t *obj)
  * - obj: a condition object
  *
  * returns:
- * - true if condition types match, else return false
+ * - SUCCESS if condition types match, else return FAILURE
  */
-bool check_condition_attr(obj_t *obj)
+int check_condition_attr(obj_t *obj)
 {
     // verify types of fields
-    bool id = (obj_get_type(obj, "id") == TYPE_STR);
-    bool state = (obj_get_type(obj, "state") == TYPE_STR);
-    bool value = (obj_get_type(obj, "value") == TYPE_STR);
+    int id = (obj_get_type(obj, "id") == TYPE_STR);
+    int state = (obj_get_type(obj, "state") == TYPE_STR);
+    int value = (obj_get_type(obj, "value") == TYPE_STR);
 
-    return (id && state && value);
+    return !(id && state && value);
 }
 
 /* condition_type_check()
@@ -100,14 +100,14 @@ bool check_condition_attr(obj_t *obj)
  * - obj: a connection object
  *
  * returns:
- * - true if attributes of all conditions match, else return false
+ * - SUCCESS if attributes of all conditions match, else return FAILURE
  */
-bool condition_type_check(obj_t *obj)
+int condition_type_check(obj_t *obj)
 {
     attr_list_t *ls = conditions_get_list(obj);
 
     // call connection_type_check on each connection
-    bool check = list_type_check(ls, check_condition_attr);
+    int check = list_type_check(ls, check_condition_attr);
 
     return check;
 }
@@ -128,13 +128,13 @@ attr_list_t *connections_get_list(obj_t *obj)
 }
 
 /* See validate.h */
-bool check_connection_attr(obj_t *obj)
+int check_connection_attr(obj_t *obj)
 {
     // verify types of fields
-    bool id = (obj_get_type(obj, "to") == TYPE_STR);
-    bool direction = (obj_get_type(obj, "direction") == TYPE_STR);
+    int id = (obj_get_type(obj, "to") == TYPE_STR);
+    int direction = (obj_get_type(obj, "direction") == TYPE_STR);
 
-    return (id && direction);
+    return !(id && direction);
 }
 
 /* connection_type_check()
@@ -145,62 +145,62 @@ bool check_connection_attr(obj_t *obj)
  * - obj: a room object
  *
  * returns:
- * - true if attributes of all connections match, else return false
+ * - SUCCESS if attributes of all connections match, else return FAILURE
  */
-bool connection_type_check(obj_t *obj)
+int connection_type_check(obj_t *obj)
 {
     attr_list_t *ls = connections_get_list(obj);
 
     // call connection_type_check on each connection
-    bool check = list_type_check(ls, check_connection_attr);
+    int check = list_type_check(ls, check_connection_attr);
 
     return check;
 }
 
 /* See validate.h */
-bool room_type_check(obj_t *obj)
+int room_type_check(obj_t *obj)
 {
     // fields to verify
-    bool id_ver = (obj_get_type(obj, "id") == TYPE_STR);
-    bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
-    bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
+    int id_ver = (obj_get_type(obj, "id") == TYPE_STR);
+    int short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
+    int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
 
     // verify each attribute
-    bool connections_ver = connection_type_check(obj);
+    int connections_ver = connection_type_check(obj);
 
     if (id_ver == false)
     {
         fprintf(stderr, "id verification failed\n");
     }
 
-    return (id_ver && short_ver && long_ver && connections_ver);
+    return !(id_ver && short_ver && long_ver && connections_ver);
 }
 
 // The following functions regard item type checking
 
 /* See validate.h */
-bool item_type_check(obj_t *obj)
+int item_type_check(obj_t *obj)
 {
     // fields to verify
-    bool id_ver = (obj_get_type(obj, "id") == TYPE_STR);
-    bool short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
-    bool long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
-    bool in = (obj_get_type(obj, "in") == TYPE_STR);
+    int id_ver = (obj_get_type(obj, "id") == TYPE_STR);
+    int short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
+    int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
+    int in = (obj_get_type(obj, "in") == TYPE_STR);
 
-    return (id_ver && short_ver && long_ver && in);
+    return !(id_ver && short_ver && long_ver && in);
 }
 
 // The following functions regard game type checking
 
 /* See validate.h */
-bool game_type_check(obj_t *obj)
+int game_type_check(obj_t *obj)
 {
     // fields to verify
-    bool start_ver = (obj_get_type(obj, "start") == TYPE_STR);
-    bool intro_ver = (obj_get_type(obj, "intro") == TYPE_STR);
-    bool end_ver = (obj_get_type(obj, "end.0.in_room") == TYPE_STR);
+    int start_ver = (obj_get_type(obj, "start") == TYPE_STR);
+    int intro_ver = (obj_get_type(obj, "intro") == TYPE_STR);
+    int end_ver = (obj_get_type(obj, "end.0.in_room") == TYPE_STR);
 
-    return (start_ver && intro_ver);
+    return !(start_ver && intro_ver);
 }
 
 
@@ -215,10 +215,10 @@ bool game_type_check(obj_t *obj)
  *  - str: the action to check
  *
  * returns
- *  - true if the action is valid
- *  - false if else
+ *  - SUCCESS if the action is valid
+ *  - FAILURE if else
  */
-bool action_validate(char *str)
+int action_validate(char *str)
 {
     // getting a list of valid actions;
     // note that in the future we may wish to use a hasth table
@@ -229,12 +229,12 @@ bool action_validate(char *str)
     {
         if (strcmp(curr->act->c_name, str) == 0)
         {
-            return true;
+            return SUCCESS;
         }
         curr = curr->next;
     }
 
-    return false;
+    return FAILURE;
 }
 
 void print_list(list_action_type_t *ls)
@@ -250,13 +250,13 @@ void print_list(list_action_type_t *ls)
 
 /* see validate.h */
 /* INPUTS AN ITEM OBJ */
-bool action_type_check(obj_t *obj)
+int action_type_check(obj_t *obj)
 {
     // fields to verify
-    bool action_type = (obj_get_type(obj, "action") == TYPE_STR);
-    bool action_valid = action_validate(obj_get_str(obj, "action"));
+    int action_type = (obj_get_type(obj, "action") == TYPE_STR);
+    int action_valid = action_validate(obj_get_str(obj, "action"));
 
-    return (action_type && action_valid);
+    return !(action_type && action_valid);
 }
 
 // The following are print functions to print out specific fields within a

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #include "checkpointing/load.h"
-#include "common-item.h"
+#include "game-state/item.h"
 #include "load-int.h"
 #include "game.pb-c.h"
 
@@ -59,7 +59,7 @@ Test(load, room)
                      "load_item: loading item %d in load_room failed", i);
     }
 
-    room_t room_t;
+    room_t room_t = {0};
 
     int succ = load_room(dorm, &room_t, all_items, 3);
 

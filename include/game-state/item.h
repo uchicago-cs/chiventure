@@ -91,6 +91,41 @@ char *get_sdesc_item(item_t *item);
  */
 char *get_ldesc_item(item_t *item);
 
+/* Adds an item to a hashtable of items,
+ * as long as the item does not already exist in hashtable
+ * 
+ * Parameters:
+ *  pointer to hashtable of items (pointer necessary for uthash to work)
+ *  item to add to hashtable
+ * 
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int add_item_to_hash(item_hash_t **ht, item_t *new_item);
+
+/* Function to get a linked list (utlist) of all the items in a hashtable
+ *
+ * Parameters:
+ *  pointer to hashtable of items (pointer necessary for uthash to work)
+ *
+ * Returns:
+ *  linked list of pointers to items (the head element)
+ */ 
+item_list_t *get_all_items_in_hash(item_hash_t **ht);
+
+
+/* Removes an item from a hashtable of items
+ * Note that the memory associated with this item is not freed
+ * 
+ * Parameters:
+ *  pointer to hashtable of items (pointer necessary for uthash to work)
+ *  item to add to hashtable
+ * 
+ * Return:
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
+
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
@@ -342,5 +377,60 @@ int delete_attribute_llist(attribute_list_t *head);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int delete_item_llist(item_list_t *head);
+
+/* item_init() initializes an item struct with given values
+    arguments are taken from WDL
+  Parameters:
+    a memory allocated new item pointer
+    a unique item id
+    a short description of the item
+    a long description of the item
+  Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int item_init(item_t *new_item, char *item_id,
+              char *short_desc, char *long_desc);
+
+/* this has to be in the interface as room and player modules use this */
+/* delete_all_items() deletes and frees all items in a hash table
+ * Parameters:
+ *  Pointer to hash table of items
+ * Returns:
+ *  SUCCESS if successful
+ */
+int delete_all_items(item_hash_t **items);
+
+/* add_attribute_to_hash() adds an attribute to the item hash table
+  Parameters:
+    an item
+    the attribute value to add
+
+  Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int add_attribute_to_hash(item_t* item, attribute_t* new_attribute);
+
+
+/* delete_all_attributes() deletes all attributes in a hashtable of attributes
+  Parameters:
+    a hash table of attributes
+
+  Returns:
+    Always returns SUCCESS
+*/
+int delete_all_attributes(attribute_hash_t *attributes);
+
+
+/* action_init() initializes an action struct with given values
+   arguments are taken from action management
+ Parameters:
+    a memory allocated new action pointer
+    an action name
+    an action type struct
+ Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int game_action_init(game_action_t *new_action, char *act_name, 
+             char* success_str, char* fail_str);
 
 #endif
