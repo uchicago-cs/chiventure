@@ -6,53 +6,48 @@
 /* Tests the gencontext_new function to validate that a gencontext
 * can be made successfully. */
 Test(gencontext, new)
-{
-
-	path_t *path = path_new(NULL, "north");
-
-	cr_assert_not_null(path, "path was NULL\n");
-
-	gencontext_t *context = gencontext_new(path, 10, 10, NULL);
-
-	cr_assert_not_null(context, "failed to create new gencontext_t\n");
+{	
+   path_t *path = path_new(NULL, "north");
+  
+   cr_assert_not_null(path, "path was NULL\n");
+  
+   gencontext_t *context = gencontext_new(path, 10, 10, NULL);
+  
+   cr_assert_not_null(context, "failed to create new gencontext_t\n");
 }
-
-/* Tests the init_gencontext function to validate that a gencontext
+/*Tests the init_gencontext function to validate that a gencontext
 * can be initialized successfully. */
 Test(gencontext, init)
 {
-
-	path_t *path = path_new(NULL, "north");
-
-	cr_assert_not_null(path, "path was NULL\n");
-
-	gencontext_t *context = calloc(1, sizeof(gencontext_t));
-
-	if (context == NULL) {
-		fprintf(stderr, "failed to calloc for context. \n");
-	}
-
-	int check = init_gencontext(context, path, 10, 10, NULL);
-
-	cr_assert_eq(check, SUCCESS, "failed to initialize a gencontext\n");
+  path_t *path = path_new(NULL, "north");
+  
+  cr_assert_not_null(path, "path was NULL\n");
+  
+  gencontext_t *context = calloc(1, sizeof(gencontext_t));
+  
+  if (context == NULL) {
+	fprintf(stderr, "failed to calloc for context. \n");
+     }
+  int check = init_gencontext(context, path, 10, 10, NULL);
+  
+  cr_assert_eq(check, SUCCESS, "failed to initialize a gencontext\n");
 }
 
 /* Tests the gencontext_free function to validate that a gencontext can
 * be freed properly */
 Test(gencontext, free)
 {
-
-	path_t *path = path_new(NULL, "north");
-
-	cr_assert_not_null(path, "path was NULL\n");
-
-	gencontext_t *context = gencontext_new(path, 10, 10, NULL);
-
-	cr_assert_not_null(context, "failed to create new gencontext_t\n");
-
-	int check = gencontext_free(context);
-
-	cr_assert_eq(check, SUCCESS, "failed to free a gencontext\n");
+   path_t *path = path_new(NULL, "north");
+   
+   cr_assert_not_null(path, "path was NULL\n");
+  
+   gencontext_t *context = gencontext_new(path, 10, 10, NULL);
+  
+   cr_assert_not_null(context, "failed to create new gencontext_t\n");
+   
+   int check = gencontext_free(context);
+  
+   cr_assert_eq(check, SUCCESS, "failed to free a gencontext\n");
 }
 
 /* Tests the roomspec_new function to validate that a roomspec
