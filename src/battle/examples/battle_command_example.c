@@ -48,7 +48,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
                 args[2]);
         move_t *temp;
         move_t *player_move = temp;
-        DL_FOREACH(ctx->game->player->moves, temp)
+        DL_FOREACH(ctx->game->battle->player->moves, temp)
         {
             if (strncmp(temp->name, args[2], MAX_MOVE_NAME_LEN) == 0)
             {
@@ -86,7 +86,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
     {
         move_t *temp;
         printf("MOVES LIST\n");
-        DL_FOREACH(ctx->game->player->moves, temp)
+        DL_FOREACH(ctx->game->battle->player->moves, temp)
         {
             printf("%s\n", temp->name);
         }
@@ -153,10 +153,10 @@ int main()
     printf("starting battle...\n\n");
     start_battle(ctx, e, ENV_GRASS);
 
-    int build_res = build_moves(ctx->game->player);
+    int build_res = build_moves(ctx->game->battle->playerf);
     printf("build_move returned: %d\n", build_res);
 
-    if (ctx->game->player->moves == NULL)
+    if (ctx->game->battle->player->moves == NULL)
     {
         printf("=== oh no! the player's moves do not exist!!! ===\n");
     }
