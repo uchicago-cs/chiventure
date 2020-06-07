@@ -85,7 +85,7 @@ int free_attr(obj_attr_t **attrs, obj_attr_t *head, obj_attr_t *a);
 
 /* ---------- LINKED LIST FUNCTIONS ---------- */
 
-/* append_attr - appends attr to head of attr list
+/* append_attr - appends attr to attr list
  * 
  * params:
  *   - head: ptr to head of list
