@@ -4,7 +4,7 @@
 /* ---------- HASH FUNCTIONS ---------- */
 
 /* See attributes.h for documentation */
-obj_attr_t *new_attr(char *id, union attr_data d, obj_attr_t *next, obj_attr_t *prev)
+obj_attr_t *new_attr(char *id, void * d)
 {
     if (id == NULL) {
         return NULL;
@@ -33,7 +33,7 @@ obj_attr_t *find_attr(obj_attr_t **attrs, char *id)
 }
 
 /* See attributes.h for documentation */
-int add_attr(obj_attr_t **attrs, char *id, union attr_data d)
+int add_attr(obj_attr_t **attrs, char *id, void * d)
 {
     if (id == NULL) {
         return FAILURE;
@@ -71,7 +71,7 @@ char *get_attr_id(obj_attr_t *attr)
     return attr->id;
 }
 
-union attr_data *get_attr_data(obj_attr_t *attr)
+void * *get_attr_data(obj_attr_t *attr)
 {
     return attr->data;
 }
