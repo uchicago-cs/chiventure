@@ -1,26 +1,32 @@
 #include "npc/rooms-npc.h"
 
+/*Object_t Description: object_t is the generic custom scripts struct 
+that can hold a variety of different types including "char*".*/
+
+/*Changes to Room_ID: We are using this struct to modify the room_id 
+which will enable custom scripts and lua files to be loaded*/ 
 /* See rooms-npc.h */
-int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
+int npcs_in_room_init(npcs_in_room_t *npcs_in_room, object_t* room_id)
 {
     assert(npcs_in_room != NULL);
-    strncpy(npcs_in_room->room_id, room_id, MAX_ID_LEN);
+    npcs_in_room->room_id = room_id;
     npcs_in_room->npc_list = NULL;
     npcs_in_room->num_of_npcs = 0;
 
     return SUCCESS;
 }
 
-
+/*Changes to Room_ID: We are using this struct to modify the room_id 
+which will enable custom scripts and lua files to be loaded*/ 
 /* See rooms-npc.h */
-int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type,
+int npc_mov_init(npc_mov_t *npc_mov, object_t* npc_id, npc_mov_enum_t mov_type,
                 room_t *room)
 {
-    char* room_id  = room->room_id;
+    object_t* room_id = room->room_id;
     assert(npc_mov != NULL);
-    strncpy(npc_mov->npc_id,npc_id, MAX_ID_LEN);
+    npc_mov->npc_id = npc_id;
     npc_mov->mov_type = mov_type;
-    strncpy(npc_mov->track,room_id, MAX_ID_LEN);
+    npc_mov->track = room_id;
 
     room_list_t* room_to_add = malloc(sizeof(room_list_t));
     room_to_add->next = NULL;
@@ -43,9 +49,10 @@ int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type,
     return SUCCESS;
 }
 
-
+/*Changes to Room_ID: We are using this struct to modify the room_id 
+which will enable custom scripts and lua files to be loaded*/ 
 /* See rooms-npc.h */
-npcs_in_room_t *npcs_in_room_new(char* room_id)
+npcs_in_room_t *npcs_in_room_new(object_t* room_id)
 {
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = malloc(sizeof(npcs_in_room_t));
@@ -62,9 +69,10 @@ npcs_in_room_t *npcs_in_room_new(char* room_id)
     return npcs_in_room;
 }
 
-
+/*Changes to NPC_ID: We are using this struct to modify the room_id 
+which will enable custom scripts and lua files to be loaded*/ 
 /* See rooms-npc.h */
-npc_mov_t* npc_mov_new(char* npc_id, npc_mov_enum_t mov_type, room_t* room)
+npc_mov_t* npc_mov_new(object_t* npc_id, npc_mov_enum_t mov_type, room_t* room)
 {
     npc_mov_t *npc_mov;
     npc_mov = malloc(sizeof(npc_mov_t));
@@ -100,7 +108,7 @@ int npcs_in_room_free(npcs_in_room_t *npcs_in_room)
 {
     assert(npcs_in_room != NULL);
 
-    free(npcs_in_room->room_id);
+    //free(npcs_in_room->room_id);
     free(npcs_in_room->npc_list);
     free(npcs_in_room);
 
@@ -114,8 +122,8 @@ int npc_mov_free(npc_mov_t *npc_mov) {
     assert(npc_mov != NULL);
 
     free(npc_mov->npc_mov_type.npc_mov_indefinite);
-    free(npc_mov->track);
-    free(npc_mov->npc_id);
+    //free(npc_mov->track);
+    //free(npc_mov->npc_id);
     free(npc_mov);
 }
 

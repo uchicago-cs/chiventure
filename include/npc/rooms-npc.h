@@ -17,7 +17,11 @@
  */
 typedef struct npcs_in_room {
     UT_hash_handle hh;
-    char* room_id;
+   /*Object_t Description: object_t is the generic custom scripts struct that 
+   can hold a variety of different types including "char*".*/
+   /*Changes to Room_ID: We are using this struct to modify the room_id 
+   which will enable custom scripts and lua files to be loaded*/
+    object_t* room_id;
     npc_hash_t *npc_list;
     int num_of_npcs;
 } npcs_in_room_t;
@@ -96,10 +100,14 @@ typedef enum mov_type npc_mov_enum_t;
  *  track: tracker variable that returns current room id
  */
 typedef struct npc_mov {
-    char *npc_id;
+ /*Changes to npc_ID: We are using this struct to modify the room_id 
+   which will enable custom scripts and lua files to be loaded*/
+    object_t *npc_id;
     npc_mov_type_t npc_mov_type;
     npc_mov_enum_t mov_type;
-    char *track;
+     /*Changes to npc_ID: We are using this struct to modify the room_id 
+   which will enable custom scripts and lua files to be loaded*/
+    object_t *track;
 } npc_mov_t;
 
 
@@ -114,7 +122,7 @@ typedef struct npc_mov {
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char *room_id);
+int npcs_in_room_init(npcs_in_room_t *npcs_in_room, object_t *room_id);
 
 
 /*
@@ -131,7 +139,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char *room_id);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type, room_t *room);
+int npc_mov_init(npc_mov_t *npc_mov, objec_t* npc_id, npc_mov_enum_t mov_type, room_t *room);
 
 
 /*
@@ -143,7 +151,7 @@ int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type, room
  * Returns:
  *  Pointer to allocated npcs_in_room struct
  */
-npcs_in_room_t *npcs_in_room_new(char* room_id);
+npcs_in_room_t *npcs_in_room_new(object_t *room_id);
 
 
 /*
@@ -158,7 +166,7 @@ npcs_in_room_t *npcs_in_room_new(char* room_id);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-npc_mov_t *npc_mov_new(char* npc_id, npc_mov_enum_t mov_type, room_t *room);
+npc_mov_t *npc_mov_new(object_t* npc_id, npc_mov_enum_t mov_type, room_t *room);
 
 
 /*
