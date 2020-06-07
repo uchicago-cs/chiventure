@@ -39,17 +39,22 @@ typedef struct achievement_llist {
 
 /* 
  * This is the hashable struct for a quest 
+ * Elements:
+ * quest_id: the id of the quest
+ * achievement_list: linked list struct holding a list of
+ *                   achievements that make up a quest
+ * reward: reward of the quest is an item
+ * status: 0: quest has not been started
+ *         1: quest has been started but not completed
+ *         2: quest has been completed
  */
 typedef struct quest  {
     UT_hash_handle hh;
     long int quest_id;
-    achievement_llist_t *achievement_list;    //linked list struct holding a list of achievements that make up a quest
-    item_t *reward;    //reward of the quest is an item
-    int status;    /* 0: quest has not been started
-                    * 1: quest has been started but not completed
-                    * 2: quest has been completed
-                    */
- } quest_t;
+    achievement_llist_t *achievement_list;
+    item_t *reward;
+    int status;  
+} quest_t;
 
 typedef struct quest quest_hash_t;
 

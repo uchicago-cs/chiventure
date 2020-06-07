@@ -4,6 +4,43 @@
 #include <string.h>
 #include <assert.h>
 #include "quests/quests_state.h"
+#include "playerclass/class.h"
+#include "game-state/item.h"
+
+/* Creates a sample class. Taken from test_class.c */
+class_t* generate_test_class()
+{
+    class_t* c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+
+}
+
+/* Tests init function for mission struct */
+Test(mission, init)
+{
+   	item_t *item_to_get = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    class_t* class = generate_test_class();
+    npc_t *mission_npc = npc_new("test_npc","npc","npc for testing",
+                                100, class);
+    mission_t *mission = mission_new(item_to_get, NULL);
+
+    int check = mission_init(mission, item_to_get, mission_npc);
+    
+     
+}
 
 /* Tests init function for achievement struct */
 Test(achievement, init)
@@ -103,4 +140,33 @@ Test(quest, free)
 	int freed = quest_free(q_to_free);
 
 	cr_assert_eq(freed, SUCCESS, "quest_free() test has failed!");
+}
+
+Test(quest, add_achievement_to_quest)
+{
+    item_t *reward = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    quest_t *quest = quest_new(1, NULL, reward);
+
+    item_t *mission_item = item_new("mission_item", "item for testing",
+    "test item for item_new()");
+    class_t* class = generate_test_class();
+    npc_t *mission_npc = npc_new("test_npc","npc","npc for testing",
+                                100, class);
+    mission_t *mission = mission_new(mission_item,mission_npc);
+
+    achievement_t *achievement = achievement_new(mission);
+
+    int res = add_achievement_to_quest(quest, achievement);
+
+    cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
+
+    achievement_t *achievement_test = quest->achievement_list->achievement;
+    mission_t *mission_test = achievement->mission;
+    cr_assert_eq(achievement_test->completed,0,"add_achievement_to_quest() did"
+                                         "not set the completed boolean.");
+    cr_assert_str_eq(mission_test->item_to_collect->item_id,"mission_item",
+                    "add_achievement_to_quest() did not set item");
+    cr_assert_str_eq(mission_test->item_to_collect->item_id,"test_npc",
+                    "add_achievement_to_quest() did not set npc");   
 }

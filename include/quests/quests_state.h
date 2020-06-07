@@ -143,7 +143,28 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
  */
 int start_quest(quest_t *quest);
 
+/* completes an achievement in a quest
+ * 
+ * Paramter:
+ * - quest: pointer to the quest
+ * - item_collected: the item that has been collected
+ * - npc_met: the npc that was met
+ *
+ * Returns:
+ * - SUCCESs
+ * - FAILURE
+ */
 int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met);
+
+/* checks if the quest is completed
+ * 
+ * Paramter:
+ * - pointer to the quest
+ *
+ * Returns:
+ * 0 if quest is incomplete, 1 if it is complete
+ */
+int is_quest_completed(quest_t *quest);
 
 /* Checks the status of a quest
  *

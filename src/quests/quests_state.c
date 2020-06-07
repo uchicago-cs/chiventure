@@ -181,6 +181,7 @@ int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
     }
 }
 
+/* Refer to quests_state.h */
 int is_quest_completed(quest_t *quest)
 {
     achievement_llist_t *head = quest->achievement_list;
