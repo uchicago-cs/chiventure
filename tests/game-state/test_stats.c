@@ -21,7 +21,7 @@ Test(stats, global_init){
         "stats_global_init() failed to set the starting stat name");
     cr_assert_eq(global_stat->max, 100, 
         "stats_global_init() failed to set the maximal value");
-    free(global_stat);
+    free_stats_global(global_stat);
 }
 
 Test(stats, stats_init){
@@ -47,7 +47,8 @@ Test(stats, stats_init){
         "stats_init() failed be set the modifier to 1");
     cr_assert_leq(stat->val, stat->global->max, 
         "stat base value exceeds maximal value");
-    free(stat);
+    free_stat(stat);
+    free_stats_global(global_stat);
 }
 
 /* Checks that stats_global_new() mallocs memory for a stats_global struct*/
@@ -62,6 +63,7 @@ Test(stats, stats_global_new){
         "stats_global_new() failed to set stat name to health");
     cr_assert_eq(global_stat->max, 100, 
     "stats_global_new() failed to set the maximal stat value correctly");
+    free_stats_global(global_stat);
 }
 
 /* Checks that stats_new() mallocs memory for a stat struct
@@ -80,6 +82,8 @@ Test(stats, stats_new){
         "stats_new() failed to set the starting stat value");
     cr_assert_leq(stat->val, stat->global->max, 
         "stat base value exceeds maximal value.");
+    free_stat(stat);
+    free_stats_global(global_stat);
 }
 
 

@@ -10,8 +10,6 @@ int player_init(player_t* plyr, char* player_id, int health)
     plyr->level = 1;
     plyr->health = health;
     plyr->xp = 0;
-    plyr->player_stats = NULL;
-    plyr->player_effects = NULL;
     plyr->inventory = NULL;
 
     return SUCCESS;

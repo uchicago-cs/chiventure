@@ -12,7 +12,7 @@ int stats_global_init(stats_global_t *s, char *name, double max)
 }
 
 /* See stats.h*/
-stats_global_t* stats_global_new(char *name, double max)
+stats_global_t *stats_global_new(char *name, double max)
 {
     stats_global_t *global_stat;
     global_stat = malloc(sizeof(stats_global_t));
@@ -30,6 +30,10 @@ stats_global_t* stats_global_new(char *name, double max)
 int stats_init(stats_t *stat, stats_global_t *global_stat, double init)
 {
     assert(stat != NULL);
+    if(init > global_stat->max)
+    {
+        init = global_stat->max;
+    }
 
     stat->key = strdup(global_stat->name);
     stat->val = init;
