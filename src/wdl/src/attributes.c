@@ -35,12 +35,12 @@ obj_attr_t *find_attr(obj_attr_t **attrs, char *id)
 obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void * d)
 {
     if (id == NULL) {
-        return FAILURE;
+        return NULL;
     }
     obj_attr_t *new = find_attr(attrs, id); // see if key already exists in hash
     if (new == NULL) {
         new =  new_attr(id, d);
-        if (new == NULL) return FAILURE;
+        if (new == NULL) return NULL;
         HASH_ADD_STR(*attrs, id, new);
     } else {
         new->data = d;
@@ -48,12 +48,28 @@ obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void * d)
     return new;
 }
 
+/* ---------- LIMBO ---------- */
+
+/* See attributes.h for documentation */
+int free_attr(obj_attr_t **attrs, obj_attr_t *head, obj_attr_t *a)
+{
+    //DL_DELETE(head, a);
+    HASH_DEL(*attrs, a);
+    free(a);
+    return SUCCESS;
+}
+
+
+/* ---------- LINKED LIST FUNCTIONS ---------- */
+
+/* See attributes.h for documentation */
 obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new)
 {
     DL_APPEND(head, new);
     return head;
 }
 
+/* See attributes.h for documentation */
 int count_attr_list(obj_attr_t *head)
 {
     obj_attr_t *tmp;
@@ -63,10 +79,12 @@ int count_attr_list(obj_attr_t *head)
 }
 
 /* See attributes.h for documentation */
-int free_attr(obj_attr_t **attrs, obj_attr_t *a)
+int free_attr_list(obj_attr_t **attrs, obj_attr_t *head)
 {
-    HASH_DEL(*attrs, a);
-    free(a);
+    obj_attr_t *elt, *tmp;
+    DL_FOREACH_SAFE(head, elt, tmp) {
+        free_attr(attrs, head, elt);
+    }
     return SUCCESS;
 }
 

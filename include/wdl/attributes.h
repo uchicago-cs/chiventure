@@ -30,6 +30,7 @@ typedef struct attr
 
 } obj_attr_t;
 
+
 /* ---------- HASH FUNCTIONS ---------- */
 
 /* new_attr - allocates and inits an attr_t
@@ -56,9 +57,22 @@ obj_attr_t *find_attr(obj_attr_t **attrs, char *id);
  *   - attrs: obj_attr_t hash
  *   - id: attr id
  *   - data: atrr data
- * returns: pointer to new attribute
+ * returns: pointer to new attribute or NULL
  */
 obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void *d);
+
+/* free_attr - frees & deletes attr from hash table AND linked list
+ *
+ * params:
+ *   - attrs: ptr to hash 
+ *   - head: head ptr
+ *   - a: attr to delete
+ * returns: SUCCESS
+ */
+int free_attr(obj_attr_t **attrs, obj_attr_t *head, obj_attr_t *a);
+
+
+/* ---------- LINKED LIST FUNCTIONS ---------- */
 
 /* append_attr - appends attr to head of attr list
  * 
@@ -75,15 +89,16 @@ obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new);
  *   - head: ptr to head of list
  * returns: number of items in list
  */
-int count_attr_list(obj_attr_t *head)
+int count_attr_list(obj_attr_t *head);
 
-/* free_attr - frees & deletes attr from hash table
+/* free_attr - frees & deletes attr from by iterating through linked list (WILL ALSO delete from hash)
  *
  * params:
- *   - attr: attribute
+ *   - attrs: ptr to hash
+ *   - head: head of linked list
  * returns: SUCCESS
  */
-int free_attr(obj_attr_t **attrs, obj_attr_t *a);
+int free_attr_list(obj_attr_t **attrs, obj_attr_t *head);
 
 
 /* ---------- INTERFACE FUNCTIONS ---------- */

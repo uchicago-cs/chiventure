@@ -2,6 +2,9 @@
 #include "test_wdl.h"
 #include "wdl/attributes.h"
 
+
+/* ---------- HASH FUNCTIONS ---------- */
+
 Test(attributes, new_failure)
 {
     int data = 100;
@@ -88,16 +91,19 @@ Test(attributes, add_replace)
     cr_assert_eq(strcmp("class", attrs->id), 0, "add_attribute() failed - didn't replace item");
 }
 
+
+/* ---------- LINKED LIST FUNCTIONS ---------- */
+
 Test(attributes, append)
 {
     obj_attr_t *item1 = new_attr("skill", "water magic");
-    cr_assert_not_null(prev, "new_attr() failed to init & alloc attr");
+    cr_assert_not_null(item1, "new_attr() failed to init & alloc attr");
     
     obj_attr_t *item2 = new_attr("skill", "welding");
-    cr_assert_not_null(prev, "new_attr() failed to init & alloc attr");
+    cr_assert_not_null(item2, "new_attr() failed to init & alloc attr");
     
     obj_attr_t *item3 = new_attr("skill", "underwater basket-weaving");
-    cr_assert_not_null(prev, "new_attr() failed to init & alloc attr");
+    cr_assert_not_null(item3, "new_attr() failed to init & alloc attr");
 
     append_attr(item1, item2);
     cr_assert_eq(item1->next, item2, "append_attr() failed to assign next");
@@ -108,6 +114,18 @@ Test(attributes, append)
     cr_assert_eq(item3->prev, item2, "append_attr() failed to assign prev");
 }
 
+Test(attributes, count)
+{
+    obj_attr_t *item1 = new_attr("class", "monster");
+    obj_attr_t *item2 = new_attr("skill", "fire magic");
+
+    item1->next = item2;
+    item2->prev = item1;
+
+    int res = count_attr_list(item1);
+    cr_assert_eq(res, 2, "count_attr_list() failed");
+}
+
 Test(attributes, free)
 {
     obj_attr_t *attrs = NULL;
@@ -115,6 +133,6 @@ Test(attributes, free)
     obj_attr_t *new = add_attribute(&attrs, "class", "adventurer");
     cr_assert_not_null(attrs, "add_attr() failed to add attr");
 
-    int res = free_attr(&attrs,new);
+    int res = free_attr(&attrs, attrs, new);
     cr_assert_eq(res, SUCCESS, "free_attr() failed");
 }
