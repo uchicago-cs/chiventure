@@ -251,6 +251,7 @@ int reverse_path(npc_mov_t *npc_mov)
     return SUCCESS;
 }
 
+/* Helper function for move_npc_def function */
 int room_id_cmp(room_list_t *room1, room_list_t *room2)
 {
     return (strcmp(room1->room->room_id, room2->room->room_id));

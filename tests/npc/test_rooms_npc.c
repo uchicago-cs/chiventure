@@ -226,7 +226,7 @@ Test(npc_mov, track_room)
     cr_assert_str_eq(room_id_track, "test_room", "track_room() failed");
 }
 
-
+/* Tests move_npc_def function */
 Test(npc_mov, move_npc_def)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
