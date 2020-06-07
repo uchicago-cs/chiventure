@@ -156,13 +156,13 @@ Test(attributes, free_list)
 {
     obj_attr_t *attrs = NULL;
 
-    obj_attr_t *item1 = new_attr("skill", "water magic");
+    obj_attr_t *item1 = add_attribute(&attrs, "skill", "water magic");
     cr_assert_not_null(item1, "add_attr() failed to add attr");
     
-    obj_attr_t *item2 = new_attr("skill", "welding");
+    obj_attr_t *item2 = add_attribute(&attrs, "skill", "welding");
     cr_assert_not_null(item2, "add_attr() failed to add attr");
     
-    obj_attr_t *item3 = new_attr("skill", "underwater basket-weaving");
+    obj_attr_t *item3 = add_attribute(&attrs, "skill", "underwater basket-weaving");
     cr_assert_not_null(item3, "add_attr() failed to add attr");
 
     append_attr(item1, item2);
