@@ -7,3 +7,6 @@ add_library(skilltrees STATIC
             src/skill.c
             src/inventory.c
             src/skilltree.c)
+
+add_subdirectory(examples
+                 EXCLUDE_FROM_ALL)
