@@ -712,3 +712,375 @@ Test(action_block_t, free_EXEC)
 
     cr_assert_eq(rc, SUCCESS, "action_block_free() failed");
 }
+
+
+Test(exec_action_block, set)
+{
+    action_block_t *act1, *act2, *act3;
+    attribute_t **args1, **args2;
+    attribute_t *attr1, *attr2, *attr3;
+    attribute_value_t val1, val2, val3;
+    int rc1, rc2, rc3;
+
+    attr1 = malloc(sizeof(attribute_t));
+    attr1->attribute_key = "attr1";
+    attr1->attribute_tag = INTEGER;
+    val1.int_val = 1;
+    attr1->attribute_value = val1;
+    
+    attr2 = malloc(sizeof(attribute_t));
+    attr2->attribute_key = "attr2";
+    attr2->attribute_tag = INTEGER;
+    val2.int_val = 2;
+    attr2->attribute_value = val2;
+    
+    attr3 = malloc(sizeof(attribute_t));
+    attr3->attribute_key = "attr3";
+    attr3->attribute_tag = CHARACTER;
+    val3.char_val = 'b';
+    attr3->attribute_value = val3;
+ 
+    args1 = (attribute_t**) malloc(sizeof(attribute_t*) * 2);
+    args1[0] = attr1;
+    args1[1] = attr2;
+    
+    args2 = (attribute_t**) malloc(sizeof(attribute_t*) * 2);
+    args2[0] = attr1;
+    args2[1] = attr3;
+ 
+    act1 = action_block_new(SET, 2, args1);
+    act2 = action_block_new(SET, 3, args1);
+    act3 = action_block_new(SET, 2, args2);
+
+    rc1 = exec_action_block(act1);
+    rc2 = exec_action_block(act2);
+    rc3 = exec_action_block(act3);
+
+    cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
+                               "returned FAILURE with action type SET");
+    cr_assert_eq(attr1->attribute_value.int_val, 2,
+                 "exec_action_block() failed to set value of attribute");
+
+    cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
+                               "invalid number of arguments");
+
+    cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
+                               "failure of effect-applying function");
+}
+
+
+Test(exec_action_block, add)
+{
+    action_block_t *act1, *act2, *act3;
+    attribute_t **args1, **args2;
+    attribute_t *attr1, *attr2, *attr3, *attr4;
+    attribute_value_t val1, val2, val3, val4;
+    int rc1, rc2, rc3;
+
+    attr1 = malloc(sizeof(attribute_t));
+    attr1->attribute_key = "attr1";
+    attr1->attribute_tag = INTEGER;
+    val1.int_val = 1;
+    attr1->attribute_value = val1;
+    
+    attr2 = malloc(sizeof(attribute_t));
+    attr2->attribute_key = "attr2";
+    attr2->attribute_tag = INTEGER;
+    val2.int_val = 2;
+    attr2->attribute_value = val2;
+    
+    attr3 = malloc(sizeof(attribute_t));
+    attr3->attribute_key = "attr3";
+    attr3->attribute_tag = CHARACTER;
+    val3.char_val = 'b';
+    attr3->attribute_value = val3;
+
+    attr4 = malloc(sizeof(attribute_t));
+    attr4->attribute_key = "attr2";
+    attr4->attribute_tag = INTEGER;
+    val4.int_val = 0;
+    attr4->attribute_value = val4;
+ 
+    args1 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args1[0] = attr1;
+    args1[1] = attr2;
+    args1[2] = attr4;
+    
+    args2 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args2[0] = attr1;
+    args2[1] = attr3;
+    args2[2] = attr4;
+ 
+    act1 = action_block_new(ADDITION, 3, args1);
+    act2 = action_block_new(ADDITION, 2, args1);
+    act3 = action_block_new(ADDITION, 3, args2);
+
+    rc1 = exec_action_block(act1);
+    rc2 = exec_action_block(act2);
+    rc3 = exec_action_block(act3);
+
+    cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
+                               "returned FAILURE with action type ADD");
+    cr_assert_eq(attr4->attribute_value.int_val, 3,
+                 "exec_action_block() failed to store sum in attribute");
+
+    cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
+                               "invalid number of arguments");
+
+    cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
+                               "failure of effect-applying function");
+}
+
+
+Test(exec_action_block, subtract)
+{
+    action_block_t *act1, *act2, *act3;
+    attribute_t **args1, **args2;
+    attribute_t *attr1, *attr2, *attr3, *attr4;
+    attribute_value_t val1, val2, val3, val4;
+    int rc1, rc2, rc3;
+
+    attr1 = malloc(sizeof(attribute_t));
+    attr1->attribute_key = "attr1";
+    attr1->attribute_tag = INTEGER;
+    val1.int_val = 1;
+    attr1->attribute_value = val1;
+    
+    attr2 = malloc(sizeof(attribute_t));
+    attr2->attribute_key = "attr2";
+    attr2->attribute_tag = INTEGER;
+    val2.int_val = 2;
+    attr2->attribute_value = val2;
+    
+    attr3 = malloc(sizeof(attribute_t));
+    attr3->attribute_key = "attr3";
+    attr3->attribute_tag = CHARACTER;
+    val3.char_val = 'b';
+    attr3->attribute_value = val3;
+
+    attr4 = malloc(sizeof(attribute_t));
+    attr4->attribute_key = "attr2";
+    attr4->attribute_tag = INTEGER;
+    val4.int_val = 0;
+    attr4->attribute_value = val4;
+ 
+    args1 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args1[0] = attr1;
+    args1[1] = attr2;
+    args1[2] = attr4;
+    
+    args2 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args2[0] = attr1;
+    args2[1] = attr3;
+    args2[2] = attr4;
+ 
+    act1 = action_block_new(SUBTRACT, 3, args1);
+    act2 = action_block_new(SUBTRACT, 2, args1);
+    act3 = action_block_new(SUBTRACT, 3, args2);
+
+    rc1 = exec_action_block(act1);
+    rc2 = exec_action_block(act2);
+    rc3 = exec_action_block(act3);
+
+    cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
+                               "returned FAILURE with action type SUB");
+    cr_assert_eq(attr4->attribute_value.int_val, -1,
+                 "exec_action_block() failed to store sum in attribute");
+
+    cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
+                               "invalid number of arguments");
+
+    cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
+                               "failure of effect-applying function");
+}
+
+
+Test(exec_action_block, multiply)
+{
+    action_block_t *act1, *act2, *act3;
+    attribute_t **args1, **args2;
+    attribute_t *attr1, *attr2, *attr3, *attr4;
+    attribute_value_t val1, val2, val3, val4;
+    int rc1, rc2, rc3;
+
+    attr1 = malloc(sizeof(attribute_t));
+    attr1->attribute_key = "attr1";
+    attr1->attribute_tag = INTEGER;
+    val1.int_val = 8;
+    attr1->attribute_value = val1;
+    
+    attr2 = malloc(sizeof(attribute_t));
+    attr2->attribute_key = "attr2";
+    attr2->attribute_tag = INTEGER;
+    val2.int_val = 3;
+    attr2->attribute_value = val2;
+    
+    attr3 = malloc(sizeof(attribute_t));
+    attr3->attribute_key = "attr3";
+    attr3->attribute_tag = CHARACTER;
+    val3.char_val = 'b';
+    attr3->attribute_value = val3;
+
+    attr4 = malloc(sizeof(attribute_t));
+    attr4->attribute_key = "attr2";
+    attr4->attribute_tag = INTEGER;
+    val4.int_val = 0;
+    attr4->attribute_value = val4;
+ 
+    args1 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args1[0] = attr1;
+    args1[1] = attr2;
+    args1[2] = attr4;
+    
+    args2 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args2[0] = attr1;
+    args2[1] = attr3;
+    args2[2] = attr4;
+ 
+    act1 = action_block_new(MULTIPLY, 3, args1);
+    act2 = action_block_new(MULTIPLY, 2, args1);
+    act3 = action_block_new(MULTIPLY, 3, args2);
+
+    rc1 = exec_action_block(act1);
+    rc2 = exec_action_block(act2);
+    rc3 = exec_action_block(act3);
+
+    cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
+                               "returned FAILURE with action type MULT");
+    cr_assert_eq(attr4->attribute_value.int_val, 24,
+                 "exec_action_block() failed to store sum in attribute");
+
+    cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
+                               "invalid number of arguments");
+
+    cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
+                               "failure of effect-applying function");
+}
+
+
+Test(exec_action_block, divide)
+{
+    action_block_t *act1, *act2, *act3;
+    attribute_t **args1, **args2;
+    attribute_t *attr1, *attr2, *attr3, *attr4;
+    attribute_value_t val1, val2, val3, val4;
+    int rc1, rc2, rc3;
+
+    attr1 = malloc(sizeof(attribute_t));
+    attr1->attribute_key = "attr1";
+    attr1->attribute_tag = INTEGER;
+    val1.int_val = 12;
+    attr1->attribute_value = val1;
+    
+    attr2 = malloc(sizeof(attribute_t));
+    attr2->attribute_key = "attr2";
+    attr2->attribute_tag = INTEGER;
+    val2.int_val = 4;
+    attr2->attribute_value = val2;
+    
+    attr3 = malloc(sizeof(attribute_t));
+    attr3->attribute_key = "attr3";
+    attr3->attribute_tag = CHARACTER;
+    val3.char_val = 'b';
+    attr3->attribute_value = val3;
+
+    attr4 = malloc(sizeof(attribute_t));
+    attr4->attribute_key = "attr2";
+    attr4->attribute_tag = INTEGER;
+    val4.int_val = 0;
+    attr4->attribute_value = val4;
+ 
+    args1 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args1[0] = attr1;
+    args1[1] = attr2;
+    args1[2] = attr4;
+    
+    args2 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args2[0] = attr1;
+    args2[1] = attr3;
+    args2[2] = attr4;
+ 
+    act1 = action_block_new(DIVIDE, 3, args1);
+    act2 = action_block_new(DIVIDE, 2, args1);
+    act3 = action_block_new(DIVIDE, 3, args2);
+
+    rc1 = exec_action_block(act1);
+    rc2 = exec_action_block(act2);
+    rc3 = exec_action_block(act3);
+
+    cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
+                               "returned FAILURE with action type DIV");
+    cr_assert_eq(attr4->attribute_value.int_val, 3,
+                 "exec_action_block() failed to store sum in attribute");
+
+    cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
+                               "invalid number of arguments");
+
+    cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
+                               "failure of effect-applying function");
+}
+
+
+Test(exec_action_block, gen)
+{
+    action_block_t *act1, *act2, *act3;
+    attribute_t **args1, **args2;
+    attribute_t *attr1, *attr2, *attr3, *attr4;
+    attribute_value_t val1, val2, val3, val4;
+    int rc1, rc2, rc3;
+
+    attr1 = malloc(sizeof(attribute_t));
+    attr1->attribute_key = "attr1";
+    attr1->attribute_tag = INTEGER;
+    val1.int_val = 1;
+    attr1->attribute_value = val1;
+    
+    attr2 = malloc(sizeof(attribute_t));
+    attr2->attribute_key = "attr2";
+    attr2->attribute_tag = INTEGER;
+    val2.int_val = 10;
+    attr2->attribute_value = val2;
+    
+    attr3 = malloc(sizeof(attribute_t));
+    attr3->attribute_key = "attr3";
+    attr3->attribute_tag = CHARACTER;
+    val3.char_val = 'b';
+    attr3->attribute_value = val3;
+
+    attr4 = malloc(sizeof(attribute_t));
+    attr4->attribute_key = "attr2";
+    attr4->attribute_tag = INTEGER;
+    val4.int_val = 0;
+    attr4->attribute_value = val4;
+ 
+    args1 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args1[0] = attr1;
+    args1[1] = attr2;
+    args1[2] = attr4;
+    
+    args2 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args2[0] = attr1;
+    args2[1] = attr3;
+    args2[2] = attr4;
+ 
+    act1 = action_block_new(GEN, 3, args1);
+    act2 = action_block_new(GEN, 2, args1);
+    act3 = action_block_new(GEN, 3, args2);
+    
+    rc1 = exec_action_block(act1);
+    rc2 = exec_action_block(act2);
+    rc3 = exec_action_block(act3);
+
+    cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
+                               "returned FAILURE with action type GEN");
+    cr_assert_geq(attr4->attribute_value.int_val, 0,
+                 "exec_action_block() failed to store sum in attribute");
+    cr_assert_leq(attr4->attribute_value.int_val, 10,
+                 "exec_action_block() failed to store sum in attribute");
+
+    cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
+                               "invalid number of arguments");
+
+    cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
+                               "failure of effect-applying function");
+}

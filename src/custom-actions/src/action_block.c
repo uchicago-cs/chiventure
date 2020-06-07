@@ -139,6 +139,10 @@ int exec_action_block(action_block_t *a)
             rc = div_attr(a->args[0], a->args[1], a->args[2]);
             break;
         case GEN:
+             if (a->args[0]->attribute_tag != INTEGER ||
+                 a->args[1]->attribute_tag != INTEGER) {
+                 return FAILURE;
+             }
              rc = gen_attrval(a->args[0]->attribute_value.int_val,
                              a->args[1]->attribute_value.int_val,
                              a->args[2]);
