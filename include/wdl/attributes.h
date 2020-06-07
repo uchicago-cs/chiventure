@@ -33,7 +33,7 @@ typedef struct attr
 
 /* ---------- HASH FUNCTIONS ---------- */
 
-/* new_attr - allocates and inits an attr_t
+/* new_attr - allocates and inits an attr_t as a hash item AND a linked list
  *
  * params:
  *   - id: attr id

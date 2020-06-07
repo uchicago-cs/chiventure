@@ -152,6 +152,29 @@ Test(attributes, count)
     cr_assert_eq(res, 2, "count_attr_list() failed");
 }
 
+Test(attributes, free_list)
+{
+    obj_attr_t *attrs = NULL;
+
+    obj_attr_t *item1 = new_attr("skill", "water magic");
+    cr_assert_not_null(item1, "add_attr() failed to add attr");
+    
+    obj_attr_t *item2 = new_attr("skill", "welding");
+    cr_assert_not_null(item2, "add_attr() failed to add attr");
+    
+    obj_attr_t *item3 = new_attr("skill", "underwater basket-weaving");
+    cr_assert_not_null(item3, "add_attr() failed to add attr");
+
+    append_attr(item1, item2);
+    cr_assert_eq(item1->next, item2, "append_attr() failed to assign next");
+    append_attr(item1, item3);
+    cr_assert_eq(item2->next, item3, "append_attr() failed to assign next");
+
+    int res = free_attr_list(&attrs, item1);
+
+    cr_assert_eq(res, SUCCESS, "free_attr_list() failed");
+}
+
 
 /* ---------- INTERFACE FUNCTIONS ---------- */
 

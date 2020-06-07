@@ -100,6 +100,8 @@ int count_attr_list(obj_attr_t *head)
 /* See attributes.h for documentation */
 int free_attr_list(obj_attr_t **attrs, obj_attr_t *head)
 {
+    if ((attrs == NULL)|(head == NULL)) return FAILURE;
+    
     obj_attr_t *elt, *tmp;
     DL_FOREACH_SAFE(head, elt, tmp) {
         free_attr(attrs, head, elt);
