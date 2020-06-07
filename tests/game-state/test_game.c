@@ -247,7 +247,7 @@ Test(game_end_condition, add_end_condition_to_game)
     condition_t *condition_1 = attribute_condition_new(test_item_1, "Test_Attribute_1", test_value_1);
     condition_t *condition_2 = attribute_condition_new(test_item_1, "Test_Attribute_2", test_value_2);
     condition_t *condition_3 = attribute_condition_new(test_item_2, "Test_Attribute_1", test_value_1);
-    condition_t *condition_4 = attribute_condition_new(test_item_2, "Test_Attribute_1", test_value_2);
+    condition_t *condition_4 = attribute_condition_new(test_item_2, "Test_Attribute_2", test_value_2);
     
     int add_1 = add_end_condition_to_game(game, condition_1);
     cr_assert_eq(add_1, SUCCESS, "add_end_condition_to_game() did not add condition_1");
@@ -259,7 +259,7 @@ Test(game_end_condition, add_end_condition_to_game)
     cr_assert_neq(add_3, SUCCESS, "add_end_condition_to_game() added an invalid condition (3)");
     
     int add_4 = add_end_condition_to_game(game, condition_4);
-    cr_assert_eq(add_4, FAILURE, "add_end_condition_to_game() added an invalid condition (4)");
+    cr_assert_neq(add_4, SUCCESS, "add_end_condition_to_game() added an invalid condition (4)");
 
     add_item_to_game(game, test_item_2);
     int add_5 = add_end_condition_to_game(game, condition_4);
