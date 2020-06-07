@@ -453,4 +453,4 @@ Test(skilltree_tests, inventory_skill_acquire_has_not, .description = "Fails & S
     "Error: failed test inventory_skill_acquire_has on return value\n");
   cr_assert_eq(-1, inventory_has_skill(inventory, 1001, ACTIVE),
     "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
-}*/
+}
