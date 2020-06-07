@@ -10,16 +10,17 @@ Test(battle_state, combatant_new)
 {
     class_t* test_class = class_new("Bard", "Music boi",
 				    "Charismatic, always has a joke or song ready",
-				    NULL, NULL, NULL, NULL, NULL, NULL);
+				    NULL, NULL, NULL);
 
     combatant_t *c;
 
-    c = combatant_new("combatant_new_Name", true, test_class, NULL, NULL, NULL);
+    c = combatant_new("combatant_new_Name", true, test_class, NULL, NULL, NULL, BATTLE_AI_GREEDY);
 
     cr_assert_not_null(c, "combatant_new() failed");
 
     cr_assert_str_eq(c->name, "combatant_new_Name", "combatant_new() didn't set name");
     cr_assert_eq(c->is_friendly, true, "combatant_new() didn't set type");
+    cr_assert_eq(c->ai, BATTLE_AI_GREEDY, "combatant_new() didn't set AI");
 
     cr_assert_str_eq(c->class->name, "Bard",
                      "set_player() didn't set class name");
@@ -31,12 +32,6 @@ Test(battle_state, combatant_new)
 
     cr_assert_null(c->class->attributes, "set_player() didn't set class attribute");
     cr_assert_null(c->class->stats, "set_player() didn't set class stats");
-    cr_assert_null(c->class->skilltree,
-                   "set_player() didn't set class skilltree");
-    cr_assert_null(c->class->combat,
-                   "set_player() didn't set class skills for combat");
-    cr_assert_null(c->class->noncombat,
-                   "set_player() didn't set class skills for noncombat");
 }
 
 /* Tests combatant_init() */
@@ -45,12 +40,13 @@ Test(battle_state, combatant_init)
     combatant_t c;
     int rc;
 
-    rc = combatant_init(&c, "combatant_init_Name",true, NULL, NULL, NULL, NULL);
+    rc = combatant_init(&c, "combatant_init_Name",true, NULL, NULL, NULL, NULL, BATTLE_AI_RANDOM);
 
     cr_assert_eq(rc, SUCCESS, "combatant_unit() failed");
 
     cr_assert_str_eq(c.name, "combatant_init_Name", "combatant_new() didn't set name");
     cr_assert_eq(c.is_friendly, true, "combatant_new() didn't set type");
+    cr_assert_eq(c.ai, BATTLE_AI_RANDOM, "combatant_new() didn't set AI");
 }
 
 /* Tests combatant_free() */
@@ -59,7 +55,7 @@ Test(battle_state, combatant_free)
     combatant_t *c;
     int rc;
 
-    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
+    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
 
     cr_assert_not_null(c, "combatant_new() failed");
 
@@ -76,8 +72,8 @@ Test(battle_state, combatant_free_all)
     combatant_t *c2;
     int rc;
 
-    c1 = combatant_new("combatant_free_Name2", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
-    c2 = combatant_new("combatant_free_Name1", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
+    c1 = combatant_new("combatant_free_Name2", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    c2 = combatant_new("combatant_free_Name1", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
     DL_APPEND(head, c1);
     DL_APPEND(head, c2);
 
@@ -92,8 +88,8 @@ Test(battle_state, combatant_free_all)
 Test(battle_state, battle_new)
 {
     battle_t *b;
-    combatant_t *p = combatant_new("battle_new_Player", true, NULL, NULL, NULL, NULL);
-    combatant_t *e = combatant_new("battle_new_Enemy", true, NULL, NULL, NULL, NULL);
+    combatant_t *p = combatant_new("battle_new_Player", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *e = combatant_new("battle_new_Enemy", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
 
     b = battle_new(p, e, ENV_SNOW, ENEMY);
 
@@ -109,8 +105,8 @@ Test(battle_state, battle_new)
 Test(battle_state, battle_init)
 {
     battle_t b;
-    combatant_t *p = combatant_new("battle_init_Player", true, NULL, NULL, NULL, NULL);
-    combatant_t *e = combatant_new("battle_init_Enemy", true, NULL, NULL, NULL, NULL);
+    combatant_t *p = combatant_new("battle_init_Player", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *e = combatant_new("battle_init_Enemy", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
     int rc;
 
     rc = battle_init(&b, p, e, ENV_SNOW, ENEMY);
@@ -129,9 +125,9 @@ Test(battle_state, battle_free)
     battle_t *b;
     int rc;
     combatant_t *p = NULL;
-    combatant_t *p1 = combatant_new("battle_new_Player", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
-    combatant_t *e1 = combatant_new("battle_new_Enemy", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
-    combatant_t *e2 = combatant_new("battle_new_Enemy", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL);
+    combatant_t *p1 = combatant_new("battle_new_Player", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *e1 = combatant_new("battle_new_Enemy", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *e2 = combatant_new("battle_new_Enemy", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
 
     DL_APPEND(p, p1);
     combatant_t *e = NULL;

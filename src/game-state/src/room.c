@@ -59,17 +59,21 @@ int room_free(room_t *room)
 /* See room.h */
 int add_item_to_room(room_t *room, item_t *item)
 {
-    item_t* check;
-    HASH_FIND(hh, room->items, item->item_id, strlen(item->item_id), check);
+    int rc;
+    
+    rc = add_item_to_hash(&(room->items), item);
+    
+    return rc;
+}
 
-    if (check != NULL)
-    {
-        return FAILURE; //this item id is already in use.
-    }
-    HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id),
-                    item);
-    return SUCCESS;
-
+/* See room.h */
+int remove_item_from_room(room_t *room, item_t *item)
+{
+    int rc;
+    
+    rc = remove_item_from_hash(&(room->items), item);
+    
+    return rc;
 }
 
 /* See room.h */
@@ -198,14 +202,9 @@ room_t *find_room_from_dir(room_t *curr, char* direction)
 /* See room.h */
 item_list_t *get_all_items_in_room(room_t *room)
 {
-    item_list_t *head = NULL;
-    item_t *ITTMP_ITEMRM, *curr_item;
-    item_list_t *tmp;
-    HASH_ITER(hh, room->items, curr_item, ITTMP_ITEMRM)
-    {
-        tmp = malloc(sizeof(item_list_t));
-        tmp->item = curr_item;
-        LL_APPEND(head, tmp);
-    }
+    item_list_t *head;
+    
+    head = get_all_items_in_hash(&(room->items));
+    
     return head;
 }

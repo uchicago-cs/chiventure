@@ -1,7 +1,7 @@
 #include "wdl/objstore.h"
 
 /* See obj_store.h for documentation */
-objstore_t *new_objstore(obj_t *o)
+objstore_t *new_objstore(object_t *o)
 {
     if (o == NULL) {
         return NULL;
@@ -30,7 +30,7 @@ objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type)
 }
 
 /* See obj_store.h for documentation */
-int add_objstore(objstore_t **obj_store, obj_t *o)
+int add_objstore(objstore_t **obj_store, object_t *o)
 {
     if (o == NULL) {
         return FAILURE;
