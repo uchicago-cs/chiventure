@@ -25,12 +25,12 @@ Test(stats, global_init){
 }
 
 Test(stats, stats_init){
-    stats_global_t *stat_global = stats_global_new(NULL, "health", 100);
+    stats_global_t *stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
 
     stats_t* stat = malloc(sizeof(stats_t));
-    int ret_val = stats_init(stat, "health", 100);
+    int ret_val = stats_init(stat, stat_global, 100);
     cr_assert_eq(ret_val, SUCCESS, "stats_init() failed to return SUCCESS");
 
     cr_assert_not_null(stat, "stats_init() failed. Health stat is NULL");
@@ -54,12 +54,12 @@ Test(stats, stats_init){
 /* and initializes it with a stat's name and the maximal value*/
 Test(stats, stats_global_new){
     
-    stats_global_t *ghs, *global_stat;
-    global_stat = stats_global_new(ghs, "health", 100);
+    stats_global_t *global_stat;
+    global_stat = stats_global_new("health", 100);
     cr_assert_not_null(global_stat, "stats_global_new() failed. Health stat is NULL");
     cr_assert_eq(strcmp(global_stat->name,
         "health"), 0,
-        "stats_new() failed to set stat name to health");
+        "stats_global_new() failed to set stat name to health");
     cr_assert_eq(global_stat->max, 100, 
     "stats_global_new() failed to set the maximal stat value correctly");
 }
@@ -67,11 +67,11 @@ Test(stats, stats_global_new){
 /* Checks that stats_new() mallocs memory for a stat struct
 and initializes it with the pointer to the global stat and a starting value */
 Test(stats, stats_new){
-    stats_global_t *stat_global = stats_global_new(NULL, "health", 100);
+    stats_global_t *stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat_global, 
         "stats_global_new() failed. Health stat is NULL");
 
-    stats_t *stat = stats_new(stat_global, "health", 100);
+    stats_t *stat = stats_new(stat_global, 100);
     cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
     cr_assert_eq(strcmp(stat-> global -> name,
         "health"), 0,
@@ -84,7 +84,7 @@ Test(stats, stats_new){
 
 
 Test(stats, free){
-    stats_global_t* stat_global = stats_global_new(NULL, "health", 100);
+    stats_global_t *stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
 
     stats_t* stat = stats_new(stat_global, "health", 100);
@@ -95,7 +95,7 @@ Test(stats, free){
 }
 
 Test(stats,global_free){
-    stats_global_t* stat = stats_global_new (NULL, "health", 100);
+    stats_global_t *stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat, "stats_global_new() failed. Global health stat is NULL");
 
     int ret_val = free_stats_global(stat);
