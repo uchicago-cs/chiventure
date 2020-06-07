@@ -90,7 +90,7 @@ typedef struct stat_mod {
 typedef struct effects{
     char *key; //key for hashtable (should be same as name of effect)
     effects_global_t *global;
-    stat_mod_t *stat_list;
+    stats_mod_t *stat_list;
     UT_hash_handle hh; 
 } stat_effect_t;
 
