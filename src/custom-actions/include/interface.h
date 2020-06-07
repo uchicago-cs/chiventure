@@ -9,11 +9,7 @@
 #include "conditional_block.h"
 #include "control_block.h"
 #include "game-state/game.h"
-
-typedef struct
-{
-    int x;
-} json_dict_obj;
+#include "common/uthash.h"
 
 /* 
  * A custom action struct. Holds the contexts for each action
@@ -27,16 +23,8 @@ typedef struct custom_action
     char *item;
     char *type;
     AST_block_t *head;
+    UT_hash_handle hh;
 } custom_action_t;
-
-/*
- * A list of all custom actions. This is a placeholder which will eventually
- * be replaced by a list inside of game-state/game.h.
- */
-typedef struct custom_action_list
-{
-    // custom_action_t
-} custom_actions_list_t;
 
 /* 
  * Search for a custom action by name
@@ -51,8 +39,7 @@ typedef struct custom_action_list
  * - NULL if no such action_name custom action exists in game
  * 
  */
-custom_action_t *search_for_custom_action(char *action_name,
-                                          custom_actions_list_t *all_actions);
+custom_action_t *search_for_custom_action(char *action_name);
 
 /* 
  * Given a custom action and its corresponding arguments, 
@@ -79,33 +66,34 @@ int do_custom_action(custom_action_t *action, char **args, int num_args);
  * NOTE: Any objects or attributes the action is associated with need to be
  * initialized before the action is compiled.
  * 
+ * NOTE 2: The list of custom actions is currently represented as a private
+ * hash table inside interface.c; in the future, it should be integrated
+ * into game-state/game.h.
+ * 
  * Parameters:
  * - action: obj_t representing information about a custom action and
  *           its attributes (created when a custom action is parsed from
  *           a json file)
- * - all_actions: list of previously defined custom actions
  * 
  * Returns:
  * - custom_action_t* A pointer to the compiled custom action if successful
  * - NULL if there was an error working with the obj_t struct or an error
  *        adding the resulting custom action to the list
  */
-custom_action_t *compile_custom_action(obj_t *action,
-                                       custom_actions_list_t *all_actions);
+custom_action_t *compile_custom_action(obj_t *action);
 
 /*
- * Adds a custom action object to the game's list of custom actions.
+ * Adds a custom action object to the game's list of custom actions
+ * (currently represented as a private hash table inside interface.c).
  * 
  * Parameters:
  * - action: The custom action to be added
- * - all_actions: list of previously defined custom actions
  * 
  * Returns:
  * - SUCCESS if the custom action was successfully added to the list
  * - FAILURE if otherwise
  */
-int *add_custom_action_to_game(custom_action_t *action,
-                               custom_actions_list_t *all_actions);
+int *add_custom_action_to_game(custom_action_t *action);
 
 /* 
  * Translates information about a custom action and its attributes (an obj_t,

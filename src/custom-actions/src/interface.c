@@ -4,17 +4,23 @@
  * Please see "interface.h" for function documentation. 
  */
 
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "interface.h"
-#include "common/uthash.h"
 #include "libobj/obj.h"
+/*
+ * A list of all custom actions. This is a placeholder which will eventually
+ * be replaced by a list inside of game-state/game.h.
+ */
+custom_action_t *actions = NULL;
 
 /* See interface.h */
-custom_action_t *search_for_custom_action(char *action_name,
-                                          custom_actions_list_t *all_actions)
+custom_action_t *search_for_custom_action(char *action_name)
 {
-    return NULL;
+    custom_action_t *result = NULL;
+    HASH_FIND_STR(actions, action_name, result);
+    return result;
 }
 
 /* See interface.h */
@@ -49,15 +55,20 @@ int do_custom_action(custom_action_t *action, char **args, int num_args)
 }
 
 /* See interface.h */
-custom_action_t *compile_custom_action(obj_t *action,
-                                       custom_actions_list_t *all_actions)
+custom_action_t *compile_custom_action(obj_t *action)
 {
     custom_action_t *translated = translate_custom_action(action);
 
-    assert(translated != NULL);
+    if (translated == NULL)
+    {
+        return NULL;
+    }
 
-    int rc = add_custom_action_to_game(translated, all_actions);
-    assert(rc != FAILURE);
+    int rc = add_custom_action_to_game(translated);
+    if (rc == FAILURE)
+    {
+        return NULL;
+    }
 
     return translated;
 }
@@ -68,10 +79,16 @@ custom_action_t *compile_custom_action(obj_t *action,
  * NOTE: This would normally be a private helper function for 
  * compile_custom_action, but it is currently public for sandbox code use.
  */
-int *add_custom_action_to_game(custom_action_t *action,
-                               custom_actions_list_t *all_actions)
+int *add_custom_action_to_game(custom_action_t *action)
 {
-    return NULL;
+    if (action == NULL || action->name == NULL)
+    {
+        return FAILURE;
+    }
+
+    HASH_ADD_KEYPTR(hh, actions, action->action_name, strlen(action->action_name), action);
+
+    return SUCCESS;
 }
 
 /* 
@@ -86,9 +103,3 @@ custom_action_t *translate_custom_action(obj_t *action)
     // to see obj_t documentation, refer to libobj/obj.h
     return NULL;
 }
-
-custom_actions_list_t *custom_actions_list_new();
-
-custom_actions_list_t *custom_actions_list_init();
-
-custom_actions_list_t *custom_actions_list_free();
