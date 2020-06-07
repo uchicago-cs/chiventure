@@ -31,6 +31,6 @@ int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name);
 * Output:
 *    - roomspec_t updated hash
 */
-roomspec_t *make_default_room( npc_t *possible_npcs, char *bucket, char *sh_desc, char *l_desc);
+roomspec_t *make_default_room( char *bucket, char *sh_desc, char *l_desc);
 
 #endif /* _DEFAULT_ROOM_H */

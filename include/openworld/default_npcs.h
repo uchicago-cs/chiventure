@@ -23,6 +23,7 @@ openworld room.Consists of player level, NPC type, and item inventory
 */
 typedef struct npc
 {
+	char *npc_name;
 	int level;
 	item_hash_t *inventory;
 	npc_classification_t classification;

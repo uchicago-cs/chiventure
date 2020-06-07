@@ -724,7 +724,26 @@ Test(item_hash, one_lookup)
     rc = random_item_lookup(&dst, src, 1);
     cr_assert_not_null(dst);
 }
+/* testing random_items for throne room roomspec*/
+/*Test(roomspec, throne_item)
+{
+    roomspec_t *hash = make_default_room("castle", NULL, NULL);
+    roomspec_t *r = NULL;
+    HASH_FIND_STR(hash, "throne room", r);
 
+    item_hash_t *items = random_items(r);
+    if (items != NULL) {
+        cr_assert_not_null(items->item_id);
+        if (!strcmp(items->item_id, "nail") &&
+                !strcmp(items->item_id, "book") &&
+                !strcmp(items->item_id, "ladder") &&
+                !strcmp(items->item_id, "gold") &&
+                !strcmp(items->item_id, "yam")) {
+            cr_assert_str_neq(items->item_id, "yam");
+        }
+    }
+}
+*/
 /* testing random_item_lookup for 3 iterations*/
 Test(item_hash, three_lookup)
 {
@@ -735,3 +754,45 @@ Test(item_hash, three_lookup)
 
     cr_assert_not_null(dst);
 }
+/* testing random_npcs 
+Test(random_npc, friendly_npc)
+{
+*/
+/* testing random_npc_lookup for 0 iterations*/
+Test(random_npc, zero_lookup)
+{
+    npc_t *dst = NULL;
+    npc_t *src = get_hostile_npcs();
+    int rc;
+    rc = random_npc_lookup(&dst, src, 0);
+    cr_assert_not_null(dst);
+}
+
+/* testing random_npc_lookup for 1 iteration*/
+Test(random_npc, one_lookup)
+{ 
+   npc_t *dst = NULL;
+   npc_t * src = get_generic_npcs();
+   random_npc_lookup(&dst, src, 1);
+   cr_assert_not_null(dst);
+}
+
+/* testing random_npc_lookup for 2 iteration */
+Test(random_npc, two_lookup)
+{
+  npc_t *dst = NULL;
+  npc_t * src = get_hostile_npcs();
+  random_npc_lookup(&dst,src,2);
+  cr_assert_not_null(dst);
+}
+
+/* testing random_npc_lookup for 3 iteration */
+Test(random_npc, three_lookup)
+{
+  npc_t *dst = NULL;
+  npc_t * src = get_friendly_npcs();
+  random_npc_lookup(&dst,src,3);
+  cr_assert_not_null(dst);
+}
+
+  

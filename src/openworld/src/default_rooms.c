@@ -25,8 +25,7 @@ int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name)
 	return SUCCESS;
 }
 
-roomspec_t *make_default_room(char *bucket,
-	char *sh_desc, char *l_desc)
+roomspec_t *make_default_room(char *bucket,char *sh_desc, char *l_desc)
 {
 
 	roomspec_t *hash = NULL;
