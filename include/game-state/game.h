@@ -14,8 +14,8 @@ HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
 HASH_ITER(hh, (game)->all_players, (curr_player), ITTMP_PLAYER)
 
 // Forward declaration
-typedef struct stats_global_hash stats_global_hash_t;
-typedef struct effects_global_hash effects_global_hash_t;
+typedef struct stats_global stats_global_hash_t;
+typedef struct effects_global effects_global_hash_t;
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
