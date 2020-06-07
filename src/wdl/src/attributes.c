@@ -104,9 +104,9 @@ int free_attr_list(obj_attr_t **attrs, obj_attr_t *head)
     
     obj_attr_t *elt, *tmp;
     DL_FOREACH_SAFE(head, elt, tmp) {
-        DL_DELETE(head, elt);
-        HASH_DEL(*attrs, elt);
-        free(elt);
+        //HASH_DEL(*attrs, elt);
+        //DL_DELETE(head, elt);
+        //free(elt);
     }
     return SUCCESS;
 }
