@@ -2,6 +2,7 @@
 #include "game-state/room.h"
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
+#include "game-state/condition.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
