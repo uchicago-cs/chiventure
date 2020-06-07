@@ -200,7 +200,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat);
  * Parameters: 
  * sh: the stats hash table of the player
  * s: the stat to be added to the table
- * 
+ *  
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
