@@ -7,6 +7,7 @@
 #include "game-state/player.h"
 #include "game-state/condition.h"
 
+/* Checks that attribute_condition_new() properly mallocs and inits a new condition struct */
 Test(condition, new_attr_condition)
 {
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
@@ -25,6 +26,7 @@ Test(condition, new_attr_condition)
     "correctly mark condiiton as attribute");
 }
 
+/* Checks that inventory_condition_new() properly mallocs and inits a new condition struct */
 Test(condition, new_inven_condition)
 {
     player_t *player = player_new("test", 1);
@@ -41,6 +43,7 @@ Test(condition, new_inven_condition)
     "correctly mark condiiton as inventory");
 }
 
+/* Checks if delete_condition_llist() frees the condition list from memory */
 Test(condition, condition_free)
 {
     player_t *player = player_new("test", 1);
@@ -58,4 +61,23 @@ Test(condition, condition_free)
     int res = delete_condition_llist(conditions);
 
     cr_assert_eq(res, SUCCESS, "delete_condition_llist() failed");
+}
+
+/* Checks if valid_condition properly checks if the condition is actually valid */
+Test(condition, valid_condition)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+
+    // ITEM_MODIFY_NULL
+    item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
+    set_int_attr(item, "length",2);
+    attribute_value_t value;
+    value.int_val = 2;
+
+    condition_t *condition_1 = attribute_condition_new(item, "length", value);
+
+    int valid = valid_condition(game, condition_1);
+    cr_assert_eq(valid, ITEM_MODIFY_NULL, "valid_condition() expected ITEM_MODIFY_NULL(3) "
+    "but instead got %i", valid);
+
 }
