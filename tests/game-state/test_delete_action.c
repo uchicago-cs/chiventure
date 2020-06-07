@@ -18,6 +18,7 @@ int delete_helper(list_action_type_t *act, action_type_t *a)
     while (temp != NULL)
     {
 	cr_assert_neq(temp->act, a, "delete_action() didn't remove action");
+	temp = temp->next;
     }
 
     return SUCCESS;
@@ -33,6 +34,9 @@ Test(delete_action,delete_first)
 
     //organize action_types into a linked list
     list_action_type_t *first, *second, *last;
+    first = malloc(sizeof(list_action_type_t));
+    second = malloc(sizeof(list_action_type_t));
+    last = malloc(sizeof(list_action_type_t));
     last->act = open;
     last->next = NULL;
     second->act = go;
@@ -54,6 +58,9 @@ Test(delete_action,delete_middle)
 
     //organize action_types into a linked list
     list_action_type_t *first, *second, *last;
+    first = malloc(sizeof(list_action_type_t));
+    second = malloc(sizeof(list_action_type_t));
+    last = malloc(sizeof(list_action_type_t));
     last->act = open;
     last->next = NULL;
     second->act = go;
@@ -75,6 +82,9 @@ Test(delete_action,delete_last)
 
     //organize action_types into a linked list
     list_action_type_t *first, *second, *last;
+    first = malloc(sizeof(list_action_type_t));
+    second = malloc(sizeof(list_action_type_t));
+    last = malloc(sizeof(list_action_type_t));
     last->act = open;
     last->next = NULL;
     second->act = go;
