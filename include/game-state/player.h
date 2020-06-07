@@ -8,7 +8,7 @@
 
 #include "game_state_common.h"
 #include "item.h"
-#include "plaayerclass/class.h"
+#include "playerclass/class.h"
 
 
 /* A player in game */
