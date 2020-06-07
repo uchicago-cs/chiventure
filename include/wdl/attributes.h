@@ -65,8 +65,17 @@ obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void *d);
  * params:
  *   - head: ptr to head of list
  *   - new: element to be appended
+ * returns: head of list
  */
 obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new);
+
+/* count_attr_list - counts items in list
+ *
+ * params:
+ *   - head: ptr to head of list
+ * returns: number of items in list
+ */
+int count_attr_list(obj_attr_t *head)
 
 /* free_attr - frees & deletes attr from hash table
  *
