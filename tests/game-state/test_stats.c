@@ -147,7 +147,7 @@ Test(stats, free_global_table)
     HASH_ADD_KEYPTR(hh, *gsh, gs1->name, strlen(gs1->name), gs1);
     HASH_ADD_KEYPTR(hh, *gsh, gs2->name, strlen(gs2->name), gs2);
 
-    int ret_val = free_stats_global_table(gsh);
+    int ret_val = free_stats_global_table(*gsh);
     cr_assert_eq (ret_val, SUCCESS, "free_stats_global_table() failed to return SUCCESS");
 }
 
