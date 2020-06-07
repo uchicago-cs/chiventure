@@ -87,6 +87,14 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         res = print_move_info(ctx, args[2]);
         return res;
     }
+    else if (strncmp(args[0], "HELP", MAXLEN) == 0)
+    {
+        printf("Here are the possible commands!\n");
+        printf("MOVE USE <move_name> ON <enemy_name>\n");
+        printf("MOVE LIST\n");
+        printf("MOVE INFO <move_name>\n\n");
+        return SUCCESS;
+    }
     else
     {
         return FAILURE;
