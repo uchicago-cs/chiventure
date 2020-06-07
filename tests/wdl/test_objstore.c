@@ -153,10 +153,38 @@ Test(objstore, free_all)
 
 Test(objstore, get_failure)
 {
+    object_t *test = malloc(sizeof(object_t));
+    strcpy(test->id, "villager");
+    test->type = TYPE_NPC;
+    test->attrs = NULL;
 
+    objstore_t *store = NULL;
+    add_objstore(&store, test);
+    cr_assert_not_null(store, "add_objstore() failed");
+    
+    object_t *obj = get_object(&store, "NPC", "robber");
+    cr_assert_null(obj, "get_object() failed to not find an object");
+}
+
+Test(objstore, get_empty_failure)
+{
+    objstore_t *store = NULL;
+
+    object_t *obj = get_object(&store, "NPC", "robber");
+    cr_assert_null(obj, "get_object() failed to not find an object");
 }
 
 Test(objstore, get_success)
 {
+    object_t *test = malloc(sizeof(object_t));
+    strcpy(test->id, "villager");
+    test->type = TYPE_NPC;
+    test->attrs = NULL;
 
+    objstore_t *store = NULL;
+    add_objstore(&store, test);
+    cr_assert_not_null(store, "add_objstore() failed");
+
+    object_t *obj = get_object(&store, "NPC", "villager");
+    cr_assert_not_null(obj, "get_object() failed to find an object");
 }

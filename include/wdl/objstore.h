@@ -92,6 +92,6 @@ int free_all_objstore(objstore_t **object_store);
  * returns:
  *   - a pointer to the requested object as a obj_t struct member.
  */
-object_t* get_object(char* type, char* id);
+object_t* get_object(objstore_t **ht, char* type, char* id);
 
 #endif
