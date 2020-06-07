@@ -263,7 +263,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat);
 int add_stat_player(stats_hash_t **sh, stats_t *s);
 
 /*
- * Print a list of the stats in a hashtable
+ * Print a list of the stats in a hashtable and their current values
  *
  * Parameters: 
  * sh: pointer to the stats hash table to be printed
@@ -272,6 +272,18 @@ int add_stat_player(stats_hash_t **sh, stats_t *s);
  *  string to be printed
  */
 char *display_stats(stats_hash_t *sh);
+
+/*
+ * Print a list of the effects in a hashtable along with the stats
+ * and the modifiers and durations for the effect on the stat
+ *
+ * Parameters: 
+ * hash: pointer to the effects hash table to be printed
+ * 
+ * Returns:
+ *  string to be printed
+ */
+ char *display_stat_effects(effects_hash_t *hash);
 
 /*
  * Frees a stats hash table
