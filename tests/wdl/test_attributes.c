@@ -110,6 +110,7 @@ Test(attributes, free)
     obj_attr_t *attrs = NULL;
 
     obj_attr_t *new = add_attribute(&attrs, "class", "adventurer");
+    //obj_attr_t *ll_head = append_attr(NULL, new);
     cr_assert_not_null(attrs, "add_attr() failed to add attr");
 
     int res = free_attr(&attrs, attrs, new);
@@ -134,7 +135,7 @@ Test(attributes, append)
     cr_assert_eq(item1->next, item2, "append_attr() failed to assign next");
     cr_assert_eq(item2->prev, item1, "append_attr() failed to assign prev");
 
-    append_attr(item2, item3);
+    append_attr(item1, item3);
     cr_assert_eq(item2->next, item3, "append_attr() failed to assign next");
     cr_assert_eq(item3->prev, item2, "append_attr() failed to assign prev");
 }

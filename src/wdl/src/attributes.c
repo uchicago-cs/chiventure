@@ -5,7 +5,7 @@
 /* ---------- HASH FUNCTIONS ---------- */
 
 /* See attributes.h for documentation */
-obj_attr_t *new_attr(char *id, void * d)
+obj_attr_t *new_attr(char *id, void *d)
 {
     if (id == NULL) {
         return NULL;
@@ -18,7 +18,10 @@ obj_attr_t *new_attr(char *id, void * d)
     new->data = d;
     new->prev = NULL;
     new->next = NULL;
-    return new;
+
+    obj_attr_t *head = NULL;
+    DL_APPEND(head, new);
+    return head;
 }
 
 /* See attributes.h for documentation */
@@ -69,7 +72,7 @@ int free_attr(obj_attr_t **attrs, obj_attr_t *head, obj_attr_t *a)
     if ((attrs == NULL)||(head == NULL)) {
         return FAILURE;
     }
-    //DL_DELETE(head, a);
+    DL_DELETE(head, a);
     HASH_DEL(*attrs, a);
     free(a);
     return SUCCESS;
@@ -81,7 +84,7 @@ int free_attr(obj_attr_t **attrs, obj_attr_t *head, obj_attr_t *a)
 /* See attributes.h for documentation */
 obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new)
 {
-    DL_APPEND(head, new);
+    DL_CONCAT(head, new);
     return head;
 }
 
