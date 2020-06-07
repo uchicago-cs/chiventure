@@ -49,77 +49,8 @@ Test(skilltree_tests, skill_node_free_test)
     cr_assert_eq(ret, 0, "Error: failed test skill_node_free_test\n");
 }
 
-/* Tests node_prereq_add on a valid case. *//*
-Test(skilltree_tests, node_prereq_add_safe)
-{
-    skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, effect_defuse_bomb);
-    skill_t* peace = skill_new(1001, ACTIVE, "inner peace", "maintains inner peace",
-        4, 7, effect_inner_peace);
-    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76);
-    skill_node_t* peace_node = skill_node_new(peace, 1, 76);
-    int ret = node_prereq_add(peace_node,bomb_node);
-    cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_add_safe\n");
-}
 
-*//* Tests node_prereq_add when the prereq list is full. *//*
-Test(skilltree_tests, node_prereq_add_full)
-{
-    skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, effect_defuse_bomb);
-    skill_t* tree = skill_new(1001, ACTIVE, "chop tree", "chops a bomb",
-        3, 6, effect_chop_tree);
-    skill_t* peace = skill_new(1002, ACTIVE, "inner peace", "maintains inner peace",
-        4, 7, effect_inner_peace);
-    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76);
-    skill_node_t* tree_node = skill_node_new(tree, 0, 76);
-    skill_node_t* peace_node = skill_node_new(peace, 1, 76);
-    node_prereq_add(peace_node,bomb_node);
-    int ret = node_prereq_add(peace_node,tree_node);
-    cr_assert_eq(ret, FAILURE, "Error: failed test node_prereq_add_full\n");
-}
-
-*//* Tests node_prereq_remove on a valid case. *//*
-Test(skilltree_tests, node_prereq_remove_safe)
-{
-    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, effect_defuse_bomb);
-    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-        3, 6, effect_chop_tree);
-    skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
-        4, 7, effect_inner_peace);
-    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-    skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
-    skill_node_t* inner_node = skill_node_new(skill3, 2, 76);
-
-    node_prereq_add(inner_node, bomb_node);
-    node_prereq_add(inner_node, chop_node);
-
-    int ret = node_prereq_remove(inner_node, bomb_node);
-    cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_remove_safe\n");
-
-}
-
-*//* Tests node_prereq_remove on a prereq that doesn't exist. *//*
-Test(skilltree_tests, node_prereq_remove_missing)
-{
-    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, effect_defuse_bomb);
-    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-        3, 6, effect_chop_tree);
-    skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
-        4, 7, effect_inner_peace);
-    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-    skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
-    skill_node_t* inner_node = skill_node_new(skill3, 2, 76);
-
-    node_prereq_add(inner_node, chop_node);
-
-    int ret = node_prereq_remove(inner_node, bomb_node);
-    cr_assert_eq(ret, 1, "Error: failed test node_prereq_remove_missing\n");
-}
-
-*//* Tests skill_tree_new. */
+/* Tests skill_tree_new. */
 Test(skilltree_tests, skill_tree_new_test)
 {
     skill_tree_t* tree = skill_tree_new(1002, "this tree", 3);
@@ -139,8 +70,81 @@ Test(skilltree_tests, skill_tree_free_test)
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_free_test\n");
 }
 
-/* Tests skill_tree_node_add on a valid case. *//*
-Test(skilltree_tests, skill_tree_node_add_safe)
+/*Tests after this line fail and are skipped.*/
+
+/* Tests node_prereq_add on a valid case. */
+Test(skilltree_tests, node_prereq_add_safe, .description = "Fails & Skipped", .disabled = true)
+{
+    skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, effect_defuse_bomb);
+    skill_t* peace = skill_new(1001, ACTIVE, "inner peace", "maintains inner peace",
+        4, 7, effect_inner_peace);
+    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76);
+    skill_node_t* peace_node = skill_node_new(peace, 1, 76);
+    int ret = node_prereq_add(peace_node,bomb_node);
+    cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_add_safe\n");
+}
+
+/* Tests node_prereq_add when the prereq list is full. */
+Test(skilltree_tests, node_prereq_add_full, .description = "Fails & Skipped", .disabled = true)
+{
+    skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, effect_defuse_bomb);
+    skill_t* tree = skill_new(1001, ACTIVE, "chop tree", "chops a bomb",
+        3, 6, effect_chop_tree);
+    skill_t* peace = skill_new(1002, ACTIVE, "inner peace", "maintains inner peace",
+        4, 7, effect_inner_peace);
+    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76);
+    skill_node_t* tree_node = skill_node_new(tree, 0, 76);
+    skill_node_t* peace_node = skill_node_new(peace, 1, 76);
+    node_prereq_add(peace_node,bomb_node);
+    int ret = node_prereq_add(peace_node,tree_node);
+    cr_assert_eq(ret, FAILURE, "Error: failed test node_prereq_add_full\n");
+}
+
+/* Tests node_prereq_remove on a valid case. */
+Test(skilltree_tests, node_prereq_remove_safe, .description = "Fails & Skipped", .disabled = true)
+{
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, effect_defuse_bomb);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+        3, 6, effect_chop_tree);
+    skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
+        4, 7, effect_inner_peace);
+    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+    skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+    skill_node_t* inner_node = skill_node_new(skill3, 2, 76);
+
+    node_prereq_add(inner_node, bomb_node);
+    node_prereq_add(inner_node, chop_node);
+
+    int ret = node_prereq_remove(inner_node, bomb_node);
+    cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_remove_safe\n");
+
+}
+
+/* Tests node_prereq_remove on a prereq that doesn't exist. */
+Test(skilltree_tests, node_prereq_remove_missing, .description = "Fails & Skipped", .disabled = true)
+{
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, effect_defuse_bomb);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+        3, 6, effect_chop_tree);
+    skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
+        4, 7, effect_inner_peace);
+    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+    skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+    skill_node_t* inner_node = skill_node_new(skill3, 2, 76);
+
+    node_prereq_add(inner_node, chop_node);
+
+    int ret = node_prereq_remove(inner_node, bomb_node);
+    cr_assert_eq(ret, 1, "Error: failed test node_prereq_remove_missing\n");
+}
+
+
+/* Tests skill_tree_node_add on a valid case. */
+Test(skilltree_tests, skill_tree_node_add_safe, .description = "Fails & Skipped", .disabled = true)
 {
     skill_tree_t* tree = skill_tree_new(1002, "this tree", 2);
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -150,8 +154,8 @@ Test(skilltree_tests, skill_tree_node_add_safe)
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_add_safe\n");
 }
 
-*//* Tests skill_tree_node_add when the skill tree is full. *//*
-Test(skilltree_tests, skill_tree_node_add_full)
+/* Tests skill_tree_node_add when the skill tree is full. */
+Test(skilltree_tests, skill_tree_node_add_full, .description = "Fails & Skipped", .disabled = true)
 {
     skill_tree_t* tree = skill_tree_new(1002, "this tree", 1);
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -165,8 +169,8 @@ Test(skilltree_tests, skill_tree_node_add_full)
     cr_assert_eq(ret, FAILURE, "Error: failed test skill_tree_node_add_full\n");
 }
 
-*//* Tests skill_tree_node_remove in a valid case. *//*
-Test(skilltree_tests, skill_tree_node_remove_safe)
+/* Tests skill_tree_node_remove in a valid case. */
+Test(skilltree_tests, skill_tree_node_remove_safe, .description = "Fails & Skipped", .disabled = true)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
@@ -187,8 +191,8 @@ Test(skilltree_tests, skill_tree_node_remove_safe)
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_remove_safe\n");
 }
 
-*//* Tests skill_tree_node_remove on a node that is missing. *//*
-Test(skilltree_tests, skill_tree_node_remove_missing)
+/* Tests skill_tree_node_remove on a node that is missing. */
+Test(skilltree_tests, skill_tree_node_remove_missing, .description = "Fails & Skipped", .disabled = true)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
@@ -208,8 +212,8 @@ Test(skilltree_tests, skill_tree_node_remove_missing)
     cr_assert_eq(ret, 1, "Error: failed test skill_tree_node_remove_missing\n");
 }
 
-*//* Tests skill_tree_has_node with a node that exists. *//*
-Test(skilltree_tests, skill_tree_has_node_has)
+/* Tests skill_tree_has_node with a node that exists. */
+Test(skilltree_tests, skill_tree_has_node_has, .description = "Fails & Skipped", .disabled = true)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, effect_defuse_bomb);
@@ -229,8 +233,8 @@ Test(skilltree_tests, skill_tree_has_node_has)
   cr_assert_eq(ret, 0, "Error: failed test skill_tree_has_node_has\n");
 }
 
-*//* Tests skill_tree_has_node on a node that it doesn't have. *//*
-Test(skilltree_tests, skill_tree_has_node_has_not)
+/* Tests skill_tree_has_node on a node that it doesn't have. */
+Test(skilltree_tests, skill_tree_has_node_has_not, .description = "Fails & Skipped", .disabled = true)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, effect_defuse_bomb);
@@ -250,8 +254,8 @@ Test(skilltree_tests, skill_tree_has_node_has_not)
   cr_assert_eq(ret, -1, "Error: failed test skill_tree_has_node_has_not\n");
 }
 
-*//* Tests get_all_skill_prereqs on a valid case. *//*
-Test(skilltree_tests, get_all_skill_prereqs_safe)
+/* Tests get_all_skill_prereqs on a valid case. */
+Test(skilltree_tests, get_all_skill_prereqs_safe, .description = "Fails & Skipped", .disabled = true)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, effect_defuse_bomb);
@@ -278,8 +282,8 @@ Test(skilltree_tests, get_all_skill_prereqs_safe)
     "Error: failed test get_all_skill_prereqs_safe\n");
 }
 
-*//* Tests get_all_skill_prereqs for empty prereq list. *//*
-Test(skilltree_tests, get_all_skill_prereqs_empty)
+/* Tests get_all_skill_prereqs for empty prereq list. */
+Test(skilltree_tests, get_all_skill_prereqs_empty, .description = "Fails & Skipped", .disabled = true)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
@@ -303,8 +307,8 @@ Test(skilltree_tests, get_all_skill_prereqs_empty)
       "Error: failed test get_all_skill_prereqs_empty\n");
 }
 
-*//* Tests get_acquired_skill_prereqs with no prereqs. *//*
-Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs)
+/* Tests get_acquired_skill_prereqs with no prereqs. */
+Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs, .description = "Fails & Skipped", .disabled = true)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
@@ -324,8 +328,8 @@ Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs)
       "Error: failed test get_acquired_skill_prereqs_no_prereqs\n");
 }
 
-/* Tests get_acquired_skill_prereqs on a valid case. *//*
-Test(skilltree_tests, get_acquired_skill_prereqs_safe)
+/* Tests get_acquired_skill_prereqs on a valid case. */
+Test(skilltree_tests, get_acquired_skill_prereqs_safe, .description = "Fails & Skipped", .disabled = true)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, effect_defuse_bomb);
@@ -351,8 +355,8 @@ Test(skilltree_tests, get_acquired_skill_prereqs_safe)
     "Error: failed test get_acquired_skill_prereqs_safe\n");
 }
 
-*//* Tests skill_prereqs_missing on a case with no missing prereqs. *//*
-Test(skilltree_tests, skill_prereqs_missing_none)
+/* Tests skill_prereqs_missing on a case with no missing prereqs. */
+Test(skilltree_tests, skill_prereqs_missing_none, .description = "Fails & Skipped", .disabled = true)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
@@ -372,8 +376,8 @@ Test(skilltree_tests, skill_prereqs_missing_none)
       "Error: failed test skill_prereqs_missing_none\n");
 }
 
-*//* Tests skill_prereqs_missing on a case with missing prereqs. *//*
-Test(skilltree_tests, skill_prereqs_missing_some)
+/* Tests skill_prereqs_missing on a case with missing prereqs. */
+Test(skilltree_tests, skill_prereqs_missing_some, .description = "Fails & Skipped", .disabled = true)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, effect_defuse_bomb);
@@ -398,8 +402,8 @@ Test(skilltree_tests, skill_prereqs_missing_some)
     "Error: failed test skill_prereqs_missing_some\n");
 }
 
-*//* Tests inventory_skill_acquire on a skill with satisfied prereqs. *//*
-Test(skilltree_tests, inventory_skill_acquire_has)
+/* Tests inventory_skill_acquire on a skill with satisfied prereqs. */
+Test(skilltree_tests, inventory_skill_acquire_has, .description = "Fails & Skipped", .disabled = true)
 {
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
@@ -425,8 +429,8 @@ Test(skilltree_tests, inventory_skill_acquire_has)
       "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
 }
 
-*//* Tests inventory_skill_acquire on a skill with missing prereqs. *//*
-Test(skilltree_tests, inventory_skill_acquire_has_not)
+/* Tests inventory_skill_acquire on a skill with missing prereqs. */
+Test(skilltree_tests, inventory_skill_acquire_has_not, .description = "Fails & Skipped", .disabled = true)
 {
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, effect_defuse_bomb);
