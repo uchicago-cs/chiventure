@@ -19,7 +19,10 @@ Test(condition, new_attr_condition)
     cr_assert_not_null(condition, "attribute_condition_new() failed");
     
     cr_assert_not_null(condition->cond.attr_type, "attribute_condition_new() failed to "
-    "create the appropriate condition type");
+    "create the appropriate condition struct");
+
+    cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condiiton_new() failed to "
+    "correctly mark condiiton as attribute");
 }
 
 Test(condition, new_inven_condition)
@@ -30,4 +33,29 @@ Test(condition, new_inven_condition)
     condition_t *condition = inventory_condition_new(player, item);
 
     cr_assert_not_null(condition, "inventory_condition_new() failed");
+
+    cr_assert_not_null(condition->cond.inven_type, "inventory_condition_new() failed to "
+    "create the appropriate condition struct");
+
+    cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condiiton_new() failed to "
+    "correctly mark condiiton as inventory");
+}
+
+Test(condition, condition_free)
+{
+    player_t *player = player_new("test", 1);
+    item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
+    set_int_attr(item, "length",2);
+    attribute_value_t value;
+    value.int_val = 2;
+
+    condition_t *condition_1 = attribute_condition_new(item, "length", value);
+    condition_t *condition_2 = inventory_condition_new(player, item);
+
+    condition_list_t *conditions = condition_1;
+    LL_APPEND(conditions, condition_2);
+
+    int res = delete_condition_llist(conditions);
+
+    cr_assert_eq(res, SUCCESS, "delete_condition_llist() failed");
 }
