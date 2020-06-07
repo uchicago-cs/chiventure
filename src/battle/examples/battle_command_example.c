@@ -137,20 +137,19 @@ int main()
         printf("What will you do?\n");
         printf("> ");
         // int rc = scanf("%s %s %s %s %s", fst, snd, move_name, act, enemy_name);
-        char* command_input;
+        char** command_input = (char*)calloc(5, sizeof(char));
         while (fgets(command_input, MAX_COMMAND_LINE_LENGTH - 1, stdin))
         {
             char *p = command_input;
             if (*p == '\n')
                 break;
         }
-        printf("%s",command_input);
 
             // this is going to become fgets, then what is inputted into fgets then will go into sscanf and make an array of
             // strings and put that into read_move
             // read_move(fst, snd, move_name, act, enemy_name, ctx);
             printf("\n");
-        }
+    }
 
     battle_status_t winner = battle_over(ctx->game->battle);
 
