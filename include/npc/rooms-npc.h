@@ -279,4 +279,18 @@ char* track_room(npc_mov_t *npc_mov);
 int reverse_path(npc_mov_t *npc_mov);
 
 
+/*
+ * Moves the npc to the next room for npcs with definite movement
+ * 
+ * Paramters:
+ * npc_mov: The NPC movement struct
+ * 
+ * Returns:
+ * 0 if move in unsuccessful 
+ * 1 npc has reached the end of the path, reverse_path is called, but 
+ *   the move is not implemented
+ * 2 successful move to the next room
+*/
+int move_npc_def(npc_mov_t *npc_mov);
+
 #endif

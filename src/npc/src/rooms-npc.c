@@ -30,13 +30,13 @@ int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type,
     
     if (mov_type == NPC_MOV_DEFINITE)
     {
-        npc_mov->npc_mov_type.npc_mov_definite->npc_path = head;
-        LL_APPEND(head,room_to_add);
+        LL_APPEND(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
+        room_to_add);
     }
     else if (mov_type == NPC_MOV_INDEFINITE )
     {
-        npc_mov->npc_mov_type.npc_mov_indefinite->npc_path = head;
-        LL_APPEND(head,room_to_add);
+        LL_APPEND(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path
+        ,room_to_add);
         npc_mov->npc_mov_type.npc_mov_indefinite->room_time = NULL;
     }
     
@@ -177,14 +177,14 @@ int register_npc_room_time(npc_mov_t *npc_mov, room_t *room, int time)
 int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add) 
 {
     assert(room_to_add != NULL);
+    assert(npc_mov != NULL);
 
-    room_list_t* room_to_add2 = malloc(sizeof(room_list_t));
-    room_to_add2->next  = NULL;
+    room_list_t* room_to_add2 = (room_list_t*)malloc(sizeof(room_list_t));
+    room_to_add2->next = NULL;
     room_to_add2->room = room_to_add;
-    
-    room_list_t* head = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
 
-    LL_APPEND(head, room_to_add2);
+    LL_APPEND(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
+            room_to_add2);
 
     return SUCCESS;
 }  
@@ -196,7 +196,7 @@ int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time)
     assert(room_to_add != NULL);
 
     room_list_t* room_to_add2 = malloc(sizeof(room_list_t));
-    room_to_add2->next  = NULL;
+    room_to_add2->next = NULL;
     room_to_add2->room = room_to_add;
 
     room_list_t *head = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
@@ -235,4 +235,40 @@ int reverse_path(npc_mov_t *npc_mov)
     npc_mov->npc_mov_type.npc_mov_definite->npc_path = reversed_path_head;
 
     return SUCCESS;
+}
+
+int room_id_cmp(room_list_t *room1, room_list_t *room2)
+{
+    return (strcmp(room1->room->room_id, room2->room->room_id));
+}
+
+/* See rooms-npc.h */
+int move_npc_def(npc_mov_t *npc_mov)
+{
+
+    assert(npc_mov->mov_type == NPC_MOV_DEFINITE);
+
+    room_list_t *test = malloc(sizeof(room_list_t));
+    test->next = NULL;
+    test->room = room_new(npc_mov->track,"test","test");
+    room_list_t *current_room = malloc(sizeof(room_list_t));
+
+    LL_SEARCH(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
+                current_room,test,room_id_cmp);
+
+    if(current_room->next == NULL)
+    {
+        reverse_path(npc_mov);
+        return 1;
+    }
+    if((strcmp(current_room->room->room_id,npc_mov->track)) == 0)
+    {
+        room_t *next_room = current_room->next->room;
+        npc_mov->track = next_room->room_id;
+        return 2;
+    }
+    else
+    {
+        return 0;
+    }
 }
