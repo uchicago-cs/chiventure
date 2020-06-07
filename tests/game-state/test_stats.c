@@ -16,8 +16,7 @@ Test(stats, global_init){
     
     cr_assert_not_null(global_stat, "stats_global_init() failed. Health stat is NULL");
     
-    cr_assert_eq(strcmp(global_stat->name,
-        "health"), 0,
+    cr_assert_str_eq(global_stat->name, "health",
         "stats_global_init() failed to set the starting stat name");
     cr_assert_eq(global_stat->max, 100, 
         "stats_global_init() failed to set the maximal value");
@@ -35,11 +34,9 @@ Test(stats, stats_init){
 
     cr_assert_not_null(stat, "stats_init() failed. Health stat is NULL");
     
-    cr_assert_eq(strcmp(stat->global->name,
-        "health"), 0,
+    cr_assert_str_eq(stat->global->name, "health",
         "stats_init() failed to set the pointer to the global stat");
-    cr_assert_eq(strcmp(stat->key,
-        "health"), 0,
+    cr_assert_str_eq(stat->key, "health",
         "stats_init() failed to set the key");
     cr_assert_eq(stat->val, 100, 
         "stats_init() failed to set the starting stat value");
@@ -58,8 +55,7 @@ Test(stats, stats_global_new){
     stats_global_t *global_stat;
     global_stat = stats_global_new("health", 100);
     cr_assert_not_null(global_stat, "stats_global_new() failed. Health stat is NULL");
-    cr_assert_eq(strcmp(global_stat->name,
-        "health"), 0,
+    cr_assert_eq(global_stat->name, "health",
         "stats_global_new() failed to set stat name to health");
     cr_assert_eq(global_stat->max, 100, 
     "stats_global_new() failed to set the maximal stat value correctly");
@@ -75,8 +71,7 @@ Test(stats, stats_new){
 
     stats_t *stat = stats_new(stat_global, 100);
     cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
-    cr_assert_eq(strcmp(stat-> global -> name,
-        "health"), 0,
+    cr_assert_eq(stat-> global->name, "health",
         "stats_new() failed to link the global stat pointer");
     cr_assert_eq(stat->val, 100, 
         "stats_new() failed to set the starting stat value");
