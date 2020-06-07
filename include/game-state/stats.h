@@ -76,7 +76,7 @@ typedef struct stat_mod {
     double modifier;
     int duration;
     struct stat_mod *next;
-} stats_mod_t;
+} stat_mod_t;
 
 
 
