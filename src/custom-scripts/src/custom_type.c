@@ -1,6 +1,77 @@
 #include "custom-scripts/custom_type.h"
 
 // see custom_type.h
+object_t *obj_t_new()
+{
+    object_t *ot = (object_t*)malloc(sizeof(object_t));
+    ot->type = NONE_TYPE;
+    ot->is_lua = false;
+    ot->args = NULL;
+    return ot;
+}
+
+// see custom_type.h
+object_t *obj_t_bool(bool b, char *lua)
+{
+    object_t *ot = obj_t_new();
+    ot->type = BOOL_TYPE;
+    if (lua) {
+        ot->is_lua = true;
+        ot->data.lua = lua;
+    } else {
+        ot->data.b = b;
+    }
+    return ot;
+}
+
+// see custom_type.h
+object_t *obj_t_char(char c, char *lua)
+{
+    object_t *ot = obj_t_new();
+    ot->type = CHAR_TYPE;
+    if (lua) {
+        ot->is_lua = true;
+        ot->data.lua = lua;
+    } else {
+        ot->data.c = c;
+    }
+    return ot;
+}
+
+// see custom_type.h
+object_t *obj_t_int(int i, char *lua)
+{
+    object_t *ot = obj_t_new();
+    ot->type = INT_TYPE;
+    if (lua) {
+        ot->is_lua = true;
+        ot->data.lua = lua;
+    } else {
+        ot->data.i = i;
+    }
+    return ot;
+}
+
+// see custom_type.h
+object_t *obj_t_str(char *s, char *lua)
+{
+    object_t *ot = obj_t_new();
+    ot->type = STR_TYPE;
+    if (lua) {
+        ot->is_lua = true;
+        ot->data.lua = lua;
+    } else {
+        ot->data.s = s;
+    }
+    return ot;
+}
+
+// ============================================================================
+
+/**
+ * Creates an empty argument structure
+ * Helper function for adding arguments to an object
+ */
 arg_t *arg_t_new() {
     arg_t *arg = (arg_t*)malloc(sizeof(arg_t));
     arg->type = NONE_TYPE;
@@ -9,7 +80,10 @@ arg_t *arg_t_new() {
     return arg;
 }
 
-// see custom_type.h
+/**
+ * Creates an argument structure with the specified boolean
+ * Helper function for obj_add_arg_bool
+ */
 arg_t *arg_t_bool(bool b) {
     arg_t *arg = arg_t_new();
     arg->type = BOOL_TYPE;
@@ -17,7 +91,10 @@ arg_t *arg_t_bool(bool b) {
     return arg;
 }
 
-// see custom_type.h
+/**
+ * Creates an argument structure with the specified character
+ * Helper function for obj_add_arg_char
+ */
 arg_t *arg_t_char(char c) {
     arg_t *arg = arg_t_new();
     arg->type = CHAR_TYPE;
@@ -25,7 +102,10 @@ arg_t *arg_t_char(char c) {
     return arg;
 }
 
-// see custom_type.h
+/**
+ * Creates an argument structure with the specified integer
+ * Helper function for obj_add_arg_int
+ */
 arg_t *arg_t_int(int i) {
     arg_t *arg = arg_t_new();
     arg->type = INT_TYPE;
@@ -33,7 +113,10 @@ arg_t *arg_t_int(int i) {
     return arg;
 }
 
-// see custom_type.h
+/**
+ * Creates an argument structure with the specified string
+ * Helper function for obj_add_arg_str
+ */
 arg_t *arg_t_str(char *s) {
     arg_t *arg = arg_t_new();
     arg->type = STR_TYPE;
@@ -41,7 +124,10 @@ arg_t *arg_t_str(char *s) {
     return arg;
 }
 
-// see custom_type.h
+/**
+ * Adds an argument structure to the end of the argument linked list
+ * Helper function for all obj_add_arg_<type> functions
+ */
 arg_t *arg_t_add(arg_t *head, arg_t *add) {
     if (add == NULL) {
         return head;
@@ -58,8 +144,6 @@ arg_t *arg_t_add(arg_t *head, arg_t *add) {
         return head;
     }
 }
-
-// ============================================================================
 
 // see custom_type.h
 object_t *obj_add_arg_bool(object_t *ot, bool b) {
@@ -91,78 +175,6 @@ object_t *obj_add_arg_str(object_t *ot, char *s) {
 
 // ============================================================================
 
-// see custom_type.h
-object_t *obj_t_new()
-{
-    object_t *ot = (object_t*)malloc(sizeof(object_t));
-    ot->type = NONE_TYPE;
-    ot->is_lua = false;
-    ot->args = NULL;
-    return ot;
-}
-
-// see custom_type.h
-object_t *obj_t_bool(bool b, char *lua, arg_t* head)
-{
-    object_t *ot = obj_t_new();
-    ot->type = BOOL_TYPE;
-    if (lua) {
-        ot->is_lua = true;
-        ot->data.lua = lua;
-        ot->args = head;
-    } else {
-        ot->data.b = b;
-    }
-    return ot;
-}
-
-// see custom_type.h
-object_t *obj_t_char(char c, char *lua, arg_t* head)
-{
-    object_t *ot = obj_t_new();
-    ot->type = CHAR_TYPE;
-    if (lua) {
-        ot->is_lua = true;
-        ot->data.lua = lua;
-        ot->args = head;
-    } else {
-        ot->data.c = c;
-    }
-    return ot;
-}
-
-// see custom_type.h
-object_t *obj_t_int(int i, char *lua, arg_t* head)
-{
-    object_t *ot = obj_t_new();
-    ot->type = INT_TYPE;
-    if (lua) {
-        ot->is_lua = true;
-        ot->data.lua = lua;
-        ot->args = head;
-    } else {
-        ot->data.i = i;
-    }
-    return ot;
-}
-
-// see custom_type.h
-object_t *obj_t_str(char *s, char *lua, arg_t* head)
-{
-    object_t *ot = obj_t_new();
-    ot->type = STR_TYPE;
-    if (lua) {
-        ot->is_lua = true;
-        ot->data.lua = lua;
-        ot->args = head;
-    } else {
-        ot->data.s = s;
-    }
-    return ot;
-}
-
-// ============================================================================
-
 /**
  * Helper function used to push the arguments in the linked list
  * to the Lua vritual stack
@@ -181,7 +193,6 @@ int push_args(lua_State *L, object_t* ot) {
     while (head != NULL) {
         // incrememnt argument count
         count++;
-        
         // identify type of argument
         data_type_t type = head->type;
         // push argument to virtual stack
@@ -258,10 +269,7 @@ bool bool_t_get(object_t *ot) {
         lua_State *L = callLua(ot, lua_path);
         int result = (int)lua_toboolean(L, -1);
         lua_pop(L, 1);
-        if (result)
-            return true;
-        else
-            return false;
+        return (result ? true : false);
     } 
     else {
         return ot->data.b;
