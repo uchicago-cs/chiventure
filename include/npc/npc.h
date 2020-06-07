@@ -24,7 +24,7 @@ typedef struct npc {
     char *long_desc;
 
     /* the npcs class */
-    class_t npc_class;
+    class_t *npc_class;
 
     int health;
 

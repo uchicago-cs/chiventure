@@ -8,6 +8,7 @@
 
 #include "game_state_common.h"
 #include "item.h"
+#include "stats.h"
 #include "playerclass/class.h"
 
 
@@ -19,7 +20,7 @@ typedef struct player {
     int level;
     int health;
     int xp;
-    class_t player_class;
+    class_t *player_class;
     item_hash_t *inventory;
 } player_t;
 
