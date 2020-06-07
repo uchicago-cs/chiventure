@@ -166,6 +166,7 @@ int main()
             }
         }
         res = read_move(args, ctx);
+        printf("read move returned: %d\n", res);
     }
     battle_status_t winner = battle_over(ctx->game->battle);
 
