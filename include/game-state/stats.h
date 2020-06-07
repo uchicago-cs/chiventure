@@ -345,6 +345,7 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
                  double *intensities, int *durations, int num_stats);
 
 /*
+<<<<<<< eeb22b16cb2692ffbb973738f04409d3c5db0e6d
  * Frees memory associated with a stat
  *
  * Parameters: 
@@ -358,6 +359,21 @@ int free_stats(stats_t *stat);
 
 /*
  * Frees memory associated with a global_stats struct
+=======
+ * Print a list of the effects in a hashtable along with the stats
+ * and the modifiers and durations for the effect on the stat
+ *
+ * Parameters: 
+ * hash: pointer to the effects hash table to be printed
+ * 
+ * Returns:
+ *  string to be printed
+ */
+ char *display_stat_effects(effects_hash_t *hash);
+
+/*
+ * Frees a stats hash table
+>>>>>>> adding display_stat_effect #768
  *
  * Parameters: 
  * gs: pointer to the global stat
