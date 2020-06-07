@@ -151,6 +151,20 @@ stats_global_t *stats_global_new(char *name, double max);
 stats_t *stats_new(char *stats_name, double init);
 
 /*
+ * Initializes a stat_mod struct
+ *
+ * Parameters:
+ *   - mod: a stat_mod struct (must already be allocated in memory)
+ *   - stat: pointer to a stats struct
+ *   - modifier: modifier for the stat
+ *   - duration: duration an effect with this stat_mod should last
+ * 
+ * Returns:
+ *   - SUCCESS on success, FAILURE if an error occurs.
+ */
+int stat_mod_init(stat_mod_t *mod, stats_t *stat, double modifier, int duration);
+
+/*
  * Allocates a new stat_mod struct
  *
  * Parameters:
@@ -346,6 +360,17 @@ int free_stats(stats_hash_t *stat);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int free_stats_global(stats_global_hash_t *stat);
+
+/*
+ * Frees a stat_mod struct
+ *
+ * Parameters: 
+ * mod: pointer to the stat_mod struct to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int free_stat_mod(stat_mod_t *mod);
 
 /*
  * Deletes a single player effects struct from a hash table,
