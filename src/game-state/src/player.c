@@ -22,6 +22,7 @@ player_t* player_new(char* player_id, int health)
     plyr = malloc(sizeof(player_t));
     memset(plyr, 0, sizeof(player_t));
     plyr->player_id = malloc(MAX_ID_LEN);
+    
     int check = player_init(plyr, player_id, health);
 
     if (plyr == NULL || plyr->player_id == NULL)
