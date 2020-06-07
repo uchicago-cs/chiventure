@@ -4,7 +4,9 @@
 #include "battle/battle_print.h"
 #include "battle/battle_state.h"
 
-int print_move_info(chiventure_ctx_battle_t *ctx)
+#define MAX_MOVE_NAME_LEN (100)
+
+int print_move_info(chiventure_ctx_battle_t *ctx, char *move_name)
 {
     move_t *temp;
     DL_FOREACH(ctx->game->player->moves, temp)
@@ -35,11 +37,12 @@ int read_move(char *fst, char *snd, char *move_name, char *act,
             printf("Determined command as MOVE USE, and it using the %s move", 
                     move_name);
             move_t *temp;
+            move_t *player_move = temp;
             DL_FOREACH(ctx->game->player->moves, temp)
             {
                 if (strncmp(temp->name, move_name, MAX_MOVE_NAME_LEN) == 0)
                 {
-                    move_t *player_move = temp;
+                    player_move = temp;
                 }
                 printf("Couldn't find the move you were looking for!\n");
                 return FAILURE;
@@ -82,7 +85,7 @@ int read_move(char *fst, char *snd, char *move_name, char *act,
         }
         else if ((strncmp(fst, "MOVE", 5) == 0) && (strncmp(snd, "INFO", 4) == 0))
         {
-            res = print_move_info(ctx);
+            res = print_move_info(ctx, move_name);
             return res;
         }
         else
