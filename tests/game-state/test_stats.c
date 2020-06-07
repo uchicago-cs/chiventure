@@ -4,6 +4,39 @@
 #include <stdio.h>
 #include "game-state/stats.h"
 
+Test(stats, change_stat_max)
+{
+    stats_hash_t *sh = NULL;
+
+    stats_global_t g1, g2;
+    g1.name = "Health";
+    g1.max = 100;
+    g2.name = "XP";
+    g2.max = 100;
+
+    stats_t s1, s2;
+    s1.key = "Health";
+    s1.global = &g1;
+    s1.val = 50;
+    s1.max = 50;
+    s1.modifier = 1;
+
+    s2.key = "XP";
+    s2.global = &g2;
+    s2.val = 50;
+    s2.max = 50;
+    s2.modifier = 1;
+    
+    add_stat_player(&sh &s1);
+    add_stat_player(&sh &s2);
+
+    change_stat_max(sh, "Health", 50);
+    change_stat_max(sh, "XP", 25);
+
+    cr_assert_float_eq(s1.max, 100, 1E-6, "change_stat_max didn't set the right value");
+    cr_assert_float_eq(s2.max, 75, 1E-6, "change_stat_max didn't set the right value");
+}
+
 /* Checks that add_stat_player correctly adds a new stat 
    to a hash table*/
 Test (stats, add_stat_player)
