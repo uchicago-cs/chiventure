@@ -12,7 +12,7 @@ Test(battle_flow_structs, new_ctx_player)
                                     NULL, NULL, NULL);
 
     player_t *ctx_player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL, NULL);
+                                          NULL, NULL);
 
     cr_assert_not_null(ctx_player, "new_ctx_player() failed");
     cr_assert_str_eq(ctx_player->player_id, "new_ctx_player_Name", "new_ctx_player() didn't set id");
@@ -33,7 +33,7 @@ Test(battle_flow_structs, new_ctx_player)
 Test(battle_flow_structs, make_one_npc_enemy)
 {
     npc_enemy_t *npc_enemy = make_npc_enemy("make_one_npc_enemy_Name", NULL, NULL, NULL, 
-    NULL, BATTLE_AI_GREEDY);
+    BATTLE_AI_GREEDY);
 
     cr_assert_not_null(npc_enemy, "make_npc_enemy() failed");
     cr_assert_str_eq(npc_enemy->npc_id, "make_one_npc_enemy_Name", "make_npc_enemy() didn't set name");
@@ -48,9 +48,9 @@ Test(battle_flow_structs, set_two_npc_enemies)
 {
     npc_enemy_t *head = NULL;
     npc_enemy_t *npc_e1 = make_npc_enemy("set_two_enemies_Name1", NULL, NULL, NULL, 
-        NULL, BATTLE_AI_GREEDY);
+        BATTLE_AI_GREEDY);
     npc_enemy_t *npc_e2 = make_npc_enemy("set_two_enemies_Name2", NULL, NULL, NULL, 
-        NULL, BATTLE_AI_RANDOM);
+        BATTLE_AI_RANDOM);
     DL_APPEND(head, npc_e1);
     DL_APPEND(head, npc_e2);
 

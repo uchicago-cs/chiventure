@@ -13,8 +13,12 @@ Test(class_moves, bard)
                                     NULL, NULL, NULL);
     
     player_t *player = new_ctx_player("name", test_class,
-                                          NULL, NULL, NULL);
-    player_t *ret_player = build_moves(player);
+                                          NULL, NULL);
+    combatant_t *ret_player = set_player(player);
+
+    int rc = build_moves(ret_player);
+
+    cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
@@ -41,9 +45,13 @@ Test(class_moves, wizard)
                                     NULL, NULL, NULL);
 
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL, NULL);
+                                          NULL, NULL);
 
-    player_t *ret_player = build_moves(player);
+    combatant_t *ret_player = set_player(player);
+
+    int rc = build_moves(ret_player);
+
+    cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
@@ -71,9 +79,13 @@ Test(class_moves, knight)
                                     NULL, NULL, NULL);
 
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL, NULL);
+                                          NULL, NULL);
 
-    player_t *ret_player = build_moves(player);
+    combatant_t *ret_player = set_player(player);
+    
+    int rc = build_moves(ret_player);
+
+    cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
