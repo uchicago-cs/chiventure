@@ -17,7 +17,7 @@ int stats_init(stats_t *stat, char *name, double init)
     assert(stat != NULL);
     
     stats_global_t *global_stat;
-    HASH_FIND(ctx->game->curr_stats, &name, global_stat);
+    HASH_FIND_STR(ctx->game->curr_stats, name, global_stat);
     assert(global_stat != NULL);
     stat->global = global_stat;
 
@@ -117,11 +117,33 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
 int change_stat(stats_hash_t *sh, char *stat, double change)
 {
     if (sh == NULL) {
-        printf("Insert valid hash table");
+        printf("Error: insert valid hash table");
         exit(1);
     }
 
-    sh -> stat.val = sh -> stat.val + change;
+    int i = 0;
+    int tsize = sizeof(sh);
+    stats_hash_t *curr;
+
+    for (i = 0; i < tsize; i++) {
+        if (!strcmp(sh[i]->global->name, name)) {
+            curr = sh[i];
+        } 
+    }
+
+    if (curr == NULL) {
+        printf("Error: no matching stat")
+    }
+
+    changed_stat = curr->stat.val + change;
+
+    if (changed_stat > (curr->global)) {
+        prinf("Error: changed value exceeds global maximum");
+        exit(1);
+    } else {
+        curr -> stat.val = changed_stat;
+    }
+
     return 0;
 }
 
@@ -133,7 +155,13 @@ double get_stat_current(stats_hash_t *sh, char *stat)
         exit(1);
     }
 
-    return sh -> stat.val;
+    HASH_FIND_STR(sh, stat, curr);
+    if (curr == NULL) {
+        printf("Cannot find stat.");
+        exit(1);
+    }
+
+    return curr.val;
 }
 
 /* See stats.h */
@@ -145,6 +173,8 @@ double get_stat_max(stats_hash_t *sh, char *stat)
 
     return sh -> stat.max;
 }
+
+
 
 /* See stats.h */
 double get_stat_mod(stats_hash_t *sh, char *stat)
@@ -161,7 +191,7 @@ int add_stat_player(stats_hash_t **sh, stats_t *s)
 {
     stats_t *check;
     
-    HASH_FIND(hh, *sh, s->key, strlen(s->key), check);
+    HASH_FIND_STR(hh, *sh, s->key, strlen(s->key), check);
 
     if (check != NULL)
     {
