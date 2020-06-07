@@ -101,7 +101,7 @@ int add_action_attribute_condition(game_action_t *action, item_t *cond_item,
         return ACTION_NULL;
     }
 
-    condition_t *new_condition = attribute_condition_new(cond_item, cond_attribute, cond_value);
+    condition_t *new_condition = attribute_condition_new(cond_item, cond_attribute->attribute_key, cond_value);
 
     LL_APPEND(action->conditions, new_condition);
 

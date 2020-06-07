@@ -40,7 +40,7 @@ typedef struct condition{
 */
 typedef struct condition condition_list_t;
 
-/* valid_inven_condition checks with the game given to make sure that its variables
+/* valid_condition checks with the game given to make sure that its variables
  * are valid
  * 
  * Parameters:
@@ -53,9 +53,10 @@ typedef struct condition condition_list_t;
  * 
  *   PLAYER_NULL if player does not exist in game
  * 
+ *   CONDITION_NULL if condition is null
  *   SUCCESS otherwise
  */
-int valid_inven_condition(game_t *game, inventory_condition_t *condition);
+int valid_condition(game_t *game, condition_t *condition);
 
 /* delete_condition_llist frees a linked list of action conditions
  * Parameters:
@@ -71,6 +72,7 @@ int delete_condition_llist(condition_list_t *conditions);
  *  a pointer to the item to be modified
  *  a string representing name of the attribute to add a condition on
  *  the desired value of the attribute
+ *  the value to check against
  * Returns:
  *  NULL if item or attribute are NULL, the new condition if succcessful
  */

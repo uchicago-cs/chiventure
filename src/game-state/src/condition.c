@@ -45,6 +45,9 @@ int valid_inven_condition(game_t *game, inventory_condition_t *condition)
 /* see condition.h */
 int valid_condition(game_t *game, condition_t *condition)
 {
+    if(condition == NULL){
+        return CONDITION_NULL;
+    }
     switch (condition->condition_tag)
     {
     case (ATTRIBUTE):
