@@ -1,5 +1,6 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
+#include "battle_move_maker.h"
 #include "battle/battle_moves.h"
 #include "battle/battle_print.h"
 #include "battle/battle_state.h"
@@ -151,6 +152,9 @@ int main()
 
     printf("starting battle...\n\n");
     start_battle(ctx, e, ENV_GRASS);
+
+    int build_res = build_moves(ctx->game->player);
+    printf("build_move returned: %d\n", build_res);
 
     if (ctx->game->player->moves == NULL)
     {
