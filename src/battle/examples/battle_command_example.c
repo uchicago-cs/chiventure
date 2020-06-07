@@ -139,13 +139,14 @@ int main()
 
     ctx->game->player = p;
 
-    if(ctx->game->player->moves == NULL)
+    printf("starting battle...\n\n");
+    start_battle(ctx, e, ENV_GRASS);
+
+    if (ctx->game->player->moves == NULL)
     {
         printf("=== oh no! the player's moves do not exist!!! ===\n");
     }
-
-    printf("starting battle...\n\n");
-    start_battle(ctx, e, ENV_GRASS);
+    
     int turn = 1;
     printf("\nWelcome to the Battle! Let's get this started!\n\n");
     
