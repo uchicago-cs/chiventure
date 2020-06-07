@@ -73,7 +73,7 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment
     /* Builds a move list using player class module */
     build_moves(comb_player);
     build_moves(comb_enemies); // This will have to be updated if multiple enemies are added
-
+    
     turn_t turn = PLAYER;
 
     battle_t *b = battle_new(comb_player, comb_enemies, env, turn);

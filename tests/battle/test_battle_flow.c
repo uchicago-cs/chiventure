@@ -203,8 +203,9 @@ Test(battle_flow, do_damage_battle_flow)
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  10, 
                  "battle_flow() did not compute damage correctly");
+    /* note: this hp value relies on player class implementation of move_list() */
     cr_assert_eq(ctx->game->battle->player->stats->hp,
-                 5,
+                 10,
                  "battle_flow() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow() failed: battle is not in progress");
@@ -237,8 +238,9 @@ Test(battle_flow, battle_over_by_player)
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
     res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
+    /* note: this hp value relies on player class implementation of move_list */
     cr_assert_eq(ctx->game->battle->player->stats->hp,
-                 -29,
+                 -19,
                  "battle_flow() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_ENEMY,
                  "battle_flow() failed: battle is not over due to player");
