@@ -4,6 +4,22 @@
 #include "battle/battle_print.h"
 #include "battle/battle_state.h"
 
+int print_move_info(chiventure_ctx_battle_t *ctx)
+{
+    move_t *temp;
+    DL_FOREACH(ctx->game->player->moves, temp)
+    {
+        if (strncmp(temp->name, move_name, MAX_MOVE_NAME_LEN) == 0)
+        {
+            printf("%s: %s\n", temp->name, temp->info);
+            printf("\n");
+            return SUCCESS;
+        }
+        printf("Couldn't find the move you were looking for!\n");
+        return FAILURE;
+    }
+}
+
 int read_move(char *fst, char *snd, char *move_name, char *act,
               char *enemy_name, chiventure_ctx_battle_t *ctx)
 {
@@ -18,10 +34,20 @@ int read_move(char *fst, char *snd, char *move_name, char *act,
             // run below if move exists
             printf("Determined command as MOVE USE, and it using the %s move", 
                     move_name);
+            move_t *temp;
+            DL_FOREACH(ctx->game->player->moves, temp)
+            {
+                if (strncmp(temp->name, move_name, MAX_MOVE_NAME_LEN) == 0)
+                {
+                    move_t *player_move = temp;
+                }
+                printf("Couldn't find the move you were looking for!\n");
+                return FAILURE;
+            }
             if (goes_first(ctx->game->battle) == PLAYER)
             {
-                action_string = print_battle_move(ctx->game->battle, 
-                                                  PLAYER, move_name);
+                action_string = print_battle_move(ctx->game->battle,
+                                                  PLAYER, player_move);
                 printf("%s\n", action_string);
                 move_t *enemy_move = give_move(ctx->game->battle->player, 
                                                ctx->game->battle->enemy, 
@@ -32,7 +58,7 @@ int read_move(char *fst, char *snd, char *move_name, char *act,
             else
             {
                 action_string = print_battle_move(ctx->game->battle,
-                                                  PLAYER, move_name);
+                                                  PLAYER, player_move);
                 printf("%s\n", action_string);
                 move_t *enemy_move = give_move(ctx->game->battle->player,
                                                ctx->game->battle->enemy,
@@ -40,7 +66,7 @@ int read_move(char *fst, char *snd, char *move_name, char *act,
                 action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
                 printf("%s\n", action_string);
             }
-            res = battle_flow(ctx, move_name, enemy_name);
+            res = battle_flow(ctx, player_move, enemy_name);
             invalid_move = 0;
         }
         else if ((strncmp(fst, "MOVE", 5) == 0) && (strncmp(snd, "LIST", 5) == 0))
@@ -56,18 +82,8 @@ int read_move(char *fst, char *snd, char *move_name, char *act,
         }
         else if ((strncmp(fst, "MOVE", 5) == 0) && (strncmp(snd, "INFO", 4) == 0))
         {
-            move_t *temp;
-            DL_FOREACH(ctx->game->player->moves, temp)
-            {
-                if (strncmp(temp->name, move_name, MAX_MOVE_NAME_LEN) == 0)
-                {
-                    printf("%s: %s\n", temp->name, temp->info);
-                    printf("\n");
-                    return SUCCESS;
-                }
-                printf("Couldn't find the move you were looking for!\n");
-                return FAILURE;
-            }
+            res = print_move_info(ctx);
+            return res;
         }
         else
         {
@@ -118,7 +134,7 @@ int main()
     char *act = calloc(strlen("ON") + 1, sizeof(char));
     char *enemy_name = calloc(MAX_NAME_LEN + 1, sizeof(char));
     char *start_string = print_start_battle(ctx->game->battle);
-    printf("%s\n", string_start);
+    printf("%s\n", start_string);
     char *hp_string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
