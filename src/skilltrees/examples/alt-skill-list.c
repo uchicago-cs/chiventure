@@ -7,7 +7,7 @@
 
 #define MAX_SPELL_DESC_LEN (50)
 
-/* See class-list.h */
+/* See skill-list.h */
 skill_list_t* new_skill_list(class_t* c, skill_t* spell) {
     
     skill_list_t* list = (skill_list_t*) calloc(1, sizeof(skill_list_t));
@@ -26,7 +26,7 @@ skill_list_t* new_skill_list(class_t* c, skill_t* spell) {
 }
 
 
-/* see class-list.h */
+/* see skill-list.h */
 skill_list_t* skill_list() {
 
     skill_list_t *head = NULL;
