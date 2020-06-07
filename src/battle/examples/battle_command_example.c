@@ -134,7 +134,7 @@ int main()
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
 
     game_t *g = new_game();
-    printf("game has been created folks!\n\n")
+    printf("game has been created folks!\n\n");
     ctx->game = g;
 
     ctx->game->player = p;
