@@ -50,12 +50,13 @@ int add_objstore(objstore_t **obj_store, object_t *o)
 int free_objstore(objstore_t **obj_store, objstore_t *store)
 {
     HASH_DEL(*obj_store, store);
+    free(store->o);
     free(store);
     return SUCCESS;
 }
 
 /* See obj_store.h for documentation */
-int free_all(objstore_t **obj_store)
+int free_all_objstore(objstore_t **obj_store)
 {
     if (obj_store == NULL) {
         return FAILURE;
