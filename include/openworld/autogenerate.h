@@ -177,7 +177,7 @@ npc_t *random_npcs(roomspec_t *room);
 
 /*
 * random_npc_lookup
-* Iterates through num_iters times to and copies the source item
+* Iterates through num_iters times to and copies the source item at most 3 times
 * Helper function for random_npcs
 *
 * parameters:

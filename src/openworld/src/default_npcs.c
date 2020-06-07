@@ -7,6 +7,8 @@
 /* See sample_npc.h */
 npc_t *get_hostile_npcs()
 {
+	npc_t *hash =NULL;
+
 	// wizard
 	item_hash_t *inventory_wizard = NULL;
 	item_t *dagger_item = item_new("magical dagger", "a magical dagger", "Sharp, cool, and deadly");
@@ -28,32 +30,35 @@ npc_t *get_hostile_npcs()
 	item_t *grenade_item = item_new("grenades", "lethal grenades", "bombs used to attack you opponent");
 	HASH_ADD_STR(inventory_ninja, item_id, grenade_item);
 
-	npc_t *hostile_list = NULL;
 	npc_t *wizard = calloc(1, sizeof(npc_t));
+	wizard->npc_name = "wizard";
 	wizard->level = 2;
 	wizard->inventory = inventory_wizard;
 	wizard->classification = NPC_HOSTILE;
-	DL_APPEND(hostile_list, wizard);
+	HASH_ADD_STR(hash, npc_name, wizard);
 
 	npc_t *assasin = calloc(1, sizeof(npc_t));
+	assasin->npc_name = "assasin";
 	assasin->level = 3;
 	assasin->inventory = inventory_assasin;
 	assasin->classification = NPC_HOSTILE;
-	DL_APPEND(hostile_list, assasin);
+	HASH_ADD_STR(hash, npc_name, assasin);
 
 
 	npc_t *ninja = calloc(1, sizeof(npc_t));
+	ninja->npc_name = "ninja";
 	ninja->level = 1;
 	ninja->inventory = inventory_ninja;
 	ninja->classification = NPC_HOSTILE;
-	DL_APPEND(hostile_list, ninja);
-
-	return hostile_list;
+	HASH_ADD_STR(hash, npc_name, ninja);
+	return hash;
 }
 
 /* See sample_npc.h */
 npc_t *get_friendly_npcs()
 {
+	npc_t *hash= NULL;
+
 	// merchant
 	item_hash_t *inventory_merchant = NULL;
 	item_t *healing_item = item_new("green potion", "healing potion", "lovely healing potion");
@@ -75,31 +80,35 @@ npc_t *get_friendly_npcs()
 	item_t *pencil_item = item_new("pencils", "yellow pencil", "Non-lethal weapon");
 	HASH_ADD_STR(inventory_librarian, item_id, pencil_item);
 
-	npc_t *friendly_list = NULL;
 	npc_t *librarian = calloc(1, sizeof(npc_t));
+	librarian->npc_name = "librarian";
 	librarian->level = 1;
 	librarian->inventory = inventory_librarian;
 	librarian->classification = NPC_FRIENDLY;
-	DL_APPEND(friendly_list, librarian);
+	HASH_ADD_STR(hash, npc_name, librarian);
 
 	npc_t *merchant = calloc(1, sizeof(npc_t));
+	merchant->npc_name = "merchant";
 	merchant->level = 3;
 	merchant->inventory = inventory_merchant;
 	merchant->classification = NPC_FRIENDLY;
-	DL_APPEND(friendly_list, merchant);
+	HASH_ADD_STR(hash, npc_name, merchant);
 
 	npc_t *farmer = calloc(1, sizeof(npc_t));
+	merchant->npc_name = "farmer";
 	farmer->level = 1;
 	farmer->inventory = inventory_farmer;
 	farmer->classification = NPC_FRIENDLY;
-	DL_APPEND(friendly_list, farmer);
+	HASH_ADD_STR(hash, npc_name, farmer);
 
-	return friendly_list;
+	return hash;
 }
 
 /* See sample_npc.h */
 npc_t *get_generic_npcs()
 {
+	npc_t *hash = NULL;
+
 	// frenemy1
 	item_hash_t *inventory_frenemy1 = NULL;
 	item_t *healing_item = item_new("green potion", "healing potion", "use after battle");
@@ -119,25 +128,27 @@ npc_t *get_generic_npcs()
 	item_t *book_item = item_new("book", "dark arts book", "perfect to prepare for battle");
 
 
-	npc_t *generic_list = NULL;
 	npc_t *frenemy1 = calloc(1, sizeof(npc_t));
+	frenemy1->npc_name = "frenemy1";
 	frenemy1->level = 1;
 	frenemy1->inventory = inventory_frenemy1;
 	frenemy1->classification = NPC_GENERIC;
-	DL_APPEND(generic_list, frenemy1);
+	HASH_ADD_STR(hash, npc_name, frenemy1);
 
 	npc_t *frenemy2 = calloc(1, sizeof(npc_t));
+	frenemy2->npc_name = "frenemy2";
 	frenemy2->level = 2;
 	frenemy2->inventory = inventory_frenemy2;
 	frenemy2->classification = NPC_GENERIC;
-	DL_APPEND(generic_list, frenemy2);
+	HASH_ADD_STR(hash, npc_name, frenemy2);
 
 
 	npc_t *frenemy3 = calloc(1, sizeof(npc_t));
+	frenemy3->npc_name = "frenemy3";
 	frenemy3->level = 3;
 	frenemy3->inventory = inventory_frenemy3;
 	frenemy3->classification = NPC_GENERIC;
-	DL_APPEND(generic_list, frenemy3);
+	HASH_ADD_STR(hash, npc_name, frenemy3);
 
-	return generic_list;
+	return hash;
 }

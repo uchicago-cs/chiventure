@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "game-state/game_state_common.h"
 
 /*
 Classification of the type of NPC characters to be found
@@ -29,6 +30,7 @@ typedef struct npc
 	npc_classification_t classification;
 	struct npc *next;
 	struct npc *prev;
+	UT_hash_handle hh;
 } npc_t;
 
 /* Will get a linked list of hostile npcs and includes the items that
