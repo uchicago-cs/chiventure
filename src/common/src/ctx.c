@@ -41,6 +41,13 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
     }
 
     lookup_t **table = lookup_t_new();
+    
+    stats_global_t *gs1 = stats_global_new("Health", 1000);
+    stats_global_t *gs2 = stats_global_new("XP", 10000);
+    stats_global_t *gs3 = stats_global_new("Stamina", 1000);
+    add_stat_to_game(game, gs1);
+    add_stat_to_game(game, gs2);
+    add_stat_to_game(game, gs3);
 
     player_t *player1 = player_new("player1", 100);
     add_player_to_game(ctx->game, player1);
