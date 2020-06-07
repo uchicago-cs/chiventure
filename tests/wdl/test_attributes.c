@@ -91,6 +91,18 @@ Test(attributes, add_replace)
     cr_assert_eq(strcmp("class", attrs->id), 0, "add_attribute() failed - didn't replace item");
 }
 
+Test(attributes, free_hash)
+{
+    obj_attr_t *attrs = NULL;
+    
+    add_attribute(&attrs, "class", "adventurer");
+    add_attribute(&attrs, "class", "mage");
+
+    int res = free_attr_hash(&attrs);
+    cr_assert_eq(res, 0, "free_attr_hash() failed");
+}
+
+
 /* ---------- SHARED ---------- */
 
 Test(attributes, free)
@@ -173,9 +185,9 @@ Test(attributes, get_prev)
 {
     obj_attr_t *item1 = new_attr("class", "adventurer");
     obj_attr_t *item2 = new_attr("weapon", "shield");
-    item1->next = item2;
-    item2->prev = item2;
-    obj_attr_t *res = get_prev_attr(item2);
+    item1->prev = item2;
+    item2->next = item1;
+    obj_attr_t *res = get_prev_attr(item1);
 
-    cr_assert_eq(res, item1, "get_attr_prev() failed");
+    cr_assert_eq(res, item2, "get_attr_prev() failed");
 }

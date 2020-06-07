@@ -61,6 +61,17 @@ obj_attr_t *find_attr(obj_attr_t **attrs, char *id);
  */
 obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void *d);
 
+/* free_attr_hash - frees & deletes attr from by iterating through hash (WILL ALSO delete from linked list)
+ *
+ * params:
+ *   - attrs: ptr to hash
+ * returns: SUCCESS
+ */
+int free_attr_hash(obj_attr_t **attrs);
+
+
+/* ---------- SHARED FUNCTIONS ---------- */
+
 /* free_attr - frees & deletes attr from hash table AND linked list
  *
  * params:
