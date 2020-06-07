@@ -113,6 +113,7 @@ int parse_command(char **out, char *input)
 
 int main()
 {
+    printf("\nbeginning to create the player and enemy...\n");
     stat_t *p_stats = (stat_t *)calloc(1, sizeof(stat_t));
     p_stats->hp = 100;
     p_stats->xp = 10;
@@ -125,16 +126,25 @@ int main()
 
     npc_enemy_t *e = NULL;
     DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, NULL, BATTLE_AI_GREEDY));
-    player_t *p = new_ctx_player("John", NULL, p_stats, NULL); // need to make moves
+    printf("enemy created!\n");
+    player_t *p = new_ctx_player("John", NULL, p_stats, NULL);
+    printf("player created!\n\n");
 
     chiventure_ctx_battle_t *ctx =
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
 
     game_t *g = new_game();
+    printf("game has been created folks!\n\n")
     ctx->game = g;
 
     ctx->game->player = p;
 
+    if(ctx->game->player->moves == NULL)
+    {
+        printf("=== oh no! the player's moves do not exist!!! ===\n");
+    }
+
+    printf("starting battle...\n\n");
     start_battle(ctx, e, ENV_GRASS);
     int turn = 1;
     printf("\nWelcome to the Battle! Let's get this started!\n\n");
