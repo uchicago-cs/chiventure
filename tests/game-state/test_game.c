@@ -226,9 +226,9 @@ Test(game_end_condition, add_end_condition_to_game)
     game_t *game = game_new("Welcome to Chiventure!");
 
     attribute_value_t test_value_1;
-    test_value_1.str_val = "Test_Value_1"
+    test_value_1.str_val = "Test_Value_1";
     attribute_value_t test_value_2;
-    test_value_2.str_val = "Test_Value_2"
+    test_value_2.str_val = "Test_Value_2";
 
 
 
