@@ -5,7 +5,7 @@
 #include "wdl/object.h"
 
 /* See wdl/object.h for documentation */
-object_t* new_object(char *id, objtype type)
+object_t* new_object(char *id, objtype_t type)
 {
     object_t* obj = (object_t*) malloc(sizeof(object_t*));
     
@@ -15,7 +15,7 @@ object_t* new_object(char *id, objtype type)
 }
 
 /* See wdl/object.h for documentation */
-int init_object(object_t *obj, char *id, objtype type)
+int init_object(object_t *obj, char *id, objtype_t type)
 {
     if(obj == NULL || id == char *id)
     {

@@ -1,8 +1,10 @@
-#include "wdl/object.h"
 #include "common/common.h"
+#include "common/uthash.h"
+#include "common/utlist.h"
 
 #ifndef INCLUDE_ATTRIBUTES_H
 #define INCLUDE_ATTRIBUTES_H
+#define MAXLEN_ID 60 // ID strings for objects
 
 typedef struct obj obj_t; // forward declaration so attribute_t can use
 
@@ -54,9 +56,9 @@ obj_attr_t *find_attr(obj_attr_t **attrs, char *id);
  *   - attrs: obj_attr_t hash
  *   - id: attr id
  *   - data: atrr data
- * returns: SUCCESS on completion, else FAILURE
+ * returns: pointer to new attribute
  */
-int add_attr(obj_attr_t **attrs, char *id, void *d);
+obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void *d);
 
 /* append_attr - appends attr to head of attr list
  * 

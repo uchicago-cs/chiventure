@@ -5,12 +5,11 @@
 #include <stdio.h>
 #include "common/common.h"
 #include "common/uthash.h"
-#include "common/utlist.h"
+//#include "common/utlist.h"
+#include "attributes.h"
 
 #ifndef INCLUDE_OBJECT_H
 #define INCLUDE_OBJECT_H
-
-#define MAXLEN_ID 60 // ID strings for objects
 
 /*
  * objtype_t: possible types of objects. 
@@ -77,13 +76,14 @@ typedef struct asset
  *
  * params:
  *   - id: The id for the object
+ *   - type: type of object
  *
  * returns:
  *   - A pointer to the newly created and initialized object on success
  *   - NULL on error
  *
  */
-object_t *new_object(char *id, objtype type);
+object_t *new_object(char *id, objtype_t type);
 
 /*
  * Initializes a new object with indentifier id
@@ -91,13 +91,14 @@ object_t *new_object(char *id, objtype type);
  * params:
  *   - obj: The object to initialize
  *   - id: The id for the object
+ *   - type: type of object
  *
  * returns:
  *   - SUCCESS on successful initialization
  *   - FAILURE otherwise
  *
  */
-int init_object(object_t *obj, char *id, objtype type);
+int init_object(object_t *obj, char *id, objtype_t type);
 
 /*
  * Frees an object
@@ -172,6 +173,16 @@ int init_asset(asset_t asset, char* filename);
 
 int free_asset(asset_t asset);
 
+/* get_obj_attribute: retrieve an attribute from an object
+ *
+ * params:
+ *   - obj: the object holding the attribute
+ *   - name: the attribute key
+ *
+ * returns:
+ *   - a pointer to the requested attribute as an attribute_t struct member
+ */
+//obj_attr_t* get_obj_attribute(object_t* obj, char* name);
 
 /* get_asset: retrieves an asset from a .wdz archive
  *

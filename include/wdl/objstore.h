@@ -74,13 +74,13 @@ int add_objstore(objstore_t **obj_store, object_t *o);
 int free_objstore(objstore_t **obj_store, objstore_t *store);
 
 /* 
- * free_all: deletes & frees entire objectstore_t hash (including objects)
+ * free_all_objstore: deletes & frees entire objectstore_t hash (including objects)
  * 
  * params:
  *   - object_store - objstore hash
  * returns: SUCCESS
  */
-int free_all(objstore_t **object_store);
+int free_all_objstore(objstore_t **object_store);
 
 /* 
  * get_object: retrieves an object from a .wdz archive
