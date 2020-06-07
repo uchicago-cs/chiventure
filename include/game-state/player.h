@@ -6,7 +6,6 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include "playerclass/class.h"
 #include "game_state_common.h"
 #include "item.h"
 #include "stats.h"
