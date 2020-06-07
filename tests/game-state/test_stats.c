@@ -114,17 +114,17 @@ Test(stats, free_table)
     stats_hash_t *sh = NULL;
 
     stats_global_t *gs1 = stats_global_new("health", 100);
-    cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
+    cr_assert_not_null(gs1, "stats_global_new() failed. Global health stat is NULL");
     stats_global_t *gs2 = stats_global_new("speed", 100);
-    cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
+    cr_assert_not_null(gs2, "stats_global_new() failed. Global health stat is NULL");
 
-    stats_t* stat1 = stats_new(gs1, 50);
-    cr_assert_not_null(stat, "stats_new() failed. Player health stat is NULL");
-    stats_t* stat2 = stats_new(gs1, 50);
-    cr_assert_not_null(stat, "stats_new() failed. Player health stat is NULL");
+    stats_t* s1 = stats_new(gs1, 50);
+    cr_assert_not_null(s1, "stats_new() failed. Player health stat is NULL");
+    stats_t* s2 = stats_new(gs2, 50);
+    cr_assert_not_null(s2, "stats_new() failed. Player speed stat is NULL");
 
-    add_stat(&sh, stat_1);
-    add_stat(&sh, stat_2);
+    add_stat(&sh, s1);
+    add_stat(&sh, s2);
     
     int ret_val = free_stats_table(sh);
     cr_assert_eq (ret_val, SUCCESS, "free_stats_table() failed to return SUCCESS");
