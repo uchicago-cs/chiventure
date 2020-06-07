@@ -102,21 +102,15 @@ Test(stats, global_free){
     cr_assert_eq(ret_val, SUCCESS, "free_stats_global() failed to return SUCCESS");
 }
 
-/* Checks that add_stat correctly adds a new stat 
+/* Checks that add_stat correctly adds a new stat
    to a hash table*/
 Test (stats, add_stat)
 {
     stats_hash_t *sh = NULL;
-    stats_global_t g;
-    g.name = "health";
-    g.max = 100;
 
-    stats_t s;
-    s.key = "health";
-    s.global = &g;
-    s.val = 50;
-    s.max = 75;
-    s.modifier = 1.1;
+    stats_global_t *health = stats_global_new("health", 100);
+
+    stats_t *s1 = stats_new(health, 75);
 
     int rc = add_stat(&sh, &s);
 
@@ -130,34 +124,20 @@ Test(stats, display_stat)
 {
     stats_hash_t *sh = NULL;
 
-    stats_global_t health;
-    health.name = "health";
-    health.max = 100;
+    stats_global_t *health = stats_global_new("health", 100);
 
-    stats_t s1;
-    s1.key = "health";
-    s1.global = &health;
-    s1.val = 50;
-    s1.max = 75;
-    s1.modifier = 1.1;
+    stats_t *s1 = stats_new(health, 75);
 
-    int rc = add_stat(&sh, &s1);
+    int rc = add_stat(&sh, s1);
 
     cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
 
-    stats_global_t speed;
-    speed.name = "speed";
-    speed.max = 100;
+    stats_global_t *speed = stats_global_new("speed", 100);
 
-    stats_t s2;
-    s2.key = "speed";
-    s2.global = &speed;
-    s2.val = 25;
-    s2.max = 50;
-    s2.modifier = 0.9;
+    stats_t *s2 = stats_new(speed, 50);
 
-    rc = add_stat(&sh, &s2);
+    rc = add_stat(&sh, s2);
 
     cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
