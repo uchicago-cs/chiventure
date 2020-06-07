@@ -136,18 +136,17 @@ Test(stats, free_table)
 
 Test(stats, free_global_table)
 {
-    stats_global_hash_t **gsh;
-    *gsh = NULL;
+    stats_global_hash_t *gsh = NULL;
 
     stats_global_t *gs1 = stats_global_new("health", 100);
     cr_assert_not_null(gs1, "stats_global_new() failed. Global health stat is NULL");
     stats_global_t *gs2 = stats_global_new("speed", 100);
     cr_assert_not_null(gs2, "stats_global_new() failed. Global health stat is NULL");
 
-    HASH_ADD_KEYPTR(hh, *gsh, gs1->name, strlen(gs1->name), gs1);
-    HASH_ADD_KEYPTR(hh, *gsh, gs2->name, strlen(gs2->name), gs2);
+    HASH_ADD_KEYPTR(hh, gsh, gs1->name, strlen(gs1->name), gs1);
+    HASH_ADD_KEYPTR(hh, gsh, gs2->name, strlen(gs2->name), gs2);
 
-    int ret_val = free_stats_global_table(*gsh);
+    int ret_val = free_stats_global_table(gsh);
     cr_assert_eq (ret_val, SUCCESS, "free_stats_global_table() failed to return SUCCESS");
 }
 
