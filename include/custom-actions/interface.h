@@ -9,6 +9,7 @@
 #include "conditional_block.h"
 #include "control_block.h"
 #include "game-state/game.h"
+// #include "custom_action.h"
 
 typedef struct
 {
@@ -25,7 +26,7 @@ typedef struct custom_action
     char *action_name;
     char *context;
     char *item;
-    char *class;
+    char *type;
     AST_block_t *head;
 } custom_action_t;
 
@@ -33,7 +34,10 @@ typedef struct custom_action
  * A list of all custom actions. This is a placeholder which will eventually
  * be replaced by a list inside of game-state/game.h.
  */
-typedef struct custom_action custom_actions_list_t;
+typedef struct custom_action_list
+{
+    // custom_action_t
+} custom_actions_list_t;
 
 /* 
  * Search for a custom action by name
