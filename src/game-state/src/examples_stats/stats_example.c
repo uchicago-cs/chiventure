@@ -12,7 +12,6 @@
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
-<<<<<<< 3298649209077a2504b4dcc79d39858589d309a8
 /* Creates a poison item with an effect */
 item_t *create_poison(global_effect_t *p, stat_t *stat)
 {
@@ -58,8 +57,6 @@ item_t *create_elixir(global_effect_t *p1, global_effect_t *p2,
     add_effect_to_item(elixir, boost);
 
 }
-=======
->>>>>>> adding some CLI commands and display functions for global effects/stats #768
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
 {
@@ -73,7 +70,6 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
 
-<<<<<<< 3298649209077a2504b4dcc79d39858589d309a8
     
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
@@ -115,25 +111,6 @@ chiventure_ctx_t *create_sample_ctx()
     add_item_to_game(game, elixir);
     add_item_to_room(room1, elixir);
 
-=======
-    /* Create a poison in room1 */
-    item_t *poison = item_new("POISON","This is poison.",
-                   "This is poison and will harm your health. DO NOT TAKE OR PICKUP.");
-    
-    add_item_to_room(room1, poison);
-
-    item_t *soup = item_new("SOUP","This is soup.",
-                   "This is a warm, delicious soup and will help your health. Feel free to take it");
-    add_item_to_room(room1, soup);
-
-    item_t * = item_new("POISON","This is .",
-                   "This is poison and will harm your health. DO NOT TAKE OR PICKUP.");
-    add_item_to_room(room1, poison);
-
-
-    /* Create context */
-    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
->>>>>>> adding some CLI commands and display functions for global effects/stats #768
 
     return ctx;
 }
@@ -144,7 +121,6 @@ char *print_global_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if(tokens[2] != NULL)
     {
-<<<<<<< 3298649209077a2504b4dcc79d39858589d309a8
         return "I do not know what you mean.";
     }
 
@@ -161,12 +137,6 @@ char *print_global_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     char *display = strdup(list);
     return display;
-=======
-        return "I do on know what you mean.";
-    }
-
-    return display_global_stats(game->curr_stats);
->>>>>>> adding some CLI commands and display functions for global effects/stats #768
 }
 
 char *print_global_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -175,7 +145,6 @@ char *print_global_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if(tokens[2] != NULL)
     {
-<<<<<<< 3298649209077a2504b4dcc79d39858589d309a8
         return "I do not know what you mean.";
     }
 
@@ -193,12 +162,6 @@ char *print_global_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     char *display = strdup(list);
     return display;
-=======
-        return "I do on know what you mean.";
-    }
-
-    return display_global_effects(game->all_effects;
->>>>>>> adding some CLI commands and display functions for global effects/stats #768
 }
 
 char *print_player_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -207,11 +170,7 @@ char *print_player_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if(tokens[2] != NULL)
     {
-<<<<<<< 3298649209077a2504b4dcc79d39858589d309a8
         return "I do not know what you mean.";
-=======
-        return "I do on know what you mean.";
->>>>>>> adding some CLI commands and display functions for global effects/stats #768
     }
 
     return display_stats(game->curr_player->player_stats);
@@ -223,7 +182,6 @@ char *print_player_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if(tokens[2] != NULL)
     {
-<<<<<<< 3298649209077a2504b4dcc79d39858589d309a8
         return "I do not know what you mean.";
     }
 
@@ -318,11 +276,5 @@ int main(int argc, char **argv)
     game_free(ctx->game);
 
     return 0;
-=======
-        return "I do on know what you mean.";
-    }
-
-    return display_global_stats(game->curr_player->player_effects);
->>>>>>> adding some CLI commands and display functions for global effects/stats #768
 }
 
