@@ -6,7 +6,7 @@
 int stats_global_init(stats_global_t *s, char *name, double max)
 {
     assert(s != NULL);
-    s->name strndup(name);
+    s->name = strndup(name);
     s->max = max;
     return SUCCESS;
 }
@@ -211,9 +211,9 @@ int free_stats(stats_hash_t *sh)
 int free_stats_global(stats_global_hash_t *gsh)
 {
     stats_global_t *current, *next;
-    for(current = gsh->hh.next; current != NULL; current = next;) 
+    for(current = gsh->hh.next; current != NULL; current = next) 
     {
-        next = current->hh.next
+        next = current->hh.next;
         free(current->name);
         HASH_DEL(gsh, current);
         free(current);
