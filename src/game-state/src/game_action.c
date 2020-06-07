@@ -228,9 +228,14 @@ int delete_action(list_action_type_t *act, action_type_t *a)
     list_action_type_t *temp, *prev;
     temp = act;
 
-    if (temp != NULL && temp->act == a)
+    if (act == NULL || temp->act == NULL) {
+        return -1;
+    }
+
+    if (temp->act == a)
     {
-        act = temp->next;
+        free(temp);
+
         return SUCCESS;
     }
 
@@ -243,7 +248,10 @@ int delete_action(list_action_type_t *act, action_type_t *a)
     if (temp != NULL)
     {
         prev->next = temp->next;
+        free(temp);
     }
+
+
     return SUCCESS;
 }
 
