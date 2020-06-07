@@ -48,11 +48,27 @@ obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void * d)
     return new;
 }
 
+int free_attr_hash(obj_attr_t **attrs)
+{
+    if (attrs == NULL) {
+        return FAILURE;
+    }
+    obj_attr_t *curr, *tmp;
+    HASH_ITER(hh, *attrs, curr, tmp)
+    {
+        free_attr(attrs, *attrs, curr);
+    }
+    return SUCCESS;
+}
+
 /* ---------- LIMBO ---------- */
 
 /* See attributes.h for documentation */
 int free_attr(obj_attr_t **attrs, obj_attr_t *head, obj_attr_t *a)
 {
+    if ((attrs == NULL)||(head == NULL)) {
+        return FAILURE;
+    }
     //DL_DELETE(head, a);
     HASH_DEL(*attrs, a);
     free(a);

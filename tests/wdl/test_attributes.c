@@ -91,6 +91,19 @@ Test(attributes, add_replace)
     cr_assert_eq(strcmp("class", attrs->id), 0, "add_attribute() failed - didn't replace item");
 }
 
+/* ---------- SHARED ---------- */
+
+Test(attributes, free)
+{
+    obj_attr_t *attrs = NULL;
+
+    obj_attr_t *new = add_attribute(&attrs, "class", "adventurer");
+    cr_assert_not_null(attrs, "add_attr() failed to add attr");
+
+    int res = free_attr(&attrs, attrs, new);
+    cr_assert_eq(res, SUCCESS, "free_attr() failed");
+}
+
 
 /* ---------- LINKED LIST FUNCTIONS ---------- */
 
@@ -126,13 +139,43 @@ Test(attributes, count)
     cr_assert_eq(res, 2, "count_attr_list() failed");
 }
 
-Test(attributes, free)
+
+/* ---------- INTERFACE FUNCTIONS ---------- */
+
+Test(attributes, get_id)
 {
-    obj_attr_t *attrs = NULL;
+    obj_attr_t *test = new_attr("class", "adventurer");
+    char *res = get_attr_id(test);
 
-    obj_attr_t *new = add_attribute(&attrs, "class", "adventurer");
-    cr_assert_not_null(attrs, "add_attr() failed to add attr");
+    cr_assert_eq(strcmp(res, "class"), 0, "get_attr_id() failed");
+}
 
-    int res = free_attr(&attrs, attrs, new);
-    cr_assert_eq(res, SUCCESS, "free_attr() failed");
+Test(attributes, get_data)
+{
+    obj_attr_t *test = new_attr("class", "adventurer");
+    char *res = get_attr_data(test);
+
+    cr_assert_eq(strcmp(res, "adventurer"), 0, "get_attr_data() failed");
+}
+
+Test(attributes, get_next)
+{
+    obj_attr_t *item1 = new_attr("class", "adventurer");
+    obj_attr_t *item2 = new_attr("weapon", "shield");
+    item1->next = item2;
+    item2->prev = item1;
+    obj_attr_t *res = get_next_attr(item1);
+
+    cr_assert_eq(res, item2, "get_attr_next() failed");
+}
+
+Test(attributes, get_prev)
+{
+    obj_attr_t *item1 = new_attr("class", "adventurer");
+    obj_attr_t *item2 = new_attr("weapon", "shield");
+    item1->next = item2;
+    item2->prev = item2;
+    obj_attr_t *res = get_prev_attr(item2);
+
+    cr_assert_eq(res, item1, "get_attr_prev() failed");
 }
