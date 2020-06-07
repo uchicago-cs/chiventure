@@ -225,6 +225,13 @@ Test(game_end_condition, add_end_condition_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
 
+    attribute_value_t test_value_1;
+    test_value_1.str_val = "Test_Value_1"
+    attribute_value_t test_value_2;
+    test_value_2.str_val = "Test_Value_2"
+
+
+
     item_t *test_item_1 = item_new("test_item_1", 
     "test item 1 for end conditions",
     "item for testing add_end_condition_to_game()");
@@ -237,10 +244,10 @@ Test(game_end_condition, add_end_condition_to_game)
 
     add_item_to_game(game, test_item_1);
 
-    condition_t *condition_1 = attribute_condition_new(test_item_1, "Test_Attribute_1", "Test_Value_1");
-    condition_t *condition_2 = attribute_condition_new(test_item_1, "Test_Attribute_2", "Test_Value_2");
-    condition_t *condition_3 = attribute_condition_new(test_item_2, "Test_Attribute_1", "Test_Value_1");
-    condition_t *condition_4 = attribute_condition_new(test_item_2, "Test_Attribute_1", "Test_Value_2");
+    condition_t *condition_1 = attribute_condition_new(test_item_1, "Test_Attribute_1", test_value_1);
+    condition_t *condition_2 = attribute_condition_new(test_item_1, "Test_Attribute_2", test_value_2);
+    condition_t *condition_3 = attribute_condition_new(test_item_2, "Test_Attribute_1", test_value_1);
+    condition_t *condition_4 = attribute_condition_new(test_item_2, "Test_Attribute_1", test_value_2);
     
     int add_1 = add_end_condition_to_game(game, condition_1);
     cr_assert_eq(add_1, SUCCESS, "add_end_condition_to_game() did not add condition_1");
@@ -287,7 +294,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_2, "Test_Attribute_2", "Invalid_Value_2");
     add_item_to_game(game, test_item_2);
 
-    condition_t *condition_1 = attribute_condition_new(test_item_2, "Test_Attribute_2", expected);
+    condition_t *condition_2 = attribute_condition_new(test_item_2, "Test_Attribute_2", expected);
     add_end_condition_to_game(game, condition_2);
     
     item_t *test_item_3 = item_new("test_item_3", 
