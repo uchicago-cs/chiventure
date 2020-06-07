@@ -13,22 +13,25 @@ int build_moves(combatant_t *c)
     move_list_t *tmp;
     move_t *ret_move;
 
-    /* Currently player class does not have sample classes
-       Once they have implemented moves lists based on class,
-       this line will need to be uncommented, and any
-       tests or sample code will have to initialize the player/enemy
-       with an actual class */
-    //char *combatant_class_name = c->class->name;
+    char *combatant_class_name;
+    if(c->class != NULL)
+    {
+        combatant_class_name = c->class->name;
+    }
+    else
+    {
+        combatant_class_name = "None";
+    }
     
     DL_FOREACH(moves, tmp)
     {
         /* commented temporarily since combatant_class_name 
            has not been initialized */
-        //if(!(strncmp(combatant_class_name, tmp->c->name, MAX_NAME_LEN)))
-        //{
+        if(!(strncmp(combatant_class_name, tmp->c->name, MAX_NAME_LEN)))
+        {
             ret_move = move_new(tmp->spell, tmp->id, NULL, true, tmp->damage, 0);
             DL_APPEND(c->moves, ret_move);
-        //}
+        }
     }
     return SUCCESS;
 }
