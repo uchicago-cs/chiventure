@@ -96,9 +96,9 @@ Test(action_block_t, new_MOVE)
 }
 
 /* Checks that a new action block with ARITHMETIC type is created without interruption */
-Test(action_block_t, new_ARITHMETIC)
+Test(action_block_t, new_ADDITION)
 {
-    action_enum_t action_type = ARITHMETIC;
+    action_enum_t action_type = ADDITION;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     enum attribute_tag attribute_tag = INTEGER;
@@ -285,9 +285,9 @@ Test(AST_action_block_t, new_ast_MOVE)
 }
 
 /* Checks that a new action AST block with ARITHMETIC type is created without interruption */
-Test(AST_action_block_t, new_ast_ARITHMETIC)
+Test(AST_action_block_t, new_ast_ADDITION)
 {   
-    action_enum_t action_type = ARITHMETIC;
+    action_enum_t action_type = ADDITION;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     enum attribute_tag attribute_tag = INTEGER;
@@ -468,11 +468,11 @@ Test(action_block_t, init_MOVE)
 }
 
 /* Checks that a new action block with ARITHMETIC type is initialized without interruption */
-Test(action_block_t, init_ARITHMETIC)
+Test(action_block_t, init_ADDITION)
 {
     action_block_t action;
     int rc;
-    action_enum_t action_type = ARITHMETIC;
+    action_enum_t action_type = ADDITION;
     int num_args = 1;
     char *attr_name1 = "attribute1";
     enum attribute_tag attribute_tag = INTEGER;
@@ -633,10 +633,10 @@ Test(action_block_t, free_MOVE)
 }
 
 /* Checks that a new action block with ARITHMETIC type is freed without interruption */
-Test(action_block_t, free_ARITHMETIC)
+Test(action_block_t, free_ADDITION)
 {
     action_block_t *action;
-    action_enum_t action_type = ARITHMETIC;
+    action_enum_t action_type = ADDITION;
     int rc;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -711,4 +711,4 @@ Test(action_block_t, free_EXEC)
     rc = action_block_free(action);
 
     cr_assert_eq(rc, SUCCESS, "action_block_free() failed");
-} 
+}

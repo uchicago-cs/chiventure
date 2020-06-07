@@ -3,6 +3,8 @@ add_library(custom-actions
             src/branch_block.c
             src/control_block.c
             src/action_block.c
-            src/conditional_block.c)
+            src/conditional_block.c
+            src/custom-actions-cond.c
+            src/custom-actions-effect.c)
 
 target_include_directories(custom-actions PRIVATE include/)

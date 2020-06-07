@@ -17,7 +17,7 @@ typedef enum action_type {
     SET,
     SAY,
     MOVE,
-    ADD,
+    ADDITION,
     SUBTRACT,
     MULTIPLY,
     DIVIDE,

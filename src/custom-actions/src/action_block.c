@@ -105,12 +105,14 @@ int exec_action_block(action_block_t *a)
 
         case SET:
             n = 2;
-        case ADD:
+            break;
+        case ADDITION:
         case SUBTRACT:
         case MULTIPLY:
         case DIVIDE:
         case GEN:
             n = 3;
+            break;
         default:
             return FAILURE;
     }
@@ -124,7 +126,7 @@ int exec_action_block(action_block_t *a)
         case SET:
             rc = set_attr(a->args[0], a->args[1]);
             break;
-        case ADD:
+        case ADDITION:
             rc = add_attr(a->args[0], a->args[1], a->args[2]);
             break;
         case SUBTRACT:
@@ -133,7 +135,7 @@ int exec_action_block(action_block_t *a)
         case MULTIPLY:
             rc = mult_attr(a->args[0], a->args[1], a->args[2]);
             break;
-        case DIVISION:
+        case DIVIDE:
             rc = div_attr(a->args[0], a->args[1], a->args[2]);
             break;
         case GEN:
