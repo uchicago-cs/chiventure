@@ -48,7 +48,7 @@ Test(stats, stats_init){
     cr_assert_leq(stat->val, stat->global->max, 
         "stat base value exceeds maximal value");
     free_stats(stat);
-    free_stats_global(global_stat);
+    free_stats_global(stat_global);
 }
 
 /* Checks that stats_global_new() mallocs memory for a stats_global struct*/
@@ -83,7 +83,7 @@ Test(stats, stats_new){
     cr_assert_leq(stat->val, stat->global->max, 
         "stat base value exceeds maximal value.");
     free_stats(stat);
-    free_stats_global(global_stat);
+    free_stats_global(stat_global);
 }
 
 
@@ -96,7 +96,7 @@ Test(stats, free){
     
     int ret_val = free_stats(stat);
     cr_assert_eq (ret_val, SUCCESS, "free_stats() failed to return SUCCESS");
-    free_stats_global(global_stat);
+    free_stats_global(stat_global);
 }
 
 Test(stats, global_free){
