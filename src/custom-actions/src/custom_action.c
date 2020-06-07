@@ -12,7 +12,7 @@
 
 /* See custom_action.h */
 custom_action_t* custom_action_new(char *action_name, char *context, char *item, 
-                                   char *type, AST_block_t *head)
+                                   char *type, AST_block_t *head, ut_hash_handle hh)
 {
     custom_action_t *action;
     int new_action;
@@ -25,7 +25,7 @@ custom_action_t* custom_action_new(char *action_name, char *context, char *item,
         return NULL;
     }
 
-    new_action = custom_action_init(action, action_name, context, item, type, head);
+    new_action = custom_action_init(action, action_name, context, item, type, head, hh);
     if (new_action != SUCCESS)
     {
         fprintf(stderr, "Error: Could not initialize custom_action_t\n");
@@ -37,7 +37,7 @@ custom_action_t* custom_action_new(char *action_name, char *context, char *item,
 
 /* See custom_action.h */
 int custom_action_init(custom_action_t *action, char *action_name, char *context, 
-                       char *item, char *type, AST_block_t *head)
+                       char *item, char *type, AST_block_t *head, ut_hash_handle hh)
 {
     assert(action != NULL);
     assert(action_name != NULL);
@@ -45,12 +45,14 @@ int custom_action_init(custom_action_t *action, char *action_name, char *context
     assert(item != NULL);
     assert(type != NULL);
     assert(head != NULL);
+    assert(hh != NULL);
 
     action->action_name = action_name;
     action->context = context;
     action->item = item;
     action->type = type;
     action->head = head;
+    action->hh = hh;
 
     return SUCCESS;
 }
