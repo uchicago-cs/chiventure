@@ -137,7 +137,7 @@ int main()
         printf("What will you do?\n");
         printf("> ");
         // int rc = scanf("%s %s %s %s %s", fst, snd, move_name, act, enemy_name);
-        char** command_input = (char*)calloc(5, sizeof(char));
+        char* command_input = (char*)calloc(5, sizeof(char));
         while (fgets(command_input, MAX_COMMAND_LINE_LENGTH - 1, stdin))
         {
             char *p = command_input;
