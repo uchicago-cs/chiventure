@@ -185,9 +185,11 @@ int quest_status(quest_t *quest);
  * - quest: pointer to quest_t
  * 
  * Returns:
- * - an item (possible to be added into the inventory of the player)
- * - If the quest is not completed the function will return a null pointer
- * - The status of the quest should first be checked before this function is called
+ * - item_t: an item (possible to be added into the inventory of the player)
+ *           If the quest is not completed the function will return a null pointer
+ * 
+ * Note:
+ * The status of the quest should first be checked before this function is called
  */
 item_t *quest_completed(quest_t *quest);
 
