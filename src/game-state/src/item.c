@@ -124,7 +124,7 @@ int add_effect_to_item(item_t *item, stat_effect_t *effect)
 
     if (check != NULL)
     {
-        return FAILURE; //the effect already exists in the game
+        return FAILURE; //item already has the effect
     }
 
     HASH_ADD_KEYPTR(hh, item->stat_effects, effect->key, 

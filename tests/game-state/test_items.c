@@ -149,7 +149,7 @@ Test(item, add_effect_to_item)
     int rc = add_effect_to_item(item, effect);
 
     cr_assert_eq(rc, SUCCESS, "add_effect_to_game failed");
-    cr_assert_not_null(item->stat_effects, "effect not added to all_effects");
+    cr_assert_not_null(item->stat_effects, "effect not added to stat_effects");
 }
 
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
