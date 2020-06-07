@@ -224,7 +224,7 @@ Test(stats, change_stat) {
     cr_assert_eq(sh->val, 50, 
         "change_stat base value not equal initially");
 
-    change_stat(sh, "strength", 13);
+    change_stat(sh, "strength", 10);
     cr_assert_eq(sh->val, 63, 
         "change_stat failed to return success");
 }
