@@ -6,7 +6,7 @@
 int stats_global_init(stats_global_t *s, char *name, double max)
 {
     assert(s != NULL);
-    strncpy(s->name, name, strlen(name));
+    s->name strndup(name);
     s->max = max;
     return SUCCESS;
 }
@@ -16,7 +16,7 @@ int stats_init(stats_t *stat, char *name, double init)
 {
     assert(stat != NULL);
 
-    strncpy(stat->key, name, strlen(name));
+    stat->key = strdup(name);
     stat->val = init;
     stat->max = init;
     stat->modifier = 1;
@@ -199,6 +199,7 @@ int free_stats(stats_hash_t *sh)
     for(current = sh->hh.next; current != NULL; current = next) 
     {
         next = current->hh.next;
+        free(current->key);
         HASH_DEL(sh, current);
         free(current);
     }
@@ -210,11 +211,12 @@ int free_stats(stats_hash_t *sh)
 int free_stats_global(stats_global_hash_t *gsh)
 {
     stats_global_t *current, *next;
-    for(current = gsh->hh.next; current != NULL; next = current->hh.next) 
+    for(current = gsh->hh.next; current != NULL; current = next;) 
     {
+        next = current->hh.next
+        free(current->name);
         HASH_DEL(gsh, current);
         free(current);
-        current = next;
     }
     HASH_DEL(gsh, gsh);
     free(gsh);
