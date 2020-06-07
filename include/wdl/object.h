@@ -83,7 +83,7 @@ typedef struct asset
  *   - NULL on error
  *
  */
-object_t *new_object(char *id);
+object_t *new_object(char *id, objtype type);
 
 /*
  * Initializes a new object with indentifier id
@@ -97,7 +97,7 @@ object_t *new_object(char *id);
  *   - FAILURE otherwise
  *
  */
-int init_object(object_t *obj, char *id);
+int init_object(object_t *obj, char *id, objtype type);
 
 /*
  * Frees an object
@@ -109,6 +109,47 @@ int init_object(object_t *obj, char *id);
  *   - always returns SUCCESS
  */
 int obj_free(object_t *obj);
+
+
+/*
+ * new_asset: creates a new asset with identifier filename
+ *
+ * params:
+ *   - filename: the filename of the asset
+ *
+ * returns:
+ *   - a pointer to the created asset
+ *   - NULL if failure
+ */
+
+asset_t *new_asset(char* filename);
+
+/*
+ * init_asset: initializes an asset with identifier filename
+ *
+ * params:
+ *   - asset: the asset to be initialized
+ *   - filename: the filename of the asset
+ * 
+ * returns:
+ *   - SUCCESS on successful initialization
+ *   - FAILURE otherwise
+ */
+
+int init_asset(asset_t asset, char* filename);
+
+/*
+ * free_asset: frees an asset
+ *
+ * params:
+ *   - asset: the asset to be freed
+ * 
+ * returns:
+ *   - always returns SUCCESS
+ */
+
+int free_asset(asset_t asset);
+
 
 /* 
  * get_object: retrieves an object from a .wdz archive
