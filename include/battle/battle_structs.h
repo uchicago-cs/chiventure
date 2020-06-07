@@ -45,5 +45,4 @@ typedef struct stat {
     int level;
 } stat_t;
 
-
 #endif

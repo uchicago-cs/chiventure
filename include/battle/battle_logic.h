@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "battle/battle_state.h"
 #include "battle/battle_structs.h"
+#include "battle/battle_common.h"
 
 /*
  * Checks the targets of a move to see if they exist and are targetable
@@ -16,13 +17,6 @@
  * - Returns the combatant selected
  */
 combatant_t *check_target(battle_t *b, char *target);
-
-typedef enum battle_status
-{
-    BATTLE_IN_PROGRESS,
-    BATTLE_VICTOR_PLAYER,
-    BATTLE_VICTOR_ENEMY
-} battle_status_t;
 
 /*
  * Determines if a battle has reached its conclusion
