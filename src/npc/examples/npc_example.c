@@ -102,13 +102,13 @@ convo_t *create_sample_convo()
 char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         return "Room not found! Error! Look for Jim if you're not in a room!\n";
     }
 
     /* This operation has to be called with one parameter */
-    if(tokens[1] != NULL)
+    if (tokens[1] != NULL)
     {
         return "I do not know what you mean.";
     }
