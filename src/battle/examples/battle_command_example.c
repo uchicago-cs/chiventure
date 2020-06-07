@@ -44,7 +44,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         && (strncmp(args[1], "USE", 4) == 0) 
         && (strncmp(args[3], "ON", 3) == 0))
     {
-        printf("Determined command as MOVE USE, and it using the %s move", 
+        printf("Determined command as MOVE USE, and it using the %s move\n", 
                 args[2]);
         move_t *temp;
         move_t *player_move = temp;
@@ -136,9 +136,9 @@ int main()
     e_stats->speed = 9;
 
     npc_enemy_t *e = NULL;
-    DL_APPEND(e, make_npc_enemy("Goblin", make_wizard(), e_stats, NULL, BATTLE_AI_GREEDY));
+    DL_APPEND(e, make_npc_enemy("Goblin", make_bard(), e_stats, NULL, BATTLE_AI_GREEDY));
     printf("enemy created!\n");
-    player_t *p = new_ctx_player("John", make_bard(), p_stats, NULL);
+    player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL);
     printf("player created!\n\n");
 
     chiventure_ctx_battle_t *ctx =
@@ -152,9 +152,6 @@ int main()
 
     printf("starting battle...\n\n");
     start_battle(ctx, e, ENV_GRASS);
-
-    int build_res = build_moves(ctx->game->battle->player);
-    printf("build_move returned: %d\n", build_res);
 
     if (ctx->game->battle->player->moves == NULL)
     {
