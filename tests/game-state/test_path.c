@@ -33,7 +33,7 @@ Test(path, free)
 }
 
 
-/* checks that conditions ae intialized */
+/* checks that conditions are intialized */
 Test(path, conditions)
 {
     //create path, assert it exists
@@ -64,6 +64,47 @@ Test(path, conditions)
     rc = path_new_conditions(new_path,first);
 
     cr_assert_eq(rc, SUCCESS, "path_new_conditions() test 1 has failed");
+    cr_assert_not_null(new_path->conditions, "no conditions have been"
+    "implementd");
+}
+
+/* checks that conditions are removed */
+Test(path, remove_conditions)
+{
+    item_t *door = item_new("test_door", "item for testing",
+    "test item for remove_condition()");
+    /* = (create bool attribute "closed" and add test_door)*/
+
+    room_t *new_room = room_new("new_room", "room for testing",
+    "room to test remove_condition()");
+    add_item_to_room(new_room, door);
+
+    path_t *new_path = path_new(door, "south");
+    /* set path->through to door */
+
+    //create list_action_type_t
+    action_type_t *eat, *go, *open;
+    eat = action_type_new("eat", ITEM);
+    go = action_type_new("go", PATH);
+    open = action_type_new("open", ITEM);
+
+    list_action_type_t *first, *second, *last;
+    first = malloc(sizeof(list_action_type_t));
+    second = malloc(sizeof(list_action_type_t));
+    last = malloc(sizeof(list_action_type_t));
+    last->act = open;
+    last->next = NULL;
+    second->act = go;
+    second->next = last;
+    first->act = eat;
+    first->next = second;
+
+    path_new_conditions(new_path,first);
+
+    int rc;
+    /* rc = remove_condition() */
+
+    cr_assert_eq(rc, SUCCESS, "path_remove_condition() test 1 has failed");
     cr_assert_not_null(new_path->conditions, "no conditions have been"
     "implementd");
 }
