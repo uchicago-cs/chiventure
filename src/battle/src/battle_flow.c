@@ -106,7 +106,12 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
     
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
-    enemy->stats->hp -= move->damage;
+    /* additionally, a check must be performed here to see if player has
+       this move, currently not implemented, waiting for player class
+       to resolve move_lists() */
+    int dmg = damage(b->enemy, move, b->player);
+    printf("e:%d - %d = %d\n",enemy->stats->hp,dmg,enemy->stats->hp - dmg);
+    enemy->stats->hp -= dmg;
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
     {
@@ -123,7 +128,10 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 
     if(enemy_move != NULL)
     {
-        b->player->stats->hp -= enemy_move->damage;
+        int dmg = damage(b->player, enemy_move, b->enemy);
+        printf("p:%d - %d = %d\n",b->player->stats->hp, dmg,
+        b->player->stats->hp - dmg);
+        b->player->stats->hp -= dmg;
     }
     else
     {
