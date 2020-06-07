@@ -256,7 +256,7 @@ char *display_stat_effects(effects_hash_t *hash)
 
     HASH_ITER(hh, hash, effect, tmp)
     {
-        sprintf(line, "*** %s ***\n", stat->key, get_stat_current(s));
+        sprintf(line, "*** %s ***\n", effect->key);
         strcat(list, line);
         LL_FOREACH(effect->stat_list, mod)
         {
