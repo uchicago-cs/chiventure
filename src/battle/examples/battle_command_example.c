@@ -141,6 +141,7 @@ int main()
         while (fgets(command_input, MAX_COMMAND_LINE_LENGTH - 1, stdin))
         {
             char *p = command_input;
+            printf("%s", p);
             if (*p == '\n')
                 break;
         }
