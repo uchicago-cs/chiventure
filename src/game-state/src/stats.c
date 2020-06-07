@@ -1,6 +1,6 @@
 #include "game-state/stats.h"
 #define MIN_STRING_LENGTH 2
-#define MAX_NAME_LENGTH 50
+#define MAX_NAME_LENGTH 70
 
 /* See stats.h */
 int stats_init(stats_t *s, char *stats_name, double init)
@@ -136,12 +136,12 @@ int add_stat(stats_hash_t **sh, stats_t *s)
 /* See stats.h */
 char* display_stats(stats_hash_t *s)
 {
-    stats_t *stat;
+    stats_t *stat, *tmp;
     int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(s));
     char list[size];
     char *line;
 
-    LL_FOREACH(s, stat)
+    HASH_ITER(hh, s, stat, tmp)
     {
         sprintf(line, "%s: %d\n", stat->key, get_stat_current(s));
         strcat(list, line);
@@ -193,6 +193,36 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
     }
 
     return SUCCESS;
+char *display_stat_effects(effects_hash_t *hash)
+{
+    stat_effect_t *effect, *tmp;
+    stat_mod_t *mod;
+    int count = 0, list_count = 0;
+
+    HASH_ITER(hh, hash, effect, tmp)
+    {
+        LL_COUNT(effect->stat_list, mod, list_count);
+        count += list_count;
+    }
+
+    int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * (count + HASH_COUNT(hash)));
+    char list[size];
+    char *line;
+
+    HASH_ITER(hh, hash, effect, tmp)
+    {
+        sprintf(line, "*** %s ***\n", stat->key, get_stat_current(s));
+        strcat(list, line);
+        LL_FOREACH(effect->stat_list, mod)
+        {
+            sprintf(line, "\t%s: modifier: %d, duration: %d\n", 
+                    mod->stat->key, mod->modifier, mod->duration);
+            strcat(list, line);
+        }
+    }
+
+    char *display = strdup(list);
+    return display;
 }
 
 /* See stats.h */
