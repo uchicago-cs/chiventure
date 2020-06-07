@@ -117,17 +117,12 @@ char* display_stats(stats_hash_t *s)
     stats_t *stat;
     int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(s));
     char list[size];
-    
-    stat = s;
-    if (stat != NULL) 
-    {
-        strcpy(list, stat->global->name);
-    }
+    char *line;
 
-    for (stat = stat->hh.next; stat != NULL; stat = stat->hh.next)
+    LL_FOREACH(s, stat)
     {
-        strcat(list, ", ");
-        strcat(list, stat->global->name);
+        sprintf(line, "%s: %d\n", stat->key, get_stat_current(s));
+        strcat(list, line);
     }
 
     char *display = strdup(list);
