@@ -64,7 +64,7 @@ typedef struct stats stats_hash_t;
  * 
  *      the modifier of the effect on that stat 
  * 
- *      the duration of the effect, an int 
+ *      the duration of the effect, a number 
  * */
 typedef struct stat_mod {
     stats_t *stat;
