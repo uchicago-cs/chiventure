@@ -140,7 +140,9 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add)
     achievement_to_add_llist->next = NULL;
     achievement_to_add_llist->achievement = achievement_to_add;
 
-    achievement_llist_t *head = quest->achievement_list;
+    achievement_llist_t *head = NULL;
+
+    quest->achievement_list = head;
     
     LL_APPEND(head,achievement_to_add_llist);
 
