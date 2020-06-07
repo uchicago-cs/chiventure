@@ -111,8 +111,10 @@ int main()
     e_stats->speed = 9;
 
     npc_enemy_t *e = NULL;
-    DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, NULL, BATTLE_AI_GREEDY));
-    player_t *p = new_ctx_player("John", NULL, p_stats, NULL); // need to make moves
+    DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, e_moves, NULL, BATTLE_AI_GREEDY));
+    player_t *p = new_ctx_player("John", NULL, p_stats, NULL, NULL); // need to make moves
+
+
 
     chiventure_ctx_battle_t *ctx =
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
@@ -138,7 +140,9 @@ int main()
         printf("%s\n", hp_string);
         printf("What will you do?\n");
         printf("> ");
-        int rc = scanf("%s %s %s %s %s", fst, snd, move_name, act, enemy_name);
+        // int rc = scanf("%s %s %s %s %s", fst, snd, move_name, act, enemy_name);
+        // this is going to become fgets, then what is inputted into fgets then will go into sscanf and make an array of 
+        // strings and put that into read_move
         read_move(fst, snd, move_name, act, enemy_name, ctx);
         printf("\n");
     }
