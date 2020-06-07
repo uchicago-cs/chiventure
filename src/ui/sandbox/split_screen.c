@@ -20,11 +20,12 @@ typedef struct _cmd {
 int cmd_init(cmd_t *c, char *cmd1, char *action) {
     if (c == NULL) {
         printf("error\n");
+        return 1;
     }
     
     c->cmd = cmd1;
     c->action = action;
-    return 1;
+    return 0;
 }
 
 cmd_t* cmd_new(char *cmd1, char *action) {
