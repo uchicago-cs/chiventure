@@ -794,7 +794,9 @@ Test(roomspec, friendly_npc)
     }
 }
 
-/* testing random_npc_lookup for 0 iterations*/
+/* testing random_npc_lookup for 0 iterations,
+*  returns success if  NPCS in a room  isn't above 2
+*/
 Test(random_npc, zero_lookup)
 {
     npc_t *dst = NULL;
@@ -805,7 +807,9 @@ Test(random_npc, zero_lookup)
    
 }
 
-/* testing random_npc_lookup for 1 iteration*/
+/* testing random_npc_lookup for 1 iteration
+* returns success if  NPCS in a room  isn't above 2
+*/
 Test(random_npc, one_lookup)
 { 
    npc_t *dst = NULL;
@@ -815,7 +819,9 @@ Test(random_npc, one_lookup)
     cr_assert_eq(rc, SUCCESS, "success");
 }
 
-/* testing random_npc_lookup for 2 iteration */
+/* testing random_npc_lookup for 2 iteration 
+* returns success if  NPCS in a room  isn't above 2
+*/
 Test(random_npc, two_lookup)
 {
   npc_t *dst = NULL;
