@@ -3,6 +3,7 @@
 #include "game-state/room.h"
 #include "game-state/game_state_common.h"
 #include "game-state/path.h"
+#include "action_management/actionmanagement.h"
 
 
 // BASIC PATH UNIT TESTS ------------------------------------------------------
@@ -30,6 +31,43 @@ Test(path, free)
     cr_assert_eq(freed, SUCCESS, "path_free() test 1 has failed!");
 
 }
+
+
+/* checks that conditions ae intialized */
+Test(path, conditions)
+{
+    //create path, assert it exists
+    room_t *new_room = room_new("new_room", "room for testing",
+    "room to test path_new_conditions()");
+    path_t *new_path = path_new(new_room, "south");
+
+    cr_assert_not_null(new_path, "path_new() test 2 has failed");
+
+    //create list_action_type_t
+    action_type_t *eat, *go, *open;
+    eat = action_type_new("eat", ITEM);
+    go = action_type_new("go", PATH);
+    open = action_type_new("open", ITEM);
+
+    list_action_type_t *first, *second, *last;
+    first = malloc(sizeof(list_action_type_t));
+    second = malloc(sizeof(list_action_type_t));
+    last = malloc(sizeof(list_action_type_t));
+    last->act = open;
+    last->next = NULL;
+    second->act = go;
+    second->next = last;
+    first->act = eat;
+    first->next = second;
+
+    int rc;
+    rc = path_new_conditions(new_path,first);
+
+    cr_assert_eq(rc, SUCCESS, "path_new_conditions() test 1 has failed");
+    cr_assert_neq(new_path->conditions, NULL, "no conditions have been"
+    "implementd");
+}
+
 
 // TESTS FOR ADDING FUNCTIONS -------------------------------------------------
 
