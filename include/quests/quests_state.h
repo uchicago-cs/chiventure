@@ -143,7 +143,7 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
  */
 int start_quest(quest_t *quest);
 
-/* completes an achievement in a quest
+/* completes an achievement in a quest by checking if the item and npc matches
  * 
  * Paramter:
  * - quest: pointer to the quest
@@ -151,7 +151,7 @@ int start_quest(quest_t *quest);
  * - npc_met: the npc that was met
  *
  * Returns:
- * - SUCCESs
+ * - SUCCESS
  * - FAILURE
  */
 int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met);

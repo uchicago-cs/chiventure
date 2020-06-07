@@ -139,12 +139,8 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add)
     achievement_to_add_llist = malloc(sizeof(achievement_llist_t));
     achievement_to_add_llist->next = NULL;
     achievement_to_add_llist->achievement = achievement_to_add;
-
-    achievement_llist_t *head = NULL;
-
-    quest->achievement_list = head;
     
-    LL_APPEND(head,achievement_to_add_llist);
+    LL_APPEND(quest->achievement_list,achievement_to_add_llist);
 
     return SUCCESS;
 }
@@ -163,7 +159,7 @@ int start_quest(quest_t *quest)
 int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
 {
     achievement_llist_t *head = quest->achievement_list;
-    achievement_llist_t *incomplete_achievement;
+    achievement_llist_t *incomplete_achievement = malloc(sizeof(achievement_llist_t));
 
     LL_SEARCH_SCALAR(head,incomplete_achievement,
                     achievement->completed,0);
@@ -195,11 +191,11 @@ int is_quest_completed(quest_t *quest)
     if(incomplete_achievement == NULL)
     {
         quest->status = 2;
-        return SUCCESS;
+        return 1;
     }
     else
     {
-        return FAILURE;
+        return 0;
     }
 }
 

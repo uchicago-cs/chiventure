@@ -150,6 +150,7 @@ Test(quest, free)
 	cr_assert_eq(freed, SUCCESS, "quest_free() test has failed!");
 }
 
+/*Tests adding achievement to a quest */
 Test(quest, add_achievement_to_quest)
 {
     item_t *reward = item_new("test_item", "item for testing",
@@ -173,10 +174,115 @@ Test(quest, add_achievement_to_quest)
     mission_t *mission_test = achievement->mission;
     cr_assert_eq(achievement_test->completed,0,"add_achievement_to_quest() did"
                                         "not set the completed boolean.");
-    /*                                     
+
     cr_assert_str_eq(mission_test->item_to_collect->item_id,"mission_item",
                     "add_achievement_to_quest() did not set item");
-    cr_assert_str_eq(mission_test->item_to_collect->item_id,"test_npc",
+    cr_assert_str_eq(mission_test->npc_to_meet->npc_id,"test_npc",
                     "add_achievement_to_quest() did not set npc"); 
-    */
+}
+
+/* Tests the function  that starts a quest */
+Test(quest, start_quest)
+{
+    item_t *reward = item_new("test_item", "item for testing",
+                            "test item for item_new()");
+    quest_t *quest = quest_new(1, NULL, reward);
+
+    int check = start_quest(quest);
+
+    cr_assert_eq(check, SUCCESS, "start_quest() failed");
+
+    cr_assert_eq(quest->status, 1, "start_quest() failed to set status");
+}
+
+/* Tests the function that completes the achievement */
+Test(quest, complete_achievement)
+{
+    item_t *reward = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    quest_t *quest = quest_new(1, NULL, reward);
+
+    item_t *mission_item = item_new("mission_item", "item for testing",
+    "test item for item_new()");
+    class_t* class = generate_test_class();
+    npc_t *mission_npc = npc_new("mission_npc","npc","npc for testing",
+                                100, class);
+    mission_t *mission = mission_new(mission_item,mission_npc);
+
+    achievement_t *achievement = achievement_new(mission);
+
+    int res = add_achievement_to_quest(quest, achievement);
+
+    cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
+
+    res = complete_achievement(quest, mission_item, mission_npc);
+
+    cr_assert_eq(res, SUCCESS, "complete_achievement() failed!");
+
+    mission_t *mission_check = quest->achievement_list->achievement->mission;
+
+    cr_assert_str_eq(mission_check->item_to_collect->item_id, "mission_item",
+                    "complete_achievement() did not check the correct item");
+    
+    cr_assert_str_eq(mission_check->npc_to_meet->npc_id, "mission_npc",
+                    "complete_achievement() did not check the correct npc");
+
+    cr_assert_eq(quest->achievement_list->achievement->completed, 1,
+                "complete_achivement() did not complete the achievement");
+}
+
+/* Function that tests if a quest is completed */
+Test(quest,is_quest_completed)
+{
+    item_t *reward = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    quest_t *quest = quest_new(1, NULL, reward);
+
+    item_t *mission_item = item_new("mission_item", "item for testing",
+    "test item for item_new()");
+    class_t* class = generate_test_class();
+    npc_t *mission_npc = npc_new("mission_npc","npc","npc for testing",
+                                100, class);
+    mission_t *mission = mission_new(mission_item,mission_npc);
+
+    achievement_t *achievement = achievement_new(mission);
+
+    int res = add_achievement_to_quest(quest, achievement);
+
+    res = complete_achievement(quest, mission_item, mission_npc);
+
+    res = is_quest_completed(quest);
+
+    cr_assert_eq(quest->status,2,"is_quest_completed() failed!");
+    
+    cr_assert_eq(res,1,"is_quest_completed() failed!");
+    
+}
+
+/* Tests the function that checks the status of the quest */
+Test(quest,quest_status)
+{
+    item_t *reward = item_new("test_item", "item for testing",
+                            "test item for item_new()");
+    quest_t *quest = quest_new(1, NULL, reward);
+
+    cr_assert_eq(quest->status,0,"quest_status() failed with not statred status");
+
+    int check1 = start_quest(quest);
+
+    cr_assert_eq(quest->status,1,"quest_status() failed with started status");
+}
+
+/* Tests the function that reward the item after a quest*/
+Test(quest,quest_completed)
+{
+    item_t *reward = item_new("test_item", "item for testing",
+                            "test item for item_new()");
+    quest_t *quest = quest_new(1, NULL, reward);
+    quest->status = 2;
+
+    item_t *res = quest_completed(quest);
+
+    cr_assert_str_eq(res->item_id, "test_item",
+                    "quest_completed failed to reward the item");
 }
