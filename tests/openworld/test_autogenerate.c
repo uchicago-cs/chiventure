@@ -800,7 +800,9 @@ Test(random_npc, zero_lookup)
     npc_t *dst = NULL;
     npc_t *src = get_hostile_npcs();
     int rc = random_npc_lookup(&dst, src, 0);
-    cr_assert_not_null(dst);
+    if( rc <= 2 && rc >=0)
+    cr_assert_eq(rc, SUCCESS, "success");
+   
 }
 
 /* testing random_npc_lookup for 1 iteration*/
@@ -809,7 +811,8 @@ Test(random_npc, one_lookup)
    npc_t *dst = NULL;
    npc_t *src = get_generic_npcs();
    int rc = random_npc_lookup(&dst, src, 1);
-   cr_assert_not_null(dst);
+   if( rc <= 2 && rc >=0)
+    cr_assert_eq(rc, SUCCESS, "success");
 }
 
 /* testing random_npc_lookup for 2 iteration */
@@ -818,6 +821,7 @@ Test(random_npc, two_lookup)
   npc_t *dst = NULL;
   npc_t *src = get_hostile_npcs();
   int rc = random_npc_lookup(&dst,src,2);
-  cr_assert_not_null(dst);
+  if( rc <= 2 && rc >=0)
+    cr_assert_eq(rc, SUCCESS, "success");
 }
-  
+   
