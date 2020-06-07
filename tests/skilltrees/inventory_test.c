@@ -138,7 +138,7 @@ Test(inventory_tests, inventory_skill_remove_has_not)
 /*Tests after this line fail and are skipped.*/
 
 /* Tests inventory_has_skill on active skill that inventory has. */
-Test(inventory_tests, inventory_has_skill_has_active, .description = "Fails & Skipped", .disabled = true)
+Test(inventory_tests, inventory_has_skill_has_active)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
