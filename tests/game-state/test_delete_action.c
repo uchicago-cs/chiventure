@@ -25,7 +25,7 @@ int delete_helper(list_action_type_t *act, action_type_t *a)
 }
 
 /* checks if delete_action can delete the first node */
-Test(delete_action,delete_first)
+Test(delete_action, delete_first)
 {   
     action_type_t *eat, *go, *open;
     eat = action_type_new("eat", ITEM);
@@ -46,10 +46,12 @@ Test(delete_action,delete_first)
 
     int rc;
     rc = delete_helper(first, eat);
+
+    cr_assert_eq(rc, SUCCESS, "delete_action test 1 failed");
 }
 
 /* checks if delete_action can delete the middle node */
-Test(delete_action,delete_middle)
+Test(delete_action, delete_middle)
 {   
     action_type_t *eat, *go, *open;
     eat = action_type_new("eat", ITEM);
@@ -70,10 +72,12 @@ Test(delete_action,delete_middle)
 
     int rc;
     rc = delete_helper(first, go);
+
+    cr_assert_eq(rc, SUCCESS, "delete_action test 2 failed");
 }
 
 /* checks if delete_action can delete the last node */
-Test(delete_action,delete_last)
+Test(delete_action, delete_last)
 {   
     action_type_t *eat, *go, *open;
     eat = action_type_new("eat", ITEM);
@@ -94,5 +98,7 @@ Test(delete_action,delete_last)
 
     int rc;
     rc = delete_helper(first, open);
+
+    cr_assert_eq(rc, SUCCESS, "delete_action test 3 failed");
 }
 

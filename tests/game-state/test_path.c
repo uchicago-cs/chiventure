@@ -64,7 +64,7 @@ Test(path, conditions)
     rc = path_new_conditions(new_path,first);
 
     cr_assert_eq(rc, SUCCESS, "path_new_conditions() test 1 has failed");
-    cr_assert_neq(new_path->conditions, NULL, "no conditions have been"
+    cr_assert_not_null(new_path->conditions, "no conditions have been"
     "implementd");
 }
 
