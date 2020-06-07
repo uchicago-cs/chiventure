@@ -3,13 +3,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "action_block.h"
 #include "ast_block.h"
+#include "action_block.h"
 #include "branch_block.h"
 #include "conditional_block.h"
 #include "control_block.h"
 #include "game-state/game.h"
-// #include "custom_action.h"
 
 typedef struct
 {
@@ -18,7 +17,7 @@ typedef struct
 
 /* 
  * A custom action struct. Holds the contexts for each action
- * (action, context, item, and class) along with a pointer to the
+ * (action, context, item, and type) along with a pointer to the
  * first block (AST_block_t) in the action sequence.
  */
 typedef struct custom_action
@@ -44,8 +43,7 @@ typedef struct custom_action_list
  * 
  * Parameters: 
  * - action_name: The name of the custom action to be searched for
- * - game: The current game chiventure is running, and the custom action
- *         is contained in
+ * - all_actions: Comprehensive list of all previously defined custom actions
  * 
  * Returns:
  * - custom_action_t* Pointer to the custom action with the same name as
@@ -53,7 +51,8 @@ typedef struct custom_action_list
  * - NULL if no such action_name custom action exists in game
  * 
  */
-custom_action_t *search_for_custom_action(char *action_name, game_t *game);
+custom_action_t *search_for_custom_action(char *action_name,
+                                          custom_actions_list_t *all_actions);
 
 /* 
  * Given a custom action and its corresponding arguments, 
@@ -74,45 +73,53 @@ int do_custom_action(custom_action_t *action, char **args, int num_args);
 
 /*
  * Build a custom action object and add it to the game’s list of custom
- * actions (located in game-state/game.h). Also associates custom actions with objects
- * and attributes if necessary.
+ * actions. Also associates custom actions with objects and attributes
+ * if necessary.
  * 
  * NOTE: Any objects or attributes the action is associated with need to be
  * initialized before the action is compiled.
  * 
  * Parameters:
- * - json: A dictionary(?) object containing the basic parsed json from a
- *   WDL++ file.
- * - game: The game the custom action should be associated with
+ * - action: obj_t representing information about a custom action and
+ *           its attributes (created when a custom action is parsed from
+ *           a json file)
+ * - all_actions: list of previously defined custom actions
  * 
  * Returns:
  * - custom_action_t* A pointer to the compiled custom action if successful
- * - NULL if there was an error parsing the json
+ * - NULL if there was an error working with the obj_t struct or an error
+ *        adding the resulting custom action to the list
  */
-custom_action_t *compile_custom_action(json_dict_obj *json, game_t *game);
+custom_action_t *compile_custom_action(obj_t *action,
+                                       custom_actions_list_t *all_actions);
 
 /*
- * Free a custom action and all its associated structs
+ * Adds a custom action object to the game's list of custom actions.
  * 
  * Parameters:
- * - action: The custom action to be freed
- * 
- * Returns: 
- * - SUCCESS if the custom action was successfully freed
- * - FAILURE in any other case
- */
-int free_custom_action(custom_action_t *action);
-
-/* 
- * Get the name of the specified custom action
- * 
- * Parameters:
- * - action: The custom action to be queried
+ * - action: The custom action to be added
+ * - all_actions: list of previously defined custom actions
  * 
  * Returns:
- * - char* A string containing the name of the custom action
- * - NULL if the action passed in was invalid
+ * - SUCCESS if the custom action was successfully added to the list
+ * - FAILURE if otherwise
  */
-char *get_custom_action_name(custom_action_t *action);
+int *add_custom_action_to_game(custom_action_t *action,
+                               custom_actions_list_t *all_actions);
+
+/* 
+ * Translates information about a custom action and its attributes (an obj_t,
+ * having just been parsed from a json file) into an actual custom_action_t.
+ * 
+ * Parameters:
+ * - action: obj_t representing information about a custom action and
+ *           its attributes (created when a custom action is parsed from
+ *           a json file)
+ * 
+ * Returns:
+ * - custom_action_t* A pointer to the created custom action if successful
+ * - NULL if there was an error working with the obj_t struct
+ */
+custom_action_t *translate_custom_action(obj_t *action);
 
 #endif
