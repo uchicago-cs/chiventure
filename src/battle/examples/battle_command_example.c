@@ -9,6 +9,16 @@
 #define MAXLEN (100)
 #define MAX_ARGS (5)
 
+class_t *make_wizard()
+{
+    return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
+}
+
+class_t *make_bard()
+{
+    return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
+}
+
 int print_move_info(chiventure_ctx_battle_t *ctx, char *move_name)
 {
     move_t *temp;
@@ -125,9 +135,9 @@ int main()
     e_stats->speed = 9;
 
     npc_enemy_t *e = NULL;
-    DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, NULL, BATTLE_AI_GREEDY));
+    DL_APPEND(e, make_npc_enemy("Goblin", make_wizard(), e_stats, NULL, BATTLE_AI_GREEDY));
     printf("enemy created!\n");
-    player_t *p = new_ctx_player("John", NULL, p_stats, NULL);
+    player_t *p = new_ctx_player("John", make_bard(), p_stats, NULL);
     printf("player created!\n\n");
 
     chiventure_ctx_battle_t *ctx =
@@ -146,7 +156,7 @@ int main()
     {
         printf("=== oh no! the player's moves do not exist!!! ===\n");
     }
-    
+
     int turn = 1;
     printf("\nWelcome to the Battle! Let's get this started!\n\n");
     
