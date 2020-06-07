@@ -153,7 +153,7 @@ int main()
     printf("starting battle...\n\n");
     start_battle(ctx, e, ENV_GRASS);
 
-    int build_res = build_moves(ctx->game->battle->playerf);
+    int build_res = build_moves(ctx->game->battle->player);
     printf("build_move returned: %d\n", build_res);
 
     if (ctx->game->battle->player->moves == NULL)
