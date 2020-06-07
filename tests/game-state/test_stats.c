@@ -27,8 +27,8 @@ Test(stats, change_stat_max)
     s2.max = 50;
     s2.modifier = 1;
     
-    add_stat_player(&sh &s1);
-    add_stat_player(&sh &s2);
+    add_stat_player(&sh, &s1);
+    add_stat_player(&sh, &s2);
 
     change_stat_max(sh, "Health", 50);
     change_stat_max(sh, "XP", 25);
