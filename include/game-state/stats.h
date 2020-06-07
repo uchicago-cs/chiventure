@@ -279,27 +279,27 @@ int add_stat(stats_hash_t **sh, stats_t *s);
 char *display_stats(stats_hash_t *sh);
 
 /*
- * Frees a stats hash table.
+ * Frees memory associated with a stat
  *
  * Parameters: 
- * stat: pointer to the stats hashtable to be freed
+ * stat: pointer to the stat to be freed
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats(stats_hash_t *stat);
+int free_stats(stats_t *stat);
 
 
 /*
- * Frees the global stat hashtable
+ * Frees memory associated with a global_stats struct
  *
  * Parameters: 
- * gsh: pointer to the global stat hash table.
+ * gs: pointer to the global stat
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int free_stats_global(stats_global_hash_t* gsh);
+int free_stats_global(stats_global_t *gs);
 
 /*
  * Deletes a single player effects struct from a hash table,

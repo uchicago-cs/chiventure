@@ -43,8 +43,8 @@ Test(stats, stats_init){
         "stats_init() failed to set the key");
     cr_assert_eq(stat->val, 100, 
         "stats_init() failed to set the starting stat value");
-    cr_assert_eq(stat->modifier, 0, 
-        "stats_init() failed be set the modifier to 0");
+    cr_assert_eq(stat->modifier, 1, 
+        "stats_init() failed be set the modifier to 1");
     cr_assert_leq(stat->val, stat->global->max, 
         "stat base value exceeds maximal value");
     free(stat);

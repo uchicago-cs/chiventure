@@ -173,32 +173,16 @@ char* display_stats(stats_hash_t *s)
 }
 
 /* See stats.h */
-int free_stats(stats_hash_t *sh)
+int free_stats(stats_t *stat)
 {
-    stats_t *current, *next;
-    for(current = sh->hh.next; current != NULL; current = next) 
-    {
-        next = current->hh.next;
-        free(current->key);
-        HASH_DEL(sh, current);
-        free(current);
-    }
-    HASH_DEL(sh, sh);
-    free(sh);
+    free(stat->key);
+    free(stat);
     return SUCCESS;
 }
 
-int free_stats_global(stats_global_hash_t *gsh)
+int free_stats_global(stats_global_t *gs)
 {
-    stats_global_t *current, *next;
-    for(current = gsh->hh.next; current != NULL; current = next) 
-    {
-        next = current->hh.next;
-        free(current->name);
-        HASH_DEL(gsh, current);
-        free(current);
-    }
-    HASH_DEL(gsh, gsh);
+    free(gs->name);
     free(gsh);
     return SUCCESS;
 }
