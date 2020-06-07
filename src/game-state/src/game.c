@@ -92,7 +92,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 /* See game.h */
 int add_end_condition_to_game(game_t *game, condition_t *end_condition)
 {
-    int valid = valid_condition(end_condition);
+    int valid = valid_condition(game, end_condition);
     if(valid == SUCCESS){
         end_condition->next = game->end_conditions;
         game->end_conditions = end_condition;
