@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include "game-state/stats.h"
 
-/* Checks that add_stat_player correctly adds a new stat 
+/* Checks that add_stat correctly adds a new stat 
    to a hash table*/
-Test (stats, add_stat_player)
+Test (stats, add_stat)
 {
     stats_hash_t *sh = NULL;
     stats_global_t g;
@@ -20,11 +20,11 @@ Test (stats, add_stat_player)
     s.max = 75;
     s.modifier = 1.1;
 
-    int rc = add_stat_player(&sh, &s);
+    int rc = add_stat(&sh, &s);
 
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
+    cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
-    cr_assert_not_null(sh, "add_stat_player did not add the stat");
+    cr_assert_not_null(sh, "add_stat did not add the stat");
 }
 
 /* Checks that display_stat returns the correct list of stats */
@@ -43,9 +43,9 @@ Test(stats, display_stat)
     s1.max = 75;
     s1.modifier = 1.1;
 
-    int rc = add_stat_player(&sh, &s1);
+    int rc = add_stat(&sh, &s1);
 
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
+    cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
 
     stats_global_t speed;
@@ -59,9 +59,9 @@ Test(stats, display_stat)
     s2.max = 50;
     s2.modifier = 0.9;
 
-    rc = add_stat_player(&sh, &s2);
+    rc = add_stat(&sh, &s2);
 
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
+    cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
     char *list = display_stats(sh);
 

@@ -118,7 +118,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
 }
 
 /* See stats.h */
-int add_stat_player(stats_hash_t **sh, stats_t *s)
+int add_stat(stats_hash_t **sh, stats_t *s)
 {
     stats_t *check;
     

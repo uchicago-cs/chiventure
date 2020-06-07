@@ -231,7 +231,7 @@ Test(player, add_item_effect_to_player)
   s1.max = 75.0;
   s1.modifier = 0.75;
 
-  add_stat_player(&player->player_class->stats, &s1);
+  add_stat(&player->player_class->stats, &s1);
 
   stat_mod_t *mod1 = stat_mod_new(&s1, 1.5, 5);
   LL_APPEND(e2->stat_list, mod1);
