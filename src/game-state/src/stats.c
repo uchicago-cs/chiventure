@@ -240,7 +240,10 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
     return SUCCESS;
 }
 
+<<<<<<< 41699999f6ac18b1bcf84aadc80c25625609ae7b
 /* See stats.h */
+=======
+>>>>>>> updating display_stat implementation #768
 char *display_stat_effects(effects_hash_t *hash)
 {
     stat_effect_t *effect, *tmp;
