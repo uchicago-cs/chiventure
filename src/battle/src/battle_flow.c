@@ -110,7 +110,6 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
        this move, currently not implemented, waiting for player class
        to resolve move_lists() */
     int dmg = damage(b->enemy, move, b->player);
-    printf("e:%d - %d = %d\n",enemy->stats->hp,dmg,enemy->stats->hp - dmg);
     enemy->stats->hp -= dmg;
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
@@ -128,9 +127,7 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 
     if(enemy_move != NULL)
     {
-        int dmg = damage(b->player, enemy_move, b->enemy);
-        printf("p:%d - %d = %d\n",b->player->stats->hp, dmg,
-        b->player->stats->hp - dmg);
+        dmg = damage(b->player, enemy_move, b->enemy);
         b->player->stats->hp -= dmg;
     }
     else

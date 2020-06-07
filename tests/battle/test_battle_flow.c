@@ -156,16 +156,19 @@ Test(battle_flow, return_success_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
+
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
     pstats->level = 1;
     pstats->strength = 200;
     pstats->defense = 30;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL);
+
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
-    stat_t *estats = calloc(1, sizeof(size_t));
+
+    stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 200;
     estats->level = 5;
     estats->strength = 150;
@@ -177,75 +180,75 @@ Test(battle_flow, return_success_battle_flow)
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
 
     move_t *move = calloc(1, sizeof(move_t));
-    move->damage = 10;
+    move->damage = 100;
 
     int res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() returned FAILURE");
 }
 
 /* this tests to see if battle_flow does damage to the enemy */
-/*
 Test(battle_flow, do_damage_battle_flow)
 {
-    printf("do_damage, p:20 e:20\n");
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    stat_t *pstats = calloc(1, sizeof(size_t));
-    pstats->hp = 20;
+
+    stat_t *pstats = calloc(1, sizeof(stat_t));
+    pstats->hp = 200;
     pstats->defense = 30;
     pstats->level = 1;
     pstats->strength = 200;
     player_t *ctx_player = new_ctx_player("Player", NULL, pstats, NULL);
+
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
-    stat_t *estats = calloc(1, sizeof(size_t));
-    estats->hp = 20;
+
+    stat_t *estats = calloc(1, sizeof(stat_t));
+    estats->hp = 200;
     estats->defense = 20;
     estats->level = 5;
     estats->strength = 150;
     npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", NULL, estats, NULL, BATTLE_AI_GREEDY);
-    environment_t env = ENV_WATER;
 
+    environment_t env = ENV_WATER;
     int rc = start_battle(ctx, npc_enemy, env);
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
 
+    combatant_t *player = ctx->game->battle->player;
+    combatant_t *enemy = ctx->game->battle->enemy;
+
+    int expected_enemy_hp = enemy->stats->hp - 
+                      damage(enemy, move, player);
+    int expected_player_hp = player->stats->hp -
+                      damage(player, give_move(player, enemy, enemy->ai), enemy);
+
     int res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow failed!");
 
-    combatant_t *player = ctx->game->battle->player;
-    combatant_t *enemy = ctx->game->battle->enemy;
-    int expected_hp = enemy->stats->hp - 
-                      damage(player, move, enemy);
-
     cr_assert_eq(enemy->stats->hp,
-                 expected_hp, 
-                 "battle_flow() did not compute damage correctly");
+                 expected_enemy_hp, 
+                 "battle_flow() did not compute damage on enemy correctly, %d",enemy->stats->hp);
 
-    expected_hp = player->stats->hp -
-                  damage(player, give_move(player, enemy,enemy->ai), enemy);
     // note: this hp value relies on player class implementation of move_list()
     cr_assert_eq(player->stats->hp,
-                 expected_hp,
-                 "battle_flow() did not compute damage correctly, %d",ctx->game->battle->player->stats->hp);
+                 expected_player_hp,
+                 "battle_flow() did not compute damage on player correctly");
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow() failed: battle is not in progress");
-}*/
+}
 
 /*
  * Testing if the enemy is determiend as the winner if the player is defeated
  */
-/*
 Test(battle_flow, battle_over_by_player)
 {
-    printf("battle_over_player, p:1, e:100\n");
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    stat_t *pstats = calloc(1, sizeof(size_t));
-    pstats->hp = 20;
+    stat_t *pstats = calloc(1, sizeof(stat_t));
+    pstats->hp = 40;
     pstats->level = 1;
     pstats->strength = 200;
     pstats->defense = 30;
@@ -253,7 +256,7 @@ Test(battle_flow, battle_over_by_player)
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
-    stat_t *estats = calloc(1, sizeof(size_t));
+    stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 200;
     estats->level = 5;
     estats->strength = 150;
@@ -266,34 +269,43 @@ Test(battle_flow, battle_over_by_player)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
-    int res = battle_flow(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
-    res = battle_flow(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
 
     combatant_t *player = ctx->game->battle->player;
     combatant_t *enemy = ctx->game->battle->enemy;
 
     int expected_hp = player->stats->hp -
-                      2 * damage(player, give_move(player, enemy,enemy->ai), enemy);
+                      damage(player, give_move(player, enemy,enemy->ai), enemy);
+
+    int res = battle_flow(ctx, move, "Enemy");
+    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
 
     // note: this hp value relies on player class implementation of move_list 
     cr_assert_eq(player->stats->hp,
                  expected_hp,
-                 "battle_flow() did not compute damage correctly, %d",ctx->game->battle->player->stats->hp);
+                 "battle_flow() did not compute damage correctly1");
+
+    expected_hp = player->stats->hp -
+                  damage(player, give_move(player, enemy,enemy->ai), enemy);
+
+    res = battle_flow(ctx, move, "Enemy");
+    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
+
+    // note: this hp value relies on player class implementation of move_list 
+    cr_assert_eq(player->stats->hp,
+                 expected_hp,
+                 "battle_flow() did not compute damage correctly2");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_ENEMY,
                  "battle_flow() failed: battle is not over due to player");
-}*/
+}
 
 /*
  * Testing if the player is determiend as the winner if the enemy is defeated
  */
-/*
 Test(battle_flow, battle_over_by_enemy)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    stat_t *pstats = calloc(1, sizeof(size_t));
+    stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 150;
     pstats->level = 5;
     pstats->strength = 150;
@@ -302,7 +314,7 @@ Test(battle_flow, battle_over_by_enemy)
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
-    stat_t *estats = calloc(1, sizeof(size_t));
+    stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 20;
     estats->level = 1;
     estats->strength = 200;
@@ -315,13 +327,22 @@ Test(battle_flow, battle_over_by_enemy)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
+
+    combatant_t *player = ctx->game->battle->player;
+    combatant_t *enemy = ctx->game->battle->enemy;
+
+    int expected_hp = enemy->stats->hp -
+                      2 * damage(enemy, move, player);  
+
     int res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
+
     res = battle_flow(ctx, move, "Enemy");
     cr_assert_eq(res, SUCCESS, "battle_flow() failed");
+
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
-                 0,
+                 expected_hp,
                  "battle_flow() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
                  "battle_flow() failed: enemy was not declared the winner");
-}*/
+}

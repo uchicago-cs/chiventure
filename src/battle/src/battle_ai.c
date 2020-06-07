@@ -60,7 +60,6 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
     {
         
         double cur_damage = damage(player, temp, enemy);
-        printf("checking %lf\n",cur_damage);
         if (temp == NULL)
         {
             return strongest_move;
@@ -91,6 +90,6 @@ double damage(combatant_t* target, move_t* move, combatant_t* source)
     dmg = ((2.0 * src_level) / 5.0);
     dmg *= ((power * (src_strength / tar_defense)) / 50.0) + 2.0;
 
-    floor(dmg);
+    dmg = floor(dmg);
     return dmg;
 }

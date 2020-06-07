@@ -32,7 +32,7 @@ Test(class_moves, bard)
     cr_assert(ret_player->moves->attack,
              "add_class_move() didn't set attack to true");
 
-    cr_assert_eq(ret_player->moves->damage, 8,
+    cr_assert_eq(ret_player->moves->damage, 80,
                  "add_class_move() didn't set damage");
 
     cr_assert_eq(ret_player->moves->defense, 0,
