@@ -45,7 +45,6 @@ int custom_action_init(custom_action_t *action, char *action_name, char *context
     assert(item != NULL);
     assert(type != NULL);
     assert(head != NULL);
-    assert(hh != NULL);
 
     action->action_name = action_name;
     action->context = context;
