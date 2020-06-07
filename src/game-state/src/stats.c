@@ -83,7 +83,7 @@ int change_stat_max(stats_hash_t *sh, char *stat, double change)
     {
         return FAILURE;
     }
-    s->max = s->max + double;
+    s->max = s->max + change;
     return SUCCESS;
 }
 
