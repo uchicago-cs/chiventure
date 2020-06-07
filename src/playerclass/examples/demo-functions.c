@@ -12,10 +12,9 @@ void class_show(class_t* c)
         fprintf(stderr, "Cannot show information of a NULL class.\n");
         exit(1);
     }
-        fprintf(stdout, "Class info:\n");
-        fprintf(stdout, "    Name: %s\n", c->name);
-        fprintf(stdout, "    Short Description: %s\n", c->shortdesc);
-        fprintf(stdout, "    Long Description: %s\n", c->longdesc);
+        printf("%s Class:\n", c->name);
+        printf("    Short Description: %s\n", c->shortdesc);
+        printf("    Long Description: %s\n", c->longdesc);
 }
 
 /* See demo-functions.h */
@@ -32,8 +31,8 @@ void list_class_show(move_list_t* m)
     DL_FOREACH(m, tmp)
     {   
         class_show(tmp->c);
-        fprintf(stdout, "    Special Skill: %s\n", tmp->spell);
-        fprintf(stdout, "    Skill Damage: %d\n", tmp->damage);
-        fprintf(stdout, "    Skill id: %d\n", tmp->id);
+        printf("    Special Skill: %s\n", tmp->spell);
+        printf("    Skill Damage: %d\n", tmp->damage);
+        printf("    Skill id: %d\n", tmp->id);
     }
 }
