@@ -200,7 +200,7 @@ npc_t *random_npcs(roomspec_t *room)
 	npc_t *hostiles = get_hostile_npcs();
 	npc_t *friendlies = get_friendly_npcs();
 	npc_t *generic = get_generic_npcs();
-        printf("past her");
+       
 	npc_t *combo = NULL;
 	npc_t *current = NULL;
 	npc_t *tmp = NULL;
@@ -214,11 +214,11 @@ npc_t *random_npcs(roomspec_t *room)
 
 	HASH_ITER(hh, combo, current, tmp){
 		strcat(room->long_desc, current->npc_name);
-		strcat(room->long_desc, ", ");
-
+		if (tmp != NULL) strcat(room->long_desc, ", ");
+	
 	}
 	strcat(room->long_desc, ".\n");
-	printf("%s\n", room->long_desc);
+
 	if (combo == NULL) return NULL;
 	return combo;
 }

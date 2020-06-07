@@ -79,7 +79,6 @@ npc_t *get_friendly_npcs()
 	HASH_ADD_STR(inventory_librarian, item_id, book_item);
 	item_t *pencil_item = item_new("pencils", "yellow pencil", "Non-lethal weapon");
 	HASH_ADD_STR(inventory_librarian, item_id, pencil_item);
-
 	npc_t *librarian = calloc(1, sizeof(npc_t));
 	librarian->npc_name = "librarian";
 	librarian->level = 1;
@@ -95,7 +94,7 @@ npc_t *get_friendly_npcs()
 	HASH_ADD_STR(hash, npc_name, merchant);
 
 	npc_t *farmer = calloc(1, sizeof(npc_t));
-	merchant->npc_name = "farmer";
+	farmer->npc_name = "farmer";
 	farmer->level = 1;
 	farmer->inventory = inventory_farmer;
 	farmer->classification = NPC_FRIENDLY;
