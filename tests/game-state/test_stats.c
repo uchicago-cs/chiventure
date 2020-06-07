@@ -47,7 +47,7 @@ Test(stats, stats_init){
         "stats_init() failed be set the modifier to 1");
     cr_assert_leq(stat->val, stat->global->max, 
         "stat base value exceeds maximal value");
-    free_stat(stat);
+    free_stats(stat);
     free_stats_global(global_stat);
 }
 
@@ -82,7 +82,7 @@ Test(stats, stats_new){
         "stats_new() failed to set the starting stat value");
     cr_assert_leq(stat->val, stat->global->max, 
         "stat base value exceeds maximal value.");
-    free_stat(stat);
+    free_stats(stat);
     free_stats_global(global_stat);
 }
 
@@ -96,9 +96,10 @@ Test(stats, free){
     
     int ret_val = free_stats(stat);
     cr_assert_eq (ret_val, SUCCESS, "free_stats() failed to return SUCCESS");
+    free_stats_global(global_stat);
 }
 
-Test(stats,global_free){
+Test(stats, global_free){
     stats_global_t *stat_global = stats_global_new("health", 100);
     cr_assert_not_null(stat_global, "stats_global_new() failed. Global health stat is NULL");
 
