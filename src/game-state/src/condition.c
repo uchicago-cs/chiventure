@@ -198,7 +198,7 @@ bool all_conditions_met(condition_list_t *cond_list)
 {
     if (cond_list == NULL)
     {
-        return false; // no conditions to check
+        return true; // no conditions to check
     }
     condition_t *tmp = cond_list;
     while (tmp != NULL) // iterate through all conditions
