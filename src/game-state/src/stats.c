@@ -183,7 +183,7 @@ int free_stats(stats_t *stat)
 int free_stats_global(stats_global_t *gs)
 {
     free(gs->name);
-    free(gsh);
+    free(gs);
     return SUCCESS;
 }
 
