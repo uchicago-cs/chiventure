@@ -260,55 +260,6 @@ char *display_stat_effects(effects_hash_t *hash)
     HASH_ITER(hh, hash, effect, tmp)
     {
         sprintf(line, "*** %s ***\n", effect->key);
-=======
-/* See stats.h */
-char* display_global_stats(stats_global_hash_t *s)
-{
-    stats_global_t *stat, *tmp;
-    int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(s));
-    char list[size];
-    char *line;
-
-    HASH_ITER(hh, s, stat, tmp)
-    {
-        sprintf(line, "%s [max: %d]\n", stat->name, stat->max);
->>>>>>> adding some CLI commands and display functions for global effects/stats #768
-        strcat(list, line);
-        LL_FOREACH(effect->stat_list, mod)
-        {
-            sprintf(line, "\t[ %s ] modifier: %f, duration: %d\n", 
-                    mod->stat->key, mod->modifier, mod->duration);
-            strcat(list, line);
-        }
-    }
-
-    char *display = strdup(list);
-    return display;
-}
-=======
->>>>>>> removing unecessary funcitons #768
-
-
-/* See stats.h */
-char *display_stat_effects(effects_hash_t *hash)
-{
-    stat_effect_t *effect, *tmp;
-    stat_mod_t *mod;
-    int count = 0, list_count = 0;
-
-    HASH_ITER(hh, hash, effect, tmp)
-    {
-        LL_COUNT(effect->stat_list, mod, list_count);
-        count += list_count;
-    }
-
-    int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * (count + HASH_COUNT(hash)));
-    char list[size];
-    char *line;
-
-    HASH_ITER(hh, hash, effect, tmp)
-    {
-        sprintf(line, "*** %s ***\n", effect->key);
         strcat(list, line);
         LL_FOREACH(effect->stat_list, mod)
         {
