@@ -137,10 +137,9 @@ int main()
     char *act = calloc(strlen("ON") + 1, sizeof(char));
     char *enemy_name = calloc(MAX_NAME_LEN + 1, sizeof(char));
     char *hp_string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-
+    hp_string = print_start_battle(ctx->game->battle);
     while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     {
-        hp_string = print_start_battle(ctx->game->battle);
         printf("Turn %d:\n", turn);
         printf("%s\n", hp_string);
         printf("What will you do?\n");
