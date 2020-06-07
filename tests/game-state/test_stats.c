@@ -110,9 +110,9 @@ Test (stats, add_stat)
 
     stats_global_t *health = stats_global_new("health", 100);
 
-    stats_t *s1 = stats_new(health, 75);
+    stats_t *s = stats_new(health, 75);
 
-    int rc = add_stat(&sh, &s);
+    int rc = add_stat(&sh, s);
 
     cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
