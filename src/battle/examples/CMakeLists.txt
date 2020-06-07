@@ -1,4 +1,4 @@
-set(BATTLE_EXAMPLES battle_flow_example)
+set(BATTLE_EXAMPLES battle_main_example)
 
 add_executable(battle_main
                battle_main.c)
