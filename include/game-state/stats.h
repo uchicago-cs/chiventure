@@ -2,7 +2,10 @@
 #define _STATS_H
 
 #include "game_state_common.h"
+#include "common/ctx.h"
 
+/* forward declaration to avoid circular dependency bug*/
+typdef struct chiventure_ctx chiventure_ctx_t;
 
 // GLOBAL STATS STRUCT DEFINITION ----------------------------------------------------
  /* This struct represents the global table that keeps track of all stats available.
