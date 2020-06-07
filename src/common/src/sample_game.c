@@ -192,7 +192,7 @@ game_t *create_sample_game_gs()
 
     /* conditions */
     condition_t *cond = attribute_condition_new(apple, "ripeness", ripe);
-    add_condition(game, actiontype_consume, cond);
+    add_condition(game, get_action(apple, "CONSUME"), cond);
 
     /* add items to room */
     add_item_to_room(room2, apple);

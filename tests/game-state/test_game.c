@@ -348,7 +348,7 @@ game_t* setup_is_game_over_test(bool has_final_room, bool has_end_conditions)
     if (has_end_conditions)
     {
         condition_t *condition;
-        condition = attribute_condition_new(test_item, get_attribute(test_item, "Test_Attribute"),
+        condition = attribute_condition_new(test_item, "Test_Attribute",
                                   expected);
         add_end_condition_to_game(game, condition);
     }
