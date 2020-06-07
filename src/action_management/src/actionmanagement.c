@@ -105,7 +105,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     game_action_t *game_act = get_action(i, a->c_name);
 
     // check if all conditions are met
-    if (all_conditions_met(game_act->conditions) == FAILURE)
+    if (all_conditions_met(game_act->conditions))
     {
         sprintf(string, "%s", game_act->fail_str);
         *ret_string = string;
@@ -235,7 +235,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     game_action_t *dir_game_act = get_action(direct, a->c_name);
 
     // check if all conditions of the action are met
-    if (all_conditions_met(dir_game_act->conditions) == FAILURE)
+    if (all_conditions_met(dir_game_act->conditions))
     {
         sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;

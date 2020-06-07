@@ -278,10 +278,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_1, "Test_Attribute_1", "Invalid_Value_1");
     add_item_to_game(game, test_item_1);
 
-    game_action_condition_t *condition_1 = malloc(sizeof(game_action_condition_t));
-    condition_1->item = test_item_1;
-    condition_1->attribute_to_check = get_attribute(test_item_1, "Test_Attribute_1");
-    condition_1->expected_value = expected;
+    condition_t *condition_1 = attribute_condition_new(test_item_1, "Test_Attribute_1", expected);
     add_end_condition_to_game(game, condition_1);
     
     item_t *test_item_2 = item_new("test_item_2", 
@@ -290,10 +287,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_2, "Test_Attribute_2", "Invalid_Value_2");
     add_item_to_game(game, test_item_2);
 
-    game_action_condition_t *condition_2 = malloc(sizeof(game_action_condition_t));
-    condition_2->item = test_item_2;
-    condition_2->attribute_to_check = get_attribute(test_item_2, "Test_Attribute_2");
-    condition_2->expected_value = expected;
+    condition_t *condition_1 = attribute_condition_new(test_item_2, "Test_Attribute_2", expected);
     add_end_condition_to_game(game, condition_2);
     
     item_t *test_item_3 = item_new("test_item_3", 
@@ -302,10 +296,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_3, "Test_Attribute_3", "Invalid_Value_3");
     add_item_to_game(game, test_item_3);
     
-    game_action_condition_t *condition_3 = malloc(sizeof(game_action_condition_t));
-    condition_3->item = test_item_3;
-    condition_3->attribute_to_check = get_attribute(test_item_3, "Test_Attribute_3");
-    condition_3->expected_value = expected;
+    condition_t *condition_3 = attribute_condition_new(test_item_3, "Test_Attribute_3", expected);
     add_end_condition_to_game(game, condition_3);
     
     bool test_2 = end_conditions_met(game);

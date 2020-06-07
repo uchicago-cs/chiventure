@@ -104,10 +104,9 @@ bool check_condition(condition_t *condition);
  * Parameters:
  *  a pointer to the head of a condition list
  * Returns:
- *  SUCCESS if all conditions are met, FAILURE if not
- *  2 if action not possible
+ *  true if all conditions are met, false if not
  */
-int all_conditions_met(condition_list_t *cond_list);
+bool all_conditions_met(condition_list_t *cond_list);
 
 
 #endif
