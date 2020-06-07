@@ -184,12 +184,38 @@ int free_stats(stats_t *stat)
     return SUCCESS;
 }
 
+/* See stats.h */
 int free_stats_global(stats_global_t *gs)
 {
     free(gs->name);
     free(gs);
     return SUCCESS;
 }
+
+/* See stats.h */
+int free_stats_table(stats_hash_t *stats_table)
+{
+    struct stats_t *current_stat, *tmp;
+    HASH_ITER(hh, stat_table, current_stat, tmp)
+    {     
+        HASH_DEL(stats_table, current_stat);
+        free_stats(current_stat);
+    }
+    return SUCCESS;
+}
+
+/* See stats.h */
+int free_stats_global_table(stats_global_hash_t *gst)
+{
+    struct stats_t *current_gs, *tmp;
+    HASH_ITER(hh, stat_table, current_gs, tmp)
+    {     
+        HASH_DEL(stats_table, current_gs);
+        free_stats_global(current_gs);
+    }
+    return SUCCESS;
+}
+
 
 /* See stats.h */
 int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)

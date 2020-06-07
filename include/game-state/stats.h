@@ -302,6 +302,30 @@ int free_stats(stats_t *stat);
 int free_stats_global(stats_global_t *gs);
 
 /*
+ * Frees memory associated with a stats table
+ * and deletes it.
+ *
+ * Parameters: 
+ * stats_table: pointer to the stats stable to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int free_stats_table(stats_hash_t *stats_table);
+
+/*
+ * Frees memory associated with a global_stats
+ * stats table and deletes it
+ *
+ * Parameters: 
+ * gst: pointer to the global stat table to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int free_stats_global_table(stats_global_hash_t *gst);
+
+/*
  * Deletes a single player effects struct from a hash table,
  * then frees the struct
  *
