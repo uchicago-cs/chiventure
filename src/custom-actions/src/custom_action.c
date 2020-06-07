@@ -12,7 +12,7 @@
 
 /* See custom_action.h */
 custom_action_t* custom_action_new(char *action_name, char *context, char *item, 
-                                   char *type, AST_block_t *head, ut_hash_handle hh)
+                                   char *type, AST_block_t *head, UT_hash_handle hh)
 {
     custom_action_t *action;
     int new_action;
@@ -37,7 +37,7 @@ custom_action_t* custom_action_new(char *action_name, char *context, char *item,
 
 /* See custom_action.h */
 int custom_action_init(custom_action_t *action, char *action_name, char *context, 
-                       char *item, char *type, AST_block_t *head, ut_hash_handle hh)
+                       char *item, char *type, AST_block_t *head, UT_hash_handle hh)
 {
     assert(action != NULL);
     assert(action_name != NULL);
