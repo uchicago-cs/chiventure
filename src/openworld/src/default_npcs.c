@@ -9,49 +9,49 @@ npc_t *get_hostile_npcs()
 {
 	npc_t *hash =NULL;
 
-	// wizard
-	item_hash_t *inventory_wizard = NULL;
-	item_t *dagger_item = item_new("magical dagger", "a magical dagger", "Sharp, cool, and deadly");
-	HASH_ADD_STR(inventory_wizard, item_id, dagger_item);
-	item_t *potion_item = item_new("healing potion", "a green potion ", "a healing potion made for you!");
+   // wizard
+   item_hash_t *inventory_wizard = NULL;
+   item_t *dagger_item = item_new("magical dagger", "a magical dagger", "Sharp, cool, and deadly");
+   HASH_ADD_STR(inventory_wizard, item_id, dagger_item);
+   item_t *potion_item = item_new("healing potion", "a green potion ", "a healing potion made for you!");
 
-	// assasin
-	item_hash_t *inventory_assasin = NULL;
-	HASH_ADD_STR(inventory_assasin, item_id, potion_item);
-	item_t *rifle_item = item_new("rifle", "sharp rifle", "Level 1 rifle");
-	HASH_ADD_STR(inventory_assasin, item_id, rifle_item);
-	item_t *knife_item = item_new("knife", "knife", "sharp silver kitchen knife");
-	HASH_ADD_STR(inventory_assasin, item_id, knife_item);
+   // assasin
+   item_hash_t *inventory_assasin = NULL;
+   HASH_ADD_STR(inventory_assasin, item_id, potion_item);
+   item_t *rifle_item = item_new("rifle", "sharp rifle", "Level 1 rifle");
+   HASH_ADD_STR(inventory_assasin, item_id, rifle_item);
+   item_t *knife_item = item_new("knife", "knife", "sharp silver kitchen knife");
+   HASH_ADD_STR(inventory_assasin, item_id, knife_item);
 
-	// ninja
-	item_hash_t *inventory_ninja = NULL;
-	item_t *arrows_item = item_new("arrows", "battle arrows", "red lethal arrows");
-	HASH_ADD_STR(inventory_ninja, item_id, arrows_item);
-	item_t *grenade_item = item_new("grenades", "lethal grenades", "bombs used to attack you opponent");
-	HASH_ADD_STR(inventory_ninja, item_id, grenade_item);
+   // ninja
+   item_hash_t *inventory_ninja = NULL;
+   item_t *arrows_item = item_new("arrows", "battle arrows", "red lethal arrows");
+   HASH_ADD_STR(inventory_ninja, item_id, arrows_item);
+   item_t *grenade_item = item_new("grenades", "lethal grenades", "bombs used to attack you opponent");
+   HASH_ADD_STR(inventory_ninja, item_id, grenade_item);
 
-	npc_t *wizard = calloc(1, sizeof(npc_t));
-	wizard->npc_name = "wizard";
-	wizard->level = 2;
-	wizard->inventory = inventory_wizard;
-	wizard->classification = NPC_HOSTILE;
-	HASH_ADD_STR(hash, npc_name, wizard);
+   npc_t *wizard = calloc(1, sizeof(npc_t));
+   wizard->npc_name = "wizard";
+   wizard->level = 2;
+   wizard->inventory = inventory_wizard;
+   wizard->classification = NPC_HOSTILE;
+   HASH_ADD_STR(hash, npc_name, wizard);
 
-	npc_t *assasin = calloc(1, sizeof(npc_t));
-	assasin->npc_name = "assasin";
-	assasin->level = 3;
-	assasin->inventory = inventory_assasin;
-	assasin->classification = NPC_HOSTILE;
-	HASH_ADD_STR(hash, npc_name, assasin);
+   npc_t *assasin = calloc(1, sizeof(npc_t));
+   assasin->npc_name = "assasin";
+   assasin->level = 3;
+   assasin->inventory = inventory_assasin;
+   assasin->classification = NPC_HOSTILE;
+   HASH_ADD_STR(hash, npc_name, assasin);
 
 
-	npc_t *ninja = calloc(1, sizeof(npc_t));
-	ninja->npc_name = "ninja";
-	ninja->level = 1;
-	ninja->inventory = inventory_ninja;
-	ninja->classification = NPC_HOSTILE;
-	HASH_ADD_STR(hash, npc_name, ninja);
-	return hash;
+   npc_t *ninja = calloc(1, sizeof(npc_t));
+   ninja->npc_name = "ninja";
+   ninja->level = 1;
+   ninja->inventory = inventory_ninja;
+   ninja->classification = NPC_HOSTILE;
+   HASH_ADD_STR(hash, npc_name, ninja);
+   return hash;
 }
 
 /* See sample_npc.h */
