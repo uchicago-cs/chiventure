@@ -5,7 +5,7 @@
 #include "game-state/item.h"
 #include "game-state/room.h"
 #include "npc/npc.h"
-
+#include "custom-scripts/custom_type.h"
 
 /* 
  * Struct for adding and handling npcs in rooms 
