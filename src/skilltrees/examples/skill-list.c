@@ -34,19 +34,19 @@ skill_list_t* skill_list() {
 
     class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL, NULL, NULL, NULL);
     skill_inventory_t *bard_inv = bard_inventory();
-    skill_list_t* bardlist = new_skill_list(bard, bard_inv->active[0]);
+    skill_list_t *bardlist = new_skill_list(bard, bard_inv->active[0]);
 
     // Wizard
 
     class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, NULL, NULL, NULL);
     skill_inventory_t *wizard_inv = wizard_inventory();
-    skill_list_t* wizardlist = new_skill_list(wizard, wizard_inv->active[0]);
+    skill_list_t *wizardlist = new_skill_list(wizard, wizard_inv->active[0]);
     
     // Knight
 
     class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL, NULL, NULL, NULL);
     skill_inventory_t *knight_inv = knight_inventory();
-    skill_list_t* knightlist = new_skill_list(knight, knight_inv->active[0]);
+    skill_list_t *knightlist = new_skill_list(knight, knight_inv->active[0]);
 
     DL_APPEND(head, bardlist);
     DL_APPEND(head, wizardlist);
