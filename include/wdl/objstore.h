@@ -82,16 +82,4 @@ int free_objstore(objstore_t **obj_store, objstore_t *store);
  */
 int free_all_objstore(objstore_t **object_store);
 
-/* 
- * get_object: retrieves an object from a .wdz archive
- *
- * params:
- *   - type: the type of the object corresponding to its .wdz subfile.
- *   - id: the object's id
- * 
- * returns:
- *   - a pointer to the requested object as a obj_t struct member.
- */
-object_t* get_object(objstore_t **ht, char* type, char* id);
-
 #endif
