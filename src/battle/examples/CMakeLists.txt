@@ -1,7 +1,7 @@
 set(BATTLE_EXAMPLES battle_flow_example)
 
-add_executable(battle_flow_example
-               battle_flow_example.c)
+add_executable(battle_main
+               battle_main.c)
 
 # Link with chiventure libraries
 foreach(example ${BATTLE_EXAMPLES})
