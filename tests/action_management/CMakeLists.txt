@@ -6,7 +6,6 @@ add_executable(${TEST_EXE}
         test_item_actions.c
         test_item_item_actions.c
         test_path_actions.c
-        test_condition.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})

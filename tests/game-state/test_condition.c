@@ -7,3 +7,4 @@
 #include "game-state/player.h"
 #include "game-state/condition.h"
 
+Test(condition)
