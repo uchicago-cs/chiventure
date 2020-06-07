@@ -326,7 +326,7 @@ int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect);
  * Applies an effect on a player
  *
  * Parameters: 
- * hash: effects hash table of player
+ * hash: pointer to a pointer for the effects hash table of player
  * effect: pointer to effect to be applied
  * stats: array of the player's stats to be impacted
  * intensities: array of modifiers for each stat
