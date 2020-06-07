@@ -210,6 +210,7 @@ int free_stats(stats_hash_t *s)
 /* See stats.h */
 int free_stat_mod(stat_mod_t *mod) {
     free(mod);
+    return SUCCESS;
 }
 
 /* See stats.h */
