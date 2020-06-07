@@ -136,7 +136,8 @@ Test(stats, free_table)
 
 Test(stats, free_global_table)
 {
-    stats_global_hash_t *gsh = NULL;
+    stats_global_hash_t **gsh;
+    *gsh = NULL;
 
     stats_global_t *gs1 = stats_global_new("health", 100);
     cr_assert_not_null(gs1, "stats_global_new() failed. Global health stat is NULL");
