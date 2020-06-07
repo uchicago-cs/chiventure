@@ -199,9 +199,8 @@ int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time)
     room_to_add2->next = NULL;
     room_to_add2->room = room_to_add;
 
-    room_list_t *head = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
-
-    LL_APPEND(head, room_to_add2);
+    LL_APPEND(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path,
+         room_to_add2);
 
     int check = register_npc_room_time(npc_mov, room_to_add, time);
 
@@ -226,13 +225,28 @@ int reverse_path(npc_mov_t *npc_mov)
 
     room_list_t *reversed_path_head = NULL;
 
-    room_list_t *def_path = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
-    room_list_t *tmp;
-    LL_FOREACH(def_path, tmp) {
-        LL_PREPEND(reversed_path_head, tmp);
+    room_list_t *room_elt, *room_tmp;
+    LL_FOREACH_SAFE(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
+                room_elt,room_tmp)
+    {
+        room_list_t* append_room = malloc(sizeof(room_list_t));
+        append_room->next = NULL;
+        append_room->room = room_elt->room;
+        LL_PREPEND(reversed_path_head, append_room);
+        LL_DELETE(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
+                  room_elt);
+        free(room_elt);
     }
-    free(def_path);
-    npc_mov->npc_mov_type.npc_mov_definite->npc_path = reversed_path_head;
+
+    room_list_t *tmp2;
+    LL_FOREACH(reversed_path_head, tmp2)
+    {
+        room_list_t* reappend_room = malloc(sizeof(room_list_t));
+        reappend_room->next = NULL;
+        reappend_room->room = tmp2->room;
+        LL_APPEND(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
+                reappend_room);
+    }
 
     return SUCCESS;
 }
