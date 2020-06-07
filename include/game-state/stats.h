@@ -396,6 +396,18 @@ int free_stats_table(stats_hash_t *stats_table);
  char *display_stat_effects(effects_hash_t *hash);
 
 /*
+ * Print a list of the effects in a hashtable along with the stats
+ * and the modifiers and durations for the effect on the stat
+ *
+ * Parameters: 
+ * hash: pointer to the effects hash table to be printed
+ * 
+ * Returns:
+ *  string to be printed
+ */
+ char *display_stat_effects(effects_hash_t *hash);
+
+/*
  * Frees a stats hash table
 >>>>>>> adding display_stat_effect #768
  *
