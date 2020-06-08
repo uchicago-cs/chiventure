@@ -45,15 +45,14 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    wdl_ctx_t *wdl_ctx;
+    wdl_ctx_t *wdl_ctx = NULL;
     game_t *game = NULL;
 
     if (argc == 2)
     {
         wdl_ctx = load_wdl(argv[1]);
+        game = load_objects(wdl_ctx);
     }
-
-    game = load_objects(wdl_ctx);
 
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
