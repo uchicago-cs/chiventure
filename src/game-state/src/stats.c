@@ -136,7 +136,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 {
      
     if (sh == NULL) {
-        return -1;
+        return FAILURE;
     }
 
     stats_t *curr;
@@ -144,7 +144,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       return -1;
+       return FAILURE;
     }
     
     int changed_stat = curr->val + change;
