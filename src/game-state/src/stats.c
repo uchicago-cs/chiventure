@@ -243,7 +243,7 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
 }
 
 /* See stats.h */
-int free_stats(stats_hash_t *s)
+int free_stats(stat_t *stat)
 
 {
     free(stat->key);
@@ -272,7 +272,6 @@ int free_stats_table(stats_hash_t *stats_table)
 }
 
 /* See stats.h */
-
 int free_stats_global_table(stats_global_hash_t *gst)
 {
     stats_global_t *current_gs, *tmp;
@@ -284,10 +283,12 @@ int free_stats_global_table(stats_global_hash_t *gst)
     return SUCCESS;
 }
 
-
-int free_stat_mod(stat_mod_t *mod) {
+/* See stats.h */
+int free_stat_mod(stat_mod_t *mod) 
+{
     free(mod);
     return SUCCESS;
+}
 
 /* See stats.h */
 int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)
