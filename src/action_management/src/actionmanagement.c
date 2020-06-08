@@ -5,6 +5,7 @@
 
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
+#include "game-state/room.h"
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (2)
@@ -43,6 +44,8 @@ int action_type_init(action_type_t *a, char *c_name, enum action_kind kind)
     assert(a);
     a->c_name = c_name;
     a->kind = kind;
+    a->room = NULL;
+    a->direction = NULL;
 
     return SUCCESS;
 }
@@ -57,7 +60,47 @@ int action_type_free(action_type_t *a)
 }
 
 
+/* See actionmanagement.h */
+int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
+{
+    a->room = room;
+    a->direction = direction;
+    return SUCCESS;
+}
+
+
 /* ========================================================================== */
+
+
+/* 
+ * helper function that removes condition
+ *
+ * Parameter:
+ * action that's being one
+ *
+ * Returns:
+ * SUCCESS if action's removed
+ */
+int helper_remove(action_type_t *a)
+{
+            path_t *closed_path;
+            closed_path = path_search(a->room,a->direction);
+            /* only if action is a condition to something (action with
+               null room and direction produce null path) */
+            if (closed_path)
+            {
+                list_action_type_t *delete_node;
+                int condition;
+                closed_path = path_search(a->room,a->direction);
+                delete_node = find_act(closed_path->conditions,a);
+                condition = remove_condition(closed_path,delete_node);
+                if (condition != SUCCESS)
+                {
+                    return CONDITIONS_NOT_MET;
+                }
+            }
+    return SUCCESS;
+}
 
 
 /* KIND 1
@@ -105,7 +148,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     game_action_t *game_act = get_action(i, a->c_name);
 
     // check if all conditions are met
-    if (all_conditions_met(i, a->c_name) == FAILURE)
+    if (!all_conditions_met(game_act->conditions))
     {
         sprintf(string, "%s", game_act->fail_str);
         *ret_string = string;
@@ -124,11 +167,15 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         }
         else
         {
+	    //remove action from any conditions
+	    int rc;
+	    rc = helper_remove(a);
+
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
             if (is_game_over(game))
             {
-                sprintf(string, " Congratulations, you've won the game! "
+                string = strcat(string, " Congratulations, you've won the game! "
                         "Press ctrl+D to quit.");
             }
             *ret_string = string;
@@ -165,8 +212,9 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
         *ret_string = string;
         return WRONG_KIND;
     }
-    // validate existence of path and destination
-    if ((path_found == NULL) || (room_dest == NULL))
+    /* validate existence of path and destination
+       third condition checks if conditions have been met */
+    if ((path_found == NULL) || (room_dest == NULL) || (p->conditions != NULL))
     {
         sprintf(string, "The path or room provided was invalid.");
         *ret_string = string;
@@ -176,6 +224,11 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     /* PERFORM ACTION */
     int move = move_room(g, room_dest);
 
+    //remove action from any conditions
+    int rc;
+    rc = helper_remove(a);
+
+    // successfully carried out action
     if (is_game_over(g)) {
         sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
                  room_dest->room_id);
@@ -235,7 +288,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     game_action_t *dir_game_act = get_action(direct, a->c_name);
 
     // check if all conditions of the action are met
-    if (all_conditions_met(direct, a->c_name) == FAILURE)
+    if (!all_conditions_met(dir_game_act->conditions))
     {
         sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;
@@ -271,11 +324,16 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         }
         else if (applied_effect == SUCCESS)
         {
+            //remove action from any conditions
+            int rc;
+            rc = helper_remove(a);
+
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
             if (is_game_over(game))
             {
-                sprintf(string, " Congratulations, you've won the game! Press ctrl+D to quit.");
+                string = strcat(string, " Congratulations, you've won the game! "
+                        "Press ctrl+D to quit.");
             }
             *ret_string = string;
             return SUCCESS;
@@ -283,3 +341,5 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     }
     return FAILURE;
 }
+
+

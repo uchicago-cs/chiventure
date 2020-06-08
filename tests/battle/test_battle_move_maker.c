@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include "battle/battle_flow.h"
 #include "../../src/battle/examples/battle_move_maker.h"
 #include "playerclass/class.h"
 
@@ -14,10 +15,15 @@ Test(class_moves, bard)
     
     player_t *player = new_ctx_player("name", test_class,
                                           NULL, NULL, NULL);
-    player_t *ret_player = build_moves(player);
+    combatant_t *ret_player = set_player(player);
+
+    int rc = build_moves(ret_player);
+
+    cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
+   
     cr_assert_eq(ret_player->moves->id, 0, "add_class_move() didn't set id");
 
     cr_assert_str_eq(ret_player->moves->info, "Diss Track",
@@ -26,7 +32,7 @@ Test(class_moves, bard)
     cr_assert(ret_player->moves->attack,
              "add_class_move() didn't set attack to true");
 
-    cr_assert_eq(ret_player->moves->damage, 8,
+    cr_assert_eq(ret_player->moves->damage, 80,
                  "add_class_move() didn't set damage");
 
     cr_assert_eq(ret_player->moves->defense, 0,
@@ -43,7 +49,11 @@ Test(class_moves, wizard)
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
-    player_t *ret_player = build_moves(player);
+    combatant_t *ret_player = set_player(player);
+
+    int rc = build_moves(ret_player);
+
+    cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
@@ -56,7 +66,7 @@ Test(class_moves, wizard)
     cr_assert(ret_player->moves->attack,
              "add_class_move() didn't set attack to true");
 
-    cr_assert_eq(ret_player->moves->damage, 10,
+    cr_assert_eq(ret_player->moves->damage, 100,
                  "add_class_move() didn't set damage");
 
     cr_assert_eq(ret_player->moves->defense, 0,
@@ -73,7 +83,11 @@ Test(class_moves, knight)
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
-    player_t *ret_player = build_moves(player);
+    combatant_t *ret_player = set_player(player);
+    
+    int rc = build_moves(ret_player);
+
+    cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
     cr_assert_null(ret_player->moves->item,
                    "add_class_move() didn't set item to NULL");
@@ -86,7 +100,7 @@ Test(class_moves, knight)
     cr_assert(ret_player->moves->attack,
              "add_class_move() didn't set attack to true");
 
-    cr_assert_eq(ret_player->moves->damage, 9,
+    cr_assert_eq(ret_player->moves->damage, 90,
                  "add_class_move() didn't set damage");
 
     cr_assert_eq(ret_player->moves->defense, 0,

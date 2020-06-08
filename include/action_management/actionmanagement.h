@@ -19,6 +19,7 @@ typedef struct chiventure_ctx chiventure_ctx_t;
  * Parameters:
  * - c_name: a string containing an actions canonical name
  * - kind: an enumeration of the kind of action
+ * - trigger: room_id of room it's a condition for
  *
  * Returns:
  * - a pointer to a new action type struct
@@ -33,6 +34,7 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind);
  * - a: a pointer to an empty action_type_t allocated by action_type_new
  * - c_name: a string containing an actions canonical name
  * - kind: an enumeration of the kind of action
+ * - trigger: room_id of room it's a condition for
  *
  * Returns:
  * - 0 if success, 1 if an error occurs
@@ -50,6 +52,19 @@ int action_type_init(action_type_t *a, char *c_name, enum action_kind kind);
  * - 0 if success, 1 if an error occurs
  */
 int action_type_free(action_type_t *a);
+
+/*
+ * A function that assigns a trigger value to an action type struct
+ *
+ * Parameters:
+ * - a: An action type struct. Must point to action type struct allocated by action_type_new
+ * - room: room that action is a condition to
+ * - direction: direction of room
+ *
+ * Returns:
+ * - SUCCESS if success
+ */
+int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction);
 
 
 // =============================================================================

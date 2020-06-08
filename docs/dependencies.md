@@ -8,6 +8,7 @@ chiventure requires the following software/libraries:
 - [LibYAML](https://pyyaml.org/wiki/LibYAML) 0.2.2 or higher
 - [ncurses](https://invisible-island.net/ncurses/announce.html) 6.0 or higher, with support for wide characters (`ncursesw`)
 - [Criterion](https://github.com/Snaipe/Criterion) 2.3.1 or higher
+- [Lua](https://www.lua.org/) 5.3 or higher   
 
 CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
 
@@ -83,4 +84,20 @@ sudo apt-get update
 sudo apt-get install criterion-dev
 ```
 
-Note: if you are on an unsupported ubuntu release for Criterion (like ubuntu 19), you can try to add a different release repository to your apt sources. To do so, open software updater, click the "Other Software" tab, and click the "Add" button. Then, add the line `deb http://ppa.launchpad.net/snaipewastaken/ppa/ubuntu cosmic main` (to add the Ubuntu 18 version) as the source. You should probably remove the source afterwards, since it's a different Ubuntu release and might cause issues the next time you use apt.
+## Installing `Lua` 
+
+Step 1: Download and install Lua to the CSIL machines through the following commands:
+```
+curl -R -O http://www.lua.org/ftp/lua-5.3.5.tar.gz -o ~/
+tar zxf ~/lua-5.3.5.tar.gz
+cd ~/lua-5.3.5
+make linux test
+```
+Step 2: In your chiventure directory on the CSIL machines, follow the process below to build the code:
+```
+mkdir build
+cd build
+cmake -DLUA_INCLUDE_DIR=~/lua-5.3.5/src/ -DLUA_LIBRARY=~/lua-5.3.5/src/liblua.a ..
+make
+```
+Note: if you are on an unsupported Ubuntu release for Criterion (i.e. Ubuntu 19.XX and higher), you can try to add a different release repository for your apt sources. To do so, open the "Software Updater" application, click on the "Other Software" tab, and then click on the "Add" button. Then, add the line `deb http://ppa.launchpad.net/snaipewastaken/ppa/ubuntu cosmic main` as the source; this will add the Ubuntu 18.XX release version. (You should probably remove the source after the installation, since it's a different Ubuntu release and might cause issues the next time you use apt.)
