@@ -6,7 +6,7 @@
 #include "battle/battle_state.h"
 
 #define MAX_COMMAND_LINE_LENGTH (100)
-#define MAXLEN (100)
+#define MAX_COMMAND_LENGTH (100)
 #define MAX_ARGS (5)
 
 /* initializes a dummy wizard class */
@@ -25,9 +25,9 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
 {
     int res;
     char *action_string;
-    if ((strncmp(args[0], "MOVE", MAXLEN) == 0) 
-        && (strncmp(args[1], "USE", MAXLEN) == 0) 
-        && (strncmp(args[3], "ON", MAXLEN) == 0))
+    if ((strncmp(args[0], "MOVE", MAX_COMMAND_LENGTH) == 0) 
+        && (strncmp(args[1], "USE", MAX_COMMAND_LENGTH) == 0) 
+        && (strncmp(args[3], "ON", MAX_COMMAND_LENGTH) == 0))
     {
         printf("Determined command as MOVE USE, and it using the %s move\n\n",
                 args[2]);
@@ -92,8 +92,8 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         }
         return SUCCESS;
     }
-    else if ((strncmp(args[0], "MOVE", MAXLEN) == 0) 
-            && (strncmp(args[1], "LIST", MAXLEN) == 0))
+    else if ((strncmp(args[0], "MOVE", MAX_COMMAND_LENGTH) == 0) 
+            && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
     {
         printf("Determined command as MOVE LIST\n\n");
         move_t *temp;
@@ -105,7 +105,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("\n");
         return SUCCESS;
     }
-    else if (strncmp(args[0], "HELP", MAXLEN) == 0)
+    else if (strncmp(args[0], "HELP", MAX_COMMAND_LENGTH) == 0)
     {
         printf("Here are the possible commands!\n");
         printf("MOVE USE <move_name> ON <enemy_name>\n");
@@ -123,7 +123,7 @@ int parse_command(char **out, char *input)
 {
     for (int i = 0; i < MAX_ARGS; i++)
     {
-        out[i] = calloc(MAXLEN + 1, sizeof(char));
+        out[i] = calloc(MAX_COMMAND_LENGTH + 1, sizeof(char));
     }
     return sscanf(input, " %s %s %s %s %s ", out[0], out[1], out[2], out[3], out[4]);
 }
@@ -175,7 +175,7 @@ int main()
 
     char *start = print_start_battle(ctx->game->battle);
     printf("%s\n", start);
-    char buf[MAXLEN + 1] = {0};
+    char buf[MAX_COMMAND_LENGTH + 1] = {0};
     char **args = calloc(MAX_ARGS, sizeof(char *));
     int num_args;
     int res;
@@ -184,7 +184,7 @@ int main()
         printf("What will you do?\n");
         // Get the input
         printf("> ");
-        if (!fgets(buf, MAXLEN, stdin))
+        if (!fgets(buf, MAX_COMMAND_LENGTH, stdin))
         {
             break;
         }
