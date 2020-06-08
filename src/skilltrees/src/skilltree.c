@@ -121,13 +121,18 @@ int skill_tree_free(skill_tree_t* tree) {
 
 /* See skilltree.h */
 int skill_tree_node_add(skill_tree_t* tree, skill_node_t* node) {
-    // assert(tree != NULL && node != NULL);
+    assert(tree != NULL && node != NULL);
 
     skill_node_t** n = tree->nodes;
     if (tree->num_nodes == 0) {
         // First time mallocing
         tree->num_nodes += 1;
         n = (skill_node_t**)malloc(sizeof(skill_node_t*));
+        if (n == NULL) {
+            fprintf(stderr, "skill_tree_node_add: malloc failed\n");
+            return FAILURE;
+        }
+        tree->nodes = n;
     } else {
         tree->num_nodes += 1;
         n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*tree->num_nodes);
