@@ -33,8 +33,8 @@ typedef union block {
 typedef struct AST_block {
     block_t *block;
     block_type_t block_type;
-    int num_AST;
-    struct AST_block **ast_sequence;
+    struct AST_block *next;
+    struct AST_block *prev;
 } AST_block_t;
 
 /* 
@@ -43,14 +43,14 @@ typedef struct AST_block {
  * Parameters: 
  * - block: pointer to either a control, branch, action or conditional block 
  * - enum representing the type of block
- * - integer showing how many AST blocks are within the sequence
- * - pointer to a list of the subsequent AST blocks within the sequence
+ * - pointer to the next AST block in the custom action sequence
+ * - pointer to the previous AST block in the custom action sequence
  * 
  * Returns: 
  * - An AST block. 
  */
-AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST, 
-                           AST_block_t **ast_sequence);
+AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t *next, 
+                           AST_block_t *prev)
 
 /* 
  * Initializes an AST block. 
@@ -59,14 +59,14 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST,
  * - AST block. Must point to already allocated memory. 
  * - block: pointer to either a control, branch, action or conditional block 
  * - enum representing the type of block
- * - integer showing how many AST blocks are within the sequence
- * - pointer to a list of the subsequent AST blocks within the sequence
+ * - pointer to the next AST block in the custom action sequence
+ * - pointer to the previous AST block in the custom action sequence
  * 
  * Returns: 
  * - SUCCESS if success, FAILURE if error occurs
  */
 int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type, 
-                   int num_AST, AST_block_t **ast_sequence);
+                   AST_block_t *next, AST_block_t *prev)
 
 /* 
  * Frees an AST block, as well as all of the AST blocks in the sequence. 
