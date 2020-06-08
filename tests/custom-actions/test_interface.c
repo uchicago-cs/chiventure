@@ -4,6 +4,29 @@
 #include <stdio.h>
 #include "interface.h"
 
+Test(custom_action_t, add_action)
+{
+    // creates a single custom action and adds it to the list
+
+    block_t *block1 = malloc(sizeof(block_t));
+    block_type_t block_type1 = CONDITIONAL;
+    AST_block_t *head1 = AST_block_new(block1, block_type1);
+    char *action_name1 = "act_PUSH";
+    char *context1 = "chair";
+    char *item1 = "obj_SPINACH";
+    char *type1 = "mage";
+
+    custom_action_t *new_action1 = custom_action_new(action_name1, context1,
+                                                     item1, type1, head1);
+
+    cr_assert_not_null(new_action1, "custom_action_new failed");
+
+    // adds custom action to the game and checks for success
+
+    int rc = add_custom_action_to_game(new_action1);
+    cr_assert_eq(rc, SUCCESS, "add_custom_action_to_game failed");                                                   "returned the wrong result");
+}
+
 Test(custom_action_t, find_existing)
 {
     // creates a single custom action
