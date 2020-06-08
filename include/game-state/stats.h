@@ -118,7 +118,7 @@ int stats_global_init(stats_global_t *s, char *name, double max);
 
 
 /*
- * Initializes a Stat with specified value and modifier 0
+ * Initializes a Stat with specified value and modifier 1
  *
  * Parameters:
  *  s: A stats struct Must point to already allocated memory.

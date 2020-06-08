@@ -377,14 +377,13 @@ Test(stats, change_stat) {
 Test(stats, get_stat_current){
     stats_hash_t *sh = NULL;
     stats_global_t g1;
-    g1.name = "health";
-    g1.max = 100;
     stats_t s1;
-    s1.key = "health";
-    s1.global = &g1;
-    s1.val = 50;
+
+    stats_global_init(&g1, "health", 100);
+    stats_init(&s1, &g1, 50);
     s1.max = 75;
     s1.modifier = 1.1;
+
     int rc1 = add_stat(&sh, &s1);
     cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
     int s1_value = get_stat_current(sh, s1.key);
