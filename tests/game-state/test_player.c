@@ -7,7 +7,7 @@
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
 #include "game-state/stats.h"
-/*#include "playerclass/class.h"*/
+#include "playerclass/class.h"
 
 /* Checks that player_new() properly mallocs and inits a new player struct */
 Test(player, new)
@@ -230,10 +230,10 @@ Test(player, add_item_effect_to_player)
   effects_global_t *g1 = global_effect_new("effect 1");
   stat_effect_t *e1 = stat_effect_new(g1);
   stat_effect_t *e2 = stat_effect_new(g1);
-  /*class_t *class = class_new("class", "short", "long",
+  class_t *class = class_new("class", "short", "long",
                    NULL, NULL, NULL);
-  player->player_class = class;*/
-  add_stat_effect(&player->/*player_class->*/effects, e1);
+  player->player_class = class;
+  add_stat_effect(&player->player_class->effects, e1);
 
   stats_global_t health;
   health.name = "health";
@@ -246,7 +246,7 @@ Test(player, add_item_effect_to_player)
   s1.max = 75.0;
   s1.modifier = 0.75;
 
-  add_stat(&player->/*player_class->*/stats, &s1);
+  add_stat(&player->player_class->stats, &s1);
 
   stat_mod_t *mod1 = stat_mod_new(&s1, 1.5, 5);
   LL_APPEND(e2->stat_list, mod1);
@@ -256,7 +256,7 @@ Test(player, add_item_effect_to_player)
 
   cr_assert_not_null(e1->stat_list, 
                      "add_item did not add stat_mod to effect");
-  cr_assert_eq(player->/*player_class->*/stats->modifier, 1.125, 
+  cr_assert_eq(player->player_class->stats->modifier, 1.125, 
                "add_item did not update modifier");
 
 }

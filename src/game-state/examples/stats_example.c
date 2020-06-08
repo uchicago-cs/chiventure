@@ -145,8 +145,9 @@ chiventure_ctx_t *create_sample_ctx()
     add_stat(&sh, s2);
     add_stat(&sh, s3);
 
-    game->curr_player->stats = sh;
-    game->curr_player->effects = eh;
+    class_t *class = class_new("class", "short", "long",
+                   NULL, sh, eh);
+    game->curr_player->player_class = class;
 
     return ctx;
 }
@@ -215,7 +216,7 @@ char *print_player_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
-    return display_stats(game->curr_player->stats);
+    return display_stats(game->curr_player->player_class->stats);
 }
 
 char *print_player_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -227,7 +228,7 @@ char *print_player_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
-    return display_stat_effects(game->curr_player->effects);
+    return display_stat_effects(game->curr_player->player_class->effects);
 }
 
 char *print_item_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -271,7 +272,7 @@ char *add_player_stat(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     stats_t *stat = stats_new(global, 100);
-    add_stat(&game->curr_player->stats, stat);
+    add_stat(&game->curr_player->player_class->stats, stat);
     return "The stat has been added.";
 
 }
@@ -298,7 +299,7 @@ char *add_player_effect(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     stat_effect_t *effect = stat_effect_new(global);
-    add_stat_effect(&game->curr_player->effects, effect);
+    add_stat_effect(&game->curr_player->player_class->effects, effect);
     return "The effect has been added.";
 
 }
@@ -334,7 +335,7 @@ char *upgrade_command(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "You must identify a stat to upgrade\n";
     }
 
-    int rc = change_stat_max(game->curr_player->stats, tokens[1], 1000);
+    int rc = change_stat_max(game->curr_player->player_class->stats, tokens[1], 1000);
 
     if (rc == FAILURE)
     {
