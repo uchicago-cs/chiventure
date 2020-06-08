@@ -1,7 +1,7 @@
-include_directories(../../../include/)
-
+# List all skilltrees example files
 set(SKILLTREES_EXAMPLES skilltrees_presentation)
 
+# Add skilltrees presentation executable
 add_executable(skilltrees_presentation
                skilltrees_presentation.c)
 
