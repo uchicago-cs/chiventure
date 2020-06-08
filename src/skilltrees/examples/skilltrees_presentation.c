@@ -75,7 +75,7 @@ skill_inventory_t* inventory;
 
     // Implementation skill effect
     char* effect_implementation(char* args) {
-        return "Good implementation progress! IMPLEMENT 2x to progress northward!";
+        return "Good implementation progress! Your users eagerly await in the Demo room!";
     }
 
     // Implementation skill item
@@ -152,6 +152,7 @@ char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
 void test_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(test_skill);
     if (test_skill->level == 2) {
+        print_to_cli(ctx, "FYI, use SKILLS to see your skill inventory.");
         add_entry("LEARN", learn_operation, NULL, ctx->table);
         add_action(implementation_item, "LEARN", "Now that your tests are "
                    "complete, begin implementation!", "Test at least once "
@@ -169,6 +170,7 @@ char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
 void design_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(design_skill);
     if (design_skill->level == 4) {
+        print_to_cli("You can move on to Implementation now, though feel free to keep designing!");
         create_connection(ctx->game, "Design Room", "Implementation Room",
                           "NORTH");
         create_connection(ctx->game, "Implementation Room", "Design Room",
@@ -259,8 +261,6 @@ int main(int argc, char **argv) {
 
     // Start UI for example chiventure context
     start_ui(ctx, banner);
-
-    print_to_cli(ctx, "Use SKILLS to see your skill inventory at any time.");
 
     // Free memory
     skill_tree_free(skill_tree);
