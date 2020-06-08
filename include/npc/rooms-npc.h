@@ -139,7 +139,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, object_t *room_id);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_mov_init(npc_mov_t *npc_mov, objec_t* npc_id, npc_mov_enum_t mov_type, room_t *room);
+int npc_mov_init(npc_mov_t *npc_mov, object_t* npc_id, npc_mov_enum_t mov_type, room_t *room);
 
 
 /*
