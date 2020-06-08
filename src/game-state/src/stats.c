@@ -140,23 +140,14 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
         exit(1);
     }
 
-    int i = 0;
-    int tsize = sizeof(sh);
     stats_hash_t *curr;
-
-     
-    // for (i = 0; i < tsize; i++) {
-    //    if (!strcmp(sh[i].global->name, stat)) {
-    //        curr = &sh[i];
-    //    }
-    // }
     
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
        printf("Error: no matching stat");
     }
-
+    
     int changed_stat = curr->val + change;
 
     if (changed_stat > curr->max){
@@ -177,22 +168,58 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 /* See stats.h */
 double get_stat_current(stats_hash_t *sh, char *stat)
 {
-    printf("get_stat_current: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        printf("Error: insert valid hash table");
+        exit(1);
+    }
+
+    stats_hash_t *curr;
+    
+    HASH_FIND(hh, sh, stat, strlen(stat), curr);
+
+    if (curr == NULL) {
+       printf("Error: no matching stat");
+    }
+    
+    return (curr -> val);
 }
 
 /* See stats.h */
 double get_stat_max(stats_hash_t *sh, char *stat)
 {
-    printf("get_stat_max: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        printf("Error: insert valid hash table");
+        exit(1);
+    }
+
+    stats_hash_t *curr;
+    
+    HASH_FIND(hh, sh, stat, strlen(stat), curr);
+
+    if (curr == NULL) {
+       printf("Error: no matching stat");
+    }
+    
+    return (curr -> max);
 }
 
 /* See stats.h */
 double get_stat_mod(stats_hash_t *sh, char *stat)
 {
-    printf("get_stat_mod: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        printf("Error: insert valid hash table");
+        exit(1);
+    }
+
+    stats_hash_t *curr;
+    
+    HASH_FIND(hh, sh, stat, strlen(stat), curr);
+
+    if (curr == NULL) {
+       printf("Error: no matching stat");
+    }
+    
+    return (curr -> mod);
 }
 
 /* See stats.h */
