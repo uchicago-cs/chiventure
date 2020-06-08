@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "skilltrees/stdst.h"
+#include "skilltrees/skilltree.h"
 
 /* See stdst.h */
 void** array_element_add(void** array, unsigned int array_len, void* element) {
