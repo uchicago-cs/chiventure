@@ -33,10 +33,12 @@ Test(AST_block_t, new_BRANCH)
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
     block_type_t block_type2 = CONDITIONAL;
-    int num_AST = 2;
-    int num_AST2 = 1;
-    AST_block_t** test;
-    AST_block_t* ast_sequence = AST_block_new(block, block_type2, num_AST2, test);
+    int num_AST = 3;
+    int num_AST2 = 2;
+    int num_AST3 = 1;
+    AST_block_t** again;
+    AST_block_t* test = AST_block_new(block, block_type2, num_AST3, &again);
+    AST_block_t* ast_sequence = AST_block_new(block, block_type2, num_AST2, &test);
     
     AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, &ast_sequence);
 
