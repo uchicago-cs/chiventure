@@ -15,6 +15,9 @@
 #include <stdbool.h>
 #include "game-state/game_state_common.h"
 
+// Assigns the max_name_lenght an NPC can have
+#define MAX_NAME_LEN (50)
+
 /*
 * npc_classification
 * Classification of the type of NPC characters to be found

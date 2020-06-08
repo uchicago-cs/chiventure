@@ -194,29 +194,39 @@ npc_t *random_npcs(roomspec_t *room)
        return NULL;
      }
 
-    int num_items = rand() % MAX_NPCS;
+    int num_npcs = rand() % MAX_NPCS;
 
     //assuming that npcs are not automatically assigned to rooms
     npc_t *hostiles = get_hostile_npcs();
     npc_t *friendlies = get_friendly_npcs();
     npc_t *generic = get_generic_npcs();
-       
+    
+ 
     npc_t *combo = NULL;
     npc_t *current = NULL;
     npc_t *tmp = NULL;
-
+    
     strcat(room->long_desc, "These npcs are in the room: ");
-    for (int i = 0; i < num_items; i++) {
-    random_npc_lookup(&combo, hostiles, rand() % MAX_NPCS);
-    random_npc_lookup(&combo, friendlies, rand() % MAX_NPCS);
-    random_npc_lookup(&combo, generic, rand() % MAX_NPCS);
+    for (int i = 0; i < num_npcs; i++) {
+     int random_num = rand() % 3;
+     if(random_num == 1)
+     {
+       random_npc_lookup(&current, hostiles, rand() % MAX_NPCS);
+     }
+     else if(random_num  == 2)
+     {
+       random_npc_lookup(&current, friendlies, rand() % MAX_NPCS);
+     }
+     else 
+     {
+       random_npc_lookup(&current, generic, rand() % MAX_NPCS);
+     }
+   HASH_ADD_STR(combo,npc_name,current); 
   }
-
     HASH_ITER(hh, combo, current, tmp){
-    strncat(room->long_desc, current->npc_name, 2);
+    strncat(room->long_desc, current->npc_name, MAX_NAME_LEN);
     if (tmp != NULL) 
-       strncat(room->long_desc, ", ", 2);
-	         
+       strncat(room->long_desc, ", ", MAX_NAME_LEN);	         
    }
     strcat(room->long_desc, ".\n");
 
@@ -237,7 +247,9 @@ int random_npc_lookup(npc_t **dst, npc_t *src, int num_iters)
 	
    if (i == num_iters) {
       npc_t *new_npc = calloc(1, sizeof(npc_t));
-      new_npc->npc_name = current->npc_name;
+      
+      new_npc->npc_name = calloc(MAX_NAME_LEN + 1, sizeof(char));
+      strncpy(new_npc->npc_name, current->npc_name, MAX_NAME_LEN); 
       new_npc->level = current->level;
       new_npc->inventory = current->inventory;
       new_npc->classification = current->classification;

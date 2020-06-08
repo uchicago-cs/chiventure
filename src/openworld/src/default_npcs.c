@@ -4,6 +4,7 @@
 #include "game-state/item.h"
 #include "openworld/default_npcs.h"
 
+
 /* See sample_npc.h */
 npc_t *get_hostile_npcs()
 {
