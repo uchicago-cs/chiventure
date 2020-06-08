@@ -48,12 +48,10 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type,
 {
     assert(ast != NULL); 
     assert(block != NULL);
-    assert(num_AST > 0);
- 
     ast->block = block;
     ast->block_type = block_type;
-    ast->num_AST = num_AST;
-    ast->ast_sequence = ast_sequence;
+    ast->next = NULL;
+    ast->prev = NULL;
 
     return SUCCESS; 
 }
@@ -88,10 +86,13 @@ int AST_block_free(AST_block_t *ast)
                 branch_block_free(ast->block->branch_block);
             }
     }
-    if (ast->num_AST > 1) {
-        for (int n = 0; n < ast->num_AST - 1; n++) {
-            AST_block_free(ast->ast_sequence[n]);
-        }
+    if (ast->next != NULL) 
+    {
+        AST_block_free(ast->next);
+    }
+    if (ast->prev != NULL)
+    {
+        AST_block_free(ast->prev);
     }
     free(ast);
 

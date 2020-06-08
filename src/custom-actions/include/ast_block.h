@@ -33,8 +33,8 @@ typedef union block {
 typedef struct AST_block {
     block_t *block;
     block_type_t block_type;
-    int num_AST;
-    struct AST_block **ast_sequence;
+    struct AST_block *next;
+    struct AST_block *prev;
 } AST_block_t;
 
 /* 
