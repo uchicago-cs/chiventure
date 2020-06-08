@@ -327,130 +327,130 @@ Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs)
     cr_assert_eq(*out, 0,
       "Error: failed test get_acquired_skill_prereqs_no_prereqs\n");
 }
-
-/* Tests get_acquired_skill_prereqs on a valid case. */
-Test(skilltree_tests, get_acquired_skill_prereqs_safe)
-{
-  skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, effect_defuse_bomb);
-  skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-      3, 6, effect_chop_tree);
-  skill_node_t* bomb_node = skill_node_new(skill1, 1, 75);
-  skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
-
-  node_prereq_add(bomb_node, chop_node);
-
-  skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
-  skill_tree_node_add(tree, bomb_node);
-  skill_tree_node_add(tree, chop_node);
-
-  int* out = malloc(sizeof(int));
-
-  skill_inventory_t* inventory = inventory_new(3,4);
-  inventory_skill_add(inventory, skill2);
-
-  skill_node_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, out);
-  //int ret = (acqed[0] == skill2);
-  //cr_assert_eq(ret, true,
-  //  "Error: failed test get_acquired_skill_prereqs_safe\n");
-}
-
-/* Tests skill_prereqs_missing on a case with no missing prereqs. */
-Test(skilltree_tests, skill_prereqs_missing_none)
-{
-    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, effect_defuse_bomb);
-    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-
-    skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
-    skill_tree_node_add(tree, bomb_node);
-
-    int* out = malloc(sizeof(int));
-
-    skill_inventory_t* inventory = inventory_new(3,4);
-    inventory_skill_add(inventory, skill1);
-
-    skill_prereqs_missing(tree, inventory, 1000, out);
-
-    cr_assert_eq(*out, 0,
-      "Error: failed test skill_prereqs_missing_none\n");
-}
-
-/* Tests skill_prereqs_missing on a case with missing prereqs. */
-Test(skilltree_tests, skill_prereqs_missing_some)
-{
-  skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, effect_defuse_bomb);
-  skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-      3, 6, effect_chop_tree);
-  skill_node_t* bomb_node = skill_node_new(skill1, 1, 75);
-  skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
-
-  node_prereq_add(bomb_node, chop_node);
-
-  skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
-  skill_tree_node_add(tree, bomb_node);
-  skill_tree_node_add(tree, chop_node);
-
-  int* out = malloc(sizeof(int));
-
-  skill_inventory_t* inventory = inventory_new(3,4);
-
-  skill_t** acqed = skill_prereqs_missing(tree, inventory, 1000, out);
-  int ret = (acqed[0] == skill2);
-  cr_assert_eq(ret, true,
-    "Error: failed test skill_prereqs_missing_some\n");
-}
-
-/* Tests inventory_skill_acquire on a skill with satisfied prereqs. */
-Test(skilltree_tests, inventory_skill_acquire_has)
-{
-    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, effect_defuse_bomb);
-    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-        3, 6, effect_chop_tree);
-    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-    skill_node_t* chop_node = skill_node_new(skill2, 1, 7665);
-
-    node_prereq_add(chop_node, bomb_node);
-
-    skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
-    skill_tree_node_add(tree, bomb_node);
-    skill_tree_node_add(tree, chop_node);
-
-    skill_inventory_t* inventory = inventory_new(3,4);
-    inventory_skill_add(inventory, skill1);
-
-    int ret = inventory_skill_acquire(tree, inventory, skill2);
-
-    cr_assert_eq(ret, 0,
-      "Error: failed test inventory_skill_acquire_has on return value\n");
-    cr_assert_neq(-1, inventory_has_skill(inventory, 1001, ACTIVE),
-      "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
-}
-
-/* Tests inventory_skill_acquire on a skill with missing prereqs. */
-Test(skilltree_tests, inventory_skill_acquire_has_not)
-{
-  skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, effect_defuse_bomb);
-  skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-      3, 6, effect_chop_tree);
-  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-  skill_node_t* chop_node = skill_node_new(skill2, 1, 7665);
-
-  node_prereq_add(chop_node, bomb_node);
-
-  skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
-  skill_tree_node_add(tree, bomb_node);
-  skill_tree_node_add(tree, chop_node);
-
-  skill_inventory_t* inventory = inventory_new(3,4);
-
-  int ret = inventory_skill_acquire(tree, inventory, skill2);
-
-  cr_assert_eq(ret, 1,
-    "Error: failed test inventory_skill_acquire_has on return value\n");
-  cr_assert_eq(-1, inventory_has_skill(inventory, 1001, ACTIVE),
-    "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
-}
+//
+// /* Tests get_acquired_skill_prereqs on a valid case. */
+// Test(skilltree_tests, get_acquired_skill_prereqs_safe)
+// {
+//   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//       2, 5, effect_defuse_bomb);
+//   skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+//       3, 6, effect_chop_tree);
+//   skill_node_t* bomb_node = skill_node_new(skill1, 1, 75);
+//   skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+//
+//   node_prereq_add(bomb_node, chop_node);
+//
+//   skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
+//   skill_tree_node_add(tree, bomb_node);
+//   skill_tree_node_add(tree, chop_node);
+//
+//   int* out = malloc(sizeof(int));
+//
+//   skill_inventory_t* inventory = inventory_new(3,4);
+//   inventory_skill_add(inventory, skill2);
+//
+//   skill_node_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, out);
+//   //int ret = (acqed[0] == skill2);
+//   //cr_assert_eq(ret, true,
+//   //  "Error: failed test get_acquired_skill_prereqs_safe\n");
+// }
+//
+// /* Tests skill_prereqs_missing on a case with no missing prereqs. */
+// Test(skilltree_tests, skill_prereqs_missing_none)
+// {
+//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//         2, 5, effect_defuse_bomb);
+//     skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+//
+//     skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
+//     skill_tree_node_add(tree, bomb_node);
+//
+//     int* out = malloc(sizeof(int));
+//
+//     skill_inventory_t* inventory = inventory_new(3,4);
+//     inventory_skill_add(inventory, skill1);
+//
+//     skill_prereqs_missing(tree, inventory, 1000, out);
+//
+//     cr_assert_eq(*out, 0,
+//       "Error: failed test skill_prereqs_missing_none\n");
+// }
+//
+// /* Tests skill_prereqs_missing on a case with missing prereqs. */
+// Test(skilltree_tests, skill_prereqs_missing_some)
+// {
+//   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//       2, 5, effect_defuse_bomb);
+//   skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+//       3, 6, effect_chop_tree);
+//   skill_node_t* bomb_node = skill_node_new(skill1, 1, 75);
+//   skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+//
+//   node_prereq_add(bomb_node, chop_node);
+//
+//   skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
+//   skill_tree_node_add(tree, bomb_node);
+//   skill_tree_node_add(tree, chop_node);
+//
+//   int* out = malloc(sizeof(int));
+//
+//   skill_inventory_t* inventory = inventory_new(3,4);
+//
+//   skill_t** acqed = skill_prereqs_missing(tree, inventory, 1000, out);
+//   int ret = (acqed[0] == skill2);
+//   cr_assert_eq(ret, true,
+//     "Error: failed test skill_prereqs_missing_some\n");
+// }
+//
+// /* Tests inventory_skill_acquire on a skill with satisfied prereqs. */
+// Test(skilltree_tests, inventory_skill_acquire_has)
+// {
+//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//         2, 5, effect_defuse_bomb);
+//     skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+//         3, 6, effect_chop_tree);
+//     skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+//     skill_node_t* chop_node = skill_node_new(skill2, 1, 7665);
+//
+//     node_prereq_add(chop_node, bomb_node);
+//
+//     skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
+//     skill_tree_node_add(tree, bomb_node);
+//     skill_tree_node_add(tree, chop_node);
+//
+//     skill_inventory_t* inventory = inventory_new(3,4);
+//     inventory_skill_add(inventory, skill1);
+//
+//     int ret = inventory_skill_acquire(tree, inventory, skill2);
+//
+//     cr_assert_eq(ret, 0,
+//       "Error: failed test inventory_skill_acquire_has on return value\n");
+//     cr_assert_neq(-1, inventory_has_skill(inventory, 1001, ACTIVE),
+//       "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
+// }
+//
+// /* Tests inventory_skill_acquire on a skill with missing prereqs. */
+// Test(skilltree_tests, inventory_skill_acquire_has_not)
+// {
+//   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//       2, 5, effect_defuse_bomb);
+//   skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+//       3, 6, effect_chop_tree);
+//   skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+//   skill_node_t* chop_node = skill_node_new(skill2, 1, 7665);
+//
+//   node_prereq_add(chop_node, bomb_node);
+//
+//   skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
+//   skill_tree_node_add(tree, bomb_node);
+//   skill_tree_node_add(tree, chop_node);
+//
+//   skill_inventory_t* inventory = inventory_new(3,4);
+//
+//   int ret = inventory_skill_acquire(tree, inventory, skill2);
+//
+//   cr_assert_eq(ret, 1,
+//     "Error: failed test inventory_skill_acquire_has on return value\n");
+//   cr_assert_eq(-1, inventory_has_skill(inventory, 1001, ACTIVE),
+//     "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
+// }
