@@ -136,7 +136,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 {
      
     if (sh == NULL) {
-        return FAILURE;
+        return -1;
     }
 
     stats_t *curr;
@@ -144,7 +144,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       return FAILURE;
+       return -1;
     }
     
     int changed_stat = curr->val + change;
@@ -175,7 +175,7 @@ int change_stat_max(stats_hash_t *sh, char *stat, double change)
 double get_stat_current(stats_hash_t *sh, char *stat)
 {
     if (sh == NULL) {
-        return FAILURE;
+        return -1;
     }
 
     stats_hash_t *curr;
@@ -183,7 +183,7 @@ double get_stat_current(stats_hash_t *sh, char *stat)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       return FAILURE;
+       return -1;
     }
     double res = (curr->modifier) * (curr->val);
 
@@ -197,7 +197,7 @@ double get_stat_current(stats_hash_t *sh, char *stat)
 double get_stat_max(stats_hash_t *sh, char *stat)
 {
     if (sh == NULL) {
-        return FAILURE;
+        return -1;
     }
 
     stats_t *curr;
@@ -205,7 +205,7 @@ double get_stat_max(stats_hash_t *sh, char *stat)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       return FAILURE;
+       return -1;
     }
     
     return (curr->max);
@@ -215,7 +215,7 @@ double get_stat_max(stats_hash_t *sh, char *stat)
 double get_stat_mod(stats_hash_t *sh, char *stat)
 {
     if (sh == NULL) {
-        return FAILURE;
+        return -1;
     }
 
     stats_hash_t *curr;
@@ -223,7 +223,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       return FAILURE;
+       return -1;
     }
     
     return (curr->modifier);
