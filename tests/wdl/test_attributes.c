@@ -12,15 +12,21 @@ Test(attributes, new_failure)
     cr_assert_null(res, "new_attr() failed - returned value when NULL expected");
 }
 
-Test(attributes, new_success)
+Test(attributes, new_success_int)
 {
     int d1 = 1;
     obj_attr_t *prev = new_attr("xp", &d1);
     cr_assert_not_null(prev, "new_attr() failed to init & alloc attr");
+}
 
+Test(attributes, new_success_str)
+{
     obj_attr_t *next = new_attr("class", "knight");
     cr_assert_not_null(prev, "new_attr() failed to init & alloc attr");
+}
 
+Test(attributes, new_success_bool)
+{
     bool d2 = false;
     obj_attr_t *res = new_attr("alive?", &d2);
     cr_assert_not_null(prev, "new_attr() failed to init & alloc attr");

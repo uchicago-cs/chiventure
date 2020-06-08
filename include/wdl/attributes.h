@@ -13,19 +13,19 @@ typedef struct obj object_t; // forward declaration so attribute_t can use
  */
 typedef struct attr
 {
-    //the attribute's id.
+    /* the attribute's id. */
     char id[MAXLEN_ID + 1];
    
-    //the information stored in the attribute
+    /* the information stored in the attribute */
     void *data;
 
-    //next attribute in list if attribute is list of things
+    /* next attribute in list if attribute is list of things */
     struct attr *next;
 
-    //prev attribute in list if attribute is list of things
+    /* prev attribute in list if attribute is list of things */
     struct attr *prev;
 
-    //Required uthash indentifier for making the hash table
+    /* Required uthash indentifier for making the hash table */
     UT_hash_handle hh;
 
 } obj_attr_t;
