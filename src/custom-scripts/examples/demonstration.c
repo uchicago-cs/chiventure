@@ -1,10 +1,9 @@
 /*
  * This example program runs a full instance of chiventure with an in-memory game,
- * and where the CLI is monkeypatched to accept two new operations:
+ * and where the CLI is monkeypatched to accept a new operation:
  *
- *  - GLITTER: This is a CLI-level operation that just prints out a messge
- *  - TASTE: A "kind 1" action that operates on an item. We define an item
- *           in the in-memory game that is able to accept this action.
+ *  - TASTE: A "kind 1" action that operates on an item. We support customization for the 
+ *           output string upon running the action.
  */
 
 #include <stdio.h>
@@ -34,8 +33,11 @@ chiventure_ctx_t *create_sample_ctx()
                    "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
     add_item_to_room(room1, rock);
 
+
+    /* Where custom_type comes into play, create a dynamic string (hold different values) depending
+       on what the user enters at the start of the game */
     char stringNum;
-    printf("Enter either 1 or 2: ");
+    printf("Enter either 1 or 2 (1 for non-caps, 2 for caps): ");
     scanf("%c", &stringNum);  
     object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/dynamic_string.lua");
     ot = obj_add_arg_char(ot, stringNum);
