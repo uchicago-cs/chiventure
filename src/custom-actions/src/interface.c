@@ -50,7 +50,7 @@ custom_action_t *compile_custom_action(object_t *action)
  */
 int add_custom_action_to_game(custom_action_t *action)
 {
-    if (action == NULL || action->name == NULL)
+    if (action == NULL || action->action_name == NULL)
     {
         return FAILURE;
     }
