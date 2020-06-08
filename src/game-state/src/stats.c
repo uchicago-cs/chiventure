@@ -232,8 +232,6 @@ char *display_stat_effects(effects_hash_t *hash)
 }
 
 
-
-
 /* See stats.h */
 int free_stats(stats_hash_t *s)
 {
