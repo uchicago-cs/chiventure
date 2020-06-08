@@ -5,7 +5,7 @@
 /* ---------- HASH FUNCTIONS ---------- */
 
 /* See attributes.h for documentation */
-obj_attr_t *new_attr(char *id, void * d)
+obj_attr_t *new_attr(char *id, void *d)
 {
     if (id == NULL) {
         return NULL;
@@ -18,6 +18,7 @@ obj_attr_t *new_attr(char *id, void * d)
     new->data = d;
     new->prev = NULL;
     new->next = NULL;
+
     return new;
 }
 
@@ -48,12 +49,38 @@ obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void * d)
     return new;
 }
 
+int free_attr_hash(obj_attr_t **attrs)
+{
+    if (attrs == NULL) {
+        return FAILURE;
+    }
+    obj_attr_t *curr, *tmp;
+    HASH_ITER(hh, *attrs, curr, tmp)
+    {
+        free_attr_list(attrs, curr);
+    }
+    return SUCCESS;
+}
+
+
+/* ---------- LINKED LIST FUNCTIONS ---------- */
+
+/* See attributes.h for documentation */
+obj_attr_t *init_attr_list(obj_attr_t *new)
+{
+    obj_attr_t *head = NULL;
+    DL_APPEND(head, new);
+    return head;
+}
+
+/* See attributes.h for documentation */
 obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new)
 {
     DL_APPEND(head, new);
     return head;
 }
 
+/* See attributes.h for documentation */
 int count_attr_list(obj_attr_t *head)
 {
     obj_attr_t *tmp;
@@ -63,10 +90,31 @@ int count_attr_list(obj_attr_t *head)
 }
 
 /* See attributes.h for documentation */
-int free_attr(obj_attr_t **attrs, obj_attr_t *a)
+int free_attr(obj_attr_t *head, obj_attr_t *a)
 {
-    HASH_DEL(*attrs, a);
+    if (head == NULL) {
+        return FAILURE;
+    }
+    DL_DELETE(head, a);
     free(a);
+    return SUCCESS;
+}
+
+/* See attributes.h for documentation */
+int free_attr_list(obj_attr_t **attrs, obj_attr_t *head)
+{
+    if ((attrs == NULL)|(head == NULL)) return FAILURE;
+    
+    HASH_DEL(*attrs, head);
+    
+    obj_attr_t *elt, *tmp;
+    DL_FOREACH_SAFE(head, elt, tmp) {
+        if (head == NULL) return SUCCESS;
+        DL_DELETE(head, elt);
+        free(elt);
+    }
+    
+
     return SUCCESS;
 }
 

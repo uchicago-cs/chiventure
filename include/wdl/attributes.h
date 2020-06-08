@@ -6,7 +6,7 @@
 #define INCLUDE_ATTRIBUTES_H
 #define MAXLEN_ID 60 // ID strings for objects
 
-typedef struct obj obj_t; // forward declaration so attribute_t can use
+typedef struct obj object_t; // forward declaration so attribute_t can use
 
 /*
  * attribute_t: the attributes stored within an object
@@ -30,9 +30,10 @@ typedef struct attr
 
 } obj_attr_t;
 
+
 /* ---------- HASH FUNCTIONS ---------- */
 
-/* new_attr - allocates and inits an attr_t
+/* new_attr - allocates and inits an attr_t as a hash item AND a linked list
  *
  * params:
  *   - id: attr id
@@ -56,25 +57,63 @@ obj_attr_t *find_attr(obj_attr_t **attrs, char *id);
  *   - attrs: obj_attr_t hash
  *   - id: attr id
  *   - data: atrr data
- * returns: pointer to new attribute
+ * returns: pointer to new attribute or NULL
  */
 obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void *d);
 
-/* append_attr - appends attr to head of attr list
+/* free_attr_hash - frees & deletes attr from by iterating through hash (WILL ALSO delete from linked list)
+ *
+ * params:
+ *   - attrs: ptr to hash
+ * returns: SUCCESS
+ */
+int free_attr_hash(obj_attr_t **attrs);
+
+
+/* ---------- LINKED LIST FUNCTIONS ---------- */
+
+/* init_attr_list - initializes given attr as head of a linked list
+ * 
+ * params:
+ *   - new: new attribute
+ * returns: head of list
+ */
+obj_attr_t *init_attr_list(obj_attr_t *new);
+
+/* append_attr - appends attr to attr list
  * 
  * params:
  *   - head: ptr to head of list
  *   - new: element to be appended
+ * returns: head of list
  */
 obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new);
 
-/* free_attr - frees & deletes attr from hash table
+/* count_attr_list - counts items in list
  *
  * params:
- *   - attr: attribute
+ *   - head: ptr to head of list
+ * returns: number of items in list
+ */
+int count_attr_list(obj_attr_t *head);
+
+/* free_attr - frees & deletes 1 item from linked list
+ *
+ * params:
+ *   - head: head ptr
+ *   - a: attr to delete
  * returns: SUCCESS
  */
-int free_attr(obj_attr_t **attrs, obj_attr_t *a);
+int free_attr(obj_attr_t *head, obj_attr_t *a);
+
+/* free_attr_list - frees & deletes attr 1 item from hash (including its linked elements)
+ *
+ * params:
+ *   - attrs: ptr to hash
+ *   - head: head of linked list
+ * returns: SUCCESS
+ */
+int free_attr_list(obj_attr_t **attrs, obj_attr_t *head);
 
 
 /* ---------- INTERFACE FUNCTIONS ---------- */
