@@ -3,26 +3,6 @@
  */
 
 
-
-void custom_actions_demo(condition_block_t *table,
-                         condition_block_t *spinach,
-                         action_block_t *eat,
-                         action_block_t *flip)
-{
-    int rc1, rc2;
-
-    rc1 = do_conditional_block(table);
-    rc2 = do_conditional_block(spinach);
-
-    if (rc1) {
-        printf("Table already flipped!");
-    } else if (rc2) {
-        printf("You're out of spinach!");
-    } else {
-
-
-
-
 void custom_actions_ex1()
 {
     action_block_t *action1, *action2;
@@ -95,4 +75,18 @@ void custom_actions_ex1()
         rc1 = exec_action_block(action1);
         rc2 = exec_action_block(action2);
 
+        if (rc1 != SUCCESS && rc2 != SUCCESS) {
+            printf("Failed to eat spinach and flip table\n");
+        } else if (rc1 != SUCCESS) {
+            printf("Failed to eat spinach\n");
+        } else if (rc2 != SUCCESS) {
+            printf("Failed to flip table\n");
+        } else {
 
+            printf("Final number of cans of spinach: %d\n",
+                    attr6->attribute_value.int_val);
+            printf("Final table status: %s\n",
+                    attr3->attribute_value.bool_val ? "flipped" : "upright");
+        }
+    }
+}
