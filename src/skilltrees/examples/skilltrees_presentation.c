@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <string.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "cli/operations.h"
 #include "skilltrees/skill.h"
 #include "skilltrees/inventory.h"
 #include "skilltrees/skilltree.h"
+
 /*
  * This example program runs a complete instance of chiventure to feature skill
  * trees. The context for this chiventure game is software design, represented
@@ -187,7 +189,9 @@ void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* invento
         print_to_cli(ctx, "You have no active skills.");
     } else {
         for (unsigned int i = 0; i < inventory->num_active; i++) {
-            print_to_cli(ctx, inventory->active[i]->name);
+            char description[60];
+            sprintf(description, "%s: Level %u", inventory->active[i]->name, inventory->active[i]->level);
+            print_to_cli(ctx, description);
         }
     }
 
