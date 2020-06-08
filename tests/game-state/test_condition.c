@@ -19,7 +19,7 @@ Test(condition, new_attr_condition)
 
     cr_assert_not_null(condition, "attribute_condition_new() failed");
     
-    cr_assert_not_null(condition->cond.attr_type, "attribute_condition_new() failed to "
+    cr_assert_not_null(condition->cond.attribute_type, "attribute_condition_new() failed to "
     "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condiiton_new() failed to "
@@ -36,7 +36,7 @@ Test(condition, new_inven_condition)
 
     cr_assert_not_null(condition, "inventory_condition_new() failed");
 
-    cr_assert_not_null(condition->cond.inven_type, "inventory_condition_new() failed to "
+    cr_assert_not_null(condition->cond.inventory_type, "inventory_condition_new() failed to "
     "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condiiton_new() failed to "
