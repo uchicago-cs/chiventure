@@ -20,6 +20,8 @@ typedef struct path {
     /* direction (north/south/etc) as key */
     char *direction; // *letter case matters*
     struct room *dest;
+    /* conditions that must be met in order to be able to use the path */
+    list_action_type_t *conditions;
     /* the door item in the path, which has to be
     open (attribute open is set true) to let through */
     item_t *through;
@@ -176,6 +178,17 @@ path_t *path_new(room_t *dest, char *direction);
  */
 int path_free(path_t *path);
 
+/* Adds a list of conditions to the path struct
+ * 
+ * Parameters:
+ *  pointer to the path struct
+ *  list of conditions
+ *
+ * Returns:
+ *  SUCCESS if successful
+ */
+int path_new_conditions(path_t *path, list_action_type_t *act);
+
 
 /* Returns path given room and direction
  *
@@ -225,6 +238,18 @@ item_t* get_item_in_room(room_t* room, char* item_id);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_room(room_t *room);
+
+/*
+ * Removes an action from list of conditions, called when action's completed
+ * 
+ * Parameters:
+ * - path
+ * - action_type_t: completed action that acts as condition for path
+ *
+ * Returns:
+ * int SUCCESS when action's removed from linked list
+ */
+int remove_condition(path_t *path, list_action_type_t *a);
 
 /* Deletes a hashtable of rooms
  * Implemented with macros provided by uthash.h
