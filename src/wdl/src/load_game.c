@@ -37,7 +37,7 @@ wdl_ctx_t *load_wdl(char *path_to_wd)
         int n_jsons = 0;
         printf("Detected wdz file. Attempting to load wdz and printing the json files...\n");
         printf("Note that loading wdz is not functional right now.\n");
-        populate_objstore_from_wdz(*(ctx->ht), &n_jsons, path_to_wd);
+        populate_objstore_from_wdz((ctx->ht), &n_jsons, path_to_wd);
         printf("Number of JSON files found: %d\n", n_jsons);
     } else {
         obj_t *big_document = get_doc_obj(path_to_wd);
