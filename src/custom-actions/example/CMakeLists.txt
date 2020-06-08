@@ -1,6 +1,6 @@
 set(CUSTOM_ACTIONS_EXAMPLES custom-actions-demo)
 
-add_executable(custom-actions-demo
+add_executable(${CUSTOM_ACTIONS_EXAMPLES}
                custom-actions-demo.c)
 
 # Link with chiventure libraries
