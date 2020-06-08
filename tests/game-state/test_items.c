@@ -217,69 +217,104 @@ Test(item, remove_item_from_hash)
                  "remove an item from hashtable");
 }
 
-/* Checks that remove_item_from_hash properly only removes one
- * duplicate item at a time if duplicate items exist in an
- * item hashtable */
-Test(item, remove_item_from_hash_duplicate_items)
+/* Checks that remove_item_from_hash properly removes
+ * the head item in a chain of identical id items */
+Test(item, remove_item_from_hash_duplicate_items_head)
 {
     item_hash_t *ht = NULL;
-    item_t *test_item1 = item_new("item", "short", "long");
-    item_t *test_item2 = item_new("item", "short", "long");
-    item_t *test_item3 = item_new("item", "short", "long");
+    item_t *head = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
     item_t *check = NULL;
     int rc;
     
-    add_item_to_hash(&ht, test_item1);
-    add_item_to_hash(&ht, test_item2);
-    
-    /* Remove head of duplicate items */
-    rc = remove_item_from_hash(&ht, test_item2);
+    add_item_to_hash(&ht, last);
+    add_item_to_hash(&ht, head);
+        
+    rc = remove_item_from_hash(&ht, head);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
-    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
     cr_assert_not_null(check, "remove_item_from_hash removed both "
                        "duplicate items from hashtable");
-    cr_assert_eq(check, test_item1, "remove_item_from_hash removed wrong "
+    cr_assert_eq(check, last, "remove_item_from_hash removed wrong "
                  "item from hashtable");
     cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
                  "remove a duplicate item id from hashtable");
-    cr_assert_eq(test_item2->next, NULL, "remove_item_from_hash failed to "
+    cr_assert_eq(head->next, NULL, "remove_item_from_hash failed to "
                  "update the removed item");
+}
+
+/* Checks that remove_item_from_hash does not remove
+ * an item with identical id but in different memory location
+ * than items in hash */
+Test(item, remove_item_from_hash_duplicate_items_nonexistant)
+{
+    item_hash_t *ht = NULL;
+    item_t *head = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
     
-    /* Remove duplicate item not in hashtable */
-    remove_item_from_hash(&ht, test_item2);
-    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    add_item_to_hash(&ht, head);
+    
+    remove_item_from_hash(&ht, last);
+    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
     cr_assert_not_null(check, "remove_item_from_hash did not properly handle "
                        "case where duplicate item not in hash was passed to "
                        "be removed");
+}
+
+/* Checks that remove_item_from_hash properly removes
+ * the last item in a chain of identical id items */
+Test(item, remove_item_from_hash_duplicate_items_last)
+{
+    item_hash_t *ht = NULL;
+    item_t *head = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
     
-    /* Remove last duplicate item */
-    add_item_to_hash(&ht, test_item2);
-    rc = remove_item_from_hash(&ht, test_item1);
+    add_item_to_hash(&ht, last);
+    add_item_to_hash(&ht, head);
+
+    rc = remove_item_from_hash(&ht, last);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
-    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
     cr_assert_not_null(check, "remove_item_from_hash removed both "
                        "duplicate items from hashtable");
-    cr_assert_eq(check, test_item2, "remove_item_from_hash removed wrong "
+    cr_assert_eq(check, head, "remove_item_from_hash removed wrong "
                  "duplicate item from hashtable");
     cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
                  "remove a duplicate item id from hashtable");
+}
+
+/* Checks that remove_item_from_hash properly removes
+ * a middle item in a chain of identical id items */
+Test(item, remove_item_from_hash_duplicate_items_middle)
+{
+    item_hash_t *ht = NULL;
+    item_t *head = item_new("item", "short", "long");
+    item_t *middle = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
     
-    /* >2 duplicate items, remove middle item */
-    add_item_to_hash(&ht, test_item1);
-    add_item_to_hash(&ht, test_item3);
-    rc = remove_item_from_hash(&ht, test_item1);
+    add_item_to_hash(&ht, last);
+    add_item_to_hash(&ht, middle);
+    add_item_to_hash(&ht, head);
+
+    rc = remove_item_from_hash(&ht, middle);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
-    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
     cr_assert_not_null(check, "remove_item_from_hash removed all "
                        "duplicate items from hashtable");
-    cr_assert_eq(check, test_item3, "remove_item_from_hash removed wrong "
+    cr_assert_eq(check, head, "remove_item_from_hash removed wrong "
                  "duplicate item from hashtable");
-    cr_assert_eq(check->next, test_item2, "remove_item_from_hash did remove "
+    cr_assert_eq(check->next, last, "remove_item_from_hash did remove "
                  "duplicate item from middle of list properly");
-    cr_assert_eq(test_item1->next, NULL, "remove_item_from_hash failed to "
+    cr_assert_eq(middle->next, NULL, "remove_item_from_hash failed to "
                  "update the removed item");
 }
 
