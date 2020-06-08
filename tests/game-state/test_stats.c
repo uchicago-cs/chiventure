@@ -410,7 +410,10 @@ Test(stats, change_stat) {
     change_stat(sh, "health", 20);
     cr_assert_eq(curr->val, 75,
         "change_stat local max failed");
-    // change_stat(sh, "health", 30);
+    rc1 = change_stat(sh, "health", 30);
+    cr_assert_eq(rc1, FAILURE, 
+        "change_stat global max failed");
+    
 
     HASH_FIND(hh, sh, "charisma", strlen("charisma"), curr);
     cr_assert_eq(curr->val, 75,
@@ -423,9 +426,32 @@ Test(stats, change_stat) {
     change_stat(sh, "charisma", 60);
     cr_assert_eq(curr->val, 130,
         "change_stat local max failed");
+    rc2 = change_stat(sh, "charisma", 80);
+    cr_assert_eq(rc2, FAILURE, 
+        "change_stat global max failed");
 }
 
+Test(stats, get_stat_current){
+    stats_hash_t *sh = NULL;
+    stats_global_t g1;
+    g1.name = "health";
+    g1.max = 100;
+    stats_t s1;
+    s1.key = "health";
+    s1.global = &g1;
+    s1.val = 50;
+    s1.max = 75;
+    s1.modifier = 1.1;
+    int rc1 = add_stat_player(&sh, &s1);
+    cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
+    int s1_value = get_stat_current(sh, s1.key);
+    cr_assert_eq(s1_value, 55, "get_stat_current failed");
 
+    s1.val = 99;
+    s1_value = get_stat_current(sh, s1.key);
+    cr_assert_eq(s1_value, 100, "get_stat_current global max failed");
+    
+}
 
 /*Test(stats, get_stat_max) {}
 
