@@ -7,6 +7,7 @@ add_executable(${TEST_EXE}
         test_objstore.c
         test_room.c
         test_validation.c
+        test_wdl_ctx.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})

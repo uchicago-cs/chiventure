@@ -2,6 +2,9 @@
 #include "wdl/objstore.h"
 #include "game-state/game.h"
 
+#ifndef INCLUDE_WDL_CTX_H
+#define INCLUDE_WDL_CTX_H
+
 typedef struct wdl_ctx
 {
     //a hashtable of objstores containing all parsed objects from a wdl file
@@ -37,7 +40,7 @@ wdl_ctx_t *new_wdl_ctx();
 int init_wdl_ctx(wdl_ctx_t *ctx);
 
 /*
- * init_wdl_ctx: initializes a new wdl_ctx struct
+ * free_wdl_ctx: frees a wdl_ctx struct
  *
  * Parameters:
  *   - ctx: a pointer to a wdl_ctx struct
@@ -46,3 +49,5 @@ int init_wdl_ctx(wdl_ctx_t *ctx);
  *   - always SUCCESS
  */
 int free_wdl_ctx(wdl_ctx_t *ctx);
+
+#endif /* INCLUDE_WDL_CTX_H */

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include "common/load_objects.h"
 #include <wdl/load_game.h>
 #include <ui/ui_ctx.h>
 #include "common/ctx.h"

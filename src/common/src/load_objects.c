@@ -1,7 +1,7 @@
 #include "common/load_objects.h"
 
 /* See load_objects.h for documentation */
-game_t *load_objects(wdl_ctx_h *ctx)
+game_t *load_objects(wdl_ctx_t *ctx)
 {
     game_t *game;
 

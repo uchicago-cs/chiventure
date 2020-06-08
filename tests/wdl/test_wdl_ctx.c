@@ -3,7 +3,7 @@
 
 Test(wdl_ctx, new)
 {
-    wdl_ctx_t *ctx = wdl_ctx_new();
+    wdl_ctx_t *ctx = new_wdl_ctx();
 
     cr_assert_not_null(ctx, "wdl_ctx_new() failed");
 
@@ -25,9 +25,9 @@ Test(wdl_ctx, init)
 
 Test(wdl_ctx, free)
 {
-    wdl_ctx_t *ctx = wdl_ctx_new();
+    wdl_ctx_t *ctx = new_wdl_ctx();
     
-    int rc = wd_ctx_free(ctx);
+    int rc = free_wdl_ctx(ctx);
 
     cr_assert_eq(rc, 0, "wdl_ctx_free() failed");
 }
