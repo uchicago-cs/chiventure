@@ -27,7 +27,8 @@ int run_ast_block(AST_block_t *block)
             return FAILURE;
             break;
         case(BRANCH):
-            if(do_branch_block(block->block) == -1) return FAILURE;
+            int returnV = do_branch_block(block->block);
+            if(returnV == -1) return FAILURE;
             return run_ast_block(block->next[returnV]);
             break;
         case(ACTION):
