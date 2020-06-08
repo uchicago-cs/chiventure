@@ -110,8 +110,8 @@ double get_stat_current(stats_hash_t *sh, char *stat)
     }
     double res = (curr->modifier) * (curr->val);
 
-    if (res > curr -> global -> max) {
-        res = curr -> global -> max;
+    if (res > curr->global->max) {
+        res = curr->global->max;
     }
     return res;
 }

@@ -42,7 +42,7 @@ typedef struct effects_global effects_global_hash_t;
  *      the base value of the stat, 
  *      whose final value will be multiplied by the modifier
  *      note that the base value should not exceed max value and 
- *      the the base val * modifier should not exceed global max
+ *      the base val * modifier should not exceed global max
  * 
  *      cumulative modifiers from effects, set to 1 by default
  * */
