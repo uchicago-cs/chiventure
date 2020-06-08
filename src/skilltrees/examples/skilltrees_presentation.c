@@ -115,7 +115,7 @@ skill_inventory_t* inventory;
 /* Wrapper function for leveling up implementation skill */
 void implementation_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(implementation_skill);
-    if (implementation_skill->level > 2) {
+    if (implementation_skill->level == 3) {
         create_connection(ctx->game, "Implementation Room", "Demo Room",
                           "NORTH");
         create_connection(ctx->game, "Demo Room", "Implementation Room",
@@ -134,7 +134,7 @@ char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
 /* Wrapper function for leveling up testing skill */
 void test_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(test_skill);
-    if (test_skill->level > 1) {
+    if (test_skill->level == 2) {
         add_action(implementation_item, "LEARN", "Now that your tests are "
                    "complete, begin implementation!", "Test at least once "
                    "before considering implementation!");
@@ -152,7 +152,7 @@ char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
 /* Wrapper function for leveling up design skill */
 void design_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(design_skill);
-    if (design_skill->level > 3) {
+    if (design_skill->level == 4) {
         create_connection(ctx->game, "Design Room", "Implementation Room",
                           "NORTH");
         create_connection(ctx->game, "Implementation Room", "Design Room",
