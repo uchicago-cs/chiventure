@@ -16,6 +16,15 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST,
 {
     AST_block_t *ast = malloc(sizeof(AST_block_t));
     int new_ast;
+  
+    if (num_AST == 1) 
+    {
+      ast_sequence = NULL;
+    }
+    else 
+    {
+      ast_sequence = malloc(sizeof(AST_block_t*) * (num_AST - 1));
+    }
 
     if (ast == NULL) 
     {
