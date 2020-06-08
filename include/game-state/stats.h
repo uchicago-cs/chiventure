@@ -41,8 +41,8 @@ typedef struct effects_global effects_global_hash_t;
  *
  *      the base value of the stat, 
  *      whose final value will be multiplied by the modifier
- * 
- *      the max value of the stat for the player (should not exceed global max)
+ *      note that the base value should not exceed max value and 
+ *      the the base val * modifier should not exceed global max
  * 
  *      cumulative modifiers from effects, set to 1 by default
  * */
