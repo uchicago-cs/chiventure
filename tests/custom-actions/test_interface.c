@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include "interface.h"
 
-Test(custom_action_t, add_action)
+Test(custom_action_t, add_actions)
 {
-    // creates a single custom action and adds it to the list
+    // creates a single custom action
 
     block_t *block1 = malloc(sizeof(block_t));
     block_type_t block_type1 = CONDITIONAL;
@@ -14,22 +14,41 @@ Test(custom_action_t, add_action)
     char *action_name1 = "act_PUSH";
     char *context1 = "chair";
     char *item1 = "obj_SPINACH";
-    char *type1 = "mage";
-
+    char *type1 = "druid";
     custom_action_t *new_action1 = custom_action_new(action_name1, context1,
                                                      item1, type1, head1);
 
     cr_assert_not_null(new_action1, "custom_action_new failed");
 
-    // adds custom action to the game and checks for success
+    // adds first custom action to the game and checks for success
 
     int rc = add_custom_action_to_game(new_action1);
     cr_assert_eq(rc, SUCCESS, "add_custom_action_to_game failed");                                                   "returned the wrong result");
+
+    // creates another custom action
+
+    block_t *block2 = malloc(sizeof(block_t));
+    block_type_t block_type2 = CONDITIONAL;
+    AST_block_t *head2 = AST_block_new(block2, block_type2);
+    char *action_name2 = "act_PUSH";
+    char *context2 = "chair";
+    char *item2 = "obj_SPINACH";
+    char *type2 = "warlock";
+    custom_action_t *new_action2 = custom_action_new(action_name2, context2,
+                                                     item2, type2, head2);
+
+    cr_assert_not_null(new_action2, "custom_action_new failed");
+
+    // adds second custom action to the game and checks for success
+
+    rc = add_custom_action_to_game(new_action2);
+    cr_assert_eq(rc, SUCCESS, "add_custom_action_to_game failed");
 }
 
 Test(custom_action_t, find_existing)
 {
     // creates a single custom action
+
     block_t *block1 = malloc(sizeof(block_t));
     block_type_t block_type1 = ACTION;
 
@@ -121,6 +140,7 @@ Test(custom_action_t, find_multiple)
     cr_assert_eq(rc, SUCCESS, "add_custom_action_to_game failed");
 
     // tries finding the 3 custom actions, one by one
+    // (in a different order than they were added to the game)
 
     custom_action_t *found = search_for_custom_action(action_name1);
     cr_assert_not_null(found, "search_for_custom_action did not find a custom"
@@ -140,7 +160,7 @@ Test(custom_action_t, find_multiple)
     cr_assert_eq(found->action_name, action_name2, "search_for_custom_action"
                                                    " returned the wrong result");
 
-    // now tries to find an action that's NOT in the list
+    // now tries to find an action that is NOT in the list
 
     char *action_name4 = "act_EAT";
     found = search_for_custom_action(action_name4);
