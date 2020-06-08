@@ -52,7 +52,7 @@ int inventory_free(skill_inventory_t* inventory) {
 int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
     assert(inventory != NULL && skill != NULL);
 
-    // skill_t** a = inventory->active;
+    skill_t** a = inventory->active;
     skill_t** p = inventory->passive;
 
     switch (skill->type) {
@@ -61,18 +61,18 @@ int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
                 fprintf(stderr, "inventory_skill_add: at max active skills\n");
                 return FAILURE;
             }
-            inventory->active[inventory->num_active] = skill;
+            a[inventory->num_active] = skill;
             inventory->num_active += 1;
-            inventory->active = (skill_t**)realloc(inventory->active, sizeof(skill_t*) * inventory->num_active);
+            a = (skill_t**)realloc(a, sizeof(skill_t*) * inventory->num_active);
             return SUCCESS;
         case PASSIVE:
             if (inventory->num_passive >= inventory->max_passive) {
                 fprintf(stderr, "inventory_skill_add: at max passive skills\n");
                 return FAILURE;
             }
-            inventory->passive[inventory->num_passive] = skill;
+            p[inventory->num_passive] = skill;
             inventory->num_passive += 1;
-            inventory->active = (skill_t**)realloc(inventory->passive, sizeof(skill_t*) * inventory->num_passive);
+            p = (skill_t**)realloc(p, sizeof(skill_t*) * inventory->num_passive);
             return SUCCESS;
         default:
             fprintf(stderr, "inventory_skill_add: invalid skill type\n");
