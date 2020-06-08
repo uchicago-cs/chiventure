@@ -6,6 +6,7 @@ add_executable(${TEST_EXE}
         test_action_block.c
         test_control_block.c
         test_ast_block.c
+        test_interface.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
