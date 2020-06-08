@@ -21,6 +21,7 @@ Test(inventory_tests, inventory_new_test)
     cr_assert_eq(inventory->max_passive, 4,
         "Error: failed test inventory_new_test on inventory->max_passive\n");
 }
+
 /* Tests inventory_free. */
 Test(inventory_tests, inventory_free_test)
 {
