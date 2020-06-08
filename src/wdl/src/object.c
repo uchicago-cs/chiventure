@@ -5,13 +5,13 @@
 #include "wdl/object.h"
 
 /* See wdl/object.h for documentation */
-object_t* new_object(char *id)
+object_t* new_object(char *id, objtype_t type)
 {
     return NULL;
 }
 
 /* See wdl/object.h for documentation */
-int init_object(object_t *obj, char *id)
+int init_object(object_t *obj, char *id, objtype_t type)
 {
     return 0;
 }
