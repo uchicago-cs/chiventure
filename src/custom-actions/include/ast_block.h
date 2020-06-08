@@ -49,8 +49,7 @@ typedef struct AST_block {
  * Returns: 
  * - An AST block. 
  */
-AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t *next, 
-                           AST_block_t *prev);
+AST_block_t* AST_block_new(block_t *block, block_type_t block_type);
 
 /* 
  * Initializes an AST block. 
