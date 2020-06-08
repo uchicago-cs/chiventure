@@ -100,12 +100,13 @@ int run_ast_block(AST_block_t *block)
             return FAILURE;
             break;
         case(BRANCH):
-            returnV = do_branch_block(block->block);
+            returnV = do_branch_block(block->block->branch_block);
             if(returnV == -1) return FAILURE;
             return run_ast_block(block->ast_sequence[returnV]);
             break;
         case(ACTION):
-            if(do_action_block(block->block) == FAILURE) return FAILURE;
+            if(exec_action_block(block->block->action_block) == FAILURE) 
+                return FAILURE;
             return run_ast_block(block->ast_sequence[0]);
             break;
         case(CONDITIONAL):
