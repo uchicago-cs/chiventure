@@ -279,6 +279,7 @@ Test(item_item_actions, effect_set_boole_direct)
                  "bool attribute was not set due to effect of direct item");
 }
 
+/* Checks if the condition is met for an item */
 Test(item_item_actions, conditons_met_direct)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 1, 0);
@@ -287,6 +288,7 @@ Test(item_item_actions, conditons_met_direct)
                  "execute_do_item_item_action returned %d for conditons met for direct item attribute, expected SUCCESS (0)", rc);
 }
 
+/* Checks behavior when condition is not met */
 Test(item_item_actions, conditons_not_met_direct)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 2, 0);
@@ -295,6 +297,7 @@ Test(item_item_actions, conditons_not_met_direct)
                  "execute_do_item_item_action returned %d for conditons not met for direct item attribute, expected CONDITIONS_NOT_MET (4)", rc);
 }
 
+/* Similar, to conditions_met_direct, but for another item */
 Test(item_item_actions, conditons_met_indirect)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 3, 0);
@@ -303,6 +306,7 @@ Test(item_item_actions, conditons_met_indirect)
                  "execute_do_item_item_action returned %d for conditons met for indirect item attribute, expected SUCCESS (0)", rc);
 }
 
+/* Check behavior when condition is not met */
 Test(item_item_actions, conditons_not_met_indirect)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 4, 0);
@@ -311,6 +315,7 @@ Test(item_item_actions, conditons_not_met_indirect)
                  "execute_do_item_item_action returned %d for conditons not met for indirect item attribute, expected CONDITIONS_NOT_MET (4)", rc);
 }
 
+/* Checks behavior when an inventory condition is met */
 Test(item_item_actions, inv_conditions_met)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 5, 0);
@@ -319,6 +324,7 @@ Test(item_item_actions, inv_conditions_met)
                  "execute_do_item_item_action returned %d for conditons met for item in inventory, expected SUCCESS (0)", rc);
 }
 
+/* Checks behavior when an inventory condition is not met */
 Test(item_item_actions, inv_conditions_not_met)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 6, 0);
@@ -326,6 +332,8 @@ Test(item_item_actions, inv_conditions_not_met)
     cr_assert_eq(rc, CONDITIONS_NOT_MET,
                  "execute_do_item_item_action returned %d for conditons not met for item in inventory, expected CONDITIONS_NOT_MET (4)", rc);
 }
+
+/* Checks if two conditions (attribute and inventory) are able to be added and evaluated together */
 Test(item_item_actions, attr_and_inv_conditions_met)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 7, 0);
@@ -334,6 +342,7 @@ Test(item_item_actions, attr_and_inv_conditions_met)
                  "execute_do_item_item_action returned %d for attribute and inventory conditons met, expected SUCCESS (0)", rc);
 }
 
+/* Checks if two conditions (two inventory) are able to be added and evaluated together */
 Test(item_item_actions, two_inv_conditions_met)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 7, 0);
