@@ -131,7 +131,7 @@ int skill_tree_node_add(skill_tree_t* tree, skill_node_t* node) {
     tree->num_nodes += 1;
     skill_node_t** n = tree->nodes;
     n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*tree->num_nodes);
-    n[tree->num_prereq_skills - 1] = node;
+    n[tree->num_nodes - 1] = node;
     return SUCCESS;
 }
 
