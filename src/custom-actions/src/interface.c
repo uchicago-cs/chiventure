@@ -29,15 +29,15 @@ int run_ast_block(AST_block_t *block)
         case(BRANCH):
             int returnV = do_branch_block(block->block);
             if(returnV == -1) return FAILURE;
-            return run_ast_block(block->next[returnV]);
+            return run_ast_block(block->sequence[returnV]);
             break;
         case(ACTION):
             if(do_action_block(block->block) == FAILURE) return FAILURE;
-            return run_ast_block(block->next[0]);
+            return run_ast_block(block->sequence[0]);
             break;
         case(CONDITIONAL):
             if(do_conditional_block(block->block)== FAILURE) return FAILURE;
-            return run_ast_block(block->next[0]);
+            return run_ast_block(block->sequence[0]);
             break;   
     }
 }
