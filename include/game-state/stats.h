@@ -243,6 +243,20 @@ stat_effect_t *stat_effect_new(effects_global_t *global);
 int change_stat(stats_hash_t *sh, char *stat, double change);
 
 /*
+ * Changes the max value of a stat by the
+ * specified double amount through addition
+ *
+ * Parameters:
+ *  sh: the hash table of stats 
+ *  stat: the name/key of the stat
+ *  change: the value to add to the stats max
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int change_stat_max(stats_hash_t *sh, char *stat, double change);
+
+/*
  * function that gets double value of a specified
  * stats hash table, after calculation with modifier
  *
@@ -370,7 +384,7 @@ int free_stats(stats_t *stat);
 
 
 /*
- * Frees a stats hash table
+ * Frees memory associated with a global_stats struct
  *
  * Parameters: 
  * gs: pointer to the global stat

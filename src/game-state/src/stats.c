@@ -139,6 +139,19 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 }
 
 /* See stats.h */
+int change_stat_max(stats_hash_t *sh, char *stat, double change)
+{
+    stats_t *s;
+    HASH_FIND_STR(sh, stat, s);
+    if (s == NULL)
+    {
+        return FAILURE;
+    }
+    s->max = s->max + change;
+    return SUCCESS;
+}
+
+/* See stats.h */
 double get_stat_current(stats_hash_t *sh, char *stat)
 {
     printf("get_stat_current: function not yet implemented\n");
