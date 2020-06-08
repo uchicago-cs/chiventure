@@ -7,13 +7,13 @@
 #include "interface.h"
 
 /* Checks that an empty custom_action fails */
-Test(Interface,do_custom_action+bad_custom_action) {
+Test(Interface,null_custom_action) {
     custom_action_t* ca = custom_action_new("test","test","test","test",NULL);  
     cr_assert_eq(do_custom_action(NULL),FAILURE, "do_custom_action didn't check for NULL input");
     cr_assert_eq(do_custom_action(ca),SUCCESS, "do_custom_action incorrectly checked for a NULL head");
 }
 /* Checks that a custom_action with a bad branch block fails */
-Test(Interface,do_custom_action+bad_branch) {
+Test(Interface,bad_branch_custom_action) {
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
