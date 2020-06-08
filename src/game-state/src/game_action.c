@@ -22,9 +22,9 @@ int game_action_init(game_action_t *new_action, char *act_name,
 game_action_t *game_action_new(char *action_name, char *success_str, char *fail_str)
 {
     game_action_t *new_action = malloc(sizeof(game_action_t));
-    new_action->action_name = malloc(MAX_ID_LEN * sizeof(char));
-    new_action->success_str = malloc(MAX_MSG_LEN * sizeof(char));
-    new_action->fail_str = malloc(MAX_MSG_LEN * sizeof(char));
+    new_action->action_name = calloc(1, MAX_ID_LEN * sizeof(char));
+    new_action->success_str = calloc(1, MAX_MSG_LEN * sizeof(char));
+    new_action->fail_str = calloc(1, MAX_MSG_LEN * sizeof(char));
 
     int check = game_action_init(new_action, action_name, success_str, fail_str);
 
