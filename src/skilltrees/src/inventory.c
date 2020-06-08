@@ -19,13 +19,15 @@ skill_inventory_t* inventory_new(unsigned int max_active,
         return NULL;
     }
 
-    inventory->active = malloc((sizeof(skill_t*)));
     inventory->num_active = 0;
     inventory->max_active = max_active;
-    inventory->passive = malloc((sizeof(skill_t*)));
     inventory->num_passive = 0;
     inventory->max_passive = max_passive;
 
+    // Initially malloc for just one skill.
+    inventory->active = malloc(sizeof(skill_t*));
+    inventory->passive = malloc((sizeof(skill_t*)));
+    
     return inventory;
 }
 
