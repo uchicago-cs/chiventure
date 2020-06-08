@@ -22,16 +22,26 @@ chiventure_ctx_t* create_example_ctx() {
     game_t* game = game_new("Welcome to the skilltrees team's presentation!");
 
     // Create example rooms
-    room_t* st_room1 = room_new("st_room1", "Room 1 short description", "Room 1 long description");
-    room_t* st_room2 = room_new("st_room2", "Room 2 short description", "Room 2 long description");
+    room_t* design_room = room_new("Design Room", "", "This is the design room."
+                                   "Any responsible software project devotes"
+                                   "ample time to its design phase.");
+    room_t* implementation_room = room_new("Implementation Room", "", "This is"
+                                           "the implementation room. Your users"
+                                           "eagerly await a demo of your final "
+                                           "product, so get to work!");
+    room_t* demo_room = room_new("Demo Room", "", "Your demo was a success!");
 
     // Add example rooms to example game
-    add_room_to_game(game, st_room1);
-    add_room_to_game(game, st_room2);
+    add_room_to_game(game, design_room);
+    add_room_to_game(game, implementation_room);
+    add_room_to_game(game, demo_room);
 
     // Set initial room and create connection to second room
-    game->curr_room = st_room1;
-    create_connection(game, "st_room1", "st_room2", "NORTH");
+    game->curr_room = design_room;
+    create_connection(game, "design_room", "implementation_room", "NORTH");
+    create_connection(game, "implementation_room", "design_room", "SOUTH");
+    create_connection(game, "implementation_room", "demo_room", "NORTH");
+    create_connection(game, "demo_room", "implementation_room", "SOUTH");
 
     // Create item in room1
 
@@ -42,6 +52,10 @@ chiventure_ctx_t* create_example_ctx() {
 
     return ctx;
 }
+
+/*char* skill_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    if (tokens[])
+}*/
 
 int main(int argc, char **argv) {
     // Create example chiventure context
