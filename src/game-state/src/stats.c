@@ -243,8 +243,7 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
 }
 
 /* See stats.h */
-int free_stats(stat_t *stat)
-
+int free_stats(stats_t *stat)
 {
     free(stat->key);
     free(stat);
