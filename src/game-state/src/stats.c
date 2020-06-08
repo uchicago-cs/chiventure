@@ -307,25 +307,6 @@ char *display_stat_effects(effects_hash_t *hash)
     return display;
 }
 
-/* See stats.h */
-char *display_global_stat_effects(effects_global_hash_t *hash)
-{
-    effects_global_t *effect, *tmp;
-
-    int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(hash));
-    char list[size];
-    char *line;
-
-    HASH_ITER(hh, hash, effect, tmp)
-    {
-        sprintf(line, "%s\n", effect->name);
-        strcat(list, line);
-    }
-
-    char *display = strdup(list);
-    return display;
-}
-
 
 /* See stats.h */
 int free_stats(stats_hash_t *s)
