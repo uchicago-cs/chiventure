@@ -20,31 +20,31 @@ class_t *make_bard()
     return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
 }
 
-int print_move_info(chiventure_ctx_battle_t *ctx, char *move_name)
-{
-    move_t *temp;
-    DL_FOREACH(ctx->game->player->moves, temp)
-    {
-        if (strncmp(temp->info, move_name, MAX_MOVE_NAME_LEN) == 0)
-        {
-            printf("%s\n", temp->info);
-            printf("\n");
-            return SUCCESS;
-        }
-        printf("Couldn't find the move you were looking for!\n");
-        return FAILURE;
-    }
-}
+// int print_move_info(chiventure_ctx_battle_t *ctx, char *move_name)
+// {
+//     move_t *temp;
+//     DL_FOREACH(ctx->game->player->moves, temp)
+//     {
+//         if (strncmp(temp->info, move_name, MAX_MOVE_NAME_LEN) == 0)
+//         {
+//             printf("%s\n", temp->info);
+//             printf("\n");
+//             return SUCCESS;
+//         }
+//         printf("Couldn't find the move you were looking for!\n");
+//         return FAILURE;
+//     }
+// }
 
 int read_move(char **args, chiventure_ctx_battle_t *ctx)
 {
     int res;
     char *action_string;
     if ((strncmp(args[0], "MOVE", MAXLEN) == 0) 
-        && (strncmp(args[1], "USE", 4) == 0) 
-        && (strncmp(args[3], "ON", 3) == 0))
+        && (strncmp(args[1], "USE", MAXLEN) == 0) 
+        && (strncmp(args[3], "ON", MAXLEN) == 0))
     {
-        printf("Determined command as MOVE USE, and it using the %s move\n", 
+        printf("\nDetermined command as MOVE USE, and it using the %s move\n",
                 args[2]);
         move_t *temp;
         move_t *player_move = temp;
@@ -94,12 +94,14 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
             printf("%s\n", action_string);
         }
+        return SUCCESS;
     }
     else if ((strncmp(args[0], "MOVE", MAXLEN) == 0) 
             && (strncmp(args[1], "LIST", MAXLEN) == 0))
     {
+        printf("\nDetermined command as MOVE LIST\n");
         move_t *temp;
-        printf("MOVES LIST\n");
+        printf("MOVES LIST:\n");
         DL_FOREACH(ctx->game->battle->player->moves, temp)
         {
             printf("%s\n", temp->info);
@@ -107,16 +109,15 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("\n");
         return SUCCESS;
     }
-    else if ((strncmp(args[0], "MOVE", 5) == 0) && (strncmp(args[1], "INFO", 4) == 0))
-    {
-        res = print_move_info(ctx, args[2]);
-        return res;
-    }
+    // else if ((strncmp(args[0], "MOVE", MAXLEN) == 0) && (strncmp(args[1], "INFO", MAXLEN) == 0))
+    // {
+    //     res = print_move_info(ctx, args[2]);
+    //     return res;
+    // }
     else if (strncmp(args[0], "HELP", MAXLEN) == 0)
     {
         printf("Here are the possible commands!\n");
         printf("MOVE USE <move_name> ON <enemy_name>\n");
-        printf("MOVE LIST\n");
         printf("MOVE INFO <move_name>\n\n");
         return SUCCESS;
     }
@@ -183,27 +184,24 @@ int main()
     {
         printf("Turn %d:\n", turn);
         printf("What will you do?\n");
-        while (true)
+        // Get the input
+        printf("> ");
+        if (!fgets(buf, MAXLEN, stdin))
         {
-            // Get the input
-            printf("> ");
-            if (!fgets(buf, MAXLEN, stdin))
-            {
-                break;
-            }
-            // parse the input
-            num_args = parse_command(args, buf);
-            // ignore empty line
-            if (num_args == 0 || buf[0] == '\n')
-            {
-                continue;
-            }
-            // otherwise, handle input
-            printf("\n");
-            res = read_move(args, ctx);
-            printf("read move returned: %d\n", res);
+            break;
         }
-        
+        // parse the input
+        num_args = parse_command(args, buf);
+        // ignore empty line
+        if (num_args == 0 || buf[0] == '\n')
+        {
+            continue;
+        }
+        // otherwise, handle input
+        printf("\n");
+        res = read_move(args, ctx);
+        printf("read move returned: %d\n", res);
+        turn++;
     }
     battle_status_t winner = battle_over(ctx->game->battle);
 
