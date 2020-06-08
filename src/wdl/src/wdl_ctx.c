@@ -22,7 +22,7 @@ int init_wdl_ctx(wdl_ctx_t *ctx)
     }
 
     ctx->ht = NULL;
-    ctx->game = NULL;
+    ctx->obj = NULL;
 
     return SUCCESS;
 }

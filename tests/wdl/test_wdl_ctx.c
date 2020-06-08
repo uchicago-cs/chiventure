@@ -8,7 +8,7 @@ Test(wdl_ctx, new)
     cr_assert_not_null(ctx, "wdl_ctx_new() failed");
 
     cr_assert_null(ctx->ht, "wdl_ctx_new() failed to set ht");
-    cr_assert_null(ctx->game, "wdl_ctx_new() failed to set game");
+    cr_assert_null(ctx->obj, "wdl_ctx_new() failed to set obj");
 }
 
 Test(wdl_ctx, init)
@@ -20,7 +20,7 @@ Test(wdl_ctx, init)
     cr_assert_eq(rc, 0, "wdl_ctx_init() failed");
 
     cr_assert_null(ctx->ht, "wdl_ctx_init() failed to set ht");
-    cr_assert_null(ctx->game, "wdl_ctx_init() failed to set game");
+    cr_assert_null(ctx->obj, "wdl_ctx_init() failed to set obj");
 }
 
 Test(wdl_ctx, free)

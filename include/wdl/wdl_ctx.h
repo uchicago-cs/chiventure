@@ -12,7 +12,7 @@ typedef struct wdl_ctx
 
     //A temporary measure while the parsing code is not yet finished enough
     //to remove libobj entirely
-    game_t *game;
+    obj_t *obj;
 
 } wdl_ctx_t;
 

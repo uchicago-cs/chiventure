@@ -1,13 +1,14 @@
 #include "common/load_objects.h"
+#include "wdl/load_game.h"
 
 /* See load_objects.h for documentation */
 game_t *load_objects(wdl_ctx_t *ctx)
 {
     game_t *game;
 
-    if(ctx->game != NULL)
+    if(ctx->obj != NULL)
     {
-        game = ctx->game;
+        game = load_yaml_game(ctx->obj);
         return game;
     }
 

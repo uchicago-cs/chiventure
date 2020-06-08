@@ -37,13 +37,19 @@ wdl_ctx_t *load_wdl(char *path_to_wd)
         int n_jsons = 0;
         printf("Detected wdz file. Attempting to load wdz and printing the json files...\n");
         printf("Note that loading wdz is not functional right now.\n");
-        populate_objstore_from_wdz(ctx->ht, &n_jsons, path_to_wd);
+        populate_objstore_from_wdz((ctx->ht), &n_jsons, path_to_wd);
         printf("Number of JSON files found: %d\n", n_jsons);
-        return NULL;
+    } else {
+        obj_t *big_document = get_doc_obj(path_to_wd);
+        ctx->obj = big_document;
     }
 
+    return ctx;
+}
+
+game_t *load_yaml_game(obj_t *big_document)
+{
     int rc;
-    obj_t *big_document = get_doc_obj(path_to_wd);
 
     game_t *game = create_game(big_document);
 
@@ -90,9 +96,7 @@ wdl_ctx_t *load_wdl(char *path_to_wd)
         return NULL;
     }
 
-    ctx->game = game;
-
-    return ctx;
+    return game;
 }
 
 game_t *create_game(obj_t *doc)
