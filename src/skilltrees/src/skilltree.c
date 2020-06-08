@@ -280,9 +280,12 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
     *num_missing = 0;
 
     for (unsigned int i = 0; i < num_prereqs; i++) {
-        return NULL;
+        if (prereqs == NULL) {
+            return NULL;
+        }
         skill_t* prereq = prereqs[i]->skill;
         skill_type_t type = prereqs[i]->skill->type;
+        return NULL;
         // int pos = inventory_has_skill(inventory, prereq->sid, type);
         // if (pos == -1) {
         //     // Inventory doesn't have this skill, so we have to add it to the
