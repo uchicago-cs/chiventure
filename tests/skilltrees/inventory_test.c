@@ -140,16 +140,15 @@ Test(inventory_tests, inventory_skill_remove_has_not)
 /*Tests after this line fail and are skipped.*/
 
 /* Tests inventory_has_skill on active skill that inventory has. */
-Test(inventory_tests, inventory_has_skill_has_active, .description = "Fails & Skipped (function not implemented)", .disabled = true)
+Test(inventory_tests, inventory_has_skill_has_active)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, effect_defuse_bomb);
   inventory_skill_add(inventory, bomb);
-  (inventory->active)[0] = bomb;
   int ret = inventory_has_skill(inventory, 1000, ACTIVE);
 
-  cr_assert_eq(ret, 10, "Error: failed test inventory_has_skill_has_active\n");
+  cr_assert_eq(ret, 0, "Error: failed test inventory_has_skill_has_active\n");
 }
 
 /* Tests inventory_has_skill on a passive skill it has. */
