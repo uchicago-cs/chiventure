@@ -15,6 +15,8 @@
  * A custom action struct. Holds the contexts for each action
  * (action, context, item, and type) along with a pointer to the
  * first block (AST_block_t) in the action sequence.
+ * 
+ * Placeholder for testing. Actual struct in custom_action.h.
  */
 typedef struct custom_action
 {

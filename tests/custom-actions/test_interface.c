@@ -110,16 +110,16 @@ Test(custom_action_t, find_multiple)
     cr_assert_eq(found->action_name, action_name1, "search_for_custom_action"
                                                    " returned the wrong result");
 
-    found = search_for_custom_action(action_name2);
-    cr_assert_not_null(found, "search_for_custom_action did not find a custom"
-                              " action it was expcted to find");
-    cr_assert_eq(found->action_name, action_name2, "search_for_custom_action"
-                                                   " returned the wrong result");
-
     found = search_for_custom_action(action_name3);
     cr_assert_not_null(found, "search_for_custom_action did not find a custom"
                               " action it was expcted to find");
     cr_assert_eq(found->action_name, action_name3, "search_for_custom_action"
+                                                   " returned the wrong result");
+
+    found = search_for_custom_action(action_name2);
+    cr_assert_not_null(found, "search_for_custom_action did not find a custom"
+                              " action it was expcted to find");
+    cr_assert_eq(found->action_name, action_name2, "search_for_custom_action"
                                                    " returned the wrong result");
 
     // now tries to find an action that's NOT in the list
