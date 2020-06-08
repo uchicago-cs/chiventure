@@ -19,8 +19,6 @@ typedef struct player {
     int level;
     int health;
     int xp;
-    /*stats_hash_t *stats;
-    effects_hash_t *effects;*/
     class_t *player_class;
     item_hash_t *inventory;
 } player_t;
