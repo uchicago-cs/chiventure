@@ -84,17 +84,19 @@ skill_inventory_t* inventory;
 /* Create example chiventure context */
 chiventure_ctx_t* create_example_ctx() {
     // Create example game
-    game_t* game = game_new("Welcome to the skilltrees team's presentation!");
+    game_t* game = game_new("Welcome to the skilltrees team's presentation!"
+                            "Room progression is always northward.");
 
     // Create example rooms
     room_t* design_room = room_new("Design Room", "", "A software developer "
-                                   "devotes ample time to design. Design 3x to "
-                                   "move on to implementation.");
-    room_t* implementation_room = room_new("Implementation Room", "", "This "
-                                           "room is an exercise in test-driven"
-                                           " development.");
+                                   "devotes ample time to design. DESIGN 3x to "
+                                   "move on to Implementation.");
+    room_t* implementation_room = room_new("Implementation Room", "", "An "
+                                           "exercise in test-driven "
+                                           "development. Test once before all "
+                                           "else.");
     room_t* demo_room = room_new("Demo Room", "", "You have 15 minutes to "
-                                 "present. Good luck!");
+                                 "present... Good luck!");
 
     // Add example rooms to example game
     add_room_to_game(game, design_room);
@@ -107,7 +109,7 @@ chiventure_ctx_t* create_example_ctx() {
     // Create room items
     implementation_item = item_new("IMPLEMENTATION",
                                    "The software implementation skill",
-                                   "Skill that enables software implementation");
+                                   "IMPLEMENT 2x to move on to Demo.");
     add_item_to_room(implementation_room, implementation_item);
 
     // Create example chiventure context
@@ -143,7 +145,7 @@ char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     }
     add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
     inventory_skill_acquire(skill_tree, inventory, implementation_skill);
-    return "You have learned implementation and can now use the skill.";
+    return "You have learned. Use command IMPLEMENT to implement software.";
 }
 
 /* Wrapper function for leveling up testing skill */
