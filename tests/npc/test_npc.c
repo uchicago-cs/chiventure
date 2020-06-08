@@ -223,12 +223,18 @@ Test(npc, add_item_to_npc)
     npc_t *npc = npc_new("1", "short", "long", 100, NULL);
     item_t *new_item = item_new("test_item", "item for npc testing",
                                 "item for testing add_item_to_npc");
+    item_t *dup_item = item_new("test_item", "item for npc testing",
+                                "item for testing add_item_to_npc");
     add_item_to_npc(npc, new_item);
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(new_item, "item_new() failed");
     cr_assert_not_null(npc->inventory,
                        "add_item_to_npc() failed to add item");
+    
+    int rc = add_item_to_npc(npc, dup_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to add "
+                 "item with identical id");
 }
 
 /* Checks that remove_item_from_npc properly removes items */
@@ -236,13 +242,22 @@ Test(npc, remove_item_from_npc)
 {
     npc_t *npc = npc_new("npc", "short", "long", 100, NULL);
     item_t *test_item = item_new("item", "short", "long");
+    item_t *dup_item = item_new("item", "short", "long");
+    item_list_t *item_list;
     int rc;
     
     rc = add_item_to_npc(npc, test_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
+                 "add an item to npc");
+    rc = add_item_to_npc(npc, dup_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
                  "add an item to npc");
     
     rc = remove_item_from_npc(npc, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_npc failed to "
                  "remove an item from npc");
+    
+    item_list = get_npc_inv_list(npc);
+    cr_assert_not_null(item_list, "remove_item_from_npc removed "
+                       "both identical items from npc");
 }

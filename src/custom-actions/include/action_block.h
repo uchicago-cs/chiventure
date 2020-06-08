@@ -15,11 +15,16 @@ typedef struct AST_block AST_block_t;
 /* An enumeration type for an action block */
 typedef enum action_type {
     SET,
-    SAY,
-    MOVE, 
-    ARITHMETIC, 
+    ADDITION,
+    SUBTRACT,
+    MULTIPLY,
+    DIVIDE,
     GEN, 
-    EXEC
+    
+    // To be implemented:
+    EXEC,
+    SAY,
+    MOVE,
 } action_enum_t;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
@@ -82,6 +87,25 @@ int action_block_init(action_block_t *action, action_enum_t action_type, int num
  * Returns: 
  * - Always returns 0. 
  */
-int action_block_free(action_block_t *action);  
+int action_block_free(action_block_t *action);
+
+
+/*
+ * Executes an action block
+ *
+ * Procedure:
+ * - Checks action type
+ * - Checks that correct number of arguments are present
+ * - Calls effect-applying function associated with action type
+ * - Success or failure based on success or failure of effect-applying function
+ *
+ * Parameters:
+ * - action block
+ *
+ * Returns:
+ * - SUCCESS if successful, FAILURE if not
+ */
+int exec_action_block(action_block_t *a);
+
 
 #endif /* INCLUDE_ACTION_BLOCK_H */
