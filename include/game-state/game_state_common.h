@@ -29,6 +29,8 @@
 #define ITEM_MODIFY_NULL 3
 #define ACTION_NULL 4
 #define ATTRIBUTE_NULL 5
+#define PLAYER_NULL 6
+#define CONDITION_NULL 7
 
 //Macros for create_connection()
 #define ROOM_SRC_NULL 2

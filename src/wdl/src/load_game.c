@@ -126,11 +126,11 @@ void debug_print(game_t *game)
             printf("direction: %s\n", curr_path->direction);
         }
 
-        item_t *curr_item;
+        item_list_t *curr_item;
 
         ITER_ALL_ITEMS_IN_ROOM(curr_room, curr_item)
         {
-            printf("item id: %s\n", curr_item->item_id);
+            printf("item id: %s\n", curr_item->item->item_id);
         }
     }
 }
