@@ -3,6 +3,7 @@
 
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
+#include "condition.h"
 #include "item.h"
 
 
@@ -67,64 +68,47 @@ int game_action_free(game_action_t *action_tofree);
 
 // ------------------------- CONDITION FUNCTIONS -------------------------
 
-/* add_action_condition() creates a new condition for an item's action and
+/* add_action_attribute_condition() creates a new attribute condition for an item's action and
  * adds to the action's condition list
  * Parameters:
- *  a pointer to the item the action is being performed on
  *  a pointer to the action to which the condition is being added
  *  a pointer to the item specified in the action condition
  *  a pointer to the attribute of the item specified in action condition that needs to be validated
  *  the value of the above attribute that needs to be validated
  * Returns:
  *  SUCCESS upon SUCCESS
- *  ITEM_SRC_NULL if first item ID does not exist
  *  ACTION_NULL if specified action does not exist in first item
- *  ITEM_MODIFY_NULL if second item ID does not exist
+ *  ITEM_MODIFY_NULL if the item ID does not exist
  */
-int add_action_condition(item_t *item, game_action_t *action, item_t *cond_item, 
+int add_action_attribute_condition(game_action_t *action, item_t *cond_item, 
 			 attribute_t *cond_attribute, attribute_value_t cond_value);
 
-/* delete_action_condition_llist frees a linked list of action conditions
+/* add_action_inventory_condition() creates a new inventory condition for an item's action and
+ * adds to the action's condition list
  * Parameters:
- *  linked list of conditions
- *
+ *  a pointer to the action to which the condition is being added
+ *  a pointer to the player whose inventory to check
+ *  a pointer to the item to check in the inventory
  * Returns:
- *  always returns SUCCESS
+ *  SUCCESS upon SUCCESS
+ *  ACTION_NULL if specified action does not exist in first item
+ *  PLAYER_NULL if the player does not exist
+ *  ITEM_MODIFY_NULL if the item ID does not exist
  */
-int delete_action_condition_llist(action_condition_list_t *conditions);
+int add_action_inventory_condition(game_action_t *action, player_t *player,
+                                    item_t *item);
 
-/* condition_new() creates a new condition in an item with given inputs
+
+/* add_action_condition() adds the given condition to the action's linkedlist of
+ * conditions
  * Parameters:
- *  a pointer to the item to be modified
- *  a pointer to the attribute
- *  the desired value of the attribute
+ *   a pointer to the action to add to
+ *   the condition
  * Returns:
- *  NULL if item or attribute are NULL, the new condition if succcessful
+ *   SUCCESS upon SUCCESS
+ *   ACTION_NULL if action does not exist
  */
-game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
-				       attribute_value_t new_value);
-
-/* check_condition() checks if the actual attribute of an item is equal
- * to the desired attribute
- * Parameters:
- *  a pointer to the item to check
- *  the desired attribute
- * Returns:
- *  true if desired attribute matches the actual, false if not
- */
-bool check_condition(game_action_condition_t *condition);
-
-
-/* all_conditions_met() checks if all of the conditions of an action are met
- * Parameters:
- *  a pointer to the item to check
- *  the action
- * Returns:
- *  SUCCESS if all conditions are met, FAILURE if not
- *  2 if action not possible
- */
-int all_conditions_met(item_t* item, char* action_name);
-
+int add_action_condition(game_action_t *action, condition_t *condition);
 
 /*
  * Function that returns the node with the right action_type_t

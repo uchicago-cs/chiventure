@@ -38,13 +38,13 @@ move_t* find_random(combatant_t* player, combatant_t* enemy);
  *      move_t - the move to be used        */
 move_t* find_greedy(combatant_t* player, combatant_t* enemy);
 
-/* Function returns the damage dealt to a player
+/* Function returns the damage dealt to a target
  * Inputs:
- *      player - the player the damage is going to be dealt to
- *      enemy - the enemy using the move
+ *      target - the target the damage is going to be dealt to
+ *      source - the source combatant using the move
  *      move - the move being played
  * Outputs:
  *      damage - the damage dealt     */
-double damage(combatant_t* player, move_t* move, combatant_t* enemy);
+double damage(combatant_t* target, move_t* move, combatant_t* source);
 
 #endif

@@ -1,11 +1,13 @@
-set(NPC_EXAMPLES convo)
+set(NPC_EXAMPLES dialogue_example npc_example)
 
-add_executable(convo
-               dialogue_example.c
-               ../src/dialogue.c)
+add_executable(dialogue_example
+               dialogue_example.c)
+
+add_executable(npc_example
+               npc_example.c)
 
 # Link with chiventure libraries
-foreach(example ${CLI_EXAMPLES})
+foreach(example ${NPC_EXAMPLES})
     foreach(module ${CHIVENTURE_MODULES})
         target_link_libraries(${example} ${module})
     endforeach(module)
