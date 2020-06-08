@@ -54,6 +54,10 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             {
                 player_move = temp;
             }
+        }
+        
+        if (player_move == NULL)
+        {
             printf("Couldn't find the move you were looking for!\n");
             return FAILURE;
         }
