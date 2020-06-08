@@ -149,9 +149,11 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
     
     int changed_stat = curr->val + change;
 
-    if (changed_stat > curr->global->max){
-        curr -> val = curr->global->max;
-    } else {
+    if (changed_stat > curr->max) {
+        curr -> val = curr->max;
+    } else if (changed_stat > curr->global->max) {
+        curr -> val = curr->max;
+    {
         curr -> val = changed_stat;
     }
 
