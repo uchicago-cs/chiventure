@@ -117,7 +117,6 @@ void *make_data_from_j_value(json_object *j_value)
             char *val = calloc(str_len + 1, sizeof(*val));
 
             strcpy(val, json_object_get_string(j_value));
-            puts(val);
             return (void*)val;
         }
         case json_type_null:
@@ -128,13 +127,10 @@ void *make_data_from_j_value(json_object *j_value)
         /* the recursive converters */
         case json_type_object:
         {
-            puts("Trying to add obj");
             object_t *val = new_object("", TYPE_NONE);
             json_object_object_foreach(j_value, attr_name, attr_val)
             {
-                printf("Adding object key %s value %s\n",attr_name, json_object_to_json_string(attr_val));
-                // for each contained key-val pair in the object,
-                // convert into the attribute table
+                printf("Adding object key \"%s\" value %s\n",attr_name, json_object_to_json_string(attr_val));
                 add_attribute(&(val->attrs), attr_name, 
                     make_data_from_j_value(attr_val));
             }
@@ -176,6 +172,7 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
     
     /* Then find the game object's ID */
     char game_obj_id[MAXLEN_ID];
+    strncpy(game_obj_id, DEFAULT_PLAYER_OBJ_ID, MAXLEN_ID);
     json_object *game_obj_id_j_obj = NULL;
     json_object_object_get_ex(j_game_obj, "id", &game_obj_id_j_obj);
     if (!game_obj_id_j_obj)
@@ -191,15 +188,15 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
             return NULL;
         }
     }
-    if (json_object_is_type(game_obj_id_j_obj, json_type_string))
+    if ((!json_object_is_type(game_obj_id_j_obj, json_type_null))
+        && json_object_is_type(game_obj_id_j_obj, json_type_string))
     {
         strncpy(game_obj_id, json_object_get_string(game_obj_id_j_obj), MAXLEN_ID);
     }
     else
     {
         fprintf(stderr, 
-            "id key in the JSON of this game object has wrong value type (must\
-            be string!)\n");
+            "id key in the JSON of this game object has wrong value type (must be string!)\n");
         return NULL;
     }
 
@@ -295,7 +292,6 @@ int load_game_objects_from_json_object
             // is players.json. Other special cases can go here, but unlikely.
             
             object_t *player = convert_j_obj_to_game_obj(j_value, j_name);
-            printf("Parsed player json.\n");
 
             if (!player)
             {

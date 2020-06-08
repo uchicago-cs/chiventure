@@ -27,7 +27,7 @@ game_t *load_wdl(char *path_to_yaml)
     {
         int n_jsons = 0;
         printf("Detected wdz file. Attempting to load wdz and printing the json files...\n");
-        printf("Note that loading wdz is not functional right now.\n");
+        printf("Note that loading wdz works but does not currently register any game objects into the playable game itself.\n");
     
         objstore_t *obj_store = NULL;
 

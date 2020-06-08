@@ -31,8 +31,7 @@ Test(load_wdz, file_extension_withpath)
         "File extension was NOT wdz but filename_extension_is returned true");
 }
 
-#define EMPTY_GAME_OBJ_NAME "__empty_obj__"
-
+/* Test helper function */
 void check_objstore_from_json
 (
     const char *json_buf, 
@@ -64,14 +63,41 @@ void check_objstore_from_json
     free_all_objstore(&obj_store);
 }
 
+/* This test should cover everything from load_game_objs_from_json to
+ * the conversion function convert_j_obj_to_game_obj, which also invokes
+ * the make_data_from_j_value function. If this works, all of them work.
+ */
 Test(load_wdz, load_game_objs_from_json)
 {
     const char *test_json = 
-        "{\"rooms\":                    \
-            [                           \
-            {\"id\":\"best_room\"},     \
-            {\"id\":\"test_room\"}      \
-            ]                           \
+        "{\"rooms\":                                        \
+            [                                               \
+            {\"id\":\"best_room\", \"number\":123},         \
+            {\"id\":\"test_room\", \"can_enter\":false}     \
+            ]                                               \
         }";
     check_objstore_from_json(test_json, TYPE_ROOM, "best_room");
+    check_objstore_from_json(test_json, TYPE_ROOM, "test_room");
+}
+
+/* A test that simulates what would actually happen on chiventure startup */
+#define RELATIVE_FILE_PATH "../../../src/wdl/examples/wdz/test_game.wdz"
+Test(load_wdz, load_from_wdz_file)
+{
+    objstore_t *obj_store = NULL;
+    int n_jsons;
+    populate_objstore_from_wdz(&obj_store, &n_jsons, RELATIVE_FILE_PATH);
+    cr_assert_not_null(obj_store, "Object store is empty after load");
+    cr_assert_not_null(find_objstore(&obj_store, DEFAULT_PLAYER_OBJ_ID, TYPE_PLAYER),
+        "Player object not loaded");
+    // Find a representative object from each type
+    cr_assert_not_null(find_objstore(&obj_store, "greenlever", TYPE_ITEM),
+        "Item greenlever not loaded");
+    cr_assert_not_null(find_objstore(&obj_store, "action_normal_pull", TYPE_ACTION),
+        "Action action_normal_pull not loaded");
+    cr_assert_not_null(find_objstore(&obj_store, "globcond_unlock", TYPE_GCONDITION),
+        "Global condition globcond_unlock not loaded");
+    cr_assert_not_null(find_objstore(&obj_store, "purpleroom", TYPE_ROOM),
+        "Room purpleroom not loaded");
+    free_all_objstore(&obj_store);
 }
