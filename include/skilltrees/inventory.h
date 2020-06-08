@@ -5,7 +5,7 @@
 #ifndef INCLUDE_INVENTORY_H_
 #define INCLUDE_INVENTORY_H_
 
-#include "skilltrees/stdst.h"
+#include "skilltrees/skilltrees_common.h"
 #include "skilltrees/skill.h"
 
 /* ================================= */
@@ -99,16 +99,5 @@ int inventory_has_skill(skill_inventory_t* inventory, sid_t sid,
  *  - 0 on success, 1 if an error occurs
  */
 int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill);
-
-/*
- * Updates levels of all skills in an inventory.
- *
- * Parameters:
- *  - inventory: A player's skill inventory
- *
- * Returns:
- *  - 0 on success, 1 if an error occurs
- */
-int inventory_skill_levels_update(skill_inventory_t* inventory);
 
 #endif /* INCLUDE_INVENTORY_H_ */
