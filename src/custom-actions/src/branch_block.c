@@ -117,5 +117,4 @@ int branch_block_free(branch_block_t *branch)
     
     return SUCCESS; 
 
-} 
->>>>>>> 1937870049eccbe76eab655106da945a233509c2
+}
