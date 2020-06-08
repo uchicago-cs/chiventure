@@ -50,9 +50,7 @@ typedef struct condition condition_list_t;
  * Returns:
  *   ITEM_MODIFY_NULL if item does not exist in game
  *   ATTRIBUTE_NULL if attribute is null or does not exist in item
- * 
  *   PLAYER_NULL if player does not exist in game
- * 
  *   CONDITION_NULL if condition is null
  *   SUCCESS otherwise
  */
