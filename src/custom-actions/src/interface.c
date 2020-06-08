@@ -38,49 +38,16 @@ int run_ast_block(AST_block_t *block)
         case(BRANCH):
             int returnV = do_branch_block(block->block);
             if(returnV == -1) return FAILURE;
-            return run_ast_block(block->sequence[returnV]);
+            return run_ast_block(block->ast_sequence[returnV]);
             break;
         case(ACTION):
             if(do_action_block(block->block) == FAILURE) return FAILURE;
-            return run_ast_block(block->sequence[0]);
+            return run_ast_block(block->ast_sequence[0]);
             break;
         case(CONDITIONAL):
-            if(do_conditional_block(block->block)== FAILURE) return FAILURE;
-            return run_ast_block(block->sequence[0]);
+            return FAILURE;
             break;   
     }
-}
-
-/* Given an branch block and its corresponding arguments, 
- * attempt to execute the given block.
- * 
- * Parameters: 
- * - block: A pointer to the branch block to be executed
- * 
- * Returns:
- * - Integer of what block to execute next
- */
-int do_branch_block(branch_block_t *block)
-{
-    if(block->num_controls != block->num_conditionals) return FAILURE;
-    // goes through each of the control blocks
-    int i;
-    for(i = 0; i < block->num_controls; i++) 
-    {
-        // will perform the appropriate type of action
-        switch(block->controls[i]->control_type) {
-            case IFELSE:
-                if(do_conditional_block(block->conditionals[i]) == TRUE) return i;
-                break;
-            case WHILEENDWHILE:
-                // not implemented yet
-                break;
-            case FORENDFOR:
-                // not implemented yet
-                break;
-        }
-    }
-    return i;
 }
 
 /* Given an conditiional block and its corresponding arguments, 
@@ -119,4 +86,36 @@ bool do_conditional_block(conditional_block_t *block)
             return check_in(block->left,block->right); // at the time of writing, TBI
             break;
     }
+}
+
+/* Given an branch block and its corresponding arguments, 
+ * attempt to execute the given block.
+ * 
+ * Parameters: 
+ * - block: A pointer to the branch block to be executed
+ * 
+ * Returns:
+ * - Integer of what block to execute next
+ */
+int do_branch_block(branch_block_t *block)
+{
+    if(block->num_controls != block->num_conditionals) return FAILURE;
+    // goes through each of the control blocks
+    int i;
+    for(i = 0; i < block->num_controls; i++) 
+    {
+        // will perform the appropriate type of action
+        switch(block->controls[i]->control_type) {
+            case IFELSE:
+                if(do_conditional_block(block->conditionals[i]) == TRUE) return i;
+                break;
+            case WHILEENDWHILE:
+                // not implemented yet
+                break;
+            case FORENDFOR:
+                // not implemented yet
+                break;
+        }
+    }
+    return i;
 }
