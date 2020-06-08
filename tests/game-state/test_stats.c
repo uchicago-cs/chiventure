@@ -183,8 +183,9 @@ Test(stats, display_stat)
 
     char *list = display_stats(sh);
 
-    cr_assert_str_eq(list, "health, speed",
-                     "expected: health, speed, but display_stat returned %s",
+    cr_assert_str_eq(list, "health [75.00 / 75.00]\nspeed [50.00 / 50.00]\n",
+                     "expected: health [75.00 / 75.00]\nspeed [50.00 / 50.00]\n,"
+                     " but display_stat returned %s",
                      list);
 
     free(list);

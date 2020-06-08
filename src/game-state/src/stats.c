@@ -181,13 +181,19 @@ char* display_stats(stats_hash_t *s)
     stats_t *stat, *tmp;
     int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(s));
     char list[size];
-    char *line;
+    char line[size];
     double stat_val;
+
+    strcpy(list, "");
+
+    if (s == NULL) {
+        return "\n";
+    }
 
     HASH_ITER(hh, s, stat, tmp)
     {
         stat_val = stat->val * stat->modifier;
-        sprintf(line, "%s [%f / %f]\n", stat->key, 
+        sprintf(line, "%s [%.2f / %.2f]\n", stat->key, 
                 stat_val, stat->max);
         strcat(list, line);
     }
@@ -255,7 +261,13 @@ char *display_stat_effects(effects_hash_t *hash)
 
     int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * (count + HASH_COUNT(hash)));
     char list[size];
-    char *line;
+    char line[size];
+
+    strcpy(list, "");
+
+    if (hash == NULL) {
+        return "\n";
+    }
 
     HASH_ITER(hh, hash, effect, tmp)
     {
@@ -263,7 +275,7 @@ char *display_stat_effects(effects_hash_t *hash)
         strcat(list, line);
         LL_FOREACH(effect->stat_list, mod)
         {
-            sprintf(line, "\t[ %s ] modifier: %f, duration: %d\n", 
+            sprintf(line, "\t[ %s ] modifier: %.2f, duration: %d\n", 
                     mod->stat->key, mod->modifier, mod->duration);
             strcat(list, line);
         }
