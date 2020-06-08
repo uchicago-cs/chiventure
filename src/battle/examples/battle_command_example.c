@@ -44,10 +44,10 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         && (strncmp(args[1], "USE", MAXLEN) == 0) 
         && (strncmp(args[3], "ON", MAXLEN) == 0))
     {
-        printf("\nDetermined command as MOVE USE, and it using the %s move\n",
+        printf("Determined command as MOVE USE, and it using the %s move\n\n",
                 args[2]);
         move_t *temp;
-        move_t *player_move = temp;
+        move_t *player_move = NULL;
 
         DL_FOREACH(ctx->game->battle->player->moves, temp)
         {
@@ -69,12 +69,14 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             return FAILURE;
         }
 
-        printf("player's move's damage: %d\n", player_move->damage);
+        printf("\nBeginning call to battle_flow() function\n");
         res = battle_flow(ctx, player_move, args[4]);
 
         // everything bellow allows us to print what just happened
+        printf("goes_first determined the player goes first!\n");
         if (goes_first(ctx->game->battle) == PLAYER)
         {
+            printf("goes_first determined the player goes first!\n");
             action_string = print_battle_move(ctx->game->battle,
                                               PLAYER, player_move);
             printf("%s\n", action_string);
@@ -90,6 +92,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         }
         else
         {
+            printf("goes_first determined the enemy goes first!\n");
             action_string = print_battle_move(ctx->game->battle,
                                               PLAYER, player_move);
             printf("%s\n", action_string);
@@ -108,7 +111,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
     else if ((strncmp(args[0], "MOVE", MAXLEN) == 0) 
             && (strncmp(args[1], "LIST", MAXLEN) == 0))
     {
-        printf("\nDetermined command as MOVE LIST\n");
+        printf("Determined command as MOVE LIST\n\n");
         move_t *temp;
         printf("MOVES LIST:\n");
         DL_FOREACH(ctx->game->battle->player->moves, temp)
