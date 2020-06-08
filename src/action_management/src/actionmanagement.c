@@ -196,7 +196,8 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
         return WRONG_KIND;
     }
     // validate existence of path and destination
-    if ((path_found == NULL) || (room_dest == NULL))
+    // third condition checks if conditions have been met
+    if ((path_found == NULL) || (room_dest == NULL) || (p->conditions != NULL))
     {
         sprintf(string, "The path or room provided was invalid.");
         *ret_string = string;
