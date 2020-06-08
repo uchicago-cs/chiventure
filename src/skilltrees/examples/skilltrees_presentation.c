@@ -171,6 +171,8 @@ char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
 void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory) {
     assert(inventory != NULL);
 
+    print_to_cli(ctx, "-");
+    print_to_cli(ctx, "Active Skills:");
     if (!inventory->num_active) {
         print_to_cli(ctx, "You have no active skills.");
     } else {
@@ -180,6 +182,7 @@ void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* invento
     }
 
     print_to_cli(ctx, "-");
+    print_to_cli(ctx, "Active Skills:");
 
     if (!inventory->num_passive) {
         print_to_cli(ctx, "You have no passive skills.");
