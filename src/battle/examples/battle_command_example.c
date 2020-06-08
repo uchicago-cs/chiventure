@@ -63,6 +63,12 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             return FAILURE;
         }
 
+        if(check_target(ctx->game->battle, args[4]) != NULL)
+        {
+            printf("Enemy not found!\n");
+            return FAILURE;
+        }
+
         res = battle_flow(ctx, player_move, args[4]);
 
         // everything bellow allows us to print what just happened
@@ -134,12 +140,12 @@ int main()
 {
     printf("\nbeginning to create the player and enemy...\n");
     stat_t *p_stats = (stat_t *)calloc(1, sizeof(stat_t));
-    p_stats->hp = 100;
+    p_stats->hp = 200;
     p_stats->xp = 10;
     p_stats->speed = 10;
 
     stat_t *e_stats = (stat_t *)calloc(1, sizeof(stat_t));
-    e_stats->hp = 70;
+    e_stats->hp = 150;
     e_stats->xp = 10;
     e_stats->speed = 9;
 
