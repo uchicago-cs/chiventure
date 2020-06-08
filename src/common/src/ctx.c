@@ -60,6 +60,21 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
     add_player_to_game(ctx->game, player1);
     ctx->game->curr_player = player1;
 
+    stats_hash_t *sh = NULL;
+    effects_hash_t *eh = NULL;
+    stats_t *s1, *s2, *s3;
+    s1 = stats_new(gs1, 100);
+    s2 = stats_new(gs2, 0);
+    s3 = stats_new(gs3, 100);
+    add_stat_player(&sh, s1);
+    add_stat_player(&sh, s2);
+    add_stat_player(&sh, s3);
+
+    obj_t class_attributes = obj_new("default");
+    class_t default = class_new("Default", "Default class", "Default Class",
+                                class_attributes, sh, eh);
+    player1->player_class = default;
+
     ctx->table = table;
 
     return SUCCESS;
