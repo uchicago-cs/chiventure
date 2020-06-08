@@ -22,13 +22,12 @@ chiventure_ctx_t* create_example_ctx() {
     game_t* game = game_new("Welcome to the skilltrees team's presentation!");
 
     // Create example rooms
-    room_t* design_room = room_new("Design Room", "", "This is the design room."
-                                   " Any responsible software project devotes"
-                                   " ample time to its design phase.");
-    room_t* implementation_room = room_new("Implementation Room", "", "This is "
-                                           "the implementation room. Your users"
-                                           " eagerly await a demo of your final"
-                                           " product, so get to work!");
+    room_t* design_room = room_new("Design Room", "", "Any responsible software"
+                                   " project devotes ample time to its design "
+                                   "phase.");
+    room_t* implementation_room = room_new("Implementation Room", "", "Your "
+                                           "users eagerly await a demo of your "
+                                           "final product, so get to work!");
     room_t* demo_room = room_new("Demo Room", "", "Your demo was a success!");
 
     // Add example rooms to example game
@@ -36,14 +35,15 @@ chiventure_ctx_t* create_example_ctx() {
     add_room_to_game(game, implementation_room);
     add_room_to_game(game, demo_room);
 
-    // Set initial room and create connection to second room
+    // Set initial room and create room connections
     game->curr_room = design_room;
     create_connection(game, "Design Room", "Implementation Room", "NORTH");
     create_connection(game, "Implementation Room", "Design Room", "SOUTH");
     create_connection(game, "Implementation Room", "Demo Room", "NORTH");
     create_connection(game, "Demo Room", "Implementation Room", "SOUTH");
 
-    // Create item in room1
+    // Create room items
+
 
     // Associate action with item in room1
 
@@ -53,13 +53,23 @@ chiventure_ctx_t* create_example_ctx() {
     return ctx;
 }
 
-/*char* skill_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-    if (tokens[])
-}*/
+char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    return skill_execute(design_skill, "");
+}
+
+char* effect_design(char* args) {
+    return "Good progress on your modules! Keep going!";
+}
 
 int main(int argc, char **argv) {
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
+
+    // Create example skills
+    skill_t* design_skill = skill_new(0, ACTIVE, "Design Skill", "Your software design skill", 4, 1, &effect_design);
+
+    // Add DESIGN operation
+    add_entry("DESIGN", design_operation, NULL, ctx->table);
 
     // Start UI for example chiventure context
     start_ui(ctx, banner);
