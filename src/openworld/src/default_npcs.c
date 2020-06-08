@@ -60,14 +60,14 @@ npc_t *get_friendly_npcs()
 {
     npc_t *hash= NULL;
 
-    // merchant
+   // merchant
     item_hash_t *inventory_merchant = NULL;
     item_t *healing_item = item_new("green potion", "healing potion", "lovely healing potion");
     HASH_ADD_STR(inventory_merchant, item_id, healing_item);
     item_t *strength_item = item_new("red potion", "strength potion", "strength potion perfect for battle");
     HASH_ADD_STR(inventory_merchant, item_id, strength_item);
 
-    // farmer
+   // farmer
     item_hash_t *inventory_farmer = NULL;
     item_t *peach_item = item_new("peaches", "peaches: fruit", "a sweet savory substance");
     HASH_ADD_STR(inventory_farmer, item_id, peach_item);

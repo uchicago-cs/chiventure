@@ -41,7 +41,6 @@ gencontext_t* gencontext_new(path_t *open_paths, int level, int num_open_paths, 
         fprintf(stderr, "calloc failed to allocate space for contextnew. \n");
         return NULL;
     }
-
     init_gencontext(contextnew, open_paths, level, num_open_paths, speclist);
     return contextnew;
 }
@@ -60,7 +59,6 @@ int gencontext_free(gencontext_t *context)
 /* see gen_structs.h */
 int roomspec_free(roomspec_t *spec)
 {
-
     if (spec == NULL)
         return FAILURE;
 
@@ -79,7 +77,6 @@ int roomspec_free(roomspec_t *spec)
 /* see gen_structs.h */
 int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, npc_t *npcs)
 {
-
     if (spec == NULL)
         return FAILURE;
 
