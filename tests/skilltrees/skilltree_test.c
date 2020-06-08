@@ -417,8 +417,8 @@ Test(skilltree_tests, skill_prereqs_missing_some)
   int* out = malloc(sizeof(int));
 
   skill_inventory_t* inventory = inventory_new(3,4);
-  //
-  // skill_t** acqed = skill_prereqs_missing(tree, inventory, 1000, out);
+  
+  skill_t** acqed = skill_prereqs_missing(tree, inventory, 1000, out);
   // int ret = (acqed[0] == skill2);
   // cr_assert_eq(ret, true,
   //   "Error: failed test skill_prereqs_missing_some\n");
