@@ -394,7 +394,7 @@ Test(skilltree_tests, skill_prereqs_missing_some)
   node_prereq_add(bomb_node, chop_node);
 
   skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
-  // skill_tree_node_add(tree, bomb_node);
+  skill_tree_node_add(tree, bomb_node);
   // skill_tree_node_add(tree, chop_node);
   //
   // int* out = malloc(sizeof(int));
