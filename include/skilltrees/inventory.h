@@ -107,8 +107,8 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill);
  *  - inventory: A skill inventory
  *
  * Returns:
- *  - A string formatted nicely to print out in the chiventure screen.
+ *  - Nothing.
  */
-char* current_skills_as_strings(skill_inventory_t* inventory);
+void current_skills_as_strings(skill_inventory_t* inventory);
 
 #endif /* INCLUDE_INVENTORY_H_ */
