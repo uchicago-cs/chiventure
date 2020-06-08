@@ -23,7 +23,12 @@ custom_action_t *search_for_custom_action(char *action_name)
     return result;
 }
 
-/* See interface.h */
+/*
+ * See interface.h.
+ * 
+ * This depends on translate_custom_action having been written
+ * (see backlog issue #796). Also needs tests.
+ */
 custom_action_t *compile_custom_action(object_t *action)
 {
     custom_action_t *translated = translate_custom_action(action);
@@ -63,6 +68,9 @@ int add_custom_action_to_game(custom_action_t *action)
 
 /* 
  * See interface.h.
+ * 
+ * To be implemented in the future - see backlog issue #796.
+ * Also needs tests.
  * 
  * NOTE: This would normally be a private helper function for 
  * compile_custom_action, but it is currently public for sandbox code use.

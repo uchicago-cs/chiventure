@@ -77,6 +77,8 @@ int add_custom_action_to_game(custom_action_t *action);
  * Returns:
  * - custom_action_t* A pointer to the created custom action if successful
  * - NULL if there was an error working with the object_t struct
+ * 
+ * To be implemented in the future - see backlog issue #796.
  */
 custom_action_t *translate_custom_action(object_t *action);
 
