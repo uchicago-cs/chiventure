@@ -78,6 +78,8 @@ skill_inventory_t* inventory;
         if (design_skill->level == 4) {
             create_connection(ctx->game, "Design Room", "Implementation Room", "NORTH");
             create_connection(ctx->game, "Implementation Room", "Design Room", "SOUTH");
+            //add_entry("TEST", test_operation, NULL, ctx->table);
+            //inventory_skill_add(inventory, test_skill);
         }
     }
 
@@ -126,7 +128,7 @@ int main(int argc, char **argv) {
 
     // Initialize inventory
     inventory = inventory_new(10, 0);
-    inventory_skill_add(inventory, design_skill);
+    inventory_skill_add(inventory, design_skill);/*
 
     // Initialize skill nodes
     skill_node_t* design_node = skill_node_new(design_skill, 0, 0);
@@ -140,7 +142,7 @@ int main(int argc, char **argv) {
     skill_tree = skill_tree_new(0, "Software Development Skill Tree", 3);
     skill_tree_node_add(skill_tree, design_node);
     skill_tree_node_add(skill_tree, test_node);
-    skill_tree_node_add(skill_tree, implementation_node);
+    skill_tree_node_add(skill_tree, implementation_node);*/
 
     // Add DESIGN operation
     add_entry("DESIGN", design_operation, NULL, ctx->table);
