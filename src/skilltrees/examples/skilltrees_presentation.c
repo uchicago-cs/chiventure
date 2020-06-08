@@ -169,7 +169,7 @@ char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
 
 /* CLI operation to list all skills in inventory */
 char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-    print_to_cli(ctx, current_skills_as_strings(inventory));
+    current_skills_as_strings(ctx, inventory);
     return "";
 }
 

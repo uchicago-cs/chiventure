@@ -143,39 +143,25 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill) {
 }
 
 /* See inventory.h */
-char* current_skills_as_strings(skill_inventory_t* inventory) {
+char* current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory) {
     assert(inventory != NULL);
 
-    char* str = (char *)malloc(sizeof(char)*500);
-    strncat(str, "List of active skills:\n", 25);
-    if (inventory->num_active == 0) {
-        strncat(str, "You have no active skills.\n", 35);
+    if (!inventory->num_active) {
+        print_to_cli(ctx, "You have no active skills.");
     } else {
         for (unsigned int i = 0; i < inventory->num_active; i++) {
-            strncat(str, inventory->active[i]->name, 20);
-            strncat(str, ": Level ", 9);
-            char level[5];
-            sprintf(level, "%u", inventory->active[i]->level);
-            strncat(str, level, 12);
-            strncat(str, "\n", 1);
-
+            print_to_cli(ctx, inventory->active[i]->name);
         }
     }
-    // To differentiate between passive and active skills.
-    strncat(str, "\n-\n", 3);
 
-    if (inventory->num_passive == 0) {
-        strncat(str, "You have no passive skills.\n\n", 35);
+    print_to_cli(ctx, "-");
+
+    if (!inventory->num_passive) {
+        print_to_cli(ctx, "You have no passive skills.");
     } else {
         for (unsigned int i = 0; i < inventory->num_passive; i++) {
-            strncat(str, inventory->passive[i]->name, 20);
-            strncat(str, ": Level ", 9);
-            char level[5];
-            sprintf(level, "%u", inventory->active[i]->level);
-            strncat(str, level, 12);
-            strncat(str, "\n", 1);
+            print_to_cli(ctx, inventory->passive[i]->name);
         }
     }
-    strncat(str, "\0", 1);
     return NULL;
 }
