@@ -134,8 +134,10 @@ char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
 
 /* CLI operation for LEARNing implementation skill */
 char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    if (!(tokens[1]))
+        return "Learning requires a subject.";
     if ((strcmp(tokens[1], "IMPLEMENTATION"))) {
-        return "You cannot learn that."
+        return "You cannot learn that.";
     }
     add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
     inventory_skill_acquire(skill_tree, inventory, implementation_skill);
