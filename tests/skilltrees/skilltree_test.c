@@ -354,6 +354,8 @@ Test(skilltree_tests, get_acquired_skill_prereqs_safe)
 
   skill_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, out);
   int ret = (acqed[0] == skill2);
+  cr_assert_eq(acqed[0]->sid, 1001,
+   "Error: failed test get_acquired_skill_prereqs_safe\n");
   cr_assert_eq(ret, true,
    "Error: failed test get_acquired_skill_prereqs_safe\n");
 }
