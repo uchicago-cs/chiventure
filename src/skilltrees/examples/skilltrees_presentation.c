@@ -109,7 +109,7 @@ char* implementation_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* 
 void test_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(test_skill);
     if (test_skill->level > 1) {
-        add_action(implementation_item, "TAKE", "Now that your tests are complete, begin implementation!", "Test at least once before considering implementation!");
+        add_action(implementation_item, "LEARN", "Now that your tests are complete, begin implementation!", "Test at least once before considering implementation!");
         add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
         //inventory_skill_acquire(inventory, implementation_skill);
     }
@@ -167,6 +167,10 @@ int main(int argc, char **argv) {
 
     // Add DESIGN operation
     add_entry("DESIGN", design_operation, NULL, ctx->table);
+
+    // Define LEARN Kind 1 Action
+    action_type_t learn_action = {"LEARN", ITEM};
+    add_entry(learn_action.c_name, kind1_action_operation, &learn_action, ctx->table);
 
     // Start UI for example chiventure context
     start_ui(ctx, banner);
