@@ -53,20 +53,19 @@ chiventure_ctx_t* create_example_ctx() {
     return ctx;
 }
 
+// Create example skills
 char* effect_design(char* args) {
     return "Good progress on your modules! Keep going!";
 }
+skill_t* design_skill = skill_new(0, ACTIVE, "Design Skill", "Your software design skill", 4, 1, &effect_design);
 
 char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-    skill_t* design_skill = skill_new(0, ACTIVE, "Design Skill", "Your software design skill", 4, 1, &effect_design);
     return skill_execute(design_skill, "");
 }
 
 int main(int argc, char **argv) {
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
-
-    // Create example skills
 
     // Add DESIGN operation
     add_entry("DESIGN", design_operation, NULL, ctx->table);
