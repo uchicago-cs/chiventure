@@ -13,7 +13,7 @@ object_t *new_object(char *id, objtype_t type)
 /* See wdl/object.h for documentation */
 int init_object(object_t *obj, char *id, objtype_t type)
 {
-    if(obj == NULL || id == NULL)
+    if((obj == NULL) || (id == NULL))
     {
         fprintf(stderr, "ERROR -init_object: Couldn't initialize object.\n");        
 
@@ -89,7 +89,7 @@ asset_t *new_asset(assettype_t type, char *filename)
 /* see wdl/object.h for documentation */
 int init_asset(asset_t *asset, assettype_t type, char *filename)
 {
-    if (asset == NULL || filename == NULL)
+    if ((asset == NULL) || (filename == NULL))
     {
         fprintf(stderr,
                 "ERROR - init_asset: could not initialize asset.\n");

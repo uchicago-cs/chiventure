@@ -106,7 +106,9 @@ int free_attr(obj_attr_t *head, obj_attr_t *a)
 int free_attr_list(obj_attr_t **attrs, obj_attr_t *head)
 {
     if ((attrs == NULL)||(head == NULL))
+    {
         return FAILURE;
+    }
     
     HASH_DEL(*attrs, head);
     

@@ -125,13 +125,13 @@ obj_attr_t *get_obj_attribute(object_t *obj, char *name);
  * new_asset: creates a new asset with identifier filename
  *
  * params:
+ *   - type: the type of asset being created
  *   - filename: the filename of the asset
  *
  * returns:
- *   - a pointer to the created asset
+ *   - a pointer to the created asset on success
  *   - NULL if failure
  */
-
 asset_t *new_asset(assettype_t type, char *filename);
 
 /*
@@ -139,6 +139,7 @@ asset_t *new_asset(assettype_t type, char *filename);
  *
  * params:
  *   - asset: the asset to be initialized
+ *   - type: the type of asset being created
  *   - filename: the filename of the asset
  * 
  * returns:
