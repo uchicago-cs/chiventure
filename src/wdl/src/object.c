@@ -41,7 +41,9 @@ int obj_free(object_t *obj)
 /* See wdl/objstore.h for documentation */
 obj_attr_t* get_obj_attribute(object_t* obj, char* name)
 {
-    return NULL;
+    obj_attr_t *attr = find_attr(&(obj->attrs), name);
+
+    return attr;
 }
 
 /* see wdl/object.h for documentation */
