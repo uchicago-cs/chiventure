@@ -3,11 +3,12 @@
 
 #include <stdbool.h>
 #include <string.h>
-#include "battle_state.h"
-#include "battle_structs.h"
+#include "battle/battle_common.h"
+#include "battle/battle_logic.h" 
+#include "battle/battle_state.h"
+#include "battle/battle_structs.h"
 #include "common/common.h"
 #include "common/utlist.h"
-
 
 /* Stub for the player struct in game-state */
 typedef struct player {
@@ -22,18 +23,19 @@ typedef struct player {
 /* Stub for the game_t struct in game-state */
 typedef struct game {
     // Would have other fields (eg hash tables for players, rooms, items)
-    player_t *curr_player;
+    player_t *player;
+    battle_t *battle;
 } game_t;
 
-/* Stub, similar to chiventure_ctx_t except adding in_battle, which
- * marks whether or not a battle is in progress (true if in progress,
- * false if not)
+/* Stub, similar to chiventure_ctx_t except adding status, which
+ * is an enum that gives the current status of the game 
+ * (see logic.h for details)
  */
 typedef struct chiventure_ctx_battle {
     // would have UI context here
     game_t *game;
     // would have lookup table here
-    bool in_battle;
+    battle_status_t status;
 } chiventure_ctx_battle_t;
 
 /* Stub to simulate NPC enemy, that will then later be converted to
@@ -45,6 +47,7 @@ typedef struct npc_enemy {
     stat_t *stats;
     move_t *moves;
     item_t *items;
+    difficulty_t ai;
     struct npc_enemy *prev;
     struct npc_enemy *next;
 } npc_enemy_t;
@@ -73,7 +76,8 @@ player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *move
  *
  * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, items
  */
-npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, item_t* items);
+npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, 
+                            item_t* items, difficulty_t ai);
 
 /* Stub for the game_new function in game.h game-state module
  *

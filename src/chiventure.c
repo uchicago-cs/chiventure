@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <wdl/load_game.h>
+#include <ui/ui_ctx.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
 
@@ -41,15 +43,19 @@ int main(int argc, char **argv)
         fprintf(stderr, "Chiventure prefers to run in terminals of at least %d columns and %d rows. Please resize your terminal!\n", MIN_COLS, MIN_ROWS);
         exit(1);
     }
-    
-    if (argc <= 1) {
-        chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+
+    game_t *game = NULL;
+
+    if (argc == 2)
+    {
+        game = load_wdl(argv[1]);
     }
 
-    chiventure_ctx_t *ctx = chiventure_ctx_new(argv[1]);
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     /* Add calls to component-specific initializations here */
 
+    /*** UI ***/
     if (ncols > 100) {
         start_ui(ctx, banner);
     } else {
@@ -57,5 +63,6 @@ int main(int argc, char **argv)
     } 
 
     game_free(ctx->game);
+
     return 0;
 }

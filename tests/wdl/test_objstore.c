@@ -147,6 +147,6 @@ Test(objstore, free_all)
     add_objstore(&store, old);
     add_objstore(&store, new);
 
-    int res = free_all(&store);
-    cr_assert_eq(res, SUCCESS, "free_all() failed");
+    int res = free_all_objstore(&store);
+    cr_assert_eq(res, SUCCESS, "free_all_objstore() failed");
 }

@@ -1,9 +1,10 @@
 add_library(wdl
+            src/attributes.c
             src/load_game.c
             src/load_item.c
             src/load_room.c
-	        src/object.c
             src/objstore.c
+	        src/object.c
             src/parse.c
             src/validate.c
             src/load_wdz_common.c
