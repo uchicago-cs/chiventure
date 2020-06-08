@@ -70,9 +70,9 @@ int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
                 fprintf(stderr, "inventory_skill_add: at max passive skills\n");
                 return FAILURE;
             }
+            inventory->passive[inventory->num_passive] = skill;
             inventory->num_passive += 1;
-            p = (skill_t**)realloc(p, sizeof(skill_t*) * inventory->num_passive);
-            p[inventory->num_passive] = skill;
+            inventory->active = (skill_t**)realloc(inventory->passive, sizeof(skill_t*) * inventory->num_passive);
             return SUCCESS;
         default:
             fprintf(stderr, "inventory_skill_add: invalid skill type\n");
