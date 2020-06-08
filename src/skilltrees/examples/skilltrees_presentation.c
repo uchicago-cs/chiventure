@@ -67,7 +67,7 @@ skill_inventory_t* inventory;
 
     // Testing skill effect
     char* effect_test(char* args) {
-        return "Good progress on testing! Keep going!";
+        return "Good progress on testing! You can LEARN IMPLEMENTATION now!";
     }
 
     // Implementation skill struct
@@ -75,7 +75,7 @@ skill_inventory_t* inventory;
 
     // Implementation skill effect
     char* effect_implementation(char* args) {
-        return "Good implementation progress! Keep going!";
+        return "Good implementation progress! IMPLEMENT 2x to progress northward!";
     }
 
     // Implementation skill item
@@ -84,8 +84,8 @@ skill_inventory_t* inventory;
 /* Create example chiventure context */
 chiventure_ctx_t* create_example_ctx() {
     // Create example game
-    game_t* game = game_new("Welcome to the skilltrees team's presentation!"
-                            "Room progression is always northward.");
+    game_t* game = game_new("Welcome to the skilltrees team's presentation! "
+                            "Room progression is always (GO) NORTHward.");
 
     // Create example rooms
     room_t* design_room = room_new("Design Room", "", "A software developer "
@@ -93,7 +93,7 @@ chiventure_ctx_t* create_example_ctx() {
                                    "move on to Implementation.");
     room_t* implementation_room = room_new("Implementation Room", "", "An "
                                            "exercise in test-driven "
-                                           "development. Test once before all "
+                                           "development. TEST once before all "
                                            "else.");
     room_t* demo_room = room_new("Demo Room", "", "You have 15 minutes to "
                                  "present... Good luck!");
@@ -145,7 +145,7 @@ char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     }
     add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
     inventory_skill_acquire(skill_tree, inventory, implementation_skill);
-    return "You have learned. Use command IMPLEMENT to implement software.";
+    return "You have learned. LOOK IMPLEMENTATION to ascertain your skill/knowledge.";
 }
 
 /* Wrapper function for leveling up testing skill */
@@ -259,6 +259,8 @@ int main(int argc, char **argv) {
 
     // Start UI for example chiventure context
     start_ui(ctx, banner);
+
+    print_to_cli("Use SKILLS to see your skill inventory at any time.");
 
     // Free memory
     skill_tree_free(skill_tree);
