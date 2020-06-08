@@ -37,8 +37,6 @@ int skill_node_free(skill_node_t* node) {
     return SUCCESS;
 }
 
-int increment_prerequisites()
-
 /* See skilltree.h */
 int node_prereq_add(skill_node_t* node, skill_node_t* prereq) {
     assert(node != NULL && prereq != NULL);
