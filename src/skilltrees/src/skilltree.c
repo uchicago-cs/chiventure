@@ -40,18 +40,56 @@ int skill_node_free(skill_node_t* node) {
 /* See skilltree.h */
 int node_prereq_add(skill_node_t* node, skill_node_t* prereq) {
     assert(node != NULL && prereq != NULL);
+    //
+    // void** res;
+    //
+    // res = array_element_add((void**)node->prereqs, node->num_prereq_skills,
+    //                         (void*)prereq);
+    // if (res == NULL) {
+    //     fprintf(stderr, "node_prereq_add: addition failed\n");
+    //     return FAILURE;
+    // }
+    //
+    // node->prereqs = (skill_node_t**)res;
+    // return SUCCESS;
 
-    void** res;
-
-    res = array_element_add((void**)node->prereqs, node->num_prereq_skills,
-                            (void*)prereq);
-    if (res == NULL) {
-        fprintf(stderr, "node_prereq_add: addition failed\n");
-        return FAILURE;
-    }
-
-    node->prereqs = (skill_node_t**)res;
+    node->num_prereq_skills += 1;
+    skill_node_t** n = node->prereqs;
+    n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*node->num_prereq_skills);
+    n[node->num_prereq_skills - 1] = prereq;
     return SUCCESS;
+}
+
+/* See inventory.h */
+int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
+    assert(inventory != NULL && skill != NULL);
+
+    skill_t** a = inventory->active;
+    skill_t** p = inventory->passive;
+
+    switch (skill->type) {
+        case ACTIVE:
+            if (inventory->num_active >= inventory->max_active) {
+                fprintf(stderr, "inventory_skill_add: at max active skills\n");
+                return FAILURE;
+            }
+            a[inventory->num_active] = skill;
+            inventory->num_active += 1;
+            a = (skill_t**)realloc(a, sizeof(skill_t*) * inventory->num_active);
+            return SUCCESS;
+        case PASSIVE:
+            if (inventory->num_passive >= inventory->max_passive) {
+                fprintf(stderr, "inventory_skill_add: at max passive skills\n");
+                return FAILURE;
+            }
+            p[inventory->num_passive] = skill;
+            inventory->num_passive += 1;
+            p = (skill_t**)realloc(p, sizeof(skill_t*) * inventory->num_passive);
+            return SUCCESS;
+        default:
+            fprintf(stderr, "inventory_skill_add: invalid skill type\n");
+            return FAILURE;
+    }
 }
 
 /* See skilltree.h */
