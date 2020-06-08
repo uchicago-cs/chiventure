@@ -147,7 +147,7 @@ void *make_data_from_j_value(json_object *j_value)
             object_t *val = new_object("", TYPE_NONE);
             for (int i = 0; i < arr_len; i++)
             {
-                // var->attrs is the head element
+                /* var->attrs is the head element */
                 json_object *arr_elt = json_object_array_get_idx(j_value, i);
                 void *raw_data = make_data_from_j_value(arr_elt);
                 assert(raw_data != NULL);
@@ -164,7 +164,27 @@ void *make_data_from_j_value(json_object *j_value)
     return NULL;
 }
 
-
+/* convert_j_obj_to_game_obj
+ * Converts a JSON object of the form
+ * {
+ * "key_name":[ INDIVIDUAL NESTED OBJECTS HERE ] 
+ * }
+ * 
+ * or 
+ * {
+ * "key_name":{ ATTRIBS HERE }
+ * }
+ * 
+ * into the right internal object_t representation.
+ * 
+ * Parameters:
+ * - j_game_obj: The JSON object to convert
+ * - j_name: The name of the top-level container of j_game_obj. E.g. "rooms"
+ *          (NOT the id of j_game_obj itself!)
+ *          This is also the filename of the JSON file that contains this JSON.
+ * Returns:
+ * - A pointer to the resulting object_t
+ */
 object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
 {
     /* First find game object type (e.g. a room, or an item) */
