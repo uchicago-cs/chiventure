@@ -40,7 +40,7 @@ Test(npc, new)
 
     cr_assert_not_null(npc, "npc_new() failed");
 
-    cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0, 
+    cr_assert_eq(strncmp(str_t_get(npc->npc_id), "npc_22", MAX_ID_LEN), 0, 
                  "npc_new didn't set npc_id"); 
     cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
                  "npc_new didn't set short_desc");
@@ -58,13 +58,15 @@ Test(npc, new_lua_script)
   
     c = generate_test_class();
 
-    object_t *npc_id = obj_t_str("npc_22", "Lua_file/npc_id.lua");
+    object_t *npc_id = obj_t_str("npc_22", "../../../tests/npc/Lua_file/npc_id.lua");
 
     npc = npc_new(npc_id, "man", "tall man", 20, c);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
-    cr_assert_eq(strncmp(npc->npc_id, "npc_33", MAX_ID_LEN), 0, 
+    char *npc_id_str = str_t_get(npc->npc_id);
+
+    cr_assert_eq(strcmp(npc_id_str, "npc_33"), 0, 
                  "npc_new didn't set npc_id"); 
     cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
                  "npc_new didn't set short_desc");
@@ -82,7 +84,9 @@ Test(npc, init)
     npc_t *npc;
     int res;
   
-    npc = npc_new("test", "woman", "short woman", 30, NULL);
+    object_t *npc_id2 = obj_t_str("test", NULL);
+
+    npc = npc_new(npc_id2, "woman", "short woman", 30, NULL);
   
     c = generate_test_class();
 
@@ -92,7 +96,7 @@ Test(npc, init)
 
     cr_assert_eq(res, SUCCESS, "npc_init() failed");
 
-    cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
+    cr_assert_eq(strncmp(str_t_get(npc->npc_id), "npc_22", MAX_ID_LEN), 0,
                  "npc_init didn't set npc_id");
     cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
                  "npc_init didn't set short_desc");
@@ -103,23 +107,27 @@ Test(npc, init)
                      c->shortdesc, "npc_init didn't set short description for class");
 }
 
-Test(npc, init)
+Test(npc, init_lua_script)
 {
     class_t* c;
     npc_t *npc;
     int res;
+
+    object_t *npc_id2 = obj_t_str("test", NULL);
   
-    npc = npc_new("test", "woman", "short woman", 30, NULL);
+    npc = npc_new(npc_id2, "woman", "short woman", 30, NULL);
   
     c = generate_test_class();
 
-    object_t *npc_id = obj_t_str("npc_22", "Lua_file/npc_id.lua");
+    object_t *npc_id = obj_t_str("npc_22", "../../../tests/npc/Lua_file/npc_id.lua");
 
     res = npc_init(npc, npc_id, "man", "tall man", 20, c); 
 
+    char *npc_id_str = str_t_get(npc->npc_id);
+
     cr_assert_eq(res, SUCCESS, "npc_init() failed");
 
-    cr_assert_eq(strncmp(npc->npc_id, "npc_33", MAX_ID_LEN), 0,
+    cr_assert_eq(strcmp(npc_id_str, "npc_33"), 0, 
                  "npc_init didn't set npc_id");
     cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
                  "npc_init didn't set short_desc");
@@ -135,8 +143,9 @@ Test(npc, free)
 {
     npc_t *npc;
     int res;
+    object_t *npc_id = obj_t_str("test", NULL);
 
-    npc = npc_new("test", "woman", "short woman", 30, NULL);
+    npc = npc_new(npc_id, "woman", "short woman", 30, NULL);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
@@ -152,7 +161,9 @@ Test(npc, get_sdesc_npc)
     npc_t *npc;
     char *get;
     
-    npc = npc_new("test", "woman", "short woman", 30, NULL);
+    object_t *npc_id = obj_t_str("test", NULL);
+
+    npc = npc_new(npc_id, "woman", "short woman", 30, NULL);
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_eq(strncmp(npc->short_desc, "woman", MAX_SDESC_LEN), 0, 
@@ -171,7 +182,9 @@ Test(npc, get_ldesc_npc)
     npc_t *npc;
     char *get;
     
-    npc = npc_new("test", "man", "tall man", 30, NULL);
+    object_t *npc_id = obj_t_str("test", NULL);
+
+    npc = npc_new(npc_id, "man", "tall man", 30, NULL);
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
@@ -190,7 +203,9 @@ Test(npc, get_npc_health)
     npc_t *npc;
     int health;
 
-    npc = npc_new("npc_22", "short", "long", 20, NULL);
+    object_t *npc_id = obj_t_str("npc_22", NULL);
+
+    npc = npc_new(npc_id, "short", "long", 20, NULL);
 
     health = get_npc_health(npc);
 
@@ -206,8 +221,9 @@ Test(npc, change_npc_health)
     npc_t *npc;
     int health1, health2, health3;
 
+    object_t *npc_id = obj_t_str("npc_22", NULL);
 
-    npc = npc_new("npc_22", "short", "long", 99, NULL); 
+    npc = npc_new(npc_id, "short", "long", 99, NULL); 
     health1 = change_npc_health(npc, 2, 100); 
     health2 = change_npc_health(npc, -20, 100);
     health3 = change_npc_health(npc, 3, 83);
@@ -229,9 +245,11 @@ Test(npc, add_to_and_get_inventory)
     item_t *new_item;
     item_hash_t *hash1, *hash2;
     item_list_t *list1, *list2;
+    object_t *npc_id1 = obj_t_str("npc_1", NULL);
+    object_t *npc_id2 = obj_t_str("npc_2", NULL);
 
-    npc1 = npc_new("npc_1", "short", "long", 20, NULL);
-    npc2 = npc_new("npc_2", "short", "long", 21, NULL);
+    npc1 = npc_new(npc_id1, "short", "long", 20, NULL);
+    npc2 = npc_new(npc_id2, "short", "long", 21, NULL);
     new_item = item_new("test_item", "item for npc testing",
                         "item for testing get_npc_inventory()");
     add_item_to_npc(npc2, new_item);
@@ -276,7 +294,8 @@ Test(npc, add_to_and_get_inventory)
    by not returning NULL */
 Test(npc, add_item_to_npc)
 {
-    npc_t *npc = npc_new("1", "short", "long", 100, NULL);
+    object_t *npc_id = obj_t_str("1", NULL);
+    npc_t *npc = npc_new(npc_id, "short", "long", 100, NULL);
     item_t *new_item = item_new("test_item", "item for npc testing",
                                 "item for testing add_item_to_npc");
     add_item_to_npc(npc, new_item);
@@ -290,7 +309,8 @@ Test(npc, add_item_to_npc)
 /* Checks that remove_item_from_npc properly removes items */
 Test(npc, remove_item_from_npc)
 {
-    npc_t *npc = npc_new("npc", "short", "long", 100, NULL);
+    object_t *npc_id = obj_t_str("npc", NULL);
+    npc_t *npc = npc_new(npc_id, "short", "long", 100, NULL);
     item_t *test_item = item_new("item", "short", "long");
     int rc;
     

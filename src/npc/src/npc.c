@@ -6,7 +6,7 @@ int npc_init(npc_t *npc, object_t *npc_id, char *short_desc, char *long_desc,
              int health, class_t *class)
 {
     assert(npc != NULL);
-    strcpy(npc->npc_id, str_t_get(npc_id));
+    npc->npc_id = npc_id;
     strcpy(npc->short_desc, short_desc);
     strcpy(npc->long_desc, long_desc);
     npc->health = health;
@@ -23,7 +23,7 @@ npc_t *npc_new(object_t *npc_id, char *short_desc, char *long_desc,
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
     memset(npc, 0, sizeof(npc_t));
-    npc->npc_id = malloc(MAX_ID_LEN);
+    npc->npc_id = malloc(sizeof (object_t));
     npc->short_desc = malloc(MAX_SDESC_LEN);
     npc->long_desc = malloc(MAX_LDESC_LEN);
     npc->class = malloc(sizeof(class_t));
@@ -48,6 +48,7 @@ int npc_free(npc_t *npc)
     {
         convo_free(npc->dialogue);
     }
+    free (npc->npc_id->args);
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
