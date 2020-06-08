@@ -10,5 +10,5 @@ foreach(example ${CUSTOM_ACTIONS_EXAMPLES})
     endforeach(module)
 endforeach(example)
 
-add_custom_target(custom-actions-demo
+add_custom_target(custom-actions-examples
     DEPENDS ${CUSTOM_ACTIONS_EXAMPLES})
