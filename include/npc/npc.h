@@ -4,7 +4,7 @@
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "npc/dialogue.h"
-#include "playerclass/class_structs.h"
+#include "playerclass/class.h"
 
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
@@ -22,6 +22,9 @@ typedef struct npc {
 
     /* long description of the npc, <301 chars */
     char *long_desc;
+
+    /* the npcs class */
+    class_t *npc_class;
 
     int health;
 
