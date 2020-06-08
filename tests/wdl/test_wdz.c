@@ -44,7 +44,7 @@ void check_objstore_from_json
     
     objstore_t *obj_store = NULL;
     
-    int res = load_game_objects_from_json_object(obj_store, j_obj);
+    int res = load_game_objects_from_json_object(&obj_store, j_obj);
     
     cr_assert_eq(res, SUCCESS, "Load function returned FAILURE");
     cr_assert_not_null(obj_store, "Object store still empty after load");

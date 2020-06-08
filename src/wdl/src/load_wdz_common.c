@@ -15,6 +15,7 @@
 #define TYPE_GCONDITION_STR "globalconditions"
 #define TYPE_DIALOG_STR "dialog"
 #define TYPE_NPC_STR "npcs"
+#define TYPE_CUSTOM_SCRIPT_STR "customscripts"
 
 /*
  * match_j_name_to_game_obj_type:
@@ -58,13 +59,17 @@ objtype_t match_j_name_to_game_obj_type(char *j_name)
     {
         game_obj_type = TYPE_DIALOG;
     }
+    else if (SAME_STRING(j_name, TYPE_CUSTOM_SCRIPT_STR))  
+    {
+        game_obj_type = TYPE_CUSTOM_SCRIPT;
+    }
     else if (strlen(j_name) == 0)
     {
-        game_obj_type = TYPE_NOTHING;
+        game_obj_type = TYPE_NONE;
     }
     else
     {
-        game_obj_type = TYPE_UNDEFINED;
+        game_obj_type = TYPE_ERR;
     }
     
     return game_obj_type;
@@ -124,7 +129,7 @@ void *make_data_from_j_value(json_object *j_value)
         case json_type_object:
         {
             puts("Trying to add obj");
-            object_t *val = new_object("", TYPE_NOTHING);
+            object_t *val = new_object("", TYPE_NONE);
             json_object_object_foreach(j_value, attr_name, attr_val)
             {
                 printf("Adding object key %s value %s\n",attr_name, json_object_to_json_string(attr_val));
@@ -143,7 +148,7 @@ void *make_data_from_j_value(json_object *j_value)
             {
                 void *val = NULL;
             }
-            object_t *val = new_object("", TYPE_NOTHING);
+            object_t *val = new_object("", TYPE_NONE);
             for (int i = 0; i < arr_len; i++)
             {
                 // var->attrs is the head element
@@ -178,8 +183,8 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
         // Player object is a one-off obj that doesn't need an id field
         // the Other object types also should not require an id field
         if ((game_obj_type != TYPE_PLAYER) 
-         && (game_obj_type != TYPE_NOTHING)
-         && (game_obj_type != TYPE_UNDEFINED))
+         && (game_obj_type != TYPE_NONE)
+         && (game_obj_type != TYPE_ERR))
         {
             fprintf(stderr, 
                 "No id key found in the JSON of this game object!\n");
@@ -236,7 +241,7 @@ bool filename_extension_is(const char *ext, const char *str)
 /* See load_wdz_internal.h */
 int load_game_objects_from_json_object
 (
-    objstore_t *obj_store, 
+    objstore_t **obj_store, 
     json_object *j_obj
 )
 {
@@ -262,7 +267,7 @@ int load_game_objects_from_json_object
                     omitted++;
                     continue;
                 }
-                if (add_objstore(&obj_store, game_obj) == FAILURE)
+                if (add_objstore(obj_store, game_obj) == FAILURE)
                 {
                     omitted++;
                 }
@@ -296,7 +301,7 @@ int load_game_objects_from_json_object
             {
                 return FAILURE;
             }
-            add_objstore(&obj_store, player);
+            add_objstore(obj_store, player);
             return SUCCESS;
         }
         else 

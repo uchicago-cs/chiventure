@@ -150,6 +150,6 @@ objtype_t str_to_objtype(char *type)
     {
         return TYPE_DIALOG;
     } else {
-        return TYPE_UNDEFINED;
+        return TYPE_ERR;
     }
 }

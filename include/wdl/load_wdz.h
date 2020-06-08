@@ -22,7 +22,7 @@
  */
 int populate_objstore_from_wdz
 (
-    objstore_t *obj_store,
+    objstore_t **obj_store,
     int *n_jsons, 
     char *wdz_name
 );
