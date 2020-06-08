@@ -7,6 +7,7 @@
 
 #include "skilltrees/stdst.h"
 #include "skilltrees/skill.h"
+#include "common/ctx.h"
 
 /* ================================= */
 /* === INVENTORY DATA STRUCTURES === */
@@ -109,6 +110,6 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill);
  * Returns:
  *  - Nothing.
  */
-void current_skills_as_strings(skill_inventory_t* inventory);
+void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory);
 
 #endif /* INCLUDE_INVENTORY_H_ */

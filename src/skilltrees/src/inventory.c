@@ -7,6 +7,7 @@
 #include <string.h>
 #include <assert.h>
 #include "skilltrees/inventory.h"
+#include "ui/print_functions.h"
 
 /* See inventory.h */
 skill_inventory_t* inventory_new(unsigned int max_active,
@@ -143,7 +144,7 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill) {
 }
 
 /* See inventory.h */
-char* current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory) {
+void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory) {
     assert(inventory != NULL);
 
     if (!inventory->num_active) {
@@ -163,5 +164,4 @@ char* current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* invent
             print_to_cli(ctx, inventory->passive[i]->name);
         }
     }
-    return NULL;
 }
