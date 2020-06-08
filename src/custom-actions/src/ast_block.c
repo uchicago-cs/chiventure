@@ -53,7 +53,7 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type,
     ast->block = block;
     ast->block_type = block_type;
     ast->num_AST = num_AST;
-    ast->ast_sequence = ast_sequence;
+    ast->ast_sequence = *ast_sequence;
 
     return SUCCESS; 
 }
@@ -90,7 +90,7 @@ int AST_block_free(AST_block_t *ast)
     }
     if (ast->num_AST > 1) {
         for (int n = 0; n < ast->num_AST - 1; n++) {
-            AST_block_free(ast->ast_sequence[n]);
+            AST_block_free(ast->*ast_sequence[n]);
         }
     }
     free(ast);
