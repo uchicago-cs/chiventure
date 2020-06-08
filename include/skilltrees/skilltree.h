@@ -207,7 +207,7 @@ int skill_tree_node_remove(skill_tree_t* tree, skill_node_t* node);
  *    `num_prereq_skills` is updated to 0 when there are no prerequisites, and
  *    is updated to -1 if an error has occurred
  */
-skill_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
+skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
                                 int* num_prereq_skills);
 
 /*
@@ -227,7 +227,7 @@ skill_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
  *    parameter `num_acquired_prereqs` is updated to 0 when there are no acquired
  *    prerequisites, and is updated to -1 if an error has occurred
  */
-skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
                                      skill_inventory_t* inventory, sid_t sid,
                                      int* num_acquired_prereqs);
 
