@@ -18,7 +18,7 @@ stats_global_t *stats_global_new(char *name, double max)
     global_stat = malloc(sizeof(stats_global_t));
 
     int check = stats_global_init(global_stat, name, max);
-    if(check != SUCCESS)
+    if (check != SUCCESS)
     {
         return NULL;
     }
@@ -30,7 +30,7 @@ stats_global_t *stats_global_new(char *name, double max)
 int stats_init(stats_t *stat, stats_global_t *global_stat, double init)
 {
     assert(stat != NULL);
-    if(init > global_stat->max)
+    if (init > global_stat->max)
     {
         init = global_stat->max;
     }
@@ -51,7 +51,7 @@ stats_t *stats_new(stats_global_t *global_stat, double init)
 
     int check = stats_init(new_stat, global_stat, init);
 
-    if(check != SUCCESS)
+    if (check != SUCCESS)
     {
         return NULL;
     }
@@ -101,7 +101,7 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
 
     int check = stat_effect_init(effect, global);
     
-    if(check != SUCCESS || effect == NULL || effect->global == NULL)
+    if (check != SUCCESS || effect == NULL || effect->global == NULL)
     {
         return NULL;
     }
