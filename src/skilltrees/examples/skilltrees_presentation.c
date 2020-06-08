@@ -7,32 +7,6 @@
 #include "skilltrees/inventory.h"
 #include "skilltrees/skilltree.h"
 
-/*
- * This example program runs a complete instance of chiventure to feature skill
- * trees. The context for this chiventure game is software design, represented
- * by three rooms: the Design Room, the Implementation Room, and the Demo Room.
- * In running this game, one begins with just one skill in their inventory, the
- * design skill. The design skill is leveled up with each use, and one can only
- * enter the implementation room after having used (leveled up) the design skill
- * at least 3x. Entry into the implementation room grants the player an
- * additional testing skill. The implementation room models test-driven
- * development: one cannot "LEARN IMPLEMENTATION", until one has used (leveled
- * up) their testing skill at least once. Having both tested at least once and
- * having learned implementation, one can use the implementation skill. The
- * implementation skill must be used at least twice to be granted access to the
- * final room, the demo room.
- *
- * CLI Operations Defined for This Example
- *  - SKILLS, for listing all skills currently in your skill inventory
- *  - DESIGN, for using the design skill
- *  - TEST, for using the testing skill
- *  - LEARN IMPLEMENTATION, for learning the implementation skill
- *  - LOOK IMPLEMENTATION, for inspecting the implementation skill
- *  - IMPLEMENT, for using the implementation skill
- *  - GO NORTH, to progress to the next room in the game sequence
- *  - GO SOUTH, to go back to a previous room in the game sequence
- */
-
 const char* banner =
     "    ________________________________________________________________________________________\n"
     "  / \\                                                                                       \\\n"
