@@ -130,7 +130,7 @@ void *make_data_from_j_value(json_object *j_value)
             object_t *val = new_object("", TYPE_NONE);
             json_object_object_foreach(j_value, attr_name, attr_val)
             {
-                printf("Adding object key \"%s\" value %s\n",attr_name, json_object_to_json_string(attr_val));
+                printf("Adding nested object key \"%s\" value %s\n",attr_name, json_object_to_json_string(attr_val));
                 add_attribute(&(val->attrs), attr_name, 
                     make_data_from_j_value(attr_val));
             }
@@ -182,9 +182,7 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
          */
         if (game_obj_type == TYPE_PLAYER)
         {
-            puts("detected player object");
             strncpy(game_obj_id, DEFAULT_PLAYER_OBJ_ID, MAXLEN_ID);
-            puts(game_obj_id);
         }
         else if ((game_obj_type != TYPE_NONE)
               && (game_obj_type != TYPE_ERR))
@@ -212,10 +210,7 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
 
     /* Once type and id are obtained, create the game object */
     object_t *game_obj = new_object(game_obj_id, game_obj_type);
-    if (game_obj_type == TYPE_PLAYER)
-    {
-        puts("Type is player");
-    }
+    
     if (!game_obj)
     {
         fprintf(stderr, "Unable to allocate memory for game object\n");
@@ -225,10 +220,6 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
     /* Loops through all attributes in the JSON object */
     json_object_object_foreach(j_game_obj, attr_name, j_value)
     {
-        if (game_obj_type == TYPE_PLAYER)
-        {
-            puts(attr_name);
-        }
         if (SAME_STRING(attr_name, "id"))
         {
             continue; // we already added the ID above
