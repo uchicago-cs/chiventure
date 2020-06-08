@@ -73,6 +73,7 @@ player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *move
  *     - stats: npc stats stub
  *     - moves: npc moves stub
  *     - items: npc items stub
+ *     - ai: enemy ai
  *
  * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, items
  */
