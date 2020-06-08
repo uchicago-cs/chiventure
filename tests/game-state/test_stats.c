@@ -322,16 +322,16 @@ Test(stats, change_stat) {
     stats_hash_t *sh = NULL;
     stats_global_t g1;
 
-    stats_t s1;
+    stats_t s1 = stats_new(&g1, 100);
     stats_global_init(&g1, "health", 100);
+
     stats_init(&s1, &g1, 50);
+    stats_new(&g1, )
     s1.max = 75;
     s1.modifier = 1.1;
 
-
     stats_global_t g2;
-    stats_t s2;
-
+    stats_t s2 = stats_new(&g2, 200);
 
     stats_global_init(&g2, "charisma", 200);
     stats_init(&s2, &g2, 75);
@@ -345,7 +345,6 @@ Test(stats, change_stat) {
     HASH_FIND(hh, sh, "health", strlen("health"), curr);
     cr_assert_eq(curr->val, 50,
         "change_stat base value not equal initially");
-
 
     change_stat(sh, "health", 10);
     cr_assert_eq(curr->val, 60,
@@ -374,10 +373,10 @@ Test(stats, change_stat) {
         "change_stat global max failed");
 }
 
-Test(stats, get_stat_current){
+Test(stats, get_stat_current) {
     stats_hash_t *sh = NULL;
     stats_global_t g1;
-    stats_t s1;
+    stats_t s1 = stats_new(&g1, 200);
 
     stats_global_init(&g1, "health", 100);
     stats_init(&s1, &g1, 50);
