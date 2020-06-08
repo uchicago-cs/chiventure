@@ -24,6 +24,7 @@ typedef struct custom_action {
     char *item;
     char *type;
     AST_block_t *head;
+    UT_hash_handle hh;
 } custom_action_t;
 
 /*
