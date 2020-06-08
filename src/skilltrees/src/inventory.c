@@ -143,8 +143,8 @@ char* current_skills_as_strings(skill_inventory_t* inventory) {
         for (unsigned int i = 0; i < inventory->num_active; i++) {
             strncat(str, inventory->active[i]->name, 20);
             strncat(str, ": Level ", 9);
-            char level[13];
-            itoa(inventory->active[i]->level, level, 12);
+            char level[5];
+            sprintf(level, "%u", inventory->active[i]->level);
             strncat(str, level, 12);
             strncat(str, "\n", 1);
         }
@@ -158,7 +158,7 @@ char* current_skills_as_strings(skill_inventory_t* inventory) {
         for (unsigned int i = 0; i < inventory->num_passive; i++) {
             strncat(str, inventory->passive[i]->name, 20);
             strncat(str, ": Level ", 9);
-            char level[13];
+            char level[5];
             itoa(inventory->passive[i]->level, level, 12);
             strncat(str, level, 12);
             strncat(str, "\n", 1);
