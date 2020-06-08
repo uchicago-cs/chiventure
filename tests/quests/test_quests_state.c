@@ -195,6 +195,21 @@ Test(quest, start_quest)
     cr_assert_eq(quest->status, 1, "start_quest() failed to set status");
 }
 
+/* Tests the function  that fails a quest */
+Test(quest, fail_quest)
+{
+    item_t *reward = item_new("test_item", "item for testing",
+                            "test item for item_new()");
+    quest_t *quest = quest_new(1, NULL, reward);
+
+    int check = fail_quest(quest);
+
+    cr_assert_eq(check, SUCCESS, "fail_quest() failed");
+
+    cr_assert_eq(quest->status, -1, "fail_quest() failed to set status");
+}
+
+
 /* Tests the function that completes the achievement */
 Test(quest, complete_achievement)
 {
@@ -260,28 +275,32 @@ Test(quest,is_quest_completed)
 }
 
 /* Tests the function that checks the status of the quest */
-Test(quest,quest_status)
+Test(quest,get_quest_status)
 {
     item_t *reward = item_new("test_item", "item for testing",
                             "test item for item_new()");
     quest_t *quest = quest_new(1, NULL, reward);
 
-    cr_assert_eq(quest->status,0,"quest_status() failed with not statred status");
+    int check = get_quest_status(quest);
 
-    int check1 = start_quest(quest);
+    cr_assert_eq(check,0,"get_quest_status() failed with not statred status");
 
-    cr_assert_eq(quest->status,1,"quest_status() failed with started status");
+    check = start_quest(quest);
+
+    check = get_quest_status(quest);
+
+    cr_assert_eq(check,1,"get_quest_status() failed with started status");
 }
 
 /* Tests the function that reward the item after a quest*/
-Test(quest,quest_completed)
+Test(quest,complete_quest)
 {
     item_t *reward = item_new("test_item", "item for testing",
                             "test item for item_new()");
     quest_t *quest = quest_new(1, NULL, reward);
     quest->status = 2;
 
-    item_t *res = quest_completed(quest);
+    item_t *res = complete_quest(quest);
 
     cr_assert_str_eq(res->item_id, "test_item",
                     "quest_completed failed to reward the item");

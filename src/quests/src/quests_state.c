@@ -156,6 +156,16 @@ int start_quest(quest_t *quest)
 }
 
 /* Refer to quests_state.h */
+int fail_quest(quest_t *quest)
+{
+    assert(quest != NULL);
+
+    quest->status = -1;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
 int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
 {
     achievement_llist_t *head = quest->achievement_list;
@@ -200,15 +210,15 @@ int is_quest_completed(quest_t *quest)
 }
 
 /* Refer to quests_state.h */
-int quest_status(quest_t *quest)
+int get_quest_status(quest_t *quest)
 {
     return quest->status;
 }
 
 /* Refer quests_state.h */
-item_t *quest_completed(quest_t *quest)
+item_t *complete_quest(quest_t *quest)
 {
-    if (quest_status(quest) == 2)
+    if (get_quest_status(quest) == 2)
         return quest->reward;
     else
         return NULL;

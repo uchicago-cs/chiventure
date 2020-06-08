@@ -143,7 +143,18 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
  */
 int start_quest(quest_t *quest);
 
-/* completes an achievement in a quest by checking if the item and npc matches
+/* Updates the status to a failed quest
+ *
+ * Parameter:
+ * - quest: pointer to quest_t to be started
+ * 
+ * Returns:
+ * - SUCCESS 
+ * - FAILURE
+ */
+int fail_quest(quest_t *quest);
+
+/* Completes an achievement in a quest by checking if the item and npc matches
  * 
  * Paramter:
  * - quest: pointer to the quest
@@ -156,7 +167,7 @@ int start_quest(quest_t *quest);
  */
 int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met);
 
-/* checks if the quest is completed
+/* Checks if the quest is completed
  * 
  * Paramter:
  * - pointer to the quest
@@ -172,11 +183,12 @@ int is_quest_completed(quest_t *quest);
  * - quest: pointer to quest_t
  * 
  * Returns: status code for various status in the quest:
+ * -1: failed quest
  * 0: quest has not been started
  * 1: quest has been started but not completed
  * 2: quest has been completed
  */
-int quest_status(quest_t *quest);
+int get_quest_status(quest_t *quest);
 
 /* Rewards the prize to the player once the quest has been completed
  * This also checks for completion, and does nothing if not completed
@@ -191,7 +203,7 @@ int quest_status(quest_t *quest);
  * Note:
  * The status of the quest should first be checked before this function is called
  */
-item_t *quest_completed(quest_t *quest);
+item_t *complete_quest(quest_t *quest);
 
 
 #endif

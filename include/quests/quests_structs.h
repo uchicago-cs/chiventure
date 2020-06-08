@@ -44,7 +44,8 @@ typedef struct achievement_llist {
  * achievement_list: linked list struct holding a list of
  *                   achievements that make up a quest
  * reward: reward of the quest is an item
- * status: 0: quest has not been started
+ * status: -1: failed quest
+ *         0: quest has not been started
  *         1: quest has been started but not completed
  *         2: quest has been completed
  */
