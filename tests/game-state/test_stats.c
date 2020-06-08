@@ -321,22 +321,20 @@ Test (stats, apply_effect)
 Test(stats, change_stat) {
     stats_hash_t *sh = NULL;
     stats_global_t g1;
-    g1.name = "health";
-    g1.max = 100;
+
     stats_t s1;
-    s1.key = "health";
-    s1.global = &g1;
-    s1.val = 50;
+    stats_global_init(&g1, "health", 100);
+    stats_init(&s1, &g1, 50);
     s1.max = 75;
     s1.modifier = 1.1;
 
+
     stats_global_t g2;
-    g2.name = "charisma";
-    g2.max = 200;
     stats_t s2;
-    s2.key = "charisma";
-    s2.global = &g2;
-    s2.val = 75;
+
+
+    stats_global_init(&g2, "charisma", 200);
+    stats_init(&s2, &g2, 75);
     s2.max = 130;
     s2.modifier = 1;
 
