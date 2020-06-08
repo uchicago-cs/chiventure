@@ -13,9 +13,9 @@ Test(AST_block_t, new_CONTROL)
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
     int num_AST = 1;
-    AST_block_t** next;
+    AST_block_t** ast_sequence;
     
-    AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, next);
+    AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, ast_sequence);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
@@ -36,16 +36,16 @@ Test(AST_block_t, new_BRANCH)
     int num_AST = 2;
     int num_AST2 = 1;
     AST_block_t** test;
-    AST_block_t* next = AST_block_new(block, block_type2, num_AST2, test);
+    AST_block_t* ast_sequence = AST_block_new(block, block_type2, num_AST2, test);
     
-    AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, &next);
+    AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, &ast_sequence);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
     cr_assert_eq(new_ast->num_AST, num_AST, "AST_block_new() didn't set new_ast->num_AST");
-    cr_assert_eq(*(new_ast->next), next, "AST_block_new() didn't set new_ast->next");
+    cr_assert_eq(*(new_ast->ast_sequence), ast_sequence, "AST_block_new() didn't set new_ast->next");
     
     AST_block_free(new_ast);
 }
@@ -59,16 +59,16 @@ Test(AST_block_t, new_ACTION)
     int num_AST = 2;
     int num_AST2 = 1;
     AST_block_t** test;
-    AST_block_t* next = AST_block_new(block, block_type2, num_AST2, test);
+    AST_block_t* ast_sequence = AST_block_new(block, block_type2, num_AST2, test);
     
-    AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, &next);
+    AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, &ast_sequence);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
     cr_assert_eq(new_ast->num_AST, num_AST, "AST_block_new() didn't set new_ast->num_AST");
-    cr_assert_eq(*(new_ast->next), next, "AST_block_new() didn't set new_ast->next");
+    cr_assert_eq(*(new_ast->ast_sequence), ast_sequence, "AST_block_new() didn't set new_ast->next");
     
     AST_block_free(new_ast);
 }
@@ -82,16 +82,16 @@ Test(AST_block_t, new_CONDITIONAL)
     int num_AST = 2;
     int num_AST2 = 1;
     AST_block_t** test;
-    AST_block_t* next = AST_block_new(block, block_type2, num_AST2, test);
+    AST_block_t* ast_sequence = AST_block_new(block, block_type2, num_AST2, test);
     
-    AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, &next);
+    AST_block_t* new_ast = AST_block_new(block, block_type, num_AST, &ast_sequence);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
     cr_assert_eq(new_ast->num_AST, num_AST, "AST_block_new() didn't set new_ast->num_AST");
-    cr_assert_eq(*(new_ast->next), next, "AST_block_new() didn't set new_ast->next");
+    cr_assert_eq(*(new_ast->ast_sequence), ast_sequence, "AST_block_new() didn't set new_ast->next");
     
     AST_block_free(new_ast);
 }
@@ -104,9 +104,9 @@ Test(AST_block_t, init_CONTROL)
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
     int num_AST = 1;
-    AST_block_t **next;
+    AST_block_t **ast_sequence;
 
-    rc = AST_block_init(&ast, block, block_type, num_AST, next);
+    rc = AST_block_init(&ast, block, block_type, num_AST, ast_sequence);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -121,9 +121,9 @@ Test(AST_block_t, init_BRANCH)
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
     int num_AST = 1;
-    AST_block_t **next;
+    AST_block_t **ast_sequence;
 
-    rc = AST_block_init(&ast, block, block_type, num_AST, next);
+    rc = AST_block_init(&ast, block, block_type, num_AST, ast_sequence);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -138,9 +138,9 @@ Test(AST_block_t, init_ACTION)
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
     int num_AST = 1;
-    AST_block_t **next;
+    AST_block_t **ast_sequence;
 
-    rc = AST_block_init(&ast, block, block_type, num_AST, next);
+    rc = AST_block_init(&ast, block, block_type, num_AST, ast_sequence);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -155,9 +155,9 @@ Test(AST_block_t, init_CONDITIONAL)
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
     int num_AST = 1;
-    AST_block_t **next;
+    AST_block_t **ast_sequence;
 
-    rc = AST_block_init(&ast, block, block_type, num_AST, next);
+    rc = AST_block_init(&ast, block, block_type, num_AST, ast_sequence);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -172,9 +172,9 @@ Test(AST_block_t, free_CONTROL)
     block_type_t block_type = CONTROL;
     block_t *block = malloc(sizeof(block_t));
     int num_AST = 1;
-    AST_block_t **next;
+    AST_block_t **ast_sequence;
     
-    ast = AST_block_new(block, block_type, num_AST, next);
+    ast = AST_block_new(block, block_type, num_AST, ast_sequence);
 
     cr_assert_not_null(ast, "AST_block_new() failed");
 
@@ -194,9 +194,9 @@ Test(AST_block_t, free_BRANCH)
     int num_AST = 2;
     int num_AST2 = 1;
     AST_block_t* test;
-    AST_block_t* next = AST_block_new(block, block_type2, num_AST2, &test);
+    AST_block_t* ast_sequence = AST_block_new(block, block_type2, num_AST2, &test);
     
-    ast = AST_block_new(block, block_type, num_AST, &next);
+    ast = AST_block_new(block, block_type, num_AST, &ast_sequence);
 
     cr_assert_not_null(ast, "AST_block_new() failed");
 
@@ -216,9 +216,9 @@ Test(AST_block_t, free_ACTION)
     int num_AST = 2;
     int num_AST2 = 1;
     AST_block_t* test;
-    AST_block_t* next = AST_block_new(block, block_type2, num_AST2, &test);
+    AST_block_t* ast_sequence = AST_block_new(block, block_type2, num_AST2, &test);
     
-    ast = AST_block_new(block, block_type, num_AST, &next);
+    ast = AST_block_new(block, block_type, num_AST, &ast_sequence);
 
     cr_assert_not_null(ast, "AST_block_new() failed");
 
@@ -238,9 +238,9 @@ Test(AST_block_t, free_CONDITIONAL)
     int num_AST = 2;
     int num_AST2 = 1;
     AST_block_t* test;
-    AST_block_t* next = AST_block_new(block, block_type2, num_AST2, &test);
+    AST_block_t* ast_sequence = AST_block_new(block, block_type2, num_AST2, &test);
     
-    ast = AST_block_new(block, block_type, num_AST, &next);
+    ast = AST_block_new(block, block_type, num_AST, &ast_sequence);
     
     cr_assert_not_null(ast, "AST_block_new() failed");
 
