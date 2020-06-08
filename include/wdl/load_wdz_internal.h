@@ -38,7 +38,7 @@ bool filename_extension_is(const char *ext, const char *str);
  */
 int load_game_objects_from_json_object
 (
-    objstore_t *obj_store, 
+    objstore_t **obj_store, 
     json_object *j_obj
 );
 
