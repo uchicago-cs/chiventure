@@ -117,7 +117,7 @@ Test(path, remove_condition)
     cr_assert_eq(rc, SUCCESS, "add_attribute_to_hash() failed");
 
     //test function
-    rc = remove_condition(new_path, go);
+    rc = remove_condition(new_path, second);
 
     cr_assert_null(go->room, "condition isn't fully implemented(1)");
     cr_assert_null(go->direction, "condition isn't fully implemented(2)");
@@ -167,7 +167,7 @@ Test(path, remove_final_condtion)
     cr_assert_eq(rc, SUCCESS, "add_attribute_to_hash() failed");
 
     //test function
-    rc = remove_condition(new_path, open);
+    rc = remove_condition(new_path, first);
 
     cr_assert_null(open->room, "condition isn't fully implemented(1)");
     cr_assert_null(open->direction, "condition isn't fully implemented(2)");    

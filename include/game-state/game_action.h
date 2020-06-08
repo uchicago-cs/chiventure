@@ -136,7 +136,7 @@ int all_conditions_met(item_t* item, char* action_name);
  * Returns:
  * - int SUCCESS when node is removed
  */
-int delete_action(list_action_type_t *act, action_type_t *a);
+int delete_action(list_action_type_t *head, list_action_type_t *act);
 
 
 // ------------------------- EFFECT FUNCTIONS ------------------------------

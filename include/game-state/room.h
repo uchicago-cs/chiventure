@@ -249,7 +249,7 @@ item_list_t *get_all_items_in_room(room_t *room);
  * Returns:
  * int SUCCESS when action's removed from linked list
  */
-int remove_condition(path_t *path, action_type_t *a);
+int remove_condition(path_t *path, list_action_type_t *a);
 
 /* Deletes a hashtable of rooms
  * Implemented with macros provided by uthash.h

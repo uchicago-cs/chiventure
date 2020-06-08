@@ -7,7 +7,7 @@
 /* helper function that creates the same list to test and takes in the 
  * action to delete as a parameter
  */
-int delete_helper(list_action_type_t *act, action_type_t *a)
+int delete_helper(list_action_type_t *act, list_action_type_t *a)
 {
     int rc;
     rc = delete_action(act, a);
@@ -45,7 +45,7 @@ Test(delete_action, delete_first)
     first->next = second;
 
     int rc;
-    rc = delete_helper(first, eat);
+    rc = delete_helper(first, first);
 
     cr_assert_eq(rc, SUCCESS, "delete_action test 1 failed");
 }
@@ -71,7 +71,7 @@ Test(delete_action, delete_middle)
     first->next = second;
 
     int rc;
-    rc = delete_helper(first, go);
+    rc = delete_helper(first, second);
 
     cr_assert_eq(rc, SUCCESS, "delete_action test 2 failed");
 }
@@ -97,7 +97,7 @@ Test(delete_action, delete_last)
     first->next = second;
 
     int rc;
-    rc = delete_helper(first, open);
+    rc = delete_helper(first, last);
 
     cr_assert_eq(rc, SUCCESS, "delete_action test 3 failed");
 }

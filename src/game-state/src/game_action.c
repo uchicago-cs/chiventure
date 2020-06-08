@@ -223,35 +223,36 @@ int all_conditions_met(item_t* item, char* action_name)
 
 
 /* See game_action.h */
-int delete_action(list_action_type_t *act, action_type_t *a)
+int delete_action(list_action_type_t *head, list_action_type_t *act)
 {
-    list_action_type_t *temp, *prev;
-    temp = act;
+    //list_action_type_t *temp, *prev;
+    //temp = act;
 
-    if (act == NULL || temp->act == NULL) 
-    {
-        return -1;
-    }
+    //if (act == NULL || temp->act == NULL) 
+    //{
+      //  return -1;
+    //}
 
-    if (temp->act == a)
-    {
-	act = act->next;
-        free(temp);
-        return SUCCESS;
-    }
+    //if (temp->act == a)
+    //{
+//	act = act->next;
+  //      free(temp);
+    //    return SUCCESS;
+    //}
 
-    while (temp != NULL && temp->act != a)
-    {
-        prev = temp;
-        temp = temp->next;
-    }
+    //while (temp != NULL && temp->act != a)
+    //{
+     //   prev = temp;
+      //  temp = temp->next;
+    //}
 
-    if (temp != NULL)
-    {
-        prev->next = temp->next;
-        free(temp);
-    }
+    //if (temp != NULL)
+    //{
+     //   prev->next = temp->next;
+      //  free(temp);
+    //}
 
+    LL_DELETE(head, act);
 
     return SUCCESS;
 }

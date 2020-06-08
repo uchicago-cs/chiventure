@@ -48,15 +48,15 @@ int delete_all_paths(path_hash_t* paths)
 }
 
 /* See room.h */
-int remove_condition(path_t *path, action_type_t *a)
+int remove_condition(path_t *path, list_action_type_t *a)
 {
     int check;
     check = delete_action(path->conditions, a);
     if (path->conditions == NULL) {
 	get_attribute(path->through, "OPEN")->attribute_value.bool_val = true;
     }
-    a->room = NULL;
-    a->direction = NULL;
+    a->act->room = NULL;
+    a->act->direction = NULL;
     return check;
 }
 
