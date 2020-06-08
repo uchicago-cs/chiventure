@@ -149,7 +149,7 @@ Test(skilltree_tests, skill_tree_node_add_safe)
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
     skill_node_t* bomb_node = skill_node_new(bomb, 0, 76);
-    int ret = skill_tree_node_add(tree,bomb_node);
+    int ret = skill_tree_node_add(tree, bomb_node);
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_add_safe\n");
     cr_assert_eq(tree->nodes[0]->skill->sid, 1000,
                  "Error: failed test skill_tree_node_add_safe\n");

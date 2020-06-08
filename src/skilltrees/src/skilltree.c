@@ -18,10 +18,12 @@ skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
          return NULL;
      }
 
-     node->skill = skill;
-     node->prereqs = NULL;
-     node->num_prereq_skills = num_prereq_skills;
-     node->size = size;
+    // Adjusting initial num_prereq_skills not yet implemented.
+    node->num_prereq_skills = 0;
+
+    node->skill = skill;
+    node->prereqs = NULL;
+    node->size = size;
  }
 
 /* See skilltree.h */
