@@ -1,17 +1,13 @@
 #include <stdio.h>
-#include "common/sample_game.h"
 #include "common/ctx.h"
 #include "ui/ui.h"
+#include "cli/operations.h"
 
 const char* banner = "SKILLTREES PRESENTATION";
 
 chiventure_ctx_t* create_example_ctx() {
-    game_t* game = create_sample_game();
-
-    chiventure_ctx_t* ctx = chiventure_ctx_new(game);
-
+    game_t *game = game_new("Welcome to the skilltrees team's presentation!");
     return ctx;
-
 }
 
 int main(int argc, char **argv) {
