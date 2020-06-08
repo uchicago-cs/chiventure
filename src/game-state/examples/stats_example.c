@@ -75,13 +75,14 @@ chiventure_ctx_t *create_sample_ctx()
     
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+    game = ctx->game;
 
     effects_global_t *poisoned, *stunned, *healed;
     HASH_FIND(hh, game->all_effects, "POISONED", strlen("POISONED"), poisoned);
     HASH_FIND(hh, game->all_effects, "STUNNED", strlen("STUNNED"), stunned);
     HASH_FIND(hh, game->all_effects, "HEALED", strlen("HEALED"), healed);
 
-    effects_global_t *boost = global_effect_new("BOOST");
+    effects_global_t *boost = global_effect_new("ENERGIZED");
     add_effect_to_game(game, boost);
 
     stats_global_t *health, *xp;
@@ -121,6 +122,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     class_t *class = class_new("class", "short", "long", NULL, sh, eh);
 
+    game->curr_player->player_class = class;
 
     return ctx;
 }
