@@ -1,4 +1,4 @@
-set(CLI_EXAMPLES stats_example)
+set(STATS_EXAMPLES stats_example)
 
 add_executable(stats_example
                stats_example.c)

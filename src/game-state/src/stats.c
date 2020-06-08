@@ -263,7 +263,7 @@ char *display_stat_effects(effects_hash_t *hash)
         strcat(list, line);
         LL_FOREACH(effect->stat_list, mod)
         {
-            sprintf(line, "\t[ %s ] modifier: %d, duration: %d\n", 
+            sprintf(line, "\t[ %s ] modifier: %f, duration: %d\n", 
                     mod->stat->key, mod->modifier, mod->duration);
             strcat(list, line);
         }
