@@ -122,61 +122,6 @@ Test (stats, stat_effect_new)
 }
 
 
-stats_hash_t *add_stats(int type) {
-
-   stats_hash_t *sh = NULL;
-
-   stats_global_t g1;
-   g1.name = "health";
-   g1.max = 100;
-
-   stats_global_t g2;
-   g2.name = "charisma";
-   g2.max = 200;
-
-   stats_global_t g3;
-   g3.name = "charisma";
-   g3.max = 200;
-
-   stats_t s1;
-   s1.key = "health";
-   s1.global = &g1;
-   s1.val = 50;
-   s1.max = 75;
-   s1.modifier = 1.1;
-
-   stats_t s2;
-   s2.key = "charisma";
-   s2.global = &g2;
-   s2.val = 75;
-   s2.max = 130;
-   s2.modifier = 1;
-
-   stats_t s3;
-   s3.key = "strength";
-   s3.global = &g3;
-   s3.val = 20;
-   s3.max = 92;
-   s3.modifier = 2;
-
-   int rc1, rc2, rc3;
-
-   if (type == 1) {
-        rc1 = add_stat_player(&sh, &s1);
-    } else if  (type == 2) {
-        rc1 = add_stat_player(&sh, &s1);
-        rc2 = add_stat_player(&sh, &s2);
-    } else if  (type == 3) {
-        rc1 = add_stat_player(&sh, &s1);
-        rc2 = add_stat_player(&sh, &s2);
-        rc3 = add_stat_player(&sh, &s3);
-    }
-
-   return sh;
-}
-
-
-
 Test(stats, change_stat) {
     stats_hash_t *sh = NULL;
     stats_global_t g1;
@@ -256,8 +201,3 @@ Test(stats, get_stat_current){
     cr_assert_eq(s1_value, 100, "get_stat_current global max failed");
     
 }
-
-/*Test(stats, get_stat_max) {}
-
-
-Test(stats, get_stat_mod) {}*/

@@ -75,7 +75,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
         return FAILURE;
     }
 
-    stats_hash_t *curr;
+    stats_t *curr;
     
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
@@ -85,19 +85,11 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
     
     int changed_stat = curr->val + change;
 
-    if (changed_stat > curr->global->max) {
+    if ((changed_stat > curr->global->max) || (changed_stat > curr->max)) {
         curr->val = curr->max;
-    }
-
-    if (changed_stat > curr->max) {
-        curr->val = curr->max;
-    }else{
+    } else {
         curr->val = changed_stat;
     }
-
-    
-    
-    
 
    return 0;
 }
@@ -116,7 +108,7 @@ double get_stat_current(stats_hash_t *sh, char *stat)
     if (curr == NULL) {
        return FAILURE;
     }
-    double res = (curr -> modifier) * (curr -> val);
+    double res = (curr->modifier) * (curr->val);
 
     if (res > curr -> global -> max) {
         res = curr -> global -> max;
@@ -131,7 +123,7 @@ double get_stat_max(stats_hash_t *sh, char *stat)
         return FAILURE;
     }
 
-    stats_hash_t *curr;
+    stats_t *curr;
     
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
@@ -139,7 +131,7 @@ double get_stat_max(stats_hash_t *sh, char *stat)
        return FAILURE;
     }
     
-    return (curr -> max);
+    return (curr->max);
 }
 
 /* See stats.h */
@@ -157,7 +149,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
        return FAILURE;
     }
     
-    return (curr -> modifier);
+    return (curr->modifier);
 }
 
 /* See stats.h */
