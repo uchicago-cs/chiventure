@@ -36,8 +36,18 @@ int free_object(object_t *obj)
     return SUCCESS;
 }
 
-/* See wdl/objstore.h for documentation */
-obj_attr_t* get_obj_attribute(object_t* obj, char* name)
+/*
+ * Helper function for
+ * get_object_wdl: retrieves an object from a .wdz archive.
+ *
+ * params: 
+ *   - type: the type of the object corresponding to its .wdz subfile.
+ *   - id: the object's id.
+ * 
+ * returns:
+ *   - a pointer to the requested object as a obj_t struct member.
+ */
+object_t* get_object_wdl(objtype_t type, char* id)
 {
     obj_attr_t *attr = find_attr(&(obj->attrs), name);
 
@@ -92,8 +102,8 @@ int init_asset(asset_t *asset, assettype_t type, char* filename)
     return SUCCESS; 
 }
 
-/* see wdl/object.h for documentation */
-int free_asset(asset_t *asset)
+/* See wdl/object.h for documentation */
+obj_attr_t* get_obj_attribute(object_t* obj, char* name)
 {
     if (asset->asset != NULL)
     {

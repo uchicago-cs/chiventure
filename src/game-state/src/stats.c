@@ -2,18 +2,60 @@
 #define MIN_STRING_LENGTH 2
 #define MAX_NAME_LENGTH 50
 
-/* See stats.h */
-int stats_init(stats_t *s, char *stats_name, double init)
+/* See stats.h*/
+int stats_global_init(stats_global_t *s, char *name, double max)
 {
-    printf("stats_init: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    assert(s != NULL);
+    s->name = strdup(name);
+    s->max = max;
+    return SUCCESS;
+}
+
+/* See stats.h*/
+stats_global_t *stats_global_new(char *name, double max)
+{
+    stats_global_t *global_stat;
+    global_stat = malloc(sizeof(stats_global_t));
+
+    int check = stats_global_init(global_stat, name, max);
+    if (check != SUCCESS)
+    {
+        return NULL;
+    }
+
+    return global_stat;
 }
 
 /* See stats.h */
-stats_t *stats_new(char *stats_name, double init)
+int stats_init(stats_t *stat, stats_global_t *global_stat, double init)
 {
-    printf("stats_new: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    assert(stat != NULL);
+    if (init > global_stat->max)
+    {
+        init = global_stat->max;
+    }
+
+    stat->key = strdup(global_stat->name);
+    stat->val = init;
+    stat->max = init;
+    stat->global = global_stat;
+    stat->modifier = 1;
+    return SUCCESS;
+}
+
+/* See stats.h */
+stats_t *stats_new(stats_global_t *global_stat, double init)
+{
+    stats_t *new_stat;
+    new_stat = malloc(sizeof(stats_t));
+
+    int check = stats_init(new_stat, global_stat, init);
+
+    if (check != SUCCESS)
+    {
+        return NULL;
+    }
+    return new_stat;
 }
 
 /* See stats.h */
@@ -59,12 +101,34 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
 
     int check = stat_effect_init(effect, global);
     
-    if(check != SUCCESS || effect == NULL || effect->global == NULL)
+    if (check != SUCCESS || effect == NULL || effect->global == NULL)
     {
         return NULL;
     }
 
     return effect;
+}
+
+/* See stats.h */
+int stat_mod_init(stat_mod_t *mod, stats_t *stat, double modifier, int duration) {
+    assert(mod != NULL);
+    mod->stat = stat;
+    mod->modifier = modifier;
+    mod->duration = duration;
+    return SUCCESS;
+}
+
+/* See stats.h */
+stat_mod_t *stat_mod_new(stats_t *stat, double modifier, int duration) {
+    stat_mod_t *s = malloc(sizeof(stat_mod_t));
+
+    int check = stat_mod_init(s, stat, modifier, duration);
+
+    if (check != SUCCESS || s == NULL || s->stat == NULL) {
+        return NULL;
+    }
+
+    return s;
 }
 
 /* See stats.h */
@@ -96,7 +160,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
 }
 
 /* See stats.h */
-int add_stat_player(stats_hash_t **sh, stats_t *s)
+int add_stat(stats_hash_t **sh, stats_t *s)
 {
     stats_t *check;
     
@@ -135,10 +199,94 @@ char* display_stats(stats_hash_t *s)
 }
 
 /* See stats.h */
-int free_stats(stats_hash_t *s)
+int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect) {
+    stat_effect_t *check;
+    HASH_FIND(hh, *hash, effect->key, strlen(effect->key), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //the effect already exists in the player hash table
+    }
+
+    HASH_ADD_KEYPTR(hh, *hash, effect->key, strlen(effect->key), effect);
+    return SUCCESS;
+}
+
+/* See stats.h */
+int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2) {
+    return strcmp(m1->stat->key, m2->stat->key);
+}
+
+/* See stats.h */
+int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats, 
+                 double *intensities, int *durations, int num_stats) {
+                     
+    add_stat_effect(hash, effect);
+    stat_effect_t *player_effect;
+    HASH_FIND(hh, *hash, effect->key, strlen(effect->key), player_effect);
+
+    stat_mod_t *new, *tmp;
+    for (int i = 0; i < num_stats; i++) {
+        stats[i]->modifier *= intensities[i];
+        stat_mod_t *new = stat_mod_new(stats[i], intensities[i], durations[i]);
+        LL_SEARCH(player_effect->stat_list, tmp, new, stat_mod_equal);
+        if (tmp != NULL) {
+            tmp->modifier = new->modifier;
+            tmp->duration = new->duration;
+            free_stat_mod(new);
+        } else {
+            LL_APPEND(player_effect->stat_list, new);
+        }
+    }
+
+    return SUCCESS;
+}
+
+/* See stats.h */
+int free_stats(stats_t *stat)
 {
-    printf("free_stats: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    free(stat->key);
+    free(stat);
+    return SUCCESS;
+}
+
+/* See stats.h */
+int free_stats_global(stats_global_t *gs)
+{
+    free(gs->name);
+    free(gs);
+    return SUCCESS;
+}
+
+/* See stats.h */
+int free_stats_table(stats_hash_t *stats_table)
+{
+    stats_t *current_stat, *tmp;
+    HASH_ITER(hh, stats_table, current_stat, tmp)
+    {     
+        HASH_DEL(stats_table, current_stat);
+        free_stats(current_stat);
+    }
+    return SUCCESS;
+}
+
+/* See stats.h */
+int free_stats_global_table(stats_global_hash_t *gst)
+{
+    stats_global_t *current_gs, *tmp;
+    HASH_ITER(hh, gst, current_gs, tmp)
+    {     
+        HASH_DEL(gst, current_gs);
+        free_stats_global(current_gs);
+    }
+    return SUCCESS;
+}
+
+/* See stats.h */
+int free_stat_mod(stat_mod_t *mod) 
+{
+    free(mod);
+    return SUCCESS;
 }
 
 /* See stats.h */

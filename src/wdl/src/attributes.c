@@ -41,7 +41,9 @@ obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void * d)
     obj_attr_t *new = find_attr(attrs, id); // see if key already exists in hash
     if (new == NULL) {
         new =  new_attr(id, d);
-        if (new == NULL) return NULL;
+        if (new == NULL) {
+            return NULL;
+        }
         HASH_ADD_STR(*attrs, id, new);
     } else {
         new->data = d;
@@ -103,13 +105,16 @@ int free_attr(obj_attr_t *head, obj_attr_t *a)
 /* See attributes.h for documentation */
 int free_attr_list(obj_attr_t **attrs, obj_attr_t *head)
 {
-    if ((attrs == NULL)|(head == NULL)) return FAILURE;
+    if ((attrs == NULL)||(head == NULL))
+        return FAILURE;
     
     HASH_DEL(*attrs, head);
     
     obj_attr_t *elt, *tmp;
     DL_FOREACH_SAFE(head, elt, tmp) {
-        if (head == NULL) return SUCCESS;
+        if (head == NULL) {
+            return SUCCESS;
+        }
         DL_DELETE(head, elt);
         free(elt);
     }
