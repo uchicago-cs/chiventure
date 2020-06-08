@@ -5,13 +5,13 @@
 #include "player.h"
 #include "item.h"
 
-// /* Forward declaration. Full typedef can be found in game.c */
+/* Forward declaration. Full typedef can be found in game.c */
  typedef struct game game_t;
 
 
 typedef struct attribute_condition{
     item_t *item;
-    attribute_t *attribute_to_check; //pointer to attribute
+    attribute_t *attribute_to_check;
     attribute_value_t expected_value;
 } attribute_condition_t;
 
@@ -36,7 +36,7 @@ typedef struct condition{
 /* This typedef is to distinguish between condition_t
 * pointers which are used to point to the condition_t structs
 * in the traditional sense, and those which are used to enable UTLIST functionality
-* on the ondition_t structs as specified in src/common/include
+* on the condition_t structs as specified in src/common/include
 */
 typedef struct condition condition_list_t;
 

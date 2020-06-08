@@ -2,7 +2,19 @@
 #include "game-state/game.h"
 
 
-/* helper for valid_condition */
+/* helper for valid_condition. Checks if the attribute condition's
+ * item to check actually exists within the game, and if the 
+ * attribute itself is valid
+ * 
+ * Parameters:
+ *  pointer to a game struct
+ *  pointer to an attribute condition to check
+ * 
+ * Returns:
+ *  SUCCESS if condition is valid
+ *  ITEM_MODIFY_NULL if the item does not exist in the game or is null
+ *  ATTRIBUTE_NULL if the attribute does not exist in the item or is null  
+ */
 int valid_attr_condition(game_t *game, attribute_condition_t *condition)
 {
 
@@ -26,7 +38,18 @@ int valid_attr_condition(game_t *game, attribute_condition_t *condition)
     return SUCCESS;
 }
 
-/* helper for valid_condition */
+/* helper for valid_condition. Checks if the inventory condition's 
+ * item and player to check actually exist within the game
+ * 
+ * Parameters:
+ *  pointer to a game struct
+ *  pointer to an inventory condiiton to check
+ * 
+ * Returns:
+ *  SUCCESS if condition is valid
+ *  ITEM_MODIFY_NULL if the item does not exist in the game or is null
+ *  PLAYER_NULL if the player does not exist in the game or is null  
+ */
 int valid_inven_condition(game_t *game, inventory_condition_t *condition)
 {
 
@@ -108,7 +131,15 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
     return condition_wrapper;
 }
 
-/* helper for check_condition */
+/* helper for check_condition. Matches the item's attribute with the
+ * attribute to see if they are the same.
+ * 
+ * Parameters:
+ *  the attribute condition to check
+ * 
+ * Returns:
+ *  true if the item attribute correctly matches, false otherwise 
+ *  */
 bool check_attribute_condition(attribute_condition_t *condition)
 {
     //check if NULL attribute, return true if true
@@ -178,7 +209,15 @@ condition_t *inventory_condition_new(player_t *player, item_t *expected_item)
     return condition_wrapper;
 }
 
-/* helper for check_condition */
+/* helper for check_condition. Checks if the condition's specified item
+ * exists in the player's inventory.
+ * 
+ * Parameters:
+ *  the inventory condition to check
+ * 
+ * Returns:
+ *  true if item is in inventory, false otherwise
+ */
 bool check_inventory_condition(inventory_condition_t *condition)
 {
     return item_in_inventory(condition->player_to_check, condition->expected_item);
