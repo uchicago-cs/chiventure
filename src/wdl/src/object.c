@@ -7,7 +7,7 @@
 /* See wdl/object.h for documentation */
 object_t* new_object(char *id, objtype_t type)
 {
-    object_t* obj = (object_t*) malloc(sizeof(object_t*));
+    object_t* obj = malloc(sizeof(object_t));
     
     init_object(obj, id, type);
 
@@ -17,7 +17,7 @@ object_t* new_object(char *id, objtype_t type)
 /* See wdl/object.h for documentation */
 int init_object(object_t *obj, char *id, objtype_t type)
 {
-    if(obj == NULL || id == char *id)
+    if(obj == NULL || id == NULL)
     {
         printf("ERROR -init_object: Couldn't initialize object.\n");        
 
@@ -34,8 +34,9 @@ int init_object(object_t *obj, char *id, objtype_t type)
 int obj_free(object_t *obj)
 {
     free(obj);
+    // also free the associated attrs hash here, once that is available
     
-    return 0;
+    return SUCCESS;
 }
 
 /* See wdl/objstore.h for documentation */
@@ -47,9 +48,9 @@ obj_attr_t* get_obj_attribute(object_t* obj, char* name)
 }
 
 /* see wdl/object.h for documentation */
-asset_t new_asset(assettype_t type, char* filename, FILE* file)
+asset_t *new_asset(assettype_t type, char* filename, FILE* file)
 {
-    asset_t asset = malloc(sizeof(asset_t));
+    asset_t *asset = malloc(sizeof(asset_t));
     if (asset == NULL)
     {
         printf("ERROR - new_asset: Could not allocate memory for asset.\n");
@@ -65,7 +66,7 @@ asset_t new_asset(assettype_t type, char* filename, FILE* file)
         printf("ERROR - new_asset: Could not allocate memory for asset.\n");
         return NULL;
     }
-    if (init_asset(asset, type, filename, file) != EXIT_SUCCESS)
+    if (init_asset(asset, type, filename, file) != SUCCESS)
     {
         printf("ERROR - new_asset: Could not allocate memory for asset.\n");
         free_asset(asset);
@@ -80,13 +81,13 @@ int init_asset(asset_t *asset, assettype_t type, char* filename, FILE* file)
     if (asset == NULL || filename == NULL)
     {
         printf("ERROR - init_asset: could not initialize asset.\n");
-        return EXIT_FAILURE;
+        return FAILURE;
     }
     asset->type = type;
     asset->filename = filename;
     asset->asset = file;
 
-    return EXIT_SUCCESS; 
+    return SUCCESS; 
 }
 
 /* see wdl/object.h for documentation */
@@ -97,13 +98,14 @@ int free_asset(asset_t *asset)
         fclose(asset->asset);
     }
     free(asset);
-    return EXIT_SUCCESS;
+    return SUCCESS;
 }
 
 /* See wdl/object.h for documentation */
 asset_t* get_asset(assettype_t type, char* filename)
 {
-     return NULL;
+    // not implemented yet
+    return NULL;
 }
 
 /* See wdl/object.h for docomentation */
