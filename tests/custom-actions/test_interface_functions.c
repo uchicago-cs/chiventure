@@ -55,7 +55,7 @@ Test(Interface,bad_branch_custom_action) {
     printf("Did we crash here\n");
     block_t* block = (block_t*)new_branch;
     printf("Did we crash here2\n");
-    AST_block_t* ast = malloc(sizeof(ast));
+    AST_block_t* ast = malloc(sizeof(AST_block_t));
     ast->block = block;
     ast->block_type = BRANCH;
     ast->prev= NULL;
