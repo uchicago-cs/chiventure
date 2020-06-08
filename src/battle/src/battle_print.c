@@ -76,6 +76,8 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
         dmg = damage(b->player, move, b->enemy);
     }
 
+    printf("damage did %d\n", dmg);
+
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s! It did %d damage.\n",
