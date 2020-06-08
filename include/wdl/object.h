@@ -119,7 +119,7 @@ int free_object(object_t *obj);
  * returns:
  *   - a pointer to the requested attribute as an attribute_t struct member
  */
-obj_attr_t* get_obj_attribute(object_t* obj, char* name);
+obj_attr_t *get_obj_attribute(object_t* obj, char* name);
 
 /*
  * new_asset: creates a new asset with identifier filename
@@ -169,8 +169,18 @@ int free_asset(asset_t *asset);
  * returns:
  *   - a pointer to the requested asset as an asset_t struct member.
  */
-asset_t* get_asset(assettype_t type, char* filename);
+asset_t *get_asset(assettype_t type, char* filename);
 
-objtype_t strToOType(char *type);
+/*
+ * Converts a string to an objtype_t
+ *
+ * Parameters:
+ *   - type: a string representing the type
+ *
+ * Returns:
+ *   - An objtype_t
+ *
+ */
+objtype_t str_to_objtype(char *type);
 
 #endif /* INCLUDE_OBJECT_H */

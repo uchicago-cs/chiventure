@@ -1,7 +1,7 @@
 #include "wdl/object.h"
 
 /* See wdl/object.h for documentation */
-object_t* new_object(char *id, objtype_t type)
+object_t *new_object(char *id, objtype_t type)
 {
     object_t* obj = malloc(sizeof(object_t));
     
@@ -15,7 +15,7 @@ int init_object(object_t *obj, char *id, objtype_t type)
 {
     if(obj == NULL || id == NULL)
     {
-        printf("ERROR -init_object: Couldn't initialize object.\n");        
+        fprintf(stderr, "ERROR -init_object: Couldn't initialize object.\n");        
 
         return FAILURE;
     }
@@ -33,13 +33,12 @@ int free_object(object_t *obj)
     free_attr_hash(&(obj->attrs));
 
     free(obj);
-    // also free the associated attrs hash here, once that is available
     
     return SUCCESS;
 }
 
 /* See wdl/object.h for documentation */
-obj_attr_t* get_obj_attribute(object_t* obj, char* name)
+obj_attr_t *get_obj_attribute(object_t* obj, char *name)
 {
     obj_attr_t *attr = find_attr(&(obj->attrs), name);
 
@@ -52,27 +51,35 @@ obj_attr_t* get_obj_attribute(object_t* obj, char* name)
 }
 
 /* see wdl/object.h for documentation */
-asset_t *new_asset(assettype_t type, char* filename)
+asset_t *new_asset(assettype_t type, char *filename)
 {
     asset_t *asset = malloc(sizeof(asset_t));
     if (asset == NULL)
     {
-        printf("ERROR - new_asset: Could not allocate memory for asset.\n");
+        fprintf(stderr, 
+                "ERROR - new_asset: Could not allocate memory for asset.\n");
+
         return NULL;
     }
     if (&(asset->type) == NULL)
     {
-        printf("ERROR - new_asset: Could not allocate memory for asset.\n");
+        fprintf(stderr,
+               "ERROR - new_asset: Could not allocate memory for asset.\n");
+
         return NULL;
     }
     if (asset->filename == NULL)
     {
-        printf("ERROR - new_asset: Could not allocate memory for asset.\n");
+        fprintf(stderr, 
+               "ERROR - new_asset: Could not allocate memory for asset.\n");
+
         return NULL;
     }
     if (init_asset(asset, type, filename) != SUCCESS)
     {
-        printf("ERROR - new_asset: Could not allocate memory for asset.\n");
+        fprintf(stderr,
+                "ERROR - new_asset: Could not allocate memory for asset.\n");
+
         free_asset(asset);
         return NULL;
     }
@@ -80,11 +87,13 @@ asset_t *new_asset(assettype_t type, char* filename)
 }
 
 /* see wdl/object.h for documentation */
-int init_asset(asset_t *asset, assettype_t type, char* filename)
+int init_asset(asset_t *asset, assettype_t type, char *filename)
 {
     if (asset == NULL || filename == NULL)
     {
-        printf("ERROR - init_asset: could not initialize asset.\n");
+        fprintf(stderr,
+                "ERROR - init_asset: could not initialize asset.\n");
+
         return FAILURE;
     }
     asset->type = type;
@@ -106,14 +115,14 @@ int free_asset(asset_t *asset)
 }
 
 /* See wdl/object.h for documentation */
-asset_t* get_asset(assettype_t type, char* filename)
+asset_t *get_asset(assettype_t type, char filename)
 {
     // not implemented yet
     return NULL;
 }
 
 /* See wdl/object.h for docomentation */
-objtype_t strToOType(char *type)
+objtype_t str_to_objtype(char *type)
 {
     if(strcmp(type,"NONE") == 0)
     {

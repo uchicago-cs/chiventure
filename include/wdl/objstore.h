@@ -51,7 +51,7 @@ objstore_t *new_objstore(object_t *o);
  * returns:
  *   - a pointer to the requested objstore item
  */
-objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type);
+objstore_t *find_objstore(objstore_t **obj_store, char* id, objtype_t type);
 
 /* 
  * add_obj: given unique object, add to obj_store hash table 
@@ -92,6 +92,6 @@ int free_all_objstore(objstore_t **object_store);
  * returns:
  *   - a pointer to the requested object as a obj_t struct member.
  */
-object_t* get_object(objstore_t **ht, char* type, char* id);
+object_t *get_object(objstore_t **ht, char* type, char* id);
 
 #endif

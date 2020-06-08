@@ -16,7 +16,7 @@ objstore_t *new_objstore(object_t *o)
 }
 
 /* See obj_store.h for documentation */
-objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type)
+objstore_t *find_objstore(objstore_t **obj_store, char *id, objtype_t type)
 {
     objstore_t *res;
     objkey_t tmp;
@@ -80,7 +80,7 @@ int free_all_objstore(objstore_t **obj_store)
  * returns:
  *   - a pointer to the requested object as a obj_t struct member.
  */
-object_t* get_object_wdl(objstore_t** ht, objtype_t type, char* id)
+object_t *get_object_wdl(objstore_t **ht, objtype_t type, char *id)
 {
     objstore_t *objs = find_objstore(ht, id, type);
 
@@ -95,7 +95,7 @@ object_t* get_object_wdl(objstore_t** ht, objtype_t type, char* id)
 }
 
 /* See wdl/objstore.h for documentation */
-object_t* get_object(objstore_t** ht, char* type, char* id)
+object_t *get_object(objstore_t **ht, char *type, char *id)
 {
     objtype_t tp;
 
