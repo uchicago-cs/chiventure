@@ -123,14 +123,16 @@ int skill_tree_free(skill_tree_t* tree) {
 int skill_tree_node_add(skill_tree_t* tree, skill_node_t* node) {
     assert(tree != NULL && node != NULL);
 
-    tree->num_nodes += 1;
     skill_node_t** n = tree->nodes;
-    if (tree->num_nodes == 1) {
+    if (tree->num_nodes == 0) {
         // First time mallocing
+        tree->num_nodes += 1;
         n = (skill_node_t**)malloc(sizeof(skill_node_t*));
     } else {
+        tree->num_nodes += 1;
         n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*tree->num_nodes);
     }
+
     n[tree->num_nodes - 1] = node;
     return SUCCESS;
 }
