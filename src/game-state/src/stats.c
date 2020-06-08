@@ -70,8 +70,43 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
 /* See stats.h */
 int change_stat(stats_hash_t *sh, char *stat, double change)
 {
-    printf("change_stat: function not yet implemented\n");
-    return 0; // still needs to be implemented
+     
+    if (sh == NULL) {
+        printf("Error: insert valid hash table");
+        exit(1);
+    }
+
+    int i = 0;
+    int tsize = sizeof(sh);
+    stats_hash_t = *curr;
+
+     
+    for (i = 0; i < tsize; i++) {
+       if (!strcmp(sh[i].global->name, stat)) {
+           curr = &sh[i];
+       }
+    }
+
+    if (curr == NULL) {
+       printf("Error: no matching stat")
+    }
+
+    changed_stat = curr->val + change;
+
+    if (changed_stat > (curr->global)) {
+        printf("Error: changed value exceeds global maximum");
+        exit(1);
+ 
+    } else {
+        curr -> stat.val = changed_stat;
+    }
+
+
+
+   return 0;
+
+
+
 }
 
 /* See stats.h */
