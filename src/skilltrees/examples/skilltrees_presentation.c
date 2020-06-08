@@ -73,17 +73,17 @@ skill_inventory_t* inventory;
     }
 
     // Wrapper function for leveling up design skill
-    void design_level_up() {
+    void design_level_up(chiventure_ctx_t* ctx) {
         skill_level_up(design_skill);
         if (design_skill->level == 4) {
-            create_connection(game, "Design Room", "Implementation Room", "NORTH");
-            create_connection(game, "Implementation Room", "Design Room", "SOUTH");
+            create_connection(ctx->game, "Design Room", "Implementation Room", "NORTH");
+            create_connection(ctx->game, "Implementation Room", "Design Room", "SOUTH");
         }
     }
 
     // Skill CLI operation
     char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-        design_level_up();
+        design_level_up(ctx);
         return skill_execute(design_skill, "");
     }
 
