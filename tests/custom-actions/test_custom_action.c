@@ -14,10 +14,8 @@ Test(custom_action_t, new_CONTROL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
     
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -50,10 +48,8 @@ Test(custom_action_t, new_BRANCH)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
     
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -86,10 +82,8 @@ Test(custom_action_t, new_CONDITIONAL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
     
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -122,10 +116,8 @@ Test(custom_action_t, new_ACTION)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
     
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -158,10 +150,8 @@ Test(custom_action_t, init_CONTROL)
 { 
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
 
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -189,10 +179,8 @@ Test(custom_action_t, init_BRANCH)
 {  
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
     
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -220,10 +208,8 @@ Test(custom_action_t, init_CONDITIONAL)
 {  
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
     
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -251,10 +237,8 @@ Test(custom_action_t, init_ACTION)
 {  
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
     
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -282,10 +266,8 @@ Test(custom_action_t, free_CONTROL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
 
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -309,10 +291,8 @@ Test(custom_action_t, free_BRANCH)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
 
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -336,10 +316,8 @@ Test(custom_action_t, free_CONDITIONAL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
 
     char *action_name = "act_PUSH";
     char *context = "item";
@@ -363,10 +341,8 @@ Test(custom_action_t, free_ACTION)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    AST_block_t *head = AST_block_new(block, block_type, next, prev);
+    AST_block_t *head = AST_block_new(block, block_type);
 
     char *action_name = "act_PUSH";
     char *context = "item";
