@@ -40,17 +40,23 @@ int skill_node_free(skill_node_t* node) {
 /* See skilltree.h */
 int node_prereq_add(skill_node_t* node, skill_node_t* prereq) {
     assert(node != NULL && prereq != NULL);
+    //
+    // void** res;
+    //
+    // res = array_element_add((void**)node->prereqs, node->num_prereq_skills,
+    //                         (void*)prereq);
+    // if (res == NULL) {
+    //     fprintf(stderr, "node_prereq_add: addition failed\n");
+    //     return FAILURE;
+    // }
+    //
+    // node->prereqs = (skill_node_t**)res;
+    // return SUCCESS;
 
-    void** res;
-
-    res = array_element_add((void**)node->prereqs, node->num_prereq_skills,
-                            (void*)prereq);
-    if (res == NULL) {
-        fprintf(stderr, "node_prereq_add: addition failed\n");
-        return FAILURE;
-    }
-
-    node->prereqs = (skill_node_t**)res;
+    node->num_prereq_skills += 1;
+    skill_node_t** n = node->prereqs;
+    n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*node->num_prereq_skills);
+    n[node->num_prereq_skills - 1] = prereq;
     return SUCCESS;
 }
 

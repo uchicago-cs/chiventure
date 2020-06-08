@@ -163,15 +163,8 @@ Test(inventory_tests, inventory_has_skill_has_passive)
     "Error: failed test inventory_has_skill_has_passive\n");
 }
 
-/*Tests inventory_skill_levels_update. */
-Test(inventory_tests, inventory_skill_levels_update_test, .description = "Fails & Skipped (function not implemented)", .disabled = true)
-{
-  /* Function documentation and implementation are both incomplete,
-  function is not testable in current state. */
-}
-
 /* Tests inventory_skill_remove on a pasive skill that is had. */
-Test(inventory_tests, inventory_skill_remove_has_passive, .description = "Fails & Skipped", .disabled = true)
+Test(inventory_tests, inventory_skill_remove_has_passive)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
@@ -183,7 +176,7 @@ Test(inventory_tests, inventory_skill_remove_has_passive, .description = "Fails 
 }
 
 /* Tests inventory_skill_remove on an active skill that is had. */
-Test(inventory_tests, inventory_skill_remove_has_active, .description = "Fails & Skipped", .disabled = true)
+Test(inventory_tests, inventory_skill_remove_has_active)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
