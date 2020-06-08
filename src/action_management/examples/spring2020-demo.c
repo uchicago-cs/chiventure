@@ -151,16 +151,16 @@ int add_inventory_conditions(chiventure_ctx_t *ctx)
 /* Hard codes conditional room connections in the sample game */
 int add_conditional_room_connections(chiventure_ctx_t *ctx)
 {
-    room_t *bedroom = find_room_from_game(game, "bedroom");
-
-    action_type_t *OPEN = action_type_new("open door",KIND_1);
-    action_type_init_room_dir(&a, bedroom, "EAST");
+    room_t *living_room = find_room_from_game(ctx->game, "living room");
+    
+    action_type_t *act = action_type_new("OPEN", ITEM);
+    action_type_init_room_dir(act, living_room, "EAST");
 
     list_action_type_t *condition = malloc(sizeof(list_action_type_t));
-    condition->act = OPEN;
+    condition->act = act;
     condition->next = NULL;
 
-    path_t *p = path_search(bedroom, "EAST");
+    path_t *p = path_search(living_room, "EAST");
     p->conditions = condition;
 
     return 0;
