@@ -58,7 +58,6 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         res = battle_flow(ctx, player_move, args[4]);
 
         // everything below allows us to print what just happened
-        printf("goes_first determined the player goes first!\n");
         if (goes_first(ctx->game->battle) == PLAYER)
         {
             printf("goes_first determined the player goes first!\n");
