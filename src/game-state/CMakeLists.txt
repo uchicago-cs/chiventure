@@ -9,6 +9,10 @@ add_library(game-state
 
 target_include_directories(game-state PRIVATE src/)
 
+# EXAMPLES
+add_subdirectory(examples_stats
+                 EXCLUDE_FROM_ALL)
+
 
 
 
