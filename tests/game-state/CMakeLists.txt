@@ -7,6 +7,7 @@ add_executable(${TEST_EXE}
         test_player.c
         test_rooms.c
         test_stats.c
+        test_condition.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
