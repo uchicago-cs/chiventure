@@ -77,9 +77,9 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 /* See stats.h */
 int change_stat_max(stats_hash_t *sh, char *stat, double change)
 {
-    stats_t* s;
+    stats_t *s;
     HASH_FIND_STR(sh, stat, s);
-    if(s == NULL)
+    if (s == NULL)
     {
         return FAILURE;
     }
