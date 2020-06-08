@@ -153,14 +153,13 @@ Test(battle_print, print_enemy_move)
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
-    stat_t *player_stats = calloc(1, sizeof(stat_t));
     player_stats->hp = 50;
     player_stats->strength = 20;
     player_stats->defense = 12;
     player_stats->xp = 100;
     player_stats->level = 5;
     player_stats->speed = 10;
-    stat_t *enemy_stats = calloc(1, sizeof(stat_t));
+    
     enemy_stats->hp = 30;
     enemy_stats->strength = 14;
     enemy_stats->defense = 9;
