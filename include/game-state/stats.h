@@ -204,8 +204,8 @@ stat_effect_t *stat_effect_new(effects_global_t *global);
  *  sh: the hash table of stats 
  *  stat: the name/key of the stat
  *  change: the value to add to the stat. 
- *  If the value is greater than the global 
- *  max, the value is set to the global max. 
+ *  If the value is greater than the local 
+ *  max, the value is set to the local max. 
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
