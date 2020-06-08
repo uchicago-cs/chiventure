@@ -527,7 +527,7 @@ game struct's player hash table */
 Test(game_stat_effects, add_stat_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
-    stats_global_t *global_stat = stats_global_new("health");
+    stats_global_t *global_stat = stats_global_new("health", 1000);
     int rc = add_stat_to_game(game, global_stat);
 
     cr_assert_eq(rc, SUCCESS, "add_stat_to_game failed");
