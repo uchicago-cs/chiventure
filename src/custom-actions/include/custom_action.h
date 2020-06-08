@@ -36,13 +36,12 @@ typedef struct custom_action {
  * - string of characters that hold the name of the item involved
  * - string of characters that hold the type of the custom action
  * - AST block containing the current block for the custom action sequence
- * - unique hash handle for the custom action
  *
  * Returns:
  * - A custom action. 
  */
 custom_action_t* custom_action_new(char *action_name, char *context, char *item,
-                                   char *type, AST_block_t *head, UT_hash_handle hh);
+                                   char *type, AST_block_t *head);
 
 /*
  * Initializes a custom action. 
@@ -54,13 +53,12 @@ custom_action_t* custom_action_new(char *action_name, char *context, char *item,
  * - string of characters that hold the name of the item involved
  * - string of characters that hold the type of the custom action
  * - AST block containing the current block for the custom action sequence 
- * - unique hash handle for the custom action
  *
  * Returns:
  * - an integer, SUCCESS if success, FAILURE if error occurs
  */
 int custom_action_init(custom_action_t *action, char *action_name, char *context, 
-                       char *item, char *type, AST_block_t *head, UT_hash_handle hh);
+                       char *item, char *type, AST_block_t *head);
 
 /*
  * Frees a custom action. 
