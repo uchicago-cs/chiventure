@@ -251,6 +251,11 @@ char *print_item_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     item_t *item;
     HASH_FIND(hh, game->all_items, tokens[1], strlen(tokens[1]), item);
+
+    if (item == NULL) {
+        return "The item is in inventory, so its effect cannot be read.";
+    }
+
     return display_stat_effects(item->stat_effects);
 }
 
