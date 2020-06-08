@@ -116,22 +116,6 @@ int branch_block_free(branch_block_t *branch)
     free(branch);
     
     return SUCCESS; 
-<<<<<<< HEAD
-}
 
-/* See branch_block.h */
-// returns number of which outcome to run
-int branch_block_run(branch_block_t *branch) 
-{
-    for(int i = 0; i < branch->numconditionals; i++) 
-    {
-        if(conditional_block_run(branch->conditionals[i]) == TRUE)
-        {
-            //todo
-        }
-    }
-    return;
-}
-=======
 } 
 >>>>>>> 1937870049eccbe76eab655106da945a233509c2
