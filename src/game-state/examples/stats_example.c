@@ -315,10 +315,10 @@ int main(int argc, char **argv)
     add_entry("PLYR-EFFECTS", print_player_effects, NULL, ctx->table);
     add_entry("GAME-STATS", print_global_stats, NULL, ctx->table);
     add_entry("GAME-EFFECTS", print_global_effects, NULL, ctx->table);
-    add_entry("ADD STAT", add_player_stat, NULL, ctx->table);
-    add_entry("ADD EFFECT", add_player_effect, NULL, ctx->table);
-    add_entry("ITEM EFFECT", print_item_effects, NULL, ctx->table);
-    add_entry("PICK", pick_command, NULL, ctx->table);
+    add_entry("ADD-STAT", add_player_stat, NULL, ctx->table);
+    add_entry("ADD-EFFECT", add_player_effect, NULL, ctx->table);
+    add_entry("ITEM-EFFECT", print_item_effects, NULL, ctx->table);
+    add_entry("GRAB", pick_command, NULL, ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
