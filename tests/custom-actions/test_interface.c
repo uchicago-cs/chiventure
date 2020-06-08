@@ -23,7 +23,7 @@ Test(custom_action_t, add_actions)
     // adds first custom action to the game and checks for success
 
     int rc = add_custom_action_to_game(new_action1);
-    cr_assert_eq(rc, SUCCESS, "add_custom_action_to_game failed");                                                   "returned the wrong result");
+    cr_assert_eq(rc, SUCCESS, "add_custom_action_to_game failed");
 
     // creates another custom action
 
