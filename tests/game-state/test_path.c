@@ -2,8 +2,7 @@
 #include <criterion/criterion.h>
 #include "game-state/room.h"
 #include "game-state/game_state_common.h"
-#include "common-path.h"
-#include "common-room.h"
+#include "game-state/path.h"
 
 
 // BASIC PATH UNIT TESTS ------------------------------------------------------

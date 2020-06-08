@@ -19,6 +19,8 @@
 
 int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, int choose_condition, int choose_effect)
 {
+    chiventure_ctx_t *ctx_test = chiventure_ctx_new(NULL);
+    
     action_type_t *a = action_type_new(act_name, kind);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
     item_t *indirect = item_new("indirect", "The indirect item", "The indirectmost object of interest");
@@ -41,31 +43,65 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     value.int_val = 1;
     add_action_effect(ga, indirect, attr, value);
 
+
+    player_t *player = player_new("player1", 20);
+
     switch (choose_condition)
     {
+    // Attribute conditional tests
     case 1:
         set_int_attr(indirect, "DUMMYCONDITON", 0);
         attr = get_attribute(indirect, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(direct, ga, indirect, attr, value);
+        add_action_attribute_condition(ga, indirect, attr, value);
         break;
     case 2:
         set_int_attr(direct, "DUMMYCONDITON", 1);
         attr = get_attribute(direct, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(direct, ga, direct, attr, value);
+        add_action_attribute_condition(ga, direct, attr, value);
         break;
     case 3:
         set_int_attr(indirect, "DUMMYCONDITON", 0);
         attr = get_attribute(indirect, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(direct, ga, indirect, attr, value);
+        add_action_attribute_condition(ga, indirect, attr, value);
         break;
     case 4:
         set_int_attr(indirect, "DUMMYCONDITON", 1);
         attr = get_attribute(indirect, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(direct, ga, indirect, attr, value);
+        add_action_attribute_condition(ga, indirect, attr, value);
+        break;
+    
+    // Inventory conditional tests
+    case 5:
+        // Item (direct) is in player inventory
+        add_item_to_player(player, direct);
+        add_action_inventory_condition(ga, player, direct);
+        break;
+    case 6:
+        // Item (direct) is not in player inventory
+        add_item_to_player(player, direct);
+        add_action_inventory_condition(ga, player, indirect);
+        break;
+
+    // Testing multiple conditions
+    case 7:
+        add_item_to_player(player, direct);
+        add_action_inventory_condition(ga, player, direct);
+
+        set_int_attr(indirect, "DUMMYCONDITON", 0);
+        attr = get_attribute(indirect, "DUMMYCONDITON");
+        value.int_val = 0;
+        add_action_attribute_condition(ga, indirect, attr, value);
+        break;
+    case 8:
+        add_item_to_player(player, direct);
+        add_action_inventory_condition(ga, player, direct);
+
+        add_item_to_player(player, indirect);
+        add_action_inventory_condition(ga, player, indirect);
         break;
     default:
         break;
@@ -74,14 +110,14 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     switch (choose_effect)
     {
     case 0:
-        rc = do_item_item_action(a, direct, indirect, &string);
+        rc = do_item_item_action(ctx_test, a, direct, indirect, &string);
         break;
     case 1:
         set_str_attr(indirect, "DUMMYATTR", "old");
         attr = get_attribute(indirect, "DUMMYATTR");
         value.str_val = "new";
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (strcmp(get_str_attr(indirect, "DUMMYATTR"), "new") == 0)
         {
             rc = SUCCESS;
@@ -94,7 +130,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         attr = get_attribute(indirect, "DUMMYATTR");
         value.int_val = 1;
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_int_attr(indirect, "DUMMYATTR") == 1)
         {
             rc = SUCCESS;
@@ -107,7 +143,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         attr = get_attribute(indirect, "DUMMYATTR");
         value.double_val = 1.0;
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_double_attr(indirect, "DUMMYATTR") == 1.0)
         {
             rc = SUCCESS;
@@ -120,7 +156,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         attr = get_attribute(indirect, "DUMMYATTR");
         value.char_val = 'b';
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_char_attr(indirect, "DUMMYATTR") == 'b')
         {
             rc = SUCCESS;
@@ -133,7 +169,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         attr = get_attribute(indirect, "DUMMYATTR");
         value.bool_val = true;
         add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(a, direct, indirect, &string);
+        do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_bool_attr(indirect, "DUMMYATTR") == true)
         {
             rc = SUCCESS;
@@ -142,15 +178,18 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     default:
-        rc = do_item_item_action(a, direct, indirect, &string);
+        rc = do_item_item_action(ctx_test, a, direct, indirect, &string);
         break;
     }
 
+    chiventure_ctx_free(ctx_test);
     free(string);
     item_free(direct);
     item_free(indirect);
     action_type_free(a);
     game_action_free(ga);
+    // TODO: Fix player_free
+    // player_free(player);
 
     return rc;
 }
@@ -240,6 +279,7 @@ Test(item_item_actions, effect_set_boole_direct)
                  "bool attribute was not set due to effect of direct item");
 }
 
+/* Checks if the condition is met for an item */
 Test(item_item_actions, conditons_met_direct)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 1, 0);
@@ -248,6 +288,7 @@ Test(item_item_actions, conditons_met_direct)
                  "execute_do_item_item_action returned %d for conditons met for direct item attribute, expected SUCCESS (0)", rc);
 }
 
+/* Checks behavior when condition is not met */
 Test(item_item_actions, conditons_not_met_direct)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 2, 0);
@@ -256,6 +297,7 @@ Test(item_item_actions, conditons_not_met_direct)
                  "execute_do_item_item_action returned %d for conditons not met for direct item attribute, expected CONDITIONS_NOT_MET (4)", rc);
 }
 
+/* Similar, to conditions_met_direct, but for another item */
 Test(item_item_actions, conditons_met_indirect)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 3, 0);
@@ -264,10 +306,47 @@ Test(item_item_actions, conditons_met_indirect)
                  "execute_do_item_item_action returned %d for conditons met for indirect item attribute, expected SUCCESS (0)", rc);
 }
 
+/* Check behavior when condition is not met */
 Test(item_item_actions, conditons_not_met_indirect)
 {
     int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 4, 0);
 
     cr_assert_eq(rc, CONDITIONS_NOT_MET,
                  "execute_do_item_item_action returned %d for conditons not met for indirect item attribute, expected CONDITIONS_NOT_MET (4)", rc);
+}
+
+/* Checks behavior when an inventory condition is met */
+Test(item_item_actions, inv_conditions_met)
+{
+    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 5, 0);
+
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for conditons met for item in inventory, expected SUCCESS (0)", rc);
+}
+
+/* Checks behavior when an inventory condition is not met */
+Test(item_item_actions, inv_conditions_not_met)
+{
+    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 6, 0);
+
+    cr_assert_eq(rc, CONDITIONS_NOT_MET,
+                 "execute_do_item_item_action returned %d for conditons not met for item in inventory, expected CONDITIONS_NOT_MET (4)", rc);
+}
+
+/* Checks if two conditions (attribute and inventory) are able to be added and evaluated together */
+Test(item_item_actions, attr_and_inv_conditions_met)
+{
+    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 7, 0);
+
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for attribute and inventory conditons met, expected SUCCESS (0)", rc);
+}
+
+/* Checks if two conditions (two inventory) are able to be added and evaluated together */
+Test(item_item_actions, two_inv_conditions_met)
+{
+    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 7, 0);
+
+    cr_assert_eq(rc, SUCCESS,
+                 "execute_do_item_item_action returned %d for two inventory conditons met, expected SUCCESS (0)", rc);
 }

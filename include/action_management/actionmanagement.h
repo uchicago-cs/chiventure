@@ -72,6 +72,7 @@ list_action_type_t *get_supported_actions();
 /* A function that executes KIND 1 actions (ACTION <item>)
  *
  * Parameters:
+ * - c: A context struct encapsulating the shared state in chiventure
  * - a: An action type struct
  * - i: An item struct
  * - ret_string: A pointer to a string describing the result of the function
@@ -84,7 +85,7 @@ list_action_type_t *get_supported_actions();
  * - 6 if conditions for the action haven't been met, failure string as an out parameter
  * - 7 if an effect for the action wasn't applied, failure string as an out parameter
  */
-int do_item_action(action_type_t *a, item_t *i, char **ret_string);
+int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_string);
 
 /* A function that executes KIND 2 actions (ACTION <path>)
  *
@@ -105,6 +106,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 /* A function that executes KIND 3 actions (ACTION <item> <item>)
  *
  * Parameters:
+ * - c: A context struct encapsulating the shared state in chiventure
  * - a: An action type struct
  * - direct: An item struct containing the direct object (the "actor")
  * - indirect: An item struct containing the indirect object (the "actee")
@@ -124,7 +126,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
  * - EFFECT_NOT_APPLIED if the effect of using the action with the direct item was not applied
  *     to the indirect item, failure string as an out parameter
  */
-int do_item_item_action(action_type_t *a, item_t *direct,
+int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
 
 

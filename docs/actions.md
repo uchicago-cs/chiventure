@@ -233,6 +233,25 @@ K1 - Take `<ITEM>`
 ### Default:
 "I can't take the `<ITEM>`"
 
+K1 - Pick up `<ITEM>`
+--------------
+### Conditions:
+- Player must have inventory space for Item
+
+
+### Effects:
+- Take Item out of room (changes room description and state)
+- Put Item in player inventory
+- Decrease player inventory space
+
+### WDL:
+```
+        - pick_up:
+```
+
+### Default:
+"I can't pick up the `<ITEM>`"
+
 K1 - Drop `<ITEM>`
 ----------
 ### Conditions:

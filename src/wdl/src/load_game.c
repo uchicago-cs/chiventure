@@ -77,8 +77,8 @@ game_t *create_game(obj_t *doc)
         exit(0);
     }
 
-    bool check = game_type_check(game);
-    if (check == false)
+    int check = game_type_check(game);
+    if (check == FAILURE)
     {
         fprintf(stderr, "game object fails type checking\n");
         exit(0);
@@ -105,11 +105,11 @@ void debug_print(game_t *game)
             printf("direction: %s\n", curr_path->direction);
         }
 
-        item_t *curr_item;
+        item_list_t *curr_item;
 
         ITER_ALL_ITEMS_IN_ROOM(curr_room, curr_item)
         {
-            printf("item id: %s\n", curr_item->item_id);
+            printf("item id: %s\n", curr_item->item->item_id);
         }
     }
 }
