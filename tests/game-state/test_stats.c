@@ -123,7 +123,7 @@ Test (stats, stat_effect_new)
 
 
 stats_hash_t *add_stats(int type) {
-    
+
    stats_hash_t *sh = NULL;
 
    stats_global_t g1;
@@ -134,13 +134,13 @@ stats_hash_t *add_stats(int type) {
    g2.name = "charisma";
    g2.max = 200;
 
-   stats_global_t g2;
+   stats_global_t g3;
    g3.name = "charisma";
    g3.max = 200;
 
    stats_t s1;
    s1.key = "health";
-   s1.global = &g2;
+   s1.global = &g1;
    s1.val = 50;
    s1.max = 75;
    s1.modifier = 1.1;
@@ -154,20 +154,20 @@ stats_hash_t *add_stats(int type) {
 
    stats_t s3;
    s3.key = "strength";
-   s3.global = &g2;
+   s3.global = &g3;
    s3.val = 20;
    s3.max = 92;
    s3.modifier = 2;
 
-   int rc, rc1, rc2;
+   int rc1, rc2, rc3;
 
    if (type == 1) {
-        rc = add_stat_player(&sh, &s);
+        rc1 = add_stat_player(&sh, &s1);
     } else if  (type == 2) {
-        rc = add_stat_player(&sh, &s);
+        rc1 = add_stat_player(&sh, &s1);
         rc2 = add_stat_player(&sh, &s2);
     } else if  (type == 3) {
-        rc = add_stat_player(&sh, &s);
+        rc1 = add_stat_player(&sh, &s1);
         rc2 = add_stat_player(&sh, &s2);
         rc3 = add_stat_player(&sh, &s3);
     }
@@ -182,8 +182,6 @@ Test(stats, change_stat) {
   
     cr_assert_eq(sh->val, 50,
         "change_stat base value not equal initially");
-
-
 
     change_stat(sh, "strength", 10);
     cr_assert_eq(sh->val, 63,
