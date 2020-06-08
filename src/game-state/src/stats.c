@@ -238,36 +238,6 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
     }
 
     return SUCCESS;
-char *display_stat_effects(effects_hash_t *hash)
-{
-    stat_effect_t *effect, *tmp;
-    stat_mod_t *mod;
-    int count = 0, list_count = 0;
-
-    HASH_ITER(hh, hash, effect, tmp)
-    {
-        LL_COUNT(effect->stat_list, mod, list_count);
-        count += list_count;
-    }
-
-    int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * (count + HASH_COUNT(hash)));
-    char list[size];
-    char *line;
-
-    HASH_ITER(hh, hash, effect, tmp)
-    {
-        sprintf(line, "*** %s ***\n", effect->key);
-        strcat(list, line);
-        LL_FOREACH(effect->stat_list, mod)
-        {
-            sprintf(line, "\t[ %s ] modifier: %d, duration: %d\n", 
-                    mod->stat->key, mod->modifier, mod->duration);
-            strcat(list, line);
-        }
-    }
-
-    char *display = strdup(list);
-    return display;
 }
 
 /* See stats.h */
