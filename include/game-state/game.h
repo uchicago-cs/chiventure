@@ -320,14 +320,11 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
            char* item_modify_name, char* attribute_name, attribute_value_t new_value);
 
 //TODO: Change description of this
-/* add_condition creates a game_action_condition_t struct and adds it to the action pointed to
+/* add_condition adds the given condition struct to the action pointed to
  * Parameters:
  * - game_t *game
- * - action name
- * - item ID of the item containing the action
- * - item ID of the item to be modified by the action
- * - the name of attribute to be checked
- * - the desired attribute value for the attribute
+ * - game_action_t *action
+ * - the condition to add to the action
  *
  * Returns:
  * - SUCCESS upon success
@@ -336,6 +333,7 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
  * - ACTION_NULL if action is null
  * - ATTRIBUTE_NULL if attribute is null
  * - PLAYER_NULL if player is null
+ * - CONDITION_NULL if condition is null
  */
 int add_condition(game_t *game, game_action_t *action, condition_t *condition);
 

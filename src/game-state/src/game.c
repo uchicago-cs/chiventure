@@ -127,7 +127,7 @@ bool end_conditions_met(game_t *game)
     if(game->end_conditions == NULL){
         return false;
     } else {
-    return all_conditions_met(game->end_conditions);
+        return all_conditions_met(game->end_conditions);
     }
 }
 

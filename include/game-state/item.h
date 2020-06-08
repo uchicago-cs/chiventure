@@ -13,7 +13,7 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 
 /* Forward declaration. Full typedef can be found in player.h */
 typedef struct player player_t;
-/* Forward declaration. Full typedef can be found in condition.c */
+/* Forward declaration. Full typedef can be found in condition.h */
 typedef struct condition condition_list_t;
 
 // ITEM STRUCTURE DEFINITION + BASIC FUNCTIONS --------------------------------
