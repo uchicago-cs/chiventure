@@ -136,8 +136,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 {
      
     if (sh == NULL) {
-        printf("Error: insert valid hash table");
-        exit(1);
+        return FAILURE;
     }
 
     stats_hash_t *curr;
@@ -145,20 +144,13 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       printf("Error: no matching stat");
+       return FAILURE;
     }
     
     int changed_stat = curr->val + change;
 
-    if (changed_stat > curr->max){
-        changed_stat = curr->max;
-    }
-
-    if (changed_stat > (curr->global->max)) {
-        printf("Error: changed value exceeds global maximum");
-        exit(1);
-        return FAILURE;
- 
+    if (changed_stat > curr->global->max){
+        curr -> val = curr->global->max;
     } else {
         curr -> val = changed_stat;
     }
@@ -170,8 +162,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 double get_stat_current(stats_hash_t *sh, char *stat)
 {
     if (sh == NULL) {
-        printf("Error: insert valid hash table");
-        exit(1);
+        return FAILURE;
     }
 
     stats_hash_t *curr;
@@ -179,7 +170,7 @@ double get_stat_current(stats_hash_t *sh, char *stat)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       printf("Error: no matching stat");
+       return FAILURE;
     }
     double res = (curr -> modifier) * (curr -> val);
 
@@ -193,8 +184,7 @@ double get_stat_current(stats_hash_t *sh, char *stat)
 double get_stat_max(stats_hash_t *sh, char *stat)
 {
     if (sh == NULL) {
-        printf("Error: insert valid hash table");
-        exit(1);
+        return FAILURE;
     }
 
     stats_hash_t *curr;
@@ -202,7 +192,7 @@ double get_stat_max(stats_hash_t *sh, char *stat)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       printf("Error: no matching stat");
+       return FAILURE;
     }
     
     return (curr -> max);
@@ -212,8 +202,7 @@ double get_stat_max(stats_hash_t *sh, char *stat)
 double get_stat_mod(stats_hash_t *sh, char *stat)
 {
     if (sh == NULL) {
-        printf("Error: insert valid hash table");
-        exit(1);
+        return FAILURE;
     }
 
     stats_hash_t *curr;
@@ -221,7 +210,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       printf("Error: no matching stat");
+       return FAILURE;
     }
     
     return (curr -> modifier);
