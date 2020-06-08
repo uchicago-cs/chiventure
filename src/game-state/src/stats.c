@@ -81,11 +81,13 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
     stats_hash_t *curr;
 
      
-    for (i = 0; i < tsize; i++) {
-       if (!strcmp(sh[i].global->name, stat)) {
-           curr = &sh[i];
-       }
-    }
+    // for (i = 0; i < tsize; i++) {
+    //    if (!strcmp(sh[i].global->name, stat)) {
+    //        curr = &sh[i];
+    //    }
+    // }
+    
+    HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
        printf("Error: no matching stat");
@@ -93,7 +95,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 
     int changed_stat = curr->val + change;
 
-    if (changed_stat > (curr->global)) {
+    if (changed_stat > (curr->global->max)) {
         printf("Error: changed value exceeds global maximum");
         exit(1);
  
