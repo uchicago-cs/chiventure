@@ -320,26 +320,22 @@ Test (stats, apply_effect)
 
 Test(stats, change_stat) {
     stats_hash_t *sh = NULL;
-    stats_global_t g1;
+    stats_global_t* g1 = stats_global_new("health", 100);
+    stats_t *s1 = stats_new(g1, 75);
+    
+    s1->val = 50;
+    s1->modifier = 1.1;
 
-    stats_t *s1 = stats_new(&g1, 100);
-    stats_global_init(&g1, "health", 100);
+    stats_global_t* g2 = stats_global_new("charisma", 200);
+    stats_t *s2 = stats_new(g2, 130);
 
-    stats_init(&s1, &g1, 50);
-    s1.max = 75;
-    s1.modifier = 1.1;
+ 
+    s2->val = 75;
+    s2->modifier = 1;
 
-    stats_global_t g2;
-    stats_t *s2 = stats_new(&g2, 200);
-
-    stats_global_init(&g2, "charisma", 200);
-    stats_init(&s2, &g2, 75);
-    s2.max = 130;
-    s2.modifier = 1;
-
-    int rc1 = add_stat(&sh, &s1);
+    int rc1 = add_stat(&sh, s1);
     cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
-    int rc2 = add_stat(&sh, &s2);
+    int rc2 = add_stat(&sh, s2);
     stats_t* curr; 
     HASH_FIND(hh, sh, "health", strlen("health"), curr);
     cr_assert_eq(curr->val, 50,
@@ -374,20 +370,18 @@ Test(stats, change_stat) {
 
 Test(stats, get_stat_current) {
     stats_hash_t *sh = NULL;
-    stats_global_t g1;
-    stats_t *s1 = stats_new(&g1, 200);
+    stats_global_t *g1 = stats_global_new("health", 100);
+    stats_t *s1 = stats_new(g1, 75);
 
-    stats_global_init(&g1, "health", 100);
-    stats_init(&s1, &g1, 50);
-    s1.max = 75;
-    s1.modifier = 1.1;
-    int rc1 = add_stat(&sh, &s1);
+    s1->val = 50;
+    s1->modifier = 1.1;
+    int rc1 = add_stat(&sh, s1);
     cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
-    int s1_value = get_stat_current(sh, s1.key);
+    int s1_value = get_stat_current(sh, s1->key);
     cr_assert_eq(s1_value, 55, "get_stat_current failed");
 
-    s1.val = 99;
-    s1_value = get_stat_current(sh, s1.key);
+    s1->val = 99;
+    s1_value = get_stat_current(sh, s1->key);
     cr_assert_eq(s1_value, 100, "get_stat_current global max failed");
     
 }
