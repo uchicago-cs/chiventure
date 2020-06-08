@@ -260,7 +260,7 @@ int main(int argc, char **argv) {
     // Start UI for example chiventure context
     start_ui(ctx, banner);
 
-    print_to_cli("Use SKILLS to see your skill inventory at any time.");
+    print_to_cli(ctx, "Use SKILLS to see your skill inventory at any time.");
 
     // Free memory
     skill_tree_free(skill_tree);
