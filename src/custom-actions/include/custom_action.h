@@ -15,6 +15,8 @@ typedef struct AST_block AST_block_t;
 
 /* Struct to contain a custom action, as well as information about the type 
  * of custom action and a pointer to the first AST block in the custom action sequence. 
+ * If any information field does not apply to a given custom action, the field should read 
+ * "None". 
  */
 typedef struct custom_action {
     char *action_name;

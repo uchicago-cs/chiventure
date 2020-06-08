@@ -1,5 +1,5 @@
 #include "game-state/player.h"
-#include "common-item.h"
+#include "game-state/item.h"
 
 /* See player.h */
 int player_init(player_t* plyr, char* player_id, int health)
@@ -116,32 +116,30 @@ item_hash_t* get_inventory(player_t* plyr)
 /* See player.h */
 int add_item_to_player(player_t *player, item_t *item)
 {
-    item_t *check;
+    int rc;
+    
+    rc = add_item_to_hash(&(player->inventory), item);
+    
+    return rc;
+}
 
-    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
-              check);
-
-    if (check != NULL)
-    {
-        return FAILURE; //this item id is already in use.
-    }
-    HASH_ADD_KEYPTR(hh, player->inventory, item->item_id,
-                    strlen(item->item_id), item);
-    return SUCCESS;
+/* See player.h */
+int remove_item_from_player(player_t *player, item_t *item)
+{
+    int rc;
+    
+    rc = remove_item_from_hash(&(player->inventory), item);
+    
+    return rc;
 }
 
 /* See player.h */
 item_list_t *get_all_items_in_inventory(player_t *player)
 {
-    item_list_t *head = NULL;
-    item_t *ITTMP_ITEMRM, *curr_item;
-    item_list_t *tmp;
-    HASH_ITER(hh, player->inventory, curr_item, ITTMP_ITEMRM)
-    {
-        tmp = malloc(sizeof(item_list_t));
-        tmp->item = curr_item;
-        LL_APPEND(head, tmp);
-    }
+    item_list_t *head;
+    
+    head = get_all_items_in_hash(&(player->inventory));
+    
     return head;
 }
 

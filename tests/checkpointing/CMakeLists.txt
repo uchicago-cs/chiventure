@@ -14,10 +14,5 @@ endforeach(module)
 target_include_directories(${TEST_EXE} PRIVATE ${CMAKE_SOURCE_DIR}/src/checkpointing/src/)
 target_include_directories(${TEST_EXE} PRIVATE ${PROJECT_BINARY_DIR}/src/checkpointing/protobuf/)
 
-# TODO: Checkpointing uses a private header file from game-state
-#       Whatever structs they use should be moved to their public
-#       header files.
-target_include_directories(${TEST_EXE} PRIVATE ${CMAKE_SOURCE_DIR}/src/game-state/src/)
-
 add_test(NAME ${TEST_EXE}
          COMMAND ${TEST_EXE})

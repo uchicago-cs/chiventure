@@ -17,6 +17,9 @@
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
 
+#ifndef GEN_STRUCTS_H
+#define GEN_STRUCTS_H
+
 /* -- STRUCTS -- */
 
 /* roomspec_t struct
@@ -25,6 +28,7 @@
 * - char *room_name: room name and hash key
 * - char *short_desc: short description for room
 * - char *long_desc: long description for room
+* - int num_built: how many rooms of this type have been already built. An identifier.
 * - item_hash_t *items: hash table of items in room
 * - UT_hash_handle hh: hash handle for room spec
 */
@@ -32,9 +36,9 @@ typedef struct roomspec {
     char *room_name;
     char *short_desc;
     char *long_desc;
+    int num_built;
     item_hash_t *items;
-
-    UT_hash_handle hh;    
+    UT_hash_handle hh;
 } roomspec_t;
 
 /* speclist_t struct
@@ -213,3 +217,5 @@ int speclist_free(speclist_t *list);
 * FAILURE - if failed to free
 */
 int speclist_free_all(speclist_t *list);
+
+#endif

@@ -10,7 +10,10 @@ without interruption */
 Test(branch_block_t, new_EQ)
 {
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = EQ;
+    
+    // allocates a new conditional block to nest within a branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -28,12 +31,14 @@ Test(branch_block_t, new_EQ)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to nest within a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
 
+    // allocates the new branch block
     branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
-                                                  conditional_type,num_controls, &controls);
+                                                  conditional_type, num_controls, &controls);
 
     cr_assert_not_null(new_branch, "branch_block_new() failed");
 
@@ -56,7 +61,10 @@ without interruption */
 Test(branch_block_t, new_LTGT)
 {   
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = LTGT;
+    
+    // allocates a new conditional block to nest within a branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -74,11 +82,13 @@ Test(branch_block_t, new_LTGT)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to nest within a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
-    
-    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, 
+
+    // allocates the new branch block
+    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
                                                   conditional_type, num_controls, &controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
@@ -102,7 +112,10 @@ without interruption */
 Test(branch_block_t, new_LTEGTE)
 {   
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = LTEGTE;
+    
+    // allocates a new conditional block to nest within a branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -120,11 +133,13 @@ Test(branch_block_t, new_LTEGTE)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to nest within a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
-    
-    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, 
+
+    // allocates the new branch block
+    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
                                                   conditional_type, num_controls, &controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
@@ -148,7 +163,10 @@ without interruption */
 Test(branch_block_t, new_IN)
 {   
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = IN;
+    
+    // allocates a new conditional block to nest within a branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -166,11 +184,13 @@ Test(branch_block_t, new_IN)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to nest within a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
-    
-    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals, 
+
+    // allocates the new branch block
+    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
                                                   conditional_type, num_controls, &controls);
     
     cr_assert_not_null(new_branch, "branch_block_new() failed");
@@ -195,7 +215,10 @@ without interruption */
 Test(branch_block_t, new_AST_EQ)
 {
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = EQ;
+    
+    // allocates a new conditional block to be nested in the branch and AST blocks
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -213,11 +236,13 @@ Test(branch_block_t, new_AST_EQ)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to be nested in the branch and AST blocks
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
     block_type_t block_type = BRANCH;
     
+    // allocates a new AST (type branch) block
     AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
                                                 conditional_type, num_controls, &controls);
 
@@ -244,7 +269,10 @@ without interruption */
 Test(branch_block_t, new_AST_LTGT)
 {
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = LTGT;
+    
+    // allocates a new conditional block to be nested in the branch and AST blocks
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -262,11 +290,13 @@ Test(branch_block_t, new_AST_LTGT)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to be nested in the branch and AST blocks
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
     block_type_t block_type = BRANCH;
     
+    // allocates a new AST (type branch) block
     AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
                                                 conditional_type, num_controls, &controls);
 
@@ -293,7 +323,10 @@ without interruption */
 Test(branch_block_t, new_AST_LTEGTE)
 {
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = LTEGTE;
+    
+    // allocates a new conditional block to be nested in the branch and AST blocks
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -311,11 +344,13 @@ Test(branch_block_t, new_AST_LTEGTE)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to be nested in the branch and AST blocks
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
     block_type_t block_type = BRANCH;
     
+    // allocates a new AST (type branch) block
     AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
                                                 conditional_type, num_controls, &controls);
 
@@ -342,7 +377,10 @@ without interruption */
 Test(branch_block_t, new_AST_IN)
 {
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = IN;
+    
+    // allocates a new conditional block to be nested in the branch and AST blocks
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -360,11 +398,13 @@ Test(branch_block_t, new_AST_IN)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to be nested in the branch and AST blocks
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
     block_type_t block_type = BRANCH;
     
+    // allocates a new AST (type branch) block
     AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
                                                 conditional_type, num_controls, &controls);
 
@@ -393,7 +433,10 @@ Test(branch_block_t, init_EQ)
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = EQ;
+    
+    // allocates a new conditional block to nest inside the branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -411,10 +454,12 @@ Test(branch_block_t, init_EQ)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to nest inside the branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
 
+    // initializes a new branch block
     rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
                            num_controls, &controls);
 
@@ -438,7 +483,10 @@ Test(branch_block_t, init_LTGT)
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = LTGT;
+    
+    // allocates a new conditional block to nest inside the branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -456,10 +504,12 @@ Test(branch_block_t, init_LTGT)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to nest inside the branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
 
+    // initializes a new branch block
     rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
                            num_controls, &controls);
 
@@ -483,7 +533,10 @@ Test(branch_block_t, init_LTEGTE)
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = LTEGTE;
+    
+    // allocates a new conditional block to nest inside the branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -501,10 +554,12 @@ Test(branch_block_t, init_LTEGTE)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to nest inside the branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
 
+    // initializes a new branch block
     rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
                            num_controls, &controls);
 
@@ -528,7 +583,10 @@ Test(branch_block_t, init_IN)
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = IN;
+    
+    // allocates a new conditional block to nest inside the branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -546,10 +604,12 @@ Test(branch_block_t, init_IN)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to nest inside the branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
 
+    // initializes a new branch block
     rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
                            num_controls, &controls);
 
@@ -573,7 +633,10 @@ Test(branch_block_t, free_EQ)
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = EQ;
+    
+    // allocates a new conditional block to nest inside a branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -591,10 +654,12 @@ Test(branch_block_t, free_EQ)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to be nested inside a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
     
+    // allocates a new branch block to be freed
     branch = branch_block_new(num_conditionals, &conditionals, conditional_type,  
                               num_controls, &controls);
 
@@ -612,7 +677,10 @@ Test(branch_block_t, free_LTGT)
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = LTGT;
+    
+    // allocates a new conditional block to nest inside a branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -630,11 +698,13 @@ Test(branch_block_t, free_LTGT)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to be nested inside a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
-
-    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,
+    
+    // allocates a new branch block to be freed
+    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,  
                               num_controls, &controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
@@ -651,7 +721,10 @@ Test(branch_block_t, free_LTEGTE)
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = LTEGTE;
+    
+    // allocates a new conditional block to nest inside a branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -669,11 +742,13 @@ Test(branch_block_t, free_LTEGTE)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to be nested inside a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
-
-    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,
+    
+    // allocates a new branch block to be freed
+    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,  
                               num_controls, &controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
@@ -690,7 +765,10 @@ Test(branch_block_t, free_IN)
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
+    int num_controls = 1;
     conditional_type_t conditional_type = IN;
+    
+    // allocates a new conditional block to nest inside a branch block
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -708,11 +786,13 @@ Test(branch_block_t, free_IN)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    int num_controls = 1;
+    
+    // allocates a new control block to be nested inside a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
-
-    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,
+    
+    // allocates a new branch block to be freed
+    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,  
                               num_controls, &controls);
 
     cr_assert_not_null(branch, "branch_block_new() failed");
