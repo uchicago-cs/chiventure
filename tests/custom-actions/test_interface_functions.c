@@ -9,12 +9,13 @@
 
 /* Checks that an empty custom_action fails */
 Test(Interface,null_custom_action) {
-    custom_action_t* ca = custom_action_new("test","test","test","test",NULL);  
+    custom_action_t* ca = custom_action_new("test","test","test","test",NULL,NULL);  
     cr_assert_eq(do_custom_action(NULL),FAILURE, "do_custom_action didn't check for NULL input");
     cr_assert_eq(do_custom_action(ca),SUCCESS, "do_custom_action incorrectly checked for a NULL head");
 }
 /* Checks that a custom_action with a bad branch block fails */
 Test(Interface,bad_branch_custom_action) {
+    conditional_type_t conditional_type = LT;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -39,7 +40,8 @@ Test(Interface,bad_branch_custom_action) {
 
     // allocates the new branch block
     branch_block_t* new_branch = branch_block_new(1, &conditionals, conditional_type, 2, &controls);
-    custom_action_t* ca = custom_action_new("act_PUSH","item","obj_CHAIR","paladin");
+    AST_block_t* ast = AST_block_new(new_branch,BRANCH,1,NULL);
+    custom_action_t* ca = custom_action_new("act_PUSH","item","obj_CHAIR","paladin",ast,NULL);
 
     cr_assert_eq(do_custom_action(ca),FAILURE, "do_custom_action didn't recognize branch block had wrong arguments");
 }
