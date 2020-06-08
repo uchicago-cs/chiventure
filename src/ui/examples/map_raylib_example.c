@@ -14,7 +14,11 @@ int main(void)
     int centerYPos, centerXPos, radius;
     int posX = screenWidth/4, posY = 170;
 
-    InitWindow(screenWidth, screenHeight, "Chiventure 5 Room Map Example");
+    InitWindow(screenWidth, screenHeight, "Chiventure 5 Room Map Example (with cursor)");
+
+    /* This is for initialization of a movable ball that could later function as a pointer/cursor for the player. */
+    Vector2 cursorBallPosition = {(float) screenWidth / 2, (float) screenHeight / 2};
+    Color cursorBallColor = WHITE;
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -44,6 +48,18 @@ int main(void)
 
     while (!WindowShouldClose())   
     {
+
+        /* Updates ball cursor with arrow keys or WASD*/
+        if (IsKeyDown(KEY_RIGHT)) cursorBallPosition.x += 5.0f;
+        if (IsKeyDown(KEY_LEFT)) cursorBallPosition.x -= 5.0f;
+        if (IsKeyDown(KEY_UP)) cursorBallPosition.y -= 5.0f;
+        if (IsKeyDown(KEY_DOWN)) cursorBallPosition.y += 5.0f;
+
+        if (IsKeyDown(KEY_D)) cursorBallPosition.x += 5.0f;
+        if (IsKeyDown(KEY_A)) cursorBallPosition.x -= 5.0f;
+        if (IsKeyDown(KEY_W)) cursorBallPosition.y -= 5.0f;
+        if (IsKeyDown(KEY_S)) cursorBallPosition.y += 5.0f;
+
         BeginDrawing();
 
         ClearBackground(BLACK);
@@ -57,7 +73,7 @@ int main(void)
             radius = 15;
 
             DrawRectangle(screenWidth/4*2 - 90, 170, roomWidth, roomHeight, RED);
-            DrawCircle(centerXPos, centerYPos, radius, WHITE);
+            DrawCircle(centerXPos, centerYPos, radius, DARKBLUE);
         }
 
         /*starting at a room, draw a room that either exists near it in any direction */
@@ -88,6 +104,9 @@ int main(void)
 
             DrawRectangle(posX, posY, roomWidth, roomHeight, GRAY);       
         }
+
+        /* Draws the ball cursor in the current position according to user input */
+        DrawCircleV(cursorBallPosition, 8, cursorBallColor);
 
         EndDrawing();
     }
