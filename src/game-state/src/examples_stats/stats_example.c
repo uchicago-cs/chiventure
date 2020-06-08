@@ -282,17 +282,17 @@ char *add_player_stat(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
 
-    if(tokens[2] != NULL)
+    if(tokens[3] != NULL)
     {
         return "I do not know what you mean.";
     }
-    if(tokens[1] == NULL)
+    if(tokens[2] == NULL)
     {
         return "You must identify a stat to add\n";
     }
 
-    global_stat_t *check, *global = global_stat_new(tokens[1]);
-    HASH_FIND(hh, game->curr_stats, global->name, strlen(global->name), check);
+    global_stat_t *global;
+    HASH_FIND(hh, game->curr_stats, tokens[1], strlen(tokens[1]), global);
     
     if (check = NULL)
     {
@@ -300,8 +300,35 @@ char *add_player_stat(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     stat_t *stat = stat_new(global);
-    add_stat(&game->curr_player->player_stats, stat);
+    add_stat(&game->curr_player->player_class->stat, stat);
     return "The stat has been added."
+
+}
+
+char *add_player_effect(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+
+    if(tokens[3] != NULL)
+    {
+        return "I do not know what you mean.";
+    }
+    if(tokens[2] == NULL)
+    {
+        return "You must identify an effect to add\n";
+    }
+
+    global_effect_t *global;
+    HASH_FIND(hh, game->all_effects, tokens[1], strlen(tokens[1]), global);
+    
+    if (check = NULL)
+    {
+        return "This stat does not exist in the game."
+    }
+
+    stat_effect_t *effect = stat_effect_new(global);
+    add_stat(&game->curr_player->player_class->effects, effect);
+    return "The effect has been added."
 
 }
 
@@ -317,6 +344,8 @@ int main(int argc, char **argv)
     add_entry("GLOBAL STATS", print_global_stats, NULL, ctx->table);
     add_entry("GLOBAL EFFECTS", print_global_effects, NULL, ctx->table);
     add_entry("ADD STAT", add_player_stat, NULL, ctx->table);
+    add_entry("ADD EFFECT")
+    add_entry("ITEM EFFECT", print_item_effects, NULL, ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
