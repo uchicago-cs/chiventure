@@ -108,7 +108,9 @@ void *make_data_from_j_value(json_object *j_value)
         }
         case json_type_string:
         {
-            char *val = malloc(sizeof(*val));
+            int str_len = json_object_get_string_len(j_value);
+            char *val = calloc(str_len + 1, sizeof(*val));
+
             strcpy(val, json_object_get_string(j_value));
             puts(val);
             return (void*)val;
