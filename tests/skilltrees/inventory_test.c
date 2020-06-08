@@ -143,7 +143,7 @@ Test(inventory_tests, inventory_has_skill_has_active)
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, effect_defuse_bomb);
-  //inventory_skill_add(inventory, bomb);
+  inventory_skill_add(inventory, bomb);
   (inventory->active)[0] = bomb;
   int ret = inventory_has_skill(inventory, 1000, ACTIVE);
 
