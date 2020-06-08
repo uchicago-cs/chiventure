@@ -11,7 +11,6 @@
 #include "stats.h"
 #include "playerclass/class.h"
 
-
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
@@ -191,6 +190,18 @@ int remove_item_from_player(player_t *player, item_t *item);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_inventory(player_t *player);
+
+/*
+ * Returns if the item is in the player's inventory
+ *
+ * Parameters:
+ *  player struct
+ *  item struct
+ *
+ * Returns:
+ *  true if item is inventory, false otherwise
+ */
+bool item_in_inventory(player_t *player, item_t *item);
 
 /*
  * Assigns a table of stats to a player
