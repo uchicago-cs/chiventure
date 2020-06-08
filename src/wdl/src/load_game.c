@@ -20,10 +20,12 @@
 game_t *load_wdl(char *path_to_yaml)
 {
 
-    // WDZ loading monkeypatch.
-    // Intercepts chiventure if wdz file is passed in as CLI argument, 
-    // and prints JSON contents for debug.
-    // This is also likely the entrypoint for our final implementation.
+    /* 
+     * WDZ loading monkeypatch.
+     * Intercepts chiventure if wdz file is passed in as CLI argument, 
+     * and prints JSON contents for debug.
+     * This is also likely the entrypoint for our final implementation.
+     */
     if (filename_extension_is("wdz", path_to_yaml))
     {
         int n_jsons = 0;

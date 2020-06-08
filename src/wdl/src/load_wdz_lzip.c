@@ -16,7 +16,9 @@
 
 #include "wdl/load_wdz_internal.h"
 
-// maximum buffer size for json file, in bytes. This is currently set to 2 MiB.
+/* Maximum buffer size for json file, in bytes. 
+ * This is currently set to 2 MiB. 
+ */
 #define MAXBUFSIZE ((zip_int64_t)0x200000)
 
 /* 
@@ -42,7 +44,7 @@ struct json_object *get_json_obj_from_zip_file_entry
         return NULL;
     }
     
-    // Don't try to JSON-parse files that don't have a .json extension.
+    /* Don't try to JSON-parse files that don't have a .json extension. */
     if (!filename_extension_is("json", entry_name))
     {
         return NULL;
@@ -58,8 +60,9 @@ struct json_object *get_json_obj_from_zip_file_entry
         return NULL;
     }    
 
-    // buf now contains the raw JSON. Use parser to convert into json obj.
-    // print out behind the main chiventure executable for debug and demo.
+    /* buf now contains the raw JSON. Use parser to convert into json obj.
+     * print out behind the main chiventure executable for debug and demo.
+     */
     printf("%s\n", (char *)buf);
     struct json_object *result = json_tokener_parse((char *)buf);
 
@@ -108,8 +111,7 @@ int populate_objstore_from_wdz
             if (j_obj) // This is NULL if the path doesn't end in .json
             {
                 load_game_objects_from_json_object(obj_store, j_obj);
-                // increment the current number of json files.
-                count++;
+                count++; // increment the current number of json files.
             }
         }
         zip_fclose(curr_file);

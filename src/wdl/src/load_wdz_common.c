@@ -56,8 +56,9 @@ int load_game_objects_from_json_object
         }
         else if (json_object_is_type(j_value, json_type_object))
         {
-            // The only file with an object-type value as top-level
-            // is players.json. Other special cases can go here, but unlikely.
+            /* The only file with an object-type value as top-level
+             * is players.json. Other special cases can go here, but unlikely.
+             */
             printf("Found player object.\n");
             json_object *j_player_obj; 
             json_object_object_get_ex(j_value, j_name, &j_player_obj);
