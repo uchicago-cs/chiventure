@@ -9,6 +9,9 @@ add_executable(npc_example
 target_link_libraries(dialogue_example ${LUA_LIBRARIES})
 target_include_directories(dialogue_example PRIVATE ${LUA_INCLUDE_DIR})
 
+target_link_libraries(npc_example ${LUA_LIBRARIES})
+target_include_directories(npc_example PRIVATE ${LUA_INCLUDE_DIR})
+
 # Link with chiventure libraries
 foreach(example ${NPC_EXAMPLES})
     foreach(module ${CHIVENTURE_MODULES})
