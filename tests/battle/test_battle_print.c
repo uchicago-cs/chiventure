@@ -109,18 +109,28 @@ Test(battle_print, print_player_move)
 {
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
+    player_stats->hp = 50;
+    player_stats->strength = 20;
+    player_stats->defense = 12;
+    player_stats->xp = 100;
+    player_stats->level = 5;
+    player_stats->speed = 10;
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
+    enemy_stats->hp = 30;
+    enemy_stats->strength = 14;
+    enemy_stats->defense = 9;
+    enemy_stats->xp = 100;
+    enemy_stats->level = 5;
+    enemy_stats->speed = 9;
+
     player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
-    b->player->stats->hp = 100;
-    b->enemy->stats->hp = 98;
-
     // Set up a move
     move_t *move = calloc(1,sizeof(move_t));
-    move->damage = 2;
+    move->damage = 60;
     move->info = "Punch";
     b->player->moves = move;
 
@@ -143,13 +153,25 @@ Test(battle_print, print_enemy_move)
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
+    stat_t *player_stats = calloc(1, sizeof(stat_t));
+    player_stats->hp = 50;
+    player_stats->strength = 20;
+    player_stats->defense = 12;
+    player_stats->xp = 100;
+    player_stats->level = 5;
+    player_stats->speed = 10;
+    stat_t *enemy_stats = calloc(1, sizeof(stat_t));
+    enemy_stats->hp = 30;
+    enemy_stats->strength = 14;
+    enemy_stats->defense = 9;
+    enemy_stats->xp = 100;
+    enemy_stats->level = 5;
+    enemy_stats->speed = 9;
     player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_WATER;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
-    b->player->stats->hp = 1;
-    b->enemy->stats->hp = 100;
 
     // Set up a move
     move_t *move = calloc(1,sizeof(move_t));
