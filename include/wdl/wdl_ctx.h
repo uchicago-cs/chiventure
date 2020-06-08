@@ -7,11 +7,11 @@
 
 typedef struct wdl_ctx
 {
-    //a hashtable of objstores containing all parsed objects from a wdl file
+    /* a hashtable of objstores containing all parsed objects from a wdl file */
     objstore_t **ht;
 
-    //A temporary measure while the parsing code is not yet finished enough
-    //to remove libobj entirely
+    /*A temporary measure while the parsing code is not yet finished enough
+      to remove libobj entirely */
     obj_t *obj;
 
 } wdl_ctx_t;
