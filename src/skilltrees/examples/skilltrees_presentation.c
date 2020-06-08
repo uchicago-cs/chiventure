@@ -180,7 +180,7 @@ void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* invento
     } else {
         for (unsigned int i = 0; i < inventory->num_active; i++) {
             char description[60];
-            sprintf(description, "%f: Level %u", inventory->active[i]->name, inventory->active[i]->level);
+            sprintf(description, "%s: Level %u", inventory->active[i]->name, inventory->active[i]->level);
             print_to_cli(ctx, description);
         }
     }
