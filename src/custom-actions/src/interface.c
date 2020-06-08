@@ -17,7 +17,7 @@ int do_custom_action(custom_action_t *action)
 
 /* PRIVATE HELPER FUNCTIONS */
 
-void run_ast_block(AST_block_t *block) 
+int run_ast_block(AST_block_t *block) 
 {
     int returnV;
     if(block == NULL) return SUCCESS;
