@@ -22,7 +22,7 @@ which will enable custom scripts and lua files to be loaded*/
 int npc_mov_init(npc_mov_t *npc_mov, object_t* npc_id, npc_mov_enum_t mov_type,
                 room_t *room)
 {
-    object_t* room_id = room->room_id;
+    char* room_id = room->room_id;
     assert(npc_mov != NULL);
     npc_mov->npc_id = npc_id;
     npc_mov->mov_type = mov_type;
