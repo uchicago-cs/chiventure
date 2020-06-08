@@ -9,14 +9,14 @@
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_moves.h"
 
- /* Packages class-specific move from player class's linked list 
- into battle move struct, adds this move to the input player's move list 
+/* Packages class-specific move from player class's linked list 
+   into battle move struct, adds this move to the input combatant's move list 
  * Parameters:
- * - player: a pointer to the player we want to get class-specific moves for 
+ * - c: a pointer to the combatant we want to get class-specific moves for 
  * Returns:
- * - player: the input player with correct move added to move list 
+ * - SUCCESS or FAILURE 
  */
-player_t *build_moves(player_t *player);
+int build_moves(combatant_t *c);
 
 
 #endif
