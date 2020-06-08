@@ -392,7 +392,7 @@ Test(skilltree_tests, skill_prereqs_missing_some)
   skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
 
   node_prereq_add(bomb_node, chop_node);
-  cr_assert_eq(bomb_node->prereqs[0], chop_node,
+  cr_assert_eq(bomb_node->prereqs[0]->skill->sid, 1001,
                "Error: failed test skill_prereqs_missing_some\n");
 
   // skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
@@ -413,7 +413,7 @@ Test(skilltree_tests, skill_prereqs_missing_some)
   //     "Error: failed test skill_prereqs_missing_some\n");
   // cr_assert_eq(skill_list[0]->skill->sid, 1001,
   //              "Error: failed test skill_prereqs_missing_some\n");
-  // 
+  //
   // int* out = malloc(sizeof(int));
   //
   // skill_inventory_t* inventory = inventory_new(3,4);
