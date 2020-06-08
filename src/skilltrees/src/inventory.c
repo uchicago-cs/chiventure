@@ -147,6 +147,7 @@ char* current_skills_as_strings(skill_inventory_t* inventory) {
             sprintf(level, "%u", inventory->active[i]->level);
             strncat(str, level, 12);
             strncat(str, "\n", 1);
+            
         }
     }
     // To differentiate between passive and active skills.
