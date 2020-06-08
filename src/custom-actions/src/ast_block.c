@@ -12,7 +12,7 @@
 
 /* See ast_block.h */
 AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST, 
-                           AST_block_t **next)
+                           AST_block_t **ast_sequence)
 {
     AST_block_t *ast = malloc(sizeof(AST_block_t));
     int new_ast;
@@ -23,7 +23,7 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST,
         return NULL;
     }
 
-    new_ast = AST_block_init(ast, block, block_type, num_AST, next);
+    new_ast = AST_block_init(ast, block, block_type, num_AST, ast_sequence);
     if (new_ast != SUCCESS)
     {
         fprintf(stderr, "Could not initialize AST_block_t");
@@ -35,7 +35,7 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST,
 
 /* See ast_block.h */
 int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type,
-                   int num_AST, AST_block_t **next)
+                   int num_AST, AST_block_t **ast_sequence)
 {
     assert(ast != NULL); 
     assert(block != NULL);
@@ -44,7 +44,7 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type,
     ast->block = block;
     ast->block_type = block_type;
     ast->num_AST = num_AST;
-    ast->next = next;
+    ast->ast_sequence = ast_sequence;
 
     return SUCCESS; 
 }
@@ -81,7 +81,7 @@ int AST_block_free(AST_block_t *ast)
     }
     if (ast->num_AST > 1) {
         for (int n = 0; n < ast->num_AST - 1; n++) {
-            AST_block_free(ast->next[n]);
+            AST_block_free(ast->ast_sequence[n]);
         }
     }
     free(ast);
