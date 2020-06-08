@@ -1,4 +1,5 @@
 add_library(wdl
+            src/wdl_ctx.c
             src/attributes.c
             src/load_game.c
             src/load_item.c

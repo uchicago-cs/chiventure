@@ -75,7 +75,7 @@ struct json_object *get_json_obj_from_zip_file_entry
 /* See load_wdz.h */
 int populate_objstore_from_wdz
 (
-    objstore_t *obj_store,
+    objstore_t **obj_store,
     int *n_jsons, 
     char *wdz_name
 )

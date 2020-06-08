@@ -11,6 +11,7 @@
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include <wdl/load_game.h>
+#include "common/load_objects.h"
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
@@ -159,7 +160,7 @@ int add_conditional_room_connections(chiventure_ctx_t *ctx)
 
 int main(int argc, char **argv)
 {
-    game_t *game = load_wdl("../src/action_management/examples/test_game.wdl");
+    game_t *game = load_objects(load_wdl("../src/action_management/examples/test_game.wdl"));
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     set_item_attributes(ctx);

@@ -6,7 +6,6 @@
 #define INCLUDE_ATTRIBUTES_H
 #define MAXLEN_ID 60 // ID strings for objects
 
-
 /*
  * attribute_t: the attributes stored within an object
  */

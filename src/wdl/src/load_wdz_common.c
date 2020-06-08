@@ -28,7 +28,7 @@ bool filename_extension_is(const char *ext, const char *str)
 /* See load_wdz_internal.h */
 int load_game_objects_from_json_object
 (
-    objstore_t *obj_store, 
+    objstore_t **obj_store, 
     json_object *j_obj
 )
 {
@@ -50,7 +50,7 @@ int load_game_objects_from_json_object
                 {
                     return FAILURE;
                 }
-                add_objstore(&obj_store, game_obj);
+                add_objstore(obj_store, game_obj);
             }
             return SUCCESS;
         }
@@ -67,7 +67,7 @@ int load_game_objects_from_json_object
             {
                 return FAILURE;
             }
-            add_objstore(&obj_store, player);
+            add_objstore(obj_store, player);
             return SUCCESS;
         }
         else 
