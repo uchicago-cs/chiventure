@@ -51,7 +51,7 @@ int obj_init(obj_t *obj, char *id)
     }
 
     strncpy(obj->id, id, MAXLEN_ID);
-    obj->type = TYPE_NONE;
+    obj->type = TYPE_ZERO;
 
     return EXIT_SUCCESS;
 }
@@ -66,7 +66,7 @@ void obj_free_str(obj_t *obj)
     }
 
     free(obj->data.s);
-    obj->type = TYPE_NONE;
+    obj->type = TYPE_ZERO;
 }
 
 /* See obj.h */
@@ -262,14 +262,14 @@ datatype_t obj_get_type(obj_t *obj, char *id)
     {
         printf("ERROR - obj_get_type: Object/id given is NULL.\n");
 
-        return TYPE_ERR;
+        return TYPE_ERROR;
     }
 
     obj_t *target = obj_get_attr(obj, id, false);
 
     if (target == NULL)
     {
-        return TYPE_ERR;
+        return TYPE_ERROR;
     }
 
     return target->type;

@@ -10,7 +10,7 @@ int main()
     p_stats->xp = 10;
     p_stats->speed = 10;
 
-    player_t *p = new_ctx_player("John", NULL, p_stats, NULL, NULL);
+    player_t *p = new_ctx_player("John", NULL, p_stats, NULL);
 
     stat_t *e_stats = (stat_t*) calloc(1, sizeof(stat_t));
     e_stats->hp = 70;
@@ -18,12 +18,8 @@ int main()
     e_stats->speed = 9;
 
     move_t *e_moves = NULL;
-    move_t *e_move1 = test_move_bard();
-    move_t *e_move2 = test_move_cleric();
-    DL_APPEND(e_moves, e_move1);
-    DL_APPEND(e_moves, e_move2);
     npc_enemy_t *e = NULL;
-    DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, e_moves, NULL, BATTLE_AI_GREEDY));
+    DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, NULL, BATTLE_AI_GREEDY));
 
     chiventure_ctx_battle_t *ctx = 
         (chiventure_ctx_battle_t*) calloc(1, sizeof(chiventure_ctx_battle_t));
