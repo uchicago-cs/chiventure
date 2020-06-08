@@ -45,8 +45,39 @@ const char* banner =
     "     |  /                                                                                      /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
-/* Declare item so action can be associated with it on skill acquisition */
-item_t* implementation_item;
+/* Declare skill tree */
+skill_tree_t* skill_tree;
+
+/* Declare skill inventory */
+skill_inventory_t* inventory;
+
+/* Declare skills and skill effects */
+    // Design skill struct
+    skill_t* design_skill;
+
+    // Design skill effect
+    char* effect_design(char* args) {
+        return "Good progress on your modules! Keep going!";
+    }
+
+    // Testing skill struct
+    skill_t* test_skill;
+
+    // Testing skill effect
+    char* effect_test(char* args) {
+        return "Good progress on testing! Keep going!";
+    }
+
+    // Implementation skill struct
+    skill_t* implementation_skill;
+
+    // Implementation skill effect
+    char* effect_implementation(char* args) {
+        return "Good implementation progress! Keep going!";
+    }
+
+    // Implementation skill item
+    item_t* implementation_item;
 
 /* Create example chiventure context */
 chiventure_ctx_t* create_example_ctx() {
@@ -83,37 +114,6 @@ chiventure_ctx_t* create_example_ctx() {
     return ctx;
 }
 
-/* Declare skill tree */
-skill_tree_t* skill_tree;
-
-/* Declare skill inventory */
-skill_inventory_t* inventory;
-
-/* Declare skills and skill effects */
-    // Design skill struct
-    skill_t* design_skill;
-
-    // Design skill effect
-    char* effect_design(char* args) {
-        return "Good progress on your modules! Keep going!";
-    }
-
-    // Testing skill struct
-    skill_t* test_skill;
-
-    // Testing skill effect
-    char* effect_test(char* args) {
-        return "Good progress on testing! Keep going!";
-    }
-
-    // Implementation skill struct
-    skill_t* implementation_skill;
-
-    // Implementation skill effect
-    char* effect_implementation(char* args) {
-        return "Good implementation progress! Keep going!";
-    }
-
 /* Wrapper function for leveling up implementation skill */
 void implementation_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(implementation_skill);
@@ -141,7 +141,7 @@ char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     }
     add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
     inventory_skill_acquire(skill_tree, inventory, implementation_skill);
-    return "You have learned implementation can now use the skill.";
+    return "You have learned implementation and can now use the skill.";
 }
 
 /* Wrapper function for leveling up testing skill */
@@ -180,31 +180,34 @@ char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     return skill_execute(design_skill, "");
 }
 
-
-/* See inventory.h */
+/* Prints all skills in inventory to the CLI */
 void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory) {
     assert(inventory != NULL);
+
+    unsigned int i;
+    char description[60];
 
     print_to_cli(ctx, "-");
     print_to_cli(ctx, "Active Skills:");
     if (!inventory->num_active) {
         print_to_cli(ctx, "You have no active skills.");
     } else {
-        for (unsigned int i = 0; i < inventory->num_active; i++) {
-            char description[60];
-            sprintf(description, "%s: Level %u", inventory->active[i]->name, inventory->active[i]->level);
+        for (i = 0; i < inventory->num_active; i++) {
+            sprintf(description, "%s: Level %u", inventory->active[i]->name,
+                    inventory->active[i]->level);
             print_to_cli(ctx, description);
         }
     }
 
     print_to_cli(ctx, "-");
     print_to_cli(ctx, "Passive Skills:");
-
     if (!inventory->num_passive) {
         print_to_cli(ctx, "You have no passive skills.");
     } else {
-        for (unsigned int i = 0; i < inventory->num_passive; i++) {
-            print_to_cli(ctx, inventory->passive[i]->name);
+        for (i = 0; i < inventory->num_passive; i++) {
+            sprintf(description, "%s: Level %u", inventory->passive[i]->name,
+                    inventory->passive[i]->level);
+            print_to_cli(ctx, description);
         }
     }
 }
