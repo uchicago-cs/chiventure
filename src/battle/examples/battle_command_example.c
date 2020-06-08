@@ -151,11 +151,15 @@ int main()
     printf("\nbeginning to create the player and enemy...\n");
     stat_t *p_stats = (stat_t *)calloc(1, sizeof(stat_t));
     p_stats->hp = 200;
+    p_stats->strength = 25;
+    p_stats->defense = 20;
     p_stats->xp = 10;
     p_stats->speed = 10;
 
     stat_t *e_stats = (stat_t *)calloc(1, sizeof(stat_t));
     e_stats->hp = 150;
+    e_stats->strength = 15;
+    e_stats->defense = 10;
     e_stats->xp = 10;
     e_stats->speed = 9;
 
