@@ -20,6 +20,8 @@ const char* banner =
     "     |  /                                                                                      /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
+item_t* implementation_item;
+
 /* Create example chiventure context */
 chiventure_ctx_t* create_example_ctx() {
     // Create example game
@@ -44,7 +46,7 @@ chiventure_ctx_t* create_example_ctx() {
     game->curr_room = design_room;
 
     // Create room items
-    item_t* implementation_item = item_new("IMPLEMENTATION",
+    implementation_item = item_new("IMPLEMENTATION",
                                            "The software implementation skill",
                                            "Skill that enables software implementation");
     add_item_to_room(implementation_room, implementation_item);
@@ -90,19 +92,20 @@ skill_inventory_t* inventory;
 void implementation_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(implementation_skill);
     if (implementation_skill->level > 2) {
-        create_connection(game, "Implementation Room", "Demo Room", "NORTH");
-        create_connection(game, "Demo Room", "Implementation Room", "SOUTH");
+        create_connection(ctx->game, "Implementation Room", "Demo Room", "NORTH");
+        create_connection(ctx->game, "Demo Room", "Implementation Room", "SOUTH");
         //inventory_skill_acquire(inventory, test_skill);
     }
 }
 
 /* CLI operation for implementation skill */
 char* implementation_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    implementation_level_up(ctx);
     return skill_execute(implementation_skill, "");
 }
 
 /* Wrapper function for leveling up testing skill */
-void test_level_up() {
+void test_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(test_skill);
     if (test_skill->level > 1) {
         add_action(implementation_item, "TAKE", "Now that your tests are complete, begin implementation!", "Test at least once before considering implementation!");
@@ -113,7 +116,7 @@ void test_level_up() {
 
 /* CLI operation for testing skill */
 char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-    test_level_up();
+    test_level_up(ctx);
     return skill_execute(test_skill, "");
 }
 
@@ -145,7 +148,7 @@ int main(int argc, char **argv) {
 
     // Initialize inventory
     inventory = inventory_new(10, 0);
-    inventory_skill_acquire(inventory, design_skill);/*
+    /* inventory_skill_acquire(skill_tree, inventory, design_skill);
 
     // Initialize skill nodes
     skill_node_t* design_node = skill_node_new(design_skill, 0, 0);
