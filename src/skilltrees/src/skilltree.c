@@ -309,7 +309,9 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
 /* See skilltree.h */
 int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
                            skill_t* skill) {
-    assert(tree != NULL && inventory != NULL && skill != NULL);
+    assert(tree != NULL);
+    assert(inventory != NULL);
+    assert(skill != NULL);
 
     unsigned int num_missing;
     skill_t** missing = skill_prereqs_missing(tree, inventory, skill->sid,
