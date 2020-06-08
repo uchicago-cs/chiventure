@@ -22,7 +22,7 @@ Test(AST_block_t, new_CONTROL)
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
     cr_assert_eq(new_ast->num_AST, num_AST, "AST_block_new() didn't set new_ast->num_AST");
-    cr_assert_eq(new_ast->ast_sequence, ast_sequence, "AST_block_new() didn't set new_ast->next");
+    cr_assert_eq(new_ast->ast_sequence, ast_sequence, "AST_block_new() didn't set new_ast->ast_sequence");
     
     AST_block_free(new_ast);
 }
@@ -47,7 +47,7 @@ Test(AST_block_t, new_BRANCH)
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
     cr_assert_eq(new_ast->num_AST, num_AST, "AST_block_new() didn't set new_ast->num_AST");
-    cr_assert_eq(*(new_ast->ast_sequence), ast_sequence, "AST_block_new() didn't set new_ast->next");
+    cr_assert_eq(*(new_ast->ast_sequence), ast_sequence, "AST_block_new() didn't set new_ast->ast_sequence");
     
     AST_block_free(new_ast);
 }
@@ -70,7 +70,7 @@ Test(AST_block_t, new_ACTION)
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
     cr_assert_eq(new_ast->num_AST, num_AST, "AST_block_new() didn't set new_ast->num_AST");
-    cr_assert_eq(*(new_ast->ast_sequence), ast_sequence, "AST_block_new() didn't set new_ast->next");
+    cr_assert_eq(*(new_ast->ast_sequence), ast_sequence, "AST_block_new() didn't set new_ast->ast_sequence");
     
     AST_block_free(new_ast);
 }
@@ -93,7 +93,7 @@ Test(AST_block_t, new_CONDITIONAL)
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
     cr_assert_eq(new_ast->num_AST, num_AST, "AST_block_new() didn't set new_ast->num_AST");
-    cr_assert_eq(*(new_ast->ast_sequence), ast_sequence, "AST_block_new() didn't set new_ast->next");
+    cr_assert_eq(*(new_ast->ast_sequence), ast_sequence, "AST_block_new() didn't set new_ast->ast_sequence");
     
     AST_block_free(new_ast);
 }
