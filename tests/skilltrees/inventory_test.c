@@ -39,6 +39,8 @@ Test(inventory_tests, inventory_skill_add_active_safe)
         3, 6, effect_chop_tree);
     int ret = inventory_skill_add(inventory, bomb);
     cr_assert_eq(ret,SUCCESS,"Error: failed test inventory_skill_add_active_safe");
+    cr_assert_eq(inventory->active[0]->sid,1000,
+        "Error: failed test inventory_skill_add_active_safe");
 }
 
 /*Tests inventory_skill_add for an active skill, when active inventory full. */
