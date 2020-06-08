@@ -58,8 +58,8 @@ char* effect_design(char* args) {
 }
 skill_t* design_skill;
 char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-    create_connection(game, "Design Room", "Implementation Room", "NORTH");
-    create_connection(game, "Implementation Room", "Design Room", "SOUTH");
+    create_connection(ctx->game, "Design Room", "Implementation Room", "NORTH");
+    create_connection(ctx->game, "Implementation Room", "Design Room", "SOUTH");
     return skill_execute(design_skill, "");
 }
 
