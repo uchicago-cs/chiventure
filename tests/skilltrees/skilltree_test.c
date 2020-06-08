@@ -13,10 +13,10 @@ Test(skilltree_tests, skill_node_new_test)
 {
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
-    skill_node_t* node = skill_node_new(skill, 4, 76);
+    skill_node_t* node = skill_node_new(skill, 0, 76);
     cr_assert_eq(node->prereqs,NULL,
         "Error: failed test skill_node_new on node->prereqs\n");
-    cr_assert_eq(node->num_prereq_skills, 4,
+    cr_assert_eq(node->num_prereq_skills, 0,
         "Error: failed test skill_node_new on node->num_prereq_skills\n");
     cr_assert_eq(node->size, 76,
         "Error: failed test skill_node_new on node->size\n");
