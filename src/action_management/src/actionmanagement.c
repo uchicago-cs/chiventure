@@ -128,7 +128,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
             sprintf(string, "%s", game_act->success_str);
             if (is_game_over(game))
             {
-                sprintf(string, " Congratulations, you've won the game! "
+                string = strcat(string, " Congratulations, you've won the game! "
                         "Press ctrl+D to quit.");
             }
             *ret_string = string;
@@ -275,7 +275,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
             sprintf(string, "%s", dir_game_act->success_str);
             if (is_game_over(game))
             {
-                sprintf(string, " Congratulations, you've won the game! Press ctrl+D to quit.");
+                string = strcat(string, " Congratulations, you've won the game! "
+                        "Press ctrl+D to quit.");
             }
             *ret_string = string;
             return SUCCESS;
