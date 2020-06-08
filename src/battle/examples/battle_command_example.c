@@ -191,6 +191,8 @@ int main()
     int turn = 1;
     printf("\nWelcome to the Battle! Let's get this started!\n\n");
 
+    char *start = print_start_battle(ctx->game->battle);
+    printf("%s\n", start);
     char buf[MAXLEN + 1] = {0};
     char **args = calloc(MAX_ARGS, sizeof(char *));
     int num_args;
