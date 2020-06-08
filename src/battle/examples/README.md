@@ -19,4 +19,6 @@ These are the current scripts:
     * We are also hoping to have these actions in the future
         * ITEM: allows the player to consume an item
             * USE item_name: Player consumes an item
+        * the user story has more about commands and an example of a battle
+            * https://github.com/uchicago-cs/chiventure/wiki/RPG-Battle-Systems-%7C-User-Stories
 * `battle_flow_example.c`: Runs a sample battle using hard-coded moves for the player and enemy. This demonstrates how to set up a battle correctly.
