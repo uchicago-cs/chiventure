@@ -1,5 +1,7 @@
 #include "game-state/game_action.h"
 
+#define BUFFER_SIZE 100
+
 /* See common_game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name,
                      char *success_str, char *fail_str)
@@ -146,6 +148,47 @@ int add_action_condition(game_action_t *action, condition_t *condition)
 
     return SUCCESS;
 }
+
+/*
+ * helper that compares action strings
+ *
+ * Parameters:
+ * - list_action_type_t: points to node with one action
+ * - list_action_type_t: points to node of another action
+ *
+ * Returns:
+ * - int value that means 0: the same, 1: first string comes after second,
+ *   -1: first string comes before second
+ */
+int actioncmp(list_action_type_t *a1, list_action_type_t *a2) 
+{
+    return strncmp(a1->act->c_name, a2->act->c_name, BUFFER_SIZE);
+}
+
+/* See game_action.h */
+list_action_type_t *find_act(list_action_type_t *head, action_type_t *a)
+{
+    list_action_type_t *temp;
+    list_action_type_t *like = calloc(1, sizeof(list_action_type_t));
+    like->act = a;
+    LL_SEARCH(head, temp, like, actioncmp);
+    return temp;
+}
+
+
+/* See game_action.h */
+int delete_action(list_action_type_t **head, list_action_type_t *act)
+{
+    if (*head == NULL) 
+    {
+        printf("head null!\n");
+        return -1;
+    }
+
+    LL_DELETE(*head, act);
+    return SUCCESS;
+}
+
 
 
 // ------------------------------------- EFFECTS -------------------------------------

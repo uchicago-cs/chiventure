@@ -65,6 +65,7 @@ game_action_hash_t *get_all_actions(item_t *item);
 int game_action_free(game_action_t *action_tofree);
 
 
+
 // ------------------------- CONDITION FUNCTIONS -------------------------
 
 /* add_action_attribute_condition() creates a new attribute condition for an item's action and
@@ -108,6 +109,31 @@ int add_action_inventory_condition(game_action_t *action, player_t *player,
  *   ACTION_NULL if action does not exist
  */
 int add_action_condition(game_action_t *action, condition_t *condition);
+
+/*
+ * Function that returns the node with the right action_type_t
+ *
+ * Parameters:
+ * - list_action_type_t: list containing actions
+ * - action_type_t: action that we want
+ *
+ * Returns:
+ * pointer to correct list_action_type_t node
+ */
+list_action_type_t *find_act(list_action_type_t *head, action_type_t *a);
+
+/*
+ * Function that deletes a node in list_action_type_t
+ * 
+ * Parameters:
+ * - action_type_t: action to be deleted
+ * - list_action_type_t: list to remove action from
+ *
+ * Returns:
+ * - int SUCCESS when node is removed
+ */
+int delete_action(list_action_type_t **head, list_action_type_t *act);
+
 
 // ------------------------- EFFECT FUNCTIONS ------------------------------
 
