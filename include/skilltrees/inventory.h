@@ -8,6 +8,8 @@
 #include "skilltrees/stdst.h"
 #include "skilltrees/skill.h"
 #include "common/ctx.h"
+#include "ui/ui.h"
+#include "cli/operations.h"
 
 /* ================================= */
 /* === INVENTORY DATA STRUCTURES === */
