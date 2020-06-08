@@ -150,7 +150,7 @@ char* current_skills_as_strings(skill_inventory_t* inventory) {
         }
     }
     // To differentiate between passive and active skills.
-    strncat(str, "\n\n", 2);
+    strncat(str, "\n-\n", 3);
 
     if (inventory->num_passive == 0) {
         strncat(str, "You have no passive skills.\n\n", 35);
