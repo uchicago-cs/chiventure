@@ -8,47 +8,7 @@
 #include <stdio.h>
 #include "interface.h"
 
-/* See interface.h */
-int do_custom_action(custom_action_t *action)
-{
-    if(action == NULL) return FAILURE;
-    return run_ast_block(action->head);
-}
-
 /* PRIVATE HELPER FUNCTIONS */
-
-/* Executes a given AST block (the essential element
- * of a custom action)
- * 
- * Parameters: 
- * - block: A pointer to the AST block to be executed
- * 
- * Returns:
- * - Integer value of SUCCESS or FAILURE
- */
-int run_ast_block(AST_block_t *block) 
-{
-    int returnV;
-    if(block == NULL) return SUCCESS;
-    switch(block->block_type) 
-    {
-        case(CONTROL):
-            return FAILURE;
-            break;
-        case(BRANCH):
-            int returnV = do_branch_block(block->block);
-            if(returnV == -1) return FAILURE;
-            return run_ast_block(block->ast_sequence[returnV]);
-            break;
-        case(ACTION):
-            if(do_action_block(block->block) == FAILURE) return FAILURE;
-            return run_ast_block(block->ast_sequence[0]);
-            break;
-        case(CONDITIONAL):
-            return FAILURE;
-            break;   
-    }
-}
 
 /* Given an conditiional block and its corresponding arguments, 
  * attempt to execute the given block.
@@ -60,7 +20,7 @@ int run_ast_block(AST_block_t *block)
  * - TRUE if condition true
  * - FALSE if condition false
  */
-bool do_conditional_block(conditional_block_t *block)
+int do_conditional_block(conditional_block_t *block)
 {
     switch(block->conditional_type) {
         case EQ:
@@ -83,7 +43,8 @@ bool do_conditional_block(conditional_block_t *block)
             break;
         */
         case IN:
-            return check_in(block->left,block->right); // at the time of writing, TBI
+            return FAILURE;
+            // return check_in(block->left,block->right); but check_in not yet implemented
             break;
     }
 }
@@ -99,7 +60,7 @@ bool do_conditional_block(conditional_block_t *block)
  */
 int do_branch_block(branch_block_t *block)
 {
-    if(block->num_controls != block->num_conditionals) return FAILURE;
+    if(block->num_controls != block->num_conditionals) return -1;
     // goes through each of the control blocks
     int i;
     for(i = 0; i < block->num_controls; i++) 
@@ -118,4 +79,46 @@ int do_branch_block(branch_block_t *block)
         }
     }
     return i;
+}
+
+/* Executes a given AST block (the essential element
+ * of a custom action)
+ * 
+ * Parameters: 
+ * - block: A pointer to the AST block to be executed
+ * 
+ * Returns:
+ * - Integer value of SUCCESS or FAILURE
+ */
+int run_ast_block(AST_block_t *block) 
+{
+    int returnV;
+    if(block == NULL) return SUCCESS;
+    switch(block->block_type) 
+    {
+        case(CONTROL):
+            return FAILURE;
+            break;
+        case(BRANCH):
+            returnV = do_branch_block(block->block);
+            if(returnV == -1) return FAILURE;
+            return run_ast_block(block->ast_sequence[returnV]);
+            break;
+        case(ACTION):
+            if(do_action_block(block->block) == FAILURE) return FAILURE;
+            return run_ast_block(block->ast_sequence[0]);
+            break;
+        case(CONDITIONAL):
+            return FAILURE;
+            break;   
+    }
+}
+
+// Interface-showing functions
+
+/* See interface.h */
+int do_custom_action(custom_action_t *action)
+{
+    if(action == NULL) return FAILURE;
+    return run_ast_block(action->head);
 }
