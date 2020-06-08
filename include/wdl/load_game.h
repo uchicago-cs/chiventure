@@ -23,6 +23,19 @@
 wdl_ctx_t *load_wdl(char *path_to_wd);
 
 /*
+ * load_yaml_game, when passed libobj objects, will load into a game
+ *
+ * Parameters:
+ *   - big_document: an obj_t of libobj objects
+ *
+ * Returns:
+ *   - a pointer to a game object on success
+ 8   - NULL if error
+ *
+ */
+game_t *load_yaml_game(obj_t *big_document);
+
+/*
  * Function to create a pointer to an empty game
  *
  * input: 

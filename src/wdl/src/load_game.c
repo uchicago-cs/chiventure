@@ -47,6 +47,7 @@ wdl_ctx_t *load_wdl(char *path_to_wd)
     return ctx;
 }
 
+/* See load_game.h for documentation */
 game_t *load_yaml_game(obj_t *big_document)
 {
     int rc;
