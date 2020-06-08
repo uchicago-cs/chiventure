@@ -55,7 +55,7 @@ int set_item_attributes(chiventure_ctx_t *ctx)
         attribute_t *attr = get_attribute(item, "CONSUMED");
         game_action_t *act = get_action(item, "CONSUME");
 
-        add_action_condition(item, act, item, attr, val_false);
+        add_action_attribute_condition(act, item, attr, val_false);
         add_action_effect(act, item, attr, val_true);
     }
     
@@ -68,7 +68,7 @@ int set_item_attributes(chiventure_ctx_t *ctx)
     attribute_t *attr = get_attribute(door, "OPEN");
     game_action_t *act = get_action(door, "OPEN");
 
-    add_action_condition(door, act, door, attr, val_false);
+    add_action_attribute_condition(act, door, attr, val_false);
     add_action_effect(act, door, attr, val_true);
     
     return 0;
@@ -107,8 +107,7 @@ int add_end_conditions(chiventure_ctx_t *ctx)
         }
         
         add_item_to_game(game, item); // necessary for add_end_condition_to_game
-        attribute_t *attr = get_attribute(item, "CONSUMED");
-        game_action_condition_t *new_condition = condition_new(item, attr, val_true);
+        condition_t *new_condition = attribute_condition_new(item, "CONSUMED", val_true);
         add_end_condition_to_game(game, new_condition);
     }
     

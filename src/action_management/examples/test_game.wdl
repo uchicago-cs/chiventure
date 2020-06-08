@@ -109,15 +109,14 @@ ITEMS:
    in: "kitchen"
    actions:
      - action: "TAKE"
-       text_success: "You take the fork."
-       text_fail: "You can't take the fork."
+       text_success: "You take a fork."
+       text_fail: "You can't take a fork."
 
- # Uncomment everything below once item stacking is supported
- #- id: "FORK"
- #  short_desc: "A fork."
- #  long_desc: "A fork. There's nothing remarkably special about it."
- #  in: "kitchen"
- #  actions:
- #    - action: "TAKE"
- #      text_success: "You take the fork."
- #      text_fail: "You can't take the fork."
+ - id: "FORK"
+   short_desc: "A fork."
+   long_desc: "A fork. There's nothing remarkably special about it."
+   in: "kitchen"
+   actions:
+     - action: "TAKE"
+       text_success: "You take a fork."
+       text_fail: "You can't take a fork."
