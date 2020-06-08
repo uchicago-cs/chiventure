@@ -134,8 +134,28 @@ stat_mod_t *stat_mod_new(stats_t *stat, double modifier, int duration) {
 /* See stats.h */
 int change_stat(stats_hash_t *sh, char *stat, double change)
 {
-    printf("change_stat: function not yet implemented\n");
-    return 0; // still needs to be implemented
+     
+    if (sh == NULL) {
+        return FAILURE;
+    }
+
+    stats_t *curr;
+    
+    HASH_FIND(hh, sh, stat, strlen(stat), curr);
+
+    if (curr == NULL) {
+       return FAILURE;
+    }
+    
+    int changed_stat = curr->val + change;
+
+    if ((changed_stat > curr->global->max) || (changed_stat > curr->max)) {
+        curr->val = curr->max;
+    } else {
+        curr->val = changed_stat;
+    }
+
+   return 0;
 }
 
 /* See stats.h */
@@ -161,22 +181,59 @@ int change_stat_max(stats_hash_t *sh, char *stat, double change)
 /* See stats.h */
 double get_stat_current(stats_hash_t *sh, char *stat)
 {
-    printf("get_stat_current: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        return -1;
+    }
+
+    stats_hash_t *curr;
+    
+    HASH_FIND(hh, sh, stat, strlen(stat), curr);
+
+    if (curr == NULL) {
+       return -1;
+    }
+    double res = (curr->modifier) * (curr->val);
+
+    if (res > curr->global->max) {
+        res = curr->global->max;
+    }
+    return res;
 }
 
 /* See stats.h */
 double get_stat_max(stats_hash_t *sh, char *stat)
 {
-    printf("get_stat_max: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        return -1;
+    }
+
+    stats_t *curr;
+    
+    HASH_FIND(hh, sh, stat, strlen(stat), curr);
+
+    if (curr == NULL) {
+       return -1;
+    }
+    
+    return (curr->max);
 }
 
 /* See stats.h */
 double get_stat_mod(stats_hash_t *sh, char *stat)
 {
-    printf("get_stat_mod: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    if (sh == NULL) {
+        return -1;
+    }
+
+    stats_hash_t *curr;
+    
+    HASH_FIND(hh, sh, stat, strlen(stat), curr);
+
+    if (curr == NULL) {
+       return -1;
+    }
+    
+    return (curr->modifier);
 }
 
 /* See stats.h */
