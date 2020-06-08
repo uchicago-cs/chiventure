@@ -11,20 +11,10 @@
 #include "ast_block.h"
 
 /* See ast_block.h */
-AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST, 
-                           AST_block_t **ast_sequence)
+AST_block_t* AST_block_new(block_t *block, block_type_t block_type)
 {
     AST_block_t *ast = malloc(sizeof(AST_block_t));
     int new_ast;
-  
-    if (num_AST == 1) 
-    {
-      ast_sequence = NULL;
-    }
-    else 
-    {
-      ast_sequence = malloc(sizeof(AST_block_t*) * (num_AST - 1));
-    }
 
     if (ast == NULL) 
     {
@@ -32,7 +22,7 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST,
         return NULL;
     }
 
-    new_ast = AST_block_init(ast, block, block_type, num_AST, ast_sequence);
+    new_ast = AST_block_init(ast, block, block_type);
     if (new_ast != SUCCESS)
     {
         fprintf(stderr, "Could not initialize AST_block_t");
@@ -43,11 +33,11 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST,
 }
 
 /* See ast_block.h */
-int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type,
-                   int num_AST, AST_block_t **ast_sequence)
+int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type)
 {
     assert(ast != NULL); 
     assert(block != NULL);
+ 
     ast->block = block;
     ast->block_type = block_type;
     ast->next = NULL;
