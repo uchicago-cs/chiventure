@@ -8,12 +8,14 @@
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
-#include "gamestate/stats.h"
+#include "game-state/stats.h"
+#define MIN_STRING_LENGTH 2
+#define MAX_NAME_LENGTH 70
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
 /* Creates a poison item with an effect */
-item_t *create_poison(global_effect_t *p, stat_t *stat)
+item_t *create_poison(effects_global_t *p, stats_t *stat)
 {
     item_t *poison = item_new("POISON","This is poison.",
                    "This is poison and will harm your health. DO NOT TAKE OR PICKUP.");
@@ -25,7 +27,7 @@ item_t *create_poison(global_effect_t *p, stat_t *stat)
 }
 
 /* Creates a potion item with effect */
-item_t *create_potion(global_effect_t *p, stat_t *stat)
+item_t *create_potion(effects_global_t *p, stats_t *stat)
 {
     item_t *potion = item_new("POTION","This is a health potion.",
                    "This potion will increase your health. Feel free to take it.");
@@ -36,12 +38,12 @@ item_t *create_potion(global_effect_t *p, stat_t *stat)
 }
 
 /* Creates an elixir item with effects */
-item_t *create_elixir(global_effect_t *p1, global_effect_t *p2,
-                      stat_t *s1, stat_t *s2, stat_t *s3, stat_t *s4)
+item_t *create_elixir(effects_global_t *p1, effects_global_t *p2,
+                      stats_t *s1, stats_t *s2, stats_t *s3, stats_t *s4)
 {
     item_t *elixir = item_new("ELIXIR","This is an elixir.",
                    "This is an elixir. It will boost and stun you at the same time.");
-    add_item_to_room(room1, elixir);
+    
     stat_effect_t *stunned = stat_effect_new(p1);
     stat_mod_t *mod1 = stat_mod_new(s1, 0.75, 10);
     stat_mod_t *mod2 = stat_mod_new(s2, 0.9, 10);
@@ -74,28 +76,28 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
-    global_effect_t *poisoned, *stunned, *healed;
+    effects_global_t *poisoned, *stunned, *healed;
     HASH_FIND(hh, game->all_effects, "POISONED", strlen("POISONED"), poisoned);
     HASH_FIND(hh, game->all_effects, "STUNNED", strlen("STUNNED"), stunned);
     HASH_FIND(hh, game->all_effects, "HEALED", strlen("HEALED"), healed);
 
-    global_effect_t *boost = global_effect_new("BOOST");
+    effects_global_t *boost = global_effect_new("BOOST");
     add_effect_to_game(game, boost);
 
-    global_stat_t *health, *xp;
+    stats_global_t *health, *xp;
     HASH_FIND(hh, game->curr_stats, "HEALTH", strlen("HEALTH"), health);
     HASH_FIND(hh, game->curr_stats, "XP", strlen("XP"), xp);
 
-    stat_t *s1 = stats_new(health, 100);
-    stat_t *s2 = stats_new(xp, 100);
+    stats_t *s1 = stats_new(health, 100);
+    stats_t *s2 = stats_new(xp, 100);
 
-    global_stat_t *speed = global_stat_new("SPEED", 100);
+    stats_global_t *speed = stats_global_new("SPEED", 100);
     add_stat_to_game(game, speed);
-    global_stat_t *stamina = global_stat_new("STAMINA", 100);
+    stats_global_t *stamina = stats_global_new("STAMINA", 100);
     add_stat_to_game(game, stamina);
 
-    stat_t *s3 = stats_new(speed, 75);
-    stat_t *s4 = stats_new(stamina, 100);
+    stats_t *s3 = stats_new(speed, 75);
+    stats_t *s4 = stats_new(stamina, 100);
 
 
     /* Create a poison in room1 */
@@ -117,7 +119,7 @@ chiventure_ctx_t *create_sample_ctx()
     add_stat(&sh, s2);
     add_stat(&sh, s3);
 
-    class_t default = class_new("class", "short", "long", NULL, sh, eh);
+    class_t *class = class_new("class", "short", "long", NULL, sh, eh);
 
 
     return ctx;
@@ -132,6 +134,7 @@ char *print_global_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
+    stats_global_hash_t *s = game->curr_stats;
     stats_global_t *stat, *tmp;
     int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(s));
     char list[size];
@@ -139,7 +142,7 @@ char *print_global_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     HASH_ITER(hh, s, stat, tmp)
     {
-        sprintf(line, "%s [max: %d]\n", stat->name, stat->max);
+        sprintf(line, "%s [max: %f]\n", stat->name, stat->max);
         strcat(list, line);
     }
 
@@ -156,6 +159,7 @@ char *print_global_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
+    effects_global_hash_t *hash = game->all_effects;
     effects_global_t *effect, *tmp;
 
     int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(hash));
@@ -181,7 +185,7 @@ char *print_player_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
-    return display_stats(game->curr_player->player_stats);
+    return display_stats(game->curr_player->player_class->stats);
 }
 
 char *print_player_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -193,7 +197,7 @@ char *print_player_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
-    return display_stat_effects(game->curr_player->player_effects);
+    return display_stat_effects(game->curr_player->player_class->effects);
 }
 
 char *print_item_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -222,17 +226,17 @@ char *add_player_stat(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "You must identify a stat to add\n";
     }
 
-    global_stat_t *global;
+    stats_global_t *global;
     HASH_FIND(hh, game->curr_stats, tokens[1], strlen(tokens[1]), global);
     
-    if (check = NULL)
+    if (global == NULL)
     {
-        return "This stat does not exist in the game."
+        return "This stat does not exist in the game.";
     }
 
-    stat_t *stat = stat_new(global);
+    stats_t *stat = stat_new(global);
     add_stat(&game->curr_player->player_class->stats, stat);
-    return "The stat has been added."
+    return "The stat has been added.";
 
 }
 
@@ -249,17 +253,17 @@ char *add_player_effect(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "You must identify an effect to add\n";
     }
 
-    global_effect_t *global;
+    effects_global_t *global;
     HASH_FIND(hh, game->all_effects, tokens[1], strlen(tokens[1]), global);
     
-    if (check = NULL)
+    if (global == NULL)
     {
-        return "This stat does not exist in the game."
+        return "This stat does not exist in the game.";
     }
 
     stat_effect_t *effect = stat_effect_new(global);
-    add_stat(&game->curr_player->player_class->effects, effect);
-    return "The effect has been added."
+    add_stat_effect(&game->curr_player->player_class->effects, effect);
+    return "The effect has been added.";
 
 }
 
@@ -275,7 +279,7 @@ int main(int argc, char **argv)
     add_entry("GLOBAL STATS", print_global_stats, NULL, ctx->table);
     add_entry("GLOBAL EFFECTS", print_global_effects, NULL, ctx->table);
     add_entry("ADD STAT", add_player_stat, NULL, ctx->table);
-    add_entry("ADD EFFECT")
+    add_entry("ADD EFFECT", add_player_effect, NULL, ctx->table);
     add_entry("ITEM EFFECT", print_item_effects, NULL, ctx->table);
 
     /* Start chiventure */
