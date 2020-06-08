@@ -89,6 +89,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
     if (changed_stat > curr->max){
         changed_stat = curr->max;
     }
+
     if (changed_stat > (curr->global->max)) {
         printf("Error: changed value exceeds global maximum");
         exit(1);
@@ -116,7 +117,11 @@ double get_stat_current(stats_hash_t *sh, char *stat)
     if (curr == NULL) {
        printf("Error: no matching stat");
     }
-    double res = (curr -> max) * (curr -> val);
+    double res = (curr -> modifier) * (curr -> val);
+
+    if (res > cur -> global.max) {
+        res = cur -> global.max;
+    }
     return res;
 }
 
