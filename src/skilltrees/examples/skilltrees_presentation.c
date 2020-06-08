@@ -170,7 +170,7 @@ char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
 void design_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(design_skill);
     if (design_skill->level == 4) {
-        print_to_cli("You can move on to Implementation now, though feel free to keep designing!");
+        print_to_cli(ctx, "You can move on to Implementation now, though feel free to keep designing!");
         create_connection(ctx->game, "Design Room", "Implementation Room",
                           "NORTH");
         create_connection(ctx->game, "Implementation Room", "Design Room",
