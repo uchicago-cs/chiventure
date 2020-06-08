@@ -235,7 +235,7 @@ int register_npc_room_time(npc_mov_t *npc_mov, room_t *room, int time);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
+int extend_path_definite(npc_mov_t *npc_mov, room_t *room_to_add);
 
 
 /* 
@@ -250,7 +250,7 @@ int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time);
+int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time);
 
 
 /* 
@@ -291,6 +291,6 @@ int reverse_path(npc_mov_t *npc_mov);
  *   the move is not implemented
  * 2 successful move to the next room
 */
-int move_npc_def(npc_mov_t *npc_mov);
+int move_npc_definite(npc_mov_t *npc_mov);
 
 #endif

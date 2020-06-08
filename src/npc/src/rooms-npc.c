@@ -174,7 +174,7 @@ int register_npc_room_time(npc_mov_t *npc_mov, room_t *room, int time)
 
 
 /* See rooms-npc.h */
-int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add) 
+int extend_path_definite(npc_mov_t *npc_mov, room_t *room_to_add) 
 {
     assert(room_to_add != NULL);
     assert(npc_mov != NULL);
@@ -191,7 +191,7 @@ int extend_path_def(npc_mov_t *npc_mov, room_t *room_to_add)
 
 
 /* See rooms-npc.h */
-int extend_path_indef(npc_mov_t *npc_mov, room_t *room_to_add, int time) 
+int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time) 
 {   
     assert(room_to_add != NULL);
 
@@ -258,7 +258,7 @@ int room_id_cmp(room_list_t *room1, room_list_t *room2)
 }
 
 /* See rooms-npc.h */
-int move_npc_def(npc_mov_t *npc_mov)
+int move_npc_definite(npc_mov_t *npc_mov)
 {
 
     assert(npc_mov->mov_type == NPC_MOV_DEFINITE);
@@ -273,7 +273,6 @@ int move_npc_def(npc_mov_t *npc_mov)
 
     if(current_room->next == NULL)
     {
-        reverse_path(npc_mov);
         return 1;
     }
     if((strcmp(current_room->room->room_id,npc_mov->track)) == 0)
