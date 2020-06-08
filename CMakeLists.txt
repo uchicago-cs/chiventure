@@ -12,7 +12,12 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
-find_package(Lua 5.3 REQUIRED) 
+find_package(Lua 5.3 REQUIRED)
+
+find_package(raylib 3.0 QUIET)
+if (raylib_FOUND)
+    message(STATUS "Found raylib: ${raylib_LIBRARY}")
+endif()
 
 set(CHIVENTURE_MODULES action_management battle checkpointing cli common custom-actions custom-scripts game-state libobj quests npc openworld playerclass skilltrees ui wdl)
 

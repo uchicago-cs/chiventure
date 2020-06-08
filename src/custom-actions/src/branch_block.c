@@ -116,6 +116,7 @@ int branch_block_free(branch_block_t *branch)
     free(branch);
     
     return SUCCESS; 
+<<<<<<< HEAD
 }
 
 /* See branch_block.h */
@@ -131,3 +132,6 @@ int branch_block_run(branch_block_t *branch)
     }
     return;
 }
+=======
+} 
+>>>>>>> 1937870049eccbe76eab655106da945a233509c2
