@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "chiventure/src/custom-actions/include/action_block.h"
-#include "chiventure/src/custom-actions/include/conditional_block.h"
+#include "../include/action_block.h"
+#include "../include/conditional_block.h"
 
 
 void custom_actions_ex1()
@@ -15,7 +15,7 @@ void custom_actions_ex1()
     conditional_block_t *cond1, *cond2;
     attribute_t *attr1, *attr2, *attr3, *attr4, *attr5, *attr6;
     attribute_t **args1, **args2;
-    attribute_value_t val1, val2, val3, val4, val5, val6;
+    attribute_value_t v1, v2, v3, v4, v5, v6;
     int rc1, rc2;
 
     attr1 = malloc(sizeof(attribute_t));
