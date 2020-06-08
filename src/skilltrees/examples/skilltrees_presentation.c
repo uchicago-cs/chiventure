@@ -22,16 +22,16 @@ chiventure_ctx_t* create_example_ctx() {
     game_t* game = game_new("Welcome to the skilltrees team's presentation!");
 
     // Create example rooms
-    // room_t* room1 = room_new("room1", "Room 1 short description", "Room 1 long description");
-    // room_t* room1 = room_new("room2", "Room 2 short description", "Room 2 long description");
+    room_t* st_room1 = room_new("st_room1", "Room 1 short description", "Room 1 long description");
+    room_t* st_room2 = room_new("st_room2", "Room 2 short description", "Room 2 long description");
 
     // Add example rooms to example game
-    // add_room_to_game(game, room1);
-    // add_room_to_game(game, room2);
+    add_room_to_game(game, st_room1);
+    add_room_to_game(game, st_room2);
 
     // Set initial room and create connection to second room
-    // game->curr_room = room1;
-    // create_connection(game, "room1", "room2", "NORTH");
+    game->curr_room = st_room1;
+    create_connection(game, "st_room1", "st_room2", "NORTH");
 
     // Create item in room1
 
