@@ -60,7 +60,7 @@ int print_hp(battle_t* b, char* string)
 char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 {
     char *move_name = move->info;
-    int damage = damage(b->enemy, move, b->player);
+    int dmg = damage(b->enemy, move, b->player);
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
     char* enemy_name = b->enemy->name;
@@ -77,7 +77,7 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s! It did %d damage.\n",
-                    combatant_name, move_name, damage);
+             combatant_name, move_name, dmg);
 
     int rc = print_hp(b, string);
     assert(rc == SUCCESS);
