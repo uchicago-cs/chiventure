@@ -3,7 +3,8 @@
  * This class list does not use skill_inventory.
  * See skill-list.h for more information.
  */
-#include "skilltrees/skill-list.h"
+#include "skilltrees/alt-skill-list.h"
+#include "skilltrees/skill-example.h"
 
 #define MAX_SPELL_DESC_LEN (50)
 
@@ -33,19 +34,19 @@ skill_list_t* skill_list() {
 
     // Bard
 
-    class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL, NULL, NULL, NULL);
+    class_t *bard = class_new("Bard", "Song-singer", "Song-singer and tale-teller", NULL, NULL, NULL);
     skill_t *diss_track = skill_new(0, ACTIVE, "Diss Track", "A Bard attack spell that deals 8 damage.", 2, 5, effect_diss_track);
     skill_list_t *bardlist = new_skill_list(bard, diss_track);
 
     // Wizard
 
-    class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, NULL, NULL, NULL);
+    class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
     skill_t *fireball = skill_new(1, ACTIVE, "Fireball", "A Wizard attack spell that deals 10 damage.", 2, 5, effect_fireball);
     skill_list_t *wizardlist = new_skill_list(wizard, fireball);
     
     // Knight
 
-    class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL, NULL, NULL, NULL);
+    class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL);
     skill_t *sword_slash = skill_new(2, ACTIVE, "Sword Slash", "A Knight attack that deals 9 damage.", 2, 5, effect_sword_slash);
     skill_list_t *knightlist = new_skill_list(knight, sword_slash);
 

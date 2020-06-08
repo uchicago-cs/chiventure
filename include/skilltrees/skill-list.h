@@ -15,7 +15,9 @@
 
 typedef struct skill_list {
     class_t* c;
-    skill_t* spell;
+    char* spell;
+    int damage;
+    int id;
     struct skill_list *prev;
     struct skill_list *next;
 } skill_list_t;
