@@ -120,7 +120,6 @@ void implementation_level_up(chiventure_ctx_t* ctx) {
                           "NORTH");
         create_connection(ctx->game, "Demo Room", "Implementation Room",
                           "SOUTH");
-        inventory_skill_acquire(skill_tree, inventory, test_skill);
     }
 }
 
