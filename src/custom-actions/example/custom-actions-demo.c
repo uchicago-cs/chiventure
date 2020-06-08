@@ -2,6 +2,12 @@
  * custom-actions-demo.c: Demonstrating custom action execution
  */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include "game-state/item.h"
+#include "action_block.h"
+#include "conditional_block.h"
+
 
 void custom_actions_ex1()
 {

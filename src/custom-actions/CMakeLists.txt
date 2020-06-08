@@ -11,3 +11,6 @@ add_library(custom-actions
             )
 
 target_include_directories(custom-actions PRIVATE include/)
+
+add_subdirectory(example
+                 EXCLUDE_FROM_ALL)
