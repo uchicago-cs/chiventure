@@ -227,12 +227,10 @@ skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
             void** res;
             switch (type) {
                 case ACTIVE:
-                    res = array_element_add((void**)acquired, (*num_acquired_prereqs),
-                                            (void*)inventory->active[pos]);
+                    acquired[(*num_acquired_prereqs)] = inventory->active[pos];
                     break;
                 case PASSIVE:
-                    res = array_element_add((void**)acquired, (*num_acquired_prereqs),
-                                            (void*)inventory->passive[pos]);
+                    acquired[(*num_acquired_prereqs)] = inventory->passive[pos];
                     break;
                 default:
                     fprintf(stderr,
