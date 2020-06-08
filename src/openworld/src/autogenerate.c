@@ -239,25 +239,25 @@ npc_t *random_npcs(roomspec_t *room)
 /* See autogenerate.h */
 int random_npc_lookup(npc_t **dst, npc_t *src, int num_iters)
 {
-   npc_t *current = NULL;
-   npc_t *tmp = NULL;
+    npc_t *current = NULL;
+    npc_t *tmp = NULL;
 
-   int i = 0;
-   HASH_ITER(hh, src, current, tmp) {
+    int i = 0;
+    HASH_ITER(hh, src, current, tmp) {
 	
-   if (i == num_iters) {
-      npc_t *new_npc = calloc(1, sizeof(npc_t));
+    if (i == num_iters) {
+       npc_t *new_npc = calloc(1, sizeof(npc_t));
       
-      new_npc->npc_name = calloc(MAX_NAME_LEN + 1, sizeof(char));
-      strncpy(new_npc->npc_name, current->npc_name, MAX_NAME_LEN); 
-      new_npc->level = current->level;
-      new_npc->inventory = current->inventory;
-      new_npc->classification = current->classification;
-      HASH_ADD_STR(*dst, npc_name, new_npc);
-      return SUCCESS;
+       new_npc->npc_name = calloc(MAX_NAME_LEN + 1, sizeof(char));
+       strncpy(new_npc->npc_name, current->npc_name, MAX_NAME_LEN); 
+       new_npc->level = current->level;
+       new_npc->inventory = current->inventory;
+       new_npc->classification = current->classification;
+       HASH_ADD_STR(*dst, npc_name, new_npc);
+       return SUCCESS;
     }
-     i++;
+      i++;
 }
 
-  return FAILURE;
+   return FAILURE;
 }
