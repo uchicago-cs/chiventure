@@ -138,15 +138,15 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         {
 	    //remove action from any conditions
 	    path_t *closed_path;
+	    list_action_type_t *delete_node;
 	    int condition;
-	    list_action_type_t *delete_node, *temp;
 	    closed_path = path_search(a->room,a->direction);
-	    delete_node = LL_SEARCH_SCALAR(&closed_path,temp,act,"open");
-	    condition = remove_condition(closed_path,delete_node);
-	    if (condition != SUCCESS)
-	    {
-		sprintf(string, "condition was not removed");
-	    }
+	    delete_node = find_act(closed_path->conditions,a);
+//	    condition = remove_condition(closed_path,delete_node);
+	    //if (condition != SUCCESS)
+	    //{
+	//	sprintf(string, "condition was not removed");
+	 //   }
 
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);

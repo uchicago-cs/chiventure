@@ -223,6 +223,15 @@ int all_conditions_met(item_t* item, char* action_name)
 
 
 /* See game_action.h */
+list_action_type_t *find_act(list_action_type_t *head, action_type_t *a)
+{
+    list_action_type_t *delete_node, *temp;
+    delete_node = LL_SEARCH_SCALAR(head,temp,act,a);
+    return delete_node;
+}
+
+
+/* See game_action.h */
 int delete_action(list_action_type_t **head, list_action_type_t *act)
 {
     if (*head == NULL) 

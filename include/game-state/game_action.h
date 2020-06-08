@@ -127,6 +127,18 @@ int all_conditions_met(item_t* item, char* action_name);
 
 
 /*
+ * Function that returns the node with the right action_type_t
+ *
+ * Parameters:
+ * - list_action_type_t: list containing actions
+ * - action_type_t: action that we want
+ *
+ * Returns:
+ * pointer to correct list_action_type_t node
+ */
+list_action_type_t *find_act(list_action_type_t *head, action_type_t *a);
+
+/*
  * Function that deletes a node in list_action_type_t
  * 
  * Parameters:
