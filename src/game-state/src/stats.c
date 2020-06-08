@@ -136,7 +136,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
 {
      
     if (sh == NULL) {
-        return FAILURE;
+        return -1;
     }
 
     stats_t *curr;
@@ -144,7 +144,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       return FAILURE;
+       return -1;
     }
     
     int changed_stat = curr->val + change;
@@ -165,7 +165,7 @@ int change_stat_max(stats_hash_t *sh, char *stat, double change)
     HASH_FIND_STR(sh, stat, s);
     if (s == NULL)
     {
-        return FAILURE;
+        return -1;
     }
     s->max = s->max + change;
     return SUCCESS;
@@ -175,7 +175,7 @@ int change_stat_max(stats_hash_t *sh, char *stat, double change)
 double get_stat_current(stats_hash_t *sh, char *stat)
 {
     if (sh == NULL) {
-        return FAILURE;
+        return -1;
     }
 
     stats_hash_t *curr;
@@ -183,7 +183,7 @@ double get_stat_current(stats_hash_t *sh, char *stat)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       return FAILURE;
+       return -1;
     }
     double res = (curr->modifier) * (curr->val);
 
@@ -197,7 +197,7 @@ double get_stat_current(stats_hash_t *sh, char *stat)
 double get_stat_max(stats_hash_t *sh, char *stat)
 {
     if (sh == NULL) {
-        return FAILURE;
+        return -1;
     }
 
     stats_t *curr;
@@ -205,7 +205,7 @@ double get_stat_max(stats_hash_t *sh, char *stat)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       return FAILURE;
+       return -1;
     }
     
     return (curr->max);
@@ -215,7 +215,7 @@ double get_stat_max(stats_hash_t *sh, char *stat)
 double get_stat_mod(stats_hash_t *sh, char *stat)
 {
     if (sh == NULL) {
-        return FAILURE;
+        return -1;
     }
 
     stats_hash_t *curr;
@@ -223,7 +223,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
     if (curr == NULL) {
-       return FAILURE;
+       return -1;
     }
     
     return (curr->modifier);
@@ -238,7 +238,7 @@ int add_stat(stats_hash_t **sh, stats_t *s)
 
     if (check != NULL)
     {
-        return FAILURE;
+        return -1;
     }
 
     HASH_ADD_KEYPTR(hh, *sh, s->key, strlen(s->key), s);
@@ -275,7 +275,7 @@ int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect) {
 
     if (check != NULL)
     {
-        return FAILURE; //the effect already exists in the player hash table
+        return -1; //the effect already exists in the player hash table
     }
 
     HASH_ADD_KEYPTR(hh, *hash, effect->key, strlen(effect->key), effect);
