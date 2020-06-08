@@ -23,12 +23,12 @@ chiventure_ctx_t* create_example_ctx() {
 
     // Create example rooms
     room_t* design_room = room_new("Design Room", "", "This is the design room."
-                                   "Any responsible software project devotes"
-                                   "ample time to its design phase.");
-    room_t* implementation_room = room_new("Implementation Room", "", "This is"
+                                   " Any responsible software project devotes"
+                                   " ample time to its design phase.");
+    room_t* implementation_room = room_new("Implementation Room", "", "This is "
                                            "the implementation room. Your users"
-                                           "eagerly await a demo of your final "
-                                           "product, so get to work!");
+                                           " eagerly await a demo of your final"
+                                           " product, so get to work!");
     room_t* demo_room = room_new("Demo Room", "", "Your demo was a success!");
 
     // Add example rooms to example game
@@ -38,10 +38,10 @@ chiventure_ctx_t* create_example_ctx() {
 
     // Set initial room and create connection to second room
     game->curr_room = design_room;
-    create_connection(game, "design_room", "implementation_room", "NORTH");
-    create_connection(game, "implementation_room", "design_room", "SOUTH");
-    create_connection(game, "implementation_room", "demo_room", "NORTH");
-    create_connection(game, "demo_room", "implementation_room", "SOUTH");
+    create_connection(game, "Design Room", "Implementation Room", "NORTH");
+    create_connection(game, "Implementation Room", "Design Room", "SOUTH");
+    create_connection(game, "Implementation Room", "Demo Room", "NORTH");
+    create_connection(game, "Demo Room", "Implementation Room", "SOUTH");
 
     // Create item in room1
 
