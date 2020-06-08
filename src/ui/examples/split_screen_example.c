@@ -2,15 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "cli/cmd.h"
-#include "cli/operations.h"
-#include "ui/ui_ctx.h"
-#include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
 #define MAX_INPUT_CHARS 20
 #define POS_ZERO 0
-
-
 
 chiventure_ctx_t *create_sample_ctx()
 {
@@ -26,7 +20,7 @@ chiventure_ctx_t *create_sample_ctx()
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
-}
+} 
 
 int main() {
 
@@ -38,11 +32,11 @@ int main() {
 
     InitWindow(ScreenWidth, ScreenHeight, "load image sandbox program");
 
-    //loading the texture into memory
-    Image room = LoadImage("images/example3.png");
+    /*//loading the texture into memory
+    Image room = LoadImage("image.png");
 
     //converting the image to a texture for raylib in VRAM
-    Texture2D texture = LoadTextureFromImage(room);
+    Texture2D texture = LoadTextureFromImage(room); */
 
     //creating a rectangle the size of the window
     int WindowWidth = 1200;
@@ -77,7 +71,7 @@ int main() {
             mouseOnText = false;
 
         if (mouseOnText) {
-            // Get pressed key (character) on the queue
+        // Get pressed key (character) on the queue
             int key = GetKeyPressed();
 
             // Check if more characters have been pressed on the same frame
@@ -102,7 +96,7 @@ int main() {
 
         if (mouseOnText) framesCounter++;
         else framesCounter = 0;
-
+        
         if (IsKeyPressed(KEY_ENTER)) {
             // use the command to string function to turn name into a command
             cmd *c = cmd_from_string(name, ctx);
@@ -126,7 +120,7 @@ int main() {
         int rectHeight = 120;
 
         ClearBackground(RAYWHITE);
-        DrawTexture(texture, ScreenWidth/2 - texture.width/2, POS_ZERO, WHITE);
+        DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBLUE);
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
         DrawRectangleLines(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, heightbuf2, BLACK);
@@ -152,8 +146,8 @@ int main() {
         EndDrawing();
     }
 
-    UnloadTexture(texture);
+    //UnloadTexture(texture);
     CloseWindow();
 
     return 0;
-    }
+}
