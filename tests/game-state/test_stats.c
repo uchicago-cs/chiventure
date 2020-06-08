@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include "game-state/stats.h"
 
-/* Checks that add_stat_player correctly adds a new stat 
+/* Checks that add_stat correctly adds a new stat 
    to a hash table*/
-Test (stats, add_stat_player)
+Test (stats, add_stat)
 {
     stats_hash_t *sh = NULL;
     stats_global_t g;
@@ -20,11 +20,11 @@ Test (stats, add_stat_player)
     s.max = 75;
     s.modifier = 1.1;
 
-    int rc = add_stat_player(&sh, &s);
+    int rc = add_stat(&sh, &s);
 
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
+    cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
-    cr_assert_not_null(sh, "add_stat_player did not add the stat");
+    cr_assert_not_null(sh, "add_stat did not add the stat");
 }
 
 /* Checks that display_stat returns the correct list of stats */
@@ -43,9 +43,9 @@ Test(stats, display_stat)
     s1.max = 75;
     s1.modifier = 1.1;
 
-    int rc = add_stat_player(&sh, &s1);
+    int rc = add_stat(&sh, &s1);
 
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
+    cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
 
     stats_global_t speed;
@@ -59,9 +59,9 @@ Test(stats, display_stat)
     s2.max = 50;
     s2.modifier = 0.9;
 
-    rc = add_stat_player(&sh, &s2);
+    rc = add_stat(&sh, &s2);
 
-    cr_assert_eq(rc, SUCCESS, "add_stat_player failed");
+    cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
     char *list = display_stats(sh);
 
@@ -119,4 +119,83 @@ Test (stats, stat_effect_new)
     cr_assert_not_null(effect, "stat_effect_new failed");
     cr_assert_str_eq(effect->key, global->name, "stat_effect_new did not set key");
     cr_assert_eq(effect->global, global, "stat_effect_new did not set global pointer");
+}
+
+/* Checks that add_stat_effect adds an effect to a hash table */
+Test(stats, add_stat_effect)
+{
+    effects_hash_t *hash = NULL;
+    effects_global_t *global = global_effect_new("effect");
+    stat_effect_t *effect = stat_effect_new(global);
+    int rc = add_stat_effect(&hash, effect);
+
+    cr_assert_eq(rc, SUCCESS, "add_stat_effect failed");
+    cr_assert_not_null(hash, "effect not added to hash");
+}
+
+/* Checks that apply_effect correctly applies and effect */
+Test (stats, apply_effect)
+{
+    effects_global_t *global = global_effect_new("poison");
+    cr_assert_not_null(global, "global_effect_new failed");
+    effects_hash_t *hash = NULL;
+    stat_effect_t *effect = stat_effect_new(global);
+    cr_assert_not_null(effect, "stat_effect_new failed");
+
+    stats_global_t health;
+    health.name = "health";
+    health.max = 100;
+
+    stats_t s1;
+    s1.key = "health";
+    s1.global = &health;
+    s1.val = 50.0;
+    s1.max = 75.0;
+    s1.modifier = 0.75;  
+
+    stats_global_t speed;
+    speed.name = "speed";
+    speed.max = 100;
+
+    stats_t s2;
+    s2.key = "speed";
+    s2.global = &speed;
+    s2.val = 25;
+    s2.max = 50;
+    s2.modifier = 1.0;
+
+    stats_t *stats[] = {&s1, &s2};
+    double intensities[] = {2.0, 0.5};
+    int durations[] = {2, 5};
+
+    int rc = apply_effect(&hash, effect, stats, 
+                          intensities, durations, 2);
+    
+    cr_assert_eq(rc, SUCCESS, "apply_effect failed");
+    cr_assert_eq(s1.modifier, 1.5, "apply_effect did not update s1 modifier");
+    cr_assert_eq(s2.modifier, 0.5, "apply_effect did not update s2 modifier");
+
+    cr_assert_not_null(hash, "apply_effect did not add effect to hash");
+
+    stat_mod_t *tmp1, *tmp2, l1, l2;
+    l1.stat = &s1;
+    LL_SEARCH(effect->stat_list, tmp1, &l1, stat_mod_equal);
+    cr_assert_not_null(tmp1, "apply_effect did not add s1 to stat_mod_t list");
+    cr_assert_str_eq(tmp1->stat->key, l1.stat->key, "fail");
+
+    l2.stat = &s2;
+    LL_SEARCH(effect->stat_list, tmp2, &l2, stat_mod_equal);
+    cr_assert_not_null(tmp2, "apply_effect did not add s2 to stat_mod_t list");
+    cr_assert_str_eq(tmp2->stat->key, l2.stat->key, "fail");
+
+    cr_assert_eq(tmp1->modifier, intensities[0], 
+                 "apply_effect did not set stat_mod modifier");
+    cr_assert_eq(tmp2->modifier, intensities[1], 
+                 "apply_effect did not set stat_mod modifier");
+
+    cr_assert_eq(tmp1->duration, durations[0], 
+                 "apply_effect did not set stat_mod duration");
+    cr_assert_eq(tmp2->duration, durations[1], 
+                 "apply_effect did not set stat_mod duration");
+
 }

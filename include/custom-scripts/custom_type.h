@@ -22,6 +22,25 @@ typedef enum data_type
     STR_TYPE = 4,
 } data_type_t;
 
+typedef struct arg_t
+{
+    // Type of underlying data
+    data_type_t type;
+    
+    // Data associated with the argument
+    union
+    {
+        bool b;
+        char c;
+        int  i;
+        char *s;
+    } data;
+
+    // Pointer to the previous and next arguments
+    struct arg_t *prev;
+    struct arg_t *next;
+} arg_t;
+
 typedef struct obj_t
 {
     // Type of underlying data
@@ -39,16 +58,15 @@ typedef struct obj_t
         char *s;
         char *lua;
     } data;
-} object_t;
 
+    // Linked list of arguments
+    arg_t *args;
+} object_t;
 
 /**
  * obj_t_new() creates an empty object_t struct
  * Returns:
  * - pointer to an empty object struct
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_new();
 
@@ -57,11 +75,9 @@ object_t *obj_t_new();
  * Parameters:
  * - bool value to be stored
  * - Lua script (NULL if no script to be specified)
+ * - argument linked list to be passed to Lua if applicable
  * Returns:
  * - pointer to an object struct containing the bool
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_bool(bool b, char *lua);
 
@@ -72,9 +88,6 @@ object_t *obj_t_bool(bool b, char *lua);
  *  - Lua script (NULL if no script to be specified)
  * Returns:
  * - pointer to an object struct containing the char
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_char(char c, char *lua);
 
@@ -85,9 +98,6 @@ object_t *obj_t_char(char c, char *lua);
  *  - Lua script (NULL if no script to be specified)
  * Returns:
  * - pointer to an object struct containing the int
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_int(int i, char *lua);
 
@@ -98,11 +108,52 @@ object_t *obj_t_int(int i, char *lua);
  *  - Lua script (NULL if no script to be specified)
  * Returns:
  * - pointer to an object struct containing the str
- * 
- * Chose not to use pointer return type because data type is small,
- * so copying is not costly
  */
 object_t *obj_t_str(char *s, char *lua);
+
+// ============================================================================
+
+/**
+ * obj_add_arg_bool adds a bool to the argument linked list of the object_t
+ * Parameters:
+ * - the object whose argument list is to be added to
+ * - the boolean to be added
+ * Returns:
+ * - the updated object
+ */
+object_t *obj_add_arg_bool(object_t *obj, bool b);
+
+/**
+ * obj_add_arg_char adds a char to the argument linked list of the object_t
+ * Parameters:
+ * - the object whose argument list is to be added to
+ * - the char to be added
+ * Returns:
+ * - the updated object
+ */
+object_t *obj_add_arg_char(object_t *obj, char c);
+
+/**
+ * obj_add_arg_int adds a int to the argument linked list of the object_t
+ * Parameters:
+ * - the object whose argument list is to be added to
+ * - the int to be added
+ * Returns:
+ * - the updated object
+ */
+object_t *obj_add_arg_int(object_t *obj, int i);
+
+/**
+ * obj_add_arg_str adds a string to the argument linked list of the object_t
+ * Parameters:
+ * - the object whose argument list is to be added to
+ * - the string to be added
+ * Returns:
+ * - the updated object
+ */
+object_t *obj_add_arg_str(object_t *obj, char *s);
+
+// ============================================================================
 
 /**
  * bool_t_get() returns a bool from an object_t struct
