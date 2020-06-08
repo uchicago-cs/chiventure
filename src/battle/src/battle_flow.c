@@ -70,6 +70,10 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment
     combatant_t *comb_player  = set_player(ctx_player);
     combatant_t *comb_enemies = set_enemies(npc_enemies);
 
+    /* Builds a move list using player class module */
+    build_moves(comb_player);
+    build_moves(comb_enemies); // This will have to be updated if multiple enemies are added
+    
     turn_t turn = PLAYER;
 
     battle_t *b = battle_new(comb_player, comb_enemies, env, turn);
@@ -102,7 +106,11 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
     
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
-    enemy->stats->hp -= move->damage;
+    /* additionally, a check must be performed here to see if player has
+       this move, currently not implemented, waiting for player class
+       to resolve move_lists() */
+    int dmg = damage(b->enemy, move, b->player);
+    enemy->stats->hp -= dmg;
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
     {
@@ -119,7 +127,8 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 
     if(enemy_move != NULL)
     {
-        b->player->stats->hp -= enemy_move->damage;
+        dmg = damage(b->player, enemy_move, b->enemy);
+        b->player->stats->hp -= dmg;
     }
     else
     {
