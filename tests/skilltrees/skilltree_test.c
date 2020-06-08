@@ -394,8 +394,14 @@ Test(skilltree_tests, skill_prereqs_missing_some)
   node_prereq_add(bomb_node, chop_node);
 
   skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
+
   skill_tree_node_add(tree, bomb_node);
+  int res1 = skill_tree_has_node(tree, 1000);
+  cr_assert_eq(0, res1, "Error: failed test skill_prereqs_missing_some\n");
+
   skill_tree_node_add(tree, chop_node);
+  int res2 = skill_tree_has_node(tree, 1001);
+  cr_assert_eq(1, res2, "Error: failed test skill_prereqs_missing_some\n");
 
   int* out = malloc(sizeof(int));
 

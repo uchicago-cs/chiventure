@@ -237,7 +237,7 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
  * Parameters:
  *  - tree: A skill tree
  *  - inventory: A player's skill inventory
- *  - sid: A skill ID
+ *  - sid: The ID of the skill we want to check for prerequisites.
  *  - num_acquired_prereqs: An out-parameter. The number of missing prerequisite skills in
  *              the list
  *
