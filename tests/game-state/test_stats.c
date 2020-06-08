@@ -338,9 +338,9 @@ Test(stats, change_stat) {
     s2.max = 130;
     s2.modifier = 1;
 
-    int rc1 = add_stat_player(&sh, &s1);
+    int rc1 = add_stat(&sh, &s1);
     cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
-    int rc2 = add_stat_player(&sh, &s2);
+    int rc2 = add_stat(&sh, &s2);
     stats_t* curr; 
     HASH_FIND(hh, sh, "health", strlen("health"), curr);
     cr_assert_eq(curr->val, 50,
@@ -383,7 +383,7 @@ Test(stats, get_stat_current){
     stats_init(&s1, &g1, 50);
     s1.max = 75;
     s1.modifier = 1.1;
-    int rc1 = add_stat_player(&sh, &s1);
+    int rc1 = add_stat(&sh, &s1);
     cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
     int s1_value = get_stat_current(sh, s1.key);
     cr_assert_eq(s1_value, 55, "get_stat_current failed");
