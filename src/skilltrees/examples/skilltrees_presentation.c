@@ -42,8 +42,6 @@ chiventure_ctx_t* create_example_ctx() {
 
     // Set initial room
     game->curr_room = design_room;
-    //create_connection(game, "Implementation Room", "Demo Room", "NORTH");
-    //create_connection(game, "Demo Room", "Implementation Room", "SOUTH");
 
     // Create room items
     item_t* implementation_item = item_new("IMPLEMENTATION",
@@ -63,59 +61,78 @@ skill_tree_t* skill_tree;
 /* Declare skill inventory */
 skill_inventory_t* inventory;
 
-/* Declare design skill and associated CLI operation */
-    // Skill struct
+/* Declare skills and skill effects */
+    // Design skill struct
     skill_t* design_skill;
 
-    // Skill effect
+    // Design skill effect
     char* effect_design(char* args) {
         return "Good progress on your modules! Keep going!";
     }
 
-    // Wrapper function for leveling up design skill
-    void design_level_up(chiventure_ctx_t* ctx) {
-        skill_level_up(design_skill);
-        if (design_skill->level == 4) {
-            create_connection(ctx->game, "Design Room", "Implementation Room", "NORTH");
-            create_connection(ctx->game, "Implementation Room", "Design Room", "SOUTH");
-            //add_entry("TEST", test_operation, NULL, ctx->table);
-            //inventory_skill_add(inventory, test_skill);
-        }
-    }
-
-    // Skill CLI operation
-    char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-        design_level_up(ctx);
-        return skill_execute(design_skill, "");
-    }
-
-/* Declare test skill and associated CLI operation */
-    // Skill struct
+    // Testing skill struct
     skill_t* test_skill;
 
-    // Skill effect
+    // Testing skill effect
     char* effect_test(char* args) {
         return "Good progress on testing! Keep going!";
     }
 
-    // Skill CLI operation
-    char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-        return skill_execute(test_skill, "");
-    }
-
-/* Declare implementation skill and associated CLI operation */
-    // Skill struct
+    // Implementation skill struct
     skill_t* implementation_skill;
 
-    // Skill effect
+    // Implementation skill effect
     char* effect_implementation(char* args) {
         return "Good progress implementation progress! Keep going!";
     }
 
-    // Skill CLI operation
-    char* implementation_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-        return skill_execute(implementation_skill, "");
+/* Wrapper function for leveling up testing skill */
+void implementation_level_up(chiventure_ctx_t* ctx) {
+    skill_level_up(implementation_skill);
+    if (implementation_skill->level > 2) {
+        create_connection(game, "Implementation Room", "Demo Room", "NORTH");
+        create_connection(game, "Demo Room", "Implementation Room", "SOUTH");
+        //inventory_skill_acquire(inventory, test_skill);
     }
+}
+
+/* CLI operation for implementation skill */
+char* implementation_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    return skill_execute(implementation_skill, "");
+}
+
+/* Wrapper function for leveling up testing skill */
+void test_level_up() {
+    skill_level_up(test_skill);
+    if (test_skill->level > 1) {
+        add_action(implementation_item, "TAKE", "Now that your tests are complete, begin implementation!", "Test at least once before considering implementation!");
+        add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
+        //inventory_skill_acquire(inventory, implementation_skill);
+    }
+}
+
+/* CLI operation for testing skill */
+char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    test_level_up();
+    return skill_execute(test_skill, "");
+}
+
+/* Wrapper function for leveling up design skill */
+void design_level_up(chiventure_ctx_t* ctx) {
+    skill_level_up(design_skill);
+    if (design_skill->level > 3) {
+        create_connection(ctx->game, "Design Room", "Implementation Room", "NORTH");
+        create_connection(ctx->game, "Implementation Room", "Design Room", "SOUTH");
+        add_entry("TEST", test_operation, NULL, ctx->table);
+        //inventory_skill_acquire(inventory, test_skill);
+    }
+}
+
+/* CLI operation for design skill */
+char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    design_level_up(ctx);
+    return skill_execute(design_skill, "");
+}
 
 int main(int argc, char **argv) {
     // Create example chiventure context
@@ -128,7 +145,7 @@ int main(int argc, char **argv) {
 
     // Initialize inventory
     inventory = inventory_new(10, 0);
-    inventory_skill_add(inventory, design_skill);/*
+    inventory_skill_acquire(inventory, design_skill);/*
 
     // Initialize skill nodes
     skill_node_t* design_node = skill_node_new(design_skill, 0, 0);
