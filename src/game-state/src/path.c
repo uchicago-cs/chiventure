@@ -21,7 +21,7 @@ path_t *path_new(room_t *dest, char *direction)
 /* See room.h */
 int path_new_conditions(path_t *path, list_action_type_t *act)
 {
-    path->conditions = act;
+    LL_APPEND(path->conditions, act);
     return SUCCESS;
 }    
 
@@ -51,7 +51,8 @@ int delete_all_paths(path_hash_t* paths)
 int remove_condition(path_t *path, list_action_type_t *a)
 {
     int check;
-    check = delete_action(path->conditions, a);
+    check = delete_action(&path->conditions, a);
+
     if (path->conditions == NULL) {
 	get_attribute(path->through, "OPEN")->attribute_value.bool_val = true;
     }

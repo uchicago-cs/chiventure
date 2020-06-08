@@ -10,7 +10,7 @@
 int delete_helper(list_action_type_t *act, list_action_type_t *a)
 {
     int rc;
-    rc = delete_action(act, a);
+    rc = delete_action(&act, a);
 
     //go through each item to make sure it's not there
     list_action_type_t *temp;
