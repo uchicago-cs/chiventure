@@ -166,7 +166,8 @@ int main(int argc, char **argv) {
     skill_node_t* design_node = skill_node_new(design_skill, 0, 0);
     skill_node_t* test_node = skill_node_new(test_skill, 1, 0);
     node_prereq_add(test_node, design_node);
-    skill_node_t* implementation_node = skill_node_new(implementation_skill, 2, 0);
+    skill_node_t* implementation_node = skill_node_new(implementation_skill, 2,
+                                                       0);
     node_prereq_add(implementation_node, design_node);
     node_prereq_add(implementation_node, test_node);
 
