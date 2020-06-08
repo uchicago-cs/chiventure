@@ -120,11 +120,18 @@ int skill_tree_free(skill_tree_t* tree) {
 int skill_tree_node_add(skill_tree_t* tree, skill_node_t* node) {
     assert(tree != NULL && node != NULL);
 
-    void** res = array_element_add((void**)tree->nodes, tree->num_nodes, (void*)node);
-    if (res == NULL) {
-        fprintf(stderr, "skill_tree_node_add: failed to add node\n");
-        return FAILURE;
-    }
+    // assert(node != NULL && prereq != NULL);
+    //
+    // node->num_prereq_skills += 1;
+    // skill_node_t** n = node->prereqs;
+    // n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*node->num_prereq_skills);
+    // n[node->num_prereq_skills - 1] = prereq;
+    // return SUCCESS;
+
+    tree->num_nodes += 1;
+    skill_node_t** n = tree->nodes;
+    n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*tree->num_nodes);
+    n[tree->num_prereq_skills - 1] = node;
     return SUCCESS;
 }
 
