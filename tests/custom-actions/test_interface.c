@@ -3,11 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "interface.h"
-#include "ast_block.h"
-#include "control_block.h"
-#include "branch_block.h"
-#include "conditional_block.h"
-#include "branch_block.h"
 
 Test(custom_action_t, find_existing)
 {

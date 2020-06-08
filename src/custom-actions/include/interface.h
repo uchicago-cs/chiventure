@@ -28,23 +28,6 @@
  */
 custom_action_t *search_for_custom_action(char *action_name);
 
-/* 
- * Given a custom action and its corresponding arguments, 
- * attempt to execute the given action.
- * 
- * Parameters: 
- * - action: A pointer to the custom action to be executed (most likely
- *   acquired from search_for_custom_action)
- * - args: An array of strings of the arguments passed to the action
- *   (i.e. the words succeeding the action written in the command line)
- * - num_args: The number of arguments being passed in
- * 
- * Returns:
- * - SUCCESS on successful execution
- * - FAILURE if any one of the blocks fails to execute
- */
-int do_custom_action(custom_action_t *action, char **args, int num_args);
-
 /*
  * Build a custom action object and add it to the game’s list of custom
  * actions. Also associates custom actions with objects and attributes
@@ -80,7 +63,7 @@ custom_action_t *compile_custom_action(object_t *action);
  * - SUCCESS if the custom action was successfully added to the list
  * - FAILURE if otherwise
  */
-int *add_custom_action_to_game(custom_action_t *action);
+int add_custom_action_to_game(custom_action_t *action);
 
 /* 
  * Translates information about a custom action and its attributes (an

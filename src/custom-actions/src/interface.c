@@ -48,7 +48,7 @@ custom_action_t *compile_custom_action(object_t *action)
  * NOTE: This would normally be a private helper function for 
  * compile_custom_action, but it is currently public for sandbox code use.
  */
-int *add_custom_action_to_game(custom_action_t *action)
+int add_custom_action_to_game(custom_action_t *action)
 {
     if (action == NULL || action->name == NULL)
     {
