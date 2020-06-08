@@ -127,19 +127,6 @@ int all_conditions_met(item_t* item, char* action_name);
 
 
 /*
- * compares action strings
- *
- * Parameters:
- * - list_action_type_t: points to node with one action
- * - list_action_type_t: points to node of another action
- *
- * Returns:
- * - int value that acts like boolean
- */
-int actioncmp(list_action_type_t *a1, list_action_type_t *a2);
-
-
-/*
  * Function that returns the node with the right action_type_t
  *
  * Parameters:

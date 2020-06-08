@@ -223,7 +223,17 @@ int all_conditions_met(item_t* item, char* action_name)
     return SUCCESS;
 }
 
-/* See game_action.h */
+/*
+ * helper that compares action strings
+ *
+ * Parameters:
+ * - list_action_type_t: points to node with one action
+ * - list_action_type_t: points to node of another action
+ *
+ * Returns:
+ * - int value that means 0: the same, 1: first string comes after second,
+ *   -1: first string comes before second
+ */
 int actioncmp(list_action_type_t *a1, list_action_type_t *a2) 
 {
     return strncmp(a1->act->c_name, a2->act->c_name, BUFFER_SIZE);

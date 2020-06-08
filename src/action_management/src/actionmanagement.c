@@ -72,6 +72,37 @@ int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
 /* ========================================================================== */
 
 
+/* 
+ * helper function that removes condition
+ *
+ * Parameter:
+ * action that's being one
+ *
+ * Returns:
+ * SUCCESS if action's removed
+ */
+int helper_remove(action_type_t *a)
+{
+            path_t *closed_path;
+            closed_path = path_search(a->room,a->direction);
+            /* only if action is a condition to something (action with
+               null room and direction produce null path) */
+            if (closed_path)
+            {
+                list_action_type_t *delete_node;
+                int condition;
+                closed_path = path_search(a->room,a->direction);
+                delete_node = find_act(closed_path->conditions,a);
+                condition = remove_condition(closed_path,delete_node);
+                if (condition != SUCCESS)
+                {
+                    return CONDITIONS_NOT_MET;
+                }
+            }
+    return SUCCESS;
+}
+
+
 /* KIND 1
  * See actionmanagement.h */
 int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_string)
@@ -137,22 +168,8 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         else
         {
 	    //remove action from any conditions
-	    path_t *closed_path;
-            closed_path = path_search(a->room,a->direction);
-	    // only if action is a condition to something (action with
-	    // null room and direction produce null path)
-	    if (closed_path)
-	    {
-		list_action_type_t *delete_node;
-		int condition;
-		closed_path = path_search(a->room,a->direction);
-		delete_node = find_act(closed_path->conditions,a);
-		condition = remove_condition(closed_path,delete_node);
-		if (condition != SUCCESS)
-		{
-	  	    sprintf(string, "condition was not removed");
-	 	}
-	    }
+	    int rc;
+	    rc = helper_remove(a);
 
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
@@ -195,8 +212,8 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
         *ret_string = string;
         return WRONG_KIND;
     }
-    // validate existence of path and destination
-    // third condition checks if conditions have been met
+    /* validate existence of path and destination
+       third condition checks if conditions have been met */
     if ((path_found == NULL) || (room_dest == NULL) || (p->conditions != NULL))
     {
         sprintf(string, "The path or room provided was invalid.");
@@ -208,22 +225,8 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     int move = move_room(g, room_dest);
 
     //remove action from any conditions
-    path_t *closed_path;
-    closed_path = path_search(a->room,a->direction);
-    // only if action is a condition to something (action with
-    // null room and direction produce null path)
-    if (closed_path)
-    {
-        list_action_type_t *delete_node;
-        int condition;
-        closed_path = path_search(a->room,a->direction);
-        delete_node = find_act(closed_path->conditions,a);
-        condition = remove_condition(closed_path,delete_node);
-        if (condition != SUCCESS)
-        {
-            sprintf(string, "condition was not removed");
-        }
-    }
+    int rc;
+    rc = helper_remove(a);
 
     // successfully carried out action
     if (is_game_over(g)) {
@@ -322,22 +325,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         else if (applied_effect == SUCCESS)
         {
             //remove action from any conditions
-            path_t *closed_path;
-            closed_path = path_search(a->room,a->direction);
-            // only if action is a condition to something (action with
-            // null room and direction produce null path)
-            if (closed_path)
-            {
-                list_action_type_t *delete_node;
-                int condition;
-                closed_path = path_search(a->room,a->direction);
-                delete_node = find_act(closed_path->conditions,a);
-                condition = remove_condition(closed_path,delete_node);
-                if (condition != SUCCESS)
-                {
-                    sprintf(string, "condition was not removed");
-                }
-            }
+            int rc;
+            rc = helper_remove(a);
 
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
