@@ -230,12 +230,14 @@ stat_effect_t *stat_effect_new(effects_global_t *global);
 
 /*
  * Changes the base value of a stat by the
- * specified double amount through addition
+ * specified double amount through addition.
  *
  * Parameters:
  *  sh: the hash table of stats 
  *  stat: the name/key of the stat
- *  change: the value to add to the stat
+ *  change: the value to add to the stat. 
+ *  If the value is greater than the global 
+ *  max, the value is set to the global max. 
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
@@ -251,7 +253,9 @@ int change_stat(stats_hash_t *sh, char *stat, double change);
  *  stat: the name of the stat
  *
  * Returns:
- *  double value of a players stat
+ *  double value of a players stat. If 
+ *  the value is greater than the global 
+ *  max, the value is the global max. 
  */
 double get_stat_current(stats_hash_t *sh, char *stat);
 
