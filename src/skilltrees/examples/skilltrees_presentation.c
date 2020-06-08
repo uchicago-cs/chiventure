@@ -168,6 +168,12 @@ char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     return skill_execute(design_skill, "");
 }
 
+/* CLI operation to list all skills in inventory */
+char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    print_to_cli(ctx, current_skills_as_strings(inventory));
+    return "";
+}
+
 int main(int argc, char **argv) {
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
@@ -200,8 +206,9 @@ int main(int argc, char **argv) {
     inventory = inventory_new(10, 0);
     inventory_skill_acquire(skill_tree, inventory, design_skill);
 
-    // Add DESIGN operation
+    // Add DESIGN and SKILLS operation
     add_entry("DESIGN", design_operation, NULL, ctx->table);
+    add_entry("SKILLS", skills_operation, NULL, ctx->table);
 
     // Define LEARN Kind 1 Action
     action_type_t learn_action = {"LEARN", ITEM};
