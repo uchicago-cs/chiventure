@@ -160,8 +160,13 @@ item_list_t *get_all_items_in_inventory(player_t *player)
 }
 
 /* See player.h */
-int assign_stats_player(player_t *plyr, stats_hash_t *sh)
+bool item_in_inventory(player_t *player, item_t *item)
 {
-    printf("assign_stats_player: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    item_t *check;
+    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
+              check);
+    if(check != NULL){
+        return true;
+    }
+    return false;
 }
