@@ -120,8 +120,10 @@ chiventure_ctx_t* create_example_ctx() {
 
 /* Wrapper function for leveling up implementation skill */
 void implementation_level_up(chiventure_ctx_t* ctx) {
+    // Level up Implementation Skill
     skill_level_up(implementation_skill);
     if (implementation_skill->level == 3) {
+        // If Implementation Skill is at Level 3, connect to Demo Room
         create_connection(ctx->game, "Implementation Room", "Demo Room",
                           "NORTH");
         create_connection(ctx->game, "Demo Room", "Implementation Room",
@@ -132,7 +134,9 @@ void implementation_level_up(chiventure_ctx_t* ctx) {
 /* CLI operation for implementation skill */
 char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
                                chiventure_ctx_t* ctx) {
+    // Call wrapper function for leveling up implementation skill
     implementation_level_up(ctx);
+    // Execute implementation skill
     return skill_execute(implementation_skill, "");
 }
 
@@ -144,14 +148,18 @@ char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
         return "You cannot learn that.";
     }
     add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
+
+    // Acquire skill (add skill to player inventory) if skill is "learned"
     inventory_skill_acquire(skill_tree, inventory, implementation_skill);
     return "You have learned. LOOK IMPLEMENTATION to ascertain your skill/knowledge.";
 }
 
 /* Wrapper function for leveling up testing skill */
 void test_level_up(chiventure_ctx_t* ctx) {
+    // Level up Testing Skill
     skill_level_up(test_skill);
     if (test_skill->level == 2) {
+        // If Implementation Skill is at Level 2, allow LEARN action
         print_to_cli(ctx, "FYI, use SKILLS to see your skill inventory.");
         add_entry("LEARN", learn_operation, NULL, ctx->table);
         add_action(implementation_item, "LEARN", "Now that your tests are "
@@ -162,14 +170,19 @@ void test_level_up(chiventure_ctx_t* ctx) {
 
 /* CLI operation for testing skill */
 char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    // Call wrapper function for leveling up testing skill
     test_level_up(ctx);
+    // Execute testing skill
     return skill_execute(test_skill, "");
 }
 
 /* Wrapper function for leveling up design skill */
 void design_level_up(chiventure_ctx_t* ctx) {
+    // Level up Design Skill
     skill_level_up(design_skill);
     if (design_skill->level == 4) {
+        // If Design Skill is at Level 4, connect to Implementation Room and
+        // add skill (CLI command) TEST to inventory
         print_to_cli(ctx, "You can move on to Implementation now, though feel free to keep designing!");
         create_connection(ctx->game, "Design Room", "Implementation Room",
                           "NORTH");
@@ -182,7 +195,9 @@ void design_level_up(chiventure_ctx_t* ctx) {
 
 /* CLI operation for design skill */
 char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    // Call wrapper function for leveling up design skill
     design_level_up(ctx);
+    // Execute design skill
     return skill_execute(design_skill, "");
 }
 
@@ -251,7 +266,7 @@ int main(int argc, char **argv) {
     skill_tree_node_add(skill_tree, test_node);
     skill_tree_node_add(skill_tree, implementation_node);
 
-    // Initialize inventory
+    // Initialize skill inventory
     inventory = inventory_new(20, 20);
     inventory_skill_acquire(skill_tree, inventory, design_skill);
 
