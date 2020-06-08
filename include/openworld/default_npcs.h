@@ -26,14 +26,14 @@
 */
 
 typedef enum npc_classification {
-	NPC_GENERIC = 0,
-	NPC_HOSTILE = 1,
-	NPC_FRIENDLY = 2
+    NPC_GENERIC = 0,
+    NPC_HOSTILE = 1,
+    NPC_FRIENDLY = 2
 } npc_classification_t;
 
 
 /* npc_t struct
-* This struct will carry the necessary info for creating a NPC in a room 
+* This struct will carry the necessary info for creating a NPC in a room
 * This struct contains:
 * - int level: player level in game
 * - char *npc_name: strings a NPC type and name, ex: wizard type Hostile
@@ -42,13 +42,13 @@ typedef enum npc_classification {
 */
 typedef struct npc
 {
-	char *npc_name;
-	int level;
-	item_hash_t *inventory;
-	npc_classification_t classification;
-	struct npc *next;
-	struct npc *prev;
-	UT_hash_handle hh;
+    char *npc_name;
+    int level;
+    item_hash_t *inventory;
+    npc_classification_t classification;
+    struct npc *next;
+    struct npc *prev;
+    UT_hash_handle hh;
 } npc_t;
 
 /* get_hostile_npcs produces mock NPCs of type Hostile.
@@ -63,7 +63,7 @@ npc_t *get_hostile_npcs();
 
 
 /* get_friendly_npcs produces mock NPCs of type Friendly
-* makes 3 npcs that are friendly and includes the items that each NPC carries with them. 
+* makes 3 npcs that are friendly and includes the items that each NPC carries with them.
 * Input:
 * - none
 * Output:
