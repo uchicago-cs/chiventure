@@ -48,7 +48,7 @@ Test(Interface,bad_branch_custom_action) {
     right->hh = hh;
     right->attribute_key = attr_name2;
     right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value22;
+    right->attribute_value = attribute_value2;
 
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     printf("Conditional block made\n");
@@ -57,7 +57,7 @@ Test(Interface,bad_branch_custom_action) {
     control_block_t* controls = control_block_new(control_type);
     printf("Control block made\n");
     // allocates the new branch block
-    branch_block_t* new_branch = branch_block_new(1, &conditionals, conditional_type, 2, &controls);
+    branch_block_t* new_branch = branch_block_new(1, conditionals, conditional_type, 2, controls);
     printf("Did we crash here\n");
     block_t* block = (block_t*)new_branch;
     printf("Did we crash here2\n");
