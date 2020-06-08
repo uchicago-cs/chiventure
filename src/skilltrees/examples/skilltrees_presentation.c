@@ -93,14 +93,17 @@ skill_inventory_t* inventory;
 void implementation_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(implementation_skill);
     if (implementation_skill->level > 2) {
-        create_connection(ctx->game, "Implementation Room", "Demo Room", "NORTH");
-        create_connection(ctx->game, "Demo Room", "Implementation Room", "SOUTH");
+        create_connection(ctx->game, "Implementation Room", "Demo Room",
+                          "NORTH");
+        create_connection(ctx->game, "Demo Room", "Implementation Room",
+                          "SOUTH");
         //inventory_skill_acquire(inventory, test_skill);
     }
 }
 
 /* CLI operation for implementation skill */
-char* implementation_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
+                               chiventure_ctx_t* ctx) {
     implementation_level_up(ctx);
     return skill_execute(implementation_skill, "");
 }
@@ -109,7 +112,9 @@ char* implementation_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* 
 void test_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(test_skill);
     if (test_skill->level > 1) {
-        add_action(implementation_item, "LEARN", "Now that your tests are complete, begin implementation!", "Test at least once before considering implementation!");
+        add_action(implementation_item, "LEARN", "Now that your tests are "
+                   "complete, begin implementation!", "Test at least once "
+                   "before considering implementation!");
         add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
         //inventory_skill_acquire(inventory, implementation_skill);
     }
@@ -125,8 +130,10 @@ char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
 void design_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(design_skill);
     if (design_skill->level > 3) {
-        create_connection(ctx->game, "Design Room", "Implementation Room", "NORTH");
-        create_connection(ctx->game, "Implementation Room", "Design Room", "SOUTH");
+        create_connection(ctx->game, "Design Room", "Implementation Room",
+                          "NORTH");
+        create_connection(ctx->game, "Implementation Room", "Design Room",
+                          "SOUTH");
         add_entry("TEST", test_operation, NULL, ctx->table);
         //inventory_skill_acquire(inventory, test_skill);
     }
@@ -143,9 +150,13 @@ int main(int argc, char **argv) {
     chiventure_ctx_t* ctx = create_example_ctx();
 
     // Initialize skills
-    design_skill = skill_new(0, ACTIVE, "Designing Skill", "Your software designing skill", 10, 0, &effect_design);
-    test_skill = skill_new(1, ACTIVE, "Testing Skill", "Your software testing skill", 10, 0, &effect_test);
-    implementation_skill = skill_new(2, ACTIVE, "Implementation Skill", "Your software implementation skill", 10, 0, &effect_implementation);
+    design_skill = skill_new(0, ACTIVE, "Designing Skill", "Your software "
+                             "designing skill", 10, 0, &effect_design);
+    test_skill = skill_new(1, ACTIVE, "Testing Skill", "Your software testing "
+                           "skill", 10, 0, &effect_test);
+    implementation_skill = skill_new(2, ACTIVE, "Implementation Skill",
+                                     "Your software implementation skill",
+                                     10, 0, &effect_implementation);
 
     // Initialize inventory
     inventory = inventory_new(10, 0);
@@ -170,7 +181,8 @@ int main(int argc, char **argv) {
 
     // Define LEARN Kind 1 Action
     action_type_t learn_action = {"LEARN", ITEM};
-    add_entry(learn_action.c_name, kind1_action_operation, &learn_action, ctx->table);
+    add_entry(learn_action.c_name, kind1_action_operation, &learn_action,
+              ctx->table);
 
     // Start UI for example chiventure context
     start_ui(ctx, banner);
