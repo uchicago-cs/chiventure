@@ -26,8 +26,6 @@ int build_moves(combatant_t *c)
     bool appened = false;
     DL_FOREACH(moves, tmp)
     {
-        /* commented temporarily since combatant_class_name 
-           has not been initialized */
         if(!(strncmp(combatant_class_name, tmp->c->name, MAX_NAME_LEN)))
         {
             appened = true;

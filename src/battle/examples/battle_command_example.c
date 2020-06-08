@@ -5,16 +5,17 @@
 #include "battle/battle_print.h"
 #include "battle/battle_state.h"
 
-#define MAX_MOVE_NAME_LEN (100)
 #define MAX_COMMAND_LINE_LENGTH (100)
 #define MAXLEN (100)
 #define MAX_ARGS (5)
 
+/* initializes a dummy wizard class */
 class_t *make_wizard()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
 
+/* initializes a dummy bard class */
 class_t *make_bard()
 {
     return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
@@ -51,7 +52,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
 
         DL_FOREACH(ctx->game->battle->player->moves, temp)
         {
-            if (strncmp(temp->info, args[2], MAX_MOVE_NAME_LEN) == 0)
+            if (strncmp(temp->info, args[2], MAX_MOVE_INFO_LEN) == 0)
             {
                 player_move = temp;
             }
@@ -72,7 +73,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("\nBeginning call to battle_flow() function\n");
         res = battle_flow(ctx, player_move, args[4]);
 
-        // everything bellow allows us to print what just happened
+        // everything below allows us to print what just happened
         printf("goes_first determined the player goes first!\n");
         if (goes_first(ctx->game->battle) == PLAYER)
         {
