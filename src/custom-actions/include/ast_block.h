@@ -29,15 +29,12 @@ typedef union block {
     conditional_block_t *conditional_block;
 } block_t;
 
-/* Forward declaration */
-typedef struct AST_block AST_block_t;
-
 /* Struct to contain a block, as well as its type */
 typedef struct AST_block {
     block_t *block;
     block_type_t block_type;
     int num_AST;
-    AST_block_t **next;
+    struct AST_block_t **ast_sequence;
 } AST_block_t;
 
 /* 
@@ -53,7 +50,7 @@ typedef struct AST_block {
  * - An AST block. 
  */
 AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST, 
-                           AST_block_t **next);
+                           AST_block_t **ast_sequence);
 
 /* 
  * Initializes an AST block. 
@@ -69,10 +66,10 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, int num_AST,
  * - SUCCESS if success, FAILURE if error occurs
  */
 int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type, 
-                   int num_AST, AST_block_t **next);
+                   int num_AST, AST_block_t **ast_sequence);
 
 /* 
- * Frees an AST block. 
+ * Frees an AST block, as well as all of the AST blocks in the sequence. 
  * 
  * Parameters: 
  * - AST block. Must point to an AST block allocated with AST_block_new. 
