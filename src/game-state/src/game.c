@@ -105,6 +105,23 @@ int add_end_condition_to_game(game_t *game, condition_t *end_condition)
 }
 
 /* See game.h */
+int add_stat_to_game(game_t *game, stats_global_t *gs)
+{
+    stats_global_t *check;
+    HASH_FIND(hh, game->curr_stats, gs->name, 
+              strlen(gs->name), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //the stat already exists in the game
+    }
+
+    HASH_ADD_KEYPTR(hh, game->curr_stats, gs->name,
+                    strlen(gs->name), gs);
+    return SUCCESS;
+}
+
+/* See game.h */
 int add_effect_to_game(game_t *game, effects_global_t *effect)
 {
     effects_global_t *check;
@@ -150,7 +167,7 @@ bool is_game_over(game_t *game)
 
 /* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
-                      char* direction)
+			char* direction)
 {
     room_t *src = find_room_from_game(game, src_room);
     if (src == NULL)

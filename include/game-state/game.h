@@ -169,6 +169,17 @@ int add_final_room_to_game(game_t *game, room_t *final_room);
  */ 
 int add_end_condition_to_game(game_t *game, condition_t *end_condition);
 
+/* Adds a global stat to the given game
+ * 
+ * Parameters:
+ *  pointer to game struct
+ *  pointer to global stat struct
+ * 
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int add_stat_to_game(game_t *game, stats_global_t *gs);
+
 /* Adds a global effect to the given game
  * 
  * Parameters:
@@ -213,6 +224,7 @@ bool is_game_over(game_t *game);
 *  source room_id (a string, i.e. char*)
 *  destination room_id (a string, i.e. char*)
 *  string direction
+*  list of conditions
 *
 * Returns:
 *  SUCCESS upon success, FAILURE upon add_path failure
@@ -223,7 +235,7 @@ bool is_game_over(game_t *game);
 * AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
 int create_connection(game_t *game, char* src_room, char* dest_room,
-    char* direction);
+    			char* direction);
 
 /*
 *

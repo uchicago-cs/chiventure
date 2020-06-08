@@ -36,6 +36,7 @@ typedef struct objstore {
  *
  * params:
  *   - o: ptr to object
+ *
  * returns: ptr to new objstore item
  */
 objstore_t *new_objstore(object_t *o);
@@ -51,7 +52,7 @@ objstore_t *new_objstore(object_t *o);
  * returns:
  *   - a pointer to the requested objstore item
  */
-objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type);
+objstore_t *find_objstore(objstore_t **obj_store, char* id, objtype_t type);
 
 /* 
  * add_obj: given unique object, add to obj_store hash table 
@@ -60,6 +61,7 @@ objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type);
  * params:
  *   - obj_store: double ptr to hash
  *   - o: object to add to hash
+ *
  * returns: SUCCESS on completion
  */
 int add_objstore(objstore_t **obj_store, object_t *o);
@@ -68,7 +70,9 @@ int add_objstore(objstore_t **obj_store, object_t *o);
  * free_objstore: deletes & frees a given objstore struct
  * 
  * params:
+ *   - obj_store: a hashtable of objstore_ts 
  *   - store - objstore item
+ *
  * returns: SUCCESS
  */
 int free_objstore(objstore_t **obj_store, objstore_t *store);
@@ -78,8 +82,22 @@ int free_objstore(objstore_t **obj_store, objstore_t *store);
  * 
  * params:
  *   - object_store - objstore hash
+ *
  * returns: SUCCESS
  */
 int free_all_objstore(objstore_t **object_store);
+
+/* 
+ * get_object: retrieves an object from a .wdz archive
+ *
+ * params:
+ *   - ht: a hashtable of objstore_ts
+ *   - type: the type of the object corresponding to its .wdz subfile.
+ *   - id: the object's id
+ * 
+ * returns:
+ *   - a pointer to the requested object as a obj_t struct member.
+ */
+object_t *get_object(objstore_t **ht, char* type, char* id);
 
 #endif
