@@ -225,6 +225,13 @@ Test(game_end_condition, add_end_condition_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
 
+    attribute_value_t test_value_1;
+    test_value_1.str_val = "Test_Value_1";
+    attribute_value_t test_value_2;
+    test_value_2.str_val = "Test_Value_2";
+
+
+
     item_t *test_item_1 = item_new("test_item_1", 
     "test item 1 for end conditions",
     "item for testing add_end_condition_to_game()");
@@ -236,34 +243,23 @@ Test(game_end_condition, add_end_condition_to_game)
     set_str_attr(test_item_2, "Test_Attribute_2", "Test_Value_2");
 
     add_item_to_game(game, test_item_1);
-        
-    game_action_condition_t *condition_1 = malloc(sizeof(game_action_condition_t));
-    condition_1->item = test_item_1;
-    condition_1->attribute_to_check = get_attribute(test_item_1, "Test_Attribute_1");
-    
-    game_action_condition_t *condition_2 = malloc(sizeof(game_action_condition_t));
-    condition_2->item = test_item_1;
-    condition_2->attribute_to_check = get_attribute(test_item_2, "Test_Attribute_2");
-    
-    game_action_condition_t *condition_3 = malloc(sizeof(game_action_condition_t));
-    condition_3->item = test_item_2;
-    condition_3->attribute_to_check = get_attribute(test_item_1, "Test_Attribute_1");
-    
-    game_action_condition_t *condition_4 = malloc(sizeof(game_action_condition_t));
-    condition_4->item = test_item_2;
-    condition_4->attribute_to_check = get_attribute(test_item_2, "Test_Attribute_2");    
+
+    condition_t *condition_1 = attribute_condition_new(test_item_1, "Test_Attribute_1", test_value_1);
+    condition_t *condition_2 = attribute_condition_new(test_item_1, "Test_Attribute_2", test_value_2);
+    condition_t *condition_3 = attribute_condition_new(test_item_2, "Test_Attribute_1", test_value_1);
+    condition_t *condition_4 = attribute_condition_new(test_item_2, "Test_Attribute_2", test_value_2);
     
     int add_1 = add_end_condition_to_game(game, condition_1);
     cr_assert_eq(add_1, SUCCESS, "add_end_condition_to_game() did not add condition_1");
     
     int add_2 = add_end_condition_to_game(game, condition_2);    
-    cr_assert_eq(add_2, FAILURE, "add_end_condition_to_game() added an invalid condition (2)");
+    cr_assert_neq(add_2, SUCCESS, "add_end_condition_to_game() added an invalid condition (2)");
     
     int add_3 = add_end_condition_to_game(game, condition_3);
-    cr_assert_eq(add_3, FAILURE, "add_end_condition_to_game() added an invalid condition (3)");
+    cr_assert_neq(add_3, SUCCESS, "add_end_condition_to_game() added an invalid condition (3)");
     
     int add_4 = add_end_condition_to_game(game, condition_4);
-    cr_assert_eq(add_4, FAILURE, "add_end_condition_to_game() added an invalid condition (4)");
+    cr_assert_neq(add_4, SUCCESS, "add_end_condition_to_game() added an invalid condition (4)");
 
     add_item_to_game(game, test_item_2);
     int add_5 = add_end_condition_to_game(game, condition_4);
@@ -289,10 +285,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_1, "Test_Attribute_1", "Invalid_Value_1");
     add_item_to_game(game, test_item_1);
 
-    game_action_condition_t *condition_1 = malloc(sizeof(game_action_condition_t));
-    condition_1->item = test_item_1;
-    condition_1->attribute_to_check = get_attribute(test_item_1, "Test_Attribute_1");
-    condition_1->expected_value = expected;
+    condition_t *condition_1 = attribute_condition_new(test_item_1, "Test_Attribute_1", expected);
     add_end_condition_to_game(game, condition_1);
     
     item_t *test_item_2 = item_new("test_item_2", 
@@ -301,10 +294,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_2, "Test_Attribute_2", "Invalid_Value_2");
     add_item_to_game(game, test_item_2);
 
-    game_action_condition_t *condition_2 = malloc(sizeof(game_action_condition_t));
-    condition_2->item = test_item_2;
-    condition_2->attribute_to_check = get_attribute(test_item_2, "Test_Attribute_2");
-    condition_2->expected_value = expected;
+    condition_t *condition_2 = attribute_condition_new(test_item_2, "Test_Attribute_2", expected);
     add_end_condition_to_game(game, condition_2);
     
     item_t *test_item_3 = item_new("test_item_3", 
@@ -313,10 +303,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_3, "Test_Attribute_3", "Invalid_Value_3");
     add_item_to_game(game, test_item_3);
     
-    game_action_condition_t *condition_3 = malloc(sizeof(game_action_condition_t));
-    condition_3->item = test_item_3;
-    condition_3->attribute_to_check = get_attribute(test_item_3, "Test_Attribute_3");
-    condition_3->expected_value = expected;
+    condition_t *condition_3 = attribute_condition_new(test_item_3, "Test_Attribute_3", expected);
     add_end_condition_to_game(game, condition_3);
     
     bool test_2 = end_conditions_met(game);
@@ -360,8 +347,8 @@ game_t* setup_is_game_over_test(bool has_final_room, bool has_end_conditions)
     
     if (has_end_conditions)
     {
-        game_action_condition_t *condition;
-        condition = condition_new(test_item, get_attribute(test_item, "Test_Attribute"),
+        condition_t *condition;
+        condition = attribute_condition_new(test_item, "Test_Attribute",
                                   expected);
         add_end_condition_to_game(game, condition);
     }
