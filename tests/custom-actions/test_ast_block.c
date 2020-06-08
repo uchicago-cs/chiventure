@@ -78,10 +78,8 @@ Test(AST_block_t, init_CONTROL)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
-    AST_block_t *next;
-    AST_block_t *prev;
 
-    rc = AST_block_init(&ast, block, block_type, next, prev);
+    rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -97,10 +95,8 @@ Test(AST_block_t, init_BRANCH)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
-    AST_block_t *next;
-    AST_block_t *prev;
-
-    rc = AST_block_init(&ast, block, block_type, next, prev);
+   
+    rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -116,10 +112,8 @@ Test(AST_block_t, init_ACTION)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
-    AST_block_t *next;
-    AST_block_t *prev;
-
-    rc = AST_block_init(&ast, block, block_type, next, prev);
+    
+    rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
@@ -135,10 +129,8 @@ Test(AST_block_t, init_CONDITIONAL)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
-    AST_block_t *next;
-    AST_block_t *prev;
-
-    rc = AST_block_init(&ast, block, block_type, next, prev);
+    
+    rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
     cr_assert_eq(ast.block, block, "AST_block_init() didn't set ast->block");
