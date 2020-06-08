@@ -143,11 +143,8 @@ char* display_stats(stats_hash_t *s)
 
     HASH_ITER(hh, s, stat, tmp)
     {
-<<<<<<< 3298649209077a2504b4dcc79d39858589d309a8
         sprintf(line, "%s [%d / %d]\n", stat->key, 
                 get_stat_current(stat), stat->max);
-=======
-        sprintf(line, "%s [%d]\n", stat->key, get_stat_current(s));
         strcat(list, line);
     }
 
@@ -275,7 +272,7 @@ char *display_stat_effects(effects_hash_t *hash)
         strcat(list, line);
         LL_FOREACH(effect->stat_list, mod)
         {
-            sprintf(line, "\t%s: modifier: %d, duration: %d\n", 
+            sprintf(line, "\t[ %s ] modifier: %d, duration: %d\n", 
                     mod->stat->key, mod->modifier, mod->duration);
             strcat(list, line);
         }
