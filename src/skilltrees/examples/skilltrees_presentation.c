@@ -21,41 +21,60 @@ const char* banner =
     "     |  /                                                                                      /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
-/* Declare skill tree */
+
+/* ========================================================================== */
+/* Declare skill tree ======================================================= */
+/* ========================================================================== */
 skill_tree_t* skill_tree;
 
-/* Declare skill inventory */
+/* ========================================================================== */
+/* Declare skill inventory ================================================== */
+/* ========================================================================== */
 skill_inventory_t* inventory;
 
-/* Declare skills and skill effects */
-    // Design skill struct
-    skill_t* design_skill;
+/* ========================================================================== */
+/* Declare skills and skill effects ========================================= */
+/* ========================================================================== */
+// "Design Skill" struct
+skill_t* design_skill;
 
-    // Design skill effect
-    char* effect_design(char* args) {
-        return "Good progress on your modules! Keep going!";
-    }
+// "Design Skill" effect
+char* effect_design(char* args) {
+    return "Good progress on your modules! Keep going!";
+}
 
-    // Testing skill struct
-    skill_t* test_skill;
+// "Testing Skill" struct
+skill_t* test_skill;
 
-    // Testing skill effect
-    char* effect_test(char* args) {
-        return "Good progress on testing! You can LEARN IMPLEMENTATION now!";
-    }
+// "Testing Skill" effect
+char* effect_test(char* args) {
+    return "Good progress on testing! You can LEARN IMPLEMENTATION now!";
+}
 
-    // Implementation skill struct
-    skill_t* implementation_skill;
+// "Implementation Skill" struct
+skill_t* implementation_skill;
 
-    // Implementation skill effect
-    char* effect_implementation(char* args) {
-        return "Good implementation progress! Your users eagerly await in the Demo room!";
-    }
+// "Implementation Skill" effect
+char* effect_implementation(char* args) {
+    return "Good implementation progress! Your users eagerly await in the Demo room!";
+}
 
-    // Implementation skill item
-    item_t* implementation_item;
+// "Implementation Skill" item (to represent tangible possession of skill in CLI)
+item_t* implementation_item;
 
-/* Create example chiventure context */
+/* ========================================================================== */
+/* Functions ================================================================ */
+/* ========================================================================== */
+/*
+ * Creates a sample chiventure context for the skill trees demo game.
+ *
+ * Parameters:
+ *  - None
+ *
+ * Returns:
+ *  - A sample chiventure context containing the rooms/items described in detail
+ *    in the README of this directory
+ */
 chiventure_ctx_t* create_example_ctx() {
     // Create example game
     game_t* game = game_new("Welcome to the skilltrees team's presentation! "
@@ -92,7 +111,16 @@ chiventure_ctx_t* create_example_ctx() {
     return ctx;
 }
 
-/* Wrapper function for leveling up implementation skill */
+/*
+ * Levels up the Implementation Skill, creating the appropriate room connection
+ * after reaching the appropriate level.
+ *
+ * Parameters:
+ *  - ctx: A chiventure context
+ *
+ * Returns:
+ *  - None
+ */
 void implementation_level_up(chiventure_ctx_t* ctx) {
     // Level up Implementation Skill
     skill_level_up(implementation_skill);
@@ -105,7 +133,17 @@ void implementation_level_up(chiventure_ctx_t* ctx) {
     }
 }
 
-/* CLI operation for implementation skill */
+/*
+ * Manifests using the Implementation Skill to the CLI, using the CLI-specified
+ * function type `operation`
+ *
+ * Parameters:
+ *  - tokens: Array of parsed input tokens
+ *  - ctx: A chiventure context
+ *
+ * Returns:
+ *  - A CLI message indicating execution of the Implementation Skill
+ */
 char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
                                chiventure_ctx_t* ctx) {
     // Call wrapper function for leveling up implementation skill
@@ -114,10 +152,21 @@ char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
     return skill_execute(implementation_skill, "");
 }
 
-/* CLI operation for LEARNing implementation skill */
+/*
+ * Manifests usage of the LEARN action to the CLI, which is a Kind 1 action used
+ * in this demo game to acquire the Implementation Skill
+ *
+ * Parameters:
+ *  - tokens: Array of parsed input tokens
+ *  - ctx: A chiventure context
+ *
+ * Returns:
+ *  - A CLI message indicating execution of the LEARN action
+ */
 char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-    if (!(tokens[1]))
+    if (!(tokens[1])) {
         return "Learning requires a subject.";
+    }
     if ((strcmp(tokens[1], "IMPLEMENTATION"))) {
         return "You cannot learn that.";
     }
@@ -128,7 +177,16 @@ char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     return "You have learned. LOOK IMPLEMENTATION to ascertain your skill/knowledge.";
 }
 
-/* Wrapper function for leveling up testing skill */
+/*
+ * Levels up the Testing Skill, adding ability to perform the LEARN action
+ * after reaching the appropriate level.
+ *
+ * Parameters:
+ *  - ctx: A chiventure context
+ *
+ * Returns:
+ *  - None
+ */
 void test_level_up(chiventure_ctx_t* ctx) {
     // Level up Testing Skill
     skill_level_up(test_skill);
@@ -142,7 +200,17 @@ void test_level_up(chiventure_ctx_t* ctx) {
     }
 }
 
-/* CLI operation for testing skill */
+/*
+ * Manifests using the Testing Skill to the CLI, using the CLI-specified
+ * function type `operation`
+ *
+ * Parameters:
+ *  - tokens: Array of parsed input tokens
+ *  - ctx: A chiventure context
+ *
+ * Returns:
+ *  - A CLI message indicating execution of the Testing Skill
+ */
 char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     // Call wrapper function for leveling up testing skill
     test_level_up(ctx);
@@ -150,7 +218,17 @@ char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     return skill_execute(test_skill, "");
 }
 
-/* Wrapper function for leveling up design skill */
+/*
+ * Levels up the Design Skill, creating the appropriate room connection and
+ * adding the Testing Skill to the player inventory after reaching the
+ * appropriate level.
+ *
+ * Parameters:
+ *  - ctx: A chiventure context
+ *
+ * Returns:
+ *  - None
+ */
 void design_level_up(chiventure_ctx_t* ctx) {
     // Level up Design Skill
     skill_level_up(design_skill);
@@ -167,7 +245,17 @@ void design_level_up(chiventure_ctx_t* ctx) {
     }
 }
 
-/* CLI operation for design skill */
+/*
+ * Manifests using the Design Skill to the CLI, using the CLI-specified
+ * function type `operation`
+ *
+ * Parameters:
+ *  - tokens: Array of parsed input tokens
+ *  - ctx: A chiventure context
+ *
+ * Returns:
+ *  - A CLI message indicating execution of the Design Skill
+ */
 char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     // Call wrapper function for leveling up design skill
     design_level_up(ctx);
@@ -175,9 +263,18 @@ char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     return skill_execute(design_skill, "");
 }
 
-/* Prints all skills in inventory to the CLI */
+/*
+ * Prints all skills contained in a skill inventory to the CLI
+ *
+ * Parameters:
+ *  - ctx: A chiventure context
+ *  - inventory: A skill inventory
+ *
+ * Returns:
+ *  - None
+ */
 void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory) {
-    assert(inventory != NULL);
+    assert(ctx != NULL && inventory != NULL);
 
     unsigned int i;
     char description[60];
@@ -207,12 +304,25 @@ void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* invento
     }
 }
 
-/* CLI operation to list all skills in inventory */
+/*
+ * Manifests using the SKILLS operation to the CLI, calling
+ * current_skills_as_strings() to list all skills in an inventory to the CLI
+ *
+ * Parameters:
+ *  - tokens: Array of parsed input tokens
+ *  - ctx: A chiventure context
+ *
+ * Returns:
+ *  - An empty string (current_skills_as_strings() prints all that is necessary)
+ */
 char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     current_skills_as_strings(ctx, inventory);
     return "";
 }
 
+/* ========================================================================== */
+/* Run the demo game ======================================================== */
+/* ========================================================================== */
 int main(int argc, char **argv) {
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();

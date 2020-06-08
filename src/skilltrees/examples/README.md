@@ -48,7 +48,7 @@ least twice to be granted access to the final room, the Demo Room.
     $ cmake ..
     $ make
     ```
-4. Compile the executable.
+4. Compile the executable (from within the top-level `build` directory).
     ```
     $ cd src/skilltrees/examples
     $ make
