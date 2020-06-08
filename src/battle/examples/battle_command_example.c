@@ -69,6 +69,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             return FAILURE;
         }
 
+        printf("player's move's damage: %d\n", player_move->damage);
         res = battle_flow(ctx, player_move, args[4]);
 
         // everything bellow allows us to print what just happened
