@@ -100,4 +100,6 @@ int inventory_has_skill(skill_inventory_t* inventory, sid_t sid,
  */
 int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill);
 
+char* current_skills_as_strings(skill_inventory_t* inventory);
+
 #endif /* INCLUDE_INVENTORY_H_ */
