@@ -147,11 +147,11 @@ Test(inventory_tests, inventory_has_skill_has_active)
   (inventory->active)[0] = bomb;
   int ret = inventory_has_skill(inventory, 1000, ACTIVE);
 
-  cr_assert_eq(ret, 0, "Error: failed test inventory_has_skill_has_active\n");
+  cr_assert_eq(ret, 10, "Error: failed test inventory_has_skill_has_active\n");
 }
 
 /* Tests inventory_has_skill on a passive skill it has. */
-Test(inventory_tests, inventory_has_skill_has_passive, .description = "Fails & Skipped", .disabled = true)
+Test(inventory_tests, inventory_has_skill_has_passive)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
