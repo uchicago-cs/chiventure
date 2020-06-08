@@ -43,9 +43,16 @@ int skill_node_free(skill_node_t* node) {
 int node_prereq_add(skill_node_t* node, skill_node_t* prereq) {
     assert(node != NULL && prereq != NULL);
 
-    node->num_prereq_skills += 1;
     skill_node_t** n = node->prereqs;
-    n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*node->num_prereq_skills);
+    if (node->num_prereq_skills == 0) {
+        node->num_prereq_skills += 1;
+        n = (skill_node_t**)malloc(sizeof(skill_node_t*));
+        node->prereqs = n;
+    } else {
+        node->num_prereq_skills += 1;
+        n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*node->num_prereq_skills);
+    }
+
     n[node->num_prereq_skills - 1] = prereq;
     return SUCCESS;
 }
