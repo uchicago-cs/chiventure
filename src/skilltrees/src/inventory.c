@@ -147,7 +147,7 @@ char* current_skills_as_strings(skill_inventory_t* inventory) {
         }
     }
     // To differentiate between passive and active skills.
-    strncat(str, "\n", 1);
+    strncat(str, "\n\n", 2);
 
     if (inventory->num_passive == 0) {
         strncat(str, "You have no passive skills.\n\n", 35);
@@ -157,8 +157,7 @@ char* current_skills_as_strings(skill_inventory_t* inventory) {
             strncat(str, ": Level ", 9);
             strncat(str, "\n", 1);
         }
-        // Null terminator
-        strncat(str, "\0", 1);
     }
+    strncat(str, "\0", 1);
     return str;
 }
