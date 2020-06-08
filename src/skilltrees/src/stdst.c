@@ -15,7 +15,7 @@ void** array_element_add(void** array, unsigned int array_len, void* element) {
 
     for (i = 0; i < array_len; i++) {
         if (array[i] == NULL) {
-            array[i] = element;
+            array[i] = (skill_node_t*)element;
             return array;
         }
     }
