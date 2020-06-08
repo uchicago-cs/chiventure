@@ -19,6 +19,14 @@ int main(void)
     /* This is for initialization of a movable ball that could later function as a pointer/cursor for the player. */
     Vector2 cursorBallPosition = {(float) screenWidth / 2, (float) screenHeight / 2};
     Color cursorBallColor = WHITE;
+    
+    /* This value corresponds to the sensitivity of the cursor. Increasing move_unit increases the distance it covers
+     * while keys are pressed.
+     */
+    float move_unit = 5.0;
+    
+    float cursorBallRadius = 8;
+    
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -50,15 +58,15 @@ int main(void)
     {
 
         /* Updates ball cursor with arrow keys or WASD*/
-        if (IsKeyDown(KEY_RIGHT)) cursorBallPosition.x += 5.0f;
-        if (IsKeyDown(KEY_LEFT)) cursorBallPosition.x -= 5.0f;
-        if (IsKeyDown(KEY_UP)) cursorBallPosition.y -= 5.0f;
-        if (IsKeyDown(KEY_DOWN)) cursorBallPosition.y += 5.0f;
+        if (IsKeyDown(KEY_RIGHT)) cursorBallPosition.x += move_unit;
+        if (IsKeyDown(KEY_LEFT)) cursorBallPosition.x -= move_unit;
+        if (IsKeyDown(KEY_UP)) cursorBallPosition.y -= move_unit;
+        if (IsKeyDown(KEY_DOWN)) cursorBallPosition.y += move_unit;
 
-        if (IsKeyDown(KEY_D)) cursorBallPosition.x += 5.0f;
-        if (IsKeyDown(KEY_A)) cursorBallPosition.x -= 5.0f;
-        if (IsKeyDown(KEY_W)) cursorBallPosition.y -= 5.0f;
-        if (IsKeyDown(KEY_S)) cursorBallPosition.y += 5.0f;
+        if (IsKeyDown(KEY_D)) cursorBallPosition.x += move_unit;
+        if (IsKeyDown(KEY_A)) cursorBallPosition.x -= move_unit;
+        if (IsKeyDown(KEY_W)) cursorBallPosition.y -= move_unit;
+        if (IsKeyDown(KEY_S)) cursorBallPosition.y += move_unit;
 
         BeginDrawing();
 
@@ -106,7 +114,7 @@ int main(void)
         }
 
         /* Draws the ball cursor in the current position according to user input */
-        DrawCircleV(cursorBallPosition, 8, cursorBallColor);
+        DrawCircleV(cursorBallPosition, cursorBallRadius, cursorBallColor);
 
         EndDrawing();
     }
