@@ -67,11 +67,13 @@ int node_prereq_remove(skill_node_t* node, skill_node_t* prereq) {
             if ( i < node->num_prereq_skills) {
                 n[i] = n[node->num_prereq_skills];
             }
-            skill_node_free(n[num_prereq_skills]);
+            skill_node_free(n[node->num_prereq_skills]);
 
             n = (skill_node_t**)realloc(
                     n, sizeof(skill_node_t*)*node->num_prereq_skills);
             return SUCCESS;
+        }
+    }
     fprintf(stderr, "node_prereq_remove: couldn't find node in prereqs");
     return FAILURE;
 }
