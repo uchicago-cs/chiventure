@@ -155,7 +155,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
        printf("Error: no matching stat");
     }
     
-    return (curr -> mod);
+    return (curr -> modifier);
 }
 
 /* See stats.h */
