@@ -99,7 +99,7 @@ int action_block_free(action_block_t *action)
 int exec_action_block(action_block_t *a)
 {
     int rc;
-    unsigned n;
+    unsigned n; // number of arguments corresponding to action type
 
     switch (a->action_type) {
 
