@@ -95,7 +95,7 @@ ITEMS:
    actions:
      - action: "CONSUME"
        text_success: "You consume the fork."
-       text_fail: "You can't cpnsume the fork."
+       text_fail: "You can't consume the fork."
 
  - id: "FORK"
    short_desc: "A fork."
