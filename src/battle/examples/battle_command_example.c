@@ -48,6 +48,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
                 args[2]);
         move_t *temp;
         move_t *player_move = temp;
+
         DL_FOREACH(ctx->game->battle->player->moves, temp)
         {
             if (strncmp(temp->info, args[2], MAX_MOVE_NAME_LEN) == 0)
@@ -55,35 +56,38 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
                 player_move = temp;
             }
         }
-        
+
         if (player_move == NULL)
         {
             printf("Couldn't find the move you were looking for!\n");
             return FAILURE;
         }
+
+        res = battle_flow(ctx, player_move, args[4]);
+
+        // everything bellow allows us to print what just happened
         if (goes_first(ctx->game->battle) == PLAYER)
         {
             action_string = print_battle_move(ctx->game->battle,
-                                                PLAYER, player_move);
+                                              PLAYER, player_move);
             printf("%s\n", action_string);
-            move_t *enemy_move = give_move(ctx->game->battle->player, 
-                                            ctx->game->battle->enemy, 
-                                            ctx->game->battle->enemy->ai);
+            move_t *enemy_move = give_move(ctx->game->battle->player,
+                                           ctx->game->battle->enemy,
+                                           ctx->game->battle->enemy->ai);
             action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
             printf("%s\n", action_string);
         }
         else
         {
             action_string = print_battle_move(ctx->game->battle,
-                                                PLAYER, player_move);
+                                              PLAYER, player_move);
             printf("%s\n", action_string);
             move_t *enemy_move = give_move(ctx->game->battle->player,
-                                            ctx->game->battle->enemy,
-                                            ctx->game->battle->enemy->ai);
+                                           ctx->game->battle->enemy,
+                                           ctx->game->battle->enemy->ai);
             action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
             printf("%s\n", action_string);
         }
-        res = battle_flow(ctx, player_move, args[4]);
     }
     else if ((strncmp(args[0], "MOVE", MAXLEN) == 0) 
             && (strncmp(args[1], "LIST", MAXLEN) == 0))
@@ -189,6 +193,7 @@ int main()
                 continue;
             }
             // otherwise, handle input
+            printf("\n");
             res = read_move(args, ctx);
             printf("read move returned: %d\n", res);
         }
