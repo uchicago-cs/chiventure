@@ -2,6 +2,9 @@
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "cli/operations.h"
+#include "skilltrees/skill.h"
+#include "skilltrees/inventory.h"
+#include "skilltrees/skilltree.h"
 
 const char* banner =
     "    ________________________________________________________________________________________\n"
