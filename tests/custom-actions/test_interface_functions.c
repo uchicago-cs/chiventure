@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "action_block.h"
 #include "ast_block.h"
+#include "custom_action.h"
 #include "game-state/item.h"
 #include "interface.h"
 
