@@ -130,15 +130,24 @@ char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
     return skill_execute(implementation_skill, "");
 }
 
+/* CLI operation for LEARNing implementation skill */
+char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    if ((strcmp(tokens[1], "IMPLEMENTATION"))) {
+        return "You cannot learn that."
+    }
+    add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
+    inventory_skill_acquire(skill_tree, inventory, implementation_skill);
+    return "You have learned implementation can now use the skill.";
+}
+
 /* Wrapper function for leveling up testing skill */
 void test_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(test_skill);
     if (test_skill->level == 2) {
+        add_entry("LEARN", learn_operation, NULL, ctx->table);
         add_action(implementation_item, "LEARN", "Now that your tests are "
                    "complete, begin implementation!", "Test at least once "
                    "before considering implementation!");
-        add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
-        inventory_skill_acquire(skill_tree, inventory, implementation_skill);
     }
 }
 
@@ -166,6 +175,7 @@ char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     design_level_up(ctx);
     return skill_execute(design_skill, "");
 }
+
 
 /* See inventory.h */
 void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory) {
@@ -233,11 +243,6 @@ int main(int argc, char **argv) {
     // Add DESIGN and SKILLS operation
     add_entry("DESIGN", design_operation, NULL, ctx->table);
     add_entry("SKILLS", skills_operation, NULL, ctx->table);
-
-    // Define LEARN Kind 1 Action
-    action_type_t learn_action = {"LEARN", ITEM};
-    add_entry(learn_action.c_name, kind1_action_operation, &learn_action,
-              ctx->table);
 
     // Start UI for example chiventure context
     start_ui(ctx, banner);
