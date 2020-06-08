@@ -185,6 +185,7 @@ Macros provided below can help you iterate the game contents like a "for" loop, 
 - ITER_ALL_ATTRIBUTES(item, curr_attr)
 
 Notice: do not nest 2 same macros, this may cause errors. (2 different is OK.)
+Notice: for ITER_ALL_ITEMS_IN_ROOM and ITER_ALL_ITEMS_IN_INVENTORY, curr_item is an item_list_t* and not an item_t*
 
 Here's an example:
 

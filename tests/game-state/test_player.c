@@ -179,15 +179,21 @@ Test(player, add_player_to_game)
 /* Checks that add_item_to_player adds item to a player struct's inventory */
 Test(player, add_item_to_player)
 {
-  player_t *player = player_new("1", 100);
-  item_t *new_item = item_new("test_item", "item for player testing",
-  "item for testing add_item_to_player");
-  add_item_to_player(player, new_item);
+    player_t *player = player_new("1", 100);
+    item_t *new_item = item_new("test_item", "item for player testing",
+                                "item for testing add_item_to_player");
+    item_t *dup_item = item_new("test_item", "item for player testing",
+                                "item for testing add_item_to_player");
+    add_item_to_player(player, new_item);
 
-  cr_assert_not_null(player, "player_new() failed");
-  cr_assert_not_null(new_item, "item_new() failed");
-  cr_assert_not_null(player->inventory,
-      "add_item_to_player() failed to add item");
+    cr_assert_not_null(player, "player_new() failed");
+    cr_assert_not_null(new_item, "item_new() failed");
+    cr_assert_not_null(player->inventory,
+                       "add_item_to_player() failed to add item");
+    
+    int rc = add_item_to_player(player, dup_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to add "
+                 "item with identical id");
 }
 
 /* Checks that remove_item_from_player properly removes items */
@@ -195,15 +201,24 @@ Test(player, remove_item_from_player)
 {
     player_t *player = player_new("player", 100);
     item_t *test_item = item_new("item", "short", "long");
+    item_t *dup_item = item_new("item", "short", "long");
+    item_list_t *item_list;
     int rc;
     
     rc = add_item_to_player(player, test_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to "
+                 "add an item to player");
+    rc = add_item_to_player(player, dup_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to "
                  "add an item to player");
     
     rc = remove_item_from_player(player, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_player failed to "
                  "remove an item from player");
+    
+    item_list = get_all_items_in_inventory(player);
+    cr_assert_not_null(item_list, "remove_item_from_player removed "
+                       "both identical items from player");
 }
 
 /* Checks that add_item_to_player adds an item with an effect to player's inventory */

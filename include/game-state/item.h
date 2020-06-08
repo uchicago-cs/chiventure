@@ -5,10 +5,10 @@
 #include "action_management/action_structs.h"
 #include "game-state/stats.h"
 
-#define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_t *ITTMP_ITEMRM; \
-HASH_ITER(hh, (room)->items, (curr_item), ITTMP_ITEMRM)
-#define ITER_ALL_ITEMS_IN_INVENTORY(player, curr_item) item_t *ITTMP_ITEMINV; \
-HASH_ITER(hh, (player)->inventory, (curr_item), ITTMP_ITEMINV)
+#define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_list_t *ITTMP_ITEMRM; \
+LL_FOREACH_SAFE(get_all_items_in_hash(&((room)->items)), (curr_item), ITTMP_ITEMRM)
+#define ITER_ALL_ITEMS_IN_INVENTORY(player, curr_item) item_list_t *ITTMP_ITEMINV; \
+LL_FOREACH_SAFE(get_all_items_in_hash(&((player)->inventory)), (curr_item), ITTMP_ITEMINV)
 #define ITER_ALL_ATTRIBUTES(item, curr_attr) attribute_t *ITTMP_ATTR; \
 HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 
@@ -30,6 +30,7 @@ typedef struct item {
     game_action_hash_t *actions;
     attribute_hash_t *attributes; // a hashtable for all attributes
     effects_hash_t *stat_effects; // hashtable of effects item can have (set to NULL if no effects)
+    struct item *next; // points to item w/ identical id, if it exists
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are
@@ -94,7 +95,8 @@ char *get_sdesc_item(item_t *item);
 char *get_ldesc_item(item_t *item);
 
 /* Adds an item to a hashtable of items,
- * as long as the item does not already exist in hashtable
+ * as long as the new item does not have the same memory address
+ * as another item in the hashtable
  * 
  * Parameters:
  *  pointer to hashtable of items (pointer necessary for uthash to work)
