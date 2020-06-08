@@ -1,7 +1,3 @@
-/*
- * This is currently skeleton code that needs to be expanded.
- */
-
 #include "wdl/object.h"
 
 /* See wdl/object.h for documentation */
@@ -26,6 +22,7 @@ int init_object(object_t *obj, char *id, objtype_t type)
 
     strncpy(obj->id, id, MAXLEN_ID);
     obj->type = type;
+    obj->attrs = NULL;
 
     return SUCCESS;
 }

@@ -35,12 +35,12 @@ obj_attr_t *find_attr(obj_attr_t **attrs, char *id)
 obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void * d)
 {
     if (id == NULL) {
-        return FAILURE;
+        return NULL;
     }
     obj_attr_t *new = find_attr(attrs, id); // see if key already exists in hash
     if (new == NULL) {
         new =  new_attr(id, d);
-        if (new == NULL) return FAILURE;
+        if (new == NULL) return NULL;
         HASH_ADD_STR(*attrs, id, new);
     } else {
         new->data = d;
