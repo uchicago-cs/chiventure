@@ -16,7 +16,7 @@ objstore_t *new_objstore(object_t *o)
 }
 
 /* See obj_store.h for documentation */
-objstore_t* find_objstore(objstore_t **obj_store, char* id, objtype_t type)
+objstore_t *find_objstore(objstore_t **obj_store, char *id, objtype_t type)
 {
     objstore_t *res;
     objkey_t tmp;
@@ -67,4 +67,39 @@ int free_all_objstore(objstore_t **obj_store)
         free_objstore(obj_store, curr);
     }
     return SUCCESS;
+}
+
+/*
+ * Helper function for
+ * get_object_wdl: retrieves an object from a .wdz archive.
+ *
+ * params: 
+ *   - type: the type of the object corresponding to its .wdz subfile.
+ *   - id: the object's id.
+ * 
+ * returns:
+ *   - a pointer to the requested object as a obj_t struct member.
+ */
+object_t *get_object_wdl(objstore_t **ht, objtype_t type, char *id)
+{
+    objstore_t *objs = find_objstore(ht, id, type);
+
+    if(objs == NULL)
+    {
+        return NULL;
+    }
+
+    object_t *obj = objs->o;
+
+    return obj;
+}
+
+/* See wdl/objstore.h for documentation */
+object_t *get_object(objstore_t **ht, char *type, char *id)
+{
+    objtype_t tp;
+
+    tp = str_to_objtype(type);
+
+    return get_object_wdl(ht, tp, id);
 }
