@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
-#include "chiventure/src/custom-actions/include/action_block.h"
-#include "chiventure/src/custom-actions/include/conditional_block.h"
+#include "action_block.h"
+#include "conditional_block.h"
 
 
 void custom_actions_ex1()
