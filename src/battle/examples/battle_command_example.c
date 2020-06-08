@@ -106,11 +106,6 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("\n");
         return SUCCESS;
     }
-    // else if ((strncmp(args[0], "MOVE", MAXLEN) == 0) && (strncmp(args[1], "INFO", MAXLEN) == 0))
-    // {
-    //     res = print_move_info(ctx, args[2]);
-    //     return res;
-    // }
     else if (strncmp(args[0], "HELP", MAXLEN) == 0)
     {
         printf("Here are the possible commands!\n");
