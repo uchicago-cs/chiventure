@@ -42,13 +42,13 @@ typedef enum npc_classification {
 */
 typedef struct npc
 {
-	char *npc_name;
-	int level;
-	item_hash_t *inventory;
-	npc_classification_t classification;
-	struct npc *next;
-	struct npc *prev;
-	UT_hash_handle hh;
+    char *npc_name;
+    int level;
+    item_hash_t *inventory;
+    npc_classification_t classification;
+    struct npc *next;
+    struct npc *prev;
+    UT_hash_handle hh;
 } npc_t;
 
 /* get_hostile_npcs produces mock NPCs of type Hostile.
