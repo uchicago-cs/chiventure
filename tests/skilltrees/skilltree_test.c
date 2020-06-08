@@ -153,64 +153,64 @@ Test(skilltree_tests, skill_tree_node_add_safe)
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_add_safe\n");
 }
 
-// /* Tests skill_tree_node_add when the skill tree is full. */
-// Test(skilltree_tests, skill_tree_node_add_full)
-// {
-//     skill_tree_t* tree = skill_tree_new(1002, "this tree", 1);
-//     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-//         2, 5, effect_defuse_bomb);
-//     skill_t* peace = skill_new(1001, ACTIVE, "inner peace", "maintains inner peace",
-//         4, 7, effect_inner_peace);
-//     skill_node_t* bomb_node = skill_node_new(bomb, 0, 76);
-//     skill_node_t* peace_node = skill_node_new(peace, 0, 76);
-//     skill_tree_node_add(tree,bomb_node);
-//     int ret = skill_tree_node_add(tree,peace_node);
-//     cr_assert_eq(ret, FAILURE, "Error: failed test skill_tree_node_add_full\n");
-// }
-//
-// /* Tests skill_tree_node_remove in a valid case. */
-// Test(skilltree_tests, skill_tree_node_remove_safe)
-// {
-//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-//         2, 5, effect_defuse_bomb);
-//     skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-//         3, 6, effect_chop_tree);
-//     skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
-//         4, 7, effect_inner_peace);
-//     skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-//     skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
-//     skill_node_t* inner_node = skill_node_new(skill3, 0, 77);
-//
-//     skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
-//     skill_tree_node_add(tree, bomb_node);
-//     skill_tree_node_add(tree, chop_node);
-//     skill_tree_node_add(tree, inner_node);
-//
-//     int ret = skill_tree_node_remove(tree, chop_node);
-//     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_remove_safe\n");
-// }
-//
-// /* Tests skill_tree_node_remove on a node that is missing. */
-// Test(skilltree_tests, skill_tree_node_remove_missing)
-// {
-//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-//         2, 5, effect_defuse_bomb);
-//     skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-//         3, 6, effect_chop_tree);
-//     skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
-//         4, 7, effect_inner_peace);
-//     skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-//     skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
-//     skill_node_t* inner_node = skill_node_new(skill3, 0, 77);
-//
-//     skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
-//     skill_tree_node_add(tree, bomb_node);
-//     skill_tree_node_add(tree, chop_node);
-//
-//     int ret = skill_tree_node_remove(tree, inner_node);
-//     cr_assert_eq(ret, 1, "Error: failed test skill_tree_node_remove_missing\n");
-// }
-//
+/* Tests skill_tree_node_add when the skill tree is full. */
+Test(skilltree_tests, skill_tree_node_add_full)
+{
+    skill_tree_t* tree = skill_tree_new(1002, "this tree", 1);
+    skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, effect_defuse_bomb);
+    skill_t* peace = skill_new(1001, ACTIVE, "inner peace", "maintains inner peace",
+        4, 7, effect_inner_peace);
+    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76);
+    skill_node_t* peace_node = skill_node_new(peace, 0, 76);
+    skill_tree_node_add(tree,bomb_node);
+    int ret = skill_tree_node_add(tree,peace_node);
+    cr_assert_eq(ret, FAILURE, "Error: failed test skill_tree_node_add_full\n");
+}
+
+/* Tests skill_tree_node_remove in a valid case. */
+Test(skilltree_tests, skill_tree_node_remove_safe)
+{
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, effect_defuse_bomb);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+        3, 6, effect_chop_tree);
+    skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
+        4, 7, effect_inner_peace);
+    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+    skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+    skill_node_t* inner_node = skill_node_new(skill3, 0, 77);
+
+    skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
+    skill_tree_node_add(tree, bomb_node);
+    skill_tree_node_add(tree, chop_node);
+    skill_tree_node_add(tree, inner_node);
+
+    int ret = skill_tree_node_remove(tree, chop_node);
+    cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_remove_safe\n");
+}
+
+/* Tests skill_tree_node_remove on a node that is missing. */
+Test(skilltree_tests, skill_tree_node_remove_missing)
+{
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, effect_defuse_bomb);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+        3, 6, effect_chop_tree);
+    skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
+        4, 7, effect_inner_peace);
+    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+    skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+    skill_node_t* inner_node = skill_node_new(skill3, 0, 77);
+
+    skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
+    skill_tree_node_add(tree, bomb_node);
+    skill_tree_node_add(tree, chop_node);
+
+    int ret = skill_tree_node_remove(tree, inner_node);
+    cr_assert_eq(ret, 1, "Error: failed test skill_tree_node_remove_missing\n");
+}
+
 // /* Tests skill_tree_has_node with a node that exists. */
 // Test(skilltree_tests, skill_tree_has_node_has)
 // {
