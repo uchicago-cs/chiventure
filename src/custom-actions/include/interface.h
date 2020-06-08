@@ -1,6 +1,8 @@
 #ifndef INCLUDE_INTERFACE_H_
 #define INCLUDE_INTERFACE_H_
 
+#include "custom-actions-cond.h"
+#include "custom-actions-common.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include "ast_block.h"
