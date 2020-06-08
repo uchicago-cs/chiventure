@@ -17,15 +17,6 @@ int do_custom_action(custom_action_t *action)
 
 /* PRIVATE HELPER FUNCTIONS */
 
-/* Executes an AST_block, the essential ingredient of
- * a custom action
- *
- * Parameters:
- * - block: An AST block to be executed
- *
- * Returns:
- * - Integer code for SUCCESS or FAILURE
- */
 int run_ast_block(AST_block_t *block) 
 {
     int returnV;
@@ -62,10 +53,9 @@ int run_ast_block(AST_block_t *block)
  */
 int do_branch_block(branch_block_t *block)
 {
-    int i;
     if(block->num_controls != block->num_conditionals) return FAILURE;
     // goes through each of the control blocks
-    for(i = 0; i < block->numcontrols; i++) 
+    for(int i = 0; i < block->numcontrols; i++) 
     {
         // will perform the appropriate type of action
         switch(block->controls[i]->control_type) {
