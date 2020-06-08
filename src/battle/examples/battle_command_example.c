@@ -27,14 +27,14 @@ class_t *make_bard()
  * Returns:
  *  a pointer to the found move or NULL for no move 
  */ 
-move_t *find_player_move(chiventure_ctx_battle_t *ctx)
+move_t *find_player_move(chiventure_ctx_battle_t *ctx, char *move_name)
 {
     move_t *temp;
     move_t *player_move = NULL;
 
     DL_FOREACH(ctx->game->battle->player->moves, temp)
     {
-        if (strncmp(temp->info, args[2], MAX_MOVE_INFO_LEN) == 0)
+        if (strncmp(temp->info, move_name, MAX_MOVE_INFO_LEN) == 0)
         {
             player_move = temp;
             return player_move;
@@ -125,7 +125,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("Determined command as MOVE USE, and it using the %s move\n\n",
                 args[2]);
         
-        move_t *player_move = find_player_move(ctx);
+        move_t *player_move = find_player_move(ctx, args[2]);
 
         // checks if the player's move is NULL, if so, return FAILURE
         if (player_move == NULL)
@@ -141,7 +141,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             printf("Enemy not found!\n");
             return FAILURE;
         }
-        printf("target exists!\n")
+        printf("target exists!\n");
 
         printf("\nBeginning call to battle_flow() function\n");
         // calling the function which is the heart of the battle
@@ -197,6 +197,7 @@ int parse_command(char **out, char *input)
 int main()
 {
     printf("\nbeginning to create the player and enemy...\n");
+    // this creates the stats of the player to begin the battle
     stat_t *p_stats = (stat_t *)calloc(1, sizeof(stat_t));
     p_stats->hp = 50;
     p_stats->strength = 20;
@@ -205,6 +206,7 @@ int main()
     p_stats->level = 5;
     p_stats->speed = 10;
 
+    // this creates the stats of the enemy to begin the battle
     stat_t *e_stats = (stat_t *)calloc(1, sizeof(stat_t));
     e_stats->hp = 30;
     e_stats->strength = 14;
@@ -213,6 +215,7 @@ int main()
     e_stats->level = 5;
     e_stats->speed = 9;
 
+    // this creates the player and enemy so that they are inside of ctx
     npc_enemy_t *e = NULL;
     DL_APPEND(e, make_npc_enemy("Goblin", make_bard(), e_stats, NULL, NULL, BATTLE_AI_GREEDY));
     printf("enemy created!\n");
@@ -222,15 +225,20 @@ int main()
     chiventure_ctx_battle_t *ctx =
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
 
+    // new_game creates a game that is then attached to ctx
     game_t *g = new_game();
     printf("game has been created folks!\n\n");
     ctx->game = g;
 
     ctx->game->player = p;
 
+    /* start_battle begins the battle by finalizing 
+       all finishing touches for a battle to begin */
     printf("starting battle...\n\n");
     start_battle(ctx, e, ENV_GRASS);
 
+    /* this checks to ensure that the user has moves, if not, 
+       the executable will not work since it revolves around moves! */
     if (ctx->game->battle->player->moves == NULL)
     {
         printf("=== oh no! the player's moves do not exist!!! ===\n");
