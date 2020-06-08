@@ -95,30 +95,27 @@ Test(attributes, free_hash)
 {
     obj_attr_t *attrs = NULL;
     
-    add_attribute(&attrs, "class", "adventurer");
-    add_attribute(&attrs, "class", "mage");
+    obj_attr_t *item1 = add_attribute(&attrs, "class", "adventurer");
+    obj_attr_t *item2 = add_attribute(&attrs, "class", "mage");
+    
+    obj_attr_t *head = init_attr_list(item1);
+    obj_attr_t *item3 = new_attr("weapon", "sword");
+    append_attr(head, item3);
+    cr_assert_eq(item1->next, item3, "append_attr() failed to assign next");
 
     int res = free_attr_hash(&attrs);
     cr_assert_eq(res, 0, "free_attr_hash() failed");
 }
 
 
-/* ---------- SHARED ---------- */
-
-Test(attributes, free)
-{
-    obj_attr_t *attrs = NULL;
-
-    obj_attr_t *new = add_attribute(&attrs, "class", "adventurer");
-    //obj_attr_t *ll_head = append_attr(NULL, new);
-    cr_assert_not_null(attrs, "add_attr() failed to add attr");
-
-    int res = free_attr(&attrs, attrs, new);
-    cr_assert_eq(res, SUCCESS, "free_attr() failed");
-}
-
-
 /* ---------- LINKED LIST FUNCTIONS ---------- */
+
+Test(attributes, init_list)
+{
+    obj_attr_t *test = new_attr("skill", "water magic");
+    obj_attr_t *res = init_attr_list(test);
+    cr_assert_not_null(res, "init_attr_list() failed");
+}
 
 Test(attributes, append)
 {
@@ -131,11 +128,14 @@ Test(attributes, append)
     obj_attr_t *item3 = new_attr("skill", "underwater basket-weaving");
     cr_assert_not_null(item3, "new_attr() failed to init & alloc attr");
 
-    append_attr(item1, item2);
+    obj_attr_t *head = init_attr_list(item1);
+    cr_assert_not_null(head, "init_attr_list() failed");
+
+    append_attr(head, item2);
     cr_assert_eq(item1->next, item2, "append_attr() failed to assign next");
     cr_assert_eq(item2->prev, item1, "append_attr() failed to assign prev");
 
-    append_attr(item1, item3);
+    append_attr(head, item3);
     cr_assert_eq(item2->next, item3, "append_attr() failed to assign next");
     cr_assert_eq(item3->prev, item2, "append_attr() failed to assign prev");
 }
@@ -152,25 +152,39 @@ Test(attributes, count)
     cr_assert_eq(res, 2, "count_attr_list() failed");
 }
 
+Test(attributes, free)
+{
+    obj_attr_t *item1 = new_attr("class", "adventurer");
+    cr_assert_not_null(item1, "new_attr() failed to init & alloc attr");
+
+    obj_attr_t *head = init_attr_list(item1);
+    obj_attr_t *item2 = new_attr("weapon", "stick");
+    append_attr(head, item2);
+
+    int res = free_attr(head, item2);
+    cr_assert_eq(res, SUCCESS, "free_attr() failed");
+}
+
 Test(attributes, free_list)
 {
     obj_attr_t *attrs = NULL;
 
-    obj_attr_t *item1 = add_attribute(&attrs, "skill", "water magic");
-    cr_assert_not_null(item1, "add_attr() failed to add attr");
+    obj_attr_t *item1 = new_attr("skill", "water magic");
+    cr_assert_not_null(item1, "new_attr() failed to init & alloc attr");
     
-    obj_attr_t *item2 = add_attribute(&attrs, "skill", "welding");
-    cr_assert_not_null(item2, "add_attr() failed to add attr");
+    obj_attr_t *item2 = new_attr("skill", "welding");
+    cr_assert_not_null(item2, "new_attr() failed to init & alloc attr");
     
-    obj_attr_t *item3 = add_attribute(&attrs, "skill", "underwater basket-weaving");
-    cr_assert_not_null(item3, "add_attr() failed to add attr");
+    obj_attr_t *item3 = new_attr("skill", "underwater basket-weaving");
+    cr_assert_not_null(item3, "new_attr() failed to init & alloc attr");
 
-    append_attr(item1, item2);
+    obj_attr_t *head = init_attr_list(item1);
+    append_attr(head, item2);
     cr_assert_eq(item1->next, item2, "append_attr() failed to assign next");
-    append_attr(item1, item3);
+    append_attr(head, item3);
     cr_assert_eq(item2->next, item3, "append_attr() failed to assign next");
 
-    int res = free_attr_list(&attrs, item1);
+    int res = free_attr_list(&attrs, head);
 
     cr_assert_eq(res, SUCCESS, "free_attr_list() failed");
 }

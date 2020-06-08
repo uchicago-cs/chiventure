@@ -6,7 +6,7 @@
 #define INCLUDE_ATTRIBUTES_H
 #define MAXLEN_ID 60 // ID strings for objects
 
-typedef struct obj obj_t; // forward declaration so attribute_t can use
+typedef struct obj object_t; // forward declaration so attribute_t can use
 
 /*
  * attribute_t: the attributes stored within an object
@@ -72,18 +72,25 @@ int free_attr_hash(obj_attr_t **attrs);
 
 /* ---------- SHARED FUNCTIONS ---------- */
 
-/* free_attr - frees & deletes attr from hash table AND linked list
+/* free_attr - frees & deletes 1 item from hash and all of its linked elements
  *
  * params:
- *   - attrs: ptr to hash 
  *   - head: head ptr
  *   - a: attr to delete
  * returns: SUCCESS
  */
-int free_attr(obj_attr_t **attrs, obj_attr_t *head, obj_attr_t *a);
+int free_attr(obj_attr_t *head, obj_attr_t *a);
 
 
 /* ---------- LINKED LIST FUNCTIONS ---------- */
+
+/* init_attr_list - initializes given attr as head of a linked list
+ * 
+ * params:
+ *   - new: new attribute
+ * returns: head of list
+ */
+obj_attr_t *init_attr_list(obj_attr_t *new);
 
 /* append_attr - appends attr to attr list
  * 

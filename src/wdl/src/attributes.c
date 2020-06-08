@@ -19,9 +19,7 @@ obj_attr_t *new_attr(char *id, void *d)
     new->prev = NULL;
     new->next = NULL;
 
-    obj_attr_t *head = NULL;
-    DL_APPEND(head, new);
-    return head;
+    return new;
 }
 
 /* See attributes.h for documentation */
@@ -59,22 +57,8 @@ int free_attr_hash(obj_attr_t **attrs)
     obj_attr_t *curr, *tmp;
     HASH_ITER(hh, *attrs, curr, tmp)
     {
-        free_attr(attrs, *attrs, curr);
+        free_attr_list(attrs, curr);
     }
-    return SUCCESS;
-}
-
-/* ---------- LIMBO ---------- */
-
-/* See attributes.h for documentation */
-int free_attr(obj_attr_t **attrs, obj_attr_t *head, obj_attr_t *a)
-{
-    if ((attrs == NULL)||(head == NULL)) {
-        return FAILURE;
-    }
-    DL_DELETE(head, a);
-    HASH_DEL(*attrs, a);
-    free(a);
     return SUCCESS;
 }
 
@@ -82,9 +66,17 @@ int free_attr(obj_attr_t **attrs, obj_attr_t *head, obj_attr_t *a)
 /* ---------- LINKED LIST FUNCTIONS ---------- */
 
 /* See attributes.h for documentation */
+obj_attr_t *init_attr_list(obj_attr_t *new)
+{
+    obj_attr_t *head = NULL;
+    DL_APPEND(head, new);
+    return head;
+}
+
+/* See attributes.h for documentation */
 obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new)
 {
-    DL_CONCAT(head, new);
+    DL_APPEND(head, new);
     return head;
 }
 
@@ -98,18 +90,31 @@ int count_attr_list(obj_attr_t *head)
 }
 
 /* See attributes.h for documentation */
+int free_attr(obj_attr_t *head, obj_attr_t *a)
+{
+    if (head == NULL) {
+        return FAILURE;
+    }
+    DL_DELETE(head, a);
+    free(a);
+    return SUCCESS;
+}
+
+/* See attributes.h for documentation */
 int free_attr_list(obj_attr_t **attrs, obj_attr_t *head)
 {
     if ((attrs == NULL)|(head == NULL)) return FAILURE;
     
-    obj_attr_t *elt, *tmp;
-    DL_FOREACH_SAFE(head, elt, tmp) {
-        if (head == NULL) return SUCCESS;
-        HASH_DEL(*attrs, elt);
-        DL_DELETE(head, elt);
-        free(elt);
-        
+    HASH_DEL(*attrs, head);
+    
+    if (head->next != NULL) {
+        obj_attr_t *elt, *tmp;
+        DL_FOREACH_SAFE(head, elt, tmp) {
+            if (head == NULL) return SUCCESS;
+            free_attr(head, elt);
+        }
     }
+
     return SUCCESS;
 }
 
