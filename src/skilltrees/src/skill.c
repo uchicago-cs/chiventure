@@ -88,7 +88,7 @@ int skill_level_up(skill_t* skill) {
 }
 
 /* See skill.h */
-int skill_xp_up(skill_t* skill, int xp_gained) {
+int skill_xp_up(skill_t* skill, unsigned int xp_gained) {
     assert(skill != NULL);
     while (1) {
         int xp_to_next_level = skill->min_xp - skill->xp;
