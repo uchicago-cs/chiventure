@@ -15,6 +15,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc,
     strcpy(new_item->item_id, item_id);
     strcpy(new_item->short_desc, short_desc);
     strcpy(new_item->long_desc, long_desc);
+    new_item->stat_effects = NULL;
 
     return SUCCESS;
 }
@@ -112,6 +113,22 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
         HASH_DEL(*(ht), old_item);
     }
     
+    return SUCCESS;
+}
+
+int add_effect_to_item(item_t *item, stat_effect_t *effect)
+{
+    stat_effect_t *check;
+    HASH_FIND(hh, item->stat_effects, effect->key, 
+              strlen(effect->key), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //item already has the effect
+    }
+
+    HASH_ADD_KEYPTR(hh, item->stat_effects, effect->key, 
+              strlen(effect->key), effect);
     return SUCCESS;
 }
 
@@ -456,6 +473,9 @@ int item_free(item_t *item)
     free(item->long_desc);
     delete_all_attributes(item->attributes);
     // uthash_free(item->attributes, HASH_SIZE);
+    if (item->stat_effects != NULL) {
+        delete_all_stat_effects(item->stat_effects);
+    }
     free(item);
     return SUCCESS;
 }
