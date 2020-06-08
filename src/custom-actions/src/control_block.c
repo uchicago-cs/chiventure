@@ -62,7 +62,7 @@ AST_block_t* AST_control_block_new(control_type_t control_type)
 
     block_t *block = malloc(sizeof(block));
     block->control_block = control;
-    ast = AST_block_new(block, block_type, num_AST, &ast_sequence);
+    ast = AST_block_new(block, block_type);
     return ast;
 }
 
