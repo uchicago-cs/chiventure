@@ -134,7 +134,7 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill) {
 /* See inventory.h */
 char* current_skills_as_strings(skill_inventory_t* inventory) {
     assert(inventory != NULL);
-    // 
+    //
     // // char* str = (char *)malloc(sizeof(char)*500);
     // // strncat(str, "List of active skills:\n", 25);
     // if (inventory->num_active == 0) {
@@ -165,5 +165,5 @@ char* current_skills_as_strings(skill_inventory_t* inventory) {
     //     }
     // }
     // strncat(str, "\0", 1);
-    return str;
+    return NULL;
 }
