@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "custom-actions/interface.h"
+#include "interface.h"
 
 /* See interface.h */
 int do_custom_action(custom_action_t *action)
@@ -17,6 +17,15 @@ int do_custom_action(custom_action_t *action)
 
 /* PRIVATE HELPER FUNCTIONS */
 
+/* Executes a given AST block (the essential element
+ * of a custom action)
+ * 
+ * Parameters: 
+ * - block: A pointer to the AST block to be executed
+ * 
+ * Returns:
+ * - Integer value of SUCCESS or FAILURE
+ */
 int run_ast_block(AST_block_t *block) 
 {
     int returnV;
@@ -55,7 +64,8 @@ int do_branch_block(branch_block_t *block)
 {
     if(block->num_controls != block->num_conditionals) return FAILURE;
     // goes through each of the control blocks
-    for(int i = 0; i < block->numcontrols; i++) 
+    int i;
+    for(i = 0; i < block->num_controls; i++) 
     {
         // will perform the appropriate type of action
         switch(block->controls[i]->control_type) {
