@@ -141,7 +141,7 @@ int stats_init(stats_t *stat, stats_global_t *global_stat, double init);
  *  Pointer to allocated global stats struct, returns NULL if failed.
  */
 
-stats_global_t* stats_global_new(char *name, double max);
+stats_global_t *stats_global_new(char *name, double max);
 
 /*
  * Allocates a new stat
