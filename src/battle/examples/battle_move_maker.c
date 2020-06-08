@@ -31,7 +31,6 @@ int build_moves(combatant_t *c)
         if(!(strncmp(combatant_class_name, tmp->c->name, MAX_NAME_LEN)))
         {
             appened = true;
-            printf("appended move id: %d\n", tmp->id);
             ret_move = move_new(tmp->spell, tmp->id, NULL, true, tmp->damage, 0);
             DL_APPEND(c->moves, ret_move);
         }
