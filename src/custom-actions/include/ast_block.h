@@ -34,7 +34,7 @@ typedef struct AST_block {
     block_t *block;
     block_type_t block_type;
     int num_AST;
-    struct AST_block_t **ast_sequence;
+    struct AST_block **ast_sequence;
 } AST_block_t;
 
 /* 
