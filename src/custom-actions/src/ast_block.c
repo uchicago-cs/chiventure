@@ -11,11 +11,13 @@
 #include "ast_block.h"
 
 /* See ast_block.h */
-AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t *next,
-                           AST_block_t *prev)
+AST_block_t* AST_block_new(block_t *block, block_type_t block_type)
 {
     AST_block_t *ast = malloc(sizeof(AST_block_t));
     int new_ast;
+  
+    AST_block_t *next = malloc(sizeof(AST_block_t));
+    AST_block_t *prev = malloc(sizeof(AST_block_t));
 
     if (ast == NULL) 
     {
