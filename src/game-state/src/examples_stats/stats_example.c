@@ -111,6 +111,14 @@ chiventure_ctx_t *create_sample_ctx()
     add_item_to_game(game, elixir);
     add_item_to_room(room1, elixir);
 
+    stats_hash_t *sh = NULL;
+    effects_hash_t *eh = NULL;
+    add_stat(&sh, s1);
+    add_stat(&sh, s2);
+    add_stat(&sh, s3);
+
+    class_t default = class_new("class", "short", "long", NULL, sh, eh);
+
 
     return ctx;
 }
@@ -223,7 +231,7 @@ char *add_player_stat(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     stat_t *stat = stat_new(global);
-    add_stat(&game->curr_player->player_class->stat, stat);
+    add_stat(&game->curr_player->player_class->stats, stat);
     return "The stat has been added."
 
 }
