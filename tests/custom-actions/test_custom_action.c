@@ -14,15 +14,19 @@ Test(custom_action_t, new_CONTROL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
 
-    AST_block_t *head = AST_block_new(block, block_type);
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
+    
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
 
     custom_action_t *new_action = custom_action_new(action_name, context, item, 
-                                                    type, head);
+                                                    type, head, hh);
 
     cr_assert_not_null(new_action, "custom_action_new failed");
 
@@ -46,15 +50,19 @@ Test(custom_action_t, new_BRANCH)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
 
-    AST_block_t *head = AST_block_new(block, block_type);
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
+    
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
 
     custom_action_t *new_action = custom_action_new(action_name, context, item, 
-                                                    type, head);
+                                                    type, head, hh);
 
     cr_assert_not_null(new_action, "custom_action_new failed");
 
@@ -78,15 +86,18 @@ Test(custom_action_t, new_CONDITIONAL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
 
-    AST_block_t *head = AST_block_new(block, block_type);
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
 
     custom_action_t *new_action = custom_action_new(action_name, context, item, 
-                                                    type, head);
+                                                    type, head, hh);
 
     cr_assert_not_null(new_action, "custom_action_new failed");
 
@@ -110,15 +121,19 @@ Test(custom_action_t, new_ACTION)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
 
-    AST_block_t *head = AST_block_new(block, block_type);
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
+    
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
 
     custom_action_t *new_action = custom_action_new(action_name, context, item, 
-                                                    type, head);
+                                                    type, head, hh);
 
     cr_assert_not_null(new_action, "custom_action_new failed");
 
@@ -142,16 +157,20 @@ Test(custom_action_t, init_CONTROL)
 { 
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
-    AST_block_t *head = AST_block_new(block, block_type);
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
+
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
 
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
     int rc;
     custom_action_t action;
 
-    rc = custom_action_init(&action, action_name, context, item, type, head);
+    rc = custom_action_init(&action, action_name, context, item, type, head, hh);
 
     cr_assert_eq(rc, SUCCESS, "custom_action_init() failed");
     cr_assert_eq(action.action_name, action_name, "custom_action_init() didn't "
@@ -169,16 +188,20 @@ Test(custom_action_t, init_BRANCH)
 {  
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
-    AST_block_t *head = AST_block_new(block, block_type);
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
+
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
     
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
     int rc;
     custom_action_t action;
     
-    rc = custom_action_init(&action, action_name, context, item, type, head);
+    rc = custom_action_init(&action, action_name, context, item, type, head, hh);
     
     cr_assert_eq(rc, SUCCESS, "custom_action_init() failed");
     cr_assert_eq(action.action_name, action_name, "custom_action_init() didn't "
@@ -196,16 +219,20 @@ Test(custom_action_t, init_CONDITIONAL)
 {  
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
-    AST_block_t *head = AST_block_new(block, block_type);
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
+
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
     
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
     int rc;
     custom_action_t action;
     
-    rc = custom_action_init(&action, action_name, context, item, type, head);
+    rc = custom_action_init(&action, action_name, context, item, type, head, hh);
     
     cr_assert_eq(rc, SUCCESS, "custom_action_init() failed");
     cr_assert_eq(action.action_name, action_name, "custom_action_init() didn't "
@@ -223,16 +250,20 @@ Test(custom_action_t, init_ACTION)
 {  
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
-    AST_block_t *head = AST_block_new(block, block_type);
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
+
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
     
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
     int rc;
     custom_action_t action;
     
-    rc = custom_action_init(&action, action_name, context, item, type, head);
+    rc = custom_action_init(&action, action_name, context, item, type, head, hh);
     
     cr_assert_eq(rc, SUCCESS, "custom_action_init() failed");
     cr_assert_eq(action.action_name, action_name, "custom_action_init() didn't "
@@ -250,15 +281,19 @@ Test(custom_action_t, free_CONTROL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
-    AST_block_t *head = AST_block_new(block, block_type);
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
+    
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
 
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
     int rc;
 
-    custom_action_t *action = custom_action_new(action_name, context, item, type, head);
+    custom_action_t *action = custom_action_new(action_name, context, item, type, head, hh);
 
     cr_assert_not_null(action, "custom_action_new() failed");
     
@@ -273,15 +308,19 @@ Test(custom_action_t, free_BRANCH)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
-    AST_block_t *head = AST_block_new(block, block_type);
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
+
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
 
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
     int rc;
 
-    custom_action_t *action = custom_action_new(action_name, context, item, type, head);
+    custom_action_t *action = custom_action_new(action_name, context, item, type, head, hh);
 
     cr_assert_not_null(action, "custom_action_new() failed");
     
@@ -296,15 +335,19 @@ Test(custom_action_t, free_CONDITIONAL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
-    AST_block_t *head = AST_block_new(block, block_type);
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
+
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
 
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
     int rc;
 
-    custom_action_t *action = custom_action_new(action_name, context, item, type, head);
+    custom_action_t *action = custom_action_new(action_name, context, item, type, head, hh);
 
     cr_assert_not_null(action, "custom_action_new() failed");
     
@@ -319,15 +362,19 @@ Test(custom_action_t, free_ACTION)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
-    AST_block_t *head = AST_block_new(block, block_type);
+    int num_AST = 1;
+    AST_block_t **ast_sequence;
+
+    AST_block_t *head = AST_block_new(block, block_type, num_AST, ast_sequence);
 
     char *action_name = "act_PUSH";
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
+    UT_hash_handle hh = hh;
     int rc;
 
-    custom_action_t *action = custom_action_new(action_name, context, item, type, head);
+    custom_action_t *action = custom_action_new(action_name, context, item, type, head, hh);
 
     cr_assert_not_null(action, "custom_action_new() failed");
     
