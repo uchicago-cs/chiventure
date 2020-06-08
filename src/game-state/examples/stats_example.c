@@ -10,8 +10,6 @@
  * - PLYR-EFFECTS: Print player effects
  * - GAME-STATS: Print global stats
  * - GAME-EFFECTS: Print global effects
- * - GRAB: A command that words like PICKUP or TAKE actions, but only adds the item
- *         to the player's inventory by calling add_item_to_player
  * - ADD-EFFECT: Add a specified effect to a player
  * - ADD-STAT: Add a specified stat to a player
  * - ITEM-EFFECT: Print all the effects an item will have
@@ -38,6 +36,8 @@ item_t *create_poison(effects_global_t *p, stats_t *stat)
     stat_mod_t *mod1 = stat_mod_new(stat, 0.5, 50);
     LL_APPEND(poisoned->stat_list, mod1);
     add_effect_to_item(poison, poisoned);
+    add_action(poison, "TAKE", "The item has been taken.", 
+               "The item does not exist in the game.");
     return poison;
 }
 
@@ -50,6 +50,8 @@ item_t *create_potion(effects_global_t *p, stats_t *stat)
     stat_mod_t *mod = stat_mod_new(stat, 1.25, 25);
     LL_APPEND(healed->stat_list, mod);
     add_effect_to_item(potion, healed);
+    add_action(potion, "TAKE", "The item has been taken.", 
+               "The item does not exist in the game.");
     return potion;
 }
 
@@ -58,7 +60,7 @@ item_t *create_elixir(effects_global_t *p1, effects_global_t *p2,
                       stats_t *s1, stats_t *s2, stats_t *s3, stats_t *s4)
 {
     item_t *elixir = item_new("ELIXIR","This is an elixir.",
-                   "This is an elixir. It will boost and stun you at the same time.");
+                   "This is an elixir. Effects: energize and stun.");
     
     stat_effect_t *stunned = stat_effect_new(p1);
     stat_mod_t *mod1 = stat_mod_new(s1, 0.75, 200);
@@ -73,6 +75,8 @@ item_t *create_elixir(effects_global_t *p1, effects_global_t *p2,
     LL_APPEND(boost->stat_list, mod3);
     LL_APPEND(boost->stat_list, mod4);
     add_effect_to_item(elixir, boost);
+    add_action(elixir, "TAKE", "The item has been taken.", 
+               "The item does not exist in the game.");
     return elixir;
 }
 /* Creates a sample in-memory game */
@@ -94,12 +98,12 @@ chiventure_ctx_t *create_sample_ctx()
     game = ctx->game;
 
     /* Create global effects and add to game */
-    effects_global_t *poisoned, *stunned, *healed;
+    effects_global_t *poisoned, *stunned, *healed, *boost;
 
     poisoned = global_effect_new("POISONED");
     stunned = global_effect_new("STUNNED");
     healed = global_effect_new("HEALED");
-    effects_global_t *boost = global_effect_new("ENERGIZED");
+    boost = global_effect_new("ENERGIZED");
     add_effect_to_game(game, boost);
     add_effect_to_game(game, stunned);
     add_effect_to_game(game, poisoned);
@@ -156,7 +160,7 @@ char *print_global_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
 
-    if(tokens[2] != NULL)
+    if (tokens[1] != NULL)
     {
         return "I do not know what you mean.";
     }
@@ -183,7 +187,7 @@ char *print_global_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
 
-    if(tokens[2] != NULL)
+    if (tokens[1] != NULL)
     {
         return "I do not know what you mean.";
     }
@@ -211,7 +215,7 @@ char *print_player_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
 
-    if(tokens[1] != NULL)
+    if (tokens[1] != NULL)
     {
         return "I do not know what you mean.";
     }
@@ -223,7 +227,7 @@ char *print_player_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
 
-    if(tokens[1] != NULL)
+    if (tokens[1] != NULL)
     {
         return "I do not know what you mean.";
     }
@@ -281,11 +285,11 @@ char *add_player_effect(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
 
-    if(tokens[2] != NULL)
+    if (tokens[2] != NULL)
     {
         return "I do not know what you mean.";
     }
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must identify an effect to add\n";
     }
@@ -304,38 +308,20 @@ char *add_player_effect(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 }
 
-char *pick_command(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *game = ctx->game;
-
-    item_t *item;
-    HASH_FIND(hh, game->all_items, tokens[1], strlen(tokens[1]), item);
-
-    if (item == NULL)
-    {
-        return "This item does not exist in the game.";
-    }
-
-    add_item_to_player(game->curr_player, item);
-    return "The item has been picked.";
-
-
-}
-
 char *upgrade_command(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
 
-    if(tokens[2] != NULL)
+    if (tokens[2] != NULL)
     {
         return "I do not know what you mean.";
     }
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must identify a stat to upgrade\n";
     }
 
-    int rc = change_stat_max(game->curr_player->player_class->stats, tokens[1], 1000);
+    int rc = change_stat_max(game->curr_player->player_class->stats, tokens[1], 100);
 
     if (rc == FAILURE)
     {
@@ -358,7 +344,6 @@ int main(int argc, char **argv)
     add_entry("ADD-STAT", add_player_stat, NULL, ctx->table);
     add_entry("ADD-EFFECT", add_player_effect, NULL, ctx->table);
     add_entry("ITEM-EFFECT", print_item_effects, NULL, ctx->table);
-    add_entry("GRAB", pick_command, NULL, ctx->table);
     add_entry("UPGRADE", upgrade_command, NULL, ctx->table);
 
     /* Start chiventure */

@@ -147,7 +147,14 @@ int change_stat_max(stats_hash_t *sh, char *stat, double change)
     {
         return FAILURE;
     }
-    s->max = s->max + change;
+    double new_max = s->max + change;
+
+    if (new_max > s->global->max) {
+        s->max = s->global->max;
+    } else {
+        s->max = new_max;
+    }
+
     return SUCCESS;
 }
 
