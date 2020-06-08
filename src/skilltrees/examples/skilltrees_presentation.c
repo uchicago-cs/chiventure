@@ -23,10 +23,12 @@
  * final room, the demo room.
  *
  * CLI Operations Defined for This Example
+ *  - SKILLS, for listing all skills currently in your skill inventory
  *  - DESIGN, for using the design skill
  *  - TEST, for using the testing skill
  *  - LEARN IMPLEMENTATION, for learning the implementation skill
- *  - IMPLEMENT, for using the implemtation skill
+ *  - LOOK IMPLEMENTATION, for inspecting the implementation skill
+ *  - IMPLEMENT, for using the implementation skill
  *  - GO NORTH, to progress to the next room in the game sequence
  *  - GO SOUTH, to go back to a previous room in the game sequence
  */
