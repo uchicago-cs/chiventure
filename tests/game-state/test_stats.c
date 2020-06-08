@@ -178,12 +178,20 @@ stats_hash_t *add_stats(int type) {
 
 
 Test(stats, change_stat) {
-    stats_hash_t *sh = add_stats(3);
-    char* key1 = "health";
-    char* key2 = "charisma";
-    char* key3 = "strength";
+    stats_hash_t *sh = NULL;
+    stats_global_t g1;
+    g1.name = "health";
+    g1.max = 100;
+    stats_t s1;
+    s1.key = "health";
+    s1.global = &g1;
+    s1.val = 50;
+    s1.max = 75;
+    s1.modifier = 1.1;
+    int rc1 = add_stat_player(&sh, &s1);
+    cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
     stats_t* curr; 
-    HASH_FIND(hh, sh, key1, strlen(key1), curr);
+    HASH_FIND(hh, sh, "health", strlen("health"), curr);
     cr_assert_eq(curr->val, 50,
         "change_stat base value not equal initially");
 
