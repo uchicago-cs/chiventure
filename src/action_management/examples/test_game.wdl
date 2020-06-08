@@ -1,6 +1,7 @@
 # Test game for chiventure - meant to be used with spring2020-demo,
-# which takes this game and dump some more things in it that are
-# currently not specified by WDL
+# which takes this game and adds attribute conditions, inventory conditions,
+# end conditions, and conditional connections between rooms,
+# all of which are currently not yet supported by WDL
 
 
 GAME:
