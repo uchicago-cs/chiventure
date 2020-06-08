@@ -391,8 +391,8 @@ Test(skilltree_tests, skill_prereqs_missing_some)
   skill_node_t* bomb_node = skill_node_new(skill1, 1, 75);
   skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
 
-  // node_prereq_add(bomb_node, chop_node);
-  //
+  node_prereq_add(bomb_node, chop_node);
+
   // skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
   // skill_tree_node_add(tree, bomb_node);
   // skill_tree_node_add(tree, chop_node);
