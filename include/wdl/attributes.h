@@ -70,18 +70,6 @@ obj_attr_t *add_attribute(obj_attr_t **attrs, char *id, void *d);
 int free_attr_hash(obj_attr_t **attrs);
 
 
-/* ---------- SHARED FUNCTIONS ---------- */
-
-/* free_attr - frees & deletes 1 item from hash and all of its linked elements
- *
- * params:
- *   - head: head ptr
- *   - a: attr to delete
- * returns: SUCCESS
- */
-int free_attr(obj_attr_t *head, obj_attr_t *a);
-
-
 /* ---------- LINKED LIST FUNCTIONS ---------- */
 
 /* init_attr_list - initializes given attr as head of a linked list
@@ -109,7 +97,16 @@ obj_attr_t *append_attr(obj_attr_t *head, obj_attr_t *new);
  */
 int count_attr_list(obj_attr_t *head);
 
-/* free_attr - frees & deletes attr from by iterating through linked list (WILL ALSO delete from hash)
+/* free_attr - frees & deletes 1 item from linked list
+ *
+ * params:
+ *   - head: head ptr
+ *   - a: attr to delete
+ * returns: SUCCESS
+ */
+int free_attr(obj_attr_t *head, obj_attr_t *a);
+
+/* free_attr_list - frees & deletes attr 1 item from hash (including its linked elements)
  *
  * params:
  *   - attrs: ptr to hash

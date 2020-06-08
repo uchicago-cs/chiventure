@@ -107,13 +107,13 @@ int free_attr_list(obj_attr_t **attrs, obj_attr_t *head)
     
     HASH_DEL(*attrs, head);
     
-    if (head->next != NULL) {
-        obj_attr_t *elt, *tmp;
-        DL_FOREACH_SAFE(head, elt, tmp) {
-            if (head == NULL) return SUCCESS;
-            free_attr(head, elt);
-        }
+    
+    obj_attr_t *elt, *tmp;
+    DL_FOREACH_SAFE(head, elt, tmp) {
+        if (head == NULL) return SUCCESS;
+        free_attr(head, elt);
     }
+    
 
     return SUCCESS;
 }
