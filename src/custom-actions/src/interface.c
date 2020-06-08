@@ -52,7 +52,7 @@ int run_ast_block(AST_block_t *block)
  */
 int do_branch_block(branch_block_t *block)
 {
-    if(block->numcontrols != block->numconditionals) return FAILURE;
+    if(block->num_controls != block->num_conditionals) return FAILURE;
     // goes through each of the control blocks
     for(int i = 0; i < block->numcontrols; i++) 
     {
