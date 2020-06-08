@@ -27,23 +27,29 @@ Test(Interface,null_custom_action) {
 /* Checks that a custom_action with a bad branch block fails */
 Test(Interface,bad_branch_custom_action) {
     printf("We should definitely be seeing this printf\n");
+
     conditional_type_t conditional_type = LTGT;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
+    attribute_value_t attribute_value2;
+    attribute_value.int_val = 2;
+
     attribute_t *left = malloc(sizeof(attribute_t));
     UT_hash_handle hh = hh;
     left->hh = hh;
     left->attribute_key = attr_name1;
     left->attribute_tag = attribute_tag;
     left->attribute_value = attribute_value;
+
     attribute_t *right = malloc(sizeof(attribute_t));
     right->hh = hh;
     right->attribute_key = attr_name2;
     right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
+    right->attribute_value = attribute_value22;
+
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     printf("Conditional block made\n");
     // allocates a new control block to nest within a branch block
