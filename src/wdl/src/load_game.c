@@ -11,14 +11,21 @@
 /*
  * load_wdl, function that loads a wdl into all the game-state structs
  *
- * takes a path to a yaml file, returns a game struct
+ * takes a path to a YAML file or a WDZ, returns a wdl_ctx
  *
+ * Parameters:
+ *   - path_to_wd: a path to a world document, either a YAML file or a WDZ
  *
+ * Returns:
+ *   - a pointer to a wdl_ctx_t struct containing either a created game from
+ *     a YAML file or a set of wdl objects created from WDZ
  */
-game_t *load_wdl(char *path_to_yaml)
+wdl_ctx_t *load_wdl(char *path_to_wd)
 {
+    wdl_ctx_t *ctx = new_wdl_ctx();
+
     int rc;
-    obj_t *big_document = get_doc_obj(path_to_yaml);
+    obj_t *big_document = get_doc_obj(path_to_wd);
 
     game_t *game = create_game(big_document);
 
@@ -65,7 +72,9 @@ game_t *load_wdl(char *path_to_yaml)
         return NULL;
     }
 
-    return game;
+    ctx->game = game;
+
+    return ctx;
 }
 
 game_t *create_game(obj_t *doc)
