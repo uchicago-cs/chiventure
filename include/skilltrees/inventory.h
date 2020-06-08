@@ -100,6 +100,14 @@ int inventory_has_skill(skill_inventory_t* inventory, sid_t sid,
  */
 int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill);
 
+/*
+ * Returns all names of skills currently in the inventory as a string.
+ *
+ * Parameters:
+ *  - inventory: A skill inventory
+ *
+ * Returns:
+ *  - A string formatted nicely to print out in the chiventure screen.
 char* current_skills_as_strings(skill_inventory_t* inventory);
 
 #endif /* INCLUDE_INVENTORY_H_ */

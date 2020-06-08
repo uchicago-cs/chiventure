@@ -138,21 +138,23 @@ char* current_skills_as_strings(skill_inventory_t* inventory) {
     char* str = (char *)malloc(sizeof(char)*500);
     strncat(str, "List of active skills:\n", 25);
     if (inventory->num_active == 0) {
-        strncat(str, "You have no active skills.\n\n", 35);
+        strncat(str, "You have no active skills.\n", 35);
     } else {
         for (unsigned int i = 0; i < inventory->num_active; i++) {
             strncat(str, inventory->active[i]->name, 20);
+            strncat(str, ": Level ", 9);
             strncat(str, "\n", 1);
         }
-        // To differentiate between passive and active skills.
-        strncat(str, "\n", 1);
     }
+    // To differentiate between passive and active skills.
+    strncat(str, "\n", 1);
 
     if (inventory->num_passive == 0) {
         strncat(str, "You have no passive skills.\n\n", 35);
     } else {
         for (unsigned int i = 0; i < inventory->num_passive; i++) {
             strncat(str, inventory->passive[i]->name, 20);
+            strncat(str, ": Level ", 9);
             strncat(str, "\n", 1);
         }
         // Null terminator
