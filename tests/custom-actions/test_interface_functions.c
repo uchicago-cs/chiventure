@@ -55,7 +55,11 @@ Test(Interface,bad_branch_custom_action) {
     printf("Did we crash here\n");
     block_t* block = (block_t*)new_branch;
     printf("Did we crash here2\n");
-    AST_block_t* ast = AST_block_new(block,BRANCH,1,NULL);
+    AST_block_t* ast = malloc(sizeof(ast));
+    ast->block = block;
+    ast->block_type = BRANCH;
+    ast->previous = NULL;
+    ast->next = NULL;
     custom_action_t* ca = custom_action_new("act_PUSH","item","obj_CHAIR","paladin",ast,hh);
 
     cr_assert_eq(do_custom_action(ca),FAILURE, "do_custom_action didn't recognize branch block had wrong arguments");
