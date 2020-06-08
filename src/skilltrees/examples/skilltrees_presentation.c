@@ -28,7 +28,8 @@ chiventure_ctx_t* create_example_ctx() {
     room_t* implementation_room = room_new("Implementation Room", "", "Your "
                                            "users eagerly await a demo of your "
                                            "final product, so get to work!");
-    room_t* demo_room = room_new("Demo Room", "", "Your demo was a success!");
+    room_t* demo_room = room_new("Demo Room", "", "You have 15 minutes to "
+                                 "present. Good luck!");
 
     // Add example rooms to example game
     add_room_to_game(game, design_room);
@@ -37,8 +38,6 @@ chiventure_ctx_t* create_example_ctx() {
 
     // Set initial room and create room connections
     game->curr_room = design_room;
-    create_connection(game, "Design Room", "Implementation Room", "NORTH");
-    create_connection(game, "Implementation Room", "Design Room", "SOUTH");
     create_connection(game, "Implementation Room", "Demo Room", "NORTH");
     create_connection(game, "Demo Room", "Implementation Room", "SOUTH");
 
@@ -53,13 +52,14 @@ chiventure_ctx_t* create_example_ctx() {
     return ctx;
 }
 
-// Create example skills
+// Create example skills and associated CLI operations
 char* effect_design(char* args) {
     return "Good progress on your modules! Keep going!";
 }
-skill_t* design_skill = skill_new(0, ACTIVE, "Design Skill", "Your software design skill", 4, 1, &effect_design);
-
+skill_t* design_skill;
 char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+    create_connection(ctx->game, "Design Room", "Implementation Room", "NORTH");
+    create_connection(ctx->game, "Implementation Room", "Design Room", "SOUTH");
     return skill_execute(design_skill, "");
 }
 
@@ -67,13 +67,17 @@ int main(int argc, char **argv) {
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
 
+    // Initialize skills
+    design_skill = skill_new(0, ACTIVE, "Design Skill", "Your software design skill", 3, 0, &effect_design);
+
     // Add DESIGN operation
     add_entry("DESIGN", design_operation, NULL, ctx->table);
 
     // Start UI for example chiventure context
     start_ui(ctx, banner);
 
-    // Free example game
+    // Free memory
+    skill_free(design_skill);
     game_free(ctx->game);
 
     return 0;
