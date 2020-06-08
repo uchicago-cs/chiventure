@@ -108,7 +108,7 @@ int run_ast_block(AST_block_t *block)
             break;
         case(BRANCH):
             returnV = do_branch_block(block->block->branch_block);
-            if(returnV == 0) return block->prev;
+            if(returnV == 0) return run_ast_block(block->prev);
             return run_ast_block(block->next);
             break;
         case(ACTION):
