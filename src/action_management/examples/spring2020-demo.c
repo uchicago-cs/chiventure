@@ -142,7 +142,8 @@ int add_inventory_conditions(chiventure_ctx_t *ctx)
         }
         
         game_action_t *act = get_action(item, "CONSUME");
-        add_action_inventory_condition(act, player, fork);
+        condition_t *condition = inventory_condition_new(player, fork);
+        add_condition(game, act, condition);
     }
     
     return 0;
