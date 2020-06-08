@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "interface.h"
+#include "custom-actions/interface.h"
 
 /* See interface.h */
 int do_custom_action(custom_action_t *action)
