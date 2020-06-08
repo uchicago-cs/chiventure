@@ -99,7 +99,7 @@ Test(skilltree_tests, node_prereq_add_full)
     skill_node_t* peace_node = skill_node_new(peace, 1, 76);
     node_prereq_add(peace_node,bomb_node);
     int ret = node_prereq_add(peace_node,tree_node);
-    cr_assert_eq(ret, FAILURE, "Error: failed test node_prereq_add_full\n");
+    cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_add_full\n");
 }
 
 /* Tests node_prereq_remove on a valid case. */
@@ -190,7 +190,7 @@ Test(skilltree_tests, node_prereq_remove_safe)
 //     int ret = skill_tree_node_remove(tree, chop_node);
 //     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_remove_safe\n");
 // }
-// 
+//
 // /* Tests skill_tree_node_remove on a node that is missing. */
 // Test(skilltree_tests, skill_tree_node_remove_missing)
 // {
