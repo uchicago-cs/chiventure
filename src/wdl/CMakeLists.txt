@@ -7,11 +7,15 @@ add_library(wdl
             src/objstore.c
 	        src/object.c
             src/parse.c
-            src/validate.c)
+            src/validate.c
+            src/load_wdz_common.c
+            src/load_wdz_lzip.c)
 
 target_include_directories(wdl PRIVATE src/)
+target_include_directories(wdl PRIVATE ${LIBZIP_INCLUDE_DIR})
+target_include_directories(wdl PRIVATE ${JSONC_INCLUDE_DIR})
 
-target_link_libraries(wdl libobj)
+target_link_libraries(wdl libobj ${JSONC_LIBRARIES} ${LIBZIP_LIBRARIES})
 
 
 

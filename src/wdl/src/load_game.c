@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "wdl/load_wdz_internal.h"
+
 #include "wdl/validate.h"
 #include "wdl/parse.h"
 #include "wdl/load_game.h"
@@ -23,6 +25,22 @@
 wdl_ctx_t *load_wdl(char *path_to_wd)
 {
     wdl_ctx_t *ctx = new_wdl_ctx();
+
+    /* 
+     * WDZ loading monkeypatch.
+     * Intercepts chiventure if wdz file is passed in as CLI argument, 
+     * and prints JSON contents for debug.
+     * This is also likely the entrypoint for our final implementation.
+     */
+    if (filename_extension_is("wdz", path_to_wd))
+    {
+        int n_jsons = 0;
+        printf("Detected wdz file. Attempting to load wdz and printing the json files...\n");
+        printf("Note that loading wdz is not functional right now.\n");
+        populate_objstore_from_wdz(ctx->ht, &n_jsons, path_to_wd);
+        printf("Number of JSON files found: %d\n", n_jsons);
+        return NULL;
+    }
 
     int rc;
     obj_t *big_document = get_doc_obj(path_to_wd);

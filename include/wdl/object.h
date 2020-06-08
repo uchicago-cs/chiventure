@@ -41,7 +41,7 @@ typedef enum assettype
 } assettype_t;
 
 /*
- * obj_t: a struct describing a .json object.
+ * object_t: a struct describing a .json object.
  */
 typedef struct object
 {
