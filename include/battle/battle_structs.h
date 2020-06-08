@@ -12,6 +12,7 @@ typedef struct item {
     int id;
     int quantity;
     int durability;
+    char* name;
     char* description;
     bool battle;
     int attack;
@@ -25,6 +26,8 @@ typedef struct item {
 typedef struct move {
     item_t *item;
     int id;
+    // NOTE: functions to create move_new do not take into account a name
+    char* name;
     char* info;
     bool attack;
     int damage;
