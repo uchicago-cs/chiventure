@@ -236,7 +236,7 @@ Test(iter_macro, iter_conditions)
     room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
     path_t *path = path_new(room2, "north");
     add_path_to_room(room1, path);
-    add_condition_to_path(path, condition_new());
+    add_condition_to_path(path, attribute_condition_new());
     int cnt = 0;
     path_t *curr_path;
     ITER_ALL_CONDITIONS(room1, curr_condi) {
