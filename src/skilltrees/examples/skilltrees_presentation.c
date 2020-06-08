@@ -182,7 +182,7 @@ void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* invento
     }
 
     print_to_cli(ctx, "-");
-    print_to_cli(ctx, "Active Skills:");
+    print_to_cli(ctx, "Passive Skills:");
 
     if (!inventory->num_passive) {
         print_to_cli(ctx, "You have no passive skills.");
