@@ -138,15 +138,21 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         {
 	    //remove action from any conditions
 	    path_t *closed_path;
-	    list_action_type_t *delete_node;
-	    int condition;
-	    closed_path = path_search(a->room,a->direction);
-	    delete_node = find_act(closed_path->conditions,a);
-//	    condition = remove_condition(closed_path,delete_node);
-	    //if (condition != SUCCESS)
-	    //{
-	//	sprintf(string, "condition was not removed");
-	 //   }
+            closed_path = path_search(a->room,a->direction);
+	    // only if action is a condition to something (action with
+	    // null room and direction produce null path)
+	    if (closed_path)
+	    {
+		list_action_type_t *delete_node;
+		int condition;
+		closed_path = path_search(a->room,a->direction);
+		delete_node = find_act(closed_path->conditions,a);
+		condition = remove_condition(closed_path,delete_node);
+		if (condition != SUCCESS)
+		{
+	  	    sprintf(string, "condition was not removed");
+	 	}
+	    }
 
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
@@ -201,15 +207,24 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     int move = move_room(g, room_dest);
 
     //remove action from any conditions
-    //path_t *closed_path;
-    //int condition;
-    //closed_path = path_search(a->room,a->direction);
-    //condition = remove_condition(closed_path,a);
-    //if (condition != SUCCESS)
-    //{
-    //    sprintf(string, "condition was not removed");
-    //}
+    path_t *closed_path;
+    closed_path = path_search(a->room,a->direction);
+    // only if action is a condition to something (action with
+    // null room and direction produce null path)
+    if (closed_path)
+    {
+        list_action_type_t *delete_node;
+        int condition;
+        closed_path = path_search(a->room,a->direction);
+        delete_node = find_act(closed_path->conditions,a);
+        condition = remove_condition(closed_path,delete_node);
+        if (condition != SUCCESS)
+        {
+            sprintf(string, "condition was not removed");
+        }
+    }
 
+    // successfully carried out action
     if (is_game_over(g)) {
         sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
                  room_dest->room_id);
@@ -306,14 +321,22 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         else if (applied_effect == SUCCESS)
         {
             //remove action from any conditions
-            //path_t *closed_path;
-            //int condition;
-            //closed_path = path_search(a->room,a->direction);
-            //condition = remove_condition(closed_path,a);
-            //if (condition != SUCCESS)
-            //{
-            //    sprintf(string, "condition was not removed");
-            //}
+            path_t *closed_path;
+            closed_path = path_search(a->room,a->direction);
+            // only if action is a condition to something (action with
+            // null room and direction produce null path)
+            if (closed_path)
+            {
+                list_action_type_t *delete_node;
+                int condition;
+                closed_path = path_search(a->room,a->direction);
+                delete_node = find_act(closed_path->conditions,a);
+                condition = remove_condition(closed_path,delete_node);
+                if (condition != SUCCESS)
+                {
+                    sprintf(string, "condition was not removed");
+                }
+            }
 
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);

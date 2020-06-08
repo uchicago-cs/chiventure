@@ -223,8 +223,9 @@ int all_conditions_met(item_t* item, char* action_name)
     return SUCCESS;
 }
 
-
-int actioncmp(list_action_type_t *a1, list_action_type_t *a2) {
+/* See game_action.h */
+int actioncmp(list_action_type_t *a1, list_action_type_t *a2) 
+{
     return strncmp(a1->act->c_name, a2->act->c_name, BUFFER_SIZE);
 }
 
