@@ -15,6 +15,10 @@ addons:
       - liblua5.3-0
       - liblua5.3-dev
       - lua5.3
+      - libjson-c2
+      - libjson-c-dev
+      - libzip4
+      - libzip-dev
 
 branches:
   only:

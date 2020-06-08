@@ -1,6 +1,6 @@
 #include "game-state/stats.h"
 #define MIN_STRING_LENGTH 2
-#define MAX_NAME_LENGTH 50
+#define MAX_NAME_LENGTH 70
 
 /* See stats.h*/
 int stats_global_init(stats_global_t *s, char *name, double max)
@@ -147,7 +147,14 @@ int change_stat_max(stats_hash_t *sh, char *stat, double change)
     {
         return FAILURE;
     }
-    s->max = s->max + change;
+    double new_max = s->max + change;
+
+    if (new_max > s->global->max) {
+        s->max = s->global->max;
+    } else {
+        s->max = new_max;
+    }
+
     return SUCCESS;
 }
 
@@ -191,25 +198,30 @@ int add_stat(stats_hash_t **sh, stats_t *s)
 /* See stats.h */
 char* display_stats(stats_hash_t *s)
 {
-    stats_t *stat;
+    stats_t *stat, *tmp;
     int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(s));
     char list[size];
-    
-    stat = s;
-    if (stat != NULL) 
-    {
-        strcpy(list, stat->global->name);
+    char line[size];
+    double stat_val;
+
+    strcpy(list, "");
+
+    if (s == NULL) {
+        return "\n";
     }
 
-    for (stat = stat->hh.next; stat != NULL; stat = stat->hh.next)
+    HASH_ITER(hh, s, stat, tmp)
     {
-        strcat(list, ", ");
-        strcat(list, stat->global->name);
+        stat_val = stat->val * stat->modifier;
+        sprintf(line, "%s [%.2f / %.2f]\n", stat->key, 
+                stat_val, stat->max);
+        strcat(list, line);
     }
 
     char *display = strdup(list);
     return display;
 }
+
 
 /* See stats.h */
 int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect) {
@@ -255,8 +267,46 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
     return SUCCESS;
 }
 
+char *display_stat_effects(effects_hash_t *hash)
+{
+    stat_effect_t *effect, *tmp;
+    stat_mod_t *mod;
+    int count = 0, list_count = 0;
+
+    HASH_ITER(hh, hash, effect, tmp)
+    {
+        LL_COUNT(effect->stat_list, mod, list_count);
+        count += list_count;
+    }
+
+    int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * (count + HASH_COUNT(hash)));
+    char list[size];
+    char line[size];
+
+    strcpy(list, "");
+
+    if (hash == NULL) {
+        return "\n";
+    }
+
+    HASH_ITER(hh, hash, effect, tmp)
+    {
+        sprintf(line, "*** %s ***\n", effect->key);
+        strcat(list, line);
+        LL_FOREACH(effect->stat_list, mod)
+        {
+            sprintf(line, "\t[ %s ] modifier: %.2f, duration: %d\n", 
+                    mod->stat->key, mod->modifier, mod->duration);
+            strcat(list, line);
+        }
+    }
+
+    char *display = strdup(list);
+    return display;
+}
+
 /* See stats.h */
-int free_stats(stats_t *stat)
+int free_stats(stats_hash_t *stat)
 {
     free(stat->key);
     free(stat);

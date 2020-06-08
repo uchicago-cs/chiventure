@@ -44,19 +44,28 @@ enum action_kind {
 };
 
 
+/* Forward room declaration */
+typedef struct room room_t;
+
+
 /* An action struct that contains the following:
  * - c_name: the 'canonical' string that should call the enum
  * - kind: an enumeration of the kind of action
+ * - room: the room that requires the action to be done before entry.
+ * - direction: direction of path.
  */
 typedef struct {
     char *c_name; // e.g. "eat"
     enum action_kind kind; // e.g. KIND_1
+    room_t *room;
+    char *direction;
 } action_type_t;
 
 
 /* A linked list struct that contains two components
  * - act: the data component
  * - next: the next item in the linked list
+ * - trigger: room_id of the room that requires this aciton as a condition
  * This struct is primarily used in the get_supported_actions function.
 */
 typedef struct list_act {
