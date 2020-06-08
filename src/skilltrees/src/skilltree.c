@@ -82,7 +82,6 @@ int node_prereq_remove(skill_node_t* node, skill_node_t* prereq) {
 
 /* See skilltree.h */
 skill_tree_t* skill_tree_new(tid_t tid, char* name, unsigned int num_nodes) {
-    assert(num_nodes > 0);
 
     skill_tree_t* tree;
     tree = (skill_tree_t*)malloc(sizeof(skill_tree_t));
