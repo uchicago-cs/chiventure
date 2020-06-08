@@ -42,13 +42,13 @@ chiventure_ctx_t* create_example_ctx() {
 
     // Set initial room
     game->curr_room = design_room;
-    //create_connection(game, "Design Room", "Implementation Room", "NORTH");
-    //create_connection(game, "Implementation Room", "Design Room", "SOUTH");
     //create_connection(game, "Implementation Room", "Demo Room", "NORTH");
     //create_connection(game, "Demo Room", "Implementation Room", "SOUTH");
 
     // Create room items
-    item_t* implementation_item = item_new("IMPLEMENTATION", "The software implementation skill", "Skill that enables software implementation");
+    item_t* implementation_item = item_new("IMPLEMENTATION",
+                                           "The software implementation skill",
+                                           "Skill that enables software implementation");
     add_item_to_room(implementation_room, implementation_item);
 
     // Create example chiventure context
@@ -72,8 +72,18 @@ skill_inventory_t* inventory;
         return "Good progress on your modules! Keep going!";
     }
 
+    // Wrapper function for leveling up design skill
+    void design_level_up() {
+        skill_level_up(design_skill);
+        if (design_skill->level == 4) {
+            create_connection(game, "Design Room", "Implementation Room", "NORTH");
+            create_connection(game, "Implementation Room", "Design Room", "SOUTH");
+        }
+    }
+
     // Skill CLI operation
     char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+        design_level_up();
         return skill_execute(design_skill, "");
     }
 
