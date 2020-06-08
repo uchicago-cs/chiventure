@@ -227,7 +227,7 @@ skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
  *    parameter `num_acquired_prereqs` is updated to 0 when there are no acquired
  *    prerequisites, and is updated to -1 if an error has occurred
  */
-skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
                                      skill_inventory_t* inventory, sid_t sid,
                                      int* num_acquired_prereqs);
 
