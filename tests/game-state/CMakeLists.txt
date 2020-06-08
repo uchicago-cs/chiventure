@@ -1,6 +1,7 @@
 set(TEST_EXE test-game-state)
 
 add_executable(${TEST_EXE}
+	test_delete_action.c
         test_game.c
         test_items.c
         test_path.c
@@ -11,8 +12,6 @@ add_executable(${TEST_EXE}
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
-
-target_include_directories(${TEST_EXE} PRIVATE ${CMAKE_SOURCE_DIR}/src/game-state/src/)
 
 foreach(module ${CHIVENTURE_MODULES})
     target_link_libraries(${TEST_EXE} ${module})
