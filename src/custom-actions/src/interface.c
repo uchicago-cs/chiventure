@@ -105,7 +105,7 @@ bool do_conditional_block(conditional_block_t *block)
             break;
         */
         case IN:
-            else check_in(block->left,block->right); // at the time of writing, TBI
+            return check_in(block->left,block->right); // at the time of writing, TBI
             break;
     }
 }
