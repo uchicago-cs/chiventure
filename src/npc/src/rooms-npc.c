@@ -61,7 +61,7 @@ npcs_in_room_t *npcs_in_room_new(object_t* room_id)
     
     int check = npcs_in_room_init(npcs_in_room, room_id);
 
-    if (npcs_in_room == NULL || npcs_in_room->room_id == 0 || check != SUCCESS)
+    if (npcs_in_room == NULL || str_t_get(npcs_in_room->room_id) == 0 || check != SUCCESS)
     {
         return NULL;
     }
@@ -77,7 +77,7 @@ npc_mov_t* npc_mov_new(object_t* npc_id, npc_mov_enum_t mov_type, room_t* room)
     npc_mov_t *npc_mov;
     npc_mov = malloc(sizeof(npc_mov_t));
     memset(npc_mov, 0, sizeof(npc_mov_t));
-    npc_mov->npc_id = malloc(MAX_ID_LEN);
+    npc_mov->npc_id = malloc(sizeof(object_t));
     npc_mov->track = malloc(MAX_ID_LEN);
 
     if (mov_type == NPC_MOV_DEFINITE)
@@ -94,7 +94,7 @@ npc_mov_t* npc_mov_new(object_t* npc_id, npc_mov_enum_t mov_type, room_t* room)
 
     int check = npc_mov_init(npc_mov, npc_id, mov_type, room);
 
-    if (npc_mov == NULL || npc_mov->npc_id == NULL || check != SUCCESS)
+    if (npc_mov == NULL || str_t_get(npc_mov->npc_id) == NULL || check != SUCCESS)
     {
         return NULL;
     }
@@ -108,6 +108,9 @@ int npcs_in_room_free(npcs_in_room_t *npcs_in_room)
 {
     assert(npcs_in_room != NULL);
 
+    /*TODO*/
+    /*The following free function has been commented out because room_id is of type object_t for 
+    which a free function has not been created but needs to be created in the future*/
     //free(npcs_in_room->room_id);
     free(npcs_in_room->npc_list);
     free(npcs_in_room);
@@ -122,6 +125,9 @@ int npc_mov_free(npc_mov_t *npc_mov) {
     assert(npc_mov != NULL);
 
     free(npc_mov->npc_mov_type.npc_mov_indefinite);
+    /*TODO*/
+    /*The following free functions have been commented out because room_id is of type object_t for 
+    which a free function has not been created but needs to be created in the future*/
     //free(npc_mov->track);
     //free(npc_mov->npc_id);
     free(npc_mov);
@@ -139,15 +145,15 @@ int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room)
 int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;
-    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
+    HASH_FIND(hh, npcs_in_room->npc_list, str_t_get(npc->npc_id), strlen(str_t_get(npc->npc_id)),
              check);
  
     if (check != NULL)
     {
         return FAILURE;
     }
-    HASH_ADD_KEYPTR(hh, npcs_in_room->npc_list, npc->npc_id,
-                    strlen(npc->npc_id), npc);
+    HASH_ADD_KEYPTR(hh, npcs_in_room->npc_list, str_t_get(npc->npc_id),
+                    strlen(str_t_get(npc->npc_id), npc);
     npcs_in_room->num_of_npcs++;
 
     return SUCCESS;
