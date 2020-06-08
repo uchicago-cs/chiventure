@@ -1,7 +1,8 @@
 # Skill Trees Demo Game
 This example program runs a complete instance of chiventure to feature skill
-trees. The context for this chiventure game is software design, represented by
-three rooms: the "Design Room," the "Implementation Room," and the "Demo Room."
+trees. The context for this chiventure game is software development, represented
+by three rooms: the "Design Room," the "Implementation Room," and the "Demo
+Room."
 
 ![Skill Trees Demo](skilltrees_demo.png)
 
@@ -30,3 +31,29 @@ least twice to be granted access to the final room, the Demo Room.
 * `LEARN IMPLEMENTATION`, for learning the Implementation Skill
 * `LOOK IMPLEMENTATION`, for inspecting the Implementation Skill
 * `IMPLEMENT`, for using the Implementation Skill
+
+## Running the Demo Game
+1. Clone the chiventure repo into your folder of choice.
+    ```
+    $ git clone https://github.com/uchicago-cs/chiventure.git
+    ```
+2. Change directories.
+    ```
+    $ cd chiventure
+    ```
+3. Build chiventure.
+    ```
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
+    ```
+4. Compile the executable.
+    ```
+    $ cd src/skilltrees/examples
+    $ make
+    ```
+5. Run the demo game!
+    ```
+    $ ./skilltrees_presentation
+    ```

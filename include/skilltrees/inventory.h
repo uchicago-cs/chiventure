@@ -5,7 +5,7 @@
 #ifndef INCLUDE_INVENTORY_H_
 #define INCLUDE_INVENTORY_H_
 
-#include "skilltrees/stdst.h"
+#include "skilltrees/skilltrees_common.h"
 #include "skilltrees/skill.h"
 
 /* ================================= */

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "skilltrees/skilltree.h"
 #include "skilltrees/skill.h"
-#include "skilltrees/stdst.h"
+#include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
 #include "effect_t.h"
 

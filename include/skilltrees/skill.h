@@ -5,7 +5,7 @@
 #ifndef INCLUDE_SKILL_H_
 #define INCLUDE_SKILL_H_
 
-#include "skilltrees/stdst.h"
+#include "skilltrees/skilltrees_common.h"
 
 /*
  * Allocates a new skill in the heap.
