@@ -49,8 +49,6 @@ void check_objstore_from_json
     cr_assert_eq(res, SUCCESS, "Load function returned FAILURE");
     cr_assert_not_null(obj_store, "Object store still empty after load");
     
-    objstore_t *dummy = find_objstore(&obj_store, EMPTY_GAME_OBJ_NAME, TYPE_OTHER);
-    cr_assert_not_null(dummy->o, "");
     objstore_t *imported = 
         find_objstore(&obj_store, expected_id, obj_type);
     
@@ -63,7 +61,7 @@ void check_objstore_from_json
         "Could not get the loaded game object from the object store"
     );
     cr_assert_str_eq(target->id, expected_id, "Loaded game object did not have correct ID");
-    free_all(&obj_store);
+    free_all_objstore(&obj_store);
 }
 
 Test(load_wdz, load_game_objs_from_json)

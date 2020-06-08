@@ -32,8 +32,8 @@ game_t *load_wdl(char *path_to_yaml)
         objstore_t *obj_store = NULL;
 
         populate_objstore_from_wdz(obj_store, &n_jsons, path_to_yaml);
-        
-        free_all(&obj_store);
+
+        free_all_objstore(&obj_store);
         printf("Number of JSON files found: %d\n", n_jsons);
         return NULL;
     }

@@ -58,6 +58,10 @@ objtype_t match_j_name_to_game_obj_type(char *j_name)
     {
         game_obj_type = TYPE_DIALOG;
     }
+    else if (strlen(j_name) == 0)
+    {
+        game_obj_type = TYPE_NOTHING;
+    }
     else
     {
         game_obj_type = TYPE_UNDEFINED;
@@ -66,36 +70,151 @@ objtype_t match_j_name_to_game_obj_type(char *j_name)
     return game_obj_type;
 }
 
+/* 
+ * make_data_from_j_value
+ * Recursively converts every JSON object that isn't formatted like a proper
+ * game object. This works on nested JSON objects and arrays, too.
+ * Serves to make the void ptr data field for attributes.
+ * WARNING: This mallocs the data, so they must later be freed.
+ * 
+ * Parameters:
+ * - j_value: the json_object to be converted
+ * 
+ * Returns:
+ * - a void pointer pointing to allocated memory containing the desired data
+ */
+void *make_data_from_j_value(json_object *j_value)
+{
+    json_type j_type = json_object_get_type(j_value);
+    switch (j_type)
+    {
+        case json_type_boolean: 
+        {
+            json_bool *val = malloc(sizeof(*val));
+            *val = json_object_get_boolean(j_value); 
+            return (void*)val;
+        }
+        case json_type_double:
+        {
+            double *val = malloc(sizeof(*val));
+            *val = json_object_get_double(j_value);
+            return (void*)val;
+        }
+        case json_type_int:
+        {
+            int *val = malloc(sizeof(*val));
+            *val = json_object_get_int(j_value);
+            return (void*)val;
+        }
+        case json_type_string:
+        {
+            char *val = malloc(sizeof(*val));
+            strcpy(val, json_object_get_string(j_value));
+            puts(val);
+            return (void*)val;
+        }
+        case json_type_null:
+        {
+            void *val = NULL;
+            return (void*)val;
+        }
+        /* the recursive converters */
+        case json_type_object:
+        {
+            puts("Trying to add obj");
+            object_t *val = new_object("", TYPE_NOTHING);
+            json_object_object_foreach(j_value, attr_name, attr_val)
+            {
+                printf("Adding object key %s value %s\n",attr_name, json_object_to_json_string(attr_val));
+                // for each contained key-val pair in the object,
+                // convert into the attribute table
+                add_attribute(&(val->attrs), attr_name, 
+                    make_data_from_j_value(attr_val));
+            }
+            return (void*)val;
+
+        }
+        case json_type_array:
+        {
+            int arr_len = json_object_array_length(j_value);
+            if (arr_len == 0)
+            {
+                void *val = NULL;
+            }
+            object_t *val = new_object("", TYPE_NOTHING);
+            for (int i = 0; i < arr_len; i++)
+            {
+                // var->attrs is the head element
+                json_object *arr_elt = json_object_array_get_idx(j_value, i);
+                void *raw_data = make_data_from_j_value(arr_elt);
+                assert(raw_data != NULL);
+                append_attr(val->attrs, raw_data);
+            }
+            return (void*)val;
+        }
+        default:
+        {
+            void *val = NULL;
+            return (void*)val;
+        }
+    }
+    return NULL;
+}
+
 
 object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
 {
-    object_t* game_obj = malloc(sizeof(object_t));
+    /* First find game object type (e.g. a room, or an item) */
+    objtype_t game_obj_type = match_j_name_to_game_obj_type(j_name);
+    
+    /* Then find the game object's ID */
+    char game_obj_id[MAXLEN_ID];
+    json_object *game_obj_id_j_obj = NULL;
+    json_object_object_get_ex(j_game_obj, "id", &game_obj_id_j_obj);
+    if (!game_obj_id_j_obj)
+    {
+        // Player object is a one-off obj that doesn't need an id field
+        // the Other object types also should not require an id field
+        if ((game_obj_type != TYPE_PLAYER) 
+         && (game_obj_type != TYPE_NOTHING)
+         && (game_obj_type != TYPE_UNDEFINED))
+        {
+            fprintf(stderr, 
+                "No id key found in the JSON of this game object!\n");
+            return NULL;
+        }
+    }
+    if (json_object_is_type(game_obj_id_j_obj, json_type_string))
+    {
+        strncpy(game_obj_id, json_object_get_string(game_obj_id_j_obj), MAXLEN_ID);
+    }
+    else
+    {
+        fprintf(stderr, 
+            "id key in the JSON of this game object has wrong value type (must\
+            be string!)\n");
+        return NULL;
+    }
+
+    /* Once type and id are obtained, create the game object */
+    object_t *game_obj = new_object(game_obj_id, game_obj_type);
     if (!game_obj)
     {
         fprintf(stderr, "Unable to allocate memory for game object\n");
         return NULL;
     }
-
-    /* First set the game object type (e.g. a room, or an item */
-    game_obj->type = match_j_name_to_game_obj_type(j_name);
     
-    /* Loops through all attributes in the object */
+    /* Loops through all attributes in the JSON object */
     json_object_object_foreach(j_game_obj, attr_name, j_value)
     {
-        if (strcmp(attr_name, "id") == 0)
+        if (SAME_STRING(attr_name, "id"))
         {
-            strcpy(game_obj->id, json_object_get_string(j_value));
-        } 
+            continue; // we already added the ID above
+        }
         else
         {
-            // awaiting add_attr functions to add a new attribute to object here.
-            //Gets type of the object and sets objtype_t based on value returned by 
-            //json_type json_object_get_type (j_value)
-            if (json_object_is_type(j_value, json_type_boolean)) {
-                
-            }
+            add_attribute(&(game_obj->attrs), attr_name, make_data_from_j_value(j_value));
         }
-
     }
     return NULL;
 }
