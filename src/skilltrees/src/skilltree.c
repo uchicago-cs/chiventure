@@ -40,18 +40,6 @@ int skill_node_free(skill_node_t* node) {
 /* See skilltree.h */
 int node_prereq_add(skill_node_t* node, skill_node_t* prereq) {
     assert(node != NULL && prereq != NULL);
-    //
-    // void** res;
-    //
-    // res = array_element_add((void**)node->prereqs, node->num_prereq_skills,
-    //                         (void*)prereq);
-    // if (res == NULL) {
-    //     fprintf(stderr, "node_prereq_add: addition failed\n");
-    //     return FAILURE;
-    // }
-    //
-    // node->prereqs = (skill_node_t**)res;
-    // return SUCCESS;
 
     node->num_prereq_skills += 1;
     skill_node_t** n = node->prereqs;
@@ -63,9 +51,29 @@ int node_prereq_add(skill_node_t* node, skill_node_t* prereq) {
 /* See skilltree.h */
 int node_prereq_remove(skill_node_t* node, skill_node_t* prereq) {
     assert(node != NULL && prereq != NULL);
+    if (node->num_prereq_skills <= 0) {
+        fprintf(stderr, "node_prereq_remove: invalid number of prereqs");
+        return FAILURE;
+    }
 
-    /* TO DO */
-    return 0;
+    skill_node_t** n = node->prereqs;
+    sid_t prereq_sid = prereq->skill->sid;
+    // Iterating through prereqs to see where this node is.
+    for (unsigned int i = 0; i < node->num_prereq_skills; i++) {
+        sid_t node_sid = n[i]->skill->sid;
+        if (node_sid == prereq_sid) {
+            // Found the node, now to reorganize list.
+            node->num_prereq_skills -= 1;
+            if ( i < node->num_prereq_skills) {
+                n[i] = n[node->num_prereq_skills];
+            }
+            skill_node_free(n[num_prereq_skills]);
+
+            n = (skill_node_t**)realloc(
+                    n, sizeof(skill_node_t*)*node->num_prereq_skills);
+            return SUCCESS;
+    fprintf(stderr, "node_prereq_remove: couldn't find node in prereqs");
+    return FAILURE;
 }
 
 /* See skilltree.h */
