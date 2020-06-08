@@ -10,6 +10,7 @@
 #include "control_block.h"
 #include "game-state/game.h"
 #include "common/uthash.h"
+#include "wdl/object.h"
 #include "custom_action.h"
 
 /* 

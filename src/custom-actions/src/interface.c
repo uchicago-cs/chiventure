@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "interface.h"
-#include "wdl/object.h"
 
 /*
  * A list of all custom actions. This is a placeholder which will eventually
