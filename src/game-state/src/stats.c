@@ -116,8 +116,8 @@ double get_stat_current(stats_hash_t *sh, char *stat)
     if (curr == NULL) {
        printf("Error: no matching stat");
     }
-    
-    return (curr -> val);
+    double res = (curr -> max) * (curr -> val);
+    return res;
 }
 
 /* See stats.h */
