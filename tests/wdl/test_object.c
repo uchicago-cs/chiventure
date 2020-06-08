@@ -1,6 +1,7 @@
 #include <criterion/criterion.h>
+#include <string.h>
 #include "test_wdl.h"
-#include "include/object.h"
+#include "wdl/object.h"
 
 Test(object, new)
 {
@@ -8,9 +9,9 @@ Test(object, new)
 
     cr_assert_not_null(obj, "new_object() failed");
 
-    cr_assert_equals(strcmp(obj->id,"villager"), 0, 
+    cr_assert_eq(strcmp(obj->id,"villager"), 0, 
                      "new_object() failed to set id");
-    cr_assert_equals(obj->type, TYPE_NPC, "new_object() failed to set type");
+    cr_assert_eq(obj->type, TYPE_NPC, "new_object() failed to set type");
 }
 
 Test(object, init)
@@ -20,23 +21,23 @@ Test(object, init)
 
     rc = init_object(&obj, "villager", TYPE_NPC);
 
-    cr_assert_equals(rc, SUCCESS, "init_object() failed");
+    cr_assert_eq(rc, SUCCESS, "init_object() failed");
 
-    cr_assert_equals(strcmpy(obj.id,"villager"), 0
+    cr_assert_eq(strcmp(obj.id,"villager"), 0,
                      "init_object() failed to set id");
-    cr_assert_equals(obj.type, TYPE_NPC, "new_object() failed to set type");
+    cr_assert_eq(obj.type, TYPE_NPC, "new_object() failed to set type");
 }
 
 Test(object, free)
 {
-    object_t obj;
+    object_t *obj;
     int rc;
 
     obj = new_object("villager", TYPE_NPC);
 
-    rc = obj_free(obj);
+    rc = free_object(obj);
 
-    cr_assert_equals(rc, SUCCESS, "obj_free() failed");
+    cr_assert_eq(rc, SUCCESS, "free_object() failed");
 }
 
 Test(object, get_obj_attr_empty_fail)
@@ -72,5 +73,27 @@ Test(object, get_obj_attr_success)
 
     obj_attr_t* attr = get_obj_attribute(obj, "name");
 
-    cr_assert_not null(attr, "get_obj_attribute() failed to find attribute");
+    cr_assert_not_null(attr, "get_obj_attribute() failed to find attribute");
+}
+
+Test(object, str_to_type)
+{
+    cr_assert_eq(strToOType("NONE"),0,
+                            "strToOType() failed to convert to none");
+    cr_assert_eq(strToOType("PLAYER"),1,
+                 "strToOType() failed to convert to player");
+    cr_assert_eq(strToOType("ROOM"),2,
+                            "strToOType() failed to convert to room");
+    cr_assert_eq(strToOType("ITEM"),3,
+                            "strToOType() failed to convert to item");
+    cr_assert_eq(strToOType("ACTION"),4,
+                            "strToOType() failed to convert to action");
+    cr_assert_eq(strToOType("GCONDITION"),5,
+                            "strToOType() failed to convert to gcondition");
+    cr_assert_eq(strToOType("NPC"),6,
+                            "strToOType() failed to convert to npc");
+    cr_assert_eq(strToOType("DIALOG"),7,
+                            "strToOType() failed to convert to dialog");
+    cr_assert_eq(strToOType("CHEESE"),-1,
+                            "strToOType() failed to convert to error");
 }

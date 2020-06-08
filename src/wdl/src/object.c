@@ -31,7 +31,7 @@ int init_object(object_t *obj, char *id, objtype_t type)
 }
 
 /* See wdl/object.h for documentation */
-int obj_free(object_t *obj)
+int free_object(object_t *obj)
 {
     free(obj);
     // also free the associated attrs hash here, once that is available
@@ -43,6 +43,11 @@ int obj_free(object_t *obj)
 obj_attr_t* get_obj_attribute(object_t* obj, char* name)
 {
     obj_attr_t *attr = find_attr(&(obj->attrs), name);
+
+    if(attr == NULL)
+    {
+        return NULL;
+    }
 
     return attr;
 }
@@ -111,28 +116,28 @@ asset_t* get_asset(assettype_t type, char* filename)
 /* See wdl/object.h for docomentation */
 objtype_t strToOType(char *type)
 {
-    if(strcmp(type,"NONE"))
+    if(strcmp(type,"NONE") == 0)
     {
         return TYPE_NONE;
-    } else if (strcmp(type, "PLAYER"))
+    } else if (strcmp(type, "PLAYER") == 0)
     {
         return TYPE_PLAYER;
-    } else if (strcmp(type, "ROOM"))
+    } else if (strcmp(type, "ROOM") == 0)
     {
         return TYPE_ROOM;
-    } else if (strcmp(type, "ITEM"))
+    } else if (strcmp(type, "ITEM") == 0)
     {
         return TYPE_ITEM;
-    } else if (strcmp(type, "ACTION"))
+    } else if (strcmp(type, "ACTION") == 0)
     {
         return TYPE_ACTION;
-    } else if (strcmp(type, "GCONDITION"))
+    } else if (strcmp(type, "GCONDITION") == 0)
     {
         return TYPE_GCONDITION;
-    } else if (strcmp(type, "NPC"))
+    } else if (strcmp(type, "NPC") == 0)
     {
         return TYPE_NPC;
-    } else if (strcmp(type, "DIALOG"))
+    } else if (strcmp(type, "DIALOG") == 0)
     {
         return TYPE_DIALOG;
     } else {

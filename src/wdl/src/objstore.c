@@ -84,6 +84,11 @@ object_t* get_object_wdl(objstore_t** ht, objtype_t type, char* id)
 {
     objstore_t *objs = find_objstore(ht, id, type);
 
+    if(objs == NULL)
+    {
+        return NULL;
+    }
+
     object_t *obj = objs->o;
 
     return obj;

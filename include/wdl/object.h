@@ -109,7 +109,7 @@ int init_object(object_t *obj, char *id, objtype_t type);
  * returns:
  *   - always returns SUCCESS
  */
-int obj_free(object_t *obj);
+int free_object(object_t *obj);
 
 /* get_obj_attribute: retrieve an attribute from an object
  *
