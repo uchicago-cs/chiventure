@@ -35,8 +35,6 @@ Test(AST_block_t, new_BRANCH)
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
-    cr_assert_eq(new_ast->next, next, "AST_block_new() didn't set new_ast->next");
-    cr_assert_eq(new_ast->prev, prev, "AST_block_new() didn't set new_ast->prev");
     
     AST_block_free(new_ast);
 }
@@ -53,9 +51,7 @@ Test(AST_block_t, new_ACTION)
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
-    cr_assert_eq(new_ast->next, next, "AST_block_new() didn't set new_ast->next");
-    cr_assert_eq(new_ast->prev, prev, "AST_block_new() didn't set new_ast->prev");
-    
+
     AST_block_free(new_ast);
 }
 
@@ -71,9 +67,7 @@ Test(AST_block_t, new_CONDITIONAL)
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
-    cr_assert_eq(new_ast->next, next, "AST_block_new() didn't set new_ast->next");
-    cr_assert_eq(new_ast->prev, prev, "AST_block_new() didn't set new_ast->prev");
-    
+
     AST_block_free(new_ast);
 }
 
@@ -84,6 +78,8 @@ Test(AST_block_t, init_CONTROL)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
+    AST_block_t *next;
+    AST_block_t *prev;
 
     rc = AST_block_init(&ast, block, block_type, next, prev);
 
@@ -99,6 +95,8 @@ Test(AST_block_t, init_BRANCH)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
+    AST_block_t *next;
+    AST_block_t *prev;
 
     rc = AST_block_init(&ast, block, block_type, next, prev);
 
@@ -114,6 +112,8 @@ Test(AST_block_t, init_ACTION)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
+    AST_block_t *next;
+    AST_block_t *prev;
 
     rc = AST_block_init(&ast, block, block_type, next, prev);
 
@@ -129,6 +129,8 @@ Test(AST_block_t, init_CONDITIONAL)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
+    AST_block_t *next;
+    AST_block_t *prev;
 
     rc = AST_block_init(&ast, block, block_type, next, prev);
 
