@@ -164,9 +164,6 @@ int main()
 
     int turn = 1;
     printf("\nWelcome to the Battle! Let's get this started!\n\n");
-    
-    char *hp_string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-    hp_string = print_start_battle(ctx->game->battle);
 
     char buf[MAXLEN + 1] = {0};
     char **args = calloc(MAX_ARGS, sizeof(char *));
@@ -175,7 +172,6 @@ int main()
     while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     {
         printf("Turn %d:\n", turn);
-        printf("%s\n", hp_string);
         printf("What will you do?\n");
         while (true)
         {
