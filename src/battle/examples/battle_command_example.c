@@ -21,22 +21,6 @@ class_t *make_bard()
     return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
 }
 
-// int print_move_info(chiventure_ctx_battle_t *ctx, char *move_name)
-// {
-//     move_t *temp;
-//     DL_FOREACH(ctx->game->player->moves, temp)
-//     {
-//         if (strncmp(temp->info, move_name, MAX_MOVE_NAME_LEN) == 0)
-//         {
-//             printf("%s\n", temp->info);
-//             printf("\n");
-//             return SUCCESS;
-//         }
-//         printf("Couldn't find the move you were looking for!\n");
-//         return FAILURE;
-//     }
-// }
-
 int read_move(char **args, chiventure_ctx_battle_t *ctx)
 {
     int res;
