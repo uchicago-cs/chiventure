@@ -33,6 +33,8 @@ typedef union block {
 typedef struct AST_block {
     block_t *block;
     block_type_t block_type;
+    struct AST_block *next;
+    struct AST_block *prev;
 } AST_block_t;
 
 /* 
@@ -61,7 +63,7 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type);
 int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type);
 
 /* 
- * Frees an AST block. 
+ * Frees an AST block, as well as all of the AST blocks in the sequence. 
  * 
  * Parameters: 
  * - AST block. Must point to an AST block allocated with AST_block_new. 

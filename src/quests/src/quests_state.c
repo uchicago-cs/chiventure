@@ -129,3 +129,97 @@ int quest_free(quest_t *q)
 
     return SUCCESS;
 }
+
+/* Refer to quests_state.h */
+int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add)
+{
+    assert(quest != NULL);
+
+    achievement_llist_t *achievement_to_add_llist;
+    achievement_to_add_llist = malloc(sizeof(achievement_llist_t));
+    achievement_to_add_llist->next = NULL;
+    achievement_to_add_llist->achievement = achievement_to_add;
+    
+    LL_APPEND(quest->achievement_list,achievement_to_add_llist);
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int start_quest(quest_t *quest)
+{
+    assert(quest != NULL);
+
+    quest->status = 1;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int fail_quest(quest_t *quest)
+{
+    assert(quest != NULL);
+
+    quest->status = -1;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
+{
+    achievement_llist_t *head = quest->achievement_list;
+    achievement_llist_t *incomplete_achievement = malloc(sizeof(achievement_llist_t));
+
+    LL_SEARCH_SCALAR(head,incomplete_achievement,
+                    achievement->completed,0);
+
+
+    mission_t* mission = incomplete_achievement->achievement->mission;
+
+    if (((strcmp(mission->item_to_collect->item_id,item_collected->item_id)) == 0) &&
+        ((strcmp(mission->npc_to_meet->npc_id,npc_met->npc_id)) == 0))
+    {
+        quest->achievement_list->achievement->completed = 1;
+        return SUCCESS;
+    }
+    else
+    {
+        return FAILURE;
+    }
+}
+
+/* Refer to quests_state.h */
+int is_quest_completed(quest_t *quest)
+{
+    achievement_llist_t *head = quest->achievement_list;
+    achievement_llist_t *incomplete_achievement;
+
+    LL_SEARCH_SCALAR(head,incomplete_achievement,
+                    achievement->completed,0);
+
+    if(incomplete_achievement == NULL)
+    {
+        quest->status = 2;
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+/* Refer to quests_state.h */
+int get_quest_status(quest_t *quest)
+{
+    return quest->status;
+}
+
+/* Refer quests_state.h */
+item_t *complete_quest(quest_t *quest)
+{
+    if (get_quest_status(quest) == 2)
+        return quest->reward;
+    else
+        return NULL;
+}
