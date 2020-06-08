@@ -40,7 +40,8 @@ typedef struct revised_lookup_entry
     UT_hash_handle hh;
 } revised_lookup_t;
 
-void revised_add_entry(char *command_name, revised_operation *associated_operation, action_type_t *action, lookup_t **table)
+
+void revised_add_entry(char *command_name, revised_operation *associated_operation, action_type_t *action, revised_lookup_t **table)
 {
     revised_lookup_t *t = malloc(sizeof(revised_lookup_t));
     char *newname = malloc(sizeof(char) * (strlen(command_name) + 1));
@@ -157,6 +158,8 @@ char *talk_to_npc1(char *tokens[TOKEN_LIST_SIZE], revised_chiventure_ctx_t *revi
         return "I do not know what you mean.";
     }
 
+    //revised_ctx->ctx->game->curr_room->room_id;
+
     return "Villager: I see you have started the quest, go to room2 to find the secret item, then "
             "come meet me in room3 to complete the quest, and claim your reward.";
 }
@@ -175,28 +178,30 @@ char *talk_to_npc2(char *tokens[TOKEN_LIST_SIZE], revised_chiventure_ctx_t *revi
         return "I do not know what you mean.";
     }
 
-    return "Villager: Congratulations on completing the quest, your reward is a key that should "
-        "help you on your adventure. You will find it in your inventory.";
-}
-
-/* Defines a new CLI operation that just prints out a message */
-char *glitter_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if ((get_quest_status(revised_ctx->quest)) == 1)
     {
-        return "Room not found! Error! You can't throw glitter if you're not in a room!\n";
-    }
+        item_t *item;
+        HASH_FIND(hh, game->all_items, "EMERALD", strlen("EMERALD"), item);
 
-    /* This operation has to be called without parameters */
-    if(tokens[1] != NULL)
-    {
-        return "I do not know what you mean.";
-    }
+        npc_t *npc;
+        HASH_FIND(hh, revised_ctx->npcs_in_room1->npc_list, "npc1", strlen("npc1"), npc);
 
-    return "You throw some glitter. For a fleeting moment, the room "
-           "feels a bit more fabulous. The glitter seems to have no "
-           "effect beyond that.";
+        complete_achievement(revised_ctx->quest, item, npc);
+
+        if ((is_quest_completed(revised_ctx->quest)) == 1)
+        {
+            item_t *reward = complete_quest(revised_ctx->quest);
+            add_item_to_player(revised_ctx->ctx->game->curr_player, reward);
+            return "Villager: Congratulations on completing the quest, your reward is a key that should "
+                "help you on your adventure. You will find it in your inventory.";
+        }
+        else
+        {
+            return "So close yet so far";
+        }
+    }
+    else
+        return "You have not completed the quest.";
 }
 
 int main(int argc, char **argv)
