@@ -226,7 +226,7 @@ Test(skilltree_tests, skill_tree_has_node_has)
 
   skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
   skill_tree_node_add(tree, bomb_node);
-  skill_tree_node_add(tree, chop_node);
+  // skill_tree_node_add(tree, chop_node);
 
   int ret = skill_tree_has_node(tree, 1000);
   cr_assert_eq(ret, 0, "Error: failed test skill_tree_has_node_has\n");
