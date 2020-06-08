@@ -44,7 +44,7 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    game_t *game;
+    game_t *game = NULL;
 
     if (argc == 2)
     {

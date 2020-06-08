@@ -64,8 +64,9 @@ Test(room_item, add_item_to_room)
 }
 
 /* Tests add_item_to_room
-* Adds two duplicate items and fail
-*/
+ * Adds two duplicate items, succeeding only if items 
+ * have different memory addresses
+ */
 Test(room_item, add_duplicate_item_to_room)
 {
     room_t *new_room = room_new("test_room", "room for testing",
@@ -79,8 +80,11 @@ Test(room_item, add_duplicate_item_to_room)
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
 
     int check = add_item_to_room(new_room, test_item2);
-    cr_assert_eq(check, FAILURE,
-        "add_dup_item_to_room() test: duplicate item added");
+    cr_assert_eq(check, SUCCESS, "duplicate item not added to room correctly");
+    
+    check = add_item_to_room(new_room, test_item2);
+    cr_assert_eq(check, FAILURE, "item at same memory address as item "
+                 "already in room added again to room");
 
 }
 
@@ -116,15 +120,24 @@ Test(room_item, remove_item_from_room)
 {
     room_t *room = room_new("room", "short", "long");
     item_t *test_item = item_new("item", "short", "long");
+    item_t *dup_item = item_new("item", "short", "long");
+    item_list_t *item_list;
     int rc;
     
     rc = add_item_to_room(room, test_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
+                 "add an item to room");
+    rc = add_item_to_room(room, dup_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
                  "add an item to room");
     
     rc = remove_item_from_room(room, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_room failed to "
                  "remove an item from room");
+    
+    item_list = get_all_items_in_room(room);
+    cr_assert_not_null(item_list, "remove_item_from_room removed "
+                       "both identical items from room");
 }
 
 /* Checks if sdesc is correctly returned
@@ -223,7 +236,7 @@ Test(iter_macro, iter_conditions)
     room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
     path_t *path = path_new(room2, "north");
     add_path_to_room(room1, path);
-    add_condition_to_path(path, condition_new());
+    add_condition_to_path(path, attribute_condition_new());
     int cnt = 0;
     path_t *curr_path;
     ITER_ALL_CONDITIONS(room1, curr_condi) {
