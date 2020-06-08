@@ -270,17 +270,16 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
         return NULL;
     }
 
-    return NULL;
+    skill_t** missing = (skill_t**)malloc(num_prereqs * sizeof(skill_t*));
+    if (missing == NULL) {
+        fprintf(stderr,"skill_prereqs_missing: malloc missing skills failed\n");
+        *num_missing = -2;
+        return NULL;
+    }
 
-    // skill_t** missing = (skill_t**)malloc(num_prereqs * sizeof(skill_t*));
-    // if (missing == NULL) {
-    //     fprintf(stderr,"skill_prereqs_missing: malloc missing skills failed\n");
-    //     *num_missing = -2;
-    //     return NULL;
-    // }
-    //
-    // *num_missing = 0;
-    //
+    *num_missing = 0;
+
+    return NULL;
     // for (unsigned int i = 0; i < num_prereqs; i++) {
     //     skill_t* prereq = prereqs[i]->skill;
     //     skill_type_t type = prereqs[i]->skill->type;
