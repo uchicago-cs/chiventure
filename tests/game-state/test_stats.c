@@ -357,13 +357,13 @@ Test (stats, apply_effect)
 
 Test(stats, change_stat) {
     stats_hash_t *sh = NULL;
-    stats_global_t* g1 = stats_global_new("health", 100);
+    stats_global_t *g1 = stats_global_new("health", 100);
     stats_t *s1 = stats_new(g1, 75);
     
     s1->val = 50;
     s1->modifier = 1.1;
 
-    stats_global_t* g2 = stats_global_new("charisma", 200);
+    stats_global_t *g2 = stats_global_new("charisma", 200);
     stats_t *s2 = stats_new(g2, 130);
 
  
@@ -373,7 +373,7 @@ Test(stats, change_stat) {
     int rc1 = add_stat(&sh, s1);
     cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
     int rc2 = add_stat(&sh, s2);
-    stats_t* curr; 
+    stats_t *curr; 
     HASH_FIND(hh, sh, "health", strlen("health"), curr);
     cr_assert_eq(curr->val, 50,
         "change_stat base value not equal initially");
