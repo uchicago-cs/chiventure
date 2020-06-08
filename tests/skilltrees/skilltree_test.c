@@ -151,10 +151,10 @@ Test(skilltree_tests, skill_tree_node_add_safe)
     skill_node_t* bomb_node = skill_node_new(bomb, 0, 76);
     cr_assert_eq(tree->num_nodes, 0, "Error: Failed getting tree->num_nodes\n");
     int ret = skill_tree_node_add(tree, bomb_node);
-    // cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_add_safe\n");
-    // cr_assert_eq(bomb_node->skill->sid, 1000, "Error: Failed getting sid\n");
-    // cr_assert_eq(tree->nodes[0]->skill->sid, 1000,
-    //              "Error: failed test skill_tree_node_add_safe\n");
+    cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_add_safe\n");
+    cr_assert_eq(bomb_node->skill->sid, 1000, "Error: Failed getting sid\n");
+    cr_assert_eq(tree->nodes[0]->skill->sid, 1000,
+                 "Error: failed test skill_tree_node_add_safe\n");
 }
 
 /* Tests skill_tree_node_add when the skill tree is full. */
