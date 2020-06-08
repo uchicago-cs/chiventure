@@ -26,6 +26,7 @@ Test(Interface,null_custom_action) {
 }
 /* Checks that a custom_action with a bad branch block fails */
 Test(Interface,bad_branch_custom_action) {
+    printf("We should definitely be seeing this printf\n");
     conditional_type_t conditional_type = LTGT;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
@@ -44,11 +45,11 @@ Test(Interface,bad_branch_custom_action) {
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
+    printf("Conditional block made\n");
     // allocates a new control block to nest within a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
-
+    printf("Control block made\n");
     // allocates the new branch block
     branch_block_t* new_branch = branch_block_new(1, &conditionals, conditional_type, 2, &controls);
     printf("Did we crash here\n");
