@@ -63,7 +63,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             return FAILURE;
         }
 
-        if(check_target(ctx->game->battle, args[4]) != NULL)
+        if(check_target(ctx->game->battle, args[4]) == NULL)
         {
             printf("Enemy not found!\n");
             return FAILURE;
