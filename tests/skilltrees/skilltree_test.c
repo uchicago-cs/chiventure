@@ -73,7 +73,7 @@ Test(skilltree_tests, skill_tree_free_test)
 /*Tests after this line fail and are skipped.*/
 
 /* Tests node_prereq_add on a valid case. */
-Test(skilltree_tests, node_prereq_add_safe, .description = "Fails & Skipped", .disabled = true)
+Test(skilltree_tests, node_prereq_add_safe)
 {
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
@@ -86,7 +86,7 @@ Test(skilltree_tests, node_prereq_add_safe, .description = "Fails & Skipped", .d
 }
 
 /* Tests node_prereq_add when the prereq list is full. */
-Test(skilltree_tests, node_prereq_add_full, .description = "Fails & Skipped", .disabled = true)
+Test(skilltree_tests, node_prereq_add_full)
 {
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, effect_defuse_bomb);
