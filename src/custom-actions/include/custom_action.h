@@ -18,7 +18,8 @@ typedef struct AST_block AST_block_t;
  * If any information field does not apply to a given custom action, the field should read 
  * "None". 
  */
-typedef struct custom_action {
+typedef struct custom_action
+{
     char *action_name;
     char *context;
     char *item;
@@ -41,8 +42,8 @@ typedef struct custom_action {
  * Returns:
  * - A custom action. 
  */
-custom_action_t* custom_action_new(char *action_name, char *context, char *item,
-                                   char *type, AST_block_t *head, UT_hash_handle hh);
+custom_action_t *custom_action_new(char *action_name, char *context, char *item,
+                                   char *type, AST_block_t *head);
 
 /*
  * Initializes a custom action. 
@@ -59,8 +60,8 @@ custom_action_t* custom_action_new(char *action_name, char *context, char *item,
  * Returns:
  * - an integer, SUCCESS if success, FAILURE if error occurs
  */
-int custom_action_init(custom_action_t *action, char *action_name, char *context, 
-                       char *item, char *type, AST_block_t *head, UT_hash_handle hh);
+int custom_action_init(custom_action_t *action, char *action_name, char *context,
+                       char *item, char *type, AST_block_t *head);
 
 /*
  * Frees a custom action. 
