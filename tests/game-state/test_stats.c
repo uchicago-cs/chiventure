@@ -375,12 +375,16 @@ stats_hash_t *add_stats(int type) {
 
 Test(stats, change_stat) {
     stats_hash_t *sh = add_stats(3);
-  
-    cr_assert_eq(sh->val, 50,
+    char* key1 = "health";
+    char* key2 = "charisma";
+    char* key3 = "strength";
+    stats_t* curr; 
+    HASH_FIND(hh, sh, key1, strlen(key1), curr);
+    cr_assert_eq(curr->val, 50,
         "change_stat base value not equal initially");
 
-    change_stat(sh, "strength", 10);
-    cr_assert_eq(sh->val, 63,
+    change_stat(sh, "health", 10);
+    cr_assert_eq(curr->val, 60,
        "change_stat failed to return success");
 }
 
