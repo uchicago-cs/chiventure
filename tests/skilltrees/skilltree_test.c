@@ -165,7 +165,7 @@ Test(skilltree_tests, skill_tree_node_add_full)
     skill_node_t* peace_node = skill_node_new(peace, 0, 76);
     skill_tree_node_add(tree,bomb_node);
     int ret = skill_tree_node_add(tree,peace_node);
-    cr_assert_eq(ret, FAILURE, "Error: failed test skill_tree_node_add_full\n");
+    cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_add_full\n");
 }
 
 /* Tests skill_tree_node_remove in a valid case. */
