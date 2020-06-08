@@ -282,19 +282,13 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
     *num_missing = 0;
 
     for (unsigned int i = 0; i < num_prereqs; i++) {
-        sid_t prereq = prereqs[i]->skill->sid;
+        sid_t prereq = prereqs[i]->skill;
         skill_type_t type = prereqs[i]->skill->type;
-        int pos = inventory_has_skill(inventory, prereq, type);
+        int pos = inventory_has_skill(inventory, prereq->sid, type);
         if (pos == -1) {
             // Inventory doesn't have this skill, so we have to add it to the
             // list of non-acquired skills.
-            void** res = array_element_add((void**)missing, (*num_missing),
-                                           (void*)prereqs[i]->skill);
-            if (res == NULL) {
-                fprintf(stderr, "skill_prereqs_missing: adding skill failed\n");
-                *num_missing = -4;
-                return NULL;
-            }
+            missing[*num_missing] = prereq;
             (*num_missing)++;
         }
     }
