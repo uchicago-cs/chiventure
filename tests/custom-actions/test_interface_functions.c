@@ -19,7 +19,7 @@ Test(Interface,null_custom_action) {
 }
 /* Checks that a custom_action with a bad branch block fails */
 Test(Interface,bad_branch_custom_action) {
-    conditional_type_t conditional_type = LT;
+    conditional_type_t conditional_type = LTGT;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
