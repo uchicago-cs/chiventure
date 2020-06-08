@@ -118,10 +118,34 @@ int add_end_conditions(chiventure_ctx_t *ctx)
 /* Hard codes inventory conditions in the sample game */
 int add_inventory_conditions(chiventure_ctx_t *ctx)
 {
-    /* TODO:
-     * Edit spaghetti and salad items in dining room so that action "EAT"
-     * cannot be performed unless a fork is in the inventory */
-    return 1;
+    game_t *game = ctx->game;
+    player_t *player = game->curr_player;
+    room_t *dining_room = find_room_from_game(game, "dining room");
+    room_t *kitchen = find_room_from_game(game, "kitchen");
+    item_t *fork = get_item_in_room(kitchen, "FORK");
+    
+    /* Add condition that fork must be in inventory
+     * to consume salad & spaghetti */
+    for (int i = 0; i < 2; i++)
+    {
+        item_t *item;
+        switch (i)
+        {
+        case 0:
+            item = get_item_in_room(dining_room, "SALAD");
+            break;
+        case 1:
+            item = get_item_in_room(dining_room, "SPAGHETTI");
+            break;
+        default:
+            break;
+        }
+        
+        game_action_t *act = get_action(item, "CONSUME");
+        add_action_inventory_condition(act, player, fork);
+    }
+    
+    return 0;
 }
 
 /* Hard codes conditional room connections in the sample game */
