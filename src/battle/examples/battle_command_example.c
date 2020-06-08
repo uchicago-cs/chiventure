@@ -193,6 +193,47 @@ int parse_command(char **out, char *input)
     return sscanf(input, " %s %s %s %s %s ", out[0], out[1], out[2], out[3], out[4]);
 }
 
+/* Allows a battle to continue with taking input from the user via command line
+ * Parameter:
+ *  ctx: main structure of the game
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int continue_battle(chiventure_ctx_battle_t *ctx)
+{
+    char buf[MAX_COMMAND_LENGTH + 1] = {0};
+    char **args = calloc(MAX_ARGS, sizeof(char *));
+    int num_args;
+    int res;
+    while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
+    {
+        printf("What will you do?\n");
+        // Get the input
+        printf("> ");
+        if (!fgets(buf, MAX_COMMAND_LENGTH, stdin))
+        {
+            break;
+        }
+        // parse the input
+        num_args = parse_command(args, buf);
+        // ignore empty line
+        if (num_args == 0 || buf[0] == '\n')
+        {
+            continue;
+        }
+        // otherwise, handle input
+        res = read_move(args, ctx);
+        printf("read move returned: %d\n", res);
+    }
+    // free statement for string array
+    for (int i = 0; i < MAX_ARGS; i++)
+    {
+        free(args[i]);
+    }
+    free(args);
+    return SUCCESS;
+}
+
 // where everything is called
 int main()
 {
@@ -244,39 +285,21 @@ int main()
         printf("=== oh no! the player's moves do not exist!!! ===\n");
     }
 
-    int turn = 1;
     printf("\nWelcome to the Battle! Let's get this started!\n\n");
 
+    // prints the beginning of the battle 
     char *start = print_start_battle(ctx->game->battle);
     printf("%s\n", start);
-    char buf[MAX_COMMAND_LENGTH + 1] = {0};
-    char **args = calloc(MAX_ARGS, sizeof(char *));
-    int num_args;
-    int res;
-    while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
-    {
-        printf("What will you do?\n");
-        // Get the input
-        printf("> ");
-        if (!fgets(buf, MAX_COMMAND_LENGTH, stdin))
-        {
-            break;
-        }
-        // parse the input
-        num_args = parse_command(args, buf);
-        // ignore empty line
-        if (num_args == 0 || buf[0] == '\n')
-        {
-            continue;
-        }
-        // otherwise, handle input
-        res = read_move(args, ctx);
-        printf("read move returned: %d\n", res);
-    }
+    // begins call to loop battle
+    int res = continue_battle(ctx);
+    // declares a winner for the battle if it is deemed as over
     battle_status_t winner = battle_over(ctx->game->battle);
 
+    // prints who won the battle
     char *win_string = print_battle_winner(ctx->status, 20);
     printf("%s\n", win_string);
+
+    // this confirms with us that the victor should be the player
     switch(winner)
     {
     case BATTLE_IN_PROGRESS:
@@ -291,10 +314,6 @@ int main()
     case NO_BATTLE:
         fprintf(stderr, "ERROR, battle should not return as no_battle");
     }
-    for (int i = 0; i < MAX_ARGS; i++)
-    {
-        free(args[i]);
-    }
-    free(args);
+    
     return 0;
 }
