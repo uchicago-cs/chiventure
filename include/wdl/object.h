@@ -110,6 +110,16 @@ int init_object(object_t *obj, char *id, objtype_t type);
  */
 int free_object(object_t *obj);
 
+/* get_obj_attribute: retrieve an attribute from an object
+ *
+ * params:
+ *   - obj: the object holding the attribute
+ *   - name: the attribute key
+ *
+ * returns:
+ *   - a pointer to the requested attribute as an attribute_t struct member
+ */
+obj_attr_t* get_obj_attribute(object_t* obj, char* name);
 
 /*
  * new_asset: creates a new asset with identifier filename
@@ -150,30 +160,6 @@ int init_asset(asset_t *asset, assettype_t type, char* filename);
 
 int free_asset(asset_t *asset);
 
-
-/* 
- * get_object: retrieves an object from a .wdz archive
- *
- * params:
- *   - type: the type of the object corresponding to its .wdz subfile.
- *   - id: the object's id
- * 
- * returns:
- *   - a pointer to the requested object as a obj_t struct member.
- */
-object_t* get_object(char* type, char* id);
-
-/* get_obj_attribute: retrieve an attribute from an object
- *
- * params:
- *   - obj: the object holding the attribute
- *   - name: the attribute key
- *
- * returns:
- *   - a pointer to the requested attribute as an attribute_t struct member
- */
-//obj_attr_t* get_obj_attribute(object_t* obj, char* name);
-
 /* get_asset: retrieves an asset from a .wdz archive
  *
  * params:
@@ -184,5 +170,7 @@ object_t* get_object(char* type, char* id);
  *   - a pointer to the requested asset as an asset_t struct member.
  */
 asset_t* get_asset(assettype_t type, char* filename);
+
+objtype_t strToOType(char *type);
 
 #endif /* INCLUDE_OBJECT_H */

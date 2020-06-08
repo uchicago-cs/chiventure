@@ -30,24 +30,16 @@ int init_object(object_t *obj, char *id, objtype_t type)
 /* See wdl/object.h for documentation */
 int free_object(object_t *obj)
 {
+    free_attr_hash(&(obj->attrs));
+
     free(obj);
     // also free the associated attrs hash here, once that is available
     
     return SUCCESS;
 }
 
-/*
- * Helper function for
- * get_object_wdl: retrieves an object from a .wdz archive.
- *
- * params: 
- *   - type: the type of the object corresponding to its .wdz subfile.
- *   - id: the object's id.
- * 
- * returns:
- *   - a pointer to the requested object as a obj_t struct member.
- */
-object_t* get_object_wdl(objtype_t type, char* id)
+/* See wdl/object.h for documentation */
+obj_attr_t* get_obj_attribute(object_t* obj, char* name)
 {
     obj_attr_t *attr = find_attr(&(obj->attrs), name);
 
@@ -68,7 +60,7 @@ asset_t *new_asset(assettype_t type, char* filename)
         printf("ERROR - new_asset: Could not allocate memory for asset.\n");
         return NULL;
     }
-    if (asset->type == NULL)
+    if (&(asset->type) == NULL)
     {
         printf("ERROR - new_asset: Could not allocate memory for asset.\n");
         return NULL;
@@ -102,8 +94,8 @@ int init_asset(asset_t *asset, assettype_t type, char* filename)
     return SUCCESS; 
 }
 
-/* See wdl/object.h for documentation */
-obj_attr_t* get_obj_attribute(object_t* obj, char* name)
+/* see wdl/object.h for documentation */
+int free_asset(asset_t *asset)
 {
     if (asset->asset != NULL)
     {
