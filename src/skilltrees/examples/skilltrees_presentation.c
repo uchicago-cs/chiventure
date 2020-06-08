@@ -86,7 +86,7 @@ skill_inventory_t* inventory;
 
     // Implementation skill effect
     char* effect_implementation(char* args) {
-        return "Good progress implementation progress! Keep going!";
+        return "Good implementation progress! Keep going!";
     }
 
 /* Wrapper function for leveling up implementation skill */
