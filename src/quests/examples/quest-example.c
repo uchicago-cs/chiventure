@@ -10,7 +10,7 @@ const char *banner =
     "    ________________________________________________________________________________________\n"
     "  / \\                                                                                      \\\n"
     " |   |                                                                                      |\n"
-    "  \\_|     ██████╗██╗  ██╗██╗██╗   ██╗███████╗███╗   ██╗████████╗██╗   ██╗██████╗ ███████╗  |\n"
+    "  \\_ |     ██████╗██╗  ██╗██╗██╗   ██╗███████╗███╗   ██╗████████╗██╗   ██╗██████╗ ███████╗  |\n"
     "     |    ██╔════╝██║  ██║██║██║   ██║██╔════╝████╗  ██║╚══██╔══╝██║   ██║██╔══██╗██╔════╝  |\n"
     "     |    ██║     ███████║██║██║   ██║█████╗  ██╔██╗ ██║   ██║   ██║   ██║██████╔╝█████╗    |\n"
     "     |    ██║     ██╔══██║██║╚██╗ ██╔╝██╔══╝  ██║╚██╗██║   ██║   ██║   ██║██╔══██╗██╔══╝    |\n"
@@ -21,55 +21,10 @@ const char *banner =
     "     |   /                         EXAMPLE PROGRAM - RPG-NPC TEAM                               /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
-/*
-typedef struct revised_chiventure_ctx {
-    chiventure_ctx_t *ctx;
-    npcs_in_room_t *npcs_in_room1;
-    npcs_in_room_t *npcs_in_room2;
-    npcs_in_room_t *npcs_in_room3;
-    quest_t *quest;
-} revised_chiventure_ctx_t;
-
-typedef char *revised_operation(char *tokens[TOKEN_LIST_SIZE], revised_chiventure_ctx_t *revised_ctx);
-
-// Lookup entry for hashtable, using uthash.
-typedef struct revised_lookup_entry
-{
-    char *name; // key
-    revised_operation *operation_type;
-    action_type_t *action;
-    UT_hash_handle hh;
-} revised_lookup_t;
-
-void revised_add_entry(char *command_name, revised_operation *associated_operation, action_type_t *action, revised_lookup_t **table)
-{
-    revised_lookup_t *t = malloc(sizeof(revised_lookup_t));
-    char *newname = malloc(sizeof(char) * (strlen(command_name) + 1));
-    strcpy(newname, command_name);
-    t->name = newname;
-    t->operation_type = associated_operation;
-    t->action = action;
-    HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
-}
-
-revised_chiventure_ctx_t *revised_ctx_new(chiventure_ctx_t *ctx, npcs_in_room_t *room1,npcs_in_room_t *room2,
-                                            npcs_in_room_t *room3, quest_t *quest)
-{
-    revised_chiventure_ctx_t *revised_ctx = malloc(sizeof(revised_chiventure_ctx_t));
-    revised_ctx->ctx = ctx;
-    revised_ctx->npcs_in_room1 = room1;
-    revised_ctx->npcs_in_room2 = room2;
-    revised_ctx->npcs_in_room3 = room3;
-    revised_ctx->quest = quest;
-
-    return revised_ctx;
-}
-*/
-
-
 quest_t *quest;
 npcs_in_room_t *npcs_in_room_1;
-npc_t *npc1;
+npcs_in_room_t *npcs_in_room_3;
+npc_mov_t *npc1_movement;
 
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
@@ -88,17 +43,13 @@ chiventure_ctx_t *create_sample_ctx()
     create_connection(game, "room2", "room3", "EAST");
 
     item_t *emerald = item_new("EMERALD","It is an emerald",
-                              "This item must be collected for the quest");
+                              "This item must be taken for the quest. Steal it!");
     add_item_to_room(room2, emerald);
 
-    add_action(emerald, "STEAL", "This is the object that the vilalger was talking about!",
+    add_action(emerald, "STEAL", "This is the object that the villager was talking about!",
                 "You can't pickup the emerald.");
     
-
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
-
-    //revised_chiventure_ctx_t *revised_ctx = revised_ctx_new(ctx, npcs_in_room_1, npcs_in_room_2,
-     //                                       npcs_in_room_3, quest);
 
     return ctx;
 }
@@ -147,8 +98,11 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((get_quest_status(quest)) == 1))
     {
-        return "Villager: I see you have started the quest, go to room2 to find the secret item, then "
-            "come meet me in room3 to complete the quest, and claim your reward.";
+        move_npc_definite(npc1_movement);
+        char *output1 = strcat(npc1_movement->npc_id,
+        ": I see you have started the quest, go to room2 to find the secret item, then "
+            "come meet me in room3 to complete the quest, and claim your reward.");
+        return output1;
     }
     else if (((strcmp(ctx->game->curr_room->room_id,"room3")) == 0) && ((get_quest_status(quest)) == 1))
     {
@@ -166,8 +120,10 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         {
             item_t *reward = complete_quest(quest);
             add_item_to_player(ctx->game->curr_player, reward);
-            return "Villager: Congratulations on completing the quest, your reward is a key that should "
-                "help you on your adventure. You will find it in your inventory.";
+            char *output2 = strcat(npc1_movement->npc_id,": Congratulations"
+            " on completing the quest, your reward is a key that should "
+            "help you on your adventure. You will find it in your inventory.");
+            return output2;
         }
         else
         {
@@ -179,74 +135,25 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "There is no one to talk to!";
     }
 }
-/*
-char *talk_to_npc1(char *tokens[TOKEN_LIST_SIZE], revised_chiventure_ctx_t *revised_ctx)
-{
-    game_t *game = revised_ctx->ctx->game;
-    if (game == NULL || game->curr_room == NULL)
-    {
-        return "Room not found! Error! Look for Jim if you're not in a room!\n";
-    }
-
-    if (tokens[1] != NULL)
-    {
-        return "I do not know what you mean.";
-    }
-
-
-    return "Villager: I see you have started the quest, go to room2 to find the secret item, then "
-            "come meet me in room3 to complete the quest, and claim your reward.";
-}
-
-
-char *talk_to_npc2(char *tokens[TOKEN_LIST_SIZE], revised_chiventure_ctx_t *revised_ctx)
-{
-    game_t *game = revised_ctx->ctx->game;
-    if (game == NULL || game->curr_room == NULL)
-    {
-        return "Room not found! Error! Look for Jim if you're not in a room!\n";
-    }
-
-    if (tokens[1] != NULL)
-    {
-        return "I do not know what you mean.";
-    }
-
-    if ((get_quest_status(revised_ctx->quest)) == 1)
-    {
-        item_t *item;
-        HASH_FIND(hh, game->all_items, "EMERALD", strlen("EMERALD"), item);
-
-        npc_t *npc;
-        HASH_FIND(hh, revised_ctx->npcs_in_room1->npc_list, "npc1", strlen("npc1"), npc);
-
-        complete_achievement(revised_ctx->quest, item, npc);
-
-        if ((is_quest_completed(revised_ctx->quest)) == 1)
-        {
-            item_t *reward = complete_quest(revised_ctx->quest);
-            add_item_to_player(revised_ctx->ctx->game->curr_player, reward);
-            return "Villager: Congratulations on completing the quest, your reward is a key that should "
-                "help you on your adventure. You will find it in your inventory.";
-        }
-        else
-        {
-            return "So close yet so far";
-        }
-    }
-    else
-        return "You have not completed the quest.";
-}
-*/
 
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
     
-    npc1 = npc_new("npc1","first npc","this is the npc that holds the quest",
+    npc_t *npc1 = npc_new("npc1","first npc","this is the npc that holds the quest",
                           100,NULL);
     npcs_in_room_1 = npcs_in_room_new("room1");
     add_npc_to_room(npcs_in_room_1, npc1);
+    npcs_in_room_3 = npcs_in_room_new("room3");
+
+    room_t *initial_room = malloc(sizeof(item_t));
+    HASH_FIND(hh, ctx->game->all_rooms, "room1", strlen("room1"), initial_room);
+
+    room_t *final_room = malloc(sizeof(item_t));
+    HASH_FIND(hh, ctx->game->all_rooms, "room3", strlen("room3"), final_room);
+
+    npc1_movement = npc_mov_new("npc1",NPC_MOV_DEFINITE,initial_room);
+    extend_path_definite(npc1_movement,final_room);
 
     item_t *item = malloc(sizeof(item_t));
     HASH_FIND(hh, ctx->game->all_items, "EMERALD", strlen("EMERALD"), item);
@@ -258,14 +165,10 @@ int main(int argc, char **argv)
     achievement_t *achievement = achievement_new(mission);
     add_achievement_to_quest(quest, achievement);
 
-
     add_entry("QUEST", start_quest_operation, NULL, ctx->table);
 
     add_entry("TALK", talk_to_npc, NULL, ctx->table);
 
-    //revised_add_entry("TALK1", talk_to_npc1, NULL, revised_ctx->ctx->table);
-
-    //revised_add_entry("TALK2", talk_to_npc2, NULL, revised_ctx->ctx->table);
 
     action_type_t steal_action = {"STEAL", ITEM};
     add_entry(steal_action.c_name, kind1_action_operation, &steal_action, ctx->table);
