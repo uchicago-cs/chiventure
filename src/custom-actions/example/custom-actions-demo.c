@@ -12,7 +12,7 @@
 void custom_actions_ex1()
 {
     action_block_t *action1, *action2;
-    condition_block_t *cond1, *cond2;
+    conditional_block_t *cond1, *cond2;
     attribute_t *attr1, *attr2, *attr3, *attr4, *attr5, *attr6;
     attribute_t **args1, **args2;
     attribute_value_t val1, val2, val3, val4, val5, val6;
