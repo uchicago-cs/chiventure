@@ -19,7 +19,7 @@ Test(condition, new_attr_condition)
 
     cr_assert_not_null(condition, "attribute_condition_new() failed");
     
-    cr_assert_not_null(condition->cond.attribute_type, "attribute_condition_new() failed to "
+    cr_assert_not_null(condition->condition.attribute_type, "attribute_condition_new() failed to "
     "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condiiton_new() failed to "
@@ -36,7 +36,7 @@ Test(condition, new_inven_condition)
 
     cr_assert_not_null(condition, "inventory_condition_new() failed");
 
-    cr_assert_not_null(condition->cond.inventory_type, "inventory_condition_new() failed to "
+    cr_assert_not_null(condition->condition.inventory_type, "inventory_condition_new() failed to "
     "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condiiton_new() failed to "
@@ -87,7 +87,7 @@ Test(condition, valid_condition)
     "but instead got %i", valid);
 
     // ATTRIBUTE_NULL
-    condition_1->cond.attribute_type->attribute_to_check = NULL;
+    condition_1->condition.attribute_type->attribute_to_check = NULL;
     valid = valid_condition(game, condition_1);
     cr_assert_eq(valid, ATTRIBUTE_NULL, "valid_condition() expected ATTRIBUTE_NULL(5) "
     "but instead got %i", valid);

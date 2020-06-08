@@ -28,7 +28,7 @@ typedef union condition_value{
 enum condition_tag {ATTRIBUTE,INVENTORY};
 
 typedef struct condition{
-    condition_value_t cond;
+    condition_value_t condition;
     enum condition_tag condition_tag;
     struct condition *next;
 } condition_t;
