@@ -169,9 +169,9 @@ int main()
     e_stats->speed = 9;
 
     npc_enemy_t *e = NULL;
-    DL_APPEND(e, make_npc_enemy("Goblin", make_bard(), e_stats, NULL, BATTLE_AI_GREEDY));
+    DL_APPEND(e, make_npc_enemy("Goblin", make_bard(), e_stats, NULL, NULL, BATTLE_AI_GREEDY));
     printf("enemy created!\n");
-    player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL);
+    player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL, NULL);
     printf("player created!\n\n");
 
     chiventure_ctx_battle_t *ctx =

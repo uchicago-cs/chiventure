@@ -22,7 +22,7 @@ Test(battle_flow, set_player)
                                     NULL, NULL, NULL);
 
     player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
-                                           NULL, NULL);
+                                           NULL, NULL, NULL);
 
     comb_player = set_player(ctx_player);
 
@@ -52,7 +52,7 @@ Test(battle_flow, set_one_enemy)
                                      NULL, NULL, NULL);
 
     npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name",
-                                            test_class, NULL, NULL, BATTLE_AI_GREEDY);
+                                            test_class, NULL, NULL, NULL, BATTLE_AI_GREEDY);
 
     combatant_t *comb_enemy = set_enemies(npc_enemy);
 
@@ -80,8 +80,8 @@ Test(battle_flow, set_one_enemy)
 Test(battle_flow, set_two_enemies)
 {
     npc_enemy_t *head = NULL;
-    npc_enemy_t *e1 = make_npc_enemy("enemy_name", NULL, NULL, NULL, BATTLE_AI_GREEDY);
-    npc_enemy_t *e2 = make_npc_enemy("enemy_name2", NULL, NULL, NULL, BATTLE_AI_RANDOM);
+    npc_enemy_t *e1 = make_npc_enemy("enemy_name", NULL, NULL, NULL, NULL, BATTLE_AI_GREEDY);
+    npc_enemy_t *e2 = make_npc_enemy("enemy_name2", NULL, NULL, NULL, NULL, BATTLE_AI_RANDOM);
     DL_APPEND(head, e1);
     DL_APPEND(head, e2);
     cr_assert_not_null(e1, "make_npc_enemy() failed");
@@ -111,8 +111,8 @@ Test(battle_flow, set_two_enemies)
 /* Tests set_battle() */
 Test(battle_flow, set_battle)
 {
-    player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL);
-    npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, BATTLE_AI_NONE);
+    player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
+    npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
@@ -142,11 +142,11 @@ Test(battle_flow, start_battle)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL);
+    player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
-    npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, BATTLE_AI_NONE);
+    npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_SNOW;
 
     int rc = start_battle(ctx, npc_enemy, env);
@@ -166,7 +166,7 @@ Test(battle_flow, return_success_battle_flow)
     pstats->level = 1;
     pstats->strength = 200;
     pstats->defense = 30;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL);
+    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -177,7 +177,7 @@ Test(battle_flow, return_success_battle_flow)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, BATTLE_AI_GREEDY);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
@@ -201,7 +201,7 @@ Test(battle_flow, do_damage_battle_flow)
     pstats->defense = 30;
     pstats->level = 1;
     pstats->strength = 200;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL);
+    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -212,7 +212,7 @@ Test(battle_flow, do_damage_battle_flow)
     estats->defense = 20;
     estats->level = 5;
     estats->strength = 150;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, BATTLE_AI_GREEDY);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
 
     environment_t env = ENV_WATER;
     int rc = start_battle(ctx, npc_enemy, env);
@@ -257,7 +257,7 @@ Test(battle_flow, battle_over_by_player)
     pstats->level = 1;
     pstats->strength = 200;
     pstats->defense = 30;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL);
+    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -268,7 +268,7 @@ Test(battle_flow, battle_over_by_player)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, BATTLE_AI_GREEDY);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
 
     environment_t env = ENV_WATER;
     int rc = start_battle(ctx, npc_enemy, env);
@@ -289,7 +289,7 @@ Test(battle_flow, battle_over_by_player)
     // note: this hp value relies on player class implementation of move_list 
     cr_assert_eq(player->stats->hp,
                  expected_hp,
-                 "battle_flow() did not compute damage correctly1");
+                 "battle_flow() did not compute damage correctly");
 
     expected_hp = player->stats->hp -
                   damage(player, give_move(player, enemy,enemy->ai), enemy);
@@ -300,7 +300,7 @@ Test(battle_flow, battle_over_by_player)
     // note: this hp value relies on player class implementation of move_list 
     cr_assert_eq(player->stats->hp,
                  expected_hp,
-                 "battle_flow() did not compute damage correctly2");
+                 "battle_flow() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_ENEMY,
                  "battle_flow() failed: battle is not over due to player");
 }
@@ -317,7 +317,7 @@ Test(battle_flow, battle_over_by_enemy)
     pstats->level = 5;
     pstats->strength = 150;
     pstats->defense = 20;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL);
+    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
@@ -326,7 +326,7 @@ Test(battle_flow, battle_over_by_enemy)
     estats->level = 1;
     estats->strength = 200;
     estats->defense = 30;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, BATTLE_AI_GREEDY);
+    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);

@@ -5,7 +5,7 @@
 #include "battle/battle_flow_structs.h"
 
 /* Stub for the player_new function in player.h game-state module */
-player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, item_t* items)
+player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, item_t* items)
 {
       player_t *ctx_player = calloc(1, sizeof(player_t));
       assert(ctx_player != NULL);
@@ -13,14 +13,14 @@ player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, item_t* item
       ctx_player->player_id = p_id;
       ctx_player->class = class;
       ctx_player->stats = stats;
-      ctx_player->moves = NULL;
+      ctx_player->moves = moves;
       ctx_player->items = items;
 
       return ctx_player;
 }
 
 /* Sets up pointer to npc struct, stub for an npc representing the enemy */
-npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, item_t* items,difficulty_t ai)
+npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, item_t* items,difficulty_t ai)
 {
     npc_enemy_t *npc_e = calloc(1, sizeof(npc_enemy_t));
     assert(npc_e != NULL);
@@ -28,7 +28,7 @@ npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, item_t*
     npc_e->npc_id = npc_id;
     npc_e->class = class;
     npc_e->stats = stats;
-    npc_e->moves = NULL;
+    npc_e->moves = moves;
     npc_e->items = items;
     npc_e->ai = ai;
     npc_e->prev = NULL;

@@ -14,7 +14,7 @@ Test(class_moves, bard)
                                     NULL, NULL, NULL);
     
     player_t *player = new_ctx_player("name", test_class,
-                                          NULL, NULL);
+                                          NULL, NULL, NULL);
     combatant_t *ret_player = set_player(player);
 
     int rc = build_moves(ret_player);
@@ -47,7 +47,7 @@ Test(class_moves, wizard)
                                     NULL, NULL, NULL);
 
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL);
+                                          NULL, NULL, NULL);
 
     combatant_t *ret_player = set_player(player);
 
@@ -82,7 +82,7 @@ Test(class_moves, knight)
                                     NULL, NULL, NULL);
 
     player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL);
+                                          NULL, NULL, NULL);
 
     combatant_t *ret_player = set_player(player);
     
