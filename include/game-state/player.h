@@ -7,8 +7,8 @@
 #define _PLAYER_H
 
 #include "game_state_common.h"
-#include "item.h"
 #include "stats.h"
+#include "item.h"
 #include "playerclass/class.h"
 
 /* A player in game */
