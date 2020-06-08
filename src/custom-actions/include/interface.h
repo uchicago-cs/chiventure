@@ -11,6 +11,8 @@
 #include "control_block.h"
 #include "game-state/game.h"
 #include "common/uthash.h"
+#include "custom-actions-cond.h"
+#include "custom-actions-common.h"
 
 /* 
  * A custom action struct. Holds the contexts for each action
