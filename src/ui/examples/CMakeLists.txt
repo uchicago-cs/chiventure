@@ -1,8 +1,10 @@
 if (raylib_FOUND)
-    set(UI_EXAMPLES map_raylib_example)
+    set(UI_EXAMPLES map_raylib_example split_screen_example)
 
     add_executable(map_raylib_example
                    map_raylib_example.c)
+    add_executable(split_screen_example
+                   split_screen_example.c)
 
     # Link with chiventure libraries
     foreach(example ${UI_EXAMPLES})
