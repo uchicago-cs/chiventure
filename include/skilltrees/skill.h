@@ -74,4 +74,31 @@ int skill_free(skill_t* skill);
  */
 char* skill_execute(skill_t* skill, char* args);
 
+/*
+ * Levels up a skill
+ *
+ * Parameters:
+ *  - skill: A skill.
+ *
+ * Returns:
+ * 0 if leveling up worked.
+ * 1 if the maximum level was already achieved, so levelling up won't happen.
+ * -1 if leveling up failed, such as invalid parameters for instance.
+ */
+int skill_level_up(skill_t* skill);
+
+/*
+ * Increments a skill's xp, leveling up when necessary.
+ *
+ * Parameters:
+ *  - skill: A skill.
+ *  - xp_gained: Amount of xp to add onto a skill.
+ *
+ * Returns:
+ * 0 if incrementing experience worked.
+ * 1 if the maximum level was already reached and you tried to level up again.
+ * -1 if incrementing xp failed, such as giving invalid parameters.
+ */
+int skill_xp_up(skill_t* skill, unsigned int xp_gained);
+
 #endif /* INCLUDE_SKILL_H_ */

@@ -163,13 +163,6 @@ Test(inventory_tests, inventory_has_skill_has_passive)
     "Error: failed test inventory_has_skill_has_passive\n");
 }
 
-/*Tests inventory_skill_levels_update. */
-Test(inventory_tests, inventory_skill_levels_update_test, .description = "Fails & Skipped (function not implemented)", .disabled = true)
-{
-  /* Function documentation and implementation are both incomplete,
-  function is not testable in current state. */
-}
-
 /* Tests inventory_skill_remove on a pasive skill that is had. */
 Test(inventory_tests, inventory_skill_remove_has_passive, .description = "Fails & Skipped", .disabled = true)
 {

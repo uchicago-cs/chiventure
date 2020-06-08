@@ -129,10 +129,3 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill) {
             return FAILURE;
     }
 }
-
-/* See inventory.h */
-int inventory_skill_levels_update(skill_inventory_t* inventory) {
-    assert(inventory != NULL);
-    /* TO DO */
-    return 0;
-}

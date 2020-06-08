@@ -75,3 +75,33 @@ char* skill_execute(skill_t* skill, char* args) {
 
     return (*(skill->effect))(args);
 }
+
+/* See skill.h */
+int skill_level_up(skill_t* skill) {
+    assert(skill != NULL);
+    if (skill->max_level == skill->level) {
+        // Maximum level already achieved.
+        return 1;
+    }
+    skill->level += 1;
+    return 0;
+}
+
+/* See skill.h */
+int skill_xp_up(skill_t* skill, int xp_gained) {
+    assert(skill != NULL);
+    while (1) {
+        int xp_to_next_level = skill->min_xp - skill->xp;
+        if (xp_to_next_level > xp_gained) {
+            skill->xp += xp_gained;
+            return 0;
+        } else {
+            xp_gained -= xp_to_next_level;
+            skill->xp = 0;
+            int res = skill_level_up(skill);
+            if (res != 0) {
+                return res;
+            }
+        }
+    }
+}
