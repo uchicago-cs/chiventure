@@ -1,0 +1,30 @@
+Welcome to the custom action sandbox. This program is meant to be used to test custom actions and their implementation without having to worry about the rest of the game. This serves as a tool for custom actions developers to test their code as they are writing it without the need to make every other file in the project.
+
+How to call:
+1. Have the chiventure project cloned on your computer with the correct directories
+2. CD into ...\chiventure\tests\custom-actions, where this file and the executable should be located
+2.5 If the executable is not present, perform make
+3. Call this function with either ./sandbox or ./sandbox <NAME> <HEALTH>
+
+Upon initilization, an empty world object will be created with one character, who will by default have the name Alex with 10 health unless told to have otherwise while called.
+
+From here, the sandbox will just keep taking input. Here is a list of currently implemented inputs:
+
+- load actions <filename>: will take WDL file containing custom actions, parse it, and import them into the game the way chiventure normally does on startup
+  example usage: load actions customactions.json
+- search action <action name>: will search for action using search_for_custom_action, and will report whether or not it's there
+  example usage: search action Lifesteal -> "Custom action Lifesteal found" or "Custom action Lifesteal not found"
+- get player <health/level/xp/stats>: returns value of that stat (stats returns health, level, or xp)
+  example usage: get player health -> "Jenny has 18 health"
+- change player <health/level/xp>: changes the value of that stat for the player
+  example usage: change player health -> "Rambo now has 0 health"
+- exit: exits sandbox mode
+  example usage: exit -> "Exiting sandbox", program exits
+
+Notable missing functionality:
+- Room/item implementation (so we can test more types of custom actions)
+- Logging feature (i.e. log health, log xp, then after performing an action can perform log log to see changes in stats logged)
+- A way to manually load custom actions so that we don't have to rely on WDL
+
+Things this tool would benefit from externally:
+- Easy way to list all custom actions implemented to check they've been imported (for "list actions" functionality, instead of checking each manually, and this is something our team can do)
