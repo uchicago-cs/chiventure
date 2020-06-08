@@ -65,22 +65,22 @@ Test(path, conditions)
 
     cr_assert_eq(rc, SUCCESS, "path_new_conditions() test 1 has failed");
     cr_assert_not_null(new_path->conditions, "no conditions have been"
-    "implementd");
+    "implemented");
 }
 
-/* checks that conditions are removed */
-Test(path, remove_conditions)
+/* checks that condition is removed */
+Test(path, remove_condition)
 {
     item_t *door = item_new("test_door", "item for testing",
     "test item for remove_condition()");
-    /* = (create bool attribute "closed" and add test_door)*/
+    door->attributes = NULL;
 
     room_t *new_room = room_new("new_room", "room for testing",
     "room to test remove_condition()");
     add_item_to_room(new_room, door);
 
-    path_t *new_path = path_new(door, "south");
-    /* set path->through to door */
+    path_t *new_path = path_new(new_room, "south");
+    new_path->through = door;
 
     //create list_action_type_t
     action_type_t *eat, *go, *open;
@@ -99,14 +99,81 @@ Test(path, remove_conditions)
     first->act = eat;
     first->next = second;
 
-    path_new_conditions(new_path,first);
-
+    //add list_action_type_t to path->conditions
     int rc;
-    /* rc = remove_condition() */
+    rc = path_new_conditions(new_path,first);
 
-    cr_assert_eq(rc, SUCCESS, "path_remove_condition() test 1 has failed");
-    cr_assert_not_null(new_path->conditions, "no conditions have been"
-    "implementd");
+    cr_assert_eq(rc, SUCCESS, "path_new_conditions() failed");
+
+    //make hash attribute for item
+    attribute_t *OPEN = malloc(sizeof(attribute_t));
+    OPEN->attribute_key = (char*)malloc(100);
+    OPEN->attribute_key = "OPEN";
+    OPEN->attribute_tag = BOOLE;
+    OPEN->attribute_value.bool_val = false;
+
+    rc = add_attribute_to_hash(new_path->through, OPEN);
+
+    cr_assert_eq(rc, SUCCESS, "add_attribute_to_hash() failed");
+
+    //test function
+    rc = remove_condition(new_path, go);
+
+    cr_assert_null(go->room, "condition isn't fully implemented(1)");
+    cr_assert_null(go->direction, "condition isn't fully implemented(2)");
+    cr_assert_eq(rc, SUCCESS, "remove_condition() failed");
+    cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, false, 
+    "no conditions have been implemented");
+}
+
+
+/* checks that last condition is removed and attribute changed */
+Test(path, remove_final_condtion)
+{
+    item_t *door = item_new("test_door", "item for testing",
+    "test item for remove_condition()");
+    door->attributes = NULL;
+    
+    room_t *new_room = room_new("new_room", "room for testing",
+    "room to test remove_condition()");
+    add_item_to_room(new_room, door);
+
+    path_t *new_path = path_new(new_room, "south");
+    new_path->through = door;
+
+    //create list_action_type_t
+    action_type_t *open;
+    open = action_type_new("open", ITEM);
+
+    list_action_type_t *first;
+    first = malloc(sizeof(list_action_type_t));
+    first->act = open;
+    first->next = NULL;
+
+    //add list_action_type_t to path->conditions
+    int rc;
+    rc = path_new_conditions(new_path,first);
+
+    cr_assert_eq(rc, SUCCESS, "path_new_conditions() failed");
+    
+    //make hash attribute for item
+    attribute_t *OPEN = malloc(sizeof(attribute_t));
+    OPEN->attribute_key = (char*)malloc(100);
+    OPEN->attribute_key = "OPEN";
+    OPEN->attribute_tag = BOOLE;
+    OPEN->attribute_value.bool_val = false;
+    rc = add_attribute_to_hash(new_path->through, OPEN);
+
+    cr_assert_eq(rc, SUCCESS, "add_attribute_to_hash() failed");
+
+    //test function
+    rc = remove_condition(new_path, open);
+
+    cr_assert_null(open->room, "condition isn't fully implemented(1)");
+    cr_assert_null(open->direction, "condition isn't fully implemented(2)");    
+    cr_assert_eq(rc, SUCCESS, "remove_condition() failed");
+    cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, true, 
+    "no conditions have been implemented");
 }
 
 

@@ -53,7 +53,7 @@ int remove_condition(path_t *path, action_type_t *a)
     int check;
     check = delete_action(path->conditions, a);
     if (path->conditions == NULL) {
-	set_bool_attr(path->through, "OPEN", true);
+	get_attribute(path->through, "OPEN")->attribute_value.bool_val = true;
     }
     a->room = NULL;
     a->direction = NULL;
