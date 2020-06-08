@@ -44,7 +44,8 @@ Test(Interface,bad_branch_custom_action) {
 
     // allocates the new branch block
     branch_block_t* new_branch = branch_block_new(1, &conditionals, conditional_type, 2, &controls);
-    AST_block_t* ast = AST_block_new(new_branch,BRANCH,1,NULL);
+    block_t* block = (block_t*)new_branch;
+    AST_block_t* ast = AST_block_new(block,BRANCH,1,NULL);
     custom_action_t* ca = custom_action_new("act_PUSH","item","obj_CHAIR","paladin",ast,hh);
 
     cr_assert_eq(do_custom_action(ca),FAILURE, "do_custom_action didn't recognize branch block had wrong arguments");
