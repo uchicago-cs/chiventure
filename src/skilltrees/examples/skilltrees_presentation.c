@@ -193,7 +193,6 @@ int main(int argc, char **argv) {
     node_prereq_add(test_node, design_node);
     skill_node_t* implementation_node = skill_node_new(implementation_skill, 2,
                                                        0);
-    node_prereq_add(implementation_node, design_node);
     node_prereq_add(implementation_node, test_node);
 
     // Initialize skill tree
@@ -203,7 +202,7 @@ int main(int argc, char **argv) {
     skill_tree_node_add(skill_tree, implementation_node);
 
     // Initialize inventory
-    inventory = inventory_new(10, 0);
+    inventory = inventory_new(20, 20);
     inventory_skill_acquire(skill_tree, inventory, design_skill);
 
     // Add DESIGN and SKILLS operation
