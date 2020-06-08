@@ -5,6 +5,8 @@
 
 #include "wdl/load_wdz_internal.h"
 
+// Helper macros for the json name -> game object type conversion
+
 #define SAME_STRING(s1, s2) (strcmp(s1, s2) == (0))
 #define TYPE_PLAYER_STR "player"
 #define TYPE_ROOM_STR "rooms"
@@ -14,6 +16,17 @@
 #define TYPE_DIALOG_STR "dialog"
 #define TYPE_NPC_STR "npcs"
 
+/*
+ * match_j_name_to_game_obj_type:
+ * Converts a raw json filename/top-level key name into
+ * the corresponding objtype_t enum value.
+ * 
+ * Parameters:
+ * - j_name: A string that is the raw name
+ * 
+ * Returns:
+ * - An objtype_t value corresponding to that name
+ */
 objtype_t match_j_name_to_game_obj_type(char *j_name)
 {
     objtype_t game_obj_type;
@@ -106,13 +119,6 @@ int load_game_objects_from_json_object
     json_object *j_obj
 )
 {
-    // // Commenting this out because while we have objstore_t init ready,
-    // // it still depends on object_t init, which always returns NULL,
-    // // so the objstore ends up always NULL.
-    // if (!obj_store)
-    // {
-    //     return FAILURE;
-    // }
     if (!j_obj)
     {
         return FAILURE;
@@ -123,6 +129,8 @@ int load_game_objects_from_json_object
         if (json_object_is_type(j_value, json_type_array))
         {
             int n_objects = json_object_array_length(j_value);
+            int omitted = 0;
+            int added = 0;
             for (int i = 0; i < n_objects; i++) // for each json_object in the array
             {
                 json_object *j_game_obj = json_object_array_get_idx(j_value, i);
@@ -130,11 +138,30 @@ int load_game_objects_from_json_object
                 if (!game_obj) 
                 {
                     fprintf(stderr, "Couldn't convert json object %s[%d] into game object\n", j_name, i);
+                    omitted++;
                     continue;
                 }
-                add_objstore(&obj_store, game_obj);
+                if (add_objstore(&obj_store, game_obj) == FAILURE)
+                {
+                    omitted++;
+                }
+                else
+                {
+                    added++;
+                }
             }
-            return SUCCESS;
+            if (omitted > 0)
+            {
+                fprintf(stderr, "Omitted import of %d game objects\n", omitted);
+            }
+            if (added > 0)
+            {
+                return SUCCESS;
+            }
+            else
+            {
+                return FAILURE;
+            }
         }
         else if (json_object_is_type(j_value, json_type_object))
         {
