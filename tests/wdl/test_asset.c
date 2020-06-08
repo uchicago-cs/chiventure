@@ -4,7 +4,7 @@
 
 Test(asset, new_asset)
 {
-    asset_t asset = new_asset(0, "test", NULL);
+    asset_t asset = new_asset(0, "test");
     cr_assert_not_null(asset, "new_asset() failed");
     cr_assert_eq(asset->type, 0, "new_asset() failed");
     cr_assert_str_eq(asset->filename, "test", "new_asset() failed");
@@ -13,8 +13,8 @@ Test(asset, new_asset)
 
 Test(asset, init_asset)
 {
-    asset_t asset = malloc(sizeof(asset_t));
-    int res = init_asset(asset, 0, "test", NULL);
+    asset_t *asset = malloc(sizeof(asset_t));
+    int res = init_asset(asset, 0, "test");
     cr_assert_eq(res, EXIT_SUCCESS, "init_asset() failed");
     cr_assert_not_null(asset, "init_asset() failed");
     cr_assert_eq(asset->type, 0, "init_asset() failed");

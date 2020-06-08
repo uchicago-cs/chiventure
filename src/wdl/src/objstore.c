@@ -80,17 +80,17 @@ int free_all_objstore(objstore_t **obj_store)
  * returns:
  *   - a pointer to the requested object as a obj_t struct member.
  */
-object_t* get_object_wdl(objstore** ht, objtype_t type, char* id)
+object_t* get_object_wdl(objstore_t** ht, objtype_t type, char* id)
 {
-    object_t *objs = find_objstore(ht, type, id);
+    objstore_t *objs = find_objstore(ht, id, type);
 
-    obj = objs->o;
+    object_t *obj = objs->o;
 
     return obj;
 }
 
 /* See wdl/objstore.h for documentation */
-object_t* get_object(objstore** ht, char* type, char* id)
+object_t* get_object(objstore_t** ht, char* type, char* id)
 {
     objtype_t tp;
 

@@ -145,7 +145,7 @@ objtype_t strToOType(char *type);
  *   - NULL if failure
  */
 
-asset_t *new_asset(char* filename);
+asset_t *new_asset(assettype_t type, char* filename);
 
 /*
  * init_asset: initializes an asset with identifier filename
@@ -159,7 +159,7 @@ asset_t *new_asset(char* filename);
  *   - FAILURE otherwise
  */
 
-int init_asset(asset_t asset, char* filename);
+int init_asset(asset_t *asset, assettype_t type, char* filename);
 
 /*
  * free_asset: frees an asset
@@ -171,7 +171,7 @@ int init_asset(asset_t asset, char* filename);
  *   - always returns SUCCESS
  */
 
-int free_asset(asset_t asset);
+int free_asset(asset_t *asset);
 
 /* get_obj_attribute: retrieve an attribute from an object
  *

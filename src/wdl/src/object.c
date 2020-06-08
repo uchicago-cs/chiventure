@@ -17,7 +17,7 @@ object_t* new_object(char *id, objtype_t type)
 /* See wdl/object.h for documentation */
 int init_object(object_t *obj, char *id, objtype_t type)
 {
-    if(obj == NULL || id == char *id)
+    if(obj == NULL || id == NULL)
     {
         printf("ERROR -init_object: Couldn't initialize object.\n");        
 
@@ -47,9 +47,9 @@ obj_attr_t* get_obj_attribute(object_t* obj, char* name)
 }
 
 /* see wdl/object.h for documentation */
-asset_t new_asset(assettype_t type, char* filename, FILE* file)
+asset_t *new_asset(assettype_t type, char* filename)
 {
-    asset_t asset = malloc(sizeof(asset_t));
+    asset_t *asset = malloc(sizeof(asset_t));
     if (asset == NULL)
     {
         printf("ERROR - new_asset: Could not allocate memory for asset.\n");
@@ -65,7 +65,7 @@ asset_t new_asset(assettype_t type, char* filename, FILE* file)
         printf("ERROR - new_asset: Could not allocate memory for asset.\n");
         return NULL;
     }
-    if (init_asset(asset, type, filename, file) != EXIT_SUCCESS)
+    if (init_asset(asset, type, filename) != EXIT_SUCCESS)
     {
         printf("ERROR - new_asset: Could not allocate memory for asset.\n");
         free_asset(asset);
@@ -75,7 +75,7 @@ asset_t new_asset(assettype_t type, char* filename, FILE* file)
 }
 
 /* see wdl/object.h for documentation */
-int init_asset(asset_t *asset, assettype_t type, char* filename, FILE* file)
+int init_asset(asset_t *asset, assettype_t type, char* filename)
 {
     if (asset == NULL || filename == NULL)
     {
@@ -84,7 +84,7 @@ int init_asset(asset_t *asset, assettype_t type, char* filename, FILE* file)
     }
     asset->type = type;
     asset->filename = filename;
-    asset->asset = file;
+    asset->asset = NULL;
 
     return EXIT_SUCCESS; 
 }

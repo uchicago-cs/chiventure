@@ -1,4 +1,4 @@
-#include <criterion.h>
+#include <criterion/criterion.h>
 #include "test_wdl.h"
 #include "include/object.h"
 
