@@ -51,7 +51,9 @@ Test(Interface,bad_branch_custom_action) {
 
     // allocates the new branch block
     branch_block_t* new_branch = branch_block_new(1, &conditionals, conditional_type, 2, &controls);
+    printf("Did we crash here\n");
     block_t* block = (block_t*)new_branch;
+    printf("Did we crash here2\n");
     AST_block_t* ast = AST_block_new(block,BRANCH,1,NULL);
     custom_action_t* ca = custom_action_new("act_PUSH","item","obj_CHAIR","paladin",ast,hh);
 
