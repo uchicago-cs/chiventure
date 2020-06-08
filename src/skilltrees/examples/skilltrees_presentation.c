@@ -181,10 +181,6 @@ int main(int argc, char **argv) {
                                      "Your software implementation skill",
                                      10, 0, &effect_implementation);
 
-    // Initialize inventory
-    inventory = inventory_new(10, 0);
-    inventory_skill_acquire(skill_tree, inventory, design_skill);
-
     // Initialize skill nodes
     skill_node_t* design_node = skill_node_new(design_skill, 0, 0);
     skill_node_t* test_node = skill_node_new(test_skill, 1, 0);
@@ -199,6 +195,10 @@ int main(int argc, char **argv) {
     skill_tree_node_add(skill_tree, design_node);
     skill_tree_node_add(skill_tree, test_node);
     skill_tree_node_add(skill_tree, implementation_node);
+
+    // Initialize inventory
+    inventory = inventory_new(10, 0);
+    inventory_skill_acquire(skill_tree, inventory, design_skill);
 
     // Add DESIGN operation
     add_entry("DESIGN", design_operation, NULL, ctx->table);
