@@ -24,7 +24,8 @@ typedef enum objtype
     TYPE_ACTION = 4,
     TYPE_GCONDITION = 5,
     TYPE_NPC = 6,
-    TYPE_DIALOG = 7
+    TYPE_DIALOG = 7,
+    TYPE_CUSTOM_SCRIPT = 8
 } objtype_t;
 
 /*
@@ -118,6 +119,7 @@ int free_object(object_t *obj);
  *
  * returns:
  *   - a pointer to the requested attribute as an attribute_t struct member
+ *   - NULL if the attribute is not found
  */
 obj_attr_t *get_obj_attribute(object_t *obj, char *name);
 
@@ -169,6 +171,7 @@ int free_asset(asset_t *asset);
  *
  * returns:
  *   - a pointer to the requested asset as an asset_t struct member.
+ *   - NULL if the attribute is not found
  */
 asset_t *get_asset(assettype_t type, char *filename);
 

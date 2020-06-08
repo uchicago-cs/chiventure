@@ -12,6 +12,7 @@ Test(object, new)
     cr_assert_eq(strcmp(obj->id,"villager"), 0, 
                      "new_object() failed to set id");
     cr_assert_eq(obj->type, TYPE_NPC, "new_object() failed to set type");
+    cr_assert_null(obj->attrs, "new_object() failed to set attrs");
 }
 
 Test(object, init)
@@ -26,6 +27,8 @@ Test(object, init)
     cr_assert_eq(strcmp(obj.id,"villager"), 0,
                      "init_object() failed to set id");
     cr_assert_eq(obj.type, TYPE_NPC, "new_object() failed to set type");
+    cr_assert_null(obj->attrs, "init_object() failed to set attrs");
+}
 }
 
 Test(object, free)
