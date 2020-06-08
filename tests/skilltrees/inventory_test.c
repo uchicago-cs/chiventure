@@ -120,7 +120,7 @@ Test(inventory_tests, inventory_has_skill_has_not)
   skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, effect_defuse_bomb);
   int ret = inventory_has_skill(inventory, 1000, PASSIVE);
-  cr_assert_eq(ret, -1,
+  cr_assert_eq(ret, -198,
     "Error: failed test inventory_has_skill_has_not\n");
 }
 
