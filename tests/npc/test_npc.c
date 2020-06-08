@@ -31,13 +31,40 @@ Test(npc, new)
 {
     class_t* c;
     npc_t *npc;
-  
+
+    object_t *npc_id = obj_t_str("npc_22", NULL);
+
     c = generate_test_class();
-    npc = npc_new("npc_22", "man", "tall man", 20, c);
+
+    npc = npc_new(npc_id, "man", "tall man", 20, c);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
     cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0, 
+                 "npc_new didn't set npc_id"); 
+    cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
+                 "npc_new didn't set short_desc");
+    cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
+                 "npc_new didn't set long_desc");
+    cr_assert_eq(npc->health, 20, "npc_new() didn't set health"); 
+    cr_assert_str_eq(npc->class->shortdesc,
+                     c->shortdesc, "npc_new didn't set short description for class");
+}
+
+Test(npc, new_lua_script)
+{
+    class_t* c;
+    npc_t *npc;
+  
+    c = generate_test_class();
+
+    object_t *npc_id = obj_t_str("npc_22", "Lua_file/npc_id.lua");
+
+    npc = npc_new(npc_id, "man", "tall man", 20, c);
+
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    cr_assert_eq(strncmp(npc->npc_id, "npc_33", MAX_ID_LEN), 0, 
                  "npc_new didn't set npc_id"); 
     cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
                  "npc_new didn't set short_desc");
@@ -58,12 +85,41 @@ Test(npc, init)
     npc = npc_new("test", "woman", "short woman", 30, NULL);
   
     c = generate_test_class();
-  
-    res = npc_init(npc, "npc_22", "man", "tall man", 20, c); 
+
+    object_t *npc_id = obj_t_str("npc_22", NULL);
+
+    res = npc_init(npc, npc_id, "man", "tall man", 20, c); 
 
     cr_assert_eq(res, SUCCESS, "npc_init() failed");
 
     cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
+                 "npc_init didn't set npc_id");
+    cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
+                 "npc_init didn't set short_desc");
+    cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
+                 "npc_init didn't set long_desc");
+    cr_assert_eq(npc->health, 20, "npc_init didn't set health"); 
+    cr_assert_str_eq(npc->class->shortdesc,
+                     c->shortdesc, "npc_init didn't set short description for class");
+}
+
+Test(npc, init)
+{
+    class_t* c;
+    npc_t *npc;
+    int res;
+  
+    npc = npc_new("test", "woman", "short woman", 30, NULL);
+  
+    c = generate_test_class();
+
+    object_t *npc_id = obj_t_str("npc_22", "Lua_file/npc_id.lua");
+
+    res = npc_init(npc, npc_id, "man", "tall man", 20, c); 
+
+    cr_assert_eq(res, SUCCESS, "npc_init() failed");
+
+    cr_assert_eq(strncmp(npc->npc_id, "npc_33", MAX_ID_LEN), 0,
                  "npc_init didn't set npc_id");
     cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
                  "npc_init didn't set short_desc");
