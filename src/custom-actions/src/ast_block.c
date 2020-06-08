@@ -53,7 +53,7 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type,
     ast->block = block;
     ast->block_type = block_type;
     ast->num_AST = num_AST;
-    *(ast->ast_sequence) = ast_sequence;
+    ast->ast_sequence = ast_sequence;
 
     return SUCCESS; 
 }
