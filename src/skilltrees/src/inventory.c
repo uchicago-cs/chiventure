@@ -53,9 +53,6 @@ int inventory_free(skill_inventory_t* inventory) {
 int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
     assert(inventory != NULL && skill != NULL);
 
-    // skill_t** a = inventory->active;
-    // skill_t** p = inventory->passive;
-
     switch (skill->type) {
         case ACTIVE:
             if (inventory->num_active >= inventory->max_active) {
@@ -79,17 +76,6 @@ int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
             fprintf(stderr, "inventory_skill_add: invalid skill type\n");
             return FAILURE;
     }
-
-
-    // skill_node_t** n = node->prereqs;
-    // if (node->num_prereq_skills == 0) {
-    //     node->num_prereq_skills += 1;
-    //     n = (skill_node_t**)malloc(sizeof(skill_node_t*));
-    //     node->prereqs = n;
-    // } else {
-    //     node->num_prereq_skills += 1;
-    //     n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*node->num_prereq_skills);
-    // }
 }
 
 /* See inventory.h */
