@@ -352,10 +352,10 @@ Test(skilltree_tests, get_acquired_skill_prereqs_safe)
   skill_inventory_t* inventory = inventory_new(3,4);
   inventory_skill_add(inventory, skill2);
 
-  skill_node_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, out);
-  //int ret = (acqed[0] == skill2);
-  //cr_assert_eq(ret, true,
-  //  "Error: failed test get_acquired_skill_prereqs_safe\n");
+  skill_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, out);
+  int ret = (acqed[0] == skill2);
+  cr_assert_eq(ret, true,
+   "Error: failed test get_acquired_skill_prereqs_safe\n");
 }
 
 /* Tests skill_prereqs_missing on a case with no missing prereqs. */
