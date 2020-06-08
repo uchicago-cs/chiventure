@@ -151,7 +151,7 @@ Test(inventory_tests, inventory_has_skill_has_active)
 }
 
 /* Tests inventory_has_skill on a passive skill it has. */
-Test(inventory_tests, inventory_has_skill_has_passive, .description = "Fails & Skipped (function not implemented)", .disabled = true)
+Test(inventory_tests, inventory_has_skill_has_passive)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
