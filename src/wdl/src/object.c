@@ -115,7 +115,7 @@ int free_asset(asset_t *asset)
 }
 
 /* See wdl/object.h for documentation */
-asset_t *get_asset(assettype_t type, char filename)
+asset_t *get_asset(assettype_t type, char *filename)
 {
     // not implemented yet
     return NULL;

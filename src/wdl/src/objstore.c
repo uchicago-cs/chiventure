@@ -99,7 +99,7 @@ object_t *get_object(objstore_t **ht, char *type, char *id)
 {
     objtype_t tp;
 
-    tp = strToOType(type);
+    tp = str_to_objtype(type);
 
     return get_object_wdl(ht, tp, id);
 }

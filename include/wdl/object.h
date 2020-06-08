@@ -119,7 +119,7 @@ int free_object(object_t *obj);
  * returns:
  *   - a pointer to the requested attribute as an attribute_t struct member
  */
-obj_attr_t *get_obj_attribute(object_t* obj, char* name);
+obj_attr_t *get_obj_attribute(object_t *obj, char *name);
 
 /*
  * new_asset: creates a new asset with identifier filename
@@ -132,7 +132,7 @@ obj_attr_t *get_obj_attribute(object_t* obj, char* name);
  *   - NULL if failure
  */
 
-asset_t *new_asset(assettype_t type, char* filename);
+asset_t *new_asset(assettype_t type, char *filename);
 
 /*
  * init_asset: initializes an asset with identifier filename
@@ -146,7 +146,7 @@ asset_t *new_asset(assettype_t type, char* filename);
  *   - FAILURE otherwise
  */
 
-int init_asset(asset_t *asset, assettype_t type, char* filename);
+int init_asset(asset_t *asset, assettype_t type, char *filename);
 
 /*
  * free_asset: frees an asset
@@ -169,7 +169,7 @@ int free_asset(asset_t *asset);
  * returns:
  *   - a pointer to the requested asset as an asset_t struct member.
  */
-asset_t *get_asset(assettype_t type, char* filename);
+asset_t *get_asset(assettype_t type, char *filename);
 
 /*
  * Converts a string to an objtype_t
