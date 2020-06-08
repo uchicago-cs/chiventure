@@ -20,6 +20,7 @@ const char* banner =
     "     |  /                                                                                      /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
+/* Declare item so action can be associated with it on skill acquisition */
 item_t* implementation_item;
 
 /* Create example chiventure context */
@@ -47,8 +48,8 @@ chiventure_ctx_t* create_example_ctx() {
 
     // Create room items
     implementation_item = item_new("IMPLEMENTATION",
-                                           "The software implementation skill",
-                                           "Skill that enables software implementation");
+                                   "The software implementation skill",
+                                   "Skill that enables software implementation");
     add_item_to_room(implementation_room, implementation_item);
 
     // Create example chiventure context
@@ -88,7 +89,7 @@ skill_inventory_t* inventory;
         return "Good progress implementation progress! Keep going!";
     }
 
-/* Wrapper function for leveling up testing skill */
+/* Wrapper function for leveling up implementation skill */
 void implementation_level_up(chiventure_ctx_t* ctx) {
     skill_level_up(implementation_skill);
     if (implementation_skill->level > 2) {
