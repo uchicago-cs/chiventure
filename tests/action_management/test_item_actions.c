@@ -41,13 +41,13 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
         set_int_attr(item, "DUMMYCONDITON", 0);
         attr = get_attribute(item, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(item, ga, item, attr, value);
+        add_action_attribute_condition(ga, item, attr, value);
         break;
     case 2:
         set_int_attr(item, "DUMMYCONDITON", 1);
         attr = get_attribute(item, "DUMMYCONDITON");
         value.int_val = 0;
-        add_action_condition(item, ga, item, attr, value);
+        add_action_attribute_condition(ga, item, attr, value);
         break;
     default:
         break;
