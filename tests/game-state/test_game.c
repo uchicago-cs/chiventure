@@ -524,6 +524,18 @@ Test(iter, get_all_rooms) {
 
 /* Checks that add_effect_to_game() adds a global effect to the
 game struct's player hash table */
+Test(game_stat_effects, add_stat_to_game)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    stats_global_t *global_stat = stats_global_new("health", 1000);
+    int rc = add_stat_to_game(game, global_stat);
+
+    cr_assert_eq(rc, SUCCESS, "add_stat_to_game failed");
+    cr_assert_not_null(game->curr_stats, "stat not added to curr_stats");
+}
+
+/* Checks that add_effect_to_game() adds a global effect to the
+game struct's player hash table */
 Test(game_stat_effects, add_effect_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");

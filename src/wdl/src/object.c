@@ -3,7 +3,7 @@
 /* See wdl/object.h for documentation */
 object_t *new_object(char *id, objtype_t type)
 {
-    object_t* obj = malloc(sizeof(object_t));
+    object_t* obj = calloc(1, sizeof(object_t));
     
     init_object(obj, id, type);
 
@@ -53,7 +53,7 @@ obj_attr_t *get_obj_attribute(object_t* obj, char *name)
 /* see wdl/object.h for documentation */
 asset_t *new_asset(assettype_t type, char *filename)
 {
-    asset_t *asset = malloc(sizeof(asset_t));
+    asset_t *asset = calloc(1, sizeof(asset_t));
     if (asset == NULL)
     {
         fprintf(stderr, 
@@ -117,35 +117,36 @@ int free_asset(asset_t *asset)
 /* See wdl/object.h for documentation */
 asset_t *get_asset(assettype_t type, char *filename)
 {
-    // not implemented yet
+    // To be implemented in future sprint.
+    // Currently backlog issue #791
     return NULL;
 }
 
 /* See wdl/object.h for docomentation */
 objtype_t str_to_objtype(char *type)
 {
-    if(strcmp(type,"NOTHING") == 0)
+    if(strncmp(type,"NONE", MAXLEN_ID) == 0)
     {
-        return TYPE_NOTHING;
-    } else if (strcmp(type, "PLAYER") == 0)
+        return TYPE_NONE;
+    } else if (strncmp(type, "PLAYER", MAXLEN_ID) == 0)
     {
         return TYPE_PLAYER;
-    } else if (strcmp(type, "ROOM") == 0)
+    } else if (strncmp(type, "ROOM", MAXLEN_ID) == 0)
     {
         return TYPE_ROOM;
-    } else if (strcmp(type, "ITEM") == 0)
+    } else if (strncmp(type, "ITEM", MAXLEN_ID) == 0)
     {
         return TYPE_ITEM;
-    } else if (strcmp(type, "ACTION") == 0)
+    } else if (strncmp(type, "ACTION", MAXLEN_ID) == 0)
     {
         return TYPE_ACTION;
-    } else if (strcmp(type, "GCONDITION") == 0)
+    } else if (strncmp(type, "GCONDITION", MAXLEN_ID) == 0)
     {
         return TYPE_GCONDITION;
-    } else if (strcmp(type, "NPC") == 0)
+    } else if (strncmp(type, "NPC", MAXLEN_ID) == 0)
     {
         return TYPE_NPC;
-    } else if (strcmp(type, "DIALOG") == 0)
+    } else if (strncmp(type, "DIALOG", MAXLEN_ID) == 0)
     {
         return TYPE_DIALOG;
     } else {
