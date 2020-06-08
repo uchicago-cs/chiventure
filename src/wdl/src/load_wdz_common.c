@@ -172,36 +172,50 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
     
     /* Then find the game object's ID */
     char game_obj_id[MAXLEN_ID];
-    strncpy(game_obj_id, DEFAULT_PLAYER_OBJ_ID, MAXLEN_ID);
+    strncpy(game_obj_id, "", MAXLEN_ID);
     json_object *game_obj_id_j_obj = NULL;
     json_object_object_get_ex(j_game_obj, "id", &game_obj_id_j_obj);
     if (!game_obj_id_j_obj)
     {
-        // Player object is a one-off obj that doesn't need an id field
-        // the Other object types also should not require an id field
-        if ((game_obj_type != TYPE_PLAYER) 
-         && (game_obj_type != TYPE_NONE)
-         && (game_obj_type != TYPE_ERR))
+        /* Player object is a one-off obj that doesn't need an id field
+         * the Other object types also should not require an id field
+         */
+        if (game_obj_type == TYPE_PLAYER)
+        {
+            puts("detected player object");
+            strncpy(game_obj_id, DEFAULT_PLAYER_OBJ_ID, MAXLEN_ID);
+            puts(game_obj_id);
+        }
+        else if ((game_obj_type != TYPE_NONE)
+              && (game_obj_type != TYPE_ERR))
         {
             fprintf(stderr, 
                 "No id key found in the JSON of this game object!\n");
             return NULL;
         }
     }
-    if ((!json_object_is_type(game_obj_id_j_obj, json_type_null))
-        && json_object_is_type(game_obj_id_j_obj, json_type_string))
+    if (json_object_is_type(game_obj_id_j_obj, json_type_string))
     {
         strncpy(game_obj_id, json_object_get_string(game_obj_id_j_obj), MAXLEN_ID);
     }
     else
     {
-        fprintf(stderr, 
-            "id key in the JSON of this game object has wrong value type (must be string!)\n");
-        return NULL;
+        if ((game_obj_type != TYPE_PLAYER) 
+         && (game_obj_type != TYPE_NONE)
+         && (game_obj_type != TYPE_ERR))
+            {
+                fprintf(stderr, 
+                "id key in the JSON of this game object has wrong value type (must be string!)\n");
+                return NULL;
+            }
     }
 
     /* Once type and id are obtained, create the game object */
     object_t *game_obj = new_object(game_obj_id, game_obj_type);
+    if (game_obj_type == TYPE_PLAYER)
+    {
+        puts("Type is player");
+    }
     if (!game_obj)
     {
         fprintf(stderr, "Unable to allocate memory for game object\n");
@@ -211,6 +225,10 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
     /* Loops through all attributes in the JSON object */
     json_object_object_foreach(j_game_obj, attr_name, j_value)
     {
+        if (game_obj_type == TYPE_PLAYER)
+        {
+            puts(attr_name);
+        }
         if (SAME_STRING(attr_name, "id"))
         {
             continue; // we already added the ID above
@@ -290,9 +308,12 @@ int load_game_objects_from_json_object
         {
             // The only file with an object-type value as top-level
             // is players.json. Other special cases can go here, but unlikely.
-            
+            json_object *test_string_inplayer;
+            json_object_object_get_ex(j_value, "start_room", &test_string_inplayer);
+            puts(json_object_get_string(test_string_inplayer));
             object_t *player = convert_j_obj_to_game_obj(j_value, j_name);
-
+            printf("Trying to convert player obj, name %s. Player is %p\n", j_name, (void*)player);
+            
             if (!player)
             {
                 return FAILURE;

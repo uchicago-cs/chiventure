@@ -67,7 +67,7 @@ void check_objstore_from_json
  * the conversion function convert_j_obj_to_game_obj, which also invokes
  * the make_data_from_j_value function. If this works, all of them work.
  */
-Test(load_wdz, load_game_objs_from_json)
+Test(load_wdz, load_room_objs_from_json)
 {
     const char *test_json = 
         "{\"rooms\":                                        \
@@ -80,6 +80,20 @@ Test(load_wdz, load_game_objs_from_json)
     check_objstore_from_json(test_json, TYPE_ROOM, "test_room");
 }
 
+/* Same as above, but the special player object needs some more attention */
+Test(load_wdz, load_player_from_json)
+{
+    const char *test_json = 
+        "{\"player\":                                       \
+            {                                               \
+                \"intro_text\":\"my intro text\",           \
+                \"start_room\":\"whiteroom\"                \
+            }                                               \
+        }";
+    check_objstore_from_json(test_json, TYPE_PLAYER, DEFAULT_PLAYER_OBJ_ID);
+}
+
+
 /* A test that simulates what would actually happen on chiventure startup */
 #define RELATIVE_FILE_PATH "../../../src/wdl/examples/wdz/test_game.wdz"
 Test(load_wdz, load_from_wdz_file)
@@ -88,12 +102,20 @@ Test(load_wdz, load_from_wdz_file)
     int n_jsons;
     populate_objstore_from_wdz(&obj_store, &n_jsons, RELATIVE_FILE_PATH);
     cr_assert_not_null(obj_store, "Object store is empty after load");
+    cr_log_warn("There are %d\n items in objstore", HASH_COUNT(obj_store));
+    
+    objstore_t *el, *tmp;
+    HASH_ITER(hh, obj_store, el, tmp)
+    {
+        cr_log_warn("object has ID %s and type %d\n",el->key.id, el->key.type);
+    }
+ 
     cr_assert_not_null(find_objstore(&obj_store, DEFAULT_PLAYER_OBJ_ID, TYPE_PLAYER),
         "Player object not loaded");
     // Find a representative object from each type
     cr_assert_not_null(find_objstore(&obj_store, "greenlever", TYPE_ITEM),
         "Item greenlever not loaded");
-    cr_assert_not_null(find_objstore(&obj_store, "action_normal_pull", TYPE_ACTION),
+    cr_assert_not_null(find_objstore(&obj_store, "action_normal_pull <lever_num>", TYPE_ACTION),
         "Action action_normal_pull not loaded");
     cr_assert_not_null(find_objstore(&obj_store, "globcond_unlock", TYPE_GCONDITION),
         "Global condition globcond_unlock not loaded");

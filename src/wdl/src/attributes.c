@@ -98,6 +98,7 @@ int free_attr(obj_attr_t *head, obj_attr_t *a)
         return FAILURE;
     }
     DL_DELETE(head, a);
+    free(a->data);
     free(a);
     return SUCCESS;
 }
