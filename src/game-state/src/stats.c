@@ -163,7 +163,6 @@ char* display_global_stats(stats_global_hash_t *s)
     HASH_ITER(hh, s, stat, tmp)
     {
         sprintf(line, "%s [max: %d]\n", stat->name, stat->max);
->>>>>>> adding some CLI commands and display functions for global effects/stats #768
         strcat(list, line);
     }
 
@@ -276,25 +275,6 @@ char *display_stat_effects(effects_hash_t *hash)
                     mod->stat->key, mod->modifier, mod->duration);
             strcat(list, line);
         }
-    }
-
-    char *display = strdup(list);
-    return display;
-}
-
-/* See stats.h */
-char *display_global_stat_effects(effects_global_hash_t *hash)
-{
-    effects_global_t *effect, *tmp;
-
-    int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(hash));
-    char list[size];
-    char *line;
-
-    HASH_ITER(hh, hash, effect, tmp)
-    {
-        sprintf(line, "%s\n", effect->name);
-        strcat(list, line);
     }
 
     char *display = strdup(list);
