@@ -189,7 +189,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     action_type_free(a);
     game_action_free(ga);
     // TODO: Fix player_free
-    // player_free(player);
+    player_free(player);
 
     return rc;
 }
