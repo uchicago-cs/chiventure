@@ -50,7 +50,7 @@ typedef struct AST_block {
  * - An AST block. 
  */
 AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t *next, 
-                           AST_block_t *prev)
+                           AST_block_t *prev);
 
 /* 
  * Initializes an AST block. 
@@ -66,7 +66,7 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type, AST_block_t 
  * - SUCCESS if success, FAILURE if error occurs
  */
 int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type, 
-                   AST_block_t *next, AST_block_t *prev)
+                   AST_block_t *next, AST_block_t *prev);
 
 /* 
  * Frees an AST block, as well as all of the AST blocks in the sequence. 
