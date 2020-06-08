@@ -98,7 +98,9 @@ skill_tree_t* skill_tree_new(tid_t tid, char* name, unsigned int num_nodes) {
         return NULL;
     }
     tree->nodes = NULL;
-    tree->num_nodes = num_nodes;
+
+    // Initializing num_nodes through parameters not yet designed.
+    tree->num_nodes = 0;
 
     return tree;
 }
