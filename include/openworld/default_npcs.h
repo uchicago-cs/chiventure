@@ -26,9 +26,9 @@
 */
 
 typedef enum npc_classification {
-	NPC_GENERIC = 0,
-	NPC_HOSTILE = 1,
-	NPC_FRIENDLY = 2
+    NPC_GENERIC = 0,
+    NPC_HOSTILE = 1,
+    NPC_FRIENDLY = 2
 } npc_classification_t;
 
 
