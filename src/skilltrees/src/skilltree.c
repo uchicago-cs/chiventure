@@ -11,12 +11,12 @@
 /* See skilltree.h */
 skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
                              unsigned int size) {
-     skill_node_t* node;
-     node = (skill_node_t*)malloc(sizeof(skill_node_t));
-     if (node == NULL) {
-         fprintf(stderr, "skill_node_new: memory allocation failed\n");
-         return NULL;
-     }
+    skill_node_t* node;
+    node = (skill_node_t*)malloc(sizeof(skill_node_t));
+    if (node == NULL) {
+        fprintf(stderr, "skill_node_new: memory allocation failed\n");
+        return NULL;
+    }
 
     // Adjusting initial num_prereq_skills not yet implemented.
     node->num_prereq_skills = 0;
