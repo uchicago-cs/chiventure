@@ -9,16 +9,18 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
+#include "wdl/wdl_ctx.h"
 
  /*
  * load_wdl, loads a wdl specified internally into all game-state structs
  *
  * input: path to wdl file
  * 
- * output: a pointer to an game_t struct
- * that has been filled with the contents of the yaml file
+ * output: a pointer to a wdl_ctx struct
+ * that has a game filled with the contents of the yaml file OR
+ * a hash table of wdl objects
  */
-game_t *load_wdl(char *path_to_file);
+wdl_ctx_t *load_wdl(char *path_to_wd);
 
 /*
  * Function to create a pointer to an empty game
