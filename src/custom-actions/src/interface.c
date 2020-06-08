@@ -6,15 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "ast_block.h"
-#include "action_block.h"
-#include "branch_block.h"
-#include "conditional_block.h"
-#include "control_block.h"
-#include "game-state/game.h"
-#include "common/uthash.h"
-
-
+#include "interface.h"
 
 /* See interface.h */
 int do_custom_action(custom_action_t *action)
