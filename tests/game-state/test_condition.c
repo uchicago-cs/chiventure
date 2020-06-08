@@ -87,7 +87,7 @@ Test(condition, valid_condition)
     "but instead got %i", valid);
 
     // ATTRIBUTE_NULL
-    condition_1->cond.attr_type->attribute_to_check = NULL;
+    condition_1->cond.attribute_type->attribute_to_check = NULL;
     valid = valid_condition(game, condition_1);
     cr_assert_eq(valid, ATTRIBUTE_NULL, "valid_condition() expected ATTRIBUTE_NULL(5) "
     "but instead got %i", valid);

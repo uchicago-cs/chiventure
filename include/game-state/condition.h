@@ -20,15 +20,15 @@ typedef struct inventory_condition{
     item_t *expected_item;
 } inventory_condition_t;
 
-typedef union condition_type{
-    attribute_condition_t* attr_type;
-    inventory_condition_t* inven_type;
-} condition_type_t;
+typedef union condition_value{
+    attribute_condition_t* attribute_type;
+    inventory_condition_t* inventory_type;
+} condition_value_t;
 
 enum condition_tag {ATTRIBUTE,INVENTORY};
 
 typedef struct condition{
-    condition_type_t cond;
+    condition_value_t cond;
     enum condition_tag condition_tag;
     struct condition *next;
 } condition_t;

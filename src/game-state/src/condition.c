@@ -54,10 +54,10 @@ int valid_condition(game_t *game, condition_t *condition)
     switch (condition->condition_tag)
     {
     case (ATTRIBUTE):
-        return valid_attr_condition(game, condition->cond.attr_type);
+        return valid_attr_condition(game, condition->cond.attribute_type);
         break;
     case (INVENTORY):
-        return valid_inven_condition(game, condition->cond.inven_type);
+        return valid_inven_condition(game, condition->cond.inventory_type);
         break;
     default:
         // should never get to here
@@ -75,10 +75,10 @@ int delete_condition_llist(condition_list_t *conditions)
         switch (elt->condition_tag)
         {
         case (ATTRIBUTE):
-            free(elt->cond.attr_type);
+            free(elt->cond.attribute_type);
             break;
         case (INVENTORY):
-            free(elt->cond.inven_type);
+            free(elt->cond.inventory_type);
             break;
         }
         free(elt);
@@ -102,7 +102,7 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
     new_condition->expected_value = new_value;
 
     condition_t *condition_wrapper = malloc(sizeof(condition_t));
-    condition_wrapper->cond.attr_type = new_condition;
+    condition_wrapper->cond.attribute_type = new_condition;
     condition_wrapper->condition_tag = ATTRIBUTE;
 
     return condition_wrapper;
@@ -172,7 +172,7 @@ condition_t *inventory_condition_new(player_t *player, item_t *expected_item)
     new_condition->expected_item = expected_item;
 
     condition_t *condition_wrapper = malloc(sizeof(condition_t));
-    condition_wrapper->cond.inven_type = new_condition;
+    condition_wrapper->cond.inventory_type = new_condition;
     condition_wrapper->condition_tag = INVENTORY;
 
     return condition_wrapper;
@@ -190,9 +190,9 @@ bool check_condition(condition_t *condition)
     switch (condition->condition_tag)
     {
     case (ATTRIBUTE):
-        return check_attribute_condition(condition->cond.attr_type);
+        return check_attribute_condition(condition->cond.attribute_type);
     case (INVENTORY):
-        return check_inventory_condition(condition->cond.inven_type);
+        return check_inventory_condition(condition->cond.inventory_type);
     }
 }
 
