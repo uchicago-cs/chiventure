@@ -50,7 +50,7 @@ int add_objstore(objstore_t **obj_store, object_t *o)
 int free_objstore(objstore_t **obj_store, objstore_t *store)
 {
     HASH_DEL(*obj_store, store);
-    free(store->o);
+    free(store->o); // TODO: replace with obj_free()
     free(store);
     return SUCCESS;
 }
