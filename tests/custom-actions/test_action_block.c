@@ -95,7 +95,7 @@ Test(action_block_t, new_MOVE)
     action_block_free(new_action);
 }
 
-/* Checks that a new action block with ARITHMETIC type is created without interruption */
+/* Checks that a new action block with ADDITION type is created without interruption */
 Test(action_block_t, new_ADDITION)
 {
     action_enum_t action_type = ADDITION;
@@ -284,7 +284,7 @@ Test(AST_action_block_t, new_ast_MOVE)
     AST_block_free(ast);
 }
 
-/* Checks that a new action AST block with ARITHMETIC type is created without interruption */
+/* Checks that a new action AST block with ADDITION type is created without interruption */
 Test(AST_action_block_t, new_ast_ADDITION)
 {   
     action_enum_t action_type = ADDITION;
@@ -467,7 +467,7 @@ Test(action_block_t, init_MOVE)
     cr_assert_eq(action.args, &args, "action_block_init() didn't set action.args");
 }
 
-/* Checks that a new action block with ARITHMETIC type is initialized without interruption */
+/* Checks that a new action block with ADDITION type is initialized without interruption */
 Test(action_block_t, init_ADDITION)
 {
     action_block_t action;
@@ -632,7 +632,7 @@ Test(action_block_t, free_MOVE)
     cr_assert_eq(rc, SUCCESS, "action_block_free() failed");
 }
 
-/* Checks that a new action block with ARITHMETIC type is freed without interruption */
+/* Checks that a new action block with ADDITION type is freed without interruption */
 Test(action_block_t, free_ADDITION)
 {
     action_block_t *action;
@@ -714,6 +714,9 @@ Test(action_block_t, free_EXEC)
 }
 
 
+/* Tests behavior of action block execution function with actions that
+ *  set attribute values
+ */
 Test(exec_action_block, set)
 {
     action_block_t *act1, *act2, *act3;
@@ -769,6 +772,9 @@ Test(exec_action_block, set)
 }
 
 
+/* Tests behavior of action block execution function with actions that
+ *  add attribute values
+ */
 Test(exec_action_block, add)
 {
     action_block_t *act1, *act2, *act3;
@@ -832,6 +838,9 @@ Test(exec_action_block, add)
 }
 
 
+/* Tests behavior of action block execution function with actions that
+ *  subtract attribute values
+ */
 Test(exec_action_block, subtract)
 {
     action_block_t *act1, *act2, *act3;
@@ -895,6 +904,9 @@ Test(exec_action_block, subtract)
 }
 
 
+/* Tests behavior of action block execution function with actions that
+ *  multiply attribute values
+ */
 Test(exec_action_block, multiply)
 {
     action_block_t *act1, *act2, *act3;
@@ -958,6 +970,9 @@ Test(exec_action_block, multiply)
 }
 
 
+/* Tests behavior of action block execution function with actions that
+ *  divide attribute values
+ */
 Test(exec_action_block, divide)
 {
     action_block_t *act1, *act2, *act3;
@@ -1021,6 +1036,9 @@ Test(exec_action_block, divide)
 }
 
 
+/* Tests behavior of action block execution function with actions that
+ *  generate an attribute value
+ */
 Test(exec_action_block, gen)
 {
     action_block_t *act1, *act2, *act3;

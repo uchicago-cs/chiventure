@@ -15,14 +15,16 @@ typedef struct AST_block AST_block_t;
 /* An enumeration type for an action block */
 typedef enum action_type {
     SET,
-    SAY,
-    MOVE,
     ADDITION,
     SUBTRACT,
     MULTIPLY,
     DIVIDE,
     GEN, 
-    EXEC
+    
+    // To be implemented:
+    // EXEC,
+    // SAY,
+    // MOVE,
 } action_enum_t;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
