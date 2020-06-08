@@ -40,8 +40,8 @@ typedef struct condition{
 */
 typedef struct condition condition_list_t;
 
-/* valid_condition checks with the game given to make sure that its variables
- * are valid
+/* valid_condition checks with the game given to make sure that the condition's
+ * inputted variables are valid
  * 
  * Parameters:
  *   the game to check against
