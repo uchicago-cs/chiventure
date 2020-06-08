@@ -53,12 +53,12 @@ Test(skilltree_tests, skill_node_free_test)
 /* Tests skill_tree_new. */
 Test(skilltree_tests, skill_tree_new_test)
 {
-    skill_tree_t* tree = skill_tree_new(1002, "this tree", 3);
+    skill_tree_t* tree = skill_tree_new(1002, "this tree", 0);
     cr_assert_eq(tree->tid, 1002,
       "Error: failed test skill_tree_new_test on tree->tid\n");
     cr_assert_str_eq(tree->name, "this tree",
       "Error: failed test skill_tree_new_test on tree->name\n");
-    cr_assert_eq(tree->num_nodes, 3,
+    cr_assert_eq(tree->num_nodes, 0,
       "Error: failed test skill_tree_new_test on tree->num_nodes\n");
 }
 
