@@ -60,7 +60,7 @@ int print_hp(battle_t* b, char* string)
 char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 {
     char *move_name = move->info;
-    int damage = move->damage;
+    int damage = damage(b->enemy, move, b->player);
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
     char* enemy_name = b->enemy->name;
