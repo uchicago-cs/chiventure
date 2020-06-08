@@ -21,92 +21,149 @@ class_t *make_bard()
     return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
 }
 
+/* This ensures that the user's inputted move exists
+ * Parameters:
+ *  ctx: main structure of the game
+ * Returns:
+ *  a pointer to the found move or NULL for no move 
+ */ 
+move_t *find_player_move(chiventure_ctx_battle_t *ctx)
+{
+    move_t *temp;
+    move_t *player_move = NULL;
+
+    DL_FOREACH(ctx->game->battle->player->moves, temp)
+    {
+        if (strncmp(temp->info, args[2], MAX_MOVE_INFO_LEN) == 0)
+        {
+            player_move = temp;
+            return player_move;
+        }
+    }
+    return NULL;
+}
+
+/* Helper function to print the result of a turn
+ * Parameters:
+ *  ctx: main structure of the game
+ *  player_move: the name of the player's move
+ * Returns:
+ *  Always returns SUCCESS
+ */ 
+int print_battle_result(chiventure_ctx_battle_t *ctx, move_t *player_move)
+{
+    char *action_string;
+    // everything below allows us to print what just happened
+    if (goes_first(ctx->game->battle) == PLAYER)
+    {
+        printf("goes_first determined the player goes first!\n");
+        action_string = print_battle_move(ctx->game->battle,
+                                          PLAYER, player_move);
+        printf("%s\n", action_string);
+        if (ctx->game->battle->enemy->stats->hp <= 0)
+        {
+            return SUCCESS;
+        }
+        move_t *enemy_move = give_move(ctx->game->battle->player,
+                                       ctx->game->battle->enemy,
+                                       ctx->game->battle->enemy->ai);
+        action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
+        printf("%s\n", action_string);
+    }
+    else
+    {
+        printf("goes_first determined the enemy goes first!\n");
+        action_string = print_battle_move(ctx->game->battle,
+                                          PLAYER, player_move);
+        printf("%s\n", action_string);
+        if (ctx->game->battle->player->stats->hp <= 0)
+        {
+            return SUCCESS;
+        }
+        move_t *enemy_move = give_move(ctx->game->battle->player,
+                                       ctx->game->battle->enemy,
+                                       ctx->game->battle->enemy->ai);
+        action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
+        printf("%s\n", action_string);
+    }
+    return SUCCESS;
+}
+
+/* Prints out the avaliable moves for the player
+ * Parameter:
+ *  ctx: the main structure of the game
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int print_moves(chiventure_ctx_battle_t *ctx)
+{
+    move_t *temp;
+    printf("\nMOVES LIST:\n");
+    DL_FOREACH(ctx->game->battle->player->moves, temp)
+    {
+        printf("%s\n", temp->info);
+    }
+    return SUCCESS;
+}
+
+/* this function reads the user's input and converts that into an action
+ * Parameters:
+ *  args: array of strings that display the user's input
+ *  ctx: the main structure of the game
+ * Returns:
+ *  SUCCESS or FAILURE
+ */
 int read_move(char **args, chiventure_ctx_battle_t *ctx)
 {
     int res;
-    char *action_string;
+
+    // this handles the command MOVE USE <move> ON <enemy_name>
     if ((strncmp(args[0], "MOVE", MAX_COMMAND_LENGTH) == 0) 
         && (strncmp(args[1], "USE", MAX_COMMAND_LENGTH) == 0) 
         && (strncmp(args[3], "ON", MAX_COMMAND_LENGTH) == 0))
     {
         printf("Determined command as MOVE USE, and it using the %s move\n\n",
                 args[2]);
-        move_t *temp;
-        move_t *player_move = NULL;
+        
+        move_t *player_move = find_player_move(ctx);
 
-        DL_FOREACH(ctx->game->battle->player->moves, temp)
-        {
-            if (strncmp(temp->info, args[2], MAX_MOVE_INFO_LEN) == 0)
-            {
-                player_move = temp;
-            }
-        }
-
+        // checks if the player's move is NULL, if so, return FAILURE
         if (player_move == NULL)
         {
             printf("Couldn't find the move you were looking for!\n");
             return FAILURE;
         }
 
+        // call to check_target to ensure that the target exists
+        printf("calling check_target...\n");
         if(check_target(ctx->game->battle, args[4]) == NULL)
         {
             printf("Enemy not found!\n");
             return FAILURE;
         }
+        printf("target exists!\n")
 
         printf("\nBeginning call to battle_flow() function\n");
+        // calling the function which is the heart of the battle
         res = battle_flow(ctx, player_move, args[4]);
 
-        // everything below allows us to print what just happened
-        if (goes_first(ctx->game->battle) == PLAYER)
-        {
-            printf("goes_first determined the player goes first!\n");
-            action_string = print_battle_move(ctx->game->battle,
-                                              PLAYER, player_move);
-            printf("%s\n", action_string);
-            if(ctx->game->battle->enemy->stats->hp <= 0)
-            {
-                return SUCCESS;
-            }
-            move_t *enemy_move = give_move(ctx->game->battle->player,
-                                           ctx->game->battle->enemy,
-                                           ctx->game->battle->enemy->ai);
-            action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
-            printf("%s\n", action_string);
-        }
-        else
-        {
-            printf("goes_first determined the enemy goes first!\n");
-            action_string = print_battle_move(ctx->game->battle,
-                                              PLAYER, player_move);
-            printf("%s\n", action_string);
-            if (ctx->game->battle->player->stats->hp <= 0)
-            {
-                return SUCCESS;
-            }
-            move_t *enemy_move = give_move(ctx->game->battle->player,
-                                           ctx->game->battle->enemy,
-                                           ctx->game->battle->enemy->ai);
-            action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
-            printf("%s\n", action_string);
-        }
-        return SUCCESS;
+        // prints result of attacks
+        int battle_res = print_battle_result(ctx, player_move);
+        return battle_res;
     }
+    // handles the command MOVE LIST
     else if ((strncmp(args[0], "MOVE", MAX_COMMAND_LENGTH) == 0) 
             && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
     {
         printf("Determined command as MOVE LIST\n\n");
-        move_t *temp;
-        printf("MOVES LIST:\n");
-        DL_FOREACH(ctx->game->battle->player->moves, temp)
-        {
-            printf("%s\n", temp->info);
-        }
+        res = print_moves(ctx);
         printf("\n");
-        return SUCCESS;
+        return res;
     }
+    // handles the command HELP
     else if (strncmp(args[0], "HELP", MAX_COMMAND_LENGTH) == 0)
     {
+        // prints out possible commands for the user to use
         printf("Here are the possible commands!\n");
         printf("MOVE USE <move_name> ON <enemy_name>\n");
         printf("MOVE INFO <move_name>\n\n");
@@ -114,11 +171,19 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
     }
     else
     {
+        // this only occurs if the user does not input the correct command
         return FAILURE;
     }
     return res;
 }
 
+/* Parses a command into an array of strings
+ * Parameters:
+ *  out: the array of strings
+ *  input: the string containing the whole command
+ * Returns:
+ *  Array of strings with parsed input
+ */ 
 int parse_command(char **out, char *input)
 {
     for (int i = 0; i < MAX_ARGS; i++)
@@ -128,6 +193,7 @@ int parse_command(char **out, char *input)
     return sscanf(input, " %s %s %s %s %s ", out[0], out[1], out[2], out[3], out[4]);
 }
 
+// where everything is called
 int main()
 {
     printf("\nbeginning to create the player and enemy...\n");
