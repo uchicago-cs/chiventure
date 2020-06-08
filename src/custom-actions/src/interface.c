@@ -9,82 +9,36 @@
 #include "custom-actions/interface.h"
 
 /* See interface.h */
-custom_action_t *search_for_custom_action(char *action_name, game_t *game)
+int do_custom_action(custom_action_t *action)
 {
-    return NULL;
-}
-
-/* See interface.h */
-int do_custom_action(custom_action_t *action, char **args, int num_args)
-{
-    // need to check if item is there
-    // then need to just execute first AST_block in struct, everything will follow from there
-    run_ast_block(action->head);
-    return 0;
-}
-
-/* See interface.h */
-custom_action_t *compile_custom_action(json_dict_obj *json, game_t *game)
-{
-    return NULL;
-}
-
-/* See interface.h */
-int free_custom_action(custom_action_t *action)
-{
-    assert(action);
-    free(action);
-    return SUCCESS;
-}
-
-/* See interface.h */
-char *get_custom_action_name(custom_action_t *action)
-{
-    return action->action_name;
+    if(action == NULL) return FAILURE;
+    return run_ast_block(action->head);
 }
 
 /* PRIVATE HELPER FUNCTIONS */
 
 void run_ast_block(AST_block_t *block) 
 {
-    if(block == NULL) return;
+    int returnV;
+    if(block == NULL) return SUCCESS;
     switch(block->block_type) 
     {
         case(CONTROL):
-            do_control_block(block->block);
-            run_ast_block(block->next[0]);
+            return FAILURE;
             break;
         case(BRANCH):
-            int i = do_branch_block(block->block);
-            run_ast_block(block->next[i]);
+            if(do_branch_block(block->block) == -1) return FAILURE;
+            return run_ast_block(block->next[returnV]);
             break;
         case(ACTION):
-            do_action_block(block->block);
-            run_ast_block(block->next[0]);
+            if(do_action_block(block->block) == FAILURE) return FAILURE;
+            return run_ast_block(block->next[0]);
             break;
         case(CONDITIONAL):
-            do_conditional_block(block->block);
+            if(do_conditional_block(block->block)== FAILURE) return FAILURE;
+            return run_ast_block(block->next[0]);
             break;   
     }
-}
-
-
-/* Note to those writing helper functions - these functions could also take
- * AST_block_t blocks as parameters, if you find that's better suited. - Annabelle*/
-
-/* Given an action block and its corresponding arguments, 
- * attempt to execute the given block.
- * 
- * Parameters: 
- * - block: A pointer to the action block to be executed
- * 
- * Returns:
- * - SUCCESS on successful execution
- * - FAILURE/TBD on specific types of failure
- */
-void do_action_block(action_block_t *block)
-{   
-    return 0;
 }
 
 /* Given an branch block and its corresponding arguments, 
@@ -98,10 +52,11 @@ void do_action_block(action_block_t *block)
  */
 int do_branch_block(branch_block_t *block)
 {
+    if(block->numcontrols != block->numconditionals) return FAILURE;
     // goes through each of the control blocks
     for(int i = 0; i < block->numcontrols; i++) 
     {
-        // will perform the appropriate 
+        // will perform the appropriate type of action
         switch(block->controls[i]->control_type) {
             case IFELSE:
                 if(do_conditional_block(block->conditionals[i]) == TRUE) return i;

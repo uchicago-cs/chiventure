@@ -10,7 +10,7 @@
 Test(Interface,do_custom_action+bad_custom_action) {
     custom_action_t* ca = custom_action_new("test","test","test","test",NULL);  
     cr_assert_eq(do_custom_action(NULL),FAILURE, "do_custom_action didn't check for NULL input");
-    cr_assert_eq(do_custom_action(ca),FAILURE, "do_custom_action didn't check for NULL head");
+    cr_assert_eq(do_custom_action(ca),SUCCESS, "do_custom_action incorrectly checked for a NULL head");
 }
 /* Checks that a custom_action with a bad branch block fails */
 Test(Interface,do_custom_action+bad_branch) {
