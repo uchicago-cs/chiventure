@@ -1,0 +1,463 @@
+diff --git a/include/skilltrees/inventory.h b/include/skilltrees/inventory.h
+index 0a0db4f..55d96be 100644
+--- a/include/skilltrees/inventory.h
++++ b/include/skilltrees/inventory.h
+@@ -100,4 +100,15 @@ int inventory_has_skill(skill_inventory_t* inventory, sid_t sid,
+  */
+ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill);
+ 
++/*
++ * Returns all names of skills currently in the inventory as a string.
++ *
++ * Parameters:
++ *  - inventory: A skill inventory
++ *
++ * Returns:
++ *  - A string formatted nicely to print out in the chiventure screen.
++ */
++char* current_skills_as_strings(skill_inventory_t* inventory);
++
+ #endif /* INCLUDE_INVENTORY_H_ */
+diff --git a/include/skilltrees/skilltree.h b/include/skilltrees/skilltree.h
+index f5b1d5f..d209144 100644
+--- a/include/skilltrees/skilltree.h
++++ b/include/skilltrees/skilltree.h
+@@ -227,7 +227,7 @@ skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
+  *    parameter `num_acquired_prereqs` is updated to 0 when there are no acquired
+  *    prerequisites, and is updated to -1 if an error has occurred
+  */
+-skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
++skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+                                      skill_inventory_t* inventory, sid_t sid,
+                                      int* num_acquired_prereqs);
+ 
+@@ -237,7 +237,7 @@ skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+  * Parameters:
+  *  - tree: A skill tree
+  *  - inventory: A player's skill inventory
+- *  - sid: A skill ID
++ *  - sid: The ID of the skill we want to check for prerequisites.
+  *  - num_acquired_prereqs: An out-parameter. The number of missing prerequisite skills in
+  *              the list
+  *
+diff --git a/src/skilltrees/examples/skilltrees_presentation.c b/src/skilltrees/examples/skilltrees_presentation.c
+index 0b8a6c7..dd3a92a 100644
+--- a/src/skilltrees/examples/skilltrees_presentation.c
++++ b/src/skilltrees/examples/skilltrees_presentation.c
+@@ -5,6 +5,29 @@
+ #include "skilltrees/skill.h"
+ #include "skilltrees/inventory.h"
+ #include "skilltrees/skilltree.h"
++/*
++ * This example program runs a complete instance of chiventure to feature skill
++ * trees. The context for this chiventure game is software design, represented
++ * by three rooms: the Design Room, the Implementation Room, and the Demo Room.
++ * In running this game, one begins with just one skill in their inventory, the
++ * design skill. The design skill is leveled up with each use, and one can only
++ * enter the implementation room after having used (leveled up) the design skill
++ * at least 3x. Entry into the implementation room grants the player an
++ * additional testing skill. The implementation room models test-driven
++ * development: one cannot "LEARN IMPLEMENTATION", until one has used (leveled
++ * up) their testing skill at least once. Having both tested at least once and
++ * having learned implementation, one can use the implementation skill. The
++ * implementation skill must be used at least twice to be granted access to the
++ * final room, the demo room.
++ *
++ * CLI Operations Defined for This Example
++ *  - DESIGN, for using the design skill
++ *  - TEST, for using the testing skill
++ *  - LEARN IMPLEMENTATION, for learning the implementation skill
++ *  - IMPLEMENT, for using the implemtation skill
++ *  - GO NORTH, to progress to the next room in the game sequence
++ *  - GO SOUTH, to go back to a previous room in the game sequence
++ */
+ 
+ const char* banner =
+     "    ________________________________________________________________________________________\n"
+@@ -92,15 +115,18 @@ skill_inventory_t* inventory;
+ /* Wrapper function for leveling up implementation skill */
+ void implementation_level_up(chiventure_ctx_t* ctx) {
+     skill_level_up(implementation_skill);
+-    if (implementation_skill->level > 2) {
+-        create_connection(ctx->game, "Implementation Room", "Demo Room", "NORTH");
+-        create_connection(ctx->game, "Demo Room", "Implementation Room", "SOUTH");
+-        //inventory_skill_acquire(inventory, test_skill);
++    if (implementation_skill->level == 3) {
++        create_connection(ctx->game, "Implementation Room", "Demo Room",
++                          "NORTH");
++        create_connection(ctx->game, "Demo Room", "Implementation Room",
++                          "SOUTH");
++        inventory_skill_acquire(skill_tree, inventory, test_skill);
+     }
+ }
+ 
+ /* CLI operation for implementation skill */
+-char* implementation_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
++char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
++                               chiventure_ctx_t* ctx) {
+     implementation_level_up(ctx);
+     return skill_execute(implementation_skill, "");
+ }
+@@ -108,10 +134,12 @@ char* implementation_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t*
+ /* Wrapper function for leveling up testing skill */
+ void test_level_up(chiventure_ctx_t* ctx) {
+     skill_level_up(test_skill);
+-    if (test_skill->level > 1) {
+-        add_action(implementation_item, "LEARN", "Now that your tests are complete, begin implementation!", "Test at least once before considering implementation!");
++    if (test_skill->level == 2) {
++        add_action(implementation_item, "LEARN", "Now that your tests are "
++                   "complete, begin implementation!", "Test at least once "
++                   "before considering implementation!");
+         add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
+-        //inventory_skill_acquire(inventory, implementation_skill);
++        inventory_skill_acquire(skill_tree, inventory, implementation_skill);
+     }
+ }
+ 
+@@ -124,11 +152,13 @@ char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+ /* Wrapper function for leveling up design skill */
+ void design_level_up(chiventure_ctx_t* ctx) {
+     skill_level_up(design_skill);
+-    if (design_skill->level > 3) {
+-        create_connection(ctx->game, "Design Room", "Implementation Room", "NORTH");
+-        create_connection(ctx->game, "Implementation Room", "Design Room", "SOUTH");
++    if (design_skill->level == 4) {
++        create_connection(ctx->game, "Design Room", "Implementation Room",
++                          "NORTH");
++        create_connection(ctx->game, "Implementation Room", "Design Room",
++                          "SOUTH");
+         add_entry("TEST", test_operation, NULL, ctx->table);
+-        //inventory_skill_acquire(inventory, test_skill);
++        inventory_skill_acquire(skill_tree, inventory, test_skill);
+     }
+ }
+ 
+@@ -138,24 +168,31 @@ char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+     return skill_execute(design_skill, "");
+ }
+ 
++/* CLI operation to list all skills in inventory */
++char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
++    print_to_cli(ctx, current_skills_as_strings(inventory));
++    return "";
++}
++
+ int main(int argc, char **argv) {
+     // Create example chiventure context
+     chiventure_ctx_t* ctx = create_example_ctx();
+ 
+     // Initialize skills
+-    design_skill = skill_new(0, ACTIVE, "Designing Skill", "Your software designing skill", 10, 0, &effect_design);
+-    test_skill = skill_new(1, ACTIVE, "Testing Skill", "Your software testing skill", 10, 0, &effect_test);
+-    implementation_skill = skill_new(2, ACTIVE, "Implementation Skill", "Your software implementation skill", 10, 0, &effect_implementation);
+-
+-    // Initialize inventory
+-    inventory = inventory_new(10, 0);
+-    /* inventory_skill_acquire(skill_tree, inventory, design_skill);
++    design_skill = skill_new(0, ACTIVE, "Designing Skill", "Your software "
++                             "designing skill", 10, 0, &effect_design);
++    test_skill = skill_new(1, ACTIVE, "Testing Skill", "Your software testing "
++                           "skill", 10, 0, &effect_test);
++    implementation_skill = skill_new(2, ACTIVE, "Implementation Skill",
++                                     "Your software implementation skill",
++                                     10, 0, &effect_implementation);
+ 
+     // Initialize skill nodes
+     skill_node_t* design_node = skill_node_new(design_skill, 0, 0);
+     skill_node_t* test_node = skill_node_new(test_skill, 1, 0);
+     node_prereq_add(test_node, design_node);
+-    skill_node_t* implementation_node = skill_node_new(implementation_skill, 2, 0);
++    skill_node_t* implementation_node = skill_node_new(implementation_skill, 2,
++                                                       0);
+     node_prereq_add(implementation_node, design_node);
+     node_prereq_add(implementation_node, test_node);
+ 
+@@ -163,20 +200,33 @@ int main(int argc, char **argv) {
+     skill_tree = skill_tree_new(0, "Software Development Skill Tree", 3);
+     skill_tree_node_add(skill_tree, design_node);
+     skill_tree_node_add(skill_tree, test_node);
+-    skill_tree_node_add(skill_tree, implementation_node);*/
++    skill_tree_node_add(skill_tree, implementation_node);
++
++    // Initialize inventory
++    inventory = inventory_new(10, 0);
++    inventory_skill_acquire(skill_tree, inventory, design_skill);
+ 
+-    // Add DESIGN operation
++    // Add DESIGN and SKILLS operation
+     add_entry("DESIGN", design_operation, NULL, ctx->table);
++    add_entry("SKILLS", skills_operation, NULL, ctx->table);
+ 
+     // Define LEARN Kind 1 Action
+     action_type_t learn_action = {"LEARN", ITEM};
+-    add_entry(learn_action.c_name, kind1_action_operation, &learn_action, ctx->table);
++    add_entry(learn_action.c_name, kind1_action_operation, &learn_action,
++              ctx->table);
+ 
+     // Start UI for example chiventure context
+     start_ui(ctx, banner);
+ 
+     // Free memory
++    skill_tree_free(skill_tree);
++    skill_node_free(design_node);
++    skill_node_free(test_node);
++    skill_node_free(implementation_node);
++    inventory_free(inventory);
+     skill_free(design_skill);
++    skill_free(test_skill);
++    skill_free(implementation_skill);
+     game_free(ctx->game);
+ 
+     return 0;
+diff --git a/src/skilltrees/src/inventory.c b/src/skilltrees/src/inventory.c
+index 673d55f..9538599 100644
+--- a/src/skilltrees/src/inventory.c
++++ b/src/skilltrees/src/inventory.c
+@@ -4,6 +4,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <string.h>
+ #include <assert.h>
+ #include "skilltrees/inventory.h"
+ 
+@@ -129,3 +130,40 @@ int inventory_skill_remove(skill_inventory_t* inventory, skill_t* skill) {
+             return FAILURE;
+     }
+ }
++
++/* See inventory.h */
++char* current_skills_as_strings(skill_inventory_t* inventory) {
++    assert(inventory != NULL);
++
++    char* str = (char *)malloc(sizeof(char)*500);
++    strncat(str, "List of active skills:\n", 25);
++    if (inventory->num_active == 0) {
++        strncat(str, "You have no active skills.\n", 35);
++    } else {
++        for (unsigned int i = 0; i < inventory->num_active; i++) {
++            strncat(str, inventory->active[i]->name, 20);
++            strncat(str, ": Level ", 9);
++            char level[13];
++            itoa(inventory->active[i]->level, level, 12);
++            strncat(str, level, 12);
++            strncat(str, "\n", 1);
++        }
++    }
++    // To differentiate between passive and active skills.
++    strncat(str, "\n-\n", 3);
++
++    if (inventory->num_passive == 0) {
++        strncat(str, "You have no passive skills.\n\n", 35);
++    } else {
++        for (unsigned int i = 0; i < inventory->num_passive; i++) {
++            strncat(str, inventory->passive[i]->name, 20);
++            strncat(str, ": Level ", 9);
++            char level[13];
++            itoa(inventory->passive[i]->level, level, 12);
++            strncat(str, level, 12);
++            strncat(str, "\n", 1);
++        }
++    }
++    strncat(str, "\0", 1);
++    return NULL;
++}
+diff --git a/src/skilltrees/src/skilltree.c b/src/skilltrees/src/skilltree.c
+index 80e4726..1e9a1b0 100644
+--- a/src/skilltrees/src/skilltree.c
++++ b/src/skilltrees/src/skilltree.c
+@@ -43,9 +43,16 @@ int skill_node_free(skill_node_t* node) {
+ int node_prereq_add(skill_node_t* node, skill_node_t* prereq) {
+     assert(node != NULL && prereq != NULL);
+ 
+-    node->num_prereq_skills += 1;
+     skill_node_t** n = node->prereqs;
+-    n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*node->num_prereq_skills);
++    if (node->num_prereq_skills == 0) {
++        node->num_prereq_skills += 1;
++        n = (skill_node_t**)malloc(sizeof(skill_node_t*));
++        node->prereqs = n;
++    } else {
++        node->num_prereq_skills += 1;
++        n = (skill_node_t**)realloc(n, sizeof(skill_node_t*)*node->num_prereq_skills);
++    }
++
+     n[node->num_prereq_skills - 1] = prereq;
+     return SUCCESS;
+ }
+@@ -194,7 +201,7 @@ skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
+ }
+ 
+ /* See skilltree.h */
+-skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
++skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+                                      skill_inventory_t* inventory, sid_t sid,
+                                      int* num_acquired_prereqs) {
+     assert(tree != NULL && inventory != NULL);
+@@ -208,7 +215,7 @@ skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+         return NULL;
+     }
+ 
+-    skill_node_t** acquired = (skill_node_t**)malloc(num_prereqs*sizeof(skill_t*));
++    skill_t** acquired = (skill_t**)malloc(num_prereqs*sizeof(skill_t*));
+     if (acquired == NULL) {
+         fprintf(stderr, "get_acquired_skill_prereqs: malloc acquired failed\n");
+         *num_acquired_prereqs = -2;
+@@ -227,12 +234,10 @@ skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+             void** res;
+             switch (type) {
+                 case ACTIVE:
+-                    res = array_element_add((void**)acquired, (*num_acquired_prereqs),
+-                                            (void*)inventory->active[pos]);
++                    acquired[(*num_acquired_prereqs)] = inventory->active[pos];
+                     break;
+                 case PASSIVE:
+-                    res = array_element_add((void**)acquired, (*num_acquired_prereqs),
+-                                            (void*)inventory->passive[pos]);
++                    acquired[(*num_acquired_prereqs)] = inventory->passive[pos];
+                     break;
+                 default:
+                     fprintf(stderr,
+@@ -304,7 +309,9 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
+ /* See skilltree.h */
+ int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
+                            skill_t* skill) {
+-    assert(tree != NULL && inventory != NULL && skill != NULL);
++    assert(tree != NULL);
++    assert(inventory != NULL);
++    assert(skill != NULL);
+ 
+     unsigned int num_missing;
+     skill_t** missing = skill_prereqs_missing(tree, inventory, skill->sid,
+diff --git a/tests/skilltrees/skilltree_test.c b/tests/skilltrees/skilltree_test.c
+index 8879b53..94c6026 100644
+--- a/tests/skilltrees/skilltree_test.c
++++ b/tests/skilltrees/skilltree_test.c
+@@ -102,44 +102,44 @@ Test(skilltree_tests, node_prereq_add_full)
+     cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_add_full\n");
+ }
+ 
+-// /* Tests node_prereq_remove on a valid case. */
+-// Test(skilltree_tests, node_prereq_remove_safe)
+-// {
+-//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+-//         2, 5, effect_defuse_bomb);
+-//     skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+-//         3, 6, effect_chop_tree);
+-//     skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
+-//         4, 7, effect_inner_peace);
+-//     skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+-//     skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+-//     skill_node_t* inner_node = skill_node_new(skill3, 2, 76);
+-//
+-//     node_prereq_add(inner_node, bomb_node);
+-//     node_prereq_add(inner_node, chop_node);
+-//
+-//     int ret = node_prereq_remove(inner_node, bomb_node);
+-//     cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_remove_safe\n");
+-// }
+-
+-// /* Tests node_prereq_remove on a prereq that doesn't exist. */
+-// Test(skilltree_tests, node_prereq_remove_missing)
+-// {
+-//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+-//         2, 5, effect_defuse_bomb);
+-//     skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+-//         3, 6, effect_chop_tree);
+-//     skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
+-//         4, 7, effect_inner_peace);
+-//     skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+-//     skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+-//     skill_node_t* inner_node = skill_node_new(skill3, 2, 76);
+-//
+-//     node_prereq_add(inner_node, chop_node);
+-//
+-//     int ret = node_prereq_remove(inner_node, bomb_node);
+-//     cr_assert_eq(ret, 1, "Error: failed test node_prereq_remove_missing\n");
+-// }
++/* Tests node_prereq_remove on a valid case. */
++Test(skilltree_tests, node_prereq_remove_safe)
++{
++    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
++        2, 5, effect_defuse_bomb);
++    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
++        3, 6, effect_chop_tree);
++    skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
++        4, 7, effect_inner_peace);
++    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
++    skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
++    skill_node_t* inner_node = skill_node_new(skill3, 2, 76);
++
++    node_prereq_add(inner_node, bomb_node);
++    node_prereq_add(inner_node, chop_node);
++
++    int ret = node_prereq_remove(inner_node, bomb_node);
++    cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_remove_safe\n");
++}
++
++/* Tests node_prereq_remove on a prereq that doesn't exist. */
++Test(skilltree_tests, node_prereq_remove_missing)
++{
++    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
++        2, 5, effect_defuse_bomb);
++    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
++        3, 6, effect_chop_tree);
++    skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
++        4, 7, effect_inner_peace);
++    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
++    skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
++    skill_node_t* inner_node = skill_node_new(skill3, 2, 76);
++
++    node_prereq_add(inner_node, chop_node);
++
++    int ret = node_prereq_remove(inner_node, bomb_node);
++    cr_assert_eq(ret, 1, "Error: failed test node_prereq_remove_missing\n");
++}
+ 
+ 
+ /* Tests skill_tree_node_add on a valid case. */
+@@ -352,10 +352,12 @@ Test(skilltree_tests, get_acquired_skill_prereqs_safe)
+   skill_inventory_t* inventory = inventory_new(3,4);
+   inventory_skill_add(inventory, skill2);
+ 
+-  skill_node_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, out);
+-  //int ret = (acqed[0] == skill2);
+-  //cr_assert_eq(ret, true,
+-  //  "Error: failed test get_acquired_skill_prereqs_safe\n");
++  skill_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, out);
++  int ret = (acqed[0] == skill2);
++  cr_assert_eq(acqed[0]->sid, 1001,
++   "Error: failed test get_acquired_skill_prereqs_safe\n");
++  cr_assert_eq(ret, true,
++   "Error: failed test get_acquired_skill_prereqs_safe\n");
+ }
+ 
+ /* Tests skill_prereqs_missing on a case with no missing prereqs. */
+@@ -390,10 +392,27 @@ Test(skilltree_tests, skill_prereqs_missing_some)
+   skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+ 
+   node_prereq_add(bomb_node, chop_node);
++  cr_assert_eq(bomb_node->prereqs[0]->skill->sid, 1001,
++               "Error: failed test skill_prereqs_missing_some\n");
+ 
+   skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
++
+   skill_tree_node_add(tree, bomb_node);
++  int res1 = skill_tree_has_node(tree, 1000);
++  cr_assert_eq(0, res1, "Error: failed test skill_prereqs_missing_some\n");
++
+   skill_tree_node_add(tree, chop_node);
++  int res2 = skill_tree_has_node(tree, 1001);
++  cr_assert_eq(1, res2, "Error: failed test skill_prereqs_missing_some\n");
++
++  int* out_prereqs = malloc(sizeof(int));
++  skill_node_t** skill_list = get_all_skill_prereqs(tree, 1000, out_prereqs);
++  cr_assert_eq(1, (*out_prereqs),
++               "Error: failed test skill_prereqs_missing_some\n");
++  cr_assert_neq(NULL, skill_list,
++      "Error: failed test skill_prereqs_missing_some\n");
++  cr_assert_eq(skill_list[0]->skill->sid, 1001,
++               "Error: failed test skill_prereqs_missing_some\n");
+ 
+   int* out = malloc(sizeof(int));
+ 
