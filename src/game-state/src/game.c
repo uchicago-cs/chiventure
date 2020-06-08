@@ -90,30 +90,18 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 }
 
 /* See game.h */
-int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition)
+int add_end_condition_to_game(game_t *game, condition_t *end_condition)
 {
-    item_t *check_item;
-    HASH_FIND(hh, game->all_items, end_condition->item->item_id, 
-              strnlen(end_condition->item->item_id, MAX_ID_LEN), 
-              check_item);
-    if (check_item == NULL)
-    {
-        return FAILURE; // item not in game
+    int valid = valid_condition(game, end_condition);
+    if(valid == SUCCESS){
+        end_condition->next = game->end_conditions;
+        game->end_conditions = end_condition;
+
+        return SUCCESS;
+    } else {
+        return valid;
     }
-    
-    attribute_t *check_attribute;
-    check_attribute = get_attribute(end_condition->item, 
-                                    end_condition->attribute_to_check->attribute_key);
-    if (check_attribute == NULL || 
-        check_attribute != end_condition->attribute_to_check)
-    {
-        return FAILURE; // item does not possess attribute
-    }
-    
-    end_condition->next = game->end_conditions;
-    game->end_conditions = end_condition;
-    
-    return SUCCESS;
+
 }
 
 /* See game.h */
@@ -153,22 +141,11 @@ int add_effect_to_game(game_t *game, effects_global_t *effect)
 /* See game.h */
 bool end_conditions_met(game_t *game)
 {
-    if (game->end_conditions == NULL)
-    {
-        return false; // no conditions to check
+    if(game->end_conditions == NULL){
+        return false;
+    } else {
+        return all_conditions_met(game->end_conditions);
     }
-    
-    game_action_condition_t *iterator = game->end_conditions;
-    while (iterator != NULL)
-    {
-        if (!check_condition(iterator))
-        {
-            return false; // condition not yet met
-        }
-        iterator = iterator->next;
-    }
-    
-    return true; // all conditions met
 }
 
 /* See game.h */
@@ -272,7 +249,7 @@ int game_free(game_t *game)
 {
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
-    delete_action_condition_llist(game->end_conditions);
+    delete_condition_llist(game->end_conditions);
     free(game->start_desc);
     free(game);
     return SUCCESS;
@@ -345,32 +322,20 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
     return check;
 }
 
-int add_condition(game_t *game, char* action_name, char* item_src_name,
-                  char* item_modify_name, char* attribute_name, attribute_value_t new_value)
+/* see game.h */
+int add_condition(game_t *game, game_action_t *action, condition_t *condition)
 {
-
-    item_t *item_src = get_item_from_game(game, item_src_name);
-    if (item_src == NULL)
-    {
-        return ITEM_SRC_NULL;
-    }
-    item_t *item_modify = get_item_from_game(game, item_modify_name);
-    if (item_modify == NULL)
-    {
-        return ITEM_MODIFY_NULL;
-    }
-    game_action_t *action = get_action(item_src, action_name);
     if(action == NULL)
     {
         return ACTION_NULL;
     }
-    attribute_t *attribute = get_attribute(item_modify, attribute_name);
-    if(attribute == NULL)
-    {
-        return ATTRIBUTE_NULL;
-    }
-    int check = add_action_condition(item_src, action,
-                                     item_modify, attribute, new_value);
 
-    return check;
+    int valid = valid_condition(game, condition);
+    if(valid == SUCCESS){
+        int check = add_action_condition(action, condition);
+
+        return check;
+    } else {
+        return valid;
+    }
 }
