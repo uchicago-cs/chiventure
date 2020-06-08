@@ -63,6 +63,9 @@ int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet
  */
 int achievement_init(achievement_t *achievement, mission_t *mission);
 
+
+/* New Functions below */
+
 /* Initialize an already allocated quest struct
  *
  * Parameters:
@@ -75,6 +78,8 @@ int achievement_init(achievement_t *achievement, mission_t *mission);
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
+ * 
+ * Notes: Adds achievement to the front of the list
  */
 int quest_init(quest_t *q, long int quest_id, 
                achievement_llist_t *achievement_list, item_t *reward, int status);
@@ -114,5 +119,91 @@ int achievement_free(achievement_t *achievement);
  * - FAILURE for unsuccessful free
  */
 int quest_free(quest_t * quest);
+
+/* Adds an achievement to a quest
+ *
+ * Parameter:
+ * - quest: pointer to quest_t 
+ * - achievement_to_add: pointer to achievement_t to add to list
+ * 
+ * Returns:
+ * - SUCCESS 
+ * - FAILURE
+ */
+int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
+
+/* Starts a quest
+ *
+ * Parameter:
+ * - quest: pointer to quest_t to be started
+ * 
+ * Returns:
+ * - SUCCESS 
+ * - FAILURE
+ */
+int start_quest(quest_t *quest);
+
+/* Updates the status to a failed quest
+ *
+ * Parameter:
+ * - quest: pointer to quest_t to be started
+ * 
+ * Returns:
+ * - SUCCESS 
+ * - FAILURE
+ */
+int fail_quest(quest_t *quest);
+
+/* Completes an achievement in a quest by checking if the item and npc matches
+ * 
+ * Paramter:
+ * - quest: pointer to the quest
+ * - item_collected: the item that has been collected
+ * - npc_met: the npc that was met
+ *
+ * Returns:
+ * - SUCCESS
+ * - FAILURE
+ */
+int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met);
+
+/* Checks if the quest is completed
+ * 
+ * Paramter:
+ * - pointer to the quest
+ *
+ * Returns:
+ * 0 if quest is incomplete, 1 if it is complete
+ */
+int is_quest_completed(quest_t *quest);
+
+/* Checks the status of a quest
+ *
+ * Parameter:
+ * - quest: pointer to quest_t
+ * 
+ * Returns: status code for various status in the quest:
+ * -1: failed quest
+ * 0: quest has not been started
+ * 1: quest has been started but not completed
+ * 2: quest has been completed
+ */
+int get_quest_status(quest_t *quest);
+
+/* Rewards the prize to the player once the quest has been completed
+ * This also checks for completion, and does nothing if not completed
+ *
+ * Parameter:
+ * - quest: pointer to quest_t
+ * 
+ * Returns:
+ * - item_t: an item (possible to be added into the inventory of the player)
+ *           If the quest is not completed the function will return a null pointer
+ * 
+ * Note:
+ * The status of the quest should first be checked before this function is called
+ */
+item_t *complete_quest(quest_t *quest);
+
 
 #endif
