@@ -10,23 +10,7 @@
 #include "control_block.h"
 #include "game-state/game.h"
 #include "common/uthash.h"
-
-/* 
- * A custom action struct. Holds the contexts for each action
- * (action, context, item, and type) along with a pointer to the
- * first block (AST_block_t) in the action sequence.
- * 
- * Placeholder for testing. Actual struct in custom_action.h.
- */
-typedef struct custom_action
-{
-    char *action_name;
-    char *context;
-    char *item;
-    char *type;
-    AST_block_t *head;
-    UT_hash_handle hh;
-} custom_action_t;
+#include "custom_action.h"
 
 /* 
  * Search for a custom action by name
