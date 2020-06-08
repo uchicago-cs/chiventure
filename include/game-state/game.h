@@ -5,6 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
+#include "condition.h"
 #include "game_action.h"
 #include "stats.h"
 
@@ -12,6 +13,12 @@
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
 #define ITER_ALL_PLAYERS(game, curr_player) player_t *ITTMP_PLAYER; \
 HASH_ITER(hh, (game)->all_players, (curr_player), ITTMP_PLAYER)
+
+// Forward declaration
+typedef struct stats_global stats_global_t;
+typedef struct stats_global stats_global_hash_t;
+typedef struct effects_global effects_global_t;
+typedef struct effects_global effects_global_hash_t;
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
@@ -38,7 +45,7 @@ typedef struct game {
     room_t *final_room;
     
     /* list of end conditions that, when all are met, ends the game */
-    action_condition_list_t *end_conditions;
+    condition_list_t *end_conditions;
 
     /* pointer to current player struct */
     player_t *curr_player;
@@ -160,7 +167,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room);
  * Returns: 
  *  SUCCESS if successful, FAILURE if failed
  */ 
-int add_end_condition_to_game(game_t *game, game_action_condition_t *end_condition);
+int add_end_condition_to_game(game_t *game, condition_t *end_condition);
 
 /* Adds a global effect to the given game
  * 
@@ -318,25 +325,22 @@ item_list_t *get_all_items_in_game(game_t *game);
 int add_effect(game_t *game, char* action_name, char* item_src_name,
            char* item_modify_name, char* attribute_name, attribute_value_t new_value);
 
-/* add_condition creates a game_action_condition_t struct and adds it to the action pointed to
+/* add_condition adds the given condition struct to the action pointed to
  * Parameters:
  * - game_t *game
- * - action name
- * - item ID of the item containing the action
- * - item ID of the item to be modified by the action
- * - the name of attribute to be checked
- * - the desired attribute value for the attribute
+ * - game_action_t *action
+ * - the condition to add to the action
  *
  * Returns:
  * - SUCCESS upon success
  * - FAILURE if add_action_condition fails
- * - ITEM_SRC_NULL if item src is null
- * - ITEM_MODIFY_NULL if item to modify is null
+ * - ITEM_MODIFY_NULL if item is null
  * - ACTION_NULL if action is null
  * - ATTRIBUTE_NULL if attribute is null
+ * - PLAYER_NULL if player is null
+ * - CONDITION_NULL if condition is null
  */
-int add_condition(game_t *game, char *action_name, char *item_src_name,
-          char *item_modify_name, char *attribute_name, attribute_value_t new_value);
+int add_condition(game_t *game, game_action_t *action, condition_t *condition);
 
 #endif
 
