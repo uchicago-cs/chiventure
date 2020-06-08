@@ -133,6 +133,7 @@ Test(battle_print, print_player_move)
     move->damage = 60;
     move->info = "Punch";
     b->player->moves = move;
+    b->enemy->stats->hp = 21;
 
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
@@ -140,7 +141,7 @@ Test(battle_print, print_player_move)
     char *expected_string = "You used Punch! It did 9 damage.\n"
                             "-- Your HP: 50\n"
                             "ENEMY HP\n"
-                            "-- Bob's HP: 30\n";
+                            "-- Bob's HP: 21\n";
 
     cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string");
 
@@ -177,14 +178,13 @@ Test(battle_print, print_enemy_move)
     move->damage = 99;
     move->info = "Laugh";
     b->player->moves = move;
-
+    b->player->stats->hp = 42;
     char* string = print_battle_move(b, ENEMY, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    printf("%s", string);
-    char *expected_string = "Bob used Laugh! It did 99 damage.\n"
-                            "-- Your HP: 1\n"
+    char *expected_string = "Bob used Laugh! It did 8 damage.\n"
+                            "-- Your HP: 42\n"
                             "ENEMY HP\n"
-                            "-- Bob's HP: 100\n";
+                            "-- Bob's HP: 30\n";
 
     cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string");
 
