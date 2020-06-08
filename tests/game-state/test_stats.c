@@ -384,16 +384,45 @@ Test(stats, change_stat) {
     s1.val = 50;
     s1.max = 75;
     s1.modifier = 1.1;
+
+    stats_global_t g2;
+    g2.name = "charisma";
+    g2.max = 200;
+    stats_t s2;
+    s2.key = "charisma";
+    s2.global = &g2;
+    s2.val = 75;
+    s2.max = 130;
+    s2.modifier = 1;
+
     int rc1 = add_stat_player(&sh, &s1);
     cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
+    int rc2 = add_stat_player(&sh, &s2);
     stats_t* curr; 
     HASH_FIND(hh, sh, "health", strlen("health"), curr);
     cr_assert_eq(curr->val, 50,
         "change_stat base value not equal initially");
 
+
     change_stat(sh, "health", 10);
     cr_assert_eq(curr->val, 60,
        "change_stat failed to return success");
+    change_stat(sh, "health", 20);
+    cr_assert_eq(curr->val, 75,
+        "change_stat local max failed");
+    // change_stat(sh, "health", 30);
+
+    HASH_FIND(hh, sh, "charisma", strlen("charisma"), curr);
+    cr_assert_eq(curr->val, 75,
+        "change_stat base value not equal initially");
+
+
+    change_stat(sh, "charisma", 10);
+    cr_assert_eq(curr->val, 85,
+       "change_stat failed to return success");
+    change_stat(sh, "charisma", 60);
+    cr_assert_eq(curr->val, 130,
+        "change_stat local max failed");
 }
 
 
