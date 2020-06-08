@@ -254,79 +254,79 @@ Test(skilltree_tests, skill_tree_has_node_has_not)
   cr_assert_eq(ret, -1, "Error: failed test skill_tree_has_node_has_not\n");
 }
 
-/* Tests get_all_skill_prereqs on a valid case. */
-Test(skilltree_tests, get_all_skill_prereqs_safe)
-{
-  skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, effect_defuse_bomb);
-  skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-      3, 6, effect_chop_tree);
-  skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
-      4, 7, effect_inner_peace);
-  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-  skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
-  skill_node_t* inner_node = skill_node_new(skill3, 2, 77);
-
-  node_prereq_add(inner_node, bomb_node);
-  node_prereq_add(inner_node, chop_node);
-
-  skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
-  skill_tree_node_add(tree, bomb_node);
-  skill_tree_node_add(tree, chop_node);
-  skill_tree_node_add(tree, inner_node);
-  int* out = malloc(sizeof(int));
-
-
-  skill_node_t** ret = get_all_skill_prereqs(tree, 1002, out);
-  cr_assert_eq(ret, inner_node->prereqs,
-    "Error: failed test get_all_skill_prereqs_safe\n");
-}
-
-/* Tests get_all_skill_prereqs for empty prereq list. */
-Test(skilltree_tests, get_all_skill_prereqs_empty)
-{
-    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, effect_defuse_bomb);
-    skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
-        3, 6, effect_chop_tree);
-    skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
-        4, 7, effect_inner_peace);
-    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-    skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
-    skill_node_t* inner_node = skill_node_new(skill3, 0, 77);
-    skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
-    skill_tree_node_add(tree, bomb_node);
-    skill_tree_node_add(tree, chop_node);
-    skill_tree_node_add(tree, inner_node);
-    int* out = malloc(sizeof(int));
-
-    skill_node_t** ret = get_all_skill_prereqs(tree, 1002, out);
-    cr_assert_null(ret,
-      "Error: failed test get_all_skill_prereqs_empty\n");
-    cr_assert_eq(*out, 0,
-      "Error: failed test get_all_skill_prereqs_empty\n");
-}
-
-/* Tests get_acquired_skill_prereqs with no prereqs. */
-Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs)
-{
-    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, effect_defuse_bomb);
-    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
-
-    skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
-    skill_tree_node_add(tree, bomb_node);
-
-    int* out = malloc(sizeof(int));
-
-    skill_inventory_t* inventory = inventory_new(3,4);
-    inventory_skill_add(inventory, skill1);
-
-    get_acquired_skill_prereqs(tree, inventory, 1000, out);
-
-    cr_assert_eq(*out, 0,
-      "Error: failed test get_acquired_skill_prereqs_no_prereqs\n");
-}
+// /* Tests get_all_skill_prereqs on a valid case. */
+// Test(skilltree_tests, get_all_skill_prereqs_safe)
+// {
+//   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//       2, 5, effect_defuse_bomb);
+//   skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+//       3, 6, effect_chop_tree);
+//   skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
+//       4, 7, effect_inner_peace);
+//   skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+//   skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+//   skill_node_t* inner_node = skill_node_new(skill3, 2, 77);
+//
+//   node_prereq_add(inner_node, bomb_node);
+//   node_prereq_add(inner_node, chop_node);
+//
+//   skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
+//   skill_tree_node_add(tree, bomb_node);
+//   skill_tree_node_add(tree, chop_node);
+//   skill_tree_node_add(tree, inner_node);
+//   int* out = malloc(sizeof(int));
+//
+//
+//   skill_node_t** ret = get_all_skill_prereqs(tree, 1002, out);
+//   cr_assert_eq(ret, inner_node->prereqs,
+//     "Error: failed test get_all_skill_prereqs_safe\n");
+// }
+// 
+// /* Tests get_all_skill_prereqs for empty prereq list. */
+// Test(skilltree_tests, get_all_skill_prereqs_empty)
+// {
+//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//         2, 5, effect_defuse_bomb);
+//     skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+//         3, 6, effect_chop_tree);
+//     skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
+//         4, 7, effect_inner_peace);
+//     skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+//     skill_node_t* chop_node = skill_node_new(skill2, 0, 76);
+//     skill_node_t* inner_node = skill_node_new(skill3, 0, 77);
+//     skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
+//     skill_tree_node_add(tree, bomb_node);
+//     skill_tree_node_add(tree, chop_node);
+//     skill_tree_node_add(tree, inner_node);
+//     int* out = malloc(sizeof(int));
+//
+//     skill_node_t** ret = get_all_skill_prereqs(tree, 1002, out);
+//     cr_assert_null(ret,
+//       "Error: failed test get_all_skill_prereqs_empty\n");
+//     cr_assert_eq(*out, 0,
+//       "Error: failed test get_all_skill_prereqs_empty\n");
+// }
+//
+// /* Tests get_acquired_skill_prereqs with no prereqs. */
+// Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs)
+// {
+//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//         2, 5, effect_defuse_bomb);
+//     skill_node_t* bomb_node = skill_node_new(skill1, 0, 75);
+//
+//     skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
+//     skill_tree_node_add(tree, bomb_node);
+//
+//     int* out = malloc(sizeof(int));
+//
+//     skill_inventory_t* inventory = inventory_new(3,4);
+//     inventory_skill_add(inventory, skill1);
+//
+//     get_acquired_skill_prereqs(tree, inventory, 1000, out);
+//
+//     cr_assert_eq(*out, 0,
+//       "Error: failed test get_acquired_skill_prereqs_no_prereqs\n");
+// }
 //
 // /* Tests get_acquired_skill_prereqs on a valid case. */
 // Test(skilltree_tests, get_acquired_skill_prereqs_safe)
