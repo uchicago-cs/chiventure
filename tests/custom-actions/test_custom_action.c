@@ -21,10 +21,9 @@ Test(custom_action_t, new_CONTROL)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
 
     custom_action_t *new_action = custom_action_new(action_name, context, item, 
-                                                    type, head, hh);
+                                                    type, head);
 
     cr_assert_not_null(new_action, "custom_action_new failed");
 
@@ -55,10 +54,9 @@ Test(custom_action_t, new_BRANCH)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
 
     custom_action_t *new_action = custom_action_new(action_name, context, item, 
-                                                    type, head, hh);
+                                                    type, head);
 
     cr_assert_not_null(new_action, "custom_action_new failed");
 
@@ -89,10 +87,9 @@ Test(custom_action_t, new_CONDITIONAL)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
 
     custom_action_t *new_action = custom_action_new(action_name, context, item, 
-                                                    type, head, hh);
+                                                    type, head);
 
     cr_assert_not_null(new_action, "custom_action_new failed");
 
@@ -123,10 +120,9 @@ Test(custom_action_t, new_ACTION)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
 
     custom_action_t *new_action = custom_action_new(action_name, context, item, 
-                                                    type, head, hh);
+                                                    type, head);
 
     cr_assert_not_null(new_action, "custom_action_new failed");
 
@@ -157,11 +153,10 @@ Test(custom_action_t, init_CONTROL)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
     int rc;
     custom_action_t action;
 
-    rc = custom_action_init(&action, action_name, context, item, type, head, hh);
+    rc = custom_action_init(&action, action_name, context, item, type, head);
 
     cr_assert_eq(rc, SUCCESS, "custom_action_init() failed");
     cr_assert_eq(action.action_name, action_name, "custom_action_init() didn't "
@@ -186,11 +181,10 @@ Test(custom_action_t, init_BRANCH)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
     int rc;
     custom_action_t action;
     
-    rc = custom_action_init(&action, action_name, context, item, type, head, hh);
+    rc = custom_action_init(&action, action_name, context, item, type, head);
     
     cr_assert_eq(rc, SUCCESS, "custom_action_init() failed");
     cr_assert_eq(action.action_name, action_name, "custom_action_init() didn't "
@@ -215,11 +209,10 @@ Test(custom_action_t, init_CONDITIONAL)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
     int rc;
     custom_action_t action;
     
-    rc = custom_action_init(&action, action_name, context, item, type, head, hh);
+    rc = custom_action_init(&action, action_name, context, item, type, head);
     
     cr_assert_eq(rc, SUCCESS, "custom_action_init() failed");
     cr_assert_eq(action.action_name, action_name, "custom_action_init() didn't "
@@ -244,11 +237,10 @@ Test(custom_action_t, init_ACTION)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
     int rc;
     custom_action_t action;
     
-    rc = custom_action_init(&action, action_name, context, item, type, head, hh);
+    rc = custom_action_init(&action, action_name, context, item, type, head);
     
     cr_assert_eq(rc, SUCCESS, "custom_action_init() failed");
     cr_assert_eq(action.action_name, action_name, "custom_action_init() didn't "
@@ -273,10 +265,9 @@ Test(custom_action_t, free_CONTROL)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
     int rc;
 
-    custom_action_t *action = custom_action_new(action_name, context, item, type, head, hh);
+    custom_action_t *action = custom_action_new(action_name, context, item, type, head);
 
     cr_assert_not_null(action, "custom_action_new() failed");
     
@@ -298,10 +289,9 @@ Test(custom_action_t, free_BRANCH)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
     int rc;
 
-    custom_action_t *action = custom_action_new(action_name, context, item, type, head, hh);
+    custom_action_t *action = custom_action_new(action_name, context, item, type, head);
 
     cr_assert_not_null(action, "custom_action_new() failed");
     
@@ -323,10 +313,9 @@ Test(custom_action_t, free_CONDITIONAL)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
     int rc;
 
-    custom_action_t *action = custom_action_new(action_name, context, item, type, head, hh);
+    custom_action_t *action = custom_action_new(action_name, context, item, type, head);
 
     cr_assert_not_null(action, "custom_action_new() failed");
     
@@ -348,10 +337,9 @@ Test(custom_action_t, free_ACTION)
     char *context = "item";
     char *item = "obj_CHAIR";
     char *type = "paladin";
-    UT_hash_handle hh = hh;
     int rc;
 
-    custom_action_t *action = custom_action_new(action_name, context, item, type, head, hh);
+    custom_action_t *action = custom_action_new(action_name, context, item, type, head);
 
     cr_assert_not_null(action, "custom_action_new() failed");
     
