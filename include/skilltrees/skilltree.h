@@ -5,7 +5,7 @@
 #ifndef INCLUDE_SKILLTREE_H_
 #define INCLUDE_SKILLTREE_H_
 
-#include "skilltrees/stdst.h"
+#include "skilltrees/skilltrees_common.h"
 #include "skilltrees/skill.h"
 #include "skilltrees/inventory.h"
 
@@ -227,7 +227,7 @@ skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
  *    parameter `num_acquired_prereqs` is updated to 0 when there are no acquired
  *    prerequisites, and is updated to -1 if an error has occurred
  */
-skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
+skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
                                      skill_inventory_t* inventory, sid_t sid,
                                      int* num_acquired_prereqs);
 
@@ -237,7 +237,7 @@ skill_node_t** get_acquired_skill_prereqs(skill_tree_t* tree,
  * Parameters:
  *  - tree: A skill tree
  *  - inventory: A player's skill inventory
- *  - sid: A skill ID
+ *  - sid: The ID of the skill we want to check for prerequisites.
  *  - num_acquired_prereqs: An out-parameter. The number of missing prerequisite skills in
  *              the list
  *
