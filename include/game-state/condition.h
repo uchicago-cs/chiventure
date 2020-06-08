@@ -5,7 +5,7 @@
 #include "player.h"
 #include "item.h"
 
-/* Forward declaration. Full typedef can be found in game.c */
+/* Forward declaration. Full typedef can be found in game.h */
  typedef struct game game_t;
 
 
