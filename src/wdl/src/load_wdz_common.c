@@ -216,7 +216,7 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
             add_attribute(&(game_obj->attrs), attr_name, make_data_from_j_value(j_value));
         }
     }
-    return NULL;
+    return game_obj;
 }
 
 
