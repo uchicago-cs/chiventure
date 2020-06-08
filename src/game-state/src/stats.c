@@ -140,11 +140,13 @@ char* display_stats(stats_hash_t *s)
     int size = MIN_STRING_LENGTH + (MAX_NAME_LENGTH * HASH_COUNT(s));
     char list[size];
     char *line;
+    double stat_val;
 
     HASH_ITER(hh, s, stat, tmp)
     {
-        sprintf(line, "%s [%d / %d]\n", stat->key, 
-                get_stat_current(stat), stat->max);
+        stat_val = stat->val * stat->modifier;
+        sprintf(line, "%s [%f / %f]\n", stat->key, 
+                stat_val, stat->max);
         strcat(list, line);
     }
 
@@ -237,7 +239,7 @@ char *display_stat_effects(effects_hash_t *hash)
         strcat(list, line);
         LL_FOREACH(effect->stat_list, mod)
         {
-            sprintf(line, "\t[ %s ] modifier: %d, duration: %d\n", 
+            sprintf(line, "\t[ %s ] modifier: %f, duration: %d\n", 
                     mod->stat->key, mod->modifier, mod->duration);
             strcat(list, line);
         }
