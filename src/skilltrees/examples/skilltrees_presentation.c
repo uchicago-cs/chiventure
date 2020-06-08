@@ -167,6 +167,29 @@ char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     return skill_execute(design_skill, "");
 }
 
+/* See inventory.h */
+void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory) {
+    assert(inventory != NULL);
+
+    if (!inventory->num_active) {
+        print_to_cli(ctx, "You have no active skills.");
+    } else {
+        for (unsigned int i = 0; i < inventory->num_active; i++) {
+            print_to_cli(ctx, inventory->active[i]->name);
+        }
+    }
+
+    print_to_cli(ctx, "-");
+
+    if (!inventory->num_passive) {
+        print_to_cli(ctx, "You have no passive skills.");
+    } else {
+        for (unsigned int i = 0; i < inventory->num_passive; i++) {
+            print_to_cli(ctx, inventory->passive[i]->name);
+        }
+    }
+}
+
 /* CLI operation to list all skills in inventory */
 char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     current_skills_as_strings(ctx, inventory);
