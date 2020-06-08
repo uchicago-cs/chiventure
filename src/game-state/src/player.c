@@ -158,3 +158,15 @@ item_list_t *get_all_items_in_inventory(player_t *player)
     
     return head;
 }
+
+/* See player.h */
+bool item_in_inventory(player_t *player, item_t *item)
+{
+    item_t *check;
+    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
+              check);
+    if(check != NULL){
+        return true;
+    }
+    return false;
+}
