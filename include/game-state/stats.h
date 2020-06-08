@@ -45,8 +45,8 @@ typedef struct effects_global effects_global_hash_t;
  *
  *      the base value of the stat, 
  *      whose final value will be multiplied by the modifier
- * 
- *      the max value of the stat for the player (should not exceed global max)
+ *      note that the base value should not exceed max value and 
+ *      the base val * modifier should not exceed global max
  * 
  *      cumulative modifiers from effects, set to 1 by default
  * */
@@ -118,7 +118,7 @@ int stats_global_init(stats_global_t *s, char *name, double max);
 
 
 /*
- * Initializes a Stat with specified value and modifier 0
+ * Initializes a Stat with specified value and modifier 1
  *
  * Parameters:
  *  s: A stats struct Must point to already allocated memory.
@@ -230,17 +230,33 @@ stat_effect_t *stat_effect_new(effects_global_t *global);
 
 /*
  * Changes the base value of a stat by the
- * specified double amount through addition
+ * specified double amount through addition.
  *
  * Parameters:
  *  sh: the hash table of stats 
  *  stat: the name/key of the stat
- *  change: the value to add to the stat
+ *  change: the value to add to the stat. 
+ *  If the value is greater than the local 
+ *  max, the value is set to the local max. 
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int change_stat(stats_hash_t *sh, char *stat, double change);
+
+/*
+ * Changes the max value of a stat by the
+ * specified double amount through addition
+ *
+ * Parameters:
+ *  sh: the hash table of stats 
+ *  stat: the name/key of the stat
+ *  change: the value to add to the stats max
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int change_stat_max(stats_hash_t *sh, char *stat, double change);
 
 /*
  * function that gets double value of a specified
@@ -251,7 +267,9 @@ int change_stat(stats_hash_t *sh, char *stat, double change);
  *  stat: the name of the stat
  *
  * Returns:
- *  double value of a players stat
+ *  double value of a players stat. If 
+ *  the value is greater than the global 
+ *  max, the value is the global max. 
  */
 double get_stat_current(stats_hash_t *sh, char *stat);
 
@@ -295,7 +313,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat);
 int add_stat(stats_hash_t **sh, stats_t *s);
 
 /*
- * Print a list of the stats in a hashtable
+ * Print a list of the stats in a hashtable and their current values
  *
  * Parameters: 
  * sh: pointer to the stats hash table to be printed
@@ -354,6 +372,19 @@ int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int free_stats(stats_t *stat);
+
+
+/*
+ * Print a list of the effects in a hashtable along with the stats
+ * and the modifiers and durations for the effect on the stat
+ *
+ * Parameters: 
+ * hash: pointer to the effects hash table to be printed
+ * 
+ * Returns:
+ *  string to be printed
+ */
+ char *display_stat_effects(effects_hash_t *hash);
 
 
 /*
