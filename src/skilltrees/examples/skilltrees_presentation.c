@@ -120,7 +120,7 @@ void implementation_level_up(chiventure_ctx_t* ctx) {
                           "NORTH");
         create_connection(ctx->game, "Demo Room", "Implementation Room",
                           "SOUTH");
-        //inventory_skill_acquire(inventory, test_skill);
+        inventory_skill_acquire(inventory, test_skill);
     }
 }
 
@@ -139,7 +139,7 @@ void test_level_up(chiventure_ctx_t* ctx) {
                    "complete, begin implementation!", "Test at least once "
                    "before considering implementation!");
         add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
-        //inventory_skill_acquire(inventory, implementation_skill);
+        inventory_skill_acquire(inventory, implementation_skill);
     }
 }
 
@@ -158,7 +158,7 @@ void design_level_up(chiventure_ctx_t* ctx) {
         create_connection(ctx->game, "Implementation Room", "Design Room",
                           "SOUTH");
         add_entry("TEST", test_operation, NULL, ctx->table);
-        //inventory_skill_acquire(inventory, test_skill);
+        inventory_skill_acquire(inventory, test_skill);
     }
 }
 
@@ -183,7 +183,7 @@ int main(int argc, char **argv) {
 
     // Initialize inventory
     inventory = inventory_new(10, 0);
-    // inventory_skill_acquire(skill_tree, inventory, design_skill);
+    inventory_skill_acquire(skill_tree, inventory, design_skill);
 
     // Initialize skill nodes
     skill_node_t* design_node = skill_node_new(design_skill, 0, 0);
