@@ -22,9 +22,9 @@ typedef enum action_type {
     GEN, 
     
     // To be implemented:
-    // EXEC,
-    // SAY,
-    // MOVE,
+    EXEC,
+    SAY,
+    MOVE,
 } action_enum_t;
 
 /* A block that holds an action, as well as corresponding attributes and actions */
