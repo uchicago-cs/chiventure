@@ -58,7 +58,7 @@ Test(Interface,bad_branch_custom_action) {
     AST_block_t* ast = malloc(sizeof(ast));
     ast->block = block;
     ast->block_type = BRANCH;
-    ast->previous = NULL;
+    ast->prev= NULL;
     ast->next = NULL;
     custom_action_t* ca = custom_action_new("act_PUSH","item","obj_CHAIR","paladin",ast,hh);
 
