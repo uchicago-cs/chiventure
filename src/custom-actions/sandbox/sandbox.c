@@ -1,8 +1,9 @@
 // A developer tool for creating and testing custom actions 
 // without the need to run the whole game.
 
-#include "custom-actions/custom_actions_common.h"
-#include "custom-actions/interface.h"
+#include "custom_actions_common.h"
+#include "interface.h"
+#include "custom_action.h"
 
 #include "game-state/game_state_common.h"
 #include "game-state/player.h"

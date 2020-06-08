@@ -9,9 +9,6 @@
 #include <stdio.h>
 #include "game-state/item.h"
 
-/* Forward declaration */
-typedef struct AST_block AST_block_t;
-
 /* An enumeration type for an action block */
 typedef enum action_type {
     SET,
@@ -85,3 +82,4 @@ int action_block_init(action_block_t *action, action_enum_t action_type, int num
 int action_block_free(action_block_t *action);  
 
 #endif /* INCLUDE_ACTION_BLOCK_H */
+
