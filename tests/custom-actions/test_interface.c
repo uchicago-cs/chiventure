@@ -21,8 +21,8 @@ Test(custom_action_t, find_existing)
     char *item1 = "obj_SPINACH";
     char *type1 = "mage";
 
-    custom_action_t *new_action1 = custom_action_new(action_name1, context1, item1,
-                                                     type1, head1);
+    custom_action_t *new_action1 = custom_action_new(action_name1, context1,
+                                                     item1, type1, head1);
 
     cr_assert_not_null(new_action1, "custom_action_new failed");
 
@@ -65,8 +65,8 @@ Test(custom_action_t, find_multiple)
     char *context1 = "chair";
     char *item1 = "obj_SPINACH";
     char *type1 = "wizard";
-    custom_action_t *new_action1 = custom_action_new(action_name1, context1, item1,
-                                                     type1, head1);
+    custom_action_t *new_action1 = custom_action_new(action_name1, context1,
+                                                     item1, type1, head1);
     cr_assert_not_null(new_action1, "custom_action_new failed");
 
     block_t *block2 = malloc(sizeof(block_t));
@@ -76,8 +76,8 @@ Test(custom_action_t, find_multiple)
     char *context2 = "chair";
     char *item2 = "obj_SPADE";
     char *type2 = "druid";
-    custom_action_t *new_action2 = custom_action_new(action_name2, context2, item2,
-                                                     type2, head2);
+    custom_action_t *new_action2 = custom_action_new(action_name2, context2,
+                                                     item2, type2, head2);
     cr_assert_not_null(new_action2, "custom_action_new failed");
 
     block_t *block3 = malloc(sizeof(block_t));
@@ -87,8 +87,8 @@ Test(custom_action_t, find_multiple)
     char *context3 = "soil";
     char *item3 = "obj_ORANGE_SEED";
     char *type3 = "ranger";
-    custom_action_t *new_action3 = custom_action_new(action_name3, context3, item3,
-                                                     type3, head3);
+    custom_action_t *new_action3 = custom_action_new(action_name3, context3,
+                                                     item3, type3, head3);
     cr_assert_not_null(new_action3, "custom_action_new failed");
 
     // adds all 3 custom actions to the game
