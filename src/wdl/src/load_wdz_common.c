@@ -5,21 +5,12 @@
 
 #include "wdl/load_wdz_internal.h"
 
-#include "wdl/wdl_common.h" // to get obj_t
 
-
-obj_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
+object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
 {
-    // dummy function for now.
-    // Waiting on new obj_t implementation before we can write this conversion! 
+    // Not implemented yet. This is in progress inside branch wdl/parsing-wdz-namanh
+    // and will hopefully get resolved.
     return NULL;
-}
-
-
-int add_objstore(objstore_t *obj_store, obj_t *game_obj)
-{
-    // dummy function for now.
-    return FAILURE;
 }
 
 
@@ -41,12 +32,6 @@ int load_game_objects_from_json_object
     json_object *j_obj
 )
 {
-    // // Commenting this out because we don't have an objstore right now
-    // // so this is always NULL.
-    // if (!obj_store)
-    // {
-    //     return FAILURE;
-    // }
     if (!j_obj)
     {
         return FAILURE;
@@ -60,12 +45,12 @@ int load_game_objects_from_json_object
             for (int i = 0; i < n_objects; i++) // for each json_object in the array
             {
                 json_object *j_game_obj = json_object_array_get_idx(j_value, i);
-                obj_t *game_obj = convert_j_obj_to_game_obj(j_game_obj, j_name);
+                object_t *game_obj = convert_j_obj_to_game_obj(j_game_obj, j_name);
                 if (!game_obj) 
                 {
                     return FAILURE;
                 }
-                add_objstore(obj_store, game_obj);
+                add_objstore(&obj_store, game_obj);
             }
             return SUCCESS;
         }
@@ -76,12 +61,12 @@ int load_game_objects_from_json_object
             printf("Found player object.\n");
             json_object *j_player_obj; 
             json_object_object_get_ex(j_value, j_name, &j_player_obj);
-            obj_t *player = convert_j_obj_to_game_obj(j_player_obj, j_name);
+            object_t *player = convert_j_obj_to_game_obj(j_player_obj, j_name);
             if (!player)
             {
                 return FAILURE;
             }
-            add_objstore(obj_store, player);
+            add_objstore(&obj_store, player);
             return SUCCESS;
         }
         else 

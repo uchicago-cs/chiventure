@@ -59,7 +59,7 @@ struct json_object *get_json_obj_from_zip_file_entry
     }    
 
     // buf now contains the raw JSON. Use parser to convert into json obj.
-    // print for debug
+    // print out behind the main chiventure executable for debug and demo.
     printf("%s\n", (char *)buf);
     struct json_object *result = json_tokener_parse((char *)buf);
 
