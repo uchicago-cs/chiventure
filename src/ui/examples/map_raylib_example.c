@@ -73,7 +73,7 @@ int main(void)
             radius = 15;
 
             DrawRectangle(screenWidth/4*2 - 90, 170, roomWidth, roomHeight, RED);
-            DrawCircle(centerXPos, centerYPos, radius, DARKBLUE);
+            DrawCircle(centerXPos, centerYPos, radius, LIGHTGRAY);
         }
 
         /*starting at a room, draw a room that either exists near it in any direction */
