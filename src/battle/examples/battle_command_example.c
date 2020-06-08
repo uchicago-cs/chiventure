@@ -77,6 +77,10 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             action_string = print_battle_move(ctx->game->battle,
                                               PLAYER, player_move);
             printf("%s\n", action_string);
+            if(ctx->game->battle->enemy->stats->hp <= 0)
+            {
+                return SUCCESS;
+            }
             move_t *enemy_move = give_move(ctx->game->battle->player,
                                            ctx->game->battle->enemy,
                                            ctx->game->battle->enemy->ai);
@@ -88,6 +92,10 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             action_string = print_battle_move(ctx->game->battle,
                                               PLAYER, player_move);
             printf("%s\n", action_string);
+            if (ctx->game->battle->player->stats->hp <= 0)
+            {
+                return SUCCESS;
+            }
             move_t *enemy_move = give_move(ctx->game->battle->player,
                                            ctx->game->battle->enemy,
                                            ctx->game->battle->enemy->ai);
@@ -182,7 +190,6 @@ int main()
     int res;
     while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     {
-        printf("Turn %d:\n", turn);
         printf("What will you do?\n");
         // Get the input
         printf("> ");
@@ -198,10 +205,8 @@ int main()
             continue;
         }
         // otherwise, handle input
-        printf("\n");
         res = read_move(args, ctx);
         printf("read move returned: %d\n", res);
-        turn++;
     }
     battle_status_t winner = battle_over(ctx->game->battle);
 
