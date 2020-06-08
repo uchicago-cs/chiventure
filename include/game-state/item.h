@@ -3,6 +3,7 @@
 
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
+#include "game-state/stats.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_list_t *ITTMP_ITEMRM; \
 LL_FOREACH_SAFE(get_all_items_in_hash(&((room)->items)), (curr_item), ITTMP_ITEMRM)
@@ -28,6 +29,7 @@ typedef struct item {
     char *long_desc;
     game_action_hash_t *actions;
     attribute_hash_t *attributes; // a hashtable for all attributes
+    effects_hash_t *stat_effects; // hashtable of effects item can have (set to NULL if no effects)
     struct item *next; // points to item w/ identical id, if it exists
 } item_t;
 
@@ -127,6 +129,17 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht);
  *  SUCCESS if successful, FAILURE if failed
  */ 
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
+
+/* Adds a stat effect to an item
+ * 
+ * Parameters:
+ *  pointer to an item
+ *  effect to add to item
+ * 
+ * Return:
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+ int add_effect_to_item(item_t *item, stat_effect_t *effect);
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management

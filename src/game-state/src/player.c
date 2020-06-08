@@ -117,7 +117,23 @@ item_hash_t* get_inventory(player_t* plyr)
 int add_item_to_player(player_t *player, item_t *item)
 {
     int rc;
-    
+
+    if (item->stat_effects != NULL) {
+        stat_effect_t *current, *tmp, *e;
+        stat_mod_t *elt, *search;
+        stats_t *s;
+        HASH_ITER(hh, item->stat_effects, current, tmp) {
+            LL_FOREACH(current->stat_list, elt) {
+                HASH_FIND(hh, player->player_class->stats, elt->stat->key, 
+                          strlen(elt->stat->key), s);
+                if (s != NULL) {
+                    apply_effect(&player->player_class->effects, current, &s,
+                                 &elt->modifier, &elt->duration, 1);
+                }
+            }
+        }
+    }
+
     rc = add_item_to_hash(&(player->inventory), item);
     
     return rc;
