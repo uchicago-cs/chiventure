@@ -308,11 +308,7 @@ int load_game_objects_from_json_object
         {
             // The only file with an object-type value as top-level
             // is players.json. Other special cases can go here, but unlikely.
-            json_object *test_string_inplayer;
-            json_object_object_get_ex(j_value, "start_room", &test_string_inplayer);
-            puts(json_object_get_string(test_string_inplayer));
             object_t *player = convert_j_obj_to_game_obj(j_value, j_name);
-            printf("Trying to convert player obj, name %s. Player is %p\n", j_name, (void*)player);
             
             if (!player)
             {

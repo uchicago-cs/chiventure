@@ -6,7 +6,6 @@
 #define INCLUDE_ATTRIBUTES_H
 #define MAXLEN_ID 60 // ID strings for objects
 
-//typedef struct object_t object_t; // forward declaration so attribute_t can use
 
 /*
  * attribute_t: the attributes stored within an object
