@@ -110,6 +110,28 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
 }
 
 /* See stats.h */
+int stat_mod_init(stat_mod_t *mod, stats_t *stat, double modifier, int duration) {
+    assert(mod != NULL);
+    mod->stat = stat;
+    mod->modifier = modifier;
+    mod->duration = duration;
+    return SUCCESS;
+}
+
+/* See stats.h */
+stat_mod_t *stat_mod_new(stats_t *stat, double modifier, int duration) {
+    stat_mod_t *s = malloc(sizeof(stat_mod_t));
+
+    int check = stat_mod_init(s, stat, modifier, duration);
+
+    if (check != SUCCESS || s == NULL || s->stat == NULL) {
+        return NULL;
+    }
+
+    return s;
+}
+
+/* See stats.h */
 int change_stat(stats_hash_t *sh, char *stat, double change)
 {
     printf("change_stat: function not yet implemented\n");
@@ -177,7 +199,52 @@ char* display_stats(stats_hash_t *s)
 }
 
 /* See stats.h */
-int free_stats(stats_t *stat)
+int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect) {
+    stat_effect_t *check;
+    HASH_FIND(hh, *hash, effect->key, strlen(effect->key), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //the effect already exists in the player hash table
+    }
+
+    HASH_ADD_KEYPTR(hh, *hash, effect->key, strlen(effect->key), effect);
+    return SUCCESS;
+}
+
+/* See stats.h */
+int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2) {
+    return strcmp(m1->stat->key, m2->stat->key);
+}
+
+/* See stats.h */
+int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats, 
+                 double *intensities, int *durations, int num_stats) {
+                     
+    add_stat_effect(hash, effect);
+    stat_effect_t *player_effect;
+    HASH_FIND(hh, *hash, effect->key, strlen(effect->key), player_effect);
+
+    stat_mod_t *new, *tmp;
+    for (int i = 0; i < num_stats; i++) {
+        stats[i]->modifier *= intensities[i];
+        stat_mod_t *new = stat_mod_new(stats[i], intensities[i], durations[i]);
+        LL_SEARCH(player_effect->stat_list, tmp, new, stat_mod_equal);
+        if (tmp != NULL) {
+            tmp->modifier = new->modifier;
+            tmp->duration = new->duration;
+            free_stat_mod(new);
+        } else {
+            LL_APPEND(player_effect->stat_list, new);
+        }
+    }
+
+    return SUCCESS;
+}
+
+/* See stats.h */
+int free_stats(stats_hash_t *s)
+
 {
     free(stat->key);
     free(stat);
@@ -205,6 +272,7 @@ int free_stats_table(stats_hash_t *stats_table)
 }
 
 /* See stats.h */
+
 int free_stats_global_table(stats_global_hash_t *gst)
 {
     stats_global_t *current_gs, *tmp;
@@ -216,6 +284,10 @@ int free_stats_global_table(stats_global_hash_t *gst)
     return SUCCESS;
 }
 
+
+int free_stat_mod(stat_mod_t *mod) {
+    free(mod);
+    return SUCCESS;
 
 /* See stats.h */
 int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)

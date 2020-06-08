@@ -156,6 +156,33 @@ stats_global_t* stats_global_new(char *name, double max);
 stats_t *stats_new(stats_global_t *global_stat, double init);
 
 /*
+ * Initializes a stat_mod struct
+ *
+ * Parameters:
+ *   - mod: a stat_mod struct (must already be allocated in memory)
+ *   - stat: pointer to a stats struct
+ *   - modifier: modifier for the stat
+ *   - duration: duration an effect with this stat_mod should last
+ * 
+ * Returns:
+ *   - SUCCESS on success, FAILURE if an error occurs.
+ */
+int stat_mod_init(stat_mod_t *mod, stats_t *stat, double modifier, int duration);
+
+/*
+ * Allocates a new stat_mod struct
+ *
+ * Parameters:
+ * stat: the pointer to a stat struct.
+ * modifier: modifier for the stat
+ * duration: duration an effect with this stat_mod should last
+ * 
+ * Returns:
+ *  Pointer to allocated stat_mod struct
+ */
+stat_mod_t *stat_mod_new(stats_t *stat, double modifier, int duration);
+
+/*
  * Initializes a global effect struct
  *
  * Parameters:
@@ -278,6 +305,45 @@ int add_stat(stats_hash_t **sh, stats_t *s);
  */
 char *display_stats(stats_hash_t *sh);
 
+/* Compares two stat_mod_t struct for equality
+ *
+ * Parameters: 
+ * - mod1, mod2: two stat_mod_t structs
+ *
+ * Returns:
+ * 0 when equal, nonzero value when not equal
+ */
+int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2);
+
+/*
+ * Adds an effect to an effects hash table
+ *
+ * Parameters: 
+ * hash: pointer to effects hash table
+ * effect: pointer to effect to be added
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect);
+
+/*
+ * Applies an effect on a player
+ *
+ * Parameters: 
+ * hash: pointer to a pointer for the effects hash table of player
+ * effect: pointer to effect to be applied
+ * stats: array of the player's stats to be impacted
+ * intensities: array of modifiers for each stat
+ * durations: array of durations for the effect on each stat
+ * num_stats: number of stats to be impacted
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats, 
+                 double *intensities, int *durations, int num_stats);
+
 /*
  * Frees memory associated with a stat
  *
@@ -324,6 +390,17 @@ int free_stats_table(stats_hash_t *stats_table);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int free_stats_global_table(stats_global_hash_t *gst);
+
+/*
+ * Frees a stat_mod struct
+ *
+ * Parameters: 
+ * mod: pointer to the stat_mod struct to be freed
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int free_stat_mod(stat_mod_t *mod);
 
 /*
  * Deletes a single player effects struct from a hash table,
