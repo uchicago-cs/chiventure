@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "custom_action.h"
 #include "ast_block.h"
 #include "action_block.h"
 #include "branch_block.h"
