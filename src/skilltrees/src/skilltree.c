@@ -121,7 +121,7 @@ int skill_tree_free(skill_tree_t* tree) {
 
 /* See skilltree.h */
 int skill_tree_node_add(skill_tree_t* tree, skill_node_t* node) {
-    assert(tree != NULL && node != NULL);
+    // assert(tree != NULL && node != NULL);
 
     skill_node_t** n = tree->nodes;
     if (tree->num_nodes == 0) {
