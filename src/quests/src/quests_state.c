@@ -178,7 +178,7 @@ int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
     mission_t* mission = incomplete_achievement->achievement->mission;
 
     if (((strcmp(mission->item_to_collect->item_id,item_collected->item_id)) == 0) &&
-        ((strcmp(mission->npc_to_meet->npc_id,npc_met->npc_id)) == 0))
+        ((strcmp(str_t_get(mission->npc_to_meet->npc_id),str_t_get(npc_met->npc_id))) == 0))
     {
         quest->achievement_list->achievement->completed = 1;
         return SUCCESS;

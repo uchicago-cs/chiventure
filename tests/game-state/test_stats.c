@@ -355,3 +355,71 @@ Test (stats, apply_effect)
                  "apply_effect did not set stat_mod duration");
 
 }
+
+Test(stats, change_stat) {
+    stats_hash_t *sh = NULL;
+    stats_global_t *g1 = stats_global_new("health", 100);
+    stats_t *s1 = stats_new(g1, 75);
+    
+    s1->val = 50;
+    s1->modifier = 1.1;
+
+    stats_global_t *g2 = stats_global_new("charisma", 200);
+    stats_t *s2 = stats_new(g2, 130);
+
+ 
+    s2->val = 75;
+    s2->modifier = 1;
+
+    int rc1 = add_stat(&sh, s1);
+    cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
+    int rc2 = add_stat(&sh, s2);
+    stats_t *curr; 
+    HASH_FIND(hh, sh, "health", strlen("health"), curr);
+    cr_assert_eq(curr->val, 50,
+        "change_stat base value not equal initially");
+
+    change_stat(sh, "health", 10);
+    cr_assert_eq(curr->val, 60,
+       "change_stat failed to return success");
+    change_stat(sh, "health", 20);
+    cr_assert_eq(curr->val, 75,
+        "change_stat local max failed");
+    change_stat(sh, "health", 30);
+    cr_assert_eq(curr->val, 75, 
+        "change_stat global max failed");
+    
+
+    HASH_FIND(hh, sh, "charisma", strlen("charisma"), curr);
+    cr_assert_eq(curr->val, 75,
+        "change_stat base value not equal initially");
+
+
+    change_stat(sh, "charisma", 10);
+    cr_assert_eq(curr->val, 85,
+       "change_stat failed to return success");
+    change_stat(sh, "charisma", 60);
+    cr_assert_eq(curr->val, 130,
+        "change_stat local max failed");
+    change_stat(sh, "charisma", 80);
+    cr_assert_eq(curr->val, 130, 
+        "change_stat global max failed");
+}
+
+Test(stats, get_stat_current) {
+    stats_hash_t *sh = NULL;
+    stats_global_t *g1 = stats_global_new("health", 100);
+    stats_t *s1 = stats_new(g1, 75);
+
+    s1->val = 50;
+    s1->modifier = 1.1;
+    int rc1 = add_stat(&sh, s1);
+    cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
+    int s1_value = get_stat_current(sh, s1->key);
+    cr_assert_eq(s1_value, 55, "get_stat_current failed");
+
+    s1->val = 99;
+    s1_value = get_stat_current(sh, s1->key);
+    cr_assert_eq(s1_value, 100, "get_stat_current global max failed");
+    
+}
