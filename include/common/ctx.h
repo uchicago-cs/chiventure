@@ -6,15 +6,14 @@
 #define CHIVENTURE_CHIVENTURE_H
 
 
-#include <ncurses.h>
 #include "common.h"
 #include "game-state/game.h"
-#include "ui/ui_ctx.h"
 #include "cli/cmd.h"
 
 // Forward declaration
 typedef struct ui_ctx ui_ctx_t;
 typedef struct lookup_entry lookup_t;
+typedef struct game game_t;
 
 /* A context struct encapsulating all the shared state in chiventure */
 typedef struct chiventure_ctx {
@@ -30,12 +29,14 @@ typedef struct chiventure_ctx {
  * Allocates and initializes a new chiventure context.
  *
  * Parameters:
- *  - filepath: path to yaml file to load game
+ *  - game: The game to be run in this context.
+ *          If NULL, an empty game is created that simply
+ *          warns the user they need to load a game.
  *
  * Returns:
  *  - A pointer to the context, or NULL if it cannot be allocated
  */
-chiventure_ctx_t* chiventure_ctx_new(char *filepath);
+chiventure_ctx_t* chiventure_ctx_new(game_t *game);
 
 
 /*
@@ -43,12 +44,14 @@ chiventure_ctx_t* chiventure_ctx_new(char *filepath);
  *
  * Parameters:
  *  - ctx: A chiventure context. Must already point to allocated memory
- *  - filepath: filepath to yaml file to load game
+ *  - game: The game to be run in this context.
+ *          If NULL, an empty game is created that simply
+ *          warns the user they need to load a game.
  *
  * Returns:
  *  - 0 on success, 1 if an error occurs.
  */
-int chiventure_ctx_init(chiventure_ctx_t *ctx, char *filepath);
+int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game);
 
 
 /*

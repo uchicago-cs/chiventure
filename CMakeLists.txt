@@ -7,12 +7,22 @@ set(CMAKE_BUILD_TYPE Debug)
 
 find_package(Protobuf-c REQUIRED)
 find_package(LibYAML REQUIRED)
+find_package(JSON-C REQUIRED)
+find_package(LibZIP REQUIRED)
 
 set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
-find_package(Lua 5.3 REQUIRED) 
+find_package(Lua 5.3 REQUIRED)
+set(Lua_INCLUDE_DIRS ${Lua_SOURCE_DIR} ${LUA_INCLUDE_DIR})
+add_definitions(-DLUA)
+include_directories(${INCLUDE_DIRS})
+
+find_package(raylib 3.0 QUIET)
+if (raylib_FOUND)
+    message(STATUS "Found raylib: ${raylib_LIBRARY}")
+endif()
 
 set(CHIVENTURE_MODULES action_management battle checkpointing cli common custom-actions custom-scripts game-state libobj quests npc openworld playerclass skilltrees ui wdl)
 

@@ -15,6 +15,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc,
     strcpy(new_item->item_id, item_id);
     strcpy(new_item->short_desc, short_desc);
     strcpy(new_item->long_desc, long_desc);
+    new_item->stat_effects = NULL;
 
     return SUCCESS;
 }
@@ -65,6 +66,122 @@ char *get_ldesc_item(item_t *item)
         return NULL;
     }
     return item->long_desc;
+}
+
+/* See item.h */
+int add_item_to_hash(item_hash_t **ht, item_t *new_item)
+{
+    item_t *check, *itr;
+    
+    HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
+    
+    LL_FOREACH(check, itr)
+    {
+        if (itr == new_item)
+        {
+            /* Same memory address */
+            return FAILURE;
+        }
+    }
+    
+    if (check != NULL)
+    {
+        /* Same item id, not same memory address */
+        HASH_DEL(*ht, check);
+        new_item->next = check;
+    }
+    
+    HASH_ADD_KEYPTR(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN),
+                    new_item);
+
+    return SUCCESS;
+}
+
+/* See item.h */
+item_list_t *get_all_items_in_hash(item_hash_t **ht)
+{
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item, *dup_item;
+    item_list_t *tmp;
+    
+    HASH_ITER(hh, *ht, curr_item, ITTMP_ITEMRM)
+    {
+        /* If item id has no duplicates - only iterates once
+         * If more than one identical id - iterates through all */
+        LL_FOREACH(curr_item, dup_item)
+        {
+            tmp = malloc(sizeof(item_list_t));
+            tmp->item = dup_item;
+            LL_APPEND(head, tmp);
+        }
+    }
+    
+    return head;
+}
+
+/* See item.h */
+int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
+{
+    item_t *check;
+    
+    HASH_FIND(hh, *ht, old_item->item_id, strnlen(old_item->item_id, MAX_ID_LEN), check);
+    
+    // Only deletes if item exists in hashtable
+    if (check != NULL)
+    {
+        if (check == old_item && old_item->next != NULL)
+        {
+            /* Multiple identical item ids;
+             * item to delete is head of linked list */
+            HASH_DEL(*ht, old_item);
+            add_item_to_hash(ht, old_item->next);
+            old_item->next = NULL;
+        }
+        else if (check == old_item)
+        {
+            /* Item to delete is only item w/ id in hashtable */
+            HASH_DEL(*ht, old_item);
+        }
+        else
+        {
+            item_t *prev, *curr;
+            prev = check;
+            curr = check->next;
+            while (curr != NULL)
+            {
+                if (curr == old_item)
+                {
+                    /* Multiple identical item ids;
+                     * item to delete might be found later in linked list.
+                     * Note that if same memory address is not found,
+                     * no items will be removed */
+                    prev->next = curr->next;
+                    curr->next = NULL;
+                }
+                
+                prev = prev->next;
+                curr = curr->next;
+            }
+        }
+    }
+    
+    return SUCCESS;
+}
+
+int add_effect_to_item(item_t *item, stat_effect_t *effect)
+{
+    stat_effect_t *check;
+    HASH_FIND(hh, item->stat_effects, effect->key, 
+              strlen(effect->key), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //item already has the effect
+    }
+
+    HASH_ADD_KEYPTR(hh, item->stat_effects, effect->key, 
+              strlen(effect->key), effect);
+    return SUCCESS;
 }
 
 // ATTRIBUTE MANIPULATION FUNCTIONS -------------------------------------------
@@ -368,7 +485,7 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
 int game_action_free(game_action_t* game_action)
 {
     free(game_action->action_name);
-    delete_action_condition_llist(game_action->conditions);
+    delete_condition_llist(game_action->conditions);
     delete_action_effect_llist(game_action->effects);
     free(game_action->success_str);
     free(game_action->fail_str);
@@ -408,6 +525,9 @@ int item_free(item_t *item)
     free(item->long_desc);
     delete_all_attributes(item->attributes);
     // uthash_free(item->attributes, HASH_SIZE);
+    if (item->stat_effects != NULL) {
+        delete_all_stat_effects(item->stat_effects);
+    }
     free(item);
     return SUCCESS;
 }
@@ -418,7 +538,7 @@ int delete_all_items(item_hash_t** items)
     item_t *current_item, *tmp;
     HASH_ITER(hh, *items, current_item, tmp)
     {
-        HASH_DEL(*items, current_item);  /* deletes (items advances to next) */
+        remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
         item_free(current_item);             /* free it */
     }
     return SUCCESS;

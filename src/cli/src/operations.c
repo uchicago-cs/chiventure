@@ -5,6 +5,9 @@
 #include "ui/print_functions.h"
 #include "cli/shell.h"
 #include "wdl/load_game.h"
+#include "common/load_objects.h"
+
+#define BUFFER_SIZE (100)
 
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -86,7 +89,10 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "Invalid Input, Loading WDL file failed\n";
     }
 
-    game_t *game = load_wdl(tokens[1]);
+    wdl_ctx_t *wdl_ctx = load_wdl(tokens[1]);
+
+    game_t *game = load_objects(wdl_ctx);
+
     if(game == NULL)
     {
         return "Load WDL failed";
@@ -132,7 +138,21 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
     if(curr_item != NULL)
     {
-        return curr_item->long_desc;
+        char *string = malloc(BUFFER_SIZE);
+        sprintf(string, "%s", curr_item->long_desc);
+        if (curr_item->next != NULL)
+        {
+            int count = 0;
+            item_t *iter;
+            LL_FOREACH(curr_item, iter)
+            {
+                count++;
+            }
+            char *count_str = malloc(BUFFER_SIZE);
+            sprintf(count_str, " There are %d of these in this room.", count);
+            string = strcat(string, count_str);
+        }
+        return string;
     }
     return "specified item not found\n";
 }
@@ -158,12 +178,23 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         action_type_t *action = find_action(tokens[0], table);
         char *str;
-        do_item_action(ctx, action, curr_item, &str);
-        if(strcmp(tokens[0], "TAKE") == 0)
+        bool action_success = false;
+        
+        /* Loops through items with identical ids 
+         * until action success or all items fail */
+        while (!action_success && curr_item != NULL)
         {
-            HASH_DEL(game->curr_room->items, curr_item);
-            add_item_to_player(game->curr_player, curr_item);
-
+            int rc = do_item_action(ctx, action, curr_item, &str);
+            if (rc == SUCCESS)
+            {
+                action_success = true;
+                if(strcmp(tokens[0], "TAKE") == 0 || strcmp(tokens[0], "PICKUP") == 0)
+                {
+                    remove_item_from_room(game->curr_room, curr_item);
+                    add_item_to_player(game->curr_player, curr_item);
+                }
+            }
+            curr_item = curr_item->next;
         }
         return str;
     }
@@ -225,10 +256,28 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         return "The object(s) could not be found";
     }
+    
     action_type_t *action = find_action(tokens[0], table);
-
     char *str;
-    do_item_item_action(ctx, action, item1, item2, &str);
+    bool action_success = false;
+    
+    /* Loops through items with identical ids 
+     * until action succeeds or all items fail */
+    while (!action_success && item1 != NULL)
+    {
+        item_t *item2_iter = item2;
+        while (!action_success && item2_iter != NULL)
+        {
+            int rc = do_item_item_action(ctx, action, item1, item2_iter, &str);
+            if (rc == SUCCESS)
+            {
+                action_success = true;
+            }
+            item2_iter = item2_iter->next;
+        }
+        item1 = item1->next;
+    }
+    
     return str;
 }
 
@@ -246,7 +295,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded player to check inventory.\n";
     }
-    item_t *t;
+    item_list_t *t;
     int i = 0;
     ITER_ALL_ITEMS_IN_INVENTORY(game->curr_player, t)
     {
@@ -263,7 +312,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         // sprintf(str, "%d", i);
         // print_to_cli(ctx, str);
 
-        print_to_cli(ctx, t->item_id);
+        print_to_cli(ctx, t->item->item_id);
     }
     return "This was your inventory";
 }
