@@ -128,9 +128,12 @@ void *make_data_from_j_value(json_object *j_value)
         case json_type_object:
         {
             object_t *val = new_object("", TYPE_NONE);
-            json_object_object_foreach(j_value, attr_name, attr_val)
+            json_object_iter j_iterator;
+            json_object_object_foreachC(j_value, j_iterator)
             {
-                printf("Adding nested object key \"%s\" value %s\n",attr_name, json_object_to_json_string(attr_val));
+                char* attr_name = j_iterator.key;
+                json_object *attr_val = j_iterator.val;
+
                 add_attribute(&(val->attrs), attr_name, 
                     make_data_from_j_value(attr_val));
             }
@@ -238,8 +241,11 @@ object_t *convert_j_obj_to_game_obj(json_object *j_game_obj, char *j_name)
     }
     
     /* Loops through all attributes in the JSON object */
-    json_object_object_foreach(j_game_obj, attr_name, j_value)
+    json_object_iter j_iterator;
+    json_object_object_foreachC(j_game_obj, j_iterator)
     {
+        char *attr_name = j_iterator.key;
+        json_object *j_value = j_iterator.val;
         if (SAME_STRING(attr_name, "id"))
         {
             continue; // we already added the ID above
@@ -276,16 +282,24 @@ int load_game_objects_from_json_object
         return FAILURE;
     }
 
-    json_object_object_foreach(j_obj, j_name, j_value)
+    json_object_iter j_iterator;
+    json_object_object_foreachC(j_obj, j_iterator)
     {
+        char *j_name = j_iterator.key;
+        json_object *j_value = j_iterator.val;
         if (json_object_is_type(j_value, json_type_array))
         {
             int n_objects = json_object_array_length(j_value);
             int omitted = 0;
             int added = 0;
+            array_list *j_array = json_object_get_array(j_value);
+            
             for (int i = 0; i < n_objects; i++) // for each json_object in the array
             {
-                json_object *j_game_obj = json_object_array_get_idx(j_value, i);
+                /* Using internal array_list because the public interface
+                 * functions cause weird segfault on _get_idx
+                 */
+                json_object *j_game_obj = array_list_get_idx(j_array, i);
                 object_t *game_obj = convert_j_obj_to_game_obj(j_game_obj, j_name);
                 if (!game_obj) 
                 {
@@ -302,6 +316,7 @@ int load_game_objects_from_json_object
                     added++;
                 }
             }
+
             if (omitted > 0)
             {
                 fprintf(stderr, "Omitted import of %d game objects\n", omitted);
@@ -317,8 +332,9 @@ int load_game_objects_from_json_object
         }
         else if (json_object_is_type(j_value, json_type_object))
         {
-            // The only file with an object-type value as top-level
-            // is players.json. Other special cases can go here, but unlikely.
+            /* The only file with an object-type value as top-level
+             * is players.json. Other special cases can go here, but unlikely.
+             */
             object_t *player = convert_j_obj_to_game_obj(j_value, j_name);
             
             if (!player)
@@ -333,7 +349,7 @@ int load_game_objects_from_json_object
             return FAILURE;
         }
     }
-    // If no return yet by now then it failed.
+    /* If no return yet by now then it failed. */
     return FAILURE;    
 }
 
