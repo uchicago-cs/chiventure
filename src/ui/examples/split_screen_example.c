@@ -154,8 +154,7 @@ int main() {
 
         EndDrawing();
     }
-
-    //UnloadTexture(texture);
+    
     CloseWindow();
 
     return 0;
