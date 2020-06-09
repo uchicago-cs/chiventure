@@ -48,7 +48,7 @@ int npc_free(npc_t *npc)
     {
         convo_free(npc->dialogue);
     }
-    free (npc->npc_id->args);
+    free(npc->npc_id->args);
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);

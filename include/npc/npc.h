@@ -15,7 +15,8 @@ typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
 
-    /* string identifier of the npc, <21 chars */
+    /* an object_t struct that contains either a lua file that returns string identifier of the npc
+    or the underlying string identifier itself, <21 chars */
     object_t *npc_id;
 
     /* short description of the npc, <51 chars */
