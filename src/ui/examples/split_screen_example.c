@@ -37,15 +37,16 @@ int main() {
 
     InitWindow(ScreenWidth, ScreenHeight, "load image sandbox program");
 
+    
     //loading the texture into memory
-    Image room1 = LoadImage("~Desktop/chiventure/build/src/ui/examples/example-imgs/room1.png");
-    Image room2 = LoadImage("~Desktop/chiventure/src/ui/examples/example-imgs/room1.png");
-    Image room3 = LoadImage("image.png");
+    /* Image room1 = LoadImage("~Desktop/chiventure/build/src/ui/examples/example-imgs/room1.png");
+    Image room2 = LoadImage("example-imgs/room1.png");
+    Image room3 = LoadImage("room1.png");
 
     //converting the image to a texture for raylib in VRAM
-    Texture2D texture1 = LoadTextureFromImage(room1); 
-    Texture2D texture2 = LoadTextureFromImage(room2); 
-    Texture2D texture3 = LoadTextureFromImage(room3); 
+    Texture2D texture1 = LoadTexture("~Desktop/chiventure/build/src/ui/examples/example-imgs/room1.png"); 
+    Texture2D texture2 = LoadTexture("example-imgs/room1.png"); 
+    Texture2D texture3 = LoadTexture("room1.png");  */
 
 
     //creating a rectangle the size of the window
@@ -131,25 +132,26 @@ int main() {
 
         ClearBackground(RAYWHITE);
 
-        // COLORS
-        /* if (!(strcmp(ctx->game->curr_room->room_id, "room1")))
+        // Drawing the Color Rectangles for each room
+        if (!(strcmp(ctx->game->curr_room->room_id, "room1")))
             DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBLUE);
         else if (!(strcmp(ctx->game->curr_room->room_id, "room2"))) 
-            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, PINK);
+            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, MAROON);
         else if (!(strcmp(ctx->game->curr_room->room_id, "room3"))) 
-            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, GOLD);
+            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKGREEN);
         else 
-            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBROWN); */
+            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBROWN); 
 
         // IMAGES
-        if (!(strcmp(ctx->game->curr_room->room_id, "room1")))
+        /* if (!(strcmp(ctx->game->curr_room->room_id, "room1")))
             DrawTexture(texture1, ScreenWidth/2 - texture1.width/2, POS_ZERO, WHITE);        
         else if (!(strcmp(ctx->game->curr_room->room_id, "room2"))) 
             DrawTexture(texture2, ScreenWidth/2 - texture2.width/2, POS_ZERO, WHITE);
         else if (!(strcmp(ctx->game->curr_room->room_id, "room3"))) 
             DrawTexture(texture3, ScreenWidth/2 - texture3.width/2, POS_ZERO, WHITE);
         else 
-            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBROWN);
+            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBROWN); 
+        */
 
 
         DrawRectangleRec(textBox, WHITE);

@@ -6,8 +6,6 @@ if (raylib_FOUND)
     add_executable(split_screen_example
                    split_screen_example.c)
 
-    FILE(COPY example-imgs/room1.png DESTINATION "${CMAKE_BINARY_DIR}/src/ui/examples/example-imgs/")
-
     # Link with chiventure libraries
     foreach(example ${UI_EXAMPLES})
         foreach(module ${CHIVENTURE_MODULES})
