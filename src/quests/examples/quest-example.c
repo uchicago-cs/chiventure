@@ -110,7 +110,8 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((get_quest_status(quest)) == 1))
     {
         move_npc_definite(npc1_movement);
-        char *output1 = strcat(npc1_movement->npc_id,
+        char* id = strcpy(id,npc1_movement->npc_id);
+        char *output1 = strcat(id,
         ": I see you have started the quest, go to room2 to find the secret item, then "
             "come meet me in room3 to complete the first mission.");
         return output1;
@@ -126,14 +127,16 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
         //complete_achievement(quest, item, npc);
         quest->achievement_list->achievement->completed = 1;
-        char *output2 = strcat(npc->npc_id,": Congratulations on completing "
-                    "the first achievement of this quest."
+        quest->status = 2;
+        char* id1 = strcpy(id1,npc1_movement->npc_id);
+        char *output2 = strcat(id1,": Congratulations on completing "
+                    "the first achievement of this quest. "
                     "Now onto the next, continue through that door into the next room "
                     "to continue.");
 
         return output2;
     }
-    else if (((strcmp(ctx->game->curr_room->room_id,"room4")) == 0) && ((get_quest_status(quest)) == 1))
+    else if (((strcmp(ctx->game->curr_room->room_id,"room4")) == 0) && ((get_quest_status(quest)) == 2))
     {
         item_t *item = malloc(sizeof(item_t));
         HASH_FIND(hh, ctx->game->all_items, "POTION", strlen("POTION"), item);
@@ -142,15 +145,16 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         HASH_FIND(hh, npcs_in_room_1->npc_list, "Villager-Jim", strlen("Villager-Jim"), npc);
 
         quest->achievement_list->next->achievement->completed = 1;
-        quest->status = 2;
 
         if ((is_quest_completed(quest)) == 1)
         {
             item_t *reward = complete_quest(quest);
             add_item_to_player(ctx->game->curr_player, reward);
-            return  "Villager-Jim: Congratulations"
+            char* id2 = strcpy(id2,npc1_movement->npc_id);
+            char* output3 = strcat(id2, ": Congratulations"
             " on completing the quest, your reward is a key that should "
-            "help you on your adventure. You will find it in your inventory.";
+            "help you on your adventure. You will find it in your inventory.");
+            return output3;
         }
         else
         {
@@ -167,7 +171,8 @@ int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
     
-    npc_t *npc1 = npc_new("Villager-Jim","first npc","this is the npc that holds the quest",
+    object_t *obj = obj_t_str("Villager-Jim", "lua");
+    npc_t *npc1 = npc_new(obj,"first npc","this is the npc that holds the quest",
                           100,NULL);
     npcs_in_room_1 = npcs_in_room_new("room1");
     add_npc_to_room(npcs_in_room_1, npc1);
