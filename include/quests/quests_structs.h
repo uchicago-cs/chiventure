@@ -6,7 +6,7 @@
 #include "common/common.h"
 #include "common/utlist.h"
 #include "npc/npc.h"
-
+#include "custom-scripts/custom_type.h"
 /* 
  * This union represents the mission.
  * 

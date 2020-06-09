@@ -113,7 +113,8 @@ Test (npc_mov, free)
 Test (npcs_in_room, add_npc_to_room)
 {
     //stats_t *stats = stats_new("npc_test_stat", 20);
-    npc_t *npc = npc_new("npc_test", "test npc", "test npc", 100, NULL);
+    object_t *npc_id = obj_t_str("npc_test", NULL);
+    npc_t *npc = npc_new(npc_id, "test npc", "test npc", 100, NULL);
     npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
     int num_of_npcs_initial = npcs_in_room->num_of_npcs;
 
@@ -123,13 +124,13 @@ Test (npcs_in_room, add_npc_to_room)
     cr_assert_eq(check1, SUCCESS, "add_npc_to_room() failed");
 
     npc_t *check2;
-    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
+    HASH_FIND(hh, npcs_in_room->npc_list, str_t_get(npc->npc_id), strlen(str_t_get(npc->npc_id)),
              check2);
 
     cr_assert_not_null(check2, "add_npc_to_room() failed,"
                                 " could not find newly added npcs");
 
-    cr_assert_str_eq(check2->npc_id,"npc_test", "add_npc_to_room()"
+    cr_assert_str_eq(str_t_get(check2->npc_id),"npc_test", "add_npc_to_room()"
                             "did not set npc_id");
 
     cr_assert_eq(num_of_npcs_initial+1, num_of_npcs_final,
@@ -142,12 +143,14 @@ Test (npcs_in_room, npcs_in_room_get_number)
 {
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
-    npc_t *test_npc1 = npc_new("test_npc1", "test npc", "test npc", 100, NULL);
+    object_t *npc_id1 = obj_t_str("test_npc1", NULL);
+    npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc", 100, NULL);
     int added_npc1 = add_npc_to_room(npcs_in_room,test_npc1);
 
     cr_assert_eq(added_npc1, SUCCESS, "add_npc_to_room() failed");
 
-    npc_t *test_npc2 = npc_new("test_npc2", "test npc", "test npc", 100, NULL);
+    object_t *npc_id2 = obj_t_str("test_npc2", NULL);
+    npc_t *test_npc2 = npc_new(npc_id2, "test npc", "test npc", 100, NULL);
     int added_npc2 = add_npc_to_room(npcs_in_room,test_npc2);
 
     cr_assert_eq(added_npc2, SUCCESS, "add_npc_to_room() failed");
