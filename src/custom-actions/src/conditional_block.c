@@ -46,7 +46,7 @@ AST_block_t* AST_conditional_block_new(conditional_type_t conditional_type,
     conditional_block_t *conditional;
     int new_conditional;
     block_type_t block_type = CONDITIONAL;
-
+  
     conditional = malloc(sizeof(conditional_block_t));
     ast = malloc(sizeof(AST_block_t));
 

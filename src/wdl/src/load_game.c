@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "wdl/load_wdz_internal.h"
+
 #include "wdl/validate.h"
 #include "wdl/parse.h"
 #include "wdl/load_game.h"
@@ -11,14 +13,44 @@
 /*
  * load_wdl, function that loads a wdl into all the game-state structs
  *
- * takes a path to a yaml file, returns a game struct
+ * takes a path to a YAML file or a WDZ, returns a wdl_ctx
  *
+ * Parameters:
+ *   - path_to_wd: a path to a world document, either a YAML file or a WDZ
  *
+ * Returns:
+ *   - a pointer to a wdl_ctx_t struct containing either a created game from
+ *     a YAML file or a set of wdl objects created from WDZ
  */
-game_t *load_wdl(char *path_to_yaml)
+wdl_ctx_t *load_wdl(char *path_to_wd)
+{
+    wdl_ctx_t *ctx = new_wdl_ctx();
+
+    /* 
+     * WDZ loading monkeypatch.
+     * Intercepts chiventure if wdz file is passed in as CLI argument, 
+     * and prints JSON contents for debug.
+     * This is also likely the entrypoint for our final implementation.
+     */
+    if (filename_extension_is("wdz", path_to_wd))
+    {
+        int n_jsons = 0;
+        printf("Detected wdz file. Attempting to load wdz and printing the json files...\n");
+        printf("Note that loading wdz is not functional right now.\n");
+        populate_objstore_from_wdz((ctx->ht), &n_jsons, path_to_wd);
+        printf("Number of JSON files found: %d\n", n_jsons);
+    } else {
+        obj_t *big_document = get_doc_obj(path_to_wd);
+        ctx->obj = big_document;
+    }
+
+    return ctx;
+}
+
+/* See load_game.h for documentation */
+game_t *load_yaml_game(obj_t *big_document)
 {
     int rc;
-    obj_t *big_document = get_doc_obj(path_to_yaml);
 
     game_t *game = create_game(big_document);
 

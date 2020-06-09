@@ -24,7 +24,8 @@ typedef enum objtype
     TYPE_ACTION = 4,
     TYPE_GCONDITION = 5,
     TYPE_NPC = 6,
-    TYPE_DIALOG = 7
+    TYPE_DIALOG = 7,
+    TYPE_CUSTOM_SCRIPT = 8
 } objtype_t;
 
 /*
@@ -40,9 +41,9 @@ typedef enum assettype
 } assettype_t;
 
 /*
- * obj_t: a struct describing a .json object.
+ * object_t: a struct describing a .json object.
  */
-typedef struct obj
+typedef struct object
 {
     // The id used to identify this object
     char id[MAXLEN_ID + 1];
@@ -108,27 +109,39 @@ int init_object(object_t *obj, char *id, objtype_t type);
  * returns:
  *   - always returns SUCCESS
  */
-int obj_free(object_t *obj);
+int free_object(object_t *obj);
 
+/* get_obj_attribute: retrieve an attribute from an object
+ *
+ * params:
+ *   - obj: the object holding the attribute
+ *   - name: the attribute key
+ *
+ * returns:
+ *   - a pointer to the requested attribute as an attribute_t struct member
+ *   - NULL if the attribute is not found
+ */
+obj_attr_t *get_obj_attribute(object_t *obj, char *name);
 
 /*
  * new_asset: creates a new asset with identifier filename
  *
  * params:
+ *   - type: the type of asset being created
  *   - filename: the filename of the asset
  *
  * returns:
- *   - a pointer to the created asset
+ *   - a pointer to the created asset on success
  *   - NULL if failure
  */
-
-asset_t *new_asset(char* filename);
+asset_t *new_asset(assettype_t type, char *filename);
 
 /*
  * init_asset: initializes an asset with identifier filename
  *
  * params:
  *   - asset: the asset to be initialized
+ *   - type: the type of asset being created
  *   - filename: the filename of the asset
  * 
  * returns:
@@ -136,7 +149,7 @@ asset_t *new_asset(char* filename);
  *   - FAILURE otherwise
  */
 
-int init_asset(asset_t asset, char* filename);
+int init_asset(asset_t *asset, assettype_t type, char *filename);
 
 /*
  * free_asset: frees an asset
@@ -148,31 +161,7 @@ int init_asset(asset_t asset, char* filename);
  *   - always returns SUCCESS
  */
 
-int free_asset(asset_t asset);
-
-
-/* 
- * get_object: retrieves an object from a .wdz archive
- *
- * params:
- *   - type: the type of the object corresponding to its .wdz subfile.
- *   - id: the object's id
- * 
- * returns:
- *   - a pointer to the requested object as a obj_t struct member.
- */
-object_t* get_object(char* type, char* id);
-
-/* get_obj_attribute: retrieve an attribute from an object
- *
- * params:
- *   - obj: the object holding the attribute
- *   - name: the attribute key
- *
- * returns:
- *   - a pointer to the requested attribute as an attribute_t struct member
- */
-//obj_attr_t* get_obj_attribute(object_t* obj, char* name);
+int free_asset(asset_t *asset);
 
 /* get_asset: retrieves an asset from a .wdz archive
  *
@@ -182,7 +171,20 @@ object_t* get_object(char* type, char* id);
  *
  * returns:
  *   - a pointer to the requested asset as an asset_t struct member.
+ *   - NULL if the attribute is not found
  */
-asset_t* get_asset(assettype_t type, char* filename);
+asset_t *get_asset(assettype_t type, char *filename);
+
+/*
+ * Converts a string to an objtype_t
+ *
+ * Parameters:
+ *   - type: a string representing the type
+ *
+ * Returns:
+ *   - An objtype_t
+ *
+ */
+objtype_t str_to_objtype(char *type);
 
 #endif /* INCLUDE_OBJECT_H */

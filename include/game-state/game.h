@@ -224,6 +224,7 @@ bool is_game_over(game_t *game);
 *  source room_id (a string, i.e. char*)
 *  destination room_id (a string, i.e. char*)
 *  string direction
+*  list of conditions
 *
 * Returns:
 *  SUCCESS upon success, FAILURE upon add_path failure
@@ -234,7 +235,7 @@ bool is_game_over(game_t *game);
 * AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
 int create_connection(game_t *game, char* src_room, char* dest_room,
-    char* direction);
+    			char* direction);
 
 /*
 *

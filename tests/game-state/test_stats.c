@@ -5,6 +5,42 @@
 #include "game-state/stats.h"
 
 
+
+Test(stats, change_stat_max)
+{
+    stats_hash_t *sh = NULL;
+
+    stats_global_t g1, g2;
+    g1.name = "Health";
+    g1.max = 100;
+    g2.name = "XP";
+    g2.max = 100;
+
+    stats_t s1, s2;
+    s1.key = "Health";
+    s1.global = &g1;
+    s1.val = 50;
+    s1.max = 50;
+    s1.modifier = 1;
+
+    s2.key = "XP";
+    s2.global = &g2;
+    s2.val = 50;
+    s2.max = 50;
+    s2.modifier = 1;
+    
+    add_stat(&sh, &s1);
+    add_stat(&sh, &s2);
+
+    change_stat_max(sh, "Health", 50);
+    change_stat_max(sh, "XP", 25);
+
+    cr_assert_float_eq(s1.max, 100, 1E-6, "change_stat_max didn't set the right value");
+    cr_assert_float_eq(s2.max, 75, 1E-6, "change_stat_max didn't set the right value");
+}
+
+
+
 Test(stats, global_init)
 {
     stats_global_t *global_stat = malloc(sizeof(stats_global_t));
@@ -150,6 +186,7 @@ Test(stats, free_global_table)
 }
 
 /* Checks that add_stat correctly adds a new stat
+
    to a hash table*/
 Test (stats, add_stat)
 {
@@ -183,8 +220,9 @@ Test(stats, display_stat)
 
     char *list = display_stats(sh);
 
-    cr_assert_str_eq(list, "health, speed",
-                     "expected: health, speed, but display_stat returned %s",
+    cr_assert_str_eq(list, "health [75.00 / 75.00]\nspeed [50.00 / 50.00]\n",
+                     "expected: health [75.00 / 75.00]\nspeed [50.00 / 50.00]\n,"
+                     " but display_stat returned %s",
                      list);
 
     free(list);
@@ -316,4 +354,72 @@ Test (stats, apply_effect)
     cr_assert_eq(tmp2->duration, durations[1], 
                  "apply_effect did not set stat_mod duration");
 
+}
+
+Test(stats, change_stat) {
+    stats_hash_t *sh = NULL;
+    stats_global_t *g1 = stats_global_new("health", 100);
+    stats_t *s1 = stats_new(g1, 75);
+    
+    s1->val = 50;
+    s1->modifier = 1.1;
+
+    stats_global_t *g2 = stats_global_new("charisma", 200);
+    stats_t *s2 = stats_new(g2, 130);
+
+ 
+    s2->val = 75;
+    s2->modifier = 1;
+
+    int rc1 = add_stat(&sh, s1);
+    cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
+    int rc2 = add_stat(&sh, s2);
+    stats_t *curr; 
+    HASH_FIND(hh, sh, "health", strlen("health"), curr);
+    cr_assert_eq(curr->val, 50,
+        "change_stat base value not equal initially");
+
+    change_stat(sh, "health", 10);
+    cr_assert_eq(curr->val, 60,
+       "change_stat failed to return success");
+    change_stat(sh, "health", 20);
+    cr_assert_eq(curr->val, 75,
+        "change_stat local max failed");
+    change_stat(sh, "health", 30);
+    cr_assert_eq(curr->val, 75, 
+        "change_stat global max failed");
+    
+
+    HASH_FIND(hh, sh, "charisma", strlen("charisma"), curr);
+    cr_assert_eq(curr->val, 75,
+        "change_stat base value not equal initially");
+
+
+    change_stat(sh, "charisma", 10);
+    cr_assert_eq(curr->val, 85,
+       "change_stat failed to return success");
+    change_stat(sh, "charisma", 60);
+    cr_assert_eq(curr->val, 130,
+        "change_stat local max failed");
+    change_stat(sh, "charisma", 80);
+    cr_assert_eq(curr->val, 130, 
+        "change_stat global max failed");
+}
+
+Test(stats, get_stat_current) {
+    stats_hash_t *sh = NULL;
+    stats_global_t *g1 = stats_global_new("health", 100);
+    stats_t *s1 = stats_new(g1, 75);
+
+    s1->val = 50;
+    s1->modifier = 1.1;
+    int rc1 = add_stat(&sh, s1);
+    cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
+    int s1_value = get_stat_current(sh, s1->key);
+    cr_assert_eq(s1_value, 55, "get_stat_current failed");
+
+    s1->val = 99;
+    s1_value = get_stat_current(sh, s1->key);
+    cr_assert_eq(s1_value, 100, "get_stat_current global max failed");
+    
 }

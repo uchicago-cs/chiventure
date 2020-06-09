@@ -4,8 +4,9 @@
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "npc/dialogue.h"
+#include "playerclass/class_structs.h"
+#include "custom-scripts/custom_type.h"
 #include "playerclass/class.h"
-
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
@@ -14,8 +15,9 @@ typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
 
-    /* string identifier of the npc, <21 chars */
-    char *npc_id;
+    /* an object_t struct that contains either a lua file that returns string identifier of the npc
+    or the underlying string identifier itself, <21 chars */
+    object_t *npc_id;
 
     /* short description of the npc, <51 chars */
     char *short_desc;
@@ -61,7 +63,7 @@ typedef struct npc npc_hash_t;
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
-int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
+int npc_init(npc_t *npc, object_t *npc_id, char *short_desc, char *long_desc,
              int health, class_t *class);
 
 /*
@@ -77,7 +79,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  * Returns:
  *  pointer to allocated npc
  */
-npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc, 
+npc_t *npc_new(object_t *npc_id, char *short_desc, char *long_desc, 
                int health, class_t *class);
 
 /*

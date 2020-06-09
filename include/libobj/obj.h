@@ -15,8 +15,8 @@
 // All datatypes that can be encoded in an obj
 typedef enum datatype
 {
-    TYPE_ERR  = -1,
-    TYPE_NONE = 0,
+    TYPE_ERROR  = -1,
+    TYPE_ZERO = 0,
     TYPE_BOOL = 1,
     TYPE_CHAR = 2,
     TYPE_INT  = 3,
