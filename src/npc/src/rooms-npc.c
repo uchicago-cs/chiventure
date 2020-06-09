@@ -131,15 +131,15 @@ int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room)
 int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;
-    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
+    HASH_FIND(hh, npcs_in_room->npc_list, str_t_get(npc->npc_id), strlen(str_t_get(npc->npc_id)),
              check);
  
     if (check != NULL)
     {
         return FAILURE;
     }
-    HASH_ADD_KEYPTR(hh, npcs_in_room->npc_list, npc->npc_id,
-                    strlen(npc->npc_id), npc);
+    HASH_ADD_KEYPTR(hh, npcs_in_room->npc_list, str_t_get(npc->npc_id),
+                    strlen(str_t_get(npc->npc_id)), npc);
     npcs_in_room->num_of_npcs++;
 
     return SUCCESS;

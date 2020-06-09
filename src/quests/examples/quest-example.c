@@ -139,8 +139,8 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
-    
-    npc_t *npc1 = npc_new("npc1","first npc","this is the npc that holds the quest",
+    object_t *npc_id1 = obj_t_str("npc1", NULL);
+    npc_t *npc1 = npc_new(npc_id1,"first npc","this is the npc that holds the quest",
                           100,NULL);
     npcs_in_room_1 = npcs_in_room_new("room1");
     add_npc_to_room(npcs_in_room_1, npc1);
