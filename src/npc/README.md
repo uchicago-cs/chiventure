@@ -7,8 +7,18 @@
 ### Wiki Pages
 - https://github.com/uchicago-cs/chiventure/wiki/NPC-Design-and-Planning
 - https://github.com/uchicago-cs/chiventure/wiki/NPC-Player-Interaction-Design-and-Planning
+### Modules
+- NPC + next steps
+- Dialogue + next steps
+### Directories
+- include/npc
+- src/npc
+- tests/ncc
+### Subdirectories
+- src/npc/examples
+- src/npc/sandbox
 
-## Overview
+## Modules
 
 ### NPC Module
 - Contains code relating to the creation, use, and deletion of non-playable characters in chiventure.
@@ -34,7 +44,11 @@
 - A "convo" is a conversation that the NPC can carry out, feature a collection of nodes.
 
 ### Next Steps for the Dialogue Module
-- Integrate with chiventure's UI/CLI.
+- Integrate with chiventure's UI/CLI. Will involve:
+    - review of the ncurses library
+    - review of existing print functions
+    - review of existing CLI/Action Management code
+        - One main issue we encountered was the inability to register keywords as non-action-inducing commands. The goal is to have the player type in the keyword (which is a string, and currently can contain more than one word as long as it is smaller than 50 characters. This becomes an issue with CLI's parsing and tokenizing strategy), then advance to the next node. 
 
 ## Directories
 
