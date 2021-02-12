@@ -1,0 +1,108 @@
+{
+    "white room":{
+        "short_desc":"A white room.",
+        "long_desc":"A pristine and plain white room with a lever in its center. A locked trapdoor rests in the floor next to a sign.",
+        "connections":[
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.green room"
+                },
+                "direction":"NORTH"
+            },
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.red room"
+                },
+                "direction":"SOUTH"
+            },
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.blue room"
+                },
+                "direction":"EAST"
+            },
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.purple room"
+                },
+                "direction":"WEST"
+            },
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.secret room"
+                },
+                "direction":"DOWN"
+            }
+        ]
+    },
+    "green room":{
+        "short_desc":"A green room.",
+        "long_desc":"A green room with a green lever in its center. A green sign sits on the wall.",
+        "connections":[
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.white room"
+                },
+                "direction":"SOUTH"
+            }
+        ]
+    },
+    "red room":{
+        "short_desc":"A red room.",
+        "long_desc":"A red room with a red lever in its center. A red sign sits on the wall.",
+        "connections":[
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.white room"
+                },
+                "direction":"NORTH"
+            }
+        ]
+    },
+    "blue room":{
+        "short_desc":"A blue room.",
+        "long_desc":"A blue room with a blue lever in its center. A blue sign sits on the wall.",
+        "connections":[
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.white room"
+                },
+                "direction":"WEST"
+            }
+        ]
+    },
+    "purple room":{
+        "short_desc":"A purple room.",
+        "long_desc":"A purple room with a purple lever in its center. A purple sign sits on the wall.",
+        "connections":[
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.white room"
+                },
+                "direction":"EAST"
+            }
+        ]
+    },
+    "secret room":{
+        "short_desc":"An endless dark chamber.",
+        "long_desc":"You can't see anything in the abyss.",
+        "connections":[
+            {
+                "to":{
+                    "__ref":"object",
+                    "id":"ROOMS.white room"
+                },
+                "direction":"UP"
+            }
+        ]
+    }
+}

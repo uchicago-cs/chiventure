@@ -1,0 +1,13 @@
+{
+    "start":{
+        "__ref":"object",
+        "id":"ROOMS.white room"
+    },
+    "intro":"Welcome to the Test Dungeon!",
+    "end":{
+        "in_room":{
+            "__ref":"object",
+            "id":"ROOMS.secret room"
+        }
+    }
+}

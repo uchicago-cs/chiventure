@@ -1,0 +1,51 @@
+{
+    "short_desc":"A green lever.",
+    "long_desc":"A plain-looking green lever.",
+    "in":{
+        "__ref":"object",
+        "id":"ROOMS.green room"
+    },
+    "conditions":{
+        "pulled": false
+    },
+    "actions":[
+        {
+            "action": "PULL",
+            "conditions":[
+                {
+                    "__ref": "condition",
+                    "id": "ITEMS.green_lever.conditions.pulled",
+                    "expected": false
+                }
+            ],
+            "set":[
+                {
+                    "__ref": "condition",
+                    "id": "ITEMS.green_lever.conditions.pulled",
+                    "expected": true
+                }
+            ],
+            "text_success": "You pull the lever.",
+            "text_fail": "You have already pulled the lever."
+        },
+        {
+            "action": "PUSH",
+            "conditions":[
+                {
+                    "__ref": "condition",
+                    "id": "ITEMS.green_lever.conditions.pulled",
+                    "expected": true
+                }
+            ],
+            "set":[
+                {
+                    "__ref": "condition",
+                    "id": "ITEMS.green_lever.conditions.pulled",
+                    "expected": false
+                }
+            ],
+            "text_success": "You push the lever back to its original position.",
+            "text_fail": "You have already pushed the lever."
+        }
+    ]
+}
