@@ -3,7 +3,7 @@
     "long_desc":"A plain-looking green lever.",
     "in":{
         "__ref":"object",
-        "id":"ROOMS.green room"
+        "id":"ROOMS.green_room"
     },
     "conditions":{
         "pulled": false

@@ -3,7 +3,7 @@
     "long_desc": "A strangely rustic and dusty trapdoor.",
     "in": {
         "__ref":"object",
-        "id":"ROOMS.white room"
+        "id":"ROOMS.white_room"
     },
     "conditions": {
         "locked": true

@@ -4,7 +4,7 @@
         "long_desc":"The sign reads: 'To leave this place, two levers must be pulled..' (or, for now, just go down!)",
         "in":{
             "__ref":"object",
-            "id":"ROOMS.white room"
+            "id":"ROOMS.white_room"
         },
         "actions":[
             {
@@ -19,7 +19,7 @@
         "long_desc":"The sign reads: 'Don't pull this lever.'",
         "in":{
             "__ref":"object",
-            "id":"ROOMS.green room"
+            "id":"ROOMS.green_room"
         },
         "actions":[
             {
@@ -34,7 +34,7 @@
         "long_desc":"The sign reads: 'Pull this lever if you want to escape.'",
         "in":{
             "__ref":"object",
-            "id":"ROOMS.purple room"
+            "id":"ROOMS.purple_room"
         },
         "actions":[
             {
@@ -49,7 +49,7 @@
         "long_desc":"The sign reads: 'Pull this lever if you want to escape.'",
         "in":{
             "__ref":"object",
-            "id":"ROOMS.red room"
+            "id":"ROOMS.red_room"
         },
         "actions":[
             {
@@ -64,7 +64,7 @@
         "long_desc":"A plain-looking lever.",
         "in":{
             "__ref":"object",
-            "id":"ROOMS.white room"
+            "id":"ROOMS.white_room"
         },
         "actions":[
             {

@@ -3,7 +3,7 @@
     "long_desc":"A plain-looking purple lever.",
     "in":{
         "__ref":"object",
-        "id":"ROOMS.purple room"
+        "id":"ROOMS.purple_room"
     },
     "conditions":{
         "pulled": false

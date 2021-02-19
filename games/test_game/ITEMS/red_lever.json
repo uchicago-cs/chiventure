@@ -3,7 +3,7 @@
     "long_desc":"A plain-looking red lever.",
     "in":{
         "__ref":"object",
-        "id":"ROOMS.red room"
+        "id":"ROOMS.red_room"
     },
     "conditions":{
         "pulled": false
