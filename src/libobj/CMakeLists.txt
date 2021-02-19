@@ -1,14 +1,4 @@
 add_library(libobj
-        src/obj.c
-        src/parser.c
-        src/stack.c)
+        src/obj.c)
 
 target_include_directories(libobj PRIVATE src/)
-
-target_link_libraries(libobj ${LIBYAML_LIBRARIES} )
-
-
-
-
-
-
