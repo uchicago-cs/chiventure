@@ -1,12 +1,12 @@
 {
     "start":{
-        "__ref":"object",
+        "__type":"reference",
         "id":"ROOMS.white_room"
     },
     "intro":"Welcome to the Test Dungeon!",
     "end":{
         "in_room":{
-            "__ref":"object",
+            "__type":"reference",
             "id":"ROOMS.secret_room"
         }
     }

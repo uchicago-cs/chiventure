@@ -2,25 +2,23 @@
     "short_desc":"A blue lever.",
     "long_desc":"A plain-looking blue lever.",
     "in":{
-        "__ref":"object",
+        "__type":"reference",
         "id":"ROOMS.blue_room"
     },
-    "conditions":{
-        "pulled": false
-    },
+    "pulled": false,
     "actions":[
         {
             "action": "PULL",
             "conditions":[
                 {
-                    "__ref": "condition",
+                    "__type": "condition",
                     "id": "ITEMS.blue_lever.conditions.pulled",
                     "expected": false
                 }
             ],
             "set":[
                 {
-                    "__ref": "condition",
+                    "__type": "condition",
                     "id": "ITEMS.blue_lever.conditions.pulled",
                     "expected": true
                 }
@@ -32,14 +30,14 @@
             "action": "PUSH",
             "conditions":[
                 {
-                    "__ref": "condition",
+                    "__type": "condition",
                     "id": "ITEMS.blue_lever.conditions.pulled",
                     "expected": true
                 }
             ],
             "set":[
                 {
-                    "__ref": "condition",
+                    "__type": "condition",
                     "id": "ITEMS.blue_lever.conditions.pulled",
                     "expected": false
                 }

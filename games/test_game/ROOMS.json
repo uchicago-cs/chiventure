@@ -5,35 +5,35 @@
         "connections":[
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.green_room"
                 },
                 "direction":"NORTH"
             },
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.red_room"
                 },
                 "direction":"SOUTH"
             },
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.blue_room"
                 },
                 "direction":"EAST"
             },
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.purple_room"
                 },
                 "direction":"WEST"
             },
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.secret_room"
                 },
                 "direction":"DOWN"
@@ -46,7 +46,7 @@
         "connections":[
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.white_room"
                 },
                 "direction":"SOUTH"
@@ -59,7 +59,7 @@
         "connections":[
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.white_room"
                 },
                 "direction":"NORTH"
@@ -72,7 +72,7 @@
         "connections":[
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.white_room"
                 },
                 "direction":"WEST"
@@ -85,7 +85,7 @@
         "connections":[
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.white_room"
                 },
                 "direction":"EAST"
@@ -98,7 +98,7 @@
         "connections":[
             {
                 "to":{
-                    "__ref":"object",
+                    "__type":"reference",
                     "id":"ROOMS.white_room"
                 },
                 "direction":"UP"

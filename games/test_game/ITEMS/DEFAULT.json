@@ -3,7 +3,7 @@
         "short_desc":"A sign.",
         "long_desc":"The sign reads: 'To leave this place, two levers must be pulled..' (or, for now, just go down!)",
         "in":{
-            "__ref":"object",
+            "__type":"reference",
             "id":"ROOMS.white_room"
         },
         "actions":[
@@ -18,7 +18,7 @@
         "short_desc":"A green sign.",
         "long_desc":"The sign reads: 'Don't pull this lever.'",
         "in":{
-            "__ref":"object",
+            "__type":"reference",
             "id":"ROOMS.green_room"
         },
         "actions":[
@@ -33,7 +33,7 @@
         "short_desc":"A purple sign.",
         "long_desc":"The sign reads: 'Pull this lever if you want to escape.'",
         "in":{
-            "__ref":"object",
+            "__type":"reference",
             "id":"ROOMS.purple_room"
         },
         "actions":[
@@ -48,7 +48,7 @@
         "short_desc":"A red sign.",
         "long_desc":"The sign reads: 'Pull this lever if you want to escape.'",
         "in":{
-            "__ref":"object",
+            "__type":"reference",
             "id":"ROOMS.red_room"
         },
         "actions":[
@@ -63,7 +63,7 @@
         "short_desc":"A lever.",
         "long_desc":"A plain-looking lever.",
         "in":{
-            "__ref":"object",
+            "__type":"reference",
             "id":"ROOMS.white_room"
         },
         "actions":[
@@ -71,29 +71,29 @@
                 "action":"PULL",
                 "conditions":[
                     {
-                        "__ref": "condition",
+                        "__type": "condition",
                         "id": "ITEMS.blue_lever.conditions.pulled",
                         "expected": false
                     },
                     {
-                        "__ref": "condition",
+                        "__type": "condition",
                         "id": "ITEMS.green_lever.conditions.pulled",
                         "expected": false
                     },
                     {
-                        "__ref": "condition",
+                        "__type": "condition",
                         "id": "ITEMS.red_lever.conditions.pulled",
                         "expected": true
                     },
                     {
-                        "__ref": "condition",
+                        "__type": "condition",
                         "id": "ITEMS.purple_lever.conditions.pulled",
                         "expected": true
                     }
                 ],
                 "set":{
                     "object":{
-                        "__ref":"condition",
+                        "__type":"condition",
                         "id":"ITEMS.TRAPDOOR.conditions.locked",
                         "value":false
                     }
