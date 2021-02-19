@@ -10,7 +10,7 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create);
 void obj_free_str(obj_t *obj);
 
 /* See obj.h */
-obj_t *obj_new(char *id, type_t type)
+obj_t *obj_new(char *id)
 {
     obj_t *obj = calloc(1, sizeof(obj_t));
 
@@ -21,7 +21,7 @@ obj_t *obj_new(char *id, type_t type)
         return NULL;
     }
 
-    if (obj_init(obj, id, type) != EXIT_SUCCESS)
+    if (obj_init(obj, id) != EXIT_SUCCESS)
     {
         printf("ERROR - obj_new: Couldn't initialize object.\n");
         obj_free(obj);
@@ -33,7 +33,7 @@ obj_t *obj_new(char *id, type_t type)
 }
 
 /* See obj.h */
-int obj_init(obj_t *obj, char *id, type_t type)
+int obj_init(obj_t *obj, char *id)
 {
     if (obj == NULL || id == NULL)
     {
@@ -43,7 +43,7 @@ int obj_init(obj_t *obj, char *id, type_t type)
     }
 
     strncpy(obj->id, id, MAXLEN_ID);
-    obj->type = type;
+    obj->type = TYPE_NONE;
 
     return EXIT_SUCCESS;
 }
@@ -88,7 +88,7 @@ int obj_free_all(obj_t *obj)
             obj_free_all(el);
         }
     }
-    else if (obj->type == TYPE_LIST && obj->data.attr != NULL)
+    else if (obj->type == TYPE_LIST && obj->data.lst != NULL)
     {
         obj_t *el, *tmp;
         DL_FOREACH_SAFE(obj->data.attr, el, tmp)
@@ -149,7 +149,7 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create)
 
     if (el == NULL && create == true)
     {
-        el = obj_new(id, TYPE_NONE);
+        el = obj_new(id);
         HASH_ADD_STR(obj->data.attr, id, el);
     }
 
@@ -254,7 +254,7 @@ int obj_remove_attr(obj_t *obj, char *id)
 
     obj_t *to_del = NULL;
     char *child_id = strrchr(id, '.');
-    HASH_FIND_STR(parent, &child_id, to_del);
+    HASH_FIND_STR(parent, child_id, to_del);
 
     if (to_del != NULL)
     {
@@ -451,7 +451,7 @@ int obj_set_str(obj_t *obj, char *id, char *value)
 }
 
 /* See obj.h */
-obj_list_t obj_get_list(obj_t *obj, char *id)
+obj_list_t *obj_get_list(obj_t *obj, char *id)
 {
     if (obj == NULL || id == NULL)
     {
@@ -469,7 +469,7 @@ obj_list_t obj_get_list(obj_t *obj, char *id)
 }
 
 /* See obj.h */
-int obj_set_list(obj_t *obj, char *id, obj_list_t value)
+int obj_set_list(obj_t *obj, char *id, obj_list_t *value)
 {
     if (obj == NULL || id == NULL)
     {

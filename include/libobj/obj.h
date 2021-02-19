@@ -27,9 +27,6 @@ typedef enum type
     // TYPE_LUA   = 8,
 } type_t;
 
-// Lists are just objects using utlist
-typedef obj_t obj_list_t;
-
 /* A simple object model using strings as attribute identifiers */
 typedef struct obj
 {
@@ -59,18 +56,20 @@ typedef struct obj
 
 } obj_t;
 
+// Lists are just objects using utlist
+typedef obj_t obj_list_t;
+
 /*
  * Creates a new object with identifier id
  * 
  * Parameters:
  *  - id: The id for the object
- *  - type: The type for the object
  * 
  * Returns:
  *  - The newly created and initialized object on success
  *  - NULL on error
  */
-obj_t *obj_new(char *id, type_t type);
+obj_t *obj_new(char *id);
 
 /*
  * Initializes a new object with identifier id
@@ -78,13 +77,12 @@ obj_t *obj_new(char *id, type_t type);
  * Parameters:
  *  - obj: The object to initialize
  *  - id:  The id for the object
- *  - type: The type for the object
  * 
  * Returns:
  *  - EXIT_SUCCESS on successful initialization
  *  - EXIT_FAILURE otherwise
  */
-int obj_init(obj_t *obj, char *id, type_t type);
+int obj_init(obj_t *obj, char *id);
 
 /*
  * Frees an object
@@ -201,7 +199,7 @@ char obj_get_char(obj_t *obj, char *id);
 int obj_get_int(obj_t *obj, char *id);
 char *obj_get_str(obj_t *obj, char *id);
 // obj_t *obj_get_obj(obj_t *obj, char *id);
-obj_list_t obj_get_list(obj_t *obj, char *id);
+obj_list_t *obj_get_list(obj_t *obj, char *id);
 // void *obj_get_asset(obj_t *obj, char *id);
 // void *obj_get_lua(obj_t *obj, char *id);
 
@@ -226,7 +224,7 @@ int obj_set_char(obj_t *obj, char *id, char value);
 int obj_set_int(obj_t *obj, char *id, int value);
 int obj_set_str(obj_t *obj, char *id, char *value);
 // int obj_set_obj(obj_t *obj, char *id, obj_t *attr);
-int obj_set_list(obj_t *obj, char *id, obj_list_t value);
+int obj_set_list(obj_t *obj, char *id, obj_list_t *value);
 // void *obj_get_asset(obj_t *obj, char *id);
 // void *obj_get_lua(obj_t *obj, char *id);
 
