@@ -133,7 +133,7 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create)
         return obj;
     }
 
-    if (obj->type != TYPE_OBJ)
+    if (obj->type != TYPE_OBJ && create == true)
     {
         printf("ERROR - obj_get_attr_single: Object cannot have children.\n");
         return NULL;
