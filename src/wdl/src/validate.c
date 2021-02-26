@@ -6,7 +6,7 @@
 // The following functions assist with iterating through lists of objects
 
 /* see validate.h */
-int list_type_check(attr_list_t *ls, int(*validate)(obj_t*))
+int list_type_check(obj_t *ls, int(*validate)(obj_t*))
 {
     if (ls == NULL)
     {
@@ -14,19 +14,18 @@ int list_type_check(attr_list_t *ls, int(*validate)(obj_t*))
     }
 
     int result = SUCCESS;
-    attr_list_t *curr = ls;
 
-    while(curr != NULL)
+    obj_t *curr, *tmp;
+    HASH_ITER(hh, ls, curr, tmp)
     {
-        result = (result && (*validate)(curr->obj));
-        curr = curr->next;
+        result = (result && (*validate)(curr));
     }
 
     return result;
 }
 
 /* see validate.h */
-void list_print(attr_list_t *ls, void (*print)(obj_t*))
+void list_print(obj_t *ls, void (*print)(obj_t*))
 {
     if (ls == NULL)
     {
@@ -34,12 +33,10 @@ void list_print(attr_list_t *ls, void (*print)(obj_t*))
         return;
     }
 
-    attr_list_t *curr = ls;
-
-    while(curr != NULL)
+    obj_t *curr, *tmp;
+    HASH_ITER(hh, ls, curr, tmp)
     {
-        (*print)(curr->obj);
-        curr = curr->next;
+        (*print)(curr);
     }
 
     return;
@@ -58,18 +55,11 @@ void list_print(attr_list_t *ls, void (*print)(obj_t*))
  *  - an attribute list of all the conditions for connection
  *  - null if an error occurs or no list can be generated
  */
-attr_list_t *conditions_get_list(obj_t *obj)
+obj_t *conditions_get_list(obj_t *obj)
 {
     obj_t *conditions = obj_get_attr(obj, "conditions", false);
 
-    if (conditions == NULL)
-    {
-        return NULL;
-    }
-    else
-    {
-        return obj_list_attr(conditions);
-    }
+    return conditions;
 }
 
 /* check_condition_attr()
@@ -104,7 +94,7 @@ int check_condition_attr(obj_t *obj)
  */
 int condition_type_check(obj_t *obj)
 {
-    attr_list_t *ls = conditions_get_list(obj);
+    obj_t *ls = conditions_get_list(obj);
 
     // call connection_type_check on each connection
     int check = list_type_check(ls, check_condition_attr);
@@ -113,7 +103,7 @@ int condition_type_check(obj_t *obj)
 }
 
 /* see validate.h */
-attr_list_t *connections_get_list(obj_t *obj)
+obj_t *connections_get_list(obj_t *obj)
 {
     obj_t *connections = obj_get_attr(obj, "connections", false);
 
@@ -123,7 +113,7 @@ attr_list_t *connections_get_list(obj_t *obj)
     }
     else
     {
-        return obj_list_attr(connections);
+        return connections;
     }
 }
 
@@ -149,7 +139,7 @@ int check_connection_attr(obj_t *obj)
  */
 int connection_type_check(obj_t *obj)
 {
-    attr_list_t *ls = connections_get_list(obj);
+    obj_t *ls = connections_get_list(obj);
 
     // call connection_type_check on each connection
     int check = list_type_check(ls, check_connection_attr);
@@ -294,7 +284,7 @@ void print_conditions_attr(obj_t *obj)
 void print_conditions(obj_t *obj)
 {
     // obtain list of conditions
-    attr_list_t *ls = conditions_get_list(obj);
+    obj_t *ls = conditions_get_list(obj);
 
     // call list_print with print_connection_attr
     list_print(ls, print_conditions_attr);
@@ -333,7 +323,7 @@ void print_connection_attr(obj_t *obj)
 void print_connections(obj_t *obj)
 {
     // obtain list of connections
-    attr_list_t *ls = connections_get_list(obj);
+    obj_t *ls = connections_get_list(obj);
 
     // call list_print with print_connection_attr
     list_print(ls, print_connection_attr);
@@ -381,21 +371,17 @@ void print_document(obj_t *obj)
     obj_t *item_obj = obj_get_attr(obj, "ITEMS", false);
     obj_t *game_obj = obj_get_attr(obj, "GAME", false);
 
-    // Extract list of rooms and items
-    attr_list_t *rooms_ls = obj_list_attr(room_obj);
-    attr_list_t *items_ls = obj_list_attr(item_obj);
-
     // Print game
     printf("printing game attributes:\n");
     print_game(game_obj);
 
     // Print rooms
     printf("printing all rooms and their attributes:\n");
-    list_print(rooms_ls, print_room);
+    list_print(room_obj, print_room);
 
     // Print items
     printf("printing all items and their attributes\n");
-    list_print(items_ls, print_item);
+    list_print(item_obj, print_item);
 
     return;
 }

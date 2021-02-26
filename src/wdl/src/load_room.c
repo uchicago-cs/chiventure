@@ -7,7 +7,7 @@
 int add_rooms_to_game(obj_t *doc, game_t *g)
 {
     // extract room object
-    attr_list_t *rooms_obj = extract_objects(doc, "ROOMS");
+    obj_t *rooms_obj = extract_objects(doc, "ROOMS");
     // if rooms list is empty then return 1
     if (rooms_obj == NULL)
     {
@@ -15,23 +15,20 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
         return FAILURE;
     }
 
-    // extract list of rooms and items
-    attr_list_t *curr = rooms_obj;
-
     // while list of rooms exists, create new game_struct room, add room to game
-    while (curr != NULL)
+    obj_t *curr, *tmp;
+    HASH_ITER(hh, rooms_obj, curr, tmp)
     {
         // get id, short_desc, and long_desc
-        char *id = obj_get_str(curr->obj, "id");
-        char *short_desc = obj_get_str(curr->obj, "short_desc");
-        char *long_desc = obj_get_str(curr->obj, "long_desc");
+        char *id = obj_get_str(curr, "id");
+        char *short_desc = obj_get_str(curr, "short_desc");
+        char *long_desc = obj_get_str(curr, "long_desc");
 
         // create new game_state room
         room_t *room = room_new(id, short_desc, long_desc);
 
         // add room to game
         add_room_to_game(g, room);
-        curr = curr->next;
     }
 
     return SUCCESS;
@@ -41,38 +38,37 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
 int add_connections_to_rooms(obj_t *doc, game_t *g)
 {
     // extract room object
-    attr_list_t *rooms_obj = extract_objects(doc, "ROOMS");
-
-    // extract list of rooms and items
-    attr_list_t *curr = rooms_obj;
+    obj_t *rooms_obj = extract_objects(doc, "ROOMS");
 
     // if rooms list is empty then return 1
-    if (curr == NULL)
+    if (rooms_obj == NULL)
     {
         fprintf(stderr, "rooms list is empty\n");
         return FAILURE;
     }
 
     // while list of rooms exists, create new game_struct room, add room to game
-    while (curr != NULL)
+    obj_t *curr, *tmp;
+    HASH_ITER(hh, rooms_obj, curr, tmp)
     {
         // obtain room id
-        char *id = obj_get_str(curr->obj, "id");
+        char *id = obj_get_str(curr, "id");
         // get list of connections for the room
-        attr_list_t *conn_curr = connections_get_list(curr->obj);
+        obj_t *connections = connections_get_list(curr);
 
         // if connections list is empty then return 1
-        if (conn_curr == NULL)
+        if (connections == NULL)
         {
             fprintf(stderr, "connections list is empty\n");
             return FAILURE;
         }
         // iterate through connections list
-        while (conn_curr != NULL)
+        obj_t *conn_curr, *conn_tmp;
+        HASH_ITER(hh, connections, curr, tmp)
         {
             // get id of room we are going to and direction
-            char *to = obj_get_str(conn_curr->obj, "to");
-            char *direction = obj_get_str(conn_curr->obj, "direction");
+            char *to = obj_get_str(conn_curr, "to");
+            char *direction = obj_get_str(conn_curr, "direction");
 
             // add connection to room in game
             int result = create_connection(g, id, to, direction);
@@ -101,10 +97,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
             //            " was added successfully\n", id, to, direction);
             // }
 
-            conn_curr = conn_curr->next;
         }
-
-        curr = curr->next;
     }
 
     return SUCCESS;

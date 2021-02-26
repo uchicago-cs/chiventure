@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
+#include "libobj/obj.h"
 #include "libobj/parser.h"
 #include "wdl/parse.h"
 
@@ -25,19 +26,19 @@ obj_t *get_doc_obj(char *fpath)
  *  - a list of objects
  *  - null if attribute does not have associated objects, or if no such attribute exists
  */
-attr_list_t *get_obj_list(obj_t *obj, char *str)
+obj_t *get_obj_list(obj_t *obj, char *str)
 {
     if (strcmp(str, "ROOMS") == 0)
     {
-        return obj_list_attr(obj_get_attr(obj, "ROOMS", false));
+        return obj_get_attr(obj, "ROOMS", false);
     }
     else if (strcmp(str, "ITEMS") == 0)
     {
-        return obj_list_attr(obj_get_attr(obj, "ITEMS", false));
+        return obj_get_attr(obj, "ITEMS", false);
     }
     else if (strcmp(str, "PLAYERS") == 0)
     {
-        return obj_list_attr(obj_get_attr(obj, "PLAYERS", false));
+        return obj_get_attr(obj, "PLAYERS", false);
     }
     else
     {
@@ -46,29 +47,27 @@ attr_list_t *get_obj_list(obj_t *obj, char *str)
 }
 
 /* see parse.h */
-attr_list_t *extract_objects(obj_t *obj, char *str)
+obj_t *extract_objects(obj_t *obj, char *str)
 {
     bool valid = false;
 
-    attr_list_t *ls = get_obj_list(obj, str);
-
-    if (ls == NULL)
+    if (obj == NULL)
     {
         return NULL;
     }
 
     if (strcmp(str, "ROOMS") == 0)
     {
-        valid = list_type_check(ls, room_type_check);
+        valid = list_type_check(obj, room_type_check);
     }
     else if (strcmp(str, "ITEMS") == 0)
     {
-        valid = list_type_check(ls, item_type_check);
+        valid = list_type_check(obj, item_type_check);
     }
 
     if (valid == SUCCESS)
     {
-        return ls;
+        return obj;
     }
     else
     {
@@ -76,32 +75,34 @@ attr_list_t *extract_objects(obj_t *obj, char *str)
     }
 }
 
-/* See parse.h */
-attr_list_t* get_items_in_room(char* room_id, attr_list_t *all_items)
-{
-    attr_list_t* ret_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
-    attr_list_t* tmp = all_items;
-    while(tmp != NULL)
-    {
-        //will update this to item_compare in the future
-        if(strcmp(obj_get_str(tmp->obj, "in"), room_id) == 0)
-        {
-            ret_ls->obj = tmp->obj;
-            attr_list_t* next_in_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
-            ret_ls->next = next_in_ls;
-            ret_ls = ret_ls->next;
-        }
-        tmp = tmp->next;
-    }
-    return ret_ls;
-}
+// /* See parse.h */
+// obj_t* get_items_in_room(char* room_id, obj_t *all_items)
+// {
+//     attr_list_t* ret_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
+//     attr_list_t* tmp = all_items;
+
+//     obj_t *curr, *tmp;
+//     HASH_ITER(hh, all_items, curr, tmp)
+//     {
+//         //will update this to item_compare in the future
+//         if(strcmp(obj_get_str(tmp->obj, "in"), room_id) == 0)
+//         {
+//             ret_ls->obj = tmp->obj;
+//             attr_list_t* next_in_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
+//             ret_ls->next = next_in_ls;
+//             ret_ls = ret_ls->next;
+//         }
+//         tmp = tmp->next;
+//     }
+//     return ret_ls;
+// }
 
 /* see parse.h */
-attr_list_t *get_item_actions(obj_t *item)
+obj_t *get_item_actions(obj_t *item)
 {
     bool valid = false;
 
-    attr_list_t *ls = obj_list_attr(obj_get_attr(item, "actions", false));
+    obj_t *ls = obj_get_attr(item, "actions", false);
     if (ls == NULL)
     {
         return NULL;

@@ -25,12 +25,12 @@ obj_t *get_doc_obj(char *fpath);
  *  - a list of objects
  *  - null if attribute does not have associated objects, or if no such attribute exists
  */
-attr_list_t *extract_objects(obj_t *obj, char *str);
+obj_t *extract_objects(obj_t *obj, char *str);
 
 
-/* Given a room id and the list of all items in a game returns
- * a list with all the items in that room */
-attr_list_t* get_items_in_room(char* room_id, attr_list_t* all_items);
+// /* Given a room id and the list of all items in a game returns
+//  * a list with all the items in that room */
+// obj_t* get_items_in_room(char* room_id, obj_t* all_items);
 
 
 /*
@@ -44,6 +44,6 @@ attr_list_t* get_items_in_room(char* room_id, attr_list_t* all_items);
  *  - a linked list of type-checked action attributes
  *  - a null if any of the actions are malformed or if no actions are present
  */
-attr_list_t *get_item_actions(obj_t *item);
+obj_t *get_item_actions(obj_t *item);
 
 #endif /* INCLUDE_PARSE_H */

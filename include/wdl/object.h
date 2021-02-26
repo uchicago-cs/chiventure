@@ -17,7 +17,7 @@
 typedef enum objtype
 {
     TYPE_ERR = -1,
-    TYPE_NONE = 0,
+    TYPE_NA = 0,
     TYPE_PLAYER = 1,
     TYPE_ROOM = 2,
     TYPE_ITEM = 3,
