@@ -165,16 +165,16 @@ obj_t *obj_get_attr(obj_t *obj, char *id, bool create)
         return NULL;
     }
 
-    char *id_imm, *head_ptr;
+    char *id_imm, *free_me;
     char *tmp = calloc((MAXLEN_ID + 1) * MAX_DEPTH, sizeof(char));
+    char *saveptr;
     obj_t *attr;
 
     // For freeing later
-    head_ptr = tmp;
+    free_me = tmp;
 
-    char *rest = id;
     strncpy(tmp, id, (MAXLEN_ID + 1) * MAX_DEPTH - 1);
-    id_imm = strtok_r(rest, ".", &rest);
+    id_imm = strtok_r(tmp, ".", &saveptr);
     attr = obj;
 
     while (id_imm != NULL)
@@ -188,14 +188,14 @@ obj_t *obj_get_attr(obj_t *obj, char *id, bool create)
 
         if (attr == NULL)
         {
-            free(head_ptr);
+            free(free_me);
             return NULL;
         }
 
-        id_imm = strtok_r(rest, ".", &rest);
+        id_imm = strtok_r(NULL, ".", &saveptr);
     }
 
-    free(head_ptr);
+    free(free_me);
 
     return attr;
 }
