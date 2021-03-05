@@ -147,19 +147,20 @@ int obj_add_attr(obj_t *obj, char *id, obj_t *attr);
  * Removes an attribute from an object
  *   - Uses dot notation to place attributes ("attr.sub_attr.sub_sub_attr")
  * 
- *   - TODO- remove intermediate objects if the obj does not
+ *   - Does not remove intermediate objects if the obj does not
  *      have any data-containing properties
  *   - The search string must be shorter than the max recursion depth
  * 
  * Parameters:
  *  - obj: The object to remove the attribute from
  *  - id: The id of the attribute to remove
+ *  - do_free: Whether or not to recursive free the object and its children
  * 
  * Returns:
  *  - Returns EXIT_SUCCESS if attribute successfully removed
  *  - Returns EXIT_FAILURE otherwise
  */
-int obj_remove_attr(obj_t *obj, char *id);
+int obj_remove_attr(obj_t *obj, char *id, bool do_free);
 
 
 /*
@@ -227,6 +228,14 @@ int obj_set_str(obj_t *obj, char *id, char *value);
 int obj_set_list(obj_t *obj, char *id, obj_list_t *value);
 // void *obj_get_asset(obj_t *obj, char *id);
 // void *obj_get_lua(obj_t *obj, char *id);
+
+/*
+ * Recursively prints out the tree of object ids
+ * 
+ * Parameters:
+ *  - obj: The object to print
+ */
+void dump_obj(obj_t *obj);
 
 
 #endif /* INCLUDE_OBJ_H */

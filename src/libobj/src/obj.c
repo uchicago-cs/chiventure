@@ -233,7 +233,7 @@ int obj_add_attr(obj_t *obj, char *id, obj_t *attr)
 }
 
 /* See obj.h */
-int obj_remove_attr(obj_t *obj, char *id)
+int obj_remove_attr(obj_t *obj, char *id, bool do_free)
 {
     if (obj == NULL)
     {
@@ -242,23 +242,41 @@ int obj_remove_attr(obj_t *obj, char *id)
         return EXIT_FAILURE;
     }
 
+    int parent_path_len = 0;
+    if (strrchr(id, '.') != 0)
+    {
+        parent_path_len = strrchr(id, '.') - id + 1;
+    }
+
     char *parent_path = calloc((MAXLEN_ID + 1) * MAX_DEPTH, sizeof(char));
-    strncpy(parent_path, id, id - strrchr(id, '.'));
+    strncpy(parent_path, id, parent_path_len);
+    parent_path[parent_path_len] = '\0';
 
     obj_t *parent = obj_get_attr(obj, parent_path, false);
+    free(parent_path);
 
     if (parent == NULL)
     {
         return EXIT_FAILURE;
     }
+    if (parent->type != TYPE_OBJ)
+    {
+        printf("obj_remove_attr: parent is not TYPE_OBJ");
+        return EXIT_FAILURE;
+    }
 
-    obj_t *to_del = NULL;
-    char *child_id = strrchr(id, '.');
-    HASH_FIND_STR(parent, child_id, to_del);
+    obj_t *to_del;
+    char *child_id = id + parent_path_len;
+    HASH_FIND_STR(parent->data.attr, child_id, to_del);
 
     if (to_del != NULL)
     {
         HASH_DEL(parent->data.attr, to_del);
+        
+        if (do_free == true)
+        {
+            obj_free_all(to_del);
+        }
     }
 
     return EXIT_SUCCESS;
@@ -489,4 +507,43 @@ int obj_set_list(obj_t *obj, char *id, obj_list_t *value)
     attr->type = TYPE_LIST;
 
     return EXIT_SUCCESS;
+}
+
+/* Helper for dump_obj */
+void _dump_obj(obj_t *obj, int depth)
+{
+    obj_t *curr, *tmp;
+    if (obj->type == TYPE_OBJ)
+    {
+        HASH_ITER(hh, obj->data.attr, curr, tmp)
+        {
+            for (int i = 0; i < depth; i++)
+            {
+                printf("  ");
+            }
+            printf("- %s\n", curr->id);
+            _dump_obj(curr, depth + 1);
+        }
+    }
+    else if (obj->type == TYPE_LIST)
+    {
+        int i = 0;
+        DL_FOREACH(obj->data.lst, curr)
+        {
+            for (int i = 0; i < depth; i++)
+            {
+                printf(" ");
+            }
+            printf("%d %s\n", i, curr->id);
+            _dump_obj(curr, depth + 1);
+            i++;
+        }
+    }
+}
+
+/* See obj.h */
+void dump_obj(obj_t *obj)
+{
+    printf("- %s\n", obj->id);
+    _dump_obj(obj, 1);
 }
