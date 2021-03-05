@@ -1,5 +1,6 @@
-#include "common/uthash.h"
 #include <stdbool.h>
+#include "common/uthash.h"
+#include "common/utlist.h"
 
 #ifndef INCLUDE_OBJ_H
 #define INCLUDE_OBJ_H
