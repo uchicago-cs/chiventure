@@ -6,21 +6,23 @@
 #include "common/utlist.h"
 #include "common/uthash.h"
 
-int count_attrs(obj_t *obj, char *path)
+int count_attrs(obj_t *obj, char *path, int expected)
 {
     int count = 0;
 
     obj_t *loc = obj_get_attr(obj, path, false);
-    printf("----path %s\n", path);
+
+    cr_assert_eq(loc->type, TYPE_OBJ, "count_attrs needs the object type to be TYPE_OBJ");
 
     obj_t *curr, *tmp;
-    HASH_ITER(hh, loc, curr, tmp)
+    HASH_ITER(hh, loc->data.attr, curr, tmp)
     {
-        printf("id %s\n", curr->id);
         count++;
     }
 
-    return count;
+    cr_assert_eq(count, expected, 
+                 "obj_t '%s' has the wrong number of attrs at '%s'- expected: %d, got %d",
+                 obj->id, path, expected, count);
 }
 
 /* Tests obj_new */
@@ -106,7 +108,7 @@ Test(test_obj, add_immediate_attr)
     cr_assert_str_eq(tmp->id, id_child, "could not find child");
 }
 
-/* Tests obj_add_attr for an nested attribute */
+/* Tests obj_add_attr for a nested attribute */
 Test(test_obj, add_nested_attr)
 {
     obj_t* obj, *tmp0, *tmp1, *tmp2, *tmp3;
@@ -161,7 +163,7 @@ Test(test_obj, get_immediate_attr_no_create)
     cr_assert_eq(get_fail, NULL, "obj_get_attr found a nonexistent object");
 }
 
-/* Tests obj_get_attr for an nested attribute, doesn't create intermediaries */
+/* Tests obj_get_attr for a nested attribute, doesn't create intermediaries */
 Test(test_obj, get_nested_attr_no_create)
 {
     obj_t* obj;
@@ -197,15 +199,10 @@ Test(test_obj, get_nested_attr_no_create)
     get_fail = obj_get_attr(obj, "intermediate_0.intermediate_1.intermediate_2.nonexistent_id", false);
     cr_assert_eq(get_fail, NULL, "obj_get_attr found a nonexistent object at child level");
 
-    int count;
-    count = count_attrs(obj, ".");
-    cr_assert_eq(count, 1, "obj has the wrong number of attrs at level 0");
-    count = count_attrs(obj, "intermediate_0");
-    cr_assert_eq(count, 1, "obj has the wrong number of attrs at level 1");
-    count = count_attrs(obj, "intermediate_0.intermediate_1");
-    cr_assert_eq(count, 1, "obj has the wrong number of attrs at level 2");
-    count = count_attrs(obj, "intermediate_0.intermediate_1.intermediate_2");
-    cr_assert_eq(count, 1, "obj has the wrong number of attrs at level 3");
+    count_attrs(obj, ".", 1);
+    count_attrs(obj, "intermediate_0", 1);
+    count_attrs(obj, "intermediate_0.intermediate_1", 1);
+    count_attrs(obj, "intermediate_0.intermediate_1.intermediate_2", 1);
 }
 
 /* Tests obj_get_attr for an immediate attribute, creates intermediaries */
@@ -231,7 +228,7 @@ Test(test_obj, get_immediate_attr_create)
     cr_assert_neq(get_new, NULL, "obj_get_attr did not create a new object");
 }
 
-/* Tests obj_get_attr for an nested attribute, creates intermediaries */
+/* Tests obj_get_attr for a nested attribute, creates intermediaries */
 Test(test_obj, get_nested_attr_create)
 {
     obj_t* obj;
@@ -267,13 +264,209 @@ Test(test_obj, get_nested_attr_create)
     get_new = obj_get_attr(obj, "intermediate_0.intermediate_1.intermediate_2.nonexistent_id2", true);
     cr_assert_neq(get_new, NULL, "obj_get_attr did not create a new object at child level");
 
-    int count;
-    count = count_attrs(obj, ".");
-    cr_assert_eq(count, 1, "obj has the wrong number of attrs at level 0");
-    count = count_attrs(obj, "intermediate_0");
-    cr_assert_eq(count, 2, "obj has the wrong number of attrs at level 1");
-    count = count_attrs(obj, "intermediate_0.intermediate_1");
-    cr_assert_eq(count, 2, "obj has the wrong number of attrs at level 2");
-    count = count_attrs(obj, "intermediate_0.intermediate_1.intermediate_2");
-    cr_assert_eq(count, 2, "obj has the wrong number of attrs at level 3");
+    count_attrs(obj, ".", 2);
+    count_attrs(obj, "intermediate_0", 2);
+    count_attrs(obj, "intermediate_0.intermediate_1", 2);
+    count_attrs(obj, "intermediate_0.intermediate_1.intermediate_2", 2);
+}
+
+void get_test(obj_t *parent, obj_t *expected, char *path)
+{
+    obj_t *get_success = obj_get_attr(parent, path, false);
+    cr_assert_eq(get_success, expected, "get for path '%s' failed", path);
+}
+
+/* Tests obj_get_attr get syntax */
+Test(test_obj, get_syntax)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *id_child = "child";
+
+    obj = obj_new(id);
+    obj_t *child = obj_new(id_child);
+
+    cr_assert_not_null(obj, "obj_new failed");
+    cr_assert_not_null(child, "obj_new failed");
+
+    int rc = obj_add_attr(obj, "0.1.2", child);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_add_attr for nested child failed");
+
+    obj_t *get_success = obj_get_attr(obj, "self", false);
+    cr_assert_eq(get_success, obj, "could not get self");
+
+    get_test(obj, obj, "self");
+    get_test(obj, obj, ".");
+    get_test(obj, obj, ".....");
+    get_test(obj, obj, "self.self.self");
+    get_test(obj, obj, "...self...self.self");
+    get_test(obj, obj, "...self...self.self.");
+    get_test(obj, obj, "");
+
+    get_test(obj, child, "0.1.2.child");
+    get_test(obj, child, "...0.1...2...child..");
+    get_test(obj, child, "self..0...1..2...child..");
+    get_test(obj, child, ".self..0.1...2...child.");
+
+    get_test(obj, NULL, "na");
+    get_test(obj, NULL, ".na..");
+    get_test(obj, NULL, "self.0.1.2.child.na");
+    get_test(obj, NULL, "self.0.1.2.child.na");
+    get_test(obj, NULL, "self.0.1.2.child.ads");
+}
+
+/* Tests obj_remove_attr for an immediate attribute, doesn't free */
+Test(test_obj, remove_immediate_no_free)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *id_child = "child";
+
+    obj = obj_new(id);
+    obj_t *child = obj_new(id_child);
+
+    cr_assert_not_null(obj, "obj_new failed");
+    cr_assert_not_null(child, "obj_new failed");
+
+    int rc = obj_add_attr(obj, ".", child);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_add_attr for immediate child failed");
+    count_attrs(obj, ".", 1);
+
+    rc = obj_remove_attr(obj, id_child, false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for immediate child failed");
+
+    rc = obj_remove_attr(obj, id_child, false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for immediate child 2 failed");
+
+    rc = obj_remove_attr(obj, "na", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for immediate child failed");
+
+    count_attrs(obj, ".", 0);
+}
+
+/* Tests obj_remove_attr for a nested attribute, doesn't free */
+Test(test_obj, remove_nested_no_free)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *id_child = "child";
+
+    obj = obj_new(id);
+    obj_t *child = obj_new(id_child);
+
+    cr_assert_not_null(obj, "obj_new failed");
+    cr_assert_not_null(child, "obj_new failed");
+
+    int rc = obj_add_attr(obj, "intermediate_0.intermediate_1.intermediate_2", child);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_add_attr for nested child failed");
+
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2.child", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for child failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2.child", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for child 2 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2.nonexistent_id2", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for nonexistent child failed");
+    count_attrs(obj, "intermediate_0.intermediate_1.intermediate_2", 0);
+
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_2 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_2 2 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.nonexistent_id2", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for nonexistent intermediate_2 failed");
+    count_attrs(obj, "intermediate_0.intermediate_1", 0);
+
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_1 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_1 2 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.nonexistent_id1", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for nonexistent intermediate_1 failed");
+    count_attrs(obj, "intermediate_0", 0);
+
+    rc = obj_remove_attr(obj, "intermediate_0", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_0 failed");
+    rc = obj_remove_attr(obj, "intermediate_0", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_0 2 failed");
+    rc = obj_remove_attr(obj, "nonexistent_id0", false);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for nonexistent intermediate_0 failed");
+    count_attrs(obj, ".", 0);
+}
+
+/* Tests obj_remove_attr for an immediate attribute, frees */
+Test(test_obj, remove_immediate_free)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *id_child = "child";
+
+    obj = obj_new(id);
+    obj_t *child = obj_new(id_child);
+
+    cr_assert_not_null(obj, "obj_new failed");
+    cr_assert_not_null(child, "obj_new failed");
+
+    int rc = obj_add_attr(obj, ".", child);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_add_attr for immediate child failed");
+    count_attrs(obj, ".", 1);
+
+    rc = obj_remove_attr(obj, id_child, true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for immediate child failed");
+
+    rc = obj_remove_attr(obj, id_child, true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for immediate child 2 failed");
+
+    rc = obj_remove_attr(obj, "na", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for immediate child failed");
+
+    count_attrs(obj, ".", 0);
+}
+
+/* Tests obj_remove_attr for a nested attribute, frees */
+Test(test_obj, remove_nested_free)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *id_child = "child";
+
+    obj = obj_new(id);
+    obj_t *child = obj_new(id_child);
+
+    cr_assert_not_null(obj, "obj_new failed");
+    cr_assert_not_null(child, "obj_new failed");
+
+    int rc = obj_add_attr(obj, "intermediate_0.intermediate_1.intermediate_2", child);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_add_attr for nested child failed");
+
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2.child", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for child failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2.child", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for child 2 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2.nonexistent_id2", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for nonexistent child failed");
+    count_attrs(obj, "intermediate_0.intermediate_1.intermediate_2", 0);
+
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_2 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.intermediate_2", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_2 2 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1.nonexistent_id2", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for nonexistent intermediate_2 failed");
+    count_attrs(obj, "intermediate_0.intermediate_1", 0);
+
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_1 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.intermediate_1", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_1 2 failed");
+    rc = obj_remove_attr(obj, "intermediate_0.nonexistent_id1", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for nonexistent intermediate_1 failed");
+    count_attrs(obj, "intermediate_0", 0);
+
+    rc = obj_remove_attr(obj, "intermediate_0", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_0 failed");
+    rc = obj_remove_attr(obj, "intermediate_0", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for intermediate_0 2 failed");
+    rc = obj_remove_attr(obj, "nonexistent_id0", true);
+    cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for nonexistent intermediate_0 failed");
+    count_attrs(obj, ".", 0);
 }
