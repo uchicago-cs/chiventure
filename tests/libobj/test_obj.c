@@ -494,3 +494,176 @@ Test(test_obj, get_type)
     type = obj_get_type(obj, path);
     cr_assert_eq(TYPE_INT, type, "obj_get_type got the wrong type");
 }
+
+/* Tests getting and setting a bool object type */
+Test(test_obj, get_set_bool)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *path_imm = "imm";
+    char *path_nest = "a.b.nest";
+
+    obj = obj_new(id);
+
+    cr_assert_not_null(obj, "obj_new failed");
+
+    int rc = obj_set_bool(obj, path_imm, true);
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_bool for immediate child failed");
+    obj_t *child = obj_get_attr(obj, path_imm, false);
+    cr_assert_neq(NULL, child, "could not find immediate child");
+    cr_assert_eq(TYPE_BOOL, child->type, "obj_set_bool for immediate child created the wrong type");
+    cr_assert_eq(true, child->data.b, "obj_set_bool for immediate child set the wrong value");
+
+    rc = obj_set_bool(obj, path_nest, false);
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_bool for nested child failed");
+    child = obj_get_attr(obj, path_nest, false);
+    cr_assert_neq(NULL, child, "could not find nested child");
+    cr_assert_eq(TYPE_BOOL, child->type, "obj_set_bool for nested child created the wrong type");
+    cr_assert_eq(false, child->data.b, "obj_set_bool for nested child set the wrong value");
+
+    bool res = obj_get_bool(obj, path_imm);
+    cr_assert_eq(true, res, "obj_get_bool for immediate child got the wrong value");
+
+    res = obj_get_bool(obj, path_nest);
+    cr_assert_eq(false, res, "obj_get_bool for nested child got the wrong value");
+}
+
+/* Tests getting and setting a char object type */
+Test(test_obj, get_set_char)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *path_imm = "imm";
+    char *path_nest = "a.b.nest";
+
+    obj = obj_new(id);
+
+    cr_assert_not_null(obj, "obj_new failed");
+
+    int rc = obj_set_char(obj, path_imm, 'a');
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_char for immediate child failed");
+    obj_t *child = obj_get_attr(obj, path_imm, false);
+    cr_assert_neq(NULL, child, "could not find immediate child");
+    cr_assert_eq(TYPE_CHAR, child->type, "obj_set_char for immediate child created the wrong type");
+    cr_assert_eq('a', child->data.c, "obj_set_char for immediate child set the wrong value");
+
+    rc = obj_set_char(obj, path_nest, 'b');
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_char for nested child failed");
+    child = obj_get_attr(obj, path_nest, false);
+    cr_assert_neq(NULL, child, "could not find nested child");
+    cr_assert_eq(TYPE_CHAR, child->type, "obj_set_char for nested child created the wrong type");
+    cr_assert_eq('b', child->data.c, "obj_set_char for nested child set the wrong value");
+
+    char res = obj_get_char(obj, path_imm);
+    cr_assert_eq('a', res, "obj_get_char for immediate child got the wrong value");
+
+    res = obj_get_char(obj, path_nest);
+    cr_assert_eq('b', res, "obj_get_char for nested child got the wrong value");
+}
+
+/* Tests getting and setting an int object type */
+Test(test_obj, get_set_int)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *path_imm = "imm";
+    char *path_nest = "a.b.nest";
+
+    obj = obj_new(id);
+
+    cr_assert_not_null(obj, "obj_new failed");
+
+    int rc = obj_set_int(obj, path_imm, 3);
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_int for immediate child failed");
+    obj_t *child = obj_get_attr(obj, path_imm, false);
+    cr_assert_neq(NULL, child, "could not find immediate child");
+    cr_assert_eq(TYPE_INT, child->type, "obj_set_int for immediate child created the wrong type");
+    cr_assert_eq(3, child->data.i, "obj_set_int for immediate child set the wrong value");
+
+    rc = obj_set_int(obj, path_nest, 4);
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_int for nested child failed");
+    child = obj_get_attr(obj, path_nest, false);
+    cr_assert_neq(NULL, child, "could not find nested child");
+    cr_assert_eq(TYPE_INT, child->type, "obj_set_int for nested child created the wrong type");
+    cr_assert_eq(4, child->data.i, "obj_set_int for nested child set the wrong value");
+
+    int res = obj_get_int(obj, path_imm);
+    cr_assert_eq(3, res, "obj_get_int for immediate child got the wrong value");
+
+    res = obj_get_int(obj, path_nest);
+    cr_assert_eq(4, res, "obj_get_int for nested child got the wrong value");
+}
+
+/* Tests getting and setting a str object type */
+Test(test_obj, get_set_str)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *path_imm = "imm";
+    char *path_nest = "a.b.nest";
+
+    obj = obj_new(id);
+
+    cr_assert_not_null(obj, "obj_new failed");
+
+    int rc = obj_set_str(obj, path_imm, "str1");
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_str for immediate child failed");
+    obj_t *child = obj_get_attr(obj, path_imm, false);
+    cr_assert_neq(NULL, child, "could not find immediate child");
+    cr_assert_eq(TYPE_STR, child->type, "obj_set_str for immediate child created the wrong type");
+    cr_assert_str_eq("str1", child->data.s, "obj_set_str for immediate child set the wrong value");
+
+    rc = obj_set_str(obj, path_nest, "str2");
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_str for nested child failed");
+    child = obj_get_attr(obj, path_nest, false);
+    cr_assert_neq(NULL, child, "could not find nested child");
+    cr_assert_eq(TYPE_STR, child->type, "obj_set_str for nested child created the wrong type");
+    cr_assert_str_eq("str2", child->data.s, "obj_set_str for nested child set the wrong value");
+
+    char *res = obj_get_str(obj, path_imm);
+    cr_assert_str_eq("str1", res, "obj_get_str for immediate child got the wrong value");
+
+    res = obj_get_str(obj, path_nest);
+    cr_assert_str_eq("str2", res, "obj_get_str for nested child got the wrong value");
+}
+
+/* Tests getting and setting a list object type */
+Test(test_obj, get_set_list)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *path_imm = "imm";
+    char *path_nest = "a.b.nest";
+
+    obj_t *tmp1 = obj_new("tmp1");
+    obj_t *tmp2 = obj_new("tmp2");
+
+    obj_list_t *lst1 = NULL;
+    DL_APPEND(lst1, tmp1);
+    obj_list_t *lst2 = NULL;
+    DL_APPEND(lst2, tmp2);
+
+    obj = obj_new(id);
+
+    cr_assert_not_null(obj, "obj_new failed");
+
+    int rc = obj_set_list(obj, path_imm, lst1);
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_list for immediate child failed");
+    obj_t *child = obj_get_attr(obj, path_imm, false);
+    cr_assert_neq(NULL, child, "could not find immediate child");
+    cr_assert_eq(TYPE_LIST, child->type, "obj_set_list for immediate child created the wrong type");
+    cr_assert_eq(lst1, child->data.lst, "obj_set_list for immediate child set the wrong value");
+
+    rc = obj_set_list(obj, path_nest, lst2);
+    cr_assert_eq(EXIT_SUCCESS, rc, "obj_set_list for nested child failed");
+    child = obj_get_attr(obj, path_nest, false);
+    cr_assert_neq(NULL, child, "could not find nested child");
+    cr_assert_eq(TYPE_LIST, child->type, "obj_set_list for nested child created the wrong type");
+    cr_assert_eq(lst2, child->data.lst, "obj_set_list for nested child set the wrong value");
+
+    obj_list_t *res = obj_get_list(obj, path_imm);
+    cr_assert_eq(lst1, res, "obj_get_list for immediate child got the wrong value");
+
+    res = obj_get_list(obj, path_nest);
+    cr_assert_eq(lst2, res, "obj_get_list for nested child got the wrong value");
+}

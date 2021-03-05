@@ -313,6 +313,7 @@ bool obj_get_bool(obj_t *obj, char *id)
 
     if (attr == NULL || attr->type != TYPE_BOOL)
     {
+        printf("obj_get_bool: This obj has incorrect type: %d\n", attr->type);
         return false;
     }
 
@@ -354,6 +355,7 @@ char obj_get_char(obj_t *obj, char *id)
 
     if (attr == NULL || attr->type != TYPE_CHAR)
     {
+        printf("obj_get_char: This obj has incorrect type: %d\n", attr->type);
         return '\0';
     }
 
@@ -395,6 +397,7 @@ int obj_get_int(obj_t *obj, char *id)
 
     if (attr == NULL || attr->type != TYPE_INT)
     {
+        printf("obj_get_int: This obj has incorrect type: %d\n", attr->type);
         return 0;
     }
 
@@ -436,6 +439,7 @@ char *obj_get_str(obj_t *obj, char *id)
 
     if (attr == NULL || attr->type != TYPE_STR)
     {
+        printf("obj_get_str: This obj has incorrect type: %d\n", attr->type);
         return NULL;
     }
 
@@ -478,8 +482,9 @@ obj_list_t *obj_get_list(obj_t *obj, char *id)
 
     obj_t *attr = obj_get_attr(obj, id, false);
 
-    if (attr == NULL || attr->type != TYPE_INT)
+    if (attr == NULL || attr->type != TYPE_LIST)
     {
+        printf("obj_get_list: This obj has incorrect type: %d\n", attr->type);
         return 0;
     }
 
