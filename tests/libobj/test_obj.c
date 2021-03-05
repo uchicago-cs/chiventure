@@ -470,3 +470,27 @@ Test(test_obj, remove_nested_free)
     cr_assert_eq(rc, EXIT_SUCCESS, "obj_remove_attr for nonexistent intermediate_0 failed");
     count_attrs(obj, ".", 0);
 }
+
+/* Tests obj_get_type */
+Test(test_obj, get_type)
+{
+    obj_t* obj;
+    char *id = "test_id";
+    char *path = "0.1.child";
+
+    obj = obj_new(id);
+
+    cr_assert_not_null(obj, "obj_new failed");
+
+    obj_t *child = obj_get_attr(obj, path, true);
+    cr_assert_neq(NULL, child, "obj_get_attr for immediate child failed");
+
+    cr_assert_eq(TYPE_NONE, child->type, "obj_get_attr created the wrong type");
+
+    type_t type = obj_get_type(obj, path);
+    cr_assert_eq(TYPE_NONE, type, "obj_get_type got the wrong type");
+
+    child->type = TYPE_INT;
+    type = obj_get_type(obj, path);
+    cr_assert_eq(TYPE_INT, type, "obj_get_type got the wrong type");
+}
