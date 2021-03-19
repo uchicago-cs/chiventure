@@ -1,8 +1,9 @@
-#include <stdbool.h>
-#include "libobj/obj.h"
-
 #ifndef INCLUDE_LOAD_JSON_H
 #define INCLUDE_LOAD_JSON_H
+
+#include <stdbool.h>
+#include <json-c/json.h>
+#include "libobj/obj.h"
 
 
 /*
@@ -18,7 +19,7 @@
  *  - An obj containing the JSON file's data
  *  - NULL on error
  */
-void _load_obj_json(obj_t *parent, struct json_object *json);
+int _load_obj_json(obj_t *parent, struct json_object *json);
 
 /*
  * Loads a JSON file into an object

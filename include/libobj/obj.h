@@ -1,9 +1,9 @@
+#ifndef INCLUDE_OBJ_H
+#define INCLUDE_OBJ_H
+
 #include <stdbool.h>
 #include "common/uthash.h"
 #include "common/utlist.h"
-
-#ifndef INCLUDE_OBJ_H
-#define INCLUDE_OBJ_H
 
 #define MAXLEN_DATA 1024 // strings containing data
 #define MAXLEN_ID 60 // ID strings for objects
