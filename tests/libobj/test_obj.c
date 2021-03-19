@@ -28,7 +28,7 @@ int count_attrs(obj_t *obj, char *path, int expected)
 /* Tests obj_new */
 Test(test_obj, new)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
 
     obj = obj_new(id);
@@ -54,7 +54,7 @@ Test(test_obj, init)
 /* Tests obj_free */
 Test(test_obj, free)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
 
     obj = obj_new(id);
@@ -69,7 +69,7 @@ Test(test_obj, free)
 /* Tests obj_free_all */
 Test(test_obj, free_all)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
 
     obj = obj_new(id);
@@ -92,7 +92,7 @@ Test(test_obj, free_all)
 /* Tests obj_add_attr for an immediate attribute */
 Test(test_obj, add_immediate_attr)
 {
-    obj_t* obj, *tmp;
+    obj_t *obj, *tmp;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -111,7 +111,7 @@ Test(test_obj, add_immediate_attr)
 /* Tests obj_add_attr for a nested attribute */
 Test(test_obj, add_nested_attr)
 {
-    obj_t* obj, *tmp0, *tmp1, *tmp2, *tmp3;
+    obj_t *obj, *tmp0, *tmp1, *tmp2, *tmp3;
     char *id = "test_id";
     char *id_child = "child";
     char *id_intermediate_0 = "intermediate_0";
@@ -143,7 +143,7 @@ Test(test_obj, add_nested_attr)
 /* Tests obj_get_attr for an immediate attribute, doesn't create intermediaries */
 Test(test_obj, get_immediate_attr_no_create)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -166,7 +166,7 @@ Test(test_obj, get_immediate_attr_no_create)
 /* Tests obj_get_attr for a nested attribute, doesn't create intermediaries */
 Test(test_obj, get_nested_attr_no_create)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -208,7 +208,7 @@ Test(test_obj, get_nested_attr_no_create)
 /* Tests obj_get_attr for an immediate attribute, creates intermediaries */
 Test(test_obj, get_immediate_attr_create)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -231,7 +231,7 @@ Test(test_obj, get_immediate_attr_create)
 /* Tests obj_get_attr for a nested attribute, creates intermediaries */
 Test(test_obj, get_nested_attr_create)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -279,7 +279,7 @@ void get_test(obj_t *parent, obj_t *expected, char *path)
 /* Tests obj_get_attr get syntax */
 Test(test_obj, get_syntax)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -318,7 +318,7 @@ Test(test_obj, get_syntax)
 /* Tests obj_remove_attr for an immediate attribute, doesn't free */
 Test(test_obj, remove_immediate_no_free)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -347,7 +347,7 @@ Test(test_obj, remove_immediate_no_free)
 /* Tests obj_remove_attr for a nested attribute, doesn't free */
 Test(test_obj, remove_nested_no_free)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -396,7 +396,7 @@ Test(test_obj, remove_nested_no_free)
 /* Tests obj_remove_attr for an immediate attribute, frees */
 Test(test_obj, remove_immediate_free)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -425,7 +425,7 @@ Test(test_obj, remove_immediate_free)
 /* Tests obj_remove_attr for a nested attribute, frees */
 Test(test_obj, remove_nested_free)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *id_child = "child";
 
@@ -474,7 +474,7 @@ Test(test_obj, remove_nested_free)
 /* Tests obj_get_type */
 Test(test_obj, get_type)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *path = "0.1.child";
 
@@ -498,7 +498,7 @@ Test(test_obj, get_type)
 /* Tests getting and setting a bool object type */
 Test(test_obj, get_set_bool)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *path_imm = "imm";
     char *path_nest = "a.b.nest";
@@ -531,7 +531,7 @@ Test(test_obj, get_set_bool)
 /* Tests getting and setting a char object type */
 Test(test_obj, get_set_char)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *path_imm = "imm";
     char *path_nest = "a.b.nest";
@@ -564,7 +564,7 @@ Test(test_obj, get_set_char)
 /* Tests getting and setting an int object type */
 Test(test_obj, get_set_int)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *path_imm = "imm";
     char *path_nest = "a.b.nest";
@@ -597,7 +597,7 @@ Test(test_obj, get_set_int)
 /* Tests getting and setting a str object type */
 Test(test_obj, get_set_str)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *path_imm = "imm";
     char *path_nest = "a.b.nest";
@@ -630,7 +630,7 @@ Test(test_obj, get_set_str)
 /* Tests getting and setting a list object type */
 Test(test_obj, get_set_list)
 {
-    obj_t* obj;
+    obj_t *obj;
     char *id = "test_id";
     char *path_imm = "imm";
     char *path_nest = "a.b.nest";

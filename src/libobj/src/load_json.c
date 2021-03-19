@@ -3,9 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "libobj/obj.h"
 #include "common/utlist.h"
+#include "libobj/load_json.h"
 
+/* Recursive helper for load_obj_json
+   See load_json.h */
 void _load_obj_json(obj_t *parent, struct json_object *json)
 {
     json_object_object_foreach(json, key, val)
