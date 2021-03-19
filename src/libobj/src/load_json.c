@@ -24,7 +24,9 @@ int _load_obj_json(obj_t *parent, struct json_object *json)
         break;
 
     case json_type_string:
-        return obj_set_str(parent, ".", json_object_get_string(json));
+        ;
+        const char *str = json_object_get_string(json);
+        return obj_set_str(parent, ".", (char *)str);
         break;
 
     case json_type_object:
