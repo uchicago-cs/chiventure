@@ -99,7 +99,7 @@ Test(test_load_json, load_list)
 }
 
 /* Tests load_json for loading a full json object with many properties */
-Test(test_load_json, load_all)
+Test(test_load_json, load_obj_json)
 {
     obj_t *obj = obj_new("test_id");
     
@@ -121,9 +121,8 @@ Test(test_load_json, load_all)
         "        }"
         "    ]"
         "}";
-    json_object *json = json_tokener_parse(json_str);
 
-    int rc = _load_obj_json(obj, json);
+    int rc = load_obj_json(obj, json_str);
     cr_assert_eq(rc, EXIT_SUCCESS, "_load_obj_json failed");
 
     cr_assert_str_eq("A red sign.", obj_get_str(obj, "short_desc"),

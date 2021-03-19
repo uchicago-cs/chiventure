@@ -8,7 +8,7 @@
 
 /*
  * Do not call this function directly. This is exposed
- * only for testing purposes
+ * only for testing purposes. Use load_obj_json instead
  * 
  * Recursive helper for load_obj_json. 
  * 
@@ -16,22 +16,21 @@
  *  - path: The path to the JSON file
  * 
  * Returns:
- *  - An obj containing the JSON file's data
- *  - NULL on error
+ *  - EXIT_SUCCESS on success, EXIT_FAILURE on failure
  */
 int _load_obj_json(obj_t *parent, struct json_object *json);
 
 /*
- * Loads a JSON file into an object
+ * Loads a string containing JSON into an obj
  * 
  * Parameters:
- *  - path: The path to the JSON file
+ *  - obj: The object to load data into
+ *  - json_str: The string containing the JSON
  * 
  * Returns:
- *  - An obj containing the JSON file's data
- *  - NULL on error
+ *  - EXIT_SUCCESS on success, EXIT_FAILURE on failure
  */
-obj_t *load_obj_json(char *path);
+int load_obj_json(obj_t *obj, char *json_str);
 
 
 #endif /* INCLUDE_LOAD_JSON_H */

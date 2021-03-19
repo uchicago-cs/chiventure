@@ -65,14 +65,13 @@ int _load_obj_json(obj_t *parent, struct json_object *json)
 }
 
 /* See load_json.h */
-obj_t *load_obj_json(char *path)
+int load_obj_json(obj_t *obj, char *json_str)
 {
-    obj_t *obj = obj_new(path);
+    struct json_object *json = json_tokener_parse(json_str);
+    int rc = _load_obj_json(obj, json);
 
-    struct json_object *json = json_tokener_parse(path);
-    _load_obj_json(obj, json);
+    // Frees the json object
+    json_object_put(json);
 
-    // TODO- free?
-
-    return obj;
+    return rc;
 }
