@@ -67,7 +67,7 @@ obj_t *extract_objects(obj_t *obj, char *str)
 
     if (valid == SUCCESS)
     {
-        return obj;
+        return obj_get_attr(obj, str, false);
     }
     else
     {

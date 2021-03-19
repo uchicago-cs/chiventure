@@ -538,7 +538,7 @@ void _dump_obj(obj_t *obj, int depth)
             {
                 printf(" ");
             }
-            printf("%d %s\n", i, curr->id);
+            printf("[%d] %s\n", i, curr->id);
             _dump_obj(curr, depth + 1);
             i++;
         }
