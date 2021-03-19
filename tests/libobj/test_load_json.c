@@ -16,7 +16,6 @@ Test(test_load_json, load_bool)
     json_object *data = json_object_new_boolean(true);
 
     int rc = _load_obj_json(obj, data);
-
     cr_assert_eq(rc, EXIT_SUCCESS, "_load_obj_json failed");
 
     bool val = obj_get_bool(obj, ".");
@@ -31,7 +30,6 @@ Test(test_load_json, load_int)
     json_object *data = json_object_new_int(10);
 
     int rc = _load_obj_json(obj, data);
-
     cr_assert_eq(rc, EXIT_SUCCESS, "_load_obj_json failed");
 
     int val = obj_get_int(obj, ".");
@@ -46,7 +44,6 @@ Test(test_load_json, load_str)
     json_object *data = json_object_new_string("test_string");
 
     int rc = _load_obj_json(obj, data);
-
     cr_assert_eq(rc, EXIT_SUCCESS, "_load_obj_json failed");
 
     char *val = obj_get_str(obj, ".");
@@ -65,7 +62,6 @@ Test(test_load_json, load_obj)
     json_object_object_add(json, "data1", data1);
 
     int rc = _load_obj_json(obj, json);
-
     cr_assert_eq(rc, EXIT_SUCCESS, "_load_obj_json failed");
 
     int val0 = obj_get_int(obj, "data0");
@@ -87,7 +83,6 @@ Test(test_load_json, load_list)
     json_object_array_add(json, data1);
 
     int rc = _load_obj_json(obj, json);
-
     cr_assert_eq(rc, EXIT_SUCCESS, "_load_obj_json failed");
 
     obj_list_t *lst = obj_get_list(obj, ".");
@@ -101,4 +96,55 @@ Test(test_load_json, load_list)
     cr_assert_eq(val1, true, "_load_obj_json didn't return the correct value");
 
     cr_assert_null(cur->next, "_load_obj_json didn't return the correct value");
+}
+
+/* Tests load_json for loading a full json object with many properties */
+Test(test_load_json, load_all)
+{
+    obj_t *obj = obj_new("test_id");
+    
+    char *json_str =
+        "{"
+        "    \"short_desc\":\"A red sign.\","
+        "    \"props\":{"
+        "        \"length\":12,"
+        "        \"open\":true"
+        "    },"
+        "    \"actions\":["
+        "        {"
+        "            \"name\":\"take\","
+        "            \"condition\":false"
+        "        },"
+        "        {"
+        "            \"name\":\"pull\","
+        "            \"condition\":true"
+        "        }"
+        "    ]"
+        "}";
+    json_object *json = json_tokener_parse(json_str);
+
+    int rc = _load_obj_json(obj, json);
+    cr_assert_eq(rc, EXIT_SUCCESS, "_load_obj_json failed");
+
+    cr_assert_str_eq("A red sign.", obj_get_str(obj, "short_desc"),
+        "_load_obj_json didn't return the correct value");
+    cr_assert_eq(12, obj_get_int(obj, "props.length"),
+        "_load_obj_json didn't return the correct value");
+    cr_assert_eq(true, obj_get_bool(obj, "props.open"),
+        "_load_obj_json didn't return the correct value");
+
+    obj_list_t *lst = obj_get_list(obj, "actions");
+    cr_assert_not_null(lst, "_load_obj_json didn't load the list correctly");
+
+    obj_t *cur = lst;
+    cr_assert_str_eq("take", obj_get_str(cur, "name"),
+        "_load_obj_json didn't return the correct value");
+    cr_assert_eq(false, obj_get_bool(cur, "condition"),
+        "_load_obj_json didn't return the correct value");
+
+    cur = cur->next;
+    cr_assert_str_eq("pull", obj_get_str(cur, "name"),
+        "_load_obj_json didn't return the correct value");
+    cr_assert_eq(true, obj_get_bool(cur, "condition"),
+        "_load_obj_json didn't return the correct value");
 }
