@@ -24,15 +24,15 @@ int _load_obj_json(obj_t *parent, struct json_object *json)
         break;
 
     case json_type_string:
-        ;
+        ; // Need this semicolon because C is weird
+        // https://stackoverflow.com/questions/8384388/variable-declaration-after-goto-label
+        
         const char *str = json_object_get_string(json);
         return obj_set_str(parent, ".", (char *)str);
         break;
 
     case json_type_object:
-        ; // Need this semicolon because C is weird
-        // https://stackoverflow.com/questions/8384388/variable-declaration-after-goto-label
-
+        ;
         json_object_object_foreach(json, key, val)
         {
             obj_t *child = obj_get_attr(parent, key, true);
