@@ -50,7 +50,7 @@ int load_actions(obj_t *doc, item_t *i)
     list_action_type_t *val_actions = get_supported_actions();
 
     obj_t *curr, *tmp;
-    HASH_ITER(hh, action_ls->data.attr, curr, tmp)
+    HASH_ITER(hh, action_ls->data.obj.attr, curr, tmp)
     {
         temp = get_game_action(obj_get_str(curr, "action"), val_actions);
 
@@ -91,7 +91,7 @@ int load_items(obj_t *doc, game_t *g)
 
     // while list of items exists, create new game_struct item, add item to room
     obj_t *curr, *tmp;
-    HASH_ITER(hh, items_obj->data.attr, curr, tmp)
+    HASH_ITER(hh, items_obj->data.obj.attr, curr, tmp)
     {
         // get id, short_desc, and long_desc
         char *id = obj_get_str(curr, "id");

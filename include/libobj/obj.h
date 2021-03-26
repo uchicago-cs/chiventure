@@ -44,7 +44,9 @@ typedef struct obj
         char c;
         int  i;
         char *s;
-        struct obj *attr;
+        struct {
+            struct obj *attr;
+        } obj;
         struct obj *lst;
     } data;
 

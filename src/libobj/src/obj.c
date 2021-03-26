@@ -78,21 +78,21 @@ int obj_free_all(obj_t *obj)
 
     obj_free_str(obj);
 
-    if (obj->type == TYPE_OBJ && obj->data.attr != NULL)
+    if (obj->type == TYPE_OBJ && obj->data.obj.attr != NULL)
     {
         obj_t *el, *tmp;
-        HASH_ITER(hh, obj->data.attr, el, tmp)
+        HASH_ITER(hh, obj->data.obj.attr, el, tmp)
         {
-            HASH_DEL(obj->data.attr, el);
+            HASH_DEL(obj->data.obj.attr, el);
             obj_free_all(el);
         }
     }
     else if (obj->type == TYPE_LIST && obj->data.lst != NULL)
     {
         obj_t *el, *tmp;
-        DL_FOREACH_SAFE(obj->data.attr, el, tmp)
+        DL_FOREACH_SAFE(obj->data.obj.attr, el, tmp)
         {
-            DL_DELETE(obj->data.attr, el);
+            DL_DELETE(obj->data.obj.attr, el);
             obj_free_all(el);
         }
     }
@@ -141,15 +141,15 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create)
     obj_t *el = NULL;
 
     // Try to find the object in the existing hash table
-    if (obj->data.attr)
+    if (obj->data.obj.attr)
     {
-        HASH_FIND_STR(obj->data.attr, id, el);
+        HASH_FIND_STR(obj->data.obj.attr, id, el);
     }
 
     if (el == NULL && create == true)
     {
         el = obj_new(id);
-        HASH_ADD_STR(obj->data.attr, id, el);
+        HASH_ADD_STR(obj->data.obj.attr, id, el);
     }
 
     return el;
@@ -226,7 +226,7 @@ int obj_add_attr(obj_t *obj, char *id, obj_t *attr)
         return EXIT_FAILURE;
     }
     
-    HASH_ADD_STR(parent->data.attr, id, attr);
+    HASH_ADD_STR(parent->data.obj.attr, id, attr);
 
     return EXIT_SUCCESS;
 }
@@ -266,11 +266,11 @@ int obj_remove_attr(obj_t *obj, char *id, bool do_free)
 
     obj_t *to_del;
     char *child_id = id + parent_path_len;
-    HASH_FIND_STR(parent->data.attr, child_id, to_del);
+    HASH_FIND_STR(parent->data.obj.attr, child_id, to_del);
 
     if (to_del != NULL)
     {
-        HASH_DEL(parent->data.attr, to_del);
+        HASH_DEL(parent->data.obj.attr, to_del);
         
         if (do_free == true)
         {
@@ -519,7 +519,7 @@ void _dump_obj(obj_t *obj, int depth)
     obj_t *curr, *tmp;
     if (obj->type == TYPE_OBJ)
     {
-        HASH_ITER(hh, obj->data.attr, curr, tmp)
+        HASH_ITER(hh, obj->data.obj.attr, curr, tmp)
         {
             for (int i = 0; i < depth; i++)
             {

@@ -15,7 +15,7 @@ int count_attrs(obj_t *obj, char *path, int expected)
     cr_assert_eq(loc->type, TYPE_OBJ, "count_attrs needs the object type to be TYPE_OBJ");
 
     obj_t *curr, *tmp;
-    HASH_ITER(hh, loc->data.attr, curr, tmp)
+    HASH_ITER(hh, loc->data.obj.attr, curr, tmp)
     {
         count++;
     }
@@ -104,7 +104,7 @@ Test(test_obj, add_immediate_attr)
 
     int rc = obj_add_attr(obj, ".", child);
     cr_assert_eq(rc, EXIT_SUCCESS, "obj_add_attr for immediate child failed");
-    HASH_FIND_STR(obj->data.attr, id_child, tmp);
+    HASH_FIND_STR(obj->data.obj.attr, id_child, tmp);
     cr_assert_str_eq(tmp->id, id_child, "could not find child");
 }
 
@@ -127,16 +127,16 @@ Test(test_obj, add_nested_attr)
     int rc = obj_add_attr(obj, "intermediate_0.intermediate_1.intermediate_2", child);
     cr_assert_eq(rc, EXIT_SUCCESS, "obj_add_attr for nested child failed");
 
-    HASH_FIND_STR(obj->data.attr, id_intermediate_0, tmp0);
+    HASH_FIND_STR(obj->data.obj.attr, id_intermediate_0, tmp0);
     cr_assert_str_eq(tmp0->id, id_intermediate_0, "could not find %s attribute", id_intermediate_0);
 
-    HASH_FIND_STR(tmp0->data.attr, id_intermediate_1, tmp1);
+    HASH_FIND_STR(tmp0->data.obj.attr, id_intermediate_1, tmp1);
     cr_assert_str_eq(tmp1->id, id_intermediate_1, "could not find %s attribute", id_intermediate_1);
 
-    HASH_FIND_STR(tmp1->data.attr, id_intermediate_2, tmp2);
+    HASH_FIND_STR(tmp1->data.obj.attr, id_intermediate_2, tmp2);
     cr_assert_str_eq(tmp2->id, id_intermediate_2, "could not find %s attribute", id_intermediate_2);
 
-    HASH_FIND_STR(tmp2->data.attr, id_child, tmp3);
+    HASH_FIND_STR(tmp2->data.obj.attr, id_child, tmp3);
     cr_assert_str_eq(tmp3->id, id_child, "could not find child");
 }
 

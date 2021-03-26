@@ -39,7 +39,7 @@ void item_check(char *room, char *item, char *index)
     obj_t *actions = obj_get_attr(item_obj, "actions", false);
 
     obj_t *curr, *tmp;
-    HASH_ITER(hh, actions->data.attr, curr, tmp)
+    HASH_ITER(hh, actions->data.obj.attr, curr, tmp)
     {
         rc = possible_action(i, obj_get_str(curr, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
