@@ -11,20 +11,40 @@
  */
 #define MAXBUFSIZE ((zip_int64_t)0x200000)
 
-/* See load_json.h */
-int attempt_load_obj_zip_json(obj_t *obj, zip_t *zip_json, int idx)
+// /* See load_json.h */
+// int load_obj_zip_json(obj_t *obj, zip_t *zip_json, int idx)
+// {
+//     char *buf = calloc(MAXBUFSIZE, sizeof(char));
+
+//     struct json_object *json = json_tokener_parse(json_str);
+//     int rc = _load_obj_json(obj, json);
+
+//     // Frees the json object
+//     json_object_put(json);
+
+//     return rc;
+// }
+
+
+/* TODO */
+bool strip_expected_extension(char *str, char *ext)
 {
-    char *buf = calloc(MAXBUFSIZE, sizeof(char));
+    // See if this ends in ".*" and get the location
+    char *ending_dot = strrchr(str, '.');
+    if (ending_dot == NULL)
+    {
+        return false;
+    }
 
-    struct json_object *json = json_tokener_parse(json_str);
-    int rc = _load_obj_json(obj, json);
-
-    // Frees the json object
-    json_object_put(json);
+    // See if the extension matches
+    bool rc = strcmp(ending_dot + 1, ext) == 0;
+    // Since str is allowed to be modified, strip the extension off
+    ending_dot = '\0';
 
     return rc;
 }
 
+/* See load.h */
 int load_wdz(obj_t *obj, char *wdz_path)
 {
     int open_status;    
@@ -43,11 +63,21 @@ int load_wdz(obj_t *obj, char *wdz_path)
 
     for (zip_int64_t i = 0; i < n_entries; i++)
     {
-        attempt_load_obj_zip_json(obj, zip, i);
+        // Get the name of the file and see if it's a .json file
+        zip_file_t *curr_file = zip_fopen_index(zip, i, 0);
+        const char *path = zip_get_name(zip, i, 0);
+        char name_buf[10 * (MAXLEN_ID + 1)] = { 0 };
+        strncpy(name_buf, path, MAX_DEPTH * (MAXLEN_ID + 1) - 1);
 
-        zip_file_t *curr_file = zip_fopen_index(wdz, i, 0);
-        const char *path = zip_get_name(wdz, i, 0);
-        char name_buf[]
+        if (strip_expected_extension(name_buf, "json") == false)
+        {
+            // Don't try to load non-json files
+            continue;
+        }
+
+        // Pull the json file into memory
+
+        // Load the json file into an object at <name_buf>
     }
 
     return EXIT_SUCCESS;
