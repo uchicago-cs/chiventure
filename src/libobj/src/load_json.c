@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "common/utlist.h"
-#include "libobj/load_json.h"
+#include "libobj/load.h"
 
 /* Recursive helper for load_obj_json
    See load_json.h */

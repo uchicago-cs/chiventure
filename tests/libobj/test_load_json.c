@@ -4,7 +4,8 @@
 #include <stdbool.h>
 #include <criterion/criterion.h>
 #include "libobj/obj.h"
-#include "libobj/load_json.h"
+#include "libobj/load.h"
+#include "load_json.h"
 #include "common/utlist.h"
 #include "common/uthash.h"
 

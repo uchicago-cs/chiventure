@@ -20,17 +20,5 @@
  */
 int _load_obj_json(obj_t *parent, struct json_object *json);
 
-/*
- * Loads a string containing JSON into an obj
- * 
- * Parameters:
- *  - obj: The object to load data into
- *  - json_str: The string containing the JSON
- * 
- * Returns:
- *  - EXIT_SUCCESS on success, EXIT_FAILURE on failure
- */
-int load_obj_json(obj_t *obj, char *json_str);
-
 
 #endif /* INCLUDE_LOAD_JSON_H */
