@@ -37,13 +37,12 @@ void item_check(char *room, char *item, char *index)
     cr_assert_eq(rc, SUCCESS, "failed to parse item sdesc");
 
     obj_t *actions = obj_get_attr(item_obj, "actions", false);
-    attr_list_t *action_ll = obj_list_attr(actions);
 
-    while(action_ll != NULL)
+    obj_t *curr, *tmp;
+    HASH_ITER(hh, actions->data.obj.attr, curr, tmp)
     {
-        rc = possible_action(i, obj_get_str(action_ll->obj, "action"));
+        rc = possible_action(i, obj_get_str(curr, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
-        action_ll = action_ll->next;
     }    
 }
 

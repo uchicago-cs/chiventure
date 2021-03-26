@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "libobj/obj.h"
-#include "common/utlist.h"
 
 /* Forward function declarations */
 obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create);
@@ -17,14 +16,6 @@ obj_t *obj_new(char *id)
     if (obj == NULL)
     {
         printf("ERROR - obj_new: Couldn't allocate memory for object.\n");
-
-        return NULL;
-    }
-
-    if (obj->id == NULL)
-    {
-        printf("ERROR - obj_new: Couldn't allocate memory for object id\n");
-        obj_free(obj);
 
         return NULL;
     }
@@ -51,7 +42,7 @@ int obj_init(obj_t *obj, char *id)
     }
 
     strncpy(obj->id, id, MAXLEN_ID);
-    obj->type = TYPE_ZERO;
+    obj->type = TYPE_NONE;
 
     return EXIT_SUCCESS;
 }
@@ -66,7 +57,7 @@ void obj_free_str(obj_t *obj)
     }
 
     free(obj->data.s);
-    obj->type = TYPE_ZERO;
+    obj->type = TYPE_NONE;
 }
 
 /* See obj.h */
@@ -87,13 +78,22 @@ int obj_free_all(obj_t *obj)
 
     obj_free_str(obj);
 
-    if (obj->attr)
+    if (obj->type == TYPE_OBJ && obj->data.obj.attr != NULL)
     {
         obj_t *el, *tmp;
-        HASH_ITER(hh, obj->attr, el, tmp)
+        HASH_ITER(hh, obj->data.obj.attr, el, tmp)
         {
-            HASH_DEL(obj->attr, el);
-            obj_free(el);
+            HASH_DEL(obj->data.obj.attr, el);
+            obj_free_all(el);
+        }
+    }
+    else if (obj->type == TYPE_LIST && obj->data.lst != NULL)
+    {
+        obj_t *el, *tmp;
+        DL_FOREACH_SAFE(obj->data.obj.attr, el, tmp)
+        {
+            DL_DELETE(obj->data.obj.attr, el);
+            obj_free_all(el);
         }
     }
 
@@ -122,7 +122,7 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create)
 {
     if (obj == NULL || id == NULL)
     {
-        printf("ERROR - obj_get_attr_single: Object given is NULL.\n");
+        printf("ERROR - obj_get_attr_single: Object or id given is NULL.\n");
 
         return NULL;
     }
@@ -132,81 +132,71 @@ obj_t *obj_get_attr_single(obj_t *obj, char *id, bool create)
         return obj;
     }
 
-    obj_t **ht_ptr = &obj->attr;
-    obj_t *elt = NULL;
-
-    if (obj->attr)
+    if (obj->type != TYPE_OBJ && create == true)
     {
-        HASH_FIND_STR(*ht_ptr, id, elt);
+        printf("ERROR - obj_get_attr_single: Object cannot have children.\n");
+        return NULL;
     }
 
-    if (elt == NULL && create == true)
-    {
-        elt = obj_new(id);
+    obj_t *el = NULL;
 
-        obj_t **ht_ptr = &obj->attr;
-        HASH_ADD_STR(*ht_ptr, id, elt);
+    // Try to find the object in the existing hash table
+    if (obj->data.obj.attr)
+    {
+        HASH_FIND_STR(obj->data.obj.attr, id, el);
     }
 
-    return elt;
+    if (el == NULL && create == true)
+    {
+        el = obj_new(id);
+        HASH_ADD_STR(obj->data.obj.attr, id, el);
+    }
+
+    return el;
 }
 
 obj_t *obj_get_attr(obj_t *obj, char *id, bool create)
 {
+    if (obj == NULL || id == NULL)
+    {
+        printf("ERROR - obj_get_attr_single: Object or id given is NULL.\n");
 
-    char *id_imm, *head_ptr;
+        return NULL;
+    }
+
+    char *id_imm, *free_me;
     char *tmp = calloc((MAXLEN_ID + 1) * MAX_DEPTH, sizeof(char));
+    char *saveptr;
     obj_t *attr;
 
     // For freeing later
-    head_ptr = tmp;
+    free_me = tmp;
 
     strncpy(tmp, id, (MAXLEN_ID + 1) * MAX_DEPTH - 1);
-    id_imm = strtok(tmp, ".");
+    id_imm = strtok_r(tmp, ".", &saveptr);
     attr = obj;
 
     while (id_imm != NULL)
     {
+        if (create == true && attr->type == TYPE_NONE)
+        {
+            attr->type = TYPE_OBJ;
+        }
+
         attr = obj_get_attr_single(attr, id_imm, create);
 
         if (attr == NULL)
         {
-            free(head_ptr);
+            free(free_me);
             return NULL;
         }
 
-        id_imm = strtok(NULL, ".");
+        id_imm = strtok_r(NULL, ".", &saveptr);
     }
 
-    free(head_ptr);
+    free(free_me);
 
     return attr;
-}
-
-/* See obj.h */
-attr_list_t *obj_list_attr(obj_t *obj)
-{
-    if (obj == NULL)
-    {
-        return NULL;
-    }
-
-    attr_list_t *ll = NULL;
-    attr_list_t *append = NULL;
-
-    if (obj->attr)
-    {
-        obj_t *el, *tmp;
-        HASH_ITER(hh, obj->attr, el, tmp)
-        {
-            append = calloc(1, sizeof(attr_list_t));
-            append->obj = el;
-
-            DL_APPEND(ll, append);
-        }
-    }
-
-    return ll;
 }
 
 /* See obj.h */
@@ -219,22 +209,30 @@ int obj_add_attr(obj_t *obj, char *id, obj_t *attr)
         return EXIT_FAILURE;
     }
 
-    obj_t *addee;
+    // Make the path to the object if necessary
+    obj_t *parent = obj_get_attr(obj, id, true);
 
-    addee = obj_get_attr(obj, id, true);
-    if (addee == NULL)
+    if (parent == NULL)
     {
         return EXIT_FAILURE;
     }
-
-    obj_t **ht_ptr = &obj->attr;
-    HASH_ADD_STR(*ht_ptr, id, attr);
+    
+    if (parent->type == TYPE_NONE)
+    {
+        parent->type = TYPE_OBJ;
+    }
+    if (parent->type != TYPE_OBJ)
+    {
+        return EXIT_FAILURE;
+    }
+    
+    HASH_ADD_STR(parent->data.obj.attr, id, attr);
 
     return EXIT_SUCCESS;
 }
 
 /* See obj.h */
-int obj_remove_attr(obj_t *obj, char *id)
+int obj_remove_attr(obj_t *obj, char *id, bool do_free)
 {
     if (obj == NULL)
     {
@@ -243,20 +241,47 @@ int obj_remove_attr(obj_t *obj, char *id)
         return EXIT_FAILURE;
     }
 
-    obj_t *attr;
+    int parent_path_len = 0;
+    if (strrchr(id, '.') != 0)
+    {
+        parent_path_len = strrchr(id, '.') - id + 1;
+    }
 
-    attr = obj_get_attr(obj, id, false);
-    if (attr == NULL)
+    char *parent_path = calloc((MAXLEN_ID + 1) * MAX_DEPTH, sizeof(char));
+    strncpy(parent_path, id, parent_path_len);
+    parent_path[parent_path_len] = '\0';
+
+    obj_t *parent = obj_get_attr(obj, parent_path, false);
+    free(parent_path);
+
+    if (parent == NULL)
     {
         return EXIT_FAILURE;
     }
+    if (parent->type != TYPE_OBJ)
+    {
+        printf("obj_remove_attr: parent is not TYPE_OBJ");
+        return EXIT_FAILURE;
+    }
 
-    HASH_DEL(obj->attr, attr);
+    obj_t *to_del;
+    char *child_id = id + parent_path_len;
+    HASH_FIND_STR(parent->data.obj.attr, child_id, to_del);
+
+    if (to_del != NULL)
+    {
+        HASH_DEL(parent->data.obj.attr, to_del);
+        
+        if (do_free == true)
+        {
+            obj_free_all(to_del);
+        }
+    }
 
     return EXIT_SUCCESS;
 }
 
-datatype_t obj_get_type(obj_t *obj, char *id)
+type_t obj_get_type(obj_t *obj, char *id)
 {
     if (obj == NULL || id == NULL)
     {
@@ -287,6 +312,7 @@ bool obj_get_bool(obj_t *obj, char *id)
 
     if (attr == NULL || attr->type != TYPE_BOOL)
     {
+        printf("obj_get_bool: This obj has incorrect type: %d\n", attr->type);
         return false;
     }
 
@@ -328,6 +354,7 @@ char obj_get_char(obj_t *obj, char *id)
 
     if (attr == NULL || attr->type != TYPE_CHAR)
     {
+        printf("obj_get_char: This obj has incorrect type: %d\n", attr->type);
         return '\0';
     }
 
@@ -369,6 +396,7 @@ int obj_get_int(obj_t *obj, char *id)
 
     if (attr == NULL || attr->type != TYPE_INT)
     {
+        printf("obj_get_int: This obj has incorrect type: %d\n", attr->type);
         return 0;
     }
 
@@ -410,6 +438,7 @@ char *obj_get_str(obj_t *obj, char *id)
 
     if (attr == NULL || attr->type != TYPE_STR)
     {
+        printf("obj_get_str: This obj has incorrect type: %d\n", attr->type);
         return NULL;
     }
 
@@ -440,4 +469,85 @@ int obj_set_str(obj_t *obj, char *id, char *value)
     attr->type = TYPE_STR;
 
     return EXIT_SUCCESS;
+}
+
+/* See obj.h */
+obj_list_t *obj_get_list(obj_t *obj, char *id)
+{
+    if (obj == NULL || id == NULL)
+    {
+        return 0;
+    }
+
+    obj_t *attr = obj_get_attr(obj, id, false);
+
+    if (attr == NULL || attr->type != TYPE_LIST)
+    {
+        printf("obj_get_list: This obj has incorrect type: %d\n", attr->type);
+        return 0;
+    }
+
+    return attr->data.lst;
+}
+
+/* See obj.h */
+int obj_set_list(obj_t *obj, char *id, obj_list_t *value)
+{
+    if (obj == NULL || id == NULL)
+    {
+        return EXIT_FAILURE;
+    }
+
+    obj_t *attr = obj_get_attr(obj, id, true);
+
+    if (attr == NULL)
+    {
+        return EXIT_FAILURE;
+    }
+
+    obj_free_str(attr);
+
+    attr->data.lst = value;
+    attr->type = TYPE_LIST;
+
+    return EXIT_SUCCESS;
+}
+
+/* Helper for dump_obj */
+void _dump_obj(obj_t *obj, int depth)
+{
+    obj_t *curr, *tmp;
+    if (obj->type == TYPE_OBJ)
+    {
+        HASH_ITER(hh, obj->data.obj.attr, curr, tmp)
+        {
+            for (int i = 0; i < depth; i++)
+            {
+                printf("  ");
+            }
+            printf("- %s\n", curr->id);
+            _dump_obj(curr, depth + 1);
+        }
+    }
+    else if (obj->type == TYPE_LIST)
+    {
+        int i = 0;
+        DL_FOREACH(obj->data.lst, curr)
+        {
+            for (int i = 0; i < depth; i++)
+            {
+                printf(" ");
+            }
+            printf("[%d] %s\n", i, curr->id);
+            _dump_obj(curr, depth + 1);
+            i++;
+        }
+    }
+}
+
+/* See obj.h */
+void dump_obj(obj_t *obj)
+{
+    printf("- %s\n", obj->id);
+    _dump_obj(obj, 1);
 }

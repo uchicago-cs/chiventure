@@ -127,7 +127,7 @@ objtype_t str_to_objtype(char *type)
 {
     if(strncmp(type,"NONE", MAXLEN_ID) == 0)
     {
-        return TYPE_NONE;
+        return TYPE_NA;
     } else if (strncmp(type, "PLAYER", MAXLEN_ID) == 0)
     {
         return TYPE_PLAYER;
