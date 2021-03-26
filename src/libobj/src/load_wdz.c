@@ -9,25 +9,10 @@
 /* Maximum buffer size for json file, in bytes. 
  * This is currently set to 2 MiB. 
  */
-#define MAXBUFSIZE ((zip_int64_t)0x200000)
-
-// /* See load_json.h */
-// int load_obj_zip_json(obj_t *obj, zip_t *zip_json, int idx)
-// {
-//     char *buf = calloc(MAXBUFSIZE, sizeof(char));
-
-//     struct json_object *json = json_tokener_parse(json_str);
-//     int rc = _load_obj_json(obj, json);
-
-//     // Frees the json object
-//     json_object_put(json);
-
-//     return rc;
-// }
 
 
-/* TODO */
-bool strip_expected_extension(char *str, char *ext)
+/* See load_internal.h */
+bool _strip_expected_extension(char *str, char *ext)
 {
     // See if this ends in ".*" and get the location
     char *ending_dot = strrchr(str, '.');
@@ -45,8 +30,13 @@ bool strip_expected_extension(char *str, char *ext)
 }
 
 /* See load.h */
-int load_wdz(obj_t *obj, char *wdz_path)
+int load_obj_zip(obj_t *obj, char *wdz_path)
 {
+    if (obj == NULL || wdz_path == NULL)
+    {
+        return EXIT_FAILURE;
+    }
+
     int open_status;    
     zip_t *zip = zip_open(wdz_path, 0, &open_status);
     if (zip == NULL)
@@ -69,15 +59,33 @@ int load_wdz(obj_t *obj, char *wdz_path)
         char name_buf[10 * (MAXLEN_ID + 1)] = { 0 };
         strncpy(name_buf, path, MAX_DEPTH * (MAXLEN_ID + 1) - 1);
 
-        if (strip_expected_extension(name_buf, "json") == false)
+        if (_strip_expected_extension(name_buf, "json") == false)
         {
             // Don't try to load non-json files
             continue;
         }
 
         // Pull the json file into memory
+        char *json_buf = calloc(MAXBUFSIZE + 1, sizeof(char));
+        if (json_buf == NULL)
+        {
+            return EXIT_FAILURE;
+        }
+        if (zip_fread(curr_file, json_buf, MAXBUFSIZE) == -1)
+        {
+            free(json_buf);
+            return EXIT_FAILURE;
+        }
 
         // Load the json file into an object at <name_buf>
+        obj_t *to_load = obj_get_attr(obj, name_buf, true);
+        if (load_obj_json(to_load, json_buf) == EXIT_FAILURE)
+        {
+            free(json_buf);
+            return EXIT_FAILURE;
+        }
+
+        free(json_buf);
     }
 
     return EXIT_SUCCESS;

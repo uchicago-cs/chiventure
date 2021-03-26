@@ -6,6 +6,8 @@
 #include <zip.h>
 #include "libobj/obj.h"
 
+#define MAXBUFSIZE (0x200000)
+
 /*
  * Loads a string containing JSON into an obj
  * 
@@ -23,12 +25,12 @@ int load_obj_json(obj_t *obj, char *json_str);
  * 
  * Parameters:
  *  - obj: The object to load data into
- *  - zip_json: The zipped json file
+ *  - zip_json: The path to the wdz file
  * 
  * Returns:
  *  - EXIT_SUCCESS on success, EXIT_FAILURE on failure
  */
-int load_obj_zip_json(obj_t *obj, zip_t *zip_json)
+int load_obj_zip(obj_t *obj, char *wdz_path);
 
 
 #endif /* INCLUDE_LOAD_H */

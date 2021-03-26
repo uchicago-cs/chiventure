@@ -7,7 +7,7 @@
 #include "libobj/load.h"
 
 /* Recursive helper for load_obj_json
-   See load_json.h */
+   See load_internal.h */
 int _load_obj_json(obj_t *parent, struct json_object *json)
 {
     // Find the type of the object
@@ -66,7 +66,7 @@ int _load_obj_json(obj_t *parent, struct json_object *json)
     }
 }
 
-/* See load_json.h */
+/* See load.h */
 int load_obj_json(obj_t *obj, char *json_str)
 {
     struct json_object *json = json_tokener_parse(json_str);
