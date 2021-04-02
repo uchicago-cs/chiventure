@@ -24,7 +24,7 @@ bool _strip_expected_extension(char *str, char *ext)
     // See if the extension matches
     bool rc = strcmp(ending_dot + 1, ext) == 0;
     // Since str is allowed to be modified, strip the extension off
-    ending_dot = '\0';
+    *ending_dot = '\0';
 
     return rc;
 }
@@ -78,6 +78,13 @@ int load_obj_zip(obj_t *obj, char *wdz_path)
         }
 
         // Load the json file into an object at <name_buf>
+        for (int p = 0; p < strnlen(name_buf, MAX_DEPTH * (MAXLEN_ID + 1) - 1); p++)
+        {
+            if (name_buf[i] == '/')
+            {
+                name_buf[i] == '.';
+            }
+        }
         obj_t *to_load = obj_get_attr(obj, name_buf, true);
         if (load_obj_json(to_load, json_buf) == EXIT_FAILURE)
         {

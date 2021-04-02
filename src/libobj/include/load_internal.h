@@ -38,7 +38,7 @@ int _load_obj_json(obj_t *parent, struct json_object *json);
  * Side effect:
  *  - Strips the file extension if *any* exist
  */
-bool _strip_expected_extension(char *str, char *ext)
+bool _strip_expected_extension(char *str, char *ext);
 
 
 #endif /* INCLUDE_LOAD_JSON_H */

@@ -1,0 +1,49 @@
+{
+    "short_desc":"A purple lever.",
+    "long_desc":"A plain-looking purple lever.",
+    "in":{
+        "__type":"reference",
+        "id":"ROOMS.purple_room"
+    },
+    "pulled": false,
+    "actions":[
+        {
+            "action": "PULL",
+            "conditions":[
+                {
+                    "__type": "condition",
+                    "id": "ITEMS.purple_lever.conditions.pulled",
+                    "expected": false
+                }
+            ],
+            "set":[
+                {
+                    "__type": "condition",
+                    "id": "ITEMS.purple_lever.conditions.pulled",
+                    "expected": true
+                }
+            ],
+            "text_success": "You pull the lever.",
+            "text_fail": "You have already pulled the lever."
+        },
+        {
+            "action": "PUSH",
+            "conditions":[
+                {
+                    "__type": "condition",
+                    "id": "ITEMS.purple_lever.conditions.pulled",
+                    "expected": true
+                }
+            ],
+            "set":[
+                {
+                    "__type": "condition",
+                    "id": "ITEMS.purple_lever.conditions.pulled",
+                    "expected": false
+                }
+            ],
+            "text_success": "You push the lever back to its original position.",
+            "text_fail": "You have already pushed the lever."
+        }
+    ]
+}
