@@ -13,13 +13,14 @@
 #include "common/utlist.h"
 #include "common/uthash.h"
 
-#define TEST_DIR_PATH "test_files/"
+#define TEST_OUT_PATH "test_files/"
+#define TEST_DATA_PATH "../../../tests/libobj/test_files/"
 
 // Creates the test output directory
 void make_testdir()
 {
     char cwd[10 * (MAXLEN_ID + 1)] = {0};
-    strcat(cwd, TEST_DIR_PATH);
+    strcat(cwd, TEST_OUT_PATH);
     printf("cwd: %s\n", cwd);
     int rc = mkdir(cwd, 0777);
     cr_assert_eq(rc, 0, "Could not make temporary output directory");
@@ -47,10 +48,10 @@ int rmrf(char *path)
 // Deletes the test directory
 void clean_testdir()
 {
-    char path[10 * (MAXLEN_ID + 1)] = {0};
-    strcat(path, TEST_DIR_PATH);
-    int rc = rmrf(path);
-    cr_assert_eq(rc, 0, "Could not remove temporary output directory");
+    // char path[10 * (MAXLEN_ID + 1)] = {0};
+    // strcat(path, TEST_OUT_PATH);
+    // int rc = rmrf(path);
+    // cr_assert_eq(rc, 0, "Could not remove temporary output directory");
 }
 
 /* Tests _strip_expected_extension for an expected extension */
@@ -103,4 +104,32 @@ Test(test_load_wdz, zip_simple, .init = make_testdir, .fini = clean_testdir)
     // https://libzip.org/documentation/zip_open.html
     // https://libzip.org/documentation/zip_dir_add.html
     // zip_file_add
+
+    char zip_name[10 * (MAXLEN_ID + 1)] = {0};
+    strcat(zip_name, TEST_OUT_PATH);
+    strcat(zip_name, "zip_simple.zip");
+
+    // Create the zip
+    int errorp;
+    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_EXCL, &errorp);
+    cr_assert_not_null(zip, "Could not create zip file; code: %d", errorp);
+
+    // Add GAME.json to the zip
+    char *data_name = "GAME.json";
+    char data_path[10 * (MAXLEN_ID + 1)] = {0};
+    strcat(data_path, TEST_DATA_PATH);
+    strcat(data_path, data_name);
+    zip_source_t *zip_src = zip_source_file(data_path, data_name, 0, 0);
+    int tmp = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
+    printf("tmp: %d\n", tmp);
+
+    // Write and save to disk
+    int rc = zip_close(zip);
+    printf("close: %d, e: %d\n", rc, zip_error_code_zip(zip_get_error(zip)));
+
+    // Read the zip into an obj
+    obj_t *obj = obj_new("test");
+    load_obj_zip(obj, zip_name);
+
+    dump_obj(obj);
 }
