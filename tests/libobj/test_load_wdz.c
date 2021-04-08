@@ -16,16 +16,6 @@
 #define TEST_OUT_PATH "test_files/"
 #define TEST_DATA_PATH "../../../tests/libobj/test_files/"
 
-// Creates the test output directory
-void make_testdir()
-{
-    char cwd[10 * (MAXLEN_ID + 1)] = {0};
-    strcat(cwd, TEST_OUT_PATH);
-    printf("cwd: %s\n", cwd);
-    int rc = mkdir(cwd, 0777);
-    cr_assert_eq(rc, 0, "Could not make temporary output directory");
-}
-
 // Deletes a file
 // From https://stackoverflow.com/questions/5467725/how-to-delete-a-directory-and-its-contents-in-posix-c
 int unlink_cb(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf)
@@ -48,10 +38,18 @@ int rmrf(char *path)
 // Deletes the test directory
 void clean_testdir()
 {
-    // char path[10 * (MAXLEN_ID + 1)] = {0};
-    // strcat(path, TEST_OUT_PATH);
-    // int rc = rmrf(path);
-    // cr_assert_eq(rc, 0, "Could not remove temporary output directory");
+    char path[10 * (MAXLEN_ID + 1)] = {0};
+    strcat(path, TEST_OUT_PATH);
+    int rc = rmrf(path);
+}
+
+// Creates the test output directory
+void make_testdir()
+{
+    char cwd[10 * (MAXLEN_ID + 1)] = {0};
+    strcat(cwd, TEST_OUT_PATH);
+    printf("cwd: %s\n", cwd);
+    int rc = mkdir(cwd, 0777);
 }
 
 /* Tests _strip_expected_extension for an expected extension */
@@ -110,26 +108,37 @@ Test(test_load_wdz, zip_simple, .init = make_testdir, .fini = clean_testdir)
     strcat(zip_name, "zip_simple.zip");
 
     // Create the zip
-    int errorp;
-    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_EXCL, &errorp);
-    cr_assert_not_null(zip, "Could not create zip file; code: %d", errorp);
+    int error = 0;
+    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_EXCL, &error);
+    cr_assert_eq(error, ZIP_ET_NONE, 
+        "Could not create zip file; code: %d", error);
 
     // Add GAME.json to the zip
     char *data_name = "GAME.json";
-    char data_path[10 * (MAXLEN_ID + 1)] = {0};
+    char *data_path = calloc(10 * (MAXLEN_ID + 1), sizeof(char));
     strcat(data_path, TEST_DATA_PATH);
     strcat(data_path, data_name);
-    zip_source_t *zip_src = zip_source_file(data_path, data_name, 0, 0);
-    int tmp = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
-    printf("tmp: %d\n", tmp);
 
-    // Write and save to disk
+    zip_error_t err = {0};
+    zip_source_t *zip_src = zip_source_file_create(data_path, 0, 0, &err);
+    cr_assert_not_null(zip_src, "Could not create zip source; code: %d", zip_error_system_type(&err));
+
+    zip_int64_t idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
+    cr_assert_neq(idx, -1, 
+        "Could not create zip file; check archive code");
+
+    // // Write and save to disk
     int rc = zip_close(zip);
-    printf("close: %d, e: %d\n", rc, zip_error_code_zip(zip_get_error(zip)));
+    cr_assert_neq(rc, -1, 
+        "Could not create zip file; check archive code");
 
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
-    load_obj_zip(obj, zip_name);
+    rc = load_obj_zip(obj, zip_name);
+    cr_assert_neq(rc, EXIT_FAILURE, 
+        "Could not create zip file; check archive code");
 
-    dump_obj(obj);
+    char *str = obj_get_str(obj, "GAME.start.id");
+    cr_assert_str_eq("ROOMS.white_room", str,
+        "Received the incorrect data at 'GAME.start.id': %s", str);
 }
