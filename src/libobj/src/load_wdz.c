@@ -10,6 +10,21 @@
  * This is currently set to 2 MiB. 
  */
 
+// Reverse strstr
+// From https://stackoverflow.com/questions/1634359/is-there-a-reverse-function-for-strstr
+char *rstrstr(char *__restrict s1, char *__restrict s2)
+{
+  size_t  s1len = strlen(s1);
+  size_t  s2len = strlen(s2);
+  char *s;
+
+  if (s2len > s1len)
+    return NULL;
+  for (s = s1 + s1len - s2len; s >= s1; --s)
+    if (strncmp(s, s2, s2len) == 0)
+      return s;
+  return NULL;
+}
 
 /* See load_internal.h */
 bool _strip_expected_extension(char *str, char *ext)
@@ -25,6 +40,14 @@ bool _strip_expected_extension(char *str, char *ext)
     bool rc = strcmp(ending_dot + 1, ext) == 0;
     // Since str is allowed to be modified, strip the extension off
     *ending_dot = '\0';
+
+    // Strip off the string DEFAULT
+    char *default_str = rstrstr(str, "DEFAULT");
+    if (default_str != NULL)
+    {
+        *default_str = '.';
+        *(default_str + 1) = '\0';
+    }
 
     return rc;
 }
