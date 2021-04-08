@@ -6,6 +6,10 @@
 #include <zip.h>
 #include "libobj/obj.h"
 
+
+/* Maximum buffer size for json file, in bytes. 
+ * This is currently set to 2 MiB. 
+ */
 #define MAXBUFSIZE (0x200000)
 
 /*

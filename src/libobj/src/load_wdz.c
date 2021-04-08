@@ -6,10 +6,6 @@
 #include "common/utlist.h"
 #include "libobj/load.h"
 
-/* Maximum buffer size for json file, in bytes. 
- * This is currently set to 2 MiB. 
- */
-
 // Reverse strstr
 // From https://stackoverflow.com/questions/1634359/is-there-a-reverse-function-for-strstr
 char *rstrstr(char *__restrict s1, char *__restrict s2)
