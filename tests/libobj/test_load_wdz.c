@@ -41,6 +41,7 @@ void clean_testdir()
     char path[10 * (MAXLEN_ID + 1)] = {0};
     strcat(path, TEST_OUT_PATH);
     int rc = rmrf(path);
+    cr_assert_eq(rc, 0, "rmrf errored- could not delete /build/tests/libobj/test_files/");
 }
 
 // Creates the test output directory
@@ -50,6 +51,9 @@ void make_testdir()
     strcat(cwd, TEST_OUT_PATH);
     printf("cwd: %s\n", cwd);
     int rc = mkdir(cwd, 0777);
+    cr_assert_eq(rc, 0, 
+        "mkdir errored- make sure that /build/tests/libobj/test_files/ and any files inside "
+        "have been deleted");
 }
 
 /* Tests _strip_expected_extension for an expected extension */
@@ -97,12 +101,6 @@ Test(test_load_wdz, extension_wrong_nested)
 /* Tests parsing a simple zip file */
 Test(test_load_wdz, zip_simple, .init = make_testdir, .fini = clean_testdir)
 {
-    // TODO- make zip, turn to obj, check items in obj
-    // https://gist.github.com/clalancette/bb5069a09c609e2d33c9858fcc6e170e
-    // https://libzip.org/documentation/zip_open.html
-    // https://libzip.org/documentation/zip_dir_add.html
-    // zip_file_add
-
     char zip_name[10 * (MAXLEN_ID + 1)] = {0};
     strcat(zip_name, TEST_OUT_PATH);
     strcat(zip_name, "zip_simple.zip");
@@ -125,20 +123,66 @@ Test(test_load_wdz, zip_simple, .init = make_testdir, .fini = clean_testdir)
 
     zip_int64_t idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
     cr_assert_neq(idx, -1, 
-        "Could not create zip file; check archive code");
+        "Could not add folder to zip file; check archive code");
 
-    // // Write and save to disk
+    // Write and save to disk
     int rc = zip_close(zip);
     cr_assert_neq(rc, -1, 
-        "Could not create zip file; check archive code");
+        "Could not close zip file; check archive code");
 
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
     rc = load_obj_zip(obj, zip_name);
-    cr_assert_neq(rc, EXIT_FAILURE, 
-        "Could not create zip file; check archive code");
+    cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
 
-    char *str = obj_get_str(obj, "GAME.start.id");
-    cr_assert_str_eq("ROOMS.white_room", str,
+    char *str = obj_get_str(obj, "GAME.intro");
+    cr_assert_str_eq("Welcome to the Test Dungeon!", str,
+        "Received the incorrect data at 'GAME.start.id': %s", str);
+}
+
+/* Tests parsing a simple nested zip file */
+Test(test_load_wdz, zip_nested, .init = make_testdir, .fini = clean_testdir)
+{
+    char zip_name[10 * (MAXLEN_ID + 1)] = {0};
+    strcat(zip_name, TEST_OUT_PATH);
+    strcat(zip_name, "zip_nested.zip");
+
+    // Create the zip
+    int error = 0;
+    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_EXCL, &error);
+    cr_assert_eq(error, ZIP_ET_NONE, 
+        "Could not create zip file; code: %d", error);
+
+    char *folder_name = "ITEMS";
+    zip_int64_t idx = zip_dir_add(zip, folder_name, 0);
+    cr_assert_neq(idx, -1, 
+        "Could not add folder to zip file; check archive code");
+
+    // Add ITEMS/blue_lever.json to the zip
+    char *data_name = "ITEMS/blue_lever.json";
+    char *data_path = calloc(10 * (MAXLEN_ID + 1), sizeof(char));
+    strcat(data_path, TEST_DATA_PATH);
+    strcat(data_path, data_name);
+
+    zip_error_t err = {0};
+    zip_source_t *zip_src = zip_source_file_create(data_path, 0, 0, &err);
+    cr_assert_not_null(zip_src, "Could not create zip source; code: %d", zip_error_system_type(&err));
+
+    idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
+    cr_assert_neq(idx, -1, 
+        "Could not add file to zip file; check archive code");
+
+    // Write and save to disk
+    int rc = zip_close(zip);
+    cr_assert_neq(rc, -1, 
+        "Could not close zip file; check archive code");
+
+    // Read the zip into an obj
+    obj_t *obj = obj_new("test");
+    rc = load_obj_zip(obj, zip_name);
+    cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
+
+    char *str = obj_get_str(obj, "ITEMS.blue_lever.short_desc");
+    cr_assert_str_eq("A blue lever.", str,
         "Received the incorrect data at 'GAME.start.id': %s", str);
 }

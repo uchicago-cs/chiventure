@@ -69,7 +69,6 @@ int load_obj_zip(obj_t *obj, char *wdz_path)
         if (_strip_expected_extension(name_buf, "json") == false)
         {
             free(name_buf);
-            zip_discard(zip);
             continue;
         }
 
@@ -92,9 +91,9 @@ int load_obj_zip(obj_t *obj, char *wdz_path)
         // Load the json file into an object at <name_buf>
         for (int p = 0; p < strnlen(name_buf, MAX_DEPTH * (MAXLEN_ID + 1) - 1); p++)
         {
-            if (name_buf[i] == '/')
+            if (name_buf[p] == '/')
             {
-                name_buf[i] == '.';
+                name_buf[p] = '.';
             }
         }
         obj_t *to_load = obj_get_attr(obj, name_buf, true);
