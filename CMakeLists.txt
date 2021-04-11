@@ -13,35 +13,33 @@ set(CURSES_NEED_NCURSES TRUE)
 set(CURSES_NEED_WIDE TRUE)
 find_package(Curses REQUIRED)
 
-find_package(Lua 5.3 REQUIRED)
-set(Lua_INCLUDE_DIRS ${Lua_SOURCE_DIR} ${LUA_INCLUDE_DIR})
-add_definitions(-DLUA)
-include_directories(${INCLUDE_DIRS})
+# Optional dependencies
+
+set(OPTIONAL_MODULES "")
+
+find_package(Lua 5.3 QUIET)
+if (Lua_FOUND)
+    message(STATUS "Found Lua: ${LUA_VERSION_STRING}")
+    set(Lua_INCLUDE_DIRS ${Lua_SOURCE_DIR} ${LUA_INCLUDE_DIR})
+    add_definitions(-DLUA)
+    list(APPEND OPTIONAL_MODULES custom-scripts)
+endif()
 
 find_package(raylib 3.0 QUIET)
 if (raylib_FOUND)
     message(STATUS "Found raylib: ${raylib_LIBRARY}")
 endif()
 
-set(CHIVENTURE_MODULES action_management battle cli common custom-actions custom-scripts game-state libobj quests npc openworld playerclass skilltrees ui wdl)
+set(CHIVENTURE_MODULES action_management battle cli common custom-actions game-state libobj quests npc openworld playerclass skilltrees ui wdl)
 
+list(APPEND CHIVENTURE_MODULES ${OPTIONAL_MODULES})
+
+include_directories(${INCLUDE_DIRS})
 include_directories(include/)
 
-add_subdirectory(src/action_management)
-add_subdirectory(src/battle)
-add_subdirectory(src/cli)
-add_subdirectory(src/common)
-add_subdirectory(src/custom-actions)
-add_subdirectory(src/custom-scripts)
-add_subdirectory(src/game-state)
-add_subdirectory(src/libobj)
-add_subdirectory(src/quests)
-add_subdirectory(src/npc)
-add_subdirectory(src/openworld)
-add_subdirectory(src/skilltrees)
-add_subdirectory(src/playerclass)
-add_subdirectory(src/ui)
-add_subdirectory(src/wdl)
+foreach(module ${CHIVENTURE_MODULES})
+    add_subdirectory(src/${module})
+endforeach(module)
 
 # chiventure executable
 add_executable(chiventure-bin src/chiventure.c)
