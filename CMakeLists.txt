@@ -56,7 +56,7 @@ set_target_properties(chiventure-bin
 find_package(Criterion REQUIRED)
 enable_testing()
 foreach(module ${CHIVENTURE_MODULES})
-    if(EXISTS tests/${module})
+    if(EXISTS ${PROJECT_SOURCE_DIR}/tests/${module})
         add_subdirectory(tests/${module})
     endif()
 endforeach(module)
