@@ -171,8 +171,8 @@ int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
     
-    object_t *obj = obj_t_str("Villager-Jim", "lua");
-    npc_t *npc1 = npc_new(obj,"first npc","this is the npc that holds the quest",
+    char *npc_id = "Villager-Jim";
+    npc_t *npc1 = npc_new(npc_id,"first npc","this is the npc that holds the quest",
                           100,NULL);
     npcs_in_room_1 = npcs_in_room_new("room1");
     add_npc_to_room(npcs_in_room_1, npc1);

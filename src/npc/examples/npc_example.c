@@ -228,7 +228,7 @@ chiventure_ctx_t *create_sample_ctx()
     add_item_to_room(room1, clock);
 
     /* Create one npc */
-    object_t *npc_id = obj_t_str("jim", NULL);
+    char *npc_id = "jim";
     npc_t *jim = npc_new(npc_id, 
                          "Jim is a shabby man who lives in a shabby house.", 
                          "Jim looks just as suspicious as his house. His "
