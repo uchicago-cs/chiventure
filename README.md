@@ -15,7 +15,7 @@ cmake ..
 
 #### Dependencies
 
-chiventure depends on `protobuf-c`, `LibYAML` (Yaml), `Curses`, and `criterion`. CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
+chiventure depends on `LibYAML` (Yaml), `Curses`, and `criterion`. CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
 
 If you are missing any of the libraries, see [dependencies.md](/docs/dependencies.md) for information on how to install them
 

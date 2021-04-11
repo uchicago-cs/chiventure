@@ -5,7 +5,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
-find_package(Protobuf-c REQUIRED)
 find_package(LibYAML REQUIRED)
 find_package(JSON-C REQUIRED)
 find_package(LibZIP REQUIRED)
@@ -24,13 +23,12 @@ if (raylib_FOUND)
     message(STATUS "Found raylib: ${raylib_LIBRARY}")
 endif()
 
-set(CHIVENTURE_MODULES action_management battle checkpointing cli common custom-actions custom-scripts game-state libobj quests npc openworld playerclass skilltrees ui wdl)
+set(CHIVENTURE_MODULES action_management battle cli common custom-actions custom-scripts game-state libobj quests npc openworld playerclass skilltrees ui wdl)
 
 include_directories(include/)
 
 add_subdirectory(src/action_management)
 add_subdirectory(src/battle)
-add_subdirectory(src/checkpointing)
 add_subdirectory(src/cli)
 add_subdirectory(src/common)
 add_subdirectory(src/custom-actions)

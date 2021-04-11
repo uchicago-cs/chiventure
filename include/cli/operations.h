@@ -66,33 +66,6 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-
-/*
- * Saves the current state of a game to a .dat file
- * Prints an Error message if filename improperly specified
- *
- * Paramters:
- * - tokens: parsed input string
- * - ctx:pointer to a chiventure context struct
- *
- * Returns:
- * - A success or error message
- */
-char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
-
-/*
- * Loads a game from a .dat file
- * Prints and Error message if filename improperly specified
- *
- * Parameters:
- * - tokens: parsed input string
- * - ctx: pointer to a chiventure context struct
- *
- * Returns: 
- * - A success or error message
- */
-char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
-
 /*
  * Loads a new game from a .wdl file
  * Prints and Error message if filename improperly specified
