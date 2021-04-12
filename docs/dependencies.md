@@ -51,7 +51,7 @@ sudo apt-get update
 sudo apt-get install cmake
 ```
 
-Criterion must be installed from their PPA:
+Criterion must be installed from their PPA (Personal Package Archive):
 
 ```
 sudo add-apt-repository ppa:snaipewastaken/ppa
