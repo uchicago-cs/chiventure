@@ -60,10 +60,6 @@ A game will have some state that chiventure needs to keep track of: rooms, objec
 
 During the game, a player will be able to perform actions (pushing, pulling, opening, closing, etc.) that will usually affect the state of the game in some way. This component is responsible for processing actions like “TAKE orb” (and checking whether it is possible to perform that action)
 
-#### Checkpointing
-
-As the state of the game changes, chiventure checkpoints the game so we can resume it at a later time. This component is responsible for defining a file format for saving the state of the game, and providing interfaces for saving/loading this state
-
 #### CLI 
 
 This component will be responsible for providing a command prompt, and parsing the commands entered by the user, and using the game state to validate some commands

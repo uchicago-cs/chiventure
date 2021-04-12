@@ -13,6 +13,8 @@ add_library(battle
 
 target_include_directories(battle PRIVATE src/)
 
+target_link_libraries(battle m)
+
 # EXAMPLES
 add_subdirectory(examples
                  EXCLUDE_FROM_ALL)
