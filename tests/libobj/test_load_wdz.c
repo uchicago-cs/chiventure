@@ -13,47 +13,9 @@
 #include "common/utlist.h"
 #include "common/uthash.h"
 
-#define TEST_OUT_PATH "test_files/"
+#define TEST_OUT_PATH "./"
 #define TEST_DATA_PATH "../../../tests/libobj/test_files/"
 
-// Deletes a file
-// From https://stackoverflow.com/questions/5467725/how-to-delete-a-directory-and-its-contents-in-posix-c
-int unlink_cb(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf)
-{
-    int rv = remove(fpath);
-
-    if (rv)
-        perror(fpath);
-
-    return rv;
-}
-
-// Performs rm -rf on a directory
-// From https://stackoverflow.com/questions/5467725/how-to-delete-a-directory-and-its-contents-in-posix-c
-int rmrf(char *path)
-{
-    return nftw(path, unlink_cb, 64, FTW_DEPTH | FTW_PHYS);
-}
-
-// Deletes the test directory
-void clean_testdir()
-{
-    char path[10 * (MAXLEN_ID + 1)] = {0};
-    strcat(path, TEST_OUT_PATH);
-    int rc = rmrf(path);
-    cr_assert_eq(rc, 0, "rmrf errored- could not delete /build/tests/libobj/test_files/");
-}
-
-// Creates the test output directory
-void make_testdir()
-{
-    char cwd[10 * (MAXLEN_ID + 1)] = {0};
-    strcat(cwd, TEST_OUT_PATH);
-    int rc = mkdir(cwd, 0777);
-    cr_assert_eq(rc, 0, 
-        "mkdir errored- make sure that /build/tests/libobj/test_files/ and any files inside "
-        "have been deleted");
-}
 
 /* Tests _strip_expected_extension for an expected extension */
 Test(test_load_wdz, extension_success)
@@ -134,7 +96,7 @@ Test(test_load_wdz, extension_default_nested_default)
 }
 
 /* Tests parsing a simple zip file */
-Test(test_load_wdz, zip_simple, .init = make_testdir, .fini = clean_testdir)
+Test(test_load_wdz, zip_simple)
 {
     char zip_name[10 * (MAXLEN_ID + 1)] = {0};
     strcat(zip_name, TEST_OUT_PATH);
@@ -142,7 +104,7 @@ Test(test_load_wdz, zip_simple, .init = make_testdir, .fini = clean_testdir)
 
     // Create the zip
     int error = 0;
-    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_EXCL, &error);
+    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
     cr_assert_eq(error, ZIP_ET_NONE, 
         "Could not create zip file; code: %d", error);
 
@@ -165,9 +127,12 @@ Test(test_load_wdz, zip_simple, .init = make_testdir, .fini = clean_testdir)
     cr_assert_neq(rc, -1, 
         "Could not close zip file; check archive code");
 
+    int open_status;
+    zip = zip_open(zip_name, 0, &open_status);
+
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
-    rc = load_obj_zip(obj, zip_name);
+    rc = load_obj_zip(obj, zip);
     cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
 
     char *str = obj_get_str(obj, "GAME.intro");
@@ -176,7 +141,7 @@ Test(test_load_wdz, zip_simple, .init = make_testdir, .fini = clean_testdir)
 }
 
 /* Tests parsing a simple nested zip file */
-Test(test_load_wdz, zip_nested, .init = make_testdir, .fini = clean_testdir)
+Test(test_load_wdz, zip_nested)
 {
     char zip_name[10 * (MAXLEN_ID + 1)] = {0};
     strcat(zip_name, TEST_OUT_PATH);
@@ -184,7 +149,7 @@ Test(test_load_wdz, zip_nested, .init = make_testdir, .fini = clean_testdir)
 
     // Create the zip
     int error = 0;
-    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_EXCL, &error);
+    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
     cr_assert_eq(error, ZIP_ET_NONE, 
         "Could not create zip file; code: %d", error);
 
@@ -212,9 +177,12 @@ Test(test_load_wdz, zip_nested, .init = make_testdir, .fini = clean_testdir)
     cr_assert_neq(rc, -1, 
         "Could not close zip file; check archive code");
 
+    int open_status;
+    zip = zip_open(zip_name, 0, &open_status);
+
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
-    rc = load_obj_zip(obj, zip_name);
+    rc = load_obj_zip(obj, zip);
     cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
 
     char *str = obj_get_str(obj, "ITEMS.blue_lever.short_desc");
@@ -223,7 +191,7 @@ Test(test_load_wdz, zip_nested, .init = make_testdir, .fini = clean_testdir)
 }
 
 /* Tests parsing a simple zip file with DEFAULT */
-Test(test_load_wdz, zip_default, .init = make_testdir, .fini = clean_testdir)
+Test(test_load_wdz, zip_default)
 {
     char zip_name[10 * (MAXLEN_ID + 1)] = {0};
     strcat(zip_name, TEST_OUT_PATH);
@@ -231,7 +199,7 @@ Test(test_load_wdz, zip_default, .init = make_testdir, .fini = clean_testdir)
 
     // Create the zip
     int error = 0;
-    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_EXCL, &error);
+    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
     cr_assert_eq(error, ZIP_ET_NONE, 
         "Could not create zip file; code: %d", error);
 
@@ -259,9 +227,12 @@ Test(test_load_wdz, zip_default, .init = make_testdir, .fini = clean_testdir)
     cr_assert_neq(rc, -1, 
         "Could not close zip file; check archive code");
 
+    int open_status;
+    zip = zip_open(zip_name, 0, &open_status);
+
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
-    rc = load_obj_zip(obj, zip_name);
+    rc = load_obj_zip(obj, zip);
     cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
 
     char *str = obj_get_str(obj, "ITEMS.SIGN.short_desc");
@@ -270,7 +241,7 @@ Test(test_load_wdz, zip_default, .init = make_testdir, .fini = clean_testdir)
 }
 
 /* Tests parsing a zip file with multiple files */
-Test(test_load_wdz, zip_multiple, .init = make_testdir, .fini = clean_testdir)
+Test(test_load_wdz, zip_multiple)
 {
     char zip_name[10 * (MAXLEN_ID + 1)] = {0};
     strcat(zip_name, TEST_OUT_PATH);
@@ -278,7 +249,7 @@ Test(test_load_wdz, zip_multiple, .init = make_testdir, .fini = clean_testdir)
 
     // Create the zip
     int error = 0;
-    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_EXCL, &error);
+    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
     cr_assert_eq(error, ZIP_ET_NONE, 
         "Could not create zip file; code: %d", error);
 
@@ -334,9 +305,12 @@ Test(test_load_wdz, zip_multiple, .init = make_testdir, .fini = clean_testdir)
     cr_assert_neq(rc, -1, 
         "Could not close zip file; check archive code");
 
+    int open_status;
+    zip = zip_open(zip_name, 0, &open_status);
+
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
-    rc = load_obj_zip(obj, zip_name);
+    rc = load_obj_zip(obj, zip);
     cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
 
     char *str = obj_get_str(obj, "GAME.intro");

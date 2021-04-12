@@ -34,7 +34,7 @@ int load_obj_json(obj_t *obj, char *json_str);
  * Returns:
  *  - EXIT_SUCCESS on success, EXIT_FAILURE on failure
  */
-int load_obj_zip(obj_t *obj, char *wdz_path);
+int load_obj_zip(obj_t *obj, zip_t *zip);
 
 
 #endif /* INCLUDE_LOAD_H */
