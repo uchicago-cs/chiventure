@@ -6,7 +6,6 @@ add_library(cli
 
 target_include_directories(cli PRIVATE src/)
 
-target_link_libraries(cli checkpointing)
 target_link_libraries(cli action_management)
 target_link_libraries(cli ui)
 target_link_libraries(cli game-state)

@@ -33,14 +33,14 @@ Test(mission, init)
    	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     class_t* class = generate_test_class();
-    object_t *npc_id1 = obj_t_str("test_npc", NULL);
+    char *npc_id1 = "test_npc";
     npc_t *mission_npc1 = npc_new(npc_id1 ,"npc","npc for testing",
                                 100, class);
     mission_t *mission = mission_new(item_to_get, mission_npc1);
 
     item_t *item_to_get2 = item_new("test_item2", "item for testing",
     "test item for item_new()");
-    object_t *npc_id2 = obj_t_str("test_npc2", NULL);
+    char *npc_id2 = "test_npc2";
     npc_t *mission_npc2 = npc_new(npc_id2,"npc","npc for testing",
                                 100, class);
     int check = mission_init(mission, item_to_get2, mission_npc2);
@@ -48,7 +48,7 @@ Test(mission, init)
     cr_assert_eq(check,SUCCESS,"mission_init() failed");
     cr_assert_str_eq(mission->item_to_collect->item_id,"test_item2",
                     "mission_init() did not set item");
-    cr_assert_str_eq(str_t_get(mission->npc_to_meet->npc_id), "test_npc2",
+    cr_assert_str_eq(mission->npc_to_meet->npc_id, "test_npc2",
                     "mission_init() did not set npc");   
 }
 
@@ -162,7 +162,7 @@ Test(quest, add_achievement_to_quest)
     item_t *mission_item = item_new("mission_item", "item for testing",
     "test item for item_new()");
     class_t* class = generate_test_class();
-    object_t *npc_id = obj_t_str("test_npc", NULL);
+    char *npc_id = "test_npc";
     npc_t *mission_npc = npc_new(npc_id,"npc","npc for testing",
                                 100, class);
     mission_t *mission = mission_new(mission_item,mission_npc);
@@ -180,7 +180,7 @@ Test(quest, add_achievement_to_quest)
 
     cr_assert_str_eq(mission_test->item_to_collect->item_id,"mission_item",
                     "add_achievement_to_quest() did not set item");
-    cr_assert_str_eq(str_t_get(mission_test->npc_to_meet->npc_id),"test_npc",
+    cr_assert_str_eq(mission_test->npc_to_meet->npc_id,"test_npc",
                     "add_achievement_to_quest() did not set npc"); 
 }
 
@@ -223,7 +223,7 @@ Test(quest, complete_achievement)
     item_t *mission_item = item_new("mission_item", "item for testing",
     "test item for item_new()");
     class_t* class = generate_test_class();
-    object_t *npc_id = obj_t_str("mission_npc", NULL);
+    char *npc_id = "mission_npc";
     npc_t *mission_npc = npc_new(npc_id,"npc","npc for testing",
                                 100, class);
     mission_t *mission = mission_new(mission_item,mission_npc);
@@ -243,7 +243,7 @@ Test(quest, complete_achievement)
     cr_assert_str_eq(mission_check->item_to_collect->item_id, "mission_item",
                     "complete_achievement() did not check the correct item");
     
-    cr_assert_str_eq(str_t_get(mission_check->npc_to_meet->npc_id), "mission_npc",
+    cr_assert_str_eq(mission_check->npc_to_meet->npc_id, "mission_npc",
                     "complete_achievement() did not check the correct npc");
 
     cr_assert_eq(quest->achievement_list->achievement->completed, 1,
@@ -260,7 +260,7 @@ Test(quest,is_quest_completed)
     item_t *mission_item = item_new("mission_item", "item for testing",
     "test item for item_new()");
     class_t* class = generate_test_class();
-    object_t *npc_id = obj_t_str("mission_npc", NULL);
+    char *npc_id = "mission_npc";
     npc_t *mission_npc = npc_new(npc_id,"npc","npc for testing",
                                 100, class);
     mission_t *mission = mission_new(mission_item,mission_npc);
