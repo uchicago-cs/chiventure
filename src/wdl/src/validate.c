@@ -188,7 +188,7 @@ int game_type_check(obj_t *obj)
     // fields to verify
     int start_ver = (obj_get_type(obj, "start") == TYPE_STR);
     int intro_ver = (obj_get_type(obj, "intro") == TYPE_STR);
-    int end_ver = (obj_get_type(obj, "end.0.in_room") == TYPE_STR);
+    int end_ver = (obj_get_type(obj, "end.in_room") == TYPE_STR);
 
     return !(start_ver && intro_ver);
 }

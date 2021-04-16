@@ -4,14 +4,16 @@
 #include <stdbool.h>
 
 #include "libobj/obj.h"
-#include "libobj/parser.h"
+#include "libobj/load.h"
 #include "wdl/parse.h"
 
 /* See load_room.h */
 obj_t *get_doc_obj(char *fpath)
 {
     obj_t *obj = obj_new("doc");
-    parse_game(fpath, obj);
+    int open_status;
+    zip_t *zip = zip_open(fpath, 0, &open_status);
+    load_obj_zip(obj, zip);
     return obj;
 }
 
