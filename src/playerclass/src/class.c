@@ -10,6 +10,7 @@
 
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
+#include "class_skills.h"
 #include "common/utlist.h"
 
 
@@ -50,12 +51,15 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
 int class_skills_init(class_t* class)
 {
     skill_inventory_t *combat, *noncombat;
-    skilltree_stub_t *tree;
+    skill_tree_t *tree;
 
     combat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
     noncombat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
-    // stub placeholder allocation
-    tree = calloc(1, sizeof(skilltree_stub_t));
+    
+    /* tree ID is the ascii values of the first two letters of the name.
+     * Should probably have a better system */
+    int tid = class->name[0] + class->name[1];
+    tree = skill_tree_new(tid, class->name, MAX_SKILLS_IN_TREE);
 
     if (tree == NULL)
     {
@@ -73,12 +77,54 @@ int class_skills_init(class_t* class)
     class->noncombat = noncombat;
 
     /*
-     * TODO
-     *  - set up a system for filling in the skill structures
-     *    based on the class name
-     *  - designate some skills as baseline and automatically add them
-     *    to the relevant skill inventories
+     * TODO - refactor this mess of if-statements into a proper system
+     * for initializing the skilltrees based on which class it is
+     *
+     * an hash table of function pointers and some kind of class ID system
+     * or something like that would probably work well
      */
+    int init_success = 0;
+    if (!strcmp(class->name, "Ranger"))
+    {
+        init_success = get_default_ranger(class);
+    }
+    else if (!strcmp(class->name, "Rogue"))
+    {
+        init_success = get_default_rogue(class);
+    }
+    else if (!strcmp(class->name, "Monk"))
+    {
+        init_success = get_default_monk(class);
+    }
+    else if (!strcmp(class->name, "Sorcerer"))
+    {
+        init_success = get_default_sorcerer(class);
+    }
+    else if (!strcmp(class->name, "Druid"))
+    {
+        init_success = get_default_druid(class);
+    }
+    else if (!strcmp(class->name, "Elementalist"))
+    {
+        init_success = get_default_elementalist(class);
+    }
+    else if (!strcmp(class->name, "Bard"))
+    {
+        init_success = get_default_bard(class);
+    }
+    else if (!strcmp(class->name, "Wizard"))
+    {
+        init_success = get_default_wizard(class);
+    }
+    else if (!strcmp(class->name, "Knight"))
+    {
+        init_success = get_default_knight(class);
+    }
+    
+    if (init_success)
+    {
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }
@@ -153,11 +199,7 @@ int class_free(class_t* class)
     }
     if (class->skilltree != NULL)
     {
-        if (class->skilltree->skilltree != NULL)
-        {
-            obj_free(class->skilltree->skilltree);
-        }
-        free(class->skilltree); // stub placeholder free
+        skill_tree_free(class->skilltree);
     }
     if (class->combat != NULL)
     {
