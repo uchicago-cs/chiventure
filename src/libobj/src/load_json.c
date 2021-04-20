@@ -7,7 +7,7 @@
 #include "libobj/load.h"
 
 /* Recursive helper for load_obj_json
-   See load_json.h */
+   See load_internal.h */
 int _load_obj_json(obj_t *parent, struct json_object *json)
 {
     // Find the type of the object
@@ -24,15 +24,15 @@ int _load_obj_json(obj_t *parent, struct json_object *json)
         break;
 
     case json_type_string:
-        ;
+        ; // Need this semicolon because C is weird
+        // https://stackoverflow.com/questions/8384388/variable-declaration-after-goto-label
+        
         const char *str = json_object_get_string(json);
         return obj_set_str(parent, ".", (char *)str);
         break;
 
     case json_type_object:
-        ; // Need this semicolon because C is weird
-        // https://stackoverflow.com/questions/8384388/variable-declaration-after-goto-label
-
+        ;
         json_object_object_foreach(json, key, val)
         {
             obj_t *child = obj_get_attr(parent, key, true);
@@ -66,7 +66,7 @@ int _load_obj_json(obj_t *parent, struct json_object *json)
     }
 }
 
-/* See load_json.h */
+/* See load.h */
 int load_obj_json(obj_t *obj, char *json_str)
 {
     struct json_object *json = json_tokener_parse(json_str);

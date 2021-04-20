@@ -5,7 +5,7 @@
 #include <criterion/criterion.h>
 #include "libobj/obj.h"
 #include "libobj/load.h"
-#include "load_json.h"
+#include "load_internal.h"
 #include "common/utlist.h"
 #include "common/uthash.h"
 

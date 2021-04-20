@@ -1,5 +1,6 @@
 add_library(libobj
             src/load_json.c
+            src/load_wdz.c
             src/obj.c
             src/parser.c
             src/stack.c)
