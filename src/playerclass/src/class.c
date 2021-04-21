@@ -74,6 +74,27 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     }
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
 
+    // Skill Related allocation
+    class->combat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
+    class->noncombat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
+    
+    /* tree ID is the ascii values of the first two letters of the name.
+     * Should probably have a better system */
+    int tid = class->name[0] + class->name[1];
+    class->skilltree = skill_tree_new(tid, class->name, MAX_SKILLS_IN_TREE);
+
+    if (class->skilltree == NULL)
+    {
+        fprintf(stderr, "Could not allocate memory for skill trees "
+                        "class_init\n");
+        return EXIT_FAILURE;
+    }
+    if (class->combat == NULL || class->noncombat == NULL)
+    {
+        fprintf(stderr, "Could not allocate memory for skill inventories"
+                        "class_init\n");
+    }
+
     if (class_skills_init(class) == EXIT_FAILURE)
     {
         return EXIT_FAILURE;

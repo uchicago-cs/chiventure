@@ -169,32 +169,6 @@ int get_default_knight(class_t* class) {
 
 /* See class_skills.h */
 int class_skills_init(class_t* class) {
-    skill_inventory_t *combat, *noncombat;
-    skill_tree_t *tree;
-
-    combat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
-    noncombat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
-    
-    /* tree ID is the ascii values of the first two letters of the name.
-     * Should probably have a better system */
-    int tid = class->name[0] + class->name[1];
-    tree = skill_tree_new(tid, class->name, MAX_SKILLS_IN_TREE);
-
-    if (tree == NULL)
-    {
-        fprintf(stderr, "Could not allocate memory for skill trees "
-                        "in class_skills_init\n");
-        return EXIT_FAILURE;
-    }
-    if (combat == NULL || noncombat == NULL)
-    {
-        fprintf(stderr, "Could not allocate memory for skill inventories"
-                        "in class_skills_init\n");
-    }
-    class->skilltree = tree;
-    class->combat = combat;
-    class->noncombat = noncombat;
-
     int init_success = 0;
     if (!strcmp(class->name, "Ranger"))
     {
@@ -232,11 +206,11 @@ int class_skills_init(class_t* class) {
     {
         init_success = get_default_knight(class);
     }
-    
-    if (init_success)
+    else
     {
-        return EXIT_FAILURE;
+        fprintf(stderr, "Could not find class for skill inventories"
+                        "in class_skills_init\n");
     }
-
-    return EXIT_SUCCESS;
+    
+    return init_success;
 }
