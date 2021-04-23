@@ -1,46 +1,48 @@
 {
     "GAME": {
-        "start": "room A",
+        "start": "room_A",
         "intro": "This is the intro",
         "end": {
-            "in_room": "room C"
+            "in_room": "room_C"
         }
     },
-    "ROOMS": [
-        {
-            "id": "room A",
+    "ROOMS": {
+        "room_A": {
             "short_desc": "This is room A",
             "long_desc": "This is room A. There's a chair and an exit to the south.",
-            "connections": {
-                "to": "room B",
-                "direction": "SOUTH"
-            }
+            "connections": [
+                {
+                    "to": "room_B",
+                    "direction": "SOUTH"
+                }
+            ]
         },
-        {
-            "id": "room B",
+        "room_B": {
             "short_desc": "This is room B",
             "long_desc": "This is room B. There's a table and an exit to the west.",
-            "connections": {
-                "to": "room C",
-                "direction": "WEST"
-            }
+            "connections": [
+                {
+                    "to": "room_C",
+                    "direction": "WEST"
+                }
+            ]
         },
-        {
-            "id": "room C",
+        "room_C": {
             "short_desc": "This is room C",
             "long_desc": "This is room C, the final room in the game",
-            "connections": {
-                "to": "room A",
-                "direction": "NORTH"
-            }
+            "connections": [
+                {
+                    "to": "room_A",
+                    "direction": "NORTH"
+                }
+            ]
         }
-    ],
-    "ITEMS": [
-        {
-            "id": "CHAIR",
+    },
+    "ITEMS": {
+        "CHAIR": {
             "short_desc": "This is a chair",
             "long_desc": "This is a chair long",
-            "in": "room A",
+            "in": "room_A",
             "actions": [
                 {
                     "action": "PUSH",
@@ -59,11 +61,10 @@
                 }
             ]
         },
-        {
-            "id": "TABLE",
+        "TABLE": {
             "short_desc": "This is a table",
             "long_desc": "This is a table long",
-            "in": "room B",
+            "in": "room_B",
             "actions": [
                 {
                     "action": "PUSH",
@@ -82,5 +83,5 @@
                 }
             ]
         }
-    ]
+    }
 }
