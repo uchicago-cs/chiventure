@@ -74,7 +74,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     }
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
 
-    // Skill Related allocation
+    // Skill Related allocations
     class->combat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
     class->noncombat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
     

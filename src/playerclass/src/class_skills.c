@@ -169,6 +169,11 @@ int get_default_knight(class_t* class) {
 
 /* See class_skills.h */
 int class_skills_init(class_t* class) {
+    /* 
+     * TODO: If we ever develop a "class prototype struct" with a pointer to an
+     * init_skill() function, this if-else ladder should be replaced with a call
+     * to that function.
+     */
     int init_success = 0;
     if (!strcmp(class->name, "Ranger"))
     {
