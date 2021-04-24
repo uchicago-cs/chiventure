@@ -202,36 +202,36 @@ int class_skills_init(class_t* class) {
      * init_skill() function, this if-else ladder should be replaced with a call
      * to that function.
      */
-    int init_success = EXIT_FAILURE;
+    int init_success = 0;
 
-    if (!strcmp(class->name, "bard")) 
+    if (!strcmp(class->name, "Bard")) 
         init_success = get_default_bard(class);
 
-    else if (!strcmp(class->name, "druid")) 
+    else if (!strcmp(class->name, "Druid")) 
         init_success = get_default_druid(class);
 
-    else if (!strcmp(class->name, "elementalist")) 
+    else if (!strcmp(class->name, "Elementalist")) 
         init_success = get_default_elementalist(class);
 
-    else if (!strcmp(class->name, "knight")) 
+    else if (!strcmp(class->name, "Knight")) 
         init_success = get_default_knight(class);
 
-    else if (!strcmp(class->name, "monk")) 
+    else if (!strcmp(class->name, "Monk")) 
         init_success = get_default_monk(class);
 
-    else if (!strcmp(class->name, "ranger")) 
+    else if (!strcmp(class->name, "Ranger")) 
         init_success = get_default_ranger(class);
 
-    else if (!strcmp(class->name, "rogue")) 
+    else if (!strcmp(class->name, "Rogue")) 
         init_success = get_default_rogue(class);
 
-    else if (!strcmp(class->name, "sorcerer")) 
+    else if (!strcmp(class->name, "Sorcerer")) 
         init_success = get_default_sorcerer(class);
 
-    else if (!strcmp(class->name, "warrior")) 
+    else if (!strcmp(class->name, "Warrior")) 
         init_success = get_default_warrior(class);  
 
-    else if (!strcmp(class->name, "wizard")) 
+    else if (!strcmp(class->name, "Wizard")) 
         init_success = get_default_wizard(class);
     
     else 

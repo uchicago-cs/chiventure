@@ -17,16 +17,16 @@
 
 // Default Classes in alphabetical order.
 const char* const DEFAULT_CLASS_NAMES[] = {
-    "bard",
-    "druid",
-    "elementalist",
-    "knight",
-    "monk",
-    "ranger",
-    "rogue",
-    "sorcerer",
-    "warrior",
-    "wizard",
+    "Bard",
+    "Druid",
+    "Elementalist",
+    "Knight",
+    "Monk",
+    "Ranger",
+    "Rogue",
+    "Sorcerer",
+    "Warrior",
+    "Wizard",
 };
 
 // Number of predefined default classes (see above).
@@ -95,14 +95,6 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
         return EXIT_FAILURE;
     }
     strncpy(class->name, name, MAX_NAME_LEN);
-
-    /* make class->name lowercase */
-    char* char_ptr = class->name;
-    while(*char_ptr != '\0') {
-        if (*char_ptr >= 'A' &&  *char_ptr <= 'Z') 
-            *char_ptr += ('a' - 'A'); // Makes a char lowercase.
-        char_ptr += sizeof(char);
-    }
 
     class->shortdesc = (char*) calloc(MAX_SHORT_DESC_LEN + 1, sizeof(char));
     if (class->name == NULL)
