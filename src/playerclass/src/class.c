@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
@@ -17,16 +18,16 @@
 
 // Default Classes in alphabetical order.
 const char* const DEFAULT_CLASS_NAMES[] = {
-    "Bard",
-    "Druid",
-    "Elementalist",
-    "Knight",
-    "Monk",
-    "Ranger",
-    "Rogue",
-    "Sorcerer",
-    "Warrior",
-    "Wizard",
+    "bard",
+    "druid",
+    "elementalist",
+    "knight",
+    "monk",
+    "ranger",
+    "rogue",
+    "sorcerer",
+    "warrior",
+    "wizard",
 };
 
 // Number of predefined default classes (see above).
@@ -47,10 +48,19 @@ int get_class_name_index(char* name) {
     if (name == NULL)
         return -1;
 
+    char* temp_name = (char *) calloc(MAX_NAME_LEN + 1, sizeof(char));
+    strncpy(temp_name, name, MAX_NAME_LEN);
+    // make temp_name lowercase
+    for (char* ch_p = temp_name; *ch_p != '\0'; ch_p += sizeof(char)) 
+        *ch_p = tolower(*ch_p);
+
     for (int i = 0; i < DEFAULT_CLASS_COUNT; i++) 
-        if (strcmp(name, DEFAULT_CLASS_NAMES[i]) == 0)
+        if (strcmp(temp_name, DEFAULT_CLASS_NAMES[i]) == 0) {
+            free(temp_name);
             return i;
+        }
     
+    free(temp_name);
     return -1;
 }
 

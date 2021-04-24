@@ -3,6 +3,9 @@
  *
  * for more information see class_skills.h
  */
+#include <ctype.h>
+#include <stdlib.h>
+
 #include "class_skills.h"
 
 
@@ -204,39 +207,46 @@ int class_skills_init(class_t* class) {
      */
     int init_success = 0;
 
-    if (!strcmp(class->name, "Bard")) 
+    char* temp_name = (char *) calloc(MAX_NAME_LEN + 1, sizeof(char));
+    strncpy(temp_name, class->name, MAX_NAME_LEN);
+    // make temp_name lowercase
+    for (char* ch_p = temp_name; *ch_p != '\0'; ch_p += sizeof(char)) 
+        *ch_p = tolower(*ch_p);
+    
+    if (!strcmp(temp_name, "bard")) 
         init_success = get_default_bard(class);
 
-    else if (!strcmp(class->name, "Druid")) 
+    else if (!strcmp(temp_name, "druid")) 
         init_success = get_default_druid(class);
 
-    else if (!strcmp(class->name, "Elementalist")) 
+    else if (!strcmp(temp_name, "elementalist")) 
         init_success = get_default_elementalist(class);
 
-    else if (!strcmp(class->name, "Knight")) 
+    else if (!strcmp(temp_name, "knight")) 
         init_success = get_default_knight(class);
 
-    else if (!strcmp(class->name, "Monk")) 
+    else if (!strcmp(temp_name, "monk")) 
         init_success = get_default_monk(class);
 
-    else if (!strcmp(class->name, "Ranger")) 
+    else if (!strcmp(temp_name, "ranger")) 
         init_success = get_default_ranger(class);
 
-    else if (!strcmp(class->name, "Rogue")) 
+    else if (!strcmp(temp_name, "rogue")) 
         init_success = get_default_rogue(class);
 
-    else if (!strcmp(class->name, "Sorcerer")) 
+    else if (!strcmp(temp_name, "sorcerer")) 
         init_success = get_default_sorcerer(class);
 
-    else if (!strcmp(class->name, "Warrior")) 
+    else if (!strcmp(temp_name, "warrior")) 
         init_success = get_default_warrior(class);  
 
-    else if (!strcmp(class->name, "Wizard")) 
+    else if (!strcmp(temp_name, "wizard")) 
         init_success = get_default_wizard(class);
     
     else 
         fprintf(stderr, "Could not find class for skill inventories "
                         "in class_skills_init\n");
 
+    free(temp_name);
     return init_success;
 }
