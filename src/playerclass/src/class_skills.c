@@ -4,7 +4,6 @@
  * for more information see class_skills.h
  */
 #include <ctype.h>
-#include <stdlib.h>
 
 #include "class_skills.h"
 
@@ -207,11 +206,11 @@ int class_skills_init(class_t* class) {
      */
     int init_success = 0;
 
-    char* temp_name = (char *) calloc(MAX_NAME_LEN + 1, sizeof(char));
+    char temp_name[MAX_NAME_LEN + 1];
     strncpy(temp_name, class->name, MAX_NAME_LEN);
     // make temp_name lowercase
-    for (char* ch_p = temp_name; *ch_p != '\0'; ch_p += sizeof(char)) 
-        *ch_p = tolower(*ch_p);
+    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
+        temp_name[i] = tolower(temp_name[i]);
     
     if (!strcmp(temp_name, "bard")) 
         init_success = get_default_bard(class);
@@ -247,6 +246,5 @@ int class_skills_init(class_t* class) {
         fprintf(stderr, "Could not find class for skill inventories "
                         "in class_skills_init\n");
 
-    free(temp_name);
     return init_success;
 }

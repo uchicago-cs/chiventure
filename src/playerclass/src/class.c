@@ -48,19 +48,16 @@ int get_class_name_index(char* name) {
     if (name == NULL)
         return -1;
 
-    char* temp_name = (char *) calloc(MAX_NAME_LEN + 1, sizeof(char));
+    char temp_name[MAX_NAME_LEN + 1];
     strncpy(temp_name, name, MAX_NAME_LEN);
     // make temp_name lowercase
-    for (char* ch_p = temp_name; *ch_p != '\0'; ch_p += sizeof(char)) 
-        *ch_p = tolower(*ch_p);
+    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
+        temp_name[i] = tolower(temp_name[i]);
 
     for (int i = 0; i < DEFAULT_CLASS_COUNT; i++) 
-        if (strcmp(temp_name, DEFAULT_CLASS_NAMES[i]) == 0) {
-            free(temp_name);
+        if (strcmp(temp_name, DEFAULT_CLASS_NAMES[i]) == 0) 
             return i;
-        }
-    
-    free(temp_name);
+
     return -1;
 }
 
