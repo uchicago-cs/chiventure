@@ -49,7 +49,8 @@ Test(test_class, new)
     c = generate_test_class();
 
     cr_assert_not_null(c, "class_new failed");
-    cr_assert_str_eq(c->name, name, "class_new didn't set name");
+    // Note that the name is now lowercase.
+    cr_assert_str_eq(c->name, "warrior", "class_new didn't set name"); 
     cr_assert_str_eq(c->shortdesc, shortdesc, "class_new didn't set "
                                               "short description");
     cr_assert_str_eq(c->longdesc, longdesc, "class_new didn't set long "
@@ -76,7 +77,8 @@ Test(test_class, init)
     rc = class_init(&c, name, shortdesc, longdesc, NULL, NULL, NULL);
 
     cr_assert_eq(rc, EXIT_SUCCESS, "class_init failed");
-    cr_assert_str_eq(c.name, name, "class_init didn't set name");
+    // Name is now lowercase.
+    cr_assert_str_eq(c.name, "warrior", "class_init didn't set name"); 
     cr_assert_str_eq(c.shortdesc, shortdesc, "class_init didn't set "
                                              "short description");
     cr_assert_str_eq(c.longdesc, longdesc, "class_init didn't set long "

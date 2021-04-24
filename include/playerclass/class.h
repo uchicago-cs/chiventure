@@ -32,7 +32,8 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
  * 
  * Parameters:
  *  - class: a pointer to the class to be initialized
- *  - name, shortdesc, longdesc: Name and descriptions of the class
+ *  - name: Name of the class.  Always stored as lowercase.
+ *  - shortdesc, longdesc: Descriptions of the class
  *  - attr: the attributes of the class
  *  - stat: the stats of the class
  *  - effect: temporary stats of the class

@@ -34,7 +34,7 @@
 /* A player class struct storing the name, descriptions, attributes,
  * and stats */
 typedef struct class {
-    // Name of the class
+    // Name of the class (lowercase)
     char* name;
 
     // A short description of the class
