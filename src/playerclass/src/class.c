@@ -13,6 +13,46 @@
 #include "class_skills.h"
 #include "common/utlist.h"
 
+/* Rudimentary id system for prefab classes (internal) */
+
+// Default Classes in alphabetical order.
+const char* const DEFAULT_CLASS_NAMES[] = {
+    "Bard",
+    "Druid",
+    "Elementalist",
+    "Knight",
+    "Monk",
+    "Ranger",
+    "Rogue",
+    "Sorcerer",
+    "Warrior",
+    "Wizard",
+};
+
+// Number of predefined default classes (see above).
+const int DEFAULT_CLASS_COUNT = 10;
+
+/*
+ * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
+ * internal id.
+ * 
+ * Parameters
+ * - name: The name of the class.  Case sensitive.
+ * 
+ * Returns:
+ * - The index of the name in the DEFAULT_CLASS_NAMES array. Returns -1 if the 
+ *   name does not appear or is NULL.
+ */
+int get_class_name_index(char* name) {
+    if (name == NULL)
+        return -1;
+
+    for (int i = 0; i < DEFAULT_CLASS_COUNT; i++) 
+        if (strcmp(name, DEFAULT_CLASS_NAMES[i]) == 0)
+            return i;
+    
+    return -1;
+}
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
@@ -74,13 +114,21 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     }
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
 
-    // Skill Related allocations
+    // Skill Related Allocations
     class->combat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
     class->noncombat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
     
-    /* tree ID is the ascii values of the first two letters of the name.
-     * Should probably have a better system */
-    int tid = class->name[0] + class->name[1];
+    /* tree ID needs to be unique across all chiventure code.  Our team has been
+     * assigned the range 3000-3999.  Default classes start at 3000. There is
+     * currently no support for non-prefab classes. */
+    int class_id = get_class_name_index(class->name);
+    if (class_id == -1)
+    {
+        fprintf(stderr, "Could not find class name: \"%s\" "
+                        "in class_init\n", class->name);
+        return EXIT_FAILURE;
+    }
+    int tid = 3000 + class_id;
     class->skilltree = skill_tree_new(tid, class->name, MAX_SKILLS_IN_TREE);
 
     if (class->skilltree == NULL)

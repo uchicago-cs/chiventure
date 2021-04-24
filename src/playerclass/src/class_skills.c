@@ -167,6 +167,22 @@ int get_default_knight(class_t* class) {
     return SUCCESS;
 }
 
+/*
+ * fills in the skill-related structs of a class with the default skills
+ * for a level 1 warrior
+ *
+ * Parameters:
+ *  - class. the class the skill structs should be placed in
+ *
+ * Returns:
+ *  - status code
+ *  - the structs inside the class now contain skills
+ */
+int get_default_warrior(class_t* class) {
+    /* TODO */
+    return SUCCESS;
+}
+
 /* See class_skills.h */
 int class_skills_init(class_t* class) {
     /* 
@@ -211,9 +227,13 @@ int class_skills_init(class_t* class) {
     {
         init_success = get_default_knight(class);
     }
+    else if (!strcmp(class->name, "Warrior"))
+    {
+        init_success = get_default_warrior(class);
+    }
     else
     {
-        fprintf(stderr, "Could not find class for skill inventories"
+        fprintf(stderr, "Could not find class for skill inventories "
                         "in class_skills_init\n");
     }
     
