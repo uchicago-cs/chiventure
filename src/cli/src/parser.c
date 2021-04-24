@@ -18,7 +18,7 @@ char **parse(char *input)
 
     while(input[i])
     {
-        ch = toupper(input[i]);
+        ch = tolower(input[i]);
         input[i] = ch;
         i++;
     }
