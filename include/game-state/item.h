@@ -371,6 +371,18 @@ attribute_list_t *get_all_attributes(item_t *item);
  */
 int delete_attribute_llist(attribute_list_t *head);
 
+/*
+ * Function to check if a linked list (utlist) contains a specific attribute
+ * 
+ * Parameters:
+ *  linked list of pointers to attributes
+ *  name of a specific attribute
+ *
+ * Returns:
+ *  FAILURE for does not contain, SUCCESS for contains
+ */
+int *list_contains_attribute(attribute_list_t *head, char* attr_name);
+
 
 /*
  * Function to delete a linked list (utlist) retrieved from get_all_items()
