@@ -24,100 +24,6 @@ char* class_execute_skill(char* sk) {
     return sk;
 }
 
-/*
- * fills in the skill-related structs of a class with the default skills
- * for a level 1 ranger
- *
- * Parameters:
- *  - class. the class the skill structs should be placed in
- *
- * Returns:
- *  - status code
- *  - the structs inside the class now contain skills
- */
-int get_default_ranger(class_t* class) {
-    /* TODO */
-    return SUCCESS;
-}
-
-/*
- * fills in the skill-related structs of a class with the default skills
- * for a level 1 rogue
- *
- * Parameters:
- *  - class. the class the skill structs should be placed in
- *
- * Returns:
- *  - status code
- *  - the structs inside the class now contain skills
- */
-int get_default_rogue(class_t* class) {
-    /* TODO */
-    return SUCCESS;
-}
-
-/*
- * fills in the skill-related structs of a class with the default skills
- * for a level 1 monk
- *
- * Parameters:
- *  - class. the class the skill structs should be placed in
- *
- * Returns:
- *  - status code
- *  - the structs inside the class now contain skills
- */
-int get_default_monk(class_t* class) {
-    /* TODO */
-    return SUCCESS;
-}
-/*
- * fills in the skill-related structs of a class with the default skills
- * for a level 1 sorcerer
- *
- * Parameters:
- *  - class. the class the skill structs should be placed in
- *
- * Returns:
- *  - status code
- *  - the structs inside the class now contain skills
- */
-int get_default_sorcerer(class_t* class) {
-    /* TODO */
-    return SUCCESS;
-}
-
-/*
- * fills in the skill-related structs of a class with the default skills
- * for a level 1 druid
- *
- * Parameters:
- *  - class. the class the skill structs should be placed in
- *
- * Returns:
- *  - status code
- *  - the structs inside the class now contain skills
- */
-int get_default_druid(class_t* class) {
-    /* TODO */
-    return SUCCESS;
-}
-
-/*
- * fills in the skill-related structs of a class with the default skills
- * for a level 1 elementalist
- *
- * Parameters:
- *  - class. the class the skill structs should be placed in
- *
- * Returns:
- *  - status code
- *  - the structs inside the class now contain skills
- */
-int get_default_elementalist(class_t* class) {
-    /* TODO */
-    return SUCCESS;
-}
 
 /*
  * fills in the skill-related structs of a class with the default skills
@@ -135,9 +41,10 @@ int get_default_bard(class_t* class) {
     return SUCCESS;
 }
 
+
 /*
  * fills in the skill-related structs of a class with the default skills
- * for a level 1 wizard
+ * for a level 1 druid
  *
  * Parameters:
  *  - class. the class the skill structs should be placed in
@@ -146,10 +53,28 @@ int get_default_bard(class_t* class) {
  *  - status code
  *  - the structs inside the class now contain skills
  */
-int get_default_wizard(class_t* class) {
+int get_default_druid(class_t* class) {
     /* TODO */
     return SUCCESS;
 }
+
+
+/*
+ * fills in the skill-related structs of a class with the default skills
+ * for a level 1 elementalist
+ *
+ * Parameters:
+ *  - class. the class the skill structs should be placed in
+ *
+ * Returns:
+ *  - status code
+ *  - the structs inside the class now contain skills
+ */
+int get_default_elementalist(class_t* class) {
+    /* TODO */
+    return SUCCESS;
+}
+
 
 /*
  * fills in the skill-related structs of a class with the default skills
@@ -167,6 +92,75 @@ int get_default_knight(class_t* class) {
     return SUCCESS;
 }
 
+
+/*
+ * fills in the skill-related structs of a class with the default skills
+ * for a level 1 monk
+ *
+ * Parameters:
+ *  - class. the class the skill structs should be placed in
+ *
+ * Returns:
+ *  - status code
+ *  - the structs inside the class now contain skills
+ */
+int get_default_monk(class_t* class) {
+    /* TODO */
+    return SUCCESS;
+}
+
+
+/*
+ * fills in the skill-related structs of a class with the default skills
+ * for a level 1 ranger
+ *
+ * Parameters:
+ *  - class. the class the skill structs should be placed in
+ *
+ * Returns:
+ *  - status code
+ *  - the structs inside the class now contain skills
+ */
+int get_default_ranger(class_t* class) {
+    /* TODO */
+    return SUCCESS;
+}
+
+
+/*
+ * fills in the skill-related structs of a class with the default skills
+ * for a level 1 rogue
+ *
+ * Parameters:
+ *  - class. the class the skill structs should be placed in
+ *
+ * Returns:
+ *  - status code
+ *  - the structs inside the class now contain skills
+ */
+int get_default_rogue(class_t* class) {
+    /* TODO */
+    return SUCCESS;
+}
+
+
+/*
+ * fills in the skill-related structs of a class with the default skills
+ * for a level 1 sorcerer
+ *
+ * Parameters:
+ *  - class. the class the skill structs should be placed in
+ *
+ * Returns:
+ *  - status code
+ *  - the structs inside the class now contain skills
+ */
+int get_default_sorcerer(class_t* class) {
+    /* TODO */
+    return SUCCESS;
+}
+
+
 /*
  * fills in the skill-related structs of a class with the default skills
  * for a level 1 warrior
@@ -183,6 +177,24 @@ int get_default_warrior(class_t* class) {
     return SUCCESS;
 }
 
+
+/*
+ * fills in the skill-related structs of a class with the default skills
+ * for a level 1 wizard
+ *
+ * Parameters:
+ *  - class. the class the skill structs should be placed in
+ *
+ * Returns:
+ *  - status code
+ *  - the structs inside the class now contain skills
+ */
+int get_default_wizard(class_t* class) {
+    /* TODO */
+    return SUCCESS;
+}
+
+
 /* See class_skills.h */
 int class_skills_init(class_t* class) {
     /* 
@@ -191,51 +203,40 @@ int class_skills_init(class_t* class) {
      * to that function.
      */
     int init_success = 0;
-    if (!strcmp(class->name, "Ranger"))
-    {
-        init_success = get_default_ranger(class);
-    }
-    else if (!strcmp(class->name, "Rogue"))
-    {
-        init_success = get_default_rogue(class);
-    }
-    else if (!strcmp(class->name, "Monk"))
-    {
-        init_success = get_default_monk(class);
-    }
-    else if (!strcmp(class->name, "Sorcerer"))
-    {
-        init_success = get_default_sorcerer(class);
-    }
-    else if (!strcmp(class->name, "Druid"))
-    {
-        init_success = get_default_druid(class);
-    }
-    else if (!strcmp(class->name, "Elementalist"))
-    {
-        init_success = get_default_elementalist(class);
-    }
-    else if (!strcmp(class->name, "Bard"))
-    {
+
+    if (!strcmp(class->name, "Bard")) 
         init_success = get_default_bard(class);
-    }
-    else if (!strcmp(class->name, "Wizard"))
-    {
-        init_success = get_default_wizard(class);
-    }
-    else if (!strcmp(class->name, "Knight"))
-    {
+
+    else if (!strcmp(class->name, "Druid")) 
+        init_success = get_default_druid(class);
+
+    else if (!strcmp(class->name, "Elementalist")) 
+        init_success = get_default_elementalist(class);
+
+    else if (!strcmp(class->name, "Knight")) 
         init_success = get_default_knight(class);
-    }
-    else if (!strcmp(class->name, "Warrior"))
-    {
-        init_success = get_default_warrior(class);
-    }
-    else
-    {
+
+    else if (!strcmp(class->name, "Monk")) 
+        init_success = get_default_monk(class);
+
+    else if (!strcmp(class->name, "Ranger")) 
+        init_success = get_default_ranger(class);
+
+    else if (!strcmp(class->name, "Rogue")) 
+        init_success = get_default_rogue(class);
+
+    else if (!strcmp(class->name, "Sorcerer")) 
+        init_success = get_default_sorcerer(class);
+
+    else if (!strcmp(class->name, "Warrior")) 
+        init_success = get_default_warrior(class);  
+
+    else if (!strcmp(class->name, "Wizard")) 
+        init_success = get_default_wizard(class);
+    
+    else 
         fprintf(stderr, "Could not find class for skill inventories "
                         "in class_skills_init\n");
-    }
-    
+
     return init_success;
 }
