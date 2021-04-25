@@ -32,12 +32,12 @@ char **parse(char *input)
         words[i] = NULL;
     }
 
-    char *token = strtok(input, " ");
+    char *token = strtok(input, " and");
 
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         words[i] = token;
-        token = strtok(NULL, " ");
+        token = strtok(NULL, " and");
     }
 
     //If there are more than 4 words, parser returns NULL and does not attempt
