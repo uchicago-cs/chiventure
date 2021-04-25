@@ -571,6 +571,7 @@ int delete_attribute_llist(attribute_list_t *head)
     return SUCCESS;
 }
 
+/* See item.h */
 int list_contains_attribute(attribute_list_t *head, char* attr_name)
 {
     if(attr_name == NULL)
@@ -589,6 +590,7 @@ int list_contains_attribute(attribute_list_t *head, char* attr_name)
     return FAILURE;
 }
 
+/* See item.h */
 int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 {
     if(attr==NULL)
@@ -603,6 +605,7 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
     return SUCCESS;
 }
 
+/* See item.h */
 int remove_attribute_from_list(attribute_list_t *head, atrtibute_t *attr)
 {
     if(attr==NULL)
