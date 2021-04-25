@@ -44,14 +44,12 @@ int player_free(player_t* plyr)
     assert(plyr != NULL);
 
     free(plyr->player_id);
-    printf("Began player_free \n");
     if(&plyr->inventory != NULL)
     {
-      printf("Began to delete items from inventory \n");
         delete_all_items(&plyr->inventory);
+        printf("Delete all items worked \n");
     }
     free(plyr);
-    printf("Finished player_free \n");
     
     return SUCCESS;
 }
