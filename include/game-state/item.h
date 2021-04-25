@@ -381,8 +381,33 @@ int delete_attribute_llist(attribute_list_t *head);
  * Returns:
  *  FAILURE for does not contain, SUCCESS for contains
  */
-int *list_contains_attribute(attribute_list_t *head, char* attr_name);
 
+int list_contains_attribute(attribute_list_t *head, char *attr_name);
+
+/*
+ * Function to add an attribute to a linked listed (utlist) of attributes
+ *
+ * Paramaters:
+ *  Linked list of pointers to attributes
+ *  An attribute to add to the list
+ * 
+ * Returns:
+ *  FAILURE if it failed to add the attribute, SUCCESS if it add/the list contains the attribute
+ */
+int add_attribute_to_list(attribute_list_t *head, attribute_t *attr);
+
+/*
+ * Function to remove an attribute from a linked listed (utlist) of attributes
+ *
+ * Parameters:
+ *  Linked list of pointers to attributes
+ *  An attribute to be removed from the list
+ * 
+ * Returns:
+ *  FAILURE it failed to remove the element from the list
+ *  SUCCESS if the element was removed from the list
+ */
+int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr);
 
 /*
  * Function to delete a linked list (utlist) retrieved from get_all_items()

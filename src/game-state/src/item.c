@@ -571,6 +571,56 @@ int delete_attribute_llist(attribute_list_t *head)
     return SUCCESS;
 }
 
+int list_contains_attribute(attribute_list_t *head, char* attr_name)
+{
+    if(attr_name == NULL)
+    {
+        return FAILURE;
+    }
+    attribute_list_t *tmp = head;
+    while(tmp != NULL)
+    {
+        if(strcmp(tmp->attribute->attribute_key, attr_name))
+        {
+	    return SUCCESS;
+	}
+	tmp = tmp->next;
+    }
+    return FAILURE;
+}
+
+int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
+{
+    if(attr==NULL)
+    {
+        return FAILURE;
+    }
+    if(list_contains_attribute(head, attr->attribute_key)==SUCCESS)
+    {
+        return SUCCESS;
+    }
+    LL_APPEND(head, attr);
+    return SUCCESS;
+}
+
+int remove_attribute_from_list(attribute_list_t *head, atrtibute_t *attr)
+{
+    if(attr==NULL)
+    {
+        return FAILURE;
+    }
+    attribute_list_t *tmp = head;
+    while(tmp != NULL)
+    {
+        if(strcmp(tmp->attribute->attribute_key, attr->attribute_key)
+        {
+	    LL_DELETE(head, tmp);
+	    return SUCCESS;
+        }
+    }
+    return FAILURE;
+}
+
 /* See item.h */
 int delete_item_llist(item_list_t *head)
 {
