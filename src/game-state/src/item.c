@@ -593,19 +593,27 @@ int list_contains_attribute(attribute_list_t *head, char* attr_name)
 /* See item.h */
 int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 {
-    if(attr==NULL)
+    if(attr == NULL)
     {
         return FAILURE;
     }
-    if(list_contains_attribute(head, attr->attribute_key) == SUCCESS)
+
+    attribute_list_t *tmp = malloc(sizeof(attribute_list_t));
+    tmp->attribute = attr;
+    tmp->next = NULL;
+
+    if(head == NULL)
     {
+        head = tmp;
         return SUCCESS;
     }
-    attribute_list_t *tmp;
-    tmp = malloc(sizeof(attribute_list_t));
-    tmp->attribute = attr;
-    LL_APPEND(head, tmp);
-    return SUCCESS;
+    else if(list_contains_attribute(head, attr->attribute_key) == SUCCESS)
+        return SUCCESS;
+    else
+    {
+        LL_APPEND(head, tmp);
+        return SUCCESS;
+    }
 }
 
 /* See item.h */
