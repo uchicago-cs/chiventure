@@ -20,6 +20,8 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
 room_t *room_new(char *room_id, char *short_desc, char *long_desc)
 {
 
+    case_insensitize(room_id);
+
     room_t *room = malloc(sizeof(room_t));
     memset(room, 0, sizeof(room_t));
     room->room_id = malloc(MAX_ID_LEN);
@@ -118,6 +120,8 @@ int delete_all_rooms(room_hash_t *rooms)
 /* See room.h */
 path_t *path_search(room_t *room, char* direction)
 {
+    case_insensitize(direction);
+
     path_t *path;
     if (room == NULL)
     {
@@ -174,6 +178,8 @@ path_t *list_paths(room_t *room)
 /* see room.h */
 item_t* get_item_in_room(room_t* room, char* item_id)
 {
+    case_insensitize(item_id);
+    
     item_t* return_value;
     HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
     return return_value;
@@ -194,6 +200,8 @@ room_t *find_room_from_path(path_t *path)
 /* See room.h */
 room_t *find_room_from_dir(room_t *curr, char* direction)
 {
+    case_insensitize(direction);
+    
     path_t *path = path_search(curr, direction);
     room_t *room_adj = find_room_from_path(path);
     return room_adj;

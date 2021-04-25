@@ -36,4 +36,20 @@
 #define ROOM_SRC_NULL 2
 #define ROOM_DEST_NULL 3
 
+
+/* ========================================================== */
+/* ======== Functions for Normalizing the Game State ======== */
+/* ========================================================== */
+
+
+/*
+ * Function used to make struct IDs and other identifiers
+ *      case insensitive
+ * Parameters:
+ *   -  input: the string being lower-cased
+ * 
+ */
+void case_insensitize(char *input);
+
+
 #endif
