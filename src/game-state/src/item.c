@@ -597,16 +597,19 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
     {
         return FAILURE;
     }
-    if(list_contains_attribute(head, attr->attribute_key)==SUCCESS)
+    if(list_contains_attribute(head, attr->attribute_key) == SUCCESS)
     {
         return SUCCESS;
     }
-    LL_APPEND(head, attr);
+    attribute_list_t *tmp;
+    tmp = malloc(sizeof(attribute_list_t));
+    tmp->attribute = attr;
+    LL_APPEND(head, tmp);
     return SUCCESS;
 }
 
 /* See item.h */
-int remove_attribute_from_list(attribute_list_t *head, atrtibute_t *attr)
+int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
 {
     if(attr==NULL)
     {
@@ -615,11 +618,12 @@ int remove_attribute_from_list(attribute_list_t *head, atrtibute_t *attr)
     attribute_list_t *tmp = head;
     while(tmp != NULL)
     {
-        if(strcmp(tmp->attribute->attribute_key, attr->attribute_key)
+        if(strcmp(tmp->attribute->attribute_key, attr->attribute_key))
         {
 	    LL_DELETE(head, tmp);
 	    return SUCCESS;
         }
+	tmp = tmp->next;
     }
     return FAILURE;
 }
