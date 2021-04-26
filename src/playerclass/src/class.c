@@ -165,7 +165,7 @@ int class_init_skills(class_t* class, int max_skills_in_tree,
                         "in class_init\n");
         return EXIT_FAILURE;
     }
-    if (class_skills_init(class) == EXIT_FAILURE)
+    if (class_add_skills(class) == EXIT_FAILURE)
     {
         return EXIT_FAILURE;
     }

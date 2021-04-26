@@ -19,6 +19,6 @@
  *  - status code
  *  - the structs in the class now contain skills.
  */
-int class_skills_init(class_t* class);
+int class_add_skills(class_t* class);
 
 #endif

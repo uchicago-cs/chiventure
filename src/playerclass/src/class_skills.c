@@ -28,7 +28,7 @@ char* class_execute_skill(char* sk) {
 }
 
 /* See class_skills.h */
-int class_skills_init(class_t* class) {
+int class_add_skills(class_t* class) {
     /* 
      * TODO: If we ever develop a "class prototype struct" with a pointer to an
      * init_skill() function, this if-else ladder should be replaced with a call
