@@ -20,17 +20,6 @@
 // max long description length
 #define MAX_LONG_DESC_LEN (300)
 
-/* define constants for how many skills a class can have
- * in their current active and passive skill lists
- * numbers are utterly arbitrary */
-#define MAX_ACTIVE_SKILLS (10)
-#define MAX_PASSIVE_SKILLS (10)
-
-/* max number of skills in a class' skilltree
- * number is utterly arbitrary */
-#define MAX_SKILLS_IN_TREE (5)
-
-
 /* A player class struct storing the name, descriptions, attributes,
  * and stats */
 typedef struct class {

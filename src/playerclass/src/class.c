@@ -121,9 +121,24 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     }
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
 
-    /* Skill Related Allocations */
-    class->combat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
-    class->noncombat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
+    class->attributes = attr;
+    class->stats = stat;
+    class->effects = effect;
+
+    /* These are initialized by class_init_skills() */
+    class->skilltree = NULL;
+    class->combat = NULL;
+    class->noncombat = NULL;
+
+    return EXIT_SUCCESS;
+}
+
+/* See class.h */
+int class_init_skills(class_t* class, int max_skills_in_tree, 
+                      int max_combat_skills, int max_noncombat_skills) 
+{
+    class->combat = inventory_new(max_combat_skills, max_noncombat_skills);
+    class->noncombat = inventory_new(max_combat_skills, max_noncombat_skills);
     
     /* tree ID needs to be unique across all chiventure code.  Our team has been
      * assigned the range 3000-3999.  Default classes start at 3000. There is
@@ -136,7 +151,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
         return EXIT_FAILURE;
     }
     int tid = 3000 + class_id;
-    class->skilltree = skill_tree_new(tid, class->name, MAX_SKILLS_IN_TREE);
+    class->skilltree = skill_tree_new(tid, class->name, max_skills_in_tree);
 
     if (class->skilltree == NULL)
     {
@@ -148,16 +163,13 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     {
         fprintf(stderr, "Could not allocate memory for skill inventories"
                         "class_init\n");
+        return EXIT_FAILURE;
     }
-
     if (class_skills_init(class) == EXIT_FAILURE)
     {
         return EXIT_FAILURE;
     }
 
-    class->attributes = attr;
-    class->stats = stat;
-    class->effects = effect;
     return EXIT_SUCCESS;
 }
 
