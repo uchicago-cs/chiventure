@@ -54,6 +54,6 @@ bool is_restricted(item_t* item, class_t* class);
  *   - SUCCESS if successful
  *   - FAILURE if not
  */
-int remove_item_restriction(item_t* item, class_t* class)
+int remove_item_restriction(item_t* item, class_t* class);
 
 #endif /* CLASS_ITEM_RESTRICTION_H */
