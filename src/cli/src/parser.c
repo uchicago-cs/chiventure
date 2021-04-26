@@ -31,23 +31,24 @@ char **parse(char *input)
     {
         words[i] = NULL;
     }
-    char* and = strstr(input, "and");
-    if (*and != NULL){
-        char *token = strtok(input, *and);
+    char *and = strstr(input, " AND ");
+    if (and != NULL){
+        strncpy(and, " ", 1);
     }
-    else{
     char *token = strtok(input, " ");
-    }
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
+
         words[i] = token;
-        and = strstr(input, "and");
-        if (*and != NULL){
-            token = strtok(NULL, *and);
+        char *and = strstr(input, " AND ");
+        if (and != NULL){
+        strncpy(and, " ", 1);
         }
-        else{
         token = strtok(NULL, " ");
-    }}
+        
+
+        
+    }
 
     //If there are more than 4 words, parser returns NULL and does not attempt
     //to pass the first four words as tokens
