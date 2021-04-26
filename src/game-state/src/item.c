@@ -602,12 +602,7 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
     tmp->attribute = attr;
     tmp->next = NULL;
 
-    if(head == NULL)
-    {
-        head = tmp;
-        return SUCCESS;
-    }
-    else if(list_contains_attribute(head, attr->attribute_key) == SUCCESS)
+    if(list_contains_attribute(head, attr->attribute_key) == SUCCESS)
         return SUCCESS;
     else
     {
@@ -619,11 +614,13 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 /* See item.h */
 int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
 {
-    if(attr==NULL)
+    if(attr == NULL)
     {
         return FAILURE;
     }
     attribute_list_t *tmp = head;
+        
+    /* Checks the continous case of having x number of attributes in given list */
     while(tmp != NULL)
     {
         if(strcmp(tmp->attribute->attribute_key, attr->attribute_key))
@@ -631,8 +628,10 @@ int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
 	    LL_DELETE(head, tmp);
 	    return SUCCESS;
         }
-	tmp = tmp->next;
+
+	    tmp = tmp->next;
     }
+
     return FAILURE;
 }
 

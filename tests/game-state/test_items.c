@@ -1193,6 +1193,25 @@ Test(item, deletion_in_player)
 
 // Tests for attribute_lists---------------------------------------------------
 
+Test(attribute_list, add_to_empty_list)
+{
+    attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    test_attr1->attribute_tag = INTEGER;
+    test_attr1->attribute_value.int_val = 5;
+    test_attr1->attribute_key = "Queen";
+
+    attribute_list_t* test_head = NULL;
+
+    int add_attribute = add_attribute_to_list(NULL, test_attr1); 
+
+    cr_assert_eq(add_attribute, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+
+    delete_attribute_llist(test_head);      
+}
+
 Test(attribute_list, add_attribute_to_list)
 {
     attribute_t* test_attr = (attribute_t*)malloc(sizeof(attribute_t));
