@@ -344,7 +344,7 @@ Test(item_item_actions, attr_and_inv_conditions_met)
 /* Checks if two conditions (two inventory) are able to be added and evaluated together */
 Test(item_item_actions, two_inv_conditions_met)
 {
-    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 7, 0);
+    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 8, 0);
 
     cr_assert_eq(rc, SUCCESS,
                  "execute_do_item_item_action returned %d for two inventory conditons met, expected SUCCESS (0)", rc);
