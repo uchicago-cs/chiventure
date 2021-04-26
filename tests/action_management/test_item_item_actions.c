@@ -184,8 +184,18 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
 
     chiventure_ctx_free(ctx_test);
     free(string);
-    item_free(direct);
-    item_free(indirect);
+
+    /*sometimes the direct and indirect items are not added to a player
+     * and must be freed separately. The following if statements should
+     * free them in this case */
+    if(choose_condition <= 4){
+            item_free(direct);
+    }
+
+    if(choose_condition != 8){
+            item_free(indirect);
+    }
+
     action_type_free(a);
     game_action_free(ga);
     player_free(player);
