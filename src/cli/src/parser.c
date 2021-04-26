@@ -42,12 +42,11 @@ char **parse(char *input)
     {
         words[i] = token;
         and = strstr(input, "and");
-        if (*and != NULL){
-            token = strtok(NULL, *and);
-        }
-        else{
-        token = strtok(NULL, " ");
-    }}
+       
+            token = strtok(NULL, *and" ");
+        
+        
+    }
 
     //If there are more than 4 words, parser returns NULL and does not attempt
     //to pass the first four words as tokens
