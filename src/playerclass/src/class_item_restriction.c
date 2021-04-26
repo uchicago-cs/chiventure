@@ -31,6 +31,6 @@ int set_item_restriction(item_t* item, class_t* class) {
 }
 
 /* see class_item_restriction.h */
-bool get_class_restriction(item_t* item, class_t* class) {
-    return !list_contains_attribute(item->class_restrictions, class->name);
+bool is_restricted(item_t* item, class_t* class) {
+    return (list_contains_attribute(item->class_restrictions, strndup(class->name, 100)) == SUCCESS);
 }
