@@ -609,6 +609,7 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
         return FAILURE;
     }
 
+    /* Create the to-be appended struct of new attribute */
     attribute_list_t *tmp = create_list_attribute(); 
     tmp->attribute = attr;
     tmp->next = NULL;
