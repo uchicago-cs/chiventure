@@ -33,7 +33,8 @@ char **parse(char *input)
     }
     char* and = strstr(input, " AND ");
     while (*and != NULL){
-        strncpy (and, " ", 1);
+        and = strstr((strncpy (and, " ", 1), " AND ");
+
     }
     char *token = strtok(input, " ");
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
