@@ -624,10 +624,11 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 }
 
 /* See item.h */
-int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
+int remove_attribute_from_list(attribute_list_t *head, char *attr_name)
 {
-    if(attr == NULL || head->next == NULL)
+    if(head->next == NULL)
     {
+        printf("\nNot Recognized\n");
         return FAILURE;
     }
 
@@ -636,7 +637,7 @@ int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
     /* Checks the continous case of having x number of attributes in given list */
     while(tmp != NULL)
     {
-        if(strcmp(tmp->attribute->attribute_key, attr->attribute_key) == 0)
+        if(strcmp(tmp->attribute->attribute_key, attr_name) == 0)
         {
             LL_DELETE(head, tmp);
 	        return SUCCESS;

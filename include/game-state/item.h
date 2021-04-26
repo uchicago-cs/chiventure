@@ -408,13 +408,13 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr);
  *
  * Parameters:
  *  Linked list of pointers to attributes
- *  An attribute to be removed from the list
+ *  (char*) The attribute key of the attribute to be removed
  * 
  * Returns:
  *  FAILURE it failed to remove the element from the list
  *  SUCCESS if the element was removed from the list
  */
-int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr);
+int remove_attribute_from_list(attribute_list_t *head, char *attr_name);
 
 /*
  * Function to delete a linked list (utlist) retrieved from get_all_items()

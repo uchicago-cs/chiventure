@@ -1258,7 +1258,7 @@ Test(attribute_list, remove_from_one_attribute_list)
     cr_assert_eq(add_attribute, SUCCESS,
         "add_attribute_to_list test: attribute Queen not added");
 
-    int remove_attribute = remove_attribute_from_list(test_head, test_attr1);
+    int remove_attribute = remove_attribute_from_list(test_head, test_attr1->attribute_key);
     cr_assert_eq(remove_attribute, SUCCESS,
         "remove_from_one_attribute_list test: attribute Queen not removed");
     
@@ -1313,7 +1313,7 @@ Test(attribute_list, remove_attribute_from_list)
     cr_assert_eq(add_attribute2, SUCCESS,
         "add_attribute_to_list test: attribute Queen not added");
 
-    int remove_attribute = remove_attribute_from_list(test_head, test_attr2);
+    int remove_attribute = remove_attribute_from_list(test_head, test_attr2->attribute_key);
 
     cr_assert_eq(remove_attribute, SUCCESS,
         "remove_attirubte_from_list test: attribute Queen not removed");
