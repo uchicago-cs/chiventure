@@ -1198,6 +1198,7 @@ Test(attribute_list, add_to_new_list)
 
     attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
 
+
     test_attr1->attribute_key = malloc(sizeof(char)*10);
     test_attr1->attribute_tag = INTEGER;
     test_attr1->attribute_value.int_val = 5;
