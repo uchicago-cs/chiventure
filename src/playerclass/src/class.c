@@ -156,13 +156,13 @@ int class_init_skills(class_t* class, int max_skills_in_tree,
     if (class->skilltree == NULL)
     {
         fprintf(stderr, "Could not allocate memory for skill trees "
-                        "class_init\n");
+                        "in class_init\n");
         return EXIT_FAILURE;
     }
     if (class->combat == NULL || class->noncombat == NULL)
     {
         fprintf(stderr, "Could not allocate memory for skill inventories"
-                        "class_init\n");
+                        "in class_init\n");
         return EXIT_FAILURE;
     }
     if (class_skills_init(class) == EXIT_FAILURE)
