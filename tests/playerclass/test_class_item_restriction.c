@@ -12,7 +12,7 @@
 void check_set_restriction(item_t* item, class_t* class) {
 
     int SIR_check = set_item_restriction(item, class);
-    bool GSA_val= get_bool_attr(item, class->name);
+    bool GSA_val= list_contains_attribute(item, class->name);
 
     cr_assert_eq(SIR_check, SUCCESS, "Set_item_restriction() failed. Either class or item is null");
 
