@@ -16,7 +16,7 @@
 
 /* Rudimentary id system for prefab classes (internal) */
 
-// Default Classes in alphabetical order.
+/* Default Classes in alphabetical order. */
 const char* const DEFAULT_CLASS_NAMES[] = {
     "bard",
     "druid",
@@ -30,7 +30,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
     "wizard",
 };
 
-// Number of predefined default classes (see above).
+/* Number of predefined default classes (see above). */
 const int DEFAULT_CLASS_COUNT = 10;
 
 /*
@@ -50,7 +50,7 @@ int get_class_name_index(char* name) {
 
     char temp_name[MAX_NAME_LEN + 1];
     strncpy(temp_name, name, MAX_NAME_LEN);
-    // make temp_name lowercase
+    /* make temp_name lowercase */
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
 
@@ -121,7 +121,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     }
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
 
-    // Skill Related Allocations
+    /* Skill Related Allocations */
     class->combat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
     class->noncombat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
     
