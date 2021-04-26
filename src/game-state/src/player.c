@@ -47,7 +47,6 @@ int player_free(player_t* plyr)
     if(&plyr->inventory != NULL)
     {
         delete_all_items(&plyr->inventory);
-        printf("Delete all items worked \n");
     }
     free(plyr);
     
