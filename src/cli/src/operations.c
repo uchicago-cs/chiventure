@@ -138,10 +138,6 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         return "You must identify an object to act on\n";
     }
-     if(tokens[2] != NULL)
-    {
-        return "Error: Too many items for this action\n";
-    }
     item_t *curr_item;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
     if(curr_item != NULL)
@@ -186,10 +182,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         return "You must specify a direction to go \n";
     }
-    if(tokens[2] != NULL)
-    {
-        return "Error: Can only go one direction\n";
-    }
+   
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
