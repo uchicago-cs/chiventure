@@ -1193,8 +1193,9 @@ Test(item, deletion_in_player)
 
 // Tests for attribute_lists---------------------------------------------------
 
-Test(attribute_list, add_to_empty_list)
+Test(attribute_list, add_to_new_list)
 {
+
     attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
 
     test_attr1->attribute_key = malloc(sizeof(char)*10);
@@ -1202,9 +1203,9 @@ Test(attribute_list, add_to_empty_list)
     test_attr1->attribute_value.int_val = 5;
     test_attr1->attribute_key = "Queen";
 
-    attribute_list_t* test_head = NULL;
+    attribute_list_t* test_head = create_list_attribute();
 
-    int add_attribute = add_attribute_to_list(NULL, test_attr1); 
+    int add_attribute = add_attribute_to_list(test_head, test_attr1); 
 
     cr_assert_eq(add_attribute, SUCCESS,
         "add_attribute_to_list test: attribute Queen not added");
@@ -1238,6 +1239,31 @@ Test(attribute_list, add_attribute_to_list)
         "add_attribute_to_list test: attribute Queen not added");
 
     delete_attribute_llist(test_head);
+}
+
+Test(attribute_list, remove_from_one_attribute_list)
+{
+    attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    test_attr1->attribute_tag = INTEGER;
+    test_attr1->attribute_value.int_val = 5;
+    test_attr1->attribute_key = "Queen";
+
+    attribute_list_t* test_head = create_list_attribute();
+
+    int add_attribute = add_attribute_to_list(test_head, test_attr1); 
+
+    cr_assert_eq(add_attribute, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+
+    printf("Queen?: %s\n", test_head->next->attribute->attribute_key);
+    printf("attr_key: %s\n", test_attr1->attribute_key);
+    int remove_attribute = remove_attribute_from_list(test_head, test_attr1);
+    cr_assert_eq(remove_attribute, SUCCESS,
+        "remove_from_one_attribute_list test: attribute Queen not removed");
+
+    delete_attribute_llist(test_head);      
 }
 
 Test(attribute_list, remove_attribute_from_list)

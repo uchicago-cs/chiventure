@@ -571,14 +571,24 @@ int delete_attribute_llist(attribute_list_t *head)
     return SUCCESS;
 }
 
+attribute_list_t* create_list_attribute()
+{
+    attribute_list_t* rv = malloc(sizeof(attribute_list_t));
+
+    rv->attribute = NULL;
+    rv->next = NULL;
+
+    return rv; 
+}
+
 /* See item.h */
 int list_contains_attribute(attribute_list_t *head, char* attr_name)
 {
-    if(attr_name == NULL)
+    if(attr_name == NULL || head->next == NULL)
     {
         return FAILURE;
     }
-    attribute_list_t *tmp = head;
+    attribute_list_t *tmp = head->next;
     while(tmp != NULL)
     {
         if(strcmp(tmp->attribute->attribute_key, attr_name))
@@ -598,7 +608,7 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
         return FAILURE;
     }
 
-    attribute_list_t *tmp = malloc(sizeof(attribute_list_t));
+    attribute_list_t *tmp = create_list_attribute(); 
     tmp->attribute = attr;
     tmp->next = NULL;
 
@@ -614,19 +624,19 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 /* See item.h */
 int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
 {
-    if(attr == NULL)
+    if(attr == NULL || head->next == NULL)
     {
         return FAILURE;
     }
-    attribute_list_t *tmp = head;
-        
+    attribute_list_t *tmp = head->next;
+  
     /* Checks the continous case of having x number of attributes in given list */
     while(tmp != NULL)
     {
-        if(strcmp(tmp->attribute->attribute_key, attr->attribute_key))
+        if(!strcmp(tmp->attribute->attribute_key, attr->attribute_key))
         {
-	    LL_DELETE(head, tmp);
-	    return SUCCESS;
+            LL_DELETE(head->next, tmp);
+	        return SUCCESS;
         }
 
 	    tmp = tmp->next;

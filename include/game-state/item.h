@@ -371,6 +371,12 @@ attribute_list_t *get_all_attributes(item_t *item);
  */
 int delete_attribute_llist(attribute_list_t *head);
 
+/* create_list_attribute: creates an empty attribute_list_t 
+ * 
+ * Returns: A pointer to the created attribute_list_t
+ */
+attribute_list_t* create_list_attribute();
+
 /*
  * Function to check if a linked list (utlist) contains a specific attribute
  * 
