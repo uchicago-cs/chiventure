@@ -123,7 +123,6 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
 {
     item_t *check;
-    printf("%s\n", old_item->item_id);
     HASH_FIND(hh, *ht, old_item->item_id, strnlen(old_item->item_id, MAX_ID_LEN), check);
     
     // Only deletes if item exists in hashtable
@@ -133,7 +132,6 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
         {
             /* Multiple identical item ids;
              * item to delete is head of linked list */
-	  printf("Deleting item 1\n");
             HASH_DEL(*ht, old_item);
             add_item_to_hash(ht, old_item->next);
             old_item->next = NULL;
@@ -141,7 +139,6 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
         else if (check == old_item)
         {
             /* Item to delete is only item w/ id in hashtable */
-	  printf("Deleting item 2 \n");
             HASH_DEL(*ht, old_item);
         }
         else
