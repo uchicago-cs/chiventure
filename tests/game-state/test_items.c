@@ -1257,11 +1257,22 @@ Test(attribute_list, remove_from_one_attribute_list)
     cr_assert_eq(add_attribute, SUCCESS,
         "add_attribute_to_list test: attribute Queen not added");
 
-    printf("Queen?: %s\n", test_head->next->attribute->attribute_key);
-    printf("attr_key: %s\n", test_attr1->attribute_key);
     int remove_attribute = remove_attribute_from_list(test_head, test_attr1);
     cr_assert_eq(remove_attribute, SUCCESS,
         "remove_from_one_attribute_list test: attribute Queen not removed");
+    
+    /* Check if we can still use test_head */
+    attribute_t *test_attr2 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr2->attribute_key = malloc(sizeof(char)*10);
+    test_attr2->attribute_tag = INTEGER;
+    test_attr2->attribute_value.int_val = 5;
+    test_attr2->attribute_key =  "King";
+
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+
+    cr_assert_eq(add_attribute2, SUCCESS,
+                "add_attribute_to_list after removing last attribute test: Fail");
 
     delete_attribute_llist(test_head);      
 }
