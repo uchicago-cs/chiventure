@@ -6,6 +6,7 @@
 #include <ctype.h>
 
 #include "class_skills.h"
+#include "playerclass/class_structs.h"
 
 
 /*
@@ -212,34 +213,34 @@ int class_skills_init(class_t* class) {
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
     
-    if (!strcmp(temp_name, "bard")) 
+    if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) 
         init_success = get_default_bard(class);
 
-    else if (!strcmp(temp_name, "druid")) 
+    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) 
         init_success = get_default_druid(class);
 
-    else if (!strcmp(temp_name, "elementalist")) 
+    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) 
         init_success = get_default_elementalist(class);
 
-    else if (!strcmp(temp_name, "knight")) 
+    else if (!strncmp(temp_name, "knight", MAX_NAME_LEN)) 
         init_success = get_default_knight(class);
 
-    else if (!strcmp(temp_name, "monk")) 
+    else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) 
         init_success = get_default_monk(class);
 
-    else if (!strcmp(temp_name, "ranger")) 
+    else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) 
         init_success = get_default_ranger(class);
 
-    else if (!strcmp(temp_name, "rogue")) 
+    else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) 
         init_success = get_default_rogue(class);
 
-    else if (!strcmp(temp_name, "sorcerer")) 
+    else if (!strncmp(temp_name, "sorcerer", MAX_NAME_LEN)) 
         init_success = get_default_sorcerer(class);
 
-    else if (!strcmp(temp_name, "warrior")) 
+    else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) 
         init_success = get_default_warrior(class);  
 
-    else if (!strcmp(temp_name, "wizard")) 
+    else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) 
         init_success = get_default_wizard(class);
     
     else 

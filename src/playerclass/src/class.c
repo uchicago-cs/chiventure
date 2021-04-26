@@ -55,7 +55,7 @@ int get_class_name_index(char* name) {
         temp_name[i] = tolower(temp_name[i]);
 
     for (int i = 0; i < DEFAULT_CLASS_COUNT; i++) 
-        if (strcmp(temp_name, DEFAULT_CLASS_NAMES[i]) == 0) 
+        if (strncmp(temp_name, DEFAULT_CLASS_NAMES[i], MAX_NAME_LEN) == 0) 
             return i;
 
     return -1;
