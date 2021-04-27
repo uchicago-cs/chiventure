@@ -135,10 +135,10 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
 
 /* See class.h */
 int class_init_skills(class_t* class, int max_skills_in_tree, 
-                      int max_combat_skills, int max_noncombat_skills) 
+                      int max_active_skills, int max_passive_skills) 
 {
-    class->combat = inventory_new(max_combat_skills, max_noncombat_skills);
-    class->noncombat = inventory_new(max_combat_skills, max_noncombat_skills);
+    class->combat = inventory_new(max_active_skills, max_passive_skills);
+    class->noncombat = inventory_new(max_active_skills, max_passive_skills);
     
     /* tree ID needs to be unique across all chiventure code.  Our team has been
      * assigned the range 3000-3999.  Default classes start at 3000. There is
