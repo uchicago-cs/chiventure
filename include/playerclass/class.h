@@ -47,23 +47,9 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
                obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);
 
-/*
- * Initializes skill and skilltree related values for a player class.  Currently
- * only works for classes that match the name of one of our prefab classes.
- * 
- * Parameters:
- *  - class: a pointer to the class to be initialized.
- *  - max_skills_in_tree: the maximum number of skills in the class skilltree.
- *  - max_combat_skills: the maximum number of combat skills the class may have.
- *  - max_noncombat_skills: the maximum number of noncombat skills the class may
- *    have.
- * 
- * Returns:
- *  - EXIT_SUCCESS on successful initializtion.
- *  - EXIT_FAILURE otherwise.
- */
-int class_init_skills(class_t* class, int max_skills_in_tree, 
-                      int max_active_skills, int max_passive_skills); 
+
+int class_add_skills(class_t* class, skill_inventory_t* combat, 
+                     skill_inventory_t *noncombat, skill_tree_t* skilltree);
 
 /*
  * Frees a class and strings created by class_new.
