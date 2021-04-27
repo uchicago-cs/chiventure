@@ -7,6 +7,7 @@
 
 #include "common/utlist.h"
 #include "skilltrees/inventory.h"
+#include "skilltrees/skilltree.h"
 #include "game-state/stats.h"
 #include "libobj/obj.h"
 
@@ -18,18 +19,6 @@
 
 // max long description length
 #define MAX_LONG_DESC_LEN (300)
-
-/* define constants for how many skills a class can have
- * in their current active and passive skill lists
- * numbers are utterly arbitrary */
-#define MAX_ACTIVE_SKILLS (10)
-#define MAX_PASSIVE_SKILLS (10)
-
-// skilltrees stub
-typedef struct skilltree_stub {
-    obj_t* skilltree;
-} skilltree_stub_t;
-
 
 /* A player class struct storing the name, descriptions, attributes,
  * and stats */
@@ -53,7 +42,15 @@ typedef struct class {
     effects_hash_t* effects;
 
     // Class skilltree
-    skilltree_stub_t* skilltree;
+    skill_tree_t* skilltree;
+
+    /* 
+     * Note: There is a concern here about the combat vs noncombat distinction,
+     * since the skilltrees code divides between passive and active skills.
+     * 
+     * Should we adjust the division below so that we track passive vs active
+     * skills?
+     */
 
     // Class combat actions
     skill_inventory_t* combat;
