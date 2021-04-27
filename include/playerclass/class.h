@@ -63,7 +63,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
  *  - EXIT_FAILURE otherwise.
  */
 int class_init_skills(class_t* class, int max_skills_in_tree, 
-                      int max_combat_skills, int max_noncombat_skills); 
+                      int max_active_skills, int max_passive_skills); 
 
 /*
  * Frees a class and strings created by class_new.
