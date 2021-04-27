@@ -575,6 +575,10 @@ int delete_attribute_llist(attribute_list_t *head)
 attribute_list_t* create_list_attribute()
 {
     attribute_list_t* rv = malloc(sizeof(attribute_list_t));
+    if(rv == NULL)
+    {
+      return NULL; //Malloc failed
+    }
 
     rv->attribute = NULL;
     rv->next = NULL;
