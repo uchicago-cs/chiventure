@@ -27,7 +27,8 @@ class_t* generate_test_class()
                 "attacks using heavy armor.\n";
 
     c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
-
+    class_init_skills(c, 25, 10, 10);
+    return c;
 }
 
 /* Tests class_new */
@@ -88,9 +89,9 @@ Test(test_class, skills_init)
 {
     class_t* c = generate_test_class();
 
-    cr_assert_not_null(c->skilltree, "class_skills_init didn't set skilltree");
-    cr_assert_not_null(c->combat, "class_skills_init didn't set combat");
-    cr_assert_not_null(c->noncombat, "class_skills_init didn't set noncombat");
+    cr_assert_not_null(c->skilltree, "class_init_skills didn't set skilltree");
+    cr_assert_not_null(c->combat, "class_init_skills didn't set combat");
+    cr_assert_not_null(c->noncombat, "class_init_skills didn't set noncombat");
 }
 
 /* Tests class_free */
