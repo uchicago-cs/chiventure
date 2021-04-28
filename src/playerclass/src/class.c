@@ -14,53 +14,6 @@
 #include "playerclass/class_prefabs.h"
 #include "common/utlist.h"
 
-/* Rudimentary id system for prefab classes (internal) */
-
-/* Default Classes in alphabetical order. */
-const char* const DEFAULT_CLASS_NAMES[] = {
-    "bard",
-    "druid",
-    "elementalist",
-    "knight",
-    "monk",
-    "ranger",
-    "rogue",
-    "sorcerer",
-    "warrior",
-    "wizard",
-};
-
-/* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 10;
-
-/*
- * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
- * internal id.
- * 
- * Parameters
- * - name: The name of the class.  Case sensitive.
- * 
- * Returns:
- * - The index of the name in the DEFAULT_CLASS_NAMES array. Returns -1 if the 
- *   name does not appear or is NULL.
- */
-int get_class_name_index(char* name) {
-    if (name == NULL)
-        return -1;
-
-    char temp_name[MAX_NAME_LEN + 1];
-    strncpy(temp_name, name, MAX_NAME_LEN);
-    /* make temp_name lowercase */
-    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
-        temp_name[i] = tolower(temp_name[i]);
-
-    for (int i = 0; i < DEFAULT_CLASS_COUNT; i++) 
-        if (strncmp(temp_name, DEFAULT_CLASS_NAMES[i], MAX_NAME_LEN) == 0) 
-            return i;
-
-    return -1;
-}
-
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
                    obj_t* attr, stats_hash_t* stat, effects_hash_t* effect) {
@@ -132,7 +85,7 @@ int class_add_skills(class_t* class, skill_inventory_t* combat,
     class->combat = combat;
     class->noncombat = noncombat;
     class->skilltree = skilltree;
-    return SUCCESS;
+    return EXIT_SUCCESS;
 }
 
 /* See class.h */

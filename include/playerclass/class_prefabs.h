@@ -21,6 +21,7 @@
  */
 int class_prefab_add_skills(class_t* class);
 
+/* Temporary function, target for deletion */
 class_t* class_prefab_warrior();
 
 #endif /* CLASS_PREFABS_H */

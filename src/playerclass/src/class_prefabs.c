@@ -5,6 +5,53 @@
 #include "playerclass/class.h"
 #include "playerclass/class_structs.h"
 
+/* Rudimentary id system for prefab classes (internal) */
+
+/* Default Classes in alphabetical order. */
+const char* const DEFAULT_CLASS_NAMES[] = {
+    "bard",
+    "druid",
+    "elementalist",
+    "knight",
+    "monk",
+    "ranger",
+    "rogue",
+    "sorcerer",
+    "warrior",
+    "wizard",
+};
+
+/* Number of predefined default classes (see above). */
+const int DEFAULT_CLASS_COUNT = 10;
+
+/*
+ * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
+ * internal id.
+ * 
+ * Parameters
+ * - name: The name of the class.  Case sensitive.
+ * 
+ * Returns:
+ * - The index of the name in the DEFAULT_CLASS_NAMES array. Returns -1 if the 
+ *   name does not appear or is NULL.
+ */
+int get_class_name_index(char* name) {
+    if (name == NULL)
+        return -1;
+
+    char temp_name[MAX_NAME_LEN + 1];
+    strncpy(temp_name, name, MAX_NAME_LEN);
+    /* make temp_name lowercase */
+    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
+        temp_name[i] = tolower(temp_name[i]);
+
+    for (int i = 0; i < DEFAULT_CLASS_COUNT; i++) 
+        if (strncmp(temp_name, DEFAULT_CLASS_NAMES[i], MAX_NAME_LEN) == 0) 
+            return i;
+
+    return -1;
+}
+
 /*
  * this is a placeholder function for the skill struct to satisfy
  * the effect_t field, which wants a function of this form
@@ -23,20 +70,21 @@ char* class_execute_skill(char* sk) {
     return sk;
 }
 
-/* Testing out how this might work */
-class_t* class_prefab_warrior() {
-    char *name = "Warrior"; 
-    char *short_desc = "Guy with sword."; 
-    char *long_desc = "Guy with sword. Guy hit thing in head with sword. Guy use " 
-    "few words, sword is better than words.";
-    
-    obj_t *attr = NULL;
-    stats_hash_t *stats = NULL;
-    effects_hash_t *effects = NULL;
-    return class_new(name, short_desc, long_desc, attr, stats, effects);
-}
-
-/* See class.h */
+/*
+ * Initializes skill and skilltree related values for a player class.  Currently
+ * only works for classes that match the name of one of our prefab classes.
+ * 
+ * Parameters:
+ *  - class: a pointer to the class to be initialized.
+ *  - max_skills_in_tree: the maximum number of skills in the class skilltree.
+ *  - max_combat_skills: the maximum number of combat skills the class may have.
+ *  - max_noncombat_skills: the maximum number of noncombat skills the class may
+ *    have.
+ * 
+ * Returns:
+ *  - EXIT_SUCCESS on successful initializtion.
+ *  - EXIT_FAILURE otherwise.
+ */
 int class_allocate_skills(class_t* class, int max_skills_in_tree, 
                       int max_active_skills, int max_passive_skills) {
     class->combat = inventory_new(max_active_skills, max_passive_skills);
@@ -134,4 +182,17 @@ int class_prefab_add_skills(class_t* class) {
     }
 
     return SUCCESS;
+}
+
+/* Testing out how this might work */
+class_t* class_prefab_warrior() {
+    char *name = "Warrior"; 
+    char *short_desc = "Guy with sword."; 
+    char *long_desc = "Guy with sword. Guy hit thing in head with sword. Guy use " 
+    "few words, sword is better than words.";
+    
+    obj_t *attr = NULL;
+    stats_hash_t *stats = NULL;
+    effects_hash_t *effects = NULL;
+    return class_new(name, short_desc, long_desc, attr, stats, effects);
 }
