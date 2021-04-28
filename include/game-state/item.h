@@ -388,7 +388,7 @@ attribute_list_t* create_list_attribute();
  *  FAILURE for does not contain, SUCCESS for contains
  */
 
-int list_contains_attribute(attribute_list_t *head, char *attr_name);
+bool list_contains_attribute(attribute_list_t *head, char *attr_name);
 
 /*
  * Function to add an attribute to a linked listed (utlist) of attributes

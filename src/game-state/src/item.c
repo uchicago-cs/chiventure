@@ -575,7 +575,7 @@ int delete_attribute_llist(attribute_list_t *head)
 attribute_list_t* create_list_attribute()
 {
     attribute_list_t* rv = malloc(sizeof(attribute_list_t));
-    if(rv == NULL)
+    if (rv == NULL)
     {
       return NULL; //Malloc failed
     }
@@ -585,15 +585,34 @@ attribute_list_t* create_list_attribute()
 
     return rv; 
 }
+/*
+ * Function that takes two attribute_list_ts and compares them.
+ *
+ * Parameters:
+ * - attribute_list_t: points to node with one action
+ * - attribute_list_t: points to node of another action
+ *
+ * Returns:
+ * - int value that means 0: the same, 1: first string comes after second,
+ *   -1: first string comes before second
+ */
+int attr_cmp(attribute_list_t *a1, attribute_list_t *a2)
+{
+  return strcmp(a1->attribute->attribute_key, a2->attribute->attribute_key);
+}
 
 /* See item.h */
-int list_contains_attribute(attribute_list_t *head, char* attr_name)
+bool list_contains_attribute(attribute_list_t *head, char* attr_name)
 {
     if(attr_name == NULL || head->next == NULL)
     {
         return FAILURE;
     }
-    attribute_list_t *tmp = head->next;
+    attribute_list_t *tmp;
+    attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
+    like->attribute->attribute_key = attr_name;
+    LL_SEARCH(head, tmp, like, attr_cmp);
+    /*
     while(tmp != NULL)
     {
         if(strcmp(tmp->attribute->attribute_key, attr_name) == 0)
@@ -603,6 +622,8 @@ int list_contains_attribute(attribute_list_t *head, char* attr_name)
 	tmp = tmp->next;
     }
     return FAILURE;
+    */
+    return attr_cmp(tmp, like);
 }
 
 /* See item.h */
