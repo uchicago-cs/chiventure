@@ -188,7 +188,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     }
     if(tokens[2] != NULL)
     {
-        return "Sorry, You can only go one direction \n";
+        return "Sorry, you can only go one direction \n";
     }
 
     path_t *curr_path;
