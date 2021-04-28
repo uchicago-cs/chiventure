@@ -29,7 +29,7 @@ item_t *get_random_default_item
     rv_item->id = randnum(1,10);
     rv_item->quantity = randnum(1,10);
     rv_item->durability = randnum(20,70);   
-    rv_item->name = name_array[randnum(1,10)];
+    rv_item->name = name_array[randnum(0,9)];
     //not sure what to do for the description
     rv_item->description = NULL;
     //also unsure about the "battle" field in item_t struct
