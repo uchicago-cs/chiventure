@@ -566,7 +566,7 @@ int delete_attribute_llist(attribute_list_t *head)
     LL_FOREACH_SAFE(head, elt, tmp)
     {
         LL_DELETE(head, elt);
-        free(elt);
+	free(elt);
     }
     return SUCCESS;
 }
@@ -643,7 +643,8 @@ int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
         if(strcmp(tmp->attribute->attribute_key, attr->attribute_key) == 0)
         {
             LL_DELETE(head, tmp);
-	        return SUCCESS;
+	    free(tmp);
+	    return SUCCESS;
         }
 
 	    tmp = tmp->next;
