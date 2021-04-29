@@ -4,6 +4,7 @@
 #include "common/uthash.h"
 #include "action_management/action_structs.h"
 #include "common/ctx.h"
+#include "cli-utility.h"
 
 typedef struct chiventure_ctx chiventure_ctx_t;
 /* Operation data type */

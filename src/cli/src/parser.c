@@ -3,7 +3,6 @@
 #include <ctype.h>
 
 #include "cli/parser.h"
-#include "cli/cli-utility.h"
 
 /* See parser.h */
 char **parse(char *input)

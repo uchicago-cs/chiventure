@@ -1,6 +1,8 @@
 #ifndef _CLI_INCLUDE_PARSER_H
 #define _CLI_INCLUDE_PARSER_H
 
+#include "cli-utility.h"
+
 /*
  * This size is the number of words possible in a single command.
  * For now this size is 4, which includes an action, an object,

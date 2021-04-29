@@ -154,7 +154,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             if (rc == SUCCESS)
             {
                 action_success = true;
-                if(strcmp(tokens[0], "TAKE") == 0 || strcmp(tokens[0], "PICKUP") == 0)
+                if(strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
                 {
                     remove_item_from_room(game->curr_room, curr_item);
                     add_item_to_player(game->curr_player, curr_item);
@@ -340,19 +340,19 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "Please input a theme";
     }
     capitalize(tokens[1]);
-    if(strcmp(tokens[1], "DEFAULT") == 0)
+    if(strcmp(tokens[1], "default") == 0)
     {
         n = 1;
     }
-    if(strcmp(tokens[1], "NIGHT") == 0)
+    if(strcmp(tokens[1], "night") == 0)
     {
         n = 2;
     }
-    if(strcmp(tokens[1], "BRIGHT") == 0)
+    if(strcmp(tokens[1], "bright") == 0)
     {
         n = 3;
     }
-    if(strcmp(tokens[1], "PAIN") == 0)
+    if(strcmp(tokens[1], "pain") == 0)
     {
         n = 4;
     }

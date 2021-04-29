@@ -11,6 +11,7 @@
 
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
+    case_insensitize(command_name);
     lookup_t *t = malloc(sizeof(lookup_t));
     char *newname = malloc(sizeof(char) * (strlen(command_name) + 1));
     strcpy(newname, command_name);
@@ -47,6 +48,7 @@ void add_action_entries(lookup_t **table)
 
 lookup_t *find_entry(char *command_name, lookup_t **table)
 {
+    case_insensitize(command_name);
     lookup_t *t;
     HASH_FIND_STR(*table, command_name, t);
     return t;
@@ -54,6 +56,7 @@ lookup_t *find_entry(char *command_name, lookup_t **table)
 
 operation *find_operation(char *command_name, lookup_t **table)
 {
+    case_insensitize(command_name);
     lookup_t *t;
     if((t = find_entry(command_name, table)))
     {
@@ -64,11 +67,13 @@ operation *find_operation(char *command_name, lookup_t **table)
 
 action_type_t *find_action(char *command_name, lookup_t **table)
 {
+    case_insensitize(command_name);
     return find_entry(command_name, table)->action;
 }
 
 void delete_entry(char *command_name, lookup_t **table)
 {
+    case_insensitize(command_name);
     lookup_t *t = find_entry(command_name, table);
     HASH_DEL(*table, t);
     free(t->name);
