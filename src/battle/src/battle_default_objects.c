@@ -41,3 +41,23 @@ item_t *get_random_default_item()
 
     return rv_item;
 }
+
+/* Returns random default move*/
+move_t *get_random_default_move()
+{
+    move_t *rv_move = calloc(1, sizeof(move_t));
+    assert(rv_move != NULL);
+
+    char *name_array[] = {"JAB", "KICK", "HEADBUTT", "GRAPPLE", "SLAP"
+                          "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"}
+    
+    rv_move->item = get_random_default_item();
+    rv_move->id = randnum(1,10);
+    rv_move->name = name_array[randnum(0,9)];
+    rv_move->info = strcat("Move is ", rv_move->name);
+    rv_move->attack = true;
+    rv_move->damage = randnum(20,70);
+    rv_move->defense = randnum(20,70);
+    rv_move->next = NULL;
+    rv_move->prev = NULL;
+}
