@@ -604,45 +604,42 @@ int attr_cmp(attribute_list_t *a1, attribute_list_t *a2)
 /* See item.h */
 bool list_contains_attribute(attribute_list_t *head, char* attr_name)
 {
-    if(attr_name == NULL || head->next == NULL)
+    if (attr_name == NULL || head->next == NULL)
     {
-        return FAILURE;
+        return false;
     }
     attribute_list_t *tmp;
     attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
+
+    like->attribute = calloc(1, sizeof(attribute_t));
     like->attribute->attribute_key = attr_name;
-    LL_SEARCH(head, tmp, like, attr_cmp);
-    /*
-    while(tmp != NULL)
-    {
-        if(strcmp(tmp->attribute->attribute_key, attr_name) == 0)
-        {
-	    return SUCCESS;
-	    }
-	tmp = tmp->next;
-    }
-    return FAILURE;
-    */
-    return attr_cmp(tmp, like);
+    
+    LL_SEARCH(head->next, tmp, like, attr_cmp);
+
+    if (tmp)
+        return true;
+    else return false;
 }
 
 /* See item.h */
 int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 {
-    if(attr == NULL)
+    if (attr == NULL)
     {
         return FAILURE;
     }
-
-    /* Create the to-be appended struct of new attribute */
-    attribute_list_t *tmp = create_list_attribute(); 
-    tmp->attribute = attr;
-    tmp->next = NULL;
-
-    if(list_contains_attribute(head, attr->attribute_key) == SUCCESS)
+    
+    /* General Case where there could be n elements in the list */
+    if (list_contains_attribute(head, attr->attribute_key) == true)
         return SUCCESS;
     else
     {
+        /* Create the to-be appended struct of new attribute */
+        attribute_list_t *tmp = create_list_attribute(); 
+
+        tmp->attribute = attr;
+        tmp->next = NULL;
+
         LL_APPEND(head, tmp);
         return SUCCESS;
     }
@@ -651,27 +648,27 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 /* See item.h */
 int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
 {
-    if(attr == NULL || head->next == NULL)
+    if (attr == NULL || head->next == NULL)
     {
         return FAILURE;
     }
+    
+    attribute_list_t *tmp;
+    attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
 
-    attribute_list_t *tmp = head->next;
-  
-    /* Checks the continous case of having x number of attributes in given list */
-    while(tmp != NULL)
+    like->attribute = calloc(1, sizeof(attribute_t));
+    like->attribute->attribute_key = attr->attribute_key;
+
+    LL_SEARCH(head->next, tmp, like, attr_cmp);
+
+    if (tmp)
     {
-        if(strcmp(tmp->attribute->attribute_key, attr->attribute_key) == 0)
-        {
-            LL_DELETE(head, tmp);
-	    free(tmp);
-	    return SUCCESS;
-        }
-
-	    tmp = tmp->next;
+        LL_DELETE(head->next, tmp);
+        free(tmp);
+        return SUCCESS;
     }
+    else return FAILURE;
 
-    return FAILURE;
 }
 
 /* See item.h */

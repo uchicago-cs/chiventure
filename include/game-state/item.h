@@ -385,9 +385,8 @@ attribute_list_t* create_list_attribute();
  *  name of a specific attribute
  *
  * Returns:
- *  FAILURE for does not contain, SUCCESS for contains
+ *  false for does not contain, true for contains
  */
-
 bool list_contains_attribute(attribute_list_t *head, char *attr_name);
 
 /*
@@ -398,7 +397,7 @@ bool list_contains_attribute(attribute_list_t *head, char *attr_name);
  *  An attribute to add to the list
  * 
  * Returns:
- *  FAILURE if it failed to add the attribute, SUCCESS if it add/the list contains the attribute
+ *  FAILURE if it failed to add the attribute, SUCCESS if it adds/the list contains the attribute
  */
 int add_attribute_to_list(attribute_list_t *head, attribute_t *attr);
 
