@@ -128,7 +128,7 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht);
  * 
  * Parameters:
  *  pointer to hashtable of items (pointer necessary for uthash to work)
- *  item to add to hashtable
+ *  item to remove from hashtable
  * 
  * Return:
  *  SUCCESS if successful, FAILURE if failed
