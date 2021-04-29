@@ -630,7 +630,7 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
     }
     
     /* General Case where there could be n elements in the list */
-    if (list_contains_attribute(head, attr->attribute_key) == true)
+    if (list_contains_attribute(head, attr->attribute_key))
         return SUCCESS;
     else
     {
