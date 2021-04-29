@@ -19,7 +19,7 @@ int randnum(int min, int max)
 
 }
 
-item_t *get_random_default_item
+item_t *get_random_default_item()
 {
     //is there a function to initialize/allocate memory for item_t struct? if not..
     item_t *rv_item = (item_t)malloc(sizeof(item_t));
