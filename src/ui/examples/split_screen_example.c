@@ -113,14 +113,23 @@ int main() {
                 letterCount = 0;
         }
 
-        Image room = LoadImage("../../../../src/ui/examples/example3.png");  
-        // Image room = LoadImage("../../../../src/ui/examples/hollow_log.jpeg");  
-        ImageResize(&room, ScreenWidth/2, ScreenHeight/2);         
-        Texture2D texture = LoadTextureFromImage(room);      // Image converted to texture, uploaded to GPU memory (VRAM)
-        UnloadImage(room);   // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
-    
+ 
         //Draw Image
         BeginDrawing();
+
+        Image room1 = LoadImage("../../../../src/ui/sandbox/images/room1.png");  
+        Image room2 = LoadImage("../../../../src/ui/sandbox/images/room2.png");
+        Image room3 = LoadImage("../../../../src/ui/sandbox/images/room3.png");  
+        ImageResize(&room3, ScreenWidth/2, ScreenHeight/2);
+        ImageResize(&room2, ScreenWidth/2, ScreenHeight/2);     
+        ImageResize(&room1, ScreenWidth/2, ScreenHeight/2);           
+        Texture2D texture1 = LoadTextureFromImage(room1);
+        Texture2D texture2 = LoadTextureFromImage(room2);
+        Texture2D texture3 = LoadTextureFromImage(room3);      // Image converted to texture, uploaded to GPU memory (VRAM)
+        UnloadImage(room1);   // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
+        UnloadImage(room2);
+        UnloadImage(room3);
+
         int heightbuf2 = 150;
         int rectHeight = 120;
 
@@ -128,18 +137,16 @@ int main() {
 
         // Drawing the Color Rectangles for each room
         if (!(strcmp(ctx->game->curr_room->room_id, "room1"))){
-            // DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBLUE);
-            DrawTexture(texture, ScreenWidth/4, ScreenHeight/10, WHITE);
+            DrawTexture(texture1, ScreenWidth/4, ScreenHeight/10, WHITE);
         }                                           
         else if (!(strcmp(ctx->game->curr_room->room_id, "room2"))) 
-            DrawTexture(texture, ScreenWidth/4, ScreenHeight/10, WHITE);
-            // DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, MAROON);
+            DrawTexture(texture2, ScreenWidth/4, ScreenHeight/10, WHITE);
+
         else if (!(strcmp(ctx->game->curr_room->room_id, "room3"))) 
-            DrawTexture(texture, ScreenWidth/4, ScreenHeight/10, WHITE);
-            // DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKGREEN);
+            DrawTexture(texture3, ScreenWidth/4, ScreenHeight/10, WHITE);
+
         else 
-            DrawTexture(texture, ScreenWidth/4, ScreenHeight/10, WHITE);
-            // DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBROWN); 
+            DrawTexture(texture1, ScreenWidth/4, ScreenHeight/10, WHITE);
 
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
