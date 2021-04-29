@@ -50,6 +50,9 @@ typedef struct game {
     /* pointer to current player struct */
     player_t *curr_player;
 
+    /* pointer to game's mode struct */
+    mode_t *mode;
+
     /* pointer to global stats hashtable*/
     stats_global_hash_t *curr_stats;
     

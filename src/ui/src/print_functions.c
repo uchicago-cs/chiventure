@@ -170,14 +170,24 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
         return;
     }
 
-    cmd *c = cmd_from_string(cmd_string, ctx);
-    if (!c)
+
+    if (ctx->game->mode->mode_type == NORMAL) 
     {
-        print_to_cli(ctx, "Error: Malformed input (4 words max)");
+        cmd *c = cmd_from_string(cmd_string, ctx);
+        if (!c)
+        {
+            print_to_cli(ctx, "Error: Malformed input (4 words max)");
+        }
+        else
+        {
+        int rc = do_cmd(c, cli_ui_callback, NULL, ctx);
+        }
     }
     else
     {
-        int rc = do_cmd(c, cli_ui_callback, NULL, ctx);
+        (*(ctx->game->mode->run_mode))(cmd_string, ctx);
+        //currently need to determine when cli_ui_callback is called
+        //for non NORMAL game modes
     }
 
     /* Note: The following statement should be replaced by a logging function
