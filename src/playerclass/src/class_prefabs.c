@@ -223,7 +223,7 @@ int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats,
 }
 
 /* Testing out how this might work
- * SAMPLE (we are probably not going to write a per class) */
+ * SAMPLE (we are probably not going to write a function per class) */
 class_t* class_prefab_warrior(chiventure_ctx_t* ctx) {
     char* name = "Warrior"; 
     char* short_desc = "Guy with sword."; 
