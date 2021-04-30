@@ -1,7 +1,5 @@
 # Battle Library
 
-## Modules
-
 ## Examples
 This directory contains scripts for running a sample battle.
 In order to run a script, type `make examples` followed by `cd examples`. Then run one of the following:
