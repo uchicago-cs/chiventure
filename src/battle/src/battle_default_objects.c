@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "battle/battle_structs.h"
-#include "battle/battle_moves.h"
+#include <time.h>
+#include "battle/battle_default_objects.h"
 
 /* resource: https://stackoverflow.com/questions/17846212/generate-a-random-number-between-1-and-10-in-c/49099642 */
 /* and: https://stackoverflow.com/questions/1202687/how-do-i-get-a-specific-range-of-numbers-from-rand */
 
-
-/* Helper function to generate random integer in range min to max */
+/* See battle_default_objects.h */
 int randnum(int min, int max)
 {
     // random seed
@@ -18,44 +17,44 @@ int randnum(int min, int max)
     return rv; 
 }
 
-/* Returns random default item */
+/* See battle_default_objects.h */
 item_t *get_random_default_item()
 {
     item_t *rv_item = calloc(1, sizeof(item_t));
     assert(rv_item != NULL);
-    
-    char* name_array[]= {"SWORD", "SHIELD", "SPEAR", "HAMMER", "STICK", 
-                         "CLUB", "TRIDENT", "BOW & ARROW", "SHIV", "AXE"};
 
-    rv_item->id = randnum(1,10);
+    int rand = randnum(1,10);
+    char* name_array[]= {"STICK", "HAMMER", "SHIV", "CLUB",  "BOW & ARROW", 
+                         "SPEAR", "AXE", "TRIDENT", "SWORD", "SHIELD"};
+
+    rv_item->id = rand;
     rv_item->quantity = 1;
-    rv_item->durability = randnum(20,70);   
-    rv_item->name = name_array[randnum(0,9)];
+    rv_item->durability = rand * 10;   
+    rv_item->name = name_array[rand - 1];
     rv_item->description = strcat("It is a ", rv_item->name);
     rv_item->battle = true;
-    rv_item->attack = randnum(20,70);
-    rv_item->defense = randnum(20,70);
-    rv_item->hp = randnum(50,100);
+    rv_item->attack = rand * 10;
+    rv_item->defense = rand * 10 + 5;
+    rv_item->hp = rand * 10 + 10;
     rv_item->next = NULL;
     rv_item->prev = NULL;
 
     return rv_item;
 }
 
-/* Returns random default move*/
+/* See battle_default_objects.h */
 move_t *get_random_default_move()
 {
-    char *name_array[] = {"JAB", "KICK", "HEADBUTT", "GRAPPLE", "SLAP"
+    int rand = randnum(1,10);
+    char *name_array[] = {"SLAP", "JAB", "KICK", "HEADBUTT", "GRAPPLE", 
                           "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"};
-    
+
     item_t *item = get_random_default_item();
-    int id = randnum(1,10);
-    // rv_move->name = name_array[randnum(0,9)];
-    // rv_move->info = strcat("Move is ", rv_move->name);
-    char *info = name_array[randnum(0,9)];
+    int id = rand;
+    char *info = name_array[rand - 1];
     bool attack = true;
-    int damage = randnum(20,70);
-    int defense = randnum(20,70);
+    int damage = rand * 10;
+    int defense = rand * 10 + 5;
 
     move_t *rv_move = move_new(info, id, item, attack, damage, defense);
     
@@ -63,6 +62,7 @@ move_t *get_random_default_move()
     return rv_move;
 }
 
+/* See battle_default_objects.h */
 stat_t* get_random_stat()
 {
     stat_t *rv_stat = calloc(1, sizeof(stat_t));
@@ -78,4 +78,38 @@ stat_t* get_random_stat()
     rv_stat->level = randnum(1, 5);
 
     return rv_stat;
+}
+
+/* See battle_default_objects.h */
+player_t* get_random_player() 
+{
+    return NULL;
+    /*
+    typedef struct player {
+        // Other fields: hash handle, inventory, other stats
+        char *player_id;
+        class_t *class;
+        stat_t *stats;
+        move_t *moves;
+        item_t *items;
+    } player_t;
+    */
+}
+
+/* See battle_default_objects.h */
+npc_enemy_t* get_random_enemy()
+{
+    return NULL;
+    /*
+    typedef struct npc_enemy {
+        char *npc_id;
+        class_t *class;
+        stat_t *stats;
+        move_t *moves;
+        item_t *items;
+        difficulty_t ai;
+        struct npc_enemy *prev;
+        struct npc_enemy *next;
+    } npc_enemy_t;
+    */
 }
