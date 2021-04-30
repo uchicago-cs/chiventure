@@ -188,6 +188,40 @@ int class_prefab_add_skills(class_t* class) {
     return SUCCESS;
 }
 
+/*
+ * Safely adds a stat to a stat hashtable, checking and updating the global stat
+ * hashtable if necessary.
+ *
+ * Parameters: 
+ *  - ctx: The chiventure context object (it contains the global stat hashtable, 
+ *         but that can be NULL).
+ *  - stats: A pointer to a possibly NULL stats_hast_t pointer. The new stat is
+ *           is added, and the intermediate pointer updated if necessary.
+ *  - stat_name: A pointer to the name of the stat, case sensitive.
+ *  - stat_val: The base value of the stat.
+ *  - stat_max: The maximum value of the stat, only applies if the stat is not 
+ *              yet on the global hash table.
+ * 
+ * Returns:
+ *  - SUCCESS on success. stats and the global hashtable now contain the stat.
+ *  - FAILURE on failure.
+ */
+int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats, 
+                       char *stat_name, double stat_val, double stat_max) {
+    if (ctx == NULL || stats == NULL || stat_name == NULL)
+        return FAILURE;
+
+    stats_global_t *global_stat;
+    HASH_FIND_STR(ctx->game->curr_stats, stat_name, global_stat);
+    if (global_stat == NULL) {
+        global_stat = stats_global_new(stat_name, stat_max);
+        HASH_ADD_KEYPTR(hh, ctx->game->curr_stats, stat_name, strlen(stat_name), global_stat);
+    }
+
+    add_stat(stats, stats_new(global_stat, stat_val));
+    return SUCCESS;
+}
+
 /* Testing out how this might work
  * SAMPLE (we are probably not going to write a per class) */
 class_t* class_prefab_warrior(chiventure_ctx_t* ctx) {
@@ -198,17 +232,10 @@ class_t* class_prefab_warrior(chiventure_ctx_t* ctx) {
     
     obj_t* attr = obj_new("class_attributes"); // Empty Attributes object (name could change)
 
-    /* Sample Stats logic (1 stat, moxie at 65 / 100) probably make a helper function */
-    stats_hash_t* stats = NULL; 
-
-    stats_global_t *global_stat;
-    HASH_FIND_STR(ctx->game->curr_stats, "moxie", global_stat);
-    if (global_stat == NULL) {
-        global_stat = stats_global_new("moxie", 100);
-        HASH_ADD_KEYPTR(hh, ctx->game->curr_stats, global_stat->name, strlen(global_stat->name), global_stat);
-    }
-    
-    add_stat(&stats, stats_new(global_stat, 10));
+    /* Stats */
+    stats_hash_t *stats = NULL;
+    check_and_add_stat(ctx, &stats, "moxie", 10, 100);
+    check_and_add_stat(ctx, &stats, "blood-thirst", 97, 100);
     
     /* Effects: I don't know if we should put anything here yet. */
     effects_hash_t* effects = NULL; // This can actually stay NULL forever. The empty hashtable is represented by NULL in uthash.
