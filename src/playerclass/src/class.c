@@ -7,11 +7,59 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
+#include "class_skills.h"
 #include "common/utlist.h"
 
+/* Rudimentary id system for prefab classes (internal) */
+
+/* Default Classes in alphabetical order. */
+const char* const DEFAULT_CLASS_NAMES[] = {
+    "bard",
+    "druid",
+    "elementalist",
+    "knight",
+    "monk",
+    "ranger",
+    "rogue",
+    "sorcerer",
+    "warrior",
+    "wizard",
+};
+
+/* Number of predefined default classes (see above). */
+const int DEFAULT_CLASS_COUNT = 10;
+
+/*
+ * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
+ * internal id.
+ * 
+ * Parameters
+ * - name: The name of the class.  Case sensitive.
+ * 
+ * Returns:
+ * - The index of the name in the DEFAULT_CLASS_NAMES array. Returns -1 if the 
+ *   name does not appear or is NULL.
+ */
+int get_class_name_index(char* name) {
+    if (name == NULL)
+        return -1;
+
+    char temp_name[MAX_NAME_LEN + 1];
+    strncpy(temp_name, name, MAX_NAME_LEN);
+    /* make temp_name lowercase */
+    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
+        temp_name[i] = tolower(temp_name[i]);
+
+    for (int i = 0; i < DEFAULT_CLASS_COUNT; i++) 
+        if (strncmp(temp_name, DEFAULT_CLASS_NAMES[i], MAX_NAME_LEN) == 0) 
+            return i;
+
+    return -1;
+}
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
@@ -36,53 +84,6 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
 
     return c;
 }
-
-
-/*
- * initializes the class skilltree and active combat and noncombat skill lists
- *
- * Parameters:
- *  - class. the class the skilltree and lists should be placed in
- *
- * Returns:
- *  - status code
- */
-int class_skills_init(class_t* class)
-{
-    skill_inventory_t *combat, *noncombat;
-    skilltree_stub_t *tree;
-
-    combat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
-    noncombat = inventory_new(MAX_ACTIVE_SKILLS, MAX_PASSIVE_SKILLS);
-    // stub placeholder allocation
-    tree = calloc(1, sizeof(skilltree_stub_t));
-
-    if (tree == NULL)
-    {
-        fprintf(stderr, "Could not allocate memory for skill trees "
-                        "in class_skills_init\n");
-        return EXIT_FAILURE;
-    }
-    if (combat == NULL || noncombat == NULL)
-    {
-        fprintf(stderr, "Could not allocate memory for skill inventories"
-                        "in class_skills_init\n");
-    }
-    class->skilltree = tree;
-    class->combat = combat;
-    class->noncombat = noncombat;
-
-    /*
-     * TODO
-     *  - set up a system for filling in the skill structures
-     *    based on the class name
-     *  - designate some skills as baseline and automatically add them
-     *    to the relevant skill inventories
-     */
-
-    return EXIT_SUCCESS;
-}
-
 
 /* See class.h */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
@@ -120,14 +121,55 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     }
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
 
-    if (class_skills_init(class) == EXIT_FAILURE)
+    class->attributes = attr;
+    class->stats = stat;
+    class->effects = effect;
+
+    /* These are initialized by class_init_skills() */
+    class->skilltree = NULL;
+    class->combat = NULL;
+    class->noncombat = NULL;
+
+    return EXIT_SUCCESS;
+}
+
+/* See class.h */
+int class_init_skills(class_t* class, int max_skills_in_tree, 
+                      int max_active_skills, int max_passive_skills) 
+{
+    class->combat = inventory_new(max_active_skills, max_passive_skills);
+    class->noncombat = inventory_new(max_active_skills, max_passive_skills);
+    
+    /* tree ID needs to be unique across all chiventure code.  Our team has been
+     * assigned the range 3000-3999.  Default classes start at 3000. There is
+     * currently no support for non-prefab classes. */
+    int class_id = get_class_name_index(class->name);
+    if (class_id == -1)
+    {
+        fprintf(stderr, "Could not find class name: \"%s\" "
+                        "in class_init\n", class->name);
+        return EXIT_FAILURE;
+    }
+    int tid = 3000 + class_id;
+    class->skilltree = skill_tree_new(tid, class->name, max_skills_in_tree);
+
+    if (class->skilltree == NULL)
+    {
+        fprintf(stderr, "Could not allocate memory for skill trees "
+                        "in class_init\n");
+        return EXIT_FAILURE;
+    }
+    if (class->combat == NULL || class->noncombat == NULL)
+    {
+        fprintf(stderr, "Could not allocate memory for skill inventories"
+                        "in class_init\n");
+        return EXIT_FAILURE;
+    }
+    if (class_add_skills(class) == EXIT_FAILURE)
     {
         return EXIT_FAILURE;
     }
 
-    class->attributes = attr;
-    class->stats = stat;
-    class->effects = effect;
     return EXIT_SUCCESS;
 }
 
@@ -153,11 +195,7 @@ int class_free(class_t* class)
     }
     if (class->skilltree != NULL)
     {
-        if (class->skilltree->skilltree != NULL)
-        {
-            obj_free(class->skilltree->skilltree);
-        }
-        free(class->skilltree); // stub placeholder free
+        skill_tree_free(class->skilltree);
     }
     if (class->combat != NULL)
     {

@@ -3,9 +3,7 @@
 
 // BASIC PRINTING FUNCTIONS ---------------------------------------------------
 
-/*
- * Three functions to print given string in gold, yellow, or red respectively.
- */
+// Three functions to print given string in gold, yellow, or red respectively.
 void print_gold(char *str)
 {
     printf("\033[0;33m");
@@ -154,8 +152,7 @@ void run_convo(convo_t *c)
         cur = traverse_edge(c->nodes->cur_node, c->farewell);
         if (cur != NULL) 
         {
-            c->nodes->cur_node =
-                c->nodes->cur_node->edges->toward;
+            c->nodes->cur_node = cur;
         }
     }
     end_convo(c->farewell, false);
@@ -182,15 +179,12 @@ int main()
            "starters. A shabby man quickly rounds the corner into the room, "
            "alarmed by the unexpected guest. He looks upset with you.\n\n");
 
-    /*
-     * Starting to build the conversation structure:
-     */
-
+    // Starting to build the conversation structure
     convo_t *showcase_convo = convo_new("See ya later.");
 
-    /*
-     * Initialize each node with it's primary NPC dialog
-     */
+    // Initialize each node with its NPC dialogue
+    node_t *Root = node_new("Root", "Well, what do you want? To #talk#, "
+           "#leave#, or continue to #break in#?");
     node_t *WellMet = node_new("WellMet",
            "Mhm fine, that's wonderful, now go ahead and turn around and "
            "get outta #my house#. You can't #come and go# as you wish.");
@@ -213,9 +207,11 @@ int main()
            "are at your back ushering you away. The door snaps shut and "
            "you hear the distinct click of a lock turning.");
 
-    /*
-     * Adding all edge options to each node:
-     */
+    // Adding all edge options to each node
+    add_edge(Root, edge_new(WellMet, "talk", "I just want to talk."));
+    add_edge(Root, edge_new(Leave, "leave", "Wait, this isn't my house!"));
+    add_edge(Root, edge_new(PrivacyVio, "break in",
+                            "I think I'll have a quick look around."));
     add_edge(WellMet, edge_new(HomeExpl, "my house",
                       "Shucks, seemed abandoned to me."));
     add_edge(WellMet, edge_new(HomeExpl, "come and go",
@@ -225,7 +221,7 @@ int main()
                       "The owner? With the state of this place, "
 		      "I'd have pegged you for more of a burglar, heh."));
     add_edge(PrivacyVio, edge_new(WellMet, "who you are",
-                      "Just someone looking for someone to talk to."));
+                      "Just looking for someone to talk to."));
     add_edge(PrivacyVio, edge_new(FightFlwr, "poke around",
                       "Unperturbed by the smelly squatter, you continue "
 		      "rifling for valuables in the piles. As you hum "
@@ -242,9 +238,8 @@ int main()
     add_edge(HomeExpl, edge_new(Leave, "leave",
                       "Jeez fine.."));
 
-    /*
-     * Adding the nodes to the mockup:
-     */
+    // Adding the nodes to the mockup
+    append_node(showcase_convo, Root);
     append_node(showcase_convo, WellMet);
     append_node(showcase_convo, PrivacyVio);
     append_node(showcase_convo, HomeExpl);
@@ -252,9 +247,6 @@ int main()
     append_node(showcase_convo, FightFlwr);
     append_node(showcase_convo, Leave);
 
-    /*
-     * Functions for testing:
-     */
-
+    // Runs the conversation
     run_convo(showcase_convo);
 }

@@ -77,8 +77,7 @@ return long description");
  for NULL item");
 }
 
-/* Checks that add_item_to_hash adds item to an item hashtable as expected.
- * Also ensures that adding an item twice returns FAILURE */
+/* Checks that add_item_to_hash adds item to an item hashtable as expected. */
 Test(item, add_item_to_hash)
 {
     item_hash_t *ht = NULL;
@@ -88,10 +87,40 @@ Test(item, add_item_to_hash)
     rc = add_item_to_hash(&ht, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_hash failed to "
                  "add an item to hashtable");
+}
+
+/* Checks that add_item_to_hash properly adds duplicate items
+ * to the item hashtable */
+Test(item, add_item_to_hash_duplicate_items)
+{
+    item_hash_t *ht = NULL;
+    item_t *test_item1 = item_new("item", "short", "long");
+    item_t *test_item2 = item_new("item", "short", "long");
+    item_t *check, *iter;
+    int rc;
+    int count = 0;
     
-    rc = add_item_to_hash(&ht, test_item);
-    cr_assert_eq(rc, FAILURE, "add_item_to_hash added duplicate "
-                 "item to hashtable");
+    rc = add_item_to_hash(&ht, test_item1);
+    
+    rc = add_item_to_hash(&ht, test_item1);
+    cr_assert_eq(rc, FAILURE, "add_item_to_hash added item with same "
+                 "memory address as head item to hashtable");
+    
+    rc = add_item_to_hash(&ht, test_item2);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_hash did not add item with same "
+                 "item id as another item to hashtable");
+    
+    rc = add_item_to_hash(&ht, test_item1);
+    cr_assert_eq(rc, FAILURE, "add_item_to_hash added item with same "
+                 "memory address as non-head item to hashtable");
+    
+    HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
+    LL_FOREACH(check, iter)
+    {
+        count++;
+    }
+    cr_assert_eq(count, 2, "add_item_to_hash did not add items with same "
+                 "item ids correctly.");
 }
 
 /* Checks that get_all_items_in_hash returns the expected 
@@ -101,8 +130,10 @@ Test(item, get_all_items_in_hash)
     item_hash_t *ht = NULL;
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item2", "short", "long");
+    item_list_t *list, *iter;
+    int count = 0;
     
-    item_list_t *list = get_all_items_in_hash(&ht);
+    list = get_all_items_in_hash(&ht);
     cr_assert_eq(list, NULL, "get_all_items_in_hash did not return NULL for "
                  "empty hashtable");
     
@@ -112,8 +143,6 @@ Test(item, get_all_items_in_hash)
     cr_assert_not_null(list, "get_all_items_in_hash returned NULL for "
                        "non-empty hashtable");
     
-    item_list_t *iter;
-    int count = 0;
     LL_FOREACH(list, iter)
     {
         count++;
@@ -123,21 +152,182 @@ Test(item, get_all_items_in_hash)
                  "in returned list.");
 }
 
+/* Checks that get_all_items_in_hash returns a linked list
+ * with duplicate items if duplicate items exist in an
+ * item hashtable */
+Test(item, get_all_items_in_hash_duplicate_items)
+{
+    item_hash_t *ht = NULL;
+    item_t *test_item1 = item_new("item1", "short", "long");
+    item_t *test_item2 = item_new("item1", "short", "long");
+    item_t *test_item3 = item_new("item3", "short", "long");
+    item_list_t *list, *iter;
+    int count = 0;
+    
+    add_item_to_hash(&ht, test_item1);
+    add_item_to_hash(&ht, test_item2);
+    list = get_all_items_in_hash(&ht);
+    
+    LL_FOREACH(list, iter)
+    {
+        count++;
+    }
+    cr_assert_eq(count, 2, "get_all_items_in_hash did not add duplicate "
+                 "items to linked list");
+    
+    add_item_to_hash(&ht, test_item3);
+    list = get_all_items_in_hash(&ht);
+    count = 0;
+    
+    LL_FOREACH(list, iter)
+    {
+        count++;
+    }
+    cr_assert_eq(count, 3, "get_all_items_in_hash did not include all items "
+                 "in returned list");
+}
+
 /* Checks that remove_item_from_hash properly removes items 
  * from an item hashtable. */
 Test(item, remove_item_from_hash)
 {
     item_hash_t *ht = NULL;
-    item_t *test_item = item_new("item", "short", "long");
+    item_t *test_item1 = item_new("item1", "short", "long");
+    item_t *test_item2 = item_new("item2", "short", "long");
     int rc;
+    item_list_t *list, *iter;
+    int count = 0;
     
-    rc = add_item_to_hash(&ht, test_item);
+    rc = add_item_to_hash(&ht, test_item1);
     cr_assert_eq(rc, SUCCESS, "add_item_to_hash failed to "
                  "add an item to hashtable");
     
-    rc = remove_item_from_hash(&ht, test_item);
+    remove_item_from_hash(&ht, test_item2);
+    list = get_all_items_in_hash(&ht);
+    count = 0;
+    LL_FOREACH(list, iter)
+    {
+        count++;
+    }
+    cr_assert_eq(count, 1, "remove_item_from_hash did not properly handle case "
+                 "where item not in hash was passed to be removed");
+    
+    rc = remove_item_from_hash(&ht, test_item1);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
+}
+
+/* Checks that remove_item_from_hash properly removes
+ * the head item in a chain of identical id items */
+Test(item, remove_item_from_hash_duplicate_items_head)
+{
+    item_hash_t *ht = NULL;
+    item_t *head = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
+    
+    add_item_to_hash(&ht, last);
+    add_item_to_hash(&ht, head);
+        
+    rc = remove_item_from_hash(&ht, head);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
+                 "remove an item from hashtable");
+    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
+    cr_assert_not_null(check, "remove_item_from_hash removed both "
+                       "duplicate items from hashtable");
+    cr_assert_eq(check, last, "remove_item_from_hash removed wrong "
+                 "item from hashtable");
+    cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
+                 "remove a duplicate item id from hashtable");
+    cr_assert_eq(head->next, NULL, "remove_item_from_hash failed to "
+                 "update the removed item");
+}
+
+/* Checks that remove_item_from_hash does not remove
+ * an item with identical id but in different memory location
+ * than items in hash */
+Test(item, remove_item_from_hash_duplicate_items_nonexistant)
+{
+    item_hash_t *ht = NULL;
+    item_t *head = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
+    
+    add_item_to_hash(&ht, head);
+    
+    remove_item_from_hash(&ht, last);
+    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
+    cr_assert_not_null(check, "remove_item_from_hash did not properly handle "
+                       "case where duplicate item not in hash was passed to "
+                       "be removed");
+}
+
+/* Checks that remove_item_from_hash properly removes
+ * the last item in a chain of identical id items */
+Test(item, remove_item_from_hash_duplicate_items_last)
+{
+    item_hash_t *ht = NULL;
+    item_t *head = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
+    
+    add_item_to_hash(&ht, last);
+    add_item_to_hash(&ht, head);
+
+    rc = remove_item_from_hash(&ht, last);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
+                 "remove an item from hashtable");
+    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
+    cr_assert_not_null(check, "remove_item_from_hash removed both "
+                       "duplicate items from hashtable");
+    cr_assert_eq(check, head, "remove_item_from_hash removed wrong "
+                 "duplicate item from hashtable");
+    cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
+                 "remove a duplicate item id from hashtable");
+}
+
+/* Checks that remove_item_from_hash properly removes
+ * a middle item in a chain of identical id items */
+Test(item, remove_item_from_hash_duplicate_items_middle)
+{
+    item_hash_t *ht = NULL;
+    item_t *head = item_new("item", "short", "long");
+    item_t *middle = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
+    
+    add_item_to_hash(&ht, last);
+    add_item_to_hash(&ht, middle);
+    add_item_to_hash(&ht, head);
+
+    rc = remove_item_from_hash(&ht, middle);
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
+                 "remove an item from hashtable");
+    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
+    cr_assert_not_null(check, "remove_item_from_hash removed all "
+                       "duplicate items from hashtable");
+    cr_assert_eq(check, head, "remove_item_from_hash removed wrong "
+                 "duplicate item from hashtable");
+    cr_assert_eq(check->next, last, "remove_item_from_hash did remove "
+                 "duplicate item from middle of list properly");
+    cr_assert_eq(middle->next, NULL, "remove_item_from_hash failed to "
+                 "update the removed item");
+}
+
+/* Checks that add_effect_to_items() adds a sat effect to an item */
+Test(item, add_effect_to_item)
+{
+    item_t *item = item_new("item", "short", "long");
+    effects_global_t *global = global_effect_new("health");
+    stat_effect_t *effect = stat_effect_new(global);
+    int rc = add_effect_to_item(item, effect);
+
+    cr_assert_eq(rc, SUCCESS, "add_effect_to_game failed");
+    cr_assert_not_null(item->stat_effects, "effect not added to stat_effects");
 }
 
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
@@ -998,5 +1188,174 @@ Test(item, deletion_in_player)
     cr_assert_eq(del_items, SUCCESS,
         "del_all_items test: items were not successfully deleted!");
 
+
+}
+
+// Tests for attribute_lists---------------------------------------------------
+
+Test(attribute_list, add_to_new_list)
+{
+
+    attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
+
+
+    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    test_attr1->attribute_tag = INTEGER;
+    test_attr1->attribute_value.int_val = 5;
+    test_attr1->attribute_key = "Queen";
+
+    attribute_list_t* test_head = create_list_attribute();
+
+    int add_attribute = add_attribute_to_list(test_head, test_attr1); 
+
+    cr_assert_eq(add_attribute, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+
+    delete_attribute_llist(test_head);      
+}
+
+Test(attribute_list, add_attribute_to_list)
+{
+    attribute_t* test_attr = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr->attribute_key = malloc(sizeof(char)*10);
+    test_attr->attribute_tag = INTEGER;
+    test_attr->attribute_value.int_val = 5;
+    test_attr->attribute_key = "Knight";
+
+    attribute_list_t* test_head = malloc(sizeof(attribute_list_t));
+    test_head->next = NULL;
+    test_head->attribute = test_attr;
+
+    attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    test_attr1->attribute_tag = INTEGER;
+    test_attr1->attribute_value.int_val = 5;
+    test_attr1->attribute_key = "Queen";
+
+    int add_attribute = add_attribute_to_list(test_head, test_attr1);
+
+    cr_assert_eq(add_attribute, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+
+    delete_attribute_llist(test_head);
+}
+
+Test(attribute_list, remove_from_one_attribute_list)
+{
+    attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    test_attr1->attribute_tag = INTEGER;
+    test_attr1->attribute_value.int_val = 5;
+    test_attr1->attribute_key = "Queen";
+
+    attribute_list_t* test_head = create_list_attribute();
+
+    int add_attribute = add_attribute_to_list(test_head, test_attr1); 
+
+    cr_assert_eq(add_attribute, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+
+    int remove_attribute = remove_attribute_from_list(test_head, test_attr1);
+
+    cr_assert_eq(remove_attribute, SUCCESS,
+        "remove_from_one_attribute_list test: attribute Queen not removed");
+    
+    /* Check if we can still use test_head */
+    attribute_t *test_attr2 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr2->attribute_key = malloc(sizeof(char)*10);
+    test_attr2->attribute_tag = INTEGER;
+    test_attr2->attribute_value.int_val = 5;
+    test_attr2->attribute_key =  "King";
+
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+
+    cr_assert_eq(add_attribute2, SUCCESS,
+                "add_attribute_to_list after removing last attribute test: Fail");
+
+    delete_attribute_llist(test_head);      
+}
+
+Test(attribute_list, remove_attribute_from_list)
+{
+
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    test_attr1->attribute_tag = INTEGER;
+    test_attr1->attribute_value.int_val = 5;
+    test_attr1->attribute_key =  "Knight";
+
+    attribute_t *test_attr2 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr2->attribute_key = malloc(sizeof(char)*10);
+    test_attr2->attribute_tag = INTEGER;
+    test_attr2->attribute_value.int_val = 5;
+    test_attr2->attribute_key =  "Queen";
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+
+    int remove_attribute = remove_attribute_from_list(test_head, test_attr2);
+  
+    cr_assert_eq(remove_attribute, SUCCESS,
+        "remove_attirubte_from_list test: attribute Queen not removed");
+
+    delete_attribute_llist(test_head);    
+
+}
+
+Test(attribute_list, list_contains_attribute)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    test_attr1->attribute_tag = INTEGER;
+    test_attr1->attribute_value.int_val = 5;
+    test_attr1->attribute_key =  "Knight";
+
+    attribute_t *test_attr2 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr2->attribute_key = malloc(sizeof(char)*10);
+    test_attr2->attribute_tag = INTEGER;
+    test_attr2->attribute_value.int_val = 5;
+    test_attr2->attribute_key =  "Queen";
+
+    attribute_t *test_attr3 = (attribute_t*)malloc(sizeof(attribute_t));
+
+    test_attr3->attribute_key = malloc(sizeof(char)*10);
+    test_attr3->attribute_tag = INTEGER;
+    test_attr3->attribute_value.int_val = 5;
+    test_attr3->attribute_key =  "King";
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+
+    int contain_attribute = list_contains_attribute(test_head, test_attr3->attribute_key);
+
+    cr_assert_eq(contain_attribute, true,
+        "list_contains_attribute test: attribute King not found");
+    
+    delete_attribute_llist(test_head); 
 
 }

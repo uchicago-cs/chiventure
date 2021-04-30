@@ -14,3 +14,5 @@ endforeach(module)
 
 add_test(NAME ${TEST_EXE}
          COMMAND ${TEST_EXE})
+
+target_include_directories(${TEST_EXE} PRIVATE tests/) 

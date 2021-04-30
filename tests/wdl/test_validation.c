@@ -36,7 +36,7 @@ Test(validate, room_type_check)
 {
     // obtain doc/room objects
     obj_t *doc = __get_doc_obj();
-    attr_list_t *rooms = obj_list_attr(obj_get_attr(doc, "ROOMS", false));
+    obj_t *rooms = obj_get_attr(doc, "ROOMS", false);
 
     int rc = list_type_check(rooms, room_type_check);
     cr_assert_eq(rc, SUCCESS, "rooms verification failed");
@@ -47,7 +47,7 @@ Test(validate, item_type_check)
 {
     // obraint doc/item objects
     obj_t *doc = __get_doc_obj();
-    attr_list_t *items = obj_list_attr(obj_get_attr(doc, "ITEMS", false));
+    obj_t *items = obj_get_attr(doc, "ITEMS", false);
 
     int rc = list_type_check(items, item_type_check);
     cr_assert_eq(rc, SUCCESS, "items verification failed");

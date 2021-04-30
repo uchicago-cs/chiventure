@@ -5,7 +5,7 @@
 #include "game-state/item.h"
 #include "npc/dialogue.h"
 #include "playerclass/class_structs.h"
-
+#include "playerclass/class.h"
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
@@ -14,7 +14,7 @@ typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
 
-    /* string identifier of the npc, <21 chars */
+    /* NPC identifier */
     char *npc_id;
 
     /* short description of the npc, <51 chars */
@@ -22,6 +22,9 @@ typedef struct npc {
 
     /* long description of the npc, <301 chars */
     char *long_desc;
+
+    /* the npcs class */
+    class_t *npc_class;
 
     int health;
 
@@ -74,7 +77,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  * Returns:
  *  pointer to allocated npc
  */
-npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc, 
+npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
                int health, class_t *class);
 
 /*

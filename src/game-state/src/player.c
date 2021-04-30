@@ -45,7 +45,8 @@ int player_free(player_t* plyr)
 
     free(plyr->player_id);
     delete_all_items(&plyr->inventory);
-
+    free(plyr);
+    
     return SUCCESS;
 }
 
@@ -117,7 +118,23 @@ item_hash_t* get_inventory(player_t* plyr)
 int add_item_to_player(player_t *player, item_t *item)
 {
     int rc;
-    
+
+    if (item->stat_effects != NULL) {
+        stat_effect_t *current, *tmp, *e;
+        stat_mod_t *elt, *search;
+        stats_t *s;
+        HASH_ITER(hh, item->stat_effects, current, tmp) {
+            LL_FOREACH(current->stat_list, elt) {
+                HASH_FIND(hh, player->player_class->stats, elt->stat->key, 
+                          strlen(elt->stat->key), s);
+                if (s != NULL) {
+                    apply_effect(&player->player_class->effects, current, &s,
+                                 &elt->modifier, &elt->duration, 1);
+                }
+            }
+        }
+    }
+
     rc = add_item_to_hash(&(player->inventory), item);
     
     return rc;
@@ -144,8 +161,13 @@ item_list_t *get_all_items_in_inventory(player_t *player)
 }
 
 /* See player.h */
-int assign_stats_player(player_t *plyr, stats_hash_t *sh)
+bool item_in_inventory(player_t *player, item_t *item)
 {
-    printf("assign_stats_player: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    item_t *check;
+    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
+              check);
+    if(check != NULL){
+        return true;
+    }
+    return false;
 }

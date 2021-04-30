@@ -7,9 +7,9 @@
 #define _PLAYER_H
 
 #include "game_state_common.h"
-#include "item.h"
 #include "stats.h"
-
+#include "item.h"
+#include "playerclass/class.h"
 
 /* A player in game */
 typedef struct player {
@@ -19,8 +19,7 @@ typedef struct player {
     int level;
     int health;
     int xp;
-    stats_hash_t *player_stats;
-    effects_hash_t *player_effects;
+    class_t *player_class;
     item_hash_t *inventory;
 } player_t;
 
@@ -191,6 +190,18 @@ int remove_item_from_player(player_t *player, item_t *item);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_inventory(player_t *player);
+
+/*
+ * Returns if the item is in the player's inventory
+ *
+ * Parameters:
+ *  player struct
+ *  item struct
+ *
+ * Returns:
+ *  true if item is inventory, false otherwise
+ */
+bool item_in_inventory(player_t *player, item_t *item);
 
 /*
  * Assigns a table of stats to a player

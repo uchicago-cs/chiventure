@@ -1,0 +1,49 @@
+{
+    "short_desc":"A red lever.",
+    "long_desc":"A plain-looking red lever.",
+    "in":{
+        "__type":"reference",
+        "id":"ROOMS.red_room"
+    },
+    "pulled": false,
+    "actions":[
+        {
+            "action": "PULL",
+            "conditions":[
+                {
+                    "__type": "condition",
+                    "id": "ITEMS.red_lever.conditions.pulled",
+                    "expected": false
+                }
+            ],
+            "set":[
+                {
+                    "__type": "condition",
+                    "id": "ITEMS.red_lever.conditions.pulled",
+                    "expected": true
+                }
+            ],
+            "text_success": "You pull the lever.",
+            "text_fail": "You have already pulled the lever."
+        },
+        {
+            "action": "PUSH",
+            "conditions":[
+                {
+                    "__type": "condition",
+                    "id": "ITEMS.red_lever.conditions.pulled",
+                    "expected": true
+                }
+            ],
+            "set":[
+                {
+                    "__type": "condition",
+                    "id": "ITEMS.red_lever.conditions.pulled",
+                    "expected": false
+                }
+            ],
+            "text_success": "You push the lever back to its original position.",
+            "text_fail": "You have already pushed the lever."
+        }
+    ]
+}
