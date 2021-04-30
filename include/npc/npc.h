@@ -43,6 +43,7 @@ typedef struct npc {
     npc_battle_t *npc_battle;
 } npc_t;
 
+/* Info used for battles with NPCs */
 typedef struct npc_battle {
     /* NPC health level */
     int health;
