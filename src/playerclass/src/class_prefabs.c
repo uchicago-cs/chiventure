@@ -1,5 +1,6 @@
 
 #include <ctype.h>
+#include <stdio.h> 
 
 #include "playerclass/class_prefabs.h"
 #include "playerclass/class.h"
@@ -7,6 +8,7 @@
 #include "common/ctx.h"
 #include "libobj/obj.h"
 #include "game-state/stats.h"
+#include "common/uthash.h"
 
 /* Rudimentary id system for prefab classes (internal) */
 
@@ -195,7 +197,20 @@ class_t* class_prefab_warrior(chiventure_ctx_t* ctx) {
     "few words, sword is better than words.";
     
     obj_t* attr = obj_new("class_attributes"); // Empty Attributes object (name could change)
+
+    /* Sample Stats logic (1 stat, moxie at 65 / 100) probably make a helper function */
     stats_hash_t* stats = NULL; 
-    effects_hash_t* effects = NULL;
+
+    stats_global_t *global_stat;
+    HASH_FIND_STR(ctx->game->curr_stats, "moxie", global_stat);
+    if (global_stat == NULL) {
+        global_stat = stats_global_new("moxie", 100);
+        HASH_ADD_KEYPTR(hh, ctx->game->curr_stats, global_stat->name, strlen(global_stat->name), global_stat);
+    }
+    
+    add_stat(&stats, stats_new(global_stat, 10));
+    
+    /* Effects: I don't know if we should put anything here yet. */
+    effects_hash_t* effects = NULL; // This can actually stay NULL forever. The empty hashtable is represented by NULL in uthash.
     return class_new(name, short_desc, long_desc, attr, stats, effects);
 }

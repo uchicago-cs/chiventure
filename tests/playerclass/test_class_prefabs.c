@@ -42,4 +42,6 @@ Test(class_prefabs, Warrior) {
     cr_assert_not_null(c->shortdesc, "Prefab class Warrior failed to have short description");
     cr_assert_not_null(c->longdesc, "Prefab class Warrior failed to have long description");
     cr_assert_not_null(c->attributes, "Prefab class Warrior failed to have attributes object");
+ 
+    cr_assert_eq(get_stat_current(c->stats, "moxie"), 10, "Prefab class Warrior failed to have 65 strength");
 }
