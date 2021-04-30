@@ -4,6 +4,8 @@
 #include "playerclass/class_prefabs.h"
 #include "playerclass/class.h"
 #include "playerclass/class_structs.h"
+#include "common/ctx.h"
+#include "libobj/obj.h"
 
 /* Rudimentary id system for prefab classes (internal) */
 
@@ -170,7 +172,6 @@ int class_prefab_add_skills(class_t* class) {
         /* TODO */ 
     }
         
-
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
         /* TODO */
     }
@@ -184,15 +185,16 @@ int class_prefab_add_skills(class_t* class) {
     return SUCCESS;
 }
 
-/* Testing out how this might work */
-class_t* class_prefab_warrior() {
-    char *name = "Warrior"; 
-    char *short_desc = "Guy with sword."; 
-    char *long_desc = "Guy with sword. Guy hit thing in head with sword. Guy use " 
+/* Testing out how this might work
+ * SAMPLE (we are probably not going to write a per class) */
+class_t* class_prefab_warrior(chiventure_ctx_t* ctx) {
+    char* name = "Warrior"; 
+    char* short_desc = "Guy with sword."; 
+    char* long_desc = "Guy with sword. Guy hit thing in head with sword. Guy use " 
     "few words, sword is better than words.";
     
-    obj_t *attr = NULL;
-    stats_hash_t *stats = NULL;
-    effects_hash_t *effects = NULL;
+    obj_t* attr = obj_new("class_attributes"); // Empty Attributes object (name could change)
+    stats_hash_t* stats = NULL; 
+    effects_hash_t* effects = NULL;
     return class_new(name, short_desc, long_desc, attr, stats, effects);
 }
