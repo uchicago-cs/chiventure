@@ -45,6 +45,7 @@ int player_free(player_t* plyr)
 
     free(plyr->player_id);
     delete_all_items(&plyr->inventory);
+    class_free(plyr->player_class);
     free(plyr);
     
     return SUCCESS;

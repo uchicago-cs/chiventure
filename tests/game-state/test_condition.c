@@ -24,6 +24,8 @@ Test(condition, new_attr_condition)
 
     cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condiiton_new() failed to "
     "correctly mark condiiton as attribute");
+    item_free(item);
+    free(condition);
 }
 
 /* Checks that inventory_condition_new() properly mallocs and inits a new condition struct */
@@ -41,6 +43,8 @@ Test(condition, new_inven_condition)
 
     cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condiiton_new() failed to "
     "correctly mark condiiton as inventory");
+    player_free(player);
+    item_free(item);
 }
 
 /* Checks if delete_condition_llist() frees the condition list from memory */
@@ -61,6 +65,8 @@ Test(condition, condition_free)
     int res = delete_condition_llist(conditions);
 
     cr_assert_eq(res, SUCCESS, "delete_condition_llist() failed");
+    player_free(player);
+    item_free(item);
 }
 
 /* Checks if valid_condition properly checks if the condition is actually valid */
@@ -105,5 +111,7 @@ Test(condition, valid_condition)
     valid = valid_condition(game, NULL);
     cr_assert_eq(valid, CONDITION_NULL, "valid_condiiton() expected CONDITION_NULL(7) "
     "but instead got %i", valid);
-
+    player_free(player);
+    item_free(item);
+    game_free(game);
 }
