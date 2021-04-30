@@ -2,10 +2,12 @@
 
 ## Examples
 This directory contains scripts for running a sample battle.
-In order to run a script, type `make examples` followed by `cd examples`. Then run one of the following:
-
-`./battle_command_example.c`
-`./battle_flow_example.c`
+In order to run a script:
+1. Make sure you have built Chiventure (see the main Chiventure README for instructions)
+2. Use `cd build` to enter the `build` directory
+3. Run `make examples` to build the example files
+4. Use `cd src/battle/examples` to enter the battle examples directory
+5. Run `./battle_command_example` or `./battle_flow_example` to run a sample battle
 
 These are the current scripts: 
 * `battle_command_example.c`: Simulates the ability for player input during a battle.
