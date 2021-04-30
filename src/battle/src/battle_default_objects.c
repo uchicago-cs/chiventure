@@ -49,7 +49,7 @@ move_t *get_random_default_move()
     assert(rv_move != NULL);
 
     char *name_array[] = {"JAB", "KICK", "HEADBUTT", "GRAPPLE", "SLAP"
-                          "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"}
+                          "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"};
     
     rv_move->item = get_random_default_item();
     rv_move->id = randnum(1,10);
@@ -60,4 +60,23 @@ move_t *get_random_default_move()
     rv_move->defense = randnum(20,70);
     rv_move->next = NULL;
     rv_move->prev = NULL;
+
+    return rv_move;
+}
+
+stat_t* get_random_stat()
+{
+    stat_t *rv_stat = calloc(1, sizeof(stat_t));
+    assert(rv_stat != NULL);
+
+    rv_stat->speed = randnum(20, 50);
+    rv_stat->defense = randnum(20, 50);
+    rv_stat->strength = randnum(20, 50);
+    rv_stat->dexterity = randnum(20, 50);
+    rv_stat->hp = randnum(50, 100);
+    rv_stat->max_hp = 100;
+    rv_stat->xp  = randnum(20, 100);
+    rv_stat->level = randnum(1, 5);
+
+    return rv_stat;
 }
