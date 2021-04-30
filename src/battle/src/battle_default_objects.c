@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "battle/battle_structs.h"
+#include "battle/battle_moves.h"
 
 /* resource: https://stackoverflow.com/questions/17846212/generate-a-random-number-between-1-and-10-in-c/49099642 */
 /* and: https://stackoverflow.com/questions/1202687/how-do-i-get-a-specific-range-of-numbers-from-rand */
@@ -20,7 +21,6 @@ int randnum(int min, int max)
 /* Returns random default item */
 item_t *get_random_default_item()
 {
-    // is there a function to initialize/allocate memory for item_t struct? if not..
     item_t *rv_item = calloc(1, sizeof(item_t));
     assert(rv_item != NULL);
     
@@ -45,22 +45,21 @@ item_t *get_random_default_item()
 /* Returns random default move*/
 move_t *get_random_default_move()
 {
-    move_t *rv_move = calloc(1, sizeof(move_t));
-    assert(rv_move != NULL);
-
     char *name_array[] = {"JAB", "KICK", "HEADBUTT", "GRAPPLE", "SLAP"
                           "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"};
     
-    rv_move->item = get_random_default_item();
-    rv_move->id = randnum(1,10);
-    rv_move->name = name_array[randnum(0,9)];
-    rv_move->info = strcat("Move is ", rv_move->name);
-    rv_move->attack = true;
-    rv_move->damage = randnum(20,70);
-    rv_move->defense = randnum(20,70);
-    rv_move->next = NULL;
-    rv_move->prev = NULL;
+    item_t *item = get_random_default_item();
+    int id = randnum(1,10);
+    // rv_move->name = name_array[randnum(0,9)];
+    // rv_move->info = strcat("Move is ", rv_move->name);
+    char *info = name_array[randnum(0,9)];
+    bool attack = true;
+    int damage = randnum(20,70);
+    int defense = randnum(20,70);
 
+    move_t *rv_move = move_new(info, id, item, attack, damage, defense);
+    
+    assert(rv_move != NULL);
     return rv_move;
 }
 
