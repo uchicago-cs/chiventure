@@ -15,11 +15,37 @@
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
     UT_hash_handle hh;
+
+    /* Unique id identifying the player */
     char *player_id;
-    int level;
+
+    /* The player's current health, separate from their maximum health */
     int health;
+
+    /* The player's current level */
+    int level;
+
+    /* The cumulative total of experience points acquired by the player */
     int xp;
+
+    /* A string containing the player's race */
+    char *player_race;
+
+    /* The player's current class. class_t contains the base health, stats, and skills for that class at
+    the beginning of a game. These may change throughout the game, so their current states are stored 
+    in the health, player_stats, player_skills fields in this player struct */
     class_t *player_class;
+
+    /* All of the stats, with their values, the player has */
+    stats_hash_t *player_stats;
+
+    /* The current skills known to the player */
+    skill_inventory_t *player_skills;
+
+    /* All of the effects the player is currently experiencing */
+    effects_hash_t *player_effects;
+
+    /* The current items held by the player*/
     item_hash_t *inventory;
 } player_t;
 
