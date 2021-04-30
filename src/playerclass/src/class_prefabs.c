@@ -6,6 +6,7 @@
 #include "playerclass/class_structs.h"
 #include "common/ctx.h"
 #include "libobj/obj.h"
+#include "game-state/stats.h"
 
 /* Rudimentary id system for prefab classes (internal) */
 
