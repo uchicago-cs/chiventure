@@ -9,6 +9,13 @@
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
+/* Hostility level options */
+typedef enum hostility {
+    FRIENDLY = 0,
+    CONDITIONAL_FRIENDLY = 1,
+    HOSTILE = 2
+} hostility_t;
+
 /* A non-playable character in game */
 typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
@@ -17,16 +24,11 @@ typedef struct npc {
     /* NPC identifier */
     char *npc_id;
 
-    /* short description of the npc, <51 chars */
+    /* short description of the NPC, <51 chars */
     char *short_desc;
 
-    /* long description of the npc, <301 chars */
+    /* long description of the NPC, <301 chars */
     char *long_desc;
-
-    /* the npcs class */
-    class_t *npc_class;
-
-    int health;
 
     /* pointer to an existing convo struct */
     convo_t *dialogue;
@@ -36,7 +38,42 @@ typedef struct npc {
 
     /* pointer to an existing class struct */
     class_t *class; 
+
+    /* pointer to an existing npc_battle struct */
+    npc_battle_t *npc_battle;
 } npc_t;
+
+typedef struct npc_battle {
+    /* NPC health level */
+    int health;
+
+    /* pointer to an existing stat struct */
+    stat_t *stats;
+
+    /* pointer to an existing move struct */
+    move_t *moves;
+
+    /* difficulty of the NPC's ai */
+    difficulty_t ai;
+    
+    /* pointer to an existing item struct */
+    item_t *items;
+    
+    /* pointer to an existing npc struct */
+    npc_t *prev;
+
+    /* pointer to an existing npc struct */
+    npc_t *next;
+    
+    /* hostility level of the npc */
+    hostility_t hostility_level;
+
+    /* whether the NPC will fight */
+    bool will_fight;
+
+    /* health level at which the NPC will surrender */
+    int surrender_level;
+} npc_battle_t
 
 /* This typedef is to distinguish between npc_t pointers which are
  * used to point to the npc_t structs in the traditional sense,
