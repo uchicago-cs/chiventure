@@ -13,12 +13,11 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
 
 
 /* See rooms-npc.h */
-int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type,
+int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type,
                 room_t *room)
 {
     char* room_id  = room->room_id;
     assert(npc_mov != NULL);
-    strncpy(npc_mov->npc_id,npc_id, MAX_ID_LEN);
     npc_mov->mov_type = mov_type;
     strncpy(npc_mov->track,room_id, MAX_ID_LEN);
 
@@ -64,12 +63,11 @@ npcs_in_room_t *npcs_in_room_new(char* room_id)
 
 
 /* See rooms-npc.h */
-npc_mov_t* npc_mov_new(char* npc_id, npc_mov_enum_t mov_type, room_t* room)
+npc_mov_t* npc_mov_new(npc_mov_enum_t mov_type, room_t* room)
 {
     npc_mov_t *npc_mov;
     npc_mov = malloc(sizeof(npc_mov_t));
     memset(npc_mov, 0, sizeof(npc_mov_t));
-    npc_mov->npc_id = malloc(MAX_ID_LEN);
     npc_mov->track = malloc(MAX_ID_LEN);
 
     if (mov_type == NPC_MOV_DEFINITE)

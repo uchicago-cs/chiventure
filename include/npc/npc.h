@@ -6,6 +6,7 @@
 #include "npc/dialogue.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
+#include "npc/rooms-npc.h"
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
@@ -35,7 +36,10 @@ typedef struct npc {
     item_hash_t *inventory;
 
     /* pointer to an existing class struct */
-    class_t *class; 
+    class_t *class;
+
+    /*pointer to an exisitng npc_move struct */
+    npc_mov_t *movement;
 } npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are

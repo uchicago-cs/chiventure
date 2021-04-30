@@ -96,7 +96,6 @@ typedef enum mov_type npc_mov_enum_t;
  *  track: tracker variable that returns current room id
  */
 typedef struct npc_mov {
-    char *npc_id;
     npc_mov_type_t npc_mov_type;
     npc_mov_enum_t mov_type;
     char *track;
