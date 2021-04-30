@@ -56,15 +56,6 @@ typedef struct npc_battle {
     /* difficulty of the NPC's ai */
     difficulty_t ai;
     
-    /* pointer to an existing item struct */
-    item_t *items;
-    
-    /* pointer to an existing npc struct */
-    npc_t *prev;
-
-    /* pointer to an existing npc struct */
-    npc_t *next;
-    
     /* hostility level of the npc */
     hostility_t hostility_level;
 
