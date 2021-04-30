@@ -66,6 +66,26 @@ int class_init_skills(class_t* class, int max_skills_in_tree,
                       int max_active_skills, int max_passive_skills); 
 
 /*
+ * Initializes values for a player class,
+ * created by combining two existing classes to form a multiclass.
+ * 
+ * Requires btoh classes to be already implemented.
+ * Can be used multiple times to create more complicated multiclasses.
+ *
+ *
+ * Paramaters:
+ *  - base_class: the character's base class (their current class).
+ *   this class will be used to determine base stats.
+ *  - new_class: the class being added to the original class.
+ *  - name: the name of the multiclass.
+ *
+ * Returns:
+ *  - a pointer to the allocated class memory
+ *  - NULL on error
+ */
+class_t* multiclass(class_t* base_class, class_t* new_class, char* name);
+
+/*
  * Frees a class and strings created by class_new.
  * 
  * Parameters:

@@ -18,5 +18,9 @@ int set_item_restriction(item_t* item, class_t* class) {
 
 /* see class_item_restriction.h */
 bool get_class_restriction(item_t* item, class_t* class) {
-    return get_bool_attr(item, class->name);
+    if (get_bool_attr(item, class->name) == false) return false;
+    for (int i = 0; i < class->parent_class_num; i++){
+        if (get_bool_attr(item, parent_class_names[i]->name) == false)
+    }
+    return true;
 }

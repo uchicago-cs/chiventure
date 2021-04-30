@@ -103,6 +103,9 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     }
     strncpy(class->name, name, MAX_NAME_LEN);
 
+    class->parent_class_num = 0;
+    class->parent_class_names = NULL;
+
     class->shortdesc = (char*) calloc(MAX_SHORT_DESC_LEN + 1, sizeof(char));
     if (class->name == NULL)
     {
@@ -132,6 +135,17 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
 
     return EXIT_SUCCESS;
 }
+
+/* See class.h */
+class_t* multiclass(class_t* base_class, class_t* new_class, char* name){
+    char* new_shortdesc = base_class->shortdesc; //To be improved
+    char* new_longdesc = base_class->longdesc; //To be improved
+    obj_t* combined_attr = int obj_add_attr(base_class->attributes, new_class->attributes->id, new_class->attributes); //Not sure if I use this function correctly
+    effects_hash_t* combined_effects = NULL; //TODO, will need a new get all function for effects_hash_t
+    class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->stats, combined_effects);
+    return new_class;
+}
+
 
 /* See class.h */
 int class_init_skills(class_t* class, int max_skills_in_tree, 
@@ -184,6 +198,13 @@ int class_free(class_t* class)
     if (class->name != NULL)
     {
         free(class->name);
+    }
+    if (class->parent_class_names != NULL){
+        for (int i = 0; i < class->parent_class_num){
+            free (class->parent_class_names[i]);
+            i++;
+        }
+        free (class->parent_class_names)
     }
     if (class->shortdesc != NULL)
     {

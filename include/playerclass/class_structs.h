@@ -26,6 +26,12 @@ typedef struct class {
     // Name of the class
     char* name;
 
+    // Number of parent classes
+    int parent_class_num;
+
+    // All base classes that have been multiclassed into
+    char **parent_class_names;
+
     // A short description of the class
     char* shortdesc;
 
