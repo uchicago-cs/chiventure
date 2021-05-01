@@ -57,3 +57,7 @@ Test(class_prefabs, Warrior) {
     cr_assert_eq(get_stat_current(c->stats, "max_health"), 25, "class failed to initialize previously declared stat");
     cr_assert_eq(get_stat_current(c->stats, "speed"), 10, "class failed to initialize new stat");
 }
+
+Test(class_prefabs, warrior_sword_slash) {
+    cr_assert_str_eq(warrior_sword_slash(""), "8");
+}

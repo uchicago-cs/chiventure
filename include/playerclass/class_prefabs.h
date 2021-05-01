@@ -42,4 +42,7 @@ int class_prefab_add_skills(class_t* class);
 /* Temporary function, target for deletion */
 class_t* class_prefab_warrior();
 
+/* Temporary function, target for deletion */
+char* warrior_sword_slash(char* args);
+
 #endif /* CLASS_PREFABS_H */

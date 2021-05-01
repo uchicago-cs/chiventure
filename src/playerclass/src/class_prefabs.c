@@ -210,6 +210,34 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
 /* Skill related functions */
 
 /*
+ * Macro that allows for fast creation of damage skill effects.
+ * 
+ * Inputs:
+ *  - name: The name of the function to be created (without surrounding quotes).
+ *  - damage: The numeric amount of damage the effect does.
+ * 
+ * Expands to:
+ *  - A function that is the skill effect.
+ *     - Identifier: name.
+ *     - Parameters:
+ *        - args: A string of space seperated args to the skill effect call.
+ *     - Returns: 
+ *        - A string, the result of the skill being called, which is simply the
+ *          damage of the effect (ie. "8").
+ * 
+ * Notes: See skilltrees_common.h and skilltrees/examples/skill-example.c for 
+ *        more context and the examples inspiring this.
+ * Citation: (https://stackoverflow.com/questions/40591312/c-macro-how-to-get-an-integer-value-into-a-string-literal) 
+ */
+#define damage_skill_effect(name, damage) char* name(char* args) {             \
+    return #damage;                                                            \
+}
+
+damage_skill_effect(warrior_sword_slash, 8)
+damage_skill_effect(wizard_fireball, 10)
+damage_skill_effect(bard_diss_track, 6)
+
+/*
  * Initializes skill and skilltree related values for a player class.  Currently
  * only works for classes that match the name of one of our prefab classes.
  * 
