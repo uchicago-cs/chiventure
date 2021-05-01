@@ -51,7 +51,6 @@ wdl_ctx_t *load_wdl(char *path_to_wd)
 game_t *load_yaml_game(obj_t *big_document)
 {
     int rc;
-
     game_t *game = create_game(big_document);
 
     // call functions that parse items, actions, rooms, and game attributes
@@ -106,14 +105,14 @@ game_t *create_game(obj_t *doc)
     if (game == NULL)
     {
         fprintf(stderr, "game object not found\n");
-        exit(0);
+        return NULL;
     }
 
     int check = game_type_check(game);
     if (check == FAILURE)
     {
         fprintf(stderr, "game object fails type checking\n");
-        exit(0);
+        return NULL;
     }
 
     char *intro = obj_get_str(game, "intro");
