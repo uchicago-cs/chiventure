@@ -51,7 +51,16 @@ The map interface consists of a 4 important map control functions
 4. map_center_on updates the map to show the room at room coords (x,y,z) at the center of the map. The z coordinate indicates current "floor number". This function will be the primary refresh function for adjusting map position to player location.
 
 ## coordinate
-
+Contains a new coord_t struct and a coord_record_t struct that has key, room and 
+hash handle. It contains the functions necessary to declare coord_t structs as well as
+to free them. It also contains 5 important coordinate functions:
+1. find_coord checks if a coordinates are in a room and if they have been marked.
+2. try_add_coord tries to add a set of coords to a coordmap, but checks if it
+is able to assign a valid coord system.
+3. create_valid_map assigns a valid coordinate system creating a pointer to 
+a hashmap, if it is successful.
+4. get_test_coord_hash gives a pointer to a  hashmap that is utilized in testing.
+5. set_player_loc sets a players position to a given coords.
 ## DFS
 
 
