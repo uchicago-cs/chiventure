@@ -69,19 +69,32 @@ typedef struct gencontext {
 } gencontext_t;
 
 
+/* -- structs for level oriented generation -- */
 
-/* rooms_with_difficulty_t struct
- * This struct will encode maps between difficulty/rooms needed for level-oriented generation
- * The struct contains:
- * - char *room_name: room name and hash key
- * - UT_hash_handle hh: hash handle for room spec makes this structure hashable 
- */
-
-typedef struct rooms_with_difficulty {
+/* encode maps between difficulty/rooms needed for level-oriented generation */
+typedef struct rooms_level
+{
+    /* name of the room, hash key */
     char *room_name;        
-    int difficulty_level;      
+
+    /* difficulty level of the room, possible value starts at 0 */
+    int difficulty_level;       
+       
+     /* makes this structure hashable */
     UT_hash_handle hh;        
-} rooms_with_difficulty_t;
+} rooms_level_t;
+
+
+/* difficulty level scale */
+typedef struct difficulty_level_scale 
+{
+    /* number of difficulty levels */
+    int num_of_levels;  
+
+    /* an array of threshold for levels, for example, [0, 5, 10] */  
+    int *thresholds;
+} difficulty_level_scale_t;
+
 
 
 
@@ -234,5 +247,33 @@ int speclist_free(speclist_t *list);
 * FAILURE - if failed to free
 */
 int speclist_free_all(speclist_t *list);
+
+
+/* ROOMS_LEVEL */
+
+/* init, new, free functions for rooms_level */
+int init_rooms_level(rooms_level_t *map, char *room_name, int difficulty_level);
+
+rooms_level_t* rooms_level_new(char *room_name, int difficulty_level);
+
+int rooms_level_free(rooms_level_t *map);
+
+
+/* add_rooms_to_hash
+ * Add an array of room names of a difficulty level
+ * to the hash table of room names 
+ * 
+ * Parameters:
+ * - rooms: pointer to the hash table of rooms
+ * - char *names[]: an array of room names, for example {“school”}
+ * - int difficulty_level: difficulty_level
+ *
+ * Side effects:
+ * - Changes input rooms_level_t to hold the newly added room(s),
+ *   allocated on the heap
+ */
+void add_rooms_to_hash(rooms_level_t *rooms, 
+                       const char *names[], 
+                       int difficulty_level);
 
 #endif
