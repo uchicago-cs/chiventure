@@ -11,10 +11,11 @@ are a few currently enabled commands.
 screen.
 * 'Ctrl-D': Exits the loop. The function will end and the UI will close.
 
-To compile the library, run `make` inside the ui directory. Example files can be
-found in the ui/examples subdirectory. You can create the binaries for these files
-by running `make examples` to compile the executables for all the examples or
-`make examples/file_name` to compile a specific executable.
+To compile the ui library, run make inside the chiventure/build directory. Example
+files can be found in the src/ui/examples subdirectory from build. You can create
+the binaries for all of these files by running "make" inside the examples 
+subdirectory or using "make file_name" for a specific example. Use "./file_name"
+to run the executable.
 
 #Included Modules
 
