@@ -6,7 +6,7 @@
 #include "game-state/game.h"
 
 /* In this case, stats hashtables are complete with the stats we intend to use */
-chiventure_ctx_t* init_complete_context() {
+chiventure_ctx_t* init_incomplete_context() {
     game_t* game = game_new("Sample game, complete context");
     chiventure_ctx_t* ctx = chiventure_ctx_new(game);
 
@@ -16,7 +16,8 @@ chiventure_ctx_t* init_complete_context() {
     // Weird double pointer to the hash table
 
     /* Placeholder global stats */
-    stats_global_t *gs_health = stats_global_new("health", 100);
+    stats_global_t *gs_health = stats_global_new("max_health", 100);
+    // Unused stats
     stats_global_t *gs_wit = stats_global_new("wit", 50);
     stats_global_t *gs_moxie = stats_global_new("moxie", 27);
 
@@ -32,19 +33,27 @@ chiventure_ctx_t* init_complete_context() {
     return ctx;
 }
 
+/* A hard hitting and beefy physical attacker:
+ * 25 Max Health
+ * 10 Speed
+ * 15 Physical Defense
+ * 25 Physical Attack
+ *  5 Ranged Attack
+ *  5 Magic Defense
+ *  5 Magic Attack
+ * 15 Max Magic Energy */
 Test(class_prefabs, Warrior) {
-    chiventure_ctx_t* ctx = init_complete_context();
+    chiventure_ctx_t* ctx = init_incomplete_context();
 
-    class_t *c = class_prefab_warrior(ctx);
+    // Note that the name is always stored lowercase.
+    class_t *c = class_prefab_new(ctx, "Warrior");
 
-    cr_assert_not_null(c, "Prefab class Warrior failed to be initialized (NULL)");
-    cr_assert_not_null(c->name, "Prefab class Warrior failed to have name");
-    cr_assert_not_null(c->shortdesc, "Prefab class Warrior failed to have short description");
-    cr_assert_not_null(c->longdesc, "Prefab class Warrior failed to have long description");
-    cr_assert_not_null(c->attributes, "Prefab class Warrior failed to have attributes object");
+    cr_assert_not_null(c, "class failed to be initialized (NULL)");
+    cr_assert_not_null(c->name, "class failed to have name");
+    cr_assert_not_null(c->shortdesc, "class failed to have short description");
+    cr_assert_not_null(c->longdesc, "class failed to have long description");
+    cr_assert_not_null(c->attributes, "class failed to have attributes object");
     
-    /* Stat the was pre-declared */
-    cr_assert_eq(get_stat_current(c->stats, "moxie"), 10, "Prefab class Warrior failed to have 10 moxie");
-    /* Stat the is new */
-    cr_assert_eq(get_stat_current(c->stats, "blood-thirst"), 97, "Prefab class Warrior failed to have 97 blood-thirst");
+    cr_assert_eq(get_stat_current(c->stats, "max_health"), 25, "class failed to initialize previously declared stat");
+    cr_assert_eq(get_stat_current(c->stats, "speed"), 10, "class failed to initialize new stat");
 }

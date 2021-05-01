@@ -64,8 +64,8 @@ int get_class_name_index(char* name) {
  * Parameters: 
  *  - ctx: The chiventure context object (it contains the global stat hashtable, 
  *         but that can be NULL).
- *  - stats: A pointer to a possibly NULL stats_hast_t pointer. The new stat is
- *           is added, and the intermediate pointer updated if necessary.
+ *  - stats: A pointer to a possibly NULL stats_hash_t pointer. The new stat is
+ *           added, and the intermediate pointer updated if necessary.
  *  - stat_name: A pointer to the name of the stat, case sensitive.
  *  - stat_val: The base value of the stat.
  *  - stat_max: The maximum value of the stat, only applies if the stat is not 
@@ -91,9 +91,48 @@ int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats,
     return SUCCESS;
 }
 
-/* See class_prefabs.h */
-class_t* class_prefab_new(char *class_name) {
+/*
+ * Safely adds a stat to a stat hashtable, checking and updating the global stat
+ * hashtable if necessary.
+ *
+ * Parameters: 
+ *  - ctx: The chiventure context object (it contains the global stat hashtable, 
+ *         but that can be NULL).
+ *  - stats: A pointer to a possibly NULL stats_hash_t pointer. The new stats
+ *           are added, and the intermediate pointer updated if necessary.
+ *  - max_health, speed, physical_defense, physical_attack, ranged_attack,
+ *    magic_defense, magic_attack, max_magic_energy: The base stat values.
+ * 
+ * Returns:
+ *  - SUCCESS on success. stats and the global hashtable now contain the stats.
+ *  - FAILURE on failure.
+ */
+int set_stats_hashtable(chiventure_ctx_t* ctx, stats_hash_t** stats,
+                         double max_health, 
+                         double speed,
+                         double physical_defense, 
+                         double physical_attack,
+                         double ranged_attack,
+                         double magic_defense,
+                         double magic_attack,
+                         double max_magic_energy) {
+    if (ctx == NULL || stats == NULL)
+        return FAILURE;
+
+    check_and_add_stat(ctx, stats, "max_health",       max_health,       100);
+    check_and_add_stat(ctx, stats, "speed",            speed,            100);
+    check_and_add_stat(ctx, stats, "physical_defense", physical_defense, 100);
+    check_and_add_stat(ctx, stats, "physical_attack",  physical_attack,  100);
+    check_and_add_stat(ctx, stats, "ranged_attack",    ranged_attack,    100);
+    check_and_add_stat(ctx, stats, "magic_defense",    magic_defense,    100);
+    check_and_add_stat(ctx, stats, "magic_attack",     magic_attack,     100);
+    check_and_add_stat(ctx, stats, "max_magic_energy", max_magic_energy, 100);
     
+    return SUCCESS;
+}
+
+/* See class_prefabs.h */
+class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
     char temp_name[MAX_NAME_LEN + 1]; 
     strncpy(temp_name, class_name, MAX_NAME_LEN);
     /* make temp_name lowercase */
@@ -102,6 +141,7 @@ class_t* class_prefab_new(char *class_name) {
     
     char* short_desc;
     char* long_desc;
+    /* attributes are not yet customized at by each class */
     obj_t* attributes = obj_new("class_attributes");
     stats_hash_t* stats = NULL;
     /* effects for each class not yet provided, so this will remain NULL */
@@ -139,8 +179,19 @@ class_t* class_prefab_new(char *class_name) {
         /* TODO */
     }
 
+    /* A hard hitting and beefy physical attacker:
+     * 25 Max Health
+     * 10 Speed
+     * 15 Physical Defense
+     * 25 Physical Attack
+     *  5 Ranged Attack
+     *  5 Magic Defense
+     *  5 Magic Attack
+     * 15 Max Magic Energy */
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
-        /* TODO */ 
+        short_desc = "A mighty warrior.";
+        long_desc = "A mighty yet noble warrior, skilled with the blade.";
+        set_stats_hashtable(ctx, &stats, 25, 10, 15, 25, 5, 5, 5, 15);
     }
         
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
