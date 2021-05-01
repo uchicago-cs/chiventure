@@ -3,7 +3,7 @@
 // STRUCT FUNCTIONS -----------------------------------------------------------
 /* See npc_move.h */
 int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type,
-                room_t *room)
+                 room_t *room)
 {
     char* room_id  = room->room_id;
     assert(npc_mov != NULL);

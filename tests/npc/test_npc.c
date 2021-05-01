@@ -31,12 +31,13 @@ Test(npc, new)
 {
     class_t* c;
     npc_t *npc;
+    npc_mov_t *movement;
 
     char *npc_id = "npc_22";
 
     c = generate_test_class();
 
-    npc = npc_new(npc_id, "man", "tall man", 20, c);
+    npc = npc_new(npc_id, "man", "tall man", 20, c, movement);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
@@ -57,17 +58,18 @@ Test(npc, init)
 {
     class_t* c;
     npc_t *npc;
+    npc_mov_t *movement;
     int res;
   
     char *npc_id2 = "test";
 
-    npc = npc_new(npc_id2, "woman", "short woman", 30, NULL);
+    npc = npc_new(npc_id2, "woman", "short woman", 30, NULL, movement);
   
     c = generate_test_class();
 
     char *npc_id = "npc_22";
 
-    res = npc_init(npc, npc_id, "man", "tall man", 20, c); 
+    res = npc_init(npc, npc_id, "man", "tall man", 20, c, movement); 
 
     cr_assert_eq(res, SUCCESS, "npc_init() failed");
 
@@ -90,7 +92,7 @@ Test(npc, free)
     int res;
     char *npc_id = "test";
 
-    npc = npc_new(npc_id, "woman", "short woman", 30, NULL);
+    npc = npc_new(npc_id, "woman", "short woman", 30, NULL, NULL);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
@@ -108,7 +110,7 @@ Test(npc, get_sdesc_npc)
     
     char *npc_id = "test";
 
-    npc = npc_new(npc_id, "woman", "short woman", 30, NULL);
+    npc = npc_new(npc_id, "woman", "short woman", 30, NULL, NULL);
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_eq(strncmp(npc->short_desc, "woman", MAX_SDESC_LEN), 0, 
@@ -129,7 +131,7 @@ Test(npc, get_ldesc_npc)
     
     char *npc_id = "test";
 
-    npc = npc_new(npc_id, "man", "tall man", 30, NULL);
+    npc = npc_new(npc_id, "man", "tall man", 30, NULL, NULL);
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
@@ -150,7 +152,7 @@ Test(npc, get_npc_health)
 
     char *npc_id = "npc_22";
 
-    npc = npc_new(npc_id, "short", "long", 20, NULL);
+    npc = npc_new(npc_id, "short", "long", 20, NULL, NULL);
 
     health = get_npc_health(npc);
 
@@ -168,7 +170,7 @@ Test(npc, change_npc_health)
 
     char *npc_id = "npc_22";
 
-    npc = npc_new(npc_id, "short", "long", 99, NULL); 
+    npc = npc_new(npc_id, "short", "long", 99, NULL, NULL); 
     health1 = change_npc_health(npc, 2, 100); 
     health2 = change_npc_health(npc, -20, 100);
     health3 = change_npc_health(npc, 3, 83);
@@ -193,8 +195,8 @@ Test(npc, add_to_and_get_inventory)
     char *npc_id1 = "npc_1";
     char *npc_id2 = "npc_2";
 
-    npc1 = npc_new(npc_id1, "short", "long", 20, NULL);
-    npc2 = npc_new(npc_id2, "short", "long", 21, NULL);
+    npc1 = npc_new(npc_id1, "short", "long", 20, NULL, NULL);
+    npc2 = npc_new(npc_id2, "short", "long", 21, NULL, NULL);
     new_item = item_new("test_item", "item for npc testing",
                         "item for testing get_npc_inventory()");
     add_item_to_npc(npc2, new_item);
@@ -240,7 +242,7 @@ Test(npc, add_to_and_get_inventory)
 Test(npc, add_item_to_npc)
 {
     char *npc_id = "1";
-    npc_t *npc = npc_new(npc_id, "short", "long", 100, NULL);
+    npc_t *npc = npc_new(npc_id, "short", "long", 100, NULL, NULL);
     item_t *new_item = item_new("test_item", "item for npc testing",
                                 "item for testing add_item_to_npc");
     item_t *dup_item = item_new("test_item", "item for npc testing",
@@ -261,7 +263,7 @@ Test(npc, add_item_to_npc)
 Test(npc, remove_item_from_npc)
 {
     char *npc_id = "npc";
-    npc_t *npc = npc_new(npc_id, "short", "long", 100, NULL);
+    npc_t *npc = npc_new(npc_id, "short", "long", 100, NULL, NULL);
     item_t *test_item = item_new("item", "short", "long");
     item_t *dup_item = item_new("item", "short", "long");
     item_list_t *item_list;

@@ -97,7 +97,7 @@ typedef struct npc_mov {
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type, room_t *room);
+int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, room_t *room);
 
 
 /*
@@ -112,7 +112,7 @@ int npc_mov_init(npc_mov_t *npc_mov, char* npc_id, npc_mov_enum_t mov_type, room
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-npc_mov_t *npc_mov_new(char* npc_id, npc_mov_enum_t mov_type, room_t *room);
+npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, room_t *room);
 
 
 /*
