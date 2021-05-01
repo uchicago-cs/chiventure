@@ -48,16 +48,25 @@ Test(class_prefabs, Warrior) {
     // Note that the name is always stored lowercase.
     class_t *c = class_prefab_new(ctx, "Warrior");
 
-    cr_assert_not_null(c, "class failed to be initialized (NULL)");
-    cr_assert_not_null(c->name, "class failed to have name");
-    cr_assert_not_null(c->shortdesc, "class failed to have short description");
-    cr_assert_not_null(c->longdesc, "class failed to have long description");
-    cr_assert_not_null(c->attributes, "class failed to have attributes object");
+    cr_assert_not_null(c, "failed to be initialized (NULL)");
+    cr_assert_not_null(c->name, "failed to have name");
+    cr_assert_not_null(c->shortdesc, "failed to have short description");
+    cr_assert_not_null(c->longdesc, "failed to have long description");
+    cr_assert_not_null(c->attributes, "failed to have attributes object");
     
-    cr_assert_eq(get_stat_current(c->stats, "max_health"), 25, "class failed to initialize previously declared stat");
-    cr_assert_eq(get_stat_current(c->stats, "speed"), 10, "class failed to initialize new stat");
+    cr_assert_eq(get_stat_current(c->stats, "max_health"), 25, "failed to initialize previously declared stat");
+    cr_assert_eq(get_stat_current(c->stats, "speed"), 10, "failed to initialize new stat");
+
+
+    class_prefab_add_skills(c);
+        
+    cr_assert_str_eq(c->skilltree->nodes[0]->skill->name, "Sword Slash", "failed to initialize skilltree");
+    cr_assert_str_eq(c->skilltree->nodes[1]->skill->name, "Double Slash", "failed to initialize skilltree");
+    cr_assert_str_eq(c->skilltree->nodes[2]->skill->name, "Triple Slash", "failed to initialize skilltree");
+
+    cr_assert_str_eq(c->combat->active[0]->name, "Sword Slash", "failed to initialize combat skill inventory");
 }
 
 Test(class_prefabs, warrior_sword_slash) {
-    cr_assert_str_eq(warrior_sword_slash(""), "8");
+    cr_assert_str_eq(warrior_sword_slash(""), "6");
 }

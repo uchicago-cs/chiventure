@@ -9,6 +9,7 @@
 #include "libobj/obj.h"
 #include "game-state/stats.h"
 #include "common/uthash.h"
+#include "skilltrees/skill.h"
 
 /* Rudimentary id system for prefab classes (internal) */
 
@@ -209,6 +210,8 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
 
 /* Skill related functions */
 
+const unsigned int UI_NODE_SIZE = 75;
+
 /*
  * Macro that allows for fast creation of damage skill effects.
  * 
@@ -233,9 +236,11 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
     return #damage;                                                            \
 }
 
-damage_skill_effect(warrior_sword_slash, 8)
-damage_skill_effect(wizard_fireball, 10)
-damage_skill_effect(bard_diss_track, 6)
+/* Damage effect function declarations. Currently only damage effects are
+ * supported */
+damage_skill_effect(warrior_sword_slash, 6)
+damage_skill_effect(warrior_double_slash, 12)
+damage_skill_effect(warrior_triple_slash, 18)
 
 /*
  * Initializes skill and skilltree related values for a player class.  Currently
@@ -279,46 +284,19 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
                         "in class_allocate_skills\n");
         return EXIT_FAILURE;
     }
-    if (class_prefab_add_skills(class) == EXIT_FAILURE) {
-        return EXIT_FAILURE;
-    }
 
     return EXIT_SUCCESS;
 }
 
-/*
- * this is a placeholder function for the skill struct to satisfy
- * the effect_t field, which wants a function of this form
- *
- * in the future, playerclass and skilltrees teams should coordinate
- * so that the effect_t field can be a function pointer to a function
- * that will actually execute the skill
- *
- * Paramters:
- *  - sk. a string representing the skill effects
- *
- * Returns:
- *  - the input parameter (placeholder)
- */
-char* class_execute_skill(char* sk) {
-    return sk;
-}
-
 /* See class_prefabs.h */
 int class_prefab_add_skills(class_t* class) {
-    /* 
-     * TODO: If we ever develop a "class prototype struct" with a pointer to an
-     * init_skill() function, this if-else ladder should be replaced with a call
-     * to that function.
-     */
-    int init_success = 0;
-
     char temp_name[MAX_NAME_LEN + 1];
     strncpy(temp_name, class->name, MAX_NAME_LEN);
     /* make temp_name lowercase */
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
 
+    /* Note: All skills are combat skills for now */
     if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
         /* TODO */
     }
@@ -351,8 +329,47 @@ int class_prefab_add_skills(class_t* class) {
         /* TODO */
     }
 
+    /* 
+     * A simple linear tree for a simple class.
+     *
+     * starting skill: warrior_sword_slash 
+     *  - active: deals 6 damage.
+     * warrior_sword_slash -> warrior_double_slash
+     *  - active: deals 12 damage.
+     * warrior_double_slash -> warrior_triple_slash
+     *  - active: deals 18 damage.
+     */
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
-        /* TODO */ 
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+
+        /* Skills */
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Sword Slash", 
+                                     "You slash your sword.", 1, 100, 
+                                     warrior_sword_slash);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Double Slash", 
+                                     "You slash your sword, twice!", 1, 200, 
+                                     warrior_double_slash);
+        skill_t* skill_3 = skill_new(skill_id++, ACTIVE, "Triple Slash", 
+                                     "You slash your sword, thrice!", 1, 400, 
+                                     warrior_triple_slash);
+
+        /* Skill nodes */          
+        skill_node_t* node_1 = skill_node_new(skill_1, 0, UI_NODE_SIZE);      
+        skill_node_t* node_2 = skill_node_new(skill_2, 1, UI_NODE_SIZE);    
+        skill_node_t* node_3 = skill_node_new(skill_3, 1, UI_NODE_SIZE);
+
+        /* Set up node prerequisites */
+        node_prereq_add(node_2, node_1);
+        node_prereq_add(node_3, node_2);
+
+        /* Add nodes to tree */
+        skill_tree_node_add(class->skilltree, node_1);
+        skill_tree_node_add(class->skilltree, node_2);
+        skill_tree_node_add(class->skilltree, node_3);
+
+        /* Add starting skills */        
+        inventory_skill_acquire(class->skilltree, class->combat, skill_1);
     }
         
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
