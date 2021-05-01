@@ -34,11 +34,11 @@ const int DEFAULT_CLASS_COUNT = 10;
  * internal id.
  * 
  * Parameters
- * - name: The name of the class.  Case sensitive.
+ *  - name: The name of the class.  Case sensitive.
  * 
  * Returns:
- * - The index of the name in the DEFAULT_CLASS_NAMES array. Returns -1 if the 
- *   name does not appear or is NULL.
+ *  - The index of the name in the DEFAULT_CLASS_NAMES array. Returns -1 if the 
+ *    name does not appear or is NULL.
  */
 int get_class_name_index(char* name) {
     if (name == NULL)
@@ -58,22 +58,105 @@ int get_class_name_index(char* name) {
 }
 
 /*
- * this is a placeholder function for the skill struct to satisfy
- * the effect_t field, which wants a function of this form
+ * Safely adds a stat to a stat hashtable, checking and updating the global stat
+ * hashtable if necessary.
  *
- * in the future, playerclass and skilltrees teams should coordinate
- * so that the effect_t field can be a function pointer to a function
- * that will actually execute the skill
- *
- * Paramters:
- *  - sk. a string representing the skill effects
- *
+ * Parameters: 
+ *  - ctx: The chiventure context object (it contains the global stat hashtable, 
+ *         but that can be NULL).
+ *  - stats: A pointer to a possibly NULL stats_hast_t pointer. The new stat is
+ *           is added, and the intermediate pointer updated if necessary.
+ *  - stat_name: A pointer to the name of the stat, case sensitive.
+ *  - stat_val: The base value of the stat.
+ *  - stat_max: The maximum value of the stat, only applies if the stat is not 
+ *              yet on the global hash table.
+ * 
  * Returns:
- *  - the input parameter (placeholder)
+ *  - SUCCESS on success. stats and the global hashtable now contain the stat.
+ *  - FAILURE on failure.
  */
-char* class_execute_skill(char* sk) {
-    return sk;
+int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats, 
+                       char *stat_name, double stat_val, double stat_max) {
+    if (ctx == NULL || stats == NULL || stat_name == NULL)
+        return FAILURE;
+
+    stats_global_t *global_stat;
+    HASH_FIND_STR(ctx->game->curr_stats, stat_name, global_stat);
+    if (global_stat == NULL) {
+        global_stat = stats_global_new(stat_name, stat_max);
+        HASH_ADD_KEYPTR(hh, ctx->game->curr_stats, stat_name, strlen(stat_name), global_stat);
+    }
+
+    add_stat(stats, stats_new(global_stat, stat_val));
+    return SUCCESS;
 }
+
+/* See class_prefabs.h */
+class_t* class_prefab_new(char *class_name) {
+    
+    char temp_name[MAX_NAME_LEN + 1]; 
+    strncpy(temp_name, class_name, MAX_NAME_LEN);
+    /* make temp_name lowercase */
+    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
+        temp_name[i] = tolower(temp_name[i]);
+    
+    char* short_desc;
+    char* long_desc;
+    obj_t* attributes = obj_new("class_attributes");
+    stats_hash_t* stats = NULL;
+    /* effects for each class not yet provided, so this will remain NULL */
+    effects_hash_t* effects = NULL;
+
+    if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
+        /* TODO */
+    }
+
+    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
+        /* TODO */
+    }
+
+    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) {
+        /* TODO */
+    }
+
+    else if (!strncmp(temp_name, "knight", MAX_NAME_LEN)) {
+        /* TODO */
+    }
+
+    else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
+        /* TODO */
+    }
+
+    else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
+        /* TODO */
+    }
+
+    else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
+        /* TODO */
+    }
+
+    else if (!strncmp(temp_name, "sorcerer", MAX_NAME_LEN)) {
+        /* TODO */
+    }
+
+    else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
+        /* TODO */ 
+    }
+        
+    else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
+        /* TODO */
+    }
+
+    else {
+        fprintf(stderr, "Could not find class name: \"%s\" "
+                        "in class_prefab_new\n", class_name);
+        return NULL;
+    }
+
+    return class_new(temp_name, short_desc, long_desc, attributes, stats, effects);
+}
+
+/* Skill related functions */
 
 /*
  * Initializes skill and skilltree related values for a player class.  Currently
@@ -101,7 +184,7 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
     int class_id = get_class_name_index(class->name);
     if (class_id == -1) {
         fprintf(stderr, "Could not find class name: \"%s\" "
-                        "in class_init_skills\n", class->name);
+                        "in class_allocate_skills\n", class->name);
         return EXIT_FAILURE;
     }
     int tid = 3000 + class_id;
@@ -109,12 +192,12 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
 
     if (class->skilltree == NULL) {
         fprintf(stderr, "Could not allocate memory for skill trees "
-                        "in class_init_skills\n");
+                        "in class_allocate_skills\n");
         return EXIT_FAILURE;
     }
     if (class->combat == NULL || class->noncombat == NULL) {
         fprintf(stderr, "Could not allocate memory for skill inventories"
-                        "in class_init_skills\n");
+                        "in class_allocate_skills\n");
         return EXIT_FAILURE;
     }
     if (class_prefab_add_skills(class) == EXIT_FAILURE) {
@@ -122,6 +205,24 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
     }
 
     return EXIT_SUCCESS;
+}
+
+/*
+ * this is a placeholder function for the skill struct to satisfy
+ * the effect_t field, which wants a function of this form
+ *
+ * in the future, playerclass and skilltrees teams should coordinate
+ * so that the effect_t field can be a function pointer to a function
+ * that will actually execute the skill
+ *
+ * Paramters:
+ *  - sk. a string representing the skill effects
+ *
+ * Returns:
+ *  - the input parameter (placeholder)
+ */
+char* class_execute_skill(char* sk) {
+    return sk;
 }
 
 /* See class_prefabs.h */
@@ -138,7 +239,7 @@ int class_prefab_add_skills(class_t* class) {
     /* make temp_name lowercase */
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
-    
+
     if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
         /* TODO */
     }
@@ -181,44 +282,10 @@ int class_prefab_add_skills(class_t* class) {
     
     else {
         fprintf(stderr, "Could not find class for skill inventories "
-                        "in class_skills_init\n");
+                        "in class_prefab_add_skills\n");
         return EXIT_FAILURE;
     }
 
-    return SUCCESS;
-}
-
-/*
- * Safely adds a stat to a stat hashtable, checking and updating the global stat
- * hashtable if necessary.
- *
- * Parameters: 
- *  - ctx: The chiventure context object (it contains the global stat hashtable, 
- *         but that can be NULL).
- *  - stats: A pointer to a possibly NULL stats_hast_t pointer. The new stat is
- *           is added, and the intermediate pointer updated if necessary.
- *  - stat_name: A pointer to the name of the stat, case sensitive.
- *  - stat_val: The base value of the stat.
- *  - stat_max: The maximum value of the stat, only applies if the stat is not 
- *              yet on the global hash table.
- * 
- * Returns:
- *  - SUCCESS on success. stats and the global hashtable now contain the stat.
- *  - FAILURE on failure.
- */
-int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats, 
-                       char *stat_name, double stat_val, double stat_max) {
-    if (ctx == NULL || stats == NULL || stat_name == NULL)
-        return FAILURE;
-
-    stats_global_t *global_stat;
-    HASH_FIND_STR(ctx->game->curr_stats, stat_name, global_stat);
-    if (global_stat == NULL) {
-        global_stat = stats_global_new(stat_name, stat_max);
-        HASH_ADD_KEYPTR(hh, ctx->game->curr_stats, stat_name, strlen(stat_name), global_stat);
-    }
-
-    add_stat(stats, stats_new(global_stat, stat_val));
     return SUCCESS;
 }
 
@@ -230,7 +297,7 @@ class_t* class_prefab_warrior(chiventure_ctx_t* ctx) {
     char* long_desc = "Guy with sword. Guy hit thing in head with sword. Guy use " 
     "few words, sword is better than words.";
     
-    obj_t* attr = obj_new("class_attributes"); // Empty Attributes object (name could change)
+    obj_t* attributes = obj_new("class_attributes"); // Empty Attributes object (name could change)
 
     /* Stats */
     stats_hash_t *stats = NULL;
@@ -239,5 +306,5 @@ class_t* class_prefab_warrior(chiventure_ctx_t* ctx) {
     
     /* Effects: I don't know if we should put anything here yet. */
     effects_hash_t* effects = NULL; // This can actually stay NULL forever. The empty hashtable is represented by NULL in uthash.
-    return class_new(name, short_desc, long_desc, attr, stats, effects);
+    return class_new(name, short_desc, long_desc, attributes, stats, effects);
 }

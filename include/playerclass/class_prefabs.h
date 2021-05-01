@@ -8,7 +8,22 @@
 #include "playerclass/class_structs.h"
 
 /*
- * initializes a prefab class's skilltree and active combat and noncombat skill 
+ * Allocates and initializes a prefab class, and its non-skill-related fields.
+ * To add skill-related fields, see class_prefab_add_skills().
+ *
+ * Parameters:
+ *  - class_name: The name of the prefab class to be generated.  Must match one
+ *                of our classes.
+ * 
+ * Note: class_name is case insensitive, but the name stored is always lowercase.
+ * 
+ * Returns:
+ *  - A pointer to the new class on success, NULL on failure.
+ */
+class_t* class_prefab_new(char *class_name);
+
+/*
+ * Initializes a prefab class's skilltree and active combat and noncombat skill 
  * lists.
  *
  * Parameters:
