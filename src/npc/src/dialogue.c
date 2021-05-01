@@ -47,7 +47,8 @@ int add_node(convo_t *c, char node_id[], char npc_dialogue[])
 
     // Create node list element
     node_list_t *elt;
-    if ((elt = malloc(sizeof(node_list_t))) == NULL) return FAILURE;
+    if ((elt = (node_list_t *) malloc(sizeof(node_list_t))) == NULL) return
+        FAILURE;
 
     elt->node = n;
 
@@ -59,12 +60,22 @@ int add_node(convo_t *c, char node_id[], char npc_dialogue[])
     return SUCCESS;
 }
 
-/* */
+/* Given an edge list and an edge struct, returns an edge list element that
+ * contains the appropriate option number.
+ *
+ * Parameters:
+ *  - e_lst: edge list
+ *  - e: edge
+ *
+ * Returns:
+ *  - a pointer to the new edge list element
+ */
 edge_list_t *create_edge_list_element(edge_list_t *e_lst, edge_t *e)
 {
     edge_list_t *elt;
 
-    if ((elt = malloc(sizeof(edge_list_t))) == NULL) return NULL;
+    if ((elt = (edge_list_t *) malloc(sizeof(edge_list_t))) == NULL) return
+        NULL;
 
     elt->edge = e;
     if (e_lst == NULL) {
@@ -118,7 +129,14 @@ int add_edge(convo_t *c, char quip[], char from_id[], char to_id[])
  *       DIALOGUE EXECUTION FUNCTIONS         *
  **********************************************/
 
-/* */
+/* Given an edge list, print out the available options to the terminal.
+ *
+ * Parameters:
+ *  - e_lst: edge list
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
 int print_options(edge_list_t *e_lst)
 {
     while (e_lst != NULL) {
@@ -126,7 +144,7 @@ int print_options(edge_list_t *e_lst)
         e_lst = e_lst->next;
     }
 
-    return 0;
+    return SUCCESS;
 }
 
 /* See dialogue.h */
@@ -163,7 +181,76 @@ int run_conversation(convo_t *c)
     // NPC closing statement
     printf("\n%s\n\n", cur_node->npc_dialogue);
 
+    return SUCCESS;
+}
+
+/* FOR FUTURE USE */
+int cat_options(char *buf, edge_list_t *e_lst, int *i)
+{
+    return SUCCESS;
+
+    /*
+    int j;
+    char option_str[255];
+
+    while (e_lst != NULL) {
+        sprintf(option_str, "%d. %s\n", e_lst->option_number,
+            e_lst->edge->quip);
+
+        j = 0;
+        while (option_str[j] != '\0') {
+            buf[(*i)++] = c->cur_node->npc_dialogue[j++];
+            if ((*i) >= 2499) return FAILURE;
+        }
+
+        e_lst = e_lst->next;
+    }
+
+    return SUCCESS; */
+}
+
+/* FOR FUTURE USE -- Note: Assumes c contains a "node_t *cur_node" member */
+int run_conversation_step(convo_t *c, int input, char *outstring)
+{
     return 0;
+
+    /*
+    assert(input > 0 && input <= c->cur_node->num_edges);
+
+    edge_list_t *chosen_option, *cur_edge;
+    int i, j;
+    char *buf = (char *) malloc(sizeof(char) * 2500);
+
+    chosen_option = c->cur_node->edges;
+    for (i = 1; i < player_response; i++) {
+        chosen_option = chosen_option->next;
+    }
+
+    c->cur_node = cur_edge->edge->to;
+
+    i = 0;
+    j = 0;
+
+    while (c->cur_node->npc_dialogue[j] != '\0') {
+        buf[i++] = c->cur_node->npc_dialogue[j++];
+    }
+    buf[i++] = '\n';
+    buf[i++] = '\n';
+
+    if (c->cur_node->num_edges == 0) {
+        buf[i] = '\0';
+        outstring = buf;
+        return 1;
+    }
+
+    if (cat_options(buf, c->cur_node->edges, &i) != SUCCESS) {
+        free(buf);
+        return -1;
+    }
+
+    buf[i] = '\0';
+    outstring = buf;
+    return 0; */
 }
 
 
@@ -192,7 +279,7 @@ edge_t *edge_new(char quip[], node_t *from, node_t *to)
     assert(from != NULL && to !=NULL);
 
     edge_t *e;
-    if ((e = malloc(sizeof(edge_t))) == NULL) return NULL;
+    if ((e = (edge_t *) malloc(sizeof(edge_t))) == NULL) return NULL;
 
     if (edge_init(e, quip, from, to) != SUCCESS) {
         edge_free(e);
@@ -232,7 +319,7 @@ node_t *node_new(char node_id[], char npc_dialogue[])
     assert(strlen(npc_dialogue) < MAX_DIA_LEN);
 
     node_t *n;
-    if ((n = malloc(sizeof(node_t))) == NULL) return NULL;
+    if ((n = (node_t *) malloc(sizeof(node_t))) == NULL) return NULL;
 
     if (node_init(n, node_id, npc_dialogue) != SUCCESS) {
         node_free(n);
@@ -272,7 +359,7 @@ convo_t *convo_new()
 {
     convo_t *c;
 
-    if ((c = malloc(sizeof(convo_t))) == NULL) return NULL;
+    if ((c = (convo_t *) malloc(sizeof(convo_t))) == NULL) return NULL;
 
     if (convo_init(c) != SUCCESS) {
         convo_free(c);

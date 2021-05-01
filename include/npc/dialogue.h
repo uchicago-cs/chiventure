@@ -142,6 +142,14 @@ int add_edge(convo_t *c, char quip[], char from_id[], char to_id[]);
  */
 int run_conversation(convo_t *c);
 
+/* FOR FUTURE USE
+ *
+ * Returns:
+ *  - 1 if the conversation has ended (i.e. we have arrived at a leaf node),
+ *     0 if it is still ongoing, and -1 if an error occured
+ */
+int run_conversation_step(convo_t *c, int input, char *outstring);
+
 
 /**********************************************
  *    STRUCT (INIT, NEW, FREE) FUNCTIONS      *
