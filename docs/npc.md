@@ -25,7 +25,7 @@
 
 ### NPC Module
 - Contains code relating to the creation, use, and deletion of non-playable characters in chiventure.
-- See chiventure/include/npc.h for in-code documentation on the nitty-gritty technical details of NPCs.
+- See `chiventure/include/npc.h` for in-code documentation on the nitty-gritty technical details of NPCs.
 - NPCs in chiventure were designed to be a mix of players and items. They have inventories like players, and descriptions like items.
 - NPCs are unique in that they can participate in dialogue with the player.
 - NPCs also possess a class struct, which contains a stats struct and skill tree, much like a player.
@@ -38,7 +38,7 @@
 
 ### Dialogue Module
 - Contains code relating to the creation, use, and deletion of dialogue in chiventure/an NPC in chiventure.
-- See chiventure/include/dialogue.h for in-code documentation on the nitty-gritty technical details of dialogue.
+- See `chiventure/include/dialogue.h` for in-code documentation on the nitty-gritty technical details of dialogue.
 - Dialogue in chiventure was designed to follow the concept of branching-dialogue, where the player's input determines the course of the conversation.
 - This was accomplished with structs relating to a directed graph structure, such as nodes and edges.
 - A "node" is one possible section of a conversation, including dialogue to be spoken by the NPC and a collection of edges to be accessed by user input.
@@ -58,10 +58,17 @@
     - Instead of offering dialogue options based on keywords, numeric options will be given where the player will simply input an integer to indicate which dialogue option they would like to choose. This will not be a significant structural change to how the dialogue functions, but it adheres to dialogue styles present in many other games.
 
 ### NPCs in Rooms Module
-- TO DO
+- Contains code relating to NPCs in rooms and NPC movement
+- See `chiventure/include/rooms-npc.h` for in-code documentation on the nitty-gritty technical details of NPC movement.
+- The npcs_in_room struct essentially contains all the NPCs that exist in a room
+- For each NPC there is a `npc_mov_t` struct that addresses the movement of the NPCs between rooms. This struct holds a union determining what kind of movement the NPC is participating in, and this can fall under two categories
+    - A definite path: this is the first case when an NPC is required to move from point A to point B for a specific reason (that being for a quest, etc.). In this case the NPC is merely moving from point A to point B and the movement ends at point B.
+        - If an NPC is static and will only stay in one room, it will still fall into the definite path category.
+    - An indefinite path: this is the second case when an NPC is simply moving through the map but without a definite end point. This is simulate the open-world so that NPCs will be continuously moving through the world. In this case the NPC will also hold a linked list of rooms to move through, but in addition it must have a hash table that holds the time that it should spend in each room in seconds.
 
 ### Next Steps for NPCs in Rooms
-- TO DO
+- The `npcs_in_room` struct needs to be then further integrated into the room struct where the room struct will hold this specific npcs_in_room struct for each room. This would therefore contain a list of npcs that exist in the room.
+- A feature that can be implemented would be NPC movement. The primary issue with this is that often times adjacent rooms may not have the same `room_tag`, thus the NPC will be restricted to a single room. But in the case that adjacent rooms may be of a `room_tag` that that particular npc_class has been associated to both `room_tag`, then this can facilitate movement between rooms.
 
 ## Directories
 
