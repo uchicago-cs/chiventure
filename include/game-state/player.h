@@ -19,7 +19,9 @@ typedef struct player {
     /* Unique id identifying the player */
     char *player_id;
 
-    /* The player's current health, separate from their maximum health */
+    /* The player's current health, separate from their maximum health 
+    most likely going to be stored in player_stats in the future but must
+    be kept to prevent old functions from breaKing */
     int health;
 
     /* The player's current level */
@@ -39,8 +41,11 @@ typedef struct player {
     /* All of the stats, with their values, the player has */
     stats_hash_t *player_stats;
 
-    /* The current skills known to the player */
-    skill_inventory_t *player_skills;
+    /* The current combat skills known to the player */
+    skill_inventory_t *player_combat_skills;
+
+    /* The current noncombat skills known to the player */
+    skill_inventory_t *player_noncombat_skills;
 
     /* All of the effects the player is currently experiencing */
     effects_hash_t *player_effects;
@@ -56,30 +61,38 @@ typedef struct player {
 typedef struct player player_hash_t;
 
 /*
- * Initializes a player with level 1, given health, and 0 experience
+ * Initializes a player with level 1, given race and class, no items, 
+ *  and 0 experience
  *
  * Parameters:
  *  plyr: A player. Must point to already allocated memory.
  *  health: The starting health of the player
  *  player_id: the unique string ID of the player. currently
  *   this will always be "1" since there is only one player
+ *  health: T
+ *  player_race: The player's race. Currently set to "None" given that
+ *   there is currently no player races
+ *  player_class: The player's class. Contains starting fields for
+ *                skills and stats
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int player_init(player_t *plyr, char* player_id, int health);
+int player_init(player_t *plyr, char *player_id, char *player_race, 
+                class_t *player_class);
 
 /*
  * Allocates a new player
  *
  * Parameters:
- *  health: The starting health of the player
  *  player_id: the unique string ID of the player
+ *  player_race: the player's race
+ *  player_class: the player's class
  *
  * Returns:
  *  Pointer to allocated player
  */
-player_t *player_new(char* player_id, int health);
+player_t *player_new(char *player_id, char *player_race, class_t *player_class);
 
 /*
  * Frees resources associated with a player

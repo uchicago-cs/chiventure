@@ -2,28 +2,44 @@
 #include "game-state/item.h"
 
 /* See player.h */
-int player_init(player_t* plyr, char* player_id, int health)
+int player_init(player_t *plyr, char *player_id, char *player_race, 
+                class_t *player_class)
 {
 
     assert(plyr != NULL);
+
+
     strncpy(plyr->player_id, player_id, strlen(player_id));
     plyr->level = 1;
-    plyr->health = health;
+    plyr->health = 5;
     plyr->xp = 0;
+
+    plyr->player_class = player_class;
+
+    plyr->player_stats = player_class->stats;
+
+    plyr->player_combat_skills = player_class->combat;
+    plyr->player_noncombat_skills = player_class->noncombat;
+
+    plyr->player_effects = player_class->effects;
+
+    strncpy(plyr->player_race, player_race, strlen(player_race));
+
     plyr->inventory = NULL;
 
     return SUCCESS;
 }
 
 /* See player.h */
-player_t* player_new(char* player_id, int health)
+player_t* player_new(char *player_id, char *player_race, class_t *player_class)
 {
     player_t *plyr;
     plyr = malloc(sizeof(player_t));
     memset(plyr, 0, sizeof(player_t));
-    plyr->player_id = malloc(MAX_ID_LEN);
+    plyr->player_id = malloc(MAX_ID_LEN * sizeof(char));
+    plyr->player_race = malloc(MAX_ID_LEN * sizeof(char));
 
-    int check = player_init(plyr, player_id, health);
+    int check = player_init(plyr, player_id, player_race, player_class);
 
     if (plyr == NULL || plyr->player_id == NULL)
     {
