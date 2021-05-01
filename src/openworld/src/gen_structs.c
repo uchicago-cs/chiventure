@@ -207,14 +207,14 @@ int init_rooms_with_difficulty(rooms_with_difficulty_t *map, char *room_name, in
 rooms_with_difficulty_t* rooms_with_difficulty_new(char *room_name, int difficulty_level)
 {
 
-    rooms_with_difficulty_t *map = calloc(1, sizeof());
+    rooms_with_difficulty_t *map = calloc(1, sizeof(sizeof(rooms_with_difficulty_t)));
 
     if (map == NULL) {
         fprintf(stderr, "calloc failed to allocate space for rooms_with_difficulty_new\n");
         return NULL;
     }
 
-    init_gencontext(map, room_name, difficulty_level);
+    init_rooms_with_difficulty(map, room_name, difficulty_level);
     return map;
 }
 
