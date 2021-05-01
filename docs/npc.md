@@ -38,16 +38,17 @@
 - This was accomplished with structs relating to a directed graph structure, such as nodes and edges.
 - A "node" is one possible section of a conversation, including dialogue to be spoken by the NPC and a collection of edges to be accessed by user input.
 - An "edge" is a connection between nodes, to be accessed when the player indicates the edge's "keyword". This keyword functions as the edge's identification, therefore, no two edges in a conversation may have the same keyword.
-        - Note: currently, in the dialogue_example, the player is able to state the exact keyword, and this is read and parsed by the NPC-CLI in the example. This is not compatible with chiventure's UI/CLI.
-        - This "keyword" functionality will soon be replaced with numeric options (see Next Steps for the Dialogue Module).
+    - Note: currently, in the dialogue_example, the player is able to state the exact keyword, and this is read and parsed by the NPC-CLI in the example. This is not compatible with chiventure's UI/CLI.
+    - This "keyword" functionality will soon be replaced with numeric options (see Next Steps for the Dialogue Module).
 
 - A "convo" is a conversation that the NPC can carry out, feature a collection of nodes.
 
 ### Next Steps for the Dialogue Module
 - Integrate with chiventure's UI/CLI.
-        - When keywords were implemented one main issue encountered was the inability to register keywords as non-action-inducing commands. The goal was to have the player type in the keyword (which is a string, and currently can contain more than one word as long as it is smaller than 50 characters. This becomes an issue with CLI's parsing and tokenizing strategy), then advance to the next node.
-        - All these issues will be taken care of with the CLI mode feature currently in development. It will allow the CLI to switch from a normal "game mode" to a "conversation mode" in which the program only checks for dialogue options.
-- Instead of offering dialogue options based on keywords, numeric options will be given where the player will simply input an integer to indicate which dialogue option they would like to choose. This will not be a significant structural change to how the dialogue functions, but it adheres to dialogue styles present in many other games.
+    - When keywords were implemented one main issue encountered was the inability to register keywords as non-action-inducing commands. The goal was to have the player type in the keyword (which is a string, and currently can contain more than one word as long as it is smaller than 50 characters. This becomes an issue with CLI's parsing and tokenizing strategy), then advance to the next node.
+    - All these issues will be taken care of with the CLI mode feature currently in development. It will allow the CLI to switch from a normal "game mode" to a "conversation mode" in which the program only checks for dialogue options.
+- Replace keywords with numbers
+    - Instead of offering dialogue options based on keywords, numeric options will be given where the player will simply input an integer to indicate which dialogue option they would like to choose. This will not be a significant structural change to how the dialogue functions, but it adheres to dialogue styles present in many other games.
 
 ## Directories
 
