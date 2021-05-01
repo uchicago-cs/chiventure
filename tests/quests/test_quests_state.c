@@ -33,16 +33,17 @@ Test(mission, init)
    	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     class_t* class = generate_test_class();
+    npc_mov_t* movement;
     char *npc_id1 = "test_npc";
     npc_t *mission_npc1 = npc_new(npc_id1 ,"npc","npc for testing",
-                                100, class);
+                                100, class, movement);
     mission_t *mission = mission_new(item_to_get, mission_npc1);
 
     item_t *item_to_get2 = item_new("test_item2", "item for testing",
     "test item for item_new()");
     char *npc_id2 = "test_npc2";
     npc_t *mission_npc2 = npc_new(npc_id2,"npc","npc for testing",
-                                100, class);
+                                100, class, movement);
     int check = mission_init(mission, item_to_get2, mission_npc2);
 
     cr_assert_eq(check,SUCCESS,"mission_init() failed");
@@ -163,8 +164,9 @@ Test(quest, add_achievement_to_quest)
     "test item for item_new()");
     class_t* class = generate_test_class();
     char *npc_id = "test_npc";
+    npc_mov_t* movement;
     npc_t *mission_npc = npc_new(npc_id,"npc","npc for testing",
-                                100, class);
+                                100, class, movement);
     mission_t *mission = mission_new(mission_item,mission_npc);
 
     achievement_t *achievement = achievement_new(mission);
@@ -223,9 +225,10 @@ Test(quest, complete_achievement)
     item_t *mission_item = item_new("mission_item", "item for testing",
     "test item for item_new()");
     class_t* class = generate_test_class();
+    npc_mov_t* movement;
     char *npc_id = "mission_npc";
     npc_t *mission_npc = npc_new(npc_id,"npc","npc for testing",
-                                100, class);
+                                100, class, movement);
     mission_t *mission = mission_new(mission_item,mission_npc);
 
     achievement_t *achievement = achievement_new(mission);
@@ -261,8 +264,9 @@ Test(quest,is_quest_completed)
     "test item for item_new()");
     class_t* class = generate_test_class();
     char *npc_id = "mission_npc";
+    npc_mov_t* movement;
     npc_t *mission_npc = npc_new(npc_id,"npc","npc for testing",
-                                100, class);
+                                100, class, movement);
     mission_t *mission = mission_new(mission_item,mission_npc);
 
     achievement_t *achievement = achievement_new(mission);

@@ -28,7 +28,7 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->short_desc = malloc(MAX_SDESC_LEN);
     npc->long_desc = malloc(MAX_LDESC_LEN);
     npc->class = malloc(sizeof(class_t));
-    npc->movement = malloc(sizeof(npc_mov_t))
+    npc->movement = malloc(sizeof(npc_mov_t));
 
     int check = npc_init(npc, npc_id, short_desc, long_desc, health, class,
     movement); 
