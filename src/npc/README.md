@@ -37,16 +37,17 @@
 - Dialogue in chiventure was designed to follow the concept of branching-dialogue, where the player's input determines the course of the conversation.
 - This was accomplished with structs relating to a directed graph structure, such as nodes and edges.
 - A "node" is one possible section of a conversation, including dialogue to be spoken by the NPC and a collection of edges to be accessed by user input.
-- An "edge" is a connection between nodes, to be accessed when the player indicates the edge's "keyword". This keyword functions as the edge's identification, therefore, **no two edges in a conversation may have the same keyword.**
-    - Note: currently, in the dialogue_example, the player is able to state the exact keyword, and this is read and parsed by the NPC-CLI in the example. This is **not** compatible with chiventure's UI/CLI, and it is certainly possible that the format of this may have to change to become compatible, perhaps more like the "choose a number" concept showcased in the Feature Wishlist Wiki page under NPCs.
+- An "edge" is a connection between nodes, to be accessed when the player indicates the edge's "keyword". This keyword functions as the edge's identification, therefore, no two edges in a conversation may have the same keyword.
+        - Note: currently, in the dialogue_example, the player is able to state the exact keyword, and this is read and parsed by the NPC-CLI in the example. This is not compatible with chiventure's UI/CLI.
+        - This "keyword" functionality will soon be replaced with numeric options (see Next Steps for the Dialogue Module).
+
 - A "convo" is a conversation that the NPC can carry out, feature a collection of nodes.
 
 ### Next Steps for the Dialogue Module
-- Integrate with chiventure's UI/CLI. Will involve:
-    - review of the ncurses library
-    - review of existing print functions
-    - review of existing CLI/Action Management code
-        - One main issue we encountered was the inability to register keywords as non-action-inducing commands. The goal is to have the player type in the keyword (which is a string, and currently can contain more than one word as long as it is smaller than 50 characters. This becomes an issue with CLI's parsing and tokenizing strategy), then advance to the next node. 
+- Integrate with chiventure's UI/CLI.
+        - When keywords were implemented one main issue encountered was the inability to register keywords as non-action-inducing commands. The goal was to have the player type in the keyword (which is a string, and currently can contain more than one word as long as it is smaller than 50 characters. This becomes an issue with CLI's parsing and tokenizing strategy), then advance to the next node.
+        - All these issues will be taken care of with the CLI mode feature currently in development. It will allow the CLI to switch from a normal "game mode" to a "conversation mode" in which the program only checks for dialogue options.
+- Instead of offering dialogue options based on keywords, numeric options will be given where the player will simply input an integer to indicate which dialogue option they would like to choose. This will not be a significant structural change to how the dialogue functions, but it adheres to dialogue styles present in many other games.
 
 ## Directories
 
@@ -69,7 +70,7 @@ Notable files:
 
 npc_example.c
 - A monkeypatched chiventure executable to display how dialogue *can* (but probably shouldn't) currently look in chiventure, using the backend of the dialogue module. 
-- The team did not have time to fully integrate dialogue into chiventure's UI/CLI, so this example was the best we could do at the end of the quarter.
+- The team did not have time to fully integrate dialogue into chiventure's UI/CLI.
 - Our hope is that dialogue in chiventure will someday look more like our dialogue_example.
 - Additionally, we hope that built-in commands like `look <item>` will be configured to include looking at NPCs, and that actions such as battling and trading with NPCs will be implemented.
 
