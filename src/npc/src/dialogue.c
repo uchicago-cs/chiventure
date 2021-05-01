@@ -197,10 +197,11 @@ int cat_options(char *buf, edge_list_t *e_lst, int *i)
         sprintf(option_str, "%d. %s\n", e_lst->option_number,
             e_lst->edge->quip);
 
+        if (((*i) + strlen(option_str)) > 2499) return FAILURE;
+
         j = 0;
         while (option_str[j] != '\0') {
             buf[(*i)++] = c->cur_node->npc_dialogue[j++];
-            if ((*i) >= 2499) return FAILURE;
         }
 
         e_lst = e_lst->next;
