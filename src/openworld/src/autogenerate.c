@@ -211,7 +211,7 @@ bool roomspec_is_given_difficulty(rooms_level_t *rooms,
 {
     rooms_level_t *s;
 
-    HASH_FIND(rooms, roomspec->room_name, s); 
+    HASH_FIND_STR(rooms, roomspec->room_name, s); 
     if (s != NULL) {
         if (s->difficulty_level == difficulty_level) {
             return true;
@@ -223,27 +223,28 @@ bool roomspec_is_given_difficulty(rooms_level_t *rooms,
 
 /* See autogenerate.h */
 int multi_rooms_level_generate(game_t *game, gencontext_t *context, 
-                               rooms_level_t *rooms, 
-                               char *room_id, int num_rooms)
+                               char *room_id, int num_rooms,
+                               rooms_level_t *rooms, difficulty_level_scale_t *level_scale)
 {
     /* If there are no roomspec_t elements in context->speclist, then do not autogenerate */
     if (context->speclist == NULL) {
         return FAILURE;
     }
 
-    /* filter the given speclist with room level */
+    /* compute the difficulty corresponding to player level*/
+    int difficulty_level = map_level_to_difficulty(level_scale, context->level);
+
+    /* filter the given speclist according to difficulty */
     speclist_t *tmp;
-    int difficulty_level = map_level_to_difficulty(context->level);
-    speclist_t *specs_for_difficulty = NULL;
-    roomspec_t *tmp;
+    speclist_t *specs_for_difficulty = NULL; // filtered list
 
     DL_FOREACH(context->speclist, tmp) {
-        if (roomspec_is_in_difficulty(rooms, tmp, difficulty_level)) {
+        if (roomspec_is_given_difficulty(rooms, tmp->spec, difficulty_level)) {
                DL_APPEND(specs_for_difficulty, tmp);   
         }
     }
     
-    /* if no room in the speclist is of the difficulty, then do not generate */
+    /* if no room of the difficulty, then do not generate */
     if (specs_for_difficulty == NULL) {
         return FAILURE;    
     }

@@ -80,7 +80,7 @@ typedef struct rooms_level
     /* difficulty level of the room, possible value starts at 0 */
     int difficulty_level;       
        
-     /* makes this structure hashable */
+    /* makes this structure hashable */
     UT_hash_handle hh;        
 } rooms_level_t;
 

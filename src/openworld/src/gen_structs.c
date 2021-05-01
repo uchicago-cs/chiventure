@@ -228,19 +228,21 @@ int rooms_level_free(rooms_level_t *map)
 }
 
 
-/* See gen_structs.h */
+/* See gen_structs.h */  
+/*   Something is wrong here.
 void add_rooms_to_hash(rooms_level_t *rooms, 
                        const char *names[], 
                        int difficulty_level) 
 {
     rooms_level_t *s;
-    for (int i = 0; names[i]; ++i) {
-        s = (rooms_level_t*) malloc(sizeof(rooms_level_t));
+    for (int i = 0; names[i]; i++) {
+        s = (rooms_level_t*)malloc(sizeof(rooms_level_t));
         strcpy(s->room_name, names[i]);
         s->difficulty_level = difficulty_level;
-        HASH_ADD_KEYPTR(rooms, name, s);
+        HASH_ADD_STR(rooms, s->room_name, s);
     }
 }
+*/
 
 
 
