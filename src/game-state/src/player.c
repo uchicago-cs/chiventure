@@ -16,12 +16,24 @@ int player_init(player_t *plyr, char *player_id, char *player_race,
 
     plyr->player_class = player_class;
 
+    if(plyr->player_class != NULL)
+    {
     plyr->player_stats = player_class->stats;
 
     plyr->player_combat_skills = player_class->combat;
     plyr->player_noncombat_skills = player_class->noncombat;
 
     plyr->player_effects = player_class->effects;
+    } else
+    {
+    plyr->player_stats = NULL;
+
+    plyr->player_combat_skills = NULL;
+    plyr->player_noncombat_skills = NULL;
+
+    plyr->player_effects = NULL;
+    }
+
 
     strncpy(plyr->player_race, player_race, strlen(player_race));
 
