@@ -221,6 +221,7 @@ Test(game_player, get_player)
 
     cr_assert_eq(check1, 0, "get_player: failed plyr1");
     cr_assert_eq(check2, 0, "get_player: failed plyr2");
+    game_free(game);
 }
 
 /* Checks that add_end_condition_to_game() adds valid end conditions to a game
@@ -375,6 +376,7 @@ Test(game_end_condition, is_game_over_neverending)
     game_t *game = setup_is_game_over_test(false, false);
     cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
                  "no final room or end conditions exist");
+    game_free(game);
 }
 
 /* Checks that is_game_over properly assesses when a game with
@@ -389,6 +391,7 @@ Test(game_end_condition, is_game_over_end_conditions)
     set_str_attr(item, "Test_Attribute", "Valid_Value");
     cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
                  "end conditions have been met & no final room exists");
+    game_free(game);
 }
 
 /* Checks that is_game_over properly assesses when a game with
@@ -402,6 +405,7 @@ Test(game_end_condition, is_game_over_final_room)
     move_room(game, game->final_room);
     cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
                  "player has reached final room & no end conditions exist");
+    game_free(game);
 }
 
 /* Checks that is_game_over properly assesses when a game with
@@ -431,6 +435,7 @@ Test(game_end_condition, is_game_over_end_conditions_final_room)
     cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
                  "end conditions have been met and "
                  "player has reached final room");
+    game_free(game);
 }
 
 Test(iter_macro, iter_rooms)
@@ -498,12 +503,12 @@ Test(iter, get_all_rooms_macro) {
 
 Test(iter, get_all_rooms) {
     game_t *game = game_new("Welcome to Chiventure!");
-    room_t *room1 = room_new(strdup("room1"), strdup("room1 short"), strdup("room1 long long long"));
-    room_t *room2 = room_new(strdup("room2"), strdup("room2 short"), strdup("room2 long long long"));
-    room_t *room3 = room_new(strdup("room3"), strdup("room3 short"), strdup("room3 long long long"));
-    HASH_ADD_KEYPTR(hh, game->all_rooms, room1->room_id, strlen(room1->room_id), room1);
-    HASH_ADD_KEYPTR(hh, game->all_rooms, room2->room_id, strlen(room2->room_id), room2);
-    HASH_ADD_KEYPTR(hh, game->all_rooms, room3->room_id, strlen(room3->room_id), room3);
+    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
+    room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
+    HASH_ADD_KEYPTR(hh, game->all_rooms, room1->room_id, strnlen(room1->room_id, MAX_ID_LEN), room1);
+    HASH_ADD_KEYPTR(hh, game->all_rooms, room2->room_id, strnlen(room2->room_id, MAX_ID_LEN), room2);
+    HASH_ADD_KEYPTR(hh, game->all_rooms, room3->room_id, strnlen(room3->room_id, MAX_ID_LEN), room3);
     int cnt = 0;
     room_t *curr_room;
     room_list_t *list = get_all_rooms(game);
@@ -539,6 +544,8 @@ Test(game_stat_effects, add_stat_to_game)
 
     cr_assert_eq(rc, SUCCESS, "add_stat_to_game failed");
     cr_assert_not_null(game->curr_stats, "stat not added to curr_stats");
+    free_stats_global(global_stat);
+    game_free(game);
 }
 
 /* Checks that add_effect_to_game() adds a global effect to the
@@ -551,6 +558,8 @@ Test(game_stat_effects, add_effect_to_game)
 
     cr_assert_eq(rc, SUCCESS, "add_effect_to_game failed");
     cr_assert_not_null(game->all_effects, "effect not added to all_effects");
+    free(effect);
+    game_free(game);
 }
 /*
 //untested

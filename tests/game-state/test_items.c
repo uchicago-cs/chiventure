@@ -16,7 +16,7 @@ Test(item, new)
     "test item for item_new()");
 
     cr_assert_not_null(new_item, "item_new() test 1 has failed!");
-
+    item_free(new_item);
 }
 
 /* Checks initialization of new item */
@@ -28,6 +28,7 @@ Test(item, init)
     "The purpose of this item is testing");
 
     cr_assert_eq(check, SUCCESS, "item_new() test 1 has failed!");
+    item_free(empty_item);
 }
 
 /* Checks freeing of item struct */
@@ -60,6 +61,7 @@ Test(item, get_sdesc_item)
 return short description");
   cr_assert_eq(null_ret, NULL, "get_sdesc_item() failed to return NULL\
  for NULL item");
+  item_free(new_item);
 }
 
 /* Checks return of long description of item */
@@ -75,6 +77,7 @@ Test(item, get_ldesc_item)
 return long description");
   cr_assert_eq(null_ret, NULL, "get_ldesc_item() failed to return NULL\
  for NULL item");
+  item_free(new_item);
 }
 
 /* Checks that add_item_to_hash adds item to an item hashtable as expected. */
@@ -87,6 +90,7 @@ Test(item, add_item_to_hash)
     rc = add_item_to_hash(&ht, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_hash failed to "
                  "add an item to hashtable");
+    delete_all_items(&ht);
 }
 
 /* Checks that add_item_to_hash properly adds duplicate items
@@ -121,6 +125,8 @@ Test(item, add_item_to_hash_duplicate_items)
     }
     cr_assert_eq(count, 2, "add_item_to_hash did not add items with same "
                  "item ids correctly.");
+    delete_all_items(&ht);
+    item_free(test_item1);
 }
 
 /* Checks that get_all_items_in_hash returns the expected 
@@ -185,6 +191,8 @@ Test(item, get_all_items_in_hash_duplicate_items)
     }
     cr_assert_eq(count, 3, "get_all_items_in_hash did not include all items "
                  "in returned list");
+    delete_all_items(&ht);
+    delete_item_llist(list);
 }
 
 /* Checks that remove_item_from_hash properly removes items 
@@ -215,6 +223,7 @@ Test(item, remove_item_from_hash)
     rc = remove_item_from_hash(&ht, test_item1);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
+    delete_all_items(&ht);
 }
 
 /* Checks that remove_item_from_hash properly removes
@@ -262,6 +271,7 @@ Test(item, remove_item_from_hash_duplicate_items_nonexistant)
     cr_assert_not_null(check, "remove_item_from_hash did not properly handle "
                        "case where duplicate item not in hash was passed to "
                        "be removed");
+    delete_all_items(&ht);
 }
 
 /* Checks that remove_item_from_hash properly removes
@@ -316,6 +326,7 @@ Test(item, remove_item_from_hash_duplicate_items_middle)
                  "duplicate item from middle of list properly");
     cr_assert_eq(middle->next, NULL, "remove_item_from_hash failed to "
                  "update the removed item");
+    delete_all_items(&ht);
 }
 
 /* Checks that add_effect_to_items() adds a sat effect to an item */
@@ -347,7 +358,7 @@ Test(attribute, add_attr_to_hash_success)
     int test = add_attribute_to_hash(test_item, test_attr);
 
     cr_assert_eq(test, SUCCESS, "add_attr_to_hash() test failed!");
-
+    item_free(test_item);
 }
 
 /* Checks if adding same attribute to item hash twice fails */
