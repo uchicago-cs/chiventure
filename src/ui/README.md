@@ -62,6 +62,3 @@ is able to assign a valid coord system.
 a hashmap, if it is successful.
 4. get_test_coord_hash gives a pointer to a  hashmap that is utilized in testing.
 5. set_player_loc sets a players position to a given coords.
-## DFS
-
-
