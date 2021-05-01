@@ -204,7 +204,7 @@ int init_rooms_level(rooms_level_t *map, char *room_name, int difficulty_level)
 rooms_level_t* rooms_level_new(char *room_name, int difficulty_level)
 {
 
-    rooms_level_t *map = calloc(1, sizeof(sizeof(rooms_level_t)));
+    rooms_level_t *map = calloc(1, sizeof(rooms_level_t));
 
     if (map == NULL) {
         fprintf(stderr, "calloc failed to allocate space for rooms_level_new\n");
@@ -240,4 +240,44 @@ void add_rooms_to_hash(rooms_level_t *rooms,
         s->difficulty_level = difficulty_level;
         HASH_ADD_KEYPTR(rooms, name, s);
     }
+}
+
+
+
+/* See gen_structs.h */
+int init_difficulty_level_scale(difficulty_level_scale_t *scale, 
+                                int num_of_levels, int *thresholds)
+{
+    if (scale == NULL)
+        return FAILURE;
+
+    scale->num_of_levels = num_of_levels;
+    scale->thresholds = thresholds;
+    return SUCCESS;
+}
+
+
+/* See gen_structs.h */
+difficulty_level_scale_t* difficulty_level_scale_new(int num_of_levels, int *thresholds)
+{
+    difficulty_level_scale_t *scale = calloc(1, sizeof(difficulty_level_scale_t));
+
+    if (scale == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for difficulty_level_scale_new\n");
+        return NULL;
+    }
+
+    init_difficulty_level_scale(scale, num_of_levels, thresholds);
+    return scale;
+}
+
+
+/* See gen_structs.h */
+int difficulty_level_scale_free(difficulty_level_scale_t *scale)
+{
+    if (scale == NULL)
+        return FAILURE;
+
+    free(scale);
+    return SUCCESS;
 }

@@ -249,13 +249,49 @@ int speclist_free(speclist_t *list);
 int speclist_free_all(speclist_t *list);
 
 
+
 /* ROOMS_LEVEL */
 
-/* init, new, free functions for rooms_level */
+/* init_rooms_level
+ * Initializes a rooms_level_t struct with the given paramaters. The rooms_level_t
+ * must be pointing to some valid memory.
+ *
+ * Parameters:
+ * - map: the pointer to the rooms_level_t we are initializing
+ * - room_name: the room name
+ * - difficulty_level: difficulty level of the room
+ *
+ * Returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to initialize
+ */
 int init_rooms_level(rooms_level_t *map, char *room_name, int difficulty_level);
 
+
+/* rooms_level_new
+ * Creates a rooms_level_t struct with the given paramaters.
+ *
+ * Parameters:
+ * - room_name: the room name
+ * - difficulty_level: difficulty level of the room
+ *
+ * Returns:
+ * rooms_level_t *map - the new rooms_level_t
+ * NULL - if failed to create a rooms_level_t
+ */
 rooms_level_t* rooms_level_new(char *room_name, int difficulty_level);
 
+
+/* rooms_level_free
+ * Free's a rooms_level_t struct and returns whether or not it was successful
+ *
+ * Parameters:
+ * - map: the pointer to the rooms_level_t we are freeing
+ *
+ * Returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to free
+ */
 int rooms_level_free(rooms_level_t *map);
 
 
@@ -275,5 +311,53 @@ int rooms_level_free(rooms_level_t *map);
 void add_rooms_to_hash(rooms_level_t *rooms, 
                        const char *names[], 
                        int difficulty_level);
+
+
+
+/* DIFFICULTY_LEVEL_SCALE */
+
+/* init_difficulty_level_scale_t
+ * Initializes a difficulty_level_scale_t struct with the given paramaters. 
+ * The difficulty_level_scale_t must be pointing to some valid memory.
+ *
+ * Parameters:
+ * - scale: the pointer to the difficulty_level_scale_t we are initializing
+ * - num_of_levels: the number of difficulty levels
+ * - thresholds: an integer array of threshold for difficulty levels
+ *
+ * Returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to initialize
+ */
+int init_difficulty_level_scale(difficulty_level_scale_t *scale, 
+                                int num_of_levels, int *thresholds);
+
+
+/* difficulty_level_scale_new
+ * Creates a difficulty_level_scale_t struct with the given paramaters.
+ *
+ * Parameters:
+ * - num_of_levels: the number of difficulty levels
+ * - thresholds: an integer array of threshold for difficulty levels
+ *
+ * Returns:
+ * difficulty_level_scale_t *scale - the new difficulty_level_scale_t
+ * NULL - if failed to create a difficulty_level_scale_t
+ */
+difficulty_level_scale_t* difficulty_level_scale_new(int num_of_levels, int *thresholds);
+
+
+/* difficulty_level_scale_free
+ * Free's a difficulty_level_scale_t struct and returns whether or not it was successful
+ *
+ * Parameters:
+ * - scale: the pointer to the difficulty_level_scale_t we are freeing
+ *
+ * Returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to free
+ */
+int difficulty_level_scale_free(difficulty_level_scale_t *scale);
+
 
 #endif
