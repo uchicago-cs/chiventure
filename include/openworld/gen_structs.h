@@ -69,7 +69,24 @@ typedef struct gencontext {
 } gencontext_t;
 
 
+
+/* rooms_with_difficulty_t struct
+ * This struct will encode maps between difficulty/rooms needed for level-oriented generation
+ * The struct contains:
+ * - char *room_name: room name and hash key
+ * - UT_hash_handle hh: hash handle for room spec makes this structure hashable 
+ */
+
+typedef struct rooms_with_difficulty {
+    char *room_name;        
+    int difficulty_level;      
+    UT_hash_handle hh;        
+} rooms_with_difficulty_t;
+
+
+
 /* -- FUNCTIONS -- */
+
 
 
 /* GENCONTEXT */

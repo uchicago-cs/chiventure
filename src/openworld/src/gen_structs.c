@@ -184,3 +184,47 @@ int speclist_free_all(speclist_t *list)
     }
     return SUCCESS;
 }
+
+
+
+/* see gen_structs.h */
+int init_rooms_with_difficulty(rooms_with_difficulty_t *map, char *room_name, int difficulty_level)
+{
+
+    if (map == NULL)
+        return FAILURE;
+
+    map->room_name = room_name;
+    map->difficulty_level = difficulty_level;
+    return SUCCESS;
+}
+
+
+
+
+
+/* see gen_structs.h */
+rooms_with_difficulty_t* rooms_with_difficulty_new(char *room_name, int difficulty_level)
+{
+
+    rooms_with_difficulty_t *map = calloc(1, sizeof());
+
+    if (map == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for rooms_with_difficulty_new\n");
+        return NULL;
+    }
+
+    init_gencontext(map, room_name, difficulty_level);
+    return map;
+}
+
+/* see gen_structs.h */
+int rooms_with_difficulty_free(rooms_with_difficulty_t *map)
+{
+
+    if (map == NULL)
+        return FAILURE;
+
+    free(map);
+    return SUCCESS;
+}

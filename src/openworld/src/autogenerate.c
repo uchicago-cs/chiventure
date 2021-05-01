@@ -117,6 +117,9 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
     return SUCCESS;
 }
 
+
+
+
 /* See autogenerate.h */
 int speclist_from_hash(speclist_t **orig, roomspec_t *hash)
 {
