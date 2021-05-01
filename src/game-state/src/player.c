@@ -6,7 +6,7 @@ int player_init(player_t* plyr, char* player_id, int health)
 {
 
     assert(plyr != NULL);
-    strncpy(plyr->player_id, player_id, strlen(player_id));
+    strncpy(plyr->player_id, player_id, MAX_ID_LEN);
     plyr->level = 1;
     plyr->health = health;
     plyr->xp = 0;

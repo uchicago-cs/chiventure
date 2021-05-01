@@ -21,6 +21,7 @@ Test(game_start, new)
     cr_assert_eq(strncmp(game->start_desc,
         "hello and welcome to this awesome game", MAX_START_DESC_LEN), 0,
         "game_new() failed to set the starting description");
+    game_free(game);
 }
 
 /* Checks that game_free() frees a game struct successfully */
@@ -47,6 +48,7 @@ Test(game_room, add_room_to_game)
 
     cr_assert_eq(r1, SUCCESS, "add_room_to_game: room1 failed");
     cr_assert_eq(r2, SUCCESS, "add_room_to_game: room2 failed");
+    game_free(game);
 }
 
 /* Checks that find_room_from_game() returns the desired room pointer from a game
@@ -74,7 +76,7 @@ Test(game_room, find_room)
     cr_assert_eq(r1chk, 0, "found wrong room1");
     cr_assert_eq(r2chk, 0, "found wrong room2");
     cr_assert_eq(r3, NULL, "found bad room");
-
+    game_free(game);
 }
 
 /* Checks that create_connection() creates a path from
@@ -90,7 +92,7 @@ Test(game_room, create_connection_0)
     game->curr_room = room1;
     int north = create_connection(game, "vroom1", "nroom", "north");
     cr_assert_eq(north, 0, "create_connection: failed to exit successfully");
-
+    game_free(game);
 }
 
 /* Checks that create_connection() fails if source room is not found
@@ -107,7 +109,7 @@ Test(game_room, create_connection_2)
 
     int south = create_connection(game, "vroom", "nroom", "south");
     cr_assert_eq(south, 2, "create_connection: should have failed");
-
+    game_free(game);
 }
 
 /* Checks that create_connection() fails if dest room is not found
@@ -124,6 +126,7 @@ Test(game_room, create_connection_3)
 
     int west = create_connection(game, "vroom1", "nrom", "west");
     cr_assert_eq(west, 3, "create_connection: should have failed");
+    game_free(game);
 }
 
 /* Checks that move_room() switches the current room stored in game
@@ -153,7 +156,7 @@ Test(game_room, move_room)
     cr_assert_eq(strcheck, SUCCESS, "failed to move to new room");
     cr_assert_eq(mv_fail, 3, "moved to NULL room");
     cr_assert_eq(mv_gfail, 2, "moved in null game");
-
+    game_free(game);
 
 }
 
@@ -172,6 +175,7 @@ Test(game_player, add_player_to_game)
     cr_assert_not_null(p1, "player 1 not added to all_players");
 
     cr_assert_eq(p1chk, 0, "found wrong player1");
+    game_free(game);
 }
 
 /* Checks that set_curr_player() sets the current player field of game struct
@@ -197,6 +201,7 @@ Test(game_player, set_curr_player)
     cr_assert_eq(check, SUCCESS, "set_curr_player to player_one failed");
     cr_assert_eq(check2, SUCCESS, "set_curr_player to player_two failed");
     cr_assert_eq(chk_fail, FAILURE, "set NULL player");
+    game_free(game);
 }
 
 /* Checks that get_player() returns the desired player from the game struct */
@@ -264,6 +269,7 @@ Test(game_end_condition, add_end_condition_to_game)
     add_item_to_game(game, test_item_2);
     int add_5 = add_end_condition_to_game(game, condition_4);
     cr_assert_eq(add_5, SUCCESS, "add_end_condition_to_game() did not add condition_2");
+    game_free(game);
 }
 
 /* Checks that end_conditions_met() properly assesses when 
@@ -320,6 +326,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_2, "Test_Attribute_2", "Valid_Value");
     bool test_5 = end_conditions_met(game);
     cr_assert_eq(test_5, true, "end_conditions_met() does not return true when all end conditions are met");
+    game_free(game);
 }
 
 /* Helper function for is_game_over_tests to setup initial game */
