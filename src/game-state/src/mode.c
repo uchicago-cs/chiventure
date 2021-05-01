@@ -45,3 +45,18 @@ int mode_free(mode_t *mode)
 
     return SUCCESS;
 }
+
+/* see mode.h */
+int load_normal_mode(game_t *g)
+{
+    mode_t *mode = mode_new(NORMAL, NULL, "normal");
+
+    if (mode == NULL)
+    {
+        return FAILURE;
+    }
+
+    g->mode = mode;
+
+    return SUCCESS;
+}

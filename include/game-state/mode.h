@@ -66,3 +66,14 @@ mode_t *mode_new(mode_type_t curr_mode, mode_operation run_mode,
  * SUCCESS on success, FAILURE if an error occurs
  */
 int mode_free(mode_t *mode);
+
+/*
+ * Sets game's mode field to newly allocated mode struct in normal mode.
+ * 
+ * Parameters:
+ * g: the game pointer
+ *
+ * Returns:
+ * SUCCESS if mode successfully allocated, FAILURE if an error occurs
+ */
+int load_normal_mode(game_t *g);
