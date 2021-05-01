@@ -5,10 +5,12 @@
 
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
-#define MAX_ID_LEN 50
+#define MAX_NODE_ID_LEN 50
 
 
-// DIALOGUE STRUCTURE DEFINITIONS ---------------------------------------------
+/**********************************************
+ *       DIALOGUE STRUCTURE DEFINITIONS       *
+ **********************************************/
 
 /* Forward Declaration */
 typedef struct node node_t;
@@ -51,7 +53,7 @@ typedef struct edge_list {
  *  - edges: possible responses
  */
 typedef struct node {
-    char node_id[MAX_ID_LEN];
+    char node_id[MAX_NODE_ID_LEN];
     char npc_dialogue[MAX_DIA_LEN];
     int num_edges;
     edge_list_t *edges;
@@ -82,16 +84,18 @@ typedef struct convo {
 } convo_t;
 
 
-// DIALOGUE BUILDING FUNCTIONS ------------------------------------------------
+/**********************************************
+ *        DIALOGUE BUILDING FUNCTIONS         *
+ **********************************************/
 
 /* Creates a new, empty conversation.
  *
  * Returns:
-*   - pointer to a convo
+ *  - pointer to a convo
  */
 convo_t *create_new_convo();
 
-/* Adds a new node to the conversation.
+/* Given a node ID and an NPC text, adds a new node to the conversation.
  *
  * Parameters:
  *  - c: pointer to a convo struct
@@ -101,12 +105,13 @@ convo_t *create_new_convo();
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
- *  - Possible errors: (1) input strings are too long; (2) a node with the same
- *     ID already exists; (3) memory could not be allocated;
+ *  - Possible errors: (1) input strings are too long (assertion error);
+ *     (2) a node with the same ID already exists; (3) memory allocation error;
  */
 int add_node(convo_t *c, char node_id[], char npc_dialogue[]);
 
-/* Adds a new edge to the conversation.
+/* Given a player option text (quip), a from node ID and a to node ID, adds
+ * a new edge to the conversation.
  *
  * Parameters:
  *  - c: pointer to a convo struct
@@ -118,12 +123,14 @@ int add_node(convo_t *c, char node_id[], char npc_dialogue[]);
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) quip is too long; (2) nodes matching from_id and
- *     to_id could not be found; (3) memory could not be allocated;
+ *     to_id could not be found; (3) memory allocation error;
  */
 int add_edge(convo_t *c, char quip[], char from_id[], char to_id[]);
 
 
-// DIALOGUE EXECUTION FUNCTIONS -----------------------------------------------
+/**********************************************
+ *       DIALOGUE EXECUTION FUNCTIONS         *
+ **********************************************/
 
 /* Given a convo struct, runs the conversation.
  *
@@ -136,34 +143,44 @@ int add_edge(convo_t *c, char quip[], char from_id[], char to_id[]);
 int run_conversation(convo_t *c);
 
 
-// STRUCT (INIT, CREATE, FREE) FUNCTIONS --------------------------------------
+/**********************************************
+ *    STRUCT (INIT, NEW, FREE) FUNCTIONS      *
+ **********************************************/
 
-/* Initializes the given node with given parameters.
+/* Initializes the given edge with given parameters.
  *
  * Parameters:
- *  - c: a convo; must point to already allocated memory
+ *  - e: an edge; must point to already allocated memory
+ *  - quip: the player's text associated with the edge
+ *  - from: the node this edge originated from
+ *  - to: the node this edge will bring you to
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int convo_init(convo_t *c);
+int edge_init(edge_t *e, char quip[], node_t *from, node_t *to);
 
-/* Allocates a new convo in the heap.
+/* Allocates a new edge struct on the heap.
+ * 
+ * Parameters:
+ *  - quip: the player's text associated with the edge
+ *  - from: the node this edge originated from
+ *  - to: the node this edge will bring you to
  * 
  * Returns:
- *  - pointer to the new, empty convo
+ *  - pointer to the new edge struct
  */
-convo_t *convo_new();
+edge_t *edge_new(char quip[], node_t *from, node_t *to);
 
-/* Frees resources associated with a convo.
+/* Frees resources associated with an edge.
  *
  * Parameters:
- *  - c: the convo to be freed
+ *  - e: the edge to be freed
  *
  * Returns:
  *  - SUCCESS if successful, FAILURE if an error occurs
  */
-int convo_free(convo_t *c);
+int edge_free(edge_t *e);
 
 /* Initializes the given node with given parameters.
  *
@@ -198,41 +215,59 @@ node_t *node_new(char node_id[], char npc_dialogue[]);
  */
 int node_free(node_t *n);
 
-/* Initializes the given edge with given parameters.
+/* Initializes the given node with given parameters.
  *
  * Parameters:
- *  - e: an edge; must point to already allocated memory
- *  - quip: the player's text associated with the edge
- *  - from: the node this edge originated from
- *  - to: the node this edge will bring you to
+ *  - c: a convo; must point to already allocated memory
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int edge_init(edge_t *e, char quip[], node_t *from, node_t *to);
+int convo_init(convo_t *c);
 
-/* Allocates a new edge struct on the heap.
- * 
- * Parameters:
- *  - quip: the player's text associated with the edge
- *  - from: the node this edge originated from
- *  - to: the node this edge will bring you to
+/* Allocates a new convo in the heap.
  * 
  * Returns:
- *  - pointer to the new edge struct
+ *  - pointer to the new, empty convo
  */
-edge_t *edge_new(char quip[], node_t *from, node_t *to)
+convo_t *convo_new();
 
-/* Frees resources associated with an edge.
+/* Frees resources associated with a convo.
  *
  * Parameters:
- *  - e: the edge to be freed
+ *  - c: the convo to be freed
  *
  * Returns:
  *  - SUCCESS if successful, FAILURE if an error occurs
  */
-int edge_free(edge_t *e);
+int convo_free(convo_t *c);
+
+/* Frees an edge list (using macros from common/utlist.h). You have the option
+ * to specify if you want to free the edges (edges and edge_lists are different
+ * things) in that edge list. This prevents double freeing in certain cases.
+ *
+ * Parameters:
+ *  - e_lst: the edge list to be freed
+ *  - free_edge: true if you want edges to also be freed
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
+ */
+int free_edge_list(edge_list_t *e_lst, bool free_edges);
+
+/* Frees an node list (using macros from common/utlist.h). You have the option
+ * to specify if you want to free the nodes in that node list. This prevents
+ * double freeing in certain cases.
+ *
+ * Parameters:
+ *  - n_lst: the node list to be freed
+ *  - free_edge: true if you want nodes to also be freed
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
+ */
+int free_node_list(node_list_t *n_lst, bool free_nodes);
 
 
 
-#endif
+#endif /* DIALOGUE_H */
