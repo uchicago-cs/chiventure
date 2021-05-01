@@ -25,6 +25,7 @@ Test(condition, new_attr_condition)
     cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condiiton_new() failed to "
     "correctly mark condiiton as attribute");
     item_free(item);
+    free(condition->condition.attribute_type);
     free(condition);
 }
 
@@ -45,6 +46,8 @@ Test(condition, new_inven_condition)
     "correctly mark condiiton as inventory");
     player_free(player);
     item_free(item);
+    free(condition->condition.inventory_type);
+    free(condition);
 }
 
 /* Checks if delete_condition_llist() frees the condition list from memory */
@@ -112,6 +115,9 @@ Test(condition, valid_condition)
     cr_assert_eq(valid, CONDITION_NULL, "valid_condiiton() expected CONDITION_NULL(7) "
     "but instead got %i", valid);
     player_free(player);
-    item_free(item);
     game_free(game);
+    free(condition_1->condition.inventory_type);
+    free(condition_2->condition.inventory_type);
+    free(condition_1);
+    free(condition_2);
 }
