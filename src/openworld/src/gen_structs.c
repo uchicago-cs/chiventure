@@ -188,7 +188,7 @@ int speclist_free_all(speclist_t *list)
 
 
 /* see gen_structs.h */
-int init_rooms_with_difficulty(rooms_with_difficulty_t *map, char *room_name, int difficulty_level)
+int init_rooms_level(rooms_level_t *map, char *room_name, int difficulty_level)
 {
 
     if (map == NULL)
@@ -204,22 +204,22 @@ int init_rooms_with_difficulty(rooms_with_difficulty_t *map, char *room_name, in
 
 
 /* see gen_structs.h */
-rooms_with_difficulty_t* rooms_with_difficulty_new(char *room_name, int difficulty_level)
+rooms_level_t* rooms_level_new(char *room_name, int difficulty_level)
 {
 
-    rooms_with_difficulty_t *map = calloc(1, sizeof(sizeof(rooms_with_difficulty_t)));
+    rooms_level_t *map = calloc(1, sizeof(sizeof(rooms_level_t)));
 
     if (map == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for rooms_with_difficulty_new\n");
+        fprintf(stderr, "calloc failed to allocate space for rooms_level_new\n");
         return NULL;
     }
 
-    init_rooms_with_difficulty(map, room_name, difficulty_level);
+    init_rooms_level(map, room_name, difficulty_level);
     return map;
 }
 
 /* see gen_structs.h */
-int rooms_with_difficulty_free(rooms_with_difficulty_t *map)
+int rooms_level_free(rooms_level_t *map)
 {
 
     if (map == NULL)
