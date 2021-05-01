@@ -137,12 +137,28 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
 }
 
 /* See class.h */
-class_t* multiclass(class_t* base_class, class_t* new_class, char* name){
+class_t* multiclass(class_t* base_class, class_t* second_class, char* name){
     char* new_shortdesc = base_class->shortdesc; //To be improved
     char* new_longdesc = base_class->longdesc; //To be improved
-    obj_t* combined_attr = int obj_add_attr(base_class->attributes, new_class->attributes->id, new_class->attributes); //Not sure if I use this function correctly
+    obj_t* combined_attr = int obj_add_attr(base_class->attributes, second_class->attributes->id, second_class->attributes); //Not sure if I use this function correctly
     effects_hash_t* combined_effects = NULL; //TODO, will need a new get all function for effects_hash_t
     class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->stats, combined_effects);
+    if (new_class == NULL) return NULL;
+    new_class->parent_class_num = 2 + base_class->parent_class_num + second_class->parent_class_num;
+    new_class->parent_class_names = (char**) malloc (new_class->parent_class_num * sizeof(char*));
+    for (int i = 0; i < new_class->parent_class_num; i++){
+        new_class->parent_class_names[i] = (char*) calloc(MAX_NAME_LEN + 1, sizeof(char));
+        if (parent_class_names[i] == NULL) return NULL;
+    }
+    memcpy(new_class->parent_class_names[0], base_class->name, MAX_NAME_LEN + 1)
+    memcpy(new_class->parent_class_names[1], second_class->name, MAX_NAME_LEN + 1)
+    int i = 0;
+    while (i < base_class->parent_class_num){
+        memcpy(new_class->parent_class_names[i + 2], base_class->parent_class_names[i], MAX_NAME_LEN + 1)
+    }
+    while (i < second_class->parent_class_num - base_class->parent_class_num){
+        memcpy(new_class->parent_class_names[i + 2], second_class->parent_class_names[i], MAX_NAME_LEN + 1)
+    }
     return new_class;
 }
 
