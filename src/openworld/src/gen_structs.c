@@ -200,9 +200,6 @@ int init_rooms_level(rooms_level_t *map, char *room_name, int difficulty_level)
 }
 
 
-
-
-
 /* see gen_structs.h */
 rooms_level_t* rooms_level_new(char *room_name, int difficulty_level)
 {
