@@ -5,8 +5,8 @@
 
 
 /* see mode.h */
-int mode_init(mode_t *mode, mode_type_t curr_mode, 
-              mode_operation run_mode, char* mode_ctx)
+int game_mode_init(game_mode_t *mode, mode_type_t curr_mode, 
+                   mode_operation run_mode, char* mode_ctx)
 {
     assert(mode != NULL);
     strcpy(mode->mode_ctx, mode_ctx);
@@ -17,8 +17,8 @@ int mode_init(mode_t *mode, mode_type_t curr_mode,
 }
 
 /* see mode.h */
-mode_t *mode_new(mode_type_t curr_mode, mode_operation run_mode, 
-                 char* mode_ctx);
+game_mode_t *game_mode_new(mode_type_t curr_mode, mode_operation run_mode, 
+                           char* mode_ctx);
 {
     mode_t *mode;
     mode = malloc(sizeof(mode_t));
@@ -36,7 +36,7 @@ mode_t *mode_new(mode_type_t curr_mode, mode_operation run_mode,
 }
 
 /* see mode.h */
-int mode_free(mode_t *mode)
+int game_mode_free(game_mode_t *mode)
 {
     assert(mode != NULL);
 
@@ -50,7 +50,7 @@ int mode_free(mode_t *mode)
 int load_normal_mode(game_t *g)
 {
     char normal_ctx[20] = "normal";
-    mode_t *mode = mode_new(NORMAL, NULL, normal_ctx);
+    game_mode_t *mode = game_mode_new(NORMAL, NULL, normal_ctx);
 
     if (mode == NULL)
     {

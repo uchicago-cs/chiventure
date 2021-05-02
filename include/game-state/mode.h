@@ -2,9 +2,11 @@
 #define _MODE_H
 
 #include "game_state_common.h"
+#include "cli/cmd.h"
 
-/* Forward declaration */
+/* Forward declarations */
 typedef struct chiventure_ctx chiventure_ctx_t;
+typedef int cli_callback(chiventure_ctx_t *ctx, char *outstring, void *args);
 
 /* Mode operation function should run a step of the
  * respective mode, consisting of parsing the user's
@@ -20,11 +22,11 @@ typedef enum mode_type {
 } mode_type_t;
 
 /* Mode data type */
-typedef struct mode {
+typedef struct game_mode {
     mode_type_t curr_mode;
-    mode_operation run_mode; //the mode's run function
+    mode_operation *run_mode; //the mode's run function
     char* mode_ctx; //for specifying mode's context, e.g. npc_id
-} mode_t;
+} game_mode_t;
 
 // STRUCT FUNCTIONS ----------------------------------------------------------
 
@@ -40,8 +42,8 @@ typedef struct mode {
  * Returns:
  * SUCCESS on success, FAILURE if an error occurs
  */
-int mode_init(mode_t *mode, mode_type_t curr_mode, 
-              mode_operation run_mode, char* mode_ctx);
+int game_mode_init(game_mode_t *mode, mode_type_t curr_mode, 
+                   mode_operation run_mode, char* mode_ctx);
 
 /*
  * Allocates a new mode struct in the heap.
@@ -53,8 +55,8 @@ int mode_init(mode_t *mode, mode_type_t curr_mode,
  * Returns:
  * pointer to allocated mode
  */
-mode_t *mode_new(mode_type_t curr_mode, mode_operation run_mode, 
-                 char* mode_ctx);
+game_mode_t *game_mode_new(mode_type_t curr_mode, mode_operation run_mode, 
+                           char* mode_ctx);
 
 /*
  * Frees resources associated with a mode.
@@ -65,7 +67,7 @@ mode_t *mode_new(mode_type_t curr_mode, mode_operation run_mode,
  * Returns:
  * SUCCESS on success, FAILURE if an error occurs
  */
-int mode_free(mode_t *mode);
+int game_mode_free(mode_t *mode);
 
 /*
  * Sets game's mode field to newly allocated mode struct in normal mode.
@@ -77,3 +79,5 @@ int mode_free(mode_t *mode);
  * SUCCESS if mode successfully allocated, FAILURE if an error occurs
  */
 int load_normal_mode(game_t *g);
+
+#endif

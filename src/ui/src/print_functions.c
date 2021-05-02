@@ -171,7 +171,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     }
 
 
-    if (ctx->game->mode->mode_type == NORMAL) 
+    if (ctx->game->mode->curr_mode == NORMAL) 
     {
         cmd *c = cmd_from_string(cmd_string, ctx);
         if (!c)

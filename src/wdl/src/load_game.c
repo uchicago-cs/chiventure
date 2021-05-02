@@ -9,6 +9,7 @@
 #include "wdl/load_game.h"
 #include "wdl/load_room.h"
 #include "wdl/load_item.h"
+#include "game-state/mode.h"
 
 /*
  * load_wdl, function that loads a wdl into all the game-state structs
