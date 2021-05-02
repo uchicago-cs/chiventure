@@ -149,55 +149,98 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
     /* effects for each class not yet provided, so this will remain NULL */
     effects_hash_t* effects = NULL;
 
+    /* A talented musician and magician:
+     * 15 Max Health
+     * 15 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 5 Ranged Attack
+     * 20 Magic Defense
+     * 20 Magic Attack
+     * 20 Max Mana */ 
     if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
-        /* TODO */
+        short_desc = "A skilled musician and magician.";
+        long_desc = "The Bard combines their skill as a magician and musician to support their allies or vanquish their foes.";
+        set_stats_hashtable(ctx, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
     }
 
-    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "knight", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
+    /* An elite martial artist.
+     * 25 Max Health
+     * 20 Speed
+     * 15 Physical Defense
+     * 15 Physical Attack
+     * 5 Ranged Attack
+     * 20 Magic Defense
+     * 5 Magic Attack
+     * 5 Max Mana */ 
     else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
-        /* TODO */
+        short_desc = "An elite martial artist.";
+        long_desc = "The Monk is an expert of unarmed combat, and, through their training--
+                    in accordance with their strict spirituality--have learned how to defend themselves from attackers.";
+        set_stats_hashtable(ctx, &stats, 25, 20, 15, 15, 5, 20, 5, 5);
     }
-
+    /* A master hunter:
+     * 10 Max Health
+     * 20 Speed
+     * 10 Physical Defense
+     * 15 Physical Attack
+     * 25 Ranged Attack
+     * 10 Magic Defense
+     * 10 Magic Attack
+     * 10 Max Mana */
     else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
-        /* TODO */
+        short_desc = "An highly skilled hunter.";
+        long_desc = "The ranger is the embodiment of an apex predator: while they may tend to lurk away 
+                    from civilisation in the wild, they are a skilled killer and have no qualms about doing so.";
+        set_stats_hashtable(ctx, &stats, 10, 20, 10, 15, 25, 10, 10, 10);
     }
 
+    /* The shadowy rogue:
+     * 10 Max Health
+     * 25 Speed
+     * 15 Physical Defense
+     * 15 Physical Attack
+     * 15 Ranged Attack
+     * 10 Magic Defense
+     * 5 Magic Attack
+     * 15 Max Mana */
     else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
-        /* TODO */
+        short_desc = "A sibling of the shadows.";
+        long_desc = "The Rogue embodies stealth and the shadows. They are feared by many, and for good reason. 
+                    They use their exceptional speed and agility to surprise their enemies and attack when least expected.";
+        set_stats_hashtable(ctx, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
     }
 
-    else if (!strncmp(temp_name, "sorcerer", MAX_NAME_LEN)) {
-        /* TODO */
-    }
 
     /* A hard hitting and beefy physical attacker:
-     * 45 Max Health
-     * 20 Speed
+     * 20 Max Health
+     * 15 Speed
      * 20 Physical Defense
-     * 30 Physical Attack
+     * 25 Physical Attack
      * 10 Ranged Attack
-     *  5 Magic Defense
-     *  5 Magic Attack
-     * 15 Max Magic Energy */
+     * 10 Magic Defense
+     * 5 Magic Attack
+     * 5 Max Mana */
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
         short_desc = "A mighty warrior.";
         long_desc = "A mighty yet noble warrior, skilled with the blade.";
-        set_stats_hashtable(ctx, &stats, 45, 20, 20, 30, 10, 5, 5, 15);
+        set_stats_hashtable(ctx, &stats, 20, 15, 20, 25, 10, 10, 5, 5);
     }
-        
+
+    /* A master of the arcane arts:
+     * 10 Max Health
+     * 10 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 10 Ranged Attack
+     * 20 Magic Defense
+     * 25 Magic Attack
+     * 25 Max Mana */ 
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
-        /* TODO */
+        short_desc = "A learned wizard.";
+        long_desc = "The Wizard is a master of the arcane; a formidable wielder of magic,
+                     and an academic whose studies delve into its secrets.";
+        set_stats_hashtable(ctx, &stats, 10, 10, 5, 5, 10, 20, 25, 25);
     }
 
     else {
