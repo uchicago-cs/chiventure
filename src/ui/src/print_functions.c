@@ -185,7 +185,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     }
     else
     {
-        (*(ctx->game->mode->run_mode))(cmd_string, cli_ui_callback, NULL, ctx);
+        int rc = (*(ctx->game->mode->run_mode))(cmd_string, cli_ui_callback, NULL, ctx);
         //for non NORMAL game modes
     }
 
