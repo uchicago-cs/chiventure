@@ -110,14 +110,14 @@ int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats,
  *  - FAILURE on failure.
  */
 int set_stats_hashtable(chiventure_ctx_t* ctx, stats_hash_t** stats,
-                         double max_health, 
-                         double speed,
-                         double physical_defense, 
-                         double physical_attack,
-                         double ranged_attack,
-                         double magic_defense,
-                         double magic_attack,
-                         double max_magic_energy) {
+                        double max_health, 
+                        double speed,
+                        double physical_defense, 
+                        double physical_attack,
+                        double ranged_attack,
+                        double magic_defense,
+                        double magic_attack,
+                        double max_magic_energy) {
     if (ctx == NULL || stats == NULL)
         return FAILURE;
 
