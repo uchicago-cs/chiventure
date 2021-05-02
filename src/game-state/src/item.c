@@ -133,7 +133,7 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
             /* Multiple identical item ids;
              * item to delete is head of linked list */
             HASH_DEL(*ht, old_item);
-            add_item_to_hash(ht, old_item->next);
+	    //            add_item_to_hash(ht, old_item->next);
             old_item->next = NULL;
         }
         else if (check == old_item)

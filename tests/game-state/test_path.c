@@ -15,6 +15,8 @@ Test(path, new)
     path_t *new_path = path_new(new_room, "north");
 
     cr_assert_not_null(new_path, "path_new() test 1 has failed!");
+    room_free(new_room);
+    path_free(new_path);
 
 }
 
@@ -29,6 +31,7 @@ Test(path, free)
     int freed = path_free(path_tofree);
 
     cr_assert_eq(freed, SUCCESS, "path_free() test 1 has failed!");
+    room_free(test_dest);
 
 }
 
@@ -66,6 +69,14 @@ Test(path, conditions)
     cr_assert_eq(rc, SUCCESS, "path_new_conditions() test 1 has failed");
     cr_assert_not_null(new_path->conditions, "no conditions have been"
     "implemented");
+    path_free(new_path);
+    room_free(new_room);
+    free(first);
+    free(second);
+    free(last);
+    action_type_free(eat);
+    action_type_free(go);
+    action_type_free(open);
 }
 
 /* checks that condition is removed */
@@ -104,11 +115,12 @@ Test(path, remove_condition)
     rc = path_new_conditions(new_path,first);
 
     cr_assert_eq(rc, SUCCESS, "path_new_conditions() failed");
+    char *tmp = malloc(100);
+    tmp = "OPEN";
 
     //make hash attribute for item
     attribute_t *OPEN = malloc(sizeof(attribute_t));
-    OPEN->attribute_key = (char*)malloc(100);
-    OPEN->attribute_key = "OPEN";
+    OPEN->attribute_key = tmp;
     OPEN->attribute_tag = BOOLE;
     OPEN->attribute_value.bool_val = false;
 
@@ -124,6 +136,15 @@ Test(path, remove_condition)
     cr_assert_eq(rc, SUCCESS, "remove_condition() failed");
     cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, false, 
     "no conditions have been implemented");
+
+    path_free(new_path);
+    room_free(new_room);
+    free(first);
+    free(second);
+    free(last);
+    action_type_free(eat);
+    action_type_free(go);
+    action_type_free(open);
 }
 
 
@@ -174,6 +195,10 @@ Test(path, remove_final_condtion)
     cr_assert_eq(rc, SUCCESS, "remove_condition() failed");
     cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, true, 
     "no conditions have been implemented");
+    path_free(new_path);
+    room_free(new_room);
+    free(first);
+    action_type_free(open);
 }
 
 

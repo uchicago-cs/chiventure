@@ -156,6 +156,9 @@ Test(item, get_all_items_in_hash)
     
     cr_assert_eq(count, 2, "get_all_items_in_hash did not include all items "
                  "in returned list.");
+    delete_all_items(&ht);
+    delete_item_llist(list);
+
 }
 
 /* Checks that get_all_items_in_hash returns a linked list
@@ -192,6 +195,8 @@ Test(item, get_all_items_in_hash_duplicate_items)
     cr_assert_eq(count, 3, "get_all_items_in_hash did not include all items "
                  "in returned list");
     delete_all_items(&ht);
+    item_free(test_item1);
+    
     delete_item_llist(list);
 }
 
@@ -224,6 +229,9 @@ Test(item, remove_item_from_hash)
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
     delete_all_items(&ht);
+    item_free(test_item1);
+    delete_item_llist(list);
+    item_free(test_item2);
 }
 
 /* Checks that remove_item_from_hash properly removes
@@ -251,6 +259,9 @@ Test(item, remove_item_from_hash_duplicate_items_head)
                  "remove a duplicate item id from hashtable");
     cr_assert_eq(head->next, NULL, "remove_item_from_hash failed to "
                  "update the removed item");
+    delete_all_items(&ht);
+    item_free(head);
+    item_free(last);
 }
 
 /* Checks that remove_item_from_hash does not remove
@@ -272,6 +283,7 @@ Test(item, remove_item_from_hash_duplicate_items_nonexistant)
                        "case where duplicate item not in hash was passed to "
                        "be removed");
     delete_all_items(&ht);
+    item_free(last);
 }
 
 /* Checks that remove_item_from_hash properly removes
