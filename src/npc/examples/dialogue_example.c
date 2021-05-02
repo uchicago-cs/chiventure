@@ -12,30 +12,52 @@ int main()
 
     printf("\nWelcome to Chiventure's 'Dialogue Module' Mockup!\n\n\n");
 
+    printf("As the door creaks open, a strong musty scent smacks "
+           "you in the face, filled with tones of mildew and copper. "
+           "You step into a disheveled room which, while bare in some "
+           "areas, seems to have plenty of valuables stacked in others. "
+           "You can see an antique clock and a faberge egg, just for "
+           "starters. A shabby man quickly rounds the corner into the room, "
+           "alarmed by the unexpected guest. He looks upset with you.\n");
+
+    // Starting to build the conversation structure
     convo_t *c = create_new_convo();
 
-    add_node(c, "1", "Pick an item: a sword or a shield?");
-    add_node(c, "2a", "I see you prefer the path of offence. Do you prefer a longsword or a scimitar? Or do you change your mind?");
-    add_node(c, "3a", "One longsword coming up.");
-    add_node(c, "3b", "One scimitar coming up.");
-    add_node(c, "2b", "Ah, I see you prefer the path of defence. Clever choice.");
-    add_edge(c, "Sword", "1", "2a");
-    add_edge(c, "Shield", "1", "2b");
-    add_edge(c, "Longsword", "2a", "3a");
-    add_edge(c, "Scimitar", "2a", "3b");
-    add_edge(c, "I change my mind: I want a shield", "2a", "2b");
+    // Creating the nodes
+    add_node(c, "1", "NPC: What do you want?");
+    add_node(c, "2a", "NPC: Mhm fine, that's wonderful, now go ahead and turn "
+        "around and get outta my house. You can't come and go as you wish.");
+    add_node(c, "2b", "NPC: Woah, hey, y-you can't just walk in here and poke "
+        "around the place without consulting the owner!! Shouldn't I at "
+        "least know who you are?!");
+    add_node(c, "2c", "As soon as your eyes glance to the doorway, the man's "
+        "hands are at your back ushering you away. The door snaps shut and "
+        "you hear the distinct click of a lock turning.");
+    add_node(c, "3a", "NPC: Yes, well, just because the door's unlocked and I'm "
+        "a bit messy don't make it public property. Now take off and leave, "
+        "or else I'm gonna force you to.");
+    add_node(c, "4", "As his arm flashes behind his back, the robber raises "
+        "a knife to you.");
 
+    // Adding the edges
+    add_edge(c, "I just want to talk.", "1", "2a");
+    add_edge(c, "I think I'll have a quick look around.", "1", "2b");
+    add_edge(c, "<Leave>", "1", "2c");
+    add_edge(c, "Seemed abandoned to me.", "2a", "3a");
+    add_edge(c, "I'm not trying to take your home, I just thought it would be "
+        "a place to rest in some shade for a bit.", "2a", "3a");
+    add_edge(c, "<Leave>", "2a", "2c");
+    add_edge(c, "I'm Leo.", "2b", "2a");
+    add_edge(c, "The owner? With the state of this place, I'd have pegged you "
+        "for more of a burglar, heh.", "2b", "4");
+    add_edge(c, "<Leave>", "3a", "2c");
+    add_edge(c, "Give it your best shot.", "3a", "4");
+
+    // Run the conversation
     run_conversation(c);
 
+    // Free the convo
     convo_free(c);
     
     return 0;
-
-    // Starting to build the conversation structure
-
-    // Initialize each node with its NPC dialogue
-
-    // Adding all edge options to each node
-
-    // Runs the conversation
 }
