@@ -143,7 +143,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
     
     char* short_desc;
     char* long_desc;
-    /* attributes are not yet customized at by each class */
+    /* attributes are not yet customized by each class */
     obj_t* attributes = obj_new("class_attributes");
     stats_hash_t* stats = NULL;
     /* effects for each class not yet provided, so this will remain NULL */
@@ -297,8 +297,8 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
  *  - skill: A pointer to the skill being added. Must not be NULL.
  *  - prereq_count: The number of prereqs the skill has.
  *  - is_starting: true if the skill is a starting skill for the class.
- *  - ...: Indices of the skills that are prereqs to this skill (note that 
- *         skills are added in order, starting at index 0).
+ *  - (...): Indices of the skills that are prereqs to this skill (note that 
+ *           skills are added in order, starting at index 0).
  *         
  * Returns:
  *  - SUCCESS on success.

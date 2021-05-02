@@ -5,7 +5,8 @@
 #include "common/ctx.h"
 #include "game-state/game.h"
 
-/* In this case, stats hashtables are complete with the stats we intend to use */
+/* In this case, stats hashtables are incomplete: some of our stats exists, some
+   are not yet declared. */
 chiventure_ctx_t* init_incomplete_context() {
     game_t* game = game_new("Sample game, complete context");
     chiventure_ctx_t* ctx = chiventure_ctx_new(game);
@@ -33,36 +34,44 @@ chiventure_ctx_t* init_incomplete_context() {
     return ctx;
 }
 
-/* A hard hitting and beefy physical attacker:
- * 25 Max Health
- * 10 Speed
- * 15 Physical Defense
- * 25 Physical Attack
- *  5 Ranged Attack
- *  5 Magic Defense
- *  5 Magic Attack
- * 15 Max Magic Energy */
+/* Checks whether the class and its basic fields are not null */
+void check_field_pressence(class_t* c) {
+    cr_assert_not_null(c, "failed to be initialized (NULL)");
+    cr_assert_not_null(c->name, "failed to initialize name");
+    cr_assert_not_null(c->shortdesc, "failed to initialize short description");
+    cr_assert_not_null(c->longdesc, "failed to initialize long description");
+    cr_assert_not_null(c->attributes, "failed to initialize attributes object");
+    cr_assert_not_null(c->stats, "failed to initialize stats");
+    /* Currently, effects are not implemented, so this is NULL */
+    // cr_assert_not_null(c->effects, "failed to initialize effects");
+}
+
+/* Checks whether skill fields are present, and whether the initialized skills 
+ * match the expected list */
+void check_skill_pressence(class_t* c, int num_skills, char** names) {
+    cr_assert_not_null(c->skilltree, "failed to initialize skilltree");
+    cr_assert_not_null(c->combat, "failed to initialize combat skill inventory");
+    cr_assert_not_null(c->noncombat, "failed to initialize noncombat skill inventory");
+
+    for(int i = 0; i < num_skills; i++)
+        cr_assert_str_eq(c->skilltree->nodes[i]->skill->name, names[i], "failed to add skill");
+}
+
+/* Tests whether the warrior class is initialized as expected. */
 Test(class_prefabs, Warrior) {
     chiventure_ctx_t* ctx = init_incomplete_context();
 
-    // Note that the name is always stored lowercase.
+    /* Note that the name is always stored lowercase. */
     class_t *c = class_prefab_new(ctx, "Warrior");
-
-    cr_assert_not_null(c, "failed to be initialized (NULL)");
-    cr_assert_not_null(c->name, "failed to have name");
-    cr_assert_not_null(c->shortdesc, "failed to have short description");
-    cr_assert_not_null(c->longdesc, "failed to have long description");
-    cr_assert_not_null(c->attributes, "failed to have attributes object");
+    check_field_pressence(c);
     
     cr_assert_eq(get_stat_current(c->stats, "max_health"), 25, "failed to initialize previously declared stat");
     cr_assert_eq(get_stat_current(c->stats, "speed"), 10, "failed to initialize new stat");
 
-
     class_prefab_add_skills(c);
         
-    cr_assert_str_eq(c->skilltree->nodes[0]->skill->name, "Sword Slash", "failed to initialize skilltree");
-    cr_assert_str_eq(c->skilltree->nodes[1]->skill->name, "Double Slash", "failed to initialize skilltree");
-    cr_assert_str_eq(c->skilltree->nodes[2]->skill->name, "Triple Slash", "failed to initialize skilltree");
+    char* skill_list[] = {"Sword Slash", "Double Slash", "Triple Slash"};
+    check_skill_pressence(c, 3, skill_list);
 
     cr_assert_str_eq(c->combat->active[0]->name, "Sword Slash", "failed to initialize combat skill inventory");
 }
