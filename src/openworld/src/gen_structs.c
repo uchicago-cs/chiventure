@@ -188,7 +188,7 @@ int speclist_free_all(speclist_t *list)
 
 
 /* see gen_structs.h */
-int init_rooms_level(rooms_level_t *map, char *room_name, int difficulty_level)
+int init_room_level(room_level_t *map, char *room_name, int difficulty_level)
 {
 
     if (map == NULL)
@@ -201,23 +201,23 @@ int init_rooms_level(rooms_level_t *map, char *room_name, int difficulty_level)
 
 
 /* see gen_structs.h */
-rooms_level_t* rooms_level_new(char *room_name, int difficulty_level)
+room_level_t* room_level_new(char *room_name, int difficulty_level)
 {
 
-    rooms_level_t *map = calloc(1, sizeof(rooms_level_t));
+    room_level_t *map = calloc(1, sizeof(room_level_t));
 
     if (map == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for rooms_level_new\n");
+        fprintf(stderr, "calloc failed to allocate space for room_level_new\n");
         return NULL;
     }
 
-    init_rooms_level(map, room_name, difficulty_level);
+    init_room_level(map, room_name, difficulty_level);
     return map;
 }
 
 
 /* see gen_structs.h */
-int rooms_level_free(rooms_level_t *map)
+int room_level_free(room_level_t *map)
 {
 
     if (map == NULL)
@@ -229,13 +229,13 @@ int rooms_level_free(rooms_level_t *map)
 
 
 /* See gen_structs.h */  
-void add_rooms_to_hash(rooms_level_t **rooms, 
+void add_rooms_to_hash(room_level_t **rooms, 
                        const char *names[], 
                        int difficulty_level) 
 {
-    rooms_level_t *s;
+    room_level_t *s;
     for (int i = 0; names[i]; i++) {
-        s = (rooms_level_t*)malloc(sizeof(rooms_level_t));
+        s = (room_level_t*)malloc(sizeof(room_level_t));
         strcpy(s->room_name, names[i]);
         s->difficulty_level = difficulty_level;
         HASH_ADD_KEYPTR(hh, *rooms, s->room_name, strlen(s->room_name), s);

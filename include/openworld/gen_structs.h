@@ -72,7 +72,7 @@ typedef struct gencontext {
 /* -- structs for level oriented generation -- */
 
 /* encode maps between difficulty/rooms needed for level-oriented generation */
-typedef struct rooms_level
+typedef struct room_level
 {
     /* name of the room, hash key */
     char *room_name;        
@@ -82,7 +82,7 @@ typedef struct rooms_level
        
     /* makes this structure hashable */
     UT_hash_handle hh;        
-} rooms_level_t;
+} room_level_t;
 
 
 /* difficulty level scale */
@@ -250,14 +250,14 @@ int speclist_free_all(speclist_t *list);
 
 
 
-/* ROOMS_LEVEL */
+/* room_level */
 
-/* init_rooms_level
- * Initializes a rooms_level_t struct with the given paramaters. The rooms_level_t
+/* init_room_level
+ * Initializes a room_level_t struct with the given paramaters. The room_level_t
  * must be pointing to some valid memory.
  *
  * Parameters:
- * - map: the pointer to the rooms_level_t we are initializing
+ * - map: the pointer to the room_level_t we are initializing
  * - room_name: the room name
  * - difficulty_level: difficulty level of the room
  *
@@ -265,34 +265,34 @@ int speclist_free_all(speclist_t *list);
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to initialize
  */
-int init_rooms_level(rooms_level_t *map, char *room_name, int difficulty_level);
+int init_room_level(room_level_t *map, char *room_name, int difficulty_level);
 
 
-/* rooms_level_new
- * Creates a rooms_level_t struct with the given paramaters.
+/* room_level_new
+ * Creates a room_level_t struct with the given paramaters.
  *
  * Parameters:
  * - room_name: the room name
  * - difficulty_level: difficulty level of the room
  *
  * Returns:
- * rooms_level_t *map - the new rooms_level_t
- * NULL - if failed to create a rooms_level_t
+ * room_level_t *map - the new room_level_t
+ * NULL - if failed to create a room_level_t
  */
-rooms_level_t* rooms_level_new(char *room_name, int difficulty_level);
+room_level_t* room_level_new(char *room_name, int difficulty_level);
 
 
-/* rooms_level_free
- * Free's a rooms_level_t struct and returns whether or not it was successful
+/* room_level_free
+ * Free's a room_level_t struct and returns whether or not it was successful
  *
  * Parameters:
- * - map: the pointer to the rooms_level_t we are freeing
+ * - map: the pointer to the room_level_t we are freeing
  *
  * Returns:
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to free
  */
-int rooms_level_free(rooms_level_t *map);
+int room_level_free(room_level_t *map);
 
 
 /* add_rooms_to_hash
@@ -305,10 +305,10 @@ int rooms_level_free(rooms_level_t *map);
  * - int difficulty_level: difficulty_level
  *
  * Side effects:
- * - Changes input rooms_level_t to hold the newly added room(s),
+ * - Changes input room_level_t to hold the newly added room(s),
  *   allocated on the heap
  */
-void add_rooms_to_hash(rooms_level_t **rooms, 
+void add_rooms_to_hash(room_level_t **rooms, 
                        const char *names[], 
                        int difficulty_level);
 

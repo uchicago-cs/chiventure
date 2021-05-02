@@ -187,7 +187,7 @@ int map_level_to_difficulty(difficulty_level_scale_t *level_scale,
  *  - true if the given roomspec is of the difficulty level
  *  - false otherwise
  */
-bool roomspec_is_given_difficulty(rooms_level_t *rooms, 
+bool roomspec_is_given_difficulty(room_level_t *rooms, 
                                   roomspec_t *roomspec, 
                                   int difficulty_level);
 
@@ -212,7 +212,7 @@ bool roomspec_is_given_difficulty(rooms_level_t *rooms,
  */
 int multi_rooms_level_generate(game_t *game, gencontext_t *context, 
                                char *room_id, int num_rooms,
-                               rooms_level_t *rooms, difficulty_level_scale_t *level_scale);
+                               room_level_t *rooms, difficulty_level_scale_t *level_scale);
                                
 
 #endif /* INCLUDE_AUTOGENERATE_H */

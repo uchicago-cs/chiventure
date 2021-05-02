@@ -205,11 +205,11 @@ int map_level_to_difficulty(difficulty_level_scale_t *level_scale,
 
 
 /* See autogenerate.h */
-bool roomspec_is_given_difficulty(rooms_level_t *rooms, 
+bool roomspec_is_given_difficulty(room_level_t *rooms, 
                                   roomspec_t *roomspec, 
                                   int difficulty_level)
 {
-    rooms_level_t *s;
+    room_level_t *s;
 
     HASH_FIND_STR(rooms, roomspec->room_name, s); 
     if (s != NULL) {
@@ -224,7 +224,7 @@ bool roomspec_is_given_difficulty(rooms_level_t *rooms,
 /* See autogenerate.h */
 int multi_rooms_level_generate(game_t *game, gencontext_t *context, 
                                char *room_id, int num_rooms,
-                               rooms_level_t *rooms, difficulty_level_scale_t *level_scale)
+                               room_level_t *rooms, difficulty_level_scale_t *level_scale)
 {
     /* If there are no roomspec_t elements in context->speclist, then do not autogenerate */
     if (context->speclist == NULL) {
