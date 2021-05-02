@@ -58,6 +58,7 @@ typedef struct stat_changes {
     int max_hp;
     int turns_left;
     struct stat_changes* next;
+    struct stat_changes* prev;
 } stat_changes_t;
 
 #endif

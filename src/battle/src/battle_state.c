@@ -153,3 +153,62 @@ int battle_free(battle_t *b)
 
     return SUCCESS;
 }
+
+stat_changes_t *stat_changes(){
+    stat_changes_t* sc;
+    int rc;
+
+    s = calloc(1, sizeof(stat_changes_t));
+
+    if(s == NULL)
+    {
+        fprintf(stderr, "Could not allocate memory for stat changes struct\n");
+        return NULL;
+    }
+
+    rc = stat_changes_init(sc);
+    if(rc != SUCCESS)
+    {
+        fprintf(stderr, "Could not initialize stat changes struct\n");
+        return NULL;
+    }
+
+    return s;    
+}
+
+int stat_changes_init(stat_changes_t *sc){
+    assert(sc != NULL);
+
+    sc->speed = 0;
+    sc->defense = 0;
+    sc->strength = 0;
+    sc->dexterity = 0;
+    sc->hp = 0;
+    sc->max_hp = 0;
+    sc->turns_left = -1;
+    sc->next = NULL;
+    sc->prev = NULL;
+
+    return SUCCESS;
+}
+
+int stat_changes_free_node(stat_changes_t *sc){
+    sc->prev->next = sc->next;
+    
+    free(sc);
+
+    return SUCCESS;
+}
+
+int stat_changes_free_all(stat_changes_t *sc){
+    stat_changes_t *current = sc;
+    stat_changes_t *next = NULL;
+
+    while(current->next != NULL){
+        next = current->next;
+        free(current);
+        current = next;
+    }
+
+    return SUCCESS;
+}
