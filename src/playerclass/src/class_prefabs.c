@@ -182,18 +182,18 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
     }
 
     /* A hard hitting and beefy physical attacker:
-     * 25 Max Health
-     * 10 Speed
-     * 15 Physical Defense
-     * 25 Physical Attack
-     *  5 Ranged Attack
+     * 45 Max Health
+     * 20 Speed
+     * 20 Physical Defense
+     * 30 Physical Attack
+     * 10 Ranged Attack
      *  5 Magic Defense
      *  5 Magic Attack
      * 15 Max Magic Energy */
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
         short_desc = "A mighty warrior.";
         long_desc = "A mighty yet noble warrior, skilled with the blade.";
-        set_stats_hashtable(ctx, &stats, 25, 10, 15, 25, 5, 5, 5, 15);
+        set_stats_hashtable(ctx, &stats, 45, 20, 20, 30, 10, 5, 5, 15);
     }
         
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
