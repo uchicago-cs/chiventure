@@ -410,23 +410,3 @@ int class_prefab_add_skills(class_t* class) {
 
     return SUCCESS;
 }
-
-/* Testing out how this might work
- * SAMPLE (we are probably not going to write a function per class) */
-class_t* class_prefab_warrior(chiventure_ctx_t* ctx) {
-    char* name = "Warrior"; 
-    char* short_desc = "Guy with sword."; 
-    char* long_desc = "Guy with sword. Guy hit thing in head with sword. Guy use " 
-    "few words, sword is better than words.";
-    
-    obj_t* attributes = obj_new("class_attributes"); // Empty Attributes object (name could change)
-
-    /* Stats */
-    stats_hash_t *stats = NULL;
-    check_and_add_stat(ctx, &stats, "moxie", 10, 100);
-    check_and_add_stat(ctx, &stats, "blood-thirst", 97, 100);
-    
-    /* Effects: I don't know if we should put anything here yet. */
-    effects_hash_t* effects = NULL; // This can actually stay NULL forever. The empty hashtable is represented by NULL in uthash.
-    return class_new(name, short_desc, long_desc, attributes, stats, effects);
-}

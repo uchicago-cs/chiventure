@@ -83,8 +83,8 @@ Test(class_prefabs, Warrior) {
     check_skill_pressence(c, 3, skill_list);
 
     cr_assert_str_eq(c->combat->active[0]->name, "Sword Slash", "failed to initialize combat skill inventory");
-}
 
-Test(class_prefabs, warrior_sword_slash) {
-    cr_assert_str_eq(warrior_sword_slash(""), "6");
+    /* Testing whether the stat actually works (although this is placeholder
+     * behavior according to skill-trees team) */
+    cr_assert_str_eq(c->combat->active[0]->effect(""), "6");
 }
