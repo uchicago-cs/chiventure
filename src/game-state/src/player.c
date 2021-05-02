@@ -10,6 +10,12 @@ int player_set_race(player_t *plyr, char *player_race)
     }
 
     plyr->player_race = malloc(MAX_ID_LEN * sizeof(char));
+    
+    if (plyr->player_race == NULL)
+    {
+        return FAILURE;
+    }
+
     strncpy(plyr->player_race, player_race, strlen(player_race));
 
 
@@ -36,10 +42,11 @@ player_t* player_new(char *player_id)
 {
     player_t *plyr;
     plyr = malloc(sizeof(player_t));
+    assert(plyr != NULL);
+
     memset(plyr, 0, sizeof(player_t));
     plyr->player_id = malloc(MAX_ID_LEN * sizeof(char));
 
-    assert(plyr != NULL);
     assert(player_id != NULL);
 
     strncpy(plyr->player_id, player_id, strlen(player_id));
@@ -94,26 +101,6 @@ int delete_all_players(player_hash_t* players)
         player_free(current_player);
     }
     return SUCCESS;
-}
-
-/* See player.h */
-int get_health(player_t* plyr)
-{
-    return plyr->health;
-}
-
-/* See player.h */
-int change_health(player_t* plyr, int change, int max)
-{
-    if((plyr->health + change) < max)
-    {
-        plyr->health += change;
-    }
-    else
-    {
-        plyr->health = max;
-    }
-    return plyr->health;
 }
 
 /* See player.h */
