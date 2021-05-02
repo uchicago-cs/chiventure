@@ -13,19 +13,19 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
     npc_battle->moves = moves;
     npc_battle->ai = ai;
     npc_battle->hostility_level = hostility_level;
-    npc_battle->will_fight = will_fight
+    npc_battle->will_fight = will_fight;
     npc_battle->surrender_level = surrender_level;
 
     return SUCCESS;
 }
 
 /* See npc.h */
-npc_t *npc_battle_new(int health, stat_t* stats, move_t* moves, difficulty_t ai,
-                      hostility_t hostility_level, bool will_fight,
-                      int surrender_level)
+npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves, 
+		             difficulty_t ai, hostility_t hostility_level, 
+			     bool will_fight, int surrender_level)
 {
     npc_battle_t *npc_battle;
-    npc = malloc(sizeof(npc_battle_t));
+    npc_battle = malloc(sizeof(npc_battle_t));
     memset(npc_battle, 0, sizeof(npc_battle_t));
     npc_battle->stats = malloc(sizeof(stat_t));
     npc_battle->moves = malloc(sizeof(move_t)); 
@@ -46,7 +46,7 @@ npc_t *npc_battle_new(int health, stat_t* stats, move_t* moves, difficulty_t ai,
 int npc_battle_free(npc_battle_t *npc_battle)
 {
     assert(npc_battle != NULL);
-    free(npc_battle->stats /* waiting for battle team's stat_free function */
+    free(npc_battle->stats); /*waiting for battle team's stat_free function*/
     move_free(npc_battle->moves);
     free(npc_battle);
 
@@ -71,7 +71,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 }
 
 /* See npc.h */
-npc_t *npc_new(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
+npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
                convo_t *dialogue, item_hash_t *inventory, class_t *class,
                npc_battle_t *npc_battle)
 {
@@ -140,8 +140,8 @@ char *get_ldesc_npc(npc_t *npc)
 
 /* See npc.h */
 int get_npc_health(npc_t *npc)
-{
-    return npc->health;
+{	
+    return npc->npc_battle->health;
 }
 
 /* See npc.h */
@@ -169,19 +169,19 @@ item_list_t *get_npc_inv_list(npc_t *npc)
 /* See npc.h */
 int change_npc_health(npc_t *npc, int change, int max)
 {
-    if ((npc->health + change) < 0)
+    if ((npc->npc_battle->health + change) < 0)
     {
-        npc->health = 0;
+        npc->npc_battle->health = 0;
     }
-    if ((npc->health + change) < max)
+    if ((npc->npc_battle->health + change) < max)
     {
-        npc->health += change;
+        npc->npc_battle->health += change;
     }
     else
     {
-        npc->health = max;
+        npc->npc_battle->health = max;
     }
-    return npc->health;
+    return npc->npc_battle->health;
 }
 
 /* See npc.h */

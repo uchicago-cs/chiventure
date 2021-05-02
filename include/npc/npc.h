@@ -3,6 +3,7 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
+#include "game-state/stats.h"
 #include "npc/dialogue.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
@@ -18,6 +19,30 @@ typedef enum hostility {
     CONDITIONAL_FRIENDLY = 1,
     HOSTILE = 2
 } hostility_t;
+
+/* Info used for battles with NPCs */
+typedef struct npc_battle {
+    /* NPC health level */
+    int health;
+
+    /* pointer to an existing stat struct */
+    stat_t *stats;
+
+    /* pointer to an existing move struct */
+    move_t *moves;
+
+    /* difficulty of the NPC's ai */
+    difficulty_t ai;
+    
+    /* hostility level of the npc */
+    hostility_t hostility_level;
+
+    /* whether the NPC will fight */
+    bool will_fight;
+
+    /* health level at which the NPC will surrender */
+    int surrender_level;
+} npc_battle_t;
 
 /* A non-playable character in game */
 typedef struct npc {
@@ -45,30 +70,6 @@ typedef struct npc {
     /* pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
 } npc_t;
-
-/* Info used for battles with NPCs */
-typedef struct npc_battle {
-    /* NPC health level */
-    int health;
-
-    /* pointer to an existing stat struct */
-    stat_t *stats;
-
-    /* pointer to an existing move struct */
-    move_t *moves;
-
-    /* difficulty of the NPC's ai */
-    difficulty_t ai;
-    
-    /* hostility level of the npc */
-    hostility_t hostility_level;
-
-    /* whether the NPC will fight */
-    bool will_fight;
-
-    /* health level at which the NPC will surrender */
-    int surrender_level;
-} npc_battle_t
 
 /* This typedef is to distinguish between npc_t pointers which are
  * used to point to the npc_t structs in the traditional sense,
@@ -117,9 +118,9 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
  * Returns:
  *  pointer to allocated npc_battle
  */
-npc_t *npc_battle_new(int health, stat_t* stats, move_t* moves, difficulty_t ai,
-                      hostility_t hostility_level, bool will_fight, 
-                      int surrender_level);
+npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves, 
+		             difficulty_t ai, hostility_t hostility_level, 
+			     bool will_fight, int surrender_level);
 
 /*
  * Frees resources associated with an npc_battle struct.
@@ -175,7 +176,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  * Returns:
  *  pointer to allocated npc
  */
-npc_t *npc_new(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
+npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
                convo_t *dialogue, item_hash_t *inventory, class_t *class, 
                npc_battle_t *npc_battle);
 
