@@ -362,8 +362,9 @@ Test(attribute, add_attr_to_hash_success)
     "item for testing add_attr_to_hash");
 
     attribute_t *test_attr = malloc(sizeof(attribute_t));
-    test_attr->attribute_key = (char*)malloc(100);
-    test_attr->attribute_key = "test_attr";
+    char *tmp = malloc(100);
+    tmp = "test_attr";
+    test_attr->attribute_key = tmp;
     test_attr->attribute_tag = STRING;
     test_attr->attribute_value.str_val = "test";
 
@@ -391,6 +392,7 @@ Test(attribute, add_attr_to_hash_failure)
     int test = add_attribute_to_hash(test_item, test_attr);
     cr_assert_eq(test, FAILURE,
         "add_attr_to_hash() test failed: duplicate attribute added");
+    item_free(test_item);
 
 }
 
@@ -414,6 +416,7 @@ Test(attribute, get_attribute)
     cr_assert_str_eq(my_attr->attribute_key, "door", "get_attr(): wrong key!");
     cr_assert_str_eq(my_attr->attribute_value.str_val, "locked",
     "get_attr(): wrong value!");
+    item_free(test_item);
 
 }
 
@@ -451,7 +454,7 @@ Test(attribute, set_int_attr)
     cr_assert_not_null(test_attr, "set_int_attribute: null attribute returned");
     int test_int = test_attr->attribute_value.int_val;
     cr_assert_eq(test_int, 2, "set_int_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new double attribute and adding it to an item */
@@ -490,7 +493,7 @@ Test(attribute, set_char_attr)
         "change_char_attribute: null attribute returned");
     char test_char = test_attr->attribute_value.char_val;
     cr_assert_eq(test_char, 'a', "change_char_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new boolean attribute and adding it to an item */
@@ -533,7 +536,7 @@ Test(attribute, change_str_attr)
     char* test_str = test_attr->attribute_value.str_val;
     cr_assert_str_eq(test_str, "Attribute_Test_Value_2",
     "change_str_attr: changed to the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new str attribute and if change to non-str is blocked */
@@ -557,7 +560,7 @@ Test(attribute, change_str_attr_fail)
     char* test_str = test_attr->attribute_value.str_val;
     cr_assert_str_eq(test_str, "Attribute_Test_Value",
     "change_str_attr: changed to a non-string type");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new string attribute and changing its value */
@@ -600,7 +603,7 @@ Test(attribute, change_int_attr_fail)
     cr_assert_not_null(test_attr, "change_int_attr: null attribute returned");
     int test_int = test_attr->attribute_value.int_val;
     cr_assert_eq(test_int, 5, "change_int_attr: changed to a non-integer type");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new double attribute and changing its value */
@@ -649,7 +652,7 @@ Test(attribute, change_double_attr_fail)
     double test_double = test_attr->attribute_value.double_val;
     cr_assert_eq(test_double, 5.0,
         "change_double_attr: changed to a non-double type");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new character attribute and changing its value */
@@ -671,7 +674,7 @@ Test(attribute, change_char_attr)
         "change_char_attribute: null attribute returned");
     char test_char = test_attr->attribute_value.char_val;
     cr_assert_eq(test_char, 'b', "change_char_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new char attribute and if change to non-char is blocked */
@@ -695,7 +698,7 @@ Test(attribute, change_char_attr_fail)
     char test_char = test_attr->attribute_value.char_val;
     cr_assert_eq(test_char, 'x',
     "change_char_attr: changed to a non-char type");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new boolean attribute and changing its value */
@@ -748,7 +751,7 @@ Test(attribute, change_bool_attr_fail)
     bool test_bool = test_attr->attribute_value.bool_val;
     cr_assert_eq(test_bool, true,
         "change_bool_attr: changed to a non-bool type");
-
+    item_free(test_item);
 }
 
 
@@ -767,7 +770,7 @@ Test(attribute, get_str_attr)
     char* test_str = get_str_attr(test_item, "Attribute_Test_Name");
     cr_assert_str_eq(test_str, "Attribute_Test_Value",
     "change_str_attr: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks retrieval of integer attribute value */
@@ -783,7 +786,7 @@ Test(attribute, get_int_attr)
         "set_int_attribute: no elements added to hash");
     int test_int = get_int_attr(test_item, "Attribute_Test_Name");
     cr_assert_eq(test_int, 2, "set_int_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks retrieval of double attribute value */
@@ -800,7 +803,7 @@ Test(attribute, get_double_attr)
     double test_double = get_double_attr(test_item, "Attribute_Test_Name");
     cr_assert_float_eq(test_double, 2.0, 0.001,
         "change_double_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks retrieval of character attribute value */
@@ -816,7 +819,7 @@ Test(attribute, get_char_attr)
         "change_char_attribute: no elements added to hash");
     char test_char = get_char_attr(test_item, "Attribute_Test_Name");
     cr_assert_eq(test_char, 'a', "change_char_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks retrieval of boolean attribute value */
@@ -832,7 +835,7 @@ Test(attribute, get_bool_attr)
         "change_bool_attribute: no elements added to hash");
     bool test_bool = get_bool_attr(test_item, "Attribute_Test_Name");
     cr_assert_eq(test_bool, true, "change_bool_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 
