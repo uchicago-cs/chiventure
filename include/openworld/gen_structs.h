@@ -300,7 +300,7 @@ int rooms_level_free(rooms_level_t *map);
  * to the hash table of room names 
  * 
  * Parameters:
- * - rooms: pointer to the hash table of rooms
+ * - rooms: pointer to the room hash table
  * - char *names[]: an array of room names, for example {“school”}
  * - int difficulty_level: difficulty_level
  *
@@ -308,7 +308,7 @@ int rooms_level_free(rooms_level_t *map);
  * - Changes input rooms_level_t to hold the newly added room(s),
  *   allocated on the heap
  */
-void add_rooms_to_hash(rooms_level_t *rooms, 
+void add_rooms_to_hash(rooms_level_t **rooms, 
                        const char *names[], 
                        int difficulty_level);
 
