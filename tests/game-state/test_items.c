@@ -126,7 +126,6 @@ Test(item, add_item_to_hash_duplicate_items)
     cr_assert_eq(count, 2, "add_item_to_hash did not add items with same "
                  "item ids correctly.");
     delete_all_items(&ht);
-    item_free(test_item1);
 }
 
 /* Checks that get_all_items_in_hash returns the expected 
@@ -195,7 +194,6 @@ Test(item, get_all_items_in_hash_duplicate_items)
     cr_assert_eq(count, 3, "get_all_items_in_hash did not include all items "
                  "in returned list");
     delete_all_items(&ht);
-    item_free(test_item1);
     
     delete_item_llist(list);
 }
@@ -250,6 +248,7 @@ Test(item, remove_item_from_hash_duplicate_items_head)
     rc = remove_item_from_hash(&ht, head);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
+
     HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
     cr_assert_not_null(check, "remove_item_from_hash removed both "
                        "duplicate items from hashtable");
@@ -259,9 +258,27 @@ Test(item, remove_item_from_hash_duplicate_items_head)
                  "remove a duplicate item id from hashtable");
     cr_assert_eq(head->next, NULL, "remove_item_from_hash failed to "
                  "update the removed item");
+    
+    /* Since remove_item_from_hash does not free associated item, manual free */
+    rc = item_free(head);
+    cr_assert_eq(rc, SUCCESS, "item_free failed to free associated item");
+
     delete_all_items(&ht);
-    item_free(head);
-    item_free(last);
+}
+
+Test(item, delete_all_items_duplicate_item_in_hash)
+{
+    item_hash_t *ht = NULL;
+    item_t *head = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
+    
+    add_item_to_hash(&ht, last);
+    add_item_to_hash(&ht, head);
+
+    rc = delete_all_items(&ht);
+    cr_assert_eq(rc, SUCCESS, "delete_all_items failed to free all associated resources");
 }
 
 /* Checks that remove_item_from_hash does not remove
@@ -381,8 +398,8 @@ Test(attribute, add_attr_to_hash_failure)
     "item for testing add_attr_to_hash");
 
     attribute_t *test_attr = malloc(sizeof(attribute_t));
-    test_attr->attribute_key = (char*)malloc(100);
-    test_attr->attribute_key = "test_attr";
+        char *tmp = "test_attr";
+    test_attr->attribute_key = strndup(tmp, 100);
     test_attr->attribute_tag = STRING;
     test_attr->attribute_value.str_val = "test";
 
