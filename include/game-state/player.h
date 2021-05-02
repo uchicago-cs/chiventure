@@ -61,20 +61,6 @@ typedef struct player {
 typedef struct player player_hash_t;
 
 /*
- * Sets an allocated player_t object's player_class field to given class_t class
- *  as well as setting 
- *
- * Parameters:
- *  plyr: A player. Must point to already allocated memory.
- *  player_class: The player's class. Contains starting fields for
- *                skills and stats
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int player_set_class(player_t *plyr, class_t *player_class);
-
-/*
  * Allocates and creates a new player with given ID, starting at level
  *  1 with 0 xp and 5 health. 
  *
@@ -109,26 +95,29 @@ int player_free(player_t *plyr);
 int delete_all_players(player_hash_t* players);
 
 /*
- * Returns the health of a player
+ * Sets an allocated player_t object's player_class field to given class_t class
  *
  * Parameters:
- *  plyr: the player
+ *  plyr: A player. Must point to already allocated memory.
+ *  player_class: The player's class. Contains starting fields for
+ *                skills and stats
  *
  * Returns:
- *  int, the player's health
+ *  SUCCESS on success, FAILURE if an error occurs.
  */
-int get_health(player_t *plyr);
+int player_set_class(player_t *plyr, class_t *player_class);
 
 /*
- * Changes the health of the player
+ * Sets an allocated player_t's race field to the given string
  *
  * Parameters:
- *  plyr: the player
+ *  plyr: A player. Must point to already allocated memory.
+ *  player_race: A string containing the player's race
  *
  * Returns:
- *  int, remaining health
+ *  SUCCESS on success, FAILURE if an error occurs.
  */
-int change_health(player_t *plyr, int change, int max);
+int player_set_race(player_t *plyr, char *player_race);
 
 /*
  * Returns the level of the player

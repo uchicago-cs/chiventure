@@ -26,6 +26,8 @@ int player_set_class(player_t *plyr, class_t *player_class)
     }
 
     plyr->player_class = player_class;
+
+    return SUCCESS;
 }
 
 
@@ -65,7 +67,7 @@ int player_free(player_t* plyr)
 
     if (plyr->player_race != NULL)
     {
-        free(plyr->player_race)
+        free(plyr->player_race);
     }
 
     if (plyr->player_class != NULL)
