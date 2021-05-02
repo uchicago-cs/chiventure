@@ -1,6 +1,7 @@
 
 #include <ctype.h>
 #include <stdio.h> 
+#include <stdarg.h>
 
 #include "playerclass/class_prefabs.h"
 #include "playerclass/class.h"
@@ -288,6 +289,43 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
     return EXIT_SUCCESS;
 }
 
+/*
+ * Safely adds a skill to the class's skilltree, and skill inventory if needed.
+ *
+ * Parameters: 
+ *  - class: A pointer to the class. Must not be NULL.
+ *  - skill: A pointer to the skill being added. Must not be NULL.
+ *  - prereq_count: The number of prereqs the skill has.
+ *  - is_starting: true if the skill is a starting skill for the class.
+ *  - ...: Indices of the skills that are prereqs to this skill (note that 
+ *         skills are added in order, starting at index 0).
+ *         
+ * Returns:
+ *  - SUCCESS on success.
+ *  - FAILURE on failure.
+ */
+int add_skill(class_t* class, skill_t* skill, int prereq_count, bool is_starting, ...) {
+    if (class == NULL || skill == NULL)
+        return FAILURE;
+
+    skill_node_t* node = skill_node_new(skill, prereq_count, UI_NODE_SIZE);
+
+    /* Citation: (https://jameshfisher.com/2016/11/23/c-varargs/) */
+    va_list prereq_p;
+    va_start(prereq_p, is_starting);
+    for (int i = 0; i < prereq_count; i++) {
+        int index = va_arg(prereq_p, int);
+        node_prereq_add(node, class->skilltree->nodes[index]);
+    }
+    va_end(prereq_p);
+
+    skill_tree_node_add(class->skilltree, node);
+
+    if (is_starting)
+        inventory_skill_acquire(class->skilltree, class->combat, skill);
+    return SUCCESS;
+} 
+
 /* See class_prefabs.h */
 int class_prefab_add_skills(class_t* class) {
     char temp_name[MAX_NAME_LEN + 1];
@@ -342,34 +380,22 @@ int class_prefab_add_skills(class_t* class) {
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
         class_allocate_skills(class, 3, 3, 0);
         sid_t skill_id = class->skilltree->tid * 100;
-
+        
         /* Skills */
-        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Sword Slash", 
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Sword Slash", 
                                      "You slash your sword.", 1, 100, 
                                      warrior_sword_slash);
-        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Double Slash", 
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Double Slash", 
                                      "You slash your sword, twice!", 1, 200, 
                                      warrior_double_slash);
-        skill_t* skill_3 = skill_new(skill_id++, ACTIVE, "Triple Slash", 
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Triple Slash", 
                                      "You slash your sword, thrice!", 1, 400, 
                                      warrior_triple_slash);
 
-        /* Skill nodes */          
-        skill_node_t* node_1 = skill_node_new(skill_1, 0, UI_NODE_SIZE);      
-        skill_node_t* node_2 = skill_node_new(skill_2, 1, UI_NODE_SIZE);    
-        skill_node_t* node_3 = skill_node_new(skill_3, 1, UI_NODE_SIZE);
-
-        /* Set up node prerequisites */
-        node_prereq_add(node_2, node_1);
-        node_prereq_add(node_3, node_2);
-
-        /* Add nodes to tree */
-        skill_tree_node_add(class->skilltree, node_1);
-        skill_tree_node_add(class->skilltree, node_2);
-        skill_tree_node_add(class->skilltree, node_3);
-
-        /* Add starting skills */        
-        inventory_skill_acquire(class->skilltree, class->combat, skill_1);
+        /* Add skills to tree */
+        add_skill(class, skill_0, 0, true);
+        add_skill(class, skill_1, 1, false, 0);
+        add_skill(class, skill_2, 1, false, 1);
     }
         
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
