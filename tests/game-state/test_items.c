@@ -362,9 +362,9 @@ Test(attribute, add_attr_to_hash_success)
     "item for testing add_attr_to_hash");
 
     attribute_t *test_attr = malloc(sizeof(attribute_t));
-    char *tmp = malloc(100);
-    tmp = "test_attr";
-    test_attr->attribute_key = tmp;
+    
+    char *tmp = "test_attr";
+    test_attr->attribute_key = strndup(tmp, 100);
     test_attr->attribute_tag = STRING;
     test_attr->attribute_value.str_val = "test";
 
