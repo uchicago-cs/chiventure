@@ -2,6 +2,7 @@
 #include "game-state/room.h"
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
+#include "game-state/mode.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -250,6 +251,7 @@ int game_free(game_t *game)
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
     delete_condition_llist(game->end_conditions);
+    game_mode_free(game->mode);
     free(game->start_desc);
     free(game);
     return SUCCESS;
