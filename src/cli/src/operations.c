@@ -318,8 +318,8 @@ char *capitalize(char *word)
 
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    capitalize(tokens[1]);
-    capitalize(tokens[2]);
+    case_insensitize(tokens[1]);
+    case_insensitize(tokens[2]);
     if(find_entry(tokens[1], (ctx->table)) == NULL)
     {
         return "New words must be defined using only words that are already defined!";
@@ -339,7 +339,7 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "Please input a theme";
     }
-    capitalize(tokens[1]);
+    case_insensitize(tokens[1]);
     if(strcmp(tokens[1], "default") == 0)
     {
         n = 1;
