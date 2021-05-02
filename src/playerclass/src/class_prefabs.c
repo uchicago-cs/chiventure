@@ -17,13 +17,9 @@
 /* Default Classes in alphabetical order. */
 const char* const DEFAULT_CLASS_NAMES[] = {
     "bard",
-    "druid",
-    "elementalist",
-    "knight",
     "monk",
     "ranger",
     "rogue",
-    "sorcerer",
     "warrior",
     "wizard",
 };
@@ -175,8 +171,8 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
      * 5 Max Mana */ 
     else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
         short_desc = "An elite martial artist.";
-        long_desc = "The Monk is an expert of unarmed combat, and, through their training--
-                    in accordance with their strict spirituality--have learned how to defend themselves from attackers.";
+        long_desc = "The Monk is an expert of unarmed combat, and, through their training-- "
+                    "in accordance with their strict spirituality--have learned how to defend themselves from attackers.";
         set_stats_hashtable(ctx, &stats, 25, 20, 15, 15, 5, 20, 5, 5);
     }
     /* A master hunter:
@@ -190,8 +186,8 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
      * 10 Max Mana */
     else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
         short_desc = "An highly skilled hunter.";
-        long_desc = "The ranger is the embodiment of an apex predator: while they may tend to lurk away 
-                    from civilisation in the wild, they are a skilled killer and have no qualms about doing so.";
+        long_desc = "The ranger is the embodiment of an apex predator: while they may tend to lurk away "
+                    "from civilisation in the wild, they are a skilled killer and have no qualms about doing so.";
         set_stats_hashtable(ctx, &stats, 10, 20, 10, 15, 25, 10, 10, 10);
     }
 
@@ -206,8 +202,8 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
      * 15 Max Mana */
     else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
         short_desc = "A sibling of the shadows.";
-        long_desc = "The Rogue embodies stealth and the shadows. They are feared by many, and for good reason. 
-                    They use their exceptional speed and agility to surprise their enemies and attack when least expected.";
+        long_desc = "The Rogue embodies stealth and the shadows. They are feared by many, and for good reason. "
+                    "They use their exceptional speed and agility to surprise their enemies and attack when least expected.";
         set_stats_hashtable(ctx, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
     }
 
@@ -238,8 +234,8 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
      * 25 Max Mana */ 
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
         short_desc = "A learned wizard.";
-        long_desc = "The Wizard is a master of the arcane; a formidable wielder of magic,
-                     and an academic whose studies delve into its secrets.";
+        long_desc = "The Wizard is a master of the arcane; a formidable wielder of magic, "
+                    "and an academic whose studies delve into its secrets.";
         set_stats_hashtable(ctx, &stats, 10, 10, 5, 5, 10, 20, 25, 25);
     }
 

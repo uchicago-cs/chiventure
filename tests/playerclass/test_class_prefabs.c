@@ -85,8 +85,8 @@ Test(class_prefabs, Warrior) {
     class_t *c = class_prefab_new(ctx, "Warrior");
     check_field_pressence(c);
     
-    cr_assert_eq(get_stat_current(c->stats, "max_health"), 45, "failed to initialize previously declared stat");
-    cr_assert_eq(get_stat_current(c->stats, "speed"), 20, "failed to initialize new stat");
+    cr_assert_eq(get_stat_current(c->stats, "max_health"), 20, "failed to initialize previously declared stat");
+    cr_assert_eq(get_stat_current(c->stats, "speed"), 15, "failed to initialize new stat");
 
     class_prefab_add_skills(c);
         
