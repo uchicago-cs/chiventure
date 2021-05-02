@@ -38,10 +38,11 @@ game_mode_t *game_mode_new(mode_type_t curr_mode, mode_operation run_mode,
 /* see mode.h */
 int game_mode_free(game_mode_t *mode)
 {
-    assert(mode != NULL);
-
-    free(mode->mode_ctx);
-    free(mode);
+    if (mode != NULL)
+    {
+        free(mode->mode_ctx);
+        free(mode);
+    }
 
     return SUCCESS;
 }
