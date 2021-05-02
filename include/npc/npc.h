@@ -6,6 +6,9 @@
 #include "npc/dialogue.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
+#include "battle/battle_common.h"
+#include "battle/battle_structs.h"
+#include "battle/battle_moves.h"
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
@@ -77,6 +80,60 @@ typedef struct npc npc_hash_t;
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
 /*
+ * Initializes an npc's battle info (npc_battle) with the given parameters.
+ *
+ * Parameters:
+ *  npc_battle: an npc_battle struct; must point to already allocated memory
+ *  health: an int with the npc's starting health level
+ *  stats: a pointer to an existing stat_t struct defining the npc's battle 
+           stats (see /include/battle/battle_structs.h)
+ *  moves: a pointer to an existing move_t struct defining the npc's battle 
+           moves (see /include/battle/battle_structs.h)
+ *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
+ *  hostility_level: the npc's hostility level 
+ *  will_fight: a boolean describing whether or not the npc will fight
+ *  surrender_level: the level of health at which the npc surrenders the battle
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs
+ */
+int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats, 
+                    move_t* moves, difficulty_t ai, hostility_t hostility_level,
+                    bool will_fight, int surrender_level);
+/*
+ * Allocates a new npc_battle struct in the heap.
+ *
+ * Parameters:
+ *  health: an int with the npc's starting health level
+ *  stats: a pointer to an existing stat_t struct defining the npc's battle 
+           stats (see /include/battle/battle_structs.h)
+ *  moves: a pointer to an existing move_t struct defining the npc's battle 
+           moves (see /include/battle/battle_structs.h)
+ *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
+ *  hostility_level: the npc's hostility level 
+ *  will_fight: a boolean describing whether or not the npc will fight
+ *  surrender_level: the level of health at which the npc surrenders the battle
+ *
+ * Returns:
+ *  pointer to allocated npc_battle
+ */
+npc_t *npc_battle_new(int health, stat_t* stats, move_t* moves, difficulty_t ai,
+                      hostility_t hostility_level, bool will_fight, 
+                      int surrender_level);
+
+/*
+ * Frees resources associated with an npc_battle struct.
+ *
+ * Parameters:
+ *  npc_battle: the npc_battle struct to be freed
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurs
+ */
+int npc_battle_free(npc_battle_t *npc_battle);
+
+
+/*
  * Initializes an npc with the given parameters.
  *
  * Parameters:
@@ -84,14 +141,20 @@ typedef struct npc npc_hash_t;
  *  npc_id: unique string ID of npc
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
- *  health: the starting health of the npc
- *  class: a pointer to an existing class_t struct defining the class of the npc
- *
+ *  dialogue: a pointer to an existing convo_t struct defining the npc's
+              conversations (see /include/npc/dialogue.h)
+ *  inventory: a pointer to an existing item_hash_t struct defining the npc's
+ *             inventory (see /include/game-state/item.h)
+ *  class: a pointer to an existing class_t struct defining the npc's class
+           (see /include/playerclass/class_structs.h)
+ *  npc_battle: a pointer to an existing npc_battle_t struct defining the npc's
+ *              battle stats
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             int health, class_t *class);
+             convo_t *dialogue, item_hash_t *inventory, class_t *class, 
+             npc_battle_t *npc_battle);
 
 /*
  * Allocates a new npc in the heap.
@@ -100,14 +163,21 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  npc_id: unique string ID of npc
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
- *  health: the starting health of the npc
- *  class: a pointer to an existing class_t struct defining the class of the npc
+ *  dialogue: a pointer to an existing convo_t struct defining the npc's 
+              conversations (see /include/npc/dialogue.h)
+ *  inventory: a pointer to an existing item_hash_t struct defining the npc's
+ *             inventory (see /include/game-state/item.h)
+ *  class: a pointer to an existing class_t struct defining the npc's class
+           (see /include/playerclass/class_structs.h)
+ *  npc_battle: a pointer to an existing npc_battle_t struct defining the npc's
+ *              battle stats
  *
  * Returns:
  *  pointer to allocated npc
  */
-npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               int health, class_t *class);
+npc_t *npc_new(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
+               convo_t *dialogue, item_hash_t *inventory, class_t *class, 
+               npc_battle_t *npc_battle);
 
 /*
  * Frees resources associated with an npc.
