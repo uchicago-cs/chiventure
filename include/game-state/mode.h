@@ -8,10 +8,22 @@
 typedef struct chiventure_ctx chiventure_ctx_t;
 typedef int cli_callback(chiventure_ctx_t *ctx, char *outstring, void *args);
 
-/* Mode operation function should run a step of the
+
+/*
+ * Mode operation function should run a step of the
  * respective mode, consisting of parsing the user's
  * input and printing the corresponding outstring
- * with the cli_callback function */ 
+ * with the cli_callback function.
+ *
+ * Parameters:
+ * str: the user's input obtained from the UI.
+ * callback_func: pointer to a callback function
+ * callback_args: additional arguments to callback function
+ * ctx: pointer to chiventure context struct
+ *
+ * Returns:
+ * SUCCESS on success, FAILURE if an error occurs
+ */ 
 typedef int mode_operation(char* str, cli_callback callback_func, 
                            void* callback_args, chiventure_ctx_t* ctx);
 
@@ -28,7 +40,6 @@ typedef struct game_mode {
     char* mode_ctx; //for specifying mode's context, e.g. npc_id
 } game_mode_t;
 
-// STRUCT FUNCTIONS ----------------------------------------------------------
 
 /*
  * Initializes a mode with given parameters.
