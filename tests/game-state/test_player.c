@@ -23,6 +23,7 @@ Test(player, new)
       "player_new() didn't properly call player_init()");
   cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0,
   "player_new() didn't properly call player_init() for player_id");
+  player_free(player);
 }
 
 /* Checks that player_init() initializes the fields in the new player struct */
@@ -40,6 +41,7 @@ Test(player, init)
   cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0,
   "player_init() didn't set player_id to 1");
   cr_assert_eq(res, SUCCESS, "player_init() failed");
+  player_free(player);
 }
 
 /* Checks that player_free() frees the given player struct from memory */
@@ -64,6 +66,7 @@ Test(player, get_health)
   cr_assert_not_null(player, "player_new() failed");
 
   cr_assert_eq(health, 99, "get_health() returned incorrect health");
+  player_free(player);
 }
 
 /* Checks that a player's health is changed by change_health()
@@ -81,6 +84,7 @@ Test(player, change_health)
   cr_assert_eq(health, 100, "change_health() increased health past max");
   cr_assert_eq(health2, 80, "change_health() did not properly reduce health");
   cr_assert_eq(health3, 83, "change_health() did not properly add health");
+  player_free(player);
 }
 
 /* Checks that get_level() returns the level of the player */
@@ -93,6 +97,7 @@ Test(player, get_level)
   cr_assert_not_null(player, "player_new() failed");
 
   cr_assert_eq(level, 1, "get_level() failed to return player level");
+  player_free(player);
 }
 
 /* Checks that a player's level is changed by change_level()
@@ -109,6 +114,7 @@ Test(player, change_level)
   cr_assert_eq(level, 4, "change_level() failed to add to player level");
   cr_assert_eq(level2, 3,
       "change_level() failed to subtract from player level");
+  player_free(player);
 }
 
 /* Checks that get_xp() returns the experience points of the player */
@@ -121,7 +127,9 @@ Test(player, get_xp)
   cr_assert_not_null(player, "player_new() failed");
 
   cr_assert_eq(xp, 0, "get_xp() failed to return player experience");
+  player_free(player);
 }
+
 
 /* Checks that a player's experience points is changed
 by change_xp positively and negatively */
@@ -137,6 +145,8 @@ Test(player, change_xp)
   cr_assert_eq(xp, 20, "change_xp() failed to add to player experience");
   cr_assert_eq(xp2, 15,
       "change_xp() failed to subtract from player experience");
+  player_free(player);
+
 }
 
 /* Checks that get_inventory() returns the player's inventory */
@@ -159,6 +169,8 @@ Test(player, get_inventory)
       "get_inventory() failed to return NULL for empty inventory");
   cr_assert_eq(inv2, player2->inventory,
       "get_inventory() failed to return inventory");
+  player_free(player);
+  player_free(player2);
 }
 
 /* Checks that add_player_to_game adds a player
@@ -174,6 +186,7 @@ Test(player, add_player_to_game)
       "add_player_to_hash failed to add player");
 
   cr_assert_eq(res, SUCCESS, "add_player_to_hash failed to add player");
+  game_free(game);
 }
 
 /* Checks that add_item_to_player adds item to a player struct's inventory */
@@ -194,6 +207,7 @@ Test(player, add_item_to_player)
     int rc = add_item_to_player(player, dup_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to add "
                  "item with identical id");
+    player_free(player);
 }
 
 /* Checks that remove_item_from_player properly removes items */
@@ -219,6 +233,9 @@ Test(player, remove_item_from_player)
     item_list = get_all_items_in_inventory(player);
     cr_assert_not_null(item_list, "remove_item_from_player removed "
                        "both identical items from player");
+    player_free(player);
+    item_free(test_item);
+    delete_item_llist(item_list);
 }
 
 /* Checks that add_item_to_player adds an item with an effect to player's inventory */
@@ -258,7 +275,7 @@ Test(player, add_item_effect_to_player)
                      "add_item did not add stat_mod to effect");
   cr_assert_eq(player->player_class->stats->modifier, 1.125, 
                "add_item did not update modifier");
-
+  player_free(player);
 }
 
 /* Checks that delete_all_players successfully
@@ -280,4 +297,6 @@ Test(player, delete_all_players)
   int res3 = delete_all_players(game->all_players);
 
   cr_assert_eq(res3, SUCCESS, "delete_all_players() failed to delete players");
+  game->all_players = NULL;
+  game_free(game);
 }
