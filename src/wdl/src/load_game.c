@@ -78,6 +78,13 @@ game_t *load_yaml_game(obj_t *big_document)
         return NULL;
     }
 
+    rc = load_normal_mode(game);
+    if(rc != SUCCESS)
+    {
+        fprintf(stderr, "Error loading mode.\n");
+        return NULL;
+    }
+
     obj_t *game_document = obj_get_attr(big_document, "GAME.0", false);
     char *start_room = obj_get_str(game_document, "start");
     game->curr_room = find_room_from_game(game, start_room);

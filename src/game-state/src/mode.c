@@ -49,7 +49,8 @@ int mode_free(mode_t *mode)
 /* see mode.h */
 int load_normal_mode(game_t *g)
 {
-    mode_t *mode = mode_new(NORMAL, NULL, "normal");
+    char normal_ctx[20] = "normal";
+    mode_t *mode = mode_new(NORMAL, NULL, normal_ctx);
 
     if (mode == NULL)
     {
