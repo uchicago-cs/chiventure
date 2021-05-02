@@ -83,37 +83,3 @@ stat_t* get_random_stat()
 
     return rv_stat;
 }
-
-/* See battle_default_objects.h */
-player_t* get_random_player() 
-{
-    return NULL;
-    /*
-    typedef struct player {
-        // Other fields: hash handle, inventory, other stats
-        char *player_id;
-        class_t *class;
-        stat_t *stats;
-        move_t *moves;
-        item_t *items;
-    } player_t;
-    */
-}
-
-/* See battle_default_objects.h */
-npc_enemy_t* get_random_enemy()
-{
-    return NULL;
-    /*
-    typedef struct npc_enemy {
-        char *npc_id;
-        class_t *class;
-        stat_t *stats;
-        move_t *moves;
-        item_t *items;
-        difficulty_t ai;
-        struct npc_enemy *prev;
-        struct npc_enemy *next;
-    } npc_enemy_t;
-    */
-}
