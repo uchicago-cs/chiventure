@@ -5,10 +5,10 @@
 #include "common/ctx.h"
 #include "game-state/game.h"
 
-/* In this case, stats hashtables are incomplete: some of our stats exists, some
-   are not yet declared. */
+/* In this case, the stat hashtable is incomplete: some of our stats exists,
+   some are not yet declared. */
 chiventure_ctx_t* init_incomplete_context() {
-    game_t* game = game_new("Sample game, complete context");
+    game_t* game = game_new("Sample game, incomplete context");
     chiventure_ctx_t* ctx = chiventure_ctx_new(game);
 
     /* Cook up initial stats */
@@ -30,6 +30,15 @@ chiventure_ctx_t* init_incomplete_context() {
     stats_global_t* test;
     HASH_FIND_STR(game->curr_stats, "moxie", test);
     cr_assert_eq(27, test->max);
+
+    return ctx;
+}
+
+/* In this case, the stat hashtable is NULL: all stats will have to be generated
+   when the class is. */
+chiventure_ctx_t* init_statless_context() {
+    game_t* game = game_new("Sample game, statless context");
+    chiventure_ctx_t* ctx = chiventure_ctx_new(game);
 
     return ctx;
 }
