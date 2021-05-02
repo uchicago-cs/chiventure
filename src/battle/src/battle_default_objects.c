@@ -23,15 +23,19 @@ item_t *get_random_default_item()
     item_t *rv_item = calloc(1, sizeof(item_t));
     assert(rv_item != NULL);
 
-    int rand = randnum(1,10);
+    int rand = randnum(1,10); 
     char* name_array[]= {"STICK", "HAMMER", "SHIV", "CLUB",  "BOW & ARROW", 
                          "SPEAR", "AXE", "TRIDENT", "SWORD", "SHIELD"};
 
     rv_item->id = rand;
     rv_item->quantity = 1;
-    rv_item->durability = rand * 10;   
-    rv_item->name = name_array[rand - 1];
-    rv_item->description = strcat("It is a ", rv_item->name);
+    rv_item->durability = rand * 10; 
+
+    int name_len = strlen(name_array[rand - 1]);
+    rv_item->name = (char*)calloc(name_len + 1, sizeof(char));
+    strncpy(rv_item->name, name_array[rand - 1], name_len + 1);
+    
+    rv_item->description = NULL; 
     rv_item->battle = true;
     rv_item->attack = rand * 10;
     rv_item->defense = rand * 10 + 5;
