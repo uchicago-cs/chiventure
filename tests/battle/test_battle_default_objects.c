@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "battle/battle_default_objects.h"
-#include "battle/battle_structs.h"
 
 Test(battle_default_objects, default_items) 
 {
