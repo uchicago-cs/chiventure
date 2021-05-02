@@ -53,6 +53,16 @@ void check_field_pressence(class_t* c) {
     cr_assert_not_null(c->stats, "failed to initialize stats");
     /* Currently, effects are not implemented, so this is NULL */
     // cr_assert_not_null(c->effects, "failed to initialize effects");
+
+    /* Checks for stat presence, but not value */
+    cr_assert_neq(get_stat_current(c->stats, "max_health"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->stats, "speed"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->stats, "physical_defense"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->stats, "physical_attack"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->stats, "ranged_attack"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->stats, "magic_defense"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->stats, "magic_attack"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->stats, "max_magic_energy"), -1, "failed to add stat");
 }
 
 /* Checks whether skill fields are present, and whether the initialized skills 
@@ -66,7 +76,8 @@ void check_skill_pressence(class_t* c, int num_skills, char** names) {
         cr_assert_str_eq(c->skilltree->nodes[i]->skill->name, names[i], "failed to add skill");
 }
 
-/* Tests whether the warrior class is initialized as expected. */
+/* Tests whether the warrior class is initialized as expected.
+ * This first test is a little more in depth than the rest */
 Test(class_prefabs, Warrior) {
     chiventure_ctx_t* ctx = init_incomplete_context();
 
