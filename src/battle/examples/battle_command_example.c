@@ -120,8 +120,9 @@ int print_items(chiventure_ctx_battle_t *ctx)
     DL_FOREACH(ctx->game->battle->player->items, temp)
     {
         printf("Name: %s\n", temp->name);
+        printf("ID: %d\n", temp->id);
         printf("Quantity: %d\n", temp->quantity);
-        printf("Attack: %d, Defense: %d , Hp : %d\n", temp->attack,
+        printf("Attack: %d, Defense: %d , Hp : %d\n\n", temp->attack,
         temp->defense,temp->hp);
     }
     return SUCCESS;
@@ -187,7 +188,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("Here are the possible commands!\n");
         printf("MOVE USE <move_name> ON <enemy_name>\n");
         printf("MOVE INFO <move_name>\n\n");
-        printf("USE <item_name>\n\n");
+        printf("USE <item_id>\n");
         printf("Here is the list of available items!\n");
         print_items(ctx);
         printf("\n");
@@ -196,16 +197,30 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
     //   // handles the command USE <item>
      else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
     {
-        printf("Determined command as USE %s\n\n", args[1]);
-    //     // look for item in player struct items
-    //     // use item function use_item(combanat , item id) 
-    //     // find_item(item_t*, int id)
-    //     //ctx->game->battle->player
-    //     //ctx->game->battle->player->items
         
-    //     item_t * item = 
-    //     use_item()
-        
+        item_t *item = find_item(ctx->game->battle->player->items, atoi(args[1]));
+        printf("Determined command as USE %s\n\n", item->name);
+        if (item == NULL)
+        {
+            printf("Couldn't find the move you were looking for!\n");
+            return FAILURE;
+        }
+        if (item->quantity == 0)
+        {
+            printf("Sorry you don't have any more of that item!\n");
+            return FAILURE;
+        }
+
+        res = use_item(ctx->game->battle->player, atoi(args[1]));
+        if (res == FAILURE) {
+            return FAILURE;
+        } else 
+        {
+        printf("New Hp is %d\n", ctx->game->battle->player->stats->hp);
+        printf("New Strength is %d\n", ctx->game->battle->player->stats->strength);
+        printf("New Defense is %d\n",ctx->game->battle->player->stats->defense);
+        return res;
+        }
     }
     else
     {
@@ -309,9 +324,9 @@ int main()
     p_item1->next = p_item2;
     p_item1->prev = NULL;
     
-    p_item2->id = 1;
-    p_item2->quantity = 5;
-    p_item2->durability = 5;
+    p_item2->id = 2;
+    p_item2->quantity = 10;
+    p_item2->durability = 3;
     p_item2->name= "Elixr of life";
     p_item2->description = "Adds 80 to your hp!" ;
     p_item2->battle = true;
