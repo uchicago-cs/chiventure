@@ -61,38 +61,30 @@ typedef struct player {
 typedef struct player player_hash_t;
 
 /*
- * Initializes a player with level 1, given race and class, no items, 
- *  and 0 experience
+ * Sets an allocated player_t object's player_class field to given class_t class
+ *  as well as setting 
  *
  * Parameters:
  *  plyr: A player. Must point to already allocated memory.
- *  health: The starting health of the player
- *  player_id: the unique string ID of the player. currently
- *   this will always be "1" since there is only one player
- *  health: T
- *  player_race: The player's race. Currently set to "None" given that
- *   there is currently no player races
  *  player_class: The player's class. Contains starting fields for
  *                skills and stats
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int player_init(player_t *plyr, char *player_id, char *player_race, 
-                class_t *player_class);
+int player_set_class(player_t *plyr, class_t *player_class);
 
 /*
- * Allocates a new player
+ * Allocates and creates a new player with given ID, starting at level
+ *  1 with 0 xp and 5 health. 
  *
  * Parameters:
  *  player_id: the unique string ID of the player
- *  player_race: the player's race
- *  player_class: the player's class
  *
  * Returns:
  *  Pointer to allocated player
  */
-player_t *player_new(char *player_id, char *player_race, class_t *player_class);
+player_t *player_new(char *player_id);
 
 /*
  * Frees resources associated with a player

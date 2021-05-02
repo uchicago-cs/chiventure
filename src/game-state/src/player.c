@@ -2,66 +2,56 @@
 #include "game-state/item.h"
 
 /* See player.h */
-int player_init(player_t *plyr, char *player_id, char *player_race, 
-                class_t *player_class)
+int player_set_race(player_t *plyr, char *player_race)
 {
+    if (plyr == NULL || player_race == NULL)
+    {
+        return FAILURE;
+    }
+
+    plyr->player_race = malloc(MAX_ID_LEN * sizeof(char));
+    strncpy(plyr->player_race, player_race, strlen(player_race));
+
+
+    return SUCCESS;
+}
+
+
+/* See player.h */
+int player_set_class(player_t *plyr, class_t *player_class)
+{
+    if (plyr == NULL || player_class == NULL)
+    {
+        return FAILURE;
+    }
+
+    plyr->player_class = player_class;
+}
+
+
+/* See player.h */
+player_t* player_new(char *player_id)
+{
+    player_t *plyr;
+    plyr = malloc(sizeof(player_t));
+    memset(plyr, 0, sizeof(player_t));
+    plyr->player_id = malloc(MAX_ID_LEN * sizeof(char));
 
     assert(plyr != NULL);
-
+    assert(player_id != NULL);
 
     strncpy(plyr->player_id, player_id, strlen(player_id));
     plyr->level = 1;
     plyr->health = 5;
     plyr->xp = 0;
 
-    plyr->player_class = player_class;
-
-    if(plyr->player_class != NULL)
-    {
-    plyr->player_stats = player_class->stats;
-
-    plyr->player_combat_skills = player_class->combat;
-    plyr->player_noncombat_skills = player_class->noncombat;
-
-    plyr->player_effects = player_class->effects;
-    } else
-    {
+    plyr->player_class = NULL;
     plyr->player_stats = NULL;
-
     plyr->player_combat_skills = NULL;
     plyr->player_noncombat_skills = NULL;
-
     plyr->player_effects = NULL;
-    }
-
-
-    strncpy(plyr->player_race, player_race, strlen(player_race));
-
+    plyr->player_race = NULL;
     plyr->inventory = NULL;
-
-    return SUCCESS;
-}
-
-/* See player.h */
-player_t* player_new(char *player_id, char *player_race, class_t *player_class)
-{
-    player_t *plyr;
-    plyr = malloc(sizeof(player_t));
-    memset(plyr, 0, sizeof(player_t));
-    plyr->player_id = malloc(MAX_ID_LEN * sizeof(char));
-    plyr->player_race = malloc(MAX_ID_LEN * sizeof(char));
-
-    int check = player_init(plyr, player_id, player_race, player_class);
-
-    if (plyr == NULL || plyr->player_id == NULL)
-    {
-        return NULL;
-    }
-
-    if(check != SUCCESS)
-    {
-        return NULL;
-    }
 
     return plyr;
 }
@@ -72,7 +62,22 @@ int player_free(player_t* plyr)
     assert(plyr != NULL);
 
     free(plyr->player_id);
-    delete_all_items(&plyr->inventory);
+
+    if (plyr->player_race != NULL)
+    {
+        free(plyr->player_race)
+    }
+
+    if (plyr->player_class != NULL)
+    {
+        class_free(plyr->player_class);
+    }
+
+    if (plyr->inventory != NULL)
+    {
+        delete_all_items(&plyr->inventory);
+    }
+
     free(plyr);
     
     return SUCCESS;
