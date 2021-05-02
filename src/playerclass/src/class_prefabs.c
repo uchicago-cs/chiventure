@@ -211,6 +211,21 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
 
 /* Skill related functions */
 
+/* 
+ * Skills are in a weird place right now: The skill trees team is interested in
+ * changing the way skill effects are implemented, so everything in here is
+ * subject to change.  
+ * 
+ * Right now, skill effects take in some theoretical number of string arguments,
+ * and return some output to be parsed by the CLI.  However, the CLI doesn't 
+ * actually have the ability to parse this stuff yet.
+ * 
+ * In the future, we would like skill effect functions to do more than simply
+ * return a message describing what to do.  Perhaps they could receive pointers
+ * to chiventure_ctx, or to the player or targets etc.  That way, they could
+ * modify those structs.
+ */
+
 const unsigned int UI_NODE_SIZE = 75;
 
 /*
@@ -218,30 +233,40 @@ const unsigned int UI_NODE_SIZE = 75;
  * 
  * Inputs:
  *  - name: The name of the function to be created (without surrounding quotes).
- *  - damage: The numeric amount of damage the effect does.
+ *  - output_command: The command (passed to CLI) that describes what the effect
+ *        does. Currently, CLI does not know how to actually use this, so simply
+ *        describe the effect in a somewhat parseable and somewhat consisteny 
+ *        format (see below for some examples). This whole system is subject to 
+ *        change in the future.
  * 
  * Expands to:
  *  - A function that is the skill effect.
  *     - Identifier: name.
  *     - Parameters:
  *        - args: A string of space seperated args to the skill effect call.
+ *                Currently, these are ignored. Define your own skills if you
+ *                want something more dynamic.
  *     - Returns: 
  *        - A string, the result of the skill being called, which is simply the
  *          damage of the effect (ie. "8").
  * 
  * Notes: See skilltrees_common.h and skilltrees/examples/skill-example.c for 
  *        more context and the examples inspiring this.
- * Citation: (https://stackoverflow.com/questions/40591312/c-macro-how-to-get-an-integer-value-into-a-string-literal) 
+ * 
  */
-#define damage_skill_effect(name, damage) char* name(char* args) {             \
-    return #damage;                                                            \
+#define make_skill_effect(name, output_command) char* name(char* args) {       \
+    return output_command;                                                     \
 }
 
-/* Damage effect function declarations. Currently only damage effects are
- * supported */
-damage_skill_effect(warrior_sword_slash, 6)
-damage_skill_effect(warrior_double_slash, 12)
-damage_skill_effect(warrior_triple_slash, 18)
+/* Skill effect functions. Simply passes a semi-parseable string to the CLI, for now */
+make_skill_effect(warrior_sword_slash, "PHYSICAL_ATTACK 8")
+make_skill_effect(warrior_double_slash, "PHYSICAL_ATTACK 16")
+make_skill_effect(warrior_triple_slash, "PHYSICAL_ATTACK 24")
+
+/* Some more complicated samples */
+make_skill_effect(sample_effect, "PLAYER PHYSICAL_ATTACK PLUS 10")
+make_skill_effect(sample_effect_2, "PLAYER SPEED TIMES 1.5")
+make_skill_effect(sample_effect_3, "ENEMY PHYSICAL_DEFENSE MINUS 10")
 
 /*
  * Initializes skill and skilltree related values for a player class.  Currently
@@ -371,11 +396,11 @@ int class_prefab_add_skills(class_t* class) {
      * A simple linear tree for a simple class.
      *
      * starting skill: warrior_sword_slash 
-     *  - active: deals 6 damage.
+     *  - active: deals 8 damage.
      * warrior_sword_slash -> warrior_double_slash
-     *  - active: deals 12 damage.
+     *  - active: deals 16 damage.
      * warrior_double_slash -> warrior_triple_slash
-     *  - active: deals 18 damage.
+     *  - active: deals 24 damage.
      */
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
         class_allocate_skills(class, 3, 3, 0);

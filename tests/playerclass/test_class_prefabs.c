@@ -97,5 +97,5 @@ Test(class_prefabs, Warrior) {
 
     /* Testing whether the stat actually works (although this is placeholder
      * behavior according to skill-trees team) */
-    cr_assert_str_eq(c->combat->active[0]->effect(""), "6");
+    cr_assert_str_eq(c->combat->active[0]->effect(""), "PHYSICAL_ATTACK 8");
 }
