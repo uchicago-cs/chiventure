@@ -13,13 +13,13 @@
 /*List of all the effect types that a skill can have.  We can add more in the future */
 typedef enum effect_type {
     //Effect that modifies statistics of player
-    STATISTIC,
+    STATISTIC_MOD,
 
     //Effect that deals damage
     DAMAGE,
 
     //Effect that modifies attributes of the player
-    ATTRIBUTE,
+    ATTRIBUTE_MOD,
 
 }effect_type_t;
 
@@ -28,7 +28,7 @@ typedef struct stat_effect{
     char* stat_name; //Takes the name of the statistic that must be modified
     int mod;         //Modifies the statistic by this number.  If effect decreases stats, specify negative number.
     int duration;    //The duration for how long the effect should be applied (O if permanent)
-}stat_effect_t;
+}stat_mod_effect_t;
 
 //Defines an effect that deals damage
 typedef struct damage_effect{
@@ -61,7 +61,7 @@ typedef struct effect{
     effect_type_t effect_type; //Contains the value of the effect.  Check enum above
     union
     {
-        stat_effect_t* s;
+        stat_mod_effect_t* s;
         damage_effect_t* d;
         att_effect_t* a;
     } data; //Contains a pointer to the effect itself so that we can make the necessary modifications to execute the skill
@@ -85,7 +85,7 @@ typedef struct effects_linked_list{
  *             int duration: the duration for which the effect should be applied
  * Returns:  A pointer to the created statistic modifying effect
  */
-stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration);
+stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int mod, int duration);
 
 /* Defines an attack effect that damages a target by a given amount and returns a pointer to it
  * Parameters: int mod: The amount of damage to be dealt
@@ -102,11 +102,11 @@ damage_effect_t* define_damage_effect(int mod);
 att_effect_t* define_att_effect(char* item_id, char* att_id, union data mod);
 
 /* Takes the given stats modifying effect and converts it to an effect
- * Parameters: stat_effect_t* stat_effect- Pointer to the stats modifying effect
+ * Parameters: stat_mod_effect_t* stat_effect- Pointer to the stats modifying effect
  * Returns: A pointer to an effect with parameters based on what has been given
  */
 
-effect_t* make_stat_effect(stat_effect_t* stat_effect);
+effect_t* make_stat_mod_effect(stat_mod_effect_t* stat_effect);
 
 
 /* Takes the given damage effect and converts it to an effect
@@ -126,23 +126,23 @@ effect_t* make_att_effect(att_effect_t* att_effect);
 
 
 /* Takes the given statistic modifying effect and executes it
- * Parameters: stat_effect_t* stat_effect - Pointer to the statistic modifying effect
+ * Parameters: stat_mod_effect_t* stat_effect - Pointer to the statistic modifying effect
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_stat_effect(stat_effect_t* stat_effect);
+int execute_stat_mod_effect(stat_mod_effect_t* stat_effect);
 
 
 /* Takes the given damage effect and executes it
  * Parameters: damage_effect_t* damage_effect - a pointer to the damage effect
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_damage_effect(stat_effect_t* damage_effect);
+int execute_damage_effect(damage_effect_t* damage_effect);
 
 /* Takes the given attribute modifying effect and executes it
  * Parameters: att_effect_t* att_effect - a pointer to the attribute modifying effect
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_att_effect(stat_effect_t* att_effect);
+int execute_att_effect(att_effect_t* att_effect);
 
 
 /* Initializes a linked list of effects
