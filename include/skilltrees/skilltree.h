@@ -66,7 +66,7 @@ struct skill_node {
 
 /* Skill tree, contains a number of skill nodes. 
  * Games can have multiple skill trees if the creator wishes. 
- * For Example:. 1 for kinght player class, 1 for elementalist etc.*/
+ * For Example: 1 for knight player class, 1 for elementalist etc.*/
 typedef struct skill_tree {
     // The tree ID that uniquely identifies the skill tree
     tid_t tid;

@@ -28,6 +28,15 @@ typedef struct damage_effect{
     int damage;      //Specifies the amount of damage that the skill does
 }damage_effect_t;
 
+//A struct used to define a union data type that we use to change attributes
+    union data
+    {
+        bool b;
+        char c;
+        int  i;
+        char *s;
+    }; //The value to which we want to change the attribute (NOT THE VALUE BY WHICH WE WANT TO MODIFY THE ATTRIBUTE)
+
 /*Defines an effect that changes the attribute of a player.  
  *We currently can change the attribute value if it is a bool, character, integer, or string. 
  *We may need to be able to change other stuff in the future but this remains to be seen.
@@ -37,13 +46,7 @@ typedef struct damage_effect{
 typedef struct att_effect{
     char* obj_id; //The ID of the parent object 
     char* att_id; //The ID that refers to the given attribute (see obj.h)
-    union 
-    {
-        bool b;
-        char c;
-        int  i;
-        char *s;
-    } mod; //The value to which we want to change the attribute
+    union data mod; 
 }att_effect_t;
 
 /*Union of all the effect types given above.*/
@@ -68,5 +71,28 @@ typedef struct effects_linked_list{
     effect_node_t* head; //Pointer to the start of the linked list
     int num; //Number of effects
 }effects_linked_list_t;
+
+/*Defines a statistic modifying effect and returns a pointer to it 
+ *Parameters- char* statname: The stat name to be modified
+ *            int mod: The value to modify the statistic by
+ *            
+ *Returns:  A pointer to the created statistic modifying effect
+ */
+stat_effect_t* define_stat_effect(char* stat_name, int mod);
+
+/*Defines an attack effect that damages a target by a given amount and returns a pointer to it
+ *Parameters- int mod: The amount of damage to be dealt
+ *Returns: A pointer to the created damage efect
+ */
+damage_effect_t* define_damage_effect(int mod);
+
+/*Defines an attribute modifying effect and returns a pointer to it
+ *Parameters- char* obj_id:  The unique ID of the parent object
+ *            char* att_id:  The ID of the attribute
+ *            data mod: Contains a value of the union data type to which the attribute value must be changed
+ * Returns: A pointer to the created attribute modifying effect
+ */
+att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod);
+
 
 #endif /*INCLUDE_EFFECT_H*/
