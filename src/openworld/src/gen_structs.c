@@ -188,10 +188,9 @@ int speclist_free_all(speclist_t *list)
 
 
 
-/* see gen_structs.h */
+/* See gen_structs.h */
 int init_room_level(room_level_t *room_level, char *room_name, int difficulty_level)
 {
-
     if (room_level == NULL)
         return FAILURE;
 
@@ -201,10 +200,9 @@ int init_room_level(room_level_t *room_level, char *room_name, int difficulty_le
 }
 
 
-/* see gen_structs.h */
+/* See gen_structs.h */
 room_level_t* room_level_new(char *room_name, int difficulty_level)
 {
-
     room_level_t *room_level = calloc(1, sizeof(room_level_t));
     if (room_level == NULL) {
         fprintf(stderr, "calloc failed to allocate space for room_level_new\n");
@@ -223,10 +221,9 @@ room_level_t* room_level_new(char *room_name, int difficulty_level)
 
 
 
-/* see gen_structs.h */
+/* See gen_structs.h */
 int room_level_free(room_level_t *room_level)
 {
-
     if (room_level == NULL)
         return FAILURE;
 
@@ -236,9 +233,7 @@ int room_level_free(room_level_t *room_level)
 
 
 /* See gen_structs.h */  
-int hash_room_level(room_level_t **room_levels, 
-                       char *name,
-                       int difficulty_level) 
+int hash_room_level(room_level_t **room_levels, char *name, int difficulty_level) 
 {
     room_level_t *elt = NULL;
     room_level_t *out_tmp = NULL;
