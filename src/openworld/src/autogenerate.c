@@ -195,12 +195,12 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 int map_level_to_difficulty(difficulty_level_scale_t *level_scale, 
                             int player_level)
 {
-    for (int i = 0; i < level_scale->num_of_levels; i++) {
+    for (int i = 0; i < level_scale->num_thresholds; i++) {
         if (player_level < level_scale->thresholds[i]) {
             return (i - 1);
         }
     }
-    return level_scale->num_of_levels;
+    return level_scale->num_thresholds;
 }
 
 

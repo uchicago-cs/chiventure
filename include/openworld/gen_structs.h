@@ -88,11 +88,14 @@ typedef struct room_level
 /* difficulty level scale */
 typedef struct difficulty_level_scale 
 {
-    /* number of difficulty levels */
-    int num_of_levels;  
+    /* number of difficulty thresholds */
+    int num_thresholds;  
 
-    /* an array of threshold for levels, for example, [0, 5, 10] */  
-    int *thresholds;
+    /* an array of player level thresholds;
+    each difficulty level interval is inclusive left, exclusive right */  
+    int *thresholds; 
+    /* e.g. {0, 5, 10}, 
+    player_level 0 to 4 is in level 0; player_level 5 is in level 1 */
 } difficulty_level_scale_t;
 
 
@@ -295,7 +298,7 @@ room_level_t* room_level_new(char *room_name, int difficulty_level);
 int room_level_free(room_level_t *map);
 
 
-/* add_rooms_to_hash
+/* hash_room_levels
  * Add an array of room names of a difficulty level
  * to the hash table of room names 
  * 
@@ -308,7 +311,7 @@ int room_level_free(room_level_t *map);
  * - Changes input room_level_t to hold the newly added room(s),
  *   allocated on the heap
  */
-void add_rooms_to_hash(room_level_t **rooms, 
+void hash_room_levels(room_level_t **rooms, 
                        char *names[],
                        int arr_len, 
                        int difficulty_level);

@@ -881,3 +881,9 @@ Test(item_hash, three_lookup)
 
     cr_assert_not_null(dst);
 }
+
+
+Test(difficult_level_scale, )
+{
+
+}

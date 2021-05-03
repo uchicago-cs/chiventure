@@ -189,14 +189,14 @@ int speclist_free_all(speclist_t *list)
 
 
 /* see gen_structs.h */
-int init_room_level(room_level_t *map, char *room_name, int difficulty_level)
+int init_room_level(room_level_t *room_level, char *room_name, int difficulty_level)
 {
 
-    if (map == NULL)
+    if (room_level == NULL)
         return FAILURE;
 
-    strcpy(map->room_name, room_name);
-    map->difficulty_level = difficulty_level;
+    strcpy(room_level->room_name, room_name);
+    room_level->difficulty_level = difficulty_level;
     return SUCCESS;
 }
 
@@ -205,48 +205,54 @@ int init_room_level(room_level_t *map, char *room_name, int difficulty_level)
 room_level_t* room_level_new(char *room_name, int difficulty_level)
 {
 
-    room_level_t *map = calloc(1, sizeof(room_level_t));
-
-    if (map == NULL) {
+    room_level_t *room_level = calloc(1, sizeof(room_level_t));
+    if (room_level == NULL) {
         fprintf(stderr, "calloc failed to allocate space for room_level_new\n");
         return NULL;
     }
 
-    init_room_level(map, room_name, difficulty_level);
-    return map;
+    room_level->room_name = calloc(1, sizeof(MAX_SDESC_LEN + 1));
+    if (room_level->room_name == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for room_level->room_name\n");
+        return NULL;
+    }
+
+    init_room_level(room_level, room_name, difficulty_level);
+    return room_level;
 }
 
 
+
 /* see gen_structs.h */
-int room_level_free(room_level_t *map)
+int room_level_free(room_level_t *room_level)
 {
 
-    if (map == NULL)
+    if (room_level == NULL)
         return FAILURE;
 
-    free(map);
+    free(room_level);
     return SUCCESS;
 }
 
 
 /* See gen_structs.h */  
-void add_rooms_to_hash(room_level_t **rooms, 
+void hash_room_levels(room_level_t **room_levels, 
                        char *names[],
                        int arr_len, 
                        int difficulty_level) 
 {
-    room_level_t *s = NULL;
-    room_level_t *tmp = NULL;
+    room_level_t *elt = NULL;
+    room_level_t *out_tmp = NULL;
     bool in_table = false;
 
     for (int i = 0; i < arr_len; i++) {  
-        HASH_FIND_STR(*rooms, names[i], tmp);
-        in_table = tmp == NULL ? false : true;
+        HASH_FIND_STR(*room_levels, names[i], out_tmp);
+        in_table = out_tmp == NULL ? false : true;
         if (in_table) {
             continue;
         }
-        s = room_level_new(names[i], difficulty_level);
-        HASH_ADD_KEYPTR(hh, *rooms, s->room_name, strlen(s->room_name), s);
+        elt = room_level_new(names[i], difficulty_level);
+        HASH_ADD_KEYPTR(hh, *room_levels, elt->room_name, strlen(elt->room_name), elt);
     }
 }
 
@@ -254,28 +260,35 @@ void add_rooms_to_hash(room_level_t **rooms,
 
 /* See gen_structs.h */
 int init_difficulty_level_scale(difficulty_level_scale_t *scale, 
-                                int num_of_levels, int *thresholds)
+                                int num_thresholds, int *thresholds)
 {
     if (scale == NULL)
         return FAILURE;
 
-    scale->num_of_levels = num_of_levels;
-    scale->thresholds = thresholds;
+    scale->num_thresholds = num_thresholds;
+    for (int i = 0; i < num_thresholds; i++) {
+        scale->thresholds[i] = thresholds[i];
+    } 
     return SUCCESS;
 }
 
 
 /* See gen_structs.h */
-difficulty_level_scale_t* difficulty_level_scale_new(int num_of_levels, int *thresholds)
+difficulty_level_scale_t* difficulty_level_scale_new(int num_thresholds, int *thresholds)
 {
     difficulty_level_scale_t *scale = calloc(1, sizeof(difficulty_level_scale_t));
-
     if (scale == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for difficulty_level_scale_new\n");
+        fprintf(stderr, "calloc failed to allocate space for difficulty_level_scale\n");
         return NULL;
     }
 
-    init_difficulty_level_scale(scale, num_of_levels, thresholds);
+    scale->thresholds = calloc(1, sizeof(int) * num_thresholds);
+    if (scale->thresholds == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for scale->thresholds\n");
+        return NULL;
+    }
+
+    init_difficulty_level_scale(scale, num_thresholds, thresholds);
     return scale;
 }
 
@@ -285,7 +298,8 @@ int difficulty_level_scale_free(difficulty_level_scale_t *scale)
 {
     if (scale == NULL)
         return FAILURE;
-
+    
+    free(scale->thresholds);
     free(scale);
     return SUCCESS;
 }
