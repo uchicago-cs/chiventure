@@ -1134,66 +1134,27 @@ Test(autogenerate, invalid_multi_room_level_3)
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
-    roomspec_t *sample1 = random_room_lookup(spec);
+
+    random_room_lookup(spec); // deleting this line causes the program to crash?
+
+
+    roomspec_t *sample1;
+    HASH_FIND_STR(hash, "cafeteria", sample1);
     room_t *sample_room1 = roomspec_to_room(sample1);
-    roomspec_t *sample2 = random_room_lookup(spec);
-    room_t *sample_room2 = roomspec_to_room(sample2);
-
-    // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
-
-    // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
-    assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
 
     game_t *g = game_new("start desc");
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
-
-    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-
-    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
-
-    roomspec_t *sample_roomspec = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    speclist_t *sample_speclist = speclist_new(sample_roomspec);
-    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
-
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
+    gencontext_t *sample_gencontext = gencontext_new(NULL, 20, 1, spec);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    roomspec_t *sample_roomspec2 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    roomspec_t *sample_roomspec3 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    // 3 roomspec case
-    speclist_t *mid = speclist_new(sample_roomspec2);
-    cr_assert_not_null(mid, "Could not create new speclist");
-    speclist_t *tail = speclist_new(sample_roomspec3);
-    cr_assert_not_null(tail, "Could not create new speclist");
-
-    // Doubly linked
-    speclist_t *head = NULL;
-    DL_APPEND(head, sample_gencontext->speclist);
-    DL_APPEND(sample_gencontext->speclist, mid);
-    DL_APPEND(sample_gencontext->speclist, tail);
-
-
 
 
     // making difficulty_level_scale
-    int thresholds[3] = {0, 5, 10};
-    difficulty_level_scale_t *scale = difficulty_level_scale_new(3, thresholds);
-    for (int i = 0; i < 3; i++) {
-        printf("threshold[%d] = %d\n", i, scale->thresholds[i]);
-    }
-    printf("num_thresholds: %d\n", scale->num_thresholds);
+    int thresholds[4] = {0, 5, 10, 15};
+    difficulty_level_scale_t *scale = difficulty_level_scale_new(4, thresholds);
 
 
-    // making room_levels hashtable
+    // making room_levels hashtable, notice no lvl3 rooms
     room_level_t *room_levels = NULL;
     char *lvl0_rooms[2] = {"closet", "library"};
     char *lvl1_rooms[2] = {"hallway", "cafeteria"};
@@ -1206,20 +1167,9 @@ Test(autogenerate, invalid_multi_room_level_3)
     hash_room_level(&room_levels, lvl2_rooms[0], 2); // add lvl2s
 
 
-
-    printf(room_levels == NULL? "is NULL\n" : "is not retarded\n"); 
-    room_level_t *curr, *tmp;
-    HASH_ITER(hh, room_levels, curr, tmp) {
-        printf("%s\n", curr->room_name);
-    }
-    printf("player_level : %d\n", sample_gencontext->level);
-
-
-
-
     // Ensure game->curr_room does not have paths
     g->curr_room = sample_room1;
-    cr_assert_eq(SUCCESS, multi_room_level_generate(g, sample_gencontext, "school", 10, &room_levels, scale));    
+    cr_assert_eq(FAILURE, multi_room_level_generate(g, sample_gencontext, "school", 10, &room_levels, scale));    
 }
 
 
@@ -1264,7 +1214,7 @@ Test(autogenerate, valid_multi_room_level_1)
     cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
 
     // player's level set to 5
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
+    gencontext_t *sample_gencontext = gencontext_new(NULL, 5, 1, sample_speclist);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
     // Ensure game->curr_room does not have paths

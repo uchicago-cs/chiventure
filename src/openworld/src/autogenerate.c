@@ -237,12 +237,10 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
 
     /* compute the difficulty corresponding to player level*/
     int difficulty_level = map_level_to_difficulty(level_scale, context->level);
-    printf("diff_level: %d\n", difficulty_level);
 
     /* filter the given speclist according to difficulty */
     speclist_t *tmp;
     speclist_t *filtered_speclist = NULL;
-    
 
     DL_FOREACH(context->speclist, tmp) { 
         if (roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level) == SUCCESS) { 
@@ -262,12 +260,13 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
                                                     context->level,
                                                     context->num_open_paths,
                                                     filtered_speclist);
+
     
-    int result = multi_room_generate(game, filtered_context, room_id, num_rooms);
+    int result = multi_room_generate(game, filtered_context, room_id, num_rooms); // the error is here
 
     // functions for debugging below
 
-    /*
+    
     path_t *paths = game->curr_room->paths;
     path_t *curr, *tep;
     HASH_ITER(hh, paths, curr, tep) {
@@ -279,7 +278,9 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     HASH_ITER(hh, rooms, curroom, temporoom) {
         printf("all rooms: %s\n", curroom->room_id);
     }
-    */
-   return result;
+    printf("\n");
+    
+    
+    return result;
 }
 
