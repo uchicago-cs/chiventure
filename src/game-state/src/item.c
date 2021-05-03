@@ -625,6 +625,8 @@ bool list_contains_attribute(attribute_list_t *head, char* attr_name)
     like->attribute->attribute_key = attr_name;
     
     LL_SEARCH(head->next, tmp, like, attr_cmp);
+    free(like->attribute);
+    free(like);
 
     if (tmp)
         return true;
@@ -670,6 +672,8 @@ int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
     like->attribute->attribute_key = attr->attribute_key;
 
     LL_SEARCH(head->next, tmp, like, attr_cmp);
+    free(like->attribute);
+    free(like);
 
     if (tmp)
     {

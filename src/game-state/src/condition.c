@@ -125,6 +125,7 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
     new_condition->expected_value = new_value;
 
     condition_t *condition_wrapper = malloc(sizeof(condition_t));
+    memset(condition_wrapper, 0, sizeof(condition_t));
     condition_wrapper->condition.attribute_type = new_condition;
     condition_wrapper->condition_tag = ATTRIBUTE;
 
@@ -203,6 +204,7 @@ condition_t *inventory_condition_new(player_t *player, item_t *expected_item)
     new_condition->expected_item = expected_item;
 
     condition_t *condition_wrapper = malloc(sizeof(condition_t));
+    memset(condition_wrapper, 0, sizeof(condition_t));
     condition_wrapper->condition.inventory_type = new_condition;
     condition_wrapper->condition_tag = INVENTORY;
 

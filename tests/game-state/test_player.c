@@ -13,9 +13,7 @@
 Test(player, new)
 {
   player_t *player = player_new("1", 100);
-
   cr_assert_not_null(player, "player_new() failed");
-
   cr_assert_eq(player->health, 100, "player_new() didn't set player health");
   cr_assert_eq(player->level, 1,
       "player_new() didn't properly call player_init()");
@@ -244,6 +242,7 @@ Test(player, add_item_effect_to_player)
   player_t *player = player_new("1", 100);
   item_t *new_item = item_new("test_item", "item for player testing",
   "item for testing add_item_to_player");
+  new_item->stat_effects = NULL;
   effects_global_t *g1 = global_effect_new("effect 1");
   stat_effect_t *e1 = stat_effect_new(g1);
   stat_effect_t *e2 = stat_effect_new(g1);
@@ -251,21 +250,21 @@ Test(player, add_item_effect_to_player)
                    NULL, NULL, NULL);
   player->player_class = class;
   add_stat_effect(&player->player_class->effects, e1);
+  stats_global_t *health = malloc(sizeof(stats_global_t));
+  char *hp = "Health";
+  health->name = strdup(hp);
+  health->max = 100;
 
-  stats_global_t health;
-  health.name = "health";
-  health.max = 100;
+  stats_t *s1 = malloc(sizeof(stats_t));
+  s1->key = strdup(hp);
+  s1->global = health;
+  s1->val = 50.0;
+  s1->max = 75.0;
+  s1->modifier = 0.75;
 
-  stats_t s1;
-  s1.key = "health";
-  s1.global = &health;
-  s1.val = 50.0;
-  s1.max = 75.0;
-  s1.modifier = 0.75;
+  add_stat(&player->player_class->stats, s1);
 
-  add_stat(&player->player_class->stats, &s1);
-
-  stat_mod_t *mod1 = stat_mod_new(&s1, 1.5, 5);
+  stat_mod_t *mod1 = stat_mod_new(s1, 1.5, 5);
   LL_APPEND(e2->stat_list, mod1);
   new_item->stat_effects = e2;
 
@@ -275,7 +274,17 @@ Test(player, add_item_effect_to_player)
                      "add_item did not add stat_mod to effect");
   cr_assert_eq(player->player_class->stats->modifier, 1.125, 
                "add_item did not update modifier");
+  free_stats_table(class->stats);
+  delete_all_stat_effects(class->effects);
+  class_free(class);
+  free(new_item->stat_effects->key);
+  free(new_item->stat_effects);
+  new_item->stat_effects = NULL;
   player_free(player);
+  free_stats_global(health);
+  free(mod1);
+  free(g1->name);
+  free(g1);
 }
 
 /* Checks that delete_all_players successfully
