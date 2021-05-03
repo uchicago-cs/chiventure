@@ -244,12 +244,12 @@ int multi_rooms_level_generate(game_t *game, gencontext_t *context,
         }
     }
     
-    /* if no room of the difficulty, then do not generate */
+    /* if no rooms of the difficulty, then do not generate */
     if (specs_for_difficulty == NULL) {
         return FAILURE;    
     }
 
-    /* Iterate through the speclist field, generating and adding rooms for each */
+    /* iterate through the speclist field, generating and adding rooms for each */
     for (int i = 0; i < num_rooms; i++) {
         roomspec_t *rspec = random_room_lookup(specs_for_difficulty);
         room_generate(game, context, rspec);
