@@ -128,7 +128,7 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht);
  * 
  * Parameters:
  *  pointer to hashtable of items (pointer necessary for uthash to work)
- *  item to add to hashtable
+ *  item to remove from hashtable
  * 
  * Return:
  *  SUCCESS if successful, FAILURE if failed
@@ -371,6 +371,48 @@ attribute_list_t *get_all_attributes(item_t *item);
  */
 int delete_attribute_llist(attribute_list_t *head);
 
+/* create_list_attribute: creates an empty attribute_list_t 
+ * 
+ * Returns: A pointer to the created attribute_list_t
+ */
+attribute_list_t* create_list_attribute();
+
+/*
+ * Function to check if a linked list (utlist) contains a specific attribute
+ * 
+ * Parameters:
+ *  linked list of pointers to attributes
+ *  name of a specific attribute
+ *
+ * Returns:
+ *  false for does not contain, true for contains
+ */
+bool list_contains_attribute(attribute_list_t *head, char *attr_name);
+
+/*
+ * Function to add an attribute to a linked listed (utlist) of attributes
+ *
+ * Paramaters:
+ *  Linked list of pointers to attributes
+ *  An attribute to add to the list
+ * 
+ * Returns:
+ *  FAILURE if it failed to add the attribute, SUCCESS if it adds/the list contains the attribute
+ */
+int add_attribute_to_list(attribute_list_t *head, attribute_t *attr);
+
+/*
+ * Function to remove an attribute from a linked listed (utlist) of attributes
+ *
+ * Parameters:
+ *  Linked list of pointers to attributes
+ *  An attribute to be removed from the list
+ * 
+ * Returns:
+ *  FAILURE it failed to remove the element from the list
+ *  SUCCESS if the element was removed from the list
+ */
+int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr);
 
 /*
  * Function to delete a linked list (utlist) retrieved from get_all_items()
