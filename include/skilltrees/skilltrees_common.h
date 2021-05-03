@@ -6,6 +6,7 @@
 #define INCLUDE_STDST_H_
 
 #include "common/common.h"
+#include <stdbool.h>
 
 /* ============================= */
 /* === SKILL DATA STRUCTURES === */
@@ -53,17 +54,48 @@ typedef enum skill_type {
 
 } skill_type_t;
 
-/*
- * Skill effect function type
- *
- * Parameters:
- *  - Contained within a string for function pointer uniformity. Each skill
- *    effect function can read the string for parameters using sscanf.
- *
- * Returns:
- *  - A string describing the consequence of the skill execution, for the CLI
+typedef enum effect_type {
+    //Effect that modifies statistics of player
+    STATISTIC,
+
+    //Effect that deals damage
+    DAMAGE,
+
+    //Effect that modifies attributes of the player
+    ATTRIBUTE,
+
+}effect_type_t;
+
+//Defines an effect that modifies the statistics of a player
+typedef struct stat_effect{
+    char* stat_name; //Takes the name of the statistic that must be modified
+    int mod;         //Modifies the statistic by this number.  If effect decreases stats, specify negative number.
+}stat_effect_t;
+
+//Defines an effect that deals damage
+typedef struct damage_effect{
+    int damage;      //Specifies the amount of damage that the skill does
+}damage_effect_t;
+
+/*Defines an effect that changes the attribute of a player.  
+ *We currently can change the attribute value if it is a bool, character, integer, or string. 
+ *We may need to be able to change other stuff in the future but this remains to be seen.
+ *Currently, creating a new attribute is not supported but this can be changed.
  */
-typedef char* (*skill_effect_t)(char*);
+
+typedef struct att_effect{
+    char* obj_id; //The ID of the parent object 
+    char* att_id; //The ID that refers to the given attribute (see obj.h)
+    union 
+    {
+        bool b;
+        char c;
+        int  i;
+        char *s;
+    } mod; //The value to which we want to change the attribute
+}att_effect_t;
+
+
 
 /* An INDIVIDUAL skill, belonging to a player */
 typedef struct skill {
@@ -91,8 +123,8 @@ typedef struct skill {
     // The minimum number of experience points needed to level up
     unsigned int min_xp;
 
-    // The pointer to the function that will execute the skill effect
-    skill_effect_t effect;
+    // The pointer to the head of a linked list that contains all the effects that a skill can have
+    effects* skill_effects;
 
 } skill_t;
 
