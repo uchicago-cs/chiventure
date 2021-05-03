@@ -254,8 +254,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
                                                     context->num_open_paths,
                                                     filtered_speclist);
 
-    
-    int result = multi_room_generate(game, filtered_context, room_id, num_rooms); // the error is here
+    int result = multi_room_generate(game, filtered_context, room_id, num_rooms); 
 
     return result;
 }
