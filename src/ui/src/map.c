@@ -288,3 +288,36 @@ int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z)
     return 0;
 }
 
+int map_update(chiventure_ctx_t *ctx)
+{
+    ui_ctx_t *ui_ctx = ctx->ui_ctx;
+    map_t *map = ui_ctx->map;
+    WINDOW *win = map->pad;
+
+    // The upper left hand corner of the map display on screen
+    int ulx = map->ulx;
+    int uly = map->uly;
+    // The lower right hand corner of the map display on screen
+    int lrx = map->lrx;
+    int lry = map->lry;
+    //The x and y coordinates of the center of the map display screen
+    int centx = (lrx - ulx) / 2;
+    int centy = (lry - uly) / 2;
+
+    // Returns a struct with the room at the center of the map display
+    coord_t *curr_cent = find_coord(ui_ctx->coord_hash, centx, centy, map->padz);
+
+    // Checks if the player is in a room different from the center room
+    if(curr_cent->r != ctx->game->curr_room)
+    {
+	int x = ui_ctx->player_loc->x;
+	int y = ui_ctx->player_loc->y;
+	int z = ui_ctx->player_loc->z;
+
+	// Centers the map on the current position of the player
+	map_center_on(ctx, x, y, z);
+    }
+
+    return 0;
+}
+
