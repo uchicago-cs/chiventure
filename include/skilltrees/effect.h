@@ -44,14 +44,14 @@ union data
     char *s;
 }; //The value to which we want to change the attribute (NOT THE VALUE BY WHICH WE WANT TO MODIFY THE ATTRIBUTE)
 
-/*Defines an effect that changes the attribute of a player.  
+/*Defines an effect that changes the attribute of an item.  
  *We currently can change the attribute value if it is a bool, character, integer, or string. 
  *We may need to be able to change other stuff in the future but this remains to be seen.
  *Currently, creating a new attribute is not supported but this can be changed.
  */
 
 typedef struct att_effect{
-    char* obj_id; //The ID of the parent object 
+    char* item_id; //The ID of the parent object 
     char* att_id; //The ID that refers to the given attribute (see obj.h)
     union data mod; 
 }att_effect_t;
@@ -99,7 +99,7 @@ damage_effect_t* define_damage_effect(int mod);
  *            data mod: Contains a value of the union data type to which the attribute value must be changed
  * Returns: A pointer to the created attribute modifying effect
  */
-att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod);
+att_effect_t* define_att_effect(char* item_id, char* att_id, union data mod);
 
 /* Takes the given stats modifying effect and converts it to an effect
  * Parameters: stat_effect_t* stat_effect- Pointer to the stats modifying effect
