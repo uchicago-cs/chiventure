@@ -221,6 +221,9 @@ bool roomspec_is_given_difficulty(room_level_t **room_levels,
 }
 
 
+
+// int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms)
+
 /* See autogenerate.h */
 int multi_rooms_level_generate(game_t *game, gencontext_t *context, 
                                char *room_id, int num_rooms,
@@ -236,24 +239,20 @@ int multi_rooms_level_generate(game_t *game, gencontext_t *context,
 
     /* filter the given speclist according to difficulty */
     speclist_t *tmp;
-    speclist_t *specs_for_difficulty = NULL; // filtered list
+    speclist_t *filtered_speclist = NULL;
 
     DL_FOREACH(context->speclist, tmp) {
         if (roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level)) {
-               DL_APPEND(specs_for_difficulty, tmp);   
+               DL_APPEND(filtered_speclist, tmp);   
         }
     }
-    
-    /* if no rooms of the difficulty, then do not generate */
-    if (specs_for_difficulty == NULL) {
-        return FAILURE;    
-    }
 
-    /* iterate through the speclist field, generating and adding rooms for each */
-    for (int i = 0; i < num_rooms; i++) {
-        roomspec_t *rspec = random_room_lookup(specs_for_difficulty);
-        room_generate(game, context, rspec);
-    }
-    return SUCCESS;
+    // filtered gencontext
+    gencontext_t* filtered_context = gencontext_new(context->open_paths,
+                                                    context->level,
+                                                    context->num_open_paths,
+                                                    filtered_speclist);
+    
+    return multi_room_generate(game, filtered_context, room_id, num_rooms);
 }
 

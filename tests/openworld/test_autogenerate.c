@@ -992,29 +992,23 @@ Test(room_level, one_lvl0_room)
     expected = true;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA", 0);
 
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA, 1);
+    actual = roomspec_is_given_difficulty(&room_levels, rspecA, 3);
     expected = false;
-    TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA", 1);
-
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA, -10);
-    expected = false;
-    TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA", -10);
+    TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA", 3);
 }
 
 
 /* testing roomspec_is_given_difficulty
-   for a hash table with three room_level, lvl 0 to 2 */
-Test(room_level, lvl0_to_lvl2_roomlevels)
+   for a hash table with two room_levels, one lvl 0 and 1 each */
+Test(room_level, lvl0_to_lvl1_roomlevels)
 {
     room_level_t *room_levels = NULL;
     
     // creating room_levels and hashing to table
     char *lvl0_roomnames[1] = {"A0"};
     char *lvl1_roomnames[1] = {"A1"};
-    char *lvl2_roomnames[1] = {"A2"};
     hash_room_levels(&room_levels, lvl0_roomnames, 1, 0);
     hash_room_levels(&room_levels, lvl1_roomnames, 1, 1);
-    hash_room_levels(&room_levels, lvl2_roomnames, 1, 2);
 
     // checking that room_levels are hashed
     room_level_t *tmp;
@@ -1022,16 +1016,12 @@ Test(room_level, lvl0_to_lvl2_roomlevels)
     cr_assert_not_null(tmp);
     HASH_FIND_STR(room_levels, "A1", tmp);
     cr_assert_not_null(tmp);
-    HASH_FIND_STR(room_levels, "A2", tmp);
-    cr_assert_not_null(tmp);
 
     // creating room_levels and checking that they are not null
     roomspec_t* rspecA0 = roomspec_new("A0", "shortdesc", "longdesc", NULL);
     roomspec_t* rspecA1 = roomspec_new("A1", "shortdesc", "longdesc", NULL);
-    roomspec_t* rspecA2 = roomspec_new("A2", "shortdesc", "longdesc", NULL);
     cr_assert_not_null(rspecA0);
     cr_assert_not_null(rspecA1);
-    cr_assert_not_null(rspecA2);
 
     bool actual, expected;
 
@@ -1051,11 +1041,6 @@ Test(room_level, lvl0_to_lvl2_roomlevels)
     expected = false;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA1", 0);
 
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA2, 2);
-    expected = true;
-    TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA2", 2);
-
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA2, 1);
-    expected = false;
-    TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA0", 1);
 }
+
+
