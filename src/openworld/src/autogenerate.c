@@ -200,7 +200,7 @@ int map_level_to_difficulty(difficulty_level_scale_t *level_scale,
             return (i - 1);
         }
     }
-    return level_scale->num_thresholds;
+    return level_scale->num_thresholds - 1;
 }
 
 

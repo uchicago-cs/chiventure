@@ -200,7 +200,7 @@ Test(room_level, init3)
     }
 
     int check = init_room_level(room_level, "excellent_name", 4);
-    cr_assert_eq(0, strcmp(room_level->room_name, "excellent_name"), 
+    cr_assert_str_eq(room_level->room_name, "excellent_name", 
                  "failed to initialize room_level->room_name\n");
     cr_assert_eq(4, room_level->difficulty_level, 
                  "failed to initialize room_level->difficulty_level\n");

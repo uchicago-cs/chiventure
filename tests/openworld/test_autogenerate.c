@@ -882,8 +882,84 @@ Test(item_hash, three_lookup)
     cr_assert_not_null(dst);
 }
 
-
-Test(difficult_level_scale, )
+/* testing map_level_to_difficulty for
+   thresholds {0, 5, 13} and player_lvls 0 to 20 */
+Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_5_13)
 {
+    int thresholds[3]= {0, 5, 13};
+    difficulty_level_scale_t *level_scale = difficulty_level_scale_new(3, thresholds);
+    
+    int actual, expected;
+    for (int player_lvl = 0; player_lvl <= 20; player_lvl++) {
+        actual = map_level_to_difficulty(level_scale, player_lvl);
+        if (player_lvl < 5) {
+            expected = 0;
+        } else if (player_lvl < 13) {
+            expected = 1;
+        } else {
+            expected = 2;
+        }
+        cr_assert_eq(expected, actual, 
+                     "using the scale {0, 21, 22, 80}," 
+                     " expected player_lvl %d -> difficulty %d," 
+                     " but mapped to difficulty %d\n", 
+                     player_lvl, expected, actual);
+    }                    
+}
 
+
+/* testing map_level_to_difficulty for
+   thresholds {0, 21, 22, 80} and player_lvls 0 to 200 */
+Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_21_22_80)
+{
+    int thresholds[4]= {0, 21, 22, 80};
+    difficulty_level_scale_t *level_scale = difficulty_level_scale_new(4, thresholds);
+    
+    int actual, expected;
+    for (int player_lvl = 0; player_lvl <= 200; player_lvl++) {
+        actual = map_level_to_difficulty(level_scale, player_lvl);
+        if (player_lvl < 21) {
+            expected = 0;
+        } else if (player_lvl < 22) {
+            expected = 1;
+        } else if (player_lvl < 80) {
+            expected = 2;
+        } else {
+            expected = 3;
+        }
+        cr_assert_eq(expected, actual, 
+                     "using the scale {0, 21, 22, 80}," 
+                     " expected player_lvl %d -> difficulty %d," 
+                     " but mapped to difficulty %d\n", 
+                     player_lvl, expected, actual);
+    }                
+}
+
+Test(room_level, roomspec_is_given_difficulty_diff1)
+{
+    room_level_t *room_levels = NULL;
+
+    room_t *room = room_new("string1", "string2", "string3");
+
+    typedef struct roomspec {
+    char *room_name;
+    char *short_desc;
+    char *long_desc;
+    int num_built;
+    item_hash_t *items;
+    UT_hash_handle hh;
+} roomspec_t;
+
+typedef struct room_level
+{
+    /* name of the room, hash key */
+    char *room_name;        
+
+    /* difficulty level of the room, possible value starts at 0 */
+    int difficulty_level;       
+       
+    /* makes this structure hashable */
+    UT_hash_handle hh;        
+} room_level_t;
+    
 }

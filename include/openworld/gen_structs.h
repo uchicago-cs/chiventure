@@ -92,10 +92,10 @@ typedef struct difficulty_level_scale
     int num_thresholds;  
 
     /* an array of player level thresholds;
-    each difficulty level interval is inclusive left, exclusive right */  
+    each threshold is an inclusive lowerbound to the difficulty level of that index*/  
     int *thresholds; 
     /* e.g. {0, 5, 10}, 
-    player_level 0 to 4 is in level 0; player_level 5 is in level 1 */
+    player_level 0 to 4 is in level 0; player_level 5-9 is in level 1 etc. */
 } difficulty_level_scale_t;
 
 
