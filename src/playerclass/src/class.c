@@ -136,14 +136,63 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     return EXIT_SUCCESS;
 }
 
+/*
+ * Creates a shortdesc for a multiclass by simply listing the component classes.
+ *
+ * Paramaters:
+ *  - base_class: the character's base class (their current class).
+ *  - new_class: the class being added to the original class.
+ *
+ * Returns:
+ *  - a pointer to a string with the new shortdesc.
+ */
+char* multiclass_shortdesc (class_t* base_class, class_t* second_class){
+    char* new_shortdesc = (char*) malloc(MAX_SHORT_DESC_LEN + 1);
+    strcat (new_shortdesc, "Multiclass of ");
+    strcat (new_shortdesc, base_class->name);
+    strcat (new_shortdesc, ", ");
+    strcat (new_shortdesc, second_class->name);
+    for (int i = 0; i < base_class->parent_class_num; i++){
+        strcat (new_shortdesc, ", ");
+        strcat (new_shortdesc, base_class->parent_class_names[i]);
+    }
+    for (int i = 0; i < second_class->parent_class_num; i++){
+        strcat (new_shortdesc, ", ");
+        strcat (new_shortdesc, second_class->parent_class_names[i]);
+    }
+    strcat (new_shortdesc, ".");
+    return new_shortdesc;
+}
+
+/*
+ * Creates a longdesc for a multiclass by concatenating the shortdescs
+ * of all the component classes.
+ *
+ * Paramaters:
+ *  - base_class: the character's base class (their current class).
+ *  - new_class: the class being added to the original class.
+ *
+ * Returns:
+ *  - a pointer to a string with the new longdesc.
+ */
+char* multiclass_longdesc (class_t* base_class, class_t* second_class){
+    char* new_longdesc = (char*) malloc(MAX_LONG_DESC_LEN + 1);
+    strcat (new_longdesc, base_class->shortdesc);
+    strcat (new_longdesc, "\n\n");
+    strcat (new_longdesc, second_class->shortdesc);
+    return new_longdesc;
+}
+
 /* See class.h */
 class_t* multiclass(class_t* base_class, class_t* second_class, char* name){
-    char* new_shortdesc = base_class->shortdesc; //To be improved
-    char* new_longdesc = base_class->longdesc; //To be improved
+    char* new_shortdesc = multiclass_shortdesc(base_class, second_class);
+    char* new_longdesc = multiclass_longdesc(base_class, second_class);
     obj_t* combined_attr = int obj_add_attr(base_class->attributes, second_class->attributes->id, second_class->attributes); //Not sure if I use this function correctly
     effects_hash_t* combined_effects = NULL; //TODO, will need a new get all function for effects_hash_t
+    
     class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->stats, combined_effects);
     if (new_class == NULL) return NULL;
+    
     new_class->parent_class_num = 2 + base_class->parent_class_num + second_class->parent_class_num;
     new_class->parent_class_names = (char**) malloc (new_class->parent_class_num * sizeof(char*));
     for (int i = 0; i < new_class->parent_class_num; i++){

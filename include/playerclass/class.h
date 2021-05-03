@@ -75,7 +75,7 @@ int class_init_skills(class_t* class, int max_skills_in_tree,
  *
  * Paramaters:
  *  - base_class: the character's base class (their current class).
- *   this class will be used to determine base stats.
+ *    this class will be used to determine base stats.
  *  - new_class: the class being added to the original class.
  *  - name: the name of the multiclass.
  *
