@@ -70,7 +70,7 @@ int skill_free(skill_t* skill) {
 }
 
 /* See skill.h */
-char* skill_execute(skill_t* skill) 
+int skill_execute(skill_t* skill) 
 {
     //TODO
 }

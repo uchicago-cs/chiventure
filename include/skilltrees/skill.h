@@ -67,7 +67,8 @@ int skill_free(skill_t* skill);
  *  - skill: A skill
  *
  * Returns:
- *  - SUCCESS if the skill effects were applied succesfull
+ *  0 if success
+ *  1 if failure
  */
 int skill_execute(skill_t* skill);
 
