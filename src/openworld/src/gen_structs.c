@@ -236,24 +236,20 @@ int room_level_free(room_level_t *room_level)
 
 
 /* See gen_structs.h */  
-void hash_room_levels(room_level_t **room_levels, 
-                       char *names[],
-                       int arr_len, 
+int hash_room_level(room_level_t **room_levels, 
+                       char *name,
                        int difficulty_level) 
 {
     room_level_t *elt = NULL;
     room_level_t *out_tmp = NULL;
-    bool in_table = false;
 
-    for (int i = 0; i < arr_len; i++) {  
-        HASH_FIND_STR(*room_levels, names[i], out_tmp);
-        in_table = out_tmp == NULL ? false : true;
-        if (in_table) {
-            continue;
-        }
-        elt = room_level_new(names[i], difficulty_level);
+    HASH_FIND_STR(*room_levels, name, out_tmp);
+    if (out_tmp == NULL) {
+        elt = room_level_new(name, difficulty_level);
         HASH_ADD_KEYPTR(hh, *room_levels, elt->room_name, strlen(elt->room_name), elt);
+        return SUCCESS;
     }
+    return FAILURE;
 }
 
 

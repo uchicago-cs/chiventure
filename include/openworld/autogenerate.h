@@ -184,10 +184,11 @@ int map_level_to_difficulty(difficulty_level_scale_t *level_scale,
  * - int difficulty_level: difficulty_level
  *
  * Returns:
- *  - true if the given roomspec is of the difficulty level
- *  - false otherwise
+ *  - SUCCESS (0) if the given roomspec is of the difficulty level
+ *  - 1 if the given roomspec is found but not of the difficulty level
+ *  - 2 if the given roomspec is not found
  */
-bool roomspec_is_given_difficulty(room_level_t **room_levels, 
+int roomspec_is_given_difficulty(room_level_t **room_levels, 
                                   roomspec_t *roomspec, 
                                   int difficulty_level);
 

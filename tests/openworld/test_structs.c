@@ -177,7 +177,7 @@ Test(speclist, free_all)
 
 /* Tests the room_level_new function to validate that a room_level
  * can be made successfully. */
-Test(room_level, new3)
+Test(room_level, new)
 {
 
     room_level_t *room_level = room_level_new("excellent_name", 4);
@@ -188,7 +188,7 @@ Test(room_level, new3)
 
 /* Tests the init_room_level function to validate that a room_level can
  * be initialized successfully. */
-Test(room_level, init3)
+Test(room_level, init)
 {
     room_level_t *room_level = calloc(1, sizeof(room_level_t));
     if (!room_level) { 
@@ -209,7 +209,7 @@ Test(room_level, init3)
 
 /* Tests the room_level_free func to validate that a room_level can be
  * freed successfully. */
-Test(room_level, free3)
+Test(room_level, free)
 {
 
     room_level_t *room_level = room_level_new("excellent_name", 4);
@@ -222,38 +222,33 @@ Test(room_level, free3)
 }
 
 
-/* Tests hash_room_levels for
-   room names = {"A", "B", "C", "D", "E"}
+/* Tests hash_room_level for
+   room name = "A"
    difficulty_level = 4 */
-Test(room_level, hash_room_levels_ABCDE_4)
+Test(room_level, hash_room_level_A_4)
 {
     room_level_t *room_level_hash = NULL;
-    int arr_len = 5;
-    char *names[] = {"A", "B", "C", "D", "E"}; 
+    char *name = "A"; 
 
-    hash_room_levels(&room_level_hash, names, arr_len, 4);
-    for (int i = 0; i < arr_len; i++) {
-        room_level_t *out;
-        HASH_FIND_STR(room_level_hash, names[i], out);
-        cr_assert_not_null(out, "failed to add room %s\n", names[i]);
-    }
+    hash_room_level(&room_level_hash, name, 4);
+    
+    room_level_t *out;
+    HASH_FIND_STR(room_level_hash, name, out);
+    cr_assert_not_null(out, "failed to add room A\n");
 }
 
-/* Tests hash_room_levels for
-   room names = {"Hi", "Good", "Well", "Rested"}
+/* Tests hash_room_level for
+   room name = "Good"
    difficulty_level = 1 */
-Test(room_level, hash_room_levels_HiGoodWellRested_1)
+Test(room_level, hash_room_level_Good_1)
 {
     room_level_t *room_level_hash = NULL;
-    int arr_len = 4;
-    char *names[] = {"Hi", "Good", "Well", "Rested"}; 
+    char *name = "Good"; 
 
-    hash_room_levels(&room_level_hash, names, arr_len, 1);
-    for (int i = 0; i < arr_len; i++) {
-        room_level_t *out;
-        HASH_FIND_STR(room_level_hash, names[i], out);
-        cr_assert_not_null(out, "failed to add room %s\n", names[i]);
-    }
+    hash_room_level(&room_level_hash, name, 1);
+    room_level_t *out;
+    HASH_FIND_STR(room_level_hash, name, out);
+    cr_assert_not_null(out, "failed to add room Good\n");
 }
 
 
@@ -261,7 +256,7 @@ Test(room_level, hash_room_levels_HiGoodWellRested_1)
 
 /* Tests the difficulty_level_scale_new function to validate that a difficulty_level_scale
  * can be made successfully. */
-Test(difficulty_level_scale, new4)
+Test(difficulty_level_scale, new)
 {
     int thresholds[3]= {0, 5, 10};
     difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
@@ -271,7 +266,7 @@ Test(difficulty_level_scale, new4)
 
 /* Tests the init_difficulty_level_scale function to validate that a difficulty_level_scale can
  * be initialized successfully. */
-Test(difficulty_level_scale, init4)
+Test(difficulty_level_scale, init)
 {
     int num_thresholds = 4;
     int thresholds[4] = {0, 10, 20, 30};
@@ -299,7 +294,7 @@ Test(difficulty_level_scale, init4)
 /* Tests the difficulty_level_scale_free func to validate that a difficulty_level_scale can be
  * freed successfully. */
 
-Test(difficulty_level_scale, free4)
+Test(difficulty_level_scale, free)
 {
 
     int thresholds[3]= {0, 5, 10};

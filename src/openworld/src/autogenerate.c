@@ -206,7 +206,7 @@ int map_level_to_difficulty(difficulty_level_scale_t *level_scale,
 
 
 /* See autogenerate.h */
-bool roomspec_is_given_difficulty(room_level_t **room_levels, 
+int roomspec_is_given_difficulty(room_level_t **room_levels, 
                                   roomspec_t *roomspec, 
                                   int difficulty_level)
 {
@@ -215,10 +215,12 @@ bool roomspec_is_given_difficulty(room_level_t **room_levels,
     HASH_FIND_STR(*room_levels, roomspec->room_name, elt); 
     if (elt) {
         if (elt->difficulty_level == difficulty_level) {
-            return true;
+            return SUCCESS;
+        } else {
+            return 1;
         }
     }
-    return false;
+    return 2;
 }
 
 
@@ -240,7 +242,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     speclist_t *filtered_speclist = NULL;
 
     DL_FOREACH(context->speclist, tmp) {
-        if (roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level)) {
+        if (!roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level)) {
                DL_APPEND(filtered_speclist, tmp);   
         }
     }

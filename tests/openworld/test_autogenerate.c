@@ -942,8 +942,8 @@ Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_21_22_80)
 Helper for roomspec_is_given_difficulty tests
 
 parameters:
-- bool actual: actual value 
-- bool expected: expected value
+- int actual: actual value 
+- int expected: expected value
 - char *rspec_name: name of the rspec that was inputted
 - int given_difficulty: level that was passed in
 
@@ -951,19 +951,19 @@ side-effects:
 - Formats error message and runs cr_assert_eq
 
 e.g. 
-TEST_HELPER_roomspec_is_given_difficulty(true, false, rspecB, 2);
+TEST_HELPER_roomspec_is_given_difficulty(0, 1, rspecB, 2);
 ... prints ...
-"rspecB is NOT of (false) given difficulty (2) but got true."
+"rspecB is NOT of given difficulty (2) but got 0."
 */
-void TEST_HELPER_roomspec_is_given_difficulty(bool actual, bool expected, char* rspec_name, int given_difficulty)
+void TEST_HELPER_roomspec_is_given_difficulty(int actual, int expected, char* rspec_name, int given_difficulty)
 {
     cr_assert_eq(actual, expected,
                  "%s %s given difficulty (%d) "
-                 "but got %s.\n",
+                 "but got %d.\n",
                  rspec_name,
-                 expected? "IS of (true)" : "is NOT of (false)",
+                 expected? "is NOT of" : "IS of",
                  given_difficulty,
-                 actual? "true" : "false");
+                 actual);
 }
 
 
@@ -974,27 +974,35 @@ Test(room_level, one_lvl0_room)
     room_level_t *room_levels = NULL;
     
     // creating room_levels and hashing to table
-    char *lvl0_roomnames[1] = {"A"};
-    hash_room_levels(&room_levels, lvl0_roomnames, 1, 0);
+    char *lvl0_roomname = "A";
+    hash_room_level(&room_levels, lvl0_roomname, 0);
 
     // checking that room_level is hashed
     room_level_t *tmp;
     HASH_FIND_STR(room_levels, "A", tmp);
     cr_assert_not_null(tmp);
 
-    // creating room_levels and checking that they are not null
+    // creating room_spec and checking that it is not null
     roomspec_t* rspecA = roomspec_new("A", "shortdesc", "longdesc", NULL);
     cr_assert_not_null(rspecA);
 
-    bool actual, expected;
+    int actual, expected;
     
     actual = roomspec_is_given_difficulty(&room_levels, rspecA, 0);
-    expected = true;
+    expected = 0;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA", 0);
 
     actual = roomspec_is_given_difficulty(&room_levels, rspecA, 3);
-    expected = false;
+    expected = 1;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA", 3);
+
+    // creating room_spec and checking that it is not null
+    roomspec_t* rspecB = roomspec_new("B", "shortdesc", "longdesc", NULL);
+    cr_assert_not_null(rspecB);
+
+    actual = roomspec_is_given_difficulty(&room_levels, rspecB, 3);
+    expected = 2;
+    TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecB", 3);
 }
 
 
@@ -1005,10 +1013,10 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
     room_level_t *room_levels = NULL;
     
     // creating room_levels and hashing to table
-    char *lvl0_roomnames[1] = {"A0"};
-    char *lvl1_roomnames[1] = {"A1"};
-    hash_room_levels(&room_levels, lvl0_roomnames, 1, 0);
-    hash_room_levels(&room_levels, lvl1_roomnames, 1, 1);
+    char *lvl0_roomname = "A0";
+    char *lvl1_roomname = "A1";
+    hash_room_level(&room_levels, lvl0_roomname, 0);
+    hash_room_level(&room_levels, lvl1_roomname, 1);
 
     // checking that room_levels are hashed
     room_level_t *tmp;
@@ -1017,29 +1025,37 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
     HASH_FIND_STR(room_levels, "A1", tmp);
     cr_assert_not_null(tmp);
 
-    // creating room_levels and checking that they are not null
+    // creating room_specs and checking that they are not null
     roomspec_t* rspecA0 = roomspec_new("A0", "shortdesc", "longdesc", NULL);
     roomspec_t* rspecA1 = roomspec_new("A1", "shortdesc", "longdesc", NULL);
     cr_assert_not_null(rspecA0);
     cr_assert_not_null(rspecA1);
 
-    bool actual, expected;
+    int actual, expected;
 
     actual = roomspec_is_given_difficulty(&room_levels, rspecA0, 0);
-    expected = true;
+    expected = 0;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA0", 0);
 
     actual = roomspec_is_given_difficulty(&room_levels, rspecA0, 1);
-    expected = false;
+    expected = 1;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA0", 1);
 
     actual = roomspec_is_given_difficulty(&room_levels, rspecA1, 1);
-    expected = true;
+    expected = 0;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA1", 1);
 
     actual = roomspec_is_given_difficulty(&room_levels, rspecA1, 0);
-    expected = false;
+    expected = 1;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA1", 0);
+
+    // creating room_spec and checking that it is not null
+    roomspec_t* rspecB = roomspec_new("B", "shortdesc", "longdesc", NULL);
+    cr_assert_not_null(rspecB);
+
+    actual = roomspec_is_given_difficulty(&room_levels, rspecB, 3);
+    expected = 2;
+    TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecB", 3);
 }
 
 
