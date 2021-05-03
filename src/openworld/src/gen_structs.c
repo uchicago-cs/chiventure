@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include "openworld/gen_structs.h"
 #include "common/utlist.h"
+#include "common/uthash.h"
 
 /* see gen_structs.h */
 int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist)
@@ -194,7 +195,7 @@ int init_room_level(room_level_t *map, char *room_name, int difficulty_level)
     if (map == NULL)
         return FAILURE;
 
-    map->room_name = room_name;
+    strcpy(map->room_name, room_name);
     map->difficulty_level = difficulty_level;
     return SUCCESS;
 }
@@ -230,14 +231,21 @@ int room_level_free(room_level_t *map)
 
 /* See gen_structs.h */  
 void add_rooms_to_hash(room_level_t **rooms, 
-                       const char *names[], 
+                       char *names[],
+                       int arr_len, 
                        int difficulty_level) 
 {
-    room_level_t *s;
-    for (int i = 0; names[i]; i++) {
-        s = (room_level_t*)malloc(sizeof(room_level_t));
-        strcpy(s->room_name, names[i]);
-        s->difficulty_level = difficulty_level;
+    room_level_t *s = NULL;
+    room_level_t *tmp = NULL;
+    bool in_table = false;
+
+    for (int i = 0; i < arr_len; i++) {  
+        HASH_FIND_STR(*rooms, names[i], tmp);
+        in_table = tmp == NULL ? false : true;
+        if (in_table) {
+            continue;
+        }
+        s = room_level_new(names[i], difficulty_level);
         HASH_ADD_KEYPTR(hh, *rooms, s->room_name, strlen(s->room_name), s);
     }
 }

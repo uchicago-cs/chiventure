@@ -309,7 +309,8 @@ int room_level_free(room_level_t *map);
  *   allocated on the heap
  */
 void add_rooms_to_hash(room_level_t **rooms, 
-                       const char *names[], 
+                       char *names[],
+                       int arr_len, 
                        int difficulty_level);
 
 
