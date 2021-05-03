@@ -205,15 +205,15 @@ int map_level_to_difficulty(difficulty_level_scale_t *level_scale,
 
 
 /* See autogenerate.h */
-bool roomspec_is_given_difficulty(room_level_t *rooms, 
+bool roomspec_is_given_difficulty(room_level_t **room_levels, 
                                   roomspec_t *roomspec, 
                                   int difficulty_level)
 {
-    room_level_t *s;
+    room_level_t *elt;
 
-    HASH_FIND_STR(rooms, roomspec->room_name, s); 
-    if (s != NULL) {
-        if (s->difficulty_level == difficulty_level) {
+    HASH_FIND_STR(*room_levels, roomspec->room_name, elt); 
+    if (elt) {
+        if (elt->difficulty_level == difficulty_level) {
             return true;
         }
     }
@@ -224,7 +224,7 @@ bool roomspec_is_given_difficulty(room_level_t *rooms,
 /* See autogenerate.h */
 int multi_rooms_level_generate(game_t *game, gencontext_t *context, 
                                char *room_id, int num_rooms,
-                               room_level_t *rooms, difficulty_level_scale_t *level_scale)
+                               room_level_t **room_levels, difficulty_level_scale_t *level_scale)
 {
     /* If there are no roomspec_t elements in context->speclist, then do not autogenerate */
     if (context->speclist == NULL) {
@@ -239,7 +239,7 @@ int multi_rooms_level_generate(game_t *game, gencontext_t *context,
     speclist_t *specs_for_difficulty = NULL; // filtered list
 
     DL_FOREACH(context->speclist, tmp) {
-        if (roomspec_is_given_difficulty(rooms, tmp->spec, difficulty_level)) {
+        if (roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level)) {
                DL_APPEND(specs_for_difficulty, tmp);   
         }
     }

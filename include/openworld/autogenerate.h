@@ -165,11 +165,11 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
  * Map from player level to difficulty level
  * 
  * Parameters:
- * - level_scale: the struct for difficulty level
- * - player_level: the player’s level
+ * - level_scale: the struct for player level -> difficulty level mapping
+ * - player_level: the player level
  * 
  * Returns:
- * - integer that represents the difficulty level
+ * - difficulty level corresponding to player level
  */
 int map_level_to_difficulty(difficulty_level_scale_t *level_scale, 
                             int player_level);
@@ -187,7 +187,7 @@ int map_level_to_difficulty(difficulty_level_scale_t *level_scale,
  *  - true if the given roomspec is of the difficulty level
  *  - false otherwise
  */
-bool roomspec_is_given_difficulty(room_level_t *rooms, 
+bool roomspec_is_given_difficulty(room_level_t **room_levels, 
                                   roomspec_t *roomspec, 
                                   int difficulty_level);
 
@@ -212,7 +212,7 @@ bool roomspec_is_given_difficulty(room_level_t *rooms,
  */
 int multi_rooms_level_generate(game_t *game, gencontext_t *context, 
                                char *room_id, int num_rooms,
-                               room_level_t *rooms, difficulty_level_scale_t *level_scale);
+                               room_level_t **room_levels, difficulty_level_scale_t *level_scale);
                                
 
 #endif /* INCLUDE_AUTOGENERATE_H */
