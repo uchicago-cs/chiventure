@@ -298,22 +298,25 @@ room_level_t* room_level_new(char *room_name, int difficulty_level);
 int room_level_free(room_level_t *map);
 
 
-/* hash_room_levels
- * Add an array of room names of a difficulty level
+/* hash_room_level
+ * Add a room name of a difficulty level
  * to the hash table of room names 
  * 
  * Parameters:
- * - rooms: pointer to the room hash table
- * - char *names[]: an array of room names, for example {“school”}
- * - int difficulty_level: difficulty_level
+ * - room_levels: pointer to the room hash table
+ * - name: a room name
+ * - difficulty_level: difficulty_level
  *
  * Side effects:
- * - Changes input room_level_t to hold the newly added room(s),
+ * - Changes input room_level_t to hold the newly added room,
  *   allocated on the heap
+ * 
+ * Returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to add new room name
  */
-void hash_room_levels(room_level_t **rooms, 
-                       char *names[],
-                       int arr_len, 
+int hash_room_level(room_level_t **room_levels, 
+                       char *name,
                        int difficulty_level);
 
 
