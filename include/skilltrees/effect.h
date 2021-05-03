@@ -144,9 +144,21 @@ int execute_damage_effect(stat_effect_t* damage_effect);
  */
 int execute_att_effect(stat_effect_t* att_effect);
 
+
+/* Initializes a linked list of effects
+ * Returns: a pointer to the first element of the initialized linked list
+ */
 effects_linked_list_t* init_linked_list();
 
+/* Adds an effect_t_node to the tail of a linked list of effects
+ * Returns: 0 adding was successful, 1 otherwise
+ */
 int add_node (effects_linked_list_t* ll, effect_t* effect);
 
+
+/* Removes an effect_t_node from the tail of a linked list of effects
+ * Returns: 0 is removing was successful, 1 otherwise
+ */
 int remove_node (effects_linked_list_t* ll, effect_t* effect);
+
 #endif /*INCLUDE_EFFECT_H*/
