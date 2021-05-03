@@ -6,6 +6,7 @@
 #include "ui/coordinate.h"
 #include "ui/raylib_map.h"
 
+//ncurses function that isn't used anywhere, delete?//
 void erase_ch(int y, int x)
 {
     mvaddch(y, x, '#');
@@ -22,51 +23,38 @@ void erase_ch(int y, int x)
 void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
 {
     // Calculate dimensions
-    int top_len = width - 2;
-    int side_ht = height -2;
+    //int top_len = width - 2;
+    //int side_ht = height -2;
     int bot_y = y+height -1;
     int right_x = x+width-1;
 
-    /* These are commented because they are only used for drawing exits
-     * We will add them back in once merged with Game State, so we would
-     * like to keep this commented code here
-     */
-    int halfy = y + height/2;
-    int halfx = x + width/2;
+   // Calculations for door start/end x-positions
+    int door_start_h = x + width / 3;
+    int door_end_h = x + 2 * width / 3;
 
-    // Draw the corners
-    mvwaddch(win, y, x, ACS_ULCORNER);
-    mvwaddch(win, y, right_x, ACS_URCORNER);
-    mvwaddch(win, bot_y, x, ACS_LLCORNER);
-    mvwaddch(win, bot_y, right_x, ACS_LRCORNER);
+    // Calculations for door start/end y-positions
+    int door_start_v = y + height / 3;
+    int door_end_v = y + 2 * height / 3; 
 
-    // Draw the sides
-    mvwhline(win, y, x+1, ACS_HLINE, (width-2));
-    mvwhline(win, bot_y, x+1, ACS_HLINE, top_len);
-    mvwvline(win, y+1, x, ACS_VLINE, side_ht);
-    mvwvline(win, y+1, right_x, ACS_VLINE, side_ht);
+    // Draw the room as a rectangle
+    DrawRectangle(x, y, width, height, GRAY);
 
+    // Draws any doors to adjacent rooms
     if (find_room_from_dir(room, "east") != NULL)
     {
-        mvwaddch(win, halfy-1, right_x, ACS_HLINE);
-        mvwaddch(win, halfy, right_x, ACS_HLINE);
+        DrawLine(right_x, door_start_v, right_x, door_end_v, BLACK);
     }
     if (find_room_from_dir(room, "west") != NULL)
     {
-        mvwaddch(win, halfy-1, x, ACS_HLINE);
-        mvwaddch(win, halfy, x, ACS_HLINE);
+        DrawLine(x, door_start_v, x, door_end_v, BLACK);
     }
     if (find_room_from_dir(room, "north") != NULL)
     {
-        mvwaddch(win, y, halfx-1, ACS_VLINE);
-        mvwaddch(win, y, halfx,' ');
-        mvwaddch(win, y, halfx+1, ACS_VLINE);
+        DrawLine(door_start_h, y, door_end_h, y, BLACK);
     }
     if (find_room_from_dir(room, "south") != NULL)
     {
-        mvwaddch(win, bot_y, halfx-1, ACS_VLINE);
-        mvwaddch(win, bot_y, halfx, ' ');
-        mvwaddch(win, bot_y, halfx+1, ACS_VLINE);
+        DrawLine(door_start_h, bot_y, door_end_h, bot_y, BLACK);
     }
 }
 
@@ -130,7 +118,9 @@ map_t *map_init()
     WINDOW *pad = newpad(maxy, maxx);
     map_t *map = malloc(sizeof(map_t));
 
+    //Hard coded value, needs change?//
     map->room_h = 6;
+    //Hard coded value, needs change?//
     map->room_w = 11;
     map->pad = pad;
     map->xoff = xoffset;
@@ -174,10 +164,18 @@ void draw_info(chiventure_ctx_t *ctx)
     map_t *map = ui_ctx->map;
     coord_t *curr_pos = ui_ctx->player_loc;
 
+    //No idea why they added numbers to these, border maybe??//
     int info_x = map->ulx + 2;
     int info_y = map->uly + 1;
 
-    mvwprintw(map->pad, info_y, info_x, "(%i, %i) Floor %i", curr_pos->x, curr_pos->y, curr_pos->z);
+    BeginDrawing();
+
+    ClearBackground(BLACK);
+
+    //I don't think the x and y here are right, see function//
+    draw_rooms(ctx, info_x, info_y, curr_pos->z);
+
+    EndDrawing();
     return;
 }
 
@@ -199,17 +197,8 @@ void draw_border(chiventure_ctx_t *ctx)
     int lrx = map->lrx - 1; // Lower Right x
     int lry = map->lry; // Lower Right y
 
-    // Draw the sides
-    mvwhline(win, uly, ulx, ACS_HLINE, lrx-ulx);
-    mvwhline(win, lry, ulx, ACS_HLINE, lrx-ulx);
-    mvwvline(win, uly, ulx, ACS_VLINE, lry-uly);
-    mvwvline(win, uly, lrx, ACS_VLINE, lry-uly);
-
-    // Draw the corners
-    mvwaddch(win, uly, ulx, ACS_ULCORNER);
-    mvwaddch(win, uly, lrx, ACS_URCORNER);
-    mvwaddch(win, lry, ulx, ACS_LLCORNER);
-    mvwaddch(win, lry, lrx, ACS_LRCORNER);
+    // Draws the border as a rectangle
+    DrawRectangle(ulx, uly, lrx - ulx, lry - ulr, WHITE);
 
     return;
 }
@@ -226,7 +215,7 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
     if (z != map->padz || x != map->padx || y != map->pady)
     {
         wclear(map->pad);
-
+        //Why are the x and y values negative here??//
         draw_rooms(ctx, -x, -y, z);
     }
 
@@ -241,12 +230,13 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
     int centy = (map->lry - map->uly) / 2;
 
     // Draws the 'player' on to the screen
-    mvwaddch(map->pad, centy-1, centx, 'o' | A_UNDERLINE);
-    mvwaddch(map->pad, centy, centx, '^');
+    //Look into what the radius should be, 2 is placeholder//
+    DrawCircle(centx, centy, 2, WHITE);
 
     draw_border(ctx);
     draw_info(ctx);
 
+    //An ncurses function that I don't know what to do with//
     prefresh(map->pad, 0, 0, map->uly, map->ulx, map->lry, map->lrx);
     return 0;
 }
