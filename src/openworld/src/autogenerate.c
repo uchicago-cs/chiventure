@@ -245,17 +245,16 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     
 
     DL_FOREACH(context->speclist, tmp) { 
-        if (SUCCESS == roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level)) { 
+        if (roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level) == SUCCESS) { 
                DL_APPEND(filtered_speclist, tmp);    
         }
     }
     
+    /*
     DL_FOREACH(filtered_speclist, tmp) {
         printf("   %s\n", tmp->spec->room_name);
     }
-    
-
-    // works as expected up to here
+    */
     
 
     // filtered gencontext
@@ -266,7 +265,9 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     
     int result = multi_room_generate(game, filtered_context, room_id, num_rooms);
 
+    // functions for debugging below
 
+    /*
     path_t *paths = game->curr_room->paths;
     path_t *curr, *tep;
     HASH_ITER(hh, paths, curr, tep) {
@@ -278,8 +279,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     HASH_ITER(hh, rooms, curroom, temporoom) {
         printf("all rooms: %s\n", curroom->room_id);
     }
-
-
-    return result;
+    */
+   return result;
 }
 
