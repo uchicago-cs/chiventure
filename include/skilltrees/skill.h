@@ -24,7 +24,7 @@
  */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    unsigned int max_level, unsigned int min_xp,
-                   effects*  skill_effects);
+                   effects_linked_list_t*  skill_effects);
 
 /*
  * Initializes a skill.
@@ -47,7 +47,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-               effects* skill_effects);
+               effects_linked_list_t* skill_effects);
 
 /*
  * Frees the resources associated with a skill.
