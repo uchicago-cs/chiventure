@@ -187,7 +187,7 @@ char* multiclass_longdesc (class_t* base_class, class_t* second_class){
 class_t* multiclass(class_t* base_class, class_t* second_class, char* name){
     char* new_shortdesc = multiclass_shortdesc(base_class, second_class);
     char* new_longdesc = multiclass_longdesc(base_class, second_class);
-    obj_t* combined_attr = int obj_add_attr(base_class->attributes, second_class->attributes->id, second_class->attributes); //Not sure if I use this function correctly
+    obj_t* combined_attr = NULL; // I dont think this works: int obj_add_attr(base_class->attributes, second_class->attributes->id, second_class->attributes);
     effects_hash_t* combined_effects = NULL; //TODO, will need a new get all function for effects_hash_t
     
     class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->stats, combined_effects);
