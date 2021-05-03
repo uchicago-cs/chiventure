@@ -79,55 +79,69 @@ typedef struct effects_linked_list{
     int num; //Number of effects
 }effects_linked_list_t;
 
-/*Defines a statistic modifying effect and returns a pointer to it 
- *Parameters- char* statname: The stat name to be modified
- *            int mod: The value to modify the statistic by
- *            
- *Returns:  A pointer to the created statistic modifying effect
+/* Defines a statistic modifying effect and returns a pointer to it 
+ * Parameters: char* statname: The stat name to be modified
+ *             int mod: The value to modify the statistic by
+ *             int durartion: the duration for which the effect should be applied
+ * Returns:  A pointer to the created statistic modifying effect
  */
 stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration);
 
-/*Defines an attack effect that damages a target by a given amount and returns a pointer to it
- *Parameters- int mod: The amount of damage to be dealt
- *Returns: A pointer to the created damage efect
+/* Defines an attack effect that damages a target by a given amount and returns a pointer to it
+ * Parameters: int mod: The amount of damage to be dealt
+ * Returns: A pointer to the created damage efect
  */
 damage_effect_t* define_damage_effect(int mod);
 
-/*Defines an attribute modifying effect and returns a pointer to it
- *Parameters- char* obj_id:  The unique ID of the parent object
+/* Defines an attribute modifying effect and returns a pointer to it
+ * Parameters: char* obj_id:  The unique ID of the parent object
  *            char* att_id:  The ID of the attribute
  *            data mod: Contains a value of the union data type to which the attribute value must be changed
  * Returns: A pointer to the created attribute modifying effect
  */
 att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod);
 
-/*Takes the given stats modifying effect and converts it to an effect
- *Parameters - stat_effect_t* stat_effect- Pointer to the stats modifying effect
- *Returns: A pointer to an effect with parameters based on what has been given
+/* Takes the given stats modifying effect and converts it to an effect
+ * Parameters: stat_effect_t* stat_effect- Pointer to the stats modifying effect
+ * Returns: A pointer to an effect with parameters based on what has been given
  */
 
 effect_t* make_stat_effect(stat_effect_t* stat_effect);
 
 
-/*Takes the given damage effect and converts it to an effect
- *Parameters - damage_effect_t* damage_effect- Pointer to the damage effect
- *Returns: A pointer to an effect with parameters based on what has been given
+/* Takes the given damage effect and converts it to an effect
+ * Parameters: damage_effect_t* damage_effect- Pointer to the damage effect
+ * Returns: A pointer to an effect with parameters based on what has been given
  */
 
 effect_t* make_damage_effect(damage_effect_t* damage_effect);
 
 
-/*Takes the given attribute modifying effect and converts it to an effect
- *Parameters - att_effect_t* att_effect- Pointer to the attribute modifying effect
- *Returns: A pointer to an effect with parameters based on what has been given
+/* Takes the given attribute modifying effect and converts it to an effect
+ * Parameters: att_effect_t* att_effect- Pointer to the attribute modifying effect
+ * Returns: A pointer to an effect with parameters based on what has been given
  */
 
 effect_t* make_att_effect(att_effect_t* att_effect);
 
+
+/* Takes the given statistic modifying effect and executes it
+ * Parameters: stat_effect_t* stat_effect - Pointer to the statistic modifying effect
+ * Returns: 0 is the execution was successful, 1 otherwise
+ */
 int execute_stat_effect(stat_effect_t* stat_effect);
 
+
+/* Takes the given damage effect and executes it
+ * Parameters: damage_effect_t* damage_effect - a pointer to the damage effect
+ * Returns: 0 is the execution was successful, 1 otherwise
+ */
 int execute_damage_effect(stat_effect_t* damage_effect);
 
+/* Takes the given attribute modifying effect and executes it
+ * Parameters: att_effect_t* att_effect - a pointer to the attribute modifying effect
+ * Returns: 0 is the execution was successful, 1 otherwise
+ */
 int execute_att_effect(stat_effect_t* att_effect);
 
 effects_linked_list_t* init_linked_list();

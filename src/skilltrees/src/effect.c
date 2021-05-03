@@ -3,6 +3,9 @@
 #include <assert.h>
 #include "skilltrees/effect.h"
 
+// This code is not finalized; we're going to make more changes to implement
+// it into the hash table later on
+
 //See effect.h
 stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration)
 {
