@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
+#include "default_npcs.h"
 
 #ifndef GEN_STRUCTS_H
 #define GEN_STRUCTS_H
@@ -30,6 +31,7 @@
 * - char *long_desc: long description for room
 * - int num_built: how many rooms of this type have been already built. An identifier.
 * - item_hash_t *items: hash table of items in room
+* - npc_t *npcs: doubly linked list of the npcs
 * - UT_hash_handle hh: hash handle for room spec
 */
 typedef struct roomspec {
@@ -38,6 +40,7 @@ typedef struct roomspec {
     char *long_desc;
     int num_built;
     item_hash_t *items;
+    npc_t *npcs;
     UT_hash_handle hh;
 } roomspec_t;
 
@@ -135,7 +138,7 @@ int gencontext_free(gencontext_t *context);
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, npc_t *npcs);
 
 /* roomspec_new
 * Creates a new roomspec_t* based off the given parameters.
@@ -150,7 +153,7 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * roomspec_t *roomspecnew - the new roomspec
 * NULL - if fails to create a new roomspec.
 */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, npc_t *npcs);
 
 /* roomspec_free
 * Frees a gencontext_t* and returns whether or not it was succesful.

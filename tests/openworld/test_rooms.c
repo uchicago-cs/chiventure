@@ -31,12 +31,12 @@ Test(room, copy_book)
 
     rc = copy_item_to_hash(&tmp, def, "olive");
     cr_assert_not_null(tmp);
-
+    
     HASH_FIND_STR(tmp, "olive", item);
     cr_assert_str_eq(item->short_desc, "a black olive");
     cr_assert_str_eq(item->long_desc, "A singular, unrefrigerated black olive");
-}
 
+}
 /* testing make_default_room for school */
 Test(room, make_default_school)
 {

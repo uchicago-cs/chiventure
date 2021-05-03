@@ -21,8 +21,10 @@
 #include "game-state/game.h"
 #include "gen_structs.h"
 #include "default_rooms.h"
+#include "default_npcs.h"
 
 #define MAX_RAND_ITEMS (6)
+#define MAX_NPCS (3)
 
 /*
 * path_exists_in_dir
@@ -160,6 +162,33 @@ item_hash_t *random_items(roomspec_t *room);
 */
 int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
 
+/*
+* random_npcs
+* randomly selects a number of npcs in a room where the max NPCs in a room is 3
+* Assumes that npcs are not automatically assigned to rooms
+* Includes a NPC room description and then randomly generates
+* a certain amount of generic, friendly, and hostile per room.
+*
+* parameters:
+*  - a roomspe_t that icnludes the type npc_t struct 
+* returns: type npc_t and a room npc description
+*/
+npc_t *random_npcs(roomspec_t *room);
+
+/*
+* random_npc_lookup
+* Iterates through num_iters times to and copies the source item at most 3 times
+* Helper function for random_npcs
+*
+* parameters:
+* -  item_hash_t *dst is where you want to store the npc you just found
+* -  item_hash_t *src is where you're looking up the npc
+* -  num_iters is how many times you'll iterate through src to settle on an npc 
+*
+* returns:
+*  - Failure if the NPC is NULL or if the num_iters is 0
+*  - Success if NPC is not NULL and there's at least 1 num_iters.
+*/
+int random_npc_lookup(npc_t **dst, npc_t *src, int num_iters);
+
 #endif /* INCLUDE_AUTOGENERATE_H */
-
-

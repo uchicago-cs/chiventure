@@ -41,7 +41,6 @@ gencontext_t* gencontext_new(path_t *open_paths, int level, int num_open_paths, 
         fprintf(stderr, "calloc failed to allocate space for contextnew. \n");
         return NULL;
     }
-
     init_gencontext(contextnew, open_paths, level, num_open_paths, speclist);
     return contextnew;
 }
@@ -60,7 +59,6 @@ int gencontext_free(gencontext_t *context)
 /* see gen_structs.h */
 int roomspec_free(roomspec_t *spec)
 {
-
     if (spec == NULL)
         return FAILURE;
 
@@ -77,9 +75,8 @@ int roomspec_free(roomspec_t *spec)
 }
 
 /* see gen_structs.h */
-int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, npc_t *npcs)
 {
-
     if (spec == NULL)
         return FAILURE;
 
@@ -109,12 +106,13 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
     strncpy(spec->short_desc, short_desc, MAX_SDESC_LEN);
     strncpy(spec->long_desc, long_desc, MAX_LDESC_LEN);
     spec->items = items;
+    spec->npcs = npcs;
     spec->num_built = 0;
     return SUCCESS;
 }
 
 /* see gen_structs.h */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, npc_t *npcs)
 {
 
     roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
@@ -124,7 +122,7 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
         return NULL;
     }
 
-    int check = init_roomspec(roomspecnew, room_name, short_desc, long_desc, items);
+    int check = init_roomspec(roomspecnew, room_name, short_desc, long_desc, items, npcs);
     if (check == FAILURE) {
         return NULL;
     }

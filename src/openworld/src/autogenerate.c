@@ -19,6 +19,7 @@
 #include "openworld/autogenerate.h"
 #include "openworld/gen_structs.h"
 #include "openworld/default_rooms.h"
+#include "openworld/default_npcs.h"
 
 /* See autogenerate.h */
 bool path_exists_in_dir(room_t *r, char *direction)
@@ -51,7 +52,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
     // instead of taking all the items, just take a few of them
     res->items = random_items(roomspec);
-
+    //res->npcs = random_npcs(roomspec);
     res->paths = NULL;
     return res;
 }
@@ -178,13 +179,84 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 
     HASH_ITER(hh, src, current, tmp) {
         if (i == num_iters) {
-            copy_item_to_hash(dst, src, tmp->item_id);
+            copy_item_to_hash(dst, src, current->item_id);
             return SUCCESS;
         }
         i++;
     }
 
-    return FAILURE;
 }
 
+/* See autogenerate.h */
+npc_t *random_npcs(roomspec_t *room)
+{
+    if (room == NULL) {
+        return NULL;
+    }
 
+    int num_npcs = rand() % MAX_NPCS;
+
+    //assuming that npcs are not automatically assigned to rooms
+    npc_t *hostiles = get_hostile_npcs();
+    npc_t *friendlies = get_friendly_npcs();
+    npc_t *generic = get_generic_npcs();
+
+
+    npc_t *combo = NULL;
+    npc_t *current = NULL;
+    npc_t *tmp = NULL;
+
+    strcat(room->long_desc, "These npcs are in the room: ");
+    for (int i = 0; i < num_npcs; i++) {
+        int random_num = rand() % 3;
+        if(random_num == 1)
+        {
+            random_npc_lookup(&current, hostiles, rand() % MAX_NPCS);
+        }
+        else if(random_num  == 2)
+        {
+            random_npc_lookup(&current, friendlies, rand() % MAX_NPCS);
+        }
+        else
+        {
+            random_npc_lookup(&current, generic, rand() % MAX_NPCS);
+        }
+        HASH_ADD_STR(combo,npc_name,current);
+    }
+    HASH_ITER(hh, combo, current, tmp) {
+        strncat(room->long_desc, current->npc_name, MAX_NAME_LEN);
+        if (tmp != NULL)
+            strncat(room->long_desc, ", ", MAX_NAME_LEN);
+    }
+    strcat(room->long_desc, ".\n");
+
+    if (combo == NULL)
+        return NULL;
+
+    return combo;
+}
+
+/* See autogenerate.h */
+int random_npc_lookup(npc_t **dst, npc_t *src, int num_iters)
+{
+    npc_t *current = NULL;
+    npc_t *tmp = NULL;
+
+    int i = 0;
+    HASH_ITER(hh, src, current, tmp) {
+    if (i == num_iters) {
+       npc_t *new_npc = calloc(1, sizeof(npc_t));
+      
+       new_npc->npc_name = calloc(MAX_NAME_LEN + 1, sizeof(char));
+       strncpy(new_npc->npc_name, current->npc_name, MAX_NAME_LEN); 
+       new_npc->level = current->level;
+       new_npc->inventory = current->inventory;
+       new_npc->classification = current->classification;
+       HASH_ADD_STR(*dst, npc_name, new_npc);
+       return SUCCESS;
+    }
+      i++;
+}
+
+   return FAILURE;
+}
