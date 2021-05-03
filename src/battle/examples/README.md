@@ -15,10 +15,8 @@ These are the current scripts:
         * MOVE: when the player decides to perform an action regarding moves
             * USE move_name ON enemy_name: this leads the player to using a move on a specific enemy
             * LIST: lists the possible moves the player can perform
-        * HELP: displays possible commands (i.e. MOVE USE... and MOVE LIST)
-    * We are also hoping to have these actions in the future
-        * ITEM: allows the player to consume an item
-            * USE item_name: Player consumes an item
+        * HELP: displays possible commands and available items (i.e. MOVE USE..., MOVE LIST, and USE )
+        * USE item_id: Player consumes an item
         * the user story has more about commands and an example of a battle
             * https://github.com/uchicago-cs/chiventure/wiki/RPG-Battle-Systems-%7C-User-Stories
 * `battle_flow_example.c`: Runs a sample battle using hard-coded moves for the player and enemy. This demonstrates how to set up a battle correctly.
