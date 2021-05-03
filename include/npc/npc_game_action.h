@@ -2,6 +2,7 @@
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "game-state/game_action.h"
+#include "game-state/condition.h"
 
 /*
  * Returns the game_action_t associated with an action
@@ -58,7 +59,7 @@ int add_npc_action_condition(npc_t *npc, game_action_t *action, item_t *cond_ite
  * Returns:
  *  - NULL if npc or attribute are NULL, the new condition if succcessful
  */
-game_action_condition_t *npc_condition_new(npc_t *npc, attribute_t *attribute, attribute_value_t new_value);
+condition_t *npc_condition_new(npc_t *npc, attribute_t *attribute, attribute_value_t new_value);
 
 /* 
  * Checks if all of the conditions of an action are met
@@ -84,7 +85,7 @@ int all_npc_conditions_met(npc_t *npc, char* action_name);
  *  - ACTION_NULL if action NULL
  *  - ITEM_MODIFY_NULL if npc to modify is null
  */
-int add_action_effect(game_action_t *action, npc_t *npc, attribute_t *attribute, attribute_value_t new_value);
+int add_npc_action_effect(game_action_t *action, npc_t *npc, attribute_t *attribute, attribute_value_t new_value);
 
 /* 
  * Sets all effects of an action
@@ -94,4 +95,4 @@ int add_action_effect(game_action_t *action, npc_t *npc, attribute_t *attribute,
  * Returns:
  *  - SUCCESS if all effects are set, FAILURE if not
  */
-int do_all_effects(npc_t *npc, char* action_name);
+int do_all_npc_effects(npc_t *npc, char* action_name);
