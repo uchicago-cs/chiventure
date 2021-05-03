@@ -3,6 +3,7 @@
 
 #include "common/common.h"
 #include <stdbool.h>
+#include "game-state/player.h"
 
 /*List of all the effect types that a skill can have.  We can add more in the future */
 typedef enum effect_type {
@@ -21,6 +22,7 @@ typedef enum effect_type {
 typedef struct stat_effect{
     char* stat_name; //Takes the name of the statistic that must be modified
     int mod;         //Modifies the statistic by this number.  If effect decreases stats, specify negative number.
+    int duration;    //The duration for how long the effect should be applied
 }stat_effect_t;
 
 //Defines an effect that deals damage
@@ -29,13 +31,13 @@ typedef struct damage_effect{
 }damage_effect_t;
 
 //A struct used to define a union data type that we use to change attributes
-    union data
-    {
-        bool b;
-        char c;
-        int  i;
-        char *s;
-    }; //The value to which we want to change the attribute (NOT THE VALUE BY WHICH WE WANT TO MODIFY THE ATTRIBUTE)
+union data
+{
+    bool b;
+    char c;
+    int  i;
+    char *s;
+}; //The value to which we want to change the attribute (NOT THE VALUE BY WHICH WE WANT TO MODIFY THE ATTRIBUTE)
 
 /*Defines an effect that changes the attribute of a player.  
  *We currently can change the attribute value if it is a bool, character, integer, or string. 
@@ -78,7 +80,7 @@ typedef struct effects_linked_list{
  *            
  *Returns:  A pointer to the created statistic modifying effect
  */
-stat_effect_t* define_stat_effect(char* stat_name, int mod);
+stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration);
 
 /*Defines an attack effect that damages a target by a given amount and returns a pointer to it
  *Parameters- int mod: The amount of damage to be dealt
