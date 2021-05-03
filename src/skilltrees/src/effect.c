@@ -3,6 +3,9 @@
 #include <assert.h>
 #include "skilltrees/effect.h"
 
+// This code is not finalized; we're going to make more changes to implement
+// it into the hash table later on
+
 //See effect.h
 stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration)
 {
@@ -18,7 +21,7 @@ stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration)
 damage_effect_t* define_damage_effect(int mod)
 {
     damage_effect_t* new_damage_effect = (damage_effect_t*)malloc(sizeof(damage_effect_t));
-    new_damage_effect->mod = mod;
+    new_damage_effect->damage = mod;
 
     return new_damage_effect;
 }
