@@ -1,5 +1,6 @@
 /*
  * Skill examples for battle demo
+ * THIS FILE IS NOW DEPRECATED AND MUST BE COMPLETELY CHANGED
  */
 
 #include <stdio.h>

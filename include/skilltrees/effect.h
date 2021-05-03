@@ -1,3 +1,8 @@
+/* Implementation for an effect caused by a skill.  
+ * Skills can have multiple effects as defined by the linked list.
+ * Effects are of various types depending on what they do.
+ */
+
 #ifndef INCLUDE_EFFECT_H_
 #define INCLUDE_EFFECT_H_
 
@@ -56,10 +61,10 @@ typedef struct effect{
     effect_type_t effect_type; //Contains the value of the effect.  Check enum above
     union
     {
-        stat_effect_t s;
-        damage_effect_t d;
-        att_effect_t a;
-    } data; //Contains the effect itself so that we can make the necessary modifications to execute the skill
+        stat_effect_t* s;
+        damage_effect_t* d;
+        att_effect_t* a;
+    } data; //Contains a pointer to the effect itself so that we can make the necessary modifications to execute the skill
 }effect_t;
 
 //Node in the effects linked list
@@ -96,5 +101,27 @@ damage_effect_t* define_damage_effect(int mod);
  */
 att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod);
 
+/*Takes the given stats modifying effect and converts it to an effect
+ *Parameters - stat_effect_t* stat_effect- Pointer to the stats modifying effect
+ *Returns: A pointer to an effect with parameters based on what has been given
+ */
+
+effect_t* make_stat_effect(stat_effect_t* stat_effect);
+
+
+/*Takes the given damage effect and converts it to an effect
+ *Parameters - damage_effect_t* damage_effect- Pointer to the damage effect
+ *Returns: A pointer to an effect with parameters based on what has been given
+ */
+
+effect_t* make_damage_effect(damage_effect_t* damage_effect);
+
+
+/*Takes the given attribute modifying effect and converts it to an effect
+ *Parameters - att_effect_t* att_effect- Pointer to the attribute modifying effect
+ *Returns: A pointer to an effect with parameters based on what has been given
+ */
+
+effect_t* make_att_effect(att_effect_t* att_effect);
 
 #endif /*INCLUDE_EFFECT_H*/
