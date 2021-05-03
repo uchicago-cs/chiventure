@@ -154,7 +154,8 @@ int battle_free(battle_t *b)
     return SUCCESS;
 }
 
-stat_changes_t *stat_changes(){
+/* See battle_state.h */
+stat_changes_t *stat_changes_new(){
     stat_changes_t* sc;
     int rc;
 
@@ -176,6 +177,7 @@ stat_changes_t *stat_changes(){
     return s;    
 }
 
+/* See battle_state.h */
 int stat_changes_init(stat_changes_t *sc){
     assert(sc != NULL);
 
@@ -192,14 +194,16 @@ int stat_changes_init(stat_changes_t *sc){
     return SUCCESS;
 }
 
+/* See battle_state.h */
 int stat_changes_free_node(stat_changes_t *sc){
-    sc->prev->next = sc->next;
-    
+    assert(sc != NULL);
+        
     free(sc);
 
     return SUCCESS;
 }
 
+/* See battle_state.h */
 int stat_changes_free_all(stat_changes_t *sc){
     stat_changes_t *current = sc;
     stat_changes_t *next = NULL;
