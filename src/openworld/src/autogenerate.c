@@ -100,6 +100,7 @@ int room_generate(game_t *game, gencontext_t *context, roomspec_t *rspec)
     return FAILURE; // Room was not generated
 }
 
+/* See autogenerate.h */
 int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms)
 {
     /* If game->curr_room is not a dead end or there are no roomspec_t elements
@@ -220,9 +221,6 @@ bool roomspec_is_given_difficulty(room_level_t **room_levels,
     return false;
 }
 
-
-
-// int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms)
 
 /* See autogenerate.h */
 int multi_room_level_generate(game_t *game, gencontext_t *context, 

@@ -1040,7 +1040,21 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
     actual = roomspec_is_given_difficulty(&room_levels, rspecA1, 0);
     expected = false;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA1", 0);
-
 }
 
 
+
+Test(autogenerate, generate_only_lvl0s)
+{
+    difficulty_level_scale_t *scale;
+    int thresholds = {0, 5, 10};
+    init_difficulty_level_scale(scale, 3, thresholds);
+
+    game_t *g = game_new("start desc");
+    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
+    g->curr_room = roomspec_to_room(random_room_lookup(spec));
+
+
+}
