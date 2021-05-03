@@ -544,7 +544,7 @@ Test(game_stat_effects, add_stat_to_game)
 
     cr_assert_eq(rc, SUCCESS, "add_stat_to_game failed");
     cr_assert_not_null(game->curr_stats, "stat not added to curr_stats");
-    free_stats_global(global_stat);
+    free_stats_global_table(game->curr_stats);
     game_free(game);
 }
 
@@ -558,7 +558,7 @@ Test(game_stat_effects, add_effect_to_game)
 
     cr_assert_eq(rc, SUCCESS, "add_effect_to_game failed");
     cr_assert_not_null(game->all_effects, "effect not added to all_effects");
-    free(effect);
+    delete_all_global_effects(game->all_effects);
     game_free(game);
 }
 /*

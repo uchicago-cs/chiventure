@@ -1051,7 +1051,8 @@ Test(attribute_equal, str_to_double)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // str + bool
