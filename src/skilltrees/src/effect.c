@@ -6,13 +6,21 @@
 //See effect.h
 stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration)
 {
-    //TODO
+    stat_effect_t* new_stat_effect = (stat_effect_t*)malloc(sizeof(stat_effect_t));
+    new_stat_effect->stat_name = stat_name;
+    new_stat_effect->mod = mod;
+    new_stat_effect->duration = duration;
+
+    return new_stat_effect;
 }
 
 //See effect.h
 damage_effect_t* define_damage_effect(int mod)
 {
-    //TODO
+    damage_effect_t* new_damage_effect = (damage_effect_t*)malloc(sizeof(damage_effect_t));
+    new_damage_effect->mod = mod;
+
+    return new_damage_effect;
 }
 
 //See effect.h
