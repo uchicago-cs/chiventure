@@ -268,46 +268,6 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
 const unsigned int UI_NODE_SIZE = 75;
 
 /*
- * Macro that allows for fast creation of damage skill effects.
- * 
- * Inputs:
- *  - name: The name of the function to be created (without surrounding quotes).
- *  - output_command: The command (passed to CLI) that describes what the effect
- *        does. Currently, CLI does not know how to actually use this, so simply
- *        describe the effect in a somewhat parseable and somewhat consisteny 
- *        format (see below for some examples). This whole system is subject to 
- *        change in the future.
- * 
- * Expands to:
- *  - A function that is the skill effect.
- *     - Identifier: name.
- *     - Parameters:
- *        - args: A string of space seperated args to the skill effect call.
- *                Currently, these are ignored. Define your own skills if you
- *                want something more dynamic.
- *     - Returns: 
- *        - A string, the result of the skill being called, which is simply the
- *          damage of the effect (ie. "8").
- * 
- * Notes: See skilltrees_common.h and skilltrees/examples/skill-example.c for 
- *        more context and the examples inspiring this.
- * 
- */
-#define make_skill_effect(name, output_command) char* name(char* args) {       \
-    return output_command;                                                     \
-}
-
-/* Skill effect functions. Simply passes a semi-parseable string to the CLI, for now */
-make_skill_effect(warrior_sword_slash, "PHYSICAL_ATTACK 8")
-make_skill_effect(warrior_double_slash, "PHYSICAL_ATTACK 16")
-make_skill_effect(warrior_triple_slash, "PHYSICAL_ATTACK 24")
-
-/* Some more complicated samples */
-make_skill_effect(sample_effect, "PLAYER PHYSICAL_ATTACK PLUS 10")
-make_skill_effect(sample_effect_2, "PLAYER SPEED TIMES 1.5")
-make_skill_effect(sample_effect_3, "ENEMY PHYSICAL_DEFENSE MINUS 10")
-
-/*
  * Initializes skill and skilltree related values for a player class.  Currently
  * only works for classes that match the name of one of our prefab classes.
  * 
@@ -445,16 +405,17 @@ int class_prefab_add_skills(class_t* class) {
         class_allocate_skills(class, 3, 3, 0);
         sid_t skill_id = class->skilltree->tid * 100;
         
+        /* Currently point to null effects */
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Sword Slash", 
                                      "You slash your sword.", 1, 100, 
-                                     warrior_sword_slash);
+                                     NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Double Slash", 
                                      "You slash your sword, twice!", 1, 200, 
-                                     warrior_double_slash);
+                                     NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Triple Slash", 
                                      "You slash your sword, thrice!", 1, 400, 
-                                     warrior_triple_slash);
+                                     NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, true);
