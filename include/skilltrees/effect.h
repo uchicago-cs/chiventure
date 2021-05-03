@@ -124,6 +124,10 @@ effect_t* make_damage_effect(damage_effect_t* damage_effect);
 
 effect_t* make_att_effect(att_effect_t* att_effect);
 
-int 
+int execute_stat_effect(stat_effect_t* stat_effect);
+
+int execute_damage_effect(stat_effect_t* damage_effect);
+
+int execute_att_effect(stat_effect_t* att_effect);
 
 #endif /*INCLUDE_EFFECT_H*/
