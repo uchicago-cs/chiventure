@@ -98,6 +98,7 @@ int skill_execute(skill_t* skill)
             execute_att_effect(effect->data.a);
             assert(check==0);
         }
+        curr=curr->next;
     }
     return 0;
 }
