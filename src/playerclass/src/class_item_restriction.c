@@ -39,7 +39,7 @@ bool is_restricted(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    return (list_contains_attribute(item->class_restrictions, strndup(class->name, 100)) == SUCCESS);
+    return list_contains_attribute(item->class_restrictions, strndup(class->name, 100));
 }
 
 /* see class_item_restriction.h */

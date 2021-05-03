@@ -649,7 +649,7 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 /* See item.h */
 int remove_attribute_from_list(attribute_list_t *head, char *attr_name)
 {
-    if (attr == NULL || head->next == NULL)
+    if (!list_contains_attribute(head, attr_name))
     {
         printf("\nNot Recognized\n");
         return FAILURE;
@@ -659,7 +659,7 @@ int remove_attribute_from_list(attribute_list_t *head, char *attr_name)
     attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
 
     like->attribute = calloc(1, sizeof(attribute_t));
-    like->attribute->attribute_key = attr->attribute_key;
+    like->attribute->attribute_key = attr_name;
 
     LL_SEARCH(head->next, tmp, like, attr_cmp);
 
