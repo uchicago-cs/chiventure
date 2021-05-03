@@ -82,7 +82,7 @@ typedef struct effects_linked_list{
 /* Defines a statistic modifying effect and returns a pointer to it 
  * Parameters: char* statname: The stat name to be modified
  *             int mod: The value to modify the statistic by
- *             int durartion: the duration for which the effect should be applied
+ *             int duration: the duration for which the effect should be applied
  * Returns:  A pointer to the created statistic modifying effect
  */
 stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration);

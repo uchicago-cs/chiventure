@@ -71,3 +71,21 @@ int execute_att_effect(stat_effect_t* att_effect)
 {
     //TODO
 }
+
+//See effect.h
+effects_linked_list_t* init_linked_list()
+{
+     //TODO
+}
+
+//See effect.h
+int add_node (effects_linked_list_t* ll, effect_t* effect)
+{
+    //TODO
+}
+
+//See effect.h
+int remove_node (effects_linked_list_t* ll, effect_t* effect)
+{
+    //TODO
+}
