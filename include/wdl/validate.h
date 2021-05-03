@@ -29,7 +29,7 @@ typedef struct action_list
  *  - an attribute list of all the connections
  *  - null if an error occurs or no list can be generated
  */
-attr_list_t *connections_get_list(obj_t *obj);
+obj_t *connections_get_list(obj_t *obj);
 
 /* check_connection_attr()
  * a helper function for connection_type_check() that checks the attributes of
@@ -104,7 +104,7 @@ void print_game(obj_t *obj);
  *
  * note: behaviour is undefined if object and validation function do not match
  */
-int list_type_check(attr_list_t *ls, int(*validate)(obj_t*));
+int list_type_check(obj_t *ls, int(*validate)(obj_t*));
 
 /* list_print()
  * a function to automate printing objects;
@@ -122,7 +122,7 @@ int list_type_check(attr_list_t *ls, int(*validate)(obj_t*));
  *
  * note: behaviour is undefined if object and validation function do not match
  */
-void list_print(attr_list_t *ls, void(*print)(obj_t*));
+void list_print(obj_t *ls, void(*print)(obj_t*));
 
 /*
  * type_check

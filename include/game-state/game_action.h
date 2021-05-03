@@ -1,6 +1,9 @@
+#ifndef _GAME_ACTION_H
+#define _GAME_ACTION_H
 
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
+#include "condition.h"
 #include "item.h"
 
 
@@ -62,65 +65,74 @@ game_action_hash_t *get_all_actions(item_t *item);
 int game_action_free(game_action_t *action_tofree);
 
 
+
 // ------------------------- CONDITION FUNCTIONS -------------------------
 
-/* add_action_condition() creates a new condition for an item's action and
+/* add_action_attribute_condition() creates a new attribute condition for an item's action and
  * adds to the action's condition list
  * Parameters:
- *  a pointer to the item the action is being performed on
  *  a pointer to the action to which the condition is being added
  *  a pointer to the item specified in the action condition
  *  a pointer to the attribute of the item specified in action condition that needs to be validated
  *  the value of the above attribute that needs to be validated
  * Returns:
  *  SUCCESS upon SUCCESS
- *  ITEM_SRC_NULL if first item ID does not exist
  *  ACTION_NULL if specified action does not exist in first item
- *  ITEM_MODIFY_NULL if second item ID does not exist
+ *  ITEM_MODIFY_NULL if the item ID does not exist
  */
-int add_action_condition(item_t *item, game_action_t *action, item_t *cond_item, 
+int add_action_attribute_condition(game_action_t *action, item_t *cond_item, 
 			 attribute_t *cond_attribute, attribute_value_t cond_value);
 
-/* delete_action_condition_llist frees a linked list of action conditions
+/* add_action_inventory_condition() creates a new inventory condition for an item's action and
+ * adds to the action's condition list
  * Parameters:
- *  linked list of conditions
+ *  a pointer to the action to which the condition is being added
+ *  a pointer to the player whose inventory to check
+ *  a pointer to the item to check in the inventory
+ * Returns:
+ *  SUCCESS upon SUCCESS
+ *  ACTION_NULL if specified action does not exist in first item
+ *  PLAYER_NULL if the player does not exist
+ *  ITEM_MODIFY_NULL if the item ID does not exist
+ */
+int add_action_inventory_condition(game_action_t *action, player_t *player,
+                                    item_t *item);
+
+
+/* add_action_condition() adds the given condition to the action's linkedlist of
+ * conditions
+ * Parameters:
+ *   a pointer to the action to add to
+ *   the condition
+ * Returns:
+ *   SUCCESS upon SUCCESS
+ *   ACTION_NULL if action does not exist
+ */
+int add_action_condition(game_action_t *action, condition_t *condition);
+
+/*
+ * Function that returns the node with the right action_type_t
+ *
+ * Parameters:
+ * - list_action_type_t: list containing actions
+ * - action_type_t: action that we want
  *
  * Returns:
- *  always returns SUCCESS
+ * pointer to correct list_action_type_t node
  */
-int delete_action_condition_llist(action_condition_list_t *conditions);
+list_action_type_t *find_act(list_action_type_t *head, action_type_t *a);
 
-/* condition_new() creates a new condition in an item with given inputs
+/*
+ * Function that deletes a node in list_action_type_t
+ * 
  * Parameters:
- *  a pointer to the item to be modified
- *  a pointer to the attribute
- *  the desired value of the attribute
+ * - action_type_t: action to be deleted
+ * - list_action_type_t: list to remove action from
+ *
  * Returns:
- *  NULL if item or attribute are NULL, the new condition if succcessful
+ * - int SUCCESS when node is removed
  */
-game_action_condition_t *condition_new(item_t *item_to_modify, attribute_t *attribute,
-				       attribute_value_t new_value);
-
-/* check_condition() checks if the actual attribute of an item is equal
- * to the desired attribute
- * Parameters:
- *  a pointer to the item to check
- *  the desired attribute
- * Returns:
- *  true if desired attribute matches the actual, false if not
- */
-bool check_condition(game_action_condition_t *condition);
-
-
-/* all_conditions_met() checks if all of the conditions of an action are met
- * Parameters:
- *  a pointer to the item to check
- *  the action
- * Returns:
- *  SUCCESS if all conditions are met, FAILURE if not
- *  2 if action not possible
- */
-int all_conditions_met(item_t* item, char* action_name);
+int delete_action(list_action_type_t **head, list_action_type_t *act);
 
 
 // ------------------------- EFFECT FUNCTIONS ------------------------------
@@ -169,4 +181,47 @@ int do_effect(game_action_effect_t *effect);
  */
 int do_all_effects(item_t* item, char* action_name);
 
+/* action_init() initializes an action struct with given values
+   arguments are taken from action management
+ Parameters:
+    a memory allocated new action pointer
+    an action name
+    an action type struct
+ Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int game_action_init(game_action_t *new_action, char *act_name, 
+		     char* success_str, char* fail_str);
 
+/* game_action_new() allocates a space for an action struct in memory and
+* assigns given values to struct fields
+*  Parameters:
+*    action name
+*    a success string
+*    a failure string
+*  Returns:
+*    A pointer to a new action struct.
+*/
+game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str);
+
+/* do_effect() performs given effect
+ *
+ * Parameters:
+ *   pointer to an action effect
+ * Returns:
+ *   SUCCESS upon success, FAILURE upon failure
+ */
+int do_effect(game_action_effect_t *effect);
+
+/* create_effect creates an effect_t struct with the given inputs
+ * Parameters:
+ *  pointer to item to modify
+ *  pointer to attribute_t
+ *  attribute_value_t
+ * Returns:
+ * NULL or game_action_effect_t
+ */
+game_action_effect_t *effect_new(item_t *item_to_modify, 
+				 attribute_t *attribute, attribute_value_t new_value);
+
+#endif

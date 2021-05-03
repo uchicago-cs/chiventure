@@ -225,6 +225,13 @@ Test(game_end_condition, add_end_condition_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
 
+    attribute_value_t test_value_1;
+    test_value_1.str_val = "Test_Value_1";
+    attribute_value_t test_value_2;
+    test_value_2.str_val = "Test_Value_2";
+
+
+
     item_t *test_item_1 = item_new("test_item_1", 
     "test item 1 for end conditions",
     "item for testing add_end_condition_to_game()");
@@ -236,34 +243,23 @@ Test(game_end_condition, add_end_condition_to_game)
     set_str_attr(test_item_2, "Test_Attribute_2", "Test_Value_2");
 
     add_item_to_game(game, test_item_1);
-        
-    game_action_condition_t *condition_1 = malloc(sizeof(game_action_condition_t));
-    condition_1->item = test_item_1;
-    condition_1->attribute_to_check = get_attribute(test_item_1, "Test_Attribute_1");
-    
-    game_action_condition_t *condition_2 = malloc(sizeof(game_action_condition_t));
-    condition_2->item = test_item_1;
-    condition_2->attribute_to_check = get_attribute(test_item_2, "Test_Attribute_2");
-    
-    game_action_condition_t *condition_3 = malloc(sizeof(game_action_condition_t));
-    condition_3->item = test_item_2;
-    condition_3->attribute_to_check = get_attribute(test_item_1, "Test_Attribute_1");
-    
-    game_action_condition_t *condition_4 = malloc(sizeof(game_action_condition_t));
-    condition_4->item = test_item_2;
-    condition_4->attribute_to_check = get_attribute(test_item_2, "Test_Attribute_2");    
+
+    condition_t *condition_1 = attribute_condition_new(test_item_1, "Test_Attribute_1", test_value_1);
+    condition_t *condition_2 = attribute_condition_new(test_item_1, "Test_Attribute_2", test_value_2);
+    condition_t *condition_3 = attribute_condition_new(test_item_2, "Test_Attribute_1", test_value_1);
+    condition_t *condition_4 = attribute_condition_new(test_item_2, "Test_Attribute_2", test_value_2);
     
     int add_1 = add_end_condition_to_game(game, condition_1);
     cr_assert_eq(add_1, SUCCESS, "add_end_condition_to_game() did not add condition_1");
     
     int add_2 = add_end_condition_to_game(game, condition_2);    
-    cr_assert_eq(add_2, FAILURE, "add_end_condition_to_game() added an invalid condition (2)");
+    cr_assert_neq(add_2, SUCCESS, "add_end_condition_to_game() added an invalid condition (2)");
     
     int add_3 = add_end_condition_to_game(game, condition_3);
-    cr_assert_eq(add_3, FAILURE, "add_end_condition_to_game() added an invalid condition (3)");
+    cr_assert_neq(add_3, SUCCESS, "add_end_condition_to_game() added an invalid condition (3)");
     
     int add_4 = add_end_condition_to_game(game, condition_4);
-    cr_assert_eq(add_4, FAILURE, "add_end_condition_to_game() added an invalid condition (4)");
+    cr_assert_neq(add_4, SUCCESS, "add_end_condition_to_game() added an invalid condition (4)");
 
     add_item_to_game(game, test_item_2);
     int add_5 = add_end_condition_to_game(game, condition_4);
@@ -278,7 +274,7 @@ Test(game_end_condition, end_conditions_met)
     game_t *game = game_new("Welcome to Chiventure!");
     
     bool test_1 = end_conditions_met(game);
-    cr_assert_eq(test_1, true, "end_conditions_met() does not return true when there are no end conditions");
+    cr_assert_eq(test_1, false, "end_conditions_met() does not return false when there are no end conditions");
     
     attribute_value_t expected;
     expected.str_val = "Valid_Value";
@@ -289,10 +285,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_1, "Test_Attribute_1", "Invalid_Value_1");
     add_item_to_game(game, test_item_1);
 
-    game_action_condition_t *condition_1 = malloc(sizeof(game_action_condition_t));
-    condition_1->item = test_item_1;
-    condition_1->attribute_to_check = get_attribute(test_item_1, "Test_Attribute_1");
-    condition_1->expected_value = expected;
+    condition_t *condition_1 = attribute_condition_new(test_item_1, "Test_Attribute_1", expected);
     add_end_condition_to_game(game, condition_1);
     
     item_t *test_item_2 = item_new("test_item_2", 
@@ -301,10 +294,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_2, "Test_Attribute_2", "Invalid_Value_2");
     add_item_to_game(game, test_item_2);
 
-    game_action_condition_t *condition_2 = malloc(sizeof(game_action_condition_t));
-    condition_2->item = test_item_2;
-    condition_2->attribute_to_check = get_attribute(test_item_2, "Test_Attribute_2");
-    condition_2->expected_value = expected;
+    condition_t *condition_2 = attribute_condition_new(test_item_2, "Test_Attribute_2", expected);
     add_end_condition_to_game(game, condition_2);
     
     item_t *test_item_3 = item_new("test_item_3", 
@@ -313,10 +303,7 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_3, "Test_Attribute_3", "Invalid_Value_3");
     add_item_to_game(game, test_item_3);
     
-    game_action_condition_t *condition_3 = malloc(sizeof(game_action_condition_t));
-    condition_3->item = test_item_3;
-    condition_3->attribute_to_check = get_attribute(test_item_3, "Test_Attribute_3");
-    condition_3->expected_value = expected;
+    condition_t *condition_3 = attribute_condition_new(test_item_3, "Test_Attribute_3", expected);
     add_end_condition_to_game(game, condition_3);
     
     bool test_2 = end_conditions_met(game);
@@ -333,6 +320,110 @@ Test(game_end_condition, end_conditions_met)
     set_str_attr(test_item_2, "Test_Attribute_2", "Valid_Value");
     bool test_5 = end_conditions_met(game);
     cr_assert_eq(test_5, true, "end_conditions_met() does not return true when all end conditions are met");
+}
+
+/* Helper function for is_game_over_tests to setup initial game */
+game_t* setup_is_game_over_test(bool has_final_room, bool has_end_conditions)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    
+    attribute_value_t expected, unexpected;
+    expected.str_val = "Valid_Value";
+    unexpected.str_val = "Invalid_Value";
+    
+    item_t *test_item = item_new("test_item", 
+    "test item for is_game_over",
+    "item for testing is_game_over()");
+    set_str_attr(test_item, "Test_Attribute", unexpected.str_val);
+    add_item_to_game(game, test_item);
+    
+    room_t *test_room1 = room_new("test_room1", "room1 short", "room1 long long long");
+    room_t *test_room2 = room_new("test_room2", "room2 short", "room2 long long long");
+    
+    add_item_to_game(game, test_item);
+    add_room_to_game(game, test_room1);
+    add_room_to_game(game, test_room2);
+    game->curr_room = test_room1;
+    
+    if (has_end_conditions)
+    {
+        condition_t *condition;
+        condition = attribute_condition_new(test_item, "Test_Attribute",
+                                  expected);
+        add_end_condition_to_game(game, condition);
+    }
+    
+    if (has_final_room)
+    {
+        add_final_room_to_game(game, test_room2);
+    }
+    
+    return game;
+}
+
+/* Checks that is_game_over properly returns false for a neverending game
+ * ie when a game has no final room or end conditions */
+Test(game_end_condition, is_game_over_neverending)
+{
+    game_t *game = setup_is_game_over_test(false, false);
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "no final room or end conditions exist");
+}
+
+/* Checks that is_game_over properly assesses when a game with
+ * end conditions but no final room is over */
+Test(game_end_condition, is_game_over_end_conditions)
+{
+    game_t *game = setup_is_game_over_test(false, true);
+    
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "end conditions have not been met & no final room exists");
+    item_t *item = get_item_from_game(game, "test_item");
+    set_str_attr(item, "Test_Attribute", "Valid_Value");
+    cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
+                 "end conditions have been met & no final room exists");
+}
+
+/* Checks that is_game_over properly assesses when a game with
+ * a final room but no end conditions is over */
+Test(game_end_condition, is_game_over_final_room)
+{
+    game_t *game = setup_is_game_over_test(true, false);
+    
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "player has yet to reach final room & no end conditions exist");
+    move_room(game, game->final_room);
+    cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
+                 "player has reached final room & no end conditions exist");
+}
+
+/* Checks that is_game_over properly assesses when a game with
+ * both a final room and end conditions is over */
+Test(game_end_condition, is_game_over_end_conditions_final_room)
+{
+    game_t *game = setup_is_game_over_test(true, true);
+    
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "player has yet to reach final room & "
+                 "end conditions have not been met");
+    
+    move_room(game, game->final_room);
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "player has reached final room but "
+                 "end conditions have not been met");
+    
+    room_t *room = find_room_from_game(game, "test_room1");
+    move_room(game, room);
+    item_t *item = get_item_from_game(game, "test_item");
+    set_str_attr(item, "Test_Attribute", "Valid_Value");
+    cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
+                 "end conditions have been met but "
+                 "player has yet to reach final room");
+    
+    move_room(game, game->final_room);
+    cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
+                 "end conditions have been met and "
+                 "player has reached final room");
 }
 
 Test(iter_macro, iter_rooms)
@@ -429,6 +520,30 @@ Test(iter, get_all_rooms) {
     cr_assert_eq(cnt, 3, "wrong room counts");
     cr_assert_eq(delete_room_llist(list), SUCCESS, "delete llist failed");
     game_free(game);
+}
+
+/* Checks that add_effect_to_game() adds a global effect to the
+game struct's player hash table */
+Test(game_stat_effects, add_stat_to_game)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    stats_global_t *global_stat = stats_global_new("health", 1000);
+    int rc = add_stat_to_game(game, global_stat);
+
+    cr_assert_eq(rc, SUCCESS, "add_stat_to_game failed");
+    cr_assert_not_null(game->curr_stats, "stat not added to curr_stats");
+}
+
+/* Checks that add_effect_to_game() adds a global effect to the
+game struct's player hash table */
+Test(game_stat_effects, add_effect_to_game)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    effects_global_t *effect = global_effect_new("health");
+    int rc = add_effect_to_game(game, effect);
+
+    cr_assert_eq(rc, SUCCESS, "add_effect_to_game failed");
+    cr_assert_not_null(game->all_effects, "effect not added to all_effects");
 }
 /*
 //untested

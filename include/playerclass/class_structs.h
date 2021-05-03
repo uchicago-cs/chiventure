@@ -1,12 +1,15 @@
-/* 
+/*
  * Defines a player class struct to store base class information.
- */ 
+ */
 
 #ifndef CLASS_STRUCTS_H
 #define CLASS_STRUCTS_H
 
-#include "libobj/obj.h"
 #include "common/utlist.h"
+#include "skilltrees/inventory.h"
+#include "skilltrees/skilltree.h"
+#include "game-state/stats.h"
+#include "libobj/obj.h"
 
 // max name length
 #define MAX_NAME_LEN (20)
@@ -17,22 +20,7 @@
 // max long description length
 #define MAX_LONG_DESC_LEN (300)
 
-// playerstats stub
-typedef struct stats {
-    obj_t* stat;
-} stats_t;
-
-// skilltrees stub
-typedef struct skilltree {
-    obj_t* skilltree;
-} skilltree_t;
-
-// actions stub
-typedef struct skill {
-    obj_t* skill;
-} skill_t;
-
-/* A player class struct storing the name, descriptions, attributes, 
+/* A player class struct storing the name, descriptions, attributes,
  * and stats */
 typedef struct class {
     // Name of the class
@@ -48,16 +36,27 @@ typedef struct class {
     obj_t* attributes;
 
     // All the stats of the class
-    stats_t* stats;
+    stats_hash_t* stats;
+
+    // Effects/temporary status on the class
+    effects_hash_t* effects;
 
     // Class skilltree
-    skilltree_t* skilltree;
+    skill_tree_t* skilltree;
+
+    /* 
+     * Note: There is a concern here about the combat vs noncombat distinction,
+     * since the skilltrees code divides between passive and active skills.
+     * 
+     * Should we adjust the division below so that we track passive vs active
+     * skills?
+     */
 
     // Class combat actions
-    skill_t* combat;
+    skill_inventory_t* combat;
 
     // Class noncombat actions
-    skill_t* noncombat;
+    skill_inventory_t* noncombat;
 
 } class_t;
 

@@ -3,20 +3,40 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
-#include "game-state/stats.h"
-//TODO-#include "dialogue.h"
+#include "npc/dialogue.h"
+#include "playerclass/class_structs.h"
+#include "playerclass/class.h"
+
+// NPC STRUCTURE DEFINITION ---------------------------------------------------
 
 /* A non-playable character in game */
 typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
-    char *npc_id;
-    int health;
-    // convo_t *dialogue;  placeholder for incoming dialogue module
-    item_hash_t *inventory;
-    stats_t *stats; // pointer to an existing stats struct
-} npc_t;
 
+    /* NPC identifier */
+    char *npc_id;
+
+    /* short description of the npc, <51 chars */
+    char *short_desc;
+
+    /* long description of the npc, <301 chars */
+    char *long_desc;
+
+    /* the npcs class */
+    class_t *npc_class;
+
+    int health;
+
+    /* pointer to an existing convo struct */
+    convo_t *dialogue;
+
+    /* pointer to inventory hashtable */
+    item_hash_t *inventory;
+
+    /* pointer to an existing class struct */
+    class_t *class; 
+} npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
  * used to point to the npc_t structs in the traditional sense,
@@ -25,39 +45,40 @@ typedef struct npc {
 typedef struct npc npc_hash_t;
 
 
+// STRUCT FUNCTIONS -----------------------------------------------------------
+
 /*
- * Initializes an npc with given health.
+ * Initializes an npc with the given parameters.
  *
  * Parameters:
  *  npc: an npc; must point to already allocated memory
+ *  npc_id: unique string ID of npc
+ *  short_desc: description of npc <51 chars
+ *  long_desc: description of npc <301 chars
  *  health: the starting health of the npc
- *  npc_id: string referring to npc id; passed implicitly
- *          from npc_new 
- *  stats: pointer to an existing stats struct
- *  TODO-dialogue: pointer to a convo struct for the npc
- *   // placeholder for incoming dialogue module
+ *  class: a pointer to an existing class_t struct defining the class of the npc
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
-int npc_init(npc_t *npc, char *npc_id, int health, stats_t *stats);
-
+int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
+             int health, class_t *class);
 
 /*
  * Allocates a new npc in the heap.
  *
  * Parameters:
- *  npc_id: the unique string ID of the npc
+ *  npc_id: unique string ID of npc
+ *  short_desc: description of npc <51 chars
+ *  long_desc: description of npc <301 chars
  *  health: the starting health of the npc
- *  stats: pointer to an existing stats struct
- *  TODO-dialogue: pointer to convo struct for the npc
- *   // placeholder for incoming dialogue module
+ *  class: a pointer to an existing class_t struct defining the class of the npc
  *
  * Returns:
  *  pointer to allocated npc
  */
- npc_t* npc_new(char *npc_id, int health, stats_t *stats);
-
+npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
+               int health, class_t *class);
 
 /*
  * Frees resources associated with an npc.
@@ -71,6 +92,29 @@ int npc_init(npc_t *npc, char *npc_id, int health, stats_t *stats);
 int npc_free(npc_t *npc);
 
 
+// "GET" FUNCTIONS ------------------------------------------------------------
+/* 
+ * Gets short description of npc.
+ *
+ * Parameters:
+ *  npc: the npc
+ *
+ * Returns:
+ *  short description string, NULL if npc is NULL
+ */
+char *get_sdesc_npc(npc_t *npc);
+
+/* 
+ * Gets long description of npc.
+ *
+ * Parameters:
+ *  npc: the npc
+ *
+ * Returns:
+ *  long description string, NULL if npc is NULL
+ */
+char *get_ldesc_npc(npc_t *npc);
+
 /*
  * Returns the health of an npc.
  *
@@ -82,6 +126,30 @@ int npc_free(npc_t *npc);
  */
 int get_npc_health(npc_t *npc);
 
+/*
+ * Function to get a hashtable (uthash) of all items in the npc's inventory.
+ *
+ * Parameters:
+ *  npc: the npc
+ *
+ * Returns:
+ *  hashtable of items, the inventory
+ */
+item_hash_t *get_npc_inv_hash(npc_t *npc);
+
+/*
+ * Function to get a linked list (utlist) of all items in the npc's inventory.
+ *
+ * Parameters:
+ *  npc: the npc
+ *
+ * Returns:
+ *  linked list of pointers to items (the head element)
+ */
+item_list_t *get_npc_inv_list(npc_t *npc);
+
+
+// "SET" FUNCTIONS ------------------------------------------------------------
 
 /*
  * Changes the health of the npc. 
@@ -99,7 +167,6 @@ int get_npc_health(npc_t *npc);
  */
 int change_npc_health(npc_t *npc, int change, int max);
 
-
 /* 
  * Adds the given item to the given npc.
  *
@@ -112,29 +179,29 @@ int change_npc_health(npc_t *npc, int change, int max);
  */
 int add_item_to_npc(npc_t *npc, item_t *item);
 
+/* 
+ * Removes the given item from the given npc.
+ * Note that the memory associated with this item is not freed
+ * 
+ * Parameters:
+ *  npc: the npc from whom to remove the item
+ *  item: the item
+ * 
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int remove_item_from_npc(npc_t *npc, item_t *item);
 
 /*
- * Function to get a hashtable (uthash) of all items in the npc's inventory.
- *
+ * Adds the given convo to the given npc.
+ * 
  * Parameters:
- *  npc: the npc
- *
+ *  npc: the npc to receive the convo
+ *  convo: the convo
+ * 
  * Returns:
- *  hashtable of items, the inventory
+ *  SUCCESS if successful, FAILURE if an error occurred.
  */
-item_hash_t* get_npc_inv_hash(npc_t *npc);
-
-
-/*
- * Function to get a linked list (utlist) of all items in the npc's inventory.
- *
- * Parameters:
- *  npc: the npc
- *
- * Returns:
- *  linked list of pointers to items (the head element)
- */
-item_list_t* get_npc_inv_list(npc_t *npc);
-
+int add_convo_to_npc(npc_t *npc, convo_t *c); 
 
 #endif

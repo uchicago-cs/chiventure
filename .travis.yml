@@ -12,6 +12,13 @@ addons:
       - criterion-dev
       - criterion
       - cmake
+      - liblua5.3-0
+      - liblua5.3-dev
+      - lua5.3
+      - libjson-c2
+      - libjson-c-dev
+      - libzip4
+      - libzip-dev
 
 branches:
   only:
@@ -21,6 +28,10 @@ branches:
 language: c
 
 compiler: gcc
+
+install:
+  - wget https://github.com/raysan5/raylib/releases/download/3.0.0/raylib-3.0.0-Linux-amd64.tar.gz
+  - sudo tar xvzf raylib-3.0.0-Linux-amd64.tar.gz --strip-components=1 -C /usr/local/
 
 script:
   - mkdir -p build

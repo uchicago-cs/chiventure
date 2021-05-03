@@ -3,84 +3,60 @@
 chiventure requires the following software/libraries:
 
 - [CMake](https://cmake.org) 3.10 or higher
-- [Protobuf](https://github.com/google/protobuf) 2.6.1 or higher
-- [protobuf-c](https://github.com/protobuf-c/protobuf-c) 1.2.1 or higher
 - [LibYAML](https://pyyaml.org/wiki/LibYAML) 0.2.2 or higher
 - [ncurses](https://invisible-island.net/ncurses/announce.html) 6.0 or higher, with support for wide characters (`ncursesw`)
 - [Criterion](https://github.com/Snaipe/Criterion) 2.3.1 or higher
+  
+Optional dependencies:
 
-CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
+- [Lua](https://www.lua.org/) 5.3 or higher. If not present, chiventure will not have support for custom scripts.   
 
-Right now, chiventure has only been tested on Linux. The following installation instructions are specifically for Ubuntu 16.04, and may require adjustments in other platforms.
+CMake will warn you if any of these are not installed with an error of the form "Could NOT find `<library>`"
 
-## Installing CMake
+Right now, chiventure has only been tested on Ubuntu 16.04 and 20.04. We provide instructions for installing dependencies on both these platforms. Other Linux distributions may provide the same packages, but other may require installing dependencies manually, following the instructions provided by each library.
 
-Ubuntu 16.04 includes an older version of CMake, so you will need to follow the instructions in the [Kitware APT Repository](https://apt.kitware.com/) to install the latest version of CMake.
+## Installing on Ubuntu 20.04
 
-## Installing `protobuf` and `protobuf-c`
+If you are using Ubuntu 20.04, you can install most of the dependencies by running the following:
 
-[Protobuf](https://github.com/google/protobuf) (and [protobuf-c](https://github.com/protobuf-c/protobuf-c)) are data serialization libraries.
-
-Run the following to install `protobuf`:
 ```
-wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz
-tar xvzf protobuf-2.6.1.tar.gz
-cd protobuf-2.6.1/
-./configure --prefix=/usr
-make
-sudo make install
+sudo apt-get update
+sudo apt install pkg-config cmake libyaml-0-2 libyaml-dev libjson-c4 libjson-c-dev libzip5 libzip-dev libncurses-dev liblua5.3-0 liblua5.3-dev  
 ```
 
-And the following to install `protobuf-c`:
+The Criterion testing library does not provide packages for Ubuntu 20.04 but, fortunately, their 18.04 packages work just fine. You can manually install them like this:
+
 ```
-wget https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz
-tar xvzf protobuf-c-1.2.1.tar.gz
-cd protobuf-c-1.2.1/
-./configure --prefix=/usr
-make
-sudo make install
+wget https://launchpad.net/~snaipewastaken/+archive/ubuntu/ppa/+files/criterion-dev_2.3.2-6-ubuntu1~bionic1_amd64.deb
+wget https://launchpad.net/~snaipewastaken/+archive/ubuntu/ppa/+files/criterion_2.3.2-6-ubuntu1~bionic1_amd64.deb
+sudo dpkg -i criterion_2.3.2-6-ubuntu1~bionic1_amd64.deb criterion-dev_2.3.2-6-ubuntu1~bionic1_amd64.deb
 ```
 
-Please note the use of `--prefix=/usr`. If you omit this parameter, the libraries will be installed in `/usr/local/lib`, which can cause problems on some systems. If you encounter an error like this:
-```
-error while loading shared libraries: libprotoc.so.N: cannot open shared object file:
-                                                                       No such file or directory
-```
+## Installing on Ubuntu 16.04
 
-you will need to explicitly add `/usr/local/lib` (or any alternate prefix you specify when installing) to the `LD_LIBRARY_PATH` environment variable:
+If you are using Ubuntu 16.04, you can install most of the dependencies by running the following:
+
 ```
-export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib
+sudo apt-get update
+sudo apt install pkg-config libyaml-0-2 libyaml-dev libjson-c2 libjson-c-dev libzip4 libzip-dev libncurses5-dev libncursesw5-dev liblua5.3-0 liblua5.3-dev
 ```
 
-## Installing `LibYAML` 
+Ubuntu 16.04 includes an older version of CMake, so you will need to follow the instructions in the [Kitware APT Repository](https://apt.kitware.com/) to install the latest version of CMake:
 
-[LibYAML](https://pyyaml.org/wiki/LibYAML) is a YAML parser and emitter library.
-
-To install, download the source package from [here](http://pyyaml.org/download/libyaml/yaml-0.2.2.tar.gz)
-
-To build and install `LibYAML`, in the folder you downloaded the `.tar.gz` file in, run
 ```
-tar -xvf <yaml tarball name>
-cd <newly created yaml folder>
-./configure
-make
-sudo make install
+sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget
+wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
+sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main'
+sudo apt-get update
+sudo apt-get install cmake
 ```
 
-## Installing `ncurses`
+Criterion must be installed from their PPA (Personal Package Archive):
 
-Curses is a terminal UI framework. You can install it by running:
-```
-sudo apt-get install libncurses5-dev libncursesw5-dev
-```
-
-## Installing `criterion`
-
-[Criterion](https://github.com/Snaipe/Criterion) is a testing framework for C/C++. You can install it by running the following:
 ```
 sudo add-apt-repository ppa:snaipewastaken/ppa
 sudo apt-get update
 sudo apt-get install criterion-dev
 ```
 
-Note: if you are on an unsupported ubuntu release for Criterion (like ubuntu 19), you can try to add a different release repository to your apt sources. To do so, open software updater, click the "Other Software" tab, and click the "Add" button. Then, add the line `deb http://ppa.launchpad.net/snaipewastaken/ppa/ubuntu cosmic main` (to add the Ubuntu 18 version) as the source. You should probably remove the source afterwards, since it's a different Ubuntu release and might cause issues the next time you use apt.
+

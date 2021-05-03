@@ -12,3 +12,4 @@
 - [checkpointing.md](/docs/checkpointing.md)- documentation on the checkpointing module
 - [game_state.md](/docs/game_state.md)- documentation on the game state module
 - [wdl.md](/docs/wdl.md)- documentation on the WDL module
+- [skilltrees.md](/docs/skilltrees.md)- documentation on the skill trees module

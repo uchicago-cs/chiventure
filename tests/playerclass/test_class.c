@@ -26,8 +26,9 @@ class_t* generate_test_class()
                 "on up-close physical damage with weapons and survives enemy "
                 "attacks using heavy armor.\n";
 
-    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL, NULL, NULL);
-
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+    class_init_skills(c, 25, 10, 10);
+    return c;
 }
 
 /* Tests class_new */
@@ -73,7 +74,7 @@ Test(test_class, init)
                 "on up-close physical damage with weapons and survives enemy "
                 "attacks using heavy armor.\n";
 
-    rc = class_init(&c, name, shortdesc, longdesc, NULL, NULL, NULL, NULL, NULL);
+    rc = class_init(&c, name, shortdesc, longdesc, NULL, NULL, NULL);
 
     cr_assert_eq(rc, EXIT_SUCCESS, "class_init failed");
     cr_assert_str_eq(c.name, name, "class_init didn't set name");
@@ -81,6 +82,16 @@ Test(test_class, init)
                                              "short description");
     cr_assert_str_eq(c.longdesc, longdesc, "class_init didn't set long "
                                            "description");
+}
+
+/* Tests class_skills_init */
+Test(test_class, skills_init)
+{
+    class_t* c = generate_test_class();
+
+    cr_assert_not_null(c->skilltree, "class_init_skills didn't set skilltree");
+    cr_assert_not_null(c->combat, "class_init_skills didn't set combat");
+    cr_assert_not_null(c->noncombat, "class_init_skills didn't set noncombat");
 }
 
 /* Tests class_free */

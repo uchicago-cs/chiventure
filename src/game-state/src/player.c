@@ -1,5 +1,5 @@
 #include "game-state/player.h"
-#include "common-item.h"
+#include "game-state/item.h"
 
 /* See player.h */
 int player_init(player_t* plyr, char* player_id, int health)
@@ -45,7 +45,8 @@ int player_free(player_t* plyr)
 
     free(plyr->player_id);
     delete_all_items(&plyr->inventory);
-
+    free(plyr);
+    
     return SUCCESS;
 }
 
@@ -116,38 +117,57 @@ item_hash_t* get_inventory(player_t* plyr)
 /* See player.h */
 int add_item_to_player(player_t *player, item_t *item)
 {
-    item_t *check;
+    int rc;
 
-    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
-              check);
-
-    if (check != NULL)
-    {
-        return FAILURE; //this item id is already in use.
+    if (item->stat_effects != NULL) {
+        stat_effect_t *current, *tmp, *e;
+        stat_mod_t *elt, *search;
+        stats_t *s;
+        HASH_ITER(hh, item->stat_effects, current, tmp) {
+            LL_FOREACH(current->stat_list, elt) {
+                HASH_FIND(hh, player->player_class->stats, elt->stat->key, 
+                          strlen(elt->stat->key), s);
+                if (s != NULL) {
+                    apply_effect(&player->player_class->effects, current, &s,
+                                 &elt->modifier, &elt->duration, 1);
+                }
+            }
+        }
     }
-    HASH_ADD_KEYPTR(hh, player->inventory, item->item_id,
-                    strlen(item->item_id), item);
-    return SUCCESS;
+
+    rc = add_item_to_hash(&(player->inventory), item);
+    
+    return rc;
+}
+
+/* See player.h */
+int remove_item_from_player(player_t *player, item_t *item)
+{
+    int rc;
+    
+    rc = remove_item_from_hash(&(player->inventory), item);
+    
+    return rc;
 }
 
 /* See player.h */
 item_list_t *get_all_items_in_inventory(player_t *player)
 {
-    item_list_t *head = NULL;
-    item_t *ITTMP_ITEMRM, *curr_item;
-    item_list_t *tmp;
-    HASH_ITER(hh, player->inventory, curr_item, ITTMP_ITEMRM)
-    {
-        tmp = malloc(sizeof(item_list_t));
-        tmp->item = curr_item;
-        LL_APPEND(head, tmp);
-    }
+    item_list_t *head;
+    
+    head = get_all_items_in_hash(&(player->inventory));
+    
     return head;
 }
 
 /* See player.h */
-int assign_stats_player(player_t *plyr, stats_hash_t *sh)
+bool item_in_inventory(player_t *player, item_t *item)
 {
-    printf("assign_stats_player: function not yet implemented\n");
-    return 0; // still needs to be implemented
+    item_t *check;
+    HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
+              check);
+    if(check != NULL){
+        return true;
+    }
+    return false;
 }

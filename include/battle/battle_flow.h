@@ -3,18 +3,21 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include "battle_ai.h"
+#include "battle_common.h"
 #include "battle_flow_structs.h"
+#include "battle_logic.h"
+#include "../../src/battle/examples/battle_move_maker.h"
 #include "battle_state.h"
 #include "battle_structs.h"
 #include "common/common.h"
 #include "common/utlist.h"
 
 /*
- * Starts the battle, sets up structs, then runs a battle loop until finished
- * For now, since we will be starting out with an implementation fo the set-up
- * of a new battlee, this function will essentially act as a battle set-up.
- * Later, the battle loop and other aspects of running the game
- * at the high-level will be added.
+ * Starts the battle, sets up battle struct including any associated structs
+ *
+ * In the future, this will include converting a moves list to custom action
+ * blocks, but for now, this will be ignored and a stub used instead.
  *
  * Parameters:
  *  - ctx = the current chiventure context
@@ -22,9 +25,9 @@
  *  - env = environment for the battle
  *
  * Returns:
- *  - SUCCESS if successful, FAILURE otherwise
+ *  - SUCCESS if initialized, FAILURE if error
  */
- int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies,
+int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies,
                   environment_t env);
 
 /*
@@ -65,4 +68,27 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies);
  */
 battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies,
                       environment_t env);
+
+/*
+ * Carries out one iteration of the battle flow loop
+ *     This includes:
+ *         - receiving player's move
+ *         - handling player's move
+ *         - choosing enemy move      (skip if invalid player move)
+ *         - handling enemy's move    (skip if invalid player move)
+ *         - check battle status      (skip if invalid player move)
+ *         - return modified battle struct to custom actions
+ *
+ * Parameters:
+ *  - ctx: current chiventure battle context
+ *  - move: pointer to the player's move
+ *  - target: name of target
+ *
+ * Returns:
+ *  - Success or failure and modifies the status
+ *    variable within the ctx_battle will as seen fit
+ *    aka whether it is in progress or if there was a victor
+ */
+int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
+
 #endif

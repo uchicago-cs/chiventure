@@ -1,8 +1,9 @@
-#include "common/uthash.h"
-#include <stdbool.h>
-
 #ifndef INCLUDE_OBJ_H
 #define INCLUDE_OBJ_H
+
+#include <stdbool.h>
+#include "common/uthash.h"
+#include "common/utlist.h"
 
 #define MAXLEN_DATA 1024 // strings containing data
 #define MAXLEN_ID 60 // ID strings for objects
@@ -13,15 +14,19 @@
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
 // All datatypes that can be encoded in an obj
-typedef enum datatype
+typedef enum type
 {
-    TYPE_ERR  = -1,
-    TYPE_NONE = 0,
-    TYPE_BOOL = 1,
-    TYPE_CHAR = 2,
-    TYPE_INT  = 3,
-    TYPE_STR  = 4
-} datatype_t;
+    TYPE_ERROR = -1,
+    TYPE_NONE  = 0,
+    TYPE_BOOL  = 1,
+    TYPE_CHAR  = 2,
+    TYPE_INT   = 3,
+    TYPE_STR   = 4,
+    TYPE_OBJ   = 5,
+    TYPE_LIST  = 6,
+    // TYPE_ASSET = 7,
+    // TYPE_LUA   = 8,
+} type_t;
 
 /* A simple object model using strings as attribute identifiers */
 typedef struct obj
@@ -30,38 +35,32 @@ typedef struct obj
     char id[MAXLEN_ID + 1];
 
     // The type of the data
-    datatype_t type;
+    type_t type;
 
     // The data associated with the object
     union
     {
         bool b;
         char c;
-        char *s;
         int  i;
+        char *s;
+        struct {
+            struct obj *attr;
+        } obj;
+        struct obj *lst;
     } data;
 
-    // The object's attributes (a hash table)
-    struct obj *attr;
+    // For if the obj is part of a list
+    struct obj *next;
+    struct obj *prev;
     
     // Required uthash identifier for making the hash table
     UT_hash_handle hh;
 
 } obj_t;
 
-/* A doubly linked list to hold a list of an object's attributes */
-typedef struct attr_list
-{
-    // One attribute of an object
-    obj_t *obj;
-    
-    // Next attribute in the linked list
-    struct attr_list *next;
-
-    // Previous attribute in the linked list
-    struct attr_list *prev;
-
-} attr_list_t;
+// Lists are just objects using utlist
+typedef obj_t obj_list_t;
 
 /*
  * Creates a new object with identifier id
@@ -101,7 +100,7 @@ int obj_free(obj_t *obj);
 
 /*
  * Frees all memory associated with an object
- *   Will also free all attributes
+ *   - Will also free all attributes recursively
  * 
  * Parameters:
  *  - obj: The object to initialize
@@ -130,19 +129,6 @@ int obj_free_all(obj_t *obj);
 obj_t *obj_get_attr(obj_t *obj, char *id, bool create);
 
 /*
- * Lists all immediate attributes of an object
- *   - Will not do a recursive search
- * 
- * Parameters:
- *  - obj: The object to find the attributes of
- * 
- * Returns:
- *  - Returns a linked list of attributes of the objects
- *  - Returns NULL on no attributes found or failure
- */
-attr_list_t *obj_list_attr(obj_t *obj);
-
-/*
  * Adds an attribute to an object
  *   - Uses dot notation to place attributes ("attr.sub_attr.sub_sub_attr")
  *   - Will create intermediate objects if the obj does not 
@@ -164,19 +150,20 @@ int obj_add_attr(obj_t *obj, char *id, obj_t *attr);
  * Removes an attribute from an object
  *   - Uses dot notation to place attributes ("attr.sub_attr.sub_sub_attr")
  * 
- *   - TODO- remove intermediate objects if the obj does not
+ *   - Does not remove intermediate objects if the obj does not
  *      have any data-containing properties
  *   - The search string must be shorter than the max recursion depth
  * 
  * Parameters:
  *  - obj: The object to remove the attribute from
  *  - id: The id of the attribute to remove
+ *  - do_free: Whether or not to recursive free the object and its children
  * 
  * Returns:
  *  - Returns EXIT_SUCCESS if attribute successfully removed
  *  - Returns EXIT_FAILURE otherwise
  */
-int obj_remove_attr(obj_t *obj, char *id);
+int obj_remove_attr(obj_t *obj, char *id, bool do_free);
 
 
 /*
@@ -193,7 +180,7 @@ int obj_remove_attr(obj_t *obj, char *id);
  *  - Returns the type of the object
  *  - Returns TYPE_ERR if error or not found
  */
-datatype_t obj_get_type(obj_t *obj, char *id);
+type_t obj_get_type(obj_t *obj, char *id);
 
 /*
  * These functions get an object's attribute's value for various types
@@ -215,6 +202,10 @@ bool obj_get_bool(obj_t *obj, char *id);
 char obj_get_char(obj_t *obj, char *id);
 int obj_get_int(obj_t *obj, char *id);
 char *obj_get_str(obj_t *obj, char *id);
+// obj_t *obj_get_obj(obj_t *obj, char *id);
+obj_list_t *obj_get_list(obj_t *obj, char *id);
+// void *obj_get_asset(obj_t *obj, char *id);
+// void *obj_get_lua(obj_t *obj, char *id);
 
 /*
  * These functions set an object's attribute's value for various types
@@ -236,5 +227,18 @@ int obj_set_bool(obj_t *obj, char *id, bool value);
 int obj_set_char(obj_t *obj, char *id, char value);
 int obj_set_int(obj_t *obj, char *id, int value);
 int obj_set_str(obj_t *obj, char *id, char *value);
+// int obj_set_obj(obj_t *obj, char *id, obj_t *attr);
+int obj_set_list(obj_t *obj, char *id, obj_list_t *value);
+// void *obj_get_asset(obj_t *obj, char *id);
+// void *obj_get_lua(obj_t *obj, char *id);
+
+/*
+ * Recursively prints out the tree of object ids
+ * 
+ * Parameters:
+ *  - obj: The object to print
+ */
+void dump_obj(obj_t *obj);
+
 
 #endif /* INCLUDE_OBJ_H */
