@@ -92,10 +92,10 @@ typedef struct difficulty_level_scale
     int num_thresholds;  
 
     /* an array of player level thresholds;
-    each threshold is an inclusive lowerbound to the difficulty level of that index*/  
+     * each threshold is an inclusive lowerbound to the difficulty level of that index
+     * e.g. {0, 5, 10}, 
+     * player_level 0 to 4 is in level 0; player_level 5-9 is in level 1 etc. */  
     int *thresholds; 
-    /* e.g. {0, 5, 10}, 
-    player_level 0 to 4 is in level 0; player_level 5-9 is in level 1 etc. */
 } difficulty_level_scale_t;
 
 
@@ -315,9 +315,7 @@ int room_level_free(room_level_t *map);
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to add new room name
  */
-int hash_room_level(room_level_t **room_levels, 
-                       char *name,
-                       int difficulty_level);
+int hash_room_level(room_level_t **room_levels, char *name, int difficulty_level);
 
 
 

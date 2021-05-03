@@ -179,7 +179,6 @@ Test(speclist, free_all)
  * can be made successfully. */
 Test(room_level, new)
 {
-
     room_level_t *room_level = room_level_new("excellent_name", 4);
 
     cr_assert_not_null(room_level, "failed to create new room_level_t\n");
@@ -207,11 +206,11 @@ Test(room_level, init)
     cr_assert_eq(check, SUCCESS, "failed to initialize a room_level_t\n");
 }
 
+
 /* Tests the room_level_free func to validate that a room_level can be
  * freed successfully. */
 Test(room_level, free)
 {
-
     room_level_t *room_level = room_level_new("excellent_name", 4);
 
     cr_assert_not_null(room_level, "failed to create new room_level_t\n");
@@ -237,6 +236,7 @@ Test(room_level, hash_room_level_A_4)
     cr_assert_not_null(out, "failed to add room A\n");
 }
 
+
 /* Tests hash_room_level for
    room name = "Good"
    difficulty_level = 1 */
@@ -253,9 +253,8 @@ Test(room_level, hash_room_level_Good_1)
 
 
 
-
-/* Tests the difficulty_level_scale_new function to validate that a difficulty_level_scale
- * can be made successfully. */
+/* Tests the difficulty_level_scale_new function to validate that 
+ * a difficulty_level_scale can be made successfully. */
 Test(difficulty_level_scale, new)
 {
     int thresholds[3]= {0, 5, 10};
@@ -264,8 +263,8 @@ Test(difficulty_level_scale, new)
 }
 
 
-/* Tests the init_difficulty_level_scale function to validate that a difficulty_level_scale can
- * be initialized successfully. */
+/* Tests the init_difficulty_level_scale function to validate that 
+ * a difficulty_level_scale can be initialized successfully. */
 Test(difficulty_level_scale, init)
 {
     int num_thresholds = 4;
@@ -291,12 +290,11 @@ Test(difficulty_level_scale, init)
     cr_assert_eq(check, SUCCESS, "failed to initialize a difficulty_level_scale_t\n");
 }
 
+
 /* Tests the difficulty_level_scale_free func to validate that a difficulty_level_scale can be
  * freed successfully. */
-
 Test(difficulty_level_scale, free)
 {
-
     int thresholds[3]= {0, 5, 10};
     difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
     cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");

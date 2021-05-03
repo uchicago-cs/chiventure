@@ -212,8 +212,9 @@ int roomspec_is_given_difficulty(room_level_t **room_levels,
  *
  */
 int multi_room_level_generate(game_t *game, gencontext_t *context, 
-                               char *room_id, int num_rooms,
-                               room_level_t **room_levels, difficulty_level_scale_t *level_scale);
+                              char *room_id, int num_rooms,
+                              room_level_t **room_levels, 
+                              difficulty_level_scale_t *level_scale);
                                
 
 #endif /* INCLUDE_AUTOGENERATE_H */

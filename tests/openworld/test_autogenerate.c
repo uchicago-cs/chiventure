@@ -883,8 +883,10 @@ Test(item_hash, three_lookup)
     cr_assert_not_null(dst);
 }
 
+
+
 /* testing map_level_to_difficulty for
-   thresholds {0, 5, 13} and player_lvls 0 to 20 */
+ * thresholds {0, 5, 13} and player_lvls 0 to 20 */
 Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_5_13)
 {
     int thresholds[3]= {0, 5, 13};
@@ -910,7 +912,7 @@ Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_5_13)
 
 
 /* testing map_level_to_difficulty for
-   thresholds {0, 21, 22, 80} and player_lvls 0 to 200 */
+ * thresholds {0, 21, 22, 80} and player_lvls 0 to 200 */
 Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_21_22_80)
 {
     int thresholds[4]= {0, 21, 22, 80};
@@ -939,22 +941,22 @@ Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_21_22_80)
 
 
 /* TEST_HELPER_roomspec_is_given_difficulty
-Helper for roomspec_is_given_difficulty tests
-
-parameters:
-- int actual: actual value 
-- int expected: expected value
-- char *rspec_name: name of the rspec that was inputted
-- int given_difficulty: level that was passed in
-
-side-effects:
-- Formats error message and runs cr_assert_eq
-
-e.g. 
-TEST_HELPER_roomspec_is_given_difficulty(0, 1, rspecB, 2);
-... prints ...
-"rspecB is NOT of given difficulty (2) but got 0."
-*/
+ * Helper for roomspec_is_given_difficulty tests
+ * 
+ * parameters:
+ * - int actual: actual value 
+ * - int expected: expected value
+ * - char *rspec_name: name of the rspec that was inputted
+ * - int given_difficulty: level that was passed in
+ * 
+ * side-effects:
+ * - Formats error message and runs cr_assert_eq
+ * 
+ * e.g. 
+ * TEST_HELPER_roomspec_is_given_difficulty(0, 1, rspecB, 2);
+ * ... prints ...
+ * "rspecB is NOT of given difficulty (2) but got 0."
+ */
 void TEST_HELPER_roomspec_is_given_difficulty(int actual, int expected, char* rspec_name, int given_difficulty)
 {
     cr_assert_eq(actual, expected,
@@ -968,7 +970,7 @@ void TEST_HELPER_roomspec_is_given_difficulty(int actual, int expected, char* rs
 
 
 /* testing roomspec_is_given_difficulty
-   for a hash table with one lvl 0 room_level */
+ * for a hash table with one lvl 0 room_level */
 Test(room_level, one_lvl0_room)
 {
     room_level_t *room_levels = NULL;
@@ -1007,7 +1009,7 @@ Test(room_level, one_lvl0_room)
 
 
 /* testing roomspec_is_given_difficulty
-   for a hash table with two room_levels, one lvl 0 and 1 each */
+ * for a hash table with two room_levels, one lvl 0 and 1 each */
 Test(room_level, lvl0_to_lvl1_roomlevels)
 {
     room_level_t *room_levels = NULL;
@@ -1057,8 +1059,6 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
     expected = 2;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecB", 3);
 }
-
-
 
 
 
@@ -1123,9 +1123,6 @@ Test(autogenerate, invalid_multi_room_level_1)
 }
 
 
-
-
-
 /* Checks that multi_room_level_generate returns FAILURE 
  * if all room specs in the speclist are not of the right difficulty level */
 Test(autogenerate, invalid_multi_room_level_3)
@@ -1181,51 +1178,30 @@ Test(autogenerate, invalid_multi_room_level_3)
     DL_APPEND(sample_gencontext->speclist, mid);
     DL_APPEND(sample_gencontext->speclist, tail);
 
-
-
-
-    // making difficulty_level_scale
-    int thresholds[3] = {0, 5, 10};
-    difficulty_level_scale_t *scale = difficulty_level_scale_new(3, thresholds);
-    for (int i = 0; i < 3; i++) {
-        printf("threshold[%d] = %d\n", i, scale->thresholds[i]);
-    }
-    printf("num_thresholds: %d\n", scale->num_thresholds);
-
-
-    // making room_levels hashtable
-    room_level_t *room_levels = NULL;
-    char *lvl0_rooms[2] = {"closet", "library"};
-    char *lvl1_rooms[2] = {"hallway", "cafeteria"};
-    char *lvl2_rooms[1] = {"classroom"};
-
-    hash_room_level(&room_levels, lvl0_rooms[0], 0); // add lvl0s
-    hash_room_level(&room_levels, lvl0_rooms[1], 0);
-    hash_room_level(&room_levels, lvl1_rooms[0], 1); // add lvl1s
-    hash_room_level(&room_levels, lvl1_rooms[1], 1);
-    hash_room_level(&room_levels, lvl2_rooms[0], 2); // add lvl2s
-
-
-
-    printf(room_levels == NULL? "is NULL\n" : "is not retarded\n"); 
-    room_level_t *curr, *tmp;
-    HASH_ITER(hh, room_levels, curr, tmp) {
-        printf("%s\n", curr->room_name);
-    }
-    printf("player_level : %d\n", sample_gencontext->level);
-
-
-
-
     // Ensure game->curr_room does not have paths
     g->curr_room = sample_room1;
-    cr_assert_eq(SUCCESS, multi_room_level_generate(g, sample_gencontext, "school", 10, &room_levels, scale));    
+
+    room_level_t *room_level = NULL;
+    char *roomname_1 = sample_gencontext->speclist->spec->room_name;
+    char *roomname_2 = sample_gencontext->speclist->next->spec->room_name;
+    char *roomname_3 = sample_gencontext->speclist->next->next->spec->room_name;
+
+    // label the rooms' level with 3
+    hash_room_level(&room_level, roomname_1, 3);
+    hash_room_level(&room_level, roomname_2, 3);
+    hash_room_level(&room_level, roomname_3, 3);
+
+    cr_assert_not_null(room_level, "failed to create new room_level_t\n");
+
+    int thresholds[3]= {0, 5, 10};
+    difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
+    cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");
+
+    cr_assert_eq(FAILURE, 
+                 multi_room_level_generate(g, sample_gencontext, "school", 3, 
+                                           &room_level, difficulty_level_scale),
+                 "multi_room_level_generate() returned SUCCESS instead of FAILURE");
 }
-
-
-
-
-
 
 
 /* Checks that multi_room_level_generate successfully generates/adds room 

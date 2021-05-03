@@ -227,13 +227,13 @@ int roomspec_is_given_difficulty(room_level_t **room_levels,
 /* See autogenerate.h */
 int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
-                              room_level_t **room_levels, difficulty_level_scale_t *level_scale)
+                              room_level_t **room_levels, 
+                              difficulty_level_scale_t *level_scale)
 {
     /* If there are no roomspec_t elements in context->speclist, then do not autogenerate */
     if (context->speclist == NULL) {
         return FAILURE;
     }
-
 
     /* compute the difficulty corresponding to player level*/
     int difficulty_level = map_level_to_difficulty(level_scale, context->level);
@@ -242,22 +242,14 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     /* filter the given speclist according to difficulty */
     speclist_t *tmp;
     speclist_t *filtered_speclist = NULL;
-    
 
     DL_FOREACH(context->speclist, tmp) { 
         if (roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level) == SUCCESS) { 
                DL_APPEND(filtered_speclist, tmp);    
         }
     }
-    
-    /*
-    DL_FOREACH(filtered_speclist, tmp) {
-        printf("   %s\n", tmp->spec->room_name);
-    }
-    */
-    
 
-    // filtered gencontext
+    /* filtered gencontext */
     gencontext_t* filtered_context = gencontext_new(context->open_paths,
                                                     context->level,
                                                     context->num_open_paths,
@@ -265,21 +257,6 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     
     int result = multi_room_generate(game, filtered_context, room_id, num_rooms);
 
-    // functions for debugging below
-
-    /*
-    path_t *paths = game->curr_room->paths;
-    path_t *curr, *tep;
-    HASH_ITER(hh, paths, curr, tep) {
-        printf("adjacent_room: %s\n", curr->dest->room_id);
-    }
-
-    room_t *rooms = game->all_rooms;
-    room_t *curroom, *temporoom;
-    HASH_ITER(hh, rooms, curroom, temporoom) {
-        printf("all rooms: %s\n", curroom->room_id);
-    }
-    */
-   return result;
+    return result;
 }
 
