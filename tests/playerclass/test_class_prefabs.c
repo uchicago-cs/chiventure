@@ -76,9 +76,60 @@ void check_skill_pressence(class_t* c, int num_skills, char** names) {
         cr_assert_str_eq(c->skilltree->nodes[i]->skill->name, names[i], "failed to add skill");
 }
 
+/* Tests the bard class */
+Test(class_prefabs, Bard) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    /* Tests if we can find the name even if its case is wrong */
+    class_t *c = class_prefab_new(ctx, "BARD");
+    check_field_pressence(c);
+    
+    cr_assert_eq(get_stat_current(c->stats, "max_health"), 15, "failed to initialize stat");
+
+    /* Skills not yet done for this class */
+}
+
+/* Tests the monk class */
+Test(class_prefabs, Monk) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx, "monk");
+    check_field_pressence(c);
+    
+    cr_assert_eq(get_stat_current(c->stats, "max_health"), 25, "failed to initialize stat");
+
+    /* Skills not yet done for this class */
+}
+
+/* Tests the ranger class */
+Test(class_prefabs, Ranger) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx, "ranger");
+    check_field_pressence(c);
+    
+    cr_assert_eq(get_stat_current(c->stats, "max_health"), 10, "failed to initialize stat");
+
+    /* Skills not yet done for this class */
+}
+
+/* Tests the rogue class */
+Test(class_prefabs, Rogue) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx, "rogue");
+    check_field_pressence(c);
+    
+    cr_assert_eq(get_stat_current(c->stats, "max_health"), 10, "failed to initialize stat");
+
+    /* Skills not yet done for this class */
+}
+
 /* Tests whether the warrior class is initialized as expected.
- * This first test is a little more in depth than the rest */
+ * This test is a little more in depth than the rest, since the warrior is more
+ * complete and. */
 Test(class_prefabs, Warrior) {
+    /* Tests a context were SOME stats were not declared */
     chiventure_ctx_t* ctx = init_incomplete_context();
 
     /* Note that the name is always stored lowercase. */
@@ -98,4 +149,16 @@ Test(class_prefabs, Warrior) {
     /* Testing whether the stat actually works (although this is placeholder
      * behavior according to skill-trees team) */
     cr_assert_str_eq(c->combat->active[0]->effect(""), "PHYSICAL_ATTACK 8");
+}
+
+/* Tests the rogue class */
+Test(class_prefabs, Wizard) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx, "WIZARD");
+    check_field_pressence(c);
+    
+    cr_assert_eq(get_stat_current(c->stats, "max_health"), 10, "failed to initialize stat");
+
+    /* Skills not yet done for this class */
 }

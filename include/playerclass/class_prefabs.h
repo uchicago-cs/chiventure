@@ -36,6 +36,11 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name);
  * Returns:
  *  - status code
  *  - the structs in the class now contain skills.
+ * 
+ * Notes:
+ *  - This function is not fully implemented, as we are waiting for the skill
+ *    effects to be more fully developed. However, the warrior class does work,
+ *    as a proof of concept.
  */
 int class_prefab_add_skills(class_t* class);
 
