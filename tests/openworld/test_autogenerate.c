@@ -1131,10 +1131,6 @@ Test(autogenerate, invalid_multi_room_level_3)
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
-
-    roomspec_t *sample_roomspec = random_room_lookup(spec); // deleting this line causes the program to crash?
-
-
     roomspec_t *sample1;
     HASH_FIND_STR(hash, "cafeteria", sample1);
     room_t *sample_room1 = roomspec_to_room(sample1);
@@ -1142,34 +1138,16 @@ Test(autogenerate, invalid_multi_room_level_3)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    gencontext_t *sample_gencontext = gencontext_new(NULL, 20, 1, spec);
+    gencontext_t *sample_gencontext = gencontext_new(NULL, 5, 1, spec);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    roomspec_t *sample_roomspec2 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    roomspec_t *sample_roomspec3 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    // 3 roomspec case
-    speclist_t *mid = speclist_new(sample_roomspec2);
-    cr_assert_not_null(mid, "Could not create new speclist");
-    speclist_t *tail = speclist_new(sample_roomspec3);
-    cr_assert_not_null(tail, "Could not create new speclist");
-
-    // Doubly linked
-    speclist_t *head = NULL;
-    DL_APPEND(head, sample_gencontext->speclist);
-    DL_APPEND(sample_gencontext->speclist, mid);
-    DL_APPEND(sample_gencontext->speclist, tail);
 
     // Ensure game->curr_room does not have paths
     g->curr_room = sample_room1;
 
     room_level_t *room_level = NULL;
-    char *roomname_1 = sample_gencontext->speclist->spec->room_name;
-    char *roomname_2 = sample_gencontext->speclist->next->spec->room_name;
-    char *roomname_3 = sample_gencontext->speclist->next->next->spec->room_name;
+    char *roomname_1 = spec->spec->room_name;
+    char *roomname_2 = spec->next->spec->room_name;
+    char *roomname_3 = spec->next->next->spec->room_name;
 
     // label the rooms' level with 3
     hash_room_level(&room_level, roomname_1, 3);
@@ -1179,12 +1157,12 @@ Test(autogenerate, invalid_multi_room_level_3)
     cr_assert_not_null(room_level, "failed to create new room_level_t\n");
 
     int thresholds[3]= {0, 5, 10};
-    difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
-    cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");
+    difficulty_level_scale_t *scale = difficulty_level_scale_new(3, thresholds);
+    cr_assert_not_null(scale, "failed to create new difficulty_level_scale_t\n");
 
     cr_assert_eq(FAILURE, 
                  multi_room_level_generate(g, sample_gencontext, "school", 3, 
-                                           &room_level, difficulty_level_scale),
+                                           &room_level, scale),
                  "multi_room_level_generate() returned SUCCESS instead of FAILURE");
 }
 
