@@ -123,7 +123,6 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
 {
     item_t *check;
-    
     HASH_FIND(hh, *ht, old_item->item_id, strnlen(old_item->item_id, MAX_ID_LEN), check);
     
     // Only deletes if item exists in hashtable
@@ -539,9 +538,10 @@ int delete_all_items(item_hash_t** items)
     item_t *current_item, *tmp;
     HASH_ITER(hh, *items, current_item, tmp)
     {
-        remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
-        item_free(current_item);             /* free it */
+      	remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
+	item_free(current_item);             /* free it */
     }
+    *items = NULL;
     return SUCCESS;
 }
 
@@ -567,7 +567,7 @@ int delete_attribute_llist(attribute_list_t *head)
     LL_FOREACH_SAFE(head, elt, tmp)
     {
         LL_DELETE(head, elt);
-        free(elt);
+	free(elt);
     }
     return SUCCESS;
 }
@@ -576,48 +576,71 @@ int delete_attribute_llist(attribute_list_t *head)
 attribute_list_t* create_list_attribute()
 {
     attribute_list_t* rv = malloc(sizeof(attribute_list_t));
+    if (rv == NULL)
+    {
+      return NULL; //Malloc failed
+    }
 
     rv->attribute = NULL;
     rv->next = NULL;
 
     return rv; 
 }
+/*
+ * Function that takes two attribute_list_ts and compares them.
+ *
+ * Parameters:
+ * - attribute_list_t: points to node with one action
+ * - attribute_list_t: points to node of another action
+ *
+ * Returns:
+ * - int value that means 0: the same, 1: first string comes after second,
+ *   -1: first string comes before second
+ */
+int attr_cmp(attribute_list_t *a1, attribute_list_t *a2)
+{
+  return strcmp(a1->attribute->attribute_key, a2->attribute->attribute_key);
+}
 
 /* See item.h */
-int list_contains_attribute(attribute_list_t *head, char* attr_name)
+bool list_contains_attribute(attribute_list_t *head, char* attr_name)
 {
-    if(attr_name == NULL || head->next == NULL)
+    if (attr_name == NULL || head->next == NULL)
     {
-        return FAILURE;
+        return false;
     }
-    attribute_list_t *tmp = head->next;
-    while(tmp != NULL)
-    {
-        if(strcmp(tmp->attribute->attribute_key, attr_name) == 0)
-        {
-	    return SUCCESS;
-	    }
-	tmp = tmp->next;
-    }
-    return FAILURE;
+    attribute_list_t *tmp;
+    attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
+
+    like->attribute = calloc(1, sizeof(attribute_t));
+    like->attribute->attribute_key = attr_name;
+    
+    LL_SEARCH(head->next, tmp, like, attr_cmp);
+
+    if (tmp)
+        return true;
+    else return false;
 }
 
 /* See item.h */
 int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 {
-    if(attr == NULL)
+    if (attr == NULL)
     {
         return FAILURE;
     }
-
-    attribute_list_t *tmp = create_list_attribute(); 
-    tmp->attribute = attr;
-    tmp->next = NULL;
-
-    if(list_contains_attribute(head, attr->attribute_key) == SUCCESS)
+    
+    /* General Case where there could be n elements in the list */
+    if (list_contains_attribute(head, attr->attribute_key))
         return SUCCESS;
     else
     {
+        /* Create the to-be appended struct of new attribute */
+        attribute_list_t *tmp = create_list_attribute(); 
+
+        tmp->attribute = attr;
+        tmp->next = NULL;
+
         LL_APPEND(head, tmp);
         return SUCCESS;
     }
@@ -626,27 +649,28 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 /* See item.h */
 int remove_attribute_from_list(attribute_list_t *head, char *attr_name)
 {
-    if(head->next == NULL)
+    if (attr == NULL || head->next == NULL)
     {
         printf("\nNot Recognized\n");
         return FAILURE;
     }
+    
+    attribute_list_t *tmp;
+    attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
 
-    attribute_list_t *tmp = head->next;
-  
-    /* Checks the continous case of having x number of attributes in given list */
-    while(tmp != NULL)
+    like->attribute = calloc(1, sizeof(attribute_t));
+    like->attribute->attribute_key = attr->attribute_key;
+
+    LL_SEARCH(head->next, tmp, like, attr_cmp);
+
+    if (tmp)
     {
-        if(strcmp(tmp->attribute->attribute_key, attr_name) == 0)
-        {
-            LL_DELETE(head, tmp);
-	        return SUCCESS;
-        }
-
-	    tmp = tmp->next;
+        LL_DELETE(head->next, tmp);
+        free(tmp);
+        return SUCCESS;
     }
+    else return FAILURE;
 
-    return FAILURE;
 }
 
 /* See item.h */

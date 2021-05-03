@@ -153,7 +153,7 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht);
  * 
  * Parameters:
  *  pointer to hashtable of items (pointer necessary for uthash to work)
- *  item to add to hashtable
+ *  item to remove from hashtable
  * 
  * Return:
  *  SUCCESS if successful, FAILURE if failed
@@ -386,10 +386,9 @@ attribute_list_t* create_list_attribute();
  *  name of a specific attribute
  *
  * Returns:
- *  FAILURE for does not contain, SUCCESS for contains
+ *  false for does not contain, true for contains
  */
-
-int list_contains_attribute(attribute_list_t *head, char *attr_name);
+bool list_contains_attribute(attribute_list_t *head, char *attr_name);
 
 /*
  * Function to add an attribute to a linked listed (utlist) of attributes
@@ -399,7 +398,7 @@ int list_contains_attribute(attribute_list_t *head, char *attr_name);
  *  An attribute to add to the list
  * 
  * Returns:
- *  FAILURE if it failed to add the attribute, SUCCESS if it add/the list contains the attribute
+ *  FAILURE if it failed to add the attribute, SUCCESS if it adds/the list contains the attribute
  */
 int add_attribute_to_list(attribute_list_t *head, attribute_t *attr);
 
