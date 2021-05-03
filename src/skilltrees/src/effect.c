@@ -6,6 +6,10 @@
 //See effect.h
 stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration)
 {
+    /*This is a very basic implementation that will be changed to check
+     *if the stat exists in the hash table belonging to the player when
+     *#898 gets merged
+     */
     stat_effect_t* new_stat_effect = (stat_effect_t*)malloc(sizeof(stat_effect_t));
     new_stat_effect->stat_name = stat_name;
     new_stat_effect->mod = mod;
@@ -18,7 +22,7 @@ stat_effect_t* define_stat_effect(char* stat_name, int mod, int duration)
 damage_effect_t* define_damage_effect(int mod)
 {
     damage_effect_t* new_damage_effect = (damage_effect_t*)malloc(sizeof(damage_effect_t));
-    new_damage_effect->mod = mod;
+    new_damage_effect->damage = mod;
 
     return new_damage_effect;
 }
@@ -43,6 +47,24 @@ effect_t* make_damage_effect(damage_effect_t* damage_effect)
 
 //See effect.h
 effect_t* make_att_effect(att_effect_t* att_effect)
+{
+    //TODO
+}
+
+//See effect.h
+int execute_stat_effect(stat_effect_t* stat_effect)
+{
+    //TODO
+}
+
+//See effect.h
+int execute_damage_effect(stat_effect_t* damage_effect)
+{
+    //TODO
+}
+
+//See effect.h
+int execute_att_effect(stat_effect_t* att_effect)
 {
     //TODO
 }
