@@ -27,7 +27,7 @@ typedef enum effect_type {
 typedef struct stat_effect{
     char* stat_name; //Takes the name of the statistic that must be modified
     int mod;         //Modifies the statistic by this number.  If effect decreases stats, specify negative number.
-    int duration;    //The duration for how long the effect should be applied
+    int duration;    //The duration for how long the effect should be applied (O if permanent)
 }stat_effect_t;
 
 //Defines an effect that deals damage

@@ -72,7 +72,34 @@ int skill_free(skill_t* skill) {
 /* See skill.h */
 int skill_execute(skill_t* skill) 
 {
-    //TODO
+    assert(skill != NULL);
+    assert(skill -> skill_effects != NULL);
+    effects_linked_list_t* ll = skill->skill_effects;
+    assert(ll->head != NULL);
+    effect_node_t* curr = ll->head;
+    effect_node_t* next = curr->next;
+    int check = 0;
+    for(int i = 0 ; i < ll -> num; i++) //recurse through linked list
+    {
+        effect_t* effect = curr->data;
+        effect_type_t type = effect -> effect_type;
+        if (type == STATISTIC)
+        {
+            check = execute_stat_effect(effect->data.s);
+            assert(check==0);
+        }
+        if (type == DAMAGE)
+        {
+            check = execute_damage_effect(effect->data.d);
+            assert(check==0);
+        }
+        if (type == ATTRIBUTE)
+        {
+            execute_att_effect(effect->data.a);
+            assert(check==0);
+        }
+    }
+    return 0;
 }
 
 /* See skill.h */
