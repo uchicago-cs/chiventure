@@ -9,6 +9,10 @@
 
 /*
  * This struct represents the mission.
+ * 
+ * Components:
+ *  item_to_collect: item to be collected in order to complete the mission
+ *  npc_to_meet: npc to meet in order to complete the mission
  */
 typedef struct mission {
     item_t *item_to_collect;
@@ -18,6 +22,10 @@ typedef struct mission {
 
 /* 
  * This struct represents an achievement.
+ * 
+ * Components:
+ *  mission: mission to be completed
+ *  completed: bool for if achievement is completed
  */
 typedef struct achievement {
     mission_t *mission;
@@ -26,6 +34,10 @@ typedef struct achievement {
 
 /* 
  * This is a linked list struct of achievements.
+ * 
+ * Components:
+ *  achievement: achievement in linked list
+ *  next: rest of linked list of achievements
  */
 typedef struct achievement_llist {
     achievement_t *achievement;
