@@ -1311,7 +1311,7 @@ Test(attribute_list, add_attribute_to_list)
 
 Test(attribute_list, remove_from_one_attribute_list)
 {
-    attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));\
+    attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
     char *q = "Queen";
     test_attr1->attribute_tag = INTEGER;
     test_attr1->attribute_value.int_val = 5;
