@@ -1043,7 +1043,7 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
 }
 
 
-
+/*
 Test(autogenerate, generate_only_lvl0s)
 {
     difficulty_level_scale_t *scale;
@@ -1058,3 +1058,4 @@ Test(autogenerate, generate_only_lvl0s)
 
 
 }
+*/
