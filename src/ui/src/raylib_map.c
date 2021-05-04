@@ -7,10 +7,10 @@
 #include "ui/raylib_map.h"
 
 //ncurses function that isn't used anywhere, delete?//
-void erase_ch(int y, int x)
+/*void erase_ch(int y, int x)
 {
     mvaddch(y, x, '#');
-}
+}*/
 
 /* Draw a single room at exact location within a window
  *
@@ -36,6 +36,10 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     int door_start_v = y + height / 3;
     int door_end_v = y + 2 * height / 3; 
 
+    BeginDrawing();
+
+    ClearBackground(BLACK);
+
     // Draw the room as a rectangle
     DrawRectangle(x, y, width, height, GRAY);
 
@@ -56,6 +60,8 @@ void draw_room(int width, int height, int x, int y, room_t *room, WINDOW *win)
     {
         DrawLine(door_start_h, bot_y, door_end_h, bot_y, BLACK);
     }
+
+    EndDrawing();
 }
 
 /* Draws all of the rooms stored in the hashmap of the ui_ctx given
@@ -164,18 +170,12 @@ void draw_info(chiventure_ctx_t *ctx)
     map_t *map = ui_ctx->map;
     coord_t *curr_pos = ui_ctx->player_loc;
 
-    //No idea why they added numbers to these, border maybe??//
     int info_x = map->ulx + 2;
     int info_y = map->uly + 1;
 
-    BeginDrawing();
-
-    ClearBackground(BLACK);
-
-    //I don't think the x and y here are right, see function//
-    draw_rooms(ctx, info_x, info_y, curr_pos->z);
-
-    EndDrawing();
+    // Draws floor and position information on map display
+    //2 is text size and is placeholder//
+    DrawText("(%i, %i) Floor %i", curr_pos->x, curr_pos->y, curr_pos->z, info_x, info_y, 2, WHITE);
     return;
 }
 
@@ -197,8 +197,12 @@ void draw_border(chiventure_ctx_t *ctx)
     int lrx = map->lrx - 1; // Lower Right x
     int lry = map->lry; // Lower Right y
 
+    BeginDrawing();
+
     // Draws the border as a rectangle
     DrawRectangle(ulx, uly, lrx - ulx, lry - ulr, WHITE);
+
+    EndDrawing();
 
     return;
 }
@@ -229,9 +233,13 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z)
     int centx = (map->lrx - map->ulx) / 2;
     int centy = (map->lry - map->uly) / 2;
 
+    BeginDrawing();
+
     // Draws the 'player' on to the screen
     //Look into what the radius should be, 2 is placeholder//
     DrawCircle(centx, centy, 2, WHITE);
+
+    EndDrawing();
 
     draw_border(ctx);
     draw_info(ctx);
