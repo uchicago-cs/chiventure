@@ -24,7 +24,7 @@ typedef struct node node_t;
  *  - to: destination node
  */
 typedef struct edge {
-    char quip[MAX_QUIP_LEN];
+    char *quip;
     node_t *from, *to;
 } edge_t;
 
@@ -53,8 +53,8 @@ typedef struct edge_list {
  *  - edges: possible responses
  */
 typedef struct node {
-    char node_id[MAX_NODE_ID_LEN];
-    char npc_dialogue[MAX_DIA_LEN];
+    char *node_id;
+    char *npc_dialogue;
     int num_edges;
     edge_list_t *edges;
 } node_t;
@@ -108,7 +108,7 @@ convo_t *create_new_convo();
  *  - Possible errors: (1) input strings are too long (assertion error);
  *     (2) a node with the same ID already exists; (3) memory allocation error;
  */
-int add_node(convo_t *c, char node_id[], char npc_dialogue[]);
+int add_node(convo_t *c, char *node_id, char *npc_dialogue);
 
 /* Given a player option text (quip), a from node ID and a to node ID, adds
  * a new edge to the conversation.
@@ -125,7 +125,7 @@ int add_node(convo_t *c, char node_id[], char npc_dialogue[]);
  *  - Possible errors: (1) quip is too long; (2) nodes matching from_id and
  *     to_id could not be found; (3) memory allocation error;
  */
-int add_edge(convo_t *c, char quip[], char from_id[], char to_id[]);
+int add_edge(convo_t *c, char *quip, char *from_id, char *to_id);
 
 
 /**********************************************
@@ -166,7 +166,7 @@ int run_conversation_step(convo_t *c, int input, char *outstring);
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int edge_init(edge_t *e, char quip[], node_t *from, node_t *to);
+int edge_init(edge_t *e, char *quip, node_t *from, node_t *to);
 
 /* Allocates a new edge struct on the heap.
  * 
@@ -178,7 +178,7 @@ int edge_init(edge_t *e, char quip[], node_t *from, node_t *to);
  * Returns:
  *  - pointer to the new edge struct
  */
-edge_t *edge_new(char quip[], node_t *from, node_t *to);
+edge_t *edge_new(char *quip, node_t *from, node_t *to);
 
 /* Frees resources associated with an edge.
  *
@@ -200,7 +200,7 @@ int edge_free(edge_t *e);
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int node_init(node_t *n, char node_id[], char dialogue[]);
+int node_init(node_t *n, char *node_id, char *dialogue);
 
 /* Allocates a new node on the heap.
  * 
@@ -211,7 +211,7 @@ int node_init(node_t *n, char node_id[], char dialogue[]);
  * Returns:
  *  - pointer to the new node
  */
-node_t *node_new(char node_id[], char npc_dialogue[]);
+node_t *node_new(char *node_id, char *npc_dialogue);
 
 /* Frees resources associated with a node.
  *

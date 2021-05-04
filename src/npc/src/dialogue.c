@@ -25,7 +25,7 @@ convo_t *create_new_convo()
  * Returns:
  *  - a pointer to the corresponding node, or NULL if it does not exist
  */
-node_t *get_node(node_list_t *n_lst, char node_id[])
+node_t *get_node(node_list_t *n_lst, char *node_id)
 {
     while (n_lst != NULL) {
         if (strcmp(n_lst->node->node_id, node_id) == 0) return n_lst->node;
@@ -36,7 +36,7 @@ node_t *get_node(node_list_t *n_lst, char node_id[])
 }
 
 /* See dialogue.h */
-int add_node(convo_t *c, char node_id[], char npc_dialogue[])
+int add_node(convo_t *c, char *node_id, char *npc_dialogue)
 {   
     // Check if a node with the same ID already exists
     if (get_node(c->all_nodes, node_id) != NULL) return FAILURE;
@@ -88,7 +88,7 @@ edge_list_t *create_edge_list_element(edge_list_t *e_lst, edge_t *e)
 }
 
 /* See dialogue.h */
-int add_edge(convo_t *c, char quip[], char from_id[], char to_id[])
+int add_edge(convo_t *c, char *quip, char *from_id, char *to_id)
 {
     assert(c->num_nodes >= 2);
 
@@ -260,13 +260,18 @@ int run_conversation_step(convo_t *c, int input, char *outstring)
  **********************************************/
 
 /* See dialogue.h */
-int edge_init(edge_t *e, char quip[], node_t *from, node_t *to)
+int edge_init(edge_t *e, char *quip, node_t *from, node_t *to)
 {
     assert(e != NULL);
     assert(strlen(quip) < MAX_QUIP_LEN);
     assert(from != NULL && to !=NULL);
 
+    // Quip
+    if (e->quip != NULL) free(e->quip);  // Reinitialization
+    if ((e->quip = (char *) malloc(sizeof(char) * (strlen(quip) + 1))) == NULL)
+        return FAILURE;
     strcpy(e->quip, quip);
+
     e->from = from;
     e->to = to;
 
@@ -274,7 +279,7 @@ int edge_init(edge_t *e, char quip[], node_t *from, node_t *to)
 }
 
 /* See dialogue.h */
-edge_t *edge_new(char quip[], node_t *from, node_t *to)
+edge_t *edge_new(char *quip, node_t *from, node_t *to)
 {
     assert(strlen(quip) < MAX_QUIP_LEN);
     assert(from != NULL && to !=NULL);
@@ -282,6 +287,9 @@ edge_t *edge_new(char quip[], node_t *from, node_t *to)
     edge_t *e;
     if ((e = (edge_t *) malloc(sizeof(edge_t))) == NULL) return NULL;
 
+    e->quip = NULL;
+
+    // initialization
     if (edge_init(e, quip, from, to) != SUCCESS) {
         edge_free(e);
         return NULL;
@@ -299,14 +307,24 @@ int edge_free(edge_t *e)
 }
 
 /* See dialogue.h */
-int node_init(node_t *n, char node_id[], char npc_dialogue[])
+int node_init(node_t *n, char *node_id, char *npc_dialogue)
 {
     assert(n != NULL);
     assert(strlen(node_id) < MAX_NODE_ID_LEN);
     assert(strlen(npc_dialogue) < MAX_DIA_LEN);
 
+    // Node ID
+    if (n->node_id != NULL) free(n->node_id);  // Reinitialization
+    if ((n->node_id = (char *) malloc(sizeof(char) *
+        (strlen(node_id) + 1))) == NULL) return FAILURE;
     strcpy(n->node_id, node_id);
+
+    // NPC dialogue
+    if (n->npc_dialogue != NULL) free(n->npc_dialogue);  // Reinitialization
+    if ((n->npc_dialogue = (char *)malloc(sizeof(char) *
+        (strlen(npc_dialogue)+ 1))) == NULL) return FAILURE;
     strcpy(n->npc_dialogue, npc_dialogue);
+
     n->num_edges = 0;
     n->edges = NULL;
 
@@ -314,7 +332,7 @@ int node_init(node_t *n, char node_id[], char npc_dialogue[])
 }
 
 /* See dialogue.h */
-node_t *node_new(char node_id[], char npc_dialogue[])
+node_t *node_new(char *node_id, char *npc_dialogue)
 {
     assert(strlen(node_id) < MAX_NODE_ID_LEN);
     assert(strlen(npc_dialogue) < MAX_DIA_LEN);
@@ -322,6 +340,10 @@ node_t *node_new(char node_id[], char npc_dialogue[])
     node_t *n;
     if ((n = (node_t *) malloc(sizeof(node_t))) == NULL) return NULL;
 
+    n->node_id = NULL;
+    n->npc_dialogue = NULL;
+
+    // initialization
     if (node_init(n, node_id, npc_dialogue) != SUCCESS) {
         node_free(n);
         return NULL;
@@ -334,8 +356,6 @@ node_t *node_new(char node_id[], char npc_dialogue[])
 int node_free(node_t *n)
 {
     if (n != NULL) {
-        edge_list_t *elt, *tmp;
-
         if (free_edge_list(n->edges, true) != SUCCESS) return FAILURE;
         free(n);
     }
@@ -362,6 +382,7 @@ convo_t *convo_new()
 
     if ((c = (convo_t *) malloc(sizeof(convo_t))) == NULL) return NULL;
 
+    // initialization
     if (convo_init(c) != SUCCESS) {
         convo_free(c);
         return NULL;

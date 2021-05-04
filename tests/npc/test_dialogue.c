@@ -41,10 +41,10 @@ Test(dialogue, node_new)
 
     cr_assert_not_null(n, "node_new() failed");
 
-    cr_assert_eq(strncmp(n->node_id, "Test node", MAX_ID_LEN), 0,
+    cr_assert_eq(strcmp(n->node_id, "Test node"), 0,
                  "node_new didn't set node_id");
-    cr_assert_eq(strncmp(n->npc_dialogue, 
-                 "Well here I am saying some test dialogue!", MAX_DIA_LEN), 0,
+    cr_assert_eq(strcmp(n->npc_dialogue, 
+                 "Well here I am saying some test dialogue!"), 0,
                  "node_new didn't set dialogue");
 }
 
@@ -59,10 +59,10 @@ Test(dialogue, node_init)
 
     cr_assert_eq(res, SUCCESS, "node_init() failed");
 
-    cr_assert_eq(strncmp(n->node_id, "2test", MAX_ID_LEN), 0,
+    cr_assert_eq(strcmp(n->node_id, "2test"), 0,
                  "node_init didn't set node_id");
-    cr_assert_eq(strncmp(n->npc_dialogue, "2 dialogue second version", 
-                 MAX_DIA_LEN), 0, "node_init didn't set dialogue");
+    cr_assert_eq(strcmp(n->npc_dialogue, "2 dialogue second version"), 0,
+                 "node_init didn't set dialogue");
 }
 
 /* Checks that node_free() frees the given node struct from memory */
@@ -94,21 +94,18 @@ Test(dialogue, edge_new)
     cr_assert_not_null(n2, "node_new() failed");
     cr_assert_not_null(e, "edge_new() failed");
 
-    cr_assert_eq(strncmp(e->quip, "Hi", 
-                         MAX_QUIP_LEN), 
-                 0, "edge_new() didn't set quip");
+    cr_assert_eq(strcmp(e->quip, "Hi"), 0, "edge_new() didn't set quip");
     
     cr_assert_not_null(e->from, "edge_new didn't set from");
     cr_assert_not_null(e->to, "edge_new didn't set to");
-    cr_assert_eq(strncmp(e->from->node_id, "from test", MAX_ID_LEN), 0,
+    cr_assert_eq(strcmp(e->from->node_id, "from test"), 0,
                  "new edge's from has incorrect node_id");
-    cr_assert_eq(strncmp(e->from->npc_dialogue, 
-                 "When the user says hi I say hello!", MAX_DIA_LEN), 0,
+    cr_assert_eq(strcmp(e->from->npc_dialogue, 
+                 "When the user says hi I say hello!"), 0,
                  "new edge's from has incorrect dialogue");
-    cr_assert_eq(strncmp(e->to->node_id, "to test", MAX_ID_LEN), 0,
+    cr_assert_eq(strcmp(e->to->node_id, "to test"), 0,
                  "new edge's to has incorrect node_id");
-    cr_assert_eq(strncmp(e->to->npc_dialogue, 
-                 "Hello!", MAX_DIA_LEN), 0,
+    cr_assert_eq(strcmp(e->to->npc_dialogue, "Hello!"), 0,
                  "new edge's to has incorrect dialogue");
 }
 
@@ -132,19 +129,18 @@ Test(dialogue, edge_init)
 
     cr_assert_eq(res, SUCCESS, "edge_init() failed");
 
-    cr_assert_eq(strncmp(e->quip, "Hi", MAX_ID_LEN), 0,
+    cr_assert_eq(strcmp(e->quip, "Hi"), 0,
                  "new edge's from has incorrect dialogue");
     cr_assert_not_null(e->from, "edge_init didn't set from");
     cr_assert_not_null(e->to, "edge_init didn't set to");
-    cr_assert_eq(strncmp(e->from->node_id, "from test", MAX_ID_LEN), 0,
+    cr_assert_eq(strcmp(e->from->node_id, "from test"), 0,
                  "new edge's from has incorrect node_id");
-    cr_assert_eq(strncmp(e->from->npc_dialogue, 
-                 "When the user says hi I say hello!", MAX_DIA_LEN), 0,
+    cr_assert_eq(strcmp(e->from->npc_dialogue, 
+                 "When the user says hi I say hello!"), 0,
                  "new edge's from has incorrect dialogue");
-    cr_assert_eq(strncmp(e->to->node_id, "to test", MAX_ID_LEN), 0,
+    cr_assert_eq(strcmp(e->to->node_id, "to test"), 0,
                  "new edge's to has incorrect node_id");
-    cr_assert_eq(strncmp(e->to->npc_dialogue, 
-                 "Hello!", MAX_DIA_LEN), 0,
+    cr_assert_eq(strcmp(e->to->npc_dialogue, "Hello!"), 0,
                  "new edge's to has incorrect dialogue");
 }
 
