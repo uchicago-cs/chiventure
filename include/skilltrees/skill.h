@@ -6,6 +6,7 @@
 #define INCLUDE_SKILL_H_
 
 #include "skilltrees/skilltrees_common.h"
+#include "skilltrees/effect.h"
 
 /*
  * Allocates a new skill in the heap.
