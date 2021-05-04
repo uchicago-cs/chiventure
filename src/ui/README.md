@@ -13,9 +13,14 @@ screen.
 
 To compile the ui library, run make inside the chiventure/build directory. Example
 files can be found in the src/ui/examples subdirectory from build. You can create
-the binaries for all of these files by running "make" inside the examples 
-subdirectory or using "make file_name" for a specific example. Use "./file_name"
+the binaries for all of these files by running `make` inside the examples 
+subdirectory or using `make file_name` for a specific example. Use `./file_name`
 to run the executable.
+
+Current available examples:
+* split_screen_example - sample screen with command line on bottom and graphic
+			 on top
+* map_raylib_example - sample map built using raylib
 
 #Included Modules
 
@@ -25,7 +30,6 @@ The UI Library consists of the following modules:
 * ui
 * map
 * coordinate
-* DFS
 
 ## window
 Contains a new window_t struct that has a ncurses WINDOW field and a print function
