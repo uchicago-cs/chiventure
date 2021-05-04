@@ -522,6 +522,7 @@ int item_free(item_t *item)
     free(item->item_id);
     free(item->short_desc);
     free(item->long_desc);
+    delete_attribute_llist(item->class_restrictions);
     delete_all_attributes(item->attributes);
     // uthash_free(item->attributes, HASH_SIZE);
     if (item->stat_effects != NULL) {
@@ -646,10 +647,11 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 }
 
 /* See item.h */
-int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
+int remove_attribute_from_list(attribute_list_t *head, char *attr_name)
 {
-    if (attr == NULL || head->next == NULL)
+    if (!list_contains_attribute(head, attr_name))
     {
+        printf("\nNot Recognized\n");
         return FAILURE;
     }
     
@@ -657,7 +659,7 @@ int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
     attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
 
     like->attribute = calloc(1, sizeof(attribute_t));
-    like->attribute->attribute_key = attr->attribute_key;
+    like->attribute->attribute_key = attr_name;
 
     LL_SEARCH(head->next, tmp, like, attr_cmp);
 
