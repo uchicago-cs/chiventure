@@ -41,7 +41,7 @@ quest_t *quest_new(long int quest_id, achievement_llist_t *achievement_list,
 /* Initialize an already allocated mission struct
  *
  * Parameters:
- * - mission: an already allocated mission_t
+ * - mission: an already allocated mission
  * - item_to_collect: the item to be collected for the mission
  * - npc_to_meet: the npc to be met for the mission
  * 
@@ -54,7 +54,7 @@ int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet
 /* Initialize an already allocated achievement struct
  *
  * Parameters:
- * - achievement: an already allocated achievement_t
+ * - achievement: an already allocated achievement
  * - mission: the mission to be completed for the achievement
  * 
  * Returns:
@@ -67,7 +67,7 @@ int achievement_init(achievement_t *achievement, mission_t *mission);
 /* Initialize an already allocated quest struct
  *
  * Parameters:
- * - q: an already allocated quest_t
+ * - q: an already allocated quest
  * - quest_id: long int for the specific quest_id 
  * - achievement_llist_t: linked list struct holding a list of 
  *                        achievements that make up a quest
@@ -87,7 +87,7 @@ int quest_init(quest_t *q, long int quest_id, achievement_llist_t *achievement_l
  * Frees a mission struct from memory
  * 
  * Parameter:
- * - mission: the mission_t to be freed
+ * - mission: the mission to be freed
  * 
  * Returns:
  * - SUCCESS for successful free
@@ -100,7 +100,7 @@ int mission_free(mission_t *mission);
  * its associated pointers
  * 
  * Parameter:
- * - achievement: the achievement_t to be freed
+ * - achievement: the achievement to be freed
  * 
  * Returns:
  * - SUCCESS for successful free
@@ -113,7 +113,7 @@ int achievement_free(achievement_t *achievement);
  * and reward, but otherwise does not free associated pointers
  * 
  * Parameter:
- * - quest: the quest_t to be freed
+ * - quest: the quest to be freed
  * 
  * Returns:
  * - SUCCESS for successful free
@@ -124,8 +124,8 @@ int quest_free(quest_t * quest);
 /* Adds an achievement to the end of a quest's achievement list
  *
  * Parameters:
- * - quest: pointer to a quest_t 
- * - achievement_to_add: pointer to an achievement_t to add to list
+ * - quest: pointer to a quest 
+ * - achievement_to_add: pointer to an achievement to add to the list
  * 
  * Returns:
  * - SUCCESS 
@@ -136,7 +136,7 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
 /* Updates a quest's status to started
  *
  * Parameter:
- * - quest: pointer to quest_t to be started
+ * - quest: pointer to quest to be started
  * 
  * Returns:
  * - SUCCESS 
@@ -147,7 +147,7 @@ int start_quest(quest_t *quest);
 /* Updates a quest's status to failed
  *
  * Parameter:
- * - quest: pointer to quest_t to be marked failed
+ * - quest: pointer to quest to be marked failed
  * 
  * Returns:
  * - SUCCESS 
@@ -183,7 +183,7 @@ int is_quest_completed(quest_t *quest);
 /* Checks a quest's status.
  *
  * Parameter:
- * - quest: pointer to quest_t
+ * - quest: pointer to a quest
  * 
  * Returns: 
  * - the quest's status code, as described in quests_structs.h
@@ -193,7 +193,7 @@ int get_quest_status(quest_t *quest);
 /* Returns the quest's reward item if the quest has been completed.
  *
  * Parameter:
- * - quest: pointer to quest_t
+ * - quest: pointer to a quest
  * 
  * Returns:
  * - the quest's reward item
