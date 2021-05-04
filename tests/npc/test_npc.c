@@ -25,13 +25,22 @@ class_t* generate_test_class()
 
 }
 
+/* Creates a sample npc_mov struct. Taken from test_rooms_npc.c */
+npc_mov_t *generate_test_npc_mov()
+{
+    npc_mov_t *npc_mov;
+    room_t *test_room;
+    test_room = room_new("test_room", "test", "test test");
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+}
+
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test(npc, new)
 {
     class_t* c;
     npc_t *npc;
-    npc_mov_t *movement;
+    npc_mov_t *movement = generate_test_npc_mov();
 
     char *npc_id = "npc_22";
 
@@ -58,7 +67,7 @@ Test(npc, init)
 {
     class_t* c;
     npc_t *npc;
-    npc_mov_t *movement;
+    npc_mov_t *movement = generate_test_npc_mov();
     int res;
   
     char *npc_id2 = "test";
