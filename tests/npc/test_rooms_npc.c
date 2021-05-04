@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "npc/rooms-npc.h"
 #include "npc/npc.h"
+#include "npc/npc_move.h"
 #include "game-state/room.h"
 
 /* Tests new() of npcs_in_room struct */
