@@ -9,14 +9,14 @@ int player_set_race(player_t *plyr, char *player_race)
         return FAILURE;
     }
 
-    plyr->player_race = malloc(MAX_ID_LEN * sizeof(char));
+    plyr->player_race = malloc(MAX_ID_LEN);
     
     if (plyr->player_race == NULL)
     {
         return FAILURE;
     }
 
-    strncpy(plyr->player_race, player_race, strlen(player_race));
+    strncpy(plyr->player_race, player_race, MAX_ID_LEN);
 
 
     return SUCCESS;
@@ -45,13 +45,12 @@ player_t* player_new(char *player_id)
     assert(plyr != NULL);
 
     memset(plyr, 0, sizeof(player_t));
-    plyr->player_id = malloc(MAX_ID_LEN * sizeof(char));
+    plyr->player_id = malloc(MAX_ID_LEN);
 
     assert(player_id != NULL);
 
-    strncpy(plyr->player_id, player_id, strlen(player_id));
+    strncpy(plyr->player_id, player_id, MAX_ID_LEN);
     plyr->level = 1;
-    plyr->health = 5;
     plyr->xp = 0;
 
     plyr->player_class = NULL;
@@ -82,10 +81,7 @@ int player_free(player_t* plyr)
         class_free(plyr->player_class);
     }
 
-    if (plyr->inventory != NULL)
-    {
-        delete_all_items(&plyr->inventory);
-    }
+    delete_all_items(&plyr->inventory);
 
     free(plyr);
     

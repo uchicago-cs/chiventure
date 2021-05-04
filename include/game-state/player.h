@@ -19,11 +19,6 @@ typedef struct player {
     /* Unique id identifying the player */
     char *player_id;
 
-    /* The player's current health, separate from their maximum health 
-    most likely going to be stored in player_stats in the future but must
-    be kept to prevent old functions from breaKing */
-    int health;
-
     /* The player's current level */
     int level;
 
@@ -33,7 +28,7 @@ typedef struct player {
     /* A string containing the player's race */
     char *player_race;
 
-    /* The player's current class. class_t contains the base health, stats, and skills for that class at
+    /* The player's current class. class_t contains the base stats, and skills for that class at
     the beginning of a game. These may change throughout the game, so their current states are stored 
     in the health, player_stats, player_skills fields in this player struct */
     class_t *player_class;
@@ -62,7 +57,7 @@ typedef struct player player_hash_t;
 
 /*
  * Allocates and creates a new player with given ID, starting at level
- *  1 with 0 xp and 5 health. 
+ *  1 with 0 xp. 
  *
  * Parameters:
  *  player_id: the unique string ID of the player
