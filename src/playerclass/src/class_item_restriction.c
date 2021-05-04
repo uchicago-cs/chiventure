@@ -1,22 +1,59 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include "game-state/item.h"
 #include "playerclass/class.h"
 #include "playerclass/class_structs.h"
 
 /* see class_item_restriction.h */
-int set_item_restriction(item_t* item, class_t* class) {
-    if ((item != NULL) && (class != NULL)) {
-        set_bool_attr(item, class->name, true);
-        return SUCCESS;
-    } else {
-        fprintf(stderr, "Item or Class provided are NULL");
+int add_item_restriction(item_t* item, class_t* class) {
+    if ((item == NULL) | (class == NULL)) {
+        fprintf(stderr, "Item or Class provided are NULL in add_item_restriction");
         return FAILURE;
     }
+
+    if (item->class_restrictions == NULL) {
+        item->class_restrictions = create_list_attribute();
+    }
+
+    /* Attribute creation will be refactored in game-state/item to allow for streamlined attribute creation */
+    attribute_t* restriction = malloc(sizeof(attribute_t));
+    restriction->attribute_tag = BOOLE;
+    restriction->attribute_value.bool_val = true;
+    restriction->attribute_key = strndup(class->name, 100);
+
+    if (restriction == NULL) {
+        fprintf(stderr, "Failed to allocate memory in add_item_restriction");
+        return FAILURE;
+    }
+
+    int add_rc = add_attribute_to_list(item->class_restrictions, restriction);
+    return add_rc;
 }
 
 /* see class_item_restriction.h */
-bool get_class_restriction(item_t* item, class_t* class) {
-    return get_bool_attr(item, class->name);
+bool is_restricted(item_t* item, class_t* class) {
+    if ((item == NULL) | (class == NULL)) {
+        fprintf(stderr, "Item or Class provided are NULL in is_restricted");
+        return FAILURE;
+    }
+
+    return list_contains_attribute(item->class_restrictions, strndup(class->name, 100));
+}
+
+/* see class_item_restriction.h */
+int remove_item_restriction(item_t* item, class_t* class) {
+    if ((item == NULL) | (class == NULL)) {
+        fprintf(stderr, "Item or Class provided are NULL in remove_item_restriction");
+        return FAILURE;
+    }
+
+    if (!is_restricted(item, class)){
+        fprintf(stderr, "Class is not currently restricted from using this item");
+        return FAILURE;
+    }
+
+    int remove_rc = remove_attribute_from_list(item->class_restrictions, class->name);
+    return remove_rc;
 }
