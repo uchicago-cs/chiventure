@@ -9,7 +9,6 @@
 #include "effect_t.h"
 
 /* Test skill_new. */
-/*
 Test(skill_tests, skill_new_test)
 {
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -33,10 +32,8 @@ Test(skill_tests, skill_new_test)
     cr_assert_str_eq((skill->effect)("haha"),"Bomb defused!",
         "Error: failed test skill_new_test on skill->effect\n");
 }
-*/
 
 /* Test skill_init. */
-/*
 Test(skill_tests, skill_init_test)
 {
   skill_t* skill = malloc(sizeof(skill_t));
@@ -61,10 +58,8 @@ Test(skill_tests, skill_init_test)
   cr_assert_str_eq((skill->effect)("haha"),"Bomb defused!",
       "Error: failed test skill_new_test on skill->effect\n");
 }
-*/
 
 /* Tests skill_free. */
-/*
 Test(skill_tests, skill_free_test)
 {
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -72,10 +67,8 @@ Test(skill_tests, skill_free_test)
   int ret = skill_free(skill);
   cr_assert_eq(ret, 0, "Error: failed test skill_free_test\n");
 }
-*/
 
 /* Tests skill_execute. */
-/*
 Test(skill_tests, skill_execute_test)
 {
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -83,4 +76,3 @@ Test(skill_tests, skill_execute_test)
   cr_assert_str_eq(skill_execute(skill, "haha"),"Bomb defused!",
       "Error: failed test skill_new_test on skill->effect\n");
 }
-*/
