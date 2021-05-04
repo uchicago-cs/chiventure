@@ -309,7 +309,8 @@ int room_level_free(room_level_t *map);
  *
  * Side effects:
  * - If (and only if) the name is not already in use in the hash,
- *   hashes a room_level_t of given name/level to the table,
+ *   hashes a room_level_t of given name/level to the table. Otherwise,
+ *   return FAILURE.
  * 
  * Returns:
  * SUCCESS - successfully added room
