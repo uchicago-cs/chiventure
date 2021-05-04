@@ -20,9 +20,9 @@ to run the executable.
 Current available examples:
 * split_screen_example - sample screen with command line on bottom and graphic
 			 on top
-* map_raylib_example - sample map built using raylib
+* map_raylib_example   - sample map built using raylib
 
-#Included Modules
+# Included Modules
 
 The UI Library consists of the following modules:
 * window
