@@ -547,8 +547,6 @@ int delete_all_items(item_hash_t** items)
             remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
             item_free(current_item);             /* free it */ 
         }
-        // remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
-	    // item_free(current_item);             /* free it */
     }
     *items = NULL;
     return SUCCESS;
