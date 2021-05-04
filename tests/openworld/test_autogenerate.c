@@ -977,7 +977,7 @@ Test(room_level, one_lvl0_room)
     
     // creating room_levels and hashing to table
     char *lvl0_roomname = "A";
-    hash_room_level(&room_levels, lvl0_roomname, 0);
+    add_room_level_to_hash(&room_levels, lvl0_roomname, 0);
 
     // checking that room_level is hashed
     room_level_t *tmp;
@@ -1017,8 +1017,8 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
     // creating room_levels and hashing to table
     char *lvl0_roomname = "A0";
     char *lvl1_roomname = "A1";
-    hash_room_level(&room_levels, lvl0_roomname, 0);
-    hash_room_level(&room_levels, lvl1_roomname, 1);
+    add_room_level_to_hash(&room_levels, lvl0_roomname, 0);
+    add_room_level_to_hash(&room_levels, lvl1_roomname, 1);
 
     // checking that room_levels are hashed
     room_level_t *tmp;
@@ -1108,7 +1108,7 @@ Test(autogenerate, invalid_multi_room_level_1)
     char *roomname = sample_gencontext->speclist->spec->room_name;
 
     // label the room level with 3
-    hash_room_level(&room_level, roomname, 3);
+    add_room_level_to_hash(&room_level, roomname, 3);
 
     cr_assert_not_null(room_level, "failed to create new room_level_t\n");
 
@@ -1150,9 +1150,9 @@ Test(autogenerate, invalid_multi_room_level_3)
     char *roomname_3 = spec->next->next->spec->room_name;
 
     // label the rooms' level with 3
-    hash_room_level(&room_level, roomname_1, 3);
-    hash_room_level(&room_level, roomname_2, 3);
-    hash_room_level(&room_level, roomname_3, 3);
+    add_room_level_to_hash(&room_level, roomname_1, 3);
+    add_room_level_to_hash(&room_level, roomname_2, 3);
+    add_room_level_to_hash(&room_level, roomname_3, 3);
 
     cr_assert_not_null(room_level, "failed to create new room_level_t\n");
 
@@ -1213,7 +1213,7 @@ Test(autogenerate, valid_multi_room_level_1)
     char *roomname = sample_gencontext->speclist->spec->room_name;
 
     // label the room level with 1
-    hash_room_level(&room_level, roomname, 1);
+    add_room_level_to_hash(&room_level, roomname, 1);
 
     cr_assert_not_null(room_level, "failed to create new room_level_t\n");
 
@@ -1292,9 +1292,9 @@ Test(autogenerate, valid_multi_room_level_3)
     char *roomname_3 = sample_gencontext->speclist->next->next->spec->room_name;
 
     // label the rooms' level with 1
-    hash_room_level(&room_level, roomname_1, 1);
-    hash_room_level(&room_level, roomname_2, 1);
-    hash_room_level(&room_level, roomname_3, 1);
+    add_room_level_to_hash(&room_level, roomname_1, 1);
+    add_room_level_to_hash(&room_level, roomname_2, 1);
+    add_room_level_to_hash(&room_level, roomname_3, 1);
 
     cr_assert_not_null(room_level, "failed to create new room_level_t\n");
 

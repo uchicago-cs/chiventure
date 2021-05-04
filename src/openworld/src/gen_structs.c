@@ -224,16 +224,17 @@ room_level_t* room_level_new(char *room_name, int difficulty_level)
 /* See gen_structs.h */
 int room_level_free(room_level_t *room_level)
 {
-    if (room_level == NULL)
+    if (room_level == NULL) 
         return FAILURE;
 
+    free(room_level->room_name);
     free(room_level);
     return SUCCESS;
 }
 
 
 /* See gen_structs.h */  
-int hash_room_level(room_level_t **room_levels, char *name, int difficulty_level) 
+int add_room_level_to_hash(room_level_t **room_levels, char *name, int difficulty_level) 
 {
     room_level_t *elt = NULL;
     room_level_t *out_tmp = NULL;
@@ -253,7 +254,7 @@ int hash_room_level(room_level_t **room_levels, char *name, int difficulty_level
 int init_difficulty_level_scale(difficulty_level_scale_t *scale, 
                                 int num_thresholds, int *thresholds)
 {
-    if (scale == NULL)
+    if (scale == NULL) 
         return FAILURE;
 
     scale->num_thresholds = num_thresholds;

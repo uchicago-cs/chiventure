@@ -109,7 +109,6 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
         return FAILURE;
     }
     // Iterate through the speclist field, generating and adding rooms for each
-    speclist_t *tmp;
     for (int i = 0; i < num_rooms; i++) {
         roomspec_t *rspec = random_room_lookup(context->speclist);
         // Increments tmp->spec->num_built
@@ -196,12 +195,16 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 int map_level_to_difficulty(difficulty_level_scale_t *level_scale, 
                             int player_level)
 {   
+    /* Iterate from start (lowest point) of threshold array... */
     for (int i = 0; i < level_scale->num_thresholds; i++) {
+        // ...to find the first or minimum threshold which exceeds the given player level:
         if (player_level < level_scale->thresholds[i]) {
+            // Player lvl must be in difficulty level directly below it (-1)...
             return (i - 1);
         }
     }
-    return level_scale->num_thresholds - 1;
+    // ...OR equal/exceeding the max threshold, in which case print max difficulty:
+    return level_scale->num_thresholds - 1; // -1 to convert array len -> max index
 }
 
 
@@ -217,10 +220,10 @@ int roomspec_is_given_difficulty(room_level_t **room_levels,
         if (elt->difficulty_level == difficulty_level) {
             return SUCCESS;
         } else {
-            return 1;
+            return 1; // roomspec found but not of given difficulty level
         }
     }
-    return 2;
+    return 2; // roomspec not found
 }
 
 
@@ -255,7 +258,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
                                                     filtered_speclist);
 
     
-    int result = multi_room_generate(game, filtered_context, room_id, num_rooms); // the error is here
+    int result = multi_room_generate(game, filtered_context, room_id, num_rooms); 
 
     return result;
 }

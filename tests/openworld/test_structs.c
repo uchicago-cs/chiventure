@@ -221,15 +221,15 @@ Test(room_level, free)
 }
 
 
-/* Tests hash_room_level for
+/* Tests add_room_level_to_hash for
    room name = "A"
    difficulty_level = 4 */
-Test(room_level, hash_room_level_A_4)
+Test(room_level, add_room_level_to_hash_A_4)
 {
     room_level_t *room_level_hash = NULL;
     char *name = "A"; 
 
-    hash_room_level(&room_level_hash, name, 4);
+    add_room_level_to_hash(&room_level_hash, name, 4);
     
     room_level_t *out;
     HASH_FIND_STR(room_level_hash, name, out);
@@ -237,15 +237,15 @@ Test(room_level, hash_room_level_A_4)
 }
 
 
-/* Tests hash_room_level for
+/* Tests add_room_level_to_hash for
    room name = "Good"
    difficulty_level = 1 */
-Test(room_level, hash_room_level_Good_1)
+Test(room_level, add_room_level_to_hash_Good_1)
 {
     room_level_t *room_level_hash = NULL;
     char *name = "Good"; 
 
-    hash_room_level(&room_level_hash, name, 1);
+    add_room_level_to_hash(&room_level_hash, name, 1);
     room_level_t *out;
     HASH_FIND_STR(room_level_hash, name, out);
     cr_assert_not_null(out, "failed to add room Good\n");
