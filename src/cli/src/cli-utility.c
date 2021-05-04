@@ -6,8 +6,8 @@
 
 
 
-/* See game_state_common.h */
-void case_insensitize(char *input)
+/* See cli-utility.h */
+void case_insensitize1(char *input)
 {
     int i = 0;
     char c;
@@ -17,4 +17,19 @@ void case_insensitize(char *input)
         input[i] = c;
         i++;
     }
+}
+
+
+/* See cli-utility.h */
+char* case_insensitize2(char *input)
+{
+    int i = 0;
+    char* output = malloc(sizeof(char) * strlen(input));
+    while (input[i])
+    {
+        output[i] = tolower(input[i]);
+        i++;
+    }
+
+    return output;
 }

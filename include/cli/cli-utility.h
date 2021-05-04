@@ -19,4 +19,16 @@
  *   -  input: the string being lower-cased
  * 
  */
-void case_insensitize(char *input);
+void case_insensitize1(char *input);
+
+
+/*
+ * See above, but this function is for use on strings that
+ *   have not been malloced
+ * Parameters:
+ *   -  input: the string being lower-cased
+ * 
+ * Returns:
+ *   - A lowercased version of the string
+ */
+char* case_insensitize2(char *input);

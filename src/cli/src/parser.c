@@ -12,7 +12,7 @@ char **parse(char *input)
         return NULL;
     }
 
-    case_insensitize(input);
+    case_insensitize1(input);
 
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);

@@ -298,8 +298,8 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    case_insensitize(tokens[1]);
-    case_insensitize(tokens[2]);
+    case_insensitize1(tokens[1]);
+    case_insensitize1(tokens[2]);
     if(find_entry(tokens[1], (ctx->table)) == NULL)
     {
         return "New words must be defined using only words that are already defined!";
@@ -319,7 +319,7 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "Please input a theme";
     }
-    case_insensitize(tokens[1]);
+    case_insensitize1(tokens[1]);
     if(strcmp(tokens[1], "default") == 0)
     {
         n = 1;
