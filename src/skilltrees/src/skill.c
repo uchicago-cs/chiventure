@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <string.h>
 #include "skilltrees/skill.h"
+// #include "skilltrees/effect.h"
 
 /* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
@@ -83,9 +84,9 @@ int skill_execute(skill_t* skill)
     {
         effect_t* effect = curr->data;
         effect_type_t type = effect -> effect_type;
-        if (type == STATISTIC)
+        if (type == STATISTIC_MOD)
         {
-            check = execute_stat_effect(effect->data.s);
+            check = execute_stat_mod_effect(effect->data.s);
             assert(check==0);
         }
         if (type == DAMAGE)
@@ -93,7 +94,7 @@ int skill_execute(skill_t* skill)
             check = execute_damage_effect(effect->data.d);
             assert(check==0);
         }
-        if (type == ATTRIBUTE)
+        if (type == ATTRIBUTE_MOD)
         {
             execute_att_effect(effect->data.a);
             assert(check==0);

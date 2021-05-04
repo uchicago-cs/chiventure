@@ -8,7 +8,7 @@
 
 #include "common/common.h"
 #include <stdbool.h>
-#include "game-state/player.h"
+// #include "game-state/player.h"
 
 /*List of all the effect types that a skill can have.  We can add more in the future */
 typedef enum effect_type {
