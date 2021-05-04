@@ -15,4 +15,4 @@ clean:
 new: clean all
 
 main: 
-	g++ -o main -I/usr/include/SDL2 -L/usr/lib/ main.cpp -Wl,--allow-shlib-undefined -lSDL2 -lSDL2_image -lSDL2_mixer -lrt
+	g++ -o main -I/usr/include/SDL2 -L/usr/lib/ main.cpp -Wl,--allow-shlib-undefined -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lrt
