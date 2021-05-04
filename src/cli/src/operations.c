@@ -295,26 +295,6 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "Layout switched.";
 }
 
-/* A function that capitalizes a word to be used in name_operation
- * Parameters:
- * - word: A pointer to a string to be capitalized.
- * Output:
- * - The newly capitalized string.
-*/
-char *capitalize(char *word)
-{
-    char *command = word;
-    int i = 0;
-    char ch;
-
-    while(command[i])
-    {
-        ch = toupper(command[i]);
-        command[i] = ch;
-        i++;
-    }
-    return word;
-}
 
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
