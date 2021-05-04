@@ -5,7 +5,6 @@
 #ifndef INCLUDE_SKILLTREE_H_
 #define INCLUDE_SKILLTREE_H_
 
-#include "skilltrees/skilltrees_common.h"
 #include "skilltrees/skill.h"
 #include "skilltrees/inventory.h"
 
