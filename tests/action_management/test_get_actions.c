@@ -50,7 +50,7 @@ Test(get_actions, count)
 action_type_t *search_supported_actions(list_action_type_t* head, char *query)
 {
     list_action_type_t *temp;
-    //head = get_supported_actions();
+    
     for (temp = head; temp != NULL; temp = temp->next)
     {
         if (strcmp(temp->act->c_name, query) == 0)
