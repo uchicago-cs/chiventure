@@ -467,7 +467,7 @@ Test(attribute, set_str_attr)
     cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
     int num_in_hash = HASH_COUNT(test_item->attributes);
     cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-     attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
+    attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
     cr_assert_not_null(test_attr, "change_str_attr: null attribute returned");
     char* test_str = test_attr->attribute_value.str_val;
     cr_assert_str_eq(test_str, "Attribute_Test_Value",

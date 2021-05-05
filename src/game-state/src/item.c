@@ -213,14 +213,15 @@ attribute_t *get_attribute(item_t *item, char* attr_name)
 attribute_t* str_attr_new(char* attr_name, char* value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = STRING;
-    new_attribute->attribute_value.str_val = value;
-    new_attribute->attribute_key = strndup(attr_name, 100);
 
     if (new_attribute == NULL) {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
+
+    new_attribute->attribute_tag = STRING;
+    new_attribute->attribute_value.str_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
 
     return new_attribute;
 }
@@ -230,14 +231,15 @@ attribute_t* str_attr_new(char* attr_name, char* value)
 attribute_t* int_attr_new(char* attr_name, int value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = INTEGER;
-    new_attribute->attribute_value.int_val = value;
-    new_attribute->attribute_key = strndup(attr_name, 100);
 
     if (new_attribute == NULL) {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
+
+    new_attribute->attribute_tag = INTEGER;
+    new_attribute->attribute_value.int_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
 
     return new_attribute;
 }
@@ -247,14 +249,15 @@ attribute_t* int_attr_new(char* attr_name, int value)
 attribute_t* double_attr_new(char* attr_name, double value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = DOUBLE;
-    new_attribute->attribute_value.double_val = value;
-    new_attribute->attribute_key = strndup(attr_name, 100);
 
     if (new_attribute == NULL) {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
+
+    new_attribute->attribute_tag = DOUBLE;
+    new_attribute->attribute_value.double_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
 
     return new_attribute;
 }
@@ -264,14 +267,15 @@ attribute_t* double_attr_new(char* attr_name, double value)
 attribute_t* char_attr_new(char* attr_name, char value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = CHARACTER;
-    new_attribute->attribute_value.char_val = value;
-    new_attribute->attribute_key = strndup(attr_name, 100);
 
     if (new_attribute == NULL) {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
+
+    new_attribute->attribute_tag = CHARACTER;
+    new_attribute->attribute_value.char_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
 
     return new_attribute;
 }
@@ -281,14 +285,15 @@ attribute_t* char_attr_new(char* attr_name, char value)
 attribute_t* bool_attr_new(char* attr_name, bool value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
-    new_attribute->attribute_tag = BOOLE;
-    new_attribute->attribute_value.bool_val = value;
-    new_attribute->attribute_key = strndup(attr_name, 100);
 
     if (new_attribute == NULL) {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
+    
+    new_attribute->attribute_tag = BOOLE;
+    new_attribute->attribute_value.bool_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
 
     return new_attribute;
 }
