@@ -71,6 +71,8 @@ int npc_mov_free(npc_mov_t *npc_mov) {
     free(npc_mov->npc_mov_type.npc_mov_indefinite);
     free(npc_mov->track);
     free(npc_mov);
+
+    return SUCCESS;
 }
 
 
