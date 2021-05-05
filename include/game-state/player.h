@@ -33,7 +33,8 @@ typedef struct player {
     in the health, player_stats, player_skills fields in this player struct */
     class_t *player_class;
 
-    /* All of the stats, with their values, the player has */
+    /* All of the stats, with their values, the player has. This should include
+    both the maximum and current health if health is a feature of the current game */
     stats_hash_t *player_stats;
 
     /* The current combat skills known to the player */
