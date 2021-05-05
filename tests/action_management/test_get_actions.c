@@ -7,29 +7,6 @@
 
 #define NUM_ACTIONS (17)
 
-/* free_get_supported_actions: Free's list_action_type_t list that contains ALL
- *                             supported actions
- * 
- * Inputs:
- *      - head: a list containing all supported actions. MUST be built with 
- *              get_supported_actions
- */
-void free_get_supported_actions(list_action_type_t* head)
-{
-    list_action_type_t *del, *temp;
-    del = head;
-    for(int i = 1; i <= NUM_ACTIONS; i++)
-    {
-        temp = del;
-                
-        if(i != NUM_ACTIONS)
-            del = del->next;
-
-        free(temp->act);
-        free(temp);
-    }
-}
-
 Test(get_actions, count)
 {
     list_action_type_t *head, *temp, *del;
@@ -43,7 +20,7 @@ Test(get_actions, count)
                  "Expected %d actions, got %d actions when counting through list.\n",
                  NUM_ACTIONS, out);
     
-    free_get_supported_actions(head);
+    free_supported_actions(head);
 }
 
 
@@ -126,8 +103,7 @@ Test(get_actions, search_success)
     cr_assert_eq(eat->kind, ITEM,
                  "Expected the action kind %d, but got action kind %d.\n",
                  ITEM, eat->kind);
-    
-    free_get_supported_actions(head);
+    free_supported_actions(head);
 }
 
 
@@ -146,6 +122,5 @@ Test(get_actions, search_failure)
                  "search_supported_actions returned a pointer for invalid query \"jump\".\n");
     cr_assert_eq(fight, NULL,
                  "search_supported_actions returned a pointer for invalid query \"fight\".\n");
-
-    free_get_supported_actions(head);
+    free_supported_actions(head);
 }
