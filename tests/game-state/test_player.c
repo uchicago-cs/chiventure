@@ -250,10 +250,10 @@ Test(player, add_item_effect_to_player)
                    NULL, NULL, NULL);
   player->player_class = class;
   add_stat_effect(&player->player_class->effects, e1);
-  stats_global_t *health = malloc(sizeof(stats_global_t));
+
   char *hp = "Health";
-  health->name = strdup(hp);
-  health->max = 100;
+  
+  stats_global_t *health = stats_global_new(hp, 100);
 
   stats_t *s1 = malloc(sizeof(stats_t));
   s1->key = strdup(hp);
