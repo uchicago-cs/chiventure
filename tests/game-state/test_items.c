@@ -396,6 +396,65 @@ Test(attribute, get_attribute)
 
 // TESTS FOR TYPE-SPECIFIC ATTR_NEW() FUNCTIONS --------------------------------
 
+Test(attribute, str_attr_new)
+{
+    attribute_t *test_attr = str_attr_new("Attribute_Test_Name", "Attribute_Test_Value");
+
+    cr_assert_not_null(test_attr, "str_attr_new: null attribute returned");
+
+    cr_assert_str_eq(test_attr->attribute_value.str_val, "Attribute_Test_Value", 
+                     "str_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, int_attr_new)
+{
+    attribute_t *test_attr = int_attr_new("Attribute_Test_Name", 0);
+
+    cr_assert_not_null(test_attr, "int_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.int_val, 0, 
+                 "int_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, double_attr_new)
+{
+    attribute_t *test_attr = double_attr_new("Attribute_Test_Name", 0.0);
+
+    cr_assert_not_null(test_attr, "double_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.double_val, 0.0, 
+                 "double_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, char_attr_new)
+{
+    attribute_t *test_attr = char_attr_new("Attribute_Test_Name", 'a');
+
+    cr_assert_not_null(test_attr, "char_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.char_val, 'a', 
+                 "char_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, bool_attr_new)
+{
+    attribute_t *test_attr = bool_attr_new("Attribute_Test_Name", true);
+
+    cr_assert_not_null(test_attr, "bool_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.bool_val, true, 
+                     "int_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
 
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS --------------------------------
 
@@ -408,7 +467,7 @@ Test(attribute, set_str_attr)
     cr_assert_eq(rv, SUCCESS, "change_str_attr: did not successfully set attr");
     int num_in_hash = HASH_COUNT(test_item->attributes);
     cr_assert_gt(num_in_hash, 0, "change_str_attr: no elements added to hash");
-    attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
+     attribute_t* test_attr = get_attribute(test_item, "Attribute_Test_Name");
     cr_assert_not_null(test_attr, "change_str_attr: null attribute returned");
     char* test_str = test_attr->attribute_value.str_val;
     cr_assert_str_eq(test_str, "Attribute_Test_Value",
