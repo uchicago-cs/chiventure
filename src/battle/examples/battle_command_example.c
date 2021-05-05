@@ -202,12 +202,12 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("Determined command as USE %s\n\n", item->name);
         if (item == NULL)
         {
-            printf("Couldn't find the item you were looking for!\n");
+            printf("Couldn't find the battle item you were looking for!\n");
             return FAILURE;
         }
         if (item->quantity == 0)
         {
-            printf("Sorry you don't have any more of that item!\n");
+            printf("Sorry you don't have any more of that battle item!\n");
             return FAILURE;
         }
 
