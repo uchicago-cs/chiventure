@@ -107,16 +107,16 @@ int print_moves(chiventure_ctx_battle_t *ctx)
     return SUCCESS;
 }
 
-/* Prints out the avaliable items for the player
+/* Prints out the avaliable battle_items for the player
  * Parameter:
  *  ctx: the main structure of the game
  * Returns:
  *  Always SUCCESS
  */ 
-int print_items(chiventure_ctx_battle_t *ctx)
+int print_battle_items(chiventure_ctx_battle_t *ctx)
 {
     battle_item_t *temp;
-    printf("\n AVAILABLE ITEMS LIST:\n");
+    printf("\n AVAILABLE BATTLE ITEMS LIST:\n");
     DL_FOREACH(ctx->game->battle->player->items, temp)
     {
         printf("Name: %s\n", temp->name);
@@ -188,17 +188,17 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("Here are the possible commands!\n");
         printf("MOVE USE <move_name> ON <enemy_name>\n");
         printf("MOVE INFO <move_name>\n");
-        printf("USE <item_id>\n\n");
-        printf("Here is the list of available items!\n");
-        print_items(ctx);
+        printf("USE <battle_item_id>\n\n");
+        printf("Here is the list of available battle items!\n");
+        print_battle_items(ctx);
         printf("\n");
         return SUCCESS;
     }
-    //   // handles the command USE <item>
+    //   // handles the command USE <battle_item>
      else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
     {
         
-        battle_item_t *item = find_item(ctx->game->battle->player->items, atoi(args[1]));
+        battle_item_t *item = find_battle_item(ctx->game->battle->player->items, atoi(args[1]));
         printf("Determined command as USE %s\n\n", item->name);
         if (item == NULL)
         {
@@ -211,7 +211,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             return FAILURE;
         }
 
-        res = use_item(ctx->game->battle->player, atoi(args[1]));
+        res = use_battle_item(ctx->game->battle->player, atoi(args[1]));
         if (res == FAILURE) {
             return FAILURE;
         } else 

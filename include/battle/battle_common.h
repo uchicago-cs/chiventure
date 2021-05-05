@@ -52,7 +52,7 @@ typedef enum battle_status
  * class: class type
  * stats: pointer to stats module (stub)
  * moves: pointer to moves module (stub)
- * items: pointer to items module (stub)
+ * items: pointer to battle items module (stub)
  * ai: combatant's ai move strategy
  * next: allows for combatant lists using utlist.h
  * prev: allows for combatant lists using utlist.h

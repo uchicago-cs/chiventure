@@ -39,35 +39,35 @@ battle_status_t battle_over(battle_t *b);
 turn_t goes_first(battle_t *b);
 
 /* 
- * Finds the desired item to be used
+ * Finds the desired battle_item to be used
  * Parameters:
  *    inventory - an player or enemy's inventory
- *    id - the id number of the desired item
+ *    id - the id number of the desired battle_item
  * Returns:
- *    Returns a pointer to the desired item 
+ *    Returns a pointer to the desired battle_item 
  */
-battle_item_t *find_item(battle_item_t *inventory, int id);
+battle_item_t *find_battle_item(battle_item_t *inventory, int id);
 
 /*
- * Consumes an item for the said combatant
+ * Consumes a battle_item for the said combatant
  * Parameters:
  *  c - information about the combatant
- *  item - the item to be consumed
+ *  item - the battle_item to be consumed
  * Returns:
  *  Always returns 0
  */
-int consume_item(combatant_t *c, battle_item_t *item);
+int consume_battle_item(combatant_t *c, battle_item_t *item);
 
-/* Uses the item with the given ID on the player
- * ! Currently assumes that this is a battle item !
+/* Uses the battle_item with the given ID on the player
+ * ! Currently assumes that this is a battle_item !
  *
  *  Parameters: 
  *   c - combatant information
- *   id - the number id of the item
+ *   id - the number id of the battle_item
  *  Returns:
  *   SUCCESS or FAILURE
  */
-int use_item(combatant_t *c,int id);
+int use_battle_item(combatant_t *c,int id);
 
 /* Awards xp to the player 
  * Parameters:

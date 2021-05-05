@@ -7,7 +7,7 @@
 #include "playerclass/class.h"
 
 
-/* items stub */
+/* battle_items stub */
 typedef struct battle_item {
     int id;
     int quantity;

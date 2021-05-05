@@ -50,7 +50,7 @@ turn_t goes_first(battle_t *b)
 }
 
 /* see battle_logic.h */
-battle_item_t *find_item(battle_item_t *inventory, int id)
+battle_item_t *find_battle_item(battle_item_t *inventory, int id)
 {
     battle_item_t *temp;
 
@@ -66,7 +66,7 @@ battle_item_t *find_item(battle_item_t *inventory, int id)
 }
 
 /* see battle_logic.h */
-int consume_item(combatant_t *c, battle_item_t *item)
+int consume_battle_item(combatant_t *c, battle_item_t *item)
 {
     c->stats->hp += item->hp;
     c->stats->strength += item->attack;
@@ -75,21 +75,21 @@ int consume_item(combatant_t *c, battle_item_t *item)
 }
 
 /* see battle_logic.h */
-int use_item(combatant_t *c, int id)
+int use_battle_item(combatant_t *c, int id)
 {
     if (c->items == NULL)
     {
         return FAILURE;
     }
     
-    battle_item_t *item = find_item(c->items, id);
+    battle_item_t *item = find_battle_item(c->items, id);
     
     if(item == NULL || item->quantity == 0)
     {
         return FAILURE;
     }
 
-    consume_item(c, item);
+    consume_battle_item(c, item);
     item->quantity -= 1;
     
     return SUCCESS;

@@ -45,7 +45,7 @@ int battle_free(battle_t *b);
  * - class: pointer to the player class struct 
  * - stats: pointer to the stats of the combatant(stub)
  * - moves: pointer to the linked list of moves for the combatant (stub)
- * - items: pointer to the linked list of items for the combatant (stub)
+ * - items: pointer to the linked list of battle_items for the combatant (stub)
  * - ai: combatant's ai move strategy
  * returns: a pointer to the new character
  */
@@ -60,7 +60,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
  * - class: pointer to the player class struct 
  * - stats: a pointer to the stats of the combatant (stub)
  * - moves: a pointer to the linked list of moves for the combatant (stub)
- * - items: a pointer to the linked list of items for the combatant (stub)
+ * - items: a pointer to the linked list of battle_items for the combatant (stub)
  * - ai: combatant's ai move strategy
  * returns:
  * - SUCCESS for successful init
