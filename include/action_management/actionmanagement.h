@@ -83,7 +83,7 @@ int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction);
  */
 list_action_type_t *get_supported_actions();
 
-/* free_get_supported_actions: Free's list_action_type_t list that contains ALL
+/* free_supported_actions: Frees list_action_type_t list that contains ALL
  *                             supported actions
  * 
  * Inputs:
