@@ -233,6 +233,51 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
 // the following functions allow their users to add attributes to the given
 // item or replace (read: change) attributes associated
 
+/* str_attr_new() creates a new string-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* str_attr_new(char* attr_name, char* value);
+
+/* int_attr_new() creates a new integer-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* int_attr_new(char* attr_name, int value);
+
+/* double_attr_new() creates a new double-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* double_attr_new(char* attr_name, double value);
+
+/* char_attr_new() creates a new char-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* char_attr_new(char* attr_name, char value);
+
+/* bool_attr_new() creates a new bool-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* bool_attr_new(char* attr_name, bool value);
+
 /* set_str_attr() sets the value of an attribute of an item to the given string
  * Parameters:
  *  a pointer to the item
