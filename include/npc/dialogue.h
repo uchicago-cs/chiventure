@@ -15,11 +15,11 @@
 /* Forward Declaration */
 typedef struct node node_t;
 
-/* A directional edge between two nodes. An edge represents an "option" that
- * the player can choose to advance the conversation from their current node.
+/* An edge between two nodes. Each edge represents a dialogue option available
+ * to the player at that node.
  * 
  * Includes:
- *  - quip: player's text
+ *  - quip: dialogue option text
  *  - from: source node
  *  - to: destination node
  */
@@ -28,9 +28,8 @@ typedef struct edge {
     node_t *from, *to;
 } edge_t;
 
-/* A doubly-linked list containing edges and associated "option numbers." The
- * "option number" (1,2,3,...) is used to label the edges numerically, which
- * is used to print out the conversation options.
+/* A doubly-linked list containing edges and their "option numbers." The
+ * "option number" (1, 2, 3, ...) labels the edges numerically.
  *
  * Includes:
  *  - option_number: an edge's number label
@@ -43,11 +42,10 @@ typedef struct edge_list {
     struct edge_list *next, *prev;
 } edge_list_t;
 
-/* A scene in a conversation. Contains an NPC's speech, and the player's
- * possible responses to it.
+/* A scene in a conversation.
  *
  * Includes:
- *  - node_id: a "name" for the node
+ *  - node_id: the node's "name"
  *  - npc_dialogue: what the NPC says on arriving at the node
  *  - num_edges: number of possible responses
  *  - edges: possible responses
@@ -70,8 +68,8 @@ typedef struct node_list {
     struct node_list *next, *prev;
 } node_list_t;
 
-/* A struct to represent a conversation.
- * 
+/* A struct representing a conversation.
+ *
  * Includes:
  *  - num_nodes: the total number of nodes
  *  - all_nodes: list of all nodes
@@ -95,13 +93,13 @@ typedef struct convo {
  */
 convo_t *create_new_convo();
 
-/* Given a node ID and an NPC text, adds a new node to the conversation.
+/* Adds a new node to the conversation.
  *
  * Parameters:
- *  - c: pointer to a convo struct
- *  - node_id: a string (max. 50 chars) referencing the node's identity
- *  - dialogue: a string (max. 500 chars) of what the NPC says when the player
- *     reaches this node
+ *  - c: pointer to a convo
+ *  - node_id: a string (max. 50 chars) representing the node's "name"
+ *  - dialogue: a string (max. 500 chars) representing the NPC's speech at the
+ *     node
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -110,15 +108,13 @@ convo_t *create_new_convo();
  */
 int add_node(convo_t *c, char *node_id, char *npc_dialogue);
 
-/* Given a player option text (quip), a from node ID and a to node ID, adds
- * a new edge to the conversation.
+/* Adds a new edge to the conversation.
  *
  * Parameters:
- *  - c: pointer to a convo struct
- *  - quip: a string (max. 250 chars) referencing the text associated with
- *     the edge
- *  - from_id: the source node's ID
- *  - to_id: the destination node's ID
+ *  - c: pointer to a convo
+ *  - quip: a string (max. 250 chars) representing the dialogue option
+ *  - from_id: source node's ID
+ *  - to_id: destination node's ID
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -132,10 +128,10 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id);
  *       DIALOGUE EXECUTION FUNCTIONS         *
  **********************************************/
 
-/* Given a convo struct, runs the conversation.
+/* Runs the conversation.
  *
  * Parameters:
- *  - c: pointer to a convo struct
+ *  - c: pointer to a convo
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -155,28 +151,28 @@ int run_conversation_step(convo_t *c, int input, char *outstring);
  *    STRUCT (INIT, NEW, FREE) FUNCTIONS      *
  **********************************************/
 
-/* Initializes the given edge with given parameters.
+/* Initializes an edge.
  *
  * Parameters:
  *  - e: an edge; must point to already allocated memory
- *  - quip: the player's text associated with the edge
- *  - from: the node this edge originated from
- *  - to: the node this edge will bring you to
+ *  - quip: the dialogue option associated with the edge
+ *  - from: source node
+ *  - to: destination node
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
 int edge_init(edge_t *e, char *quip, node_t *from, node_t *to);
 
-/* Allocates a new edge struct on the heap.
+/* Allocates a new edge on the heap.
  * 
  * Parameters:
- *  - quip: the player's text associated with the edge
- *  - from: the node this edge originated from
- *  - to: the node this edge will bring you to
+ *  - quip: the dialogue option associated with the edge
+ *  - from: source node
+ *  - to: destination node
  * 
  * Returns:
- *  - pointer to the new edge struct
+ *  - pointer to the new edge
  */
 edge_t *edge_new(char *quip, node_t *from, node_t *to);
 
@@ -190,23 +186,23 @@ edge_t *edge_new(char *quip, node_t *from, node_t *to);
  */
 int edge_free(edge_t *e);
 
-/* Initializes the given node with given parameters.
+/* Initializes a node.
  *
  * Parameters:
  *  - n: a node; must point to already allocated memory
- *  - node_id: a string referencing the node's identity
- *  - dialogue: a string of what the NPC says when the player reaches this node
+ *  - node_id: the node's "name"
+ *  - npc_dialogue: a string representing the NPC's speech at the node
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int node_init(node_t *n, char *node_id, char *dialogue);
+int node_init(node_t *n, char *node_id, char *npc_dialogue);
 
 /* Allocates a new node on the heap.
  * 
  * Parameters:
- *  - node_id: a string referencing the node's identity
- *  - dialogue: a string of what the NPC says when the player reaches this node
+ *  - node_id: the node's "name"
+ *  - npc_dialogue: a string representing the NPC's speech at the node
  * 
  * Returns:
  *  - pointer to the new node
@@ -223,7 +219,7 @@ node_t *node_new(char *node_id, char *npc_dialogue);
  */
 int node_free(node_t *n);
 
-/* Initializes the given node with given parameters.
+/* Initializes a convo.
  *
  * Parameters:
  *  - c: a convo; must point to already allocated memory
@@ -236,7 +232,7 @@ int convo_init(convo_t *c);
 /* Allocates a new convo in the heap.
  * 
  * Returns:
- *  - pointer to the new, empty convo
+ *  - pointer to the new convo
  */
 convo_t *convo_new();
 
@@ -250,26 +246,30 @@ convo_t *convo_new();
  */
 int convo_free(convo_t *c);
 
-/* Frees an edge list (using macros from common/utlist.h). You have the option
- * to specify if you want to free the edges (edges and edge_lists are different
- * things) in that edge list. This prevents double freeing in certain cases.
+/* Frees an edge list (using macros from common/utlist.h). 
+ *
+ * Note: free_edges allows you to specify if you want to free the edges along
+ *       with each edge list element. This prevents double freeing in certain
+ *       cases.
  *
  * Parameters:
  *  - e_lst: the edge list to be freed
- *  - free_edge: true if you want edges to also be freed
+ *  - free_edge: true if edges should also be freed
  *
  * Returns:
  *  - SUCCESS if successful, FAILURE if an error occurs
  */
 int free_edge_list(edge_list_t *e_lst, bool free_edges);
 
-/* Frees an node list (using macros from common/utlist.h). You have the option
- * to specify if you want to free the nodes in that node list. This prevents
- * double freeing in certain cases.
+/* Frees an node list (using macros from common/utlist.h).
+ *
+ * Note: free_nodes allows you to specify if you want to free the nodes along
+ *       with each node list element. This prevents double freeing in certain
+ *       cases.
  *
  * Parameters:
  *  - n_lst: the node list to be freed
- *  - free_edge: true if you want nodes to also be freed
+ *  - free_nodes: true if nodes should also be freed
  *
  * Returns:
  *  - SUCCESS if successful, FAILURE if an error occurs
