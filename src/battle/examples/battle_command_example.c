@@ -116,7 +116,7 @@ int print_moves(chiventure_ctx_battle_t *ctx)
 int print_items(chiventure_ctx_battle_t *ctx)
 {
     item_t *temp;
-    printf("\n AVAILABLE ITEMS LIST:\n");
+    printf("\nAVAILABLE ITEMS LIST: \n");
     DL_FOREACH(ctx->game->battle->player->items, temp)
     {
         printf("Name: %s\n", temp->name);
@@ -181,17 +181,24 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("\n");
         return res;
     }
+    // handles the command ITEM LIST
+    else if ((strncmp(args[0], "ITEM", MAX_COMMAND_LENGTH) == 0) 
+            && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
+    {
+        printf("Determined command as ITEM LIST\n\n");
+        res = print_items(ctx);
+        printf("\n");
+        return res;
+    }
     // handles the command HELP
     else if (strncmp(args[0], "HELP", MAX_COMMAND_LENGTH) == 0)
     {
         // prints out possible commands for the user to use
         printf("Here are the possible commands!\n");
         printf("MOVE USE <move_name> ON <enemy_name>\n");
-        printf("MOVE INFO <move_name>\n\n");
-        printf("USE <item_id>\n");
-        printf("Here is the list of available items!\n");
-        print_items(ctx);
-        printf("\n");
+        printf("MOVE LIST\n");
+        printf("ITEM LIST\n");
+        printf("USE <item_id>\n\n");
         return SUCCESS;
     }
     //   // handles the command USE <item>
@@ -334,7 +341,7 @@ int main()
     p_item2->defense = 60;
     p_item2->hp = 40;
     p_item2->next = NULL;
-    p_item2->prev = NULL;
+    p_item2->prev = p_item1;
 
 
     // this creates the player and enemy so that they are inside of ctx
