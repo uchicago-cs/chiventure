@@ -394,6 +394,9 @@ Test(attribute, get_attribute)
 
 }
 
+// TESTS FOR TYPE-SPECIFIC ATTR_NEW() FUNCTIONS --------------------------------
+
+
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS --------------------------------
 
 /* Checks creation of new string attribute and adding it to an item */
