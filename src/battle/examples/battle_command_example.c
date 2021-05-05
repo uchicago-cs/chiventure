@@ -187,8 +187,8 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         // prints out possible commands for the user to use
         printf("Here are the possible commands!\n");
         printf("MOVE USE <move_name> ON <enemy_name>\n");
-        printf("MOVE INFO <move_name>\n\n");
-        printf("USE <item_id>\n");
+        printf("MOVE INFO <move_name>\n");
+        printf("USE <item_id>\n\n");
         printf("Here is the list of available items!\n");
         print_items(ctx);
         printf("\n");
@@ -202,7 +202,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("Determined command as USE %s\n\n", item->name);
         if (item == NULL)
         {
-            printf("Couldn't find the move you were looking for!\n");
+            printf("Couldn't find the item you were looking for!\n");
             return FAILURE;
         }
         if (item->quantity == 0)
@@ -216,9 +216,10 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             return FAILURE;
         } else 
         {
-        printf("New Hp is %d\n", ctx->game->battle->player->stats->hp);
-        printf("New Strength is %d\n", ctx->game->battle->player->stats->strength);
-        printf("New Defense is %d\n",ctx->game->battle->player->stats->defense);
+        stat_t *player_stats = ctx->game->battle->player->stats;
+        printf("New Hp is %d\n", player_stats->hp);
+        printf("New Strength is %d\n", player_stats->strength);
+        printf("New Defense is %d\n\n",player_stats->defense);
         return res;
         }
     }

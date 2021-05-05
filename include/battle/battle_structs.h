@@ -8,7 +8,7 @@
 
 
 /* items stub */
-typedef struct item {
+typedef struct battle_item {
     int id;
     int quantity;
     int durability;
@@ -20,7 +20,7 @@ typedef struct item {
     int hp;
     struct item *next;
     struct item *prev;
-} item_t;
+} battle_item_t;
 
 /* moves stub */
 typedef struct move {
