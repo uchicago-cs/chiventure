@@ -18,13 +18,13 @@ typedef struct battle_item {
     int attack;
     int defense;
     int hp;
-    struct item *next;
-    struct item *prev;
+    struct battle_item *next;
+    struct battle_item *prev;
 } battle_item_t;
 
 /* moves stub */
 typedef struct move {
-    item_t *item;
+    battle_item_t *item;
     int id;
     // NOTE: functions to create move_new do not take into account a name
     char* name;

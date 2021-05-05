@@ -115,7 +115,7 @@ int print_moves(chiventure_ctx_battle_t *ctx)
  */ 
 int print_items(chiventure_ctx_battle_t *ctx)
 {
-    item_t *temp;
+    battle_item_t *temp;
     printf("\n AVAILABLE ITEMS LIST:\n");
     DL_FOREACH(ctx->game->battle->player->items, temp)
     {
@@ -198,7 +198,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
      else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
     {
         
-        item_t *item = find_item(ctx->game->battle->player->items, atoi(args[1]));
+        battle_item_t *item = find_item(ctx->game->battle->player->items, atoi(args[1]));
         printf("Determined command as USE %s\n\n", item->name);
         if (item == NULL)
         {
@@ -311,8 +311,8 @@ int main()
     e_stats->speed = 9;
 
     //this creates items for the player
-    item_t *p_item1 = (item_t *)calloc(1, sizeof(item_t));
-    item_t *p_item2 = (item_t *)calloc(1, sizeof(item_t));
+    battle_item_t *p_item1 = (battle_item_t *)calloc(1, sizeof(battle_item_t));
+    battle_item_t *p_item2 = (battle_item_t *)calloc(1, sizeof(battle_item_t));
     p_item1->id = 1;
     p_item1->quantity = 5;
     p_item1->durability = 5;

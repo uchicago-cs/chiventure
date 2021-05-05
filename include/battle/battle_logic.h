@@ -46,7 +46,7 @@ turn_t goes_first(battle_t *b);
  * Returns:
  *    Returns a pointer to the desired item 
  */
-item_t *find_item(battle_item_t *inventory, int id);
+battle_item_t *find_item(battle_item_t *inventory, int id);
 
 /*
  * Consumes an item for the said combatant

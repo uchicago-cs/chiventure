@@ -301,18 +301,18 @@ Test(battle_logic, same_speed)
 Test(battle_logic, find_item)
 {
 
-    item_t *head = NULL;
-    item_t *i1;
-    item_t *i2;
+    battle_item_t *head = NULL;
+    battle_item_t *i1;
+    battle_item_t *i2;
 
-    i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
-    i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
 
-    item_t *found = find_item(head, 100);
+    battle_item_t *found = find_item(head, 100);
     cr_assert_eq(found->id, 100, "find_item() failed!");
 }
 
@@ -321,18 +321,18 @@ Test(battle_logic, find_item)
  */
 Test(battle_logic, do_not_find_item)
 {
-    item_t *head = NULL;
-    item_t *i1;
-    item_t *i2;
+    battle_item_t *head = NULL;
+    battle_item_t *i1;
+    battle_item_t *i2;
 
-    i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
-    i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
 
-    item_t *found = find_item(head, 102);
+    battle_item_t *found = find_item(head, 102);
     cr_assert_null(found, "find_item() failed!");
 }
 
@@ -352,7 +352,7 @@ Test(battle_logic, consume_an_item)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    item_t *i1 = calloc(1, sizeof(item_t));
+    battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
@@ -375,18 +375,18 @@ Test(battle_logic, consume_an_item)
  */
 Test(battle_logic, uses_item_correctly)
 {
-    item_t *head = NULL;
-    item_t *i1;
-    item_t *i2;
+    battle_item_t *head = NULL;
+    battle_item_t *i1;
+    battle_item_t *i2;
 
-    i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 1;
 
-    i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     i2->attack = 0;
     i2->defense = 0;
@@ -427,18 +427,18 @@ Test(battle_logic, inventory_empty)
  */
 Test(battle_logic, no_more_items)
 {
-    item_t *head = NULL;
-    item_t *i1;
-    item_t *i2;
+    battle_item_t *head = NULL;
+    battle_item_t *i1;
+    battle_item_t *i2;
 
-    i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 0;
 
-    i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     i2->attack = 0;
     i2->defense = 0;

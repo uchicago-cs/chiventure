@@ -13,7 +13,7 @@ class_t *create_test_class()
 }
 
 /* Creates + initializes a move*/
-move_t *create_move(int id, item_t* item, bool attack, int damage, int defense)
+move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int defense)
  {
      move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
@@ -29,10 +29,10 @@ move_t *create_move(int id, item_t* item, bool attack, int damage, int defense)
  }
 
 /* Creates + initializes an item*/
- item_t *create_item(int id, int quantity, int durability, char* description,
+ battle_item_t *create_item(int id, int quantity, int durability, char* description,
             bool battle, int attack, int defense, int hp)
  {
-     item_t* item = (item_t*) calloc(1, sizeof(item_t));
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
      item->id = id;
      item->quantity = quantity;
@@ -81,9 +81,9 @@ stat_t* create_player_stats()
 }
 
 /* Creates example hardcoded items for the player*/
-item_t* create_player_items()
+battle_item_t* create_player_items()
 {
-    item_t *head, *dagger, *tea_leaves, *medicine;
+    battle_item_t *head, *dagger, *tea_leaves, *medicine;
     head = NULL;
     dagger = create_item(1, 1, 20, "A hearty dagger sure to take your breath away... for good",
     true, 20, 5, 0);
@@ -97,9 +97,9 @@ item_t* create_player_items()
 }
 
 /* Creates example hardcoded items for the enemy*/
-item_t* create_enemy_items()
+battle_item_t* create_enemy_items()
 {
-    item_t *head, *mace, *diamond_sword, *force_shield;
+    battle_item_t *head, *mace, *diamond_sword, *force_shield;
     head = NULL;
     mace = create_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true,
         0, -30, 0);
@@ -165,7 +165,7 @@ combatant_t* new_enemy()
     class_t *class = create_test_class();
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
-    item_t *items = create_enemy_items();
+    battle_item_t *items = create_enemy_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
     return combatant_new(name, is_friendly, class, stats, moves, items, BATTLE_AI_GREEDY);
@@ -181,7 +181,7 @@ combatant_t* new_player()
     class_t *class = create_test_class();
     stat_t *stats = create_player_stats();
     move_t *moves = create_player_moves();
-    item_t *items = create_player_items();
+    battle_item_t *items = create_player_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
     return combatant_new(name, is_friendly, class, stats, moves, items, BATTLE_AI_NONE);
