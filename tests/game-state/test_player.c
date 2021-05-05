@@ -276,7 +276,6 @@ Test(player, add_item_effect_to_player)
                "add_item did not update modifier");
   free_stats_table(class->stats);
   delete_all_stat_effects(class->effects);
-  class_free(class);
   free(new_item->stat_effects->key);
   free(new_item->stat_effects);
   new_item->stat_effects = NULL;
