@@ -21,7 +21,7 @@
  * - defense: amount of defense the move provides 
  * returns: a pointer to the new move 
  */
-move_t *move_new(char* info, int id, item_t *items, bool attack,
+move_t *move_new(char* info, int id, battle_item_t *items, bool attack,
                  int damage, int defense);
 
 
@@ -38,7 +38,7 @@ move_t *move_new(char* info, int id, item_t *items, bool attack,
   * - SUCCESS for successful init
   * - FAILURE for unsuccessful init
   */
-int move_init(move_t *move, char* info, int id, item_t *items, bool attack,
+int move_init(move_t *move, char* info, int id, battle_item_t *items, bool attack,
                  int damage, int defense);
 
 

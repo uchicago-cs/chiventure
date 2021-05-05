@@ -64,7 +64,7 @@ typedef struct combatant
     class_t *class;
     stat_t *stats;
     move_t *moves;
-    item_t *items;
+    battle_item_t *items;
     difficulty_t ai;
     struct combatant *next;
     struct combatant *prev;

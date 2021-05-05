@@ -50,7 +50,7 @@ int battle_free(battle_t *b);
  * returns: a pointer to the new character
  */
 combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
-             stat_t *stats, move_t *moves, item_t *items, difficulty_t ai);
+             stat_t *stats, move_t *moves, battle_item_t *items, difficulty_t ai);
 
 /* Creates a new combatant struct
  * Parameters:
@@ -67,7 +67,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
  * - FAILURE for unsuccessful init
  */
 int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class,
-     stat_t *stats, move_t *moves, item_t *items, difficulty_t ai);
+     stat_t *stats, move_t *moves, battle_item_t *items, difficulty_t ai);
 
 /* Frees a combatant struct from memory
  * Parameters:
