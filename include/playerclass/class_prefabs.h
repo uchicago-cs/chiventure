@@ -9,7 +9,10 @@
 #include "common/ctx.h"
 
 /*
- * Allocates and initializes a prefab class, and its non-skill-related fields.
+ * Allocates and initializes a prefab class, and the following fields:
+ *  - Short description
+ *  - Long description
+ *  - Stats
  * To add skill-related fields, see class_prefab_add_skills().
  *
  * Parameters:
