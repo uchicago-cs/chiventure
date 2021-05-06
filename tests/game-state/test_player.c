@@ -12,40 +12,24 @@
 /* Checks that player_new() properly mallocs and inits a new player struct */
 Test(player, new)
 {
-  player_t *player = player_new("1", 100);
+  player_t *player = player_new("1");
+
   cr_assert_not_null(player, "player_new() failed");
-  cr_assert_eq(player->health, 100, "player_new() didn't set player health");
+
   cr_assert_eq(player->level, 1,
-      "player_new() didn't properly call player_init()");
+      "player_new() didn't properly set starting level");
   cr_assert_eq(player->xp, 0,
-      "player_new() didn't properly call player_init()");
+      "player_new() didn't properly set starting xp");
   cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0,
-  "player_new() didn't properly call player_init() for player_id");
-  player_free(player);
-}
-
-/* Checks that player_init() initializes the fields in the new player struct */
-Test(player, init)
-{
-  player_t *player = player_new("1", 100);
-
-  int res = player_init(player, "1", 56);
-
-  cr_assert_not_null(player, "player_new() failed");
-
-  cr_assert_eq(player->health, 56, "player_init() didn't set player health");
-  cr_assert_eq(player->level, 1, "player_init() didn't set level to 1");
-  cr_assert_eq(player->xp, 0, "player_init() didn't set experience to 0");
-  cr_assert_eq(strncmp(player->player_id, "1", MAX_ID_LEN), 0,
-  "player_init() didn't set player_id to 1");
-  cr_assert_eq(res, SUCCESS, "player_init() failed");
+      "player_new() didn't properly set player id");
+  
   player_free(player);
 }
 
 /* Checks that player_free() frees the given player struct from memory */
 Test(player, free)
 {
-  player_t *player = player_new("1", 100);
+  player_t *player = player_new("1");
 
   int res = player_free(player);
 
@@ -54,41 +38,44 @@ Test(player, free)
   cr_assert_eq(res, SUCCESS, "player_free() failed");
 }
 
-/* Checks that get_health() returns the health of the player */
-Test(player, get_health)
+/* Checks that player_set_race correctly updates the race field of the player */
+Test(player, player_set_race)
 {
-  player_t *player = player_new("1", 99);
+  player_t *player = player_new("1");
 
-  int health = get_health(player);
+  char *race= "Human";
+
+  int race_set = player_set_race(player, race);
 
   cr_assert_not_null(player, "player_new() failed");
 
-  cr_assert_eq(health, 99, "get_health() returned incorrect health");
+  cr_assert_eq(race_set, SUCCESS, "player_set_race() did not return SUCCESS");
+  cr_assert_str_eq(player->player_race, race, "player_set_race() did not set correct race");
+
   player_free(player);
 }
 
-/* Checks that a player's health is changed by change_health()
-both positively and negatively with a set maximum */
-Test(player, change_health)
+/* Checks that player_set_class correctly points to the given class_t object */
+Test(player, player_set_class)
 {
-  player_t *player = player_new("1", 99);
+  player_t *player = player_new("1");
 
-  int health = change_health(player, 2, 100);
-  int health2 = change_health(player, -20, 100);
-  int health3 = change_health(player, 3, 83);
+  class_t *test_class = class_new("Testclass", "shortdesc", "longdesc", NULL, NULL, NULL);
+
+  int class_set = player_set_class(player, test_class);
 
   cr_assert_not_null(player, "player_new() failed");
 
-  cr_assert_eq(health, 100, "change_health() increased health past max");
-  cr_assert_eq(health2, 80, "change_health() did not properly reduce health");
-  cr_assert_eq(health3, 83, "change_health() did not properly add health");
+  cr_assert_eq(class_set, SUCCESS, "player_set_class() did not return SUCCESS");
+  cr_assert_eq(player->player_class, test_class, "player_set_class() did not set correct class");
+
   player_free(player);
 }
 
 /* Checks that get_level() returns the level of the player */
 Test(player, get_level)
 {
-  player_t *player = player_new("1", 99);
+  player_t *player = player_new("1");
 
   int level = get_level(player);
 
@@ -102,7 +89,7 @@ Test(player, get_level)
 both positively and negatively */
 Test(player, change_level)
 {
-  player_t *player = player_new("1", 99);
+  player_t *player = player_new("1");
 
   int level = change_level(player, 3);
   int level2 = change_level(player, -1);
@@ -118,7 +105,7 @@ Test(player, change_level)
 /* Checks that get_xp() returns the experience points of the player */
 Test(player, get_xp)
 {
-  player_t *player = player_new("1", 99);
+  player_t *player = player_new("1");
 
   int xp = get_xp(player);
 
@@ -133,7 +120,7 @@ Test(player, get_xp)
 by change_xp positively and negatively */
 Test(player, change_xp)
 {
-  player_t *player = player_new("1", 99);
+  player_t *player = player_new("1");
 
   int xp = change_xp(player, 20);
   int xp2 = change_xp(player, -5);
@@ -150,8 +137,8 @@ Test(player, change_xp)
 /* Checks that get_inventory() returns the player's inventory */
 Test(player, get_inventory)
 {
-  player_t *player = player_new("1", 99);
-  player_t *player2 = player_new("1", 100);
+  player_t *player = player_new("1");
+  player_t *player2 = player_new("1");
   item_t *new_item = item_new("test_item", "item for player testing",
   "item for testing get_inventory()");
   add_item_to_player(player2, new_item);
@@ -175,7 +162,7 @@ Test(player, get_inventory)
 to a game struct's player hash table */
 Test(player, add_player_to_game)
 {
-  player_t *player = player_new("1", 99);
+  player_t *player = player_new("1");
   game_t *game = game_new("welcome");
   int res = add_player_to_game(game, player);
 
@@ -190,7 +177,7 @@ Test(player, add_player_to_game)
 /* Checks that add_item_to_player adds item to a player struct's inventory */
 Test(player, add_item_to_player)
 {
-    player_t *player = player_new("1", 100);
+    player_t *player = player_new("1");
     item_t *new_item = item_new("test_item", "item for player testing",
                                 "item for testing add_item_to_player");
     item_t *dup_item = item_new("test_item", "item for player testing",
@@ -211,7 +198,7 @@ Test(player, add_item_to_player)
 /* Checks that remove_item_from_player properly removes items */
 Test(player, remove_item_from_player)
 {
-    player_t *player = player_new("player", 100);
+    player_t *player = player_new("player");
     item_t *test_item = item_new("item", "short", "long");
     item_t *dup_item = item_new("item", "short", "long");
     item_list_t *item_list;
@@ -239,7 +226,7 @@ Test(player, remove_item_from_player)
 /* Checks that add_item_to_player adds an item with an effect to player's inventory */
 Test(player, add_item_effect_to_player)
 {
-  player_t *player = player_new("1", 100);
+  player_t *player = player_new("1");
   item_t *new_item = item_new("test_item", "item for player testing",
   "item for testing add_item_to_player");
   new_item->stat_effects = NULL;
@@ -290,8 +277,8 @@ Test(player, add_item_effect_to_player)
 empties the game's player hash table */
 Test(player, delete_all_players)
 {
-  player_t *player = player_new("1", 100);
-  player_t *player2 = player_new("2", 100);
+  player_t *player = player_new("1");
+  player_t *player2 = player_new("2");
   game_t *game = game_new("welcome");
 
   int res = add_player_to_game(game, player);

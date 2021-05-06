@@ -165,7 +165,7 @@ game struct's player hash table */
 Test(game_player, add_player_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
-    player_t *plyr = player_new("player_one", 100);
+    player_t *plyr = player_new("player_one");
     add_player_to_game(game, plyr);
     set_curr_player(game, plyr);
 
@@ -186,8 +186,8 @@ Test(game_player, add_player_to_game)
 Test(game_player, set_curr_player)
 {
     game_t *game = game_new("Welcome to Chiventure!");
-    player_t *plyr1 = player_new("player_one", 100);
-    player_t *plyr2 = player_new("player_two", 100);
+    player_t *plyr1 = player_new("player_one");
+    player_t *plyr2 = player_new("player_two");
     add_player_to_game(game, plyr1);
     add_player_to_game(game, plyr2);
     set_curr_player(game, plyr1);
@@ -208,8 +208,8 @@ Test(game_player, set_curr_player)
 Test(game_player, get_player)
 {
     game_t *game = game_new("Welcome to Chiventure!");
-    player_t *plyr1 = player_new("player_one", 100);
-    player_t *plyr2 = player_new("player_two", 100);
+    player_t *plyr1 = player_new("player_one");
+    player_t *plyr2 = player_new("player_two");
     add_player_to_game(game, plyr1);
     add_player_to_game(game, plyr2);
 
