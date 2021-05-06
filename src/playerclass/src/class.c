@@ -197,16 +197,16 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name){
     new_class->parent_class_names = (char**) malloc (new_class->parent_class_num * sizeof(char*));
     for (int i = 0; i < new_class->parent_class_num; i++){
         new_class->parent_class_names[i] = (char*) calloc(MAX_NAME_LEN + 1, sizeof(char));
-        if (parent_class_names[i] == NULL) return NULL;
+        if (new_class->parent_class_names[i] == NULL) return NULL;
     }
-    memcpy(new_class->parent_class_names[0], base_class->name, MAX_NAME_LEN + 1)
-    memcpy(new_class->parent_class_names[1], second_class->name, MAX_NAME_LEN + 1)
+    memcpy(new_class->parent_class_names[0], base_class->name, MAX_NAME_LEN + 1);
+    memcpy(new_class->parent_class_names[1], second_class->name, MAX_NAME_LEN + 1);
     int i = 0;
     while (i < base_class->parent_class_num){
-        memcpy(new_class->parent_class_names[i + 2], base_class->parent_class_names[i], MAX_NAME_LEN + 1)
+        memcpy(new_class->parent_class_names[i + 2], base_class->parent_class_names[i], MAX_NAME_LEN + 1);
     }
     while (i < second_class->parent_class_num - base_class->parent_class_num){
-        memcpy(new_class->parent_class_names[i + 2], second_class->parent_class_names[i], MAX_NAME_LEN + 1)
+        memcpy(new_class->parent_class_names[i + 2], second_class->parent_class_names[i], MAX_NAME_LEN + 1);
     }
     return new_class;
 }
@@ -265,11 +265,11 @@ int class_free(class_t* class)
         free(class->name);
     }
     if (class->parent_class_names != NULL){
-        for (int i = 0; i < class->parent_class_num){
+        for (int i = 0; i < class->parent_class_num; i++){
             free (class->parent_class_names[i]);
             i++;
         }
-        free (class->parent_class_names)
+        free (class->parent_class_names);
     }
     if (class->shortdesc != NULL)
     {
