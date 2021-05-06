@@ -25,7 +25,7 @@ class_t* generate_test_class()
 
 }
 
-/* Creates a sample npc_mov struct. Taken from test_rooms_npc.c */
+/* Creates a sample npc_mov struct. Taken from test_npc_move.c */
 npc_mov_t *generate_test_npc_mov()
 {
     npc_mov_t *npc_mov;
@@ -40,11 +40,12 @@ Test(npc, new)
 {
     class_t* c;
     npc_t *npc;
-    npc_mov_t *movement = generate_test_npc_mov();
+    npc_mov_t *movement;
 
     char *npc_id = "npc_22";
 
     c = generate_test_class();
+    movement = generate_test_npc_mov();
 
     npc = npc_new(npc_id, "man", "tall man", 20, c, movement);
 
@@ -59,6 +60,12 @@ Test(npc, new)
     cr_assert_eq(npc->health, 20, "npc_new() didn't set health"); 
     cr_assert_str_eq(npc->class->shortdesc,
                      c->shortdesc, "npc_new didn't set short description for class");
+    cr_assert_str_eq(npc->movement->track, movement->track,
+                     "npc_new didn't set current room id");
+    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id, 
+                     movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
+                     "npc_new didn't set npc_path");
+
 }
 
 
@@ -67,14 +74,15 @@ Test(npc, init)
 {
     class_t* c;
     npc_t *npc;
-    npc_mov_t *movement = generate_test_npc_mov();
+    npc_mov_t *movement;
     int res;
   
     char *npc_id2 = "test";
 
-    npc = npc_new(npc_id2, "woman", "short woman", 30, NULL, movement);
+    npc = npc_new(npc_id2, "woman", "short woman", 30, NULL, NULL);
   
     c = generate_test_class();
+    movement = generate_test_npc_mov();
 
     char *npc_id = "npc_22";
 
@@ -91,6 +99,11 @@ Test(npc, init)
     cr_assert_eq(npc->health, 20, "npc_init didn't set health"); 
     cr_assert_str_eq(npc->class->shortdesc,
                      c->shortdesc, "npc_init didn't set short description for class");
+    cr_assert_str_eq(npc->movement->track, movement->track,
+                     "npc_new didn't set current room id");
+    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id, 
+                     movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
+                     "npc_new didn't set npc_path");
 }
 
 
