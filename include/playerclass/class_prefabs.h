@@ -37,7 +37,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name);
  *    initialized here are assumed to be empty.
  *
  * Returns:
- *  - status code
+ *  - status code (FAILURE if the given class or skill is NULL, SUCCESS otherwise.)
  *  - the structs in the class now contain skills.
  * 
  * Notes:
