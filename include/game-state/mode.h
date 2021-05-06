@@ -24,8 +24,8 @@ typedef int cli_callback(chiventure_ctx_t *ctx, char *outstring, void *args);
  * Returns:
  * SUCCESS on success, FAILURE if an error occurs
  */ 
-typedef int mode_operation(char* str, cli_callback callback_func, 
-                           void* callback_args, chiventure_ctx_t* ctx);
+typedef int mode_operation(char *str, cli_callback callback_func, 
+                           void *callback_args, chiventure_ctx_t *ctx);
 
 /* An enumeration of game mode types */
 typedef enum mode_type {
@@ -54,7 +54,7 @@ typedef struct game_mode {
  * SUCCESS on success, FAILURE if an error occurs
  */
 int game_mode_init(game_mode_t *mode, mode_type_t curr_mode, 
-                   mode_operation run_mode, char* mode_ctx);
+                   mode_operation run_mode, char *mode_ctx);
 
 /*
  * Allocates a new mode struct in the heap.
@@ -67,7 +67,7 @@ int game_mode_init(game_mode_t *mode, mode_type_t curr_mode,
  * pointer to allocated mode
  */
 game_mode_t *game_mode_new(mode_type_t curr_mode, mode_operation run_mode, 
-                           char* mode_ctx);
+                           char *mode_ctx);
 
 /*
  * Frees resources associated with a mode.

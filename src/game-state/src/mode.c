@@ -6,10 +6,10 @@
 
 /* see mode.h */
 int game_mode_init(game_mode_t *mode, mode_type_t curr_mode, 
-                   mode_operation run_mode, char* mode_ctx)
+                   mode_operation run_mode, char *mode_ctx)
 {
     assert(mode != NULL);
-    strcpy(mode->mode_ctx, mode_ctx);
+    strncpy(mode->mode_ctx, mode_ctx, MAX_ID_LEN);
     mode->curr_mode = curr_mode;
     mode->run_mode = run_mode;
 
@@ -18,7 +18,7 @@ int game_mode_init(game_mode_t *mode, mode_type_t curr_mode,
 
 /* see mode.h */
 game_mode_t *game_mode_new(mode_type_t curr_mode, mode_operation run_mode, 
-                           char* mode_ctx)
+                           char *mode_ctx)
 {
     game_mode_t *mode;
     mode = malloc(sizeof(mode_t));
