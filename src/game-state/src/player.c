@@ -32,7 +32,7 @@ int player_set_class(player_t *plyr, class_t *player_class)
     }
 
     plyr->player_class = player_class;
-
+  
     return SUCCESS;
 }
 
