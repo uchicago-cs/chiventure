@@ -7,10 +7,9 @@
 
 #define NUM_ACTIONS (17)
 
-
 Test(get_actions, count)
 {
-    list_action_type_t *head, *temp;
+    list_action_type_t *head, *temp, *del;
     int out = 0;
     head = get_supported_actions();
     for (temp = head; temp != NULL; temp = temp->next)
@@ -20,13 +19,15 @@ Test(get_actions, count)
     cr_assert_eq(out, NUM_ACTIONS,
                  "Expected %d actions, got %d actions when counting through list.\n",
                  NUM_ACTIONS, out);
+    
+    free_supported_actions(head);
 }
 
 
-action_type_t *search_supported_actions(char *query)
+action_type_t *search_supported_actions(list_action_type_t* head, char *query)
 {
-    list_action_type_t *head, *temp;
-    head = get_supported_actions();
+    list_action_type_t *temp;
+    
     for (temp = head; temp != NULL; temp = temp->next)
     {
         if (strcmp(temp->act->c_name, query) == 0)
@@ -34,6 +35,7 @@ action_type_t *search_supported_actions(char *query)
             return temp->act;
         }
     }
+
     return NULL;
 }
 
@@ -41,16 +43,19 @@ action_type_t *search_supported_actions(char *query)
 /* Checks to see if the action list called can be iterated over using string */
 Test(get_actions, search_success)
 {
+    list_action_type_t* head;
+    head = get_supported_actions();
+
     action_type_t *open, *consume, *go, *walk, *use, *use_on, *pick_up, *drink, *eat;
-    open = search_supported_actions("OPEN");
-    consume = search_supported_actions("CONSUME");
-    go = search_supported_actions("GO");
-    walk = search_supported_actions("WALK");
-    use = search_supported_actions("USE");
-    use_on = search_supported_actions("USE_ON");
-    pick_up = search_supported_actions("PICKUP");
-    drink = search_supported_actions("DRINK");
-    eat = search_supported_actions("EAT");
+    open = search_supported_actions(head, "OPEN");
+    consume = search_supported_actions(head, "CONSUME");
+    go = search_supported_actions(head, "GO");
+    walk = search_supported_actions(head, "WALK");
+    use = search_supported_actions(head, "USE");
+    use_on = search_supported_actions(head, "USE_ON");
+    pick_up = search_supported_actions(head, "PICKUP");
+    drink = search_supported_actions(head, "DRINK");
+    eat = search_supported_actions(head, "EAT");
 
     cr_assert_neq(open, NULL,
                   "search_supported_actions returned a null for query \"open\".\n");
@@ -98,19 +103,24 @@ Test(get_actions, search_success)
     cr_assert_eq(eat->kind, ITEM,
                  "Expected the action kind %d, but got action kind %d.\n",
                  ITEM, eat->kind);
+    free_supported_actions(head);
 }
 
 
 Test(get_actions, search_failure)
 {
+    list_action_type_t* head;
+    head = get_supported_actions();
+
     action_type_t *dance, *jump, *fight;
-    dance = search_supported_actions("dance");
-    jump = search_supported_actions("jump");
-    fight = search_supported_actions("fight");
+    dance = search_supported_actions(head, "dance");
+    jump = search_supported_actions(head, "jump");
+    fight = search_supported_actions(head, "fight");
     cr_assert_eq(dance, NULL,
                  "search_supported_actions returned a pointer for invalid query \"dance\".\n");
     cr_assert_eq(jump, NULL,
                  "search_supported_actions returned a pointer for invalid query \"jump\".\n");
     cr_assert_eq(fight, NULL,
                  "search_supported_actions returned a pointer for invalid query \"fight\".\n");
+    free_supported_actions(head);
 }

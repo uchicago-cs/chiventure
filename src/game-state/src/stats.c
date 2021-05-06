@@ -97,7 +97,7 @@ int stat_effect_init(stat_effect_t *effect, effects_global_t *global)
 /* See stats.h */
 stat_effect_t *stat_effect_new(effects_global_t *global)
 {
-    stat_effect_t *effect = malloc(sizeof(stat_effect_t));
+    stat_effect_t *effect = calloc(1, sizeof(stat_effect_t));
 
     int check = stat_effect_init(effect, global);
     
