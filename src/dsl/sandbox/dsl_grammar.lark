@@ -1,0 +1,41 @@
+?start: game?
+
+game: "GAME" (start_g end_g | end_g start_g) properties rooms
+
+
+room.100: "ROOM" id properties items
+
+item.80: "ITEM" id "IN" location properties
+       | "ITEM" id properties
+
+property.60: "[" phrase "]" phrase
+
+properties: property*
+
+rooms: room*
+
+items: item*
+
+id: phrase
+
+location: phrase
+
+
+start_g: _START phrase
+_START.5: "START"
+        | "BEGIN"
+        | "FROM"
+
+end_g: _END phrase
+_END.5: "END"
+      | "TO"
+
+
+phrase: string+
+
+%import .util.string -> string
+
+%import .util.COMMENT -> COMMENT
+%ignore COMMENT
+%import common.WS
+%ignore WS
