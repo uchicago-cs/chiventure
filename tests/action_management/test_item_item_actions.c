@@ -44,7 +44,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     add_action_effect(ga, indirect, attr, value);
 
 
-    player_t *player = player_new("player1", 20);
+    player_t *player = player_new("player1");
 
     switch (choose_condition)
     {
@@ -182,7 +182,6 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         break;
     }
 
-    chiventure_ctx_free(ctx_test);
     free(string);
 
     /*sometimes the direct and indirect items are not added to a player
@@ -195,6 +194,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     if (choose_condition != END_FAIL){
         item_free(indirect);  //For all tests expect for test 8 free indirect
     }
+    game_free(ctx_test->game);
+    lookup_t_free(ctx_test->table);
+    chiventure_ctx_free(ctx_test);
 
     action_type_free(a);
     game_action_free(ga);

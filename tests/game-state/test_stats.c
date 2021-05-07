@@ -10,33 +10,42 @@ Test(stats, change_stat_max)
 {
     stats_hash_t *sh = NULL;
 
-    stats_global_t g1, g2;
-    g1.name = "Health";
-    g1.max = 100;
-    g2.name = "XP";
-    g2.max = 100;
+    stats_global_t *g1, *g2;
+    char *hp = "Health";
+    char *xp = "XP";
+    g1 = malloc(sizeof(stats_global_t));
+    g2 = malloc(sizeof(stats_global_t));
+    g1->name = strndup(hp,100);
+    g1->max = 100;
+    g2->name = strndup(xp,100);
+    g2->max = 100;
 
-    stats_t s1, s2;
-    s1.key = "Health";
-    s1.global = &g1;
-    s1.val = 50;
-    s1.max = 50;
-    s1.modifier = 1;
+    stats_t *s1, *s2;
+    s1 = malloc(sizeof(stats_t));
+    s2 = malloc(sizeof(stats_t));
+    s1->key = strndup(hp,100);
+    s1->global = g1;
+    s1->val = 50;
+    s1->max = 50;
+    s1->modifier = 1;
 
-    s2.key = "XP";
-    s2.global = &g2;
-    s2.val = 50;
-    s2.max = 50;
-    s2.modifier = 1;
+    s2->key = strndup(xp, 100);
+    s2->global = g2;
+    s2->val = 50;
+    s2->max = 50;
+    s2->modifier = 1;
     
-    add_stat(&sh, &s1);
-    add_stat(&sh, &s2);
+    add_stat(&sh, s1);
+    add_stat(&sh, s2);
 
     change_stat_max(sh, "Health", 50);
     change_stat_max(sh, "XP", 25);
 
-    cr_assert_float_eq(s1.max, 100, 1E-6, "change_stat_max didn't set the right value");
-    cr_assert_float_eq(s2.max, 75, 1E-6, "change_stat_max didn't set the right value");
+    cr_assert_float_eq(s1->max, 100, 1E-6, "change_stat_max didn't set the right value");
+    cr_assert_float_eq(s2->max, 75, 1E-6, "change_stat_max didn't set the right value");
+    free_stats_table(sh);
+    free_stats_global(g1);
+    free_stats_global(g2);
 }
 
 
@@ -199,6 +208,8 @@ Test (stats, add_stat)
     cr_assert_eq(rc, SUCCESS, "add_stat failed");
 
     cr_assert_not_null(sh, "add_stat did not add the stat");
+    free_stats_table(sh);
+    free_stats_global(health);
 }
 
 /* Checks that display_stat returns the correct list of stats */
@@ -226,6 +237,9 @@ Test(stats, display_stat)
                      list);
 
     free(list);
+    free_stats_table(sh);
+    free_stats_global(speed);
+    free_stats_global(health);
 }
 
 /* Checks that global_effect_init correctly initializes a global effect struct */
@@ -238,6 +252,8 @@ Test (stats, effect_global_init)
     cr_assert_eq(rc, SUCCESS, "global_effect_init failed");
     cr_assert_not_null(effect.name, "global_effect_init did not set effect name");
     cr_assert_str_eq(effect.name, "health", "global_effect_init did not set name");
+    free(effect.name);
+
 }
 
 /* Checks that global_effect_new correctly creates a new global effect struct */
@@ -247,6 +263,9 @@ Test (stats, effect_global_new)
 
     cr_assert_not_null(effect, "global_effect_new failed");
     cr_assert_str_eq(effect->name, "health", "global_effect_new did not set name");
+    free(effect->name);
+    free(effect);
+
 }
 
 /* Checks that effect_init correctly initializes an effect struct */
@@ -262,6 +281,9 @@ Test (stats, stat_effect_init)
     cr_assert_eq(rc, SUCCESS, "stat_effect_init failed");
     cr_assert_str_eq(effect.key, global->name, "stat_effect_init did not set key");
     cr_assert_eq(effect.global, global, "stat_effect_init did not set global pointer");
+    free(global->name);
+    free(global);
+    free(effect.key);
 }
 
 /* Checks that stat_effect_new correctly creates a new player effect */
@@ -275,6 +297,10 @@ Test (stats, stat_effect_new)
     cr_assert_not_null(effect, "stat_effect_new failed");
     cr_assert_str_eq(effect->key, global->name, "stat_effect_new did not set key");
     cr_assert_eq(effect->global, global, "stat_effect_new did not set global pointer");
+    free(global->name);
+    free(global);
+    free(effect->key);
+    free(effect);
 }
 
 /* Checks that add_stat_effect adds an effect to a hash table */
@@ -287,6 +313,9 @@ Test(stats, add_stat_effect)
 
     cr_assert_eq(rc, SUCCESS, "add_stat_effect failed");
     cr_assert_not_null(hash, "effect not added to hash");
+    delete_all_stat_effects(hash);
+    free(global->name);
+    free(global);
 }
 
 /* Checks that apply_effect correctly applies and effect */
@@ -297,30 +326,31 @@ Test (stats, apply_effect)
     effects_hash_t *hash = NULL;
     stat_effect_t *effect = stat_effect_new(global);
     cr_assert_not_null(effect, "stat_effect_new failed");
+    char *hp = "health";
+    char *spd = "speed";
+    stats_global_t *health = malloc(sizeof(stats_global_t));
+    health->name = strndup(hp, 100);
+    health->max = 100;
 
-    stats_global_t health;
-    health.name = "health";
-    health.max = 100;
+    stats_t *s1 = malloc(sizeof(stats_t));
+    s1->key = strndup(hp,100);
+    s1->global = health;
+    s1->val = 50.0;
+    s1->max = 75.0;
+    s1->modifier = 0.75;  
 
-    stats_t s1;
-    s1.key = "health";
-    s1.global = &health;
-    s1.val = 50.0;
-    s1.max = 75.0;
-    s1.modifier = 0.75;  
+    stats_global_t *speed = malloc(sizeof(stats_global_t));
+    speed->name = strndup(spd, 100);
+    speed->max = 100;
 
-    stats_global_t speed;
-    speed.name = "speed";
-    speed.max = 100;
+    stats_t *s2 = malloc(sizeof(stats_t));
+    s2->key = strndup(spd,100);
+    s2->global = speed;
+    s2->val = 25;
+    s2->max = 50;
+    s2->modifier = 1.0;
 
-    stats_t s2;
-    s2.key = "speed";
-    s2.global = &speed;
-    s2.val = 25;
-    s2.max = 50;
-    s2.modifier = 1.0;
-
-    stats_t *stats[] = {&s1, &s2};
+    stats_t *stats[] = {s1, s2};
     double intensities[] = {2.0, 0.5};
     int durations[] = {2, 5};
 
@@ -328,18 +358,18 @@ Test (stats, apply_effect)
                           intensities, durations, 2);
     
     cr_assert_eq(rc, SUCCESS, "apply_effect failed");
-    cr_assert_eq(s1.modifier, 1.5, "apply_effect did not update s1 modifier");
-    cr_assert_eq(s2.modifier, 0.5, "apply_effect did not update s2 modifier");
+    cr_assert_eq(s1->modifier, 1.5, "apply_effect did not update s1 modifier");
+    cr_assert_eq(s2->modifier, 0.5, "apply_effect did not update s2 modifier");
 
     cr_assert_not_null(hash, "apply_effect did not add effect to hash");
 
     stat_mod_t *tmp1, *tmp2, l1, l2;
-    l1.stat = &s1;
+    l1.stat = s1;
     LL_SEARCH(effect->stat_list, tmp1, &l1, stat_mod_equal);
     cr_assert_not_null(tmp1, "apply_effect did not add s1 to stat_mod_t list");
     cr_assert_str_eq(tmp1->stat->key, l1.stat->key, "fail");
 
-    l2.stat = &s2;
+    l2.stat = s2;
     LL_SEARCH(effect->stat_list, tmp2, &l2, stat_mod_equal);
     cr_assert_not_null(tmp2, "apply_effect did not add s2 to stat_mod_t list");
     cr_assert_str_eq(tmp2->stat->key, l2.stat->key, "fail");
@@ -353,7 +383,13 @@ Test (stats, apply_effect)
                  "apply_effect did not set stat_mod duration");
     cr_assert_eq(tmp2->duration, durations[1], 
                  "apply_effect did not set stat_mod duration");
-
+    free_stats(s1);
+    free_stats(s2);
+    free_stats_global(health);
+    free_stats_global(speed);
+    free(global->name);
+    free(global);
+    delete_all_stat_effects(hash);
 }
 
 Test(stats, change_stat) {
@@ -404,6 +440,9 @@ Test(stats, change_stat) {
     change_stat(sh, "charisma", 80);
     cr_assert_eq(curr->val, 130, 
         "change_stat global max failed");
+    free_stats_global(g1);
+    free_stats_global(g2);
+    free_stats_table(sh);
 }
 
 Test(stats, get_stat_current) {
@@ -421,5 +460,6 @@ Test(stats, get_stat_current) {
     s1->val = 99;
     s1_value = get_stat_current(sh, s1->key);
     cr_assert_eq(s1_value, 100, "get_stat_current global max failed");
-    
+    free_stats_table(sh);
+    free_stats_global(g1);
 }
