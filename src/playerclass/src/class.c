@@ -141,7 +141,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
  *
  * Paramaters:
  *  - base_class: the character's base class (their current class).
- *  - new_class: the class being added to the original class.
+ *  - second_class: the class being added to the original class.
  *
  * Returns:
  *  - a pointer to a string with the new shortdesc.
@@ -170,7 +170,7 @@ char* multiclass_shortdesc (class_t* base_class, class_t* second_class){
  *
  * Paramaters:
  *  - base_class: the character's base class (their current class).
- *  - new_class: the class being added to the original class.
+ *  - second_class: the class being added to the original class.
  *
  * Returns:
  *  - a pointer to a string with the new longdesc.
@@ -181,6 +181,31 @@ char* multiclass_longdesc (class_t* base_class, class_t* second_class){
     strcat (new_longdesc, "\n\n");
     strcat (new_longdesc, second_class->shortdesc);
     return new_longdesc;
+}
+
+/*
+ * Creates a skill tree for a multiclass
+ * by adding together the nodes of both classes in a new tree.
+ *
+ * Paramaters:
+ *  - name: the name of the tree (same as the name of the multiclass)
+ *  - base_tree: the character's base class's tree.
+ *  - second_tree: the tree of the class being added to the base.
+ *
+ * Returns:
+ *  - a pointer to the combined tree.
+ */
+skill_tree_t* multiclass_tree (char* name, skill_tree_t* base_tree, skill_tree_t* second_tree){
+    unsigned int num_nodes = base_tree->num_nodes + second_tree->num_nodes;
+    tid_t tid = 1000; // TID is placeholder
+    skill_tree_t* new_tree = skill_tree_new(tid, name, num_nodes); 
+    for (int i = 0; i < base_tree->num_nodes; i++){
+        skill_tree_node_add (new_tree, base_tree->nodes[i]);
+    }
+    for (int i = 0; i < second_tree->num_nodes; i ++){
+        skill_tree_node_add (new_tree, second_tree->nodes[i]);
+    }
+    return new_tree;
 }
 
 /* See class.h */
@@ -208,6 +233,8 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name){
     while (i < second_class->parent_class_num - base_class->parent_class_num){
         memcpy(new_class->parent_class_names[i + 2], second_class->parent_class_names[i], MAX_NAME_LEN + 1);
     }
+
+    new_class->skilltree = multiclass_tree(name, base_class->skilltree, second_class->skilltree);
     return new_class;
 }
 
