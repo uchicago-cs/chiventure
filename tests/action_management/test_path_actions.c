@@ -42,7 +42,7 @@ Test(path_actions, validate_path)
     /* CREATE VARIABLE CONTENTS */
     ctx_test = chiventure_ctx_new(NULL);
     game_test = game_new("This is a test game!");
-    player_test = player_new("player", 1);
+    player_test = player_new("player");
     room_origin = room_new("room_o", "origin room", "This is the room the player starts in.");
     room_north = room_new("room_n", "room north of origin", "This is the room north of the spawn.");
     action_go = action_type_new("GO", PATH);
