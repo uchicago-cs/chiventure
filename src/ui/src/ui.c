@@ -26,7 +26,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     // prevents program from closing on CTRL+C
     signal(SIGINT, SIG_IGN);
 
-    int ch, quitval;
+    int ch;
 
     // starts curses mode
     setlocale(LC_ALL, "");
@@ -79,13 +79,13 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     wrefresh(info->w);
 
     // prints the score and number of moves in the info window
-    quitval = window_print(ctx, cli);
+    window_print(ctx, cli);
 
     // refreshes both windows to show the above changes
     wrefresh(cli->w);
 
     // sample game loop. uses ctrl+D key to exit
-    while ((ch = wgetch(cli->w)) != 4 || !quitval)
+    while ((ch = wgetch(cli->w)) != 4)
     {
 
         height = LINES / 2;

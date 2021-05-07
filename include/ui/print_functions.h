@@ -35,9 +35,9 @@ void print_banner(window_t *win, const char *banner);
  *   - ctx : chiventure context struct
  *   - win : window where to print the info
  *
- * The int 0 is always returned
+ * No value is returned
  */
-int print_info(chiventure_ctx_t *ctx, window_t *win);
+void print_info(chiventure_ctx_t *ctx, window_t *win);
 
 /* print_cli
  * Prints the CLI- adds and deletes character based on user input
@@ -46,11 +46,9 @@ int print_info(chiventure_ctx_t *ctx, window_t *win);
  *   - ctx : chiventure context struct
  *   - win : window where to print the info
  *
- * A value is returned depending on what is entered in the cli
- * 0: Nothing of significance was inputted
- * 1: The user typed "QUIT" in order to end the game
+ * No value is returned
  */
-int print_cli(chiventure_ctx_t *ctx, window_t *win);
+void print_cli(chiventure_ctx_t *ctx, window_t *win);
 
 /* print_map
  * Prints the word map in the window (top left corner)
@@ -59,9 +57,9 @@ int print_cli(chiventure_ctx_t *ctx, window_t *win);
  *   - ctx : chiventure context struct
  *   - win : window where to print the info
  *
- * The int 0 is always returned
+ * No value is returned
  */
-int print_map(chiventure_ctx_t *ctx, window_t *win);
+void print_map(chiventure_ctx_t *ctx, window_t *win);
 
 
 /* print_to_cli

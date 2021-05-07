@@ -7,7 +7,7 @@ typedef struct chiventure_ctx chiventure_ctx_t;
 
 typedef struct window {
     WINDOW *w;
-    int (*print)(chiventure_ctx_t *ctx, struct window *win);
+    void (*print)(chiventure_ctx_t *ctx, struct window *win);
 } window_t;
 
 typedef void (win_print)(chiventure_ctx_t *ctx, window_t *win);
@@ -71,9 +71,9 @@ int window_free(window_t *win);
  *   - ctx : chiventure context struct
  *   - win : window which we want to print
  *
- * returns the value of print_cli function that is called, either 0 or 1
+ * does not return anything
  */
-int window_print(chiventure_ctx_t *ctx, window_t *win);
+void window_print(chiventure_ctx_t *ctx, window_t *win);
 
 
 

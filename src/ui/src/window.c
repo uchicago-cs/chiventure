@@ -52,9 +52,7 @@ int window_free(window_t *win)
 }
 
 /* see window.h */
-int window_print(chiventure_ctx_t *ctx, window_t *win)
+void window_print(chiventure_ctx_t *ctx, window_t *win)
 {
-    int rc;
-    rc = win->print(ctx, win);
-    return rc;
+    win->print(ctx, win);
 }
