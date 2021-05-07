@@ -72,7 +72,7 @@ int window_free(window_t *win);
  *   - win : window which we want to print
  *   - quitval: an out parameter to make the game close on "QUIT"
  *
- * does not return anything
+ * returns the value of print_cli function that is called, either 0 or 1
  */
 void window_print(chiventure_ctx_t *ctx, window_t *win, int *quitval);
 
