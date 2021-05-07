@@ -17,7 +17,7 @@ GAME START room B END room C
 ROOM room A
    [short desc] A dungeon room.
    [long desc] You shudder to think of the unspeakable horrors that have taken place in these dungeons. You wouldn't want to be fly on the wall here, but mostly because of how damp and moldy the walls are.
-   [connections] south to room B
+   [connections] SOUTH TO room B
 
    ITEM sconce
       [short desc] A sconce holding a candle
@@ -28,8 +28,8 @@ ROOM room B
    [short desc] A dungeon room.
    [long desc] "The walls are damp and moldy and, yet, the scent of freshly
    cut lavender flowers pervades the air."
-   [connections] north to room A
-                 east to room C
+   [connections] NORTH TO room A
+                 EAST TO room C
    ITEM Door IN room B
     [short desc] A large wooden door
     [long desc] It looks very heavy, and it doesn't have a keyhole.
@@ -38,7 +38,7 @@ ROOM room B
 ROOM room C
    [short desc] A dungeon room.
    [long desc] The walls are neither damp nor moldy. It looks like they do get around to cleaning them once in a while.
-   [connections] west to room B
+   [connections] WEST TO room B
 
    ITEM Distaff
     [short desc] The Distaff of Knowledge

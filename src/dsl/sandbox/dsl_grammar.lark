@@ -3,7 +3,7 @@
 game: "GAME" (start_g end_g | end_g start_g) properties rooms
 
 
-room.100: "ROOM" id properties items
+room.100: "ROOM" id properties connections? items
 
 item.80: "ITEM" id "IN" location properties
        | "ITEM" id properties
@@ -15,6 +15,12 @@ properties: property*
 rooms: room*
 
 items: item*
+
+connections: "[connections]" connection+
+
+connection: DIRECTION "TO" phrase
+
+DIRECTION.5: "NORTH" | "SOUTH" | "EAST" | "WEST"
 
 id: phrase
 

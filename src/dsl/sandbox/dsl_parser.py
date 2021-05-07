@@ -37,6 +37,16 @@ class TreeToDict(Transformer):
         (s,) = s
         return ("location", s)
 
+    def DIRECTION(self, s):
+        print(s)
+        return str(s)
+
+    def connections(self, s):
+        print(s)
+        return ("connections", dict(s))
+    def connection(self, s):
+        print(tuple(s))
+        return tuple(s)
     room = dict
 
     def properties(self, s):
