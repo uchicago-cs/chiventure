@@ -7,10 +7,10 @@ typedef struct chiventure_ctx chiventure_ctx_t;
 
 typedef struct window {
     WINDOW *w;
-    void (*print)(chiventure_ctx_t *ctx, struct window *win);
+    void (*print)(chiventure_ctx_t *ctx, struct window *win, int *quitval);
 } window_t;
 
-typedef void (win_print)(chiventure_ctx_t *ctx, window_t *win);
+typedef void (win_print)(chiventure_ctx_t *ctx, window_t *win, int *quitval);
 
 
 /* window_new
@@ -70,10 +70,11 @@ int window_free(window_t *win);
  * Parameters:
  *   - ctx : chiventure context struct
  *   - win : window which we want to print
+ *   - quitval: an out parameter to make the game close on "QUIT"
  *
  * does not return anything
  */
-void window_print(chiventure_ctx_t *ctx, window_t *win);
+void window_print(chiventure_ctx_t *ctx, window_t *win, int *quitval);
 
 
 
