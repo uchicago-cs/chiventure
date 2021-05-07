@@ -194,6 +194,7 @@ char* multiclass_longdesc (class_t* base_class, class_t* second_class){
  *
  * Returns:
  *  - a pointer to the combined tree.
+ *  - note that the nodes in the combined trees are not deepcopied.
  */
 skill_tree_t* multiclass_tree (char* name, skill_tree_t* base_tree, skill_tree_t* second_tree){
     unsigned int num_nodes = base_tree->num_nodes + second_tree->num_nodes;
@@ -206,6 +207,52 @@ skill_tree_t* multiclass_tree (char* name, skill_tree_t* base_tree, skill_tree_t
         skill_tree_node_add (new_tree, second_tree->nodes[i]);
     }
     return new_tree;
+}
+
+/*
+ * Creates a skill inventory for a multiclass
+ * by adding together the skills of both classes.
+ * Can be used for combat or noncombat.
+ *
+ * The max active and passive will be the larger of the two classes.
+ *
+ * Paramaters:
+ *  - base_inventory: the character's base class's skill inventory.
+ *  - second_inventory: the skill inventory of the class being added to the base.
+ *
+ * Returns:
+ *  - a pointer to the combined inventory.
+ *  - note that the skills in the combined inventory are not deepcopied.
+ */
+skill_inventory_t* multiclass_inventory (skill_inventory_t* base_inventory, skill_inventory_t* second_inventory){
+    unsigned int max_active;
+    unsigned int max_passive;
+    if (base_inventory->max_active >= second_inventory->max_active){
+        max_active = base_inventory->max_active;
+    }
+    else{
+        max_active = second_inventory->max_active;
+    }
+    if (base_inventory->max_passive >= second_inventory->max_passive){
+        max_passive = base_inventory->max_passive;
+    }
+    else{
+        max_passive = second_inventory->max_passive;
+    }
+    skill_inventory_t* new_inventory = inventory_new (max_active, max_passive);
+    for (int i = 0; i < base_inventory->num_active){
+        int inventory_skill_add(new_inventory, base_inventory->active[i]);
+    }
+    for (int i = 0; i < second_inventory->num_active){
+        int inventory_skill_add(new_inventory, second_inventory->active[i]);
+    }
+    for (int i = 0; i < base_inventory->num_passive){
+        int inventory_skill_add(new_inventory, base_inventory->passive[i]);
+    }
+    for (int i = 0; i < second_inventory->num_passive){
+        int inventory_skill_add(new_inventory, second_inventory->passive[i]);
+    }
+    return new_inventory;
 }
 
 /* See class.h */
@@ -235,6 +282,9 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name){
     }
 
     new_class->skilltree = multiclass_tree(name, base_class->skilltree, second_class->skilltree);
+    new_class->combat = multiclass_inventory(base_class->combat, second_class->combat);
+    new_class->noncombat = multiclass_inventory(base_class->noncombat, second_class->noncombat);
+
     return new_class;
 }
 
