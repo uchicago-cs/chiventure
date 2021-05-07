@@ -159,9 +159,9 @@ stat_changes_t *stat_changes_new(){
     stat_changes_t* sc;
     int rc;
 
-    s = calloc(1, sizeof(stat_changes_t));
+    sc = calloc(1, sizeof(stat_changes_t));
 
-    if(s == NULL)
+    if(sc == NULL)
     {
         fprintf(stderr, "Could not allocate memory for stat changes struct\n");
         return NULL;
@@ -174,7 +174,7 @@ stat_changes_t *stat_changes_new(){
         return NULL;
     }
 
-    return s;    
+    return sc;    
 }
 
 /* See battle_state.h */
@@ -212,6 +212,62 @@ int stat_changes_free_all(stat_changes_t *sc){
         next = current->next;
         free(current);
         current = next;
+    }
+
+    return SUCCESS;
+}
+
+/* As somewhat higher level functions, do these still belong here or should I move them? */
+
+/* See battle_state.h */
+int stat_changes_add_node(stat_changes_t *sc){
+    stat_changes_t *current = sc;
+    stat_changes_t *new_node = stat_changes_new();
+
+    while(current->next != NULL){
+        curent = current->next;
+    }
+
+    current->next = new_node;
+
+    return SUCCESS;
+}
+
+/* See battle_state.h */
+int stat_changes_remove_node(stat_changes_t *sc){
+    sc->prev->next = sc->next;
+
+    if(sc->next != NULL){
+        sc->next->prev = sc->prev;
+    }
+
+    int rc = stat_changes_free_node(sc);
+    if(rc != SUCCESS)
+    {
+        fprintf(stderr, "Could not free stat changes node\n");
+        return NULL;
+    }
+
+    return SUCCESS;
+}
+
+/* See battle_state.h */
+int stat_changes_turn_increment(stat_changes_t *sc){
+    stat_changes_t *current = sc->next;
+    stat_changes_t *remove = sc->next;
+
+    while(current != NULL){
+        current->turns_left -= 1;
+        
+        
+        if(current->turns_left == 0){
+            remove = current;
+            current = current->next;
+
+            stat_changes_remove_node(remove);
+        }else{
+            current = current->next;
+        }
     }
 
     return SUCCESS;

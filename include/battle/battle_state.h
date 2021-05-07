@@ -86,4 +86,72 @@ int combatant_free(combatant_t *c);
  * - FAILURE for unsuccessful free
  */
 int combatant_free_all(combatant_t *c);
+
+/* Initialize an empty stat_changes struct
+ * Parameters:
+ * - none
+ * returns: a pointer to the new stat_changes_t node
+ */
+stat_changes_t *stat_changes_new();
+
+/* Creates a new stat_changes struct
+ * Parameters:
+ * - sc: a pointer to an empty stat_changes node in memory
+ * returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+ */
+int stat_change_init(stat_changes_t *sc);
+
+/* Frees a stat_changes struct from memory. Note: Does NOT do anything
+ *     more than freeing the given stat_changes node
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int stat_changes_free_node(stat_changes_t *sc);
+
+/* Frees a list of stat_changes structs from memory. Note: only frees
+ *     from the given stat_changes node ONWARDS.
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+
+int stat_changes_free_all(stat_changes_t *sc);
+
+/* Creates an empty stat_changes node at the end of a given
+ *     stat_changes_t struct
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int stat_changes_add_node(stat_changes_t *sc);
+
+/* Removes a given stat_changes node from the list it's in
+ *     Note: Do not remove the header node of a stat_changes list
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int stat_changes_remove_node(stat_changes_t *sc);
+
+/* Decrements all turn counts in the stat_changes struct by 1. If
+ *     this becomes 0 for a given stat_changes node, remove it from
+ *     list. Note: This does not currently undo the stat change made.
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int stat_changes_turn_increment(stat_changes_t *sc);
 #endif
