@@ -136,7 +136,7 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
 /* Updates a quest's status to started
  *
  * Parameter:
- * - quest: pointer to quest to be started
+ * - quest: pointer to quest to be marked started
  * 
  * Returns:
  * - SUCCESS 
@@ -172,7 +172,7 @@ int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
 /* Checks if a quest is completed
  * 
  * Parameter:
- * - pointer to the quest
+ * - quest: pointer to the quest
  *
  * Returns:
  * - 0 if quest is incomplete
