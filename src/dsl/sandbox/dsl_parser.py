@@ -38,14 +38,11 @@ class TreeToDict(Transformer):
         return ("location", s)
 
     def DIRECTION(self, s):
-        print(s)
         return str(s)
 
     def connections(self, s):
-        print(s)
         return ("connections", dict(s))
     def connection(self, s):
-        print(tuple(s))
         return tuple(s)
     room = dict
 
@@ -69,8 +66,7 @@ parser = Lark(dsl_grammar, parser='lalr')
 def main():
     with open(sys.argv[1]) as f:
         tree = parser.parse(f.read())
-        print(tree.pretty())
-        # print(TreeToDict().transform(tree))
+        # print(tree.pretty())
         print(json.dumps(TreeToDict().transform(tree), indent=2))
 
         
