@@ -413,7 +413,7 @@ int free_stat_mod(stat_mod_t *mod)
 int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)
 {
     assert(effect != NULL);
-    //HASH_DEL(hash, effect);
+    HASH_DEL(hash, effect);
     stat_mod_t *current, *tmp;
     
     LL_FOREACH_SAFE(effect->stat_list, current, tmp)
@@ -432,7 +432,6 @@ int delete_all_stat_effects(effects_hash_t *effects)
 
     HASH_ITER(hh, effects, current_effect, tmp)
     {
-        HASH_DEL(effects, current_effect);
         delete_single_stat_effect(current_effect, effects);
     }
 
