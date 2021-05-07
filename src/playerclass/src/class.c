@@ -240,16 +240,16 @@ skill_inventory_t* multiclass_inventory (skill_inventory_t* base_inventory, skil
         max_passive = second_inventory->max_passive;
     }
     skill_inventory_t* new_inventory = inventory_new (max_active, max_passive);
-    for (int i = 0; i < base_inventory->num_active){
+    for (int i = 0; i < base_inventory->num_active; i++){
         int inventory_skill_add(new_inventory, base_inventory->active[i]);
     }
-    for (int i = 0; i < second_inventory->num_active){
+    for (int i = 0; i < second_inventory->num_active; i++){
         int inventory_skill_add(new_inventory, second_inventory->active[i]);
     }
-    for (int i = 0; i < base_inventory->num_passive){
+    for (int i = 0; i < base_inventory->num_passive; i++){
         int inventory_skill_add(new_inventory, base_inventory->passive[i]);
     }
-    for (int i = 0; i < second_inventory->num_passive){
+    for (int i = 0; i < second_inventory->num_passive; i++){
         int inventory_skill_add(new_inventory, second_inventory->passive[i]);
     }
     return new_inventory;
