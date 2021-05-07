@@ -412,23 +412,16 @@ int free_stat_mod(stat_mod_t *mod)
 /* See stats.h */
 int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)
 {
-    printf("Hash: %p\n", hash);
     assert(effect != NULL);
-    printf("Effect %p\n", effect);
-    HASH_DEL(hash, effect);
-    printf("Hash: %p\n", hash);
-    printf("Effect: %p\n", effect);
-
+    //HASH_DEL(hash, effect);
     stat_mod_t *current, *tmp;
-    /*
+    
     LL_FOREACH_SAFE(effect->stat_list, current, tmp)
     {
         LL_DELETE(effect->stat_list, current);
         free(current);
     }
-    */
     free(effect->key);
-
     free(effect);
 }
 
@@ -439,13 +432,8 @@ int delete_all_stat_effects(effects_hash_t *effects)
 
     HASH_ITER(hh, effects, current_effect, tmp)
     {
-        printf("Effects %p\n", effects);
-        printf("Current_Effect %p\n", current_effect);
-      //delete_single_stat_effect(current_effect, effects);
-	HASH_DEL(effects, current_effect);
-	
-	free(current_effect->key);
-	free(current_effect);
+        HASH_DEL(effects, current_effect);
+        delete_single_stat_effect(current_effect, effects);
     }
 
     return SUCCESS;
