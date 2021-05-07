@@ -329,6 +329,15 @@ int class_init_skills(class_t* class, int max_skills_in_tree,
     return EXIT_SUCCESS;
 }
 
+/* see class.h */
+int has_component_class (class_t* class, char* name){
+    if (!(strcmp(class->name, name))) return 1;
+    for (int i = 0; i < class->parent_class_num; i++){
+        if (!(strcmp(class->parent_class_names[i], name))) return 1;
+    }
+    return 0;
+}
+
 /* See class.h */
 int class_free(class_t* class)
 {

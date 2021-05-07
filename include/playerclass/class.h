@@ -72,7 +72,6 @@ int class_init_skills(class_t* class, int max_skills_in_tree,
  * Requires btoh classes to be already implemented.
  * Can be used multiple times to create more complicated multiclasses.
  *
- *
  * Paramaters:
  *  - base_class: the character's base class (their current class).
  *    this class will be used to determine base stats.
@@ -84,6 +83,20 @@ int class_init_skills(class_t* class, int max_skills_in_tree,
  *  - NULL on error
  */
 class_t* multiclass(class_t* base_class, class_t* second_class, char* name);
+
+/* 
+ * Checks to see if a class has a component class.
+ * This ensures that effects targeting a class will affect
+ * multiclasses that have that target class as a component.
+ *
+ * Parameters:
+ *  - class: the class being checked for components.
+ *  - name: the name of the potential component class.
+ *
+ * Returns
+ *  - 1 if the class has or is the target component, 0 if not.
+ */
+int has_component_class (class_t* class, char* name);
 
 /*
  * Frees a class and strings created by class_new.
