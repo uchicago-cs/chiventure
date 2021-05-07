@@ -263,7 +263,6 @@ Test(player, add_item_effect_to_player)
                "add_item did not update modifier");
   free_stats_table(class->stats);
   delete_all_stat_effects(class->effects);
-  class_free(player->player_class);
   player_free(player);
   
   free_stats_global(health);
