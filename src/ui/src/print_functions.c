@@ -121,9 +121,10 @@ void print_banner(window_t *win, const char *banner)
 }
 
 /* see print_functions.h */
-void print_info(chiventure_ctx_t *ctx, window_t *win)
+int print_info(chiventure_ctx_t *ctx, window_t *win)
 {
     mvwprintw(win->w, 1, 2, "Main Window");
+    return 0;
 }
 
 /* Wrapper for print_to_cli that can be used as a
@@ -144,7 +145,7 @@ int cli_ui_callback(chiventure_ctx_t *ctx, char *str, void *args)
 }
 
 /* see print_functions.h */
-void print_cli(chiventure_ctx_t *ctx, window_t *win)
+int print_cli(chiventure_ctx_t *ctx, window_t *win)
 {
     static bool first_run = true;
     int x, y;
@@ -154,7 +155,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     {
         first_run = false;
         mvwprintw(win->w, y + 1, 2, "> ");
-        return;
+        return 0;
     }
     echo();
 
@@ -167,7 +168,15 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 
     if (!strcmp(cmd_string, ""))
     {
-        return;
+        return 0;
+    }
+    //if the user typed "QUIT", the function returns 1 and causes the program
+    //to end the ui loop. This can probably be made to be case insensitive
+    //in the future, most likely quickly after case insenstivity is implemented
+    //in the cli
+    if (!strcmp(cmd_string, "QUIT"))
+    {
+        return 1;
     }
 
     cmd *c = cmd_from_string(cmd_string, ctx);
@@ -198,14 +207,15 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
         y = height - 2;
     }
     mvwprintw(win->w, y, 2, "> ");
+    return 0;
 }
 
 /* see print_functions.h */
-void print_map(chiventure_ctx_t *ctx, window_t *win)
+int print_map(chiventure_ctx_t *ctx, window_t *win)
 {
     // prints the word map in the window
     mvwprintw(win->w, 1,2, "map");
-    return;
+    return 0;
 }
 
 
