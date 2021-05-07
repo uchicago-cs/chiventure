@@ -254,7 +254,6 @@ Test(player, add_item_effect_to_player)
   stat_mod_t *mod1 = stat_mod_new(s1, 1.5, 5);
   LL_APPEND(e2->stat_list, mod1);
   add_stat_effect(&(new_item->stat_effects), e2);
-  //new_item->stat_effects = e2;
 
   add_item_to_player(player, new_item);
 
