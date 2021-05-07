@@ -24,12 +24,15 @@ Test(condition, new_attr_condition)
 
     cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condiiton_new() failed to "
     "correctly mark condiiton as attribute");
+    item_free(item);
+    free(condition->condition.attribute_type);
+    free(condition);
 }
 
 /* Checks that inventory_condition_new() properly mallocs and inits a new condition struct */
 Test(condition, new_inven_condition)
 {
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
 
     condition_t *condition = inventory_condition_new(player, item);
@@ -41,12 +44,16 @@ Test(condition, new_inven_condition)
 
     cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condiiton_new() failed to "
     "correctly mark condiiton as inventory");
+    player_free(player);
+    item_free(item);
+    free(condition->condition.inventory_type);
+    free(condition);
 }
 
 /* Checks if delete_condition_llist() frees the condition list from memory */
 Test(condition, condition_free)
 {
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
     attribute_value_t value;
@@ -61,6 +68,8 @@ Test(condition, condition_free)
     int res = delete_condition_llist(conditions);
 
     cr_assert_eq(res, SUCCESS, "delete_condition_llist() failed");
+    player_free(player);
+    item_free(item);
 }
 
 /* Checks if valid_condition properly checks if the condition is actually valid */
@@ -93,7 +102,7 @@ Test(condition, valid_condition)
     "but instead got %i", valid);
 
     // CONDITION_NULL
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
 
     condition_t *condition_2 = inventory_condition_new(player, item);
 
@@ -105,5 +114,10 @@ Test(condition, valid_condition)
     valid = valid_condition(game, NULL);
     cr_assert_eq(valid, CONDITION_NULL, "valid_condiiton() expected CONDITION_NULL(7) "
     "but instead got %i", valid);
-
+    player_free(player);
+    game_free(game);
+    free(condition_1->condition.inventory_type);
+    free(condition_2->condition.inventory_type);
+    free(condition_1);
+    free(condition_2);
 }
