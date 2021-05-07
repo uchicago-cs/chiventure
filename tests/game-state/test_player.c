@@ -274,16 +274,16 @@ Test(player, add_item_effect_to_player)
                      "add_item did not add stat_mod to effect");
   cr_assert_eq(player->player_class->stats->modifier, 1.125, 
                "add_item did not update modifier");
-  free_stats_table(class->stats);
-  delete_all_stat_effects(class->effects);
-  free(new_item->stat_effects->key);
-  free(new_item->stat_effects);
-  new_item->stat_effects = NULL;
+  //free_stats_table(class->stats);
+  //delete_all_stat_effects(class->effects);
+  //free(new_item->stat_effects->key);
+  //free(new_item->stat_effects);
+  //new_item->stat_effects = NULL;
   player_free(player);
-  free_stats_global(health);
-  free(mod1);
-  free(g1->name);
-  free(g1);
+  //free_stats_global(health);
+  //free(mod1);
+  //free(g1->name);
+  //free(g1);
 }
 
 /* Checks that delete_all_players successfully
