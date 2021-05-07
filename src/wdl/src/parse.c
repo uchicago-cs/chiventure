@@ -10,11 +10,7 @@
 /* See load_room.h */
 obj_t *get_doc_obj(char *fpath)
 {
-    obj_t *obj = obj_new("doc");
-    int open_status;
-    zip_t *zip = zip_open(fpath, 0, &open_status);
-    load_obj_zip(obj, zip);
-    return obj;
+    return load_obj(fpath);
 }
 
 /* get_obj_list()

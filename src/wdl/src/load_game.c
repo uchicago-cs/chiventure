@@ -101,7 +101,7 @@ game_t *load_yaml_game(obj_t *big_document)
 
 game_t *create_game(obj_t *doc)
 {
-    obj_t *game = obj_get_attr(doc, "GAME.0", false);
+    obj_t *game = obj_get_attr(doc, "GAME", false);
     if (game == NULL)
     {
         fprintf(stderr, "game object not found\n");
