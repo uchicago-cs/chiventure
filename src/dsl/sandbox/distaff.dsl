@@ -21,7 +21,7 @@ ROOM room A
 
    ITEM sconce
       [short desc] A sconce holding a candle
-      # purposefully bad indentation
+      # intentionally bad indentation
 [long desc] It looks a bit loose.
 
 ROOM room B
