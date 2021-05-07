@@ -188,12 +188,12 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     /*sometimes the direct and indirect items are not added to a player
      * and must be freed separately. The following if statements should
      * free them in this case */
-    if(choose_condition <= 4){
-            item_free(direct);
+    if (choose_condition <= NOT_ALLOWED_INDIRECT){
+        item_free(direct); //For all tests before test 4 free direct
     }
 
-    if(choose_condition != 8){
-            item_free(indirect);
+    if (choose_condition != END_FAIL){
+        item_free(indirect);  //For all tests expect for test 8 free indirect
     }
 
     action_type_free(a);
