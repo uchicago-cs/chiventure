@@ -42,6 +42,11 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
 
     lookup_t **table = lookup_t_new();
 
+    if (ctx->game->mode == NULL)
+    {
+        load_normal_mode(ctx->game);
+    }
+
     player_t *player1 = player_new("player1", 100);
     add_player_to_game(ctx->game, player1);
     ctx->game->curr_player = player1;
