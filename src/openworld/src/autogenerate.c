@@ -262,3 +262,49 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     return result;
 }
 
+
+/* See autogenerate.h */
+int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, int radius) 
+{
+    // base case
+    if (radius <= 0) 
+    {
+        return SUCCESS;
+    }
+
+    // 2D array of possible directions
+    char directions[4][6];
+    strncpy(directions[0], "NORTH", 6);
+    strncpy(directions[1], "EAST", 5);
+    strncpy(directions[2], "SOUTH", 6);
+    strncpy(directions[3], "WEST", 5);
+
+    for (int i = 0; i < 4; i++) {
+        room_t *next_room;
+
+        if (path_exists_in_dir(curr_room, directions[i])) {
+            next_room = find_room_from_dir(curr_room, directions[i]);
+        
+        // create room in path if it doesn't exist yet
+        } else {
+            roomspec_t *rspec = random_room_lookup(speclist);
+            next_room = roomspec_to_room(rspec);
+            assert(SUCCESS == add_room_to_game(game, next_room));
+
+            // Path to the generated room
+            path_t* path_to_room = path_new(next_room, directions[i]);
+            assert(SUCCESS == add_path_to_room(curr_room, path_to_room));
+
+            // Path for the opposite direction
+            int backwards = (i + 2) % 4;
+            path_t* path_to_room2 = path_new(curr_room, directions[backwards]);
+            assert(SUCCESS == add_path_to_room(next_room, path_to_room2));
+        }
+
+        // recursive case, decrement radius by 1
+        assert(SUCCESS == recursive_generate(game, next_room, speclist, radius - 1));
+
+    }
+    return SUCCESS; 
+}
+

@@ -209,12 +209,35 @@ int roomspec_is_given_difficulty(room_level_t **room_levels,
  * Returns:
  * - SUCCESS if the new rooms were generated and added (SUCCESS)
  * - FAILURE if the new rooms were not generated/added (FAILURE)
- *
  */
 int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
                               room_level_t **room_levels, 
                               difficulty_level_scale_t *level_scale);
+
+
+
+/** recursive_generate
+ * For a given radius n, generates rooms in a branchwise-fashion up to
+ * 'n' paths away from the pivot
+ * pivot: the room around which more rooms will be generated
+ * branchwise: for each pivot, we fill as many paths/branches around it with new rooms
+ * 
+ * Parameters:
+ * - game: pointer to a game struct. Should not be NULL.
+ * - room_t *curr_room: pointer to the room to serve as the pivot, 
+ * - speclist_t *speclist: the llist of roomspect_t that each hold info for a separate room.
+ * - int radius: the max number of paths away from the current pivot that we wish to generate
+ *
+ * Side effects:
+ * - Changes input game to hold the newly generated room(s),
+ *   allocated on the heap
+ *
+ * Returns:
+ * - SUCCESS if the new rooms were generated and added (SUCCESS)
+ * - FAILURE if the new rooms were not generated/added (FAILURE)
+ */
+int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, int radius);
                                
 
 #endif /* INCLUDE_AUTOGENERATE_H */
