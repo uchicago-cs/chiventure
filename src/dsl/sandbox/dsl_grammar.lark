@@ -1,47 +1,37 @@
 ?start: game?
 
-game: "GAME" (start_g end_g | end_g start_g) properties rooms
+game: _NL? "GAME" (start_g end_g | end_g start_g) property* room* _NL?
 
+start_g: "START" phrase
+end_g: "END" phrase
 
-room.100: "ROOM" id properties connections? items
+room: _ROOM id (property | connections)* item* _NL?
 
-item.80: "ITEM" id "IN" location properties
-       | "ITEM" id properties
+item: _ITEM id "IN" location property* _NL?
+    | _ITEM id property* _NL?
 
-property.60: "[" phrase "]" phrase
+_ITEM.5: _NL "ITEM"
+_ROOM.5: _NL "ROOM"
 
-properties: property*
+property: _NL phrase ":" ESCAPED_STRING
 
-rooms: room*
-
-items: item*
-
-connections: "[connections]" connection+
-
-connection: DIRECTION "TO" phrase
-
-DIRECTION.5: "NORTH" | "SOUTH" | "EAST" | "WEST"
+connections: _CONNECT connection ("," _NL? connection)*
+connection: phrase "TO" phrase
+_CONNECT.5: _NL "connections:"
 
 id: phrase
 
 location: phrase
 
+phrase: STRING+
 
-start_g: _START phrase
-_START.5: "START"
-        | "BEGIN"
-        | "FROM"
+_NL: ( /(\r?\n[\t ]*)/ | COMMENT) +
 
-end_g: _END phrase
-_END.5: "END"
-      | "TO"
+%import .util.STRING
+%import .util.ESCAPED_STRING
 
-
-phrase: string+
-
-%import .util.string -> string
-
-%import .util.COMMENT -> COMMENT
+%import .util.COMMENT
 %ignore COMMENT
-%import common.WS
-%ignore WS
+
+%import common.WS_INLINE
+%ignore WS_INLINE
