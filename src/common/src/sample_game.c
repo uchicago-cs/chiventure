@@ -38,7 +38,7 @@ game_t* create_sample_game()
     game->curr_room = room1;
 
     /* initialize player */
-    player_t *player1 = player_new("player1", 10);
+    player_t *player1 = player_new("player1");
     add_player_to_game(game, player1);
     game->curr_player = player1;
 
@@ -113,7 +113,7 @@ game_t *create_sample_game_cp()
 
     // one player
     player_t *chad_t;
-    chad_t = player_new("Chad", 100);
+    chad_t = player_new("Chad");
 
     game_t *g_t_orig = game_new("Welcome to Chiventure");
 
@@ -155,7 +155,7 @@ game_t *create_sample_game_gs()
     game->curr_room = room1;
 
     /* initialize player */
-    player_t *player1 = player_new("lydia", 100);
+    player_t *player1 = player_new("lydia");
     add_player_to_game(game, player1);
     game->curr_player = player1;
 
