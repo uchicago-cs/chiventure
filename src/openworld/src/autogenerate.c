@@ -181,7 +181,7 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 
     HASH_ITER(hh, src, current, tmp) {
         if (i == num_iters) {
-            copy_item_to_hash(dst, src, tmp->item_id);
+            copy_item_to_hash(dst, src, current->item_id);
             return SUCCESS;
         }
         i++;
