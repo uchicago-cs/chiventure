@@ -250,7 +250,7 @@ int run_conversation_step(convo_t *c, int input, char *outstring)
 
     buf[i] = '\0';
     outstring = buf;
-    return 0; */
+    return 0;*/
 }
 
 
