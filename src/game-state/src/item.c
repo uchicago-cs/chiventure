@@ -757,7 +757,7 @@ int delete_item_llist(item_list_t *head)
 /* see item.h */
 attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
 {
-    if (attr_name == NULL || head == NULL)
+    if (attr_name == NULL || head->next == NULL)
     {
         return NULL;
     }
@@ -767,7 +767,7 @@ attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
     like->attribute->attribute_key = attr_name;
     
     attribute_list_t *output;
-    LL_SEARCH(head, output, like, attr_cmp);
+    LL_SEARCH(head->next, output, like, attr_cmp);
 
     free(like->attribute);
     free(like);
@@ -810,7 +810,6 @@ int list_get_int_attr(attribute_list_t *head, char* attr_name)
 /* see item.h */
 double list_get_double_attr(attribute_list_t *head, char* attr_name)
 {
-
     attribute_t* res = list_get_attribute(head, attr_name);
     if (res == NULL)
     {

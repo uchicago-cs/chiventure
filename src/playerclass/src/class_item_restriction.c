@@ -16,15 +16,16 @@ int add_item_restriction(item_t* item, class_t* class) {
     if (item->class_restrictions == NULL) {
         item->class_restrictions = create_list_attribute();
     }
-
-    attribute_t* restriction = bool_attr_new(class->name, true);
+    
+    /* 0 represents no proficiency with an item, so it is treated as restricted. */
+    attribute_t* restriction = double_attr_new(strndup(class->name, 100), 0.0);
 
     if (restriction == NULL) {
         fprintf(stderr, "Failed to allocate memory in add_item_restriction");
         return FAILURE;
     }
 
-    int add_rc = add_attribute_to_list(item->class_restrictions, restriction);
+    int add_rc = add_attribute_to_list(item->class_restrictions, restriction); 
     return add_rc;
 }
 
@@ -35,7 +36,10 @@ bool is_restricted(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    return list_contains_attribute(item->class_restrictions, strndup(class->name, 100));
+    if (!list_contains_attribute(item->class_restrictions, strndup(class->name, 100)))
+        return false;
+    
+    return list_get_double_attr(item->class_restrictions, class->name) == 0.0;
 }
 
 /* see class_item_restriction.h */
