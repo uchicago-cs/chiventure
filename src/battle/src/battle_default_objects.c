@@ -17,17 +17,15 @@ int randnum(int min, int max)
 }
 
 /* See battle_default_objects.h */
-item_t *get_random_default_item()
+item_t *get_random_default_weapon()
 {
     item_t *rv_item = calloc(1, sizeof(item_t));
     assert(rv_item != NULL);
 
-    int rand = randnum(1,10); 
-    char* name_array[]= {"STICK", "HAMMER", "SHIV", "CLUB",  "BOW & ARROW", 
-                         "SPEAR", "AXE", "TRIDENT", "SWORD", "SHIELD"};
+    int rand = randnum(1, 10); 
+    char* name_array[]= {"Stick", "Hammer", "Shiv", "Club",  "Bow & Arrow", 
+                         "Spear", "Axe", "Trident", "Sword", "Shield"};
 
-    char *description_prefix = (char*)calloc(50, sizeof(char));
-    strcpy(description_prefix, "It is a ");
     rv_item->id = rand;
     rv_item->quantity = 1;
     rv_item->durability = rand * 10; 
@@ -36,14 +34,50 @@ item_t *get_random_default_item()
     rv_item->name = (char*)calloc(name_len + 1, sizeof(char));
     strncpy(rv_item->name, name_array[rand - 1], name_len + 1);
     
-    rv_item->description = rv_item->name;
-    strcat(description_prefix, rv_item->description);
-    rv_item->description = description_prefix; 
+    rv_item->description = (char*)calloc(50, sizeof(char));
+    strcpy(rv_item->description, "It is a ");
+    strcat(rv_item->description, rv_item->name);
     
     rv_item->battle = true;
     rv_item->attack = rand * 10;
     rv_item->defense = rand * 10 + 5;
     rv_item->hp = rand * 10 + 10;
+    rv_item->next = NULL;
+    rv_item->prev = NULL;
+
+    return rv_item;
+}
+
+item_t *get_random_default_consumable()
+{
+    item_t *rv_item = calloc(1, sizeof(item_t));
+    assert(rv_item != NULL);
+
+    int rand = randnum(1, 4); 
+    char* name_array[]= {"Elixir of Life", "Healing Potion", "Defense Up", "Strength Up"};
+    char* description_array[] = {"Adds 80 to your HP!", "Adds 40 to your HP!", 
+                                 "Adds 5 to your defense!", "Adds 5 to your strength!"};
+    int hp_array[] = {80, 40, 0, 0};
+    int attack_array[] = {0, 0, 0, 5};
+    int defense_array[] = {0, 0, 5, 0};
+
+    rv_item->id = rand;
+    rv_item->quantity = randnum(1, 3);
+    rv_item->durability = 0; 
+
+    // sets name
+    int name_len = strlen(name_array[rand - 1]);
+    rv_item->name = (char*)calloc(name_len + 1, sizeof(char));
+    strncpy(rv_item->name, name_array[rand - 1], name_len + 1);
+    // sets description
+    int description_len = strlen(description_array[rand - 1]);
+    rv_item->description = (char*)calloc(description_len + 1, sizeof(char));
+    strncpy(rv_item->description, description_array[rand - 1], description_len + 1);
+    
+    rv_item->battle = true;
+    rv_item->attack = attack_array[rand];
+    rv_item->defense = defense_array[rand];
+    rv_item->hp = hp_array[rand];
     rv_item->next = NULL;
     rv_item->prev = NULL;
 
@@ -57,9 +91,11 @@ move_t *get_random_default_move()
     char *name_array[] = {"SLAP", "JAB", "KICK", "HEADBUTT", "GRAPPLE", 
                           "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"};
 
-    item_t *item = get_random_default_item();
+    item_t *item = get_random_default_weapon();
     int id = rand;
-    char *info = name_array[rand - 1];
+    int info_len = strlen(name_array[rand - 1]);
+    char* info = (char*)calloc(info_len + 1, sizeof(char));
+    strncpy(info, name_array[rand - 1], info_len + 1);
     bool attack = true;
     int damage = rand * 10;
     int defense = rand * 10 + 5;

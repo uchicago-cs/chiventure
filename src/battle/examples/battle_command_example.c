@@ -303,7 +303,7 @@ int main()
 {
     srand(time(0)); // sets seed
     printf("\nbeginning to create the player and enemy...\n");
-    // this creates the stats of the player to begin the battle
+    // creates the stats of the player to begin the battle
     stat_t *p_stats = get_random_stat();
     printf("\nPlayer stats:\n");
     printf("HP: %d\n", p_stats->hp);
@@ -313,7 +313,7 @@ int main()
     printf("Level: %d\n", p_stats->level);
     printf("Speed: %d\n", p_stats->speed);
     
-    // this creates the stats of the enemy to begin the battle
+    // creates the stats of the enemy to begin the battle
     stat_t *e_stats = get_random_stat();
     printf("\nEnemy stats:\n");
     printf("HP: %d\n", e_stats->hp);
