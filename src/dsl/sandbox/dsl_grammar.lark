@@ -7,11 +7,14 @@ end_g: "END" phrase
 
 room: _ROOM id (property | connections)* item* _NL?
 
-item: _ITEM id "IN" location property* _NL?
-    | _ITEM id property* _NL?
+item: _ITEM id "IN" location property* action* _NL?
+    | _ITEM id property* action* _NL? 
+
+action: _ACTION id property* _NL?
 
 _ITEM.5: _NL "ITEM"
 _ROOM.5: _NL "ROOM"
+_ACTION.5: _NL "action: "
 
 property: _NL phrase ":" ESCAPED_STRING
 
