@@ -23,13 +23,15 @@ typedef struct passive_mission{
  * This struct represents an active mission.
  * 
  * An active mission is one that the player
- * has to explore chiventure to acquire.
+ * has to explore chiventure to acquire. There are four
+ * possible active missions: collect an item, meet an npc,
+ * kill an npc, or visit a room.
  */
 typedef struct active_mission {
     item_t *item_to_collect;
     npc_t *npc_to_meet;
     npc_t *npc_to_kill;
-    room_t  *room_to_visit;
+    room_t *room_to_visit;
 } active_mission_t;
 
 /*
@@ -69,6 +71,16 @@ typedef struct reward{
    item_t *item;
 } reward_t;
 
+/*
+ * This struct represents a skill requirement for a quest.
+ *
+ * It can be either health points or a level.
+ */
+typedef union stat_req{
+    int hp;
+    int level;
+} stat_req_t;
+
 /* 
  * This is the hashable struct for a quest 
  * Elements:
@@ -76,6 +88,7 @@ typedef struct reward{
  * achievement_list: linked list struct holding a list of
  *                   achievements that make up a quest
  * reward: reward of the quest is either experience, an item, or both
+ * stat_req: stat requirement for the quest
  * status: -1: failed quest
  *         0: quest has not been started
  *         1: quest has been started but not completed
@@ -86,6 +99,7 @@ typedef struct quest  {
     long int quest_id;
     achievement_llist_t *achievement_list;
     reward_t *reward;
+    stat_req_t *stat_req;
     int status;  
 } quest_t;
 
