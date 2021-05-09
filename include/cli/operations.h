@@ -133,6 +133,11 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
+/* tried the same thing as the inventory_operation function 
+ */
+char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+
 /* Error Operations that returns an error message as string
  *
  * Parameters:
