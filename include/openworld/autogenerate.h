@@ -229,7 +229,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
  * - speclist_t *speclist: the llist of roomspect_t that each hold info for a separate room
  * - int radius: the max number of paths away from the current pivot that we wish to generate
  * - directions: an array of directions we wish to spread out
- * - num_of_dir: number of directions, up to four
+ * - num_of_dir: number of directions, up to six
  * 
  * Side effects:
  * - Changes input game to hold the newly generated room(s), allocated on the heap

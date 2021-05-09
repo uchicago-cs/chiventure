@@ -274,17 +274,19 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
     }
 
     // 2D array of possible directions
-    char all_directions[4][6];
+    char all_directions[6][6];
     strncpy(all_directions[0], "NORTH", 6);
     strncpy(all_directions[1], "EAST", 5);
-    strncpy(all_directions[2], "SOUTH", 6);
-    strncpy(all_directions[3], "WEST", 5);
+    strncpy(all_directions[2], "UP", 3);
+    strncpy(all_directions[3], "SOUTH", 6);
+    strncpy(all_directions[4], "WEST", 5);
+    strncpy(all_directions[5], "DOWN", 5);
 
     // map directions to index
     int dir_index[num_of_dir];
     for (int i = 0; i < num_of_dir; i++) 
     {
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < 6; j++)
         {
             if (strcmp(all_directions[j], directions[i]) == 0)
             {
@@ -311,7 +313,7 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
             assert(SUCCESS == add_path_to_room(curr_room, path_to_next_room));
 
             // Path for the opposite direction
-            int backwards = (dir_index[i] + 2) % 4;
+            int backwards = (dir_index[i] + 3) % 6;
             path_t* path_to_curr_room = path_new(curr_room, all_directions[backwards]);
             assert(SUCCESS == add_path_to_room(next_room, path_to_curr_room));
         }
