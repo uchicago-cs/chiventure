@@ -35,7 +35,7 @@ item_t *get_random_default_weapon()
     strncpy(rv_item->name, name_array[rand - 1], name_len + 1);
     
     rv_item->description = (char*)calloc(50, sizeof(char));
-    strcpy(rv_item->description, "It is a ");
+    strncpy(rv_item->description, "It is a ", 9);
     strcat(rv_item->description, rv_item->name);
     
     rv_item->battle = true;
@@ -48,6 +48,7 @@ item_t *get_random_default_weapon()
     return rv_item;
 }
 
+/* See battle_default_objects.h */
 item_t *get_random_default_consumable()
 {
     item_t *rv_item = calloc(1, sizeof(item_t));
@@ -55,9 +56,9 @@ item_t *get_random_default_consumable()
 
     int rand = randnum(1, 4); 
     char* name_array[]= {"Elixir of Life", "Healing Potion", "Defense Up", "Strength Up"};
-    char* description_array[] = {"Adds 80 to your HP!", "Adds 40 to your HP!", 
+    char* description_array[] = {"Adds 50 to your HP!", "Adds 20 to your HP!", 
                                  "Adds 5 to your defense!", "Adds 5 to your strength!"};
-    int hp_array[] = {80, 40, 0, 0};
+    int hp_array[] = {50, 20, 0, 0};
     int attack_array[] = {0, 0, 0, 5};
     int defense_array[] = {0, 0, 5, 0};
 
@@ -75,9 +76,9 @@ item_t *get_random_default_consumable()
     strncpy(rv_item->description, description_array[rand - 1], description_len + 1);
     
     rv_item->battle = true;
-    rv_item->attack = attack_array[rand];
-    rv_item->defense = defense_array[rand];
-    rv_item->hp = hp_array[rand];
+    rv_item->attack = attack_array[rand - 1];
+    rv_item->defense = defense_array[rand - 1];
+    rv_item->hp = hp_array[rand - 1];
     rv_item->next = NULL;
     rv_item->prev = NULL;
 

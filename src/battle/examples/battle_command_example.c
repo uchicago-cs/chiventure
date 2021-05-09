@@ -123,8 +123,9 @@ int print_items(chiventure_ctx_battle_t *ctx)
     {
         printf("Name: %s\n", temp->name);
         printf("ID: %d\n", temp->id);
+        printf("Description: %s\n", temp->description);
         printf("Quantity: %d\n", temp->quantity);
-        printf("Attack: %d, Defense: %d , HP : %d\n", 
+        printf("Attack: %d, Defense: %d, HP: %d\n", 
                 temp->attack, temp->defense, temp->hp);
     }
     return SUCCESS;
@@ -321,40 +322,17 @@ int main()
     printf("Defense: %d\n", e_stats->defense);
     printf("XP: %d\n", e_stats->xp);
     printf("Level: %d\n", e_stats->level);
-    printf("Speed: %d\n", e_stats->speed);
+    printf("Speed: %d\n\n", e_stats->speed);
 
-    //this creates items for the player
-    item_t *p_item1 = (item_t *)calloc(1, sizeof(item_t));
-    item_t *p_item2 = (item_t *)calloc(1, sizeof(item_t));
-    p_item1->id = 1;
-    p_item1->quantity = 5;
-    p_item1->durability = 5;
-    p_item1->name= "Healing Potion";
-    p_item1->description = "Adds 40 to your hp!" ;
-    p_item1->battle = true;
-    p_item1->attack = 10;
-    p_item1->defense = 40;
-    p_item1->hp = 40;
-    p_item1->next = p_item2;
-    p_item1->prev = NULL;
-    
-    p_item2->id = 2;
-    p_item2->quantity = 10;
-    p_item2->durability = 3;
-    p_item2->name= "Elixr of life";
-    p_item2->description = "Adds 80 to your hp!" ;
-    p_item2->battle = true;
-    p_item2->attack = 20;
-    p_item2->defense = 60;
-    p_item2->hp = 40;
-    p_item2->next = NULL;
-    p_item2->prev = p_item1;
+    // creates consumable for the player
+    item_t *p_item = get_random_default_consumable();
+    printf("item created for the player!\n");
 
     // this creates the player and enemy so that they are inside of ctx
     npc_enemy_t *e = NULL;
     DL_APPEND(e, make_npc_enemy("Goblin", make_bard(), e_stats, NULL, NULL, BATTLE_AI_GREEDY));
     printf("enemy created!\n");
-    player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL, p_item1);
+    player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL, p_item);
     printf("player created!\n\n");
 
     chiventure_ctx_battle_t *ctx =
