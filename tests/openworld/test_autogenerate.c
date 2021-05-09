@@ -1327,7 +1327,7 @@ Test(autogenerate, recursive_gen_rad0)
 
     char *directions[] = {"NORTH", "EAST"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 0, directions, 2),
+                 recursive_generate(g, sample_room1, spec, 0, directions, 2, ""),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
     
     room_t *curr_room, *tmp_room;
@@ -1356,7 +1356,7 @@ Test(autogenerate, recursive_gen_rad1)
 
     char *directions[] = {"NORTH", "EAST", "SOUTH"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 1, directions, 3),
+                 recursive_generate(g, sample_room1, spec, 1, directions, 3, ""),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;
@@ -1385,7 +1385,7 @@ Test(autogenerate, recursive_gen_rad3)
 
     char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 3, directions, 4),
+                 recursive_generate(g, sample_room1, spec, 3, directions, 4, ""),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;

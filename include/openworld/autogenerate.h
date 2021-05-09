@@ -239,7 +239,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
  * - FAILURE if the new rooms were not generated/added (FAILURE)
  */
 int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, 
-                       int radius, char **directions, int num_of_dir);
+                       int radius, char **directions, int num_of_dir, char *dir_to_parent);
                                
 
 #endif /* INCLUDE_AUTOGENERATE_H */
