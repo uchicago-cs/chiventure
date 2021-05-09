@@ -229,12 +229,11 @@ int move_npc_indefinite(npc_mov_t *npc_mov);
  * the map and a specified movement type. 
  *
  * Parameters: 
- * npc: Pointer to an npc struct that will be receiving this new movement struct
  * starting_room: Pointer to the starting room.
  * mov_type: type of movement
  *
  * Returns:
- * SUCCESS on success, FAILURE if error occurs.
+ * npc_mov_t struct on success, NULL on failure
  */
-npc_mov_t *auto_gen_movement(npc_t *npc, room_t *starting_room, npc_mov_enum_t mov_type);
+npc_mov_t *auto_gen_movement(room_t *starting_room, npc_mov_enum_t mov_type);
 #endif

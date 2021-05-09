@@ -248,22 +248,21 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
 }
 
 /* See npc_move.h */
-npc_mov_t *auto_gen_movement(npc_t *npc, room_t *starting_room,
+npc_mov_t *auto_gen_movement(room_t *starting_room,
                 npc_mov_enum_t mov_type)
 {
-        npc_mov_t *npc_mov = npc_mov_new(mov_type, *starting_room);
+	npc_mov_t *npc_mov = npc_mov_new(mov_type, starting_room);
 
-        assert(npc_mov != NULL);
-
-        room_list_t *head = get_all_rooms(game); // do I need to malloc or call room_list_new()?
+        room_list_t *head = get_all_rooms(game); // do I need to malloc or call room_list_new()? Also I have to include this for it to work
         room_t *room_to_add;
 
-        assert(*head != NULL);
-        assert(room_to_add != NULL);
-
+	if(npc_mov == NULL || head == NULL || room_to_add == NULL)
+	{
+		return NULL;
+	}
         do
         {
-                int rc = FAILURE;
+                int rc = 0;
 
                 room_to_add = head->room;
                 head->room = head->next; // not sure if this is correct
@@ -275,13 +274,15 @@ npc_mov_t *auto_gen_movement(npc_t *npc, room_t *starting_room,
                 {
                         int mintime_in_room = 30000; // min time in room in ms, 30000 ms = 30 s
                         int maxtime_in_room = 90000; // max time in room in ms, 90000 ms = 90 s
-                        int time_in_room = mintime_in_room + (int) (rand() * (maxtime - mintime));
+                        int time_in_room = mintime_in_room + (int) (rand() * (maxtime_in_room - mintime_in_room));
                         rc = extend_path_indefinite(npc_mov, room_to_add, time_in_room);
                 }
-                assert(rc == SUCCESS);
-        }while(room_list->next != NULL);
+		if(rc == FAILURE)
+		{
+			return NULL;
+		}
+        }while(head->next != NULL);
 
-        npc->movement = *npc_mov;
-        return SUCCESS;
+        return npc_mov;
 }
 
