@@ -16,6 +16,9 @@
  * - max: the maximum included bound
  * Returns:
  * - a random integer between min and max
+ * Note:
+ * - must include "srand(time(0));" before using 
+    these functions in a file
  */
 int randnum(int min, int max);
 

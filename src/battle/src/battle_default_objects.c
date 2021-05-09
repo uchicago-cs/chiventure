@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "battle/battle_default_objects.h"
 
 /* resource: https://stackoverflow.com/questions/17846212/generate-a-random-number-between-1-and-10-in-c/49099642 */
@@ -10,8 +9,8 @@
 /* See battle_default_objects.h */
 int randnum(int min, int max)
 {
-    // random seed
-    srand((unsigned)time(NULL));
+    /* must put "srand(time(0));" before using 
+    these functions in a file to set the seed */
 
     int rv = rand() % (max + 1 - min) + min; 
     return rv; 
@@ -27,6 +26,8 @@ item_t *get_random_default_item()
     char* name_array[]= {"STICK", "HAMMER", "SHIV", "CLUB",  "BOW & ARROW", 
                          "SPEAR", "AXE", "TRIDENT", "SWORD", "SHIELD"};
 
+    char *description_prefix = (char*)calloc(50, sizeof(char));
+    strcpy(description_prefix, "It is a ");
     rv_item->id = rand;
     rv_item->quantity = 1;
     rv_item->durability = rand * 10; 
@@ -35,7 +36,10 @@ item_t *get_random_default_item()
     rv_item->name = (char*)calloc(name_len + 1, sizeof(char));
     strncpy(rv_item->name, name_array[rand - 1], name_len + 1);
     
-    rv_item->description = NULL; 
+    rv_item->description = rv_item->name;
+    strcat(description_prefix, rv_item->description);
+    rv_item->description = description_prefix; 
+    
     rv_item->battle = true;
     rv_item->attack = rand * 10;
     rv_item->defense = rand * 10 + 5;
@@ -72,14 +76,14 @@ stat_t* get_random_stat()
     stat_t *rv_stat = calloc(1, sizeof(stat_t));
     assert(rv_stat != NULL);
 
-    rv_stat->speed = randnum(20, 50);
-    rv_stat->defense = randnum(20, 50);
-    rv_stat->strength = randnum(20, 50);
-    rv_stat->dexterity = randnum(20, 50);
-    rv_stat->hp = randnum(50, 100);
-    rv_stat->max_hp = 100;
-    rv_stat->xp  = randnum(20, 100);
-    rv_stat->level = randnum(1, 5);
+    rv_stat->speed = randnum(5, 10);
+    rv_stat->defense = randnum(5, 15);
+    rv_stat->strength = randnum(10, 20);
+    rv_stat->dexterity = randnum(10, 20);
+    rv_stat->hp = randnum(30, 70);
+    rv_stat->max_hp = 70;
+    rv_stat->xp  = randnum(50, 100);
+    rv_stat->level = randnum(1, 10);
 
     return rv_stat;
 }
