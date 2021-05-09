@@ -26,6 +26,9 @@ Test(dialogue, node_init)
     node_t n;
     int rc;
 
+    n.node_id = NULL;
+    n.npc_dialogue = NULL;
+
     rc = node_init(&n, "ID", "Dialogue");
 
     cr_assert_eq(rc, SUCCESS, "node_init() failed");
@@ -75,6 +78,8 @@ Test(dialogue, edge_init)
 {
     edge_t e;
     int rc;
+
+    e.quip = NULL;
 
     rc = edge_init(&e, "Quip", node_new("N1", "Dia_1"),
                    node_new("N2", "Dia_2"));
