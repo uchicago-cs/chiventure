@@ -265,7 +265,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
 
 /* See autogenerate.h */
 int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, 
-                       int radius, char **directions, int num_of_dir) 
+                       int radius, char **directions, int num_of_dir, char *dir_to_parent) 
 {
     // base case
     if (radius <= 0) 
@@ -295,12 +295,29 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
         }
     } 
 
+    // map dir_to_parent to index
+    int dir_to_parent_index = -1;
     for (int i = 0; i < num_of_dir; i++) 
     {
-        room_t *next_room;
+        if(strcmp(directions[i], dir_to_parent) == 0) {
+            dir_to_parent_index = dir_index[i];
+        }
+    } 
 
-        if (path_exists_in_dir(curr_room, all_directions[dir_index[i]])) {
-            next_room = find_room_from_dir(curr_room, all_directions[dir_index[i]]);
+    for (int i = 0; i < num_of_dir; i++) 
+    {
+        // if direction is to parent, skip
+        if (dir_index[i] == dir_to_parent_index) {
+            continue;
+        }
+
+        room_t *next_room;
+        // opposite direction
+        int forwards = dir_index[i];
+        int backwards = (forwards + 3) % 6;
+
+        if (path_exists_in_dir(curr_room, all_directions[forwards])) {
+            next_room = find_room_from_dir(curr_room, all_directions[forwards]);
         
         // create room in path if it doesn't exist yet
         } else {
@@ -309,18 +326,18 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
             assert(SUCCESS == add_room_to_game(game, next_room));
 
             // Path to the generated room
-            path_t* path_to_next_room = path_new(next_room, all_directions[dir_index[i]]);
+            path_t* path_to_next_room = path_new(next_room, all_directions[forwards]);
             assert(SUCCESS == add_path_to_room(curr_room, path_to_next_room));
 
             // Path for the opposite direction
-            int backwards = (dir_index[i] + 3) % 6;
             path_t* path_to_curr_room = path_new(curr_room, all_directions[backwards]);
             assert(SUCCESS == add_path_to_room(next_room, path_to_curr_room));
         }
 
         // recursive case, decrement radius by 1
         assert(SUCCESS == recursive_generate(game, next_room, speclist, 
-                                             radius - 1, directions, num_of_dir));
+                                             radius - 1, directions, num_of_dir,
+                                             all_directions[backwards]));
     }
     return SUCCESS; 
 }
