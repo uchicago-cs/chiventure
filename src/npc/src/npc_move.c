@@ -246,3 +246,42 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
         return 0;
     }
 }
+
+/* See npc_move.h */
+npc_mov_t *auto_gen_movement(npc_t *npc, room_t *starting_room,
+                npc_mov_enum_t mov_type)
+{
+        npc_mov_t *npc_mov = npc_mov_new(mov_type, *starting_room);
+
+        assert(npc_mov != NULL);
+
+        room_list_t *head = get_all_rooms(game); // do I need to malloc or call room_list_new()?
+        room_t *room_to_add;
+
+        assert(*head != NULL);
+        assert(room_to_add != NULL);
+
+        do
+        {
+                int rc = FAILURE;
+
+                room_to_add = head->room;
+                head->room = head->next; // not sure if this is correct
+                if(mov_type == NPC_MOV_DEFINITE)
+                {
+                        rc = extend_path_definite(npc_mov, room_to_add);
+                }
+                else if(mov_type == NPC_MOV_INDEFINITE)
+                {
+                        int mintime_in_room = 30000; // min time in room in ms, 30000 ms = 30 s
+                        int maxtime_in_room = 90000; // max time in room in ms, 90000 ms = 90 s
+                        int time_in_room = mintime_in_room + (int) (rand() * (maxtime - mintime));
+                        rc = extend_path_indefinite(npc_mov, room_to_add, time_in_room);
+                }
+                assert(rc == SUCCESS);
+        }while(room_list->next != NULL);
+
+        npc->movement = *npc_mov;
+        return SUCCESS;
+}
+
