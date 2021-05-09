@@ -74,9 +74,9 @@ typedef struct reward{
 /*
  * This struct represents a skill requirement for a quest.
  *
- * It can be either health points or a level.
+ * It can be either health points, a level, or both.
  */
-typedef union stat_req{
+typedef struct stat_req{
     int hp;
     int level;
 } stat_req_t;
