@@ -1309,6 +1309,9 @@ Test(autogenerate, valid_multi_room_level_3)
 }
 
 
+/* Checks that recursive_generate generates no rooms 
+   when radius 0 is passed in. 
+   Starts with 1 room in all_rooms hash, expect 1 room at the end. */
 Test(autogenerate, recursive_gen_rad0)
 {
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
@@ -1334,6 +1337,9 @@ Test(autogenerate, recursive_gen_rad0)
     cr_assert_eq(1, num_rooms, "expected 1 room; recursive_generate generated %d", num_rooms);
 }
 
+/* Checks that recursive_generate generates 4 rooms 
+   when radius 1 is passed in. 
+   Starts with 1 room in all_rooms hash, expect 5 rooms at the end. */
 Test(autogenerate, recursive_gen_rad1)
 {
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
@@ -1359,6 +1365,9 @@ Test(autogenerate, recursive_gen_rad1)
     cr_assert_eq(5, num_rooms, "expected 1 + 4 = 5 rooms; recursive_generate generated %d", num_rooms);
 }
 
+/* Checks that recursive_generate generates 52 rooms 
+   when radius 3 is passed in. 
+   Starts with 1 room in all_rooms hash, expect 53 rooms at the end. */
 Test(autogenerate, recursive_gen_rad3)
 {
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
