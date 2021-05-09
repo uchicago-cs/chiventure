@@ -129,8 +129,8 @@ int stat_changes_free_all(stat_changes_t *sc);
  * Parameters:
  * - sc: a pointer to a stat_changes struct in memory
  * returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
+ * - SUCCESS for successful adding
+ * - FAILURE for unsuccessful adding
  */
 int stat_changes_add_node(stat_changes_t *sc);
 
@@ -139,8 +139,8 @@ int stat_changes_add_node(stat_changes_t *sc);
  * Parameters:
  * - sc: a pointer to a stat_changes struct in memory
  * returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
+ * - SUCCESS for successful removal
+ * - FAILURE for unsuccessful removal
  */
 int stat_changes_remove_node(stat_changes_t *sc);
 
@@ -150,8 +150,29 @@ int stat_changes_remove_node(stat_changes_t *sc);
  * Parameters:
  * - sc: a pointer to a stat_changes struct in memory
  * returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
+ * - SUCCESS for successful decrement
+ * - FAILURE for unsuccessful decrement
  */
 int stat_changes_turn_increment(stat_changes_t *sc);
+
+/* Undoes the temporary stat changes
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful completion
+ * - FAILURE for unsuccessful completion
+ */
+int stat_changes_undo(stat_changes_t *sc);
+
+/* Adds new temporary status changes from an item. Note: Does
+ *     not yet change the number of turns left, because items
+ *     do not have that supported yet.
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * - item: a pointer to an item struct in memory
+ * returns:
+ * - SUCCESS for successful completion
+ * - FAILURE for unsuccessful completion
+ */
+int stat_changes_add_item_node(stat_changes_t *sc, item_t *item);
 #endif
