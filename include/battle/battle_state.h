@@ -146,7 +146,7 @@ int stat_changes_remove_node(stat_changes_t *sc);
 
 /* Decrements all turn counts in the stat_changes struct by 1. If
  *     this becomes 0 for a given stat_changes node, remove it from
- *     list. Note: This does not currently undo the stat change made.
+ *     list.
  * Parameters:
  * - sc: a pointer to a stat_changes struct in memory
  * returns:

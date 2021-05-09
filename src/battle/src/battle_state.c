@@ -252,7 +252,7 @@ int stat_changes_remove_node(stat_changes_t *sc){
 }
 
 /* See battle_state.h */
-int stat_changes_turn_increment(stat_changes_t *sc){
+int stat_changes_turn_increment(stat_changes_t *sc, combatant_t *c){
     stat_changes_t *current = sc->next;
     stat_changes_t *remove = sc->next;
 
@@ -264,6 +264,7 @@ int stat_changes_turn_increment(stat_changes_t *sc){
             remove = current;
             current = current->next;
 
+            stat_changes_undo(remove, c);
             stat_changes_remove_node(remove);
         }else{
             current = current->next;
