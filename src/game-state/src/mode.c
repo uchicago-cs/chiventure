@@ -97,6 +97,12 @@ int run_conversation_mode(char *input, cli_callback callback_func,
 
     free(outstring);
 
+    /* If conversation over, switches back to normal mode */
+    if (npc->dialogue->cur_node->num_edges == 0)
+    {
+        rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
+    }
+
     return SUCCESS;
 }
 
