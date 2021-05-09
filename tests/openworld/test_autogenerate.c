@@ -1395,33 +1395,3 @@ Test(autogenerate, recursive_gen_rad3)
     }
     cr_assert_eq(53, num_rooms, "expected 1 + 4 + 12 + 36 = 53 rooms; recursive_generate generated %d", num_rooms);
 }
-
-
-/* Checks that recursive_generate generates 52 rooms 
-   when radius 3 is passed in. 
-   Starts with 1 room in all_rooms hash, expect 53 rooms at the end. */
-Test(autogenerate, recursive_gen_rad11)
-{
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
-    speclist_t *spec = NULL;
-    speclist_from_hash(&spec, hash);
-
-    roomspec_t *sample1;
-    HASH_FIND_STR(hash, "closet", sample1);
-    room_t *sample_room1 = roomspec_to_room(sample1);
-
-    game_t *g = game_new("start desc");
-    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
-
-    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
-    cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 11, directions, 4, ""),
-                 "recursive_generate() returned FAILURE instead of SUCCESS");
-
-    room_t *curr_room, *tmp_room;
-    int num_rooms;
-    HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
-        num_rooms++;
-    }
-    cr_assert_eq(53, num_rooms, "expected 1 + 4 + 12 + 36 = 53 rooms; recursive_generate generated %d", num_rooms);
-}
