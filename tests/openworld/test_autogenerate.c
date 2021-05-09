@@ -1325,8 +1325,9 @@ Test(autogenerate, recursive_gen_rad0)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
+    char *directions[] = {"NORTH", "EAST"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 0),
+                 recursive_generate(g, sample_room1, spec, 0, directions, 2),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
     
     room_t *curr_room, *tmp_room;
@@ -1353,8 +1354,9 @@ Test(autogenerate, recursive_gen_rad1)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
+    char *directions[] = {"NORTH", "EAST", "SOUTH"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 1),
+                 recursive_generate(g, sample_room1, spec, 1, directions, 3),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;
@@ -1362,7 +1364,7 @@ Test(autogenerate, recursive_gen_rad1)
     HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
         num_rooms++;
     }
-    cr_assert_eq(5, num_rooms, "expected 1 + 4 = 5 rooms; recursive_generate generated %d", num_rooms);
+    cr_assert_eq(4, num_rooms, "expected 1 + 3 = 4 rooms; recursive_generate generated %d", num_rooms);
 }
 
 /* Checks that recursive_generate generates 52 rooms 
@@ -1381,8 +1383,9 @@ Test(autogenerate, recursive_gen_rad3)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
+    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 3),
+                 recursive_generate(g, sample_room1, spec, 3, directions, 4),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;
