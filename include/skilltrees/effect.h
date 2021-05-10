@@ -7,7 +7,7 @@
 #define INCLUDE_EFFECT_H_
 
 #include "common/common.h"
-//#include "common/ctx.h"  (Removing the comment causes the code to not compile correctly.  Please advise)
+//#include "common/ctx.h"  //(Removing the comment causes the code to not compile correctly.  Please advise)
 #include <stdbool.h>
 
 /*List of all the effect types that a skill can have.  We can add more in the future */
