@@ -7,7 +7,7 @@
 /* see battle_flow.h */
 int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environment_t env)
 {
-    game_t *g = ctx->game;
+    battle_game_t *g = ctx->game;
     battle_player_t *player = g->player;
 
     // Set battle_player, enemies, and battle structs for a new battle
@@ -19,7 +19,7 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environ
 }
 
 /* see battle_flow.h */
-combatant_t *set_player(battle_player_t *ctx_player)
+combatant_t *set_battle_player(battle_player_t *ctx_player)
 {
     // Setting up arguments for combatant_new
     char* name = ctx_player->player_id;
@@ -67,7 +67,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
 /* see battle_flow.h */
 battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies, environment_t env)
 {
-    combatant_t *comb_player  = set_player(ctx_player);
+    combatant_t *comb_player  = set_battle_player(ctx_player);
     combatant_t *comb_enemies = set_enemies(npc_enemies);
 
     /* Builds a move list using player class module */

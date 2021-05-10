@@ -356,7 +356,7 @@ int main()
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
 
     // new_game creates a game that is then attached to ctx
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
     printf("game has been created folks!\n\n");
     ctx->game = g;
 

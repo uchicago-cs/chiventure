@@ -38,9 +38,9 @@ npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t 
 }
 
 /* Stub for the game_new function in game.h game-state module */
-game_t *new_game()
+battle_game_t *new_battle_game()
 {
-      game_t *g = calloc(1, sizeof(game_t));
+      battle_game_t *g = calloc(1, sizeof(battle_game_t));
       assert(g != NULL);
       g->player = NULL;
       g->battle = NULL;
