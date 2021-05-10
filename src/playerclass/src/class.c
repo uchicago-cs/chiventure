@@ -270,7 +270,6 @@ int class_free(class_t* class) {
         free (class->parent_class_names);
     }
     if (class->shortdesc != NULL) {
-    {
         free(class->shortdesc);
     }
     if (class->longdesc != NULL) {
