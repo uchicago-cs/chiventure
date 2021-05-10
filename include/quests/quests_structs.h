@@ -12,6 +12,11 @@
  * 
  * A passive mission is one that the player does not
  * manually explore chiventure to acquire.
+ *
+ * Components:
+ *  xp: integer list of xp milestones
+ *  levels: integer list of level milestones
+ *  health: integer list of health milestones
  */
 typedef struct passive_mission{
     int *xp;
@@ -23,9 +28,13 @@ typedef struct passive_mission{
  * This struct represents an active mission.
  * 
  * An active mission is one that the player
- * has to explore chiventure to acquire. There are four
- * possible active missions: collect an item, meet an npc,
- * kill an npc, or visit a room.
+ * has to explore chiventure to acquire. 
+ *
+ * Components:
+ *  item_to_collect: an item to collect
+ *  npc_to_meet: an npc to meet
+ *  npc_to_kill: an npc to kill
+ *  room_to_visit: a room to visit
  */
 typedef struct active_mission {
     item_t *item_to_collect;
@@ -37,7 +46,9 @@ typedef struct active_mission {
 /*
  * This union represents a mission.
  * 
- * The mission can be either an active or passive mission.
+ * Components:
+ *  a_mission: an active mission
+ *  p_mission: a passive mission
  *
  */
 typedef union mission {
@@ -46,7 +57,11 @@ typedef union mission {
 } mission_t;
 
 /* 
- * This union represents an achievement.
+ * This struct represents an achievement.
+ * 
+ * Components:
+ *  mission: mission to be completed
+ *  completed: bool for if achievement is completed
  */
 typedef struct achievement {
     mission_t *mission;
@@ -55,6 +70,10 @@ typedef struct achievement {
 
 /* 
  * This is a linked list struct of achievements.
+ * 
+ * Components:
+ *  achievement: achievement in linked list
+ *  next: rest of linked list of achievements
  */
 typedef struct achievement_llist {
     achievement_t *achievement;
@@ -64,7 +83,9 @@ typedef struct achievement_llist {
 /* 
  * This struct represents a reward for completing a quest.
  *
- * The reward could be an item, experience, or both.
+ * Components:
+ *  xp: an xp amount gained
+ *  item: an item gained
  */
 typedef struct reward{
    int xp;
@@ -74,7 +95,9 @@ typedef struct reward{
 /*
  * This struct represents a skill requirement for a quest.
  *
- * It can be either health points, a level, or both.
+ * Components:
+ *  hp: health points 
+ *  level: a number of levels gained
  */
 typedef struct stat_req{
     int hp;
@@ -90,9 +113,9 @@ typedef struct stat_req{
  * reward: reward of the quest is either experience, an item, or both
  * stat_req: stat requirement for the quest
  * status: -1: failed quest
- *         0: quest has not been started
- *         1: quest has been started but not completed
- *         2: quest has been completed
+ *          0: quest has not been started
+ *          1: quest has been started but not completed
+ *          2: quest has been completed
  */
 typedef struct quest  {
     UT_hash_handle hh;
@@ -102,7 +125,6 @@ typedef struct quest  {
     stat_req_t *stat_req;
     int status;  
 } quest_t;
-
 
 /*
  * This typedef distinguishes between quest_t pointers
