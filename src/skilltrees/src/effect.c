@@ -9,9 +9,9 @@
 //See effect.h
 stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int mod, int duration)
 {
-    /*This is a very basic implementation that will be changed to check
-     *if the stat exists in the hash table belonging to the player when
-     *#898 gets merged
+    /* This is a very basic implementation that will be changed to check
+     * if the stat exists in the hash table belonging to the player when
+     * #898 gets merged
      */
     stat_mod_effect_t* new_stat_effect = (stat_mod_effect_t*)malloc(sizeof(stat_mod_effect_t));
     new_stat_effect->stat_name = stat_name;
@@ -21,7 +21,7 @@ stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int mod, int duration
     return new_stat_effect;
 }
 
-//See effect.h
+// See effect.h
 damage_effect_t* define_damage_effect(int mod)
 {
     damage_effect_t* new_damage_effect = (damage_effect_t*)malloc(sizeof(damage_effect_t));
@@ -30,49 +30,49 @@ damage_effect_t* define_damage_effect(int mod)
     return new_damage_effect;
 }
 
-//See effect.h
+// See effect.h
 att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod)
 {
-    //TODO
+    // TODO
 }
 
-//See effect.h
+// See effect.h
 effect_t* make_stat_effect(stat_mod_effect_t* stat_effect)
 {
-    //TODO
+    // TODO
 }
 
-//See effect.h
+// See effect.h
 effect_t* make_damage_effect(damage_effect_t* damage_effect)
 {
-    //TODO
+    // TODO
 }
 
-//See effect.h
+// See effect.h
 effect_t* make_att_effect(att_effect_t* att_effect)
 {
-    //TODO
+    // TODO
 }
 
-//See effect.h
+// See effect.h
 int execute_stat_effect(stat_mod_effect_t* stat_effect)
 {
-    //TODO
+    // TODO
 }
 
-//See effect.h
+// See effect.h
 int execute_damage_effect(damage_effect_t* damage_effect)
 {
-    //TODO
+    // TODO
 }
 
-//See effect.h
+// See effect.h
 int execute_att_effect(att_effect_t* att_effect)
 {
-    //TODO
+    // TODO
 }
 
-//See effect.h
+// See effect.h
 effects_linked_list_t* init_linked_list()
 {
     effects_linked_list_t* ll = (effects_linked_list_t*)malloc(sizeof(effects_linked_list_t));
@@ -86,7 +86,7 @@ effects_linked_list_t* init_linked_list()
     return ll;
 }
 
-//See effect.h
+// See effect.h
 int add_node (effects_linked_list_t* ll, effect_t* effect)
 {
     effect_node_t* node = (effect_node_t*)malloc(sizeof(effect_node_t));
@@ -111,8 +111,8 @@ int add_node (effects_linked_list_t* ll, effect_t* effect)
     return 0;
 }
 
-//See effect.h
+// See effect.h
 int remove_node (effects_linked_list_t* ll, effect_t* effect)
 {
-    //TODO
+    // TODO
 }
