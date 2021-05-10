@@ -44,6 +44,21 @@ int add_item_multiplier(item_t* item, class_t* class, double multiplier);
 */
 double get_class_item_multiplier(item_t* item, class_t* class);
 
+/* Given an item and a class, removes the class multiplier on the item
+ * 
+ * Utilizes the class multipliers field of an item to change this information
+ *
+ * Parameters:
+ * - item_t* item: item to which class attribute is being removed
+ * - class_t* class: class which has proficiency multiplier using the item
+ * 
+ * Returns:
+ * - int: 
+ *   - SUCCESS if successful
+ *   - FAILURE if not
+ */
+int remove_item_multiplier(item_t* item, class_t* class);
+
 /* Given an item and a class, adds an attribute of the class to the item representing a restriction
  * 
  * Utilizes the class restrictions field of an item to set this information
@@ -75,7 +90,7 @@ bool is_restricted(item_t* item, class_t* class);
 
 /* Given an item and a class, removes the class restriction on the item
  * 
- * Utilizes the class restrictions field of an item to change this information
+ * Utilizes the class multipliers field of an item to change this information
  *
  * Parameters:
  * - item_t* item: item to which class attribute is being removed

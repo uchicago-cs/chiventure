@@ -60,6 +60,19 @@ double get_class_item_multiplier(item_t* item, class_t* class) {
     return list_get_double_attr(item->class_multipliers, class->name);
 }
 
+int remove_item_multiplier(item_t* item, class_t* class) {
+    if ((item == NULL) | (class == NULL)) {
+        fprintf(stderr, "Item or Class provided are NULL in remove_item_restriction.\n");
+        return FAILURE;
+    }
+
+    if (!list_contains_attribute(item->class_multipliers, strndup(class->name, 100)))
+        return SUCCESS;
+
+    int remove_rc = remove_attribute_from_list(item->class_multipliers, class->name);
+    return remove_rc;
+}
+
 /* see class_item_restriction.h */
 int add_item_restriction(item_t* item, class_t* class) {
     if ((item == NULL) | (class == NULL)) {
@@ -94,6 +107,6 @@ int remove_item_restriction(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    int remove_rc = remove_attribute_from_list(item->class_multipliers, class->name);
+    int remove_rc = remove_item_multiplier(item, class);
     return remove_rc;
 }
