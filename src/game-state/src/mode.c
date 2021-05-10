@@ -84,6 +84,13 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     npc_t *npc;
     HASH_FIND_STR(ctx->game->all_npcs, ctx->mode->mode_ctx, npc);
 
+    int rc;
+    if (npc->dialogue->cur_node->num_edges == 0)
+    {
+        rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
+        return SUCCESS;
+    }
+
     if ((option <= 0) || (option > npc->dialogue->cur_node->num_edges) || 
         parsed_input[1] != NULL) //assumes convo_t has cur_node field
     {
