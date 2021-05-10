@@ -17,11 +17,7 @@ int add_item_restriction(item_t* item, class_t* class) {
         item->class_restrictions = create_list_attribute();
     }
 
-    /* Attribute creation will be refactored in game-state/item to allow for streamlined attribute creation */
-    attribute_t* restriction = malloc(sizeof(attribute_t));
-    restriction->attribute_tag = BOOLE;
-    restriction->attribute_value.bool_val = true;
-    restriction->attribute_key = strndup(class->name, 100);
+    attribute_t* restriction = bool_attr_new(class->name, true);
 
     if (restriction == NULL) {
         fprintf(stderr, "Failed to allocate memory in add_item_restriction");
