@@ -34,42 +34,49 @@ damage_effect_t* define_damage_effect(int mod)
 att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod)
 {
     // TODO
+    return NULL;
 }
 
 // See effect.h
 effect_t* make_stat_effect(stat_mod_effect_t* stat_effect)
 {
     // TODO
+    return NULL;
 }
 
 // See effect.h
 effect_t* make_damage_effect(damage_effect_t* damage_effect)
 {
     // TODO
+    return NULL;
 }
 
 // See effect.h
 effect_t* make_att_effect(att_effect_t* att_effect)
 {
     // TODO
+    return NULL;
 }
 
 // See effect.h
-int execute_stat_effect(stat_mod_effect_t* stat_effect)
+int execute_stat_mod_effect(stat_mod_effect_t* stat_effect)
 {
     // TODO
+    return 0;
 }
 
 // See effect.h
 int execute_damage_effect(damage_effect_t* damage_effect)
 {
     // TODO
+    return 0;
 }
 
 // See effect.h
 int execute_att_effect(att_effect_t* att_effect)
 {
     // TODO
+    return 0;
 }
 
 // See effect.h

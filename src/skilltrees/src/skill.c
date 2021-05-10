@@ -6,7 +6,9 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include "skilltrees/effect.h"
 #include "skilltrees/skill.h"
+
 
 /* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
@@ -79,7 +81,7 @@ int skill_execute(skill_t* skill)
     effect_node_t* curr = ll->head;
     effect_node_t* next = curr->next;
     int check = 0;
-    for(int i = 0 ; i < ll -> num; i++) //recurse through linked list
+    for(int i = 0 ; i < ll -> num_effects; i++) //recurse through linked list
     {
         effect_t* effect = curr->data;
         effect_type_t type = effect -> effect_type;
