@@ -20,13 +20,13 @@
 int randnum(int min, int max);
 
 /*
- * Generates a random item from a list of previously-initialized items
+ * Generates a random battle item from a list of previously-initialized battle items
  *
  * Parameters: none
  * Returns:
- * - a pointer to a default item
+ * - a pointer to a default battle item
  */
-item_t *get_random_default_item();
+battle_item_t *get_random_default_battle_item();
 
 /*
  * Generates a random move from a list of previously-initialized moves
