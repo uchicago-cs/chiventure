@@ -107,16 +107,16 @@ int print_moves(chiventure_ctx_battle_t *ctx)
     return SUCCESS;
 }
 
-/* Prints out the avaliable items for the player
+/* Prints out the avaliable battle_items for the player
  * Parameter:
  *  ctx: the main structure of the game
  * Returns:
  *  Always SUCCESS
  */ 
-int print_items(chiventure_ctx_battle_t *ctx)
+int print_battle_items(chiventure_ctx_battle_t *ctx)
 {
-    item_t *temp;
-    printf("\nAVAILABLE ITEMS LIST: \n");
+    battle_item_t *temp;
+    printf("\n AVAILABLE BATTLE ITEMS LIST:\n");
     DL_FOREACH(ctx->game->battle->player->items, temp)
     {
         printf("Name: %s\n", temp->name);
@@ -186,7 +186,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
     {
         printf("Determined command as ITEM LIST\n\n");
-        res = print_items(ctx);
+        res = print_battle_items(ctx);
         printf("\n");
         return res;
     }
@@ -201,31 +201,32 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("USE <item_id>\n\n");
         return SUCCESS;
     }
-    //   // handles the command USE <item>
+    //   // handles the command USE <battle_item>
      else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
     {
         
-        item_t *item = find_item(ctx->game->battle->player->items, atoi(args[1]));
+        battle_item_t *item = find_battle_item(ctx->game->battle->player->items, atoi(args[1]));
         printf("Determined command as USE %s\n\n", item->name);
         if (item == NULL)
         {
-            printf("Couldn't find the move you were looking for!\n");
+            printf("Couldn't find the battle item you were looking for!\n");
             return FAILURE;
         }
         if (item->quantity == 0)
         {
-            printf("Sorry you don't have any more of that item!\n");
+            printf("Sorry you don't have any more of that battle item!\n");
             return FAILURE;
         }
 
-        res = use_item(ctx->game->battle->player, atoi(args[1]));
+        res = use_battle_item(ctx->game->battle->player, atoi(args[1]));
         if (res == FAILURE) {
             return FAILURE;
         } else 
         {
-        printf("New Hp is %d\n", ctx->game->battle->player->stats->hp);
-        printf("New Strength is %d\n", ctx->game->battle->player->stats->strength);
-        printf("New Defense is %d\n",ctx->game->battle->player->stats->defense);
+        stat_t *player_stats = ctx->game->battle->player->stats;
+        printf("New Hp is %d\n", player_stats->hp);
+        printf("New Strength is %d\n", player_stats->strength);
+        printf("New Defense is %d\n\n",player_stats->defense);
         return res;
         }
     }
@@ -317,8 +318,8 @@ int main()
     e_stats->speed = 9;
 
     //this creates items for the player
-    item_t *p_item1 = (item_t *)calloc(1, sizeof(item_t));
-    item_t *p_item2 = (item_t *)calloc(1, sizeof(item_t));
+    battle_item_t *p_item1 = (battle_item_t *)calloc(1, sizeof(battle_item_t));
+    battle_item_t *p_item2 = (battle_item_t *)calloc(1, sizeof(battle_item_t));
     p_item1->id = 1;
     p_item1->quantity = 5;
     p_item1->durability = 5;
