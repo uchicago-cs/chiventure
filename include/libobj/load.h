@@ -36,5 +36,19 @@ int load_obj_json(obj_t *obj, char *json_str);
  */
 int load_obj_zip(obj_t *obj, zip_t *zip);
 
+/*
+ * Loads an obj depending on the file extension
+ * Currently supports:
+ *  - *.wdl
+ *  - *.wdz
+ * 
+ * Parameters:
+ *  - path: The path of the file to load
+ * 
+ * Returns:
+ *  - The loaded object on success, NULL on failure
+ */
+obj_t *load_obj(char *path);
+
 
 #endif /* INCLUDE_LOAD_H */

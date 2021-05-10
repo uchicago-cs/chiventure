@@ -167,4 +167,7 @@ Test(action_type, init_room_dir)
     cr_assert_eq(rc, SUCCESS, "action_type_init_room_dir() failed");
     cr_assert_not_null(a->room, "room was not initialized");
     cr_assert_not_null(a->direction, "direction was not initialized");
+
+    room_free(new_room);
+    action_type_free(a);
 }

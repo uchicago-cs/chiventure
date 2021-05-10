@@ -7,7 +7,7 @@
 
 /* See battle_state.h */
 combatant_t *combatant_new(char *name, bool is_friendly, class_t *class, stat_t *stats,
-    move_t *moves, item_t *items, difficulty_t ai)
+    move_t *moves, battle_item_t *items, difficulty_t ai)
 {
     combatant_t *c;
     int rc;
@@ -31,7 +31,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class, stat_t 
 
 /* See battle_state.h */
 int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class, stat_t *stats,
-    move_t *moves, item_t *items, difficulty_t ai)
+    move_t *moves, battle_item_t *items, difficulty_t ai)
 {
     assert(c != NULL);
 
@@ -79,7 +79,7 @@ int combatant_free(combatant_t *c)
         free(move_elt);
     }
 
-    item_t *item_elt, *item_tmp;
+    battle_item_t *item_elt, *item_tmp;
     DL_FOREACH_SAFE(c->items, item_elt, item_tmp)
     {
         DL_DELETE(c->items, item_elt);

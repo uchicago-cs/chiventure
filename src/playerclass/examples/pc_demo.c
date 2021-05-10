@@ -38,15 +38,15 @@ void main()
     item_t* sword = item_new("sword", " ", " ");
     item_t* guitar = item_new("guitar", " "," ");
 
-    set_item_restriction(wand, classlist->c);
-    set_item_restriction(sword, classlist->c);
+    add_item_restriction(wand, classlist->c);
+    add_item_restriction(sword, classlist->c);
     
     printf("Your enemy has dropped the following items: %s, %s, %s. You attempt to pick them up with mixed results.\n",
 	    wand->item_id, sword->item_id, guitar->item_id);
 
-    bool not_allowed_wand = get_class_restriction(wand, classlist->c);
-    bool not_allowed_sword = get_class_restriction(sword, classlist->c);
-    bool not_allowed_guitar = get_class_restriction(guitar, classlist->c);
+    bool not_allowed_wand = is_restricted(wand, classlist->c);
+    bool not_allowed_sword = is_restricted(sword, classlist->c);
+    bool not_allowed_guitar = is_restricted(guitar, classlist->c);
 
     printf("You are %s to use the  %s, %s to use the %s and %s to use the %s because you are a %s \n",
 	    not_allowed_wand? "not able":"able",
