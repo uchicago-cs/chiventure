@@ -3,7 +3,6 @@
 
 #include "game_state_common.h"
 #include "cli/cmd.h"
-#include "npc/dialogue.h"
 
 /* Forward declarations */
 typedef struct chiventure_ctx chiventure_ctx_t;
