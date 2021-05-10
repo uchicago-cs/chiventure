@@ -2,8 +2,7 @@
 #define _NPC_MOVE_H
 
 #include "game-state/game_state_common.h"
-#include "game-state/item.h"
-#include "game-state/room.h"
+#include "game-state/game.h"
 
 
 /*
@@ -211,16 +210,13 @@ int reverse_path(npc_mov_t *npc_mov);
 int move_npc_definite(npc_mov_t *npc_mov);
 
 /*
- * Moves the npc to the next room for npcs with definite movement
- *
+ * Moves the npc to the next room for npcs with indefinite movement
+ * 
  * Paramters:
  * npc_mov: The NPC movement struct
- *
+ * 
  * Returns:
- * 0 if move in unsuccessful
- * 1 npc has reached the end of the path, reverse_path is called, but
- *   the move is not implemented
- * 2 successful move to the next room
+ * SUCCESS, OR FAILURE
 */
 int move_npc_indefinite(npc_mov_t *npc_mov);
 
@@ -235,5 +231,5 @@ int move_npc_indefinite(npc_mov_t *npc_mov);
  * Returns:
  * npc_mov_t struct on success, NULL on failure
  */
-npc_mov_t *auto_gen_movement(room_t *starting_room, npc_mov_enum_t mov_type);
+int auto_gen_movement(npc_mov_t *npc_mov, game_t *game);
 #endif
