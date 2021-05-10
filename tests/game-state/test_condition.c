@@ -81,7 +81,7 @@ Test(condition, free_condition_on_attr)
 /* Tests free_condition on an inventory condition */
 Test(condition, free_condition_on_inven)
 {
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
 
     condition_t *condition = inventory_condition_new(player, item);
