@@ -7,7 +7,7 @@
 // it into the hash table later on
 
 //See effect.h
-stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int mod, int duration)
+stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int modification, int duration)
 {
     /* This is a very basic implementation that will be changed to check
      * if the stat exists in the hash table belonging to the player when
@@ -15,7 +15,7 @@ stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int mod, int duration
      */
     stat_mod_effect_t* new_stat_effect = (stat_mod_effect_t*)malloc(sizeof(stat_mod_effect_t));
     new_stat_effect->stat_name = stat_name;
-    new_stat_effect->mod = mod;
+    new_stat_effect->modification = mod;
     new_stat_effect->duration = duration;
 
     return new_stat_effect;
@@ -82,7 +82,7 @@ effects_linked_list_t* init_linked_list()
         exit(1);
     }
     ll -> head = NULL;
-    ll -> num = 0;
+    ll -> num_effects = 0;
     return ll;
 }
 
@@ -100,14 +100,14 @@ int add_node (effects_linked_list_t* ll, effect_t* effect)
     if (ll -> head == NULL)
     {
         ll -> head = node;
-        ll -> num = 1;
+        ll -> num_effects = 1;
         return 0;
     }
     effect_node_t* curr = ll -> head;
     while(curr -> next != NULL)
     curr = curr -> next;
     curr -> next = node;
-    ll -> num += 1;
+    ll -> num_effects += 1;
     return 0;
 }
 

@@ -28,14 +28,14 @@ typedef enum effect_type {
 }effect_type_t;
 
 // Defines an effect that modifies the statistics of a player
-typedef struct stat_effect{
+typedef struct stat_mod_effect {
     char* stat_name; // Takes the name of the statistic that must be modified
-    int mod;         // Modifies the statistic by this number.  If effect decreases stats, specify negative number.
+    int modification;         // Modifies the statistic by this number.  If effect decreases stats, specify negative number.
     int duration;    // The duration for how long the effect should be applied (O if permanent)
 }stat_mod_effect_t;
 
 //Defines an effect that deals damage
-typedef struct damage_effect{
+typedef struct damage_effect {
     int damage;      // Specifies the amount of damage that the skill does
 }damage_effect_t;
 
@@ -54,14 +54,14 @@ union data
  * Currently, creating a new attribute is not supported but this can be changed.
  */
 
-typedef struct att_effect{
+typedef struct att_effect {
     char* item_id; // The ID of the parent object 
     char* att_id; // The ID that refers to the given attribute (see obj.h)
     union data mod; 
 }att_effect_t;
 
 /* Union of all the effect types given above.*/
-typedef struct effect{
+typedef struct effect {
     effect_type_t effect_type; // Contains the value of the effect.  Check enum above
     union
     {
@@ -72,15 +72,15 @@ typedef struct effect{
 }effect_t;
 
 // Node in the effects linked list
-typedef struct effect_node{
+typedef struct effect_node {
     effect_t* data; // Pointer to the effect in this node
     struct effect_node* next; // Pointer to the next node
 }effect_node_t;
 
 //The linked list itself
-typedef struct effects_linked_list{
+typedef struct effects_linked_list {
     effect_node_t* head; // Pointer to the start of the linked list
-    int num; // Number of effects
+    int num_effects; // Number of effects
 }effects_linked_list_t;
 
 /* Defines a statistic modifying effect and returns a pointer to it 
@@ -89,7 +89,7 @@ typedef struct effects_linked_list{
  *             int duration: the duration for which the effect should be applied
  * Returns:  A pointer to the created statistic modifying effect
  */
-stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int mod, int duration);
+stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int modification, int duration);
 
 /* Defines an attack effect that damages a target by a given amount and returns a pointer to it
  * Parameters: int mod: The amount of damage to be dealt
@@ -157,12 +157,12 @@ effects_linked_list_t* init_linked_list();
 /* Adds an effect_t_node to the tail of a linked list of effects
  * Returns: 0 adding was successful, 1 otherwise
  */
-int add_node (effects_linked_list_t* ll, effect_t* effect);
+int add_node(effects_linked_list_t* ll, effect_t* effect);
 
 
 /* Removes an effect_t_node from the tail of a linked list of effects
  * Returns: 0 is removing was successful, 1 otherwise
  */
-int remove_node (effects_linked_list_t* ll, effect_t* effect);
+int remove_node(effects_linked_list_t* ll, effect_t* effect);
 
 #endif /*INCLUDE_EFFECT_H*/
