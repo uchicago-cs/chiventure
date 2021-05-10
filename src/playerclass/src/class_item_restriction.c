@@ -47,6 +47,20 @@ int add_item_multiplier(item_t* item, class_t* class, double multiplier) {
 }
 
 /* see class_item_restriction.h */
+double get_class_item_multiplier(item_t* item, class_t* class) {
+    if ((item == NULL) | (class == NULL)) {
+        fprintf(stderr, "Item or Class provided are NULL in get_class_item_multiplier.\n");
+        return FAILURE;
+    }
+
+    /* A multiplier of 1.0 is returned in the case where it has not been set */
+    if (!list_contains_attribute(item->class_multipliers, strndup(class->name, 100)))
+        return 1.0;
+
+    return list_get_double_attr(item->class_multipliers, class->name);
+}
+
+/* see class_item_restriction.h */
 int add_item_restriction(item_t* item, class_t* class) {
     if ((item == NULL) | (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in add_item_restriction.\n");
@@ -64,9 +78,6 @@ bool is_restricted(item_t* item, class_t* class) {
         fprintf(stderr, "Item or Class provided are NULL in is_restricted.\n");
         return FAILURE;
     }
-
-    if (!list_contains_attribute(item->class_multipliers, strndup(class->name, 100)))
-        return false;
     
     return list_get_double_attr(item->class_multipliers, class->name) == 0.0;
 }

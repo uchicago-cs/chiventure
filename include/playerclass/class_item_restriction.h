@@ -29,6 +29,21 @@
  */
 int add_item_multiplier(item_t* item, class_t* class, double multiplier);
 
+/* Given an item and a class, returns the proficiency multiplier that class has when using the item.
+ * Utilizes the class multiplier field of an item to retrieve this information.
+ *
+ * Parameters:
+ * - item_t* item: item being checked for class multiplier
+ * - class_t* class: class being checked
+ * 
+ * Return:
+ * - double: 
+ *   - 0.0 if the item is restricted
+ *   - 1.0 if no multiplier has been set
+ *   - The multiplier in all other cases
+*/
+double get_class_item_multiplier(item_t* item, class_t* class);
+
 /* Given an item and a class, adds an attribute of the class to the item representing a restriction
  * 
  * Utilizes the class restrictions field of an item to set this information
@@ -45,7 +60,7 @@ int add_item_multiplier(item_t* item, class_t* class, double multiplier);
 int add_item_restriction(item_t* item, class_t* class);
 
 /* Given an item and a class, returns whether or not that class is restricted from using the item
- * Utilizes the class restrictions field of an item to retrieve this information
+ * Utilizes the class multiplier field of an item to retrieve this information
  *
  * Parameters:
  * - item_t* item: item being checked for class restrictions
