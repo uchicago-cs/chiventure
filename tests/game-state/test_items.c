@@ -443,6 +443,68 @@ Test(attribute, get_attribute)
 
 }
 
+// TESTS FOR TYPE-SPECIFIC ATTR_NEW() FUNCTIONS --------------------------------
+
+Test(attribute, str_attr_new)
+{
+    attribute_t *test_attr = str_attr_new("Attribute_Test_Name", "Attribute_Test_Value");
+
+    cr_assert_not_null(test_attr, "str_attr_new: null attribute returned");
+
+    cr_assert_str_eq(test_attr->attribute_value.str_val, "Attribute_Test_Value", 
+                     "str_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, int_attr_new)
+{
+    attribute_t *test_attr = int_attr_new("Attribute_Test_Name", 0);
+
+    cr_assert_not_null(test_attr, "int_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.int_val, 0, 
+                 "int_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, double_attr_new)
+{
+    attribute_t *test_attr = double_attr_new("Attribute_Test_Name", 0.0);
+
+    cr_assert_not_null(test_attr, "double_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.double_val, 0.0, 
+                 "double_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, char_attr_new)
+{
+    attribute_t *test_attr = char_attr_new("Attribute_Test_Name", 'a');
+
+    cr_assert_not_null(test_attr, "char_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.char_val, 'a', 
+                 "char_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, bool_attr_new)
+{
+    attribute_t *test_attr = bool_attr_new("Attribute_Test_Name", true);
+
+    cr_assert_not_null(test_attr, "bool_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.bool_val, true, 
+                     "int_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS --------------------------------
 
 /* Checks creation of new string attribute and adding it to an item */
@@ -1232,7 +1294,7 @@ Test(item, deletion_in_room)
 /* Checks deletion of all items within a player struct */
 Test(item, deletion_in_player)
 {
-    player_t *test_player = player_new("test_player", 100);
+    player_t *test_player = player_new("test_player");
     item_t *test_item1 = item_new("hat", "fedora", "Indiana Jones vibes");
     item_t *test_item2 = item_new("lightsaber", "weapon",
     "star wars vibes, it's a crossover episode");
@@ -1324,7 +1386,7 @@ Test(attribute_list, remove_from_one_attribute_list)
     cr_assert_eq(add_attribute, SUCCESS,
         "add_attribute_to_list test: attribute Queen not added");
 
-    int remove_attribute = remove_attribute_from_list(test_head, test_attr1);
+    int remove_attribute = remove_attribute_from_list(test_head, test_attr1->attribute_key);
 
     cr_assert_eq(remove_attribute, SUCCESS,
         "remove_from_one_attribute_list test: attribute Queen not removed");
@@ -1371,7 +1433,7 @@ Test(attribute_list, remove_attribute_from_list)
     cr_assert_eq(add_attribute2, SUCCESS,
         "add_attribute_to_list test: attribute Queen not added");
 
-    int remove_attribute = remove_attribute_from_list(test_head, test_attr2);
+    int remove_attribute = remove_attribute_from_list(test_head, test_attr2->attribute_key);
   
     cr_assert_eq(remove_attribute, SUCCESS,
         "remove_attirubte_from_list test: attribute Queen not removed");

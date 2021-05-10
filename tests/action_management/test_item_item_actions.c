@@ -44,7 +44,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     add_action_effect(ga, indirect, attr, value);
 
 
-    player_t *player = player_new("player1", 20);
+    player_t *player = player_new("player1");
 
     switch (choose_condition)
     {
