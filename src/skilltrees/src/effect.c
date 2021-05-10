@@ -15,7 +15,7 @@ stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int modification, int
      */
     stat_mod_effect_t* new_stat_effect = (stat_mod_effect_t*)malloc(sizeof(stat_mod_effect_t));
     new_stat_effect->stat_name = stat_name;
-    new_stat_effect->modification = mod;
+    new_stat_effect->modification = modification;
     new_stat_effect->duration = duration;
 
     return new_stat_effect;
