@@ -49,9 +49,9 @@ battle_item_t *get_random_default_weapon()
 }
 
 /* See battle_default_objects.h */
-item_t *get_random_default_consumable()
+battle_item_t *get_random_default_consumable()
 {
-    item_t *rv_item = calloc(1, sizeof(item_t));
+    battle_item_t *rv_item = calloc(1, sizeof(battle_item_t));
     assert(rv_item != NULL);
 
     int rand = randnum(1, 4); 

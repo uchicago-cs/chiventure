@@ -152,7 +152,7 @@ Test(battle_default_objects, default_weapon)
 
 Test(battle_default_objects, default_consumables)
 {
-    item_t *test_item = get_random_default_consumable();
+    battle_item_t *test_item = get_random_default_consumable();
     
     cr_assert_not_null(test_item, "get_random_default_consumable() failed");
 

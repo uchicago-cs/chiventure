@@ -118,7 +118,7 @@ int print_moves(chiventure_ctx_battle_t *ctx)
 int print_battle_items(chiventure_ctx_battle_t *ctx)
 {
     battle_item_t *temp;
-    printf("\n AVAILABLE BATTLE ITEMS LIST:\n");
+    printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
     DL_FOREACH(ctx->game->battle->player->items, temp)
     {
         printf("Name: %s\n", temp->name);
@@ -208,7 +208,6 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
     // handles the command USE <battle_item>
     else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
     {
-        
         battle_item_t *item = find_battle_item(ctx->game->battle->player->items, atoi(args[1]));
         printf("Determined command as USE %s\n\n", item->name);
         if (item == NULL)
@@ -218,11 +217,11 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         }
         if (item->quantity <= 0)
         {
-            printf("Sorry, you don't have any more of that item!\n");
+            printf("Sorry, you don't have any more of that battle item!\n");
             return FAILURE;
         }
 
-        res = use_item(ctx->game->battle->player, atoi(args[1]));
+        res = use_battle_item(ctx->game->battle->player, atoi(args[1]));
         if (res == FAILURE) 
         {
             return FAILURE;
@@ -232,7 +231,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             stat_t *player_stats = ctx->game->battle->player->stats;
             printf("New HP is %d\n", player_stats->hp);
             printf("New Strength is %d\n", player_stats->strength);
-            printf("New Defense is %d\n\n",player_stats->defense);
+            printf("New Defense is %d\n\n", player_stats->defense);
             return res;
         }
     }
@@ -327,7 +326,7 @@ int main()
     printf("Speed: %d\n\n", e_stats->speed);
 
     // creates consumable for the player
-    item_t *p_item = get_random_default_consumable();
+    battle_item_t *p_item = get_random_default_consumable();
     printf("item created for the player!\n");
 
     // this creates the player and enemy so that they are inside of ctx
