@@ -36,6 +36,10 @@ typedef struct stat_mod_effect {
 
 //Defines an effect that deals damage
 typedef struct damage_effect {
+    /* More fields will probably be added after speaking with 
+     * the rpg-battles team */
+
+    // TODO - Add more fields
     int damage;      // Specifies the amount of damage that the skill does
 }damage_effect_t;
 

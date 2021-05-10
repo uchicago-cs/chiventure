@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
-#include "skilltrees/effect.h"
 #include "skilltrees/skill.h"
 
 
