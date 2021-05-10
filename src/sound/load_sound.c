@@ -9,14 +9,14 @@
 /* See load_sound.h */
 sound_t* load_sound (raw_file){
 
-    
+
 }
 
 
 
 
 /* See load_sound.h */
-int free(sound_t* sound){
+int free_sound(sound_t* sound){
     assert(sound != NULL);
 
     free(sound);

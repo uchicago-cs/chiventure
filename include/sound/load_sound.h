@@ -18,6 +18,6 @@ sound_t* load_sound (raw_file);
  * Inputs: sound_t* sound to free 
  * Returns: Success
 */
-int free(sound_t* sound); 
+int free_sound(sound_t* sound); 
 
 #endif
