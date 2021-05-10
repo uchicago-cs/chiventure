@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <criterion/criterion.h>
+
 #include "playerclass/class.h"
 
 /* Creates a sample class for testing 
@@ -27,7 +28,7 @@ class_t* generate_test_class()
                 "attacks using heavy armor.\n";
 
     c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
-    class_init_skills(c, 25, 10, 10);
+    class_add_skills(c, inventory_new(5, 5), inventory_new(5, 5), skill_tree_new(3000, c->name, 15));
     return c;
 }
 
