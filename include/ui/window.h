@@ -7,10 +7,10 @@ typedef struct chiventure_ctx chiventure_ctx_t;
 
 typedef struct window {
     WINDOW *w;
-    void (*print)(chiventure_ctx_t *ctx, struct window *win, int *quitval);
+    void (*print)(chiventure_ctx_t *ctx, struct window *win, int *retval);
 } window_t;
 
-typedef void (win_print)(chiventure_ctx_t *ctx, window_t *win, int *quitval);
+typedef void (win_print)(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 
 /* window_new
