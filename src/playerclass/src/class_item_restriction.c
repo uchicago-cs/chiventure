@@ -54,7 +54,8 @@ double get_class_item_multiplier(item_t* item, class_t* class) {
     }
 
     /* A multiplier of 1.0 is returned in the case where it has not been set */
-    if (!list_contains_attribute(item->class_multipliers, strndup(class->name, 100)))
+    char buffer[101];
+    if (!list_contains_attribute(item->class_multipliers, strncpy(buffer, class->name, 100)))
         return 1.0;
 
     return list_get_double_attr(item->class_multipliers, class->name);
@@ -66,7 +67,8 @@ int remove_item_multiplier(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    if (!list_contains_attribute(item->class_multipliers, strndup(class->name, 100)))
+    char buffer[101];
+    if (!list_contains_attribute(item->class_multipliers, strncpy(buffer, class->name, 100)))
         return SUCCESS;
 
     int remove_rc = remove_attribute_from_list(item->class_multipliers, class->name);
