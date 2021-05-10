@@ -1,6 +1,6 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
-#include <stdio.h>
+#include <stdlib.h>
 #include "game-state/mode.h"
 #include "game-state/game.h"
 
