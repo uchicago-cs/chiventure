@@ -45,7 +45,7 @@ typedef struct achievement_llist {
 } achievement_llist_t;
 
 /*
- * This is a tree struct of achievements (to replace linked list)
+ * This is a non-binary tree struct of achievements (to replace linked list)
  *
  * Components:
  *  achievement: achievement in tree
