@@ -253,7 +253,7 @@ Test(player, add_item_effect_to_player)
 
   stat_mod_t *mod1 = stat_mod_new(s1, 1.5, 5);
   LL_APPEND(e2->stat_list, mod1);
-  new_item->stat_effects = e2;
+  add_stat_effect(&(new_item->stat_effects), e2);
 
   add_item_to_player(player, new_item);
 
@@ -263,12 +263,9 @@ Test(player, add_item_effect_to_player)
                "add_item did not update modifier");
   free_stats_table(class->stats);
   delete_all_stat_effects(class->effects);
-  free(new_item->stat_effects->key);
-  free(new_item->stat_effects);
-  new_item->stat_effects = NULL;
   player_free(player);
+  
   free_stats_global(health);
-  free(mod1);
   free(g1->name);
   free(g1);
 }
