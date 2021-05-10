@@ -11,7 +11,7 @@ Test(battle_flow_structs, new_ctx_player)
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
 
-    player_t *ctx_player = new_ctx_player("new_ctx_player_Name", test_class,
+    battle_player_t *ctx_player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
     cr_assert_not_null(ctx_player, "new_ctx_player() failed");
