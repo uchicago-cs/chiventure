@@ -66,4 +66,6 @@ Test(mode, load_normal)
                  "load_normal_mode() didn't set curr_mode");
     cr_assert_eq(strncmp(g.mode->mode_ctx, "normal", MAX_ID_LEN), 0,
                  "load_normal_mode() didn't set mode_ctx");
+
+    game_mode_free(g.mode);
 }
