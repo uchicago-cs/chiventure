@@ -12,7 +12,7 @@
 
 char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return "CMSC 22000 Spring 2019\n   CMSC 22000 Spring 2020\n   CMSC 22000 Spring 2021";
+    return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021";
 }
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
