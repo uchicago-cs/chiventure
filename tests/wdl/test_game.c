@@ -10,6 +10,8 @@ Test(game, create_game)
 {
     obj_t *doc = get_doc_obj(FILE_PATH);
     game_t *g = create_game(doc);
+    cr_assert_not_null(g, "create_game() did not load game correctly");
+
     char *str = g->start_desc;
     cr_assert_str_eq(str, "This is the intro", "Intro was not loaded correctly");
 }

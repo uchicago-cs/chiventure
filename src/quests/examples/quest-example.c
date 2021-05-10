@@ -24,7 +24,7 @@ const char *banner =
 quest_t *quest;
 npcs_in_room_t *npcs_in_room_1;
 npcs_in_room_t *npcs_in_room_3;
-npc_mov_t *npc1_movement;
+npc_t *npc1;
 
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
@@ -109,8 +109,8 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((get_quest_status(quest)) == 1))
     {
-        move_npc_definite(npc1_movement);
-        char* id = strcpy(id,npc1_movement->npc_id);
+        move_npc_definite(npc1->movement);
+        char* id = strcpy(id,npc1->npc_id);
         char *output1 = strcat(id,
         ": I see you have started the quest, go to room2 to find the secret item, then "
             "come meet me in room3 to complete the first mission.");
@@ -128,7 +128,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         //complete_achievement(quest, item, npc);
         quest->achievement_list->achievement->completed = 1;
         quest->status = 2;
-        char* id1 = strcpy(id1,npc1_movement->npc_id);
+        char* id1 = strcpy(id1,npc1->npc_id);
         char *output2 = strcat(id1,": Congratulations on completing "
                     "the first achievement of this quest. "
                     "Now onto the next, continue through that door into the next room "
@@ -150,7 +150,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         {
             item_t *reward = complete_quest(quest);
             add_item_to_player(ctx->game->curr_player, reward);
-            char* id2 = strcpy(id2,npc1_movement->npc_id);
+            char* id2 = strcpy(id2,npc1->npc_id);
             char* output3 = strcat(id2, ": Congratulations"
             " on completing the quest, your reward is a key that should "
             "help you on your adventure. You will find it in your inventory.");
@@ -170,13 +170,6 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
-    
-    char *npc_id = "Villager-Jim";
-    npc_t *npc1 = npc_new(npc_id,"first npc","this is the npc that holds the quest",
-                          100,NULL);
-    npcs_in_room_1 = npcs_in_room_new("room1");
-    add_npc_to_room(npcs_in_room_1, npc1);
-    npcs_in_room_3 = npcs_in_room_new("room3");
 
     room_t *initial_room;
     HASH_FIND(hh, ctx->game->all_rooms, "room1", strlen("room1"), initial_room);
@@ -187,9 +180,16 @@ int main(int argc, char **argv)
     room_t *last_room;
     HASH_FIND(hh, ctx->game->all_rooms, "room4", strlen("room4"), last_room);
 
-    npc1_movement = npc_mov_new("Villager-Jim",NPC_MOV_DEFINITE,initial_room);
-    extend_path_definite(npc1_movement,third_room);
-    extend_path_definite(npc1_movement,last_room);
+    char *npc_id = "Villager-Jim";
+    npc_mov_t* npc1_movement = npc_mov_new(NPC_MOV_DEFINITE, initial_room);
+    npc_t *npc1 = npc_new(npc_id,"first npc","this is the npc that holds the quest",
+                          100, NULL, npc1_movement);
+    npcs_in_room_1 = npcs_in_room_new("room1");
+    add_npc_to_room(npcs_in_room_1, npc1);
+    npcs_in_room_3 = npcs_in_room_new("room3");
+
+    extend_path_definite(npc1->movement,third_room);
+    extend_path_definite(npc1->movement,last_room);
 
     item_t *item1 = malloc(sizeof(item_t));
     HASH_FIND(hh, ctx->game->all_items, "EMERALD", strlen("EMERALD"), item1);
