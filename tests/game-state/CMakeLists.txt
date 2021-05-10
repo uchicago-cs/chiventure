@@ -4,6 +4,7 @@ add_executable(${TEST_EXE}
 	test_delete_action.c
         test_game.c
         test_items.c
+        test_mode.c
         test_path.c
         test_player.c
         test_rooms.c

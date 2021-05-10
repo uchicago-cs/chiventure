@@ -25,19 +25,20 @@ Test(mode, new)
 /* Checks the initialization of a mode struct */
 Test(mode, init)
 {
-    game_mode_t mode;
+    game_mode_t *mode = game_mode_new(NORMAL, NULL, "normal");
 
-    int rc = game_mode_init(&mode, NORMAL, test_operation, "test context");
+    int rc = game_mode_init(mode, NORMAL, test_operation, "test context");
 
     cr_assert_eq(rc, SUCCESS, "game_mode_init() has failed!");
 
-    cr_assert_eq(mode.curr_mode, NORMAL, 
+    cr_assert_eq(mode->curr_mode, NORMAL, 
                  "game_mode_init() didn't set curr_mode");
-    cr_assert_eq(strncmp(mode.mode_ctx, "test context", MAX_ID_LEN), 0,
+    cr_assert_eq(strncmp(mode->mode_ctx, "test context", MAX_ID_LEN), 0,
                  "game_mode_init() didn't set mode_ctx");
-    cr_assert_eq(*(mode.run_mode)("test", NULL, NULL, NULL), SUCCESS,
+    cr_assert_eq((*(mode->run_mode))("test", NULL, NULL, NULL), SUCCESS,
                  "game_mode_init() didn't set run_mode");
 
+    game_mode_free(mode);
 }
 
 /* Checks the freeing a mode struct */
@@ -63,6 +64,6 @@ Test(mode, load_normal)
     cr_assert_not_null(g.mode, "load_norma_mode() has failed!");
     cr_assert_eq(g.mode->curr_mode, NORMAL, 
                  "load_normal_mode() didn't set curr_mode");
-    cr_assert_eq(strncmp(mode->mode_ctx, "normal", MAX_ID_LEN), 0,
+    cr_assert_eq(strncmp(g.mode->mode_ctx, "normal", MAX_ID_LEN), 0,
                  "load_normal_mode() didn't set mode_ctx");
 }
