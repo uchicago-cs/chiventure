@@ -772,6 +772,9 @@ attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
     free(like->attribute);
     free(like);
 
+    if (output == NULL)
+        return NULL;
+
     return output->attribute;
 }
 

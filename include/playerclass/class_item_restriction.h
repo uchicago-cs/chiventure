@@ -12,6 +12,23 @@
 #include "playerclass/class.h"
 #include "playerclass/class_structs.h"
 
+/* Given an item and a class, adds an attribute of the class to the item representing a multiplier
+ * 
+ * Utilizes the class multiplier field of an item to set this information
+ *
+ * Parameters:
+ * - item_t* item: item to which class attribute is being added
+ * - class_t* class: class which is restricted from using item
+ * - multiplier: the multiplier applied when the item is used, 0 represents a 
+ *               restriction
+ * 
+ * Returns:
+ * - int: 
+ *   - SUCCESS if successful
+ *   - FAILURE if not
+ */
+int add_item_multiplier(item_t* item, class_t* class, double multiplier);
+
 /* Given an item and a class, adds an attribute of the class to the item representing a restriction
  * 
  * Utilizes the class restrictions field of an item to set this information
