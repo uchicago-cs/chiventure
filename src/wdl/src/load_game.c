@@ -9,6 +9,7 @@
 #include "wdl/load_game.h"
 #include "wdl/load_room.h"
 #include "wdl/load_item.h"
+#include "game-state/mode.h"
 
 /*
  * load_wdl, function that loads a wdl into all the game-state structs
@@ -59,6 +60,13 @@ game_t *load_yaml_game(obj_t *big_document)
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error loading items.\n");
+        return NULL;
+    }
+
+    rc = load_normal_mode(game);
+    if(rc != SUCCESS)
+    {
+        fprintf(stderr, "Error loading mode.\n");
         return NULL;
     }
 
