@@ -1,5 +1,6 @@
 /* Implementations of the mode struct */
 #include <string.h>
+#include <stdlib.h>
 
 #include "game-state/mode.h"
 #include "cli/parser.h"
@@ -75,7 +76,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
         return FAILURE;
     }
     
-    int option;
+    int option, num_options, rc;
     option = atoi(parsed_input[0]);
 
     /* currently, npcs are not stored by chiventure so that must be
@@ -83,9 +84,9 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     /* This assumes that game has an all_npcs hash table field */
     npc_t *npc;
     HASH_FIND_STR(ctx->game->all_npcs, ctx->mode->mode_ctx, npc);
+    num_options = npc->dialogue->cur_node->num_edges;
 
-    int rc;
-    if (npc->dialogue->cur_node->num_edges == 0)
+    if (num_options == 0);
     {
         rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
         return SUCCESS;
@@ -99,7 +100,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
 
     int end_convo;
     char *outstring = run_conversation_step(npc->dialogue, option, &end_convo);
-    int rc = callback_func(ctx, outstring, callback_args);
+    rc = callback_func(ctx, outstring, callback_args);
 
     free(outstring);
 
@@ -111,5 +112,4 @@ int run_conversation_mode(char *input, cli_callback callback_func,
 
     return SUCCESS;
 }
-
 
