@@ -168,29 +168,9 @@ Test(dialogue, convo_free)
 
 /*** Dialogue Building Functions ***/
 
-/* Checks that create_new_convo creates an empty convo */
-Test(dialogue, create_new_convo)
-{
-    convo_t *c;
-
-    c = create_new_convo();
-
-    cr_assert_not_null(c, "create_new_convo() failed");
-
-    cr_assert_eq(c->num_nodes, 0,
-                 "create_new_convo() didn't set num_nodes to 0");
-    cr_assert_null(c->all_nodes,
-                   "create_new_convo() didn't set all_nodes to NULL");
-    cr_assert_null(c->all_edges,
-                   "create_new_convo() didn't set all_edges to NULL");
-    cr_assert_null(c->cur_node,
-                   "create_new_convo() didn't set cur_node to NULL");
-}
-
-
 void check_add_node(int num_nodes)
 {
-    convo_t *c = create_new_convo();
+    convo_t *c = convo_new();
     char node_id[3];
     char npc_dialogue[3];
     node_list_t *cur;
@@ -243,7 +223,7 @@ Test(dialogue, add_five_nodes)
 
 void check_add_edge(int num_edges)
 {
-    convo_t *c = create_new_convo();
+    convo_t *c = convo_new();
     char quip[3];
     edge_list_t *convo_lst_ptr, *node_lst_ptr;
     int rc;
@@ -304,7 +284,7 @@ Test(dialogue, add_five_edges)
 /* Checks that add_edge works for a set of bidirectional edges */
 Test(dialogue, add_bidirectional_edges)
 {
-    convo_t *c = create_new_convo();
+    convo_t *c = convo_new();
     int rc;
 
     add_node(c, "N1", "D1");

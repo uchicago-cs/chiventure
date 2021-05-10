@@ -5,16 +5,6 @@
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
 
-/* See dialogue.h */
-convo_t *create_new_convo()
-{
-    convo_t *c = convo_new();
-
-    assert(c != NULL);
-
-    return c;
-}
-
 /* Returns the node corresponding to a given ID.
  *
  * Parameters:

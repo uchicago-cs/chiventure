@@ -28,7 +28,7 @@ const char *banner = "THIS IS AN NPC EXAMPLE PROGRAM";
 convo_t *create_sample_convo()
 {
     // Starting to build the conversation structure
-    convo_t *c = create_new_convo();
+    convo_t *c = convo_new();
 
     // Creating the nodes
     add_node(c, "1", "NPC: What do you want?");

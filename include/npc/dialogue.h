@@ -88,13 +88,6 @@ typedef struct convo {
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
 
-/* Creates a new, empty conversation.
- *
- * Returns:
- *  - pointer to a convo
- */
-convo_t *create_new_convo();
-
 /* Adds a new node to the conversation.
  *
  * Parameters:
