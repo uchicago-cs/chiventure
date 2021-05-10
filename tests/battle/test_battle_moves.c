@@ -18,7 +18,7 @@ Test(move, init)
     cr_assert_str_eq(move.info, "Diss track",
                      "move_new() didn't set move info");
 
-    cr_assert_null(move.item, "move_new() didn't set item to NULL");
+    cr_assert_null(move.item, "move_new() didn't set battle_item to NULL");
 
     cr_assert_eq(move.id, 1, "move_new() didn't set move id");
 
@@ -39,7 +39,7 @@ Test(move, new)
     cr_assert_str_eq(move->info, "Diss track",
                      "move_new() didn't set move info");
 
-    cr_assert_null(move->item, "move_new() didn't set item to NULL");
+    cr_assert_null(move->item, "move_new() didn't set battle_item to NULL");
 
     cr_assert_eq(move->id, 1, "move_new() didn't set move id");
 
@@ -65,7 +65,7 @@ Test(move, free)
 
     rc = move_free(move);
 
-    cr_assert_null(move->item, "move_free didn't free move items");
+    cr_assert_null(move->item, "move_free didn't free move battle_items");
 
     cr_assert_eq(rc, SUCCESS, "move_free() failed");
 }
@@ -81,7 +81,7 @@ Test(move, bard)
 
     cr_assert_eq(move->id, 100, "test_move_bard() didn't set id");
 
-    cr_assert_null(move->item, "test_move_bard() didn't set item to NULL");
+    cr_assert_null(move->item, "test_move_bard() didn't set battle_item to NULL");
 
     cr_assert(move->attack, "test_move_bard() didn't set attack to true");
 
@@ -100,7 +100,7 @@ Test(move, cleric)
 
     cr_assert_eq(move->id, 110, "test_move_cleric() didn't set id");
 
-    cr_assert_null(move->item, "test_move_cleric() didn't set item to NULL");
+    cr_assert_null(move->item, "test_move_cleric() didn't set battle_item to NULL");
 
     cr_assert(move->attack, "test_move_cleric() didn't set attack to true");
 
@@ -119,7 +119,7 @@ Test(move, paladin)
 
     cr_assert_eq(move->id, 120, "test_move_paladin() didn't set id");
 
-    cr_assert_null(move->item, "test_move_paladin() didn't set item to NULL");
+    cr_assert_null(move->item, "test_move_paladin() didn't set battle_item to NULL");
 
     cr_assert(move->attack, "test_move_paladin() didn't set attack to true");
 
@@ -138,7 +138,7 @@ Test(move, wizard)
 
     cr_assert_eq(move->id, 130, "test_move_wizard() didn't set id");
 
-    cr_assert_null(move->item, "test_move_wizard() didn't set item to NULL");
+    cr_assert_null(move->item, "test_move_wizard() didn't set battle_item to NULL");
 
     cr_assert(move->attack, "test_move_wizard() didn't set attack to true");
 
