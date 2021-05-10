@@ -32,7 +32,7 @@ Test(condition, new_attr_condition)
 /* Checks that inventory_condition_new() properly mallocs and inits a new condition struct */
 Test(condition, new_inven_condition)
 {
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
 
     condition_t *condition = inventory_condition_new(player, item);
@@ -53,7 +53,7 @@ Test(condition, new_inven_condition)
 /* Checks if delete_condition_llist() frees the condition list from memory */
 Test(condition, condition_free)
 {
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
     attribute_value_t value;
@@ -103,7 +103,7 @@ Test(condition, valid_condition)
     "but instead got %i", valid);
 
     // CONDITION_NULL
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
 
     condition_t *condition_2 = inventory_condition_new(player, item);
 

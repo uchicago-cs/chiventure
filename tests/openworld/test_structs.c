@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <criterion/criterion.h>
+#include <string.h>
 #include "openworld/gen_structs.h"
 
 /* Tests the gencontext_new function to validate that a gencontext
@@ -170,4 +171,135 @@ Test(speclist, free_all)
     int check = speclist_free_all(list);
 
     cr_assert_eq(check, SUCCESS, "failed to free the entire speclist. \n");
+}
+
+
+
+/* Tests the room_level_new function to validate that a room_level
+ * can be made successfully. */
+Test(room_level, new)
+{
+    room_level_t *room_level = room_level_new("excellent_name", 4);
+
+    cr_assert_not_null(room_level, "failed to create new room_level_t\n");
+}
+
+
+/* Tests the init_room_level function to validate that a room_level can
+ * be initialized successfully. */
+Test(room_level, init)
+{
+    room_level_t *room_level = calloc(1, sizeof(room_level_t));
+    if (!room_level) { 
+        printf("failed to calloc for room_level\n");
+    }
+    room_level->room_name = calloc(1, sizeof(room_level_t) * MAX_SDESC_LEN);
+    if (!(room_level->room_name)) { 
+        printf("failed to calloc for room_level->room_name\n");
+    }
+
+    int check = init_room_level(room_level, "excellent_name", 4);
+    cr_assert_str_eq(room_level->room_name, "excellent_name", 
+                 "failed to initialize room_level->room_name\n");
+    cr_assert_eq(4, room_level->difficulty_level, 
+                 "failed to initialize room_level->difficulty_level\n");
+    cr_assert_eq(check, SUCCESS, "failed to initialize a room_level_t\n");
+}
+
+
+/* Tests the room_level_free func to validate that a room_level can be
+ * freed successfully. */
+Test(room_level, free)
+{
+    room_level_t *room_level = room_level_new("excellent_name", 4);
+
+    cr_assert_not_null(room_level, "failed to create new room_level_t\n");
+
+    int check = room_level_free(room_level);
+
+    cr_assert_eq(check, SUCCESS, "failed to free a room_level_t\n");
+}
+
+
+/* Tests add_room_level_to_hash for
+   room name = "A"
+   difficulty_level = 4 */
+Test(room_level, add_room_level_to_hash_A_4)
+{
+    room_level_t *room_level_hash = NULL;
+    char *name = "A"; 
+
+    add_room_level_to_hash(&room_level_hash, name, 4);
+    
+    room_level_t *out;
+    HASH_FIND_STR(room_level_hash, name, out);
+    cr_assert_not_null(out, "failed to add room A\n");
+}
+
+
+/* Tests add_room_level_to_hash for
+   room name = "Good"
+   difficulty_level = 1 */
+Test(room_level, add_room_level_to_hash_Good_1)
+{
+    room_level_t *room_level_hash = NULL;
+    char *name = "Good"; 
+
+    add_room_level_to_hash(&room_level_hash, name, 1);
+    room_level_t *out;
+    HASH_FIND_STR(room_level_hash, name, out);
+    cr_assert_not_null(out, "failed to add room Good\n");
+}
+
+
+
+/* Tests the difficulty_level_scale_new function to validate that 
+ * a difficulty_level_scale can be made successfully. */
+Test(difficulty_level_scale, new)
+{
+    int thresholds[3]= {0, 5, 10};
+    difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
+    cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");
+}
+
+
+/* Tests the init_difficulty_level_scale function to validate that 
+ * a difficulty_level_scale can be initialized successfully. */
+Test(difficulty_level_scale, init)
+{
+    int num_thresholds = 4;
+    int thresholds[4] = {0, 10, 20, 30};
+    
+    difficulty_level_scale_t *difficulty_level_scale = calloc(1, sizeof(difficulty_level_scale_t));
+    if (!difficulty_level_scale) { 
+        printf("failed to calloc for difficulty_level_scale\n");
+    }
+
+    difficulty_level_scale->thresholds = calloc(1, sizeof(int) * num_thresholds);
+    if (!(difficulty_level_scale->thresholds)) { 
+        printf("failed to calloc for difficulty_level_scale->thresholds\n");
+    }
+
+    int check = init_difficulty_level_scale(difficulty_level_scale, num_thresholds, thresholds);
+    cr_assert_eq(difficulty_level_scale->num_thresholds, num_thresholds,
+                 "failed to initialize difficulty_level_scale->num_thresholds\n");
+    for (int i = 0; i < num_thresholds; i++) {
+        cr_assert_eq(difficulty_level_scale->thresholds[i], thresholds[i],
+                     "failed to initialize difficulty_level_scale->threshold[%d]\n", i);
+    }
+    cr_assert_eq(check, SUCCESS, "failed to initialize a difficulty_level_scale_t\n");
+}
+
+
+/* Tests the difficulty_level_scale_free func to validate that a difficulty_level_scale can be
+ * freed successfully. */
+Test(difficulty_level_scale, free)
+{
+    int thresholds[3]= {0, 5, 10};
+    difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
+    cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");
+
+    int check = difficulty_level_scale_free(difficulty_level_scale);
+
+    cr_assert_eq(check, SUCCESS, "failed to free a difficulty_level_scale_t\n");
 }
