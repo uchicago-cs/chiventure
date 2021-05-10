@@ -25,7 +25,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 10;
+const int DEFAULT_CLASS_COUNT = 6;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
@@ -75,8 +75,19 @@ int get_class_name_index(char* name) {
  */
 int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats, 
                        char *stat_name, double stat_val, double stat_max) {
-    if (ctx == NULL || stats == NULL || stat_name == NULL)
+                    
+    if (ctx == NULL) {
+        fprintf(stderr, "Ctx (chiventure_ctx_t*) is NULL \n");
         return FAILURE;
+
+    } else if (stats == NULL) {
+        fprintf(stderr, "Stats (stats_hash_t**) is NULL \n");
+        return FAILURE;
+
+    } else if (stat_name == NULL) {
+        fprintf(stderr, "Stat_name (char* ) is NULL \n");
+        return FAILURE;
+    }
 
     stats_global_t *global_stat;
     HASH_FIND_STR(ctx->game->curr_stats, stat_name, global_stat);
@@ -113,18 +124,18 @@ int set_stats_hashtable(chiventure_ctx_t* ctx, stats_hash_t** stats,
                         double ranged_attack,
                         double magic_defense,
                         double magic_attack,
-                        double max_magic_energy) {
+                        double max_mana) {
     if (ctx == NULL || stats == NULL)
         return FAILURE;
 
-    check_and_add_stat(ctx, stats, "max_health",       max_health,       100);
-    check_and_add_stat(ctx, stats, "speed",            speed,            100);
+    check_and_add_stat(ctx, stats, "max_health", max_health, 100);
+    check_and_add_stat(ctx, stats, "speed", speed, 100);
     check_and_add_stat(ctx, stats, "physical_defense", physical_defense, 100);
-    check_and_add_stat(ctx, stats, "physical_attack",  physical_attack,  100);
-    check_and_add_stat(ctx, stats, "ranged_attack",    ranged_attack,    100);
-    check_and_add_stat(ctx, stats, "magic_defense",    magic_defense,    100);
-    check_and_add_stat(ctx, stats, "magic_attack",     magic_attack,     100);
-    check_and_add_stat(ctx, stats, "max_magic_energy", max_magic_energy, 100);
+    check_and_add_stat(ctx, stats, "physical_attack", physical_attack, 100);
+    check_and_add_stat(ctx, stats, "ranged_attack", ranged_attack, 100);
+    check_and_add_stat(ctx, stats, "magic_defense", magic_defense, 100);
+    check_and_add_stat(ctx, stats, "magic_attack", magic_attack, 100);
+    check_and_add_stat(ctx, stats, "max_mana", max_mana, 100);
     
     return SUCCESS;
 }
@@ -145,7 +156,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
     /* effects for each class not yet provided, so this will remain NULL */
     effects_hash_t* effects = NULL;
 
-    /* A talented musician and magician:
+    /* Bard stats:
      * 15 Max Health
      * 15 Speed
      * 5 Physical Defense
@@ -160,7 +171,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
         set_stats_hashtable(ctx, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
     }
 
-    /* An elite martial artist.
+    /* Monk stats:
      * 25 Max Health
      * 20 Speed
      * 15 Physical Defense
@@ -175,7 +186,8 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
                     "in accordance with their strict spirituality--have learned how to defend themselves from attackers.";
         set_stats_hashtable(ctx, &stats, 25, 20, 15, 15, 5, 20, 5, 5);
     }
-    /* A master hunter:
+
+    /* Ranger stats:
      * 10 Max Health
      * 20 Speed
      * 10 Physical Defense
@@ -185,13 +197,13 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
      * 10 Magic Attack
      * 10 Max Mana */
     else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
-        short_desc = "An highly skilled hunter.";
+        short_desc = "A master hunter.";
         long_desc = "The ranger is the embodiment of an apex predator: while they may tend to lurk away "
                     "from civilisation in the wild, they are a skilled killer and have no qualms about doing so.";
         set_stats_hashtable(ctx, &stats, 10, 20, 10, 15, 25, 10, 10, 10);
     }
 
-    /* The shadowy rogue:
+    /* Rogue stats:
      * 10 Max Health
      * 25 Speed
      * 15 Physical Defense
@@ -202,13 +214,12 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
      * 15 Max Mana */
     else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
         short_desc = "A sibling of the shadows.";
-        long_desc = "The Rogue embodies stealth and the shadows. They are feared by many, and for good reason. "
+        long_desc = "The Rogue embodies stealth. They are feared by many, and for good reason. "
                     "They use their exceptional speed and agility to surprise their enemies and attack when least expected.";
         set_stats_hashtable(ctx, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
     }
 
-
-    /* A hard hitting and beefy physical attacker:
+    /* Warrior stats:
      * 20 Max Health
      * 15 Speed
      * 20 Physical Defense
@@ -219,11 +230,11 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
      * 5 Max Mana */
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
         short_desc = "A mighty warrior.";
-        long_desc = "A mighty yet noble warrior, skilled with the blade.";
+        long_desc = "An elite, battle-hardened fighter who excels in physical combat.";
         set_stats_hashtable(ctx, &stats, 20, 15, 20, 25, 10, 10, 5, 5);
     }
 
-    /* A master of the arcane arts:
+    /* Wizard stats:
      * 10 Max Health
      * 10 Speed
      * 5 Physical Defense

@@ -9,7 +9,10 @@
 #include "common/ctx.h"
 
 /*
- * Allocates and initializes a prefab class, and its non-skill-related fields.
+ * Allocates and initializes a prefab class, and the following fields:
+ *  - Short description
+ *  - Long description
+ *  - Stats
  * To add skill-related fields, see class_prefab_add_skills().
  *
  * Parameters:
@@ -34,7 +37,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name);
  *    initialized here are assumed to be empty.
  *
  * Returns:
- *  - status code
+ *  - status code (FAILURE if the given class or skill is NULL, SUCCESS otherwise.)
  *  - the structs in the class now contain skills.
  * 
  * Notes:

@@ -62,7 +62,7 @@ void check_field_pressence(class_t* c) {
     cr_assert_neq(get_stat_current(c->stats, "ranged_attack"), -1, "failed to add stat");
     cr_assert_neq(get_stat_current(c->stats, "magic_defense"), -1, "failed to add stat");
     cr_assert_neq(get_stat_current(c->stats, "magic_attack"), -1, "failed to add stat");
-    cr_assert_neq(get_stat_current(c->stats, "max_magic_energy"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->stats, "max_mana"), -1, "failed to add stat");
 }
 
 /* Checks whether skill fields are present, and whether the initialized skills 
@@ -126,8 +126,8 @@ Test(class_prefabs, Rogue) {
 }
 
 /* Tests whether the warrior class is initialized as expected.
- * This test is a little more in depth than the rest, since the warrior is more
- * complete and. */
+ * This test is a little more in depth than the rest, since the warrior has 
+ * stats currently, unlike most of the other classes.  */
 Test(class_prefabs, Warrior) {
     /* Tests a context were SOME stats were not declared */
     chiventure_ctx_t* ctx = init_incomplete_context();
