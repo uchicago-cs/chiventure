@@ -36,6 +36,9 @@ typedef struct npc {
 
     /* pointer to an existing class struct */
     class_t *class; 
+
+    /* List of supported actions */
+    list_npc_action_t *actions;
 } npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
