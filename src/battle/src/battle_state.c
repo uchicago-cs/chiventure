@@ -286,21 +286,3 @@ int stat_changes_undo(stat_changes_t *sc, combatant_t *c)
 
     return SUCCESS;
 }
-
-/* See battle_state.h */
-int stat_changes_add_item_node(stat_changes_t *sc, item_t *item)
-{
-    stat_changes_add_node(sc);
-
-    stat_changes_t *current = sc;
-
-    while(sc->next != NULL){
-        sc = sc->next;
-    }
-
-    sc->hp += item->hp;
-    sc->strength += item->attack;
-    sc->defense += item->defense;
-
-    return SUCCESS;
-}

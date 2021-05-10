@@ -101,3 +101,21 @@ int award_xp(stat_t *stats, double xp)
     stats->xp += xp;
     return 0;
 }
+
+/* See Battle_logic.h */
+int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
+{
+    stat_changes_add_node(sc);
+
+    stat_changes_t *current = sc;
+
+    while(sc->next != NULL){
+        sc = sc->next;
+    }
+
+    sc->hp += item->hp;
+    sc->strength += item->attack;
+    sc->defense += item->defense;
+
+    return SUCCESS;
+}
