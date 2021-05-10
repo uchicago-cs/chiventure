@@ -17,9 +17,9 @@ int randnum(int min, int max)
 }
 
 /* See battle_default_objects.h */
-item_t *get_random_default_weapon()
+battle_item_t *get_random_default_weapon()
 {
-    item_t *rv_item = calloc(1, sizeof(item_t));
+    battle_item_t *rv_item = calloc(1, sizeof(battle_item_t));
     assert(rv_item != NULL);
 
     int rand = randnum(1, 10); 
@@ -92,7 +92,7 @@ move_t *get_random_default_move()
     char *name_array[] = {"SLAP", "JAB", "KICK", "HEADBUTT", "GRAPPLE", 
                           "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"};
 
-    item_t *item = get_random_default_weapon();
+    battle_item_t *item = get_random_default_consumable();
     int id = rand;
     int info_len = strlen(name_array[rand - 1]);
     char* info = (char*)calloc(info_len + 1, sizeof(char));
