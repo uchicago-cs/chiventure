@@ -27,23 +27,8 @@ wdl_ctx_t *load_wdl(char *path_to_wd)
 {
     wdl_ctx_t *ctx = new_wdl_ctx();
 
-    /* 
-     * WDZ loading monkeypatch.
-     * Intercepts chiventure if wdz file is passed in as CLI argument, 
-     * and prints JSON contents for debug.
-     * This is also likely the entrypoint for our final implementation.
-     */
-    if (filename_extension_is("wdz", path_to_wd))
-    {
-        int n_jsons = 0;
-        printf("Detected wdz file. Attempting to load wdz and printing the json files...\n");
-        printf("Note that loading wdz is not functional right now.\n");
-        populate_objstore_from_wdz((ctx->ht), &n_jsons, path_to_wd);
-        printf("Number of JSON files found: %d\n", n_jsons);
-    } else {
-        obj_t *big_document = get_doc_obj(path_to_wd);
-        ctx->obj = big_document;
-    }
+    obj_t *big_document = get_doc_obj(path_to_wd);
+    ctx->obj = big_document;
 
     return ctx;
 }
@@ -52,7 +37,6 @@ wdl_ctx_t *load_wdl(char *path_to_wd)
 game_t *load_yaml_game(obj_t *big_document)
 {
     int rc;
-
     game_t *game = create_game(big_document);
 
     // call functions that parse items, actions, rooms, and game attributes
@@ -86,7 +70,7 @@ game_t *load_yaml_game(obj_t *big_document)
         return NULL;
     }
 
-    obj_t *game_document = obj_get_attr(big_document, "GAME.0", false);
+    obj_t *game_document = obj_get_attr(big_document, "GAME", false);
     char *start_room = obj_get_str(game_document, "start");
     game->curr_room = find_room_from_game(game, start_room);
     if(game->curr_room == NULL)
@@ -95,7 +79,7 @@ game_t *load_yaml_game(obj_t *big_document)
         return NULL;
     }
 
-    obj_t *end = obj_get_attr(game_document, "end.0", false);
+    obj_t *end = obj_get_attr(game_document, "end", false);
     char *end_room = obj_get_str(end, "in_room");
     room_t *final_room = find_room_from_game(game, end_room);
     game->final_room = final_room;
@@ -110,18 +94,18 @@ game_t *load_yaml_game(obj_t *big_document)
 
 game_t *create_game(obj_t *doc)
 {
-    obj_t *game = obj_get_attr(doc, "GAME.0", false);
+    obj_t *game = obj_get_attr(doc, "GAME", false);
     if (game == NULL)
     {
         fprintf(stderr, "game object not found\n");
-        exit(0);
+        return NULL;
     }
 
     int check = game_type_check(game);
     if (check == FAILURE)
     {
         fprintf(stderr, "game object fails type checking\n");
-        exit(0);
+        return NULL;
     }
 
     char *intro = obj_get_str(game, "intro");
