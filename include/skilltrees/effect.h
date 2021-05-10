@@ -7,7 +7,11 @@
 #define INCLUDE_EFFECT_H_
 
 #include "common/common.h"
-//#include "common/ctx.h"  //(Removing the comment causes the code to not compile correctly.  Please advise)
+//#include "common/ctx.h"  
+/* Removing the comment above causes the code to not compile correctly. 
+ * This is because of duplicate naming of structs in battle_flow_structs and battle_structs.
+ * RPG-battles is currently working on fixing this problem and have already submitted a pull request
+ */
 #include <stdbool.h>
 
 /* List of all the effect types that a skill can have.  We can add more in the future */
