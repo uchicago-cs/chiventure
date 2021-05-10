@@ -13,7 +13,7 @@ void check_add_restriction(item_t* item, class_t* class) {
 
     int SIR_check = add_item_restriction(item, class);
 
-    double proficiency = list_get_double_attr(item->class_restrictions, strndup(class->name, 100));
+    double proficiency = list_get_double_attr(item->class_multipliers, strndup(class->name, 100));
 
     cr_assert_eq(SIR_check, SUCCESS, "add_item_restriction() failed. Either class or item is null");
 
@@ -104,7 +104,7 @@ void check_remove_restriction(item_t* item, class_t* class){
 
     cr_assert_eq(SIR_check, SUCCESS, "remove_item_restriction() failed. Either class or item is null or this item is not currently restricted");
     
-    bool GSA_val = list_contains_attribute(item->class_restrictions, strndup(class->name, 100));
+    bool GSA_val = list_contains_attribute(item->class_multipliers, strndup(class->name, 100));
 
     cr_assert_eq(GSA_val, false, "remove_item_restriction() did not correctly remove the class restriction");
 }

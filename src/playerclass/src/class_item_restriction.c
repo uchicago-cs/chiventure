@@ -13,8 +13,8 @@ int add_item_restriction(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    if (item->class_restrictions == NULL) {
-        item->class_restrictions = create_list_attribute();
+    if (item->class_multipliers == NULL) {
+        item->class_multipliers = create_list_attribute();
     }
     
     /* 0 represents no proficiency with an item, so it is treated as restricted. */
@@ -25,7 +25,7 @@ int add_item_restriction(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    int add_rc = add_attribute_to_list(item->class_restrictions, restriction); 
+    int add_rc = add_attribute_to_list(item->class_multipliers, restriction); 
     return add_rc;
 }
 
@@ -36,10 +36,10 @@ bool is_restricted(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    if (!list_contains_attribute(item->class_restrictions, strndup(class->name, 100)))
+    if (!list_contains_attribute(item->class_multipliers, strndup(class->name, 100)))
         return false;
     
-    return list_get_double_attr(item->class_restrictions, class->name) == 0.0;
+    return list_get_double_attr(item->class_multipliers, class->name) == 0.0;
 }
 
 /* see class_item_restriction.h */
@@ -54,6 +54,6 @@ int remove_item_restriction(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    int remove_rc = remove_attribute_from_list(item->class_restrictions, class->name);
+    int remove_rc = remove_attribute_from_list(item->class_multipliers, class->name);
     return remove_rc;
 }

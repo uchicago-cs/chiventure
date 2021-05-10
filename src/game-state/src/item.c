@@ -574,7 +574,7 @@ int item_free(item_t *item)
     free(item->item_id);
     free(item->short_desc);
     free(item->long_desc);
-    delete_attribute_llist(item->class_restrictions);
+    delete_attribute_llist(item->class_multipliers);
     delete_all_attributes(item->attributes);
     // uthash_free(item->attributes, HASH_SIZE);
     if (item->stat_effects != NULL) {
