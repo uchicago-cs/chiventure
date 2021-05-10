@@ -23,12 +23,10 @@ void case_insensitize1(char *input)
 /* See cli-utility.h */
 char* case_insensitize2(char *input)
 {
-    int i = 0;
-    char* output = malloc(sizeof(char) * strlen(input));
-    while (input[i])
+    char* output = malloc(sizeof(char) * strnlen(input, 100));
+    for(int i = 0; i < strnlen(input, 100); i++)
     {
         output[i] = tolower(input[i]);
-        i++;
     }
 
     return output;

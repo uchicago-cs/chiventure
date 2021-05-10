@@ -8,25 +8,25 @@
 static action_type_t valid_actions[] =
 {
     // KIND 1
-    {"OPEN", ITEM},
-    {"CLOSE", ITEM},
-    {"PUSH", ITEM},
-    {"PULL", ITEM},
-    {"TURNON", ITEM},
-    {"TURNOFF", ITEM},
-    {"TAKE", ITEM},
-    {"PICKUP", ITEM},
-    {"DROP", ITEM},
-    {"CONSUME", ITEM},
-    {"USE", ITEM},
-    {"DRINK", ITEM},
-    {"EAT", ITEM},
+    {"open", ITEM},
+    {"close", ITEM},
+    {"push", ITEM},
+    {"pull", ITEM},
+    {"turnon", ITEM},
+    {"turnoff", ITEM},
+    {"take", ITEM},
+    {"pickup", ITEM},
+    {"drop", ITEM},
+    {"consume", ITEM},
+    {"use", ITEM},
+    {"drink", ITEM},
+    {"eat", ITEM},
     // KIND 2
-    {"GO", PATH},
-    {"WALK", PATH},
+    {"go", PATH},
+    {"walk", PATH},
     // KIND 3
-    {"USE_ON", ITEM_ITEM},
-    {"PUT", ITEM_ITEM}
+    {"use_on", ITEM_ITEM},
+    {"put", ITEM_ITEM}
 };
 
 

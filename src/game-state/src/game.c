@@ -168,7 +168,7 @@ bool is_game_over(game_t *game)
 /* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
 			char* direction)
-{
+{   
     room_t *src = find_room_from_game(game, src_room);
     if (src == NULL)
     {
