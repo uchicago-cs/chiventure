@@ -74,11 +74,13 @@ typedef struct node_list {
  *  - num_nodes: the total number of nodes
  *  - all_nodes: list of all nodes
  *  - all_edges: list of all edges
+ *  - cur_node: current node (to run the conversation)
  */
 typedef struct convo {
     int num_nodes;
     node_list_t *all_nodes;
     edge_list_t *all_edges;
+    node_t *cur_node;
 } convo_t;
 
 
@@ -104,7 +106,7 @@ convo_t *create_new_convo();
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) input strings are too long (assertion error);
- *     (2) a node with the same ID already exists; (3) memory allocation error;
+ *    (2) a node with the same ID already exists; (3) memory allocation error;
  */
 int add_node(convo_t *c, char *node_id, char *npc_dialogue);
 
@@ -119,7 +121,7 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue);
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) quip is too long; (2) nodes matching from_id and
- *     to_id could not be found; (3) memory allocation error;
+ *    to_id could not be found; (3) memory allocation error;
  */
 int add_edge(convo_t *c, char *quip, char *from_id, char *to_id);
 
@@ -128,23 +130,33 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id);
  *       DIALOGUE EXECUTION FUNCTIONS         *
  **********************************************/
 
-/* Runs the conversation.
+/* Starts a conversation.
  *
  * Parameters:
  *  - c: pointer to a convo
  *
  * Returns:
- *  - SUCCESS on success, FAILURE if an error occurs
+ *  - A string of NPC dialogue and dialogue options that can be directly
+ *    printed by the CLI.
+ *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
+ *    leaf node), or 0 if the conversation is still ongoing.
  */
-int run_conversation(convo_t *c);
+char *start_conversation(convo_t *c, int *rc);
 
-/* FOR FUTURE USE
+/* Runs a step of the conversation.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - input: integer (1, 2, ..., c->cur_node->num_edges)
+ *  - rc: pointer to an integer
  *
  * Returns:
- *  - 1 if the conversation has ended (i.e. we have arrived at a leaf node),
- *     0 if it is still ongoing, and -1 if an error occured
+ *  - A string of NPC dialogue and dialogue options that can be directly
+ *    printed by the CLI.
+ *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
+ *    leaf node), or 0 if the conversation is still ongoing.
  */
-int run_conversation_step(convo_t *c, int input, char *outstring);
+char *run_conversation_step(convo_t *c, int input, int *rc);
 
 
 /**********************************************

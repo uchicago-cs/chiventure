@@ -121,11 +121,13 @@ Test(dialogue, convo_new)
     cr_assert_not_null(c, "convo_new() failed");
 
     cr_assert_eq(c->num_nodes, 0,
-                 "create_new_convo() didn't set num_nodes to 0");
+                 "convo_new() didn't set num_nodes to 0");
     cr_assert_null(c->all_nodes,
-                   "create_new_convo() didn't set all_nodes to NULL");
-    cr_assert_null(c->all_nodes,
-                   "create_new_convo() didn't set all_nodes to NULL");
+                   "convo_new() didn't set all_nodes to NULL");
+    cr_assert_null(c->all_edges,
+                   "convo_new() didn't set all_edges to NULL");
+    cr_assert_null(c->cur_node,
+                   "convo_new() didn't set cur_node to NULL");
 }
 
 /* Checks that convo_init initializes a convo */
@@ -139,11 +141,13 @@ Test(dialogue, convo_init)
     cr_assert_eq(rc, SUCCESS, "convo_init() failed");
 
     cr_assert_eq(c.num_nodes, 0,
-                 "create_new_convo() didn't set num_nodes to 0");
+                 "convo_init() didn't set num_nodes to 0");
     cr_assert_null(c.all_nodes,
-                   "create_new_convo() didn't set all_nodes to NULL");
-    cr_assert_null(c.all_nodes,
-                   "create_new_convo() didn't set all_nodes to NULL");
+                   "convo_init() didn't set all_nodes to NULL");
+    cr_assert_null(c.all_edges,
+                   "convo_init() didn't set all_edges to NULL");
+    cr_assert_null(c.cur_node,
+                   "convo_init() didn't set cur_node to NULL");
 }
 
 /* Checks that convo_free frees memory allocated to a convo */
@@ -177,8 +181,10 @@ Test(dialogue, create_new_convo)
                  "create_new_convo() didn't set num_nodes to 0");
     cr_assert_null(c->all_nodes,
                    "create_new_convo() didn't set all_nodes to NULL");
-    cr_assert_null(c->all_nodes,
-                   "create_new_convo() didn't set all_nodes to NULL");
+    cr_assert_null(c->all_edges,
+                   "create_new_convo() didn't set all_edges to NULL");
+    cr_assert_null(c->cur_node,
+                   "create_new_convo() didn't set cur_node to NULL");
 }
 
 

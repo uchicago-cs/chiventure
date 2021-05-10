@@ -76,7 +76,9 @@ edge_list_t *create_edge_list_element(edge_list_t *e_lst, edge_t *e)
     if ((elt = (edge_list_t *) malloc(sizeof(edge_list_t))) == NULL) return
         NULL;
 
+    // Set members
     elt->edge = e;
+
     if (e_lst == NULL) {
         elt->option_number = 1;
     } else {
@@ -100,14 +102,15 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id)
     edge_t *e;
     if ((e = edge_new(quip, from_node, to_node)) == NULL) return FAILURE;
 
-    // Create edge list elements (for convo and the source node)
     edge_list_t *c_elt, *n_elt;
 
+    // all_edges in convo
     if ((c_elt = create_edge_list_element(c->all_edges, e)) == NULL) {
         edge_free(e);
         return FAILURE;
     }
 
+    // edges in source node
     if ((n_elt = create_edge_list_element(from_node->edges, e)) == NULL) {
         edge_free(e);
         free(c_elt);
@@ -128,129 +131,99 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id)
  *       DIALOGUE EXECUTION FUNCTIONS         *
  **********************************************/
 
-/* Given an edge list, print out the available options to the terminal.
+/* Creates a return string containing NPC dialogue and dialogue options
+ * (to be printed by the CLI).
  *
  * Parameters:
- *  - e_lst: edge list
+ *  - c: pointer to a convo
+ *  - is_leaf: 1 or 0, indicating whether c->cur_node is a leaf
  *
  * Returns:
- *  - SUCCESS on success, FAILURE if an error occurs
+ *  - A string that can be directly printed by the CLI
  */
-int print_options(edge_list_t *e_lst)
+char *create_return_string(convo_t *c, int is_leaf)
 {
-    while (e_lst != NULL) {
-        printf("%d. %s\n", e_lst->option_number, e_lst->edge->quip);
-        e_lst = e_lst->next;
-    }
+    char *input_prompt = "Enter your choice: ";
+    int totlen = 0;
+    int len_lst[c->cur_node->num_edges + 2];
+    edge_list_t *cur_edge = c->cur_node->edges;
+    int i = 0;
 
-    return SUCCESS;
+    // Compute buffer length
+    totlen += (len_lst[i++] = strlen(c->cur_node->npc_dialogue));
+    totlen += 2;
+    while (cur_edge != NULL) {
+        totlen += (int) log10(cur_edge->option_number) + 1;
+        totlen += (len_lst[i++] = strlen(cur_edge->edge->quip));
+        totlen += 3;
+        cur_edge = cur_edge->next;
+    }
+    if (!is_leaf) totlen += (len_lst[i] = strlen(input_prompt));
+    totlen += 1;
+
+    // Create return string
+    char *buf, *p;
+    char temp[5];
+    cur_edge = c->cur_node->edges;
+    i = 0;
+
+    if ((buf = malloc(sizeof(char) * totlen)) == NULL) return NULL;
+    p = buf;
+
+    memcpy(p, c->cur_node->npc_dialogue, len_lst[i]);
+    p += len_lst[i++];
+    *p++ = '\n';
+    *p++ = '\n';
+    while (cur_edge != NULL) {
+        sprintf(temp, "%d", cur_edge->option_number);
+        memcpy(p, temp, (int) log10(cur_edge->option_number) + 1);
+        p += (int) log10(cur_edge->option_number) + 1;
+        *p++ = '.';
+        *p++ = ' ';
+        memcpy(p, cur_edge->edge->quip, len_lst[i]);
+        p += len_lst[i++];
+        *p++ = '\n';
+        cur_edge = cur_edge->next;
+    }
+    if (!is_leaf) {
+        memcpy(p, input_prompt, len_lst[i]);
+        p += len_lst[i];
+    }
+    *p = '\0';
+
+    return buf;
 }
 
 /* See dialogue.h */
-int run_conversation(convo_t *c)
+char *start_conversation(convo_t *c, int *rc)
 {
-    node_t *cur_node = c->all_nodes->node;
-    edge_list_t *chosen_option;
-    int player_response;
+    c->cur_node = c->all_nodes->node;
+
+    if (c->cur_node->num_edges == 0) *rc = 1;
+    else *rc = 0;
+
+    return create_return_string(c, *rc);
+}
+
+/* See dialogue.h */
+char *run_conversation_step(convo_t *c, int input, int *rc)
+{   
+    // Traverse to the player's selected node
+    edge_list_t *cur_edge;
     int i;
 
-    while (cur_node->num_edges > 0) {
-
-        // Print NPC dialogue
-        printf("\n%s\n\n", cur_node->npc_dialogue);
-
-        // Print available options
-        print_options(cur_node->edges);
-
-        // User input
-        printf("Enter your choice: ");
-        scanf("%d", &player_response);
-        assert(player_response > 0 && player_response <= cur_node->num_edges);
-
-        // Find edge corresponding to chosen option
-        chosen_option = cur_node->edges;
-        for (i = 1; i < player_response; i++) {
-            chosen_option = chosen_option->next;
-        }
-
-        // Traverse to next node
-        cur_node = chosen_option->edge->to;
-    }
-
-    // NPC closing statement
-    printf("\n%s\n\n", cur_node->npc_dialogue);
-
-    return SUCCESS;
-}
-
-/* FOR FUTURE USE */
-int cat_options(char *buf, edge_list_t *e_lst, int *i)
-{
-    return SUCCESS;
-
-    /*
-    int j;
-    char option_str[255];
-
-    while (e_lst != NULL) {
-        sprintf(option_str, "%d. %s\n", e_lst->option_number,
-            e_lst->edge->quip);
-
-        if (((*i) + strlen(option_str)) > 2499) return FAILURE;
-
-        j = 0;
-        while (option_str[j] != '\0') {
-            buf[(*i)++] = c->cur_node->npc_dialogue[j++];
-        }
-
-        e_lst = e_lst->next;
-    }
-
-    return SUCCESS; */
-}
-
-/* FOR FUTURE USE -- Note: Assumes c contains a "node_t *cur_node" member */
-int run_conversation_step(convo_t *c, int input, char *outstring)
-{
-    return 0;
-
-    /*
-    assert(input > 0 && input <= c->cur_node->num_edges);
-
-    edge_list_t *chosen_option, *cur_edge;
-    int i, j;
-    char *buf = (char *) malloc(sizeof(char) * 2500);
-
-    chosen_option = c->cur_node->edges;
-    for (i = 1; i < player_response; i++) {
-        chosen_option = chosen_option->next;
+    cur_edge = c->cur_node->edges;
+    for (i = 1; i < input && i < c->cur_node->num_edges; i++) {
+        cur_edge = cur_edge->next;
     }
 
     c->cur_node = cur_edge->edge->to;
 
-    i = 0;
-    j = 0;
+    // Prepare return code and return string
+    if (c->cur_node->num_edges == 0) *rc = 1;
+    else *rc = 0;
 
-    while (c->cur_node->npc_dialogue[j] != '\0') {
-        buf[i++] = c->cur_node->npc_dialogue[j++];
-    }
-    buf[i++] = '\n';
-    buf[i++] = '\n';
-
-    if (c->cur_node->num_edges == 0) {
-        buf[i] = '\0';
-        outstring = buf;
-        return 1;
-    }
-
-    if (cat_options(buf, c->cur_node->edges, &i) != SUCCESS) {
-        free(buf);
-        return -1;
-    }
-
-    buf[i] = '\0';
-    outstring = buf;
-    return 0;*/
+    return create_return_string(c, *rc);
 }
 
 
@@ -310,13 +283,13 @@ int node_init(node_t *n, char *node_id, char *npc_dialogue)
     assert(strlen(node_id) < MAX_NODE_ID_LEN);
     assert(strlen(npc_dialogue) < MAX_DIA_LEN);
 
-    // Node ID
+    // ID
     if (n->node_id != NULL) free(n->node_id);
     if ((n->node_id = (char *) malloc(sizeof(char) *
         (strlen(node_id) + 1))) == NULL) return FAILURE;
     strcpy(n->node_id, node_id);
 
-    // NPC dialogue
+    // Dialogue
     if (n->npc_dialogue != NULL) free(n->npc_dialogue);
     if ((n->npc_dialogue = (char *)malloc(sizeof(char) *
         (strlen(npc_dialogue)+ 1))) == NULL) return FAILURE;
@@ -367,6 +340,7 @@ int convo_init(convo_t *c)
     c->num_nodes = 0;
     c->all_nodes = NULL;
     c->all_edges = NULL;
+    c->cur_node = NULL;
 
     return SUCCESS;
 }
