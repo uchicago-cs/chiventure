@@ -94,7 +94,7 @@ effects_linked_list_t* init_linked_list()
 }
 
 // See effect.h
-int add_node (effects_linked_list_t* ll, effect_t* effect)
+int add_effect_node (effects_linked_list_t* ll, effect_t* effect)
 {
     effect_node_t* node = (effect_node_t*)malloc(sizeof(effect_node_t));
     if(ll == NULL)
@@ -119,7 +119,7 @@ int add_node (effects_linked_list_t* ll, effect_t* effect)
 }
 
 // See effect.h
-int remove_node (effects_linked_list_t* ll, effect_t* effect)
+int remove_effect_node (effects_linked_list_t* ll, effect_t* effect)
 {
     // TODO
 }
