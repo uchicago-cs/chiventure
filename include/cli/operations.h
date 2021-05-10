@@ -36,7 +36,7 @@
  *  - ctx: pointer to a chiventure context struct, unused
  *
  * Returns:
- *  - Some system message
+ *  - system message listing contributors
  *
  */
 char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
