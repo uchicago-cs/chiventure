@@ -90,15 +90,14 @@ int run_conversation_mode(char *input, cli_callback callback_func,
         return callback_func(ctx, "Enter a valid dialogue option.", callback_args);
     }
 
-    char *outstring = (char*)malloc(1000 * sizeof(char)); //use a BUFLEN
-    run_conversation_step(npc->dialogue, option, outstring);
-
+    int end_convo;
+    char *outstring = run_conversation_step(npc->dialogue, option, &end_convo);
     int rc = callback_func(ctx, outstring, callback_args);
 
     free(outstring);
 
     /* If conversation over, switches back to normal mode */
-    if (npc->dialogue->cur_node->num_edges == 0)
+    if (end_convo)
     {
         rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
     }
