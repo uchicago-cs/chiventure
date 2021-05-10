@@ -44,6 +44,22 @@ typedef struct achievement_llist {
     struct achievement_llist *next;
 } achievement_llist_t;
 
+/*
+ * This is a tree struct of achievements (to replace linked list)
+ *
+ * Components:
+ *  achievement: achievement in tree
+ *  parent: parent node of achievement
+ *  rsibling: the nearest right-hand sibling of the achievement node
+ *  lmostchild: the leftmost child of the achievement node
+ */
+typedef struct achievement_tree {
+    achievement_t *achievement;
+    struct achievement_tree *parent;
+    struct achievement_tree *rsibling;
+    struct achievement_tree *lmostchild;
+} achievement_tree_t;
+
 
 /* 
  * This is the hashable struct for a quest 
