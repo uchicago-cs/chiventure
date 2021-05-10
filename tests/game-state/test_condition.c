@@ -50,8 +50,65 @@ Test(condition, new_inven_condition)
     free_condition(condition);
 }
 
+/* Tests free_conditon on an attribute condition */
+Test(condition, free_condition_on_attr)
+{
+    item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
+    set_int_attr(item, "length",2);
+    attribute_value_t value;
+    value.int_val = 2;
+    int check;
+
+    condition_t *condition = attribute_condition_new(item, "length", value);
+
+    cr_assert_not_null(condition, "attribute_condition_new() failed");
+    
+    cr_assert_not_null(condition->condition.attribute_type, "attribute_condition_new() failed to "
+    "create the appropriate condition struct");
+
+    cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condiiton_new() failed to "
+    "correctly mark condiiton as attribute");
+    
+    check = free_condition(condition);
+
+    cr_assert_eq(check, SUCCESS, "free_condition() failed to free");
+
+    cr_assert_not_null(item, "free_condition mistakingly freed item as well");
+    
+    item_free(item);
+}
+
+/* Tests free_condition on an inventory condition */
+Test(condition, free_condition_on_inven)
+{
+    player_t *player = player_new("test", 1);
+    item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
+
+    condition_t *condition = inventory_condition_new(player, item);
+
+    int check;
+
+    cr_assert_not_null(condition, "inventory_condition_new() failed");
+
+    cr_assert_not_null(condition->condition.inventory_type, "inventory_condition_new() failed to "
+    "create the appropriate condition struct");
+
+    cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condiiton_new() failed to "
+    "correctly mark condiiton as inventory");
+
+    check = free_condition(condition);
+
+    cr_assert_eq(check, SUCCESS, "free_condition() failed to free");
+
+    cr_assert_not_null(item, "free_condition mistakingly freed item as well");
+    cr_assert_not_null(player, "free_condition() mistakingly freed player as well");
+
+    player_free(player);
+    item_free(item);
+}
+
 /* Checks if delete_condition_llist() frees the condition list from memory */
-Test(condition, condition_free)
+Test(condition, delete_condition_llist)
 {
     player_t *player = player_new("test", 1);
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
