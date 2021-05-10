@@ -16,7 +16,7 @@
  */
 typedef struct npc_room_time {
     UT_hash_handle hh;
-    char* room_id;
+    char *room_id;
     int time; 
 } npc_room_time_t;
 
@@ -179,7 +179,7 @@ int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time);
  * Returns:
  *  The room the NPC is in as a char*, NULL if error.
  */
-char* track_room(npc_mov_t *npc_mov);
+char *track_room(npc_mov_t *npc_mov);
 
 
 /* 
