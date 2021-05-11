@@ -220,6 +220,17 @@ int stat_changes_free_all(stat_changes_t *sc){
 /* As somewhat higher level functions, do these still belong here or should I move them? */
 
 /* See battle_state.h */
+int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc){
+    while(base->next != NULL){
+        base = base->next;
+    }
+
+    base->next = sc;
+
+    return SUCCESS;
+}
+
+/* See battle_state.h */
 int stat_changes_add_node(stat_changes_t *sc){
     stat_changes_t *current = sc;
     stat_changes_t *new_node = stat_changes_new();

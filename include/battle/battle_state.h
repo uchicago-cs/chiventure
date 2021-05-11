@@ -163,4 +163,14 @@ int stat_changes_turn_increment(stat_changes_t *sc);
  * - FAILURE for unsuccessful completion
  */
 int stat_changes_undo(stat_changes_t *sc);
+
+/* Appends a node to the end of a stat_changes struct
+ * Parameters:
+ * - base: a pointer to a stat_changes struct in memory to be appended to
+ * - sc: a pointer to a stat_changes struct in memory to append
+ * returns:
+ * - SUCCESS for successful completion
+ * - FAILURE for unsuccessful completion
+ */
+int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc);
 #endif
