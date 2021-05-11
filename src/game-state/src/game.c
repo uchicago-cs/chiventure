@@ -71,6 +71,23 @@ int add_item_to_game(game_t *game, item_t *item)
 }
 
 /* See game.h */
+int add_npc_to_game(game_t *game, npc_t *npc)
+{
+    npc_t *check
+    HASH_FIND(hh, game->all_npcs, npc->npc_id, 
+              strnlen(npc->npc_id, MAX_ID_LEN), check);
+
+    if (check != NULL)
+    {
+        return FAILURE; //this npc id is already in use.
+    }
+
+    HASH_ADD_KEYPTR(hh, game->all_npcs, npc->npc_id, 
+                    strnlen(npc->npc_id, MAX_ID_LEN), npc);
+    return SUCCESS;
+}
+
+/* See game.h */
 int add_final_room_to_game(game_t *game, room_t *final_room)
 {
     room_t *check;
