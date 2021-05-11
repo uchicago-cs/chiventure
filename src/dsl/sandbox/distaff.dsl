@@ -30,7 +30,7 @@ ROOM room B
    
    
    cut lavender flowers pervades the air."
-   connections: NORTH TO room A,
+   connections: NORTH TO room A
                  EAST TO room C
    ITEM Door IN room B
     short desc: "A large wooden door"

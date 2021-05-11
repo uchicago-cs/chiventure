@@ -5,7 +5,7 @@ GAME START room B END room C
 ROOM room A
    short desc: "A dungeon room."
    long desc: "You shudder to think of the unspeakable horrors that have taken place in these dungeons. You wouldn't want to be fly on the wall here, but mostly because of how damp and moldy the walls are."
-   connections: NORTH TO room B,
+   connections: NORTH TO room B
                  EAST TO room C
 
    ITEM sconce

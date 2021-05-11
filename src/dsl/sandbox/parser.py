@@ -44,7 +44,7 @@ class TreeToDict(Visitor):
                 room_connection(c, room)
         d["ROOMS"].append(room)
 
-parser = Lark(dsl_grammar, parser='lalr')
+parser = Lark(dsl_grammar, parser='earley')
  
 def main():
     with open(sys.argv[1]) as f:
