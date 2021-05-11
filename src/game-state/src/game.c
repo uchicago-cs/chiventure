@@ -268,6 +268,7 @@ int game_free(game_t *game)
 {
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
+    delete_all_npcs(game->all_npcs);
     delete_condition_llist(game->end_conditions);
     delete_all_items(&(game->all_items));
     game_mode_free(game->mode);

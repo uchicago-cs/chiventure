@@ -41,7 +41,7 @@ typedef struct game {
     /* using the macros provided in uthash.h */
     item_hash_t *all_items;
 
-    /* a hashtable of npcs */
+    /* an interatable hashtable of npcs */
     /* using the macros provided in uthash.h */
     npc_hash_t *all_npcs;
 
