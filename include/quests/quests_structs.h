@@ -8,6 +8,19 @@
 #include "npc/npc.h"
 
 /*
+ * This enumerated type differentiates between an active and passive mission
+ * in the achievements linked list.
+ *
+ * Components:
+ *  ACTIVE: active mission
+ *  PASSIVE: passive mission
+ */
+typedef enum mission_type{
+    ACTIVE,
+    PASSIVE
+} mission_type_t;
+
+/*
  * This struct represents a passive mission.
  * 
  * A passive mission is one that the player does not
@@ -65,6 +78,7 @@ typedef union mission {
  */
 typedef struct achievement {
     mission_t *mission;
+    mission_type_t* mission_type;
     bool completed;     //0 is not completed, 1 is completed
 } achievement_t;
 
