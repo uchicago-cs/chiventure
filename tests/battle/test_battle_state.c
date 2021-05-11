@@ -171,6 +171,8 @@ Test(stat_changes, stat_changes_init)
     stat_changes_t *sc;
     int rc;
 
+    sc = calloc(1, sizeof(stat_changes_t));
+
     rc = stat_changes_init(sc);
 
     cr_assert_eq(rc, SUCCESS, "stat_changes_init() failed");
@@ -239,7 +241,8 @@ Test(stat_changes, stat_changes_append_node)
     rc = stat_changes_append_node(head, sc);
 
     cr_assert_eq(rc, SUCCESS, "stat_changes_append_node() failed");
-    cr_assert_eq(head->next, sc, "stat_changes_append_node() failed");
+    cr_assert_eq(head->next, sc, "head->next is not sc");
+    cr_assert_eq(sc->prev, head, "sc->prev is not head");
 
     stat_changes_free_all(head);
 }
@@ -274,12 +277,12 @@ Test(stat_changes, stat_changes_remove_node)
     stat_changes_append_node(head, sc1);
     stat_changes_append_node(head, sc2);
 
-    cr_assert_not_null(sc1, "stat_changes_new() failed");
-    cr_assert_not_null(sc2, "stat_changes_new() failed");
+    cr_assert_eq(head->next, sc1, "stat_changes_new() failed adding node 1");
+    cr_assert_eq(sc1->next, sc2, "stat_changes_new() failed adding node 2");
     rc = stat_changes_remove_node(sc1);
 
     cr_assert_eq(rc, SUCCESS, "stat_changes_remove_node() failed");
-    cr_assert_eq(head->next, sc2, "stat_changes_remove_node() failed");
+    cr_assert_eq(head->next, sc2, "header node's next is not sc2");
 
     stat_changes_free_all(head);
 }
@@ -288,17 +291,20 @@ Test(stat_changes, stat_changes_remove_node)
 Test(stat_changes, stat_changes_turn_increment_simple_decrement)
 {
     stat_changes_t *sc;
+    stat_changes_t *head;
     combatant_t *c;
     int rc;
 
     c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    head = stat_changes_new();
     sc = stat_changes_new();
     sc->turns_left = 2;
 
-    rc = stat_changes_turn_increment(sc, c);
+    stat_changes_append_node(head, sc);
+    rc = stat_changes_turn_increment(head, c);
 
     cr_assert_eq(rc, SUCCESS, "stat_changes_turn_increment() failed");
-    cr_assert_eq(sc->turns_left, 1, "stat_changes_turn_increment() failed");
+    cr_assert_eq(sc->turns_left, 1, "stat_changes_turn_increment() turns left was not 1");
 
     stat_changes_free_node(sc);
 }
@@ -329,11 +335,11 @@ Test(stat_changes, stat_changes_turn_increment_complex_decrement)
     stat_changes_append_node(head, sc);
     sc->turns_left = 1;
 
-    rc = stat_changes_turn_increment(sc, c);
+    rc = stat_changes_turn_increment(head, c);
 
     cr_assert_eq(rc, SUCCESS, "stat_changes_turn_increment() failed");
-    cr_assert_null(head->next, "stat_changes_turn_increment() failed");
-    cr_assert_eq(c->stats->speed, 0, "stat_changes_turn_increment() failed");
+    cr_assert_null(head->next, "stat_changes_turn_increment() failed node removal");
+    cr_assert_eq(c->stats->speed, 0, "stat_changes_turn_increment() stat undo failed");
 
     stat_changes_free_all(head);
 }

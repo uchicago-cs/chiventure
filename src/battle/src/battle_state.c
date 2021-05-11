@@ -226,6 +226,7 @@ int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc){
     }
 
     base->next = sc;
+    sc->prev = base;
 
     return SUCCESS;
 }
@@ -241,12 +242,15 @@ int stat_changes_add_node(stat_changes_t *sc){
 
 /* See battle_state.h */
 int stat_changes_remove_node(stat_changes_t *sc){
-    sc->prev->next = sc->next;
+    stat_changes_t *after = sc->next;
+    stat_changes_t *before = sc->prev;
+
+    before->next = after;
 
     if(sc->next != NULL){
-        sc->next->prev = sc->prev;
+        after->prev = before;
     }
-
+    
     stat_changes_free_node(sc);
 
     return SUCCESS;
