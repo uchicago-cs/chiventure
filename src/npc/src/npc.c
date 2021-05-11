@@ -5,7 +5,7 @@
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
              convo_t *dialogue, item_hash_t *inventory, class_t *class,
-             bool will_fight, npc_battle_t *npc_battle)
+             bool will_fight)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
@@ -15,7 +15,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->inventory = inventory;
     npc->class = class;
     npc->will_fight = will_fight;
-    npc->npc_battle = npc_battle;
+    npc->npc_battle = NULL;
 
     return SUCCESS;
 }
@@ -23,7 +23,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 /* See npc.h */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
                convo_t *dialogue, item_hash_t *inventory, class_t *class,
-               bool will_fight, npc_battle_t *npc_battle)
+               bool will_fight)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -34,15 +34,13 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->dialogue = malloc(sizeof(convo_t));
     npc->inventory = malloc(sizeof(item_hash_t));
     npc->class = malloc(sizeof(class_t));
-    npc->npc_battle = malloc(sizeof(npc_battle_t));
 
     int check = npc_init(npc, npc_id, short_desc, long_desc, dialogue, inventory
-                         , class, will_fight, npc_battle); 
+                         , class, will_fight); 
 
     if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
         npc->long_desc == NULL || npc->dialogue == NULL || 
-        npc->inventory == NULL || npc->class == NULL || npc->npc_battle == NULL
-        || check != SUCCESS)
+        npc->inventory == NULL || npc->class == NULL || check != SUCCESS)
     {
         return NULL;
     }
@@ -61,7 +59,9 @@ int npc_free(npc_t *npc)
     convo_free(npc->dialogue);
     delete_all_items(&npc->inventory);
     class_free(npc->class);
-    npc_battle_free(npc->npc_battle);
+    if (npc->npc_battle != NULL) {
+        npc_battle_free(npc->npc_battle);
+    }
     free(npc);
 
     return SUCCESS;
@@ -119,6 +119,8 @@ item_list_t *get_npc_inv_list(npc_t *npc)
 /* See npc.h */
 int change_npc_health(npc_t *npc, int change, int max)
 {
+    assert(npc->npc_battle != NULL);
+
     if ((npc->npc_battle->health + change) < 0)
     {
         npc->npc_battle->health = 0;
