@@ -88,6 +88,6 @@ int award_xp(stat_t *stats, double xp);
  * - SUCCESS for successful completion
  * - FAILURE for unsuccessful completion
  */
-int stat_changes_add_item_node(stat_changes_t *sc, item_t *item);
+int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
 
 #endif

@@ -232,14 +232,9 @@ int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc){
 
 /* See battle_state.h */
 int stat_changes_add_node(stat_changes_t *sc){
-    stat_changes_t *current = sc;
     stat_changes_t *new_node = stat_changes_new();
 
-    while(current->next != NULL){
-        curent = current->next;
-    }
-
-    current->next = new_node;
+    stat_changes_append_node(current, new_node);
 
     return SUCCESS;
 }

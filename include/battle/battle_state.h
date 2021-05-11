@@ -101,7 +101,7 @@ stat_changes_t *stat_changes_new();
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int stat_change_init(stat_changes_t *sc);
+int stat_changes_init(stat_changes_t *sc);
 
 /* Frees a stat_changes struct from memory. Note: Does NOT do anything
  *     more than freeing the given stat_changes node
