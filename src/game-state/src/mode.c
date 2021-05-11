@@ -79,11 +79,9 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     int option, num_options, rc;
     option = atoi(parsed_input[0]);
 
-    /* currently, npcs are not stored by chiventure so that must be
-       fixed before this function can be fully implemented */
-    /* This assumes that game has an all_npcs hash table field */
     npc_t *npc;
-    HASH_FIND_STR(ctx->game->all_npcs, ctx->mode->mode_ctx, npc);
+    HASH_FIND(hh, ctx->game->all_npcs, ctx->mode->mode_ctx, 
+              strnlen(ctx->mode->mode_ctx, MAX_ID_LEN), npc);
     num_options = npc->dialogue->cur_node->num_edges;
 
     if (num_options == 0);
@@ -93,7 +91,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     }
 
     if ((option <= 0) || (option > npc->dialogue->cur_node->num_edges) || 
-        parsed_input[1] != NULL) //assumes convo_t has cur_node field
+        parsed_input[1] != NULL) 
     {
         return callback_func(ctx, "Enter a valid dialogue option.", callback_args);
     }
