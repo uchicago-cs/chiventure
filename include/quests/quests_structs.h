@@ -8,11 +8,11 @@
 #include "npc/npc.h"
 
 /*
- * This union represents the mission.
+ * This struct represents the mission.
  * 
- * Note: Although this is currently a union, it might be formed into
- *       a struct in future implementations.
- *
+ * Components:
+ *  item_to_collect: item to be collected in order to complete the mission
+ *  npc_to_meet: npc to meet in order to complete the mission
  */
 typedef struct mission {
     item_t *item_to_collect;
@@ -21,7 +21,11 @@ typedef struct mission {
 
 
 /* 
- * This union represents an achievement.
+ * This struct represents an achievement.
+ * 
+ * Components:
+ *  mission: mission to be completed
+ *  completed: bool for if achievement is completed
  */
 typedef struct achievement {
     mission_t *mission;
@@ -30,6 +34,10 @@ typedef struct achievement {
 
 /* 
  * This is a linked list struct of achievements.
+ * 
+ * Components:
+ *  achievement: achievement in linked list
+ *  next: rest of linked list of achievements
  */
 typedef struct achievement_llist {
     achievement_t *achievement;
@@ -40,6 +48,7 @@ typedef struct achievement_llist {
 /* 
  * This is the hashable struct for a quest 
  * Elements:
+ * hh: used for hashtable, as provided in uthash.h
  * quest_id: the id of the quest
  * achievement_list: linked list struct holding a list of
  *                   achievements that make up a quest
@@ -57,6 +66,13 @@ typedef struct quest  {
     int status;  
 } quest_t;
 
+/*
+ * This typedef distinguishes between quest_t pointers
+ * which are used to point to quest_t structs in the 
+ * traditional sense and those which are used to hash
+ * quest_t structs with the UTHASH macros as specified
+ * in include/common
+ */
 typedef struct quest quest_hash_t;
 
 

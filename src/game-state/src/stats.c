@@ -97,7 +97,7 @@ int stat_effect_init(stat_effect_t *effect, effects_global_t *global)
 /* See stats.h */
 stat_effect_t *stat_effect_new(effects_global_t *global)
 {
-    stat_effect_t *effect = malloc(sizeof(stat_effect_t));
+    stat_effect_t *effect = calloc(1, sizeof(stat_effect_t));
 
     int check = stat_effect_init(effect, global);
     
@@ -414,17 +414,14 @@ int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)
 {
     assert(effect != NULL);
     HASH_DEL(hash, effect);
-
     stat_mod_t *current, *tmp;
-
+    
     LL_FOREACH_SAFE(effect->stat_list, current, tmp)
     {
         LL_DELETE(effect->stat_list, current);
         free(current);
     }
-
     free(effect->key);
-
     free(effect);
 }
 
