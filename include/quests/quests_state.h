@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "quests_structs.h"
-
+#include "player.h"
 
 /* Creates a new passive mission struct (allocates memory)
  * 
@@ -187,7 +187,9 @@ int start_quest(quest_t *quest);
  */
 int fail_quest(quest_t *quest);
 
-/* Completes an achievement in a quest by checking if the item and npc matches
+
+/* Completes a passive achievement in a quest by checking if the pointer to xp,
+ * level, or health array is met
  * 
  * Paramter:
  * - quest: pointer to the quest
@@ -198,7 +200,23 @@ int fail_quest(quest_t *quest);
  * - SUCCESS
  * - FAILURE
  */
-int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met);
+int complete_achievement_passive(quest_t *quest, player_t *player);
+
+/* Completes an active achievement in a quest by checking if the item, npc visited,
+ * npc killed, or room visited matches
+ * 
+ * Paramter:
+ * - quest: pointer to the quest
+ * - item_collected: the item that has been collected
+ * - npc_met: the npc that was met
+ * - npc_killed: the npc that was killed
+ * - room_visited: the room that was visited
+ * Returns:
+ * - SUCCESS
+ * - FAILURE
+ */
+int complete_achievement_active(quest_t *quest, item_t *item_collected, npc_t *npc_met,
+                         npc_t *npc_killed, room_t *room_visited);
 
 /* Checks if the quest is completed
  * 
