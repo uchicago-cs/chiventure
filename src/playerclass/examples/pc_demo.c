@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "playerclass/class.h"
-#include "playerclass/class_item_restriction.h"
+#include "playerclass/class_item.h"
 #include "playerclass/class_structs.h"
 #include "demo-functions.h"
 #include "class-list.h"

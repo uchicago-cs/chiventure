@@ -6,7 +6,7 @@
 #include "playerclass/class.h"
 #include "playerclass/class_structs.h"
 
-/* see class_item_restriction.h */
+/* see class_item.h */
 int add_item_multiplier(item_t* item, class_t* class, double multiplier) {
     if ((item == NULL) | (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in add_item_multiplier.\n");
@@ -46,7 +46,8 @@ int add_item_multiplier(item_t* item, class_t* class, double multiplier) {
     return add_rc;
 }
 
-/* see class_item_restriction.h */
+
+/* see class_item.h */
 double get_class_item_multiplier(item_t* item, class_t* class) {
     if ((item == NULL) | (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in get_class_item_multiplier.\n");
@@ -60,6 +61,7 @@ double get_class_item_multiplier(item_t* item, class_t* class) {
 
     return list_get_double_attr(item->class_multipliers, class->name);
 }
+
 
 int remove_item_multiplier(item_t* item, class_t* class) {
     if ((item == NULL) | (class == NULL)) {
@@ -75,7 +77,8 @@ int remove_item_multiplier(item_t* item, class_t* class) {
     return remove_rc;
 }
 
-/* see class_item_restriction.h */
+
+/* see class_item.h */
 int add_item_restriction(item_t* item, class_t* class) {
     if ((item == NULL) | (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in add_item_restriction.\n");
@@ -87,7 +90,8 @@ int add_item_restriction(item_t* item, class_t* class) {
     return add_rc;
 }
 
-/* see class_item_restriction.h */
+
+/* see class_item.h */
 bool is_restricted(item_t* item, class_t* class) {
     if ((item == NULL) | (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in is_restricted.\n");
@@ -97,7 +101,8 @@ bool is_restricted(item_t* item, class_t* class) {
     return list_get_double_attr(item->class_multipliers, class->name) == 0.0;
 }
 
-/* see class_item_restriction.h */
+
+/* see class_item.h */
 int remove_item_restriction(item_t* item, class_t* class) {
     if ((item == NULL) | (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in remove_item_restriction.\n");

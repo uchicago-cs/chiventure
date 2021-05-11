@@ -1,16 +1,23 @@
-#ifndef _CLASS_ITEM_RESTRICTION_H
-#define _CLASS_ITEM_RESTRICTION_H
+#ifndef _CLASS_ITEM_H
+#define _CLASS_ITEM_H
+
 /*
- * Module for class-item restrictions. Provides functionality for
- * restricting a class from using a specific item and checking
- * whether or not a class is restricted from item usage. 
+ * Module for class-item interactions. Provides functionality for:
+ * - Adding "multipliers" as fields of an item that control 
+ *   how well certain player classes can the item
+ * - Checking and removing class multipliers
+ * - Restricting a class from using a specific item and checking
+ *   whether or not a class is restricted from item usage
+ * - Removing class restrictions
 */
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include "game-state/item.h"
 #include "playerclass/class.h"
 #include "playerclass/class_structs.h"
+
 
 /* Given an item and a class, adds an attribute of the class to the item representing a multiplier
  * 
@@ -29,6 +36,7 @@
  */
 int add_item_multiplier(item_t* item, class_t* class, double multiplier);
 
+
 /* Given an item and a class, returns the proficiency multiplier that class has when using the item.
  * Utilizes the class multiplier field of an item to retrieve this information.
  *
@@ -43,6 +51,7 @@ int add_item_multiplier(item_t* item, class_t* class, double multiplier);
  *   - The multiplier in all other cases
 */
 double get_class_item_multiplier(item_t* item, class_t* class);
+
 
 /* Given an item and a class, removes the class multiplier on the item
  * 
@@ -59,6 +68,7 @@ double get_class_item_multiplier(item_t* item, class_t* class);
  */
 int remove_item_multiplier(item_t* item, class_t* class);
 
+
 /* Given an item and a class, adds an attribute of the class to the item representing a restriction
  * 
  * Utilizes the class restrictions field of an item to set this information
@@ -74,6 +84,7 @@ int remove_item_multiplier(item_t* item, class_t* class);
  */
 int add_item_restriction(item_t* item, class_t* class);
 
+
 /* Given an item and a class, returns whether or not that class is restricted from using the item
  * Utilizes the class multiplier field of an item to retrieve this information
  *
@@ -87,6 +98,7 @@ int add_item_restriction(item_t* item, class_t* class);
  *    - false if not
 */
 bool is_restricted(item_t* item, class_t* class);
+
 
 /* Given an item and a class, removes the class restriction on the item
  * 
@@ -103,4 +115,5 @@ bool is_restricted(item_t* item, class_t* class);
  */
 int remove_item_restriction(item_t* item, class_t* class);
 
-#endif /* CLASS_ITEM_RESTRICTION_H */
+
+#endif /* CLASS_ITEM_H */

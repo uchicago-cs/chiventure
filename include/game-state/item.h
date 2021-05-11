@@ -57,7 +57,7 @@ typedef struct item {
     char *short_desc;
     char *long_desc;
     game_action_hash_t *actions;
-    attribute_list_t *class_multipliers; // a list for all player class multipliers
+    attribute_list_t *class_multipliers; // a linked list of all player class multipliers
     attribute_hash_t *attributes; // a hashtable for all attributes
     effects_hash_t *stat_effects; // hashtable of effects item can have (set to NULL if no effects)
     struct item *next; // points to item w/ identical id, if it exists
