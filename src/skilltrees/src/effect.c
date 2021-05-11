@@ -13,6 +13,8 @@ stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int modification, int
      * if the stat exists in the hash table belonging to the player when
      * #898 gets merged
      */
+
+    // TODO - Complete Implementation (Rohan)
     stat_mod_effect_t* new_stat_effect = (stat_mod_effect_t*)malloc(sizeof(stat_mod_effect_t));
     new_stat_effect->stat_name = stat_name;
     new_stat_effect->modification = modification;
