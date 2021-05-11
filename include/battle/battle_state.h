@@ -149,20 +149,23 @@ int stat_changes_remove_node(stat_changes_t *sc);
  *     list.
  * Parameters:
  * - sc: a pointer to a stat_changes struct in memory
+ * - c: a pointer to a stat_changes_struct in memory in case of stat changes
+ *     that need to be made/undone
  * returns:
  * - SUCCESS for successful decrement
  * - FAILURE for unsuccessful decrement
  */
-int stat_changes_turn_increment(stat_changes_t *sc);
+int stat_changes_turn_increment(stat_changes_t *sc, combatant_t *c);
 
 /* Undoes the temporary stat changes
  * Parameters:
  * - sc: a pointer to a stat_changes struct in memory
+ * - c: a pointer to a combatan struct in memory to undo stat changes to
  * returns:
  * - SUCCESS for successful completion
  * - FAILURE for unsuccessful completion
  */
-int stat_changes_undo(stat_changes_t *sc);
+int stat_changes_undo(stat_changes_t *sc, combatant_t *c);
 
 /* Appends a node to the end of a stat_changes struct
  * Parameters:

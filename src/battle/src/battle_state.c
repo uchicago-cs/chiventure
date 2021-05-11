@@ -234,7 +234,7 @@ int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc){
 int stat_changes_add_node(stat_changes_t *sc){
     stat_changes_t *new_node = stat_changes_new();
 
-    stat_changes_append_node(current, new_node);
+    stat_changes_append_node(sc, new_node);
 
     return SUCCESS;
 }
@@ -247,12 +247,7 @@ int stat_changes_remove_node(stat_changes_t *sc){
         sc->next->prev = sc->prev;
     }
 
-    int rc = stat_changes_free_node(sc);
-    if(rc != SUCCESS)
-    {
-        fprintf(stderr, "Could not free stat changes node\n");
-        return NULL;
-    }
+    stat_changes_free_node(sc);
 
     return SUCCESS;
 }

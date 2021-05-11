@@ -171,7 +171,7 @@ Test(stat_changes, stat_changes_init)
     stat_changes_t *sc;
     int rc;
 
-    rc = stat_changes_init(&sc);
+    rc = stat_changes_init(sc);
 
     cr_assert_eq(rc, SUCCESS, "stat_changes_init() failed");
 
@@ -214,8 +214,8 @@ Test(stat_changes, stat_changes_free_all)
     head = stat_changes_new();
     sc1 = stat_changes_new();
     sc2 = stat_changes_new();
-    stat_changes_append(head, sc1);
-    stat_changes_append(head, sc2);
+    stat_changes_append_node(head, sc1);
+    stat_changes_append_node(head, sc2);
 
     cr_assert_not_null(sc1, "stat_changes_new() failed");
     cr_assert_not_null(sc2, "stat_changes_new() failed");
@@ -252,7 +252,7 @@ Test(stat_changes, stat_changes_add_node)
 
     sc = stat_changes_new();
 
-    rc = stat_changes_add_node();
+    rc = stat_changes_add_node(sc);
 
     cr_assert_eq(rc, SUCCESS, "stat_changes_add_node() failed");
     cr_assert_not_null(sc->next, "stat_changes_append_node() failed");
@@ -342,6 +342,7 @@ Test(stat_changes, stat_changes_turn_increment_complex_decrement)
 Test(stat_changes, stat_changes_undo)
 {
     stat_changes_t *sc;
+    combatant_t *c;
     int rc;
 
     c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
@@ -362,6 +363,6 @@ Test(stat_changes, stat_changes_undo)
 
     cr_assert_eq(rc, SUCCESS, "stat_changes_undo() failed");
     cr_assert_eq(c->stats->speed, 0, "stat_changes_undo() failed");
-    
+
     stat_changes_free_node(sc);
 }
