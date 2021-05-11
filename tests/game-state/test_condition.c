@@ -24,15 +24,15 @@ Test(condition, new_attr_condition)
 
     cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condiiton_new() failed to "
     "correctly mark condiiton as attribute");
+    
     item_free(item);
-    free(condition->condition.attribute_type);
-    free(condition);
+    free_condition(condition);
 }
 
 /* Checks that inventory_condition_new() properly mallocs and inits a new condition struct */
 Test(condition, new_inven_condition)
 {
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
 
     condition_t *condition = inventory_condition_new(player, item);
@@ -44,16 +44,73 @@ Test(condition, new_inven_condition)
 
     cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condiiton_new() failed to "
     "correctly mark condiiton as inventory");
+
     player_free(player);
     item_free(item);
-    free(condition->condition.inventory_type);
-    free(condition);
+    free_condition(condition);
+}
+
+/* Tests free_conditon on an attribute condition */
+Test(condition, free_condition_on_attr)
+{
+    item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
+    set_int_attr(item, "length",2);
+    attribute_value_t value;
+    value.int_val = 2;
+    int check;
+
+    condition_t *condition = attribute_condition_new(item, "length", value);
+
+    cr_assert_not_null(condition, "attribute_condition_new() failed");
+    
+    cr_assert_not_null(condition->condition.attribute_type, "attribute_condition_new() failed to "
+    "create the appropriate condition struct");
+
+    cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condiiton_new() failed to "
+    "correctly mark condiiton as attribute");
+    
+    check = free_condition(condition);
+
+    cr_assert_eq(check, SUCCESS, "free_condition() failed to free");
+
+    cr_assert_not_null(item, "free_condition mistakingly freed item as well");
+    
+    item_free(item);
+}
+
+/* Tests free_condition on an inventory condition */
+Test(condition, free_condition_on_inven)
+{
+    player_t *player = player_new("test");
+    item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
+
+    condition_t *condition = inventory_condition_new(player, item);
+
+    int check;
+
+    cr_assert_not_null(condition, "inventory_condition_new() failed");
+
+    cr_assert_not_null(condition->condition.inventory_type, "inventory_condition_new() failed to "
+    "create the appropriate condition struct");
+
+    cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condiiton_new() failed to "
+    "correctly mark condiiton as inventory");
+
+    check = free_condition(condition);
+
+    cr_assert_eq(check, SUCCESS, "free_condition() failed to free");
+
+    cr_assert_not_null(item, "free_condition mistakingly freed item as well");
+    cr_assert_not_null(player, "free_condition() mistakingly freed player as well");
+
+    player_free(player);
+    item_free(item);
 }
 
 /* Checks if delete_condition_llist() frees the condition list from memory */
-Test(condition, condition_free)
+Test(condition, delete_condition_llist)
 {
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
     attribute_value_t value;
@@ -68,6 +125,7 @@ Test(condition, condition_free)
     int res = delete_condition_llist(conditions);
 
     cr_assert_eq(res, SUCCESS, "delete_condition_llist() failed");
+
     player_free(player);
     item_free(item);
 }
@@ -102,7 +160,7 @@ Test(condition, valid_condition)
     "but instead got %i", valid);
 
     // CONDITION_NULL
-    player_t *player = player_new("test", 1);
+    player_t *player = player_new("test");
 
     condition_t *condition_2 = inventory_condition_new(player, item);
 
@@ -114,10 +172,9 @@ Test(condition, valid_condition)
     valid = valid_condition(game, NULL);
     cr_assert_eq(valid, CONDITION_NULL, "valid_condiiton() expected CONDITION_NULL(7) "
     "but instead got %i", valid);
+
     player_free(player);
     game_free(game);
-    free(condition_1->condition.inventory_type);
-    free(condition_2->condition.inventory_type);
-    free(condition_1);
-    free(condition_2);
+    free_condition(condition_1);
+    free_condition(condition_2);
 }

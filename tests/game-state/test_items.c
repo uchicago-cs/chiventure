@@ -1294,7 +1294,7 @@ Test(item, deletion_in_room)
 /* Checks deletion of all items within a player struct */
 Test(item, deletion_in_player)
 {
-    player_t *test_player = player_new("test_player", 100);
+    player_t *test_player = player_new("test_player");
     item_t *test_item1 = item_new("hat", "fedora", "Indiana Jones vibes");
     item_t *test_item2 = item_new("lightsaber", "weapon",
     "star wars vibes, it's a crossover episode");

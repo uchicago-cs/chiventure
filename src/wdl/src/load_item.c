@@ -34,10 +34,10 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 }
 
 /* See load_item.h */
-int load_actions(obj_t *doc, item_t *i)
+int load_actions(obj_t *item_obj, item_t *i)
 {
     // getting a list of actions from item
-    obj_t *action_ls = get_item_actions(doc);
+    obj_t *action_ls = get_item_actions(item_obj);
     if (action_ls == NULL)
     {
         fprintf(stderr, "action fails type checking, or action list is empty\n");
@@ -49,8 +49,8 @@ int load_actions(obj_t *doc, item_t *i)
     action_type_t *temp;
     list_action_type_t *val_actions = get_supported_actions();
 
-    obj_t *curr, *tmp;
-    HASH_ITER(hh, action_ls->data.obj.attr, curr, tmp)
+    obj_t *curr;
+    DL_FOREACH(action_ls->data.lst, curr)
     {
         temp = get_game_action(obj_get_str(curr, "action"), val_actions);
 
@@ -94,7 +94,7 @@ int load_items(obj_t *doc, game_t *g)
     HASH_ITER(hh, items_obj->data.obj.attr, curr, tmp)
     {
         // get id, short_desc, and long_desc
-        char *id = obj_get_str(curr, "id");
+        char *id = curr->id;
         char *short_desc = obj_get_str(curr, "short_desc");
         char *long_desc = obj_get_str(curr, "long_desc");
         char *in = obj_get_str(curr, "in");

@@ -40,7 +40,7 @@ Test(npc, new)
 {
     class_t* c;
     npc_t *npc;
-    npc_mov_t *movement;
+    npc_mov_t *movement = generate_test_npc_mov();
 
     char *npc_id = "npc_22";
 
@@ -74,12 +74,12 @@ Test(npc, init)
 {
     class_t* c;
     npc_t *npc;
-    npc_mov_t *movement;
+    npc_mov_t *movement = generate_test_npc_mov();
     int res;
   
     char *npc_id2 = "test";
 
-    npc = npc_new(npc_id2, "woman", "short woman", 30, NULL, NULL);
+    npc = npc_new(npc_id2, "woman", "short woman", 30, NULL, movement);
   
     c = generate_test_class();
     movement = generate_test_npc_mov();

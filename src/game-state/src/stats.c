@@ -414,17 +414,14 @@ int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)
 {
     assert(effect != NULL);
     HASH_DEL(hash, effect);
-
     stat_mod_t *current, *tmp;
-
+    
     LL_FOREACH_SAFE(effect->stat_list, current, tmp)
     {
         LL_DELETE(effect->stat_list, current);
         free(current);
     }
-
     free(effect->key);
-
     free(effect);
 }
 
