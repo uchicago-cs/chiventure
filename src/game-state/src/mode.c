@@ -84,12 +84,6 @@ int run_conversation_mode(char *input, cli_callback callback_func,
               strnlen(ctx->game->mode->mode_ctx, MAX_ID_LEN), npc);
     num_options = npc->dialogue->cur_node->num_edges;
 
-    if (num_options == 0);
-    {
-        rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
-        return SUCCESS;
-    }
-
     if ((option <= 0) || (option > npc->dialogue->cur_node->num_edges) || 
         parsed_input[1] != NULL) 
     {
