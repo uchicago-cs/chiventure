@@ -3,6 +3,7 @@
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "game-state/mode.h"
+#include "npc/npc.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -36,7 +37,7 @@ int add_player_to_game(game_t *game, player_t *player)
               strnlen(player->player_id, MAX_ID_LEN), check);
     if (check != NULL)
     {
-        return FAILURE; //this plauer id is already in use.
+        return FAILURE; //this player id is already in use.
     }
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id,
                     strnlen(player->player_id, MAX_ID_LEN), player);
@@ -73,7 +74,7 @@ int add_item_to_game(game_t *game, item_t *item)
 /* See game.h */
 int add_npc_to_game(game_t *game, npc_t *npc)
 {
-    npc_t *check
+    npc_t *check;
     HASH_FIND(hh, game->all_npcs, npc->npc_id, 
               strnlen(npc->npc_id, MAX_ID_LEN), check);
 

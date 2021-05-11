@@ -80,8 +80,8 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     option = atoi(parsed_input[0]);
 
     npc_t *npc;
-    HASH_FIND(hh, ctx->game->all_npcs, ctx->mode->mode_ctx, 
-              strnlen(ctx->mode->mode_ctx, MAX_ID_LEN), npc);
+    HASH_FIND(hh, ctx->game->all_npcs, ctx->game->mode->mode_ctx, 
+              strnlen(ctx->game->mode->mode_ctx, MAX_ID_LEN), npc);
     num_options = npc->dialogue->cur_node->num_edges;
 
     if (num_options == 0);
