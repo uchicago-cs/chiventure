@@ -36,6 +36,12 @@ class TreeToDict(Transformer):
         item_id = s.pop(0)[1][0]
         return ('ITEM', (item_id, dict(s)))
 
+    # input is of the form [('id':value),<properties>]
+    # output is of the form ("action", ("<action id>", <properties>))
+    def action(self, s):
+        action_id = s.pop(0)[1][0]
+        return ('action', (action_id, dict(s)))
+
     # we have several objects of the form ('ITEM', (<item id>, <item properties>)) and
     # we want to group all items into their own dict of the form {<item id>: <item properties>}
     def room(self, s):

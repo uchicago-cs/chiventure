@@ -10,7 +10,7 @@ ROOM room B
       OPEN condition: "Door is in front of you."
 		OPEN success: "You open the door."
       OPEN fail: "You can't open the door."
-   action: BREAK
-      OPEN condition: "Door is in front of you."
-		OPEN success: "You break the door."
-      OPEN fail: "You can't break the door."
+    action: BREAK
+      BREAK condition: "Door is in front of you."
+		BREAK success: "You break the door."
+      BREAK fail: "You can't break the door."
