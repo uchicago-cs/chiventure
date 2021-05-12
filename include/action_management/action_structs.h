@@ -5,6 +5,16 @@
 /* File consisting of all action structs created by action management
    =========================================================================== */
 
+/* A union type of an integer or NPC
+ * - item: an item
+ * - npc: an NPC
+ */
+union thing
+{
+   item_t item;
+   npc_t npc;
+} thing_t;
+
 /* An enumeration of all supported actions.
  * KIND 1 ACTIONS - ACTION <item>
  * KIND 2 ACTIONS - ACTION <path>
