@@ -4,15 +4,13 @@
 #include <stdbool.h>
 
 #include "libobj/obj.h"
-#include "libobj/parser.h"
+#include "libobj/load.h"
 #include "wdl/parse.h"
 
 /* See load_room.h */
 obj_t *get_doc_obj(char *fpath)
 {
-    obj_t *obj = obj_new("doc");
-    parse_game(fpath, obj);
-    return obj;
+    return load_obj(fpath);
 }
 
 /* get_obj_list()

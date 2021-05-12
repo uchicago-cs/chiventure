@@ -17,12 +17,12 @@ typedef struct player {
     class_t *class;
     stat_t *stats;
     move_t *moves;
-    item_t *items;
+    battle_item_t *items;
 } player_t;
 
 /* Stub for the game_t struct in game-state */
 typedef struct game {
-    // Would have other fields (eg hash tables for players, rooms, items)
+    // Would have other fields (eg hash tables for players, rooms, battle_items)
     player_t *player;
     battle_t *battle;
 } game_t;
@@ -46,7 +46,7 @@ typedef struct npc_enemy {
     class_t *class;
     stat_t *stats;
     move_t *moves;
-    item_t *items;
+    battle_item_t *items;
     difficulty_t ai;
     struct npc_enemy *prev;
     struct npc_enemy *next;
@@ -59,11 +59,11 @@ typedef struct npc_enemy {
  *     - class: pointer to player_class struct
  *     - stats: player stats stub
  *     - moves: player moves stub
- *     - items: player items stub
+ *     - items: player battle_items stub
  *
- * Returns: a newly allocated player_t with p_id, stats, moves, items
+ * Returns: a newly allocated player_t with p_id, stats, moves, battle_items
  */
-player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, item_t* items);
+player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items);
 
 /* Sets up pointer to npc struct, stub for an npc representing the enemy
  *
@@ -72,13 +72,13 @@ player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *move
  *     - class: pointer to player_class struct
  *     - stats: npc stats stub
  *     - moves: npc moves stub
- *     - items: npc items stub
+ *     - items: npc battle_items stub
  *     - ai: enemy ai
  *
- * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, items
+ * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, battle_items
  */
 npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, 
-                            item_t* items, difficulty_t ai);
+                            battle_item_t* items, difficulty_t ai);
 
 /* Stub for the game_new function in game.h game-state module
  *

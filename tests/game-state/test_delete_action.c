@@ -48,6 +48,12 @@ Test(delete_action, delete_first)
     rc = delete_helper(first, first);
 
     cr_assert_eq(rc, SUCCESS, "delete_action test 1 failed");
+    free(first);
+    free(second);
+    action_type_free(eat);
+    free(last);
+    action_type_free(go);
+    action_type_free(open);
 }
 
 /* checks if delete_action can delete the middle node */
@@ -74,6 +80,12 @@ Test(delete_action, delete_middle)
     rc = delete_helper(first, second);
 
     cr_assert_eq(rc, SUCCESS, "delete_action test 2 failed");
+    free(first);
+    free(second);
+    free(last);
+    action_type_free(eat);
+    action_type_free(go);
+    action_type_free(open);
 }
 
 /* checks if delete_action can delete the last node */
@@ -100,5 +112,12 @@ Test(delete_action, delete_last)
     rc = delete_helper(first, last);
 
     cr_assert_eq(rc, SUCCESS, "delete_action test 3 failed");
+    free(first);
+    free(second);
+    free(last);
+    action_type_free(eat);
+    action_type_free(go);
+    action_type_free(open);
+		      
 }
 

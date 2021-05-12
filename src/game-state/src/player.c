@@ -2,38 +2,64 @@
 #include "game-state/item.h"
 
 /* See player.h */
-int player_init(player_t* plyr, char* player_id, int health)
+int player_set_race(player_t *plyr, char *player_race)
 {
+    if (plyr == NULL || player_race == NULL)
+    {
+        return FAILURE;
+    }
 
-    assert(plyr != NULL);
-    strncpy(plyr->player_id, player_id, strlen(player_id));
-    plyr->level = 1;
-    plyr->health = health;
-    plyr->xp = 0;
-    plyr->inventory = NULL;
+    plyr->player_race = malloc(MAX_ID_LEN);
+    
+    if (plyr->player_race == NULL)
+    {
+        return FAILURE;
+    }
+
+    strncpy(plyr->player_race, player_race, MAX_ID_LEN);
+
 
     return SUCCESS;
 }
 
+
 /* See player.h */
-player_t* player_new(char* player_id, int health)
+int player_set_class(player_t *plyr, class_t *player_class)
+{
+    if (plyr == NULL || player_class == NULL)
+    {
+        return FAILURE;
+    }
+
+    plyr->player_class = player_class;
+  
+    return SUCCESS;
+}
+
+
+/* See player.h */
+player_t* player_new(char *player_id)
 {
     player_t *plyr;
     plyr = malloc(sizeof(player_t));
+    assert(plyr != NULL);
+
     memset(plyr, 0, sizeof(player_t));
     plyr->player_id = malloc(MAX_ID_LEN);
 
-    int check = player_init(plyr, player_id, health);
+    assert(player_id != NULL);
 
-    if (plyr == NULL || plyr->player_id == NULL)
-    {
-        return NULL;
-    }
+    strncpy(plyr->player_id, player_id, MAX_ID_LEN);
+    plyr->level = 1;
+    plyr->xp = 0;
 
-    if(check != SUCCESS)
-    {
-        return NULL;
-    }
+    plyr->player_class = NULL;
+    plyr->player_stats = NULL;
+    plyr->player_combat_skills = NULL;
+    plyr->player_noncombat_skills = NULL;
+    plyr->player_effects = NULL;
+    plyr->player_race = NULL;
+    plyr->inventory = NULL;
 
     return plyr;
 }
@@ -44,7 +70,19 @@ int player_free(player_t* plyr)
     assert(plyr != NULL);
 
     free(plyr->player_id);
+
+    if (plyr->player_race != NULL)
+    {
+        free(plyr->player_race);
+    }
+
+    if (plyr->player_class != NULL)
+    {
+        class_free(plyr->player_class);
+    }
+
     delete_all_items(&plyr->inventory);
+
     free(plyr);
     
     return SUCCESS;
@@ -59,26 +97,6 @@ int delete_all_players(player_hash_t* players)
         player_free(current_player);
     }
     return SUCCESS;
-}
-
-/* See player.h */
-int get_health(player_t* plyr)
-{
-    return plyr->health;
-}
-
-/* See player.h */
-int change_health(player_t* plyr, int change, int max)
-{
-    if((plyr->health + change) < max)
-    {
-        plyr->health += change;
-    }
-    else
-    {
-        plyr->health = max;
-    }
-    return plyr->health;
 }
 
 /* See player.h */
