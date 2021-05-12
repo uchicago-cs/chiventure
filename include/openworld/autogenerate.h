@@ -220,20 +220,22 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
 /* recursive_generate
  * For a given radius n, generates rooms in a branchwise-fashion up to
  * 'n' paths away from the pivot
- * pivot: the room around which more rooms will be generated
- * branchwise: for each pivot, we fill as many paths/branches around it with new rooms
+ *      pivot: the room around which more rooms will be generated
+ *      branchwise: for each pivot, we fill as many paths/branches around it with new rooms
+ *                  (we specify which paths we fill using the directions parameter)
  * 
  * Parameters:
  * - game: pointer to a game struct. Should not be NULL
  * - room_t *curr_room: pointer to the room to serve as the pivot
  * - speclist_t *speclist: the llist of roomspect_t that each hold info for a separate room
  * - int radius: the max number of paths away from the current pivot that we wish to generate
- * - directions: an array of directions we wish to spread out
- * - num_of_dir: number of directions, up to six
+ * - directions: an array of directions we wish to generate around each pivot
+ *               (must be a subset of the default six: "NORTH", "EAST", "SOUTH", "WEST", "UP", "DOWN")
+ * - num_of_dir: array length of directions, i.e. number of directions
  * - dir_to_parent: direction to the parent pivot
  *       parent pivot: the room from which the current room was generated; when we call
- *       recursive_generate manually, the original room has no parent pivot, i.e. pass in ""
- *       for dir_to_parent
+ *       recursive_generate manually, the original room has no parent pivot, 
+ *       i.e. its dir_to_parent == ""
  * 
  * Side effects:
  * - Changes input game to hold the newly generated room(s), allocated on the heap
