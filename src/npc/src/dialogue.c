@@ -241,7 +241,7 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to)
 {
     assert(e != NULL);
     assert(strlen(quip) < MAX_QUIP_LEN);
-    assert(from != NULL && to !=NULL);
+    assert(from != NULL && to != NULL);
 
     if (e->quip != NULL) free(e->quip);
     if ((e->quip = (char *) malloc(sizeof(char) * (strlen(quip) + 1))) == NULL)
@@ -258,7 +258,7 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to)
 edge_t *edge_new(char *quip, node_t *from, node_t *to)
 {
     assert(strlen(quip) < MAX_QUIP_LEN);
-    assert(from != NULL && to !=NULL);
+    assert(from != NULL && to != NULL);
 
     edge_t *e;
     if ((e = (edge_t *) malloc(sizeof(edge_t))) == NULL) return NULL;
