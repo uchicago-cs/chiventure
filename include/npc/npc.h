@@ -74,8 +74,7 @@ typedef struct npc npc_hash_t;
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             convo_t *dialogue, item_hash_t *inventory, class_t *class, 
-             bool will_fight, npc_mov_t *movement);
+             class_t *class, npc_mov_t *movement, bool will_fight);
 
 /*
  * Allocates a new npc in the heap.
@@ -96,8 +95,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  pointer to allocated npc
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               convo_t *dialogue, item_hash_t *inventory, class_t *class, 
-               bool will_fight, npc_mov_t *movement);
+               class_t *class, npc_mov_t *movement, bool will_fight);
 
 /*
  * Frees resources associated with an npc.

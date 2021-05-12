@@ -4,15 +4,14 @@
 
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             convo_t *dialogue, item_hash_t *inventory, class_t *class,
-             bool will_fight, npc_mov_t *movement)
+             class_t *class, npc_mov_t *movement, bool will_fight)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
     strcpy(npc->short_desc, short_desc);
     strcpy(npc->long_desc, long_desc);
-    npc->dialogue = dialogue;
-    npc->inventory = inventory;
+    npc->dialogue = NULL;
+    npc->inventory = NULL;
     npc->class = class;
     npc->will_fight = will_fight;
     npc->npc_battle = NULL;
@@ -23,8 +22,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 
 /* See npc.h */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               convo_t *dialogue, item_hash_t *inventory, class_t *class,
-               bool will_fight, npc_mov_t *movement)
+               class_t *class, npc_mov_t *movement, bool will_fight)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -32,18 +30,14 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->npc_id = malloc(MAX_ID_LEN);
     npc->short_desc = malloc(MAX_SDESC_LEN);
     npc->long_desc = malloc(MAX_LDESC_LEN);
-    npc->dialogue = malloc(sizeof(convo_t));
-    npc->inventory = malloc(sizeof(item_hash_t));
     npc->class = malloc(sizeof(class_t));
     npc->movement = malloc(sizeof(npc_mov_t));
 
-    int check = npc_init(npc, npc_id, short_desc, long_desc, dialogue, inventory
-                         , class, will_fight, movement); 
+    int check = npc_init(npc, npc_id, short_desc, long_desc, 
+                         class, movement, will_fight); 
 
     if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
-        npc->long_desc == NULL || npc->dialogue == NULL || 
-        npc->inventory == NULL || npc->class == NULL || npc->movement == NULL
-        || check != SUCCESS)
+        npc->long_desc == NULL || check != SUCCESS)
     {
         return NULL;
     }
@@ -70,9 +64,6 @@ int npc_free(npc_t *npc)
     convo_free(npc->dialogue);
     delete_all_items(&npc->inventory);
     class_free(npc->class);
-    if (npc->npc_battle != NULL) {
-        npc_battle_free(npc->npc_battle);
-    }
     free(npc);
 
     return SUCCESS;
