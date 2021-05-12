@@ -221,8 +221,10 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
  * For a given radius n, generates rooms in a branchwise-fashion up to
  * 'n' paths away from the pivot
  *      pivot: the room around which more rooms will be generated
- *      branchwise: for each pivot, we fill as many paths/branches around it with new rooms
+ *      branchwise: 1) for each pivot, we fill as many paths/branches around it with new rooms
  *                  (we specify which paths we fill using the directions parameter)
+ *                  2) branches are disjoint from each other; we can cross from one branch to another
+ *                  only by travelling through the pivot
  * 
  * Parameters:
  * - game: pointer to a game struct. Should not be NULL
