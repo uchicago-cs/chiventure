@@ -1066,8 +1066,8 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
  * if no roomspec in the speclist is of the given difficulty level */
 Test(speclist, filter_speclist_NULL)
 {
-    roomspec_t *rspec1 = make_default_room("school", NULL, NULL);
-    roomspec_t *rspec2 = make_default_room("farmhouse", NULL, NULL);
+    roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
+    roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
 
     speclist_t *list1 = speclist_new(rspec1);
     speclist_t *list2 = speclist_new(rspec2);
@@ -1082,12 +1082,9 @@ Test(speclist, filter_speclist_NULL)
 
     room_level_t *room_level = NULL;
     
-    char *roomname_1 = rspec1->room_name;
-    char *roomname_2 = rspec2->room_name;
-
     // label the rooms' level with 0
-    add_room_level_to_hash(&room_level, roomname_1, 0);
-    add_room_level_to_hash(&room_level, roomname_2, 0);
+    add_room_level_to_hash(&room_level, "room_name_1", 0);
+    add_room_level_to_hash(&room_level, "room_name_2", 0);
 
     // filter the speclist with level 1
     speclist_t* filtered = filter_speclist_with_difficulty(unfiltered, 
@@ -1101,8 +1098,8 @@ Test(speclist, filter_speclist_NULL)
 /* Checks that filter_speclist_with_difficulty successfully filters speclist */
 Test(speclist, filter_speclist)
 {
-    roomspec_t *rspec1 = make_default_room("school", NULL, NULL);
-    roomspec_t *rspec2 = make_default_room("farmhouse", NULL, NULL);
+    roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
+    roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
 
     speclist_t *list1 = speclist_new(rspec1);
     speclist_t *list2 = speclist_new(rspec2);
@@ -1121,8 +1118,8 @@ Test(speclist, filter_speclist)
     char *roomname_2 = rspec2->room_name;
 
     // label the rooms' level with 0
-    add_room_level_to_hash(&room_level, roomname_1, 0);
-    add_room_level_to_hash(&room_level, roomname_2, 0);
+    add_room_level_to_hash(&room_level, "room_name_1", 0);
+    add_room_level_to_hash(&room_level, "room_name_2", 0);
 
     // filter the speclist with level 0
     speclist_t* filtered = filter_speclist_with_difficulty(unfiltered, 
