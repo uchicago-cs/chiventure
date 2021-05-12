@@ -1488,3 +1488,175 @@ Test(attribute_list, list_contains_attribute)
     attribute_free(test_attr3);
 
 }
+
+// Tests for getting attributes from a list ------------------------------------
+
+Test(attribute_list, list_get_str_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = str_attr_new("Knight", "Sword");
+    attribute_t *test_attr2 = str_attr_new("Queen", "Scepter");
+    attribute_t *test_attr3 = str_attr_new("King", "Crown");
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    char* result_n = list_get_str_attr(test_head, "Knight");
+    char* result_q = list_get_str_attr(test_head, "Queen");
+    char* result_k = list_get_str_attr(test_head, "King");
+
+    cr_assert_not_null(result_n, "list_get_str_attr returned null for the Knight attribute");
+    cr_assert_not_null(result_q, "list_get_str_attr returned null for the Queen attribute");
+    cr_assert_not_null(result_k, "list_get_str_attr returned null for the King attribute");
+
+    cr_assert_eq(result_n, "Sword", "list_get_str_attr returned the incorrect string for the Knight attribute");
+    cr_assert_eq(result_q, "Scepter", "list_get_str_attr returned the incorrect string for the Queen attribute");
+    cr_assert_eq(result_k, "Crown", "list_get_str_attr returned the incorrect string for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+
+Test(attribute_list, list_get_int_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = int_attr_new("Knight", 1);
+    attribute_t *test_attr2 = int_attr_new("Queen", 3);
+    attribute_t *test_attr3 = int_attr_new("King", 5);
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    int result_n = list_get_int_attr(test_head, "Knight");
+    int result_q = list_get_int_attr(test_head, "Queen");
+    int result_k = list_get_int_attr(test_head, "King");
+
+    cr_assert_eq(result_n, 1, "list_get_int_attr returned the incorrect int for the Knight attribute");
+    cr_assert_eq(result_q, 3, "list_get_int_attr returned the incorrect int for the Queen attribute");
+    cr_assert_eq(result_k, 5, "list_get_int_attr returned the incorrect int for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+
+Test(attribute_list, list_get_double_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = double_attr_new("Knight", 1.0);
+    attribute_t *test_attr2 = double_attr_new("Queen", 3.0);
+    attribute_t *test_attr3 = double_attr_new("King", 5.0);
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    double result_n = list_get_double_attr(test_head, "Knight");
+    double result_q = list_get_double_attr(test_head, "Queen");
+    double result_k = list_get_double_attr(test_head, "King");
+
+    cr_assert_eq(result_n, 1.0, "list_get_double_attr returned the incorrect double for the Knight attribute");
+    cr_assert_eq(result_q, 3.0, "list_get_double_attr returned the incorrect double for the Queen attribute");
+    cr_assert_eq(result_k, 5.0, "list_get_double_attr returned the incorrect double for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+
+Test(attribute_list, list_get_char_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = char_attr_new("Knight", 'n');
+    attribute_t *test_attr2 = char_attr_new("Queen", 'q');
+    attribute_t *test_attr3 = char_attr_new("King", 'k');
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    char result_n = list_get_char_attr(test_head, "Knight");
+    char result_q = list_get_char_attr(test_head, "Queen");
+    char result_k = list_get_char_attr(test_head, "King");
+
+    cr_assert_eq(result_n, 'n', "list_get_char_attr returned the incorrect char for the Knight attribute");
+    cr_assert_eq(result_q, 'q', "list_get_char_attr returned the incorrect char for the Queen attribute");
+    cr_assert_eq(result_k, 'k', "list_get_char_attr returned the incorrect char for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+
+Test(attribute_list, list_get_bool_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = bool_attr_new("Knight", true);
+    attribute_t *test_attr2 = bool_attr_new("Queen", false);
+    attribute_t *test_attr3 = bool_attr_new("King", true);
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    bool result_n = list_get_bool_attr(test_head, "Knight");
+    bool result_q = list_get_bool_attr(test_head, "Queen");
+    bool result_k = list_get_bool_attr(test_head, "King");
+
+    cr_assert_eq(result_n, 1, "list_get_bool_attr returned the incorrect bool for the Knight attribute");
+    cr_assert_eq(result_q, 0, "list_get_bool_attr returned the incorrect bool for the Queen attribute");
+    cr_assert_eq(result_k, 1, "list_get_bool_attr returned the incorrect bool for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+
