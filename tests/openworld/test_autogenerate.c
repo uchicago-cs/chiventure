@@ -1332,7 +1332,7 @@ Test(autogenerate, recursive_gen_rad0)
                  "recursive_generate() returned FAILURE instead of SUCCESS");
     
     room_t *curr_room, *tmp_room;
-    int num_rooms;
+    int num_rooms = 0;
     HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
         num_rooms++;
     }
@@ -1362,7 +1362,7 @@ Test(autogenerate, recursive_gen_rad1)
                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;
-    int num_rooms;
+    int num_rooms = 0;
     HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
         num_rooms++;
     }
@@ -1392,7 +1392,7 @@ Test(autogenerate, recursive_gen_rad3)
                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;
-    int num_rooms;
+    int num_rooms = 0;
     HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
         num_rooms++;
     }
@@ -1426,7 +1426,7 @@ Test(autogenerate, recursive_gen_block_south)
                                                                    "despite it being labelled as dir_to_parent");
 
     room_t *curr_room, *tmp_room;
-    int num_rooms;
+    int num_rooms = 0;
     HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
         num_rooms++;
     }
