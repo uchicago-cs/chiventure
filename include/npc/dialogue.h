@@ -2,6 +2,7 @@
 #define _DIALOGUE_H
 
 #include "game-state/game_state_common.h"
+#include "game-state/game.h"
 
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
@@ -11,6 +12,14 @@
 /**********************************************
  *       DIALOGUE STRUCTURE DEFINITIONS       *
  **********************************************/
+
+/* Actions: D_ prefix avoids redeclaration errors */
+typedef enum {
+    D_NONE,
+    D_QUEST,
+    D_ITEM,
+    D_BATTLE
+} node_action;
 
 /* Forward Declaration */
 typedef struct node node_t;
@@ -55,6 +64,8 @@ typedef struct node {
     char *npc_dialogue;
     int num_edges;
     edge_list_t *edges;
+    node_action action;
+    char *action_id;
 } node_t;
 
 /* A doubly-linked list containing nodes.
@@ -135,7 +146,9 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id);
  *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
  *    occured.
  */
-char *start_conversation(convo_t *c, int *rc);
+char *start_conversation(convo_t *c, int *rc, game_t *game);
+
+// add game ctx to these functions
 
 /* Runs a step of the conversation.
  *
@@ -151,7 +164,17 @@ char *start_conversation(convo_t *c, int *rc);
  *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
  *    occured.
  */
-char *run_conversation_step(convo_t *c, int input, int *rc);
+char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
+
+
+/**********************************************
+ *             ACTION FUNCTIONS               *
+ **********************************************/
+
+/*
+ *
+ */
+int add_quest(convo_t *c, char *node_id, char *quest_id);
 
 
 /**********************************************

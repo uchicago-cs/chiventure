@@ -121,6 +121,29 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id)
  *       DIALOGUE EXECUTION FUNCTIONS         *
  **********************************************/
 
+/*
+ *
+ */
+int do_action(node_t *n, game_t *game)
+{
+    switch (n->action) {
+        case D_QUEST:
+            printf("- You have received a quest. -\n\n");
+            // to do
+            break;
+        case D_ITEM:
+            // to do
+            break;
+        case D_BATTLE:
+            // to do
+            break;
+        default:
+            return FAILURE;
+    }
+
+    return SUCCESS;
+}
+
 /* Creates a return string containing NPC dialogue and dialogue options
  * (to be printed by the CLI).
  *
@@ -153,7 +176,7 @@ char *create_return_string(convo_t *c, int is_leaf)
 
     // Create return string
     char *buf, *p;
-    char temp[5];
+    char temp[5]; // to convert option numbers to strings
     cur_edge = c->cur_node->edges;
     i = 0;
 
@@ -185,7 +208,7 @@ char *create_return_string(convo_t *c, int is_leaf)
 }
 
 /* See dialogue.h */
-char *start_conversation(convo_t *c, int *rc)
+char *start_conversation(convo_t *c, int *rc, game_t *game)
 {
     if (c == NULL) {
         *rc = -1;
@@ -207,7 +230,7 @@ char *start_conversation(convo_t *c, int *rc)
 }
 
 /* See dialogue.h */
-char *run_conversation_step(convo_t *c, int input, int *rc)
+char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 {   
     // Traverse to the player's selected node
     edge_list_t *cur_edge;
@@ -221,6 +244,14 @@ char *run_conversation_step(convo_t *c, int input, int *rc)
 
     c->cur_node = cur_edge->edge->to;
 
+    // Perform action
+    if (c->cur_node->action != D_NONE) {
+        if (do_action(c->cur_node, game) != SUCCESS) {
+            *rc = 1;
+            return NULL;
+        }
+    }
+
     // Prepare return code and return string
     if (c->cur_node->num_edges == 0) *rc = 1;
     else *rc = 0;
@@ -229,6 +260,25 @@ char *run_conversation_step(convo_t *c, int input, int *rc)
     if (ret_str == NULL) *rc = -1;
 
     return ret_str;
+}
+
+
+/**********************************************
+ *             ACTION FUNCTIONS               *
+ **********************************************/
+
+/* See dialogue.h */
+int add_quest(convo_t *c, char *node_id, char *quest_id)
+{
+    node_t *n;
+    if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
+
+    if (n->action != D_NONE) return FAILURE;
+
+    n->action = D_QUEST;
+    n->action_id = quest_id;
+
+    return SUCCESS;
 }
 
 
@@ -276,7 +326,10 @@ edge_t *edge_new(char *quip, node_t *from, node_t *to)
 /* See dialogue.h */
 int edge_free(edge_t *e)
 {
-    if (e != NULL) free(e);
+    if (e != NULL) {
+        free(e->quip);
+        free(e);
+    }
 
     return SUCCESS;
 }
@@ -303,6 +356,13 @@ int node_init(node_t *n, char *node_id, char *npc_dialogue)
     n->num_edges = 0;
     n->edges = NULL;
 
+    // Action
+    n->action = D_NONE;
+    if (n->action_id != NULL) {
+        free(n->action_id);
+        n->action_id = NULL;
+    }
+
     return SUCCESS;
 }
 
@@ -317,6 +377,7 @@ node_t *node_new(char *node_id, char *npc_dialogue)
 
     n->node_id = NULL;
     n->npc_dialogue = NULL;
+    n->action_id = NULL;
 
     if (node_init(n, node_id, npc_dialogue) != SUCCESS) {
         node_free(n);
@@ -331,6 +392,9 @@ int node_free(node_t *n)
 {
     if (n != NULL) {
         if (free_edge_list(n->edges, true) != SUCCESS) return FAILURE;
+        free(n->node_id);
+        free(n->npc_dialogue);
+        if (n->action_id != NULL) free(n->action_id);
         free(n);
     }
 
