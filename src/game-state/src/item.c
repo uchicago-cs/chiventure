@@ -757,7 +757,7 @@ int delete_item_llist(item_list_t *head)
 /* see item.h */
 attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
 {
-    if (attr_name == NULL || head->next == NULL)
+    if (attr_name == NULL || head == NULL || head->next == NULL)
     {
         return NULL;
     }
