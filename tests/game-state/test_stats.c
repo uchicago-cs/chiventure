@@ -194,9 +194,7 @@ Test(stats, free_global_table)
     cr_assert_eq (ret_val, SUCCESS, "free_stats_global_table() failed to return SUCCESS");
 }
 
-/* Checks that add_stat correctly adds a new stat
-
-   to a hash table*/
+/* Checks that add_stat correctly adds a new stat to a hash table*/
 Test (stats, add_stat)
 {
     stats_hash_t *sh = NULL;
