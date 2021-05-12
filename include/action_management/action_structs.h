@@ -79,7 +79,7 @@ typedef struct room room_t;
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 typedef struct game_action_effect{
-    item_t *item;
+    agent_t *agent;
     attribute_t* attribute_to_modify;
     attribute_value_t new_value;
     struct game_action_effect *next; //mandatory for utlist macros
@@ -119,7 +119,7 @@ typedef struct {
 /* A linked list struct that contains two components
  * - act: the data component
  * - next: the next item in the linked list
- * - trigger: room_id of the room that requires this aciton as a condition
+ * - trigger: room_id of the room that requires this action as a condition
  * This struct is primarily used in the get_supported_actions function.
 */
 typedef struct list_act {
