@@ -40,16 +40,20 @@ convo_t *create_sample_conversation()
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     char* npc_id = "Steve";
-    game_mode_init(ctx->game->mode, CONVERSATION, 
-                   run_conversation_mode, npc_id);
-
+    int rc;
     npc_t *npc;
-    HASH_FIND(hh, ctx->game->all_npcs, ctx->game->mode->mode_ctx, 
-              strnlen(ctx->game->mode->mode_ctx, MAX_ID_LEN), npc);
+    HASH_FIND(hh, ctx->game->all_npcs, npc_id,
+              strnlen(npc_id, MAX_ID_LEN), npc);
 
-    int rc; 
+    char* str = start_conversation(npc->dialogue, &rc);
 
-    return start_conversation(npc->dialogue, &rc);
+    if (!rc)
+    {
+        game_mode_init(ctx->game->mode, CONVERSATION, 
+                       run_conversation_mode, npc_id);
+    }
+
+    return str;
 }
 
 /*
@@ -73,7 +77,9 @@ chiventure_ctx_t *create_sample_ctx()
                          "Steve is a merchant.",
                          "Steve is the best merchant in town.",
                          25, NULL, NULL);
+
     convo_t *c = create_sample_conversation();
+
     add_convo_to_npc(steve, c);
     add_npc_to_game(game, steve);
 
