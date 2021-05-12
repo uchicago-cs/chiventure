@@ -15,6 +15,8 @@ union agent
    npc_t npc;
 } agent_t;
 
+enum agent_tag {ITEM, NPC};
+
 /* An enumeration of all supported actions.
  * KIND 1 ACTIONS - ACTION <item>
  * KIND 2 ACTIONS - ACTION <path>
@@ -79,6 +81,7 @@ typedef struct room room_t;
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 typedef struct game_action_effect{
+    enum agent_tag agent_tag;
     agent_t *agent;
     attribute_t* attribute_to_modify;
     attribute_value_t new_value;
