@@ -5,7 +5,7 @@
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
              convo_t *dialogue, item_hash_t *inventory, class_t *class,
-             bool will_fight)
+             bool will_fight, npc_mov_t *movement)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
@@ -16,6 +16,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->class = class;
     npc->will_fight = will_fight;
     npc->npc_battle = NULL;
+    npc->movement = movement;
 
     return SUCCESS;
 }
@@ -23,7 +24,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 /* See npc.h */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
                convo_t *dialogue, item_hash_t *inventory, class_t *class,
-               bool will_fight)
+               bool will_fight, npc_mov_t *movement)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -34,13 +35,15 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->dialogue = malloc(sizeof(convo_t));
     npc->inventory = malloc(sizeof(item_hash_t));
     npc->class = malloc(sizeof(class_t));
+    npc->movement = malloc(sizeof(npc_mov_t));
 
     int check = npc_init(npc, npc_id, short_desc, long_desc, dialogue, inventory
-                         , class, will_fight); 
+                         , class, will_fight, movement); 
 
     if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
         npc->long_desc == NULL || npc->dialogue == NULL || 
-        npc->inventory == NULL || npc->class == NULL || check != SUCCESS)
+        npc->inventory == NULL || npc->class == NULL || npc->movement == NULL
+        || check != SUCCESS)
     {
         return NULL;
     }
@@ -53,6 +56,14 @@ int npc_free(npc_t *npc)
 {
     assert(npc != NULL);
     
+    if (npc->dialogue != NULL)
+    {
+        convo_free(npc->dialogue);
+    }
+    if (npc->movement != NULL)
+    {
+        npc_mov_free(npc->movement);
+    }
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);

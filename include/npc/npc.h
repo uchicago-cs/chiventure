@@ -7,6 +7,8 @@
 #include "playerclass/class.h"
 #include "npc/dialogue.h"
 #include "npc/npc_battle.h"
+#include "npc/npc_move.h"
+
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
@@ -31,9 +33,12 @@ typedef struct npc {
     item_hash_t *inventory;
 
     /* pointer to an existing class struct */
-    class_t *class; 
+    class_t *class;
 
-    /* boolean representing whether or not the NPC will engage in battles */
+    /* pointer to an exisitng npc_move struct */
+    npc_mov_t *movement;
+
+     /* boolean representing whether or not the NPC will engage in battles */
     bool will_fight;
 
     /* either NULL or a pointer to an existing npc_battle struct */
@@ -70,7 +75,7 @@ typedef struct npc npc_hash_t;
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
              convo_t *dialogue, item_hash_t *inventory, class_t *class, 
-             bool will_fight);
+             bool will_fight, npc_mov_t *movement);
 
 /*
  * Allocates a new npc in the heap.
@@ -92,7 +97,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
                convo_t *dialogue, item_hash_t *inventory, class_t *class, 
-               bool will_fight);
+               bool will_fight, npc_mov_t *movement);
 
 /*
  * Frees resources associated with an npc.
