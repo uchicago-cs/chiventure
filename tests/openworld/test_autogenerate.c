@@ -1401,6 +1401,7 @@ Test(autogenerate, recursive_gen_rad3)
 
 /* Checks that recursive_generate generates 12 rooms given:
    - radius: 2
+   
    - dir_to_parent: "SOUTH" 
    Starts with 1 room in all_rooms hash, expect 13 rooms at the end, 
    and none in the SOUTH direction. */
