@@ -40,6 +40,8 @@ void main()
 
     add_item_restriction(wand, classlist->c);
     add_item_restriction(sword, classlist->c);
+
+    add_item_multiplier(guitar, classlist->c, 1.5);
     
     printf("Your enemy has dropped the following items: %s, %s, %s. You attempt to pick them up with mixed results.\n",
 	    wand->item_id, sword->item_id, guitar->item_id);
@@ -56,4 +58,13 @@ void main()
 	    not_allowed_guitar? "not_able":"able",
 	    guitar->item_id,
 	    classlist->c->name);
+
+    printf("As a %s, your proficiency at using a %s is %.1f, at using a %s is %.1f, and at using a %s is %.1f.\n",
+        classlist->c->name,
+        wand->item_id, 
+        get_class_item_multiplier(wand, classlist->c),
+        sword->item_id, 
+        get_class_item_multiplier(sword, classlist->c),
+        guitar->item_id, 
+        get_class_item_multiplier(guitar, classlist->c));
 }
