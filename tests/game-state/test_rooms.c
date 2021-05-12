@@ -19,6 +19,7 @@ Test(room_start, init)
     "The purpose of this room is testing");
 
     cr_assert_eq(check, SUCCESS, "room_init() test 1 has failed!");
+    room_free(empty_room);
 }
 
 /* Tests new room malloc (new uses init) */
@@ -28,7 +29,7 @@ Test(room_start, new)
     "testing if memory is correctly allocated for new rooms");
 
     cr_assert_not_null(new_room, "room_new() test 1 has failed!");
-
+    room_free(new_room);
 }
 
 /* Tests room_free function */
@@ -60,7 +61,7 @@ Test(room_item, add_item_to_room)
     int rc = add_item_to_room(new_room, test_item2);
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
     cr_assert_eq(rc, SUCCESS, "item2 not added to room correctly");
-
+    room_free(new_room);
 }
 
 /* Tests add_item_to_room
@@ -85,7 +86,7 @@ Test(room_item, add_duplicate_item_to_room)
     check = add_item_to_room(new_room, test_item2);
     cr_assert_eq(check, FAILURE, "item at same memory address as item "
                  "already in room added again to room");
-
+    room_free(new_room);
 }
 
 /* Checks if get_item_in_room() correctly retrieves an item in room*/
@@ -99,7 +100,7 @@ Test(room_item, get_item)
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
     item_t *returned_item = get_item_in_room(new_room, "test_item");
     cr_assert_eq(test_item, returned_item, "item not added to room correctly");
-
+    room_free(new_room);
 }
 
 /* Checks if get_item_in_room() returns NULL when searching non-existent item*/
@@ -113,7 +114,7 @@ Test(room_item, get_nonexistent_item)
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
     item_t *returned_item = get_item_in_room(new_room, "test_item_2");
     cr_assert_null(returned_item, "Item retrieved but should be NULL");
-
+    room_free(new_room);
 }
 /* Checks if remove_item_from_room properly removes items */
 Test(room_item, remove_item_from_room)
@@ -138,6 +139,9 @@ Test(room_item, remove_item_from_room)
     item_list = get_all_items_in_room(room);
     cr_assert_not_null(item_list, "remove_item_from_room removed "
                        "both identical items from room");
+    room_free(room);
+    item_free(test_item);
+    delete_item_llist(item_list);
 }
 
 /* Checks if sdesc is correctly returned
@@ -156,6 +160,7 @@ Test(room_get, get_sdesc) {
       check2 = SUCCESS;
     cr_assert_eq(check, SUCCESS, "get_sdesc: failed to get sdesc");
     cr_assert_eq(check2, SUCCESS, "get_sdesc: failed to fail wrong strncmp");
+    room_free(new_room);
 }
 
 /* Checks if ldesc is correctly returned
@@ -176,6 +181,7 @@ Test(room_get, get_ldesc)
       check2 = SUCCESS;
     cr_assert_eq(check, SUCCESS, "get_ldesc: failed to get sdesc");
     cr_assert_eq(check2, SUCCESS, "get_ldesc: failed to fail wrong strncmp");
+    room_free(new_room);
 }
 
 /* Tests path
@@ -198,7 +204,8 @@ Test(room_find, find_room_from_dir)
     //ensures find_room_from_dir returns NULL
     cr_assert_null(fail, "found nonexistent room");
     cr_assert_eq(c1, SUCCESS, "failed to obtain correct room_id");
-
+    room_free(room1);
+    room_free(room2);
 }
 
 Test(iter_macro, iter_paths)

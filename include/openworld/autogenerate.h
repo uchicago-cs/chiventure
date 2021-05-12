@@ -160,6 +160,63 @@ item_hash_t *random_items(roomspec_t *room);
 */
 int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
 
+
+/* map_level_to_difficulty
+ * Map from player level to difficulty level
+ * 
+ * Parameters:
+ * - level_scale: the struct for player level -> difficulty level mapping
+ * - player_level: the player level
+ * 
+ * Returns:
+ * - difficulty level corresponding to player level
+ */
+int map_level_to_difficulty(difficulty_level_scale_t *level_scale, 
+                            int player_level);
+
+
+/* roomspec_is_given_difficulty
+ * Evaluates if the given roomspec is of the difficulty level
+ * 
+ * Parameters:
+ * - rooms: pointer to the hash table of rooms
+ * - roomspec: pointer to the roomspec to be evaluated
+ * - int difficulty_level: difficulty_level
+ *
+ * Returns:
+ *  - SUCCESS (0) if the given roomspec is of the difficulty level
+ *  - 1 if the given roomspec is found but not of the difficulty level
+ *  - 2 if the given roomspec is not found
+ */
+int roomspec_is_given_difficulty(room_level_t **room_levels, 
+                                  roomspec_t *roomspec, 
+                                  int difficulty_level);
+
+
+/* multi_room_level_generate
+ * Level-oriented version of multi_room_generate.
+ *
+ * Parameters:
+ * - game: pointer to a game struct. Should not be NULL.
+ * - context: pointer to a gencontext_t (type gencontext_t*). Not NULL.
+ * - room_id: a unique room_id string for the to-be-generated room.i
+ * - num_rooms: specifies how many new rooms will be generated
+ *
+ * Side effects:
+ * - Changes input game to hold the newly generated room(s),
+ *   allocated on the heap
+ *
+ * Returns:
+ * - SUCCESS if the new rooms were generated and added (SUCCESS)
+ * - FAILURE if the new rooms were not generated/added (FAILURE)
+ *
+ */
+int multi_room_level_generate(game_t *game, gencontext_t *context, 
+                              char *room_id, int num_rooms,
+                              room_level_t **room_levels, 
+                              difficulty_level_scale_t *level_scale);
+                               
+
 #endif /* INCLUDE_AUTOGENERATE_H */
 
 
