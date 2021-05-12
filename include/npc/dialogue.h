@@ -132,7 +132,8 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id);
  *  - A string of NPC dialogue and dialogue options that can be directly
  *    printed by the CLI.
  *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
- *    leaf node), or 0 if the conversation is still ongoing.
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
  */
 char *start_conversation(convo_t *c, int *rc);
 
@@ -147,7 +148,8 @@ char *start_conversation(convo_t *c, int *rc);
  *  - A string of NPC dialogue and dialogue options that can be directly
  *    printed by the CLI.
  *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
- *    leaf node), or 0 if the conversation is still ongoing.
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
  */
 char *run_conversation_step(convo_t *c, int input, int *rc);
 

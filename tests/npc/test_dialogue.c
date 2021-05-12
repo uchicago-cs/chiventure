@@ -302,3 +302,156 @@ Test(dialogue, add_bidirectional_edges)
                  "add_edge failed to add edge to Node 2");
 }
 
+
+/*** Dialogue Execution Functions ***/
+
+/* Checks that start_conversation works for 1 node with 0 edges */
+Test(dialogue, start_conversation_one_node_no_edges)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D1\n\n";
+
+    add_node(c, "N1", "D1");
+
+    ret_str = start_conversation(c, &rc);
+
+    cr_assert_eq(rc, 1, "Return Code was set to %d when it should have been 1, "
+                 "indicating that the conversation has ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+
+/* Checks that start_conversation works for 2 nodes with 1 edge */
+Test(dialogue, start_conversation_two_nodes_one_edge)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D1\n\n1. Q1\nEnter your choice: ";
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+
+    add_edge(c, "Q1", "N1", "N2");
+
+    ret_str = start_conversation(c, &rc);
+
+    cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
+                 "indicating that the conversation has not ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+
+/* Checks that start_conversation works for 3 nodes with 3 edges */
+Test(dialogue, start_conversation_three_nodes_three_edges)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D1\n\n1. Q1\n2. Q2\n3. Q3\nEnter your choice: ";
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+    add_node(c, "N3", "D3");
+
+    add_edge(c, "Q1", "N1", "N2");
+    add_edge(c, "Q2", "N1", "N3");
+    add_edge(c, "Q3", "N1", "N3");
+
+    ret_str = start_conversation(c, &rc);
+
+    cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
+                 "indicating that the conversation has not ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+
+/* Checks that run_conversation_step works for a 2 node, 1 edge convo that
+   ends */
+Test(dialogue, run_conversation_step_two_nodes_end)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D2\n\n";
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+
+    add_edge(c, "Q1", "N1", "N2");
+
+    start_conversation(c, &rc);
+    cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
+
+    ret_str = run_conversation_step(c, 1, &rc);
+
+    cr_assert_eq(rc, 1, "Return Code was set to %d when it should have been 1, "
+                 "indicating that the conversation has ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+
+/* Checks that run_conversation_step works for a 3 node, 2 edge convo that
+   ends */
+Test(dialogue, run_conversation_step_three_nodes_end)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D3\n\n";
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+    add_node(c, "N3", "D3");
+
+    add_edge(c, "Q1", "N1", "N2");
+    add_edge(c, "Q2", "N1", "N3");
+
+    start_conversation(c, &rc);
+    cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
+
+    ret_str = run_conversation_step(c, 2, &rc);
+
+    cr_assert_eq(rc, 1, "Return Code was set to %d when it should have been 1, "
+                 "indicating that the conversation has ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+
+/* Checks that run_conversation_step works for a 4 node, 3 edge convo that
+   does not end */
+Test(dialogue, run_conversation_step_four_nodes_continue)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D2\n\n1. Q2\n2. Q3\nEnter your choice: ";
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+    add_node(c, "N3", "D3");
+    add_node(c, "N4", "D4");
+
+    add_edge(c, "Q1", "N1", "N2");
+    add_edge(c, "Q2", "N2", "N3");
+    add_edge(c, "Q3", "N2", "N4");
+
+    start_conversation(c, &rc);
+    cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
+
+    ret_str = run_conversation_step(c, 1, &rc);
+
+    cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
+                 "indicating that the conversation has not ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+

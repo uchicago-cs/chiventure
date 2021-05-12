@@ -187,12 +187,23 @@ char *create_return_string(convo_t *c, int is_leaf)
 /* See dialogue.h */
 char *start_conversation(convo_t *c, int *rc)
 {
+    if (c == NULL) {
+        *rc = -1;
+        return NULL;
+    }
+
+    char *ret_str;
+
     c->cur_node = c->all_nodes->node;
 
+    // Prepare return code and return string
     if (c->cur_node->num_edges == 0) *rc = 1;
     else *rc = 0;
 
-    return create_return_string(c, *rc);
+    ret_str = create_return_string(c, *rc);
+    if (ret_str == NULL) *rc = -1;
+    
+    return ret_str;
 }
 
 /* See dialogue.h */
@@ -201,6 +212,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc)
     // Traverse to the player's selected node
     edge_list_t *cur_edge;
     int i;
+    char *ret_str;
 
     cur_edge = c->cur_node->edges;
     for (i = 1; i < input && i < c->cur_node->num_edges; i++) {
@@ -213,7 +225,10 @@ char *run_conversation_step(convo_t *c, int input, int *rc)
     if (c->cur_node->num_edges == 0) *rc = 1;
     else *rc = 0;
 
-    return create_return_string(c, *rc);
+    ret_str = create_return_string(c, *rc);
+    if (ret_str == NULL) *rc = -1;
+
+    return ret_str;
 }
 
 
