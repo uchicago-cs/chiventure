@@ -30,6 +30,8 @@ int main()
 
     add_quest(c, "2c", NULL);
 
+    c->all_edges->next->next->next->edge->condition = (condition_t *) 1;
+
     int rc = -1;
     int player_response;
     char *ret_str;

@@ -49,31 +49,24 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue)
     return SUCCESS;
 }
 
-/* Returns an edge list element containing an appropriate option number.
+/* Returns an edge list element.
  *
  * Parameters:
- *  - e_lst: edge list
  *  - e: edge
  *
  * Returns:
  *  - a pointer to the new edge list element
  *  - NULL if memory allocation failed
  */
-edge_list_t *create_edge_list_element(edge_list_t *e_lst, edge_t *e)
+edge_list_t *create_edge_list_element(edge_t *e)
 {
     edge_list_t *elt;
 
     if ((elt = (edge_list_t *) malloc(sizeof(edge_list_t))) == NULL) return
         NULL;
 
-    // Set members
+    elt->available = 1;
     elt->edge = e;
-
-    if (e_lst == NULL) {
-        elt->option_number = 1;
-    } else {
-        elt->option_number = e_lst->prev->option_number + 1;
-    }
 
     return elt;
 }
@@ -95,13 +88,13 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id)
     edge_list_t *c_elt, *n_elt;
 
     // all_edges in convo
-    if ((c_elt = create_edge_list_element(c->all_edges, e)) == NULL) {
+    if ((c_elt = create_edge_list_element(e)) == NULL) {
         edge_free(e);
         return FAILURE;
     }
 
     // edges in source node
-    if ((n_elt = create_edge_list_element(from_node->edges, e)) == NULL) {
+    if ((n_elt = create_edge_list_element(e)) == NULL) {
         edge_free(e);
         free(c_elt);
         return FAILURE;
@@ -144,31 +137,56 @@ int do_action(node_t *n, game_t *game)
     return SUCCESS;
 }
 
+/*
+ *
+ */
+int process_edges(node_t *n)
+{
+    int count = 0;
+    edge_list_t *cur_edge = n->edges;
+
+    while (cur_edge != NULL) {
+        if (cur_edge->available != -1) {
+            if (cur_edge->edge->condition != NULL) {
+                cur_edge->available = 0;
+            }
+            if (cur_edge->available) count++;
+        }
+        cur_edge = cur_edge->next;
+    }
+    n->num_available_edges = count;
+
+    return SUCCESS;
+}
+
 /* Creates a return string containing NPC dialogue and dialogue options
  * (to be printed by the CLI).
  *
  * Parameters:
- *  - c: pointer to a convo
+ *  - n: pointer to a node
  *  - is_leaf: 1 or 0, indicating whether c->cur_node is a leaf
  *
  * Returns:
  *  - A string that can be directly printed by the CLI
  */
-char *create_return_string(convo_t *c, int is_leaf)
+char *create_return_string(node_t *n, int is_leaf)
 {
     char *input_prompt = "Enter your choice: ";
     int totlen = 0;
-    int len_lst[c->cur_node->num_edges + 2];
-    edge_list_t *cur_edge = c->cur_node->edges;
+    int len_lst[n->num_available_edges + 2];
+    edge_list_t *cur_edge = n->edges;
     int i = 0;
+    int option_number = 1;
 
     // Compute buffer length
-    totlen += (len_lst[i++] = strlen(c->cur_node->npc_dialogue));
+    totlen += (len_lst[i++] = strlen(n->npc_dialogue));
     totlen += 2;
     while (cur_edge != NULL) {
-        totlen += (int) log10(cur_edge->option_number) + 1;
-        totlen += (len_lst[i++] = strlen(cur_edge->edge->quip));
-        totlen += 3;
+        if (cur_edge->available == 1) {
+            totlen += (int) log10(option_number++) + 1;
+            totlen += (len_lst[i++] = strlen(cur_edge->edge->quip));
+            totlen += 3;
+        }
         cur_edge = cur_edge->next;
     }
     if (!is_leaf) totlen += (len_lst[i] = strlen(input_prompt));
@@ -176,26 +194,29 @@ char *create_return_string(convo_t *c, int is_leaf)
 
     // Create return string
     char *buf, *p;
-    char temp[5]; // to convert option numbers to strings
-    cur_edge = c->cur_node->edges;
+    char temp[5];
+    cur_edge = n->edges;
     i = 0;
+    option_number = 1;
 
     if ((buf = malloc(sizeof(char) * totlen)) == NULL) return NULL;
     p = buf;
 
-    memcpy(p, c->cur_node->npc_dialogue, len_lst[i]);
+    memcpy(p, n->npc_dialogue, len_lst[i]);
     p += len_lst[i++];
     *p++ = '\n';
     *p++ = '\n';
     while (cur_edge != NULL) {
-        sprintf(temp, "%d", cur_edge->option_number);
-        memcpy(p, temp, (int) log10(cur_edge->option_number) + 1);
-        p += (int) log10(cur_edge->option_number) + 1;
-        *p++ = '.';
-        *p++ = ' ';
-        memcpy(p, cur_edge->edge->quip, len_lst[i]);
-        p += len_lst[i++];
-        *p++ = '\n';
+        if (cur_edge->available == 1) {
+            sprintf(temp, "%d", option_number);
+            memcpy(p, temp, (int) log10(option_number) + 1);
+            p += (int) log10(option_number++) + 1;
+            *p++ = '.';
+            *p++ = ' ';
+            memcpy(p, cur_edge->edge->quip, len_lst[i]);
+            p += len_lst[i++];
+            *p++ = '\n';
+        }
         cur_edge = cur_edge->next;
     }
     if (!is_leaf) {
@@ -209,7 +230,7 @@ char *create_return_string(convo_t *c, int is_leaf)
 
 /* See dialogue.h */
 char *start_conversation(convo_t *c, int *rc, game_t *game)
-{
+{   
     if (c == NULL) {
         *rc = -1;
         return NULL;
@@ -219,11 +240,25 @@ char *start_conversation(convo_t *c, int *rc, game_t *game)
 
     c->cur_node = c->all_nodes->node;
 
+    // Assess the availability of each edge, count available edges
+    if (process_edges(c->cur_node) != SUCCESS) {
+        *rc = -1;
+        return NULL;
+    }
+
+    // Execute action (item, quest, battle, ...)
+    if (c->cur_node->action != D_NONE) {
+        if (do_action(c->cur_node, game) != SUCCESS) {
+            *rc = -1;
+            return NULL;
+        }
+    }
+
     // Prepare return code and return string
-    if (c->cur_node->num_edges == 0) *rc = 1;
+    if (c->cur_node->num_available_edges == 0) *rc = 1;
     else *rc = 0;
 
-    ret_str = create_return_string(c, *rc);
+    ret_str = create_return_string(c->cur_node, *rc);
     if (ret_str == NULL) *rc = -1;
     
     return ret_str;
@@ -232,31 +267,39 @@ char *start_conversation(convo_t *c, int *rc, game_t *game)
 /* See dialogue.h */
 char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 {   
-    // Traverse to the player's selected node
-    edge_list_t *cur_edge;
-    int i;
-    char *ret_str;
+    assert(input <= c->cur_node->num_available_edges);
 
+    char *ret_str;
+    edge_list_t *cur_edge;
+
+    // Traverse to the player's selected node
     cur_edge = c->cur_node->edges;
-    for (i = 1; i < input && i < c->cur_node->num_edges; i++) {
+    while (input > 1 || cur_edge->available != 1) {
+        if (cur_edge->available == 1) input--;
         cur_edge = cur_edge->next;
     }
 
     c->cur_node = cur_edge->edge->to;
 
-    // Perform action
+    // Assess the availability of each edge, count available edges
+    if (process_edges(c->cur_node) != SUCCESS) {
+        *rc = -1;
+        return NULL;
+    }
+
+    // Execute action (item, quest, battle, ...)
     if (c->cur_node->action != D_NONE) {
         if (do_action(c->cur_node, game) != SUCCESS) {
-            *rc = 1;
+            *rc = -1;
             return NULL;
         }
     }
 
     // Prepare return code and return string
-    if (c->cur_node->num_edges == 0) *rc = 1;
+    if (c->cur_node->num_available_edges == 0) *rc = 1;
     else *rc = 0;
 
-    ret_str = create_return_string(c, *rc);
+    ret_str = create_return_string(c->cur_node, *rc);
     if (ret_str == NULL) *rc = -1;
 
     return ret_str;
@@ -264,7 +307,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
 
 /**********************************************
- *             ACTION FUNCTIONS               *
+ *          EMBELLISHMENT FUNCTIONS           *
  **********************************************/
 
 /* See dialogue.h */
@@ -300,6 +343,11 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to)
 
     e->from = from;
     e->to = to;
+
+    if (e->condition != NULL) {
+        free(e->condition);  /***********************************************/
+        e->condition = NULL;
+    }
 
     return SUCCESS;
 }
@@ -354,6 +402,7 @@ int node_init(node_t *n, char *node_id, char *npc_dialogue)
     strcpy(n->npc_dialogue, npc_dialogue);
 
     n->num_edges = 0;
+    n->num_available_edges = 0;
     n->edges = NULL;
 
     // Action

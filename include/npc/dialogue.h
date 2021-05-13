@@ -3,6 +3,7 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/game.h"
+#include "game-state/condition.h"
 
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
@@ -31,38 +32,43 @@ typedef struct node node_t;
  *  - quip: dialogue option text
  *  - from: source node
  *  - to: destination node
+ *  - condition: criteria determining an edge's availability, can be NULL
  */
 typedef struct edge {
     char *quip;
     node_t *from, *to;
+    condition_t *condition;
 } edge_t;
 
-/* A doubly-linked list containing edges and their "option numbers." The
- * "option number" (1, 2, 3, ...) labels the edges numerically.
+/* A doubly-linked list containing edges and their "availability."
  *
  * Includes:
- *  - option_number: an edge's number label
+ *  - available: 1 = available, 0 = unavailable, -1 = permanently unavailable
  *  - edge: the edge
  *  - next, prev: next and previous list elements
  */
 typedef struct edge_list {
-    int option_number;
+    int available;
     edge_t *edge;
     struct edge_list *next, *prev;
 } edge_list_t;
 
-/* A scene in a conversation.
+/* A stage in a conversation.
  *
  * Includes:
  *  - node_id: the node's "name"
  *  - npc_dialogue: what the NPC says on arriving at the node
- *  - num_edges: number of possible responses
+ *  - num_edges: number of edges
+ *  - num_available_edges: number of accessible edges
  *  - edges: possible responses
+ *  - action: an action associated with the node (item, quest, battle, etc.)
+ *  - action_id: ID associated with the action
  */
 typedef struct node {
     char *node_id;
     char *npc_dialogue;
     int num_edges;
+    int num_available_edges;
     edge_list_t *edges;
     node_action action;
     char *action_id;
@@ -154,7 +160,7 @@ char *start_conversation(convo_t *c, int *rc, game_t *game);
  *
  * Parameters:
  *  - c: pointer to a convo
- *  - input: integer (1, 2, ..., c->cur_node->num_edges)
+ *  - input: integer (1, 2, ..., c->cur_node->num_available_edges)
  *  - rc: pointer to an integer
  *
  * Returns:
@@ -168,7 +174,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
 
 
 /**********************************************
- *             ACTION FUNCTIONS               *
+ *              ACTION FUNCTIONS              *
  **********************************************/
 
 /*
