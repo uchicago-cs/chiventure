@@ -87,10 +87,74 @@ list_npc_action_t *get_npc_actions()
 
 /* KIND 4
  * See npc_action.h */
-int do_npc_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, char **ret_string)
+int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_string)
 {
-    //TODO
-}
+    assert(c);
+    assert(c->game);
+    assert(a);
+    assert(npc);
+    
+    game_t *game = c->game;
+
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
+    // checks if the action type is the correct kind
+    if (a->kind != NPC)
+    {
+        sprintf(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return WRONG_KIND;
+    }
+
+    // checks if the action is possible
+    if (possible_action(npc, a->c_name) == FAILURE)
+    {
+        sprintf(string, "Action %s can't be requested with item %s",
+                a->c_name, npc->npc_id);
+        *ret_string = string;
+        return NOT_ALLOWED_DIRECT;
+    }
+
+    // get the game action struct
+    game_action_t *game_act = get_action(npc, a->c_name);
+
+    // check if all conditions are met
+    if (!all_conditions_met(game_act->conditions))
+    {
+        sprintf(string, "%s", game_act->fail_str);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
+    else
+    {
+        // implement the action (i.e. dole out the effects)
+        int applied_effects;
+        applied_effects = do_all_effects(npc, a->c_name);
+        if (applied_effects == FAILURE)
+        {
+            sprintf(string, "Effect(s) of Action %s were not applied", a->c_name);
+            *ret_string = string;
+            return EFFECT_NOT_APPLIED;
+        }
+        else
+        {
+	    //remove action from any conditions
+	    int rc;
+	    rc = helper_remove(a);
+
+            // successfully carried out action
+            sprintf(string, "%s", game_act->success_str);
+            if (is_game_over(game))
+            {
+                string = strcat(string, " Congratulations, you've won the game! "
+                        "Press ctrl+D to quit.");
+            }
+            *ret_string = string;
+            return SUCCESS;
+        }
+    }
+} 
 
 /* KIND 5
  * See npc_action.h */
