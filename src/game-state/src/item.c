@@ -764,7 +764,15 @@ attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
     }
 
     attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
+    if (like == NULL) {
+        fprintf(stderr, "calloc failed to allocate memory in list_get_attribute.");
+        return NULL;
+    }
     like->attribute = calloc(1, sizeof(attribute_t));
+    if (like == NULL) {
+        fprintf(stderr, "calloc failed to allocate memory in list_get_attribute.");
+        return NULL;
+    }
     like->attribute->attribute_key = attr_name;
     
     attribute_list_t *output;
