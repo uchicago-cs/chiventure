@@ -1491,6 +1491,7 @@ Test(attribute_list, list_contains_attribute)
 
 // Tests for getting attributes from a list ------------------------------------
 
+/* Checks retrieval of a string attribute from a list of attributes */
 Test(attribute_list, list_get_str_attr)
 {
     attribute_list_t* test_head = create_list_attribute();
@@ -1528,6 +1529,7 @@ Test(attribute_list, list_get_str_attr)
     attribute_free(test_attr3);
 }
 
+/* Checks retrieval of an integer attribute from a list of attributes */
 Test(attribute_list, list_get_int_attr)
 {
     attribute_list_t* test_head = create_list_attribute();
@@ -1561,6 +1563,7 @@ Test(attribute_list, list_get_int_attr)
     attribute_free(test_attr3);
 }
 
+/* Checks retrieval of a double attribute from a list of attributes */
 Test(attribute_list, list_get_double_attr)
 {
     attribute_list_t* test_head = create_list_attribute();
@@ -1594,6 +1597,7 @@ Test(attribute_list, list_get_double_attr)
     attribute_free(test_attr3);
 }
 
+/* Checks retrieval of a char attribute from a list of attributes */
 Test(attribute_list, list_get_char_attr)
 {
     attribute_list_t* test_head = create_list_attribute();
@@ -1627,6 +1631,7 @@ Test(attribute_list, list_get_char_attr)
     attribute_free(test_attr3);
 }
 
+/* Checks retrieval of a boolean attribute from a list of attributes */
 Test(attribute_list, list_get_bool_attr)
 {
     attribute_list_t* test_head = create_list_attribute();
