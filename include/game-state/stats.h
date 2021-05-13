@@ -496,6 +496,15 @@ int free_stats_global_table(stats_global_hash_t *gst);
  */
 int free_stat_mod(stat_mod_t *mod);
 
+/* free-stat_effect: Frees the resources that a stat_effect_t uses
+ *
+ * Input:
+ *      - effect: The stat effect to be freed
+ * 
+ * Returns: Always returns SUCCESS
+ */
+int free_stat_effect(stat_effect_t* effect);
+
 /*
  * Deletes a single player effects struct from a hash table,
  * then frees the struct
@@ -519,6 +528,15 @@ int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int delete_all_stat_effects(effects_hash_t *effects);
+
+/* free_global_effect: Frees the resources that a effect_global_t uses
+ *
+ * Input:
+ *      - effect: The global effect to be freed
+ * 
+ * Returns: Always returns SUCCESS
+ */
+int free_global_effect(effects_global_t* effect);
 
 /*
  * Deletes a single global effect struct from a hash table,
