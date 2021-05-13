@@ -757,6 +757,7 @@ int delete_item_llist(item_list_t *head)
 /* see item.h */
 attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
 {
+    /* Return NULL on invalid inputs */
     if (attr_name == NULL || head == NULL || head->next == NULL)
     {
         return NULL;
@@ -772,6 +773,7 @@ attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
     free(like->attribute);
     free(like);
 
+    /* If no attribute is found, return NULL */
     if (output == NULL)
         return NULL;
 
