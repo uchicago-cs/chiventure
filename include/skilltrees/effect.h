@@ -13,14 +13,15 @@
  * RPG-battles is currently working on fixing this problem and have already submitted a pull request
  */
 #include <stdbool.h>
+#include "battle/battle_moves.h"
 
 /* List of all the effect types that a skill can have.  We can add more in the future */
 typedef enum effect_type {
     // Effect that modifies statistics of player
     STATISTIC_MOD,
 
-    // Effect that deals damage
-    DAMAGE,
+    // Effect that unlocks a move
+    MOVE_UNLOCK,
 
     // Effect that modifies attributes of the player
     ATTRIBUTE_MOD,
@@ -34,14 +35,14 @@ typedef struct stat_mod_effect {
     int duration;    // The duration for how long the effect should be applied (O if permanent)
 }stat_mod_effect_t;
 
-//Defines an effect that deals damage
-typedef struct damage_effect {
+//Defines an effect that unlocks a move
+typedef struct move_effect {
     /* More fields will probably be added after speaking with 
      * the rpg-battles team */
 
     // TODO - Add more fields
-    int damage;      // Specifies the amount of damage that the skill does
-}damage_effect_t;
+    move_t move;      // Specifies the move that will be unlocked
+}move_effect_t;
 
 // A struct used to define a union data type that we use to change attributes
 union data
@@ -70,7 +71,7 @@ typedef struct effect {
     union
     {
         stat_mod_effect_t* s;
-        damage_effect_t* d;
+        move_effect_t* d;
         att_effect_t* a;
     } data; // Contains a pointer to the effect itself so that we can make the necessary modifications to execute the skill
 }effect_t;
@@ -95,11 +96,11 @@ typedef struct effects_linked_list {
  */
 stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int modification, int duration);
 
-/* Defines an attack effect that damages a target by a given amount and returns a pointer to it
- * Parameters: int mod: The amount of damage to be dealt
- * Returns: A pointer to the created damage efect
+/* Defines an move effect that unlcoks a and returns a pointer to it
+ * Parameters: move_t move: The move that will be unlocked
+ * Returns: A pointer to the created move efect
  */
-damage_effect_t* define_damage_effect(int mod);
+move_effect_t* define_move_effect(move_t move);
 
 /* Defines an attribute modifying effect and returns a pointer to it
  * Parameters: char* obj_id:  The unique ID of the parent object
@@ -117,12 +118,12 @@ att_effect_t* define_att_effect(char* item_id, char* att_id, union data mod);
 effect_t* make_stat_mod_effect(stat_mod_effect_t* stat_effect);
 
 
-/* Takes the given damage effect and converts it to an effect
- * Parameters: damage_effect_t* damage_effect- Pointer to the damage effect
+/* Takes the given move effect and converts it to an effect
+ * Parameters: move_effect_t* move_effect- Pointer to the move effect
  * Returns: A pointer to an effect with parameters based on what has been given
  */
 
-effect_t* make_damage_effect(damage_effect_t* damage_effect);
+effect_t* make_move_effect(move_effect_t* move_effect);
 
 
 /* Takes the given attribute modifying effect and converts it to an effect
@@ -140,11 +141,11 @@ effect_t* make_att_effect(att_effect_t* att_effect);
 int execute_stat_mod_effect(stat_mod_effect_t* stat_effect);
 
 
-/* Takes the given damage effect and executes it
- * Parameters: damage_effect_t* damage_effect - a pointer to the damage effect
+/* Takes the given move effect and executes it
+ * Parameters: move_effect_t* move_effect - a pointer to the move effect
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_damage_effect(damage_effect_t* damage_effect);
+int execute_move_effect(move_effect_t* move_effect);
 
 /* Takes the given attribute modifying effect and executes it
  * Parameters: att_effect_t* att_effect - a pointer to the attribute modifying effect

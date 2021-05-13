@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "skilltrees/effect.h"
 
+
 // This code is not finalized; we're going to make more changes to implement
 // it into the hash table later on
 
@@ -24,12 +25,12 @@ stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int modification, int
 }
 
 // See effect.h
-damage_effect_t* define_damage_effect(int mod)
+move_effect_t* define_move_effect(move_t move)
 {
-    damage_effect_t* new_damage_effect = (damage_effect_t*)malloc(sizeof(damage_effect_t));
-    new_damage_effect->damage = mod;
+    move_effect_t* new_move_effect = (move_effect_t*)malloc(sizeof(move_effect_t));
+    new_move_effect->move = move;
 
-    return new_damage_effect;
+    return new_move_effect;
 }
 
 // See effect.h
@@ -47,7 +48,7 @@ effect_t* make_stat_effect(stat_mod_effect_t* stat_effect)
 }
 
 // See effect.h
-effect_t* make_damage_effect(damage_effect_t* damage_effect)
+effect_t* make_move_effect(move_effect_t* move_effect)
 {
     // TODO
     return NULL;
@@ -68,7 +69,7 @@ int execute_stat_mod_effect(stat_mod_effect_t* stat_effect)
 }
 
 // See effect.h
-int execute_damage_effect(damage_effect_t* damage_effect)
+int execute_move_effect(move_effect_t* move_effect)
 {
     // TODO
     return 0;
