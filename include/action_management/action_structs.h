@@ -1,6 +1,6 @@
 #ifndef _ACTION_STRUCTS_H_
 #define _ACTION_STRUCTS_H_
-
+#include "npc/npc.h"
 
 /* File consisting of all action structs created by action management
    =========================================================================== */
@@ -9,10 +9,10 @@
  * - item: an item
  * - npc: an NPC
  */
-union agent
+typedef union agent
 {
-   item_t item;
-   npc_t npc;
+   item_t *item;
+   npc_t *npc;
 } agent_t;
 
 enum agent_tag {ITEM, NPC};

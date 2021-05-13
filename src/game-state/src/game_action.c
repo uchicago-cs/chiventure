@@ -2,6 +2,110 @@
 
 #define BUFFER_SIZE 100
 
+// -------functions to abstract for npc_actions
+/* see game_action.h */
+/* see game_action.h */
+game_action_t *get_action(agent_t *agent, char *action_name)
+{
+    game_action_t *action;
+    if(agent->npc == NULL){
+    HASH_FIND(hh, agent->item->actions, action_name, strlen(action_name), action);
+    if (action == NULL)
+    {
+        return NULL;
+    }}
+    if(agent->item == NULL){
+    HASH_FIND(hh, agent->npc->actions, action_name, strlen(action_name), action);
+    if (action == NULL)
+    {
+        return NULL;
+    }}
+    
+    return action;
+}
+
+/* see game_action.h */
+int add_action(agent_t *agent, char *action_name, char *success_str, char *fail_str)
+{
+    game_action_t *check = get_action(agent, action_name);
+    if (check != NULL)
+    {
+        return FAILURE;
+    }
+    game_action_t *action = game_action_new(action_name, success_str, fail_str);
+    if(agent->item != NULL){
+    HASH_ADD_KEYPTR(hh, agent->item->actions, action_name, strlen(action_name), action);
+    }
+    if(agent->npc != NULL){
+    HASH_ADD_KEYPTR(hh, agent->npc->actions, action_name, strlen(action_name), action);
+    }
+    return SUCCESS;
+}
+
+int possible_action(agent_t *agent, char *action_name)
+{
+    game_action_t *possible_action = get_action(agent, action_name);
+    if (possible_action == NULL)
+    {
+        return FAILURE;
+    }
+    else
+    {
+        return SUCCESS;
+    }
+}
+
+game_action_hash_t *get_all_actions(agent_t *agent)
+{
+    //TO DO
+    return NULL;
+}
+
+/* see common-game-action.h */
+game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
+{
+
+    if (item_to_modify == NULL || attribute == NULL)
+    {
+        return NULL;
+    }
+    game_action_effect_t *effect = malloc(sizeof(game_action_effect_t));
+    effect->item = item_to_modify;
+    effect->attribute_to_modify = attribute;
+    effect->new_value = new_value;
+    effect->next = NULL;
+
+    return effect;
+}
+
+
+/* see game_action.h */
+int do_all_effects(agent_t *agent, char *action_name)
+{
+    game_action_t *action = get_action(agent, action_name);
+    if (action == NULL)
+    {
+        return FAILURE;
+    }
+    game_action_effect_t *tmp;
+    for (tmp = action->effects; tmp != NULL; tmp = tmp->next)
+    {
+        int check = do_effect(tmp);
+        if (check == FAILURE)
+        {
+            return FAILURE;
+        }
+    }
+    return SUCCESS;
+}
+
+int game_action_free(game_action_t *action_to_free)
+{
+    //TODO
+    return 0;
+}
+// ------------------------------------------------------
+
 /* See common_game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name,
                      char *success_str, char *fail_str)
@@ -48,44 +152,11 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
 
 // ---------------------------------------------------------------------------
 
-/* see game_action.h */
-game_action_t *get_action(item_t *item, char *action_name)
-{
-    game_action_t *action;
-    HASH_FIND(hh, item->actions, action_name, strlen(action_name), action);
-    if (action == NULL)
-    {
-        return NULL;
-    }
-    return action;
-}
+//-----get_action
 
-/* see game_action.h */
-int add_action(item_t *item, char *action_name, char *success_str, char *fail_str)
-{
-    game_action_t *check = get_action(item, action_name);
-    if (check != NULL)
-    {
-        return FAILURE;
-    }
-    game_action_t *action = game_action_new(action_name, success_str, fail_str);
-    HASH_ADD_KEYPTR(hh, item->actions, action_name, strlen(action_name), action);
-    return SUCCESS;
-}
+//-----add_action
 
-/* see game_action.h */
-int possible_action(item_t *item, char *action_name)
-{
-    game_action_t *possible_action = get_action(item, action_name);
-    if (possible_action == NULL)
-    {
-        return FAILURE;
-    }
-    else
-    {
-        return SUCCESS;
-    }
-}
+//possible_action()
 
 // ------------------------------------- CONDITIONS -------------------------------------
 
@@ -225,23 +296,7 @@ int delete_action_effect_llist(action_effect_list_t *effects)
     return SUCCESS;
 }
 
-/* see common-game-action.h */
-game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
-{
-
-    if (item_to_modify == NULL || attribute == NULL)
-    {
-        return NULL;
-    }
-    game_action_effect_t *effect = malloc(sizeof(game_action_effect_t));
-    effect->item = item_to_modify;
-    effect->attribute_to_modify = attribute;
-    effect->new_value = new_value;
-    effect->next = NULL;
-
-    return effect;
-}
-
+//----- effect_new
 /* see common_game_action.h */
 int do_effect(game_action_effect_t *effect)
 {
@@ -268,22 +323,4 @@ int do_effect(game_action_effect_t *effect)
     return FAILURE;
 }
 
-/* see game_action.h */
-int do_all_effects(item_t *item, char *action_name)
-{
-    game_action_t *action = get_action(item, action_name);
-    if (action == NULL)
-    {
-        return FAILURE;
-    }
-    game_action_effect_t *tmp;
-    for (tmp = action->effects; tmp != NULL; tmp = tmp->next)
-    {
-        int check = do_effect(tmp);
-        if (check == FAILURE)
-        {
-            return FAILURE;
-        }
-    }
-    return SUCCESS;
-}
+//--- do_all_effects

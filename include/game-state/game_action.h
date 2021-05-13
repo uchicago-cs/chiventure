@@ -104,57 +104,57 @@ int add_action_inventory_condition(game_action_t *action, player_t *player,
 // the following functions are to do with searching for allowed actions
 // and conducting actions
 
-/* get_action() returns the game_action_t associated with an action
- * Parameters:
- *  a pointer to the item
- *  the action name
- * Returns:
- *  the action struct associated or NULL if not associated
- */
-game_action_t *get_action(item_t *item, char* action_name);
+// /* get_action() returns the game_action_t associated with an action
+//  * Parameters:
+//  *  a pointer to the item
+//  *  the action name
+//  * Returns:
+//  *  the action struct associated or NULL if not associated
+//  */
+// game_action_t *get_action(item_t *item, char* action_name);
 
-/* add_action() adds a (presumed legal) action to an item
- * Parameters:
- *  a pointer to the item
- *  the action name
- *  the action struct
- *  the action type (as specified by action management)
- *  the string to print should the action be performed successfully
- *  the string to print shoulf the action fail to be performed
- * Returns:
- *  SUCCESS if added correctly, FAILURE if failed to add
- */
-int add_action(item_t* item, char *action_name, char* success_str, char* fail_str);
-
-
-/* possible_action() checks if an item permits a specific action
- * Parameters:
- *  a pointer to the item
- *  the action name
- * Returns:
- *  SUCCESS if item contains action, FAILURE if it does not
- */
-int possible_action(item_t* item, char* action_name);
-
-/*
- * Function to get a linked list (utlist) of all the actions in the item
- *
- * Parameters:
- *  item
- *
- * Returns:
- *  linked list of pointers to actions (the head element)
- */
-game_action_hash_t *get_all_actions(item_t *item);
+// /* add_action() adds a (presumed legal) action to an item
+//  * Parameters:
+//  *  a pointer to the item
+//  *  the action name
+//  *  the action struct
+//  *  the action type (as specified by action management)
+//  *  the string to print should the action be performed successfully
+//  *  the string to print shoulf the action fail to be performed
+//  * Returns:
+//  *  SUCCESS if added correctly, FAILURE if failed to add
+//  */
+// int add_action(item_t* item, char *action_name, char* success_str, char* fail_str);
 
 
-/* game_action_free() frees allocated space for an action struct in memory
- *  Parameters:
- *    a pointer to the action
- *  Returns:
- *    SUCCESS if successful, FAILURE if not
- */
-int game_action_free(game_action_t *action_tofree);
+// /* possible_action() checks if an item permits a specific action
+//  * Parameters:
+//  *  a pointer to the item
+//  *  the action name
+//  * Returns:
+//  *  SUCCESS if item contains action, FAILURE if it does not
+//  */
+// int possible_action(item_t* item, char* action_name);
+
+// /*
+//  * Function to get a linked list (utlist) of all the actions in the item
+//  *
+//  * Parameters:
+//  *  item
+//  *
+//  * Returns:
+//  *  linked list of pointers to actions (the head element)
+//  */
+// game_action_hash_t *get_all_actions(item_t *item);
+
+
+// /* game_action_free() frees allocated space for an action struct in memory
+//  *  Parameters:
+//  *    a pointer to the action
+//  *  Returns:
+//  *    SUCCESS if successful, FAILURE if not
+//  */
+// int game_action_free(game_action_t *action_tofree);
 
 
 
@@ -270,7 +270,7 @@ int do_effect(game_action_effect_t *effect);
  * Returns:
  *  SUCCESS if all effects are set, FAILURE if not
  */
-int do_all_effects(item_t* item, char* action_name);
+int do_all_effects(agent_t *agent, char* action_name);
 
 /* action_init() initializes an action struct with given values
    arguments are taken from action management
