@@ -21,8 +21,9 @@ int add_item_multiplier(item_t* item, class_t* class, double multiplier) {
     if (item->class_multipliers == NULL)
         item->class_multipliers = create_list_attribute();
     
-    /* I am open to returning an error instead of doing this. */
     attribute_t *attr = list_get_attribute(item->class_multipliers, class->name);
+
+    /* If the item already has a multiplier attribute for this class, overwrite it. */
     if (attr != NULL) {
         if (attr->attribute_tag == DOUBLE) {
             attr->attribute_value.double_val = multiplier;
@@ -70,6 +71,7 @@ int remove_item_multiplier(item_t* item, class_t* class) {
     }
 
     char buffer[101];
+    /* If the item multiplier does not exist, removing the multiplier is considered a success. */
     if (!list_contains_attribute(item->class_multipliers, strncpy(buffer, class->name, 100)))
         return SUCCESS;
 
