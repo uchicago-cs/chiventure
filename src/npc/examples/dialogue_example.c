@@ -21,12 +21,12 @@ int main()
     add_node(c, "3b", "One scimitar coming up.");
     add_node(c, "2b", "Ah, I see you prefer the path of defence. Clever choice.");
     add_node(c, "2c", "A quest? I have one right here.");
-    add_edge(c, "Sword", "1", "2a");
-    add_edge(c, "Shield", "1", "2b");
-    add_edge(c, "Do you have a quest?", "1", "2c");
-    add_edge(c, "Longsword", "2a", "3a");
-    add_edge(c, "Scimitar", "2a", "3b");
-    add_edge(c, "I change my mind: I want a shield", "2a", "2b");
+    add_edge(c, "Sword", "1", "2a", NULL);
+    add_edge(c, "Shield", "1", "2b", NULL);
+    add_edge(c, "Do you have a quest?", "1", "2c", NULL);
+    add_edge(c, "Longsword", "2a", "3a", NULL);
+    add_edge(c, "Scimitar", "2a", "3b", NULL);
+    add_edge(c, "I change my mind: I want a shield", "2a", "2b", NULL);
 
     add_quest(c, "2c", NULL);
 

@@ -65,14 +65,15 @@ edge_list_t *create_edge_list_element(edge_t *e)
     if ((elt = (edge_list_t *) malloc(sizeof(edge_list_t))) == NULL) return
         NULL;
 
-    elt->available = 1;
+    elt->availability = EDGE_AVAILABLE;
     elt->edge = e;
 
     return elt;
 }
 
 /* See dialogue.h */
-int add_edge(convo_t *c, char *quip, char *from_id, char *to_id)
+int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
+             condition_t *cond)
 {
     assert(c->num_nodes >= 2);
 
@@ -83,7 +84,7 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id)
 
     // Create edge
     edge_t *e;
-    if ((e = edge_new(quip, from_node, to_node)) == NULL) return FAILURE;
+    if ((e = edge_new(quip, from_node, to_node, cond)) == NULL) return FAILURE;
 
     edge_list_t *c_elt, *n_elt;
 
@@ -114,8 +115,14 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id)
  *       DIALOGUE EXECUTION FUNCTIONS         *
  **********************************************/
 
-/*
+/* Executes the action on a node.
  *
+ * Parameters:
+ *  - n: node
+ *  - game: the Chiventure game being run
+ *
+ * Returns:
+ *  - SUCCESS if the action executed successfully, FAILURE if an error occured
  */
 int do_action(node_t *n, game_t *game)
 {
@@ -137,24 +144,33 @@ int do_action(node_t *n, game_t *game)
     return SUCCESS;
 }
 
-/*
+/* Checks each edge and updates their availability status, then counts the
+ * total number of available edges.
  *
+ * Parameters:
+ *  -n: node
+ *
+ * Returns:
+ *  - SUCCESS if the action executed successfully, FAILURE if an error occured
  */
-int process_edges(node_t *n)
+int recheck_edge_availability(node_t *n)
 {
-    int count = 0;
+    if (n == NULL) return FAILURE;
+
+    int avail_count = 0;
     edge_list_t *cur_edge = n->edges;
 
     while (cur_edge != NULL) {
-        if (cur_edge->available != -1) {
+        if (cur_edge->availability != EDGE_DISABLED) {
             if (cur_edge->edge->condition != NULL) {
-                cur_edge->available = 0;
+                cur_edge->availability = EDGE_UNAVAILABLE;
             }
-            if (cur_edge->available) count++;
+            if (cur_edge->availability) avail_count++;
         }
         cur_edge = cur_edge->next;
     }
-    n->num_available_edges = count;
+
+    n->num_available_edges = avail_count;
 
     return SUCCESS;
 }
@@ -182,7 +198,7 @@ char *create_return_string(node_t *n, int is_leaf)
     totlen += (len_lst[i++] = strlen(n->npc_dialogue));
     totlen += 2;
     while (cur_edge != NULL) {
-        if (cur_edge->available == 1) {
+        if (cur_edge->availability == EDGE_AVAILABLE) {
             totlen += (int) log10(option_number++) + 1;
             totlen += (len_lst[i++] = strlen(cur_edge->edge->quip));
             totlen += 3;
@@ -207,7 +223,7 @@ char *create_return_string(node_t *n, int is_leaf)
     *p++ = '\n';
     *p++ = '\n';
     while (cur_edge != NULL) {
-        if (cur_edge->available == 1) {
+        if (cur_edge->availability == EDGE_AVAILABLE) {
             sprintf(temp, "%d", option_number);
             memcpy(p, temp, (int) log10(option_number) + 1);
             p += (int) log10(option_number++) + 1;
@@ -240,18 +256,20 @@ char *start_conversation(convo_t *c, int *rc, game_t *game)
 
     c->cur_node = c->all_nodes->node;
 
-    // Assess the availability of each edge, count available edges
-    if (process_edges(c->cur_node) != SUCCESS) {
-        *rc = -1;
-        return NULL;
-    }
-
     // Execute action (item, quest, battle, ...)
     if (c->cur_node->action != D_NONE) {
         if (do_action(c->cur_node, game) != SUCCESS) {
             *rc = -1;
             return NULL;
         }
+    }
+
+    /* Recheck the availability of each edge, then count available edges
+     * This ensures the right dialogue options are printed to the player
+     */
+    if (recheck_edge_availability(c->cur_node) != SUCCESS) {
+        *rc = -1;
+        return NULL;
     }
 
     // Prepare return code and return string
@@ -274,18 +292,12 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     // Traverse to the player's selected node
     cur_edge = c->cur_node->edges;
-    while (input > 1 || cur_edge->available != 1) {
-        if (cur_edge->available == 1) input--;
+    while (input > 1 || cur_edge->availability != EDGE_AVAILABLE) {
+        if (cur_edge->availability == EDGE_AVAILABLE) input--;
         cur_edge = cur_edge->next;
     }
 
     c->cur_node = cur_edge->edge->to;
-
-    // Assess the availability of each edge, count available edges
-    if (process_edges(c->cur_node) != SUCCESS) {
-        *rc = -1;
-        return NULL;
-    }
 
     // Execute action (item, quest, battle, ...)
     if (c->cur_node->action != D_NONE) {
@@ -293,6 +305,14 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
             *rc = -1;
             return NULL;
         }
+    }
+
+    /* Recheck the availability of each edge, then count available edges
+     * This ensures the right dialogue options are printed to the player
+     */
+    if (recheck_edge_availability(c->cur_node) != SUCCESS) {
+        *rc = -1;
+        return NULL;
     }
 
     // Prepare return code and return string
@@ -307,7 +327,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
 
 /**********************************************
- *          EMBELLISHMENT FUNCTIONS           *
+ *           ORNAMENTAL FUNCTIONS             *
  **********************************************/
 
 /* See dialogue.h */
@@ -330,7 +350,8 @@ int add_quest(convo_t *c, char *node_id, char *quest_id)
  **********************************************/
 
 /* See dialogue.h */
-int edge_init(edge_t *e, char *quip, node_t *from, node_t *to)
+int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
+              condition_t *cond)
 {
     assert(e != NULL);
     assert(strlen(quip) < MAX_QUIP_LEN);
@@ -344,16 +365,14 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to)
     e->from = from;
     e->to = to;
 
-    if (e->condition != NULL) {
-        free(e->condition);  /***********************************************/
-        e->condition = NULL;
-    }
+    if (e->condition != NULL) free(e->condition); /***********************************************/
+    e->condition = cond;
 
     return SUCCESS;
 }
 
 /* See dialogue.h */
-edge_t *edge_new(char *quip, node_t *from, node_t *to)
+edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *cond)
 {
     assert(strlen(quip) < MAX_QUIP_LEN);
     assert(from != NULL && to != NULL);
@@ -363,7 +382,7 @@ edge_t *edge_new(char *quip, node_t *from, node_t *to)
 
     e->quip = NULL;
 
-    if (edge_init(e, quip, from, to) != SUCCESS) {
+    if (edge_init(e, quip, from, to, cond) != SUCCESS) {
         edge_free(e);
         return NULL;
     }
