@@ -143,6 +143,15 @@ int stats_init(stats_t *stat, stats_global_t *global_stat, double init);
 
 stats_global_t *stats_global_new(char *name, double max);
 
+/* copy_global_stat: Creates a deep copy of a global stat
+ *
+ * Input:
+ *      - global_stat: The global stat to copy
+ * 
+ * Returns: Pointer to the newly made copy
+ */
+stats_global_t* copy_global_stat(stats_global_t* global_stat);
+
 /*
  * Allocates a new stat
  *
@@ -154,6 +163,28 @@ stats_global_t *stats_global_new(char *name, double max);
  *  Pointer to allocated stats struct
  */
 stats_t *stats_new(stats_global_t *global_stat, double init);
+
+/* copy_stat: Creates a deep copy of a given stat
+ *
+ * NOTE: This does NOT create a new global stat. If User desires copy of a stat 
+ *       alongisde a copy of the associated global_stat, use copy_stat_and_global
+ * 
+ * Input:
+ *      - stat: The stat to copy
+ * 
+ * Returns: Pointer to the newly made copy 
+ */ 
+stats_t* copy_stat(stats_t* stat);
+
+/* copy_stat_and_global: Creates a deep copy of both the given stat AND
+ *                       the global stat associated to it
+ *
+ * Input:
+ *      - stat: The stat to copy (containing a valid global_stat pointer)
+ * 
+ * Returns: Pointer to newly made copy
+ */
+stats_t* copy_stat_and_global(stats_t* stat);
 
 /*
  * Initializes a stat_mod struct
@@ -205,6 +236,15 @@ int global_effect_init(effects_global_t *effect, char *effect_name);
  */
 effects_global_t *global_effect_new(char *effect_name);
 
+/* copy_global_effect: Creates a deep copy of a global effect
+ *
+ * Input:
+ *      - global_effect: The global effect to copy
+ * 
+ * Returns: Pointer to the newly made copy
+ */
+effects_global_t* copy_global_effect(effects_global_t* global_effect);
+
 /*
  * Initializes a player effect struct
  *
@@ -227,6 +267,29 @@ int stat_effect_init(stat_effect_t *effect, effects_global_t *global);
  *   - Pointer to allocated player effects struct
  */
 stat_effect_t *stat_effect_new(effects_global_t *global);
+
+/* copy_stat_effect: Creates a deep copy of a given stat effect
+ *
+ * NOTE: This does NOT create a new global effect. If User desires copy of a stat 
+ *       effect alongisde a copy of the associated global_effect, use copy_stat_and_global_effect
+ * 
+ * Input:
+ *      - stat_effect: The stat effect to copy
+ * 
+ * Returns: Pointer to the newly made copy 
+ */ 
+stat_effect_t* copy_stat_effect(stat_effect_t* stat_effect);
+
+/* copy_stat_and_global_effect: Creates a deep copy of both the given stat effect
+ *                              AND the global stat effect associated to it
+ *
+ * Input:
+ *      - stat_effect: The stat effect to copy (containing a valid 
+ *                                              effects_global_t pointer)
+ * 
+ * Returns: Pointer to newly made copy
+ */
+stat_effect_t* copy_stat_and_global_effect(stat_effect_t* stat_effect);
 
 /*
  * Changes the base value of a stat by the

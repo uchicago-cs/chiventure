@@ -26,18 +26,12 @@ stats_global_t *stats_global_new(char *name, double max)
     return global_stat;
 }
 
-/* copy_global_stat: Creates a deep copy of a global stat
- *
- * Input:
- *      - global_stat: The global stat to copy
- * 
- * Returns: Pointer to the newly made copy
- */
-stats_global_t copy_global_stat(stats_global_t* global_stat)
+/* See stats.h */
+stats_global_t* copy_global_stat(stats_global_t* global_stat)
 {
     assert(global_stat != NULL);
 
-    stats_global_t* copy = stats_global_new(global_stat->name, global_stat->max)
+    stats_global_t* copy = stats_global_new(global_stat->name, global_stat->max);
 
     return copy;
 }
@@ -74,45 +68,29 @@ stats_t *stats_new(stats_global_t *global_stat, double init)
     return new_stat;
 }
 
-/* copy_stat: Creates a deep copy of a given stat
- *
- * NOTE: This does NOT create a new global stat. If User desires copy of a stat 
- *       alongisde a copy of the associated global_stat, use copy_stat_and_global
- * 
- * Input:
- *      - stat: The stat to copy
- * 
- * Returns: Pointer to the newly made copy 
- */ 
+/* See stats.h */ 
 stats_t* copy_stat(stats_t* stat)
 {
     assert(stat != NULL);
 
-    stats_t* copy = (stats_t*)malloc(sizeof(stat_t));
+    stats_t* copy = (stats_t*)malloc(sizeof(stats_t));
 
-    copy->key = strdup(stat->name);
-    copy->val = stat->init;
-    copy->max = stat->init;
-    copy->global = stat->global_stat;
+    copy->key = strdup(stat->key);
+    copy->val = stat->val;
+    copy->max = stat->max;
+    copy->global = stat->global;
     copy->modifier = stat->modifier;
 
     return copy;
 }
 
-/* copy_stat_and_global: Creates a deep copy of both the given stat AND
- *                       the global stat associated to it
- *
- * Input:
- *      - stat: The stat to copy (containing a valid global_stat pointer)
- * 
- * Returns: Pointer to newly made copy
- */
+/* See stats.h */
 stats_t* copy_stat_and_global(stats_t* stat)
 {
     assert(stat != NULL);
     assert(stat->global != NULL);
 
-    global_stat_t* global_copy = copy_global_stat(stat->global);
+    stats_global_t* global_copy = copy_global_stat(stat->global);
     stats_t* copy = copy_stat(stat);
 
     /* Set copied stat to point to newly created global stat instead of original */ 
@@ -145,18 +123,12 @@ effects_global_t *global_effect_new(char *effect_name)
     return effect;
 }
 
-/* copy_global_effect: Creates a deep copy of a global effect
- *
- * Input:
- *      - global_effect: The global effect to copy
- * 
- * Returns: Pointer to the newly made copy
- */
+/* See stats.h */
 effects_global_t* copy_global_effect(effects_global_t* global_effect)
 {
     assert(global_effect != NULL);
 
-    effects_global_t* copy = global_effect_new(global_effect->name)
+    effects_global_t* copy = global_effect_new(global_effect->name);
 
     return copy;
 }
@@ -188,23 +160,29 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
     return effect;
 }
 
-/* copy_stat_effect: Creates a deep copy of a given stat effect
- *
- * NOTE: This does NOT create a new global effect. If User desires copy of a stat 
- *       effect alongisde a copy of the associated global_effect, use copy_stat_and_global_effect
- * 
- * Input:
- *      - stat_effect: The stat effect to copy
- * 
- * Returns: Pointer to the newly made copy 
- */ 
-stats_t* copy_stat_effect(stats_effect_t* stat_effect)
+/* See stats.h */ 
+stat_effect_t* copy_stat_effect(stat_effect_t* stat_effect)
 {
     assert(stat_effect != NULL);
 
-    stats_effect_t* copy = (stats_effect_t*)malloc(sizeof(stat_effect_t));
+    stat_effect_t* copy = (stat_effect_t*)malloc(sizeof(stat_effect_t));
 
-    stat_effect_init(copy, stat_effect->global)
+    stat_effect_init(copy, stat_effect->global);
+
+    return copy;
+}
+
+/* See stats.h */
+stat_effect_t* copy_stat_and_global_effect(stat_effect_t* stat_effect)
+{
+    assert(stat_effect != NULL);
+    assert(stat_effect->global != NULL);
+
+    effects_global_t* global_copy = copy_global_effect(stat_effect->global);
+    stat_effect_t* copy = copy_stat_effect(stat_effect);
+
+    /* Set copied to point to newly created global stat effect instead of original */ 
+    copy->global = global_copy;
 
     return copy;
 }

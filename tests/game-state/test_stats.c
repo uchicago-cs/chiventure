@@ -5,6 +5,111 @@
 #include "game-state/stats.h"
 
 
+Test(stats, deep_copy_global_stat)
+{
+    char *hp = "Health";
+    char *xp = "XP";
+    int ret_val;
+
+    stats_global_t* g1 = stats_global_new(hp, 100);
+    stats_global_t* g2 = stats_global_new(xp, 100);
+
+    cr_assert_not_null(g1, "stats_global_new() failed to allocate g1");
+
+    cr_assert_not_null(g2, "stats_global_new() failed to allocate g2");
+
+    stats_global_t* z1 = copy_global_stat(g1);
+    stats_global_t* z2 = copy_global_stat(g2);
+
+    cr_assert_not_null(z1, "copy_global_stat() failed to copy g1 to new pointer");
+
+    cr_assert_not_null(z2, "copy_global_stat() failed to copy g2 to new pointer");
+
+    /* Free the original global stats */
+    free_stats_global(g1);
+    free_stats_global(g2);
+
+    /* Free the copied global stats */
+    ret_val = free_stats_global(z1);
+    cr_assert_eq(ret_val, SUCCESS, "free_stats_global() failed to return SUCCESS");
+
+    ret_val = free_stats_global(z2);
+    cr_assert_eq(ret_val, SUCCESS, "free_stats_global() failed to return SUCCESS");
+}
+
+Test(stats, deep_copy_stat)
+{
+    char *hp = "Health";
+    int ret_val;
+
+    stats_global_t* g1 = stats_global_new(hp, 100);
+
+    stats_t *stat = stats_new(g1, 100);
+    cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
+
+    cr_assert_str_eq(stat->global->name, "Health",
+        "stats_new() failed to link the global stat pointer");
+
+    cr_assert_eq(stat->val, 100, 
+        "stats_new() failed to set the starting stat value");
+
+    cr_assert_leq(stat->val, stat->global->max, 
+        "stat base value exceeds maximal value.");
+
+    stats_t* new_stat = copy_stat(stat);
+    cr_assert_not_null(new_stat, "copy_stat() failed to create deep copy of stat");
+
+    /* Check that the global_stat linked in both version are the same */
+    if (stat->global != new_stat->global)
+        cr_assert_fail("copy_stat results in new_stat and original stat having different global_stat");
+
+    /* Free the original stat */
+    free_stats(stat);
+
+    /* Free the copied stat */
+    ret_val = free_stats(new_stat);
+    cr_assert_eq(ret_val, SUCCESS, "freeing the deep copy new_stat failed");
+
+    free_stats_global(g1);
+}
+
+Test(stats, deep_copy_stat_and_global)
+{
+    char *hp = "Health";
+    int ret_val;
+
+    stats_global_t* g1 = stats_global_new(hp, 100);
+
+    stats_t *stat = stats_new(g1, 100);
+    cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
+
+    cr_assert_str_eq(stat->global->name, "Health",
+        "stats_new() failed to link the global stat pointer");
+
+    cr_assert_eq(stat->val, 100, 
+        "stats_new() failed to set the starting stat value");
+
+    cr_assert_leq(stat->val, stat->global->max, 
+        "stat base value exceeds maximal value.");
+
+    stats_t* new_stat = copy_stat_and_global(stat);
+    cr_assert_not_null(new_stat, "copy_stat() failed to create deep copy of stat");
+
+    /* Check that the global_stat linked in both version are NOT the same */
+    if (stat->global == new_stat->global)
+        cr_assert_fail("copy_stat results in new_stat and original stat having same global_stat");
+
+    /* Free the original stat and global_stat*/
+    free_stats(stat);
+    free_stats_global(g1);
+
+    /* Free the copied global_stat and stat */
+    ret_val = free_stats_global(new_stat->global);
+    cr_assert_eq(ret_val, SUCCESS, "freeing the deep copy global_stat failed");
+
+    ret_val = free_stats(new_stat);
+    cr_assert_eq(ret_val, SUCCESS, "freeing the deep copy new_stat failed");
+}
 
 Test(stats, change_stat_max)
 {
