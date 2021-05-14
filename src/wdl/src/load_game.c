@@ -2,11 +2,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "wdl/validate.h"
-#include "wdl/parse.h"
 #include "wdl/load_game.h"
 #include "wdl/load_room.h"
 #include "wdl/load_item.h"
+#include "wdl/validate.h"
 #include "game-state/mode.h"
 
 /* See load_game.h for documentation */

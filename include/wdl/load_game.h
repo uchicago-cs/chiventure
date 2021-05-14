@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "parse.h"
+#include "wdl_common.h"
 
 /*
  * load_game, when passed libobj objects, will load into a game
