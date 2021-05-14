@@ -26,6 +26,22 @@
  * is used in the lookup_t struct
  */
 
+
+
+/*
+ * Displays course authors of chiventure
+ *
+ * Input:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct, unused
+ *
+ * Returns:
+ *  - system message listing contributors
+ *
+ */
+char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+
 /*
  * Quits the game
  *
