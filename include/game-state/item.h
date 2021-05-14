@@ -547,7 +547,7 @@ attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name);
 char* list_get_str_attr(attribute_list_t *head, char* attr_name);
 
 
-/* list_get_str_attr() returns the int value of an attribute of an item
+/* list_get_int_attr() returns the int value of an attribute of an item
  * Parameters:
  *  a pointer to the attribute_list
  *  the attribute name
@@ -557,7 +557,7 @@ char* list_get_str_attr(attribute_list_t *head, char* attr_name);
 int list_get_int_attr(attribute_list_t *head, char* attr_name);
 
 
-/* list_get_str_attr() returns the double value of an attribute of an item
+/* list_get_double_attr() returns the double value of an attribute of an item
  * Parameters:
  *  a pointer to the attribute_list
  *  the attribute name
@@ -567,7 +567,7 @@ int list_get_int_attr(attribute_list_t *head, char* attr_name);
 double list_get_double_attr(attribute_list_t *head, char* attr_name);
 
 
-/* list_get_str_attr() returns the char value of an attribute of an item
+/* list_get_char_attr() returns the char value of an attribute of an item
  * Parameters:
  *  a pointer to the attribute_list
  *  the attribute name
@@ -577,7 +577,7 @@ double list_get_double_attr(attribute_list_t *head, char* attr_name);
 char list_get_char_attr(attribute_list_t *head, char* attr_name);
 
 
-/* list_get_str_attr() returns the bool value of an attribute of an item
+/* list_get_bool_attr() returns the bool value of an attribute of an item
  * Parameters:
  *  a pointer to the attribute_list
  *  the attribute name
