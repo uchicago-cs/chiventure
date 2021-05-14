@@ -160,6 +160,115 @@ item_hash_t *random_items(roomspec_t *room);
 */
 int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
 
+
+/* map_level_to_difficulty
+ * Map from player level to difficulty level
+ * 
+ * Parameters:
+ * - level_scale: the struct for player level -> difficulty level mapping
+ * - player_level: the player level
+ * 
+ * Returns:
+ * - difficulty level corresponding to player level
+ */
+int map_level_to_difficulty(difficulty_level_scale_t *level_scale, 
+                            int player_level);
+
+
+/* roomspec_is_given_difficulty
+ * Evaluates if the given roomspec is of the difficulty level
+ * 
+ * Parameters:
+ * - rooms: pointer to the hash table of rooms
+ * - roomspec: pointer to the roomspec to be evaluated
+ * - int difficulty_level: difficulty_level
+ *
+ * Returns:
+ *  - SUCCESS (0) if the given roomspec is of the difficulty level
+ *  - 1 if the given roomspec is found but not of the difficulty level
+ *  - 2 if the given roomspec is not found
+ */
+int roomspec_is_given_difficulty(room_level_t **room_levels, 
+                                  roomspec_t *roomspec, 
+                                  int difficulty_level);
+
+
+/* filter_speclist_with_difficulty
+ * Creates a speclist by filtering the given speclist with a difficulty level
+ * so that the returned speclist only contains roomspecs of one level
+ *
+ * Parameters:
+ * - speclist: pointer to the speclist we want to filter
+ * - room_levels: pointer to the hash structure for room levels
+ * - difficulty_level: the difficulty level
+ * 
+ * Returns:
+ * - pointer to the filtered speclist, NULL if no spec matches the level
+ */
+speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
+                                            room_level_t **room_levels, 
+                                            int difficulty_level);
+
+
+/* multi_room_level_generate
+ * Level-oriented version of multi_room_generate.
+ *
+ * Parameters:
+ * - game: pointer to a game struct. Should not be NULL.
+ * - context: pointer to a gencontext_t (type gencontext_t*). Not NULL.
+ * - room_id: a unique room_id string for the to-be-generated room.i
+ * - num_rooms: specifies how many new rooms will be generated
+ * - room_levels: pointer to the hash structure for room levels
+ * - level_scale: pointer to the scale for mapping player level 
+ *   to difficulty level
+ *
+ * Side effects:
+ * - Changes input game to hold the newly generated room(s),
+ *   allocated on the heap
+ *
+ * Returns:
+ * - SUCCESS if the new rooms were generated and added (SUCCESS)
+ * - FAILURE if the new rooms were not generated/added (FAILURE)
+ */
+int multi_room_level_generate(game_t *game, gencontext_t *context, 
+                              char *room_id, int num_rooms,
+                              room_level_t **room_levels, 
+                              difficulty_level_scale_t *level_scale);
+
+
+
+/* recursive_generate
+ * For a given radius n, generates rooms in a branchwise-fashion up to
+ * 'n' paths away from the pivot
+ *      pivot: the room around which more rooms will be generated
+ *      branchwise: 1) for each pivot, we fill as many paths/branches around it with new rooms
+ *                  (we specify which paths we fill using the directions parameter)
+ *                  2) branches are disjoint from each other; we can cross from one branch to another
+ *                  only by travelling through the pivot
+ * 
+ * Parameters:
+ * - game: pointer to a game struct. Should not be NULL
+ * - room_t *curr_room: pointer to the room to serve as the pivot
+ * - speclist_t *speclist: the llist of roomspect_t that each hold info for a separate room
+ * - int radius: the max number of paths away from the current pivot that we wish to generate
+ * - directions: an array of directions we wish to generate around each pivot
+ *               (must be a subset of the default six: "NORTH", "EAST", "SOUTH", "WEST", "UP", "DOWN")
+ * - num_of_dir: array length of directions, i.e. number of directions
+ * - dir_to_parent: direction to the parent pivot
+ *       parent pivot: the room from which the current room was generated; when we call
+ *       recursive_generate manually, the original room has no parent pivot, 
+ *       i.e. its dir_to_parent == ""
+ * 
+ * Side effects:
+ * - Changes input game to hold the newly generated room(s), allocated on the heap
+ *
+ * Returns:
+ * Always returns SUCCESS.
+ */
+int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, 
+                       int radius, char **directions, int num_of_dir, char *dir_to_parent);
+                               
+
 #endif /* INCLUDE_AUTOGENERATE_H */
 
 

@@ -10,6 +10,11 @@
 #define BUFFER_SIZE (100)
 
 
+char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021";
+}
+
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     return NULL;
@@ -138,6 +143,10 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         return "You must identify an object to act on\n";
     }
+    if(tokens[2] != NULL)
+    {
+        return "Sorry, act upon one item \n";
+    }
     item_t *curr_item;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
     if(curr_item != NULL)
@@ -181,6 +190,10 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     if(tokens[1] == NULL)
     {
         return "You must specify a direction to go \n";
+    }
+    if(tokens[2] != NULL)
+    {
+        return "Sorry, you can only go one direction \n";
     }
 
     path_t *curr_path;

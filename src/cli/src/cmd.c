@@ -109,6 +109,7 @@ int lookup_t_init(lookup_t **t)
 
     add_entry("QUIT", quit_operation, NULL, t);
     add_entry("HELP", help_operation, NULL, t);
+    add_entry("CREDITS", credits_operation, NULL, t);
     //add_entry("HIST", hist_operation, t);
     add_entry("LOOK",look_operation, NULL, t);
     add_entry("INV", inventory_operation, NULL, t);

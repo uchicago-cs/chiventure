@@ -44,7 +44,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     add_action_effect(ga, indirect, attr, value);
 
 
-    player_t *player = player_new("player1", 20);
+    player_t *player = player_new("player1");
 
     switch (choose_condition)
     {
@@ -182,14 +182,25 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         break;
     }
 
-    chiventure_ctx_free(ctx_test);
     free(string);
-    item_free(direct);
-    item_free(indirect);
+
+    /*sometimes the direct and indirect items are not added to a player
+     * and must be freed separately. The following if statements should
+     * free them in this case */
+    if (choose_condition <= NOT_ALLOWED_INDIRECT){
+        item_free(direct); //For all tests before test 4 free direct
+    }
+
+    if (choose_condition != END_FAIL){
+        item_free(indirect);  //For all tests expect for test 8 free indirect
+    }
+    game_free(ctx_test->game);
+    lookup_t_free(ctx_test->table);
+    chiventure_ctx_free(ctx_test);
+
     action_type_free(a);
     game_action_free(ga);
-    // TODO: Fix player_free
-    // player_free(player);
+    player_free(player);
 
     return rc;
 }
@@ -345,7 +356,7 @@ Test(item_item_actions, attr_and_inv_conditions_met)
 /* Checks if two conditions (two inventory) are able to be added and evaluated together */
 Test(item_item_actions, two_inv_conditions_met)
 {
-    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 7, 0);
+    int rc = execute_do_item_item_action("dummy", ITEM_ITEM, "dummy", 8, 0);
 
     cr_assert_eq(rc, SUCCESS,
                  "execute_do_item_item_action returned %d for two inventory conditons met, expected SUCCESS (0)", rc);
