@@ -4,6 +4,7 @@
 #include "game-state/game_state_common.h"
 #include "game-state/game.h"
 #include "game-state/condition.h"
+#include "game-state/item.h"
 
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
@@ -50,7 +51,7 @@ typedef struct edge {
 /* A doubly-linked list containing edges and their "availability."
  *
  * Includes:
- *  - available: -1 = disabled, 0 = unavailable, 1 = available (see above)
+ *  - availablility: -1 = DISABLED, 0 = UNAVAILABLE, 1 = AVAILABLE (see above)
  *  - edge: the edge
  *  - next, prev: next and previous list elements
  */
@@ -112,8 +113,7 @@ typedef struct convo {
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
 
-/* To create a new convo, use convo_new().
- * This is defined under STRUCT FUNCTIONS below.
+/* Create convo: convo_new()
  */
 
 /* Adds a new node to a conversation.
@@ -196,15 +196,28 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
  * Parameters:
  *  - c: pointer to a convo
  *  - node_id: ID of the target node
- *  - quest_id: ID associated with the quest
+ *  - quest_id: ID of the quest
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) node matching node_id could not be found;
- *    (2) quest matching quest_id could not be found; (3) memory allocation
- *    errors;
+ *    (2) the node already has an action;
  */
 int add_quest(convo_t *c, char *node_id, char *quest_id);
+
+/* Adds an item receive flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - item_id: ID of the item
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ *    (2) the node already has an action;
+ */
+int add_item(convo_t *c, char *node_id, char *item_id);
 
 
 /**********************************************
