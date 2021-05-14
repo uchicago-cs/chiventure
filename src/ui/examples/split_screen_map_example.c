@@ -63,9 +63,8 @@ int main() {
     int framesCounter = 0;
     SetTargetFPS(10);
 
-    // map function 
-    //
-    //
+    /* This begins the visual of the map portion */
+    
         const int mapWidth = WindowWidth/10;
     const int mapHeight = WindowHeight/10;
     const int roomHeight = mapHeight/5;
@@ -76,7 +75,7 @@ int main() {
     InitWindow(ScreenWidth, ScreenHeight, "Chiventure 5 Room Map Example (with cursor)");
 
     /* This is for initialization of a movable ball that could later function as a pointer/cursor for the player. */
-    Vector2 cursorBallPosition = {(float) mapWidth / 2, (float) mapHeight / 2};
+    Vector2 cursorBallPosition = {(float) mapWidth, (float) mapHeight / 2};
     Color cursorBallColor = WHITE;
     
     /* This value corresponds to the sensitivity of the cursor. Increasing move_unit increases the distance it covers
@@ -164,7 +163,7 @@ int main() {
                 letterCount = 0;
         }
 
-        //Draw Image
+        //Draw Map Image
         BeginDrawing();
         int heightbuf2 = 150;
         int rectHeight = 120;
