@@ -8,6 +8,7 @@
 #include "battle_structs.h"
 #include "battle_flow_structs.h"
 #include "battle_moves.h"
+#include "battle_structs.h"
 
 /* Packages class-specific move from player class's linked list 
    into battle move struct, adds this move to the input combatant's move list 
@@ -18,5 +19,17 @@
  */
 int build_moves(combatant_t *c);
 
+/*
+ * Adds a move to the combatants list of moves 
+ *
+ * Parameters:
+ *  - combatant: pointer to a combatant_t 
+ *  - move: pointer to the move to be added to the comabatant's list of moves
+ *
+ * Returns:
+ *  - Success or failure and modifies the status
+ *
+ */
+int add_move(combatant_t *combatant, move_t *move);
 
 #endif

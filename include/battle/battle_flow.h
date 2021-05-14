@@ -91,17 +91,4 @@ battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies,
  */
 int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
 
-/*
- * Adds a move to the combatants list of moves 
- *
- * Parameters:
- *  - combatant = pointer to combatant_t 
- *  - move = pointer to the move to be added to the comabatants list of moves
- *
- * Returns:
- *  - Success or failure and modifies the status
- *
- */
-int add_move(combatant_t *combatant, move_t *move);
-
 #endif

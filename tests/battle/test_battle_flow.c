@@ -7,7 +7,6 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_structs.h"
-#include "battle/battle_default_objects.h"
 
 class_t *make_wizard()
 {
@@ -353,32 +352,5 @@ Test(battle_flow, battle_over_by_enemy)
                  "battle_flow() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
                  "battle_flow() failed: enemy was not declared the winner");
-}
-
-Test(battle_flow, add_move_existing_list) {
-
-    move_t *old_move = get_random_default_move();
-    move_t *new_move = get_random_default_move();
-    battle_item_t *item = get_random_default_battle_item();
-    stat_t *cstats = get_random_stat();
-    combatant_t *player = combatant_new("TESTER",true,NULL,cstats,old_move,item, 0);
-
-    int res = add_move(player,new_move);
-    cr_assert_eq(player->moves->next,
-                 new_move,
-                 "add_move() did not add the move correctly");
-}
-
-Test(battle_flow, add_move_empty_list) {
-    
-    move_t *new_move = get_random_default_move();
-    battle_item_t *item = get_random_default_battle_item();
-    stat_t *cstats = get_random_stat();
-    combatant_t *player = combatant_new("TESTER",true,NULL,cstats,NULL,item, 0);
-
-    int res = add_move(player,new_move);
-    cr_assert_eq(player->moves,
-                 new_move,
-                 "add_move() did not add the move correctly");
 }
 

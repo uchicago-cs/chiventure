@@ -144,23 +144,3 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 
     return SUCCESS;
 }
-
-/* see battle_flow.h */
-int add_move(combatant_t *combatant, move_t *move) {
-    assert(combatant != NULL);
-    assert(move != NULL);
-
-    move_t *last_move = combatant->moves;
-    
-    if (combatant->moves == NULL){
-        combatant->moves = move;
-        return SUCCESS;
-    }
-
-    while (last_move->next != NULL) {
-        last_move = last_move->next;
-    }
-    last_move->next = move;
-    return SUCCESS;
-
-}
