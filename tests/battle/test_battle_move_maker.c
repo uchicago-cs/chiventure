@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "battle/battle_flow.h"
-#include "../../src/battle/examples/battle_move_maker.h"
+#include "../include/battle/battle_move_maker.h"
 #include "playerclass/class.h"
 
 Test(class_moves, bard)
