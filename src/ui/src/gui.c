@@ -42,7 +42,7 @@ void start_gui(chiventure_ctx_t *ctx, const char *banner)
     scrollok(cli_win->w, TRUE);
     wmove(cli_win->w, 0,0);
 
-    print_homescreen(main_win, banner);
+    print_homescreen(main_win, "THIS IS GUI");
 }
 
 void stop_gui(chiventure_ctx_t *ctx)

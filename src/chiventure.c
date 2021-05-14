@@ -6,6 +6,7 @@
 #include <ui/ui_ctx.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
+#include "ui/gui.h"
 
 const char *banner =
     "    ________________________________________________________________________________________\n"
@@ -47,11 +48,24 @@ int main(int argc, char **argv)
 
     wdl_ctx_t *wdl_ctx = NULL;
     game_t *game = NULL;
+    bool graphical = false;
 
-    if (argc == 2)
+    if (argc >= 2)
     {
-        wdl_ctx = load_wdl(argv[1]);
-        game = load_objects(wdl_ctx);
+        if(!strcmp(argv[1],"gui"))
+        {
+            graphical = true;
+        }
+        else
+        {
+            wdl_ctx = load_wdl(argv[1]);
+            game = load_objects(wdl_ctx);
+
+            if((argc == 3) && (!strcmp(argv[2],"gui")))
+            {
+                graphical = true;
+            }
+        }
     }
 
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
@@ -59,11 +73,18 @@ int main(int argc, char **argv)
     /* Add calls to component-specific initializations here */
 
     /*** UI ***/
-    if (ncols > 100) {
-        start_ui(ctx, banner);
-    } else {
-        start_ui(ctx, banner_small);
-    } 
+    if(graphical)
+    {
+        start_gui(ctx, banner);
+    }
+    else 
+    {
+        if (ncols > 100) {
+            start_ui(ctx, banner);
+        } else {
+            start_ui(ctx, banner_small);
+        } 
+    }
 
     game_free(ctx->game);
 
