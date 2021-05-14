@@ -229,12 +229,44 @@ speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
  * Returns:
  * - SUCCESS if the new rooms were generated and added (SUCCESS)
  * - FAILURE if the new rooms were not generated/added (FAILURE)
- *
  */
 int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
                               room_level_t **room_levels, 
                               difficulty_level_scale_t *level_scale);
+
+
+
+/* recursive_generate
+ * For a given radius n, generates rooms in a branchwise-fashion up to
+ * 'n' paths away from the pivot
+ *      pivot: the room around which more rooms will be generated
+ *      branchwise: 1) for each pivot, we fill as many paths/branches around it with new rooms
+ *                  (we specify which paths we fill using the directions parameter)
+ *                  2) branches are disjoint from each other; we can cross from one branch to another
+ *                  only by travelling through the pivot
+ * 
+ * Parameters:
+ * - game: pointer to a game struct. Should not be NULL
+ * - room_t *curr_room: pointer to the room to serve as the pivot
+ * - speclist_t *speclist: the llist of roomspect_t that each hold info for a separate room
+ * - int radius: the max number of paths away from the current pivot that we wish to generate
+ * - directions: an array of directions we wish to generate around each pivot
+ *               (must be a subset of the default six: "NORTH", "EAST", "SOUTH", "WEST", "UP", "DOWN")
+ * - num_of_dir: array length of directions, i.e. number of directions
+ * - dir_to_parent: direction to the parent pivot
+ *       parent pivot: the room from which the current room was generated; when we call
+ *       recursive_generate manually, the original room has no parent pivot, 
+ *       i.e. its dir_to_parent == ""
+ * 
+ * Side effects:
+ * - Changes input game to hold the newly generated room(s), allocated on the heap
+ *
+ * Returns:
+ * Always returns SUCCESS.
+ */
+int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, 
+                       int radius, char **directions, int num_of_dir, char *dir_to_parent);
                                
 
 #endif /* INCLUDE_AUTOGENERATE_H */
