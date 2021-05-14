@@ -8,15 +8,6 @@
 #include "ui/window.h"
 #include "ui/print_functions.h"
 
-/* MAIN_WIN_NUM will indicate we are in the main window
- * MAP_WIN_NUM will mean we are in the map window
- * INV_WIN_NUM will indicate we are in the inventory window
- */
-#define MAIN_WIN_NUM 1
-#define MAP_WIN_NUM 2
-#define INV_WIN_NUM 3
-
-
 //Starts up shell of a graphic 
 void start_gui(chiventure_ctx_t *ctx, const char *banner)
 {
