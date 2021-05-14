@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     if (argc >= 2)
     {
         //Checks if the user is trying to access the gui 
-        if(!strcmp(argv[1],"gui"))
+        if(!strcmp(argv[1],"--gui"))
         {
             //Changes to true as they are trying to access the graphics of gui
             graphical = true;
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 
             //Checks if the user is trying to load a game, as well as a gui
             //Double checks that they user said gui
-            if((argc == 3) && (!strcmp(argv[2],"gui")))
+            if((argc == 3) && (!strcmp(argv[2],"--gui")))
             {
                 graphical = true;
             }
