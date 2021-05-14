@@ -56,18 +56,6 @@ typedef struct condition condition_list_t;
  */
 int valid_condition(game_t *game, condition_t *condition);
 
-/* free_condition: Frees a given condition without freeing the identifying fields
- *                 This includes the attribute and item (for attribute conditions)
- *                 Or includes the player and item (for inventory conditions)
- * 
- * Inputs:
- *      - Condition: The given condition to free
- * 
- * Returns: 
- *      - Will always output SUCCESS
- */
-int free_condition(condition_t* condition);
-
 /* delete_condition_llist frees a linked list of action conditions
  * Parameters:
  *  linked list of conditions

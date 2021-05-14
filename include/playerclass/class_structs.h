@@ -6,6 +6,7 @@
 #define CLASS_STRUCTS_H
 
 #include "common/utlist.h"
+#include "skilltrees/inventory.h"
 #include "skilltrees/skilltree.h"
 #include "game-state/stats.h"
 #include "libobj/obj.h"
@@ -66,4 +67,3 @@ typedef struct class {
 } class_t;
 
 #endif /* CLASS_STRUCTS_H */
-
