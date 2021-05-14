@@ -61,6 +61,12 @@ int main(int argc, char **argv)
             wdl_ctx = load_wdl(argv[1]);
             game = load_objects(wdl_ctx);
 
+            if (!game)
+        {
+            fprintf(stderr, "Could not load game: %s\n", argv[1]);
+            exit(1);
+        }
+
             if((argc == 3) && (!strcmp(argv[2],"gui")))
             {
                 graphical = true;
