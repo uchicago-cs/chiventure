@@ -79,7 +79,7 @@ typedef struct achievement_tree {
 typedef struct quest {
     UT_hash_handle hh;
     long int quest_id;
-    achievement_tree *achievement_tree;
+    achievement_tree_t *achievement_tree;
     item_t *reward;
     int status;  
 } quest_t;
