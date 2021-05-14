@@ -263,26 +263,6 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
 }
 
 
-/* update_rc
-A utility function for updating rc; permanently records any failure result.
-
-Caveat:
-The rc needs to be declared and first initialized to SUCCESS.
-
-Side effects:
-- If result == SUCCESS, do nothing.
-- If result == FAILURE, or some nonzero failure code, update rc to that value.
-*/
-void update_rc(int *rc, int result)
-{
-    if (result == SUCCESS) {
-        return;
-    } else {
-        *rc = result;
-    }
-}
-
-
 /* See autogenerate.h */
 int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, 
                        int radius, char **directions, int num_of_dir, char *dir_to_parent) 
@@ -331,7 +311,7 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
 
     The easiest way to do this is probably adding a 'room_t *curr_room' parameter. Expect lots
     of tedious function call modifications. */
-    int rc = SUCCESS; // return code
+    int rc; // return code
     for (int i = 0; i < num_of_dir; i++) 
     {
         /* if direction is to parent, skip */
@@ -351,21 +331,21 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
         } else {
             roomspec_t *rspec = random_room_lookup(speclist);
             next_room = roomspec_to_room(rspec);
-            update_rc(&rc, add_room_to_game(game, next_room));
+            assert(SUCCESS == add_room_to_game(game, next_room));
 
             /* Path to the generated room */
             path_t* path_to_next_room = path_new(next_room, all_directions[forwards]);
-            update_rc(&rc, add_path_to_room(curr_room, path_to_next_room));
+            assert(SUCCESS == add_path_to_room(curr_room, path_to_next_room));
 
             /* Path for the opposite direction */
             path_t* path_to_curr_room = path_new(curr_room, all_directions[backwards]);
-            update_rc(&rc, add_path_to_room(next_room, path_to_curr_room));
+            assert(SUCCESS == add_path_to_room(next_room, path_to_curr_room));
         }
 
         /* recursive case, decrement radius by 1 */
-        update_rc(&rc, recursive_generate(game, next_room, speclist, 
-                                          radius - 1, directions, num_of_dir,
-                                          all_directions[backwards]));
+        rc = recursive_generate(game, next_room, speclist, 
+                                radius - 1, directions, num_of_dir,
+                                all_directions[backwards]);
     }
     return rc; 
 }
