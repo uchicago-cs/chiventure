@@ -201,12 +201,65 @@ skill_inventory_t* multiclass_inventory (skill_inventory_t* base_inventory, skil
     return new_inventory;
 }
 
+/*
+ * Creates an effects hash for a multiclass
+ * by adding together the effects of both classes.
+ *
+ * Paramaters:
+ *  - base_effects: the character's base class's effect hash.
+ *  - second_effects: the effect hash of the class being added to the base.
+ *
+ * Returns:
+ *  - a pointer to the combined effect hash.
+ *  - note that the effects in the combined inventory are deepcopied, but the stat mods are not.
+ */
+effects_hash_t* multiclass_effects(effects_hash_t* base_effects, effects_hash_t* second_effects){
+    effects_global_t* global;
+    if (base_effects != NULL){
+        global = base_effects->global;
+    }
+    else if (second_effects != NULL{
+        global = second_effects->global;
+    }
+    else return NULL;
+
+    effects_hash_t *new_effects = stat_effect_new(global);
+    if (base_effect != NULL){
+        new_effects->key = base_effects->key;
+        new_effects->stat_list = base_effects->stat_list;
+    }
+    else {
+        new_effects->key = second_effects->key;
+        new_effects->stat_list = second_effects->stat_list;
+    }
+    effects_hash_t *cur = new_effects;
+
+    if (base_effects != NULL){
+        for (base_effects = effect; base_effects != NULL; base_effects = base_effects->hh.next) {
+            effects_hash_t *effect_copy = stat_effect_new(global);
+            effect_copy->key = effect->key;
+            effect_copy->stat_list = effect->stat_list;
+            cur->next = effect_copy;
+            cur = cur->next;
+        }
+    }
+    if (second_effects != NULL){
+        for (second_effects = effect; second_effects != NULL; second_effects = second_effects->hh.next) {
+            effects_hash_t *effect_copy = stat_effect_new(global);
+            effect_copy->key = effect->key;
+            effect_copy->stat_list = effect->stat_list;
+            cur->next = effect_copy;
+            cur = cur->next;
+        }
+    }
+}
+
 /* See class.h */
 class_t* multiclass(class_t* base_class, class_t* second_class, char* name){
     char* new_shortdesc = multiclass_shortdesc(base_class, second_class);
     char* new_longdesc = multiclass_longdesc(base_class, second_class);
     obj_t* combined_attr = obj_add_attr(base_class->attributes, second_class->attributes->id, second_class->attributes);
-    effects_hash_t* combined_effects = NULL; //TODO, will need a new get all function for effects_hash_t
+    effects_hash_t* combined_effects = multiclass_effects(base_class->effects, second_class->effects);
     
     class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->stats, combined_effects);
     if (new_class == NULL) return NULL;
