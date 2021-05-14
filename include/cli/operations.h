@@ -140,7 +140,8 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *  - ctx: pointer to a chiventure context struct
  *
  * Returns:
- * - Said description as a string
+ * - lists items that are in the room a player 
+ * is currently in as a list
  */
 char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
