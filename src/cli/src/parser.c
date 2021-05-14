@@ -32,7 +32,7 @@ char **parse(char *input)
         words[i] = NULL;
     }
 
-    char *token = strtok(input, " and");
+    char *token = strtok(input, " ");
 
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
