@@ -75,7 +75,7 @@ int main() {
     InitWindow(ScreenWidth, ScreenHeight, "Chiventure 5 Room Map Example (with cursor)");
 
     /* This is for initialization of a movable ball that could later function as a pointer/cursor for the player. */
-    Vector2 cursorBallPosition = {(float) mapWidth, (float) mapHeight / 2};
+    Vector2 cursorBallPosition = {(float) mapWidth/ 2, (float) ((mapHeight / 2) - roomHeight)};
     Color cursorBallColor = WHITE;
     
     /* This value corresponds to the sensitivity of the cursor. Increasing move_unit increases the distance it covers
