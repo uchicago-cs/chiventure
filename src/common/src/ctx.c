@@ -53,6 +53,8 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
 
     ctx->table = table;
 
+    ctx->obj_store = NULL;
+
     return SUCCESS;
 }
 

@@ -6,6 +6,7 @@
 #include "cli/shell.h"
 #include "wdl/load_game.h"
 #include "common/load_objects.h"
+#include "libobj/load.h"
 
 #define BUFFER_SIZE (100)
 
@@ -55,9 +56,9 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "Invalid Input, Loading WDL file failed\n";
     }
 
-    wdl_ctx_t *wdl_ctx = load_wdl(tokens[1]);
+    obj_t *obj_store = load_obj(tokens[1]);
 
-    game_t *game = load_objects(wdl_ctx);
+    game_t *game = load_game(obj_store);
 
     if(game == NULL)
     {

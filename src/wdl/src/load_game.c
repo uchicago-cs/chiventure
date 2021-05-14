@@ -11,30 +11,8 @@
 #include "wdl/load_item.h"
 #include "game-state/mode.h"
 
-/*
- * load_wdl, function that loads a wdl into all the game-state structs
- *
- * takes a path to a YAML file or a WDZ, returns a wdl_ctx
- *
- * Parameters:
- *   - path_to_wd: a path to a world document, either a YAML file or a WDZ
- *
- * Returns:
- *   - a pointer to a wdl_ctx_t struct containing either a created game from
- *     a YAML file or a set of wdl objects created from WDZ
- */
-wdl_ctx_t *load_wdl(char *path_to_wd)
-{
-    wdl_ctx_t *ctx = new_wdl_ctx();
-
-    obj_t *big_document = get_doc_obj(path_to_wd);
-    ctx->obj = big_document;
-
-    return ctx;
-}
-
 /* See load_game.h for documentation */
-game_t *load_yaml_game(obj_t *big_document)
+game_t *load_game(obj_t *big_document)
 {
     int rc;
     game_t *game = create_game(big_document);

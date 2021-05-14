@@ -7,12 +7,6 @@
 #include "libobj/load.h"
 #include "wdl/parse.h"
 
-/* See load_room.h */
-obj_t *get_doc_obj(char *fpath)
-{
-    return load_obj(fpath);
-}
-
 /* get_obj_list()
  * a helper function to load a list of the rooms, items, or players
  *
@@ -72,28 +66,6 @@ obj_t *extract_objects(obj_t *obj, char *str)
         return NULL;
     }
 }
-
-// /* See parse.h */
-// obj_t* get_items_in_room(char* room_id, obj_t *all_items)
-// {
-//     attr_list_t* ret_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
-//     attr_list_t* tmp = all_items;
-
-//     obj_t *curr, *tmp;
-//     HASH_ITER(hh, all_items, curr, tmp)
-//     {
-//         //will update this to item_compare in the future
-//         if(strcmp(obj_get_str(tmp->obj, "in"), room_id) == 0)
-//         {
-//             ret_ls->obj = tmp->obj;
-//             attr_list_t* next_in_ls = (attr_list_t*) malloc (sizeof(attr_list_t));
-//             ret_ls->next = next_in_ls;
-//             ret_ls = ret_ls->next;
-//         }
-//         tmp = tmp->next;
-//     }
-//     return ret_ls;
-// }
 
 /* see parse.h */
 obj_t *get_item_actions(obj_t *item)

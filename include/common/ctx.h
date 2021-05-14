@@ -22,6 +22,7 @@ typedef struct chiventure_ctx {
     ui_ctx_t *ui_ctx;
     game_t *game;
     lookup_t **table;
+    obj_t *obj_store;
 } chiventure_ctx_t;
 
 
