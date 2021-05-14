@@ -304,6 +304,13 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
         }
     } 
 
+    /* A large portion of the following code can be replaced with a call to room_generate.
+    BUT there is one caveat:
+    room_generate must be modified so that it generates around ANY given room, not just the 
+    'curr_room' specified in the game struct as it does currently.
+
+    The easiest way to do this is probably adding a 'room_t *curr_room' parameter. Expect lots
+    of tedious function call modifications. */
     int rc; // return code
     for (int i = 0; i < num_of_dir; i++) 
     {
