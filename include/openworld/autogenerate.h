@@ -195,6 +195,7 @@ int roomspec_is_given_difficulty(room_level_t **room_levels,
 
 /* filter_speclist_with_difficulty
  * Creates a speclist by filtering the given speclist with a difficulty level
+ * so that the returned speclist only contains roomspecs of one level
  *
  * Parameters:
  * - speclist: pointer to the speclist we want to filter
