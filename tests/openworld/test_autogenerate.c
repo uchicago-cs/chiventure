@@ -1307,3 +1307,128 @@ Test(autogenerate, valid_multi_room_level_3)
                                            &room_level, difficulty_level_scale),
                  "multi_room_level_generate() returned FAILURE instead of SUCCESS");
 }
+
+
+/* Checks that recursive_generate generates no rooms given:
+   - radius: 0 
+   - dir_to_parent: ""   (no parent)
+   Starts with 1 room in all_rooms hash, expect 1 room at the end. */
+Test(autogenerate, recursive_gen_rad0)
+{
+    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
+
+    roomspec_t *sample1;
+    HASH_FIND_STR(hash, "closet", sample1);
+    room_t *sample_room1 = roomspec_to_room(sample1);
+
+    game_t *g = game_new("start desc");
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
+
+    char *directions[] = {"NORTH", "EAST"};
+    cr_assert_eq(SUCCESS, 
+                 recursive_generate(g, sample_room1, spec, 0, directions, 2, ""),
+                 "recursive_generate() returned FAILURE instead of SUCCESS");
+    
+    room_t *curr_room, *tmp_room;
+    int num_rooms = 0;
+    HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
+        num_rooms++;
+    }
+    cr_assert_eq(1, num_rooms, "expected 1 room; recursive_generate generated %d", num_rooms);
+}
+
+/* Checks that recursive_generate generates 4 rooms given:
+   - radius: 1
+   - dir_to_parent: ""   (no parent)
+   Starts with 1 room in all_rooms hash, expect 5 rooms at the end. */
+Test(autogenerate, recursive_gen_rad1)
+{
+    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
+
+    roomspec_t *sample1;
+    HASH_FIND_STR(hash, "closet", sample1);
+    room_t *sample_room1 = roomspec_to_room(sample1);
+
+    game_t *g = game_new("start desc");
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
+
+    char *directions[] = {"NORTH", "EAST", "SOUTH"};
+    cr_assert_eq(SUCCESS, 
+                 recursive_generate(g, sample_room1, spec, 1, directions, 3, ""),
+                 "recursive_generate() returned FAILURE instead of SUCCESS");
+
+    room_t *curr_room, *tmp_room;
+    int num_rooms = 0;
+    HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
+        num_rooms++;
+    }
+    cr_assert_eq(4, num_rooms, "expected 1 + 3 = 4 rooms; recursive_generate generated %d", num_rooms);
+}
+
+/* Checks that recursive_generate generates 52 rooms given:
+   - radius: 3
+   - dir_to_parent: ""   (no parent)
+   Starts with 1 room in all_rooms hash, expect 53 rooms at the end. */
+Test(autogenerate, recursive_gen_rad3)
+{
+    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
+
+    roomspec_t *sample1;
+    HASH_FIND_STR(hash, "closet", sample1);
+    room_t *sample_room1 = roomspec_to_room(sample1);
+
+    game_t *g = game_new("start desc");
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
+
+    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    cr_assert_eq(SUCCESS, 
+                 recursive_generate(g, sample_room1, spec, 3, directions, 4, ""),
+                 "recursive_generate() returned FAILURE instead of SUCCESS");
+
+    room_t *curr_room, *tmp_room;
+    int num_rooms = 0;
+    HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
+        num_rooms++;
+    }
+    cr_assert_eq(53, num_rooms, "expected 1 + 4 + 12 + 36 = 53 rooms; recursive_generate generated %d", num_rooms);
+}
+
+/* Checks that recursive_generate generates 12 rooms given:
+   - radius: 2
+   
+   - dir_to_parent: "SOUTH" 
+   Starts with 1 room in all_rooms hash, expect 13 rooms at the end, 
+   and none in the SOUTH direction. */
+Test(autogenerate, recursive_gen_block_south)
+{
+    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
+
+    roomspec_t *sample1;
+    HASH_FIND_STR(hash, "closet", sample1);
+    room_t *sample_room1 = roomspec_to_room(sample1);
+
+    game_t *g = game_new("start desc");
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
+
+    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    cr_assert_eq(SUCCESS, 
+                 recursive_generate(g, sample_room1, spec, 2, directions, 4, "SOUTH"),
+                 "recursive_generate() returned FAILURE instead of SUCCESS");
+    cr_assert_eq(false, path_exists_in_dir(sample_room1, "SOUTH"), "recursive_gen generated path in SOUTH, " 
+                                                                   "despite it being labelled as dir_to_parent");
+
+    room_t *curr_room, *tmp_room;
+    int num_rooms = 0;
+    HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
+        num_rooms++;
+    }
+    cr_assert_eq(13, num_rooms, "expected 1 + 3 + 9 = 13 rooms; recursive_generate generated %d", num_rooms);
+}
