@@ -1,6 +1,7 @@
 #include <string.h>
 #include <criterion/criterion.h>
 #include "npc/dialogue.h"
+#include "game-state/condition.h"
 
 
 /*** Node ***/
@@ -18,6 +19,7 @@ Test(dialogue, node_new)
     cr_assert_eq(strcmp(n->npc_dialogue, "Dialogue"), 0,
                  "node_new() didn't set dialogue");
     cr_assert_null(n->edges, "node_new() didn't set edges to NULL");
+    cr_assert_eq(n->action, D_NONE, "node_new() didn't action to D_NONE");
 }
 
 /* Checks that node_init initializes a node with the given parameters */
@@ -33,10 +35,11 @@ Test(dialogue, node_init)
 
     cr_assert_eq(rc, SUCCESS, "node_init() failed");
 
-    cr_assert_eq(strcmp(n.node_id, "ID"), 0, "node_new() didn't set node_id");
+    cr_assert_eq(strcmp(n.node_id, "ID"), 0, "node_init() didn't set node_id");
     cr_assert_eq(strcmp(n.npc_dialogue, "Dialogue"), 0,
-                 "node_new() didn't set dialogue");
-    cr_assert_null(n.edges, "node_new() didn't set edges to NULL");
+                 "node_init() didn't set dialogue");
+    cr_assert_null(n.edges, "node_init() didn't set edges to NULL");
+    cr_assert_eq(n.action, D_NONE, "node_init() didn't set action to D_NONE");
 }
 
 /* Checks that node_free frees memory allocated to a node */
@@ -61,8 +64,10 @@ Test(dialogue, node_free)
 Test(dialogue, edge_new)
 {
     edge_t *e;
+    condition_t *cond = malloc(sizeof(condition_t));
 
-    e = edge_new("Quip", node_new("N1", "Dia_1"), node_new("N2", "Dia_2"));
+    e = edge_new("Quip", node_new("N1", "Dia_1"), node_new("N2", "Dia_2"),
+                 cond);
 
     cr_assert_not_null(e, "edge_new() failed");
 
@@ -71,6 +76,7 @@ Test(dialogue, edge_new)
                  "edge_new() didn't set from");
     cr_assert_eq(strcmp(e->to->node_id, "N2"), 0,
                  "edge_new() didn't set to");
+    cr_assert_eq(e->condition, cond, "edge_new() didn't set condition");
 }
 
 /* Checks that edge_init initializes an edge with the given parameters */
@@ -78,19 +84,21 @@ Test(dialogue, edge_init)
 {
     edge_t e;
     int rc;
+    condition_t *cond = malloc(sizeof(condition_t));
 
     e.quip = NULL;
 
     rc = edge_init(&e, "Quip", node_new("N1", "Dia_1"),
-                   node_new("N2", "Dia_2"));
+                   node_new("N2", "Dia_2"), cond);
 
     cr_assert_eq(rc, SUCCESS, "edge_init() failed");
 
-    cr_assert_eq(strcmp(e.quip, "Quip"), 0, "edge_new() didn't set quip");
+    cr_assert_eq(strcmp(e.quip, "Quip"), 0, "edge_init() didn't set quip");
     cr_assert_eq(strcmp(e.from->node_id, "N1"), 0,
-                 "edge_new() didn't set from");
+                 "edge_init() didn't set from");
     cr_assert_eq(strcmp(e.to->node_id, "N2"), 0,
-                 "edge_new() didn't set to");
+                 "edge_init() didn't set to");
+    cr_assert_eq(e.condition, cond, "edge_init() didn't set condition");
 }
 
 /* Checks that edge_free frees memory allocated to an edge */
@@ -99,7 +107,8 @@ Test(dialogue, edge_free)
     edge_t *e;
     int rc;
 
-    e = edge_new("Quip", node_new("N1", "Dia_1"), node_new("N2", "Dia_2"));
+    e = edge_new("Quip", node_new("N1", "Dia_1"), node_new("N2", "Dia_2"),
+                 NULL);
 
     cr_assert_not_null(e, "edge_new() failed");
 
@@ -236,7 +245,7 @@ void check_add_edge(int num_edges)
     for (int i = 1; i <= num_edges && i < 10; i++) {
         quip[1] = '0' + i;
 
-        rc = add_edge(c, quip, "N1", "N2");
+        rc = add_edge(c, quip, "N1", "N2", NULL);
 
         cr_assert_eq(rc, SUCCESS, "add_edge() failed for Edge %d", i);
 
@@ -290,10 +299,10 @@ Test(dialogue, add_bidirectional_edges)
     add_node(c, "N1", "D1");
     add_node(c, "N2", "D2");
 
-    rc = add_edge(c, "Q1", "N1", "N2");
+    rc = add_edge(c, "Q1", "N1", "N2", NULL);
     cr_assert_eq(rc, SUCCESS, "First add_edge() failed");
 
-    rc = add_edge(c, "Q2", "N2", "N1");
+    rc = add_edge(c, "Q2", "N2", "N1", NULL);
     cr_assert_eq(rc, SUCCESS, "Second add_edge() failed");
 
     cr_assert_eq(strcmp(c->all_nodes->node->edges->edge->quip, "Q1"), 0,
@@ -311,11 +320,11 @@ Test(dialogue, start_conversation_one_node_no_edges)
     convo_t *c = convo_new();
     int rc;
     char *ret_str;
-    char *expected = "D1\n\n";
+    char *expected = "D1\n";
 
     add_node(c, "N1", "D1");
 
-    ret_str = start_conversation(c, &rc);
+    ret_str = start_conversation(c, &rc, NULL);
 
     cr_assert_eq(rc, 1, "Return Code was set to %d when it should have been 1, "
                  "indicating that the conversation has ended", rc);
@@ -330,14 +339,14 @@ Test(dialogue, start_conversation_two_nodes_one_edge)
     convo_t *c = convo_new();
     int rc;
     char *ret_str;
-    char *expected = "D1\n\n1. Q1\nEnter your choice: ";
+    char *expected = "D1\n1. Q1\nEnter your choice: ";
 
     add_node(c, "N1", "D1");
     add_node(c, "N2", "D2");
 
-    add_edge(c, "Q1", "N1", "N2");
+    add_edge(c, "Q1", "N1", "N2", NULL);
 
-    ret_str = start_conversation(c, &rc);
+    ret_str = start_conversation(c, &rc, NULL);
 
     cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
                  "indicating that the conversation has not ended", rc);
@@ -352,17 +361,17 @@ Test(dialogue, start_conversation_three_nodes_three_edges)
     convo_t *c = convo_new();
     int rc;
     char *ret_str;
-    char *expected = "D1\n\n1. Q1\n2. Q2\n3. Q3\nEnter your choice: ";
+    char *expected = "D1\n1. Q1\n2. Q2\n3. Q3\nEnter your choice: ";
 
     add_node(c, "N1", "D1");
     add_node(c, "N2", "D2");
     add_node(c, "N3", "D3");
 
-    add_edge(c, "Q1", "N1", "N2");
-    add_edge(c, "Q2", "N1", "N3");
-    add_edge(c, "Q3", "N1", "N3");
+    add_edge(c, "Q1", "N1", "N2", NULL);
+    add_edge(c, "Q2", "N1", "N3", NULL);
+    add_edge(c, "Q3", "N1", "N3", NULL);
 
-    ret_str = start_conversation(c, &rc);
+    ret_str = start_conversation(c, &rc, NULL);
 
     cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
                  "indicating that the conversation has not ended", rc);
@@ -378,17 +387,17 @@ Test(dialogue, run_conversation_step_two_nodes_end)
     convo_t *c = convo_new();
     int rc;
     char *ret_str;
-    char *expected = "D2\n\n";
+    char *expected = "D2\n";
 
     add_node(c, "N1", "D1");
     add_node(c, "N2", "D2");
 
-    add_edge(c, "Q1", "N1", "N2");
+    add_edge(c, "Q1", "N1", "N2", NULL);
 
-    start_conversation(c, &rc);
+    start_conversation(c, &rc, NULL);
     cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
 
-    ret_str = run_conversation_step(c, 1, &rc);
+    ret_str = run_conversation_step(c, 1, &rc, NULL);
 
     cr_assert_eq(rc, 1, "Return Code was set to %d when it should have been 1, "
                  "indicating that the conversation has ended", rc);
@@ -404,19 +413,19 @@ Test(dialogue, run_conversation_step_three_nodes_end)
     convo_t *c = convo_new();
     int rc;
     char *ret_str;
-    char *expected = "D3\n\n";
+    char *expected = "D3\n";
 
     add_node(c, "N1", "D1");
     add_node(c, "N2", "D2");
     add_node(c, "N3", "D3");
 
-    add_edge(c, "Q1", "N1", "N2");
-    add_edge(c, "Q2", "N1", "N3");
+    add_edge(c, "Q1", "N1", "N2", NULL);
+    add_edge(c, "Q2", "N1", "N3", NULL);
 
-    start_conversation(c, &rc);
+    start_conversation(c, &rc, NULL);
     cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
 
-    ret_str = run_conversation_step(c, 2, &rc);
+    ret_str = run_conversation_step(c, 2, &rc, NULL);
 
     cr_assert_eq(rc, 1, "Return Code was set to %d when it should have been 1, "
                  "indicating that the conversation has ended", rc);
@@ -432,21 +441,21 @@ Test(dialogue, run_conversation_step_four_nodes_continue)
     convo_t *c = convo_new();
     int rc;
     char *ret_str;
-    char *expected = "D2\n\n1. Q2\n2. Q3\nEnter your choice: ";
+    char *expected = "D2\n1. Q2\n2. Q3\nEnter your choice: ";
 
     add_node(c, "N1", "D1");
     add_node(c, "N2", "D2");
     add_node(c, "N3", "D3");
     add_node(c, "N4", "D4");
 
-    add_edge(c, "Q1", "N1", "N2");
-    add_edge(c, "Q2", "N2", "N3");
-    add_edge(c, "Q3", "N2", "N4");
+    add_edge(c, "Q1", "N1", "N2", NULL);
+    add_edge(c, "Q2", "N2", "N3", NULL);
+    add_edge(c, "Q3", "N2", "N4", NULL);
 
-    start_conversation(c, &rc);
+    start_conversation(c, &rc, NULL);
     cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
 
-    ret_str = run_conversation_step(c, 1, &rc);
+    ret_str = run_conversation_step(c, 1, &rc, NULL);
 
     cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
                  "indicating that the conversation has not ended", rc);
