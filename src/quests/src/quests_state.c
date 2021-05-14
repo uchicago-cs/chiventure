@@ -130,6 +130,15 @@ int quest_free(quest_t *q)
     return SUCCESS;
 }
 
+int compare_quests(quest_t *quest1, quest_t *quest2)
+{
+    if (strcmp(quest1->id, quest2->id) == 0)
+    {
+        return 0;
+    } 
+    return 1;
+}
+
 /* Refer to quests_state.h */
 int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add)
 {
