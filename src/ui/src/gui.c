@@ -16,11 +16,10 @@
 #define MAP_WIN_NUM 2
 #define INV_WIN_NUM 3
 
+
+//Starts up shell of a graphic 
 void start_gui(chiventure_ctx_t *ctx, const char *banner)
 {
-    // prevents program from closing on CTRL+C
-    signal(SIGINT, SIG_IGN);
-
     int ch;
 
     // starts curses mode

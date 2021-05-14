@@ -48,12 +48,15 @@ int main(int argc, char **argv)
 
     wdl_ctx_t *wdl_ctx = NULL;
     game_t *game = NULL;
+    //Boolean to see if gui is trying to be used
     bool graphical = false;
 
     if (argc >= 2)
     {
+        //Checks if the user is trying to access the gui 
         if(!strcmp(argv[1],"gui"))
         {
+            //Changes to true as they are trying to access the graphics of gui
             graphical = true;
         }
         else
@@ -61,12 +64,15 @@ int main(int argc, char **argv)
             wdl_ctx = load_wdl(argv[1]);
             game = load_objects(wdl_ctx);
 
+            //Helps prevent errors when there is no loaded game
             if (!game)
         {
             fprintf(stderr, "Could not load game: %s\n", argv[1]);
             exit(1);
         }
 
+            //Checks if the user is trying to load a game, as well as a gui
+            //Double checks that they user said gui
             if((argc == 3) && (!strcmp(argv[2],"gui")))
             {
                 graphical = true;
@@ -78,13 +84,17 @@ int main(int argc, char **argv)
 
     /* Add calls to component-specific initializations here */
 
-    /*** UI ***/
+    
     if(graphical)
-    {
+    {   
+        /***GUI***/
+        //starts up chiventure using gui
         start_gui(ctx, banner);
     }
     else 
     {
+        /*** UI ***/
+        //starts up chiventure using ui
         if (ncols > 100) {
             start_ui(ctx, banner);
         } else {
