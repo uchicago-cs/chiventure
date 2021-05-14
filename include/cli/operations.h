@@ -133,7 +133,14 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
-/* tried the same thing as the inventory_operation function 
+/* 
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * - Said description as a string
  */
 char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
