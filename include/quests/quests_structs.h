@@ -29,6 +29,7 @@ typedef struct mission {
  */
 typedef struct achievement {
     mission_t *mission;
+    char* id;
     bool completed;     //0 is not completed, 1 is completed
 } achievement_t;
 
