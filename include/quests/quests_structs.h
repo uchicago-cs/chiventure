@@ -67,18 +67,19 @@ typedef struct achievement_tree {
  * Elements:
  * hh: used for hashtable, as provided in uthash.h
  * quest_id: the id of the quest
- * achievement_list: linked list struct holding a list of
- *                   achievements that make up a quest
+ * achievement_tree: non-binary tree struct holding a
+ *                   tree of achievements that make up 
+ *                   a quest
  * reward: reward of the quest is an item
  * status: -1: failed quest
  *         0: quest has not been started
  *         1: quest has been started but not completed
  *         2: quest has been completed
  */
-typedef struct quest  {
+typedef struct quest {
     UT_hash_handle hh;
     long int quest_id;
-    achievement_llist_t *achievement_list;
+    achievement_tree *achievement_tree;
     item_t *reward;
     int status;  
 } quest_t;
