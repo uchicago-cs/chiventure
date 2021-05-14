@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle_move_maker.h"
+#include "battle/battle_move_maker.h"
 #include "../../playerclass/examples/class-list.h"
 
 /* See battle_move_maker.h */
