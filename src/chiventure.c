@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
-#include "common/load_objects.h"
 #include <wdl/load_game.h>
 #include <ui/ui_ctx.h>
 #include "common/ctx.h"
@@ -65,7 +64,10 @@ int main(int argc, char **argv)
     /* Take an object store and, assuming it is a valid WDL set of objects, load it into in-game
     * data structures. Other components could add calls inside load_game to load their feature-specific
     * data structures */
-    game = load_game(obj_store);
+    if (obj_store != NULL)
+    {
+        game = load_game(obj_store);
+    }
 
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
     ctx->obj_store = obj_store;

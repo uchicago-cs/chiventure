@@ -5,7 +5,6 @@
 #include "ui/print_functions.h"
 #include "cli/shell.h"
 #include "wdl/load_game.h"
-#include "common/load_objects.h"
 #include "libobj/load.h"
 
 #define BUFFER_SIZE (100)

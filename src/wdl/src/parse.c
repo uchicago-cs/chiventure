@@ -7,37 +7,6 @@
 #include "libobj/load.h"
 #include "wdl/parse.h"
 
-/* get_obj_list()
- * a helper function to load a list of the rooms, items, or players
- *
- * parameters:
- *  - obj: The document object
- *  - str: the attribute asssociated with the desired objects
- *
- * returns:
- *  - a list of objects
- *  - null if attribute does not have associated objects, or if no such attribute exists
- */
-obj_t *get_obj_list(obj_t *obj, char *str)
-{
-    if (strcmp(str, "ROOMS") == 0)
-    {
-        return obj_get_attr(obj, "ROOMS", false);
-    }
-    else if (strcmp(str, "ITEMS") == 0)
-    {
-        return obj_get_attr(obj, "ITEMS", false);
-    }
-    else if (strcmp(str, "PLAYERS") == 0)
-    {
-        return obj_get_attr(obj, "PLAYERS", false);
-    }
-    else
-    {
-        return NULL;
-    }
-}
-
 /* see parse.h */
 obj_t *extract_objects(obj_t *obj, char *str)
 {

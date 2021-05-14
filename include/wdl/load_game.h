@@ -9,18 +9,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "parse.h"
-#include "wdl/wdl_ctx.h"
-
- /*
- * load_wdl, loads a wdl specified internally into all game-state structs
- *
- * input: path to wdl file
- * 
- * output: a pointer to a wdl_ctx struct
- * that has a game filled with the contents of the yaml file OR
- * a hash table of wdl objects
- */
-wdl_ctx_t *load_wdl(char *path_to_wd);
 
 /*
  * load_game, when passed libobj objects, will load into a game

@@ -28,11 +28,6 @@ obj_t *get_doc_obj(char *fpath);
 obj_t *extract_objects(obj_t *obj, char *str);
 
 
-// /* Given a room id and the list of all items in a game returns
-//  * a list with all the items in that room */
-// obj_t* get_items_in_room(char* room_id, obj_t* all_items);
-
-
 /*
  * get_item_actions()
  * gets a list of actions assoiciated with a given item
