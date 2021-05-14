@@ -243,8 +243,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
  * - Changes input game to hold the newly generated room(s), allocated on the heap
  *
  * Returns:
- * - SUCCESS if the new rooms were generated and added (SUCCESS)
- * - FAILURE if the new rooms were not generated/added (FAILURE)
+ * Always returns SUCCESS.
  */
 int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, 
                        int radius, char **directions, int num_of_dir, char *dir_to_parent);
