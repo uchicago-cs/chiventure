@@ -52,6 +52,12 @@ int main(int argc, char **argv)
     {
         wdl_ctx = load_wdl(argv[1]);
         game = load_objects(wdl_ctx);
+
+        if (!game)
+        {
+            fprintf(stderr, "Could not load game: %s\n", argv[1]);
+            exit(1);
+        }
     }
 
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
