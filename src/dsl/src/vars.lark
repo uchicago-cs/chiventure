@@ -1,0 +1,18 @@
+// ?start: assignment
+?start: (assignment | reference | other)* -> start
+
+_QUOTES: "\"\"\""
+assignment.10: "$" CNAME "=" _QUOTES assignment_inner _QUOTES
+// matches up to triple quotes
+assignment_inner: /[^\$]+?(?=""")/
+
+reference.5: "$" CNAME
+
+// matches anything other than $ because $ denotes variables
+other: /[^\$]+/
+
+%import common.CNAME
+%import .util.ESCAPED_STRING
+
+%import common.WS
+%ignore WS
