@@ -1,5 +1,3 @@
-# https://github.com/uchicago-cs/chiventure/wiki/DSL:-User-Stories
-
 import sys
 from lark import Lark, Transformer
 import json
@@ -25,7 +23,9 @@ class TreeToDict(Transformer):
         return ' '.join(s)
 
     def ESCAPED_STRING(self, s):
-        return s[1:-1]
+      # replace escaped characters with unicode characters
+      decoded = bytes(s[1:-1], "utf-8").decode("unicode_escape")
+      return decoded
 
     def connections(self, s):
         return ("connections", dict(s))
@@ -72,7 +72,8 @@ def main():
     with open(sys.argv[1]) as f:
         tree = parser.parse(f.read())
         print(tree.pretty())
-        print(json.dumps(TreeToDict().transform(tree), indent=2))
+        game = TreeToDict().transform(tree)
+        print(json.dumps(game, indent = 2))
 
         
 
