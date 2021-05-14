@@ -1,6 +1,7 @@
 import sys
 from lark import Lark, Transformer
 import json
+from vars_parser import evalVars
 
 grammar_f = open("dsl_grammar.lark")
 dsl_grammar = grammar_f.read()
@@ -12,6 +13,7 @@ class TreeToDict(Transformer):
     def end_g(self, s):
         return ("end", s[0])
     def id(self, s):
+        (s,) = s
         return ("id", s)
     def location(self, s):
         return ("location", s)
@@ -30,28 +32,24 @@ class TreeToDict(Transformer):
     def connections(self, s):
         return ("connections", dict(s))
 
-    # input is of the form [('id':value),<properties>]
-    # output is of the form ("ITEM", ("<item id>", <properties>))
     def item(self, s):
-        item_id = s.pop(0)[1][0]
-        return ('ITEM', (item_id, dict(s)))
+        return ('ITEM', dict(s))
 
     # input is of the form [('id':value),<properties>]
     # output is of the form ("action", ("<action id>", <properties>))
     def action(self, s):
-        action_id = s.pop(0)[1][0]
+        action_id = s.pop(0)[1]
         return ('action', (action_id, dict(s)))
 
-    # we have several objects of the form ('ITEM', (<item id>, <item properties>)) and
-    # we want to group all items into their own dict of the form {<item id>: <item properties>}
+    # we have several objects of the form ('ITEM', <item dict>) and
+    # we want to group all items into their own list
     def room(self, s):
-        room_id = s.pop(0)[1][0]
-        # items = filter(lambda k,v: k == "ITEM", s)
-        d = {}
-        for k,v in s:
-            if k != "ITEM":
-                d[k] = v
-        d["items"] = dict([v for k,v in s if k == "ITEM"])
+        room_id = s.pop(0)[1]
+
+        # first place all non-item objects into a dict
+        d = dict((k,v) for k,v in s if k != "ITEM")
+
+        d["items"] = list([v for k,v in s if k == "ITEM"])
         return ('ROOM', (room_id, d))
     
     # we have several objects of the form ('ROOM', (<room id>, <room properties>)) and
@@ -70,10 +68,11 @@ parser = Lark(dsl_grammar, parser='earley')
 
 def main():
     with open(sys.argv[1]) as f:
-        tree = parser.parse(f.read())
-        print(tree.pretty())
-        game = TreeToDict().transform(tree)
-        print(json.dumps(game, indent = 2))
+        file_str = f.read()
+        vars_evaluated = evalVars(file_str)
+        
+        tree = parser.parse(vars_evaluated)
+        print(json.dumps(TreeToDict().transform(tree), indent=2))
 
         
 

@@ -5,7 +5,6 @@ _STRING_ESC_INNER: _STRING_INNER /(?<!\\)(\\\\)*?/
 ESCAPED_STRING : "\"" _STRING_ESC_INNER "\""
 
 %import common.LETTER
-%import common.NEWLINE
 %import common.DIGIT
 %import common.WS
 
