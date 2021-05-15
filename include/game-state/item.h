@@ -147,6 +147,16 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item);
  */ 
 item_list_t *get_all_items_in_hash(item_hash_t **ht);
 
+/* Function to get an item from an item hashtable
+ *
+ * Parameters:
+ *  pointer to hashtable of items
+ *  id of the item
+ *
+ * Returns:
+ *  pointer to the item, or NULL if it does not exist
+ */ 
+item_t *get_item_in_hash(item_hash_t *ht, char *id);
 
 /* Removes an item from a hashtable of items
  * Note that the memory associated with this item is not freed

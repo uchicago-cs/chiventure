@@ -120,6 +120,16 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
 }
 
 /* See item.h */
+item_t *get_item_in_hash(item_hash_t *ht, char *id)
+{
+    item_t *item;
+
+    HASH_FIND(hh, ht, id, strnlen(id, MAX_ID_LEN), item);
+
+    return item;
+}
+
+/* See item.h */
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
 {
     item_t *check;

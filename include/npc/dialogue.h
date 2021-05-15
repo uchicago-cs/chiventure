@@ -203,7 +203,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
  *  - Possible errors: (1) node matching node_id could not be found;
  *    (2) the node already has an action;
  */
-int add_quest(convo_t *c, char *node_id, char *quest_id);
+int add_quest_start(convo_t *c, char *node_id, char *quest_id);
 
 /* Adds an item receive flag to a node.
  *
@@ -217,7 +217,7 @@ int add_quest(convo_t *c, char *node_id, char *quest_id);
  *  - Possible errors: (1) node matching node_id could not be found;
  *    (2) the node already has an action;
  */
-int add_item(convo_t *c, char *node_id, char *item_id);
+int add_item_gain(convo_t *c, char *node_id, char *item_id);
 
 
 /**********************************************
@@ -232,6 +232,7 @@ int add_item(convo_t *c, char *node_id, char *item_id);
  *  - from: source node
  *  - to: destination node
  *  - cond: criteria determining the edge's availability, NULL if none
+ *    Note: There can be multiple conditions (see condition.h)
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -246,6 +247,7 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
  *  - from: source node
  *  - to: destination node
  *  - cond: criteria determining the edge's availability, NULL if none
+ *    Note: There can be multiple conditions (see condition.h)
  *
  * Returns:
  *  - pointer to the new edge

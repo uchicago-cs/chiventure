@@ -127,19 +127,23 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
 int do_node_action(node_t *n, game_t *game)
 {
     switch (n->action) {
+
         case D_QUEST:
             printf("- You have received a quest. -\n\n");
             // to do
             break;
+
         case D_ITEM: ;
-            item_t *item;
-            HASH_FIND(hh, game->all_items, n->action_id, strnlen(n->action_id, MAX_ID_LEN), item);
+            item_t *item = get_item_in_hash(game->all_items, n->action_id);
+            // printf("%x, id: %s\n\n", item, n->action_id);
             if (item == NULL) return FAILURE;
             add_item_to_player(game->curr_player, item);
             break;
+
         case D_BATTLE:
             // to do
             break;
+
         default:
             return FAILURE;
     }
@@ -168,7 +172,7 @@ int update_edge_availabilities(node_t *n)
             if (cur_edge->edge->condition != NULL) {
                 // true = 1 = EDGE_AVAILABLE, false = 0 = EDGE_UNAVAILABLE
                 cur_edge->availability =
-                    check_condition(cur_edge->edge->condition);
+                    all_conditions_met(cur_edge->edge->condition);
             }
             if (cur_edge->availability) num_avail_edges++;
         }
@@ -333,7 +337,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
  **********************************************/
 
 /* See dialogue.h */
-int add_quest(convo_t *c, char *node_id, char *quest_id)
+int add_quest_start(convo_t *c, char *node_id, char *quest_id)
 {
     assert(quest_id != NULL);
     
@@ -349,7 +353,7 @@ int add_quest(convo_t *c, char *node_id, char *quest_id)
 }
 
 /* See dialogue.h */
-int add_item(convo_t *c, char *node_id, char *item_id)
+int add_item_gain(convo_t *c, char *node_id, char *item_id)
 {
     assert(item_id != NULL);
 
