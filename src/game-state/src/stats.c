@@ -85,21 +85,6 @@ stats_t* copy_stat(stats_t* stat)
 }
 
 /* See stats.h */
-stats_t* copy_stat_and_global(stats_t* stat)
-{
-    assert(stat != NULL);
-    assert(stat->global != NULL);
-
-    stats_global_t* global_copy = copy_global_stat(stat->global);
-    stats_t* copy = copy_stat(stat);
-
-    /* Set copied stat to point to newly created global stat instead of original */ 
-    copy->global = global_copy;
-
-    return copy;
-}
-
-/* See stats.h */
 int global_effect_init(effects_global_t *effect, char *effect_name)
 {
     assert(effect != NULL);
@@ -168,21 +153,6 @@ stat_effect_t* copy_stat_effect(stat_effect_t* stat_effect)
     stat_effect_t* copy = (stat_effect_t*)malloc(sizeof(stat_effect_t));
 
     stat_effect_init(copy, stat_effect->global);
-
-    return copy;
-}
-
-/* See stats.h */
-stat_effect_t* copy_stat_and_global_effect(stat_effect_t* stat_effect)
-{
-    assert(stat_effect != NULL);
-    assert(stat_effect->global != NULL);
-
-    effects_global_t* global_copy = copy_global_effect(stat_effect->global);
-    stat_effect_t* copy = copy_stat_effect(stat_effect);
-
-    /* Set copied to point to newly created global stat effect instead of original */ 
-    copy->global = global_copy;
 
     return copy;
 }

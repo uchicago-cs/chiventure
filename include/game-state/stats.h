@@ -176,16 +176,6 @@ stats_t *stats_new(stats_global_t *global_stat, double init);
  */ 
 stats_t* copy_stat(stats_t* stat);
 
-/* copy_stat_and_global: Creates a deep copy of both the given stat AND
- *                       the global stat associated to it
- *
- * Input:
- *      - stat: The stat to copy (containing a valid global_stat pointer)
- * 
- * Returns: Pointer to newly made copy
- */
-stats_t* copy_stat_and_global(stats_t* stat);
-
 /*
  * Initializes a stat_mod struct
  *
@@ -280,16 +270,6 @@ stat_effect_t *stat_effect_new(effects_global_t *global);
  */ 
 stat_effect_t* copy_stat_effect(stat_effect_t* stat_effect);
 
-/* copy_stat_and_global_effect: Creates a deep copy of both the given stat effect
- *                              AND the global stat effect associated to it
- *
- * Input:
- *      - stat_effect: The stat effect to copy (containing a valid 
- *                                              effects_global_t pointer)
- * 
- * Returns: Pointer to newly made copy
- */
-stat_effect_t* copy_stat_and_global_effect(stat_effect_t* stat_effect);
 
 /*
  * Changes the base value of a stat by the
