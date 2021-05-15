@@ -80,7 +80,7 @@ typedef struct skill {
     unsigned int min_xp;
 
     // The pointer to the linked list that contains all the effects that a skill can have
-    effects_linked_list_t* skill_effects;
+    effect_t* skill_effect;
 
 } skill_t;
 

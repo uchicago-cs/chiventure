@@ -71,7 +71,7 @@ typedef struct effect {
     union
     {
         stat_mod_effect_t* s;
-        move_effect_t* d;
+        move_effect_t* m;
         att_effect_t* a;
     } data; // Contains a pointer to the effect itself so that we can make the necessary modifications to execute the skill
 }effect_t;
@@ -141,11 +141,13 @@ effect_t* make_att_effect(att_effect_t* att_effect);
 int execute_stat_mod_effect(stat_mod_effect_t* stat_effect);
 
 
-/* Takes the given move effect and executes it
- * Parameters: move_effect_t* move_effect - a pointer to the move effect
+/* To be called by set_battle in battles/battle_flow. Function will take in the inventory of skills
+ * and adds any move skills to the linked list of moves in the battle player struct.
+ * Parameters: skill_inventory_t* inventory - Pointer to the skill inventory
+ *             combatant_t player - Pointer to the player struct where moves will be added 
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_move_effect(move_effect_t* move_effect);
+int execute_move_effect(skill_inventory_t* inventory, combatant_t* player);
 
 /* Takes the given attribute modifying effect and executes it
  * Parameters: att_effect_t* att_effect - a pointer to the attribute modifying effect
