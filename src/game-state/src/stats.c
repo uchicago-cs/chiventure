@@ -75,6 +75,9 @@ stats_t* copy_stat(stats_t* stat)
 
     stats_t* copy = (stats_t*)malloc(sizeof(stats_t));
 
+    if (copy == NULL)
+        return NULL;
+
     copy->key = strdup(stat->key);
     copy->val = stat->val;
     copy->max = stat->max;
@@ -150,9 +153,7 @@ stat_effect_t* copy_effect(stat_effect_t* stat_effect)
 {
     assert(stat_effect != NULL);
 
-    stat_effect_t* copy = (stat_effect_t*)malloc(sizeof(stat_effect_t));
-
-    stat_effect_init(copy, stat_effect->global);
+    stat_effect_t* copy = stat_effect_new(stat_effect->global); 
 
     /* Point to the stats affected */
     copy->stat_list = stat_effect->stat_list;

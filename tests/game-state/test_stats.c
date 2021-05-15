@@ -8,32 +8,28 @@
 Test(stats, deep_copy_global_stat)
 {
     char *hp = "Health";
-    char *xp = "XP";
     int ret_val;
 
     stats_global_t* g1 = stats_global_new(hp, 100);
-    stats_global_t* g2 = stats_global_new(xp, 100);
 
     cr_assert_not_null(g1, "stats_global_new() failed to allocate g1");
 
-    cr_assert_not_null(g2, "stats_global_new() failed to allocate g2");
-
     stats_global_t* z1 = copy_global_stat(g1);
-    stats_global_t* z2 = copy_global_stat(g2);
 
     cr_assert_not_null(z1, "copy_global_stat() failed to copy g1 to new pointer");
 
-    cr_assert_not_null(z2, "copy_global_stat() failed to copy g2 to new pointer");
+    cr_assert_str_eq(g1->name, z1->name, "copy_global_stat() results in different name");
+    cr_assert_eq(g1->max, z1->max, "copy_global_stat() results in a different max value");
 
-    /* Free the original global stats */
-    free_stats_global(g1);
-    free_stats_global(g2);
+    if (g1 == z1)
+        cr_assert_fail("copy_global_stat() results in copy and original still sharing same pointer");
 
-    /* Free the copied global stats */
-    ret_val = free_stats_global(z1);
+    /* Free the original global stat */
+    ret_val = free_stats_global(g1);
     cr_assert_eq(ret_val, SUCCESS, "free_stats_global() failed to return SUCCESS");
 
-    ret_val = free_stats_global(z2);
+    /* Free the copied global stat */
+    ret_val = free_stats_global(z1);
     cr_assert_eq(ret_val, SUCCESS, "free_stats_global() failed to return SUCCESS");
 }
 
@@ -43,18 +39,10 @@ Test(stats, deep_copy_stat)
     int ret_val;
 
     stats_global_t* g1 = stats_global_new(hp, 100);
+    cr_assert_not_null(g1, "stats_global_new() failed to return g1");
 
     stats_t *stat = stats_new(g1, 100);
     cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
-
-    cr_assert_str_eq(stat->global->name, "Health",
-        "stats_new() failed to link the global stat pointer");
-
-    cr_assert_eq(stat->val, 100, 
-        "stats_new() failed to set the starting stat value");
-
-    cr_assert_leq(stat->val, stat->global->max, 
-        "stat base value exceeds maximal value.");
 
     stats_t* new_stat = copy_stat(stat);
     cr_assert_not_null(new_stat, "copy_stat() failed to create deep copy of stat");
@@ -62,9 +50,20 @@ Test(stats, deep_copy_stat)
     /* Check that the global_stat linked in both version are the same */
     if (stat->global != new_stat->global)
         cr_assert_fail("copy_stat results in new_stat and original stat having different global_stat");
+    /* Check that the char* in both versions are NOT the same */
+    if (stat->key == new_stat->key)
+        cr_assert_fail("copy_stat results in new stat and original stat having same char*");
+    /* Check that the rest of fields in the original and copied versions are the same */
+    cr_assert_eq(stat->val, new_stat->val, 
+                 "copy_stat results in new stat and original stat having different val field");
+    cr_assert_eq(stat->max, new_stat->max,
+                 "copy_stat results in new stat and original stat having different max field");
+    cr_assert_eq(stat->modifier, new_stat->modifier,
+                 "copy_stat results in new stat and original stat having different modifier fields");
 
     /* Free the original stat */
-    free_stats(stat);
+    ret_val = free_stats(stat);
+    cr_assert_eq(ret_val, SUCCESS, "freeing the original stat failed");
 
     /* Free the copied stat */
     ret_val = free_stats(new_stat);
@@ -154,14 +153,15 @@ Test(stats, deep_copy_global_stat_effect)
     int ret_val;
 
     effect = global_effect_new("health");
-
     cr_assert_not_null(effect, "global_effect_new failed");
-    cr_assert_not_null(effect->name, "global_effect_new did not set set a name");
     cr_assert_str_eq(effect->name, "health", "global_effect_init did not set with correct name");
 
     effects_global_t* copy = copy_global_effect(effect);
-
     cr_assert_not_null(copy, "copy_global_effect() failed to copy effect to new pointer");
+
+    /* Check that both versions share the same name */
+    cr_assert_str_eq(effect->name, copy->name, 
+                     "copy_global_effect() results in copied version having a different name than original");
 
     /* Free the original global effect */
     ret_val = free_global_effect(effect);
@@ -178,16 +178,10 @@ Test(stats, free_stat_effect)
     int ret_val;
 
     global = global_effect_new("health");
-
     cr_assert_not_null(global, "global_effect_new failed");
-    cr_assert_not_null(global->name, "global_effect_new did not set set a name");
-    cr_assert_str_eq(global->name, "health", "global_effect_init did not set with correct name");
 
     stat_effect_t* effect = stat_effect_new(global);
-
     cr_assert_not_null(effect, "stat_effect_new failed to create new stat effect");
-    cr_assert_str_eq(effect->key, global->name, "stat_effect_new did not set key");
-    cr_assert_eq(effect->global, global, "stat_effect_new did not set global pointer");
 
     ret_val = free_global_effect(global);
     cr_assert_eq(ret_val, SUCCESS, "free_global_effect did not free resources of global effect");
@@ -218,6 +212,9 @@ Test(stats, deep_copy_effect)
     /* Check that the global_stat effect linked in both version are the same */
     if (effect->global != copy->global)
         cr_assert_fail("copy_effect results in copy and original effect having different global_stat");
+    /* Check that both versions contain the same name */
+    cr_assert_str_eq(effect->key, copy->key, 
+                     "copy_effect results in copied version having a different key/name than original");
 
     /* Free the original effect */
     ret_val = free_stat_effect(effect);
