@@ -174,6 +174,40 @@ int fail_quest(quest_t *quest)
     return SUCCESS;
 }
 
+//to traverse:
+//return pointer to achievement we're looking for
+//take tree, achievement ID
+//traverse tree in a BFS
+//look for a) the achievement ID
+//    if so, return a pointer to this achievement in the tree
+//THEN b) if the achievement is completed
+//    if so, step down and traverse the next level
+//    as long as the node has children
+//    else return NULL
+//if we hit the end of a level, return NULL
+//NOTE: this setup makes it so only ONE quest path can be completed
+//once it's started.
+achievement_t *find_achievement(achievement_tree_t *tree, char *id) {
+    achievement_t *achievement = tree->achievement;
+
+    assert(achievement != NULL);
+
+    if (strcmp(achievement->id, id) == 0) {
+        if (achievement->completed == 1) return NULL;
+        return achievement;
+    }
+    else if (achievement->completed == 1) {
+        if (tree->lmostchild != NULL) {
+            return find_achievement(tree->lmostchild, id);
+	}
+	return NULL;
+    }
+    else if (tree->rsibling != NULL) {
+        return find_achievement(tree->rsibling, id);
+    }
+    return NULL;
+}
+
 /* Refer to quests_state.h */
 int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
 {
