@@ -1,10 +1,10 @@
 STRING: (LETTER|DIGIT)+
-PUNCTUATION: /[^\s\[\]\"\#]/
-ESCAPED_INNER: (LETTER|DIGIT|NEWLINE|WS|PUNCTUATION)+
-ESCAPED_STRING: "\"" ESCAPED_INNER "\""
+
+_STRING_INNER: /(.|\n)*?/
+_STRING_ESC_INNER: _STRING_INNER /(?<!\\)(\\\\)*?/
+ESCAPED_STRING : "\"" _STRING_ESC_INNER "\""
 
 %import common.LETTER
-%import common.NEWLINE
 %import common.DIGIT
 %import common.WS
 

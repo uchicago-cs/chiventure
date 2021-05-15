@@ -11,7 +11,7 @@
 
 
 GAME START room B END room C
-   intro: "Welcome adventurer! You have made your way to the dungeons of the Lavender Palace. Don't be fooled by the cute name! This is one of Throxar the Terrible's most fearsome strongholds... and also his best scented one. Queen Vanadia has tasked you with recovering the Distaff of Knowledge, which her spies assure you is somewhere in these dungeons."
+   intro: "Welcome \"adventurer\"! You have made your way to the dungeons of the Lavender Palace. Don't be fooled by the cute name! This is one of Throxar the Terrible's most fearsome strongholds... and also his best scented one. Queen Vanadia has tasked you with recovering the Distaff of Knowledge, which her spies assure you is somewhere in these dungeons."
 
 
 ROOM room A
@@ -30,7 +30,7 @@ ROOM room B
    
    
    cut lavender flowers pervades the air."
-   connections: NORTH TO room A,
+   connections: NORTH TO room A
                  EAST TO room C
    ITEM Door IN room B
     short desc: "A large wooden door"
