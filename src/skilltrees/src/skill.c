@@ -87,9 +87,8 @@ int skill_execute(skill_t* skill)
     }
     if (type ==  MOVE_UNLOCK)
     {
-        check = execute_move_effect(skill_effect->data.m);
-        assert(check==0);
-        return check;
+        /* This function relies on certain implementation from the battles class to first be finished */
+        return 0;
     }
     if (type == ATTRIBUTE_MOD)
     {
