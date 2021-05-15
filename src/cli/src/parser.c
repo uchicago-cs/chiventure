@@ -87,6 +87,11 @@ char **parse(char *input)
         //printf("big_words[%d]: %s\n", k, big_words[k]);
         if (big_words[k] != NULL){
              char *token_r = strtok(big_words[k], " ");
+             while (k < 1){
+                 char* action = (char*)malloc(sizeof(char*));
+                 action = token_r;
+             }
+
             // printf("token_r: %s\n", token_r);
               while(token_r != NULL && j < 4) {
                    words[j] = token_r;
