@@ -76,18 +76,6 @@ typedef struct effect {
     } data; // Contains a pointer to the effect itself so that we can make the necessary modifications to execute the skill
 }effect_t;
 
-// Node in the effects linked list
-typedef struct effect_node {
-    effect_t* data; // Pointer to the effect in this node
-    struct effect_node* next; // Pointer to the next node
-}effect_node_t;
-
-//The linked list itself
-typedef struct effects_linked_list {
-    effect_node_t* head; // Pointer to the start of the linked list
-    int num_effects; // Number of effects
-}effects_linked_list_t;
-
 /* Defines a statistic modifying effect and returns a pointer to it 
  * Parameters: char* statname: The stat name to be modified
  *             int mod: The value to modify the statistic by
@@ -154,22 +142,5 @@ int execute_move_effect(skill_inventory_t* inventory, combatant_t* player);
  * Returns: 0 is the execution was successful, 1 otherwise
  */
 int execute_att_effect(att_effect_t* att_effect);
-
-
-/* Initializes a linked list of effects
- * Returns: a pointer to the first element of the initialized linked list
- */
-effects_linked_list_t* init_linked_list();
-
-/* Adds an effect_t_node to the tail of a linked list of effects
- * Returns: 0 adding was successful, 1 otherwise
- */
-int add_effect_node(effects_linked_list_t* ll, effect_t* effect);
-
-
-/* Removes an effect_t_node from the tail of a linked list of effects
- * Returns: 0 is removing was successful, 1 otherwise
- */
-int remove_effect_node(effects_linked_list_t* ll, effect_t* effect);
 
 #endif /*INCLUDE_EFFECT_H*/

@@ -13,7 +13,7 @@
 /* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    unsigned int max_level, unsigned int min_xp,
-                   effects_linked_list_t* skill_effects) {
+                   effect_t* skill_effect) {
     skill_t* skill;
     int rc;
 
@@ -23,7 +23,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
         return NULL;
     }
 
-    rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, skill_effects);
+    rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, skill_effect);
     if (rc) {
         fprintf(stderr, "skill_new: initialization failed\n");
         return NULL;
@@ -36,7 +36,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-               effects_linked_list_t* skill_effects) {
+               effect_t* skill_effect) {
     assert(skill != NULL);
 
     skill->sid = sid;
@@ -55,7 +55,7 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
     skill->xp = xp;
     skill->max_level = max_level;
     skill->min_xp = min_xp;
-    skill->skill_effects = skill_effects;
+    skill->skill_effect = skill_effect;
 
     return SUCCESS;
 }
@@ -75,34 +75,29 @@ int skill_free(skill_t* skill) {
 int skill_execute(skill_t* skill) 
 {
     assert(skill != NULL);
-    assert(skill -> skill_effects != NULL);
-    effects_linked_list_t* ll = skill->skill_effects;
-    assert(ll->head != NULL);
-    effect_node_t* curr = ll->head;
-    effect_node_t* next = curr->next;
+    assert(skill -> skill_effect != NULL);
+    effect_t* skill_effect = skill->skill_effect;
     int check = 0;
-    for(int i = 0 ; i < ll -> num_effects; i++) //recurse through linked list
+    effect_type_t type = skill_effect->effect_type;
+    if(type == STATISTIC_MOD)
     {
-        effect_t* effect = curr->data;
-        effect_type_t type = effect -> effect_type;
-        if (type == STATISTIC_MOD)
-        {
-            check = execute_stat_mod_effect(effect->data.s);
-            assert(check==0);
-        }
-        if (type == DAMAGE)
-        {
-            check = execute_damage_effect(effect->data.d);
-            assert(check==0);
-        }
-        if (type == ATTRIBUTE_MOD)
-        {
-            execute_att_effect(effect->data.a);
-            assert(check==0);
-        }
-        curr=curr->next;
+        check = execute_stat_mod_effect(skill_effect->data.s);
+        assert(check==0);
+        return check;
     }
-    return 0;
+    if (type ==  MOVE_UNLOCK)
+    {
+        check = execute_move_effect(skill_effect->data.m);
+        assert(check==0);
+        return check;
+    }
+    if (type == ATTRIBUTE_MOD)
+    {
+        execute_att_effect(skill_effect->data.a);
+        assert(check==0);
+        return check;
+    }
+    return 0; //Keeping this line makes it easier to add other effect types later 
 }
 
 /* See skill.h */
