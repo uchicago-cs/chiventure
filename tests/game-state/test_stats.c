@@ -232,6 +232,86 @@ Test(stats, deep_copy_stat_effect)
     cr_assert_eq(ret_val, SUCCESS, "free_global_effect() did not free resources of global");
 }
 
+/* Checks that copy_stat_effect correctly points to affected stats */
+Test (stats, deep_copy_stat_effect_check_list)
+{
+    effects_hash_t *hash = NULL;
+    char *hp = "health";
+    char *spd = "speed";
+
+    effects_global_t *global = global_effect_new("poison");
+    cr_assert_not_null(global, "global_effect_new failed");
+
+
+    stat_effect_t *effect = stat_effect_new(global);
+    cr_assert_not_null(effect, "stat_effect_new failed");
+
+    /* Create global stat health, and a stat corresponding to it */
+    stats_global_t *health = stats_global_new(hp, 100);
+
+    stats_t *s1 = malloc(sizeof(stats_t));
+    s1->key = strndup(hp,100);
+    s1->global = health;
+    s1->val = 50.0;
+    s1->max = 75.0;
+    s1->modifier = 0.75;  
+
+    /* Create global stat speed, and a stat corresponding to it */
+    stats_global_t *speed = stats_global_new(spd, 100); 
+
+    stats_t *s2 = malloc(sizeof(stats_t));
+    s2->key = strndup(spd,100);
+    s2->global = speed;
+    s2->val = 25;
+    s2->max = 50;
+    s2->modifier = 1.0;
+
+    stats_t *stats[] = {s1, s2};
+    double intensities[] = {2.0, 0.5};
+    int durations[] = {2, 5};
+
+    int rc = apply_effect(&hash, effect, stats, 
+                          intensities, durations, 2);
+    
+    cr_assert_eq(rc, SUCCESS, "apply_effect failed");
+    cr_assert_not_null(hash, "apply_effect did not add effect to hash");
+
+    stat_effect_t* copy = copy_stat_effect(effect);
+
+    stat_mod_t *tmp1, *tmp2, *ctmp1, *ctmp2, l1, l2;
+    l1.stat = s1;
+    l2.stat = s2;
+
+    /* Check that original effect contains correct list of applied effects */
+    LL_SEARCH(effect->stat_list, tmp1, &l1, stat_mod_equal);
+    cr_assert_not_null(tmp1, "apply_effect did not add s1 to stat_mod_t list");
+    cr_assert_str_eq(tmp1->stat->key, l1.stat->key, "fail");
+
+    LL_SEARCH(effect->stat_list, tmp2, &l2, stat_mod_equal);
+    cr_assert_not_null(tmp2, "apply_effect did not add s2 to stat_mod_t list");
+    cr_assert_str_eq(tmp2->stat->key, l2.stat->key, "fail");
+
+    /* Check that copied effect also points to correct list of applied effects */
+    LL_SEARCH(copy->stat_list, ctmp1, &l1, stat_mod_equal);
+    cr_assert_not_null(ctmp1, "copy_stat_effect fails to see s1 added in stat_mod_t list");
+    cr_assert_str_eq(ctmp1->stat->key, l1.stat->key, "fail");
+
+    LL_SEARCH(copy->stat_list, ctmp2, &l2, stat_mod_equal);
+    cr_assert_not_null(ctmp2, "copy_stat_effect fails to see s2 added in stat_mod_t list");
+    cr_assert_str_eq(ctmp2->stat->key, l2.stat->key, "fail");
+
+    free_stats(s1);
+    free_stats(s2);
+
+    free_stats_global(health);
+    free_stats_global(speed);
+
+    free_global_effect(global);
+    delete_all_stat_effects(hash);
+
+    free_stat_effect(copy);
+}
+
 Test(stats, change_stat_max)
 {
     stats_hash_t *sh = NULL;

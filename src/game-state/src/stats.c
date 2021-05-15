@@ -154,6 +154,9 @@ stat_effect_t* copy_stat_effect(stat_effect_t* stat_effect)
 
     stat_effect_init(copy, stat_effect->global);
 
+    /* Point to the stats affected */
+    copy->stat_list = stat_effect->stat_list;
+
     return copy;
 }
 
