@@ -146,7 +146,7 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
 }
 
 /* See stats.h */ 
-stat_effect_t* copy_stat_effect(stat_effect_t* stat_effect)
+stat_effect_t* copy_effect(stat_effect_t* stat_effect)
 {
     assert(stat_effect != NULL);
 

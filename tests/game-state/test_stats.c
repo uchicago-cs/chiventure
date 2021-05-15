@@ -159,16 +159,16 @@ Test(stats, deep_copy_global_stat_effect)
     cr_assert_not_null(effect->name, "global_effect_new did not set set a name");
     cr_assert_str_eq(effect->name, "health", "global_effect_init did not set with correct name");
 
-    effects_global_t* copy_effect = copy_global_effect(effect);
+    effects_global_t* copy = copy_global_effect(effect);
 
-    cr_assert_not_null(copy_effect, "copy_global_effect() failed to copy effect to new pointer");
+    cr_assert_not_null(copy, "copy_global_effect() failed to copy effect to new pointer");
 
     /* Free the original global effect */
     ret_val = free_global_effect(effect);
     cr_assert_eq(ret_val, SUCCESS, "free_global_effect() did not free resources of effect");
 
     /* Free the copied global stats */
-    ret_val = free_global_effect(copy_effect);
+    ret_val = free_global_effect(copy);
     cr_assert_eq(ret_val, SUCCESS, "free_stats_global() did not free resources of copy_effect");
 }
 
@@ -196,7 +196,7 @@ Test(stats, free_stat_effect)
     cr_assert_eq(ret_val, SUCCESS, "free_stat_effect did not free resources of effect");
 }
 
-Test(stats, deep_copy_stat_effect)
+Test(stats, deep_copy_effect)
 {
     int ret_val;
 
@@ -210,30 +210,30 @@ Test(stats, deep_copy_stat_effect)
     cr_assert_str_eq(effect->key, global->name, "stat_effect_new did not set key");
     cr_assert_eq(effect->global, global, "stat_effect_new did not set global pointer");
 
-    stat_effect_t* copy_effect = copy_stat_effect(effect);
+    stat_effect_t* copy = copy_effect(effect);
 
-    cr_assert_not_null(copy_effect, "copy_stat_effect failed to create copy stat effect");
-    cr_assert_str_eq(copy_effect->key, global->name, "copy_stat_effect did not set key");
+    cr_assert_not_null(copy, "copy_effect failed to create copy stat effect");
+    cr_assert_str_eq(copy->key, global->name, "copy_effect did not set key");
 
     /* Check that the global_stat effect linked in both version are the same */
-    if (effect->global != copy_effect->global)
-        cr_assert_fail("copy_stat_effect results in copy_effect and original effect having different global_stat");
+    if (effect->global != copy->global)
+        cr_assert_fail("copy_effect results in copy and original effect having different global_stat");
 
     /* Free the original effect */
     ret_val = free_stat_effect(effect);
     cr_assert_eq(ret_val, SUCCESS, "free_stat_effect failed to free resources of effect");
 
     /* Free the new copied effect */
-    ret_val = free_stat_effect(copy_effect);
-    cr_assert_eq(ret_val, SUCCESS, "free_stat_effect failed to free resources of copy_effect");
+    ret_val = free_stat_effect(copy);
+    cr_assert_eq(ret_val, SUCCESS, "free_stat_effect failed to free resources of copy");
 
     /* Free the global effect */
     ret_val = free_global_effect(global);
     cr_assert_eq(ret_val, SUCCESS, "free_global_effect() did not free resources of global");
 }
 
-/* Checks that copy_stat_effect correctly points to affected stats */
-Test (stats, deep_copy_stat_effect_check_list)
+/* Checks that copy_effect correctly points to affected stats */
+Test (stats, deep_copy_effect_check_list)
 {
     effects_hash_t *hash = NULL;
     char *hp = "health";
@@ -276,7 +276,7 @@ Test (stats, deep_copy_stat_effect_check_list)
     cr_assert_eq(rc, SUCCESS, "apply_effect failed");
     cr_assert_not_null(hash, "apply_effect did not add effect to hash");
 
-    stat_effect_t* copy = copy_stat_effect(effect);
+    stat_effect_t* copy = copy_effect(effect);
 
     stat_mod_t *tmp1, *tmp2, *ctmp1, *ctmp2, l1, l2;
     l1.stat = s1;
@@ -293,11 +293,11 @@ Test (stats, deep_copy_stat_effect_check_list)
 
     /* Check that copied effect also points to correct list of applied effects */
     LL_SEARCH(copy->stat_list, ctmp1, &l1, stat_mod_equal);
-    cr_assert_not_null(ctmp1, "copy_stat_effect fails to see s1 added in stat_mod_t list");
+    cr_assert_not_null(ctmp1, "copy_effect fails to see s1 added in stat_mod_t list");
     cr_assert_str_eq(ctmp1->stat->key, l1.stat->key, "fail");
 
     LL_SEARCH(copy->stat_list, ctmp2, &l2, stat_mod_equal);
-    cr_assert_not_null(ctmp2, "copy_stat_effect fails to see s2 added in stat_mod_t list");
+    cr_assert_not_null(ctmp2, "copy_effect fails to see s2 added in stat_mod_t list");
     cr_assert_str_eq(ctmp2->stat->key, l2.stat->key, "fail");
 
     free_stats(s1);

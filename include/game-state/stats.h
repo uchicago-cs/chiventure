@@ -258,7 +258,7 @@ int stat_effect_init(stat_effect_t *effect, effects_global_t *global);
  */
 stat_effect_t *stat_effect_new(effects_global_t *global);
 
-/* copy_stat_effect: Creates a deep copy of a given stat effect
+/* copy_effect: Creates a deep copy of a given stat effect
  *
  * NOTE: This does NOT create a new global effect. If User desires copy of a stat 
  *       effect alongisde a copy of the associated global_effect, use copy_stat_and_global_effect
@@ -268,7 +268,7 @@ stat_effect_t *stat_effect_new(effects_global_t *global);
  * 
  * Returns: Pointer to the newly made copy 
  */ 
-stat_effect_t* copy_stat_effect(stat_effect_t* stat_effect);
+stat_effect_t* copy_effect(stat_effect_t* stat_effect);
 
 
 /*
