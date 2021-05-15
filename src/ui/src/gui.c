@@ -8,8 +8,11 @@
 #include "ui/window.h"
 #include "ui/print_functions.h"
 
-//Starts up shell of a graphic 
-void start_gui(chiventure_ctx_t *ctx, const char *banner)
+#define MIN_COLS 80
+#define MIN_ROWS 24
+
+/*Starts up shell of a graphic*/
+void start_gui(chiventure_ctx_t *ctx)
 {
     int ch;
 

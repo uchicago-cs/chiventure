@@ -38,25 +38,18 @@ const char *banner_small =
 
 int main(int argc, char **argv)
 {
-    struct winsize w;
-    ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
-    int ncols = w.ws_col, nrows = w.ws_row;
-    if (ncols < MIN_COLS || nrows < MIN_ROWS) {
-        fprintf(stderr, "Chiventure prefers to run in terminals of at least %d columns and %d rows. Please resize your terminal!\n", MIN_COLS, MIN_ROWS);
-        exit(1);
-    }
 
     wdl_ctx_t *wdl_ctx = NULL;
     game_t *game = NULL;
     /*Boolean to see if gui is trying to be used*/
     bool graphical = false;
 
-    if (argc >= 2)
+    if (argc = 2)
     {
-        //Checks if the user is trying to access the gui 
+        /*Checks if the user is trying to access the gui*/
         if (!strcmp(argv[1], "--gui"))
         {
-            //Changes to true as they are trying to access the graphics of gui
+            /*Changes to true as they are trying to access the graphics of gui*/
             graphical = true;
         }
         else
@@ -64,19 +57,28 @@ int main(int argc, char **argv)
             wdl_ctx = load_wdl(argv[1]);
             game = load_objects(wdl_ctx);
 
-            //Helps prevent errors when there is no loaded game
+            /*Helps prevent errors when there is no loaded game*/
             if (!game)
             {
                 fprintf(stderr, "Could not load game: %s\n", argv[1]);
                 exit(1);
             }
-
-            //Checks if the user is trying to load a game, as well as a gui
-            if ((argc == 3) && (!strcmp(argv[2], "--gui")))
-            {
-                graphical = true;
-            }
         }
+    }
+
+    /*Checks if the user is trying to load a game, as well as a gui*/
+    if (argc == 3) 
+    {
+        if(!strcmp(argv[1], "--gui"))
+        {
+            graphical = true;
+        }
+        else
+        {
+            fprintf(stderr, "Could not load game: %s\n", argv[1]);
+                exit(1);
+        }
+                
     }
 
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
@@ -87,10 +89,19 @@ int main(int argc, char **argv)
     if (graphical)
     {   
         /*If graphical is true the user will be using GUI*/
-        start_gui(ctx, banner);
+        start_gui(ctx);
     }
     else 
     {
+        struct winsize w;
+        ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
+        int ncols = w.ws_col, nrows = w.ws_row;
+        if (ncols < MIN_COLS || nrows < MIN_ROWS) {
+            fprintf(stderr, "Chiventure prefers to run in terminals of at least %d columns and %d rows. Please resize your terminal!\n", MIN_COLS, MIN_ROWS);
+            exit(1);
+        }
+    
+
         /*If graphical is false the user will be using UI */
         if (ncols > 100) {
             start_ui(ctx, banner);
@@ -103,3 +114,6 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+
+

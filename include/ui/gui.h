@@ -1,11 +1,9 @@
-#ifndef UI_H
-#define UI_H
+#ifndef GUI_H
+#define GUI_H
 
 #include "common/ctx.h"
 
 
-#define MIN_COLS 80
-#define MIN_ROWS 24
 
 /* start_gui
  * Starts the gui and runs the game loop.
@@ -16,7 +14,7 @@
  *
  * No value is returned
  */
-void start_gui(chiventure_ctx_t *ctx, const char *banner);
+void start_gui(chiventure_ctx_t *ctx);
 
 #endif
 
