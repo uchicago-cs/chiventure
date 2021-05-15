@@ -27,14 +27,6 @@ int main()
     add_item_to_game(g, item1);
     add_item_to_game(g, item2);
 
-    /*
-    item_t *i1, *i2;
-    i1 = get_item_in_hash(g->all_items, "scimitar_handle");
-    i2 = get_item_in_hash(g->all_items, "scimitar_blade");
-    printf("%x\n", i1);
-    printf("%x\n", i2);
-    */
-
     // Step 2: Create the condition
     condition_t *cond = inventory_condition_new(p, item1);
     cond->next = inventory_condition_new(p, item2);
@@ -42,8 +34,8 @@ int main()
     // Step 3: Conversation 1
     convo_t *c1 = convo_new();
 
-    add_node(c1, "1", "Do you want a scimitar blade?");
-    add_node(c1, "2a", "Here you go. Do you want a scimitar handle?");
+    add_node(c1, "1", "Do you want a scimitar handle?");
+    add_node(c1, "2a", "Here you go. Do you want a scimitar blade?");
     add_node(c1, "3a", "Here you go.");
     add_node(c1, "3b", "Your loss.");
     add_node(c1, "2b", "Your loss.");
@@ -52,8 +44,8 @@ int main()
     add_edge(c1, "Yes", "2a", "3a", NULL);
     add_edge(c1, "No", "2a", "3b", NULL);
 
-    add_item_gain(c1, "2a", "scimitar_blade");
-    add_item_gain(c1, "3a", "scimitar_handle");
+    add_item_gain(c1, "2a", "scimitar_handle");
+    add_item_gain(c1, "3a", "scimitar_blade");
 
     // Step 4: Conversation 2
     convo_t *c2 = convo_new();

@@ -88,6 +88,7 @@ Test(dialogue, edge_init)
     condition_t *cond = malloc(sizeof(condition_t));
 
     e.quip = NULL;
+    e.condition = NULL;
 
     rc = edge_init(&e, "Quip", node_new("N1", "Dia_1"),
                    node_new("N2", "Dia_2"), cond);

@@ -135,9 +135,13 @@ int do_node_action(node_t *n, game_t *game)
 
         case D_ITEM: ;
             item_t *item = get_item_in_hash(game->all_items, n->action_id);
-            // printf("%x, id: %s\n\n", item, n->action_id);
             if (item == NULL) return FAILURE;
-            add_item_to_player(game->curr_player, item);
+            // item_t *i1, *i2;
+            // i1 = get_item_in_hash(game->all_items, "scimitar_handle");
+            // i2 = get_item_in_hash(game->all_items, "scimitar_blade");
+            // printf("%x\n", i1);
+            // printf("%x\n", i2);
+            int rc = add_item_to_player(game->curr_player, item);
             break;
 
         case D_BATTLE:
