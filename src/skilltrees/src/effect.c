@@ -72,18 +72,12 @@ int execute_stat_mod_effect(stat_mod_effect_t* stat_effect)
 }
 
 // See effect.h
-int execute_move_effect(skill_inventory_t* inventory, combatant_t* player)
+int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect)
 {
-    assert(player != NULL);
-    assert(inventory != NULL);
-    skill_t** skills = inventory->active;
-    int size = sizeof skills / sizeof skills[0];
-    for(int x = 0; x < size; x++){
-        if(skills[x]->skill_effect->effect_type == MOVE_UNLOCK){
-            //Waiting on pull request from battles to go through for the add_move function in include/battle/battle_move_maker.h
-            add_move(player, skills[x]->skill_effect->data.m->move);
-        }
-    }
+    assert(ctx != NULL);
+    assert(effect != NULL);
+    //ctx->game->curr_player->moves currently hasn't been implemented. We are working with battles to do so.
+    //add_move(ctx->game->curr_player->moves, effect->move);
     return SUCCESS;
 }
 
