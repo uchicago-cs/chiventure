@@ -23,6 +23,7 @@ location: phrase
 
 phrase: STRING+
 
+// NEWLINE(s), whitespace, and comments
 _NL: ( /(\r?\n[\t ]*)/ | COMMENT) +
 
 %import .util.STRING

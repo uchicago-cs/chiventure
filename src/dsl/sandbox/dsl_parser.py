@@ -1,5 +1,6 @@
 import sys
 from lark import Lark, Transformer
+from lark.lexer import Token
 import json
 from vars_parser import evalVars
 
@@ -8,61 +9,61 @@ dsl_grammar = grammar_f.read()
 grammar_f.close()
 
 class TreeToDict(Transformer):
-    def start_g(self, s):
-        return ("start", s[0])
-    def end_g(self, s):
-        return ("end", s[0])
-    def id(self, s):
-        (s,) = s
-        return ("id", s)
-    def location(self, s):
-        return ("location", s)
+    # we have several objects of the form ('type', <value>) and
+    # we want to group all objects with type "ROOM" into their own list
+    def game(self, s):
+        # first place all non-room objects into a dict
+        d = dict((k,v) for k,v in s if k != "ROOM")
+        
+        # now place all rooms into their own dictionary
+        d["rooms"] = dict([v for k,v in s if k == "ROOM"])
+        return d
 
-    connection = tuple
-    property = tuple
-
-    def phrase(self, s):
-        return ' '.join(s)
-
-    def ESCAPED_STRING(self, s):
-      # replace escaped characters with unicode characters
-      decoded = bytes(s[1:-1], "utf-8").decode("unicode_escape")
-      return decoded
-
-    def connections(self, s):
-        return ("connections", dict(s))
-
-    def item(self, s):
-        return ('ITEM', dict(s))
-
-    # input is of the form [('id':value),<properties>]
-    # output is of the form ("action", ("<action id>", <properties>))
-    def action(self, s):
-        action_id = s.pop(0)[1]
-        return ('action', (action_id, dict(s)))
-
-    # we have several objects of the form ('ITEM', <item dict>) and
-    # we want to group all items into their own list
-    def room(self, s):
+    # we have several objects of the form ('type', <value>) and
+    # we want to group all objects with type "ITEM" into their own list
+    def room(self, s: list) -> tuple[str, tuple[str, dict]]:
         room_id = s.pop(0)[1]
 
         # first place all non-item objects into a dict
         d = dict((k,v) for k,v in s if k != "ITEM")
 
+        # create a list of items and place in its own entry of the dict
         d["items"] = list([v for k,v in s if k == "ITEM"])
         return ('ROOM', (room_id, d))
-    
-    # we have several objects of the form ('ROOM', (<room id>, <room properties>)) and
-    # we want to group all rooms into their own dict of the form {<room id>: <room properties>}
-    def game(self, s):
-        d = {}
-        for k,v in s:
-            if k != "ROOM":
-                d[k] = v
-        d["rooms"] = dict([v for k,v in s if k == "ROOM"])
-        return d
 
-    
+    def connections(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+        return ("connections", dict(s))
+
+    def item(self, s: list[tuple[str,str]]) -> tuple[str, dict]:
+        return ('ITEM', dict(s))
+
+    def action(self, s: list) -> tuple[str, tuple[str, dict]]:
+        action_id = s.pop(0)[1]
+        return ('action', (action_id, dict(s)))
+
+    # the functions below do simple transformations
+
+    def ESCAPED_STRING(self, s: Token) -> str:
+        # replace escaped characters with unicode characters
+        decoded = bytes(s[1:-1], "utf-8").decode("unicode_escape")
+        return decoded
+    def start_g(self, s: list[str]) -> tuple[str, str]:
+        return ("start", s[0])
+
+    def end_g(self, s: list[str]) -> tuple[str, str]:
+        return ("end", s[0])
+
+    def id(self, s: list[str]) -> tuple[str, str]:
+        return ("id", s[0])
+
+    def location(self, s):
+        return ("location", s[0])
+    def phrase(self, s: list[Token]) -> str:
+        return ' '.join(s)
+
+    connection = tuple
+    property = tuple
+
 
 parser = Lark(dsl_grammar, parser='earley')
 
