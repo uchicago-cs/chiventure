@@ -77,8 +77,6 @@ int main()
 
     add_quest_start(c2, "2c", "quest");
 
-    // printf("%s\n", c1->all_nodes->next->next->node->action_id);
-
     // Step 5: Execute conversations
     int rc = -1;
     int player_response;

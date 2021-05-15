@@ -1,7 +1,8 @@
 #include <string.h>
 #include <criterion/criterion.h>
 #include "npc/dialogue.h"
-#include "game-state/condition.h"
+#include "game-state/item.h"
+#include "game-state/player.h"
 
 
 /*** Node ***/
@@ -459,6 +460,86 @@ Test(dialogue, run_conversation_step_four_nodes_continue)
 
     cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
                  "indicating that the conversation has not ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+
+
+/*** Conditional Dialogue ***/
+
+Test(dialogue, conditional_dialogue_no_available)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D1\n";
+
+    player_t *p = player_new("player");
+    item_t *i = item_new("item", "short_desc", "long_desc");
+    condition_t *cond = inventory_condition_new(p, i);
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+    add_edge(c, "Q1", "N1", "N2", cond);
+
+    ret_str = start_conversation(c, &rc, NULL);
+
+    cr_assert_eq(rc, 1, "Return Code was set to %d when it should have been 1, "
+                 "indicating that the conversation has ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+
+Test(dialogue, conditional_dialogue_one_available)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D1\n1. Q1\nEnter your choice: ";
+
+    player_t *p = player_new("player");
+    item_t *i = item_new("item", "short_desc", "long_desc");
+    add_item_to_player(p, i);
+    condition_t *cond = inventory_condition_new(p, i);
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+    add_edge(c, "Q1", "N1", "N2", cond);
+
+    ret_str = start_conversation(c, &rc, NULL);
+
+    cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
+                 "indicating that the conversation has ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+
+Test(dialogue, conditional_dialogue_two_available)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D1\n1. Q1\n2. Q3\nEnter your choice: ";
+
+    player_t *p = player_new("player");
+    item_t *i = item_new("item", "short_desc", "long_desc");
+    condition_t *cond = inventory_condition_new(p, i);
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+    add_node(c, "N3", "D3");
+    add_node(c, "N4", "D4");
+    add_edge(c, "Q1", "N1", "N2", NULL);
+    add_edge(c, "Q2", "N1", "N3", cond);
+    add_edge(c, "Q3", "N1", "N4", NULL);
+
+    ret_str = start_conversation(c, &rc, NULL);
+
+    cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
+                 "indicating that the conversation has ended", rc);
     cr_assert_eq(strcmp(ret_str, expected), 0,
                  "Expected:\n%s for the return string of start_conversation "
                  "but start_conversation returned:\n%s", expected, ret_str);
