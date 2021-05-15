@@ -37,7 +37,7 @@ void print_banner(window_t *win, const char *banner);
  *   - quitval: not used in this context
  *
  */
-void print_info(chiventure_ctx_t *ctx, window_t *win, int *quitval);
+void print_info(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 /* print_cli
  * Prints the CLI- adds and deletes character based on user input
@@ -48,7 +48,7 @@ void print_info(chiventure_ctx_t *ctx, window_t *win, int *quitval);
  *   - quitval: an out parameter to have the string "QUIT" make the game close
  *
  */
-void print_cli(chiventure_ctx_t *ctx, window_t *win, int *quitval);
+void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 /* print_map
  * Prints the word map in the window (top left corner)
@@ -59,7 +59,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *quitval);
  *   - quitval: not used in this function
  *
  */
-void print_map(chiventure_ctx_t *ctx, window_t *win, int* quitval);
+void print_map(chiventure_ctx_t *ctx, window_t *win, int* retval);
 
 
 /* print_to_cli
