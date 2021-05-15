@@ -13,6 +13,7 @@ item: _NL "ITEM" id "IN" location property* action*
 action: _NL "action: " id ("," id)* property*
 
 property: _NL phrase "FOR" ("ITEM" | "ROOM") id ":" ESCAPED_STRING
+        | _NL phrase ":" ESCAPED_STRING
 
 connections.5: _NL "connections:" connection ((","|_NL) connection)*
 connection: phrase "TO" phrase
