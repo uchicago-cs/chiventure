@@ -1,4 +1,5 @@
 
+$intro = "hello"
 $fork = """
 ITEM Fork
 long: "a fork. theres \"nothing\" remarkably special about it."
@@ -7,6 +8,7 @@ long: "a fork. theres \"nothing\" remarkably special about it."
 
 
 GAME START Room A END room C
+  intro: $intro
 
 ROOM room A
   $fork

@@ -9,7 +9,6 @@ parser = Lark(vars_grammar, parser='earley')
 
 def evalVars(file: str) -> str:
     tree = parser.parse(file)
-    print(tree)
     out = SimplifyTree().transform(tree)
     assert(type(out) == str)
     return out
@@ -22,29 +21,28 @@ def evalParsedVars(parsed: list[tuple[str, str]], vars: dict[str, str]) -> str:
       out.append(vars[val])
     elif token_type == "string":
       out.append(val)
-  return "\n".join(out)
+  return "".join(out)
 
 class SimplifyTree(Transformer):
-  def start(self, s: list[Token]):
+  def start(self, s: list) -> str:
     vars = dict(v for k,v in s if k == "assignment")
     return evalParsedVars(s, vars)
 
-  def assignment(self, s: list[Token]) -> tuple[str, str]:
+  def assignment(self, s: list) -> tuple[str, str]:
     return ("assignment", tuple(s))
 
-  def reference(self,s):
+  def reference(self,s: list) -> tuple[str, str]:
     return ("reference", s[0])
     
-  def assignment_inner(self, s: list[Token]) -> str:
+  def assignment_inner(self, s: list) -> str:
     return str(s[0])
-
-  def other(self, s: list[Token]) -> tuple[str, str]:
+  
+  def other(self, s: list) -> tuple[str, str]:
     return ("string", str(s[0]))
   
-  def CNAME(self, s: list[Token]) -> str:
+  def CNAME(self, s: list) -> str:
     return str(s)
 
-  def ESCAPED_STRING(self, s: list[Token]) -> str:
-      # replace escaped characters with unicode characters
-      decoded = bytes(s[1:-1], "utf-8").decode("unicode_escape")
-      return decoded
+  def ESCAPED_STRING(self, s: list) -> str:
+      # we want to leave characters unaltered so that the dsl parser can handle them
+      return str(s)

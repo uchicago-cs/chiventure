@@ -1,8 +1,11 @@
 // ?start: assignment
 ?start: (assignment | reference | other)* -> start
 
-_QUOTES: "\"\"\""
-assignment.10: "$" CNAME "=" _QUOTES assignment_inner _QUOTES
+_TRIPLE_QUOTES: "\"\"\""
+assignment.10: "$" CNAME "=" (_triple_quotes | ESCAPED_STRING)
+
+_triple_quotes.10: _TRIPLE_QUOTES assignment_inner _TRIPLE_QUOTES
+
 // matches up to triple quotes
 assignment_inner: /[^\$]+?(?=""")/
 
@@ -14,5 +17,5 @@ other: /[^\$]+/
 %import common.CNAME
 %import .util.ESCAPED_STRING
 
-%import common.WS
-%ignore WS
+%import common.WS_INLINE
+%ignore WS_INLINE
