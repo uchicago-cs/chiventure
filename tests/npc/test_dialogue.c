@@ -468,6 +468,7 @@ Test(dialogue, run_conversation_step_four_nodes_continue)
 
 /*** Conditional Dialogue ***/
 
+/* 1 conditional edge, not satisfied, results in 0 available edges */
 Test(dialogue, conditional_dialogue_no_available)
 {
     convo_t *c = convo_new();
@@ -492,6 +493,7 @@ Test(dialogue, conditional_dialogue_no_available)
                  "but start_conversation returned:\n%s", expected, ret_str);
 }
 
+/* 1 conditional edge, satisfied, results in 1 available edge */
 Test(dialogue, conditional_dialogue_one_available)
 {
     convo_t *c = convo_new();
@@ -517,6 +519,8 @@ Test(dialogue, conditional_dialogue_one_available)
                  "but start_conversation returned:\n%s", expected, ret_str);
 }
 
+/* 2 normal edges and 1 conditional edge, not satisfied, results in 2 available
+   edges */
 Test(dialogue, conditional_dialogue_two_available)
 {
     convo_t *c = convo_new();
@@ -535,6 +539,41 @@ Test(dialogue, conditional_dialogue_two_available)
     add_edge(c, "Q1", "N1", "N2", NULL);
     add_edge(c, "Q2", "N1", "N3", cond);
     add_edge(c, "Q3", "N1", "N4", NULL);
+
+    ret_str = start_conversation(c, &rc, NULL);
+
+    cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
+                 "indicating that the conversation has ended", rc);
+    cr_assert_eq(strcmp(ret_str, expected), 0,
+                 "Expected:\n%s for the return string of start_conversation "
+                 "but start_conversation returned:\n%s", expected, ret_str);
+}
+
+/* 2 normal edges and 2 conditional edges, one satisfied and one unsatisfied,
+   results in 2 available edges */
+Test(dialogue, conditional_dialogue_three_available)
+{
+    convo_t *c = convo_new();
+    int rc;
+    char *ret_str;
+    char *expected = "D1\n1. Q1\n2. Q2\n3. Q4\nEnter your choice: ";
+
+    player_t *p = player_new("player");
+    item_t *i1 = item_new("item1", "short_desc", "long_desc");
+    item_t *i2 = item_new("item2", "short_desc", "long_desc");
+    add_item_to_player(p, i1);
+    condition_t *cond1 = inventory_condition_new(p, i1);
+    condition_t *cond2 = inventory_condition_new(p, i2);
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+    add_node(c, "N3", "D3");
+    add_node(c, "N4", "D4");
+    add_node(c, "N5", "D5");
+    add_edge(c, "Q1", "N1", "N2", NULL);
+    add_edge(c, "Q2", "N1", "N3", cond1);
+    add_edge(c, "Q3", "N1", "N3", cond2);
+    add_edge(c, "Q4", "N1", "N4", NULL);
 
     ret_str = start_conversation(c, &rc, NULL);
 
