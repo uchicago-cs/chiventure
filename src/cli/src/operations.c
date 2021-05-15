@@ -9,6 +9,45 @@
 
 #define BUFFER_SIZE (100)
 
+char* actions[29] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
+                        "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
+                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT", "HELP",
+                        "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
+                        "PALETTE", "ITEMS", NULL};
+
+
+void compare(char* word, char* action, int* initial, char** suggestion)
+{
+    int current = 0;
+    for (int i = 0; i < strlen(word); i++){
+        if (word[i] == action[i]){
+            current++;
+        }
+    }
+    if (current >= *initial){
+        *suggestion = action;
+        *initial = current;
+    }
+}
+
+
+
+char* suggestions(char *action_input, char* actions[29])
+{
+    int i = 0;
+    int* initial = (int*)malloc(sizeof(int*));
+    *initial = 0;
+    char** suggestion = (char**)malloc(sizeof(char**));
+    *suggestion = " ";
+    while (actions[i] != NULL){
+        compare(action_input, actions[i], initial, suggestion); 
+        i++;
+
+    }
+    return *suggestion;
+}
+
+
 
 char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -261,9 +300,16 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 }
 
 
+
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return "This action is not supported.";
+
+    char* sug = suggestions(tokens[0], actions);
+    int str1 = strlen(sug);
+    int str2 = strlen("This action is not supported. Did you mean: ");
+    int len = str1 + str2;
+    return strncat("This action is not supported. Did you mean: ", suggestions(tokens[0], actions), len);
+
 }
 
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
