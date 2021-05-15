@@ -25,11 +25,12 @@ typedef struct mission {
  * 
  * Components:
  *  mission: mission to be completed
+ *  id: string identifier for the achievement
  *  completed: bool for if achievement is completed
  */
 typedef struct achievement {
     mission_t *mission;
-    char* id;
+    char *id;
     bool completed;     //0 is not completed, 1 is completed
 } achievement_t;
 
