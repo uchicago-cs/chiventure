@@ -132,7 +132,8 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
     }
     else
     {
-        return FAILURE;
+        dmg = damage(b->player, move, b->enemy);
+        b->player->stats->hp -= dmg;
     }
     
     if(battle_over(b) == BATTLE_VICTOR_ENEMY)

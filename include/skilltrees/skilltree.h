@@ -5,7 +5,6 @@
 #ifndef INCLUDE_SKILLTREE_H_
 #define INCLUDE_SKILLTREE_H_
 
-#include "skilltrees/skilltrees_common.h"
 #include "skilltrees/skill.h"
 #include "skilltrees/inventory.h"
 
@@ -64,7 +63,9 @@ struct skill_node {
 
 };
 
-/* Skill tree, contains all skill nodes in a game */
+/* Skill tree, contains a number of skill nodes. 
+ * Games can have multiple skill trees if the creator wishes. 
+ * For Example: 1 for knight player class, 1 for elementalist etc.*/
 typedef struct skill_tree {
     // The tree ID that uniquely identifies the skill tree
     tid_t tid;
