@@ -166,20 +166,19 @@ effects_hash_t* multiclass_effects(effects_hash_t* base_effects, effects_hash_t*
 
     while (base_effects != NULL) {
         effects_hash_t *effect_copy = stat_effect_new(global);
-        effect_copy->key = effect->key;
-        effect_copy->stat_list = effect->stat_list;
+        effect_copy->key = base_effects->key;
+        effect_copy->stat_list = base_effects->stat_list;
         cur->hh.next = effect_copy;
         cur = cur->hh.next;
         base_effects = base_effects->hh.next;
     }
         while (second_effects != NULL) {
          effects_hash_t *effect_copy = stat_effect_new(global);
-        effect_copy->key = effect->key;
-        effect_copy->stat_list = effect->stat_list;
+        effect_copy->key = second_effects->key;
+        effect_copy->stat_list = second_effects->stat_list;
         cur->hh.next = effect_copy;
         cur = cur->hh.next;
-            second_effects = second_effects->hh.next;
-        }
+        second_effects = second_effects->hh.next;
     }
 }
 
