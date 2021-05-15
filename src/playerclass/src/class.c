@@ -146,7 +146,7 @@ effects_hash_t* multiclass_effects(effects_hash_t* base_effects, effects_hash_t*
     if (base_effects != NULL){
         global = base_effects->global;
     }
-    else if (second_effects != NULL{
+    else if (second_effects != NULL){
         global = second_effects->global;
     }
     else return NULL;
@@ -258,8 +258,8 @@ skill_inventory_t* multiclass_inventory (skill_inventory_t* base_inventory, skil
 class_t* multiclass(class_t* base_class, class_t* second_class, char* name){
     char* new_shortdesc = multiclass_shortdesc(base_class, second_class);
     char* new_longdesc = multiclass_longdesc(base_class, second_class);
-    obj_t* combined_attr = obj_add_attr(base_class->attributes, second_class->attributes->id, second_class->attributes);
-    effects_hash_t* combined_effects = NULL; //TODO, will need a new get all function for effects_hash_t
+    obj_t* combined_attr = NULL //obj_add_attr(base_class->attributes, second_class->attributes->id, second_class->attributes);
+    effects_hash_t* combined_effects = multiclass_effects (base_class->effects, second_class->effects);
     
     class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->stats, combined_effects);
     if (new_class == NULL) return NULL;
