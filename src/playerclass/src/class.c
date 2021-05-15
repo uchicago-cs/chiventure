@@ -152,32 +152,33 @@ effects_hash_t* multiclass_effects(effects_hash_t* base_effects, effects_hash_t*
     else return NULL;
 
     effects_hash_t *new_effects = stat_effect_new(global);
-    if (base_effect != NULL){
+    if (base_effects != NULL){
         new_effects->key = base_effects->key;
         new_effects->stat_list = base_effects->stat_list;
+        base_effects = base_effects->hh.next;
     }
     else {
         new_effects->key = second_effects->key;
         new_effects->stat_list = second_effects->stat_list;
+        second_effects = second_effects->hh.next;
     }
     effects_hash_t *cur = new_effects;
 
-    if (base_effects != NULL){
-        for (base_effects = effect; base_effects != NULL; base_effects = base_effects->hh.next) {
-            effects_hash_t *effect_copy = stat_effect_new(global);
-            effect_copy->key = effect->key;
-            effect_copy->stat_list = effect->stat_list;
-            cur->next = effect_copy;
-            cur = cur->next;
-        }
+    while (base_effects != NULL) {
+        effects_hash_t *effect_copy = stat_effect_new(global);
+        effect_copy->key = effect->key;
+        effect_copy->stat_list = effect->stat_list;
+        cur->hh.next = effect_copy;
+        cur = cur->hh.next;
+        base_effects = base_effects->hh.next;
     }
-    if (second_effects != NULL){
-        for (second_effects = effect; second_effects != NULL; second_effects = second_effects->hh.next) {
-            effects_hash_t *effect_copy = stat_effect_new(global);
-            effect_copy->key = effect->key;
-            effect_copy->stat_list = effect->stat_list;
-            cur->next = effect_copy;
-            cur = cur->next;
+        while (second_effects != NULL) {
+         effects_hash_t *effect_copy = stat_effect_new(global);
+        effect_copy->key = effect->key;
+        effect_copy->stat_list = effect->stat_list;
+        cur->hh.next = effect_copy;
+        cur = cur->hh.next;
+            second_effects = second_effects->hh.next;
         }
     }
 }
