@@ -9,13 +9,15 @@ grammar_f.close()
 
 d = {}
 d["ROOMS"] = []
+d["ITEMS"] = []
 
-def room_id(c, room):
-    room["id"] = ' '.join(c.children[0].children)
+def id(c, dict):
+    dict["id"] = ' '.join(c.children[0].children)
+    return dict["id"]
 
-def room_property(c, room):
+def property(c, dict):
     desc = ' '.join(c.children[0].children)
-    room[desc] = c.children[1][1:-1]
+    dict[desc] = c.children[1][1:-1]
 
 def room_connection(c, room):
     connections = []
@@ -23,6 +25,16 @@ def room_connection(c, room):
         connections.append(dict(to = ' '.join(conn.children[1].children), 
                                 direction = conn.children[0].children[0]))
     room["connections"] = connections
+
+def room_item(c, room_id):
+    item = {}
+    for c in c.children:
+        if c.data == 'id':
+            id(c, item)
+        elif c.data == 'property':
+            property(c, item)
+    item["in"] = room_id
+    d["ITEMS"].append(item)
 
 
 class TreeToDict(Visitor):
@@ -37,12 +49,16 @@ class TreeToDict(Visitor):
         room = {}
         for c in s.children:
             if c.data == 'id':
-                room_id(c, room)
+                room_id = id(c, room)
             elif c.data == 'property':
-                room_property(c, room)
+                property(c, room)
             elif c.data == 'connections':
                 room_connection(c, room)
+            elif c.data == 'item':
+                room_item(c, room_id)
         d["ROOMS"].append(room)
+    
+
 
 parser = Lark(dsl_grammar, parser='earley')
  
