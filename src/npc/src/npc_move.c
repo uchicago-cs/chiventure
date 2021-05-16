@@ -247,7 +247,16 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
     }
 }
 
-/* helper function for auto_gen_movement */
+/* 
+ * helper function for auto_gen_movement to find number of rooms in game
+ * 
+ * Parameters:
+ *  - game: current game
+ *
+ * Returns
+ *  - # of rooms in game
+ *
+ */
 int get_num_rooms(game_t *game)
 {
     room_t *ITTMP_ROOM, *curr_room;
@@ -263,7 +272,7 @@ int get_num_rooms(game_t *game)
 /* See npc_move.h */
 int auto_gen_movement(npc_mov_t *npc_mov, game_t *game)
 {
-    room_list_t *head = get_all_rooms(game); 
+    room_list_t *head = get_all_rooms(game); // from include/game-state/game.h
     int rc = 0;
     int num_rooms, num_rooms_to_add;
 

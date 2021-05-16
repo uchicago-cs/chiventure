@@ -222,14 +222,17 @@ int move_npc_indefinite(npc_mov_t *npc_mov);
 
 /*
  * Generates a random movement struct for an NPC based on the current rooms in
- * the map and a specified movement type. 
+ * the map and a given npc_mov_t struct. 
  *
  * Parameters: 
- * starting_room: Pointer to the starting room.
- * mov_type: type of movement
+ *  - npc_mov: npc_mov_t struct with a known npc_mov_type
+ *  - game: current game, this is necessary for determining the current rooms in the map
  *
  * Returns:
- * npc_mov_t struct on success, NULL on failure
+ *  - returns SUCCESS on success, returns FAILURE on failure
+ *  - Updates npc_mov to have a new, randomly generated movement path. 
+ *    Maintains the same type of movement (indefinite / definite)
+ *
  */
 int auto_gen_movement(npc_mov_t *npc_mov, game_t *game);
 #endif
