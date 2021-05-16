@@ -6,7 +6,6 @@
 #include "cli/shell.h"
 #include "wdl/load_game.h"
 #include "common/load_objects.h"
-#include "game-state/condition.h"
 #include "game-state/command.h"
 
 #define BUFFER_SIZE (100)
