@@ -9,11 +9,11 @@
 
 #define BUFFER_SIZE (100)
 
-char* actions[29] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
+char* actions_for_sug[28] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
                         "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
                         "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT", "HELP",
                         "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
-                        "PALETTE", "ITEMS", NULL};
+                        "PALETTE", "ITEMS"};
 
 
 void compare(char* word, char* action, int* initial, char** suggestion)
@@ -23,28 +23,29 @@ void compare(char* word, char* action, int* initial, char** suggestion)
         if (word[i] == action[i]){
             current++;
         }
+
     }
     if (current >= *initial){
         *suggestion = action;
         *initial = current;
-    }
+}
 }
 
 
 
-char* suggestions(char *action_input, char* actions[29])
+
+void suggestions(char *action_input, char** actions, char** suggestion)
 {
     int i = 0;
-    int* initial = (int*)malloc(sizeof(int*));
+    int* initial = (int*)malloc(sizeof(int));
     *initial = 0;
-    char** suggestion = (char**)malloc(sizeof(char**));
     *suggestion = " ";
     while (actions[i] != NULL){
         compare(action_input, actions[i], initial, suggestion); 
         i++;
 
     }
-    return *suggestion;
+
 }
 
 
@@ -304,11 +305,12 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
 
-    char* sug = suggestions(tokens[0], actions);
-    int str1 = strlen(sug);
+    char** suggestion = (char**)malloc(sizeof(char*));
+    suggestions(tokens[0], actions_for_sug, suggestion);
+    int str1 = strlen(*suggestion);
     int str2 = strlen("This action is not supported. Did you mean: ");
     int len = str1 + str2;
-    return strncat("This action is not supported. Did you mean: ", suggestions(tokens[0], actions), len);
+    return strncat("This action is not supported. Did you mean: ", *suggestion, len);
 
 }
 
