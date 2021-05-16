@@ -8,7 +8,7 @@
 
 // Reverse strstr
 // From https://stackoverflow.com/questions/1634359/is-there-a-reverse-function-for-strstr
-char *rstrstr(char *__restrict s1, char *__restrict s2)
+char *_rstrstr(char *__restrict s1, char *__restrict s2)
 {
   size_t  s1len = strlen(s1);
   size_t  s2len = strlen(s2);
@@ -38,7 +38,7 @@ bool _strip_expected_extension(char *str, char *ext)
     *ending_dot = '\0';
 
     // Strip off the string DEFAULT
-    char *default_str = rstrstr(str, "DEFAULT");
+    char *default_str = _rstrstr(str, "DEFAULT");
     if (default_str != NULL)
     {
         *default_str = '.';
