@@ -57,10 +57,11 @@ int main(void)
     create_connection(game, "room3", "room4", "NORTH");
     create_connection(game, "room3", "room5", "SOUTH");
 
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+    
     ui_ctx_t *ui_ctx = ui_ctx_new(game);
     ui_ctx_init(ui_ctx, game);
 
-    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     // Set the screen location of the map
     map_set_displaywin(ctx->ui_ctx->map, 0, 0, COLS, LINES-1);
