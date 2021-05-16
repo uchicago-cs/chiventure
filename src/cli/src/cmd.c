@@ -234,10 +234,12 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 /* See cmd.h */
 cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
-    print_to_cli(ctx,s);
-    command_list_t* new_command = new_command_list(s);
+
+    if (s != NULL) {
+        command_list_t* new_command = new_command_list(s);
+        LL_APPEND(ctx->game->command_history,new_command);
     
-    LL_APPEND(ctx->game->command_history,new_command);
+    }
     
     char **parsed_input = parse(s);
     if(parsed_input == NULL)
