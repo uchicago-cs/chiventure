@@ -155,19 +155,19 @@ int start_quest(quest_t *quest);
  */
 int fail_quest(quest_t *quest);
 
-/* Completes an achievement in a quest by checking if the item and npc match
- * the first incomplete achievement in the quest's achievement list
+/* Completes an achievement in a quest by checking if a given
+ * achievement ID matches any incomplete achievements in the
+ * appropriate level of the achievement tree.
  * 
  * Parameters:
  * - quest: pointer to the quest
- * - item_collected: the item that has been collected
- * - npc_met: the npc that was met
+ * - id: the string identifier of the completed achievement
  *
  * Returns:
  * - SUCCESS
  * - FAILURE
  */
-int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met);
+int complete_achievement(quest_t *quest, char *id);
 
 /* Checks if a quest is completed
  * 

@@ -209,21 +209,16 @@ achievement_t *find_achievement(achievement_tree_t *tree, char *id) {
 }
 
 /* Refer to quests_state.h */
-int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
+int complete_achievement(quest_t *quest, char *id)
 {
-    achievement_llist_t *head = quest->achievement_list;
-    achievement_llist_t *incomplete_achievement = malloc(sizeof(achievement_llist_t));
+    achievement_tree_t *tree = quest->achievement_tree;
 
-    LL_SEARCH_SCALAR(head,incomplete_achievement,
-                    achievement->completed,0);
+    achievement_t *achievement = find_achievement(tree, id);
 
-
-    mission_t* mission = incomplete_achievement->achievement->mission;
-
-    if (((strcmp(mission->item_to_collect->item_id,item_collected->item_id)) == 0) &&
-        ((strcmp(mission->npc_to_meet->npc_id, npc_met->npc_id)) == 0))
+    if (((strcmp(achievement->id,id)) == 0) &&
+        (achievement->completed == 0))
     {
-        quest->achievement_list->achievement->completed = 1;
+        quest->achievement_tree->achievement->completed = 1;
         return SUCCESS;
     }
     else
