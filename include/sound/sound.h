@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <math.h>
+#include "common/uthash"
 
 typedef struct{
     // path to sound file
@@ -15,4 +16,3 @@ typedef struct{
     // makes struct hashable
     UT_hash_handle hh; 
 } sound_t;
-
