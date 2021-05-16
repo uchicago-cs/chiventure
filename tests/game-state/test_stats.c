@@ -60,6 +60,8 @@ Test(stats, deep_copy_stat)
                  "copy_stat results in new stat and original stat having different max field");
     cr_assert_eq(stat->modifier, new_stat->modifier,
                  "copy_stat results in new stat and original stat having different modifier fields");
+    cr_assert_str_eq(stat->key, new_stat->key, 
+                     "copy_stat results in new stat and original stat having different key names");
 
     /* Free the original stat */
     ret_val = free_stats(stat);
@@ -178,10 +180,15 @@ Test(stats, free_stat_effect)
     int ret_val;
 
     global = global_effect_new("health");
+    /* Check that global effect field resources where created */
     cr_assert_not_null(global, "global_effect_new failed");
+    cr_assert_not_null(global->name, "global_effect_new did not set set a name");
 
     stat_effect_t* effect = stat_effect_new(global);
+    /* Check that effect field resources where created */
     cr_assert_not_null(effect, "stat_effect_new failed to create new stat effect");
+    cr_assert_str_eq(effect->key, global->name, "stat_effect_new did not set key");
+    cr_assert_eq(effect->global, global, "stat_effect_new did not set global pointer");
 
     ret_val = free_global_effect(global);
     cr_assert_eq(ret_val, SUCCESS, "free_global_effect did not free resources of global effect");
