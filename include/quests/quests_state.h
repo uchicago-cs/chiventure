@@ -28,14 +28,14 @@ achievement_t *achievement_new(mission_t *mission);
  * 
  * Parameters:
  * - quest_id: long integer for the specific quest_id 
- * - achievement_list: linked list struct holding a list of achievements that
- *                     make up a quest
+ * - achievement_tree: non-binary tree  struct holding a tree of 
+ *                     achievements that make up a quest
  * - reward: reward of the quest is an item
  * 
  * Returns: a pointer to the newly allocated quest, with default status of 0
  *         (not started)
  */
-quest_t *quest_new(long int quest_id, achievement_llist_t *achievement_list,
+quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
                     item_t *reward);
 
 /* Initialize an already allocated mission struct
@@ -69,8 +69,8 @@ int achievement_init(achievement_t *achievement, mission_t *mission);
  * Parameters:
  * - q: an already allocated quest
  * - quest_id: long int for the specific quest_id 
- * - achievement_llist_t: linked list struct holding a list of 
- *                        achievements that make up a quest
+ * - achievement_tree: non-binary tree struct holding a tree of 
+ *                     achievements that make up a quest
  * - reward: reward of the quest is an item
  * - status: int indicating the status of the quest (refer to
  *           quests_structs.h for all possible statuses)
@@ -80,7 +80,7 @@ int achievement_init(achievement_t *achievement, mission_t *mission);
  * - FAILURE for unsuccessful init
  * 
  */
-int quest_init(quest_t *q, long int quest_id, achievement_llist_t *achievement_list, 
+int quest_init(quest_t *q, long int quest_id, achievement_tree_t *achievement_tree, 
                item_t *reward, int status);
 
 /* 
