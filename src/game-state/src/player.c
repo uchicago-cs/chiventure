@@ -153,10 +153,6 @@ int add_item_to_player(player_t *player, item_t *item)
         }
     }
 
-    // Becuase the item is already stored in game->all_items, with hash handle
-    // hh, it is necessary to use a different hash handle (hh2) to store the
-    // item in player->inventory. Thus, we use add_item_to_secondary hash()
-    // instead of add_item_to_hash().
     rc = add_item_to_hash(&(player->inventory), item);
 
     return rc;

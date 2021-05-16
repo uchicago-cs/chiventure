@@ -98,36 +98,6 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
 }
 
 /* See item.h */
-int add_item_to_secondary_hash(item_hash_t **ht, item_t *item)
-{
-    item_t *check, *itr;
-    
-    HASH_FIND(hh, *ht, item->item_id, strnlen(item->item_id, MAX_ID_LEN), check);
-    
-    LL_FOREACH(check, itr)
-    {
-        if (itr == item)
-        {
-            /* Same memory address */
-            return FAILURE;
-        }
-    }
-
-    if (check != NULL)
-    {
-        /* Same item id, not same memory address */
-        HASH_DEL(*ht, check);
-        item->next = check;
-    }
-    
-    // Add to secondary hashtable (using hh2)
-    HASH_ADD_KEYPTR(hh2, *ht, item->item_id, strnlen(item->item_id, MAX_ID_LEN),
-                    item);
-
-    return SUCCESS;
-}
-
-/* See item.h */
 item_list_t *get_all_items_in_hash(item_hash_t **ht)
 {
     item_list_t *head = NULL;
