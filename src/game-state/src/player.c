@@ -250,3 +250,52 @@ int player_has_noncombat_skill(player_t *player, sid_t sid, skill_type_t type)
     return rc;
 }
 
+/* see player.h */
+int player_change_stat(player_t *player, char *stat, double change)
+{
+    int rc;
+
+    rc = change_stat(player->player_stats, stat, change);
+
+    return rc;
+}
+
+/* see player.h */
+int player_change_stat_max(player_t *player, char *stat, double change)
+{
+    int rc;
+
+    rc = change_stat_max(player->player_stats, stat, change);
+
+    return rc;
+}
+
+/* see player.h */
+double player_get_stat_current(player_t *player, char *stat)
+{
+    int res;
+
+    res = get_stat_current(player->player_stats, stat);
+
+    return res;
+}
+
+/* see player.h */
+int player_add_stat(player_t *player, stats_t *s)
+{
+    int rc;
+
+    rc = add_stat(player->player_stats, s);
+
+    return rc;
+}
+
+/* see player.h */
+int player_add_stat_effect(player_t *player, stat_effect_t *effect)
+{
+    int rc;
+
+    rc = add_stat_effect(player->player_effects, effect);
+
+    return rc;
+}

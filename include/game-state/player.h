@@ -307,7 +307,6 @@ int player_remove_noncombat_skill(player_t *player, skill_t *skill);
  */
 int player_has_combat_skill(player_t *player, sid_t sid, skill_type_t type);
 
-
 /*
  * Searches for a noncombat skill in a player's respective skill inventory.
  *
@@ -324,5 +323,78 @@ int player_has_combat_skill(player_t *player, sid_t sid, skill_type_t type);
  */
 int player_has_noncombat_skill(player_t *player, sid_t sid, skill_type_t type);
 
+/*
+ * Changes the base value of a given player's stat by the specified amount
+ * 
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  stat: the name/key of the stat
+ *  change: the value to add to the stat. 
+ *  If the value is greater than the local max, the value is set to the local max
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ * Note: Same return value as change_stat()
+ */
+int player_change_stat(player_t *player, char *stat, double change);
+
+/*
+ * Changes the max value of a given player's stat by the specified amount
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  stat: the name/key of the stat
+ *  change: the value to add to the stats max
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ *  
+ * Note: Same return value as change_stat_max()
+ */
+int player_change_stat_max(player_t *player, char *stat, double change);
+
+/* 
+ * Gets the specified player stat from a player's stats hash table
+ * 
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  stat: the name/key of the stat
+ * 
+ * Returns:
+ *  double value of the player's stat. It the value is greater than the global
+ *  max, the value is the global max
+ * 
+ * Note: Same return value as get_stat_current()
+ */
+double player_get_stat_current(player_t *player, char *stat);
+
+/*
+ * Adds a specified stat to a player's stat hash table
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  s: Pointer to the stat to be added
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ * Note: Same return value as add_stat()
+ */
+int player_add_stat(player_t *player, stats_t *s);
+
+/*
+ * Adds a specified effect to the player's effects hash table
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  effect: Pointer to the effect to be added
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ * Note: Same return value as add_stat_effect()
+ */
+int player_add_stat_effect(player_t *player, stat_effect_t *effect);
 
 #endif

@@ -155,7 +155,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
         curr->val = changed_stat;
     }
 
-   return 0;
+   return SUCCESS;
 }
 
 /* See stats.h */
