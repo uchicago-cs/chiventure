@@ -3,12 +3,14 @@
 
 #include "cli/cmd.h"
 #include "cli/operations.h"
+#include "common/utlist.h"
+#include "game-state/game.h"
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
+#include "game-state/command.h"
 
 /* === hashtable helper constructors === */
-
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
     lookup_t *t = malloc(sizeof(lookup_t));
@@ -109,7 +111,7 @@ int lookup_t_init(lookup_t **t)
 
     add_entry("QUIT", quit_operation, NULL, t);
     add_entry("HELP", help_operation, NULL, t);
-    //add_entry("HIST", hist_operation, t);
+    add_entry("HIST", hist_operation, NULL, t);
     add_entry("LOOK",look_operation, NULL, t);
     add_entry("INV", inventory_operation, NULL, t);
     add_entry("MAP", map_operation, NULL, t);
@@ -230,11 +232,36 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 /* See cmd.h */
 cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
+    print_to_cli(ctx,s);
+    command_list_t* new_command = (command_list_t*)malloc(sizeof(command_list_t));
+    new_command->command = s;
+    new_command->next = NULL;
+    command_list_t* temp = ctx->game->command_history;
+    // if (ctx->game->command_history == NULL)
+    // {
+    //    ctx->game->command_history = new_command;
+    // } 
+    // else {
+    //     while (temp->next != NULL) {
+    //         print_to_cli(ctx, temp->command);
+    //         temp = temp->next;
+    //     }
+    //     temp->next = new_command;
+    // }
+    LL_APPEND(ctx->game->command_history,new_command);
+    // while (temp->next != NULL) {
+    //          //print_to_cli(ctx, temp->command);
+    //          temp = temp->next;
+    //      }
+    //print_to_cli(ctx,ctx->game->command_history->command);
     char **parsed_input = parse(s);
     if(parsed_input == NULL)
     {
         return NULL;
     }
+    // ctx->game->command_history[counter].command = s;
+    // ctx->game->command_history[counter].next = NULL;
+    
     lookup_t **table = ctx->table;
     return cmd_from_tokens(parsed_input, table);
 }

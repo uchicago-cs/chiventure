@@ -8,6 +8,7 @@
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
+#include "command.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
@@ -44,6 +45,9 @@ typedef struct game {
     /* pointer to room that, when entered, ends the game */
     room_t *final_room;
     
+    /* list of commands that have been previously called */
+    command_list_t *command_history;
+
     /* list of end conditions that, when all are met, ends the game */
     condition_list_t *end_conditions;
 

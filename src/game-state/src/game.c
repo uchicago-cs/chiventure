@@ -7,6 +7,7 @@
 game_t *game_new(char *desc)
 {
     game_t *game = malloc(sizeof(game_t));
+    game->command_history = malloc(sizeof(command_list_t));
     memset(game, 0, sizeof(game_t));
     game->start_desc = strndup(desc, MAX_START_DESC_LEN);
 

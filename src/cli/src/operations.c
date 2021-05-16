@@ -6,6 +6,7 @@
 #include "cli/shell.h"
 #include "wdl/load_game.h"
 #include "common/load_objects.h"
+#include "game-state/condition.h"
 
 #define BUFFER_SIZE (100)
 
@@ -24,8 +25,22 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* backlog task */
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    //print_history();
-    return "history operation not implemented yet\n";
+    command_list_t* temp = malloc(sizeof(command_list_t));
+    temp->command = NULL;
+    temp->next = NULL;
+    print_to_cli(ctx, ctx->game->command_history->command);
+    print_to_cli(ctx, "Start of command history: \n");
+    // for(int i = 0; i < 4; i++) {
+    //     print_to_cli(ctx, ctx->game->command_history[i].command);
+    // }
+    // for(temp = ctx->game->command_history; temp; temp = temp->next) 
+    //     print_to_cli(ctx, temp->command);
+    LL_FOREACH(ctx->game->command_history, temp)
+    {
+        print_to_cli(ctx, temp->command);
+
+    } 
+    return "End of command history.\n";
 }
 
 bool validate_filename(char *filename)
