@@ -398,7 +398,7 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
     assert(strlen(quip) < MAX_QUIP_LEN);
     assert(from != NULL && to != NULL);
 
-    e->quip = strdup(quip);
+    if ((e->quip = strdup(quip)) == NULL) return FAILURE;
     e->from = from;
     e->to = to;
     e->condition = cond;
@@ -441,8 +441,8 @@ int node_init(node_t *n, char *node_id, char *npc_dialogue)
     assert(strlen(node_id) < MAX_NODE_ID_LEN);
     assert(strlen(npc_dialogue) < MAX_DIA_LEN);
 
-    n->node_id = strdup(node_id);
-    n->npc_dialogue = strdup(npc_dialogue);
+    if ((n->node_id = strdup(node_id)) == NULL) return FAILURE;
+    if ((n->npc_dialogue = strdup(npc_dialogue)) == NULL) return FAILURE;
     n->num_edges = 0;
     n->num_available_edges = 0;
     n->edges = NULL;
@@ -487,7 +487,9 @@ node_action_t *node_action_new(node_action_type action_type, char *action_id)
     
     action->action_type = action_type;
 
-    if (action_id != NULL) action->action_id = strdup(action_id);
+    if (action_id != NULL) {
+        if ((action->action_id = strdup(action_id)) == NULL) return NULL;
+    }
     else action->action_id = NULL;
 
     return action;
