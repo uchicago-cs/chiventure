@@ -20,7 +20,7 @@ Test(dialogue, node_new)
     cr_assert_eq(strcmp(n->npc_dialogue, "Dialogue"), 0,
                  "node_new() didn't set dialogue");
     cr_assert_null(n->edges, "node_new() didn't set edges to NULL");
-    cr_assert_eq(n->action, D_NONE, "node_new() didn't action to D_NONE");
+    cr_assert_null(n->actions, "node_new() didn't actions to NULL");
 }
 
 /* Checks that node_init initializes a node with the given parameters */
@@ -28,9 +28,6 @@ Test(dialogue, node_init)
 {
     node_t n;
     int rc;
-
-    n.node_id = NULL;
-    n.npc_dialogue = NULL;
 
     rc = node_init(&n, "ID", "Dialogue");
 
@@ -40,7 +37,7 @@ Test(dialogue, node_init)
     cr_assert_eq(strcmp(n.npc_dialogue, "Dialogue"), 0,
                  "node_init() didn't set dialogue");
     cr_assert_null(n.edges, "node_init() didn't set edges to NULL");
-    cr_assert_eq(n.action, D_NONE, "node_init() didn't set action to D_NONE");
+    cr_assert_null(n.actions, "node_init() didn't set action to NULL");
 }
 
 /* Checks that node_free frees memory allocated to a node */
@@ -86,9 +83,6 @@ Test(dialogue, edge_init)
     edge_t e;
     int rc;
     condition_t *cond = malloc(sizeof(condition_t));
-
-    e.quip = NULL;
-    e.condition = NULL;
 
     rc = edge_init(&e, "Quip", node_new("N1", "Dia_1"),
                    node_new("N2", "Dia_2"), cond);
@@ -514,7 +508,7 @@ Test(dialogue, conditional_dialogue_one_available)
     ret_str = start_conversation(c, &rc, NULL);
 
     cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
-                 "indicating that the conversation has ended", rc);
+                 "indicating that the conversation has not ended", rc);
     cr_assert_eq(strcmp(ret_str, expected), 0,
                  "Expected:\n%s for the return string of start_conversation "
                  "but start_conversation returned:\n%s", expected, ret_str);
@@ -544,7 +538,7 @@ Test(dialogue, conditional_dialogue_two_available)
     ret_str = start_conversation(c, &rc, NULL);
 
     cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
-                 "indicating that the conversation has ended", rc);
+                 "indicating that the conversation has not ended", rc);
     cr_assert_eq(strcmp(ret_str, expected), 0,
                  "Expected:\n%s for the return string of start_conversation "
                  "but start_conversation returned:\n%s", expected, ret_str);
@@ -579,9 +573,102 @@ Test(dialogue, conditional_dialogue_three_available)
     ret_str = start_conversation(c, &rc, NULL);
 
     cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
-                 "indicating that the conversation has ended", rc);
+                 "indicating that the conversation has not ended", rc);
     cr_assert_eq(strcmp(ret_str, expected), 0,
                  "Expected:\n%s for the return string of start_conversation "
                  "but start_conversation returned:\n%s", expected, ret_str);
 }
 
+
+/*** Actions ***/
+
+/* Give the player one item */
+Test(dialogue, gain_one_item)
+{
+    convo_t *c = convo_new();
+    int rc;
+
+    game_t *g = game_new("game");
+    player_t *p = player_new("player");
+    item_t *i = item_new("item", "short_desc", "long_desc");
+
+    g->curr_player = p;
+    add_item_to_game(g, i);
+
+    add_node(c, "N1", "D1");
+
+    add_item_gain(c, "N1", "item");
+
+    start_conversation(c, &rc, g);
+
+    cr_assert_eq(rc, 1, "After start_conversation, the Return Code was set to "
+                 "%d when it should have been 1", rc);
+    cr_assert_eq(item_in_inventory(p, i), true, "The item was not added to "
+                 "the player's inventory");
+}
+
+/* Give the player two items */
+Test(dialogue, gain_two_items)
+{
+    convo_t *c = convo_new();
+    int rc;
+
+    game_t *g = game_new("game");
+    player_t *p = player_new("player");
+    item_t *i1 = item_new("item1", "short_desc", "long_desc");
+    item_t *i2 = item_new("item2", "short_desc", "long_desc");
+
+    g->curr_player = p;
+    add_item_to_game(g, i1);
+    add_item_to_game(g, i2);
+
+    add_node(c, "N1", "D1");
+
+    add_item_gain(c, "N1", "item1");
+    add_item_gain(c, "N1", "item2");
+
+    start_conversation(c, &rc, g);
+
+    cr_assert_eq(rc, 1, "After start_conversation, the Return Code was set to "
+                 "%d when it should have been 1", rc);
+    cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
+                 "the player's inventory");
+    cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
+                 "the player's inventory");
+}
+
+/* Give the player one item, followed by another */
+Test(dialogue, gain_one_then_one_item)
+{
+    convo_t *c = convo_new();
+    int rc;
+
+    game_t *g = game_new("game");
+    player_t *p = player_new("player");
+    item_t *i1 = item_new("item1", "short_desc", "long_desc");
+    item_t *i2 = item_new("item2", "short_desc", "long_desc");
+
+    g->curr_player = p;
+    add_item_to_game(g, i1);
+    add_item_to_game(g, i2);
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+    add_edge(c, "Q1", "N1", "N2", NULL);
+
+    add_item_gain(c, "N1", "item1");
+    add_item_gain(c, "N2", "item2");
+
+    start_conversation(c, &rc, g);
+    cr_assert_eq(rc, 0, "After start_conversation, the Return Code was set to "
+                 "%d when it should have been 0", rc);
+
+    run_conversation_step(c, 1, &rc, g);
+    cr_assert_eq(rc, 1, "After run_conversation_step, the Return Code was set "
+                 "to %d when it should have been 1", rc);
+
+    cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
+                 "the player's inventory");
+    cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
+                 "the player's inventory");
+}

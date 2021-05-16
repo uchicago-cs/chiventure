@@ -115,7 +115,7 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
  *       DIALOGUE EXECUTION FUNCTIONS         *
  **********************************************/
 
-/* Executes the action on a node.
+/* Executes the actions on a node.
  *
  * Parameters:
  *  - n: node
@@ -124,32 +124,36 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
  * Returns:
  *  - SUCCESS if the action executed successfully, FAILURE if an error occured
  */
-int do_node_action(node_t *n, game_t *game)
+int do_node_actions(node_t *n, game_t *game)
 {
-    switch (n->action) {
+    node_action_t *action = n->actions;
 
-        case D_QUEST:
-            printf("- You have received a quest. -\n\n");
-            // to do
-            break;
+    while (action != NULL) {
 
-        case D_ITEM: ;
-            item_t *item = get_item_in_hash(game->all_items, n->action_id);
-            if (item == NULL) return FAILURE;
-            // item_t *i1, *i2;
-            // i1 = get_item_in_hash(game->all_items, "scimitar_handle");
-            // i2 = get_item_in_hash(game->all_items, "scimitar_blade");
-            // printf("%x\n", i1);
-            // printf("%x\n", i2);
-            int rc = add_item_to_player(game->curr_player, item);
-            break;
+        switch(action->action_type) {
 
-        case D_BATTLE:
-            // to do
-            break;
+            case GAIN_ITEM: ;
+                item_t *item = get_item_in_hash(game->all_items,
+                                                action->action_id);
+                if (item == NULL) return FAILURE;
+                int rc = add_item_to_player(game->curr_player, item);
+                if (rc != SUCCESS) return FAILURE;
+                break;
 
-        default:
-            return FAILURE;
+            case START_QUEST:
+                printf("- You have received a quest. -\n\n");
+                // to do
+                break;
+
+            case START_BATTLE:
+                // to do
+                break;
+
+            default:
+                return FAILURE;
+        }
+
+        action = action->next;
     }
 
     return SUCCESS;
@@ -269,12 +273,10 @@ char *start_conversation(convo_t *c, int *rc, game_t *game)
     // Step 1: Set current node to first node
     c->cur_node = c->all_nodes->node;
 
-    // Step 2: Execute action (item, quest, battle, etc.), if any
-    if (c->cur_node->action != D_NONE) {
-        if (do_node_action(c->cur_node, game) != SUCCESS) {
-            *rc = -1;
-            return NULL;
-        }
+    // Step 2: Execute actions (item, quest, battle, etc.), if any
+    if (do_node_actions(c->cur_node, game) != SUCCESS) {
+        *rc = -1;
+        return NULL;
     }
 
     // Step 3: Recheck the availability of each edge, count total avail. edges
@@ -311,12 +313,10 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     c->cur_node = cur_edge->edge->to;
 
-    // Step 2: Execute action (item, quest, battle, etc.), if any
-    if (c->cur_node->action != D_NONE) {
-        if (do_node_action(c->cur_node, game) != SUCCESS) {
-            *rc = -1;
-            return NULL;
-        }
+    // Step 2: Execute actions (item, quest, battle, etc.), if any
+    if (do_node_actions(c->cur_node, game) != SUCCESS) {
+        *rc = -1;
+        return NULL;
     }
 
     // Step 3: Recheck the availability of each edge, count total avail. edges
@@ -340,6 +340,28 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
  *           ORNAMENTAL FUNCTIONS             *
  **********************************************/
 
+/* Create a new action, and append it to the node's action list.
+ *
+ * Parameters:
+ *  - n: node
+ *  - action_type: type of action
+ *  - action_id: ID associated with that action, if any
+ *
+ * Returns:
+ *  - SUCCESS if the operation suceeded, FAILURE otherwise
+ */
+int add_action_to_node(node_t *n, node_action_type action_type,
+                       char *action_id)
+{
+    node_action_t *action;
+    if ((action = node_action_new(action_type, action_id)) == NULL) return
+        FAILURE;
+
+    DL_APPEND(n->actions, action);
+
+    return SUCCESS;
+}
+
 /* See dialogue.h */
 int add_quest_start(convo_t *c, char *node_id, char *quest_id)
 {
@@ -348,28 +370,18 @@ int add_quest_start(convo_t *c, char *node_id, char *quest_id)
     node_t *n;
     if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
 
-    if (n->action != D_NONE) return FAILURE;
-
-    n->action = D_QUEST;
-    n->action_id = strdup(quest_id);
-
-    return SUCCESS;
+    return add_action_to_node(n, START_QUEST, quest_id);
 }
 
 /* See dialogue.h */
 int add_item_gain(convo_t *c, char *node_id, char *item_id)
 {
     assert(item_id != NULL);
-
+    
     node_t *n;
     if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
 
-    if (n->action != D_NONE) return FAILURE;
-
-    n->action = D_ITEM;
-    n->action_id = strdup(item_id);
-
-    return SUCCESS;
+    return add_action_to_node(n, GAIN_ITEM, item_id);
 }
 
 
@@ -382,18 +394,13 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
               condition_t *cond)
 {
     assert(e != NULL);
+    assert(quip != NULL);
     assert(strlen(quip) < MAX_QUIP_LEN);
     assert(from != NULL && to != NULL);
 
-    if (e->quip != NULL) free(e->quip);
-    if ((e->quip = (char *) malloc(sizeof(char) * (strlen(quip) + 1))) == NULL)
-        return FAILURE;
-    strcpy(e->quip, quip);
-
+    e->quip = strdup(quip);
     e->from = from;
     e->to = to;
-
-    if (e->condition != NULL) delete_condition_llist(e->condition);
     e->condition = cond;
 
     return SUCCESS;
@@ -402,14 +409,8 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
 /* See dialogue.h */
 edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *cond)
 {
-    assert(strlen(quip) < MAX_QUIP_LEN);
-    assert(from != NULL && to != NULL);
-
     edge_t *e;
     if ((e = (edge_t *) malloc(sizeof(edge_t))) == NULL) return NULL;
-
-    e->quip = NULL;
-    e->condition = NULL;
 
     if (edge_init(e, quip, from, to, cond) != SUCCESS) {
         edge_free(e);
@@ -435,31 +436,17 @@ int edge_free(edge_t *e)
 int node_init(node_t *n, char *node_id, char *npc_dialogue)
 {
     assert(n != NULL);
+    assert(node_id != NULL);
+    assert(npc_dialogue != NULL);
     assert(strlen(node_id) < MAX_NODE_ID_LEN);
     assert(strlen(npc_dialogue) < MAX_DIA_LEN);
 
-    // ID
-    if (n->node_id != NULL) free(n->node_id);
-    if ((n->node_id = (char *) malloc(sizeof(char) *
-        (strlen(node_id) + 1))) == NULL) return FAILURE;
-    strcpy(n->node_id, node_id);
-
-    // Dialogue
-    if (n->npc_dialogue != NULL) free(n->npc_dialogue);
-    if ((n->npc_dialogue = (char *)malloc(sizeof(char) *
-        (strlen(npc_dialogue)+ 1))) == NULL) return FAILURE;
-    strcpy(n->npc_dialogue, npc_dialogue);
-
+    n->node_id = strdup(node_id);
+    n->npc_dialogue = strdup(npc_dialogue);
     n->num_edges = 0;
     n->num_available_edges = 0;
     n->edges = NULL;
-
-    // Action
-    n->action = D_NONE;
-    if (n->action_id != NULL) {
-        free(n->action_id);
-        n->action_id = NULL;
-    }
+    n->actions = NULL;
 
     return SUCCESS;
 }
@@ -467,15 +454,8 @@ int node_init(node_t *n, char *node_id, char *npc_dialogue)
 /* See dialogue.h */
 node_t *node_new(char *node_id, char *npc_dialogue)
 {
-    assert(strlen(node_id) < MAX_NODE_ID_LEN);
-    assert(strlen(npc_dialogue) < MAX_DIA_LEN);
-
     node_t *n;
     if ((n = (node_t *) malloc(sizeof(node_t))) == NULL) return NULL;
-
-    n->node_id = NULL;
-    n->npc_dialogue = NULL;
-    n->action_id = NULL;
 
     if (node_init(n, node_id, npc_dialogue) != SUCCESS) {
         node_free(n);
@@ -492,11 +472,25 @@ int node_free(node_t *n)
         if (free_edge_list(n->edges, true) != SUCCESS) return FAILURE;
         free(n->node_id);
         free(n->npc_dialogue);
-        if (n->action_id != NULL) free(n->action_id);
+        free_action_list(n->actions);
         free(n);
     }
 
     return SUCCESS;
+}
+
+/* See dialogue.h */
+node_action_t *node_action_new(node_action_type action_type, char *action_id)
+{
+    node_action_t *action;
+    if ((action = malloc(sizeof(node_action_t))) == NULL) return NULL;
+    
+    action->action_type = action_type;
+
+    if (action_id != NULL) action->action_id = strdup(action_id);
+    else action->action_id = NULL;
+
+    return action;
 }
 
 /* See dialogue.h */
@@ -561,6 +555,20 @@ int free_node_list(node_list_t *n_lst, bool free_nodes)
     DL_FOREACH_SAFE(n_lst, elt, tmp) {
         DL_DELETE(n_lst, elt);
         if (free_nodes) node_free(elt->node);
+        free(elt);
+    }
+
+    return SUCCESS;
+}
+
+/* See dialogue.h */
+int free_action_list(node_action_t *actions_lst)
+{
+    node_action_t *elt, *tmp;
+
+    DL_FOREACH_SAFE(actions_lst, elt, tmp) {
+        DL_DELETE(actions_lst, elt);
+        free(elt->action_id);
         free(elt);
     }
 

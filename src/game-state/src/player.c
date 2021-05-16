@@ -78,7 +78,7 @@ int player_free(player_t* plyr)
 
     if (plyr->player_class != NULL)
     {
-        // class_free(plyr->player_class);
+        class_free(plyr->player_class);
     }
 
     delete_all_items(&plyr->inventory);

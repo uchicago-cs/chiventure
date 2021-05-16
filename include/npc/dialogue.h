@@ -15,13 +15,26 @@
  *       DIALOGUE STRUCTURE DEFINITIONS       *
  **********************************************/
 
-/* Actions: D_ prefix avoids redeclaration errors */
+/* Actions */
 typedef enum {
-    D_NONE,
-    D_QUEST,
-    D_ITEM,
-    D_BATTLE
-} node_action;
+    GAIN_ITEM,
+    START_QUEST,
+    START_BATTLE
+} node_action_type;
+
+/* An action flag. This allows designers to integrate actions into their
+ * dialogue. NOTE: This is a linked list, for multiple actions.
+ * 
+ * Includes:
+ *  - action: the type of action
+ *  - action_id: ID associated with the action (e.g. quest ID), if any
+ *  - next, prev: next and previous list elements
+ */
+typedef struct node_action {
+    node_action_type action_type;
+    char *action_id;
+    struct node_action *next, *prev;
+} node_action_t;
 
 typedef enum {
     EDGE_DISABLED = -1,
@@ -40,7 +53,7 @@ typedef struct node node_t;
  *  - from: source node
  *  - to: destination node
  *  - condition: criteria determining an edge's availability, NULL if none
- *    NOTE: conditions come from game-state/condition.h
+ *    Note: conditions come from game-state/condition.h
  */
 typedef struct edge {
     char *quip;
@@ -69,8 +82,7 @@ typedef struct edge_list {
  *  - num_edges: total number of edges
  *  - num_available_edges: number of accessible edges
  *  - edges: possible responses
- *  - action: an action associated with the node (item, quest, battle, etc.)
- *  - action_id: ID associated with the action
+ *  - actions: actions associated with the node (item, quest, battle, etc.)
  */
 typedef struct node {
     char *node_id;
@@ -78,8 +90,7 @@ typedef struct node {
     int num_edges;
     int num_available_edges;
     edge_list_t *edges;
-    node_action action;
-    char *action_id;
+    node_action_t *actions;
 } node_t;
 
 /* A doubly-linked list containing nodes.
@@ -113,7 +124,7 @@ typedef struct convo {
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
 
-/* Create convo: convo_new()
+/* To create a new convo, use: convo_new()
  */
 
 /* Adds a new node to a conversation.
@@ -188,7 +199,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
 
 
 /**********************************************
- *           ORNAMENTAL FUNCTIONS             *
+ *             ACTION FUNCTIONS               *
  **********************************************/
 
 /* Adds a quest start flag to a node.
@@ -205,7 +216,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
  */
 int add_quest_start(convo_t *c, char *node_id, char *quest_id);
 
-/* Adds an item receive flag to a node.
+/* Adds an item gain flag to a node.
  *
  * Parameters:
  *  - c: pointer to a convo
@@ -218,6 +229,27 @@ int add_quest_start(convo_t *c, char *node_id, char *quest_id);
  *    (2) the node already has an action;
  */
 int add_item_gain(convo_t *c, char *node_id, char *item_id);
+
+/* Allocates a new node action on the heap.
+ *
+ * Parameters:
+ *  - action_type: type of action
+ *  - action_id: ID associated with that action, if any
+ *
+ * Returns:
+ *  - pointer to the new node action
+ */
+node_action_t *node_action_new(node_action_type action_type, char *action_id);
+
+/* Frees an action list (using macros from common/utlist.h).
+ *
+ * Parameters:
+ *  - action_lst: the action list to be freed
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
+ */
+int free_action_list(node_action_t *action_lst);
 
 
 /**********************************************
