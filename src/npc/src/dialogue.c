@@ -337,7 +337,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
 
 /**********************************************
- *           ORNAMENTAL FUNCTIONS             *
+ *             ACTION FUNCTIONS               *
  **********************************************/
 
 /* Create a new action, and append it to the node's action list.

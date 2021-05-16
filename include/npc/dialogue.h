@@ -230,27 +230,6 @@ int add_quest_start(convo_t *c, char *node_id, char *quest_id);
  */
 int add_item_gain(convo_t *c, char *node_id, char *item_id);
 
-/* Allocates a new node action on the heap.
- *
- * Parameters:
- *  - action_type: type of action
- *  - action_id: ID associated with that action, if any
- *
- * Returns:
- *  - pointer to the new node action
- */
-node_action_t *node_action_new(node_action_type action_type, char *action_id);
-
-/* Frees an action list (using macros from common/utlist.h).
- *
- * Parameters:
- *  - action_lst: the action list to be freed
- *
- * Returns:
- *  - SUCCESS if successful, FAILURE if an error occurs
- */
-int free_action_list(node_action_t *action_lst);
-
 
 /**********************************************
  *    STRUCT (INIT, NEW, FREE) FUNCTIONS      *
@@ -329,6 +308,17 @@ node_t *node_new(char *node_id, char *npc_dialogue);
  */
 int node_free(node_t *n);
 
+/* Allocates a new node action on the heap.
+ *
+ * Parameters:
+ *  - action_type: type of action
+ *  - action_id: ID associated with that action, if any
+ *
+ * Returns:
+ *  - pointer to the new node action
+ */
+node_action_t *node_action_new(node_action_type action_type, char *action_id);
+
 /* Initializes a convo.
  *
  * Parameters:
@@ -385,6 +375,16 @@ int free_edge_list(edge_list_t *e_lst, bool free_edges);
  *  - SUCCESS if successful, FAILURE if an error occurs
  */
 int free_node_list(node_list_t *n_lst, bool free_nodes);
+
+/* Frees an action list (using macros from common/utlist.h).
+ *
+ * Parameters:
+ *  - action_lst: the action list to be freed
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
+ */
+int free_action_list(node_action_t *action_lst);
 
 
 
