@@ -233,34 +233,15 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
     print_to_cli(ctx,s);
-    command_list_t* new_command = (command_list_t*)malloc(sizeof(command_list_t));
-    new_command->command = s;
-    new_command->next = NULL;
-    command_list_t* temp = ctx->game->command_history;
-    // if (ctx->game->command_history == NULL)
-    // {
-    //    ctx->game->command_history = new_command;
-    // } 
-    // else {
-    //     while (temp->next != NULL) {
-    //         print_to_cli(ctx, temp->command);
-    //         temp = temp->next;
-    //     }
-    //     temp->next = new_command;
-    // }
+    command_list_t* new_command = new_command_list(s);
+    
     LL_APPEND(ctx->game->command_history,new_command);
-    // while (temp->next != NULL) {
-    //          //print_to_cli(ctx, temp->command);
-    //          temp = temp->next;
-    //      }
-    //print_to_cli(ctx,ctx->game->command_history->command);
+    
     char **parsed_input = parse(s);
     if(parsed_input == NULL)
     {
         return NULL;
     }
-    // ctx->game->command_history[counter].command = s;
-    // ctx->game->command_history[counter].next = NULL;
     
     lookup_t **table = ctx->table;
     return cmd_from_tokens(parsed_input, table);
