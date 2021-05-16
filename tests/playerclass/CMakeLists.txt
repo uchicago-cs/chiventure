@@ -3,6 +3,7 @@ set(TEST_EXE test-playerclass)
 add_executable(${TEST_EXE}
         test_class.c
         test_class_item_restriction.c
+        test_class_prefabs.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
