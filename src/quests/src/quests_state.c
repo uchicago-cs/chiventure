@@ -174,19 +174,23 @@ int fail_quest(quest_t *quest)
     return SUCCESS;
 }
 
-//to traverse:
-//return pointer to achievement we're looking for
-//take tree, achievement ID
-//traverse tree in a BFS
-//look for a) the achievement ID
-//    if so, return a pointer to this achievement in the tree
-//THEN b) if the achievement is completed
-//    if so, step down and traverse the next level
-//    as long as the node has children
-//    else return NULL
-//if we hit the end of a level, return NULL
-//NOTE: this setup makes it so only ONE quest path can be completed
-//once it's started.
+/*
+ * Traverses the achievement tree to find the achievement with the
+ * given string identifier along a valid quest path.
+ *
+ * Parameters:
+ * - tree: pointer to the achievement tree to be traversed
+ * - id: pointer to a string identifier for the desired achievement
+ *
+ * Returns:
+ * - pointer to the desired achievement, OR
+ * - NULL if achievement cannot be found along a valid path
+ *
+ * Note: Achievements must be completed in order according to this
+ *       traversal. Only one achievement on each level can be completed,
+ *       so this "locks" a user into a path once they've begun
+ *       completing achievements.
+ */
 achievement_t *find_achievement(achievement_tree_t *tree, char *id) {
     achievement_t *achievement = tree->achievement;
 
