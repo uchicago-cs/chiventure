@@ -59,7 +59,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval);
  *   - retval: not used in this function
  *
  */
-void print_map(chiventure_ctx_t *ctx, window_t *win, int* retval);
+void print_map(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 
 /* print_to_cli
