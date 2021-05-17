@@ -181,6 +181,29 @@ int reverse_path(npc_mov_t *npc_mov)
     return SUCCESS;
 }
 
+/* See npc_move.h */
+int get_npc_num_rooms(npc_mov_t *npc_mov)
+{
+	room_list_t *head;
+	int count;
+
+	if(npc_mov->mov_type == NPC_MOV_DEFINITE)
+	{
+		head = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
+	}
+	else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
+	{
+		head = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
+	}
+	
+	while(head != NULL)
+	{
+		count++;
+		head = head->next;
+	}
+	
+	return count;
+
 /* Helper function for move_npc_def function */
 int room_id_cmp(room_list_t *room1, room_list_t *room2)
 {

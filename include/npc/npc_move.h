@@ -194,6 +194,16 @@ char* track_room(npc_mov_t *npc_mov);
  */
 int reverse_path(npc_mov_t *npc_mov);
 
+/*
+ * Gets the number of rooms in an NPC's path
+ *
+ * Parameters:
+ *  - npc_mov: The NPC movement struct
+ *
+ *  Returns:
+ *  - number of rooms in an NPC's path, represented as an int
+ */
+int get_npc_num_rooms(npc_mov_t *npc_mov);
 
 /*
  * Moves the npc to the next room for npcs with definite movement
