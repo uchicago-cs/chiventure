@@ -227,11 +227,13 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
     return output;
 }
 
+
 /* See cmd.h */
 cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
-    char **parsed_input = parse(s);
-    if(parsed_input == NULL)
+    
+    char **parsed_input = parse_addition(s);
+    if(s == NULL)
     {
         return NULL;
     }

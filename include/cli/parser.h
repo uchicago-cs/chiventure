@@ -25,7 +25,8 @@ typedef struct tokenized_cmds {
  *   words than this fixed size, the rest of the list will be null.
  *
  */
-char **parse(char *input);
+tokenized_cmds *parse(char *input);
+char **parse_addition(char *input);
 
 
 #endif /* _CLI_INCLUDE_PARSER_H */
