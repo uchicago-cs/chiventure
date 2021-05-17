@@ -72,7 +72,7 @@ int skill_free(skill_t* skill) {
 }
 
 /* See skill.h */
-int skill_execute(skill_t* skill) 
+int skill_execute(skill_t* skill, chiventure_ctx_t* ctx) 
 {
     assert(skill != NULL);
     assert(skill -> skill_effect != NULL);
@@ -81,7 +81,7 @@ int skill_execute(skill_t* skill)
     effect_type_t type = skill_effect->effect_type;
     if(type == STATISTIC_MOD)
     {
-        check = execute_stat_mod_effect(skill_effect->data.s);
+        check = execute_stat_mod_effect(skill_effect->data.s, ctx);
         assert(check==0);
         return check;
     }
