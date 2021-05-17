@@ -5,40 +5,34 @@
 #include "cli/parser.h"
 
 char *strtokstr_r(char *s, char *delim, char **save_ptr){
-  //  printf("entering function\n");
         char *end;
-      //  printf("initializing\n");
-        if (s == NULL){
-          //  printf("first if stae\n");
+        if (s == NULL)
+        {
             s = *save_ptr;
         }
-
         else if (s == NULL || *s == '\0')
         {
-           // printf("second if statement\n");
             *save_ptr = s;
             return NULL;
         }
-       
-        // Skip leading delimiters.
-       // printf("WHILE LOOP\n");
-        while (strstr(s,delim)==s) {
-           // printf("while loop: %s", s);
-            s+=strlen(delim);
-            if (*s == '\0'){
-                 *save_ptr = s;
-                 return NULL;
-                 }
-                 }
-                 
-                 // Find the end of the token.
-                 end = strstr (s, delim);
-                  if (end == NULL){
-                       *save_ptr = s + strlen(s);
-                       return s;
-                       }
 
-        // Terminate the token and make *SAVE_PTR point past it.
+        while (strstr(s,delim) == s)
+        {
+            s+=strlen(delim);
+            if (*s == '\0')
+            {
+                *save_ptr = s;
+                return NULL;
+            }
+        }
+
+        end = strstr (s, delim);
+        if (end == NULL)
+        {
+            *save_ptr = s + strlen(s);
+            return s;
+        }
+
         memset(end, 0, strlen(delim));
         *save_ptr = end + strlen(delim);
         return s;
@@ -52,7 +46,7 @@ char **parse(char *input)
         return NULL;
     }
 
-    //Changes the input to be all caps, for compatibility with commands/objects/directions
+   
     int i = 0;
     char ch;
 
@@ -63,49 +57,45 @@ char **parse(char *input)
         i++;
     }
 
-   char **save_ptr = &input;
+    char **save_ptr = &input;
     char **big_words;
-    big_words = (char**)malloc(sizeof(char*)*4);
+    big_words = (char**)malloc(sizeof(char*) * TOKEN_LIST_SIZE);
     char **words;
-    words = (char**)malloc(sizeof(char*)*4);
-    //shows strtokstr works
-   for(int i = 0; i < 4; i++)
+    words = (char**)malloc(sizeof(char*) * TOKEN_LIST_SIZE);
+
+    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         big_words[i] = NULL;
     }
-    for(int l = 0; l < 4; l++)
+    for(int l = 0; l < TOKEN_LIST_SIZE; l++)
     {
         words[l] = NULL;
     }
    
    
     char *token = strtokstr_r(input, "and", save_ptr);
-    //int i = 0;
     int j = 0;
-   for(int k = 0; k < 4; k++){
+    for (int k = 0; k < 4; k++){
         big_words[k] = token;
-        //printf("big_words[%d]: %s\n", k, big_words[k]);
-        if (big_words[k] != NULL){
-             char *token_r = strtok(big_words[k], " ");
-             while (k < 1){
-                 char* action = (char*)malloc(sizeof(char*));
-                 action = token_r;
-             }
+        if (big_words[k] != NULL)
+        {
+            char *token_r = strtok(big_words[k], " ");
+            while (k < 1)
+            {
+                char* action = (char*)malloc(sizeof(char*));
+                action = token_r;
+            }
 
-            // printf("token_r: %s\n", token_r);
-              while(token_r != NULL && j < 4) {
-                   words[j] = token_r;
-                   token_r = strtok(NULL, " ");
-                  // printf("words: %s\n", words[j]);
-                   j++;
-                }
+            while(token_r != NULL && j < 4)
+            {
+                words[j] = token_r;
+                token_r = strtok(NULL, " ");
+                j++;
+            }   
         }
         token = strtokstr_r(input, "and", save_ptr);
         
     }
-    
-    //If there are more than 4 words, parser returns NULL and does not attempt
-    //to pass the first four words as tokens
     if(token != NULL)
     {
         return NULL;
