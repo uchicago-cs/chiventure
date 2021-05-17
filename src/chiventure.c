@@ -72,10 +72,12 @@ int main(int argc, char **argv)
         if(!strcmp(argv[1], "--gui"))
         {
             graphical = true;
+            wdl_ctx = load_wdl(argv[2]);
+            game = load_objects(wdl_ctx);
         }
         else
         {
-            fprintf(stderr, "Could not load game: %s\n", argv[1]);
+            fprintf(stderr, "Could not load game: %s\n", argv[2]);
                 exit(1);
         }
                 
