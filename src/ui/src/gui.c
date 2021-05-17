@@ -41,7 +41,6 @@ void start_gui(chiventure_ctx_t *ctx)
     /*Is there a starting text thing that could go here?*/
     char *output_text = ctx->game->start_desc;
 
-
     int framesCounter = 0;
     SetTargetFPS(10);
 
