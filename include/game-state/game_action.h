@@ -49,15 +49,6 @@ int possible_action(agent_t* agent, char* action_name);
  */
 game_action_hash_t *get_all_actions(agent_t *agent);
 
-
-/* game_action_free() frees allocated space for an action struct in memory
- *  Parameters:
- *    - action_to_free: a pointer to the action
- *  Returns:
- *    SUCCESS if successful, FAILURE if not
- */
-int game_action_free(game_action_t *action_to_free);
-
 // ------------------------- CONDITION FUNCTIONS -------------------------
 
 /* add_action_attribute_condition() creates a new attribute condition for an item's action and
@@ -169,17 +160,7 @@ int do_effect(game_action_effect_t *effect);
  */
 int do_all_effects(action_effect_list_t *effects);
 
-/* action_init() initializes an action struct with given values
-   arguments are taken from action management
- Parameters:
-    a memory allocated new action pointer
-    an action name
-    an action type struct
- Returns:
-    FAILURE for failure, SUCCESS for success
-*/
-int game_action_init(game_action_t *new_action, char *act_name, 
-		     char* success_str, char* fail_str);
+// ------------------------- NEW, INIT, FREE FUNCTIONS ------------------------------
 
 /* game_action_new() allocates a space for an action struct in memory and
 * assigns given values to struct fields
@@ -192,13 +173,33 @@ int game_action_init(game_action_t *new_action, char *act_name,
 */
 game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str);
 
-/* create_effect creates an effect_t struct with the given inputs
+/* action_init() initializes an action struct with given values
+   arguments are taken from action management
+ Parameters:
+    a memory allocated new action pointer
+    an action name
+    an action type struct
+ Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int game_action_init(game_action_t *new_action, char *act_name, 
+		     char* success_str, char* fail_str);
+
+/* game_action_free() frees allocated space for an action struct in memory
+ *  Parameters:
+ *    - action_to_free: a pointer to the action
+ *  Returns:
+ *    SUCCESS if successful, FAILURE if not
+ */
+int game_action_free(game_action_t *action_to_free);
+
+/* effect_new creates an effect_t struct with the given inputs
  * Parameters:
  *  pointer to item to modify
  *  pointer to attribute_t
  *  attribute_value_t
  * Returns:
- * NULL or game_action_effect_t
+ *  NULL or game_action_effect_t
  */
 game_action_effect_t *effect_new(item_t *item_to_modify, 
 				 attribute_t *attribute, attribute_value_t new_value);
