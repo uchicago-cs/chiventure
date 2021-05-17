@@ -27,7 +27,7 @@ combatant_t *set_player(player_t *ctx_player)
     class_t *class = ctx_player->class;
     stat_t *stats = ctx_player->stats;
     move_t *moves = ctx_player->moves;
-    item_t *items = ctx_player->items;
+    battle_item_t *items = ctx_player->items;
 
     // Allocating new combatant_t for the player in memory
     combatant_t *comb_player = combatant_new(name, is_friendly, class, stats,
@@ -52,7 +52,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
         class_t *class = enemy_elt->class;
         stat_t *stats = enemy_elt->stats;
         move_t *moves = enemy_elt->moves;
-        item_t *items = enemy_elt->items;
+        battle_item_t *items = enemy_elt->items;
         difficulty_t ai = enemy_elt->ai;
 
         comb_enemy = combatant_new(name, is_friendly, class, stats, moves, items, ai);
@@ -132,7 +132,8 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
     }
     else
     {
-        return FAILURE;
+        dmg = damage(b->player, move, b->enemy);
+        b->player->stats->hp -= dmg;
     }
     
     if(battle_over(b) == BATTLE_VICTOR_ENEMY)

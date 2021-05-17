@@ -10,6 +10,11 @@
 #define BUFFER_SIZE (100)
 
 
+char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021";
+}
+
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     return NULL;
@@ -290,6 +295,26 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     return "This was your inventory";
 }
+
+
+char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded room to check items.\n";
+    }
+    item_list_t *t;
+    int i = 0;
+    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, t)
+    {
+        i++;
+        print_to_cli(ctx, t->item->item_id);
+    }
+    return "These are the items in the room";
+}
+
 
 char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
