@@ -92,6 +92,10 @@ int run_conversation_mode(char *input, cli_callback callback_func,
 
     int end_convo;
     char *outstring = run_conversation_step(npc->dialogue, option, &end_convo);
+
+    assert(end_convo != -1); //checking for conversation error
+
+    /* Print npc dialogue and dialogue options */
     rc = callback_func(ctx, outstring, callback_args);
 
     free(outstring);
