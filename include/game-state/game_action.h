@@ -6,9 +6,11 @@
 #include "condition.h"
 #include "item.h"
 
+
 // ------------------------- ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions
 // and conducting actions
+
 
 /* get_action() returns the game_action_t associated with an action
  * Parameters:
@@ -49,7 +51,9 @@ int possible_action(agent_t* agent, char* action_name);
  */
 game_action_hash_t *get_all_actions(agent_t *agent);
 
+
 // ------------------------- CONDITION FUNCTIONS -------------------------
+
 
 /* add_action_attribute_condition() creates a new attribute condition for an item's action and
  * adds to the action's condition list
@@ -160,7 +164,9 @@ int do_effect(game_action_effect_t *effect);
  */
 int do_all_effects(action_effect_list_t *effects);
 
+
 // ------------------------- NEW, INIT, FREE FUNCTIONS ------------------------------
+
 
 /* game_action_new() allocates a space for an action struct in memory and
 * assigns given values to struct fields
