@@ -333,7 +333,3 @@ int auto_gen_movement(npc_mov_t *npc_mov, game_t *game)
 
     return rc;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 1c6692862a1014513bda4bf94e77f7f8a5e42edb

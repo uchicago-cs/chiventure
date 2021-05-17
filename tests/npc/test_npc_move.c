@@ -254,6 +254,7 @@ Test(npc_mov, move_npc_indefinite)
                     "move_npc_indefinite() failed to move twice");
 }
 
+
 /* Tests auto_gen_movement for definite movement function */
 Test(npc_mov, auto_gen_movement_definite)
 {
