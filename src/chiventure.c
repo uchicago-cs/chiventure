@@ -44,7 +44,7 @@ int main(int argc, char **argv)
     /*Boolean to see if gui is trying to be used*/
     bool graphical = false;
 
-    if (argc = 2)
+    if (argc == 2)
     {
         /*Checks if the user is trying to access the gui*/
         if (!strcmp(argv[1], "--gui"))
