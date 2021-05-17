@@ -69,32 +69,15 @@ char **parse(char *input)
     }
     for(int l = 0; l < TOKEN_LIST_SIZE; l++)
     {
-        words[l] = NULL;
+        words[i] = NULL;
     }
-   
-   
-    char *token = strtokstr_r(input, "and", save_ptr);
-    int j = 0;
-    for (int k = 0; k < 4; k++){
-        big_words[k] = token;
-        if (big_words[k] != NULL)
-        {
-            char *token_r = strtok(big_words[k], " ");
-            while (k < 1)
-            {
-                char* action = (char*)malloc(sizeof(char*));
-                action = token_r;
-            }
 
-            while(token_r != NULL && j < 4)
-            {
-                words[j] = token_r;
-                token_r = strtok(NULL, " ");
-                j++;
-            }   
-        }
-        token = strtokstr_r(input, "and", save_ptr);
-        
+    char *token = strtok(input, " ");
+
+    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+    {
+        words[i] = token;
+        token = strtok(NULL, " ");
     }
     if(token != NULL)
     {
