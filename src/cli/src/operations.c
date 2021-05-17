@@ -246,6 +246,48 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     
     return str;
 }
+//KIND 4:   ACTION <npc>
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return ( "Error! We need a loaded room to do the above action. \n");
+    }
+    lookup_t **table = ctx->table;
+
+    if(tokens[1] == NULL)
+    {
+        return "You must identify an object to act on\n";
+    }
+    npc_t *curr_npc;
+    curr_npc = get_npc_in_room(game->curr_room, tokens[1]);
+    if(curr_npc != NULL)
+    {
+        action_type_t *action = find_action(tokens[0], table);
+        char *str;
+        bool action_success = false;
+        
+        /* Loops through items with identical ids 
+         * until action success or all items fail */
+        while (!action_success && curr_npc != NULL)
+        {
+            int rc = do_npc_action(ctx, action, curr_npc, &str);
+            if (rc == SUCCESS)
+            {
+                action_success = true;
+                if(strcmp(tokens[0], "TALK_TO") == 0 || strcmp(tokens[0], "IGNORE") == 0 || strcmp(tokens[0], "ATTACK") == 0)
+                {
+                    ///START DIALOGUE
+                }
+            }
+            curr_npc->dialogue = curr_npc->dialogue->next;
+        }
+        return str;
+    }
+    return "The NPC could not be found\n";
+}
 
 
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
