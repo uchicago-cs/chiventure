@@ -1,8 +1,11 @@
+#ifndef INCLUDE_SOUND_H_
+#define INCLUDE_SOUND_H_
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
 #include <math.h>
-#include "common/uthash"
+#include "common/uthash.h"
 
 typedef struct{
     // path to sound file
@@ -16,3 +19,5 @@ typedef struct{
     // makes struct hashable
     UT_hash_handle hh; 
 } sound_t;
+
+#endif /* INCLUDE_SOUND_H_ */
