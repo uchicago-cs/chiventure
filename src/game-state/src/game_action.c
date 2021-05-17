@@ -2,8 +2,10 @@
 
 #define BUFFER_SIZE 100
 
-// -------functions to abstract for npc_actions
-/* see game_action.h */
+
+// ------------------------- ACTION FUNCTIONS -------------------------
+
+
 /* see game_action.h */
 game_action_t *get_action(agent_t *agent, char *action_name)
 {
@@ -42,6 +44,7 @@ int add_action(agent_t *agent, char *action_name, char *success_str, char *fail_
     return SUCCESS;
 }
 
+/* see game_action.h */
 int possible_action(agent_t *agent, char *action_name)
 {
     game_action_t *possible_action = get_action(agent, action_name);
@@ -55,6 +58,7 @@ int possible_action(agent_t *agent, char *action_name)
     }
 }
 
+/* see game_action.h */
 game_action_hash_t *get_all_actions(agent_t *agent)
 {
     if(agent->item != NULL){
@@ -167,6 +171,9 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
 
 // ------------------------------------- CONDITIONS -------------------------------------
 
+// ------------------------- CONDITION FUNCTIONS -------------------------
+
+
 /* see game_action.h */
 int add_action_attribute_condition(game_action_t *action, item_t *cond_item,
                          attribute_t *cond_attribute, attribute_value_t cond_value)
@@ -228,7 +235,7 @@ int add_action_condition(game_action_t *action, condition_t *condition)
 }
 
 /*
- * helper that compares action strings
+ * action_cmp() helper function that compares action strings
  *
  * Parameters:
  * - list_action_type_t: points to node with one action
@@ -268,23 +275,22 @@ int delete_action(list_action_type_t **head, list_action_type_t *act)
 }
 
 
+// ------------------------- EFFECT FUNCTIONS ------------------------------
 
-// ------------------------------------- EFFECTS -------------------------------------
 
 /* see game_action.h */
-//we either use item_to_add or action as action is loacted within item_to_add
-int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t new_value)
+int add_action_effect(game_action_t *action, agent_t *agent_to_add, attribute_t *attribute, attribute_value_t new_value)
 {
     if (action == NULL)
     {
         return ACTION_NULL;
     }
-    if (item_to_add == NULL)
+    if (agent_to_add == NULL)
     {
         return ITEM_MODIFY_NULL;
     }
 
-    game_action_effect_t *new_effect = effect_new(item_to_add, attribute, new_value);
+    game_action_effect_t *new_effect = effect_new(agent_to_add, attribute, new_value);
 
     LL_APPEND(action->effects, new_effect);
 
@@ -303,7 +309,6 @@ int delete_action_effect_llist(action_effect_list_t *effects)
     return SUCCESS;
 }
 
-//----- effect_new
 /* see game_action.h */
 int do_effect(game_action_effect_t *effect)
 {
@@ -328,4 +333,102 @@ int do_effect(game_action_effect_t *effect)
         return SUCCESS;
     }
     return FAILURE;
+}
+
+/* see game_action.h */
+int do_all_effects(agent_t *agent, char *action_name)
+{
+    game_action_t *action = get_action(agent, action_name);
+    if (action == NULL)
+    {
+        return FAILURE;
+    }
+    game_action_effect_t *tmp;
+    for (tmp = action->effects; tmp != NULL; tmp = tmp->next)
+    {
+        int check = do_effect(tmp);
+        if (check == FAILURE)
+        {
+            return FAILURE;
+        }
+    }
+    return SUCCESS;
+}
+
+
+// ------------------------- NEW, INIT, FREE FUNCTIONS ------------------------------
+
+
+/* see game_action.h */
+game_action_t *game_action_new(char *action_name, char *success_str, char *fail_str)
+{
+    game_action_t *new_action = malloc(sizeof(game_action_t));
+    new_action->action_name = calloc(1, MAX_ID_LEN * sizeof(char));
+    new_action->success_str = calloc(1, MAX_MSG_LEN * sizeof(char));
+    new_action->fail_str = calloc(1, MAX_MSG_LEN * sizeof(char));
+
+    int check = game_action_init(new_action, action_name, success_str, fail_str);
+
+    if (new_action == NULL || new_action->action_name == NULL)
+    {
+
+        fprintf(stderr,
+                "game_action_new(): game action struct not properly malloced");
+        return NULL;
+    }
+
+    if (check != SUCCESS)
+    {
+        return NULL;
+    }
+
+    return new_action;
+}
+
+/* See game_action.h */
+int game_action_init(game_action_t *new_action, char *act_name,
+                     char *success_str, char *fail_str)
+{
+    assert(new_action != NULL);
+    if (new_action == NULL)
+    {
+        return FAILURE;
+    }
+    strncpy(new_action->action_name, act_name, strlen(act_name));
+    new_action->conditions = NULL; //by UTLIST rules
+    new_action->effects = NULL;    //by UTLIST rules
+    strncpy(new_action->success_str, success_str, strlen(success_str));
+    strncpy(new_action->fail_str, fail_str, strlen(fail_str));
+
+    return SUCCESS;
+}
+
+/* see game_action.h */
+int game_action_free(game_action_t *action_to_free)
+{
+    assert(action_to_free != NULL);
+
+    free(action_to_free->fail_str);
+    free(action_to_free->success_str);
+    free(action_to_free->action_name);
+    free(action_to_free);
+
+    return SUCCESS;
+}
+
+/* see game_action.h */
+game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
+{
+
+    if (item_to_modify == NULL || attribute == NULL)
+    {
+        return NULL;
+    }
+    game_action_effect_t *effect = malloc(sizeof(game_action_effect_t));
+    effect->item = item_to_modify;
+    effect->attribute_to_modify = attribute;
+    effect->new_value = new_value;
+    effect->next = NULL;
+
+    return effect;
 }
