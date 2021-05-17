@@ -57,7 +57,12 @@ int possible_action(agent_t *agent, char *action_name)
 
 game_action_hash_t *get_all_actions(agent_t *agent)
 {
-    //TO DO
+    if(agent->item != NULL){
+        return agent->item->actions;
+    }
+    if(agent->npc != NULL){
+        return agent->npc->actions;
+    }
     return NULL;
 }
 
@@ -158,11 +163,7 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
 
 // ---------------------------------------------------------------------------
 
-//-----get_action
 
-//-----add_action
-
-//possible_action()
 
 // ------------------------------------- CONDITIONS -------------------------------------
 

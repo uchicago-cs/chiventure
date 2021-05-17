@@ -38,7 +38,7 @@ typedef struct npc {
     class_t *class; 
 
     /* List of supported actions */
-    list_npc_action_t *actions;
+    game_action_hash_t *actions;
 } npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
