@@ -237,7 +237,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 
     if (s != NULL) {
         command_list_t* new_command = new_command_list(s);
-        LL_APPEND(ctx->game->command_history,new_command);
+        LL_APPEND(ctx->command_history,new_command);
     
     }
     

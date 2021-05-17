@@ -32,9 +32,12 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     command_list_t* temp = new_command_list(NULL);
 
     print_to_cli(ctx, "Start of command history: \n");
-    LL_FOREACH(ctx->game->command_history, temp)
+    LL_FOREACH(ctx->command_history, temp)
     {
-        print_to_cli(ctx, temp->command);
+        if (temp->command != NULL) {
+            print_to_cli(ctx, temp->command);
+        }
+
 
     } 
     return "End of command history.\n";

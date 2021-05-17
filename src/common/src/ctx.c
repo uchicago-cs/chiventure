@@ -2,6 +2,7 @@
 
 #include "common/ctx.h"
 #include "cli/cmd.h"
+#include "cli/cmdlist.h"
 
 
 /* See ctx.h */
@@ -41,6 +42,8 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
     }
 
     lookup_t **table = lookup_t_new();
+    
+    ctx->command_history = new_command_list(NULL);
 
     if (ctx->game->mode == NULL)
     {
