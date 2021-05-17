@@ -177,7 +177,7 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id) {
             return NULL; //error printing??
         }
     }
-}
+} 
 
 /* Refer to quests_state.h */
 int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id)
