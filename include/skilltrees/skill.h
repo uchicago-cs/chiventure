@@ -71,7 +71,7 @@ int skill_free(skill_t* skill);
  *  0 if success
  *  1 if failure
  */
-int skill_execute(skill_t* skill);
+int skill_execute(skill_t* skill, chiventure_ctx_t* ctx);
 
 /*
  * Levels up a skill
