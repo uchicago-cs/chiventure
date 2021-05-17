@@ -1,6 +1,11 @@
 #ifndef _CLI_INCLUDE_PARSER_H
 #define _CLI_INCLUDE_PARSER_H
 
+typedef struct tokenized_cmds {
+    char *cmds;
+    struct tokenized_cmds *next; /* needed for singly- or doubly-linked lists */
+} tokenized_cmds;
+
 /*
  * This size is the number of words possible in a single command.
  * For now this size is 4, which includes an action, an object,

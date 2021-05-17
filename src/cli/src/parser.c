@@ -46,7 +46,7 @@ char *strtokstr_r(char *s, char *delim, char **save_ptr)
 }
 
 /* See parser.h */
-char **parse(char *input)
+tokenized_cmds *parse(char *input)
 {
     if(strcmp(input, "") == 0)
     {
@@ -64,71 +64,22 @@ char **parse(char *input)
         i++;
     }
 
-    char **save_ptr = &input;
-    char **big_words;
-    big_words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
-    char **words;
-    words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
-    char **and_words;
-    and_words = (char**)malloc(sizeof(char*)*4);
-    
-    for(int i = 0; i < 4; i++)
-    {
-        big_words[i] = NULL;
-    }
-    for(int l = 0; l < 4; l++)
-    {
-        words[l] = NULL;
-    }
-    for(int l = 0; l < 4; l++)
-    {
-        and_words[l] = NULL;
-    }
-   
-   
+    tokenized_cmds *head = NULL;
    
     char *token = strtokstr_r(input, "and", save_ptr);
-    int j = 0;
-    while(token != NULL && j < 2){
-        big_words[j] = token;
+    while(token != NULL){
+        tokenized_cmds *new_thing = malloc(sizeof(tokenized_cmds));
+        new_thing->cmds = token;
+        new_thing->next = NULL;
+        LL_APPEND(head, new_thing);
         token = strtokstr_r(input, "and", save_ptr);
-        j++;
     }
-    if (big_words[1] != NULL)
-    {
-        for(int i = 0; i < 2; i++)
-        {
-            char *token = strtok(big_words[i], " ");
-            for(int k = 0; k < 4; k++)
-            {
-                if (i == 0)
-                {
-                  words[k] = token;
-                  token = strtok(NULL, " ");
-                }
-                else 
-                {
-                    and_words[k] = token;
-                    token = strtok(NULL, " ");
-                }
-            }
-    }
-    }
-    else 
-    {
-       char *token = strtok(big_words[0], " ");
-            for(int k = 0; k < 4; k++)
-            {
-                  words[k] = token;
-                  token = strtok(NULL, " ");
-    }
-    }
-
+   
     //If there are more than 4 words, parser returns NULL and does not attempt
     //to pass the first four words as tokens
     if(token != NULL)
     {
         return NULL;
     }
-    return words;
+    return head;
 }
