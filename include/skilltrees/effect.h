@@ -6,6 +6,7 @@
 #ifndef INCLUDE_EFFECT_H_
 #define INCLUDE_EFFECT_H_
 
+#include "common/ctx.h"
 #include "common/common.h"
 #include "common/ctx.h"  
 /* Removing the comment above causes the code to not compile correctly. 
@@ -129,13 +130,12 @@ effect_t* make_att_effect(att_effect_t* att_effect);
 int execute_stat_mod_effect(stat_mod_effect_t* stat_effect);
 
 
-/* To be called by set_battle in battles/battle_flow. Function will take in the inventory of skills
- * and adds any move skills to the linked list of moves in the battle player struct.
- * Parameters: skill_inventory_t* inventory - Pointer to the skill inventory
- *             combatant_t player - Pointer to the player struct where moves will be added 
+/* Takes the given move effect and adds the move to the player
+ * Parameters: chiventure_ctx_t* ctx - Pointer to the ctx for the current gamestate
+ *             move_effect_t* effect - Pointer to the move skill to be added
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_move_effect(move_effect_t* move_effect);
+int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect);
 
 /* Takes the given attribute modifying effect and executes it
  * Parameters: att_effect_t* att_effect - a pointer to the attribute modifying effect

@@ -72,8 +72,12 @@ int execute_stat_mod_effect(stat_mod_effect_t* stat_effect)
 }
 
 // See effect.h
-int execute_move_effect(move_effect_t* move_effect)
+int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect)
 {
+    assert(ctx != NULL);
+    assert(effect != NULL);
+    //ctx->game->curr_player->moves currently hasn't been implemented. We are working with battles to do so.
+    //add_move(ctx->game->curr_player->moves, effect->move);
     return SUCCESS;
 }
 
