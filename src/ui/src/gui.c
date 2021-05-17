@@ -40,8 +40,7 @@ void start_gui(chiventure_ctx_t *ctx)
     int outputHeight = 120;
     int heightbuf = 140;
     Rectangle output = { outputX, ScreenHeight - heightbuf, ScreenWidth, outputHeight };
-    /*Is there a starting text thing that could go here?*/
-    char *output_text = "You see a path. There is a hollow log on the ground.";
+    char *output_text = ctx->start_desc;
 
     int framesCounter = 0;
     SetTargetFPS(10);
