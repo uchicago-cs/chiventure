@@ -68,17 +68,21 @@ typedef struct achievement {
     bool completed;     //0 is not completed, 1 is completed
 } achievement_t;
 
-/* 
- * This is a linked list struct of achievements.
- * 
+/*
+ * This is a non-binary tree struct of achievements (to replace linked list)
+ *
  * Components:
- *  achievement: achievement in linked list
- *  next: rest of linked list of achievements
+ *  achievement: achievement in tree
+ *  parent: parent node of achievement
+ *  rsibling: the nearest right-hand sibling of the achievement node
+ *  lmostchild: the leftmost child of the achievement node
  */
-typedef struct achievement_llist {
+typedef struct achievement_tree {
     achievement_t *achievement;
-    struct achievement_llist *next;
-} achievement_llist_t;
+    struct achievement_tree *parent;
+    struct achievement_tree *rsibling;
+    struct achievement_tree *lmostchild;
+} achievement_tree_t;
 
 /* 
  * This struct represents a reward for completing a quest.
@@ -120,7 +124,7 @@ typedef struct stat_req{
 typedef struct quest  {
     UT_hash_handle hh;
     long int quest_id;
-    achievement_llist_t *achievement_list;
+    achievement_tree_t *achievement_tree;
     reward_t *reward;
     stat_req_t *stat_req;
     int status;  
@@ -134,6 +138,5 @@ typedef struct quest  {
  * in include/common
  */
 typedef struct quest quest_hash_t;
-
 
 #endif
