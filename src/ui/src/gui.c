@@ -1,8 +1,9 @@
-#include <raylib.h>
+#include "raylib.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "action_management/actionmanagement.h"
+#include "ui/gui.h"
 
 #include "ui/draw_images.h"
 
@@ -38,7 +39,7 @@ void start_gui(chiventure_ctx_t *ctx)
     char *output_text = ctx->game->start_desc;
 
     int framesCounter = 0;
-    SetTargetFPS(10);
+    SetTargetFPS(60);
 
     //loop to produce window of image and text box
     while (!WindowShouldClose()) {
@@ -126,10 +127,8 @@ void start_gui(chiventure_ctx_t *ctx)
     
     CloseWindow();
 
-    return 0;
 }
 
-}
 
 
 void stop_gui(chiventure_ctx_t *ctx)
