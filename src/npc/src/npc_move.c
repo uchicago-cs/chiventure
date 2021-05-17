@@ -190,7 +190,7 @@ int reverse_path(npc_mov_t *npc_mov)
 int get_npc_num_rooms(npc_mov_t *npc_mov)
 {
 	room_t *curr_room;
-    room_list_t *elt;
+  room_list_t *elt;
 	int count = 0;
 
 	if(npc_mov->mov_type == NPC_MOV_DEFINITE)
