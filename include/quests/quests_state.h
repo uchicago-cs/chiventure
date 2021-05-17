@@ -121,11 +121,12 @@ int achievement_free(achievement_t *achievement);
  */
 int quest_free(quest_t * quest);
 
-/* Adds an achievement to the end of a quest's achievement list
+/* Adds an achievement to the tree given an parent tree id
  *
  * Parameters:
  * - quest: pointer to a quest 
  * - achievement_to_add: pointer to an achievement to add to the list
+ * - parent_id: string that is parent achievement's id
  * 
  * Returns:
  * - SUCCESS 
