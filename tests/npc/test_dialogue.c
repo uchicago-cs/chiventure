@@ -301,4 +301,3 @@ Test(dialogue, add_bidirectional_edges)
     cr_assert_eq(strcmp(c->all_nodes->next->node->edges->edge->quip, "Q2"), 0,
                  "add_edge failed to add edge to Node 2");
 }
-

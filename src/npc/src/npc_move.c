@@ -186,6 +186,31 @@ int reverse_path(npc_mov_t *npc_mov)
     return SUCCESS;
 }
 
+/* See npc_move.h */
+int get_npc_num_rooms(npc_mov_t *npc_mov)
+{
+	room_t *curr_room;
+    room_list_t *elt;
+	int count = 0;
+
+	if(npc_mov->mov_type == NPC_MOV_DEFINITE)
+	{
+        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt) {
+            count++;
+            curr_room = elt->room;
+        }
+	}
+	else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
+	{
+        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt) {
+            count++;
+            curr_room = elt->room;
+        }
+	}
+
+	return count;
+}
+
 /* Helper function for move_npc_def function */
 int room_id_cmp(room_list_t *room1, room_list_t *room2)
 {
@@ -268,7 +293,7 @@ int get_num_rooms(game_t *game)
 
     HASH_ITER(hh, game->all_rooms, curr_room, ITTMP_ROOM)
     {
-        count ++;
+        count++;
     }
     return count;
 }
@@ -308,3 +333,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, game_t *game)
 
     return rc;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1c6692862a1014513bda4bf94e77f7f8a5e42edb
