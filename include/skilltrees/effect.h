@@ -7,7 +7,7 @@
 #define INCLUDE_EFFECT_H_
 
 #include "common/common.h"
-//#include "common/ctx.h"  
+#include "common/ctx.h"  
 /* Removing the comment above causes the code to not compile correctly. 
  * This is because of duplicate naming of structs in battle_flow_structs and battle_structs.
  * RPG-battles is currently working on fixing this problem and have already submitted a pull request
@@ -135,7 +135,7 @@ int execute_stat_mod_effect(stat_mod_effect_t* stat_effect);
  *             combatant_t player - Pointer to the player struct where moves will be added 
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_move_effect(skill_inventory_t* inventory, combatant_t* player);
+int execute_move_effect(move_effect_t* move_effect);
 
 /* Takes the given attribute modifying effect and executes it
  * Parameters: att_effect_t* att_effect - a pointer to the attribute modifying effect
