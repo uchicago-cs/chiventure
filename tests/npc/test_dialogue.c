@@ -213,12 +213,6 @@ Test(dialogue, add_one_node)
     check_add_node(1);
 }
 
-/* Checks that add_node works for 2 nodes */
-Test(dialogue, add_two_nodes)
-{
-    check_add_node(2);
-}
-
 /* Checks that add_node works for 5 nodes */
 Test(dialogue, add_five_nodes)
 {
@@ -274,20 +268,14 @@ Test(dialogue, add_one_edge)
     check_add_edge(1);
 }
 
-/* Checks that add_edge works for 2 edges */
-Test(dialogue, add_two_edges)
-{
-    check_add_edge(2);
-}
-
 /* Checks that add_edge works for 5 edges */
 Test(dialogue, add_five_edges)
 {
     check_add_edge(5);
 }
 
-/* Checks that add_edge works for a set of bidirectional edges */
-Test(dialogue, add_bidirectional_edges)
+/* Checks that add_edge works for edges on different nodes */
+Test(dialogue, add_edge_two_nodes_one_edge_each)
 {
     convo_t *c = convo_new();
     int rc;
@@ -464,7 +452,7 @@ Test(dialogue, run_conversation_step_four_nodes_continue)
 /*** Conditional Dialogue ***/
 
 /* 1 conditional edge, not satisfied, results in 0 available edges */
-Test(dialogue, conditional_dialogue_no_available)
+Test(dialogue, one_failing_conditional)
 {
     convo_t *c = convo_new();
     int rc;
@@ -489,7 +477,7 @@ Test(dialogue, conditional_dialogue_no_available)
 }
 
 /* 1 conditional edge, satisfied, results in 1 available edge */
-Test(dialogue, conditional_dialogue_one_available)
+Test(dialogue, one_passing_conditional)
 {
     convo_t *c = convo_new();
     int rc;
@@ -514,14 +502,14 @@ Test(dialogue, conditional_dialogue_one_available)
                  "but start_conversation returned:\n%s", expected, ret_str);
 }
 
-/* 2 normal edges and 1 conditional edge, not satisfied, results in 2 available
-   edges */
-Test(dialogue, conditional_dialogue_two_available)
+/* 1 unconditional edge and 1 conditional edge, not satisfied, results in 1
+   available edge */
+Test(dialogue, one_conditional_one_unconditional)
 {
     convo_t *c = convo_new();
     int rc;
     char *ret_str;
-    char *expected = "D1\n1. Q1\n2. Q3\nEnter your choice: ";
+    char *expected = "D1\n1. Q2\nEnter your choice: ";
 
     player_t *p = player_new("player");
     item_t *i = item_new("item", "short_desc", "long_desc");
@@ -531,9 +519,8 @@ Test(dialogue, conditional_dialogue_two_available)
     add_node(c, "N2", "D2");
     add_node(c, "N3", "D3");
     add_node(c, "N4", "D4");
-    add_edge(c, "Q1", "N1", "N2", NULL);
-    add_edge(c, "Q2", "N1", "N3", cond);
-    add_edge(c, "Q3", "N1", "N4", NULL);
+    add_edge(c, "Q1", "N1", "N2", cond);
+    add_edge(c, "Q2", "N1", "N3", NULL);
 
     ret_str = start_conversation(c, &rc, NULL);
 
@@ -544,9 +531,9 @@ Test(dialogue, conditional_dialogue_two_available)
                  "but start_conversation returned:\n%s", expected, ret_str);
 }
 
-/* 2 normal edges and 2 conditional edges, one satisfied and one unsatisfied,
-   results in 2 available edges */
-Test(dialogue, conditional_dialogue_three_available)
+/* 2 unconditional edges and 2 conditional edges, one satisfied and one
+   unsatisfied, results in 3 available edges */
+Test(dialogue, two_conditional)
 {
     convo_t *c = convo_new();
     int rc;
@@ -608,67 +595,67 @@ Test(dialogue, gain_one_item)
 }
 
 /* Give the player two items */
-/* Test(dialogue, gain_two_items)
-{
-    convo_t *c = convo_new();
-    int rc;
+// Test(dialogue, gain_two_items)
+// {
+//     convo_t *c = convo_new();
+//     int rc;
 
-    game_t *g = game_new("game");
-    player_t *p = player_new("player");
-    item_t *i1 = item_new("item1", "short_desc", "long_desc");
-    item_t *i2 = item_new("item2", "short_desc", "long_desc");
+//     game_t *g = game_new("game");
+//     player_t *p = player_new("player");
+//     item_t *i1 = item_new("item1", "short_desc", "long_desc");
+//     item_t *i2 = item_new("item2", "short_desc", "long_desc");
 
-    g->curr_player = p;
-    add_item_to_game(g, i1);
-    add_item_to_game(g, i2);
+//     g->curr_player = p;
+//     add_item_to_game(g, i1);
+//     add_item_to_game(g, i2);
 
-    add_node(c, "N1", "D1");
+//     add_node(c, "N1", "D1");
 
-    add_item_gain(c, "N1", "item1");
-    add_item_gain(c, "N1", "item2");
+//     add_item_gain(c, "N1", "item1");
+//     add_item_gain(c, "N1", "item2");
 
-    start_conversation(c, &rc, g);
+//     start_conversation(c, &rc, g);
 
-    cr_assert_eq(rc, 1, "After start_conversation, the Return Code was set to "
-                 "%d when it should have been 1", rc);
-    cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
-                 "the player's inventory");
-    cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
-                 "the player's inventory");
-} */
+//     cr_assert_eq(rc, 1, "After start_conversation, the Return Code was set to "
+//                  "%d when it should have been 1", rc);
+//     cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
+//                  "the player's inventory");
+//     cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
+//                  "the player's inventory");
+// }
 
 /* Give the player one item, followed by another */
-/* Test(dialogue, gain_one_then_one_item)
-{
-    convo_t *c = convo_new();
-    int rc;
+// Test(dialogue, gain_one_then_one_item)
+// {
+//     convo_t *c = convo_new();
+//     int rc;
 
-    game_t *g = game_new("game");
-    player_t *p = player_new("player");
-    item_t *i1 = item_new("item1", "short_desc", "long_desc");
-    item_t *i2 = item_new("item2", "short_desc", "long_desc");
+//     game_t *g = game_new("game");
+//     player_t *p = player_new("player");
+//     item_t *i1 = item_new("item1", "short_desc", "long_desc");
+//     item_t *i2 = item_new("item2", "short_desc", "long_desc");
 
-    g->curr_player = p;
-    add_item_to_game(g, i1);
-    add_item_to_game(g, i2);
+//     g->curr_player = p;
+//     add_item_to_game(g, i1);
+//     add_item_to_game(g, i2);
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_edge(c, "Q1", "N1", "N2", NULL);
+//     add_node(c, "N1", "D1");
+//     add_node(c, "N2", "D2");
+//     add_edge(c, "Q1", "N1", "N2", NULL);
 
-    add_item_gain(c, "N1", "item1");
-    add_item_gain(c, "N2", "item2");
+//     add_item_gain(c, "N1", "item1");
+//     add_item_gain(c, "N2", "item2");
 
-    start_conversation(c, &rc, g);
-    cr_assert_eq(rc, 0, "After start_conversation, the Return Code was set to "
-                 "%d when it should have been 0", rc);
+//     start_conversation(c, &rc, g);
+//     cr_assert_eq(rc, 0, "After start_conversation, the Return Code was set to "
+//                  "%d when it should have been 0", rc);
 
-    run_conversation_step(c, 1, &rc, g);
-    cr_assert_eq(rc, 1, "After run_conversation_step, the Return Code was set "
-                 "to %d when it should have been 1", rc);
+//     run_conversation_step(c, 1, &rc, g);
+//     cr_assert_eq(rc, 1, "After run_conversation_step, the Return Code was set "
+//                  "to %d when it should have been 1", rc);
 
-    cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
-                 "the player's inventory");
-    cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
-                 "the player's inventory");
-} */
+//     cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
+//                  "the player's inventory");
+//     cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
+//                  "the player's inventory");
+// }
