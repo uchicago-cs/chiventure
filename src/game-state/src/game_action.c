@@ -101,8 +101,14 @@ int do_all_effects(agent_t *agent, char *action_name)
 
 int game_action_free(game_action_t *action_to_free)
 {
-    //TODO
-    return 0;
+    assert(action_to_free != NULL);
+
+    free(action_to_free->fail_str);
+    free(action_to_free->success_str);
+    free(action_to_free->action_name);
+    free(action_to_free);
+
+    return SUCCESS;
 }
 // ------------------------------------------------------
 
@@ -323,18 +329,18 @@ int do_effect(game_action_effect_t *effect)
     return FAILURE;
 }
 
-/* see game_action.h */
-int do_all_effects(action_effect_list_t *effects)
-{
-    game_action_effect_t tmp = effects;
+// /* see game_action.h */
+// int do_all_effects(action_effect_list_t *effects)
+// {
+//     game_action_effect_t tmp = effects;
 
-    while (tmp != NULL) {
-        if (do_effect(tmp) != SUCCESS) {
-            return FAILURE;
-        }
+//     while (tmp != NULL) {
+//         if (do_effect(tmp) != SUCCESS) {
+//             return FAILURE;
+//         }
 
-        temp = temp->next;
-    }
+//         temp = temp->next;
+//     }
 
-    return SUCCESS;
-}
+//     return SUCCESS;
+// }
