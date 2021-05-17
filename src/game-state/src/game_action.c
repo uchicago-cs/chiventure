@@ -297,7 +297,7 @@ int delete_action_effect_llist(action_effect_list_t *effects)
 }
 
 //----- effect_new
-/* see common_game_action.h */
+/* see game_action.h */
 int do_effect(game_action_effect_t *effect)
 {
     attribute_t *attr = effect->attribute_to_modify;
@@ -323,4 +323,18 @@ int do_effect(game_action_effect_t *effect)
     return FAILURE;
 }
 
-//--- do_all_effects
+/* see game_action.h */
+int do_all_effects(action_effect_list_t *effects)
+{
+    game_action_effect_t tmp = effects;
+
+    while (tmp != NULL) {
+        if (do_effect(tmp) != SUCCESS) {
+            return FAILURE;
+        }
+
+        temp = temp->next;
+    }
+
+    return SUCCESS;
+}

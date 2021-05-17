@@ -6,9 +6,6 @@
 #include "condition.h"
 #include "item.h"
 
-// ------------------------- NEW ABSTRACTED FUNCTIONS  -------------------------
-//   (making the functions here bc I don't want to break the old stuff below the 5 dashed lines)
-
 // ------------------------- ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions
 // and conducting actions
@@ -60,103 +57,6 @@ game_action_hash_t *get_all_actions(agent_t *agent);
  *    SUCCESS if successful, FAILURE if not
  */
 int game_action_free(game_action_t *action_to_free);
-
-// ------------------------- CONDITION FUNCTIONS -------------------------
-
-/* add_action_attribute_condition() creates a new attribute condition for an item's action and
- * adds to the action's condition list
- * Parameters:
- *   - action: a pointer to the action to which the condition is being added
- *   - cond_item: a pointer to the item specified in the action condition
- *   - cond_attribute: a pointer to the attribute of the item specified in action condition that needs to be validated
- *   - cond_value: the value of the above attribute that needs to be validated
- * Returns:
- *   - SUCCESS upon SUCCESS
- *   - ACTION_NULL if specified action does not exist in first item
- *   - ITEM_MODIFY_NULL if the item ID does not exist
- */
-int add_action_attribute_condition(game_action_t *action, item_t *cond_item, 
-			 attribute_t *cond_attribute, attribute_value_t cond_value);
-
-/* add_action_inventory_condition() creates a new inventory condition for an item's action and
- * adds to the action's condition list
- * Parameters:
- *  a pointer to the action to which the condition is being added
- *  a pointer to the player whose inventory to check
- *  a pointer to the item to check in the inventory
- * Returns:
- *  SUCCESS upon SUCCESS
- *  ACTION_NULL if specified action does not exist in first item
- *  PLAYER_NULL if the player does not exist
- *  ITEM_MODIFY_NULL if the item ID does not exist
- */
-int add_action_inventory_condition(game_action_t *action, player_t *player,
-                                    item_t *item);
-
-// (OLD STUFF BELOW)
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-// ------------------------- ACTION FUNCTIONS -------------------------
-// the following functions are to do with searching for allowed actions
-// and conducting actions
-
-// /* get_action() returns the game_action_t associated with an action
-//  * Parameters:
-//  *  a pointer to the item
-//  *  the action name
-//  * Returns:
-//  *  the action struct associated or NULL if not associated
-//  */
-// game_action_t *get_action(item_t *item, char* action_name);
-
-// /* add_action() adds a (presumed legal) action to an item
-//  * Parameters:
-//  *  a pointer to the item
-//  *  the action name
-//  *  the action struct
-//  *  the action type (as specified by action management)
-//  *  the string to print should the action be performed successfully
-//  *  the string to print shoulf the action fail to be performed
-//  * Returns:
-//  *  SUCCESS if added correctly, FAILURE if failed to add
-//  */
-// int add_action(item_t* item, char *action_name, char* success_str, char* fail_str);
-
-
-// /* possible_action() checks if an item permits a specific action
-//  * Parameters:
-//  *  a pointer to the item
-//  *  the action name
-//  * Returns:
-//  *  SUCCESS if item contains action, FAILURE if it does not
-//  */
-// int possible_action(item_t* item, char* action_name);
-
-// /*
-//  * Function to get a linked list (utlist) of all the actions in the item
-//  *
-//  * Parameters:
-//  *  item
-//  *
-//  * Returns:
-//  *  linked list of pointers to actions (the head element)
-//  */
-// game_action_hash_t *get_all_actions(item_t *item);
-
-
-// /* game_action_free() frees allocated space for an action struct in memory
-//  *  Parameters:
-//  *    a pointer to the action
-//  *  Returns:
-//  *    SUCCESS if successful, FAILURE if not
-//  */
-// int game_action_free(game_action_t *action_tofree);
-
-
 
 // ------------------------- CONDITION FUNCTIONS -------------------------
 
@@ -253,9 +153,7 @@ int add_action_effect(game_action_t *action, item_t *item_to_add,
  */
 int delete_action_effect_llist(action_effect_list_t *effects);
 
-//alt version
-
-/* do_effects() sets an effect
+/* do_effect() sets an effect
  * Parameters:
  *  pointer to effect
  * Returns:
@@ -265,12 +163,11 @@ int do_effect(game_action_effect_t *effect);
 
 /* do_all_effects() sets all effects of an action
  * Parameters:
- *  pointer to the item to check
- *  the action_name
+ *  pointer to the linked list of effects
  * Returns:
  *  SUCCESS if all effects are set, FAILURE if not
  */
-int do_all_effects(agent_t *agent, char* action_name);
+int do_all_effects(action_effect_list_t *effects);
 
 /* action_init() initializes an action struct with given values
    arguments are taken from action management
