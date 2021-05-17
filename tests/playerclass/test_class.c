@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <criterion/criterion.h>
+
 #include "playerclass/class.h"
 
 /* Creates a sample class for testing 
@@ -27,7 +28,8 @@ class_t* generate_test_class()
                 "attacks using heavy armor.\n";
 
     c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
-
+    class_add_skills(c, inventory_new(5, 5), inventory_new(5, 5), skill_tree_new(3000, c->name, 15));
+    return c;
 }
 
 /* Tests class_new */
@@ -88,9 +90,9 @@ Test(test_class, skills_init)
 {
     class_t* c = generate_test_class();
 
-    cr_assert_not_null(c->skilltree, "class_skills_init didn't set skilltree");
-    cr_assert_not_null(c->combat, "class_skills_init didn't set combat");
-    cr_assert_not_null(c->noncombat, "class_skills_init didn't set noncombat");
+    cr_assert_not_null(c->skilltree, "class_init_skills didn't set skilltree");
+    cr_assert_not_null(c->combat, "class_init_skills didn't set combat");
+    cr_assert_not_null(c->noncombat, "class_init_skills didn't set noncombat");
 }
 
 /* Tests class_free */

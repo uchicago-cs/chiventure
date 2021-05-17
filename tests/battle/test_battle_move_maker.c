@@ -22,7 +22,7 @@ Test(class_moves, bard)
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
     cr_assert_null(ret_player->moves->item,
-                   "add_class_move() didn't set item to NULL");
+                   "add_class_move() didn't set battle_item to NULL");
    
     cr_assert_eq(ret_player->moves->id, 0, "add_class_move() didn't set id");
 
@@ -56,7 +56,7 @@ Test(class_moves, wizard)
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
     cr_assert_null(ret_player->moves->item,
-                   "add_class_move() didn't set item to NULL");
+                   "add_class_move() didn't set battle_item to NULL");
 
     cr_assert_eq(ret_player->moves->id, 1, "add_class_move() didn't set id");
 
@@ -90,7 +90,7 @@ Test(class_moves, knight)
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
     cr_assert_null(ret_player->moves->item,
-                   "add_class_move() didn't set item to NULL");
+                   "add_class_move() didn't set battle_item to NULL");
 
     cr_assert_eq(ret_player->moves->id, 2, "add_class_move() didn't set id");
 
