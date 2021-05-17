@@ -318,7 +318,7 @@ Test(player, add_combat_skill)
     cr_assert_eq(skill_added, SUCCESS, "player_add_combat_skill() did not return SUCCESS");
  
     /* Freeing player_combat_skills and player_noncombat_skills fields
-    will be handled by player_free not be required once player_set_class 
+    will be handled by player_free once player_set_class 
     is updated to deep copy fields */
     inventory_free(player->player_combat_skills);
     inventory_free(player->player_noncombat_skills);
@@ -353,7 +353,7 @@ Test(player, add_noncombat_skill)
     cr_assert_eq(skill_added, SUCCESS, "player_add_noncombat_skill() did not return SUCCESS");
  
     /* Freeing player_combat_skills and player_noncombat_skills fields
-    will be handled by player_free not be required once player_set_class 
+    will be handled by player_free once player_set_class 
     is updated to deep copy fields */
     inventory_free(player->player_combat_skills);
     inventory_free(player->player_noncombat_skills);
@@ -392,7 +392,7 @@ Test(player, remove_combat_skill)
     cr_assert_eq(skill_removed, SUCCESS, "player_remove_combat_skill() did not return SUCCESS");
  
     /* Freeing player_combat_skills and player_noncombat_skills fields
-    will be handled by player_free not be required once player_set_class 
+    will be handled by player_free once player_set_class 
     is updated to deep copy fields */
     inventory_free(player->player_combat_skills);
     inventory_free(player->player_noncombat_skills);
@@ -431,7 +431,7 @@ Test(player, remove_noncombat_skill)
     cr_assert_eq(skill_removed, SUCCESS, "player_remove_noncombat_skill() did not return SUCCESS");
  
     /* Freeing player_combat_skills and player_noncombat_skills fields
-    will be handled by player_free not be required once player_set_class 
+    will be handled by player_free once player_set_class 
     is updated to deep copy fields */
     inventory_free(player->player_combat_skills);
     inventory_free(player->player_noncombat_skills);
@@ -480,7 +480,7 @@ Test(player, has_combat_skill)
     cr_assert_eq(skill_removed, SUCCESS, "player_remove_combat_skill() did not return SUCCESS");
  
     /* Freeing player_combat_skills and player_noncombat_skills fields
-    will be handled by player_free not be required once player_set_class 
+    will be handled by player_free once player_set_class 
     is updated to deep copy fields */
     inventory_free(player->player_combat_skills);
     inventory_free(player->player_noncombat_skills);
@@ -529,12 +529,161 @@ Test(player, has_noncombat_skill)
     cr_assert_eq(skill_removed, SUCCESS, "player_remove_noncombat_skill() did not return SUCCESS");
  
     /* Freeing player_combat_skills and player_noncombat_skills fields
-    will be handled by player_free not be required once player_set_class 
+    will be handled by player_free once player_set_class 
     is updated to deep copy fields */
     inventory_free(player->player_combat_skills);
     inventory_free(player->player_noncombat_skills);
 
     skill_free(cooking);
 
+    player_free(player);
+}
+
+Test(player, add_stat)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    stats_global_t *health = stats_global_new("health", 100);
+    stats_t *s = stats_new(health, 75);
+
+    int added = player_add_stat(player, s);
+    cr_assert_eq(added, SUCCESS, "player_add_stat() failed");
+
+    cr_assert_not_null(player->player_stats, 
+    "player_add_stat() did not add the stat to the player's stat hash");
+
+    free_stats_table(player->player_stats);
+    free_stats_global(health);
+
+    player_free(player);  
+}
+
+Test(player, get_stat_current)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    double expected = 150.25;
+
+    stats_global_t *health = stats_global_new("health", expected);
+    stats_t *s = stats_new(health, expected);
+
+    int added = player_add_stat(player, s);
+    cr_assert_eq(added, SUCCESS, "player_add_stat() failed");
+
+    cr_assert_not_null(player->player_stats, 
+    "player_add_stat() did not add the stat to the player's stat hash");
+
+    double current_health = player_get_stat_current(player, "health");
+
+    cr_assert_float_eq(current_health, expected, .0001, 
+    "player_get_stat_current() did not return correct health value. "
+    "Actual: %.02f Expected: %.02f ", current_health, expected);
+
+    free_stats_table(player->player_stats);
+    free_stats_global(health);
+
+    player_free(player);  
+}
+
+
+Test(player, change_stat)
+{
+    player_t *player = player_new("test");
+
+    double starting_health = 125.25;
+    double health_change = -5.75;
+    double expected = starting_health + health_change;
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    stats_global_t *health = stats_global_new("health", 400.5);
+    stats_t *s = stats_new(health, starting_health);
+
+    int added = player_add_stat(player, s);
+    cr_assert_eq(added, SUCCESS, "player_add_stat() failed");
+
+    cr_assert_not_null(player->player_stats, 
+    "player_add_stat() did not add the stat to the player's stat hash");
+
+    int rc = player_change_stat(player, "health", health_change);
+
+    cr_assert_eq(rc, SUCCESS, "player_change_stat() did not return SUCCESS");
+
+    double current_health = player_get_stat_current(player, "health");
+
+    cr_assert_float_eq(current_health, expected, .0001, 
+    "player_change_stat() did not correctly update the health value. "
+    "Expected: %.02f Actual: %.02f", expected, current_health);
+
+    free_stats_table(player->player_stats);
+    free_stats_global(health);
+
+    player_free(player);  
+}
+
+Test(player, change_stat_max)
+{
+    player_t *player = player_new("test");
+
+    double starting_max = 100.5;
+    double max_change = -20;
+    double health_change = 5;
+    double expected = starting_max + max_change;
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    stats_global_t *health = stats_global_new("health", 300);
+    stats_t *s = stats_new(health, starting_max);
+
+    int added = player_add_stat(player, s);
+    cr_assert_eq(added, SUCCESS, "player_add_stat() failed");
+
+    cr_assert_not_null(player->player_stats, 
+    "player_add_stat() did not add the stat to the player's stat hash");
+
+    int rc = player_change_stat_max(player, "health", max_change);
+
+    cr_assert_eq(rc, SUCCESS, "player_change_stat_max() did not return SUCCESS");
+
+    /* The local max of a stat is only relevant when updating the current value */
+    rc = player_change_stat(player, "health", health_change);
+
+    cr_assert_eq(rc, SUCCESS, "player_change_stat() did not return SUCCESS");
+
+    double current_health = player_get_stat_current(player, "health");
+
+    cr_assert_float_eq(current_health, expected, .0001, 
+    "player_change_stat_max() did not correctly update the max health value. "
+    "Expected: %.02f Actual: %.02f", expected, current_health);
+
+    free_stats_table(player->player_stats);
+    free_stats_global(health);
+
+    player_free(player);  
+}
+
+Test(player, add_stat_effect)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    effects_hash_t *hash = NULL;
+    effects_global_t *global = global_effect_new("effect");
+    stat_effect_t *effect = stat_effect_new(global);
+    int rc = player_add_stat_effect(player, effect);
+
+    cr_assert_eq(rc, SUCCESS, "player_add_stat_effect failed");
+    cr_assert_not_null(player->player_effects, 
+    "player_add_stat_effect did not add effect to player_effects hash");
+
+    delete_all_stat_effects(hash);
+    free(global->name);
+    free(global);
+    
     player_free(player);
 }
