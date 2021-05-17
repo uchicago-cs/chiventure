@@ -27,6 +27,16 @@ stats_global_t *stats_global_new(char *name, double max)
 }
 
 /* See stats.h */
+stats_global_t* copy_global_stat(stats_global_t* global_stat)
+{
+    assert(global_stat != NULL);
+
+    stats_global_t* copy = stats_global_new(global_stat->name, global_stat->max);
+
+    return copy;
+}
+
+/* See stats.h */
 int stats_init(stats_t *stat, stats_global_t *global_stat, double init)
 {
     assert(stat != NULL);
@@ -58,6 +68,25 @@ stats_t *stats_new(stats_global_t *global_stat, double init)
     return new_stat;
 }
 
+/* See stats.h */ 
+stats_t* copy_stat(stats_t* stat)
+{
+    assert(stat != NULL);
+
+    stats_t* copy = (stats_t*)malloc(sizeof(stats_t));
+
+    if (copy == NULL)
+        return NULL;
+
+    copy->key = strdup(stat->key);
+    copy->val = stat->val;
+    copy->max = stat->max;
+    copy->global = stat->global;
+    copy->modifier = stat->modifier;
+
+    return copy;
+}
+
 /* See stats.h */
 int global_effect_init(effects_global_t *effect, char *effect_name)
 {
@@ -80,6 +109,16 @@ effects_global_t *global_effect_new(char *effect_name)
     }
 
     return effect;
+}
+
+/* See stats.h */
+effects_global_t* copy_global_effect(effects_global_t* global_effect)
+{
+    assert(global_effect != NULL);
+
+    effects_global_t* copy = global_effect_new(global_effect->name);
+
+    return copy;
 }
 
 /* See stats.h */
@@ -107,6 +146,19 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
     }
 
     return effect;
+}
+
+/* See stats.h */ 
+stat_effect_t* copy_effect(stat_effect_t* stat_effect)
+{
+    assert(stat_effect != NULL);
+
+    stat_effect_t* copy = stat_effect_new(stat_effect->global); 
+
+    /* Point to the stats affected */
+    copy->stat_list = stat_effect->stat_list;
+
+    return copy;
 }
 
 /* See stats.h */
@@ -410,6 +462,17 @@ int free_stat_mod(stat_mod_t *mod)
 }
 
 /* See stats.h */
+int free_stat_effect(stat_effect_t* effect)
+{
+    assert(effect != NULL);
+
+    free(effect->key);
+    free(effect);
+
+    return SUCCESS;
+}
+
+/* See stats.h */
 int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)
 {
     assert(effect != NULL);
@@ -419,10 +482,12 @@ int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)
     LL_FOREACH_SAFE(effect->stat_list, current, tmp)
     {
         LL_DELETE(effect->stat_list, current);
-        free(current);
+        free_stat_mod(current);
     }
-    free(effect->key);
-    free(effect);
+    
+    free_stat_effect(effect);
+
+    return SUCCESS;
 }
 
 /* See stats.h */
@@ -439,14 +504,24 @@ int delete_all_stat_effects(effects_hash_t *effects)
 }
 
 /* See stats.h */
+int free_global_effect(effects_global_t* effect)
+{
+    assert(effect != NULL);
+
+    free(effect->name);
+    free(effect);
+
+    return SUCCESS;
+}
+
+/* See stats.h */
 int delete_single_global_effect(effects_global_t *effect, 
                                 effects_global_hash_t *hash)
 {
     assert(effect != NULL);
     HASH_DEL(hash, effect);
 
-    free(effect->name);
-    free(effect);
+    free_global_effect(effect);
 
     return SUCCESS;
 }
