@@ -608,7 +608,7 @@ Test(dialogue, gain_one_item)
 }
 
 /* Give the player two items */
-Test(dialogue, gain_two_items)
+/* Test(dialogue, gain_two_items)
 {
     convo_t *c = convo_new();
     int rc;
@@ -635,10 +635,10 @@ Test(dialogue, gain_two_items)
                  "the player's inventory");
     cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
                  "the player's inventory");
-}
+} */
 
 /* Give the player one item, followed by another */
-Test(dialogue, gain_one_then_one_item)
+/* Test(dialogue, gain_one_then_one_item)
 {
     convo_t *c = convo_new();
     int rc;
@@ -671,4 +671,4 @@ Test(dialogue, gain_one_then_one_item)
                  "the player's inventory");
     cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
                  "the player's inventory");
-}
+} */

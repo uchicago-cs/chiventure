@@ -126,15 +126,15 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
  */
 int do_node_actions(node_t *n, game_t *game)
 {
-    node_action_t *action = n->actions;
+    node_action_t *cur_action = n->actions;
 
-    while (action != NULL) {
+    while (cur_action != NULL) {
 
-        switch(action->action_type) {
+        switch(cur_action->action) {
 
             case GAIN_ITEM: ;
                 item_t *item = get_item_in_hash(game->all_items,
-                                                action->action_id);
+                                                cur_action->action_id);
                 if (item == NULL) return FAILURE;
                 int rc = add_item_to_player(game->curr_player, item);
                 if (rc != SUCCESS) return FAILURE;
@@ -153,7 +153,7 @@ int do_node_actions(node_t *n, game_t *game)
                 return FAILURE;
         }
 
-        action = action->next;
+        cur_action = cur_action->next;
     }
 
     return SUCCESS;
@@ -344,20 +344,18 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
  *
  * Parameters:
  *  - n: node
- *  - action_type: type of action
+ *  - action: type of action
  *  - action_id: ID associated with that action, if any
  *
  * Returns:
  *  - SUCCESS if the operation suceeded, FAILURE otherwise
  */
-int add_action_to_node(node_t *n, node_action_type action_type,
-                       char *action_id)
+int add_action_to_node(node_t *n, node_action_type action, char *action_id)
 {
-    node_action_t *action;
-    if ((action = node_action_new(action_type, action_id)) == NULL) return
-        FAILURE;
+    node_action_t *n_a;
+    if ((n_a = node_action_new(action, action_id)) == NULL) return FAILURE;
 
-    DL_APPEND(n->actions, action);
+    DL_APPEND(n->actions, n_a);
 
     return SUCCESS;
 }
@@ -480,19 +478,19 @@ int node_free(node_t *n)
 }
 
 /* See dialogue.h */
-node_action_t *node_action_new(node_action_type action_type, char *action_id)
+node_action_t *node_action_new(node_action_type action, char *action_id)
 {
-    node_action_t *action;
-    if ((action = malloc(sizeof(node_action_t))) == NULL) return NULL;
-    
-    action->action_type = action_type;
+    node_action_t *n_a;
+    if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;
+
+    n_a->action = action;
 
     if (action_id != NULL) {
-        if ((action->action_id = strdup(action_id)) == NULL) return NULL;
+        if ((n_a->action_id = strdup(action_id)) == NULL) return NULL;
     }
-    else action->action_id = NULL;
+    else n_a->action_id = NULL;
 
-    return action;
+    return n_a;
 }
 
 /* See dialogue.h */

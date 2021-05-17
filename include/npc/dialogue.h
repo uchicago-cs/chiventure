@@ -26,12 +26,12 @@ typedef enum {
  * dialogue. NOTE: This is a linked list, for multiple actions.
  * 
  * Includes:
- *  - action: the type of action
- *  - action_id: ID associated with the action (e.g. quest ID), if any
+ *  - action: the type of action (see above)
+ *  - action_id: ID associated with the action (e.g. quest ID)
  *  - next, prev: next and previous list elements
  */
 typedef struct node_action {
-    node_action_type action_type;
+    node_action_type action;
     char *action_id;
     struct node_action *next, *prev;
 } node_action_t;
@@ -311,13 +311,13 @@ int node_free(node_t *n);
 /* Allocates a new node action on the heap.
  *
  * Parameters:
- *  - action_type: type of action
+ *  - action: type of action
  *  - action_id: ID associated with that action, if any
  *
  * Returns:
  *  - pointer to the new node action
  */
-node_action_t *node_action_new(node_action_type action_type, char *action_id);
+node_action_t *node_action_new(node_action_type action, char *action_id);
 
 /* Initializes a convo.
  *
