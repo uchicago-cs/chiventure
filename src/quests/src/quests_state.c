@@ -139,17 +139,72 @@ int compare_quests(quest_t *quest1, quest_t *quest2)
     return 1;
 }
 
+/*
+ * Helper function used to find the bottom node on the left side of a tree
+ *
+ * Parameters:
+ * - a pointer to a tree
+ *
+ * Returns:
+ * - a pointer to the tree with no children on the left side of the tree
+ */
+achievement_tree_t *get_bottom_node(achievement_tree_t *t){
+    assert(t != NULL);
+    achievement_tree_t *tmp = t;
+    if(tmp->lmostchild != NULL){
+        get_bottom_node(tmp->lmostchild);
+    }
+    return tmp;
+} 
+
+achievement_tree_t *find_parent(achievement_tree_t *tree, char *id) {
+
+    assert(tree != NULL);
+
+    achievment_tree_t *cur = malloc(sizeof(achievement_tree_t));
+    cur = quest->achievement_tree_t;
+
+    while(cur = get_bottom_node(cur)){
+        if(!(strcmp(cur->achievement->id, id))){
+            return cur;
+        } else if(cur->rsibling != NULL){
+            cur = cur->rsibling; 
+        } else if(cur->parent->rsibling != NULL){
+            cur = cur->parent->rsibling;
+        }
+        else
+        {
+            return NULL; //error printing??
+        }
+    }
+}
+
 /* Refer to quests_state.h */
-int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add)
+int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id)
 {
     assert(quest != NULL);
 
-    achievement_llist_t *achievement_to_add_llist;
-    achievement_to_add_llist = malloc(sizeof(achievement_llist_t));
-    achievement_to_add_llist->next = NULL;
-    achievement_to_add_llist->achievement = achievement_to_add;
-    
-    LL_APPEND(quest->achievement_list,achievement_to_add_llist);
+
+    achievement_tree_t *tree = malloc(sizeof(achievement_tree_t));
+    tree = find_achievement_tree(quest->achievement_tree, parent_id);
+    assert(tree != NULL);
+
+    if (tree->lmostchild->achievement == NULL)
+    {
+        tree->lmostchild = malloc(sizeof(achievement_tree_t));
+        tree->lmostchild->achievement = achievement_to_add;
+        tree->lmostchild->parent = find_achievement_tree(quest->achievement_tree, parent_id);
+    }
+    else
+    {
+        while (tree->rsibling != NULL)
+        {
+            tree = tree->rsibling;
+        }
+        tree->rsibling = malloc(sizeof(achievement_tree_t));
+        tree->rsibling->achievement = achievement_to_add;
+        tree->rsibling->parent = find_achievement_tree(quest->achievement_tree, parent_id);
+    }
 
     return SUCCESS;
 }
@@ -231,23 +286,7 @@ int complete_achievement(quest_t *quest, char *id)
     }
 }
 
-/*
- * Helper function used to find the bottom node on the left side of a tree
- *
- * Parameters:
- * - a pointer to a tree
- *
- * Returns:
- * - a pointer to the tree with no children on the left side of the tree
- */
-achievement_tree_t *get_bottom_node(achievement_tree_t *t){
-    assert(t != NULL);
-    achievement_tree_t *tmp = t;
-    if(tmp->lmostchild != NULL){
-        get_bottom_node(tmp->lmostchild);
-    }
-    return tmp;
-} 
+
 
 /* Refer to quests_state.h */
 int is_quest_completed(quest_t *quest)
