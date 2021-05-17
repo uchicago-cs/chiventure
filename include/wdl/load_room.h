@@ -14,6 +14,7 @@
 #include "parse.h"
 #include "common/common.h"
 #include "cli/parser.h"
+#include "cli/cli-utility.h"
 #include "game-state/room.h"
 #include "game-state/game.h"
 

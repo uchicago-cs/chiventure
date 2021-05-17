@@ -54,6 +54,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
     {
         // obtain room id
         char *id = obj_get_str(curr, "id");
+        id = case_insensitize2(id);
         // get list of connections for the room
         obj_t *connections = connections_get_list(curr);
 
@@ -69,7 +70,9 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
         {
             // get id of room we are going to and direction
             char *to = obj_get_str(conn_curr, "to");
+            to = case_insensitize2(to);
             char *direction = obj_get_str(conn_curr, "direction");
+            direction = case_insensitize2(direction);
 
             // add connection to room in game
             int result = create_connection(g, id, to, direction);
