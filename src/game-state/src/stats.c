@@ -147,7 +147,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
        return FAILURE;
     }
     
-    int changed_stat = curr->val + change;
+    double changed_stat = curr->val + change;
 
     if ((changed_stat > curr->global->max) || (changed_stat > curr->max)) {
         curr->val = curr->max;
