@@ -121,7 +121,7 @@ void print_banner(window_t *win, const char *banner)
 }
 
 /* see print_functions.h */
-void print_info(chiventure_ctx_t *ctx, window_t *win)
+void print_info(chiventure_ctx_t *ctx, window_t *win, int *retval)
 {
     mvwprintw(win->w, 1, 2, "Main Window");
 }
@@ -144,7 +144,7 @@ int cli_ui_callback(chiventure_ctx_t *ctx, char *str, void *args)
 }
 
 /* see print_functions.h */
-void print_cli(chiventure_ctx_t *ctx, window_t *win)
+void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
 {
     static bool first_run = true;
     int x, y;
@@ -168,6 +168,11 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     if (!strcmp(cmd_string, ""))
     {
         return;
+    }
+    
+    if (!strcmp(cmd_string, "QUIT"))
+    {
+        *retval = 0;
     }
 
 
@@ -210,11 +215,10 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 }
 
 /* see print_functions.h */
-void print_map(chiventure_ctx_t *ctx, window_t *win)
+void print_map(chiventure_ctx_t *ctx, window_t *win, int *retval)
 {
     // prints the word map in the window
     mvwprintw(win->w, 1,2, "map");
-    return;
 }
 
 
