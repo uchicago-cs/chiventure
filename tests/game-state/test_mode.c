@@ -61,7 +61,7 @@ Test(mode, load_normal)
 
     cr_assert_eq(rc, SUCCESS, "load_normal_mode() has failed!");
 
-    cr_assert_not_null(g.mode, "load_norma_mode() has failed!");
+    cr_assert_not_null(g.mode, "load_normal_mode() has failed!");
     cr_assert_eq(g.mode->curr_mode, NORMAL, 
                  "load_normal_mode() didn't set curr_mode");
     cr_assert_eq(strncmp(g.mode->mode_ctx, "normal", MAX_ID_LEN), 0,
