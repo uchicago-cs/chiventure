@@ -34,10 +34,16 @@ move_effect_t* define_move_effect(move_t move)
 }
 
 // See effect.h
-att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod)
+att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod) 
 {
-    // TODO
-    return NULL;
+    // Again, very basic implementation that is going to be a placeholder right now
+    // TO DO: Maria
+
+    att_effect_t* new_att_effect = (att_effect_t*)malloc(sizeof(att_effect_t));
+    new_att_effect->item_id = obj_id;
+    new_att_effect->att_id = att_id;
+    new_att_effect->mod = mod;
+    return new_att_effect;
 }
 
 // See effect.h
@@ -60,8 +66,11 @@ effect_t* make_move_effect(move_effect_t* move_effect)
 // See effect.h
 effect_t* make_att_effect(att_effect_t* att_effect)
 {
-    // TODO
-    return NULL;
+    assert(att_effect != NULL);
+    effect_t* new_att_effect = (effect_t*)malloc(sizeof(effect_t));
+    new_att_effect->effect_type = ATTRIBUTE_MOD;
+    new_att_effect->data.a = att_effect;
+    return new_att_effect;
 }
 
 // See effect.h
