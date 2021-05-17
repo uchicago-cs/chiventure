@@ -306,6 +306,12 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     // Step 1: Traverse to the player's selected node
     cur_edge = c->cur_node->edges;
+    // This logic works as follows:
+    // (1) We only decrement input when we encounter an available edge
+    // (2) However, we could end up on an unavailable edge, which is where
+    //     "|| cur_edge->availability != EDGE_AVAILABLE" comes in
+    // (3) Overall, this code ensures that we end up on the player's selected
+    //     edge
     while (input > 1 || cur_edge->availability != EDGE_AVAILABLE) {
         if (cur_edge->availability == EDGE_AVAILABLE) input--;
         cur_edge = cur_edge->next;
