@@ -331,6 +331,7 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
  *  - class: A pointer to the class. Must not be NULL.
  *  - skill: A pointer to the skill being added. Must not be NULL.
  *  - prereq_count: The number of prereqs the skill has.
+ *  - prereq_level: The pre_req level required to level the skill.
  *  - is_starting: true if the skill is a starting skill for the class.
  *  - (...): Indices of the skills that are prereqs to this skill (note that 
  *           skills are added in order, starting at index 0).
@@ -339,18 +340,19 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
  *  - SUCCESS on success.
  *  - FAILURE on failure.
  */
-int add_skill(class_t* class, skill_t* skill, int prereq_count, bool is_starting, ...) {
+int add_skill(class_t* class, skill_t* skill, int prereq_count, 
+                unsigned int prereq_level, bool is_starting, ...) {
     if (class == NULL || skill == NULL)
         return FAILURE;
 
-    skill_node_t* node = skill_node_new(skill, prereq_count, UI_NODE_SIZE);
+    skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, UI_NODE_SIZE);
 
     /* Citation: (https://jameshfisher.com/2016/11/23/c-varargs/) */
     va_list prereq_p;
     va_start(prereq_p, is_starting);
     for (int i = 0; i < prereq_count; i++) {
         int index = va_arg(prereq_p, int);
-        node_prereq_add(node, class->skilltree->nodes[index]);
+        node_prereq_add(node, class->skilltree->nodes[index], prereq_level);
     }
     va_end(prereq_p);
 
@@ -429,9 +431,9 @@ int class_prefab_add_skills(class_t* class) {
                                      NULL);
 
         /* Add skills to tree */
-        add_skill(class, skill_0, 0, true);
-        add_skill(class, skill_1, 1, false, 0);
-        add_skill(class, skill_2, 1, false, 1);
+        add_skill(class, skill_0, 0, 25, true);
+        add_skill(class, skill_1, 1, 50, false, 0);
+        add_skill(class, skill_2, 1, 34, false, 1);
     }
         
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
