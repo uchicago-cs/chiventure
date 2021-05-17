@@ -121,7 +121,7 @@ void print_banner(window_t *win, const char *banner)
 }
 
 /* see print_functions.h */
-void print_info(chiventure_ctx_t *ctx, window_t *win)
+void print_info(chiventure_ctx_t *ctx, window_t *win, int* quitval)
 {
     mvwprintw(win->w, 1, 2, "Main Window");
 }
@@ -144,7 +144,7 @@ int cli_ui_callback(chiventure_ctx_t *ctx, char *str, void *args)
 }
 
 /* see print_functions.h */
-void print_cli(chiventure_ctx_t *ctx, window_t *win)
+void print_cli(chiventure_ctx_t *ctx, window_t *win, int *quitval)
 {
     static bool first_run = true;
     int x, y;
@@ -169,15 +169,29 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
     {
         return;
     }
-
-    cmd *c = cmd_from_string(cmd_string, ctx);
-    if (!c)
+    
+    if (!strcmp(cmd_string, "QUIT"))
     {
-        print_to_cli(ctx, "Error: Malformed input (4 words max)");
+        *quitval = 0;
+    }
+
+
+    if (ctx->game->mode->curr_mode == NORMAL) 
+    {
+        cmd *c = cmd_from_string(cmd_string, ctx);
+        if (!c)
+        {
+            print_to_cli(ctx, "Error: Malformed input (4 words max)");
+        }
+        else
+        {
+        int rc = do_cmd(c, cli_ui_callback, NULL, ctx);
+        }
     }
     else
     {
-        int rc = do_cmd(c, cli_ui_callback, NULL, ctx);
+        int rc = (*(ctx->game->mode->run_mode))(cmd_string, cli_ui_callback, NULL, ctx);
+        //for non NORMAL game modes
     }
 
     /* Note: The following statement should be replaced by a logging function
@@ -201,11 +215,10 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win)
 }
 
 /* see print_functions.h */
-void print_map(chiventure_ctx_t *ctx, window_t *win)
+void print_map(chiventure_ctx_t *ctx, window_t *win, int *quitval)
 {
     // prints the word map in the window
     mvwprintw(win->w, 1,2, "map");
-    return;
 }
 
 

@@ -74,6 +74,7 @@ char **parse(char *input)
     {
         words[i] = NULL;
     }
+<<<<<<< HEAD
 
     char *token = strtok(input, " ");
 
@@ -81,6 +82,33 @@ char **parse(char *input)
     {
         words[i] = token;
         token = strtok(NULL, " ");
+=======
+   
+   
+    char *token = strtokstr_r(input, "and", save_ptr);
+    //int i = 0;
+    int j = 0;
+   for(int k = 0; k < 4; k++){
+        big_words[k] = token;
+        //printf("big_words[%d]: %s\n", k, big_words[k]);
+        if (big_words[k] != NULL){
+             char *token_r = strtok(big_words[k], " ");
+             while (k < 1){
+                 char* action = (char*)malloc(sizeof(char*));
+                 action = token_r;
+             }
+
+            // printf("token_r: %s\n", token_r);
+              while(token_r != NULL && j < 4) {
+                   words[j] = token_r;
+                   token_r = strtok(NULL, " ");
+                  // printf("words: %s\n", words[j]);
+                   j++;
+                }
+        }
+        token = strtokstr_r(input, "and", save_ptr);
+        
+>>>>>>> f1e2f9d871e4c92370fd54a64b4b2bb4e925b7e0
     }
 
     //If there are more than 4 words, parser returns NULL and does not attempt
