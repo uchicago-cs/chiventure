@@ -34,10 +34,10 @@ void print_banner(window_t *win, const char *banner);
  * Parameters:
  *   - ctx : chiventure context struct
  *   - win : window where to print the info
+ *   - retval: not used in this context
  *
- * No value is returned
  */
-void print_info(chiventure_ctx_t *ctx, window_t *win);
+void print_info(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 /* print_cli
  * Prints the CLI- adds and deletes character based on user input
@@ -45,10 +45,10 @@ void print_info(chiventure_ctx_t *ctx, window_t *win);
  * Parameters:
  *   - ctx : chiventure context struct
  *   - win : window where to print the info
+ *   - retval: an out parameter to have the string "QUIT" make the game close
  *
- * No value is returned
  */
-void print_cli(chiventure_ctx_t *ctx, window_t *win);
+void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 /* print_map
  * Prints the word map in the window (top left corner)
@@ -56,10 +56,10 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win);
  * Parameters:
  *   - ctx : chiventure context struct
  *   - win : window where to print the info
+ *   - retval: not used in this function
  *
- * No value is returned
  */
-void print_map(chiventure_ctx_t *ctx, window_t *win);
+void print_map(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 
 /* print_to_cli
