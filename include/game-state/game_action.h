@@ -192,15 +192,6 @@ int game_action_init(game_action_t *new_action, char *act_name,
 */
 game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str);
 
-/* do_effect() performs given effect
- *
- * Parameters:
- *   pointer to an action effect
- * Returns:
- *   SUCCESS upon success, FAILURE upon failure
- */
-int do_effect(game_action_effect_t *effect);
-
 /* create_effect creates an effect_t struct with the given inputs
  * Parameters:
  *  pointer to item to modify
