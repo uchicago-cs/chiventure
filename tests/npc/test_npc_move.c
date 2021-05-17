@@ -233,8 +233,7 @@ Test(npc_mov, move_npc_indefinite)
     room_t *room_to_add1 = room_new("room_to_add1", "add1", "added room1");
     room_t *room_to_add2 = room_new("room_to_add2", "add2", "added room2");
 
-    int check1 = extend_path_indefinite(npc_mov, room_to_add1, time);
-
+    int check1 = extend_path_indefinite(npc_mov, room_to_add1, time)
     cr_assert_eq(check1, SUCCESS, "extend_path_indefinite() failed");
 
     check1 = extend_path_indefinite(npc_mov, room_to_add2, time);
