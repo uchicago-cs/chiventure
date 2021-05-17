@@ -273,7 +273,7 @@ int player_change_stat_max(player_t *player, char *stat, double change)
 /* see player.h */
 double player_get_stat_current(player_t *player, char *stat)
 {
-    int res;
+    double res;
 
     res = get_stat_current(player->player_stats, stat);
 
@@ -285,7 +285,7 @@ int player_add_stat(player_t *player, stats_t *s)
 {
     int rc;
 
-    rc = add_stat(player->player_stats, s);
+    rc = add_stat(&(player->player_stats), s);
 
     return rc;
 }
@@ -295,7 +295,7 @@ int player_add_stat_effect(player_t *player, stat_effect_t *effect)
 {
     int rc;
 
-    rc = add_stat_effect(player->player_effects, effect);
+    rc = add_stat_effect(&(player->player_effects), effect);
 
     return rc;
 }
