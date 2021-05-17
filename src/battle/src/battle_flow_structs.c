@@ -5,7 +5,7 @@
 #include "battle/battle_flow_structs.h"
 
 /* Stub for the player_new function in player.h game-state module */
-player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, item_t* items)
+player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items)
 {
       player_t *ctx_player = calloc(1, sizeof(player_t));
       assert(ctx_player != NULL);
@@ -20,7 +20,7 @@ player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *move
 }
 
 /* Sets up pointer to npc struct, stub for an npc representing the enemy */
-npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, item_t* items,difficulty_t ai)
+npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items,difficulty_t ai)
 {
     npc_enemy_t *npc_e = calloc(1, sizeof(npc_enemy_t));
     assert(npc_e != NULL);

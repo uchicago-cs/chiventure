@@ -3,7 +3,8 @@
 
 #include "common/ctx.h"
 
-
+#define MAX_INPUT_CHARS 20
+#define POS_ZERO 0
 #define MIN_COLS 80
 #define MIN_ROWS 24
 
@@ -16,6 +17,6 @@
  *
  * No value is returned
  */
-void start_gui(chiventure_ctx_t *ctx, const char *banner);
+void start_gui(chiventure_ctx_t *ctx);
 
 #endif

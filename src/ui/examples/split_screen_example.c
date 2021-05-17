@@ -117,6 +117,9 @@ int main() {
         //Draw Image
         BeginDrawing();
 
+        //Images can be at the most 500 x 500 pixels and they have to have
+        //the png Image format
+
         Image room1 = LoadImage("../../../../src/ui/sandbox/images/room1.png");  
         Image room2 = LoadImage("../../../../src/ui/sandbox/images/room2.png");
         Image room3 = LoadImage("../../../../src/ui/sandbox/images/room3.png");  
@@ -125,10 +128,13 @@ int main() {
         ImageResize(&room1, ScreenWidth/2, ScreenHeight/2);           
         Texture2D texture1 = LoadTextureFromImage(room1);
         Texture2D texture2 = LoadTextureFromImage(room2);
-        Texture2D texture3 = LoadTextureFromImage(room3);      // Image converted to texture, uploaded to GPU memory (VRAM)
-        UnloadImage(room1);   // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
+        Texture2D texture3 = LoadTextureFromImage(room3);
+        // Image converted to texture, uploaded to GPU memory (VRAM)
+        UnloadImage(room1);   
         UnloadImage(room2);
         UnloadImage(room3);
+        // Once image has been converted to texture and uploaded to VRAM, it 
+        // can be unloaded from RAM
 
         int heightbuf2 = 150;
         int rectHeight = 120;

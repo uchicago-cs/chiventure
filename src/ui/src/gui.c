@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "action_management/actionmanagement.h"
-#define MAX_INPUT_CHARS 20
-#define POS_ZERO 0
 
 #include "ui/draw_images.h"
 
@@ -15,7 +13,6 @@ void start_gui(chiventure_ctx_t *ctx)
     int ScreenWidth = 800;
     int ScreenHeight = 500;
 
-    /*The string parameter here should probably be the title of the game*/
     InitWindow(ScreenWidth, ScreenHeight, "Chiventure");
 
     //creating a rectangle the size of the window
@@ -38,7 +35,6 @@ void start_gui(chiventure_ctx_t *ctx)
     int outputHeight = 120;
     int heightbuf = 140;
     Rectangle output = { outputX, ScreenHeight - heightbuf, ScreenWidth, outputHeight };
-    /*Is there a starting text thing that could go here?*/
     char *output_text = ctx->game->start_desc;
 
     int framesCounter = 0;
@@ -102,10 +98,6 @@ void start_gui(chiventure_ctx_t *ctx)
 
         // Drawing the Image for each room
         draw_room(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
-	    /*I think to use the above function, you'd need some kind of loop
-	     * so that you're drawing all of the rooms rather than just
-	     * the current one? Unless I'm misunderstanding what this
-	     * code here does*/
         
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
@@ -118,8 +110,6 @@ void start_gui(chiventure_ctx_t *ctx)
         int fontSize = 20;
         int fontSpacing = 5;
 
-	/*I couldn't figure out what this if does but I don't think we 
-	 * need to change anything?*/
         if (mouseOnText) {
             DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 
@@ -139,4 +129,10 @@ void start_gui(chiventure_ctx_t *ctx)
     return 0;
 }
 
+}
+
+
+void stop_gui(chiventure_ctx_t *ctx)
+{
+    //todo
 }
