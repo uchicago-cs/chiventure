@@ -476,64 +476,9 @@ Test(dialogue, one_failing_conditional)
                  "but start_conversation returned:\n%s", expected, ret_str);
 }
 
-/* 1 conditional edge, satisfied, results in 1 available edge */
-Test(dialogue, one_passing_conditional)
-{
-    convo_t *c = convo_new();
-    int rc;
-    char *ret_str;
-    char *expected = "D1\n1. Q1\nEnter your choice: ";
-
-    player_t *p = player_new("player");
-    item_t *i = item_new("item", "short_desc", "long_desc");
-    add_item_to_player(p, i);
-    condition_t *cond = inventory_condition_new(p, i);
-
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_edge(c, "Q1", "N1", "N2", cond);
-
-    ret_str = start_conversation(c, &rc, NULL);
-
-    cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
-                 "indicating that the conversation has not ended", rc);
-    cr_assert_eq(strcmp(ret_str, expected), 0,
-                 "Expected:\n%s for the return string of start_conversation "
-                 "but start_conversation returned:\n%s", expected, ret_str);
-}
-
-/* 1 unconditional edge and 1 conditional edge, not satisfied, results in 1
-   available edge */
-Test(dialogue, one_conditional_one_unconditional)
-{
-    convo_t *c = convo_new();
-    int rc;
-    char *ret_str;
-    char *expected = "D1\n1. Q2\nEnter your choice: ";
-
-    player_t *p = player_new("player");
-    item_t *i = item_new("item", "short_desc", "long_desc");
-    condition_t *cond = inventory_condition_new(p, i);
-
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_node(c, "N3", "D3");
-    add_node(c, "N4", "D4");
-    add_edge(c, "Q1", "N1", "N2", cond);
-    add_edge(c, "Q2", "N1", "N3", NULL);
-
-    ret_str = start_conversation(c, &rc, NULL);
-
-    cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
-                 "indicating that the conversation has not ended", rc);
-    cr_assert_eq(strcmp(ret_str, expected), 0,
-                 "Expected:\n%s for the return string of start_conversation "
-                 "but start_conversation returned:\n%s", expected, ret_str);
-}
-
 /* 2 unconditional edges and 2 conditional edges, one satisfied and one
    unsatisfied, results in 3 available edges */
-Test(dialogue, two_conditional)
+Test(dialogue, two_conditionals)
 {
     convo_t *c = convo_new();
     int rc;
