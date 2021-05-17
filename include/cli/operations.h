@@ -41,6 +41,19 @@
  */
 char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/*
+ * Displays action options and their descriptions of chiventure
+ *
+ * Input:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct, unused
+ *
+ * Returns:
+ *  - list of supported actions and their descriptions
+ *
+ */
+char *actions_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
 
 /*
  * Quits the game
