@@ -189,23 +189,43 @@ int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
     }
 }
 
+
+/*
+ * Helper function used to find the bottom node on the left side of a tree
+ *
+ * Parameters:
+ * - a pointer to a tree
+ *
+ * Returns:
+ * - a pointer to the tree with no children on the left side of the tree
+ */
+achievement_tree_t *get_bottom_node(achievement_tree_t *t){
+    assert(t != NULL);
+    achievement_tree_t *tmp = t;
+    if(tmp->lmostchild != NULL){
+        get_bottom_node(tmp->lmostchild);
+    }
+    return tmp;
+} 
+
 /* Refer to quests_state.h */
 int is_quest_completed(quest_t *quest)
 {
-    achievement_llist_t *head = quest->achievement_list;
-    achievement_llist_t *incomplete_achievement;
-
-    LL_SEARCH_SCALAR(head,incomplete_achievement,
-                    achievement->completed,0);
-
-    if(incomplete_achievement == NULL)
-    {
-        quest->status = 2;
-        return 1;
-    }
-    else
-    {
-        return 0;
+    assert (quest != NULL);
+    achievment_tree_t *tmp = malloc(sizeof(achievement_tree_t));
+    tmp = quest->achievement_tree_t;
+    
+    while(tmp = get_bottom_node(tmp)){
+        if(tmp->achievement->completed == 1){
+            quest->status = 2;
+            return 1;
+        } else if(tmp->rsibling != NULL){
+            tmp = tmp->rsibling; 
+        } else if(tmp->parent->rsibling != NULL){
+            tmp = tmp->parent->rsibling;
+        } else{
+            return 0;
+        }
     }
 }
 
