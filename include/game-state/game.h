@@ -8,8 +8,8 @@
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
-#include "command.h"
 #include "mode.h"
+#include "cli/cmdlist.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)

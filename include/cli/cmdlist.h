@@ -1,7 +1,5 @@
-#ifndef _COMMAND_H
-#define _COMMAND_H
-
-#include "game_state_common.h"
+#ifndef _CMDLIST_H
+#define _CMDLIST_H
 
 
 /* 

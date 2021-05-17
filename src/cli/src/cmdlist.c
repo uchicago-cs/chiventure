@@ -1,6 +1,9 @@
-#include "game-state/command.h"
+#include <stdlib.h>
+#include <string.h>
 
-/* See game-state/command.h for further documentation */
+#include "cli/cmdlist.h"
+
+/* See cli/cmdlist.h for further documentation */
 command_list_t* new_command_list(char* command)
 {
     command_list_t* new = malloc(sizeof(command_list_t));

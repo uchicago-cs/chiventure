@@ -7,7 +7,6 @@ add_library(game-state
         src/player.c
         src/room.c
         src/stats.c
-        src/command.c
         src/condition.c)
 
 target_include_directories(game-state PRIVATE src/)
