@@ -203,6 +203,7 @@ int get_npc_num_rooms(npc_mov_t *npc_mov)
 	}
 	
 	return count;
+}
 
 /* Helper function for move_npc_def function */
 int room_id_cmp(room_list_t *room1, room_list_t *room2)
