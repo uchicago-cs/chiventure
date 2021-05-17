@@ -77,12 +77,6 @@ typedef struct effect {
     } data; // Contains a pointer to the effect itself so that we can make the necessary modifications to execute the skill
 }effect_t;
 
-typedef struct complex_effect {
-    int num_effects; // specifies the amount of elementary effects (att, stat and damage) are in the complex effect
-    effect_t* effect_array; // an array of poinetrs to all the effects that have to be executed, from start to finish)
-    int duration; // duration of the effect??
-} complex_effect_t;
-
 /* Defines a statistic modifying effect and returns a pointer to it 
  * Parameters: char* stat_mod_effect_name: A string that has the name of the effect
  *             char** stat_names: A pointer to an array of stats that will be modified
@@ -106,7 +100,6 @@ move_effect_t* define_move_effect(move_t move);
  * Returns: A pointer to the created attribute modifying effect
  */
 att_effect_t* define_att_effect(char* item_id, char* att_id, union data mod);
-
 
 /* Takes the given stats modifying effect and converts it to an effect
  * Parameters: stat_mod_effect_t* stat_effect- Pointer to the stats modifying effect
