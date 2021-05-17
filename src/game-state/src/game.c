@@ -239,6 +239,15 @@ item_t *get_item_from_game(game_t *game, char *item_id)
 }
 
 /* See game.h */
+npc_t *get_npc(game_t *game, char *npc_id)
+{
+    npc_t *n;
+    HASH_FIND(hh, game->all_npcs, npc_id,
+              strnlen(npc_id, MAX_ID_LEN), n);
+    return n;
+}
+
+/* See game.h */
 int move_room(game_t *game, room_t *new_room)
 {
     if(game == NULL)

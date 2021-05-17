@@ -305,6 +305,17 @@ room_t *find_room_from_game(game_t *game, char* room_id);
 item_t *get_item_from_game(game_t *game, char *item_id);
 
 /*
+* Function to find npc from all_npcs
+* Parameters:
+*  pointer to game
+*  npc id (a string, i.e. char*)
+*
+* Returns
+*  pointer to npc or NULL if not found
+*/
+npc_t *get_npc(game_t *game, char *npc_id);
+
+/*
  * Function to get a linked list (utlist) of all the rooms in the game
  *
  * Parameters:

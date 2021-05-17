@@ -4,6 +4,7 @@
 
 #include "game-state/mode.h"
 #include "cli/parser.h"
+#include "game-state/game.h"
 
 
 /* see mode.h */
@@ -79,9 +80,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     int option, num_options, rc;
     option = atoi(parsed_input[0]);
 
-    npc_t *npc;
-    HASH_FIND(hh, ctx->game->all_npcs, ctx->game->mode->mode_ctx, 
-              strnlen(ctx->game->mode->mode_ctx, MAX_ID_LEN), npc);
+    npc_t *npc = get_npc(ctx->game, ctx->game->mode->mode_ctx);
     num_options = npc->dialogue->cur_node->num_edges;
 
     if ((option <= 0) || (option > npc->dialogue->cur_node->num_edges) || 
