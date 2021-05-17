@@ -1,13 +1,11 @@
 #include <raylib.h>
-#include <ctype.h>
-#include <signal.h>
 #include <string.h>
-#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "action_management/actionmanagement.h"
+#define MAX_INPUT_CHARS 20
+#define POS_ZERO 0
 
-#include "common/ctx.h"
-#include "ui/window.h"
-#include "ui/print_functions.h"
-#include "ui/ui_ctx.h"
 #include "ui/draw_images.h"
 
 
@@ -18,7 +16,7 @@ void start_gui(chiventure_ctx_t *ctx)
     int ScreenHeight = 500;
 
     /*The string parameter here should probably be the title of the game*/
-    InitWindow(ScreenWidth, ScreenHeight, "load image sandbox program");
+    InitWindow(ScreenWidth, ScreenHeight, "Chiventure");
 
     //creating a rectangle the size of the window
     int WindowWidth = 1200;
@@ -41,7 +39,8 @@ void start_gui(chiventure_ctx_t *ctx)
     int heightbuf = 140;
     Rectangle output = { outputX, ScreenHeight - heightbuf, ScreenWidth, outputHeight };
     /*Is there a starting text thing that could go here?*/
-    char *output_text = "You see a path. There is a hollow log on the ground.";
+    char *output_text = ctx->game->start_desc;
+
 
     int framesCounter = 0;
     SetTargetFPS(10);
@@ -102,24 +101,13 @@ void start_gui(chiventure_ctx_t *ctx)
 
         ClearBackground(RAYWHITE);
 
-        // Drawing the Color Rectangles for each room
-        if (!(strcmp(ctx->game->curr_room->room_id, "room1"))){
-            DrawTexture(texture1, ScreenWidth/4, ScreenHeight/10, WHITE);
-            // draw_room(ctx->game->curr_room->room_id);
+        // Drawing the Image for each room
+        draw_room(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
 	    /*I think to use the above function, you'd need some kind of loop
 	     * so that you're drawing all of the rooms rather than just
 	     * the current one? Unless I'm misunderstanding what this
 	     * code here does*/
-        }                                           
-        else if (!(strcmp(ctx->game->curr_room->room_id, "room2"))) 
-            DrawTexture(texture2, ScreenWidth/4, ScreenHeight/10, WHITE);
-
-        else if (!(strcmp(ctx->game->curr_room->room_id, "room3"))) 
-            DrawTexture(texture3, ScreenWidth/4, ScreenHeight/10, WHITE);
-
-        else 
-            DrawTexture(texture1, ScreenWidth/4, ScreenHeight/10, WHITE);
-
+        
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
         DrawRectangleLines(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, heightbuf2, BLACK);

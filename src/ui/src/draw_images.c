@@ -7,7 +7,7 @@
 #define MAX_FILENAME_LEN (100)
 
 /* See draw_images.h for documentation */
-void draw_room(char *room_id)
+void draw_room(int width, int height, int pos_x, int  pos_yt, char *room_id)
 {
     BeginDrawing();
 
