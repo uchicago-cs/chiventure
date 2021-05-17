@@ -130,7 +130,7 @@ int quest_free(quest_t * quest);
  * 
  * Returns:
  * - SUCCESS 
- * - FAILURE
+ * - FAILURE 
  */
 int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
 
