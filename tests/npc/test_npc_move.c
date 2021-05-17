@@ -113,6 +113,30 @@ Test(npc_mov, extend_path_indefinite)
                      "room_to_add","extend_path_indef() failed");
 }
 
+/* Tests get_npc_num_rooms function */
+Test(npc_mov, get_npc_num_rooms)
+{
+	room_t *test_room = room_new("test room", "test", "test test");
+	npc_mov_t *npc_mov_d = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+	npc_mov_t *npc_mov_i = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
+	room_t *room_to_add = room_neww("room_to_add", "add", "added room");
+
+	int check1 = extend_path_indefinite(npc_mov_i, room_to_add, 10);
+	int check2 = extend_path_definite(npc_mov_d, room_to_add);
+	
+	cr_assert_eq(check1, SUCCESS, "extend_path_indef() failed");
+	cr_assert_eq(check2, SUCCESS, "extend_path_def() failed");
+
+	int get1 = get_npc_num_rooms(npc_mov_d);
+	int get2 = get_npc_num_rooms(npc_mov_i);
+
+	cr_assert_eq(get1, 2, "number of rooms in NPC path is %d. get_npc_num_rooms() returned %d",
+					2, get1);
+	cr_assert_eq(get2, 2, "number of rooms in NPC path is %d. get_npc_num_rooms() returned %d",
+                    2, get2);
+}
+
+
 
 /* Tests track_room function */
 Test(npc_mov, track_room)
