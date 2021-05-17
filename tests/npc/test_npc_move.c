@@ -113,29 +113,40 @@ Test(npc_mov, extend_path_indefinite)
                      "room_to_add","extend_path_indef() failed");
 }
 
-/* Tests get_npc_num_rooms function */
-Test(npc_mov, get_npc_num_rooms)
+/* Tests get_npc_num_rooms function for definite move */
+Test(npc_mov, get_npc_num_rooms_def)
 {
 	room_t *test_room = room_new("test room", "test", "test test");
-	npc_mov_t *npc_mov_d = npc_mov_new(NPC_MOV_DEFINITE, test_room);
-	npc_mov_t *npc_mov_i = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
-	room_t *room_to_add = room_neww("room_to_add", "add", "added room");
+	npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+	room_t *room_to_add = room_new("room_to_add", "add", "added room");
 
-	int check1 = extend_path_indefinite(npc_mov_i, room_to_add, 10);
-	int check2 = extend_path_definite(npc_mov_d, room_to_add);
+	int check = extend_path_definite(npc_mov, room_to_add);
 	
-	cr_assert_eq(check1, SUCCESS, "extend_path_indef() failed");
-	cr_assert_eq(check2, SUCCESS, "extend_path_def() failed");
+	cr_assert_eq(check, SUCCESS, "extend_path_def() failed");
 
-	int get1 = get_npc_num_rooms(npc_mov_d);
-	int get2 = get_npc_num_rooms(npc_mov_i);
+	int get = get_npc_num_rooms(npc_mov);
 
-	cr_assert_eq(get1, 2, "number of rooms in NPC path is %d. get_npc_num_rooms() returned %d",
-					2, get1);
-	cr_assert_eq(get2, 2, "number of rooms in NPC path is %d. get_npc_num_rooms() returned %d",
-                    2, get2);
+	cr_assert_eq(get, 2, "number of rooms in NPC path is %d. get_npc_num_rooms() returned %d",
+					2, get);
 }
 
+
+/* Tests get_npc_num_rooms function for indefinite move */
+Test(npc_mov, get_npc_num_rooms_indef)
+{
+    room_t *test_room = room_new("test room", "test", "test test");
+	npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
+	room_t *room_to_add = room_new("room_to_add", "add", "added room");
+
+	int check = extend_path_indefinite(npc_mov, room_to_add, 10);
+	
+	cr_assert_eq(check, SUCCESS, "extend_path_indef() failed");
+
+	int get = get_npc_num_rooms(npc_mov);
+
+	cr_assert_eq(get, 2, "number of rooms in NPC path is %d. get_npc_num_rooms() returned %d",
+					2, get);
+}
 
 
 /* Tests track_room function */
@@ -210,96 +221,87 @@ Test(npc_mov, reverse_path)
 }
 
 
-/* Tests auto_gen_movement function */
-Test(npc_mov, auto_gen_movement)
+/* Tests auto_gen_movement for definite movement function */
+Test(npc_mov, auto_gen_movement_definite)
 {
-	/* 
-	 * This test is based heavily off of the Test(path_actions, validate_path)
-	 * contained in tests/action_management/test_path_actions.c
-	 */
-	
-	/* DECLARE VARIABLES */
-	chiventure_ctx_t *ctx_test;
-	game_t *game_test;
-	player_t *player_test;
-	room_t *room_north, *room_south, *room_east, *room_west, *room_origin;
-	npc_mov_t *mov_indef, *mov_def;
-	int rc_indef, num_rooms_indef, rc_def, num_rooms_def, total_num_rooms;
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
+    room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    add_room_to_game(game, room3);
+    int cnt = 0;
+    int rc, num_rooms_in_npc;
+    room_t *curr_room;
 
-	/* CREATE VARIABLE CONTENTS */
-	ctx_test = chiventure_ctx_new(NULL);
-	game_test = game_new("This is a test game!");
-	player_test = player_new("player");
-	room_origin = room_new("room_o", "origin room", "This is the room the player starts in.");
-	room_north = room_new("room_n", "room north of origin", "This is the room north of the spawn.");
-	room_south = room_new("room_s", "room south of origin", "This is the room south of the spawn.");
-        room_east = room_new("room_e", "room east of origin", "This is the room east of the spawn.");
-        room_west = room_new("room_w", "room west of origin", "This is the room west of the spawn.");
-	mov_indef = npc_mov_new(NPC_MOV_INDEFINITE, room_origin);
-	mov_def = npc_mov_new(NPC_MOV_DEFINITE, room_origin);
+    room_t *test_room = room_new("test_room", "test", "test test");
+    npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+
+    rc = auto_gen_movement(npc_mov, game);
+    room_list_t *elt;
+
+    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt) {
+        cnt++;
+        curr_room = elt->room;
+        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
+            "ldesc does not correspond");
+        } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
+            "ldesc does not correspond");
+        } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
+            "ldesc does not correspond");
+        } 
+    }
+
+    num_rooms_in_npc = get_npc_num_rooms(npc_mov);
+    cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, but there should be %d rooms in npc_mov", 
+                 cnt, num_rooms_in_npc);
+    cr_assert_eq(delete_room_llist(npc_mov->npc_mov_type.npc_mov_definite->npc_path), SUCCESS, "delete llist failed");
+    game_free(game);
+}
 
 
-	/* FILL VARIABLE CONTENTS */
-	add_player_to_game(game_test, player_test);
-	set_curr_player(game_test, player_test);
-	add_room_to_game(game_test, room_origin);
-	add_room_to_game(game_test, room_north);
-	add_room_to_game(game_test, room_south);
-	add_room_to_game(game_test, room_east);
-	add_room_to_game(game_test, room_west);
-	/*create_connection(game_test, room_origin->room_id, room_north->room_id, "north");
-	create_connection(game_test, room_north->room_id, room_origin->room_id, "origin");
-	create_connection(game_test, room_origin->room_id, room_south->room_id, "south");
-        create_connection(game_test, room_south->room_id, room_origin->room_id, "origin");
-	create_connection(game_test, room_origin->room_id, room_east->room_id, "east");
-        create_connection(game_test, room_east->room_id, room_origin->room_id, "origin");
-	create_connection(game_test, room_origin->room_id, room_west->room_id, "west");
-        create_connection(game_test, room_west->room_id, room_origin->room_id, "origin");*/
-	
-	/* TEST HELPER */
+/* Tests auto_gen_movement for indefinite movement function */
+Test(npc_mov, auto_gen_movement_indefinite)
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
+    room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    add_room_to_game(game, room3);
+    int cnt = 0;
+    int rc, num_rooms_in_npc;
+    room_t *curr_room;
 
-	total_num_rooms = get_num_rooms(game_test); // expected = 5
-	cr_assert_eq(5, total_num_rooms,
-			"The number of rooms is %d but get_num_rooms() says %d",
-			5, total_num_rooms);
-	
-	/* TEST AUTO_GEN_MOVEMENT FOR INDEF */
+    room_t *test_room = room_new("test_room", "test", "test test");
+    npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
 
-	for(int i = 0; i < 10; i++)
-	{
-		rc_indef = auto_gen_movement(mov_indef, game_test);
-		
-		num_rooms_indef = get_npc_num_rooms(mov_indef); // function not implemented
+    rc = auto_gen_movement(npc_mov, game);
+    room_list_t *elt;
 
-		cr_assert_eq(SUCCESS, rc_indef, 
-				"auto_gen_movement() failed for indefinite movement");
-		cr_assert_geq(num_rooms_indef, 1,
-				"The number of rooms in the npc mov struct is %d which is less than"
-				"the actual amount, %d",
-				num_rooms_indef, 1);
-		cr_assert_leq(num_rooms_indef, 5,
-				"The number of rooms in the npc mov struct is %d which is more than"
-				"the actual amount, %d",
-				num_rooms_indef, 5);
-	}
-
-	/* TEST AUTO_GEN_MOVEMENT FOR DEF */
-
-	for(int i = 0; i < 10; i++)
-        {
-                rc_def = auto_gen_movement(mov_def, game_test);
-
-                num_rooms_def = get_npc_num_rooms(mov_def); // function not implemented
-
-                cr_assert_eq(SUCCESS, rc_def,
-                                "auto_gen_movement() failed for definite movement");
-                cr_assert_geq(num_rooms_def, 1,
-                                "The number of rooms in the npc mov struct is %d which is less than"
-                                "the actual amount, %d",
-                                num_rooms_def, 1);
-                cr_assert_leq(num_rooms_def, 5,
-                                "The number of rooms in the npc mov struct is %d which is more than"
-                                "the actual amount, %d",
-                                num_rooms_def, 5);
+    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt) {
+        cnt++;
+        curr_room = elt->room;
+        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
+            "ldesc does not correspond");
+        } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
+            "ldesc does not correspond");
+        } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
+            cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
+            "ldesc does not correspond");
         }
+    }
+
+    num_rooms_in_npc = get_npc_num_rooms(npc_mov);
+    cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, but there should be %d rooms in npc_mov", 
+                 cnt, num_rooms_in_npc);
+    cr_assert_eq(delete_room_llist(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path), SUCCESS, "delete llist failed");
+    game_free(game);
 }
