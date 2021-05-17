@@ -25,18 +25,3 @@ condition_t *npc_condition_new(npc_t *npc, attribute_t *attribute, attribute_val
  *  2 if action not possible
  */
 int all_npc_conditions_met(npc_t *npc, char* action_name);
-
-/* 
- * Creates an effect_t struct and adds it to the action pointed to
- * Parameters:
- *  - action: pointer to action
- *  - npc: pointer to npx being modified
- *  - attribute: pointer to attribute to modify
- *  - new_value: new attribute_value_t (takes tag from attribute above)
- *
- * Returns:
- *  - SUCCESS upon success, FAILURE upon failure
- *  - ACTION_NULL if action NULL
- *  - ITEM_MODIFY_NULL if npc to modify is null
- */
-int add_npc_action_effect(game_action_t *action, npc_t *npc, attribute_t *attribute, attribute_value_t new_value);

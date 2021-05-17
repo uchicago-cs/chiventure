@@ -271,19 +271,19 @@ int delete_action(list_action_type_t **head, list_action_type_t *act)
 // ------------------------------------- EFFECTS -------------------------------------
 
 /* see game_action.h */
-//we either use item_to_add or action as action is loacted within item_to_add
-int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t new_value)
+//we either use agent_to_add or action as action is located within agent_to_add
+int add_action_effect(game_action_t *action, agent_t *agent_to_add, attribute_t *attribute, attribute_value_t new_value)
 {
     if (action == NULL)
     {
         return ACTION_NULL;
     }
-    if (item_to_add == NULL)
+    if (agent_to_add == NULL)
     {
         return ITEM_MODIFY_NULL;
     }
 
-    game_action_effect_t *new_effect = effect_new(item_to_add, attribute, new_value);
+    game_action_effect_t *new_effect = effect_new(agent_to_add, attribute, new_value);
 
     LL_APPEND(action->effects, new_effect);
 

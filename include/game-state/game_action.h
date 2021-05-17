@@ -132,16 +132,16 @@ int delete_action(list_action_type_t **head, list_action_type_t *act);
 /* add_action_effect creates an effect_t struct and adds it to the action pointed to
  * Parameters:
  *  pointer to action
- *  pointer to item being modified
+ *  pointer to agent being modified
  *  pointer to attribute to modify
  *  new attribute_value_t (takes tag from attribute above)
  *
  * Returns:
  * SUCCESS upon success, FAILURE upon failure
  * ACTION_NULL if action NULL
- * ITEM_MODIFY_NULL if item to modify is null
+ * ITEM_MODIFY_NULL if agent to modify is null
  */
-int add_action_effect(game_action_t *action, item_t *item_to_add, 
+int add_action_effect(game_action_t *action, agent_t *agent_to_add, 
 		      attribute_t *attribute, attribute_value_t new_value);
 
 /* delete_action_effect_llist frees a linked list of action effects
