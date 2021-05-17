@@ -121,7 +121,7 @@ void print_banner(window_t *win, const char *banner)
 }
 
 /* see print_functions.h */
-void print_info(chiventure_ctx_t *ctx, window_t *win, int* quitval)
+void print_info(chiventure_ctx_t *ctx, window_t *win, int *quitval)
 {
     mvwprintw(win->w, 1, 2, "Main Window");
 }
