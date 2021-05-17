@@ -76,3 +76,15 @@ Test(parse, many_spaces)
     cr_assert_str_eq(words[2], "ME", "parse() did not create third token");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
+
+
+// Tests that the parser deals with "and" properly with 3 words total
+Test(parse, and_input_3_word)
+{
+    char str[] = "MILK AND COOKIE";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"MILK", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "COOKIE", "parse() did not create second token");
+    cr_assert_null(words[2],"parse() should point to NULL for empty tokens");
+
+}
