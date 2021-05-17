@@ -74,11 +74,17 @@ int main(int argc, char **argv)
             graphical = true;
             wdl_ctx = load_wdl(argv[2]);
             game = load_objects(wdl_ctx);
+
+            if (!game)
+            {
+                fprintf(stderr, "Could not load game: %s\n", argv[1]);
+                exit(1);
+            }
         }
         else
         {
-            fprintf(stderr, "Could not load game: %s\n", argv[2]);
-                exit(1);
+            fprintf(stderr, "Unrecognized parameter: %s\n", argv[1]);
+            exit(1);
         }
     }
 
@@ -86,7 +92,6 @@ int main(int argc, char **argv)
 
     /* Add calls to component-specific initializations here */
 
-    
     if (graphical)
     {   
         /*If graphical is true the user will be using GUI*/
@@ -101,7 +106,6 @@ int main(int argc, char **argv)
             fprintf(stderr, "Chiventure prefers to run in terminals of at least %d columns and %d rows. Please resize your terminal!\n", MIN_COLS, MIN_ROWS);
             exit(1);
         }
-    
 
         /*If graphical is false the user will be using UI */
         if (ncols > 100) {
