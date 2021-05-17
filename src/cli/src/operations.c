@@ -10,9 +10,15 @@
 #define BUFFER_SIZE (100)
 
 
+
 char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021";
+}
+
+char *actions_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    return "OPEN\n   CLOSE\n   PUSH\n   PULL\n   TURNON\n   TURNOFF\n   TAKE\n   PICKUP\n   DROP\n   CONSUME\n   USE\n   DRINK\n   EAT\n   GO\n   WALK\n   USE_ON\n   PUT\n   LOOK\n   QUIT - quits the game and closes the terminal\n   HELP - need help? Type in HELP!\n   CREDITS - see all the contributing classes of Chiventure\n   INV - Displays your inventory\n   MAP - displays your map\n   SWITCH\n   LOAD_WDL - Load a game!\n   NAME\n   PALETTE - Select your style palette\n   ITEMS - Display your items\n ";
 }
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
