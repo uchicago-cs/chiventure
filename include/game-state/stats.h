@@ -143,6 +143,15 @@ int stats_init(stats_t *stat, stats_global_t *global_stat, double init);
 
 stats_global_t *stats_global_new(char *name, double max);
 
+/* copy_global_stat: Creates a deep copy of a global stat
+ *
+ * Input:
+ *      - global_stat: The global stat to copy
+ * 
+ * Returns: Pointer to the newly made copy
+ */
+stats_global_t* copy_global_stat(stats_global_t* global_stat);
+
 /*
  * Allocates a new stat
  *
@@ -154,6 +163,18 @@ stats_global_t *stats_global_new(char *name, double max);
  *  Pointer to allocated stats struct
  */
 stats_t *stats_new(stats_global_t *global_stat, double init);
+
+/* copy_stat: Creates a deep copy of a given stat
+ *
+ * NOTE: This does NOT create a new global stat. If User desires copy of a stat 
+ *       alongisde a copy of the associated global_stat, use copy_stat_and_global
+ * 
+ * Input:
+ *      - stat: The stat to copy
+ * 
+ * Returns: Pointer to the newly made copy 
+ */ 
+stats_t* copy_stat(stats_t* stat);
 
 /*
  * Initializes a stat_mod struct
@@ -205,6 +226,15 @@ int global_effect_init(effects_global_t *effect, char *effect_name);
  */
 effects_global_t *global_effect_new(char *effect_name);
 
+/* copy_global_effect: Creates a deep copy of a global effect
+ *
+ * Input:
+ *      - global_effect: The global effect to copy
+ * 
+ * Returns: Pointer to the newly made copy
+ */
+effects_global_t* copy_global_effect(effects_global_t* global_effect);
+
 /*
  * Initializes a player effect struct
  *
@@ -227,6 +257,19 @@ int stat_effect_init(stat_effect_t *effect, effects_global_t *global);
  *   - Pointer to allocated player effects struct
  */
 stat_effect_t *stat_effect_new(effects_global_t *global);
+
+/* copy_effect: Creates a deep copy of a given stat effect
+ *
+ * NOTE: This does NOT create a new global effect. If User desires copy of a stat 
+ *       effect alongisde a copy of the associated global_effect, use copy_stat_and_global_effect
+ * 
+ * Input:
+ *      - stat_effect: The stat effect to copy
+ * 
+ * Returns: Pointer to the newly made copy 
+ */ 
+stat_effect_t* copy_effect(stat_effect_t* stat_effect);
+
 
 /*
  * Changes the base value of a stat by the
@@ -433,6 +476,15 @@ int free_stats_global_table(stats_global_hash_t *gst);
  */
 int free_stat_mod(stat_mod_t *mod);
 
+/* free-stat_effect: Frees the resources that a stat_effect_t uses
+ *
+ * Input:
+ *      - effect: The stat effect to be freed
+ * 
+ * Returns: Always returns SUCCESS
+ */
+int free_stat_effect(stat_effect_t* effect);
+
 /*
  * Deletes a single player effects struct from a hash table,
  * then frees the struct
@@ -456,6 +508,15 @@ int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int delete_all_stat_effects(effects_hash_t *effects);
+
+/* free_global_effect: Frees the resources that a effect_global_t uses
+ *
+ * Input:
+ *      - effect: The global effect to be freed
+ * 
+ * Returns: Always returns SUCCESS
+ */
+int free_global_effect(effects_global_t* effect);
 
 /*
  * Deletes a single global effect struct from a hash table,
