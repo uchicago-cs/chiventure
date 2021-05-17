@@ -15,7 +15,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type,
     room_to_add->room = room;
 
     room_list_t *head = NULL;
-    
+
     if (mov_type == NPC_MOV_DEFINITE)
     {
         LL_APPEND(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
@@ -27,7 +27,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type,
         ,room_to_add);
         npc_mov->npc_mov_type.npc_mov_indefinite->room_time = NULL;
     }
-    
+
     return SUCCESS;
 }
 
@@ -85,31 +85,31 @@ int npc_mov_free(npc_mov_t *npc_mov) {
 int register_npc_room_time(npc_mov_t *npc_mov, room_t *room, int time)
 {
     assert(room != NULL);
-    
+
     npc_room_time_t *return_time;
 
     npc_room_time_t *new_npc_room_time;
     new_npc_room_time = malloc(sizeof(npc_room_time_t));
     memset(new_npc_room_time, 0, sizeof(npc_room_time_t));
     new_npc_room_time->room_id = malloc(MAX_ID_LEN);
-    strcpy(new_npc_room_time->room_id, room->room_id); 
+    strcpy(new_npc_room_time->room_id, room->room_id);
     new_npc_room_time->time = time;
 
     HASH_REPLACE(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
-                    room_id, strlen(room->room_id), 
+                    room_id, strlen(room->room_id),
                     new_npc_room_time, return_time);
-    
+
     free(return_time);
 
     HASH_ADD_KEYPTR(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
             room->room_id, strlen(room->room_id), new_npc_room_time);
-   
+
     return SUCCESS;
 }
 
 
 /* See npc_move.h */
-int extend_path_definite(npc_mov_t *npc_mov, room_t *room_to_add) 
+int extend_path_definite(npc_mov_t *npc_mov, room_t *room_to_add)
 {
     assert(room_to_add != NULL);
     assert(npc_mov != NULL);
@@ -122,12 +122,12 @@ int extend_path_definite(npc_mov_t *npc_mov, room_t *room_to_add)
             room_to_add2);
 
     return SUCCESS;
-}  
+}
 
 
 /* See npc_move.h */
-int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time) 
-{   
+int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time)
+{
     assert(room_to_add != NULL);
 
     room_list_t *room_to_add2 = malloc(sizeof(room_list_t));
@@ -147,14 +147,14 @@ int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time)
 
 
 /* See npc_move.h */
-char* track_room(npc_mov_t *npc_mov) 
+char* track_room(npc_mov_t *npc_mov)
 {
     return npc_mov->track;
 }
 
 
 /* See npc_move.h */
-int reverse_path(npc_mov_t *npc_mov) 
+int reverse_path(npc_mov_t *npc_mov)
 {
     assert(npc_mov->mov_type == NPC_MOV_DEFINITE);
 
@@ -219,4 +219,92 @@ int move_npc_definite(npc_mov_t *npc_mov)
     {
         return 0;
     }
+}
+
+/* See npc_move.h */
+int move_npc_indefinite(npc_mov_t *npc_mov)
+{
+
+    assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
+
+    room_list_t *test = malloc(sizeof(room_list_t));
+    test->next = NULL;
+    test->room = room_new(npc_mov->track,"test","test");
+    room_list_t *current_room = malloc(sizeof(room_list_t));
+
+    LL_SEARCH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path,
+                current_room,test,room_id_cmp);
+
+    if(current_room->next == NULL)
+    {
+        return 1;
+    }
+    if((strcmp(current_room->room->room_id,npc_mov->track)) == 0)
+    {
+        room_t *next_room = current_room->next->room;
+        npc_mov->track = next_room->room_id;
+        return 2;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+/*
+ * helper function for auto_gen_movement to find number of rooms in game
+ *
+ * Parameters:
+ *  - game: current game
+ *
+ * Returns
+ *  - # of rooms in game
+ *
+ */
+int get_num_rooms(game_t *game)
+{
+    room_t *ITTMP_ROOM, *curr_room;
+    int count = 0;
+
+    HASH_ITER(hh, game->all_rooms, curr_room, ITTMP_ROOM)
+    {
+        count ++;
+    }
+    return count;
+}
+
+/* See npc_move.h */
+int auto_gen_movement(npc_mov_t *npc_mov, game_t *game)
+{
+    room_list_t *head = get_all_rooms(game); // from include/game-state/game.h
+    int rc = 0;
+    int num_rooms, num_rooms_to_add;
+
+	if(npc_mov == NULL || head == NULL) {
+		return FAILURE;
+	}
+
+    num_rooms = get_num_rooms(game);
+    num_rooms_to_add = (rand() % num_rooms) + 1;
+
+    for (int i = 0; i < num_rooms_to_add; i++) {
+            room_t *room_to_add = malloc(sizeof(room_t));
+
+            room_to_add = head->room;
+            head->room = head->next->room; // not sure if this is correct
+            if(npc_mov->mov_type == NPC_MOV_DEFINITE) {
+                    rc = extend_path_definite(npc_mov, room_to_add);
+            }
+            else if(npc_mov->mov_type == NPC_MOV_INDEFINITE) {
+                    int mintime_in_room = 30000; // min time in room in ms, 30000 ms = 30 s
+                    int maxtime_in_room = 90000; // max time in room in ms, 90000 ms = 90 s
+                    int time_in_room = (rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
+                    rc = extend_path_indefinite(npc_mov, room_to_add, time_in_room);
+            }
+		if(rc == FAILURE) {
+			return rc;
+		}
+    }
+
+    return rc;
 }

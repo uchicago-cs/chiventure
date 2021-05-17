@@ -155,36 +155,6 @@ Test(npc_mov, move_npc_definite)
                     "move_npc_def() failed to move twice");
 }
 
-/* Tests move_npc_indefinite function */
-Test(npc_mov, move_npc_indefinite)
-{
-    int time = 1000;
-    room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
-    room_t *room_to_add1 = room_new("room_to_add1", "add1", "added room1");
-    room_t *room_to_add2 = room_new("room_to_add2", "add2", "added room2");
-
-    int check1 = extend_path_indefinite(npc_mov, room_to_add1, time );
-
-    cr_assert_eq(check1, SUCCESS, "extend_path_indefinite() failed");
-
-    check1 = extend_path_indefinite(npc_mov, room_to_add2, time);
-
-    cr_assert_eq(check1, SUCCESS, "extend_path_indefinite() failed");
-
-    int check2 = move_npc_indefinite(npc_mov);
-
-    cr_assert_eq(check2, 2, "move_npc_indefinite() failed");
-
-    cr_assert_str_eq(npc_mov->track,"room_to_add1",
-                    "move_npc_indefinite() failed to move once");
-
-    check2 = move_npc_indefinite(npc_mov);
-
-    cr_assert_str_eq(npc_mov->track,"room_to_add2",
-                    "move_npc_indefinite() failed to move twice");
-}
-
 /* Tests reverse_path function */
 Test(npc_mov, reverse_path)
 {
