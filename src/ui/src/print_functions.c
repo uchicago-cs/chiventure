@@ -172,7 +172,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
     
     if (!strcmp(cmd_string, "QUIT"))
     {
-        *quitval = 0;
+        *retval = 0;
     }
 
 
