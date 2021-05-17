@@ -277,9 +277,17 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             if (rc == SUCCESS)
             {
                 action_success = true;
-                if(strcmp(tokens[0], "TALK_TO") == 0 || strcmp(tokens[0], "IGNORE") == 0 || strcmp(tokens[0], "ATTACK") == 0)
+                if(strcmp(tokens[0], "TALK_TO") == 0)
                 {
                     ///START DIALOGUE
+                }
+                 if(strcmp(tokens[0], "IGNORE") == 0)
+                {
+                    ///END DIALOGUE
+                }
+                 if(strcmp(tokens[0], "ATTACK") == 0)
+                {
+                    ///start battle & battle specific dialogue
                 }
             }
             curr_npc->dialogue = curr_npc->dialogue->next;

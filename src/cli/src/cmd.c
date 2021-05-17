@@ -40,6 +40,18 @@ void add_action_entries(lookup_t **table)
         {
             add_entry(curr_action->c_name, kind3_action_operation, curr_action, table);
         }
+        else if(curr_action->kind == 4)
+        {
+            add_entry(curr_action->c_name, kind4_action_operation, curr_action, table);
+        }
+        else if(curr_action->kind == 5)
+        {
+            add_entry(curr_action->c_name, kind5_action_operation, curr_action, table);
+        }
+        else if(curr_action->kind == 6)
+        {
+            add_entry(curr_action->c_name, kind6_action_operation, curr_action, table);
+        }
 
         all_actions = all_actions->next;
     }
