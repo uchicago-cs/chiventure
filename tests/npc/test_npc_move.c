@@ -245,7 +245,7 @@ Test(npc_mov, auto_gen_movement)
 	{
 		rc_indef = auto_gen_movement(mov_indef, game_test);
 		
-		num_rooms_indef = get_npc_num_rooms(mov_indef);
+		num_rooms_indef = get_npc_num_rooms(mov_indef); // function not implemented
 
 		cr_assert_eq(SUCCESS, rc_indef, 
 				"auto_gen_movement() failed for indefinite movement");
@@ -255,19 +255,27 @@ Test(npc_mov, auto_gen_movement)
 				num_rooms_indef, 1);
 		cr_assert_leq(num_rooms_indef, 5,
 				"The number of rooms in the npc mov struct is %d which is more than"
-				"the actual amount, %d",);
-		
+				"the actual amount, %d",
+				num_rooms_indef, 5);
 	}
 
 	/* TEST AUTO_GEN_MOVEMENT FOR DEF */
 
 	for(int i = 0; i < 10; i++)
-	{
-		rc_def = auto_gen_movement(mov_def, game_test);
-	
-		cr_assert_eq(SUCCESS, rc_def,
-                	        "auto_gen_movement() failed for definite movement");
+        {
+                rc_def = auto_gen_movement(mov_def, game_test);
 
-	}
+                num_rooms_def = get_npc_num_rooms(mov_def); // function not implemented
 
+                cr_assert_eq(SUCCESS, rc_def,
+                                "auto_gen_movement() failed for definite movement");
+                cr_assert_geq(num_rooms_def, 1,
+                                "The number of rooms in the npc mov struct is %d which is less than"
+                                "the actual amount, %d",
+                                num_rooms_def, 1);
+                cr_assert_leq(num_rooms_def, 5,
+                                "The number of rooms in the npc mov struct is %d which is more than"
+                                "the actual amount, %d",
+                                num_rooms_def, 5);
+        }
 }
