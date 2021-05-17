@@ -17,8 +17,7 @@ void start_gui(chiventure_ctx_t *ctx)
     int ScreenWidth = 800;
     int ScreenHeight = 500;
 
-    /*The string parameter here should probably be the title of the game*/
-    InitWindow(ScreenWidth, ScreenHeight, "load image sandbox program");
+    InitWindow(ScreenWidth, ScreenHeight, ctx->start_desc);
 
     //creating a rectangle the size of the window
     int WindowWidth = 1200;
@@ -40,7 +39,7 @@ void start_gui(chiventure_ctx_t *ctx)
     int outputHeight = 120;
     int heightbuf = 140;
     Rectangle output = { outputX, ScreenHeight - heightbuf, ScreenWidth, outputHeight };
-    char *output_text = ctx->start_desc;
+    char *output_text = ctx->game->curr_room->long_desc;
 
     int framesCounter = 0;
     SetTargetFPS(10);
