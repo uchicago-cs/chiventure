@@ -80,7 +80,6 @@ int main(int argc, char **argv)
             fprintf(stderr, "Could not load game: %s\n", argv[2]);
                 exit(1);
         }
-                
     }
 
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
