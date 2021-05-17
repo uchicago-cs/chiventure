@@ -29,6 +29,15 @@ int randnum(int min, int max);
 battle_item_t *get_random_default_battle_item();
 
 /*
+ * Generates a random battle weapon from a list of previously-initialized moves
+ * 
+ * parameters: none
+ * Returns:
+ * -a pointer to a defualt battle weapon
+ */
+battle_item_t *get_random_default_weapon(); 
+
+/*
  * Generates a random move from a list of previously-initialized moves
  *
  * Parameters: none

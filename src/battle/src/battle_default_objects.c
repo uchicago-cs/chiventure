@@ -27,7 +27,10 @@ battle_item_t *get_random_default_battle_item()
     char* name_array[]= {"STICK", "HAMMER", "SHIV", "CLUB",  "BOW & ARROW", 
                          "SPEAR", "AXE", "TRIDENT", "SWORD", "SHIELD"};
 
+
     rv_item->id = rand;
+    rv_item->is_weapon = false;
+    rv_item->effectiveness_decrement = 0;
     rv_item->quantity = 1;
     rv_item->durability = rand * 10; 
 
@@ -44,6 +47,37 @@ battle_item_t *get_random_default_battle_item()
     rv_item->prev = NULL;
 
     return rv_item;
+}
+
+battle_item_t *get_random_default_weapon()
+{
+    battle_item_t *rv_weapon = calloc(1, sizeof(battle_item_t));
+    assert(rv_weapon != NULL);
+
+    int rand = randnum(1,10); 
+    char* name_array[]= {"DAGGER", "DUAL KNIVES", "CROSSBOW", "GUT BLASTER",  "LASER GUN", 
+                         "SAW DISK", "BRASS KNUCKLES", "KATANA", "TASER", "BAZOOKA"};
+
+
+    rv_weapon->id = rand;
+    rv_weapon->is_weapon = true;
+    rv_weapon->effectiveness_decrement = rand * 2;
+    rv_weapon->quantity = 1;
+    rv_weapon->durability = rand * 10; 
+
+    int name_len = strlen(name_array[rand - 1]);
+    rv_weapon->name = (char*)calloc(name_len + 1, sizeof(char));
+    strncpy(rv_weapon->name, name_array[rand - 1], name_len + 1);
+    
+    rv_weapon->description = NULL; 
+    rv_weapon->battle = true;
+    rv_weapon->attack = rand * 10;
+    rv_weapon->defense = rand * 10 + 5;
+    rv_weapon->hp = rand * 10 + 10;
+    rv_weapon->next = NULL;
+    rv_weapon->prev = NULL;
+
+    return rv_weapon;
 }
 
 /* See battle_default_objects.h */
