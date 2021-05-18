@@ -112,7 +112,7 @@ Test(add_move, add_move_existing_list) {
 
     move_t *old_move = get_random_default_move();
     move_t *new_move = get_random_default_move();
-    battle_item_t *item = get_random_default_battle_item();
+    battle_item_t *item = get_random_default_consumable();
     stat_t *cstats = get_random_stat();
     combatant_t *player = combatant_new("TESTER", true, NULL, cstats, old_move, item, 0);
 
@@ -125,7 +125,7 @@ Test(add_move, add_move_existing_list) {
 Test(add_move, add_move_empty_list) {
     
     move_t *new_move = get_random_default_move();
-    battle_item_t *item = get_random_default_battle_item();
+    battle_item_t *item = get_random_default_consumable();
     stat_t *cstats = get_random_stat();
     combatant_t *player = combatant_new("TESTER",true,NULL,cstats,NULL,item, 0);
 
