@@ -253,4 +253,15 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Initiates Dialogue between NPC and Player
+ * 
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - ctx: pointer to a chiventure context struct
+ * Returns:
+ * The NPC's response
+ * 
+ */
+char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
 #endif /* _CLI_INCLUDE_OPERATIONS_H */
