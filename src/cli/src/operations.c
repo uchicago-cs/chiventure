@@ -8,12 +8,13 @@
 #include "wdl/load_game.h"
 #include "common/load_objects.h"
 
+#define NUM_ACTIONS 29
 #define BUFFER_SIZE (100)
 #define min(x,y) (((x) <= (y)) ? (x) : (y))
 
-char* actions_for_sug[28] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
+char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
                         "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
-                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT", "HELP",
+                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
                         "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
                         "PALETTE", "ITEMS"};
 
@@ -50,7 +51,7 @@ char* suggestions(char *action_input, char** actions)
     int temp = 0;
     int index = -1;
     
-    for(int i = 0; i < 28; i++){
+    for(int i = 0; i < NUM_ACTIONS; i++){
         if (action_input != NULL) {
             temp = compare(strdup(action_input), strdup(actions[i]), initial);
             if (temp > initial) {
