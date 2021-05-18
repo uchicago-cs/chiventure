@@ -64,6 +64,7 @@ double get_class_item_multiplier(item_t* item, class_t* class) {
 }
 
 
+/* see class_item.h */
 int remove_item_multiplier(item_t* item, class_t* class) {
     if ((item == NULL) || (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in remove_item_restriction.\n");
