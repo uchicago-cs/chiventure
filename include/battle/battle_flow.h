@@ -31,16 +31,16 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies,
                   environment_t env);
 
 /*
- * Sets up the player's combatant_t struct for a new battle
+ * Sets up the battle_player's combatant_t struct for a new battle
  *
  * Parameters:
- *  - ctx_player = the current player in the game_t struct, which is in
+ *  - ctx_player = the current battle_player in the battle_game_t struct, which is in
  *                 the chiventure context struct
  *
  * Returns:
- *  - pointer to player's combatant_t struct initialized for new battle
+ *  - pointer to battle_player's combatant_t struct initialized for new battle
  */
-combatant_t *set_player(player_t *ctx_player);
+combatant_t *set_battle_player(battle_player_t *ctx_player);
 
 /*
  * Sets up all enemy combatant structs for a new battle
@@ -58,7 +58,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies);
  * Sets up battle struct for a new battle
  *
  * Parameters:
- *  - ctx_player = pointer to player_t player in game_t struct
+ *  - ctx_player = pointer to battle_player_t battle_player in battle_game_t struct
  *  - npc_enemies = pointer to list of enemy/ies (NPC enemy stub)
  *  - env = the environment for the battle
  *
@@ -66,22 +66,22 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies);
  *  - A pointer to new battle struct initialized for a new battle
  *
  */
-battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies,
+battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies,
                       environment_t env);
 
 /*
  * Carries out one iteration of the battle flow loop
  *     This includes:
- *         - receiving player's move
- *         - handling player's move
- *         - choosing enemy move      (skip if invalid player move)
- *         - handling enemy's move    (skip if invalid player move)
- *         - check battle status      (skip if invalid player move)
+ *         - receiving battle_player's move
+ *         - handling battle_player's move
+ *         - choosing enemy move      (skip if invalid battle_player move)
+ *         - handling enemy's move    (skip if invalid battle_player move)
+ *         - check battle status      (skip if invalid battle_player move)
  *         - return modified battle struct to custom actions
  *
  * Parameters:
  *  - ctx: current chiventure battle context
- *  - move: pointer to the player's move
+ *  - move: pointer to the battle_player's move
  *  - target: name of target
  *
  * Returns:
