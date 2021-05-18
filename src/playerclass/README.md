@@ -17,8 +17,9 @@ class_t struct
     stats_hash_t* Base Stats
     effects_hash_t* Stat Effects
     skilltree_t* Skilltree
-    skill_inventory_t* Combat Actions
-    skill_inventory_t* Non-combat Actions
+    skill_inventory_t* Combat Skills
+    skill_inventory_t* Non-combat Skills
+    UT_hash_handle Field Used by UTHASH Macros
 ```
 
 ## Modules
