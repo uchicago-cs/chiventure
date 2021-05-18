@@ -8,6 +8,7 @@
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_structs.h"
 
+
 class_t *make_wizard()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
@@ -24,7 +25,7 @@ Test(battle_flow, set_battle_player)
     battle_player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
                                            NULL, NULL, NULL);
 
-    comb_player = set_player(ctx_player);
+    comb_player = set_battle_player(ctx_player);
 
     cr_assert_not_null(comb_player, "set_player() failed");
     cr_assert_str_eq(comb_player->name, "set_player_Name", "set_player() didn't set name");
@@ -141,7 +142,7 @@ Test(battle_flow, set_battle)
 Test(battle_flow, start_battle)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
     battle_player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
@@ -159,7 +160,7 @@ Test(battle_flow, start_battle)
 Test(battle_flow, return_success_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
@@ -194,7 +195,7 @@ Test(battle_flow, return_success_battle_flow)
 Test(battle_flow, do_damage_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
@@ -250,7 +251,7 @@ Test(battle_flow, do_damage_battle_flow)
 Test(battle_flow, battle_over_by_player)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 40;
@@ -311,7 +312,7 @@ Test(battle_flow, battle_over_by_player)
 Test(battle_flow, battle_over_by_enemy)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 150;
     pstats->level = 5;
@@ -353,3 +354,4 @@ Test(battle_flow, battle_over_by_enemy)
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
                  "battle_flow() failed: enemy was not declared the winner");
 }
+
