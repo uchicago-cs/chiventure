@@ -9,7 +9,6 @@
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
 
-
 /* === hashtable helper constructors === */
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
@@ -238,11 +237,10 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
     if (s != NULL) {
         command_list_t *new_command = new_command_list(s);
         LL_APPEND(ctx->command_history, new_command);
-    
     }
     
     char **parsed_input = parse(s);
-    if(parsed_input == NULL)
+    if (parsed_input == NULL)
     {
         return NULL;
     }
