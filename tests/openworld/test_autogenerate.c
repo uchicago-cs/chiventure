@@ -242,7 +242,7 @@ Test(autogenerate, room_generate_failure)
     cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_west),
                  "Could not add path to room");
 
-    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, sample_roomspec),
+    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, g->curr_room, sample_roomspec),
                  "room_generate() returned SUCCESS when it should have returned FAILURE");
 }
 
@@ -289,7 +289,7 @@ Test(autogenerate, room_generate_success_one)
 
     //create roomspec
     roomspec_t *rspec = random_room_lookup(spec);
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
+    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, g->curr_room, rspec),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
@@ -356,7 +356,7 @@ Test(autogenerate, room_generate_success_two)
 
     //create roomspec
     roomspec_t *rspec = random_room_lookup(spec);
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
+    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, g->curr_room, rspec),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
@@ -429,7 +429,7 @@ Test(autogenerate, room_generate_success_three)
 
     //create roomspec
     roomspec_t *rspec = random_room_lookup(spec);
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
+    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, g->curr_room, rspec),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;

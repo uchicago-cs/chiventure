@@ -58,25 +58,27 @@ bool path_exists_in_dir(room_t *r, char *direction);
 room_t* roomspec_to_room(roomspec_t *roomspec);
 
 
-/*
-* room_generate
-* Generates a room based on the given speclist and adds it to the game.
-*
-* Checks to see if path direction is available.
-*
-* parameters:
-* - game: A pointer to a game struct. Should not be NULL.
-* - context: A pointer to a gencontext_t (type speclist_t*). Not NULL.
-* - rspec: A unique roomspec for the to-be-generated room.
-*
-* side effects:
-* - Changes input game to hold the newly generated room. Allocated on the heap
-*
-* returns:
-* - SUCCESS if the new room was generated and added (SUCCESS)
-* - FAILURE if the new room was not generated/added (FAILURE)
-*/
-int room_generate(game_t *game, gencontext_t *gencontext, roomspec_t *rspec);
+/** room_generate
+ * Generates a room based on the given roomspec and adds it to the game.
+ * This new room will be attached at a random, available NESW (compass directions) 
+ * direction from a given 'pivot' room. 
+ * 
+ * If no NESW direction from the pivot is available, do nothing.
+ * parameters:
+ * - game: A pointer to a game struct. Should not be NULL.
+ * - context: A pointer to a gencontext_t (type speclist_t*). Not NULL.
+ * - pivot: A pointer to the room_t with which the newly generated room will be connected.
+ *          Must be in the game->all_rooms hash. Not NULL.
+ * - rspec: A unique roomspec for the to-be-generated room.
+ * 
+ * side effects:
+ * - Changes input game to hold the newly generated room. Allocated on the heap
+ * 
+ * returns:
+ * - SUCCESS if the new room was generated and added (success)
+ * - FAILURE if the new room was not generated/added (failure)
+ */
+int room_generate(game_t *game, gencontext_t *gencontext, room_t *pivot, roomspec_t *rspec);
 
 /*
 * multi_room_generate

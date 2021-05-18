@@ -57,7 +57,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
 }
 
 /* See autogenerate.h */
-int room_generate(game_t *game, gencontext_t *context, roomspec_t *rspec)
+int room_generate(game_t *game, gencontext_t *context, room_t *pivot, roomspec_t *rspec)
 {
     /* 2D array of possible directions */
     char directions[4][6];
@@ -74,8 +74,8 @@ int room_generate(game_t *game, gencontext_t *context, roomspec_t *rspec)
     for (bump = 0; bump < 4; bump++) {
         /* Forwards direction + bump */
         int forwards = (first_direction + bump) % 4;
-        /* If path in that direction exists in game->curr_room, bump. Else, create the path */
-        if (path_exists_in_dir(game->curr_room, directions[forwards])) {
+        /* If path in that direction exists in pivot, bump. Else, create the path */
+        if (path_exists_in_dir(pivot, directions[forwards])) {
             /* Bump if the room already has a path in the given direction */
             continue;
         }
@@ -87,11 +87,11 @@ int room_generate(game_t *game, gencontext_t *context, roomspec_t *rspec)
 
         /* Path to the generated room */
         path_t* path_to_room = path_new(new_room, directions[forwards]);
-        assert(SUCCESS == add_path_to_room(game->curr_room, path_to_room));
+        assert(SUCCESS == add_path_to_room(pivot, path_to_room));
 
         /* Path for the opposite direction */
         unsigned int backwards = (forwards + 2) % 4;
-        path_t* path_to_room2 = path_new(game->curr_room, directions[backwards]);
+        path_t* path_to_room2 = path_new(pivot, directions[backwards]);
         assert(SUCCESS == add_path_to_room(new_room, path_to_room2));
 
         return SUCCESS; // Room was generated
@@ -112,7 +112,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
     for (int i = 0; i < num_rooms; i++) {
         roomspec_t *rspec = random_room_lookup(context->speclist);
         /* Increments tmp->spec->num_built */
-        room_generate(game, context, rspec);
+        room_generate(game, context, game->curr_room, rspec);
     }
     return SUCCESS;
 }
