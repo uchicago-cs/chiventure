@@ -54,6 +54,26 @@ bool validate_filename(char *filename)
     }
 }
 
+bool validate_wdl_filename(char *filename)
+{
+    int len = strlen(filename);
+    int min_filename_length = 4;
+    if(len < min_filename_length)
+    {
+        return false;
+    }
+    const char *ending = &filename[len-4];
+    int cmp = strcmp(ending, ".wdl");
+    if (cmp == 0)
+    {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     int valid_path;
@@ -63,6 +83,9 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "Invalid Input, Loading WDL file failed\n";
     } 
+    if (validate_wdl_filename(tokens[1])){
+        return "Invalid Input, please only use wdl file types\n";
+    }
 
     wdl_ctx_t *wdl_ctx = load_wdl(tokens[1]);
 
