@@ -42,7 +42,7 @@ typedef struct move_effect {
      * the rpg-battles team */
 
     // TODO - Add more fields
-    move_t move;      // Specifies the move that will be unlocked
+    move_t* move;      // Specifies the move that will be unlocked
 }move_effect_t;
 
 // A struct used to define a union data type that we use to change attributes
@@ -91,7 +91,7 @@ stat_mod_effect_t* define_stat_mod_effect(char* stat_mod_effect_name, char** sta
  * Parameters: move_t move: The move that will be unlocked
  * Returns: A pointer to the created move efect
  */
-move_effect_t* define_move_effect(move_t move);
+move_effect_t* define_move_effect(move_t* move);
 
 /* Defines an attribute modifying effect and returns a pointer to it
  * Parameters: char* obj_id:  The unique ID of the parent object
