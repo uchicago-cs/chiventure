@@ -354,3 +354,4 @@ Test(battle_flow, battle_over_by_enemy)
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
                  "battle_flow() failed: enemy was not declared the winner");
 }
+
