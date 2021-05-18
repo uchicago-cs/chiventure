@@ -5,9 +5,9 @@
 #include "battle/battle_flow_structs.h"
 
 /* Stub for the player_new function in player.h game-state module */
-player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items)
+battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items)
 {
-      player_t *ctx_player = calloc(1, sizeof(player_t));
+      battle_player_t *ctx_player = calloc(1, sizeof(battle_player_t));
       assert(ctx_player != NULL);
 
       ctx_player->player_id = p_id;
