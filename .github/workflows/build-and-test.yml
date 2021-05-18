@@ -34,7 +34,7 @@ jobs:
 
       - name: Build examples
         working-directory: build/
-        run: make tests
+        run: make examples
 
       - name: Run tests
         working-directory: build/
