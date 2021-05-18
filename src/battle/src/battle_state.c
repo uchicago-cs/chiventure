@@ -155,20 +155,20 @@ int battle_free(battle_t *b)
 }
 
 /* See battle_state.h */
-stat_changes_t *stat_changes_new(){
+stat_changes_t *stat_changes_new() {
     stat_changes_t* sc;
     int rc;
 
     sc = calloc(1, sizeof(stat_changes_t));
 
-    if(sc == NULL)
+    if (sc == NULL)
     {
         fprintf(stderr, "Could not allocate memory for stat changes struct\n");
         return NULL;
     }
 
     rc = stat_changes_init(sc);
-    if(rc != SUCCESS)
+    if (rc != SUCCESS)
     {
         fprintf(stderr, "Could not initialize stat changes struct\n");
         return NULL;
@@ -178,7 +178,7 @@ stat_changes_t *stat_changes_new(){
 }
 
 /* See battle_state.h */
-int stat_changes_init(stat_changes_t *sc){
+int stat_changes_init(stat_changes_t *sc) {
     assert(sc != NULL);
 
     sc->speed = 0;
@@ -195,7 +195,7 @@ int stat_changes_init(stat_changes_t *sc){
 }
 
 /* See battle_state.h */
-int stat_changes_free_node(stat_changes_t *sc){
+int stat_changes_free_node(stat_changes_t *sc) {
     assert(sc != NULL);
         
     free(sc);
@@ -204,11 +204,11 @@ int stat_changes_free_node(stat_changes_t *sc){
 }
 
 /* See battle_state.h */
-int stat_changes_free_all(stat_changes_t *sc){
+int stat_changes_free_all(stat_changes_t *sc) {
     stat_changes_t *current = sc;
     stat_changes_t *next = NULL;
 
-    while(current->next != NULL){
+    while (current->next != NULL) {
         next = current->next;
         free(current);
         current = next;
@@ -220,8 +220,8 @@ int stat_changes_free_all(stat_changes_t *sc){
 /* As somewhat higher level functions, do these still belong here or should I move them? */
 
 /* See battle_state.h */
-int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc){
-    while(base->next != NULL){
+int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc) {
+    while (base->next != NULL) {
         base = base->next;
     }
 
@@ -232,7 +232,7 @@ int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc){
 }
 
 /* See battle_state.h */
-int stat_changes_add_node(stat_changes_t *sc){
+int stat_changes_add_node(stat_changes_t *sc) {
     stat_changes_t *new_node = stat_changes_new();
 
     stat_changes_append_node(sc, new_node);
@@ -241,13 +241,13 @@ int stat_changes_add_node(stat_changes_t *sc){
 }
 
 /* See battle_state.h */
-int stat_changes_remove_node(stat_changes_t *sc){
+int stat_changes_remove_node(stat_changes_t *sc) {
     stat_changes_t *after = sc->next;
     stat_changes_t *before = sc->prev;
 
     before->next = after;
 
-    if(sc->next != NULL){
+    if (sc->next != NULL) {
         after->prev = before;
     }
     
@@ -257,21 +257,21 @@ int stat_changes_remove_node(stat_changes_t *sc){
 }
 
 /* See battle_state.h */
-int stat_changes_turn_increment(stat_changes_t *sc, combatant_t *c){
+int stat_changes_turn_increment(stat_changes_t *sc, combatant_t *c) {
     stat_changes_t *current = sc->next;
     stat_changes_t *remove = sc->next;
 
-    while(current != NULL){
+    while (current != NULL) {
         current->turns_left -= 1;
         
         
-        if(current->turns_left == 0){
+        if (current->turns_left == 0) {
             remove = current;
             current = current->next;
 
             stat_changes_undo(remove, c);
             stat_changes_remove_node(remove);
-        }else{
+        } else {
             current = current->next;
         }
     }
