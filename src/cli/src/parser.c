@@ -69,14 +69,14 @@ tokenized_cmds *parse(char *input)
     tokenized_cmds *head = NULL;
     char **save_ptr = &input;
    
-    char *token = strtokstr_r(input, "and", save_ptr);
+    char *token = strtokstr_r(input, "AND", save_ptr);
     while(token != NULL)
     {
         tokenized_cmds *new_thing = malloc(sizeof(tokenized_cmds));
         new_thing->cmds = token;
         new_thing->next = NULL;
         LL_APPEND(head, new_thing);
-        token = strtokstr_r(input, "and", save_ptr);
+        token = strtokstr_r(input, "AND", save_ptr);
     }
    
     //If there are more than 4 words, parser returns NULL and does not attempt
