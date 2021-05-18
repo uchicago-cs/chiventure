@@ -83,7 +83,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
      * the changes in the cli/case_insensitivity branch are implemented it will no 
      * longer be necessary.
      * NOTE: If cli/case_insensitivity hasn't been implemented by the end of 
-     * Sprint 4 (06/02/2021), then this message should be modified to reflect that
+     * Sprint 4 (05/28/2021), then this message should be modified to reflect that
      */
     int i = 0;
     char ch;
@@ -94,14 +94,16 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         i++;
     }
 
+
     valid_path = access(tokens[1], F_OK);
 
-    if(valid_path == 0)
+    if(valid_path == -1) //Triggers if file does not exist
     {
-        return "Invalid Input, Loading WDL file failed, loading not yet implemented\n";
-    } 
-    if (validate_wdl_filename(tokens[1])){
-        return "Invalid Input, please only use wdl file types\n";
+        return "Loading WDL file failed: Invalid Input for file path\n";
+    }
+    if ((validate_wdl_filename(tokens[1])) == false) //Triggers if file is not wdl
+    {
+        return "Loading WDL file failed: Invalid Input, please only use wdl file types\n";
     }
 
     wdl_ctx_t *wdl_ctx = load_wdl(tokens[1]);
@@ -110,7 +112,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if(game == NULL)
     {
-        return "Load WDL failed";
+        return "Load WDL failed!";
     }
     else
     {
