@@ -13,7 +13,7 @@ Test(class_moves, bard)
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
     
-    player_t *player = new_ctx_player("name", test_class,
+    battle_player_t *player = new_ctx_player("name", test_class,
                                           NULL, NULL, NULL);
     combatant_t *ret_player = set_player(player);
 
@@ -46,7 +46,7 @@ Test(class_moves, wizard)
                                     "Old and wise",
                                     NULL, NULL, NULL);
 
-    player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
+    battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
     combatant_t *ret_player = set_player(player);
@@ -80,7 +80,7 @@ Test(class_moves, knight)
                                     "Brave and shiny",
                                     NULL, NULL, NULL);
 
-    player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
+    battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
     combatant_t *ret_player = set_player(player);

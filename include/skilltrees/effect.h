@@ -161,12 +161,12 @@ effects_linked_list_t* init_linked_list();
 /* Adds an effect_t_node to the tail of a linked list of effects
  * Returns: 0 adding was successful, 1 otherwise
  */
-int add_node(effects_linked_list_t* ll, effect_t* effect);
+int add_effect_node(effects_linked_list_t* ll, effect_t* effect);
 
 
 /* Removes an effect_t_node from the tail of a linked list of effects
  * Returns: 0 is removing was successful, 1 otherwise
  */
-int remove_node(effects_linked_list_t* ll, effect_t* effect);
+int remove_effect_node(effects_linked_list_t* ll, effect_t* effect);
 
 #endif /*INCLUDE_EFFECT_H*/

@@ -4,8 +4,10 @@
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "npc/dialogue.h"
+#include "npc/npc_move.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
+
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
@@ -35,7 +37,10 @@ typedef struct npc {
     item_hash_t *inventory;
 
     /* pointer to an existing class struct */
-    class_t *class; 
+    class_t *class;
+
+    /*pointer to an exisitng npc_move struct */
+    npc_mov_t *movement;
 } npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
@@ -62,7 +67,7 @@ typedef struct npc npc_hash_t;
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             int health, class_t *class);
+             int health, class_t *class, npc_mov_t *movement);
 
 /*
  * Allocates a new npc in the heap.
@@ -78,7 +83,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  pointer to allocated npc
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               int health, class_t *class);
+               int health, class_t *class, npc_mov_t *movement);
 
 /*
  * Frees resources associated with an npc.

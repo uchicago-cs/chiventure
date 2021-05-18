@@ -11,19 +11,19 @@
 #include "common/utlist.h"
 
 /* Stub for the player struct in game-state */
-typedef struct player {
+typedef struct battle_player {
     // Other fields: hash handle, inventory, other stats
     char *player_id;
     class_t *class;
     stat_t *stats;
     move_t *moves;
     battle_item_t *items;
-} player_t;
+} battle_player_t;
 
 /* Stub for the game_t struct in game-state */
 typedef struct game {
     // Would have other fields (eg hash tables for players, rooms, battle_items)
-    player_t *player;
+    battle_player_t *player;
     battle_t *battle;
 } game_t;
 
@@ -61,9 +61,9 @@ typedef struct npc_enemy {
  *     - moves: player moves stub
  *     - items: player battle_items stub
  *
- * Returns: a newly allocated player_t with p_id, stats, moves, battle_items
+ * Returns: a newly allocated battle_player_t with p_id, stats, moves, battle_items
  */
-player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items);
+battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items);
 
 /* Sets up pointer to npc struct, stub for an npc representing the enemy
  *

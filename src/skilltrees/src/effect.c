@@ -15,7 +15,7 @@ stat_mod_effect_t* define_stat_mod_effect(char* stat_name, int modification, int
      */
     stat_mod_effect_t* new_stat_effect = (stat_mod_effect_t*)malloc(sizeof(stat_mod_effect_t));
     new_stat_effect->stat_name = stat_name;
-    new_stat_effect->modification = mod;
+    new_stat_effect->modification = modification;
     new_stat_effect->duration = duration;
 
     return new_stat_effect;
@@ -94,7 +94,7 @@ effects_linked_list_t* init_linked_list()
 }
 
 // See effect.h
-int add_node (effects_linked_list_t* ll, effect_t* effect)
+int add_effect_node (effects_linked_list_t* ll, effect_t* effect)
 {
     effect_node_t* node = (effect_node_t*)malloc(sizeof(effect_node_t));
     if(ll == NULL)
@@ -119,7 +119,7 @@ int add_node (effects_linked_list_t* ll, effect_t* effect)
 }
 
 // See effect.h
-int remove_node (effects_linked_list_t* ll, effect_t* effect)
+int remove_effect_node (effects_linked_list_t* ll, effect_t* effect)
 {
     // TODO
 }

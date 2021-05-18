@@ -16,6 +16,8 @@
 
 - **battle_state.c / battle_state.h:** Contain functions that deal with creating a new battle and opponents, including the battle_t, move_t and combatant_t structs.
 
+- **battle_default_objects.c / battle_default_objects.h:** Contain functions that return a random battle_item_t, stat_t, and move_t with default values. 
+
 - **battle_common.h:** Contains general structs for environment, battles, and combatants.
 
 - **battle_structs.h:** Contains item, move, and stat structs.
