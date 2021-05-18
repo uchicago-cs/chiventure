@@ -22,7 +22,7 @@ mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet);
  * 
  * Returns: a pointer to the newly allocated achievement that is not completed
  */
-achievement_t *achievement_new(mission_t *mission);
+achievement_t *achievement_new(mission_t *mission, char *id);
 
 /* Creates a new quest struct (allocates memory)
  * 
@@ -61,7 +61,7 @@ int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int achievement_init(achievement_t *achievement, mission_t *mission);
+int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
 
 
 /* Initialize an already allocated quest struct

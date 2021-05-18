@@ -22,13 +22,13 @@ mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet)
 }
 
 /* Refer to quests_state.h */
-achievement_t *achievement_new(mission_t *mission)
+achievement_t *achievement_new(mission_t *mission, char *id)
 {
     achievement_t *achievement;
     int rc;
     achievement = malloc(sizeof(achievement_t));
 
-    rc = achievement_init(achievement,mission);
+    rc = achievement_init(achievement,mission, id);
     if (rc != SUCCESS)
     {
         fprintf(stderr, "\nCould not initialize achievement struct!\n");
@@ -72,12 +72,13 @@ int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet
 }
 
 /* Refer to quests_state.h */
-int achievement_init(achievement_t *achievement, mission_t *mission)
+int achievement_init(achievement_t *achievement, mission_t *mission, char *id)
 {
     assert(achievement != NULL);
 
     achievement->mission = mission;
     achievement->completed = 0;
+    achievement->id = id;
 
     return SUCCESS;
 }
