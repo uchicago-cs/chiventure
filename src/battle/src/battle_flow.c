@@ -7,10 +7,10 @@
 /* see battle_flow.h */
 int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environment_t env)
 {
-    game_t *g = ctx->game;
-    player_t *player = g->player;
+    battle_game_t *g = ctx->game;
+    battle_player_t *player = g->player;
 
-    // Set player, enemies, and battle structs for a new battle
+    // Set battle_player, enemies, and battle structs for a new battle
     battle_t *b = set_battle(player, npc_enemies, env);
 
     g->battle = b;
@@ -19,7 +19,7 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environ
 }
 
 /* see battle_flow.h */
-combatant_t *set_player(player_t *ctx_player)
+combatant_t *set_battle_player(battle_player_t *ctx_player)
 {
     // Setting up arguments for combatant_new
     char* name = ctx_player->player_id;
@@ -29,7 +29,7 @@ combatant_t *set_player(player_t *ctx_player)
     move_t *moves = ctx_player->moves;
     battle_item_t *items = ctx_player->items;
 
-    // Allocating new combatant_t for the player in memory
+    // Allocating new combatant_t for the battle_player in memory
     combatant_t *comb_player = combatant_new(name, is_friendly, class, stats,
                                              moves, items, BATTLE_AI_NONE);
 
@@ -65,9 +65,9 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
 }
 
 /* see battle_flow.h */
-battle_t *set_battle(player_t *ctx_player, npc_enemy_t *npc_enemies, environment_t env)
+battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies, environment_t env)
 {
-    combatant_t *comb_player  = set_player(ctx_player);
+    combatant_t *comb_player  = set_battle_player(ctx_player);
     combatant_t *comb_enemies = set_enemies(npc_enemies);
 
     /* Builds a move list using player class module */
@@ -132,7 +132,8 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
     }
     else
     {
-        return FAILURE;
+        dmg = damage(b->player, move, b->enemy);
+        b->player->stats->hp -= dmg;
     }
     
     if(battle_over(b) == BATTLE_VICTOR_ENEMY)

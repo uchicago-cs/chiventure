@@ -11,7 +11,7 @@ Test(battle_flow_structs, new_ctx_player)
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
 
-    player_t *ctx_player = new_ctx_player("new_ctx_player_Name", test_class,
+    battle_player_t *ctx_player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
     cr_assert_not_null(ctx_player, "new_ctx_player() failed");
@@ -69,11 +69,11 @@ Test(battle_flow_structs, set_two_npc_enemies)
     cr_assert_eq(npc_e2->prev, npc_e1, "make_npc_enemy() didn't set prev");
 }
 
-/* Tests new_game() */
-Test(battle_flow_structs, new_game)
+/* Tests new_battle_game() */
+Test(battle_flow_structs, new_battle_game)
 {
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
 
-    cr_assert_not_null(g, "game_new() failed");
-    cr_assert_eq(g->player, NULL, "game_new() failed");
+    cr_assert_not_null(g, "new_battle_game() failed");
+    cr_assert_eq(g->player, NULL, "new_battle_game() failed");
 }

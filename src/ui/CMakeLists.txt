@@ -5,7 +5,8 @@ add_library(ui
             src/print_functions.c
             src/ui.c
             src/ui_ctx.c
-            src/window.c)
+            src/window.c
+            src/gui.c)
 
 target_include_directories(ui PRIVATE src/)
 
