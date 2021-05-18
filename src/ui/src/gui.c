@@ -87,10 +87,12 @@ void start_gui(chiventure_ctx_t *ctx)
                 letterCount--;
                 name[letterCount] = '\0';
             }
+	    name[letterCount] = (char) 32;
+	    letterCount++;
 
             if (letterCount < 0)
                 letterCount = 0;
-        }
+      	}
 
         int heightbuf2 = 150;
         int rectHeight = 120;
@@ -98,7 +100,7 @@ void start_gui(chiventure_ctx_t *ctx)
         ClearBackground(RAYWHITE);
 
         // Drawing the Image for each room
-        draw_room(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
+        //draw_room(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
         
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
