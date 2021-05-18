@@ -118,6 +118,7 @@ int lookup_t_init(lookup_t **t)
     add_entry("LOAD_WDL", load_wdl_operation, NULL, t);
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
+    add_entry("ITEMS", items_in_room_operation, NULL, t);
 
     add_action_entries(t);
 

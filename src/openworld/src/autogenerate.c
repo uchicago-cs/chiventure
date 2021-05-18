@@ -228,6 +228,25 @@ int roomspec_is_given_difficulty(room_level_t **room_levels,
 
 
 /* See autogenerate.h */
+speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
+                                            room_level_t **room_levels, 
+                                            int difficulty_level)
+{
+    speclist_t *tmp;
+    speclist_t *filtered_speclist = NULL;
+
+    DL_FOREACH(speclist, tmp) { 
+        if (roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level) == SUCCESS) 
+        { 
+               DL_APPEND(filtered_speclist, tmp);    
+        }
+    }
+
+    return filtered_speclist;
+}
+
+
+/* See autogenerate.h */
 int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
                               room_level_t **room_levels, 
@@ -242,14 +261,9 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     int difficulty_level = map_level_to_difficulty(level_scale, context->level);
 
     /* filter the given speclist according to difficulty */
-    speclist_t *tmp;
-    speclist_t *filtered_speclist = NULL;
-
-    DL_FOREACH(context->speclist, tmp) { 
-        if (roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level) == SUCCESS) { 
-               DL_APPEND(filtered_speclist, tmp);    
-        }
-    }
+    speclist_t *filtered_speclist = filter_speclist_with_difficulty(context->speclist, 
+                                                                    room_levels, 
+                                                                    difficulty_level);
 
     /* filtered gencontext */
     gencontext_t* filtered_context = gencontext_new(context->open_paths,
