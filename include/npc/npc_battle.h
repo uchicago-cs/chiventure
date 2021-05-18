@@ -91,10 +91,10 @@ int npc_battle_free(npc_battle_t *npc_battle);
 
 // "SET" FUNCTIONS ------------------------------------------------------------
 /*
- * Moves all npc items from the npc to the room.
+ * Deletes all items from npc inventory and adds them to the room struct.
  *
  * Parameters:
- *  npc: the npc that's items are being transferred
+ *  npc: the npc whose items are being transferred
  *  room: the room that the items are being tranferred to
  *
  * Returns:

@@ -57,7 +57,7 @@ int npc_battle_free(npc_battle_t *npc_battle)
 /* See npc.h  */
 int transfer_all_npc_items(npc_t *npc, room_t *room)
 {
-    item_lst = get_all_items_in_hash(npc->inventory);
+    item_list_t *item_lst = get_all_items_in_hash(npc->inventory);
 
     for (i = 0; i < len(item_lst); i++)
     {
