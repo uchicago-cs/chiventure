@@ -29,7 +29,7 @@ int main()
     chiventure_ctx_battle_t *ctx = 
         (chiventure_ctx_battle_t*) calloc(1, sizeof(chiventure_ctx_battle_t));
 
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
     ctx->game = g;
 
     ctx->game->player = p;
