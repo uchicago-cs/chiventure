@@ -109,7 +109,7 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
 
     stat_changes_t *current = sc;
 
-    while(sc->next != NULL){
+    while (sc->next != NULL) {
         sc = sc->next;
     }
 
