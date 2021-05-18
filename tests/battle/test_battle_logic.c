@@ -478,14 +478,14 @@ Test(battle_logic, award_xp)
     cr_assert_eq(res, 0, "award_xp() did not return 0!");
     cr_assert_eq(p->stats->xp, 115, "award_xp() did not award xp correctly!");
 
-    cr_assert_str_eq(p->class->name, "Bard",
+    cr_assert_str_eq(p->class_type->name, "Bard",
                      "set_player() didn't set class name");
-    cr_assert_str_eq(p->class->shortdesc, "Music boi",
+    cr_assert_str_eq(p->class_type->shortdesc, "Music boi",
                      "set_player() didn't set class short description");
-    cr_assert_str_eq(p->class->longdesc,
+    cr_assert_str_eq(p->class_type->longdesc,
                      "Charismatic, always has a joke or song ready",
                      "set_player() didn't set class short description");
 
-    cr_assert_null(p->class->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(p->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(p->class_type->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(p->class_type->stats, "set_player() didn't set class stats");
 }
