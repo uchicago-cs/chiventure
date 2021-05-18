@@ -50,4 +50,17 @@ typedef struct stat {
     int level;
 } stat_t;
 
+/* stat changes stub */
+typedef struct stat_changes {
+    int speed;
+    int defense;
+    int strength;
+    int dexterity;
+    int hp;
+    int max_hp;
+    int turns_left;
+    struct stat_changes* next;
+    struct stat_changes* prev;
+} stat_changes_t;
+
 #endif
