@@ -14,9 +14,9 @@ int build_moves(combatant_t *c)
     move_t *ret_move;
 
     char *combatant_class_name;
-    if(c->class != NULL)
+    if(c->class_type != NULL)
     {
-        combatant_class_name = c->class->name;
+        combatant_class_name = c->class_type->name;
     }
     else
     {
