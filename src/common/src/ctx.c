@@ -43,7 +43,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
 
     lookup_t **table = lookup_t_new();
     
-    ctx->command_history = new_command_list(NULL);
+    ctx->command_history = NULL;
 
     if (ctx->game->mode == NULL)
     {

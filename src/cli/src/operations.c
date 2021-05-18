@@ -29,7 +29,7 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    command_list_t* temp = new_command_list(NULL);
+    command_list_t *temp = new_command_list(NULL);
 
     print_to_cli(ctx, "Start of command history: \n");
     LL_FOREACH(ctx->command_history, temp)

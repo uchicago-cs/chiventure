@@ -45,7 +45,7 @@ typedef struct game {
 
     /* pointer to room that, when entered, ends the game */
     room_t *final_room;
-
+    
     /* list of end conditions that, when all are met, ends the game */
     condition_list_t *end_conditions;
 

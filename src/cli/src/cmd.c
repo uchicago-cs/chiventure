@@ -4,7 +4,6 @@
 #include "cli/cmd.h"
 #include "cli/operations.h"
 #include "common/utlist.h"
-#include "game-state/game.h"
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
@@ -236,8 +235,8 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
 
     if (s != NULL) {
-        command_list_t* new_command = new_command_list(s);
-        LL_APPEND(ctx->command_history,new_command);
+        command_list_t *new_command = new_command_list(s);
+        LL_APPEND(ctx->command_history, new_command);
     
     }
     
