@@ -83,7 +83,7 @@ Test (npcs_in_room, add_npc_to_room)
 
 
 /* Tests delete_npc_from_room function */
-Test (npcs_in_room, delet_npc_from_room)
+Test (npcs_in_room, delete_npc_from_room)
 {
     //stats_t *stats = stats_new("npc_test_stat", 20);
     char *npc_id = "npc_test";
