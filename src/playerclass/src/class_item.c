@@ -8,7 +8,7 @@
 
 /* see class_item.h */
 int add_item_multiplier(item_t* item, class_t* class, double multiplier) {
-    if ((item == NULL) | (class == NULL)) {
+    if ((item == NULL) || (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in add_item_multiplier.\n");
         return FAILURE;
     }
@@ -50,7 +50,7 @@ int add_item_multiplier(item_t* item, class_t* class, double multiplier) {
 
 /* see class_item.h */
 double get_class_item_multiplier(item_t* item, class_t* class) {
-    if ((item == NULL) | (class == NULL)) {
+    if ((item == NULL) || (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in get_class_item_multiplier.\n");
         return FAILURE;
     }
@@ -65,7 +65,7 @@ double get_class_item_multiplier(item_t* item, class_t* class) {
 
 
 int remove_item_multiplier(item_t* item, class_t* class) {
-    if ((item == NULL) | (class == NULL)) {
+    if ((item == NULL) || (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in remove_item_restriction.\n");
         return FAILURE;
     }
@@ -82,7 +82,7 @@ int remove_item_multiplier(item_t* item, class_t* class) {
 
 /* see class_item.h */
 int add_item_restriction(item_t* item, class_t* class) {
-    if ((item == NULL) | (class == NULL)) {
+    if ((item == NULL) || (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in add_item_restriction.\n");
         return FAILURE;
     }
@@ -95,7 +95,7 @@ int add_item_restriction(item_t* item, class_t* class) {
 
 /* see class_item.h */
 bool is_restricted(item_t* item, class_t* class) {
-    if ((item == NULL) | (class == NULL)) {
+    if ((item == NULL) || (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in is_restricted.\n");
         return FAILURE;
     }
@@ -106,7 +106,7 @@ bool is_restricted(item_t* item, class_t* class) {
 
 /* see class_item.h */
 int remove_item_restriction(item_t* item, class_t* class) {
-    if ((item == NULL) | (class == NULL)) {
+    if ((item == NULL) || (class == NULL)) {
         fprintf(stderr, "Item or Class provided are NULL in remove_item_restriction.\n");
         return FAILURE;
     }
