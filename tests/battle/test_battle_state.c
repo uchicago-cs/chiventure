@@ -22,16 +22,16 @@ Test(battle_state, combatant_new)
     cr_assert_eq(c->is_friendly, true, "combatant_new() didn't set type");
     cr_assert_eq(c->ai, BATTLE_AI_GREEDY, "combatant_new() didn't set AI");
 
-    cr_assert_str_eq(c->class->name, "Bard",
+    cr_assert_str_eq(c->class_type->name, "Bard",
                      "set_player() didn't set class name");
-    cr_assert_str_eq(c->class->shortdesc, "Music boi",
+    cr_assert_str_eq(c->class_type->shortdesc, "Music boi",
                      "set_player() didn't set class short description");
-    cr_assert_str_eq(c->class->longdesc,
+    cr_assert_str_eq(c->class_type->longdesc,
                      "Charismatic, always has a joke or song ready",
                      "set_player() didn't set class short description");
 
-    cr_assert_null(c->class->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(c->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(c->class_type->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(c->class_type->stats, "set_player() didn't set class stats");
 }
 
 /* Tests combatant_init() */

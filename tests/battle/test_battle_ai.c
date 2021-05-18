@@ -162,13 +162,13 @@ combatant_t* new_enemy()
 {
     char* name = "Skeleton";
     bool is_friendly = false;
-    class_t *class = create_test_class();
+    class_t *c_type = create_test_class();
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, class, stats, moves, items, BATTLE_AI_GREEDY);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
 
 }
 
@@ -178,13 +178,13 @@ combatant_t* new_battle_player()
     char* name = "Steve";
     bool is_friendly = true;
 
-    class_t *class = create_test_class();
+    class_t *c_type = create_test_class();
     stat_t *stats = create_battle_player_stats();
     move_t *moves = create_battle_player_moves();
     battle_item_t *items = create_player_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, class, stats, moves, items, BATTLE_AI_NONE);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_NONE);
 }
 
 /* Called by test functions to check give_move returns properly*/
