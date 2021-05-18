@@ -42,7 +42,7 @@ bool validate_filename(char *filename)
     {
         return false;
     }
-    const char *ending = &filename[len-4];
+    const char *ending = &filename[len - 4];
     int cmp = strcmp(ending, ".dat");
     if(cmp == 0)
     {
@@ -62,7 +62,7 @@ bool validate_wdl_filename(char *filename)
     {
         return false;
     }
-    const char *ending = &filename[len-4];
+    const char *ending = &filename[len - 4];
     int cmp = strcmp(ending, ".wdl");
     if (cmp == 0)
     {
@@ -81,7 +81,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if(valid_path)
     {
-        return "Invalid Input, Loading WDL file failed\n";
+        return "Invalid Input, Loading WDL file failed, loading not yet implemented\n";
     } 
     if (validate_wdl_filename(tokens[1])){
         return "Invalid Input, please only use wdl file types\n";
