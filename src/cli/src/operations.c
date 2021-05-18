@@ -37,8 +37,6 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         if (temp->command != NULL) {
             print_to_cli(ctx, temp->command);
         }
-
-
     } 
     return "End of command history.\n";
 }

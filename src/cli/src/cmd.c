@@ -2,12 +2,13 @@
 #include <string.h>
 
 #include "cli/cmd.h"
+#include "cli/cmdlist.h"
 #include "cli/operations.h"
 #include "common/utlist.h"
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
-#include "cli/cmdlist.h"
+
 
 /* === hashtable helper constructors === */
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
