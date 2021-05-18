@@ -87,9 +87,16 @@ int class_free(class_t* class);
  */
 
 /*
- * Add a class_t to a (possibly NULL) class_hash_t. Fails if the class already
- * exists (ie: Same Name). Returns an error code.
- * (Call find_class internally)
+ * Add a class_t to a class_hash_t.
+ * 
+ * Parameters:
+ *  - hashtable: A pointer to a possibly NULL class hashtable pointer.
+ *  - class: The class being added to the hashtable.
+ * 
+ * Returns:
+ *  - FAILURE if the class or its name field were NULL, or if the class's name
+ *    matched one in the hashtable (the names must be unique).
+ *  - SUCCESS on successful addition to the hashtable.
  */
 int add_class(class_hash_t** hashtable, class_t* class);
 
@@ -104,7 +111,7 @@ void add_or_replace_class(class_hash_t** hashtable, class_t* class);
  * Returns a pointer to a class in the class hashtable. If no class is found,
  * returns NULL.
  */
-class_t find_class(class_hash_t** hashtable, char* name);
+class_t* find_class(class_hash_t** hashtable, char* name);
 
 /*
  * Finds and frees a class in a class hashtable.  Returns a failure if no such
@@ -119,9 +126,8 @@ int count_classes(class_hash_t** hashtable);
 
 /* 
  * It is infeasible to provide a function for iterating over a hashtable. 
- * If iteration is needed, one should UTHASH's HASH_ITER macro, or the 
- * class->hh.next and class->hh.prev fields. See our tests for how this might
- * be done. 
+ * If iteration is needed, one should use UTHASH's HASH_ITER macro, or the 
+ * class->hh.next and class->hh.prev pointers. See tests for examples.
  */
 
 #endif /* CLASS_H */

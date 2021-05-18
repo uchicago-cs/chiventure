@@ -117,3 +117,38 @@ int class_free(class_t* class) {
 
     return EXIT_SUCCESS;
 }
+
+/* Class Hashtable functions */
+
+/* See class.h */
+int add_class(class_hash_t** hashtable, class_t* class) {
+    if (class == NULL || class->name == NULL)
+        return FAILURE;
+
+    /* TODO: Check that the key is unique */
+    if (1 == 0 /* Replace by uniqueness check */ )
+        return FAILURE;
+
+    HASH_ADD_STR(*hashtable, name, class); 
+    return SUCCESS;
+}
+
+/* See class.h */
+void add_or_replace_class(class_hash_t** hashtable, class_t* class) {
+    return;
+}
+
+/* See class.h */
+class_t* find_class(class_hash_t** hashtable, char* name) {
+    return NULL;
+}
+
+/* See class.h */
+int delete_class(class_hash_t** hashtable, char* name) {
+    return -1;
+}
+
+/* See class.h */
+int count_classes(class_hash_t** hashtable) {
+    return -1;
+}
