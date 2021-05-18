@@ -69,11 +69,11 @@ Test(battle_flow_structs, set_two_npc_enemies)
     cr_assert_eq(npc_e2->prev, npc_e1, "make_npc_enemy() didn't set prev");
 }
 
-/* Tests new_game() */
-Test(battle_flow_structs, new_game)
+/* Tests new_battle_game() */
+Test(battle_flow_structs, new_battle_game)
 {
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
 
-    cr_assert_not_null(g, "game_new() failed");
-    cr_assert_eq(g->player, NULL, "game_new() failed");
+    cr_assert_not_null(g, "new_battle_game() failed");
+    cr_assert_eq(g->player, NULL, "new_battle_game() failed");
 }

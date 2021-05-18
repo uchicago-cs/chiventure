@@ -21,19 +21,19 @@ typedef struct battle_player {
 } battle_player_t;
 
 /* Stub for the game_t struct in game-state */
-typedef struct game {
+typedef struct battle_game {
     // Would have other fields (eg hash tables for players, rooms, battle_items)
     battle_player_t *player;
     battle_t *battle;
-} game_t;
+} battle_game_t;
 
 /* Stub, similar to chiventure_ctx_t except adding status, which
- * is an enum that gives the current status of the game 
+ * is an enum that gives the current status of the battle_game 
  * (see logic.h for details)
  */
 typedef struct chiventure_ctx_battle {
     // would have UI context here
-    game_t *game;
+    battle_game_t *game;
     // would have lookup table here
     battle_status_t status;
 } chiventure_ctx_battle_t;
@@ -86,5 +86,5 @@ npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t 
  *
  * Returns: a newly allocated game_t with no current player
  */
-game_t *new_game();
+battle_game_t *new_battle_game();
 #endif
