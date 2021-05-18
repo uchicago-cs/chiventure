@@ -1,0 +1,42 @@
+name: Build and Test chiventure
+
+on: [push]
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install pkg-config cmake libjson-c4 libjson-c-dev libzip5 libzip-dev libncurses-dev liblua5.3-0 liblua5.3-dev
+
+      - name: Install Criterion
+        run: |
+          wget https://launchpad.net/~snaipewastaken/+archive/ubuntu/ppa/+files/criterion-dev_2.3.2-6-ubuntu1~bionic1_amd64.deb
+          wget https://launchpad.net/~snaipewastaken/+archive/ubuntu/ppa/+files/criterion_2.3.2-6-ubuntu1~bionic1_amd64.deb
+          sudo dpkg -i criterion_2.3.2-6-ubuntu1~bionic1_amd64.deb criterion-dev_2.3.2-6-ubuntu1~bionic1_amd64.deb
+          rm criterion_2.3.2-6-ubuntu1~bionic1_amd64.deb criterion-dev_2.3.2-6-ubuntu1~bionic1_amd64.deb
+
+      - name: Install raylib
+        run: |
+          wget https://github.com/raysan5/raylib/releases/download/3.0.0/raylib-3.0.0-Linux-amd64.tar.gz
+          sudo tar xvzf raylib-3.0.0-Linux-amd64.tar.gz --strip-components=1 -C /usr/local/
+
+      - name: Build chiventure
+        run: |
+          cmake -B build/
+          make -C build/
+
+      - name: Build examples
+        working-directory: build/
+        run: make tests
+
+      - name: Run tests
+        working-directory: build/
+        run: ctest --extra-verbose
+
