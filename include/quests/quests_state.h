@@ -19,6 +19,7 @@ mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet);
  * 
  * Parameters:
  * - mission: the mission to be completed for the quest
+ * - id: the id of the achievement
  * 
  * Returns: a pointer to the newly allocated achievement that is not completed
  */
@@ -56,6 +57,7 @@ int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet
  * Parameters:
  * - achievement: an already allocated achievement
  * - mission: the mission to be completed for the achievement
+ * - id: the id of the achievement
  * 
  * Returns:
  * - SUCCESS for successful init
