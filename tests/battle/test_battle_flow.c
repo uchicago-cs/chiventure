@@ -12,8 +12,8 @@ class_t *make_wizard()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
-/* Tests set_player() */
-Test(battle_flow, set_player)
+/* Tests set_battle_player() */
+Test(battle_flow, set_battle_player)
 {
     combatant_t *comb_player;
 
@@ -21,7 +21,7 @@ Test(battle_flow, set_player)
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
 
-    player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
+    battle_player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
                                            NULL, NULL, NULL);
 
     comb_player = set_player(ctx_player);
@@ -111,7 +111,7 @@ Test(battle_flow, set_two_enemies)
 /* Tests set_battle() */
 Test(battle_flow, set_battle)
 {
-    player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -142,7 +142,7 @@ Test(battle_flow, start_battle)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
     game_t *g = new_game();
-    player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
@@ -166,7 +166,7 @@ Test(battle_flow, return_success_battle_flow)
     pstats->level = 1;
     pstats->strength = 200;
     pstats->defense = 30;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -201,7 +201,7 @@ Test(battle_flow, do_damage_battle_flow)
     pstats->defense = 30;
     pstats->level = 1;
     pstats->strength = 200;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -257,7 +257,7 @@ Test(battle_flow, battle_over_by_player)
     pstats->level = 1;
     pstats->strength = 200;
     pstats->defense = 30;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -306,7 +306,7 @@ Test(battle_flow, battle_over_by_player)
 }
 
 /*
- * Testing if the player is determiend as the winner if the enemy is defeated
+ * Testing if the battle_player is determiend as the winner if the enemy is defeated
  */
 Test(battle_flow, battle_over_by_enemy)
 {
@@ -317,7 +317,7 @@ Test(battle_flow, battle_over_by_enemy)
     pstats->level = 5;
     pstats->strength = 150;
     pstats->defense = 20;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
