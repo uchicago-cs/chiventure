@@ -70,9 +70,9 @@ Test(battle_logic, target_does_not_exist)
 
 /*
  * this tests if battle_over detects if the
- * battle is over because of the player
+ * battle is over because of the battle_player
  */
-Test(battle_logic, battle_over_by_player)
+Test(battle_logic, battle_over_by_battle_player)
 {
     combatant_t *phead = NULL;
     combatant_t *ehead = NULL;
@@ -183,7 +183,7 @@ Test(battle_logic, battle_not_over)
 
 /*
  * Tests goes_first to see if it detects that the enemy
- * is faster than the player
+ * is faster than the battle_player
  */
 Test(battle_logic, enemy_goes_first)
 {
@@ -223,7 +223,7 @@ Test(battle_logic, enemy_goes_first)
  * Tests goes_first to see if it detects that the player
  * is faster than the enemy
  */
-Test(battle_logic, player_goes_first)
+Test(battle_logic, battle_player_goes_first)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 50;
@@ -258,8 +258,8 @@ Test(battle_logic, player_goes_first)
 }
 
 /*
- * Since the player and enemy can have the same speed,
- * then the player will go first
+ * Since the battle_player and enemy can have the same speed,
+ * then the battle_player will go first
  */
 Test(battle_logic, same_speed)
 {
@@ -337,7 +337,7 @@ Test(battle_logic, do_not_find_item)
 }
 
 /*
- * this tests to see if the player tries consuming a battle_item,
+ * this tests to see if the battle_player tries consuming a battle_item,
  * then it should do two things:
  * 1. Find the battle_item and mark it as found and used
  * 2. make changes to status as seen fit
@@ -371,7 +371,7 @@ Test(battle_logic, consume_an_battle_item)
 
 /*
  * This is simialr to the test above except there are now two battle_items in
- * the player's inventory that the function has to go through
+ * the battle_player's inventory that the function has to go through
  */
 Test(battle_logic, uses_battle_item_correctly)
 {
