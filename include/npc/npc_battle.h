@@ -88,4 +88,18 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
  */
 int npc_battle_free(npc_battle_t *npc_battle);
 
+
+// "SET" FUNCTIONS ------------------------------------------------------------
+/*
+ * Moves all npc items from the npc to the room.
+ *
+ * Parameters:
+ *  npc: the npc that's items are being transferred
+ *  room: the room that the items are being tranferred to
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurs
+ */
+int transfer_all_npc_items(npc_t *npc, room_t *room);
+
 #endif

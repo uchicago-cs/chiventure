@@ -52,3 +52,20 @@ int npc_battle_free(npc_battle_t *npc_battle)
     return SUCCESS;
 }
 
+
+// "SET" FUNCTIONS ------------------------------------------------------------
+/* See npc.h  */
+int transfer_all_npc_items(npc_t *npc, room_t *room)
+{
+    item_lst = get_all_items_in_hash(npc->inventory);
+
+    for (i = 0; i < len(item_lst); i++)
+    {
+        add_item_to_hash(room->items, item_lst[i]);
+    }
+
+    delete_item_llist(item_lst);
+    delete_all_items(npc->inventory);
+
+    return SUCCESS;
+}
