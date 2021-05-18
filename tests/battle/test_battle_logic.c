@@ -489,3 +489,32 @@ Test(battle_logic, award_xp)
     cr_assert_null(p->class_type->attributes, "set_player() didn't set class attribute");
     cr_assert_null(p->class_type->stats, "set_player() didn't set class stats");
 }
+
+/*
+ * Tests stat_changes_add_item_node to make sure that it correctly adds a used item's
+ * stats to its struct
+ */
+Test(stat_changes, add_item_node)
+{
+    battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
+    i1->id = 100;
+    i1->attack = 0;
+    i1->defense = 0;
+    i1->hp = 10;
+
+    stat_changes_t *sc;
+    int rc;
+
+    sc = stat_changes_new();
+
+    rc = stat_changes_add_item_node(sc, i1);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_add_item_node failed");
+    cr_assert_not_null(sc->next, "stat_changes_add_item_node() failed to add a new node");
+    cr_assert_eq(sc->next->defense, 0, "stat_changes_add_item_node() failed for defense!");
+    cr_assert_eq(sc->next->strength, 0, "stat_changes_add_item_node() failed for strength!");
+    cr_assert_eq(sc->next->hp, 10, "stat_changes_add_item_node() failed for hp!");
+
+    free(i1);
+    stat_changes_free_all(sc);
+}

@@ -142,3 +142,233 @@ Test(battle_state, battle_free)
 
     cr_assert_eq(rc, SUCCESS, "battle_free() failed");
 }
+
+/* Tests stat_changes_new() */
+Test(stat_changes, stat_changes_new)
+{
+    stat_changes_t *sc;
+
+    sc = stat_changes_new();
+
+    cr_assert_not_null(sc, "stat_changes_new() failed");
+
+    cr_assert_eq(sc->speed, 0, "stat_changes_new() didn't set speed correctly");
+    cr_assert_eq(sc->defense, 0, "stat_changes_new() didn't set defnse correctly");
+    cr_assert_eq(sc->strength, 0, "stat_changes_new() didn't set strength correctly");
+    cr_assert_eq(sc->dexterity, 0, "stat_changes_new() didn't set dexterity correctly");
+    cr_assert_eq(sc->hp, 0, "stat_changes_new() didn't set hp correctly");
+    cr_assert_eq(sc->max_hp, 0, "stat_changes_new() didn't max_hp speed correctly");
+    cr_assert_eq(sc->turns_left, -1, "stat_changes_new() didn't set turns_left correctly");
+    cr_assert_null(sc->next, "stat_changes_new() didn't set next correctly");
+    cr_assert_null(sc->prev, "stat_changes_new() didn't set prev correctly");
+
+    stat_changes_free_node(sc);
+}
+
+/* Tests stat_changes_init() */
+Test(stat_changes, stat_changes_init)
+{
+    stat_changes_t *sc;
+    int rc;
+
+    sc = calloc(1, sizeof(stat_changes_t));
+
+    rc = stat_changes_init(sc);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_init() failed");
+
+    cr_assert_eq(sc->speed, 0, "stat_changes_init() didn't set speed correctly");
+    cr_assert_eq(sc->defense, 0, "stat_changes_init() didn't set defnse correctly");
+    cr_assert_eq(sc->strength, 0, "stat_changes_init() didn't set strength correctly");
+    cr_assert_eq(sc->dexterity, 0, "stat_changes_init() didn't set dexterity correctly");
+    cr_assert_eq(sc->hp, 0, "stat_changes_init() didn't set hp correctly");
+    cr_assert_eq(sc->max_hp, 0, "stat_changes_init() didn't max_hp speed correctly");
+    cr_assert_eq(sc->turns_left, -1, "stat_changes_init() didn't set turns_left correctly");
+    cr_assert_null(sc->next, "stat_changes_init() didn't set next correctly");
+    cr_assert_null(sc->prev, "stat_changes_init() didn't set prev correctly");
+
+    stat_changes_free_node(sc);
+}
+
+/* Tests stat_changes_free_node() */
+Test(stat_changes, stat_changes_free_node)
+{
+    stat_changes_t *sc;
+    int rc;
+
+    sc = stat_changes_new();
+
+    cr_assert_not_null(sc, "stat_changes_new() failed");
+
+    rc = stat_changes_free_node(sc);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_free() failed");
+}
+
+/* Tests stat_changes_free_all() */
+Test(stat_changes, stat_changes_free_all)
+{
+    stat_changes_t *head = NULL;
+    stat_changes_t *sc1;
+    stat_changes_t *sc2;
+    int rc;
+
+    head = stat_changes_new();
+    sc1 = stat_changes_new();
+    sc2 = stat_changes_new();
+    stat_changes_append_node(head, sc1);
+    stat_changes_append_node(head, sc2);
+
+    cr_assert_not_null(sc1, "stat_changes_new() failed");
+    cr_assert_not_null(sc2, "stat_changes_new() failed");
+    rc = stat_changes_free_all(head);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_free_all() failed");
+}
+
+/* Tests stat_changes_append_node() */
+Test(stat_changes, stat_changes_append_node)
+{
+    stat_changes_t *head;
+    stat_changes_t *sc;
+    int rc;
+
+    head = stat_changes_new();
+    sc = stat_changes_new();
+
+    cr_assert_not_null(head, "stat_changes_new() failed");
+    cr_assert_not_null(sc, "stat_changes_new() failed");
+    rc = stat_changes_append_node(head, sc);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_append_node() failed");
+    cr_assert_eq(head->next, sc, "head->next is not sc");
+    cr_assert_eq(sc->prev, head, "sc->prev is not head");
+
+    stat_changes_free_all(head);
+}
+
+/* Tests stat_changes_add_node */
+Test(stat_changes, stat_changes_add_node)
+{
+    stat_changes_t *sc;
+    int rc;
+
+    sc = stat_changes_new();
+
+    rc = stat_changes_add_node(sc);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_add_node() failed");
+    cr_assert_not_null(sc->next, "stat_changes_append_node() failed");
+
+    stat_changes_free_node(sc);
+}
+
+/* Tests stat_changes_remove_node() */
+Test(stat_changes, stat_changes_remove_node)
+{
+    stat_changes_t *head = NULL;
+    stat_changes_t *sc1;
+    stat_changes_t *sc2;
+    int rc;
+
+    head = stat_changes_new();
+    sc1 = stat_changes_new();
+    sc2 = stat_changes_new();
+    stat_changes_append_node(head, sc1);
+    stat_changes_append_node(head, sc2);
+
+    cr_assert_eq(head->next, sc1, "stat_changes_new() failed adding node 1");
+    cr_assert_eq(sc1->next, sc2, "stat_changes_new() failed adding node 2");
+    rc = stat_changes_remove_node(sc1);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_remove_node() failed");
+    cr_assert_eq(head->next, sc2, "header node's next is not sc2");
+
+    stat_changes_free_all(head);
+}
+
+/* Tests if stat_changes_turn_increment() decrements turns correctly */
+Test(stat_changes, stat_changes_turn_increment_simple_decrement)
+{
+    stat_changes_t *sc;
+    stat_changes_t *head;
+    combatant_t *c;
+    int rc;
+
+    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    head = stat_changes_new();
+    sc = stat_changes_new();
+    sc->turns_left = 2;
+
+    stat_changes_append_node(head, sc);
+    rc = stat_changes_turn_increment(head, c);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_turn_increment() failed");
+    cr_assert_eq(sc->turns_left, 1, "stat_changes_turn_increment() turns left was not 1");
+
+    stat_changes_free_node(sc);
+}
+
+/* Tests if stat_changes_turn_increment() removes stat changes correctly */
+Test(stat_changes, stat_changes_turn_increment_complex_decrement)
+{
+    stat_changes_t *head;
+    stat_changes_t *sc;
+    combatant_t *c;
+    int rc;
+
+    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    sc = stat_changes_new();
+    head = stat_changes_new();
+
+    c->stats->speed = 1;
+    c->stats->defense = 1;
+    c->stats->strength = 1;
+    c->stats->dexterity = 1;
+    c->stats->hp = 1;
+    c->stats->max_hp = 1;
+    c->stats->xp = 1;
+    c->stats->level = 1;
+
+    sc->speed = 1;
+
+    stat_changes_append_node(head, sc);
+    sc->turns_left = 1;
+
+    rc = stat_changes_turn_increment(head, c);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_turn_increment() failed");
+    cr_assert_null(head->next, "stat_changes_turn_increment() failed node removal");
+    cr_assert_eq(c->stats->speed, 0, "stat_changes_turn_increment() stat undo failed");
+
+    stat_changes_free_all(head);
+}
+
+/* Tests if stat_changes_undo() removes stat changes correctly */
+Test(stat_changes, stat_changes_undo)
+{
+    stat_changes_t *sc;
+    combatant_t *c;
+    int rc;
+
+    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    sc = stat_changes_new();
+
+    c->stats->speed = 1;
+    c->stats->defense = 1;
+    c->stats->strength = 1;
+    c->stats->dexterity = 1;
+    c->stats->hp = 1;
+    c->stats->max_hp = 1;
+    c->stats->xp = 1;
+    c->stats->level = 1;
+
+    sc->speed = 1;
+
+    rc = stat_changes_undo(sc, c);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_undo() failed");
+    cr_assert_eq(c->stats->speed, 0, "stat_changes_undo() failed");
+
+    stat_changes_free_node(sc);
+}
