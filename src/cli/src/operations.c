@@ -1,6 +1,7 @@
 #include <string.h>
 #include <ctype.h>
-
+#include <stdlib.h>
+#include <stdio.h>
 #include "cli/operations.h"
 #include "ui/print_functions.h"
 #include "cli/shell.h"
@@ -8,6 +9,7 @@
 #include "common/load_objects.h"
 
 #define BUFFER_SIZE (100)
+#define min(x,y) (((x) <= (y)) ? (x) : (y))
 
 char* actions_for_sug[28] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
                         "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
@@ -16,34 +18,52 @@ char* actions_for_sug[28] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF
                         "PALETTE", "ITEMS"};
 
 
-void compare(char* word, char* action, int* initial, char** suggestion)
+int compare(char* word, char* action, int initial)
 {
+
+    if(word == NULL || action == NULL) {
+        return initial; 
+    }
+    if((strcmp(word, "") == 0) || (strcmp(action, "") == 0)) {
+        return initial; 
+    }
+
     int current = 0;
-    for (int i = 0; i < strlen(word); i++){
-        if (word[i] == action[i]){
-            current++;
+    for (int i = 0; i < min(strlen(word), strlen(action)); i++){
+        if(&action[i] != NULL && &word[i] != NULL) {
+            if (word[i] == action[i]){
+                current++;
+            }
         }
 
     }
-    if (current >= *initial){
-        *suggestion = action;
-        *initial = current;
+    if (current > initial){
+        initial = current;
+    }
+    return initial;
 }
-}
 
-
-
-
-void suggestions(char *action_input, char** actions, char** suggestion)
+char* suggestions(char *action_input, char** actions)
 {
     int i = 0;
-    int* initial = (int*)malloc(sizeof(int));
-    *initial = 0;
-    *suggestion = " ";
-    while (actions[i] != NULL){
-        compare(action_input, actions[i], initial, suggestion); 
-        i++;
-
+    int initial = 0;
+    int temp = 0;
+    int index = -1;
+    
+    for(int i = 0; i < 28; i++){
+        if (action_input != NULL) {
+            temp = compare(strdup(action_input), strdup(actions[i]), initial);
+            if (temp > initial) {
+                index = i;
+                initial = temp;
+                temp = 0;
+            }
+        }
+    }
+    if (index == -1) {
+        return NULL;
+    } else {
+        return actions[index];
     }
 
 }
@@ -305,13 +325,21 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
 
-    char** suggestion = (char**)malloc(sizeof(char*));
-    suggestions(tokens[0], actions_for_sug, suggestion);
-    int str1 = strlen(*suggestion);
-    int str2 = strlen("This action is not supported. Did you mean: ");
-    int len = str1 + str2;
-    return strncat("This action is not supported. Did you mean: ", *suggestion, len);
-
+    char* suggestion = NULL;
+    if (tokens[0] == NULL) {
+        return "This action is not supported. No suggestions could be found";
+    }
+    suggestion = suggestions(strdup(tokens[0]), actions_for_sug);
+    if (suggestion != NULL) {
+        int str1 = strlen(suggestion);
+        int str2 = strlen("This action is not supported. Did you mean: ");
+        int len = str1 + str2;
+        char msg[] =  "This action is not supported. Did you mean: ";
+        print_to_cli(ctx, strncat(msg, suggestion, len));
+        return strncat(msg, suggestion, len);
+    } else {
+        return "This action is not supported. No suggestions could be found";
+    }
 }
 
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
