@@ -1,5 +1,6 @@
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
 
 #include "cli/operations.h"
 #include "ui/print_functions.h"
@@ -55,10 +56,13 @@ bool validate_filename(char *filename)
 
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if(tokens[1] == NULL)
+    int valid_path;
+    valid_path = access(tokens[1], F_OK);
+
+    if(valid_path)
     {
         return "Invalid Input, Loading WDL file failed\n";
-    }
+    } 
 
     wdl_ctx_t *wdl_ctx = load_wdl(tokens[1]);
 
