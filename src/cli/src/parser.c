@@ -2,14 +2,17 @@
 #include <string.h>
 #include <ctype.h>
 
-
 #include "cli/parser.h"
 #include "common/utlist.h"
+
 /*
- * INPUT: a string from the command line, the delimiter string used to tokenize, 
- * and pointer to the string from the command line
+ * - input: 
+ *   s: a string from the command line, 
+ *   delim: the delimiter string used to tokenize, 
+ *   save_ptr: pointer to s
  * 
- * returns: the first tokenized string
+ * - returns: 
+ *   the first tokenized string
  * 
  */
 char *strtokstr_r(char *s, char *delim, char **save_ptr)
@@ -40,7 +43,6 @@ char *strtokstr_r(char *s, char *delim, char **save_ptr)
         *save_ptr = s + strlen(s);
         return s;
     }
-
         // Terminate the token and make *SAVE_PTR point past it.
         memset(end, 0, strlen(delim));
         *save_ptr = end + strlen(delim);
@@ -48,7 +50,7 @@ char *strtokstr_r(char *s, char *delim, char **save_ptr)
 }
 
 /* See parser.h */
-tokenized_cmds *parse(char *input)
+tokenized_cmds *parse_r(char *input)
 {
     if(strcmp(input, "") == 0)
     {
@@ -68,7 +70,10 @@ tokenized_cmds *parse(char *input)
 
     tokenized_cmds *head = NULL;
     char **save_ptr = &input;
-   
+    
+    //puts tokenized segments of the inputted string in 
+    //the command line with a delimiter "AND" into a 
+    //utlist until the end of the string
     char *token = strtokstr_r(input, "AND", save_ptr);
     while(token != NULL)
     {
@@ -87,8 +92,8 @@ tokenized_cmds *parse(char *input)
     }
     return head;
 }
-
-char **parse_addition(char *input)
+/* See parser.h */
+char **parse(char *input)
 {
     if(strcmp(input, "") == 0)
     {

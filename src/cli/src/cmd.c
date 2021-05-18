@@ -232,7 +232,7 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
     
-    char **parsed_input = parse_addition(s);
+    char **parsed_input = parse(s);
     if(s == NULL)
     {
         return NULL;

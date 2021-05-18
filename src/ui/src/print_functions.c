@@ -180,8 +180,11 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *quitval)
 
     if (ctx->game->mode->curr_mode == NORMAL) 
     {
+        //iteratively goes through each tokenized cmds 
+        //in the utlist and calls cmd_from_string on 
+        //it to be executed
         tokenized_cmds* temp;
-        tokenized_cmds* parsed_cmds = parse(cmd_string);
+        tokenized_cmds* parsed_cmds = parse_r(cmd_string);
         LL_FOREACH(parsed_cmds,temp)
         {
             cmd *c = cmd_from_string(temp->cmds, ctx);

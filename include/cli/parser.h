@@ -1,6 +1,10 @@
 #ifndef _CLI_INCLUDE_PARSER_H
 #define _CLI_INCLUDE_PARSER_H
 
+/*
+ * used to store the tokenized strings of cmd line
+ * in a type of linked list, specifically a utlist,
+ */
 typedef struct tokenized_cmds {
     char *cmds;
     struct tokenized_cmds *next; /* needed for singly- or doubly-linked lists */
@@ -14,6 +18,21 @@ typedef struct tokenized_cmds {
 #define TOKEN_LIST_SIZE 4
 
 /*
+ * Parses a string into a linked list, breaking on the string "AND"
+ *
+ * Parameters:
+ * - input: string to be parsed
+ *   e.g parse_r(ab cd and xy)
+ *
+ * Returns:
+ * - A tokenized_cmds linked list containing strings that had "and" initially connecting them.
+ *   e.g ab cd -> xy
+ *  
+ *
+ */
+tokenized_cmds *parse_r(char *input);
+
+/*
  * Parses a string into a list of words, breaking on spaces
  *
  * Parameters:
@@ -25,8 +44,7 @@ typedef struct tokenized_cmds {
  *   words than this fixed size, the rest of the list will be null.
  *
  */
-tokenized_cmds *parse(char *input);
-char **parse_addition(char *input);
+char **parse(char *input);
 
 
 #endif /* _CLI_INCLUDE_PARSER_H */
