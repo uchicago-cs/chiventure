@@ -398,3 +398,10 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     return "I don't have that palette yet. You must make do with the current style.";
 }
+
+/* See cmd.h */
+char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    //TODO
+    return NULL;
+}

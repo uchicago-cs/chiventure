@@ -280,9 +280,3 @@ int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_c
     }
 }
 
-/* See cmd.h */
-char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    //TODO
-    return NULL;
-}
