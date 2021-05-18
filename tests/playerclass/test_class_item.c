@@ -41,7 +41,7 @@ Test(class_item, add_wand_multiplier) {
 }
 
 /* Checking adding multipliers with a sword item */
-Test(class_item, add_sword_multiplier){
+Test(class_item, add_sword_multiplier) {
     item_t* sword = item_new("sword", " ", " ");
     item_init(sword, "sword", " ", " ");
     class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
@@ -61,7 +61,7 @@ Test(class_item, add_sword_multiplier){
 }
 
 /* Checking adding multipliers with a bow item */
-Test(class_item, add_bow_multiplier){
+Test(class_item, add_bow_multiplier) {
     item_t* bow = item_new("bow", " ", " ");
     item_init(bow, "bow", " ", " ");
     class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
@@ -111,7 +111,7 @@ Test(class_item, get_class_item_multiplier) {
 }
 
 /* Checking if remove_item_multiplier successfully removes a class item multiplier */
-void check_remove_multiplier(item_t* item, class_t* class){
+void check_remove_multiplier(item_t* item, class_t* class) {
     int SIR_check = remove_item_multiplier(item, class);
 
     cr_assert_eq(SIR_check, SUCCESS, "remove_item_multiplier() failed. Either class or item is null or this item is not currently restricted");
@@ -122,7 +122,7 @@ void check_remove_multiplier(item_t* item, class_t* class){
 }
 
 /* Checking removing multipliers with a wand item */
-Test(class_item, remove_wand_multiplier){
+Test(class_item, remove_wand_multiplier) {
     item_t* wand = item_new("wand", " ", " ");
     item_init(wand, "wand", " ", " ");
     class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL);
@@ -146,7 +146,7 @@ Test(class_item, remove_wand_multiplier){
 }
 
 /* Checking removing multipliers with a bow item */
-Test(class_item, remove_bow_multiplier){
+Test(class_item, remove_bow_multiplier) {
     item_t* bow = item_new("bow", " ", " ");
     item_init(bow, "bow", " ", " ");
     class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
@@ -200,7 +200,7 @@ Test(class_item, add_wand_restriction) {
 }
 
 /* Checking adding restrictions with a sword item */
-Test(class_item, add_sword_restriction){
+Test(class_item, add_sword_restriction) {
     item_t* sword = item_new("sword", " ", " ");
     item_init(sword, "sword", " ", " ");
     class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
@@ -217,7 +217,7 @@ Test(class_item, add_sword_restriction){
 }
 
 /* Checking adding restrictions with a bow item */
-Test(class_item, add_bow_restriction){
+Test(class_item, add_bow_restriction) {
     item_t* bow = item_new("bow", " ", " ");
     item_init(bow, "bow", " ", " ");
     class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
@@ -263,7 +263,7 @@ Test(class_item, is_restricted) {
 }
 
 /* Checking if remove_item_restriction successfully removes a class item restriction */
-void check_remove_restriction(item_t* item, class_t* class){
+void check_remove_restriction(item_t* item, class_t* class) {
     int SIR_check = remove_item_restriction(item, class);
 
     cr_assert_eq(SIR_check, SUCCESS, "remove_item_restriction() failed. Either class or item is null or this item is not currently restricted");
@@ -274,7 +274,7 @@ void check_remove_restriction(item_t* item, class_t* class){
 }
 
 /* Checking removing restrictions with a wand item */
-Test(class_item, remove_wand_restriction){
+Test(class_item, remove_wand_restriction) {
     item_t* wand = item_new("wand", " ", " ");
     item_init(wand, "wand", " ", " ");
     class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL);
@@ -296,7 +296,7 @@ Test(class_item, remove_wand_restriction){
 }
 
 /* Checking removing restrictions with a bow item */
-Test(class_item, remove_bow_restriction){
+Test(class_item, remove_bow_restriction) {
     item_t* bow = item_new("bow", " ", " ");
     item_init(bow, "bow", " ", " ");
     class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);

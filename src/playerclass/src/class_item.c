@@ -111,7 +111,7 @@ int remove_item_restriction(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    if (!is_restricted(item, class)){
+    if (!is_restricted(item, class)) {
         fprintf(stderr, "Class is not currently restricted from using this item.\n");
         return FAILURE;
     }
