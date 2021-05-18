@@ -22,13 +22,6 @@ char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON",
 int compare(char* word, char* action, int initial)
 {
 
-    if(word == NULL || action == NULL) {
-        return initial; 
-    }
-    if((strcmp(word, "") == 0) || (strcmp(action, "") == 0)) {
-        return initial; 
-    }
-
     int current = 0;
     for (int i = 0; i < min(strlen(word), strlen(action)); i++){
         if(&action[i] != NULL && &word[i] != NULL) {
@@ -38,9 +31,11 @@ int compare(char* word, char* action, int initial)
         }
 
     }
+
     if (current > initial){
         initial = current;
     }
+
     return initial;
 }
 
@@ -57,10 +52,10 @@ char* suggestions(char *action_input, char** actions)
             if (temp > initial) {
                 index = i;
                 initial = temp;
-                temp = 0;
             }
         }
     }
+    
     if (index == -1) {
         return NULL;
     } else {
@@ -326,18 +321,20 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
 
-    char* suggestion = NULL;
     if (tokens[0] == NULL) {
         return "This action is not supported. No suggestions could be found";
     }
+
+    char* suggestion = NULL;
     suggestion = suggestions(strdup(tokens[0]), actions_for_sug);
+
     if (suggestion != NULL) {
         int str1 = strlen(suggestion);
         int str2 = strlen("This action is not supported. Did you mean: ");
         int len = str1 + str2;
         char msg[] =  "This action is not supported. Did you mean: ";
         print_to_cli(ctx, strncat(msg, suggestion, len));
-        return strncat(msg, suggestion, len);
+        return "";
     } else {
         return "This action is not supported. No suggestions could be found";
     }
