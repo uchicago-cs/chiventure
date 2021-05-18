@@ -2,9 +2,10 @@ import sys
 from lark import Lark, Transformer
 from lark.lexer import Token
 import json
-from vars_parser import evalVars
+from pathlib import Path
 
-grammar_f = open("dsl_grammar.lark")
+base_path = Path(__file__).parent
+grammar_f = open(base_path / "dsl_grammar.lark")
 dsl_grammar = grammar_f.read()
 grammar_f.close()
 
@@ -70,9 +71,8 @@ parser = Lark(dsl_grammar, parser='earley')
 def main():
     with open(sys.argv[1]) as f:
         file_str = f.read()
-        vars_evaluated = evalVars(file_str)
         
-        tree = parser.parse(vars_evaluated)
+        tree = parser.parse(file_str)
         print(json.dumps(TreeToDict().transform(tree), indent=2))
 
         
