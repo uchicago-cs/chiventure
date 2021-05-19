@@ -19,40 +19,6 @@ int randnum(int min, int max)
 /* See battle_default_objects.h */
 battle_item_t *get_random_default_weapon()
 {
-    battle_item_t *rv_item = calloc(1, sizeof(battle_item_t));
-    assert(rv_item != NULL);
-
-    int rand = randnum(1, 10); 
-    char* name_array[]= {"Stick", "Hammer", "Shiv", "Club",  "Bow & Arrow", 
-                         "Spear", "Axe", "Trident", "Sword", "Shield"};
-
-
-    rv_item->id = rand;
-    rv_item->is_weapon = false;
-    rv_item->effectiveness_decrement = 0;
-    rv_item->quantity = 1;
-    rv_item->durability = rand * 10; 
-
-    int name_len = strlen(name_array[rand - 1]);
-    rv_item->name = (char*)calloc(name_len + 1, sizeof(char));
-    strncpy(rv_item->name, name_array[rand - 1], name_len + 1);
-    
-    rv_item->description = (char*)calloc(50, sizeof(char));
-    strncpy(rv_item->description, "It is a ", 9);
-    strcat(rv_item->description, rv_item->name);
-    
-    rv_item->battle = true;
-    rv_item->attack = rand * 10;
-    rv_item->defense = rand * 10 + 5;
-    rv_item->hp = rand * 10 + 10;
-    rv_item->next = NULL;
-    rv_item->prev = NULL;
-
-    return rv_item;
-}
-
-battle_item_t *get_random_default_weapon()
-{
     battle_item_t *rv_weapon = calloc(1, sizeof(battle_item_t));
     assert(rv_weapon != NULL);
 
