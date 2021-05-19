@@ -88,3 +88,29 @@ int AST_block_free(AST_block_t *ast)
 
     return SUCCESS;  
 }
+
+/* See ast_block.h */
+int run_ast_block(AST_block_t *block)
+{
+  int returnV;
+  if(block == NULL) return SUCCESS;
+  switch(block->block_type)
+    {
+    case(CONTROL):
+      return FAILURE;
+      break;
+    case(BRANCH):
+      returnV = do_branch_block(block->block->branch_block);
+      if(returnV == 0) return run_ast_block(block->prev);
+      return run_ast_block(block->next);
+      break;
+    case(ACTION):
+      if(exec_action_block(block->block->action_block) == FAILURE)
+	return FAILURE;
+      return run_ast_block(block->next);
+      break;
+    case(CONDITIONAL):
+      return FAILURE;
+      break;
+    }
+}

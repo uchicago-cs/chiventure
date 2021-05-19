@@ -41,10 +41,10 @@ Test(conditional_block_t, new_EQ)
     conditional_block_free(new_conditional);
 }
 
-/* Checks that a new conditional block with type LTGT is created without interruption */
-Test(conditional_block_t, new_LTGT)
+/* Checks that a new conditional block with type LTB is created without interruption */
+Test(conditional_block_t, new_LTB)
 {   
-    conditional_type_t conditional_type = LTGT;
+    conditional_type_t conditional_type = LTB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -77,10 +77,10 @@ Test(conditional_block_t, new_LTGT)
     conditional_block_free(new_conditional);
 }
 
-/* Checks that a new conditional block with type LTEGTE is created without interruption */
-Test(conditional_block_t, new_LTEGTE)
+/* Checks that a new conditional block with type LTEB is created without interruption */
+Test(conditional_block_t, new_LTEB)
 {   
-    conditional_type_t conditional_type = LTEGTE;
+    conditional_type_t conditional_type = LTEB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -227,10 +227,10 @@ Test(conditional_block_t, new_AST_IN)
     AST_block_free(new_ast);
 }
 
-/* Checks that a new AST conditional block with type LTGT is created without interruption */
-Test(conditional_block_t, new_AST_LTGT)
+/* Checks that a new AST conditional block with type LTB is created without interruption */
+Test(conditional_block_t, new_AST_LTB)
 {
-    conditional_type_t conditional_type = LTGT;
+    conditional_type_t conditional_type = LTB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -266,10 +266,10 @@ Test(conditional_block_t, new_AST_LTGT)
     AST_block_free(new_ast);
 }
 
-/* Checks that a new AST conditional block with type LTEGTE is created without interruption */
-Test(conditional_block_t, new_AST_LTEGTE)
+/* Checks that a new AST conditional block with type LTEB is created without interruption */
+Test(conditional_block_t, new_AST_LTEB)
 {
-    conditional_type_t conditional_type = LTEGTE;
+    conditional_type_t conditional_type = LTEB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -339,12 +339,12 @@ Test(conditional_block_t, init_EQ)
                  "conditional.right");
 }
 
-/* Checks that a new conditional block with type LTGT is initialized without interruption */
-Test(conditional_block_t, init_LTGT)
+/* Checks that a new conditional block with type LTB is initialized without interruption */
+Test(conditional_block_t, init_LTB)
 {
     conditional_block_t conditional;
     int rc;
-    conditional_type_t conditional_type = LTGT;
+    conditional_type_t conditional_type = LTB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -373,12 +373,12 @@ Test(conditional_block_t, init_LTGT)
                  "conditional.right");
 }
 
-/* Checks that a new conditional block with type LTEGTE is initialized without interruption */
-Test(conditional_block_t, init_LTEGTE)
+/* Checks that a new conditional block with type LTEB is initialized without interruption */
+Test(conditional_block_t, init_LTEB)
 {
     conditional_block_t conditional;
     int rc;
-    conditional_type_t conditional_type = LTEGTE;
+    conditional_type_t conditional_type = LTEB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -473,12 +473,12 @@ Test(conditional_block_t, free_EQ)
     cr_assert_eq(rc, SUCCESS, "conditional_block_free() failed");
 }
 
-/* Checks that a new conditional block with type LTGT is freed without interruption */
-Test(conditional_block_t, free_LTGT)
+/* Checks that a new conditional block with type LTB is freed without interruption */
+Test(conditional_block_t, free_LTB)
 {
     conditional_block_t* conditional;
     int rc;
-    conditional_type_t conditional_type = LTGT;
+    conditional_type_t conditional_type = LTB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -505,12 +505,12 @@ Test(conditional_block_t, free_LTGT)
     cr_assert_eq(rc, SUCCESS, "conditional_block_free() failed");
 }
    
-/* Checks that a new conditional block with type LTEGTE is freed without interruption */
-Test(conditional_block_t, free_LTEGTE)
+/* Checks that a new conditional block with type LTEB is freed without interruption */
+Test(conditional_block_t, free_LTEB)
 {
     conditional_block_t* conditional;
     int rc;
-    conditional_type_t conditional_type = LTEGTE;
+    conditional_type_t conditional_type = LTEB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;

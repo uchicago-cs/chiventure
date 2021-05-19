@@ -206,3 +206,9 @@ Test(AST_block_t, free_CONDITIONAL)
 
     cr_assert_eq(rc, SUCCESS, "AST_block_free() failed");
 }
+
+
+/* Checks that run AST block functions correctly */
+Test(AST_block_t, run_block)
+{
+}

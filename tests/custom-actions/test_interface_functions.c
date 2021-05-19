@@ -28,7 +28,7 @@ Test(Interface,null_custom_action) {
 Test(Interface,bad_branch_custom_action) {
     printf("We should definitely be seeing this printf\n");
 
-    conditional_type_t conditional_type = LTGT;
+    conditional_type_t conditional_type = LTB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
     enum attribute_tag attribute_tag = INTEGER;
@@ -57,7 +57,7 @@ Test(Interface,bad_branch_custom_action) {
     control_block_t* controls = control_block_new(control_type);
     printf("Control block made\n");
     // allocates the new branch block
-    branch_block_t* new_branch = branch_block_new(1, conditionals, conditional_type, 2, controls);
+    branch_block_t* new_branch = branch_block_new(1, &conditionals, conditional_type, 2, &controls);
     printf("Did we crash here\n");
     block_t* block = (block_t*)new_branch;
     printf("Did we crash here2\n");
