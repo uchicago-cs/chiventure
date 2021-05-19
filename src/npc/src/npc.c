@@ -58,12 +58,15 @@ int npc_free(npc_t *npc)
     {
         npc_mov_free(npc->movement);
     }
+    if (npc->npc_battle != NULL)
+    {
+        npc_battle_free(npc->npc_battle);
+    }
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
     delete_all_items(&npc->inventory);
     class_free(npc->class);
-    npc_battle_free(npc->npc_battle);
     free(npc);
 
     return SUCCESS;

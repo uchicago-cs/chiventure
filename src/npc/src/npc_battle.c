@@ -1,8 +1,8 @@
-#include "npc/npc.h"
+#include "npc/npc_battle.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
-/* See npc.h */
+/* See npc_battle.h */
 int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
                     move_t* moves, difficulty_t ai, hostility_t hostility_level,
                     int surrender_level)
@@ -18,7 +18,7 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
     return SUCCESS;
 }
 
-/* See npc.h */
+/* See npc_battle.h */
 npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves, 
 		             difficulty_t ai, hostility_t hostility_level, 
 			     int surrender_level)
@@ -41,7 +41,7 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
     return npc_battle;
 }
 
-/* See npc.h  */
+/* See npc_battle.h  */
 int npc_battle_free(npc_battle_t *npc_battle)
 {
     assert(npc_battle != NULL);
