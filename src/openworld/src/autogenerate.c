@@ -230,26 +230,13 @@ int roomspec_is_given_difficulty(roomlevel_t **roomlevels,
 speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
                                             roomlevel_t **roomlevels, 
                                             int difficulty_level)
-{
-    printf("**** Inside filter function\n");
-
-    roomlevel_t *curr_roomlevel, *tmp;
-    printf("** Printing roomlevels (name + diff level)\n");
-    HASH_ITER(hh, *roomlevels, curr_roomlevel, tmp) {
-        printf("room_name: %s  ", curr_roomlevel->room_name);
-        printf("diff: %d\n", curr_roomlevel->difficulty_level);
-    }
-    printf("\n");
-    
-    speclist_t *curr, *Tmp;
+{    
+    speclist_t *curr, *tmp;
     speclist_t *filtered_speclist = NULL;
 
-    printf("** Iterating through speclist and printing\n");
-    DL_FOREACH_SAFE(speclist, curr, Tmp) { 
-        int status = roomspec_is_given_difficulty(roomlevels, curr->spec, difficulty_level);
-        printf("rspec_name: %s  ", curr->spec->room_name);
-        printf("status: %d\n", status);
-        if (status == SUCCESS) { 
+    DL_FOREACH_SAFE(speclist, curr, tmp) { 
+        int in_loop = roomspec_is_given_difficulty(roomlevels, curr->spec, difficulty_level);
+        if (in_loop == SUCCESS) { 
             DL_APPEND(filtered_speclist, curr);    
         }
     }
@@ -268,33 +255,15 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
         return FAILURE;
     }
 
-    printf("**** Inside multi_room_level_generate()\n");
-
-    printf("unfiltered speclist:::::\n");
-    speclist_t *curr;
-    DL_FOREACH(context->speclist, curr) {
-        printf("%s\n", curr->spec->room_name);
-    }
-    printf("\n");
-
     /* compute the difficulty corresponding to player level */
     int difficulty_level = map_level_to_difficulty(levelspec->num_thresholds,
                                                    levelspec->thresholds,
                                                    context->level);
 
-    printf("diff_level: %d\n", difficulty_level);
-    printf("\n");
-
     /* filter the given speclist according to difficulty */
     speclist_t *filtered_speclist = filter_speclist_with_difficulty(context->speclist, // this is not working properly
                                                                     &(levelspec->roomlevels), 
                                                                     difficulty_level);
-
-    printf("filtered speclist:::::\n");
-    DL_FOREACH(filtered_speclist, curr) {
-        printf("%s\n", curr->spec->room_name);
-    }
-    printf("\n");
 
     /* filtered gencontext */
     gencontext_t* filtered_context = gencontext_new(context->open_paths,
