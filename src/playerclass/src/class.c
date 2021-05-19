@@ -133,8 +133,17 @@ int add_class(class_hash_t** hashtable, class_t* class) {
 }
 
 /* See class.h */
-void add_or_replace_class(class_hash_t** hashtable, class_t* class) {
-    return;
+int add_or_replace_class(class_hash_t** hashtable, class_t* class) {
+    if (class == NULL || class->name == NULL)
+        return FAILURE;
+    
+    class_t* replaced_class = NULL;
+    HASH_REPLACE_STR(*hashtable, name, class, replaced_class);
+
+    if (replaced_class != NULL)
+        class_free(replaced_class);
+    
+    return SUCCESS;
 }
 
 /* See class.h */
@@ -148,10 +157,23 @@ class_t* find_class(class_hash_t** hashtable, char* name) {
 
 /* See class.h */
 int delete_class(class_hash_t** hashtable, char* name) {
-    return -1;
+    if (hashtable == NULL || name == NULL)
+        return FAILURE; 
+    
+    class_t* class = find_class(hashtable, name);
+    if (class == NULL)
+        return FAILURE;
+
+    /* Removes class from hashtable */
+    HASH_DEL(*hashtable, class);
+
+    /* Frees class */
+    class_free(class);
+
+    return SUCCESS;
 }
 
 /* See class.h */
 int count_classes(class_hash_t** hashtable) {
-    return -1;
+    return HASH_COUNT(*hashtable);
 }

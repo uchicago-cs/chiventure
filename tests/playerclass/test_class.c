@@ -179,7 +179,7 @@ Test(test_class, add) {
 }
 
 /*
- * Helper function for tests involving find.
+ * Helper function for tests.
  *
  * Parameters:
  *  - hashtable: the class hashtable
@@ -207,4 +207,51 @@ Test(test_class, find) {
     check_description(&hashtable, "Lich", "Lich's short description.\n");
 
     cr_assert_null(find_class(&hashtable, "Alchemist"));
+}
+
+/* Tests add_or_replace_class */
+Test(test_class, add_or_replace) {
+    class_hash_t* hashtable = generate_class_hash();
+
+    /* Adding */
+    add_or_replace_class(&hashtable, class_new("Alchemist", 
+                                               "Alchemist's short description.\n",
+                                               "Alchemist's long description.\n",
+                                               NULL, NULL, NULL));
+    
+    check_description(&hashtable, "Alchemist", "Alchemist's short description.\n");
+
+    /* Replacing */
+    add_or_replace_class(&hashtable, class_new("Alchemist", 
+                                               "Alchemist's NEW AND IMPROVED description.\n",
+                                               "Alchemist's long description.\n",
+                                               NULL, NULL, NULL));
+
+    check_description(&hashtable, "Alchemist", "Alchemist's NEW AND IMPROVED description.\n");                                           
+}
+
+/* Tests count_classes */
+Test(test_class, count) {
+    class_hash_t* hashtable = NULL;
+    cr_assert_eq(count_classes(&hashtable), 0, "count_classes did not return 0 for NULL hashtable.\n");
+    
+    hashtable = generate_class_hash();
+    cr_assert_eq(count_classes(&hashtable), 5, "count_classes did not return 5 for 5 class hashtable.\n");
+}
+
+/* Tests delete_class */
+Test(test_class, delete) {
+    class_hash_t* hashtable = generate_class_hash();
+
+    /* Delete an existing class */
+    cr_assert_eq(delete_class(&hashtable, "Warrior"), SUCCESS, 
+                 "delete_class failed to delete Warrior.\n");
+    cr_assert_eq(count_classes(&hashtable), 4, 
+                 "delete_class returned SUCCESS, but did not actually removed Warrior.\n");
+
+    /* Trying to delete a non existing class */
+    cr_assert_eq(delete_class(&hashtable, "Alchemist"), FAILURE, 
+                 "delete_class returned SUCCESS while trying to delete nonexistent Alchemist.\n");
+    cr_assert_eq(count_classes(&hashtable), 4, 
+                 "delete_class returned FAILURE, but there are now fewer classes than expected.\n");
 }

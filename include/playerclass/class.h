@@ -101,26 +101,55 @@ int class_free(class_t* class);
 int add_class(class_hash_t** hashtable, class_t* class);
 
 /*
- * Adds or replaces a class in the hashtable. Unlike add_class, this does not
- * fail if a class of the same name already exists. Instead, that class is 
- * replaced (freeing the old class),
+ * Adds a class to a hashtable, replacing and freeing an old one if they share
+ * the same name.
+ * 
+ * Parameters:
+ *  - hashtable: A pointer to a possibly NULL class hashtable pointer.
+ *  - class: The class being added to the hashtable.
+ * 
+ * Returns: 
+ *  - FAILURE if the class or its name field were NULL.
+ *  - SUCCESS on successful addition or replacement.
  */
-void add_or_replace_class(class_hash_t** hashtable, class_t* class);
+int add_or_replace_class(class_hash_t** hashtable, class_t* class);
 
 /*
- * Returns a pointer to a class in the class hashtable. If no class is found,
- * returns NULL.
+ * Finds and returns a class in a class hash table.
+ * 
+ * Parameters:
+ *  - hashtable: A pointer to a class hashtable pointer. 
+ *  - name: The name of the class being searched for.
+ * 
+ * Returns:
+ *  - A pointer to a the class that matches the provided name.
+ *  - NULL if no class was found, or if either parameter was NULL.
  */
 class_t* find_class(class_hash_t** hashtable, char* name);
 
 /*
- * Finds and frees a class in a class hashtable.  Returns a failure if no such
- * class is found 
+ * Removes a class from a hashtable and frees it.
+ * 
+ * Parameters:
+ *  - hashtable: A pointer to a class hashtable pointer.
+ *  - name: The name of the class to be deleted.
+ * 
+ * Returns:
+ *  - SUCCESS if the class was found and deleted.
+ *  - FAILURE if one of the parameters was NULL, or the class could not be
+ *    found.
  */
 int delete_class(class_hash_t** hashtable, char* name);
 
 /* 
  * Returns the number of classes in a class hashtable.
+ *
+ * Parameters:
+ *  - hashtable: A pointer to a class hashtable pointer.
+ * 
+ * Returns:
+ *  - The number of classes in the hashtable.
+ *  - 0 if the hashtable is NULL.
  */
 int count_classes(class_hash_t** hashtable);
 
