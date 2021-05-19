@@ -487,7 +487,7 @@ Test(battle_logic, award_xp)
                      "set_player() didn't set class short description");
 
     cr_assert_null(p->class_type->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(p->class_type->stats, "set_player() didn't set class stats");
+    cr_assert_null(p->class_type->base_stats, "set_player() didn't set class stats");
 }
 
 /*

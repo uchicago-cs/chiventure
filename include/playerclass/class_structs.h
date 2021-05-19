@@ -34,10 +34,10 @@ typedef struct class {
     // An object containing all the attributes of the class
     obj_t* attributes;
 
-    // All the stats of the class
-    stats_hash_t* stats;
+    // All the base_stats of the class
+    stats_hash_t* base_stats;
 
-    // Effects/temporary status on the class
+    // Effects on the class
     effects_hash_t* effects;
 
     // Class skilltree

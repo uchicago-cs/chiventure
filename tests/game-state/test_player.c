@@ -249,7 +249,7 @@ Test(player, add_item_effect_to_player)
   s1->max = 75.0;
   s1->modifier = 0.75;
 
-  add_stat(&player->player_class->stats, s1);
+  add_stat(&player->player_class->base_stats, s1);
 
   stat_mod_t *mod1 = stat_mod_new(s1, 1.5, 5);
   LL_APPEND(e2->stat_list, mod1);
@@ -259,9 +259,9 @@ Test(player, add_item_effect_to_player)
 
   cr_assert_not_null(e1->stat_list, 
                      "add_item did not add stat_mod to effect");
-  cr_assert_eq(player->player_class->stats->modifier, 1.125, 
+  cr_assert_eq(player->player_class->base_stats->modifier, 1.125, 
                "add_item did not update modifier");
-  free_stats_table(class->stats);
+  free_stats_table(class->base_stats);
   delete_all_stat_effects(class->effects);
   player_free(player);
   

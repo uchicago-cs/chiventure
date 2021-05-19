@@ -68,7 +68,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
 
     class->attributes = attr;
-    class->stats = stat;
+    class->base_stats = stat;
     class->effects = effect;
 
     /* These are initialized by class_init_skills() */
