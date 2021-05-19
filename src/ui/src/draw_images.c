@@ -7,13 +7,19 @@
 #define MAX_FILENAME_LEN (100)
 
 /* See draw_images.h for documentation */
-void draw_room(int width, int height, int pos_x, int  pos_yt, char *room_id)
+void draw_room_gui(int width, int height, int pos_x, int  pos_y, char *room_id)
 {
-    BeginDrawing();
+    // BeginDrawing();
 
-    char filename[MAX_FILENAME_LEN];
+    char filename[MAX_FILENAME_LEN] = "/home/grkapoor/cs220/chiventure/tests/wdl/examples/wdl/";
 
-    snprintf(filename, MAX_FILENAME_LEN, "images/%s.png", room_id);
+    strcat(filename, room_id);
+
+    strcat(filename, ".png");
+
+    // snprintf(filename, MAX_FILENAME_LEN, "/home/grkapoor/cs220/chiventure/tests/wdl/examples/wdl/%s.png", room_id);
+
+    // filename = “/home/grkapoor/cs220/chiventure/tests/wdl/examples/wdl/%s.png”, ctx->game->curr_room->room_id);
 
     Image room = LoadImage(filename);   
         
@@ -27,7 +33,7 @@ void draw_room(int width, int height, int pos_x, int  pos_yt, char *room_id)
 
     DrawTexture(texture, pos_x, pos_y, WHITE);
 
-    EndDrawing();
+    // EndDrawing();
 
 }
 
