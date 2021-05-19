@@ -7,7 +7,7 @@
 #include "battle_common.h"
 #include "battle_flow_structs.h"
 #include "battle_logic.h"
-#include "../../src/battle/examples/battle_move_maker.h"
+#include "battle_move_maker.h"
 #include "battle_state.h"
 #include "battle_structs.h"
 #include "common/common.h"
@@ -34,7 +34,7 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies,
  * Sets up the battle_player's combatant_t struct for a new battle
  *
  * Parameters:
- *  - ctx_player = the current battle_player in the game_t struct, which is in
+ *  - ctx_player = the current battle_player in the battle_game_t struct, which is in
  *                 the chiventure context struct
  *
  * Returns:
@@ -58,7 +58,7 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies);
  * Sets up battle struct for a new battle
  *
  * Parameters:
- *  - ctx_player = pointer to battle_player_t battle_player in game_t struct
+ *  - ctx_player = pointer to battle_player_t battle_player in battle_game_t struct
  *  - npc_enemies = pointer to list of enemy/ies (NPC enemy stub)
  *  - env = the environment for the battle
  *
