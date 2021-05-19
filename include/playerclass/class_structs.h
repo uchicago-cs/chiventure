@@ -19,8 +19,8 @@
 // max long description length
 #define MAX_LONG_DESC_LEN (300)
 
-/* A player class struct storing the name, descriptions, attributes,
- * and stats */
+/* A player class struct storing the name, descriptions, attributes, stats, 
+ * stat effects, skill inventories, and skill tree associated with a class. */
 typedef struct class {
     // Name of the class
     char* name;
@@ -61,12 +61,10 @@ typedef struct class {
     UT_hash_handle hh;
 } class_t;
 
-/* 
- * This typedef exists to differentiate between two use cases of the class struct:
- * - class_t is meant to be used to access info about one particular class.
- * - class_hash_t is meant to be used to access a hashtable of many classes. 
- */ 
+
+/* This typedef exists to differentiate between two use cases of the class struct:
+ *  - class_t is meant to be used to access info about one particular class.
+ *  - class_hash_t is meant to be used to access a hashtable of many classes. */
 typedef struct class class_hash_t;
 
 #endif /* CLASS_STRUCTS_H */
-

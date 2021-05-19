@@ -77,14 +77,14 @@ int class_add_skills(class_t* class, skill_inventory_t* combat,
  */
 int class_free(class_t* class);
 
-/* 
- * Functions for manipulating a class hash table. These more or less wrap the 
+
+/* Functions for manipulating a class hash table. These more or less wrap the 
  * UTHASH macros into a safer and more convenient form. 
  *
  * These functions take in a class_hash_t**, since UTHASH macros may modify the
  * pointer to the actual hashtable (ie, the class_hash_t*). I recommend simply
- * using the reference operator (&) in calls to these functions.
- */
+ * using the reference operator (&) in calls to these functions. */
+
 
 /*
  * Add a class_t to a class_hash_t.
@@ -153,10 +153,9 @@ int delete_class(class_hash_t** hashtable, char* name);
  */
 int count_classes(class_hash_t** hashtable);
 
-/* 
- * It is infeasible to provide a function for iterating over a hashtable. 
+
+/* It is infeasible to provide a function for iterating over a hashtable. 
  * If iteration is needed, one should use UTHASH's HASH_ITER macro, or the 
- * class->hh.next and class->hh.prev pointers. See tests for examples.
- */
+ * class->hh.next and class->hh.prev pointers. See tests for examples. */
 
 #endif /* CLASS_H */
