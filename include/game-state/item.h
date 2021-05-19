@@ -57,7 +57,7 @@ typedef struct item {
     char *short_desc;
     char *long_desc;
     game_action_hash_t *actions;
-    attribute_list_t *class_restrictions; // a list for all player class restrictions
+    attribute_list_t *class_multipliers; // a linked list of all player class multipliers
     attribute_hash_t *attributes; // a hashtable for all attributes
     effects_hash_t *stat_effects; // hashtable of effects item can have (set to NULL if no effects)
     struct item *next; // points to item w/ identical id, if it exists
@@ -535,5 +535,65 @@ int delete_all_attributes(attribute_hash_t *attributes);
 */
 int game_action_init(game_action_t *new_action, char *act_name, 
              char* success_str, char* fail_str);
+
+
+/* list_get_attribute() returns a pointer to an attribute if it exists
+ * Parameters:
+ *  a pointer to a attribute_list
+ *  attribute name
+ * Returns:
+ *  NULL if attribute does not exist, pointer to attribute if it does
+ */
+attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_str_attr() returns the string value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the string value associated with the attribute
+ */
+char* list_get_str_attr(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_int_attr() returns the int value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the int value associated with the attribute
+ */
+int list_get_int_attr(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_double_attr() returns the double value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the double value associated with the attribute
+ */
+double list_get_double_attr(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_char_attr() returns the char value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the char value associated with the attribute
+ */
+char list_get_char_attr(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_bool_attr() returns the bool value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the bool value associated with the attribute
+ */
+bool list_get_bool_attr(attribute_list_t *head, char* attr_name);
 
 #endif

@@ -4,8 +4,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include "battle/battle_flow.h"
-#include "../../src/battle/examples/battle_move_maker.h"
+#include "../include/battle/battle_move_maker.h"
 #include "playerclass/class.h"
+#include "battle/battle_default_objects.h"
 
 Test(class_moves, bard)
 {
@@ -13,9 +14,9 @@ Test(class_moves, bard)
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
     
-    player_t *player = new_ctx_player("name", test_class,
+    battle_player_t *player = new_ctx_player("name", test_class,
                                           NULL, NULL, NULL);
-    combatant_t *ret_player = set_player(player);
+    combatant_t *ret_player = set_battle_player(player);
 
     int rc = build_moves(ret_player);
 
@@ -46,10 +47,10 @@ Test(class_moves, wizard)
                                     "Old and wise",
                                     NULL, NULL, NULL);
 
-    player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
+    battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
-    combatant_t *ret_player = set_player(player);
+    combatant_t *ret_player = set_battle_player(player);
 
     int rc = build_moves(ret_player);
 
@@ -80,10 +81,10 @@ Test(class_moves, knight)
                                     "Brave and shiny",
                                     NULL, NULL, NULL);
 
-    player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
+    battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL);
 
-    combatant_t *ret_player = set_player(player);
+    combatant_t *ret_player = set_battle_player(player);
     
     int rc = build_moves(ret_player);
 
@@ -105,4 +106,31 @@ Test(class_moves, knight)
 
     cr_assert_eq(ret_player->moves->defense, 0,
                  "add_class_move() didn't set defense");
+}
+
+Test(add_move, add_move_existing_list) {
+
+    move_t *old_move = get_random_default_move();
+    move_t *new_move = get_random_default_move();
+    battle_item_t *item = get_random_default_consumable();
+    stat_t *cstats = get_random_stat();
+    combatant_t *player = combatant_new("TESTER", true, NULL, cstats, old_move, item, 0);
+
+    int res = add_move(player,new_move);
+    cr_assert_eq(player->moves->next,
+                 new_move,
+                 "add_move() did not add the move correctly");
+}
+
+Test(add_move, add_move_empty_list) {
+    
+    move_t *new_move = get_random_default_move();
+    battle_item_t *item = get_random_default_consumable();
+    stat_t *cstats = get_random_stat();
+    combatant_t *player = combatant_new("TESTER",true,NULL,cstats,NULL,item, 0);
+
+    int res = add_move(player,new_move);
+    cr_assert_eq(player->moves,
+                 new_move,
+                 "add_move() did not add the move correctly");
 }

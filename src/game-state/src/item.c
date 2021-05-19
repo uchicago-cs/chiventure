@@ -584,7 +584,7 @@ int item_free(item_t *item)
     free(item->item_id);
     free(item->short_desc);
     free(item->long_desc);
-    delete_attribute_llist(item->class_restrictions);
+    delete_attribute_llist(item->class_multipliers);
     delete_all_attributes(item->attributes);
     // uthash_free(item->attributes, HASH_SIZE);
     if (item->stat_effects != NULL) {
@@ -757,4 +757,122 @@ int delete_item_llist(item_list_t *head)
         free(elt);
     }
     return SUCCESS;
+}
+
+
+
+
+// Functions to get attributes from a list ------------------------------------
+
+/* see item.h */
+attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
+{
+    /* Return NULL on invalid inputs */
+    if (attr_name == NULL || head == NULL || head->next == NULL)
+    {
+        return NULL;
+    }
+
+    attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
+    if (like == NULL) {
+        fprintf(stderr, "calloc failed to allocate memory in list_get_attribute.");
+        return NULL;
+    }
+    like->attribute = calloc(1, sizeof(attribute_t));
+    if (like == NULL) {
+        fprintf(stderr, "calloc failed to allocate memory in list_get_attribute.");
+        return NULL;
+    }
+    like->attribute->attribute_key = attr_name;
+    
+    attribute_list_t *output;
+    LL_SEARCH(head->next, output, like, attr_cmp);
+
+    free(like->attribute);
+    free(like);
+
+    /* If no attribute is found, return NULL */
+    if (output == NULL)
+        return NULL;
+
+    return output->attribute;
+}
+
+/* see item.h */
+char* list_get_str_attr(attribute_list_t *head, char* attr_name)
+{
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        return NULL;
+    }
+    if(res->attribute_tag != STRING)
+    {
+        return NULL; //attribute is not type string
+    }
+    return res->attribute_value.str_val;
+}
+
+/* see item.h */
+int list_get_int_attr(attribute_list_t *head, char* attr_name)
+{
+
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        // value returned if search fails, open to alternative
+        return -1;
+    }
+    if(res->attribute_tag != INTEGER)
+    {
+        return -1; //attribute is not type integer
+    }
+    return res->attribute_value.int_val;
+}
+
+/* see item.h */
+double list_get_double_attr(attribute_list_t *head, char* attr_name)
+{
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        // value returned if search fails, open to alternative
+        return -1.0;
+    }
+    if (res->attribute_tag != DOUBLE)
+    {
+        return -1.0; //attribute is not type double
+    }
+    return res->attribute_value.double_val;
+}
+
+/* see item.h */
+char list_get_char_attr(attribute_list_t *head, char* attr_name)
+{
+
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        return '~';
+    }
+    if (res->attribute_tag != CHARACTER)
+    {
+        return '~'; //attribute is not type character
+    }
+    return res->attribute_value.char_val;
+}
+
+/* see item.h */
+bool list_get_bool_attr(attribute_list_t *head, char* attr_name)
+{
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        return NULL;
+    }
+    if (res->attribute_tag != BOOLE)
+    {
+        return NULL; //attribute is not type boolean
+    }
+    return res->attribute_value.bool_val;
 }
