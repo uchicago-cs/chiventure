@@ -250,48 +250,47 @@ int add_roomlevel_to_hash(roomlevel_t **roomlevels, char *name, int difficulty_l
 
 
 
+
 /* See gen_structs.h */
-int init_difficulty_level_scale(difficulty_level_scale_t *scale, 
-                                int num_thresholds, int *thresholds)
+int init_levelspec(levelspec_t *levelspec, int num_thresholds, int *thresholds)
 {
-    if (scale == NULL) 
+    if (!levelspec)
         return FAILURE;
 
-    scale->num_thresholds = num_thresholds;
+    levelspec->num_thresholds = num_thresholds;
     for (int i = 0; i < num_thresholds; i++) {
-        scale->thresholds[i] = thresholds[i];
+        levelspec->thresholds[i] = thresholds[i];
     } 
-    return SUCCESS;
-}
-
-
-/* See gen_structs.h */
-difficulty_level_scale_t* difficulty_level_scale_new(int num_thresholds, int *thresholds)
-{
-    difficulty_level_scale_t *scale = calloc(1, sizeof(difficulty_level_scale_t));
-    if (scale == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for difficulty_level_scale\n");
-        return NULL;
-    }
-
-    scale->thresholds = calloc(1, sizeof(int) * num_thresholds);
-    if (scale->thresholds == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for scale->thresholds\n");
-        return NULL;
-    }
-
-    init_difficulty_level_scale(scale, num_thresholds, thresholds);
-    return scale;
-}
-
-
-/* See gen_structs.h */
-int difficulty_level_scale_free(difficulty_level_scale_t *scale)
-{
-    if (scale == NULL)
-        return FAILURE;
     
-    free(scale->thresholds);
-    free(scale);
     return SUCCESS;
+}
+
+/* See gen_structs.h */
+levelspec_t *levelspec_new(int num_thresholds, int *thresholds)
+{
+    levelspec_t *levelspec = calloc(1, sizeof(levelspec_t));
+    if (levelspec == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for levelspec\n");
+        return NULL;
+    }
+
+    levelspec->thresholds = calloc(1, sizeof(int) * num_thresholds);
+    if (levelspec->thresholds == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for levelspec->thresholds\n");
+        return NULL;
+    }
+
+    init_levelspec(levelspec, num_thresholds, thresholds);
+    return levelspec;
+}
+
+/* See gen_structs.h */
+int levelspec_free(levelspec_t *levelspec)
+{
+    if (!levelspec)
+        return FAILURE;
+
+    free(levelspec->thresholds);
+    HASH_CLEAR(hh, levelspec->roomlevels); // frees roomlevels hash and sets it to NULL
+    free(levelspec);
 }

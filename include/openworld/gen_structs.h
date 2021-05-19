@@ -85,20 +85,6 @@ typedef struct roomlevel
 } roomlevel_t;
 
 
-/* difficulty level scale */
-typedef struct difficulty_level_scale 
-{
-    /* number of player level thresholds */
-    int num_thresholds;  
-
-    /* an array of player level thresholds;
-     * each threshold is an inclusive lowerbound to the difficulty level of that index
-     * e.g. {0, 5, 10}, 
-     * player_level 0 to 4 is in level 0; player_level 5-9 is in level 1 etc. */  
-    int *thresholds; 
-} difficulty_level_scale_t;
-
-
 /* levelspec struct
  * This struct carries all the info needed for level-oriented generation */
 typedef struct levelspec {
@@ -244,7 +230,7 @@ int init_speclist(speclist_t *list, roomspec_t *spec);
 speclist_t* speclist_new(roomspec_t *spec);
 
 /* speclist_free
-* Free's a speclist_t struct and returns whether or not it was successful
+* Frees a speclist_t struct and returns whether or not it was successful
 *
 * parameters:
 * - list: the pointer to the speclist_t we are freeing
@@ -256,7 +242,7 @@ speclist_t* speclist_new(roomspec_t *spec);
 int speclist_free(speclist_t *list);
 
 /* speclist_free_all
-* Free's all speclist's from the given list
+* Frees all speclist's from the given list
 * However, this function will not free the roomspec's inside of speclist
 *
 * parameters:
@@ -303,7 +289,7 @@ roomlevel_t* roomlevel_new(char *room_name, int difficulty_level);
 
 
 /* roomlevel_free
- * Free's a roomlevel_t struct and returns whether or not it was successful
+ * Frees a roomlevel_t struct and returns whether or not it was successful
  *
  * Parameters:
  * - map: the pointer to the roomlevel_t we are freeing
@@ -335,52 +321,58 @@ int roomlevel_free(roomlevel_t *map);
  */
 int add_roomlevel_to_hash(roomlevel_t **roomlevels, char *name, int difficulty_level);
 
+/* Should add a delete_roomlevel_from_hash() function */
 
 
-/* DIFFICULTY_LEVEL_SCALE */
 
-/* init_difficulty_level_scale_t
- * Initializes a difficulty_level_scale_t struct with the given paramaters. 
- * The difficulty_level_scale_t must be pointing to some valid memory.
+/* LEVELSPEC */
+
+/* init_levelspec
+ * Initializes a levelspec_t struct with the given player level threshold info. 
+ * The levelspec_t must be pointing to some valid memory.
+ * NOTE: Does not affect roomlevels hash. Must use add_roomlevel_to_hash() to alter this field.
  *
  * Parameters:
- * - scale: the pointer to the difficulty_level_scale_t we are initializing
- * - num_of_levels: the number of difficulty levels
- * - thresholds: an integer array of threshold for difficulty levels
+ * - levelspec: the pointer to the levelspec_t we are initializing
+ * - num_thresholds: the number of player level thresholds
+ * - thresholds: the integer array of player level thresholds
  *
  * Returns:
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to initialize
  */
-int init_difficulty_level_scale(difficulty_level_scale_t *scale, 
-                                int num_of_levels, int *thresholds);
+int init_levelspec(levelspec_t *levelspec, int num_thresholds, int *thresholds);
 
 
-/* difficulty_level_scale_new
- * Creates a difficulty_level_scale_t struct with the given paramaters.
+/* levelspec_new
+ * Creates a levelspec_t struct with the given player level threshold info. 
+ * The levelspec_t must be pointing to some valid memory.
+ * NOTE: Initializes the roomlevels to NULL. Must use add_roomlevel_to_hash() to alter this field.
  *
  * Parameters:
- * - num_of_levels: the number of difficulty levels
- * - thresholds: an integer array of threshold for difficulty levels
+ * - num_thresholds: the number of player level thresholds
+ * - thresholds: the integer array of player level thresholds
  *
  * Returns:
- * difficulty_level_scale_t *scale - the new difficulty_level_scale_t
- * NULL - if failed to create a difficulty_level_scale_t
+ * - the new levelspec (success)
+ * - NULL (failure)
  */
-difficulty_level_scale_t* difficulty_level_scale_new(int num_of_levels, int *thresholds);
+levelspec_t *levelspec_new(int num_thresholds, int *thresholds);
 
 
-/* difficulty_level_scale_free
- * Free's a difficulty_level_scale_t struct and returns whether or not it was successful
+
+/* levelspec_free
+ * Frees a levelspec_t struct and returns whether or not it was successful
+ * NOTE: Frees roomlevels hash table and its contents.
  *
  * Parameters:
- * - scale: the pointer to the difficulty_level_scale_t we are freeing
+ * - levelspec: the pointer to the levelspec_t we are freeing
  *
  * Returns:
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to free
  */
-int difficulty_level_scale_free(difficulty_level_scale_t *scale);
+int levelspec_free(levelspec_t *levelspec);
 
 
 #endif
