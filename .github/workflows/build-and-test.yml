@@ -1,11 +1,6 @@
 name: Build and Test chiventure
 
-on:
-  push:
-    branches:
-      - master
-      - dev
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   build-and-test:
