@@ -185,8 +185,15 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, 
 {
     assert(quest != NULL);
 
-
     achievement_tree_t *tree = malloc(sizeof(achievement_tree_t));
+    if (quest->achievement_tree == NULL) {
+        tree->achievement = achievement_to_add;
+	tree->parent = NULL;
+	tree->rsibling = NULL;
+	tree->lmostchild = NULL;
+	quest->achievement_tree = tree;
+	return SUCCESS;
+    }
     tree = find_achievement_tree(quest->achievement_tree, parent_id);
     assert(tree != NULL);
 
