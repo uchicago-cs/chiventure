@@ -1,12 +1,9 @@
-#include "raylib.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "action_management/actionmanagement.h"
 #include "ui/gui.h"
-
-#include "ui/draw_images.h"
-
+#include "raylib.h"
 
 void start_gui(chiventure_ctx_t *ctx)
 {
@@ -87,13 +84,17 @@ void start_gui(chiventure_ctx_t *ctx)
                 letterCount--;
                 name[letterCount] = '\0';
             }
+	    name[letterCount] = (char) 32;
+	    letterCount++;
 
             if (letterCount < 0)
                 letterCount = 0;
-        }
+      	}
 
         int heightbuf2 = 150;
         int rectHeight = 120;
+
+	BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
