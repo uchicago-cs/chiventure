@@ -36,7 +36,7 @@ void start_gui(chiventure_ctx_t *ctx)
     char *output_text = ctx->game->start_desc;
 
     int framesCounter = 0;
-    SetTargetFPS(60);
+    SetTargetFPS(30);
 
     //loop to produce window of image and text box
     while (!WindowShouldClose()) {
@@ -101,9 +101,7 @@ void start_gui(chiventure_ctx_t *ctx)
         // Drawing the Image for each room
         // draw_room(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
 
-        BeginDrawing();
-
-        Image room = LoadImage("../../../../src/ui/sandbox/images/room1.png");   
+        Image room = LoadImage("/home/grkapoor/cs220/chiventure/src/ui/sandbox/images/room1.png");   
             
         ImageResize(&room, ScreenWidth/2, ScreenHeight/2);                     
 
@@ -115,9 +113,6 @@ void start_gui(chiventure_ctx_t *ctx)
 
         DrawTexture(texture, ScreenWidth/4, ScreenHeight/10, WHITE);
 
-        EndDrawing();
-
-        
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
         DrawRectangleLines(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, heightbuf2, BLACK);
