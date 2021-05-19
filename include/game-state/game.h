@@ -5,6 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
+#include "quests_structs.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
@@ -39,6 +40,10 @@ typedef struct game {
     /* an iteratable hashtable of items */
     /* using the macros provided in uthash.h */
     item_hash_t *all_items;
+
+    /* an iterable hashtable of quests */
+    /* using the macros provided in uthash.h */
+    quest_hash_t *all_quests
 
     /* pointer to current room struct */
     room_t *curr_room;
@@ -162,6 +167,17 @@ int add_item_to_game(game_t *game, item_t *item);
  *  SUCCESS if successful, FAILURE if failed
  */
 int add_final_room_to_game(game_t *game, room_t *final_room);
+
+/* Adds a quest to the given game
+ *
+ * Parameters:
+ *  pointer to game struct
+ *  pointer to quest struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_quest_to_game(game_t *game, quest_t *quest);
 
 /* Adds an end condition to the given game
  * 

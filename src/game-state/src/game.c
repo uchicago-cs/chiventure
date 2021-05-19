@@ -91,6 +91,25 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 }
 
 /* See game.h */
+int add_quest_to_game(game_t *game, quest_t *quest)
+{
+	quest_t *check;
+
+	//call to get_quest function
+	check = NULL; //dummy NULL for now
+
+	if (check == NULL) 
+	{
+		return FAILURE; //quest id is already in the hash table
+	}
+
+	HASH_ADD_KEYPTR(hh, game->all_quests, quest->quest_id,
+		            strlen(quest->quest_id, MAX_ID_LEN), quest);
+
+	return SUCCESS;ss
+}
+
+/* See game.h */
 int add_end_condition_to_game(game_t *game, condition_t *end_condition)
 {
     int valid = valid_condition(game, end_condition);
