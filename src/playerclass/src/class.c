@@ -162,7 +162,7 @@ int delete_class(class_hash_t** hashtable, char* name) {
     /* Removes class from hashtable */
     HASH_DEL(*hashtable, class);
 
-    /* Frees class */
+    /* Class must still be freed after removal */
     class_free(class);
 
     return SUCCESS;
