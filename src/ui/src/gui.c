@@ -98,7 +98,24 @@ void start_gui(chiventure_ctx_t *ctx)
         ClearBackground(RAYWHITE);
 
         // Drawing the Image for each room
-        draw_room(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
+        // draw_room(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
+
+        BeginDrawing();
+
+        Image room = LoadImage("../../../../src/ui/sandbox/images/room1.png");   
+            
+        ImageResize(&room, ScreenWidth/2, ScreenHeight/2);                     
+
+        Texture2D texture = LoadTextureFromImage(room);
+        // Image converted to texture, uploaded to GPU memory (VRAM)
+            
+        UnloadImage(room);   
+        // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
+
+        DrawTexture(texture, ScreenWidth/4, ScreenHeight/10, WHITE);
+
+        EndDrawing();
+
         
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
