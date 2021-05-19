@@ -36,7 +36,7 @@ stat_mod_effect_t* define_stat_mod_effect(char* stat_mod_effect_name, char** sta
 }
 
 // See effect.h
-move_effect_t* define_move_effect(move_t move)
+move_effect_t* define_move_effect(move_t* move)
 {
     move_effect_t* new_move_effect = (move_effect_t*)malloc(sizeof(move_effect_t));
     new_move_effect->move = move;
