@@ -165,21 +165,21 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
  * Map from player level to difficulty level
  * 
  * Parameters:
- * - level_scale: the struct for player level -> difficulty level mapping
+ * - num_thresholds: the number of player level thresholds
+ * - thresholds: an array of player level thresholds (see gen_structs.h for details)
  * - player_level: the player level
  * 
  * Returns:
  * - difficulty level corresponding to player level
  */
-int map_level_to_difficulty(difficulty_level_scale_t *level_scale, 
-                            int player_level);
+int map_level_to_difficulty(int num_thresholds, int *thresholds, int player_level);
 
 
 /* roomspec_is_given_difficulty
  * Evaluates if the given roomspec is of the difficulty level
  * 
  * Parameters:
- * - rooms: pointer to the hash table of rooms
+ * - roomlevels: pointer to the hash table of rooms
  * - roomspec: pointer to the roomspec to be evaluated
  * - int difficulty_level: difficulty_level
  *
@@ -188,25 +188,25 @@ int map_level_to_difficulty(difficulty_level_scale_t *level_scale,
  *  - 1 if the given roomspec is found but not of the difficulty level
  *  - 2 if the given roomspec is not found
  */
-int roomspec_is_given_difficulty(room_level_t **room_levels, 
-                                  roomspec_t *roomspec, 
-                                  int difficulty_level);
+int roomspec_is_given_difficulty(roomlevel_t **roomlevels, 
+                                 roomspec_t *roomspec, 
+                                 int difficulty_level);
 
 
 /* filter_speclist_with_difficulty
  * Creates a speclist by filtering the given speclist with a difficulty level
- * so that the returned speclist only contains roomspecs of one level
+ * so that the returned speclist only contains roomspecs of given level
  *
  * Parameters:
  * - speclist: pointer to the speclist we want to filter
- * - room_levels: pointer to the hash structure for room levels
+ * - roomlevels: pointer to the hash table for room levels
  * - difficulty_level: the difficulty level
  * 
  * Returns:
  * - pointer to the filtered speclist, NULL if no spec matches the level
  */
 speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
-                                            room_level_t **room_levels, 
+                                            roomlevel_t **roomlevels, 
                                             int difficulty_level);
 
 
@@ -218,9 +218,7 @@ speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
  * - context: pointer to a gencontext_t (type gencontext_t*). Not NULL.
  * - room_id: a unique room_id string for the to-be-generated room.i
  * - num_rooms: specifies how many new rooms will be generated
- * - room_levels: pointer to the hash structure for room levels
- * - level_scale: pointer to the scale for mapping player level 
- *   to difficulty level
+ * - levelspec: pointer to a levelspec_t; contains info needed for level-oriented generation
  *
  * Side effects:
  * - Changes input game to hold the newly generated room(s),
@@ -232,8 +230,7 @@ speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
  */
 int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
-                              room_level_t **room_levels, 
-                              difficulty_level_scale_t *level_scale);
+                              levelspec_t *levelspec);
 
 
 

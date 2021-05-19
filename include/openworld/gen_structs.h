@@ -72,7 +72,7 @@ typedef struct gencontext {
 /* -- structs for level oriented generation -- */
 
 /* encode maps between difficulty/rooms needed for level-oriented generation */
-typedef struct room_level
+typedef struct roomlevel
 {
     /* name of the room, hash key */
     char *room_name;        
@@ -82,13 +82,13 @@ typedef struct room_level
        
     /* makes this structure hashable */
     UT_hash_handle hh;        
-} room_level_t;
+} roomlevel_t;
 
 
 /* difficulty level scale */
 typedef struct difficulty_level_scale 
 {
-    /* number of difficulty thresholds */
+    /* number of player level thresholds */
     int num_thresholds;  
 
     /* an array of player level thresholds;
@@ -97,6 +97,23 @@ typedef struct difficulty_level_scale
      * player_level 0 to 4 is in level 0; player_level 5-9 is in level 1 etc. */  
     int *thresholds; 
 } difficulty_level_scale_t;
+
+
+/* levelspec struct
+ * This struct carries all the info needed for level-oriented generation */
+typedef struct levelspec {
+    /* An iterable hash table of roomlevels */
+    roomlevel_t *roomlevels;
+
+    /* number of player level thresholds */
+    int num_thresholds;
+
+    /* an array of player level thresholds;
+     * each threshold is an inclusive lowerbound to the difficulty level of that index
+     * e.g. {0, 5, 10}, 
+     * player_level 0 to 4 is in level 0; player_level 5-9 is in level 1 etc. */  
+    int *thresholds;
+} levelspec_t;
 
 
 
@@ -112,7 +129,7 @@ typedef struct difficulty_level_scale
 * must be pointing to some valid memory.
 *
 * parameters:
-i* - context: the gencontext* struct that we are initializing.
+* - context: the gencontext* struct that we are initializing.
 * - level: stores the players level.
 * - openpaths: number of open paths to generate in the room
 * - numnpcs: the number of npcs to generate in the room
@@ -253,14 +270,14 @@ int speclist_free_all(speclist_t *list);
 
 
 
-/* room_level */
+/* roomlevel */
 
-/* init_room_level
- * Initializes a room_level_t struct with the given paramaters. The room_level_t
+/* init_roomlevel
+ * Initializes a roomlevel_t struct with the given paramaters. The roomlevel_t
  * must be pointing to some valid memory.
  *
  * Parameters:
- * - map: the pointer to the room_level_t we are initializing
+ * - map: the pointer to the roomlevel_t we are initializing
  * - room_name: the room name
  * - difficulty_level: difficulty level of the room
  *
@@ -268,55 +285,55 @@ int speclist_free_all(speclist_t *list);
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to initialize
  */
-int init_room_level(room_level_t *map, char *room_name, int difficulty_level);
+int init_roomlevel(roomlevel_t *map, char *room_name, int difficulty_level);
 
 
-/* room_level_new
- * Creates a room_level_t struct with the given paramaters.
+/* roomlevel_new
+ * Creates a roomlevel_t struct with the given paramaters.
  *
  * Parameters:
  * - room_name: the room name
  * - difficulty_level: difficulty level of the room
  *
  * Returns:
- * room_level_t *map - the new room_level_t
- * NULL - if failed to create a room_level_t
+ * roomlevel_t *map - the new roomlevel_t
+ * NULL - if failed to create a roomlevel_t
  */
-room_level_t* room_level_new(char *room_name, int difficulty_level);
+roomlevel_t* roomlevel_new(char *room_name, int difficulty_level);
 
 
-/* room_level_free
- * Free's a room_level_t struct and returns whether or not it was successful
+/* roomlevel_free
+ * Free's a roomlevel_t struct and returns whether or not it was successful
  *
  * Parameters:
- * - map: the pointer to the room_level_t we are freeing
+ * - map: the pointer to the roomlevel_t we are freeing
  *
  * Returns:
  * SUCCESS - for SUCCESS
  * FAILURE - if failed to free
  */
-int room_level_free(room_level_t *map);
+int roomlevel_free(roomlevel_t *map);
 
 
-/* add_room_level_to_hash
+/* add_roomlevel_to_hash
  * Add a room name of a difficulty level
  * to the hash table of room names 
  * 
  * Parameters:
- * - room_levels: pointer to the room hash table
+ * - roomlevels: pointer to the room hash table
  * - name: a room name
  * - difficulty_level: difficulty_level
  *
  * Side effects:
  * - If (and only if) the name is not already in use in the hash,
- *   hashes a room_level_t of given name/level to the table. Otherwise,
+ *   hashes a roomlevel_t of given name/level to the table. Otherwise,
  *   return FAILURE.
  * 
  * Returns:
  * SUCCESS - successfully added room
  * FAILURE - failed to add room
  */
-int add_room_level_to_hash(room_level_t **room_levels, char *name, int difficulty_level);
+int add_roomlevel_to_hash(roomlevel_t **roomlevels, char *name, int difficulty_level);
 
 
 

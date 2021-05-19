@@ -189,60 +189,60 @@ int speclist_free_all(speclist_t *list)
 
 
 /* See gen_structs.h */
-int init_room_level(room_level_t *room_level, char *room_name, int difficulty_level)
+int init_roomlevel(roomlevel_t *roomlevel, char *room_name, int difficulty_level)
 {
-    if (room_level == NULL)
+    if (roomlevel == NULL)
         return FAILURE;
 
-    strcpy(room_level->room_name, room_name);
-    room_level->difficulty_level = difficulty_level;
+    strcpy(roomlevel->room_name, room_name);
+    roomlevel->difficulty_level = difficulty_level;
     return SUCCESS;
 }
 
 
 /* See gen_structs.h */
-room_level_t* room_level_new(char *room_name, int difficulty_level)
+roomlevel_t* roomlevel_new(char *room_name, int difficulty_level)
 {
-    room_level_t *room_level = calloc(1, sizeof(room_level_t));
-    if (room_level == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for room_level_new\n");
+    roomlevel_t *roomlevel = calloc(1, sizeof(roomlevel_t));
+    if (roomlevel == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for roomlevel_new\n");
         return NULL;
     }
 
-    room_level->room_name = calloc(1, sizeof(MAX_SDESC_LEN + 1));
-    if (room_level->room_name == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for room_level->room_name\n");
+    roomlevel->room_name = calloc(1, sizeof(MAX_SDESC_LEN + 1));
+    if (roomlevel->room_name == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for roomlevel->room_name\n");
         return NULL;
     }
 
-    init_room_level(room_level, room_name, difficulty_level);
-    return room_level;
+    init_roomlevel(roomlevel, room_name, difficulty_level);
+    return roomlevel;
 }
 
 
 
 /* See gen_structs.h */
-int room_level_free(room_level_t *room_level)
+int roomlevel_free(roomlevel_t *roomlevel)
 {
-    if (room_level == NULL) 
+    if (roomlevel == NULL) 
         return FAILURE;
 
-    free(room_level->room_name);
-    free(room_level);
+    free(roomlevel->room_name);
+    free(roomlevel);
     return SUCCESS;
 }
 
 
 /* See gen_structs.h */  
-int add_room_level_to_hash(room_level_t **room_levels, char *name, int difficulty_level) 
+int add_roomlevel_to_hash(roomlevel_t **roomlevels, char *name, int difficulty_level) 
 {
-    room_level_t *elt = NULL;
-    room_level_t *out_tmp = NULL;
+    roomlevel_t *elt = NULL;
+    roomlevel_t *out_tmp = NULL;
 
-    HASH_FIND_STR(*room_levels, name, out_tmp);
+    HASH_FIND_STR(*roomlevels, name, out_tmp);
     if (out_tmp == NULL) {
-        elt = room_level_new(name, difficulty_level);
-        HASH_ADD_KEYPTR(hh, *room_levels, elt->room_name, strlen(elt->room_name), elt);
+        elt = roomlevel_new(name, difficulty_level);
+        HASH_ADD_KEYPTR(hh, *roomlevels, elt->room_name, strlen(elt->room_name), elt);
         return SUCCESS;
     }
     return FAILURE;
