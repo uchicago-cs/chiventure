@@ -34,35 +34,17 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "history operation not implemented yet\n";
 }
 
-bool validate_filename(char *filename)
-{
-    int len = strlen(filename);
-    int min_filename_length = 4;
-    if(len < min_filename_length)
-    {
-        return false;
-    }
-    const char *ending = &filename[len - 4];
-    int cmp = strcmp(ending, ".dat");
-    if(cmp == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
 
 bool validate_wdl_filename(char *filename)
 {
     int len = strlen(filename);
     int min_filename_length = 4;
+    int file_extension_length = 4;
     if(len < min_filename_length)
     {
         return false;
     }
-    const char *ending = &filename[len - 4];
+    const char *ending = &filename[len - file_extension_length];
     int cmp = strcmp(ending, ".wdl");
     if (cmp == 0)
     {
