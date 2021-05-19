@@ -78,4 +78,16 @@ int use_battle_item(combatant_t *c,int id);
  */
 int award_xp(stat_t *stats, double xp);
 
+/* Adds new temporary status changes from an item. Note: Does
+ *     not yet change the number of turns left, because items
+ *     do not have that supported yet.
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * - item: a pointer to an item struct in memory
+ * returns:
+ * - SUCCESS for successful completion
+ * - FAILURE for unsuccessful completion
+ */
+int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
+
 #endif
