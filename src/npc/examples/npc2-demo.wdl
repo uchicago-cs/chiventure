@@ -1,7 +1,7 @@
 {
     "GAME": {
         "start": "Bedroom",
-        "intro": "ASH is playing the SNES! ... Okay! It's time to go!",
+        "intro": "Welcome to Pokemon Red! Your name is ASH. A world of dreams and adventures with Pokemon awaits!",
         "end": {
             "in_room": "Outside"
         }
