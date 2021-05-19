@@ -1,12 +1,9 @@
-#include "raylib.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "action_management/actionmanagement.h"
 #include "ui/gui.h"
-
-#include "ui/draw_images.h"
-
+#include "raylib.h"
 
 void start_gui(chiventure_ctx_t *ctx)
 {
@@ -96,6 +93,8 @@ void start_gui(chiventure_ctx_t *ctx)
 
         int heightbuf2 = 150;
         int rectHeight = 120;
+
+	BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
