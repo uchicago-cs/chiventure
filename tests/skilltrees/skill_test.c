@@ -6,7 +6,7 @@
 #include "skilltrees/skill.h"
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
-#include "effect_t.h"
+#include "skilltrees/effect.h"
 
 /*These tests rely on the old implementation of skill_effects.  They must be rewritten to support the current implementation. 
  *As the different types of effects are implemented, we will write tests for each of them.  These old tests are currently commented 
