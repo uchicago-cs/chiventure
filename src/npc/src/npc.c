@@ -63,6 +63,7 @@ int npc_free(npc_t *npc)
     free(npc->long_desc);
     delete_all_items(&npc->inventory);
     class_free(npc->class);
+    npc_battle_free(npc->npc_battle);
     free(npc);
 
     return SUCCESS;
