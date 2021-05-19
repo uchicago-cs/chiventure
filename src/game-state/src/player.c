@@ -55,8 +55,7 @@ player_t* player_new(char *player_id)
 
     plyr->player_class = NULL;
     plyr->player_stats = NULL;
-    plyr->player_combat_skills = NULL;
-    plyr->player_noncombat_skills = NULL;
+    plyr->player_skills = NULL;
     plyr->player_effects = NULL;
     plyr->player_race = NULL;
     plyr->inventory = NULL;

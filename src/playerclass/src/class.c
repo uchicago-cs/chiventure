@@ -73,17 +73,15 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
 
     /* These are initialized by class_init_skills() */
     class->skilltree = NULL;
-    class->combat = NULL;
-    class->noncombat = NULL;
+    class->starting_skills = NULL;
 
     return EXIT_SUCCESS;
 }
 
 /* See class.h */
-int class_add_skills(class_t* class, skill_inventory_t* combat, 
-                     skill_inventory_t *noncombat, skill_tree_t* skilltree) {
-    class->combat = combat;
-    class->noncombat = noncombat;
+int class_add_skills(class_t* class, skill_inventory_t* starting_skills, 
+                     skill_tree_t* skilltree) {
+    class->starting_skills = starting_skills;
     class->skilltree = skilltree;
     return EXIT_SUCCESS;
 }
@@ -106,11 +104,8 @@ int class_free(class_t* class) {
     if (class->skilltree != NULL) {
         skill_tree_free(class->skilltree);
     }
-    if (class->combat != NULL) {
-        inventory_free(class->combat);
-    }
-    if (class->noncombat != NULL) {
-        inventory_free(class->noncombat);
+    if (class->starting_skills != NULL) {
+        inventory_free(class->starting_skills);
     }
 
     free(class);

@@ -53,8 +53,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
  * 
  * Parameters:
  *  - class: pointer to a class where skills are to be added.
- *  - combat: pointer to a skill inventory for combat skills.
- *  - non-combat: pointer to a skill inventory for non-combat skills.
+ *  - starting_skills: pointer to a skill inventory for a class's initial skills.
  *  - skilltree: pointer to a skill tree for the class.
  *  - NOTE: The skill related fields may be NULL, if those feautres are
  *          disabled. However, we recommend that they be filled with empty 
@@ -63,8 +62,8 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
  *  - EXIT_SUCCESS on successful initialization (As of now, this always occurs; the function is not finished).
  *  - EXIT_FAILURE otherwise.
  */
-int class_add_skills(class_t* class, skill_inventory_t* combat, 
-                     skill_inventory_t *noncombat, skill_tree_t* skilltree);
+int class_add_skills(class_t* class, skill_inventory_t* starting_skills, 
+                     skill_tree_t* skilltree); 
 
 /*
  * Frees a class and strings created by class_new.

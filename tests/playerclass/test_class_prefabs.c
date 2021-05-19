@@ -69,8 +69,7 @@ void check_field_pressence(class_t* c) {
  * match the expected list */
 void check_skill_pressence(class_t* c, int num_skills, char** names) {
     cr_assert_not_null(c->skilltree, "failed to initialize skilltree");
-    cr_assert_not_null(c->combat, "failed to initialize combat skill inventory");
-    cr_assert_not_null(c->noncombat, "failed to initialize noncombat skill inventory");
+    cr_assert_not_null(c->starting_skills, "failed to initialize skill inventory");
 
     for(int i = 0; i < num_skills; i++)
         cr_assert_str_eq(c->skilltree->nodes[i]->skill->name, names[i], "failed to add skill");
@@ -144,7 +143,7 @@ Test(class_prefabs, Warrior) {
     char* skill_list[] = {"Sword Slash", "Double Slash", "Triple Slash"};
     check_skill_pressence(c, 3, skill_list);
 
-    cr_assert_str_eq(c->combat->active[0]->name, "Sword Slash", "failed to initialize combat skill inventory");
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Sword Slash", "failed to initialize skill inventory");
 }
 
 /* Tests the rogue class */

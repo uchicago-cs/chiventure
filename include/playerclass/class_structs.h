@@ -43,19 +43,8 @@ typedef struct class {
     // Class skilltree
     skill_tree_t* skilltree;
 
-    /* 
-     * Note: There is a concern here about the combat vs noncombat distinction,
-     * since the skilltrees code divides between passive and active skills.
-     * 
-     * Should we adjust the division below so that we track passive vs active
-     * skills?
-     */
-
-    // Class combat actions
-    skill_inventory_t* combat;
-
-    // Class noncombat actions
-    skill_inventory_t* noncombat;
+    // Class skills
+    skill_inventory_t* starting_skills;
 
     // Memory used internally by the UTHASH macros
     UT_hash_handle hh;

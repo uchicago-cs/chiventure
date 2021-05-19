@@ -37,11 +37,8 @@ typedef struct player {
     both the maximum and current health if health is a feature of the current game */
     stats_hash_t *player_stats;
 
-    /* The current combat skills known to the player */
-    skill_inventory_t *player_combat_skills;
-
-    /* The current noncombat skills known to the player */
-    skill_inventory_t *player_noncombat_skills;
+    /* The current skills known to the player */
+    skill_inventory_t *player_skills;
 
     /* All of the effects the player is currently experiencing */
     effects_hash_t *player_effects;
