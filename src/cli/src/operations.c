@@ -34,7 +34,8 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     print_to_cli(ctx, "Start of command history: \n");
     LL_FOREACH(ctx->command_history, temp)
     {
-        if (temp->command != NULL) {
+        if (temp->command != NULL) 
+        {
             print_to_cli(ctx, temp->command);
         }
     } 
