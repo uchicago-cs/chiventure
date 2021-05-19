@@ -78,7 +78,6 @@ int valid_inven_condition(game_t *game, inventory_condition_t *condition)
  * Returns:
  *  SUCCESS if condition is valid
  *  PLAYER_NULL if the player does not exist in the game or is null
- *  LOW_LEVEL if the player's level does not meet or exceed the required level  
  */
 int valid_level_condition(game_t *game, level_condition_t *condition)
 {
