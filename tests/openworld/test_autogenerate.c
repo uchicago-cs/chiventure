@@ -1295,18 +1295,8 @@ Test(autogenerate, valid_multi_room_level_1)
     roomspec_t *curr_rspec;
     HASH_FIND_STR(hash, "cafeteria", curr_rspec);
     room_t *curr_room = roomspec_to_room(curr_rspec);
-    path_t* path_to_curr_room = path_new(curr_room, "SOUTH");
     cr_assert_eq(SUCCESS, add_room_to_game(g, curr_room), "Could not add room curr_room to game g");
     g->curr_room = curr_room;
-
-    // roomspec_t *neighbor1_rspec;
-    // HASH_FIND_STR(hash, "closet", neighbor1_rspec);
-    // room_t *neighbor1 = roomspec_to_room(neighbor1_rspec);
-    // path_t* path_to_neighbor1 = path_new(neighbor1, "NORTH");
-    // cr_assert_eq(SUCCESS, add_room_to_game(g, neighbor1), "Could not add room neighbor1 to game g");
-    
-    // add_path_to_room(curr_room, path_to_neighbor1);
-    // add_path_to_room(neighbor1, path_to_curr_room);
 
     // creating levelspec
     int num_thresholds = 3;
@@ -1345,7 +1335,6 @@ Test(autogenerate, valid_multi_room_level_3)
     roomspec_t *curr_rspec;
     HASH_FIND_STR(hash, "cafeteria", curr_rspec);
     room_t *curr_room = roomspec_to_room(curr_rspec);
-    path_t* path_to_curr_room = path_new(curr_room, "SOUTH");
     cr_assert_eq(SUCCESS, add_room_to_game(g, curr_room), "Could not add room curr_room to game g");
     g->curr_room = curr_room;
 
