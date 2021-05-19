@@ -28,8 +28,6 @@
 
 
 
-
-
 /*
  * Displays course authors of chiventure
  *
@@ -164,14 +162,14 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
-/* Error Operations that returns an error message as string
+/* Error Operations that returns an error message with suggestion as string
  *
  * Parameters:
  *  - tokens: parsed input string
  *  - ctx: pointer to a chiventure context struct, unused
  *
  * Returns:
- * - Said error message as a string
+ * - Said error message with suggestion as a string
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
