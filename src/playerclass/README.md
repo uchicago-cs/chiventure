@@ -17,8 +17,7 @@ class_t struct
     stats_hash_t* Base Stats
     effects_hash_t* Stat Effects
     skilltree_t* Skilltree
-    skill_inventory_t* Combat Skills
-    skill_inventory_t* Non-combat Skills
+    skill_inventory_t* Starting Skills
     UT_hash_handle Field Used by UTHASH Macros
 ```
 
@@ -37,7 +36,7 @@ Free a playerclass:
 - `void class_free(class_t* c);`
 
 Add skill fields to playerclass:
-- `int class_add_skills(class_t* class, skill_inventory_t* combat, skill_inventory_t *noncombat, skill_tree_t* skilltree);`
+- `int class_add_skills(class_t* class, skill_inventory_t* skills, skill_tree_t* skilltree);`
 
 ### Class Prefabs
 _The Class Prefabs module provides access to prefabricated classes, for the developer to use._
