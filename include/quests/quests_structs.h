@@ -8,19 +8,6 @@
 #include "npc/npc.h"
 
 /*
- * This enumerated type differentiates between an active and passive mission
- * in the achievements linked list.
- *
- * Components:
- *  ACTIVE: active mission
- *  PASSIVE: passive mission
- */
-typedef enum mission_type{
-    ACTIVE,
-    PASSIVE
-} mission_type_t;
-
-/*
  * This struct represents a passive mission.
  * 
  * A passive mission is one that the player does not
@@ -32,9 +19,9 @@ typedef enum mission_type{
  *  health: integer list of health milestones
  */
 typedef struct passive_mission{
-    int *xp;
-    int *levels;
-    int *health;
+    int xp;
+    int levels;
+    int health;
 } passive_mission_t;
 
 /*
@@ -74,25 +61,30 @@ typedef union mission {
  * 
  * Components:
  *  mission: mission to be completed
+ *  id: string identifier for the achievement
  *  completed: bool for if achievement is completed
  */
 typedef struct achievement {
     mission_t *mission;
-    mission_type_t* mission_type;
+    char *id;
     bool completed;     //0 is not completed, 1 is completed
 } achievement_t;
 
-/* 
- * This is a linked list struct of achievements.
- * 
+/*
+ * This is a non-binary tree struct of achievements (to replace linked list)
+ *
  * Components:
- *  achievement: achievement in linked list
- *  next: rest of linked list of achievements
+ *  achievement: achievement in tree
+ *  parent: parent node of achievement
+ *  rsibling: the nearest right-hand sibling of the achievement node
+ *  lmostchild: the leftmost child of the achievement node
  */
-typedef struct achievement_llist {
+typedef struct achievement_tree {
     achievement_t *achievement;
-    struct achievement_llist *next;
-} achievement_llist_t;
+    struct achievement_tree *parent;
+    struct achievement_tree *rsibling;
+    struct achievement_tree *lmostchild;
+} achievement_tree_t;
 
 /* 
  * This struct represents a reward for completing a quest.
@@ -134,7 +126,7 @@ typedef struct stat_req{
 typedef struct quest  {
     UT_hash_handle hh;
     long int quest_id;
-    achievement_llist_t *achievement_list;
+    achievement_tree_t *achievement_tree;
     reward_t *reward;
     stat_req_t *stat_req;
     int status;  
