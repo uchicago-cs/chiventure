@@ -1062,6 +1062,86 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
 
 
 
+/* Checks that filter_speclist_with_difficulty returns NULL
+ * if no roomspec in the speclist is of the given difficulty level */
+Test(speclist, filter_speclist_NULL)
+{
+    roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
+    roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
+
+    speclist_t *list1 = speclist_new(rspec1);
+    speclist_t *list2 = speclist_new(rspec2);
+
+    cr_assert_not_null(list1, "failed to create new speclist_t\n");
+    cr_assert_not_null(list2, "failed to create new speclist_t\n");
+
+    speclist_t *unfiltered = NULL;
+
+    DL_APPEND(unfiltered, list1);
+    DL_APPEND(unfiltered, list2);
+
+    room_level_t *room_level = NULL;
+    
+    /* label the rooms' level with 0 */
+    add_room_level_to_hash(&room_level, "room_name_1", 0);
+    add_room_level_to_hash(&room_level, "room_name_2", 0);
+
+    /* filter the speclist with level 1 */
+    speclist_t* filtered = filter_speclist_with_difficulty(unfiltered, 
+                                                           &room_level, 
+                                                           1);
+
+    cr_assert_null(filtered, "filtered speclist should be NULL");
+}
+
+
+/* Checks that filter_speclist_with_difficulty successfully filters speclist */
+Test(speclist, filter_speclist)
+{
+    roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
+    roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
+    roomspec_t *rspec3 = roomspec_new("room_name_3", "short_desc", "long_desc", NULL);
+    
+    speclist_t *list1 = speclist_new(rspec1);
+    speclist_t *list2 = speclist_new(rspec2);
+    speclist_t *list3 = speclist_new(rspec3);
+
+    cr_assert_not_null(list1, "failed to create new speclist_t\n");
+    cr_assert_not_null(list2, "failed to create new speclist_t\n");
+    cr_assert_not_null(list3, "failed to create new speclist_t\n");
+
+    speclist_t *unfiltered = NULL;
+
+    DL_APPEND(unfiltered, list1);
+    DL_APPEND(unfiltered, list2);
+    DL_APPEND(unfiltered, list3);
+
+    room_level_t *room_level = NULL;
+
+    /* label the rooms' level with 1, 2, 3 */
+    add_room_level_to_hash(&room_level, "room_name_1", 1);
+    add_room_level_to_hash(&room_level, "room_name_2", 2);
+    add_room_level_to_hash(&room_level, "room_name_3", 3);
+
+    /* filter the speclist with level 2 */
+    speclist_t* filtered = filter_speclist_with_difficulty(unfiltered, 
+                                                           &room_level, 
+                                                           2);
+
+    cr_assert_not_null(filtered, "filtered speclist should not be NULL");
+
+    speclist_t *tmp;
+    int count;
+
+    DL_COUNT(filtered, tmp, count);
+    cr_assert_eq(count, 1, "there should be only one roomspec in the filter speclist");
+
+    cr_assert_str_eq(filtered->spec->room_name, "room_name_2", 
+                     "the filtered speclist should only contain rspec2"); 
+}
+
+
+
 /* Checks that multi_room_level_generate returns FAILURE 
  * if the only room spec in the speclist is not of the right difficulty level */
 Test(autogenerate, invalid_multi_room_level_1)

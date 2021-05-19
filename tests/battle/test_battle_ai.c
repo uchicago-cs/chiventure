@@ -63,8 +63,8 @@ stat_t* create_enemy_stats()
     return test_stats;
 }
 
-/* Creates example hardcoded stats for the player*/
-stat_t* create_player_stats()
+/* Creates example hardcoded stats for the battle_player*/
+stat_t* create_battle_player_stats()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
 
@@ -127,8 +127,8 @@ move_t* create_enemy_moves()
     return head;
 }
 
-/* Creates example hardcoded stats for the player*/
-move_t* create_player_moves()
+/* Creates example hardcoded stats for the battle_player*/
+move_t* create_battle_player_moves()
 {
     move_t *head, *fire_blast, *punch, *blaze_kick;
     head = NULL;
@@ -162,29 +162,29 @@ combatant_t* new_enemy()
 {
     char* name = "Skeleton";
     bool is_friendly = false;
-    class_t *class = create_test_class();
+    class_t *c_type = create_test_class();
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, class, stats, moves, items, BATTLE_AI_GREEDY);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
 
 }
 
-/* Creates sandbox player*/
-combatant_t* new_player()
+/* Creates sandbox battle_player*/
+combatant_t* new_battle_player()
 {
     char* name = "Steve";
     bool is_friendly = true;
 
-    class_t *class = create_test_class();
-    stat_t *stats = create_player_stats();
-    move_t *moves = create_player_moves();
+    class_t *c_type = create_test_class();
+    stat_t *stats = create_battle_player_stats();
+    move_t *moves = create_battle_player_moves();
     battle_item_t *items = create_player_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, class, stats, moves, items, BATTLE_AI_NONE);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_NONE);
 }
 
 /* Called by test functions to check give_move returns properly*/
@@ -199,7 +199,7 @@ void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t diffi
 /* Ensures give_move returns a random move when enum is BATTLE_AI_RANDOM*/
 Test(battle_ai, give_move_random)
 {
-    check_give_move(new_player(),
+    check_give_move(new_battle_player(),
             new_enemy(),
             BATTLE_AI_RANDOM,
             expected_move_random());
@@ -208,7 +208,7 @@ Test(battle_ai, give_move_random)
 /* Ensures give_move returns the hardest move when enum is BATTLE_AI_BEST*/
 Test(battle_ai, give_move_greedy)
 {
-    check_give_move(new_player(),
+    check_give_move(new_battle_player(),
             new_enemy(),
             BATTLE_AI_GREEDY,
             expected_move_greedy());
@@ -220,7 +220,7 @@ Test(battle_ai, find_random)
     combatant_t *player, *enemy;
     move_t *expected_move, *actual_move;
 
-    player = new_player();
+    player = new_battle_player();
     enemy = new_enemy();
 
     expected_move = expected_move_random();
@@ -238,7 +238,7 @@ Test(battle_ai, find_greedy)
     combatant_t *player, *enemy;
     move_t *expected_move, *actual_move;
 
-    player = new_player();
+    player = new_battle_player();
     enemy = new_enemy();
 
     expected_move = expected_move_greedy();
@@ -256,7 +256,7 @@ Test(battle_ai, damage)
     combatant_t *player, *enemy;
     move_t* move;
 
-    player = new_player();
+    player = new_battle_player();
     enemy = new_enemy();
     move = expected_move_greedy();
 

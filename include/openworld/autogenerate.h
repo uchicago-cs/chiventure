@@ -193,6 +193,23 @@ int roomspec_is_given_difficulty(room_level_t **room_levels,
                                   int difficulty_level);
 
 
+/* filter_speclist_with_difficulty
+ * Creates a speclist by filtering the given speclist with a difficulty level
+ * so that the returned speclist only contains roomspecs of one level
+ *
+ * Parameters:
+ * - speclist: pointer to the speclist we want to filter
+ * - room_levels: pointer to the hash structure for room levels
+ * - difficulty_level: the difficulty level
+ * 
+ * Returns:
+ * - pointer to the filtered speclist, NULL if no spec matches the level
+ */
+speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
+                                            room_level_t **room_levels, 
+                                            int difficulty_level);
+
+
 /* multi_room_level_generate
  * Level-oriented version of multi_room_generate.
  *
@@ -201,6 +218,9 @@ int roomspec_is_given_difficulty(room_level_t **room_levels,
  * - context: pointer to a gencontext_t (type gencontext_t*). Not NULL.
  * - room_id: a unique room_id string for the to-be-generated room.i
  * - num_rooms: specifies how many new rooms will be generated
+ * - room_levels: pointer to the hash structure for room levels
+ * - level_scale: pointer to the scale for mapping player level 
+ *   to difficulty level
  *
  * Side effects:
  * - Changes input game to hold the newly generated room(s),
