@@ -83,7 +83,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     npc_t *npc = get_npc(ctx->game, ctx->game->mode->mode_ctx);
     num_options = npc->dialogue->cur_node->num_edges;
 
-    if ((option <= 0) || (option > npc->dialogue->cur_node->num_edges) || 
+    if ((option <= 0) || (option > num_options) || 
         parsed_input[1] != NULL) 
     {
         return callback_func(ctx, "Enter a valid dialogue option.", callback_args);

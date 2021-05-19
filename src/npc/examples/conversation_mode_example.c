@@ -92,7 +92,7 @@ convo_t *create_oak_conversation()
 /* Defines an CLI operation for talking to an npc */
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    char *npc_id = "Oak";
+    char *npc_id = "Oak"; //change to "Steve" for conversation with Steve.
     int rc;
     npc_t *npc = get_npc(ctx->game, npc_id);
 
@@ -122,7 +122,12 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
 
-    /* Creating merchant npc 
+    /* 
+     * To run example with Steve instead of Professor Oak 
+     * change the npc_id in talk_operation to "Steve"
+     */
+
+    /* Creating merchant npc */
     char *npc_id = "Steve";
     npc_t *steve = npc_new(npc_id,
                          "Steve is a merchant.",
@@ -133,7 +138,6 @@ chiventure_ctx_t *create_sample_ctx()
 
     add_convo_to_npc(steve, c);
     add_npc_to_game(game, steve);
-    */
 
     /* Create Professor oak */
     char *oak_id = "Oak";
