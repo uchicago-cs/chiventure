@@ -61,7 +61,6 @@ int npc_free(npc_t *npc)
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    convo_free(npc->dialogue);
     delete_all_items(&npc->inventory);
     class_free(npc->class);
     free(npc);
