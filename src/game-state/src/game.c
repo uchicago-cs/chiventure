@@ -106,7 +106,7 @@ int add_quest_to_game(game_t *game, quest_t *quest)
 	HASH_ADD_KEYPTR(hh, game->all_quests, quest->quest_id,
 		            strlen(quest->quest_id, MAX_ID_LEN), quest);
 
-	return SUCCESS;ss
+	return SUCCESS;
 }
 
 /* See game.h */
