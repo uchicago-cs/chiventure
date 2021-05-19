@@ -78,6 +78,32 @@ int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
     }
 }
 
+
+
+/* See inventory.h */
+skill_inventory_t* copy_inventory(skill_inventory_t* original)
+{
+    assert(original != NULL);
+
+    skill_inventory_t* copy = inventory_new(original->max_active, original->max_passive);
+
+    /* Fill Array of Active Skills */
+    for (int i = 0; i < original->num_active; i++)
+    {
+        skill_t* tmp = original->active[i];
+        inventory_skill_add(copy, tmp);
+    }
+
+    /* Fill Array of Passive Skills */
+    for (int i = 0; i < original->num_passive; i++)
+    {
+        skill_t* tmp = original->passive[i];
+        inventory_skill_add(copy, tmp);
+    }
+
+    return copy;
+}
+
 /* See inventory.h */
 int inventory_has_skill(skill_inventory_t* inventory, sid_t sid,
                         skill_type_t type) {
