@@ -125,8 +125,7 @@ int add_class(class_hash_t** hashtable, class_t* class) {
     if (class == NULL || class->name == NULL)
         return FAILURE;
 
-    /* TODO: Check that the key is unique */
-    if (1 == 0 /* Replace by uniqueness check */ )
+    if (find_class(hashtable, class->name) != NULL)
         return FAILURE;
 
     HASH_ADD_STR(*hashtable, name, class); 
@@ -140,7 +139,11 @@ void add_or_replace_class(class_hash_t** hashtable, class_t* class) {
 
 /* See class.h */
 class_t* find_class(class_hash_t** hashtable, char* name) {
-    return NULL;
+    if (hashtable == NULL || name == NULL)
+        return NULL;
+    class_t* output_ptr = NULL;
+    HASH_FIND_STR(*hashtable, name, output_ptr);
+    return output_ptr;
 }
 
 /* See class.h */

@@ -158,9 +158,10 @@ Test(test_class, add) {
     class_t* class = hashtable; // The hashtable is a class itself.
     int index = 0;
     while (class != NULL) {
-        cr_assert_str_eq(class->name, expected_names[index], 
-                         "Expected class %s in class hashtable, but found %s.\n",
-                         expected_names[index], class->name);
+        if (index < 5)
+            cr_assert_str_eq(class->name, expected_names[index], 
+                             "Expected class %s in class hashtable, but found %s.\n",
+                             expected_names[index], class->name);
         index++;
         class = class->hh.next;
     }
@@ -177,4 +178,33 @@ Test(test_class, add) {
                  "Adding duplicate class was expected to fail, but it did not.\n");
 }
 
+/*
+ * Helper function for tests involving find.
+ *
+ * Parameters:
+ *  - hashtable: the class hashtable
+ *  - name: name of the class
+ *  - exp_desc: class's expected short description
+ * 
+ * The function passes if the provided description and class description match.
+ */
+bool check_description(class_hash_t** hashtable, char* name, char* exp_desc) {
+    class_t* class = find_class(hashtable, name);
+    cr_assert_not_null(class, "%s should have been found in hashtable", name);
+    char* class_desc = class->shortdesc;
+    cr_assert_str_eq(exp_desc, class_desc,
+                     "Expected description and class description did not match.\nEXPECTED: %s\nCLASS: %s",
+                     exp_desc, hashtable);
+}
 
+/* Tests find_class */
+Test(test_class, find) {
+    class_hash_t* hashtable = generate_class_hash();
+    check_description(&hashtable, "Warrior", "Warrior's short description.\n");
+    check_description(&hashtable, "Rogue", "Rogue's short description.\n");
+    check_description(&hashtable, "Bard", "Bard's short description.\n");
+    check_description(&hashtable, "Monk", "Monk's short description.\n");
+    check_description(&hashtable, "Lich", "Lich's short description.\n");
+
+    cr_assert_null(find_class(&hashtable, "Alchemist"));
+}
