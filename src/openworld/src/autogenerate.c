@@ -241,11 +241,11 @@ speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
     }
     printf("\n");
     
-    speclist_t *curr;
+    speclist_t *curr, *Tmp;
     speclist_t *filtered_speclist = NULL;
 
     printf("** Iterating through speclist and printing\n");
-    DL_FOREACH(speclist, curr) {  // for some reason, once it finds the first rspec of matching difficulty, it just stops and ignores the rest
+    DL_FOREACH_SAFE(speclist, curr, Tmp) { 
         int status = roomspec_is_given_difficulty(roomlevels, curr->spec, difficulty_level);
         printf("rspec_name: %s  ", curr->spec->room_name);
         printf("status: %d\n", status);
