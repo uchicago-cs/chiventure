@@ -20,6 +20,28 @@
 #include "openworld/gen_structs.h"
 #include "openworld/default_rooms.h"
 
+
+room_t *helper(game_t *game, speclist_t *speclist, room_t *pivot, char *forwards, char *backwards)
+{
+    room_t *next_room;
+    
+    roomspec_t *rspec = random_room_lookup(speclist);
+    next_room = roomspec_to_room(rspec);
+    assert(SUCCESS == add_room_to_game(game, next_room));
+
+    /* Path to the generated room */
+    path_t* path_to_next_room = path_new(next_room, forwards);
+    assert(SUCCESS == add_path_to_room(pivot, path_to_next_room));
+
+    /* Path for the opposite direction */
+    path_t* path_to_pivot = path_new(pivot, backwards);
+    assert(SUCCESS == add_path_to_room(next_room, path_to_pivot));
+
+    return next_room;
+}
+
+
+
 /* See autogenerate.h */
 bool path_exists_in_dir(room_t *r, char *direction)
 {
@@ -338,22 +360,26 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
         int forwards = dir_index[i];
         int backwards = (forwards + 3) % 6;
 
+
         if (path_exists_in_dir(curr_room, all_directions[forwards])) {
             next_room = find_room_from_dir(curr_room, all_directions[forwards]);
         
         /* create room in path if it doesn't exist yet */
-        } else {
-            roomspec_t *rspec = random_room_lookup(speclist);
-            next_room = roomspec_to_room(rspec);
-            assert(SUCCESS == add_room_to_game(game, next_room));
+        } else { // make everything inside this 'else' bracket a helper (likewise for in room_generate())
+                 // helper(speclist_t *speclist, room_t *pivot, char *direction)
 
-            /* Path to the generated room */
-            path_t* path_to_next_room = path_new(next_room, all_directions[forwards]);
-            assert(SUCCESS == add_path_to_room(curr_room, path_to_next_room));
+            next_room = helper(game, speclist, curr_room, all_directions[forwards], all_directions[backwards]);
+            // roomspec_t *rspec = random_room_lookup(speclist);
+            // next_room = roomspec_to_room(rspec);
+            // assert(SUCCESS == add_room_to_game(game, next_room));
 
-            /* Path for the opposite direction */
-            path_t* path_to_curr_room = path_new(curr_room, all_directions[backwards]);
-            assert(SUCCESS == add_path_to_room(next_room, path_to_curr_room));
+            // /* Path to the generated room */
+            // path_t* path_to_next_room = path_new(next_room, all_directions[forwards]);
+            // assert(SUCCESS == add_path_to_room(curr_room, path_to_next_room));
+
+            // /* Path for the opposite direction */
+            // path_t* path_to_curr_room = path_new(curr_room, all_directions[backwards]);
+            // assert(SUCCESS == add_path_to_room(next_room, path_to_curr_room));
         }
 
         /* recursive case, decrement radius by 1 */

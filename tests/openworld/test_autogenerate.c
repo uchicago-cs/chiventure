@@ -450,6 +450,37 @@ Test(autogenerate, room_generate_success_three)
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
 }
 
+
+
+
+
+
+Test(shit, testing)
+{
+    roomspec_t *hash = make_default_room("school", NULL, NULL);
+
+    speclist_t *speclist = NULL;
+    speclist_from_hash(&speclist, hash);
+    cr_assert_not_null(speclist, "sample_speclist should not be NULL");
+
+    room_t *pivot = roomspec_to_room(random_room_lookup(speclist));
+
+    path_hash_t *curr, *tmp;
+    room_t *new_room;
+
+    char *directions[] = {"NORTH", "SOUTH", "WEST", "EAST", "UP", "DOWN"};
+
+
+    for (int i = 0; i < 6; i++) {
+        cr_assert_eq(false, path_exists_in_dir(pivot, directions[i]), "Expected no path in %s direction", directions[i]);
+    }
+
+
+
+}
+
+
+
 /* Checks that multi_room_generate returns FAILURE if the current room of the
 * given game is not a dead end, i.e. there are outward paths */
 Test(autogenerate, invalid_multi_room)
