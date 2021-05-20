@@ -96,6 +96,39 @@ int use_battle_item(combatant_t *c, int id)
 }
 
 /* see battle_logic.h */
+int remove_battle_item(combatant_t *c, battle_item_t *item)
+{
+    if (item == NULL)
+    {
+        return FAILURE;
+    }
+
+    battle_item_t *temp;
+    DL_FOREACH(c->items, temp)
+    {
+        if (temp == item)
+        {
+            if (temp == c->items) // first item in the list
+            {
+                c->items = temp->next;
+            }
+            else
+            {
+                temp->prev->next = temp->next;
+            }
+            
+            if (temp->next)
+            {
+                temp->next->prev = c->items;
+            }
+            free(temp->name);
+            free(temp->description);
+            free(temp);
+        }
+    }
+}
+
+/* see battle_logic.h */
 int award_xp(stat_t *stats, double xp)
 {
     stats->xp += xp;
