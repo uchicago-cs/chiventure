@@ -607,7 +607,7 @@ Test(conditional_block_t, eval_cond_eq)
 }
 
 /* Checks the functionality of eval_conditional_block with less than and greater than */
-Test(conditional_block_t, LTGT)
+Test(conditional_block_t, eval_cond_LTGT)
 {
   conditional_block_t* conditional;
   int rc;
@@ -648,7 +648,7 @@ Test(conditional_block_t, LTGT)
 }
 
 /* Checks the functionality of eval_conditional_block with less than equal and greater than equal*/
-Test(conditional_block_t, LTEGTE)
+Test(conditional_block_t, eval_cond_LTEGTE)
 {
   conditional_block_t* conditional;
   int rc;

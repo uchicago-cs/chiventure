@@ -335,5 +335,6 @@ Test(AST_block_t, run_multiple_actions)
 
   attribute_free(attr1);
   attribute_free(attr2);
+  attribute_free(attr3);
   AST_block_free(new_ast);
 }
