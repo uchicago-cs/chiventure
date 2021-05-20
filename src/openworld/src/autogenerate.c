@@ -56,56 +56,6 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     return res;
 }
 
-item_hash_t *load_items(roomspec_t *roomspec)
-{
-    if (room == NULL) {
-        return NULL;
-    }
-
-    int count = 0;
-
-    item_t *curr, *tmp;
-    HASH_ITER(hh, roomspec->items, curr, tmp) {
-        if (count == MAX_RAND_ITEMS)
-            break;
-
-        double spawn_chance = 1;
-        unsigned int quantity_lowerbound = 1;
-        unsigned int quantity_upperbound = 1;
-
-        itemspec_t *itemspec;
-        HASH_FIND_STR(roomspec->itemspecs, curr->item_id, itemspec);
-        if (itemspec) {
-            spawn_chance = curr->spawn_chance;
-            quantity_upperbound = curr->quantity_upperbound;
-            quantity_lowerbound = curr->quantity_lowerbound;
-        }
-        int num_quantities = quantity_upperbound - quantity_lowerbound + 1;
-
-        bool spawn = (rand() / RAND_MAX) <= spawn_chance;
-        int item_number = quantity_lowerbound;
-        if (spawn) {
-            if (num_quantities > 1) {
-                item_number += rand() % num_quantities;
-            }
-        }
-        item_number = item_number < MAX_RAND_ITEMS - count;
-        /* need a function for copying n-copies of the item to the hash, like item0, item1, item2 etc. */
-
-        count += item_number; // increase count by the number of items added (no need if items were not added)
-    }
-
-    item_hash_t *items = NULL;
-    for (int i = 0; i < num_items; i++) {
-        int rc = random_item_lookup(&items, room->items, num_iters);
-    }
-    if (items == NULL) return NULL;
-    return items;
-
-
-
-}
-
 /* See autogenerate.h */
 int room_generate(game_t *game, gencontext_t *context, roomspec_t *rspec)
 {
