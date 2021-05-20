@@ -115,7 +115,6 @@ int eval_conditional_block(conditional_block_t *block)
   case GTEB: // once conditional_block struct changed
     return check_gte(block->left,block->right);
     break;
-
   case IN:
     return FAILURE;
     // return check_in(block->left,block->right); but check_in not yet implemented
