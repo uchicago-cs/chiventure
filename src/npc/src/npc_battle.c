@@ -30,7 +30,7 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
     npc_battle->moves = malloc(sizeof(move_t)); 
 
     int check = npc_battle_init(npc_battle, health, stats, moves, ai, 
-                                hostility_level, will_fight, surrender_level);
+                                hostility_level, surrender_level);
 
     if (npc_battle == NULL || npc_battle->stats == NULL ||  
         npc_battle->moves == NULL || check != SUCCESS)
