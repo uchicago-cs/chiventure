@@ -30,6 +30,8 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
         curr = curr->next;
     }
 
+    if(curr == NULL)
+        return NULL;
     return curr->act;
 }
 
@@ -52,7 +54,7 @@ int load_actions(obj_t *doc, item_t *i)
     obj_t *curr, *tmp;
     HASH_ITER(hh, action_ls->data.obj.attr, curr, tmp)
     {
-        temp = get_game_action(obj_get_str(curr, "action"), val_actions);
+        temp = get_game_action(case_insensitize2(obj_get_str(curr, "action")), val_actions);
 
         if (obj_get_str(curr, "text_success") != NULL && obj_get_str(curr, "text_fail") != NULL)
         {
@@ -112,7 +114,7 @@ int load_items(obj_t *doc, game_t *g)
         }
 
         //retrieve the pointer for the room that the item is located in
-        room_t *item_room = find_room_from_game(g, in);
+        room_t *item_room = find_room_from_game(g, case_insensitize2(in));
 
         // add item to room
         add_item_to_room(item_room, item);

@@ -11,6 +11,7 @@
 #include "parse.h"
 #include "game-state/game.h"
 #include "load_room.h"
+#include "cli/cli-utility.h"
 
 /* load_items
  * accesses the document object and obtain list of items to parse into the
