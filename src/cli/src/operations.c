@@ -40,7 +40,7 @@ bool validate_wdl_filename(char *filename)
     int len = strlen(filename);
     int min_filename_length = 4;
     int file_extension_length = 4;
-    if(len < min_filename_length)
+    if (len < min_filename_length)
     {
         return false;
     }
@@ -50,7 +50,8 @@ bool validate_wdl_filename(char *filename)
     {
         return true;
     }
-    else{
+    else
+    {
         return false;
     }
 }
@@ -79,7 +80,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     valid_path = access(tokens[1], F_OK);
 
-    if(valid_path == -1) //Triggers if file does not exist
+    if (valid_path == -1) //Triggers if file does not exist
     {
         return "Loading WDL file failed: Invalid Input for file path\n";
     }
@@ -92,7 +93,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     game_t *game = load_objects(wdl_ctx);
 
-    if(game == NULL)
+    if (game == NULL)
     {
         return "Load WDL failed!";
     }
