@@ -299,3 +299,22 @@ int player_add_stat_effect(player_t *player, stat_effect_t *effect)
 
     return rc;
 }
+
+/* see player.h */
+int add_move(player_t *player, move_t *move) {
+    assert(player != NULL);
+    assert(move != NULL);
+
+    move_t *last_move = player->moves;
+    
+    if (player->moves == NULL){
+        player->moves = move;
+        return SUCCESS;
+    }
+
+    while (last_move->next != NULL) {
+        last_move = last_move->next;
+    }
+    last_move->next = move;
+    return SUCCESS;
+}
