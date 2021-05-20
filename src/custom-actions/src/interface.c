@@ -23,11 +23,13 @@
  */
 int do_branch_block(branch_block_t *block)
 {
+  return 0;
+  /*
     if(block->conditionals[0] == NULL) return -1;
     if(eval_conditional_block(block->conditionals[0]) == TRUE) return 1;
     else return 0;
     
-    /* Deprecated for future readers - we made last minute to ast_block that made branch blocks useless, hopefully one day they'll be reverted
+     Deprecated for future readers - we made last minute to ast_block that made branch blocks useless, hopefully one day they'll be reverted
     if(block->num_controls != block->num_conditionals) return -1;
     // goes through each of the control blocks
     int i;

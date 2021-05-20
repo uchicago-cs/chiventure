@@ -25,8 +25,8 @@ Test(Interface,null_custom_action) {
     cr_assert_eq(do_custom_action(ca),SUCCESS, "do_custom_action incorrectly checked for a NULL head");
 }
 /* Checks that a custom_action with a bad branch block fails */
+//Not currently implemented
 Test(Interface,bad_branch_custom_action) {
-    printf("We should definitely be seeing this printf\n");
 
     conditional_type_t conditional_type = LTB;
     char *attr_name1 = "attribute1";
@@ -51,16 +51,12 @@ Test(Interface,bad_branch_custom_action) {
     right->attribute_value = attribute_value2;
 
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    printf("Conditional block made\n");
     // allocates a new control block to nest within a branch block
     control_type_t control_type = IFELSE;
     control_block_t* controls = control_block_new(control_type);
-    printf("Control block made\n");
     // allocates the new branch block
     branch_block_t* new_branch = branch_block_new(1, &conditionals, conditional_type, 2, &controls);
-    printf("Did we crash here\n");
     block_t* block = (block_t*)new_branch;
-    printf("Did we crash here2\n");
     AST_block_t* ast = malloc(sizeof(AST_block_t));
     ast->block = block;
     ast->block_type = BRANCH;
