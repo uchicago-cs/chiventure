@@ -160,7 +160,7 @@ int add_conditional_room_connections(chiventure_ctx_t *ctx)
 
 int main(int argc, char **argv)
 {
-    game_t *game = load_objects(load_obj("../src/action_management/examples/test_game.wdl"));
+    game_t *game = load_game(load_obj("../src/action_management/examples/test_game.wdl"));
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     set_item_attributes(ctx);
