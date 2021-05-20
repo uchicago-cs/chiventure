@@ -55,13 +55,6 @@ int main(int argc, char **argv)
         else
         {
             obj_store = load_obj(argv[1]);
-
-            /*Helps prevent errors when there is no loaded game*/
-            if (!obj_store)
-            {
-                fprintf(stderr, "Could not load game: %s\n", argv[1]);
-                exit(1);
-            }
         }
     }
 
@@ -72,12 +65,6 @@ int main(int argc, char **argv)
         {
             graphical = true;
             obj_store = load_obj(argv[2]);
-
-            if (!obj_store)
-            {
-                fprintf(stderr, "Could not load game: %s\n", argv[1]);
-                exit(1);
-            }
         }
         else
         {
@@ -93,6 +80,13 @@ int main(int argc, char **argv)
     if (obj_store != NULL)
     {
         game = load_game(obj_store);
+
+        /*Helps prevent errors when there is no loaded game*/
+        if (!game)
+        {
+            fprintf(stderr, "Could not load game: %s\n", argv[1]);
+            exit(1);
+        }
     }
 
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
