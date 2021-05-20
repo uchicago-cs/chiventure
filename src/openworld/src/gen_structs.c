@@ -291,6 +291,7 @@ int levelspec_free(levelspec_t *levelspec)
         return FAILURE;
 
     free(levelspec->thresholds);
-    HASH_CLEAR(hh, levelspec->roomlevels); // frees roomlevels hash and sets it to NULL
+    /* frees roomlevels hash and sets it to NULL */
+    HASH_CLEAR(hh, levelspec->roomlevels);
     free(levelspec);
 }
