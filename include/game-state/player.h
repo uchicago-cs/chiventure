@@ -10,6 +10,7 @@
 #include "stats.h"
 #include "item.h"
 #include "playerclass/class.h"
+#include "battle/battle_structs.h"
 
 /* A player in game */
 typedef struct player {
@@ -48,6 +49,9 @@ typedef struct player {
 
     /* The current items held by the player*/
     item_hash_t *inventory;
+
+    /* The current moves available to the player */
+    move_t *moves;
 } player_t;
 
 /* This typedef is to distinguish between player_t pointers which are 
