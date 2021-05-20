@@ -109,13 +109,13 @@ Test(inventory_test, deep_copy_inventory_with_skills)
 
     /* Check that the skills in the copy and skills in original inventory are
      * found in the same spots of the array */
-    if (copy->active[1] != inventory->active[1])
+    if (copy->active[0] != inventory->active[0])
         cr_assert_fail("First active stat in copy has different stat_t*");
-    if (copy->active[2] != inventory->active[2])
+    if (copy->active[1] != inventory->active[1])
         cr_assert_fail("Second active stat in copy has different stat_t*");
-    if (copy->passive[1] != inventory->passive[1])
+    if (copy->passive[0] != inventory->passive[0])
         cr_assert_fail("First passive stat in copy has different stat_t*");
-    if (copy->passive[2] != inventory->passive[2])
+    if (copy->passive[1] != inventory->passive[1])
         cr_assert_fail("Second passive stat in copy has different stat_t*");
 
     /* Free the original inventory */
