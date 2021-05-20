@@ -47,7 +47,6 @@ void add_action_entries(lookup_t **table)
 
 lookup_t *find_entry(char *command_name, lookup_t **table)
 {
-    case_insensitize1(command_name);
     lookup_t *t;
     HASH_FIND_STR(*table, command_name, t);
     return t;
@@ -55,7 +54,6 @@ lookup_t *find_entry(char *command_name, lookup_t **table)
 
 operation *find_operation(char *command_name, lookup_t **table)
 {
-    case_insensitize1(command_name);
     lookup_t *t;
     if((t = find_entry(command_name, table)))
     {
@@ -66,7 +64,6 @@ operation *find_operation(char *command_name, lookup_t **table)
 
 action_type_t *find_action(char *command_name, lookup_t **table)
 {
-    case_insensitize1(command_name);
     return find_entry(command_name, table)->action;
 }
 
@@ -113,7 +110,7 @@ int lookup_t_init(lookup_t **t)
 
     add_entry("quit", quit_operation, NULL, t);
     add_entry("help", help_operation, NULL, t);
-    //add_entry("HIST", hist_operation, t);
+    //add_entry("hist", hist_operation, t);
     add_entry("look",look_operation, NULL, t);
     add_entry("inv", inventory_operation, NULL, t);
     add_entry("map", map_operation, NULL, t);

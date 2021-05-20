@@ -121,13 +121,13 @@ int delete_all_rooms(room_hash_t *rooms)
 /* See room.h */
 path_t *path_search(room_t *room, char* direction)
 {
-    direction = case_insensitize2(direction);
-
     path_t *path;
     if (room == NULL)
     {
         return NULL; //cannot search path in NULL room
     }
+
+    direction = case_insensitize2(direction);
 
     HASH_FIND(hh, room->paths, direction, strlen(direction), path);
     return path;
