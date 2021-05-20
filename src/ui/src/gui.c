@@ -1,12 +1,11 @@
-#include "raylib.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "action_management/actionmanagement.h"
 #include "ui/gui.h"
+#include "raylib.h"
 
-#include "ui/draw_images.h"
-
+// #include "ui/draw_images.h"
 
 void start_gui(chiventure_ctx_t *ctx)
 {
@@ -39,7 +38,7 @@ void start_gui(chiventure_ctx_t *ctx)
     char *output_text = ctx->game->start_desc;
 
     int framesCounter = 0;
-    SetTargetFPS(60);
+    SetTargetFPS(10);
 
     //loop to produce window of image and text box
     while (!WindowShouldClose()) {
@@ -97,11 +96,38 @@ void start_gui(chiventure_ctx_t *ctx)
         int heightbuf2 = 150;
         int rectHeight = 120;
 
+	BeginDrawing();
+
         ClearBackground(RAYWHITE);
 
+        char *temp_room_id = ctx->game->curr_room->room_id;
+
         // Drawing the Image for each room
-        //draw_room(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
+        // draw_room_gui(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
+
+        char filename[100] = "/home/grkapoor/cs220/chiventure/tests/wdl/examples/wdl/";
+
+        int width = ScreenWidth/2;
+        int height = ScreenHeight/2;
+        int pos_x = ScreenWidth/4;
+        int pos_y = ScreenHeight/10;
+
+        strcat(filename, ctx->game->curr_room->room_id);
+
+        strcat(filename, ".png");
         
+        Image room = LoadImage(filename);   
+            
+        ImageResize(&room, width, height);
+            
+        Texture2D texture = LoadTextureFromImage(room);
+        // Image converted to texture, uploaded to GPU memory (VRAM)
+            
+        UnloadImage(room);   
+        // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
+
+        DrawTexture(texture, pos_x, pos_y, WHITE);
+
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
         DrawRectangleLines(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, heightbuf2, BLACK);
@@ -124,7 +150,7 @@ void start_gui(chiventure_ctx_t *ctx)
         Font test = GetFontDefault();
         DrawTextRec(test, output_text, output, fontSize, fontSpacing, true, BLACK);
 
-        EndDrawing();
+    EndDrawing();
     }
     
     CloseWindow();

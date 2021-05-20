@@ -9,14 +9,19 @@
 #define MAX_FILENAME_LEN (100)
 
 /* See draw_images.h for documentation */
-void draw_room(int width, int height, int pos_x, int  pos_yt, room_t room, game_t game)
-{   
-    
-    BeginDrawing();
+void draw_room_gui(int width, int height, int pos_x, int  pos_y, room_t *curr_room, game_t *game)
+{
+    // BeginDrawing();
 
-    char filename[MAX_FILENAME_LEN];
+    char filename[MAX_FILENAME_LEN] = "/home/grkapoor/cs220/chiventure/tests/wdl/examples/wdl/";
 
-    snprintf(filename, MAX_FILENAME_LEN, "images/%s.png", room->room_id);
+    strcat(filename, curr_room->room_id);
+
+    strcat(filename, ".png");
+
+    // snprintf(filename, MAX_FILENAME_LEN, "/home/grkapoor/cs220/chiventure/tests/wdl/examples/wdl/%s.png", room_id);
+
+    // filename = “/home/grkapoor/cs220/chiventure/tests/wdl/examples/wdl/%s.png”, ctx->game->curr_room->room_id);
 
     Image room = LoadImage(filename);   
         
@@ -30,7 +35,7 @@ void draw_room(int width, int height, int pos_x, int  pos_yt, room_t room, game_
 
     DrawTexture(texture, pos_x, pos_y, WHITE);
 
-    EndDrawing();
+    // EndDrawing();
 
 }
 
@@ -71,7 +76,7 @@ int num_rooms(game_t *game)
     return count;
 }
 
-void draw_map(int width, int height, int pos_x, int pos_yt, room_t room, game_t *game) 
+void draw_map(int width, int height, int pos_x, int pos_yt, room_t *room, game_t *game) 
 {
     int map_width, map_height, map_posx, map_posy, map_room_width, map_room_height, number_rooms;
 
