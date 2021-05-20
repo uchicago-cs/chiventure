@@ -7,7 +7,7 @@
 
 // #include "ui/draw_images.h"
 
-void start_gui(chiventure_ctx_t *ctx)
+void run_gui(chiventure_ctx_t *ctx)
 {
     //initialize the window height and width
     int ScreenWidth = 800;
@@ -69,6 +69,9 @@ void start_gui(chiventure_ctx_t *ctx)
 
                 if (letterCount < 0) letterCount = 0;
             }
+
+            if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_D))
+                CloseWindow();
         }
 
         if (mouseOnText) framesCounter++;
@@ -100,23 +103,14 @@ void start_gui(chiventure_ctx_t *ctx)
 
         ClearBackground(RAYWHITE);
 
-        char *temp_room_id = ctx->game->curr_room->room_id;
-
-        // Drawing the Image for each room
-        // draw_room_gui(ScreenWidth/2, ScreenHeight/2, ScreenWidth/4, ScreenHeight/10, ctx->game->curr_room->room_id);
-
-        char filename[100] = "/home/grkapoor/cs220/chiventure/tests/wdl/examples/wdl/";
+        // Drawing the Image for the upper half of the split screen
 
         int width = ScreenWidth/2;
         int height = ScreenHeight/2;
         int pos_x = ScreenWidth/4;
         int pos_y = ScreenHeight/10;
-
-        strcat(filename, ctx->game->curr_room->room_id);
-
-        strcat(filename, ".png");
         
-        Image room = LoadImage(filename);   
+        Image room = LoadImage("../src/ui/src/chiventure.png");   
             
         ImageResize(&room, width, height);
             
@@ -157,9 +151,3 @@ void start_gui(chiventure_ctx_t *ctx)
 
 }
 
-
-
-void stop_gui(chiventure_ctx_t *ctx)
-{
-    //todo
-}
