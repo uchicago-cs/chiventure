@@ -121,7 +121,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 
 
 /* See autogenerate.h */
-int speclist_from_hash(speclist_t **orig, roomspec_t *hash)
+int speclist_from_hash(speclist_t **orig, rspec_hash_t *hash)
 {
     roomspec_t *current_room = NULL;
     roomspec_t *tmp = NULL;
@@ -208,7 +208,7 @@ int map_level_to_difficulty(int num_thresholds, int *thresholds, int player_leve
 
 
 /* See autogenerate.h */
-int roomspec_is_given_difficulty(roomlevel_t **roomlevels, 
+int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels, 
                                  roomspec_t *roomspec, 
                                  int difficulty_level)
 {
@@ -228,7 +228,7 @@ int roomspec_is_given_difficulty(roomlevel_t **roomlevels,
 
 /* See autogenerate.h */
 speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
-                                            roomlevel_t **roomlevels, 
+                                            roomlevel_hash_t **roomlevels, 
                                             int difficulty_level)
 {    
     speclist_t *curr, *tmp;

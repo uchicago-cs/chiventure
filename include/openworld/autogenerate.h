@@ -114,7 +114,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 * - NULL if hash is NULL
 * - speclist_t* a new speclist with all the roomspecs stored in hash copied
 */
-int speclist_from_hash(speclist_t **orig, roomspec_t *hash);
+int speclist_from_hash(speclist_t **orig, rspec_hash_t *hash);
 
 /*
 * random_room_lookup
@@ -188,7 +188,7 @@ int map_level_to_difficulty(int num_thresholds, int *thresholds, int player_leve
  *  - 1 if the given roomspec is found but not of the difficulty level
  *  - 2 if the given roomspec is not found
  */
-int roomspec_is_given_difficulty(roomlevel_t **roomlevels, 
+int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels, 
                                  roomspec_t *roomspec, 
                                  int difficulty_level);
 
@@ -206,7 +206,7 @@ int roomspec_is_given_difficulty(roomlevel_t **roomlevels,
  * - pointer to the filtered speclist, NULL if no spec matches the level
  */
 speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
-                                            roomlevel_t **roomlevels, 
+                                            roomlevel_hash_t **roomlevels, 
                                             int difficulty_level);
 
 

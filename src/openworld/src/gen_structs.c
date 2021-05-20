@@ -234,7 +234,7 @@ int roomlevel_free(roomlevel_t *roomlevel)
 
 
 /* See gen_structs.h */  
-int add_roomlevel_to_hash(roomlevel_t **roomlevels, char *name, int difficulty_level) 
+int add_roomlevel_to_hash(roomlevel_hash_t **roomlevels, char *name, int difficulty_level) 
 {
     roomlevel_t *elt = NULL;
     roomlevel_t *out_tmp = NULL;
