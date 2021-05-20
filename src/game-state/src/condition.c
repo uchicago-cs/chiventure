@@ -296,12 +296,7 @@ condition_t *level_condition_new(player_t *player, int level_required)
  */
 bool check_level_condition(level_condition_t *condition)
 {
-    if (get_level(condition->player_to_check) >= condition->level_required)
-    {
-        return true;
-    } else {
-        return false;
-    }
+    return (get_level(condition->player_to_check) >= condition->level_required);
 }
 
 /* see game_action.h */
