@@ -226,7 +226,7 @@ Test(roomlevel, free)
    difficulty_level = 4 */
 Test(roomlevel, add_roomlevel_to_hash_one)
 {
-    roomlevel_t *roomlevel_hash = NULL;
+    roomlevel_hash_t *roomlevel_hash = NULL;
     char *name = "A"; 
 
     add_roomlevel_to_hash(&roomlevel_hash, name, 4);
@@ -242,7 +242,7 @@ Test(roomlevel, add_roomlevel_to_hash_one)
    difficulty_level = 1 */
 Test(roomlevel, add_roomlevel_to_hash_two)
 {
-    roomlevel_t *roomlevel_hash = NULL;
+    roomlevel_hash_t *roomlevel_hash = NULL;
     char *name = "Good"; 
 
     add_roomlevel_to_hash(&roomlevel_hash, name, 1);

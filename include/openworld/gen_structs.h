@@ -41,6 +41,9 @@ typedef struct roomspec {
     UT_hash_handle hh;
 } roomspec_t;
 
+/* to differentiate between pointers to structs (above) and hash tables (below) */
+typedef struct roomspec rspec_hash_t; 
+
 /* speclist_t struct
 * This struct functions as a llist of all the roomspec_t's
 * The struct contains:
@@ -83,6 +86,9 @@ typedef struct roomlevel
     /* makes this structure hashable */
     UT_hash_handle hh;        
 } roomlevel_t;
+
+/* to differentiate between pointers to structs (above) and hash tables (below) */
+typedef struct roomlevel roomlevel_hash_t; 
 
 
 /* levelspec struct

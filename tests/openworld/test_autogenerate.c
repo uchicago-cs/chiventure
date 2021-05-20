@@ -252,7 +252,7 @@ Test(autogenerate, room_generate_failure)
 Test(autogenerate, room_generate_success_one)
 {
     game_t *g = game_new("start desc");
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     g->curr_room = roomspec_to_room(random_room_lookup(spec));
@@ -316,7 +316,7 @@ Test(autogenerate, room_generate_success_one)
 Test(autogenerate, room_generate_success_two)
 {
     game_t *g = game_new("start desc");
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     g->curr_room = roomspec_to_room(random_room_lookup(spec));
@@ -383,7 +383,7 @@ Test(autogenerate, room_generate_success_two)
 Test(autogenerate, room_generate_success_three)
 {
     game_t *g = game_new("start desc");
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     g->curr_room = roomspec_to_room(random_room_lookup(spec));
@@ -490,7 +490,7 @@ Test(autogenerate, invalid_multi_room)
 * context (gencontext_t) struct's speclist field when one room is requested */
 Test(autogenerate, valid_multi_room1)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
@@ -534,7 +534,7 @@ Test(autogenerate, valid_multi_room1)
 * context (gencontext_t) struct's speclist field when two rooms are requested */
 Test(autogenerate, valid_multi_room2)
 {
-    roomspec_t *hash =make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash =make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
@@ -598,7 +598,7 @@ Test(autogenerate, valid_multi_room2)
 * context (gencontext_t) struct's speclist field when multiple (3) rooms are requested */
 Test(autogenerate, valid_multi_room3)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
@@ -657,7 +657,7 @@ Test(autogenerate, valid_multi_room3)
 /* testing speclist_from_hash for school bucket*/
 Test(speclist, school_hash)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -679,7 +679,7 @@ Test(speclist, school_hash)
 /* testing speclist_from_hash for farmhouse bucket*/
 Test(speclist, farm_hash)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -701,7 +701,7 @@ Test(speclist, farm_hash)
 /* testing speclist_from_hash for castle bucket*/
 Test(speclist, castle_hash)
 {
-    roomspec_t *hash = make_default_room("castle", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("castle", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -723,7 +723,7 @@ Test(speclist, castle_hash)
 /* testing random room lookup for school speclist*/
 Test(speclist, school_lookup)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -749,7 +749,7 @@ Test(speclist, school_lookup)
 /* testing random room lookup for farmhouse speclist*/
 Test(speclist, farm_lookup)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -772,7 +772,7 @@ Test(speclist, farm_lookup)
 /* testing random room lookup for castle speclist*/
 Test(speclist, castle_lookup)
 {
-    roomspec_t *hash = make_default_room("castle", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("castle", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -795,7 +795,7 @@ Test(speclist, castle_lookup)
 /* testing random_items for barn roomspec*/
 Test(roomspec, barn_item)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     roomspec_t *r = NULL;
     HASH_FIND_STR(hash, "barn", r);
 
@@ -815,7 +815,7 @@ Test(roomspec, barn_item)
 /* testing random_items for classroom roomspec*/
 Test(roomspec, class_item)
 {
-    roomspec_t *hash = make_default_room("school",NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school",NULL, NULL);
     roomspec_t *r = NULL;
     HASH_FIND_STR(hash, "classroom", r);
 
@@ -835,7 +835,7 @@ Test(roomspec, class_item)
 /* testing random_items for throne room roomspec*/
 Test(roomspec, throne_item)
 {
-    roomspec_t *hash = make_default_room("castle", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("castle", NULL, NULL);
     roomspec_t *r = NULL;
     HASH_FIND_STR(hash, "throne room", r);
 
@@ -973,7 +973,7 @@ void TEST_HELPER_roomspec_is_given_difficulty(int actual, int expected, char *rs
  * for a hash table with one lvl 0 roomlevel */
 Test(roomlevel, one_lvl0_room)
 {
-    roomlevel_t *roomlevels = NULL;
+    roomlevel_hash_t *roomlevels = NULL;
     
     // creating roomlevels and hashing to table
     char *lvl0_roomname = "A";
@@ -1012,7 +1012,7 @@ Test(roomlevel, one_lvl0_room)
  * for a hash table with two roomlevels, one lvl 0 and 1 each */
 Test(roomlevel, lvl0_to_lvl1_roomlevels)
 {
-    roomlevel_t *roomlevels = NULL;
+    roomlevel_hash_t *roomlevels = NULL;
     
     // creating roomlevels and hashing to table
     char *lvl0_roomname = "A0";
@@ -1197,7 +1197,7 @@ Test(speclist, two_in_filtered)
 Test(autogenerate, invalid_multi_room_level_1)
 {
     // creating speclist
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     roomspec_t *sample_rspec;
     HASH_FIND_STR(hash, "library", sample_rspec);
     speclist_t *sample_speclist = speclist_new(sample_rspec);
@@ -1239,7 +1239,7 @@ Test(autogenerate, invalid_multi_room_level_1)
 Test(autogenerate, invalid_multi_room_level_3)
 {
     // creating speclist
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *speclist = NULL;
     speclist_from_hash(&speclist, hash);
     
@@ -1280,7 +1280,7 @@ Test(autogenerate, invalid_multi_room_level_3)
 Test(autogenerate, valid_multi_room_level_1)
 {
     // creating speclist
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *speclist = NULL;
     speclist_from_hash(&speclist, hash);
 
@@ -1320,7 +1320,7 @@ Test(autogenerate, valid_multi_room_level_1)
 Test(autogenerate, valid_multi_room_level_3)
 {
     // creating speclist
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *speclist = NULL;
     speclist_from_hash(&speclist, hash);
 
@@ -1361,7 +1361,7 @@ Test(autogenerate, valid_multi_room_level_3)
    Starts with 1 room in all_rooms hash, expect 1 room at the end. */
 Test(autogenerate, recursive_gen_rad0)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
@@ -1391,7 +1391,7 @@ Test(autogenerate, recursive_gen_rad0)
    Starts with 1 room in all_rooms hash, expect 5 rooms at the end. */
 Test(autogenerate, recursive_gen_rad1)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
@@ -1421,7 +1421,7 @@ Test(autogenerate, recursive_gen_rad1)
    Starts with 1 room in all_rooms hash, expect 53 rooms at the end. */
 Test(autogenerate, recursive_gen_rad3)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
@@ -1453,7 +1453,7 @@ Test(autogenerate, recursive_gen_rad3)
    and none in the SOUTH direction. */
 Test(autogenerate, recursive_gen_block_south)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
