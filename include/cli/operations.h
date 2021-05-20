@@ -2,6 +2,7 @@
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
 #include "game-state/game.h"
+#include "game-state/mode.h"
 #include "action_management/actionmanagement.h"
 #include "ui/print_functions.h"
 #include "checkpointing/save.h"
