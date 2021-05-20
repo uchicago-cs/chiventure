@@ -1,4 +1,6 @@
-# This is a dsl version of the distaff game. 
+# This is a dsl version of the distaff game. Actions have not yet been
+# implemented
+
 
 
 # A three-room game. The goal is to pick up the Distaff of Knowledge.
