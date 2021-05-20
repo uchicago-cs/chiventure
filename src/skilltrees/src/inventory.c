@@ -36,14 +36,11 @@ skill_inventory_t* inventory_new(unsigned int max_active,
 int inventory_free(skill_inventory_t* inventory) {
     assert(inventory != NULL);
 
-    if (inventory->num_active >= 0) {
-        free(inventory->active);
-    }
+    /* Free the arrays of skills */
+    free(inventory->active);
+    free(inventory->passive);
 
-    if (inventory->num_passive >= 0) {
-        free(inventory->passive);
-    }
-
+    /* Free the pointer to the skill_inventory itself */
     free(inventory);
 
     return SUCCESS;
