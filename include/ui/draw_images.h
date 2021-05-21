@@ -16,7 +16,7 @@
  *
  * No value is returned
  */
-void draw_room_gui(int pos_x, int pos_y, int width, int height, char *room_id);
+void draw_room_gui(int width, int height, int pos_x, int  pos_y, room_t *curr_room, game_t *game);
 
 /* draw_object
  * Draws an object based on its item ID
