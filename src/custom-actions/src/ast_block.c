@@ -41,7 +41,6 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type)
     ast->block = block;
     ast->block_type = block_type;
     ast->next = NULL;
-    ast->prev = NULL;
 
     return SUCCESS; 
 }
@@ -96,10 +95,6 @@ int AST_block_free(AST_block_t *ast)
         AST_block_free(ast->next);
     }
 
-    // if (ast->prev != NULL)
-    // {
-    //     AST_block_free(ast->prev);
-    // }
     free(ast);
 
     return SUCCESS;  
@@ -155,25 +150,19 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
         return FAILURE;
 
     AST_block_t* curr = head;
+    AST_block_t* prev;
 
     /* Get to the place in linked list specified by num_to_place */
     for (int i = 1; i < num_to_place; i++)
     {
-        printf("inside the FOR loop\n\n");
+        prev = curr;
         curr = curr->next;
     }
 
-    /* Pointers to the previous element of where we are adding for Ease of Access */
-    AST_block_t* prev = curr->prev;
-
     /* Move Pointers around to accomodate new AST_block */
-    add->prev = prev;
     add->next = curr;
 
-    printf("After setting pointers for new addition\n\n");
     prev->next = add;
-    curr->prev = add;
 
-    printf("Before returning SUCCESS\n\n");
     return SUCCESS;
 }
