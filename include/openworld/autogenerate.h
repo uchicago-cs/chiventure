@@ -58,7 +58,7 @@ bool path_exists_in_direction(room_t *r, char *direction);
 room_t* roomspec_to_room(roomspec_t *roomspec);
 
 
-/** pick_random_dir
+/** pick_random_direction
  * Picks random OPEN NESW (compass) direction around given room 
  * (open as in not filled with a path).
  * 
