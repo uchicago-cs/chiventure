@@ -198,3 +198,27 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
 
     return SUCCESS;
 }
+
+/* See ast_block.h */
+int list_delete_AST_block(AST_block_t* head, block_type_t block_type)
+{
+    assert(head != NULL);
+
+    if (list_contains_AST_block(head, block_type) == false)
+        return FAILURE;
+
+    AST_block_t *elt, *tmp;
+    LL_FOREACH_SAFE(head, elt, tmp)
+    {
+        if (elt->block_type == block_type)
+        {
+            LL_DELETE(head, elt);
+            
+            /* Set 'next' pointer to NULL do avoid recursive freeing from AST_block_free */
+            elt->next = NULL;
+            AST_block_free(elt);
+        }
+    }
+
+    return SUCCESS;
+}

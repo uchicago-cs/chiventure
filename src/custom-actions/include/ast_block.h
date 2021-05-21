@@ -107,4 +107,14 @@ bool list_contains_AST_block(AST_block_t* head, block_type_t block_type);
  */
 int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place);
 
+/* list_delete_AST_block: Deletes a certain block_type from linked list
+ *
+ * Input:
+ *      - head: The AST_block containing linked list to iterate through
+ *      - block: The specific block_type that we are deleting
+ * 
+ * Return: SUCCESS if successfully added, FAILURE otherwise
+ */
+int list_delete_AST_block(AST_block_t* head, block_type_t block_type);
+
 #endif /* INCLUDE_AST_BLOCK_H */

@@ -367,6 +367,87 @@ Test(AST_block_t, list_add_AST_block_to_end)
     AST_block_free(first_ast);
 }
 
+/* Checks that we can successfuly delete an item in an AST_block_t linked list */
+Test(AST_block_t, list_delete_AST_block)
+{
+    int ret_val;
+    bool ret_bool;
+
+    /* Create 3 AST_blocks and link them together according to name (manual) */
+    block_t *block = malloc(sizeof(control_block_t));
+    block_type_t block_type = CONTROL;
+    
+    AST_block_t* new_ast = AST_block_new(block, block_type);
+    cr_assert_not_null(new_ast, "AST_block_new failed to create a AST_block");
+
+    block_t *brnc = malloc(sizeof(branch_block_t));
+    block_type_t second_block_type = BRANCH;
+
+    AST_block_t* second_ast = AST_block_new(brnc, second_block_type);
+    cr_assert_not_null(second_ast, "AST_block_new failed to create the second AST_block");
+
+    block_t *act = malloc(sizeof(action_block_t));
+    block_type_t third_block_type = ACTION;
+     
+    AST_block_t* third_ast = AST_block_new(act, third_block_type);
+    cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
+
+    new_ast->next = second_ast;
+    second_ast->next = third_ast;
+    third_ast->next = NULL;
+
+    /* Delete second item from linked list */
+    ret_val = list_delete_AST_block(new_ast, second_block_type);
+    cr_assert_eq(ret_val, SUCCESS, "list_delete_AST_block failed in deleting second item in linked list");
+
+    if (new_ast->next != third_ast)
+        cr_assert_fail("list_delete_AST_block did not set pointer from first item to third item");
+    if (!second_ast)
+        cr_assert_fail("list_delete_AST_block did not free the second item from linked list");
+
+    AST_block_free(new_ast);
+}
+
+/* Checks fail condition when deleting an AST_block_t */
+Test(AST_block_t, list_delete_AST_block_failure)
+{
+    int ret_val;
+    bool ret_bool;
+
+    /* Create 3 AST_blocks and link them together according to name (manual) */
+    block_t *block = malloc(sizeof(control_block_t));
+    block_type_t block_type = CONTROL;
+    
+    AST_block_t* new_ast = AST_block_new(block, block_type);
+    cr_assert_not_null(new_ast, "AST_block_new failed to create a AST_block");
+
+    block_t *brnc = malloc(sizeof(branch_block_t));
+    block_type_t second_block_type = BRANCH;
+
+    AST_block_t* second_ast = AST_block_new(brnc, second_block_type);
+    cr_assert_not_null(second_ast, "AST_block_new failed to create the second AST_block");
+
+    block_t *act = malloc(sizeof(action_block_t));
+    block_type_t third_block_type = ACTION;
+     
+    AST_block_t* third_ast = AST_block_new(act, third_block_type);
+    cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
+
+    new_ast->next = second_ast;
+    second_ast->next = third_ast;
+    third_ast->next = NULL;
+
+    block_type_t fail_block_type = CONDITIONAL;
+    /* Delete second item from linked list */
+    ret_val = list_delete_AST_block(new_ast, fail_block_type);
+    cr_assert_eq(ret_val, FAILURE, "list_delete_AST_block failed in deleting second item in linked list");
+
+    if (new_ast->next == third_ast)
+        cr_assert_fail("list_delete_AST_block deleted second AST_block when shouldn't");
+
+    AST_block_free(new_ast);
+}
+
 /* Checks that a new AST block with control type is freed without interruption */
 Test(AST_block_t, free_CONTROL)
 {
