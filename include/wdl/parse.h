@@ -46,4 +46,17 @@ obj_t *extract_objects(obj_t *obj, char *str);
  */
 obj_t *get_item_actions(obj_t *item);
 
+/*
+ * get_npc_dialogue()
+ * gets the dialogue object assoiciated with an NPC
+ *
+ * parameters:
+ *  - npc: the NPC
+ *
+ * returns:
+ *  - a linked list of type-checked action attributes
+ *  - a null if any of the actions are malformed or if no actions are present
+ */
+obj_t *get_npc_dialogue(obj_t *npc);
+
 #endif /* INCLUDE_PARSE_H */

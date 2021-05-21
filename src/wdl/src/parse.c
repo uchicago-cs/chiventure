@@ -14,7 +14,7 @@ obj_t *get_doc_obj(char *fpath)
 }
 
 /* get_obj_list()
- * a helper function to load a list of the rooms, items, or players
+ * a helper function to load a list of the rooms, items, NPCs, or players
  *
  * parameters:
  *  - obj: The document object
@@ -33,6 +33,10 @@ obj_t *get_obj_list(obj_t *obj, char *str)
     else if (strcmp(str, "ITEMS") == 0)
     {
         return obj_get_attr(obj, "ITEMS", false);
+    }
+    else if (strcmp(str, "NPCS") == 0)
+    {
+        return obj_get_attr(obj, "NPCS", false);
     }
     else if (strcmp(str, "PLAYERS") == 0)
     {
@@ -61,6 +65,10 @@ obj_t *extract_objects(obj_t *obj, char *str)
     else if (strcmp(str, "ITEMS") == 0)
     {
         valid = list_type_check(obj, item_type_check);
+    }
+    else if (strcmp(str, "NPCS") == 0)
+    {
+        valid = list_type_check(obj, npc_type_check);
     }
 
     if (valid == SUCCESS)
@@ -110,6 +118,28 @@ obj_t *get_item_actions(obj_t *item)
     if (valid == SUCCESS)
     {
         return ls;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+/* see parse.h */
+obj_t *get_npc_dialogue(obj_t *npc)
+{
+    bool valid;
+
+    obj_t *dialogue = obj_get_attr(npc, "dialogue", false);
+    if (dialogue == NULL)
+    {
+        return NULL;
+    }
+
+    valid = list_type_check(dialogue, dialogue_type_check);
+    if (valid == SUCCESS)
+    {
+        return dialogue;
     }
     else
     {

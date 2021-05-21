@@ -242,6 +242,50 @@ int action_type_check(obj_t *obj)
     return !(action_type && action_valid);
 }
 
+// The following functions regard NPC type checking
+
+/* See validate.h */
+int npc_type_check(obj_t *obj)
+{
+    // fields to verify
+    int short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
+    int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
+    int health = (obj_get_type(obj, "health") == TYPE_INT);
+
+    return !(short_ver && long_ver && health);
+}
+
+/* See validate.h */
+int dialogue_type_check(obj_t *obj)
+{   
+    // fields to verify
+    obj_t *nodes_obj = obj_get_attr(obj, "nodes", false);
+    obj_t *edges_obj = obj_get_attr(obj, "edge", false);
+
+    if (nodes_obj == NULL || edges_obj == NULL) return FAILURE;
+    
+    obj_t *curr;
+    int id = 1, npc_dialogue = 1;
+    int quip = 1, from_id = 1, to_id = 1;
+
+    DL_FOREACH(nodes_obj->data.lst, curr)
+    {
+        id = id && (obj_get_type(curr, "id") == TYPE_STR);
+        npc_dialogue = npc_dialogue &&
+            (obj_get_type(curr, "npc_dialogue") == TYPE_STR);
+    }
+
+    DL_FOREACH(nodes_obj->data.lst, curr)
+    {
+        quip = quip && (obj_get_type(curr, "quip") == TYPE_STR);
+        from_id = from_id && (obj_get_type(curr, "from_id") == TYPE_STR);
+        to_id = to_id && (obj_get_type(curr, "to_id") == TYPE_STR);
+    }
+
+    return !(id && npc_dialogue && quip && from_id && to_id);
+}
+
+
 // The following are print functions to print out specific fields within a
 // specified object
 

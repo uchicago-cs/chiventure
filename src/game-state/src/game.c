@@ -71,6 +71,12 @@ int add_item_to_game(game_t *game, item_t *item)
 }
 
 /* See game.h */
+// int add_npc_to_game(game_t *game, item_t *npc)
+// {
+//     return 2;
+// }
+
+/* See game.h */
 int add_final_room_to_game(game_t *game, room_t *final_room)
 {
     room_t *check;

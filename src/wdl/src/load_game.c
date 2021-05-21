@@ -9,6 +9,7 @@
 #include "wdl/load_game.h"
 #include "wdl/load_room.h"
 #include "wdl/load_item.h"
+#include "wdl/load_npc.h"
 #include "game-state/mode.h"
 
 /*
@@ -48,7 +49,6 @@ game_t *load_yaml_game(obj_t *big_document)
         return NULL;
     }
 
-
     rc = add_connections_to_rooms(big_document, game);
     if(rc != SUCCESS)
     {
@@ -60,6 +60,13 @@ game_t *load_yaml_game(obj_t *big_document)
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error loading items.\n");
+        return NULL;
+    }
+
+    rc = load_npcs(big_document, game);
+    if(rc != SUCCESS)
+    {
+        fprintf(stderr, "Error loading NPCs.\n");
         return NULL;
     }
 

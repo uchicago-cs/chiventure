@@ -151,4 +151,8 @@ int player_type_check(obj_t *obj);
 
 int action_type_check(obj_t *obj);
 
+int npc_type_check(obj_t *obj);
+
+int dialogue_type_check(obj_t *obj);
+
 #endif /* INCLUDE_VALIDATE_H */

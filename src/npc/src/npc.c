@@ -159,4 +159,6 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
     assert(npc != NULL && c != NULL);
 
     npc->dialogue = c;
+
+    return SUCCESS;
 }

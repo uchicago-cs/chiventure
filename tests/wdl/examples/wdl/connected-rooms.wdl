@@ -83,5 +83,31 @@
                 }
             ]
         }
+    },
+    "NPCS": {
+        "TEST_NPC": {
+            "short_desc": "This is a npc",
+            "long_desc": "This is a npc long",
+            "health": 100,
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "D1"
+                    },
+                    {
+                        "id": "2",
+                        "npc_dialogue": "D2"
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "Q1",
+                        "from_id": "1",
+                        "to_id": "2"
+                    }
+                ]
+            }
+        }
     }
 }
