@@ -103,7 +103,7 @@ int run_ast_block(AST_block_t *block)
       return FAILURE;
       break;
     case(BRANCH):
-      rc = do_branch_block(block->block->branch_block);
+      //To be implemented
       if (rc == 0)
       {
         return run_ast_block(block->prev);
