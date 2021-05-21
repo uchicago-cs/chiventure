@@ -95,7 +95,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-/* Checks that a specified filetype is a .dat file
+/* Checks that a specified filetype is a .wdl file
  *
  * Parameters:
  * - A string of the filename
@@ -104,7 +104,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * Returns:
  * - true if proper filename, false if not
  */
-bool validate_filename(char *filename);
+bool validate_wdl_filename(char *filename);
 
 /*
  * If the input action is valid (checks by calling validate_action), go through
@@ -162,14 +162,14 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
-/* Error Operations that returns an error message as string
+/* Error Operations that returns an error message with suggestion as string
  *
  * Parameters:
  *  - tokens: parsed input string
  *  - ctx: pointer to a chiventure context struct, unused
  *
  * Returns:
- * - Said error message as a string
+ * - Said error message with suggestion as a string
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
