@@ -208,23 +208,23 @@ Test(test_class, find) {
     cr_assert_null(find_class(&hashtable, "Alchemist"));
 }
 
-/* Tests add_or_replace_class */
-Test(test_class, add_or_replace) {
+/* Tests set_class */
+Test(test_class, set) {
     class_hash_t* hashtable = generate_class_hash();
 
     /* Adding */
-    add_or_replace_class(&hashtable, class_new("Alchemist", 
-                                               "Alchemist's short description.\n",
-                                               "Alchemist's long description.\n",
-                                               NULL, NULL, NULL));
+    set_class(&hashtable, class_new("Alchemist", 
+                                    "Alchemist's short description.\n",
+                                    "Alchemist's long description.\n",
+                                    NULL, NULL, NULL));
     
     check_description(&hashtable, "Alchemist", "Alchemist's short description.\n");
 
     /* Replacing */
-    add_or_replace_class(&hashtable, class_new("Alchemist", 
-                                               "Alchemist's NEW AND IMPROVED description.\n",
-                                               "Alchemist's long description.\n",
-                                               NULL, NULL, NULL));
+    set_class(&hashtable, class_new("Alchemist", 
+                                    "Alchemist's NEW AND IMPROVED description.\n",
+                                    "Alchemist's long description.\n",
+                                    NULL, NULL, NULL));
 
     check_description(&hashtable, "Alchemist", "Alchemist's NEW AND IMPROVED description.\n");                                           
 }

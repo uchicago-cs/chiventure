@@ -128,7 +128,7 @@ int add_class(class_hash_t** hashtable, class_t* class) {
 }
 
 /* See class.h */
-int add_or_replace_class(class_hash_t** hashtable, class_t* class) {
+int set_class(class_hash_t** hashtable, class_t* class) {
     if (class == NULL || class->name == NULL)
         return FAILURE;
     

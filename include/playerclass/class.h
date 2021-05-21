@@ -100,8 +100,8 @@ int class_free(class_t* class);
 int add_class(class_hash_t** hashtable, class_t* class);
 
 /*
- * Adds a class to a hashtable, replacing and freeing an old one if they share
- * the same name.
+ * Replaces a class in a hashtable, adding a new one if no old class (one with
+ * the same name) is found.
  * 
  * Parameters:
  *  - hashtable: A pointer to a possibly NULL class hashtable pointer.
@@ -111,7 +111,7 @@ int add_class(class_hash_t** hashtable, class_t* class);
  *  - FAILURE if the class or its name field were NULL.
  *  - SUCCESS on successful addition or replacement.
  */
-int add_or_replace_class(class_hash_t** hashtable, class_t* class);
+int set_class(class_hash_t** hashtable, class_t* class);
 
 /*
  * Finds and returns a class in a class hash table.
