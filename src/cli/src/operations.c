@@ -60,7 +60,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "Invalid Input, Loading WDL file failed\n";
     }
 
-    obj_t *obj_store = load_obj(tokens[1]);
+    obj_t *obj_store = load_obj_store(tokens[1]);
 
     game_t *game = load_game(obj_store);
 

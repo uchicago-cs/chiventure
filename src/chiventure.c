@@ -54,7 +54,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            obj_store = load_obj(argv[1]);
+            obj_store = load_obj_store(argv[1]);
         }
     }
 
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
         if(!strcmp(argv[1], "--gui"))
         {
             graphical = true;
-            obj_store = load_obj(argv[2]);
+            obj_store = load_obj_store(argv[2]);
         }
         else
         {
