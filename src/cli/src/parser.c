@@ -52,7 +52,7 @@ char *strtokstr_r(char *s, char *delim, char **save_ptr)
 /* See parser.h */
 tokenized_cmds *parse_r(char *input)
 {
-    if(strcmp(input, "") == 0)
+    if (strcmp(input, "") == 0)
     {
         return NULL;
     }
@@ -61,7 +61,7 @@ tokenized_cmds *parse_r(char *input)
     int i = 0;
     char ch;
 
-    while(input[i])
+    while (input[i])
     {
         ch = toupper(input[i]);
         input[i] = ch;
@@ -75,7 +75,7 @@ tokenized_cmds *parse_r(char *input)
     //the command line with a delimiter "AND" into a 
     //utlist until the end of the string
     char *token = strtokstr_r(input, "AND", save_ptr);
-    while(token != NULL)
+    while (token != NULL)
     {
         tokenized_cmds *added_cmd = malloc(sizeof(tokenized_cmds));
         added_cmd->cmds = token;
@@ -86,7 +86,7 @@ tokenized_cmds *parse_r(char *input)
    
     //If there are more than 4 words, parser returns NULL and does not attempt
     //to pass the first four words as tokens
-    if(token != NULL)
+    if (token != NULL)
     {
         return NULL;
     }
