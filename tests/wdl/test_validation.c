@@ -48,7 +48,7 @@ static obj_t *__get_doc_obj()
 
     // Read the zip into an obj
     obj_t *obj = obj_new("doc");
-    rc = load_obj_zip(obj, zip);
+    rc = load_obj_store_from_zip(obj, zip);
 
     return obj;
 }
