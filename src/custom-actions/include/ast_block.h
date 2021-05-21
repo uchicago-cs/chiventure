@@ -84,4 +84,18 @@ int AST_block_free(AST_block_t *ast);
  */
 bool list_contains_AST_block(AST_block_t* head, block_type_t block_type);
 
+/* list_add_AST_block: Function to add in an AST_block in a SPECIFIC place in
+ *                     the linked list
+ *
+ * Input:
+ *      - head: The first AST_block_t 
+ *      - add : The AST_block_t that is trying to be added in linked list
+ *      - num_to_place: The number specifying where to input the new AST_block_t
+ *                      in the current list. Note: 1 denotes adding it as the FIRST
+ *                      AST_block, 2 as the second, and so forth
+ * 
+ * Returns: SUCCESS if successfully added, FAILURE otherwise
+ */
+int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place);
+
 #endif /* INCLUDE_AST_BLOCK_H */
