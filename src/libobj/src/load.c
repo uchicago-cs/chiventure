@@ -1,12 +1,11 @@
-#include <json-c/json.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
-#include "common/utlist.h"
 #include "libobj/load.h"
 
-obj_t *load_obj(char *path)
+obj_t *load_obj_store(char *path)
 {
     // See if this ends in ".*" and get the location
     char *ending_dot = strrchr(path, '.');
@@ -15,7 +14,7 @@ obj_t *load_obj(char *path)
         return NULL;
     }
 
-    int len = strnlen(path, 1000);
+    int len = strnlen(path, PATH_MAX);
     obj_t *obj = obj_new("doc");
     int rc = EXIT_FAILURE;
 
@@ -27,13 +26,13 @@ obj_t *load_obj(char *path)
         fread(json_buf, 1, MAXBUFSIZE, fp);
 
         obj = obj_new("doc");
-        rc = load_obj_json(obj, json_buf);
+        rc = load_obj_store_from_json(obj, json_buf);
     }
     else if (strncmp(ending_dot + 1, "wdz", len) == 0)
     {
         int open_status;
         zip_t *zip = zip_open(path, 0, &open_status);
-        rc = load_obj_zip(obj, zip);
+        rc = load_obj_store_from_zip(obj, zip);
     }
     else if (path[len - 1] == '/')
     {
