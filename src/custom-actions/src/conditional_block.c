@@ -101,19 +101,19 @@ int eval_conditional_block(conditional_block_t *block)
 {
   switch(block->conditional_type) {
   case EQ:
-    return check_eq(block->left,block->right);
+    return check_eq(block->left, block->right);
     break;
   case LTB: // functioning like case LT
-    return check_lt(block->left,block->right);
+    return check_lt(block->left, block->right);
     break;
   case GTB: // once conditional_block struct changed
-    return check_gt(block->left,block->right);
+    return check_gt(block->left, block->right);
     break;
   case LTEB: // functioning like case LTE at the moment
-    return check_lte(block->left,block->right);
+    return check_lte(block->left, block->right);
     break;
   case GTEB: // once conditional_block struct changed
-    return check_gte(block->left,block->right);
+    return check_gte(block->left, block->right);
     break;
   case IN:
     return FAILURE;
