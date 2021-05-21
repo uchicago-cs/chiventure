@@ -54,8 +54,8 @@ obj_t *get_item_actions(obj_t *item);
  *  - npc: the NPC
  *
  * returns:
- *  - a linked list of type-checked action attributes
- *  - a null if any of the actions are malformed or if no actions are present
+ *  - a dialogue object containing two components: "nodes" and "edges"
+ *  - a null if any of the components are malformed or if no dialogue is present
  */
 obj_t *get_npc_dialogue(obj_t *npc);
 
