@@ -185,48 +185,19 @@ Test(autogenerate, room_generate_failure)
 {
     game_t *g = game_new("start desc");
     g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
+    add_room_to_game(g, g->curr_room);
 
     item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-    item_t *sample_item2 = item_new("item_id", "short_desc", "long_desc");
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", NULL);
 
-    room_t *sample_room1 = room_new("string1", "string2", "string3");
-
-    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
-
-    // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
-
-    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    // 1 roomspec case
-    speclist_t *sample_speclist = speclist_new(sample_roomspec);
-    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
-
-    room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
-
-    // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
-
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    roomspec_t *sample_roomspec2 = roomspec_new("sample name", "short_desc", "long_desc", sample_item2);
-    cr_assert_not_null(sample_roomspec2, "sample_roomspec2 should not be NULL");
-
-    // 2 roomspec case
-    speclist_t *tail = speclist_new(sample_roomspec2);
-    cr_assert_not_null(tail, "Could not create new speclist");
-
-    // Doubly linked
-    speclist_t *head = NULL;
-    DL_APPEND(head, sample_gencontext->speclist);
-    DL_APPEND(sample_gencontext->speclist, tail);
-
-    room_t *dest_room1 = room_new("string1", "string2", "string3");
-    room_t *dest_room2 = room_new("string1", "string2", "string3");
-    room_t *dest_room3 = room_new("string1", "string2", "string3");
-    room_t *dest_room4 = room_new("string1", "string2", "string3");
+    room_t *dest_room1 = room_new("dest_room1", "", "");
+    room_t *dest_room2 = room_new("dest_room2", "", "");
+    room_t *dest_room3 = room_new("dest_room3", "", "");
+    room_t *dest_room4 = room_new("dest_room4", "", "");
+    add_room_to_game(g, dest_room1);
+    add_room_to_game(g, dest_room2);
+    add_room_to_game(g, dest_room3);
+    add_room_to_game(g, dest_room4);
 
     path_t* path_north = path_new(dest_room1, "NORTH");
     path_t* path_east = path_new(dest_room2, "EAST");
@@ -242,9 +213,49 @@ Test(autogenerate, room_generate_failure)
     cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_west),
                  "Could not add path to room");
 
-    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, g->curr_room, sample_roomspec),
-                 "room_generate() returned SUCCESS when it should have returned FAILURE");
+    // Problem locations (in room_generate):
+    // room_t *new_room = roomspec_to_room(rspec_new);
+        // res->items = random_items(sample_roomspec); // the 1st problem was here (division by zero); solved
+    // assert(SUCCESS == add_path_to_room(curr, path_to_new)); // the 2nd problem
+        // the problem was when trying to add a path to a direction in the room that was already full, it returned FAILURE.
+        // because it violated the assert == SUCCESS, it crashed. Remember that any violated assert crashes! Even assert(1==2);
+    
+
+
+    room_generate(g, g->curr_room, sample_roomspec, "NORTH", "SOUTH");
+    char *dirs[4] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    char *reverse_dirs[4] = {"SOUTH", "WEST", "NORTH", "EAST"};
+    for (int i = 0; i < 4; i++) {
+        cr_assert_eq(FAILURE, room_generate(g, g->curr_room, sample_roomspec, 
+                                            reverse_dirs[i], dirs[i]),
+                     "room_generate() returned SUCCESS when it should have returned FAILURE");
+    }
 }
+
+
+// Test(test_add_path_to_room, testy)
+// {
+//     room_t *curr_room = room_new("dest_room1", "", "");
+//     room_t *dest_room1 = room_new("dest_room1", "", "");
+//     room_t *dest_room2 = room_new("dest_room2", "", "");
+
+//     path_t* path_north1 = path_new(dest_room1, "NORTH");
+//     path_t* path_north2 = path_new(dest_room2, "NORTH");
+
+//     cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north1),
+//                  "Could not add path1 to room");
+//     cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north2),
+//                  "Could not add path2 to room");
+//     cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north2),
+//                  "Could not add path2 to room");
+//         cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north2),
+//                  "Could not add path2 to room");
+//                      cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north2),
+//                  "Could not add path2 to room");
+
+// }
+
+
 
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
@@ -289,7 +300,9 @@ Test(autogenerate, room_generate_success_one)
 
     //create roomspec
     roomspec_t *rspec = random_room_lookup(spec);
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, g->curr_room, rspec),
+    char dir_to_new[6], dir_to_curr[6];
+    pick_random_dir(g->curr_room, dir_to_curr, dir_to_new);
+    cr_assert_eq(SUCCESS, room_generate(g, g->curr_room, rspec, dir_to_curr, dir_to_new),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
@@ -356,7 +369,9 @@ Test(autogenerate, room_generate_success_two)
 
     //create roomspec
     roomspec_t *rspec = random_room_lookup(spec);
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, g->curr_room, rspec),
+    char dir_to_new[6], dir_to_curr[6];
+    pick_random_dir(g->curr_room, dir_to_curr, dir_to_new);
+    cr_assert_eq(SUCCESS, room_generate(g, g->curr_room, rspec, dir_to_curr, dir_to_new),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
@@ -429,7 +444,9 @@ Test(autogenerate, room_generate_success_three)
 
     //create roomspec
     roomspec_t *rspec = random_room_lookup(spec);
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, g->curr_room, rspec),
+    char dir_to_new[6], dir_to_curr[6];
+    pick_random_dir(g->curr_room, dir_to_curr, dir_to_new);
+    cr_assert_eq(SUCCESS, room_generate(g, g->curr_room, rspec, dir_to_curr, dir_to_new),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
@@ -1429,6 +1446,7 @@ Test(autogenerate, recursive_gen_rad0)
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
 
     roomspec_t *sample1;
     HASH_FIND_STR(hash, "closet", sample1);
@@ -1439,7 +1457,7 @@ Test(autogenerate, recursive_gen_rad0)
 
     char *directions[] = {"NORTH", "EAST"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 0, directions, 2, ""),
+                 recursive_generate(g, context, sample_room1, 0, directions, 2, ""),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
     
     room_t *curr_room, *tmp_room;
@@ -1459,6 +1477,7 @@ Test(autogenerate, recursive_gen_rad1)
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
 
     roomspec_t *sample1;
     HASH_FIND_STR(hash, "closet", sample1);
@@ -1469,7 +1488,7 @@ Test(autogenerate, recursive_gen_rad1)
 
     char *directions[] = {"NORTH", "EAST", "SOUTH"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 1, directions, 3, ""),
+                 recursive_generate(g, context, sample_room1, 1, directions, 3, ""),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;
@@ -1478,6 +1497,37 @@ Test(autogenerate, recursive_gen_rad1)
         num_rooms++;
     }
     cr_assert_eq(4, num_rooms, "expected 1 + 3 = 4 rooms; recursive_generate generated %d", num_rooms);
+}
+
+/* Checks that recursive_generate generates 17 rooms given:
+   - radius: 2
+   - dir_to_parent: ""   (no parent)
+   Starts with 1 room in all_rooms hash, expect 53 rooms at the end. */
+Test(autogenerate, recursive_gen_rad2)
+{
+    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
+
+    roomspec_t *sample1;
+    HASH_FIND_STR(hash, "closet", sample1);
+    room_t *sample_room1 = roomspec_to_room(sample1);
+
+    game_t *g = game_new("start desc");
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
+
+    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    cr_assert_eq(SUCCESS, 
+                  recursive_generate(g, context, sample_room1, 2, directions, 4, ""),
+                  "recursive_generate() returned FAILURE instead of SUCCESS");
+
+    room_t *curr_room, *tmp_room;
+    int num_rooms = 0;
+    HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
+        num_rooms++;
+    }
+    cr_assert_eq(17, num_rooms, "expected 1 + 4 + 12 = 17 rooms; recursive_generate generated %d", num_rooms);
 }
 
 /* Checks that recursive_generate generates 52 rooms given:
@@ -1489,6 +1539,7 @@ Test(autogenerate, recursive_gen_rad3)
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
 
     roomspec_t *sample1;
     HASH_FIND_STR(hash, "closet", sample1);
@@ -1499,8 +1550,8 @@ Test(autogenerate, recursive_gen_rad3)
 
     char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 3, directions, 4, ""),
-                 "recursive_generate() returned FAILURE instead of SUCCESS");
+                  recursive_generate(g, context, sample_room1, 3, directions, 4, ""),
+                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;
     int num_rooms = 0;
@@ -1512,7 +1563,6 @@ Test(autogenerate, recursive_gen_rad3)
 
 /* Checks that recursive_generate generates 12 rooms given:
    - radius: 2
-   
    - dir_to_parent: "SOUTH" 
    Starts with 1 room in all_rooms hash, expect 13 rooms at the end, 
    and none in the SOUTH direction. */
@@ -1521,6 +1571,7 @@ Test(autogenerate, recursive_gen_block_south)
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
 
     roomspec_t *sample1;
     HASH_FIND_STR(hash, "closet", sample1);
@@ -1531,7 +1582,7 @@ Test(autogenerate, recursive_gen_block_south)
 
     char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 2, directions, 4, "SOUTH"),
+                 recursive_generate(g, context, sample_room1, 2, directions, 4, "SOUTH"),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
     cr_assert_eq(false, path_exists_in_dir(sample_room1, "SOUTH"), "recursive_gen generated path in SOUTH, " 
                                                                    "despite it being labelled as dir_to_parent");
@@ -1542,4 +1593,5 @@ Test(autogenerate, recursive_gen_block_south)
         num_rooms++;
     }
     cr_assert_eq(13, num_rooms, "expected 1 + 3 + 9 = 13 rooms; recursive_generate generated %d", num_rooms);
+
 }

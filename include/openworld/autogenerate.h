@@ -77,7 +77,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec);
  * - FAILURE: otherwise
  */
 
-int pick_random_dir(room_t *curr, char *out_dir_to_new, char *out_dir_to_curr);
+int pick_random_dir(room_t *curr, char *out_dir_to_curr, char *out_dir_to_new);
 
 /** room_generate
  * Generates a room based on the given roomspec and adds it to the game.
@@ -87,9 +87,9 @@ int pick_random_dir(room_t *curr, char *out_dir_to_new, char *out_dir_to_curr);
  * - game: A pointer to a game struct. Should not be NULL.
  * - curr: A pointer to the room_t with which the newly generated room will be connected.
  *         Must be in the game->all_rooms hash. Not NULL.
- * - rspec_new: An roomspec for the to-be-generated room.
+ * - rspec_new: A roomspec for the to-be-generated room.
  * - dir_to_curr: Direction for path new -> curr. Not NULL.
- * - dir_to_curr: Direction for path curr -> new. Not NULL.
+ * - dir_to_new: Direction for path curr -> new. Not NULL.
  * 
  * side effects:
  * - Changes input game to hold the newly generated room. Allocated on the heap

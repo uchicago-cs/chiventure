@@ -45,7 +45,6 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     /* moved- generate the unique room id here and pass it to the room; don't mess with the roomspec */
     char buff[MAX_SDESC_LEN + 1] = { 0 }; // Will hold unique room_id
     snprintf(buff, MAX_SDESC_LEN, "%s%d", roomspec->room_name, roomspec->num_built);
-
     roomspec->num_built++;
 
     /* we use buff for the room name instead */
@@ -59,7 +58,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
 
 
 /* See autogenerate.h */ 
-int pick_random_dir(room_t *curr, char *out_dir_to_new, char *out_dir_to_curr)
+int pick_random_dir(room_t *curr, char *out_dir_to_curr, char *out_dir_to_new)
 {
     /* 2D array of possible directions */
     char directions[4][6];
@@ -82,8 +81,8 @@ int pick_random_dir(room_t *curr, char *out_dir_to_new, char *out_dir_to_curr)
             continue;
         }
         unsigned int backwards = (forwards + 2) % 4;
-        strcpy(out_dir_to_new, directions[forwards]);
         strcpy(out_dir_to_curr, directions[backwards]);
+        strcpy(out_dir_to_new, directions[forwards]);
         return SUCCESS; // direction was picked
     }
 
@@ -97,15 +96,19 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
     /* create new combination of rooms/items from randomly picked roomspec
     Adds one generated room from the head of context->speclist only */
     room_t *new_room = roomspec_to_room(rspec_new);
-    assert(SUCCESS == add_room_to_game(game, new_room));
+    assert(SUCCESS == add_room_to_game(game, new_room)); // this step should never fail
 
     /* Path to the generated room */
     path_t* path_to_new = path_new(new_room, dir_to_new);
-    assert(SUCCESS == add_path_to_room(curr, path_to_new));
+    if (add_path_to_room(curr, path_to_new)) // but this step can? 
+        return FAILURE;
+    /* should we not make it a responsibility of the caller 
+       to check that the direction is open? */
 
     /* Path for the opposite direction */
     path_t* path_to_curr = path_new(curr, dir_to_curr);
-    assert(SUCCESS == add_path_to_room(new_room, path_to_curr));
+    if (add_path_to_room(new_room, path_to_curr))
+        return FAILURE;
     
     return SUCCESS;
 }
@@ -125,13 +128,13 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
         /* Increments tmp->spec->num_built */
 
         int rc;
-        char forward[6], reverse[6];
+        char dir_to_curr[6], dir_to_new[6];
 
-        rc = pick_random_dir(game->curr_room, forward, reverse);
+        rc = pick_random_dir(game->curr_room, dir_to_curr, dir_to_new);
         if (rc == FAILURE) 
             return FAILURE; // failed to generate at least one room
         
-        room_generate(game, game->curr_room, rspec, forward, reverse);
+        room_generate(game, game->curr_room, rspec, dir_to_curr, dir_to_new);
     }
     return SUCCESS;
 }
@@ -177,6 +180,10 @@ item_hash_t *random_items(roomspec_t *room)
     }
 
     int count = HASH_COUNT(room->items);
+    if (count == 0) {
+        return NULL; // otherwise we have a zero division error in line 184
+    }
+
     int num_items = rand() % MAX_RAND_ITEMS;
     int num_iters = rand() % count;
 
@@ -184,7 +191,7 @@ item_hash_t *random_items(roomspec_t *room)
     for (int i = 0; i < num_items; i++) {
         int rc = random_item_lookup(&items, room->items, num_iters);
     }
-    if (items == NULL) return NULL;
+    if (items == NULL) return NULL; // this is redundant
     return items;
 }
 
@@ -293,25 +300,6 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     return result;
 }
 
-room_t *helper(game_t *game, speclist_t *speclist, room_t *curr, char *forwards, char *backwards)
-{
-    room_t *next_room;
-    
-    roomspec_t *rspec = random_room_lookup(speclist);
-    next_room = roomspec_to_room(rspec);
-    assert(SUCCESS == add_room_to_game(game, next_room));
-
-    /* Path to the generated room */
-    path_t* path_to_next_room = path_new(next_room, forwards);
-    assert(SUCCESS == add_path_to_room(curr, path_to_next_room));
-
-    /* Path for the opposite direction */
-    path_t* path_to_curr = path_new(curr, backwards);
-    assert(SUCCESS == add_path_to_room(next_room, path_to_curr));
-
-    return next_room;
-}
-
 
 /* See autogenerate.h */
 int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room, 
@@ -367,16 +355,20 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
         int forwards = dir_index[i];
         int backwards = (forwards + 3) % 6;
 
+        /* create room in direction if it doesn't exist yet */
+        if (!path_exists_in_dir(curr_room, all_directions[forwards])) {        
+            // last commit was failing because we were not updating next_room to hold
+            // the newly generated room from the if case
 
-        if (path_exists_in_dir(curr_room, all_directions[forwards])) {
-            next_room = find_room_from_dir(curr_room, all_directions[forwards]);
-        
-        /* create room in path if it doesn't exist yet */
-        } else {
-            roomspec_t *rspec_new = random_room_lookup(context->speclist);
-            room_generate(game, curr_room, rspec_new,
-                          all_directions[forwards], all_directions[backwards]);
+            roomspec_t *rspec = random_room_lookup(context->speclist);
+            int rc_callback = room_generate(game, curr_room, rspec,
+                                            all_directions[backwards], all_directions[forwards]);
+
+            assert(rc_callback == SUCCESS); // actually why do we even need this? aren't we assuming that room_generate works?
         }
+        /* note that next_room can be a preexisting one, or one that was newly generated
+           by room_generate in the if scope above */
+        next_room = find_room_from_dir(curr_room, all_directions[forwards]); // this updates next_room, preventing it from failing
 
         /* recursive case, decrement radius by 1 */
         rc = recursive_generate(game, context, next_room, 
