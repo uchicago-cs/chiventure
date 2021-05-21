@@ -21,27 +21,6 @@
 #include "openworld/default_rooms.h"
 
 
-room_t *helper(game_t *game, speclist_t *speclist, room_t *pivot, char *forwards, char *backwards)
-{
-    room_t *next_room;
-    
-    roomspec_t *rspec = random_room_lookup(speclist);
-    next_room = roomspec_to_room(rspec);
-    assert(SUCCESS == add_room_to_game(game, next_room));
-
-    /* Path to the generated room */
-    path_t* path_to_next_room = path_new(next_room, forwards);
-    assert(SUCCESS == add_path_to_room(pivot, path_to_next_room));
-
-    /* Path for the opposite direction */
-    path_t* path_to_pivot = path_new(pivot, backwards);
-    assert(SUCCESS == add_path_to_room(next_room, path_to_pivot));
-
-    return next_room;
-}
-
-
-
 /* See autogenerate.h */
 bool path_exists_in_dir(room_t *r, char *direction)
 {
@@ -78,8 +57,9 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     return res;
 }
 
-/* See autogenerate.h */
-int room_generate(game_t *game, gencontext_t *context, room_t *pivot, roomspec_t *rspec)
+
+/* See autogenerate.h */ 
+int pick_random_dir(room_t *curr, char *out_dir_to_new, char *out_dir_to_curr)
 {
     /* 2D array of possible directions */
     char directions[4][6];
@@ -89,37 +69,45 @@ int room_generate(game_t *game, gencontext_t *context, room_t *pivot, roomspec_t
     strncpy(directions[3], "WEST", 5);
 
     /* Random initial direction */
-    unsigned int first_direction = rand() % 4;
+    unsigned int initial_dir = rand() % 4;
 
     /* Bump directions index by 1 if a path with that direction already exists */
     unsigned int bump;
     for (bump = 0; bump < 4; bump++) {
         /* Forwards direction + bump */
-        int forwards = (first_direction + bump) % 4;
-        /* If path in that direction exists in pivot, bump. Else, create the path */
-        if (path_exists_in_dir(pivot, directions[forwards])) {
+        unsigned int forwards = (initial_dir + bump) % 4;
+        /* If path in that direction exists in curr, bump. Else, create the path */
+        if (path_exists_in_dir(curr, directions[forwards])) {
             /* Bump if the room already has a path in the given direction */
             continue;
         }
-
-        /* create new combination of rooms/items from randomly picked roomspec
-        Adds one generated room from the head of context->speclist only */
-        room_t *new_room = roomspec_to_room(rspec);
-        assert(SUCCESS == add_room_to_game(game, new_room));
-
-        /* Path to the generated room */
-        path_t* path_to_room = path_new(new_room, directions[forwards]);
-        assert(SUCCESS == add_path_to_room(pivot, path_to_room));
-
-        /* Path for the opposite direction */
         unsigned int backwards = (forwards + 2) % 4;
-        path_t* path_to_room2 = path_new(pivot, directions[backwards]);
-        assert(SUCCESS == add_path_to_room(new_room, path_to_room2));
-
-        return SUCCESS; // Room was generated
+        strcpy(out_dir_to_new, directions[forwards]);
+        strcpy(out_dir_to_curr, directions[backwards]);
+        return SUCCESS; // direction was picked
     }
 
-    return FAILURE; // Room was not generated
+    return FAILURE; // no open direction
+}
+
+/* See autogenerate.h */
+int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
+                  char *dir_to_curr, char *dir_to_new)
+{
+    /* create new combination of rooms/items from randomly picked roomspec
+    Adds one generated room from the head of context->speclist only */
+    room_t *new_room = roomspec_to_room(rspec_new);
+    assert(SUCCESS == add_room_to_game(game, new_room));
+
+    /* Path to the generated room */
+    path_t* path_to_new = path_new(new_room, dir_to_new);
+    assert(SUCCESS == add_path_to_room(curr, path_to_new));
+
+    /* Path for the opposite direction */
+    path_t* path_to_curr = path_new(curr, dir_to_curr);
+    assert(SUCCESS == add_path_to_room(new_room, path_to_curr));
+    
+    return SUCCESS;
 }
 
 /* See autogenerate.h */
@@ -130,16 +118,23 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
     if (context->speclist == NULL) {
         return FAILURE;
     }
+
     /* Iterate through the speclist field, generating and adding rooms for each */
     for (int i = 0; i < num_rooms; i++) {
         roomspec_t *rspec = random_room_lookup(context->speclist);
         /* Increments tmp->spec->num_built */
-        room_generate(game, context, game->curr_room, rspec);
+
+        int rc;
+        char forward[6], reverse[6];
+
+        rc = pick_random_dir(game->curr_room, forward, reverse);
+        if (rc == FAILURE) 
+            return FAILURE; // failed to generate at least one room
+        
+        room_generate(game, game->curr_room, rspec, forward, reverse);
     }
     return SUCCESS;
 }
-
-
 
 
 /* See autogenerate.h */
@@ -298,9 +293,28 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     return result;
 }
 
+room_t *helper(game_t *game, speclist_t *speclist, room_t *curr, char *forwards, char *backwards)
+{
+    room_t *next_room;
+    
+    roomspec_t *rspec = random_room_lookup(speclist);
+    next_room = roomspec_to_room(rspec);
+    assert(SUCCESS == add_room_to_game(game, next_room));
+
+    /* Path to the generated room */
+    path_t* path_to_next_room = path_new(next_room, forwards);
+    assert(SUCCESS == add_path_to_room(curr, path_to_next_room));
+
+    /* Path for the opposite direction */
+    path_t* path_to_curr = path_new(curr, backwards);
+    assert(SUCCESS == add_path_to_room(next_room, path_to_curr));
+
+    return next_room;
+}
+
 
 /* See autogenerate.h */
-int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, 
+int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room, 
                        int radius, char **directions, int num_of_dir, char *dir_to_parent) 
 {
     /* base case */
@@ -340,13 +354,6 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
         }
     } 
 
-    /* A large portion of the following code can be replaced with a call to room_generate.
-    BUT there is one caveat:
-    room_generate must be modified so that it generates around ANY given room, not just the 
-    'curr_room' specified in the game struct as it does currently.
-
-    The easiest way to do this is probably adding a 'room_t *curr_room' parameter. Expect lots
-    of tedious function call modifications. */
     int rc; // return code
     for (int i = 0; i < num_of_dir; i++) 
     {
@@ -365,27 +372,16 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
             next_room = find_room_from_dir(curr_room, all_directions[forwards]);
         
         /* create room in path if it doesn't exist yet */
-        } else { // make everything inside this 'else' bracket a helper (likewise for in room_generate())
-                 // helper(speclist_t *speclist, room_t *pivot, char *direction)
-
-            next_room = helper(game, speclist, curr_room, all_directions[forwards], all_directions[backwards]);
-            // roomspec_t *rspec = random_room_lookup(speclist);
-            // next_room = roomspec_to_room(rspec);
-            // assert(SUCCESS == add_room_to_game(game, next_room));
-
-            // /* Path to the generated room */
-            // path_t* path_to_next_room = path_new(next_room, all_directions[forwards]);
-            // assert(SUCCESS == add_path_to_room(curr_room, path_to_next_room));
-
-            // /* Path for the opposite direction */
-            // path_t* path_to_curr_room = path_new(curr_room, all_directions[backwards]);
-            // assert(SUCCESS == add_path_to_room(next_room, path_to_curr_room));
+        } else {
+            roomspec_t *rspec_new = random_room_lookup(context->speclist);
+            room_generate(game, curr_room, rspec_new,
+                          all_directions[forwards], all_directions[backwards]);
         }
 
         /* recursive case, decrement radius by 1 */
-        rc = recursive_generate(game, next_room, speclist, 
-                                radius - 1, directions, num_of_dir,
-                                all_directions[backwards]);
+        rc = recursive_generate(game, context, next_room, 
+                                radius - 1, directions, 
+                                num_of_dir, all_directions[backwards]);
     }
     return rc; 
 }
