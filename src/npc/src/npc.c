@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "npc/npc.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
@@ -159,4 +160,16 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
     assert(npc != NULL && c != NULL);
 
     npc->dialogue = c;
+}
+
+/* See npc.h */
+int delete_all_npcs(npc_hash_t *npcs)
+{
+    npc_t *current_npc, *tmp;
+    HASH_ITER(hh, npcs, current_npc, tmp)
+    {
+        HASH_DEL(npcs, current_npc);
+        npc_free(current_npc);
+    }
+    return SUCCESS;
 }
