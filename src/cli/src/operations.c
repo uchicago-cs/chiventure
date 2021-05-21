@@ -1,7 +1,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include <stdio.h>
+#include <unistd.h>
+
 #include "cli/operations.h"
 #include "ui/print_functions.h"
 #include "cli/shell.h"
@@ -105,17 +106,19 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "history operation not implemented yet\n";
 }
 
-bool validate_filename(char *filename)
+
+bool validate_wdl_filename(char *filename)
 {
     int len = strlen(filename);
     int min_filename_length = 4;
-    if(len < min_filename_length)
+    int file_extension_length = 4;
+    if (len < min_filename_length)
     {
         return false;
     }
-    const char *ending = &filename[len-4];
-    int cmp = strcmp(ending, ".dat");
-    if(cmp == 0)
+    const char *ending = &filename[len - file_extension_length];
+    int cmp = strcmp(ending, ".wdl");
+    if (cmp == 0)
     {
         return true;
     }
@@ -125,20 +128,46 @@ bool validate_filename(char *filename)
     }
 }
 
+
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if(tokens[1] == NULL)
+    int valid_path;
+
+    /* The following while loop is only necessary because case insensitivity is
+     * currently being implemented in the parser by making all letters caps. Once
+     * the changes in the cli/case_insensitivity branch are implemented it will no 
+     * longer be necessary.
+     * NOTE: If cli/case_insensitivity hasn't been implemented by the end of 
+     * Sprint 4 (05/28/2021), then this message should be modified to reflect that
+     */
+    int i = 0;
+    char ch;
+    while(tokens[1][i])
     {
-        return "Invalid Input, Loading WDL file failed\n";
+        ch = tolower(tokens[1][i]);
+        tokens[1][i] = ch;
+        i++;
+    }
+
+
+    valid_path = access(tokens[1], F_OK);
+
+    if (valid_path == -1) //Triggers if file does not exist
+    {
+        return "Loading WDL file failed: Invalid Input for file path\n";
+    }
+    if ((validate_wdl_filename(tokens[1])) == false) //Triggers if file is not wdl
+    {
+        return "Loading WDL file failed: Invalid Input, please only use wdl file types\n";
     }
 
     wdl_ctx_t *wdl_ctx = load_wdl(tokens[1]);
 
     game_t *game = load_objects(wdl_ctx);
 
-    if(game == NULL)
+    if (game == NULL)
     {
-        return "Load WDL failed";
+        return "Load WDL failed!";
     }
     else
     {

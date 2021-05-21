@@ -95,7 +95,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-/* Checks that a specified filetype is a .dat file
+/* Checks that a specified filetype is a .wdl file
  *
  * Parameters:
  * - A string of the filename
@@ -104,7 +104,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * Returns:
  * - true if proper filename, false if not
  */
-bool validate_filename(char *filename);
+bool validate_wdl_filename(char *filename);
 
 /*
  * If the input action is valid (checks by calling validate_action), go through
