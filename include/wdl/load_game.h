@@ -14,14 +14,14 @@
  * load_game, when passed libobj objects, will load into a game
  *
  * Parameters:
- *   - big_document: an obj_t of libobj objects
+ *   - obj_store: an obj_t of libobj objects
  *
  * Returns:
  *   - a pointer to a game object on success
  8   - NULL if error
  *
  */
-game_t *load_game(obj_t *big_document);
+game_t *load_game(obj_t *obj_store);
 
 /*
  * Function to create a pointer to an empty game

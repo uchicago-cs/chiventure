@@ -9,14 +9,14 @@
 #include "game-state/mode.h"
 
 /* See load_game.h for documentation */
-game_t *load_game(obj_t *big_document)
+game_t *load_game(obj_t *obj_store)
 {
     int rc;
-    game_t *game = create_game(big_document);
+    game_t *game = create_game(obj_store);
 
     // call functions that parse items, actions, rooms, and game attributes
     // into a game pointer
-    rc = add_rooms_to_game(big_document, game);
+    rc = add_rooms_to_game(obj_store, game);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error adding rooms to game.\n");
@@ -24,14 +24,14 @@ game_t *load_game(obj_t *big_document)
     }
 
 
-    rc = add_connections_to_rooms(big_document, game);
+    rc = add_connections_to_rooms(obj_store, game);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error adding connections to rooms.\n");
         return NULL;
     }
 
-    rc = load_items(big_document, game);
+    rc = load_items(obj_store, game);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error loading items.\n");
@@ -45,8 +45,8 @@ game_t *load_game(obj_t *big_document)
         return NULL;
     }
 
-    obj_t *game_document = obj_get_attr(big_document, "GAME", false);
-    char *start_room = obj_get_str(game_document, "start");
+    obj_t *game_obj = obj_get_attr(obj_store, "GAME", false);
+    char *start_room = obj_get_str(game_obj, "start");
     game->curr_room = find_room_from_game(game, start_room);
     if(game->curr_room == NULL)
     {
@@ -54,7 +54,7 @@ game_t *load_game(obj_t *big_document)
         return NULL;
     }
 
-    obj_t *end = obj_get_attr(game_document, "end", false);
+    obj_t *end = obj_get_attr(game_obj, "end", false);
     char *end_room = obj_get_str(end, "in_room");
     room_t *final_room = find_room_from_game(game, end_room);
     game->final_room = final_room;
