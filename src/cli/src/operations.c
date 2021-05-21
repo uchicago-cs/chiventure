@@ -7,6 +7,7 @@
 #include "cli/shell.h"
 #include "wdl/load_game.h"
 #include "common/load_objects.h"
+#include "cli/cmdlist.h"
 
 #define BUFFER_SIZE (100)
 
@@ -27,11 +28,19 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return NULL;
 }
 
-/* backlog task */
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    //print_history();
-    return "history operation not implemented yet\n";
+    command_list_t *temp = new_command_list(NULL);
+
+    print_to_cli(ctx, "Start of command history: \n");
+    LL_FOREACH(ctx->command_history, temp)
+    {
+        if (temp->command != NULL) 
+        {
+            print_to_cli(ctx, temp->command);
+        }
+    } 
+    return "End of command history.\n";
 }
 
 
