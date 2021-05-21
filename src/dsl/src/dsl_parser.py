@@ -20,7 +20,7 @@ class TreeToDict(Transformer):
         """
 
         # first place all non-room objects into a dict
-        # k and v represent key-value pairs of any kind such as property-value or
+        # k (a string) and v represent key-value pairs of any kind such as property-value or
         # item and item attributes, etc.
         game_dictionary = dict((k, v) for k, v in s if k != "ROOM")
 
@@ -41,12 +41,13 @@ class TreeToDict(Transformer):
         room_id = s.pop(0)[1]
 
         # first place all non-item objects into a dict
-        # k and v represent key-value pairs of any kind such as property-value pairs or
+        # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
         # action and action attributes, etc.
         d = dict((k, v) for k, v in s if k != "ITEM")
 
         # create a list of items and place it in its own entry of the dict
         # the values placed into this entry will correspond to item attributes
+        # since the key is guaranteed to be the string "ITEM"
         d["items"] = list([v for k, v in s if k == "ITEM"])
         return ('ROOM', (room_id, d))
 
