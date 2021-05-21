@@ -8,8 +8,7 @@ if (raylib_FOUND)
                 src/ui.c
                 src/ui_ctx.c
                 src/window.c
-                src/gui.c
-                src/draw_images.c)
+                src/gui.c)
 
     target_include_directories(ui PRIVATE src/)
 
