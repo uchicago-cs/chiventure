@@ -27,17 +27,17 @@ char *strtokstr_r(char *s, char *delim, char **save_ptr)
         *save_ptr = s;
         return NULL;
     }
-    while (strstr(s,delim)==s)
+    while (strstr(s,delim) == s)
     {
-        s+=strlen(delim);
+        s += strlen(delim);
         if (*s == '\0')
         {
             *save_ptr = s;
             return NULL;
-            }
+        }
     }
     // Find the end of the token.
-    end = strstr (s, delim);
+    end = strstr(s, delim);
     if (end == NULL)
     {
         *save_ptr = s + strlen(s);
@@ -77,10 +77,10 @@ tokenized_cmds *parse_r(char *input)
     char *token = strtokstr_r(input, "AND", save_ptr);
     while(token != NULL)
     {
-        tokenized_cmds *new_thing = malloc(sizeof(tokenized_cmds));
-        new_thing->cmds = token;
-        new_thing->next = NULL;
-        LL_APPEND(head, new_thing);
+        tokenized_cmds *added_cmd = malloc(sizeof(tokenized_cmds));
+        added_cmd->cmds = token;
+        added_cmd->next = NULL;
+        LL_APPEND(head, added_cmd);
         token = strtokstr_r(input, "AND", save_ptr);
     }
    

@@ -233,7 +233,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
     
     char **parsed_input = parse(s);
-    if(s == NULL)
+    if(parsed_input == NULL)
     {
         return NULL;
     }
