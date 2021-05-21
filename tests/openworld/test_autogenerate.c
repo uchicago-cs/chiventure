@@ -179,6 +179,54 @@ Test(autogenerate, roomspec_to_room3)
 
 }
 
+/* Checks that pick_random_dir() returns correct NESW (compass dirs)
+   forward-reverse direction pairs */
+Test(autogenerate, pick_random_dir_correct_dir_pairs)
+{
+    char *dirs[4] = {"NORTH", "EAST", "SOUTH", "WEST"}; // only compass directions
+    char *reverse_dirs[4] = {"SOUTH", "WEST", "NORTH", "EAST"};
+
+    room_t *room = room_new("room with no outward paths", "", "");
+
+    char forward[6], reverse[6];
+    for (int i = 0; i < 100; i++) {
+        pick_random_dir(room, forward, reverse);
+        for (int j = 0; j < 4; j++) {
+            if (strcmp(dirs[j], forward) == 0) {
+                cr_assert_str_eq(reverse_dirs[j], reverse,
+                                 "reverse of %s should be "
+                                  "%s not %s!", dirs[j], reverse_dirs[j], reverse);
+            }
+        }
+    }
+}
+
+/* Checks that pick_random_dir() does not return OPEN/AVAILABLE
+   directions in dir_to_new outparam. 
+   It is fine if dir_to_curr param is an unavailable direction, because it concerns
+   directions from new to curr. */
+Test(autogenerate, pick_random_dir_only_open_paths)
+{
+    room_t *center_room = room_new("room with only NORTH and EAST available", "", "");
+
+    room_t *room_north = room_new("room north", "", "");
+    path_t *path_north = path_new(room_north, "NORTH");
+    assert(!add_path_to_room(center_room, path_north));
+
+    room_t *room_east = room_new("room east", "", "");
+    path_t *path_east = path_new(room_east, "EAST");
+    assert(!add_path_to_room(center_room, path_east));
+
+
+    char dir_to_new[6], dir_to_curr[6];
+    for (int i = 0; i < 100; i++) {
+        pick_random_dir(center_room, dir_to_curr, dir_to_new);
+        cr_assert_str_neq("NORTH", dir_to_new, "NORTH is unavailable!");
+        cr_assert_str_neq("EAST", dir_to_new, "EAST is unavailable!");
+    }
+}
+
+
 /* Checks that room_generate returns FAILURE when the current room of the
 * game has outward paths in all directions */
 Test(autogenerate, room_generate_failure)
