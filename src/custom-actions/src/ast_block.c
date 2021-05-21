@@ -174,7 +174,7 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
     }
 
     /* Case where adding an AST_block_t as the 'tail'/end of the linked list */
-    if (num_to_place >= list_how_many_AST_block(head))
+    if (num_to_place > list_how_many_AST_block(head))
     {
         LL_APPEND(head, add);
         return SUCCESS;
