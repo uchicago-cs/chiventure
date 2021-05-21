@@ -8,6 +8,8 @@
 
 #include "load_wdz.h" // Re-export the public header for internal use as well
 
+#define DEFAULT_PLAYER_OBJ_ID "player"
+
 /* 
  * filename_extension_is: Checks if a filename string has a certain extension
  * 

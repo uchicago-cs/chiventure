@@ -158,13 +158,20 @@ Test(attributes, count)
     cr_assert_eq(res, 2, "count_attr_list() failed");
 }
 
+#define MAX_TEST_DATA_LENGTH 20
+
 Test(attributes, free)
 {
-    obj_attr_t *item1 = new_attr("class", "adventurer");
+    char *data1, *data2;
+    data1 = calloc(MAX_TEST_DATA_LENGTH, sizeof(*data1));
+    data2 = calloc(MAX_TEST_DATA_LENGTH, sizeof(*data2));
+    strncpy(data1, "adventurer", MAX_TEST_DATA_LENGTH);
+    strncpy(data2, "stick", MAX_TEST_DATA_LENGTH);
+    obj_attr_t *item1 = new_attr("class", data1);
     cr_assert_not_null(item1, "new_attr() failed to init & alloc attr");
 
     obj_attr_t *head = init_attr_list(item1);
-    obj_attr_t *item2 = new_attr("weapon", "stick");
+    obj_attr_t *item2 = new_attr("weapon", data2);
     append_attr(head, item2);
 
     int res = free_attr(head, item2);
