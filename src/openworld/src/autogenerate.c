@@ -181,7 +181,7 @@ item_hash_t *random_items(roomspec_t *room)
 
     int count = HASH_COUNT(room->items);
     if (count == 0) {
-        return NULL; // otherwise we have a zero division error in line 184
+        return NULL; // otherwise we have a zero division error
     }
 
     int num_items = rand() % MAX_RAND_ITEMS;
@@ -191,7 +191,7 @@ item_hash_t *random_items(roomspec_t *room)
     for (int i = 0; i < num_items; i++) {
         int rc = random_item_lookup(&items, room->items, num_iters);
     }
-    if (items == NULL) return NULL; // this is redundant
+    /* note that items could be NULL */
     return items;
 }
 
@@ -357,18 +357,15 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
 
         /* create room in direction if it doesn't exist yet */
         if (!path_exists_in_dir(curr_room, all_directions[forwards])) {        
-            // last commit was failing because we were not updating next_room to hold
-            // the newly generated room from the if case
-
             roomspec_t *rspec = random_room_lookup(context->speclist);
             int rc_callback = room_generate(game, curr_room, rspec,
                                             all_directions[backwards], all_directions[forwards]);
 
-            assert(rc_callback == SUCCESS); // actually why do we even need this? aren't we assuming that room_generate works?
+            assert(rc_callback == SUCCESS);
         }
-        /* note that next_room can be a preexisting one, or one that was newly generated
-           by room_generate in the if scope above */
-        next_room = find_room_from_dir(curr_room, all_directions[forwards]); // this updates next_room, preventing it from failing
+        /* note that next_room is either a preexisting room, or a room that was newly generated
+           by room_generate in the if statement above */
+        next_room = find_room_from_dir(curr_room, all_directions[forwards]);
 
         /* recursive case, decrement radius by 1 */
         rc = recursive_generate(game, context, next_room, 

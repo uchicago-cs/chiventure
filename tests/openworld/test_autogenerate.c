@@ -213,15 +213,6 @@ Test(autogenerate, room_generate_failure)
     cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_west),
                  "Could not add path to room");
 
-    // Problem locations (in room_generate):
-    // room_t *new_room = roomspec_to_room(rspec_new);
-        // res->items = random_items(sample_roomspec); // the 1st problem was here (division by zero); solved
-    // assert(SUCCESS == add_path_to_room(curr, path_to_new)); // the 2nd problem
-        // the problem was when trying to add a path to a direction in the room that was already full, it returned FAILURE.
-        // because it violated the assert == SUCCESS, it crashed. Remember that any violated assert crashes! Even assert(1==2);
-    
-
-
     room_generate(g, g->curr_room, sample_roomspec, "NORTH", "SOUTH");
     char *dirs[4] = {"NORTH", "EAST", "SOUTH", "WEST"};
     char *reverse_dirs[4] = {"SOUTH", "WEST", "NORTH", "EAST"};
@@ -231,30 +222,6 @@ Test(autogenerate, room_generate_failure)
                      "room_generate() returned SUCCESS when it should have returned FAILURE");
     }
 }
-
-
-// Test(test_add_path_to_room, testy)
-// {
-//     room_t *curr_room = room_new("dest_room1", "", "");
-//     room_t *dest_room1 = room_new("dest_room1", "", "");
-//     room_t *dest_room2 = room_new("dest_room2", "", "");
-
-//     path_t* path_north1 = path_new(dest_room1, "NORTH");
-//     path_t* path_north2 = path_new(dest_room2, "NORTH");
-
-//     cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north1),
-//                  "Could not add path1 to room");
-//     cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north2),
-//                  "Could not add path2 to room");
-//     cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north2),
-//                  "Could not add path2 to room");
-//         cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north2),
-//                  "Could not add path2 to room");
-//                      cr_assert_eq(SUCCESS, add_path_to_room(curr_room, path_north2),
-//                  "Could not add path2 to room");
-
-// }
-
 
 
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
@@ -466,36 +433,6 @@ Test(autogenerate, room_generate_success_three)
 
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
 }
-
-
-
-
-
-
-Test(shit, testing)
-{
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
-
-    speclist_t *speclist = NULL;
-    speclist_from_hash(&speclist, hash);
-    cr_assert_not_null(speclist, "sample_speclist should not be NULL");
-
-    room_t *pivot = roomspec_to_room(random_room_lookup(speclist));
-
-    path_hash_t *curr, *tmp;
-    room_t *new_room;
-
-    char *directions[] = {"NORTH", "SOUTH", "WEST", "EAST", "UP", "DOWN"};
-
-
-    for (int i = 0; i < 6; i++) {
-        cr_assert_eq(false, path_exists_in_dir(pivot, directions[i]), "Expected no path in %s direction", directions[i]);
-    }
-
-
-
-}
-
 
 
 /* Checks that multi_room_generate returns FAILURE if the current room of the
