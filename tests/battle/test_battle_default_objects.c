@@ -4,152 +4,6 @@
 #include <string.h>
 #include "battle/battle_default_objects.h"
 
-Test(battle_default_objects, default_weapon) 
-{
-    battle_item_t *test_item = get_random_default_weapon();
-    
-    cr_assert_not_null(test_item, "get_random_default_weapon() failed");
-
-    int id = test_item->id; 
-
-    cr_assert_eq(test_item->quantity, 1, "get_random_default_weapon() did not set quantity to 1");
-    
-    if (id == 1)
-    {
-        // Stick
-        cr_assert_eq(test_item->durability, 10, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Stick", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Stick", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 10, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 15, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 20, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else if (id == 2)
-    {
-        // Hammer
-        cr_assert_eq(test_item->durability, 20, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Hammer", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Hammer", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 20, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 25, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 30, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else if (id == 3)
-    {
-        // Shiv
-        cr_assert_eq(test_item->durability, 30, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Shiv", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Shiv", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 30, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 35, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 40, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else if (id == 4)
-    {
-        // Club
-        cr_assert_eq(test_item->durability, 40, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Club", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Club", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 40, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 45, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 50, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else if (id == 5)
-    {
-        // Bow & Arrow
-        cr_assert_eq(test_item->durability, 50, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Bow & Arrow", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Bow & Arrow", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 50, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 55, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 60, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else if (id == 6)
-    {
-        // Spear
-        cr_assert_eq(test_item->durability, 60, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Spear", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Spear", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 60, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 65, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 70, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else if (id == 7)
-    {
-        // Axe
-        cr_assert_eq(test_item->durability, 70, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Axe", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Axe", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 70, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 75, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 80, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else if (id == 8)
-    {
-        // Trident
-        cr_assert_eq(test_item->durability, 80, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Trident", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Trident", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 80, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 85, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 90, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else if (id == 9)
-    {
-        // Sword
-        cr_assert_eq(test_item->durability, 90, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Sword", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Sword", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 90, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 95, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 100, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else if (id == 10)
-    {
-        // Shield
-        cr_assert_eq(test_item->durability, 100, "get_random_default_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Shield", "get_random_default_weapon() did not set name correctly");
-        cr_assert_str_eq(test_item->description, "It is a Shield", "get_random_default_weapon() did not set description correctly");
-        cr_assert_eq(test_item->battle, true, "get_random_default_weapon() did not set durability correctly");
-        cr_assert_eq(test_item->attack, 100, "get_random_default_weapon() did not set attack correctly");
-        cr_assert_eq(test_item->defense, 105, "get_random_default_weapon() did not set defense correctly");
-        cr_assert_eq(test_item->hp, 110, "get_random_default_weapon() did not set hp correctly");
-        cr_assert_null(test_item->next, "get_random_default_weapon() did not set item->next correctly");
-        cr_assert_null(test_item->prev, "get_random_default_weapon() did not set item->prev correctly");
-    }
-    else
-    {
-        cr_assert_fail("get_random_default_weapon() did not set id correctly");
-    }
-}
-
 Test(battle_default_objects, default_consumables)
 {
     battle_item_t *test_item = get_random_default_consumable();
@@ -216,6 +70,172 @@ Test(battle_default_objects, default_consumables)
     else
     {
         cr_assert_fail("get_random_default_consumable() did not set id correctly");
+    }
+}
+
+Test(battle_default_objects, default_weapon)
+{
+    battle_item_t *test_weapon = get_random_default_weapon();
+    
+    cr_assert_not_null(test_weapon, "get_random_weapon() failed");
+
+    int id = test_weapon->id; 
+
+    cr_assert_eq(test_weapon->quantity, 1, "get_random_weapon() did not set quantity to 1");
+    
+    if (id == 1)
+    {
+        // DAGGER
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 2, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 10, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "DAGGER", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 10, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 15, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 20, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else if (id == 2)
+    {
+        // DUAL KNIVES
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 4, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 20, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "DUAL KNIVES", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 20, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 25, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 30, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else if (id == 3)
+    {
+        // CROSSBOW
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 6, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 30, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "CROSSBOW", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 30, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 35, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 40, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else if (id == 4)
+    {
+        // GUT BLASTER
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 8, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 40, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "GUT BLASTER", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 40, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 45, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 50, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else if (id == 5)
+    {
+        // LASER GUN
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 10, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 50, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "LASER GUN", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 50, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 55, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 60, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else if (id == 6)
+    {
+        // SAW DISK
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 12, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 60, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "SAW DISK", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 60, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 65, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 70, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else if (id == 7)
+    {
+        // BRASS KNUCKLES
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 14, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 70, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "BRASS KNUCKLES", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 70, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 75, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 80, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else if (id == 8)
+    {
+        //  KATANA
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 16, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 80, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "KATANA", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 80, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 85, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 90, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else if (id == 9)
+    {
+        // TASER
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 18, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 90, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "TASER", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 90, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 95, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 100, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else if (id == 10)
+    {
+        // BAZOOKA
+        cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
+        cr_assert_eq(test_weapon->effectiveness_decrement, 20, "get_random_weapon() did not set effectiveness_decrement correctly"); 
+        cr_assert_eq(test_weapon->durability, 100, "get_random_weapon() did not set durability correctly");   
+        cr_assert_str_eq(test_weapon->name, "BAZOOKA", "get_random_weapon() did not set name correctly");
+        cr_assert_null(test_weapon->description, "get_random_weapon() did not set description correctly");
+        cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
+        cr_assert_eq(test_weapon->attack, 100, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->defense, 105, "get_random_weapon() did not set defense correctly");
+        cr_assert_eq(test_weapon->hp, 110, "get_random_weapon() did not set hp correctly");
+        cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
+        cr_assert_null(test_weapon->prev, "get_random_weapon() did not set item->prev correctly");
+    }
+    else
+    {
+        cr_assert_fail("get_random_weapon() did not set id correctly");
     }
 }
 
