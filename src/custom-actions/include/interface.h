@@ -9,8 +9,8 @@
 #include "conditional_block.h"
 #include "control_block.h"
 #include "common/uthash.h"
-#include "wdl/object.h"
 #include "custom_action.h"
+#include "libobj/obj.h"
 
 /* 
  * Search for a custom action by name
@@ -49,7 +49,7 @@ custom_action_t *search_for_custom_action(char *action_name);
  * - NULL if there was an error working with the object_t struct or an error
  *        adding the resulting custom action to the list
  */
-custom_action_t *compile_custom_action(object_t *action);
+custom_action_t *compile_custom_action(obj_t *action);
 
 /*
  * Adds a custom action object to the game's list of custom actions
@@ -80,6 +80,6 @@ int add_custom_action_to_game(custom_action_t *action);
  * 
  * To be implemented in the future - see backlog issue #796.
  */
-custom_action_t *translate_custom_action(object_t *action);
+custom_action_t *translate_custom_action(obj_t *action);
 
 #endif
