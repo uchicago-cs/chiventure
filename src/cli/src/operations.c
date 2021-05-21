@@ -1,5 +1,6 @@
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "cli/operations.h"
@@ -9,8 +10,78 @@
 #include "libobj/load.h"
 #include "cli/cmdlist.h"
 
-
+#define NUM_ACTIONS 29
 #define BUFFER_SIZE (100)
+#define min(x,y) (((x) <= (y)) ? (x) : (y))
+
+char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
+                        "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
+                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
+                        "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
+                        "PALETTE", "ITEMS"};
+
+
+/* 
+ * This function returns a integer 
+ * which is the number of matching letters 
+ * between the user input and action
+ * 
+ */
+int compare(char* word, char* action)
+{
+
+    int current = 0;
+    for (int i = 0; i < min(strlen(word), strlen(action)); i++)
+    {
+        if (&action[i] != NULL && &word[i] != NULL) 
+        {
+            if (word[i] == action[i])
+            {
+                current++;
+            }
+        }
+
+    }
+
+    return current;
+}
+
+/* 
+ * This function returns a string which is the suggestion
+ * It finds the suggestion by comparing 
+ * each possible action to the input
+ * using the compare helper function
+ * 
+ */
+char* suggestions(char *action_input, char** actions)
+{
+    int i = 0;
+    int initial = 0;
+    int temp = 0;
+    int index = -1;
+    
+    for (int i = 0; i < NUM_ACTIONS; i++)
+    {
+        if (action_input != NULL) 
+        {
+            temp = compare(strdup(action_input), strdup(actions[i]));
+            if (temp > initial) 
+            {
+                index = i;
+                initial = temp;
+            }
+        }
+    }
+    
+    if (index == -1) 
+    {
+        return NULL;
+    }
+
+    return actions[index];
+
+}
+
 
 
 char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -300,9 +371,28 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 }
 
 
+
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return "This action is not supported.";
+
+    if (tokens[0] == NULL) 
+    {
+        return "This input returned as NULL";
+    }
+
+    char* suggestion = NULL;
+    suggestion = suggestions(strdup(tokens[0]), actions_for_sug);
+
+    if (suggestion != NULL) 
+    {
+        int str1 = strlen(suggestion);
+        int str2 = strlen("This action is not supported. Did you mean: ");
+        int len = str1 + str2;
+        char msg[] =  "This action is not supported. Did you mean: ";
+        print_to_cli(ctx, strncat(msg, suggestion, len));
+        return "";
+    }
+    return "This action is not supported. No suggestions could be found";
 }
 
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
