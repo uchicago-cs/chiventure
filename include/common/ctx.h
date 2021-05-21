@@ -24,6 +24,7 @@ typedef struct chiventure_ctx {
     command_list_t *command_history;
     game_t *game;
     lookup_t **table;
+    obj_t *obj_store;
 } chiventure_ctx_t;
 
 
