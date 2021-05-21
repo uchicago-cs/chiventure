@@ -190,61 +190,31 @@ bool item_in_inventory(player_t *player, item_t *item)
 }
 
 /* See player.h */
-int player_add_combat_skill(player_t *player, skill_t *skill)
+int player_add_skill(player_t *player, skill_t *skill)
 {
     int rc;
 
-    rc = inventory_skill_add(player->player_combat_skills, skill);
+    rc = inventory_skill_add(player->player_skills, skill);
 
     return rc;
 }
 
 /* See player.h */
-int player_add_noncombat_skill(player_t *player, skill_t *skill)
+int player_remove_skill(player_t *player, skill_t *skill)
 {
     int rc;
 
-    rc = inventory_skill_add(player->player_noncombat_skills, skill);
+    rc = inventory_skill_remove(player->player_skills, skill);
 
     return rc;
 }
 
 /* See player.h */
-int player_remove_combat_skill(player_t *player, skill_t *skill)
+int player_has_skill(player_t *player, sid_t sid, skill_type_t type)
 {
     int rc;
 
-    rc = inventory_skill_remove(player->player_combat_skills, skill);
-
-    return rc;
-}
-
-/* See player.h */
-int player_remove_noncombat_skill(player_t *player, skill_t *skill)
-{
-    int rc;
-
-    rc = inventory_skill_remove(player->player_noncombat_skills, skill);
-
-    return rc;
-}
-
-/* See player.h */
-int player_has_combat_skill(player_t *player, sid_t sid, skill_type_t type)
-{
-    int rc;
-
-    rc = inventory_has_skill(player->player_combat_skills, sid, type);
-
-    return rc;
-}
-
-/* See player.h */
-int player_has_noncombat_skill(player_t *player, sid_t sid, skill_type_t type)
-{
-    int rc;
-
-    rc = inventory_has_skill(player->player_noncombat_skills, sid, type);
+    rc = inventory_has_skill(player->player_skills, sid, type);
 
     return rc;
 }
