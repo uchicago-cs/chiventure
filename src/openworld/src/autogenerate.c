@@ -1,3 +1,8 @@
+#define NUM_COMPASS_DIRECTIONS 4
+#define NUM_DIRECTIONS 6
+#define MAX_DIRECTION_STRLEN 6
+
+
 /* Team RPG-Openworld
 *
 * autogenerate.c: This file. Function definitions of the functions
@@ -22,7 +27,7 @@
 
 
 /* See autogenerate.h */
-bool path_exists_in_dir(room_t *r, char *direction)
+bool path_exists_in_direction(room_t *r, char *direction)
 {
     /* No paths case */
     if (r->paths == NULL) {
@@ -58,31 +63,31 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
 
 
 /* See autogenerate.h */ 
-int pick_random_dir(room_t *curr, char *out_dir_to_curr, char *out_dir_to_new)
+int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_direction_to_new)
 {
     /* 2D array of possible directions */
-    char directions[4][6];
+    char directions[NUM_COMPASS_DIRECTIONS][MAX_DIRECTION_STRLEN];
     strncpy(directions[0], "NORTH", 6);
     strncpy(directions[1], "EAST", 5);
     strncpy(directions[2], "SOUTH", 6);
     strncpy(directions[3], "WEST", 5);
 
     /* Random initial direction */
-    unsigned int initial_dir = rand() % 4;
+    unsigned int initial_direction = rand() % NUM_COMPASS_DIRECTIONS;
 
     /* Bump directions index by 1 if a path with that direction already exists */
     unsigned int bump;
-    for (bump = 0; bump < 4; bump++) {
+    for (bump = 0; bump < NUM_COMPASS_DIRECTIONS; bump++) {
         /* Forwards direction + bump */
-        unsigned int forwards = (initial_dir + bump) % 4;
+        unsigned int forwards = (initial_direction + bump) % NUM_COMPASS_DIRECTIONS;
         /* If path in that direction exists in curr, bump. Else, create the path */
-        if (path_exists_in_dir(curr, directions[forwards])) {
+        if (path_exists_in_direction(curr, directions[forwards])) {
             /* Bump if the room already has a path in the given direction */
             continue;
         }
-        unsigned int backwards = (forwards + 2) % 4;
-        strcpy(out_dir_to_curr, directions[backwards]);
-        strcpy(out_dir_to_new, directions[forwards]);
+        unsigned int backwards = (forwards + 2) % NUM_COMPASS_DIRECTIONS;
+        strcpy(out_direction_to_curr, directions[backwards]);
+        strcpy(out_direction_to_new, directions[forwards]);
         return SUCCESS; // direction was picked
     }
 
@@ -91,7 +96,7 @@ int pick_random_dir(room_t *curr, char *out_dir_to_curr, char *out_dir_to_new)
 
 /* See autogenerate.h */
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
-                  char *dir_to_curr, char *dir_to_new)
+                  char *direction_to_curr, char *direction_to_new)
 {
     /* create new combination of rooms/items from randomly picked roomspec
     Adds one generated room from the head of context->speclist only */
@@ -99,14 +104,14 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
     assert(SUCCESS == add_room_to_game(game, new_room)); // this step should never fail
 
     /* Path to the generated room */
-    path_t* path_to_new = path_new(new_room, dir_to_new);
+    path_t* path_to_new = path_new(new_room, direction_to_new);
     if (add_path_to_room(curr, path_to_new)) // but this step can? 
         return FAILURE;
     /* should we not make it a responsibility of the caller 
        to check that the direction is open? */
 
     /* Path for the opposite direction */
-    path_t* path_to_curr = path_new(curr, dir_to_curr);
+    path_t* path_to_curr = path_new(curr, direction_to_curr);
     if (add_path_to_room(new_room, path_to_curr))
         return FAILURE;
     
@@ -127,14 +132,12 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
         roomspec_t *rspec = random_room_lookup(context->speclist);
         /* Increments tmp->spec->num_built */
 
-        int rc;
-        char dir_to_curr[6], dir_to_new[6];
+        char direction_to_curr[MAX_DIRECTION_STRLEN], direction_to_new[MAX_DIRECTION_STRLEN];
 
-        rc = pick_random_dir(game->curr_room, dir_to_curr, dir_to_new);
-        if (rc == FAILURE) 
+        if (pick_random_direction(game->curr_room, direction_to_curr, direction_to_new) == FAILURE) 
             return FAILURE; // failed to generate at least one room
         
-        room_generate(game, game->curr_room, rspec, dir_to_curr, dir_to_new);
+        room_generate(game, game->curr_room, rspec, direction_to_curr, direction_to_new);
     }
     return SUCCESS;
 }
@@ -303,7 +306,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
 
 /* See autogenerate.h */
 int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room, 
-                       int radius, char **directions, int num_of_dir, char *dir_to_parent) 
+                       int radius, char **directions, int num_directions, char *direction_to_parent) 
 {
     /* base case */
     if (radius <= 0) 
@@ -312,7 +315,7 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
     }
 
     /* 2D array of possible directions */
-    char all_directions[6][6];
+    char all_directions[NUM_DIRECTIONS][MAX_DIRECTION_STRLEN];
     strncpy(all_directions[0], "NORTH", 6);
     strncpy(all_directions[1], "EAST", 5);
     strncpy(all_directions[2], "UP", 3);
@@ -321,42 +324,42 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
     strncpy(all_directions[5], "DOWN", 5);
 
     /* map directions to index */
-    int dir_index[num_of_dir];
-    for (int i = 0; i < num_of_dir; i++) 
+    int direction_index[num_directions];
+    for (int i = 0; i < num_directions; i++) 
     {
-        for (int j = 0; j < 6; j++)
+        for (int j = 0; j < NUM_DIRECTIONS; j++)
         {
             if (strcmp(all_directions[j], directions[i]) == 0)
             {
-                dir_index[i] = j;
+                direction_index[i] = j;
             }
         }
     } 
 
-    /* map dir_to_parent to index */
-    int dir_to_parent_index = -1;
-    for (int i = 0; i < num_of_dir; i++) 
+    /* map direction_to_parent to index */
+    int direction_to_parent_index = -1;
+    for (int i = 0; i < num_directions; i++) 
     {
-        if(strcmp(directions[i], dir_to_parent) == 0) {
-            dir_to_parent_index = dir_index[i];
+        if(strcmp(directions[i], direction_to_parent) == 0) {
+            direction_to_parent_index = direction_index[i];
         }
     } 
 
     int rc; // return code
-    for (int i = 0; i < num_of_dir; i++) 
+    for (int i = 0; i < num_directions; i++) 
     {
         /* if direction is to parent, skip */
-        if (dir_index[i] == dir_to_parent_index) {
+        if (direction_index[i] == direction_to_parent_index) {
             continue;
         }
 
         room_t *next_room;
         /* opposite direction */
-        int forwards = dir_index[i];
-        int backwards = (forwards + 3) % 6;
+        int forwards = direction_index[i];
+        int backwards = (forwards + 3) % NUM_DIRECTIONS;
 
         /* create room in direction if it doesn't exist yet */
-        if (!path_exists_in_dir(curr_room, all_directions[forwards])) {        
+        if (!path_exists_in_direction(curr_room, all_directions[forwards])) {        
             roomspec_t *rspec = random_room_lookup(context->speclist);
             int rc_callback = room_generate(game, curr_room, rspec,
                                             all_directions[backwards], all_directions[forwards]);
@@ -370,7 +373,7 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
         /* recursive case, decrement radius by 1 */
         rc = recursive_generate(game, context, next_room, 
                                 radius - 1, directions, 
-                                num_of_dir, all_directions[backwards]);
+                                num_directions, all_directions[backwards]);
     }
     return rc; 
 }
