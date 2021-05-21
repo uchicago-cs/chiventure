@@ -58,7 +58,7 @@ custom_action_t *search_for_custom_action(char *action_name)
  * This depends on translate_custom_action having been written
  * (see backlog issue #796). Also needs tests.
  */
-custom_action_t *compile_custom_action(object_t *action)
+custom_action_t *compile_custom_action(obj_t *action)
 {
     custom_action_t *translated = translate_custom_action(action);
 
@@ -104,7 +104,7 @@ int add_custom_action_to_game(custom_action_t *action)
  * NOTE: This would normally be a private helper function for 
  * compile_custom_action, but it is currently public for sandbox code use.
  */
-custom_action_t *translate_custom_action(object_t *action)
+custom_action_t *translate_custom_action(obj_t *action)
 {
     // to be implemented
     // to see object_t documentation, refer to wdl/object.h
