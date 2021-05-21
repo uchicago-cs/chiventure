@@ -13,7 +13,6 @@
  *
  * Parameters:
  *    - ctx : chiventure context struct
- *    - banner : chiventure banner to be shown in the home screen
  *
  * No value is returned
  */
