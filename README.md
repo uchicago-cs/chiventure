@@ -28,7 +28,7 @@ To run chiventure with a WDL file, run:
 
 To try a sample game, from inside the build directory, run 
 ```
-./chiventure ../tests/wdl/examples/connected_rooms.wdl
+./chiventure ../tests/wdl/examples/wdl/connected-rooms.wdl
 ```
 
 Once inside chiventure, you can type `HELP` for the list of available commands.
