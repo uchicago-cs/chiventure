@@ -227,51 +227,6 @@ Test(autogenerate, pick_random_direction_only_open_paths)
 }
 
 
-/* Checks that room_generate returns FAILURE when the current room of the
-* game has outward paths in all directions */
-Test(autogenerate, room_generate_failure)
-{
-    game_t *g = game_new("start desc");
-    g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
-    add_room_to_game(g, g->curr_room);
-
-    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", NULL);
-
-    room_t *dest_room1 = room_new("dest_room1", "", "");
-    room_t *dest_room2 = room_new("dest_room2", "", "");
-    room_t *dest_room3 = room_new("dest_room3", "", "");
-    room_t *dest_room4 = room_new("dest_room4", "", "");
-    add_room_to_game(g, dest_room1);
-    add_room_to_game(g, dest_room2);
-    add_room_to_game(g, dest_room3);
-    add_room_to_game(g, dest_room4);
-
-    path_t* path_north = path_new(dest_room1, "NORTH");
-    path_t* path_east = path_new(dest_room2, "EAST");
-    path_t* path_south = path_new(dest_room3, "SOUTH");
-    path_t* path_west = path_new(dest_room4, "WEST");
-
-    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_north),
-                 "Could not add path to room");
-    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_east),
-                 "Could not add path to room");
-    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_south),
-                 "Could not add path to room");
-    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_west),
-                 "Could not add path to room");
-
-    room_generate(g, g->curr_room, sample_roomspec, "NORTH", "SOUTH");
-    char *directions[4] = {"NORTH", "EAST", "SOUTH", "WEST"};
-    char *reverse_directions[4] = {"SOUTH", "WEST", "NORTH", "EAST"};
-    for (int i = 0; i < 4; i++) {
-        cr_assert_eq(FAILURE, room_generate(g, g->curr_room, sample_roomspec, 
-                                            reverse_directions[i], directions[i]),
-                     "room_generate() returned SUCCESS when it should have returned FAILURE");
-    }
-}
-
-
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
 * and adds it to the game via a path (if game->curr_room has available path directions) */

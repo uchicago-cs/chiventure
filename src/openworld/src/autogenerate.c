@@ -101,19 +101,15 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
     /* create new combination of rooms/items from randomly picked roomspec
     Adds one generated room from the head of context->speclist only */
     room_t *new_room = roomspec_to_room(rspec_new);
-    assert(SUCCESS == add_room_to_game(game, new_room)); // this step should never fail
+    assert(add_room_to_game(game, new_room) == SUCCESS);
 
     /* Path to the generated room */
     path_t* path_to_new = path_new(new_room, direction_to_new);
-    if (add_path_to_room(curr, path_to_new)) // but this step can? 
-        return FAILURE;
-    /* should we not make it a responsibility of the caller 
-       to check that the direction is open? */
+    assert(add_path_to_room(curr, path_to_new) == SUCCESS);
 
     /* Path for the opposite direction */
     path_t* path_to_curr = path_new(curr, direction_to_curr);
-    if (add_path_to_room(new_room, path_to_curr))
-        return FAILURE;
+    assert(add_path_to_room(new_room, path_to_curr) == SUCCESS);
     
     return SUCCESS;
 }
@@ -134,7 +130,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 
         char direction_to_curr[MAX_DIRECTION_STRLEN], direction_to_new[MAX_DIRECTION_STRLEN];
 
-        if (pick_random_direction(game->curr_room, direction_to_curr, direction_to_new) == FAILURE) 
+        if (FAILURE == pick_random_direction(game->curr_room, direction_to_curr, direction_to_new)) 
             return FAILURE; // failed to generate at least one room
         
         room_generate(game, game->curr_room, rspec, direction_to_curr, direction_to_new);

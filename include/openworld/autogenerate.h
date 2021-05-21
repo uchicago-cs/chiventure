@@ -89,14 +89,16 @@ int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_d
  *         Must be in the game->all_rooms hash. Should not be NULL.
  * - rspec_new: A roomspec for the to-be-generated room.
  * - direction_to_curr: Direction for path new -> curr. Should not be NULL.
- * - direction_to_new: Direction for path curr -> new. Should not be NULL.
+ * - direction_to_new: Direction for path curr -> new. Should not be NULL
+ *                     NOTE: MUST BE AN AVAILABLE DIRECTION!
+ *                     (Available as in no path for that direction exists.)
  * 
  * side effects:
  * - Changes input game to hold the newly generated room. Allocated on the heap
  * 
  * returns:
- * - SUCCESS if the new room was generated and added (success)
- * - FAILURE if the new room was not generated/added (failure)
+ * - Always returns SUCCESS
+ *   Any internal failure results in crash (by triggering an assert).
  */
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new, 
                   char *direction_to_curr, char *direction_to_new);
