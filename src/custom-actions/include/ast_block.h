@@ -72,6 +72,16 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type);
  */
 int AST_block_free(AST_block_t *ast);
 
+/* list_how_many_AST_block: Function that checks how many AST_block_t there are
+ *                          in a list
+ *
+ * Input:
+ *      - head: The AST_block_t to check
+ * 
+ * Return: Int value of how many items are found in linked list
+ */
+int list_how_many_AST_block(AST_block_t* head);
+
 /* list_contains_AST_block: Function to check if a certain block_type exists
  *                          in a linked list of AST_blocks
  *

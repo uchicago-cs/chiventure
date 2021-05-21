@@ -135,6 +135,41 @@ Test(AST_block_t, init_CONDITIONAL)
     cr_assert_null(ast.next, "AST_block_init() failed");
 }
 
+/* Tests that the correct number of AST_block_t was returned in linked list */
+Test(AST_block_t, list_how_many_AST_block)
+{
+    int ret_val;
+
+    /* Create 3 AST_blocks and link them together according to name (manual) */
+    block_t *block = malloc(sizeof(control_block_t));
+    block_type_t block_type = CONTROL;
+    
+    AST_block_t* new_ast = AST_block_new(block, block_type);
+    cr_assert_not_null(new_ast, "AST_block_new failed to create a AST_block");
+
+    block_t *brnc = malloc(sizeof(branch_block_t));
+    block_type_t second_block_type = BRANCH;
+
+    AST_block_t* second_ast = AST_block_new(brnc, second_block_type);
+    cr_assert_not_null(second_ast, "AST_block_new failed to create the second AST_block");
+
+    block_t *act = malloc(sizeof(action_block_t));
+    block_type_t third_block_type = ACTION;
+     
+    AST_block_t* third_ast = AST_block_new(act, third_block_type);
+    cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
+
+    new_ast->next = second_ast;
+    second_ast->next = third_ast;
+    third_ast->next = NULL;
+
+    /* Check to see how many AST_block_t are linked together */
+    ret_val = list_how_many_AST_block(new_ast);
+    cr_assert_eq(ret_val, 3, "list_how_many_AST_block did not return correct value of only 3 AST blocks linked");
+
+    AST_block_free(new_ast);
+}
+
 /* Tests that a specific type of block_type was found in linked list */
 Test(AST_block_t, list_contains_AST_block)
 {
@@ -220,7 +255,117 @@ Test(AST_block_t, list_add_AST_block)
         cr_assert_fail("list_add_AST_block unintentionally messed with pointer that shouldn't have been");
 
     AST_block_free(new_ast);
-    }
+}
+
+/* Check that we can successfully add an AST_block_t as the start location */
+Test(AST_block_t, list_add_AST_block_to_beginning)
+{
+    int ret_val;
+    bool ret_bool;
+
+    /* Create 3 AST_blocks and link them together according to name (manual) */
+    block_t *block = malloc(sizeof(control_block_t));
+    block_type_t block_type = CONTROL;
+    
+    AST_block_t* first_ast = AST_block_new(block, block_type);
+    cr_assert_not_null(first_ast, "AST_block_new failed to create a AST_block");
+
+    block_t *brnc = malloc(sizeof(branch_block_t));
+    block_type_t second_block_type = BRANCH;
+
+    AST_block_t* second_ast = AST_block_new(brnc, second_block_type);
+    cr_assert_not_null(second_ast, "AST_block_new failed to create the second AST_block");
+
+    block_t *act = malloc(sizeof(action_block_t));
+    block_type_t third_block_type = ACTION;
+     
+    AST_block_t* third_ast = AST_block_new(act, third_block_type);
+    cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
+
+    first_ast->next = second_ast;
+    second_ast->next = third_ast;
+    third_ast->next = NULL;
+
+    /* Create another AST_block that will be places as the first place in linked list */
+    block_t *cond = malloc(sizeof(block_t));
+    block_type_t new_first_block_type = CONDITIONAL;
+      
+    AST_block_t* new_first_ast = AST_block_new(cond, new_first_block_type);
+    cr_assert_not_null(new_first_ast, "AST_block_new failed to create the to-be new_first_AST_block");
+    
+    ret_bool = list_contains_AST_block(first_ast, new_first_block_type);
+    cr_assert_eq(ret_bool, false, "list_contains_AST_block found CONDITIONAL before being added");
+
+    ret_val = list_add_AST_block(first_ast, new_first_ast, 1);
+    cr_assert_eq(ret_val, SUCCESS, "list_add_AST_block returned FAILURE upon trying to add in first place");
+
+    ret_bool = list_contains_AST_block(new_first_ast, new_first_block_type);
+    cr_assert_eq(ret_bool, true, "list_contains_AST_block could not find CONDITIONAL after being added");
+
+    if (new_first_ast->next != first_ast)
+        cr_assert_fail("new_first_ast second element failed to be set to first_ast");
+    if (first_ast->next != second_ast)
+        cr_assert_fail("list_add_AST_block unintentionally messed with pointers that shouldn't have been");
+    if (second_ast->next != third_ast)
+        cr_assert_fail("list_add_AST_block unintentionally messed with pointer that shouldn't have been");
+
+    AST_block_free(new_first_ast);
+}
+
+/* Check that we can successfully add an AST_block_t as 'tail'/end location */
+Test(AST_block_t, list_add_AST_block_to_end)
+{
+    int ret_val;
+    bool ret_bool;
+
+    /* Create 3 AST_blocks and link them together according to name (manual) */
+    block_t *block = malloc(sizeof(control_block_t));
+    block_type_t block_type = CONTROL;
+    
+    AST_block_t* first_ast = AST_block_new(block, block_type);
+    cr_assert_not_null(first_ast, "AST_block_new failed to create a AST_block");
+
+    block_t *brnc = malloc(sizeof(branch_block_t));
+    block_type_t second_block_type = BRANCH;
+
+    AST_block_t* second_ast = AST_block_new(brnc, second_block_type);
+    cr_assert_not_null(second_ast, "AST_block_new failed to create the second AST_block");
+
+    block_t *act = malloc(sizeof(action_block_t));
+    block_type_t third_block_type = ACTION;
+     
+    AST_block_t* third_ast = AST_block_new(act, third_block_type);
+    cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
+
+    first_ast->next = second_ast;
+    second_ast->next = third_ast;
+    third_ast->next = NULL;
+
+    /* Create another AST_block that will be places as the last place in linked list */
+    block_t *cond = malloc(sizeof(block_t));
+    block_type_t new_end_block_type = CONDITIONAL;
+      
+    AST_block_t* new_end_ast = AST_block_new(cond, new_end_block_type);
+    cr_assert_not_null(new_end_ast, "AST_block_new failed to create the to-be new_end_AST_block");
+    
+    ret_bool = list_contains_AST_block(first_ast, new_end_block_type);
+    cr_assert_eq(ret_bool, false, "list_contains_AST_block found CONDITIONAL before being added");
+
+    ret_val = list_add_AST_block(first_ast, new_end_ast, 50);
+    cr_assert_eq(ret_val, SUCCESS, "list_add_AST_block returned FAILURE upon trying to add in last place");
+
+    ret_bool = list_contains_AST_block(first_ast, new_end_block_type);
+    cr_assert_eq(ret_bool, true, "list_contains_AST_block could not find CONDITIONAL after being added");
+
+    if (first_ast->next != second_ast)
+        cr_assert_fail("list_add_AST_block unintentionally messed with pointers that shouldn't have been");
+    if (second_ast->next != third_ast)
+        cr_assert_fail("list_add_AST_block unintentionally messed with pointer that shouldn't have been");
+    if (third_ast->next != new_end_ast)
+        cr_assert_fail("list_add_AST_block did not set the pointer to the new last AST_block in list");
+
+    AST_block_free(first_ast);
+}
 
 /* Checks that a new AST block with control type is freed without interruption */
 Test(AST_block_t, free_CONTROL)

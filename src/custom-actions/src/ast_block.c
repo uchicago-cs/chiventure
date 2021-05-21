@@ -123,6 +123,23 @@ int AST_cmp(AST_block_t* AST1, AST_block_t* AST2)
 }
 
 /* See ast_block.h */
+int list_how_many_AST_block(AST_block_t* head)
+{
+    assert(head != NULL);
+
+    int ret_val = 1;
+    AST_block_t* curr = head;
+
+    while(curr->next != NULL)
+    {
+        ret_val += 1;
+        curr = curr->next;
+    }
+    
+    return ret_val;
+}
+
+/* See ast_block.h */
 bool list_contains_AST_block(AST_block_t* head, block_type_t block)
 {
     if (head == NULL)
@@ -149,6 +166,21 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
     if (head == NULL || add == NULL || num_to_place <= 0)
         return FAILURE;
 
+    /* Case where adding an AST_block_t as the new 'head'/beginning of the linked list */
+    if (num_to_place == 1)
+    {
+        LL_PREPEND(head, add);
+        return SUCCESS;
+    }
+
+    /* Case where adding an AST_block_t as the 'tail'/end of the linked list */
+    if (num_to_place >= list_how_many_AST_block(head))
+    {
+        LL_APPEND(head, add);
+        return SUCCESS;
+    }
+
+    /* General case where adding an AST_block_t somewhere within linked list */
     AST_block_t* curr = head;
     AST_block_t* prev;
 
