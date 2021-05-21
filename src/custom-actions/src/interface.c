@@ -19,37 +19,12 @@
  * - block: A pointer to the branch block to be executed
  * 
  * Returns:
- * - Integer of what block to execute next
+ * - Integer of if the block being run was successful
  */
 int do_branch_block(branch_block_t *block)
 {
+  //To be implemented in issue 1068
   return 0;
-  /*
-    if(block->conditionals[0] == NULL) return -1;
-    if(eval_conditional_block(block->conditionals[0]) == TRUE) return 1;
-    else return 0;
-    
-     Deprecated for future readers - we made last minute to ast_block that made branch blocks useless, hopefully one day they'll be reverted
-    if(block->num_controls != block->num_conditionals) return -1;
-    // goes through each of the control blocks
-    int i;
-    for(i = 0; i < block->num_controls; i++) 
-    {
-        // will perform the appropriate type of action
-        switch(block->controls[i]->control_type) {
-            case IFELSE:
-                if(do_conditional_block(block->conditionals[i]) == TRUE) return i;
-                break;
-            case WHILEENDWHILE:
-                // not implemented yet
-                break;
-            case FORENDFOR:
-                // not implemented yet
-                break;
-        }
-    }
-    return i;
-    */
 }
 
 // Interface-showing functions
