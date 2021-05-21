@@ -73,4 +73,15 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type);
  */
 int AST_block_free(AST_block_t *ast);
 
+/* list_contains_AST_block: Function to check if a certain block_type exists
+ *                          in a linked list of AST_blocks
+ *
+ * Inputs:
+ *      - head: the AST_block to search (potentially having other AST_blocks linked)
+ *      - block_type: The specific block_type that we are wanting to search for
+ * 
+ * Returns: false for does not contain, true for contains
+ */
+bool list_contains_AST_block(AST_block_t* head, block_type_t block_type);
+
 #endif /* INCLUDE_AST_BLOCK_H */

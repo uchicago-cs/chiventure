@@ -90,3 +90,44 @@ int AST_block_free(AST_block_t *ast)
 }
 
 //---------------To add List Functionality for AST_blocks----------------------
+
+/* AST_cmp: Helper function that takes two AST_blocks and compares them with
+ *          respect to their block type
+ *
+ * Parameters:
+ *          - AST1: Pointer to one AST_block
+ *          - AST2: Pointer to a seperate AST_block
+ *
+ * Returns:
+ *          - 2 possible int value: 0 for when AST_blocks share same block type
+ *                                  1 otherwise
+ * Note: The value for same MUST be 0 for this helper to be successfully used 
+ *       in LL_<function>
+ */
+int AST_cmp(AST_block_t* AST1, AST_block_t* AST2)
+{
+    if (AST1->block_type == AST2->block_type)
+        return 0;
+    else return 1;
+}
+
+/* See ast_block.h */
+bool list_contains_AST_block(AST_block_t* head, block_type_t block)
+{
+    if (head == NULL)
+    {
+        return false;
+    }
+
+    AST_block_t* tmp;
+    AST_block_t* like = calloc(1, sizeof(AST_block_t));
+
+    like->block_type = block;
+    
+    LL_SEARCH(head, tmp, like, AST_cmp);
+    free(like);
+
+    if (tmp)
+        return true;
+    else return false;
+}
