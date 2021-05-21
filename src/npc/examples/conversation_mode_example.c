@@ -90,6 +90,8 @@ convo_t *create_oak_conversation()
 }
 
 /* Defines an CLI operation for talking to an npc */
+/* This talk operation is replaced with the operation now implemented in
+ * in operations.h
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     char *npc_id = "Oak"; //change to "Steve" for conversation with Steve.
@@ -106,6 +108,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     return str;
 }
+ */
 
 /*
  * Creates a chiventure context with a sample game and npc.
@@ -160,7 +163,7 @@ int main(int argc, char **argv)
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatching in a talk action to support dialogue */
-    add_entry("TALK", talk_operation, NULL, ctx->table);
+    //add_entry("TALK", talk_operation, NULL, ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);

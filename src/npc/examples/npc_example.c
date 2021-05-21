@@ -120,7 +120,7 @@ char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 } */
 
 /* Defines a new CLI operation that continues the conversation with Jim */
-char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char *sample_talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     check_game(tokens, ctx);
    
@@ -226,7 +226,7 @@ int main(int argc, char **argv)
      * (not handled by action management, as that code
      * currently only supports items) */
     add_entry("OBSERVE", observe_operation, NULL, ctx->table);
-    add_entry("TALK", talk_operation, NULL, ctx->table);
+    add_entry("TALK", sample_talk_operation, NULL, ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
