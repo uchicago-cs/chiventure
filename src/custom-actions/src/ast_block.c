@@ -200,7 +200,7 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
 }
 
 /* See ast_block.h */
-int list_delete_AST_block(AST_block_t* head, block_type_t block_type)
+int list_remove_AST_block(AST_block_t* head, block_type_t block_type)
 {
     assert(head != NULL);
 

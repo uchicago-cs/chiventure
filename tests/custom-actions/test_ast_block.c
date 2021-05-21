@@ -368,7 +368,7 @@ Test(AST_block_t, list_add_AST_block_to_end)
 }
 
 /* Checks that we can successfuly delete an item in an AST_block_t linked list */
-Test(AST_block_t, list_delete_AST_block)
+Test(AST_block_t, list_remove_AST_block)
 {
     int ret_val;
     bool ret_bool;
@@ -397,19 +397,19 @@ Test(AST_block_t, list_delete_AST_block)
     third_ast->next = NULL;
 
     /* Delete second item from linked list */
-    ret_val = list_delete_AST_block(new_ast, second_block_type);
-    cr_assert_eq(ret_val, SUCCESS, "list_delete_AST_block failed in deleting second item in linked list");
+    ret_val = list_remove_AST_block(new_ast, second_block_type);
+    cr_assert_eq(ret_val, SUCCESS, "list_remove_AST_block failed in deleting second item in linked list");
 
     if (new_ast->next != third_ast)
-        cr_assert_fail("list_delete_AST_block did not set pointer from first item to third item");
+        cr_assert_fail("list_remove_AST_block did not set pointer from first item to third item");
     if (!second_ast)
-        cr_assert_fail("list_delete_AST_block did not free the second item from linked list");
+        cr_assert_fail("list_remove_AST_block did not free the second item from linked list");
 
     AST_block_free(new_ast);
 }
 
 /* Checks fail condition when deleting an AST_block_t */
-Test(AST_block_t, list_delete_AST_block_failure)
+Test(AST_block_t, list_remove_AST_block_failure)
 {
     int ret_val;
     bool ret_bool;
@@ -439,11 +439,11 @@ Test(AST_block_t, list_delete_AST_block_failure)
 
     block_type_t fail_block_type = CONDITIONAL;
     /* Delete second item from linked list */
-    ret_val = list_delete_AST_block(new_ast, fail_block_type);
-    cr_assert_eq(ret_val, FAILURE, "list_delete_AST_block failed in deleting second item in linked list");
+    ret_val = list_remove_AST_block(new_ast, fail_block_type);
+    cr_assert_eq(ret_val, FAILURE, "list_remove_AST_block failed in deleting second item in linked list");
 
     if (new_ast->next == third_ast)
-        cr_assert_fail("list_delete_AST_block deleted second AST_block when shouldn't");
+        cr_assert_fail("list_remove_AST_block deleted second AST_block when shouldn't");
 
     AST_block_free(new_ast);
 }
