@@ -188,3 +188,113 @@ bool item_in_inventory(player_t *player, item_t *item)
     }
     return false;
 }
+
+/* See player.h */
+int player_add_combat_skill(player_t *player, skill_t *skill)
+{
+    int rc;
+
+    rc = inventory_skill_add(player->player_combat_skills, skill);
+
+    return rc;
+}
+
+/* See player.h */
+int player_add_noncombat_skill(player_t *player, skill_t *skill)
+{
+    int rc;
+
+    rc = inventory_skill_add(player->player_noncombat_skills, skill);
+
+    return rc;
+}
+
+/* See player.h */
+int player_remove_combat_skill(player_t *player, skill_t *skill)
+{
+    int rc;
+
+    rc = inventory_skill_remove(player->player_combat_skills, skill);
+
+    return rc;
+}
+
+/* See player.h */
+int player_remove_noncombat_skill(player_t *player, skill_t *skill)
+{
+    int rc;
+
+    rc = inventory_skill_remove(player->player_noncombat_skills, skill);
+
+    return rc;
+}
+
+/* See player.h */
+int player_has_combat_skill(player_t *player, sid_t sid, skill_type_t type)
+{
+    int rc;
+
+    rc = inventory_has_skill(player->player_combat_skills, sid, type);
+
+    return rc;
+}
+
+/* See player.h */
+int player_has_noncombat_skill(player_t *player, sid_t sid, skill_type_t type)
+{
+    int rc;
+
+    rc = inventory_has_skill(player->player_noncombat_skills, sid, type);
+
+    return rc;
+}
+
+/* see player.h */
+int player_change_stat(player_t *player, char *stat, double change)
+{
+    int rc;
+
+    rc = change_stat(player->player_stats, stat, change);
+
+    return rc;
+}
+
+/* see player.h */
+int player_change_stat_max(player_t *player, char *stat, double change)
+{
+    int rc;
+
+    rc = change_stat_max(player->player_stats, stat, change);
+
+    return rc;
+}
+
+/* see player.h */
+double player_get_stat_current(player_t *player, char *stat)
+{
+    double res;
+
+    res = get_stat_current(player->player_stats, stat);
+
+    return res;
+}
+
+/* see player.h */
+int player_add_stat(player_t *player, stats_t *s)
+{
+    int rc;
+
+    rc = add_stat(&(player->player_stats), s);
+
+    return rc;
+}
+
+/* see player.h */
+int player_add_stat_effect(player_t *player, stat_effect_t *effect)
+{
+    int rc;
+
+    rc = add_stat_effect(&(player->player_effects), effect);
+
+    return rc;
+}

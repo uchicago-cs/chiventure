@@ -292,3 +292,457 @@ Test(player, delete_all_players)
   game->all_players = NULL;
   game_free(game);
 }
+
+Test(player, add_combat_skill)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    /* These field will be set when we set the class in future implementations */
+    player->player_combat_skills = inventory_new(5, 5);
+
+    cr_assert_not_null(player->player_combat_skills, "inventory_new() failed");
+
+    skill_t *wizardry = skill_new(1, ACTIVE, 
+                                "wizardry", "wizarding test skill",
+                                15, 200,
+                                NULL);
+
+    cr_assert_not_null(wizardry, "skill_new() failed");
+
+    int skill_added = player_add_combat_skill(player, wizardry);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_combat_skill() did not return SUCCESS");
+
+    cr_assert_eq(wizardry, player->player_combat_skills->active[0], 
+    "player_add_combat_skill() failed to add the skill to the combat skill "
+    "inventory");
+ 
+    /* Freeing player_combat_skills and player_noncombat_skills fields
+    will be handled by player_free once player_set_class 
+    is updated to deep copy fields */
+    inventory_free(player->player_combat_skills);
+
+    skill_free(wizardry);
+
+    player_free(player);
+}
+
+Test(player, add_noncombat_skill)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    /* These field will be set when we set the class in future implementations */
+    player->player_noncombat_skills = inventory_new(5, 5);
+
+    cr_assert_not_null(player->player_noncombat_skills, "inventory_new() failed");
+
+    skill_t *cooking = skill_new(1, PASSIVE, 
+                                "cooking", "cooking test skill",
+                                15, 200,
+                                NULL);
+
+    cr_assert_not_null(cooking, "skill_new() failed");
+
+    int skill_added = player_add_noncombat_skill(player, cooking);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_noncombat_skill() did not return SUCCESS");
+ 
+    cr_assert_eq(cooking, player->player_noncombat_skills->passive[0], 
+    "player_add_noncombat_skill() failed to add the skill to the noncombat skill "
+    "inventory");
+
+    /* Freeing player_combat_skills and player_noncombat_skills fields
+    will be handled by player_free once player_set_class 
+    is updated to deep copy fields */
+    inventory_free(player->player_noncombat_skills);
+
+    skill_free(cooking);
+
+    player_free(player);
+}
+
+Test(player, remove_combat_skill)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    /* These field will be set when we set the class in future implementations */
+    player->player_combat_skills = inventory_new(5, 5);
+
+    cr_assert_not_null(player->player_combat_skills, "inventory_new() failed");
+
+    /* Removing skills in skill inventories using inventory_skill_remove()
+     reallocates the memory allocated to active/passive skill arrays.
+    We must add a second skill in the active array to prevent it from being
+    reallocated to 0 bytes when a skill is removed. */
+    skill_t *wizardry = skill_new(1, ACTIVE, 
+                                "wizardry", "wizardry test skill",
+                                15, 200,
+                                NULL);
+
+    skill_t *sorcery = skill_new(2, ACTIVE, 
+                                "sorcery", "sorcery test skill",
+                                15, 200,
+                                NULL);
+
+    cr_assert_not_null(wizardry, "skill_new() failed");
+    cr_assert_not_null(sorcery, "skill_new() failed");
+
+    int skill_added = player_add_combat_skill(player, wizardry);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_combat_skill() did not return SUCCESS");
+
+    skill_added = player_add_combat_skill(player, sorcery);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_combat_skill() did not return SUCCESS");
+
+    int skill_removed = player_remove_combat_skill(player, wizardry);
+
+    cr_assert_eq(skill_removed, SUCCESS, "player_remove_combat_skill() did not return SUCCESS");
+
+    /* The first position in the active skill array previously held the
+    wizardry skill. Once it is removed the sorcery skill should be moved to 
+    take its place */
+    cr_assert_eq(sorcery, player->player_combat_skills->active[0], 
+    "player_add_combat_skill() failed to remove the skill to the combat skill "
+    "inventory");
+
+    /* Freeing player_combat_skills and player_noncombat_skills fields
+    will be handled by player_free once player_set_class 
+    is updated to deep copy fields */
+    inventory_free(player->player_combat_skills);
+
+    skill_free(wizardry);
+    skill_free(sorcery);
+
+    player_free(player);
+}
+
+Test(player, remove_noncombat_skill)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    /* These field will be set when we set the class in future implementations */
+    player->player_noncombat_skills = inventory_new(5, 5);
+
+    cr_assert_not_null(player->player_noncombat_skills, "inventory_new() failed");
+
+    /* Removing skills in skill inventories using inventory_skill_remove()
+     reallocates the memory allocated to active/passive skill arrays.
+    We must add a second skill in the active array to prevent it from being
+    reallocated to 0 bytes when a skill is removed. */
+    skill_t *cooking = skill_new(1, PASSIVE, 
+                                "cooking", "cooking test skill",
+                                15, 200,
+                                NULL);
+    skill_t *baking = skill_new(2, PASSIVE, 
+                                "baking", "baking test skill",
+                                15, 200,
+                                NULL);
+
+    cr_assert_not_null(cooking, "skill_new() failed");
+    cr_assert_not_null(baking, "skill_new() failed");
+
+    int skill_added = player_add_noncombat_skill(player, cooking);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_noncombat_skill() did not return SUCCESS");
+
+    skill_added = player_add_noncombat_skill(player, baking);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_noncombat_skill() did not return SUCCESS");
+
+    int skill_removed = player_remove_noncombat_skill(player, cooking);
+
+    cr_assert_eq(skill_removed, SUCCESS, "player_remove_noncombat_skill() did not return SUCCESS");
+
+    /* The first position in the active skill array previously held the
+    wizardry skill. Once it is removed the sorcery skill should be moved to 
+    take its place */
+    cr_assert_eq(baking, player->player_noncombat_skills->passive[0], 
+    "player_add_noncombat_skill() failed to remove the skill to the noncombat skill "
+    "inventory");
+
+    /* Freeing player_combat_skills and player_noncombat_skills fields
+    will be handled by player_free once player_set_class 
+    is updated to deep copy fields */
+    inventory_free(player->player_noncombat_skills);
+
+    skill_free(cooking);
+    skill_free(baking);
+
+    player_free(player);
+}
+
+Test(player, has_combat_skill)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    /* These field will be set when we set the class in future implementations */
+    player->player_combat_skills = inventory_new(5, 5);
+
+    cr_assert_not_null(player->player_combat_skills, "inventory_new() failed");
+
+    skill_t *wizardry = skill_new(1, ACTIVE, 
+                                "wizardry", "wizardry test skill",
+                                15, 200,
+                                NULL);
+
+    skill_t *sorcery = skill_new(2, ACTIVE, 
+                                "sorcery", "sorcery test skill",
+                                15, 200,
+                                NULL);
+
+    cr_assert_not_null(wizardry, "skill_new() failed");
+    cr_assert_not_null(sorcery, "skill_new() failed");
+
+    int skill_added = player_add_combat_skill(player, wizardry);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_combat_skill() did not return SUCCESS");
+
+    skill_added = player_add_combat_skill(player, sorcery);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_combat_skill() did not return SUCCESS");
+
+    int has_skill = player_has_combat_skill(player, 2, ACTIVE);
+
+    /* The sorcery skill should be stored in the second position in the active array */
+    cr_assert_eq(has_skill, 1, "player_has_combat_skill() did not find the skill "
+    "when it was present in the skill inventory");
+
+    int skill_removed = player_remove_combat_skill(player, wizardry);
+
+    has_skill = (player_has_combat_skill(player, 1, ACTIVE));
+
+    cr_assert_eq(has_skill, -1, "player_has_combat_skill() found the skill after "
+    "it was removed from the skill inventory");
+
+    cr_assert_eq(skill_removed, SUCCESS, "player_remove_combat_skill() did not return SUCCESS");
+ 
+ 
+    /* Freeing player_combat_skills and player_noncombat_skills fields
+    will be handled by player_free once player_set_class 
+    is updated to deep copy fields */
+    inventory_free(player->player_combat_skills);
+
+    skill_free(wizardry);
+    skill_free(sorcery);
+
+    player_free(player);
+}
+
+Test(player, has_noncombat_skill)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    /* These field will be set when we set the class in future implementations */
+    player->player_combat_skills = inventory_new(5, 5);
+    player->player_noncombat_skills = inventory_new(5, 5);
+
+    cr_assert_not_null(player->player_combat_skills, "inventory_new() failed");
+    cr_assert_not_null(player->player_noncombat_skills, "inventory_new() failed");
+
+    skill_t *cooking = skill_new(1, PASSIVE, 
+                                "cooking", "cooking test skill",
+                                15, 200,
+                                NULL);
+    skill_t *baking = skill_new(2, PASSIVE, 
+                                "baking", "baking test skill",
+                                15, 200,
+                                NULL);
+
+    cr_assert_not_null(cooking, "skill_new() failed");
+    cr_assert_not_null(baking, "skill_new() failed");
+
+    int skill_added = player_add_noncombat_skill(player, cooking);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_noncombat_skill() did not return SUCCESS");
+
+    skill_added = player_add_noncombat_skill(player, baking);
+
+    cr_assert_eq(skill_added, SUCCESS, "player_add_noncombat_skill() did not return SUCCESS");
+
+    int has_skill = player_has_noncombat_skill(player, 2, PASSIVE);
+
+    /* The baking skill should be stored in the second position in the passive array */
+    cr_assert_eq(has_skill, 1, "player_has_noncombat_skill() did not find the skill "
+    "when it was present in the skill inventory");
+
+    int skill_removed = player_remove_noncombat_skill(player, cooking);
+
+    has_skill = (player_has_noncombat_skill(player, 1, PASSIVE));
+
+    cr_assert_eq(has_skill, -1, "player_has_noncombat_skill() found the skill after "
+    "it was removed from the skill inventory");
+
+    cr_assert_eq(skill_removed, SUCCESS, "player_remove_noncombat_skill() did not return SUCCESS");
+ 
+    /* Freeing player_combat_skills and player_noncombat_skills fields
+    will be handled by player_free once player_set_class 
+    is updated to deep copy fields */
+    inventory_free(player->player_noncombat_skills);
+
+    skill_free(cooking);
+    skill_free(baking);
+
+    player_free(player);
+}
+
+Test(player, add_stat)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    stats_global_t *health = stats_global_new("health", 100);
+    stats_t *s = stats_new(health, 75);
+
+    int added = player_add_stat(player, s);
+    cr_assert_eq(added, SUCCESS, "player_add_stat() failed");
+
+    cr_assert_not_null(player->player_stats, 
+    "player_add_stat() did not add the stat to the player's stat hash");
+
+    free_stats_table(player->player_stats);
+    free_stats_global(health);
+
+    player_free(player);  
+}
+
+Test(player, get_stat_current)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    double expected = 150.25;
+
+    stats_global_t *health = stats_global_new("health", expected);
+    stats_t *s = stats_new(health, expected);
+
+    int added = player_add_stat(player, s);
+    cr_assert_eq(added, SUCCESS, "player_add_stat() failed");
+
+    cr_assert_not_null(player->player_stats, 
+    "player_add_stat() did not add the stat to the player's stat hash");
+
+    double current_health = player_get_stat_current(player, "health");
+
+    cr_assert_float_eq(current_health, expected, .0001, 
+    "player_get_stat_current() did not return correct health value. "
+    "Actual: %.02f Expected: %.02f ", current_health, expected);
+
+    free_stats_table(player->player_stats);
+    free_stats_global(health);
+
+    player_free(player);  
+}
+
+
+Test(player, change_stat)
+{
+    player_t *player = player_new("test");
+
+    double starting_health = 125.25;
+    double health_change = -5.75;
+    double expected = starting_health + health_change;
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    stats_global_t *health = stats_global_new("health", 400.5);
+    stats_t *s = stats_new(health, starting_health);
+
+    int added = player_add_stat(player, s);
+    cr_assert_eq(added, SUCCESS, "player_add_stat() failed");
+
+    cr_assert_not_null(player->player_stats, 
+    "player_add_stat() did not add the stat to the player's stat hash");
+
+    int rc = player_change_stat(player, "health", health_change);
+
+    cr_assert_eq(rc, SUCCESS, "player_change_stat() did not return SUCCESS");
+
+    double current_health = player_get_stat_current(player, "health");
+
+    cr_assert_float_eq(current_health, expected, .0001, 
+    "player_change_stat() did not correctly update the health value. "
+    "Expected: %.02f Actual: %.02f", expected, current_health);
+
+    free_stats_table(player->player_stats);
+    free_stats_global(health);
+
+    player_free(player);  
+}
+
+Test(player, change_stat_max)
+{
+    player_t *player = player_new("test");
+
+    double starting_max = 100.5;
+    double max_change = -20;
+    double health_change = 5;
+    double expected = starting_max + max_change;
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    stats_global_t *health = stats_global_new("health", 300);
+    stats_t *s = stats_new(health, starting_max);
+
+    int added = player_add_stat(player, s);
+    cr_assert_eq(added, SUCCESS, "player_add_stat() failed");
+
+    cr_assert_not_null(player->player_stats, 
+    "player_add_stat() did not add the stat to the player's stat hash");
+
+    int rc = player_change_stat_max(player, "health", max_change);
+
+    cr_assert_eq(rc, SUCCESS, "player_change_stat_max() did not return SUCCESS");
+
+    /* The local max of a stat is only relevant when updating the current value */
+    rc = player_change_stat(player, "health", health_change);
+
+    cr_assert_eq(rc, SUCCESS, "player_change_stat() did not return SUCCESS");
+
+    double current_health = player_get_stat_current(player, "health");
+
+    cr_assert_float_eq(current_health, expected, .0001, 
+    "player_change_stat_max() did not correctly update the max health value. "
+    "Expected: %.02f Actual: %.02f", expected, current_health);
+
+    free_stats_table(player->player_stats);
+    free_stats_global(health);
+
+    player_free(player);  
+}
+
+Test(player, add_stat_effect)
+{
+    player_t *player = player_new("test");
+
+    cr_assert_not_null(player, "player_new() failed");
+
+    effects_hash_t *hash = NULL;
+    effects_global_t *global = global_effect_new("effect");
+    stat_effect_t *effect = stat_effect_new(global);
+    int rc = player_add_stat_effect(player, effect);
+
+    cr_assert_eq(rc, SUCCESS, "player_add_stat_effect failed");
+    cr_assert_not_null(player->player_effects, 
+    "player_add_stat_effect did not add effect to player_effects hash");
+
+    delete_all_stat_effects(hash);
+    free(global->name);
+    free(global);
+    
+    player_free(player);
+}
