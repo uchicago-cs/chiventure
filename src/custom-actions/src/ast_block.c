@@ -50,40 +50,52 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type)
 int AST_block_free(AST_block_t *ast)
 {
     assert(ast != NULL);
-    switch(ast->block_type) 
+
+    if (ast->block != NULL)
     {
-        case CONTROL: 
-            if (ast->block->control_block != NULL) 
-            {
-                printf("Free CONTROL\n\n");
-                control_block_free(ast->block->control_block);
-            }
-            break;
-        case ACTION:
-            if (ast->block->action_block != NULL)
-            {
-                printf("Free ACTION\n\n");
-                action_block_free(ast->block->action_block);
-            }
-            break;
-        case CONDITIONAL:
-            if (ast->block->conditional_block != NULL)
-            {
-                printf("Free CONDITIONAL\n\n");
-                conditional_block_free(ast->block->conditional_block);
-            }
-            break; 
-        case BRANCH:
-            if (ast->block->branch_block != NULL)
-            {
-                printf("Free BRANCH\n\n");
-                branch_block_free(ast->block->branch_block);
-            }
+        switch(ast->block_type) 
+        {
+            case CONTROL: 
+                if (ast->block->control_block != NULL) 
+                {
+                    control_block_free(ast->block->control_block);
+                    ast->block->control_block == NULL;
+                }
+                free(ast->block);
+                ast->block == NULL;
+                break;
+            case ACTION:
+                if (ast->block->action_block != NULL)
+                {
+                    action_block_free(ast->block->action_block);
+                    ast->block->action_block == NULL;
+                }
+                free(ast->block);
+                ast->block == NULL;
+                break;
+            case CONDITIONAL:
+                if (ast->block->conditional_block != NULL)
+                {
+                    conditional_block_free(ast->block->conditional_block);
+                }
+                free(ast->block);
+                ast->block == NULL;
+                break; 
+            case BRANCH:
+                if (ast->block->branch_block != NULL)
+                {
+                    branch_block_free(ast->block->branch_block);
+                }
+                free(ast->block);
+                ast->block == NULL;
+        }
     }
+
     if (ast->next != NULL) 
     {
         AST_block_free(ast->next);
     }
+
     // if (ast->prev != NULL)
     // {
     //     AST_block_free(ast->prev);

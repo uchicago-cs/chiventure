@@ -198,11 +198,11 @@ Test(AST_block_t, list_add_AST_block)
 
     new_ast->next = second_ast;
     second_ast->next = third_ast;
-    //third_ast->next = NULL;
+    third_ast->next = NULL;
 
     third_ast->prev = second_ast;
     second_ast->prev = new_ast;
-    //new_ast->prev = NULL;
+    new_ast->prev = NULL;
 
     /* Create another AST_block that will be places as the second place in linked list */
     block_t *cond = malloc(sizeof(block_t));
