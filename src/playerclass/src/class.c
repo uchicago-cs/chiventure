@@ -256,11 +256,35 @@ skill_inventory_t* multiclass_inventory(skill_inventory_t* base_inventory, skill
     return new_inventory;
 }
 
+/*
+ * Creates an attribute object for a multiclass
+ * by adding the objects of both classes to a new object.
+ *
+ *
+ * Paramaters:
+ *  - base_attributes: the attributes of the base class.
+ *  - second_attributes: the attributes of the second class.
+ *  - multiclass_name: the name of the multiclass
+ *
+ * Returns:
+ *  - a pointer to the combined attributes.
+ *  - note that the attributes in the combined object are not deepcopied.
+ */
+obj_t* multiclass_attributes(obj_t* base_attributes, obj_t* second_attributes, char* multiclass_name) {
+    char* obj_name = (char*) malloc(sizeof(char) * strlen(multiclass_name) + 6);
+    strcpy(obj_name, multiclass_name);
+    strncat(obj_name, "_attr", 6);
+    obj_t* new_attributes = *obj_new(obj_name);
+    obj_add_attr(new_attributes, base_attributes->id, base_attributes);
+    obj_add_attr(new_attributes, second_attributes->id, second_attributes);
+    return multiclass_attributes;
+}
+
 /* See class.h */
 class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
     char* new_shortdesc = multiclass_shortdesc(base_class, second_class);
     char* new_longdesc = multiclass_longdesc(base_class, second_class);
-    obj_t* combined_attr = NULL;
+    obj_t* combined_attr = multiclass_attributes(base_class->attributes, second_class->attributes, name);
     effects_hash_t* combined_effects = multiclass_effects(base_class->effects, second_class->effects);
     
     class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->stats, combined_effects);
