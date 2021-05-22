@@ -72,12 +72,6 @@ int add_item_to_game(game_t *game, item_t *item)
 }
 
 /* See game.h */
-<<<<<<< HEAD
-// int add_npc_to_game(game_t *game, item_t *npc)
-// {
-//     return 2;
-// }
-=======
 int add_npc_to_game(game_t *game, npc_t *npc)
 {
     npc_t *check;
@@ -93,7 +87,6 @@ int add_npc_to_game(game_t *game, npc_t *npc)
                     strnlen(npc->npc_id, MAX_ID_LEN), npc);
     return SUCCESS;
 }
->>>>>>> dev
 
 /* See game.h */
 int add_final_room_to_game(game_t *game, room_t *final_room)
