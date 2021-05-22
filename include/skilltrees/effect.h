@@ -14,6 +14,10 @@
 #include "battle/battle_moves.h"
 #include "game-state/stats.h"
 
+/* Forward Declarations */
+// typedef struct move move_t;
+// typedef struct stat stat_t;
+
 /* List of all the effect types that a skill can have.  We can add more in the future */
 typedef enum effect_type {
     // Effect that modifies statistics of player

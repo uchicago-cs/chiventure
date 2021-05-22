@@ -12,7 +12,11 @@
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 #include "playerclass/class_prefabs.h"
+#include "skilltrees/skilltree.h"
+#include "skilltrees/inventory.h"
 #include "common/utlist.h"
+
+
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
