@@ -30,12 +30,13 @@ battle_item_t *get_random_default_weapon()
     int hp_array[] = {-20, -10, 0, 0, 0, 0};
     int attack_array[] = {0, 0, -5, -10, 0, 0};
     int defense_array[] = {0, 0, 0, 0, -10, -15};
+    int durability_array[] = {100, 80, 60, 40, 30, 20};
 
     rv_weapon->id = rand;
     rv_weapon->is_weapon = true;
     //set effectiveness_decrement?
     rv_weapon->quantity = randnum(1, 3);
-    rv_weapon->durability = 0; 
+    rv_weapon->durability = durability_array[rand - 1]; 
 
     // sets name
     int name_len = strlen(name_array[rand - 1]);
