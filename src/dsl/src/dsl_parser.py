@@ -70,7 +70,7 @@ class TreeToDict(Transformer):
         action_ids = s.pop(0)[1]
         
         # actions_properties is a list with items of the form ("OPEN SUCCESS", "you opened the door")
-        action_properties = s[1:]
+        action_properties = s
         
         actions_dictionary = {}
         
