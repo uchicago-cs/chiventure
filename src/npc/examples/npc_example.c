@@ -91,16 +91,16 @@ char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
     
 /* Defines a new CLI operation that starts a conversation with Jim */
-/* char *engage_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    check_game(tokens, ctx);
+// char *engage_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+// {
+//     check_game(tokens, ctx);
    
-    convo_t *c;
-    c = create_sample_convo();
+//     convo_t *c;
+//     c = create_sample_convo();
     
-    node_t *n = get_node(c, 0);
-    return n->npc_dialogue;
-} */
+//     node_t *n = get_node(c, 0);
+//     return n->npc_dialogue;
+// }
 
 /* Defines a new CLI operation that continues the conversation with Jim */
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -118,34 +118,34 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 /* Defines a new CLI operation that continues the conversation with Jim */
-/* char *house_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    check_game(tokens, ctx);
+// char *house_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+// {
+//     check_game(tokens, ctx);
    
-    convo_t *c;
-    c = create_sample_convo();
+//     convo_t *c;
+//     c = create_sample_convo();
 
-    node_t *n1 = get_node(c, 1);
-    print_to_cli(ctx, n1->edges->quip);
+//     node_t *n1 = get_node(c, 1);
+//     print_to_cli(ctx, n1->edges->quip);
     
-    node_t *n2 = get_node(c, 3);
-    return n2->dialogue;
-} */
+//     node_t *n2 = get_node(c, 3);
+//     return n2->dialogue;
+// }
 
 /* Defines a new CLI operation that continues the conversation with Jim */
-/* char *messy_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    check_game(tokens, ctx);
+// char *messy_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+// {
+//     check_game(tokens, ctx);
    
-    convo_t *c;
-    c = create_sample_convo();
+//     convo_t *c;
+//     c = create_sample_convo();
 
-    node_t *n1 = get_node(c, 3);
-    print_to_cli(ctx, n1->edges->quip);
+//     node_t *n1 = get_node(c, 3);
+//     print_to_cli(ctx, n1->edges->quip);
     
-    node_t *n2 = get_node(c, 4);
-    return n2->dialogue;
-} */
+//     node_t *n2 = get_node(c, 4);
+//     return n2->dialogue;
+// }
 
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()

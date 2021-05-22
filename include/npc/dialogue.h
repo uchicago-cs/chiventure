@@ -23,7 +23,7 @@ typedef enum {
 } node_action_type;
 
 /* An action flag. This allows designers to integrate actions into their
- * dialogue. NOTE: This is a linked list, for multiple actions.
+ * dialogue. NOTE: This is a linked list, allowing for multiple actions.
  * 
  * Includes:
  *  - action: the type of action (see above)
@@ -36,6 +36,7 @@ typedef struct node_action {
     struct node_action *next, *prev;
 } node_action_t;
 
+/* Edge availability status: for conditional dialogue options */
 typedef enum {
     EDGE_DISABLED = -1,
     EDGE_UNAVAILABLE,
@@ -61,7 +62,7 @@ typedef struct edge {
     condition_t *condition;
 } edge_t;
 
-/* A doubly-linked list containing edges and their "availability."
+/* A doubly-linked list containing edges and their "availabilities."
  *
  * Includes:
  *  - availablility: -1 = DISABLED, 0 = UNAVAILABLE, 1 = AVAILABLE (see above)
@@ -308,17 +309,6 @@ node_t *node_new(char *node_id, char *npc_dialogue);
  */
 int node_free(node_t *n);
 
-/* Allocates a new node action on the heap.
- *
- * Parameters:
- *  - action: type of action
- *  - action_id: ID associated with that action, if any
- *
- * Returns:
- *  - pointer to the new node action
- */
-node_action_t *node_action_new(node_action_type action, char *action_id);
-
 /* Initializes a convo.
  *
  * Parameters:
@@ -375,6 +365,17 @@ int free_edge_list(edge_list_t *e_lst, bool free_edges);
  *  - SUCCESS if successful, FAILURE if an error occurs
  */
 int free_node_list(node_list_t *n_lst, bool free_nodes);
+
+/* Allocates a new node action on the heap.
+ *
+ * Parameters:
+ *  - action: type of action
+ *  - action_id: ID associated with that action, if any
+ *
+ * Returns:
+ *  - pointer to the new node action
+ */
+node_action_t *node_action_new(node_action_type action, char *action_id);
 
 /* Frees an action list (using macros from common/utlist.h).
  *

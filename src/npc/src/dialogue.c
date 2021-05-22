@@ -115,7 +115,7 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
  *       DIALOGUE EXECUTION FUNCTIONS         *
  **********************************************/
 
-/* Executes the actions on a node.
+/* Executes all actions on a node.
  *
  * Parameters:
  *  - n: node
@@ -133,6 +133,9 @@ int do_node_actions(node_t *n, game_t *game)
         switch(cur_action->action) {
 
             case GAIN_ITEM: ;
+                // This current implementation gets items from game->all_items.
+                // Ideally, we will want to retrieve & remove the item from
+                // npc->inventory.
                 item_t *item = get_item_in_hash(game->all_items,
                                                 cur_action->action_id);
                 if (item == NULL) return FAILURE;
@@ -141,7 +144,6 @@ int do_node_actions(node_t *n, game_t *game)
                 break;
 
             case START_QUEST:
-                printf("- You have received a quest. -\n\n");
                 // to do
                 break;
 
@@ -195,6 +197,12 @@ int update_edge_availabilities(node_t *n)
 /* Creates a return string containing NPC dialogue and dialogue options
  * (to be printed by the CLI).
  *
+ * SAMPLE OUTPUT:
+ * Pick an item: a sword or a shield?
+ * 1. Sword
+ * 2. Shield
+ * Enter your choice: 
+ *
  * Parameters:
  *  - n: pointer to a node
  *  - is_leaf: 1 or 0, indicating whether c->cur_node is a leaf
@@ -227,7 +235,7 @@ char *create_return_string(node_t *n, int is_leaf)
 
     // Create return string
     char *buf, *p;
-    char temp[5];
+    char temp[5]; 
     cur_edge = n->edges;
     i = 0;
     option_number = 1;
@@ -306,11 +314,12 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     // Step 1: Traverse to the player's selected node
     cur_edge = c->cur_node->edges;
-    // This logic works as follows:
-    // (1) We only decrement input when we encounter an available edge
+    // The logic here works as follows:
+    // (1) We only decrement input when we encounter an available edge, until
+    //     input become 1
     // (2) However, we could end up on an unavailable edge, which is where
     //     "|| cur_edge->availability != EDGE_AVAILABLE" comes in
-    // (3) Overall, this code ensures that we end up on the player's selected
+    // (3) Overall, this code ensures that we arrive at the player's selected
     //     edge
     while (input > 1 || cur_edge->availability != EDGE_AVAILABLE) {
         if (cur_edge->availability == EDGE_AVAILABLE) input--;
@@ -484,22 +493,6 @@ int node_free(node_t *n)
 }
 
 /* See dialogue.h */
-node_action_t *node_action_new(node_action_type action, char *action_id)
-{
-    node_action_t *n_a;
-    if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;
-
-    n_a->action = action;
-
-    if (action_id != NULL) {
-        if ((n_a->action_id = strdup(action_id)) == NULL) return NULL;
-    }
-    else n_a->action_id = NULL;
-
-    return n_a;
-}
-
-/* See dialogue.h */
 int convo_init(convo_t *c)
 {
     assert(c != NULL);
@@ -565,6 +558,22 @@ int free_node_list(node_list_t *n_lst, bool free_nodes)
     }
 
     return SUCCESS;
+}
+
+/* See dialogue.h */
+node_action_t *node_action_new(node_action_type action, char *action_id)
+{
+    node_action_t *n_a;
+    if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;
+
+    n_a->action = action;
+
+    if (action_id != NULL) {
+        if ((n_a->action_id = strdup(action_id)) == NULL) return NULL;
+    }
+    else n_a->action_id = NULL;
+
+    return n_a;
 }
 
 /* See dialogue.h */
