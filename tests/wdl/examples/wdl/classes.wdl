@@ -9,7 +9,24 @@
     "CLASSES": {
         "Warrior": {
             "short_desc": "Warrior's short description",
-            "long_desc": "Warrior's long description"
+            "long_desc": "Warrior's long description",
+            "attributes": {
+                "noble": true,
+                "hot-headed": true
+            },
+            "base_stats": {
+                "health": {
+                    "current": 100,
+                    "max": 200
+                },
+                "mana": {
+                    "current": 20,
+                    "max": 100
+                }
+            },
+            "effects": null,
+            "skill_tree_t": null,
+            "starting_skills": null
         },
         "Rogue": {
             "short_desc": "Rogue's short description",

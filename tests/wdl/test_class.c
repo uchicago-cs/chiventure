@@ -60,4 +60,6 @@ Test(game, load_game_with_classes)
     char *str = g->start_desc;
     cr_assert_str_eq(str, "This is the intro for a test game, which is exactly like that in connected-rooms.wdl execpt it also has classes.", 
                      "Intro was not loaded correctly");
+
+    /* Check specifically for certain classes (TODO) */
 }
