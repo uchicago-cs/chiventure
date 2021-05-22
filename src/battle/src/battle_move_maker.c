@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle_move_maker.h"
+#include "battle/battle_move_maker.h"
 #include "../../playerclass/examples/class-list.h"
 
 /* See battle_move_maker.h */
@@ -14,9 +14,9 @@ int build_moves(combatant_t *c)
     move_t *ret_move;
 
     char *combatant_class_name;
-    if(c->class != NULL)
+    if(c->class_type != NULL)
     {
-        combatant_class_name = c->class->name;
+        combatant_class_name = c->class_type->name;
     }
     else
     {
@@ -37,5 +37,25 @@ int build_moves(combatant_t *c)
     {
         return FAILURE;
     }
+    return SUCCESS;
+}
+
+
+/* see battle_move_maker.h */
+int add_move(combatant_t *combatant, move_t *move) {
+    assert(combatant != NULL);
+    assert(move != NULL);
+
+    move_t *last_move = combatant->moves;
+    
+    if (combatant->moves == NULL){
+        combatant->moves = move;
+        return SUCCESS;
+    }
+
+    while (last_move->next != NULL) {
+        last_move = last_move->next;
+    }
+    last_move->next = move;
     return SUCCESS;
 }
