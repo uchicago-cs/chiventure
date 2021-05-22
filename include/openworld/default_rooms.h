@@ -9,6 +9,9 @@
 /* copy_item_to_hash is a helper function to deep copy
 *  items from the src hash to the dest hash using name
 *  as the key for lookup.
+* 
+*  Uses item-stacking (details https://github.com/uchicago-cs/chiventure/issues/703)
+*  to add duplicate items to dest hash.
 *  Input:
 *  - item_hash_t *dst, *src: the source and destination hash tables
 *  - char *name: the key for look up
