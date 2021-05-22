@@ -4,13 +4,6 @@
 #include <stdarg.h>
 
 #include "playerclass/class_prefabs.h"
-#include "playerclass/class.h"
-#include "playerclass/class_structs.h"
-#include "common/ctx.h"
-#include "libobj/obj.h"
-#include "game-state/stats.h"
-#include "common/uthash.h"
-#include "skilltrees/skill.h"
 
 /* Rudimentary id system for prefab classes (internal) */
 
@@ -141,7 +134,7 @@ int set_stats_hashtable(game_t* game, stats_hash_t** stats,
 }
 
 /* See class_prefabs.h */
-class_t* class_prefab_new(game_t* game, char *class_name) {
+class_t* class_prefab_new(game_t* game, char* class_name) {
     char temp_name[MAX_NAME_LEN + 1]; 
     strncpy(temp_name, class_name, MAX_NAME_LEN);
     /* make temp_name lowercase */

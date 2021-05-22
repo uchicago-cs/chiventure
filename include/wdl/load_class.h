@@ -5,6 +5,7 @@
 #ifndef INCLUDE_LOAD_CLASS_H
 #define INCLUDE_LOAD_CLASS_H
 
+#include "playerclass/class.h"
 #include "game-state/game.h"
 #include "libobj/obj.h"
 

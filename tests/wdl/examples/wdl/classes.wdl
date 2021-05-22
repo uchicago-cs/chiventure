@@ -8,6 +8,7 @@
     },
     "CLASSES": {
         "Warrior": {
+            "prefab": true,
             "short_desc_s": "Warrior's short description",
             "long_desc": null,
             "attributes": {

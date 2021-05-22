@@ -1,12 +1,22 @@
 
 #include "wdl/load_class.h"
 #include "wdl/validate.h"
-#include "playerclass/class_prefabs.h"
+#include "playerclass/class_prefabs.h"  
 
 // RETURNS ERROR CODE
 int load_class(obj_t* class_obj, game_t* game) {
-    if (obj_get_bool(class_obj, "prefab")) {
-        
+    class_t* class = NULL;
+    if (obj_get_type(class_obj, "prefab") == TYPE_BOOL && obj_get_bool(class_obj, "prefab")) {
+        class = NULL; //class_prefab_new(game, "test");
+    }
+    else {
+        class = class_new(class_obj->id, NULL, NULL, NULL, NULL, NULL);
+    }
+
+    /* Add class to global class hashtable */
+    if (add_class(&(game->all_classes), class) == FAILURE) {
+        fprintf(stderr, "Could not add class to global class hashtable.\n");
+        return FAILURE;
     }
 
     return SUCCESS;

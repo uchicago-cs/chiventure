@@ -6,7 +6,7 @@
 #define CLASS_PREFABS_H
 
 #include "playerclass/class_structs.h"
-#include "common/ctx.h"
+#include "game-state/game.h"
 
 /*
  * Allocates and initializes a prefab class, and the following fields:
@@ -26,7 +26,7 @@
  * Returns:
  *  - A pointer to the new class on success, NULL on failure.
  */
-class_t* class_prefab_new(game_t* game, char *class_name);
+class_t* class_prefab_new(game_t* game, char* class_name);
 
 /*
  * Initializes a prefab class's skilltree and active combat and noncombat skill 
