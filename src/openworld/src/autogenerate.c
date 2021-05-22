@@ -130,7 +130,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 
         char direction_to_curr[MAX_DIRECTION_STRLEN], direction_to_new[MAX_DIRECTION_STRLEN];
 
-        if (FAILURE == pick_random_direction(game->curr_room, direction_to_curr, direction_to_new)) 
+        if (pick_random_direction(game->curr_room, direction_to_curr, direction_to_new) == FAILURE) 
             return FAILURE; // failed to generate at least one room
         
         room_generate(game, game->curr_room, rspec, direction_to_curr, direction_to_new);
