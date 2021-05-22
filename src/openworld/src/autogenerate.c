@@ -121,7 +121,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 
 
 /* See autogenerate.h */
-int speclist_from_hash(speclist_t **orig, roomspec_t *hash)
+int speclist_from_hash(speclist_t **orig, rspec_hash_t *hash)
 {
     roomspec_t *current_room = NULL;
     roomspec_t *tmp = NULL;
@@ -192,30 +192,29 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 
 
 /* See autogenerate.h */
-int map_level_to_difficulty(difficulty_level_scale_t *level_scale, 
-                            int player_level)
+int map_level_to_difficulty(int num_thresholds, int *thresholds, int player_level)
 {   
     /* Iterate from start (lowest point) of threshold array... */
-    for (int i = 0; i < level_scale->num_thresholds; i++) {
+    for (int i = 0; i < num_thresholds; i++) {
         /* ...to find the first or minimum threshold which exceeds the given player level: */
-        if (player_level < level_scale->thresholds[i]) {
+        if (player_level < thresholds[i]) {
             /* Player lvl must be in difficulty level directly below it (-1)... */
             return (i - 1);
         }
     }
     /* ...OR equal/exceeding the max threshold, in which case print max difficulty: */
-    return level_scale->num_thresholds - 1; // -1 to convert array len -> max index
+    return num_thresholds - 1; // -1 to convert array len -> max index
 }
 
 
 /* See autogenerate.h */
-int roomspec_is_given_difficulty(room_level_t **room_levels, 
-                                  roomspec_t *roomspec, 
-                                  int difficulty_level)
+int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels, 
+                                 roomspec_t *roomspec, 
+                                 int difficulty_level)
 {
-    room_level_t *elt;
+    roomlevel_t *elt;
 
-    HASH_FIND_STR(*room_levels, roomspec->room_name, elt); 
+    HASH_FIND_STR(*roomlevels, roomspec->room_name, elt); 
     if (elt) {
         if (elt->difficulty_level == difficulty_level) {
             return SUCCESS;
@@ -229,16 +228,18 @@ int roomspec_is_given_difficulty(room_level_t **room_levels,
 
 /* See autogenerate.h */
 speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
-                                            room_level_t **room_levels, 
+                                            roomlevel_hash_t **roomlevels, 
                                             int difficulty_level)
-{
-    speclist_t *tmp;
+{    
+    speclist_t *curr, *tmp;
     speclist_t *filtered_speclist = NULL;
 
-    DL_FOREACH(speclist, tmp) { 
-        if (roomspec_is_given_difficulty(room_levels, tmp->spec, difficulty_level) == SUCCESS) 
-        { 
-               DL_APPEND(filtered_speclist, tmp);    
+    DL_FOREACH_SAFE(speclist, curr, tmp) { 
+        int is_given_difficulty = roomspec_is_given_difficulty(roomlevels, 
+                                                               curr->spec, 
+                                                               difficulty_level);
+        if (is_given_difficulty == SUCCESS) { 
+            DL_APPEND(filtered_speclist, curr);    
         }
     }
 
@@ -249,8 +250,7 @@ speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
 /* See autogenerate.h */
 int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
-                              room_level_t **room_levels, 
-                              difficulty_level_scale_t *level_scale)
+                              levelspec_t *levelspec)
 {
     /* If there are no roomspec_t elements in context->speclist, then do not autogenerate */
     if (context->speclist == NULL) {
@@ -258,11 +258,13 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     }
 
     /* compute the difficulty corresponding to player level */
-    int difficulty_level = map_level_to_difficulty(level_scale, context->level);
+    int difficulty_level = map_level_to_difficulty(levelspec->num_thresholds,
+                                                   levelspec->thresholds,
+                                                   context->level);
 
     /* filter the given speclist according to difficulty */
-    speclist_t *filtered_speclist = filter_speclist_with_difficulty(context->speclist, 
-                                                                    room_levels, 
+    speclist_t *filtered_speclist = filter_speclist_with_difficulty(context->speclist,
+                                                                    &(levelspec->roomlevels), 
                                                                     difficulty_level);
 
     /* filtered gencontext */
@@ -363,4 +365,3 @@ int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist,
     }
     return rc; 
 }
-
