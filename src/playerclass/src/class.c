@@ -274,7 +274,7 @@ obj_t* multiclass_attributes(obj_t* base_attributes, obj_t* second_attributes, c
     char* obj_name = (char*) malloc(sizeof(char) * strlen(multiclass_name) + 6);
     strcpy(obj_name, multiclass_name);
     strncat(obj_name, "_attr", 6);
-    obj_t* new_attributes = *obj_new(obj_name);
+    obj_t* new_attributes = obj_new(obj_name);
     obj_add_attr(new_attributes, base_attributes->id, base_attributes);
     obj_add_attr(new_attributes, second_attributes->id, second_attributes);
     return multiclass_attributes;
