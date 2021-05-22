@@ -6,6 +6,16 @@
             "in_room": "room_C"
         }
     },
+    "CLASSES": {
+        "Warrior": {
+            "short_desc": "Warrior's short description",
+            "long_desc": "Warrior's long description"
+        },
+        "Rogue": {
+            "short_desc": "Rogue's short description",
+            "long_desc": "Rogue's long description"
+        }
+    },
     "ROOMS": {
         "room_A": {
             "short_desc": "This is room A",
