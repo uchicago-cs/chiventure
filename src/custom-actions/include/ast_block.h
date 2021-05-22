@@ -107,6 +107,22 @@ bool list_contains_AST_block(AST_block_t* head, block_type_t block_type);
  */
 int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place);
 
+/*
+ * A wrapper function for list_add_AST_block
+ * Appends the add to the end of the list
+ * Defaults num_to_place input as the length of the list
+ *   Otherwise, same input and output
+ */
+int append_list_AST_block(AST_block_t*head, AST_block_t* add);
+
+/*
+ * A wrapper function for list_add_AST_block
+ * Prepends the add to the start of the list
+ * Defaults num_to_place input as 0
+ *   Otherwise, same input and output
+ */
+int prepend_list_AST_block(AST_block_t* head, AST_block_t* add);
+
 /* list_remove_AST_block: Deletes a certain block_type from linked list
  *
  * Input:
