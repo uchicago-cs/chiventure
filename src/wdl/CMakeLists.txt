@@ -2,6 +2,7 @@ add_library(wdl
             src/load_game.c
             src/load_item.c
             src/load_room.c
+            src/load_class.c
             src/validate.c)
 
 target_include_directories(wdl PRIVATE src/)
