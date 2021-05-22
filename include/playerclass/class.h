@@ -101,7 +101,7 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name);
  *  - This is not currently implemented anywhere, and is vestigial code.
  *    It may be helpful in the future, but is not currently needed.
  */
-int has_component_class (class_t* class, char* name);
+int has_component_class(class_t* class, char* name);
 
 /*
  * Frees a class and strings created by class_new.

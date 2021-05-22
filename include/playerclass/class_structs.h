@@ -27,7 +27,7 @@ typedef struct class {
     char* name;
 
     // Number of parent classes
-    int parent_class_num;
+    int num_parent_class;
 
     // All base classes that have been multiclassed into
     char **parent_class_names;

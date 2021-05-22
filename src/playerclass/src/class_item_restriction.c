@@ -35,7 +35,7 @@ bool is_restricted(item_t* item, class_t* class) {
         return FAILURE;
     }
 
-    for (int i = 0; i < class->parent_class_num; i++){
+    for (int i = 0; i < class->num_parent_class; i++){
         if (list_contains_attribute(item->class_restrictions, strndup(class->parent_class_names[i], 100))){
             return true;
         }

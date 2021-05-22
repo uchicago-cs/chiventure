@@ -124,8 +124,7 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
     new_condition->attribute_to_check = attribute;
     new_condition->expected_value = new_value;
 
-    condition_t *condition_wrapper = malloc(sizeof(condition_t));
-    memset(condition_wrapper, 0, sizeof(condition_t));
+    condition_t *condition_wrapper = calloc(1, sizeof(condition_t));
     condition_wrapper->condition.attribute_type = new_condition;
     condition_wrapper->condition_tag = ATTRIBUTE;
 
