@@ -195,7 +195,7 @@ item_hash_t *random_items(roomspec_t *room)
 }
 
 /* See autogenerate.h */
-item_hash_t *load_items(roomspec_t *rspec)
+item_hash_t *generate_items(roomspec_t *rspec)
 {
     if (rspec == NULL) {
         return NULL;
