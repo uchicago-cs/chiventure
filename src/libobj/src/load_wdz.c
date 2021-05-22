@@ -49,7 +49,7 @@ bool _strip_expected_extension(char *str, char *ext)
 }
 
 /* See load.h */
-int load_obj_zip(obj_t *obj, zip_t *zip)
+int load_obj_store_from_zip(obj_t *obj, zip_t *zip)
 {
     if (obj == NULL || zip == NULL)
     {
@@ -111,7 +111,7 @@ int load_obj_zip(obj_t *obj, zip_t *zip)
             }
         }
         obj_t *to_load = obj_get_attr(obj, name_buf, true);
-        if (load_obj_json(to_load, json_buf) == EXIT_FAILURE)
+        if (load_obj_store_from_json(to_load, json_buf) == EXIT_FAILURE)
         {
             free(name_buf);
             free(json_buf);

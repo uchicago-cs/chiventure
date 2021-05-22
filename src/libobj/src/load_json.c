@@ -67,7 +67,7 @@ int _load_obj_json(obj_t *parent, struct json_object *json)
 }
 
 /* See load.h */
-int load_obj_json(obj_t *obj, char *json_str)
+int load_obj_store_from_json(obj_t *obj, char *json_str)
 {
     struct json_object *json = json_tokener_parse(json_str);
     int rc = _load_obj_json(obj, json);
