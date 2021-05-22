@@ -172,6 +172,56 @@ item_hash_t *random_items(roomspec_t *room)
 }
 
 /* See autogenerate.h */
+item_hash_t *load_items(roomspec_t *rspec)
+{
+    if (rspec == NULL) {
+        return NULL;
+    }
+
+    int total_count = 0;
+    item_t *curr, *tmp;
+    item_hash_t *rv = NULL;
+    HASH_ITER(hh, rspec->items, curr, tmp) {
+        if (total_count == MAX_RAND_ITEMS)
+            break;
+
+        double spawn_chance = 1;
+        unsigned int max_num = 1;
+        unsigned int min_num = 1;
+
+        itemspec_t *itemspec;
+        HASH_FIND_STR(rspec->itemspecs, curr->item_id, itemspec);
+        if (itemspec) {
+            spawn_chance = itemspec->spawn_chance;
+            max_num = itemspec->max_num;
+            min_num = itemspec->min_num;
+        }
+        int num_quantities = max_num - min_num + 1;
+
+        int spawn_num = min_num;
+        bool should_spawn = (rand() / RAND_MAX) <= spawn_chance;
+        if (should_spawn) {
+            spawn_num += rand() % num_quantities;
+        } else {
+            spawn_num = 0;
+        }
+        spawn_num = spawn_num < MAX_RAND_ITEMS - total_count;
+
+        for (int i = 0; i < spawn_num; i++) {
+            copy_item_to_hash(&rv, rspec->items, curr->item_id);
+        }
+        total_count += spawn_num; // note that spawn_num could be 0
+    }
+
+    // for (int i = 0; i < num_items; i++) {
+    //     int rc = random_item_lookup(&items, room->items, num_iters);
+    // }
+    // if (items == NULL) return NULL;
+    return rv;
+}
+
+
+/* See autogenerate.h */
 int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 {
     item_hash_t *current = NULL;

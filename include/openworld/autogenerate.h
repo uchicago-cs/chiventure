@@ -22,7 +22,7 @@
 #include "gen_structs.h"
 #include "default_rooms.h"
 
-#define MAX_RAND_ITEMS (6)
+#define MAX_RAND_ITEMS (100)
 
 /*
 * path_exists_in_dir
@@ -143,6 +143,23 @@ roomspec_t *random_room_lookup(speclist_t *spec);
 * - item_hash_t* new item hash
 */
 item_hash_t *random_items(roomspec_t *room);
+
+/** load_items
+ * Generates an item hash according to the item_hash and itemspec_hash 
+ * specified in in the given roomspec.
+ * 
+ * If the corresponding itemspec for an item is not defined,
+ * load_items resorts to default behavior: 
+ * generate 1 item with 100% probability
+ * 
+ * parameter:
+ * - rspec: A single roomspec.
+ * 
+ * returns:
+ * - NULL if failure (or it specified no items should be added)
+ * - item_hash_t* new item hash
+ */
+item_hash_t *load_items(roomspec_t *rspec);
 
 /*
 * random_item_lookup
