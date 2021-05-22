@@ -2,61 +2,37 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "wdl/load_wdz_internal.h"
-
-#include "wdl/validate.h"
-#include "wdl/parse.h"
 #include "wdl/load_game.h"
 #include "wdl/load_room.h"
 #include "wdl/load_item.h"
 #include "wdl/load_npc.h"
+#include "wdl/validate.h"
 #include "game-state/mode.h"
 
-/*
- * load_wdl, function that loads a wdl into all the game-state structs
- *
- * takes a path to a YAML file or a WDZ, returns a wdl_ctx
- *
- * Parameters:
- *   - path_to_wd: a path to a world document, either a YAML file or a WDZ
- *
- * Returns:
- *   - a pointer to a wdl_ctx_t struct containing either a created game from
- *     a YAML file or a set of wdl objects created from WDZ
- */
-wdl_ctx_t *load_wdl(char *path_to_wd)
-{
-    wdl_ctx_t *ctx = new_wdl_ctx();
-
-    obj_t *big_document = get_doc_obj(path_to_wd);
-    ctx->obj = big_document;
-
-    return ctx;
-}
-
 /* See load_game.h for documentation */
-game_t *load_yaml_game(obj_t *big_document)
+game_t *load_game(obj_t *obj_store)
 {
     int rc;
-    game_t *game = create_game(big_document);
+    game_t *game = create_game(obj_store);
 
     // call functions that parse items, actions, rooms, and game attributes
     // into a game pointer
-    rc = add_rooms_to_game(big_document, game);
+    rc = add_rooms_to_game(obj_store, game);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error adding rooms to game.\n");
         return NULL;
     }
 
-    rc = add_connections_to_rooms(big_document, game);
+
+    rc = add_connections_to_rooms(obj_store, game);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error adding connections to rooms.\n");
         return NULL;
     }
 
-    rc = load_items(big_document, game);
+    rc = load_items(obj_store, game);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error loading items.\n");
@@ -77,8 +53,8 @@ game_t *load_yaml_game(obj_t *big_document)
         return NULL;
     }
 
-    obj_t *game_document = obj_get_attr(big_document, "GAME", false);
-    char *start_room = obj_get_str(game_document, "start");
+    obj_t *game_obj = obj_get_attr(obj_store, "GAME", false);
+    char *start_room = obj_get_str(game_obj, "start");
     game->curr_room = find_room_from_game(game, start_room);
     if(game->curr_room == NULL)
     {
@@ -86,7 +62,7 @@ game_t *load_yaml_game(obj_t *big_document)
         return NULL;
     }
 
-    obj_t *end = obj_get_attr(game_document, "end", false);
+    obj_t *end = obj_get_attr(game_obj, "end", false);
     char *end_room = obj_get_str(end, "in_room");
     room_t *final_room = find_room_from_game(game, end_room);
     game->final_room = final_room;

@@ -16,9 +16,10 @@ int list_type_check(obj_t *ls, int(*validate)(obj_t*))
     int result = SUCCESS;
 
     obj_t *curr, *tmp;
-    HASH_ITER(hh, ls, curr, tmp)
+    HASH_ITER(hh, ls->data.obj.attr, curr, tmp)
     {
-        result = (result && (*validate)(curr));
+        // This is an OR because SUCCESS == 0
+        result = (result || (*validate)(curr));
     }
 
     return result;
@@ -155,7 +156,7 @@ int room_type_check(obj_t *obj)
     int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
 
     // verify each attribute
-    int connections_ver = connection_type_check(obj);
+    int connections_ver = (connection_type_check(obj) == SUCCESS);
 
     return !(short_ver && long_ver && connections_ver);
 }
@@ -237,7 +238,7 @@ int action_type_check(obj_t *obj)
 {
     // fields to verify
     int action_type = (obj_get_type(obj, "action") == TYPE_STR);
-    int action_valid = action_validate(obj_get_str(obj, "action"));
+    int action_valid = (action_validate(obj_get_str(obj, "action")) == SUCCESS);
 
     return !(action_type && action_valid);
 }

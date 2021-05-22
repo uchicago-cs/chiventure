@@ -10,6 +10,7 @@
 #include "game_action.h"
 #include "stats.h"
 #include "mode.h"
+#include "npc/npc.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
@@ -40,6 +41,10 @@ typedef struct game {
     /* an iteratable hashtable of items */
     /* using the macros provided in uthash.h */
     item_hash_t *all_items;
+
+    /* an interatable hashtable of npcs */
+    /* using the macros provided in uthash.h */
+    npc_hash_t *all_npcs;
 
     /* pointer to current room struct */
     room_t *curr_room;
@@ -153,16 +158,16 @@ int add_room_to_game(game_t *game, room_t *room);
  */
 int add_item_to_game(game_t *game, item_t *item);
 
-/* Adds an NPC to the given game
+/* Adds an npc to the given game
  *
  * Parameters:
  *  pointer to game struct
- *  pointer to NPC struct
+ *  pointer to npc struct
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-// int add_npc_to_game(game_t *game, npc_t *npc);
+int add_npc_to_game(game_t *game, npc_t *npc);
 
 /* Adds the final room to the given game
  *
@@ -299,6 +304,17 @@ room_t *find_room_from_game(game_t *game, char* room_id);
  *  pointer to item or NULL if not found
  */
 item_t *get_item_from_game(game_t *game, char *item_id);
+
+/*
+* Function to find npc from all_npcs
+* Parameters:
+*  pointer to game
+*  npc id (a string, i.e. char*)
+*
+* Returns
+*  pointer to npc or NULL if not found
+*/
+npc_t *get_npc(game_t *game, char *npc_id);
 
 /*
  * Function to get a linked list (utlist) of all the rooms in the game
