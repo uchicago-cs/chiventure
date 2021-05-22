@@ -67,10 +67,11 @@ int itemspec_free(itemspec_t *itemspec)
 {
     if (itemspec == NULL) 
         return FAILURE;
-    free(itemspec);
 
     if (itemspec->item_name)
         free(itemspec->item_name);
+    
+    free(itemspec);
     return SUCCESS;
 }
 

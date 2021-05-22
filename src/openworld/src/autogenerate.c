@@ -213,10 +213,6 @@ item_hash_t *load_items(roomspec_t *rspec)
         total_count += spawn_num; // note that spawn_num could be 0
     }
 
-    // for (int i = 0; i < num_items; i++) {
-    //     int rc = random_item_lookup(&items, room->items, num_iters);
-    // }
-    // if (items == NULL) return NULL;
     return rv;
 }
 
