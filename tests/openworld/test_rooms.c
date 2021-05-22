@@ -48,7 +48,7 @@ Test(room, copy_duplicate_items)
     int num_copies = 4;
     for (int i = 0; i < num_copies; i++) {
         int rc = copy_item_to_hash(&dest_hash, orig_hash, "ice");
-        cr_assert_eq(rc, SUCCESS, "Failed to copy %dth copy to hash.", i + 1);
+        cr_assert_eq(rc, SUCCESS, "Failed to add %dth copy to hash.", i + 1);
     }
     
     cr_assert_not_null(dest_hash);
@@ -64,7 +64,7 @@ Test(room, copy_duplicate_items)
     }
 
     cr_assert_eq(num_copies, count, 
-                 "Expected %d copies of olive item, got %d.", 
+                 "Expected %d copies of ice item, got %d.", 
                  num_copies, count);
 }
 
