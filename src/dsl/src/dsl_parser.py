@@ -3,6 +3,7 @@ from lark import Lark, Transformer
 from lark.lexer import Token
 import json
 from pathlib import Path
+# import to_wdl
 
 base_path = Path(__file__).parent
 grammar_f = open(base_path / "dsl_grammar.lark")
