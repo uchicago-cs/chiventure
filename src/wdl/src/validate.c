@@ -187,19 +187,65 @@ int game_type_check(obj_t *obj)
     return !(start_ver && intro_ver);
 }
 
+/*
+ * A helper function for checking types.
+ * 
+ * Parameters:
+ *  - obj: The object
+ *  - attribute_name: The attribute in question
+ *  - expected_type: The type expected from the attribute
+ * 
+ * Returns:
+ *  - true if the attribute has the right type, or if it does not exist, or if
+ *    it exists but has NULL.
+ *  - false otherwise.
+ */
+bool is_type_or_nonexistent(obj_t* obj, char* attribute_name, type_t expected_type) {
+    type_t attr_type = obj_get_type(obj, attribute_name);
+    return attr_type == expected_type || attr_type == TYPE_ERROR || attr_type == TYPE_NONE;
+}
+
 /* See validate.h */
 int class_type_check(obj_t *obj)
 {
     /* I am ok with missing fields (TYPE_ERROR or TYPE_NONE), we can fill them in later */
-    int short_desc_type = obj_get_type(obj, "short_desc");  
-    if (short_desc_type != TYPE_STR && short_desc_type != TYPE_ERROR && short_desc_type != TYPE_NONE) {
-        fprintf(stderr, "Class short_desc was wrong type.\n");
+    if (!is_type_or_nonexistent(obj, "prefab", TYPE_BOOL)) {
+        fprintf(stderr, "Class's prefab field was wrong type.\n");
         return FAILURE;
     }
 
-    int long_desc_type = obj_get_type(obj, "long_desc");  
-    if (long_desc_type != TYPE_STR && long_desc_type != TYPE_ERROR && long_desc_type != TYPE_NONE) {
-        fprintf(stderr, "Class long_desc was wrong type.\n");
+    if (!is_type_or_nonexistent(obj, "short_desc", TYPE_STR)) {
+        fprintf(stderr, "Class's short_desc field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "long_desc", TYPE_STR)) {
+        fprintf(stderr, "Class's long_desc field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "attributes", TYPE_OBJ)) {
+        fprintf(stderr, "Class's attributes field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "base_stats", TYPE_OBJ)) {
+        fprintf(stderr, "Class's base_stats field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "effects", TYPE_OBJ)) {
+        fprintf(stderr, "Class's effects field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "skilltree", TYPE_OBJ)) {
+        fprintf(stderr, "Class's skilltree field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "starting_skills", TYPE_OBJ)) {
+        fprintf(stderr, "Class's starting_skills field was wrong type.\n");
         return FAILURE;
     }
 
