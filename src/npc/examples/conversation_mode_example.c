@@ -131,7 +131,7 @@ chiventure_ctx_t *create_sample_ctx()
      */
 
     /* Creating merchant npc */
-    char *npc_id = "Steve";
+    char *npc_id = "STEVE";
     npc_t *steve = npc_new(npc_id,
                          "Steve is a merchant.",
                          "Steve is the best merchant in town.",
@@ -143,7 +143,7 @@ chiventure_ctx_t *create_sample_ctx()
     add_npc_to_game(game, steve);
 
     /* Create Professor oak */
-    char *oak_id = "Oak";
+    char *oak_id = "OAK";
     npc_t *oak = npc_new(oak_id, "Oak is a Pokemon Prof!",
                                  "Professor Oak studies Pokemon in Pallet Town",
                                  20, NULL, NULL);

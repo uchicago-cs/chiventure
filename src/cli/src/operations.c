@@ -534,9 +534,8 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     // currently "talk npc", but would be tokens[2] if syntax is "talk to npc"
-    char *npc_id = tokens[1];
     int rc;
-    npc_t *npc = get_npc(ctx->game, npc_id);
+    npc_t *npc = get_npc(ctx->game, tokens[1]);
 
     if (npc == NULL)
     {
@@ -548,7 +547,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if (!rc)
     {
         game_mode_init(ctx->game->mode, CONVERSATION,
-                       run_conversation_mode, npc_id);
+                       run_conversation_mode, npc->npc_id);
     }
 
     return str;
