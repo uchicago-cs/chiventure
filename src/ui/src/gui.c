@@ -69,8 +69,10 @@ void run_gui(chiventure_ctx_t *ctx)
                 if (letterCount < 0) letterCount = 0;
             }
 
-            if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_D))
+            if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_D)){
                 CloseWindow();
+                exit(1);
+            }
         }
 
         if (mouseOnText) framesCounter++;
@@ -109,6 +111,9 @@ void run_gui(chiventure_ctx_t *ctx)
         int pos_x = ScreenWidth/4;
         int pos_y = ScreenHeight/10;
         
+        // Loading just one image is a temporary solution
+        // In the future, we will use a more generic path so that we can load
+        // game-specific images
         Image room = LoadImage("../src/ui/src/chiventure.png");   
             
         ImageResize(&room, width, height);
