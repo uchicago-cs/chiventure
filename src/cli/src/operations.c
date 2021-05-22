@@ -552,8 +552,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (rc == 0)
     {
-        game_mode_init(ctx->game->mode, CONVERSATION,
-                       run_conversation_mode, npc->npc_id);
+        set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
     }
 
     return str;

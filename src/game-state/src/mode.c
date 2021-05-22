@@ -66,6 +66,32 @@ int load_normal_mode(game_t *g)
     return SUCCESS;
 }
 
+/* see mode.h */
+int set_game_mode(game_t *g, mode_type_t curr_mode, char *mode_ctx)
+{
+    int rc;
+    switch (curr_mode) 
+    {
+        case NORMAL:
+            rc = game_mode_init(g->mode, NORMAL, NULL, "normal");
+            break;
+
+        case CONVERSATION:
+            if (mode_ctx == NULL)
+            {
+                return FAILURE;
+            }
+
+            rc = game_mode_init(g->mode, CONVERSATION,
+                                run_conversation_mode, mode_ctx);
+            break;
+
+        default:
+            return FAILURE;
+    }
+    
+    return rc;
+}
 
 /* see mode.h */
 int run_conversation_mode(char *input, cli_callback callback_func, 
@@ -102,7 +128,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     /* If conversation over, switches back to normal mode */
     if (end_convo)
     {
-        rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
+        rc = set_game_mode(ctx->game, NORMAL, NULL);
     }
 
     return SUCCESS;
