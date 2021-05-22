@@ -13,7 +13,7 @@ class Room:
             "long_desc": self.contents['long desc'],
             "connections": self.connections_list(),
             "items": self.items_list()
-        }})
+        }},indent=2)
 
     # dummy function
     # fixes/fills any parameters (long/short descriptions, etc, that are nonstandard)
@@ -45,7 +45,7 @@ class Item:
             "short_desc": self.contents['short desc'],
             "long_desc": self.contents['long desc'],
             "actions" : self.actions_list()
-        }})
+        }},indent=2)
 
     # dummy function
     # fixes/fills any parameters (long/short descriptions, etc, that are nonstandard)
@@ -74,7 +74,7 @@ class Game:
             }, # ideally this transformation would be done in Game.generate_defaults 
         },
         'ROOMS': 'placeholder',
-        'ITEMS': 'placeholder'}) #figure out how to feed and process lists into here
+        'ITEMS': 'placeholder'},indent=2) #figure out how to feed and process lists into here
 
     # dummy function
     # fixes/fills any parameters (long/short descriptions, etc, that are nonstandard)
