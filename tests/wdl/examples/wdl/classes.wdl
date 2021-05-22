@@ -8,8 +8,8 @@
     },
     "CLASSES": {
         "Warrior": {
-            "short_desc": "Warrior's short description",
-            "long_desc": "Warrior's long description",
+            "short_desc_s": "Warrior's short description",
+            "long_desc": null,
             "attributes": {
                 "noble": true,
                 "hot-headed": true

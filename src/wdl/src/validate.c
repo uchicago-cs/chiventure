@@ -187,6 +187,26 @@ int game_type_check(obj_t *obj)
     return !(start_ver && intro_ver);
 }
 
+/* See validate.h */
+int class_type_check(obj_t *obj)
+{
+    /* I am ok with missing fields (TYPE_ERROR or TYPE_NONE), we will fill them in later */
+    int short_desc_type = obj_get_type(obj, "short_desc");  
+    if (short_desc_type != TYPE_STR && short_desc_type != TYPE_ERROR && short_desc_type != TYPE_NONE) {
+        fprintf(stderr, "Class short_desc was wrong type.\n");
+        fprintf(stderr, "Type: %d\n", short_desc_type); /////////
+        return FAILURE;
+    }
+
+    int long_desc_type = obj_get_type(obj, "long_desc");  
+    if (long_desc_type != TYPE_STR && long_desc_type != TYPE_ERROR && long_desc_type != TYPE_NONE) {
+        fprintf(stderr, "Class long_desc was wrong type.\n");
+        return FAILURE;
+    }
+
+    return SUCCESS;
+}
+
 
 // the following functions regard action type checking
 
