@@ -22,10 +22,10 @@
 #include "gen_structs.h"
 #include "default_rooms.h"
 
-#define MAX_RAND_ITEMS (6)
+#define MAX_RAND_ITEMS (100)
 
 /*
-* path_exists_in_dir
+* path_exists_in_direction
 * Is there any path in the given room that exists in the given direction?
 * Return a boolean.
 *
@@ -38,7 +38,7 @@
 * - true if the room has a path with in the given direction
 * - false if the room has no paths in the give direction
 */
-bool path_exists_in_dir(room_t *r, char *direction);
+bool path_exists_in_direction(room_t *r, char *direction);
 
 
 /*
@@ -50,7 +50,7 @@ bool path_exists_in_dir(room_t *r, char *direction);
 * Increments the num_built field of the given roomspec by 1
 *
 * parameters:
-* - roomspec: A pointer to a roomspec_t (type gencontext_t*). Not NULL.
+* - roomspec: A pointer to a roomspec_t (type gencontext_t*). Should not be NULL.
 *
 * returns:
 * The generated room_t struct pointer.
@@ -58,25 +58,50 @@ bool path_exists_in_dir(room_t *r, char *direction);
 room_t* roomspec_to_room(roomspec_t *roomspec);
 
 
-/*
-* room_generate
-* Generates a room based on the given speclist and adds it to the game.
-*
-* Checks to see if path direction is available.
-*
-* parameters:
-* - game: A pointer to a game struct. Should not be NULL.
-* - context: A pointer to a gencontext_t (type speclist_t*). Not NULL.
-* - rspec: A unique roomspec for the to-be-generated room.
-*
-* side effects:
-* - Changes input game to hold the newly generated room. Allocated on the heap
-*
-* returns:
-* - SUCCESS if the new room was generated and added (SUCCESS)
-* - FAILURE if the new room was not generated/added (FAILURE)
-*/
-int room_generate(game_t *game, gencontext_t *gencontext, roomspec_t *rspec);
+/** pick_random_direction
+ * Picks random OPEN NESW (compass) direction around given room 
+ * (open as in not filled with a path).
+ * 
+ * parameters:
+ * - curr: pointer to a room. not NULL.
+ * - out_direction_to_new: Random direction going OUT FROM curr. Outparameter.
+ *                   Array must have enough space for any NESW direction. 
+ * - out_direction_to_curr: Random direction going INTO curr. Outparameter.
+ *                    Array must have enough space for any NESW direction. 
+ * 
+ * side effects:
+ * - copies the forward-reverse pair of directions to the outparameter.
+ * 
+ * returns:
+ * - SUCCESS: if an open direction is available
+ * - FAILURE: otherwise
+ */
+
+int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_direction_to_new);
+
+/** room_generate
+ * Generates a room based on the given roomspec and adds it to the game.
+ * This new room will be attached at a given direction from a given 'curr' room. 
+ * 
+ * parameters:
+ * - game: A pointer to a game struct. Should not be NULL.
+ * - curr: A pointer to the room_t with which the newly generated room will be connected.
+ *         Must be in the game->all_rooms hash. Should not be NULL.
+ * - rspec_new: A roomspec for the to-be-generated room.
+ * - direction_to_curr: Direction for path new -> curr. Should not be NULL.
+ * - direction_to_new: Direction for path curr -> new. Should not be NULL
+ *                     NOTE: MUST BE AN AVAILABLE DIRECTION!
+ *                     (Available as in no path for that direction exists.)
+ * 
+ * side effects:
+ * - Changes input game to hold the newly generated room. Allocated on the heap
+ * 
+ * returns:
+ * - Always returns SUCCESS
+ *   Any internal failure results in crash (by triggering an assert).
+ */
+int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new, 
+                  char *direction_to_curr, char *direction_to_new);
 
 /*
 * multi_room_generate
@@ -89,7 +114,7 @@ int room_generate(game_t *game, gencontext_t *gencontext, roomspec_t *rspec);
 *
 * parameters:
 * - game: A pointer to a game struct. Should not be NULL.
-* - context: A pointer to a gencontext_t (type gencontext_t*). Not NULL.
+* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
 * - room_id: A unique room_id string for the to-be-generated room.i
 * - num_rooms: specifies how many new rooms will be generated
 *
@@ -143,6 +168,23 @@ roomspec_t *random_room_lookup(speclist_t *spec);
 * - item_hash_t* new item hash
 */
 item_hash_t *random_items(roomspec_t *room);
+
+/** load_items
+ * Generates an item hash according to the item_hash and itemspec_hash 
+ * specified in in the given roomspec.
+ * 
+ * If the corresponding itemspec for an item is not defined,
+ * load_items resorts to default behavior: 
+ * generate 1 item with 100% probability
+ * 
+ * parameter:
+ * - rspec: A single roomspec.
+ * 
+ * returns:
+ * - NULL if failure (or it specified no items should be added)
+ * - item_hash_t* new item hash
+ */
+item_hash_t *load_items(roomspec_t *rspec);
 
 /*
 * random_item_lookup
@@ -215,7 +257,7 @@ speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
  *
  * Parameters:
  * - game: pointer to a game struct. Should not be NULL.
- * - context: pointer to a gencontext_t (type gencontext_t*). Not NULL.
+ * - context: pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
  * - room_id: a unique room_id string for the to-be-generated room.i
  * - num_rooms: specifies how many new rooms will be generated
  * - levelspec: pointer to a levelspec_t; contains info needed for level-oriented generation
@@ -236,7 +278,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
 
 /* recursive_generate
  * For a given radius n, generates rooms in a branchwise-fashion up to
- * 'n' paths away from the pivot
+ * 'n' paths away from the curr_room, also the 'pivot'
  *      pivot: the room around which more rooms will be generated
  *      branchwise: 1) for each pivot, we fill as many paths/branches around it with new rooms
  *                  (we specify which paths we fill using the directions parameter)
@@ -246,15 +288,15 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
  * Parameters:
  * - game: pointer to a game struct. Should not be NULL
  * - room_t *curr_room: pointer to the room to serve as the pivot
- * - speclist_t *speclist: the llist of roomspect_t that each hold info for a separate room
+ * - gencontex_t *context: pointer to a gencontext. Should not be NULL.
  * - int radius: the max number of paths away from the current pivot that we wish to generate
  * - directions: an array of directions we wish to generate around each pivot
  *               (must be a subset of the default six: "NORTH", "EAST", "SOUTH", "WEST", "UP", "DOWN")
- * - num_of_dir: array length of directions, i.e. number of directions
- * - dir_to_parent: direction to the parent pivot
+ * - num_directions: array length of directions, i.e. number of directions
+ * - direction_to_parent: direction to the parent pivot. Should not be NULL.
  *       parent pivot: the room from which the current room was generated; when we call
  *       recursive_generate manually, the original room has no parent pivot, 
- *       i.e. its dir_to_parent == ""
+ *       i.e. its direction_to_parent == ""
  * 
  * Side effects:
  * - Changes input game to hold the newly generated room(s), allocated on the heap
@@ -262,8 +304,8 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
  * Returns:
  * Always returns SUCCESS.
  */
-int recursive_generate(game_t *game, room_t *curr_room, speclist_t *speclist, 
-                       int radius, char **directions, int num_of_dir, char *dir_to_parent);
+int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
+                       int radius, char **directions, int num_directions, char *direction_to_parent);
                                
 
 #endif /* INCLUDE_AUTOGENERATE_H */
