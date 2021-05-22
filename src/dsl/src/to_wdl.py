@@ -43,7 +43,8 @@ class Item:
         return json.dumps({self.contents['id']: {
             'in' : self.location,
             "short_desc": self.contents['short desc'],
-            "long_desc": self.contents['long desc']
+            "long_desc": self.contents['long desc'],
+            "actions" : self.actions_list()
         }})
 
     # dummy function
@@ -51,13 +52,13 @@ class Item:
     def generate_defaults(self):
         return
 
+    # to do: action conditions -- how?
     def actions_list(self):
         return list(map(lambda i: {
                 'action': i,
-                'text_success' : self.contents['connections'][i],   
-                'text_fail' : self.contents['connections'][i]
-                
-            },self.contents['connections']))
+                'text_success' : self.contents['actions'][i]['success'],   
+                'text_fail' : self.contents['actions'][i]['fail']
+            },self.contents['actions']))
 
 class Game:
     def __init__(self,contents):
@@ -101,7 +102,18 @@ room = Room('room a',{
 item = Item('room a',{
           "id": "sconce",
           "short desc": "A sconce holding a candle",
-          "long desc": "It looks a bit loose."
+          "long desc": "It looks a bit loose.",
+          "actions": {
+            "OPEN": {
+              "success": "You open the door.",
+              "fail": "You can't open the door."
+            },
+            "BREAK": {
+              "condition": "Door is in front of you.",
+              "success": "You break the door.",
+              "fail": "You can't break the door."
+            }
+          }
         })
 
 game = Game({
