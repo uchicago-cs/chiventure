@@ -262,14 +262,12 @@ achievement_t *find_achievement(achievement_tree_t *tree, char *id) {
     if (strcmp(achievement->id, id) == 0) {
         if (achievement->completed == 1) return NULL;
         return achievement;
-    }
-    else if (achievement->completed == 1) {
+    } else if (achievement->completed == 1) {
         if (tree->lmostchild != NULL) {
             return find_achievement(tree->lmostchild, id);
 	}
 	return NULL;
-    }
-    else if (tree->rsibling != NULL) {
+    } else if (tree->rsibling != NULL) {
         return find_achievement(tree->rsibling, id);
     }
     return NULL;
