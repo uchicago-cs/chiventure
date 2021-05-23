@@ -3,6 +3,8 @@
 
 #include "game_state_common.h"
 #include "item.h"
+#include "npc/rooms-npc.h"
+#include "npc/npc.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
@@ -34,6 +36,9 @@ typedef struct path {
 typedef struct path path_hash_t;
 
 // ROOM STRUCT DEFINITION -----------------------------------------------------
+/* Forward declaration */
+typedef struct npcs_in_room npcs_in_room_t;
+
 /* This struct represents a single room.
  * It contains:
  *      the room_id
@@ -49,6 +54,7 @@ typedef struct room {
     char *long_desc;
     item_hash_t *items;
     path_hash_t *paths;
+    npcs_in_room_t *npcs;
 } room_t;
 
 /* This typedef is to distinguish between room_t pointers which are

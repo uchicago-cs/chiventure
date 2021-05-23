@@ -89,6 +89,7 @@
             "short_desc": "This is a npc",
             "long_desc": "This is a npc long",
             "health": 100,
+            "in": "room_A",
             "dialogue": {
                 "nodes": [
                     {

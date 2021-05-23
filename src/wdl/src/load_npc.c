@@ -39,10 +39,22 @@ int load_npcs(obj_t *doc, game_t *g)
         }
 
         add_npc_to_game(g, npc);
+
+        // add NPC to the room they are assigned
+        char *in = obj_get_str(curr, "in");
+
+        room_t *room = find_room_from_game(g, in);
+        if (room == NULL)
+        {
+            fprintf(stderr, "Invalid room. NPC: %s\n", id);
+            return FAILURE;
+        }
+
+        add_npc_to_room(room->npcs, npc);
     }
+
     return SUCCESS;
 }
-
 
 /* See load_npc.h */
 int load_dialogue(obj_t *npc_obj, npc_t *npc)
