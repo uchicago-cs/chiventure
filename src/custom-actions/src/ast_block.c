@@ -159,18 +159,18 @@ bool list_contains_AST_block(AST_block_t* head, AST_block_t* compare)
 /* See ast_block.h */
 int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
 {
-    if (head == NULL || add == NULL || num_to_place <= 0)
+    if (head == NULL || add == NULL || num_to_place < 0)
         return FAILURE;
 
     /* Case where adding an AST_block_t as the new 'head'/beginning of the linked list */
-    if (num_to_place == 1)
+    if (num_to_place == 0)
     {
         LL_PREPEND(head, add);
         return SUCCESS;
     }
 
     /* Case where adding an AST_block_t as the 'tail'/end of the linked list */
-    if (num_to_place > list_how_many_AST_block(head))
+    if (num_to_place >= list_how_many_AST_block(head))
     {
         LL_APPEND(head, add);
         return SUCCESS;
@@ -181,7 +181,7 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
     AST_block_t* prev;
 
     /* Get to the place in linked list specified by num_to_place */
-    for (int i = 1; i < num_to_place; i++)
+    for (int i = 0; i < num_to_place; i++)
     {
         prev = curr;
         curr = curr->next;
@@ -193,6 +193,18 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
     prev->next = add;
 
     return SUCCESS;
+}
+
+/* See ast_block.h */
+int append_list_AST_block(AST_block_t* head, AST_block_t* add)
+{
+  return list_add_AST_block(head, add, list_how_many_AST_block(head));
+}
+
+/* See ast_block.h */
+int prepend_list_AST_block(AST_block_t* head, AST_block_t* add)
+{
+  return list_add_AST_block(head, add, 0);
 }
 
 /* See ast_block.h */
