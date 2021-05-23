@@ -5,13 +5,13 @@
 
 
 // See effect.h
-stat_mod_effect_t* define_stat_mod_effect(char* stat_mod_effect_name, char** stat_names, double* modifications, int* durations, int num_stats, chiventure_ctx_t* ctx)
+player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, char** stat_names, double* modifications, int* durations, int num_stats, chiventure_ctx_t* ctx)
 {
     assert(ctx != NULL);
-    stat_mod_effect_t* new_stat_effect = (stat_mod_effect_t*)malloc(sizeof(stat_mod_effect_t));
+    player_stat_effect_t* new_stat_effect = (player_stat_effect_t*)malloc(sizeof(player_stat_effect_t));
     assert(new_stat_effect != NULL);
-    new_stat_effect->stat_mod_effect_name = stat_mod_effect_name;
-    new_stat_effect->stats = (stat_t**)malloc(num_stats*sizeof(stat_t*));
+    new_stat_effect->player_stat_effect_name = player_stat_effect_name;
+    new_stat_effect->stats = (stats_t**)malloc(num_stats*sizeof(stats_t*));
     assert(new_stat_effect->stats != NULL);
     stats_hash_t* sh = ctx ->game->curr_player->player_stats;
     stats_t* curr;
@@ -45,12 +45,12 @@ move_effect_t* define_move_effect(move_t* move)
 }
 
 // See effect.h
-att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod) 
+item_att_effect_t* define_item_att_effect(char* obj_id, char* att_id, union data mod) 
 {
     // Again, very basic implementation that is going to be a placeholder right now
     // TO DO: Maria
 
-    att_effect_t* new_att_effect = (att_effect_t*)malloc(sizeof(att_effect_t));
+    item_att_effect_t* new_att_effect = (item_att_effect_t*)malloc(sizeof(item_att_effect_t));
     new_att_effect->item_id = obj_id;
     new_att_effect->att_id = att_id;
     new_att_effect->mod = mod;
@@ -58,13 +58,20 @@ att_effect_t* define_att_effect(char* obj_id, char* att_id, union data mod)
 }
 
 // See effect.h
-effect_t* make_stat_effect(stat_mod_effect_t* stat_mod_effect)
+item_stat_effect_t* define_item_stat_effect()
 {
-    assert(stat_mod_effect != NULL);
+    //TODO
+    return NULL;
+}
+
+// See effect.h
+effect_t* make_player_stat_effect(player_stat_effect_t* player_stat_effect)
+{
+    assert(player_stat_effect != NULL);
     effect_t* new_effect = (effect_t*)malloc(sizeof(effect_t));
-    new_effect->effect_type = STATISTIC_MOD;
-    new_effect->data.s = stat_mod_effect;
-    return stat_mod_effect;
+    new_effect->effect_type = PLAYER_STATISTIC_MOD;
+    new_effect->data.s = player_stat_effect;
+    return new_effect;
 }
 
 // See effect.h
@@ -78,24 +85,34 @@ effect_t* make_move_effect(move_effect_t* move_effect)
 }
 
 // See effect.h
-effect_t* make_att_effect(att_effect_t* att_effect)
+effect_t* make_item_att_effect(item_att_effect_t* item_att_effect)
 {
-    assert(att_effect != NULL);
+    assert(item_att_effect != NULL);
     effect_t* new_att_effect = (effect_t*)malloc(sizeof(effect_t));
-    new_att_effect->effect_type = ATTRIBUTE_MOD;
-    new_att_effect->data.a = att_effect;
+    new_att_effect->effect_type = ITEM_ATTRIBUTE_MOD;
+    new_att_effect->data.i_a = item_att_effect;
     return new_att_effect;
 }
 
 // See effect.h
-int execute_stat_mod_effect(stat_mod_effect_t* stat_mod_effect, chiventure_ctx_t* ctx)
+effect_t* make_item_stat_effect(item_stat_effect_t* item_stat_effect)
+{
+    //TODO 
+    return NULL;
+}
+
+// See effect.h
+int execute_player_stat_effect(player_stat_effect_t* player_stat_effect, chiventure_ctx_t* ctx)
 {
     assert(ctx != NULL);
-    effects_global_t* global_effect = global_effect_new(stat_mod_effect->stat_mod_effect_name);
+    effects_global_t* global_effect = global_effect_new(player_stat_effect->player_stat_effect_name);
     stat_effect_t* st_effect = stat_effect_new(global_effect);
     effects_hash_t* et = ctx->game->curr_player->player_effects;
+    effects_hash_t** pointer_to_et = malloc(sizeof(effects_hash_t*));
+    pointer_to_et = &et;
     assert(et != NULL);
-    int check = apply_effect(et, st_effect, stat_mod_effect->stats, stat_mod_effect->modifications, stat_mod_effect->durations, stat_mod_effect->num_stats);
+    assert(&et != NULL);
+    int check = apply_effect(pointer_to_et, st_effect, player_stat_effect->stats, player_stat_effect->modifications, player_stat_effect->durations, player_stat_effect->num_stats);
     assert(check == SUCCESS);
     return SUCCESS;
 }
@@ -111,8 +128,14 @@ int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect)
 }
 
 // See effect.h
-int execute_att_effect(att_effect_t* att_effect)
+int execute_item_att_effect(item_att_effect_t* item_att_effect)
 {
     // TODO
+    return 0;
+}
+
+int execute_item_stat_effect(item_stat_effect_t* item_stat_effect)
+{
+    //TODO
     return 0;
 }

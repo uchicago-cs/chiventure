@@ -79,9 +79,9 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
     effect_t* skill_effect = skill->skill_effect;
     int check = 0;
     effect_type_t type = skill_effect->effect_type;
-    if(type == STATISTIC_MOD)
+    if(type == PLAYER_STATISTIC_MOD)
     {
-        check = execute_stat_mod_effect(skill_effect->data.s, ctx);
+        check = execute_player_stat_effect(skill_effect->data.s, ctx);
         assert(check==0);
         return check;
     }
@@ -90,9 +90,15 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
         /* This function relies on certain implementation from the battles class to first be finished */
         return 0;
     }
-    if (type == ATTRIBUTE_MOD)
+    if (type == ITEM_ATTRIBUTE_MOD)
     {
-        execute_att_effect(skill_effect->data.a);
+        execute_item_att_effect(skill_effect->data.i_a);
+        assert(check==0);
+        return check;
+    }
+    if (type == ITEM_STATISTIC_MOD)
+    {
+        execute_item_stat_effect(skill_effect->data.i_s);
         assert(check==0);
         return check;
     }

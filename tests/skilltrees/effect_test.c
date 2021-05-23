@@ -3,6 +3,7 @@
 #include <criterion/criterion.h>
 #include "skilltrees/effect.h"
 
+// Tests for move unlock effects
 Test(effect_tests, define_move_effect_test)
 {
     move_t *move = move_new("abc", 1, NULL, true, 10, 55);
@@ -23,3 +24,20 @@ Test(effect_tests, make_move_effect_test)
     cr_assert_not_null(effect, "Error: make_move_effect failed to create effect");
 
 }
+
+//Tests for stat mod effects
+Test(effect_tests, define_stat_mod_effect_test)
+{
+    //TODO
+}
+
+Test(effect_tests, make_stat_mod_effect_test)
+{
+    //TODO
+}
+
+Test(effect_tests, execute_stat_mod_effect_test)
+{
+    //TODO
+}
+
