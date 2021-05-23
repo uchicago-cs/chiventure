@@ -19,6 +19,7 @@ that can occur, depending on which action is committed on a certain item.
 
 
 ## Kinds of Actions:
+### Item Actions:
 Kind 1: ACTION `<ITEM>`
 
 A **Kind 1** action is an action that makes the player do something to an item.
@@ -37,8 +38,28 @@ Kind 3: ACTION `<ITEM>` `<ITEM>`
 
 A **Kind 3** action is an action that makes the player interact with two items.
 
-Examples: put apple on table, push box on button, use key on door, etc
+Examples: put apple on table, push box on button, use key on door, etc.
 
+### NPC Actions:
+Kind 4: ACTION `<NPC>`
+
+A **Kind 4** action is an action that makes the player interact with an NPC.
+
+Examples: talk to NPC, ignore NPC, attack NPC, etc.
+
+
+Kind 5: ACTION `<NPC>` `<ITEM>`
+
+A **Kind 5** action is an action that makes the player interact with an NPC and item.
+
+Examples: give an item to an NPC, steal an item from an NPC, etc.
+
+
+Kind 6: ACTION `<NPC>` `<ITEM>` `<ITEM>`
+
+A **Kind 6** action is an action that makes the player interact with an NPC and two items.
+
+Examples: trade with NPC (exchange good for good), buy from NPC (exchange money for good), etc.
 
 
 ## Items:
