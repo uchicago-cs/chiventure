@@ -14,7 +14,7 @@ Test(battle_print, print_start_battle)
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
-    player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -41,7 +41,7 @@ Test(battle_print, print_hp_one_enemy)
     /* Setting up a battle with set_battle */
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
-    player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -72,7 +72,7 @@ Test(battle_print, print_hp_two_enemies)
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *e1_stats = calloc(1,sizeof(stat_t));
     stat_t *e2_stats = calloc(1,sizeof(stat_t));
-    player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     npc_enemy_t *head = NULL;
     npc_enemy_t *e1 = make_npc_enemy("Bob", NULL, e1_stats, NULL, NULL, BATTLE_AI_NONE);
     npc_enemy_t *e2 = make_npc_enemy("Annie", NULL, e2_stats, NULL, NULL, BATTLE_AI_NONE);
@@ -123,7 +123,7 @@ Test(battle_print, print_player_move)
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
 
-    player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -167,7 +167,7 @@ Test(battle_print, print_enemy_move)
     enemy_stats->xp = 100;
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
-    player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_WATER;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);

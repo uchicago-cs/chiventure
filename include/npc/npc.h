@@ -209,4 +209,19 @@ int remove_item_from_npc(npc_t *npc, item_t *item);
  */
 int add_convo_to_npc(npc_t *npc, convo_t *c); 
 
+
+// HASH TABLE FUNCTIONS ---------------------------------------------------
+
+/*
+ * Deletes and frees the elements of a hashtable of NPCs.
+ * Implemented with macros provided by uthash.h
+ * 
+ * Parameters:
+ *  npcs: a hashtable of npcs to be deleted
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int delete_all_npcs(npc_hash_t *npcs);
+
 #endif

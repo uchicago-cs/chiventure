@@ -1,5 +1,5 @@
 add_library(battle
-            examples/battle_move_maker.c
+            src/battle_move_maker.c
             src/battle_ai.c
             src/battle_logic.c
             src/battle_state.c
