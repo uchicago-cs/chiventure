@@ -18,9 +18,9 @@ typedef struct AST_block AST_block_t;
 typedef struct branch_block {
     int num_conditionals;
     conditional_block_t** conditionals;
-    conditional_type_t conditional_type;
-    int num_controls;
-    control_block_t** controls;
+    control_type_t control_type;
+    int num_actions;
+    AST_block_t** actions;
 } branch_block_t;
 
 /* 
@@ -54,8 +54,8 @@ branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** con
  * - An AST block. 
  */  
 AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** conditionals, 
-                                  conditional_type_t conditional_type, int num_controls, 
-                                  control_block_t** controls);
+                                  control_type_t control_type, int num_actions, 
+                                  AST_block_t** actions);
 
 /* 
  * Initializes a branch block. 
@@ -72,8 +72,8 @@ AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** co
  * - SUCCESS if success, FAILURE if error occurs
  */  
 int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t** conditionals, 
-                      conditional_type_t conditional_type, int num_controls,
-                      control_block_t** controls);
+                      control_type_t control_type, int num_actions,
+                      AST_block_t** actions);
 
 /* 
  * Frees a branch block, as well as the conditional and control blocks nested within it. 

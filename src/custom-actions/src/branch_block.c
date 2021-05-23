@@ -13,8 +13,8 @@
 
 /* See branch_block.h */
 branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** conditionals, 
-                                 conditional_type_t conditional_type, int num_controls, 
-                                 control_block_t** controls)
+                                 control_type_t control_type, int num_actions, 
+                                 AST_block_t** actions)
 {
     branch_block_t *branch;
     int new_branch;
@@ -29,7 +29,7 @@ branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** con
     }
 
     new_branch = branch_block_init(branch, num_conditionals, conditionals, 
-                                   conditional_type, num_controls, controls);
+                                   control_type, num_actions, actions);
     if (new_branch != SUCCESS)
     {
         fprintf(stderr,"Could not initialize branch_block_t");
@@ -41,8 +41,8 @@ branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** con
 
 /* See branch_block.h */
 AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** conditionals, 
-                                  conditional_type_t conditional_type, int num_controls, 
-                                  control_block_t** controls)
+                                  control_type_t control_type, int num_actions, 
+                                  AST_block_t** actions)
 {
     AST_block_t *ast;
     branch_block_t *branch;
@@ -59,7 +59,7 @@ AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** co
     }
 
     new_branch = branch_block_init(branch, num_conditionals, conditionals, 
-                                   conditional_type, num_controls, controls);
+                                   control_type, num_actions, actions);
     if (new_branch != SUCCESS)
     {
         fprintf(stderr,"Could not initialize branch_block_t");
@@ -74,8 +74,8 @@ AST_block_t* AST_branch_block_new(int num_conditionals, conditional_block_t** co
     
 /* See branch_block.h */
 int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_block_t** conditionals, 
-                      conditional_type_t conditional_type, int num_controls,
-                      control_block_t** controls)
+                      control_type_t control_type, int num_actions,
+                      AST_block_t** actions)
 {
     assert(branch != NULL);
     assert(num_conditionals > 0);
@@ -85,9 +85,9 @@ int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_
 
     branch->num_conditionals = num_conditionals;
     branch->conditionals = conditionals;
-    branch->conditional_type = conditional_type;
-    branch->num_controls = num_controls;
-    branch->controls = controls;
+    branch->control_type = control_type;
+    branch->num_actions = num_actions;
+    branch->actions = actions;
 
     return SUCCESS; 
 }
@@ -107,10 +107,10 @@ int branch_block_free(branch_block_t *branch)
     }
     if (branch->num_controls > 0)
     {
-        assert(branch->controls != NULL);
-        for (int n = 0; n < branch->num_controls; n++)
+        assert(branch->actions != NULL);
+        for (int n = 0; n < branch->num_actions; n++)
         {
-            control_block_free(branch->controls[n]);
+            AST_block_free(branch->actions[n]);
         }
     }
     free(branch);
