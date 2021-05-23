@@ -82,16 +82,16 @@ int AST_block_free(AST_block_t *ast);
  */
 int list_how_many_AST_block(AST_block_t* head);
 
-/* list_contains_AST_block: Function to check if a certain block_type exists
- *                          in a linked list of AST_blocks
+/* list_contains_AST_block: Function to check if an AST_block_t exists already
+ *                          in a linked list
  *
  * Inputs:
  *      - head: the AST_block to search (potentially having other AST_blocks linked)
- *      - block_type: The specific block_type that we are wanting to search for
+ *      - compare: The specific AST_block used for comparison
  * 
  * Returns: false for does not contain, true for contains
  */
-bool list_contains_AST_block(AST_block_t* head, block_type_t block_type);
+bool list_contains_AST_block(AST_block_t* head, AST_block_t* compare);
 
 /* list_add_AST_block: Function to add in an AST_block in a SPECIFIC place in
  *                     the linked list
@@ -107,14 +107,14 @@ bool list_contains_AST_block(AST_block_t* head, block_type_t block_type);
  */
 int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place);
 
-/* list_remove_AST_block: Deletes a certain block_type from linked list
+/* list_remove_AST_block: Deletes a certain AST_block from linked list
  *
  * Input:
  *      - head: The AST_block containing linked list to iterate through
- *      - block: The specific block_type that we are deleting
+ *      - del: The specific AST_block that wants to be deleted from list
  * 
  * Return: SUCCESS if successfully added, FAILURE otherwise
  */
-int list_remove_AST_block(AST_block_t* head, block_type_t block_type);
+int list_remove_AST_block(AST_block_t* head, AST_block_t* del);
 
 #endif /* INCLUDE_AST_BLOCK_H */

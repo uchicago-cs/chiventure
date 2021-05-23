@@ -102,22 +102,22 @@ int AST_block_free(AST_block_t *ast)
 
 //---------------To add List Functionality for AST_blocks----------------------
 
-/* AST_cmp: Helper function that takes two AST_blocks and compares them with
- *          respect to their block type
+/* AST_cmp: Helper function that takes two AST_blocks and compares if they are 
+ *          the same
  *
  * Parameters:
  *          - AST1: Pointer to one AST_block
  *          - AST2: Pointer to a seperate AST_block
  *
  * Returns:
- *          - 2 possible int value: 0 for when AST_blocks share same block type
+ *          - 2 possible int value: 0 for when AST_blocks are the same
  *                                  1 otherwise
  * Note: The value for same MUST be 0 for this helper to be successfully used 
  *       in LL_<function>
  */
 int AST_cmp(AST_block_t* AST1, AST_block_t* AST2)
 {
-    if (AST1->block_type == AST2->block_type)
+    if (AST1 == AST2)
         return 0;
     else return 1;
 }
@@ -140,20 +140,16 @@ int list_how_many_AST_block(AST_block_t* head)
 }
 
 /* See ast_block.h */
-bool list_contains_AST_block(AST_block_t* head, block_type_t block)
+bool list_contains_AST_block(AST_block_t* head, AST_block_t* compare)
 {
-    if (head == NULL)
+    if (head == NULL || compare == NULL)
     {
         return false;
     }
 
     AST_block_t* tmp;
-    AST_block_t* like = calloc(1, sizeof(AST_block_t));
-
-    like->block_type = block;
     
-    LL_SEARCH(head, tmp, like, AST_cmp);
-    free(like);
+    LL_SEARCH(head, tmp, compare, AST_cmp);
 
     if (tmp)
         return true;
@@ -200,17 +196,18 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
 }
 
 /* See ast_block.h */
-int list_remove_AST_block(AST_block_t* head, block_type_t block_type)
+int list_remove_AST_block(AST_block_t* head, AST_block_t* del)
 {
     assert(head != NULL);
+    assert(del != NULL);
 
-    if (list_contains_AST_block(head, block_type) == false)
+    if (list_contains_AST_block(head, del) == false)
         return FAILURE;
 
     AST_block_t *elt, *tmp;
     LL_FOREACH_SAFE(head, elt, tmp)
     {
-        if (elt->block_type == block_type)
+        if (AST_cmp(elt, del) == 0)
         {
             LL_DELETE(head, elt);
             

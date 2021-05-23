@@ -191,15 +191,23 @@ Test(AST_block_t, list_contains_AST_block)
 
     new_ast->next = second_ast;
 
+    /* Create the comparison AST_block */
+    block_t *com = malloc(sizeof(block_t));
+    block_type_t com_type = CONTROL;
+    
+    AST_block_t* compare = AST_block_new(com, com_type);
+    cr_assert_not_null(compare, "AST_block_new failed to create a AST_block");
+
     /* Check whether or not CONTROL is found in linked list*/
-    ret_val = list_contains_AST_block(new_ast, block_type);
-    cr_assert_eq(ret_val, true, "list_contains_AST_block failed to find CONTROL block type");
+    ret_val = list_contains_AST_block(new_ast, compare);
+    cr_assert_eq(ret_val, false, "list_contains_AST_block mistakingly found an AST_block not yet added");
 
     /* Check whether or not BRANCH is found in linked list */
-    ret_val = list_contains_AST_block(new_ast, second_block_type);
-    cr_assert_eq(ret_val, true, "list_contains_AST_block failed to find BRANCH block type");
+    ret_val = list_contains_AST_block(new_ast, second_ast);
+    cr_assert_eq(ret_val, true, "list_contains_AST_block failed to find an AST_block in linked list");
 
-    AST_block_free(new_ast);  
+    AST_block_free(new_ast);
+    AST_block_free(compare);  
 }
 
 /* Check that we can successfully add an AST_block_t in specified location */
@@ -238,13 +246,13 @@ Test(AST_block_t, list_add_AST_block)
     AST_block_t* new_second_ast = AST_block_new(cond, new_second_block_type);
     cr_assert_not_null(new_second_ast, "AST_block_new failed to create the to-be new_second_AST_block");
     
-    ret_bool = list_contains_AST_block(new_ast, new_second_block_type);
+    ret_bool = list_contains_AST_block(new_ast, new_second_ast);
     cr_assert_eq(ret_bool, false, "list_contains_AST_block found CONDITIONAL before being added");
 
     ret_val = list_add_AST_block(new_ast, new_second_ast, 2);
     cr_assert_eq(ret_val, SUCCESS, "list_add_AST_block returned FAILURE upon trying to add in second place");
 
-    ret_bool = list_contains_AST_block(new_ast, new_second_block_type);
+    ret_bool = list_contains_AST_block(new_ast, new_second_ast);
     cr_assert_eq(ret_bool, true, "list_contains_AST_block could not find CONDITIONAL after being added");
 
     if (new_ast->next != new_second_ast)
@@ -293,13 +301,13 @@ Test(AST_block_t, list_add_AST_block_to_beginning)
     AST_block_t* new_first_ast = AST_block_new(cond, new_first_block_type);
     cr_assert_not_null(new_first_ast, "AST_block_new failed to create the to-be new_first_AST_block");
     
-    ret_bool = list_contains_AST_block(first_ast, new_first_block_type);
+    ret_bool = list_contains_AST_block(first_ast, new_first_ast);
     cr_assert_eq(ret_bool, false, "list_contains_AST_block found CONDITIONAL before being added");
 
     ret_val = list_add_AST_block(first_ast, new_first_ast, 1);
     cr_assert_eq(ret_val, SUCCESS, "list_add_AST_block returned FAILURE upon trying to add in first place");
 
-    ret_bool = list_contains_AST_block(new_first_ast, new_first_block_type);
+    ret_bool = list_contains_AST_block(new_first_ast, new_first_ast);
     cr_assert_eq(ret_bool, true, "list_contains_AST_block could not find CONDITIONAL after being added");
 
     if (new_first_ast->next != first_ast)
@@ -348,13 +356,13 @@ Test(AST_block_t, list_add_AST_block_to_end)
     AST_block_t* new_end_ast = AST_block_new(cond, new_end_block_type);
     cr_assert_not_null(new_end_ast, "AST_block_new failed to create the to-be new_end_AST_block");
     
-    ret_bool = list_contains_AST_block(first_ast, new_end_block_type);
+    ret_bool = list_contains_AST_block(first_ast, new_end_ast);
     cr_assert_eq(ret_bool, false, "list_contains_AST_block found CONDITIONAL before being added");
 
     ret_val = list_add_AST_block(first_ast, new_end_ast, 50);
     cr_assert_eq(ret_val, SUCCESS, "list_add_AST_block returned FAILURE upon trying to add in last place");
 
-    ret_bool = list_contains_AST_block(first_ast, new_end_block_type);
+    ret_bool = list_contains_AST_block(first_ast, new_end_ast);
     cr_assert_eq(ret_bool, true, "list_contains_AST_block could not find CONDITIONAL after being added");
 
     if (first_ast->next != second_ast)
@@ -397,7 +405,7 @@ Test(AST_block_t, list_remove_AST_block)
     third_ast->next = NULL;
 
     /* Delete second item from linked list */
-    ret_val = list_remove_AST_block(new_ast, second_block_type);
+    ret_val = list_remove_AST_block(new_ast, second_ast);
     cr_assert_eq(ret_val, SUCCESS, "list_remove_AST_block failed in deleting second item in linked list");
 
     if (new_ast->next != third_ast)
@@ -437,15 +445,19 @@ Test(AST_block_t, list_remove_AST_block_failure)
     second_ast->next = third_ast;
     third_ast->next = NULL;
 
+    block_t* fail = malloc(sizeof(action_block_t));
     block_type_t fail_block_type = CONDITIONAL;
+
+    AST_block_t* fail_ast = AST_block_new(fail, fail_block_type);
     /* Delete second item from linked list */
-    ret_val = list_remove_AST_block(new_ast, fail_block_type);
+    ret_val = list_remove_AST_block(new_ast, fail_ast);
     cr_assert_eq(ret_val, FAILURE, "list_remove_AST_block failed in deleting second item in linked list");
 
     if (new_ast->next == third_ast)
         cr_assert_fail("list_remove_AST_block deleted second AST_block when shouldn't");
 
     AST_block_free(new_ast);
+    AST_block_free(fail_ast);
 }
 
 /* Checks that a new AST block with control type is freed without interruption */
