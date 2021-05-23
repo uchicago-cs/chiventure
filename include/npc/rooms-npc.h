@@ -4,10 +4,6 @@
 #include "npc/npc.h"
 
 
-/* Forward declaration */
-typedef struct npc npc_t;
-typedef struct npc npc_hash_t;
-
 /* 
  * Struct for adding and handling npcs in rooms 
  * 

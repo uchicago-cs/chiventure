@@ -11,9 +11,6 @@
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
-/* Forward declaration */
-typedef struct npc_mov npc_mov_t;
-
 /* A non-playable character in game */
 typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
