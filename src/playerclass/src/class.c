@@ -179,7 +179,7 @@ int count_classes(class_hash_t** hashtable) {
  * stuck at linking the chiventure executable, and claims: "undefined reference 
  * to `class_prefab_new'").  I have tried and tried to find the problem, but I
  * can't find anything.  This function (originally intended to be facade function for
- * class_prefab_new()) was really just an experiment.  THIS SHOULD NOT WORK
+ * class_prefab_new()) was really just an experiment.  THIS SHOULD NOT WORK.
  * 
  * Note that the linker is perfectly fine with grabbing stuff from this file, only
  * class_prefabs.c upsets it.
@@ -192,6 +192,10 @@ int count_classes(class_hash_t** hashtable) {
  * won't compile again.  Yay?
  *  
  * This has to go away before I do a PR.
+ * 
+ * 
+ * To recreate the original error conditions, simply comment out the function.
+ * Actually, commenting out just the calss to class_prefab functions works too.
  */
 void please_dont_touch_my_trash() {  
     class_t* my_trash = class_prefab_new(NULL, "");

@@ -10,7 +10,7 @@ int load_class(obj_t* class_obj, game_t* game) {
         class = class_prefab_new(game, "monk"); // Still messing around
     }
     else {
-        class = class_new(class_obj->id, NULL, NULL, NULL, NULL, NULL);
+        class = class_new(class_obj->id, "", "", NULL, NULL, NULL);
     }
 
     /* Add class to global class hashtable */
@@ -18,7 +18,7 @@ int load_class(obj_t* class_obj, game_t* game) {
         fprintf(stderr, "Could not add class to global class hashtable.\n");
         return FAILURE;
     }
-
+    
     return SUCCESS;
 }
 
