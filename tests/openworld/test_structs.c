@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <criterion/criterion.h>
+#include <string.h>
 #include "openworld/gen_structs.h"
 
 /* Tests the gencontext_new function to validate that a gencontext
@@ -170,4 +171,139 @@ Test(speclist, free_all)
     int check = speclist_free_all(list);
 
     cr_assert_eq(check, SUCCESS, "failed to free the entire speclist. \n");
+}
+
+
+
+/* Tests the roomlevel_new function to validate that a roomlevel
+ * can be made successfully. */
+Test(roomlevel, new)
+{
+    roomlevel_t *roomlevel = roomlevel_new("excellent_name", 4);
+
+    cr_assert_not_null(roomlevel, "failed to create new roomlevel_t\n");
+}
+
+
+/* Tests the init_roomlevel function to validate that a roomlevel can
+ * be initialized successfully. */
+Test(roomlevel, init)
+{
+    roomlevel_t *roomlevel = calloc(1, sizeof(roomlevel_t));
+    if (!roomlevel) { 
+        printf("failed to calloc for roomlevel\n");
+    }
+    roomlevel->room_name = calloc(1, sizeof(roomlevel_t) * MAX_SDESC_LEN);
+    if (!(roomlevel->room_name)) { 
+        printf("failed to calloc for roomlevel->room_name\n");
+    }
+
+    int check = init_roomlevel(roomlevel, "excellent_name", 4);
+    cr_assert_str_eq(roomlevel->room_name, "excellent_name", 
+                 "failed to initialize roomlevel->room_name\n");
+    cr_assert_eq(4, roomlevel->difficulty_level, 
+                 "failed to initialize roomlevel->difficulty_level\n");
+    cr_assert_eq(check, SUCCESS, "failed to initialize a roomlevel_t\n");
+}
+
+
+/* Tests the roomlevel_free func to validate that a roomlevel can be
+ * freed successfully. */
+Test(roomlevel, free)
+{
+    roomlevel_t *roomlevel = roomlevel_new("excellent_name", 4);
+
+    cr_assert_not_null(roomlevel, "failed to create new roomlevel_t\n");
+
+    int check = roomlevel_free(roomlevel);
+
+    cr_assert_eq(check, SUCCESS, "failed to free a roomlevel_t\n");
+}
+
+
+/* Tests add_roomlevel_to_hash for
+   room name = "A"
+   difficulty_level = 4 */
+Test(roomlevel, add_roomlevel_to_hash_one)
+{
+    roomlevel_hash_t *roomlevel_hash = NULL;
+    char *name = "A"; 
+
+    add_roomlevel_to_hash(&roomlevel_hash, name, 4);
+    
+    roomlevel_t *out;
+    HASH_FIND_STR(roomlevel_hash, name, out);
+    cr_assert_not_null(out, "failed to add room A\n");
+}
+
+
+/* Tests add_roomlevel_to_hash for
+   room name = "Good"
+   difficulty_level = 1 */
+Test(roomlevel, add_roomlevel_to_hash_two)
+{
+    roomlevel_hash_t *roomlevel_hash = NULL;
+    char *name = "Good"; 
+
+    add_roomlevel_to_hash(&roomlevel_hash, name, 1);
+    roomlevel_t *out;
+    HASH_FIND_STR(roomlevel_hash, name, out);
+    cr_assert_not_null(out, "failed to add room Good\n");
+}
+
+
+
+/* Tests the levelspec_new function to validate that 
+ * a levelspec can be made successfully. */
+Test(levelspec, new)
+{
+    int num_thresholds = 3;
+    int thresholds[3] = {0, 5, 10};
+    levelspec_t *levelspec = levelspec_new(num_thresholds, thresholds);
+
+    cr_assert_not_null(levelspec, "failed to create new levelspec_t\n");
+    cr_assert_eq(NULL, levelspec->roomlevels, "levelspec->roomlevels hash should be NULL\n");
+}
+
+
+/* Tests the init_levelspec function to validate that 
+ * a levelspec can be initialized successfully. */
+Test(levelspec, init)
+{
+    int num_thresholds = 4;
+    int thresholds[4] = {0, 10, 20, 30};
+    
+    levelspec_t *levelspec = calloc(1, sizeof(levelspec_t));
+    if (!levelspec) { 
+        printf("failed to calloc for levelspec\n");
+    }
+
+    levelspec->thresholds = calloc(1, sizeof(int) * num_thresholds);
+    if (!(levelspec->thresholds)) { 
+        printf("failed to calloc for levelspec->thresholds\n");
+    }
+
+    int check = init_levelspec(levelspec, num_thresholds, thresholds);
+    cr_assert_eq(levelspec->num_thresholds, num_thresholds,
+                 "failed to initialize levelspec->num_thresholds\n");
+    for (int i = 0; i < num_thresholds; i++) {
+        cr_assert_eq(levelspec->thresholds[i], thresholds[i],
+                     "failed to initialize levelspec->threshold[%d]\n", i);
+    }
+    cr_assert_eq(check, SUCCESS, "failed to initialize a levelspec_t\n");
+}
+
+
+/* Tests the levelspec_free func to validate that a levelspec can be
+ * freed successfully. */
+Test(levelspec, free)
+{
+    int num_thresholds = 3;
+    int thresholds[3]= {0, 5, 10};
+    levelspec_t *levelspec = levelspec_new(num_thresholds, thresholds);
+    cr_assert_not_null(levelspec, "failed to create new levelspec_t\n");
+
+    int check = levelspec_free(levelspec);
+
+    cr_assert_eq(check, SUCCESS, "failed to free a levelspec_t\n");
 }

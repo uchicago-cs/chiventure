@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include "openworld/gen_structs.h"
 #include "common/utlist.h"
+#include "common/uthash.h"
 
 /* see gen_structs.h */
 int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist)
@@ -183,4 +184,114 @@ int speclist_free_all(speclist_t *list)
         speclist_free(elt);
     }
     return SUCCESS;
+}
+
+
+
+/* See gen_structs.h */
+int init_roomlevel(roomlevel_t *roomlevel, char *room_name, int difficulty_level)
+{
+    if (roomlevel == NULL)
+        return FAILURE;
+
+    strcpy(roomlevel->room_name, room_name);
+    roomlevel->difficulty_level = difficulty_level;
+    return SUCCESS;
+}
+
+
+/* See gen_structs.h */
+roomlevel_t* roomlevel_new(char *room_name, int difficulty_level)
+{
+    roomlevel_t *roomlevel = calloc(1, sizeof(roomlevel_t));
+    if (roomlevel == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for roomlevel_new\n");
+        return NULL;
+    }
+
+    roomlevel->room_name = calloc(1, sizeof(MAX_SDESC_LEN + 1));
+    if (roomlevel->room_name == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for roomlevel->room_name\n");
+        return NULL;
+    }
+
+    init_roomlevel(roomlevel, room_name, difficulty_level);
+    return roomlevel;
+}
+
+
+
+/* See gen_structs.h */
+int roomlevel_free(roomlevel_t *roomlevel)
+{
+    if (roomlevel == NULL) 
+        return FAILURE;
+
+    free(roomlevel->room_name);
+    free(roomlevel);
+    return SUCCESS;
+}
+
+
+/* See gen_structs.h */  
+int add_roomlevel_to_hash(roomlevel_hash_t **roomlevels, char *name, int difficulty_level) 
+{
+    roomlevel_t *elt = NULL;
+    roomlevel_t *out_tmp = NULL;
+
+    HASH_FIND_STR(*roomlevels, name, out_tmp);
+    if (out_tmp == NULL) {
+        elt = roomlevel_new(name, difficulty_level);
+        HASH_ADD_KEYPTR(hh, *roomlevels, elt->room_name, strlen(elt->room_name), elt);
+        return SUCCESS;
+    }
+    return FAILURE;
+}
+
+
+
+
+/* See gen_structs.h */
+int init_levelspec(levelspec_t *levelspec, int num_thresholds, int *thresholds)
+{
+    if (!levelspec)
+        return FAILURE;
+
+    levelspec->num_thresholds = num_thresholds;
+    for (int i = 0; i < num_thresholds; i++) {
+        levelspec->thresholds[i] = thresholds[i];
+    } 
+    
+    return SUCCESS;
+}
+
+/* See gen_structs.h */
+levelspec_t *levelspec_new(int num_thresholds, int *thresholds)
+{
+    levelspec_t *levelspec = calloc(1, sizeof(levelspec_t));
+    if (levelspec == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for levelspec\n");
+        return NULL;
+    }
+
+    levelspec->thresholds = calloc(1, sizeof(int) * num_thresholds);
+    if (levelspec->thresholds == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for levelspec->thresholds\n");
+        return NULL;
+    }
+
+    init_levelspec(levelspec, num_thresholds, thresholds);
+    return levelspec;
+}
+
+/* See gen_structs.h */
+int levelspec_free(levelspec_t *levelspec)
+{
+    if (!levelspec)
+        return FAILURE;
+
+    free(levelspec->thresholds);
+    /* frees roomlevels hash and sets it to NULL */
+    HASH_CLEAR(hh, levelspec->roomlevels);
+    free(levelspec);
 }

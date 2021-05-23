@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "playerclass/class.h"
-#include "playerclass/class_item_restriction.h"
+#include "playerclass/class_item.h"
 #include "playerclass/class_structs.h"
 #include "demo-functions.h"
 #include "class-list.h"
@@ -38,15 +38,17 @@ void main()
     item_t* sword = item_new("sword", " ", " ");
     item_t* guitar = item_new("guitar", " "," ");
 
-    set_item_restriction(wand, classlist->c);
-    set_item_restriction(sword, classlist->c);
+    add_item_restriction(wand, classlist->c);
+    add_item_restriction(sword, classlist->c);
+
+    add_item_multiplier(guitar, classlist->c, 1.5);
     
     printf("Your enemy has dropped the following items: %s, %s, %s. You attempt to pick them up with mixed results.\n",
 	    wand->item_id, sword->item_id, guitar->item_id);
 
-    bool not_allowed_wand = get_class_restriction(wand, classlist->c);
-    bool not_allowed_sword = get_class_restriction(sword, classlist->c);
-    bool not_allowed_guitar = get_class_restriction(guitar, classlist->c);
+    bool not_allowed_wand = is_restricted(wand, classlist->c);
+    bool not_allowed_sword = is_restricted(sword, classlist->c);
+    bool not_allowed_guitar = is_restricted(guitar, classlist->c);
 
     printf("You are %s to use the  %s, %s to use the %s and %s to use the %s because you are a %s \n",
 	    not_allowed_wand? "not able":"able",
@@ -56,4 +58,13 @@ void main()
 	    not_allowed_guitar? "not_able":"able",
 	    guitar->item_id,
 	    classlist->c->name);
+
+    printf("As a %s, your proficiency at using a %s is %.1f, at using a %s is %.1f, and at using a %s is %.1f.\n",
+        classlist->c->name,
+        wand->item_id, 
+        get_class_item_multiplier(wand, classlist->c),
+        sword->item_id, 
+        get_class_item_multiplier(sword, classlist->c),
+        guitar->item_id, 
+        get_class_item_multiplier(guitar, classlist->c));
 }

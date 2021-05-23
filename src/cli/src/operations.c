@@ -1,14 +1,93 @@
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "cli/operations.h"
 #include "ui/print_functions.h"
 #include "cli/shell.h"
 #include "wdl/load_game.h"
-#include "common/load_objects.h"
+#include "libobj/load.h"
+#include "cli/cmdlist.h"
 
+#define NUM_ACTIONS 29
 #define BUFFER_SIZE (100)
+#define min(x,y) (((x) <= (y)) ? (x) : (y))
 
+char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
+                        "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
+                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
+                        "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
+                        "PALETTE", "ITEMS"};
+
+
+/* 
+ * This function returns a integer 
+ * which is the number of matching letters 
+ * between the user input and action
+ * 
+ */
+int compare(char* word, char* action)
+{
+
+    int current = 0;
+    for (int i = 0; i < min(strlen(word), strlen(action)); i++)
+    {
+        if (&action[i] != NULL && &word[i] != NULL) 
+        {
+            if (word[i] == action[i])
+            {
+                current++;
+            }
+        }
+
+    }
+
+    return current;
+}
+
+/* 
+ * This function returns a string which is the suggestion
+ * It finds the suggestion by comparing 
+ * each possible action to the input
+ * using the compare helper function
+ * 
+ */
+char* suggestions(char *action_input, char** actions)
+{
+    int i = 0;
+    int initial = 0;
+    int temp = 0;
+    int index = -1;
+    
+    for (int i = 0; i < NUM_ACTIONS; i++)
+    {
+        if (action_input != NULL) 
+        {
+            temp = compare(strdup(action_input), strdup(actions[i]));
+            if (temp > initial) 
+            {
+                index = i;
+                initial = temp;
+            }
+        }
+    }
+    
+    if (index == -1) 
+    {
+        return NULL;
+    }
+
+    return actions[index];
+
+}
+
+
+
+char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021";
+}
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -21,24 +100,34 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return NULL;
 }
 
-/* backlog task */
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    //print_history();
-    return "history operation not implemented yet\n";
+    command_list_t *temp = new_command_list(NULL);
+
+    print_to_cli(ctx, "Start of command history: \n");
+    LL_FOREACH(ctx->command_history, temp)
+    {
+        if (temp->command != NULL) 
+        {
+            print_to_cli(ctx, temp->command);
+        }
+    } 
+    return "End of command history.\n";
 }
 
-bool validate_filename(char *filename)
+
+bool validate_wdl_filename(char *filename)
 {
     int len = strlen(filename);
     int min_filename_length = 4;
-    if(len < min_filename_length)
+    int file_extension_length = 4;
+    if (len < min_filename_length)
     {
         return false;
     }
-    const char *ending = &filename[len-4];
-    int cmp = strcmp(ending, ".dat");
-    if(cmp == 0)
+    const char *ending = &filename[len - file_extension_length];
+    int cmp = strcmp(ending, ".wdl");
+    if (cmp == 0)
     {
         return true;
     }
@@ -48,20 +137,46 @@ bool validate_filename(char *filename)
     }
 }
 
+
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if(tokens[1] == NULL)
+    int valid_path;
+
+    /* The following while loop is only necessary because case insensitivity is
+     * currently being implemented in the parser by making all letters caps. Once
+     * the changes in the cli/case_insensitivity branch are implemented it will no 
+     * longer be necessary.
+     * NOTE: If cli/case_insensitivity hasn't been implemented by the end of 
+     * Sprint 4 (05/28/2021), then this message should be modified to reflect that
+     */
+    int i = 0;
+    char ch;
+    while(tokens[1][i])
     {
-        return "Invalid Input, Loading WDL file failed\n";
+        ch = tolower(tokens[1][i]);
+        tokens[1][i] = ch;
+        i++;
     }
 
-    wdl_ctx_t *wdl_ctx = load_wdl(tokens[1]);
 
-    game_t *game = load_objects(wdl_ctx);
+    valid_path = access(tokens[1], F_OK);
 
-    if(game == NULL)
+    if (valid_path == -1) //Triggers if file does not exist
     {
-        return "Load WDL failed";
+        return "Loading WDL file failed: Invalid Input for file path\n";
+    }
+    if ((validate_wdl_filename(tokens[1])) == false) //Triggers if file is not wdl
+    {
+        return "Loading WDL file failed: Invalid Input, please only use wdl file types\n";
+    }
+
+    obj_t *obj_store = load_obj_store(tokens[1]);
+
+    game_t *game = load_game(obj_store);
+
+    if (game == NULL)
+    {
+        return "Load WDL failed!";
     }
     else
     {
@@ -138,6 +253,10 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         return "You must identify an object to act on\n";
     }
+    if(tokens[2] != NULL)
+    {
+        return "Sorry, act upon one item \n";
+    }
     item_t *curr_item;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
     if(curr_item != NULL)
@@ -181,6 +300,10 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     if(tokens[1] == NULL)
     {
         return "You must specify a direction to go \n";
+    }
+    if(tokens[2] != NULL)
+    {
+        return "Sorry, you can only go one direction \n";
     }
 
     path_t *curr_path;
@@ -248,9 +371,28 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 }
 
 
+
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return "This action is not supported.";
+
+    if (tokens[0] == NULL) 
+    {
+        return "This input returned as NULL";
+    }
+
+    char* suggestion = NULL;
+    suggestion = suggestions(strdup(tokens[0]), actions_for_sug);
+
+    if (suggestion != NULL) 
+    {
+        int str1 = strlen(suggestion);
+        int str2 = strlen("This action is not supported. Did you mean: ");
+        int len = str1 + str2;
+        char msg[] =  "This action is not supported. Did you mean: ";
+        print_to_cli(ctx, strncat(msg, suggestion, len));
+        return "";
+    }
+    return "This action is not supported. No suggestions could be found";
 }
 
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -282,6 +424,26 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     return "This was your inventory";
 }
+
+
+char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded room to check items.\n";
+    }
+    item_list_t *t;
+    int i = 0;
+    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, t)
+    {
+        i++;
+        print_to_cli(ctx, t->item->item_id);
+    }
+    return "These are the items in the room";
+}
+
 
 char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
