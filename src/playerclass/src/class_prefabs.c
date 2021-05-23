@@ -86,7 +86,7 @@ int check_and_add_stat(game_t* game, stats_hash_t** stats, char *stat_name,
     HASH_FIND_STR(game->curr_stats, stat_name, global_stat);
     if (global_stat == NULL) {
         global_stat = stats_global_new(stat_name, stat_max);
-        HASH_ADD_KEYPTR(hh, game->curr_stats, stat_name, strlen(stat_name), global_stat);
+        HASH_ADD_STR(game->curr_stats, name, global_stat);
     }
 
     add_stat(stats, stats_new(global_stat, stat_val));

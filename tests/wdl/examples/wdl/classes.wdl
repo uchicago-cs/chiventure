@@ -28,6 +28,31 @@
             "skill_tree_t": null,
             "starting_skills": null
         },
+        "Lich": {
+            "short_desc": "Lich's short description",
+            "long_desc": "Lich's long description",
+            "attributes": {
+                "evil": true,
+                "brittle": true
+            },
+            "base_stats": {
+                "health": {
+                    "current": 40,
+                    "max": 200
+                },
+                "mana": {
+                    "current": 80,
+                    "max": 100
+                },
+                "spookiness": {
+                    "current": 8,
+                    "max": 10
+                }
+            },
+            "effects": null,
+            "skill_tree_t": null,
+            "starting_skills": null
+        },
         "Rogue": {
             "long_desc": "Rogue's long description"
         },

@@ -49,8 +49,32 @@ int load_class(obj_t* class_obj, game_t* game) {
     if (obj_get_type(class_obj, "base_stats") == TYPE_OBJ) {
         if (class->base_stats != NULL)
             free_stats(class->base_stats);
-        obj_t* stats_obj = obj_get_attr(class_obj, "base_stats", false);
-        class->base_stats = NULL; // TODO
+        obj_t* class_stats_obj = obj_get_attr(class_obj, "base_stats", false);
+        
+        obj_t *stat_obj, *tmp;
+        HASH_ITER(hh, class_stats_obj->data.obj.attr, stat_obj, tmp) {
+            /* Currently no TYPE_DOUBLE is supported */
+            if (obj_get_type(stat_obj, "max") != TYPE_INT || obj_get_type(stat_obj, "current") != TYPE_INT) {
+                fprintf(stderr, "Failed to load class stat.\n");
+                return FAILURE;
+            }
+
+            /* Update global stat hashtable if this stat has not yet been declared*/
+            stats_global_t* global_stat;
+            HASH_FIND_STR(game->curr_stats, stat_obj->id, global_stat);
+            if (global_stat == NULL) {
+                global_stat = stats_global_new(stat_obj->id, obj_get_int(stat_obj, "max"));
+                HASH_ADD_STR(game->curr_stats, name, global_stat);
+            }
+            else if (global_stat->max != obj_get_int(stat_obj, "max")) {
+                fprintf(stderr, "Class stats have inconsistent max.\n");
+                return FAILURE;
+            }
+
+            /* Update class's stat hashtable */
+            stats_t* stat = stats_new(global_stat, obj_get_int(stat_obj, "current"));
+            add_stat(&class->base_stats, stat);
+        }   
     }
 
     /* Add class to global class hashtable */

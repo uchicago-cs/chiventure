@@ -5,6 +5,7 @@
 #include "wdl/load_game.h"
 #include "wdl/load_item.h"
 #include "test_wdl.h"
+#include "game-state/stats.h"
 
 #define CLASSES_WDL_PATH "../../../tests/wdl/examples/wdl/classes.wdl"
 /*
@@ -77,6 +78,20 @@ Test(class, load_fully_defined_class) {
 
     cr_assert(obj_get_bool(warrior->attributes, "hot-headed") && obj_get_bool(warrior->attributes, "noble"), 
               "Warrior did not load hot-headed and noble attributes\n.");
+    
+    stats_t* health; 
+    HASH_FIND_STR(warrior->base_stats, "health", health);
+    cr_assert_eq(health->val, 100, 
+                 "Warrior's health stat was loaded incorrectly.\n");
+    cr_assert_eq(health->global->max, 200, 
+                 "Warrior's health stat was loaded incorrectly.\n");
+    
+    stats_t* mana; 
+    HASH_FIND_STR(warrior->base_stats, "mana", mana);
+    cr_assert_eq(mana->val, 20, 
+                 "Warrior's mana stat was loaded incorrectly.\n");
+    cr_assert_eq(mana->global->max, 100, 
+                 "Warrior's mana stat was loaded incorrectly.\n");
 }
 
 /* Checks to see if a partially defined class is loaded */
