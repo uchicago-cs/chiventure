@@ -89,9 +89,11 @@ convo_t *create_oak_conversation()
     return c;
 }
 
-/* Defines an CLI operation for talking to an npc */
-/* This talk operation is replaced with the operation now implemented in
- * in operations.h
+/*
+ * This monkey patch talk operation is replaced with the 
+ * operation now implemented in operations.h
+ */
+/* Defines an CLI operation for talking to an npc 
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     char *npc_id = "Oak"; //change to "Steve" for conversation with Steve.
@@ -161,9 +163,6 @@ chiventure_ctx_t *create_sample_ctx()
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
-
-    /* Monkeypatching in a talk action to support dialogue */
-    //add_entry("TALK", talk_operation, NULL, ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);

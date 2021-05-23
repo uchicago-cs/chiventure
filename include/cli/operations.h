@@ -259,9 +259,9 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * Parameters:
  *  - tokens: parsed input string (validified)
  *  - ctx: pointer to a chiventure context struct
+ *
  * Returns:
- * The NPC's response
- * 
+ * The NPC's response and player's dialogue options.
  */
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
