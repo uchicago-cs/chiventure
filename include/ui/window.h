@@ -70,10 +70,10 @@ int window_free(window_t *win);
  * Parameters:
  *   - ctx : chiventure context struct
  *   - win : window which we want to print
- *   - quitval: an out parameter to make the game close on "QUIT"
+ *   - retval: an out parameter to make the game close on "QUIT"
  *
  */
-void window_print(chiventure_ctx_t *ctx, window_t *win, int *quitval);
+void window_print(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 
 

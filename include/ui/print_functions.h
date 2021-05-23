@@ -34,7 +34,7 @@ void print_banner(window_t *win, const char *banner);
  * Parameters:
  *   - ctx : chiventure context struct
  *   - win : window where to print the info
- *   - quitval: not used in this context
+ *   - retval: not used in this context
  *
  */
 void print_info(chiventure_ctx_t *ctx, window_t *win, int *retval);
@@ -45,7 +45,7 @@ void print_info(chiventure_ctx_t *ctx, window_t *win, int *retval);
  * Parameters:
  *   - ctx : chiventure context struct
  *   - win : window where to print the info
- *   - quitval: an out parameter to have the string "QUIT" make the game close
+ *   - retval: an out parameter to have the string "QUIT" make the game close
  *
  */
 void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval);
@@ -56,10 +56,10 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval);
  * Parameters:
  *   - ctx : chiventure context struct
  *   - win : window where to print the info
- *   - quitval: not used in this function
+ *   - retval: not used in this function
  *
  */
-void print_map(chiventure_ctx_t *ctx, window_t *win, int* retval);
+void print_map(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 
 /* print_to_cli
