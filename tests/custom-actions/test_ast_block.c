@@ -570,3 +570,31 @@ Test(AST_block_t, free_CONDITIONAL)
 
     cr_assert_eq(rc, SUCCESS, "AST_block_free() failed");
 }
+
+/* Checks the failing cases for adding a new AST block */
+Test(AST_block_t, failure_cases)
+{
+  int ret_val;
+  
+  block_t *block = malloc(sizeof(control_block_t));
+  block_type_t block_type = CONTROL;
+
+  AST_block_t* new_ast = AST_block_new(block, block_type);
+  cr_assert_not_null(new_ast, "AST_block_new failed to create a AST_block");
+
+  block_t *brnc = malloc(sizeof(branch_block_t));
+  block_type_t second_block_type = BRANCH;
+
+  AST_block_t* second_ast = AST_block_new(brnc, second_block_type);
+  cr_assert_not_null(second_ast, "AST_block_new failed to create the second AST_block");
+
+  
+  ret_val = list_add_AST_block(new_ast, NULL, 1);
+  cr_assert_eq(ret_val, FAILURE, "Was successful in adding NULL to a list");
+
+  ret_val = list_add_AST_block(NULL, new_ast, 1);
+  cr_assert_eq(ret_val, FAILURE, "Was successful in adding an action to a NULL list");
+
+  ret_val = list_add_AST_block(new_ast, second_ast, -1);
+  cr_assert_eq(ret_val, FAILURE, "Was successful in adding to a negative position of a list");
+}
