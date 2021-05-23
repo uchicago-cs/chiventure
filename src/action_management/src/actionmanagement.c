@@ -413,3 +413,17 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
         }
     }
 } 
+
+/* KIND 5
+ * See npc_action.h */
+int do_npc_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *i, char **ret_string)
+{
+    //TODO
+}
+
+/* KIND 6
+ * See npc_action.h */
+ int do_npc_item_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string)
+{
+     //TODO
+}
