@@ -69,3 +69,29 @@ Test(mode, load_normal)
 
     game_mode_free(g.mode);
 }
+
+/* Check that set_game_mode correctly sets the game's mode */
+Test(mode, set_game)
+{
+    game_t g;
+    
+    int rc = load_normal_mode(&g);
+    cr_assert_eq(rc, SUCCESS, "load_normal_mode() has failed!");
+    cr_assert_not_null(g.mode, "load_normal_mode() has failed!");
+
+    //Testing set to conversation mode
+    rc = set_game_mode(&g, CONVERSATION, "STEVE");
+    cr_assert_eq(rc, SUCCESS, "set_game_mode() has failed!");
+    cr_assert_eq(g.mode->curr_mode, CONVERSATION, 
+                 "set_game_mode() didn't set CONVERSATION mode");
+    cr_assert_eq(strncmp(g.mode->mode_ctx, "STEVE", MAX_ID_LEN), 0,
+                 "set_game_mode() didn't set mode_ctx");
+
+    //Testing set to normal mode
+    rc = set_game_mode(&g, NORMAL, NULL);
+    cr_assert_eq(rc, SUCCESS, "set_game_mode() has failed!");
+    cr_assert_eq(g.mode->curr_mode, NORMAL, 
+                 "set_game_mode() didn't set NORMAL");
+    cr_assert_eq(strncmp(g.mode->mode_ctx, "normal", MAX_ID_LEN), 0,
+                 "set_game_mode() didn't set mode_ctx");
+}
