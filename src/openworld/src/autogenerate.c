@@ -194,31 +194,6 @@ item_hash_t *random_items(roomspec_t *room)
     return items;
 }
 
-void print_if_not_null(void *ptr)
-{
-    if (ptr)
-        printf("This is not null!\n");
-}
-
-void pr_int(char *tag, int n)
-{
-    printf("%s: %d\n", tag, n);
-}
-
-void pr_double(char *tag, double x)
-{
-    printf("%s: %f\n", tag, x);
-}
-
-void pr_bool(char *tag, bool b)
-{
-    if (b) {
-        printf("%s: true\n", tag);
-    } else {
-        printf("%s: false\n", tag);
-    }
-}
-
 /* See autogenerate.h */
 item_hash_t *generate_items(roomspec_t *rspec)
 {
