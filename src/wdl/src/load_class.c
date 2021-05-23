@@ -7,7 +7,7 @@
 int load_class(obj_t* class_obj, game_t* game) {
     class_t* class = NULL;
     if (obj_get_type(class_obj, "prefab") == TYPE_BOOL && obj_get_bool(class_obj, "prefab")) {
-        class = NULL; //class_prefab_new(game, "test");
+        class = class_prefab_new(game, "monk"); // Still messing around
     }
     else {
         class = class_new(class_obj->id, NULL, NULL, NULL, NULL, NULL);

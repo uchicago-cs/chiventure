@@ -172,3 +172,29 @@ int delete_class(class_hash_t** hashtable, char* name) {
 int count_classes(class_hash_t** hashtable) {
     return HASH_COUNT(*hashtable);
 }
+
+/* This is an active crime scene!!!!
+ * 
+ * If you remove this function, running "make" will not work (the linker gets
+ * stuck at linking the chiventure executable, and claims: "undefined reference 
+ * to `class_prefab_new'").  I have tried and tried to find the problem, but I
+ * can't find anything.  This function (originally intended to be facade function for
+ * class_prefab_new()) was really just an experiment.  THIS SHOULD NOT WORK
+ * 
+ * Note that the linker is perfectly fine with grabbing stuff from this file, only
+ * class_prefabs.c upsets it.
+ * 
+ * This function will litterally never be executed.  It is not exposed through
+ * any .h files.  It should not have an effect anywhere on my code.
+ * 
+ * FUN FACT: If you surround the class_prefab_new or class_prefab_add_skills
+ * calls with something that prevents it from executing (if (1 == 0)), the code
+ * won't compile again.  Yay?
+ *  
+ * This has to go away before I do a PR.
+ */
+void please_dont_touch_my_trash() {  
+    class_t* my_trash = class_prefab_new(NULL, "");
+    class_prefab_add_skills(my_trash);
+    return;
+}
