@@ -10,7 +10,8 @@ room: _NL "ROOM" id (property | connections)* item*
 item: _NL "ITEM" id "IN" location property* action*
     | _NL "ITEM" id property* action*
 
-action: _NL "action: " id ("," id)* property*
+action: _NL "action: " action_ids property*
+action_ids: id ("," id)*
 
 property: _NL phrase "FOR" ("ITEM" | "ROOM") id ":" ESCAPED_STRING
         | _NL phrase ":" ESCAPED_STRING

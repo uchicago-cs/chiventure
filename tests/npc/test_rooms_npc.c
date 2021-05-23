@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "npc/rooms-npc.h"
 #include "npc/npc.h"
+#include "npc/npc_move.h"
 #include "game-state/room.h"
 
 /* Tests new() of npcs_in_room struct */
@@ -31,12 +32,10 @@ Test (npc_mov, new)
     npc_mov_t *npc_mov;
     room_t *test_room;
     test_room = room_new("test_room", "test", "test test");
-    npc_mov = npc_mov_new("test_npc", NPC_MOV_DEFINITE, test_room);
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
 
     cr_assert_not_null(npc_mov, "npc_mov_new() failed");
 
-    cr_assert_str_eq(npc_mov->npc_id, "test_npc",
-                "npc_mov_new() did not set npc_id");
     cr_assert_eq(npc_mov->mov_type, NPC_MOV_DEFINITE,
                 "npc_mov_new() did not set mov_type");
     cr_assert_str_eq(npc_mov->track, "test_room",
@@ -65,16 +64,14 @@ Test (npcs_in_room, init)
 Test (npc_mov, init)
 {
     room_t *test_room1 = room_new("test_room1", "test1", "test test1");
-    npc_mov_t *npc_mov = npc_mov_new("test_npc1", NPC_MOV_DEFINITE, test_room1);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room1);
 
     room_t *test_room2;
     test_room2 = room_new("test_room", "test", "test test");
-    int check = npc_mov_init(npc_mov,"test_npc2", NPC_MOV_DEFINITE, test_room2);
+    int check = npc_mov_init(npc_mov, NPC_MOV_DEFINITE, test_room2);
 
     cr_assert_eq(check, SUCCESS, "npc_mov_init() failed");
 
-    cr_assert_str_eq(npc_mov->npc_id, "test_npc2",
-                "npc_mov_new() did not set npc_id");
     cr_assert_eq(npc_mov->mov_type, NPC_MOV_DEFINITE,
                 "npc_mov_new() did not set mov_type");
     cr_assert_str_eq(npc_mov->track, "test_room",
@@ -102,7 +99,7 @@ Test (npc_mov, free)
     int check;
 
     test_room = room_new("test_room", "test", "test test");
-    npc_mov = npc_mov_new("test_npc", NPC_MOV_DEFINITE, test_room);
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
 
     check = npc_mov_free(npc_mov);
     cr_assert_eq(check, SUCCESS, "npc_mov_free() failed");
@@ -114,7 +111,7 @@ Test (npcs_in_room, add_npc_to_room)
 {
     //stats_t *stats = stats_new("npc_test_stat", 20);
     char *npc_id = "npc_test";
-    npc_t *npc = npc_new(npc_id, "test npc", "test npc", 100, NULL);
+    npc_t *npc = npc_new(npc_id, "test npc", "test npc", 100, NULL, NULL);
     npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
     int num_of_npcs_initial = npcs_in_room->num_of_npcs;
 
@@ -144,13 +141,13 @@ Test (npcs_in_room, npcs_in_room_get_number)
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
     char *npc_id1 = "test_npc1";
-    npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc", 100, NULL);
+    npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc", 100, NULL, NULL);
     int added_npc1 = add_npc_to_room(npcs_in_room,test_npc1);
 
     cr_assert_eq(added_npc1, SUCCESS, "add_npc_to_room() failed");
 
     char *npc_id2 = "test_npc2";
-    npc_t *test_npc2 = npc_new(npc_id2, "test npc", "test npc", 100, NULL);
+    npc_t *test_npc2 = npc_new(npc_id2, "test npc", "test npc", 100, NULL, NULL);
     int added_npc2 = add_npc_to_room(npcs_in_room,test_npc2);
 
     cr_assert_eq(added_npc2, SUCCESS, "add_npc_to_room() failed");
@@ -163,7 +160,7 @@ Test (npcs_in_room, npcs_in_room_get_number)
 Test(npc_mov, register_npc_room_time)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_INDEFINITE, test_room);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
     int time = 60;
 
     int check1 = register_npc_room_time(npc_mov, test_room, time);
@@ -190,7 +187,7 @@ Test(npc_mov, register_npc_room_time)
 Test(npc_mov, extend_path_definite) 
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_DEFINITE, test_room);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
     room_t *room_to_add = room_new("room_to_add", "add", "added room");
 
     int check1 = extend_path_definite(npc_mov, room_to_add);
@@ -206,7 +203,7 @@ Test(npc_mov, extend_path_definite)
 Test(npc_mov, extend_path_indefinite)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_INDEFINITE, test_room);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
     room_t *room_to_add = room_new("room_to_add", "add", "added room");
 
     int check1 = extend_path_indefinite(npc_mov, room_to_add, 10);
@@ -222,7 +219,7 @@ Test(npc_mov, extend_path_indefinite)
 Test(npc_mov, track_room)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_INDEFINITE, test_room);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
 
     char* room_id_track = track_room(npc_mov);
 
@@ -233,7 +230,7 @@ Test(npc_mov, track_room)
 Test(npc_mov, move_npc_definite)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_DEFINITE, test_room);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
     room_t *room_to_add1 = room_new("room_to_add1", "add1", "added room1");
     room_t *room_to_add2 = room_new("room_to_add2", "add2", "added room2");
 
@@ -262,7 +259,7 @@ Test(npc_mov, move_npc_definite)
 Test(npc_mov, reverse_path)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new("test_npc", NPC_MOV_DEFINITE, test_room);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
     room_t *room_to_add1 = room_new("room_to_add1", "add1", "added room1");
     room_t *room_to_add2 = room_new("room_to_add2", "add2", "added room2");
 

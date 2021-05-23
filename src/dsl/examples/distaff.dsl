@@ -25,7 +25,7 @@ long desc: "It looks a bit loose."
 ROOM room B
    short desc: "A dungeon room."
    long desc: "The walls are damp and moldy and, yet, the scent of freshly
-   
+   # intentional line break
    
    cut lavender flowers pervades the air."
    connections: NORTH TO room A

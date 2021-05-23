@@ -20,12 +20,18 @@ typedef struct inventory_condition{
     item_t *expected_item;
 } inventory_condition_t;
 
+typedef struct level_condition{
+    int level_required;
+    player_t *player_to_check;
+} level_condition_t;
+
 typedef union condition_value{
     attribute_condition_t* attribute_type;
     inventory_condition_t* inventory_type;
+    level_condition_t* level_type;
 } condition_value_t;
 
-enum condition_tag {ATTRIBUTE,INVENTORY};
+enum condition_tag {ATTRIBUTE,INVENTORY, LEVEL};
 
 typedef struct condition{
     condition_value_t condition;
@@ -56,6 +62,20 @@ typedef struct condition condition_list_t;
  */
 int valid_condition(game_t *game, condition_t *condition);
 
+/* free_condition: Frees a given condition without freeing the identifying fields
+ *                 This includes the attribute and item (for attribute conditions),
+ *                 the player and item (for inventory conditions) or
+ *                 solely the player (for level conditions)
+ *                 
+ * 
+ * Inputs:
+ *      - Condition: The given condition to free
+ * 
+ * Returns: 
+ *      - Will always output SUCCESS
+ */
+int free_condition(condition_t* condition);
+
 /* delete_condition_llist frees a linked list of action conditions
  * Parameters:
  *  linked list of conditions
@@ -78,7 +98,7 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
 				       attribute_value_t new_value);
 
 
-/* invetory_condition_new() creates a new inventory condition in an item with given inputs
+/* inventory_condition_new() creates a new inventory condition in an item with given inputs
  * Parameters:
  *  a pointer to the player whose inventory to check
  *  a pointer to the item
@@ -86,6 +106,16 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
  *  NULL if player or item are NULL, the new condition if succcessful
  */
 condition_t *inventory_condition_new(player_t *player, item_t *expected_item);
+
+
+/* level_condition_new() creates a new level condition 
+ * Parameters:
+ *  a pointer to the player whose level to check
+ *  the required level
+ * Returns:
+ *  NULL if player is NULL, the new condition if succcessful
+ */
+condition_t *level_condition_new(player_t *player, int required_level);
 
 /* check_condition() checks if the actual attribute of an item is equal
  * to the desired attribute
