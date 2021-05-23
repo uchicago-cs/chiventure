@@ -7,9 +7,9 @@
         }
     },
     "CLASSES": {
-        "Warrior": {
-            "short_desc": "Warrior's short description",
-            "long_desc": "Warrior's long description",
+        "Knight": {
+            "short_desc": "Knight's short description",
+            "long_desc": "Knight's long description",
             "attributes": {
                 "noble": true,
                 "hot-headed": true
@@ -58,6 +58,20 @@
         },
         "Monk": {
             "prefab": true
+        },
+        "Warrior": {
+            "prefab": true,
+            "long_desc": "Warrior's overwritten long description",
+            "base_stats": {
+                "health": {
+                    "max": 200,
+                    "current": 120
+                },
+                "mana": {
+                    "max": 100,
+                    "current": 5
+                }
+            }
         }
     },
     "ROOMS": {
