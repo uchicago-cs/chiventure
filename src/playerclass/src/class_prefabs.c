@@ -14,7 +14,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
     "ranger",
     "rogue",
     "warrior",
-    "wizard",
+    "wizard"
 };
 
 /* Number of predefined default classes (see above). */
