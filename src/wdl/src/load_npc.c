@@ -5,7 +5,7 @@
 /* See load_item.h */
 int load_npcs(obj_t *doc, game_t *g)
 {
-    // 
+    // get and verify NPCs object
     obj_t *npcs_obj = obj_get_attr(doc, "NPCS", false);
     if (npcs_obj == NULL)
     {
@@ -18,7 +18,7 @@ int load_npcs(obj_t *doc, game_t *g)
         return FAILURE;
     }
 
-    // while list of NPCs exists, create new NPC, add NPC to room
+    // while list of NPCs exists, create new NPC, add NPC to game
     obj_t *curr, *tmp;
     HASH_ITER(hh, npcs_obj->data.obj.attr, curr, tmp)
     {
@@ -32,7 +32,7 @@ int load_npcs(obj_t *doc, game_t *g)
         npc_t *npc = npc_new(id, short_desc, long_desc, health, NULL, NULL);
 
         // load dialogue into NPC
-        if(load_dialogue(curr, npc) == FAILURE)
+        if (load_dialogue(curr, npc) == FAILURE)
         {
             fprintf(stderr, "Dialogue was not loaded properly\n");
             return FAILURE;
