@@ -5,21 +5,66 @@
 #include "game-state/stats.h"
 
 /*
- * Loads a single class into a game_t
+ * Loads a stats_hash_t struct from an object.
  *
  * Parameters:
- *  - class_obj: The libobj that holds information about the class in question.
- *  - game: The game_t that will hold the initialized class.
+ *  - stat_block_obj: The object that holds information about the stat block in question.
+ *  - game: The current chiventure game struct (holds relevant context).
  * 
  * Returns:
- *  - SUCCESS if the class loaded successfully.
- *  - FAILURE otherwise.
+ *  - a pointer to a successfully generated stats_hash_t struct.
+ *  - NULL if the stat block failed to load.
  */
-int load_class(obj_t* class_obj, game_t* game) {
+stats_hash_t* load_stat_hashtable(obj_t* stat_block_obj, game_t* game) {
+    stats_hash_t* stat_block = NULL;
+    obj_t *stat_obj, *tmp;
+    HASH_ITER(hh, stat_block_obj->data.obj.attr, stat_obj, tmp) {
+        /* Currently no TYPE_DOUBLE is supported by libobj */
+        if (obj_get_type(stat_obj, "max") != TYPE_INT || obj_get_type(stat_obj, "current") != TYPE_INT) {
+            fprintf(stderr, "Failed to load stat.\n");
+            return NULL;
+        }
+
+        /* Update global stat hashtable if this stat has not yet been declared */
+        stats_global_t* global_stat;
+        HASH_FIND_STR(game->curr_stats, stat_obj->id, global_stat);
+        if (global_stat == NULL) {
+            global_stat = stats_global_new(stat_obj->id, obj_get_int(stat_obj, "max"));
+            HASH_ADD_STR(game->curr_stats, name, global_stat);
+        }
+        else if (global_stat->max != obj_get_int(stat_obj, "max")) {
+            fprintf(stderr, "Stats have inconsistent max.\n");
+            return NULL;
+        }
+
+        /* Update output stat hashtable */
+        stats_t* stat = stats_new(global_stat, obj_get_int(stat_obj, "current"));
+        add_stat(&stat_block, stat);
+    }
+
+    return stat_block;
+}
+
+/*
+ * Loads a single class_t struct from an object.
+ *
+ * Parameters:
+ *  - class_obj: The object that holds information about the class in question.
+ *  - game: The current chiventure game struct (holds relevant context).
+ * 
+ * Returns:
+ *  - a pointer to a successfully generated class_t struct.
+ *  - NULL if the class failed to load.
+ */
+class_t* load_class(obj_t* class_obj, game_t* game) {
     /* Initialize class to prefab or to new empty class */
     class_t* class = NULL;
     if (obj_get_type(class_obj, "prefab") == TYPE_BOOL && obj_get_bool(class_obj, "prefab")) {
         class = class_prefab_new(game, class_obj->id);
+        if (class == NULL) {
+            fprintf(stderr, "Failed to load prefab class with non-matching name.\n");
+            return NULL;
+        }
         class_prefab_add_skills(class);
     }
     else {
@@ -49,41 +94,15 @@ int load_class(obj_t* class_obj, game_t* game) {
     if (obj_get_type(class_obj, "base_stats") == TYPE_OBJ) {
         if (class->base_stats != NULL)
             free_stats(class->base_stats);
-        obj_t* class_stats_obj = obj_get_attr(class_obj, "base_stats", false);
-        
-        obj_t *stat_obj, *tmp;
-        HASH_ITER(hh, class_stats_obj->data.obj.attr, stat_obj, tmp) {
-            /* Currently no TYPE_DOUBLE is supported */
-            if (obj_get_type(stat_obj, "max") != TYPE_INT || obj_get_type(stat_obj, "current") != TYPE_INT) {
-                fprintf(stderr, "Failed to load class stat.\n");
-                return FAILURE;
-            }
-
-            /* Update global stat hashtable if this stat has not yet been declared*/
-            stats_global_t* global_stat;
-            HASH_FIND_STR(game->curr_stats, stat_obj->id, global_stat);
-            if (global_stat == NULL) {
-                global_stat = stats_global_new(stat_obj->id, obj_get_int(stat_obj, "max"));
-                HASH_ADD_STR(game->curr_stats, name, global_stat);
-            }
-            else if (global_stat->max != obj_get_int(stat_obj, "max")) {
-                fprintf(stderr, "Class stats have inconsistent max.\n");
-                return FAILURE;
-            }
-
-            /* Update class's stat hashtable */
-            stats_t* stat = stats_new(global_stat, obj_get_int(stat_obj, "current"));
-            add_stat(&class->base_stats, stat);
-        }   
+        obj_t* class_stats_obj = obj_get_attr(class_obj, "base_stats", false); 
+        class->base_stats = load_stat_hashtable(class_stats_obj, game);
+        if (class->base_stats == NULL) {
+            fprintf(stderr, "Failed to load class stats.\n");
+            return NULL;
+        }
     }
-
-    /* Add class to global class hashtable */
-    if (add_class(&(game->all_classes), class) == FAILURE) {
-        fprintf(stderr, "Could not add class to global class hashtable.\n");
-        return FAILURE;
-    }
-    
-    return SUCCESS;
+ 
+    return class;
 }
 
 /* See load_class.h */
@@ -104,8 +123,15 @@ int load_classes(obj_t* obj_store, game_t* game) {
     /* Iterate over attributes of CLASSES and add them to game */
     obj_t *class_obj, *tmp;
     HASH_ITER(hh, classes_obj->data.obj.attr, class_obj, tmp) {
-        if (load_class(class_obj, game) == FAILURE) {
+        class_t* class = load_class(class_obj, game);
+        if (class == NULL) {
             fprintf(stderr, "Failed to load class with name %s.\n", class_obj->id);
+            return FAILURE;
+        }
+
+        /* Add class to global class hashtable */
+        if (add_class(&(game->all_classes), class) == FAILURE) {
+            fprintf(stderr, "Could not add class to global class hashtable.\n");
             return FAILURE;
         }
     }
