@@ -16,7 +16,7 @@
  *
  * Returns: a pointer to the newly allocated passive mission, that is not completed
  */
-mission_t *passive_mission_new(int *xp, int *levels, int *health);
+passive_mission_t *passive_mission_new(int *xp, int *levels, int *health);
 
 /* Creates a new active mission struct (allocates memory)
  * 
@@ -28,7 +28,7 @@ mission_t *passive_mission_new(int *xp, int *levels, int *health);
  *
  * Returns: a pointer to the newly allocated passive mission, that is not completed
  */
-mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
+active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
                               npc_t *npc_to_kill, room_t *room_to_visit);
 
 /* Creates a new achievement struct (allocates memory)
@@ -66,7 +66,7 @@ quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int passive_mission_init(mission_t *mission, int *xp, int *levels, int *health);
+int passive_mission_init(passive_mission_t *mission, int *xp, int *levels, int *health);
 
 /* Initialize an already allocated active mission struct 
  *
@@ -79,7 +79,7 @@ int passive_mission_init(mission_t *mission, int *xp, int *levels, int *health);
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int active_mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
+int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
                         npc_t *npc_to_kill, room_t *room_to_visit);
 
 /* Initialize an already allocated achievement struct
@@ -116,7 +116,7 @@ int quest_init(quest_t *q, long int quest_id, achievement_tree_t *achievement_tr
                item_t *reward, int status);
 
 /* 
- * Frees a mission struct from memory
+ * Frees a passive mission struct from memory
  * 
  * Parameter:
  * - mission: the mission to be freed
@@ -125,7 +125,19 @@ int quest_init(quest_t *q, long int quest_id, achievement_tree_t *achievement_tr
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int mission_free(mission_t *mission);
+int passive_mission_free(passive_mission_t *mission);
+
+/* 
+ * Frees an active mission struct from memory
+ * 
+ * Parameter:
+ * - mission: the mission to be freed
+ * 
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int active_mission_free(active_mission_t *mission);
 
 /* 
  * Frees an achievement struct from memory but does not free 
@@ -153,7 +165,17 @@ int achievement_free(achievement_t *achievement);
  */
 int quest_free(quest_t * quest);
 
-
+/* 
+ * Determines whether two quests are the same
+ * 
+ * Parameter:
+ * - quest1: first quest
+ * - quest2: second quest
+ * 
+ * Returns:
+ * - 0 for false
+ * - 1 for true
+ */
 int compare_quests(quest_t *quest1, quest_t *quest2);
 
 /*
@@ -167,6 +189,16 @@ int compare_quests(quest_t *quest1, quest_t *quest2);
  */
 achievement_tree_t *get_bottom_node(achievement_tree_t *t);
 
+/*
+ * Function to determine the parent node of a given node.
+ *
+ * Parameters:
+ * - tree: a pointer to a tree
+ * - id: char id associated with an achievement node
+ *
+ * Returns:
+ * - parent node
+ */
 achievement_tree_t *find_parent(achievement_tree_t *tree, char *id);
 
 /* Adds an achievement to the tree given an parent tree id
@@ -181,7 +213,6 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id);
  * - FAILURE 
  */
 int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id)
-
 
 /* Updates a quest's status to started
  *
@@ -223,7 +254,6 @@ int fail_quest(quest_t *quest);
  *       completing achievements.
  */
 achievement_t *find_achievement(achievement_tree_t *tree, char *id)
-
 
 
 /* Completes an achievement in a quest by checking if a given

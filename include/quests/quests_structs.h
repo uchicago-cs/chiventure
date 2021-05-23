@@ -44,7 +44,7 @@ typedef struct active_mission {
 } active_mission_t;
 
 /*
- * This union represents a mission.
+ * This union represents a mission. Can be used to create an achievement.
  * 
  * Components:
  *  a_mission: an active mission

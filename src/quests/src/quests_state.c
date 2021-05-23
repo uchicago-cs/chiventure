@@ -4,14 +4,31 @@
 #include <assert.h>
 #include "quests/quests_state.h"
 
+/* Refer to quests_state.h */
+passive_mission_t *passive_mission_new(int *xp, int *levels, int *health)
+{
+    passive_mission_t *mission = malloc(sizeof(pasive_mission_t));
+    int rc;
+
+    rc = passive_mission_init(xp, levels, health);
+
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize  mission struct!\n");
+    }
+
+    return mission;
+}
 
 /* Refer to quests_state.h */
-mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet)
+active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
+                              npc_t *npc_to_kill, room_t *room_to_visit)
 {
     mission_t *mission = malloc(sizeof(mission_t));
     int rc;
 
-    rc = mission_init(mission, item_to_collect, npc_to_meet);
+    rc = active_mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
+                      room_to_visit);
 
     if (rc != SUCCESS)
     {
@@ -39,7 +56,7 @@ achievement_t *achievement_new(mission_t *mission, char *id)
 
 /* Refer to quests_state.h */
 quest_t *quest_new(long quest_id, achievement_tree_t *achievement_tree,
-                   item_t *reward) 
+                   reward_t *reward, stat_req_t *stat_req) 
 {
     quest_t *q;
     int rc;
@@ -50,7 +67,7 @@ quest_t *quest_new(long quest_id, achievement_tree_t *achievement_tree,
         return NULL;
     }
 
-    rc = quest_init(q, quest_id, achievement_tree, reward, 0);
+    rc = quest_init(q, quest_id, achievement_tree, reward, stat_req, 0);
     if(rc != SUCCESS){
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
@@ -60,15 +77,29 @@ quest_t *quest_new(long quest_id, achievement_tree_t *achievement_tree,
 }
 
 /* Refer to quests_state.h */
-int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet)
+int passive_mission_init(passive_mission_t *mission, int *xp, int *levels, int *health)
+{
+    assert(mission != NULL);
+
+    mission->xp = xp;
+    mission->levels = levels;
+    mission->health = health;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int active_mission_init(active_mission_t *mission, item_t *item_to_collect, 
+                        npc_t *npc_to_meet, npc_t *npc_to_kill, room_t *room_to_visit)
 {
     assert(mission != NULL);
 
     mission->item_to_collect = item_to_collect;
     mission->npc_to_meet = npc_to_meet;
+    mission->npc_to_kill = npc_to_kill;
+    mission->room_to_visit = room_to_visit;
 
     return SUCCESS;
-
 }
 
 /* Refer to quests_state.h */
@@ -85,25 +116,40 @@ int achievement_init(achievement_t *achievement, mission_t *mission, char *id)
 
 /* Refer to quests_state.h */
 int quest_init(quest_t *q, long quest_id, achievement_tree_t *achievement_tree,
-                item_t *reward, int status)
+                reward_t *reward, stat_req_t *stat_req, int status)
 {
     assert(q != NULL);
 
     q->quest_id = quest_id;
     q->achievement_tree = achievement_tree;
     q->reward = reward;
+    q->stat_req = stat_req;
     q->status = status;
 
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int mission_free(mission_t *mission)
+int passive_mission_free(passive_mission_t *mission)
+{
+    assert(mission != NULL);
+
+    free(mission->xp);
+    free(mission->levels);
+    free(mission->health);
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int active_mission_free(active_mission_t *mission)
 {
     assert(mission != NULL);
 
     free(mission->item_to_collect);
     free(mission->npc_to_meet);
+    free(mission->npc_to_kill);
+    free(mission->room_to_visit);
     free(mission);
 
     return SUCCESS;
@@ -126,6 +172,7 @@ int quest_free(quest_t *q)
 
     free(q->achievement_tree);
     free(q->reward);
+    free(q->stat_req);
     free(q);
 
     return SUCCESS;
@@ -269,8 +316,6 @@ int complete_achievement(quest_t *quest, char *id)
         return FAILURE;
     }
 }
-
-
 
 /* Refer to quests_state.h */
 int is_quest_completed(quest_t *quest)
