@@ -55,10 +55,10 @@ achievement_t *achievement_new(mission_t *mission, char *id);
 quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
                     item_t *reward);
 
-/* Initialize an already allocated mission struct
+/* Initialize an already allocated passive mission struct 
  *
  * Parameters:
- * - mission: an already allocated mission
+ * - mission: an already allocated mission_t (of passive type)
  * - item_to_collect: the item to be collected for the mission
  * - npc_to_meet: the npc to be met for the mission
  * 
@@ -66,7 +66,21 @@ quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet);
+int passive_mission_init(mission_t *mission, int *xp, int *levels, int *health);
+
+/* Initialize an already allocated active mission struct 
+ *
+ * Parameters:
+ * - mission: an already allocated mission_t (of active type)
+ * - item_to_collect: the item to be collected for the mission
+ * - npc_to_meet: the npc to be met for the mission
+ * 
+ * Returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+ */
+int active_mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
+                        npc_t *npc_to_kill, room_t *room_to_visit);
 
 /* Initialize an already allocated achievement struct
  *
