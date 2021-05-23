@@ -609,6 +609,10 @@ Test(AST_block_t, failure_cases)
 
   ret_val = list_add_AST_block(new_ast, second_ast, -1);
   cr_assert_eq(ret_val, FAILURE, "Was successful in adding to a negative position of a list");
+  
+  ret_val = list_add_AST_block(new_ast, new_ast, 2);
+  cr_assert_eq(ret_val, FAILURE, "Added an AST_block that was already in the linked list");
+
   AST_block_free(new_ast);
   AST_block_free(second_ast);
 }

@@ -162,6 +162,9 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
     if (head == NULL || add == NULL || num_to_place < 0)
         return FAILURE;
 
+    if (list_contains_AST_block(head, add) == true)
+        return FAILURE;
+        
     /* Case where adding an AST_block_t as the new 'head'/beginning of the linked list */
     if (num_to_place == 0)
     {
