@@ -229,7 +229,7 @@ Test(game_npc, add_npc_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     npc_t *npc = npc_new("TEST_NPC", "a test npc", "an npc for testing",
-                         10, NULL);
+                         10, NULL, NULL);
     add_npc_to_game(game, npc);
 
     cr_assert_not_null(npc, "test_npc not initialized");
@@ -248,7 +248,7 @@ Test(game_npc, get_npc)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     npc_t *npc = npc_new("TEST_NPC", "a test npc", "an npc for testing",
-                         10, NULL);
+                         10, NULL, NULL);
     add_npc_to_game(game, npc);
 
     cr_assert_not_null(npc, "test_npc not initialized");
