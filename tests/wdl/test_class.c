@@ -51,15 +51,62 @@ static obj_t *__get_doc_obj()
 }
 
 /* check to see if the load game function works when there are classes defined */
-Test(game, load_game_with_classes)
+Test(class, load_game_with_classes)
 {
     obj_t *obj_store = __get_doc_obj();
-    game_t *g = load_game(obj_store);
-    cr_assert_not_null(g, "load_game() did not load game correctly");
+    game_t *game = load_game(obj_store);
+    cr_assert_not_null(game, "load_game() did not load game correctly.\n");
 
-    char *str = g->start_desc;
+    char *str = game->start_desc;
     cr_assert_str_eq(str, "This is the intro for a test game, which is exactly like that in connected-rooms.wdl execpt it also has classes.", 
-                     "Intro was not loaded correctly");
+                     "Intro was not loaded correctly.\n");
+}
 
-    /* Check specifically for certain classes (TODO) */
+/* Checks to see if a full user defined class is loaded */
+Test(class, load_fully_defined_class) {
+    game_t *game = load_game(__get_doc_obj());
+    /* The warrior is a fleshed out class defined in the WDL file */
+    class_t* warrior = find_class(&game->all_classes, "Warrior"); // Case sensitive
+    cr_assert_not_null(warrior, "load_game() did not load Warrior class correctly.\n");
+
+    cr_assert_str_eq(warrior->shortdesc, "Warrior's short description", 
+                     "Warrior's short description did not load correctly.\n");
+
+    cr_assert_str_eq(warrior->longdesc, "Warrior's long description", 
+                     "Warrior's long description did not load correctly.\n");
+
+    cr_assert(obj_get_bool(warrior->attributes, "hot-headed") && obj_get_bool(warrior->attributes, "noble"), 
+              "Warrior did not load hot-headed and noble attributes\n.");
+}
+
+/* Checks to see if a partially defined class is loaded */
+Test(class, load_partially_defined_class) {
+    game_t *game = load_game(__get_doc_obj());
+    /* The rogue is a partially defined class */
+    class_t* rogue = find_class(&game->all_classes, "Rogue"); 
+    cr_assert_not_null(rogue, "load_game() did not load Rogue class correctly.\n");
+
+    cr_assert_str_eq(rogue->shortdesc, "", 
+                     "Rogue's short description should have been empty, but was not.\n");
+
+    cr_assert_str_eq(rogue->longdesc, "Rogue's long description", 
+                     "Rogue's long description did not load correctly.\n");
+}
+
+/* Checks to see if a prefab class is loaded */
+Test(class, load_prefab_class) {
+    game_t *game = load_game(__get_doc_obj());
+    /* The rogue is a partially defined class */
+    class_t* monk = find_class(&game->all_classes, "Monk"); 
+    cr_assert_not_null(monk, "load_game() did not load Monk class correctly.\n");
+
+    cr_assert_str_eq(monk->shortdesc, "An elite martial artist.", 
+                     "Monk's short description did not load correctly.\n");
+
+    cr_assert_str_eq(monk->longdesc, "The Monk is an expert of unarmed combat, and, through their training-- "
+                     "in accordance with their strict spirituality--have learned how to defend themselves from attackers.", 
+                     "Monk's long description did not load correctly.\n");
+
+    cr_assert_eq(get_stat_current(monk->base_stats, "max_health"), 25, 
+                 "Monk's max_health stat was loaded incorrectly.\n");
 }

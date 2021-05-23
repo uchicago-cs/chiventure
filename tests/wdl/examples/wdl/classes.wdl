@@ -8,8 +8,8 @@
     },
     "CLASSES": {
         "Warrior": {
-            "short_desc_s": "Warrior's short description",
-            "long_desc": null,
+            "short_desc": "Warrior's short description",
+            "long_desc": "Warrior's long description",
             "attributes": {
                 "noble": true,
                 "hot-headed": true
@@ -29,7 +29,6 @@
             "starting_skills": null
         },
         "Rogue": {
-            "short_desc": "Rogue's short description",
             "long_desc": "Rogue's long description"
         },
         "Monk": {

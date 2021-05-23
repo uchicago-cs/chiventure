@@ -2,6 +2,7 @@
 #include "wdl/load_class.h"
 #include "wdl/validate.h"
 #include "playerclass/class_prefabs.h"  
+#include "game-state/stats.h"
 
 /*
  * Loads a single class into a game_t
@@ -39,13 +40,16 @@ int load_class(obj_t* class_obj, game_t* game) {
 
     /* Overwrite attributes */
     if (obj_get_type(class_obj, "attributes") == TYPE_OBJ) {
-        obj_t* attr = obj_get_attr(class_obj, "attributes", false);
-        class->attributes = attr;
+        if (class->attributes != NULL)
+            obj_free_all(class->attributes); 
+        class->attributes = obj_get_attr(class_obj, "attributes", false);;
     }
 
-    /* Overwrite stats */
+    /* Overwrite stats (does NOT simply add to an existing stat pool) */
     if (obj_get_type(class_obj, "base_stats") == TYPE_OBJ) {
-        obj_t* stats = obj_get_attr(class_obj, "base_stats", false);
+        if (class->base_stats != NULL)
+            free_stats(class->base_stats);
+        obj_t* stats_obj = obj_get_attr(class_obj, "base_stats", false);
         class->base_stats = NULL; // TODO
     }
 

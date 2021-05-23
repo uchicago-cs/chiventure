@@ -9,8 +9,7 @@ target_include_directories(wdl PRIVATE src/)
 target_include_directories(wdl PRIVATE ${LIBZIP_INCLUDE_DIR})
 target_include_directories(wdl PRIVATE ${JSONC_INCLUDE_DIR})
 
-# Adding playerclass and skilltrees prevents certain undefined reference errors
-# the chiventure executeable.
+# Adding playerclass and skilltrees prevents certain undefined reference errors the chiventure executeable.
 target_link_libraries(wdl libobj playerclass skilltrees ${JSONC_LIBRARIES} ${LIBZIP_LIBRARIES})
 
 
