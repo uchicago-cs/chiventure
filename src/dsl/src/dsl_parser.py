@@ -70,7 +70,7 @@ class TreeToDict(Transformer):
         action_ids = s.pop(0)[1]
         
         # actions_properties is a list with items of the form ("OPEN SUCCESS", "you opened the door")
-        action_properties = s[1:]
+        action_properties = s
         
         actions_dictionary = {}
         
@@ -133,6 +133,9 @@ class TreeToDict(Transformer):
 
 parser = Lark(dsl_grammar, parser='earley')
 
+def export_dict(file_str):
+    tree = parser.parse(file_str)
+    return TreeToDict().transform(tree)
 
 def main():
     with open(sys.argv[1]) as f:

@@ -1,4 +1,4 @@
-STRING: (LETTER|DIGIT)+
+// STRING: (LETTER|DIGIT)+
 
 _STRING_INNER: /(.|\n)*?/
 _STRING_ESC_INNER: _STRING_INNER /(?<!\\)(\\\\)*?/
@@ -7,5 +7,6 @@ ESCAPED_STRING : "\"" _STRING_ESC_INNER "\""
 %import common.LETTER
 %import common.DIGIT
 %import common.WS
+%import common.CNAME -> STRING
 
 COMMENT: "#" /[^\n]/*
