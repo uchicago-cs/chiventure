@@ -1,6 +1,6 @@
 # Openworld Documentation
 
-The goal of the openworld module is to implement a feature that allows automatic generation of rooms in chiventure.
+The goal of the openworld module is to implement a feature that allows automatic map/world generation in chiventure.
 
 ## Wiki Pages
 - [Source Document](https://github.com/uchicago-cs/chiventure/wiki/Open-World-~-Source-Document) - Implementation details about the openworld module
@@ -11,7 +11,7 @@ The goal of the openworld module is to implement a feature that allows automatic
 
 ### chiventure/include/openworld
 Interface of openworld module
-- [autogenerate.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/autogenerate.h) - Gathers room specifications from the default's, generates the room, and then puts it directly into chiventure
+- [autogenerate.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/autogenerate.h) - Gathers room specifications from the default's and generates the room
 - [default_items.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/default_items.h) - Contains a list of default items to be placed into the rooms during room generation
 - [default_rooms.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/default_rooms.h) - Contains a list of default rooms from which autogenerate pulls the room info from during room generation
 - [gen_structs.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/gen_structs.h) - Provides the structs that make generation work smoothly
