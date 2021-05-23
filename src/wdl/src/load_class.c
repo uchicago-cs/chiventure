@@ -101,6 +101,26 @@ class_t* load_class(obj_t* class_obj, game_t* game) {
             return NULL;
         }
     }
+
+    /* Overwrite effects */
+    if (obj_get_type(class_obj, "effects") == TYPE_OBJ) {
+        /* Currently, it is unclear how effects and classes work together. 
+         * Effects are temporary; there is no way to declare an infinite effect,
+         * and temporary effects do not make sense on classes. As such, I am
+         * leaving this section blank, until we decide if and how to use effects. */
+    }
+
+    /* Overwrite effects */
+    if (obj_get_type(class_obj, "skill_tree") == TYPE_OBJ) {
+        /* Skill effects are currently undergoing change, so it is best to wait
+         * on defining the structure of skills and skill effects in JSON. */
+    }
+
+    /* Overwrite effects */
+    if (obj_get_type(class_obj, "starting_skills") == TYPE_OBJ) {
+        /* See above. It is best to wait on the skilltrees team to determine how
+         *  they want to store skill information. */
+    }
  
     return class;
 }

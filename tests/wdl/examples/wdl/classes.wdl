@@ -25,7 +25,7 @@
                 }
             },
             "effects": null,
-            "skill_tree_t": null,
+            "skill_tree": null,
             "starting_skills": null
         },
         "Lich": {
@@ -50,7 +50,7 @@
                 }
             },
             "effects": null,
-            "skill_tree_t": null,
+            "skill_tree": null,
             "starting_skills": null
         },
         "Rogue": {
