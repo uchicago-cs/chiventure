@@ -39,7 +39,7 @@ game_t *load_game(obj_t *obj_store)
         return NULL;
     }
 
-    rc = load_npcs(big_document, game);
+    rc = load_npcs(obj_store, game);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error loading NPCs.\n");

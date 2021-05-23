@@ -259,9 +259,9 @@ int npc_type_check(obj_t *obj)
 /* See validate.h */
 int dialogue_type_check(obj_t *obj)
 {   
-    // fields to verify
+    // verify that the nodes and edges attributes exist
     obj_t *nodes_obj = obj_get_attr(obj, "nodes", false);
-    obj_t *edges_obj = obj_get_attr(obj, "edge", false);
+    obj_t *edges_obj = obj_get_attr(obj, "edges", false);
 
     if (nodes_obj == NULL || edges_obj == NULL) return FAILURE;
     
@@ -269,6 +269,7 @@ int dialogue_type_check(obj_t *obj)
     int id = 1, npc_dialogue = 1;
     int quip = 1, from_id = 1, to_id = 1;
 
+    // verify the node fields
     DL_FOREACH(nodes_obj->data.lst, curr)
     {
         id = id && (obj_get_type(curr, "id") == TYPE_STR);
@@ -276,7 +277,8 @@ int dialogue_type_check(obj_t *obj)
             (obj_get_type(curr, "npc_dialogue") == TYPE_STR);
     }
 
-    DL_FOREACH(nodes_obj->data.lst, curr)
+    // verify the edge fields
+    DL_FOREACH(edges_obj->data.lst, curr)
     {
         quip = quip && (obj_get_type(curr, "quip") == TYPE_STR);
         from_id = from_id && (obj_get_type(curr, "from_id") == TYPE_STR);
