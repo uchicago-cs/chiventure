@@ -168,6 +168,17 @@ int add_item_to_game(game_t *game, item_t *item);
  */
 int add_final_room_to_game(game_t *game, room_t *final_room);
 
+/* Gets a quest from the all_quests hash table
+ *
+ * Parameters:
+ *  game struct
+ *  quest id
+ *
+ * Returns:
+ *  quest struct if successful, NULL if quest is not found
+ */
+quest_t *get_quest(game_t* game, char *quest_id);
+
 /* Adds a quest to the given game
  *
  * Parameters:

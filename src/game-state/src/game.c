@@ -91,14 +91,24 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 }
 
 /* See game.h */
+quest_t *get_quest(game_t* game, char *quest_id)
+{
+	quest_t *q;
+	HASH_FIND(hh, game->all_quests, quest_id,  
+		    strlen(quest_id, MAX_ID_LEN), q);
+
+	return q;
+}
+
+/* See game.h */
 int add_quest_to_game(game_t *game, quest_t *quest)
 {
 	quest_t *check;
 
-	//call to get_quest function
-	check = NULL; //dummy NULL for now
+	
+	check = get_quest(game, quest->quest_id)
 
-	if (check == NULL) 
+	if (check != NULL) 
 	{
 		return FAILURE; //quest id is already in the hash table
 	}
