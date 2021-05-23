@@ -55,7 +55,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     /* we use buff for the room name instead */
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
     /* instead of taking all the items, just take a few of them */
-    res->items = random_items(roomspec);
+    res->items = generate_items(roomspec);
 
     res->paths = NULL;
     return res;
@@ -194,6 +194,31 @@ item_hash_t *random_items(roomspec_t *room)
     return items;
 }
 
+void print_if_not_null(void *ptr)
+{
+    if (ptr)
+        printf("This is not null!\n");
+}
+
+void pr_int(char *tag, int n)
+{
+    printf("%s: %d\n", tag, n);
+}
+
+void pr_double(char *tag, double x)
+{
+    printf("%s: %f\n", tag, x);
+}
+
+void pr_bool(char *tag, bool b)
+{
+    if (b) {
+        printf("%s: true\n", tag);
+    } else {
+        printf("%s: false\n", tag);
+    }
+}
+
 /* See autogenerate.h */
 item_hash_t *generate_items(roomspec_t *rspec)
 {
@@ -222,13 +247,13 @@ item_hash_t *generate_items(roomspec_t *rspec)
         int num_quantities = max_num - min_num + 1;
 
         int spawn_num = min_num;
-        bool should_spawn = (rand() / RAND_MAX) <= spawn_chance;
+        bool should_spawn = ((double) rand()) / RAND_MAX <= spawn_chance;
         if (should_spawn) {
             spawn_num += rand() % num_quantities;
         } else {
             spawn_num = 0;
         }
-        spawn_num = spawn_num < MAX_RAND_ITEMS - total_count;
+        spawn_num = (spawn_num < MAX_RAND_ITEMS - total_count)? spawn_num : MAX_RAND_ITEMS - total_count;
 
         for (int i = 0; i < spawn_num; i++) {
             copy_item_to_hash(&rv, rspec->items, curr->item_id);

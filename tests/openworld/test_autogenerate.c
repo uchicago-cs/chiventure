@@ -179,6 +179,37 @@ Test(autogenerate, roomspec_to_room3)
 
 }
 
+/* Checks that roomspec_to_room, given a roomspec pointer whose itemspecs are
+   all set to 0 spawn_chance, does not spawn any item. */
+Test(autogenerate, roomspec_to_room_chance_0)
+{
+    roomspec_t *r = make_default_room("school", NULL, NULL); // item_hash is set to NULL
+
+    /* Adding itemspecs to hash */
+    char *item_names[5] = {"door", "tray", "mirror", "jug", "hat"}; // names of items in item_hash
+    for (int i = 0; i < 5; i++) {
+        /* each itemspec has a spawn_chance of 0, and a [1, 10] quantity range */
+        itemspec_t *elt = itemspec_new(item_names[i], 0, 1, 10); 
+        HASH_ADD_KEYPTR(hh, r->itemspecs, item_names[i], strlen(item_names[i]), elt);
+    }
+
+    game_t *g = game_new("start desc");
+    room_t *room = roomspec_to_room(r);
+
+    int count = 0;
+    item_t *curr, *tmp;
+    /* Counts number of items in room */
+    HASH_ITER(hh, room->items, curr, tmp) {
+        item_t *lst_node;
+        /* Count stacked duplicate items */
+        DL_FOREACH(curr, lst_node) {
+            count++;
+        }
+    }
+    cr_assert_eq(0, count, "No items should have spawned, but %d did.", count);
+}
+
+
 /* Checks that pick_random_direction() returns correct NESW (compass directions)
    forward-reverse direction pairs */
 Test(autogenerate, pick_random_direction_correct_dir_pairs)

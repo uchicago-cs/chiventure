@@ -187,6 +187,7 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
     if (check == FAILURE) {
         return NULL;
     }
+    roomspecnew->itemspecs = NULL;
     return roomspecnew;
 }
 
@@ -339,6 +340,7 @@ levelspec_t *levelspec_new(int num_thresholds, int *thresholds)
     }
 
     init_levelspec(levelspec, num_thresholds, thresholds);
+    levelspec->roomlevels = NULL;
     return levelspec;
 }
 

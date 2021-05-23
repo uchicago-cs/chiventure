@@ -251,6 +251,7 @@ int itemspec_free(itemspec_t *itemspec);
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* NOTE: Does not affect itemspec hash. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
 *
 * returns:
 * SUCCESS - for SUCCESS
@@ -266,6 +267,7 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* NOTE: Initializes itemspec hash to NULL. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
 *
 * returns:
 * roomspec_t *roomspecnew - the new roomspec
