@@ -7,11 +7,15 @@ import warnings
 
 base_path = Path(__file__).parent.parent
 
+# Formats warning messages
 def single_line_warnings(message, category, filename, lineno, file=None, line=None):
     return f' %s:%s: %s:%s \n' % (filename, lineno, category.__name__, message)
 warnings.formatwarning = single_line_warnings
 
 def main():
+    """The main function. The first cli argument is the dsl file. The second
+    (optional) argument is the output wdl file. If no output file is provided, 
+    it will default to wdl/{filname}.wdl"""
     file_out = None
     try:
         file_out = open(sys.argv[2], "w")

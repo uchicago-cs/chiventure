@@ -40,6 +40,7 @@ class Room:
             'to': self.contents['connections'][i]
         }, self.contents['connections']))
 
+    # is the list necessary?
     # takes a list of item dicts within a room, converts to json
     def items_list(self):
         return list(map(lambda i: i['id'], self.contents['items']))
@@ -119,7 +120,11 @@ class Game:
         return
 
 
-def parsed_dict_to_json(intermediate: dict):
+def parsed_dict_to_json(intermediate: dict) -> str:
+    """Transforms the intermediate data structure outputted by the parser into
+    valid wdl json format"""
+
+    #TODO: add support for ITEM IN ROOM and property FOR object
     rooms = []
     items = []
 
@@ -128,6 +133,7 @@ def parsed_dict_to_json(intermediate: dict):
     else:
         rooms_dict = intermediate.pop("rooms")
         for room_name, contents in rooms_dict.items():
+            # can use pop if list of items is not needed
             # room_items = contents.pop("items")
             room_items = contents["items"]
             rooms.append(Room(room_name, contents))
@@ -136,8 +142,10 @@ def parsed_dict_to_json(intermediate: dict):
     
     game = Game(intermediate)
     
+    # acts as a "union" operation on multiple dictionaries
     rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
     items_wdl = dict(ChainMap(*[i.to_wdl_structure() for i in items]))
+
     return json.dumps({
         **game.to_wdl_structure(), 
         "ROOMS": rooms_wdl,
