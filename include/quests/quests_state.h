@@ -47,7 +47,7 @@ reward_t *reward_new(int xp, item_t *item);
  *
  * Returns: a pointer to the newly allocated stats requirement struct
  */
-stat_req_t *stat_req_new(int xp, int level);
+stat_req_t *stat_req_new(int hp, int level);
 
 /* Creates a new achievement struct (allocates memory)
  * 
