@@ -6,6 +6,7 @@
 #include "common/common.h"
 #include "common/utlist.h"
 #include "npc/npc.h"
+#include "game-state/player.h"
 
 /*
  * This struct represents a passive mission.

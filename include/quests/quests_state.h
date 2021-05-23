@@ -5,18 +5,16 @@
 #include <string.h>
 #include "quests_structs.h"
 
-#include "player.h"
-
 /* Creates a new passive mission struct (allocates memory)
  * 
  * Parameters:
- * - xp: integer list of experience milestones to reach
- * - levels: integer list of level milestones to reach
- * - health: integer list of health milestones to reach
+ * - xp: integer experience milestone to reach
+ * - levels: integer level milestone to reach
+ * - health: integer health milestone to reach
  *
  * Returns: a pointer to the newly allocated passive mission, that is not completed
  */
-passive_mission_t *passive_mission_new(int *xp, int *levels, int *health);
+passive_mission_t *passive_mission_new(int xp, int levels, int health);
 
 /* Creates a new active mission struct (allocates memory)
  * 
@@ -30,6 +28,26 @@ passive_mission_t *passive_mission_new(int *xp, int *levels, int *health);
  */
 active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
                               npc_t *npc_to_kill, room_t *room_to_visit);
+
+/* Creates a new reward struct for completing a quest 
+ * 
+ * Parameters:
+ * - xp: xp reward
+ * - item: item reward
+ *
+ * Returns: a pointer to the newly allocated reward struct
+ */
+reward_t *reward_new(int xp, item_t *item);
+
+/* Creates a new stats requirement struct to start the quest
+ * 
+ * Parameters:
+ * - xp: xp reward
+ * - item: item reward
+ *
+ * Returns: a pointer to the newly allocated stats requirement struct
+ */
+stat_req_t *stat_req_new(int xp, int level);
 
 /* Creates a new achievement struct (allocates memory)
  * 
@@ -81,6 +99,30 @@ int passive_mission_init(passive_mission_t *mission, int *xp, int *levels, int *
  */
 int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
                         npc_t *npc_to_kill, room_t *room_to_visit);
+
+/* Initializes an already allocated reward struct
+ * 
+ * Parameters:
+ * - xp: xp reward
+ * - item: item reward
+ *
+ * Returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+ */
+int reward_init(reward_t *rewards, int xp, item *item);
+
+/* Initializes an already allocated stats requirement struct
+ * 
+ * Parameters:
+ * - xp: xp reward
+ * - item: item reward
+ *
+ * Returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+ */
+int stat_req_init(stat_req_t *stat_req, int xp, int level);
 
 /* Initialize an already allocated achievement struct
  *
@@ -164,6 +206,20 @@ int achievement_free(achievement_t *achievement);
  * - FAILURE for unsuccessful free
  */
 int quest_free(quest_t * quest);
+
+
+/* 
+ * Determines whether a player can start a quest with their base stats
+ * 
+ * Parameter:
+ * - quest: a quest
+ * - player: a player
+ * 
+ * Returns:
+ * - 1: a player can start the quest
+ * - 0: a player cannot start the quest
+ */
+int can_start_quest(quest_t *quest, player_t *player);
 
 /* 
  * Determines whether two quests are the same

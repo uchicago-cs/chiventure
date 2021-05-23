@@ -39,6 +39,38 @@ active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet
 }
 
 /* Refer to quests_state.h */
+reward_t *reward_new(int xp, item_t *item)
+{
+    reward_t *rewards = malloc(sizeof(rewards_t));
+    int rc;
+
+    rc = reward_init(rewards, xp, item);
+
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize rewards struct!\n");
+    }
+
+    return rewards;
+}
+
+/* Refer to quests_state.h */
+stat_req_t *stat_req_new(int xp, int level)
+{
+    stat_req_t *stat_req = malloc(sizeof(stat_req_t));
+    int rc;
+
+    rc = stat_req_init(stat_req, xp, level);
+
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize stats req struct!\n");
+    }
+
+    return stat_req;
+}
+
+/* Refer to quests_state.h */
 achievement_t *achievement_new(mission_t *mission, char *id)
 {
     achievement_t *achievement;
@@ -98,6 +130,28 @@ int active_mission_init(active_mission_t *mission, item_t *item_to_collect,
     mission->npc_to_meet = npc_to_meet;
     mission->npc_to_kill = npc_to_kill;
     mission->room_to_visit = room_to_visit;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int reward_init(reward_t *rewards, int xp, item *item)
+{
+    assert(rewards != NULL);
+
+    rewards->xp = xp;
+    rewards->item = item;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int stat_req_init(stat_req_t *stat_req, int xp, int level)
+{
+    assert(stat_req != NULL);
+
+    stat_req->xp = xp;
+    stat_req->level = level;
 
     return SUCCESS;
 }
@@ -176,6 +230,16 @@ int quest_free(quest_t *q)
     free(q);
 
     return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int can_start_quest(quest_t *quest, player_t *player)
+{
+    if (player->health >= quest->stat_req->hp && 
+        player->level >= quest->stat_req->level){
+            return 1;
+        }
+    return 0;
 }
 
 /* Refer to quests_state.h */
