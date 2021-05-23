@@ -224,6 +224,18 @@ Test(game_player, get_player)
     game_free(game);
 }
 
+/* Checks that add_npc_to_game() adds an npc to the game's npc hash table */
+Test(game_npc, add_npc_to_game)
+{
+    //TODO
+}
+
+/* Checks that get_player() returns the desired player from the game struct */
+Test(game_npc, get_npc)
+{
+    //TODO
+}
+
 /* Checks that add_end_condition_to_game() adds valid end conditions to a game
  * Additionally insures that bad end conditions are not added 
  */
