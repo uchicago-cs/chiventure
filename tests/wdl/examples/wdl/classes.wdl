@@ -8,7 +8,6 @@
     },
     "CLASSES": {
         "Warrior": {
-            "prefab": true,
             "short_desc_s": "Warrior's short description",
             "long_desc": null,
             "attributes": {
@@ -32,6 +31,9 @@
         "Rogue": {
             "short_desc": "Rogue's short description",
             "long_desc": "Rogue's long description"
+        },
+        "Monk": {
+            "prefab": true
         }
     },
     "ROOMS": {
