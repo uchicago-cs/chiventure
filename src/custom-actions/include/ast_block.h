@@ -100,8 +100,8 @@ bool list_contains_AST_block(AST_block_t* head, block_type_t block_type);
  *      - head: The first AST_block_t 
  *      - add : The AST_block_t that is trying to be added in linked list
  *      - num_to_place: The number specifying where to input the new AST_block_t
- *                      in the current list. Note: 1 denotes adding it as the FIRST
- *                      AST_block, 2 as the second, and so forth
+ *                      in the current list. Note: 0 denotes adding it as the FIRST
+ *                      AST_block, 1 as the second, and so forth
  * 
  * Returns: SUCCESS if successfully added, FAILURE otherwise
  */
