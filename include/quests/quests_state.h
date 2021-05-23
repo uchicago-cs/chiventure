@@ -5,15 +5,31 @@
 #include <string.h>
 #include "quests_structs.h"
 
-/* Creates a new mission struct (allocates memory)
+#include "player.h"
+
+/* Creates a new passive mission struct (allocates memory)
+ * 
+ * Parameters:
+ * - xp: integer list of experience milestones to reach
+ * - levels: integer list of level milestones to reach
+ * - health: integer list of health milestones to reach
+ *
+ * Returns: a pointer to the newly allocated passive mission, that is not completed
+ */
+mission_t *passive_mission_new(int *xp, int *levels, int *health);
+
+/* Creates a new active mission struct (allocates memory)
  * 
  * Parameters:
  * - item_to_collect: the item to be collected for the mission
  * - npc_to_meet: the npc to be met for the mission
- * 
- * Returns: a pointer to the newly allocated mission that is not completed
+ * - npc_to_kill: the npc to kill for the mission
+ * - room_to_visit: the room to visit for the mission 
+ *
+ * Returns: a pointer to the newly allocated passive mission, that is not completed
  */
-mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet);
+mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
+                              npc_t *npc_to_kill, room_t *room_to_visit);
 
 /* Creates a new achievement struct (allocates memory)
  * 
