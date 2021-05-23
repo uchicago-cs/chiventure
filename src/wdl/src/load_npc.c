@@ -39,12 +39,6 @@ int load_npcs(obj_t *doc, game_t *g)
         }
 
         add_npc_to_game(g, npc);
-
-        // retrieve the pointer for the room that the NPC is located in
-        // room_t *item_room = find_room_from_game(g, in);
-
-        // add NPC to game
-        // add_item_to_room(item_room, item);
     }
     return SUCCESS;
 }
