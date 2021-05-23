@@ -123,6 +123,22 @@ int achievement_free(achievement_t *achievement);
  */
 int quest_free(quest_t * quest);
 
+
+int compare_quests(quest_t *quest1, quest_t *quest2);
+
+/*
+ * Helper function used to find the bottom node on the left side of a tree
+ *
+ * Parameters:
+ * - a pointer to a tree
+ *
+ * Returns:
+ * - a pointer to the tree with no children on the left side of the tree
+ */
+achievement_tree_t *get_bottom_node(achievement_tree_t *t);
+
+achievement_tree_t *find_parent(achievement_tree_t *tree, char *id);
+
 /* Adds an achievement to the tree given an parent tree id
  *
  * Parameters:
@@ -134,7 +150,8 @@ int quest_free(quest_t * quest);
  * - SUCCESS 
  * - FAILURE 
  */
-int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
+int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id)
+
 
 /* Updates a quest's status to started
  *
@@ -157,6 +174,27 @@ int start_quest(quest_t *quest);
  * - FAILURE
  */
 int fail_quest(quest_t *quest);
+
+/*
+ * Traverses the achievement tree to find the achievement with the
+ * given string identifier along a valid quest path.
+ *
+ * Parameters:
+ * - tree: pointer to the achievement tree to be traversed
+ * - id: pointer to a string identifier for the desired achievement
+ *
+ * Returns:
+ * - pointer to the desired achievement, OR
+ * - NULL if achievement cannot be found along a valid path
+ *
+ * Note: Achievements must be completed in order according to this
+ *       traversal. Only one achievement on each level can be completed,
+ *       so this "locks" a user into a path once they've begun
+ *       completing achievements.
+ */
+achievement_t *find_achievement(achievement_tree_t *tree, char *id)
+
+
 
 /* Completes an achievement in a quest by checking if a given
  * achievement ID matches any incomplete achievements in the

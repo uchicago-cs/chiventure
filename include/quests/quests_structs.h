@@ -8,17 +8,53 @@
 #include "npc/npc.h"
 
 /*
- * This struct represents the mission.
+ * This struct represents a passive mission.
  * 
+ * A passive mission is one that the player does not
+ * manually explore chiventure to acquire.
+ *
  * Components:
- *  item_to_collect: item to be collected in order to complete the mission
- *  npc_to_meet: npc to meet in order to complete the mission
+ *  xp: integer list of xp milestones
+ *  levels: integer list of level milestones
+ *  health: integer list of health milestones
  */
-typedef struct mission {
+typedef struct passive_mission{
+    int xp;
+    int levels;
+    int health;
+} passive_mission_t;
+
+/*
+ * This struct represents an active mission.
+ * 
+ * An active mission is one that the player
+ * has to explore chiventure to acquire. 
+ *
+ * Components:
+ *  item_to_collect: an item to collect
+ *  npc_to_meet: an npc to meet
+ *  npc_to_kill: an npc to kill
+ *  room_to_visit: a room to visit
+ */
+typedef struct active_mission {
     item_t *item_to_collect;
     npc_t *npc_to_meet;
-} mission_t;
+    npc_t *npc_to_kill;
+    room_t *room_to_visit;
+} active_mission_t;
 
+/*
+ * This union represents a mission.
+ * 
+ * Components:
+ *  a_mission: an active mission
+ *  p_mission: a passive mission
+ *
+ */
+typedef union mission {
+    active_mission_t *a_mission;
+    passive_mission_t *p_mission;
+} mission_t;
 
 /* 
  * This struct represents an achievement.
@@ -50,26 +86,49 @@ typedef struct achievement_tree {
     struct achievement_tree *lmostchild;
 } achievement_tree_t;
 
+/* 
+ * This struct represents a reward for completing a quest.
+ *
+ * Components:
+ *  xp: an xp amount gained
+ *  item: an item gained
+ */
+typedef struct reward{
+   int xp;
+   item_t *item;
+} reward_t;
+
+/*
+ * This struct represents a skill requirement for a quest.
+ *
+ * Components:
+ *  hp: health points 
+ *  level: a number of levels gained
+ */
+typedef struct stat_req{
+    int hp;
+    int level;
+} stat_req_t;
 
 /* 
  * This is the hashable struct for a quest 
  * Elements:
- * hh: used for hashtable, as provided in uthash.h
  * quest_id: the id of the quest
- * achievement_tree: non-binary tree struct holding a
- *                   tree of achievements that make up 
- *                   a quest
- * reward: reward of the quest is an item
+ * achievement_list: linked list struct holding a list of
+ *                   achievements that make up a quest
+ * reward: reward of the quest is either experience, an item, or both
+ * stat_req: stat requirement for the quest
  * status: -1: failed quest
- *         0: quest has not been started
- *         1: quest has been started but not completed
- *         2: quest has been completed
+ *          0: quest has not been started
+ *          1: quest has been started but not completed
+ *          2: quest has been completed
  */
-typedef struct quest {
+typedef struct quest  {
     UT_hash_handle hh;
     long int quest_id;
     achievement_tree_t *achievement_tree;
-    item_t *reward;
+    reward_t *reward;
+    stat_req_t *stat_req;
     int status;  
 } quest_t;
 
