@@ -22,6 +22,10 @@
             "long_desc": "Your Mom is here. There is an exit to the South.",
             "connections": [
                 {
+                    "to": "Bedroom",
+                    "direction": "UP"
+                },
+                {
                     "to": "Outside",
                     "direction": "SOUTH"
                 }
