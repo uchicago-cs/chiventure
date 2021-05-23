@@ -39,26 +39,21 @@ void help_text(chiventure_ctx_t *ctx)
         "HERE IS A BRIEF OVERVIEW OF SYSTEM ACTIONS\n"
         "HELP\n"
         "	-Prints out help menu (duh, you just used it)\n"
-        "HIST\n"
-        "   -Prints out the list of commands you entered\n"
-        "    in this round of game\n"
         "MAP\n"
         "   -Shows the map. Type 'map' again to hide the map\n"
         "SWITCH\n"
         "   -Switches the position of the main window and the CLI. Type 'switch' again to switch it back\n"
-        "LOAD [PATH]\n"
+        "LOAD [PATH] (NOT IMPLEMENTED)\n"
         "	-Loads a saved game from a specified location\n"
         "	 relative to the folder chiventure is running in\n"
-        "   -Paths loaded in this manner must be entirely lowercase\n"
         "SAVE [PATH] (NOT IMPLEMENTED)\n"
         "	-Saves a game to a specified location\n"
         "NAME [VALID COMMAND] [NEW COMMAND]\n"
         " -Makes the second argument a command word with the definition of the first argument\n"
         "PALETTE [\"DEFAULT\"/\"NIGHT\"/\"BRIGHT\"/\"PAIN\"]\n"
         " -Makes the color of the UI change to that theme!\n"
-        "QUIT\n"
-        "	-Quits the game\n"
-        "   -May also use CTRL + D to quit\n\n";
+        "CTRL + D\n"
+        "	-Quit game\n\n";
     print_to_cli(ctx, p);
 }
 
