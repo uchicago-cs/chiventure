@@ -1,9 +1,10 @@
+#include <stdlib.h>
 #include "npc/npc.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             int health, class_t *class)
+             int health, class_t *class, npc_mov_t *movement)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
@@ -12,13 +13,14 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->health = health;
     npc->inventory = NULL;
     npc->class = class;
+    npc->movement = movement;
 
     return SUCCESS;
 }
 
 /* See npc.h */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               int health, class_t *class)
+               int health, class_t *class, npc_mov_t *movement)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -27,8 +29,10 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->short_desc = malloc(MAX_SDESC_LEN);
     npc->long_desc = malloc(MAX_LDESC_LEN);
     npc->class = malloc(sizeof(class_t));
+    npc->movement = malloc(sizeof(npc_mov_t));
 
-    int check = npc_init(npc, npc_id, short_desc, long_desc, health, class); 
+    int check = npc_init(npc, npc_id, short_desc, long_desc, health, class,
+    movement); 
 
     if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
         npc->long_desc == NULL || check != SUCCESS)
@@ -47,6 +51,10 @@ int npc_free(npc_t *npc)
     if (npc->dialogue != NULL)
     {
         convo_free(npc->dialogue);
+    }
+    if (npc->movement != NULL)
+    {
+        npc_mov_free(npc->movement);
     }
     free(npc->npc_id);
     free(npc->short_desc);
@@ -152,4 +160,16 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
     assert(npc != NULL && c != NULL);
 
     npc->dialogue = c;
+}
+
+/* See npc.h */
+int delete_all_npcs(npc_hash_t *npcs)
+{
+    npc_t *current_npc, *tmp;
+    HASH_ITER(hh, npcs, current_npc, tmp)
+    {
+        HASH_DEL(npcs, current_npc);
+        npc_free(current_npc);
+    }
+    return SUCCESS;
 }

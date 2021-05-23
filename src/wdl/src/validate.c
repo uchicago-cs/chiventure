@@ -16,9 +16,10 @@ int list_type_check(obj_t *ls, int(*validate)(obj_t*))
     int result = SUCCESS;
 
     obj_t *curr, *tmp;
-    HASH_ITER(hh, ls, curr, tmp)
+    HASH_ITER(hh, ls->data.obj.attr, curr, tmp)
     {
-        result = (result && (*validate)(curr));
+        // This is an OR because SUCCESS == 0
+        result = (result || (*validate)(curr));
     }
 
     return result;
@@ -151,19 +152,13 @@ int connection_type_check(obj_t *obj)
 int room_type_check(obj_t *obj)
 {
     // fields to verify
-    int id_ver = (obj_get_type(obj, "id") == TYPE_STR);
     int short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
 
     // verify each attribute
-    int connections_ver = connection_type_check(obj);
+    int connections_ver = (connection_type_check(obj) == SUCCESS);
 
-    if (id_ver == false)
-    {
-        fprintf(stderr, "id verification failed\n");
-    }
-
-    return !(id_ver && short_ver && long_ver && connections_ver);
+    return !(short_ver && long_ver && connections_ver);
 }
 
 // The following functions regard item type checking
@@ -172,12 +167,11 @@ int room_type_check(obj_t *obj)
 int item_type_check(obj_t *obj)
 {
     // fields to verify
-    int id_ver = (obj_get_type(obj, "id") == TYPE_STR);
     int short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
     int in = (obj_get_type(obj, "in") == TYPE_STR);
 
-    return !(id_ver && short_ver && long_ver && in);
+    return !(short_ver && long_ver && in);
 }
 
 // The following functions regard game type checking
@@ -188,7 +182,7 @@ int game_type_check(obj_t *obj)
     // fields to verify
     int start_ver = (obj_get_type(obj, "start") == TYPE_STR);
     int intro_ver = (obj_get_type(obj, "intro") == TYPE_STR);
-    int end_ver = (obj_get_type(obj, "end.0.in_room") == TYPE_STR);
+    int end_ver = (obj_get_type(obj, "end.in_room") == TYPE_STR);
 
     return !(start_ver && intro_ver);
 }
@@ -244,7 +238,7 @@ int action_type_check(obj_t *obj)
 {
     // fields to verify
     int action_type = (obj_get_type(obj, "action") == TYPE_STR);
-    int action_valid = action_validate(obj_get_str(obj, "action"));
+    int action_valid = (action_validate(obj_get_str(obj, "action")) == SUCCESS);
 
     return !(action_type && action_valid);
 }
@@ -265,7 +259,7 @@ int action_type_check(obj_t *obj)
 void print_conditions_attr(obj_t *obj)
 {
     // print each attribute within connection object
-    printf("id: %s\n", obj_get_str(obj, "id"));
+    printf("id: %s\n", obj->id);
     printf("state: %s\n", obj_get_str(obj, "state"));
     printf("value: %s\n", obj_get_str(obj, "value"));
     return;
@@ -334,7 +328,7 @@ void print_connections(obj_t *obj)
 void print_room(obj_t *obj)
 {
     // print room attributes
-    printf("ROOM: %s\n", obj_get_str(obj, "id"));
+    printf("ROOM: %s\n", obj->id);
     printf("short desc: %s\n", obj_get_str(obj, "short_desc"));
     printf("long_desc: %s\n", obj_get_str(obj, "long_desc"));
     // print connections
@@ -346,7 +340,7 @@ void print_room(obj_t *obj)
 void print_item(obj_t *obj)
 {
     // print item attributes
-    printf("ITEM: %s\n", obj_get_str(obj, "id"));
+    printf("ITEM: %s\n", obj->id);
     printf("short_desc: %s\n", obj_get_str(obj, "short_desc"));
     printf("long_desc: %s\n", obj_get_str(obj, "long_desc"));
     printf("in: %s\n", obj_get_str(obj, "in"));

@@ -3,7 +3,7 @@
 chiventure requires the following software/libraries:
 
 - [CMake](https://cmake.org) 3.10 or higher
-- [LibYAML](https://pyyaml.org/wiki/LibYAML) 0.2.2 or higher
+- [JSON-C](https://github.com/json-c/json-c) 0.13 or higher  
 - [ncurses](https://invisible-island.net/ncurses/announce.html) 6.0 or higher, with support for wide characters (`ncursesw`)
 - [Criterion](https://github.com/Snaipe/Criterion) 2.3.1 or higher
   
@@ -21,7 +21,7 @@ If you are using Ubuntu 20.04, you can install most of the dependencies by runni
 
 ```
 sudo apt-get update
-sudo apt install pkg-config cmake libyaml-0-2 libyaml-dev libjson-c4 libjson-c-dev libzip5 libzip-dev libncurses-dev liblua5.3-0 liblua5.3-dev  
+sudo apt install pkg-config cmake libjson-c4 libjson-c-dev libzip5 libzip-dev libncurses-dev liblua5.3-0 liblua5.3-dev  
 ```
 
 The Criterion testing library does not provide packages for Ubuntu 20.04 but, fortunately, their 18.04 packages work just fine. You can manually install them like this:

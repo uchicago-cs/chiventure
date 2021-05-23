@@ -70,9 +70,9 @@ Test(battle_logic, target_does_not_exist)
 
 /*
  * this tests if battle_over detects if the
- * battle is over because of the player
+ * battle is over because of the battle_player
  */
-Test(battle_logic, battle_over_by_player)
+Test(battle_logic, battle_over_by_battle_player)
 {
     combatant_t *phead = NULL;
     combatant_t *ehead = NULL;
@@ -183,7 +183,7 @@ Test(battle_logic, battle_not_over)
 
 /*
  * Tests goes_first to see if it detects that the enemy
- * is faster than the player
+ * is faster than the battle_player
  */
 Test(battle_logic, enemy_goes_first)
 {
@@ -223,7 +223,7 @@ Test(battle_logic, enemy_goes_first)
  * Tests goes_first to see if it detects that the player
  * is faster than the enemy
  */
-Test(battle_logic, player_goes_first)
+Test(battle_logic, battle_player_goes_first)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 50;
@@ -258,8 +258,8 @@ Test(battle_logic, player_goes_first)
 }
 
 /*
- * Since the player and enemy can have the same speed,
- * then the player will go first
+ * Since the battle_player and enemy can have the same speed,
+ * then the battle_player will go first
  */
 Test(battle_logic, same_speed)
 {
@@ -296,53 +296,53 @@ Test(battle_logic, same_speed)
 }
 
 /*
- * Finds an item according to it's id number within a list of items (inventory)
+ * Finds a battle_item according to it's id number within a list of battle_items (inventory)
  */
-Test(battle_logic, find_item)
+Test(battle_logic, find_battle_item)
 {
 
-    item_t *head = NULL;
-    item_t *i1;
-    item_t *i2;
+    battle_item_t *head = NULL;
+    battle_item_t *i1;
+    battle_item_t *i2;
 
-    i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
-    i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
 
-    item_t *found = find_item(head, 100);
-    cr_assert_eq(found->id, 100, "find_item() failed!");
+    battle_item_t *found = find_battle_item(head, 100);
+    cr_assert_eq(found->id, 100, "find_battle_item() failed!");
 }
 
 /*
- * Searches for an item that does not exist in a list of items (inventory)
+ * Searches for a battle_item that does not exist in a list of battle_items (inventory)
  */
 Test(battle_logic, do_not_find_item)
 {
-    item_t *head = NULL;
-    item_t *i1;
-    item_t *i2;
+    battle_item_t *head = NULL;
+    battle_item_t *i1;
+    battle_item_t *i2;
 
-    i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
-    i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
 
-    item_t *found = find_item(head, 102);
-    cr_assert_null(found, "find_item() failed!");
+    battle_item_t *found = find_battle_item(head, 102);
+    cr_assert_null(found, "find_battle_item() failed!");
 }
 
 /*
- * this tests to see if the player tries consuming an item,
+ * this tests to see if the battle_player tries consuming a battle_item,
  * then it should do two things:
- * 1. Find the item and mark it as found and used
+ * 1. Find the battle_item and mark it as found and used
  * 2. make changes to status as seen fit
  */
-Test(battle_logic, consume_an_item)
+Test(battle_logic, consume_an_battle_item)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
@@ -352,41 +352,41 @@ Test(battle_logic, consume_an_item)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    item_t *i1 = calloc(1, sizeof(item_t));
+    battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
 
-    int res = consume_item(p, i1);
+    int res = consume_battle_item(p, i1);
 
-    cr_assert_eq(res, 0, "consume_item() does not return 0!");
-    cr_assert_eq(p->stats->hp, 20, "consume_item() failed for hp!");
-    cr_assert_eq(p->stats->defense, 15, "consume_item() failed for defense!");
-    cr_assert_eq(p->stats->strength, 15, "consume_item() failed for strength!");
+    cr_assert_eq(res, 0, "consume_battle_item() does not return 0!");
+    cr_assert_eq(p->stats->hp, 20, "consume_battle_item() failed for hp!");
+    cr_assert_eq(p->stats->defense, 15, "consume_battle_item() failed for defense!");
+    cr_assert_eq(p->stats->strength, 15, "consume_battle_item() failed for strength!");
 
     combatant_free(p);
     free(i1);
 }
 
 /*
- * This is simialr to the test above except there are now two items in
- * the player's inventory that the function has to go through
+ * This is simialr to the test above except there are now two battle_items in
+ * the battle_player's inventory that the function has to go through
  */
-Test(battle_logic, uses_item_correctly)
+Test(battle_logic, uses_battle_item_correctly)
 {
-    item_t *head = NULL;
-    item_t *i1;
-    item_t *i2;
+    battle_item_t *head = NULL;
+    battle_item_t *i1;
+    battle_item_t *i2;
 
-    i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 1;
 
-    i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     i2->attack = 0;
     i2->defense = 0;
@@ -403,13 +403,13 @@ Test(battle_logic, uses_item_correctly)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, head, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res = use_item(p, 100);
+    int res = use_battle_item(p, 100);
 
-    cr_assert_eq(res, SUCCESS, "use_item() failed!");
-    cr_assert_eq(p->stats->hp, 25, "use_item() failed for hp!");
-    cr_assert_eq(p->stats->defense, 15, "use_item() failed for defense!");
-    cr_assert_eq(p->stats->strength, 15, "use_item() failed for strength!");
-    cr_assert_eq(i1->quantity, 0, "use_item() failed for item quantity!");
+    cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
+    cr_assert_eq(p->stats->hp, 25, "use_battle_item() failed for hp!");
+    cr_assert_eq(p->stats->defense, 15, "use_battle_item() failed for defense!");
+    cr_assert_eq(p->stats->strength, 15, "use_battle_item() failed for strength!");
+    cr_assert_eq(i1->quantity, 0, "use_battle_item() failed for battle_item quantity!");
 }
 
 /*
@@ -418,27 +418,27 @@ Test(battle_logic, uses_item_correctly)
 Test(battle_logic, inventory_empty)
 {
     combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
-    int res = use_item(p, 100);
-    cr_assert_eq(res, FAILURE, "use_item() has failed!");
+    int res = use_battle_item(p, 100);
+    cr_assert_eq(res, FAILURE, "use_battle_item() has failed!");
 }
 
 /*
- * Attempts to use an item but there is no more of that said item
+ * Attempts to use a battle_item but there is no more of that said battle_item
  */
-Test(battle_logic, no_more_items)
+Test(battle_logic, no_more_battle_items)
 {
-    item_t *head = NULL;
-    item_t *i1;
-    item_t *i2;
+    battle_item_t *head = NULL;
+    battle_item_t *i1;
+    battle_item_t *i2;
 
-    i1 = calloc(1, sizeof(item_t));
+    i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 0;
 
-    i2 = calloc(1, sizeof(item_t));
+    i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     i2->attack = 0;
     i2->defense = 0;
@@ -455,9 +455,9 @@ Test(battle_logic, no_more_items)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, head, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res = use_item(p, 100);
+    int res = use_battle_item(p, 100);
 
-    cr_assert_eq(res, FAILURE, "use_item() has failed!");
+    cr_assert_eq(res, FAILURE, "use_battle_item() has failed!");
 }
 
 /*
@@ -478,14 +478,43 @@ Test(battle_logic, award_xp)
     cr_assert_eq(res, 0, "award_xp() did not return 0!");
     cr_assert_eq(p->stats->xp, 115, "award_xp() did not award xp correctly!");
 
-    cr_assert_str_eq(p->class->name, "Bard",
+    cr_assert_str_eq(p->class_type->name, "Bard",
                      "set_player() didn't set class name");
-    cr_assert_str_eq(p->class->shortdesc, "Music boi",
+    cr_assert_str_eq(p->class_type->shortdesc, "Music boi",
                      "set_player() didn't set class short description");
-    cr_assert_str_eq(p->class->longdesc,
+    cr_assert_str_eq(p->class_type->longdesc,
                      "Charismatic, always has a joke or song ready",
                      "set_player() didn't set class short description");
 
-    cr_assert_null(p->class->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(p->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(p->class_type->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(p->class_type->stats, "set_player() didn't set class stats");
+}
+
+/*
+ * Tests stat_changes_add_item_node to make sure that it correctly adds a used item's
+ * stats to its struct
+ */
+Test(stat_changes, add_item_node)
+{
+    battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
+    i1->id = 100;
+    i1->attack = 0;
+    i1->defense = 0;
+    i1->hp = 10;
+
+    stat_changes_t *sc;
+    int rc;
+
+    sc = stat_changes_new();
+
+    rc = stat_changes_add_item_node(sc, i1);
+
+    cr_assert_eq(rc, SUCCESS, "stat_changes_add_item_node failed");
+    cr_assert_not_null(sc->next, "stat_changes_add_item_node() failed to add a new node");
+    cr_assert_eq(sc->next->defense, 0, "stat_changes_add_item_node() failed for defense!");
+    cr_assert_eq(sc->next->strength, 0, "stat_changes_add_item_node() failed for strength!");
+    cr_assert_eq(sc->next->hp, 10, "stat_changes_add_item_node() failed for hp!");
+
+    free(i1);
+    stat_changes_free_all(sc);
 }
