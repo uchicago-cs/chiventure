@@ -238,7 +238,20 @@ int add_take_item(convo_t *c, char *node_id, char *item_id);
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) node matching node_id could not be found;
  */
-int add_start_quest(convo_t *c, char *node_id, char *quest_id);
+int add_start_quest(convo_t *c, char *node_id, long quest_id);
+
+/* Adds a start battle flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - battle_id: ID of the battle
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ */
+int add_start_battle(convo_t *c, char *node_id, char *battle_id);
 
 
 /**********************************************
@@ -375,6 +388,19 @@ int free_edge_list(edge_list_t *e_lst, bool free_edges);
  */
 int free_node_list(node_list_t *n_lst, bool free_nodes);
 
+/* Initializes a node action.
+ *
+ * Parameters:
+ *  - n_a: a node action; must point to already allocated memory
+ *  - action: type of action
+ *  - action_id: ID associated with that action, if any
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
+int node_action_init(node_action_t *n_a, node_action_type action,
+                     char *action_id);
+
 /* Allocates a new node action on the heap.
  *
  * Parameters:
@@ -394,7 +420,7 @@ node_action_t *node_action_new(node_action_type action, char *action_id);
  * Returns:
  *  - SUCCESS if successful, FAILURE if an error occurs
  */
-int free_action_list(node_action_t *action_lst);
+int free_node_actions(node_action_t *action_lst);
 
 
 

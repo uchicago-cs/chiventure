@@ -73,7 +73,7 @@ int main()
     add_edge(c2, "I have them right here!", "3b", "4", cond);
     add_edge(c2, "Nevermind..", "3b", "2a", NULL);
 
-    add_start_quest(c2, "2c", "quest");
+    add_start_quest(c2, "2c", 1234);
     add_take_item(c2, "4", "scimitar_blade");
     add_take_item(c2, "4", "scimitar_handle");
 

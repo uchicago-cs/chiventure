@@ -8,7 +8,7 @@
  *             the created NPC. Someday, we hope chiventure will allow the look
  *             operation to take an NPC and return its description, though at
  *             the moment it is only compatible with items.
- *  - ENGAGE/TALK/HOUSE/MESSY:
+ *  - TALK:
  *             These are CLI-level operations that print a player quip (except
  *             on Root) and return an NPC dialogue to be printed to the CLI.
  *             They utlize the backend of the dialogue module while printing to
@@ -89,18 +89,6 @@ char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
            "In steps a shabby man, alarmed by the unexpected guest. "
            "He looks upset with you. Would you like to talk?";
 }
-    
-/* Defines a new CLI operation that starts a conversation with Jim */
-// char *engage_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-// {
-//     check_game(tokens, ctx);
-   
-//     convo_t *c;
-//     c = create_sample_convo();
-    
-//     node_t *n = get_node(c, 0);
-//     return n->npc_dialogue;
-// }
 
 /* Defines a new CLI operation that continues the conversation with Jim */
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -116,36 +104,6 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     return ret_str;
 }
-
-/* Defines a new CLI operation that continues the conversation with Jim */
-// char *house_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-// {
-//     check_game(tokens, ctx);
-   
-//     convo_t *c;
-//     c = create_sample_convo();
-
-//     node_t *n1 = get_node(c, 1);
-//     print_to_cli(ctx, n1->edges->quip);
-    
-//     node_t *n2 = get_node(c, 3);
-//     return n2->dialogue;
-// }
-
-/* Defines a new CLI operation that continues the conversation with Jim */
-// char *messy_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-// {
-//     check_game(tokens, ctx);
-   
-//     convo_t *c;
-//     c = create_sample_convo();
-
-//     node_t *n1 = get_node(c, 3);
-//     print_to_cli(ctx, n1->edges->quip);
-    
-//     node_t *n2 = get_node(c, 4);
-//     return n2->dialogue;
-// }
 
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()

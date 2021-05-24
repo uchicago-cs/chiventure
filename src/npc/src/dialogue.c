@@ -407,14 +407,17 @@ int add_take_item(convo_t *c, char *node_id, char *item_id)
 }
 
 /* See dialogue.h */
-int add_start_quest(convo_t *c, char *node_id, char *quest_id)
+int add_start_quest(convo_t *c, char *node_id, long quest_id)
 {
-    assert(quest_id != NULL);
-    
-    node_t *n;
-    if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
+    // to do
+    return 0;
+}
 
-    return add_action_to_node(n, START_QUEST, quest_id);
+/* See dialogue.h */
+int add_start_battle(convo_t *c, char *node_id, char *battle_id)
+{
+    // to do
+    return 0;
 }
 
 
@@ -505,7 +508,7 @@ int node_free(node_t *n)
         if (free_edge_list(n->edges, true) != SUCCESS) return FAILURE;
         free(n->node_id);
         free(n->npc_dialogue);
-        free_action_list(n->actions);
+        free_node_actions(n->actions);
         free(n);
     }
 
@@ -581,23 +584,37 @@ int free_node_list(node_list_t *n_lst, bool free_nodes)
 }
 
 /* See dialogue.h */
+int node_action_init(node_action_t *n_a, node_action_type action,
+                     char *action_id)
+{
+    assert(n_a != NULL);
+
+    n_a->action = action;
+
+    if (action_id != NULL) {
+        if ((n_a->action_id = strdup(action_id)) == NULL) return FAILURE;
+    }
+    else n_a->action_id = NULL;
+
+    return SUCCESS;
+}
+
+/* See dialogue.h */
 node_action_t *node_action_new(node_action_type action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;
 
-    n_a->action = action;
-
-    if (action_id != NULL) {
-        if ((n_a->action_id = strdup(action_id)) == NULL) return NULL;
+    if (node_action_init(n_a, action, action_id) != SUCCESS) {
+        free_node_actions(n_a);
+        return NULL;
     }
-    else n_a->action_id = NULL;
 
     return n_a;
 }
 
 /* See dialogue.h */
-int free_action_list(node_action_t *actions_lst)
+int free_node_actions(node_action_t *actions_lst)
 {
     node_action_t *elt, *tmp;
 
