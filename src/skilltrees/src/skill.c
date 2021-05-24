@@ -116,6 +116,7 @@ int skill_level_up(skill_t* skill) {
     }
     level += 1;
     min_xp = min_xp^level; 
+    skill->min_xp = min_xp;
     return 0;
 }
 
