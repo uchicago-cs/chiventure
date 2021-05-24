@@ -43,7 +43,7 @@ typedef struct game {
 
     /* an iterable hashtable of quests */
     /* using the macros provided in uthash.h */
-    quest_hash_t *all_quests
+    quest_hash_t *all_quests;
 
     /* pointer to current room struct */
     room_t *curr_room;

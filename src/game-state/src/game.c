@@ -106,7 +106,7 @@ int add_quest_to_game(game_t *game, quest_t *quest)
 	quest_t *check;
 
 	
-	check = get_quest(game, quest->quest_id)
+	check = get_quest(game, quest->quest_id);
 
 	if (check != NULL) 
 	{
