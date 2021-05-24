@@ -8,6 +8,7 @@
 #include "game-state/game_state_common.h"
 #include "game-state/stats.h"
 #include "playerclass/class.h"
+#include "battle/battle_default_objects.h"
 
 /* Checks that player_new() properly mallocs and inits a new player struct */
 Test(player, new)
@@ -745,4 +746,40 @@ Test(player, add_stat_effect)
     free(global);
     
     player_free(player);
+}
+
+Test(add_move, add_move_existing_list) {
+
+    move_t *old_move = get_random_default_move();
+    move_t *new_move = get_random_default_move();
+    battle_item_t *item = get_random_default_consumable();
+    
+    // The following two lines were from when this code was in battle_move_maker.
+    //  Leaving it just in case it is helpful later.
+    // stat_t *cstats = get_random_stat();
+    // combatant_t *player = combatant_new("TESTER", true, NULL, cstats, old_move, item, 0);
+    player_t *player = player_new("TESTER");
+    add_item_to_player(player, item);
+    add_move(player, old_move);
+
+    int res = add_move(player,new_move);
+    cr_assert_eq(player->moves->next,
+                 new_move,  
+                 "add_move() did not add the move correctly");
+}
+
+Test(add_move, add_move_empty_list) {
+    
+    move_t *new_move = get_random_default_move();
+    battle_item_t *item = get_random_default_consumable();
+    // The following two lines were from when this code was in battle_move_maker.
+    //  Leaving it just in case it is helpful later.
+    // stat_t *cstats = get_random_stat();
+    // combatant_t *player = combatant_new("TESTER",true,NULL,cstats,NULL,item, 0);
+
+    player_t *player = player_new("TESTER");
+    int res = add_move(player,new_move);
+    cr_assert_eq(player->moves,
+                 new_move,
+                 "add_move() did not add the move correctly");
 }
