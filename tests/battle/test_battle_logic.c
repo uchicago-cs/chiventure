@@ -409,7 +409,6 @@ Test(battle_logic, uses_battle_item_correctly)
     cr_assert_eq(p->stats->hp, 25, "use_battle_item() failed for hp!");
     cr_assert_eq(p->stats->defense, 15, "use_battle_item() failed for defense!");
     cr_assert_eq(p->stats->strength, 15, "use_battle_item() failed for strength!");
-    cr_assert_eq(i1->quantity, 0, "use_battle_item() failed for battle_item quantity!");
 }
 
 /*
