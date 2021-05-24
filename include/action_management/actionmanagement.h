@@ -69,9 +69,10 @@ int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction);
 
 // =============================================================================
 
+/* Note: the following two functions are in the src file get_actions.c, a separate 
+ * module from the rest of the functions, which are in actionmanagement.c. */
+
 /*
- * Note: this function is in the src file get_actions.c, a separate module
- * from the rest of the functions, which are in actionmanagement.c.
  * A function that returns all supported actions.
  *
  * Parameters:
@@ -81,6 +82,15 @@ int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction);
  * - a linked list of action_type_t structs
  */
 list_action_type_t *get_supported_actions();
+
+/* free_supported_actions: Frees list_action_type_t list that contains ALL
+ *                             supported actions
+ * 
+ * Inputs:
+ *      - head: a list containing all supported actions. MUST be built with 
+ *              get_supported_actions
+ */
+void free_supported_actions(list_action_type_t* head);
 
 // =============================================================================
 

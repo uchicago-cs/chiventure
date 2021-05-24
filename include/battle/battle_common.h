@@ -49,10 +49,10 @@ typedef enum battle_status
 /* A combatant struct that contains the following:
  * name: combatant name
  * is_friendly: whether combatant is the player or enemy
- * class: class type
+ * class_type: class type
  * stats: pointer to stats module (stub)
  * moves: pointer to moves module (stub)
- * items: pointer to items module (stub)
+ * items: pointer to battle items module (stub)
  * ai: combatant's ai move strategy
  * next: allows for combatant lists using utlist.h
  * prev: allows for combatant lists using utlist.h
@@ -61,10 +61,10 @@ typedef struct combatant
 {
     char *name;
     bool is_friendly;
-    class_t *class;
+    class_t *class_type;
     stat_t *stats;
     move_t *moves;
-    item_t *items;
+    battle_item_t *items;
     difficulty_t ai;
     struct combatant *next;
     struct combatant *prev;
