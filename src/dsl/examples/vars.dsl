@@ -2,7 +2,7 @@
 $intro = "hello {firstname} {lastname}"
 $fork = """
 ITEM Fork
-long: "a fork. theres \"nothing\" remarkably special about it."
+    long desc: "a fork. theres \"nothing\" remarkably special about it."
 """
 
 
@@ -14,10 +14,10 @@ ROOM room A
     action: TAKE
       TAKE success: "success"
       TAKE failure: "failure"
-  $fork
-  $fork2 {room: "room B"}
+  $fork2 { room: "room B" }
     property1: "value"
-    long desc: "this should override"
+  $fork
+    long desc: "this should override the other long description"
 
 # Variables can be defined anywhere
 $fork2 = """
