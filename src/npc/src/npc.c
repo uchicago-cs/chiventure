@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "npc/npc.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
@@ -58,10 +59,13 @@ int npc_free(npc_t *npc)
     {
         npc_mov_free(npc->movement);
     }
+    if (npc->npc_battle != NULL)
+    {
+        npc_battle_free(npc->npc_battle);
+    }
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    convo_free(npc->dialogue);
     delete_all_items(&npc->inventory);
     class_free(npc->class);
     free(npc);
@@ -165,4 +169,16 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
     assert(npc != NULL && c != NULL);
 
     npc->dialogue = c;
+}
+
+/* See npc.h */
+int delete_all_npcs(npc_hash_t *npcs)
+{
+    npc_t *current_npc, *tmp;
+    HASH_ITER(hh, npcs, current_npc, tmp)
+    {
+        HASH_DEL(npcs, current_npc);
+        npc_free(current_npc);
+    }
+    return SUCCESS;
 }

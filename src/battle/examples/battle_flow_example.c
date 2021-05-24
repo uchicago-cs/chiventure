@@ -13,7 +13,7 @@ int main()
     p_stats->defense = 3;
     p_stats->strength = 80;
 
-    player_t *p = new_ctx_player("John", NULL, p_stats, NULL, NULL);
+    battle_player_t *p = new_ctx_player("John", NULL, p_stats, NULL, NULL);
 
     stat_t *e_stats = (stat_t*) calloc(1, sizeof(stat_t));
     e_stats->hp = 70;
@@ -29,7 +29,7 @@ int main()
     chiventure_ctx_battle_t *ctx = 
         (chiventure_ctx_battle_t*) calloc(1, sizeof(chiventure_ctx_battle_t));
 
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
     ctx->game = g;
 
     ctx->game->player = p;

@@ -10,6 +10,8 @@
 /* battle_items stub */
 typedef struct battle_item {
     int id;
+    bool is_weapon;
+    int effectiveness_decrement;
     int quantity;
     int durability;
     char* name;
@@ -47,5 +49,18 @@ typedef struct stat {
     int xp;
     int level;
 } stat_t;
+
+/* stat changes stub */
+typedef struct stat_changes {
+    int speed;
+    int defense;
+    int strength;
+    int dexterity;
+    int hp;
+    int max_hp;
+    int turns_left;
+    struct stat_changes* next;
+    struct stat_changes* prev;
+} stat_changes_t;
 
 #endif
