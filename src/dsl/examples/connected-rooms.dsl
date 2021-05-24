@@ -12,7 +12,7 @@ GAME START room A END room C
     connections: WEST TO room C
 
   ROOM room C
-    short desc FOR room A: "This is room C"
+    short desc: "This is room C"
     long desc: "This is room C, the final room in the game"
     connections: NORTH TO room A
 
@@ -24,3 +24,4 @@ ITEM DOOR IN room A
     OPEN fail: "You can't open the door. It seems to be locked."
     GO success: "You walk through the door"
     GO fail: "You can't do that, the door is closed"
+    property: "value"

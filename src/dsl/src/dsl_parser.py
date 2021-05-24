@@ -13,17 +13,6 @@ dsl_grammar = grammar_f.read()
 grammar_f.close()
 
 
-def collectMisplacedProperties(s):
-    misplaced_properties = []
-
-    i = 0
-    while (i < len(s)):
-        if s[i][0] == "MISPLACED_PROPERTY":
-            misplaced_properties.append(s.pop(i)[1])
-            continue
-        i += 1
-    return misplaced_properties
-
 class TreeToDict(Transformer):
     def game(self, s):
         """
@@ -54,18 +43,11 @@ class TreeToDict(Transformer):
         """
         room_id = s.pop(0)[1]
         
-        d = {}
-
-        # first collect all misplaced properties
-        misplaced_properties = collectMisplacedProperties(s)
-        if misplaced_properties:
-            d["MISPLACED_PROPERTIES"] = misplaced_properties
-            
 
         # first place all non-item objects into a dict
         # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
         # action and action attributes, etc.
-        d.update(dict((k, v) for k, v in s if k != "ITEM"))
+        d = dict((k, v) for k, v in s if k != "ITEM")
 
         # create a list of items and place it in its own entry of the dict
         # the values placed into this entry will correspond to item attributes
@@ -119,16 +101,8 @@ class TreeToDict(Transformer):
         return ("actions", actions_dictionary)
     
     def misplaced_property(self, s: list[Token]) -> str:
-        name, parent_id_tuple, value = s
-        
-        parent = parent_id_tuple[1]
-
-        misplaced_property_dict = {
-            "name": name,
-            "parent": parent,
-            "value": value
-        }
-        return ("MISPLACED_PROPERTY", misplaced_property_dict)
+        raise Exception('"property FOR object" syntax is not yet supported')
+    
 
     # the functions below do simple transformations
 
@@ -170,6 +144,7 @@ class TreeToDict(Transformer):
 
 parser = Lark(dsl_grammar, parser='earley')
 
+
 def export_dict(file_str):
     tree = parser.parse(file_str)
     return TreeToDict().transform(tree)
@@ -179,7 +154,8 @@ def main():
         file_str = f.read()
 
         tree = parser.parse(file_str)
-        print(json.dumps(TreeToDict().transform(tree), indent=2))
+        transformed = TreeToDict().transform(tree)
+        print(json.dumps(transformed, indent=2))
 
 
 if __name__ == '__main__':
