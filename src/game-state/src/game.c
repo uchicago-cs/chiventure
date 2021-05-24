@@ -116,7 +116,7 @@ int add_quest_to_game(game_t *game, quest_t *quest)
 	}
 
 	HASH_ADD_KEYPTR(hh, game->all_quests, buffer,
-		            strlen(buffer, MAX_ID_LEN), quest);
+		            strnlen(buffer, MAX_ID_LEN), quest);
 
 	return SUCCESS;
 }
