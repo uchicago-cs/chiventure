@@ -2,6 +2,7 @@
 #include "game-state/item.h"
 #include "game-state/player.h"
 #include "game-state/game.h"
+#include "game-state/mode.h"
 
 
 // EXAMPLE PROGRAM ------------------------------------------------------------
@@ -18,16 +19,21 @@ int main()
     // Step 1: Setting up the game, player, and item
     game_t *g = game_new("game");
     player_t *p = player_new("player");
+    npc_t *stranger = npc_new("stranger", "short", "long", 100, NULL, NULL);
     item_t *item1 = item_new("scimitar_handle", "a handle of a curved sword",
                              "looks intricate");
     item_t *item2 = item_new("scimitar_blade", "a blade of a curved sword",
                              "looks sharp");
 
     g->curr_player = p;
-    add_item_to_game(g, item1);
-    add_item_to_game(g, item2);
+    g->mode = game_mode_new(NORMAL, NULL, "stranger"); // mode is needed for
+                                                       // the GIVE_ITEM action
+                                                       // to work properly
+    add_npc_to_game(g, stranger);
+    add_item_to_npc(stranger, item1);
+    add_item_to_npc(stranger, item2);
 
-    // Step 2: Create the condition
+    // Step 2: Create the conditions
     condition_t *cond = inventory_condition_new(p, item1);
     cond->next = inventory_condition_new(p, item2);
 
@@ -44,8 +50,8 @@ int main()
     add_edge(c1, "Yes", "2a", "3a", NULL);
     add_edge(c1, "No", "2a", "3b", NULL);
 
-    add_item_gain(c1, "2a", "scimitar_blade");
-    add_item_gain(c1, "3a", "scimitar_handle");
+    add_give_item(c1, "2a", "scimitar_blade");
+    add_give_item(c1, "3a", "scimitar_handle");
 
     // Step 4: Conversation 2
     convo_t *c2 = convo_new();
@@ -67,7 +73,9 @@ int main()
     add_edge(c2, "I have them right here!", "3b", "4", cond);
     add_edge(c2, "Nevermind..", "3b", "2a", NULL);
 
-    add_quest_start(c2, "2c", "quest");
+    add_start_quest(c2, "2c", "quest");
+    add_take_item(c2, "4", "scimitar_blade");
+    add_take_item(c2, "4", "scimitar_handle");
 
     // Step 5: Execute conversations
     int rc = -1;
@@ -87,6 +95,18 @@ int main()
     rc = -1;
 
     printf("\nSteve the 'Smith:\n");
+    while (rc != 1) {
+        if (rc < 0) ret_str = start_conversation(c2, &rc, g);
+        else ret_str = run_conversation_step(c2, player_response, &rc, g);
+        printf("%s", ret_str);
+        if (rc != 1) scanf("%d", &player_response);
+        printf("\n");
+        free(ret_str);
+    }
+
+    rc = -1;
+
+    printf("\nSteve the 'Smith: (again)\n");
     while (rc != 1) {
         if (rc < 0) ret_str = start_conversation(c2, &rc, g);
         else ret_str = run_conversation_step(c2, player_response, &rc, g);

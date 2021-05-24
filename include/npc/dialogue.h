@@ -1,10 +1,7 @@
 #ifndef _DIALOGUE_H
 #define _DIALOGUE_H
 
-#include "game-state/game_state_common.h"
 #include "game-state/game.h"
-#include "game-state/condition.h"
-#include "game-state/item.h"
 
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
@@ -17,7 +14,8 @@
 
 /* Actions */
 typedef enum {
-    GAIN_ITEM,
+    GIVE_ITEM,
+    TAKE_ITEM,
     START_QUEST,
     START_BATTLE
 } node_action_type;
@@ -203,21 +201,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
  *             ACTION FUNCTIONS               *
  **********************************************/
 
-/* Adds a quest start flag to a node.
- *
- * Parameters:
- *  - c: pointer to a convo
- *  - node_id: ID of the target node
- *  - quest_id: ID of the quest
- *
- * Returns:
- *  - SUCCESS on success, FAILURE if an error occurs
- *  - Possible errors: (1) node matching node_id could not be found;
- *    (2) the node already has an action;
- */
-int add_quest_start(convo_t *c, char *node_id, char *quest_id);
-
-/* Adds an item gain flag to a node.
+/* Adds a give item flag to a node.
  *
  * Parameters:
  *  - c: pointer to a convo
@@ -227,9 +211,34 @@ int add_quest_start(convo_t *c, char *node_id, char *quest_id);
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) node matching node_id could not be found;
- *    (2) the node already has an action;
  */
-int add_item_gain(convo_t *c, char *node_id, char *item_id);
+int add_give_item(convo_t *c, char *node_id, char *item_id);
+
+/* Adds a take item flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - item_id: ID of the item
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ */
+int add_take_item(convo_t *c, char *node_id, char *item_id);
+
+/* Adds a start quest flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - quest_id: ID of the quest
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ */
+int add_start_quest(convo_t *c, char *node_id, char *quest_id);
 
 
 /**********************************************

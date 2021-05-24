@@ -132,15 +132,24 @@ int do_node_actions(node_t *n, game_t *game)
 
         switch(cur_action->action) {
 
-            case GAIN_ITEM: ;
-                // This current implementation gets items from game->all_items.
-                // Ideally, we will want to retrieve & remove the item from
-                // npc->inventory.
-                item_t *item = get_item_in_hash(game->all_items,
+            case GIVE_ITEM: ;
+                npc_t *npc = get_npc(game, game->mode->mode_ctx);
+                item_t *item = get_item_in_hash(npc->inventory,
                                                 cur_action->action_id);
                 if (item == NULL) return FAILURE;
-                int rc = add_item_to_player(game->curr_player, item);
-                if (rc != SUCCESS) return FAILURE;
+                if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
+                if (add_item_to_player(game->curr_player, item) != SUCCESS)
+                    return FAILURE;
+                break;
+
+            case TAKE_ITEM:
+                npc = get_npc(game, game->mode->mode_ctx);
+                item = get_item_in_hash(game->curr_player->inventory,
+                                                cur_action->action_id);
+                if (item == NULL) return FAILURE;
+                if (remove_item_from_player(game->curr_player, item) != SUCCESS)
+                    return FAILURE;
+                if (add_item_to_npc(npc, item) != SUCCESS) return FAILURE;
                 break;
 
             case START_QUEST:
@@ -376,7 +385,29 @@ int add_action_to_node(node_t *n, node_action_type action, char *action_id)
 }
 
 /* See dialogue.h */
-int add_quest_start(convo_t *c, char *node_id, char *quest_id)
+int add_give_item(convo_t *c, char *node_id, char *item_id)
+{
+    assert(item_id != NULL);
+    
+    node_t *n;
+    if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
+
+    return add_action_to_node(n, GIVE_ITEM, item_id);
+}
+
+/* See dialogue.h */
+int add_take_item(convo_t *c, char *node_id, char *item_id)
+{
+    assert(item_id != NULL);
+    
+    node_t *n;
+    if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
+
+    return add_action_to_node(n, TAKE_ITEM, item_id);
+}
+
+/* See dialogue.h */
+int add_start_quest(convo_t *c, char *node_id, char *quest_id)
 {
     assert(quest_id != NULL);
     
@@ -384,17 +415,6 @@ int add_quest_start(convo_t *c, char *node_id, char *quest_id)
     if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
 
     return add_action_to_node(n, START_QUEST, quest_id);
-}
-
-/* See dialogue.h */
-int add_item_gain(convo_t *c, char *node_id, char *item_id)
-{
-    assert(item_id != NULL);
-    
-    node_t *n;
-    if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
-
-    return add_action_to_node(n, GAIN_ITEM, item_id);
 }
 
 

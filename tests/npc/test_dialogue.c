@@ -3,6 +3,7 @@
 #include "npc/dialogue.h"
 #include "game-state/item.h"
 #include "game-state/player.h"
+#include "game-state/mode.h"
 
 
 /*** Node ***/
@@ -274,8 +275,8 @@ Test(dialogue, add_five_edges)
     check_add_edge(5);
 }
 
-/* Checks that add_edge works for edges on different nodes */
-Test(dialogue, add_edge_two_nodes_one_edge_each)
+/* Checks that add_edge works for bidirectional edges */
+Test(dialogue, add_edge_bidirectional)
 {
     convo_t *c = convo_new();
     int rc;
@@ -312,28 +313,6 @@ Test(dialogue, start_conversation_one_node_no_edges)
 
     cr_assert_eq(rc, 1, "Return Code was set to %d when it should have been 1, "
                  "indicating that the conversation has ended", rc);
-    cr_assert_eq(strcmp(ret_str, expected), 0,
-                 "Expected:\n%s for the return string of start_conversation "
-                 "but start_conversation returned:\n%s", expected, ret_str);
-}
-
-/* Checks that start_conversation works for 2 nodes with 1 edge */
-Test(dialogue, start_conversation_two_nodes_one_edge)
-{
-    convo_t *c = convo_new();
-    int rc;
-    char *ret_str;
-    char *expected = "D1\n1. Q1\nEnter your choice: ";
-
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-
-    add_edge(c, "Q1", "N1", "N2", NULL);
-
-    ret_str = start_conversation(c, &rc, NULL);
-
-    cr_assert_eq(rc, 0, "Return Code was set to %d when it should have been 0, "
-                 "indicating that the conversation has not ended", rc);
     cr_assert_eq(strcmp(ret_str, expected), 0,
                  "Expected:\n%s for the return string of start_conversation "
                  "but start_conversation returned:\n%s", expected, ret_str);
@@ -515,21 +494,24 @@ Test(dialogue, two_conditionals)
 /*** Actions ***/
 
 /* Give the player one item */
-Test(dialogue, gain_one_item)
+Test(dialogue, give_one_item)
 {
     convo_t *c = convo_new();
     int rc;
 
     game_t *g = game_new("game");
     player_t *p = player_new("player");
+    npc_t *npc = npc_new("npc", "short", "long", 100, NULL, NULL);
     item_t *i = item_new("item", "short_desc", "long_desc");
 
     g->curr_player = p;
-    add_item_to_game(g, i);
+    g->mode = game_mode_new(NORMAL, NULL, "npc");
+    add_npc_to_game(g, npc);
+    add_item_to_npc(npc, i);
 
     add_node(c, "N1", "D1");
 
-    add_item_gain(c, "N1", "item");
+    add_give_item(c, "N1", "item");
 
     start_conversation(c, &rc, g);
 
@@ -540,67 +522,103 @@ Test(dialogue, gain_one_item)
 }
 
 /* Give the player two items */
-// Test(dialogue, gain_two_items)
-// {
-//     convo_t *c = convo_new();
-//     int rc;
+Test(dialogue, give_two_items)
+{
+    convo_t *c = convo_new();
+    int rc;
 
-//     game_t *g = game_new("game");
-//     player_t *p = player_new("player");
-//     item_t *i1 = item_new("item1", "short_desc", "long_desc");
-//     item_t *i2 = item_new("item2", "short_desc", "long_desc");
+    game_t *g = game_new("game");
+    player_t *p = player_new("player");
+    npc_t *npc = npc_new("npc", "short", "long", 100, NULL, NULL);
+    item_t *i1 = item_new("item1", "short_desc", "long_desc");
+    item_t *i2 = item_new("item2", "short_desc", "long_desc");
 
-//     g->curr_player = p;
-//     add_item_to_game(g, i1);
-//     add_item_to_game(g, i2);
+    g->curr_player = p;
+    g->mode = game_mode_new(NORMAL, NULL, "npc");
+    add_npc_to_game(g, npc);
+    add_item_to_npc(npc, i1);
+    add_item_to_npc(npc, i2);
 
-//     add_node(c, "N1", "D1");
+    add_node(c, "N1", "D1");
 
-//     add_item_gain(c, "N1", "item1");
-//     add_item_gain(c, "N1", "item2");
+    add_give_item(c, "N1", "item1");
+    add_give_item(c, "N1", "item2");
 
-//     start_conversation(c, &rc, g);
+    start_conversation(c, &rc, g);
 
-//     cr_assert_eq(rc, 1, "After start_conversation, the Return Code was set to "
-//                  "%d when it should have been 1", rc);
-//     cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
-//                  "the player's inventory");
-//     cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
-//                  "the player's inventory");
-// }
+    cr_assert_eq(rc, 1, "After start_conversation, the Return Code was set to "
+                 "%d when it should have been 1", rc);
+    cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
+                 "the player's inventory");
+    cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
+                 "the player's inventory");
+}
 
 /* Give the player one item, followed by another */
-// Test(dialogue, gain_one_then_one_item)
-// {
-//     convo_t *c = convo_new();
-//     int rc;
+Test(dialogue, give_one_then_one_item)
+{
+    convo_t *c = convo_new();
+    int rc;
 
-//     game_t *g = game_new("game");
-//     player_t *p = player_new("player");
-//     item_t *i1 = item_new("item1", "short_desc", "long_desc");
-//     item_t *i2 = item_new("item2", "short_desc", "long_desc");
+    game_t *g = game_new("game");
+    player_t *p = player_new("player");
+    npc_t *npc = npc_new("npc", "short", "long", 100, NULL, NULL);
+    item_t *i1 = item_new("item1", "short_desc", "long_desc");
+    item_t *i2 = item_new("item2", "short_desc", "long_desc");
 
-//     g->curr_player = p;
-//     add_item_to_game(g, i1);
-//     add_item_to_game(g, i2);
+    g->curr_player = p;
+    g->mode = game_mode_new(NORMAL, NULL, "npc");
+    add_npc_to_game(g, npc);
+    add_item_to_npc(npc, i1);
+    add_item_to_npc(npc, i2);
 
-//     add_node(c, "N1", "D1");
-//     add_node(c, "N2", "D2");
-//     add_edge(c, "Q1", "N1", "N2", NULL);
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+    add_edge(c, "Q1", "N1", "N2", NULL);
 
-//     add_item_gain(c, "N1", "item1");
-//     add_item_gain(c, "N2", "item2");
+    add_give_item(c, "N1", "item1");
+    add_give_item(c, "N2", "item2");
 
-//     start_conversation(c, &rc, g);
-//     cr_assert_eq(rc, 0, "After start_conversation, the Return Code was set to "
-//                  "%d when it should have been 0", rc);
+    start_conversation(c, &rc, g);
+    cr_assert_eq(rc, 0, "After start_conversation, the Return Code was set to "
+                 "%d when it should have been 0", rc);
 
-//     run_conversation_step(c, 1, &rc, g);
-//     cr_assert_eq(rc, 1, "After run_conversation_step, the Return Code was set "
-//                  "to %d when it should have been 1", rc);
+    run_conversation_step(c, 1, &rc, g);
+    cr_assert_eq(rc, 1, "After run_conversation_step, the Return Code was set "
+                 "to %d when it should have been 1", rc);
 
-//     cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
-//                  "the player's inventory");
-//     cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
-//                  "the player's inventory");
-// }
+    cr_assert_eq(item_in_inventory(p, i1), true, "Item 1 was not added to "
+                 "the player's inventory");
+    cr_assert_eq(item_in_inventory(p, i2), true, "Item 2 was not added to "
+                 "the player's inventory");
+}
+
+/* Take one item from the player */
+Test(dialogue, take_one_item)
+{
+    convo_t *c = convo_new();
+    int rc;
+
+    game_t *g = game_new("game");
+    player_t *p = player_new("player");
+    npc_t *npc = npc_new("npc", "short", "long", 100, NULL, NULL);
+    item_t *i = item_new("item", "short_desc", "long_desc");
+
+    g->curr_player = p;
+    g->mode = game_mode_new(NORMAL, NULL, "npc");
+    add_npc_to_game(g, npc);
+    add_item_to_player(p, i);
+
+    add_node(c, "N1", "D1");
+
+    add_take_item(c, "N1", "item");
+
+    start_conversation(c, &rc, g);
+
+    cr_assert_eq(rc, 1, "After start_conversation, the Return Code was set to "
+                 "%d when it should have been 1", rc);
+    cr_assert_eq(item_in_inventory(p, i), false, "The item was not taken from "
+                 "the player's inventory");
+    cr_assert_not_null(get_item_in_hash(npc->inventory, "item"), "The item "
+                       "was not given to the NPC");
+}
