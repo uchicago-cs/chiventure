@@ -175,131 +175,135 @@ Test(speclist, free_all)
 
 
 
-/* Tests the room_level_new function to validate that a room_level
+/* Tests the roomlevel_new function to validate that a roomlevel
  * can be made successfully. */
-Test(room_level, new)
+Test(roomlevel, new)
 {
-    room_level_t *room_level = room_level_new("excellent_name", 4);
+    roomlevel_t *roomlevel = roomlevel_new("excellent_name", 4);
 
-    cr_assert_not_null(room_level, "failed to create new room_level_t\n");
+    cr_assert_not_null(roomlevel, "failed to create new roomlevel_t\n");
 }
 
 
-/* Tests the init_room_level function to validate that a room_level can
+/* Tests the init_roomlevel function to validate that a roomlevel can
  * be initialized successfully. */
-Test(room_level, init)
+Test(roomlevel, init)
 {
-    room_level_t *room_level = calloc(1, sizeof(room_level_t));
-    if (!room_level) { 
-        printf("failed to calloc for room_level\n");
+    roomlevel_t *roomlevel = calloc(1, sizeof(roomlevel_t));
+    if (!roomlevel) { 
+        printf("failed to calloc for roomlevel\n");
     }
-    room_level->room_name = calloc(1, sizeof(room_level_t) * MAX_SDESC_LEN);
-    if (!(room_level->room_name)) { 
-        printf("failed to calloc for room_level->room_name\n");
+    roomlevel->room_name = calloc(1, sizeof(roomlevel_t) * MAX_SDESC_LEN);
+    if (!(roomlevel->room_name)) { 
+        printf("failed to calloc for roomlevel->room_name\n");
     }
 
-    int check = init_room_level(room_level, "excellent_name", 4);
-    cr_assert_str_eq(room_level->room_name, "excellent_name", 
-                 "failed to initialize room_level->room_name\n");
-    cr_assert_eq(4, room_level->difficulty_level, 
-                 "failed to initialize room_level->difficulty_level\n");
-    cr_assert_eq(check, SUCCESS, "failed to initialize a room_level_t\n");
+    int check = init_roomlevel(roomlevel, "excellent_name", 4);
+    cr_assert_str_eq(roomlevel->room_name, "excellent_name", 
+                 "failed to initialize roomlevel->room_name\n");
+    cr_assert_eq(4, roomlevel->difficulty_level, 
+                 "failed to initialize roomlevel->difficulty_level\n");
+    cr_assert_eq(check, SUCCESS, "failed to initialize a roomlevel_t\n");
 }
 
 
-/* Tests the room_level_free func to validate that a room_level can be
+/* Tests the roomlevel_free func to validate that a roomlevel can be
  * freed successfully. */
-Test(room_level, free)
+Test(roomlevel, free)
 {
-    room_level_t *room_level = room_level_new("excellent_name", 4);
+    roomlevel_t *roomlevel = roomlevel_new("excellent_name", 4);
 
-    cr_assert_not_null(room_level, "failed to create new room_level_t\n");
+    cr_assert_not_null(roomlevel, "failed to create new roomlevel_t\n");
 
-    int check = room_level_free(room_level);
+    int check = roomlevel_free(roomlevel);
 
-    cr_assert_eq(check, SUCCESS, "failed to free a room_level_t\n");
+    cr_assert_eq(check, SUCCESS, "failed to free a roomlevel_t\n");
 }
 
 
-/* Tests add_room_level_to_hash for
+/* Tests add_roomlevel_to_hash for
    room name = "A"
    difficulty_level = 4 */
-Test(room_level, add_room_level_to_hash_A_4)
+Test(roomlevel, add_roomlevel_to_hash_one)
 {
-    room_level_t *room_level_hash = NULL;
+    roomlevel_hash_t *roomlevel_hash = NULL;
     char *name = "A"; 
 
-    add_room_level_to_hash(&room_level_hash, name, 4);
+    add_roomlevel_to_hash(&roomlevel_hash, name, 4);
     
-    room_level_t *out;
-    HASH_FIND_STR(room_level_hash, name, out);
+    roomlevel_t *out;
+    HASH_FIND_STR(roomlevel_hash, name, out);
     cr_assert_not_null(out, "failed to add room A\n");
 }
 
 
-/* Tests add_room_level_to_hash for
+/* Tests add_roomlevel_to_hash for
    room name = "Good"
    difficulty_level = 1 */
-Test(room_level, add_room_level_to_hash_Good_1)
+Test(roomlevel, add_roomlevel_to_hash_two)
 {
-    room_level_t *room_level_hash = NULL;
+    roomlevel_hash_t *roomlevel_hash = NULL;
     char *name = "Good"; 
 
-    add_room_level_to_hash(&room_level_hash, name, 1);
-    room_level_t *out;
-    HASH_FIND_STR(room_level_hash, name, out);
+    add_roomlevel_to_hash(&roomlevel_hash, name, 1);
+    roomlevel_t *out;
+    HASH_FIND_STR(roomlevel_hash, name, out);
     cr_assert_not_null(out, "failed to add room Good\n");
 }
 
 
 
-/* Tests the difficulty_level_scale_new function to validate that 
- * a difficulty_level_scale can be made successfully. */
-Test(difficulty_level_scale, new)
+/* Tests the levelspec_new function to validate that 
+ * a levelspec can be made successfully. */
+Test(levelspec, new)
 {
-    int thresholds[3]= {0, 5, 10};
-    difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
-    cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");
+    int num_thresholds = 3;
+    int thresholds[3] = {0, 5, 10};
+    levelspec_t *levelspec = levelspec_new(num_thresholds, thresholds);
+
+    cr_assert_not_null(levelspec, "failed to create new levelspec_t\n");
+    cr_assert_eq(NULL, levelspec->roomlevels, "levelspec->roomlevels hash should be NULL\n");
 }
 
 
-/* Tests the init_difficulty_level_scale function to validate that 
- * a difficulty_level_scale can be initialized successfully. */
-Test(difficulty_level_scale, init)
+/* Tests the init_levelspec function to validate that 
+ * a levelspec can be initialized successfully. */
+Test(levelspec, init)
 {
     int num_thresholds = 4;
     int thresholds[4] = {0, 10, 20, 30};
     
-    difficulty_level_scale_t *difficulty_level_scale = calloc(1, sizeof(difficulty_level_scale_t));
-    if (!difficulty_level_scale) { 
-        printf("failed to calloc for difficulty_level_scale\n");
+    levelspec_t *levelspec = calloc(1, sizeof(levelspec_t));
+    if (!levelspec) { 
+        printf("failed to calloc for levelspec\n");
     }
 
-    difficulty_level_scale->thresholds = calloc(1, sizeof(int) * num_thresholds);
-    if (!(difficulty_level_scale->thresholds)) { 
-        printf("failed to calloc for difficulty_level_scale->thresholds\n");
+    levelspec->thresholds = calloc(1, sizeof(int) * num_thresholds);
+    if (!(levelspec->thresholds)) { 
+        printf("failed to calloc for levelspec->thresholds\n");
     }
 
-    int check = init_difficulty_level_scale(difficulty_level_scale, num_thresholds, thresholds);
-    cr_assert_eq(difficulty_level_scale->num_thresholds, num_thresholds,
-                 "failed to initialize difficulty_level_scale->num_thresholds\n");
+    int check = init_levelspec(levelspec, num_thresholds, thresholds);
+    cr_assert_eq(levelspec->num_thresholds, num_thresholds,
+                 "failed to initialize levelspec->num_thresholds\n");
     for (int i = 0; i < num_thresholds; i++) {
-        cr_assert_eq(difficulty_level_scale->thresholds[i], thresholds[i],
-                     "failed to initialize difficulty_level_scale->threshold[%d]\n", i);
+        cr_assert_eq(levelspec->thresholds[i], thresholds[i],
+                     "failed to initialize levelspec->threshold[%d]\n", i);
     }
-    cr_assert_eq(check, SUCCESS, "failed to initialize a difficulty_level_scale_t\n");
+    cr_assert_eq(check, SUCCESS, "failed to initialize a levelspec_t\n");
 }
 
 
-/* Tests the difficulty_level_scale_free func to validate that a difficulty_level_scale can be
+/* Tests the levelspec_free func to validate that a levelspec can be
  * freed successfully. */
-Test(difficulty_level_scale, free)
+Test(levelspec, free)
 {
+    int num_thresholds = 3;
     int thresholds[3]= {0, 5, 10};
-    difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
-    cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");
+    levelspec_t *levelspec = levelspec_new(num_thresholds, thresholds);
+    cr_assert_not_null(levelspec, "failed to create new levelspec_t\n");
 
-    int check = difficulty_level_scale_free(difficulty_level_scale);
+    int check = levelspec_free(levelspec);
 
-    cr_assert_eq(check, SUCCESS, "failed to free a difficulty_level_scale_t\n");
+    cr_assert_eq(check, SUCCESS, "failed to free a levelspec_t\n");
 }
