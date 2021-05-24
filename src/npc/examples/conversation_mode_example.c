@@ -132,7 +132,7 @@ chiventure_ctx_t *create_sample_ctx()
     npc_t *steve = npc_new(npc_id,
                          "Steve is a merchant.",
                          "Steve is the best merchant in town.",
-                         NULL, NULL, NULL);
+                         NULL, NULL, 0);
 
     convo_t *c = create_steve_conversation();
 
@@ -143,7 +143,7 @@ chiventure_ctx_t *create_sample_ctx()
     char *oak_id = "Oak";
     npc_t *oak = npc_new(oak_id, "Oak is a Pokemon Prof!",
                                  "Professor Oak studies Pokemon in Pallet Town",
-                                 NULL, NULL, NULL);
+                                 NULL, NULL, 0);
 
     convo_t *starting_speech = create_oak_conversation();
     add_convo_to_npc(oak, starting_speech);

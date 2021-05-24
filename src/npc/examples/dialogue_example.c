@@ -19,7 +19,7 @@ int main()
     // Step 1: Setting up the game, player, and item
     game_t *g = game_new("game");
     player_t *p = player_new("player");
-    npc_t *stranger = npc_new("stranger", "short", "long", NULL, NULL, NULL);
+    npc_t *stranger = npc_new("stranger", "short", "long", NULL, NULL, 0);
     item_t *item1 = item_new("scimitar_handle", "a handle of a curved sword",
                              "looks intricate");
     item_t *item2 = item_new("scimitar_blade", "a blade of a curved sword",
