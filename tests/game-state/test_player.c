@@ -748,7 +748,7 @@ Test(player, add_stat_effect)
     player_free(player);
 }
 
-Test(add_move, add_move_existing_list) {
+Test(player, add_move_existing_list) {
 
     move_t *old_move = get_random_default_move();
     move_t *new_move = get_random_default_move();
@@ -768,7 +768,7 @@ Test(add_move, add_move_existing_list) {
                  "add_move() did not add the move correctly");
 }
 
-Test(add_move, add_move_empty_list) {
+Test(player, add_move_empty_list) {
     
     move_t *new_move = get_random_default_move();
     battle_item_t *item = get_random_default_consumable();
