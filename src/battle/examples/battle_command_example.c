@@ -232,8 +232,16 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             printf("New HP is %d\n", player_stats->hp);
             printf("New Strength is %d\n", player_stats->strength);
             printf("New Defense is %d\n\n", player_stats->defense);
-            return res;
+            // return res;
         }
+
+        res = enemy_make_move(ctx);
+        move_t *enemy_move = give_move(ctx->game->battle->player,
+                                       ctx->game->battle->enemy,
+                                       ctx->game->battle->enemy->ai);
+        char* action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
+        printf("%s\n", action_string);
+        return res;
     }
     else
     {

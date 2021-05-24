@@ -83,6 +83,28 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies, envi
     return b;
 }
 
+int enemy_make_move(chiventure_ctx_battle_t *ctx) 
+{
+    battle_t *b = ctx->game->battle;
+
+    /* move stub, battle_flow should call either a custom action block or a
+       function that works with a move_t struct */
+    move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
+    int dmg;
+    if(enemy_move != NULL)
+    {
+        dmg = damage(b->player, enemy_move, b->enemy);
+        b->player->stats->hp -= dmg;
+    }
+    
+    if(battle_over(b) == BATTLE_VICTOR_ENEMY)
+    {
+        /* print stub: should tell player they lost */
+        ctx->status = BATTLE_VICTOR_ENEMY;
+        return SUCCESS;
+    }
+}
+
 /* see battle_flow.h */
 int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 {
@@ -121,27 +143,7 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
         return SUCCESS;
     }
 
-    /* move stub, battle_flow should call either a custom action block or a
-       function that works with a move_t struct */
-    move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
-
-    if(enemy_move != NULL)
-    {
-        dmg = damage(b->player, enemy_move, b->enemy);
-        b->player->stats->hp -= dmg;
-    }
-    else
-    {
-        dmg = damage(b->player, move, b->enemy);
-        b->player->stats->hp -= dmg;
-    }
-    
-    if(battle_over(b) == BATTLE_VICTOR_ENEMY)
-    {
-        /* print stub: should tell player they lost */
-        ctx->status = BATTLE_VICTOR_ENEMY;
-        return SUCCESS;
-    }
+    enemy_make_move(ctx);
 
     return SUCCESS;
 }
