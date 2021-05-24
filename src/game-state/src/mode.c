@@ -108,3 +108,17 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     return SUCCESS;
 }
 
+/* see mode.h */
+int run_battle_mode(char *input, cli_callback callback_func, 
+                          void *callback_args, chiventure_ctx_t *ctx)
+{
+    char **parsed_input = parse(input);
+    if (parsed_input == NULL)
+    {
+        return FAILURE;
+    }
+    
+    //This is all we have so far
+
+    return SUCCESS;
+}

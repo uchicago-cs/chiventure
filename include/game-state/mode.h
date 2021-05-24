@@ -112,5 +112,21 @@ int load_normal_mode(game_t *g);
 int run_conversation_mode(char *input, cli_callback callback_func, 
                           void *callback_args, chiventure_ctx_t *ctx);
 
-
+/*
+ * Mode operation function for battle mode.
+ * Parses the user's input and runs a turn of the fight.
+ *
+ * Parameters:
+ * str: the user's input obtained from the UI.
+ * callback_func: pointer to a callback function
+ * callback_args: additional arguments to callback function
+ * ctx: pointer to chiventure context struct
+ *
+ * Returns:
+ * SUCCESS on success, FAILURE if an error occurs
+ * Prints the next turn of the fight, along with 
+ * options to the CLI.
+ */ 
+int run_battle_mode(char *input, cli_callback callback_func, 
+                          void *callback_args, chiventure_ctx_t *ctx);
 #endif
