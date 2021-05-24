@@ -104,11 +104,7 @@ int run_ast_block(AST_block_t *block)
       break;
     case(BRANCH):
       //To be implemented
-      if (rc == 0)
-      {
-        return run_ast_block(block->prev);
-      }
-      return run_ast_block(block->next);
+      return FAILURE;
       break;
     case(ACTION):
       if (exec_action_block(block->block->action_block) == FAILURE)
