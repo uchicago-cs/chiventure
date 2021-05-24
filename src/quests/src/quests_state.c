@@ -162,7 +162,7 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id) {
 
     assert(tree != NULL);
 
-    achievment_tree_t *cur = malloc(sizeof(achievement_tree_t));
+    achievement_tree_t *cur = malloc(sizeof(achievement_tree_t));
     cur = quest->achievement_tree_t;
 
     while(cur = get_bottom_node(cur)){
@@ -298,7 +298,7 @@ int complete_achievement(quest_t *quest, char *id)
 int is_quest_completed(quest_t *quest)
 {
     assert (quest != NULL);
-    achievment_tree_t *tmp = malloc(sizeof(achievement_tree_t));
+    achievement_tree_t *tmp = malloc(sizeof(achievement_tree_t));
     tmp = quest->achievement_tree_t;
     
     while(tmp = get_bottom_node(tmp)){
