@@ -1,6 +1,8 @@
 #ifndef INCLUDE_INTERFACE_H_
 #define INCLUDE_INTERFACE_H_
 
+#include "custom-actions-cond.h"
+#include "custom-actions-common.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include "ast_block.h"
@@ -9,8 +11,23 @@
 #include "conditional_block.h"
 #include "control_block.h"
 #include "common/uthash.h"
-#include "wdl/object.h"
 #include "custom_action.h"
+#include "libobj/obj.h"
+
+/* 
+ * Given a custom action and its corresponding arguments, 
+ * attempt to execute the given action.
+ * 
+ * Parameters: 
+ * - action: A pointer to the custom action to be executed (most likely
+ *   acquired from search_for_custom_action)
+ * 
+ * Returns:
+ * - SUCCESS on successful execution
+ * - FAILURE if any one of the blocks fails to execute
+ */
+int do_custom_action(custom_action_t *action);
+
 
 /* 
  * Search for a custom action by name
@@ -49,7 +66,7 @@ custom_action_t *search_for_custom_action(char *action_name);
  * - NULL if there was an error working with the object_t struct or an error
  *        adding the resulting custom action to the list
  */
-custom_action_t *compile_custom_action(object_t *action);
+custom_action_t *compile_custom_action(obj_t *action);
 
 /*
  * Adds a custom action object to the game's list of custom actions
@@ -80,6 +97,6 @@ int add_custom_action_to_game(custom_action_t *action);
  * 
  * To be implemented in the future - see backlog issue #796.
  */
-custom_action_t *translate_custom_action(object_t *action);
+custom_action_t *translate_custom_action(obj_t *action);
 
 #endif
