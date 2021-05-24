@@ -91,6 +91,11 @@ int use_battle_item(combatant_t *c, int id)
 
     consume_battle_item(c, item);
     item->quantity -= 1;
+
+    if (item->quantity == 0)
+    {
+        remove_battle_item(c, item);
+    }
     
     return SUCCESS;
 }
@@ -116,16 +121,17 @@ int remove_battle_item(combatant_t *c, battle_item_t *item)
             {
                 temp->prev->next = temp->next;
             }
-            
+
             if (temp->next)
             {
-                temp->next->prev = c->items;
+                temp->next->prev = temp->prev;
             }
             free(temp->name);
             free(temp->description);
             free(temp);
         }
     }
+    return SUCCESS;
 }
 
 /* see battle_logic.h */
