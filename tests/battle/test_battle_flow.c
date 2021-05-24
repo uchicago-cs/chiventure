@@ -33,16 +33,16 @@ Test(battle_flow, set_battle_player)
     cr_assert_eq(comb_player->next, NULL, "set_player() didn't set next");
     cr_assert_eq(comb_player->prev, NULL, "set_player() didn't set prev");
 
-    cr_assert_str_eq(comb_player->class->name, "Bard",
+    cr_assert_str_eq(comb_player->class_type->name, "Bard",
                      "set_player() didn't set class name");
-    cr_assert_str_eq(comb_player->class->shortdesc, "Music boi",
+    cr_assert_str_eq(comb_player->class_type->shortdesc, "Music boi",
                      "set_player() didn't set class short description");
-    cr_assert_str_eq(comb_player->class->longdesc,
+    cr_assert_str_eq(comb_player->class_type->longdesc,
                      "Charismatic, always has a joke or song ready",
                      "set_player() didn't set class short description");
 
-    cr_assert_null(comb_player->class->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(comb_player->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(comb_player->class_type->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(comb_player->class_type->stats, "set_player() didn't set class stats");
 }
 
 /* Tests set_enemies() with 1 enemy */
@@ -64,16 +64,16 @@ Test(battle_flow, set_one_enemy)
     cr_assert_eq(comb_enemy->next, NULL, "set_enemies() didn't set next");
     cr_assert_not_null(comb_enemy->prev, "set_enemies() didn't set prev");
 
-    cr_assert_str_eq(comb_enemy->class->name, "Bard",
+    cr_assert_str_eq(comb_enemy->class_type->name, "Bard",
                      "set_player() didn't set class name");
-    cr_assert_str_eq(comb_enemy->class->shortdesc, "Music boi",
+    cr_assert_str_eq(comb_enemy->class_type->shortdesc, "Music boi",
                      "set_player() didn't set class short description");
-    cr_assert_str_eq(comb_enemy->class->longdesc,
+    cr_assert_str_eq(comb_enemy->class_type->longdesc,
                      "Charismatic, always has a joke or song ready",
                      "set_player() didn't set class short description");
 
-    cr_assert_null(comb_enemy->class->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(comb_enemy->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(comb_enemy->class_type->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(comb_enemy->class_type->stats, "set_player() didn't set class stats");
 }
 
 
@@ -354,3 +354,4 @@ Test(battle_flow, battle_over_by_enemy)
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
                  "battle_flow() failed: enemy was not declared the winner");
 }
+

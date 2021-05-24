@@ -14,7 +14,7 @@
 typedef struct battle_player {
     // Other fields: hash handle, inventory, other stats
     char *player_id;
-    class_t *class;
+    class_t *class_type;
     stat_t *stats;
     move_t *moves;
     battle_item_t *items;
@@ -43,7 +43,7 @@ typedef struct chiventure_ctx_battle {
  */
 typedef struct npc_enemy {
     char *npc_id;
-    class_t *class;
+    class_t *class_type;
     stat_t *stats;
     move_t *moves;
     battle_item_t *items;
@@ -56,7 +56,7 @@ typedef struct npc_enemy {
  *
  * Parameters:
  *     - p_id: player id
- *     - class: pointer to player_class struct
+ *     - class_type: pointer to player class struct
  *     - stats: player stats stub
  *     - moves: player moves stub
  *     - items: player battle_items stub
@@ -69,7 +69,7 @@ battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_
  *
  * Parameters:
  *     - npc_id: npc id
- *     - class: pointer to player_class struct
+ *     - class_type: pointer to player_class struct
  *     - stats: npc stats stub
  *     - moves: npc moves stub
  *     - items: npc battle_items stub
@@ -77,7 +77,7 @@ battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_
  *
  * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, battle_items
  */
-npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, 
+npc_enemy_t *make_npc_enemy(char* npc_id, class_t *c_type, stat_t *stats, move_t *moves, 
                             battle_item_t* items, difficulty_t ai);
 
 /* Stub for the game_new function in game.h game-state module

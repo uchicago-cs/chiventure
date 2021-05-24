@@ -24,13 +24,13 @@ combatant_t *set_battle_player(battle_player_t *ctx_player)
     // Setting up arguments for combatant_new
     char* name = ctx_player->player_id;
     bool is_friendly = true;
-    class_t *class = ctx_player->class;
+    class_t *c_type = ctx_player->class_type;
     stat_t *stats = ctx_player->stats;
     move_t *moves = ctx_player->moves;
     battle_item_t *items = ctx_player->items;
 
-    // Allocating new combatant_t for the battle_player in memory
-    combatant_t *comb_player = combatant_new(name, is_friendly, class, stats,
+    // Allocating new combatant_t for the player in memory
+    combatant_t *comb_player = combatant_new(name, is_friendly, c_type, stats,
                                              moves, items, BATTLE_AI_NONE);
 
     assert(comb_player != NULL);
@@ -49,13 +49,13 @@ combatant_t *set_enemies(npc_enemy_t *npc_enemies)
     {
         char* name = enemy_elt->npc_id;
         bool is_friendly = false;
-        class_t *class = enemy_elt->class;
+        class_t *c_type = enemy_elt->class_type;
         stat_t *stats = enemy_elt->stats;
         move_t *moves = enemy_elt->moves;
         battle_item_t *items = enemy_elt->items;
         difficulty_t ai = enemy_elt->ai;
 
-        comb_enemy = combatant_new(name, is_friendly, class, stats, moves, items, ai);
+        comb_enemy = combatant_new(name, is_friendly, c_type, stats, moves, items, ai);
 
         assert(comb_enemy != NULL);
 

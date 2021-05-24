@@ -1,6 +1,6 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
-#include "battle_move_maker.h"
+#include "battle/battle_move_maker.h"
 #include "battle/battle_moves.h"
 #include "battle/battle_print.h"
 #include "battle/battle_state.h"

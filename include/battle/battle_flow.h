@@ -7,7 +7,7 @@
 #include "battle_common.h"
 #include "battle_flow_structs.h"
 #include "battle_logic.h"
-#include "../../src/battle/examples/battle_move_maker.h"
+#include "battle_move_maker.h"
 #include "battle_state.h"
 #include "battle_structs.h"
 #include "common/common.h"
