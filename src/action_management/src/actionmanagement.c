@@ -416,14 +416,69 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
 
 /* KIND 5
  * See npc_action.h */
-int do_npc_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *i, char **ret_string)
+int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string)
 {
-    //TODO
+    if(a->kind != NPC_ITEM)
+    {
+        return WRONG_KIND;
+    }
+    // get the game action struct
+    game_action_t *game_act = get_action(npc, a->c_name);
+    // check if all conditions are met
+    if (!all_conditions_met(game_act->conditions))
+    {
+        sprintf(string, "%s", game_act->fail_str);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
+    if(item_in_npc_inventory(npc, item) || item_in_inventory(ctx->game->curr_player, item))
+    {
+        *ret_string = "Items Allocated";
+        return SUCCESS;
+        
+    } else{
+        *ret_string = "Action cannot be completed since item is not in either inventory";
+        return CONDITIONS_NOT_MET;
+    }
+    
 }
 
 /* KIND 6
  * See npc_action.h */
- int do_npc_item_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string)
+int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t* ret_item)
 {
-     //TODO
+    if(a->kind != NPC_ITEM_ITEM)
+    {
+        return WRONG_KIND;
+    }
+    // get the game action struct
+    game_action_t *game_act = get_action(npc, a->c_name);
+    // check if all conditions are met
+    if (!all_conditions_met(game_act->conditions))
+    {
+        sprintf(string, "%s", game_act->fail_str);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
+    if(!item_in_npc_inventory(npc, item))
+    {
+        *ret_string = "NPC doesn't have desired item in inventory";
+        return CONDITIONS_NOT_MET;
+        
+    } else{
+        int cost = item->attributes->int_val;
+        item_list_t *player_inventory;
+        player_inventory = get_all_items_in_hash(c->game->curr_player->inventory);
+        bool can_buy = false;
+        while(player_inventory != NULL){
+            if(player_inventory->item->attributes->int_val >= cost){
+                can_buy = true;
+                ret_item = player_inventory->item;
+                return SUCCESS;
+            }
+            player_inventory = player_inventory->next;
+        }
+        *ret_string = "Action cannot be completed since you have no items of equal or greater value";
+        return CONDITIONS_NOT_MET;
+    }
 }
