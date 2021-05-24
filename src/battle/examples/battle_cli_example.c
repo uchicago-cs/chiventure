@@ -68,7 +68,23 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return start;
 }
 
+/*
+ * Creates a chiventure context with a sample game.
+ *
+ * Returns: a chiventure context with 
+ */
+chiventure_ctx_t *create_sample_ctx()
+{
+    game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
+    room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll fight a Goblin in The Room.");
+    add_room_to_game(game, room1);
+    game->curr_room = room1;
 
+    /* Create context */
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+
+    return ctx;
+}
 
 int main(int argc, char **argv)
 {
