@@ -231,12 +231,9 @@ Test(condition, valid_condition)
     valid = valid_condition(game, NULL);
     cr_assert_eq(valid, CONDITION_NULL, "valid_condition() expected CONDITION_NULL(7) "
     "but instead got %i", valid);
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> dev
     player_free(player);
     game_free(game);
     free(condition_1->condition.inventory_type);
