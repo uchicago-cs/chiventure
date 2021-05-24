@@ -95,7 +95,7 @@ quest_t *get_quest(game_t* game, char *quest_id)
 {
 	quest_t *q;
 	HASH_FIND(hh, game->all_quests, quest_id,  
-		    strlen(quest_id, MAX_ID_LEN), q);
+		    strnlen(quest_id, MAX_ID_LEN), q);
 
 	return q;
 }
