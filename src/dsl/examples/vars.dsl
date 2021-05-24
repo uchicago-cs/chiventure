@@ -7,7 +7,7 @@ long: "a fork. theres \"nothing\" remarkably special about it."
 
 
 GAME START Room A END room C
-  intro: $intro {firstname: "John", lastname: "Smith"}
+  intro: $intro {firstname: John, lastname: "Smith"}
 
 ROOM room A
   $fork
