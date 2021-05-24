@@ -11,6 +11,8 @@ Data Structures
 
     class_t struct
         - char* Name
+        - int num_parent_class;
+        - char** parent_class_names;
         - char* Short Description
         - char* Long Description
         - obj_t* Array of attributes
@@ -30,5 +32,7 @@ class
         class_t* = class_new(char* name, char* shortdesc, char* longdesc, obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);
     Initialize values inside the playerclass
         class_t* = class_init(class_t* class, char* name, char* shortdesc, char* longdesc, obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);
+    Combine two playerclasses (multiclass)
+        class_t* = multiclass(class_t* base_class, class_t* second_class, char* name);
     Free a playerclass
         void class_free(class_t* c);
