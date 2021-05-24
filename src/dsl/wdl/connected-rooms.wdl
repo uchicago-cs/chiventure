@@ -16,7 +16,9 @@
           "to": "room A"
         }
       ],
-      "items": []
+      "items": [
+        "DOOR"
+      ]
     },
     "room B": {
       "short_desc": "This is room B",
@@ -27,9 +29,7 @@
           "to": "room C"
         }
       ],
-      "items": [
-        "DOOR"
-      ]
+      "items": []
     },
     "room A": {
       "short_desc": "This is room A",
@@ -45,7 +45,7 @@
   },
   "ITEMS": {
     "DOOR": {
-      "in": "room B",
+      "in": "room A",
       "short_desc": "A large wooden door",
       "long_desc": "It looks very heavy, and it doesn't have a keyhole",
       "actions": [

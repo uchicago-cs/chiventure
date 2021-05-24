@@ -10,16 +10,17 @@ GAME START room A END room C
     short desc: "This is room B"
     long desc: "This is room B. There's a table and an exit to the west."
     connections: WEST TO room C
-    ITEM DOOR
-      short desc: "A large wooden door"
-      long desc: "It looks very heavy, and it doesn't have a keyhole"
-      actions: OPEN, GO
-        OPEN success: "You open the door."
-        OPEN fail: "You can't open the door. It seems to be locked."
-        GO success: "You walk through the door"
-        GO fail: "You can't do that, the door is closed"
 
   ROOM room C
-    short desc: "This is room C"
+    short desc FOR room A: "This is room C"
     long desc: "This is room C, the final room in the game"
     connections: NORTH TO room A
+
+ITEM DOOR IN room A
+  short desc: "A large wooden door"
+  long desc: "It looks very heavy, and it doesn't have a keyhole"
+  actions: OPEN, GO
+    OPEN success: "You open the door."
+    OPEN fail: "You can't open the door. It seems to be locked."
+    GO success: "You walk through the door"
+    GO fail: "You can't do that, the door is closed"

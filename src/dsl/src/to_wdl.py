@@ -158,7 +158,7 @@ def parsed_dict_to_json(intermediate: dict) -> str:
     """Transforms the intermediate data structure outputted by the parser into
     valid wdl json format"""
 
-    #TODO: add support for ITEM IN ROOM and property FOR object
+    #TODO: add support for property FOR object
     rooms = []
     items = []
 
@@ -171,8 +171,11 @@ def parsed_dict_to_json(intermediate: dict) -> str:
             # room_items = contents.pop("items")
             room_items = contents["items"]
             rooms.append(Room(room_name, contents))
-            for i in room_items:
-                items.append(Item(room_name, i))
+            for item in room_items:
+                location = room_name
+                if "location" in item:
+                    location = item.pop("location")
+                items.append(Item(location, item))
     
     game = Game(intermediate)
     
