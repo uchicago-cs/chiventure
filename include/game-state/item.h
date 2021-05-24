@@ -1,8 +1,8 @@
 #ifndef _ITEM_H
 #define _ITEM_H
 
-#include "game_state_common.h"
 #include "action_management/action_structs.h"
+#include "game_state_common.h"
 #include "game-state/stats.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_list_t *ITTMP_ITEMRM; \
@@ -16,6 +16,7 @@ HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 typedef struct player player_t;
 /* Forward declaration. Full typedef can be found in condition.h */
 typedef struct condition condition_list_t;
+
 
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
@@ -50,6 +51,7 @@ typedef struct attribute_wrapped_for_llist {
 typedef struct attribute attribute_hash_t;
 
 typedef struct game_action game_action_hash_t;
+typedef struct game_action game_action_t;
 
 typedef struct item {
     UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
@@ -172,12 +174,6 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
  int add_effect_to_item(item_t *item, stat_effect_t *effect);
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
-typedef struct game_action_effect{
-    item_t *item;
-    attribute_t* attribute_to_modify;
-    attribute_value_t new_value;
-    struct game_action_effect *next; //mandatory for utlist macros
-} game_action_effect_t;
 
 /* This typedef is to distinguish between game_action_effect_t
 * pointers which are used to point to the game_action_effect_t structs
@@ -185,16 +181,6 @@ typedef struct game_action_effect{
 * on the game_action_effect_t structs as specified in src/common/include
 */
 typedef struct game_action_effect action_effect_list_t;
-
-
-typedef struct game_action {
-    UT_hash_handle hh;
-    char* action_name;
-    condition_list_t *conditions; //must be initialized to NULL
-    action_effect_list_t *effects; //must be initialized to NULL
-    char* success_str;
-    char* fail_str;
-} game_action_t;
 
 
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
@@ -334,16 +320,16 @@ int set_char_attr(item_t* item, char* attr_name, char value);
  */
 int set_bool_attr(item_t* item, char* attr_name, bool value);
 
-/* set_act_attr() sets the value of an attribute of an item to the given action
- * Parameters:
- *  a pointer to the item
- *  the attribute name with value to be changed
- *  the action attribute value to be set
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- *  returns SUCCESS if given value is already the attribute value
- */
-int set_act_attr(item_t* item, char* attr_name, action_type_t *value);
+// /* set_act_attr() sets the value of an attribute of an item to the given action
+//  * Parameters:
+//  *  a pointer to the item
+//  *  the attribute name with value to be changed
+//  *  the action attribute value to be set
+//  * Returns:
+//  *  SUCCESS if successful, FAILURE if failed
+//  *  returns SUCCESS if given value is already the attribute value
+//  */
+// int set_act_attr(item_t* item, char* attr_name, action_type_t *value);
 
 // ATTRIBUTE GET FUNCTIONS --------------------------------------------
 // the following functions allow their users to get (read: retrieve)

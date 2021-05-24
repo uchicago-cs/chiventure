@@ -1,13 +1,14 @@
 #ifndef _NPC_H
 #define _NPC_H
 
+#include "action_management/action_structs.h"
 #include "game-state/game_state_common.h"
-#include "game-state/item.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 #include "npc/dialogue.h"
 #include "npc/npc_battle.h"
 #include "npc/npc_move.h"
+
 
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
@@ -43,6 +44,8 @@ typedef struct npc {
 
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
+
+    game_action_hash_t *actions;
 } npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
@@ -208,6 +211,17 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int remove_item_from_npc(npc_t *npc, item_t *item);
+
+/* Checks that item is in pc inventory
+ *
+ *
+ * Parameters:
+ *    npc: the npc's inventory to check
+ *    item: the item to check
+ * Returns:
+ *    true or false
+ */
+bool item_in_npc_inventory(npc_t *npc, item_t *item);
 
 /*
  * Adds the given convo to the given npc.

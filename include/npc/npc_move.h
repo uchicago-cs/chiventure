@@ -2,6 +2,7 @@
 #define _NPC_MOVE_H
 
 #include "game-state/game_state_common.h"
+#include "action_management/action_structs.h"
 #include "game-state/item.h"
 #include "game-state/room.h"
 

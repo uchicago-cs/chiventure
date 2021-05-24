@@ -325,7 +325,7 @@ game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute,
         return NULL;
     }
     game_action_effect_t *effect = malloc(sizeof(game_action_effect_t));
-    effect->item = item_to_modify;
+    effect->agent->item = item_to_modify;
     effect->attribute_to_modify = attribute;
     effect->new_value = new_value;
     effect->next = NULL;

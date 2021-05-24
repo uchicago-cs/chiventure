@@ -162,7 +162,7 @@ int remove_item_from_npc(npc_t *npc, item_t *item)
     return rc;
 }
 
-bool item_in_npc_inventory(npc_t npc, item_t *item)
+bool item_in_npc_inventory(npc_t *npc, item_t *item)
 {
     item_t *check;
     HASH_FIND(hh, npc->inventory, item->item_id, strlen(item->item_id),

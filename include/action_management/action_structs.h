@@ -1,5 +1,6 @@
 #ifndef _ACTION_STRUCTS_H_
 #define _ACTION_STRUCTS_H_
+
 #include "npc/npc.h"
 
 /* File consisting of all action structs created by action management
@@ -15,7 +16,7 @@ typedef union agent
    npc_t *npc;
 } agent_t;
 
-enum agent_tag {ITEM, NPC};
+enum agent_tag {ITEMS, NPCS};
 
 /* An enumeration of all supported actions.
  * KIND 1 ACTIONS - ACTION <item>
@@ -45,12 +46,10 @@ enum actions {
 
     /* KIND 3 ACTIONS - ACTION <item_item> */
     USE_ON,
-    PUT
+    PUT,
 
-// NPC ACTIONS
+    // NPC ACTIONS
     /* KIND 4 ACTIONS */
-    TALK_TO,
-    IGNORE,
     ATTACK,
     
     /* KIND 5 ACTIONS */
@@ -68,7 +67,7 @@ enum action_kind {
 // ITEM ACTIONS
     ITEM = 1, // ACTION <item> i.e. Action Type 1
     PATH = 2, // ACTION <path i.e. Action Type 2
-    ITEM_ITEM = 3 // ACTION <item> <item> i.e. Action Type 3
+    ITEM_ITEM = 3, // ACTION <item> <item> i.e. Action Type 3
 // NPC ACTIONS
     NPC = 4,
     NPC_ITEM = 5,
@@ -99,7 +98,7 @@ typedef struct game_action_effect action_effect_list_t;
 typedef struct game_action {
     UT_hash_handle hh;
     char* action_name;
-    s *conditions; //must be initialized to NULL
+    condition_list_t *conditions; //must be initialized to NULL
     action_effect_list_t *effects; //must be initialized to NULL
     char* success_str;
     char* fail_str;
@@ -111,7 +110,7 @@ typedef struct game_action {
  * - room: the room that requires the action to be done before entry.
  * - direction: direction of path.
  */
-typedef struct {
+typedef struct action_type{
     char *c_name; // e.g. "eat"
     enum action_kind kind; // e.g. KIND_1
     room_t *room;
@@ -125,7 +124,7 @@ typedef struct {
  * - trigger: room_id of the room that requires this action as a condition
  * This struct is primarily used in the get_supported_actions function.
 */
-typedef struct list_act {
+typedef struct list_action_type {
     action_type_t *act;
     struct list_act *next;
 } list_action_type_t;

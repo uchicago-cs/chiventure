@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "action_management/action_structs.h"
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
 #include "game-state/room.h"
@@ -92,8 +93,8 @@ int helper_remove(action_type_t *a)
                 list_action_type_t *delete_node;
                 int condition;
                 closed_path = path_search(a->room,a->direction);
-                delete_node = find_act(closed_path->conditions,a);
-                condition = remove_condition(closed_path,delete_node);
+                delete_node = find_act(closed_path->conditions, a);
+                condition = remove_condition(closed_path, delete_node);
                 if (condition != SUCCESS)
                 {
                     return CONDITIONS_NOT_MET;
@@ -135,8 +136,11 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         a->c_name = "CONSUME";
     }
 
+    agent_t *agent = NULL;
+    agent->item = i;
+
     // checks if the action is possible
-    if (possible_action(i, a->c_name) == FAILURE)
+    if (possible_action(agent, a->c_name) == FAILURE)
     {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, i->item_id);
@@ -145,7 +149,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     }
 
     // get the game action struct
-    game_action_t *game_act = get_action(i, a->c_name);
+    game_action_t *game_act = get_action(agent, a->c_name);
 
     // check if all conditions are met
     if (!all_conditions_met(game_act->conditions))
@@ -158,7 +162,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     {
         // implement the action (i.e. dole out the effects)
         int applied_effects;
-        applied_effects = do_all_effects(i, a->c_name);
+        applied_effects = do_all_effects(agent, a->c_name);
         if (applied_effects == FAILURE)
         {
             sprintf(string, "Effect(s) of Action %s were not applied", a->c_name);
@@ -302,7 +306,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         while (act_effects)
         {
             // apply the effects of the direct item action (use, put) on the indirect item
-            if (strcmp(act_effects->item->item_id, indirect->item_id) == 0)
+            if (strcmp(act_effects->agent->item->item_id, indirect->item_id) == 0)
             {
                 applied_effect = do_effect(act_effects);
                 if (applied_effect == FAILURE)
@@ -424,6 +428,9 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_
     }
     // get the game action struct
     game_action_t *game_act = get_action(npc, a->c_name);
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
     // check if all conditions are met
     if (!all_conditions_met(game_act->conditions))
     {
@@ -431,7 +438,7 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-    if(item_in_npc_inventory(npc, item) || item_in_inventory(ctx->game->curr_player, item))
+    if(item_in_npc_inventory(npc, item) || item_in_inventory(c->game->curr_player, item))
     {
         *ret_string = "Items Allocated";
         return SUCCESS;
@@ -453,6 +460,9 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
     }
     // get the game action struct
     game_action_t *game_act = get_action(npc, a->c_name);
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
     // check if all conditions are met
     if (!all_conditions_met(game_act->conditions))
     {
@@ -466,12 +476,12 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
         return CONDITIONS_NOT_MET;
         
     } else{
-        int cost = item->attributes->int_val;
+        int cost = strlen(item->short_desc);
         item_list_t *player_inventory;
         player_inventory = get_all_items_in_hash(c->game->curr_player->inventory);
         bool can_buy = false;
         while(player_inventory != NULL){
-            if(player_inventory->item->attributes->int_val >= cost){
+            if(strlen(player_inventory->item->short_desc) >= cost){
                 can_buy = true;
                 ret_item = player_inventory->item;
                 return SUCCESS;

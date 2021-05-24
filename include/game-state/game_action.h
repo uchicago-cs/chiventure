@@ -162,7 +162,7 @@ int do_effect(game_action_effect_t *effect);
  * Returns:
  *  SUCCESS if all effects are set, FAILURE if not
  */
-int do_all_effects(action_effect_list_t *effects);
+int do_all_effects(agent_t *agent, char *action_name);
 
 
 // ------------------------- NEW, INIT, FREE FUNCTIONS ------------------------------

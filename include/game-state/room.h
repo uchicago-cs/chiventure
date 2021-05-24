@@ -2,10 +2,13 @@
 #define _ROOM_H
 
 #include "game_state_common.h"
+#include "action_management/action_structs.h"
 #include "item.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
+
+typedef struct list_action_type list_action_type_t;
 
 // PATH STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a path from one room to another.
@@ -178,16 +181,16 @@ path_t *path_new(room_t *dest, char *direction);
  */
 int path_free(path_t *path);
 
-/* Adds a list of conditions to the path struct
- * 
- * Parameters:
- *  pointer to the path struct
- *  list of conditions
- *
- * Returns:
- *  SUCCESS if successful
- */
-int path_new_conditions(path_t *path, list_action_type_t *act);
+// /* Adds a list of conditions to the path struct
+//  * 
+//  * Parameters:
+//  *  pointer to the path struct
+//  *  list of conditions
+//  *
+//  * Returns:
+//  *  SUCCESS if successful
+//  */
+// int path_new_conditions(path_t *path, list_action_type_t *act);
 
 
 /* Returns path given room and direction
@@ -239,17 +242,17 @@ item_t* get_item_in_room(room_t* room, char* item_id);
  */
 item_list_t *get_all_items_in_room(room_t *room);
 
-/*
- * Removes an action from list of conditions, called when action's completed
- * 
- * Parameters:
- * - path
- * - action_type_t: completed action that acts as condition for path
- *
- * Returns:
- * int SUCCESS when action's removed from linked list
- */
-int remove_condition(path_t *path, list_action_type_t *a);
+// /*
+//  * Removes an action from list of conditions, called when action's completed
+//  * 
+//  * Parameters:
+//  * - path
+//  * - action_type_t: completed action that acts as condition for path
+//  *
+//  * Returns:
+//  * int SUCCESS when action's removed from linked list
+//  */
+// int remove_condition(path_t *path, list_action_type_t *a);
 
 /* Deletes a hashtable of rooms
  * Implemented with macros provided by uthash.h
