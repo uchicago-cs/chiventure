@@ -12,14 +12,17 @@ assignment_inner: /[^\$\{\}]+?(?=("""|\{))/
 
 escaped_string_with_vars: "\"" (escaped_char|inner|var)+ "\""
 escaped_char: "\\" /./
-inner: /[^\{\}\"\\]+/ -> assignment_inner
+
+//doesn't match brackets (vars) or backslashes (escaped characters)
+inner.5: /[^\{\}\"\\]+/ -> assignment_inner
 
 var: "{" phrase "}"
 
 
 
-reference.5: "$" CNAME _replacement*
-_replacement.10: "{" keyval* "}"
+reference.5: "$" CNAME _replacement?
+_replacement.10: "{" _keyvals? "}"
+_keyvals: keyval ("," keyval)*
 
 keyval: CNAME ":" (phrase | ESCAPED_STRING)
 

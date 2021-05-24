@@ -94,9 +94,13 @@ class SimplifyTree(Transformer):
     """Extracts the string from a singleton list of tokens, and labels it as a string"""
     return ("string", str(s[0]))
   
-  # these functions return their input
-  escaped_string_with_vars = lambda _, x: x
+  # this functions return its input
   triple_quotes = lambda _, x: x
+  
+  def escaped_string_with_vars(self, s: list[tuple[str,str]]) -> list[tuple[str,str]]:
+    """Adds quotes around a template for an escaped string variable"""
+    quote_token = [("string", "\"")]
+    return quote_token + s + quote_token
 
   
   def CNAME(self, s: Token) -> str:
