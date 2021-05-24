@@ -202,7 +202,7 @@ int change_npc_health(npc_t *npc, int change, int max)
     {
         npc->npc_battle->health = 0;
     }
-    if ((npc->npc_battle->health + change) < max)
+    else if ((npc->npc_battle->health + change) < max)
     {
         npc->npc_battle->health += change;
     }
