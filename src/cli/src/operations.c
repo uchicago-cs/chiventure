@@ -539,6 +539,9 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     int rc;
+
+//  This line of code will replace get_npc once npc/room-integration is merged
+//  npc_t *npc = get_npc_in_room(ctx->game->curr_room->room_id, tokens[2]);
     npc_t *npc = get_npc(ctx->game, tokens[2]);
 
     if (npc == NULL)
