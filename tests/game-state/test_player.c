@@ -9,6 +9,7 @@
 #include "game-state/stats.h"
 #include "playerclass/class.h"
 #include "battle/battle_default_objects.h"
+#include "battle/battle_structs.h"
 
 /* Checks that player_new() properly mallocs and inits a new player struct */
 Test(player, new)

@@ -1,5 +1,6 @@
 #include "game-state/player.h"
 #include "game-state/item.h"
+#include "battle/battle_structs.h"
 
 /* See player.h */
 int player_set_race(player_t *plyr, char *player_race)
