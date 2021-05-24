@@ -49,12 +49,7 @@ turn_t goes_first(battle_t *b)
     return PLAYER;
 }
 
-/* This ensures that the user's inputted move exists. SHOULD HAVE NEW HEADER FILE THING MADE FOR THIS IT'S NOT THERE NOW
- * Parameters:
- *  ctx: main structure of the game
- * Returns:
- *  a pointer to the found move or NULL for no move 
- */ 
+/* see battle_logic.h */
 move_t *find_player_move(chiventure_ctx_battle_t *ctx, char *move_name)
 {
     move_t *temp;

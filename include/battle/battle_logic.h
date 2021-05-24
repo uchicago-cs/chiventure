@@ -42,11 +42,20 @@ turn_t goes_first(battle_t *b);
  * Finds the desired battle_item to be used
  * Parameters:
  *    inventory - a battle_player or enemy's inventory
- *    id - the id number of the desired battle_item
+ *    input - the char name of the desired battle_item
  * Returns:
- *    Returns a pointer to the desired battle_item 
+ *    Returns a pointer to the desired battle_item
  */
-battle_item_t *find_battle_item(battle_item_t *inventory, int id);
+battle_item_t *find_battle_item(battle_item_t *inventory, char *input);
+
+/* This ensures that the user's inputted move exists.
+ * Parameters:
+ *  ctx: main structure of the game
+ *  move_name: name of the desired move
+ * Returns:
+ *  a pointer to the found move or NULL for no move 
+ */ 
+move_t *find_player_move(chiventure_ctx_battle_t *ctx, char *move_name);
 
 /*
  * Consumes a battle_item for the said combatant
