@@ -30,7 +30,8 @@ typedef int mode_operation(char *str, cli_callback callback_func,
 /* An enumeration of game mode types */
 typedef enum mode_type {
     NORMAL,        //run chiventure as normal
-    CONVERSATION   //for conversations with NPCs
+    CONVERSATION,  //for conversations with NPCs
+    BATTLE         //for battles
 } mode_type_t;
 
 /* Mode data type */
