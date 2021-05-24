@@ -11,14 +11,48 @@ The goal of the openworld module is to implement a feature that allows automatic
 
 ### chiventure/include/openworld
 Interface of openworld module
-- [autogenerate.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/autogenerate.h) - Gathers room specifications from the default's and generates the room
+- [autogenerate.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/autogenerate.h) - Gathers room specifications from the defaults and generates the room
 - [default_items.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/default_items.h) - Contains a list of default items to be placed into the rooms during room generation
 - [default_rooms.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/default_rooms.h) - Contains a list of default rooms from which autogenerate pulls the room info from during room generation
-- [gen_structs.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/gen_structs.h) - Provides the structs that make generation work smoothly
+- [gen_structs.h](https://github.com/uchicago-cs/chiventure/blob/dev/include/openworld/gen_structs.h) - Provides the structs that make generation work smoothly:
+    - roomspec_t struct - Carries the necessary info for creating a room
+    typedef struct roomspec {
+        char *room_name;
+        char *short_desc;
+        char *long_desc;
+        int num_built;
+        item_hash_t *items;
+        UT_hash_handle hh;
+    } roomspec_t;
+    - speclist_t struct - Functions as a list of all the roomspec_t's
+    typedef struct speclist {
+        roomspec_t *spec;
+        struct speclist *prev;
+        struct speclist *next;
+    } speclist_t;
+    - gencontext_t struct - Carries the info for the generation algorithm
+    typedef struct gencontext {
+        path_t *open_paths;
+        int num_open_paths;
+        int level;
+        speclist_t *speclist;
+    } gencontext_t;
+    - roomlevel_t struct - Encode maps between difficulty/rooms needed for level-oriented generation
+    typedef struct roomlevel {
+        char *room_name;        
+        int difficulty_level;
+        UT_hash_handle hh;        
+    } roomlevel_t;
+    - levelspec_t struct - Carries all the info needed for level-oriented generatio
+    typedef struct levelspec {
+        roomlevel_t *roomlevels;
+        int num_thresholds;
+        int *thresholds;
+    } levelspec_t;
 
 ### chiventure/src/openworld
 Openworld source code
-- ./src
+- src/
     - [autogenerate.c](https://github.com/uchicago-cs/chiventure/blob/dev/src/openworld/src/autogenerate.c) - Implementation of autogenerate.h
     - [default_items.c](https://github.com/uchicago-cs/chiventure/blob/dev/src/openworld/src/default_items.c) - Implementation of default_items.h
     - [default_rooms.c](https://github.com/uchicago-cs/chiventure/blob/dev/src/openworld/src/default_rooms.c) - Implementation of default_rooms.h
