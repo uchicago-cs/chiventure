@@ -147,4 +147,6 @@ int enemy_make_move(chiventure_ctx_battle_t *ctx)
         ctx->status = BATTLE_VICTOR_ENEMY;
         return SUCCESS;
     }
+
+    return SUCCESS;
 }
