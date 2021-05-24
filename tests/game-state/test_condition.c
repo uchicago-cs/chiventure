@@ -43,10 +43,6 @@ Test(condition, new_inven_condition)
     cr_assert_not_null(condition->condition.inventory_type, "inventory_condition_new() failed to "
     "create the appropriate condition struct");
 
-<<<<<<< HEAD
-    cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condiiton_new() failed to "
-    "correctly mark condiiton as inventory");
-=======
     cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condition_new() failed to "
     "correctly mark condition as inventory");
 
@@ -128,7 +124,6 @@ Test(condition, free_condition_on_inven)
     cr_assert_not_null(item, "free_condition mistakingly freed item as well");
     cr_assert_not_null(player, "free_condition() mistakingly freed player as well");
 
->>>>>>> dev
     player_free(player);
     item_free(item);
     free(condition->condition.inventory_type);
