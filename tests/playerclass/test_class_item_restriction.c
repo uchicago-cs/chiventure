@@ -14,11 +14,11 @@ void check_add_restriction(item_t* item, class_t* class) {
     int SIR_check = add_item_restriction(item, class);
     bool GSA_val = false;
     for (int i = 0; i < class->num_parent_class; i++){
-        if (list_contains_attribute(item->class_restrictions, strndup(class->parent_class_names[i], 100))){
+        if (list_contains_attribute(item->class_restrictions, strndup(class->parent_class_names[i], 100))) {
             GSA_val = true;
         }
     }
-    if (list_contains_attribute(item->class_restrictions, strndup(class->name, 100))){
+    if (list_contains_attribute(item->class_restrictions, strndup(class->name, 100))) {
         GSA_val = true;
     }
 
