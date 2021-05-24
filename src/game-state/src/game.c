@@ -105,15 +105,17 @@ int add_quest_to_game(game_t *game, quest_t *quest)
 {
 	quest_t *check;
 
+	char buffer[MAX_ID_LEN];
+	sprintf(buffer, "%ld", quest->quest_id); //need to convert quest_ids to char *
 	
-	check = get_quest(game, quest->quest_id);
+	check = get_quest(game, buffer);
 
 	if (check != NULL) 
 	{
 		return FAILURE; //quest id is already in the hash table
 	}
 
-	HASH_ADD_KEYPTR(hh, game->all_quests, quest->quest_id,
+	HASH_ADD_KEYPTR(hh, game->all_quests, buffer,
 		            strlen(quest->quest_id, MAX_ID_LEN), quest);
 
 	return SUCCESS;
