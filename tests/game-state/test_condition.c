@@ -126,8 +126,6 @@ Test(condition, free_condition_on_inven)
 
     player_free(player);
     item_free(item);
-    free(condition->condition.inventory_type);
-    free(condition);
 }
 
 /* Tests free_condition on a level condition */
