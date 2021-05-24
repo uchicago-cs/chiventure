@@ -232,7 +232,6 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             printf("New HP is %d\n", player_stats->hp);
             printf("New Strength is %d\n", player_stats->strength);
             printf("New Defense is %d\n\n", player_stats->defense);
-            // return res;
         }
 
         res = enemy_make_move(ctx);
