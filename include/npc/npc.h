@@ -3,10 +3,11 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
-#include "npc/dialogue.h"
-#include "npc/npc_move.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
+#include "npc/dialogue.h"
+#include "npc/npc_battle.h"
+#include "npc/npc_move.h"
 
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
@@ -22,16 +23,11 @@ typedef struct npc {
     /* NPC identifier */
     char *npc_id;
 
-    /* short description of the npc, <51 chars */
+    /* short description of the NPC, <51 chars */
     char *short_desc;
 
-    /* long description of the npc, <301 chars */
+    /* long description of the NPC, <301 chars */
     char *long_desc;
-
-    /* the npcs class */
-    class_t *npc_class;
-
-    int health;
 
     /* pointer to an existing convo struct */
     convo_t *dialogue;
@@ -42,8 +38,14 @@ typedef struct npc {
     /* pointer to an existing class struct */
     class_t *class;
 
-    /*pointer to an exisitng npc_move struct */
+    /* pointer to an exisitng npc_move struct */
     npc_mov_t *movement;
+
+     /* boolean representing whether or not the NPC will engage in battles */
+    bool will_fight;
+
+    /* either NULL or a pointer to an existing npc_battle struct */
+    npc_battle_t *npc_battle;
 } npc_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
@@ -63,14 +65,19 @@ typedef struct npc npc_hash_t;
  *  npc_id: unique string ID of npc
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
- *  health: the starting health of the npc
- *  class: a pointer to an existing class_t struct defining the class of the npc
- *
+ *  dialogue: a pointer to an existing convo_t struct defining the npc's
+              conversations (see /include/npc/dialogue.h)
+ *  inventory: a pointer to an existing item_hash_t struct defining the npc's
+ *             inventory (see /include/game-state/item.h)
+ *  class: a pointer to an existing class_t struct defining the npc's class
+           (see /include/playerclass/class_structs.h)
+ *  will_fight: a boolean describing whether the npc will engage in battle
+ * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             int health, class_t *class, npc_mov_t *movement);
+             class_t *class, npc_mov_t *movement, bool will_fight);
 
 /*
  * Allocates a new npc in the heap.
@@ -79,14 +86,19 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  npc_id: unique string ID of npc
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
- *  health: the starting health of the npc
- *  class: a pointer to an existing class_t struct defining the class of the npc
+ *  dialogue: a pointer to an existing convo_t struct defining the npc's 
+              conversations (see /include/npc/dialogue.h)
+ *  inventory: a pointer to an existing item_hash_t struct defining the npc's
+ *             inventory (see /include/game-state/item.h)
+ *  class: a pointer to an existing class_t struct defining the npc's class
+           (see /include/playerclass/class_structs.h)
+ *  will_fight: a boolean describing whether the npc will engage in battle
  *
  * Returns:
  *  pointer to allocated npc
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               int health, class_t *class, npc_mov_t *movement);
+               class_t *class, npc_mov_t *movement, bool will_fight);
 
 /*
  * Frees resources associated with an npc.

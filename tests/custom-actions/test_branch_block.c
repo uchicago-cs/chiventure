@@ -56,13 +56,13 @@ Test(branch_block_t, new_EQ)
     branch_block_free(new_branch);
 }
 
-/* Checks that a new branch block with conditional type LTGT is created 
+/* Checks that a new branch block with conditional type LTB is created 
 without interruption */
-Test(branch_block_t, new_LTGT)
+Test(branch_block_t, new_LTB)
 {   
     int num_conditionals = 1;
     int num_controls = 1;
-    conditional_type_t conditional_type = LTGT;
+    conditional_type_t conditional_type = LTB;
     
     // allocates a new conditional block to nest within a branch block
     char *attr_name1 = "attribute1";
@@ -107,13 +107,13 @@ Test(branch_block_t, new_LTGT)
     branch_block_free(new_branch);
 }
 
-/* Checks that a new branch block with conditional type LTEGTE is created 
+/* Checks that a new branch block with conditional type LTEB is created 
 without interruption */
-Test(branch_block_t, new_LTEGTE)
+Test(branch_block_t, new_LTEB)
 {   
     int num_conditionals = 1;
     int num_controls = 1;
-    conditional_type_t conditional_type = LTEGTE;
+    conditional_type_t conditional_type = LTEB;
     
     // allocates a new conditional block to nest within a branch block
     char *attr_name1 = "attribute1";
@@ -264,13 +264,13 @@ Test(branch_block_t, new_AST_EQ)
     AST_block_free(new_ast);
 }
 
-/* Checks that a new AST branch block with conditional type LTGT is created 
+/* Checks that a new AST branch block with conditional type LTB is created 
 without interruption */
-Test(branch_block_t, new_AST_LTGT)
+Test(branch_block_t, new_AST_LTB)
 {
     int num_conditionals = 1;
     int num_controls = 1;
-    conditional_type_t conditional_type = LTGT;
+    conditional_type_t conditional_type = LTB;
     
     // allocates a new conditional block to be nested in the branch and AST blocks
     char *attr_name1 = "attribute1";
@@ -318,13 +318,13 @@ Test(branch_block_t, new_AST_LTGT)
     AST_block_free(new_ast);
 }
 
-/* Checks that a new AST branch block with conditional type LTEGTE is created 
+/* Checks that a new AST branch block with conditional type LTEB is created 
 without interruption */
-Test(branch_block_t, new_AST_LTEGTE)
+Test(branch_block_t, new_AST_LTEB)
 {
     int num_conditionals = 1;
     int num_controls = 1;
-    conditional_type_t conditional_type = LTEGTE;
+    conditional_type_t conditional_type = LTEB;
     
     // allocates a new conditional block to be nested in the branch and AST blocks
     char *attr_name1 = "attribute1";
@@ -476,15 +476,15 @@ Test(branch_block_t, init_EQ)
                 "branch.controls"); 
 }
 
-/* Checks that a new branch block with conditional type LTGT is initialized without 
+/* Checks that a new branch block with conditional type LTB is initialized without 
 interruption */
-Test(branch_block_t, init_LTGT)
+Test(branch_block_t, init_LTB)
 {
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
     int num_controls = 1;
-    conditional_type_t conditional_type = LTGT;
+    conditional_type_t conditional_type = LTB;
     
     // allocates a new conditional block to nest inside the branch block
     char *attr_name1 = "attribute1";
@@ -526,15 +526,15 @@ Test(branch_block_t, init_LTGT)
                 "branch.controls");
 }
 
-/* Checks that a new branch block with conditional type LTEGTE is initialized without 
+/* Checks that a new branch block with conditional type LTEB is initialized without 
 interruption */
-Test(branch_block_t, init_LTEGTE)
+Test(branch_block_t, init_LTEB)
 {
     branch_block_t branch;
     int rc;
     int num_conditionals = 1;
     int num_controls = 1;
-    conditional_type_t conditional_type = LTEGTE;
+    conditional_type_t conditional_type = LTEB;
     
     // allocates a new conditional block to nest inside the branch block
     char *attr_name1 = "attribute1";
@@ -670,15 +670,15 @@ Test(branch_block_t, free_EQ)
     cr_assert_eq(rc, SUCCESS, "branch_block_free() failed");
 }
 
-/* Checks that a new branch block with conditional type LTGT is freed without 
+/* Checks that a new branch block with conditional type LTB is freed without 
 interruption */
-Test(branch_block_t, free_LTGT)
+Test(branch_block_t, free_LTB)
 {
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
     int num_controls = 1;
-    conditional_type_t conditional_type = LTGT;
+    conditional_type_t conditional_type = LTB;
     
     // allocates a new conditional block to nest inside a branch block
     char *attr_name1 = "attribute1";
@@ -714,15 +714,15 @@ Test(branch_block_t, free_LTGT)
     cr_assert_eq(rc, SUCCESS, "branch_block_free() failed");
 }
      
-/* Checks that a new branch block with conditional type LTEGTE is freed without 
+/* Checks that a new branch block with conditional type LTEB is freed without 
 interruption */
-Test(branch_block_t, free_LTEGTE)
+Test(branch_block_t, free_LTEB)
 {
     branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
     int num_controls = 1;
-    conditional_type_t conditional_type = LTEGTE;
+    conditional_type_t conditional_type = LTEB;
     
     // allocates a new conditional block to nest inside a branch block
     char *attr_name1 = "attribute1";
