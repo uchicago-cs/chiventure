@@ -224,27 +224,10 @@ Test(game_player, get_player)
     game_free(game);
 }
 
-/* Checks that add_npc_to_game() adds an npc to the game's npc hash table */
-Test(game_npc, add_npc_to_game)
-{
-    game_t *game = game_new("Welcome to Chiventure!");
-    npc_t *npc = npc_new("TEST_NPC", "a test npc", "an npc for testing",
-                         10, NULL, NULL);
-    add_npc_to_game(game, npc);
-
-    cr_assert_not_null(npc, "test_npc not initialized");
-
-    npc_t *test = get_npc(game, "TEST_NPC");
-
-    int check = strncmp(npc->npc_id, npc->npc_id, MAX_ID_LEN);
-
-    cr_assert_not_null(test, "test_npc not found in game");
-    cr_assert_eq(check, 0, "get_npc found wrong npc");
-    game_free(game);
-}
-
-/* Checks that get_player() returns the desired player from the game struct */
-Test(game_npc, get_npc)
+/* Checks that add_npc_to_game() adds an npc to the game's npc hash table 
+ * Checks that get_npc() correctly finds an npc in game's npc hash table.
+ */
+Test(game_npc, add_and_get_npc)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     npc_t *npc = npc_new("TEST_NPC", "a test npc", "an npc for testing",
