@@ -9,6 +9,35 @@
 #include <stdio.h>
 #include "interface.h"
 
+/* PRIVATE HELPER FUNCTIONS */
+
+
+/* Given an branch block and its corresponding arguments, 
+ * attempt to execute the given block.
+ * 
+ * Parameters: 
+ * - block: A pointer to the branch block to be executed
+ * 
+ * Returns:
+ * - Integer of if the block being run was successful
+ */
+int do_branch_block(branch_block_t *block)
+{
+  //To be implemented in issue 1068
+  return 0;
+}
+
+// Interface-showing functions
+
+/* See interface.h */
+int do_custom_action(custom_action_t *action)
+{
+    if(action == NULL) return FAILURE;
+    return run_ast_block(action->head);
+}
+
+
+
 /*
  * A list of all custom actions. This is a placeholder which will eventually
  * be replaced by a list inside of game-state/game.h.
