@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "npc/npc.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
@@ -180,6 +181,7 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
 }
 
 /* See npc.h */
+<<<<<<< HEAD
 int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
                       difficulty_t ai, hostility_t hostility_level,
                       int surrender_level)
@@ -211,4 +213,15 @@ int change_npc_health(npc_t *npc, int change, int max)
         npc->npc_battle->health = max;
     }
     return npc->npc_battle->health;
+=======
+int delete_all_npcs(npc_hash_t *npcs)
+{
+    npc_t *current_npc, *tmp;
+    HASH_ITER(hh, npcs, current_npc, tmp)
+    {
+        HASH_DEL(npcs, current_npc);
+        npc_free(current_npc);
+    }
+    return SUCCESS;
+>>>>>>> dcf6d4c39f090eb6a35076d5b6dc8e5e8d35742c
 }

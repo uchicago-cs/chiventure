@@ -231,6 +231,7 @@ int remove_item_from_npc(npc_t *npc, item_t *item);
  */
 int add_convo_to_npc(npc_t *npc, convo_t *c); 
 
+<<<<<<< HEAD
 /*
  * Adds an npc_battle struct to a given npc.
  *
@@ -267,5 +268,21 @@ int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
  *  the npc's new health
  */
 int change_npc_health(npc_t *npc, int change, int max);
+=======
+
+// HASH TABLE FUNCTIONS ---------------------------------------------------
+
+/*
+ * Deletes and frees the elements of a hashtable of NPCs.
+ * Implemented with macros provided by uthash.h
+ * 
+ * Parameters:
+ *  npcs: a hashtable of npcs to be deleted
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int delete_all_npcs(npc_hash_t *npcs);
+>>>>>>> dcf6d4c39f090eb6a35076d5b6dc8e5e8d35742c
 
 #endif

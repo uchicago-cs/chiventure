@@ -68,6 +68,28 @@ int valid_inven_condition(game_t *game, inventory_condition_t *condition)
     return SUCCESS;
 }
 
+/* helper for valid_condition. Checks if the player actually exists within a
+ * game.
+ * 
+ * Parameters:
+ *  pointer to a game struct
+ *  pointer to a level condiiton to check
+ * 
+ * Returns:
+ *  SUCCESS if condition is valid
+ *  PLAYER_NULL if the player does not exist in the game or is null
+ */
+int valid_level_condition(game_t *game, level_condition_t *condition)
+{
+    player_t *check_player = get_player(game, condition->player_to_check->player_id);
+    if(check_player == NULL)
+    {
+        return PLAYER_NULL; // player not in game
+    }
+
+    return SUCCESS;
+}
+
 /* see condition.h */
 int valid_condition(game_t *game, condition_t *condition)
 {
@@ -81,6 +103,9 @@ int valid_condition(game_t *game, condition_t *condition)
         break;
     case (INVENTORY):
         return valid_inven_condition(game, condition->condition.inventory_type);
+        break;
+    case (LEVEL):
+        return valid_level_condition(game, condition->condition.level_type);
         break;
     default:
         // should never get to here
@@ -101,6 +126,9 @@ int free_condition(condition_t* condition)
         break;
     case (INVENTORY):
         free(condition->condition.inventory_type);
+        break;
+    case (LEVEL):
+        free(condition->condition.level_type);
         break;
     }
 
@@ -238,6 +266,40 @@ bool check_inventory_condition(inventory_condition_t *condition)
 }
 
 /* see game_action.h */
+condition_t *level_condition_new(player_t *player, int level_required)
+{
+    if (player == NULL)
+    {
+        return NULL;
+    }
+
+    level_condition_t *new_condition = malloc(sizeof(level_condition_t));
+    new_condition->player_to_check = player;
+    new_condition->level_required = level_required;
+
+    condition_t *condition_wrapper = calloc(1, sizeof(condition_t));
+    condition_wrapper->condition.level_type = new_condition;
+    condition_wrapper->condition_tag = LEVEL;
+
+    return condition_wrapper;
+}
+
+/* helper for check_condition. Checks if the player's level meets or exceeds
+ * the condition's required level
+ * 
+ * Parameters:
+ *  the level condition to check
+ * 
+ * Returns:
+ *  true if the player's level is greater than or equal to the
+ *  required level, false otherwise
+ */
+bool check_level_condition(level_condition_t *condition)
+{
+    return (get_level(condition->player_to_check) >= condition->level_required);
+}
+
+/* see game_action.h */
 bool check_condition(condition_t *condition)
 {
     switch (condition->condition_tag)
@@ -246,6 +308,8 @@ bool check_condition(condition_t *condition)
         return check_attribute_condition(condition->condition.attribute_type);
     case (INVENTORY):
         return check_inventory_condition(condition->condition.inventory_type);
+    case (LEVEL):
+        return check_level_condition(condition->condition.level_type);
     }
 }
 
