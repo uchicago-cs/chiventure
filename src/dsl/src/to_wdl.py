@@ -31,7 +31,22 @@ class Room:
     # dummy function
     # fixes/fills any parameters (long/short descriptions, etc, that are nonstandard)
     def generate_defaults(self):
-        return
+        if 'long desc' not in self.contents:
+            id = self.id or "room"
+            short = self.contents.get('short desc', '')
+            default = f"This is a {id}. {short}"
+            self.contents['long desc'] = f"{default}"
+            warn(f'''
+                missing: long description for {id}, 
+                generated default: {self.contents['long desc']}''')
+                
+        if 'short desc' not in self.contents:
+            default_id = self.id or "a room"
+            self.contents['short desc'] = f"{default_id}"
+            warn(f'''
+                missing: short description for {default_id}, 
+                generated default: {self.contents['short desc']}''')
+            
 
     # takes a dict of direction/destination pairs, converts to json
     def connections_list(self):
@@ -74,7 +89,21 @@ class Item:
     # dummy function
     # fixes/fills any parameters (long/short descriptions, etc, that are nonstandard)
     def generate_defaults(self):
-        return
+        if 'long desc' not in self.contents:
+            id = self.contents.get('id', "item")
+            short_desc = self.contents.get('short desc', '')
+            default = f"This is a {id}. {short_desc}"
+            self.contents['long desc'] = f"{default}"
+            warn(f'''
+                missing: long description for {id}, 
+                generated default: {self.contents['long desc']}''')
+                
+        if 'short desc' not in self.contents:
+            default_id = self.contents.get('id', "item") or "an item"
+            self.contents['short desc'] = f"{default_id}"
+            warn(f'''
+                missing: short description for {default_id}, 
+                generated default: {self.contents['short desc']}''')
 
     # to do: action conditions -- how?
     def actions_list(self):
@@ -117,7 +146,12 @@ class Game:
     # dummy function
     # fixes/fills any parameters (long/short descriptions, etc, that are nonstandard)
     def generate_defaults(self):
-        return
+        if 'intro' not in self.contents:
+            default = self.contents.get('start') or "room"
+            self.contents['intro'] = f"Welcome! You're in a {default}"
+            warn(f'''
+                missing: introduction for game, 
+                generated default: {self.contents['intro']}''')
 
 
 def parsed_dict_to_json(intermediate: dict) -> str:
