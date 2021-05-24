@@ -41,6 +41,9 @@ typedef struct roomspec {
     UT_hash_handle hh;
 } roomspec_t;
 
+/* to differentiate between pointers to structs (above) and hash tables (below) */
+typedef struct roomspec rspec_hash_t; 
+
 /* speclist_t struct
 * This struct functions as a llist of all the roomspec_t's
 * The struct contains:
@@ -69,7 +72,46 @@ typedef struct gencontext {
 } gencontext_t;
 
 
+/* -- structs for level oriented generation -- */
+
+/* encode maps between difficulty/rooms needed for level-oriented generation */
+typedef struct roomlevel
+{
+    /* name of the room, hash key */
+    char *room_name;        
+
+    /* difficulty level of the room, possible value starts at 0 */
+    int difficulty_level;       
+       
+    /* makes this structure hashable */
+    UT_hash_handle hh;        
+} roomlevel_t;
+
+/* to differentiate between pointers to structs (above) and hash tables (below) */
+typedef struct roomlevel roomlevel_hash_t; 
+
+
+/* levelspec struct
+ * This struct carries all the info needed for level-oriented generation */
+typedef struct levelspec {
+    /* An iterable hash table of roomlevels */
+    roomlevel_t *roomlevels;
+
+    /* number of player level thresholds */
+    int num_thresholds;
+
+    /* an array of player level thresholds;
+     * each threshold is an inclusive lowerbound to the difficulty level of that index
+     * e.g. {0, 5, 10}, 
+     * player_level 0 to 4 is in level 0; player_level 5-9 is in level 1 etc. */  
+    int *thresholds;
+} levelspec_t;
+
+
+
+
 /* -- FUNCTIONS -- */
+
 
 
 /* GENCONTEXT */
@@ -79,7 +121,7 @@ typedef struct gencontext {
 * must be pointing to some valid memory.
 *
 * parameters:
-i* - context: the gencontext* struct that we are initializing.
+* - context: the gencontext* struct that we are initializing.
 * - level: stores the players level.
 * - openpaths: number of open paths to generate in the room
 * - numnpcs: the number of npcs to generate in the room
@@ -194,7 +236,7 @@ int init_speclist(speclist_t *list, roomspec_t *spec);
 speclist_t* speclist_new(roomspec_t *spec);
 
 /* speclist_free
-* Free's a speclist_t struct and returns whether or not it was successful
+* Frees a speclist_t struct and returns whether or not it was successful
 *
 * parameters:
 * - list: the pointer to the speclist_t we are freeing
@@ -206,7 +248,7 @@ speclist_t* speclist_new(roomspec_t *spec);
 int speclist_free(speclist_t *list);
 
 /* speclist_free_all
-* Free's all speclist's from the given list
+* Frees all speclist's from the given list
 * However, this function will not free the roomspec's inside of speclist
 *
 * parameters:
@@ -217,5 +259,126 @@ int speclist_free(speclist_t *list);
 * FAILURE - if failed to free
 */
 int speclist_free_all(speclist_t *list);
+
+
+
+/* roomlevel */
+
+/* init_roomlevel
+ * Initializes a roomlevel_t struct with the given paramaters. The roomlevel_t
+ * must be pointing to some valid memory.
+ *
+ * Parameters:
+ * - map: the pointer to the roomlevel_t we are initializing
+ * - room_name: the room name
+ * - difficulty_level: difficulty level of the room
+ *
+ * Returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to initialize
+ */
+int init_roomlevel(roomlevel_t *map, char *room_name, int difficulty_level);
+
+
+/* roomlevel_new
+ * Creates a roomlevel_t struct with the given paramaters.
+ *
+ * Parameters:
+ * - room_name: the room name
+ * - difficulty_level: difficulty level of the room
+ *
+ * Returns:
+ * roomlevel_t *map - the new roomlevel_t
+ * NULL - if failed to create a roomlevel_t
+ */
+roomlevel_t* roomlevel_new(char *room_name, int difficulty_level);
+
+
+/* roomlevel_free
+ * Frees a roomlevel_t struct and returns whether or not it was successful
+ *
+ * Parameters:
+ * - map: the pointer to the roomlevel_t we are freeing
+ *
+ * Returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to free
+ */
+int roomlevel_free(roomlevel_t *map);
+
+
+/* add_roomlevel_to_hash
+ * Add a room name of a difficulty level
+ * to the hash table of room names 
+ * 
+ * Parameters:
+ * - roomlevels: pointer to the room hash table
+ * - name: a room name
+ * - difficulty_level: difficulty_level
+ *
+ * Side effects:
+ * - If (and only if) the name is not already in use in the hash,
+ *   hashes a roomlevel_t of given name/level to the table. Otherwise,
+ *   return FAILURE.
+ * 
+ * Returns:
+ * SUCCESS - successfully added room
+ * FAILURE - failed to add room
+ */
+int add_roomlevel_to_hash(roomlevel_t **roomlevels, char *name, int difficulty_level);
+
+/* Should add a delete_roomlevel_from_hash() function */
+
+
+
+/* LEVELSPEC */
+
+/* init_levelspec
+ * Initializes a levelspec_t struct with the given player level threshold info. 
+ * The levelspec_t must be pointing to some valid memory.
+ * NOTE: Does not affect roomlevels hash. Must use add_roomlevel_to_hash() to alter this field.
+ *
+ * Parameters:
+ * - levelspec: the pointer to the levelspec_t we are initializing
+ * - num_thresholds: the number of player level thresholds
+ * - thresholds: the integer array of player level thresholds
+ *
+ * Returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to initialize
+ */
+int init_levelspec(levelspec_t *levelspec, int num_thresholds, int *thresholds);
+
+
+/* levelspec_new
+ * Creates a levelspec_t struct with the given player level threshold info. 
+ * The levelspec_t must be pointing to some valid memory.
+ * NOTE: Initializes the roomlevels to NULL. Must use add_roomlevel_to_hash() to alter this field.
+ *
+ * Parameters:
+ * - num_thresholds: the number of player level thresholds
+ * - thresholds: the integer array of player level thresholds
+ *
+ * Returns:
+ * - the new levelspec (success)
+ * - NULL (failure)
+ */
+levelspec_t *levelspec_new(int num_thresholds, int *thresholds);
+
+
+
+/* levelspec_free
+ * Frees a levelspec_t struct and returns whether or not it was successful
+ * NOTE: Frees roomlevels hash table and its contents.
+ *
+ * Parameters:
+ * - levelspec: the pointer to the levelspec_t we are freeing
+ *
+ * Returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to free
+ */
+int levelspec_free(levelspec_t *levelspec);
+
 
 #endif

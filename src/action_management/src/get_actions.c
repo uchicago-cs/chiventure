@@ -48,3 +48,19 @@ list_action_type_t *get_supported_actions()
     }
     return temp;
 }
+
+void free_supported_actions(list_action_type_t* head)
+{
+    list_action_type_t *del, *temp;
+    del = head;
+    for(int i = 1; i <= NUM_ACTIONS; i++)
+    {
+        temp = del;
+                
+        if(i != NUM_ACTIONS)
+            del = del->next;
+
+        free(temp->act);
+        free(temp);
+    }
+}

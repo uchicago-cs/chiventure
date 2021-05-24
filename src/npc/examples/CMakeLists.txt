@@ -1,10 +1,13 @@
-set(NPC_EXAMPLES dialogue_example npc_example)
+set(NPC_EXAMPLES dialogue_example npc_example conversation_mode_example)
 
 add_executable(dialogue_example
                dialogue_example.c)
 
 add_executable(npc_example
                npc_example.c)
+
+add_executable(conversation_mode_example
+               conversation_mode_example.c)
 
 # Link with chiventure libraries
 foreach(example ${NPC_EXAMPLES})

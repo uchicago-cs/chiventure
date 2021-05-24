@@ -29,7 +29,7 @@ int path_new_conditions(path_t *path, list_action_type_t *act)
 int path_free(path_t *path)
 {
     free(path->direction);
-    // delete_all_conditions(path->conditions);
+    
     free(path);
     //will need to free item associated with path
     return SUCCESS;
