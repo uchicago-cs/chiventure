@@ -156,7 +156,6 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
  * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
  * - CONDITIONS_NOT_MET if the action can't be done on the NPC, failure string as an out parameter
  */
- */
 int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_string);
 
 /* A function that executes KIND 5 actions (ACTION <npc> <item>)
@@ -172,7 +171,6 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
  * - 0 upon success, success string as an out parameter
  * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
  * - CONDITIONS_NOT_MET if the action can't be done on the NPC, failure string as an out parameter
- */
  */
 int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, item_t *i, char **ret_string);
 
