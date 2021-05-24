@@ -57,7 +57,7 @@ Test (npcs_in_room, free)
 Test (npcs_in_room, add_npc_to_room)
 {
     char *npc_id = "npc_test";
-    npc_t *npc = npc_new(npc_id, "test npc", "test npc", 100, NULL, NULL);
+    npc_t *npc = npc_new(npc_id, "test npc", "test npc", NULL, NULL, false);
     npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
     int num_of_npcs_initial = npcs_in_room->num_of_npcs;
 
@@ -119,13 +119,13 @@ Test (npcs_in_room, npcs_in_room_get_number)
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
     char *npc_id1 = "test_npc1";
-    npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc", 100, NULL, NULL);
+    npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc", NULL, NULL, false);
     int added_npc1 = add_npc_to_room(npcs_in_room,test_npc1);
 
     cr_assert_eq(added_npc1, SUCCESS, "add_npc_to_room() failed");
 
     char *npc_id2 = "test_npc2";
-    npc_t *test_npc2 = npc_new(npc_id2, "test npc", "test npc", 100, NULL, NULL);
+    npc_t *test_npc2 = npc_new(npc_id2, "test npc", "test npc", NULL, NULL, false);
     int added_npc2 = add_npc_to_room(npcs_in_room,test_npc2);
 
     cr_assert_eq(added_npc2, SUCCESS, "add_npc_to_room() failed");
