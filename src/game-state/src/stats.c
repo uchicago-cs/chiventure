@@ -199,7 +199,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
        return FAILURE;
     }
     
-    int changed_stat = curr->val + change;
+    double changed_stat = curr->val + change;
 
     if ((changed_stat > curr->global->max) || (changed_stat > curr->max)) {
         curr->val = curr->max;
@@ -207,7 +207,7 @@ int change_stat(stats_hash_t *sh, char *stat, double change)
         curr->val = changed_stat;
     }
 
-   return 0;
+   return SUCCESS;
 }
 
 /* See stats.h */
