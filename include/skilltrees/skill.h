@@ -74,7 +74,8 @@ int skill_free(skill_t* skill);
 int skill_execute(skill_t* skill);
 
 /*
- * Levels up a skill
+ * Levels up a skill and exponentially increments the min_xp required for 
+ * the next level
  *
  * Parameters:
  *  - skill: A skill.
@@ -85,6 +86,7 @@ int skill_execute(skill_t* skill);
  * -1 if leveling up failed, such as invalid parameters for instance.
  */
 int skill_level_up(skill_t* skill);
+
 
 /*
  * Increments a skill's xp, leveling up when necessary.

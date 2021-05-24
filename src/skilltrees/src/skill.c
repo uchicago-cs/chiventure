@@ -108,11 +108,14 @@ int skill_execute(skill_t* skill)
 /* See skill.h */
 int skill_level_up(skill_t* skill) {
     assert(skill != NULL);
-    if (skill->max_level == skill->level) {
+    unsigned int level = skill->level;
+    unsigned int min_xp = skill->min_xp;
+    if (skill->max_level == level) {
         // Maximum level already achieved.
         return 1;
     }
-    skill->level += 1;
+    level += 1;
+    min_xp = min_xp^level; 
     return 0;
 }
 
