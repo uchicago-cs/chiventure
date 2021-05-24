@@ -5,7 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
-#include "quests_structs.h"
+#include "quests/quests_structs.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
