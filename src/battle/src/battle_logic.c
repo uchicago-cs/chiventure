@@ -92,7 +92,7 @@ int use_battle_item(combatant_t *c, battle_t *battle, int id)
     if(item->is_weapon)
     {
         consume_battle_item(battle->enemy, item);
-        item->durablity -= 10;
+        item->durability -= 10;
     }else
     {
         consume_battle_item(c, item);

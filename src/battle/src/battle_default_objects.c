@@ -25,11 +25,11 @@ battle_item_t *get_random_default_weapon()
     int rand = randnum(1, 6); 
     char* name_array[]= {"SWORD", "HAMMER", "SLIME", "SLEEPING GAS", "SQUID INK", "LAUGHING GAS"};
     char* description_array[] = {"Reduces enemy's HP by 20", "Reduces enemy's HP by 10", 
-                                 "Reduces enemy's ATTACK by 5 ", "Reduces enemy's ATTACK by 10",
+                                 "Reduces enemy's ATTACK by 5", "Reduces enemy's ATTACK by 10",
                                  "Reduces enemy's DEFENSE by 10", "Reduces enemy's DEFENSE by 15"};
     int hp_array[] = {-20, -10, 0, 0, 0, 0};
-    int attack_array[] = {0, 0, -5, -10, 0, 0};
-    int defense_array[] = {0, 0, 0, 0, -10, -15};
+    int attack_array[] = {-30, -20, 0, 0, 0, 0};
+    int defense_array[] = {0, 0, -2, -5, -10, -15};
     int durability_array[] = {100, 80, 60, 40, 30, 20};
 
     rv_weapon->id = rand;
@@ -73,7 +73,6 @@ battle_item_t *get_random_default_consumable()
 
     rv_item->id = rand;
     rv_item->is_weapon = false;
-    rv_item->effectiveness_decrement = 0;
     rv_item->quantity = randnum(1, 3);
     rv_item->durability = 0; 
 
