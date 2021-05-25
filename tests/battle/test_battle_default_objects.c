@@ -4,7 +4,6 @@
 #include <string.h>
 #include "battle/battle_default_objects.h"
 
-
 Test(battle_default_objects, default_consumables)
 {
     battle_item_t *test_item = get_random_default_consumable();
