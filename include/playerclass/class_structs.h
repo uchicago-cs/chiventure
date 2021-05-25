@@ -6,6 +6,7 @@
 #define CLASS_STRUCTS_H
 
 #include "common/utlist.h"
+#include "skilltrees/inventory.h"
 #include "skilltrees/skilltree.h"
 #include "game-state/stats.h"
 #include "libobj/obj.h"
@@ -24,6 +25,12 @@
 typedef struct class {
     // Name of the class
     char* name;
+
+    // Number of parent classes
+    int num_parent_class;
+
+    // All base classes that have been multiclassed into
+    char **parent_class_names;
 
     // A short description of the class
     char* shortdesc;
@@ -60,4 +67,3 @@ typedef struct class {
 } class_t;
 
 #endif /* CLASS_STRUCTS_H */
-
