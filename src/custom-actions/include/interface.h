@@ -1,6 +1,8 @@
 #ifndef INCLUDE_INTERFACE_H_
 #define INCLUDE_INTERFACE_H_
 
+#include "custom-actions-cond.h"
+#include "custom-actions-common.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include "ast_block.h"
@@ -11,6 +13,21 @@
 #include "common/uthash.h"
 #include "custom_action.h"
 #include "libobj/obj.h"
+
+/* 
+ * Given a custom action and its corresponding arguments, 
+ * attempt to execute the given action.
+ * 
+ * Parameters: 
+ * - action: A pointer to the custom action to be executed (most likely
+ *   acquired from search_for_custom_action)
+ * 
+ * Returns:
+ * - SUCCESS on successful execution
+ * - FAILURE if any one of the blocks fails to execute
+ */
+int do_custom_action(custom_action_t *action);
+
 
 /* 
  * Search for a custom action by name

@@ -153,7 +153,7 @@ int add_item_to_player(player_t *player, item_t *item)
     }
 
     rc = add_item_to_hash(&(player->inventory), item);
-    
+
     return rc;
 }
 

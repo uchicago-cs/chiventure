@@ -10,18 +10,18 @@
 ## Data Structures
 ```
 class_t struct
-    char* Name
-    char* Short Description
-    char* Long Description
-    obj_t* Array of attributes
-    stats_hash_t* Base Stats
-    effects_hash_t* Stat Effects
-    skilltree_t* Skilltree
-    skill_inventory_t* Starting Skills
-    UT_hash_handle Field Used by UTHASH Macros
+    - char* Name
+    - int num_parent_class;
+    - char** parent_class_names;
+    - char* Short Description
+    - char* Long Description
+    - obj_t* Array of attributes
+    - stats_hash_t* Base Stats
+    - effects_hash_t* Stat Effects
+    - skilltree_t* Skilltree
+    - skill_inventory_t* Starting_skills
+    - UT_hash_handle Field Used by UTHASH Macros
 ```
-
-## Modules
 
 ### Class
 _The Class module provides basic functions for working with classes._
@@ -31,6 +31,9 @@ Create a new playerclass:
 
 Initialize values inside the playerclass:
 - `class_t* class_init(class_t* class, char* name, char* shortdesc, char* longdesc, obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);`
+
+Combine two playerclasses (multiclass)
+- `class_t* = multiclass(class_t* base_class, class_t* second_class, char* name);`
 
 Free a playerclass:
 - `void class_free(class_t* c);`
