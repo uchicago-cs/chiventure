@@ -554,7 +554,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "This person has nothing to say.";
     }
 
-    char *str = start_conversation(npc->dialogue, &rc);
+    char *str = start_conversation(npc->dialogue, &rc, ctx->game);
 
     assert(rc != -1); //checking for conversation error
 
