@@ -7,6 +7,7 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_structs.h"
+#include "npc/npc.h"
 
 
 class_t *make_wizard()
@@ -178,7 +179,7 @@ Test(battle_flow, return_success_battle_flow)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
+    npc_t *npc_enemy = npc_new("Enemy", NULL,NULL, make_wizard(),NULL, True);
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
