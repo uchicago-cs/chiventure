@@ -92,8 +92,8 @@
     },
     "NPCS": {
         "TEST_NPC": {
-            "short_desc": "This is a npc",
-            "long_desc": "This is a npc long",
+            "short_desc": "This is the first NPC.",
+            "long_desc": "He has an item for you.",
             "in": "room_A",
             "inventory": [
                 {
@@ -130,6 +130,20 @@
                         ]
                     }
                 ]
+            }
+        }, 
+        "TEST_NPC_2": {
+            "short_desc": "This is the second NPC.",
+            "long_desc": "He wants to talk to you.",
+            "in": "room_B",
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "D1"
+                    }
+                ]
+                "edges": []
             }
         }
     }
