@@ -143,6 +143,8 @@ void list_print(obj_t *ls, void(*print)(obj_t*));
  */
 int game_type_check(obj_t *obj);
 
+int class_type_check(obj_t *obj);
+
 int room_type_check(obj_t *obj);
 
 int item_type_check(obj_t *obj);

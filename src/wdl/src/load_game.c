@@ -5,7 +5,11 @@
 #include "wdl/load_game.h"
 #include "wdl/load_room.h"
 #include "wdl/load_item.h"
+<<<<<<< HEAD
 #include "wdl/load_npc.h"
+=======
+#include "wdl/load_class.h"
+>>>>>>> dev
 #include "wdl/validate.h"
 #include "game-state/mode.h"
 
@@ -43,6 +47,13 @@ game_t *load_game(obj_t *obj_store)
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Error loading NPCs.\n");
+        return NULL;
+    }
+
+    rc = load_classes(obj_store, game);
+    if(rc != SUCCESS)
+    {
+        fprintf(stderr, "Error loading classes.\n");
         return NULL;
     }
 
