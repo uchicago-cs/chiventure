@@ -52,7 +52,7 @@ typedef struct attribute attribute_hash_t;
 typedef struct game_action game_action_hash_t;
 
 typedef struct item {
-    UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
+    UT_hash_handle hh; // makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
     char *item_id;
     char *short_desc;
     char *long_desc;
@@ -147,6 +147,16 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item);
  */ 
 item_list_t *get_all_items_in_hash(item_hash_t **ht);
 
+/* Function to get an item from an item hashtable
+ *
+ * Parameters:
+ *  pointer to hashtable of items
+ *  id of the item
+ *
+ * Returns:
+ *  pointer to the item, or NULL if it does not exist
+ */ 
+item_t *get_item_in_hash(item_hash_t *ht, char *id);
 
 /* Removes an item from a hashtable of items
  * Note that the memory associated with this item is not freed
