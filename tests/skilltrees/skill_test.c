@@ -87,7 +87,7 @@ Test(skill_tests, skill_execute_test)
 */
 /* Main function to test skill_level_up. */
 
-void check_level_up(skill_t* skill, bool expected) 
+void check_level_up(skill_t* skill, int expected) 
 {
 cr_assert_eq(skill_level_up(skill), expected, "Error: failed test skill_level_up_test");
 }
@@ -112,7 +112,7 @@ Test(skill_tests, skill_level_up_1) {
 
 Test(skill_tests, skill_level_up_minus_1) {
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      -1, 5, effect_defuse_bomb);
+      0, 5, effect_defuse_bomb);
     check_level_up(skill, -1);
 }
 

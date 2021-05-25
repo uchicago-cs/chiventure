@@ -17,14 +17,14 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
     skill_t* skill;
     int rc;
 
-    skill = (skill_t*)malloc(sizeof(skill_t));
-    if (skill == NULL) {
-        fprintf(stderr, "skill_new: memory allocation failed\n");
+    if (max_level == 0) {
+        fprintf(stderr, "skill_new: max_level is invalid\n");
         return NULL;
     }
 
-    if (max_level <= 0) {
-        fprintf(stderr, "skill_new: max_level is invalid\n");
+    skill = (skill_t*)malloc(sizeof(skill_t));
+    if (skill == NULL) {
+        fprintf(stderr, "skill_new: memory allocation failed\n");
         return NULL;
     }
 
