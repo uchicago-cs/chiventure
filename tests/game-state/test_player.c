@@ -754,14 +754,12 @@ Test(player, add_move_existing_list)
 
     move_t *old_move = get_random_default_move();
     move_t *new_move = get_random_default_move();
-    battle_item_t *item = get_random_default_consumable();
     
     // The following two lines were from when this code was in battle_move_maker.
     //  Leaving it just in case it is helpful later.
     // stat_t *cstats = get_random_stat();
     // combatant_t *player = combatant_new("TESTER", true, NULL, cstats, old_move, item, 0);
     player_t *player = player_new("TESTER");
-    add_item_to_player(player, item);
     add_move(player, old_move);
 
     int res = add_move(player,new_move);
