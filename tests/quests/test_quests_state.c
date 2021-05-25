@@ -70,9 +70,9 @@ Test(achievement, init)
     "test item for item_new()");
     mission_t *mission = mission_new(item_to_get, NULL);
 
-    achievement_t *achievement = achievement_new(mission);
+    achievement_t *achievement = achievement_new(mission, "test1");
 
-	int check = achievement_init(achievement, mission);
+	int check = achievement_init(achievement, mission, "test2");
 
     cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item",
                      "achievement_init did not set mission name");
@@ -105,7 +105,7 @@ Test(achievement, new)
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     mission_t *mission = mission_new(item_to_get, NULL);
-	achievement_t* achievement = achievement_new(mission);
+	achievement_t* achievement = achievement_new(mission, "test3");
 
 	cr_assert_not_null(achievement, "achievement_new() test has failed!");
     cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item", 
@@ -140,7 +140,7 @@ Test(achievement, free)
     "test item for item_new()");
     mission_t *mission = mission_new(item_to_get, NULL);
 
-	achievement_t* achievement_to_free = achievement_new(mission);
+	achievement_t* achievement_to_free = achievement_new(mission, "test4");
 
 	cr_assert_not_null(achievement_to_free, "achievement_free(): room is null");
 
@@ -259,7 +259,7 @@ Test(quest, complete_achievement)
     cr_assert_str_eq(mission_check->npc_to_meet->npc_id, "mission_npc",
                     "complete_achievement() did not check the correct npc");
 
-    cr_assert_eq(quest->achievement_list->achievement->completed, 1,
+    cr_assert_eq(quest->achievement_tree->achievement->completed, 1,
                 "complete_achivement() did not complete the achievement");
 }
 
