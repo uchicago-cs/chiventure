@@ -206,3 +206,135 @@ Test(AST_block_t, free_CONDITIONAL)
 
     cr_assert_eq(rc, SUCCESS, "AST_block_free() failed");
 }
+
+
+/* Checks that run AST block functions correctly for action blocks */
+Test(AST_block_t, run_block_action)
+{
+  attribute_t *attr1, *attr2;
+  attribute_value_t val1, val2;
+  char *attr_name = "attr";
+  attr1 = malloc(sizeof(attribute_t));
+  attr1->attribute_key = strdup(attr_name);
+  attr1->attribute_tag = INTEGER;
+  val1.int_val = 5;
+  attr1->attribute_value = val1;
+
+  attr2 = malloc(sizeof(attribute_t));
+  attr2->attribute_key = strdup(attr_name);
+  attr2->attribute_tag = INTEGER;
+  val2.int_val = 10;
+  attr2->attribute_value = val2;
+
+  attribute_t **args = (attribute_t**) malloc(sizeof(attribute_t*) * 2);
+  args[0] = attr1;
+  args[1] = attr2;
+
+  
+  AST_block_t* new_ast = AST_action_block_new(SET, 2, args);
+
+  cr_assert_not_null(new_ast, "AST_block_new failed");
+
+  int rc = run_ast_block(new_ast);
+
+  cr_assert_eq(rc, SUCCESS, "run_ast_block failed");
+
+  cr_assert_eq(attr1->attribute_value.int_val, 10, "Run command failed to properly run an AST action block");
+
+  attribute_free(attr1);
+  attribute_free(attr2);
+  AST_block_free(new_ast);
+}
+
+
+/* Checks running an AST conditional block */
+Test(AST_block_t, run_block_conditional)
+{
+  attribute_t *attr1, *attr2;
+  attribute_value_t val1, val2;
+  char *attr_name = "attr";
+  attr1 = malloc(sizeof(attribute_t));
+  attr1->attribute_key = strdup(attr_name);
+  attr1->attribute_tag = INTEGER;
+  val1.int_val = 5;
+  attr1->attribute_value = val1;
+
+  attr2 = malloc(sizeof(attribute_t));
+  attr2->attribute_key = strdup(attr_name);
+  attr2->attribute_tag = INTEGER;
+  val2.int_val = 10;
+  attr2->attribute_value = val2;
+  
+  AST_block_t* new_ast = AST_conditional_block_new(EQ, attr1, attr2);
+  cr_assert_not_null(new_ast, "AST_conditional_block_new failed");
+
+  int rc = run_ast_block(new_ast);
+  cr_assert_eq(rc, FAILURE, "Running did not properly fail when called on a conditional block");
+  AST_block_free(new_ast);
+  attribute_free(attr1);
+  attribute_free(attr2);
+}
+
+/* Checks running an AST control block */
+Test(AST_block_t, run_block_control)
+{
+  AST_block_t* new_ast = AST_control_block_new(IFELSE);
+  cr_assert_not_null(new_ast, "AST_control_block_new failed");
+  
+  int rc = run_ast_block(new_ast);
+  cr_assert_eq(rc, FAILURE, "Running did not properly fail when called on a control block");
+  AST_block_free(new_ast);
+ 
+}
+
+/* Branch blocks are currently not implemented, so there is currently no test */
+
+/* Checks that run_ast_block correctly runs multiple blocks */
+Test(AST_block_t, run_multiple_actions)
+{
+  attribute_t *attr1, *attr2, *attr3;
+  attribute_value_t val1, val2, val3;
+  char *attr_name = "attr";
+  attr1 = malloc(sizeof(attribute_t));
+  attr1->attribute_key = strdup(attr_name);
+  attr1->attribute_tag = INTEGER;
+  val1.int_val = 5;
+  attr1->attribute_value = val1;
+
+  attr2 = malloc(sizeof(attribute_t));
+  attr2->attribute_key = strdup(attr_name);
+  attr2->attribute_tag = INTEGER;
+  val2.int_val = 10;
+  attr2->attribute_value = val2;
+  
+  attr3 = malloc(sizeof(attribute_t));
+  attr3->attribute_key = strdup(attr_name);
+  attr3->attribute_tag = INTEGER;
+  val3.int_val = 15;
+  attr3->attribute_value = val3;
+  
+  attribute_t **args = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+  args[0] = attr1;
+  args[1] = attr2;
+  args[2] = attr3;
+
+  
+  AST_block_t* new_ast = AST_action_block_new(ADDITION, 3, args);
+  AST_block_t* next = AST_action_block_new(MULTIPLY, 3, args);
+  
+  cr_assert_not_null(new_ast, "AST_block_new failed for new_ast");
+  cr_assert_not_null(next, "AST_block_new failed for next");
+
+  new_ast->next = next;
+
+  int rc = run_ast_block(new_ast);
+
+  cr_assert_eq(rc, SUCCESS, "run_ast_block failed");
+
+  cr_assert_eq(attr3->attribute_value.int_val, 50, "The final evaluate made was not the multiply action block");
+
+  attribute_free(attr1);
+  attribute_free(attr2);
+  attribute_free(attr3);
+  AST_block_free(new_ast);
+}

@@ -116,7 +116,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     }
 
     int end_convo;
-    char *outstring = run_conversation_step(npc->dialogue, option, &end_convo);
+    char *outstring = run_conversation_step(npc->dialogue, option, &end_convo, ctx->game);
 
     assert(end_convo != -1); //checking for conversation error
 
