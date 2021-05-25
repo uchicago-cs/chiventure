@@ -41,13 +41,13 @@ int init_itemspec(itemspec_t *itemspec, char *item_name, double spawn_chance,
 itemspec_t *itemspec_new(char *item_name, double spawn_chance, 
                          unsigned int min_num, unsigned int max_num)
 {
-    itemspec_t *rv = calloc(1, sizeof (itemspec_t));
+    itemspec_t *rv = calloc(1, sizeof(itemspec_t));
     if (rv == NULL) {
         fprintf(stderr, "calloc failed to allocate space for itemspec_new\n");
         return NULL;
     }
 
-    rv->item_name = calloc(1, sizeof(MAX_SDESC_LEN + 1));
+    rv->item_name = malloc((MAX_SDESC_LEN + 1) * sizeof(char));
     if (rv->item_name == NULL) {
         fprintf(stderr, "calloc failed to allocate space for itemspec->item_name\n");
         itemspec_free(rv);

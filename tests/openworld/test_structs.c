@@ -193,7 +193,7 @@ Test(roomlevel, init)
     if (!roomlevel) { 
         printf("failed to calloc for roomlevel\n");
     }
-    roomlevel->room_name = calloc(1, sizeof(roomlevel_t) * MAX_SDESC_LEN);
+    roomlevel->room_name = calloc(1, sizeof(char) * MAX_SDESC_LEN);
     if (!(roomlevel->room_name)) { 
         printf("failed to calloc for roomlevel->room_name\n");
     }
@@ -309,40 +309,91 @@ Test(levelspec, free)
 }
 
 
-/* Tests that the itemspec_new function can
-   create an itemspec with given params. */
-Test(itemspec, new)
-{
-
-}
 
 /* Tests that the init_itemspec function can
-   initialize a given itemspec with given params. */
-Test(itemspec, init)
+ * initialize a given itemspec given valid params. */
+Test(itemspec, init_success)
 {
-    
+    itemspec_t *itemspec = calloc(1, sizeof(itemspec_t));
+    if (itemspec == NULL) 
+    { 
+        printf("failed to allocate memory for itemspec\n");
+    }
+
+    itemspec->item_name = malloc((MAX_SDESC_LEN + 1) * sizeof(char));
+    if (itemspec->item_name == NULL) 
+    { 
+        printf("failed to allocate memory for itemspec->item_name\n");
+    }
+
+    int check = init_itemspec(itemspec, "item_name", 0.5, 1, 3);
+    cr_assert_eq(check, SUCCESS, "failed to initialize itemspec");
 }
 
-/* Tests that the itemspec_free function can 
-   free a given itemspec successfully. */
-Test(itemspec, free)
-{
-    
-}
-
-/* Tests that the itemspec_new function returns NULL
-   when any param requirement is violated. */
-Test(itemspec, new_fail)
-{
-    // 1. when max_num < min_num
-    // 2. when spawn_chance < 0 or > 1 
-}
 
 /* Tests that the init_itemspec function returns FAILURE
-   when any param requirement is violated. */
+ * when any param requirement is violated. */
 Test(itemspec, init_fail)
 {
-    // 1. when max_num < min_num
-    // 2. when spawn_chance < 0 or > 1   
-    // 3. when given itemspec is NULL
+    int check;
+    
+    itemspec_t *itemspec = NULL;
+
+    check = init_itemspec(itemspec, "item_name", 0.5, 1, 3);
+    cr_assert_eq(check, FAILURE, "init should fail when itemspec is NULL");
+
+    itemspec = calloc(1, sizeof(itemspec_t));
+    if (itemspec == NULL) 
+    { 
+        printf("failed to allocate memory for itemspec\n");
+    }
+
+    itemspec->item_name = malloc((MAX_SDESC_LEN + 1) * sizeof(char));
+    if (itemspec->item_name == NULL) 
+    { 
+        printf("failed to allocate memory for itemspec->item_name\n");
+    }
+
+    check = init_itemspec(itemspec, "item_name", 1.5, 1, 3);
+    cr_assert_eq(check, FAILURE, "init should fail when spawn_chance is invalid");
+    
+    check = init_itemspec(itemspec, "item_name", 0.5, 3, 1);
+    cr_assert_eq(check, FAILURE, "init should fail when min_num > max_num");
 }
+
+
+/* Tests that the itemspec_new function can
+ * create an itemspec given valid params. */
+Test(itemspec, new_success)
+{
+    itemspec_t *itemspec = itemspec_new("item_name", 0.5, 1, 3);
+
+    cr_assert_not_null(itemspec, "failed to create new itemspec_t\n");
+}
+
+
+/* Tests that the itemspec_new function returns NULL
+ * when any param requirement is violated. */
+Test(itemspec, new_fail)
+{
+    itemspec_t *itemspec1 = itemspec_new("item1_name", 1.5, 1, 3);
+    cr_assert_null(itemspec1, "new itemspec should be NULL when spawn_chance is invalid");
+    
+    itemspec_t *itemspec2 = itemspec_new("item2_name", 0.5, 3, 1);
+    cr_assert_null(itemspec2, "new itemspec should be NULL when min_num > max_num");
+}
+
+
+/* Tests that the itemspec_free function can 
+ * free a given itemspec successfully. */
+Test(itemspec, free)
+{
+    itemspec_t *itemspec = itemspec_new("item_name", 0.5, 1, 3);
+
+    cr_assert_not_null(itemspec, "failed to create new itemspec_t\n");
+
+    int check = itemspec_free(itemspec);
+
+    cr_assert_eq(check, SUCCESS, "failed to free an itemspec_t\n");
+}
+
