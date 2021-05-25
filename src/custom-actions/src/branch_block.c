@@ -132,10 +132,10 @@ int do_branch_block(branch_block_t *block)
     switch (block->control_type)
     {
         case IFELSE:
-	    if (block->num_conditionals > block->num_actions || block->num_conditionals + 1 < block->num_actions)
-	    {
-	        return FAILURE; //All conditions must have actions
-	    }
+            if (block->num_conditionals > block->num_actions || block->num_conditionals + 1 < block->num_actions)
+            {
+                return FAILURE; //All conditions must have actions
+            }
             for (int i = 0; i < block->num_conditionals; i++)
             {
 	        if (eval_conditional_block(block->conditionals[i]) == 0)
@@ -143,11 +143,11 @@ int do_branch_block(branch_block_t *block)
 		    return run_ast_block(block->actions[i]);
                 }
             }
-	    if (block->num_actions > block->num_conditionals)
+            if (block->num_actions > block->num_conditionals)
             {
                 return run_ast_block(block->actions[block->num_actions - 1]);
             }
-	    return SUCCESS;
+            return SUCCESS;
         case FORENDFOR:
         case WHILEENDWHILE:
 	    if(block->num_conditionals > 2 || block->num_actions != 1)
