@@ -14,6 +14,7 @@ PROPERTY_ALIASES = {
 }
 ACTION_ALIASES = {
     "success": "text_success",
+    "failure": "text_fail",
     "fail": "text_fail"
 }
 
