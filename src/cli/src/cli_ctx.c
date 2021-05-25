@@ -21,6 +21,12 @@ cli_ctx_t *cli_ctx_new()
 
 int free_cli_ctx(cli_ctx_t *cli_ctx)
 {
-
-    return 0;
+    if(cli_ctx == NULL || cli_ctx->command_history == NULL)
+    {
+        return SUCCESS;
+    }
+    free(cli_ctx);
+    return SUCCESS;
 }
+
+
