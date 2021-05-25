@@ -5,11 +5,8 @@
 #include "wdl/load_game.h"
 #include "wdl/load_room.h"
 #include "wdl/load_item.h"
-<<<<<<< HEAD
 #include "wdl/load_npc.h"
-=======
 #include "wdl/load_class.h"
->>>>>>> dev
 #include "wdl/validate.h"
 #include "game-state/mode.h"
 
@@ -27,7 +24,6 @@ game_t *load_game(obj_t *obj_store)
         fprintf(stderr, "Error adding rooms to game.\n");
         return NULL;
     }
-
 
     rc = add_connections_to_rooms(obj_store, game);
     if(rc != SUCCESS)

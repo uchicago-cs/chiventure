@@ -168,6 +168,11 @@ item_hash_t *get_npc_inv_hash(npc_t *npc);
  */
 item_list_t *get_npc_inv_list(npc_t *npc);
 
+/*
+ *
+ */
+bool item_in_npc_inventory(npc_t *npc, char *item_id);
+
 
 // "SET" FUNCTIONS ------------------------------------------------------------
 

@@ -53,6 +53,11 @@ typedef struct game_action game_action_hash_t;
 
 typedef struct item {
     UT_hash_handle hh; // makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
+    UT_hash_handle hh_secondary; // NOTE: This secondary hash handle makes it
+                                 //       possible for an item to belong to two
+                                 //       hash tables. For instance, game->all_items
+                                 //       and player->inventory. hh_secondary will
+                                 //       exclusively be used for game->all_items.
     char *item_id;
     char *short_desc;
     char *long_desc;
@@ -136,6 +141,11 @@ char *get_ldesc_item(item_t *item);
  *  SUCCESS if successful, FAILURE if failed
  */ 
 int add_item_to_hash(item_hash_t **ht, item_t *new_item);
+
+/*
+ *
+ */
+int add_item_to_secondary_hash(item_hash_t **ht, item_t *new_item);
 
 /* Function to get a linked list (utlist) of all the items in a hashtable
  *

@@ -121,6 +121,17 @@ item_list_t *get_npc_inv_list(npc_t *npc)
     return head;
 }
 
+/* See npc.h */
+bool item_in_npc_inventory(npc_t *npc, char *item_id)
+{
+    item_t *check;
+    HASH_FIND(hh, npc->inventory, item_id, strnlen(item_id, MAX_ID_LEN), check);
+    if (check != NULL){
+        return true;
+    }
+    return false;
+}
+
 // "SET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
 int change_npc_health(npc_t *npc, int change, int max)

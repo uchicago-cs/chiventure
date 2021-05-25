@@ -66,7 +66,7 @@ int add_item_to_game(game_t *game, item_t *item)
 {
     int rc;
     
-    rc = add_item_to_hash(&(game->all_items), item);
+    rc = add_item_to_secondary_hash(&(game->all_items), item);
     
     return rc;
 }
@@ -234,7 +234,8 @@ room_t *find_room_from_game(game_t *game, char* room_id)
 item_t *get_item_from_game(game_t *game, char *item_id)
 {
     item_t *i;
-    HASH_FIND(hh, game->all_items, item_id, strnlen(item_id, MAX_ID_LEN), i);
+    HASH_FIND(hh_secondary, game->all_items, item_id,
+              strnlen(item_id, MAX_ID_LEN), i);
     return i;
 }
 
@@ -272,14 +273,35 @@ int move_room(game_t *game, room_t *new_room)
     return SUCCESS;
 }
 
+/*
+ *
+ */
+// int delete_all_items_secondary(item_hash_t *all_items)
+// {
+//     item_t *current_item, *tmp;
+//     HASH_ITER(hh_secondary, all_items, current_item, tmp)
+//     {
+//       	item_t* iter = current_item;
+
+//         while(iter != NULL)
+//         {
+//             current_item = iter;
+//             iter = current_item->next;
+
+//             HASH_DEL(all_items, current_item);
+//         }
+//     }
+//     return SUCCESS;
+// }
+
 /* See game.h */
 int game_free(game_t *game)
 {
+    // delete_all_items_secondary(game->all_items);
     delete_all_rooms(game->all_rooms);
     delete_all_players(game->all_players);
     delete_all_npcs(game->all_npcs);
     delete_condition_llist(game->end_conditions);
-    delete_all_items(&(game->all_items));
     game_mode_free(game->mode);
     free(game->start_desc);
     free(game);

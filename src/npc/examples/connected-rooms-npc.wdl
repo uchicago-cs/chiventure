@@ -82,19 +82,35 @@
                     "text_fail": "You cannot take this table"
                 }
             ]
+        },
+        "DIALOGUE_ITEM": {
+            "short_desc": "dialogue item",
+            "long_desc": "dialogue item long",
+            "in": "npc",
+            "actions": []
         }
     },
     "NPCS": {
         "TEST_NPC": {
             "short_desc": "This is a npc",
             "long_desc": "This is a npc long",
-            "health": 100,
             "in": "room_A",
+            "inventory": [
+                {
+                    "item_id": "DIALOGUE_ITEM"
+                }
+            ],
             "dialogue": {
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "D1"
+                        "npc_dialogue": "D1",
+                        "actions": [
+                            {
+                                "action": "GIVE_ITEM",
+                                "action_id": "DIALOGUE_ITEM"
+                            }
+                        ]
                     },
                     {
                         "id": "2",
@@ -105,7 +121,13 @@
                     {
                         "quip": "Q1",
                         "from_id": "1",
-                        "to_id": "2"
+                        "to_id": "2",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "DIALOGUE_ITEM"
+                            }
+                        ]
                     }
                 ]
             }

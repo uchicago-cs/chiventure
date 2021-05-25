@@ -372,9 +372,18 @@ int npc_type_check(obj_t *obj)
     // fields to verify
     int short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
-    int health = (obj_get_type(obj, "health") == TYPE_INT);
+    int dialogue = (obj_get_type(obj, "dialogue") != TYPE_ERROR);
 
-    return !(short_ver && long_ver && health);
+    return !(short_ver && long_ver && dialogue);
+}
+
+/* See validate.h */
+int inventory_type_check(obj_t *obj)
+{
+    // fields to verify
+    int item_id = (obj_get_type(obj, "item_id") == TYPE_STR);
+
+    return !(item_id);
 }
 
 /* See validate.h */
@@ -407,6 +416,15 @@ int dialogue_type_check(obj_t *obj)
     }
 
     return !(id && npc_dialogue && quip && from_id && to_id);
+}
+
+int node_action_type_check(obj_t *obj)
+{
+    // fields to verify
+    int action = (obj_get_type(obj, "action") == TYPE_STR);
+    int action_id = (obj_get_type(obj, "action_id") == TYPE_STR);
+
+    return !(action && action_id);
 }
 
 
