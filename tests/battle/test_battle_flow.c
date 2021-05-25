@@ -53,8 +53,8 @@ Test(battle_flow, set_one_enemy)
                                     "Charismatic, always has a joke or song ready",
                                      NULL, NULL, NULL);
 
-    npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name",
-                                            test_class, NULL, NULL, NULL, BATTLE_AI_GREEDY);
+   // npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name",
+     //                                       test_class, NULL, NULL, NULL, BATTLE_AI_GREEDY);
 
     npc_t *npc_enemy = npc_new("enemy_name", NULL, NULL, test_class, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_GREEDY, HOSTILE, 0);
