@@ -5,12 +5,12 @@
 #include "quests/quests_state.h"
 
 /* Refer to quests_state.h */
-passive_mission_t *passive_mission_new(int *xp, int *levels, int *health)
+passive_mission_t *passive_mission_new(int xp, int levels, int health)
 {
-    passive_mission_t *mission = malloc(sizeof(pasive_mission_t));
+    passive_mission_t *mission = malloc(sizeof(passive_mission_t));
     int rc;
 
-    rc = passive_mission_init(xp, levels, health);
+    rc = passive_mission_init(mission, xp, levels, health);
 
     if (rc != SUCCESS)
     {
@@ -24,7 +24,7 @@ passive_mission_t *passive_mission_new(int *xp, int *levels, int *health)
 active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
                               npc_t *npc_to_kill, room_t *room_to_visit)
 {
-    mission_t *mission = malloc(sizeof(mission_t));
+    active_mission_t *mission = malloc(sizeof(active_mission_t));
     int rc;
 
     rc = active_mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
@@ -41,7 +41,7 @@ active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet
 /* Refer to quests_state.h */
 reward_t *reward_new(int xp, item_t *item)
 {
-    reward_t *rewards = malloc(sizeof(rewards_t));
+    reward_t *rewards = malloc(sizeof(reward_t));
     int rc;
 
     rc = reward_init(rewards, xp, item);
@@ -109,7 +109,7 @@ quest_t *quest_new(long quest_id, achievement_tree_t *achievement_tree,
 }
 
 /* Refer to quests_state.h */
-int passive_mission_init(passive_mission_t *mission, int *xp, int *levels, int *health)
+int passive_mission_init(passive_mission_t *mission, int xp, int levels, int health)
 {
     assert(mission != NULL);
 
@@ -135,7 +135,7 @@ int active_mission_init(active_mission_t *mission, item_t *item_to_collect,
 }
 
 /* Refer to quests_state.h */
-int reward_init(reward_t *rewards, int xp, item *item)
+int reward_init(reward_t *rewards, int xp, item_t *item)
 {
     assert(rewards != NULL);
 
@@ -146,11 +146,11 @@ int reward_init(reward_t *rewards, int xp, item *item)
 }
 
 /* Refer to quests_state.h */
-int stat_req_init(stat_req_t *stat_req, int xp, int level)
+int stat_req_init(stat_req_t *stat_req, int hp, int level)
 {
     assert(stat_req != NULL);
 
-    stat_req->xp = xp;
+    stat_req->hp = hp;
     stat_req->level = level;
 
     return SUCCESS;
@@ -188,9 +188,7 @@ int passive_mission_free(passive_mission_t *mission)
 {
     assert(mission != NULL);
 
-    free(mission->xp);
-    free(mission->levels);
-    free(mission->health);
+    free(mission);
 
     return SUCCESS;
 }
@@ -243,9 +241,9 @@ int can_start_quest(quest_t *quest, player_t *player)
 }
 
 /* Refer to quests_state.h */
-int compare_quests(quest_t *quest1, quest_t *quest2)
+int compare_achievements(achievement_t *a1, achievement_t *a2)
 {
-    if (strcmp(quest1->id, quest2->id) == 0)
+    if (strcmp(a1->id, a2->id) == 0)
     {
         return 0;
     } 
@@ -267,8 +265,8 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id) {
 
     assert(tree != NULL);
 
-    achievment_tree_t *cur = malloc(sizeof(achievement_tree_t));
-    cur = quest->achievement_tree_t;
+    achievement_tree_t *cur = malloc(sizeof(achievement_tree_t));
+    cur = tree;
 
     while(cur = get_bottom_node(cur)){
         if(!(strcmp(cur->achievement->id, id))){
@@ -299,14 +297,14 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, 
 	quest->achievement_tree = tree;
 	return SUCCESS;
     }
-    tree = find_achievement_tree(quest->achievement_tree, parent_id);
+    tree = find_parent(quest->achievement_tree, parent_id);
     assert(tree != NULL);
 
     if (tree->lmostchild->achievement == NULL)
     {
         tree->lmostchild = malloc(sizeof(achievement_tree_t));
         tree->lmostchild->achievement = achievement_to_add;
-        tree->lmostchild->parent = find_achievement_tree(quest->achievement_tree, parent_id);
+        tree->lmostchild->parent = find_parent(quest->achievement_tree, parent_id);
     }
     else
     {
@@ -316,7 +314,7 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, 
         }
         tree->rsibling = malloc(sizeof(achievement_tree_t));
         tree->rsibling->achievement = achievement_to_add;
-        tree->rsibling->parent = find_achievement_tree(quest->achievement_tree, parent_id);
+        tree->rsibling->parent = find_parent(quest->achievement_tree, parent_id);
     }
 
     return SUCCESS;
@@ -385,8 +383,8 @@ int complete_achievement(quest_t *quest, char *id)
 int is_quest_completed(quest_t *quest)
 {
     assert (quest != NULL);
-    achievment_tree_t *tmp = malloc(sizeof(achievement_tree_t));
-    tmp = quest->achievement_tree_t;
+    achievement_tree_t *tmp = malloc(sizeof(achievement_tree_t));
+    tmp = quest->achievement_tree;
     
     while(tmp = get_bottom_node(tmp)){
         if(tmp->achievement->completed == 1){
@@ -409,7 +407,7 @@ int get_quest_status(quest_t *quest)
 }
 
 /* Refer quests_state.h */
-item_t *complete_quest(quest_t *quest)
+reward_t *complete_quest(quest_t *quest)
 {
     if (get_quest_status(quest) == 2)
         return quest->reward;
