@@ -9,7 +9,6 @@ int start_battle(chiventure_ctx_battle_t *ctx, npc_t *npc_enemy, environment_t e
 {
     battle_game_t *g = ctx->game;
     battle_player_t *player = g->player;
-
     // Set battle_player, enemies, and battle structs for a new battle
     battle_t *b = set_battle(player, npc_enemy, env);
 
@@ -55,9 +54,8 @@ combatant_t *set_enemy(npc_t *npc_enemy)
     move_t *moves = npc_enemy->npc_battle->moves;
     battle_item_t *items = NULL; // TODO: extract battle_item_t from npc's inventory
     difficulty_t ai = npc_enemy->npc_battle->ai;
-
+    
     comb_enemy = combatant_new(name, is_friendly, c_type, stats, moves, items, ai);
-
     assert(comb_enemy != NULL);
 
     return comb_enemy;
@@ -70,8 +68,14 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy, environment_
     combatant_t *comb_enemies = set_enemy(npc_enemy);
 
     /* Builds a move list using player class module */
-    build_moves(comb_player);
-    build_moves(comb_enemies); // This will have to be updated if multiple enemies are added
+    if (comb_player->moves == NULL)
+    {
+        build_moves(comb_player);
+    }
+    if (comb_enemies->moves == NULL)
+    {
+        build_moves(comb_enemies); // This will have to be updated if multiple enemies are added
+    }
     
     turn_t turn = PLAYER;
 

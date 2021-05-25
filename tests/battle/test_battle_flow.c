@@ -10,11 +10,11 @@
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
 
-
 class_t *make_wizard()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
+
 /* Tests set_battle_player() */
 Test(battle_flow, set_battle_player)
 {
@@ -54,11 +54,10 @@ Test(battle_flow, set_one_enemy)
                                     "Charismatic, always has a joke or song ready",
                                      NULL, NULL, NULL);
 
-   // npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name",
-     //                                       test_class, NULL, NULL, NULL, BATTLE_AI_GREEDY);
-
-    npc_t *npc_enemy = npc_new("enemy_name", NULL, NULL, test_class, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_GREEDY, HOSTILE, 0);
+    move_t *move = move_new("Test", 0, NULL, true, 80, 0);
+    stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
+    npc_t *npc_enemy = npc_new("enemy_name", "Enemy!", "Enemy!", test_class, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
 
     combatant_t *comb_enemy = set_enemy(npc_enemy);
@@ -68,7 +67,7 @@ Test(battle_flow, set_one_enemy)
     cr_assert_eq(comb_enemy->is_friendly, false, "set_enemies() didn't set type");
     cr_assert_eq(comb_enemy->ai, BATTLE_AI_GREEDY, "set_enemies() didn't set ai");
     cr_assert_eq(comb_enemy->next, NULL, "set_enemies() didn't set next");
-    cr_assert_not_null(comb_enemy->prev, "set_enemies() didn't set prev");
+    cr_assert_eq(comb_enemy->prev, NULL, "set_enemies() didn't set prev");
 
     cr_assert_str_eq(comb_enemy->class_type->name, "Bard",
                      "set_player() didn't set class name");
@@ -82,46 +81,14 @@ Test(battle_flow, set_one_enemy)
     cr_assert_null(comb_enemy->class_type->base_stats, "set_player() didn't set class stats");
 }
 
-
-/* Tests set_enemies() with 2 enemies -- FUNCTIONALITY NEEDS TO BE IMPLEMENTED */
-// Test(battle_flow, set_two_enemies)
-// {
-//     npc_enemy_t *head = NULL;
-//     npc_enemy_t *e1 = make_npc_enemy("enemy_name", NULL, NULL, NULL, NULL, BATTLE_AI_GREEDY);
-//     npc_enemy_t *e2 = make_npc_enemy("enemy_name2", NULL, NULL, NULL, NULL, BATTLE_AI_RANDOM);
-//     DL_APPEND(head, e1);
-//     DL_APPEND(head, e2);
-//     cr_assert_not_null(e1, "make_npc_enemy() failed");
-//     cr_assert_not_null(e2, "make_npc_enemy() failed");
-
-//     // Check first enemy
-//     combatant_t *comb_enemy1 = set_enemies(head);
-
-//     cr_assert_not_null(comb_enemy1, "set_enemies() failed");
-//     cr_assert_str_eq(comb_enemy1->name, "enemy_name", "set_enemies() didn't set name");
-//     cr_assert_eq(comb_enemy1->is_friendly, false, "set_enemies() didn't set type");
-//     cr_assert_eq(comb_enemy1->ai, BATTLE_AI_GREEDY, "set_enemies() didn't set first ai");
-//     cr_assert_not_null(comb_enemy1->next, "set_enemies() didn't set next");
-//     cr_assert_not_null(comb_enemy1->prev, "set_enemies() didn't set prev");
-
-//     // Check second enemy
-//     combatant_t *comb_enemy2 = comb_enemy1->next;
-
-//     cr_assert_not_null(comb_enemy2, "set_enemies() failed");
-//     cr_assert_str_eq(comb_enemy2->name, "enemy_name2", "set_enemies() didn't set name");
-//     cr_assert_eq(comb_enemy2->is_friendly, false, "set_enemies() didn't set type");
-//     cr_assert_eq(comb_enemy2->ai, BATTLE_AI_RANDOM, "set_enemies() didn't set second type");
-//     cr_assert_eq(comb_enemy2->next, NULL, "set_enemies() didn't set next");
-//     cr_assert_not_null(comb_enemy2->prev, "set_enemies() didn't set prev");
-// }
-
 /* Tests set_battle() */
 Test(battle_flow, set_battle)
 {
     battle_player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
-   // npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
-    npc_t *npc_enemy = npc_new("set_battle_Name", NULL, NULL, NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    move_t *move = move_new("Test", 0, NULL, true, 80, 0);
+    stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
+    npc_t *npc_enemy = npc_new("set_battle_Name", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_DESERT;
@@ -139,7 +106,7 @@ Test(battle_flow, set_battle)
     cr_assert_str_eq(b->enemy->name, "set_battle_Name", "set_battle() didn't set name");
     cr_assert_eq(b->enemy->is_friendly, false, "set_battle() didn't set type");
     cr_assert_eq(b->enemy->next, NULL,"set_battle() didn't set next");
-    cr_assert_not_null(b->enemy->prev, "set_battle() didn't set prev");
+    cr_assert_eq(b->enemy->prev, NULL, "set_battle() didn't set prev");
 
     // Check environment field
     cr_assert_eq(b->environment, ENV_DESERT, "set_battle() didn't set next");
@@ -157,16 +124,16 @@ Test(battle_flow, start_battle)
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
- //   npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
-    npc_t *npc_enemy = npc_new("start_battle_Name", NULL, NULL, NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    move_t *move = move_new("Test", 0, NULL, true, 80, 0);
+    stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
+    npc_t *npc_enemy = npc_new("start_battle_Name", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_SNOW;
 
     int rc = start_battle(ctx, npc_enemy, env);
 
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
-
 }
 
 /* this tests to see if it returns a ctx_battle */
@@ -191,8 +158,9 @@ Test(battle_flow, return_success_battle_flow)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    npc_t *npc_enemy = npc_new("sucess_Name", NULL, NULL, NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
+    npc_t *npc_enemy = npc_new("Enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, estats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 
@@ -228,8 +196,9 @@ Test(battle_flow, do_damage_battle_flow)
     estats->defense = 20;
     estats->level = 5;
     estats->strength = 150;
-    npc_t *npc_enemy = npc_new("do_damage_Name", NULL, NULL, NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
+    npc_t *npc_enemy = npc_new("Enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
@@ -286,8 +255,9 @@ Test(battle_flow, battle_over_by_player)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    npc_t *npc_enemy = npc_new("player_wins_Name", NULL, NULL, NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
+    npc_t *npc_enemy = npc_new("Enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
@@ -346,8 +316,9 @@ Test(battle_flow, battle_over_by_enemy)
     estats->level = 1;
     estats->strength = 200;
     estats->defense = 30;
-    npc_t *npc_enemy = npc_new("enemy_wins_Name", NULL, NULL, NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
+    npc_t *npc_enemy = npc_new("Enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 
