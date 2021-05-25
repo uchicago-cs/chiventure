@@ -6,6 +6,7 @@
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
+#include "cli/parser.h"
 
 /* === hashtable helper constructors === */
 
@@ -142,7 +143,7 @@ int lookup_t_free(lookup_t **t)
 /* === command constructors  === */
 
 /* See cmd.h */
-cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE])
+cmd *cmd_new(tokenized_cmds* tokens)
 {
     cmd *c;
     int rc;
@@ -164,7 +165,7 @@ cmd *cmd_new(char *tokens[TOKEN_LIST_SIZE])
 }
 
 /*See cmd.h*/
-int cmd_init(cmd *c, char *tokens[TOKEN_LIST_SIZE])
+int cmd_init(cmd *c, tokenized_cmds* tokens)
 {
     assert( c != NULL);
 
@@ -194,7 +195,7 @@ char *cmd_name_tos(cmd *c)
     {
         return "ERROR";
     }
-    return c->tokens[0];
+    return c->tokens->cmds;
 }
 
 /* See cmd.h */
@@ -221,7 +222,7 @@ void cmd_show(cmd *c, chiventure_ctx_t *ctx)
 /* === command parsing === */
 
 /* See cmd.h */
-cmd *cmd_from_tokens(char **ts, lookup_t **table)
+cmd *cmd_from_tokens(tokenized_cmds* ts, lookup_t **table)
 {
     cmd *output = assign_action(ts, table);
     return output;
@@ -230,13 +231,26 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 /* See cmd.h */
 cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
-    char **parsed_input = parse(s);
-    if(parsed_input == NULL)
+   /* tokenized_cmds* temp;
+    tokenized_cmds* parsed_cmds = parse(s);
+    LL_FOREACH(parsed_cmds,temp){
+        cmd *c = cmd_from_tokens(temp->cmds, ctx);*/
+    
+    if (s != NULL) 
+    {
+        command_list_t *new_command = new_command_list(s);
+        LL_APPEND(ctx->command_history, new_command);
+    }
+    
+    tokenized_cmds* parsed_input = parse(s);
+    if (parsed_input == NULL)
     {
         return NULL;
     }
+    
     lookup_t **table = ctx->table;
     return cmd_from_tokens(parsed_input, table);
+    
 }
 
 /* =================================== */

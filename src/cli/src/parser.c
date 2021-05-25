@@ -92,8 +92,9 @@ tokenized_cmds *parse_r(char *input)
     }
     return head;
 }
+
 /* See parser.h */
-char **parse(char *input)
+tokenized_cmds *parse(char *input)
 {
     if(strcmp(input, "") == 0)
     {
@@ -110,30 +111,16 @@ char **parse(char *input)
         input[i] = ch;
         i++;
     }
-
-    char **words;
-    words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
-
-    //Initializes all words to NULL
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+    tokenized_cmds *sub_head = NULL;
+    char *sub_token = strtok(token, " ");
+    while(sub_token != NULL) 
     {
-        words[i] = NULL;
-    }
+        tokenized_cmds *sub_new_thing = malloc(sizeof(tokenized_cmds));
+        sub_new_thing->cmds = sub_token;
+        sub_new_thing->next = NULL;
+        LL_APPEND(sub_head, sub_new_thing);
+        sub_token = strtok(NULL, " ");
 
-    char *token = strtok(input, " ");
-
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
-    {
-        words[i] = token;
-        token = strtok(NULL, " ");
-    }
-
-    //If there are more than 4 words, parser returns NULL and does not attempt
-    //to pass the first four words as tokens
-    if(token != NULL)
-    {
-        return NULL;
-    }
-
-    return words;
+    }  
+    
 }
