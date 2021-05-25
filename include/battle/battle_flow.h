@@ -61,7 +61,7 @@ combatant_t *set_enemy(npc_t *npc_enemy);
  *
  * Parameters:
  *  - ctx_player = pointer to battle_player_t battle_player in battle_game_t struct
- *  - npc_enemies = pointer to list of enemy/ies (NPC enemy stub)
+ *  - npc_enemy = pointer to the npc enemy
  *  - env = the environment for the battle
  *
  * Returns:
