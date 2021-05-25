@@ -6,6 +6,7 @@
 #include "battle/battle_state.h"
 #include "battle/battle_structs.h"
 #include "battle/battle_common.h"
+#include "battle/battle_flow_structs.h"
 
 /*
  * Checks the targets of a move to see if they exist and are targetable

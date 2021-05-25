@@ -70,14 +70,11 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies,
                       environment_t env);
 
 /*
- * Carries out one iteration of the battle flow loop
+ * Carries out one iteration of the battle flow loop when a move is used
  *     This includes:
  *         - receiving battle_player's move
  *         - handling battle_player's move
- *         - choosing enemy move      (skip if invalid battle_player move)
- *         - handling enemy's move    (skip if invalid battle_player move)
- *         - check battle status      (skip if invalid battle_player move)
- *         - return modified battle struct to custom actions
+ *     
  *
  * Parameters:
  *  - ctx: current chiventure battle context
@@ -89,10 +86,27 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies,
  *    variable within the ctx_battle will as seen fit
  *    aka whether it is in progress or if there was a victor
  */
-int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
+int battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
 
 /*
- * Helper function for battle_flow
+ * Carries out one iteration of the battle flow loop when an item is used
+ *     This includes:
+ *         - receiving battle_player's item
+ *         - handling using the item and the changes associated with it
+ *
+ * Parameters:
+ *  - ctx: current chiventure battle context
+ *  - item: pointer to the battle_player's item
+ *
+ * Returns:
+ *  - Success or failure and modifies the status
+ *    variable within the ctx_battle will as seen fit
+ *    aka whether it is in progress or if there was a victor
+ */
+int battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item);
+
+/*
+ * Helper function for battle_flow functions
  * Allows the enemy to make their move
  * This includes:
  *      - choosing the enemy's move (if available)

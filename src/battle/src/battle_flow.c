@@ -84,7 +84,7 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies, envi
 }
 
 /* see battle_flow.h */
-int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
+int battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 {
     battle_t *b = ctx->game->battle;
 
@@ -125,6 +125,33 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
 
     return res;
 }
+
+int battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item)
+{
+    battle_t *b = ctx->game->battle;
+
+    if (ctx == NULL)
+    {
+        return FAILURE;
+    }
+    if (item == NULL){
+        return FAILURE;
+    }
+    if (item->quantity <= 0){
+        return FAILURE;
+    }
+
+    int usage = use_battle_item(ctx->game->battle->player, item->id));
+    if (usage == FAILURE) 
+    {
+        return FAILURE;
+    } 
+
+    int res = enemy_make_move(ctx);
+
+    return res;
+}
+
 
 /* see battle_flow.h */
 int enemy_make_move(chiventure_ctx_battle_t *ctx) 
