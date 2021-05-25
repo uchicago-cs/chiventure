@@ -5,12 +5,13 @@
 #include "game-state/item.h"
 #include "ast_block.h"
 
+
 /* Checks that a new branch block with conditional type EQ is created 
 without interruption */
-Test(branch_block_t, new_EQ)
+Test(branch_block_t, new)
 {
     int num_conditionals = 1;
-    int num_controls = 1;
+    int num_actions = 1;
     conditional_type_t conditional_type = EQ;
     
     // allocates a new conditional block to nest within a branch block
@@ -22,782 +23,198 @@ Test(branch_block_t, new_EQ)
     attribute_t *left = malloc(sizeof(attribute_t));
     UT_hash_handle hh = hh;
     left->hh = hh;
-    left->attribute_key = attr_name1;
+    left->attribute_key = strdup(attr_name1);
     left->attribute_tag = attribute_tag;
     left->attribute_value = attribute_value;
     attribute_t *right = malloc(sizeof(attribute_t));
     right->hh = hh;
-    right->attribute_key = attr_name2;
+    right->attribute_key = strdup(attr_name2);
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     
     // allocates a new control block to nest within a branch block
     control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-
+    action_enum_t action_type = SET;
+    AST_block_t* actions  = AST_action_block_new(action_type, num_actions, &left);
+    cr_assert_not_null(actions, "action_block_new failed");
+    
     // allocates the new branch block
     branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
-                                                  conditional_type, num_controls, &controls);
+                                                  control_type, num_actions, &actions);
 
     cr_assert_not_null(new_branch, "branch_block_new() failed");
 
     cr_assert_eq(new_branch->num_conditionals, num_conditionals, "branch_block_new() "
                 "didn't set new_branch->num_conditionals");
-    cr_assert_eq(new_branch->conditional_type, conditional_type, "branch_block_new() "
-                "didn't set new_branch->conditional_type");
+    cr_assert_eq(new_branch->control_type, control_type, "branch_block_new() "
+                "didn't set new_branch->control_type");
     cr_assert_eq(new_branch->conditionals, &conditionals, "branch_block_new() didn't "
                 "set new_branch->conditionals");
-    cr_assert_eq(new_branch->num_controls, num_controls, "branch_block_new() didn't "
-                "set new_branch->num_controls");
-    cr_assert_eq(new_branch->controls, &controls, "branch_block_new() didn't set "
-                "new_branch->controls");
+    cr_assert_eq(new_branch->num_actions, num_actions, "branch_block_new() didn't "
+                "set new_branch->num_actions");
+    cr_assert_eq(new_branch->actions, &actions, "branch_block_new() didn't set "
+                "new_branch->actions");
     
     branch_block_free(new_branch);
-}
-
-/* Checks that a new branch block with conditional type LTB is created 
-without interruption */
-Test(branch_block_t, new_LTB)
-{   
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = LTB;
-    
-    // allocates a new conditional block to nest within a branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to nest within a branch block
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-
-    // allocates the new branch block
-    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
-                                                  conditional_type, num_controls, &controls);
-    
-    cr_assert_not_null(new_branch, "branch_block_new() failed");
-    
-    cr_assert_eq(new_branch->num_conditionals, num_conditionals, "branch_block_new() "
-                "didn't set new_branch->num_conditionals");
-    cr_assert_eq(new_branch->conditional_type, conditional_type, "branch_block_new() "
-                "didn't set new_branch->conditional_type");
-    cr_assert_eq(new_branch->conditionals, &conditionals, "branch_block_new() didn't "
-                "set new_branch->conditionals");
-    cr_assert_eq(new_branch->num_controls, num_controls, "branch_block_new() didn't "
-                "set new_branch->num_controls");
-    cr_assert_eq(new_branch->controls, &controls, "branch_block_new() didn't set "
-                "new_branch->controls");
-    
-    branch_block_free(new_branch);
-}
-
-/* Checks that a new branch block with conditional type LTEB is created 
-without interruption */
-Test(branch_block_t, new_LTEB)
-{   
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = LTEB;
-    
-    // allocates a new conditional block to nest within a branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to nest within a branch block
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-
-    // allocates the new branch block
-    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
-                                                  conditional_type, num_controls, &controls);
-    
-    cr_assert_not_null(new_branch, "branch_block_new() failed");
-    
-    cr_assert_eq(new_branch->num_conditionals, num_conditionals, "branch_block_new() "
-                "didn't set new_branch->num_conditionals");
-    cr_assert_eq(new_branch->conditional_type, conditional_type, "branch_block_new() "
-                "didn't set new_branch->conditional_type");
-    cr_assert_eq(new_branch->conditionals, &conditionals, "branch_block_new() didn't "
-                "set new_branch->conditionals");
-    cr_assert_eq(new_branch->num_controls, num_controls, "branch_block_new() didn't "
-                "set new_branch->num_controls");
-    cr_assert_eq(new_branch->controls, &controls, "branch_block_new() didn't set "
-                "new_branch->controls");
-    
-    branch_block_free(new_branch);
-}
-
-/* Checks that a new branch block with conditional type IN is created 
-without interruption */
-Test(branch_block_t, new_IN)
-{   
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = IN;
-    
-    // allocates a new conditional block to nest within a branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to nest within a branch block
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-
-    // allocates the new branch block
-    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
-                                                  conditional_type, num_controls, &controls);
-    
-    cr_assert_not_null(new_branch, "branch_block_new() failed");
-    
-    cr_assert_eq(new_branch->num_conditionals, num_conditionals, "branch_block_new() "
-                "didn't set new_branch->num_conditionals");
-    cr_assert_eq(new_branch->conditional_type, conditional_type, "branch_block_new() "
-                "didn't set new_branch->conditional_type");
-    cr_assert_eq(new_branch->conditionals, &conditionals, "branch_block_new() didn't "
-                "set new_branch->conditionals");
-    cr_assert_eq(new_branch->num_controls, num_controls, "branch_block_new() didn't "
-                "set new_branch->num_controls");
-    cr_assert_eq(new_branch->controls, &controls, "branch_block_new() didn't set "
-                "new_branch->controls");
-    
-    branch_block_free(new_branch);
+    attribute_free(left);
+    attribute_free(right);
 }
 
 
 /* Checks that a new AST branch block with conditional type EQ is created 
 without interruption */
-Test(branch_block_t, new_AST_EQ)
+Test(branch_block_t, new_AST)
 {
     int num_conditionals = 1;
-    int num_controls = 1;
+    int num_actions = 1;
+    block_type_t block_type = BRANCH;
+    // allocates a new conditional block to nest within a branch block
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = strdup(attr_name1);
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = strdup(attr_name2);
+    right->attribute_tag = attribute_tag ;
+    right->attribute_value = attribute_value;
     conditional_type_t conditional_type = EQ;
-    
-    // allocates a new conditional block to be nested in the branch and AST blocks
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to be nested in the branch and AST blocks
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-    block_type_t block_type = BRANCH;
-    
-    // allocates a new AST (type branch) block
-    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                                conditional_type, num_controls, &controls);
 
+    // allocates a new control block to nest within a branch block
+    control_type_t control_type = IFELSE;
+    action_enum_t action_type = SET;
+    AST_block_t* actions  = AST_action_block_new(action_type, num_actions, &left);
+    cr_assert_not_null(actions, "action_block_new failed");
+
+    // allocates the new branch block
+    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals,
+						control_type, num_actions, &actions);
+  
     cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
 
     cr_assert_eq(new_ast->block->branch_block->num_conditionals, num_conditionals, "AST_branch_block_new() didn't set "
                 "ast->block->branch_block->num_conditionals");
     cr_assert_eq(new_ast->block->branch_block->conditionals, &conditionals, "AST_branch_block_new() didn't set "
                 "ast->block->branch_block->conditionals");
-    cr_assert_eq(new_ast->block->branch_block->conditional_type, conditional_type, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->conditional_type");
-    cr_assert_eq(new_ast->block->branch_block->num_controls, num_controls, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->num_controls");
-    cr_assert_eq(new_ast->block->branch_block->controls, &controls, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->controls");
+    cr_assert_eq(new_ast->block->branch_block->control_type, control_type, "AST_branch_block_new() didn't set "
+                "ast->block->branch_block->control_type");
+    cr_assert_eq(new_ast->block->branch_block->num_actions, num_actions, "AST_branch_block_new() didn't set "
+                "ast->block->branch_block->num_actions");
+    cr_assert_eq(new_ast->block->branch_block->actions, &actions, "AST_branch_block_new() didn't set "
+                "ast->block->branch_block->actions");
     cr_assert_eq(new_ast->block_type, block_type, "AST_branch_block_new() didn't set "
                 "ast->block_type");
     
     AST_block_free(new_ast);
+    attribute_free(left);
+    attribute_free(right);
 }
 
-/* Checks that a new AST branch block with conditional type LTB is created 
-without interruption */
-Test(branch_block_t, new_AST_LTB)
-{
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = LTB;
-    
-    // allocates a new conditional block to be nested in the branch and AST blocks
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to be nested in the branch and AST blocks
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-    block_type_t block_type = BRANCH;
-    
-    // allocates a new AST (type branch) block
-    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                                conditional_type, num_controls, &controls);
-
-    cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
-
-    cr_assert_eq(new_ast->block->branch_block->num_conditionals, num_conditionals, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->num_conditionals");
-    cr_assert_eq(new_ast->block->branch_block->conditionals, &conditionals, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->conditionals");
-    cr_assert_eq(new_ast->block->branch_block->conditional_type, conditional_type, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->conditional_type");
-    cr_assert_eq(new_ast->block->branch_block->num_controls, num_controls, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->num_controls");
-    cr_assert_eq(new_ast->block->branch_block->controls, &controls, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->controls");
-    cr_assert_eq(new_ast->block_type, block_type, "AST_branch_block_new() didn't set "
-                "ast->block_type");
-    
-    AST_block_free(new_ast);
-}
-
-/* Checks that a new AST branch block with conditional type LTEB is created 
-without interruption */
-Test(branch_block_t, new_AST_LTEB)
-{
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = LTEB;
-    
-    // allocates a new conditional block to be nested in the branch and AST blocks
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to be nested in the branch and AST blocks
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-    block_type_t block_type = BRANCH;
-    
-    // allocates a new AST (type branch) block
-    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                                conditional_type, num_controls, &controls);
-
-    cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
-
-    cr_assert_eq(new_ast->block->branch_block->num_conditionals, num_conditionals, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->num_conditionals");
-    cr_assert_eq(new_ast->block->branch_block->conditionals, &conditionals, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->conditionals");
-    cr_assert_eq(new_ast->block->branch_block->conditional_type, conditional_type, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->conditional_type");
-    cr_assert_eq(new_ast->block->branch_block->num_controls, num_controls, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->num_controls");
-    cr_assert_eq(new_ast->block->branch_block->controls, &controls, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->controls");
-    cr_assert_eq(new_ast->block_type, block_type, "AST_branch_block_new() didn't set "
-                "ast->block_type");
-    
-    AST_block_free(new_ast);
-}
-
-/* Checks that a new AST branch block with conditional type IN is created 
-without interruption */
-Test(branch_block_t, new_AST_IN)
-{
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = IN;
-    
-    // allocates a new conditional block to be nested in the branch and AST blocks
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to be nested in the branch and AST blocks
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-    block_type_t block_type = BRANCH;
-    
-    // allocates a new AST (type branch) block
-    AST_block_t* new_ast = AST_branch_block_new(num_conditionals, &conditionals, 
-                                                conditional_type, num_controls, &controls);
-
-    cr_assert_not_null(new_ast, "AST_branch_block_new() failed");
-
-    cr_assert_eq(new_ast->block->branch_block->num_conditionals, num_conditionals, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->num_conditionals");
-    cr_assert_eq(new_ast->block->branch_block->conditionals, &conditionals, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->conditionals");
-    cr_assert_eq(new_ast->block->branch_block->conditional_type, conditional_type, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->conditional_type");
-    cr_assert_eq(new_ast->block->branch_block->num_controls, num_controls, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->num_controls");
-    cr_assert_eq(new_ast->block->branch_block->controls, &controls, "AST_branch_block_new() didn't set "
-                "ast->block->branch_block->controls");
-    cr_assert_eq(new_ast->block_type, block_type, "AST_branch_block_new() didn't set "
-                "ast->block_type");
-    
-    AST_block_free(new_ast);
-}
 
 /* Checks that a new branch block with conditional type EQ is initialized without 
 interruption */
-Test(branch_block_t, init_EQ)
+Test(branch_block_t, init)
 {
-    branch_block_t branch;
     int rc;
+    branch_block_t *branch = malloc(sizeof(branch_block_t));
     int num_conditionals = 1;
-    int num_controls = 1;
+    int num_actions = 1;
+    // allocates a new conditional block to nest within a branch block
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = strdup(attr_name1);
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = strdup(attr_name2);
+    right->attribute_tag = attribute_tag ;
+    right->attribute_value = attribute_value;
     conditional_type_t conditional_type = EQ;
-    
-    // allocates a new conditional block to nest inside the branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to nest inside the branch block
+
+    // allocates a new control block to nest within a branch block
     control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
+    action_enum_t action_type = SET;
+    AST_block_t* actions  = AST_action_block_new(action_type, num_actions, &left);
+    cr_assert_not_null(actions, "action_block_new failed");
 
     // initializes a new branch block
-    rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
-                           num_controls, &controls);
+    rc = branch_block_init(branch, num_conditionals, &conditionals, conditional_type, 
+                           num_actions, &actions);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
-    cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
+    cr_assert_eq(branch->num_conditionals, num_conditionals, "branch_block_init() "
                 "didn't set new_branch.num_conditionals");
-    cr_assert_eq(branch.conditional_type, conditional_type, "branch_block_init() "
-                "didn't set branch.conditional_type");
-    cr_assert_eq(branch.conditionals, &conditionals, "branch_block_init() didn't "
+    cr_assert_eq(branch->control_type, control_type, "branch_block_init() "
+                "didn't set branch.control_type");
+    cr_assert_eq(branch->conditionals, &conditionals, "branch_block_init() didn't "
                 "set branch.conditionals");
-    cr_assert_eq(branch.num_controls, num_controls, "branch_block_init() didn't "
-                "set branch.num_controls");
-    cr_assert_eq(branch.controls, &controls, "branch_block_init() didn't set "
-                "branch.controls"); 
-}
-
-/* Checks that a new branch block with conditional type LTB is initialized without 
-interruption */
-Test(branch_block_t, init_LTB)
-{
-    branch_block_t branch;
-    int rc;
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = LTB;
-    
-    // allocates a new conditional block to nest inside the branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to nest inside the branch block
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-
-    // initializes a new branch block
-    rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
-                           num_controls, &controls);
-
-    cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
-    cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
-                "didn't set new_branch.num_conditionals");
-    cr_assert_eq(branch.conditional_type, conditional_type, "branch_block_init() "
-                "didn't set branch.conditional_type");
-    cr_assert_eq(branch.conditionals, &conditionals, "branch_block_init() didn't "
-                "set branch.conditionals");
-    cr_assert_eq(branch.num_controls, num_controls, "branch_block_init() didn't "
-                "set branch.num_controls");
-    cr_assert_eq(branch.controls, &controls, "branch_block_init() didn't set "
-                "branch.controls");
-}
-
-/* Checks that a new branch block with conditional type LTEB is initialized without 
-interruption */
-Test(branch_block_t, init_LTEB)
-{
-    branch_block_t branch;
-    int rc;
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = LTEB;
-    
-    // allocates a new conditional block to nest inside the branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to nest inside the branch block
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-
-    // initializes a new branch block
-    rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
-                           num_controls, &controls);
-
-    cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
-    cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
-                "didn't set new_branch.num_conditionals");
-    cr_assert_eq(branch.conditional_type, conditional_type, "branch_block_init() "
-                "didn't set branch.conditional_type");
-    cr_assert_eq(branch.conditionals, &conditionals, "branch_block_init() didn't "
-                "set branch.conditionals");
-    cr_assert_eq(branch.num_controls, num_controls, "branch_block_init() didn't "
-                "set branch.num_controls");
-    cr_assert_eq(branch.controls, &controls, "branch_block_init() didn't set "
-                "branch.controls");
-}
-
-/* Checks that a new branch block with conditional type IN is initialized without 
-interruption */
-Test(branch_block_t, init_IN)
-{
-    branch_block_t branch;
-    int rc;
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = IN;
-    
-    // allocates a new conditional block to nest inside the branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to nest inside the branch block
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-
-    // initializes a new branch block
-    rc = branch_block_init(&branch, num_conditionals, &conditionals, conditional_type, 
-                           num_controls, &controls);
-
-    cr_assert_eq(rc, SUCCESS, "branch_block_init() failed");
-    cr_assert_eq(branch.num_conditionals, num_conditionals, "branch_block_init() "
-                "didn't set new_branch.num_conditionals");
-    cr_assert_eq(branch.conditional_type, conditional_type, "branch_block_init() "
-                "didn't set branch.conditional_type");
-    cr_assert_eq(branch.conditionals, &conditionals, "branch_block_init() didn't "
-                "set branch.conditionals");
-    cr_assert_eq(branch.num_controls, num_controls, "branch_block_init() didn't "
-                "set branch.num_controls");
-    cr_assert_eq(branch.controls, &controls, "branch_block_init() didn't set "
-                "branch.controls");
+    cr_assert_eq(branch->num_actions, num_actions, "branch_block_init() didn't "
+                "set branch.num_actions");
+    cr_assert_eq(branch->actions, &actions, "branch_block_init() didn't set "
+                "branch.actions");
+    branch_block_free(branch);
+    attribute_free(left);
+    attribute_free(right);
 }
 
 /* Checks that a new branch block with conditional type EQ is freed without 
 interruption */
-Test(branch_block_t, free_EQ)
+Test(branch_block_t, free)
 {
-    branch_block_t* branch;
     int rc;
     int num_conditionals = 1;
-    int num_controls = 1;
+    int num_actions = 1;
+    // allocates a new conditional block to nest within a branch block
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value;
+    attribute_value.int_val = 1;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = strdup(attr_name1);
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = strdup(attr_name2);
+    right->attribute_tag = attribute_tag ;
+    right->attribute_value = attribute_value;
     conditional_type_t conditional_type = EQ;
-    
-    // allocates a new conditional block to nest inside a branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to be nested inside a branch block
+ 
+    // allocates a new control block to nest within a branch block
     control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-    
-    // allocates a new branch block to be freed
-    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,  
-                              num_controls, &controls);
+    action_enum_t action_type = SET;
+    AST_block_t* actions  = AST_action_block_new(action_type, num_actions, &left);
+    cr_assert_not_null(actions, "action_block_new failed");
 
-    cr_assert_not_null(branch, "branch_block_new() failed");
+    // allocates the new branch block
+    branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
+						control_type, num_actions, &actions);
+    cr_assert_not_null(new_branch, "branch_block_new() failed");
     
-    rc = branch_block_free(branch);
+    rc = branch_block_free(new_branch);
 
     cr_assert_eq(rc, SUCCESS, "branch_block_free() failed");
-}
-
-/* Checks that a new branch block with conditional type LTB is freed without 
-interruption */
-Test(branch_block_t, free_LTB)
-{
-    branch_block_t* branch;
-    int rc;
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = LTB;
-    
-    // allocates a new conditional block to nest inside a branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to be nested inside a branch block
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-    
-    // allocates a new branch block to be freed
-    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,  
-                              num_controls, &controls);
-
-    cr_assert_not_null(branch, "branch_block_new() failed");
-
-    rc = branch_block_free(branch);
-
-    cr_assert_eq(rc, SUCCESS, "branch_block_free() failed");
-}
-     
-/* Checks that a new branch block with conditional type LTEB is freed without 
-interruption */
-Test(branch_block_t, free_LTEB)
-{
-    branch_block_t* branch;
-    int rc;
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = LTEB;
-    
-    // allocates a new conditional block to nest inside a branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to be nested inside a branch block
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-    
-    // allocates a new branch block to be freed
-    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,  
-                              num_controls, &controls);
-
-    cr_assert_not_null(branch, "branch_block_new() failed");
-
-    rc = branch_block_free(branch);
-
-    cr_assert_eq(rc, SUCCESS, "branch_block_free() failed");
-}
-     
-/* Checks that a new branch block with conditional type IN is freed without 
-interruption */
-Test(branch_block_t, free_IN)
-{
-    branch_block_t* branch;
-    int rc;
-    int num_conditionals = 1;
-    int num_controls = 1;
-    conditional_type_t conditional_type = IN;
-    
-    // allocates a new conditional block to nest inside a branch block
-    char *attr_name1 = "attribute1";
-    char *attr_name2 = "attribute2";
-    enum attribute_tag attribute_tag = INTEGER;
-    attribute_value_t attribute_value;
-    attribute_value.int_val = 1;
-    attribute_t *left = malloc(sizeof(attribute_t));
-    UT_hash_handle hh = hh;
-    left->hh = hh;
-    left->attribute_key = attr_name1;
-    left->attribute_tag = attribute_tag;
-    left->attribute_value = attribute_value;
-    attribute_t *right = malloc(sizeof(attribute_t));
-    right->hh = hh;
-    right->attribute_key = attr_name2;
-    right->attribute_tag = attribute_tag ;
-    right->attribute_value = attribute_value;
-    conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
-    
-    // allocates a new control block to be nested inside a branch block
-    control_type_t control_type = IFELSE;
-    control_block_t* controls = control_block_new(control_type);
-    
-    // allocates a new branch block to be freed
-    branch = branch_block_new(num_conditionals, &conditionals, conditional_type,  
-                              num_controls, &controls);
-
-    cr_assert_not_null(branch, "branch_block_new() failed");
-
-    rc = branch_block_free(branch);
-
-    cr_assert_eq(rc, SUCCESS, "branch_block_free() failed");
+    attribute_free(left);
+    attribute_free(right);
 }
