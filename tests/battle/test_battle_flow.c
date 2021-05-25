@@ -190,7 +190,9 @@ Test(battle_flow, return_success_battle_flow)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    npc_t *npc_enemy = npc_new("Enemy", NULL,NULL, make_wizard(),NULL, True);
+    npc_t *npc_enemy = npc_new("sucess_Name", NULL, NULL, NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
@@ -225,7 +227,9 @@ Test(battle_flow, do_damage_battle_flow)
     estats->defense = 20;
     estats->level = 5;
     estats->strength = 150;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
+    npc_t *npc_enemy = npc_new("do_damage_Name", NULL, NULL, NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
     int rc = start_battle(ctx, npc_enemy, env);
@@ -281,7 +285,9 @@ Test(battle_flow, battle_over_by_player)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
+    nnpc_t *npc_enemy = npc_new("player_wins_Name", NULL, NULL, NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
     int rc = start_battle(ctx, npc_enemy, env);
@@ -339,7 +345,9 @@ Test(battle_flow, battle_over_by_enemy)
     estats->level = 1;
     estats->strength = 200;
     estats->defense = 30;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
+    npc_t *npc_enemy = npc_new("enemy_wins_Name", NULL, NULL, NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
