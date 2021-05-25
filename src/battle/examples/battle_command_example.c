@@ -6,6 +6,8 @@
 #include "battle/battle_state.h"
 #include "battle/battle_logic.h"
 #include "battle/battle_default_objects.h"
+#include "npc/npc.h"
+#include "npc/npc_battle.h"
 #include <time.h>
 
 #define MAX_COMMAND_LINE_LENGTH (100)
