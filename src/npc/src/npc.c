@@ -80,9 +80,12 @@ bool check_npc_battle(npc_t *npc)
 {
     assert(npc != NULL);
 
-    if (npc->will_fight == true && npc->npc_battle == NULL) {
+    if (npc->will_fight == true && npc->npc_battle == NULL) 
+    {
         return false;
-    } else {
+    } 
+    else 
+    {
         return true;
     }
 }
@@ -142,9 +145,12 @@ int get_npc_health(npc_t *npc)
 {
     assert(npc != NULL);
 
-    if (npc->npc_battle == NULL) {
+    if (npc->npc_battle == NULL) 
+    {
         return -1;
-    } else {
+    } 
+    else 
+    {
         return npc->npc_battle->health;
     }
 }
