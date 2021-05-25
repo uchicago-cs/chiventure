@@ -12,7 +12,8 @@
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
-// Forward declaration
+/* Forward declaration */
+typedef struct npc_mov npc_mov_t;
 typedef struct convo convo_t;
 
 /* A non-playable character in game */

@@ -22,6 +22,8 @@ typedef struct stats_global stats_global_t;
 typedef struct stats_global stats_global_hash_t;
 typedef struct effects_global effects_global_t;
 typedef struct effects_global effects_global_hash_t;
+typedef struct room room_hash_t;
+typedef struct room_wrapped_for_llist room_list_t;
 typedef struct npc npc_t;
 typedef struct npc npc_hash_t;
 
