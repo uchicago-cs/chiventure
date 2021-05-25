@@ -138,9 +138,9 @@ int do_branch_block(branch_block_t *block)
             }
             for (int i = 0; i < block->num_conditionals; i++)
             {
-	        if (eval_conditional_block(block->conditionals[i]) == 0)
+                if (eval_conditional_block(block->conditionals[i]) == 0)
                 {
-		    return run_ast_block(block->actions[i]);
+                    return run_ast_block(block->actions[i]);
                 }
             }
             if (block->num_actions > block->num_conditionals)
