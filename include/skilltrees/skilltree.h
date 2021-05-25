@@ -227,7 +227,7 @@ skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid);
  *
  */
 
-unsigned int get_number_skill_prereqs(skill_tree* tree, sid_t sid);
+unsigned int get_number_skill_prereqs(skill_tree_t* tree, sid_t sid);
 
 
 /*
