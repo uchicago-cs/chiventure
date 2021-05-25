@@ -21,7 +21,7 @@ class_t struct
     - skilltree_t* Skilltree
     - skill_inventory_t* Combat Actions
     - skill_inventory_t* Non-combat Actions
-     - UT_hash_handle Field Used by UTHASH Macros
+    - UT_hash_handle Field Used by UTHASH Macros
 ```
 
 ### Class
