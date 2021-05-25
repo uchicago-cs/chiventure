@@ -80,8 +80,8 @@ int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_
     assert(branch != NULL);
     assert(num_conditionals > 0);
     assert(conditionals != NULL); 
-    assert(num_controls > 0);
-    assert(controls != NULL);
+    assert(num_actions > 0);
+    assert(actions != NULL);
 
     branch->num_conditionals = num_conditionals;
     branch->conditionals = conditionals;
@@ -105,7 +105,7 @@ int branch_block_free(branch_block_t *branch)
            conditional_block_free(branch->conditionals[n]);
        }
     }
-    if (branch->num_controls > 0)
+    if (branch->num_actions > 0)
     {
         assert(branch->actions != NULL);
         for (int n = 0; n < branch->num_actions; n++)

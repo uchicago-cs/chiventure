@@ -37,8 +37,8 @@ typedef struct branch_block {
  * - A branch block. 
  */  
 branch_block_t* branch_block_new(int num_conditionals, conditional_block_t** conditionals, 
-                                 conditional_type_t conditional_type, int num_controls, 
-                                 control_block_t** controls);
+                                 control_type_t control_type, int num_actions,
+				 AST_block_t** actions);
 
 /* 
  * Allocates an AST type branch block in the heap. 
