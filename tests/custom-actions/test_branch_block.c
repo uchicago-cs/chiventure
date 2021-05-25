@@ -609,3 +609,122 @@ Test(branch_block_t, end_while)
   attribute_free(right);
   attribute_free(a3);
 }
+
+/* Checks the failure conditions of do_branch_blocks */
+Test(branch_block_t, failure_conditions)
+{
+  int rc;
+  int num_conditionals = 1;
+  int num_actions = 1;
+
+  // allocates a new array of conditional blocks to nest within a branch block
+  char *attr_name1 = "attribute1";
+  char *attr_name2 = "attribute2";
+  char *attr_name3 = "attribute3";
+  enum attribute_tag attribute_tag = INTEGER;
+  attribute_value_t av1, av2, av3;
+  av1.int_val = 1;
+  av2.int_val = 1;
+  av3.int_val = 5;
+
+  attribute_t *left = malloc(sizeof(attribute_t));
+  UT_hash_handle hh = hh;
+  left->hh = hh;
+  left->attribute_key = strdup(attr_name1);
+  left->attribute_tag = attribute_tag;
+  left->attribute_value = av1;
+  attribute_t *right = malloc(sizeof(attribute_t));
+  right->hh = hh;
+  right->attribute_key = strdup(attr_name2);
+  right->attribute_tag = attribute_tag;
+  right->attribute_value = av2;
+  attribute_t *a3 = malloc(sizeof(attribute_t));
+  a3->hh = hh;
+  a3->attribute_key = strdup(attr_name3);
+  a3->attribute_tag = attribute_tag;
+  a3->attribute_value = av3;
+  conditional_type_t conditional_type = LTB;
+  conditional_block_t** conditionals = malloc(sizeof(conditional_block_t*));
+  conditionals[0] = conditional_block_new(conditional_type, right, a3);
+
+  // allocates a new array of action blocks to nest within a branch block
+  control_type_t control_type = WHILEENDWHILE;
+  action_enum_t action_type = ADDITION;
+
+  attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  args[0] = left;
+  args[1] = right;
+  args[2] = right;
+
+  int num_attributes = 3;
+  AST_block_t** actions  = malloc(sizeof(AST_block_t*));
+  actions[0] = AST_action_block_new(action_type, num_attributes, args);
+  branch_block_t *new_branch;
+
+  //No Conditionals
+  new_branch = branch_block_new(num_conditionals, conditionals, control_type, num_actions, actions);
+  new_branch->num_conditionals = 0;
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, FAILURE, "do_branch_block didn't fail with no conditions");
+  free(new_branch);
+  
+  //No actions
+  new_branch = branch_block_new(num_conditionals, conditionals, control_type, num_actions, actions);
+  new_branch->num_actions = 0;
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, FAILURE, "do_branch_block didn't fail with no actions");
+  free(new_branch);
+
+  //Too many actions for a while loop
+  num_actions = 2;
+  new_branch = branch_block_new(num_conditionals, conditionals, control_type, num_actions, actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, FAILURE, "While didn't fail with 2 actions");
+  free(new_branch);
+
+  //Too many conditionals for a while loop
+  num_actions = 1;
+  num_conditionals = 11;
+  new_branch = branch_block_new(num_conditionals, conditionals, control_type, num_actions, actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, FAILURE, "do_branch_block didn't fail with too many conditionals in an if");
+  free(new_branch);
+
+  //More conditionals than actions in an IF
+  control_type = IFELSE;
+  new_branch = branch_block_new(num_conditionals, conditionals, control_type, num_actions, actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, FAILURE, "do_branch_block didn't fail with no conditionals");
+  free(new_branch);
+
+  //Too many actions in an IF
+  num_actions = 22;
+  new_branch = branch_block_new(num_conditionals, conditionals, control_type, num_actions, actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, FAILURE, "do_branch_block didn't fail with too many actions");
+  new_branch->num_actions = 1;
+  new_branch->num_conditionals = 1;
+  branch_block_free(new_branch);
+
+  attribute_free(left);
+  attribute_free(right);
+  attribute_free(a3);
+}

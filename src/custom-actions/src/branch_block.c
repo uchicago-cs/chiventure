@@ -132,7 +132,7 @@ int do_branch_block(branch_block_t *block)
     switch (block->control_type)
     {
         case IFELSE:
-	    if (block->num_conditionals > block->num_actions)
+	    if (block->num_conditionals > block->num_actions || block->num_conditionals + 1 < block->num_actions)
 	    {
 	        return FAILURE; //All conditions must have actions
 	    }
