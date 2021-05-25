@@ -97,7 +97,7 @@ int main(int argc, char **argv)
     if (graphical)
     {   
         /*If graphical is true the user will be using GUI*/
-        run_gui(ctx);
+        start_gui(ctx);
     }
     else 
     {
@@ -121,8 +121,6 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
-
 
 
 
