@@ -7,6 +7,9 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_structs.h"
+#include "npc/npc.h"
+#include "npc/npc_battle.h"
+
 
 class_t *make_wizard()
 {
