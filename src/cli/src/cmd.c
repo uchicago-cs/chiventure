@@ -237,7 +237,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
     if (s != NULL) 
     {
         command_list_t *new_command = new_command_list(s);
-        LL_APPEND(ctx->command_history, new_command);
+        LL_APPEND(ctx->cli_ctx->command_history, new_command);
     }
     
     char **parsed_input = parse(s);
@@ -246,7 +246,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
         return NULL;
     }
     
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
     return cmd_from_tokens(parsed_input, table);
 }
 

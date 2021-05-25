@@ -29,21 +29,6 @@ typedef struct cli_ctx {
  */
 cli_ctx_t *cli_ctx_new();
 
-
-/*
- * Initializes the values of a CLI context struct.
- *
- *
- * Parameters
- * - cli_ctx_t : cli context struct to be initialized
- * 
- * Returns:
- * - SUCCESS if every field can be initialized
- * - FAILURE if there is a problem
- *
- */
-int cli_ctx_init(cli_ctx_t *cli_ctx);
-
 /*
  * Frees the given cli_ctx_t struct and associated resources
  *

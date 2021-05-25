@@ -8,16 +8,16 @@
 // see cli_ctx.h
 cli_ctx_t *cli_ctx_new()
 {
+    cli_ctx_t *cli_ctx = (ui_ctx_t*)malloc(sizeof(cli_ctx_t));
 
-    return NULL;
+    lookup_t **table = lookup_t_new();
+
+    cli_ctx->command_history = NULL;
+    cli_ctx->table = table;
+
+    return cli_ctx;
 }
 
-// see cli_ctx.h
-int cli_ctx_init(cli_ctx_t *cli_ctx)
-{
-
-    return 0;
-}
 
 int free_cli_ctx(cli_ctx_t *cli_ctx)
 {
