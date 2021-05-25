@@ -23,6 +23,11 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
         return NULL;
     }
 
+    if (max_level <= 0) {
+        fprintf(stderr, "skill_new: max_level is invalid\n");
+        return NULL;
+    }
+
     rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, skill_effects);
     if (rc) {
         fprintf(stderr, "skill_new: initialization failed\n");
@@ -122,7 +127,9 @@ int skill_level_up(skill_t* skill) {
 
 /* See skill.h */
 int skill_xp_up(skill_t* skill, unsigned int xp_gained) {
-    assert(skill != NULL);
+    if (skill == NULL) {
+        return -1;
+    }
     while (1) {
         int xp_to_next_level = skill->min_xp - skill->xp;
         if (xp_to_next_level > xp_gained) {
