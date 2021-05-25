@@ -2,23 +2,28 @@ import json
 from warnings import warn
 from collections import ChainMap
 
+# to do: figure out how to get other properties of the item/game/room to output
+# to do: improve default generation
 
 class Room:
-    def __init__(self, id, contents):
+    def __init__(self, id: str, contents: dict):
+        """
+            Defines a Room class for conversion to WDL, with an id and a list of
+            contents and/or properties.
+        """
         self.id = id
         self.contents = contents
 
-    # to do: figure out how to get other attributes of the room into the output
-    def to_json(self):
-        self.generate_defaults()
-        return json.dumps({self.id: {
-            "short_desc": self.contents['short desc'],
-            "long_desc": self.contents['long desc'],
-            "connections": self.connections_list(),
-            "items": self.items_list()
-        }}, indent=2)
+    def to_json(self) -> str: 
+        """ For internal testing only: converts a room to its JSON format """
+        return json.dumps(self.to_wdl_structure(),indent=2)
     
-    def to_wdl_structure(self):
+    def to_wdl_structure(self) -> dict:
+        """
+            Converts a Room item to WDL structure using its contents. Generates 
+            default values where they are missing, and assembles a list of 
+            connections and items for WDL compatibility.
+        """
         self.generate_defaults()
         return {self.id: {
             "short_desc": self.contents['short desc'],
@@ -27,10 +32,14 @@ class Room:
             "items": self.items_list()
         }}
         
-
-    # dummy function
-    # fixes/fills any parameters (long/short descriptions, etc, that are nonstandard)
     def generate_defaults(self):
+        """
+            Ensures thats a Room item can be converted to WDL by filling in 
+            neccesary information (like short and long description) that is not 
+            included with default values.
+        """
+
+        # generate default for long description
         if 'long desc' not in self.contents:
             id = self.id or "room"
             short = self.contents.get('short desc', '')
@@ -39,7 +48,8 @@ class Room:
             warn(f'''
                 missing: long description for {id}, 
                 generated default: {self.contents['long desc']}''')
-                
+
+        # generate default for short description     
         if 'short desc' not in self.contents:
             default_id = self.id or "a room"
             self.contents['short desc'] = f"{default_id}"
@@ -47,37 +57,45 @@ class Room:
                 missing: short description for {default_id}, 
                 generated default: {self.contents['short desc']}''')
             
+    def connections_list(self) -> list:
+        """
+            Assembles a list of a room's conections, with their directions and 
+            desinations included.
+        """
+        if 'connections' not in self.contents:
+            warn(f'''room {self.id} has no connections''')
+            return []
+        else:
+            return list(map(lambda i: {
+                'direction': i.upper(),
+                'to': self.contents['connections'][i]
+            }, self.contents['connections']))
 
-    # takes a dict of direction/destination pairs, converts to json
-    def connections_list(self):
-        return list(map(lambda i: {
-            'direction': i.upper(),
-            'to': self.contents['connections'][i]
-        }, self.contents['connections']))
-
-    # is the list necessary?
-    # takes a list of item dicts within a room, converts to json
-    def items_list(self):
-        return list(map(lambda i: i['id'], self.contents['items']))
-
+    def items_list(self) -> list:
+        """
+            Assembles a list of a room's items.
+        """
+        return list(map(lambda i: i['id'], self.contents.get('items',[])))
 
 class Item:
-    def __init__(self, location, contents):
+    def __init__(self, location: str, contents: dict):
+        """
+            Defines an Item class for conversion to WDL, with an id, a location, 
+            and a list of actions and/or properties.
+        """
         self.location = location
         self.contents = contents
 
-    # to do: figure out how to get other attributes of the item into the output
-    # to do: figure out actions
-    def to_json(self):
-        self.generate_defaults()
-        return json.dumps({self.contents['id']: {
-            'in': self.location,
-            "short_desc": self.contents['short desc'],
-            "long_desc": self.contents['long desc'],
-            "actions": self.actions_list()
-        }}, indent=2)
+    def to_json(self) -> str: 
+        """ For internal testing only: converts an item to its JSON format """
+        return json.dumps(self.to_wdl_structure(),indent=2)
 
-    def to_wdl_structure(self):
+    def to_wdl_structure(self) -> dict:
+        """
+            Converts an Item to WDL structure using its properties. Generates 
+            default values where they are missing, and assembles a list of 
+            actions for WDL compatibility.
+        """
         self.generate_defaults()
         return {self.contents['id']: {
             'in': self.location,
@@ -86,9 +104,14 @@ class Item:
             "actions": self.actions_list()
         }}
 
-    # dummy function
-    # fixes/fills any parameters (long/short descriptions, etc, that are nonstandard)
     def generate_defaults(self):
+        """
+            Ensures that an Item can be converted to WDL by filling in 
+            neccesary information (like short and long description) that is not 
+            included with its default values.
+        """
+
+        # generate default for long description
         if 'long desc' not in self.contents:
             id = self.contents.get('id', "item")
             short_desc = self.contents.get('short desc', '')
@@ -98,6 +121,7 @@ class Item:
                 missing: long description for {id}, 
                 generated default: {self.contents['long desc']}''')
                 
+        # generate default for short description
         if 'short desc' not in self.contents:
             default_id = self.contents.get('id', "item") or "an item"
             self.contents['short desc'] = f"{default_id}"
@@ -105,47 +129,67 @@ class Item:
                 missing: short description for {default_id}, 
                 generated default: {self.contents['short desc']}''')
 
+        # generate default interaction text for actions
+        for i in self.contents.get('actions', []):
+            id = self.contents.get('id', "item")
+            if 'success' not in self.contents['actions'][i]:
+                self.contents['actions'][i]['success'] = f"You {i.lower()} the {id}."
+                warn(f'''
+                    missing: success text for action {i} for item {id}, 
+                    generated default: {self.contents['actions'][i]['success']}''')
+            if 'fail' not in self.contents['actions'][i]:
+                self.contents['actions'][i]['fail'] = f"You cannot {i.lower()} the {id}."
+                warn(f'''
+                    missing: failure text for action {i} for item {id}, 
+                    generated default: {self.contents['actions'][i]['fail']}''')
+
     # to do: action conditions -- how?
-    def actions_list(self):
-        if "actions" in self.contents:
-            return list(map(lambda i: {
-                'action': i,
-                'text_success': self.contents['actions'][i]['success'],
-                'text_fail': self.contents['actions'][i]['fail']
-            }, self.contents['actions']))
-        else:
-            return []
+    def actions_list(self) -> list:
+        """
+            Assembles a list of an item's actions, with their success and 
+            failure text included.
+        """
+        return list(map(lambda i: {
+            'action': i,
+            'text_success': self.contents['actions'][i]['success'],
+            'text_fail': self.contents['actions'][i]['fail']
+        }, self.contents.get('actions',[])))
 
 
 class Game:
-    def __init__(self, contents):
+    def __init__(self, contents: dict):
+        """
+            Defines a Game class for conversion to WDL, with an id and a list of
+            contents and/or properties.
+        """
         self.contents = contents
 
-    def to_json(self):
-        self.generate_defaults()
-        return json.dumps({'GAME': {
-            'start': self.contents['start'],
-            "intro": self.contents['intro'],
-            "end": {
-                'in_room': self.contents['end']
-            },  # ideally this transformation would be done in Game.generate_defaults
-        },
-            'ROOMS': 'placeholder',
-            'ITEMS': 'placeholder'}, indent=2)  # figure out how to feed and process lists into here
+    def to_json(self) -> str: 
+        """ For internal testing only: converts a game to its JSON format """
+        return json.dumps(self.to_wdl_structure(),indent=2)
     
-    def to_wdl_structure(self):
+    def to_wdl_structure(self) -> dict:
+        """
+            Converts a Game to WDL structure using its properties. Generates 
+            default values where they are missing.
+        """
         self.generate_defaults()
         return {'GAME': {
             'start': self.contents['start'],
             "intro": self.contents['intro'],
             "end": {
                 'in_room': self.contents['end']
-            },  # ideally this transformation would be done in Game.generate_defaults
+            }
         }}
 
-    # dummy function
-    # fixes/fills any parameters (long/short descriptions, etc, that are nonstandard)
     def generate_defaults(self):
+        """
+            Ensures that a Game can be converted to WDL by filling in 
+            neccesary information (like an introduction) that is not 
+            included with its default values.
+        """
+
+        # generate default for introduction
         if 'intro' not in self.contents:
             default = self.contents.get('start') or "room"
             self.contents['intro'] = f"Welcome! You're in a {default}"
@@ -155,10 +199,12 @@ class Game:
 
 
 def parsed_dict_to_json(intermediate: dict) -> str:
-    """Transforms the intermediate data structure outputted by the parser into
-    valid wdl json format"""
+    """
+        Transforms the intermediate data structure outputted by the parser into
+        valid WDL/JSON format.
+    """
 
-    #TODO: add support for ITEM IN ROOM and property FOR object
+    # TODO: add support for ITEM IN ROOM and property FOR object
     rooms = []
     items = []
 
@@ -167,8 +213,6 @@ def parsed_dict_to_json(intermediate: dict) -> str:
     else:
         rooms_dict = intermediate.pop("rooms")
         for room_name, contents in rooms_dict.items():
-            # can use pop if list of items is not needed
-            # room_items = contents.pop("items")
             room_items = contents["items"]
             rooms.append(Room(room_name, contents))
             for i in room_items:
@@ -185,44 +229,9 @@ def parsed_dict_to_json(intermediate: dict) -> str:
         "ROOMS": rooms_wdl,
         "ITEMS": items_wdl
         }, indent=2)
-    
-    
-
 
 
 # test json output
-room = Room('room a', {
-    "short desc": "A dungeon room.",
-    "long desc": "You shudder to think of the unspeakable horrors that have taken place in these dungeons. You wouldn't want to be fly on the wall here, but mostly because of how damp and moldy the walls are.",
-    "connections": {
-        "SOUTH": "room B"
-    },
-    "items": [
-        {
-            "id": "sconce",
-            "short desc": "A sconce holding a candle",
-            "long desc": "It looks a bit loose."
-        }
-    ]
-})
-
-item = Item('room a', {
-    "id": "sconce",
-          "short desc": "A sconce holding a candle",
-          "long desc": "It looks a bit loose.",
-          "actions": {
-            "OPEN": {
-                "success": "You open the door.",
-                "fail": "You can't open the door."
-            },
-            "BREAK": {
-                "condition": "Door is in front of you.",
-                "success": "You break the door.",
-                "fail": "You can't break the door."
-            }
-            }
-})
-
 game = Game({
     "start": "room B",
     "end": "room C",
@@ -275,10 +284,5 @@ game = Game({
     }
 })
 
-
 if __name__ == "__main__":
-    # print(room.to_json())
-    # print(item.to_json())
-    # print(game.to_json())
-    
-    print(parsed_dict_to_json(game))
+    print(parsed_dict_to_json(game.contents))
