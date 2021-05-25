@@ -575,7 +575,7 @@ Test(branch_block_t, end_while)
   a3->attribute_tag = attribute_tag;
   a3->attribute_value = av3;
   conditional_type_t conditional_type = LTB;
-  conditional_block_t** conditionals = malloc(sizeof(conditional_block_t*));
+  conditional_block_t** conditionals = malloc(sizeof(conditional_block_t*) * 2);
   conditionals[0] = conditional_block_new(conditional_type, right, left);
   conditionals[1] = conditional_block_new(conditional_type, right, a3);
   

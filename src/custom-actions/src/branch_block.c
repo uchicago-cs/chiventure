@@ -145,9 +145,10 @@ int do_branch_block(branch_block_t *block)
             }
 	    if (block->num_actions > block->num_conditionals)
             {
-	      return run_ast_block(block->actions[block->num_actions - 1]);
+                return run_ast_block(block->actions[block->num_actions - 1]);
             }
 	    return SUCCESS;
+        case FORENDFOR:
         case WHILEENDWHILE:
 	    if(block->num_conditionals > 2 || block->num_actions != 1)
 	    {
@@ -174,9 +175,6 @@ int do_branch_block(branch_block_t *block)
 		} while(eval_conditional_block(loop) == 0);
 		return SUCCESS;
 	    }
-        case FORENDFOR:
-	  break;
-
     } 
     return FAILURE;
 }
