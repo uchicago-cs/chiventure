@@ -70,6 +70,9 @@ typedef struct game {
     /* an iteratable hashtable of effects */
     effects_global_hash_t *all_effects;
 
+    /* pointer to all classes in the game */
+    class_hash_t *all_classes;
+
     /* starting string description to be presented at beginning of game */
     char *start_desc;
 
