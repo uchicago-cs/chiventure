@@ -79,7 +79,6 @@ void prompt(char* message, char* input) {
 /* main function for the 2021-demo executable. */
 int main() {
     game_t* game = game_new("The playerclass demo game!");
-    chiventure_ctx_t* ctx = chiventure_ctx_new(game);
 
     /* test code */
 
@@ -89,7 +88,7 @@ int main() {
         prompt("Pick a prefab class:", class_name);
         if (class_name[0] == '\0')
             break;
-        class_t* class = class_prefab_new(ctx, class_name);
+        class_t* class = class_prefab_new(game, class_name);
         print_class(class);
     }
 }
