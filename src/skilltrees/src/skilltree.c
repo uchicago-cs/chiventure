@@ -189,9 +189,7 @@ int skill_tree_node_remove(skill_tree_t* tree, skill_node_t* node) {
 }
 
 /* See skilltree.h */
-skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
-                                unsigned int* prereq_level,
-                                int* num_prereq_skills) {
+skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid) {
     assert(tree != NULL);
 
     int pos = skill_tree_has_node(tree, sid);
@@ -201,10 +199,37 @@ skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
         return NULL;
     }
 
-    *num_prereq_skills = tree->nodes[pos]->num_prereq_skills;
-    *prereq_level = tree->nodes[pos]->prereq_level;
     return tree->nodes[pos]->prereqs;
 }
+
+/* See skliltree.h */
+unsigned int get_number_skill_prereqs(skill_tree* tree, sid_t sid){
+    assert(tree != NULL);
+
+    int pos = skill_tree_has_node(tree, sid);
+    if(pos == -1) {
+        fprintf(stderr, "get_number_skill_prereqs: node is not in tree\n");
+        return 0;
+    }
+
+    return tree->nodes[pos]->num_prereq_skills;
+}
+
+
+/* See skilltree.h */
+unsigned int get_prereq_level(skill_tree* tree, sid_t sid){
+    assert(tree != NULL);
+
+    int pos = skill_tree_has_node(tree, sid);
+    if(pos == -1) {
+        fprintf(stderr, "get_number_skill_prereqs: node is not in tree\n");
+        return 0;
+    }
+
+    return tree->nodes[pos]->prereq_level;
+}
+}
+
 
 /* See skilltree.h */
 skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
@@ -213,8 +238,7 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
                                      int* num_acquired_prereqs) {
     assert(tree != NULL && inventory != NULL);
 
-    unsigned int num_prereqs;
-    skill_node_t** prereqs = get_all_skill_prereqs(tree, sid, prereq_level, &num_prereqs);
+    skill_node_t** prereqs = get_all_skill_prereqs(tree, sid);
     // this changes the out-parameters for the sid skill
     if (num_prereqs == -1) {
         fprintf(stderr, "get_acquired_skill_prereqs: node is not in tree\n");
