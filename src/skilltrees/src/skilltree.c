@@ -254,7 +254,7 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
 
     *num_acquired_prereqs = 0;
 
-    num_prereqs = get_number_skill_prereqs(tree, sid);
+    unsigned int num_prereqs = get_number_skill_prereqs(tree, sid);
 
     for (unsigned int i = 0; i < num_prereqs; i++) {
         sid_t prereq = prereqs[i]->skill->sid;
