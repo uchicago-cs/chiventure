@@ -38,20 +38,6 @@ typedef struct chiventure_ctx_battle {
     battle_status_t status;
 } chiventure_ctx_battle_t;
 
-/* Stub to simulate NPC enemy, that will then later be converted to
- * the combatant struct specific to battle flow
- */
-// typedef struct npc_enemy {
-//     char *npc_id;
-//     class_t *class_type;
-//     stat_t *stats;
-//     move_t *moves;
-//     battle_item_t *items;
-//     difficulty_t ai;
-//     struct npc_enemy *prev;
-//     struct npc_enemy *next;
-// } npc_enemy_t;
-
 /* Stub for the player_new function in player.h game-state module
  *
  * Parameters:
@@ -64,21 +50,6 @@ typedef struct chiventure_ctx_battle {
  * Returns: a newly allocated battle_player_t with p_id, stats, moves, battle_items
  */
 battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items);
-
-/* Sets up pointer to npc struct, stub for an npc representing the enemy
- *
- * Parameters:
- *     - npc_id: npc id
- *     - class_type: pointer to player_class struct
- *     - stats: npc stats stub
- *     - moves: npc moves stub
- *     - items: npc battle_items stub
- *     - ai: enemy ai
- *
- * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, battle_items
- */
-// npc_enemy_t *make_npc_enemy(char* npc_id, class_t *c_type, stat_t *stats, move_t *moves, 
-//                             battle_item_t* items, difficulty_t ai);
 
 /* Stub for the game_new function in game.h game-state module
  *
