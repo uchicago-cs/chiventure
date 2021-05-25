@@ -14,7 +14,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type,
     room_to_add->next = NULL;
     room_to_add->room = room;
 
-    room_list_t *head = NULL;    
+    room_list_t *head = NULL;
     
     if (mov_type == NPC_MOV_DEFINITE)
     {
@@ -73,7 +73,7 @@ int npc_mov_free(npc_mov_t *npc_mov) {
     } else if (npc_mov->mov_type == NPC_MOV_INDEFINITE) {
         free(npc_mov->npc_mov_type.npc_mov_indefinite);
     }
-    
+
     free(npc_mov->track);
     free(npc_mov);
 
