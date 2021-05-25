@@ -13,6 +13,7 @@
 
 // Forward declaration
 typedef struct ui_ctx ui_ctx_t;
+typedef struct cli_ctx cli_ctx_t;
 typedef struct lookup_entry lookup_t;
 typedef struct game game_t;
 

@@ -15,7 +15,7 @@ chiventure_ctx_t* chiventure_ctx_new(game_t *game)
     {
         return NULL;
     }
-    
+
     ctx->cli_ctx = cli_ctx_new();
 
     rc = chiventure_ctx_init(ctx, game);

@@ -4,6 +4,9 @@
 #include "cmdlist.h"
 #include "cmd.h"
 
+//Forward Declaration
+typedef struct lookup_entry lookup_t;
+typedef struct command_list command_list_t;
 
 /*
  * CLI context struct.  Contains the following fields:
