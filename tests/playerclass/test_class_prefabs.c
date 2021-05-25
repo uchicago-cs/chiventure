@@ -80,7 +80,7 @@ Test(class_prefabs, Bard) {
     chiventure_ctx_t* ctx = init_statless_context();
 
     /* Tests if we can find the name even if its case is wrong */
-    class_t *c = class_prefab_new(ctx, "BARD");
+    class_t *c = class_prefab_new(ctx->game, "BARD");
     check_field_pressence(c);
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 15, "failed to initialize stat");
@@ -92,7 +92,7 @@ Test(class_prefabs, Bard) {
 Test(class_prefabs, Monk) {
     chiventure_ctx_t* ctx = init_statless_context();
 
-    class_t *c = class_prefab_new(ctx, "monk");
+    class_t *c = class_prefab_new(ctx->game, "monk");
     check_field_pressence(c);
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
@@ -104,7 +104,7 @@ Test(class_prefabs, Monk) {
 Test(class_prefabs, Ranger) {
     chiventure_ctx_t* ctx = init_statless_context();
 
-    class_t *c = class_prefab_new(ctx, "ranger");
+    class_t *c = class_prefab_new(ctx->game, "ranger");
     check_field_pressence(c);
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
@@ -116,7 +116,7 @@ Test(class_prefabs, Ranger) {
 Test(class_prefabs, Rogue) {
     chiventure_ctx_t* ctx = init_statless_context();
 
-    class_t *c = class_prefab_new(ctx, "rogue");
+    class_t *c = class_prefab_new(ctx->game, "rogue");
     check_field_pressence(c);
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
@@ -132,7 +132,7 @@ Test(class_prefabs, Warrior) {
     chiventure_ctx_t* ctx = init_incomplete_context();
 
     /* Note that the name is always stored lowercase. */
-    class_t *c = class_prefab_new(ctx, "Warrior");
+    class_t *c = class_prefab_new(ctx->game, "Warrior");
     check_field_pressence(c);
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 20, "failed to initialize previously declared stat");
@@ -150,7 +150,7 @@ Test(class_prefabs, Warrior) {
 Test(class_prefabs, Wizard) {
     chiventure_ctx_t* ctx = init_statless_context();
 
-    class_t *c = class_prefab_new(ctx, "WIZARD");
+    class_t *c = class_prefab_new(ctx->game, "WIZARD");
     check_field_pressence(c);
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
