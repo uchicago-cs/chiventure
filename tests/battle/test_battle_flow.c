@@ -42,7 +42,7 @@ Test(battle_flow, set_battle_player)
                      "set_player() didn't set class short description");
 
     cr_assert_null(comb_player->class_type->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(comb_player->class_type->stats, "set_player() didn't set class stats");
+    cr_assert_null(comb_player->class_type->base_stats, "set_player() didn't set class stats");
 }
 
 /* Tests set_enemies() with 1 enemy */
@@ -73,7 +73,7 @@ Test(battle_flow, set_one_enemy)
                      "set_player() didn't set class short description");
 
     cr_assert_null(comb_enemy->class_type->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(comb_enemy->class_type->stats, "set_player() didn't set class stats");
+    cr_assert_null(comb_enemy->class_type->base_stats, "set_player() didn't set class stats");
 }
 
 
