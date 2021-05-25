@@ -290,10 +290,6 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
                                 unsigned int* prereqlevel,
                                 int* nmissing);
 
-/* Consider adding a skill_level_missing, but I think that is already included in the skill struct,
-* Since it is simply an unsigned integer
-*/
-
 
 
 /*
