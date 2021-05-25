@@ -8,7 +8,7 @@
 // see cli_ctx.h
 cli_ctx_t *cli_ctx_new()
 {
-    cli_ctx_t *cli_ctx = (ui_ctx_t*)malloc(sizeof(cli_ctx_t));
+    cli_ctx_t *cli_ctx = (cli_ctx_t*)malloc(sizeof(cli_ctx_t));
 
     lookup_t **table = lookup_t_new();
 
