@@ -123,7 +123,7 @@ int do_branch_block(branch_block_t *block)
 {
     if (block == NULL)
     {
-        return SUCCESS;
+        return FAILURE;
     }
     if (block->num_conditionals <= 0 || block->num_actions <= 0)
     {
@@ -137,7 +137,7 @@ int do_branch_block(branch_block_t *block)
 	        return FAILURE; //All conditions must have actions
 	    }
 	    for (int i = 0; i < block->num_conditionals; i++)
-	    {
+            {
 	        if (eval_conditional_block(block->conditionals[i]) == 0)
                 {
 		    return run_ast_block(block->actions[i]);
@@ -157,9 +157,7 @@ int do_branch_block(branch_block_t *block)
 	    conditional_block_t *loop = block->conditionals[0];
 	    if (block->num_conditionals == 2)
 	    {
-	      /*
-               * If the condition to end the loop is different than starting the loop
-	       */
+	      // If the condition to end the loop is different than starting the loop
 	        loop = block->conditionals[1];
 	    }
 	    if (eval_conditional_block(block->conditionals[0]) == 0)

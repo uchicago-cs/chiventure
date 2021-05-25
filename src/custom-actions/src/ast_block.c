@@ -102,10 +102,10 @@ int run_ast_block(AST_block_t *block)
       return FAILURE;
       break;
     case(BRANCH):
-        if (do_branch_block(block->block->branch_block) == FAILURE)
-	{
-	    return FAILURE;
-	}
+      if (do_branch_block(block->block->branch_block) == FAILURE)
+      {
+          return FAILURE;
+      }
       return run_ast_block(block->next);
       break;
     case(ACTION):

@@ -93,7 +93,8 @@ int branch_block_free(branch_block_t *branch);
  * - block: A pointer to the branch block to be executed
  *
  * Returns:
- * - Integer of if the block being run was successful
+ * - SUCCESS if successful
+ * - FAILURE if unsuccessful
  */
 int do_branch_block(branch_block_t *block);
 
