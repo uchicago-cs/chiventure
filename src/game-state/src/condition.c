@@ -145,8 +145,16 @@ int delete_condition_llist(condition_list_t *conditions)
     LL_FOREACH_SAFE(conditions, elt, tmp)
     {
         LL_DELETE(conditions, elt);
-
-        free_condition(elt);
+        switch (elt->condition_tag)
+        {
+        case (ATTRIBUTE):
+            free(elt->condition.attribute_type);
+            break;
+        case (INVENTORY):
+            free(elt->condition.inventory_type);
+            break;
+        }
+        free(elt);
     }
     return SUCCESS;
 }

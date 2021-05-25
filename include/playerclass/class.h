@@ -66,6 +66,43 @@ int class_add_skills(class_t* class, skill_inventory_t* starting_skills,
                      skill_tree_t* skilltree); 
 
 /*
+ * Initializes values for a player class,
+ * created by combining two existing classes to form a multiclass.
+ * 
+ * Requires btoh classes to be already implemented.
+ * Can be used multiple times to create more complicated multiclasses.
+ *
+ * Paramaters:
+ *  - base_class: the character's base class (their current class).
+ *    this class will be used to determine base stats.
+ *  - second_class: the class being added to the original class.
+ *  - name: the name of the multiclass.
+ *
+ * Returns:
+ *  - a pointer to the allocated class memory
+ *  - NULL on error
+ */
+class_t* multiclass(class_t* base_class, class_t* second_class, char* name);
+
+/* 
+ * Checks to see if a class has a component class.
+ * This ensures that effects targeting a class will affect
+ * multiclasses that have that target class as a component.
+ *
+ * Parameters:
+ *  - class: the class being checked for components.
+ *  - name: the name of the potential component class.
+ *
+ * Returns
+ *  - 1 if the class has or is the target component, 0 if not.
+ *
+ * Note:
+ *  - This is not currently implemented anywhere, and is vestigial code.
+ *    It may be helpful in the future, but is not currently needed.
+ */
+int has_component_class(class_t* class, char* name);
+
+/*
  * Frees a class and strings created by class_new.
  * 
  * Parameters:
@@ -156,5 +193,6 @@ int count_classes(class_hash_t** hashtable);
 /* It is infeasible to provide a function for iterating over a hashtable. 
  * If iteration is needed, one should use UTHASH's HASH_ITER macro, or the 
  * class->hh.next and class->hh.prev pointers. See tests for examples. */
+
 
 #endif /* CLASS_H */
