@@ -180,6 +180,8 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id) {
     }
 } 
 
+
+
 /* Refer to quests_state.h */
 int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id)
 {
@@ -194,14 +196,14 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, 
 	quest->achievement_tree = tree;
 	return SUCCESS;
     }
-    tree = find_achievement_tree(quest->achievement_tree, parent_id);
+    tree = find_parent(quest->achievement_tree, parent_id);
     assert(tree != NULL);
 
     if (tree->lmostchild->achievement == NULL)
     {
         tree->lmostchild = malloc(sizeof(achievement_tree_t));
         tree->lmostchild->achievement = achievement_to_add;
-        tree->lmostchild->parent = find_achievement_tree(quest->achievement_tree, parent_id);
+        tree->lmostchild->parent = find_parent(quest->achievement_tree, parent_id);
     }
     else
     {
@@ -211,7 +213,7 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, 
         }
         tree->rsibling = malloc(sizeof(achievement_tree_t));
         tree->rsibling->achievement = achievement_to_add;
-        tree->rsibling->parent = find_achievement_tree(quest->achievement_tree, parent_id);
+        tree->rsibling->parent = find_parent(quest->achievement_tree, parent_id);
     }
 
     return SUCCESS;
