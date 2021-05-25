@@ -285,7 +285,7 @@ Test(battle_flow, battle_over_by_player)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    nnpc_t *npc_enemy = npc_new("player_wins_Name", NULL, NULL, NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("player_wins_Name", NULL, NULL, NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
 
