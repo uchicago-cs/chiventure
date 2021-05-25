@@ -9,7 +9,18 @@
 #include "npc/npc_battle.h"
 #include "npc/npc_move.h"
 
+/* Forward declarations. Full typedefs can be found in room.h */
+typedef struct game_action game_action_hash_t;
+typedef struct game_action game_action_t;
 
+/* Forward declarations. Full typedefs can be found in item.h */
+typedef struct item item_t;
+typedef struct item item_hash_t;
+typedef struct item_wrapped_for_llist item_list_t;
+
+/* Forward declarations. Full typedefs can be found in npc_move.h */
+typedef union npc_mov_type npc_mov_type_t;
+typedef struct npc_mov npc_mov_t;
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 

@@ -68,7 +68,7 @@ game_action_hash_t *get_all_actions(agent_t *agent);
  *   - ITEM_MODIFY_NULL if the item ID does not exist
  */
 int add_action_attribute_condition(game_action_t *action, item_t *cond_item, 
-			 attribute_t *cond_attribute, attribute_value_t cond_value);
+			 attribute_t *cond_attribute, attribute_value_t *cond_value);
 
 /* add_action_inventory_condition() creates a new inventory condition for an item's action and
  * adds to the action's condition list
@@ -137,7 +137,7 @@ int delete_action(list_action_type_t **head, list_action_type_t *act);
  * ITEM_MODIFY_NULL if agent to modify is null
  */
 int add_action_effect(game_action_t *action, agent_t *agent_to_add, 
-		      attribute_t *attribute, attribute_value_t new_value);
+		      attribute_t *attribute, attribute_value_t *new_value);
 
 /* delete_action_effect_llist frees a linked list of action effects
  * Parameters:
@@ -208,6 +208,6 @@ int game_action_free(game_action_t *action_to_free);
  *  NULL or game_action_effect_t
  */
 game_action_effect_t *effect_new(item_t *item_to_modify, 
-				 attribute_t *attribute, attribute_value_t new_value);
+				 attribute_t *attribute, attribute_value_t *new_value);
 
 #endif

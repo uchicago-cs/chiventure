@@ -8,7 +8,21 @@
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
 
+typedef struct item item_t;
+
 typedef struct list_action_type list_action_type_t;
+
+typedef struct item_wrapped_for_llist item_list_t;
+
+typedef struct game_action game_action_hash_t;
+typedef struct game_action game_action_t;
+
+/* This typedef is to distinguish between item_t pointers which are
+* used to point to the item_t structs in the traditional sense,
+* and those which are used to hash item_t structs with the
+* UTHASH macros as specified in src/common/include */
+ typedef struct item item_hash_t;
+
 
 // PATH STRUCT DEFINITION -----------------------------------------------------
 /* This struct represents a path from one room to another.

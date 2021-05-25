@@ -12,8 +12,8 @@ Test(condition, new_attr_condition)
 {
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
-    attribute_value_t value;
-    value.int_val = 2;
+    attribute_value_t *value;
+    value->int_val = 2;
 
     condition_t *condition = attribute_condition_new(item, "length", value);
 
@@ -75,8 +75,8 @@ Test(condition, free_condition_on_attr)
 {
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
-    attribute_value_t value;
-    value.int_val = 2;
+    attribute_value_t *value;
+    value->int_val = 2;
     int check;
 
     condition_t *condition = attribute_condition_new(item, "length", value);
@@ -160,8 +160,8 @@ Test(condition, delete_condition_llist)
     player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
-    attribute_value_t value;
-    value.int_val = 2;
+    attribute_value_t *value;
+    value->int_val = 2;
 
     condition_t *condition_1 = attribute_condition_new(item, "length", value);
     condition_t *condition_2 = inventory_condition_new(player, item);
@@ -185,8 +185,8 @@ Test(condition, valid_condition)
     // ITEM_MODIFY_NULL
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
-    attribute_value_t value;
-    value.int_val = 2;
+    attribute_value_t *value;
+    value->int_val = 2;
 
     condition_t *condition_1 = attribute_condition_new(item, "length", value);
 

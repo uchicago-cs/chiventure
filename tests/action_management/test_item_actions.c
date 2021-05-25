@@ -32,7 +32,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
         ga = get_action(item, allowed_act_name);
     }
     int rc;
-    attribute_value_t value;
+    attribute_value_t *value;
     attribute_t *attr;
 
     switch (choose_condition)
@@ -40,13 +40,13 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     case 1:
         set_int_attr(item, "DUMMYCONDITON", 0);
         attr = get_attribute(item, "DUMMYCONDITON");
-        value.int_val = 0;
+        value->int_val = 0;
         add_action_attribute_condition(ga, item, attr, value);
         break;
     case 2:
         set_int_attr(item, "DUMMYCONDITON", 1);
         attr = get_attribute(item, "DUMMYCONDITON");
-        value.int_val = 0;
+        value->int_val = 0;
         add_action_attribute_condition(ga, item, attr, value);
         break;
     default:
@@ -61,7 +61,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     case 1:
         set_str_attr(item, "DUMMYATTR", "old");
         attr = get_attribute(item, "DUMMYATTR");
-        value.str_val = "new";
+        value->str_val = "new";
         add_action_effect(ga, item, attr, value);
         do_item_action(ctx_test, a, item, &string);
         if (strcmp(get_str_attr(item, "DUMMYATTR"), "new") == 0)
@@ -76,7 +76,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     case 2:
         set_int_attr(item, "DUMMYATTR", 0);
         attr = get_attribute(item, "DUMMYATTR");
-        value.int_val = 1;
+        value->int_val = 1;
         add_action_effect(ga, item, attr, value);
         do_item_action(ctx_test, a, item, &string);
         if (get_int_attr(item, "DUMMYATTR") == 1)
@@ -91,7 +91,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     case 3:
         set_double_attr(item, "DUMMYATTR", 0.0);
         attr = get_attribute(item, "DUMMYATTR");
-        value.double_val = 1.0;
+        value->double_val = 1.0;
         add_action_effect(ga, item, attr, value);
         do_item_action(ctx_test, a, item, &string);
         if (get_double_attr(item, "DUMMYATTR") == 1.0)
@@ -106,7 +106,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     case 4:
         set_char_attr(item, "DUMMYATTR", 'a');
         attr = get_attribute(item, "DUMMYATTR");
-        value.char_val = 'b';
+        value->char_val = 'b';
         add_action_effect(ga, item, attr, value);
         do_item_action(ctx_test, a, item, &string);
         if (get_char_attr(item, "DUMMYATTR") == 'b')
@@ -121,7 +121,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     case 5:
         set_bool_attr(item, "DUMMYATTR", false);
         attr = get_attribute(item, "DUMMYATTR");
-        value.bool_val = true;
+        value->bool_val = true;
         add_action_effect(ga, item, attr, value);
         do_item_action(ctx_test, a, item, &string);
         if (get_bool_attr(item, "DUMMYATTR") == true)

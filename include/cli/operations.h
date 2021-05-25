@@ -212,6 +212,11 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  */
 char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+char *kind5_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+char *kind6_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /* Toggles the map by calling the toggle_map function in ui_ctx.c. Essentially a
  * wrapper, passing on the context struct only.

@@ -379,13 +379,14 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         return ( "Error! We need a loaded room to do the above action. \n");
     }
     lookup_t **table = ctx->table;
+    char *str;
 
     if(tokens[1] == NULL)
     {
-        return "You must identify an object to act on\n";
+        return "You must identify an npc to attack on\n";
     }
     npc_t *curr_npc;
-    curr_npc = get_npc_in_room(game->curr_room, tokens[1]);
+    curr_npc = get_npc(game->all_npcs, tokens[3]);
     if(curr_npc != NULL)
     {
         action_type_t *action = find_action(tokens[0], table);
@@ -399,26 +400,15 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             int rc = do_npc_action(ctx, action, curr_npc, &str);
             if (rc == SUCCESS)
             {
-                action_success = true;
-                if(strcmp(tokens[0], "TALK_TO") == 0)
-                {
-                    ///START DIALOGUE
-                }
-                 if(strcmp(tokens[0], "IGNORE") == 0)
-                {
-                    ///END DIALOGUE
                 }
                  if(strcmp(tokens[0], "ATTACK") == 0)
                 {
                     ///start battle & battle specific dialogue
                 }
             }
-            curr_npc->dialogue = curr_npc->dialogue->next;
         }
         return str;
     }
-    return "The NPC could not be found\n";
-}
 
 //KIND 5:   ACTION <item> <npc>
 char *kind5_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -437,13 +427,13 @@ char *kind5_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     item_t *curr_item;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
     npc_t * curr_npc;
-    curr_npc = get_npc(game->all_npcs, tokens[3])
+    curr_npc = get_npc(game->all_npcs, tokens[3]);
     if(curr_item != NULL && curr_npc != NULL)
     {
         action_type_t *action = find_action(tokens[0], table);
         char *str;
         
-            int rc = do_npc_item_action(c, a, curr_item, curr_npc, &str)
+            int rc = do_npc_item_action(ctx, action, curr_item, curr_npc, &str);
             if (rc == SUCCESS)
             {
                 if(strcmp(tokens[0], "STEAL") == 0)
@@ -478,8 +468,8 @@ char *kind6_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         return "You must identify an object and a npc to act on\n";
     }
     npc_t * curr_npc;
-    curr_npc = get_npc(game->all_npcs, tokens[3])
-    item_t *desired_item;
+    curr_npc = get_npc(game->all_npcs, tokens[3]);
+    item_t *desired_item = NULL;
     HASH_FIND(hh, curr_npc->inventory, tokens[1], strlen(tokens[1]),
               desired_item);
     item_t *exchanging_item;
@@ -489,7 +479,7 @@ char *kind6_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         action_type_t *action = find_action(tokens[0], table);
         char *str;
         
-            int rc = do_npc_exchange_action(c, a, desired_item, curr_npc, &str, &exchanging_item);
+            int rc = do_npc_exchange_action(ctx, action, desired_item, curr_npc, &str, &exchanging_item);
             if (rc == SUCCESS)
             {
                     remove_item_from_npc(curr_npc, desired_item);

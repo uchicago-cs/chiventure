@@ -325,7 +325,7 @@ item_list_t *get_all_items_in_game(game_t *game)
 
 /* see game.h */
 int add_effect(game_t *game, char* action_name, char* item_src_name,
-               char* item_modify_name, char* attribute_name, attribute_value_t new_value)
+               char* item_modify_name, char* attribute_name, attribute_value_t *new_value)
 {
 
     item_t *item_src = get_item_from_game(game, item_src_name);

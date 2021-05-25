@@ -231,10 +231,10 @@ Test(game_end_condition, add_end_condition_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
 
-    attribute_value_t test_value_1;
-    test_value_1.str_val = "Test_Value_1";
-    attribute_value_t test_value_2;
-    test_value_2.str_val = "Test_Value_2";
+    attribute_value_t *test_value_1;
+    test_value_1->str_val = "Test_Value_1";
+    attribute_value_t *test_value_2;
+    test_value_2->str_val = "Test_Value_2";
 
 
 
@@ -283,8 +283,8 @@ Test(game_end_condition, end_conditions_met)
     bool test_1 = end_conditions_met(game);
     cr_assert_eq(test_1, false, "end_conditions_met() does not return false when there are no end conditions");
     
-    attribute_value_t expected;
-    expected.str_val = "Valid_Value";
+    attribute_value_t *expected;
+    expected->str_val = "Valid_Value";
     
     item_t *test_item_1 = item_new("test_item_1", 
     "test item 1 for end conditions",
@@ -335,14 +335,14 @@ game_t* setup_is_game_over_test(bool has_final_room, bool has_end_conditions)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     
-    attribute_value_t expected, unexpected;
-    expected.str_val = "Valid_Value";
-    unexpected.str_val = "Invalid_Value";
+    attribute_value_t *expected, *unexpected;
+    expected->str_val = "Valid_Value";
+    unexpected->str_val = "Invalid_Value";
     
     item_t *test_item = item_new("test_item", 
     "test item for is_game_over",
     "item for testing is_game_over()");
-    set_str_attr(test_item, "Test_Attribute", unexpected.str_val);
+    set_str_attr(test_item, "Test_Attribute", unexpected->str_val);
     add_item_to_game(game, test_item);
     
     room_t *test_room1 = room_new("test_room1", "room1 short", "room1 long long long");

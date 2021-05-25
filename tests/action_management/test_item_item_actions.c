@@ -36,11 +36,11 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         ga = get_action(direct, allowed_act_name1);
     }
     int rc;
-    attribute_value_t value;
+    attribute_value_t *value;
     attribute_t *attr;
     set_str_attr(indirect, "DUMMYATTRDEFAULT", 0);
     attr = get_attribute(indirect, "DUMMYATTRDEFAULT");
-    value.int_val = 1;
+    value->int_val = 1;
     add_action_effect(ga, indirect, attr, value);
 
 
@@ -52,25 +52,25 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     case 1:
         set_int_attr(indirect, "DUMMYCONDITON", 0);
         attr = get_attribute(indirect, "DUMMYCONDITON");
-        value.int_val = 0;
+        value->int_val = 0;
         add_action_attribute_condition(ga, indirect, attr, value);
         break;
     case 2:
         set_int_attr(direct, "DUMMYCONDITON", 1);
         attr = get_attribute(direct, "DUMMYCONDITON");
-        value.int_val = 0;
+        value->int_val = 0;
         add_action_attribute_condition(ga, direct, attr, value);
         break;
     case 3:
         set_int_attr(indirect, "DUMMYCONDITON", 0);
         attr = get_attribute(indirect, "DUMMYCONDITON");
-        value.int_val = 0;
+        value->int_val = 0;
         add_action_attribute_condition(ga, indirect, attr, value);
         break;
     case 4:
         set_int_attr(indirect, "DUMMYCONDITON", 1);
         attr = get_attribute(indirect, "DUMMYCONDITON");
-        value.int_val = 0;
+        value->int_val = 0;
         add_action_attribute_condition(ga, indirect, attr, value);
         break;
     
@@ -93,7 +93,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
 
         set_int_attr(indirect, "DUMMYCONDITON", 0);
         attr = get_attribute(indirect, "DUMMYCONDITON");
-        value.int_val = 0;
+        value->int_val = 0;
         add_action_attribute_condition(ga, indirect, attr, value);
         break;
     case 8:
@@ -115,7 +115,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     case 1:
         set_str_attr(indirect, "DUMMYATTR", "old");
         attr = get_attribute(indirect, "DUMMYATTR");
-        value.str_val = "new";
+        value->str_val = "new";
         add_action_effect(ga, indirect, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (strcmp(get_str_attr(indirect, "DUMMYATTR"), "new") == 0)
@@ -128,7 +128,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     case 2:
         set_int_attr(indirect, "DUMMYATTR", 0);
         attr = get_attribute(indirect, "DUMMYATTR");
-        value.int_val = 1;
+        value->int_val = 1;
         add_action_effect(ga, indirect, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_int_attr(indirect, "DUMMYATTR") == 1)
@@ -141,7 +141,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     case 3:
         set_double_attr(indirect, "DUMMYATTR", 0.0);
         attr = get_attribute(indirect, "DUMMYATTR");
-        value.double_val = 1.0;
+        value->double_val = 1.0;
         add_action_effect(ga, indirect, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_double_attr(indirect, "DUMMYATTR") == 1.0)
@@ -154,7 +154,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     case 4:
         set_char_attr(indirect, "DUMMYATTR", 'a');
         attr = get_attribute(indirect, "DUMMYATTR");
-        value.char_val = 'b';
+        value->char_val = 'b';
         add_action_effect(ga, indirect, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_char_attr(indirect, "DUMMYATTR") == 'b')
@@ -167,7 +167,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     case 5:
         set_bool_attr(indirect, "DUMMYATTR", false);
         attr = get_attribute(indirect, "DUMMYATTR");
-        value.bool_val = true;
+        value->bool_val = true;
         add_action_effect(ga, indirect, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_bool_attr(indirect, "DUMMYATTR") == true)

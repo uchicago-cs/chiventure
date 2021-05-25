@@ -2,10 +2,16 @@
 #define _NPC_MOVE_H
 
 #include "game-state/game_state_common.h"
+#include "game-state/room.h"
 #include "action_management/action_structs.h"
 #include "game-state/item.h"
-#include "game-state/room.h"
 
+
+typedef struct room room_t;
+
+typedef struct room room_hash_t;
+
+typedef struct room_wrapped_for_llist room_list_t;
 
 /* 
  * Struct to encapsulate the time an NPC should stay in that particular room 
