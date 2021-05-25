@@ -299,7 +299,7 @@ int is_quest_completed(quest_t *quest)
 {
     assert (quest != NULL);
     achievement_tree_t *tmp = malloc(sizeof(achievement_tree_t));
-    tmp = quest->achievement_tree_t;
+    tmp = quest->achievement_tree;
     
     while(tmp = get_bottom_node(tmp)){
         if(tmp->achievement->completed == 1){
