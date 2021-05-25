@@ -346,7 +346,7 @@ Test(battle_flow, battle_over_by_enemy)
     estats->level = 1;
     estats->strength = 200;
     estats->defense = 30;
-    npc_t *npc_enemy = npc_new("enemy_wins_Name", NULL, NULL, NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("Enemy", "d", "d", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;

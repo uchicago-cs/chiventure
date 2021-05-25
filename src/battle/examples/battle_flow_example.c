@@ -1,6 +1,8 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_state.h"
+#include "npc/npc.h"
+#include "npc/npc_battle.h"
 
 
 int main()
@@ -23,8 +25,11 @@ int main()
     e_stats->defense = 2;
     e_stats->strength = 70;
 
-    npc_enemy_t *e = NULL;
-    DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, NULL, NULL, BATTLE_AI_GREEDY));
+    // npc_enemy_t *e = NULL;
+    // DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, NULL, NULL, BATTLE_AI_GREEDY));
+    npc_t *e = npc_new("Goblin", NULL, NULL, NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(0, e_stats, NULL, BATTLE_AI_GREEDY, HOSTILE, 0);
+    e->npc_battle = npc_b;
 
     chiventure_ctx_battle_t *ctx = 
         (chiventure_ctx_battle_t*) calloc(1, sizeof(chiventure_ctx_battle_t));

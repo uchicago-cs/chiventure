@@ -17,7 +17,7 @@ Test(battle_print, print_start_battle)
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    npc_t *npc_enemy = npc_new("enemy_name", NULL, NULL, NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy_name", "Enemy", "Enemy", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
