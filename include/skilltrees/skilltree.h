@@ -242,7 +242,7 @@ unsigned int get_number_skill_prereqs(skill_tree* tree, sid_t sid);
  *
  */
 
-unsigned int get_prereq_level(skill_tree* tree, sid_t sid);
+unsigned int get_prereq_level(skill_tree_t* tree, sid_t sid);
 
 /*
  * Returns prerequisite skills already acquired by a player for a given skill.
