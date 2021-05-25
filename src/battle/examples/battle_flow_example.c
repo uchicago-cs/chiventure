@@ -25,10 +25,9 @@ int main()
     e_stats->defense = 2;
     e_stats->strength = 70;
 
-    // npc_enemy_t *e = NULL;
-    // DL_APPEND(e, make_npc_enemy("Goblin", NULL, e_stats, NULL, NULL, BATTLE_AI_GREEDY));
-    npc_t *e = npc_new("Goblin", NULL, NULL, NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(0, e_stats, NULL, BATTLE_AI_GREEDY, HOSTILE, 0);
+    move_t *e_move = move_new("Diss Track", 0, NULL, true, 80, 0);
+    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     e->npc_battle = npc_b;
 
     chiventure_ctx_battle_t *ctx = 
