@@ -7,6 +7,8 @@
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_print.h"
 #include "battle/battle_structs.h"
+#include "npc/npc.h"
+#include "npc/npc_battle.h"
 
 /* Tests print_start_battle() */
 Test(battle_print, print_start_battle)
@@ -15,7 +17,7 @@ Test(battle_print, print_start_battle)
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    npc_t *npc_enemy = npc_new("start_battle_Name", NULL, NULL, NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy_name", NULL, NULL, NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(0, NULL, NULL, BATTLE_AI_NONE, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
@@ -44,7 +46,10 @@ Test(battle_print, print_hp_one_enemy)
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, NULL, BATTLE_AI_NONE);
+    // npc_enemy_t *npc_enemy = make_npc_enemy("Bob", NULL, enemy_stats, NULL, NULL, BATTLE_AI_NONE);
+    npc_t *npc_enemy = npc_new("Bob", NULL, NULL, NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(0, enemy_stats, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
