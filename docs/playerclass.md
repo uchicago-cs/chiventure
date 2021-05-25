@@ -1,5 +1,19 @@
 # Playerclass
 
+## Wiki Pages
+
+- [Player Class Dependencies](https://github.com/uchicago-cs/chiventure/wiki/Player-Class-~-Dependencies)
+- [Player Class Requirements and User Stories](https://github.com/uchicago-cs/chiventure/wiki/Player-Class-~-Requirements,-User-Stories,-Dependencies)
+- [Player Class Design](https://github.com/uchicago-cs/chiventure/wiki/Player-Class-~-Design)
+- [Loading Player Classes from WDL](https://github.com/uchicago-cs/chiventure/wiki/Player-Class-~-Loading-Classes-from-WDL)
+- [Player Class: Multiclassing Design](https://github.com/uchicago-cs/chiventure/wiki/Player-Class-~-Multiclassing:-Design)
+- [Prefabricated Classes](https://github.com/uchicago-cs/chiventure/wiki/Player-Class-~-Prefabricated-Classes)
+
+## Directories
+- [include/playerclass](https://github.com/uchicago-cs/chiventure/tree/playerclass/documentation-update/include/playerclass) - Provides function header files and documentation
+- [src/playerclass](https://github.com/uchicago-cs/chiventure/tree/dev/src/playerclass) - Contains the implementation of all player class functions
+- [tests/playerclass](https://github.com/uchicago-cs/chiventure/tree/dev/tests/playerclass) - Includes tests for all functions in the player class module
+
 ## Key Features
 
 - Provide basic classes for game developers to utilize
@@ -8,7 +22,12 @@
 - Work with rpg-battle team to implement specific combat statistics / effects for different classes
 - Work with other teams to implement additional game functionality based on class, such as custom dialogue, custom NPC names, custom item usage, etc.
 
-## Data Structures
+## Modules
+
+### Class
+_The Class module provides basic functions for working with classes._
+
+#### Player Class Struct
 ```
 class_t struct
     - char* Name
@@ -23,9 +42,6 @@ class_t struct
     - skill_inventory_t* Starting_skills
     - UT_hash_handle Field Used by UTHASH Macros
 ```
-
-### Class
-_The Class module provides basic functions for working with classes._
 
 Create a new playerclass:
 - `class_t* class_new(char* name, char* shortdesc, char* longdesc, obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);`
