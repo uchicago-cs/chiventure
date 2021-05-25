@@ -39,28 +39,7 @@ void print_class(class_t* class) {
     /* Attributes */
     if (class->attributes != NULL) {
         printf("Attributes:\n");
-        obj_t *attr, *tmp;
         dump_obj(class->attributes);
-        /* This could be made recursive, but I don't think we use nested attributes anywhere */
-        /*
-        HASH_ITER(hh, class->attributes, attr, tmp) {
-            printf("    %s: ", attr->id);
-            switch(attr->type) {
-                case TYPE_BOOL: 
-                    printf("%s\n", attr->data.b ? "true" : "false");
-                    break;
-                case TYPE_INT:
-                    printf("%d\n", attr->data.i);
-                    break;
-                case TYPE_CHAR:
-                    printf("%c\n", attr->data.c);
-                    break;
-                case TYPE_STR:
-                    printf("%s\n", attr->data.s);
-                case TYPE_OBJ:
-                    printf("%s\n", attr->data.s);
-            }     
-        } */
     }
     else
         printf("Attributes: NULL\n");
