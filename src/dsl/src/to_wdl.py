@@ -96,7 +96,6 @@ class Room:
         """
             Assembles a list of a room's items.
         """
-        a=3
         return list(map(lambda i: i.id, self.contents.get('items',[])))
 
 class Item:
@@ -133,8 +132,17 @@ class Item:
                 self.wdl_contents[k] = v
 
         self.wdl_contents['in'] = self.location
+        if "actions" not in self.wdl_contents:
+            self.wdl_contents["actions"] = []
         self.generate_defaults()
-        return {self.id: self.wdl_contents}
+
+        # currently lowercase items do not seem to be recognized by chiventure
+        wdl_id = self.id
+        if not self.id.isupper():
+            wdl_id = self.id.upper()
+            warn(f"Chiventure requires that item ids be uppercase. Replacing {self.id} with {wdl_id}.")
+
+        return {wdl_id: self.wdl_contents}
 
     def generate_defaults(self):
         """
@@ -162,24 +170,14 @@ class Item:
         # generate default interaction text for actions
         for i in self.wdl_contents.get('actions', []):
             if 'text_success' not in i:
-                i['text_success'] = f"You {i.lower()} the {id}."
+                i['text_success'] = f"You {i['action'].lower()} the {self.id}."
                 warn(f'''
-                    missing: success text for action {i} for item {self.id}, 
+                    missing: success text for action {i['action']} for item {self.id}, 
                     generated default: {i['text_success']}''')
-            #if 'success' not in self.wdl_contents['actions'][i]:
-            #    self.wdl_contents['actions'][i]['success'] = f"You {i.lower()} the {id}."
-            #    warn(f'''
-            #        missing: success text for action {i} for item {self.id}, 
-            #        generated default: {self.wdl_contents['actions'][i]['success']}''')
-            # if 'fail' not in self.wdl_contents['actions'][i]:
-            #     self.wdl_contents['actions'][i]['fail'] = f"You cannot {i.lower()} the {id}."
-            #     warn(f'''
-            #         missing: failure text for action {i} for item {self.id}, 
-            #         generated default: {self.wdl_contents['actions'][i]['fail']}''')
             if 'text_fail' not in i:
-                i['text_fail'] = f"You cannot {i.lower()} the {id}."
+                i['text_fail'] = f"You cannot {i['action'].lower()} the {self.id}."
                 warn(f'''
-                    missing: failure text for action {i} for item {self.id}, 
+                    missing: failure text for action {i['action']} for item {self.id}, 
                     generated default: {i['text_fail']}''')
 
     # to do: action conditions -- how?
@@ -199,13 +197,6 @@ class Item:
             out.append(action_wdl_dict)
  
         return out
-
-
-        return list(map(lambda i: {
-            'action': i,
-            'text_success': self.contents['actions'][i]['success'],
-            'text_fail': self.contents['actions'][i]['fail']
-        }, self.contents.get('actions',[])))
 
 
 class Game:
@@ -238,13 +229,6 @@ class Game:
                 self.wdl_contents[k] = v
         self.generate_defaults()
         return {'GAME': self.wdl_contents}
-        return {'GAME': {
-            'start': self.contents['start'],
-            "intro": self.contents['intro'],
-            "end": {
-                'in_room': self.contents['end']
-            }
-        }}
 
     def generate_defaults(self):
         """
