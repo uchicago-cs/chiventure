@@ -254,7 +254,9 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
 
     *num_acquired_prereqs = 0;
 
-    for (unsigned int i = 0; i < *num_prereqs; i++) {
+    num_prereqs = get_number_skill_prereqs(tree, sid);
+
+    for (unsigned int i = 0; i < num_prereqs; i++) {
         sid_t prereq = prereqs[i]->skill->sid;
         skill_type_t type = prereqs[i]->skill->type;
         int pos = inventory_has_skill(inventory, prereq, type);
