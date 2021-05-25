@@ -50,27 +50,26 @@ void check_field_pressence(class_t* c) {
     cr_assert_not_null(c->shortdesc, "failed to initialize short description");
     cr_assert_not_null(c->longdesc, "failed to initialize long description");
     cr_assert_not_null(c->attributes, "failed to initialize attributes object");
-    cr_assert_not_null(c->stats, "failed to initialize stats");
+    cr_assert_not_null(c->base_stats, "failed to initialize stats");
     /* Currently, effects are not implemented, so this is NULL */
     // cr_assert_not_null(c->effects, "failed to initialize effects");
 
     /* Checks for stat presence, but not value */
-    cr_assert_neq(get_stat_current(c->stats, "max_health"), -1, "failed to add stat");
-    cr_assert_neq(get_stat_current(c->stats, "speed"), -1, "failed to add stat");
-    cr_assert_neq(get_stat_current(c->stats, "physical_defense"), -1, "failed to add stat");
-    cr_assert_neq(get_stat_current(c->stats, "physical_attack"), -1, "failed to add stat");
-    cr_assert_neq(get_stat_current(c->stats, "ranged_attack"), -1, "failed to add stat");
-    cr_assert_neq(get_stat_current(c->stats, "magic_defense"), -1, "failed to add stat");
-    cr_assert_neq(get_stat_current(c->stats, "magic_attack"), -1, "failed to add stat");
-    cr_assert_neq(get_stat_current(c->stats, "max_mana"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->base_stats, "max_health"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->base_stats, "speed"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->base_stats, "physical_defense"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->base_stats, "physical_attack"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->base_stats, "ranged_attack"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->base_stats, "magic_defense"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->base_stats, "magic_attack"), -1, "failed to add stat");
+    cr_assert_neq(get_stat_current(c->base_stats, "max_mana"), -1, "failed to add stat");
 }
 
 /* Checks whether skill fields are present, and whether the initialized skills 
  * match the expected list */
 void check_skill_pressence(class_t* c, int num_skills, char** names) {
     cr_assert_not_null(c->skilltree, "failed to initialize skilltree");
-    cr_assert_not_null(c->combat, "failed to initialize combat skill inventory");
-    cr_assert_not_null(c->noncombat, "failed to initialize noncombat skill inventory");
+    cr_assert_not_null(c->starting_skills, "failed to initialize skill inventory");
 
     for(int i = 0; i < num_skills; i++)
         cr_assert_str_eq(c->skilltree->nodes[i]->skill->name, names[i], "failed to add skill");
@@ -84,7 +83,7 @@ Test(class_prefabs, Bard) {
     class_t *c = class_prefab_new(ctx, "BARD");
     check_field_pressence(c);
     
-    cr_assert_eq(get_stat_current(c->stats, "max_health"), 15, "failed to initialize stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 15, "failed to initialize stat");
 
     /* Skills not yet done for this class */
 }
@@ -96,7 +95,7 @@ Test(class_prefabs, Monk) {
     class_t *c = class_prefab_new(ctx, "monk");
     check_field_pressence(c);
     
-    cr_assert_eq(get_stat_current(c->stats, "max_health"), 25, "failed to initialize stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
 
     /* Skills not yet done for this class */
 }
@@ -108,7 +107,7 @@ Test(class_prefabs, Ranger) {
     class_t *c = class_prefab_new(ctx, "ranger");
     check_field_pressence(c);
     
-    cr_assert_eq(get_stat_current(c->stats, "max_health"), 10, "failed to initialize stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
 
     /* Skills not yet done for this class */
 }
@@ -120,7 +119,7 @@ Test(class_prefabs, Rogue) {
     class_t *c = class_prefab_new(ctx, "rogue");
     check_field_pressence(c);
     
-    cr_assert_eq(get_stat_current(c->stats, "max_health"), 10, "failed to initialize stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
 
     /* Skills not yet done for this class */
 }
@@ -136,15 +135,15 @@ Test(class_prefabs, Warrior) {
     class_t *c = class_prefab_new(ctx, "Warrior");
     check_field_pressence(c);
     
-    cr_assert_eq(get_stat_current(c->stats, "max_health"), 20, "failed to initialize previously declared stat");
-    cr_assert_eq(get_stat_current(c->stats, "speed"), 15, "failed to initialize new stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 20, "failed to initialize previously declared stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "speed"), 15, "failed to initialize new stat");
 
     class_prefab_add_skills(c);
         
     char* skill_list[] = {"Sword Slash", "Double Slash", "Triple Slash"};
     check_skill_pressence(c, 3, skill_list);
 
-    cr_assert_str_eq(c->combat->active[0]->name, "Sword Slash", "failed to initialize combat skill inventory");
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Sword Slash", "failed to initialize skill inventory");
 }
 
 /* Tests the rogue class */
@@ -154,7 +153,7 @@ Test(class_prefabs, Wizard) {
     class_t *c = class_prefab_new(ctx, "WIZARD");
     check_field_pressence(c);
     
-    cr_assert_eq(get_stat_current(c->stats, "max_health"), 10, "failed to initialize stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
 
     /* Skills not yet done for this class */
 }

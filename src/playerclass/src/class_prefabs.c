@@ -294,9 +294,8 @@ const unsigned int UI_NODE_SIZE = 75;
  *  - EXIT_FAILURE otherwise.
  */
 int class_allocate_skills(class_t* class, int max_skills_in_tree, 
-                      int max_active_skills, int max_passive_skills) {
-    class->combat = inventory_new(max_active_skills, max_passive_skills);
-    class->noncombat = inventory_new(max_active_skills, max_passive_skills);
+                          int max_active_skills, int max_passive_skills) {
+    class->starting_skills = inventory_new(max_active_skills, max_passive_skills);
     
     /* tree ID needs to be unique across all chiventure code.  Our team has been
      * assigned the range 3000-3999.  Default classes start at 3000. There is
@@ -315,8 +314,8 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
                         "in class_allocate_skills\n");
         return EXIT_FAILURE;
     }
-    if (class->combat == NULL || class->noncombat == NULL) {
-        fprintf(stderr, "Could not allocate memory for skill inventories"
+    if (class->starting_skills == NULL) {
+        fprintf(stderr, "Could not allocate memory for skill inventory"
                         "in class_allocate_skills\n");
         return EXIT_FAILURE;
     }
@@ -357,7 +356,7 @@ int add_skill(class_t* class, skill_t* skill, int prereq_count, bool is_starting
     skill_tree_node_add(class->skilltree, node);
 
     if (is_starting)
-        inventory_skill_acquire(class->skilltree, class->combat, skill);
+        inventory_skill_acquire(class->skilltree, class->starting_skills, skill);
     return SUCCESS;
 } 
 

@@ -71,13 +71,12 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     strncpy(class->longdesc, longdesc, MAX_LONG_DESC_LEN);
 
     class->attributes = attr;
-    class->stats = stat;
+    class->base_stats = stat;
     class->effects = effect;
 
     /* These are initialized by class_init_skills() */
     class->skilltree = NULL;
-    class->combat = NULL;
-    class->noncombat = NULL;
+    class->starting_skills = NULL;
 
     return EXIT_SUCCESS;
 }
@@ -287,7 +286,7 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
     obj_t* combined_attr = multiclass_attributes(base_class->attributes, second_class->attributes, name);
     effects_hash_t* combined_effects = multiclass_effects(base_class->effects, second_class->effects);
     
-    class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->stats, combined_effects);
+    class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->base_stats, combined_effects);
     if (new_class == NULL) {
         return NULL;
     }
@@ -309,18 +308,15 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
     }
 
     new_class->skilltree = multiclass_tree(name, base_class->skilltree, second_class->skilltree);
-    new_class->combat = multiclass_inventory(base_class->combat, second_class->combat);
-    new_class->noncombat = multiclass_inventory(base_class->noncombat, second_class->noncombat);
+    new_class->starting_skills = multiclass_inventory(base_class->starting_skills, second_class->starting_skills);
 
     return new_class;
 }
 
-
 /* See class.h */
-int class_add_skills(class_t* class, skill_inventory_t* combat, 
-                     skill_inventory_t *noncombat, skill_tree_t* skilltree) {
-    class->combat = combat;
-    class->noncombat = noncombat;
+int class_add_skills(class_t* class, skill_inventory_t* starting_skills, 
+                     skill_tree_t* skilltree) {
+    class->starting_skills = starting_skills;
     class->skilltree = skilltree;
     return EXIT_SUCCESS;
 }
@@ -363,14 +359,71 @@ int class_free(class_t* class) {
     if (class->skilltree != NULL) {
         skill_tree_free(class->skilltree);
     }
-    if (class->combat != NULL) {
-        inventory_free(class->combat);
-    }
-    if (class->noncombat != NULL) {
-        inventory_free(class->noncombat);
+    if (class->starting_skills != NULL) {
+        inventory_free(class->starting_skills);
     }
 
     free(class);
 
     return EXIT_SUCCESS;
+}
+
+/* Class Hashtable functions */
+
+/* See class.h */
+int add_class(class_hash_t** hashtable, class_t* class) {
+    if (class == NULL || class->name == NULL)
+        return FAILURE;
+
+    if (find_class(hashtable, class->name) != NULL)
+        return FAILURE;
+
+    HASH_ADD_STR(*hashtable, name, class); 
+    return SUCCESS;
+}
+
+/* See class.h */
+int set_class(class_hash_t** hashtable, class_t* class) {
+    if (class == NULL || class->name == NULL)
+        return FAILURE;
+    
+    class_t* replaced_class = NULL;
+    HASH_REPLACE_STR(*hashtable, name, class, replaced_class);
+
+    if (replaced_class != NULL)
+        class_free(replaced_class);
+    
+    return SUCCESS;
+}
+
+/* See class.h */
+class_t* find_class(class_hash_t** hashtable, char* name) {
+    if (hashtable == NULL || name == NULL)
+        return NULL;
+    class_t* output_ptr = NULL;
+    HASH_FIND_STR(*hashtable, name, output_ptr);
+    return output_ptr;
+}
+
+/* See class.h */
+int delete_class(class_hash_t** hashtable, char* name) {
+    if (hashtable == NULL || name == NULL)
+        return FAILURE; 
+    
+    class_t* class = find_class(hashtable, name);
+    if (class == NULL)
+        return FAILURE;
+
+    /* Removes class from hashtable */
+    HASH_DEL(*hashtable, class);
+
+    /* Class must still be freed after removal */
+    class_free(class);
+
+    return SUCCESS;
+}
+
+/* See class.h */
+int count_classes(class_hash_t** hashtable) {
+    return HASH_COUNT(*hashtable);
 }
