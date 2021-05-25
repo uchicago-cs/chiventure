@@ -131,9 +131,9 @@ int quest_free(quest_t *q)
     return SUCCESS;
 }
 
-int compare_quests(quest_t *quest1, quest_t *quest2)
+int compare_achievements(achievement_t *a1, achievement_t *a2)
 {
-    if (strcmp(quest1->id, quest2->id) == 0)
+    if (strcmp(a1->id, a2->id) == 0)
     {
         return 0;
     } 
