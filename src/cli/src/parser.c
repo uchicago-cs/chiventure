@@ -93,7 +93,11 @@ tokenized_cmds *parse_r(char *input)
     return head;
 }
 
-/* See parser.h */
+/* the parser function in this branch attempts to make the token list size flexible 
+ * by putting the cmds tokenized by strtok(which delimites by " ") in a utlist 
+ * similar to the parse_r function. Instead of returning an array of limited size as the 
+ * version in the dev branch does, the function return a tokenized_cmds struct
+ */
 tokenized_cmds *parse(char *input)
 {
     if(strcmp(input, "") == 0)
@@ -111,6 +115,8 @@ tokenized_cmds *parse(char *input)
         input[i] = ch;
         i++;
     }
+    //creates an additional node on the list until strtok yields NULL when 
+    //it has tokenized the entire string
     tokenized_cmds *sub_head = NULL;
     char *sub_token = strtok(token, " ");
     while(sub_token != NULL) 

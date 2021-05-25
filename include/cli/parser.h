@@ -32,18 +32,7 @@ typedef struct tokenized_cmds {
  */
 tokenized_cmds *parse_r(char *input);
 
-/*
- * Parses a string into a list of words, breaking on spaces
- *
- * Parameters:
- * - input: string to be parsed
- *
- * Returns:
- * - A list of individual words from the input string. This list is a fixed
- *   size, the words possible in a command. If the input string is has less
- *   words than this fixed size, the rest of the list will be null.
- *
- */
+/* see parser.c */
 char **parse(char *input);
 
 
