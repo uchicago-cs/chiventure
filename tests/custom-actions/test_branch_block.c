@@ -33,7 +33,7 @@ Test(branch_block_t, new)
     right->attribute_value = attribute_value;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
     
-    // allocates a new control block to nest within a branch block
+    // allocates a new action block to nest within a branch block
     control_type_t control_type = IFELSE;
     action_enum_t action_type = SET;
     AST_block_t* actions  = AST_action_block_new(action_type, num_actions, &left);
@@ -89,7 +89,7 @@ Test(branch_block_t, new_AST)
     conditional_type_t conditional_type = EQ;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
 
-    // allocates a new control block to nest within a branch block
+    // allocates a new action block to nest within a branch block
     control_type_t control_type = IFELSE;
     action_enum_t action_type = SET;
     AST_block_t* actions  = AST_action_block_new(action_type, num_actions, &left);
@@ -148,7 +148,7 @@ Test(branch_block_t, init)
     conditional_type_t conditional_type = EQ;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
 
-    // allocates a new control block to nest within a branch block
+    // allocates a new action block to nest within a branch block
     control_type_t control_type = IFELSE;
     action_enum_t action_type = SET;
     AST_block_t* actions  = AST_action_block_new(action_type, num_actions, &left);
@@ -201,7 +201,7 @@ Test(branch_block_t, free)
     conditional_type_t conditional_type = EQ;
     conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
  
-    // allocates a new control block to nest within a branch block
+    // allocates a new action block to nest within a branch block
     control_type_t control_type = IFELSE;
     action_enum_t action_type = SET;
     AST_block_t* actions  = AST_action_block_new(action_type, num_actions, &left);
@@ -217,4 +217,395 @@ Test(branch_block_t, free)
     cr_assert_eq(rc, SUCCESS, "branch_block_free() failed");
     attribute_free(left);
     attribute_free(right);
+}
+
+/* Checks that a new branch block runs as an IFELSE 
+- If is true */
+Test(branch_block_t, IFELSE_success)
+{
+  int rc;
+  int num_conditionals = 1;
+  int num_actions = 1;
+  // allocates a new conditional block to nest within a branch block
+  char *attr_name1 = "attribute1";
+  char *attr_name2 = "attribute2";
+  enum attribute_tag attribute_tag = INTEGER;
+  attribute_value_t av1, av2;
+  av1.int_val = 1;
+  av2.int_val = 2;
+  attribute_t *left = malloc(sizeof(attribute_t));
+  UT_hash_handle hh = hh;
+  left->hh = hh;
+  left->attribute_key = strdup(attr_name1);
+  left->attribute_tag = attribute_tag;
+  left->attribute_value = av1;
+  attribute_t *right = malloc(sizeof(attribute_t));
+  right->hh = hh;
+  right->attribute_key = strdup(attr_name2);
+  right->attribute_tag = attribute_tag ;
+  right->attribute_value = av2;
+  conditional_type_t conditional_type = LTB;
+  conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
+
+  // allocates a new action block to nest within a branch block
+  control_type_t control_type = IFELSE;
+  action_enum_t action_type = SET;
+
+  attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  args[0] = left;
+  args[1] = right;
+
+  int num_attributes = 2;
+  AST_block_t* actions  = AST_action_block_new(action_type, num_attributes, args);
+  cr_assert_not_null(actions, "action_block_new failed");
+
+  
+  // allocates the new branch block
+  branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
+						control_type, num_actions, &actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, SUCCESS, "do_branch_block failed");
+  cr_assert_eq(right->attribute_value.int_val, left->attribute_value.int_val, "do_branch_block failed to set value");
+
+  
+  branch_block_free(new_branch);
+  attribute_free(left);
+  attribute_free(right);
+}
+
+/* Checks that a branch block runs an IFELSE properly
+ - If isn't true */
+Test(branch_block_t, IFELSE_failure)
+{
+  int rc;
+  int num_conditionals = 1;
+  int num_actions = 1;
+  // allocates a new conditional block to nest within a branch block
+  char *attr_name1 = "attribute1";
+  char *attr_name2 = "attribute2";
+  enum attribute_tag attribute_tag = INTEGER;
+  attribute_value_t av1, av2;
+  av1.int_val = 1;
+  av2.int_val = 2;
+  attribute_t *left = malloc(sizeof(attribute_t));
+  UT_hash_handle hh = hh;
+  left->hh = hh;
+  left->attribute_key = strdup(attr_name1);
+  left->attribute_tag = attribute_tag;
+  left->attribute_value = av1;
+  attribute_t *right = malloc(sizeof(attribute_t));
+  right->hh = hh;
+  right->attribute_key = strdup(attr_name2);
+  right->attribute_tag = attribute_tag ;
+  right->attribute_value = av2;
+  conditional_type_t conditional_type = GTB;
+  conditional_block_t* conditionals = conditional_block_new(conditional_type, left, right);
+
+  // allocates a new action block to nest within a branch block
+  control_type_t control_type = IFELSE;
+  action_enum_t action_type = SET;
+
+  attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  args[0] = left;
+  args[1] = right;
+
+  int num_attributes = 2;
+  AST_block_t* actions  = AST_action_block_new(action_type, num_attributes, args);
+  cr_assert_not_null(actions, "action_block_new failed");
+
+
+  // allocates the new branch block
+  branch_block_t* new_branch = branch_block_new(num_conditionals, &conditionals,
+						control_type, num_actions, &actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, SUCCESS, "do_branch_block failed");
+  cr_assert_neq(right->attribute_value.int_val, left->attribute_value.int_val, "do_branch_block set value incorrectly");
+
+
+  branch_block_free(new_branch);
+  attribute_free(left);
+  attribute_free(right);
+}
+
+/* Checks that a branch block runs an IFELSE properly
+   - Multiple conditions */
+Test(branch_block_t, multiple_conditions)
+{
+  int rc;
+  int num_conditionals = 2;
+  int num_actions = 2;
+  // allocates a new array of conditional blocks to nest within a branch block
+  char *attr_name1 = "attribute1";
+  char *attr_name2 = "attribute2";
+  char *attr_name3 = "attribute3";
+  enum attribute_tag attribute_tag = INTEGER;
+  attribute_value_t av1, av2, av3;
+  av1.int_val = 1;
+  av2.int_val = 2;
+  av3.int_val = 3;
+  attribute_t *left = malloc(sizeof(attribute_t));
+  UT_hash_handle hh = hh;
+  left->hh = hh;
+  left->attribute_key = strdup(attr_name1);
+  left->attribute_tag = attribute_tag;
+  left->attribute_value = av1;
+  attribute_t *right = malloc(sizeof(attribute_t));
+  right->hh = hh;
+  right->attribute_key = strdup(attr_name2);
+  right->attribute_tag = attribute_tag;
+  right->attribute_value = av2;
+  attribute_t *a3 = malloc(sizeof(attribute_t));
+  a3->hh = hh;
+  a3->attribute_key = strdup(attr_name3);
+  a3->attribute_tag = attribute_tag;
+  a3->attribute_value = av3;
+  conditional_type_t conditional_type = GTB;
+  conditional_block_t** conditionals = malloc(sizeof(conditional_block_t*) * 2);
+  conditionals[0] = conditional_block_new(conditional_type, left, right);
+  conditionals[1] = conditional_block_new(conditional_type, right, left);
+  
+  // allocates a new array of action blocks to nest within a branch block
+  control_type_t control_type = IFELSE;
+  action_enum_t action_type = SET;
+
+  attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  args[0] = left;
+  args[1] = right;
+
+  attribute_t **args2 = malloc(sizeof(attribute_t*) * 2);
+  args2[0] = right;
+  args2[1] = a3;
+  
+  int num_attributes = 2;
+  AST_block_t** actions  = malloc(sizeof(AST_block_t*) * 2);
+  actions[0] = AST_action_block_new(action_type, num_attributes, args);
+  actions[1] = AST_action_block_new(action_type, num_attributes, args2);
+
+  // allocates the new branch block
+  branch_block_t* new_branch = branch_block_new(num_conditionals, conditionals,
+						control_type, num_actions, actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+    
+  cr_assert_eq(rc, SUCCESS, "do_branch_block failed");
+  cr_assert_neq(right->attribute_value.int_val, left->attribute_value.int_val, "do_branch_block set value incorrectly");
+  cr_assert_eq(right->attribute_value.int_val, a3->attribute_value.int_val, "do_branch_block failed to set value");
+
+  branch_block_free(new_branch);
+  attribute_free(left);
+  attribute_free(right);
+  attribute_free(a3);
+}
+
+/* Checks that a branch block runs an IFELSE properly
+   - Tests default case */
+Test(branch_block_t, default_if)
+{
+  int rc;
+  int num_conditionals = 1;
+  int num_actions = 2;
+  // allocates a new array of conditional blocks to nest within a branch block
+  char *attr_name1 = "attribute1";
+  char *attr_name2 = "attribute2";
+  char *attr_name3 = "attribute3";
+  enum attribute_tag attribute_tag = INTEGER;
+  attribute_value_t av1, av2, av3;
+  av1.int_val = 1;
+  av2.int_val = 2;
+  av3.int_val = 3;
+  attribute_t *left = malloc(sizeof(attribute_t));
+  UT_hash_handle hh = hh;
+  left->hh = hh;
+  left->attribute_key = strdup(attr_name1);
+  left->attribute_tag = attribute_tag;
+  left->attribute_value = av1;
+  attribute_t *right = malloc(sizeof(attribute_t));
+  right->hh = hh;
+  right->attribute_key = strdup(attr_name2);
+  right->attribute_tag = attribute_tag;
+  right->attribute_value = av2;
+  attribute_t *a3 = malloc(sizeof(attribute_t));
+  a3->hh = hh;
+  a3->attribute_key = strdup(attr_name3);
+  a3->attribute_tag = attribute_tag;
+  a3->attribute_value = av3;
+  conditional_type_t conditional_type = GTB;
+  conditional_block_t** conditionals = malloc(sizeof(conditional_block_t*));
+  conditionals[0] = conditional_block_new(conditional_type, left, right);
+
+  // allocates a new array of action blocks to nest within a branch block
+  control_type_t control_type = IFELSE;
+  action_enum_t action_type = SET;
+
+  attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  args[0] = left;
+  args[1] = right;
+
+  attribute_t **args2 = malloc(sizeof(attribute_t*) * 2);
+  args2[0] = right;
+  args2[1] = a3;
+
+  int num_attributes = 2;
+  AST_block_t** actions  = malloc(sizeof(AST_block_t*) * 2);
+  actions[0] = AST_action_block_new(action_type, num_attributes, args);
+  actions[1] = AST_action_block_new(action_type, num_attributes, args2);
+
+  // allocates the new branch block
+  branch_block_t* new_branch = branch_block_new(num_conditionals, conditionals,
+						control_type, num_actions, actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, SUCCESS, "do_branch_block failed");
+  cr_assert_neq(right->attribute_value.int_val, left->attribute_value.int_val, "do_branch_block set value incorrectly");
+  cr_assert_eq(right->attribute_value.int_val, a3->attribute_value.int_val, "do_branch_block failed to set value");
+
+  branch_block_free(new_branch);
+  attribute_free(left);
+  attribute_free(right);
+  attribute_free(a3);
+}
+
+/* Checks that a branch block runs a WHILEENDWHILE properly
+   - Normal While */
+Test(branch_block_t, while_sucess)
+{
+  int rc;
+  int num_conditionals = 1;
+  int num_actions = 1;
+  // allocates a new array of conditional blocks to nest within a branch block
+  char *attr_name1 = "attribute1";
+  char *attr_name2 = "attribute2";
+  char *attr_name3 = "attribute3";
+  enum attribute_tag attribute_tag = INTEGER;
+  attribute_value_t av1, av2, av3;
+  av1.int_val = 1;
+  av2.int_val = 1;
+  av3.int_val = 5;
+  
+  attribute_t *left = malloc(sizeof(attribute_t));
+  UT_hash_handle hh = hh;
+  left->hh = hh;
+  left->attribute_key = strdup(attr_name1);
+  left->attribute_tag = attribute_tag;
+  left->attribute_value = av1;
+  attribute_t *right = malloc(sizeof(attribute_t));
+  right->hh = hh;
+  right->attribute_key = strdup(attr_name2);
+  right->attribute_tag = attribute_tag;
+  right->attribute_value = av2;
+  attribute_t *a3 = malloc(sizeof(attribute_t));
+  a3->hh = hh;
+  a3->attribute_key = strdup(attr_name3);
+  a3->attribute_tag = attribute_tag;
+  a3->attribute_value = av3;
+  conditional_type_t conditional_type = LTB;
+  conditional_block_t** conditionals = malloc(sizeof(conditional_block_t*));
+  conditionals[0] = conditional_block_new(conditional_type, right, a3);
+  
+  // allocates a new array of action blocks to nest within a branch block
+  control_type_t control_type = WHILEENDWHILE;
+  action_enum_t action_type = ADDITION;
+
+  attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  args[0] = left;
+  args[1] = right;
+  args[2] = right;
+
+  int num_attributes = 3;
+  AST_block_t** actions  = malloc(sizeof(AST_block_t*));
+  actions[0] = AST_action_block_new(action_type, num_attributes, args);
+  
+  // allocates the new branch block
+  branch_block_t* new_branch = branch_block_new(num_conditionals, conditionals,
+						control_type, num_actions, actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, SUCCESS, "do_branch_block failed");
+  cr_assert_neq(right->attribute_value.int_val, left->attribute_value.int_val, "do_branch_block failed to add");
+  cr_assert_eq(right->attribute_value.int_val, a3->attribute_value.int_val, "do_branch_block failed to set value");
+
+  branch_block_free(new_branch);
+  attribute_free(left);
+  attribute_free(right);
+  attribute_free(a3);
+}
+
+/* Checks that a branch block runs a WHILEENDWHILE properly
+   - Multiple conditions */
+Test(branch_block_t, end_while)
+{
+  int rc;
+  int num_conditionals = 2;
+  int num_actions = 1;
+  // allocates a new array of conditional blocks to nest within a branch block
+  char *attr_name1 = "attribute1";
+  char *attr_name2 = "attribute2";
+  char *attr_name3 = "attribute3";
+  enum attribute_tag attribute_tag = INTEGER;
+  attribute_value_t av1, av2, av3;
+  av1.int_val = 2;
+  av2.int_val = 1;
+  av3.int_val = 7;
+
+  attribute_t *left = malloc(sizeof(attribute_t));
+  UT_hash_handle hh = hh;
+  left->hh = hh;
+  left->attribute_key = strdup(attr_name1);
+  left->attribute_tag = attribute_tag;
+  left->attribute_value = av1;
+  attribute_t *right = malloc(sizeof(attribute_t));
+  right->hh = hh;
+  right->attribute_key = strdup(attr_name2);
+  right->attribute_tag = attribute_tag;
+  right->attribute_value = av2;
+  attribute_t *a3 = malloc(sizeof(attribute_t));
+  a3->hh = hh;
+  a3->attribute_key = strdup(attr_name3);
+  a3->attribute_tag = attribute_tag;
+  a3->attribute_value = av3;
+  conditional_type_t conditional_type = LTB;
+  conditional_block_t** conditionals = malloc(sizeof(conditional_block_t*));
+  conditionals[0] = conditional_block_new(conditional_type, right, left);
+  conditionals[1] = conditional_block_new(conditional_type, right, a3);
+  
+  // allocates a new array of action blocks to nest within a branch block
+  control_type_t control_type = WHILEENDWHILE;
+  action_enum_t action_type = ADDITION;
+
+  attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  args[0] = left;
+  args[1] = right;
+  args[2] = right;
+
+  int num_attributes = 3;
+  AST_block_t** actions  = malloc(sizeof(AST_block_t*));
+  actions[0] = AST_action_block_new(action_type, num_attributes, args);
+
+  // allocates the new branch block
+  branch_block_t* new_branch = branch_block_new(num_conditionals, conditionals,
+						control_type, num_actions, actions);
+  cr_assert_not_null(new_branch, "branch_block_new() failed");
+
+  rc = do_branch_block(new_branch);
+
+  cr_assert_eq(rc, SUCCESS, "do_branch_block failed");
+  cr_assert_neq(right->attribute_value.int_val, 1, "do_branch_block failed to add");
+  cr_assert_neq(right->attribute_value.int_val, 4, "do_branch_block ended while at the start condition");
+  cr_assert_eq(right->attribute_value.int_val, a3->attribute_value.int_val, "do_branch_block failed to set value");
+
+  branch_block_free(new_branch);
+  attribute_free(left);
+  attribute_free(right);
+  attribute_free(a3);
 }

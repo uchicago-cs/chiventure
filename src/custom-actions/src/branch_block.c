@@ -134,13 +134,13 @@ int do_branch_block(branch_block_t *block)
         case IFELSE:
 	    if (block->num_conditionals > block->num_actions)
 	    {
-	      return FAILURE; //All conditions must have actions
+	        return FAILURE; //All conditions must have actions
 	    }
 	    for (int i = 0; i < block->num_conditionals; i++)
 	    {
-	        if (eval_conditional_block(block->conditionals[i]))
+	        if (eval_conditional_block(block->conditionals[i]) == 0)
                 {
-                    return run_ast_block(block->actions[i]);
+		    return run_ast_block(block->actions[i]);
                 }
             }
 	    if (block->num_actions > block->num_conditionals)
@@ -161,7 +161,7 @@ int do_branch_block(branch_block_t *block)
 	       */
 	        loop = block->conditionals[1];
 	    }
-	    if (eval_conditional_block(block->conditionals[0]))
+	    if (eval_conditional_block(block->conditionals[0]) == 0)
 	    {
 	        //No detection or protection for infinite looping
 	        do
@@ -171,7 +171,7 @@ int do_branch_block(branch_block_t *block)
 		  {
 		      return FAILURE;
 		  }
-		} while(eval_conditional_block(loop));
+		} while(eval_conditional_block(loop) == 0);
 		return SUCCESS;
 	    }
         case FORENDFOR:
