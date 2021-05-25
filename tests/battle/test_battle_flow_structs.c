@@ -42,6 +42,11 @@ Test(battle_flow_structs, new_ctx_player)
 //     cr_assert_eq(npc_enemy->prev, NULL, "make_npc_enemy() didn't set prev");
 // }
 
+/* Tests make_npc_enemy() with 1 enemy */
+// Test(battle_flow_structs, make_one_npc_enemy)
+// {
+//     npc_enemy_t *npc_enemy = make_npc_enemy("make_one_npc_enemy_Name", NULL, NULL, NULL, NULL, 
+//     BATTLE_AI_GREEDY);
 
 /* Tests make_npc_enemy() with 2 enemies */
 // Test(battle_flow_structs, set_two_npc_enemies)

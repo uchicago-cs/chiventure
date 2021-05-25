@@ -202,33 +202,65 @@ Test(battle_print, print_enemy_move)
     free(string);
 }
 
+//     enemy_stats->hp = 30;
+//     enemy_stats->strength = 14;
+//     enemy_stats->defense = 9;
+//     enemy_stats->xp = 100;
+//     enemy_stats->level = 5;
+//     enemy_stats->speed = 9;
+//     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+//     npc_t *npc_enemy = npc_new("enemy_name", "test", "testing", NULL, NULL, true);
+//     npc_battle_t *npc_b = npc_battle_new(0, enemy_stats, NULL, BATTLE_AI_NONE, HOSTILE, 0);
+//     npc_enemy->npc_battle = npc_b;
+//     environment_t env = ENV_WATER;
+//     battle_t *b = set_battle(ctx_player, npc_enemy, env);
+//     cr_assert_not_null(b, "set_battle() failed");
 
-/* Tests print_battle_winner() when player wins */
-Test(battle_print, print_player_winner)
-{
-    battle_status_t status = BATTLE_VICTOR_PLAYER;
-    int xp = 2;
+//     // Set up a move
+//     move_t *move = calloc(1,sizeof(move_t));
+//     move->damage = 99;
+//     move->info = "Laugh";
+//     b->player->moves = move;
+//     b->player->stats->hp = 42;
+//     char* string = print_battle_move(b, ENEMY, move);
+//     cr_assert_not_null(string, "print_start_battle() failed");
+//     char *expected_string = "Bob used Laugh! It did 8 damage.\n"
+//                             "-- Your HP: 42\n"
+//                             "ENEMY HP\n"
+//                             "-- Bob's HP: 30\n";
 
-    char* string = print_battle_winner(status, xp);
-    cr_assert_not_null(string, "print_start_battle() failed");
+//     cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string");
 
-    char *expected_string = "You've won! You gain 2 XP!\n";
-    cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
+//     free(string);
+// }
 
-    free(string);
-}
 
-/* Tests print_battle_winner() when enemy wins */
-Test(battle_print, print_enemy_winner)
-{
-    battle_status_t status = BATTLE_VICTOR_ENEMY;
-    int xp = 2;
+// /* Tests print_battle_winner() when player wins */
+// Test(battle_print, print_player_winner)
+// {
+//     battle_status_t status = BATTLE_VICTOR_PLAYER;
+//     int xp = 2;
 
-    char* string = print_battle_winner(status, xp);
-    cr_assert_not_null(string, "print_start_battle() failed");
+//     char* string = print_battle_winner(status, xp);
+//     cr_assert_not_null(string, "print_start_battle() failed");
 
-    char *expected_string = "You have been defeated!\n";
-    cr_expect_str_eq(string, expected_string, "print_enemy_winner() failed to set string");
+//     char *expected_string = "You've won! You gain 2 XP!\n";
+//     cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
 
-    free(string);
-}
+//     free(string);
+// }
+
+// /* Tests print_battle_winner() when enemy wins */
+// Test(battle_print, print_enemy_winner)
+// {
+//     battle_status_t status = BATTLE_VICTOR_ENEMY;
+//     int xp = 2;
+
+//     char* string = print_battle_winner(status, xp);
+//     cr_assert_not_null(string, "print_start_battle() failed");
+
+//     char *expected_string = "You have been defeated!\n";
+//     cr_expect_str_eq(string, expected_string, "print_enemy_winner() failed to set string");
+
+//     free(string);
+// }
