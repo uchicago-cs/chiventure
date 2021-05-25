@@ -69,10 +69,65 @@ Test(npc_battle, new)
 
     cr_assert_eq(100, npc_battle->health, 
 		 "npc_battle_new() didn't set health");
-    cr_assert_eq(50, npc_battle->stats->speed, 
-		 "npc_battle_new() didn't set speed for stats");
-    cr_assert_eq(npc_battle->moves, moves, 
+    cr_assert_eq(stats, npc_battle->stats, 
+		 "npc_battle_new() didn't set stats");
+    cr_assert_eq(moves, npc_battle->moves, 
 		 "npc_battle_new() didn't set moves");
+    cr_assert_eq(BATTLE_AI_GREEDY, npc_battle->ai,
+                 "npc_battle_new() didn't set ai");
+    cr_assert_eq(HOSTILE, npc_battle->hostility_level,
+		 "npc_battle_new() didn't set hostility_level");
     cr_assert_eq(25, npc_battle->surrender_level,
 		 "npc_battle_new() didn't set surrender_level");
+}
+
+/* Checks that npc_battle_init() initialized the fields in the new npc_battle 
+ * struct */
+Test(npc_battle, init)
+{
+    npc_battle_t *npc_battle;
+
+    stat_t *stats = create_enemy_stats();
+    move_t *moves = create_enemy_moves();
+
+    npc_battle = npc_battle_new(100, NULL, NULL, BATTLE_AI_GREEDY,
+                                HOSTILE, 25);
+
+    int res = npc_battle_init(npc_battle, 5, stats, moves, BATTLE_AI_NONE,
+		              FRIENDLY, 0);
+
+    cr_assert_eq(res, SUCCESS, "npc_battle_init() failed");
+
+    cr_assert_eq(5, npc_battle->health,
+	         "npc_battle_init() didn't initialize health");
+    cr_assert_eq(stats, npc_battle->stats,
+                 "npc_battle_init() didn't initialize stats");
+    cr_assert_eq(moves, npc_battle->moves,
+                 "npc_battle_init() didn't initialize moves");
+    cr_assert_eq(BATTLE_AI_NONE, npc_battle->ai,
+                 "npc_battle_init() didn't initialize ai");
+    cr_assert_eq(FRIENDLY, npc_battle->hostility_level,
+                 "npc_battle_init() didn't initialize hostility_level");
+    cr_assert_eq(0, npc_battle->surrender_level,
+                 "npc_battle_init() didn't initialize surrender_level");
+}
+
+
+/* Checks that npc_free() frees the given npc struct from memory */
+Test(npc_battle, free)
+{
+    npc_battle_t *npc_battle;
+
+    stat_t *stats = create_enemy_stats();
+    move_t *moves = create_enemy_moves();
+
+    npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, 25);
+
+    cr_assert_not_null(npc_battle, "npc_battle_new() failed");
+
+    int res = npc_battle_free(npc_battle);
+
+    cr_assert_eq(res, SUCCESS, "npc_battle_free() failed");
+
 }
