@@ -71,7 +71,7 @@ achievement_t *achievement_new(mission_t *mission, char *id);
  *         (not started)
  */
 quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
-                    item_t *reward);
+                    reward_t *reward, stat_req_t *stat_req);
 
 /* Initialize an already allocated passive mission struct 
  *
@@ -84,7 +84,7 @@ quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int passive_mission_init(passive_mission_t *mission, int *xp, int *levels, int *health);
+int passive_mission_init(passive_mission_t *mission, int xp, int level, int health);
 
 /* Initialize an already allocated active mission struct 
  *
@@ -110,7 +110,7 @@ int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int reward_init(reward_t *rewards, int xp, item *item);
+int reward_init(reward_t *rewards, int xp, item_t *item);
 
 /* Initializes an already allocated stats requirement struct
  * 
@@ -155,7 +155,7 @@ int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
  * 
  */
 int quest_init(quest_t *q, long int quest_id, achievement_tree_t *achievement_tree, 
-               item_t *reward, int status);
+               reward_t *reward, stat_req_t *stat_req, int status);
 
 /* 
  * Frees a passive mission struct from memory
@@ -232,7 +232,7 @@ int can_start_quest(quest_t *quest, player_t *player);
  * - 0 for false
  * - 1 for true
  */
-int compare_quests(quest_t *quest1, quest_t *quest2);
+int compare_achievements(achievement_t *a1, achievement_t *a2);
 
 /*
  * Helper function used to find the bottom node on the left side of a tree
@@ -268,7 +268,7 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id);
  * - SUCCESS 
  * - FAILURE 
  */
-int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id)
+int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id);
 
 /* Updates a quest's status to started
  *
@@ -309,7 +309,7 @@ int fail_quest(quest_t *quest);
  *       so this "locks" a user into a path once they've begun
  *       completing achievements.
  */
-achievement_t *find_achievement(achievement_tree_t *tree, char *id)
+achievement_t *find_achievement(achievement_tree_t *tree, char *id);
 
 
 /* Completes an achievement in a quest by checking if a given
@@ -359,7 +359,7 @@ int get_quest_status(quest_t *quest);
  * Note:
  * The status of the quest should first be checked before this function is called
  */
-item_t *complete_quest(quest_t *quest);
+reward_t *complete_quest(quest_t *quest);
 
 
 #endif /* QUESTS_STATE_H */
