@@ -12,6 +12,10 @@ PROPERTY_ALIASES = {
     "long": "long_desc",
     "introduction": "intro"
 }
+ACTION_ALIASES = {
+    "success": "text_success",
+    "fail": "text_fail"
+}
 
 class Room:
     def __init__(self, id: str, contents: dict):
@@ -92,7 +96,8 @@ class Room:
         """
             Assembles a list of a room's items.
         """
-        return list(map(lambda i: i['id'], self.contents.get('items',[])))
+        a=3
+        return list(map(lambda i: i.id, self.contents.get('items',[])))
 
 class Item:
     def __init__(self, location: str, contents: dict):
@@ -123,7 +128,7 @@ class Item:
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
             elif k == "actions":
-                self.wdl_contents["connections"] = self.actions_list()
+                self.wdl_contents["actions"] = self.actions_list()
             elif k not in ['id']:
                 self.wdl_contents[k] = v
 
@@ -156,17 +161,26 @@ class Item:
 
         # generate default interaction text for actions
         for i in self.wdl_contents.get('actions', []):
-            id = self.wdl_contents.get('id', "item")
-            if 'success' not in self.wdl_contents['actions'][i]:
-                self.wdl_contents['actions'][i]['success'] = f"You {i.lower()} the {id}."
+            if 'text_success' not in i:
+                i['text_success'] = f"You {i.lower()} the {id}."
                 warn(f'''
-                    missing: success text for action {i} for item {id}, 
-                    generated default: {self.wdl_contents['actions'][i]['success']}''')
-            if 'fail' not in self.wdl_contents['actions'][i]:
-                self.wdl_contents['actions'][i]['fail'] = f"You cannot {i.lower()} the {id}."
+                    missing: success text for action {i} for item {self.id}, 
+                    generated default: {i['text_success']}''')
+            #if 'success' not in self.wdl_contents['actions'][i]:
+            #    self.wdl_contents['actions'][i]['success'] = f"You {i.lower()} the {id}."
+            #    warn(f'''
+            #        missing: success text for action {i} for item {self.id}, 
+            #        generated default: {self.wdl_contents['actions'][i]['success']}''')
+            # if 'fail' not in self.wdl_contents['actions'][i]:
+            #     self.wdl_contents['actions'][i]['fail'] = f"You cannot {i.lower()} the {id}."
+            #     warn(f'''
+            #         missing: failure text for action {i} for item {self.id}, 
+            #         generated default: {self.wdl_contents['actions'][i]['fail']}''')
+            if 'text_fail' not in i:
+                i['text_fail'] = f"You cannot {i.lower()} the {id}."
                 warn(f'''
-                    missing: failure text for action {i} for item {id}, 
-                    generated default: {self.wdl_contents['actions'][i]['fail']}''')
+                    missing: failure text for action {i} for item {self.id}, 
+                    generated default: {i['text_fail']}''')
 
     # to do: action conditions -- how?
     def actions_list(self) -> list:
@@ -174,6 +188,19 @@ class Item:
             Assembles a list of an item's actions, with their success and 
             failure text included.
         """
+        out = []
+        for name, action_dict in self.contents.get('actions', {}).items():
+            action_wdl_dict = {"action": name}
+            for k,v in action_dict.items():
+                if k in ACTION_ALIASES:
+                    action_wdl_dict[ACTION_ALIASES[k]] = v
+                else:
+                    action_wdl_dict[k] = v
+            out.append(action_wdl_dict)
+ 
+        return out
+
+
         return list(map(lambda i: {
             'action': i,
             'text_success': self.contents['actions'][i]['success'],
@@ -250,12 +277,16 @@ def parsed_dict_to_json(intermediate: dict) -> str:
         rooms_dict = intermediate.pop("rooms")
         for room_name, contents in rooms_dict.items():
             room_items = contents["items"]
-            rooms.append(Room(room_name, contents))
+            room_items_objs = []
             for item in room_items:
                 location = room_name
                 if "location" in item:
                     location = item.pop("location")
-                items.append(Item(location, item))
+                item_obj = Item(location, item)
+                items.append(item_obj)
+                room_items_objs.append(item_obj)
+            contents["items"] = room_items_objs
+            rooms.append(Room(room_name, contents))
     
     game = Game(intermediate)
     

@@ -1,10 +1,10 @@
 {
   "GAME": {
     "start": "room A",
-    "intro": "This is the intro",
     "end": {
       "in_room": "room C"
-    }
+    },
+    "intro": "This is the intro"
   },
   "ROOMS": {
     "room C": {
@@ -45,7 +45,6 @@
   },
   "ITEMS": {
     "DOOR": {
-      "in": "room A",
       "short_desc": "A large wooden door",
       "long_desc": "It looks very heavy, and it doesn't have a keyhole",
       "actions": [
@@ -59,7 +58,8 @@
           "text_success": "You walk through the door",
           "text_fail": "You can't do that, the door is closed"
         }
-      ]
+      ],
+      "in": "room A"
     }
   }
 }
