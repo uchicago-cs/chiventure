@@ -136,7 +136,7 @@ int do_branch_block(branch_block_t *block)
 	    {
 	        return FAILURE; //All conditions must have actions
 	    }
-	    for (int i = 0; i < block->num_conditionals; i++)
+            for (int i = 0; i < block->num_conditionals; i++)
             {
 	        if (eval_conditional_block(block->conditionals[i]) == 0)
                 {
