@@ -28,11 +28,11 @@
 - See `chiventure/include/npc.h` for in-code documentation on the nitty-gritty technical details of NPCs.
 - NPCs in chiventure were designed to be a mix of players and items. They have inventories like players, and descriptions like items.
 - NPCs are unique in that they can participate in dialogue with the player.
-- NPCs also possess a class struct, which contains a stats struct and skill tree, much like a player.
+- NPCs possess a class struct, which contains a stats struct and skill tree, much like a player.
+- NPCs possess a game actions hash table, which serves as a list of possible actions that can be performed on or with that NPC.
 
 ### Next Steps for the NPC Module
 - Integrate with chiventure by adding NPCs to the game struct.
-- Complete npc-action module currently contained in the branch npc/action so that NPCs can be spoken and traded with in chiventure.
 - Integrate with battle module by making it possible to battle NPCs in a chiventure game.
 - Integrate with WDL so that NPCs can be specified in that format.
 
@@ -45,7 +45,6 @@
 - An "edge" is a connection between nodes, to be accessed when the player indicates the edge's "keyword". This keyword functions as the edge's identification, therefore, no two edges in a conversation may have the same keyword.
     - Note: currently, in the dialogue_example, the player is able to state the exact keyword, and this is read and parsed by the NPC-CLI in the example. This is not compatible with chiventure's UI/CLI.
     - This "keyword" functionality will soon be replaced with numeric options (see Next Steps for the Dialogue Module).
-
 - A "convo" is a conversation that the NPC can carry out, feature a collection of nodes.
 
 ### Next Steps for the Dialogue Module
