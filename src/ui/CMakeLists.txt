@@ -18,7 +18,7 @@ if (raylib_FOUND)
     add_subdirectory(examples
                     EXCLUDE_FROM_ALL)
 else()
-    message(WARNING "Won't build graphics examples because raylib could not be found")
+    message(WARNING "Won't build graphical interface because raylib could not be found")
 endif()
 
 

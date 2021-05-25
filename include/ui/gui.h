@@ -5,8 +5,11 @@
 
 #define MAX_INPUT_CHARS 20
 #define POS_ZERO 0
-#define MIN_COLS 80
-#define MIN_ROWS 24
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 500
+#define WINDOW_WIDTH 1200
+#define WINDOW_HEIGHT 700
+
 
 /* run_gui
  * Runs the gui and runs the game loop.
