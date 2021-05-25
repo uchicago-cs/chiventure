@@ -1,4 +1,4 @@
-# Playerclass
+# Playerclass Documentation
 
 ## Wiki Pages
 
