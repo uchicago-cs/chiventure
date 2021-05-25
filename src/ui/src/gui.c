@@ -47,8 +47,9 @@ void run_gui(chiventure_ctx_t *ctx)
 
             /* Check if more characters have been pressed on the same frame */
             while (key > 0) {
-                /* NOTE: Only allow keys in range [32..125] */
-                if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS))
+                /* NOTE: Only allow keys in range [32..125}
+                as these are the printable characters */
+                if ((key >= 0) && (key <= 127) && (letterCount < MAX_INPUT_CHARS))
                 {
                     name[letterCount] = (char)key;
                     letterCount++;
