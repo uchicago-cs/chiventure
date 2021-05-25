@@ -342,14 +342,14 @@ int main(int argc, char **argv)
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatch the CLI to add the new operations */
-    add_entry("PLYR-STATS", print_player_stats, NULL, ctx->table);
-    add_entry("PLYR-EFFECTS", print_player_effects, NULL, ctx->table);
-    add_entry("GAME-STATS", print_global_stats, NULL, ctx->table);
-    add_entry("GAME-EFFECTS", print_global_effects, NULL, ctx->table);
-    add_entry("ADD-STAT", add_player_stat, NULL, ctx->table);
-    add_entry("ADD-EFFECT", add_player_effect, NULL, ctx->table);
-    add_entry("ITEM-EFFECT", print_item_effects, NULL, ctx->table);
-    add_entry("UPGRADE", upgrade_command, NULL, ctx->table);
+    add_entry("PLYR-STATS", print_player_stats, NULL, ctx->cli_ctx->table);
+    add_entry("PLYR-EFFECTS", print_player_effects, NULL, ctx->cli_ctx->table);
+    add_entry("GAME-STATS", print_global_stats, NULL, ctx->cli_ctx->table);
+    add_entry("GAME-EFFECTS", print_global_effects, NULL, ctx->cli_ctx->table);
+    add_entry("ADD-STAT", add_player_stat, NULL, ctx->cli_ctx->table);
+    add_entry("ADD-EFFECT", add_player_effect, NULL, ctx->cli_ctx->table);
+    add_entry("ITEM-EFFECT", print_item_effects, NULL, ctx->cli_ctx->table);
+    add_entry("UPGRADE", upgrade_command, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);

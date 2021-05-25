@@ -160,7 +160,7 @@ int main(int argc, char **argv)
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatching in a talk action to support dialogue */
-    add_entry("TALK", talk_operation, NULL, ctx->table);
+    add_entry("TALK", talk_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);

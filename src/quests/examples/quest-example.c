@@ -207,15 +207,15 @@ int main(int argc, char **argv)
     add_achievement_to_quest(quest, achievement1);
     add_achievement_to_quest(quest, achievement2);
 
-    add_entry("QUEST", start_quest_operation, NULL, ctx->table);
+    add_entry("QUEST", start_quest_operation, NULL, ctx->cli_ctx->table);
 
-    add_entry("TALK", talk_to_npc, NULL, ctx->table);
+    add_entry("TALK", talk_to_npc, NULL, ctx->cli_ctx->table);
 
     action_type_t steal_action = {"STEAL", ITEM};
-    add_entry(steal_action.c_name, kind1_action_operation, &steal_action, ctx->table);
+    add_entry(steal_action.c_name, kind1_action_operation, &steal_action, ctx->cli_ctx->table);
 
     action_type_t drink_action = {"SIP", ITEM};
-    add_entry(drink_action.c_name, kind1_action_operation, &drink_action, ctx->table);
+    add_entry(drink_action.c_name, kind1_action_operation, &drink_action, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
