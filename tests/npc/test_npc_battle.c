@@ -6,11 +6,28 @@
 #include "battle/battle_moves.h"
 
 /* Creates example stats. Taken from test_battle_ai.c */
-stat_t* create_enemy_stats()
+stat_t* create_enemy_stats1()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
 
     test_stats->speed = 50;
+    test_stats->defense = 20;
+    test_stats->strength = 150;
+    test_stats->dexterity = 10;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+
+    return test_stats;
+}
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t* create_enemy_stats2()
+{
+    stat_t* test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 100;
     test_stats->defense = 20;
     test_stats->strength = 150;
     test_stats->dexterity = 10;
@@ -40,7 +57,7 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage,
  }
 
 /* Creates example moves. Taken from test_battle_ai.c */
-move_t* create_enemy_moves()
+move_t* create_enemy_moves1()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
@@ -53,14 +70,24 @@ move_t* create_enemy_moves()
     return head;
 }
 
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t* create_enemy_moves2()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = create_move(1, NULL, true, 100, 0);
+    DL_APPEND(head, earthquake);
+    return head;
+}
+
 /* Checks that npc_battle_new() properly mallocs and inits a new npc_battle 
  * struct */
 Test(npc_battle, new)
 {
     npc_battle_t *npc_battle;
 
-    stat_t *stats = create_enemy_stats();
-    move_t *moves = create_enemy_moves();
+    stat_t *stats = create_enemy_stats1();
+    move_t *moves = create_enemy_moves1();
 
     npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY, 
 		                HOSTILE, 25);
@@ -87,22 +114,24 @@ Test(npc_battle, init)
 {
     npc_battle_t *npc_battle;
 
-    stat_t *stats = create_enemy_stats();
-    move_t *moves = create_enemy_moves();
+    stat_t *stats1 = create_enemy_stats1();
+    move_t *moves1 = create_enemy_moves1();
+    stat_t *stats2 = create_enemy_stats2();
+    move_t *moves2 = create_enemy_moves2();
 
-    npc_battle = npc_battle_new(100, NULL, NULL, BATTLE_AI_GREEDY,
+    npc_battle = npc_battle_new(100, stats1, moves1, BATTLE_AI_GREEDY,
                                 HOSTILE, 25);
 
-    int res = npc_battle_init(npc_battle, 5, stats, moves, BATTLE_AI_NONE,
+    int res = npc_battle_init(npc_battle, 5, stats2, moves2, BATTLE_AI_NONE,
 		              FRIENDLY, 0);
 
     cr_assert_eq(res, SUCCESS, "npc_battle_init() failed");
 
     cr_assert_eq(5, npc_battle->health,
 	         "npc_battle_init() didn't initialize health");
-    cr_assert_eq(stats, npc_battle->stats,
+    cr_assert_eq(stats2, npc_battle->stats,
                  "npc_battle_init() didn't initialize stats");
-    cr_assert_eq(moves, npc_battle->moves,
+    cr_assert_eq(moves2, npc_battle->moves,
                  "npc_battle_init() didn't initialize moves");
     cr_assert_eq(BATTLE_AI_NONE, npc_battle->ai,
                  "npc_battle_init() didn't initialize ai");
@@ -118,8 +147,8 @@ Test(npc_battle, free)
 {
     npc_battle_t *npc_battle;
 
-    stat_t *stats = create_enemy_stats();
-    move_t *moves = create_enemy_moves();
+    stat_t *stats = create_enemy_stats1();
+    move_t *moves = create_enemy_moves1();
 
     npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY,
                                 HOSTILE, 25);
