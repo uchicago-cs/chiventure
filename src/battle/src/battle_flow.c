@@ -121,18 +121,23 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
         return SUCCESS;
     }
 
+    int res = enemy_make_move(ctx);
+
+    return res;
+}
+
+/* see battle_flow.h */
+int enemy_make_move(chiventure_ctx_battle_t *ctx) 
+{
+    battle_t *b = ctx->game->battle;
+
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
     move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
-
+    int dmg;
     if(enemy_move != NULL)
     {
         dmg = damage(b->player, enemy_move, b->enemy);
-        b->player->stats->hp -= dmg;
-    }
-    else
-    {
-        dmg = damage(b->player, move, b->enemy);
         b->player->stats->hp -= dmg;
     }
     

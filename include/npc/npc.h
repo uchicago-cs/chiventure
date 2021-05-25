@@ -12,6 +12,9 @@
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
+// Forward declaration
+typedef struct convo convo_t;
+
 /* A non-playable character in game */
 typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
