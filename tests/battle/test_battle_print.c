@@ -7,8 +7,8 @@
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_print.h"
 #include "battle/battle_structs.h"
-#include "npc/npc.h"
-#include "npc/npc_battle.h"
+#include "../include/npc/npc.h"
+#include "../include/npc/npc_battle.h"
 
 // /* Tests print_start_battle() */
 // Test(battle_print, print_start_battle)

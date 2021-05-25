@@ -10,6 +10,8 @@
 #include "battle_structs.h"
 #include "common/common.h"
 #include "common/utlist.h"
+#include "npc/npc.h"
+#include "npc/npc_battle.h"
 
 #define BATTLE_BUFFER_SIZE (200) // copied from actionmanagement.c, changed to 200
 
