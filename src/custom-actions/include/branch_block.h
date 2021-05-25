@@ -86,4 +86,15 @@ int branch_block_init(branch_block_t *branch, int num_conditionals, conditional_
  */  
 int branch_block_free(branch_block_t *branch);
 
+/* Given an branch block and its corresponding arguments,
+ * attempt to execute the given block.
+ *
+ * Parameters:
+ * - block: A pointer to the branch block to be executed
+ *
+ * Returns:
+ * - Integer of if the block being run was successful
+ */
+int do_branch_block(branch_block_t *block);
+
 #endif /* INCLUDE_BRANCH_BLOCK_H */
