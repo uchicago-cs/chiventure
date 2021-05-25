@@ -1,8 +1,11 @@
 import sys
+import warnings
 from lark import Lark, Transformer
 from lark.lexer import Token
 import json
 from pathlib import Path
+from warnings import warn
+
 
 base_path = Path(__file__).parent
 grammar_f = open(base_path / "dsl_grammar.lark")
@@ -39,6 +42,7 @@ class TreeToDict(Transformer):
         for convenience.
         """
         room_id = s.pop(0)[1]
+        
 
         # first place all non-item objects into a dict
         # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
@@ -48,7 +52,8 @@ class TreeToDict(Transformer):
         # create a list of items and place it in its own entry of the dict
         # the values placed into this entry will correspond to item attributes
         # since the key is guaranteed to be the string "ITEM"
-        d["items"] = list([v for k, v in s if k == "ITEM"])
+        d["items"] = [v for k, v in s if k == "ITEM"]
+        
         return ('ROOM', (room_id, d))
 
     def connections(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
@@ -74,24 +79,30 @@ class TreeToDict(Transformer):
         
         actions_dictionary = {}
         
-        # match action properties to the action name
         for action in action_ids:
-            action_dict = {}
-            for action_property in action_properties:
-                name, value = action_property
-                # an example name would be "OPEN success"
-                
-                # match name to the action name
+            actions_dictionary[action] = {}
+        for action_property in action_properties:
+            name, value = action_property
+
+            matched = False
+            # match name to the action name
+            for action in action_ids:
                 if action == name[:len(action)]:
+                    matched = True
                     # extract the "success" from "OPEN success"
                     property_name = name[len(action):]
                     
                     # remove whitespace
                     property_name = property_name.strip()
                     
-                    action_dict[property_name] = value
-            actions_dictionary[action] = action_dict
+                    actions_dictionary[action][property_name] = value
+            if matched == False:
+                warn(f"Unexpected object under actions will be ignored: {action_property}")
         return ("actions", actions_dictionary)
+    
+    def misplaced_property(self, s: list[Token]) -> str:
+        raise Exception('"property FOR object" syntax is not yet supported')
+    
 
     # the functions below do simple transformations
 
@@ -133,6 +144,7 @@ class TreeToDict(Transformer):
 
 parser = Lark(dsl_grammar, parser='earley')
 
+
 def export_dict(file_str):
     tree = parser.parse(file_str)
     return TreeToDict().transform(tree)
@@ -142,7 +154,8 @@ def main():
         file_str = f.read()
 
         tree = parser.parse(file_str)
-        print(json.dumps(TreeToDict().transform(tree), indent=2))
+        transformed = TreeToDict().transform(tree)
+        print(json.dumps(transformed, indent=2))
 
 
 if __name__ == '__main__':
