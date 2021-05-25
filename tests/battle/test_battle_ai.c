@@ -5,6 +5,7 @@
 #include "battle/battle_ai.h"
 
 
+
 class_t *create_test_class()
 {
     class_t* test_class = class_new("Bard", "Music boi",
