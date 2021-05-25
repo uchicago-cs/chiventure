@@ -239,13 +239,13 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
 
     skill_node_t** prereqs = get_all_skill_prereqs(tree, sid);
     // this changes the out-parameters for the sid skill
-    if (num_acquired_prereqs == -1) {
+    if (*num_acquired_prereqs == -1) {
         fprintf(stderr, "get_acquired_skill_prereqs: node is not in tree\n");
         *num_acquired_prereqs = -1;
         return NULL;
     }
 
-    skill_t** acquired = (skill_t**)malloc(num_acquired_prereqs*sizeof(skill_t*));
+    skill_t** acquired = (skill_t**)malloc(*num_acquired_prereqs*sizeof(skill_t*));
     if (acquired == NULL) {
         fprintf(stderr, "get_acquired_skill_prereqs: malloc acquired failed\n");
         *num_acquired_prereqs = -2;
@@ -254,7 +254,7 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
 
     *num_acquired_prereqs = 0;
 
-    for (unsigned int i = 0; i < num_prereqs; i++) {
+    for (unsigned int i = 0; i < *num_prereqs; i++) {
         sid_t prereq = prereqs[i]->skill->sid;
         skill_type_t type = prereqs[i]->skill->type;
         int pos = inventory_has_skill(inventory, prereq, type);
