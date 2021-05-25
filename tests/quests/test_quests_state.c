@@ -41,11 +41,11 @@ Test(passive_mission, init)
     int check = passive_mission_init(p_mission, xp, levels, health);
 
     cr_assert_eq(check, SUCCESS,"passive_mission_init() failed");
-    cr_assert_str_eq(mission->xp, 50,
+    cr_assert_eq(p_mission->xp, 50,
                     "mission_init() did not set xp");
-    cr_assert_str_eq(mission->levels, 5,
+    cr_assert_eq(p_mission->levels, 5,
                     "mission_init() did not set levels");   
-    cr_assert_str_eq(mission->health, 10,
+    cr_assert_eq(p_mission->health, 10,
                     "mission_init() did not set health");   
 }
 
@@ -61,14 +61,14 @@ Test(active_mission, init)
     npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
                                 100, class);
 
-    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2","npc to kill", 
+    npc_t *mission_meet_kill = npc_new(npc_kill_id , "npc to kill", 
                                        "An npc to kill", 100, class);
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
     active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
                                                      mission_meet_kill, room_to_visit);
 
-    int check = mission_init(a_mission, item_to_get, mission_meet_npc,
+    int check = active_mission_init(a_mission, item_to_get, mission_meet_npc,
                              mission_meet_kill, room_to_visit);
 
     cr_assert_eq(check,SUCCESS,"active_mission_init() failed");
@@ -87,14 +87,18 @@ Test(achievement, init)
 {
 	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
-    char *id = "test mission"
-    active_mission_t *mission = active_mission_new(item_to_get, NULL, NULL, NULL);
+    char *id = "test mission";
+
+    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
+    mission_t *mission;
+    mission->a_mission = a_mission;
+    mission->p_mission = NULL;
 
     achievement_t *achievement = achievement_new(mission, id);
 
 	int check = achievement_init(achievement, mission, id);
 
-    cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item",
+    cr_assert_str_eq(achievement->mission->a_mission->item_to_collect->item_id, "test_item",
                      "achievement_init did not set mission name");
     cr_assert_eq(achievement->completed, 0,
                      "achievement_init did not initialize completed bool");
@@ -165,13 +169,13 @@ Test(quest, init)
 
 	int check = quest_init(q, 1, NULL, rewards, stat_req, 0);
 
-    cr_assert_str_eq(q->rewards->item->item_id, "test_item",
+    cr_assert_str_eq(q->reward->item->item_id, "test_item",
                      "quest_init did not set item_id reward");
-    cr_assert_q(q->rewards->xp, 20,
+    cr_assert_eq(q->reward->xp, 20,
                      "quest_init did not set xp reward");
-    cr_assert_q(q->stat_req->hp, 40,
+    cr_assert_eq(q->stat_req->hp, 40,
                      "quest_init did not set stat req hp");
-    cr_assert_q(q->stat_req->level, 5,
+    cr_assert_eq(q->stat_req->level, 5,
                      "quest_init did not set stat req level");
     cr_assert_null(q->achievement_tree,
                      "quest_init did not set achievement_tree");
@@ -185,11 +189,18 @@ Test(achievement, new)
 {
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
-    active_mission_t *mission = active_mission_new(item_to_get, NULL, NULL, NULL);
-	achievement_t* achievement = achievement_new(mission);
+    char *id = "test mission";
+
+    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
+    mission_t *mission;
+
+    mission->a_mission = a_mission;
+    mission->p_mission = NULL;
+
+	achievement_t* achievement = achievement_new(mission, id);
 
 	cr_assert_not_null(achievement, "achievement_new() test has failed!");
-    cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item", 
+    cr_assert_str_eq(achievement->mission->a_mission->item_to_collect->item_id, "test_item", 
                      "achievement_init did not set mission name");
     cr_assert_eq(achievement->completed, 0, 
                      "achievement_init did not initialize completed bool");
@@ -209,13 +220,13 @@ Test(quest, new)
                 "did not initialize the quest_id");
     cr_assert_eq(q->achievement_tree, NULL, "quest_new()"
                 "did not initialize the achievement tree");
-    cr_assert_str_eq(q->rewards->item->item_id, "test_item", "quest_new()"
+    cr_assert_str_eq(q->reward->item->item_id, "test_item", "quest_new()"
                 "did not initialize the reward item");
-    cr_assert_str_eq(q->rewards->xp, 20, "quest_new()"
+    cr_assert_eq(q->reward->xp, 20, "quest_new()"
                 "did not initialize the xp reward");
-    cr_assert_q(q->stat_req->hp, 40,
+    cr_assert_eq(q->stat_req->hp, 40,
                      "quest_init did not set stat req hp");
-    cr_assert_q(q->stat_req->level, 5,
+    cr_assert_eq(q->stat_req->level, 5,
                      "quest_init did not set stat req level");
     cr_assert_eq(q->status, 0, "quest_new()"
                 "did not initialize the status");
@@ -224,11 +235,16 @@ Test(quest, new)
 /* Tests achievement_free function */
 Test(achievement, free)
 {
-    item_t *item_to_get = item_new("test_item", "item for testing",
+	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
-    active_mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
+    char *id = "test mission";
 
-	achievement_t* achievement_to_free = achievement_new(mission);
+    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
+    mission_t *mission;
+    mission->a_mission = a_mission;
+    mission->p_mission = NULL;
+
+	achievement_t* achievement_to_free = achievement_new(mission, id);
 
 	cr_assert_not_null(achievement_to_free, "achievement_free(): room is null");
 
@@ -248,8 +264,8 @@ active_mission_t *make_example_a_mission()
     npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
                                 100, class);
 
-    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2","npc to kill", 
-                                       "An npc to kill", 100, class);
+    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
+                                       100, class);
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
     active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
@@ -277,8 +293,10 @@ Test(active_mission, free)
 Test(passive_mission_xp, free)
 {   
     int xp = 5;
+    int level = 1;
+    int health = 10;
 
-    passive_mission_t *p_mission = passive_mission_new(xp, NULL, NULL);
+    passive_mission_t *p_mission = passive_mission_new(xp, level, health);
 
     cr_assert_not_null(p_mission, "passive_mission_free(): room is null");
 
@@ -290,9 +308,11 @@ Test(passive_mission_xp, free)
 /* Tests passive_mission_free function by making xp node */
 Test(passive_mission_levels, free)
 {   
-    int levels = 5;
+    int xp = 5;
+    int level = 1;
+    int health = 10;
 
-    passive_mission_t *p_mission = passive_mission_new(NULL, levels, NULL);
+    passive_mission_t *p_mission = passive_mission_new(xp, level, health);
 
     cr_assert_not_null(p_mission, "passive_mission_free(): room is null");
 
@@ -304,9 +324,11 @@ Test(passive_mission_levels, free)
 /* Tests passive_mission_free function by making xp node */
 Test(passive_mission_health, free)
 {   
-    int levels = 5;
+    int xp = 5;
+    int level = 1;
+    int health = 10;
 
-    passive_mission_t *p_mission = passive_mission_new(NULL, NULL, health);
+    passive_mission_t *p_mission = passive_mission_new(xp, level, health);
 
     cr_assert_not_null(p_mission, "passive_mission_free(): room is null");
 
@@ -337,34 +359,40 @@ Test(quest, add_achievement_to_quest)
     stat_req_t *stat_req = create_sample_stat_req();
 
 	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+	item_t *item_to_get = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    char *id = "test mission";
 
-    active_mission_t *a_mission = make_example_a_mission();
+    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
+    mission_t *mission;
+    mission->a_mission = a_mission;
+    mission->p_mission = NULL;
 
-    achievement_t *achievement = achievement_new(a_mission, "mission1");
+	achievement_t* achievement_to_free = achievement_new(mission, id);
 
-    int res = add_achievement_to_quest(quest, achievement, "NULL");
+    int res = add_achievement_to_quest(quest, achievement_to_free, "NULL");
 
     cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
 
     achievement_t *achievement_test = quest->achievement_tree->achievement;
-    mission_t *mission_test = achievement->mission;
+    mission_t *mission_test = achievement_test->mission;
     cr_assert_eq(achievement_test->completed,0,"add_achievement_to_quest() did"
                                         "not set the completed boolean.");
 
-    cr_assert_str_eq(mission_test->item_to_collect->item_id,"test_item",
+    cr_assert_str_eq(mission_test->a_mission->item_to_collect->item_id,"test_item",
                     "add_achievement_to_quest() did not set item");
-    cr_assert_str_eq(mission_test->npc_to_meet->npc_id,"meet_npc",
+    cr_assert_str_eq(mission_test->a_mission->npc_to_meet->npc_id,"meet_npc",
                     "add_achievement_to_quest() did not set npc to meet");
-    cr_assert_str_eq(mission_test->npc_to_kill->npc_id,"kill_npc",
+    cr_assert_str_eq(mission_test->a_mission->npc_to_kill->npc_id,"kill_npc",
                     "add_achievement_to_quest() did not set npc to kill"); 
-    cr_assert_str_eq(mission_test->room_to_visit->room_id,"Grand ballroom",
+    cr_assert_str_eq(mission_test->a_mission->room_to_visit->room_id,"Grand ballroom",
                     "add_achievement_to_quest() did not set room to visit"); 
 }
 
 /* Tests if a player can start the quest */
 Test(quest, can_start)
 {
-    health = int 20;
+    int health = 20;
 
     player_t* player1 = player_new("player1", health);
 
@@ -419,6 +447,13 @@ Test(quest, complete_achievement)
 
     active_mission_t *a_mission = make_example_a_mission();
 
+    char *id = "test mission";
+
+    mission_t *mission;
+    mission->a_mission = a_mission;
+    mission->p_mission = NULL;
+
+	achievement_t* achievement_to_free = achievement_new(mission, id);
     achievement_t *achievement = achievement_new(mission, "mission");
 
     int res = add_achievement_to_quest(quest, achievement, NULL);
@@ -431,16 +466,16 @@ Test(quest, complete_achievement)
 
     mission_t *mission_check = quest->achievement_tree->achievement->mission;
 
-    cr_assert_str_eq(mission_test->item_to_collect->item_id,"test_item",
+    cr_assert_str_eq(mission_check->a_mission->item_to_collect->item_id,"test_item",
                     "add_achievement_to_quest() did not set item");
-    cr_assert_str_eq(mission_test->npc_to_meet->npc_id,"meet_npc",
+    cr_assert_str_eq(mission_check->a_mission->npc_to_meet->npc_id,"meet_npc",
                     "add_achievement_to_quest() did not set npc to meet");
-    cr_assert_str_eq(mission_test->npc_to_kill->npc_id,"kill_npc",
+    cr_assert_str_eq(mission_check->a_mission->npc_to_kill->npc_id,"kill_npc",
                     "add_achievement_to_quest() did not set npc to kill"); 
-    cr_assert_str_eq(mission_test->room_to_visit->room_id,"Grand ballroom",
+    cr_assert_str_eq(mission_check->a_mission->room_to_visit->room_id,"Grand ballroom",
                     "add_achievement_to_quest() did not set room to visit"); 
 
-    cr_assert_eq(quest->achievement_list->achievement->completed, 1,
+    cr_assert_eq(quest->achievement_tree->achievement->completed, 1,
                 "complete_achivement() did not complete the achievement");
 }
 
@@ -454,7 +489,13 @@ Test(quest,is_quest_completed)
 
     active_mission_t *a_mission = make_example_a_mission();
 
-    achievement_t *achievement = achievement_new(a_mission, "mission");
+    char *id = "test mission";
+
+    mission_t *mission;
+    mission->a_mission = a_mission;
+    mission->p_mission = NULL;
+
+    achievement_t *achievement = achievement_new(mission, "mission");
 
     int res = add_achievement_to_quest(quest, achievement, NULL);
 
@@ -496,8 +537,8 @@ Test(quest,complete_quest)
 	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
     quest->status = 2;
 
-    item_t *res = complete_quest(quest);
+    reward_t *res = complete_quest(quest);
 
-    cr_assert_str_eq(res->item_id, "test_item",
+    cr_assert_str_eq(res->item->item_id, "test_item",
                     "quest_completed failed to reward the item");
 }
