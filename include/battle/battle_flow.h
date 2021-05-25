@@ -91,4 +91,20 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies,
  */
 int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
 
+/*
+ * Helper function for battle_flow
+ * Allows the enemy to make their move
+ * This includes:
+ *      - choosing the enemy's move (if available)
+ *      - handling enemy's move (if available)
+ *      - check battle status
+ * 
+ * Parameters: 
+ *  - ctx: current chiventure battle context
+ * 
+ * Returns:
+ *  - Always SUCCESS
+ */
+int enemy_make_move(chiventure_ctx_battle_t *ctx);
+
 #endif
