@@ -13,7 +13,7 @@
 #include "common/utlist.h"
 #include "battle/battle_moves.h"
 #include "game-state/stats.h"
-
+#include "game-state/item.h"
 
 /* Forward Declarations */
 // typedef struct move move_t;
@@ -53,15 +53,6 @@ typedef struct move_effect {
     move_t* move;      // Specifies the move that will be unlocked
 }move_effect_t;
 
-// A struct used to define a union data type that we use to change attributes
-union data
-{
-    bool b;
-    char c;
-    int  i;
-    char *s;
-}; // The value to which we want to change the attribute (NOT THE VALUE BY WHICH WE WANT TO MODIFY THE ATTRIBUTE)
-
 /* Defines an effect that changes the attribute of an item.  
  * We currently can change the attribute value if it is a bool, character, integer, or string. 
  * We may need to be able to change other stuff in the future but this remains to be seen.
@@ -69,9 +60,9 @@ union data
  */
 
 typedef struct item_att_effect {
-    char* item_id; // The ID of the parent object 
+    item_t* item; // The ID of the parent object 
     char* att_id; // The ID that refers to the given attribute (see obj.h)
-    union data mod; 
+    attribute_value_t attribute_mod; //The value to which we want to change the attribute
 }item_att_effect_t;
 
 /* Defines an effect that achanges the statistic of an item. */
@@ -115,7 +106,7 @@ move_effect_t* define_move_effect(move_t* move);
  *            data mod: Contains a value of the union data type to which the attribute value must be changed
  * Returns: A pointer to the created attribute modifying effect
  */
-item_att_effect_t* define_item_att_effect(char* item_id, char* att_id, union data mod);
+item_att_effect_t* define_item_att_effect(item_t* item, char* att_id, attribute_value_t attribute_mod);
 
 /* Defines an item stat effect and returns a pointer to it
  * Parameters: TO BE IMPLEMENTED
