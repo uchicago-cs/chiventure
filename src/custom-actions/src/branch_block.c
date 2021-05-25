@@ -117,3 +117,66 @@ int branch_block_free(branch_block_t *branch)
     
     return SUCCESS; 
 } 
+
+/* See branch_block.h */
+int do_branch_block(branch_block_t *block)
+{
+    if (block == NULL)
+    {
+        return SUCCESS;
+    }
+    if (block->num_conditionals <= 0 || block->num_actions <= 0)
+    {
+        return FAILURE; //Not valid branch
+    }
+    switch (block->control_type)
+    {
+        case IFELSE:
+	    if (block->num_conditionals > block->num_actions)
+	    {
+	      return FAILURE; //All conditions must have actions
+	    }
+	    for (int i = 0; i < block->num_conditionals; i++)
+	    {
+	        if (eval_conditional_block(block->conditionals[i]))
+                {
+                    return run_ast_block(block->actions[i]);
+                }
+            }
+	    if (block->num_actions > block->num_conditionals)
+            {
+	      return run_ast_block(block->actions[block->num_actions - 1]);
+            }
+	    return SUCCESS;
+        case WHILEENDWHILE:
+	    if(block->num_conditionals > 2 || block->num_actions != 1)
+	    {
+	        return FAILURE; //Invalid while syntax
+	    }
+	    conditional_block_t *loop = block->conditionals[0];
+	    if (block->num_conditionals == 2)
+	    {
+	      /*
+               * If the condition to end the loop is different than starting the loop
+	       */
+	        loop = block->conditionals[1];
+	    }
+	    if (eval_conditional_block(block->conditionals[0]))
+	    {
+	        //No detection or protection for infinite looping
+	        do
+		{
+		  int rc = run_ast_block(block->actions[0]);
+		  if (rc == FAILURE)
+		  {
+		      return FAILURE;
+		  }
+		} while(eval_conditional_block(loop));
+		return SUCCESS;
+	    }
+        case FORENDFOR:
+	  break;
+
+    } 
+    return FAILURE;
+}
