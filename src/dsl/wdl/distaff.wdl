@@ -1,10 +1,10 @@
 {
   "GAME": {
     "start": "room B",
-    "intro": "Welcome \"adventurer\"! You have made your way to the dungeons of the Lavender Palace. Don't be fooled by the cute name! This is one of Throxar the Terrible's most fearsome strongholds... and also his best scented one. Queen Vanadia has tasked you with recovering the Distaff of Knowledge, which her spies assure you is somewhere in these dungeons.",
     "end": {
       "in_room": "room C"
-    }
+    },
+    "intro": "Welcome \"adventurer\"! You have made your way to the dungeons of the Lavender Palace. Don't be fooled by the cute name! This is one of Throxar the Terrible's most fearsome strongholds... and also his best scented one. Queen Vanadia has tasked you with recovering the Distaff of Knowledge, which her spies assure you is somewhere in these dungeons."
   },
   "ROOMS": {
     "room C": {
@@ -22,7 +22,7 @@
     },
     "room B": {
       "short_desc": "A dungeon room.",
-      "long_desc": "The walls are damp and moldy and, yet, the scent of freshly\n   # intentional line break\n   \n   cut lavender flowers pervades the air.",
+      "long_desc": "The walls are damp and moldy and, yet, the scent of freshly\n   cut lavender flowers pervades the air.",
       "connections": [
         {
           "direction": "NORTH",
@@ -46,6 +46,7 @@
           "to": "room B"
         }
       ],
+      "extra property": "value",
       "items": [
         "sconce"
       ]
@@ -53,22 +54,19 @@
   },
   "ITEMS": {
     "Distaff": {
-      "in": "room C",
       "short_desc": "The Distaff of Knowledge",
       "long_desc": "The Distaff of Knowledge is an ancient magical artifact that can be used to weave knowledge itself. It will come in very handy at dinner parties.",
-      "actions": []
+      "in": "room C"
     },
     "Door": {
-      "in": "room B",
       "short_desc": "A large wooden door",
       "long_desc": "It looks very heavy, and it doesn't have a keyhole.",
-      "actions": []
+      "in": "room B"
     },
     "sconce": {
-      "in": "room A",
       "short_desc": "A sconce holding a candle",
       "long_desc": "It looks a bit loose.",
-      "actions": []
+      "in": "room A"
     }
   }
 }

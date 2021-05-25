@@ -5,6 +5,14 @@ from collections import ChainMap
 # to do: figure out how to get other properties of the item/game/room to output
 # to do: improve default generation
 
+PROPERTY_ALIASES = {
+    "short desc": "short_desc",
+    "short": "short_desc",
+    "long desc": "long_desc",
+    "long": "long_desc",
+    "introduction": "intro"
+}
+
 class Room:
     def __init__(self, id: str, contents: dict):
         """
@@ -13,6 +21,10 @@ class Room:
         """
         self.id = id
         self.contents = contents
+        
+        # self.wdl_contents stores what will be outputted so we don't lose the
+        # original input from the parser
+        self.wdl_contents = {}
 
     def to_json(self) -> str: 
         """ For internal testing only: converts a room to its JSON format """
@@ -24,13 +36,18 @@ class Room:
             default values where they are missing, and assembles a list of 
             connections and items for WDL compatibility.
         """
+        for k, v in self.contents.items():
+            if k in PROPERTY_ALIASES:
+                self.wdl_contents[PROPERTY_ALIASES[k]] = v
+            elif k == "connections":
+                self.wdl_contents["connections"] = self.connections_list()
+            elif k == "items":
+                self.wdl_contents["items"] = self.items_list()
+            else:
+                self.wdl_contents[k] = v
+
         self.generate_defaults()
-        return {self.id: {
-            "short_desc": self.contents['short desc'],
-            "long_desc": self.contents['long desc'],
-            "connections": self.connections_list(),
-            "items": self.items_list()
-        }}
+        return {self.id: self.wdl_contents}
         
     def generate_defaults(self):
         """
@@ -40,22 +57,22 @@ class Room:
         """
 
         # generate default for long description
-        if 'long desc' not in self.contents:
+        if 'long_desc' not in self.wdl_contents:
             id = self.id or "room"
-            short = self.contents.get('short desc', '')
+            short = self.wdl_contents.get('short desc', '')
             default = f"This is a {id}. {short}"
-            self.contents['long desc'] = f"{default}"
+            self.wdl_contents['long_desc'] = f"{default}"
             warn(f'''
                 missing: long description for {id}, 
-                generated default: {self.contents['long desc']}''')
+                generated default: {self.wdl_contents['long_desc']}''')
 
         # generate default for short description     
-        if 'short desc' not in self.contents:
+        if 'short_desc' not in self.wdl_contents:
             default_id = self.id or "a room"
-            self.contents['short desc'] = f"{default_id}"
+            self.wdl_contents['short_desc'] = f"{default_id}"
             warn(f'''
                 missing: short description for {default_id}, 
-                generated default: {self.contents['short desc']}''')
+                generated default: {self.wdl_contents['short_desc']}''')
             
     def connections_list(self) -> list:
         """
@@ -85,6 +102,12 @@ class Item:
         """
         self.location = location
         self.contents = contents
+        assert 'id' in self.contents, "Item is missing an id"
+        self.id = self.contents['id']
+
+        # self.wdl_contents stores what will be outputted so we don't lose the
+        # original input from the parser
+        self.wdl_contents = {}
 
     def to_json(self) -> str: 
         """ For internal testing only: converts an item to its JSON format """
@@ -96,13 +119,17 @@ class Item:
             default values where they are missing, and assembles a list of 
             actions for WDL compatibility.
         """
+        for k, v in self.contents.items():
+            if k in PROPERTY_ALIASES:
+                self.wdl_contents[PROPERTY_ALIASES[k]] = v
+            elif k == "actions":
+                self.wdl_contents["connections"] = self.actions_list()
+            elif k not in ['id']:
+                self.wdl_contents[k] = v
+
+        self.wdl_contents['in'] = self.location
         self.generate_defaults()
-        return {self.contents['id']: {
-            'in': self.location,
-            "short_desc": self.contents['short desc'],
-            "long_desc": self.contents['long desc'],
-            "actions": self.actions_list()
-        }}
+        return {self.id: self.wdl_contents}
 
     def generate_defaults(self):
         """
@@ -112,36 +139,34 @@ class Item:
         """
 
         # generate default for long description
-        if 'long desc' not in self.contents:
-            id = self.contents.get('id', "item")
-            short_desc = self.contents.get('short desc', '')
-            default = f"This is a {id}. {short_desc}"
-            self.contents['long desc'] = f"{default}"
+        if 'long_desc' not in self.wdl_contents:
+            short_desc = self.wdl_contents.get('short_desc', '')
+            default = f"This is a {self.id}. {short_desc}"
+            self.wdl_contents['long_desc'] = f"{default}"
             warn(f'''
-                missing: long description for {id}, 
-                generated default: {self.contents['long desc']}''')
+                missing: long description for {self.id}, 
+                generated default: {self.wdl_contents['long_desc']}''')
                 
         # generate default for short description
-        if 'short desc' not in self.contents:
-            default_id = self.contents.get('id', "item") or "an item"
-            self.contents['short desc'] = f"{default_id}"
+        if 'short_desc' not in self.wdl_contents:
+            self.wdl_contents['short_desc'] = f"{self.id}"
             warn(f'''
-                missing: short description for {default_id}, 
-                generated default: {self.contents['short desc']}''')
+                missing: short description for {self.id}, 
+                generated default: {self.wdl_contents['short_desc']}''')
 
         # generate default interaction text for actions
-        for i in self.contents.get('actions', []):
-            id = self.contents.get('id', "item")
-            if 'success' not in self.contents['actions'][i]:
-                self.contents['actions'][i]['success'] = f"You {i.lower()} the {id}."
+        for i in self.wdl_contents.get('actions', []):
+            id = self.wdl_contents.get('id', "item")
+            if 'success' not in self.wdl_contents['actions'][i]:
+                self.wdl_contents['actions'][i]['success'] = f"You {i.lower()} the {id}."
                 warn(f'''
                     missing: success text for action {i} for item {id}, 
-                    generated default: {self.contents['actions'][i]['success']}''')
-            if 'fail' not in self.contents['actions'][i]:
-                self.contents['actions'][i]['fail'] = f"You cannot {i.lower()} the {id}."
+                    generated default: {self.wdl_contents['actions'][i]['success']}''')
+            if 'fail' not in self.wdl_contents['actions'][i]:
+                self.wdl_contents['actions'][i]['fail'] = f"You cannot {i.lower()} the {id}."
                 warn(f'''
                     missing: failure text for action {i} for item {id}, 
-                    generated default: {self.contents['actions'][i]['fail']}''')
+                    generated default: {self.wdl_contents['actions'][i]['fail']}''')
 
     # to do: action conditions -- how?
     def actions_list(self) -> list:
@@ -164,6 +189,10 @@ class Game:
         """
         self.contents = contents
 
+        # self.wdl_contents stores what will be outputted so we don't lose the
+        # original input from the parser
+        self.wdl_contents = {}
+
     def to_json(self) -> str: 
         """ For internal testing only: converts a game to its JSON format """
         return json.dumps(self.to_wdl_structure(),indent=2)
@@ -173,7 +202,15 @@ class Game:
             Converts a Game to WDL structure using its properties. Generates 
             default values where they are missing.
         """
+        for k, v in self.contents.items():
+            if k in PROPERTY_ALIASES:
+                self.wdl_contents[PROPERTY_ALIASES[k]] = v
+            if k == "end":
+                self.wdl_contents["end"] = {"in_room": v}
+            else:
+                self.wdl_contents[k] = v
         self.generate_defaults()
+        return {'GAME': self.wdl_contents}
         return {'GAME': {
             'start': self.contents['start'],
             "intro": self.contents['intro'],
@@ -190,12 +227,12 @@ class Game:
         """
 
         # generate default for introduction
-        if 'intro' not in self.contents:
-            default = self.contents.get('start') or "room"
-            self.contents['intro'] = f"Welcome! You're in a {default}"
+        if 'intro' not in self.wdl_contents:
+            default = self.wdl_contents.get('start') or "room"
+            self.wdl_contents['intro'] = f"Welcome! You're in a {default}"
             warn(f'''
                 missing: introduction for game, 
-                generated default: {self.contents['intro']}''')
+                generated default: {self.wdl_contents['intro']}''')
 
 
 def parsed_dict_to_json(intermediate: dict) -> str:
