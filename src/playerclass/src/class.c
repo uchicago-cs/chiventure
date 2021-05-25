@@ -286,7 +286,7 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
     obj_t* combined_attr = multiclass_attributes(base_class->attributes, second_class->attributes, name);
     effects_hash_t* combined_effects = multiclass_effects(base_class->effects, second_class->effects);
     
-    class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->stats, combined_effects);
+    class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->base_stats, combined_effects);
     if (new_class == NULL) {
         return NULL;
     }
@@ -308,12 +308,10 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
     }
 
     new_class->skilltree = multiclass_tree(name, base_class->skilltree, second_class->skilltree);
-    new_class->combat = multiclass_inventory(base_class->combat, second_class->combat);
-    new_class->noncombat = multiclass_inventory(base_class->noncombat, second_class->noncombat);
+    new_class->starting_skills = multiclass_inventory(base_class->starting_skills, second_class->starting_skills);
 
     return new_class;
 }
-
 
 /* See class.h */
 int class_add_skills(class_t* class, skill_inventory_t* starting_skills, 
