@@ -58,15 +58,15 @@ int load_actions(obj_t *doc, item_t *i)
 
         if (obj_get_str(curr, "text_success") != NULL && obj_get_str(curr, "text_fail") != NULL)
         {
-            add_action(i, obj_get_str(curr, "action"), obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
+            add_action(i, case_insensitize2(obj_get_str(curr, "action")), obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
         }
         else if(obj_get_str(curr, "text_success") != NULL)
         {
-            add_action(i, obj_get_str(curr, "action"), obj_get_str(curr, "text_success"), "Action failed");
+            add_action(i, case_insensitize2(obj_get_str(curr, "action")), obj_get_str(curr, "text_success"), "Action failed");
         }
         else
         {
-            add_action(i, obj_get_str(curr, "action"), "Action succeeded", obj_get_str(curr, "text_fail"));
+            add_action(i, case_insensitize2(obj_get_str(curr, "action")), "Action succeeded", obj_get_str(curr, "text_fail"));
         }
     }
 
