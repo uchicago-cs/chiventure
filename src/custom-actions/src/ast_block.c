@@ -96,20 +96,22 @@ int run_ast_block(AST_block_t *block)
   {
     return SUCCESS;
   }
-  int rc;
   switch(block->block_type)
     {
     case(CONTROL):
       return FAILURE;
       break;
     case(BRANCH):
-      //To be implemented
-      return FAILURE;
+        if (do_branch_block(block->block->branch_block) == FAILURE)
+	{
+	    return FAILURE;
+	}
+      return run_ast_block(block->next);
       break;
     case(ACTION):
       if (exec_action_block(block->block->action_block) == FAILURE)
       {
-        return FAILURE;
+          return FAILURE;
       }
       return run_ast_block(block->next);
       break;
