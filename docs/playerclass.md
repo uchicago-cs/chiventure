@@ -54,15 +54,15 @@ Add the skill fields to a prefab class:
 ### Class Items
 _The Class Items module handles interactions between items and classes._
 
-Interactions between items and classes currently utilize a framework based on **multipliers**. Multipliers allow certain classes to be more or less proficient at using a certain item, and are currently represented by numerical values.
+Interactions between items and classes currently utilize a framework based on **multipliers**. Multipliers allow certain classes to be more or less proficient at using a certain item (whether this be in a combat situation, or elsewhere), and are currently denoted by numerical values. Class multipliers are stored internally within an item.
 
 Add a multiplier to an item for a given class:
 - `int add_item_multiplier(item_t* item, class_t* class, double multiplier);`
 
-Lookup the multiplier:
+Lookup the multiplier for a class-item pair:
 - `double get_class_item_multiplier(item_t* item, class_t* class);`
 
-Remove the multiplier:
+Remove the multiplier for a class-item pair:
 - `int remove_item_multiplier(item_t* item, class_t* class);`
 
 Internally, class restrictions are signalled by a multiplier of 0.
