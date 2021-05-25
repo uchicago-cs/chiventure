@@ -163,7 +163,7 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id) {
     assert(tree != NULL);
 
     achievement_tree_t *cur = malloc(sizeof(achievement_tree_t));
-    cur = quest->achievement_tree_t;
+    cur = tree;
 
     while(cur = get_bottom_node(cur)){
         if(!(strcmp(cur->achievement->id, id))){
