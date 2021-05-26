@@ -1,16 +1,23 @@
-import sys
-import warnings
 from lark import Lark, Transformer
 from lark.lexer import Token
-import json
 from pathlib import Path
 from warnings import warn
 
 
-base_path = Path(__file__).parent
-grammar_f = open(base_path / "dsl_grammar.lark")
+grammar_path = Path(__file__).parent.parent / "grammars"
+grammar_f = open(grammar_path / "dsl_grammar.lark")
 dsl_grammar = grammar_f.read()
 grammar_f.close()
+
+parser = Lark(dsl_grammar, parser='earley', import_paths=[grammar_path])
+
+
+# main outward-facing function
+def export_dict(file_str):
+    """Parses the language and returns an intermediate stage consisting
+    of python dictionaries"""
+    tree = parser.parse(file_str)
+    return TreeToDict().transform(tree)
 
 
 class TreeToDict(Transformer):
@@ -141,10 +148,3 @@ class TreeToDict(Transformer):
     connection = tuple
     property = tuple
 
-
-parser = Lark(dsl_grammar, parser='earley')
-
-
-def export_dict(file_str):
-    tree = parser.parse(file_str)
-    return TreeToDict().transform(tree)

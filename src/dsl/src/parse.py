@@ -26,7 +26,7 @@ def main():
         file_out = open(args[1], "w")
     except:
         filename = Path(args[0]).stem
-        filepath = base_path / f'wdl/{filename}.wdl'
+        filepath = base_path / f'examples/wdl/{filename}.wdl'
 
         warn(f"No output file provided. Default to '{filepath}'")
         file_out = open(filepath, "w")

@@ -3,12 +3,12 @@ from lark import Lark, Transformer
 from pathlib import Path
 from functools import partial
 
-base_path = Path(__file__).parent
-grammar_f = open(base_path / "vars.lark")
+grammar_path = Path(__file__).parent.parent / "grammars"
+grammar_f = open(grammar_path / "vars.lark")
 vars_grammar = grammar_f.read()
 grammar_f.close()
 
-parser = Lark(vars_grammar, parser='earley')
+parser = Lark(vars_grammar, parser='earley', import_paths=[grammar_path])
 
 # main outward-facing function
 def evalVars(file: str, debug=False) -> str:
