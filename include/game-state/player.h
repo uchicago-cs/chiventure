@@ -37,11 +37,8 @@ typedef struct player {
     both the maximum and current health if health is a feature of the current game */
     stats_hash_t *player_stats;
 
-    /* The current combat skills known to the player */
-    skill_inventory_t *player_combat_skills;
-
-    /* The current noncombat skills known to the player */
-    skill_inventory_t *player_noncombat_skills;
+    /* The current skills known to the player */
+    skill_inventory_t *player_skills;
 
     /* All of the effects the player is currently experiencing */
     effects_hash_t *player_effects;
@@ -232,67 +229,37 @@ bool item_in_inventory(player_t *player, item_t *item);
 int assign_stats_player(player_t *plyr, stats_hash_t *sh);
 
 /*
- * Adds a combat skill to a player's respective skill inventory
+ * Adds a skill to a player's respective skill inventory
  *
  * Parameters:
  *  player: A player. Must be allocated with player_new()
  *  skill: pointer to an already existing skill that is being added to the
- *         player's combat skill inventory
+ *         player's skill inventory
  * 
  * Returns:
- *  SUCCESS on successful addition of combat skill, FAILURE if an error occurs
+ *  SUCCESS on successful addition of skill, FAILURE if an error occurs
  * 
  * Note: Same return value as inventory_skill_add()
  */
-int player_add_combat_skill(player_t *player, skill_t *skill);
+int player_add_skill(player_t *player, skill_t *skill);
 
 /*
- * Adds a noncombat skill to a player's respective skill inventory
- *
- * Parameters:
- *  player: A player. Must be allocated with player_new()
- *  skill: pointer to an already existing skill that is being added to the
- *         player's noncombat skill inventory
- * 
- * Returns:
- *  SUCCESS on successful addition of noncombat skill, FAILURE if an error occurs
- * 
- * Note: Same return value as inventory_skill_add()
- */
-int player_add_noncombat_skill(player_t *player, skill_t *skill);
-
-/*
- * Remove a noncombat skill from a player's respective skill inventory
+ * Remove a skill from a player's respective skill inventory
  *
  * Parameters:
  *  player: A player. Must be allocated with player_new()
  *  skill: pointer to an already existing skill that is being removed from the
- *         player's combat skill inventory
+ *         player's skill inventory
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  * 
  * Note: Same return value as inventory_skill_remove()
  */
-int player_remove_combat_skill(player_t *player, skill_t *skill);
+int player_remove_skill(player_t *player, skill_t *skill);
 
 /*
- * Remove a noncombat skill from a player's respective skill inventory
- *
- * Parameters:
- *  player: A player. Must be allocated with player_new()
- *  skill: pointer to an already existing skill that is being removed from the
- *         player's noncombat skill inventory
- * 
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs
- * 
- * Note: Same return value as inventory_skill_remove()
- */
-int player_remove_noncombat_skill(player_t *player, skill_t *skill);
-
-/*
- * Searches for a combat skill in a player's respective skill inventory.
+ * Searches for a skill in a player's respective skill inventory.
  *
  * Parameters:
  *  player: A player. Must be allocated with player_new()
@@ -300,28 +267,12 @@ int player_remove_noncombat_skill(player_t *player, skill_t *skill);
  *  type: The skill type, either active or passive
  * 
  * Returns:
- *  The position of the skill in the combat skill inventory, -1 if the 
+ *  The position of the skill in the skill inventory, -1 if the 
  *  skill is not in the skill inventory.
  *  
  *  Note: Same return value as inventory_has_skill()
  */
-int player_has_combat_skill(player_t *player, sid_t sid, skill_type_t type);
-
-/*
- * Searches for a noncombat skill in a player's respective skill inventory.
- *
- * Parameters:
- *  player: A player. Must be allocated with player_new()
- *  sid: The skill ID that uniquely identifies the skill
- *  type: The skill type, either active or passive
- * 
- * Returns:
- *  The position of the skill in the noncombat skill inventory, -1 if the 
- *  skill is not in the skill inventory.
- *  
- *  Note: Same return value as inventory_has_skill()
- */
-int player_has_noncombat_skill(player_t *player, sid_t sid, skill_type_t type);
+int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
 
 /*
  * Changes the base value of a given player's stat by the specified amount
