@@ -8,7 +8,6 @@
 #include "game-state/room.h"
 
 
-
 chiventure_ctx_t *create_sample_ctx()
 {
     game_t *game = game_new("Welcome to Chiventure!");
