@@ -23,7 +23,16 @@ void print_class(class_t* class) {
         printf("Name: %s\n", class->name);
     else
         printf("Name: NULL.\n");
-    
+
+    /* Multiclass info */
+    if (class->num_parent_class > 0) {
+        printf("Multiclass with parents: \n");
+        for (int i = 0; i < class->num_parent_class; i++) 
+            printf("    %s\n", class->parent_class_names[i]);
+    }
+    else
+        printf("Basic Class\n");
+
     /* Short Description */
     if (class->shortdesc != NULL)
         printf("Short Description: %s\n", class->shortdesc);
@@ -43,6 +52,51 @@ void print_class(class_t* class) {
     }
     else
         printf("Attributes: NULL\n");
+
+    /* Stats */
+    if (class->base_stats != NULL) {
+        printf("Base Stats: \n");
+        stats_t *stat, *tmp;
+        HASH_ITER(hh, class->base_stats, stat, tmp) {
+            printf("    %s: %.2f / %.2f\n", stat->key, stat->val, stat->global->max);
+        }
+    }
+    else
+        printf("Base Stats: NULL\n");
+
+    /* Effects */
+    if (class->effects != NULL) {
+        printf("Effects: \n");
+        stat_effect_t *effect, *tmp;
+        HASH_ITER(hh, class->effects, effect, tmp) {
+            /* This could be improved to print more info, but this should suffice for now */
+            printf("    %s", effect->key);
+        }
+    }
+    else
+        printf("Effects: NULL\n");
+
+    /* Skill Tree */
+    if (class->skilltree != NULL) {
+        printf("Skill Tree: \n");
+        for (int i = 0; i < class->skilltree->num_nodes; i++) {
+            /* This could also be improved */
+            printf("    %s\n", class->skilltree->nodes[i]->skill->name);
+        }
+    }
+    else
+        printf("Skill Tree: NULL\n");
+    
+    /* Starting Skills */
+    if (class->starting_skills != NULL) {
+        printf("Starting Skills: \n");
+        for (int i = 0; i < class->starting_skills->num_active; i++)
+            printf("    %s\n", class->starting_skills->active[i]->name);
+        for (int i = 0; i < class->starting_skills->num_passive; i++) 
+            printf("    %s\n", class->starting_skills->passive[i]->name);
+    }
+    else
+        printf("Starting Skills: NULL\n");
 
     printf("------------------------------------------------------------\n");
 }
@@ -89,6 +143,8 @@ int main() {
         if (class_name[0] == '\0')
             break;
         class_t* class = class_prefab_new(game, class_name);
+        if (class != NULL)
+            class_prefab_add_skills(class);
         print_class(class);
     }
 }
