@@ -266,6 +266,10 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     assert(direct);
     assert(indirect);
     
+    agent_t *agentdir = NULL;
+    agentdir->item = direct;
+
+    
     game_t *game = c->game;
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -280,7 +284,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
 
 
     // checks if the action is possible with the direct item
-    if (possible_action(direct, a->c_name) == FAILURE)
+    if (possible_action(agentdir, a->c_name) == FAILURE)
     {
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, direct->item_id);
@@ -289,7 +293,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     }
 
     // get the game action struct
-    game_action_t *dir_game_act = get_action(direct, a->c_name);
+    game_action_t *dir_game_act = get_action(agentdir, a->c_name);
 
     // check if all conditions of the action are met
     if (!all_conditions_met(dir_game_act->conditions))
@@ -360,6 +364,9 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
 
+    agent_t *agent = NULL;
+    agent->npc = npc;
+
     // checks if the action type is the correct kind
     if (a->kind != NPC)
     {
@@ -369,7 +376,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
     }
 
     // checks if the action is possible
-    if (possible_action(npc, a->c_name) == FAILURE)
+    if (possible_action(agent, a->c_name) == FAILURE)
     {
         sprintf(string, "Action %s can't be requested with npc %s",
                 a->c_name, npc->npc_id);
@@ -378,7 +385,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
     }
 
     // get the game action struct
-    game_action_t *game_act = get_action(npc, a->c_name);
+    game_action_t *game_act = get_action(agent, a->c_name);
 
     // check if all conditions are met
     if (!all_conditions_met(game_act->conditions))
@@ -392,7 +399,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
         // implement the action (i.e. dole out the effects)
         // maybe incorporates and initialize conversation function to
         int applied_effects;
-        applied_effects = do_all_effects(npc, a->c_name);
+        applied_effects = do_all_effects(agent, a->c_name);
         if (applied_effects == FAILURE)
         {
             sprintf(string, "Effect(s) of Action %s were not applied", a->c_name);
@@ -422,12 +429,15 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
  * See npc_action.h */
 int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string)
 {
+    agent_t *agent_n = NULL;
+    agent_n->npc = npc;
+
     if(a->kind != NPC_ITEM)
     {
         return WRONG_KIND;
     }
     // get the game action struct
-    game_action_t *game_act = get_action(npc, a->c_name);
+    game_action_t *game_act = get_action(agent_n, a->c_name);
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
 
@@ -454,12 +464,16 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_
  * See npc_action.h */
 int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t* ret_item)
 {
+
+    agent_t *agent_n = NULL;
+    agent_n->npc = npc;
+
     if(a->kind != NPC_ITEM_ITEM)
     {
         return WRONG_KIND;
     }
     // get the game action struct
-    game_action_t *game_act = get_action(npc, a->c_name);
+    game_action_t *game_act = get_action(agent_n, a->c_name);
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
 
