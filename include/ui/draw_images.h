@@ -16,8 +16,7 @@
  *
  * No value is returned
  */
-void draw_room_gui(int width, int height, int pos_x, int  pos_y, room_t *curr_room, game_t *game);
-
+void draw_room_gui(int width, int height, int pos_x, int  pos_y, room_t *curr_room);
 /* draw_object
  * Draws an object based on its item ID
  *
@@ -27,5 +26,7 @@ void draw_room_gui(int width, int height, int pos_x, int  pos_y, room_t *curr_ro
  * No value is returned
  */
 void draw_object(char *item_id);
+
+void draw_map(int width, int height, room_t *curr_room);
 
 #endif
