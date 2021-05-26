@@ -8,8 +8,8 @@ int load_npcs(obj_t *doc, game_t *g)
     // get and verify NPCS object
     obj_t *npcs_obj = obj_get_attr(doc, "NPCS", false);
     if (npcs_obj == NULL) {
-        fprintf(stderr, "NPCS not found\n");
-        return FAILURE;
+        // the game has no NPCs
+        return SUCCESS;
     }
     else if (list_type_check(npcs_obj, npc_type_check) != SUCCESS) {
         fprintf(stderr, "NPCS fail type checking\n");
