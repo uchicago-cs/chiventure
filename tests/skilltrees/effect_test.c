@@ -25,7 +25,7 @@ chiventure_ctx_t* create_player_and_stats (){
     game->all_players = NULL;
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
     game->curr_player = player;
-
+    player -> player_effects = (effects_hash_t*)malloc(sizeof(effects_hash_t));
     /*Checking if everything works*/
 
     stats_global_t* stat_test;
@@ -89,13 +89,54 @@ Test(effect_tests, define_player_stat_effect_incorrect_vals)
     cr_assert_eq(health_boost, NULL, "Error: Health boost should be null due to incorrect input");
 }
 
-Test(effect_tests, make_stat_mod_effect_test)
+/*This test checks if the make test sets the enum correctly */
+Test(effect_tests, make_player_stat_effect_test)
 {
-    //TODO
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    char* stats_to_change[] = {"max_health", "current_health"};
+    double mods[] = {150, 100};
+    int durations[] = {5, 5};
+    player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
+    cr_assert_not_null(health_boost, "Error: define_player_stat failed");
+    cr_assert_eq(health_boost->player_stat_effect_name, "health boost", "Error: Name not assigned correctly");
+    cr_assert_eq(health_boost->modifications[0], 150, "Error:  First modification is wrong");
+    cr_assert_eq(health_boost->modifications[1], 100, "Error:  Second modification is wrong");
+    cr_assert_eq(health_boost->durations[0], 5, "Error: First Duration is wrong");
+    cr_assert_eq(health_boost->durations[1], 5, "Error: Second Duration is wrong");
+    cr_assert_eq(health_boost->num_stats, 2, "Number of stats is wrong");
+    effect_t* stat_effect = make_player_stat_effect(health_boost);
+    cr_assert_not_null(stat_effect, "Error: returns a null effect");
+    cr_assert_not_null(stat_effect->data.s, "Error: did not copy over the effect correctly");
+    cr_assert_eq(stat_effect->effect_type, PLAYER_STATISTIC_MOD, "Error: Enum value not correct");
 }
 
-Test(effect_tests, execute_stat_mod_effect_test)
+/*This test checks if the execution function works as expected */
+Test(effect_tests, execute_player_stat_effect_test)
 {
-    //TODO
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    char* stats_to_change[] = {"max_health", "current_health"};
+    double mods[] = {150, 100};
+    int durations[] = {5, 5};
+    player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
+    cr_assert_not_null(health_boost, "Error: define_player_stat failed");
+    cr_assert_eq(health_boost->player_stat_effect_name, "health boost", "Error: Name not assigned correctly");
+    cr_assert_eq(health_boost->modifications[0], 150, "Error:  First modification is wrong");
+    cr_assert_eq(health_boost->modifications[1], 100, "Error:  Second modification is wrong");
+    cr_assert_eq(health_boost->durations[0], 5, "Error: First Duration is wrong");
+    cr_assert_eq(health_boost->durations[1], 5, "Error: Second Duration is wrong");
+    cr_assert_eq(health_boost->num_stats, 2, "Number of stats is wrong");
+    effect_t* stat_effect = make_player_stat_effect(health_boost);
+    cr_assert_not_null(stat_effect, "Error: returns a null effect");
+    cr_assert_not_null(stat_effect->data.s, "Error: did not copy over the effect correctly");
+    cr_assert_eq(stat_effect->effect_type, PLAYER_STATISTIC_MOD, "Error: Enum value not correct");
+    int check = execute_player_stat_effect(health_boost, ctx);
+    cr_assert_eq(check, SUCCESS, "Error:  Failure of execute_player_stat");
+    stats_hash_t* player_stats = ctx->game->curr_player->player_stats;
+    stats_t* current_health;
+    stats_t* max_health;
+    HASH_FIND_STR(player_stats, "max_health", max_health);
+    cr_assert_eq(150, max_health->modifier, "Max health not changed correctly");
+    HASH_FIND_STR(player_stats, "current_health", current_health);
+    cr_assert_eq(100, current_health->modifier, "Current health not changed correctly");
 }
 

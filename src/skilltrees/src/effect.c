@@ -21,7 +21,7 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
         
         if(curr == NULL)
         {
-            printf("Given player statistic does not exist.");
+            printf("Given player statistic does not exist. \n");
             return NULL;
         }
         else
@@ -124,13 +124,27 @@ int execute_player_stat_effect(player_stat_effect_t* player_stat_effect, chivent
     effects_global_t* global_effect = global_effect_new(player_stat_effect->player_stat_effect_name);
     stat_effect_t* st_effect = stat_effect_new(global_effect);
     effects_hash_t* et = ctx->game->curr_player->player_effects;
-    effects_hash_t** pointer_to_et = malloc(sizeof(effects_hash_t*));
-    pointer_to_et = &et;
-    assert(et != NULL);
-    assert(&et != NULL);
+    effects_hash_t** pointer_to_et = malloc(sizeof(effects_hash_t**));
+    if(et == NULL)
+    {
+        printf("Error: Effect hash table does not exist \n");
+        return FAILURE;
+    }
+    if(pointer_to_et == NULL)
+    {
+        printf("Error: Pointer to effect hash table does not exist \n");
+        return FAILURE;
+    }
     int check = apply_effect(pointer_to_et, st_effect, player_stat_effect->stats, player_stat_effect->modifications, player_stat_effect->durations, player_stat_effect->num_stats);
-    assert(check == SUCCESS);
-    return SUCCESS;
+    if (check == SUCCESS)
+    {
+        return check;
+    }
+    else
+    {
+        printf("An error occurred");
+        return check;
+    }
 }
 
 // See effect.h
