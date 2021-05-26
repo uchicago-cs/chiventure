@@ -125,7 +125,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
             "come meet me in room3 to complete the first mission.");
         return output1;
     }
-    else if (((strcmp(ctx->game->curr_room->room_id,"room3")) == 0) && ((quest->status == 1)))
+    else if ((strcmp(ctx->game->curr_room->room_id,"room3") == 0) && (quest->status == 1))
     {
         //move_npc_definite(npc1_movement);
         item_t *item = malloc(sizeof(item_t));
@@ -145,7 +145,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
         return output2;
     }
-    else if (((strcmp(ctx->game->curr_room->room_id,"room4")) == 0) && ((get_quest_status(quest)) == 2))
+    else if ((strcmp(ctx->game->curr_room->room_id,"room4") == 0) && (quest->status == 2))
     {
         item_t *item = malloc(sizeof(item_t));
         HASH_FIND(hh, ctx->game->all_items, "POTION", strlen("POTION"), item);
@@ -174,6 +174,90 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "There is no one to talk to!";
     }
+}
+
+/* Get a big reward for finishing all the passive quests */
+quest_t *make_passive_quest(long int quest_id, reward_t *reward, stat_req_t *stat_req)
+{
+    quest_t *quest = quest_new(quest_id, NULL, reward, stat_req)
+
+    passive_mission_t *p_mission1 = passive_mission_new(50, 1000000, 1000000);
+    passive_mission_t *p_mission2 = passive_mission_new(100, 1000000, 1000000);
+    passive_mission_t *p_mission3 = passive_mission_new(150, 1000000, 1000000);
+
+    mission_t *fifty_xp;
+    fifty_xp->a_mission = NULL;
+    fifty_xp->p_mission = p_mission1;
+
+    mission_t *hundred_xp;
+    hundred_xp->a_mission = NULL;
+    hundred_xp->p_mission = p_mission2;
+
+    mission_t *hundred_fifty_xp;
+    hundred_fifty_xp->a_mission = NULL;
+    hundred_fifty_xp->p_mission = p_mission3;
+
+    achievement_t *achievement1 = achievement_new(fifty_xp, "Get 50 xp");
+    achievement_t *achievement2 = achievement_new(hundred_xp, "Get 100 xp");
+    achievement_t *achievement3 = achievement_new(hundred_fifty_xp, "Get 150 xp");
+
+    add_achievement_to_quest(quest, achievement1, "The first mission");
+    add_achievement_to_quest(quest, achievement2, "Get 50 xp");
+    add_achievement_to_quest(quest, achievement3, "Get 100 xp");
+
+    return quest;
+}
+
+quest_t *make_sample_quest(long int quest_id, reward_t *reward, stat_req_t *stat_req)
+{
+    quest_t *quest = quest_new(quest_id, NULL, reward, stat_req);
+
+    active_mission_t *a_mission1 = active_mission_new(NULL,npc1, NULL, NULL);
+    active_mission_t *a_mission2 = active_mission_new(item1, NULL, NULL, room3);
+    active_mission_t *a_mission3 = active_mission_new(NULL, NULL, NULL, room4);
+    active_mission_t *a_mission4 = active_mission_new(item2, NULL, npc2, NULL); //outcome 1 (slay wolf, get potion)
+    active_mission_t *a_mission5 = active_mission_new(NULL, NULL, NULL NULL); //outcome 2 (die to wolf)
+    active_mission_t *a_mission6 = active_mission_new(NULL, NULL, npc2, NULL); //outcome 3 (negotiate with wolf)
+
+    mission_t *meet_npc;
+    mission->a_mission = a_mission1;
+    mission->p_mission = NULL;
+
+    mission_t *get_emerald;
+    mission->a_mission = a_mission2;
+    mission->p_mission = NULL;
+
+    mission_t *go_to_room4;
+    mission->a_mission = a_mission3;
+    mission->p_mission = NULL;
+
+    mission_t *fight_wolf;
+    mission->a_mission = a_mission4;
+    mission->p_mission = NULL;
+
+    mission_t *die_to_wolf;
+    mission->a_mission = a_mission5;
+    mission->p_mission = NULL;
+
+    mission_t *negotiate;
+    mission->a_mission = a_mission6;
+    mission->p_mission = NULL;
+
+    achievement_t *achievement1 = achievement_new(mission1, "Meet the NPC quest giver");
+    achievement_t *achievement2 = achievement_new(mission2, "Get the emerald");
+    achievement_t *achievement3 = achievement_new(mission3, "Go to room 4");
+    achievement_t *achievement4 = achievement_new(mission4, "Fight the wolf");
+    achievement_t *achievement5 = achievement_new(mission5, "Die to wolf");
+    achievement_t *achievement6 = achievement_new(mission6, "Negotiate with wolf");
+
+    add_achievement_to_quest(quest, achievement1, "The first mission");
+    add_achievement_to_quest(quest, achievement2, "Meet the NPC quest giver");
+    add_achievement_to_quest(quest, achievement3, "Get the emerald");
+    add_achievement_to_quest(quest, achievement4, "Go to room 4");
+    add_achievement_to_quest(quest, achievement5, "Go to room 4");
+    add_achievement_to_quest(quest, achievement6, "Go to room 4");
+
+    return quest;
 }
 
 int main(int argc, char **argv)
@@ -218,8 +302,15 @@ int main(int argc, char **argv)
     item_t *item2 = malloc(sizeof(item_t));
     HASH_FIND(hh, ctx->game->all_items, "POTION", strlen("POTION"), item2);
 
-    quest = quest_new(1, NULL, reward);
+    stat_req_t *stat_req = stat_req_new(5, 2);
 
+    quest_t *quest = make_sample_quest(1, NULL, reward_if_kill, stat_req);
+
+    reward_t *reward_passive = reward_new(NULL, item_new("Portal Gun", "this gun can create portals on special walls",
+    "Reward for completing passive missions.");
+
+    stat_req_t *stat_req_passive = stat_req_new(0, 0);
+    quest_t *quest_passive = make_passive_quest(1, NULL, reward_passive, stat_req_passive);
     /*quest layout: start in room1 -> go to room2 -> go to room3 -> get emerald -> go to room4 -> fight wolf and WIN -> get potion -> meet npc for reward
                                                                                                 / |
                                                                                                /  |
@@ -229,50 +320,7 @@ int main(int argc, char **argv)
                                                                                             |
                                                                                             v
                                                                                             negotiate with wolf and wolf takes potion -> npc gives xp instead  */
-    active_mission_t *a_mission1 = mission_new(NULL,npc1, NULL, NULL);
-    active_mission_t *a_mission2 = mission_new(item1, NULL, NULL, room3);
-    active_mission_t *a_mission3 = mission_new(NULL, NULL, NULL, room4);
-    active_mission_t *a_mission4 = mission_new(item2, NULL, npc2, NULL); //outcome 1 (slay wolf, get potion)
-    active_mission_t *a_mission5 = mission_new(NULL, NULL, NULL NULL); //outcome 2 (die to wolf)
-    active_mission_t *a_mission6  = mission_new(NULL, NULL, npc2, NULL); //outcome 3 (negotiate with wolf)
-
-    mission_t *meet_npc;
-    mission->a_mission = a_mission1;
-    mission->p_mission = NULL;
-
-    mission_t *get_emerald;
-    mission->a_mission = a_mission2;
-    mission->p_mission = NULL;
-
-    mission_t *go_to_room4;
-    mission->a_mission = a_mission3;
-    mission->p_mission = NULL;
-
-    mission_t *fight_wolf;
-    mission->a_mission = a_mission4;
-    mission->p_mission = NULL;
-
-    mission_t *die_to_wolf;
-    mission->a_mission = a_mission5;
-    mission->p_mission = NULL;
-
-    mission_t *negotiate;
-    mission->a_mission = a_mission6;
-    mission->p_mission = NULL;
-
-    achievement_t *achievement1 = achievement_new(mission1, "Meet the NPC quest giver");
-    achievement_t *achievement2 = achievement_new(mission2, "Get the emerald");
-    achievement_t *achievement3 = achievement_new(mission3, "Go to room 4");
-    achievement_t *achievement4 = achievement_new(mission4, "Fight the wolf");
-    achievement_t *achievement5 = achievement_new(mission5, "Die to wolf");
-    achievement_t *achievement6 = achievement_new(mission6, "Negotiate with wolf");
-
-    add_achievement_to_quest(quest, achievement1, "The first mission");
-    add_achievement_to_quest(quest, achievement2, "Meet the NPC quest giver");
-    add_achievement_to_quest(quest, achievement3, "Get the emerald");
-    add_achievement_to_quest(quest, achievement4, "Go to room 4");
-    add_achievement_to_quest(quest, achievement5, "Go to room 4");
-    add_achievement_to_quest(quest, achievement6, "Go to room 4");
+    
 
     add_entry("QUEST", start_quest_operation, NULL, ctx->table);
 
