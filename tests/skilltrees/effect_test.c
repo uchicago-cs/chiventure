@@ -5,6 +5,7 @@
 #include "common/ctx.h"
 #include "common/uthash.h"
 #include "game-state/stats.h"
+#include "game-state/item.h"
 
 /* Creating a context object and some basic hash tables so that we can test our functions.
    Also adding a player to the ctx object. */
@@ -37,6 +38,27 @@ chiventure_ctx_t* create_player_and_stats (){
     
     return ctx;
 }
+
+/* Also adding an item to the game so that we can test item attribute effects */
+int add_item (chiventure_ctx_t* ctx)
+{
+    game_t* game = ctx -> game;
+    item_t* bomb = item_new("BOMB", "An armed bomb", "5 seconds till detonation");
+    attribute_t* is_armed = bool_attr_new("ARMED", true);
+    int check = add_attribute_to_hash(bomb, is_armed);
+    cr_assert_eq(check, SUCCESS, "Error: Failed to add attribute to item");
+    game->all_items = NULL;
+    check = add_item_to_hash(&(game->all_items), bomb);
+    cr_assert_eq(check, SUCCESS, "Error: Failed to add item to hash");
+    // Checking if the bomb is added to the item hash and is armed
+    item_t* item_test;
+    HASH_FIND_STR(game->all_items, "BOMB", item_test);
+    cr_assert_not_null(item_test, "Error : Bomb not found");
+    attribute_t* attr_test = get_attribute(item_test, "ARMED");
+    cr_assert_eq(attr_test->attribute_value.bool_val, true, "Error : Bomb not armed");
+    return SUCCESS;
+}
+
 // Tests for move unlock effects
 Test(effect_tests, define_move_effect_test)
 {
@@ -140,3 +162,33 @@ Test(effect_tests, execute_player_stat_effect_test)
     cr_assert_eq(100, current_health->modifier, "Current health not changed correctly");
 }
 
+/*** TESTS FOR ITEM ATT EFFECT ***/
+
+// This test checks if define_item_att_effect works correctly if all values input are correct
+
+
+
+// This test checks if define_item_att_effect works correctly if the inputted value is not correct
+Test(effect_tests, define_item_att_effect_invalid_vals)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    int check = add_item(ctx);
+    cr_assert_eq(check, SUCCESS, "Error : Failed to add item");
+}
+
+/*
+// This test checks if make_item_att_effect works correctly
+Test(effect_tests, make_item_att_effect_test)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    int check = add_item(ctx);
+    cr_assert_eq(check, SUCCESS, "Error : Failed to add item");
+}
+// This test checks if execute_item_att_effect works correctly
+Test(effect_tests, execute_item_att_effect_test)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    int check = add_item(ctx);
+    cr_assert_eq(check, SUCCESS, "Error : Failed to add item");
+}
+*/
