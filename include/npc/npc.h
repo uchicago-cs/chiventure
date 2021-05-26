@@ -9,6 +9,8 @@
 #include "npc/npc_battle.h"
 #include "npc/npc_move.h"
 
+/* Forward declaration. Full typedef can be found in npc.h */
+typedef struct npc_battle npc_battle_t;
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
