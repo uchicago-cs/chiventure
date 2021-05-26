@@ -130,11 +130,18 @@ void prompt(char* message, char* input) {
     }
 }
 
-/* main function for the 2021-demo executable. */
-int main() {
-    game_t* game = game_new("The playerclass demo game!");
+/* The following functions are demo functions.  Feel free to loop and prompt for 
+ * input, just remember to make it possible to escape these functions. */
 
-    /* test code */
+void demo_WDL() {
+
+}
+
+void demo_prefab_classes() {
+    /* This was just code I had lying around. You don't necessarily need to use
+     * it, it might be better to forgo user input (except for pauses) */
+
+    game_t* game = game_new("The playerclass demo game!");
 
     /* Runs until you input NULL. */
     char class_name[BUFFER_SIZE];
@@ -147,4 +154,28 @@ int main() {
             class_prefab_add_skills(class);
         print_class(class);
     }
+}
+
+void demo_multiclasses() {
+    
+}
+
+void demo_item_interactions() {
+    
+}
+
+/* main function for the 2021-demo executable. */
+int main() {
+    /* We decided to break up the ~10 minute demo into 2-3 minute mini demos */
+    printf("* * Entering WDL mini-demo * *\n");
+    demo_WDL();
+
+    printf("* * Entering prefab mini-demo * *\n");
+    demo_prefab_classes();
+
+    printf("* * Entering multiclass mini-demo * *\n");
+    demo_multiclasses();
+
+    printf("* * Entering item interactions mini-demo * *\n");
+    demo_item_interactions();
 }
