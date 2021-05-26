@@ -20,10 +20,10 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 int set_item_attributes(chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    attribute_value_t val_true;
-    val_true.bool_val = true;
-    attribute_value_t val_false;
-    val_false.bool_val = false;
+    attribute_value_t *val_true;
+    val_true->bool_val = true;
+    attribute_value_t *val_false;
+    val_false->bool_val = false;
     room_t *dining_room = find_room_from_game(game, "dining room");
     room_t *living_room = find_room_from_game(game, "living room");
     
@@ -51,10 +51,12 @@ int set_item_attributes(chiventure_ctx_t *ctx)
         default:
             break;
         }
-        
+        agent_t *agent = NULL;
+        agent->item = item;
+
         set_bool_attr(item, "CONSUMED", false);
         attribute_t *attr = get_attribute(item, "CONSUMED");
-        game_action_t *act = get_action(item, "CONSUME");
+        game_action_t *act = get_action(agent, "CONSUME");
 
         add_action_attribute_condition(act, item, attr, val_false);
         add_action_effect(act, item, attr, val_true);
@@ -66,8 +68,10 @@ int set_item_attributes(chiventure_ctx_t *ctx)
      */ 
     item_t *door = get_item_in_room(living_room, "DOOR");
     set_bool_attr(door, "OPEN", false);
+    agent_t *agentdoor = NULL;
+    agentdoor->item = door;
     attribute_t *attr = get_attribute(door, "OPEN");
-    game_action_t *act = get_action(door, "OPEN");
+    game_action_t *act = get_action(agentdoor, "OPEN");
 
     add_action_attribute_condition(act, door, attr, val_false);
     add_action_effect(act, door, attr, val_true);
@@ -79,10 +83,10 @@ int set_item_attributes(chiventure_ctx_t *ctx)
 int add_end_conditions(chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    attribute_value_t val_true;
-    val_true.bool_val = true;
-    attribute_value_t val_false;
-    val_false.bool_val = false;
+    attribute_value_t *val_true;
+    val_true->bool_val = true;
+    attribute_value_t *val_false;
+    val_false->bool_val = false;
     room_t *dining_room = find_room_from_game(game, "dining room");
     
     /* Add end condition that "CONSUMED" must equal true for all food items */
@@ -141,8 +145,10 @@ int add_inventory_conditions(chiventure_ctx_t *ctx)
         default:
             break;
         }
-        
-        game_action_t *act = get_action(item, "CONSUME");
+        agent_t *agent = NULL;
+        agent->item = item;
+
+        game_action_t *act = get_action(agent, "CONSUME");
         add_action_inventory_condition(act, player, fork);
     }
     
