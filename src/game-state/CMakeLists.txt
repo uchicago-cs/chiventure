@@ -11,6 +11,7 @@ add_library(game-state
 
 target_include_directories(game-state PRIVATE src/) 
 target_link_libraries(game-state cli)
+target_link_libraries(game-state npc)
 
 # EXAMPLES
 add_subdirectory(examples
