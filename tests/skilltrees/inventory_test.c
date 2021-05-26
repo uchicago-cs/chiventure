@@ -8,6 +8,17 @@
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
 
+char* bombname;
+char** bombstatname;
+double* bombmodifications;
+int* bombdurations;
+int bombnum_stats;
+
+player_stat_effect_t bombskilleffect = define_player_stat_effect(bombname, bombstatname, 
+            bombmodifications, bombdurations, bombnim_stats, ctx);
+
+
+
 /* Tests inventory_new. */
 Test(inventory_tests, inventory_new_test)
 {

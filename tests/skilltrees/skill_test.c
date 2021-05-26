@@ -8,9 +8,7 @@
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
 
-/*These tests rely on the old implementation of skill_effects.  They must be rewritten to support the current implementation. 
- *As the different types of effects are implemented, we will write tests for each of them.  These old tests are currently commented 
- *out to provide us with an idea of what kind of tests we may want to implement in the future.  In due course, they will be deleted.*/
+
 
 /* Test skill_new. */
 /*
