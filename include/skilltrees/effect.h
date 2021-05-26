@@ -62,6 +62,7 @@ typedef struct move_effect {
 typedef struct item_att_effect {
     item_t* item; // The ID of the parent object 
     char* att_id; // The ID that refers to the given attribute (see obj.h)
+    enum attribute_tag att_tag; //Enum that holds possible types of attribute value
     attribute_value_t attribute_mod; //The value to which we want to change the attribute
 }item_att_effect_t;
 
@@ -101,18 +102,17 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
 move_effect_t* define_move_effect(move_t* move);
 
 /* Defines an attribute modifying effect and returns a pointer to it
- * Parameters: char* obj_id:  The unique ID of the parent object
- *            char* att_id:  The ID of the attribute
- *            data mod: Contains a value of the union data type to which the attribute value must be changed
+ * Parameters: item_t* item:  A pointer to an item 
+ *             char* att_id:  The ID of the attribute
+ *             data mod: Contains a value of the union data type to which the attribute value must be changed
  * Returns: A pointer to the created attribute modifying effect
  */
-item_att_effect_t* define_item_att_effect(item_t* item, char* att_id, attribute_value_t attribute_mod);
+item_att_effect_t* define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod);
 
 /* Defines an item stat effect and returns a pointer to it
  * Parameters: TO BE IMPLEMENTED
  * Returns: A pointer to the created item stat modifying effect
  */
-
 item_stat_effect_t* define_item_stat_effect();
 
 /* Takes the given stats modifying effect and converts it to an effect

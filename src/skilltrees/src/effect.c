@@ -44,17 +44,33 @@ move_effect_t* define_move_effect(move_t* move)
     return new_move_effect;
 }
 
-// See effect.h
-item_att_effect_t* define_item_att_effect(char* obj_id, char* att_id, union data mod) 
+//See effect.h
+item_att_effect_t* define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod) 
 {
-    // Again, very basic implementation that is going to be a placeholder right now
-    // TO DO: Maria
+    assert(item != NULL);
+    attribute_t* attr = get_attribute(item, att_id);
+    if(attr == NULL)
+    {
+        fprintf(stderr, "Attribute not found \n");
+        return NULL;
+    }
+    item_att_effect_t* item_att_effect = (item_att_effect_t*)malloc(sizeof(item_att_effect_t));
+    item_att_effect -> item = item;
+    item_att_effect -> att_id = att_id;
+    item_att_effect -> att_tag = att_tag;
+    
+    if (att_tag == DOUBLE)
+    item_att_effect -> attribute_mod.double_val = attribute_mod.double_val;
+    if (att_tag == BOOLE)
+    item_att_effect -> attribute_mod.bool_val = attribute_mod.bool_val;
+    if (att_tag == CHARACTER)
+    item_att_effect -> attribute_mod.char_val = attribute_mod.char_val;
+    if (att_tag == STRING)
+    item_att_effect -> attribute_mod.str_val = attribute_mod.str_val;
+    if (att_tag == INTEGER)
+    item_att_effect -> attribute_mod.int_val = attribute_mod.int_val;
 
-    item_att_effect_t* new_att_effect = (item_att_effect_t*)malloc(sizeof(item_att_effect_t));
-    new_att_effect->item_id = obj_id;
-    new_att_effect->att_id = att_id;
-    new_att_effect->mod = mod;
-    return new_att_effect;
+    return item_att_effect;
 }
 
 // See effect.h
@@ -130,8 +146,61 @@ int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect)
 // See effect.h
 int execute_item_att_effect(item_att_effect_t* item_att_effect)
 {
-    // TODO
-    return 0;
+    assert(item_att_effect != NULL);
+    item_t* item = item_att_effect -> item;
+    char* attr_id = item_att_effect -> att_id;
+    enum attribute_tag att_tag = item_att_effect -> att_tag;
+    if (att_tag == DOUBLE)
+    {
+        double mod = item_att_effect -> attribute_mod.double_val;
+        int check = set_double_attr(item, attr_id, mod);
+        if (check == FAILURE)
+        {
+            fprintf(stderr, "Failed to set value correctly \n");
+            return FAILURE;
+        }
+    }
+    if (att_tag == BOOLE)
+    {
+        bool mod = item_att_effect -> attribute_mod.bool_val;
+        int check = set_bool_attr(item, attr_id, mod);
+        if (check == FAILURE)
+        {
+            fprintf(stderr, "Failed to set value correctly \n");
+            return FAILURE;
+        }
+    }
+    if (att_tag == CHARACTER)
+    {
+        char mod = item_att_effect -> attribute_mod.char_val;
+        int check = set_char_attr(item, attr_id, mod);
+        if (check == FAILURE)
+        {
+            fprintf(stderr, "Failed to set value correctly \n");
+            return FAILURE;
+        }
+    }
+    if (att_tag == STRING)
+    {
+        char* mod = item_att_effect -> attribute_mod.str_val;
+        int check = set_str_attr(item, attr_id, mod);
+        if (check == FAILURE)
+        {
+            fprintf(stderr, "Failed to set value correctly \n");
+            return FAILURE;
+        }
+    }
+    if (att_tag == INTEGER)
+    {
+        int mod = item_att_effect -> attribute_mod.int_val;
+        int check = set_char_attr(item, attr_id, mod);
+        if (check == FAILURE)
+        {
+            fprintf(stderr, "Failed to set value correctly \n");
+            return FAILURE;
+        }
+    }
+    return SUCCESS;
 }
 
 int execute_item_stat_effect(item_stat_effect_t* item_stat_effect)
