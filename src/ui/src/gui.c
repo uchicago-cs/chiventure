@@ -148,6 +148,8 @@ void run_gui(chiventure_ctx_t *ctx)
         Font test = GetFontDefault();
         DrawTextRec(test, output_text, output, fontSize, fontSpacing, true, BLACK);
 
+        draw_map(width, height, ctx->game->curr_room);
+
         EndDrawing();
     }
     
