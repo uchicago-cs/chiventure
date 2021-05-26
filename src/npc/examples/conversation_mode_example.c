@@ -143,6 +143,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     add_convo_to_npc(steve, c);
     add_npc_to_game(game, steve);
+    add_npc_to_room(room2->npcs, steve);
 
     /* Create Professor oak */
     char *oak_id = "OAK";
@@ -153,6 +154,7 @@ chiventure_ctx_t *create_sample_ctx()
     convo_t *starting_speech = create_oak_conversation();
     add_convo_to_npc(oak, starting_speech);
     add_npc_to_game(game, oak);
+    add_npc_to_room(room1->npcs, oak);
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
