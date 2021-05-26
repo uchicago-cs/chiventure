@@ -138,11 +138,23 @@ int do_branch_block(branch_block_t *block)
             }
             for (int i = 0; i < block->num_conditionals; i++)
             {
+            /*
+             * Loops over all the conditionals in the list of conditionals
+             * If any conditional evalutes to True (0)
+             *     Run the action associated with that conditional
+             * First conditional represents the if statement,
+             *    the rest of the conditionals represent elif statements
+             */
                 if (eval_conditional_block(block->conditionals[i]) == 0)
                 {
                     return run_ast_block(block->actions[i]);
                 }
             }
+            /*
+             * None of the if or elif statements were true
+             * If there is still an unassociated action, then
+             *     that action is run as an else clause of the if.
+             */
             if (block->num_actions > block->num_conditionals)
             {
                 return run_ast_block(block->actions[block->num_actions - 1]);
@@ -157,12 +169,20 @@ int do_branch_block(branch_block_t *block)
 	    conditional_block_t *loop = block->conditionals[0];
 	    if (block->num_conditionals == 2)
 	    {
-	      // If the condition to end the loop is different than starting the loop
+	      /*
+	       * Checks if a loop is a while loop or an end while loop
+	       * While loop, num_conditionals = 1
+	       * End while loop, different end condition num_conditionals = 2
+	       */
 	        loop = block->conditionals[1];
 	    }
 	    if (eval_conditional_block(block->conditionals[0]) == 0)
 	    {
-	        //No detection or protection for infinite looping
+	      /*
+	       * As with normal while loops, this can infinite loop
+	       * There is no built in method for checking that this will terminate.
+	       *     Also will not terminate after a set amount of time.
+	       */
 	        do
 		{
 		  int rc = run_ast_block(block->actions[0]);
