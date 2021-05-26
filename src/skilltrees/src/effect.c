@@ -21,7 +21,7 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
         
         if(curr == NULL)
         {
-            printf("Given player statistic does not exist. \n");
+            fprintf(stderr, "Given player statistic does not exist. \n");
             return NULL;
         }
         else
@@ -127,12 +127,12 @@ int execute_player_stat_effect(player_stat_effect_t* player_stat_effect, chivent
     effects_hash_t** pointer_to_et = malloc(sizeof(effects_hash_t**));
     if(et == NULL)
     {
-        printf("Error: Effect hash table does not exist \n");
+        fprintf(stderr, "Error: Effect hash table does not exist \n");
         return FAILURE;
     }
     if(pointer_to_et == NULL)
     {
-        printf("Error: Pointer to effect hash table does not exist \n");
+        fprintf(stderr, "Error: Pointer to effect hash table does not exist \n");
         return FAILURE;
     }
     int check = apply_effect(pointer_to_et, st_effect, player_stat_effect->stats, player_stat_effect->modifications, player_stat_effect->durations, player_stat_effect->num_stats);
@@ -142,7 +142,7 @@ int execute_player_stat_effect(player_stat_effect_t* player_stat_effect, chivent
     }
     else
     {
-        printf("An error occurred");
+        fprintf(stderr, "An error occurred \n");
         return check;
     }
 }

@@ -69,7 +69,7 @@ typedef struct item_att_effect {
 /* Defines an effect that achanges the statistic of an item. */
 
 typedef struct item_stat_effect {
-    //TODO : Rohan
+    //TODO (2022)
 }item_stat_effect_t;
 
 /* Union of all the effect types given above.*/

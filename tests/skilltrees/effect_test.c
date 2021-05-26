@@ -40,7 +40,7 @@ chiventure_ctx_t* create_player_and_stats (){
 }
 
 /* Also adding an item to the game so that we can test item attribute effects */
-int add_item (chiventure_ctx_t* ctx)
+item_t* add_item (chiventure_ctx_t* ctx)
 {
     game_t* game = ctx -> game;
     item_t* bomb = item_new("BOMB", "An armed bomb", "5 seconds till detonation");
@@ -56,7 +56,7 @@ int add_item (chiventure_ctx_t* ctx)
     cr_assert_not_null(item_test, "Error : Bomb not found");
     attribute_t* attr_test = get_attribute(item_test, "ARMED");
     cr_assert_eq(attr_test->attribute_value.bool_val, true, "Error : Bomb not armed");
-    return SUCCESS;
+    return bomb;
 }
 
 // Tests for move unlock effects
@@ -165,30 +165,53 @@ Test(effect_tests, execute_player_stat_effect_test)
 /*** TESTS FOR ITEM ATT EFFECT ***/
 
 // This test checks if define_item_att_effect works correctly if all values input are correct
-
-
+Test(effect_tests, define_item_att_effect_correct_vals)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_item(ctx);
+    attribute_value_t mod;
+    mod.bool_val = false;
+    enum attribute_tag att_tag = BOOLE;
+    item_att_effect_t* disarm_bomb = define_item_att_effect(bomb, "ARMED", att_tag, mod);
+    cr_assert_not_null(disarm_bomb, "Error: Returned NULL effect");
+    cr_assert_eq(disarm_bomb->att_tag, BOOLE, "Error : Have not set tag correctly");
+    cr_assert_eq(disarm_bomb->attribute_mod.bool_val, false, "Error : Did not set value correctly");
+}
 
 // This test checks if define_item_att_effect works correctly if the inputted value is not correct
 Test(effect_tests, define_item_att_effect_invalid_vals)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
-    int check = add_item(ctx);
-    cr_assert_eq(check, SUCCESS, "Error : Failed to add item");
+    item_t* bomb = add_item(ctx);
+    attribute_value_t mod;
+    mod.double_val = 15.0;
+    enum attribute_tag att_tag = DOUBLE;
+    item_att_effect_t* disarm_bomb = define_item_att_effect(bomb, "BLAST_RADIUS", att_tag, mod);
+    cr_assert_eq(disarm_bomb, NULL, "Error : Should return NULL");
 }
 
-/*
 // This test checks if make_item_att_effect works correctly
 Test(effect_tests, make_item_att_effect_test)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
-    int check = add_item(ctx);
-    cr_assert_eq(check, SUCCESS, "Error : Failed to add item");
+    item_t* bomb = add_item(ctx);
+    attribute_value_t mod;
+    mod.bool_val = false;
+    enum attribute_tag att_tag = BOOLE;
+    item_att_effect_t* disarm_bomb = define_item_att_effect(bomb, "ARMED", att_tag, mod);
+    cr_assert_not_null(disarm_bomb, "Error : Returned NULL effect");
+    cr_assert_eq(disarm_bomb->att_tag, BOOLE, "Error : Have not set tag correctly");
+    cr_assert_eq(disarm_bomb->attribute_mod.bool_val, false, "Error : Did not set value correctly");
+    effect_t* attribute_effect = make_item_att_effect(disarm_bomb);
+    cr_assert_not_null(attribute_effect, "Error : Returned a NULL effect");
+    cr_assert_not_null(attribute_effect->data.i_a, "Error : did not copy over effect correctly");
+    cr_assert_eq(attribute_effect->effect_type, ITEM_ATTRIBUTE_MOD, "Error: Enum value not correct");
 }
+
 // This test checks if execute_item_att_effect works correctly
 Test(effect_tests, execute_item_att_effect_test)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
-    int check = add_item(ctx);
-    cr_assert_eq(check, SUCCESS, "Error : Failed to add item");
+    item_t* bomb = add_item(ctx);
+    
 }
-*/
