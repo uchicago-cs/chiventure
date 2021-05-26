@@ -53,20 +53,23 @@
     }
   },
   "ITEMS": {
-    "Distaff": {
+    "DISTAFF": {
       "short_desc": "The Distaff of Knowledge",
       "long_desc": "The Distaff of Knowledge is an ancient magical artifact that can be used to weave knowledge itself. It will come in very handy at dinner parties.",
-      "in": "room C"
+      "in": "room C",
+      "actions": []
     },
-    "Door": {
+    "DOOR": {
       "short_desc": "A large wooden door",
       "long_desc": "It looks very heavy, and it doesn't have a keyhole.",
-      "in": "room B"
+      "in": "room B",
+      "actions": []
     },
-    "sconce": {
+    "SCONCE": {
       "short_desc": "A sconce holding a candle",
       "long_desc": "It looks a bit loose.",
-      "in": "room A"
+      "in": "room A",
+      "actions": []
     }
   }
 }
