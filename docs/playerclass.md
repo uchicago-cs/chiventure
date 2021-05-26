@@ -16,11 +16,12 @@
 
 ## Key Features
 
-- Provide basic classes for game developers to utilize
-- Provide framework for game developers to create their own classes in place of or in addition to our provided classes
+- Provide basic prefabricated classes for game developers to utilize
+- Provide framework for game developers to create their own classes in place of or in addition to our prefabricated classes
+- Allow for multiclassing (a single player using more than one class)
 - Allow certain player classes to use items more or less effectively
-- Work with rpg-battle team to implement specific combat statistics / effects for different classes
-- Work with other teams to implement additional game functionality based on class, such as custom dialogue, custom NPC names, custom item usage, etc.
+- Work with rpg-battle team to implement specific combat statistics / effects for different classes (in progress)
+- Work with other teams to implement additional game functionality based on class, such as custom dialogue, custom NPC names, usage, etc. (in progress)
 
 ## Modules
 
