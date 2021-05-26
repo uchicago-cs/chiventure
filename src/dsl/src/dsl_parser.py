@@ -14,7 +14,7 @@ grammar_f.close()
 
 
 class TreeToDict(Transformer):
-    def game(self, s):
+    def game(self, s: list) -> dict:
         """
         S contains several objects of the form ('type', <value>), where
         value is dependent upon the type. This function creates a dictionary
