@@ -202,11 +202,11 @@ skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid) {
 }
 
 /* See skliltree.h */
-unsigned int get_number_skill_prereqs(skill_tree_t* tree, sid_t sid){
+unsigned int get_number_skill_prereqs(skill_tree_t* tree, sid_t sid) {
     assert(tree != NULL);
 
     int pos = skill_tree_has_node(tree, sid);
-    if(pos == -1) {
+    if (pos == -1) {
         fprintf(stderr, "get_number_skill_prereqs: node is not in tree\n");
         return 0;
     }
@@ -216,11 +216,11 @@ unsigned int get_number_skill_prereqs(skill_tree_t* tree, sid_t sid){
 
 
 /* See skilltree.h */
-unsigned int get_prereq_level(skill_tree_t* tree, sid_t sid){
+unsigned int get_prereq_level(skill_tree_t* tree, sid_t sid) {
     assert(tree != NULL);
 
     int pos = skill_tree_has_node(tree, sid);
-    if(pos == -1) {
+    if (pos == -1) {
         fprintf(stderr, "get_number_skill_prereqs: node is not in tree\n");
         return 0;
     }
@@ -245,7 +245,7 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
         return NULL;
     }
 
-    skill_t** acquired = (skill_t**)malloc(*num_acquired_prereqs*sizeof(skill_t*));
+    skill_t** acquired = (skill_t**)malloc(*num_acquired_prereqs * sizeof(skill_t*));
     if (acquired == NULL) {
         fprintf(stderr, "get_acquired_skill_prereqs: malloc acquired failed\n");
         *num_acquired_prereqs = -2;
@@ -296,9 +296,9 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
 
 /* See skilltree.h */
 skill_t** skill_prereqs_missing(skill_tree_t* tree,
-                               skill_inventory_t* inventory, sid_t sid,
+                                skill_inventory_t* inventory, sid_t sid,
                                 unsigned int* prereqlevel,
-                               int* num_missing) {
+                                int* num_missing) {
     assert(tree != NULL && inventory != NULL);
 
     unsigned int num_prereqs;
@@ -346,10 +346,10 @@ int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
     assert(inventory != NULL);
     assert(skill != NULL);
     
-    unsigned int levelpointer;
+    unsigned int level_pointer;
 
     unsigned int num_missing;
-    skill_t** missing = skill_prereqs_missing(tree, inventory, skill->sid, &levelpointer,
+    skill_t** missing = skill_prereqs_missing(tree, inventory, skill->sid, &level_pointer,
                                               &num_missing);
 
     if (num_missing == 0) {

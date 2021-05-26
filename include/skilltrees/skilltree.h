@@ -59,8 +59,8 @@ struct skill_node {
     // The number of prerequisite skill nodes
     unsigned int num_prereq_skills;
 
-    //the level that of the character that a player must be to achieve the skill_node
-   //this is an ADDITIONAL pre_req to the lists of skill_nodes preceding the tree
+    // The level that of the character that a player must be to achieve the skill_node
+    // This is an ADDITIONAL pre_req to the lists of skill_nodes preceding the tree
     unsigned int prereq_level;
 
     // The size of the skill node, for the graphics team
