@@ -8,6 +8,13 @@
 #include "ui/gui.h"
 #include "libobj/load.h"
 
+#ifdef GUI_AVAILABLE
+    run_gui(ctx);
+#else
+    fprintf(stderr, "Cannot run GUI because chiventure was built without graphics support.\n");
+    exit(1);
+#endif
+
 const char *banner =
     "    ________________________________________________________________________________________\n"
     "  / \\                                                                                       \\\n"
