@@ -42,14 +42,14 @@ int battle_free(battle_t *b);
  * Parameters:
  * - name: name string
  * - is_friendly: bool indicating character type
- * - class: pointer to the player class struct 
+ * - c_type: pointer to the player class struct 
  * - stats: pointer to the stats of the combatant(stub)
  * - moves: pointer to the linked list of moves for the combatant (stub)
  * - items: pointer to the linked list of battle_items for the combatant (stub)
  * - ai: combatant's ai move strategy
  * returns: a pointer to the new character
  */
-combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
+combatant_t *combatant_new(char *name, bool is_friendly, class_t *c_type,
              stat_t *stats, move_t *moves, battle_item_t *items, difficulty_t ai);
 
 /* Creates a new combatant struct
@@ -57,7 +57,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
  * - c: a pointer to combatant in memory
  * - name: name string
  * - is_friendly: bool indicating character type
- * - class: pointer to the player class struct 
+ * - c_type: pointer to the player class struct 
  * - stats: a pointer to the stats of the combatant (stub)
  * - moves: a pointer to the linked list of moves for the combatant (stub)
  * - items: a pointer to the linked list of battle_items for the combatant (stub)
@@ -66,7 +66,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *class,
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *class,
+int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *c_type,
      stat_t *stats, move_t *moves, battle_item_t *items, difficulty_t ai);
 
 /* Frees a combatant struct from memory
@@ -86,4 +86,94 @@ int combatant_free(combatant_t *c);
  * - FAILURE for unsuccessful free
  */
 int combatant_free_all(combatant_t *c);
+
+/* Initialize an empty stat_changes struct
+ * Parameters:
+ * - none
+ * returns: a pointer to the new stat_changes_t node
+ */
+stat_changes_t *stat_changes_new();
+
+/* Creates a new stat_changes struct
+ * Parameters:
+ * - sc: a pointer to an empty stat_changes node in memory
+ * returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+ */
+int stat_changes_init(stat_changes_t *sc);
+
+/* Frees a stat_changes struct from memory. Note: Does NOT do anything
+ *     more than freeing the given stat_changes node
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int stat_changes_free_node(stat_changes_t *sc);
+
+/* Frees a list of stat_changes structs from memory. Note: only frees
+ *     from the given stat_changes node ONWARDS.
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+
+int stat_changes_free_all(stat_changes_t *sc);
+
+/* Creates an empty stat_changes node at the end of a given
+ *     stat_changes_t struct
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful adding
+ * - FAILURE for unsuccessful adding
+ */
+int stat_changes_add_node(stat_changes_t *sc);
+
+/* Removes a given stat_changes node from the list it's in
+ *     Note: Do not remove the header node of a stat_changes list
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * returns:
+ * - SUCCESS for successful removal
+ * - FAILURE for unsuccessful removal
+ */
+int stat_changes_remove_node(stat_changes_t *sc);
+
+/* Decrements all turn counts in the stat_changes struct by 1. If
+ *     this becomes 0 for a given stat_changes node, remove it from
+ *     list.
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * - c: a pointer to a stat_changes_struct in memory in case of stat changes
+ *     that need to be made/undone
+ * returns:
+ * - SUCCESS for successful decrement
+ * - FAILURE for unsuccessful decrement
+ */
+int stat_changes_turn_increment(stat_changes_t *sc, combatant_t *c);
+
+/* Undoes the temporary stat changes
+ * Parameters:
+ * - sc: a pointer to a stat_changes struct in memory
+ * - c: a pointer to a combatan struct in memory to undo stat changes to
+ * returns:
+ * - SUCCESS for successful completion
+ * - FAILURE for unsuccessful completion
+ */
+int stat_changes_undo(stat_changes_t *sc, combatant_t *c);
+
+/* Appends a node to the end of a stat_changes struct
+ * Parameters:
+ * - base: a pointer to a stat_changes struct in memory to be appended to
+ * - sc: a pointer to a stat_changes struct in memory to append
+ * returns:
+ * - SUCCESS for successful completion
+ * - FAILURE for unsuccessful completion
+ */
+int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc);
 #endif
