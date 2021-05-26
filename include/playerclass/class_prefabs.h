@@ -6,7 +6,7 @@
 #define CLASS_PREFABS_H
 
 #include "playerclass/class_structs.h"
-#include "common/ctx.h"
+#include "game-state/game.h"
 
 /*
  * Allocates and initializes a prefab class, and the following fields:
@@ -16,7 +16,7 @@
  * To add skill-related fields, see class_prefab_add_skills().
  *
  * Parameters:
- *  - ctx: The current ctx object (contains the global stat hashtable, which 
+ *  - game: The current game struct (contains the global stat hashtable, which 
  *         can be NULL).
  *  - class_name: The name of the prefab class to be generated.  Must match one
  *                of our classes.
@@ -26,7 +26,7 @@
  * Returns:
  *  - A pointer to the new class on success, NULL on failure.
  */
-class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name);
+class_t* class_prefab_new(game_t* game, char* class_name);
 
 /*
  * Initializes a prefab class's skilltree and active combat and noncombat skill 

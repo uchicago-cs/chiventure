@@ -5,7 +5,8 @@
 #ifndef INCLUDE_STDST_H_
 #define INCLUDE_STDST_H_
 
-#include "effect.h"
+#include "common/common.h"
+
 /* ============================= */
 /* === SKILL DATA STRUCTURES === */
 /* ============================= */
@@ -52,6 +53,17 @@ typedef enum skill_type {
 
 } skill_type_t;
 
+/*
+ * Skill effect function type
+ *
+ * Parameters:
+ *  - Contained within a string for function pointer uniformity. Each skill
+ *    effect function can read the string for parameters using sscanf.
+ *
+ * Returns:
+ *  - A string describing the consequence of the skill execution, for the CLI
+ */
+typedef char* (*skill_effect_t)(char*);
 
 /* An INDIVIDUAL skill, belonging to a player */
 typedef struct skill {
@@ -79,8 +91,8 @@ typedef struct skill {
     // The minimum number of experience points needed to level up
     unsigned int min_xp;
 
-    // The pointer to the linked list that contains all the effects that a skill can have
-    effects_linked_list_t* skill_effects;
+    // The pointer to the function that will execute the skill effect
+    skill_effect_t effect;
 
 } skill_t;
 

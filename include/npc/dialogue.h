@@ -1,7 +1,8 @@
 #ifndef _DIALOGUE_H
 #define _DIALOGUE_H
 
-#include "game-state/game_state_common.h"
+#include "game-state/game.h"
+#include "game-state/condition.h"
 
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
@@ -11,6 +12,35 @@
 /**********************************************
  *       DIALOGUE STRUCTURE DEFINITIONS       *
  **********************************************/
+
+/* Actions */
+typedef enum {
+    GIVE_ITEM,
+    TAKE_ITEM,
+    START_QUEST,
+    START_BATTLE
+} node_action_type;
+
+/* An action flag. This allows designers to integrate actions into their
+ * dialogue. NOTE: This is a linked list, allowing for multiple actions.
+ * 
+ * Includes:
+ *  - action: the type of action (see above)
+ *  - action_id: ID associated with the action (e.g. quest ID)
+ *  - next, prev: next and previous list elements
+ */
+typedef struct node_action {
+    node_action_type action;
+    char *action_id;
+    struct node_action *next, *prev;
+} node_action_t;
+
+/* Edge availability status: for conditional dialogue options */
+typedef enum {
+    EDGE_DISABLED = -1,
+    EDGE_UNAVAILABLE,
+    EDGE_AVAILABLE
+} edge_avail_status;
 
 /* Forward Declaration */
 typedef struct node node_t;
@@ -22,39 +52,45 @@ typedef struct node node_t;
  *  - quip: dialogue option text
  *  - from: source node
  *  - to: destination node
+ *  - condition: criteria determining an edge's availability, NULL if none
+ *    Note: conditions come from game-state/condition.h
  */
 typedef struct edge {
     char *quip;
     node_t *from, *to;
+    condition_t *condition;
 } edge_t;
 
-/* A doubly-linked list containing edges and their "option numbers." The
- * "option number" (1, 2, 3, ...) labels the edges numerically.
+/* A doubly-linked list containing edges and their "availabilities."
  *
  * Includes:
- *  - option_number: an edge's number label
+ *  - availablility: -1 = DISABLED, 0 = UNAVAILABLE, 1 = AVAILABLE (see above)
  *  - edge: the edge
  *  - next, prev: next and previous list elements
  */
 typedef struct edge_list {
-    int option_number;
+    edge_avail_status availability;
     edge_t *edge;
     struct edge_list *next, *prev;
 } edge_list_t;
 
-/* A scene in a conversation.
+/* A stage in a conversation.
  *
  * Includes:
  *  - node_id: the node's "name"
  *  - npc_dialogue: what the NPC says on arriving at the node
- *  - num_edges: number of possible responses
+ *  - num_edges: total number of edges
+ *  - num_available_edges: number of accessible edges
  *  - edges: possible responses
+ *  - actions: actions associated with the node (item, quest, battle, etc.)
  */
 typedef struct node {
     char *node_id;
     char *npc_dialogue;
     int num_edges;
+    int num_available_edges;
     edge_list_t *edges;
+    node_action_t *actions;
 } node_t;
 
 /* A doubly-linked list containing nodes.
@@ -88,35 +124,40 @@ typedef struct convo {
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
 
-/* Adds a new node to the conversation.
+/* To create a new convo, use: convo_new()
+ */
+
+/* Adds a new node to a conversation.
  *
  * Parameters:
  *  - c: pointer to a convo
  *  - node_id: a string (max. 50 chars) representing the node's "name"
  *  - dialogue: a string (max. 500 chars) representing the NPC's speech at the
- *     node
+ *    node
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) input strings are too long (assertion error);
- *    (2) a node with the same ID already exists; (3) memory allocation error;
+ *    (2) a node with the same ID already exists; (3) memory allocation errors;
  */
 int add_node(convo_t *c, char *node_id, char *npc_dialogue);
 
-/* Adds a new edge to the conversation.
+/* Adds a new edge to a conversation.
  *
  * Parameters:
  *  - c: pointer to a convo
- *  - quip: a string (max. 250 chars) representing the dialogue option
+ *  - quip: a string (max. 250 chars) representing the dialogue option text
  *  - from_id: source node's ID
  *  - to_id: destination node's ID
+ *  - cond: criteria determining the edge's availability, NULL if none
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) quip is too long; (2) nodes matching from_id and
- *    to_id could not be found; (3) memory allocation error;
+ *    to_id could not be found; (3) memory allocation errors;
  */
-int add_edge(convo_t *c, char *quip, char *from_id, char *to_id);
+int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
+             condition_t *cond);
 
 
 /**********************************************
@@ -127,29 +168,91 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id);
  *
  * Parameters:
  *  - c: pointer to a convo
+ *  - rc: return code
+ *  - game: the Chiventure game being run
  *
  * Returns:
  *  - A string of NPC dialogue and dialogue options that can be directly
  *    printed by the CLI.
  *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
- *    leaf node), or 0 if the conversation is still ongoing.
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
  */
-char *start_conversation(convo_t *c, int *rc);
+char *start_conversation(convo_t *c, int *rc, game_t *game);
 
 /* Runs a step of the conversation.
  *
  * Parameters:
  *  - c: pointer to a convo
- *  - input: integer (1, 2, ..., c->cur_node->num_edges)
- *  - rc: pointer to an integer
+ *  - input: integer (1, 2, ..., c->cur_node->num_available_edges)
+ *  - rc: return code
+ *  - game: the Chiventure game being run
  *
  * Returns:
  *  - A string of NPC dialogue and dialogue options that can be directly
  *    printed by the CLI.
  *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
- *    leaf node), or 0 if the conversation is still ongoing.
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
  */
-char *run_conversation_step(convo_t *c, int input, int *rc);
+char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
+
+
+/**********************************************
+ *             ACTION FUNCTIONS               *
+ **********************************************/
+
+/* Adds a give item flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - item_id: ID of the item
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ */
+int add_give_item(convo_t *c, char *node_id, char *item_id);
+
+/* Adds a take item flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - item_id: ID of the item
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ */
+int add_take_item(convo_t *c, char *node_id, char *item_id);
+
+/* Adds a start quest flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - quest_id: ID of the quest
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ */
+int add_start_quest(convo_t *c, char *node_id, long quest_id);
+
+/* Adds a start battle flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - battle_id: ID of the battle
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ */
+int add_start_battle(convo_t *c, char *node_id, char *battle_id);
 
 
 /**********************************************
@@ -163,11 +266,14 @@ char *run_conversation_step(convo_t *c, int input, int *rc);
  *  - quip: the dialogue option associated with the edge
  *  - from: source node
  *  - to: destination node
+ *  - cond: criteria determining the edge's availability, NULL if none
+ *    Note: There can be multiple conditions (see condition.h)
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int edge_init(edge_t *e, char *quip, node_t *from, node_t *to);
+int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
+              condition_t *cond);
 
 /* Allocates a new edge on the heap.
  * 
@@ -175,11 +281,13 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to);
  *  - quip: the dialogue option associated with the edge
  *  - from: source node
  *  - to: destination node
- * 
+ *  - cond: criteria determining the edge's availability, NULL if none
+ *    Note: There can be multiple conditions (see condition.h)
+ *
  * Returns:
  *  - pointer to the new edge
  */
-edge_t *edge_new(char *quip, node_t *from, node_t *to);
+edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *cond);
 
 /* Frees resources associated with an edge.
  *
@@ -280,6 +388,40 @@ int free_edge_list(edge_list_t *e_lst, bool free_edges);
  *  - SUCCESS if successful, FAILURE if an error occurs
  */
 int free_node_list(node_list_t *n_lst, bool free_nodes);
+
+/* Initializes a node action.
+ *
+ * Parameters:
+ *  - n_a: a node action; must point to already allocated memory
+ *  - action: type of action
+ *  - action_id: ID associated with that action, if any
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
+int node_action_init(node_action_t *n_a, node_action_type action,
+                     char *action_id);
+
+/* Allocates a new node action on the heap.
+ *
+ * Parameters:
+ *  - action: type of action
+ *  - action_id: ID associated with that action, if any
+ *
+ * Returns:
+ *  - pointer to the new node action
+ */
+node_action_t *node_action_new(node_action_type action, char *action_id);
+
+/* Frees an action list (using macros from common/utlist.h).
+ *
+ * Parameters:
+ *  - action_lst: the action list to be freed
+ *
+ * Returns:
+ *  - SUCCESS if successful, FAILURE if an error occurs
+ */
+int free_node_actions(node_action_t *action_lst);
 
 
 
