@@ -2,6 +2,7 @@
 
 #include "common/ctx.h"
 #include "cli/cmd.h"
+#include "cli/cmdlist.h"
 
 
 /* See ctx.h */
@@ -41,12 +42,21 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
     }
 
     lookup_t **table = lookup_t_new();
+    
+    ctx->command_history = NULL;
+
+    if (ctx->game->mode == NULL)
+    {
+        load_normal_mode(ctx->game);
+    }
 
     player_t *player1 = player_new("player1");
     add_player_to_game(ctx->game, player1);
     ctx->game->curr_player = player1;
 
     ctx->table = table;
+
+    ctx->obj_store = NULL;
 
     return SUCCESS;
 }

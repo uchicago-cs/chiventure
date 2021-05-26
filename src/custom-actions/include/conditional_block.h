@@ -15,8 +15,10 @@ typedef struct AST_block AST_block_t;
 /* An enumeration type for a conditional block */
 typedef enum conditional_type {
     EQ,
-    LTGT,
-    LTEGTE,
+    LTB,
+    GTB,
+    LTEB,
+    GTEB,
     IN
 } conditional_type_t;
 
@@ -80,5 +82,17 @@ int conditional_block_init(conditional_block_t *conditional, conditional_type_t
  * - Always returns 0. 
  */
 int conditional_block_free(conditional_block_t *conditional);
+
+/* Given an conditiional block and its corresponding arguments,
+ * attempt to execute the given block.
+ *
+ * Parameters:
+ * - block: A pointer to the conditional block to be evaluated
+ *
+ * Returns:
+ * - TRUE if condition true
+ * - FALSE if condition false
+ */
+int eval_conditional_block(conditional_block_t *block);
 
 #endif /* INCLUDE_CONDITIONAL_BLOCK_H */

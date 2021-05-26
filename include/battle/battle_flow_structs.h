@@ -11,29 +11,29 @@
 #include "common/utlist.h"
 
 /* Stub for the player struct in game-state */
-typedef struct player {
+typedef struct battle_player {
     // Other fields: hash handle, inventory, other stats
     char *player_id;
-    class_t *class;
+    class_t *class_type;
     stat_t *stats;
     move_t *moves;
-    item_t *items;
-} player_t;
+    battle_item_t *items;
+} battle_player_t;
 
 /* Stub for the game_t struct in game-state */
-typedef struct game {
-    // Would have other fields (eg hash tables for players, rooms, items)
-    player_t *player;
+typedef struct battle_game {
+    // Would have other fields (eg hash tables for players, rooms, battle_items)
+    battle_player_t *player;
     battle_t *battle;
-} game_t;
+} battle_game_t;
 
 /* Stub, similar to chiventure_ctx_t except adding status, which
- * is an enum that gives the current status of the game 
+ * is an enum that gives the current status of the battle_game 
  * (see logic.h for details)
  */
 typedef struct chiventure_ctx_battle {
     // would have UI context here
-    game_t *game;
+    battle_game_t *game;
     // would have lookup table here
     battle_status_t status;
 } chiventure_ctx_battle_t;
@@ -43,10 +43,10 @@ typedef struct chiventure_ctx_battle {
  */
 typedef struct npc_enemy {
     char *npc_id;
-    class_t *class;
+    class_t *class_type;
     stat_t *stats;
     move_t *moves;
-    item_t *items;
+    battle_item_t *items;
     difficulty_t ai;
     struct npc_enemy *prev;
     struct npc_enemy *next;
@@ -56,29 +56,29 @@ typedef struct npc_enemy {
  *
  * Parameters:
  *     - p_id: player id
- *     - class: pointer to player_class struct
+ *     - class_type: pointer to player class struct
  *     - stats: player stats stub
  *     - moves: player moves stub
- *     - items: player items stub
+ *     - items: player battle_items stub
  *
- * Returns: a newly allocated player_t with p_id, stats, moves, items
+ * Returns: a newly allocated battle_player_t with p_id, stats, moves, battle_items
  */
-player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, item_t* items);
+battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items);
 
 /* Sets up pointer to npc struct, stub for an npc representing the enemy
  *
  * Parameters:
  *     - npc_id: npc id
- *     - class: pointer to player_class struct
+ *     - class_type: pointer to player_class struct
  *     - stats: npc stats stub
  *     - moves: npc moves stub
- *     - items: npc items stub
+ *     - items: npc battle_items stub
  *     - ai: enemy ai
  *
- * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, items
+ * Returns: a single newly allocated npc_enemy_t with npc_id, stats, moves, battle_items
  */
-npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t *moves, 
-                            item_t* items, difficulty_t ai);
+npc_enemy_t *make_npc_enemy(char* npc_id, class_t *c_type, stat_t *stats, move_t *moves, 
+                            battle_item_t* items, difficulty_t ai);
 
 /* Stub for the game_new function in game.h game-state module
  *
@@ -86,5 +86,5 @@ npc_enemy_t *make_npc_enemy(char* npc_id, class_t *class, stat_t *stats, move_t 
  *
  * Returns: a newly allocated game_t with no current player
  */
-game_t *new_game();
+battle_game_t *new_battle_game();
 #endif

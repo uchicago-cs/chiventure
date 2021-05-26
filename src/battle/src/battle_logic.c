@@ -50,9 +50,9 @@ turn_t goes_first(battle_t *b)
 }
 
 /* see battle_logic.h */
-item_t *find_item(item_t *inventory, int id)
+battle_item_t *find_battle_item(battle_item_t *inventory, int id)
 {
-    item_t *temp;
+    battle_item_t *temp;
 
     DL_FOREACH(inventory, temp)
     {
@@ -66,7 +66,7 @@ item_t *find_item(item_t *inventory, int id)
 }
 
 /* see battle_logic.h */
-int consume_item(combatant_t *c, item_t *item)
+int consume_battle_item(combatant_t *c, battle_item_t *item)
 {
     c->stats->hp += item->hp;
     c->stats->strength += item->attack;
@@ -75,23 +75,62 @@ int consume_item(combatant_t *c, item_t *item)
 }
 
 /* see battle_logic.h */
-int use_item(combatant_t *c, int id)
+int use_battle_item(combatant_t *c, int id)
 {
     if (c->items == NULL)
     {
         return FAILURE;
     }
     
-    item_t *item = find_item(c->items, id);
+    battle_item_t *item = find_battle_item(c->items, id);
     
     if(item == NULL || item->quantity == 0)
     {
         return FAILURE;
     }
 
-    consume_item(c, item);
+    consume_battle_item(c, item);
     item->quantity -= 1;
+
+    if (item->quantity == 0)
+    {
+        remove_battle_item(c, item);
+    }
     
+    return SUCCESS;
+}
+
+/* see battle_logic.h */
+int remove_battle_item(combatant_t *c, battle_item_t *item)
+{
+    if (item == NULL)
+    {
+        return FAILURE;
+    }
+
+    battle_item_t *temp;
+    DL_FOREACH(c->items, temp)
+    {
+        if (temp == item)
+        {
+            if (temp == c->items) // first item in the list
+            {
+                c->items = temp->next;
+            }
+            else
+            {
+                temp->prev->next = temp->next;
+            }
+
+            if (temp->next != NULL)
+            {
+                temp->next->prev = temp->prev;
+            }
+            free(temp->name);
+            free(temp->description);
+            free(temp);
+        }
+    }
     return SUCCESS;
 }
 
@@ -100,4 +139,22 @@ int award_xp(stat_t *stats, double xp)
 {
     stats->xp += xp;
     return 0;
+}
+
+/* See Battle_logic.h */
+int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
+{
+    stat_changes_add_node(sc);
+
+    stat_changes_t *current = sc;
+
+    while (sc->next != NULL) {
+        sc = sc->next;
+    }
+
+    sc->hp += item->hp;
+    sc->strength += item->attack;
+    sc->defense += item->defense;
+
+    return SUCCESS;
 }

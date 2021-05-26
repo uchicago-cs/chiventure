@@ -28,7 +28,7 @@ char *print_start_battle(battle_t *b);
 
 /*
  * Stores the message to be printed at the end of a move in the return
- * string. The message varies based off whether it is the player or enemy move.
+ * string. The message varies based off whether it is the battle_player or enemy move.
  *
  * Parameters:
  *  - b = pointer to the battle
@@ -58,12 +58,12 @@ char *print_start_battle(battle_t *b);
 
 /*
  * Stores the message to be printed at the end of the battle in the return
- * string. Message varies based off whether the player or enemy won
+ * string. Message varies based off whether the battle_player or enemy won
  *
  * Parameters:
  *  - status = status of the finished battle. Only pass BATTLE_VICTOR_PLAYER or
  *             BATTLE_VICTOR_ENEMY
- *  - xp = amount of xp to be awarded to the player if they win
+ *  - xp = amount of xp to be awarded to the battle_player if they win
  *
  * Returns:
  *  - malloced string with the message about the end of the battle

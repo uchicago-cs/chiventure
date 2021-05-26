@@ -7,7 +7,7 @@
 
 
 /* See battle_moves.h */
-int move_init(move_t *move, char* info, int id, item_t *items, bool attack,
+int move_init(move_t *move, char* info, int id, battle_item_t *items, bool attack,
                  int damage, int defense)
 {
     assert(move != NULL);
@@ -31,7 +31,7 @@ int move_init(move_t *move, char* info, int id, item_t *items, bool attack,
 
 
 /* See battle_moves.h */
-move_t *move_new(char* info, int id, item_t *items, bool attack,
+move_t *move_new(char* info, int id, battle_item_t *items, bool attack,
                  int damage, int defense)
 {
     move_t *move;
@@ -63,7 +63,7 @@ int move_free(move_t *move)
         return SUCCESS;
     }
 
-    item_t *item_elt, *item_tmp;
+    battle_item_t *item_elt, *item_tmp;
     DL_FOREACH_SAFE(move->item, item_elt, item_tmp)
     {
         DL_DELETE(move->item, item_elt);

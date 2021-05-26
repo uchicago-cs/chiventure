@@ -22,7 +22,7 @@
  * Returns:
  *  - EXIT_SUCCESS on success, EXIT_FAILURE on failure
  */
-int load_obj_json(obj_t *obj, char *json_str);
+int load_obj_store_from_json(obj_t *obj, char *json_str);
 
 /*
  * Loads a zipped JSON file into an obj
@@ -34,7 +34,21 @@ int load_obj_json(obj_t *obj, char *json_str);
  * Returns:
  *  - EXIT_SUCCESS on success, EXIT_FAILURE on failure
  */
-int load_obj_zip(obj_t *obj, zip_t *zip);
+int load_obj_store_from_zip(obj_t *obj, zip_t *zip);
+
+/*
+ * Loads an obj depending on the file extension
+ * Currently supports:
+ *  - *.wdl
+ *  - *.wdz
+ * 
+ * Parameters:
+ *  - path: The path of the file to load
+ * 
+ * Returns:
+ *  - The loaded object on success, NULL on failure
+ */
+obj_t *load_obj_store(char *path);
 
 
 #endif /* INCLUDE_LOAD_H */

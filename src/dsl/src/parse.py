@@ -4,6 +4,7 @@ from to_wdl import parsed_dict_to_json
 from pathlib import Path
 from warnings import warn
 import warnings
+from vars_parser import evalVars
 
 base_path = Path(__file__).parent.parent
 
@@ -16,19 +17,25 @@ def main():
     """The main function. The first cli argument is the dsl file. The second
     (optional) argument is the output wdl file. If no output file is provided, 
     it will default to wdl/{filname}.wdl"""
+
+    flags = [arg.replace("-","") for arg in sys.argv[1:] if arg.startswith("-")]
+    args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
+
     file_out = None
     try:
-        file_out = open(sys.argv[2], "w")
+        file_out = open(args[1], "w")
     except:
-        filename = Path(sys.argv[1]).stem
+        filename = Path(args[0]).stem
         filepath = base_path / f'wdl/{filename}.wdl'
 
         warn(f"No output file provided. Default to '{filepath}'")
         file_out = open(filepath, "w")
-    with open(sys.argv[1]) as f:
-        file_str = f.read()
 
-        intermediate = export_dict(file_str)
+    with open(args[0]) as f:
+        file_str = f.read()
+        debug = "debug" in flags
+        vars_evaluated = evalVars(file_str, debug=debug)
+        intermediate = export_dict(vars_evaluated)
         out_str = parsed_dict_to_json(intermediate)
         file_out.write(out_str)
     file_out.close()

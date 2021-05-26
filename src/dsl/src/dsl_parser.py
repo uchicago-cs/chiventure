@@ -148,15 +148,3 @@ parser = Lark(dsl_grammar, parser='earley')
 def export_dict(file_str):
     tree = parser.parse(file_str)
     return TreeToDict().transform(tree)
-
-def main():
-    with open(sys.argv[1]) as f:
-        file_str = f.read()
-
-        tree = parser.parse(file_str)
-        transformed = TreeToDict().transform(tree)
-        print(json.dumps(transformed, indent=2))
-
-
-if __name__ == '__main__':
-    main()
