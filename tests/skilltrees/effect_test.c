@@ -24,16 +24,16 @@ chiventure_ctx_t* create_player_and_stats (){
     HASH_ADD_KEYPTR(hh, player->player_stats, player_health_stat->key, strlen(player_health_stat->key), player_health_stat);
     game->all_players = NULL;
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
+    game->curr_player = player;
 
     /*Checking if everything works*/
 
     stats_global_t* stat_test;
     HASH_FIND_STR(game->curr_stats, "max_health", stat_test);
-    cr_assert_eq(50, stat_test->max);
+    cr_assert_eq(100, stat_test->max);
 
     player_hash_t*  player_test;
     HASH_FIND_STR(game->all_players, "TEST CHARACTER", player_test);
-    cr_assert_eq(player_test->player_id, "TEST CHARACTER");
     
     return ctx;
 }
@@ -60,9 +60,33 @@ Test(effect_tests, make_move_effect_test)
 }
 
 //Tests for stat mod effects
-Test(effect_tests, define_stat_mod_effect_test)
+
+/* This test checks if the define function works correctly if all values provided are valid */
+Test(effect_tests, define_player_stat_effect_correct_vals) 
 {
-    //TODO
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    char* stats_to_change[] = {"max_health", "current_health"};
+    double mods[] = {150, 100};
+    int durations[] = {5, 5};
+    player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
+    cr_assert_not_null(health_boost, "Error: define_player_stat failed");
+    cr_assert_eq(health_boost->player_stat_effect_name, "health boost", "Error: Name not assigned correctly");
+    cr_assert_eq(health_boost->modifications[0], 150, "Error:  First modification is wrong");
+    cr_assert_eq(health_boost->modifications[1], 100, "Error:  Second modification is wrong");
+    cr_assert_eq(health_boost->durations[0], 5, "Error: First Duration is wrong");
+    cr_assert_eq(health_boost->durations[1], 5, "Error: Second Duration is wrong");
+    cr_assert_eq(health_boost->num_stats, 2, "Number of stats is wrong");
+}
+
+/* This test checks if the define function works correctly if a value provided is invalid */
+Test(effect_tests, define_player_stat_effect_incorrect_vals)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    char* stats_to_change[] = {"max_health", "max_attack"};
+    double mods[] = {150, 100};
+    int durations[] = {5, 5};
+    player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
+    cr_assert_eq(health_boost, NULL, "Error: Health boost should be null due to incorrect input");
 }
 
 Test(effect_tests, make_stat_mod_effect_test)
