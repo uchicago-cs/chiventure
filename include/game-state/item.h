@@ -53,11 +53,11 @@ typedef struct game_action game_action_hash_t;
 
 typedef struct item {
     UT_hash_handle hh; // makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
-    UT_hash_handle hh_secondary; // NOTE: This secondary hash handle makes it
-                                 //       possible for an item to belong to two
-                                 //       hash tables. For instance, game->all_items
-                                 //       and player->inventory. hh_secondary will
-                                 //       exclusively be used for game->all_items.
+    UT_hash_handle hh_all_items; // This second hash handle makes it possible
+                                 // for an item to belong to two hash tables.
+                                 // For example, game->all_items and player->
+                                 // inventory. This hash handle is reserved for
+                                 // the game->all_items hash table.
     char *item_id;
     char *short_desc;
     char *long_desc;
@@ -142,11 +142,6 @@ char *get_ldesc_item(item_t *item);
  */ 
 int add_item_to_hash(item_hash_t **ht, item_t *new_item);
 
-/*
- *
- */
-int add_item_to_secondary_hash(item_hash_t **ht, item_t *new_item);
-
 /* Function to get a linked list (utlist) of all the items in a hashtable
  *
  * Parameters:
@@ -180,6 +175,30 @@ item_t *get_item_in_hash(item_hash_t *ht, char *id);
  */ 
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
 
+/* Adds an item to a hashtable using the hash handle hh_all_items.
+ * NOTE: This function should only be used to populate game->all_items!
+ * 
+ * Parameters:
+ *  pointer to a hashtable of items (specifically, game->all_items)
+ *  item to add to the hashtable
+ *
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_item_to_all_items_hash(item_hash_t **all_items, item_t *item);
+
+/* Removes an item from a hashtable via the hash handle hh_all_items.
+ * NOTE: This function should only be used to unload game->all_items!
+ * 
+ * Parameters:
+ *  pointer to a hashtable of items (specifically, game->all_items)
+ *  item to remove from the hashtable
+ *
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int remove_item_from_all_items_hash(item_hash_t **all_items, item_t *item);
+
 /* Adds a stat effect to an item
  * 
  * Parameters:
@@ -189,7 +208,8 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
  * Return:
  *  SUCCESS if successful, FAILURE if failed
  */ 
- int add_effect_to_item(item_t *item, stat_effect_t *effect);
+int add_effect_to_item(item_t *item, stat_effect_t *effect);
+
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 typedef struct game_action_effect{
@@ -506,8 +526,12 @@ int item_init(item_t *new_item, char *item_id,
 
 /* this has to be in the interface as room and player modules use this */
 /* delete_all_items() deletes and frees all items in a hash table
+ * NOTE: This function does not free the individual item structs. The freeing
+ *       of the structs is done by delete_all_items_from_game() (in game.c)
+ *
  * Parameters:
  *  Pointer to hash table of items
+ *
  * Returns:
  *  SUCCESS if successful
  */

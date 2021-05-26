@@ -98,36 +98,6 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
 }
 
 /* See item.h */
-int add_item_to_secondary_hash(item_hash_t **ht, item_t *new_item)
-{
-    item_t *check, *itr;
-    
-    HASH_FIND(hh_secondary, *ht, new_item->item_id, 
-              strnlen(new_item->item_id, MAX_ID_LEN), check);
-
-    LL_FOREACH(check, itr)
-    {
-        if (itr == new_item)
-        {
-            /* Same memory address */
-            return FAILURE;
-        }
-    }
-
-    if (check != NULL)
-    {
-        /* Same item id, not same memory address */
-        HASH_DEL(*ht, check);
-        new_item->next = check;
-    }
-    
-    HASH_ADD_KEYPTR(hh_secondary, *ht, new_item->item_id,
-                    strnlen(new_item->item_id, MAX_ID_LEN), new_item);
-
-    return SUCCESS;
-}
-
-/* See item.h */
 item_list_t *get_all_items_in_hash(item_hash_t **ht)
 {
     item_list_t *head = NULL;
@@ -172,14 +142,14 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
         {
             /* Multiple identical item ids;
              * item to delete is head of linked list */
-            HASH_DEL(*ht, old_item);
+            HASH_DELETE(hh, *ht, old_item);
 	        add_item_to_hash(ht, old_item->next);
             old_item->next = NULL;
         }
         else if (check == old_item)
         {
             /* Item to delete is only item w/ id in hashtable */
-            HASH_DEL(*ht, old_item);
+            HASH_DELETE(hh, *ht, old_item);
         }
         else
         {
@@ -207,6 +177,86 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
     return SUCCESS;
 }
 
+/* See item.h */
+int add_item_to_all_items_hash(item_hash_t **all_items, item_t *item)
+{
+    item_t *check, *itr;
+    
+    HASH_FIND(hh_all_items, *all_items, item->item_id, 
+              strnlen(item->item_id, MAX_ID_LEN), check);
+
+    LL_FOREACH(check, itr)
+    {
+        if (itr == item)
+        {
+            /* Same memory address */
+            return FAILURE;
+        }
+    }
+
+    if (check != NULL)
+    {
+        /* Same item id, not same memory address */
+        HASH_DEL(*all_items, check);
+        item->next = check;
+    }
+    
+    HASH_ADD_KEYPTR(hh_all_items, *all_items, item->item_id,
+                    strnlen(item->item_id, MAX_ID_LEN), item);
+
+    return SUCCESS;
+}
+
+/* See item.h */
+int remove_item_from_all_items_hash(item_hash_t **all_items, item_t *item)
+{
+    item_t *check;
+    HASH_FIND(hh_all_items, *all_items, item->item_id,
+              strnlen(item->item_id, MAX_ID_LEN), check);
+
+    // Only deletes if item exists in hashtable
+    if (check != NULL)
+    {
+        if (check == item && item->next != NULL)
+        {
+            /* Multiple identical item ids;
+             * item to delete is head of linked list */
+            HASH_DELETE(hh_all_items, *all_items, item);
+	        add_item_to_all_items_hash(all_items, item->next);
+            item->next = NULL;
+        }
+        else if (check == item)
+        {
+            /* Item to delete is only item w/ id in hashtable */
+            HASH_DELETE(hh_all_items, *all_items, item);
+        }
+        else
+        {
+            item_t *prev, *curr;
+            prev = check;
+            curr = check->next;
+            while (curr != NULL)
+            {
+                if (curr == item)
+                {
+                    /* Multiple identical item ids;
+                     * item to delete might be found later in linked list.
+                     * Note that if same memory address is not found,
+                     * no items will be removed */
+                    prev->next = curr->next;
+                    curr->next = NULL;
+                }
+                
+                prev = prev->next;
+                curr = curr->next;
+            }
+        }
+    }
+    
+    return SUCCESS;
+}
+
+/* See item.h */
 int add_effect_to_item(item_t *item, stat_effect_t *effect)
 {
     stat_effect_t *check;
@@ -638,7 +688,6 @@ int delete_all_items(item_hash_t** items)
             iter = current_item->next;
 
             remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
-            item_free(current_item);             /* free it */ 
         }
     }
     *items = NULL;
