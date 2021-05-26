@@ -1,4 +1,3 @@
-// ?start: assignment
 ?start: (assignment | reference | other)* -> start
 
 assignment.10: "$" CNAME "=" (triple_quotes | escaped_string_with_vars)

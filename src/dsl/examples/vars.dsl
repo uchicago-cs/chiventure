@@ -7,6 +7,8 @@ ITEM Fork
 
 
 GAME START Room A END room C
+  # quotations around substitutions are optional unless you wish to include
+  # escape characters
   intro: $intro {firstname: John, lastname: "Smith"}
 
 ROOM room A

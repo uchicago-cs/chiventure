@@ -136,9 +136,12 @@ parser = Lark(dsl_grammar, parser='earley')
 
 
 def main():
-    with open(sys.argv[1]) as f:
+    flags = [arg.replace("-","") for arg in sys.argv[1:] if arg.startswith("-")]
+    args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
+    with open(args[0]) as f:
         file_str = f.read()
-        vars_evaluated = evalVars(file_str)
+        debug = "debug" in flags
+        vars_evaluated = evalVars(file_str, debug=debug)
         
         tree = parser.parse(vars_evaluated)
         print(json.dumps(TreeToDict().transform(tree), indent=2))
