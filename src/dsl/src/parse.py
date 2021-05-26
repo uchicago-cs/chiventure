@@ -16,7 +16,7 @@ warnings.formatwarning = single_line_warnings
 def main():
     """The main function. The first cli argument is the dsl file. The second
     (optional) argument is the output wdl file. If no output file is provided, 
-    it will default to wdl/{filname}.wdl"""
+    it will default to examples/wdl/{filname}.wdl"""
 
     flags = [arg.replace("-","") for arg in sys.argv[1:] if arg.startswith("-")]
     args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]

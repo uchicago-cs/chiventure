@@ -11,7 +11,23 @@ DSL is a domain-specific language with the following [grammar specifications](ht
 ### Installing Lark
 
 The parser needs to be run on a Python distribution with the Lark module
-installed. [...]
+installed.
+
+To install Lark on a personal computer, use
+```
+pip install lark-parser --upgrade
+```
+If you are using a conda environment, run
+```
+conda install -c conda-forge lark-parser
+```
+
+
+#### CS Linux Machines
+Installing lark is a bit more difficult without root privileges, however, it can be done with conda environments.
+To create an environment, run `conda create --name cs220-dsl` (the name can be anything). To use the environment, run `conda activate cs220-dsl`. When the environment is being used you should see `(cs220-dsl) name@linux` as the command prompt. You can also check that the environment is active with `which python`, which should include `.conda` within the path. Once this environment is active, Lark can then be installed with `install -c conda-forge lark-parser`.
+
+For more information on conda environments, refer to https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment.
 
 ### Parsing DSL
 
