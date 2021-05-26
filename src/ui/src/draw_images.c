@@ -39,46 +39,46 @@ void draw_room_gui(int width, int height, int pos_x, int  pos_y, room_t *curr_ro
 
 }
 
-Color* colors_list()
-{
-    Color colors[8];
+// Color* colors_list()
+// {
+//     Color colors[8];
 
-    colors[0] = RED;
-    colors[1] = PINK;
-    colors[2] = PURPLE;
-    colors[3] = BLUE;
-    colors[4] = YELLOW;
-    colors[5] = GREEN;
-    colors[6] = ORANGE;
-    colors[7] = DARKGREEN;
+//     colors[0] = RED;
+//     colors[1] = PINK;
+//     colors[2] = PURPLE;
+//     colors[3] = BLUE;
+//     colors[4] = YELLOW;
+//     colors[5] = GREEN;
+//     colors[6] = ORANGE;
+//     colors[7] = DARKGREEN;
 
-    return colors;
-}
+//     return colors;
+// }
 
-bool in_array(room_t room, room_t *list, int len)
-{
-    bool ret = false;
-    for (int i = 0; i < len; i++)
-    {
-        if (room == list[i])
-        {
-            return true;
-        }
-    }
-    return ret;
-}
+// bool in_array(room_t room, room_t *list, int len)
+// {
+//     bool ret = false;
+//     for (int i = 0; i < len; i++)
+//     {
+//         if (room == list[i])
+//         {
+//             return true;
+//         }
+//     }
+//     return ret;
+// }
 
-int num_rooms(game_t *game)
-{
-    int count = 0;
-    room_list_t *rooms = get_all_rooms(game);
-    while(rooms->next != NULL)
-    {
-        count++;
-        rooms = rooms->next;
-    }
-    return count;
-}
+// int num_rooms(game_t *game)
+// {
+//     int count = 0;
+//     room_list_t *rooms = get_all_rooms(game);
+//     while(rooms->next != NULL)
+//     {
+//         count++;
+//         rooms = rooms->next;
+//     }
+//     return count;
+// }
 
 void draw_map(int width, int height, room_t *curr_room)
 {
@@ -91,7 +91,16 @@ void draw_map(int width, int height, room_t *curr_room)
     map_centY = -1 * (map_height/2);   
     ball_rad = map_room_width / 5;
     
-    Color* colors[8] = colors_list();
+    Color colors[8];
+
+    colors[0] = RED;
+    colors[1] = PINK;
+    colors[2] = PURPLE;
+    colors[3] = BLUE;
+    colors[4] = YELLOW;
+    colors[5] = GREEN;
+    colors[6] = ORANGE;
+    colors[7] = DARKGREEN;
     
     // map background
     DrawRectangle(map_centX, map_centY, map_width, map_height, BLACK);
