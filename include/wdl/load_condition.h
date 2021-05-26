@@ -10,13 +10,12 @@
 #include <stdbool.h>
 #include "wdl_common.h"
 #include "validate.h"
-#include "load_condition.h"
 
-/* build_condition
- * converts a condition object into a condition struct, which it returns
+/* build_conditions
+ * converts a conditions object into a condition struct, which it returns
  * 
  * parameters:
- * - obj: the document object
+ * - conditions_obj: the document object
  * - g: a game pointer as a return parameter
  *
  * side effects:
@@ -27,6 +26,7 @@
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
  */
-condition_t *build_condition(obj_t *condition_obj, game_t *g);
+condition_t *build_conditions(obj_t *conditions_obj, game_t *g);
+
 
 #endif /* INCLUDE_LOAD_CONDITION_H */

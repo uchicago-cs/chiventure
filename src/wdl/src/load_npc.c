@@ -2,58 +2,18 @@
 
 #include "wdl/load_npc.h"
 
-/* See load_item.h */
-int load_npcs(obj_t *doc, game_t *g)
-{
-    // get and verify NPCS object
-    obj_t *npcs_obj = obj_get_attr(doc, "NPCS", false);
-    if (npcs_obj == NULL) {
-        // the game has no NPCs
-        return SUCCESS;
-    }
-    else if (list_type_check(npcs_obj, npc_type_check) != SUCCESS) {
-        fprintf(stderr, "NPCS fail type checking\n");
-        return FAILURE;
-    }
-
-    // iterate through hash table of NPCs
-    obj_t *curr, *tmp;
-    HASH_ITER(hh, npcs_obj->data.obj.attr, curr, tmp)
-    {
-        // get attributes
-        char *id = curr->id;
-        char *short_desc = obj_get_str(curr, "short_desc");
-        char *long_desc = obj_get_str(curr, "long_desc");
-
-        // create new NPC
-        npc_t *npc = npc_new(id, short_desc, long_desc, NULL, NULL, 0);
-
-        // load NPC's inventory, if any
-        obj_t *inventory_lst_obj;
-        if ((inventory_lst_obj = obj_get(curr, "inventory")) != NULL) {
-            if (load_npc_inventory(inventory_lst_obj, npc, g) != SUCCESS) {
-                fprintf(stderr, "Could not load NPC's inventory. NPC: %s\n",
-                        npc->npc_id);
-                return FAILURE;
-            }
-        }
-
-        // load dialogue
-        if (load_dialogue(curr, npc) == FAILURE) {
-            fprintf(stderr, "Dialogue was not loaded properly\n");
-            return FAILURE;
-        }
-
-        add_npc_to_game(g, npc);
-
-        // add NPC to the room they are assigned
-        // to do
-    }
-
-    return SUCCESS;
-}
-
-/* See load_npc.h */
+/* load_npc_inventory
+ * loads the NPC's inventory
+ *
+ * parameters:
+ * - inventory_lst_obj: list of item IDs
+ * - npc: an NPC
+ * - g: game (required for access to all_items)
+ *
+ * returns;
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
+ */
 int load_npc_inventory(obj_t *inventory_lst_obj, npc_t *npc, game_t *g)
 {
     char *item_id;
@@ -89,78 +49,19 @@ int load_npc_inventory(obj_t *inventory_lst_obj, npc_t *npc, game_t *g)
     return SUCCESS;
 }
 
-/* See load_npc.h */
-int load_dialogue(obj_t *npc_obj, npc_t *npc)
-{
-    convo_t *convo = convo_new();
-
-    // get and verify the dialogue object
-    obj_t *dialogue_obj = obj_get_attr(npc_obj, "dialogue", false);
-    if (dialogue_obj == NULL) {
-        fprintf(stderr, "dialogue could not be found for NPC: %s\n",
-                npc->npc_id);
-        return FAILURE;
-    }
-    else if (dialogue_type_check(dialogue_obj) == FAILURE) {
-        fprintf(stderr, "Dialogue object failed typechecking, or the two "
-                "required attributes (nodes, edges) are missing. NPC: %s\n",
-                npc->npc_id);
-        return FAILURE;
-    }
-
-    obj_t *nodes_obj = obj_get_attr(dialogue_obj, "nodes", false);
-    obj_t *edges_obj = obj_get_attr(dialogue_obj, "edges", false);
-    char *id, *npc_dialogue;
-    char *quip, *from_id, *to_id;
-    obj_t *curr;
-    obj_t *actions_obj;
-
-    // build nodes
-    DL_FOREACH(nodes_obj->data.lst, curr)
-    {
-        id = obj_get_str(curr, "id");
-        npc_dialogue = obj_get_str(curr, "npc_dialogue");
-
-        if (add_node(convo, id, npc_dialogue) != SUCCESS) {
-            fprintf(stderr, "Could not add node with ID: %s. NPC: %s\n", id,
-                    npc->npc_id);
-            return FAILURE;
-        }
-
-        // load node actions, if any
-        if ((actions_obj = obj_get(curr, "actions")) != NULL) {
-            if (load_node_actions(actions_obj, convo, id, npc) != SUCCESS) {
-                fprintf(stderr, "Could not add actions to node with ID: %s. "
-                        "NPC: %s\n", id, npc->npc_id);
-                return FAILURE;
-            }
-        }
-    }
-
-    // build edges
-    DL_FOREACH(edges_obj->data.lst, curr)
-    {
-        quip = obj_get_str(curr, "quip");
-        from_id = obj_get_str(curr, "from_id");
-        to_id = obj_get_str(curr, "to_id");
-
-        if (add_edge(convo, quip, from_id, to_id, NULL) != SUCCESS) {
-            fprintf(stderr, "Could not add edge with quip: %s. NPC: %s\n",
-                    quip, npc->npc_id);
-            return FAILURE;
-        }
-    }
-
-    // assign the conversation to the NPC
-    if (add_convo_to_npc(npc, convo) != SUCCESS) {
-        fprintf(stderr, "Could not add convo to NPC: %s\n", npc->npc_id);
-        return FAILURE;
-    }
-
-    return SUCCESS;
-}
-
-/* See load_npc.h */
+/* load_node_actions
+ * loads node actions into the given node
+ *
+ * parameters:
+ * - actions_obj: the actions object
+ * - convo: a convo
+ * - node_id: the node's ID
+ * - npc: the NPC (for item checking)
+ *
+ * returns;
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
+ */
 int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
                       npc_t *npc)
 {
@@ -198,6 +99,159 @@ int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
                     "Action: %s. Node ID: %s\n", action, node_id);
             return FAILURE;
         }
+    }
+
+    return SUCCESS;
+}
+
+/* load_dialogue
+ * loads dialogue into the given NPC
+ *
+ * parameters:
+ * - npc_obj: the NPC object
+ * - npc: an NPC
+ *
+ * returns;
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
+ */
+int load_dialogue(obj_t *npc_obj, npc_t *npc)
+{
+    convo_t *convo = convo_new();
+
+    // get and verify the dialogue object
+    obj_t *dialogue_obj = obj_get_attr(npc_obj, "dialogue", false);
+    if (dialogue_obj == NULL) {
+        fprintf(stderr, "dialogue could not be found for NPC: %s\n",
+                npc->npc_id);
+        return FAILURE;
+    }
+    else if (dialogue_type_check(dialogue_obj) == FAILURE) {
+        fprintf(stderr, "Dialogue object failed typechecking, or the two "
+                "required attributes (nodes, edges) are missing. NPC: %s\n",
+                npc->npc_id);
+        return FAILURE;
+    }
+
+    obj_t *nodes_obj = obj_get_attr(dialogue_obj, "nodes", false);
+    obj_t *edges_obj = obj_get_attr(dialogue_obj, "edges", false);
+    char *id, *npc_dialogue;
+    char *quip, *from_id, *to_id;
+    obj_t *curr;
+    obj_t *actions_obj;
+    obj_t *conditions_obj;
+
+    // build nodes
+    DL_FOREACH(nodes_obj->data.lst, curr)
+    {
+        id = obj_get_str(curr, "id");
+        npc_dialogue = obj_get_str(curr, "npc_dialogue");
+
+        // create node
+        if (add_node(convo, id, npc_dialogue) != SUCCESS) {
+            fprintf(stderr, "Could not add node with ID: %s. NPC: %s\n", id,
+                    npc->npc_id);
+            return FAILURE;
+        }
+
+        // load node actions, if any
+        if ((actions_obj = obj_get(curr, "actions")) != NULL) {
+            if (load_node_actions(actions_obj, convo, id, npc) != SUCCESS) {
+                fprintf(stderr, "Could not add actions to node with ID: %s. "
+                        "NPC: %s\n", id, npc->npc_id);
+                return FAILURE;
+            }
+        }
+    }
+
+    // build edges
+    DL_FOREACH(edges_obj->data.lst, curr)
+    {
+        quip = obj_get_str(curr, "quip");
+        from_id = obj_get_str(curr, "from_id");
+        to_id = obj_get_str(curr, "to_id");
+
+        // create edge
+        if (add_edge(convo, quip, from_id, to_id, NULL) != SUCCESS) {
+            fprintf(stderr, "Could not add edge with quip: %s. NPC: %s\n",
+                    quip, npc->npc_id);
+            return FAILURE;
+        }
+
+        // load conditions, if any
+        if ((conditions_obj = obj_get(curr, "conditions")) != NULL) {
+            if (load_node_actions(actions_obj, convo, id, npc) != SUCCESS) {
+                fprintf(stderr, "Could not add actions to node with ID: %s. "
+                        "NPC: %s\n", id, npc->npc_id);
+                return FAILURE;
+            }
+        }
+    }
+
+    // assign the conversation to the NPC
+    if (add_convo_to_npc(npc, convo) != SUCCESS) {
+        fprintf(stderr, "Could not add convo to NPC: %s\n", npc->npc_id);
+        return FAILURE;
+    }
+
+    return SUCCESS;
+}
+
+/* See load_npc.h */
+int load_npcs(obj_t *doc, game_t *g)
+{
+    
+    // get and verify NPCS object
+    obj_t *npcs_obj = obj_get_attr(doc, "NPCS", false);
+    if (npcs_obj == NULL) {
+        // the game has no NPCs
+        return SUCCESS;
+    }
+    else if (list_type_check(npcs_obj, npc_type_check) != SUCCESS) {
+        fprintf(stderr, "NPCS fail type checking\n");
+        return FAILURE;
+    }
+
+    // iterate through hash table of NPCs
+    obj_t *curr, *tmp;
+    HASH_ITER(hh, npcs_obj->data.obj.attr, curr, tmp)
+    {
+        // get attributes
+        char *id = curr->id;
+        char *short_desc = obj_get_str(curr, "short_desc");
+        char *long_desc = obj_get_str(curr, "long_desc");
+
+        // create the NPC
+        npc_t *npc = npc_new(id, short_desc, long_desc, NULL, NULL, 0);
+
+        // load NPC's inventory, if any
+        obj_t *inventory_lst_obj;
+        if ((inventory_lst_obj = obj_get(curr, "inventory")) != NULL) {
+            if (load_npc_inventory(inventory_lst_obj, npc, g) != SUCCESS) {
+                fprintf(stderr, "Could not load NPC's inventory. NPC: %s\n",
+                        npc->npc_id);
+                return FAILURE;
+            }
+        }
+
+        // load dialogue
+        if (load_dialogue(curr, npc) == FAILURE) {
+            fprintf(stderr, "Dialogue was not loaded properly\n");
+            return FAILURE;
+        }
+
+        // add NPC to the game
+        add_npc_to_game(g, npc);
+
+        // add NPC to the room they are assigned
+        char *in = obj_get_str(curr, "in");
+        room_t *room = find_room_from_game(g, in);
+        if (room == NULL) {
+            fprintf(stderr, "Room that NPC belongs to could not be found. "
+                    "NPC: %s\n", npc->npc_id);
+            return FAILURE;
+        }
+        add_npc_to_room(room->npcs, npc);
     }
 
     return SUCCESS;

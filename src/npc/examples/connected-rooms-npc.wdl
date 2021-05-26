@@ -142,7 +142,7 @@
                         "id": "1",
                         "npc_dialogue": "D1"
                     }
-                ]
+                ],
                 "edges": []
             }
         }
