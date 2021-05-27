@@ -5,6 +5,9 @@
 #include "action_management/action_structs.h"
 #include "common/ctx.h"
 
+/* Forward declarations. Full typedefs can be found in action_structs.h */
+typedef struct action_type action_type_t;
+
 typedef struct chiventure_ctx chiventure_ctx_t;
 /* Operation data type */
 typedef char *operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);

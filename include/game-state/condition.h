@@ -8,6 +8,18 @@
 /* Forward declaration. Full typedef can be found in game.h */
  typedef struct game game_t;
 
+/* Forward declarations. Full typedefs can be found in item.h */
+typedef struct attribute attribute_t;
+typedef struct attribute_wrapped_for_llist attribute_list_t;
+typedef union attribute_value attribute_value_t;
+typedef struct attribute attribute_hash_t;
+typedef struct item item_t;
+typedef struct item item_hash_t;
+typedef struct item_wrapped_for_llist item_list_t;
+
+/* Forward declarations. Full typedefs can be found in player.h */
+typedef struct player player_t;
+
 
 typedef struct attribute_condition{
     item_t *item;

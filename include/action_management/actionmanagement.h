@@ -6,6 +6,7 @@
 #include "game-state/room.h"
 #include "game-state/game.h"
 #include "common/ctx.h"
+#include "npc/npc.h"
 
 // forward declaration
 typedef struct chiventure_ctx chiventure_ctx_t;

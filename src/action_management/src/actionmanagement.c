@@ -7,6 +7,8 @@
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
 #include "game-state/room.h"
+#include "npc/npc.h"
+
 
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (2)

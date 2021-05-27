@@ -27,6 +27,18 @@ typedef struct room_wrapped_for_llist room_list_t;
 typedef struct npc npc_t;
 typedef struct npc npc_hash_t;
 
+/* Forward declarations. Full typedefs can be found in room.h */
+typedef struct room room_t;
+
+/* Forward declaration. Full typedef can be found in player.h */
+typedef struct player player_t;
+typedef struct player player_hash_t;
+
+/* Forward declaration. Full typedef can be found in condition.h */
+typedef struct condition condition_t;
+typedef struct condition condition_list_t;
+
+
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
  */

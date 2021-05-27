@@ -6,6 +6,30 @@
 #include "condition.h"
 #include "item.h"
 
+/* Forward declarations. Full typedefs can be found in action_structs.h */
+typedef union agent agent_t;
+typedef struct action_type action_type_t;
+typedef struct game_action_effect game_action_effect_t;
+typedef struct list_action_type list_action_type_t;
+
+/* Forward declarations. Full typedefs can be found in item.h */
+typedef struct attribute attribute_t;
+typedef struct attribute_wrapped_for_llist attribute_list_t;
+typedef union attribute_value attribute_value_t;
+typedef struct attribute attribute_hash_t;
+typedef struct item item_t;
+typedef struct item item_hash_t;
+typedef struct item_wrapped_for_llist item_list_t;
+typedef struct game_action_effect action_effect_list_t;
+
+/* Forward declaration. Full typedef can be found in condition.h */
+typedef struct condition condition_t;
+typedef struct condition condition_list_t;
+
+/* Forward declaration. Full typedef can be found in player.h */
+typedef struct player player_t;
+typedef struct player player_hash_t;
+
 
 // ------------------------- ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions

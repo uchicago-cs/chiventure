@@ -76,6 +76,18 @@ int npc_free(npc_t *npc)
 // "CHECK" FUNCTIONS ----------------------------------------------------------
 
 /* See npc.h */
+bool item_in_npc_inventory(npc_t *npc, item_t *item)
+{
+    item_t *check;
+    HASH_FIND(hh, npc->inventory, item->item_id, strlen(item->item_id),
+              check);
+    if(check != NULL){
+        return true;
+    }
+    return false;
+}
+
+/* See npc.h */
 bool check_npc_battle(npc_t *npc)
 {
     assert(npc != NULL);

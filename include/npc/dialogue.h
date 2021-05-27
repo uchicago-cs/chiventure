@@ -4,6 +4,10 @@
 #include "game-state/game.h"
 #include "game-state/condition.h"
 
+/* Forward declaration. Full typedef can be found in condition.h */
+typedef struct condition condition_t;
+typedef struct condition condition_list_t;
+
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
 #define MAX_NODE_ID_LEN 50
