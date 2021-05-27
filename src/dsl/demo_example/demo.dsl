@@ -12,7 +12,7 @@ GAME START lobby END computer lab
 
 ROOM lobby 
     short desc: "The main lobby in this tower."
-    long desc: "You look around, but you can’t see anything. The lobby is dark, so you must find a way to light up the room and get out of the lobby in order to find your DSL file. There is a candle!"
+    long desc: "You look around, but you can't see anything. The lobby is dark, so you must find a way to light up the room and get out of the lobby in order to find your DSL file. There is a candle!"
     connections: SOUTH TO bathroom
                  UP TO kitchen
 
