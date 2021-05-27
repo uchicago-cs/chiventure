@@ -23,7 +23,20 @@ Sample DSL files can be found in the `examples/dsl` directory, and their corresp
 ## Installing Lark
 
 **The parser needs to be run on a Python distribution with the Lark module
-installed.** To install Lark on a personal computer, use
+installed. The parser runs on python versions 3.7 and greater, but we recommend python 3.9** 
+
+### Conda Installation from environment file
+If conda is installed on your computer (which is the case for the CS Linux machines), the environment can be installed with
+```
+conda env create -f conda_environment.yml
+```
+_*Note: this assumes your current directory is `src/dsl`; the path to the yml file may need to be changed_
+
+The environment can then be activated with `conda activate cs220-dsl`.
+
+### Manual Installation
+
+To install Lark on a personal computer, use
 ```
 pip install lark-parser --upgrade
 ```

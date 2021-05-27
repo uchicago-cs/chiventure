@@ -15,6 +15,49 @@ ACTION_ALIASES = {
     "fail": "text_fail"
 }
 
+def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[]) -> str:
+    """
+        Main outward-facing function. Transforms the intermediate data 
+        structure outputted by the parser into valid WDL/JSON format.
+    """
+
+    rooms = []
+    items = []
+
+    if "rooms" not in intermediate:
+        warn("This game has no rooms.")
+    else:
+        rooms_dict = intermediate.pop("rooms")
+        for room_name, contents in rooms_dict.items():
+            room_items = contents["items"]
+            room_items_objs = []
+            for item in room_items:
+                location = room_name
+                if "location" in item:
+                    location = item.pop("location")
+                item_obj = Item(location, item)
+                items.append(item_obj)
+                room_items_objs.append(item_obj)
+            contents["items"] = room_items_objs
+            rooms.append(Room(room_name, contents))
+    
+    game = Game(intermediate)
+    
+    # acts as a "union" operation on multiple dictionaries
+    rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
+    items_wdl = dict(ChainMap(*[i.to_wdl_structure() for i in items]))
+
+    out = json.dumps({
+        **game.to_wdl_structure(), 
+        "ROOMS": rooms_wdl,
+        "ITEMS": items_wdl
+        }, indent=2)
+
+    if debug and "end" in debug_modes:
+        print(out)
+
+    return out
+
 class Room:
     def __init__(self, id: str, contents: dict):
         """
@@ -229,41 +272,3 @@ class Game:
             self.wdl_contents['intro'] = f"Welcome! You're in a {default}"
             warn(f'''missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
 
-
-def parsed_dict_to_json(intermediate: dict) -> str:
-    """
-        Transforms the intermediate data structure outputted by the parser into
-        valid WDL/JSON format.
-    """
-
-    rooms = []
-    items = []
-
-    if "rooms" not in intermediate:
-        warn("This game has no rooms.")
-    else:
-        rooms_dict = intermediate.pop("rooms")
-        for room_name, contents in rooms_dict.items():
-            room_items = contents["items"]
-            room_items_objs = []
-            for item in room_items:
-                location = room_name
-                if "location" in item:
-                    location = item.pop("location")
-                item_obj = Item(location, item)
-                items.append(item_obj)
-                room_items_objs.append(item_obj)
-            contents["items"] = room_items_objs
-            rooms.append(Room(room_name, contents))
-    
-    game = Game(intermediate)
-    
-    # acts as a "union" operation on multiple dictionaries
-    rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
-    items_wdl = dict(ChainMap(*[i.to_wdl_structure() for i in items]))
-
-    return json.dumps({
-        **game.to_wdl_structure(), 
-        "ROOMS": rooms_wdl,
-        "ITEMS": items_wdl
-        }, indent=2)
