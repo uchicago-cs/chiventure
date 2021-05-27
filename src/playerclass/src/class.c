@@ -225,7 +225,6 @@ skill_tree_t* multiclass_tree(char* name, skill_tree_t* base_tree, skill_tree_t*
 /*
  * Creates a skill inventory for a multiclass
  * by adding together the skills of both classes.
- * Can be used for combat or noncombat.
  *
  * The max active and passive will be the larger of the two classes.
  *
