@@ -142,7 +142,13 @@ int lookup_t_free(lookup_t **t)
 
 /* === command constructors  === */
 
-/* See cmd.h */
+/* 
+ * See cmd.h
+ * I changed the definition of cmd so that
+ * when it gets initialized here it take in 
+ * the linked list parse produces rather than
+ * an array
+ */
 cmd *cmd_new(tokenized_cmds* tokens)
 {
     cmd *c;
@@ -164,7 +170,10 @@ cmd *cmd_new(tokenized_cmds* tokens)
     return c;
 }
 
-/*See cmd.h*/
+/*
+ * See cmd.h
+ * followed the same thought process as cmd_new
+ */
 int cmd_init(cmd *c, tokenized_cmds* tokens)
 {
     assert( c != NULL);
@@ -221,14 +230,21 @@ void cmd_show(cmd *c, chiventure_ctx_t *ctx)
 
 /* === command parsing === */
 
-/* See cmd.h */
+/* See cmd_from_string but once we got to this point
+ * assign_action also needed to be changed in operations module
+ */
 cmd *cmd_from_tokens(tokenized_cmds* ts, lookup_t **table)
 {
     cmd *output = assign_action(ts, table);
     return output;
 }
 
-/* See cmd.h */
+/* following from parse_r in parse this function did not 
+ * require much change other than changing the data type for the 
+ * variable used to store the return for parse
+ * what was tricky after this was that that meant
+ * the input for cmd_from_tokens functions also had to change
+ */
 cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
    /* tokenized_cmds* temp;

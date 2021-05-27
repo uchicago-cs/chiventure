@@ -70,7 +70,13 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 }
 
-/* See operation.h */
+/* 
+ * See cmd_from_tokens 
+ * this required to change the data struct cmd
+ * which you can imagine can affect the entirety 
+ * of chiventure(so I went back to cmd module to 
+ * adjust how cmd struct gets set up as a whole)
+ */
 cmd *assign_action(char **ts, lookup_t ** table)
 {
     cmd *output = cmd_new(ts);
