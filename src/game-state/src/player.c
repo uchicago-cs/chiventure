@@ -1,5 +1,6 @@
 #include "game-state/player.h"
 #include "game-state/item.h"
+#include "game-state/stats.h"
 
 /* See player.h */
 int player_set_race(player_t *plyr, char *player_race)
@@ -32,6 +33,37 @@ int player_set_class(player_t *plyr, class_t *player_class)
     }
 
     plyr->player_class = player_class;
+
+    if (player_class->base_stats != NULL)
+    {
+        stats_t *curr, *tmp;
+        HASH_ITER(hh, player_class->base_stats, curr, tmp)
+        {
+            stats_t *to_add = copy_stat(curr);
+
+            add_stat(&plyr->player_stats, to_add);
+        }
+    }
+
+    if (player_class->effects != NULL)
+    {
+        stat_effect_t *curr, *tmp;
+        HASH_ITER(hh, player_class->effects, curr, tmp)
+        {
+            stat_effect_t *to_add = copy_effect(curr);
+
+            add_stat_effect(&plyr->player_effects, to_add);
+        }
+    }
+
+    if (player_class->starting_skills != NULL)
+    {
+        skill_inventory_t *to_add = 
+        copy_inventory(player_class->starting_skills);
+
+        plyr->player_skills = to_add;
+    }
+
   
     return SUCCESS;
 }
@@ -75,12 +107,22 @@ int player_free(player_t* plyr)
         free(plyr->player_race);
     }
 
-    if (plyr->player_class != NULL)
+    delete_all_items(&plyr->inventory);
+
+    if (plyr->player_skills != NULL)
     {
-        class_free(plyr->player_class);
+        inventory_free(plyr->player_skills);
     }
 
-    delete_all_items(&plyr->inventory);
+    if (plyr->player_stats != NULL)
+    {
+        free_stats_table(plyr->player_stats);
+    }
+
+    if (plyr->player_effects != NULL)
+    {
+        delete_all_stat_effects(plyr->player_effects);
+    }
 
     free(plyr);
     
