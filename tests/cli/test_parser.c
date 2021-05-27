@@ -26,7 +26,7 @@ Test(parse, single)
 }
 
 //Tests that case-insensitive parsing works on an all lowercase word.
-Test(parse, single)
+Test(parse, insensitivity1)
 {
     char str[] = "look";
     char **words = parse(str);
@@ -37,7 +37,7 @@ Test(parse, single)
 }
 
 //Tests that case-insensitive parsing works on a mixed case word.
-Test(parse, single)
+Test(parse, insensitivity2)
 {
     char str[] = "LoOk";
     char **words = parse(str);
