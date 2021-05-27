@@ -2,9 +2,6 @@ import json
 from warnings import warn
 from collections import ChainMap
 
-# to do: figure out how to get other properties of the item/game/room to output
-# to do: improve default generation
-
 PROPERTY_ALIASES = {
     "short desc": "short_desc",
     "short": "short_desc",
@@ -284,60 +281,3 @@ def parsed_dict_to_json(intermediate: dict) -> str:
         "ROOMS": rooms_wdl,
         "ITEMS": items_wdl
         }, indent=2)
-
-
-# test json output
-game = Game({
-    "start": "room B",
-    "end": "room C",
-    "intro": "Welcome \"adventurer\"! You have made your way to the dungeons of the Lavender Palace. Don't be fooled by the cute name! This is one of Throxar the Terrible's most fearsome strongholds... and also his best scented one. Queen Vanadia has tasked you with recovering the Distaff of Knowledge, which her spies assure you is somewhere in these dungeons.",
-    "rooms": {
-        "room A": {
-            "short desc": "A dungeon room.",
-            "long desc": "You shudder to think of the unspeakable horrors that have taken place in these dungeons. You wouldn't want to be fly on the wall here, but mostly because of how damp and moldy the walls are.",
-            "connections": {
-                "SOUTH": "room B"
-            },
-            "items": [
-                {
-                    "id": "sconce",
-                    "short desc": "A sconce holding a candle",
-                    "long desc": "It looks a bit loose."
-                }
-            ]
-        },
-        "room B": {
-            "short desc": "A dungeon room.",
-            "long desc": "The walls are damp and moldy and, yet, the scent of freshly\n   # intentional line break\n   \n   cut lavender flowers pervades the air.",
-            "connections": {
-                "NORTH": "room A",
-                "EAST": "room C"
-            },
-            "items": [
-                {
-                    "id": "Door",
-                    "location": "room B",
-                    "short desc": "A large wooden door",
-                    "long desc": "It looks very heavy, and it doesn't have a keyhole."
-                }
-            ]
-        },
-        "room C": {
-            "short desc": "A dungeon room.",
-            "long desc": "The walls are neither damp nor moldy. It looks like they do get around to cleaning them once in a while.",
-            "connections": {
-                "WEST": "room B"
-            },
-            "items": [
-                {
-                    "id": "Distaff",
-                    "short desc": "The Distaff of Knowledge",
-                    "long desc": "The Distaff of Knowledge is an ancient magical artifact that can be used to weave knowledge itself. It will come in very handy at dinner parties."
-                }
-            ]
-        }
-    }
-})
-
-if __name__ == "__main__":
-    print(parsed_dict_to_json(game.contents))
