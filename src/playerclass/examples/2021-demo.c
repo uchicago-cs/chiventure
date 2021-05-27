@@ -226,7 +226,7 @@ void demo_multiclasses() {
     print_class(knight_class);
 
     prompt("Creating a new multiclass called Hexblade from Wizard and Knight...", NULL);
-    class_t* hexblade_class = multiclass(base_class, second_class, "Hexblade");
+    class_t* hexblade_class = multiclass(wizard_class, knight_class, "Hexblade");
     print_class(hexblade_class);
 }
 
