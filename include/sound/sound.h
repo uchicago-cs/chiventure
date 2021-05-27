@@ -38,7 +38,7 @@ void play_audio(sound_t *name);
  */
 
 void load_audio_demo(SoundType type);
-void play_audio_demo_bgm(Mix_Music *backgroundSound,SDL_Window *window, SDL_Renderer *renderer);
+void play_audio_demo_bgm(Mix_Music *backgroundSound, Mix_Chunk *soundEffect, SDL_Window *window, SDL_Renderer *renderer);
 void play_audio_demo_effect(Mix_Chunk *soundEffect,SDL_Window *window, SDL_Renderer *renderer);
 
 
