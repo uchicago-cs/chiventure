@@ -4,6 +4,7 @@
 
 * A simple SDL Audio library that will be used to load/play sound file
 * The code was inspired from https://gigi.nullneuron.net/gigilabs/playing-a-wav-file-using-sdl2/
+* Also recommended to take a look at https://github.com/jakebesworth/Simple-SDL2-Audio, this git repository has an excellent sound library with functioning play/load functions using SDL library 
 * Basic structure and design are provided, but the actual implementation are still premature
 
 ## Basic Structure
