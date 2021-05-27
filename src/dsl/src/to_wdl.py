@@ -64,13 +64,13 @@ class Room:
             short = self.wdl_contents.get('short desc', '')
             default = f"This is a {id}. {short}"
             self.wdl_contents['long_desc'] = f"{default}"
-            warn(f'''missing: long description for {id}, generated default: {self.wdl_contents['long_desc']}''')
+            warn(f''' missing: long description for {id}, generated default: {self.wdl_contents['long_desc']}''')
 
         # generate default for short description     
         if 'short_desc' not in self.wdl_contents:
             default_id = self.id or "a room"
             self.wdl_contents['short_desc'] = f"{default_id}"
-            warn(f'''missing: short description for {default_id}, generated default: {self.wdl_contents['short_desc']}''')
+            warn(f''' missing: short description for {default_id}, generated default: {self.wdl_contents['short_desc']}''')
             
     def connections_list(self) -> list:
         """
@@ -78,7 +78,7 @@ class Room:
             desinations included.
         """
         if 'connections' not in self.contents:
-            warn(f'''room {self.id} has no connections''')
+            warn(f''' room {self.id} has no connections''')
             return []
         else:
             return list(map(lambda i: {
@@ -150,21 +150,21 @@ class Item:
             short_desc = self.wdl_contents.get('short_desc', '')
             default = f"This is a {self.id}. {short_desc}"
             self.wdl_contents['long_desc'] = f"{default}"
-            warn(f'''missing: long description for {self.id}, generated default: {self.wdl_contents['long_desc']}''')
+            warn(f''' missing: long description for {self.id}, generated default: {self.wdl_contents['long_desc']}''')
                 
         # generate default for short description
         if 'short_desc' not in self.wdl_contents:
             self.wdl_contents['short_desc'] = f"{self.id}"
-            warn(f'''missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
+            warn(f''' missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
 
         # generate default interaction text for actions
         for i in self.wdl_contents.get('actions', []):
             if 'text_success' not in i:
                 i['text_success'] = f"You {i['action'].lower()} the {self.id}."
-                warn(f'''missing: success text for action {i['action']} for item {self.id}, generated default: {i['text_success']}''')
+                warn(f''' missing: success text for action {i['action']} for item {self.id}, generated default: {i['text_success']}''')
             if 'text_fail' not in i:
                 i['text_fail'] = f"You cannot {i['action'].lower()} the {self.id}."
-                warn(f'''missing: failure text for action {i['action']} for item {self.id}, generated default: {i['text_fail']}''')
+                warn(f''' missing: failure text for action {i['action']} for item {self.id}, generated default: {i['text_fail']}''')
 
     # to do: action conditions -- how?
     def actions_list(self) -> list:
@@ -227,7 +227,7 @@ class Game:
         if 'intro' not in self.wdl_contents:
             default = self.wdl_contents.get('start') or "room"
             self.wdl_contents['intro'] = f"Welcome! You're in a {default}"
-            warn(f'''missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
+            warn(f''' missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
 
 
 def parsed_dict_to_json(intermediate: dict) -> str:
