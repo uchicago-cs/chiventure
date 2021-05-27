@@ -98,7 +98,7 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
     }
     if (type == ITEM_ATTRIBUTE_MOD)
     {
-        execute_item_att_effect(skill_effect->data.i_a);
+        execute_item_attr_effect(skill_effect->data.i_a);
         assert(check==0);
         return check;
     }

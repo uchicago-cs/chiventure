@@ -21,21 +21,22 @@
 
 /* List of all the effect types that a skill can have.  We can add more in the future */
 typedef enum effect_type {
-    // Effect that modifies statistics of player
+    
+    /* Effect that modifies statistics of player */
     PLAYER_STATISTIC_MOD,
 
-    // Effect that unlocks a move
+    /* Effect that unlocks a move */
     MOVE_UNLOCK,
 
-    // Effect that modifies attributes of an item
+    /* Effect that modifies attributes of an item */
     ITEM_ATTRIBUTE_MOD,
 
-    // Effect that modifies statistics of an item
+    /* Effect that modifies statistics of an item */
     ITEM_STATISTIC_MOD
 
 }effect_type_t;
 
-// Defines an effect that modifies the statistics of a player
+/* Defines an effect that modifies the statistics of a player */
 typedef struct player_stat_effect {
     char* player_stat_effect_name; // The name assigned to the effect
     stats_t** stats; // Takes the array of statistics that must be modified
@@ -44,12 +45,12 @@ typedef struct player_stat_effect {
     int num_stats;
 }player_stat_effect_t;
 
-//Defines an effect that unlocks a move
+/* Defines an effect that unlocks a move */
 typedef struct move_effect {
     /* More fields will probably be added after speaking with 
      * the rpg-battles team */
 
-    // TODO - Add more fields
+    /* TODO - Add more fields */
     move_t* move;      // Specifies the move that will be unlocked
 }move_effect_t;
 
@@ -59,12 +60,12 @@ typedef struct move_effect {
  * Currently, creating a new attribute is not supported but this can be changed.
  */
 
-typedef struct item_att_effect {
+typedef struct item_attr_effect {
     item_t* item; // The ID of the parent object 
     char* att_id; // The ID that refers to the given attribute (see obj.h)
     enum attribute_tag att_tag; //Enum that holds possible types of attribute value
     attribute_value_t attribute_mod; //The value to which we want to change the attribute
-}item_att_effect_t;
+}item_attr_effect_t;
 
 /* Defines an effect that achanges the statistic of an item. */
 
@@ -75,12 +76,12 @@ typedef struct item_stat_effect {
 /* Union of all the effect types given above.*/
 typedef struct effect {
     effect_type_t effect_type; // Contains the value of the effect.  Check enum above
-    // Contains a pointer to the effect itself so that we can make the necessary modifications to execute the skill
+    /* Contains a pointer to the effect itself so that we can make the necessary modifications to execute the skill */
     union
     {
         player_stat_effect_t* s;
         move_effect_t* m;
-        item_att_effect_t* i_a;
+        item_attr_effect_t* i_a;
         item_stat_effect_t* i_s;
     } data; 
 }effect_t;
@@ -107,7 +108,7 @@ move_effect_t* define_move_effect(move_t* move);
  *             data mod: Contains a value of the union data type to which the attribute value must be changed
  * Returns: A pointer to the created attribute modifying effect
  */
-item_att_effect_t* define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod);
+item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod);
 
 /* Defines an item stat effect and returns a pointer to it
  * Parameters: TO BE IMPLEMENTED
@@ -132,11 +133,11 @@ effect_t* make_move_effect(move_effect_t* move_effect);
 
 
 /* Takes the given attribute modifying effect and converts it to an effect
- * Parameters: item_att_effect_t* item_att_effect- Pointer to the attribute modifying effect
+ * Parameters: item_attr_effect_t* item_attr_effect- Pointer to the attribute modifying effect
  * Returns: A pointer to an effect with parameters based on what has been given
  */
 
-effect_t* make_item_att_effect(item_att_effect_t* item_att_effect);
+effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect);
 
 /* Takes the given item statistic modifying effecr and converts it into an effect
  * Parameters: item_stat_effect_t* item_stat_effect - Pointer to the item statistic modifying effect
@@ -163,7 +164,7 @@ int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect);
  * Parameters: att_effect_t* att_effect - a pointer to the attribute modifying effect
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_item_att_effect(item_att_effect_t* item_att_effect);
+int execute_item_attr_effect(item_attr_effect_t* item_attr_effect);
 
 /* Takes the given attribute modifying effect and executes it
  * Parameters: item_stat_effect_t* item_stat_effect - a pointer to the item stat modifying effect
