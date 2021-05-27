@@ -16,13 +16,15 @@ grammar_f.close()
 parser = Lark(vars_grammar, parser='earley', import_paths=[grammar_path])
 
 # main outward-facing function
-def evalVars(file: str, debug=False) -> str:
+def evalVars(file: str, debug=False, debug_modes=[]) -> str:
     """Replaces the references to variables in a file with their assigned values"""
     tree = parser.parse(file)
-    if debug:
+    if debug and "vars-tree" in debug_modes:
         print(tree.pretty())
     out = SimplifyTree().transform(tree)
     assert(type(out) == str)
+    if debug and "vars" in debug_modes:
+        print(out)
     return out
 
 

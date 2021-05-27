@@ -7,6 +7,7 @@ from lark import Lark, Transformer
 from lark.lexer import Token
 from pathlib import Path
 from warnings import warn
+import json
 
 
 grammar_path = Path(__file__).parent.parent / "grammars"
@@ -18,11 +19,16 @@ parser = Lark(dsl_grammar, parser='earley', import_paths=[grammar_path])
 
 
 # main outward-facing function
-def export_dict(file_str):
+def export_dict(file_str, debug=False, debug_modes=[]):
     """Parses the language and returns an intermediate stage consisting
     of python dictionaries"""
     tree = parser.parse(file_str)
-    return TreeToDict().transform(tree)
+    if debug and "dsl-tree" in debug_modes:
+        print(tree.pretty())
+    intermediate = TreeToDict().transform(tree)
+    if debug and "intermediate" in debug_modes:
+        print(json.dumps(intermediate, indent=2))
+    return intermediate
 
 
 class TreeToDict(Transformer):
