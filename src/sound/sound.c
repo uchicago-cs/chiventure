@@ -37,8 +37,3 @@ int play_sound(sound_t *sound, int delay)
     */
     return 0;
 }
-
-int main()
-{
-    return 0;
-}
