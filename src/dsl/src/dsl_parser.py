@@ -1,3 +1,5 @@
+"""This module parses a dsl file and outputs an intermediate stage"""
+
 # for compatibility with python 3.7 and 3.8
 from __future__ import annotations
 

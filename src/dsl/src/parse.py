@@ -1,9 +1,15 @@
+"""The main script. Transforms a dsl file into a wdl file."""
+
 # for compatibility with python 3.7 and 3.8
 from __future__ import annotations
 
+# export_dict parses the dsl file and transforms it to an intermediate stage
 from dsl_parser import export_dict
-import sys
+
+# parsed_dict_to_json transforms the inttermediate stage to the wdl json output
 from to_wdl import parsed_dict_to_json
+
+import sys
 from pathlib import Path
 from warnings import warn
 import warnings

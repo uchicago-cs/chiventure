@@ -1,3 +1,5 @@
+"""This module evaluates references to variables in a dsl file."""
+
 # for compatibility with python 3.7 and 3.8
 from __future__ import annotations
 
