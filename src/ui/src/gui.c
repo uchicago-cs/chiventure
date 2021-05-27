@@ -148,14 +148,14 @@ void run_gui(chiventure_ctx_t *ctx)
         Font test = GetFontDefault();
         DrawTextRec(test, output_text, output, fontSize, fontSpacing, true, BLACK);
 
-        int map_width, map_height, map_room_width, map_room_height, map_centX, map_centY, ball_rad;
-        map_width = width / 10;
-        map_height = height / 5;
+        int map_width, map_height, map_room_width, map_room_height, map_topX, map_topY, ball_rad;
+        map_width = height / 2;
+        map_height = width / 5;
         map_room_width = map_width / 3;
         map_room_height = map_height / 3;
-        map_centX = map_width/2;
-        map_centY = -1 * (map_height/2);   
-        ball_rad = map_room_width / 5;
+        map_topX = 5;
+        map_topY = 5;   
+        ball_rad = map_room_width / 10;
         room_t *curr_room = ctx->game->curr_room;
         
         Color colors[8];
@@ -170,86 +170,86 @@ void run_gui(chiventure_ctx_t *ctx)
         colors[7] = DARKGREEN;
         
         // map background
-        DrawRectangle(map_centX, map_centY, map_width, map_height, BLACK);
+        DrawRectangle(map_topX, map_topY, map_width, map_height, BLACK);
         
-        int posX = map_centX;
-        int posY = map_centY;
+        int posX = map_topX + map_width/2 - map_room_width/2;
+        int posY = map_topY + map_height/2 - map_room_height/2;
         // current room
         DrawRectangle(posX, posY, map_room_width, map_room_height, colors[0]);
 
         //draw surrounding rooms around current room
         if (find_room_from_dir(curr_room, "EAST") != NULL)
         {   
-            posX = map_centX + map_room_width;
-            DrawRectangle(posX, posY, map_room_width, map_room_height, colors[1]);
+            int tempX = posX + map_room_width;
+            DrawRectangle(tempX, posY, map_room_width, map_room_height, colors[1]);
 
             room_t *east = find_room_from_dir(curr_room, "EAST");
             if (find_room_from_dir(east, "NORTH") != NULL)
             {
-                posY = map_centX + map_room_height;
-                DrawRectangle(posX, posY, map_room_width, map_room_height, colors[5]);
+                int tempY = posY - map_room_height;
+                DrawRectangle(tempX, tempY, map_room_width, map_room_height, colors[5]);
             }
             if (find_room_from_dir(east, "SOUTH") != NULL)
             {
-                posY = map_centY - map_room_height;
-                DrawRectangle(posX, posY, map_room_width, map_room_height, colors[6]);
+                int tempY = posY + map_room_height;
+                DrawRectangle(tempX, tempY, map_room_width, map_room_height, colors[6]);
             }
 
         }
         if (find_room_from_dir(curr_room, "WEST") != NULL)
         {
-            posX = map_centX - map_room_width;
-            DrawRectangle(posX, posY, map_room_width, map_room_height, colors[2]);
+            int tempX = posX - map_room_width;
+            DrawRectangle(tempX, posY, map_room_width, map_room_height, colors[2]);
 
             room_t *west = find_room_from_dir(curr_room, "WEST");
             if (find_room_from_dir(west, "NORTH") != NULL)
             {
-                posY = map_centX + map_room_height;
-                DrawRectangle(posX, posY, map_room_width, map_room_height, colors[7]);
+                int tempY = posY - map_room_height;
+                DrawRectangle(tempX, tempY, map_room_width, map_room_height, colors[7]);
             }
             if (find_room_from_dir(west, "SOUTH") != NULL)
             {
-                posY = map_centX - map_room_height;
-                DrawRectangle(posX, posY, map_room_width, map_room_height, colors[8]);
+                int tempY = posY + map_room_height;
+                DrawRectangle(tempX, tempY, map_room_width, map_room_height, colors[8]);
             }
         }
         if (find_room_from_dir(curr_room, "SOUTH") != NULL)
         {
-            posY = map_centX - map_room_height;
-            DrawRectangle(posX, posY, map_room_width, map_room_height, colors[3]);
+            int tempY = posY + map_room_height;
+            DrawRectangle(posX, tempY, map_room_width, map_room_height, colors[3]);
 
             room_t *south = find_room_from_dir(curr_room, "SOUTH");
             if (find_room_from_dir(south, "EAST") != NULL)
             {
-                posX = map_centX + map_room_width;
-                DrawRectangle(posX, posY, map_room_width, map_room_height, colors[6]);
+                int tempX = posX + map_room_width;
+                DrawRectangle(tempX, tempY, map_room_width, map_room_height, colors[6]);
             }
             if (find_room_from_dir(south, "WEST") != NULL)
             {
-                posX = map_centX - map_room_width;
-                DrawRectangle(posX, posY, map_room_width, map_room_height, colors[8]);
+                int tempX = posX - map_room_width;
+                DrawRectangle(tempX, tempY, map_room_width, map_room_height, colors[8]);
             }
         }
         if (find_room_from_dir(curr_room, "NORTH") != NULL)
         {
-            posY = map_centX + map_room_height;
-            DrawRectangle(posX, posY, map_room_width, map_room_height, colors[4]);
+            int tempY = posY - map_room_height;
+            DrawRectangle(posX, tempY, map_room_width, map_room_height, colors[4]);
 
             room_t *north = find_room_from_dir(curr_room, "NORTH");
             if (find_room_from_dir(north, "WEST") != NULL)
             {
-                posX = map_centX - map_room_width;
-                DrawRectangle(posX, posY, map_room_width, map_room_height, colors[7]);
+                int tempX = posX + map_room_width;
+                DrawRectangle(tempX, tempY, map_room_width, map_room_height, colors[7]);
             }
             if (find_room_from_dir(north, "EAST") != NULL)
             {
-                posX = map_centX + map_room_width;
-                DrawRectangle(posX, posY, map_room_width, map_room_height, colors[5]);
+                int tempX = posX + map_room_width;
+                DrawRectangle(tempX, tempY, map_room_width, map_room_height, colors[5]);
             }
         }
         
         //draws player position as ball in the middle of map screen and inside current room
-        DrawCircle(map_centX, map_centY, ball_rad, WHITE);
+        DrawCircle(map_topX + map_width/2, map_topY + map_height/2, ball_rad, WHITE);
 
         EndDrawing();
     }
