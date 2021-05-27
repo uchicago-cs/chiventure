@@ -8,22 +8,27 @@ The cli (command-line interface) is the way in which the player interacts with t
 The cli module consists of several parts
 
 The shell
+
     shell.c and shell.h
 + The shell file contains mostly system internal functions that do things like print a list of supported commands, print a greeting when the game starts, prints a history of commands that have been used so far, or prints a message.
 
 The parser
+
     parser.c and parser.h
 + The parser files work to parse the input from the user. The way this is currently implemented is by turning the users input into a linked list of 'tokens' and then passing this linked list along so that the user's inputs can be performed (if valid).
 
 The operations
+
     operations.c and operations.h
 + The operations files contain all of the operations that can be used in chiventure, everything from picking up an item to loading a new wdl file.
 
 The command list
+
     cmdlist.c and cmdlist.h
 + The cmdlist files serve the purpose of allowing the user to be able to list the commands that they have inputted during any game.
 
 The commands
+
     cmd.c and cmd.h
 + The cmd files defines the command datatype, the lookup entry for a hastable, and many functions that realte to interacting with these datatypes.
 
